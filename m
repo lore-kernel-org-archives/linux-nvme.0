@@ -1,12 +1,57 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 29 Jun 2017 16:53:48 +0200
-Subject: [PATCH 7/7] nvme-fc: update tagset nr_hw_queues after queues
- reinit
-In-Reply-To: <1498734552-14845-8-git-send-email-sagi@grimberg.me>
-References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
- <1498734552-14845-8-git-send-email-sagi@grimberg.me>
-Message-ID: <20170629145348.GG18028@lst.de>
+From: chuck.lever@oracle.com (Chuck Lever)
+Date: Thu, 29 Jun 2017 10:55:57 -0400
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
+References: <20170620074639.GP17846@mtr-leonro.local>
+ <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
+ <20170620083309.GQ17846@mtr-leonro.local>
+ <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
+ <614481c7-22dd-d93b-e97e-52f868727ec3@grimberg.me>
+ <59FF0C04-2BFB-4F66-81BA-A598A9A087FC@oracle.com>
+ <20170620173532.GA827@obsidianresearch.com>
+ <D3DC49A2-FFC9-4F62-8876-3E6AD5167DE5@oracle.com>
+ <20170620192742.GB827@obsidianresearch.com>
+ <C14B071E-F1B2-466A-82CF-4E20BFAD9DC1@oracle.com>
+ <20170620211958.GA5574@obsidianresearch.com>
+ <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
+ <28F6F58E-B6F4-4114-8DFF-B72353CE814B@oracle.com>
+ <52ad3547-efcf-f428-6b39-117efda3379f@grimberg.me>
+ <9990B5CB-E0FF-481E-9F34-21EACF0E796E@oracle.com>
+ <f1f1a68c-90db-e6bf-e35e-55c4b469c339@grimberg.me>
+ <7D1C540B-FEA0-4101-8B58-87BCB7DB5492@oracle.com>
+ <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
+Message-ID: <9D8C7BC8-7E18-405A-9017-9DB23A6B5C15@oracle.com>
 
-Looks good,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+> On Jun 29, 2017,@1:35 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
+> 
+> 
+>>> How do you know when that happens?
+>> The RPC Call send path sets up the Send SGE array. If it includes
+>> page cache pages, it can set IB_SEND_SIGNALED.
+>> The SGE array and the ib_cqe for the send are in the same data
+>> structure, so the Send completion handler can find the SGE array
+>> and figure out what needs to be unmapped.
+>> The only problem is if a POSIX signal fires. In that case the
+>> data structure can be released before the Send completion fires,
+>> and we get touch-after-free in the completion handler.
+>> I'm thinking that it just isn't going to be practical to handle
+>> unmapping this way, and I should just revert back to using RDMA
+>> Read instead of adding page cache pages to the Send SGE.
+> 
+> Or wait for the send completion before completing the I/O?
+
+In the normal case, that works.
+
+If a POSIX signal occurs (^C, RPC timeout), the RPC exits immediately
+and recovers all resources. The Send can still be running at that
+point, and it can't be stopped (without transitioning the QP to
+error state, I guess).
+
+The alternative is reference-counting the data structure that has
+the ib_cqe and the SGE array. That adds one or more atomic_t
+operations per I/O that I'd like to avoid.
+
+
+--
+Chuck Lever
