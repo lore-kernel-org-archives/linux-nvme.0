@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 29 Jun 2017 13:31:35 +0200
-Subject: [PATCH 6/7] nvme-loop: update tagset nr_hw_queues after
- reconnecting/resetting
-In-Reply-To: <1498734552-14845-7-git-send-email-sagi@grimberg.me>
+Date: Thu, 29 Jun 2017 13:31:54 +0200
+Subject: [PATCH 7/7] nvme-fc: update tagset nr_hw_queues after queues
+ reinit
+In-Reply-To: <1498734552-14845-8-git-send-email-sagi@grimberg.me>
 References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
- <1498734552-14845-7-git-send-email-sagi@grimberg.me>
-Message-ID: <20170629113134.GM3808@linux-x5ow.site>
+ <1498734552-14845-8-git-send-email-sagi@grimberg.me>
+Message-ID: <20170629113154.GN3808@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
