@@ -1,28 +1,28 @@
 From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
-Date: Wed, 28 Jun 2017 19:19:28 -0700
-Subject: [PATCH 4/4] nvme-cli : add sanitize-log command documentation.
+Date: Wed, 28 Jun 2017 19:19:26 -0700
+Subject: [PATCH 2/4] nvme-cli : add sanitize command documentation.
 In-Reply-To: <20170629021928.19389-1-chaitanya.kulkarni@hgst.com>
 References: <20170629021928.19389-1-chaitanya.kulkarni@hgst.com>
-Message-ID: <20170629021928.19389-5-chaitanya.kulkarni@hgst.com>
+Message-ID: <20170629021928.19389-3-chaitanya.kulkarni@hgst.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 ---
- Documentation/nvme-sanitize-log.1    | 126 ++++++
- Documentation/nvme-sanitize-log.html | 848 +++++++++++++++++++++++++++++++++++
- Documentation/nvme-sanitize-log.txt  |  67 +++
- 3 files changed, 1041 insertions(+)
- create mode 100644 Documentation/nvme-sanitize-log.1
- create mode 100644 Documentation/nvme-sanitize-log.html
- create mode 100644 Documentation/nvme-sanitize-log.txt
+ Documentation/nvme-sanitize.1    | 105 +++++
+ Documentation/nvme-sanitize.html | 903 +++++++++++++++++++++++++++++++++++++++
+ Documentation/nvme-sanitize.txt  |  93 ++++
+ 3 files changed, 1101 insertions(+)
+ create mode 100644 Documentation/nvme-sanitize.1
+ create mode 100644 Documentation/nvme-sanitize.html
+ create mode 100644 Documentation/nvme-sanitize.txt
 
-diff --git a/Documentation/nvme-sanitize-log.1 b/Documentation/nvme-sanitize-log.1
+diff --git a/Documentation/nvme-sanitize.1 b/Documentation/nvme-sanitize.1
 new file mode 100644
-index 0000000..d31dc69
+index 0000000..d984acd
 --- /dev/null
-+++ b/Documentation/nvme-sanitize-log.1
-@@ -0,0 +1,126 @@
++++ b/Documentation/nvme-sanitize.1
+@@ -0,0 +1,105 @@
 +'\" t
-+.\"     Title: nvme-sanitize-log
++.\"     Title: nvme-sanitize
 +.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
 +.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
 +.\"      Date: 06/28/2017
@@ -30,7 +30,7 @@ index 0000000..d31dc69
 +.\"    Source: NVMe
 +.\"  Language: English
 +.\"
-+.TH "NVME\-SANITIZE\-LOG" "1" "06/28/2017" "NVMe" "NVMe Manual"
++.TH "NVME\-SANITIZE" "1" "06/28/2017" "NVMe" "NVMe Manual"
 +.\" -----------------------------------------------------------------
 +.\" * Define some portability stuff
 +.\" -----------------------------------------------------------------
@@ -51,77 +51,55 @@ index 0000000..d31dc69
 +.\" * MAIN CONTENT STARTS HERE *
 +.\" -----------------------------------------------------------------
 +.SH "NAME"
-+nvme-sanitize-log \- Send NVMe sanitize\-log Command, return result
++nvme-sanitize \- Send NVMe Sanitize Command, return result
 +.SH "SYNOPSIS"
 +.sp
 +.nf
-+\fInvme sanitize\-log\fR <device>
++\fInvme sanitize\fR <device> [\-\-no\-dealloc | \-d]
++              [\-\-oipbp | \-i]
++              [\-\-owpass=<overwrite\-pass\-count> | \-n <overwrite\-pass\-count>]
++              [\-\-ause | \-u]
++              [\-\-sanact=<action> | \-a <action>]
++              [\-\-ovrpat=<overwrite\-pattern> | \-p <overwrite\-pattern>]
 +.fi
 +.SH "DESCRIPTION"
 +.sp
-+Retrieves the NVMe Sanitize log page from an NVMe device and provides the status of sanitize command\&.
++For the NVMe device given, sends a Sanitize command and provides the result\&.
 +.sp
 +The <device> parameter is mandatory NVMe character device (ex: /dev/nvme0)\&.
 +.sp
-+Expected status and description :\-
-+.TS
-+allbox tab(:);
-+ltB ltB.
-+T{
-+Status Code
-+T}:T{
-+Description
-+T}
-+.T&
-+lt lt
-+lt lt
-+lt lt
-+lt lt
-+lt lt.
-+T{
-+.sp
-+0x0000
-+T}:T{
-+.sp
-+NVM subsystem has never been sanitized\&.
-+T}
-+T{
-+.sp
-+0x0001
-+T}:T{
-+.sp
-+The most recent sanitize operation completed successfully\&.
-+T}
-+T{
-+.sp
-+0x0002
-+T}:T{
-+.sp
-+A sanitize operation is currently in progress\&.
-+T}
-+T{
-+.sp
-+0x0003
-+T}:T{
-+.sp
-+The most recent sanitize operation failed\&.
-+T}
-+T{
-+.sp
-+0x0100
-+T}:T{
-+.sp
-+Global Data Erased bit If set to 1 then non\-volatile storage in the NVM subsystem has not been written to: a) since being manufactured and the NVM subsystem has never been sanitized; or b) since the most recent successful sanitize operation\&. If cleared to 0, then non\-volatile storage in the NVM subsystem has been written to: a) since being manufactured and the NVM subsystem has never been sanitized; or b) since the most recent successful sanitize operation of the NVM subsystem\&.
-+T}
-+.TE
-+.sp 1
-+.sp
-+Sanitize Progress \- percentage complete
-+.sp
 +On success it returns 0, error code otherwise\&.
 +.SH "OPTIONS"
-+.sp
-+No options yet\&.
++.PP
++\-d, \-\-no\-delloc
++.RS 4
++No Deallocate After Sanitize: If set, then the controller shall not deallocate any logical blocks as a result of successfully completing the sanitize operation\&. If cleared, then the controller should deallocate logical blocks as a result of successfully completing the sanitize operation\&. This bit shall be ignored if the Sanitize Action field is set to 001b (i\&.e\&., Exit Failure Mode)\&.
++.RE
++.PP
++\-i, \-\-oipbp
++.RS 4
++Overwrite Invert Pattern Between Passes: If set, then the Overwrite Pattern shall be inverted between passes\&. If cleared, then the overwrite pattern shall not be inverted between passes\&. This bit shall be ignored unless the Sanitize Action field is set to 011b (i\&.e\&., Overwrite)\&.
++.RE
++.PP
++\-n <overwrite\-pass\-count>, \-\-owpass=<overwrite\-pass\-count>
++.RS 4
++Overwrite Pass Count: This field specifies the number of overwrite passes (i\&.e\&., how many times the media is to be overwritten) using the data from the Overwrite Pattern field of this command\&. A value of 0 specifies 16 overwrite passes\&. This field shall be ignored unless the Sanitize Action field is set to 011b (i\&.e\&., Overwrite)\&.
++.RE
++.PP
++\-u, \-\-ause
++.RS 4
++Allow Unrestricted Sanitize Exit: If set, then the sanitize operation is performed in unrestricted completion mode\&. If cleared then the sanitize operation is performed in restricted completion mode\&. This bit shall be ignored if the Sanitize Action field is set to 001b (i\&.e\&., Exit Failure Mode)\&.
++.RE
++.PP
++\-a <action>, \-\-sanact=<action>
++.RS 4
++Sanitize Action: 000b \- Reserved 001b \- Exit Failure Mode 010b \- Start a Block Erase sanitize operation 011b \- Start an Overwrite sanitize operation 100b \- Start a Crypto Erase sanitize operation
++.RE
++.PP
++\-p <overwrite\-pattern>, \-\-ovrpat=<overwrite\-pattern>
++.RS 4
++Overwrite Pattern: This field is ignored unless the Sanitize Action field in Command Dword 10 is set to 011b (i\&.e\&., Overwrite)\&. This field specifies a 32\-bit pattern that is used for the Overwrite sanitize operation\&.
++.RE
 +.SH "EXAMPLES"
 +.sp
 +.RS 4
@@ -132,13 +110,14 @@ index 0000000..d31dc69
 +.sp -1
 +.IP \(bu 2.3
 +.\}
-+Has the program issue Sanitize\-log Command :
++Has the program issue Sanitize Command :
 +.sp
 +.if n \{\
 +.RS 4
 +.\}
 +.nf
-+# nvme sanitize\-log /dev/nvme0
++# nvme sanitize /dev/nvme0n1 \-a 0x02
++# nvme sanitize /dev/nvme0n1 \-\-sanact=0x01
 +.fi
 +.if n \{\
 +.RE
@@ -147,19 +126,19 @@ index 0000000..d31dc69
 +.SH "NVME"
 +.sp
 +Part of the nvme\-user suite\&.
-diff --git a/Documentation/nvme-sanitize-log.html b/Documentation/nvme-sanitize-log.html
+diff --git a/Documentation/nvme-sanitize.html b/Documentation/nvme-sanitize.html
 new file mode 100644
-index 0000000..2b2c5f0
+index 0000000..9612e06
 --- /dev/null
-+++ b/Documentation/nvme-sanitize-log.html
-@@ -0,0 +1,848 @@
++++ b/Documentation/nvme-sanitize.html
+@@ -0,0 +1,903 @@
 +<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 +    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 +<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 +<head>
 +<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 +<meta name="generator" content="AsciiDoc 8.6.9" />
-+<title>nvme-sanitize-log(1)</title>
++<title>nvme-sanitize(1)</title>
 +<style type="text/css">
 +/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 +
@@ -889,12 +868,12 @@ index 0000000..2b2c5f0
 +<body class="manpage">
 +<div id="header">
 +<h1>
-+nvme-sanitize-log(1) Manual Page
++nvme-sanitize(1) Manual Page
 +</h1>
 +<h2>NAME</h2>
 +<div class="sectionbody">
-+<p>nvme-sanitize-log -
-+   Send NVMe sanitize-log Command, return result
++<p>nvme-sanitize -
++   Send NVMe Sanitize Command, return result
 +</p>
 +</div>
 +</div>
@@ -903,7 +882,12 @@ index 0000000..2b2c5f0
 +<h2 id="_synopsis">SYNOPSIS</h2>
 +<div class="sectionbody">
 +<div class="verseblock">
-+<pre class="content"><em>nvme sanitize-log</em> &lt;device&gt;</pre>
++<pre class="content"><em>nvme sanitize</em> &lt;device&gt; [--no-dealloc | -d]
++              [--oipbp | -i]
++              [--owpass=&lt;overwrite-pass-count&gt; | -n &lt;overwrite-pass-count&gt;]
++              [--ause | -u]
++              [--sanact=&lt;action&gt; | -a &lt;action&gt;]
++              [--ovrpat=&lt;overwrite-pattern&gt; | -p &lt;overwrite-pattern&gt;]</pre>
 +<div class="attribution">
 +</div></div>
 +</div>
@@ -911,62 +895,111 @@ index 0000000..2b2c5f0
 +<div class="sect1">
 +<h2 id="_description">DESCRIPTION</h2>
 +<div class="sectionbody">
-+<div class="paragraph"><p>Retrieves the NVMe Sanitize log page from an NVMe device and provides the
-+status of sanitize command.</p></div>
++<div class="paragraph"><p>For the NVMe device given, sends a Sanitize command and
++provides the result.</p></div>
 +<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory NVMe character device (ex: /dev/nvme0).</p></div>
-+<div class="paragraph"><p>Expected status and description :-</p></div>
-+<div class="tableblock">
-+<table rules="all"
-+width="100%"
-+frame="border"
-+cellspacing="0" cellpadding="4">
-+<col width="50%" />
-+<col width="50%" />
-+<thead>
-+<tr>
-+<th align="left" valign="top">Status Code </th>
-+<th align="left" valign="top">Description</th>
-+</tr>
-+</thead>
-+<tbody>
-+<tr>
-+<td align="left" valign="top"><p class="table">0x0000</p></td>
-+<td align="left" valign="top"><p class="table">NVM subsystem has never been sanitized.</p></td>
-+</tr>
-+<tr>
-+<td align="left" valign="top"><p class="table">0x0001</p></td>
-+<td align="left" valign="top"><p class="table">The most recent sanitize operation completed successfully.</p></td>
-+</tr>
-+<tr>
-+<td align="left" valign="top"><p class="table">0x0002</p></td>
-+<td align="left" valign="top"><p class="table">A sanitize operation is currently in progress.</p></td>
-+</tr>
-+<tr>
-+<td align="left" valign="top"><p class="table">0x0003</p></td>
-+<td align="left" valign="top"><p class="table">The most recent sanitize operation failed.</p></td>
-+</tr>
-+<tr>
-+<td align="left" valign="top"><p class="table">0x0100</p></td>
-+<td align="left" valign="top"><p class="table">Global Data Erased bit
-+If set to 1 then non-volatile storage in the NVM subsystem has
-+not been written to:
-+    a) since being manufactured and the NVM subsystem has never been sanitized; or
-+    b) since the most recent successful sanitize operation.
-+If cleared to 0, then non-volatile storage in the NVM subsystem has been written to:
-+    a) since being manufactured and the NVM subsystem has never been sanitized; or
-+    b) since the most recent successful sanitize operation of the NVM subsystem.</p></td>
-+</tr>
-+</tbody>
-+</table>
-+</div>
-+<div class="paragraph"><p>Sanitize Progress - percentage complete</p></div>
 +<div class="paragraph"><p>On success it returns 0, error code otherwise.</p></div>
 +</div>
 +</div>
 +<div class="sect1">
 +<h2 id="_options">OPTIONS</h2>
 +<div class="sectionbody">
-+<div class="paragraph"><p>No options yet.</p></div>
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-d
++</dt>
++<dt class="hdlist1">
++--no-delloc
++</dt>
++<dd>
++<p>
++    No Deallocate After Sanitize:
++    If set, then the controller shall not deallocate any logical
++    blocks as a result of successfully completing the sanitize
++    operation. If cleared, then the controller should deallocate
++    logical blocks as a result of successfully completing the
++    sanitize operation.  This bit shall be ignored if the Sanitize
++    Action field is set to 001b (i.e., Exit Failure Mode).
++</p>
++</dd>
++<dt class="hdlist1">
++-i
++</dt>
++<dt class="hdlist1">
++--oipbp
++</dt>
++<dd>
++<p>
++    Overwrite Invert Pattern Between Passes:
++    If set, then the Overwrite Pattern shall be inverted between
++    passes. If cleared, then the overwrite pattern shall not be
++    inverted between passes. This bit shall be ignored unless the
++    Sanitize Action field is set to 011b (i.e., Overwrite).
++</p>
++</dd>
++<dt class="hdlist1">
++-n &lt;overwrite-pass-count&gt;
++</dt>
++<dt class="hdlist1">
++--owpass=&lt;overwrite-pass-count&gt;
++</dt>
++<dd>
++<p>
++    Overwrite Pass Count:
++    This field specifies the number of overwrite passes (i.e.,
++    how many times the media is to be overwritten) using the data
++    from the Overwrite Pattern field of this command. A value of 0
++    specifies 16 overwrite passes. This field shall be ignored
++    unless the Sanitize Action field is set to 011b (i.e., Overwrite).
++</p>
++</dd>
++<dt class="hdlist1">
++-u
++</dt>
++<dt class="hdlist1">
++--ause
++</dt>
++<dd>
++<p>
++    Allow Unrestricted Sanitize Exit:
++    If set, then the sanitize operation is performed in unrestricted
++    completion mode. If cleared then the sanitize operation is
++    performed in restricted completion mode. This bit shall be ignored
++    if the Sanitize Action field is set to 001b (i.e., Exit Failure Mode).
++</p>
++</dd>
++<dt class="hdlist1">
++-a &lt;action&gt;
++</dt>
++<dt class="hdlist1">
++--sanact=&lt;action&gt;
++</dt>
++<dd>
++<p>
++    Sanitize Action:
++    000b - Reserved
++    001b - Exit Failure Mode
++    010b - Start a Block Erase sanitize operation
++    011b - Start an Overwrite sanitize operation
++    100b - Start a Crypto Erase sanitize operation
++</p>
++</dd>
++<dt class="hdlist1">
++-p &lt;overwrite-pattern&gt;
++</dt>
++<dt class="hdlist1">
++--ovrpat=&lt;overwrite-pattern&gt;
++</dt>
++<dd>
++<p>
++    Overwrite Pattern:
++    This field is ignored unless the Sanitize Action field in
++    Command Dword 10 is set to 011b (i.e., Overwrite). This field
++    specifies a 32-bit pattern that is used for the Overwrite
++    sanitize operation.
++</p>
++</dd>
++</dl></div>
 +</div>
 +</div>
 +<div class="sect1">
@@ -975,11 +1008,12 @@ index 0000000..2b2c5f0
 +<div class="ulist"><ul>
 +<li>
 +<p>
-+Has the program issue Sanitize-log Command :
++Has the program issue Sanitize Command :
 +</p>
 +<div class="listingblock">
 +<div class="content">
-+<pre><code># nvme sanitize-log /dev/nvme0</code></pre>
++<pre><code># nvme sanitize /dev/nvme0n1 -a 0x02
++# nvme sanitize /dev/nvme0n1 --sanact=0x01</code></pre>
 +</div></div>
 +</li>
 +</ul></div>
@@ -996,79 +1030,105 @@ index 0000000..2b2c5f0
 +<div id="footer">
 +<div id="footer-text">
 +Last updated
-+ 2017-06-28 11:25:21 PDT
++ 2017-06-28 18:52:37 PDT
 +</div>
 +</div>
 +</body>
 +</html>
-diff --git a/Documentation/nvme-sanitize-log.txt b/Documentation/nvme-sanitize-log.txt
+diff --git a/Documentation/nvme-sanitize.txt b/Documentation/nvme-sanitize.txt
 new file mode 100644
-index 0000000..a4ff729
+index 0000000..b1d9a0e
 --- /dev/null
-+++ b/Documentation/nvme-sanitize-log.txt
-@@ -0,0 +1,67 @@
-+nvme-sanitize-log(1)
-+====================
++++ b/Documentation/nvme-sanitize.txt
+@@ -0,0 +1,93 @@
++nvme-sanitize(1)
++================
 +
 +NAME
 +----
-+nvme-sanitize-log - Send NVMe sanitize-log Command, return result
++nvme-sanitize - Send NVMe Sanitize Command, return result
 +
 +SYNOPSIS
 +--------
 +[verse]
-+'nvme sanitize-log' <device>
++'nvme sanitize' <device> [--no-dealloc | -d]
++              [--oipbp | -i]
++              [--owpass=<overwrite-pass-count> | -n <overwrite-pass-count>]
++              [--ause | -u]
++              [--sanact=<action> | -a <action>]
++              [--ovrpat=<overwrite-pattern> | -p <overwrite-pattern>]
 +
 +DESCRIPTION
 +-----------
-+Retrieves the NVMe Sanitize log page from an NVMe device and provides the
-+status of sanitize command.
++For the NVMe device given, sends a Sanitize command and
++provides the result.
 +
 +The <device> parameter is mandatory NVMe character device (ex: /dev/nvme0).
-+
-+Expected status and description :-
-+
-+[cols="2*", options="header"]
-+|===
-+|Status Code |Description
-+
-+|0x0000
-+|NVM subsystem has never been sanitized.
-+
-+|0x0001
-+|The most recent sanitize operation completed successfully.
-+
-+|0x0002
-+|A sanitize operation is currently in progress.
-+
-+|0x0003
-+|The most recent sanitize operation failed.
-+
-+|0x0100
-+|Global Data Erased bit
-+If set to 1 then non-volatile storage in the NVM subsystem has
-+not been written to:
-+    a) since being manufactured and the NVM subsystem has never been sanitized; or
-+    b) since the most recent successful sanitize operation.
-+If cleared to 0, then non-volatile storage in the NVM subsystem has been written to:
-+    a) since being manufactured and the NVM subsystem has never been sanitized; or
-+    b) since the most recent successful sanitize operation of the NVM subsystem.
-+|===
-+
-+Sanitize Progress - percentage complete
 +
 +On success it returns 0, error code otherwise.
 +
 +OPTIONS
 +-------
-+No options yet.
++-d::
++--no-delloc::
++    No Deallocate After Sanitize:
++    If set, then the controller shall not deallocate any logical
++    blocks as a result of successfully completing the sanitize
++    operation. If cleared, then the controller should deallocate
++    logical blocks as a result of successfully completing the
++    sanitize operation.  This bit shall be ignored if the Sanitize
++    Action field is set to 001b (i.e., Exit Failure Mode).
++
++-i::
++--oipbp::
++    Overwrite Invert Pattern Between Passes:
++    If set, then the Overwrite Pattern shall be inverted between
++    passes. If cleared, then the overwrite pattern shall not be
++    inverted between passes. This bit shall be ignored unless the
++    Sanitize Action field is set to 011b (i.e., Overwrite).
++
++-n <overwrite-pass-count>::
++--owpass=<overwrite-pass-count>::
++    Overwrite Pass Count:
++    This field specifies the number of overwrite passes (i.e.,
++    how many times the media is to be overwritten) using the data
++    from the Overwrite Pattern field of this command. A value of 0
++    specifies 16 overwrite passes. This field shall be ignored
++    unless the Sanitize Action field is set to 011b (i.e., Overwrite).
++
++-u::
++--ause::
++    Allow Unrestricted Sanitize Exit:
++    If set, then the sanitize operation is performed in unrestricted
++    completion mode. If cleared then the sanitize operation is
++    performed in restricted completion mode. This bit shall be ignored
++    if the Sanitize Action field is set to 001b (i.e., Exit Failure Mode).
++
++-a <action>::
++--sanact=<action>::
++    Sanitize Action:
++    000b - Reserved
++    001b - Exit Failure Mode
++    010b - Start a Block Erase sanitize operation
++    011b - Start an Overwrite sanitize operation
++    100b - Start a Crypto Erase sanitize operation
++
++-p <overwrite-pattern>::
++--ovrpat=<overwrite-pattern>::
++    Overwrite Pattern:
++    This field is ignored unless the Sanitize Action field in
++    Command Dword 10 is set to 011b (i.e., Overwrite). This field
++    specifies a 32-bit pattern that is used for the Overwrite
++    sanitize operation.
 +
 +EXAMPLES
 +--------
-+* Has the program issue Sanitize-log Command :
++* Has the program issue Sanitize Command :
 ++
 +------------
-+# nvme sanitize-log /dev/nvme0
++# nvme sanitize /dev/nvme0n1 -a 0x02
++# nvme sanitize /dev/nvme0n1 --sanact=0x01
++
 +------------
 +
 +NVME
