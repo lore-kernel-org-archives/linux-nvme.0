@@ -1,27 +1,13 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 28 Jun 2017 17:13:00 -0600
-Subject: nvme defintions not used in the kernel
-In-Reply-To: <20170628231129.GA20902@lst.de>
-References: <20170628231129.GA20902@lst.de>
-Message-ID: <dece3f75-444f-ea57-6569-d8089e5cf19c@fb.com>
+From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
+Date: Wed, 28 Jun 2017 19:19:24 -0700
+Subject: nvme-cli : Sanitize and Sanitize Log command support. 
+Message-ID: <20170629021928.19389-1-chaitanya.kulkarni@hgst.com>
 
-On 06/28/2017 05:11 PM, Christoph Hellwig wrote:
-> Hi all,
-> 
-> currently nvme-cli supports various nvme features that are not
-> needed in the kernel and keeps them in its own nvme.h file,
-> in addition to pulling in the kernel one.
-> 
-> Do we want to keep it that way in the long run, or just add
-> things to nvme.h in the kernel even if they are not used to
-> keep things in a single place.
-> 
-> To me the latter would seem a little nicer, especially as it
-> doesn't involve a whole lot of defintion.
+HI,
 
-I'd vote for the latter as well. It's nice for documentation as
-well, often easier than grabbing the spec if you are in the driver
-anyway.
+This adds Sanitize and Sanitize-Log command support for nvme-cli. These four patches include command implementation, documentation, status codes and opcodes for the overall sanitize implementation.
 
--- 
-Jens Axboe
+For sanitize command specific option I've tested "-a <action>, --sanact=<action>" for block erase sanitize, overwrite sanitize on a real device, rest of the code I've added for the completeness.
+
+Regards,
+Chaitanya
