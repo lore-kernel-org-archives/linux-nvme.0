@@ -1,30 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Jun 2017 14:09:12 +0300
-Subject: [PATCH 7/7] nvme-fc: update tagset nr_hw_queues after queues reinit
-In-Reply-To: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 29 Jun 2017 13:17:12 +0200
+Subject: [PATCH 1/7] nvme: move queue_count to the nvme_ctrl
+In-Reply-To: <1498734552-14845-2-git-send-email-sagi@grimberg.me>
 References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1498734552-14845-8-git-send-email-sagi@grimberg.me>
+ <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170629111712.GH3808@linux-x5ow.site>
 
-We might have more/less queues once we reconnect/reset. For
-example due to cpu going online/offline or controller constraints.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5ee821d9cb75..ffe0589969bd 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2277,6 +2277,8 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
- 	if (ret)
- 		goto out_delete_hw_queues;
- 
-+	blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
-+
- 	return 0;
- 
- out_delete_hw_queues:
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
-2.7.4
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
