@@ -1,38 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Jun 2017 17:32:36 +0300
-Subject: Deadlock on device removal event for NVMeF target
-In-Reply-To: <CAANLjFr++5daZ6Vn8TYxcM0oMyU4PuMztcM5KKM6mOy7HEs7KA@mail.gmail.com>
-References: <20170626225920.GA11700@ssaleem-MOBL4.amr.corp.intel.com>
- <56030fcd-b8a0-fc0e-18e5-985ebf16a82e@grimberg.me>
- <20170627193157.GA29768@ssaleem-MOBL4.amr.corp.intel.com>
- <61858a46-ebf1-a5bd-5213-65dadaadb84d@grimberg.me>
- <CAANLjFr++5daZ6Vn8TYxcM0oMyU4PuMztcM5KKM6mOy7HEs7KA@mail.gmail.com>
-Message-ID: <3e559faf-9ea4-081e-c9cd-cb1c36b4673f@grimberg.me>
+From: dmilburn@redhat.com (David Milburn)
+Date: Thu, 29 Jun 2017 09:33:19 -0500
+Subject: [PATCH] nvme-rdma: stop keep_alive before nvme_uninit_ctrl
+Message-ID: <1498746799-34110-1-git-send-email-dmilburn@redhat.com>
 
-Hey Robert,
+Its possible for nvme_keep_alive_work() to hit an error
+condition after the nvme_uninit_ctrl() in __nvme_rdma_remove_ctrl().
+This can lead to usage of NULL pointer in "dev_err(ctrl->device..."
+since device has been destroyed by nvme_uninit_ctrl().
 
-> Could something like this be causing the D state problem I was seeing
-> in iSER almost a year ago?
+This has been seen during continous loop of (discover, connect,
+IO, disconnect).
 
-No, that is a bug in the mlx5 device as far as I'm concerned (although I
-couldn't prove it). I've tried to track it down but without access to
-the FW tools I can't understand what is going on. I've seen this same
-phenomenon with nvmet-rdma before as well.
+Reported-by: Yi Zhang <yizhan at redhat.com>
+Tested-by: Yi Zhang <yizhan at redhat.com>
+Signed-off-by: David Milburn <dmilburn at redhat.com>
+---
+ drivers/nvme/host/rdma.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-It looks like when we perform QP draining in the presence of rdma
-operations it may not complete, meaning that the zero-length rdma write
-never generates a completion. Maybe it has something to do with the qp
-moving to error state when some rdma operations have not completed.
-
-> I tried writing a patch for iSER based on
-> this, but it didn't help. Either the bug is not being triggered in
-> device removal,
-
-It's 100% not related to device removal.
-
-> or I didn't line up the statuses correctly. But it
-> seems that things are getting stuck in the work queue and some sort of
-> deadlock is happening so I was hopeful that something similar may be
-> in iSER.
-
-The hang is the ULP code waiting for QP drain.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 24397d3..1f73ace 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1683,6 +1683,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
+ 
+ static void __nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
++	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
+ 	if (shutdown)
+ 		nvme_rdma_shutdown_ctrl(ctrl);
+-- 
+1.8.3.1
