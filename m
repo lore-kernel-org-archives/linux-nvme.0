@@ -1,16 +1,20 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 29 Jun 2017 10:57:21 -0400
-Subject: [PATCH] nvme: Makefile: remove dead build rule
-In-Reply-To: <20170629065907.13132-1-vrothberg@suse.com>
-References: <20170629065907.13132-1-vrothberg@suse.com>
-Message-ID: <20170629145721.GC3110@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 29 Jun 2017 16:51:53 +0200
+Subject: [PATCH 1/7] nvme: move queue_count to the nvme_ctrl
+In-Reply-To: <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
+ <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170629145153.GA18028@lst.de>
 
-On Thu, Jun 29, 2017@08:59:07AM +0200, Valentin Rothberg wrote:
-> Remove dead build rule for drivers/nvme/host/scsi.c which has been
-> removed by commit ("nvme: Remove SCSI translations").
-> 
-> Signed-off-by: Valentin Rothberg <vrothberg at suse.com>
+On Thu, Jun 29, 2017@02:09:06PM +0300, Sagi Grimberg wrote:
+> all drivers use it exactly the same, move it
+> to nvme_ctrl. Looking further ahead, nvme core
+> will really maintain it.
 
-Oops, thanks for the fix.
+All all transports use the queue_count in exactly the same, so move it to
+the generic struct nvme_ctrl. In the future it will also be maintained by
+the core.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Otherwise this looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
