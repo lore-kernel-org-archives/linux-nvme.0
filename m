@@ -1,20 +1,11 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 29 Jun 2017 15:31:59 +0200
-Subject: nvme defintions not used in the kernel
-In-Reply-To: <20170629083228.GE3808@linux-x5ow.site>
-References: <20170628231129.GA20902@lst.de>
- <6503552c-afac-b740-5db6-31d4a7e34256@grimberg.me>
- <20170629083228.GE3808@linux-x5ow.site>
-Message-ID: <20170629133159.GA10896@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 29 Jun 2017 16:33:53 +0300
+Subject: [PATCH 1/7] nvme: move queue_count to the nvme_ctrl
+In-Reply-To: <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
+ <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+Message-ID: <74d61f1e-659c-7d58-4a97-5c4d9d5a77b5@mellanox.com>
 
-On Thu, Jun 29, 2017@10:32:28AM +0200, Johannes Thumshirn wrote:
-> On Thu, Jun 29, 2017@08:44:04AM +0300, Sagi Grimberg wrote:
-> > I agree with the latter, should we also move nvme.h to
-> > uapi?
-> 
-> That was my first reaction as well. I'm all for it.
+Looks good,
 
-Absolutely not.  It's not a userspace API/ABI.  It's an internal header
-that we want to be able to refactor if needed, e.g. if NVMe splits or
-renames fields, or adds unions, etc.  It just happens that nvme-cli
-needs the same defintions.
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
