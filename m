@@ -1,191 +1,1078 @@
 From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
-Date: Wed, 28 Jun 2017 19:19:25 -0700
-Subject: [PATCH 1/4] nvme-cli : add support for sanitize command.
+Date: Wed, 28 Jun 2017 19:19:28 -0700
+Subject: [PATCH 4/4] nvme-cli : add sanitize-log command documentation.
 In-Reply-To: <20170629021928.19389-1-chaitanya.kulkarni@hgst.com>
 References: <20170629021928.19389-1-chaitanya.kulkarni@hgst.com>
-Message-ID: <20170629021928.19389-2-chaitanya.kulkarni@hgst.com>
-
-This adds support for NVMe sanitize command execution including
-NVMe status codes, command opcode and help text.
-
-For more details please refer to NVM Express 1.3 specification.
+Message-ID: <20170629021928.19389-5-chaitanya.kulkarni@hgst.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 ---
- linux/nvme.h   | 16 ++++++++++
- nvme-builtin.h |  1 +
- nvme-print.c   |  2 ++
- nvme.c         | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 111 insertions(+)
+ Documentation/nvme-sanitize-log.1    | 126 ++++++
+ Documentation/nvme-sanitize-log.html | 848 +++++++++++++++++++++++++++++++++++
+ Documentation/nvme-sanitize-log.txt  |  67 +++
+ 3 files changed, 1041 insertions(+)
+ create mode 100644 Documentation/nvme-sanitize-log.1
+ create mode 100644 Documentation/nvme-sanitize-log.html
+ create mode 100644 Documentation/nvme-sanitize-log.txt
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index c05d819..28ab9b8 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -660,6 +660,7 @@ enum nvme_admin_opcode {
- 	nvme_admin_format_nvm		= 0x80,
- 	nvme_admin_security_send	= 0x81,
- 	nvme_admin_security_recv	= 0x82,
-+	nvme_admin_sanitize			= 0x84,
- };
- 
- enum {
-@@ -697,6 +698,18 @@ enum {
- 	NVME_FWACT_ACTV		= (2 << 3),
- };
- 
-+/* Sanitize */
-+enum {
-+	NVME_SANITIZE_NO_DEALLOC		= 0x00000200,
-+	NVME_SANITIZE_OIPBP				= 0x00000100,
-+	NVME_SANITIZE_OWPASS_SHIFT		= 0x00000004,
-+	NVME_SANITIZE_AUSE				= 0x00000008,
-+	NVME_SANITIZE_ACT_CRYPTO_ERASE	= 0x00000004,
-+	NVME_SANITIZE_ACT_OVERWRITE		= 0x00000003,
-+	NVME_SANITIZE_ACT_BLOCK_ERASE	= 0x00000002,
-+	NVME_SANITIZE_ACT_EXIT			= 0x00000001,
-+};
+diff --git a/Documentation/nvme-sanitize-log.1 b/Documentation/nvme-sanitize-log.1
+new file mode 100644
+index 0000000..d31dc69
+--- /dev/null
++++ b/Documentation/nvme-sanitize-log.1
+@@ -0,0 +1,126 @@
++'\" t
++.\"     Title: nvme-sanitize-log
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
++.\"      Date: 06/28/2017
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-SANITIZE\-LOG" "1" "06/28/2017" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-sanitize-log \- Send NVMe sanitize\-log Command, return result
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme sanitize\-log\fR <device>
++.fi
++.SH "DESCRIPTION"
++.sp
++Retrieves the NVMe Sanitize log page from an NVMe device and provides the status of sanitize command\&.
++.sp
++The <device> parameter is mandatory NVMe character device (ex: /dev/nvme0)\&.
++.sp
++Expected status and description :\-
++.TS
++allbox tab(:);
++ltB ltB.
++T{
++Status Code
++T}:T{
++Description
++T}
++.T&
++lt lt
++lt lt
++lt lt
++lt lt
++lt lt.
++T{
++.sp
++0x0000
++T}:T{
++.sp
++NVM subsystem has never been sanitized\&.
++T}
++T{
++.sp
++0x0001
++T}:T{
++.sp
++The most recent sanitize operation completed successfully\&.
++T}
++T{
++.sp
++0x0002
++T}:T{
++.sp
++A sanitize operation is currently in progress\&.
++T}
++T{
++.sp
++0x0003
++T}:T{
++.sp
++The most recent sanitize operation failed\&.
++T}
++T{
++.sp
++0x0100
++T}:T{
++.sp
++Global Data Erased bit If set to 1 then non\-volatile storage in the NVM subsystem has not been written to: a) since being manufactured and the NVM subsystem has never been sanitized; or b) since the most recent successful sanitize operation\&. If cleared to 0, then non\-volatile storage in the NVM subsystem has been written to: a) since being manufactured and the NVM subsystem has never been sanitized; or b) since the most recent successful sanitize operation of the NVM subsystem\&.
++T}
++.TE
++.sp 1
++.sp
++Sanitize Progress \- percentage complete
++.sp
++On success it returns 0, error code otherwise\&.
++.SH "OPTIONS"
++.sp
++No options yet\&.
++.SH "EXAMPLES"
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Has the program issue Sanitize\-log Command :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme sanitize\-log /dev/nvme0
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.SH "NVME"
++.sp
++Part of the nvme\-user suite\&.
+diff --git a/Documentation/nvme-sanitize-log.html b/Documentation/nvme-sanitize-log.html
+new file mode 100644
+index 0000000..2b2c5f0
+--- /dev/null
++++ b/Documentation/nvme-sanitize-log.html
+@@ -0,0 +1,848 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc 8.6.9" />
++<title>nvme-sanitize-log(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 +
- struct nvme_identify {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -1010,6 +1023,9 @@ enum {
- 	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
- 	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
- 
-+	NVME_SC_SANITIZE_FAILED			= 0x1C,
-+	NVME_SC_SANITIZE_IN_PROGRESS	= 0x1D,
-+
- 	NVME_SC_LBA_RANGE		= 0x80,
- 	NVME_SC_CAP_EXCEEDED		= 0x81,
- 	NVME_SC_NS_NOT_READY		= 0x82,
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index 2bb01cb..b4cd3ba 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -42,6 +42,7 @@ COMMAND_LIST(
- 	ENTRY("write", "Submit a write command, return results", write_cmd)
- 	ENTRY("write-zeroes", "Submit a write zeroes command, return results", write_zeroes)
- 	ENTRY("write-uncor", "Submit a write uncorrectable command, return results", write_uncor)
-+	ENTRY("sanitize", "Submit a sanitize command", sanitize)
- 	ENTRY("reset", "Resets the controller", reset)
- 	ENTRY("subsystem-reset", "Resets the controller", subsystem_reset)
- 	ENTRY("show-regs", "Shows the controller registers. Requires admin character device", show_registers)
-diff --git a/nvme-print.c b/nvme-print.c
-index bf78d4a..f03382f 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1102,6 +1102,8 @@ char *nvme_status_to_string(__u32 status)
- 	case NVME_SC_FUSED_MISSING:		return "FUSED_MISSING";
- 	case NVME_SC_INVALID_NS:		return "INVALID_NS";
- 	case NVME_SC_CMD_SEQ_ERROR:		return "CMD_SEQ_ERROR";
-+	case NVME_SC_SANITIZE_FAILED:		return "SANITIZE_FAILED";
-+	case NVME_SC_SANITIZE_IN_PROGRESS:	return "SANITIZE_IN_PROGRESS";
- 	case NVME_SC_LBA_RANGE:			return "LBA_RANGE";
- 	case NVME_SC_CAP_EXCEEDED:		return "CAP_EXCEEDED";
- 	case NVME_SC_NS_NOT_READY:		return "NS_NOT_READY";
-diff --git a/nvme.c b/nvme.c
-index 7e07ffd..8507cd3 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -1428,6 +1428,98 @@ static int reset(int argc, char **argv, struct command *cmd, struct plugin *plug
- 	return err;
- }
- 
-+static int sanitize(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+	char *desc = "Send a sanitize command.";
-+	char *no_dealloc_desc = "No deallocate after sanitize.";
-+	char *oipbp_desc = "Overwrite invert pattern between passes.";
-+	char *owpass_desc = "Overwrite pass count.";
-+	char *ause_desc = "Allow unrestricted sanitize exit.";
-+	char *sanact_desc = "Sanitize action.";
-+	char *ovrpat_desc = "Overwrite pattern.";
-+
-+	int fd;
-+	int ret;
-+	__u32 sanitize_cdw10 = 0;
-+	__u32 sanitize_cdw11 = 0;
-+
-+	struct nvme_passthru_cmd admin_cmd;
-+
-+	struct config {
-+		uint8_t no_dealloc;
-+		uint8_t oipbp;
-+		uint8_t owpass;
-+		uint8_t ause;
-+		uint8_t sanact;
-+		uint32_t ovrpat;
-+	};
-+
-+	struct config cfg = {
-+		.no_dealloc = 0,
-+		.oipbp = 0,
-+		.owpass = 0,
-+		.ause = 0,
-+		.sanact = 0,
-+		.ovrpat = 0,
-+	};
-+
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{"no_dealloc", 'd', "", CFG_NONE, &cfg.no_dealloc, no_argument, no_dealloc_desc},
-+		{"oipbp", 'i', "", CFG_NONE, &cfg.oipbp, no_argument, oipbp_desc},
-+		{"owpass", 'n', "NUM", CFG_POSITIVE, &cfg.owpass, required_argument, owpass_desc},
-+		{"ause", 'u', "", CFG_NONE, &cfg.ause, no_argument, ause_desc},
-+		{"sanact", 'a', "NUM", CFG_POSITIVE, &cfg.sanact, required_argument, sanact_desc},
-+		{"ovrpat", 'p', "NUM", CFG_POSITIVE, &cfg.ovrpat, required_argument, ovrpat_desc},
-+		{NULL}
-+	};
-+
-+	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
-+	if (fd < 0)
-+		return fd;
-+
-+	switch (cfg.sanact) {
-+	case NVME_SANITIZE_ACT_CRYPTO_ERASE:
-+	case NVME_SANITIZE_ACT_BLOCK_ERASE:
-+	case NVME_SANITIZE_ACT_EXIT:
-+		sanitize_cdw10 = cfg.sanact;
-+		break;
-+	case NVME_SANITIZE_ACT_OVERWRITE:
-+		sanitize_cdw10 = cfg.sanact;
-+		sanitize_cdw11 = cfg.ovrpat;
-+		break;
-+	default:
-+		fprintf(stderr, "Invalid Sanitize Action\n");
-+		return -1;
-+	}
-+
-+	if (cfg.ause)
-+		sanitize_cdw10 |= NVME_SANITIZE_AUSE;
-+
-+	if (cfg.sanact == NVME_SANITIZE_ACT_OVERWRITE) {
-+		if (cfg.owpass >= 0 && cfg.owpass <= 16) {
-+			sanitize_cdw10 |= (cfg.owpass << NVME_SANITIZE_OWPASS_SHIFT);
-+		} else {
-+			fprintf(stderr, "owpass out of range [0-16] or sanitize action is not set to overwrite\n");
-+			return -1;
-+		}
-+		if (cfg.oipbp)
-+			sanitize_cdw10 |= NVME_SANITIZE_OIPBP;
-+	}
-+
-+	if (cfg.sanact != NVME_SANITIZE_ACT_EXIT && cfg.no_dealloc)
-+		sanitize_cdw10 |= NVME_SANITIZE_NO_DEALLOC;
-+
-+	memset(&admin_cmd, 0, sizeof (admin_cmd));
-+	admin_cmd.opcode = nvme_admin_sanitize;
-+	admin_cmd.cdw10 = sanitize_cdw10;
-+	admin_cmd.cdw11 = sanitize_cdw11;
-+
-+	ret = nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &admin_cmd);
-+
-+	fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(ret), ret);
-+	return ret;
++/* Default font. */
++body {
++  font-family: Georgia,serif;
 +}
 +
- static int show_registers(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
- 	const char *desc = "Reads and shows the defined NVMe controller registers "\
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
++}
++
++body {
++  margin: 1em 5% 1em 5%;
++}
++
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
++}
++
++em {
++  font-style: italic;
++  color: navy;
++}
++
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++pre {
++  white-space: pre-wrap;
++}
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; vertical-align: text-bottom; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++ at media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overriden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++ at media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-sanitize-log(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-sanitize-log -
++   Send NVMe sanitize-log Command, return result
++</p>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme sanitize-log</em> &lt;device&gt;</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Retrieves the NVMe Sanitize log page from an NVMe device and provides the
++status of sanitize command.</p></div>
++<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory NVMe character device (ex: /dev/nvme0).</p></div>
++<div class="paragraph"><p>Expected status and description :-</p></div>
++<div class="tableblock">
++<table rules="all"
++width="100%"
++frame="border"
++cellspacing="0" cellpadding="4">
++<col width="50%" />
++<col width="50%" />
++<thead>
++<tr>
++<th align="left" valign="top">Status Code </th>
++<th align="left" valign="top">Description</th>
++</tr>
++</thead>
++<tbody>
++<tr>
++<td align="left" valign="top"><p class="table">0x0000</p></td>
++<td align="left" valign="top"><p class="table">NVM subsystem has never been sanitized.</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">0x0001</p></td>
++<td align="left" valign="top"><p class="table">The most recent sanitize operation completed successfully.</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">0x0002</p></td>
++<td align="left" valign="top"><p class="table">A sanitize operation is currently in progress.</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">0x0003</p></td>
++<td align="left" valign="top"><p class="table">The most recent sanitize operation failed.</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">0x0100</p></td>
++<td align="left" valign="top"><p class="table">Global Data Erased bit
++If set to 1 then non-volatile storage in the NVM subsystem has
++not been written to:
++    a) since being manufactured and the NVM subsystem has never been sanitized; or
++    b) since the most recent successful sanitize operation.
++If cleared to 0, then non-volatile storage in the NVM subsystem has been written to:
++    a) since being manufactured and the NVM subsystem has never been sanitized; or
++    b) since the most recent successful sanitize operation of the NVM subsystem.</p></td>
++</tr>
++</tbody>
++</table>
++</div>
++<div class="paragraph"><p>Sanitize Progress - percentage complete</p></div>
++<div class="paragraph"><p>On success it returns 0, error code otherwise.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>No options yet.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<p>
++Has the program issue Sanitize-log Command :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme sanitize-log /dev/nvme0</code></pre>
++</div></div>
++</li>
++</ul></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite.</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated
++ 2017-06-28 11:25:21 PDT
++</div>
++</div>
++</body>
++</html>
+diff --git a/Documentation/nvme-sanitize-log.txt b/Documentation/nvme-sanitize-log.txt
+new file mode 100644
+index 0000000..a4ff729
+--- /dev/null
++++ b/Documentation/nvme-sanitize-log.txt
+@@ -0,0 +1,67 @@
++nvme-sanitize-log(1)
++====================
++
++NAME
++----
++nvme-sanitize-log - Send NVMe sanitize-log Command, return result
++
++SYNOPSIS
++--------
++[verse]
++'nvme sanitize-log' <device>
++
++DESCRIPTION
++-----------
++Retrieves the NVMe Sanitize log page from an NVMe device and provides the
++status of sanitize command.
++
++The <device> parameter is mandatory NVMe character device (ex: /dev/nvme0).
++
++Expected status and description :-
++
++[cols="2*", options="header"]
++|===
++|Status Code |Description
++
++|0x0000
++|NVM subsystem has never been sanitized.
++
++|0x0001
++|The most recent sanitize operation completed successfully.
++
++|0x0002
++|A sanitize operation is currently in progress.
++
++|0x0003
++|The most recent sanitize operation failed.
++
++|0x0100
++|Global Data Erased bit
++If set to 1 then non-volatile storage in the NVM subsystem has
++not been written to:
++    a) since being manufactured and the NVM subsystem has never been sanitized; or
++    b) since the most recent successful sanitize operation.
++If cleared to 0, then non-volatile storage in the NVM subsystem has been written to:
++    a) since being manufactured and the NVM subsystem has never been sanitized; or
++    b) since the most recent successful sanitize operation of the NVM subsystem.
++|===
++
++Sanitize Progress - percentage complete
++
++On success it returns 0, error code otherwise.
++
++OPTIONS
++-------
++No options yet.
++
++EXAMPLES
++--------
++* Has the program issue Sanitize-log Command :
+++
++------------
++# nvme sanitize-log /dev/nvme0
++------------
++
++NVME
++----
++Part of the nvme-user suite.
 -- 
 2.7.4
