@@ -1,22 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Jun 2017 08:44:04 +0300
-Subject: nvme defintions not used in the kernel
-In-Reply-To: <20170628231129.GA20902@lst.de>
-References: <20170628231129.GA20902@lst.de>
-Message-ID: <6503552c-afac-b740-5db6-31d4a7e34256@grimberg.me>
+From: vrothberg@suse.com (Valentin Rothberg)
+Date: Thu, 29 Jun 2017 08:59:07 +0200
+Subject: [PATCH] nvme: Makefile: remove dead build rule
+Message-ID: <20170629065907.13132-1-vrothberg@suse.com>
 
-> Hi all,
-> 
-> currently nvme-cli supports various nvme features that are not
-> needed in the kernel and keeps them in its own nvme.h file,
-> in addition to pulling in the kernel one.
-> 
-> Do we want to keep it that way in the long run, or just add
-> things to nvme.h in the kernel even if they are not used to
-> keep things in a single place.
-> 
-> To me the latter would seem a little nicer, especially as it
-> doesn't involve a whole lot of defintion.
+Remove dead build rule for drivers/nvme/host/scsi.c which has been
+removed by commit ("nvme: Remove SCSI translations").
 
-I agree with the latter, should we also move nvme.h to
-uapi?
+Signed-off-by: Valentin Rothberg <vrothberg at suse.com>
+---
+ drivers/nvme/host/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index f1a7d945fbb6..cc0aacb4c8b4 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -5,7 +5,6 @@ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
+ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+ 
+ nvme-core-y				:= core.o
+-nvme-core-$(CONFIG_BLK_DEV_NVME_SCSI)	+= scsi.o
+ nvme-core-$(CONFIG_NVM)			+= lightnvm.o
+ 
+ nvme-y					+= pci.o
+-- 
+2.12.3
