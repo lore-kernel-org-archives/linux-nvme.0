@@ -1,28 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Jun 2017 08:33:32 +0300
-Subject: [PATCH 1/1] blk-mq: map all HWQ also in hyperthreaded system
-In-Reply-To: <c0e5ca5d-f048-cf9c-27d6-6a2a98a48251@mellanox.com>
-References: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
- <e9cccad7-804a-f68b-b184-46cc5be2f01d@grimberg.me>
- <c0e5ca5d-f048-cf9c-27d6-6a2a98a48251@mellanox.com>
-Message-ID: <4da1ee67-052f-a0a1-ac9c-a3cb5f39b750@grimberg.me>
+Date: Thu, 29 Jun 2017 08:35:21 +0300
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <7D1C540B-FEA0-4101-8B58-87BCB7DB5492@oracle.com>
+References: <20170620074639.GP17846@mtr-leonro.local>
+ <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
+ <20170620083309.GQ17846@mtr-leonro.local>
+ <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
+ <614481c7-22dd-d93b-e97e-52f868727ec3@grimberg.me>
+ <59FF0C04-2BFB-4F66-81BA-A598A9A087FC@oracle.com>
+ <20170620173532.GA827@obsidianresearch.com>
+ <D3DC49A2-FFC9-4F62-8876-3E6AD5167DE5@oracle.com>
+ <20170620192742.GB827@obsidianresearch.com>
+ <C14B071E-F1B2-466A-82CF-4E20BFAD9DC1@oracle.com>
+ <20170620211958.GA5574@obsidianresearch.com>
+ <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
+ <28F6F58E-B6F4-4114-8DFF-B72353CE814B@oracle.com>
+ <52ad3547-efcf-f428-6b39-117efda3379f@grimberg.me>
+ <9990B5CB-E0FF-481E-9F34-21EACF0E796E@oracle.com>
+ <f1f1a68c-90db-e6bf-e35e-55c4b469c339@grimberg.me>
+ <7D1C540B-FEA0-4101-8B58-87BCB7DB5492@oracle.com>
+Message-ID: <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
 
 
->>> +static int cpu_to_queue_index(unsigned int nr_queues, const int cpu,
->>> +                  const struct cpumask *online_mask)
->>>   {
->>> -    return cpu * nr_queues / nr_cpus;
->>> +    /*
->>> +     * Non online CPU will be mapped to queue index 0.
->>> +     */
->>> +    if (!cpumask_test_cpu(cpu, online_mask))
->>> +        return 0;
->>
->> Why not map offline cpus to what they would've map to if they were
->> online?
+>> How do you know when that happens?
 > 
-> I didn't change logic for offline cpu's.
-> Should it be done in this patch ?
+> The RPC Call send path sets up the Send SGE array. If it includes
+> page cache pages, it can set IB_SEND_SIGNALED.
+> 
+> The SGE array and the ib_cqe for the send are in the same data
+> structure, so the Send completion handler can find the SGE array
+> and figure out what needs to be unmapped.
+> 
+> The only problem is if a POSIX signal fires. In that case the
+> data structure can be released before the Send completion fires,
+> and we get touch-after-free in the completion handler.
+> 
+> I'm thinking that it just isn't going to be practical to handle
+> unmapping this way, and I should just revert back to using RDMA
+> Read instead of adding page cache pages to the Send SGE.
 
-The patch clearly treats offline cpus differently, maps them
-to queue 0.
+Or wait for the send completion before completing the I/O?
