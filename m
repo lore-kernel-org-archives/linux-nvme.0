@@ -1,23 +1,29 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 29 Jun 2017 10:33:16 +0200
-Subject: [PATCH] nvme: Makefile: remove dead build rule
-In-Reply-To: <20170629065907.13132-1-vrothberg@suse.com>
-References: <20170629065907.13132-1-vrothberg@suse.com>
-Message-ID: <20170629083315.GF3808@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 29 Jun 2017 14:09:05 +0300
+Subject: [PATCH 0/7] Few patches extracted from the centralization set
+Message-ID: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
 
-On Thu, Jun 29, 2017@08:59:07AM +0200, Valentin Rothberg wrote:
-> Remove dead build rule for drivers/nvme/host/scsi.c which has been
-> removed by commit ("nvme: Remove SCSI translations").
-> 
-> Signed-off-by: Valentin Rothberg <vrothberg at suse.com>
-> ---
+Feedback was that they made sense on their own.
+Plus also few patches that I came up with.
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+The repetition of patches seem to highlight the fact that we
+will benefit centralization of shared logic.
+
+Sagi Grimberg (7):
+  nvme: move queue_count to the nvme_ctrl
+  nvme: move ctrl cap to struct nvme_ctrl
+  nvme-pci: rename to nvme_pci_configure_admin_queue
+  nvme-fc: don't override opts->nr_io_queues
+  nvme-rdma: update tagset nr_hw_queues after reconnecting/resetting
+  nvme-loop: update tagset nr_hw_queues after reconnecting/resetting
+  nvme-fc: update tagset nr_hw_queues after queues reinit
+
+ drivers/nvme/host/fc.c     | 55 ++++++++++++++++++++++++----------------------
+ drivers/nvme/host/nvme.h   |  2 ++
+ drivers/nvme/host/pci.c    | 37 ++++++++++++++-----------------
+ drivers/nvme/host/rdma.c   | 55 +++++++++++++++++++++++++---------------------
+ drivers/nvme/target/loop.c | 25 +++++++++++----------
+ 5 files changed, 91 insertions(+), 83 deletions(-)
+
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.7.4
