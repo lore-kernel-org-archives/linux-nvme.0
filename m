@@ -1,19 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 29 Jun 2017 10:30:22 +0200
-Subject: [PATCH 1/1] blk-mq: map all HWQ also in hyperthreaded system
-In-Reply-To: <a681644a-95ed-c9c0-99fe-96f8529ec991@mellanox.com>
-References: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
- <37fea86b-ce87-ac03-e465-5daf62a456c4@grimberg.me>
- <1cc73f8d-3e9d-0f9f-2b71-60d2bc6ce7b5@mellanox.com>
- <81fe8f2a-1fba-730e-a4af-047a4e06bd1a@grimberg.me>
- <a681644a-95ed-c9c0-99fe-96f8529ec991@mellanox.com>
-Message-ID: <20170629083022.GD3808@linux-x5ow.site>
+Date: Thu, 29 Jun 2017 10:32:28 +0200
+Subject: nvme defintions not used in the kernel
+In-Reply-To: <6503552c-afac-b740-5db6-31d4a7e34256@grimberg.me>
+References: <20170628231129.GA20902@lst.de>
+ <6503552c-afac-b740-5db6-31d4a7e34256@grimberg.me>
+Message-ID: <20170629083228.GE3808@linux-x5ow.site>
 
-On Wed, Jun 28, 2017@08:11:23PM +0300, Max Gurtovoy wrote:
-> Nevertheless, we should review and consider pushing my fixes to the block
-> layer for other users of this mapping function.
+On Thu, Jun 29, 2017@08:44:04AM +0300, Sagi Grimberg wrote:
+> I agree with the latter, should we also move nvme.h to
+> uapi?
 
-Totally agree with it and it's easier to backport to let's say stable kernels.
+That was my first reaction as well. I'm all for it.
 
 -- 
 Johannes Thumshirn                                          Storage
