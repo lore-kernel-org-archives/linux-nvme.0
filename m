@@ -1,17 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 29 Jun 2017 10:32:28 +0200
-Subject: nvme defintions not used in the kernel
-In-Reply-To: <6503552c-afac-b740-5db6-31d4a7e34256@grimberg.me>
-References: <20170628231129.GA20902@lst.de>
- <6503552c-afac-b740-5db6-31d4a7e34256@grimberg.me>
-Message-ID: <20170629083228.GE3808@linux-x5ow.site>
+Date: Thu, 29 Jun 2017 10:33:16 +0200
+Subject: [PATCH] nvme: Makefile: remove dead build rule
+In-Reply-To: <20170629065907.13132-1-vrothberg@suse.com>
+References: <20170629065907.13132-1-vrothberg@suse.com>
+Message-ID: <20170629083315.GF3808@linux-x5ow.site>
 
-On Thu, Jun 29, 2017@08:44:04AM +0300, Sagi Grimberg wrote:
-> I agree with the latter, should we also move nvme.h to
-> uapi?
+On Thu, Jun 29, 2017@08:59:07AM +0200, Valentin Rothberg wrote:
+> Remove dead build rule for drivers/nvme/host/scsi.c which has been
+> removed by commit ("nvme: Remove SCSI translations").
+> 
+> Signed-off-by: Valentin Rothberg <vrothberg at suse.com>
+> ---
 
-That was my first reaction as well. I'm all for it.
-
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
