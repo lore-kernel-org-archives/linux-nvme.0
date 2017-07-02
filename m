@@ -1,172 +1,179 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 2 Jul 2017 17:37:05 +0300
-Subject: NVMe induced NULL deref in bt_iter()
-In-Reply-To: <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
-References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
- <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
- <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
-Message-ID: <335f15ce-ed59-1902-0e01-0bc5390b74db@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun,  2 Jul 2017 18:01:32 +0300
+Subject: [PATCH rfc 1/3] nvmet: allow assignment of a cpulist for each nvmet
+ port
+In-Reply-To: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1499007694-7231-2-git-send-email-sagi@grimberg.me>
 
+Users might want to assign specific affinity in the form of
+a cpumap to a nvmet port. This can make sense in multi-socket
+systems where each socket is connected to a HBA (e.g. RDMA device)
+and a set of backend storage devices (e.g. NVMe or other PCI
+storage devices) where the user wants to provision the backend
+storage via the HBA belonging to the same numa socket.
 
+So, allow the user to pass a cpulist, however if the
+underlying devices do not expose access to these mappings
+the transport drivers is not obligated to enforce it so it
+is merely a hint.
 
-On 7/2/2017 2:56 PM, Sagi Grimberg wrote:
->
->
-> On 02/07/17 13:45, Max Gurtovoy wrote:
->>
->>
->> On 6/30/2017 8:26 PM, Jens Axboe wrote:
->>> Hi Max,
->>
->> Hi Jens,
->>
->>>
->>> I remembered you reporting this. I think this is a regression introduced
->>> with the scheduling, since ->rqs[] isn't static anymore. ->static_rqs[]
->>> is, but that's not indexable by the tag we find. So I think we need to
->>> guard those with a NULL check. The actual requests themselves are
->>> static, so we know the memory itself isn't going away. But if we race
->>> with completion, we could find a NULL there, validly.
->>>
->>> Since you could reproduce it, can you try the below?
->>
->> I still can repro the null deref with this patch applied.
->>
->>>
->>> diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
->>> index d0be72ccb091..b856b2827157 100644
->>> --- a/block/blk-mq-tag.c
->>> +++ b/block/blk-mq-tag.c
->>> @@ -214,7 +214,7 @@ static bool bt_iter(struct sbitmap *bitmap,
->>> unsigned int bitnr, void *data)
->>>          bitnr += tags->nr_reserved_tags;
->>>      rq = tags->rqs[bitnr];
->>>
->>> -    if (rq->q == hctx->queue)
->>> +    if (rq && rq->q == hctx->queue)
->>>          iter_data->fn(hctx, rq, iter_data->data, reserved);
->>>      return true;
->>>  }
->>> @@ -249,8 +249,8 @@ static bool bt_tags_iter(struct sbitmap *bitmap,
->>> unsigned int bitnr, void *data)
->>>      if (!reserved)
->>>          bitnr += tags->nr_reserved_tags;
->>>      rq = tags->rqs[bitnr];
->>> -
->>> -    iter_data->fn(rq, iter_data->data, reserved);
->>> +    if (rq)
->>> +        iter_data->fn(rq, iter_data->data, reserved);
->>>      return true;
->>>  }
->>
->> see the attached file for dmesg output.
->>
->> output of gdb:
->>
->> (gdb) list *(blk_mq_flush_busy_ctxs+0x48)
->> 0xffffffff8127b108 is in blk_mq_flush_busy_ctxs
->> (./include/linux/sbitmap.h:234).
->> 229
->> 230             for (i = 0; i < sb->map_nr; i++) {
->> 231                     struct sbitmap_word *word = &sb->map[i];
->> 232                     unsigned int off, nr;
->> 233
->> 234                     if (!word->word)
->> 235                             continue;
->> 236
->> 237                     nr = 0;
->> 238                     off = i << sb->shift;
->>
->>
->> when I change the "if (!word->word)" to  "if (word && !word->word)"
->> I can get null deref at "nr = find_next_bit(&word->word, word->depth,
->> nr);". Seems like somehow word becomes NULL.
->>
->> Adding the linux-nvme guys too.
->> Sagi has mentioned that this can be null only if we remove the tagset
->> while I/O is trying to get a tag and when killing the target we get into
->> error recovery and periodic reconnects, which does _NOT_ include freeing
->> the tagset, so this is probably the admin tagset.
->>
->> Sagi,
->> you've mention a patch for centrelizing the treatment of the admin
->> tagset to the nvme core. I think I missed this patch, so can you
->> please send a pointer to it and I'll check if it helps ?
->
-> Hmm,
->
-> In the above flow we should not be freeing the tag_set, not on admin as
-> well. The target keep removing namespaces and finally removes the
-> subsystem which generates a error recovery flow. What we at least try
-> to do is:
->
-> 1. mark rdma queues as not live
-> 2. stop all the sw queues (admin and io)
-> 3. fail inflight I/Os
-> 4. restart all sw queues (to fast fail until we recover)
->
-> We shouldn't be freeing the tagsets (although we might update them
-> when we recover and cpu map changed - which I don't think is happening).
->
-> However, I do see a difference between bt_tags_for_each
-> and blk_mq_flush_busy_ctxs (checks tags->rqs not being NULL).
->
-> Unrelated to this I think we should quiesce/unquiesce the admin_q
-> instead of stop/start because it respects the submission path rcu [1].
->
-> It might hide the issue, but given that we never free the tagset its
-> seems like it's not in nvme-rdma (max, can you see if this makes the
-> issue go away?)
+Default to all online cpumap.
 
-Yes, this fixes the null deref issue.
-I run some additional login/logout tests that passed too.
-This fix is important also for stable kernel (with needed backports to 
-blk_mq_quiesce_queue/blk_mq_unquiesce_queue functions).
-You can add my:
-Tested-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/configfs.c | 75 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h    |  4 +++
+ 2 files changed, 79 insertions(+)
 
-Let me know if you want me to push this fix to the mailing list to save 
-time (can we make it to 4.12 ?)
-
->
-> [1]:
-> --
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index e3996db22738..094873a4ee38 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -785,7 +785,7 @@ static void nvme_rdma_error_recovery_work(struct
-> work_struct *work)
->
->         if (ctrl->ctrl.queue_count > 1)
->                 nvme_stop_queues(&ctrl->ctrl);
-> -       blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-> +       blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->
->         /* We must take care of fastfail/requeue all our inflight
-> requests */
->         if (ctrl->ctrl.queue_count > 1)
-> @@ -798,7 +798,8 @@ static void nvme_rdma_error_recovery_work(struct
-> work_struct *work)
->          * queues are not a live anymore, so restart the queues to fail
-> fast
->          * new IO
->          */
-> -       blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
-> +       blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-> +       blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
->         nvme_start_queues(&ctrl->ctrl);
->
->         nvme_rdma_reconnect_or_remove(ctrl);
-> @@ -1651,7 +1652,7 @@ static void nvme_rdma_shutdown_ctrl(struct
-> nvme_rdma_ctrl *ctrl)
->         if (test_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags))
->                 nvme_shutdown_ctrl(&ctrl->ctrl);
->
-> -       blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-> +       blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->                                 nvme_cancel_request, &ctrl->ctrl);
->         nvme_rdma_destroy_admin_queue(ctrl);
-> --
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index a358ecd93e11..095c2e6b4116 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -17,12 +17,63 @@
+ #include <linux/slab.h>
+ #include <linux/stat.h>
+ #include <linux/ctype.h>
++#include <linux/cpumask.h>
+ 
+ #include "nvmet.h"
+ 
+ static struct config_item_type nvmet_host_type;
+ static struct config_item_type nvmet_subsys_type;
+ 
++static ssize_t nvmet_addr_cpulist_show(struct config_item *item,
++		char *page)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++
++	return sprintf(page, "%*pbl\n", cpumask_pr_args(port->cpumask));
++}
++
++static ssize_t nvmet_addr_cpulist_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_port *port = to_nvmet_port(item);
++	cpumask_var_t cpumask;
++	int i, err;
++
++	if (port->enabled) {
++		pr_err("Cannot specify cpulist while enabled\n");
++		pr_err("Disable the port before changing cores\n");
++		return -EACCES;
++	}
++
++	if (!alloc_cpumask_var(&cpumask, GFP_KERNEL))
++		return -ENOMEM;
++
++	err = cpulist_parse(page, cpumask);
++	if (err) {
++		pr_err("bad cpumask given (%d): %s\n", err, page);
++		return err;
++	}
++
++	if (!cpumask_intersects(cpumask, cpu_online_mask)) {
++		pr_err("cpulist consists of offline cpus: %s\n", page);
++		return err;
++	}
++
++	/* copy cpumask */
++	cpumask_copy(port->cpumask, cpumask);
++	free_cpumask_var(cpumask);
++
++	/* clear port cpulist */
++	port->nr_cpus = 0;
++	/* reset port cpulist */
++	for_each_cpu(i, cpumask)
++		port->cpus[port->nr_cpus++] = i;
++
++	return count;
++}
++
++CONFIGFS_ATTR(nvmet_, addr_cpulist);
++
+ /*
+  * nvmet_port Generic ConfigFS definitions.
+  * Used in any place in the ConfigFS tree that refers to an address.
+@@ -821,6 +872,7 @@ static struct config_group *nvmet_referral_make(
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	INIT_LIST_HEAD(&port->entry);
++
+ 	config_group_init_type_name(&port->group, name, &nvmet_referral_type);
+ 
+ 	return &port->group;
+@@ -842,6 +894,8 @@ static void nvmet_port_release(struct config_item *item)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
+ 
++	kfree(port->cpus);
++	free_cpumask_var(port->cpumask);
+ 	kfree(port);
+ }
+ 
+@@ -851,6 +905,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
+ 	&nvmet_attr_addr_traddr,
+ 	&nvmet_attr_addr_trsvcid,
+ 	&nvmet_attr_addr_trtype,
++	&nvmet_attr_addr_cpulist,
+ 	NULL,
+ };
+ 
+@@ -869,6 +924,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ {
+ 	struct nvmet_port *port;
+ 	u16 portid;
++	int i;
+ 
+ 	if (kstrtou16(name, 0, &portid))
+ 		return ERR_PTR(-EINVAL);
+@@ -881,6 +937,20 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 	INIT_LIST_HEAD(&port->subsystems);
+ 	INIT_LIST_HEAD(&port->referrals);
+ 
++	if (!alloc_cpumask_var(&port->cpumask, GFP_KERNEL))
++		goto err_free_port;
++
++	port->nr_cpus = num_possible_cpus();
++
++	port->cpus = kcalloc(sizeof(int), port->nr_cpus, GFP_KERNEL);
++	if (!port->cpus)
++		goto err_free_cpumask;
++
++	for_each_possible_cpu(i) {
++		cpumask_set_cpu(i, port->cpumask);
++		port->cpus[i] = i;
++	}
++
+ 	port->disc_addr.portid = cpu_to_le16(portid);
+ 	config_group_init_type_name(&port->group, name, &nvmet_port_type);
+ 
+@@ -893,6 +963,11 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 	configfs_add_default_group(&port->referrals_group, &port->group);
+ 
+ 	return &port->group;
++
++err_free_cpumask:
++	free_cpumask_var(port->cpumask);
++err_free_port:
++	return ERR_PTR(-ENOMEM);
+ }
+ 
+ static struct configfs_group_operations nvmet_ports_group_ops = {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 747bbdb4f9c6..20ed676dc335 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -97,6 +97,10 @@ struct nvmet_port {
+ 	struct list_head		referrals;
+ 	void				*priv;
+ 	bool				enabled;
++
++	int				nr_cpus;
++	cpumask_var_t			cpumask;
++	int				*cpus;
+ };
+ 
+ static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
+-- 
+2.7.4
