@@ -1,98 +1,62 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun,  2 Jul 2017 18:01:34 +0300
-Subject: [PATCH rfc 3/3] nvmet-rdma: assign cq completion vector based on the
- port allowed cpus
-In-Reply-To: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
-References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499007694-7231-4-git-send-email-sagi@grimberg.me>
+Date: Sun, 2 Jul 2017 18:08:48 +0300
+Subject: NVMe induced NULL deref in bt_iter()
+In-Reply-To: <335f15ce-ed59-1902-0e01-0bc5390b74db@mellanox.com>
+References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
+ <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
+ <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
+ <335f15ce-ed59-1902-0e01-0bc5390b74db@mellanox.com>
+Message-ID: <5309b55c-5395-918d-4cf9-8ce5475be964@grimberg.me>
 
-We first take a cpu assignment from the port configured cpulist
-(spread uniformly accross them) with rdma core API.
 
-If the device does not expose a vector affinity mask,  or we
-couldn't find a match, we fallback to the old behavior as we
-don't have sufficient information to do the "correct" vector
-assignment.
+>> Hmm,
+>>
+>> In the above flow we should not be freeing the tag_set, not on admin as
+>> well. The target keep removing namespaces and finally removes the
+>> subsystem which generates a error recovery flow. What we at least try
+>> to do is:
+>>
+>> 1. mark rdma queues as not live
+>> 2. stop all the sw queues (admin and io)
+>> 3. fail inflight I/Os
+>> 4. restart all sw queues (to fast fail until we recover)
+>>
+>> We shouldn't be freeing the tagsets (although we might update them
+>> when we recover and cpu map changed - which I don't think is happening).
+>>
+>> However, I do see a difference between bt_tags_for_each
+>> and blk_mq_flush_busy_ctxs (checks tags->rqs not being NULL).
+>>
+>> Unrelated to this I think we should quiesce/unquiesce the admin_q
+>> instead of stop/start because it respects the submission path rcu [1].
+>>
+>> It might hide the issue, but given that we never free the tagset its
+>> seems like it's not in nvme-rdma (max, can you see if this makes the
+>> issue go away?)
+> 
+> Yes, this fixes the null deref issue.
+> I run some additional login/logout tests that passed too.
+> This fix is important also for stable kernel (with needed backports to 
+> blk_mq_quiesce_queue/blk_mq_unquiesce_queue functions).
+> You can add my:
+> Tested-by: Max Gurtovoy <maxg at mellanox.com>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/rdma.c | 40 ++++++++++++++++++++++++++++------------
- 1 file changed, 28 insertions(+), 12 deletions(-)
+Thanks for clarifying Max.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 56a4cba690b5..a1725d3e174a 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -889,27 +889,43 @@ nvmet_rdma_find_get_device(struct rdma_cm_id *cm_id)
- 	return NULL;
- }
- 
--static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
-+static int nvmet_rdma_assign_vector(struct nvmet_rdma_queue *queue)
- {
--	struct ib_qp_init_attr qp_attr;
--	struct nvmet_rdma_device *ndev = queue->dev;
--	int comp_vector, nr_cqe, ret, i;
-+	struct ib_device *dev = queue->dev->device;
-+	struct nvmet_port *port = queue->port;
-+	int vec, cpu;
- 
- 	/*
--	 * Spread the io queues across completion vectors,
--	 * but still keep all admin queues on vector 0.
-+	 * Spread the io queues across port cpus,
-+	 * but still keep all admin queues on cpu 0.
- 	 */
--	comp_vector = !queue->host_qid ? 0 :
--		queue->idx % ndev->device->num_comp_vectors;
-+	cpu = !queue->host_qid ? 0 : port->cpus[queue->idx % port->nr_cpus];
-+
-+	if (ib_find_cpu_vector(dev, cpu, &vec))
-+		return vec;
-+
-+	pr_debug("device %s could not provide vector to match cpu %d\n",
-+			dev->name, cpu);
-+	/*
-+	 * No corresponding vector affinity found, fallback to
-+	 * the old behavior where we spread vectors all over...
-+	 */
-+	return !queue->host_qid ? 0 : queue->idx % dev->num_comp_vectors;
-+}
-+
-+static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
-+{
-+	struct ib_qp_init_attr qp_attr;
-+	struct nvmet_rdma_device *ndev = queue->dev;
-+	int nr_cqe, ret, i;
- 
- 	/*
- 	 * Reserve CQ slots for RECV + RDMA_READ/RDMA_WRITE + RDMA_SEND.
- 	 */
- 	nr_cqe = queue->recv_queue_size + 2 * queue->send_queue_size;
- 
--	queue->cq = ib_alloc_cq(ndev->device, queue,
--			nr_cqe + 1, comp_vector,
--			IB_POLL_WORKQUEUE);
-+	queue->cq = ib_alloc_cq(ndev->device, queue, nr_cqe + 1,
-+			nvmet_rdma_assign_vector(queue), IB_POLL_WORKQUEUE);
- 	if (IS_ERR(queue->cq)) {
- 		ret = PTR_ERR(queue->cq);
- 		pr_err("failed to create CQ cqe= %d ret= %d\n",
-@@ -1080,6 +1096,7 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
- 	INIT_WORK(&queue->release_work, nvmet_rdma_release_queue_work);
- 	queue->dev = ndev;
- 	queue->cm_id = cm_id;
-+	queue->port = cm_id->context;
- 
- 	spin_lock_init(&queue->state_lock);
- 	queue->state = NVMET_RDMA_Q_CONNECTING;
-@@ -1198,7 +1215,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 		ret = -ENOMEM;
- 		goto put_device;
- 	}
--	queue->port = cm_id->context;
- 
- 	if (queue->host_qid == 0) {
- 		/* Let inflight controller teardown complete */
--- 
-2.7.4
+However I still think its not the root cause (unless I don't understand
+it).
+
+As I said, we do not free the tagset so I'm not sure why we get to
+a NULL deref in the sbitmap code. Jens, can you explain why
+changing blk_mq_stop_hw_queues to blk_mq_quiesce_queue makes the issue
+go away? I know that quiesce respects the rcu grace, but I still do not
+understand why without it we get a NULL sb->map.
+
+> Let me know if you want me to push this fix to the mailing list to save 
+> time (can we make it to 4.12 ?)
+
+I can send patches, we need it in pci, fc and loop too..
+
+I don't think its a 4.12 material as we are way too late to this sort of
+fix.
