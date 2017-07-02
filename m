@@ -1,62 +1,52 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 2 Jul 2017 18:08:48 +0300
-Subject: NVMe induced NULL deref in bt_iter()
-In-Reply-To: <335f15ce-ed59-1902-0e01-0bc5390b74db@mellanox.com>
-References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
- <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
- <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
- <335f15ce-ed59-1902-0e01-0bc5390b74db@mellanox.com>
-Message-ID: <5309b55c-5395-918d-4cf9-8ce5475be964@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 2 Jul 2017 19:30:33 +0300
+Subject: [PATCH rfc 0/3] Expose cpu mapping hints to a nvme target port
+In-Reply-To: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+Message-ID: <b77be367-6cbc-c12c-8135-eddff0aec90e@mellanox.com>
 
 
->> Hmm,
->>
->> In the above flow we should not be freeing the tag_set, not on admin as
->> well. The target keep removing namespaces and finally removes the
->> subsystem which generates a error recovery flow. What we at least try
->> to do is:
->>
->> 1. mark rdma queues as not live
->> 2. stop all the sw queues (admin and io)
->> 3. fail inflight I/Os
->> 4. restart all sw queues (to fast fail until we recover)
->>
->> We shouldn't be freeing the tagsets (although we might update them
->> when we recover and cpu map changed - which I don't think is happening).
->>
->> However, I do see a difference between bt_tags_for_each
->> and blk_mq_flush_busy_ctxs (checks tags->rqs not being NULL).
->>
->> Unrelated to this I think we should quiesce/unquiesce the admin_q
->> instead of stop/start because it respects the submission path rcu [1].
->>
->> It might hide the issue, but given that we never free the tagset its
->> seems like it's not in nvme-rdma (max, can you see if this makes the
->> issue go away?)
-> 
-> Yes, this fixes the null deref issue.
-> I run some additional login/logout tests that passed too.
-> This fix is important also for stable kernel (with needed backports to 
-> blk_mq_quiesce_queue/blk_mq_unquiesce_queue functions).
-> You can add my:
-> Tested-by: Max Gurtovoy <maxg at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 
-Thanks for clarifying Max.
+On 7/2/2017 6:01 PM, Sagi Grimberg wrote:
+> I've heard feedback from folks on several occasions that we can
+> improve in a multi-socket target array configuration.
+>
+> Today, rdma transport simply spread IO threads accross all system cpus
+> without any specific configuration in mind (same for fc). It isn't really
+> possible to exclude a nvmet port IO threads affinity to a specific
+> numa socket which can be useful to reduce the inter-socket DMA traffic.
+>
+> This can make sense if the user wants to expose a set of backend devices
+> via a nvme target port (HBA port) which are connected to the same
+> numa-socket in order to optimize NUMA locality and minimize the inter-socket
+> DMA traffic.
+>
+> This RFC exposes a cpu mapping to a specific nvmet port. The user can choose
+> to provide a affinity hint a to nvme target port that will contain IO threads
+> to specific cpu cores and the transport will _try_ to enforce it (if it knows
+> how to). We default to the online cpumap.
+>
+> Note, this is based on the nvme and rdma msix affinity mapping patches pending
+> to 4.13.
+>
+> Feedback is welcome!
 
-However I still think its not the root cause (unless I don't understand
-it).
+Hi Sagi,
+Very interesting patchset. You give a lot of power to the user here, we 
+need to hope that he will use it right :).
+Do you have some fio numbers to compare w/w.o this series ? also cpu 
+utilization measures are interesting too..
 
-As I said, we do not free the tagset so I'm not sure why we get to
-a NULL deref in the sbitmap code. Jens, can you explain why
-changing blk_mq_stop_hw_queues to blk_mq_quiesce_queue makes the issue
-go away? I know that quiesce respects the rcu grace, but I still do not
-understand why without it we get a NULL sb->map.
-
-> Let me know if you want me to push this fix to the mailing list to save 
-> time (can we make it to 4.12 ?)
-
-I can send patches, we need it in pci, fc and loop too..
-
-I don't think its a 4.12 material as we are way too late to this sort of
-fix.
+>
+> Sagi Grimberg (3):
+>   nvmet: allow assignment of a cpulist for each nvmet port
+>   RDMA/core: expose cpu affinity based completion vector lookup
+>   nvmet-rdma: assign cq completion vector based on the port allowed cpus
+>
+>  drivers/infiniband/core/verbs.c | 41 ++++++++++++++++++++++
+>  drivers/nvme/target/configfs.c  | 75 +++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/target/nvmet.h     |  4 +++
+>  drivers/nvme/target/rdma.c      | 40 +++++++++++++++-------
+>  include/rdma/ib_verbs.h         |  3 ++
+>  5 files changed, 151 insertions(+), 12 deletions(-)
+>
