@@ -1,53 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun,  2 Jul 2017 20:45:17 +0300
-Subject: [PATCH 4/4] nvme-pci: quiesce/unquiesce admin_q instead of start/stop
- its hw queues
-In-Reply-To: <1499017517-18719-1-git-send-email-sagi@grimberg.me>
-References: <1499017517-18719-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499017517-18719-4-git-send-email-sagi@grimberg.me>
+Date: Sun, 2 Jul 2017 20:47:24 +0300
+Subject: [PATCH 1/3] blk-mq: include all present CPUs in the default queue
+ mapping
+In-Reply-To: <20170626102058.10200-2-hch@lst.de>
+References: <20170626102058.10200-1-hch@lst.de>
+ <20170626102058.10200-2-hch@lst.de>
+Message-ID: <3280ed26-9b60-b224-b362-0c8e0645f55b@grimberg.me>
 
-unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
-quiescing/unquiescing respects the submission path rcu grace.
+Looks good,
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/pci.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index eb729ff70e7d..df7c8a355075 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1125,7 +1125,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	spin_unlock_irq(&nvmeq->q_lock);
- 
- 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
--		blk_mq_stop_hw_queues(nvmeq->dev->ctrl.admin_q);
-+		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
- 
- 	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
- 
-@@ -1315,7 +1315,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
- 		 * user requests may be waiting on a stopped queue. Start the
- 		 * queue to flush these to completion.
- 		 */
--		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-+		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
- 		blk_cleanup_queue(dev->ctrl.admin_q);
- 		blk_mq_free_tag_set(&dev->admin_tagset);
- 	}
-@@ -1351,8 +1351,10 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 			dev->ctrl.admin_q = NULL;
- 			return -ENODEV;
- 		}
--	} else
--		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-+	} else {
-+		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-+		blk_mq_kick_requeue_list(dev->ctrl.admin_q);
-+	}
- 
- 	return 0;
- }
--- 
-2.7.4
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
