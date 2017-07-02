@@ -1,9 +1,9 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun,  2 Jul 2017 11:20:51 +0300
-Subject: [PATCH v2 2/3] nvme-rdma: remove redundant empty device add callout
+Date: Sun,  2 Jul 2017 11:20:52 +0300
+Subject: [PATCH v2 3/3] nvmet-rdma: remove redundant empty device add callout
 In-Reply-To: <1498983652-18250-1-git-send-email-sagi@grimberg.me>
 References: <1498983652-18250-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1498983652-18250-3-git-send-email-sagi@grimberg.me>
+Message-ID: <1498983652-18250-4-git-send-email-sagi@grimberg.me>
 
 Now that its not needed, we can simply not assign it.
 
@@ -11,30 +11,30 @@ Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 5 -----
+ drivers/nvme/target/rdma.c | 5 -----
  1 file changed, 5 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 6d4119dfbdaa..934183f80fff 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1956,10 +1956,6 @@ static struct nvmf_transport_ops nvme_rdma_transport = {
- 	.create_ctrl	= nvme_rdma_create_ctrl,
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 56a4cba690b5..76d2bb793afe 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1510,10 +1510,6 @@ static struct nvmet_fabrics_ops nvmet_rdma_ops = {
+ 	.delete_ctrl		= nvmet_rdma_delete_ctrl,
  };
  
--static void nvme_rdma_add_one(struct ib_device *ib_device)
+-static void nvmet_rdma_add_one(struct ib_device *ib_device)
 -{
 -}
 -
- static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
  {
- 	struct nvme_rdma_ctrl *ctrl;
-@@ -1981,7 +1977,6 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ 	struct nvmet_rdma_queue *queue;
+@@ -1534,7 +1530,6 @@ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data
  
- static struct ib_client nvme_rdma_ib_client = {
- 	.name   = "nvme_rdma",
--	.add = nvme_rdma_add_one,
- 	.remove = nvme_rdma_remove_one
+ static struct ib_client nvmet_rdma_ib_client = {
+ 	.name   = "nvmet_rdma",
+-	.add = nvmet_rdma_add_one,
+ 	.remove = nvmet_rdma_remove_one
  };
  
 -- 
