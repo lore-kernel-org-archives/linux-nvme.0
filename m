@@ -1,57 +1,26 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 3 Jul 2017 12:52:18 +0300
-Subject: [PATCH rfc 0/3] Expose cpu mapping hints to a nvme target port
-In-Reply-To: <e33f16a7-4e1d-7fd6-6d2c-5a5bac450c73@grimberg.me>
-References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
- <b77be367-6cbc-c12c-8135-eddff0aec90e@mellanox.com>
- <e33f16a7-4e1d-7fd6-6d2c-5a5bac450c73@grimberg.me>
-Message-ID: <8a5f82d8-e475-5f0e-9110-8b2c68580988@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 3 Jul 2017 13:07:44 +0300
+Subject: NVMe induced NULL deref in bt_iter()
+In-Reply-To: <20170703093951.GA28651@ming.t460p>
+References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
+ <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
+ <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
+ <20170703093951.GA28651@ming.t460p>
+Message-ID: <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
 
+Hi Ming,
 
+> Yeah, the above change is correct, for any canceling requests in this
+> way we should use blk_mq_quiesce_queue().
 
-On 7/2/2017 8:41 PM, Sagi Grimberg wrote:
->
->> Hi Sagi,
->> Very interesting patchset. You give a lot of power to the user here,
->> we need to hope that he will use it right :).
->
-> I don't think so, its equivalent to running an application with a given
-> taskset, nothing fancy here...
->
-> The straight forward configuration this is targeting is a dual-socket
-> system
-> where on each node you have one (or more) HCA and some NVMe devices
-> (say 4). All this is doing is allowing the user to contain nvme target
-> port cpu cores
-> to its own numa socket so if on that port only expose the local NVMe
-> devices
-> DMA traffic won't cross QPI.
+I still don't understand why should blk_mq_flush_busy_ctxs hit a NULL
+deref if we don't touch the tagset...
 
-Maybe I'm missing something but how do you make sure that all your 
-allocations buffers for DMA (of the NVMe + HCA) are done on the same 
-socket ?
- From the code I understood that you make sure that the cq is assigned 
-to appropriate completion vector according to the port CPUs (given by 
-the user) and all the interrupts will be routed to the relevant socket 
-(no QPI cross here since the MSI MMIO address is mapped to "local" 
-node), but IMO more work is needed to make sure that _all_ the allocated 
-buffers/pages are done from the memory assigned to that CPU node (or is 
-it something that is done already ?)
+Also, I'm wandering in what case we shouldn't use
+blk_mq_quiesce_queue()? Maybe we should unexport blk_mq_stop_hw_queues()
+and blk_mq_start_stopped_hw_queues() and use the quiesce/unquiesce
+equivalent always?
 
->
-> While a subsystem is the collection of devices, the port is where I/O
-> threads
-> really live as they feed of the device IRQ affinity. Especially with SRQ
-> which I'll
-> be touching soon. The user does indeed need to be aware of all this, but
-> if he
-> isn't, then he shouldn't touch this setting.
->
->> Do you have some fio numbers to compare w/w.o this series ? also cpu
->> utilization measures are interesting too..
->
-> Not really, this is an RFC level code, lightly tested on my VM...
->
-> If this is interesting to you I can use some testing if you volunteer ;)
-
-Yes it is. I'll need to find some time slot for this though...
+The only fishy usage is in nvme_fc_start_fcp_op() where if submission
+failed the code stop the hw queues and delays it, but I think it should
+be handled differently..
