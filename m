@@ -1,96 +1,52 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 3 Jul 2017 10:01:48 -0600
-Subject: NVMe induced NULL deref in bt_iter()
-In-Reply-To: <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
-References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
- <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
-Message-ID: <c908ca45-92fe-50e8-1d61-cb24f9957473@kernel.dk>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 3 Jul 2017 10:46:28 -0700
+Subject: [PATCH 4/7] nvme-fc: don't override opts->nr_io_queues
+In-Reply-To: <9f2ca03b-a939-a47f-3575-a23ed9139286@grimberg.me>
+References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
+ <1498734552-14845-5-git-send-email-sagi@grimberg.me>
+ <dd00c3ec-cb89-8157-5fca-2fe16e6922c3@broadcom.com>
+ <9f2ca03b-a939-a47f-3575-a23ed9139286@grimberg.me>
+Message-ID: <6303a9cf-c434-6345-7a56-9c2cbaaaf7c5@broadcom.com>
 
-On 07/02/2017 04:45 AM, Max Gurtovoy wrote:
-> 
-> 
-> On 6/30/2017 8:26 PM, Jens Axboe wrote:
->> Hi Max,
-> 
-> Hi Jens,
-> 
+On 7/2/2017 1:10 AM, Sagi Grimberg wrote:
+>
+>
+> On 29/06/17 18:11, James Smart wrote:
+>> On 6/29/2017 4:09 AM, Sagi Grimberg wrote:
+>>> Its what the user passed, so its probably a better
+>>> idea to keep it intact. Also, limit the number of
+>>> I/O queues to max online cpus as blk-mq doesnt know
+>>> how to handle more anyhow.
+>>>
+>>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>>> ---
+>>>   drivers/nvme/host/fc.c | 14 +++++++++-----
+>>>   1 file changed, 9 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+>>> index 2f990d979037..5ee821d9cb75 100644
+>>> --- a/drivers/nvme/host/fc.c
+>>> +++ b/drivers/nvme/host/fc.c
+>>> @@ -2175,17 +2175,19 @@ static int
+>>>   nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+>>>   {
+>>>       struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+>>> +    unsigned int nr_io_queues;
+>>>       int ret;
+>>> -    ret = nvme_set_queue_count(&ctrl->ctrl, &opts->nr_io_queues);
+>>> +    nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
 >>
->> I remembered you reporting this. I think this is a regression introduced
->> with the scheduling, since ->rqs[] isn't static anymore. ->static_rqs[]
->> is, but that's not indexable by the tag we find. So I think we need to
->> guard those with a NULL check. The actual requests themselves are
->> static, so we know the memory itself isn't going away. But if we race
->> with completion, we could find a NULL there, validly.
+>> I had assumed the check vs online cpu count was done in fabrics.c - 
+>> but as we're talking about a later reconnect, the cpu count may have 
+>> changed, so this looks good.
 >>
->> Since you could reproduce it, can you try the below?
-> 
-> I still can repro the null deref with this patch applied.
-> 
->>
->> diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
->> index d0be72ccb091..b856b2827157 100644
->> --- a/block/blk-mq-tag.c
->> +++ b/block/blk-mq-tag.c
->> @@ -214,7 +214,7 @@ static bool bt_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
->>  		bitnr += tags->nr_reserved_tags;
->>  	rq = tags->rqs[bitnr];
->>
->> -	if (rq->q == hctx->queue)
->> +	if (rq && rq->q == hctx->queue)
->>  		iter_data->fn(hctx, rq, iter_data->data, reserved);
->>  	return true;
->>  }
->> @@ -249,8 +249,8 @@ static bool bt_tags_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
->>  	if (!reserved)
->>  		bitnr += tags->nr_reserved_tags;
->>  	rq = tags->rqs[bitnr];
->> -
->> -	iter_data->fn(rq, iter_data->data, reserved);
->> +	if (rq)
->> +		iter_data->fn(rq, iter_data->data, reserved);
->>  	return true;
->>  }
-> 
-> see the attached file for dmesg output.
-> 
-> output of gdb:
-> 
-> (gdb) list *(blk_mq_flush_busy_ctxs+0x48)
-> 0xffffffff8127b108 is in blk_mq_flush_busy_ctxs 
-> (./include/linux/sbitmap.h:234).
-> 229
-> 230             for (i = 0; i < sb->map_nr; i++) {
-> 231                     struct sbitmap_word *word = &sb->map[i];
-> 232                     unsigned int off, nr;
-> 233
-> 234                     if (!word->word)
-> 235                             continue;
-> 236
-> 237                     nr = 0;
-> 238                     off = i << sb->shift;
-> 
-> 
-> when I change the "if (!word->word)" to  "if (word && !word->word)"
-> I can get null deref at "nr = find_next_bit(&word->word, word->depth, 
-> nr);". Seems like somehow word becomes NULL.
-> 
-> Adding the linux-nvme guys too.
-> Sagi has mentioned that this can be null only if we remove the tagset 
-> while I/O is trying to get a tag and when killing the target we get into
-> error recovery and periodic reconnects, which does _NOT_ include freeing
-> the tagset, so this is probably the admin tagset.
-> 
-> Sagi,
-> you've mention a patch for centrelizing the treatment of the admin 
-> tagset to the nvme core. I think I missed this patch, so can you please 
-> send a pointer to it and I'll check if it helps ?
+>> however, the snippet obsoletes the "min_t(unsigned int, 
+>> opts->nr_io_queues, lport->ops->max_hw_queues)" that was done in the 
+>> next snippet.
+>
+> Not unless we min against it again (which we could, what's your
+> preference?)
 
-Right, this is clearly a different issue and my first thought as well
-was that it's a missing quiesce of the queue. We're iterating the tags
-when they are being torn down.
+please add a line to min it against it again.
 
-Looks like Sagi's patch fixes the issue, so I'm considering this one
-resolved.
-
--- 
-Jens Axboe
+-- james
