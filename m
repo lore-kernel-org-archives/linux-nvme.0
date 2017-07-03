@@ -1,26 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 3 Jul 2017 13:07:44 +0300
-Subject: NVMe induced NULL deref in bt_iter()
-In-Reply-To: <20170703093951.GA28651@ming.t460p>
-References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
- <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
- <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
- <20170703093951.GA28651@ming.t460p>
-Message-ID: <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
+Date: Mon, 3 Jul 2017 13:14:42 +0300
+Subject: [PATCH rfc 0/3] Expose cpu mapping hints to a nvme target port
+In-Reply-To: <8a5f82d8-e475-5f0e-9110-8b2c68580988@mellanox.com>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+ <b77be367-6cbc-c12c-8135-eddff0aec90e@mellanox.com>
+ <e33f16a7-4e1d-7fd6-6d2c-5a5bac450c73@grimberg.me>
+ <8a5f82d8-e475-5f0e-9110-8b2c68580988@mellanox.com>
+Message-ID: <68e79fb7-38f1-aa1b-c0bf-88631df46f61@grimberg.me>
 
-Hi Ming,
 
-> Yeah, the above change is correct, for any canceling requests in this
-> way we should use blk_mq_quiesce_queue().
+> Maybe I'm missing something but how do you make sure that all your 
+> allocations buffers for DMA (of the NVMe + HCA) are done on the same 
+> socket ?
+>  From the code I understood that you make sure that the cq is assigned 
+> to appropriate completion vector according to the port CPUs (given by 
+> the user) and all the interrupts will be routed to the relevant socket 
+> (no QPI cross here since the MSI MMIO address is mapped to "local" 
+> node), but IMO more work is needed to make sure that _all_ the allocated 
+> buffers/pages are done from the memory assigned to that CPU node (or is 
+> it something that is done already ?)
 
-I still don't understand why should blk_mq_flush_busy_ctxs hit a NULL
-deref if we don't touch the tagset...
+The allocator takes care of that for us (if it can...). By assigning
+the completion vector we will run the IO thread from the corresponding
+cpu, then in turn, page allocation will attempt to grab one which is
+local to the running numa node and only if not available will fall back
+to the far numa node...
 
-Also, I'm wandering in what case we shouldn't use
-blk_mq_quiesce_queue()? Maybe we should unexport blk_mq_stop_hw_queues()
-and blk_mq_start_stopped_hw_queues() and use the quiesce/unquiesce
-equivalent always?
-
-The only fishy usage is in nvme_fc_start_fcp_op() where if submission
-failed the code stop the hw queues and delays it, but I think it should
-be handled differently..
+However, in-capsule page allocation is not numa aware. We could also
+modify to alloc_pages_node in case we have a clear numa node indication,
+but we can defer that to a later stage...
