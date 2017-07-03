@@ -1,31 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 3 Jul 2017 13:14:42 +0300
-Subject: [PATCH rfc 0/3] Expose cpu mapping hints to a nvme target port
-In-Reply-To: <8a5f82d8-e475-5f0e-9110-8b2c68580988@mellanox.com>
-References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
- <b77be367-6cbc-c12c-8135-eddff0aec90e@mellanox.com>
- <e33f16a7-4e1d-7fd6-6d2c-5a5bac450c73@grimberg.me>
- <8a5f82d8-e475-5f0e-9110-8b2c68580988@mellanox.com>
-Message-ID: <68e79fb7-38f1-aa1b-c0bf-88631df46f61@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 3 Jul 2017 13:49:26 +0300
+Subject: block: spread MSI(-X) vectors to all possible CPUs
+In-Reply-To: <5dee80fb-8439-8611-a5f2-a30f1aefb835@kernel.dk>
+References: <20170626102058.10200-1-hch@lst.de>
+ <5dee80fb-8439-8611-a5f2-a30f1aefb835@kernel.dk>
+Message-ID: <933e41e4-6c02-9ccd-1b60-76f4faeb5b22@mellanox.com>
 
 
-> Maybe I'm missing something but how do you make sure that all your 
-> allocations buffers for DMA (of the NVMe + HCA) are done on the same 
-> socket ?
->  From the code I understood that you make sure that the cq is assigned 
-> to appropriate completion vector according to the port CPUs (given by 
-> the user) and all the interrupts will be routed to the relevant socket 
-> (no QPI cross here since the MSI MMIO address is mapped to "local" 
-> node), but IMO more work is needed to make sure that _all_ the allocated 
-> buffers/pages are done from the memory assigned to that CPU node (or is 
-> it something that is done already ?)
 
-The allocator takes care of that for us (if it can...). By assigning
-the completion vector we will run the IO thread from the corresponding
-cpu, then in turn, page allocation will attempt to grab one which is
-local to the running numa node and only if not available will fall back
-to the far numa node...
+On 6/27/2017 9:24 PM, Jens Axboe wrote:
+> On 06/26/2017 04:20 AM, Christoph Hellwig wrote:
+>> Hi all,
+>>
+>> this series contains the left-over block bits to spread the MSI-X
+>> vectors over all CPU.  Thomas already rewrote and then merged the
+>> irq bits into the tip irq/core branch, and this is the remainder.
+>>
+>> As there are no dependencies on other block changes adding them
+>> to the tip tree might be easiest if Jens could ACK them.
+>
+> Looks fine to me, you can add my Reviewed-by if you want to funnel
+> them through the tip tree.
+>
 
-However, in-capsule page allocation is not numa aware. We could also
-modify to alloc_pages_node in case we have a clear numa node indication,
-but we can defer that to a later stage...
+I guess we'll need to do some rebasing with my "blk-mq: map all HWQ also 
+in hyperthreaded system" patch.
+Jens/Christoph,
+how do you prefer doing it ?
