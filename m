@@ -1,28 +1,76 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Jul 2017 18:35:17 +0300
-Subject: [PATCH 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
- start/stop its hw queues
-In-Reply-To: <20170704124151.GA1798@ming.t460p>
-References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
- <1499154912-10420-2-git-send-email-sagi@grimberg.me>
- <20170704081541.GC29053@ming.t460p>
- <43b6e445-d83e-dda0-51a5-a680a2b2623d@grimberg.me>
- <048027e5-3be9-def3-3c41-f84f640c8022@grimberg.me>
- <20170704124151.GA1798@ming.t460p>
-Message-ID: <f3555b6f-58ed-9ba8-f1d4-66145be5b213@grimberg.me>
+From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
+Date: Tue,  4 Jul 2017 09:56:46 -0700
+Subject: [PATCH] nvme-cli : wdc-plug-in : return on invalid input device.
+Message-ID: <20170704165646.32576-1-chaitanya.kulkarni@hgst.com>
 
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
+---
+ wdc-nvme.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-> Then the kick can be removed from nvme_start_queues()
-> 
->> requeue kick and in nvme_complete_rq call:
->>
->> blk_mq_requeue_request(req, !blk_queue_quiesced(req->q));
->>
->> Thoughts?
-> 
-> I think we can always to kick the requeue work even when queue
-> is stopped. It is OK to put the requeue req into sw queue/scheduler
-> queue when queue is stopped.
-> 
-
-Agreed.
+diff --git a/wdc-nvme.c b/wdc-nvme.c
+index b0cd771..03c86c9 100644
+--- a/wdc-nvme.c
++++ b/wdc-nvme.c
+@@ -400,6 +400,9 @@ static int wdc_cap_diag(int argc, char **argv, struct command *command,
+ 	};
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
+ 	wdc_check_device(fd);
+ 	if (cfg.file != NULL) {
+ 		strncpy(f, cfg.file, PATH_MAX);
+@@ -517,6 +520,9 @@ static int wdc_drive_log(int argc, char **argv, struct command *command,
+ 	};
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
+ 	wdc_check_device(fd);
+ 	if (cfg.file != NULL) {
+ 		strncpy(f, cfg.file, PATH_MAX);
+@@ -550,6 +556,9 @@ static int wdc_get_crash_dump(int argc, char **argv, struct command *command,
+ 	};
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
+ 	wdc_check_device(fd);
+ 	ret = wdc_crash_dump(fd, cfg.file);
+ 	if (ret != 0) {
+@@ -624,6 +633,9 @@ static int wdc_purge(int argc, char **argv,
+ 	admin_cmd.opcode = WDC_NVME_PURGE_CMD_OPCODE;
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
+ 	wdc_check_device(fd);
+ 	ret = nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &admin_cmd);
+ 	if (ret > 0) {
+@@ -668,6 +680,9 @@ static int wdc_purge_monitor(int argc, char **argv,
+ 	admin_cmd.timeout_ms = WDC_NVME_PURGE_MONITOR_TIMEOUT;
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
+ 	wdc_check_device(fd);
+ 	ret = nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &admin_cmd);
+ 	if (ret == 0) {
+@@ -854,6 +869,9 @@ static int wdc_smart_log_add(int argc, char **argv, struct command *command,
+ 	};
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
+ 	wdc_check_device(fd);
+ 	fmt = validate_output_format(cfg.output_format);
+ 	if (fmt < 0) {
+-- 
+2.13.0
