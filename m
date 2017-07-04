@@ -1,52 +1,50 @@
-From: mst@redhat.com (Michael S. Tsirkin)
-Date: Wed, 5 Jul 2017 00:39:34 +0300
-Subject: [PATCH 7/8] virtio_blk: quiesce/unquiesce live IO when entering
- PM states
-In-Reply-To: <1499154912-10420-8-git-send-email-sagi@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 5 Jul 2017 06:19:12 +0800
+Subject: [PATCH 8/8] xen-blockfront: quiesce IO before device removal
+In-Reply-To: <1499154912-10420-9-git-send-email-sagi@grimberg.me>
 References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
- <1499154912-10420-8-git-send-email-sagi@grimberg.me>
-Message-ID: <20170705003734-mutt-send-email-mst@kernel.org>
+ <1499154912-10420-9-git-send-email-sagi@grimberg.me>
+Message-ID: <20170704221908.GA3732@ming.t460p>
 
-On Tue, Jul 04, 2017@10:55:11AM +0300, Sagi Grimberg wrote:
-> We must make sure that no requests are being queued before we iterate
-> delete vqs. quiesce/unquiesce the request queue istead of start/stop
-> hw queues.
+On Tue, Jul 04, 2017@10:55:12AM +0300, Sagi Grimberg wrote:
+> Before calling blk_cleanup_queue one must make sure
+> that no request is being queued. In order to guarantee that
+> we need to use blk_mq_quiesce as it respects the submission
+> path rcu grace.
 > 
-> Cc: Michael S. Tsirkin <mst at redhat.com>
-> Cc: Jason Wang <jasowang at redhat.com>
+> Cc: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
+> Cc: Roger Pau Monn? <roger.pau at citrix.com>
+> Cc: Boris Ostrovsky <boris.ostrovsky at oracle.com>
+> Cc: Juergen Gross <jgross at suse.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-
-
-Acked-by: Michael S. Tsirkin <mst at redhat.com>
-
-But please remember to Cc virtio mailing list on virtio patches.
-
-
 > ---
->  drivers/block/virtio_blk.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/block/xen-blkfront.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 0297ad7c1452..4e02aa5fdac0 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -840,7 +840,7 @@ static int virtblk_freeze(struct virtio_device *vdev)
->  	/* Make sure no work handler is accessing the device. */
->  	flush_work(&vblk->config_work);
+> diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+> index c852ed3c01d5..5272ca8fb0dc 100644
+> --- a/drivers/block/xen-blkfront.c
+> +++ b/drivers/block/xen-blkfront.c
+> @@ -1187,7 +1187,7 @@ static void xlvbd_release_gendisk(struct blkfront_info *info)
+>  		return;
 >  
-> -	blk_mq_stop_hw_queues(vblk->disk->queue);
-> +	blk_mq_quiesce_queue(vblk->disk->queue);
+>  	/* No more blkif_request(). */
+> -	blk_mq_stop_hw_queues(info->rq);
+> +	blk_mq_quiesce_queue(info->rq);
 >  
->  	vdev->config->del_vqs(vdev);
->  	return 0;
-> @@ -857,7 +857,7 @@ static int virtblk_restore(struct virtio_device *vdev)
->  
->  	virtio_device_ready(vdev);
->  
-> -	blk_mq_start_stopped_hw_queues(vblk->disk->queue, true);
-> +	blk_mq_unquiesce_queue(vblk->disk->queue);
->  	return 0;
+>  	for (i = 0; i < info->nr_rings; i++) {
+>  		struct blkfront_ring_info *rinfo = &info->rinfo[i];
+> @@ -1217,7 +1217,7 @@ static void xlvbd_release_gendisk(struct blkfront_info *info)
+>  static inline void kick_pending_request_queues_locked(struct blkfront_ring_info *rinfo)
+>  {
+>  	if (!RING_FULL(&rinfo->ring))
+> -		blk_mq_start_stopped_hw_queues(rinfo->dev_info->rq, true);
+> +		blk_mq_unquiesce_queue(rinfo->dev_info->rq);
 >  }
->  #endif
-> -- 
-> 2.7.4
+
+Looks the above change isn't needed since this blk_mq_start_stopped_hw_queues()
+should have been the counterpart of blk_mq_stop_hw_queue() in
+blkif_queue_rq().
+
+-- 
+Ming
