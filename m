@@ -1,54 +1,33 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 4 Jul 2017 16:41:01 +0800
-Subject: [PATCH 7/8] virtio_blk: quiesce/unquiesce live IO when entering
- PM states
-In-Reply-To: <1499154912-10420-8-git-send-email-sagi@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 4 Jul 2017 11:59:43 +0300
+Subject: [PATCH 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
+ start/stop its hw queues
+In-Reply-To: <20170704081541.GC29053@ming.t460p>
 References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
- <1499154912-10420-8-git-send-email-sagi@grimberg.me>
-Message-ID: <20170704084100.GH29053@ming.t460p>
+ <1499154912-10420-2-git-send-email-sagi@grimberg.me>
+ <20170704081541.GC29053@ming.t460p>
+Message-ID: <43b6e445-d83e-dda0-51a5-a680a2b2623d@grimberg.me>
 
-On Tue, Jul 04, 2017@10:55:11AM +0300, Sagi Grimberg wrote:
-> We must make sure that no requests are being queued before we iterate
-> delete vqs. quiesce/unquiesce the request queue istead of start/stop
-> hw queues.
+
+>> @@ -791,7 +791,8 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+>>   	 * queues are not a live anymore, so restart the queues to fail fast
+>>   	 * new IO
+>>   	 */
+>> -	blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+>> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+>> +	blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
 > 
-> Cc: Michael S. Tsirkin <mst at redhat.com>
-> Cc: Jason Wang <jasowang at redhat.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/block/virtio_blk.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 0297ad7c1452..4e02aa5fdac0 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -840,7 +840,7 @@ static int virtblk_freeze(struct virtio_device *vdev)
->  	/* Make sure no work handler is accessing the device. */
->  	flush_work(&vblk->config_work);
->  
-> -	blk_mq_stop_hw_queues(vblk->disk->queue);
-> +	blk_mq_quiesce_queue(vblk->disk->queue);
->  
->  	vdev->config->del_vqs(vdev);
->  	return 0;
-> @@ -857,7 +857,7 @@ static int virtblk_restore(struct virtio_device *vdev)
->  
->  	virtio_device_ready(vdev);
->  
-> -	blk_mq_start_stopped_hw_queues(vblk->disk->queue, true);
-> +	blk_mq_unquiesce_queue(vblk->disk->queue);
->  	return 0;
->  }
->  #endif
-> -- 
-> 2.7.4
-> 
+> Now the queue won't be stopped via blk_mq_quiesce_queue(), so why do
+> you add blk_mq_kick_requeue_list() here?
 
-Looks fine, 
+I think you're right.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
-	
+We now quiesce the queue and fast fail inflight io, in
+nvme_complete_rq we call blk_mq_requeue_request with
+!blk_mq_queue_stopped(req->q) which is now true.
 
--- 
-Ming
+So the requeue_work is triggered and requeue the request,
+and when we unquiesce we simply run the hw queues again.
+
+If we were to call it with !blk_queue_quiesced(req->q)
+I think it would be needed though...
