@@ -1,31 +1,52 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 4 Jul 2017 16:08:19 +0800
-Subject: NVMe induced NULL deref in bt_iter()
-In-Reply-To: <92224329-0933-4e80-94d6-2ba3c88f3f3e@grimberg.me>
-References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
- <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
- <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
- <20170703093951.GA28651@ming.t460p>
- <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
- <20170703120348.GB28651@ming.t460p>
- <92224329-0933-4e80-94d6-2ba3c88f3f3e@grimberg.me>
-Message-ID: <20170704080818.GA29053@ming.t460p>
+Date: Tue, 4 Jul 2017 16:12:46 +0800
+Subject: [PATCH 0/8] correct quiescing in several block drivers
+In-Reply-To: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
+References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170704081244.GB29053@ming.t460p>
 
-On Tue, Jul 04, 2017@10:56:23AM +0300, Sagi Grimberg wrote:
+On Tue, Jul 04, 2017@10:55:04AM +0300, Sagi Grimberg wrote:
+> Before we either iterate on tags or cleanup the request queue
+> we must guarantee that the hw queues are stop and no inflight
+> .queue_rq is active. Thats what blk_mq_quiesce_queue is for, so
+> use it where appropriate.
+
+queue freezing is used in cleanup path, and not required to
+quiesce queue.
+
+quiesce is required for canceling request via blk_mq_tagset_busy_iter()
+for avoiding double release.
+
+I think we should make it clear in comment log.
+
 > 
-> > There are at least one case in which we have to use stop queues:
-> > 
-> > 	- when QUEUE_BUSY(now it becomes BLK_STS_RESOURCE) happens, some drivers
-> > 	need to stop queues for avoiding to hurt CPU, such as virtio-blk, ...
+> Sagi Grimberg (8):
+>   nvme-rdma: quiesce/unquiesce admin_q instead of start/stop its hw
+>     queues
+>   nvme-fc: quiesce/unquiesce admin_q instead of start/stop its hw queues
+>   nvme-loop: quiesce/unquiesce admin_q instead of start/stop its hw
+>     queues
+>   nvme-pci: quiesce/unquiesce admin_q instead of start/stop its hw
+>     queues
+>   nbd: quiesce request queues to make sure no submissions are inflight
+>   mtip32xx: quiesce request queues to make sure no submissions are
+>     inflight
+>   virtio_blk: quiesce/unquiesce live IO when entering PM states
+>   xen-blockfront: quiesce IO before device removal
 > 
-> Why isn't virtio_blk using blk_mq_delay_run_hw_queue like scsi does?
+>  drivers/block/mtip32xx/mtip32xx.c |  8 ++++----
+>  drivers/block/nbd.c               |  4 ++--
+>  drivers/block/virtio_blk.c        |  4 ++--
+>  drivers/block/xen-blkfront.c      |  8 ++++----
+>  drivers/nvme/host/fc.c            |  8 +++++---
+>  drivers/nvme/host/pci.c           | 10 ++++++----
+>  drivers/nvme/host/rdma.c          |  7 ++++---
+>  drivers/nvme/target/loop.c        |  2 +-
+>  8 files changed, 28 insertions(+), 23 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
-IMO it shouldn't be easy to figure out one perfect delay time, and it
-should have been self-adaptive.
-
-Also I think it might be possible to move this kind of stop action into
-blk-mq core code, and not let drivers touch stop state. Finally we
-may kill all stopping in drivers.
-
-Thanks,
+-- 
 Ming
