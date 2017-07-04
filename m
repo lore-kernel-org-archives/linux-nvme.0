@@ -1,44 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Jul 2017 12:07:38 +0300
-Subject: [PATCH 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
- start/stop its hw queues
-In-Reply-To: <43b6e445-d83e-dda0-51a5-a680a2b2623d@grimberg.me>
-References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
- <1499154912-10420-2-git-send-email-sagi@grimberg.me>
- <20170704081541.GC29053@ming.t460p>
- <43b6e445-d83e-dda0-51a5-a680a2b2623d@grimberg.me>
-Message-ID: <048027e5-3be9-def3-3c41-f84f640c8022@grimberg.me>
+Date: Tue, 4 Jul 2017 12:14:12 +0300
+Subject: NVMe induced NULL deref in bt_iter()
+In-Reply-To: <20170704080818.GA29053@ming.t460p>
+References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
+ <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
+ <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
+ <20170703093951.GA28651@ming.t460p>
+ <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
+ <20170703120348.GB28651@ming.t460p>
+ <92224329-0933-4e80-94d6-2ba3c88f3f3e@grimberg.me>
+ <20170704080818.GA29053@ming.t460p>
+Message-ID: <767a5187-29fe-246a-d06f-ed71553f9f91@grimberg.me>
 
 
->>> @@ -791,7 +791,8 @@ static void nvme_rdma_error_recovery_work(struct 
->>> work_struct *work)
->>>        * queues are not a live anymore, so restart the queues to fail 
->>> fast
->>>        * new IO
->>>        */
->>> -    blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
->>> +    blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
->>> +    blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
+
+On 04/07/17 11:08, Ming Lei wrote:
+> On Tue, Jul 04, 2017@10:56:23AM +0300, Sagi Grimberg wrote:
 >>
->> Now the queue won't be stopped via blk_mq_quiesce_queue(), so why do
->> you add blk_mq_kick_requeue_list() here?
+>>> There are at least one case in which we have to use stop queues:
+>>>
+>>> 	- when QUEUE_BUSY(now it becomes BLK_STS_RESOURCE) happens, some drivers
+>>> 	need to stop queues for avoiding to hurt CPU, such as virtio-blk, ...
+>>
+>> Why isn't virtio_blk using blk_mq_delay_run_hw_queue like scsi does?
 > 
-> I think you're right.
-> 
-> We now quiesce the queue and fast fail inflight io, in
-> nvme_complete_rq we call blk_mq_requeue_request with
-> !blk_mq_queue_stopped(req->q) which is now true.
-> 
-> So the requeue_work is triggered and requeue the request,
-> and when we unquiesce we simply run the hw queues again.
-> 
-> If we were to call it with !blk_queue_quiesced(req->q)
-> I think it would be needed though...
+> IMO it shouldn't be easy to figure out one perfect delay time,
 
-If you look at nvme_start_queues, it also kicks the requeue
-work. I think that the proper fix for this is _keep_ the
-requeue kick and in nvme_complete_rq call:
+It doesn't needs to be perfect, just something that is sufficient
+to not hog the cpu and won't have noticeable effects...
 
-blk_mq_requeue_request(req, !blk_queue_quiesced(req->q));
+> and it should have been self-adaptive.
 
-Thoughts?
+But IMO always start the queues on *every* completion is a waste... why
+iterating on all the hw queues on each completion?
+
+> Also I think it might be possible to move this kind of stop action into
+> blk-mq core code, and not let drivers touch stop state. Finally we
+> may kill all stopping in drivers.
+
+That's a good idea!
