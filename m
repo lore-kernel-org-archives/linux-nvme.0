@@ -1,46 +1,38 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 4 Jul 2017 16:15:42 +0800
-Subject: [PATCH 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
+Date: Tue, 4 Jul 2017 16:18:34 +0800
+Subject: [PATCH 2/8] nvme-fc: quiesce/unquiesce admin_q instead of
  start/stop its hw queues
-In-Reply-To: <1499154912-10420-2-git-send-email-sagi@grimberg.me>
+In-Reply-To: <1499154912-10420-3-git-send-email-sagi@grimberg.me>
 References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
- <1499154912-10420-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170704081541.GC29053@ming.t460p>
+ <1499154912-10420-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20170704081833.GD29053@ming.t460p>
 
-On Tue, Jul 04, 2017@10:55:05AM +0300, Sagi Grimberg wrote:
+On Tue, Jul 04, 2017@10:55:06AM +0300, Sagi Grimberg wrote:
 > unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
 > quiescing/unquiescing respects the submission path rcu grace.
 > Also make sure to kick the requeue list when appropriate.
 > 
+> Reviewed-By: James Smart <james.smart at broadcom.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  drivers/nvme/host/rdma.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>  drivers/nvme/host/fc.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index cfb22531fc16..cec2c89cc8da 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -778,7 +778,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 50cc3b2b0e11..d63263f0b530 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2320,8 +2320,10 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>  	if (ret)
+>  		goto out_delete_hw_queue;
 >  
->  	if (ctrl->ctrl.queue_count > 1)
->  		nvme_stop_queues(&ctrl->ctrl);
-> -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->  
->  	/* We must take care of fastfail/requeue all our inflight requests */
->  	if (ctrl->ctrl.queue_count > 1)
-> @@ -791,7 +791,8 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
->  	 * queues are not a live anymore, so restart the queues to fail fast
->  	 * new IO
->  	 */
-> -	blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
-> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-> +	blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
+> -	if (ctrl->ctrl.state != NVME_CTRL_NEW)
+> -		blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> +	if (ctrl->ctrl.state != NVME_CTRL_NEW) {
+> +		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+> +		blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
 
-Now the queue won't be stopped via blk_mq_quiesce_queue(), so why do
-you add blk_mq_kick_requeue_list() here?
+Same question as that in patch 1 about blk_mq_kick_requeue_list().
 
-
-Thanks,
+-- 
 Ming
