@@ -1,43 +1,63 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  4 Jul 2017 10:55:11 +0300
-Subject: [PATCH 7/8] virtio_blk: quiesce/unquiesce live IO when entering PM
- states
+Date: Tue,  4 Jul 2017 10:55:12 +0300
+Subject: [PATCH 8/8] xen-blockfront: quiesce IO before device removal
 In-Reply-To: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
 References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499154912-10420-8-git-send-email-sagi@grimberg.me>
+Message-ID: <1499154912-10420-9-git-send-email-sagi@grimberg.me>
 
-We must make sure that no requests are being queued before we iterate
-delete vqs. quiesce/unquiesce the request queue istead of start/stop
-hw queues.
+Before calling blk_cleanup_queue one must make sure
+that no request is being queued. In order to guarantee that
+we need to use blk_mq_quiesce as it respects the submission
+path rcu grace.
 
-Cc: Michael S. Tsirkin <mst at redhat.com>
-Cc: Jason Wang <jasowang at redhat.com>
+Cc: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
+Cc: Roger Pau Monn? <roger.pau at citrix.com>
+Cc: Boris Ostrovsky <boris.ostrovsky at oracle.com>
+Cc: Juergen Gross <jgross at suse.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/block/virtio_blk.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/block/xen-blkfront.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 0297ad7c1452..4e02aa5fdac0 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -840,7 +840,7 @@ static int virtblk_freeze(struct virtio_device *vdev)
- 	/* Make sure no work handler is accessing the device. */
- 	flush_work(&vblk->config_work);
+diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+index c852ed3c01d5..5272ca8fb0dc 100644
+--- a/drivers/block/xen-blkfront.c
++++ b/drivers/block/xen-blkfront.c
+@@ -1187,7 +1187,7 @@ static void xlvbd_release_gendisk(struct blkfront_info *info)
+ 		return;
  
--	blk_mq_stop_hw_queues(vblk->disk->queue);
-+	blk_mq_quiesce_queue(vblk->disk->queue);
+ 	/* No more blkif_request(). */
+-	blk_mq_stop_hw_queues(info->rq);
++	blk_mq_quiesce_queue(info->rq);
  
- 	vdev->config->del_vqs(vdev);
- 	return 0;
-@@ -857,7 +857,7 @@ static int virtblk_restore(struct virtio_device *vdev)
- 
- 	virtio_device_ready(vdev);
- 
--	blk_mq_start_stopped_hw_queues(vblk->disk->queue, true);
-+	blk_mq_unquiesce_queue(vblk->disk->queue);
- 	return 0;
+ 	for (i = 0; i < info->nr_rings; i++) {
+ 		struct blkfront_ring_info *rinfo = &info->rinfo[i];
+@@ -1217,7 +1217,7 @@ static void xlvbd_release_gendisk(struct blkfront_info *info)
+ static inline void kick_pending_request_queues_locked(struct blkfront_ring_info *rinfo)
+ {
+ 	if (!RING_FULL(&rinfo->ring))
+-		blk_mq_start_stopped_hw_queues(rinfo->dev_info->rq, true);
++		blk_mq_unquiesce_queue(rinfo->dev_info->rq);
  }
- #endif
+ 
+ static void kick_pending_request_queues(struct blkfront_ring_info *rinfo)
+@@ -1346,7 +1346,7 @@ static void blkif_free(struct blkfront_info *info, int suspend)
+ 		BLKIF_STATE_SUSPENDED : BLKIF_STATE_DISCONNECTED;
+ 	/* No more blkif_request(). */
+ 	if (info->rq)
+-		blk_mq_stop_hw_queues(info->rq);
++		blk_mq_quiesce_queue(info->rq);
+ 
+ 	for (i = 0; i < info->nr_rings; i++)
+ 		blkif_free_ring(&info->rinfo[i]);
+@@ -2032,7 +2032,7 @@ static int blkif_recover(struct blkfront_info *info)
+ 		BUG_ON(req->nr_phys_segments > segs);
+ 		blk_mq_requeue_request(req, false);
+ 	}
+-	blk_mq_start_stopped_hw_queues(info->rq, true);
++	blk_mq_unquiesce_queue(info->rq);
+ 	blk_mq_kick_requeue_list(info->rq);
+ 
+ 	while ((bio = bio_list_pop(&info->bio_list)) != NULL) {
 -- 
 2.7.4
