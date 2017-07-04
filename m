@@ -1,63 +1,19 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  4 Jul 2017 10:55:12 +0300
-Subject: [PATCH 8/8] xen-blockfront: quiesce IO before device removal
-In-Reply-To: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
-References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499154912-10420-9-git-send-email-sagi@grimberg.me>
+Date: Tue, 4 Jul 2017 10:56:23 +0300
+Subject: NVMe induced NULL deref in bt_iter()
+In-Reply-To: <20170703120348.GB28651@ming.t460p>
+References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
+ <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
+ <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
+ <20170703093951.GA28651@ming.t460p>
+ <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
+ <20170703120348.GB28651@ming.t460p>
+Message-ID: <92224329-0933-4e80-94d6-2ba3c88f3f3e@grimberg.me>
 
-Before calling blk_cleanup_queue one must make sure
-that no request is being queued. In order to guarantee that
-we need to use blk_mq_quiesce as it respects the submission
-path rcu grace.
 
-Cc: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
-Cc: Roger Pau Monn? <roger.pau at citrix.com>
-Cc: Boris Ostrovsky <boris.ostrovsky at oracle.com>
-Cc: Juergen Gross <jgross at suse.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/block/xen-blkfront.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> There are at least one case in which we have to use stop queues:
+> 
+> 	- when QUEUE_BUSY(now it becomes BLK_STS_RESOURCE) happens, some drivers
+> 	need to stop queues for avoiding to hurt CPU, such as virtio-blk, ...
 
-diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-index c852ed3c01d5..5272ca8fb0dc 100644
---- a/drivers/block/xen-blkfront.c
-+++ b/drivers/block/xen-blkfront.c
-@@ -1187,7 +1187,7 @@ static void xlvbd_release_gendisk(struct blkfront_info *info)
- 		return;
- 
- 	/* No more blkif_request(). */
--	blk_mq_stop_hw_queues(info->rq);
-+	blk_mq_quiesce_queue(info->rq);
- 
- 	for (i = 0; i < info->nr_rings; i++) {
- 		struct blkfront_ring_info *rinfo = &info->rinfo[i];
-@@ -1217,7 +1217,7 @@ static void xlvbd_release_gendisk(struct blkfront_info *info)
- static inline void kick_pending_request_queues_locked(struct blkfront_ring_info *rinfo)
- {
- 	if (!RING_FULL(&rinfo->ring))
--		blk_mq_start_stopped_hw_queues(rinfo->dev_info->rq, true);
-+		blk_mq_unquiesce_queue(rinfo->dev_info->rq);
- }
- 
- static void kick_pending_request_queues(struct blkfront_ring_info *rinfo)
-@@ -1346,7 +1346,7 @@ static void blkif_free(struct blkfront_info *info, int suspend)
- 		BLKIF_STATE_SUSPENDED : BLKIF_STATE_DISCONNECTED;
- 	/* No more blkif_request(). */
- 	if (info->rq)
--		blk_mq_stop_hw_queues(info->rq);
-+		blk_mq_quiesce_queue(info->rq);
- 
- 	for (i = 0; i < info->nr_rings; i++)
- 		blkif_free_ring(&info->rinfo[i]);
-@@ -2032,7 +2032,7 @@ static int blkif_recover(struct blkfront_info *info)
- 		BUG_ON(req->nr_phys_segments > segs);
- 		blk_mq_requeue_request(req, false);
- 	}
--	blk_mq_start_stopped_hw_queues(info->rq, true);
-+	blk_mq_unquiesce_queue(info->rq);
- 	blk_mq_kick_requeue_list(info->rq);
- 
- 	while ((bio = bio_list_pop(&info->bio_list)) != NULL) {
--- 
-2.7.4
+Why isn't virtio_blk using blk_mq_delay_run_hw_queue like scsi does?
