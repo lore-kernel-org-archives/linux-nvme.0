@@ -1,32 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  4 Jul 2017 10:57:35 +0300
-Subject: [PATCH v2 7/8] nvme-fc: update tagset nr_hw_queues after queues reinit
+Date: Tue,  4 Jul 2017 10:57:36 +0300
+Subject: [PATCH v2 8/8] nvme-fc: use blk_mq_delay_run_hw_queue instead of
+ open-coding it
 In-Reply-To: <1499155056-11241-1-git-send-email-sagi@grimberg.me>
 References: <1499155056-11241-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499155056-11241-8-git-send-email-sagi@grimberg.me>
+Message-ID: <1499155056-11241-9-git-send-email-sagi@grimberg.me>
 
-We might have more/less queues once we reconnect/reset. For
-example due to cpu going online/offline or controller constraints.
-
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/fc.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 996720043b3a..1e859ee2b565 100644
+index 1e859ee2b565..50cc3b2b0e11 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2279,6 +2279,8 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
- 	if (ret)
- 		goto out_delete_hw_queues;
+@@ -1966,10 +1966,9 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 		if (ret != -EBUSY)
+ 			return BLK_STS_IOERR;
  
-+	blk_mq_update_nr_hw_queues(&ctrl->tag_set, nr_io_queues);
+-		if (op->rq) {
+-			blk_mq_stop_hw_queues(op->rq->q);
+-			blk_mq_delay_queue(queue->hctx, NVMEFC_QUEUE_DELAY);
+-		}
++		if (op->rq)
++			blk_mq_delay_run_hw_queue(queue->hctx, NVMEFC_QUEUE_DELAY);
 +
- 	return 0;
+ 		return BLK_STS_RESOURCE;
+ 	}
  
- out_delete_hw_queues:
 -- 
 2.7.4
