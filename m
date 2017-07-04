@@ -1,19 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Jul 2017 10:56:23 +0300
-Subject: NVMe induced NULL deref in bt_iter()
-In-Reply-To: <20170703120348.GB28651@ming.t460p>
-References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
- <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
- <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
- <20170703093951.GA28651@ming.t460p>
- <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
- <20170703120348.GB28651@ming.t460p>
-Message-ID: <92224329-0933-4e80-94d6-2ba3c88f3f3e@grimberg.me>
+Date: Tue,  4 Jul 2017 10:57:28 +0300
+Subject: [PATCH v2 0/8] Few patches extracted from the centralization set
+Message-ID: <1499155056-11241-1-git-send-email-sagi@grimberg.me>
 
+Feedback was that they made sense on their own.
+Plus also few patches that I came up with.
 
-> There are at least one case in which we have to use stop queues:
-> 
-> 	- when QUEUE_BUSY(now it becomes BLK_STS_RESOURCE) happens, some drivers
-> 	need to stop queues for avoiding to hurt CPU, such as virtio-blk, ...
+The repetition of patches seem to highlight the fact that we
+will benefit centralization of shared logic.
 
-Why isn't virtio_blk using blk_mq_delay_run_hw_queue like scsi does?
+Changes from v1:
+- collected review tags
+- take minimum of nr_io_queues and lport->max_hw_queues in nvme-fc
+- added patch to reuse blk_mq_delay_run_hw_queue in nvme-fc 
+
+Sagi Grimberg (8):
+  nvme: move queue_count to the nvme_ctrl
+  nvme: move ctrl cap to struct nvme_ctrl
+  nvme-pci: rename to nvme_pci_configure_admin_queue
+  nvme-fc: don't override opts->nr_io_queues
+  nvme-rdma: update tagset nr_hw_queues after reconnecting/resetting
+  nvme-loop: update tagset nr_hw_queues after reconnecting/resetting
+  nvme-fc: update tagset nr_hw_queues after queues reinit
+  nvme-fc: use blk_mq_delay_run_hw_queue instead of open-coding it
+
+ drivers/nvme/host/fc.c     | 64 ++++++++++++++++++++++++----------------------
+ drivers/nvme/host/nvme.h   |  2 ++
+ drivers/nvme/host/pci.c    | 39 +++++++++++++---------------
+ drivers/nvme/host/rdma.c   | 55 +++++++++++++++++++++------------------
+ drivers/nvme/target/loop.c | 25 +++++++++---------
+ 5 files changed, 97 insertions(+), 88 deletions(-)
+
+-- 
+2.7.4
