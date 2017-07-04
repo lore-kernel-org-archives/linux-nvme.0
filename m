@@ -1,47 +1,26 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 3 Jul 2017 10:48:12 -0700
-Subject: [PATCH 2/4] nvme-fc: quiesce/unquiesce admin_q instead of
- start/stop its hw queues
-In-Reply-To: <1499017517-18719-2-git-send-email-sagi@grimberg.me>
-References: <1499017517-18719-1-git-send-email-sagi@grimberg.me>
- <1499017517-18719-2-git-send-email-sagi@grimberg.me>
-Message-ID: <3629e8cb-6742-b777-0fe2-c9897979cd34@broadcom.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 4 Jul 2017 09:58:58 +0300
+Subject: NVMe induced NULL deref in bt_iter()
+In-Reply-To: <20170703155443.GC28651@ming.t460p>
+References: <bcc46757-6027-ed7f-22b4-e6964d0dedf0@kernel.dk>
+ <9afc0fd3-e598-dea9-a505-d8fa0f608d16@mellanox.com>
+ <7138df5a-b1ce-7f46-281f-ae15172c61e5@grimberg.me>
+ <20170703093951.GA28651@ming.t460p>
+ <bc6e2ecf-031b-45c0-8fbb-98c12c790ee4@grimberg.me>
+ <20170703120348.GB28651@ming.t460p>
+ <c381e5ab-51b6-494f-db62-09cd4bfdfe39@mellanox.com>
+ <20170703155443.GC28651@ming.t460p>
+Message-ID: <4a871598-a948-9149-4879-347240368c72@grimberg.me>
 
-On 7/2/2017 10:45 AM, Sagi Grimberg wrote:
-> unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
-> quiescing/unquiescing respects the submission path rcu grace.
-> Also make sure to kick the requeue list when appropriate.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/fc.c | 8 +++++---
->   1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index ffe0589969bd..c5621b833c66 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2319,8 +2319,10 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   	if (ret)
->   		goto out_delete_hw_queue;
->   
-> -	if (ctrl->ctrl.state != NVME_CTRL_NEW)
-> -		blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
-> +	if (ctrl->ctrl.state != NVME_CTRL_NEW) {
-> +		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-> +		blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
-> +	}
->   
->   	ret = nvmf_connect_admin_queue(&ctrl->ctrl);
->   	if (ret)
-> @@ -2474,7 +2476,7 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
->   	 * use blk_mq_tagset_busy_itr() and the transport routine to
->   	 * terminate the exchanges.
->   	 */
-> -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->   	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->   				nvme_fc_terminate_exchange, &ctrl->ctrl);
->   
 
-Reviewed-By: James Smart <james.smart at broadcom.com>
+> So looks it is still a normal release in initiator.
+> 
+> Per my experience, without quiescing queue before
+> blk_mq_tagset_busy_iter() for canceling requests, request double free
+> can be caused: one submitted req in .queue_rq can completed in
+> blk_mq_end_request(), meantime it can be completed in
+> nvme_cancel_request(). That is why we have to quiescing queue
+> first before canceling request in this way. Except for NVMe, looks
+> NBD and mtip32xx need fix too.
+
+Let me cook some patches for those as well...
