@@ -1,43 +1,52 @@
-From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
-Date: Tue,  4 Jul 2017 11:58:46 -0700
-Subject: [PATCH] nvme-cli : only print help text and return for nvme list -h
- option.
-Message-ID: <20170704185846.1411-1-chaitanya.kulkarni@hgst.com>
+From: mst@redhat.com (Michael S. Tsirkin)
+Date: Wed, 5 Jul 2017 00:39:34 +0300
+Subject: [PATCH 7/8] virtio_blk: quiesce/unquiesce live IO when entering
+ PM states
+In-Reply-To: <1499154912-10420-8-git-send-email-sagi@grimberg.me>
+References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
+ <1499154912-10420-8-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705003734-mutt-send-email-mst@kernel.org>
 
-For " nvme list -h " don't print list after help text,
-only print help text and return.
+On Tue, Jul 04, 2017@10:55:11AM +0300, Sagi Grimberg wrote:
+> We must make sure that no requests are being queued before we iterate
+> delete vqs. quiesce/unquiesce the request queue istead of start/stop
+> hw queues.
+> 
+> Cc: Michael S. Tsirkin <mst at redhat.com>
+> Cc: Jason Wang <jasowang at redhat.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
----
- nvme.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index 17d9d9e..5ac1117 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -871,8 +871,8 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
- 	char path[264];
- 	struct dirent **devices;
- 	struct list_item *list_items;
--	unsigned int i, n, fd, ret;
--	int fmt;
-+	unsigned int i, n, fd;
-+	int fmt, ret;
- 	const char *desc = "Retrieve basic information for the given device";
- 	struct config {
- 		char *output_format;
-@@ -887,7 +887,10 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
- 		{NULL}
- 	};
- 
--	argconfig_parse(argc, argv, desc, opts, &cfg, sizeof(cfg));
-+	ret = argconfig_parse(argc, argv, desc, opts, &cfg, sizeof(cfg));
-+	if (ret < 0)
-+		return ret;
-+
- 	fmt = validate_output_format(cfg.output_format);
- 
- 	if (fmt != JSON && fmt != NORMAL)
--- 
-2.13.0
+Acked-by: Michael S. Tsirkin <mst at redhat.com>
+
+But please remember to Cc virtio mailing list on virtio patches.
+
+
+> ---
+>  drivers/block/virtio_blk.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+> index 0297ad7c1452..4e02aa5fdac0 100644
+> --- a/drivers/block/virtio_blk.c
+> +++ b/drivers/block/virtio_blk.c
+> @@ -840,7 +840,7 @@ static int virtblk_freeze(struct virtio_device *vdev)
+>  	/* Make sure no work handler is accessing the device. */
+>  	flush_work(&vblk->config_work);
+>  
+> -	blk_mq_stop_hw_queues(vblk->disk->queue);
+> +	blk_mq_quiesce_queue(vblk->disk->queue);
+>  
+>  	vdev->config->del_vqs(vdev);
+>  	return 0;
+> @@ -857,7 +857,7 @@ static int virtblk_restore(struct virtio_device *vdev)
+>  
+>  	virtio_device_ready(vdev);
+>  
+> -	blk_mq_start_stopped_hw_queues(vblk->disk->queue, true);
+> +	blk_mq_unquiesce_queue(vblk->disk->queue);
+>  	return 0;
+>  }
+>  #endif
+> -- 
+> 2.7.4
