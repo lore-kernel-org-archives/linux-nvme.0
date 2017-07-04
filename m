@@ -1,36 +1,54 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  4 Jul 2017 10:55:09 +0300
-Subject: [PATCH 5/8] nbd: quiesce request queues to make sure no submissions
- are inflight
+Date: Tue,  4 Jul 2017 10:55:10 +0300
+Subject: [PATCH 6/8] mtip32xx: quiesce request queues to make sure no
+ submissions are inflight
 In-Reply-To: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
 References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499154912-10420-6-git-send-email-sagi@grimberg.me>
+Message-ID: <1499154912-10420-7-git-send-email-sagi@grimberg.me>
 
-We must make sure that no requests are being queued before we iterate
-over the tags. quiesce/unquiesce the request queue istead of start/stop
-hw queues.
+Unlike blk_mq_stop_hw_queues, blk_mq_quiesce_queue respects the
+submission path rcu grace. quiesce the queue before iterating
+on live tags, or performing device io quiescing.
 
-Cc: Josef Bacik <jbacik at fb.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/block/nbd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/block/mtip32xx/mtip32xx.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index 977ec960dd2f..dea7d85134ee 100644
---- a/drivers/block/nbd.c
-+++ b/drivers/block/nbd.c
-@@ -661,9 +661,9 @@ static void nbd_clear_req(struct request *req, void *data, bool reserved)
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 61b046f256ca..69a62aeace2a 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -950,7 +950,7 @@ static int mtip_quiesce_io(struct mtip_port *port, unsigned long timeout)
+ 	unsigned long to;
+ 	bool active = true;
  
- static void nbd_clear_que(struct nbd_device *nbd)
- {
--	blk_mq_stop_hw_queues(nbd->disk->queue);
-+	blk_mq_quiesce_queue(nbd->disk->queue);
- 	blk_mq_tagset_busy_iter(&nbd->tag_set, nbd_clear_req, NULL);
--	blk_mq_start_hw_queues(nbd->disk->queue);
-+	blk_mq_unquiesce_queue(nbd->disk->queue);
- 	dev_dbg(disk_to_dev(nbd->disk), "queue cleared\n");
+-	blk_mq_stop_hw_queues(port->dd->queue);
++	blk_mq_quiesce_queue(port->dd->queue);
+ 
+ 	to = jiffies + msecs_to_jiffies(timeout);
+ 	do {
+@@ -970,10 +970,10 @@ static int mtip_quiesce_io(struct mtip_port *port, unsigned long timeout)
+ 			break;
+ 	} while (time_before(jiffies, to));
+ 
+-	blk_mq_start_stopped_hw_queues(port->dd->queue, true);
++	blk_mq_unquiesce_queue(port->dd->queue);
+ 	return active ? -EBUSY : 0;
+ err_fault:
+-	blk_mq_start_stopped_hw_queues(port->dd->queue, true);
++	blk_mq_unquiesce_queue(port->dd->queue);
+ 	return -EFAULT;
  }
  
+@@ -3995,7 +3995,7 @@ static int mtip_block_remove(struct driver_data *dd)
+ 						dd->disk->disk_name);
+ 
+ 	blk_freeze_queue_start(dd->queue);
+-	blk_mq_stop_hw_queues(dd->queue);
++	blk_mq_quiesce_queue(dd->queue);
+ 	blk_mq_tagset_busy_iter(&dd->tags, mtip_no_dev_cleanup, dd);
+ 
+ 	/*
 -- 
 2.7.4
