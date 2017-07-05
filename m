@@ -1,22 +1,71 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 5 Jul 2017 10:15:17 +0200
-Subject: [PATCH 1/1] blk-mq: map all HWQ also in hyperthreaded system
-In-Reply-To: <fcc21db2-c3fe-48d7-a33a-5eedac00c2bd@mellanox.com>
-References: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
- <20170705075905.GB4076@linux-x5ow.site>
- <fcc21db2-c3fe-48d7-a33a-5eedac00c2bd@mellanox.com>
-Message-ID: <20170705081517.GC4076@linux-x5ow.site>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 5 Jul 2017 12:05:31 -0400
+Subject: [PATCH] nvme: remove pci device if no longer present
+In-Reply-To: <20170705160335.GA22200@localhost.localdomain>
+References: <20170630235604.880695-1-wzhang@fb.com>
+ <20170702153151.GA12387@infradead.org>
+ <20170705160335.GA22200@localhost.localdomain>
+Message-ID: <20170705160531.GA22237@localhost.localdomain>
 
-On Wed, Jul 05, 2017@11:11:36AM +0300, Max Gurtovoy wrote:
-> Hi Johannes,
-> this was merge already to the main tree (Jens add it to his pull request)
+[correcting linux-nvme in the CC]
 
-Oops, sorry for the noise.
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+On Wed, Jul 05, 2017@12:03:35PM -0400, Keith Busch wrote:
+> On Sun, Jul 02, 2017@08:31:51AM -0700, Christoph Hellwig wrote:
+> > Please CC the linux-nvme list on any nvme issues.  Also this
+> > code is getting a little too fancy for living in nvme, I think we
+> > need to move it into the PCI core, ensure we properly take drv->lock
+> > to synchronize it, and check for dev->drv instead of the private data
+> > which is a guestimate.
+> 
+> I agree this sort of thing needs to go in the PCI layer to as common
+> solution for all devices. The NVMe driver shouldn't be responsible for bus
+> enumeration events. When we did that before, races with pciehp were a
+> problem.
+> 
+> Also, we don't have a once-per-second health check event that would have
+> been needed to even catch this event in the first place. To get here now,
+> you'll have to issue an nvme reset or wait 60 seconds after sending an
+> admin or IO command.
+>  
+> > On Fri, Jun 30, 2017@04:56:04PM -0700, Wei Zhang wrote:
+> > > This patch removes the PCI device from the kernel's topology tree
+> > > if the device is no longer present.
+> > > 
+> > > Commit ddf097ec1d44c9648c4738d7cf2819411b44253a (NVMe: Unbind driver on
+> > > failure) left the PCI device in the kernel's topology upon device failure.
+> > > However, this does not work well for the slot power off/on test cases.
+> > > After a slot power off, we need to manually remove the PCI device
+> > > before triggering the rescan, in order for the SSD to be rediscovered.
+> > > 
+> > > Fixes: ddf097ec1d44c9648c4738d7cf2819411b44253a
+> > > Signed-off-by: Wei Zhang <wzhang at fb.com>
+> > > Reviewed-by: Jens Axboe <axboe at fb.com>
+> > > ---
+> > >  drivers/nvme/host/pci.c | 15 +++++++++++++--
+> > >  1 file changed, 13 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > > index 32a98e2..094b22f 100644
+> > > --- a/drivers/nvme/host/pci.c
+> > > +++ b/drivers/nvme/host/pci.c
+> > > @@ -2174,8 +2174,19 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+> > >  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> > >  
+> > >  	nvme_kill_queues(&dev->ctrl);
+> > > -	if (pci_get_drvdata(pdev))
+> > > -		device_release_driver(&pdev->dev);
+> > > +
+> > > +	/*
+> > > +	 * Remove the PCI device from the topology tree if the device is no longer
+> > > +	 * present.  Without removing, slot power off/on test cannot re-discover
+> > > +	 * the SSD.
+> > > +	 */
+> > > +	if (pci_get_drvdata(pdev)) {
+> > > +		if (!pci_device_is_present(pdev)) {
+> > > +			pci_stop_and_remove_bus_device_locked(pdev);
+> > > +		} else {
+> > > +			device_release_driver(&pdev->dev);
+> > > +		}
+> > > +	}
+> > >  	nvme_put_ctrl(&dev->ctrl);
+> > >  }
