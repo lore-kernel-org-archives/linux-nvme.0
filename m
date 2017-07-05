@@ -1,65 +1,57 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 6 Jul 2017 06:49:38 +0800
-Subject: [PATCH v3 2/8] nvme-fc: quiesce/unquiesce admin_q instead of
+Date: Thu, 6 Jul 2017 06:50:54 +0800
+Subject: [PATCH v3 4/8] nvme-pci: quiesce/unquiesce admin_q instead of
  start/stop its hw queues
-In-Reply-To: <1499274037-17438-3-git-send-email-sagi@grimberg.me>
+In-Reply-To: <1499274037-17438-5-git-send-email-sagi@grimberg.me>
 References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
- <1499274037-17438-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20170705224937.GB2332@ming.t460p>
+ <1499274037-17438-5-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705225053.GC2332@ming.t460p>
 
-On Wed, Jul 05, 2017@08:00:31PM +0300, Sagi Grimberg wrote:
+On Wed, Jul 05, 2017@08:00:33PM +0300, Sagi Grimberg wrote:
 > unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
 > quiescing/unquiescing respects the submission path rcu grace.
 > 
-> Also, make sure to unquiesce before cleanup the admin queue.
-> 
-> Reviewed-By: James Smart <james.smart at broadcom.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  drivers/nvme/host/fc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/nvme/host/pci.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 50cc3b2b0e11..8d55e7827932 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1703,6 +1703,7 @@ nvme_fc_ctrl_free(struct kref *ref)
->  	list_del(&ctrl->ctrl_list);
->  	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index eb729ff70e7d..d9c0010a9bbc 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1125,7 +1125,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+>  	spin_unlock_irq(&nvmeq->q_lock);
 >  
-> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
->  	blk_cleanup_queue(ctrl->ctrl.admin_q);
->  	blk_mq_free_tag_set(&ctrl->admin_tag_set);
+>  	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
+> -		blk_mq_stop_hw_queues(nvmeq->dev->ctrl.admin_q);
+> +		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
 >  
-> @@ -2321,7 +2322,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->  		goto out_delete_hw_queue;
+>  	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
 >  
->  	if (ctrl->ctrl.state != NVME_CTRL_NEW)
-> -		blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
-> +		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+> @@ -1315,7 +1315,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
+>  		 * user requests may be waiting on a stopped queue. Start the
+>  		 * queue to flush these to completion.
+>  		 */
+> -		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
+> +		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+>  		blk_cleanup_queue(dev->ctrl.admin_q);
+>  		blk_mq_free_tag_set(&dev->admin_tagset);
+>  	}
+> @@ -1352,7 +1352,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+>  			return -ENODEV;
+>  		}
+>  	} else
+> -		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
+> +		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
 >  
->  	ret = nvmf_connect_admin_queue(&ctrl->ctrl);
->  	if (ret)
-> @@ -2475,7 +2476,7 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
->  	 * use blk_mq_tagset_busy_itr() and the transport routine to
->  	 * terminate the exchanges.
->  	 */
-> -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->  	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->  				nvme_fc_terminate_exchange, &ctrl->ctrl);
->  
+>  	return 0;
+>  }
 > -- 
 > 2.7.4
 > 
 
-Maybe it is a little better to the blk_mq_unquiesce_queue() before
-blk_cleanup_queue() after blk_mq_tagset_busy_iter() in
-nvme_fc_delete_association(). But it shouldn't be a big deal.
-
-So looks fine,
-
-	Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
 
 -- 
