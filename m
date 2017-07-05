@@ -1,15 +1,47 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Jul 2017 10:15:28 +0300
-Subject: [PATCH v2 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 5 Jul 2017 15:16:35 +0800
+Subject: [PATCH v2 2/8] nvme-fc: quiesce/unquiesce admin_q instead of
  start/stop its hw queues
-In-Reply-To: <20170705071257.GA11084@ming.t460p>
+In-Reply-To: <1499237591-15861-3-git-send-email-sagi@grimberg.me>
 References: <1499237591-15861-1-git-send-email-sagi@grimberg.me>
- <1499237591-15861-2-git-send-email-sagi@grimberg.me>
- <20170705071257.GA11084@ming.t460p>
-Message-ID: <c349a9f0-d4cb-e19a-acc9-2b7157f6ec21@grimberg.me>
+ <1499237591-15861-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705071632.GC11084@ming.t460p>
 
+On Wed, Jul 05, 2017@09:53:05AM +0300, Sagi Grimberg wrote:
+> unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
+> quiescing/unquiescing respects the submission path rcu grace.
+> 
+> Also, make sure to unquiesce before cleanup the admin queue.
+> 
+> Reviewed-By: James Smart <james.smart at broadcom.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/fc.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 50cc3b2b0e11..3e35fc622680 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1703,6 +1703,7 @@ nvme_fc_ctrl_free(struct kref *ref)
+>  	list_del(&ctrl->ctrl_list);
+>  	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
+>  
+> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+>  	blk_cleanup_queue(ctrl->ctrl.admin_q);
+>  	blk_mq_free_tag_set(&ctrl->admin_tag_set);
+>  
+> @@ -2320,8 +2321,10 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>  	if (ret)
+>  		goto out_delete_hw_queue;
+>  
+> -	if (ctrl->ctrl.state != NVME_CTRL_NEW)
+> -		blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> +	if (ctrl->ctrl.state != NVME_CTRL_NEW) {
+> +		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+> +		blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
 
-> As I commented yesterday, blk_mq_kick_requeue_list() isn't needed.
+Same comment with patch 1
 
-I commented in the cover-letter, I am removing it a two steps to keep
-bisection. I'm only allowed to remove it in patch 5/8.
+-- 
+Ming
