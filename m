@@ -1,50 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Jul 2017 22:04:31 +0300
-Subject: [PATCH] nvme-rdma: stop keep_alive before nvme_uninit_ctrl
-In-Reply-To: <20170705174108.GE5417@lst.de>
-References: <1498746799-34110-1-git-send-email-dmilburn@redhat.com>
- <ccbe95fe-0711-52a6-4fec-22c2c05bc3ef@grimberg.me>
- <20170705174108.GE5417@lst.de>
-Message-ID: <9a40f029-9bd2-645a-d092-0656f279d94c@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 5 Jul 2017 21:07:14 +0200
+Subject: DMA_ATTR_WEAK_ORDERING defintion, was Re: [PATCH] nvme: set
+ DMA_ATTR_WEAK_ORDERING attribute on dma buffers
+In-Reply-To: <f485b21a-0cf7-d2f0-c957-03d234447561@oracle.com>
+References: <1497645290-31041-1-git-send-email-alan.adamson@oracle.com>
+ <20170617115703.GA13002@lst.de>
+ <6a32f30b-433a-9857-164f-1717405a6082@oracle.com>
+ <20170624073539.GE14580@lst.de>
+ <f485b21a-0cf7-d2f0-c957-03d234447561@oracle.com>
+Message-ID: <20170705190714.GA7107@lst.de>
 
-> This idea looks fine - please send it out in a separate thread.
+On Tue, Jun 27, 2017@04:46:31PM -0400, chris hyser wrote:
+> I put this in for SPARC. In our case the host bridge/RC itself follows very 
+> strict ordering unless the relaxed order bit is set in the TLP. This works 
+> great for devices that actually allow the driver to enable it. We however 
+> also have to support an infiniband card that does not support enabling this 
+> in the HW and thus in the TLP but is actually fine with relaxed order for 
+> the data buffers (ie the streaming I/O vs the coherent control buffers). In 
+> fact w/o relaxed order the performance is absolutely atrocious ... w/ 
+> exceeds x86. This flag enables the driver to signal to us when we map the 
+> buffer in the IOMMU to enable the relaxed order attribute for our HW.
 
-Will do
-
-> A few minor comments below:
-> 
->> -void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
->> +void __nvme_stop_ctrl(struct nvme_ctrl *ctrl)
->>   {
->> +       nvme_stop_keep_alive(ctrl);
->>          flush_work(&ctrl->async_event_work);
->>          flush_work(&ctrl->scan_work);
->> +}
->> +EXPORT_SYMBOL_GPL(__nvme_stop_ctrl);
-> 
-> I don't really like the __nvme_stop_ctrl name for something that
-> is called all the time.  I think this should be nvme_stop_ctrl.
-
-Fine by me.
-
->> +
->> +void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
->> +{
->> +       __nvme_stop_ctrl(ctrl);
->>          nvme_remove_namespaces(ctrl);
->> +}
->> +EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
-> 
-> And then this becomes nvme_remove_ctrl?
-
-Not a good idea as its not actually removing the controller...
-
-Maybe nvme_clear_ctrl?
-
->> +       nvme_start_ctrl(&ctrl->ctrl);
->> +       if (ctrl->ctrl.queue_count > 1)
->>                  nvme_start_queues(&ctrl->ctrl);
-> 
-> Maybe add a nvme_restart_ctrl for this always duplicated sequence?
-
-sounds like an idea..
+We'll really need to start writing down our semantics.  As I said
+given how our streaming dma mappings (dma_map_single/page/sg) are
+defined I can't think of any way how relaxed vs strict ordering would
+matter for them, so just enabling it by default seems like the right
+thing in this case, instead of having to patch every PCIe driver people
+might ever use on sparc to work around your bridge.
