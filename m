@@ -1,54 +1,55 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  5 Jul 2017 09:53:04 +0300
-Subject: [PATCH v2 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
+Date: Wed,  5 Jul 2017 09:53:05 +0300
+Subject: [PATCH v2 2/8] nvme-fc: quiesce/unquiesce admin_q instead of
  start/stop its hw queues
 In-Reply-To: <1499237591-15861-1-git-send-email-sagi@grimberg.me>
 References: <1499237591-15861-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499237591-15861-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1499237591-15861-3-git-send-email-sagi@grimberg.me>
 
 unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
 quiescing/unquiescing respects the submission path rcu grace.
-Also make sure to kick the requeue list when appropriate.
 
+Also, make sure to unquiesce before cleanup the admin queue.
+
+Reviewed-By: James Smart <james.smart at broadcom.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fc.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index cfb22531fc16..c8bf2606ba64 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -778,7 +778,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 50cc3b2b0e11..3e35fc622680 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1703,6 +1703,7 @@ nvme_fc_ctrl_free(struct kref *ref)
+ 	list_del(&ctrl->ctrl_list);
+ 	spin_unlock_irqrestore(&ctrl->rport->lock, flags);
  
- 	if (ctrl->ctrl.queue_count > 1)
- 		nvme_stop_queues(&ctrl->ctrl);
--	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-+	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
- 
- 	/* We must take care of fastfail/requeue all our inflight requests */
- 	if (ctrl->ctrl.queue_count > 1)
-@@ -791,7 +791,8 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 	 * queues are not a live anymore, so restart the queues to fail fast
- 	 * new IO
- 	 */
--	blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
 +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-+	blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
- 	nvme_start_queues(&ctrl->ctrl);
+ 	blk_cleanup_queue(ctrl->ctrl.admin_q);
+ 	blk_mq_free_tag_set(&ctrl->admin_tag_set);
  
- 	nvme_rdma_reconnect_or_remove(ctrl);
-@@ -1636,9 +1637,10 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
- 	if (test_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags))
- 		nvme_shutdown_ctrl(&ctrl->ctrl);
+@@ -2320,8 +2321,10 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	if (ret)
+ 		goto out_delete_hw_queue;
  
+-	if (ctrl->ctrl.state != NVME_CTRL_NEW)
+-		blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
++	if (ctrl->ctrl.state != NVME_CTRL_NEW) {
++		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
++		blk_mq_kick_requeue_list(ctrl->ctrl.admin_q);
++	}
+ 
+ 	ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+ 	if (ret)
+@@ -2475,7 +2478,7 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	 * use blk_mq_tagset_busy_itr() and the transport routine to
+ 	 * terminate the exchanges.
+ 	 */
 -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
 +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
  	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
- 				nvme_cancel_request, &ctrl->ctrl);
-+	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_rdma_destroy_admin_queue(ctrl);
- }
+ 				nvme_fc_terminate_exchange, &ctrl->ctrl);
  
 -- 
 2.7.4
