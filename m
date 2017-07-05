@@ -1,35 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  5 Jul 2017 10:13:38 +0300
-Subject: [PATCH] nvme-rdma: unconditionally recycle the request mr
-Message-ID: <1499238818-17963-1-git-send-email-sagi@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 5 Jul 2017 15:14:35 +0800
+Subject: [PATCH v2 3/8] nvme-loop: quiesce/unquiesce admin_q instead of
+ start/stop its hw queues
+In-Reply-To: <1499237591-15861-4-git-send-email-sagi@grimberg.me>
+References: <1499237591-15861-1-git-send-email-sagi@grimberg.me>
+ <1499237591-15861-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705071432.GB11084@ming.t460p>
 
-When our RDMA queue-pair is torn down with high load
-of I/O traffic, we have no way of knowing if the
-memory region was actually registered by the reg_mr
-work request as it completion flushes with error (hw
-might have done it or not).
+On Wed, Jul 05, 2017@09:53:06AM +0300, Sagi Grimberg wrote:
+> unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
+> quiescing/unquiescing respects the submission path rcu grace.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/target/loop.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index 3d51341e62ee..6a0b70685e77 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -434,9 +434,10 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
+>  	if (ctrl->ctrl.state == NVME_CTRL_LIVE)
+>  		nvme_shutdown_ctrl(&ctrl->ctrl);
+>  
+> -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+>  	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+>  				nvme_cancel_request, &ctrl->ctrl);
+> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+>  	nvme_loop_destroy_admin_queue(ctrl);
+>  }
+>  
+> -- 
+> 2.7.4
+> 
 
-So in order to not deal with all this uncertanty, we
-simply recycle the MR in reinit_request.
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 96f361674b2a..98aecab58782 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -276,9 +276,6 @@ static int nvme_rdma_reinit_request(void *data, struct request *rq)
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
- 	int ret = 0;
- 
--	if (!req->mr->need_inval)
--		goto out;
--
- 	ib_dereg_mr(req->mr);
- 
- 	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
 -- 
-2.7.4
+Ming
