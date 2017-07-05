@@ -1,9 +1,11 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 5 Jul 2017 12:22:04 -0400
-Subject: [PATCH] nvme-cli : only print help text and return for nvme list
- -h option.
-In-Reply-To: <20170704185846.1411-1-chaitanya.kulkarni@hgst.com>
-References: <20170704185846.1411-1-chaitanya.kulkarni@hgst.com>
-Message-ID: <20170705162203.GC22237@localhost.localdomain>
+Date: Wed, 5 Jul 2017 12:23:06 -0400
+Subject: [PATCH 1/7] nvme: move queue_count to the nvme_ctrl
+In-Reply-To: <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
+ <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705162305.GD22237@localhost.localdomain>
 
-Thanks, applied.
+Patch looks good.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
