@@ -1,35 +1,61 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 5 Jul 2017 18:41:51 -0400
-Subject: [PATCH v3] nvme: split nvme_uninit_ctrl into stop and uninit
-In-Reply-To: <20170705222502.GA24884@localhost.localdomain>
-References: <1499286857-7657-1-git-send-email-sagi@grimberg.me>
- <20170705222502.GA24884@localhost.localdomain>
-Message-ID: <20170705224150.GB24884@localhost.localdomain>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 6 Jul 2017 06:44:05 +0800
+Subject: [PATCH v3 1/8] nvme-rdma: quiesce/unquiesce admin_q instead of
+ start/stop its hw queues
+In-Reply-To: <1499274037-17438-2-git-send-email-sagi@grimberg.me>
+References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
+ <1499274037-17438-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705224400.GA2332@ming.t460p>
 
-On Wed, Jul 05, 2017@06:25:02PM -0400, Keith Busch wrote:
-> On Wed, Jul 05, 2017@11:34:17PM +0300, Sagi Grimberg wrote:
-> > Usually before we teardown the controller we want to:
-> > 1. complete/cancel any ctrl inflight works
-> > 2. remove ctrl namespaces (only for removal though, resets
-> >    shouldn't remove any namespaces).
-> > 
-> > but we do not want to destroy the controller device as
-> > we might use it for logging during the teardown stage.
-> > 
-> > This patch adds nvme_start_ctrl() which queues inflight
-> > controller works (aen, ns scan, queue start and keep-alive
-> > if kato is set) and nvme_stop_ctrl() which cancels the works
-> > namespace removal is left to the callers to handle.
-> > 
-> > Move nvme_uninit_ctrl after we are done with the
-> > controller device.
-> > 
-> > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+On Wed, Jul 05, 2017@08:00:30PM +0300, Sagi Grimberg wrote:
+> unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
+> quiescing/unquiescing respects the submission path rcu grace.
+> Also make sure to kick the requeue list when appropriate.
 > 
-> This looks good to me.
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/rdma.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index cfb22531fc16..f2cf9638b4d2 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -778,7 +778,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+>  
+>  	if (ctrl->ctrl.queue_count > 1)
+>  		nvme_stop_queues(&ctrl->ctrl);
+> -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+>  
+>  	/* We must take care of fastfail/requeue all our inflight requests */
+>  	if (ctrl->ctrl.queue_count > 1)
+> @@ -791,7 +791,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+>  	 * queues are not a live anymore, so restart the queues to fail fast
+>  	 * new IO
+>  	 */
+> -	blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+>  	nvme_start_queues(&ctrl->ctrl);
+>  
+>  	nvme_rdma_reconnect_or_remove(ctrl);
+> @@ -1636,9 +1636,10 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
+>  	if (test_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags))
+>  		nvme_shutdown_ctrl(&ctrl->ctrl);
+>  
+> -	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+>  	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+>  				nvme_cancel_request, &ctrl->ctrl);
+> +	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+>  	nvme_rdma_destroy_admin_queue(ctrl);
+>  }
+>  
+> -- 
+> 2.7.4
+> 
 
-Ah, it doesn't merge with your earlier patch, "nvme: move queue_count to
-the nvme_ctrl". That 8-patch series the conflict came from looks good too,
-so let's rebase this one on top of that.
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
+
+-- 
+Ming
