@@ -1,23 +1,88 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 6 Jul 2017 00:56:32 +0200
-Subject: [PATCH 8/8] xen-blockfront: quiesce IO before device removal
-In-Reply-To: <77cea68f-7915-2bbf-0861-05d1ca389e6c@grimberg.me>
-References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
- <1499154912-10420-9-git-send-email-sagi@grimberg.me>
- <20170704221908.GA3732@ming.t460p>
- <77cea68f-7915-2bbf-0861-05d1ca389e6c@grimberg.me>
-Message-ID: <20170705225632.GB11849@lst.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 6 Jul 2017 06:58:39 +0800
+Subject: [PATCH v3 5/8] nvme: kick requeue list when requeueing a request
+ instead of when starting the queues
+In-Reply-To: <1499274037-17438-6-git-send-email-sagi@grimberg.me>
+References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
+ <1499274037-17438-6-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705225838.GD2332@ming.t460p>
 
-On Wed, Jul 05, 2017@09:29:26AM +0300, Sagi Grimberg wrote:
->
->
->> Looks the above change isn't needed since this blk_mq_start_stopped_hw_queues()
->> should have been the counterpart of blk_mq_stop_hw_queue() in
->> blkif_queue_rq().
->
-> Removed the patch altogether in v2 as I'm not convinced it is needed.
+On Wed, Jul 05, 2017@08:00:34PM +0300, Sagi Grimberg wrote:
+> When we requeue a request, we can always insert the request
+> back to the scheduler instead of doing it when restarting
+> the queues and kicking the requeue work, so get rid of
+> the requeue kick in nvme (core and drivers).
+> 
+> Also, now there is no need start hw queues in nvme_kill_queues
+> We don't stop the hw queues anymore, so no need to
+> start them.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/core.c | 19 ++-----------------
+>  1 file changed, 2 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index d70df1d0072d..48cafaa6fbc5 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -131,7 +131,7 @@ void nvme_complete_rq(struct request *req)
+>  {
+>  	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
+>  		nvme_req(req)->retries++;
+> -		blk_mq_requeue_request(req, !blk_mq_queue_stopped(req->q));
+> +		blk_mq_requeue_request(req, true);
+>  		return;
+>  	}
+>  
+> @@ -2694,9 +2694,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>  	/* Forcibly unquiesce queues to avoid blocking dispatch */
+>  	blk_mq_unquiesce_queue(ctrl->admin_q);
+>  
+> -	/* Forcibly start all queues to avoid having stuck requests */
+> -	blk_mq_start_hw_queues(ctrl->admin_q);
+> -
+>  	list_for_each_entry(ns, &ctrl->namespaces, list) {
+>  		/*
+>  		 * Revalidating a dead namespace sets capacity to 0. This will
+> @@ -2709,16 +2706,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>  
+>  		/* Forcibly unquiesce queues to avoid blocking dispatch */
+>  		blk_mq_unquiesce_queue(ns->queue);
+> -
+> -		/*
+> -		 * Forcibly start all queues to avoid having stuck requests.
+> -		 * Note that we must ensure the queues are not stopped
+> -		 * when the final removal happens.
+> -		 */
+> -		blk_mq_start_hw_queues(ns->queue);
+> -
+> -		/* draining requests in requeue list */
+> -		blk_mq_kick_requeue_list(ns->queue);
+>  	}
+>  	mutex_unlock(&ctrl->namespaces_mutex);
+>  }
+> @@ -2787,10 +2774,8 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>  	struct nvme_ns *ns;
+>  
+>  	mutex_lock(&ctrl->namespaces_mutex);
+> -	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+>  		blk_mq_unquiesce_queue(ns->queue);
+> -		blk_mq_kick_requeue_list(ns->queue);
+> -	}
+>  	mutex_unlock(&ctrl->namespaces_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_start_queues);
+> -- 
+> 2.7.4
+> 
 
-I've only started reading the series, but to me it seems like the
-two places where xen-blkfront currently calls blk_mq_stop_hw_queues
-should probably converted, as they are the same category as the other
-calls converted in your series.
+Yeah, this is a good cleanup, and be one of my motivation of
+the quiesce improvement, and I believe we can do more this kind of
+cleanup to remove racy stop/start queue in other drivers.
+
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
+
+-- 
+Ming
