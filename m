@@ -1,57 +1,44 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 5 Jul 2017 15:20:00 +0800
-Subject: [PATCH v2 4/8] nvme-pci: quiesce/unquiesce admin_q instead of
- start/stop its hw queues
-In-Reply-To: <1499237591-15861-5-git-send-email-sagi@grimberg.me>
+Date: Wed, 5 Jul 2017 15:22:22 +0800
+Subject: [PATCH v2 5/8] nvme: kick requeue list when requeueing a request
+ instead of when starting the queues
+In-Reply-To: <1499237591-15861-6-git-send-email-sagi@grimberg.me>
 References: <1499237591-15861-1-git-send-email-sagi@grimberg.me>
- <1499237591-15861-5-git-send-email-sagi@grimberg.me>
-Message-ID: <20170705071958.GD11084@ming.t460p>
+ <1499237591-15861-6-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705072221.GE11084@ming.t460p>
 
-On Wed, Jul 05, 2017@09:53:07AM +0300, Sagi Grimberg wrote:
-> unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
-> quiescing/unquiescing respects the submission path rcu grace.
+On Wed, Jul 05, 2017@09:53:08AM +0300, Sagi Grimberg wrote:
+> When we requeue a request, we can always insert the request
+> back to the scheduler instead of doing it when restarting
+> the queues and kicking the requeue work, so get rid of
+> the requeue kick in nvme (core and drivers).
+> 
+> Also, now there is no need start hw queues in nvme_kill_queues
+> We don't stop the hw queues anymore, so no need to
+> start them.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  drivers/nvme/host/pci.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>  drivers/nvme/host/core.c | 19 ++-----------------
+>  drivers/nvme/host/fc.c   |  4 +---
+>  drivers/nvme/host/pci.c  |  1 -
+>  drivers/nvme/host/rdma.c |  1 -
+>  4 files changed, 3 insertions(+), 22 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index eb729ff70e7d..df7c8a355075 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1125,7 +1125,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
->  	spin_unlock_irq(&nvmeq->q_lock);
->  
->  	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
-> -		blk_mq_stop_hw_queues(nvmeq->dev->ctrl.admin_q);
-> +		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
->  
->  	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
->  
-> @@ -1315,7 +1315,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
->  		 * user requests may be waiting on a stopped queue. Start the
->  		 * queue to flush these to completion.
->  		 */
-> -		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-> +		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
->  		blk_cleanup_queue(dev->ctrl.admin_q);
->  		blk_mq_free_tag_set(&dev->admin_tagset);
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index d70df1d0072d..48cafaa6fbc5 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -131,7 +131,7 @@ void nvme_complete_rq(struct request *req)
+>  {
+>  	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
+>  		nvme_req(req)->retries++;
+> -		blk_mq_requeue_request(req, !blk_mq_queue_stopped(req->q));
+> +		blk_mq_requeue_request(req, true);
+>  		return;
 >  	}
-> @@ -1351,8 +1351,10 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
->  			dev->ctrl.admin_q = NULL;
->  			return -ENODEV;
->  		}
-> -	} else
-> -		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-> +	} else {
-> +		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-> +		blk_mq_kick_requeue_list(dev->ctrl.admin_q);
-> +	}
 
-Hammmm, the kick is still not needed. Actually kick requeue list
-is only needed where we restart the queue. For quiesce and unquiesce,
-we don't touch the STOPPED state, so needn't to kick requeue list.
+This change is correct.
 
 -- 
 Ming
