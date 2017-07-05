@@ -1,13 +1,25 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 5 Jul 2017 11:06:12 -0700
-Subject: [PATCH] nvme-rdma: unconditionally recycle the request mr
-In-Reply-To: <1499238818-17963-1-git-send-email-sagi@grimberg.me>
-References: <1499238818-17963-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170705180612.GA12334@infradead.org>
+From: josef@toxicpanda.com (Josef Bacik)
+Date: Wed, 5 Jul 2017 14:08:28 -0400
+Subject: [PATCH v3 6/8] nbd: quiesce request queues to make sure no
+ submissions are inflight
+In-Reply-To: <1499274037-17438-7-git-send-email-sagi@grimberg.me>
+References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
+ <1499274037-17438-7-git-send-email-sagi@grimberg.me>
+Message-ID: <20170705180827.GA18539@destiny>
 
-Looks good,
+On Wed, Jul 05, 2017@08:00:35PM +0300, Sagi Grimberg wrote:
+> Unlike blk_mq_stop_hw_queues, blk_mq_quiesce_queue respects the
+> submission path rcu grace. quiesce the queue before iterating
+> on live tags.
+> 
+> Reviewed-by: Ming Lei <ming.lei at redhat.com>
+> Cc: Josef Bacik <jbacik at fb.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Sounds fine by me, you can add
 
-(and btw ib_dereg_mr seems horribly misnamed, it really should be
-ib_free_mr)
+Acked-by: Josef Bacik <jbacik at fb.com>
+
+Thanks,
+
+Josef
