@@ -1,58 +1,23 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 6 Jul 2017 06:50:54 +0800
-Subject: [PATCH v3 4/8] nvme-pci: quiesce/unquiesce admin_q instead of
- start/stop its hw queues
-In-Reply-To: <1499274037-17438-5-git-send-email-sagi@grimberg.me>
-References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
- <1499274037-17438-5-git-send-email-sagi@grimberg.me>
-Message-ID: <20170705225053.GC2332@ming.t460p>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 6 Jul 2017 00:56:32 +0200
+Subject: [PATCH 8/8] xen-blockfront: quiesce IO before device removal
+In-Reply-To: <77cea68f-7915-2bbf-0861-05d1ca389e6c@grimberg.me>
+References: <1499154912-10420-1-git-send-email-sagi@grimberg.me>
+ <1499154912-10420-9-git-send-email-sagi@grimberg.me>
+ <20170704221908.GA3732@ming.t460p>
+ <77cea68f-7915-2bbf-0861-05d1ca389e6c@grimberg.me>
+Message-ID: <20170705225632.GB11849@lst.de>
 
-On Wed, Jul 05, 2017@08:00:33PM +0300, Sagi Grimberg wrote:
-> unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
-> quiescing/unquiescing respects the submission path rcu grace.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/host/pci.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index eb729ff70e7d..d9c0010a9bbc 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1125,7 +1125,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
->  	spin_unlock_irq(&nvmeq->q_lock);
->  
->  	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
-> -		blk_mq_stop_hw_queues(nvmeq->dev->ctrl.admin_q);
-> +		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
->  
->  	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
->  
-> @@ -1315,7 +1315,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
->  		 * user requests may be waiting on a stopped queue. Start the
->  		 * queue to flush these to completion.
->  		 */
-> -		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-> +		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
->  		blk_cleanup_queue(dev->ctrl.admin_q);
->  		blk_mq_free_tag_set(&dev->admin_tagset);
->  	}
-> @@ -1352,7 +1352,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
->  			return -ENODEV;
->  		}
->  	} else
-> -		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-> +		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
->  
->  	return 0;
->  }
-> -- 
-> 2.7.4
-> 
+On Wed, Jul 05, 2017@09:29:26AM +0300, Sagi Grimberg wrote:
+>
+>
+>> Looks the above change isn't needed since this blk_mq_start_stopped_hw_queues()
+>> should have been the counterpart of blk_mq_stop_hw_queue() in
+>> blkif_queue_rq().
+>
+> Removed the patch altogether in v2 as I'm not convinced it is needed.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
-
-
--- 
-Ming
+I've only started reading the series, but to me it seems like the
+two places where xen-blkfront currently calls blk_mq_stop_hw_queues
+should probably converted, as they are the same category as the other
+calls converted in your series.
