@@ -1,49 +1,76 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  5 Jul 2017 20:00:33 +0300
-Subject: [PATCH v3 4/8] nvme-pci: quiesce/unquiesce admin_q instead of
- start/stop its hw queues
+Date: Wed,  5 Jul 2017 20:00:34 +0300
+Subject: [PATCH v3 5/8] nvme: kick requeue list when requeueing a request
+ instead of when starting the queues
 In-Reply-To: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
 References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499274037-17438-5-git-send-email-sagi@grimberg.me>
+Message-ID: <1499274037-17438-6-git-send-email-sagi@grimberg.me>
 
-unlike blk_mq_stop_hw_queues and blk_mq_start_stopped_hw_queues
-quiescing/unquiescing respects the submission path rcu grace.
+When we requeue a request, we can always insert the request
+back to the scheduler instead of doing it when restarting
+the queues and kicking the requeue work, so get rid of
+the requeue kick in nvme (core and drivers).
+
+Also, now there is no need start hw queues in nvme_kill_queues
+We don't stop the hw queues anymore, so no need to
+start them.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/pci.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index eb729ff70e7d..d9c0010a9bbc 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1125,7 +1125,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	spin_unlock_irq(&nvmeq->q_lock);
- 
- 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
--		blk_mq_stop_hw_queues(nvmeq->dev->ctrl.admin_q);
-+		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
- 
- 	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
- 
-@@ -1315,7 +1315,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
- 		 * user requests may be waiting on a stopped queue. Start the
- 		 * queue to flush these to completion.
- 		 */
--		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-+		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
- 		blk_cleanup_queue(dev->ctrl.admin_q);
- 		blk_mq_free_tag_set(&dev->admin_tagset);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d70df1d0072d..48cafaa6fbc5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -131,7 +131,7 @@ void nvme_complete_rq(struct request *req)
+ {
+ 	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
+ 		nvme_req(req)->retries++;
+-		blk_mq_requeue_request(req, !blk_mq_queue_stopped(req->q));
++		blk_mq_requeue_request(req, true);
+ 		return;
  	}
-@@ -1352,7 +1352,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 			return -ENODEV;
- 		}
- 	} else
--		blk_mq_start_stopped_hw_queues(dev->ctrl.admin_q, true);
-+		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
  
- 	return 0;
+@@ -2694,9 +2694,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 	blk_mq_unquiesce_queue(ctrl->admin_q);
+ 
+-	/* Forcibly start all queues to avoid having stuck requests */
+-	blk_mq_start_hw_queues(ctrl->admin_q);
+-
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+ 		/*
+ 		 * Revalidating a dead namespace sets capacity to 0. This will
+@@ -2709,16 +2706,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 
+ 		/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 		blk_mq_unquiesce_queue(ns->queue);
+-
+-		/*
+-		 * Forcibly start all queues to avoid having stuck requests.
+-		 * Note that we must ensure the queues are not stopped
+-		 * when the final removal happens.
+-		 */
+-		blk_mq_start_hw_queues(ns->queue);
+-
+-		/* draining requests in requeue list */
+-		blk_mq_kick_requeue_list(ns->queue);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
  }
+@@ -2787,10 +2774,8 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ 	struct nvme_ns *ns;
+ 
+ 	mutex_lock(&ctrl->namespaces_mutex);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		blk_mq_unquiesce_queue(ns->queue);
+-		blk_mq_kick_requeue_list(ns->queue);
+-	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
 -- 
 2.7.4
