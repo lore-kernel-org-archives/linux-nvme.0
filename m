@@ -1,43 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  5 Jul 2017 20:00:37 +0300
-Subject: [PATCH v3 8/8] virtio_blk: quiesce/unquiesce live IO when entering PM
- states
-In-Reply-To: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
-References: <1499274037-17438-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499274037-17438-9-git-send-email-sagi@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 5 Jul 2017 19:04:29 +0200
+Subject: [PATCH v2] nvme-rdma: remove race conditions from IB signalling
+In-Reply-To: <2005801981.129655619.1498058081264.JavaMail.zimbra@kalray.eu>
+References: <1367439528.79530717.1496748441203.JavaMail.zimbra@kalray.eu>
+ <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
+ <20170607082559.GA24876@lst.de>
+ <2005801981.129655619.1498058081264.JavaMail.zimbra@kalray.eu>
+Message-ID: <20170705170429.GA4697@lst.de>
 
-Without it its not guaranteed that no .queue_rq is inflight.
+On Wed, Jun 21, 2017@05:14:41PM +0200, Marta Rybczynska wrote:
+> I do not see this one in nvme-4.13. Can we get it in, please?
+> We're seeing the races in our setup and this patch fixes it.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
-Acked-by: Michael S. Tsirkin <mst at redhat.com>
-Cc: virtio-dev at lists.oasis-open.org
-Cc: Jason Wang <jasowang at redhat.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/block/virtio_blk.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 0297ad7c1452..4e02aa5fdac0 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -840,7 +840,7 @@ static int virtblk_freeze(struct virtio_device *vdev)
- 	/* Make sure no work handler is accessing the device. */
- 	flush_work(&vblk->config_work);
- 
--	blk_mq_stop_hw_queues(vblk->disk->queue);
-+	blk_mq_quiesce_queue(vblk->disk->queue);
- 
- 	vdev->config->del_vqs(vdev);
- 	return 0;
-@@ -857,7 +857,7 @@ static int virtblk_restore(struct virtio_device *vdev)
- 
- 	virtio_device_ready(vdev);
- 
--	blk_mq_start_stopped_hw_queues(vblk->disk->queue, true);
-+	blk_mq_unquiesce_queue(vblk->disk->queue);
- 	return 0;
- }
- #endif
--- 
-2.7.4
+I've added it.  Note that your mail was whitespace damaged, so I had
+to apply it manually.  I used that opportunity to also move the comments
+around a bit.
