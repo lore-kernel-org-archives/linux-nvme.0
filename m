@@ -1,31 +1,23 @@
-From: dan.carpenter@oracle.com (Dan Carpenter)
-Date: Thu, 6 Jul 2017 12:26:52 +0300
-Subject: [PATCH] nvme-pci: compile warnings in nvme_alloc_host_mem()
-Message-ID: <20170706092651.dshe5uxn665icxma@mwanda>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Thu, 6 Jul 2017 12:44:25 +0200 (CEST)
+Subject: [PATCH v2] nvme-rdma: remove race conditions from IB signalling
+In-Reply-To: <20170705170429.GA4697@lst.de>
+References: <1367439528.79530717.1496748441203.JavaMail.zimbra@kalray.eu>
+ <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
+ <20170607082559.GA24876@lst.de>
+ <2005801981.129655619.1498058081264.JavaMail.zimbra@kalray.eu>
+ <20170705170429.GA4697@lst.de>
+Message-ID: <1951365057.174454158.1499337865396.JavaMail.zimbra@kalray.eu>
 
-"i" should be signed or it could cause a forever loop on the cleanup
-path. "size" can be used uninitialized.
+> On Wed, Jun 21, 2017@05:14:41PM +0200, Marta Rybczynska wrote:
+>> I do not see this one in nvme-4.13. Can we get it in, please?
+>> We're seeing the races in our setup and this patch fixes it.
+> 
+> I've added it.  Note that your mail was whitespace damaged, so I had
+> to apply it manually.  I used that opportunity to also move the comments
+> around a bit.
 
-Fixes: 87ad72a59a38 ("nvme-pci: implement host memory buffer support")
-Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
----
-Presumably Arnd already sent a patch for this, but it's been hanging
-around linux-next for a while and I want to mark it as dealt with.
+Thank you! And sorry for the issue.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0ae864b63411..a40675947893 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1585,9 +1585,10 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
- static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
- {
- 	struct nvme_host_mem_buf_desc *descs;
--	u32 chunk_size, max_entries, i = 0;
-+	u32 chunk_size, max_entries;
-+	int i = 0;
- 	void **bufs;
--	u64 size, tmp;
-+	u64 size = 0, tmp;
- 
- 	/* start big and work our way down */
- 	chunk_size = min(preferred, (u64)PAGE_SIZE << MAX_ORDER);
+Best regards,
+Marta
