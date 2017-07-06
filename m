@@ -1,23 +1,14 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Thu, 6 Jul 2017 12:44:25 +0200 (CEST)
-Subject: [PATCH v2] nvme-rdma: remove race conditions from IB signalling
-In-Reply-To: <20170705170429.GA4697@lst.de>
-References: <1367439528.79530717.1496748441203.JavaMail.zimbra@kalray.eu>
- <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
- <20170607082559.GA24876@lst.de>
- <2005801981.129655619.1498058081264.JavaMail.zimbra@kalray.eu>
- <20170705170429.GA4697@lst.de>
-Message-ID: <1951365057.174454158.1499337865396.JavaMail.zimbra@kalray.eu>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 6 Jul 2017 17:28:34 +0200
+Subject: [PATCH] nvme-pci: compile warnings in nvme_alloc_host_mem()
+In-Reply-To: <20170706092651.dshe5uxn665icxma@mwanda>
+References: <20170706092651.dshe5uxn665icxma@mwanda>
+Message-ID: <20170706152834.GA2160@lst.de>
 
-> On Wed, Jun 21, 2017@05:14:41PM +0200, Marta Rybczynska wrote:
->> I do not see this one in nvme-4.13. Can we get it in, please?
->> We're seeing the races in our setup and this patch fixes it.
-> 
-> I've added it.  Note that your mail was whitespace damaged, so I had
-> to apply it manually.  I used that opportunity to also move the comments
-> around a bit.
+On Thu, Jul 06, 2017@12:26:52PM +0300, Dan Carpenter wrote:
+> "i" should be signed or it could cause a forever loop on the cleanup
+> path. "size" can be used uninitialized.
 
-Thank you! And sorry for the issue.
+Looks good,
 
-Best regards,
-Marta
+Reviewed-by: Christoph Hellwig <hch at lst.de>
