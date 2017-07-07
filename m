@@ -1,32 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 7 Jul 2017 20:14:36 +0200
-Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
-In-Reply-To: <1499444581-28268-8-git-send-email-keith.busch@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 7 Jul 2017 15:54:29 -0400
+Subject: [PATCH 6/7] nvme: Unexport starting async event work
+In-Reply-To: <20170707181146.GB24427@lst.de>
 References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
- <1499444581-28268-8-git-send-email-keith.busch@intel.com>
-Message-ID: <20170707181436.GC24427@lst.de>
+ <1499444581-28268-7-git-send-email-keith.busch@intel.com>
+ <20170707181146.GB24427@lst.de>
+Message-ID: <20170707195428.GC14788@localhost.localdomain>
 
-On Fri, Jul 07, 2017@12:23:01PM -0400, Keith Busch wrote:
-> This will give udev a chance to handle asynchronous event notification
-> and clear the log to unmask future events of the same type. Since the
-> core driver allows only one AEN request at a time, we can only have one
-> possible oustanding uevent to send. This implementation saves the last
-> AEN result from the IRQ handler, and sends the uevent change notification
-> when the AEN work is rescheduled.
+On Fri, Jul 07, 2017@08:11:46PM +0200, Christoph Hellwig wrote:
+> > +static void nvme_queue_async_events(struct nvme_ctrl *ctrl)
+> >  {
+> >  	queue_work(nvme_wq, &ctrl->async_event_work);
+> >  }
+> > -EXPORT_SYMBOL_GPL(nvme_queue_async_events);
 > 
-> The udev rule used to test this was the following:
-> 
->   ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_AEN}=="*", \
->         RUN+="/bin/sh -c '/usr/local/sbin/nvme get-log $env{DEVNAME} --log-id=$(( ($env{NVME_AEN} >> 16) & 0xff )) --log-len=4096 >> /tmp/nvme-log'"
+> I'd just kill this helper now that it's not even exported.
 
-
-Can we have an nvme-aen helper that gets invoked by a trivial udev rule,
-which would read a config file for policy?
-
-Also I think we need to document our policy on which AERs
-get forwarded to userspace. There are some we really should be
-handling in the kernel (fw activation which is in progress, namespace
-data changes really needs fixing, and ANA will also require kernel
-handling).  Is there a way to state it's up to the kernel to reserve
-any even for itself?  Or should we just forward very specific AERs
-to userspace?
+Agreed, I'll take that out for v2. I'll wait till next week to see if
+there's any comments on the previous patches before sending.
