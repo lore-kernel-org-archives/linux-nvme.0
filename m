@@ -1,28 +1,70 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri,  7 Jul 2017 18:08:24 -0700
-Subject: [PATCH 0/2] nvme-fc: Create Association corrections
-Message-ID: <20170708010826.12448-1-jsmart2021@gmail.com>
+Date: Fri,  7 Jul 2017 18:08:25 -0700
+Subject: [PATCH 1/2] nvme_fc/nvmet_fc: revise Create Association descriptor
+ length
+In-Reply-To: <20170708010826.12448-1-jsmart2021@gmail.com>
+References: <20170708010826.12448-1-jsmart2021@gmail.com>
+Message-ID: <20170708010826.12448-2-jsmart2021@gmail.com>
 
-The FC-NVME spec changed between 1.14 and 1.15 and will again in 1.16
-to adjust the Create Association LS. The main change was to reduce
-the HostID field from 64bytes to 16bytes. This change was picked up in
-a linux by checkin in march. However, the 1.15 spec added pad that the
-checkin didn't have and added additional pad it shouldn't have, causing
-it to exceed the desired 1Kbytes max payload size for FC-NVME LS's.
-1.16 will revise the pad such that the overall LS is 1024 bytes in length.
+Revises the Create Association LS for the amount of pad expected in 1.16.
 
-This patch updates the headers for the spec mod and also modifies the
-target such that it will accept a variable amount of pad. This allows
-older initiators to still connect.
+Add defines for the minimum lengths that a target can accept (e.g. variable
+pad lengths)
 
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ include/linux/nvme-fc.h | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
-James Smart (2):
-  nvme_fc/nvmet_fc: revise Create Association descriptor length
-  nvmet_fc: Accept variable pad lengths on Create Association LS
-
- drivers/nvme/target/fc.c | 20 +++++++++++++-------
- include/linux/nvme-fc.h  | 23 ++++++++++++++++++++++-
- 2 files changed, 35 insertions(+), 8 deletions(-)
-
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+index bc711a10be05..21c37e39e41a 100644
+--- a/include/linux/nvme-fc.h
++++ b/include/linux/nvme-fc.h
+@@ -17,6 +17,7 @@
+ 
+ /*
+  * This file contains definitions relative to FC-NVME r1.14 (16-020vB).
++ * The fcnvme_lsdesc_cr_assoc_cmd struct reflects expected r1.16 content.
+  */
+ 
+ #ifndef _NVME_FC_H
+@@ -193,9 +194,21 @@ struct fcnvme_lsdesc_cr_assoc_cmd {
+ 	uuid_t	hostid;
+ 	u8	hostnqn[FCNVME_ASSOC_HOSTNQN_LEN];
+ 	u8	subnqn[FCNVME_ASSOC_SUBNQN_LEN];
+-	u8	rsvd632[384];
++	__be32	rsvd584[108];		/* pad to 1016 bytes,
++					 * which makes overall LS rqst
++					 * payload 1024 bytes
++					 */
+ };
+ 
++#define FCNVME_LSDESC_CRA_CMD_DESC_MINLEN	\
++		offsetof(struct fcnvme_lsdesc_cr_assoc_cmd, rsvd584)
++
++#define FCNVME_LSDESC_CRA_CMD_DESC_MIN_DESCLEN	\
++		(FCNVME_LSDESC_CRA_CMD_DESC_MINLEN - \
++		 offsetof(struct fcnvme_lsdesc_cr_assoc_cmd, ersp_ratio))
++
++
++
+ /* FCNVME_LSDESC_CREATE_CONN_CMD */
+ struct fcnvme_lsdesc_cr_conn_cmd {
+ 	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
+@@ -273,6 +286,14 @@ struct fcnvme_ls_cr_assoc_rqst {
+ 	struct fcnvme_lsdesc_cr_assoc_cmd	assoc_cmd;
+ };
+ 
++#define FCNVME_LSDESC_CRA_RQST_MINLEN	\
++		(offsetof(struct fcnvme_ls_cr_assoc_rqst, assoc_cmd) + \
++			FCNVME_LSDESC_CRA_CMD_DESC_MINLEN)
++
++#define FCNVME_LSDESC_CRA_RQST_MIN_LISTLEN	\
++		FCNVME_LSDESC_CRA_CMD_DESC_MINLEN
++
++
+ struct fcnvme_ls_cr_assoc_acc {
+ 	struct fcnvme_ls_acc_hdr		hdr;
+ 	struct fcnvme_lsdesc_assoc_id		associd;
 -- 
 2.11.0
