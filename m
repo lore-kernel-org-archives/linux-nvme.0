@@ -1,20 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 7 Jul 2017 15:54:29 -0400
-Subject: [PATCH 6/7] nvme: Unexport starting async event work
-In-Reply-To: <20170707181146.GB24427@lst.de>
-References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
- <1499444581-28268-7-git-send-email-keith.busch@intel.com>
- <20170707181146.GB24427@lst.de>
-Message-ID: <20170707195428.GC14788@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri,  7 Jul 2017 18:08:24 -0700
+Subject: [PATCH 0/2] nvme-fc: Create Association corrections
+Message-ID: <20170708010826.12448-1-jsmart2021@gmail.com>
 
-On Fri, Jul 07, 2017@08:11:46PM +0200, Christoph Hellwig wrote:
-> > +static void nvme_queue_async_events(struct nvme_ctrl *ctrl)
-> >  {
-> >  	queue_work(nvme_wq, &ctrl->async_event_work);
-> >  }
-> > -EXPORT_SYMBOL_GPL(nvme_queue_async_events);
-> 
-> I'd just kill this helper now that it's not even exported.
+The FC-NVME spec changed between 1.14 and 1.15 and will again in 1.16
+to adjust the Create Association LS. The main change was to reduce
+the HostID field from 64bytes to 16bytes. This change was picked up in
+a linux by checkin in march. However, the 1.15 spec added pad that the
+checkin didn't have and added additional pad it shouldn't have, causing
+it to exceed the desired 1Kbytes max payload size for FC-NVME LS's.
+1.16 will revise the pad such that the overall LS is 1024 bytes in length.
 
-Agreed, I'll take that out for v2. I'll wait till next week to see if
-there's any comments on the previous patches before sending.
+This patch updates the headers for the spec mod and also modifies the
+target such that it will accept a variable amount of pad. This allows
+older initiators to still connect.
+
+
+James Smart (2):
+  nvme_fc/nvmet_fc: revise Create Association descriptor length
+  nvmet_fc: Accept variable pad lengths on Create Association LS
+
+ drivers/nvme/target/fc.c | 20 +++++++++++++-------
+ include/linux/nvme-fc.h  | 23 ++++++++++++++++++++++-
+ 2 files changed, 35 insertions(+), 8 deletions(-)
+
+-- 
+2.11.0
