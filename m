@@ -1,43 +1,34 @@
-From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
-Date: Sat,  8 Jul 2017 17:36:45 -0700
-Subject: [PATCH] nvme-cli: Fix to the logic of the nvme list-ns <device> -a
- command.
-Message-ID: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Sun, 9 Jul 2017 10:47:55 -0600
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <9E30754F-464A-4B62-ADE7-F6B2F6D95763@oracle.com>
+References: <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
+ <28F6F58E-B6F4-4114-8DFF-B72353CE814B@oracle.com>
+ <52ad3547-efcf-f428-6b39-117efda3379f@grimberg.me>
+ <9990B5CB-E0FF-481E-9F34-21EACF0E796E@oracle.com>
+ <f1f1a68c-90db-e6bf-e35e-55c4b469c339@grimberg.me>
+ <7D1C540B-FEA0-4101-8B58-87BCB7DB5492@oracle.com>
+ <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
+ <9D8C7BC8-7E18-405A-9017-9DB23A6B5C15@oracle.com>
+ <11aa1a24-9f0b-dbb8-18eb-ad357c7727b2@grimberg.me>
+ <9E30754F-464A-4B62-ADE7-F6B2F6D95763@oracle.com>
+Message-ID: <20170709164755.GB3058@obsidianresearch.com>
 
-This fix will reverse the logic of the -a parm in the nvme list-ns
-command. Currently, the -a option only shows the attached namespaces
-and not all the namespaces. By removing the extra ! it will show attached
-inactive namespaces with -a option as mentioned in the help text.
+On Sun, Jul 02, 2017@02:17:52PM -0400, Chuck Lever wrote:
 
-Example : Controller has 3 namespaces, two of them are not attached.
+> I could kmalloc the SGE array instead, signal each Send,
+> and then in the Send completion handler, unmap the SGEs
+> and then kfree the SGE array. That's a lot of overhead.
 
-Default exection with ?!!? :-
-$ nvme list-ns  /dev/nvme0 -a
-[   0]:0x1
+Usually after allocating the send queue you'd pre-allocate all the
+tracking memory needed for each SQE - eg enough information to do the
+dma unmaps/etc?
 
-Execution with ?!? :-
- nvme list-ns  /dev/nvme0 -a
-[   0]:0x1
-[   1]:0x2
-[   2]:0x3
+> Or I could revert all the "map page cache pages" logic and
+> just use memcpy for small NFS WRITEs, and RDMA the rest of
+> the time. That keeps everything simple, but means large
+> inline thresholds can't use send-in-place.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
----
- nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Don't you have the same problem with RDMA WRITE?
 
-diff --git a/nvme.c b/nvme.c
-index d64d042..a3abff0 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -560,7 +560,7 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
- 	if (fd < 0)
- 		return fd;
- 
--	err = nvme_identify_ns_list(fd, cfg.namespace_id, !!cfg.all, ns_list);
-+	err = nvme_identify_ns_list(fd, cfg.namespace_id, !cfg.all, ns_list);
- 	if (!err) {
- 		for (i = 0; i < 1024; i++)
- 			if (ns_list[i])
--- 
-2.7.4
+Jason
