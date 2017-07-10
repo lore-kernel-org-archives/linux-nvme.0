@@ -1,48 +1,44 @@
-From: chris.hyser@oracle.com (chris hyser)
-Date: Mon, 10 Jul 2017 12:17:07 -0400
-Subject: DMA_ATTR_WEAK_ORDERING defintion, was Re: [PATCH] nvme: set
- DMA_ATTR_WEAK_ORDERING attribute on dma buffers
-In-Reply-To: <20170705190714.GA7107@lst.de>
-References: <1497645290-31041-1-git-send-email-alan.adamson@oracle.com>
- <20170617115703.GA13002@lst.de>
- <6a32f30b-433a-9857-164f-1717405a6082@oracle.com>
- <20170624073539.GE14580@lst.de>
- <f485b21a-0cf7-d2f0-c957-03d234447561@oracle.com>
- <20170705190714.GA7107@lst.de>
-Message-ID: <261c7733-71a0-c283-90dd-3e03f1fa08ff@oracle.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 10 Jul 2017 12:44:34 -0400
+Subject: [PATCH] nvme-cli: Fix to the logic of the nvme list-ns <device>
+ -a command.
+In-Reply-To: <CAGrovxXZSQVN3Rtmii4PPfQxjnaVp3=QyABzejPN0NALXoFz1Q@mail.gmail.com>
+References: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
+ <11488ccc-3243-5191-08c6-0faa184620a8@huawei.com>
+ <CAGrovxXZSQVN3Rtmii4PPfQxjnaVp3=QyABzejPN0NALXoFz1Q@mail.gmail.com>
+Message-ID: <20170710164434.GD14788@localhost.localdomain>
 
-On 7/5/2017 3:07 PM, Christoph Hellwig wrote:
-> On Tue, Jun 27, 2017@04:46:31PM -0400, chris hyser wrote:
->> I put this in for SPARC. In our case the host bridge/RC itself follows very
->> strict ordering unless the relaxed order bit is set in the TLP. This works
->> great for devices that actually allow the driver to enable it. We however
->> also have to support an infiniband card that does not support enabling this
->> in the HW and thus in the TLP but is actually fine with relaxed order for
->> the data buffers (ie the streaming I/O vs the coherent control buffers). In
->> fact w/o relaxed order the performance is absolutely atrocious ... w/
->> exceeds x86. This flag enables the driver to signal to us when we map the
->> buffer in the IOMMU to enable the relaxed order attribute for our HW.
->
-> We'll really need to start writing down our semantics.  As I said
+On Mon, Jul 10, 2017@01:40:02AM -0700, royy walls wrote:
+> With this approach
+> (http://lists.infradead.org/pipermail/linux-nvme/2017-April/009805.html)
+> all the future caller's including any plug-ins will require writing a
+> code with "!!".
 
-Fair enough. This will get documented.
+The use of '!!' was to explicitly coerce the 'int' type required for the
+arg parsing to a 'true/false' value for the bool type. It's not really
+necessary, though.
 
-> given how our streaming dma mappings (dma_map_single/page/sg) are
-> defined I can't think of any way how relaxed vs strict ordering would
-> matter for them, so just enabling it by default seems like the right
-> thing in this case, instead of having to patch every PCIe driver people
+> I wanted to get rid of "!!" approach which makes the code simpler for
+> everyone at first glance, only if everyone agrees with that change.
+> 
+> On Mon, Jul 10, 2017@1:07 AM, Guan Junxiong <guanjunxiong@huawei.com> wrote:
+> > Hi,Chaitanya
+> > Thanks for your effort.
+> >
+> > On 2017/7/9 8:36, Chaitanya Kulkarni wrote:
+> >> This fix will reverse the logic of the -a parm in the nvme list-ns
+> >> command. Currently, the -a option only shows the attached namespaces
+> >> and not all the namespaces. By removing the extra ! it will show attached
+> >> inactive namespaces with -a option as mentioned in the help text.
+> >>
+> > Actually, the approach of reversing the logic of the -a option doesn't
+> > keep the consistence of literal input parameter __bool__ __all__ of the
+> > nvme_identify_ns_list function.
+> >
+> > By the way ,I had sent a patch to fix this two month ago but Keith missed it.
+> > A new updated patch of this was sent a minute ago. Hope Keith would catch it.
+> > (The origin link is: http://lists.infradead.org/pipermail/linux-nvme/2017-April/009805.html
+> > )
 
-People get real squeamish about just turning on relaxed order for driver/devices we actually know something about and 
-test let alone everything. I do agree with your interpretation of the streaming DMA semantics. That does not mean every 
-driver writer did or does. :-)
-
-> might ever use on sparc to work around your bridge.
-
-To be clear, this isn't really a host bridge issue. Technically no driver that runs on SPARC needs this enabled -- even 
-performance critical ... if they do the HW correctly. Again, we have a necessary performance critical device which does 
-not correctly signal its okayness with relaxed order for non-control DMA. This feature of the host bridge is to enable a 
-workaround for just these cases (deemed needed by past history). Said differently, lots of devices are made for the 
-commodity market where shortcuts like this apparently do not affect performance but are critical to performance on large 
-systems.
-
--chrish
+Sorry I missed that patch. That one looks correct to me, and thank you
+for reposting the v2. I think we'll use that one.
