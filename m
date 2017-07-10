@@ -1,44 +1,71 @@
-From: cknvme@gmail.com (royy walls)
-Date: Mon, 10 Jul 2017 01:40:02 -0700
-Subject: [PATCH] nvme-cli: Fix to the logic of the nvme list-ns <device>
- -a command.
-In-Reply-To: <11488ccc-3243-5191-08c6-0faa184620a8@huawei.com>
-References: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <11488ccc-3243-5191-08c6-0faa184620a8@huawei.com>
-Message-ID: <CAGrovxXZSQVN3Rtmii4PPfQxjnaVp3=QyABzejPN0NALXoFz1Q@mail.gmail.com>
+From: zhangweiping@didichuxing.com (weiping zhang)
+Date: Mon, 10 Jul 2017 16:46:59 +0800
+Subject: [PATCH v4] nvme-pci: add module parameter for io queue depth
+Message-ID: <20170710084659.GA6287@localhost.didichuxing.com>
 
-With this approach
-(http://lists.infradead.org/pipermail/linux-nvme/2017-April/009805.html)
-all the future caller's including any plug-ins will require writing a
-code with "!!".
+Adjust io queue depth more easily, and make sure io queue depth >= 2.
 
-I wanted to get rid of "!!" approach which makes the code simpler for
-everyone at first glance, only if everyone agrees with that change.
+Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
+---
+ drivers/nvme/host/pci.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-On Mon, Jul 10, 2017@1:07 AM, Guan Junxiong <guanjunxiong@huawei.com> wrote:
-> Hi,Chaitanya
-> Thanks for your effort.
->
-> On 2017/7/9 8:36, Chaitanya Kulkarni wrote:
->> This fix will reverse the logic of the -a parm in the nvme list-ns
->> command. Currently, the -a option only shows the attached namespaces
->> and not all the namespaces. By removing the extra ! it will show attached
->> inactive namespaces with -a option as mentioned in the help text.
->>
-> Actually, the approach of reversing the logic of the -a option doesn't
-> keep the consistence of literal input parameter __bool__ __all__ of the
-> nvme_identify_ns_list function.
->
-> By the way ,I had sent a patch to fix this two month ago but Keith missed it.
-> A new updated patch of this was sent a minute ago. Hope Keith would catch it.
-> (The origin link is: http://lists.infradead.org/pipermail/linux-nvme/2017-April/009805.html
-> )
->
-> Thanks
-> .
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 73fddf2..8470503 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -35,7 +35,6 @@
+ 
+ #include "nvme.h"
+ 
+-#define NVME_Q_DEPTH		1024
+ #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+ #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+ 
+@@ -57,6 +56,16 @@ module_param(max_host_mem_size_mb, uint, 0444);
+ MODULE_PARM_DESC(max_host_mem_size_mb,
+ 	"Maximum Host Memory Buffer (HMB) size per controller (in MiB)");
+ 
++static int io_queue_depth_set(const char *val, const struct kernel_param *kp);
++static const struct kernel_param_ops io_queue_depth_ops = {
++	.set = io_queue_depth_set,
++	.get = param_get_int,
++};
++
++static int io_queue_depth = 1024;
++module_param_cb(io_queue_depth, &io_queue_depth_ops, &io_queue_depth, 0644);
++MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
++
+ struct nvme_dev;
+ struct nvme_queue;
+ 
+@@ -104,6 +113,17 @@ struct nvme_dev {
+ 	void **host_mem_desc_bufs;
+ };
+ 
++static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
++{
++	int n = 0, ret;
++
++	ret = kstrtoint(val, 10, &n);
++	if (ret != 0 || n < 2)
++		return -EINVAL;
++
++	return param_set_int(val, kp);
++}
++
+ static inline unsigned int sq_idx(unsigned int qid, u32 stride)
+ {
+ 	return qid * 2 * stride;
+@@ -1892,8 +1912,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 
+ 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+ 
+-	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
+-				NVME_Q_DEPTH);
++	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, io_queue_depth);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
+ 	dev->dbs = dev->bar + 4096;
+ 
+-- 
+2.9.4
