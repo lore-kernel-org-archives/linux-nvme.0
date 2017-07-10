@@ -1,18 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 10 Jul 2017 13:13:35 +0300
-Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
-In-Reply-To: <20170710091054.GD5105@linux-x5ow.site>
-References: <20170707094838.GD16648@linux-x5ow.site>
- <a34f03ac-4306-ba87-e6f4-fc29bfd80828@grimberg.me>
- <2b758039-5957-96b5-bf30-5cbb5515fe9c@suse.de>
- <6eff23f4-1bb7-3c64-6916-987f4b38ae78@mellanox.com>
- <20170710091054.GD5105@linux-x5ow.site>
-Message-ID: <a940a9ea-c090-6620-a080-eb7cf6140ad3@grimberg.me>
+From: zhangweiping@didichuxing.com (weiping zhang)
+Date: Mon, 10 Jul 2017 18:14:13 +0800
+Subject: [PATCH] nvme-pci: fix build error for commit:bc565c15a4fa
+Message-ID: <20170710101413.GA22356@localhost.didichuxing.com>
 
+fix build error for:
+bc565c15a4fa nvme-pci: add module parameter for io queue depth
 
-> Tried up to 120 now, still broken.
+Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
+---
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Then something else is broken. 120 seconds is literally forever
-in IB world. can you please turn on pr_debug in
-nvmet_execute_keep_alive() and check that the target sees it
-in a timely manner?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8470503..48d3ed3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1912,7 +1912,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 
+ 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+ 
+-	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, io_queue_depth);
++	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
++				io_queue_depth);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
+ 	dev->dbs = dev->bar + 4096;
+ 
+-- 
+2.9.4
