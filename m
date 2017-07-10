@@ -1,229 +1,54 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 10 Jul 2017 09:22:28 +0300
-Subject: [PATCH 01/12] nvme-rdma: move nvme_rdma_configure_admin_queue code
- location
-In-Reply-To: <1499667759-15965-1-git-send-email-sagi@grimberg.me>
-References: <1499667759-15965-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499667759-15965-2-git-send-email-sagi@grimberg.me>
+Date: Mon, 10 Jul 2017 09:22:27 +0300
+Subject: [PATCH 00/12] Few more patches from the centralization set
+Message-ID: <1499667759-15965-1-git-send-email-sagi@grimberg.me>
 
-We will call it from other places so avoid having to
-forward declare it. Also move it next to
-nvme_rdma_destroy_admin_queue.
+Mostly nvme-rdma. I'm trying to work my way incrementally so I can
+start moving logic to nvme core in steps.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 185 ++++++++++++++++++++++++-----------------------
- 1 file changed, 94 insertions(+), 91 deletions(-)
+In the next set, I'll start detaching transport specific from
+the reset, delete and error recovery flows.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 4e25acc54e09..65e35824ceb6 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -152,6 +152,9 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *event);
- static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
- 
-+static const struct blk_mq_ops nvme_rdma_mq_ops;
-+static const struct blk_mq_ops nvme_rdma_admin_mq_ops;
-+
- /* XXX: really should move to a generic header sooner or later.. */
- static inline void put_unaligned_le24(u32 val, u8 *p)
- {
-@@ -662,6 +665,97 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl)
- 	nvme_rdma_dev_put(ctrl->device);
- }
- 
-+static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
-+{
-+	int error;
-+
-+	error = nvme_rdma_init_queue(ctrl, 0, NVME_AQ_DEPTH);
-+	if (error)
-+		return error;
-+
-+	ctrl->device = ctrl->queues[0].device;
-+
-+	/*
-+	 * We need a reference on the device as long as the tag_set is alive,
-+	 * as the MRs in the request structures need a valid ib_device.
-+	 */
-+	error = -EINVAL;
-+	if (!nvme_rdma_dev_get(ctrl->device))
-+		goto out_free_queue;
-+
-+	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
-+		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
-+
-+	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
-+	ctrl->admin_tag_set.ops = &nvme_rdma_admin_mq_ops;
-+	ctrl->admin_tag_set.queue_depth = NVME_RDMA_AQ_BLKMQ_DEPTH;
-+	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
-+	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
-+	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_rdma_request) +
-+		SG_CHUNK_SIZE * sizeof(struct scatterlist);
-+	ctrl->admin_tag_set.driver_data = ctrl;
-+	ctrl->admin_tag_set.nr_hw_queues = 1;
-+	ctrl->admin_tag_set.timeout = ADMIN_TIMEOUT;
-+
-+	error = blk_mq_alloc_tag_set(&ctrl->admin_tag_set);
-+	if (error)
-+		goto out_put_dev;
-+
-+	ctrl->ctrl.admin_q = blk_mq_init_queue(&ctrl->admin_tag_set);
-+	if (IS_ERR(ctrl->ctrl.admin_q)) {
-+		error = PTR_ERR(ctrl->ctrl.admin_q);
-+		goto out_free_tagset;
-+	}
-+
-+	error = nvmf_connect_admin_queue(&ctrl->ctrl);
-+	if (error)
-+		goto out_cleanup_queue;
-+
-+	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
-+
-+	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP,
-+			&ctrl->ctrl.cap);
-+	if (error) {
-+		dev_err(ctrl->ctrl.device,
-+			"prop_get NVME_REG_CAP failed\n");
-+		goto out_cleanup_queue;
-+	}
-+
-+	ctrl->ctrl.sqsize =
-+		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
-+
-+	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
-+	if (error)
-+		goto out_cleanup_queue;
-+
-+	ctrl->ctrl.max_hw_sectors =
-+		(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
-+
-+	error = nvme_init_identify(&ctrl->ctrl);
-+	if (error)
-+		goto out_cleanup_queue;
-+
-+	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
-+			&ctrl->async_event_sqe, sizeof(struct nvme_command),
-+			DMA_TO_DEVICE);
-+	if (error)
-+		goto out_cleanup_queue;
-+
-+	return 0;
-+
-+out_cleanup_queue:
-+	blk_cleanup_queue(ctrl->ctrl.admin_q);
-+out_free_tagset:
-+	/* disconnect and drain the queue before freeing the tagset */
-+	nvme_rdma_stop_queue(&ctrl->queues[0]);
-+	blk_mq_free_tag_set(&ctrl->admin_tag_set);
-+out_put_dev:
-+	nvme_rdma_dev_put(ctrl->device);
-+out_free_queue:
-+	nvme_rdma_free_queue(&ctrl->queues[0]);
-+	return error;
-+}
-+
- static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
-@@ -1534,97 +1628,6 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
- 	.timeout	= nvme_rdma_timeout,
- };
- 
--static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
--{
--	int error;
--
--	error = nvme_rdma_init_queue(ctrl, 0, NVME_AQ_DEPTH);
--	if (error)
--		return error;
--
--	ctrl->device = ctrl->queues[0].device;
--
--	/*
--	 * We need a reference on the device as long as the tag_set is alive,
--	 * as the MRs in the request structures need a valid ib_device.
--	 */
--	error = -EINVAL;
--	if (!nvme_rdma_dev_get(ctrl->device))
--		goto out_free_queue;
--
--	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
--		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
--
--	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
--	ctrl->admin_tag_set.ops = &nvme_rdma_admin_mq_ops;
--	ctrl->admin_tag_set.queue_depth = NVME_RDMA_AQ_BLKMQ_DEPTH;
--	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
--	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
--	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_rdma_request) +
--		SG_CHUNK_SIZE * sizeof(struct scatterlist);
--	ctrl->admin_tag_set.driver_data = ctrl;
--	ctrl->admin_tag_set.nr_hw_queues = 1;
--	ctrl->admin_tag_set.timeout = ADMIN_TIMEOUT;
--
--	error = blk_mq_alloc_tag_set(&ctrl->admin_tag_set);
--	if (error)
--		goto out_put_dev;
--
--	ctrl->ctrl.admin_q = blk_mq_init_queue(&ctrl->admin_tag_set);
--	if (IS_ERR(ctrl->ctrl.admin_q)) {
--		error = PTR_ERR(ctrl->ctrl.admin_q);
--		goto out_free_tagset;
--	}
--
--	error = nvmf_connect_admin_queue(&ctrl->ctrl);
--	if (error)
--		goto out_cleanup_queue;
--
--	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
--
--	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP,
--			&ctrl->ctrl.cap);
--	if (error) {
--		dev_err(ctrl->ctrl.device,
--			"prop_get NVME_REG_CAP failed\n");
--		goto out_cleanup_queue;
--	}
--
--	ctrl->ctrl.sqsize =
--		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
--
--	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
--	if (error)
--		goto out_cleanup_queue;
--
--	ctrl->ctrl.max_hw_sectors =
--		(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
--
--	error = nvme_init_identify(&ctrl->ctrl);
--	if (error)
--		goto out_cleanup_queue;
--
--	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
--			&ctrl->async_event_sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
--	if (error)
--		goto out_cleanup_queue;
--
--	return 0;
--
--out_cleanup_queue:
--	blk_cleanup_queue(ctrl->ctrl.admin_q);
--out_free_tagset:
--	/* disconnect and drain the queue before freeing the tagset */
--	nvme_rdma_stop_queue(&ctrl->queues[0]);
--	blk_mq_free_tag_set(&ctrl->admin_tag_set);
--out_put_dev:
--	nvme_rdma_dev_put(ctrl->device);
--out_free_queue:
--	nvme_rdma_free_queue(&ctrl->queues[0]);
--	return error;
--}
--
- static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
- {
- 	cancel_work_sync(&ctrl->err_work);
+In the set after that, I'll start adding the new transport ctrl->ops
+and move some logic to the core.
+
+Currently the new ctrl ops I'm shooting for are:
+* ->alloc_admin_queue()
+* ->free_admin_queue()
+* ->start_admin_queue()
+* ->stop_admin_queue()
+* ->alloc_io_queues()	/* admin/io separation is due to how pci releases queues */
+* ->free_io_queues()
+* ->start_io_queues()
+* ->stop_io_queues()
+* ->alloc_tagset()
+* ->free_tagset()
+* ->transport_enable()	/* for pcie mostly */
+* ->verify_ctrl()	/* for post features sanity checks */
+* ->fast_fail_io()	/* for fc aborts handling */
+
+Feedback and discussion is welcome.
+
+Sagi Grimberg (12):
+  nvme-rdma: move nvme_rdma_configure_admin_queue code location
+  nvme: Add admin_tagset pointer to nvme_ctrl
+  nvme-rdma: move tagset allocation to a dedicated routine
+  nvme-rdma: disable the controller on resets
+  nvme-rdma: don't free tagset on resets
+  nvme-rdma: reuse configure/destroy_admin_queue
+  nvme-rdma: introduce configure/destroy io queues
+  nvme-rdma: stop queues instead of simply flipping their state
+  nvme-rdma: rename nvme_rdma_init_queue to nvme_rdma_alloc_queue
+  nvme-rdma: introduce nvme_rdma_start_queue
+  nvme-rdma: cleanup error path in controller reset
+  nvme-rdma: call ops->reg_read64 instead of nvmf_reg_read64
+
+ drivers/nvme/host/fc.c     |   1 +
+ drivers/nvme/host/nvme.h   |   1 +
+ drivers/nvme/host/pci.c    |   1 +
+ drivers/nvme/host/rdma.c   | 545 +++++++++++++++++++++++----------------------
+ drivers/nvme/target/loop.c |   1 +
+ 5 files changed, 284 insertions(+), 265 deletions(-)
+
 -- 
 2.7.4
