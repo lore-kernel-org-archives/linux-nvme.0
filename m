@@ -1,28 +1,34 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Mon, 10 Jul 2017 16:07:35 +0800
-Subject: [PATCH] nvme-cli: Fix to the logic of the nvme list-ns <device>
- -a command.
-In-Reply-To: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
-References: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
-Message-ID: <11488ccc-3243-5191-08c6-0faa184620a8@huawei.com>
+From: Victor.Gladkov@taec.toshiba.com (Victor Gladkov)
+Date: Mon, 10 Jul 2017 08:24:37 +0000
+Subject: [PATCH] nvmet-rdma: prevent possible race condition for queue state
+Message-ID: <77FF42D3D537D24484F0BF5E2458C0C08506BE27@EXMAIL1.taec.toshiba.com>
 
-Hi,Chaitanya
-Thanks for your effort.
+This patch prevents possible race condition for queue state when the state may be changed before take a lock.
+ 
 
-On 2017/7/9 8:36, Chaitanya Kulkarni wrote:
-> This fix will reverse the logic of the -a parm in the nvme list-ns
-> command. Currently, the -a option only shows the attached namespaces
-> and not all the namespaces. By removing the extra ! it will show attached
-> inactive namespaces with -a option as mentioned in the help text.
-> 
-Actually, the approach of reversing the logic of the -a option doesn't
-keep the consistence of literal input parameter __bool__ __all__ of the
-nvme_identify_ns_list function.
+kernel v4.9.36
+--- a/drivers/nvme/target/rdma.c     2017-07-10 10:11:02.003751067 +0300
++++ b/drivers/nvme/target/rdma.c    2017-07-10 10:09:42.137755664 +0300
+@@ -767,7 +767,11 @@
+        if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+                unsigned long flags;
 
-By the way ,I had sent a patch to fix this two month ago but Keith missed it.
-A new updated patch of this was sent a minute ago. Hope Keith would catch it.
-(The origin link is: http://lists.infradead.org/pipermail/linux-nvme/2017-April/009805.html
-)
+                spin_lock_irqsave(&queue->state_lock, flags);
++               if (queue->state == NVMET_RDMA_Q_LIVE){
++                      spin_unlock_irqrestore(&queue->state_lock, flags);
++                       goto handle_command;
++               }
+                if (queue->state == NVMET_RDMA_Q_CONNECTING)
+                        list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
+                else
+@@ -776,5 +780,6 @@
+                return;
+        }
 
-Thanks
-.
++handle_command;
+        nvmet_rdma_handle_command(queue, rsp);
+ }
+
+
+Best Regards,
+Victor
