@@ -1,21 +1,28 @@
-From: zhangweiping@didichuxing.com (weiping zhang)
-Date: Mon, 10 Jul 2017 16:02:23 +0800
-Subject: [PATCH] nvme-pci: add module parameter for io queue depth
-In-Reply-To: <dabfe11a-d133-4de9-4be5-b1b8e0c63e87@grimberg.me>
-References: <20170707090547.GA2420@localhost.didichuxing.com>
- <20170707152948.GB14788@localhost.localdomain>
- <dabfe11a-d133-4de9-4be5-b1b8e0c63e87@grimberg.me>
-Message-ID: <20170710080223.GA5323@localhost.didichuxing.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Mon, 10 Jul 2017 16:07:35 +0800
+Subject: [PATCH] nvme-cli: Fix to the logic of the nvme list-ns <device>
+ -a command.
+In-Reply-To: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
+References: <1499560605-16815-1-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <11488ccc-3243-5191-08c6-0faa184620a8@huawei.com>
 
-On Mon, Jul 10, 2017@08:54:57AM +0300, Sagi Grimberg wrote:
-> 
-> >>+static int io_queue_depth = 1024;
-> >>+module_param(io_queue_depth, int, 0644);
-> >>+MODULE_PARM_DESC(io_queue_depth, "set io queue depth");
-> >We need to be a little more careful about this field if users can write
-> >whatever they want. It's gotta be >= 2 or else trouble will occur.
-> 
-> Agreed, please resend the patch. Perhaps a good way is to use
-> module_param_cb() to verify the input value is >= 2?
+Hi,Chaitanya
+Thanks for your effort.
 
-thanks so much, I will send patch v3.
+On 2017/7/9 8:36, Chaitanya Kulkarni wrote:
+> This fix will reverse the logic of the -a parm in the nvme list-ns
+> command. Currently, the -a option only shows the attached namespaces
+> and not all the namespaces. By removing the extra ! it will show attached
+> inactive namespaces with -a option as mentioned in the help text.
+> 
+Actually, the approach of reversing the logic of the -a option doesn't
+keep the consistence of literal input parameter __bool__ __all__ of the
+nvme_identify_ns_list function.
+
+By the way ,I had sent a patch to fix this two month ago but Keith missed it.
+A new updated patch of this was sent a minute ago. Hope Keith would catch it.
+(The origin link is: http://lists.infradead.org/pipermail/linux-nvme/2017-April/009805.html
+)
+
+Thanks
+.
