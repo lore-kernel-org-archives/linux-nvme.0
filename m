@@ -1,30 +1,48 @@
-From: david.fugate@intel.com (David Wayne Fugate)
-Date: Mon, 10 Jul 2017 12:39:59 -0600
-Subject: [PATCH] NVMe: Added another device ID with stripe quirk
-In-Reply-To: <a01eeb47-7566-05fb-4d8b-db5ddef36b82@grimberg.me>
-References: <a01eeb47-7566-05fb-4d8b-db5ddef36b82@grimberg.me>
-Message-ID: <1499711999-2370-1-git-send-email-david.fugate@intel.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 10 Jul 2017 11:50:54 -0700
+Subject: [PATCH rfc 02/30] nvme-rdma: Don't alloc/free the tagset on reset
+In-Reply-To: <20170619071851.GB13168@lst.de>
+References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
+ <1497799324-19598-3-git-send-email-sagi@grimberg.me>
+ <20170619071851.GB13168@lst.de>
+Message-ID: <47506edd-7e91-0367-1a5c-92d5c1b64621@broadcom.com>
 
-Adds a fourth Intel controller which has the "stripe" quirk.
+On 6/19/2017 12:18 AM, Christoph Hellwig wrote:
+>> +static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remove)
+>>   {
+>> +	nvme_rdma_stop_queue(&ctrl->queues[0]);
+>> +	if (remove) {
+>> +		blk_cleanup_queue(ctrl->ctrl.admin_connect_q);
+>> +		blk_cleanup_queue(ctrl->ctrl.admin_q);
+>> +		blk_mq_free_tag_set(&ctrl->admin_tag_set);
+>> +		nvme_rdma_dev_put(ctrl->device);
+>> +	}
+>> +
+>>   	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
+>>   			sizeof(struct nvme_command), DMA_TO_DEVICE);
+>> +	nvme_rdma_free_queue(&ctrl->queues[0]);
+> I don't like the calling convention.  We only have have two callers
+> anyway.  So I'd much rather only keep the code inside the if above
+> in the new nvme_rdma_destroy_admin_queue that is only called at shutdown
+> time, and opencode the calls to nvme_rdma_stop_queue, nvme_rdma_free_qe
+> and nvme_rdma_free_queue in the callers.
+>
 
-Signed-off-by: David Wayne Fugate <david.fugate at intel.com>
----
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
+Any chance you can make the organization like what I did with FC and 
+avoid all the "new" and "remove" flags ?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 48d3ed3..9101b3e 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2462,6 +2462,9 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0x0a54),
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
- 				NVME_QUIRK_DEALLOCATE_ZEROES, },
-+	{ PCI_VDEVICE(INTEL, 0x0a55),
-+		.driver_data = NVME_QUIRK_STRIPE_SIZE |
-+				NVME_QUIRK_DEALLOCATE_ZEROES, },
- 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
- 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS },
- 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
--- 
-2.7.4
+e.g. code blocks for:
+- allocation/initialization for the controller and the tag sets. 
+Basically initial allocation/creation of everything that would be the 
+os-facing side of the controller.
+- an association (or call it a session) create. Basically everything 
+that makes the link-side ties to the subsystem and creates the 
+controller and its connections. Does admin queue creation, controller 
+init, and io queue creation, and enablement of the blk-mq queues as it 
+does so.
+- an association teardown. Basically everything that stops the blk-mq 
+queues and tears down the link-side ties to the controller.
+- a final controller teardown, which removes it from the system. 
+Everything that terminates the os-facing side of the controller.
+
+-- james
