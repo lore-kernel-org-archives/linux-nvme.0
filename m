@@ -1,29 +1,25 @@
-From: zhangweiping@didichuxing.com (weiping zhang)
-Date: Mon, 10 Jul 2017 18:14:13 +0800
-Subject: [PATCH] nvme-pci: fix build error for commit:bc565c15a4fa
-Message-ID: <20170710101413.GA22356@localhost.didichuxing.com>
+From: zouming.zouming@huawei.com (Zou Ming)
+Date: Mon, 10 Jul 2017 18:17:19 +0800
+Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
+In-Reply-To: <1499444581-28268-8-git-send-email-keith.busch@intel.com>
+References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
+ <1499444581-28268-8-git-send-email-keith.busch@intel.com>
+Message-ID: <f1589f67-f3ea-e16a-a99c-f79afb9b6216@huawei.com>
 
-fix build error for:
-bc565c15a4fa nvme-pci: add module parameter for io queue depth
+Hi Keith:
+   Thanks,Send All AEN info to user space looks good to me.
 
-Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+   In addition I have a question, is there a scene where repeated asynchronous events are received?
+   Because the event is sent to the user space for asynchronous processing, and at the same time issued a new asynchronous event request command.
+   The user space may be processed slower than the issued command, resulting in a duplicate asynchronous event report.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8470503..48d3ed3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1912,7 +1912,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 
- 	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
- 
--	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, io_queue_depth);
-+	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
-+				io_queue_depth);
- 	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
- 	dev->dbs = dev->bar + 4096;
- 
--- 
-2.9.4
+Best regards,
+Zou Ming.
+
+On 2017/7/8 0:23, Keith Busch wrote:
+> This will give udev a chance to handle asynchronous event notification
+> and clear the log to unmask future events of the same type. Since the
+> core driver allows only one AEN request at a time, we can only have one
+> possible oustanding uevent to send. This implementation saves the last
+> AEN result from the IRQ handler, and sends the uevent change notification
+> when the AEN work is rescheduled.
