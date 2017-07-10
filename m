@@ -1,10 +1,8 @@
-From: chuck.lever@oracle.com (Chuck Lever)
-Date: Mon, 10 Jul 2017 18:04:18 -0400
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Mon, 10 Jul 2017 16:09:05 -0600
 Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <20170710213251.GA21908@obsidianresearch.com>
-References: <f1f1a68c-90db-e6bf-e35e-55c4b469c339@grimberg.me>
- <7D1C540B-FEA0-4101-8B58-87BCB7DB5492@oracle.com>
- <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
+In-Reply-To: <A342254B-1ECB-4644-8D68-328A52940C52@oracle.com>
+References: <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
  <9D8C7BC8-7E18-405A-9017-9DB23A6B5C15@oracle.com>
  <11aa1a24-9f0b-dbb8-18eb-ad357c7727b2@grimberg.me>
  <9E30754F-464A-4B62-ADE7-F6B2F6D95763@oracle.com>
@@ -13,55 +11,18 @@ References: <f1f1a68c-90db-e6bf-e35e-55c4b469c339@grimberg.me>
  <20170710212430.GA21721@obsidianresearch.com>
  <C142385D-3A54-44C9-BA3D-0AABBC5E9E7B@oracle.com>
  <20170710213251.GA21908@obsidianresearch.com>
-Message-ID: <A342254B-1ECB-4644-8D68-328A52940C52@oracle.com>
+ <A342254B-1ECB-4644-8D68-328A52940C52@oracle.com>
+Message-ID: <20170710220905.GA22589@obsidianresearch.com>
 
+On Mon, Jul 10, 2017@06:04:18PM -0400, Chuck Lever wrote:
 
-> On Jul 10, 2017,@5:32 PM, Jason Gunthorpe <jgunthorpe@obsidianresearch.com> wrote:
+> > The server sounds fine, how does the client work?
 > 
-> On Mon, Jul 10, 2017@05:29:53PM -0400, Chuck Lever wrote:
->> 
->>> On Jul 10, 2017,@5:24 PM, Jason Gunthorpe <jgunthorpe@obsidianresearch.com> wrote:
->>> 
->>> On Mon, Jul 10, 2017@03:03:18PM -0400, Chuck Lever wrote:
->>> 
->>>>>> Or I could revert all the "map page cache pages" logic and
->>>>>> just use memcpy for small NFS WRITEs, and RDMA the rest of
->>>>>> the time. That keeps everything simple, but means large
->>>>>> inline thresholds can't use send-in-place.
->>>>> 
->>>>> Don't you have the same problem with RDMA WRITE?
->>>> 
->>>> The server side initiates RDMA Writes. The final RDMA Write in a WR
->>>> chain is signaled, but a subsequent Send completion is used to
->>>> determine when the server may release resources used for the Writes.
->>>> We're already doing it the slow way there, and there's no ^C hazard
->>>> on the server.
->>> 
->>> Wait, I guess I meant RDMA READ path.
->>> 
->>> The same contraints apply to RKeys as inline send - you cannot DMA
->>> unmap rkey memory until the rkey is invalidated at the HCA.
->>> 
->>> So posting an invalidate SQE and then immediately unmapping the DMA
->>> pages is bad too..
->>> 
->>> No matter how the data is transfered the unmapping must follow the
->>> same HCA synchronous model.. DMA unmap must only be done from the send
->>> completion handler (inline send or invalidate rkey), from the recv
->>> completion handler (send with invalidate), or from QP error state teardown.
->>> 
->>> Anything that does DMA memory unmap from another thread is very, very
->>> suspect, eg async from a ctrl-c trigger event.
->> 
->> 4.13 server side is converted to use the rdma_rw API for
->> handling RDMA Read. For non-iWARP cases, it's using the
->> local DMA key for Read sink buffers. For iWARP it should
->> be using Read-with-invalidate (IIRC).
-> 
-> The server sounds fine, how does the client work?
+> The client does not initiate RDMA Read or Write today.
 
-The client does not initiate RDMA Read or Write today.
+Right, but it provides an rkey that the server uses for READ or WRITE.
 
+The invalidate of that rkey at the client must follow the same rules
+as inline send.
 
---
-Chuck Lever
+Jason
