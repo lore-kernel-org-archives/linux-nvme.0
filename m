@@ -1,28 +1,25 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Mon, 10 Jul 2017 16:09:05 -0600
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <A342254B-1ECB-4644-8D68-328A52940C52@oracle.com>
-References: <66b1b8be-e506-50b8-c01f-fa0e3cea98a4@grimberg.me>
- <9D8C7BC8-7E18-405A-9017-9DB23A6B5C15@oracle.com>
- <11aa1a24-9f0b-dbb8-18eb-ad357c7727b2@grimberg.me>
- <9E30754F-464A-4B62-ADE7-F6B2F6D95763@oracle.com>
- <20170709164755.GB3058@obsidianresearch.com>
- <A7C8C159-E916-4060-9FD1-8726D816B3C0@oracle.com>
- <20170710212430.GA21721@obsidianresearch.com>
- <C142385D-3A54-44C9-BA3D-0AABBC5E9E7B@oracle.com>
- <20170710213251.GA21908@obsidianresearch.com>
- <A342254B-1ECB-4644-8D68-328A52940C52@oracle.com>
-Message-ID: <20170710220905.GA22589@obsidianresearch.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 10 Jul 2017 18:57:30 -0400
+Subject: [PATCH 2/7] nvme/fc: Fix admin queue depth setup
+In-Reply-To: <aef1f200-336f-fdf4-36bc-fe13bfd67474@grimberg.me>
+References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
+ <1499444581-28268-3-git-send-email-keith.busch@intel.com>
+ <aef1f200-336f-fdf4-36bc-fe13bfd67474@grimberg.me>
+Message-ID: <20170710225730.GB13671@localhost.localdomain>
 
-On Mon, Jul 10, 2017@06:04:18PM -0400, Chuck Lever wrote:
-
-> > The server sounds fine, how does the client work?
+On Mon, Jul 10, 2017@08:59:02AM +0300, Sagi Grimberg wrote:
+> > The NVME_FC_AQ_BLKMQ_DEPTH is one less than what we actually want the
+> > admin queue's depth to be since it subtracts the AEN entry.
+> > 
+> > We also need to subtract 1 from the blk-mq depth to always leave an
+> > empty queue entry, and to not collide command id with the AEN request.
+> > 
+> > Signed-off-by: Keith Busch <keith.busch at intel.com>
 > 
-> The client does not initiate RDMA Read or Write today.
+> nvme-loop needs the same patch.
 
-Right, but it provides an rkey that the server uses for READ or WRITE.
-
-The invalidate of that rkey at the client must follow the same rules
-as inline send.
-
-Jason
+Yeah, it looks like it does, though it's inadvertently fixed in patch
+4. In truth, patch 4 makes this one unnecessary for fc too, but I didn't
+want to change the q-depth and centralize its definition in a single
+patch. I'll spin a new version with the loop fix in the series, as well
+as Christoph's suggestions.
