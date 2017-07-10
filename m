@@ -1,42 +1,38 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Mon, 10 Jul 2017 15:56:07 +0800
-Subject: [PATCH v2] nvme-cli/list-ns: fix identifying active or allocated
- namespaces list
-Message-ID: <1499673367-9740-1-git-send-email-guanjunxiong@huawei.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 10 Jul 2017 09:59:22 +0200
+Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
+In-Reply-To: <4f2962b4-b099-276c-b3da-32c8fa63adcf@mellanox.com>
+References: <20170707094838.GD16648@linux-x5ow.site>
+ <4f2962b4-b099-276c-b3da-32c8fa63adcf@mellanox.com>
+Message-ID: <20170710075921.GC5105@linux-x5ow.site>
 
-The logic of the CNS field of identify namespace list is wrong.
-For example, nvme list-ns /dev/nvme0 -n 0  should return active
-namespaces list starting with id 1 (including), but currently this
-script command returns INVALID_OPCODE if the target doesn't support 
-listing allocated namespaces or all the allocated attached namespaces
-id. So fix it by swaping the CNS flags of active and allocated list.
+On Sat, Jul 08, 2017@09:14:26PM +0300, Max Gurtovoy wrote:
+> I need more info to repro.
+> What is the backing store at the target ?
 
-Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Either null_blk or zram, doesn't really make a difference.
 
----
+> are you using RoCE or IB link layer ?
 
-Changes sinse v1:
-* Articulated the subject and commit comments 
-* Added signoff-by tag
-* Added reviewed-by tag of Sagi
->8------------------------------------------------8<
+ibstat says IB
 
- nvme-ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ConnectX-3 vs. ConnectX-3 B2B ?
+Mellanox Technologies MT26418
 
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index f5cbc28..f49f1c0 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -353,7 +353,7 @@ int nvme_identify_ns(int fd, __u32 nsid, bool present, void *data)
- 
- int nvme_identify_ns_list(int fd, __u32 nsid, bool all, void *data)
- {
--	int cns = all ? NVME_ID_CNS_NS_ACTIVE_LIST : NVME_ID_CNS_NS_PRESENT_LIST;
-+	int cns = all ? NVME_ID_CNS_NS_PRESENT_LIST : NVME_ID_CNS_NS_ACTIVE_LIST;
- 
- 	return nvme_identify(fd, nsid, cns, data);
- }
+> what is the FW on both target and host ?
+> what is the KATO ?
+default
+
+> can you increase it as a WA ?
+Haven't tried yet.
+
+Thanks,
+	Johannes
+
 -- 
-2.6.4.windows.1
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
