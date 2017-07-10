@@ -1,60 +1,42 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 10 Jul 2017 09:17:36 +0200
-Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
-In-Reply-To: <a34f03ac-4306-ba87-e6f4-fc29bfd80828@grimberg.me>
-References: <20170707094838.GD16648@linux-x5ow.site>
- <a34f03ac-4306-ba87-e6f4-fc29bfd80828@grimberg.me>
-Message-ID: <2b758039-5957-96b5-bf30-5cbb5515fe9c@suse.de>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Mon, 10 Jul 2017 15:56:07 +0800
+Subject: [PATCH v2] nvme-cli/list-ns: fix identifying active or allocated
+ namespaces list
+Message-ID: <1499673367-9740-1-git-send-email-guanjunxiong@huawei.com>
 
-On 07/10/2017 09:06 AM, Sagi Grimberg wrote:
-> Hey Johannes,
-> 
->> I'm seeing this on stock v4.12 as well as on our backports.
->>
->> My current hypothesis is that I saturate the RDMA link so the
->> keepalives have
->> no chance to get to the target.
-> 
-> Your observation seems correct to me, because we have no
-> way to guarantee that a keep-alive capsule will be prioritized higher
-> than normal I/O in the fabric layer (as you said, the link might be
-> saturated).
-> 
->> Is there a way to priorize the admin queue somehow?
-> 
-> Not really (at least for rdma). We made kato configurable,
-> perhaps we should give a higher default to not see it even
-> in extreme workloads?
-> 
-> Couple of questions:
-> - Are you using RoCE (v2 or v1)? or Infiniband?
-> - Does it happen with mlx5 as well?
-> - Are host/target connected via switch/router? if so is flow-control
->   on? and what are the host/target port speeds?
-> - Can you try and turn debug logging to know what delays (keep-alive
->   from host to target or the keep-alive response)?
-> - What kato is required to not stumble on this?
-> 
-Well, this sounds identically to the path_checker problem we're having
-in multipathing (and hch complained about several times).
-There's a rather easy solution to it: don't send keepalives if I/O is
-running, but rather tack it on the most current I/O packet.
-In the end, you only want to know if the link is alive; you don't have
-to transfer any data as such.
-So if you just add a flag (maybe on the RDMA layer) to the next command
-to be sent you could easily simulate keepalive without having to send
-additional commands.
+The logic of the CNS field of identify namespace list is wrong.
+For example, nvme list-ns /dev/nvme0 -n 0  should return active
+namespaces list starting with id 1 (including), but currently this
+script command returns INVALID_OPCODE if the target doesn't support 
+listing allocated namespaces or all the allocated attached namespaces
+id. So fix it by swaping the CNS flags of active and allocated list.
 
-(Will probably break all sorts of layering, but if you push it down far
-enough maybe no-one will notice.)
-(And if hch complains ... well .. he invented the thing, didn't he?)
+Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Cheers,
+---
 
-Hannes
+Changes sinse v1:
+* Articulated the subject and commit comments 
+* Added signoff-by tag
+* Added reviewed-by tag of Sagi
+>8------------------------------------------------8<
+
+ nvme-ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index f5cbc28..f49f1c0 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -353,7 +353,7 @@ int nvme_identify_ns(int fd, __u32 nsid, bool present, void *data)
+ 
+ int nvme_identify_ns_list(int fd, __u32 nsid, bool all, void *data)
+ {
+-	int cns = all ? NVME_ID_CNS_NS_ACTIVE_LIST : NVME_ID_CNS_NS_PRESENT_LIST;
++	int cns = all ? NVME_ID_CNS_NS_PRESENT_LIST : NVME_ID_CNS_NS_ACTIVE_LIST;
+ 
+ 	return nvme_identify(fd, nsid, cns, data);
+ }
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+2.6.4.windows.1
