@@ -1,53 +1,29 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 10 Jul 2017 11:57:06 -0700
-Subject: [PATCH rfc 08/30] nvme-rdma: cleanup error path in controller
- reset
-In-Reply-To: <1497799324-19598-9-git-send-email-sagi@grimberg.me>
-References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-9-git-send-email-sagi@grimberg.me>
-Message-ID: <57675cfb-a63a-3fef-ae63-0f8387b67082@broadcom.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 10 Jul 2017 15:08:19 -0400
+Subject: kernel BUG at nvme/host/pci.c
+In-Reply-To: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
+References: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
+Message-ID: <20170710190818.GA13671@localhost.localdomain>
 
-On 6/18/2017 8:21 AM, Sagi Grimberg wrote:
-> No need to queue an extra work to indirect controller
-> uninit and put the final reference.
->
->
->   static void nvme_rdma_del_ctrl_work(struct work_struct *work)
->   {
->   	struct nvme_rdma_ctrl *ctrl = container_of(work,
->   				struct nvme_rdma_ctrl, delete_work);
->   
-> -	__nvme_rdma_remove_ctrl(ctrl, true);
-> +	nvme_uninit_ctrl(&ctrl->ctrl);
-> +	nvme_rdma_shutdown_ctrl(ctrl, true);
-> +	nvme_put_ctrl(&ctrl->ctrl);
->   }
->   
->   static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
-> @@ -1791,14 +1784,6 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
->   	return ret;
->   }
->   
-...
+On Mon, Jul 10, 2017@08:03:16PM +0200, Andreas Pflug wrote:
+> I'm running a patched (see below) debian 4.9.30 kernel with xen4.8.1 on
+> Debian9. Starting a specific virtual machine, very soon the kernel will emit
+> 
+>     kernel BUG at /usr/src/kernel/linux-4.9.30/drivers/nvme/host/pci.c:495!
+> 
+> via netconsole to my logging host, and become unstable until hard reset.
+> Hardware is dual E5-2620v4 on Supermicro 10DRI-T with two SAMSUNG
+> MZQLW960HMJP-00003 NVME disks (mdadm RAID-1) backing the vhds (os on
+> separate SSD).
+> 
+> The bug was reported to debian as https://bugs.debian.org/866511 . According
+> to Ben Hutchings' advice, I patched the standard kernel with
+> 0001-swiotlb-ensure-that-page-sized-mappings-are-page-ali.patch since its
+> description sounded promising, but the bug remains.
 
-> @@ -1832,10 +1814,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
->   
->   	return;
->   
-> -del_dead_ctrl:
-> -	/* Deleting this dead controller... */
-> +out_destroy_io:
-> +	nvme_rdma_destroy_io_queues(ctrl, true);
-> +out_destroy_admin:
-> +	nvme_rdma_destroy_admin_queue(ctrl, true);
->   	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
-> -	WARN_ON(!queue_work(nvme_wq, &ctrl->delete_work));
-> +	nvme_uninit_ctrl(&ctrl->ctrl);
-> +	nvme_put_ctrl(&ctrl->ctrl);
->   }
->   
->   static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
-
-Recommend calls to nvme_stop_keep_alive() prior to nvme_uninit_ctrl().
-
--- james
+The BUG_ON means the nvme driver was given a scatter list that is invalid
+for the constraints the NVMe device was registered with. There have been
+issues in the past when NVMe is used with stacking devices like RAID,
+but I think they are all resolved. Would you happen to know if this
+is successful with the 4.12 kernel? If so, I might be able to find the
+patch(es) for 4.9-stable, otherwise we'll need to fix it there first.
