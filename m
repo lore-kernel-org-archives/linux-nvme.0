@@ -1,33 +1,30 @@
-From: pgadmin@pse-consulting.de (Andreas Pflug)
-Date: Mon, 10 Jul 2017 20:03:16 +0200
-Subject: kernel BUG at nvme/host/pci.c
-Message-ID: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
+From: david.fugate@intel.com (David Wayne Fugate)
+Date: Mon, 10 Jul 2017 12:39:59 -0600
+Subject: [PATCH] NVMe: Added another device ID with stripe quirk
+In-Reply-To: <a01eeb47-7566-05fb-4d8b-db5ddef36b82@grimberg.me>
+References: <a01eeb47-7566-05fb-4d8b-db5ddef36b82@grimberg.me>
+Message-ID: <1499711999-2370-1-git-send-email-david.fugate@intel.com>
 
-I'm running a patched (see below) debian 4.9.30 kernel with xen4.8.1 on 
-Debian9. Starting a specific virtual machine, very soon the kernel will emit
+Adds a fourth Intel controller which has the "stripe" quirk.
 
-     kernel BUG at /usr/src/kernel/linux-4.9.30/drivers/nvme/host/pci.c:495!
+Signed-off-by: David Wayne Fugate <david.fugate at intel.com>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-via netconsole to my logging host, and become unstable until hard reset. 
-Hardware is dual E5-2620v4 on Supermicro 10DRI-T with two SAMSUNG 
-MZQLW960HMJP-00003 NVME disks (mdadm RAID-1) backing the vhds (os on 
-separate SSD).
-
-The bug was reported to debian as https://bugs.debian.org/866511 . 
-According to Ben Hutchings' advice, I patched the standard kernel with 
-0001-swiotlb-ensure-that-page-sized-mappings-are-page-ali.patch since 
-its description sounded promising, but the bug remains.
-
-Log is attached, cut after 460 lines: the last trace on CPU15 is 
-repeated all over again, eventually leading to "Fixing recursive fault 
-but reboot is needed!"
-
-Regards,
-Andreas
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: xen2-kernel.log
-Type: text/x-log
-Size: 17073 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170710/e8cb46ce/attachment.bin>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 48d3ed3..9101b3e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2462,6 +2462,9 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0x0a54),
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DEALLOCATE_ZEROES, },
++	{ PCI_VDEVICE(INTEL, 0x0a55),
++		.driver_data = NVME_QUIRK_STRIPE_SIZE |
++				NVME_QUIRK_DEALLOCATE_ZEROES, },
+ 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+-- 
+2.7.4
