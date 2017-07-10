@@ -1,93 +1,60 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 10 Jul 2017 10:17:34 +0300
-Subject: [PATCH v7 for-4.13 7/7] nvme-rdma: use intelligent affinity based
- queue mappings
-In-Reply-To: <1499671054-23899-1-git-send-email-sagi@grimberg.me>
-References: <1499671054-23899-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499671054-23899-8-git-send-email-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 10 Jul 2017 09:17:36 +0200
+Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
+In-Reply-To: <a34f03ac-4306-ba87-e6f4-fc29bfd80828@grimberg.me>
+References: <20170707094838.GD16648@linux-x5ow.site>
+ <a34f03ac-4306-ba87-e6f4-fc29bfd80828@grimberg.me>
+Message-ID: <2b758039-5957-96b5-bf30-5cbb5515fe9c@suse.de>
 
-Use the generic block layer affinity mapping helper. Also,
-limit nr_hw_queues to the rdma device number of irq vectors
-as we don't really need more.
+On 07/10/2017 09:06 AM, Sagi Grimberg wrote:
+> Hey Johannes,
+> 
+>> I'm seeing this on stock v4.12 as well as on our backports.
+>>
+>> My current hypothesis is that I saturate the RDMA link so the
+>> keepalives have
+>> no chance to get to the target.
+> 
+> Your observation seems correct to me, because we have no
+> way to guarantee that a keep-alive capsule will be prioritized higher
+> than normal I/O in the fabric layer (as you said, the link might be
+> saturated).
+> 
+>> Is there a way to priorize the admin queue somehow?
+> 
+> Not really (at least for rdma). We made kato configurable,
+> perhaps we should give a higher default to not see it even
+> in extreme workloads?
+> 
+> Couple of questions:
+> - Are you using RoCE (v2 or v1)? or Infiniband?
+> - Does it happen with mlx5 as well?
+> - Are host/target connected via switch/router? if so is flow-control
+>   on? and what are the host/target port speeds?
+> - Can you try and turn debug logging to know what delays (keep-alive
+>   from host to target or the keep-alive response)?
+> - What kato is required to not stumble on this?
+> 
+Well, this sounds identically to the path_checker problem we're having
+in multipathing (and hch complained about several times).
+There's a rather easy solution to it: don't send keepalives if I/O is
+running, but rather tack it on the most current I/O packet.
+In the end, you only want to know if the link is alive; you don't have
+to transfer any data as such.
+So if you just add a flag (maybe on the RDMA layer) to the next command
+to be sent you could easily simulate keepalive without having to send
+additional commands.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+(Will probably break all sorts of layering, but if you push it down far
+enough maybe no-one will notice.)
+(And if hch complains ... well .. he invented the thing, didn't he?)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 24397d306d53..7ebd3cdade92 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/atomic.h>
- #include <linux/blk-mq.h>
-+#include <linux/blk-mq-rdma.h>
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -496,14 +497,10 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
- 	queue->device = dev;
- 
- 	/*
--	 * The admin queue is barely used once the controller is live, so don't
--	 * bother to spread it out.
-+	 * Spread I/O queues completion vectors according their queue index.
-+	 * Admin queues can always go on completion vector 0.
- 	 */
--	if (idx == 0)
--		comp_vector = 0;
--	else
--		comp_vector = idx % ibdev->num_comp_vectors;
--
-+	comp_vector = idx == 0 ? idx : idx - 1;
- 
- 	/* +1 for ib_stop_cq */
- 	queue->ib_cq = ib_alloc_cq(dev->dev, queue,
-@@ -645,10 +642,20 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
- static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	struct ib_device *ibdev = ctrl->device->dev;
- 	unsigned int nr_io_queues;
- 	int i, ret;
- 
- 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
-+
-+	/*
-+	 * we map queues according to the device irq vectors for
-+	 * optimal locality so we don't need more queues than
-+	 * completion vectors.
-+	 */
-+	nr_io_queues = min_t(unsigned int, nr_io_queues,
-+				ibdev->num_comp_vectors);
-+
- 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret)
- 		return ret;
-@@ -1546,6 +1553,13 @@ static void nvme_rdma_complete_rq(struct request *rq)
- 	nvme_complete_rq(rq);
- }
- 
-+static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
-+{
-+	struct nvme_rdma_ctrl *ctrl = set->driver_data;
-+
-+	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
-+}
-+
- static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.queue_rq	= nvme_rdma_queue_rq,
- 	.complete	= nvme_rdma_complete_rq,
-@@ -1555,6 +1569,7 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.init_hctx	= nvme_rdma_init_hctx,
- 	.poll		= nvme_rdma_poll,
- 	.timeout	= nvme_rdma_timeout,
-+	.map_queues	= nvme_rdma_map_queues,
- };
- 
- static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
+Cheers,
+
+Hannes
 -- 
-2.7.4
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
