@@ -1,21 +1,32 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 11 Jul 2017 10:36:47 -0400
-Subject: [PATCH v5 1/1] nvme: Add support for FW activation without reset
-In-Reply-To: <1499780912-10253-1-git-send-email-a.dawn@samsung.com>
-References: <1499780675-9869-1-git-send-email-a.dawn@samsung.com>
- <CGME20170711134755epcas1p1d699b8c70dab6fcde72ea92d03f76079@epcas1p1.samsung.com>
- <1499780912-10253-1-git-send-email-a.dawn@samsung.com>
-Message-ID: <20170711143647.GA4604@localhost.localdomain>
+Date: Tue, 11 Jul 2017 10:43:53 -0400
+Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
+In-Reply-To: <6e6d624b-4749-7b72-9ebc-58ba328adc64@broadcom.com>
+References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
+ <1499444581-28268-8-git-send-email-keith.busch@intel.com>
+ <6e6d624b-4749-7b72-9ebc-58ba328adc64@broadcom.com>
+Message-ID: <20170711144353.GB4604@localhost.localdomain>
 
-On Tue, Jul 11, 2017@07:18:32PM +0530, Arnav Dawn wrote:
-> This patch adds support for handling Fw activation without reset
-> On completion of FW-activation-starting AER, all queues are
-> paused till CSTS.PP is cleared or timed out (exceeds max time for
-> fw activtion MTFA). If device fails to clear CSTS.PP within MTFA,
-> driver issues reset controller
+On Mon, Jul 10, 2017@04:57:43PM -0700, James Smart wrote:
+> On 7/7/2017 9:23 AM, Keith Busch wrote:
+> > +void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+> > +{
+> > +	char buffer[20]; /* NVME_AEN=0xffffffff\0 */
+> > +	char *envp[2] = {buffer, NULL};
+> > +	u32 aen = ctrl->aen;
+> > +
+> > +	ctrl->aen = 0;
+> > +	if (!aen)
+> > +		return;
+> > +
+> > +	snprintf(buffer, sizeof(buffer), "NVME_AEN=%#08x", aen);
+> > +	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
+> > +}
+> > +
 > 
-> Signed-off-by: Arnav Dawn <a.dawn at samsung.com>
+> Passing on a comment from Christoph received on a similar fc udev event:
+> "Please use kasprintf so that we have a dynamic allocation and don't need to
+> hardcode buffer sizes"
 
-This looks okay to me, thanks for doing this feature.
-
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+I agree that usage for dynamic strings is better, but this is a fixed
+sized string that will always be 20 bytes.
