@@ -1,22 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 11 Jul 2017 12:24:33 -0400
-Subject: [PATCH 02/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
- devices
-In-Reply-To: <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
-References: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <20170711162433.GC4604@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 11 Jul 2017 10:14:20 -0700
+Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
+In-Reply-To: <20170711144353.GB4604@localhost.localdomain>
+References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
+ <1499444581-28268-8-git-send-email-keith.busch@intel.com>
+ <6e6d624b-4749-7b72-9ebc-58ba328adc64@broadcom.com>
+ <20170711144353.GB4604@localhost.localdomain>
+Message-ID: <e78bec7c-6393-a527-99df-3eb71245fb6d@broadcom.com>
 
-On Tue, Jul 11, 2017@01:55:02AM -0700, Suganath Prabu S wrote:
-> diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.h b/drivers/scsi/mpt3sas/mpt3sas_base.h
-> index 60fa7b6..cebdd8e 100644
-> --- a/drivers/scsi/mpt3sas/mpt3sas_base.h
-> +++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
-> @@ -54,6 +54,7 @@
->  #include "mpi/mpi2_raid.h"
->  #include "mpi/mpi2_tool.h"
->  #include "mpi/mpi2_sas.h"
-> +#include "mpi/mpi2_pci.h"
+On 7/11/2017 7:43 AM, Keith Busch wrote:
+> On Mon, Jul 10, 2017@04:57:43PM -0700, James Smart wrote:
+>> On 7/7/2017 9:23 AM, Keith Busch wrote:
+>>> +void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+>>> +{
+>>> +	char buffer[20]; /* NVME_AEN=0xffffffff\0 */
+>>> +	char *envp[2] = {buffer, NULL};
+>>> +	u32 aen = ctrl->aen;
+>>> +
+>>> +	ctrl->aen = 0;
+>>> +	if (!aen)
+>>> +		return;
+>>> +
+>>> +	snprintf(buffer, sizeof(buffer), "NVME_AEN=%#08x", aen);
+>>> +	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
+>>> +}
+>>> +
+>> Passing on a comment from Christoph received on a similar fc udev event:
+>> "Please use kasprintf so that we have a dynamic allocation and don't need to
+>> hardcode buffer sizes"
+> I agree that usage for dynamic strings is better, but this is a fixed
+> sized string that will always be 20 bytes.
 
-Could you ajust your patch order for this series so each can compile? Here
-in patch 2 you're including a header that's not defined until patch 12.
+My scenario was the same - fixed sized, not dynamic.  Just being the 
+messenger for consistency.
+
+-- james
