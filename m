@@ -1,161 +1,26 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
-Date: Tue, 11 Jul 2017 14:25:09 +0530
-Subject: [PATCH 09/13] mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
-In-Reply-To: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-References: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <1499763313-7214-10-git-send-email-suganath-prabu.subramani@broadcom.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 11 Jul 2017 12:19:12 +0300
+Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
+In-Reply-To: <20170711085204.GA7846@linux-x5ow.site>
+References: <2b758039-5957-96b5-bf30-5cbb5515fe9c@suse.de>
+ <6eff23f4-1bb7-3c64-6916-987f4b38ae78@mellanox.com>
+ <20170710091054.GD5105@linux-x5ow.site>
+ <a940a9ea-c090-6620-a080-eb7cf6140ad3@grimberg.me>
+ <20170710102049.GF5105@linux-x5ow.site>
+ <77c7d11c-bd67-8663-cc10-da3af8bfcd22@grimberg.me>
+ <20170710113353.GG5105@linux-x5ow.site>
+ <ebc9dccc-ce68-f5f3-3e24-372b2cd7f44b@grimberg.me>
+ <20170710115003.GH5105@linux-x5ow.site>
+ <4df0a8a8-168f-06c4-6112-dfd2893d6e06@grimberg.me>
+ <20170711085204.GA7846@linux-x5ow.site>
+Message-ID: <a0656ff3-f2b9-4580-bf6f-8206cd73b680@grimberg.me>
 
-Added debug information for NVMe/PCIe drives in target rest path.
 
-Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
-Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
----
- drivers/scsi/mpt3sas/mpt3sas_scsih.c |   86 ++++++++++++++++++++++++++++------
- 1 files changed, 72 insertions(+), 14 deletions(-)
+> Not that I disagree with you, but two different (not connected) fabrics
+> (OmniPath and IB) and both are broken, while I see no problems on IPoIB?
+> 
+> Not sure how likely this is.
 
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 7100ee8..b96da33 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -690,7 +690,7 @@ found_device:
-  * This searches for sas_device based on sas_address, then return sas_device
-  * object.
-  */
--static struct _sas_device *
-+struct _sas_device *
- mpt3sas_get_sdev_by_handle(struct MPT3SAS_ADAPTER *ioc, u16 handle)
- {
- 	struct _sas_device *sas_device;
-@@ -1208,6 +1208,7 @@ _scsih_pcie_device_init_add(struct MPT3SAS_ADAPTER *ioc,
- 	_scsih_determine_boot_device(ioc, pcie_device, PCIE_CHANNEL);
- 	spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
- }
-+
- /**
-  * _scsih_raid_device_find_by_id - raid device search
-  * @ioc: per adapter object
-@@ -2891,6 +2892,7 @@ _scsih_tm_display_info(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd)
- 	struct scsi_target *starget = scmd->device->sdev_target;
- 	struct MPT3SAS_TARGET *priv_target = starget->hostdata;
- 	struct _sas_device *sas_device = NULL;
-+	struct _pcie_device *pcie_device = NULL;
- 	unsigned long flags;
- 	char *device_str = NULL;
- 
-@@ -2907,6 +2909,31 @@ _scsih_tm_display_info(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd)
- 			"%s handle(0x%04x), %s wwid(0x%016llx)\n",
- 			device_str, priv_target->handle,
- 		    device_str, (unsigned long long)priv_target->sas_address);
-+
-+	} else if (priv_target->flags & MPT_TARGET_FLAGS_PCIE_DEVICE) {
-+		spin_lock_irqsave(&ioc->pcie_device_lock, flags);
-+		pcie_device = __mpt3sas_get_pdev_from_target(ioc, priv_target);
-+		if (pcie_device) {
-+			starget_printk(KERN_INFO, starget,
-+				"handle(0x%04x), wwid(0x%016llx), port(%d)\n",
-+				pcie_device->handle,
-+				(unsigned long long)pcie_device->wwid,
-+				pcie_device->port_num);
-+			if (pcie_device->enclosure_handle != 0)
-+				starget_printk(KERN_INFO, starget,
-+					"enclosure logical id(0x%016llx), slot(%d)\n",
-+					(unsigned long long)
-+					pcie_device->enclosure_logical_id,
-+					pcie_device->slot);
-+			if (pcie_device->connector_name[0] != '\0')
-+				starget_printk(KERN_INFO, starget,
-+					"enclosure level(0x%04x), connector name( %s)\n",
-+					pcie_device->enclosure_level,
-+					pcie_device->connector_name);
-+			pcie_device_put(pcie_device);
-+		}
-+		spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
-+
- 	} else {
- 		spin_lock_irqsave(&ioc->sas_device_lock, flags);
- 		sas_device = __mpt3sas_get_sdev_from_target(ioc, priv_target);
-@@ -3650,6 +3677,7 @@ _scsih_tm_tr_send(struct MPT3SAS_ADAPTER *ioc, u16 handle)
- 	Mpi2SCSITaskManagementRequest_t *mpi_request;
- 	u16 smid;
- 	struct _sas_device *sas_device = NULL;
-+	struct _pcie_device *pcie_device = NULL;
- 	struct MPT3SAS_TARGET *sas_target_priv_data = NULL;
- 	u64 sas_address = 0;
- 	unsigned long flags;
-@@ -3692,24 +3720,52 @@ _scsih_tm_tr_send(struct MPT3SAS_ADAPTER *ioc, u16 handle)
- 		sas_address = sas_device->sas_address;
- 	}
- 	spin_unlock_irqrestore(&ioc->sas_device_lock, flags);
--
-+	if (!sas_device) {
-+		spin_lock_irqsave(&ioc->pcie_device_lock, flags);
-+		pcie_device = __mpt3sas_get_pdev_by_handle(ioc, handle);
-+		if (pcie_device && pcie_device->starget &&
-+			pcie_device->starget->hostdata) {
-+			sas_target_priv_data = pcie_device->starget->hostdata;
-+			sas_target_priv_data->deleted = 1;
-+			sas_address = pcie_device->wwid;
-+		}
-+		spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
-+	}
- 	if (sas_target_priv_data) {
- 		dewtprintk(ioc, pr_info(MPT3SAS_FMT
- 			"setting delete flag: handle(0x%04x), sas_addr(0x%016llx)\n",
- 			ioc->name, handle,
- 		    (unsigned long long)sas_address));
--		if (sas_device->enclosure_handle != 0)
--			dewtprintk(ioc, pr_info(MPT3SAS_FMT
--			 "setting delete flag:enclosure logical id(0x%016llx),"
--			 " slot(%d)\n", ioc->name, (unsigned long long)
--			  sas_device->enclosure_logical_id,
--			  sas_device->slot));
--		if (sas_device->connector_name[0] != '\0')
--			dewtprintk(ioc, pr_info(MPT3SAS_FMT
--			 "setting delete flag: enclosure level(0x%04x),"
--			 " connector name( %s)\n", ioc->name,
--			  sas_device->enclosure_level,
--			  sas_device->connector_name));
-+		if (sas_device) {
-+			if (sas_device->enclosure_handle != 0)
-+				dewtprintk(ioc, pr_info(MPT3SAS_FMT
-+				    "setting delete flag:enclosure logical "
-+				    "id(0x%016llx), slot(%d)\n", ioc->name,
-+				    (unsigned long long)
-+				    sas_device->enclosure_logical_id,
-+				    sas_device->slot));
-+			if (sas_device->connector_name[0] != '\0')
-+				dewtprintk(ioc, pr_info(MPT3SAS_FMT
-+				    "setting delete flag: enclosure "
-+				    "level(0x%04x), connector name( %s)\n",
-+				    ioc->name, sas_device->enclosure_level,
-+				    sas_device->connector_name));
-+		} else if (pcie_device) {
-+			if (pcie_device->enclosure_handle != 0)
-+				dewtprintk(ioc, pr_info(MPT3SAS_FMT
-+				    "setting delete flag: logical "
-+				    "id(0x%016llx), slot(%d)\n", ioc->name,
-+				    (unsigned long long)
-+				    pcie_device->enclosure_logical_id,
-+				    pcie_device->slot));
-+			if (pcie_device->connector_name[0] != '\0')
-+				dewtprintk(ioc, pr_info(MPT3SAS_FMT
-+				    "setting delete flag:, enclosure "
-+				    "level(0x%04x), "
-+				    "connector name( %s)\n", ioc->name,
-+				    pcie_device->enclosure_level,
-+				    pcie_device->connector_name));
-+		}
- 		_scsih_ublock_io_device(ioc, sas_address);
- 		sas_target_priv_data->handle = MPT3SAS_INVALID_DEVICE_HANDLE;
- 	}
-@@ -3744,6 +3800,8 @@ _scsih_tm_tr_send(struct MPT3SAS_ADAPTER *ioc, u16 handle)
- out:
- 	if (sas_device)
- 		sas_device_put(sas_device);
-+	if (pcie_device)
-+		pcie_device_put(pcie_device);
- }
- 
- /**
--- 
-1.7.1
+I didn't mean that the fabric is broken for sure, I was simply saying
+that having a 64 byte send not making it through a switch port sounds
+like a problem to me.
