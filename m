@@ -1,35 +1,26 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Tue, 11 Jul 2017 13:44:00 -0600
-Subject: kernel BUG at nvme/host/pci.c
-In-Reply-To: <20170711194523.GD4604@localhost.localdomain>
-References: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
- <20170710190818.GA13671@localhost.localdomain>
- <64da8c4d-2d69-22fa-06a0-aa4f11903e39@pse-consulting.de>
- <20170711194523.GD4604@localhost.localdomain>
-Message-ID: <20170711194358.ifhtp32mxljypnr6@sbauer-Z170X-UD5>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 11 Jul 2017 22:07:01 +0000
+Subject: [PATCH v7 for-4.13 4/7] RDMA/core: expose affinity mappings per
+ completion vector
+In-Reply-To: <1499671054-23899-5-git-send-email-sagi@grimberg.me>
+References: <1499671054-23899-1-git-send-email-sagi@grimberg.me>
+ <1499671054-23899-5-git-send-email-sagi@grimberg.me>
+Message-ID: <1499810819.2586.43.camel@wdc.com>
 
-On Tue, Jul 11, 2017@03:45:24PM -0400, Keith Busch wrote:
-> On Tue, Jul 11, 2017@09:44:47AM +0200, Andreas Pflug wrote:
-> > Tested with 4.12.0, result is
-> > 
-> >   kernel BUG at drivers/nvme/host/pci.c:610!
-> > 
-> > Kernel seems to recover from that, but I did a reboot anyway.
+On Mon, 2017-07-10@10:17 +0300, Sagi Grimberg wrote:
+>  struct ib_client {
+> @@ -3612,7 +3614,6 @@ static inline void rdma_ah_set_interface_id(struct rdma_ah_attr *attr,
 >  
-> Ugh, still observing invalid scatter lists on 4.12. Definitely recommend
-> rebooting after hitting this.
-> 
-> There should only be two possibilities: either the block layer didn't
-> split a bio that it should have, or it merged two that it shouldn't. To
-> determine which, could disable merging for NVMe before running your
-> test? Something like this should accomplish that:
-> 
->   # echo 1 | tee /sys/block/nvme*/queue/nomerge
-> 
-> On a side note, I think we should make the BUG_ON a WARN_ON, and return
-> an IO error. While it'd fail IO, it should leave the system stable to
-> do more prodding.
+>  	grh->dgid.global.interface_id = if_id;
+>  }
+> -
+>  static inline void rdma_ah_set_grh(struct rdma_ah_attr *attr,
+>  				   union ib_gid *dgid, u32 flow_label,
+>  				   u8 sgid_index, u8 hop_limit,
 
-FWIW I agree that switching the BUG_ON to WARN_ON is a good idea.
-Linus has ranted numerous times for BUG_ON'ing when a WARN_ON will do.
-http://lkml.iu.edu/hypermail/linux/kernel/1610.0/00878.html
+Hello Sagi,
+
+A nit: is it on purpose that this patch removes a blank line between the
+definitions of rdma_ah_set_interface_id() and rdma_ah_set_grh()?
+
+Bart.
