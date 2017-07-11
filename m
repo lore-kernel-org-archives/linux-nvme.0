@@ -1,37 +1,46 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 11 Jul 2017 10:52:04 +0200
-Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
-In-Reply-To: <4df0a8a8-168f-06c4-6112-dfd2893d6e06@grimberg.me>
-References: <2b758039-5957-96b5-bf30-5cbb5515fe9c@suse.de>
- <6eff23f4-1bb7-3c64-6916-987f4b38ae78@mellanox.com>
- <20170710091054.GD5105@linux-x5ow.site>
- <a940a9ea-c090-6620-a080-eb7cf6140ad3@grimberg.me>
- <20170710102049.GF5105@linux-x5ow.site>
- <77c7d11c-bd67-8663-cc10-da3af8bfcd22@grimberg.me>
- <20170710113353.GG5105@linux-x5ow.site>
- <ebc9dccc-ce68-f5f3-3e24-372b2cd7f44b@grimberg.me>
- <20170710115003.GH5105@linux-x5ow.site>
- <4df0a8a8-168f-06c4-6112-dfd2893d6e06@grimberg.me>
-Message-ID: <20170711085204.GA7846@linux-x5ow.site>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
+Date: Tue, 11 Jul 2017 14:25:00 +0530
+Subject: [PATCH 00/13]mpt3sas driver NVMe support:
+Message-ID: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-On Mon, Jul 10, 2017@03:04:52PM +0300, Sagi Grimberg wrote:
-> And if your keep-alive did not make it in 35 seconds, then its an
-> indication that something is wrong... which is exactly what keep-alives
-> are designed to do... So I'm not at all sure that we need to compensate
-> for this in the driver at all, something is clearly wrong in your
-> fabric.
+Ventura Series controller are Tri-mode. The controller and
+firmware are capable of supporting NVMe devices and
+PCIe switches to be connected with the controller. This
+patch set adds driver level support for NVMe devices and
+PCIe switches.
 
-Not that I disagree with you, but two different (not connected) fabrics
-(OmniPath and IB) and both are broken, while I see no problems on IPoIB?
+Suganath Prabu S (13):
+  mpt3sas: Add nvme device support in slave alloc, target alloc and
+    probe
+  mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
+  mpt3sas: Added support for nvme encapsulated request message.
+  mpt3sas: Handle NVMe PCIe device related events generated            
+    from firmware.
+  mpt3sas: Set NVMe device queue depth as 128
+  mpt3sas: API 's to support NVMe drive addition to SML
+  mpt3sas: API's to remove nvme drive from sml
+  mpt3sas: scan and add nvme device after controller reset
+  mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
+  mpt3sas: NVMe drive support for BTDHMAPPING ioctl command and log
+    info
+  mpt3sas: Fix nvme drives checking for tlr.
+  mpt3sas: Update MPI Header
+  mpt3sas: Update mpt3sas driver version.
 
-Not sure how likely this is.
+ drivers/scsi/mpt3sas/mpi/mpi2.h          |   43 +-
+ drivers/scsi/mpt3sas/mpi/mpi2_cnfg.h     |  647 ++++++++++-
+ drivers/scsi/mpt3sas/mpi/mpi2_init.h     |   11 +-
+ drivers/scsi/mpt3sas/mpi/mpi2_ioc.h      |  331 ++++++-
+ drivers/scsi/mpt3sas/mpi/mpi2_pci.h      |  142 +++
+ drivers/scsi/mpt3sas/mpi/mpi2_tool.h     |   14 +-
+ drivers/scsi/mpt3sas/mpt3sas_base.c      |  709 +++++++++++-
+ drivers/scsi/mpt3sas/mpt3sas_base.h      |  176 +++-
+ drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
+ drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  170 +++-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 1871 ++++++++++++++++++++++++++++--
+ drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
+ 12 files changed, 4081 insertions(+), 135 deletions(-)
+ create mode 100644 drivers/scsi/mpt3sas/mpi/mpi2_pci.h
 
-But still trying to figure out what's going on.
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks,
+Suganath Prabu S
