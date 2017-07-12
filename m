@@ -1,56 +1,31 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 12 Jul 2017 10:27:43 +0800
-Subject: [PATCH 02/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
- devices
-In-Reply-To: <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <201707121048.UGjUxQvb%fengguang.wu@intel.com>
+From: pgadmin@pse-consulting.de (Andreas Pflug)
+Date: Wed, 12 Jul 2017 08:06:29 +0200
+Subject: kernel BUG at nvme/host/pci.c
+In-Reply-To: <20170711194523.GD4604@localhost.localdomain>
+References: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
+ <20170710190818.GA13671@localhost.localdomain>
+ <64da8c4d-2d69-22fa-06a0-aa4f11903e39@pse-consulting.de>
+ <20170711194523.GD4604@localhost.localdomain>
+Message-ID: <458f2115-4a07-e23c-2f1f-a90a95668f74@pse-consulting.de>
 
-Hi Suganath,
+Am 11.07.17 um 21:45 schrieb Keith Busch:
+> On Tue, Jul 11, 2017@09:44:47AM +0200, Andreas Pflug wrote:
+>> Tested with 4.12.0, result is
+>>
+>>   kernel BUG at drivers/nvme/host/pci.c:610!
+>>
+>> Kernel seems to recover from that, but I did a reboot anyway.
+>  
+> Ugh, still observing invalid scatter lists on 4.12. Definitely recommend
+> rebooting after hitting this.
+>
+> There should only be two possibilities: either the block layer didn't
+> split a bio that it should have, or it merged two that it shouldn't. To
+> determine which, could disable merging for NVMe before running your
+> test? Something like this should accomplish that:
+>
+>   # echo 1 | tee /sys/block/nvme*/queue/nomerge
+nomerges set to 1 on both devices, same BUG_ON.
 
-[auto build test ERROR on scsi/for-next]
-[also build test ERROR on v4.12 next-20170711]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-url:    https://github.com/0day-ci/linux/commits/Suganath-Prabu-S/mpt3sas-Add-nvme-device-support-in-slave-alloc-target-alloc-and-probe/20170711-204831
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-config: x86_64-kexec (attached as .config)
-compiler: gcc-6 (Debian 6.2.0-3) 6.2.0 20160901
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=x86_64 
-
-Note: the linux-review/Suganath-Prabu-S/mpt3sas-Add-nvme-device-support-in-slave-alloc-target-alloc-and-probe/20170711-204831 HEAD 46a9c8fb1d7fe7649aa0eaa925c6653a6fa3047e builds fine.
-      It only hurts bisectibility.
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/scsi/mpt3sas/mpt3sas_base.c:66:0:
->> drivers/scsi/mpt3sas/mpt3sas_base.h:57:26: fatal error: mpi/mpi2_pci.h: No such file or directory
-    #include "mpi/mpi2_pci.h"
-                             ^
-   compilation terminated.
-
-vim +57 drivers/scsi/mpt3sas/mpt3sas_base.h
-
-    48	
-    49	#include "mpi/mpi2_type.h"
-    50	#include "mpi/mpi2.h"
-    51	#include "mpi/mpi2_ioc.h"
-    52	#include "mpi/mpi2_cnfg.h"
-    53	#include "mpi/mpi2_init.h"
-    54	#include "mpi/mpi2_raid.h"
-    55	#include "mpi/mpi2_tool.h"
-    56	#include "mpi/mpi2_sas.h"
-  > 57	#include "mpi/mpi2_pci.h"
-    58	
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 25366 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170712/8895cd92/attachment-0001.gz>
+Regards,
+Andreas
