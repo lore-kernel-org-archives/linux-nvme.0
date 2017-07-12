@@ -1,57 +1,20 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Jul 2017 13:32:39 +0300
-Subject: [PATCH v5 1/1] nvme: Add support for FW activation without reset
-In-Reply-To: <20170712073421.GA6469@lst.de>
-References: <1499780675-9869-1-git-send-email-a.dawn@samsung.com>
- <CGME20170711134755epcas1p1d699b8c70dab6fcde72ea92d03f76079@epcas1p1.samsung.com>
- <1499780912-10253-1-git-send-email-a.dawn@samsung.com>
- <20170712073421.GA6469@lst.de>
-Message-ID: <8a4d0f96-79ca-37ad-1c8e-71c6d66d1088@grimberg.me>
+Date: Wed, 12 Jul 2017 13:34:14 +0300
+Subject: [PATCH] nvme: add wrapper for nvme ctrl register r/w
+In-Reply-To: <20170712072018.GA5739@lst.de>
+References: <20170629172624.GA17319@localhost.didichuxing.com>
+ <20170712072018.GA5739@lst.de>
+Message-ID: <ad43c2ae-c3af-351d-7a58-0f2f35e79d30@grimberg.me>
 
 
+>> Simplify nvme ctrl register r/w code.
+>>
+>> Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
+> 
+> This seems generally useful, especially with more consolidation
+> of code to the core.  Sagi - do you want to integrate this into
+> your consolidation series and fixup any clashes?
 
-On 12/07/17 10:34, Christoph Hellwig wrote:
->>   }
->>   
->> +
->> +static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
-> 
-> This adds a duplicate empty line.
-> 
->> +{
->> +
->> +	u32 csts;
->> +
->> +	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
->> +		return false;
->> +
->> +	if (csts == ~0)
->> +		return false;
->> +
->> +	return ((ctrl->ctrl_config & NVME_CC_ENABLE)
->> +			&& (csts & NVME_CSTS_PP));
-> 
-> These should be on one line, and if if they weren't the "&&" placement
-> is wrong.
-> 
->> +}
-> 
->> +static __le32 nvme_get_log_dw10(u8 lid, int size)
->> +{
->> +	return cpu_to_le32((((size / 4) - 1) << 16) | lid);
->> +}
-> 
-> Can you move this up the file a bit so that it's not hidden inside
-> the FW activation bits.  Also size should be of type size_t.
-> 
->> +	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
-> 
-> Except for one weird spot we use lower-cases hex numbers.  But in
-> the longer run we really should have an NVME_NSID_ALL define for this
-> constant..
-> 
-> Otherwise this looks fine to me:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-Arnav, care to respin with minor cleanups?
+Not sure whats special about register read/write that they
+deserve a wrapper, but its easy enough to get in before
+my patches if I'll see a review on it.
