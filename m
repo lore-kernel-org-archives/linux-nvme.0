@@ -1,15 +1,51 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Jul 2017 09:20:18 +0200
-Subject: [PATCH] nvme: add wrapper for nvme ctrl register r/w
-In-Reply-To: <20170629172624.GA17319@localhost.didichuxing.com>
-References: <20170629172624.GA17319@localhost.didichuxing.com>
-Message-ID: <20170712072018.GA5739@lst.de>
+Date: Wed, 12 Jul 2017 09:34:21 +0200
+Subject: [PATCH v5 1/1] nvme: Add support for FW activation without reset
+In-Reply-To: <1499780912-10253-1-git-send-email-a.dawn@samsung.com>
+References: <1499780675-9869-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170711134755epcas1p1d699b8c70dab6fcde72ea92d03f76079@epcas1p1.samsung.com>
+ <1499780912-10253-1-git-send-email-a.dawn@samsung.com>
+Message-ID: <20170712073421.GA6469@lst.de>
 
-On Fri, Jun 30, 2017@01:26:24AM +0800, weiping zhang wrote:
-> Simplify nvme ctrl register r/w code.
-> 
-> Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
+>  }
+>  
+> +
+> +static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
 
-This seems generally useful, especially with more consolidation
-of code to the core.  Sagi - do you want to integrate this into
-your consolidation series and fixup any clashes?
+This adds a duplicate empty line.
+
+> +{
+> +
+> +	u32 csts;
+> +
+> +	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
+> +		return false;
+> +
+> +	if (csts == ~0)
+> +		return false;
+> +
+> +	return ((ctrl->ctrl_config & NVME_CC_ENABLE)
+> +			&& (csts & NVME_CSTS_PP));
+
+These should be on one line, and if if they weren't the "&&" placement
+is wrong.
+
+> +}
+
+> +static __le32 nvme_get_log_dw10(u8 lid, int size)
+> +{
+> +	return cpu_to_le32((((size / 4) - 1) << 16) | lid);
+> +}
+
+Can you move this up the file a bit so that it's not hidden inside
+the FW activation bits.  Also size should be of type size_t.
+
+> +	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
+
+Except for one weird spot we use lower-cases hex numbers.  But in
+the longer run we really should have an NVME_NSID_ALL define for this
+constant..
+
+Otherwise this looks fine to me:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
