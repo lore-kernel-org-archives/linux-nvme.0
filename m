@@ -1,43 +1,45 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Tue, 11 Jul 2017 22:13:40 +0000
-Subject: [PATCH v7 for-4.13 6/7] block: Add rdma affinity based queue
- mapping helper
-In-Reply-To: <1499671054-23899-7-git-send-email-sagi@grimberg.me>
-References: <1499671054-23899-1-git-send-email-sagi@grimberg.me>
- <1499671054-23899-7-git-send-email-sagi@grimberg.me>
-Message-ID: <1499811219.2586.45.camel@wdc.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 11 Jul 2017 20:04:02 -0400
+Subject: [PATCH 02/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
+ devices
+In-Reply-To: <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
+References: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <20170712000402.GA27718@localhost.localdomain>
 
-On Mon, 2017-07-10@10:17 +0300, Sagi Grimberg wrote:
-> +int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
-> +		struct ib_device *dev, int first_vec)
+On Tue, Jul 11, 2017@01:55:02AM -0700, Suganath Prabu S wrote:
+> +/**
+> + * _base_check_pcie_native_sgl - This function is called for PCIe end devices to
+> + * determine if the driver needs to build a native SGL.  If so, that native
+> + * SGL is built in the special contiguous buffers allocated especially for
+> + * PCIe SGL creation.  If the driver will not build a native SGL, return
+> + * TRUE and a normal IEEE SGL will be built.  Currently this routine
+> + * supports NVMe.
+> + * @ioc: per adapter object
+> + * @mpi_request: mf request pointer
+> + * @smid: system request message index
+> + * @scmd: scsi command
+> + * @pcie_device: points to the PCIe device's info
+> + *
+> + * Returns 0 if native SGL was built, 1 if no SGL was built
+> + */
+> +static int
+> +_base_check_pcie_native_sgl(struct MPT3SAS_ADAPTER *ioc,
+> +	Mpi25SCSIIORequest_t *mpi_request, u16 smid, struct scsi_cmnd *scmd,
+> +	struct _pcie_device *pcie_device)
 > +{
-> +	const struct cpumask *mask;
-> +	unsigned int queue, cpu;
-> +
-> +	if (set->nr_hw_queues > dev->num_comp_vectors)
-> +		goto fallback;
 
-Should this perhaps have been "if (first_vec + set->nr_hw_queues >
-dev->num_comp_vectors)"? Additionally, since the return value of
-ib_get_vector_affinity() is tested inside the loop, can this test be left out?
+<snip>
 
-> +
-> +	for (queue = 0; queue < set->nr_hw_queues; queue++) {
-> +		mask = ib_get_vector_affinity(dev, first_vec + queue);
-> +		if (!mask)
-> +			goto fallback;
-> +
-> +		for_each_cpu(cpu, mask)
-> +			set->mq_map[cpu] = queue;
-> +	}
-> +
-> +	return 0;
-> +fallback:
-> +	return blk_mq_map_queues(set);
+> +	/* Return 0, indicating we built a native SGL. */
+> +	return 1;
+> +}
 
-If you have to repost this patch, please insert a blank line above the
-"fallback" label.
+This function doesn't return 0 ever. Not sure why it's here.
 
-Thanks,
+Curious about your device, though, if a nvme native SGL can *not* be
+built, does the HBA firmware then buffer it in its local memory before
+sending/receiving to/from the host?
 
-Bart.
+And if a native SGL can be built, does the NVMe target DMA directly
+to/from host memory, giving a performance boost?
