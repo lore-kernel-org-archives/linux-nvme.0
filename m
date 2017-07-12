@@ -1,26 +1,36 @@
-From: zhangweiping@didichuxing.com (weiping zhang)
-Date: Wed, 12 Jul 2017 21:25:18 +0800
-Subject: [PATCH] nvme: add wrapper for nvme ctrl register r/w
-In-Reply-To: <20170712120152.GD4115@linux-x5ow.site>
-References: <20170629172624.GA17319@localhost.didichuxing.com>
- <20170712072018.GA5739@lst.de>
- <ad43c2ae-c3af-351d-7a58-0f2f35e79d30@grimberg.me>
- <20170712115547.GA11085@lst.de>
- <20170712120152.GD4115@linux-x5ow.site>
-Message-ID: <20170712132518.GA14560@localhost.didichuxing.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 12 Jul 2017 15:38:56 +0200
+Subject: [PATCH] nvme: also provide a UUID in the WWID sysfs attribute
+Message-ID: <20170712133856.17211-1-jthumshirn@suse.de>
 
-On Wed, Jul 12, 2017@02:01:52PM +0200, Johannes Thumshirn wrote:
-> On Wed, Jul 12, 2017@01:55:47PM +0200, Christoph Hellwig wrote:
-> > Mostly because it's a little shorter and we're only going to get
-> > more and more of these calls.  In the end I don't feel strongly
-> > and we can just skip the patch for now and reconsider it once
-> > we have more register read/write calls.
-> 
-> I'm in favour of the patch as well. It hides the transport specific
-> implementation details quite good.
-> 
+The WWID sysfs attribute can provide multiple means of a World Wide ID
+for a NVMe device. It can either be a NGUID, a EUI-64 or a concatenation
+of VID, Serial Number, Model and the Namespace ID in this order of
+preference.
 
-Thanks all of your suggestions, I just want add a common interface of
-register read/write. If someday we change the path of read/write
-register, we only need modify nvme_ctrl_reg_xxx than every
-ctrl->ops->xxx.
+If the target also sends us a UUID use the UUID for identification and
+give it the highest priority.
+
+This eases generation of /dev/disk/by-* symlinks.
+
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d70df1d0072d..c100e7db9b54 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1995,6 +1995,9 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+ 	int serial_len = sizeof(ctrl->serial);
+ 	int model_len = sizeof(ctrl->model);
+ 
++	if (!uuid_is_null(&ns->uuid))
++		return sprintf(buf, "uuid.%pU\n", &ns->uuid);
++
+ 	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
+ 		return sprintf(buf, "eui.%16phN\n", ns->nguid);
+ 
+-- 
+2.12.3
