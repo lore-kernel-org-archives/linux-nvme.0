@@ -1,12 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Jul 2017 13:44:10 +0300
-Subject: [PATCH v5 0/2] Add Support for FW activation without reset
-In-Reply-To: <1499855996-29214-1-git-send-email-a.dawn@samsung.com>
-References: <1499780675-9869-1-git-send-email-a.dawn@samsung.com>
- <CGME20170712103833epcas1p27a75eeadc18428fc5c94c00b64933898@epcas1p2.samsung.com>
- <1499855996-29214-1-git-send-email-a.dawn@samsung.com>
-Message-ID: <7339a400-a98c-2de5-dfa4-e1471d112fa8@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 12 Jul 2017 13:55:47 +0200
+Subject: [PATCH] nvme: add wrapper for nvme ctrl register r/w
+In-Reply-To: <ad43c2ae-c3af-351d-7a58-0f2f35e79d30@grimberg.me>
+References: <20170629172624.GA17319@localhost.didichuxing.com>
+ <20170712072018.GA5739@lst.de>
+ <ad43c2ae-c3af-351d-7a58-0f2f35e79d30@grimberg.me>
+Message-ID: <20170712115547.GA11085@lst.de>
 
-Here it is...
+On Wed, Jul 12, 2017@01:34:14PM +0300, Sagi Grimberg wrote:
+> Not sure whats special about register read/write that they
+> deserve a wrapper, but its easy enough to get in before
+> my patches if I'll see a review on it.
 
-taking to nvme-4.13-rc
+Mostly because it's a little shorter and we're only going to get
+more and more of these calls.  In the end I don't feel strongly
+and we can just skip the patch for now and reconsider it once
+we have more register read/write calls.
