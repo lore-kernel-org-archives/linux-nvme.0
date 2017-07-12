@@ -1,57 +1,15 @@
-From: Victor.Gladkov@taec.toshiba.com (Victor Gladkov)
-Date: Wed, 12 Jul 2017 07:05:17 +0000
-Subject: [PATCH] nvmet-rdma: prevent possible race condition for queue
- state
-In-Reply-To: <99f5789f-0d6a-0166-dab6-b156200e9de5@grimberg.me>
-References: <77FF42D3D537D24484F0BF5E2458C0C08506BE27@EXMAIL1.taec.toshiba.com>
- <99f5789f-0d6a-0166-dab6-b156200e9de5@grimberg.me>
-Message-ID: <77FF42D3D537D24484F0BF5E2458C0C08506C036@EXMAIL1.taec.toshiba.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 12 Jul 2017 09:20:18 +0200
+Subject: [PATCH] nvme: add wrapper for nvme ctrl register r/w
+In-Reply-To: <20170629172624.GA17319@localhost.didichuxing.com>
+References: <20170629172624.GA17319@localhost.didichuxing.com>
+Message-ID: <20170712072018.GA5739@lst.de>
 
->> This patch prevents possible race condition for queue state when the state may be changed before take a lock.
->> 
->>
->> kernel v4.9.36
+On Fri, Jun 30, 2017@01:26:24AM +0800, weiping zhang wrote:
+> Simplify nvme ctrl register r/w code.
+> 
+> Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
 
->Indentation doesn't look correct, did you use tab-spacing?
->Please run checkpatch before submitting v2.
->The logic looks correct to me, but it really needs documentation, maybe the below?
-
-Hi Sagi.
-Thank you for the help.
-I made changes according to your recommendations.
-Now the patch looks like this:
-
---
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 005ef5d..7be6c7e 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -751,14 +751,27 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
-                unsigned long flags;
-
-                spin_lock_irqsave(&queue->state_lock, flags);
--               if (queue->state == NVMET_RDMA_Q_CONNECTING)
-+               switch (queue->state) {
-+               case NVMET_RDMA_Q_LIVE:
-+                       /*
-+                        * we raced with connection establishment, go
-+                        * ahead and handle the command.
-+                        */
-+                       spin_unlock_irqrestore(&queue->state_lock, flags);
-+                       goto handle_cmd;
-+               case NVMET_RDMA_Q_CONNECTING:
-+                       /* defer until connection is established */
-                        list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
--               else
-+                       break;
-+               default:
-+                       /* Nothing to do with the response */
-                        nvmet_rdma_put_rsp(rsp);
-+               }
-                spin_unlock_irqrestore(&queue->state_lock, flags);
-                return;
-        }
-
-+handle_cmd;
-        nvmet_rdma_handle_command(queue, rsp);
- }
+This seems generally useful, especially with more consolidation
+of code to the core.  Sagi - do you want to integrate this into
+your consolidation series and fixup any clashes?
