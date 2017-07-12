@@ -1,31 +1,57 @@
-From: pgadmin@pse-consulting.de (Andreas Pflug)
-Date: Wed, 12 Jul 2017 08:06:29 +0200
-Subject: kernel BUG at nvme/host/pci.c
-In-Reply-To: <20170711194523.GD4604@localhost.localdomain>
-References: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
- <20170710190818.GA13671@localhost.localdomain>
- <64da8c4d-2d69-22fa-06a0-aa4f11903e39@pse-consulting.de>
- <20170711194523.GD4604@localhost.localdomain>
-Message-ID: <458f2115-4a07-e23c-2f1f-a90a95668f74@pse-consulting.de>
+From: Victor.Gladkov@taec.toshiba.com (Victor Gladkov)
+Date: Wed, 12 Jul 2017 07:05:17 +0000
+Subject: [PATCH] nvmet-rdma: prevent possible race condition for queue
+ state
+In-Reply-To: <99f5789f-0d6a-0166-dab6-b156200e9de5@grimberg.me>
+References: <77FF42D3D537D24484F0BF5E2458C0C08506BE27@EXMAIL1.taec.toshiba.com>
+ <99f5789f-0d6a-0166-dab6-b156200e9de5@grimberg.me>
+Message-ID: <77FF42D3D537D24484F0BF5E2458C0C08506C036@EXMAIL1.taec.toshiba.com>
 
-Am 11.07.17 um 21:45 schrieb Keith Busch:
-> On Tue, Jul 11, 2017@09:44:47AM +0200, Andreas Pflug wrote:
->> Tested with 4.12.0, result is
+>> This patch prevents possible race condition for queue state when the state may be changed before take a lock.
+>> 
 >>
->>   kernel BUG at drivers/nvme/host/pci.c:610!
->>
->> Kernel seems to recover from that, but I did a reboot anyway.
->  
-> Ugh, still observing invalid scatter lists on 4.12. Definitely recommend
-> rebooting after hitting this.
->
-> There should only be two possibilities: either the block layer didn't
-> split a bio that it should have, or it merged two that it shouldn't. To
-> determine which, could disable merging for NVMe before running your
-> test? Something like this should accomplish that:
->
->   # echo 1 | tee /sys/block/nvme*/queue/nomerge
-nomerges set to 1 on both devices, same BUG_ON.
+>> kernel v4.9.36
 
-Regards,
-Andreas
+>Indentation doesn't look correct, did you use tab-spacing?
+>Please run checkpatch before submitting v2.
+>The logic looks correct to me, but it really needs documentation, maybe the below?
+
+Hi Sagi.
+Thank you for the help.
+I made changes according to your recommendations.
+Now the patch looks like this:
+
+--
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 005ef5d..7be6c7e 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -751,14 +751,27 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+                unsigned long flags;
+
+                spin_lock_irqsave(&queue->state_lock, flags);
+-               if (queue->state == NVMET_RDMA_Q_CONNECTING)
++               switch (queue->state) {
++               case NVMET_RDMA_Q_LIVE:
++                       /*
++                        * we raced with connection establishment, go
++                        * ahead and handle the command.
++                        */
++                       spin_unlock_irqrestore(&queue->state_lock, flags);
++                       goto handle_cmd;
++               case NVMET_RDMA_Q_CONNECTING:
++                       /* defer until connection is established */
+                        list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
+-               else
++                       break;
++               default:
++                       /* Nothing to do with the response */
+                        nvmet_rdma_put_rsp(rsp);
++               }
+                spin_unlock_irqrestore(&queue->state_lock, flags);
+                return;
+        }
+
++handle_cmd;
+        nvmet_rdma_handle_command(queue, rsp);
+ }
