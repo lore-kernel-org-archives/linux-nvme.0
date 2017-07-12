@@ -1,108 +1,96 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 12 Jul 2017 15:59:07 -0400
-Subject: [PATCH] nvme/pci: Remove nvme_setup_prps BUG_ON
-Message-ID: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed, 12 Jul 2017 16:11:01 -0600
+Subject: [PATCH] nvme: Add support for NVMe 1.3 Timestamp Feature
+Message-ID: <20170712221101.1715-1-jonathan.derrick@intel.com>
 
-This patch replaces the invalid nvme SGL kernel panic with a warning,
-and returns an appropriate error. The warning will occur only on the
-first occurance, and sgl details will be printed to help debug how the
-request was allowed to form.
+NVME's Timestamp feature allows controllers to be aware of the epoch
+time in milliseconds. This patch adds the set features hook for various
+transports. It also wires it up to the pci reset path, so that resets
+and resumes can update the controller as necessary.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
 ---
- drivers/nvme/host/pci.c | 33 +++++++++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 8 deletions(-)
+ drivers/nvme/host/core.c | 18 ++++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  |  4 ++++
+ include/linux/nvme.h     |  2 ++
+ 4 files changed, 25 insertions(+)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4a07a98..aa4e765 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1735,6 +1735,24 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
+ }
+ 
++void nvme_set_timestamp(struct nvme_ctrl *ctrl)
++{
++	u64 cur_ms;
++	u8 ts[8] = { 0, };
++	int status;
++	u32 result;
++
++	cur_ms = ktime_to_ms(ktime_get_real());
++	put_unaligned_le64(cur_ms, &ts[0]);
++
++	status = nvme_set_features(ctrl, NVME_FEAT_TIMESTAMP, 0, ts, 8,
++			&result);
++	if (status < 0)
++		dev_warn_once(ctrl->device,
++			"could not set timestamp (%08x)\n", result);
++}
++EXPORT_SYMBOL_GPL(nvme_set_timestamp);
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b40b9af..3ef1a07 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -286,6 +286,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_put_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_init_identify(struct nvme_ctrl *ctrl);
++void nvme_set_timestamp(struct nvme_ctrl *ctrl);
+ 
+ void nvme_queue_scan(struct nvme_ctrl *ctrl);
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c4343c4..d321597 100644
+index 5d5aa7f..82ce677 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -533,7 +533,7 @@ static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
- }
- #endif
- 
--static bool nvme_setup_prps(struct nvme_dev *dev, struct request *req)
-+static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct dma_pool *pool;
-@@ -550,7 +550,7 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 
- 	length -= (page_size - offset);
- 	if (length <= 0)
--		return true;
-+		return BLK_STS_OK;
- 
- 	dma_len -= (page_size - offset);
- 	if (dma_len) {
-@@ -563,7 +563,7 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 
- 	if (length <= page_size) {
- 		iod->first_dma = dma_addr;
--		return true;
-+		return BLK_STS_OK;
- 	}
- 
- 	nprps = DIV_ROUND_UP(length, page_size);
-@@ -579,7 +579,7 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 	if (!prp_list) {
- 		iod->first_dma = dma_addr;
- 		iod->npages = -1;
--		return false;
-+		return BLK_STS_RESOURCE;
- 	}
- 	list[0] = prp_list;
- 	iod->first_dma = prp_dma;
-@@ -589,7 +589,7 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 			__le64 *old_prp_list = prp_list;
- 			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
- 			if (!prp_list)
--				return false;
-+				return BLK_STS_RESOURCE;
- 			list[iod->npages++] = prp_list;
- 			prp_list[0] = old_prp_list[i - 1];
- 			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
-@@ -603,13 +603,29 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 			break;
- 		if (dma_len > 0)
- 			continue;
--		BUG_ON(dma_len < 0);
-+		if (unlikely(dma_len < 0))
-+			goto bad_sgl;
- 		sg = sg_next(sg);
- 		dma_addr = sg_dma_address(sg);
- 		dma_len = sg_dma_len(sg);
- 	}
- 
--	return true;
-+	return BLK_STS_OK;
-+
-+ bad_sgl:
-+	if (WARN_ONCE(1, "Invalid SGL for payload:%d nents:%d\n",
-+				blk_rq_payload_bytes(req), iod->nents)) {
-+		for_each_sg(iod->sg, sg, iod->nents, i) {
-+			dma_addr_t phys = sg_phys(sg);
-+			pr_warn("sg[%d] phys_addr:%pad offset:%d length:%d "
-+			       "dma_address:%pad dma_length:%d\n", i, &phys,
-+					sg->offset, sg->length,
-+					&sg_dma_address(sg),
-+					sg_dma_len(sg));
-+		}
-+	}
-+	return BLK_STS_IOERR;
-+
- }
- 
- static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
-@@ -631,7 +647,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 				DMA_ATTR_NO_WARN))
+@@ -2156,6 +2156,10 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
  		goto out;
  
--	if (!nvme_setup_prps(dev, req))
-+	ret = nvme_setup_prps(dev, req);
-+	if (ret != BLK_STS_OK)
- 		goto out_unmap;
- 
- 	ret = BLK_STS_IOERR;
++	if (dev->ctrl.vs >= NVME_VS(1, 3, 0) &&
++	    dev->ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)
++		nvme_set_timestamp(&dev->ctrl);
++
+ 	/*
+ 	 * Keep the controller around but remove all namespaces if we don't have
+ 	 * any working I/O queue.
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 983975b..b7185ae 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -254,6 +254,7 @@ enum {
+ 	NVME_CTRL_ONCS_WRITE_UNCORRECTABLE	= 1 << 1,
+ 	NVME_CTRL_ONCS_DSM			= 1 << 2,
+ 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
++	NVME_CTRL_ONCS_TIMESTAMP		= 1 << 6,
+ 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
+ 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
+ 	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+@@ -688,6 +689,7 @@ enum {
+ 	NVME_FEAT_ASYNC_EVENT	= 0x0b,
+ 	NVME_FEAT_AUTO_PST	= 0x0c,
+ 	NVME_FEAT_HOST_MEM_BUF	= 0x0d,
++	NVME_FEAT_TIMESTAMP	= 0x0e,
+ 	NVME_FEAT_KATO		= 0x0f,
+ 	NVME_FEAT_SW_PROGRESS	= 0x80,
+ 	NVME_FEAT_HOST_ID	= 0x81,
 -- 
-2.5.5
+2.9.3
