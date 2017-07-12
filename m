@@ -1,27 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 12 Jul 2017 13:35:17 +0300
-Subject: [PATCH v7 for-4.13 4/7] RDMA/core: expose affinity mappings per
- completion vector
-In-Reply-To: <1499810819.2586.43.camel@wdc.com>
+Date: Wed, 12 Jul 2017 13:36:19 +0300
+Subject: [PATCH v7 for-4.13 6/7] block: Add rdma affinity based queue
+ mapping helper
+In-Reply-To: <1499811219.2586.45.camel@wdc.com>
 References: <1499671054-23899-1-git-send-email-sagi@grimberg.me>
- <1499671054-23899-5-git-send-email-sagi@grimberg.me>
- <1499810819.2586.43.camel@wdc.com>
-Message-ID: <34afc85f-cc81-37f7-b48d-1d18b0b61f95@grimberg.me>
+ <1499671054-23899-7-git-send-email-sagi@grimberg.me>
+ <1499811219.2586.45.camel@wdc.com>
+Message-ID: <70eeee7c-f227-4471-5eb9-492f77f7e8cf@grimberg.me>
 
 
->>   struct ib_client {
->> @@ -3612,7 +3614,6 @@ static inline void rdma_ah_set_interface_id(struct rdma_ah_attr *attr,
->>   
->>   	grh->dgid.global.interface_id = if_id;
->>   }
->> -
->>   static inline void rdma_ah_set_grh(struct rdma_ah_attr *attr,
->>   				   union ib_gid *dgid, u32 flow_label,
->>   				   u8 sgid_index, u8 hop_limit,
+>> +int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
+>> +		struct ib_device *dev, int first_vec)
+>> +{
+>> +	const struct cpumask *mask;
+>> +	unsigned int queue, cpu;
+>> +
+>> +	if (set->nr_hw_queues > dev->num_comp_vectors)
+>> +		goto fallback;
 > 
-> Hello Sagi,
-> 
-> A nit: is it on purpose that this patch removes a blank line between the
-> definitions of rdma_ah_set_interface_id() and rdma_ah_set_grh()?
+> Should this perhaps have been "if (first_vec + set->nr_hw_queues >
+> dev->num_comp_vectors)"? Additionally, since the return value of
+> ib_get_vector_affinity() is tested inside the loop, can this test be left out?
 
-No, I can remove it.
+I guess it can...
+
+>> +	return 0;
+>> +fallback:
+>> +	return blk_mq_map_queues(set);
+> 
+> If you have to repost this patch, please insert a blank line above the
+> "fallback" label.
+
+Will do, thanks!
