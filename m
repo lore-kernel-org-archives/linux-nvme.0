@@ -1,45 +1,56 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 11 Jul 2017 20:04:02 -0400
+From: lkp@intel.com (kbuild test robot)
+Date: Wed, 12 Jul 2017 10:27:43 +0800
 Subject: [PATCH 02/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
  devices
 In-Reply-To: <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
-References: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <20170712000402.GA27718@localhost.localdomain>
+Message-ID: <201707121048.UGjUxQvb%fengguang.wu@intel.com>
 
-On Tue, Jul 11, 2017@01:55:02AM -0700, Suganath Prabu S wrote:
-> +/**
-> + * _base_check_pcie_native_sgl - This function is called for PCIe end devices to
-> + * determine if the driver needs to build a native SGL.  If so, that native
-> + * SGL is built in the special contiguous buffers allocated especially for
-> + * PCIe SGL creation.  If the driver will not build a native SGL, return
-> + * TRUE and a normal IEEE SGL will be built.  Currently this routine
-> + * supports NVMe.
-> + * @ioc: per adapter object
-> + * @mpi_request: mf request pointer
-> + * @smid: system request message index
-> + * @scmd: scsi command
-> + * @pcie_device: points to the PCIe device's info
-> + *
-> + * Returns 0 if native SGL was built, 1 if no SGL was built
-> + */
-> +static int
-> +_base_check_pcie_native_sgl(struct MPT3SAS_ADAPTER *ioc,
-> +	Mpi25SCSIIORequest_t *mpi_request, u16 smid, struct scsi_cmnd *scmd,
-> +	struct _pcie_device *pcie_device)
-> +{
+Hi Suganath,
 
-<snip>
+[auto build test ERROR on scsi/for-next]
+[also build test ERROR on v4.12 next-20170711]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-> +	/* Return 0, indicating we built a native SGL. */
-> +	return 1;
-> +}
+url:    https://github.com/0day-ci/linux/commits/Suganath-Prabu-S/mpt3sas-Add-nvme-device-support-in-slave-alloc-target-alloc-and-probe/20170711-204831
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+config: x86_64-kexec (attached as .config)
+compiler: gcc-6 (Debian 6.2.0-3) 6.2.0 20160901
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=x86_64 
 
-This function doesn't return 0 ever. Not sure why it's here.
+Note: the linux-review/Suganath-Prabu-S/mpt3sas-Add-nvme-device-support-in-slave-alloc-target-alloc-and-probe/20170711-204831 HEAD 46a9c8fb1d7fe7649aa0eaa925c6653a6fa3047e builds fine.
+      It only hurts bisectibility.
 
-Curious about your device, though, if a nvme native SGL can *not* be
-built, does the HBA firmware then buffer it in its local memory before
-sending/receiving to/from the host?
+All errors (new ones prefixed by >>):
 
-And if a native SGL can be built, does the NVMe target DMA directly
-to/from host memory, giving a performance boost?
+   In file included from drivers/scsi/mpt3sas/mpt3sas_base.c:66:0:
+>> drivers/scsi/mpt3sas/mpt3sas_base.h:57:26: fatal error: mpi/mpi2_pci.h: No such file or directory
+    #include "mpi/mpi2_pci.h"
+                             ^
+   compilation terminated.
+
+vim +57 drivers/scsi/mpt3sas/mpt3sas_base.h
+
+    48	
+    49	#include "mpi/mpi2_type.h"
+    50	#include "mpi/mpi2.h"
+    51	#include "mpi/mpi2_ioc.h"
+    52	#include "mpi/mpi2_cnfg.h"
+    53	#include "mpi/mpi2_init.h"
+    54	#include "mpi/mpi2_raid.h"
+    55	#include "mpi/mpi2_tool.h"
+    56	#include "mpi/mpi2_sas.h"
+  > 57	#include "mpi/mpi2_pci.h"
+    58	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 25366 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170712/8895cd92/attachment-0001.gz>
