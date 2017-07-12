@@ -1,31 +1,20 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 12 Jul 2017 15:50:12 -0400
-Subject: kernel BUG at nvme/host/pci.c
-In-Reply-To: <458f2115-4a07-e23c-2f1f-a90a95668f74@pse-consulting.de>
-References: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
- <20170710190818.GA13671@localhost.localdomain>
- <64da8c4d-2d69-22fa-06a0-aa4f11903e39@pse-consulting.de>
- <20170711194523.GD4604@localhost.localdomain>
- <458f2115-4a07-e23c-2f1f-a90a95668f74@pse-consulting.de>
-Message-ID: <20170712195012.GA8388@localhost.localdomain>
+Date: Wed, 12 Jul 2017 15:59:07 -0400
+Subject: [PATCH] nvme/pci: Remove nvme_setup_prps BUG_ON
+Message-ID: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
 
-On Wed, Jul 12, 2017@08:06:29AM +0200, Andreas Pflug wrote:
-> nomerges set to 1 on both devices, same BUG_ON.
+This patch replaces the invalid nvme SGL kernel panic with a warning,
+and returns an appropriate error. The warning will occur only on the
+first occurance, and sgl details will be printed to help debug how the
+request was allowed to form.
 
-Thanks for the info.
-
-Could you possibly recreate with the patch below? This will simply
-return IO error rather the panic, and show exactly how this invalid SGL
-is constructed.
-
-The block layer is considering all the cases I can think of that might
-break NVMe, so these details should help explain how we got here.
-
-I'll send this as a proper patch for upstream consideration as well.
-
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
+ drivers/nvme/host/pci.c | 33 +++++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
+
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c4343c4..8cb3e89 100644
+index c4343c4..d321597 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
 @@ -533,7 +533,7 @@ static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
@@ -93,7 +82,7 @@ index c4343c4..8cb3e89 100644
 +				blk_rq_payload_bytes(req), iod->nents)) {
 +		for_each_sg(iod->sg, sg, iod->nents, i) {
 +			dma_addr_t phys = sg_phys(sg);
-+			printk("sg[%d] phys_addr:%pad offset:%d length:%d "
++			pr_warn("sg[%d] phys_addr:%pad offset:%d length:%d "
 +			       "dma_address:%pad dma_length:%d\n", i, &phys,
 +					sg->offset, sg->length,
 +					&sg_dma_address(sg),
@@ -115,4 +104,5 @@ index c4343c4..8cb3e89 100644
  		goto out_unmap;
  
  	ret = BLK_STS_IOERR;
---
+-- 
+2.5.5
