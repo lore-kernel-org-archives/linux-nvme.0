@@ -1,194 +1,63 @@
 From: a.dawn@samsung.com (Arnav Dawn)
-Date: Wed, 12 Jul 2017 16:10:40 +0530
-Subject: [PATCH v5 1/2] nvme: Add support for FW activation without reset
+Date: Wed, 12 Jul 2017 16:11:53 +0530
+Subject: [PATCH v5 2/2] nvme: Define NVME_NSID_ALL
 In-Reply-To: <1499780675-9869-1-git-send-email-a.dawn@samsung.com>
 References: <1499780675-9869-1-git-send-email-a.dawn@samsung.com>
- <CGME20170712103908epcas5p26400969af8d15bc84c72cf2ef6c3f8d7@epcas5p2.samsung.com>
-Message-ID: <1499856040-29278-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170712104016epcas5p2f0a41b2c647aac7008f340d5b0c1ee0f@epcas5p2.samsung.com>
+Message-ID: <1499856113-29397-1-git-send-email-a.dawn@samsung.com>
 
-This patch adds support for handling Fw activation without reset
-On completion of FW-activation-starting AER, all queues are
-paused till CSTS.PP is cleared or timed out (exceeds max time for
-fw activtion MTFA). If device fails to clear CSTS.PP within MTFA,
-driver issues reset controller.
+Define the constant "0xffffffff" (used as nsid for all namespaces)
+as NVME_NSID_ALL.
 
 Signed-off-by: Arnav Dawn <a.dawn at samsung.com>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-
 ---
- drivers/nvme/host/core.c | 75 ++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  2 ++
- include/linux/nvme.h     |  9 ++++++
- 3 files changed, 86 insertions(+)
+ drivers/nvme/host/core.c | 6 +++---
+ include/linux/nvme.h     | 2 ++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cb96f4a..39fdb57 100644
+index 39fdb57..4a07a98 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -76,6 +76,11 @@
+@@ -312,7 +312,7 @@ static int nvme_toggle_streams(struct nvme_ctrl *ctrl, bool enable)
+ 	memset(&c, 0, sizeof(c));
  
- static struct class *nvme_class;
- 
-+static __le32 nvme_get_log_dw10(u8 lid, size_t size)
-+{
-+	return cpu_to_le32((((size / 4) - 1) << 16) | lid);
-+}
-+
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-@@ -2523,6 +2528,71 @@ static void nvme_async_event_work(struct work_struct *work)
- 	spin_unlock_irq(&ctrl->lock);
- }
- 
-+static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
-+{
-+
-+	u32 csts;
-+
-+	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
-+		return false;
-+
-+	if (csts == ~0)
-+		return false;
-+
-+	return ((ctrl->ctrl_config & NVME_CC_ENABLE) && (csts & NVME_CSTS_PP));
-+}
-+
-+static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_command c = { };
-+	struct nvme_fw_slot_info_log *log;
-+
-+	log = kmalloc(sizeof(*log), GFP_KERNEL);
-+	if (!log)
-+		return;
-+
-+	c.common.opcode = nvme_admin_get_log_page;
-+	c.common.nsid = cpu_to_le32(0xffffffff);
-+	c.common.cdw10[0] = nvme_get_log_dw10(NVME_LOG_FW_SLOT, sizeof(*log));
-+
-+	if (!nvme_submit_sync_cmd(ctrl->admin_q, &c, log, sizeof(*log)))
-+		dev_warn(ctrl->device,
-+				"Get FW SLOT INFO log error\n");
-+	kfree(log);
-+}
-+
-+static void nvme_fw_act_work(struct work_struct *work)
-+{
-+	struct nvme_ctrl *ctrl = container_of(work,
-+				struct nvme_ctrl, fw_act_work);
-+	unsigned long fw_act_timeout;
-+
-+	if (ctrl->mtfa)
-+		fw_act_timeout = jiffies +
-+				msecs_to_jiffies(ctrl->mtfa * 100);
-+	else
-+		fw_act_timeout = jiffies +
-+				msecs_to_jiffies(admin_timeout * 1000);
-+
-+	nvme_stop_queues(ctrl);
-+	while (nvme_ctrl_pp_status(ctrl)) {
-+		if (time_after(jiffies, fw_act_timeout)) {
-+			dev_warn(ctrl->device,
-+				"Fw activation timeout, reset controller\n");
-+			nvme_reset_ctrl(ctrl);
-+			break;
-+		}
-+		msleep(100);
-+	}
-+
-+	if (ctrl->state != NVME_CTRL_LIVE)
-+		return;
-+
-+	nvme_start_queues(ctrl);
-+	/* read FW slot informationi to clear the AER*/
-+	nvme_get_fw_slot_info(ctrl);
-+}
-+
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res)
- {
-@@ -2549,6 +2619,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		dev_info(ctrl->device, "rescanning\n");
- 		nvme_queue_scan(ctrl);
- 		break;
-+	case NVME_AER_NOTICE_FW_ACT_STARTING:
-+		schedule_work(&ctrl->fw_act_work);
-+		break;
- 	default:
- 		dev_warn(ctrl->device, "async event result %08x\n", result);
- 	}
-@@ -2596,6 +2669,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- 	nvme_stop_keep_alive(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	flush_work(&ctrl->scan_work);
-+	cancel_work_sync(&ctrl->fw_act_work);
- }
- EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
- 
-@@ -2659,6 +2733,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->quirks = quirks;
- 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
-+	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
- 
- 	ret = nvme_set_instance(ctrl);
+ 	c.directive.opcode = nvme_admin_directive_send;
+-	c.directive.nsid = cpu_to_le32(0xffffffff);
++	c.directive.nsid = cpu_to_le32(NVME_NSID_ALL);
+ 	c.directive.doper = NVME_DIR_SND_ID_OP_ENABLE;
+ 	c.directive.dtype = NVME_DIR_IDENTIFY;
+ 	c.directive.tdtype = NVME_DIR_STREAMS;
+@@ -362,7 +362,7 @@ static int nvme_configure_directives(struct nvme_ctrl *ctrl)
  	if (ret)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8f2a168..b40b9af 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -142,6 +142,7 @@ struct nvme_ctrl {
- 	u16 cntlid;
+ 		return ret;
  
- 	u32 ctrl_config;
-+	u16 mtfa;
- 	u32 queue_count;
+-	ret = nvme_get_stream_params(ctrl, &s, 0xffffffff);
++	ret = nvme_get_stream_params(ctrl, &s, NVME_NSID_ALL);
+ 	if (ret)
+ 		return ret;
  
- 	u64 cap;
-@@ -167,6 +168,7 @@ struct nvme_ctrl {
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
-+	struct work_struct fw_act_work;
+@@ -2552,7 +2552,7 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
+ 		return;
  
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
+ 	c.common.opcode = nvme_admin_get_log_page;
+-	c.common.nsid = cpu_to_le32(0xffffffff);
++	c.common.nsid = cpu_to_le32(NVME_NSID_ALL);
+ 	c.common.cdw10[0] = nvme_get_log_dw10(NVME_LOG_FW_SLOT, sizeof(*log));
+ 
+ 	if (!nvme_submit_sync_cmd(ctrl->admin_q, &c, log, sizeof(*log)))
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 6b8ee9e..220fa58 100644
+index 220fa58..983975b 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -146,6 +146,7 @@ enum {
- 	NVME_CSTS_RDY		= 1 << 0,
- 	NVME_CSTS_CFS		= 1 << 1,
- 	NVME_CSTS_NSSRO		= 1 << 4,
-+	NVME_CSTS_PP		= 1 << 5,
- 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
- 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
- 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
-@@ -376,6 +377,13 @@ struct nvme_smart_log {
- 	__u8			rsvd216[296];
- };
+@@ -32,6 +32,8 @@
  
-+struct nvme_fw_slot_info_log {
-+	__u8			afi;
-+	__u8			rsvd1[7];
-+	__le64			frs[7];
-+	__u8			rsvd64[448];
-+};
+ #define NVME_RDMA_IP_PORT	4420
+ 
++#define NVME_NSID_ALL		0xffffffff
 +
- enum {
- 	NVME_SMART_CRIT_SPARE		= 1 << 0,
- 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
-@@ -386,6 +394,7 @@ enum {
- 
- enum {
- 	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
-+	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
- };
- 
- struct nvme_lba_range_type {
+ enum nvme_subsys_type {
+ 	NVME_NQN_DISC	= 1,		/* Discovery type target subsystem */
+ 	NVME_NQN_NVME	= 2,		/* NVME type target subsystem */
 -- 
 1.9.1
