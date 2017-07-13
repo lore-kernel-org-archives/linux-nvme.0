@@ -1,45 +1,93 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Jul 2017 11:09:42 +0300
-Subject: [PATCH v8 5/7] mlx5: support ->get_vector_affinity
+Date: Thu, 13 Jul 2017 11:09:44 +0300
+Subject: [PATCH v8 7/7] nvme-rdma: use intelligent affinity based queue
+ mappings
 In-Reply-To: <1499933384-17407-1-git-send-email-sagi@grimberg.me>
 References: <1499933384-17407-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1499933384-17407-6-git-send-email-sagi@grimberg.me>
+Message-ID: <1499933384-17407-8-git-send-email-sagi@grimberg.me>
 
-Simply refer to the generic affinity mask helper.
+Use the generic block layer affinity mapping helper. Also,
+limit nr_hw_queues to the rdma device number of irq vectors
+as we don't really need more.
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Acked-by: Leon Romanovsky <leonro at mellanox.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/infiniband/hw/mlx5/main.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/nvme/host/rdma.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
-index 9ecc089d4529..2b09a3c69c26 100644
---- a/drivers/infiniband/hw/mlx5/main.c
-+++ b/drivers/infiniband/hw/mlx5/main.c
-@@ -3562,6 +3562,14 @@ static void mlx5_ib_free_rdma_netdev(struct net_device *netdev)
- 	return mlx5_rdma_netdev_free(netdev);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index da04df1af231..4e25acc54e09 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -19,6 +19,7 @@
+ #include <linux/string.h>
+ #include <linux/atomic.h>
+ #include <linux/blk-mq.h>
++#include <linux/blk-mq-rdma.h>
+ #include <linux/types.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+@@ -463,14 +464,10 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	ibdev = queue->device->dev;
+ 
+ 	/*
+-	 * The admin queue is barely used once the controller is live, so don't
+-	 * bother to spread it out.
++	 * Spread I/O queues completion vectors according their queue index.
++	 * Admin queues can always go on completion vector 0.
+ 	 */
+-	if (idx == 0)
+-		comp_vector = 0;
+-	else
+-		comp_vector = idx % ibdev->num_comp_vectors;
+-
++	comp_vector = idx == 0 ? idx : idx - 1;
+ 
+ 	/* +1 for ib_stop_cq */
+ 	queue->ib_cq = ib_alloc_cq(ibdev, queue,
+@@ -611,10 +608,20 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
+ static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
++	struct ib_device *ibdev = ctrl->device->dev;
+ 	unsigned int nr_io_queues;
+ 	int i, ret;
+ 
+ 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
++
++	/*
++	 * we map queues according to the device irq vectors for
++	 * optimal locality so we don't need more queues than
++	 * completion vectors.
++	 */
++	nr_io_queues = min_t(unsigned int, nr_io_queues,
++				ibdev->num_comp_vectors);
++
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret)
+ 		return ret;
+@@ -1498,6 +1505,13 @@ static void nvme_rdma_complete_rq(struct request *rq)
+ 	nvme_complete_rq(rq);
  }
  
-+const struct cpumask *mlx5_ib_get_vector_affinity(struct ib_device *ibdev,
-+		int comp_vector)
++static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
 +{
-+	struct mlx5_ib_dev *dev = to_mdev(ibdev);
++	struct nvme_rdma_ctrl *ctrl = set->driver_data;
 +
-+	return mlx5_get_vector_affinity(dev->mdev, comp_vector);
++	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
 +}
 +
- static void *mlx5_ib_add(struct mlx5_core_dev *mdev)
- {
- 	struct mlx5_ib_dev *dev;
-@@ -3692,6 +3700,7 @@ static void *mlx5_ib_add(struct mlx5_core_dev *mdev)
- 	dev->ib_dev.check_mr_status	= mlx5_ib_check_mr_status;
- 	dev->ib_dev.get_port_immutable  = mlx5_port_immutable;
- 	dev->ib_dev.get_dev_fw_str      = get_dev_fw_str;
-+	dev->ib_dev.get_vector_affinity	= mlx5_ib_get_vector_affinity;
- 	if (MLX5_CAP_GEN(mdev, ipoib_enhanced_offloads)) {
- 		dev->ib_dev.alloc_rdma_netdev	= mlx5_ib_alloc_rdma_netdev;
- 		dev->ib_dev.free_rdma_netdev	= mlx5_ib_free_rdma_netdev;
+ static const struct blk_mq_ops nvme_rdma_mq_ops = {
+ 	.queue_rq	= nvme_rdma_queue_rq,
+ 	.complete	= nvme_rdma_complete_rq,
+@@ -1507,6 +1521,7 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
+ 	.init_hctx	= nvme_rdma_init_hctx,
+ 	.poll		= nvme_rdma_poll,
+ 	.timeout	= nvme_rdma_timeout,
++	.map_queues	= nvme_rdma_map_queues,
+ };
+ 
+ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
 -- 
 2.7.4
