@@ -1,16 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Jul 2017 17:16:33 +0200
-Subject: [PATCH] nvmet: preserve controller serial number between reboots
-In-Reply-To: <1499958505.6432.8.camel@suse.de>
-References: <20170713104806.12353-1-jthumshirn@suse.de>
- <1499958505.6432.8.camel@suse.de>
-Message-ID: <20170713151633.GA993@lst.de>
+Date: Thu, 13 Jul 2017 17:50:00 +0200
+Subject: [PATCH rfc 2/3] RDMA/core: expose cpu affinity based
+ completion vector lookup
+In-Reply-To: <1499007694-7231-3-git-send-email-sagi@grimberg.me>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+ <1499007694-7231-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20170713155000.GA2577@lst.de>
 
-On Thu, Jul 13, 2017@05:08:25PM +0200, Martin Wilck wrote:
-> I'm wondering if this should be a write-once attribute. Also,
-> Once the serial number has been passed on to some host (or maybe only:
-> while the device is in use by some host), the attribute should probably
-> be read-only.
+On Sun, Jul 02, 2017@06:01:33PM +0300, Sagi Grimberg wrote:
+> A ULP might want to lookup an optimal completion vector based on
+> a given cpu core affinity. Expose a lookup routine for it iterating
+> on the device completion vectors searching a vector with affinity
+> matching the given cpu.
 
-In practive it should.  But I don't think it's worth the extra code
-just to prevent people from shooting themselves into the foot.
+Shouldn't this return the mask of cpus with the matching affinity
+instead of always the first one?
