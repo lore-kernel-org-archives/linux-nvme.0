@@ -1,17 +1,20 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 13 Jul 2017 09:50:47 +0200
-Subject: [PATCH] nvme/pci: Remove nvme_setup_prps BUG_ON
-In-Reply-To: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
-References: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20170713075047.GC5212@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 13 Jul 2017 10:59:51 +0300
+Subject: [RFC] nvme: Fabrics should use the fctype field for data direction
+In-Reply-To: <20170713072755.GA12984@lst.de>
+References: <20170712165819.5326-1-jonathan.derrick@intel.com>
+ <20170713072755.GA12984@lst.de>
+Message-ID: <06c2b112-cca5-9a15-4c5a-3d013a23be23@grimberg.me>
 
+> Interesting.  I wonder how things ever worked without this..
+> 
+> But the Fabrics multiplexer is a bidi command, so nvme_is_write
+> will always return true currently.
+> 
+> On the host side it only matters for the passthrough ioctls,
+> which no one uses for the fabrics commands.
+> 
+> On the target side this means we always try to copy data in and
+> never out, strange.
 
-Highly appreciated,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+There is no data-out in any of the fabrics commands.
