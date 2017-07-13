@@ -1,18 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Jul 2017 19:37:13 +0300
-Subject: [PATCH rfc 3/3] nvmet-rdma: assign cq completion vector based on
- the port allowed cpus
-In-Reply-To: <20170713155003.GB2577@lst.de>
-References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
- <1499007694-7231-4-git-send-email-sagi@grimberg.me>
- <20170713155003.GB2577@lst.de>
-Message-ID: <da6a9e33-163e-4964-8305-614b7b830c17@grimberg.me>
+Date: Thu, 13 Jul 2017 19:38:27 +0300
+Subject: [PATCH] nvmet: preserve controller serial number between reboots
+In-Reply-To: <20170713130652.GA24376@lst.de>
+References: <20170713104806.12353-1-jthumshirn@suse.de>
+ <d32c32f6-3f8f-c63a-f961-ee16407c2fd6@grimberg.me>
+ <20170713130652.GA24376@lst.de>
+Message-ID: <5b7b436c-eed1-d731-50be-0733f9ac7155@grimberg.me>
 
 
-> We really shouldn't be doing any of this in NVMe I think.  We'll need
-> to go back to the cq pool API first.  The last version I had was here:
+>> It seems weird that a subsystem has a serial.
 > 
-> 	http://git.infradead.org/users/hch/rdma.git/shortlog/refs/heads/rdma-cq
+> But that's actually how NVMe defines them.
 
-Not against the idea, though the ULP will need to pass a desired cpu
-affinity.
+Where is that wording?
+
+> Which mean we first
+> need to fix our code to generate a serial number per subsystem,
+> and on top of that the patch from Johannes seems perfectly reasonable.
+
+If that is indeed the case then sure.
