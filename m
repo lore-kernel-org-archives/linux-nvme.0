@@ -1,65 +1,38 @@
 From: mwilck@suse.com (Martin Wilck)
-Date: Fri, 14 Jul 2017 00:25:31 +0200
-Subject: [PATCH 1/3] nvmet: identify controller: improve standard compliance
+Date: Fri, 14 Jul 2017 00:25:32 +0200
+Subject: [PATCH 2/3] nvme: wwid_show: strip trailing 0-bytes
 In-Reply-To: <20170713222533.30794-1-mwilck@suse.com>
 References: <20170713222533.30794-1-mwilck@suse.com>
-Message-ID: <20170713222533.30794-2-mwilck@suse.com>
+Message-ID: <20170713222533.30794-3-mwilck@suse.com>
 
-The NVME standard mandates that the SN, MN, and FR fields of
-the Indentify Controller Data Structure be "ASCII strings".
-That means that they may not contain 0-bytes, not even string
-terminators.
+Some broken targets (such as the current Linux target) pad
+model or serial fields with 0-bytes rather than spaces. The
+NVME spec disallows 0 bytes in "ASCII" fields.
+Thus strip trailing 0-bytes, too.
 
 Signed-off-by: Martin Wilck <mwilck at suse.com>
 Reviewed-by: Hannes Reinecke <hare at suse.de>
 ---
- drivers/nvme/target/admin-cmd.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 35f930db3c02c..b580141d57401 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -168,11 +168,21 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d70df1d0072d4..deced6b91442d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2001,9 +2001,11 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+ 	if (memchr_inv(ns->eui, 0, sizeof(ns->eui)))
+ 		return sprintf(buf, "eui.%8phN\n", ns->eui);
  
-+static void copy_and_pad(char *dst, int dst_len, const char *src, int src_len)
-+{
-+	int len = min(src_len, dst_len);
-+
-+	memcpy(dst, src, len);
-+	if (dst_len > len)
-+		memset(dst + len, ' ', dst_len - len);
-+}
-+
- static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvme_id_ctrl *id;
- 	u16 status = 0;
-+	const char model[] = "Linux";
+-	while (ctrl->serial[serial_len - 1] == ' ')
++	while (ctrl->serial[serial_len - 1] == ' ' ||
++	       ctrl->serial[serial_len - 1] == '\0')
+ 		serial_len--;
+-	while (ctrl->model[model_len - 1] == ' ')
++	while (ctrl->model[model_len - 1] == ' ' ||
++	       ctrl->model[model_len - 1] == '\0')
+ 		model_len--;
  
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
- 	if (!id) {
-@@ -184,14 +194,11 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->vid = 0;
- 	id->ssvid = 0;
- 
--	memset(id->sn, ' ', sizeof(id->sn));
--	snprintf(id->sn, sizeof(id->sn), "%llx", ctrl->serial);
-+	bin2hex(id->sn, &ctrl->serial, min(sizeof(ctrl->serial),
-+					   sizeof(id->sn) / 2));
- 
--	memset(id->mn, ' ', sizeof(id->mn));
--	strncpy((char *)id->mn, "Linux", sizeof(id->mn));
--
--	memset(id->fr, ' ', sizeof(id->fr));
--	strncpy((char *)id->fr, UTS_RELEASE, sizeof(id->fr));
-+	copy_and_pad(id->mn, sizeof(id->mn), model, sizeof(model) - 1);
-+	copy_and_pad(id->fr, sizeof(id->fr), UTS_RELEASE, strlen(UTS_RELEASE));
- 
- 	id->rab = 6;
- 
+ 	return sprintf(buf, "nvme.%04x-%*phN-%*phN-%08x\n", ctrl->vid,
 -- 
 2.13.2
