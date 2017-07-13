@@ -1,74 +1,33 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Fri, 14 Jul 2017 00:25:33 +0200
-Subject: [PATCH 3/3] nvme: wwid_show: copy hex string verbatim
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 13 Jul 2017 18:57:39 -0400
+Subject: [PATCH 0/3] Improve readbility of NVME "wwid" attribute
 In-Reply-To: <20170713222533.30794-1-mwilck@suse.com>
 References: <20170713222533.30794-1-mwilck@suse.com>
-Message-ID: <20170713222533.30794-4-mwilck@suse.com>
+Message-ID: <20170713225739.GE14716@localhost.localdomain>
 
-If the serial number is a series of hex digits (as usual for the
-Linux target), there's no need to encode it in hex once more.
-This will improve the readability of NVME wwids for users.
+On Fri, Jul 14, 2017@12:25:30AM +0200, Martin Wilck wrote:
+> With the current implementation, the default "fallback" WWID generation
+> code (if no nguid, euid etc. are defined) for Linux NVME host and target
+> results in the following WWID format:
+> 
+> nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
+> 
+> This is not only hard to read, it poses real problems for multipath
+> (dm WWIDs are limited to 128 characters), and it's not fully standards
+> compliant.
+> 
+> With this patch series, the WWID on a Linux host connected to a Linux target
+> looks like this:
+>
+> nvme.0000-d319fc8b2883bfec-4c696e7578-00000001
 
-Signed-off-by: Martin Wilck <mwilck at suse.com>
----
- drivers/nvme/host/core.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+Just curious for non-hex strings, is there a problem with any utilities
+if we use the ASCII for both serial and model? It'd be half as long.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index deced6b91442d..c80e90603c9c4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -27,6 +27,7 @@
- #include <linux/nvme_ioctl.h>
- #include <linux/t10-pi.h>
- #include <linux/pm_qos.h>
-+#include <linux/ctype.h>
- #include <asm/unaligned.h>
- 
- #include "nvme.h"
-@@ -1987,6 +1988,14 @@ static ssize_t nvme_sysfs_rescan(struct device *dev,
- }
- static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
- 
-+static bool _is_hex_string(const char *buf, int len)
-+{
-+	const char *p;
-+
-+	for (p = buf; p < buf + len && isxdigit(*p); p++);
-+	return p == buf + len;
-+}
-+
- static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- 								char *buf)
- {
-@@ -1994,6 +2003,7 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- 	struct nvme_ctrl *ctrl = ns->ctrl;
- 	int serial_len = sizeof(ctrl->serial);
- 	int model_len = sizeof(ctrl->model);
-+	char *p;
- 
- 	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
- 		return sprintf(buf, "eui.%16phN\n", ns->nguid);
-@@ -2008,8 +2018,18 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- 	       ctrl->model[model_len - 1] == '\0')
- 		model_len--;
- 
--	return sprintf(buf, "nvme.%04x-%*phN-%*phN-%08x\n", ctrl->vid,
--		serial_len, ctrl->serial, model_len, ctrl->model, ns->ns_id);
-+	p = buf + sprintf(buf, "nvme.%04x-", ctrl->vid);
-+
-+	if (_is_hex_string(ctrl->serial, serial_len)) {
-+		memcpy(p, ctrl->serial, serial_len);
-+		p += serial_len;
-+		*p++ = '-';
-+	} else
-+		p += sprintf(p, "%*phN-", serial_len, ctrl->serial);
-+
-+	p += sprintf(p, "%*phN-%08x\n", model_len, ctrl->model, ns->ns_id);
-+
-+	return p - buf;
- }
- static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
- 
--- 
-2.13.2
+For example, my device's wwid attribute looks like this today:
+
+ nvme.8086-46554d42353235363030304a32383041-494e54454c2053534450454431443134304741-00000001 
+
+But would this cause a problem for anything?
+
+  nvme.8086-FUMB5256000J280A-INTEL_SSDPED1D140GA-00000001
