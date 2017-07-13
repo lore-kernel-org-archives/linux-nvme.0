@@ -1,24 +1,29 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Jul 2017 19:17:55 +0200
-Subject: [PATCH] nvmet: preserve controller serial number between reboots
-In-Reply-To: <5b7b436c-eed1-d731-50be-0733f9ac7155@grimberg.me>
-References: <20170713104806.12353-1-jthumshirn@suse.de>
- <d32c32f6-3f8f-c63a-f961-ee16407c2fd6@grimberg.me>
- <20170713130652.GA24376@lst.de>
- <5b7b436c-eed1-d731-50be-0733f9ac7155@grimberg.me>
-Message-ID: <20170713171755.GB5107@lst.de>
+From: chuck.lever@oracle.com (Chuck Lever)
+Date: Thu, 13 Jul 2017 13:19:00 -0400
+Subject: [PATCH rfc 3/3] nvmet-rdma: assign cq completion vector based on
+ the port allowed cpus
+In-Reply-To: <20170713155003.GB2577@lst.de>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+ <1499007694-7231-4-git-send-email-sagi@grimberg.me>
+ <20170713155003.GB2577@lst.de>
+Message-ID: <C2439AB7-BC2E-4B71-87CA-3F8313282828@oracle.com>
 
-On Thu, Jul 13, 2017@07:38:27PM +0300, Sagi Grimberg wrote:
->
->>> It seems weird that a subsystem has a serial.
->>
->> But that's actually how NVMe defines them.
->
-> Where is that wording?
 
-Right there in the SN field description:
+> On Jul 13, 2017,@11:50 AM, Christoph Hellwig <hch@lst.de> wrote:
+> 
+> We really shouldn't be doing any of this in NVMe I think.  We'll need
+> to go back to the cq pool API first.  The last version I had was here:
+> 
+> 	http://git.infradead.org/users/hch/rdma.git/shortlog/refs/heads/rdma-cq
+> 
+> and then do the affinity in common code.
 
-"Serial Number (SN): Contains the serial number for the NVM subsystem
- that is assigned by the vendor as an ASCII string. Refer to section
- 7.10 for unique identifier requirements. Refer to section 1.5 for
- ASCII string requirements"
+This seems to address the problem I mentioned to you with properly
+estimating send CQ size when using the rdma_rw API. If these are
+going to be merged soon, I can drop the new API I proposed here:
+
+http://git.linux-nfs.org/?p=cel/cel-2.6.git;a=commit;h=2156cb956101da854f64918066710ff4e7affc5b
+
+
+--
+Chuck Lever
