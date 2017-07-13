@@ -1,55 +1,22 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue, 18 Jul 2017 15:13:10 -0600
-Subject: [PATCH] nvme: Add support for NVMe 1.3 Timestamp Feature
-In-Reply-To: <20170713073500.GD12984@lst.de>
-References: <20170712221101.1715-1-jonathan.derrick@intel.com>
- <20170713073500.GD12984@lst.de>
-Message-ID: <8fcc46b3-558b-df7e-b875-fec445246029@intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 13 Jul 2017 19:16:45 +0200
+Subject: [PATCH rfc 3/3] nvmet-rdma: assign cq completion vector based
+ on the port allowed cpus
+In-Reply-To: <da6a9e33-163e-4964-8305-614b7b830c17@grimberg.me>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+ <1499007694-7231-4-git-send-email-sagi@grimberg.me>
+ <20170713155003.GB2577@lst.de>
+ <da6a9e33-163e-4964-8305-614b7b830c17@grimberg.me>
+Message-ID: <20170713171645.GA5107@lst.de>
 
-On 07/13/2017 01:35 AM, Christoph Hellwig wrote:
-> On Wed, Jul 12, 2017@04:11:01PM -0600, Jon Derrick wrote:
->> NVME's Timestamp feature allows controllers to be aware of the epoch
->> time in milliseconds. This patch adds the set features hook for various
->> transports. It also wires it up to the pci reset path, so that resets
->> and resumes can update the controller as necessary.
-> 
-> Please find a way to do this entirely from common code, currently you
-> miss out on all the non-PCIe transports.
-> 
->> +	u64 cur_ms;
->> +	u8 ts[8] = { 0, };
->> +	int status;
->> +	u32 result;
->> +
->> +	cur_ms = ktime_to_ms(ktime_get_real());
->> +	put_unaligned_le64(cur_ms, &ts[0]);
->> +
->> +	status = nvme_set_features(ctrl, NVME_FEAT_TIMESTAMP, 0, ts, 8,
-> 
-> I think this could simply be something like:
-> 
-> 	__le64 ts;
-> 
-> 	ts = cpu_to_le64(ktime_to_ms(ktime_get_real()));
-> 	status = nvme_set_features(ctrl, NVME_FEAT_TIMESTAMP, 0, &ts,
-> 			sizeof(ts),
-> 
->> +			&result);
->> +	if (status < 0)
->> +		dev_warn_once(ctrl->device,
->> +			"could not set timestamp (%08x)\n", result);
->> +}
-> 
-> The Timestamp feature does not define a result, so you should just
-> pass NULL for the result parameter.  And if you want to print something
-> on error the status value is probably more useful.
-> 
->> +	if (dev->ctrl.vs >= NVME_VS(1, 3, 0) &&
->> +	    dev->ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)
->> +		nvme_set_timestamp(&dev->ctrl);
-> 
-> No need to check for the version - NVMe TPs also apply to all previous
-> versions if they are backwards compatible, which this one is.
-> 
+On Thu, Jul 13, 2017@07:37:13PM +0300, Sagi Grimberg wrote:
+>
+>> We really shouldn't be doing any of this in NVMe I think.  We'll need
+>> to go back to the cq pool API first.  The last version I had was here:
+>>
+>> 	http://git.infradead.org/users/hch/rdma.git/shortlog/refs/heads/rdma-cq
+>
+> Not against the idea, though the ULP will need to pass a desired cpu
+> affinity.
 
-Thanks for the tips
+Yes.
