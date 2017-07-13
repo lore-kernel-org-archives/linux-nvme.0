@@ -1,23 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Jul 2017 19:30:31 +0300
-Subject: [PATCH rfc 2/3] RDMA/core: expose cpu affinity based completion
- vector lookup
-In-Reply-To: <20170713155000.GA2577@lst.de>
+Date: Thu, 13 Jul 2017 19:37:13 +0300
+Subject: [PATCH rfc 3/3] nvmet-rdma: assign cq completion vector based on
+ the port allowed cpus
+In-Reply-To: <20170713155003.GB2577@lst.de>
 References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
- <1499007694-7231-3-git-send-email-sagi@grimberg.me>
- <20170713155000.GA2577@lst.de>
-Message-ID: <0126c38f-c6e1-3496-9c08-dcf043986923@grimberg.me>
+ <1499007694-7231-4-git-send-email-sagi@grimberg.me>
+ <20170713155003.GB2577@lst.de>
+Message-ID: <da6a9e33-163e-4964-8305-614b7b830c17@grimberg.me>
 
 
->> A ULP might want to lookup an optimal completion vector based on
->> a given cpu core affinity. Expose a lookup routine for it iterating
->> on the device completion vectors searching a vector with affinity
->> matching the given cpu.
+> We really shouldn't be doing any of this in NVMe I think.  We'll need
+> to go back to the cq pool API first.  The last version I had was here:
 > 
-> Shouldn't this return the mask of cpus with the matching affinity
-> instead of always the first one?
+> 	http://git.infradead.org/users/hch/rdma.git/shortlog/refs/heads/rdma-cq
 
-Its the opposite, I'm looking for the vector matching a given cpu.
-
-In case there are multiple vectors with the same cpu assignment,
-it doesn't really matter which one is it.
+Not against the idea, though the ULP will need to pass a desired cpu
+affinity.
