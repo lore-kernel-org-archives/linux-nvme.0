@@ -1,22 +1,23 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 13 Jul 2017 12:09:17 -0400
-Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
-In-Reply-To: <e78bec7c-6393-a527-99df-3eb71245fb6d@broadcom.com>
-References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
- <1499444581-28268-8-git-send-email-keith.busch@intel.com>
- <6e6d624b-4749-7b72-9ebc-58ba328adc64@broadcom.com>
- <20170711144353.GB4604@localhost.localdomain>
- <e78bec7c-6393-a527-99df-3eb71245fb6d@broadcom.com>
-Message-ID: <20170713160917.GH8388@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 13 Jul 2017 19:30:31 +0300
+Subject: [PATCH rfc 2/3] RDMA/core: expose cpu affinity based completion
+ vector lookup
+In-Reply-To: <20170713155000.GA2577@lst.de>
+References: <1499007694-7231-1-git-send-email-sagi@grimberg.me>
+ <1499007694-7231-3-git-send-email-sagi@grimberg.me>
+ <20170713155000.GA2577@lst.de>
+Message-ID: <0126c38f-c6e1-3496-9c08-dcf043986923@grimberg.me>
 
-On Tue, Jul 11, 2017@10:14:20AM -0700, James Smart wrote:
-> On 7/11/2017 7:43 AM, Keith Busch wrote:
-> > I agree that usage for dynamic strings is better, but this is a fixed
-> > sized string that will always be 20 bytes.
+
+>> A ULP might want to lookup an optimal completion vector based on
+>> a given cpu core affinity. Expose a lookup routine for it iterating
+>> on the device completion vectors searching a vector with affinity
+>> matching the given cpu.
 > 
-> My scenario was the same - fixed sized, not dynamic.  Just being the
-> messenger for consistency.
+> Shouldn't this return the mask of cpus with the matching affinity
+> instead of always the first one?
 
-Wha?! That style point is not one I'm convinced is better. Not only is
-it more complicated, the stack overhead of calling kasprintf is higher
-than the 20 bytes I'm using here.
+Its the opposite, I'm looking for the vector matching a given cpu.
+
+In case there are multiple vectors with the same cpu assignment,
+it doesn't really matter which one is it.
