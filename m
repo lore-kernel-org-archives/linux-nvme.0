@@ -1,15 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Jul 2017 09:56:53 +0300
-Subject: [PATCH] nvme/pci: Remove nvme_setup_prps BUG_ON
-In-Reply-To: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
-References: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
-Message-ID: <34a00ee8-4e9c-ec53-95ca-df11d30514c4@grimberg.me>
+Date: Thu, 13 Jul 2017 10:01:36 +0300
+Subject: [PATCH] nvme: Add support for NVMe 1.3 Timestamp Feature
+In-Reply-To: <20170712221101.1715-1-jonathan.derrick@intel.com>
+References: <20170712221101.1715-1-jonathan.derrick@intel.com>
+Message-ID: <59e271b0-00d8-d705-b56e-a93d7b21e393@grimberg.me>
 
-> This patch replaces the invalid nvme SGL kernel panic with a warning,
-> and returns an appropriate error. The warning will occur only on the
-> first occurance, and sgl details will be printed to help debug how the
-> request was allowed to form.
 
-That's definitely needed! Looks great,
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 5d5aa7f..82ce677 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2156,6 +2156,10 @@ static void nvme_reset_work(struct work_struct *work)
+>   	if (result)
+>   		goto out;
+>   
+> +	if (dev->ctrl.vs >= NVME_VS(1, 3, 0) &&
+> +	    dev->ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)
+> +		nvme_set_timestamp(&dev->ctrl);
+> +
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.m>
+Why after setting up the I/O queues?
