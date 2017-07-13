@@ -1,10 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Jul 2017 09:28:09 +0200
-Subject: [PATCH] nvme: also provide a UUID in the WWID sysfs attribute
-In-Reply-To: <20170712133856.17211-1-jthumshirn@suse.de>
-References: <20170712133856.17211-1-jthumshirn@suse.de>
-Message-ID: <20170713072809.GB12984@lst.de>
+Date: Thu, 13 Jul 2017 09:28:27 +0200
+Subject: [PATCH] nvme/pci: Remove nvme_setup_prps BUG_ON
+In-Reply-To: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
+References: <1499889547-11018-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170713072827.GC12984@lst.de>
 
-Looks good,
+Looks fine,
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
