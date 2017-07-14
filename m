@@ -1,41 +1,73 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 14 Jul 2017 12:43:09 +0200
-Subject: [PATCH 2/2] nvmet-fc: fix byte swapping in
- nvmet_fc_ls_create_association
-In-Reply-To: <20170714104309.10757-1-hch@lst.de>
-References: <20170714104309.10757-1-hch@lst.de>
-Message-ID: <20170714104309.10757-2-hch@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 14 Jul 2017 13:00:04 +0200
+Subject: [PATCH 2/2] nvmet: preserve controller serial number between reboots
+In-Reply-To: <20170714110004.11886-1-jthumshirn@suse.de>
+References: <20170714110004.11886-1-jthumshirn@suse.de>
+Message-ID: <20170714110004.11886-3-jthumshirn@suse.de>
 
-We always need to do non-equal comparisms on the native endian versions
-to get the correct result.
+The NVMe target has no way to preserve controller serial
+IDs across reboots which breaks udev scripts doing
+SYMLINK+="dev/disk/by-id/nvme-$env{ID_SERIAL}-part%n.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Export the randomly generated serial number via configfs and allow
+setting of a serial via configfs to mitigate this breakage.
+
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/target/fc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/target/configfs.c | 22 ++++++++++++++++++++++
+ drivers/nvme/target/core.c     |  2 ++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1e6dcc241b3c..d5801c150b1c 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1174,14 +1174,14 @@ nvmet_fc_ls_create_association(struct nvmet_fc_tgtport *tgtport,
- 	 */
- 	if (iod->rqstdatalen < FCNVME_LSDESC_CRA_RQST_MINLEN)
- 		ret = VERR_CR_ASSOC_LEN;
--	else if (rqst->desc_list_len <
--			cpu_to_be32(FCNVME_LSDESC_CRA_RQST_MIN_LISTLEN))
-+	else if (be32_to_cpu(rqst->desc_list_len) <
-+			FCNVME_LSDESC_CRA_RQST_MIN_LISTLEN)
- 		ret = VERR_CR_ASSOC_RQST_LEN;
- 	else if (rqst->assoc_cmd.desc_tag !=
- 			cpu_to_be32(FCNVME_LSDESC_CREATE_ASSOC_CMD))
- 		ret = VERR_CR_ASSOC_CMD;
--	else if (rqst->assoc_cmd.desc_len <
--			cpu_to_be32(FCNVME_LSDESC_CRA_CMD_DESC_MIN_DESCLEN))
-+	else if (be32_to_cpu(rqst->assoc_cmd.desc_len) <
-+			FCNVME_LSDESC_CRA_CMD_DESC_MIN_DESCLEN)
- 		ret = VERR_CR_ASSOC_CMD_LEN;
- 	else if (!rqst->assoc_cmd.ersp_ratio ||
- 		 (be16_to_cpu(rqst->assoc_cmd.ersp_ratio) >=
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index a358ecd93e11..9f19f0bde8f2 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -686,9 +686,31 @@ static ssize_t nvmet_subsys_version_store(struct config_item *item,
+ }
+ CONFIGFS_ATTR(nvmet_subsys_, version);
+ 
++static ssize_t nvmet_subsys_attr_serial_show(struct config_item *item,
++					     char *page)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++
++	return snprintf(page, PAGE_SIZE, "%llx\n", subsys->serial);
++}
++
++static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
++					      const char *page, size_t count)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++
++	down_write(&nvmet_config_sem);
++	sscanf(page, "%llx\n", &subsys->serial);
++	up_write(&nvmet_config_sem);
++
++	return count;
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
++
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
+ 	&nvmet_subsys_attr_version,
++	&nvmet_subsys_attr_attr_serial,
+ 	NULL,
+ };
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index e3ceff3d2d17..d38f4b9861c1 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -767,8 +767,10 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	memcpy(ctrl->subsysnqn, subsysnqn, NVMF_NQN_SIZE);
+ 	memcpy(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE);
+ 
++	down_read(&nvmet_config_sem);
+ 	if (!subsys->serial)
+ 		get_random_bytes(&subsys->serial, sizeof(subsys->serial));
++	up_read(&nvmet_config_sem);
+ 
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
 -- 
-2.11.0
+2.12.3
