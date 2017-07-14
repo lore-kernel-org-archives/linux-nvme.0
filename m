@@ -1,53 +1,16 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Fri, 14 Jul 2017 18:57:33 +0530
-Subject: [PATCH 02/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
- devices
-In-Reply-To: <20170712000402.GA27718@localhost.localdomain>
-References: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1499763313-7214-3-git-send-email-suganath-prabu.subramani@broadcom.com>
- <20170712000402.GA27718@localhost.localdomain>
-Message-ID: <CA+RiK67fK5MRxm=Cg4Ymy4us2j27N3aXU1AMpOo0iHsiM_-a8g@mail.gmail.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 14 Jul 2017 08:01:54 -0600
+Subject: [PATCH 1/2] nvme: fix byte swapping in the streams code
+In-Reply-To: <20170714104309.10757-1-hch@lst.de>
+References: <20170714104309.10757-1-hch@lst.de>
+Message-ID: <8bea4f95-ec3a-3d16-24fb-e8bdc72a6c93@kernel.dk>
 
-Hi Keith,
-We have made change and submitted V2 of patch set.
+On 07/14/2017 04:43 AM, Christoph Hellwig wrote:
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Thanks,
-Suganath Prabu S
+Oops, obviously correct.
 
-On Wed, Jul 12, 2017@5:34 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, Jul 11, 2017@01:55:02AM -0700, Suganath Prabu S wrote:
->> +/**
->> + * _base_check_pcie_native_sgl - This function is called for PCIe end devices to
->> + * determine if the driver needs to build a native SGL.  If so, that native
->> + * SGL is built in the special contiguous buffers allocated especially for
->> + * PCIe SGL creation.  If the driver will not build a native SGL, return
->> + * TRUE and a normal IEEE SGL will be built.  Currently this routine
->> + * supports NVMe.
->> + * @ioc: per adapter object
->> + * @mpi_request: mf request pointer
->> + * @smid: system request message index
->> + * @scmd: scsi command
->> + * @pcie_device: points to the PCIe device's info
->> + *
->> + * Returns 0 if native SGL was built, 1 if no SGL was built
->> + */
->> +static int
->> +_base_check_pcie_native_sgl(struct MPT3SAS_ADAPTER *ioc,
->> +     Mpi25SCSIIORequest_t *mpi_request, u16 smid, struct scsi_cmnd *scmd,
->> +     struct _pcie_device *pcie_device)
->> +{
->
-> <snip>
->
->> +     /* Return 0, indicating we built a native SGL. */
->> +     return 1;
->> +}
->
-> This function doesn't return 0 ever. Not sure why it's here.
->
-> Curious about your device, though, if a nvme native SGL can *not* be
-> built, does the HBA firmware then buffer it in its local memory before
-> sending/receiving to/from the host?
->
-> And if a native SGL can be built, does the NVMe target DMA directly
-> to/from host memory, giving a performance boost?
+Reviewed-by: Jens Axboe <axboe at kernel.dk>
+
+-- 
+Jens Axboe
