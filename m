@@ -1,82 +1,59 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 14 Jul 2017 15:36:55 +0200
-Subject: [PATCH v4 2/3] nvmet: Move serial number from controller to subsystem
+Date: Fri, 14 Jul 2017 15:36:56 +0200
+Subject: [PATCH v4 3/3] nvmet: preserve controller serial number between
+ reboots
 In-Reply-To: <20170714133656.19195-1-jthumshirn@suse.de>
 References: <20170714133656.19195-1-jthumshirn@suse.de>
-Message-ID: <20170714133656.19195-3-jthumshirn@suse.de>
+Message-ID: <20170714133656.19195-4-jthumshirn@suse.de>
 
-The NVMe specification defines the serial number as:
+The NVMe target has no way to preserve controller serial
+IDs across reboots which breaks udev scripts doing
+SYMLINK+="dev/disk/by-id/nvme-$env{ID_SERIAL}-part%n.
 
-"Serial Number (SN): Contains the serial number for the NVM subsystem
-that is assigned by the vendor as an ASCII string. Refer to section
-7.10 for unique identifier requirements. Refer to section 1.5 for ASCII
-string requirements"
-
-So move it from the controller to the subsystem, where it belongs.
+Export the randomly generated serial number via configfs and allow
+setting of a serial via configfs to mitigate this breakage.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/admin-cmd.c | 2 +-
- drivers/nvme/target/core.c      | 5 ++---
- drivers/nvme/target/nvmet.h     | 2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/nvme/target/configfs.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 35f930db3c02..f7ba006d6a65 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -185,7 +185,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->ssvid = 0;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index ceee57bb0c24..0a0067e771f5 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -686,9 +686,31 @@ static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
+ }
+ CONFIGFS_ATTR(nvmet_subsys_, attr_version);
  
- 	memset(id->sn, ' ', sizeof(id->sn));
--	snprintf(id->sn, sizeof(id->sn), "%llx", ctrl->serial);
-+	snprintf(id->sn, sizeof(id->sn), "%llx", ctrl->subsys->serial);
++static ssize_t nvmet_subsys_attr_serial_show(struct config_item *item,
++					     char *page)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++
++	return snprintf(page, PAGE_SIZE, "%llx\n", subsys->serial);
++}
++
++static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
++					      const char *page, size_t count)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++
++	down_write(&nvmet_config_sem);
++	sscanf(page, "%llx\n", &subsys->serial);
++	up_write(&nvmet_config_sem);
++
++	return count;
++}
++CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
++
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
+ 	&nvmet_subsys_attr_attr_version,
++	&nvmet_subsys_attr_attr_serial,
+ 	NULL,
+ };
  
- 	memset(id->mn, ' ', sizeof(id->mn));
- 	strncpy((char *)id->mn, "Linux", sizeof(id->mn));
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b5b4ac103748..f4b02bb4a1a8 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -767,9 +767,6 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	memcpy(ctrl->subsysnqn, subsysnqn, NVMF_NQN_SIZE);
- 	memcpy(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE);
- 
--	/* generate a random serial number as our controllers are ephemeral: */
--	get_random_bytes(&ctrl->serial, sizeof(ctrl->serial));
--
- 	kref_init(&ctrl->ref);
- 	ctrl->subsys = subsys;
- 
-@@ -928,6 +925,8 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 		return NULL;
- 
- 	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
-+	/* generate a random serial number as our controllers are ephemeral: */
-+	get_random_bytes(&subsys->serial, sizeof(subsys->serial));
- 
- 	switch (type) {
- 	case NVME_NQN_NVME:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 747bbdb4f9c6..e3b244c7e443 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -112,7 +112,6 @@ struct nvmet_ctrl {
- 
- 	struct mutex		lock;
- 	u64			cap;
--	u64			serial;
- 	u32			cc;
- 	u32			csts;
- 
-@@ -152,6 +151,7 @@ struct nvmet_subsys {
- 	u16			max_qid;
- 
- 	u64			ver;
-+	u64			serial;
- 	char			*subsysnqn;
- 
- 	struct config_group	group;
 -- 
 2.12.3
