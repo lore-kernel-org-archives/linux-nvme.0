@@ -1,75 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 14 Jul 2017 14:53:29 +0200
-Subject: [PATCH v3 3/3] nvmet: preserve controller serial number between
- reboots
-In-Reply-To: <20170714125329.18430-1-jthumshirn@suse.de>
-References: <20170714125329.18430-1-jthumshirn@suse.de>
-Message-ID: <20170714125329.18430-4-jthumshirn@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 14 Jul 2017 14:54:50 +0200
+Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
+In-Reply-To: <03e07267-4ae0-24c7-a3ce-10e55debd4a8@linux.vnet.ibm.com>
+References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
+ <1499444581-28268-8-git-send-email-keith.busch@intel.com>
+ <20170707181436.GC24427@lst.de>
+ <20170713212955.GD14716@localhost.localdomain>
+ <03e07267-4ae0-24c7-a3ce-10e55debd4a8@linux.vnet.ibm.com>
+Message-ID: <20170714125450.GB26975@lst.de>
 
-The NVMe target has no way to preserve controller serial
-IDs across reboots which breaks udev scripts doing
-SYMLINK+="dev/disk/by-id/nvme-$env{ID_SERIAL}-part%n.
+On Fri, Jul 14, 2017@09:50:20AM -0300, Guilherme G. Piccoli wrote:
+> We were planning to implement this here on LTC, and some ideas in
+> discussion is whether such tool could be integrated to nvme-cli, like a
+> "nvmed" tool, a daemon to handle the events. Advantages of the daemon
+> are possible implementation of RAS features like trigger actions based
+> on adapter's error, etc.
 
-Export the randomly generated serial number via configfs and allow
-setting of a serial via configfs to mitigate this breakage.
+Don't uevent call a binary each time?  Either way nvme-cli is the right
+place for it.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/target/configfs.c | 22 ++++++++++++++++++++++
- drivers/nvme/target/core.c     |  2 ++
- 2 files changed, 24 insertions(+)
+> Do you think this kind of tool is interesting? Suggestions on this topic
+> are greatly appreciated. One of our concerns is that AEN events still
+> need to be enabled by the user, not all events are enabled by default.
+> One such tool would allow friendly configuration on which events user
+> wants to enable.
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index ceee57bb0c24..0a0067e771f5 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -686,9 +686,31 @@ static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
- }
- CONFIGFS_ATTR(nvmet_subsys_, attr_version);
- 
-+static ssize_t nvmet_subsys_attr_serial_show(struct config_item *item,
-+					     char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%llx\n", subsys->serial);
-+}
-+
-+static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
-+					      const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	down_write(&nvmet_config_sem);
-+	sscanf(page, "%llx\n", &subsys->serial);
-+	up_write(&nvmet_config_sem);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
-+
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
- 	&nvmet_subsys_attr_attr_version,
-+	&nvmet_subsys_attr_attr_serial,
- 	NULL,
- };
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index f4b02bb4a1a8..60ff5a55c253 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -924,9 +924,11 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	if (!subsys)
- 		return NULL;
- 
-+	down_write(&nvmet_config_sem);
- 	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
- 	/* generate a random serial number as our controllers are ephemeral: */
- 	get_random_bytes(&subsys->serial, sizeof(subsys->serial));
-+	up_write(&nvmet_config_sem);
- 
- 	switch (type) {
- 	case NVME_NQN_NVME:
--- 
-2.12.3
+Yes, AERs generally are opt-in.
