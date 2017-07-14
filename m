@@ -1,60 +1,52 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Fri, 14 Jul 2017 11:58:16 +0200
-Subject: [PATCH 3/3] nvme: wwid_show: copy hex string verbatim
-In-Reply-To: <20170714075451.GD17877@lst.de>
-References: <20170713222533.30794-1-mwilck@suse.com>
- <20170713222533.30794-4-mwilck@suse.com> <20170714075451.GD17877@lst.de>
-Message-ID: <1500026296.4808.8.camel@suse.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 14 Jul 2017 12:43:08 +0200
+Subject: [PATCH 1/2] nvme: fix byte swapping in the streams code
+Message-ID: <20170714104309.10757-1-hch@lst.de>
 
-On Fri, 2017-07-14@09:54 +0200, Christoph Hellwig wrote:
-> On Fri, Jul 14, 2017@12:25:33AM +0200, Martin Wilck wrote:
-> > If the serial number is a series of hex digits (as usual for the
-> > Linux target), there's no need to encode it in hex once more.
-> > This will improve the readability of NVME wwids for users.
-> 
-> NAK, this will break existing device identifiers.
-> 
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/core.c |  2 +-
+ include/linux/nvme.h     | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-If this is what you think, you must also NAK my patch 2/3, because
-stripping the 0-bytes also changes how the WWID is presented to user
-space. For example
-
-nvme.0000-3163653363666438366239656630386200-
-4c696e75780000000000000000000000000000000000000000000000000000000000000
-000000000-00000001
-
-becomes after 2/3:
-
-nvme.0000-31636533636664383662396566303862-4c696e7578-00000001
-
-3/3 would change this again to
-
-nvme.0000-1ce3cfd86b9ef08b-4c696e7578-00000001
-
-and Keith's proposal would change it to
-
-nvme.0000-1ce3cfd86b9ef08b-Linux-00000001
-
-User space that relies on the string in the first format would break
-already with 2/3. However, multipath, which is probably the main
-consumer of the WWID for practical purposes, can't handle the overlong
-format anyway (I'm preparing a patch series to fix that).
-
-Therefore, please think twice. It may be worthwhile to accept an
-exception to the API stability rule here. Some people will be bitten,
-but we will have a saner WWID format in the future. Of course, if this
-is to be changed, we'd better do it asap.
-
-Note also that this identifier is volatile for Linux targets anyway,
-as the serial number changes between target reboots (I'm aware of
-Johannes' recent attempt to change this, but again this is going to be
-a configuration that the storage admin must actively apply).
-
-As I wrote in my other mail, if API stability prevails, let's introduce
-a new attribute with cleaner format.
-
-Martin
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index cb96f4a7ae3a..3b77cfe5aa1e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -336,7 +336,7 @@ static int nvme_get_stream_params(struct nvme_ctrl *ctrl,
+ 
+ 	c.directive.opcode = nvme_admin_directive_recv;
+ 	c.directive.nsid = cpu_to_le32(nsid);
+-	c.directive.numd = sizeof(*s);
++	c.directive.numd = cpu_to_le32(sizeof(*s));
+ 	c.directive.doper = NVME_DIR_RCV_ST_OP_PARAM;
+ 	c.directive.dtype = NVME_DIR_STREAMS;
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 6b8ee9e628e1..bc74da018bdc 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -963,14 +963,14 @@ struct nvme_dbbuf {
+ };
+ 
+ struct streams_directive_params {
+-	__u16	msl;
+-	__u16	nssa;
+-	__u16	nsso;
++	__le16	msl;
++	__le16	nssa;
++	__le16	nsso;
+ 	__u8	rsvd[10];
+-	__u32	sws;
+-	__u16	sgs;
+-	__u16	nsa;
+-	__u16	nso;
++	__le32	sws;
++	__le16	sgs;
++	__le16	nsa;
++	__le16	nso;
+ 	__u8	rsvd2[6];
+ };
+ 
 -- 
-Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
-SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
+2.11.0
