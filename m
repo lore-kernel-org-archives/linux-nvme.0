@@ -1,14 +1,23 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 14 Jul 2017 09:54:51 +0200
-Subject: [PATCH 3/3] nvme: wwid_show: copy hex string verbatim
-In-Reply-To: <20170713222533.30794-4-mwilck@suse.com>
+Date: Fri, 14 Jul 2017 09:56:12 +0200
+Subject: [PATCH 0/3] Improve readbility of NVME "wwid" attribute
+In-Reply-To: <20170713225739.GE14716@localhost.localdomain>
 References: <20170713222533.30794-1-mwilck@suse.com>
- <20170713222533.30794-4-mwilck@suse.com>
-Message-ID: <20170714075451.GD17877@lst.de>
+ <20170713225739.GE14716@localhost.localdomain>
+Message-ID: <20170714075612.GE17877@lst.de>
 
-On Fri, Jul 14, 2017@12:25:33AM +0200, Martin Wilck wrote:
-> If the serial number is a series of hex digits (as usual for the
-> Linux target), there's no need to encode it in hex once more.
-> This will improve the readability of NVME wwids for users.
+On Thu, Jul 13, 2017@06:57:39PM -0400, Keith Busch wrote:
+> For example, my device's wwid attribute looks like this today:
+> 
+>  nvme.8086-46554d42353235363030304a32383041-494e54454c2053534450454431443134304741-00000001 
+> 
+> But would this cause a problem for anything?
+> 
+>   nvme.8086-FUMB5256000J280A-INTEL_SSDPED1D140GA-00000001
 
-NAK, this will break existing device identifiers.
+It would have been nicer, but it will break existing setups.
+
+Distros should instead switch to use the nqn for the char dev
+uniqueue identifier (we now fake it up even for controllers that
+don't provide it), and the EUI64/NGUID/UUID if provided for the
+block device names.
