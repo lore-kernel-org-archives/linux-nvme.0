@@ -1,42 +1,36 @@
-From: cknvme@gmail.com (royy walls)
-Date: Fri, 14 Jul 2017 15:09:12 -0700
-Subject: [PATCH] nvme : add Scatter-Gather List (SGL) support in NVMe
- driver.
-In-Reply-To: <20170714210623.GB24365@localhost.localdomain>
-References: <1499968479-5286-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <1499968479-5286-2-git-send-email-chaitanya.kulkarni@hgst.com>
- <20170714210623.GB24365@localhost.localdomain>
-Message-ID: <CAGrovxV-cP4WfMV=2wAKuQ8Aif70s1Zc-uztD5OMS=fk7=_4CQ@mail.gmail.com>
+From: bmarzins@redhat.com (Benjamin Marzinski)
+Date: Fri, 14 Jul 2017 17:17:53 -0500
+Subject: [PATCH 1/4] libmultipath: get_udev_uid: make sure pp->wwid is
+ 0-terminated
+In-Reply-To: <20170714113209.17177-2-mwilck@suse.com>
+References: <20170714113209.17177-1-mwilck@suse.com>
+ <20170714113209.17177-2-mwilck@suse.com>
+Message-ID: <20170714221753.GA2940@octiron.msp.redhat.com>
 
-Thanks for the feedback Keith, I'll look into this.
+ACK, but I'm fine with Bart's patch as well.
 
-I posted the new version today, please let me know if you have any
-other comments on the new code.
+-Ben
 
-Regards,
--Chaitanya
-
-On Fri, Jul 14, 2017@2:06 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Thu, Jul 13, 2017@10:54:39AM -0700, Chaitanya Kulkarni wrote:
->> This adds SGL support for NVMe PCIe driver which is
->> reimplementation of the initial version provided by
->> Rajiv Shanmugam Madeswaran(smrajiv15 at gmail.com):-
->> "block: nvme-core: Scatter gather list support in the
->> NVMe Block Driver".
->>
->> In order to enable SGL mode for the driver, the user can set the
->> sgl_threshold module parameter. This parameter can be used
->> in the two modes:-
->>
->> 1. Allow all IOs to use SGL mode. (set sgl_threshold to 1).
->> 2. Set up the IO size threshold to determine whether to use
->>     SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
->>     use SGL only for IOs which are >= 4096 in the size).
->
-> For this to really make a difference, you should clear
-> blk_queue_virt_boundary for SGL capable devices.
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+On Fri, Jul 14, 2017@01:32:06PM +0200, Martin Wilck wrote:
+> If the first WWID_LEN bytes of the uuid_attribute do not contain
+> a 0 byte, pp->wwid may end up not properly terminated. Fix it.
+> 
+> Signed-off-by: Martin Wilck <mwilck at suse.com>
+> ---
+>  libmultipath/discovery.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
+> index 663c8eaa..9951af84 100644
+> --- a/libmultipath/discovery.c
+> +++ b/libmultipath/discovery.c
+> @@ -1615,6 +1615,7 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
+>  			len = strlen(value);
+>  		}
+>  		strncpy(pp->wwid, value, len);
+> +		pp->wwid[WWID_SIZE - 1] = '\0';
+>  	} else {
+>  		condlog(3, "%s: no %s attribute", pp->dev,
+>  			uid_attribute);
+> -- 
+> 2.13.2
