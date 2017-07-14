@@ -1,22 +1,26 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 14 Jul 2017 14:28:55 +0200
-Subject: [PATCH 0/3] Improve readbility of NVME "wwid" attribute
-In-Reply-To: <1500025297.4808.6.camel@suse.com>
+Date: Fri, 14 Jul 2017 14:30:25 +0200
+Subject: [PATCH 3/3] nvme: wwid_show: copy hex string verbatim
+In-Reply-To: <1500026296.4808.8.camel@suse.com>
 References: <20170713222533.30794-1-mwilck@suse.com>
- <20170713225739.GE14716@localhost.localdomain>
- <20170714075612.GE17877@lst.de> <1500025297.4808.6.camel@suse.com>
-Message-ID: <20170714122855.GB26187@lst.de>
+ <20170713222533.30794-4-mwilck@suse.com> <20170714075451.GD17877@lst.de>
+ <1500026296.4808.8.camel@suse.com>
+Message-ID: <20170714123025.GC26187@lst.de>
 
-On Fri, Jul 14, 2017@11:41:37AM +0200, Martin Wilck wrote:
-> The "if provided" is the crucial point here. In real life currently
-> many people struggle with ugly overlong identifiers because these IDs
-> are _not_ provided by default.
+On Fri, Jul 14, 2017@11:58:16AM +0200, Martin Wilck wrote:
+> If this is what you think, you must also NAK my patch 2/3, because
+> stripping the 0-bytes also changes how the WWID is presented to user
+> space. For example
 
-NVMe has some pretty strong language in that regard since 1.2, which says
-for the EUI64/NGUID fields:
+True.  Although that only really is a fix for buggy controllers,
+and should not affect the PCIe controllers (for which a compliance
+test for this exists, unfortunately that doesn't work for fabrics).
 
-"The controller shall specify a globally unique namespace identifier in this
- field or the EUI64 field when the namespace is created."
+> User space that relies on the string in the first format would break
+> already with 2/3. However, multipath, which is probably the main
+> consumer of the WWID for practical purposes, can't handle the overlong
+> format anyway (I'm preparing a patch series to fix that).
 
-And with 1.3 the new mandatory Identify 03h.  So there really aren't
-any excuses anymore.
+We'll handle multipath in NVMe and the kernel itself, so we really
+should not be worried about dm-multipath here, which is the wrong
+thing to do for NVMe.
