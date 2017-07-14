@@ -1,135 +1,87 @@
-From: bmarzins@redhat.com (Benjamin Marzinski)
-Date: Fri, 14 Jul 2017 17:38:02 -0500
-Subject: [PATCH 4/4] libmultipath: fix over-long NVME WWIDs
-In-Reply-To: <20170714113209.17177-5-mwilck@suse.com>
-References: <20170714113209.17177-1-mwilck@suse.com>
- <20170714113209.17177-5-mwilck@suse.com>
-Message-ID: <20170714223802.GD2940@octiron.msp.redhat.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sat, 15 Jul 2017 07:15:58 +0800
+Subject: [PATCH 3/6] block: don't call blk_mq_delay_run_hw_queue() in case of
+ BLK_STS_RESOURCE
+In-Reply-To: <20170714231601.14444-1-ming.lei@redhat.com>
+References: <20170714231601.14444-1-ming.lei@redhat.com>
+Message-ID: <20170714231601.14444-4-ming.lei@redhat.com>
 
-ACK, with one small nit below.
+If .queue_rq() returns BLK_STS_RESOURCE, blk-mq will rerun
+the queue in the three situations:
 
--Ben
+1) if BLK_MQ_S_SCHED_RESTART is set
+- queue is rerun after one rq is completed, see blk_mq_sched_restart()
+which is run from blk_mq_free_request()
 
-On Fri, Jul 14, 2017@01:32:09PM +0200, Martin Wilck wrote:
-> Fix for NVME wwids looking like this:
-> nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
-> which are encountered in some combinations of Linux NVME host and target,
-> where the 2nd field represents the serial number (SN) and the 3rd the
-> model number (MN).
-> 
-> The device mapper allows map names only up to 128 characters.
-> Strip the "00" sequences at the end of the serial and model field,
-> they are hex-encoded 0-bytes which are forbidden by the NVME spec
-> anyway.
-> 
-> Signed-off-by: Martin Wilck <mwilck at suse.com>
-> ---
->  libmultipath/discovery.c | 79 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 79 insertions(+)
-> 
-> diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-> index 9951af84..f46b9b17 100644
-> --- a/libmultipath/discovery.c
-> +++ b/libmultipath/discovery.c
-> @@ -1598,6 +1598,82 @@ get_prio (struct path * pp)
->  	return 0;
->  }
->  
-> +/*
-> + * Mangle string of length *len starting at start
-> + * by removing character sequence "00" (hex for a 0 byte),
-> + * starting at end, backwards.
-> + * Changes the value of *len if characters were removed.
-> + * Returns a pointer to the position where "end" was moved to.
-> + */
-> +static char
-> +*skip_zeroes_backward(char* start, int *len, char *end)
-> +{
-> +	char *p = end;
-> +
-> +	while (p >= start + 2 && *(p - 1) == '0' && *(p - 2) == '0')
-> +		p -= 2;
-> +
-> +	if (p == end)
-> +		return p;
-> +
-> +	memmove(p, end, start + *len + 1 - end);
-> +	*len -= end - p;
-> +
-> +	return p;
-> +}
-> +
-> +/*
-> + * Fix for NVME wwids looking like this:
-> + * nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
-> + * which are encountered in some combinations of Linux NVME host and target.
-> + * The '00' are hex-encoded 0-bytes which are forbidden in the serial (SN)
-> + * and model (MN) fields. Discard them.
-> + * If a WWID of the above type is found, sets pp->wwid and returns a value > 0.
-> + * Otherwise, returns 0.
-> + */
-> +static int
-> +fix_broken_nvme_wwid(struct path *pp, const char *value, int size)
-> +{
-> +	static const char _nvme[] = "nvme.";
-> +	int len, i;
-> +	char mangled[256];
-> +	char *p;
-> +
-> +	len = strlen(value);
-> +	if (len >= sizeof(mangled) || len + 1 < size)
-> +		return 0;
+2) BLK_MQ_S_TAG_WAITING is set
+- queue is rerun after one tag is freed
 
-Don't we check (len + 1 < size) before calling this? It seems odd to
-return that we can't do anything when in reality, we simply don't need
-to do anything.
+3) otherwise
+- queue is run immediately in blk_mq_dispatch_rq_list()
 
--Ben
+So calling blk_mq_delay_run_hw_queue() inside .queue_rq() doesn't make
+sense because no matter it is called or not, the queue still will be
+rerun soon in above three situations, and the busy req can be dispatched
+again.
 
-> +
-> +	/* Check that value starts with "nvme.%04x-" */
-> +	if (memcmp(value, _nvme, sizeof(_nvme) - 1) || value[9] != '-')
-> +		return 0;
-> +	for (i = 5; i < 9; i++)
-> +		if (!isxdigit(value[i]))
-> +			return 0;
-> +
-> +	memcpy(mangled, value, len + 1);
-> +
-> +	/* search end of "model" part and strip trailing '00' */
-> +	p = memrchr(mangled, '-', len);
-> +	if (p == NULL)
-> +		return 0;
-> +
-> +	p = skip_zeroes_backward(mangled, &len, p);
-> +
-> +	/* search end of "serial" part */
-> +	p = memrchr(mangled, '-', p - mangled);
-> +	if (p == NULL || memrchr(mangled, '-', p - mangled) != mangled + 9)
-> +	    /* We expect exactly 3 '-' in the value */
-> +		return 0;
-> +
-> +	p = skip_zeroes_backward(mangled, &len, p);
-> +	if (len >= size)
-> +		return 0;
-> +
-> +	memcpy(pp->wwid, mangled, len + 1);
-> +	condlog(2, "%s: over-long WWID shortened to %s", pp->dev, pp->wwid);
-> +	return len;
-> +}
-> +
->  static int
->  get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
->  {
-> @@ -1609,6 +1685,9 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
->  		value = getenv(uid_attribute);
->  	if (value && strlen(value)) {
->  		if (strlen(value) + 1 > WWID_SIZE) {
-> +			len = fix_broken_nvme_wwid(pp, value, WWID_SIZE);
-> +			if (len > 0)
-> +				return len;
->  			condlog(0, "%s: wwid overflow", pp->dev);
->  			len = WWID_SIZE;
->  		} else {
-> -- 
-> 2.13.2
+Also delay a while radomly is also like a workaround.
+
+Cc: Alasdair Kergon <agk at redhat.com>
+Cc: Mike Snitzer <snitzer at redhat.com>
+Cc: dm-devel at redhat.com
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: linux-nvme at lists.infradead.org
+Cc: "James E.J. Bottomley"
+Cc: "Martin K. Petersen"
+Cc: linux-scsi at vger.kernel.org
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ drivers/md/dm-rq.c      | 1 -
+ drivers/nvme/host/fc.c  | 3 ---
+ drivers/scsi/scsi_lib.c | 4 ----
+ 3 files changed, 8 deletions(-)
+
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index c6ebc5b1e00e..71422cea1c4a 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -761,7 +761,6 @@ static blk_status_t dm_mq_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		/* Undo dm_start_request() before requeuing */
+ 		rq_end_stats(md, rq);
+ 		rq_completed(md, rq_data_dir(rq), false);
+-		blk_mq_delay_run_hw_queue(hctx, 100/*ms*/);
+ 		return BLK_STS_RESOURCE;
+ 	}
+ 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index d666ada39a9b..3155bbcd26a2 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1967,9 +1967,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 		if (ret != -EBUSY)
+ 			return BLK_STS_IOERR;
+ 
+-		if (op->rq)
+-			blk_mq_delay_run_hw_queue(queue->hctx, NVMEFC_QUEUE_DELAY);
+-
+ 		return BLK_STS_RESOURCE;
+ 	}
+ 
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 91d890356b78..03a7d7953df2 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1974,11 +1974,7 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ out:
+ 	switch (ret) {
+ 	case BLK_STS_OK:
+-		break;
+ 	case BLK_STS_RESOURCE:
+-		if (atomic_read(&sdev->device_busy) == 0 &&
+-		    !scsi_device_blocked(sdev))
+-			blk_mq_delay_run_hw_queue(hctx, SCSI_QUEUE_DELAY);
+ 		break;
+ 	default:
+ 		/*
+-- 
+2.9.4
