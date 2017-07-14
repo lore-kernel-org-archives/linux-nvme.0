@@ -1,37 +1,53 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 14 Jul 2017 14:53:09 +0200
-Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
-In-Reply-To: <20170713212955.GD14716@localhost.localdomain>
-References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
- <1499444581-28268-8-git-send-email-keith.busch@intel.com>
- <20170707181436.GC24427@lst.de>
- <20170713212955.GD14716@localhost.localdomain>
-Message-ID: <20170714125309.GA26975@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 14 Jul 2017 14:53:27 +0200
+Subject: [PATCH v3 1/3] nvmet: prefix version configfs file with attr
+In-Reply-To: <20170714125329.18430-1-jthumshirn@suse.de>
+References: <20170714125329.18430-1-jthumshirn@suse.de>
+Message-ID: <20170714125329.18430-2-jthumshirn@suse.de>
 
-On Thu, Jul 13, 2017@05:29:55PM -0400, Keith Busch wrote:
-> On Fri, Jul 07, 2017@08:14:36PM +0200, Christoph Hellwig wrote:
-> > 
-> > Can we have an nvme-aen helper that gets invoked by a trivial udev rule,
-> > which would read a config file for policy?
-> 
-> Sure, I can work on an aen helper for udev. Do you know if there is an
-> existing project for these sorts of things that would take this feature?
+The NVMe target's attribute files need an attr prefix in order to have
+nvmetcli recognize them. Add this attribute.
 
-I would have expected this to be part of nvme-cli in one form or another.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/target/configfs.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> I was hoping to not have a policy in the kernel. If we filter them with
-> evolving black or white lists, user space would still need to account
-> for difference across kernel versions.
-> 
-> Instead, sending everything is a lot more straight forward policy,
-> and user space can decide what to do with it. It's future proof to any
-> new event and use case. Even if the driver handles the event, there
-> shouldn't be anything user space can do to harm it. In the worst case,
-> it's just giving information that udev doesn't need.
-
-Someone has to clear the log page after and AER, and if both the
-kernel and the user tool do so we risk that the user tool clears
-the next AER due to a race condition.
-
-But maybe we can work around this by adding a bit to the event
-that indicates if the kernel has cleared the event.
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index a358ecd93e11..ceee57bb0c24 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -650,7 +650,7 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
+ 
+ CONFIGFS_ATTR(nvmet_subsys_, attr_allow_any_host);
+ 
+-static ssize_t nvmet_subsys_version_show(struct config_item *item,
++static ssize_t nvmet_subsys_attr_version_show(struct config_item *item,
+ 					      char *page)
+ {
+ 	struct nvmet_subsys *subsys = to_subsys(item);
+@@ -666,7 +666,7 @@ static ssize_t nvmet_subsys_version_show(struct config_item *item,
+ 				(int)NVME_MINOR(subsys->ver));
+ }
+ 
+-static ssize_t nvmet_subsys_version_store(struct config_item *item,
++static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
+ 					       const char *page, size_t count)
+ {
+ 	struct nvmet_subsys *subsys = to_subsys(item);
+@@ -684,11 +684,11 @@ static ssize_t nvmet_subsys_version_store(struct config_item *item,
+ 
+ 	return count;
+ }
+-CONFIGFS_ATTR(nvmet_subsys_, version);
++CONFIGFS_ATTR(nvmet_subsys_, attr_version);
+ 
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
+-	&nvmet_subsys_attr_version,
++	&nvmet_subsys_attr_attr_version,
+ 	NULL,
+ };
+ 
+-- 
+2.12.3
