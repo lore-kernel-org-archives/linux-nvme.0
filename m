@@ -1,36 +1,28 @@
-From: bmarzins@redhat.com (Benjamin Marzinski)
-Date: Fri, 14 Jul 2017 17:17:53 -0500
-Subject: [PATCH 1/4] libmultipath: get_udev_uid: make sure pp->wwid is
- 0-terminated
-In-Reply-To: <20170714113209.17177-2-mwilck@suse.com>
+From: Steve.Schremmer@netapp.com (Schremmer, Steven)
+Date: Fri, 14 Jul 2017 22:16:46 +0000
+Subject: [dm-devel] [PATCH 3/4] libmultipath: only listen for uevents with
+ DEVTYPE=disk
+In-Reply-To: <20170714113209.17177-4-mwilck@suse.com>
 References: <20170714113209.17177-1-mwilck@suse.com>
- <20170714113209.17177-2-mwilck@suse.com>
-Message-ID: <20170714221753.GA2940@octiron.msp.redhat.com>
+ <20170714113209.17177-4-mwilck@suse.com>
+Message-ID: <BN6PR06MB248104CDFB472F08E5BC634F8CAD0@BN6PR06MB2481.namprd06.prod.outlook.com>
 
-ACK, but I'm fine with Bart's patch as well.
-
--Ben
-
-On Fri, Jul 14, 2017@01:32:06PM +0200, Martin Wilck wrote:
-> If the first WWID_LEN bytes of the uuid_attribute do not contain
-> a 0 byte, pp->wwid may end up not properly terminated. Fix it.
+> -----Original Message-----
+> From: dm-devel-bounces at redhat.com [mailto:dm-devel-bounces at redhat.com] On Behalf Of Martin Wilck
+> Sent: Friday, July 14, 2017 6:32 AM
+> To: Christophe Varoqui <christophe.varoqui at opensvc.com>; tang.junhui at zte.com.cn; Benjamin Marzinski <bmarzins at redhat.com>;
+> Hannes Reinecke <hare at suse.de>; Guan Junxiong <guanjunxiong at huawei.com>
+> Cc: Martin Wilck <mwilck at suse.de>; dm-devel at redhat.com; Xose Vazquez Perez <xose.vazquez at gmail.com>; linux-
+> nvme at lists.infradead.org
+> Subject: [dm-devel] [PATCH 3/4] libmultipath: only listen for uevents with DEVTYPE=disk
+> 
+> We are only interested in disks anyway. This saves us checking
+> for devtype in the uevent processing queue, and is more powerful
+> than the previous test in the dropped function
+> uevent_can_discard_by_devpath().
 > 
 > Signed-off-by: Martin Wilck <mwilck at suse.com>
+> Reviewed-by: Hannes Reinecke <hare at suse.de>
 > ---
->  libmultipath/discovery.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-> index 663c8eaa..9951af84 100644
-> --- a/libmultipath/discovery.c
-> +++ b/libmultipath/discovery.c
-> @@ -1615,6 +1615,7 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
->  			len = strlen(value);
->  		}
->  		strncpy(pp->wwid, value, len);
-> +		pp->wwid[WWID_SIZE - 1] = '\0';
->  	} else {
->  		condlog(3, "%s: no %s attribute", pp->dev,
->  			uid_attribute);
-> -- 
-> 2.13.2
+
+Reviewed-by: Steve Schremmer <steve.schremmer at netapp.com>
