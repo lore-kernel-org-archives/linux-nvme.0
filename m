@@ -1,41 +1,77 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 14 Jul 2017 13:08:47 -0400
-Subject: kernel BUG at nvme/host/pci.c
-In-Reply-To: <39459fb9-ea2c-0718-10a1-a7e96b9ec21f@pse-consulting.de>
-References: <28fcb21a-35b6-61c1-29e0-9adcc954c98c@pse-consulting.de>
- <20170710190818.GA13671@localhost.localdomain>
- <64da8c4d-2d69-22fa-06a0-aa4f11903e39@pse-consulting.de>
- <20170711194523.GD4604@localhost.localdomain>
- <458f2115-4a07-e23c-2f1f-a90a95668f74@pse-consulting.de>
- <20170712195012.GA8388@localhost.localdomain>
- <5ac79312-b9e3-7cbb-8a82-382fb99705b5@pse-consulting.de>
- <20170713134754.GD8388@localhost.localdomain>
- <39459fb9-ea2c-0718-10a1-a7e96b9ec21f@pse-consulting.de>
-Message-ID: <20170714170846.GA24365@localhost.localdomain>
+From: mwilck@suse.de (Martin Wilck)
+Date: Fri, 14 Jul 2017 21:21:39 +0200
+Subject: [dm-devel] [PATCH 1/4] libmultipath: get_udev_uid: make sure
+ pp->wwid is 0-terminated
+In-Reply-To: <1500044188.2662.4.camel@wdc.com>
+References: <20170714113209.17177-1-mwilck@suse.com>
+ <20170714113209.17177-2-mwilck@suse.com> <1500044188.2662.4.camel@wdc.com>
+Message-ID: <1500060099.4808.21.camel@suse.de>
 
-On Fri, Jul 14, 2017@06:47:43PM +0200, Andreas Pflug wrote:
-> Am 13.07.17 um 15:47 schrieb Keith Busch:
-> >
-> >> Jul 13 10:37:37 xen2 [  202.703231] ---[ end trace 5b778353298dbe78 ]---
-> >> Jul 13 10:37:37 xen2 [  202.704217] sg[0] phys_addr:0x0000000aff50ec00 offset:3072 length:9216 dma_address:0x000000000070f000 dma_length:9216
-> >> Jul 13 10:37:37 xen2 [  202.705197] sg[1] phys_addr:0x0000000aff511000 offset:0 length:4096 dma_address:0x00000008755a1000 dma_length:4096
-> >> Jul 13 10:37:37 xen2 [  202.706275] sg[2] phys_addr:0x0000000aff5ef000 offset:0 length:8192 dma_address:0x0000000000712000 dma_length:8192
-> >> Jul 13 10:37:37 xen2 [  202.707315] sg[3] phys_addr:0x0000000aff564000 offset:0 length:4096 dma_address:0x0000000874fc0000 dma_length:4096
-> >> Jul 13 10:37:37 xen2 [  202.708202] sg[4] phys_addr:0x0000000aff5a7000 offset:0 length:4096 dma_address:0x0000000874fc0000 dma_length:4096
-> >> Jul 13 10:37:37 xen2 [  202.709030] sg[5] phys_addr:0x0000000aff5a6000 offset:0 length:4096 dma_address:0x0000000874fc0000 dma_length:4096
-> >> Jul 13 10:37:37 xen2 [  202.709960] sg[6] phys_addr:0x0000000aff5a5000 offset:0 length:3072 dma_address:0x0000000874fc0000 dma_length:3072
-> >> Jul 13 10:37:37 xen2 [  202.710755] print_req_error: I/O error, dev nvme0n1, sector 1188548943
-> >> Jul 13 10:37:37 xen2 [  202.711527] md/raid1:md1: nvme0n1p1: rescheduling sector 1188284751
-> > The first SGL has phys addr aff50ec00, which is a page offset of 3072,
-> > but the dma addr is 70f000, which is a 0 offset. Since DMA page offset
-> > doesn't match the physical address', this isn't compatible with the
-> > nvme implementation.
->
-> So LVM2 backed by md raid1 isn't compatible with newer hardware... Any
-> suggestions?
+Hi Bart,
 
-It's not that LVM2 or RAID isn't compatible. Either the IOMMU isn't
-compatible if can use different page offsets for DMA addresses than the
-physical aaddresses, or the driver for it is broken. The DMA addresses
-in this mapped SGL look completely broken, at least, since the last 4
-entries are all the same address. That'll corrupt data.
+On Fri, 2017-07-14@14:56 +0000, Bart Van Assche wrote:
+> On Fri, 2017-07-14@13:32 +0200, Martin Wilck wrote:
+> > If the first WWID_LEN bytes of the uuid_attribute do not contain
+> > a 0 byte, pp->wwid may end up not properly terminated. Fix it.
+> > 
+> > Signed-off-by: Martin Wilck <mwilck at suse.com>
+> > ---
+> >  libmultipath/discovery.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
+> > index 663c8eaa..9951af84 100644
+> > --- a/libmultipath/discovery.c
+> > +++ b/libmultipath/discovery.c
+> > @@ -1615,6 +1615,7 @@ get_udev_uid(struct path * pp, char
+> > *uid_attribute, struct udev_device *udev)
+> >  			len = strlen(value);
+> >  		}
+> >  		strncpy(pp->wwid, value, len);
+> > +		pp->wwid[WWID_SIZE - 1] = '\0';
+> >  	} else {
+> >  		condlog(3, "%s: no %s attribute", pp->dev,
+> >  			uid_attribute);
+> 
+> Hi Martin,
+> 
+> Your patch does not cause all overflows to be reported.
+
+I'm not sure what you mean. The overflow message is printed if and only
+if (strlen(value) + 1 > WWID_SIZE), which is correct, AFAICS. The point
+of my patch is just to avoid that multipath crashes later due to an
+unterminated string caused by this overflow.
+
+>  How about using the
+> following (untested) alternative?
+> 
+> diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
+> index eca4ce97..80d962e6 100644
+> --- a/libmultipath/discovery.c
+> +++ b/libmultipath/discovery.c
+> @@ -1607,13 +1607,8 @@ get_udev_uid(struct path * pp, char
+> *uid_attribute, struct udev_device *udev)
+>  	if (!value || strlen(value) == 0)
+>  		value = getenv(uid_attribute);
+>  	if (value && strlen(value)) {
+> -		if (strlen(value) + 1 > WWID_SIZE) {
+> +		if (strlcpy(pp->wwid, value, sizeof(pp->wwid)) >=
+> WWID_SIZE)
+>  			condlog(0, "%s: wwid overflow", pp->dev);
+> -			len = WWID_SIZE;
+> -		} else {
+> -			len = strlen(value);
+> -		}
+> -		strncpy(pp->wwid, value, len);
+>  	} else {
+>  		condlog(3, "%s: no %s attribute", pp->dev,
+>  			uid_attribute);
+> Bart.
+
+Let's have a strncpy vs. strlcpy discussion :D !
+
+I can do this if you insist, but I don't see a big benefit. We've
+tested with the patch I submitted.
+
+Thanks,
+Martin
