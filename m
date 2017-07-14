@@ -1,32 +1,60 @@
-From: zhangweiping@didichuxing.com (weiping zhang)
-Date: Fri, 14 Jul 2017 17:57:10 +0800
-Subject: [PATCH] nvme: add wrapper for nvme ctrl register r/w
-In-Reply-To: <20170712120152.GD4115@linux-x5ow.site>
-References: <20170629172624.GA17319@localhost.didichuxing.com>
- <20170712072018.GA5739@lst.de>
- <ad43c2ae-c3af-351d-7a58-0f2f35e79d30@grimberg.me>
- <20170712115547.GA11085@lst.de>
- <20170712120152.GD4115@linux-x5ow.site>
-Message-ID: <20170714095654.GA23834@bogon.didichuxing.com>
+From: mwilck@suse.com (Martin Wilck)
+Date: Fri, 14 Jul 2017 11:58:16 +0200
+Subject: [PATCH 3/3] nvme: wwid_show: copy hex string verbatim
+In-Reply-To: <20170714075451.GD17877@lst.de>
+References: <20170713222533.30794-1-mwilck@suse.com>
+ <20170713222533.30794-4-mwilck@suse.com> <20170714075451.GD17877@lst.de>
+Message-ID: <1500026296.4808.8.camel@suse.com>
 
-On Wed, Jul 12, 2017@02:01:52PM +0200, Johannes Thumshirn wrote:
-> On Wed, Jul 12, 2017@01:55:47PM +0200, Christoph Hellwig wrote:
-> > Mostly because it's a little shorter and we're only going to get
-> > more and more of these calls.  In the end I don't feel strongly
-> > and we can just skip the patch for now and reconsider it once
-> > we have more register read/write calls.
+On Fri, 2017-07-14@09:54 +0200, Christoph Hellwig wrote:
+> On Fri, Jul 14, 2017@12:25:33AM +0200, Martin Wilck wrote:
+> > If the serial number is a series of hex digits (as usual for the
+> > Linux target), there's no need to encode it in hex once more.
+> > This will improve the readability of NVME wwids for users.
 > 
-> I'm in favour of the patch as well. It hides the transport specific
-> implementation details quite good.
+> NAK, this will break existing device identifiers.
 > 
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> -- 
-> Johannes Thumshirn                                          Storage
-> jthumshirn at suse.de                                +49 911 74053 689
 
-Hi Sagi,
+If this is what you think, you must also NAK my patch 2/3, because
+stripping the 0-bytes also changes how the WWID is presented to user
+space. For example
 
-Johannes has reviewed this patch, do you want include this patch ?
+nvme.0000-3163653363666438366239656630386200-
+4c696e75780000000000000000000000000000000000000000000000000000000000000
+000000000-00000001
 
---
-Weiping
+becomes after 2/3:
+
+nvme.0000-31636533636664383662396566303862-4c696e7578-00000001
+
+3/3 would change this again to
+
+nvme.0000-1ce3cfd86b9ef08b-4c696e7578-00000001
+
+and Keith's proposal would change it to
+
+nvme.0000-1ce3cfd86b9ef08b-Linux-00000001
+
+User space that relies on the string in the first format would break
+already with 2/3. However, multipath, which is probably the main
+consumer of the WWID for practical purposes, can't handle the overlong
+format anyway (I'm preparing a patch series to fix that).
+
+Therefore, please think twice. It may be worthwhile to accept an
+exception to the API stability rule here. Some people will be bitten,
+but we will have a saner WWID format in the future. Of course, if this
+is to be changed, we'd better do it asap.
+
+Note also that this identifier is volatile for Linux targets anyway,
+as the serial number changes between target reboots (I'm aware of
+Johannes' recent attempt to change this, but again this is going to be
+a configuration that the storage admin must actively apply).
+
+As I wrote in my other mail, if API stability prevails, let's introduce
+a new attribute with cleaner format.
+
+Martin
+-- 
+Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
+SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
