@@ -1,122 +1,74 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Fri, 14 Jul 2017 13:32:09 +0200
-Subject: [PATCH 4/4] libmultipath: fix over-long NVME WWIDs
-In-Reply-To: <20170714113209.17177-1-mwilck@suse.com>
-References: <20170714113209.17177-1-mwilck@suse.com>
-Message-ID: <20170714113209.17177-5-mwilck@suse.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 14 Jul 2017 14:05:17 +0200
+Subject: [PATCH v2 2/2] nvmet: preserve controller serial number between
+ reboots
+In-Reply-To: <20170714120517.13552-1-jthumshirn@suse.de>
+References: <20170714120517.13552-1-jthumshirn@suse.de>
+Message-ID: <20170714120517.13552-3-jthumshirn@suse.de>
 
-Fix for NVME wwids looking like this:
-nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
-which are encountered in some combinations of Linux NVME host and target,
-where the 2nd field represents the serial number (SN) and the 3rd the
-model number (MN).
+The NVMe target has no way to preserve controller serial
+IDs across reboots which breaks udev scripts doing
+SYMLINK+="dev/disk/by-id/nvme-$env{ID_SERIAL}-part%n.
 
-The device mapper allows map names only up to 128 characters.
-Strip the "00" sequences at the end of the serial and model field,
-they are hex-encoded 0-bytes which are forbidden by the NVME spec
-anyway.
+Export the randomly generated serial number via configfs and allow
+setting of a serial via configfs to mitigate this breakage.
 
-Signed-off-by: Martin Wilck <mwilck at suse.com>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- libmultipath/discovery.c | 79 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ drivers/nvme/target/configfs.c | 22 ++++++++++++++++++++++
+ drivers/nvme/target/core.c     |  2 ++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-index 9951af84..f46b9b17 100644
---- a/libmultipath/discovery.c
-+++ b/libmultipath/discovery.c
-@@ -1598,6 +1598,82 @@ get_prio (struct path * pp)
- 	return 0;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index a358ecd93e11..9f19f0bde8f2 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -686,9 +686,31 @@ static ssize_t nvmet_subsys_version_store(struct config_item *item,
  }
+ CONFIGFS_ATTR(nvmet_subsys_, version);
  
-+/*
-+ * Mangle string of length *len starting at start
-+ * by removing character sequence "00" (hex for a 0 byte),
-+ * starting at end, backwards.
-+ * Changes the value of *len if characters were removed.
-+ * Returns a pointer to the position where "end" was moved to.
-+ */
-+static char
-+*skip_zeroes_backward(char* start, int *len, char *end)
++static ssize_t nvmet_subsys_attr_serial_show(struct config_item *item,
++					     char *page)
 +{
-+	char *p = end;
++	struct nvmet_subsys *subsys = to_subsys(item);
 +
-+	while (p >= start + 2 && *(p - 1) == '0' && *(p - 2) == '0')
-+		p -= 2;
-+
-+	if (p == end)
-+		return p;
-+
-+	memmove(p, end, start + *len + 1 - end);
-+	*len -= end - p;
-+
-+	return p;
++	return snprintf(page, PAGE_SIZE, "%llx\n", subsys->serial);
 +}
 +
-+/*
-+ * Fix for NVME wwids looking like this:
-+ * nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
-+ * which are encountered in some combinations of Linux NVME host and target.
-+ * The '00' are hex-encoded 0-bytes which are forbidden in the serial (SN)
-+ * and model (MN) fields. Discard them.
-+ * If a WWID of the above type is found, sets pp->wwid and returns a value > 0.
-+ * Otherwise, returns 0.
-+ */
-+static int
-+fix_broken_nvme_wwid(struct path *pp, const char *value, int size)
++static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
++					      const char *page, size_t count)
 +{
-+	static const char _nvme[] = "nvme.";
-+	int len, i;
-+	char mangled[256];
-+	char *p;
++	struct nvmet_subsys *subsys = to_subsys(item);
 +
-+	len = strlen(value);
-+	if (len >= sizeof(mangled) || len + 1 < size)
-+		return 0;
++	down_write(&nvmet_config_sem);
++	sscanf(page, "%llx\n", &subsys->serial);
++	up_write(&nvmet_config_sem);
 +
-+	/* Check that value starts with "nvme.%04x-" */
-+	if (memcmp(value, _nvme, sizeof(_nvme) - 1) || value[9] != '-')
-+		return 0;
-+	for (i = 5; i < 9; i++)
-+		if (!isxdigit(value[i]))
-+			return 0;
-+
-+	memcpy(mangled, value, len + 1);
-+
-+	/* search end of "model" part and strip trailing '00' */
-+	p = memrchr(mangled, '-', len);
-+	if (p == NULL)
-+		return 0;
-+
-+	p = skip_zeroes_backward(mangled, &len, p);
-+
-+	/* search end of "serial" part */
-+	p = memrchr(mangled, '-', p - mangled);
-+	if (p == NULL || memrchr(mangled, '-', p - mangled) != mangled + 9)
-+	    /* We expect exactly 3 '-' in the value */
-+		return 0;
-+
-+	p = skip_zeroes_backward(mangled, &len, p);
-+	if (len >= size)
-+		return 0;
-+
-+	memcpy(pp->wwid, mangled, len + 1);
-+	condlog(2, "%s: over-long WWID shortened to %s", pp->dev, pp->wwid);
-+	return len;
++	return count;
 +}
++CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
 +
- static int
- get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
- {
-@@ -1609,6 +1685,9 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
- 		value = getenv(uid_attribute);
- 	if (value && strlen(value)) {
- 		if (strlen(value) + 1 > WWID_SIZE) {
-+			len = fix_broken_nvme_wwid(pp, value, WWID_SIZE);
-+			if (len > 0)
-+				return len;
- 			condlog(0, "%s: wwid overflow", pp->dev);
- 			len = WWID_SIZE;
- 		} else {
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
+ 	&nvmet_subsys_attr_version,
++	&nvmet_subsys_attr_attr_serial,
+ 	NULL,
+ };
+ 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 02efa7113d23..8feeed8c709c 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -924,8 +924,10 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 	if (!subsys)
+ 		return NULL;
+ 
++	down_write(&nvmet_config_sem);
+ 	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
+ 	get_random_bytes(&subsys->serial, sizeof(subsys->serial));
++	up_write(&nvmet_config_sem);
+ 
+ 	switch (type) {
+ 	case NVME_NQN_NVME:
 -- 
-2.13.2
+2.12.3
