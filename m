@@ -1,77 +1,44 @@
-From: mwilck@suse.de (Martin Wilck)
-Date: Fri, 14 Jul 2017 21:21:39 +0200
-Subject: [dm-devel] [PATCH 1/4] libmultipath: get_udev_uid: make sure
- pp->wwid is 0-terminated
-In-Reply-To: <1500044188.2662.4.camel@wdc.com>
-References: <20170714113209.17177-1-mwilck@suse.com>
- <20170714113209.17177-2-mwilck@suse.com> <1500044188.2662.4.camel@wdc.com>
-Message-ID: <1500060099.4808.21.camel@suse.de>
+From: mwilck@suse.com (Martin Wilck)
+Date: Fri, 14 Jul 2017 21:40:57 +0200
+Subject: [PATCH 3/3] nvme: wwid_show: copy hex string verbatim
+In-Reply-To: <20170714123025.GC26187@lst.de>
+References: <20170713222533.30794-1-mwilck@suse.com>
+ <20170713222533.30794-4-mwilck@suse.com> <20170714075451.GD17877@lst.de>
+ <1500026296.4808.8.camel@suse.com> <20170714123025.GC26187@lst.de>
+Message-ID: <1500061257.4808.23.camel@suse.com>
 
-Hi Bart,
-
-On Fri, 2017-07-14@14:56 +0000, Bart Van Assche wrote:
-> On Fri, 2017-07-14@13:32 +0200, Martin Wilck wrote:
-> > If the first WWID_LEN bytes of the uuid_attribute do not contain
-> > a 0 byte, pp->wwid may end up not properly terminated. Fix it.
-> > 
-> > Signed-off-by: Martin Wilck <mwilck at suse.com>
-> > ---
-> >  libmultipath/discovery.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-> > index 663c8eaa..9951af84 100644
-> > --- a/libmultipath/discovery.c
-> > +++ b/libmultipath/discovery.c
-> > @@ -1615,6 +1615,7 @@ get_udev_uid(struct path * pp, char
-> > *uid_attribute, struct udev_device *udev)
-> >  			len = strlen(value);
-> >  		}
-> >  		strncpy(pp->wwid, value, len);
-> > +		pp->wwid[WWID_SIZE - 1] = '\0';
-> >  	} else {
-> >  		condlog(3, "%s: no %s attribute", pp->dev,
-> >  			uid_attribute);
+On Fri, 2017-07-14@14:30 +0200, Christoph Hellwig wrote:
+> On Fri, Jul 14, 2017@11:58:16AM +0200, Martin Wilck wrote:
+> > If this is what you think, you must also NAK my patch 2/3, because
+> > stripping the 0-bytes also changes how the WWID is presented to
+> > user
+> > space. For example
 > 
-> Hi Martin,
+> True.  Although that only really is a fix for buggy controllers,
+> and should not affect the PCIe controllers (for which a compliance
+> test for this exists, unfortunately that doesn't work for fabrics).
+
+Is that a NAK, or not?
+
+> > User space that relies on the string in the first format would
+> > break
+> > already with 2/3. However, multipath, which is probably the main
+> > consumer of the WWID for practical purposes, can't handle the
+> > overlong
+> > format anyway (I'm preparing a patch series to fix that).
 > 
-> Your patch does not cause all overflows to be reported.
+> We'll handle multipath in NVMe and the kernel itself, so we really
+> should not be worried about dm-multipath here, which is the wrong
+> thing to do for NVMe.
 
-I'm not sure what you mean. The overflow message is printed if and only
-if (strlen(value) + 1 > WWID_SIZE), which is correct, AFAICS. The point
-of my patch is just to avoid that multipath crashes later due to an
-unterminated string caused by this overflow.
+"We will"? People are (trying to) use NVMe with multipath today, and
+they use dm-multipath and multipathd for that. Maybe that'll change
+some day, but not too soon, I believe.
 
->  How about using the
-> following (untested) alternative?
-> 
-> diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-> index eca4ce97..80d962e6 100644
-> --- a/libmultipath/discovery.c
-> +++ b/libmultipath/discovery.c
-> @@ -1607,13 +1607,8 @@ get_udev_uid(struct path * pp, char
-> *uid_attribute, struct udev_device *udev)
->  	if (!value || strlen(value) == 0)
->  		value = getenv(uid_attribute);
->  	if (value && strlen(value)) {
-> -		if (strlen(value) + 1 > WWID_SIZE) {
-> +		if (strlcpy(pp->wwid, value, sizeof(pp->wwid)) >=
-> WWID_SIZE)
->  			condlog(0, "%s: wwid overflow", pp->dev);
-> -			len = WWID_SIZE;
-> -		} else {
-> -			len = strlen(value);
-> -		}
-> -		strncpy(pp->wwid, value, len);
->  	} else {
->  		condlog(3, "%s: no %s attribute", pp->dev,
->  			uid_attribute);
-> Bart.
-
-Let's have a strncpy vs. strlcpy discussion :D !
-
-I can do this if you insist, but I don't see a big benefit. We've
-tested with the patch I submitted.
-
-Thanks,
+Regards
 Martin
+
+-- 
+Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
+SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
