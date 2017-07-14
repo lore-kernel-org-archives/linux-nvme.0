@@ -1,54 +1,34 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 14 Jul 2017 15:36:54 +0200
-Subject: [PATCH v4 1/3] nvmet: prefix version configfs file with attr
-In-Reply-To: <20170714133656.19195-1-jthumshirn@suse.de>
-References: <20170714133656.19195-1-jthumshirn@suse.de>
-Message-ID: <20170714133656.19195-2-jthumshirn@suse.de>
+Date: Fri, 14 Jul 2017 15:36:53 +0200
+Subject: [PATCH v4 0/3] Provide a stable serial number
+Message-ID: <20170714133656.19195-1-jthumshirn@suse.de>
 
-The NVMe target's attribute files need an attr prefix in order to have
-nvmetcli recognize them. Add this attribute.
+This pathset is a follow up to
+http://lists.infradead.org/pipermail/linux-nvme/2017-July/011934.html.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/configfs.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+The 1st patch moves the serial attribute from the contrller to the subsystem,
+while the 2nd patch makes it configurable via configfs.
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index a358ecd93e11..ceee57bb0c24 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -650,7 +650,7 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
- 
- CONFIGFS_ATTR(nvmet_subsys_, attr_allow_any_host);
- 
--static ssize_t nvmet_subsys_version_show(struct config_item *item,
-+static ssize_t nvmet_subsys_attr_version_show(struct config_item *item,
- 					      char *page)
- {
- 	struct nvmet_subsys *subsys = to_subsys(item);
-@@ -666,7 +666,7 @@ static ssize_t nvmet_subsys_version_show(struct config_item *item,
- 				(int)NVME_MINOR(subsys->ver));
- }
- 
--static ssize_t nvmet_subsys_version_store(struct config_item *item,
-+static ssize_t nvmet_subsys_attr_version_store(struct config_item *item,
- 					       const char *page, size_t count)
- {
- 	struct nvmet_subsys *subsys = to_subsys(item);
-@@ -684,11 +684,11 @@ static ssize_t nvmet_subsys_version_store(struct config_item *item,
- 
- 	return count;
- }
--CONFIGFS_ATTR(nvmet_subsys_, version);
-+CONFIGFS_ATTR(nvmet_subsys_, attr_version);
- 
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
--	&nvmet_subsys_attr_version,
-+	&nvmet_subsys_attr_attr_version,
- 	NULL,
- };
- 
+Changes to v3:
+* Drop lock while subsystem isn't visible (Chirstoph)
+
+Changes to v2:
+* Add attr_ prefix to version (Christoph)
+* Re-add random serial comment (Christoph)
+
+Changes to v1:
+* Move generation of random serial to nvmet_subsys_alloc() (Christoph)
+
+Johannes Thumshirn (3):
+  nvmet: prefix version configfs file with attr
+  nvmet: Move serial number from controller to subsystem
+  nvmet: preserve controller serial number between reboots
+
+ drivers/nvme/target/admin-cmd.c |  2 +-
+ drivers/nvme/target/configfs.c  | 30 ++++++++++++++++++++++++++----
+ drivers/nvme/target/core.c      |  5 ++---
+ drivers/nvme/target/nvmet.h     |  2 +-
+ 4 files changed, 30 insertions(+), 9 deletions(-)
+
 -- 
 2.12.3
