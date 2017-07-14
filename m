@@ -1,23 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 14 Jul 2017 09:56:12 +0200
+Date: Fri, 14 Jul 2017 09:57:23 +0200
 Subject: [PATCH 0/3] Improve readbility of NVME "wwid" attribute
-In-Reply-To: <20170713225739.GE14716@localhost.localdomain>
+In-Reply-To: <1500018852.4808.1.camel@suse.com>
 References: <20170713222533.30794-1-mwilck@suse.com>
  <20170713225739.GE14716@localhost.localdomain>
-Message-ID: <20170714075612.GE17877@lst.de>
+ <1500018852.4808.1.camel@suse.com>
+Message-ID: <20170714075723.GA18097@lst.de>
 
-On Thu, Jul 13, 2017@06:57:39PM -0400, Keith Busch wrote:
-> For example, my device's wwid attribute looks like this today:
-> 
->  nvme.8086-46554d42353235363030304a32383041-494e54454c2053534450454431443134304741-00000001 
-> 
-> But would this cause a problem for anything?
-> 
->   nvme.8086-FUMB5256000J280A-INTEL_SSDPED1D140GA-00000001
+On Fri, Jul 14, 2017@09:54:12AM +0200, Martin Wilck wrote:
+> That was my first approach to the issue. But then I realized that the
+> term "WWID" is ususally associated with a hex string. 
+> (https://en.wikipedia.org/wiki/World_Wide_Name), so allowing arbitrary
+> ASCII might violate some people's assumptions of how a WWID should look
+> like. (Not to mention that we don't have a vendor OUI...).
 
-It would have been nicer, but it will break existing setups.
-
-Distros should instead switch to use the nqn for the char dev
-uniqueue identifier (we now fake it up even for controllers that
-don't provide it), and the EUI64/NGUID/UUID if provided for the
-block device names.
+iSCSI device identifiers also use a string, and even worse it's utf8
+and not just 7-bit ASCII.
