@@ -1,80 +1,22 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 14 Jul 2017 14:05:16 +0200
-Subject: [PATCH v2 1/2] nvmet: Move serial number from controller to subsystem
-In-Reply-To: <20170714120517.13552-1-jthumshirn@suse.de>
-References: <20170714120517.13552-1-jthumshirn@suse.de>
-Message-ID: <20170714120517.13552-2-jthumshirn@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 14 Jul 2017 14:28:55 +0200
+Subject: [PATCH 0/3] Improve readbility of NVME "wwid" attribute
+In-Reply-To: <1500025297.4808.6.camel@suse.com>
+References: <20170713222533.30794-1-mwilck@suse.com>
+ <20170713225739.GE14716@localhost.localdomain>
+ <20170714075612.GE17877@lst.de> <1500025297.4808.6.camel@suse.com>
+Message-ID: <20170714122855.GB26187@lst.de>
 
-The NVMe specification defines the serial number as:
+On Fri, Jul 14, 2017@11:41:37AM +0200, Martin Wilck wrote:
+> The "if provided" is the crucial point here. In real life currently
+> many people struggle with ugly overlong identifiers because these IDs
+> are _not_ provided by default.
 
-"Serial Number (SN): Contains the serial number for the NVM subsystem
-that is assigned by the vendor as an ASCII string. Refer to section
-7.10 for unique identifier requirements. Refer to section 1.5 for ASCII
-string requirements"
+NVMe has some pretty strong language in that regard since 1.2, which says
+for the EUI64/NGUID fields:
 
-So move it from the controller to the subsystem, where it belongs.
+"The controller shall specify a globally unique namespace identifier in this
+ field or the EUI64 field when the namespace is created."
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/target/admin-cmd.c | 2 +-
- drivers/nvme/target/core.c      | 4 +---
- drivers/nvme/target/nvmet.h     | 2 +-
- 3 files changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 35f930db3c02..f7ba006d6a65 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -185,7 +185,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->ssvid = 0;
- 
- 	memset(id->sn, ' ', sizeof(id->sn));
--	snprintf(id->sn, sizeof(id->sn), "%llx", ctrl->serial);
-+	snprintf(id->sn, sizeof(id->sn), "%llx", ctrl->subsys->serial);
- 
- 	memset(id->mn, ' ', sizeof(id->mn));
- 	strncpy((char *)id->mn, "Linux", sizeof(id->mn));
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b5b4ac103748..02efa7113d23 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -767,9 +767,6 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	memcpy(ctrl->subsysnqn, subsysnqn, NVMF_NQN_SIZE);
- 	memcpy(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE);
- 
--	/* generate a random serial number as our controllers are ephemeral: */
--	get_random_bytes(&ctrl->serial, sizeof(ctrl->serial));
--
- 	kref_init(&ctrl->ref);
- 	ctrl->subsys = subsys;
- 
-@@ -928,6 +925,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 		return NULL;
- 
- 	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
-+	get_random_bytes(&subsys->serial, sizeof(subsys->serial));
- 
- 	switch (type) {
- 	case NVME_NQN_NVME:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 747bbdb4f9c6..e3b244c7e443 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -112,7 +112,6 @@ struct nvmet_ctrl {
- 
- 	struct mutex		lock;
- 	u64			cap;
--	u64			serial;
- 	u32			cc;
- 	u32			csts;
- 
-@@ -152,6 +151,7 @@ struct nvmet_subsys {
- 	u16			max_qid;
- 
- 	u64			ver;
-+	u64			serial;
- 	char			*subsysnqn;
- 
- 	struct config_group	group;
--- 
-2.12.3
+And with 1.3 the new mandatory Identify 03h.  So there really aren't
+any excuses anymore.
