@@ -1,31 +1,54 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 17 Jul 2017 11:22:32 -0400
-Subject: [PATCH 7/7] nvme: Send change uevent when AEN completes
-In-Reply-To: <20170715084218.GA23189@lst.de>
-References: <1499444581-28268-1-git-send-email-keith.busch@intel.com>
- <1499444581-28268-8-git-send-email-keith.busch@intel.com>
- <20170707181436.GC24427@lst.de>
- <20170713212955.GD14716@localhost.localdomain>
- <20170714125309.GA26975@lst.de>
- <20170714151624.GA24157@localhost.localdomain>
- <20170715084218.GA23189@lst.de>
-Message-ID: <20170717152232.GC24365@localhost.localdomain>
+Date: Mon, 17 Jul 2017 12:09:18 -0400
+Subject: [PATCH] nvme-pci: Fix an error handling path in 'nvme_probe()'
+In-Reply-To: <20170716083903.7108-1-christophe.jaillet@wanadoo.fr>
+References: <20170716083903.7108-1-christophe.jaillet@wanadoo.fr>
+Message-ID: <20170717160918.GD24365@localhost.localdomain>
 
-On Sat, Jul 15, 2017@10:42:18AM +0200, Christoph Hellwig wrote:
+On Sun, Jul 16, 2017@10:39:03AM +0200, Christophe JAILLET wrote:
+> Release resources in the correct order in order not to miss a
+> 'put_device()' if 'nvme_dev_map()' fails.
 > 
-> Take the Changed Namespace List log page for example.
-> 
-> We get an AER, and then both schedule a log page read in the kernel
-> (as we should, patch pending) and send the uevent.  As soon as the
-> read the log page in the kernel to clear the log page we get another
-> event due to another namespace change, but not userspace manages to
-> read the log page before the kernel acts on the next AER, so the
-> kernel won't see the changes.
-> 
-> And yes, this is probably a little constructed, but we'll get more
-> log pages with similar semantics, so I am worried a bit about this.
+> Fixes: b00a726a9fd8 ("NVMe: Don't unmap controller registers on reset")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet at wanadoo.fr>
 
-That event needs to already be handled by the driver without relying
-on the Changed Namespace List log, like when the list exceeds the log
-size. But okay, I see the concern in general if reading a log page may
-change the results.
+Indeed, thanks for the fix. Alternatively this can be fixed by relocating
+nvme_dev_map prior to the 'get_device' a few lines up. This patch is
+okay, too.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d10d2f279d19..005beffd005d 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2282,7 +2282,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>  	result = nvme_dev_map(dev);
+>  	if (result)
+> -		goto free;
+> +		goto put_pci;
+>  
+>  	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
+>  	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
+> @@ -2291,7 +2291,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>  	result = nvme_setup_prp_pools(dev);
+>  	if (result)
+> -		goto put_pci;
+> +		goto unmap;
+>  
+>  	quirks |= check_dell_samsung_bug(pdev);
+>  
+> @@ -2308,9 +2308,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>   release_pools:
+>  	nvme_release_prp_pools(dev);
+> + unmap:
+> +	nvme_dev_unmap(dev);
+>   put_pci:
+>  	put_device(dev->dev);
+> -	nvme_dev_unmap(dev);
+>   free:
+>  	kfree(dev->queues);
+>  	kfree(dev);
