@@ -1,41 +1,39 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 17 Jul 2017 03:01:09 +0300
-Subject: [PATCH] nvme : add Scatter-Gather List (SGL) support in NVMe
- driver.
-In-Reply-To: <20170715085008.GB25753@infradead.org>
-References: <1499968479-5286-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <1499968479-5286-2-git-send-email-chaitanya.kulkarni@hgst.com>
- <20170714210623.GB24365@localhost.localdomain>
- <20170715085008.GB25753@infradead.org>
-Message-ID: <04aaed5c-1a8a-f601-6c9c-88bf1cf66e8a@mellanox.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Mon, 17 Jul 2017 09:12:33 +0800
+Subject: [PATCH 3/4] libmultipath: only listen for uevents with
+ DEVTYPE=disk
+In-Reply-To: <20170714113209.17177-4-mwilck@suse.com>
+References: <20170714113209.17177-1-mwilck@suse.com>
+ <20170714113209.17177-4-mwilck@suse.com>
+Message-ID: <4285ec16-9d83-cb6a-3b4d-e311cd5de3a3@huawei.com>
 
+Looks fine.
 
+Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
 
-On 7/15/2017 11:50 AM, Christoph Hellwig wrote:
-> On Fri, Jul 14, 2017@05:06:24PM -0400, Keith Busch wrote:
->>> 2. Set up the IO size threshold to determine whether to use
->>>     SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
->>>     use SGL only for IOs which are >= 4096 in the size).
->>
->> For this to really make a difference, you should clear
->> blk_queue_virt_boundary for SGL capable devices.
->
-> SGLs make sense for bigger I/O alone.  But not having to set the
-> blk_queue_virt_boundary would be another benefit, Although you'll
-> probably need a 64k page size system for that to matter in practice.
->
-> I remember Max had a patch for fabrics to support the Mellanox arbitrary
-> SGL registrations, which should share some core code with allowing
-> that for PCIe with SGLs.
->
-> Max, what happened to that?
->
-
-Actually this series was reviwed but because of a bug that was repro 
-with sg_gaps MR type we decided to put this on hold until we figure this 
-out. I couldn't repro the SRP issue in my lab and only Laurence did it 
-with his setup but we couldn't find the root cause yet. We are using 
-this mr type in upstream iser and also in our SRP driver in MLNX_OFED 
-without issues so we can think of re-submiting it.
-Regarding the core code, I guess I can send a patch for Chaitanya to 
-embed in his patchset for the SGL support, agreed ?
+On 2017/7/14 19:32, Martin Wilck wrote:
+> We are only interested in disks anyway. This saves us checking
+> for devtype in the uevent processing queue, and is more powerful
+> than the previous test in the dropped function
+> uevent_can_discard_by_devpath().
+> 
+> Signed-off-by: Martin Wilck <mwilck at suse.com>
+> Reviewed-by: Hannes Reinecke <hare at suse.de>
+> ---
+>  libmultipath/uevent.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/libmultipath/uevent.c b/libmultipath/uevent.c
+> index b688ca03..eb44da56 100644
+> --- a/libmultipath/uevent.c
+> +++ b/libmultipath/uevent.c
+> @@ -770,7 +770,7 @@ int uevent_listen(struct udev *udev)
+>  		goto out;
+>  	}
+>  	err = udev_monitor_filter_add_match_subsystem_devtype(monitor, "block",
+> -							      NULL);
+> +							      "disk");
+>  	if (err)
+>  		condlog(2, "failed to create filter : %s", strerror(-err));
+>  	err = udev_monitor_enable_receiving(monitor);
+> 
