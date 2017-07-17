@@ -1,39 +1,66 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Mon, 17 Jul 2017 09:12:33 +0800
-Subject: [PATCH 3/4] libmultipath: only listen for uevents with
- DEVTYPE=disk
-In-Reply-To: <20170714113209.17177-4-mwilck@suse.com>
+Date: Mon, 17 Jul 2017 09:12:22 +0800
+Subject: [PATCH 2/4] libmultipath: drop uevent_can_discard_by_devpath
+In-Reply-To: <20170714113209.17177-3-mwilck@suse.com>
 References: <20170714113209.17177-1-mwilck@suse.com>
- <20170714113209.17177-4-mwilck@suse.com>
-Message-ID: <4285ec16-9d83-cb6a-3b4d-e311cd5de3a3@huawei.com>
+ <20170714113209.17177-3-mwilck@suse.com>
+Message-ID: <2d85a9ec-27af-af50-7242-9ca5d1b18e5d@huawei.com>
 
-Looks fine.
+This patch combined with PATCH 3/4 looks more elegant than my previous patch
+and it works to fix the multipathd hotplug problem for NoF.
+Thanks.
 
 Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
 
 On 2017/7/14 19:32, Martin Wilck wrote:
-> We are only interested in disks anyway. This saves us checking
-> for devtype in the uevent processing queue, and is more powerful
-> than the previous test in the dropped function
-> uevent_can_discard_by_devpath().
+> This function is broken. Not all devices that matter for multipathd
+> follow the block/$DEVICE/$PARTITION convention (example: NVME)
 > 
 > Signed-off-by: Martin Wilck <mwilck at suse.com>
 > Reviewed-by: Hannes Reinecke <hare at suse.de>
 > ---
->  libmultipath/uevent.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  libmultipath/uevent.c | 25 -------------------------
+>  1 file changed, 25 deletions(-)
 > 
 > diff --git a/libmultipath/uevent.c b/libmultipath/uevent.c
-> index b688ca03..eb44da56 100644
+> index 4fbd1dfb..b688ca03 100644
 > --- a/libmultipath/uevent.c
 > +++ b/libmultipath/uevent.c
-> @@ -770,7 +770,7 @@ int uevent_listen(struct udev *udev)
->  		goto out;
->  	}
->  	err = udev_monitor_filter_add_match_subsystem_devtype(monitor, "block",
-> -							      NULL);
-> +							      "disk");
->  	if (err)
->  		condlog(2, "failed to create filter : %s", strerror(-err));
->  	err = udev_monitor_enable_receiving(monitor);
+> @@ -143,36 +143,11 @@ uevent_need_merge(void)
+>  	return need_merge;
+>  }
+>  
+> -static bool
+> -uevent_can_discard_by_devpath(const char *devpath)
+> -{
+> -	static const char BLOCK[] = "/block/";
+> -	const char *tmp = strstr(devpath, BLOCK);
+> -
+> -	if (tmp == NULL) {
+> -		condlog(4, "no /block/ in '%s'", devpath);
+> -		return true;
+> -	}
+> -	tmp += sizeof(BLOCK) - 1;
+> -	if (*tmp == '\0')
+> -		/* just ".../block/" - discard */
+> -		return true;
+> -	/*
+> -	 * If there are more path elements after ".../block/xyz",
+> -	 * it's a partition - discard it; but don't discard ".../block/sda/".
+> -	 */
+> -	tmp = strchr(tmp, '/');
+> -	return tmp != NULL && *(tmp + 1) != '\0';
+> -}
+> -
+>  bool
+>  uevent_can_discard(struct uevent *uev)
+>  {
+>  	struct config * conf;
+>  
+> -	if (uevent_can_discard_by_devpath(uev->devpath))
+> -		return true;
+> -
+>  	/*
+>  	 * do not filter dm devices by devnode
+>  	 */
 > 
