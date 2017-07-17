@@ -1,55 +1,334 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 17 Jul 2017 20:59:09 +0000
-Subject: [PATCH] nvme : add Scatter-Gather List (SGL) support in NVMe
- driver.
-In-Reply-To: <04aaed5c-1a8a-f601-6c9c-88bf1cf66e8a@mellanox.com>
-References: <1499968479-5286-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <1499968479-5286-2-git-send-email-chaitanya.kulkarni@hgst.com>
- <20170714210623.GB24365@localhost.localdomain>
- <20170715085008.GB25753@infradead.org>
- <04aaed5c-1a8a-f601-6c9c-88bf1cf66e8a@mellanox.com>
-Message-ID: <MWHPR04MB10082C8A086CE3BCA6CBE53A86A00@MWHPR04MB1008.namprd04.prod.outlook.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 17 Jul 2017 13:59:39 -0700
+Subject: [PATCH] nvme_fc: revise TRADDR parsing
+Message-ID: <20170717205939.18229-1-jsmart2021@gmail.com>
 
-Hi Max,
+The FC-NVME spec hasn't locked down on the format string for TRADDR.
+Currently the spec is lobbying for "nn-<16hexdigits>:pn-<16hexdigits>"
+where the wwn's are hex values but not prefixed by 0x.
 
-Is this the correct patch you mentioned in earlier email :- https://www.spinics.net/lists/linux-rdma/msg48612.html ?
+Most implementations so far expect a string format of
+"nn-0x<16hexdigits>:pn-0x<16hexdigits>" to be used. The transport
+uses the match_u64 parser which requires a leading 0x prefix to set
+the base properly. If it's not there, a match will either fail or return
+a base 10 value.
 
-In case if not can you please send the core code patch? 
+The resolution in T11 is pushing out. Therefore, to fix things now and
+to cover any eventuality and any implementations already in the field,
+this patch adds support for both formats.
 
-I'll give it a try, so it will be easy if we decide to have it integrated with current SGL patch.
+The change consists of replacing the token matching routine with a
+routine that validates the fixed string format, and then builds
+a local copy of the hex name with a 0x prefix before calling
+the system parser.
 
--Regards,
-Chaitanya
+Note: the same parser routine exists in both the initiator and target
+transports. Given this is about the only "shared" item, we chose to
+replicate rather than create an interdendency on some shared code.
 
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c   | 102 ++++++++++++++++++++++++-----------------------
+ drivers/nvme/target/fc.c | 101 ++++++++++++++++++++++++----------------------
+ include/linux/nvme-fc.h  |  19 +++++++++
+ 3 files changed, 125 insertions(+), 97 deletions(-)
 
------Original Message-----
-From: Max Gurtovoy [mailto:maxg@mellanox.com] 
-Sent: Sunday, July 16, 2017 5:01 PM
-To: Christoph Hellwig <hch at infradead.org>; Keith Busch <keith.busch at intel.com>
-Cc: Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com>; linux-nvme at lists.infradead.org
-Subject: Re: [PATCH] nvme : add Scatter-Gather List (SGL) support in NVMe driver.
-
-
-
-On 7/15/2017 11:50 AM, Christoph Hellwig wrote:
-> On Fri, Jul 14, 2017@05:06:24PM -0400, Keith Busch wrote:
->>> 2. Set up the IO size threshold to determine whether to use
->>>     SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
->>>     use SGL only for IOs which are >= 4096 in the size).
->>
->> For this to really make a difference, you should clear 
->> blk_queue_virt_boundary for SGL capable devices.
->
-> SGLs make sense for bigger I/O alone.  But not having to set the 
-> blk_queue_virt_boundary would be another benefit, Although you'll 
-> probably need a 64k page size system for that to matter in practice.
->
-> I remember Max had a patch for fabrics to support the Mellanox 
-> arbitrary SGL registrations, which should share some core code with 
-> allowing that for PCIe with SGLs.
->
-> Max, what happened to that?
->
-
-Actually this series was reviwed but because of a bug that was repro with sg_gaps MR type we decided to put this on hold until we figure this out. I couldn't repro the SRP issue in my lab and only Laurence did it with his setup but we couldn't find the root cause yet. We are using this mr type in upstream iser and also in our SRP driver in MLNX_OFED without issues so we can think of re-submiting it.
-Regarding the core code, I guess I can send a patch for Chaitanya to embed in his patchset for the SGL support, agreed ?
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index d666ada39a9b..8b6f3c849875 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2802,66 +2802,70 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	return ERR_PTR(ret);
+ }
+ 
+-enum {
+-	FCT_TRADDR_ERR		= 0,
+-	FCT_TRADDR_WWNN		= 1 << 0,
+-	FCT_TRADDR_WWPN		= 1 << 1,
+-};
+ 
+ struct nvmet_fc_traddr {
+ 	u64	nn;
+ 	u64	pn;
+ };
+ 
+-static const match_table_t traddr_opt_tokens = {
+-	{ FCT_TRADDR_WWNN,	"nn-%s"		},
+-	{ FCT_TRADDR_WWPN,	"pn-%s"		},
+-	{ FCT_TRADDR_ERR,	NULL		}
+-};
+-
+ static int
+-nvme_fc_parse_address(struct nvmet_fc_traddr *traddr, char *buf)
++__nvme_fc_parse_u64(substring_t *sstr, u64 *val)
+ {
+-	substring_t args[MAX_OPT_ARGS];
+-	char *options, *o, *p;
+-	int token, ret = 0;
+ 	u64 token64;
+ 
+-	options = o = kstrdup(buf, GFP_KERNEL);
+-	if (!options)
+-		return -ENOMEM;
++	if (match_u64(sstr, &token64))
++		return -EINVAL;
++	*val = token64;
+ 
+-	while ((p = strsep(&o, ":\n")) != NULL) {
+-		if (!*p)
+-			continue;
++	return 0;
++}
+ 
+-		token = match_token(p, traddr_opt_tokens, args);
+-		switch (token) {
+-		case FCT_TRADDR_WWNN:
+-			if (match_u64(args, &token64)) {
+-				ret = -EINVAL;
+-				goto out;
+-			}
+-			traddr->nn = token64;
+-			break;
+-		case FCT_TRADDR_WWPN:
+-			if (match_u64(args, &token64)) {
+-				ret = -EINVAL;
+-				goto out;
+-			}
+-			traddr->pn = token64;
+-			break;
+-		default:
+-			pr_warn("unknown traddr token or missing value '%s'\n",
+-					p);
+-			ret = -EINVAL;
+-			goto out;
+-		}
+-	}
++/*
++ * This routine validates and extracts the WWN's from the TRADDR string.
++ * As kernel parsers need the 0x to determine number base, universally
++ * build string to parse with 0x prefix before parsing name strings.
++ */
++static int
++nvme_fc_parse_traddr(struct nvmet_fc_traddr *traddr, char *buf, size_t blen)
++{
++	char name[2 + NVME_FC_TRADDR_HEXNAMELEN + 1];
++	substring_t wwn = { name, &name[sizeof(name)-1] };
++	int nnoffset, pnoffset;
++
++	/* validate it string one of the 2 allowed formats */
++	if (strnlen(buf, blen) == NVME_FC_TRADDR_MAXLENGTH &&
++			!strncmp(buf, "nn-0x", NVME_FC_TRADDR_OXNNLEN) &&
++			!strncmp(&buf[NVME_FC_TRADDR_MAX_PN_OFFSET],
++				"pn-0x", NVME_FC_TRADDR_OXNNLEN)) {
++		nnoffset = NVME_FC_TRADDR_OXNNLEN;
++		pnoffset = NVME_FC_TRADDR_MAX_PN_OFFSET +
++						NVME_FC_TRADDR_OXNNLEN;
++	} else if ((strnlen(buf, blen) == NVME_FC_TRADDR_MINLENGTH &&
++			!strncmp(buf, "nn-", NVME_FC_TRADDR_NNLEN) &&
++			!strncmp(&buf[NVME_FC_TRADDR_MIN_PN_OFFSET],
++				"pn-", NVME_FC_TRADDR_NNLEN))) {
++		nnoffset = NVME_FC_TRADDR_NNLEN;
++		pnoffset = NVME_FC_TRADDR_MIN_PN_OFFSET + NVME_FC_TRADDR_NNLEN;
++	} else
++		goto out_einval;
+ 
+-out:
+-	kfree(options);
+-	return ret;
++	name[0] = '0';
++	name[1] = 'x';
++	name[2 + NVME_FC_TRADDR_HEXNAMELEN] = 0;
++
++	memcpy(&name[2], &buf[nnoffset], NVME_FC_TRADDR_HEXNAMELEN);
++	if (__nvme_fc_parse_u64(&wwn, &traddr->nn))
++		goto out_einval;
++
++	memcpy(&name[2], &buf[pnoffset], NVME_FC_TRADDR_HEXNAMELEN);
++	if (__nvme_fc_parse_u64(&wwn, &traddr->pn))
++		goto out_einval;
++
++	return 0;
++
++out_einval:
++	pr_warn("%s: bad traddr string\n", __func__);
++	return -EINVAL;
+ }
+ 
+ static struct nvme_ctrl *
+@@ -2875,11 +2879,11 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+ 	unsigned long flags;
+ 	int ret;
+ 
+-	ret = nvme_fc_parse_address(&raddr, opts->traddr);
++	ret = nvme_fc_parse_traddr(&raddr, opts->traddr, NVMF_TRADDR_SIZE);
+ 	if (ret || !raddr.nn || !raddr.pn)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	ret = nvme_fc_parse_address(&laddr, opts->host_traddr);
++	ret = nvme_fc_parse_traddr(&laddr, opts->host_traddr, NVMF_TRADDR_SIZE);
+ 	if (ret || !laddr.nn || !laddr.pn)
+ 		return ERR_PTR(-EINVAL);
+ 
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index d5801c150b1c..31ca55dfcb1d 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2293,66 +2293,70 @@ nvmet_fc_rcv_fcp_abort(struct nvmet_fc_target_port *target_port,
+ }
+ EXPORT_SYMBOL_GPL(nvmet_fc_rcv_fcp_abort);
+ 
+-enum {
+-	FCT_TRADDR_ERR		= 0,
+-	FCT_TRADDR_WWNN		= 1 << 0,
+-	FCT_TRADDR_WWPN		= 1 << 1,
+-};
+ 
+ struct nvmet_fc_traddr {
+ 	u64	nn;
+ 	u64	pn;
+ };
+ 
+-static const match_table_t traddr_opt_tokens = {
+-	{ FCT_TRADDR_WWNN,	"nn-%s"		},
+-	{ FCT_TRADDR_WWPN,	"pn-%s"		},
+-	{ FCT_TRADDR_ERR,	NULL		}
+-};
+-
+ static int
+-nvmet_fc_parse_traddr(struct nvmet_fc_traddr *traddr, char *buf)
++__nvme_fc_parse_u64(substring_t *sstr, u64 *val)
+ {
+-	substring_t args[MAX_OPT_ARGS];
+-	char *options, *o, *p;
+-	int token, ret = 0;
+ 	u64 token64;
+ 
+-	options = o = kstrdup(buf, GFP_KERNEL);
+-	if (!options)
+-		return -ENOMEM;
++	if (match_u64(sstr, &token64))
++		return -EINVAL;
++	*val = token64;
+ 
+-	while ((p = strsep(&o, ":\n")) != NULL) {
+-		if (!*p)
+-			continue;
++	return 0;
++}
+ 
+-		token = match_token(p, traddr_opt_tokens, args);
+-		switch (token) {
+-		case FCT_TRADDR_WWNN:
+-			if (match_u64(args, &token64)) {
+-				ret = -EINVAL;
+-				goto out;
+-			}
+-			traddr->nn = token64;
+-			break;
+-		case FCT_TRADDR_WWPN:
+-			if (match_u64(args, &token64)) {
+-				ret = -EINVAL;
+-				goto out;
+-			}
+-			traddr->pn = token64;
+-			break;
+-		default:
+-			pr_warn("unknown traddr token or missing value '%s'\n",
+-					p);
+-			ret = -EINVAL;
+-			goto out;
+-		}
+-	}
++/*
++ * This routine validates and extracts the WWN's from the TRADDR string.
++ * As kernel parsers need the 0x to determine number base, universally
++ * build string to parse with 0x prefix before parsing name strings.
++ */
++static int
++nvme_fc_parse_traddr(struct nvmet_fc_traddr *traddr, char *buf, size_t blen)
++{
++	char name[2 + NVME_FC_TRADDR_HEXNAMELEN + 1];
++	substring_t wwn = { name, &name[sizeof(name)-1] };
++	int nnoffset, pnoffset;
++
++	/* validate it string one of the 2 allowed formats */
++	if (strnlen(buf, blen) == NVME_FC_TRADDR_MAXLENGTH &&
++			!strncmp(buf, "nn-0x", NVME_FC_TRADDR_OXNNLEN) &&
++			!strncmp(&buf[NVME_FC_TRADDR_MAX_PN_OFFSET],
++				"pn-0x", NVME_FC_TRADDR_OXNNLEN)) {
++		nnoffset = NVME_FC_TRADDR_OXNNLEN;
++		pnoffset = NVME_FC_TRADDR_MAX_PN_OFFSET +
++						NVME_FC_TRADDR_OXNNLEN;
++	} else if ((strnlen(buf, blen) == NVME_FC_TRADDR_MINLENGTH &&
++			!strncmp(buf, "nn-", NVME_FC_TRADDR_NNLEN) &&
++			!strncmp(&buf[NVME_FC_TRADDR_MIN_PN_OFFSET],
++				"pn-", NVME_FC_TRADDR_NNLEN))) {
++		nnoffset = NVME_FC_TRADDR_NNLEN;
++		pnoffset = NVME_FC_TRADDR_MIN_PN_OFFSET + NVME_FC_TRADDR_NNLEN;
++	} else
++		goto out_einval;
++
++	name[0] = '0';
++	name[1] = 'x';
++	name[2 + NVME_FC_TRADDR_HEXNAMELEN] = 0;
++
++	memcpy(&name[2], &buf[nnoffset], NVME_FC_TRADDR_HEXNAMELEN);
++	if (__nvme_fc_parse_u64(&wwn, &traddr->nn))
++		goto out_einval;
++
++	memcpy(&name[2], &buf[pnoffset], NVME_FC_TRADDR_HEXNAMELEN);
++	if (__nvme_fc_parse_u64(&wwn, &traddr->pn))
++		goto out_einval;
+ 
+-out:
+-	kfree(options);
+-	return ret;
++	return 0;
++
++out_einval:
++	pr_warn("%s: bad traddr string\n", __func__);
++	return -EINVAL;
+ }
+ 
+ static int
+@@ -2370,7 +2374,8 @@ nvmet_fc_add_port(struct nvmet_port *port)
+ 
+ 	/* map the traddr address info to a target port */
+ 
+-	ret = nvmet_fc_parse_traddr(&traddr, port->disc_addr.traddr);
++	ret = nvme_fc_parse_traddr(&traddr, port->disc_addr.traddr,
++			sizeof(port->disc_addr.traddr));
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+index 21c37e39e41a..36cca93a5ff2 100644
+--- a/include/linux/nvme-fc.h
++++ b/include/linux/nvme-fc.h
+@@ -334,5 +334,24 @@ struct fcnvme_ls_disconnect_acc {
+ #define NVME_FC_LS_TIMEOUT_SEC		2		/* 2 seconds */
+ #define NVME_FC_TGTOP_TIMEOUT_SEC	2		/* 2 seconds */
+ 
++/*
++ * TRADDR string must be of form "nn-<16hexdigits>:pn-<16hexdigits>"
++ * the string is allowed to be specified with or without a "0x" prefix
++ * infront of the <16hexdigits>.  Without is considered the "min" string
++ * and with is considered the "max" string. The hexdigits may be upper
++ * or lower case.
++ */
++#define NVME_FC_TRADDR_NNLEN		3	/* "?n-" */
++#define NVME_FC_TRADDR_OXNNLEN		5	/* "?n-0x" */
++#define NVME_FC_TRADDR_HEXNAMELEN	16
++#define NVME_FC_TRADDR_MINLENGTH	\
++		(2 * (NVME_FC_TRADDR_NNLEN + NVME_FC_TRADDR_HEXNAMELEN) + 1)
++#define NVME_FC_TRADDR_MAXLENGTH	\
++		(2 * (NVME_FC_TRADDR_OXNNLEN + NVME_FC_TRADDR_HEXNAMELEN) + 1)
++#define NVME_FC_TRADDR_MIN_PN_OFFSET	\
++		(NVME_FC_TRADDR_NNLEN + NVME_FC_TRADDR_HEXNAMELEN + 1)
++#define NVME_FC_TRADDR_MAX_PN_OFFSET	\
++		(NVME_FC_TRADDR_OXNNLEN + NVME_FC_TRADDR_HEXNAMELEN + 1)
++
+ 
+ #endif /* _NVME_FC_H */
+-- 
+2.11.0
