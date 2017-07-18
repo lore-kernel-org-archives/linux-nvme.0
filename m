@@ -1,21 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 13 Jul 2017 19:38:27 +0300
-Subject: [PATCH] nvmet: preserve controller serial number between reboots
-In-Reply-To: <20170713130652.GA24376@lst.de>
-References: <20170713104806.12353-1-jthumshirn@suse.de>
- <d32c32f6-3f8f-c63a-f961-ee16407c2fd6@grimberg.me>
- <20170713130652.GA24376@lst.de>
-Message-ID: <5b7b436c-eed1-d731-50be-0733f9ac7155@grimberg.me>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Tue, 18 Jul 2017 15:12:55 -0600
+Subject: [PATCH] nvme: Add support for NVMe 1.3 Timestamp Feature
+In-Reply-To: <59e271b0-00d8-d705-b56e-a93d7b21e393@grimberg.me>
+References: <20170712221101.1715-1-jonathan.derrick@intel.com>
+ <59e271b0-00d8-d705-b56e-a93d7b21e393@grimberg.me>
+Message-ID: <4dea408c-c020-97aa-c6f6-4f10583ecf00@intel.com>
 
-
->> It seems weird that a subsystem has a serial.
+On 07/13/2017 01:01 AM, Sagi Grimberg wrote:
 > 
-> But that's actually how NVMe defines them.
-
-Where is that wording?
-
-> Which mean we first
-> need to fix our code to generate a serial number per subsystem,
-> and on top of that the patch from Johannes seems perfectly reasonable.
-
-If that is indeed the case then sure.
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index 5d5aa7f..82ce677 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -2156,6 +2156,10 @@ static void nvme_reset_work(struct work_struct *work)
+>>   	if (result)
+>>   		goto out;
+>>   
+>> +	if (dev->ctrl.vs >= NVME_VS(1, 3, 0) &&
+>> +	    dev->ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)
+>> +		nvme_set_timestamp(&dev->ctrl);
+>> +
+> 
+> Why after setting up the I/O queues?
+> 
+No reason in particular; I just wanted it in the reset path.
+For v2 I've moved it to the identify path.
