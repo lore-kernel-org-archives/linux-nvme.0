@@ -1,41 +1,38 @@
 From: mwilck@suse.com (Martin Wilck)
-Date: Tue, 18 Jul 2017 09:29:13 +0200
-Subject: [PATCH v2 1/4] libmultipath: get_udev_uid: make sure pp->wwid is
- 0-terminated
-In-Reply-To: <20170718072916.24275-1-mwilck@suse.com>
-References: <20170718072916.24275-1-mwilck@suse.com>
-Message-ID: <20170718072916.24275-2-mwilck@suse.com>
+Date: Tue, 18 Jul 2017 09:29:12 +0200
+Subject: [PATCH v2 0/4] libmultipath: Fixes for NVME / NVMEoF
+Message-ID: <20170718072916.24275-1-mwilck@suse.com>
 
-If the first WWID_LEN bytes of the uuid_attribute do not contain
-a 0 byte, pp->wwid may end up not properly terminated. Fix it by
-using strlcpy() rather than strncpy().
+Current code fails to set up multipath maps for NVME devices in a
+Linux target/Linux host combination. This series enables at least
+basic operation.
 
-Signed-off-by: Martin Wilck <mwilck at suse.com>
-Acked-by: Benjamin Marzinski <bmarzins at redhat.com>
+Patch 1/4 fixes a crash that happens if over-long WWIDs are encountered, and
+is not specific to NVME as such. Patch 2/4 drops
+the broken test uevent_can_discard_by_devpath(). Patch 3/4 compensates
+for the additional event processing required by 2/4. Patch 4/4 mangles
+overlong "nvme.*" WWIDs to make them usable for multipath (related discussion
+in [1]; WWID_SIZE can't be simply increased because it has to match
+device mapper's DM_NAME_LEN).
 
----
- libmultipath/discovery.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Changes wrt v1:
+ 1/4: assure 0-termination by using strlcpy() (Bart van Assche)
+ 4/4: drop extra length test (Ben Marzinski)
 
-diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-index 663c8eaa..419a148b 100644
---- a/libmultipath/discovery.c
-+++ b/libmultipath/discovery.c
-@@ -1608,13 +1608,11 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
- 	if (!value || strlen(value) == 0)
- 		value = getenv(uid_attribute);
- 	if (value && strlen(value)) {
--		if (strlen(value) + 1 > WWID_SIZE) {
-+		len = strlcpy(pp->wwid, value, WWID_SIZE);
-+		if (len >= WWID_SIZE) {
- 			condlog(0, "%s: wwid overflow", pp->dev);
- 			len = WWID_SIZE;
--		} else {
--			len = strlen(value);
- 		}
--		strncpy(pp->wwid, value, len);
- 	} else {
- 		condlog(3, "%s: no %s attribute", pp->dev,
- 			uid_attribute);
+I kept the v1 Reviewed-by: and Acked-by tags because the changes are minor,
+I hope that's ok for the reviewers.
+
+[1] http://lists.infradead.org/pipermail/linux-nvme/2017-July/011960.html
+
+Martin Wilck (4):
+  libmultipath: get_udev_uid: make sure pp->wwid is 0-terminated
+  libmultipath: drop uevent_can_discard_by_devpath
+  libmultipath: only listen for uevents with DEVTYPE=disk
+  libmultipath: fix over-long NVME WWIDs
+
+ libmultipath/discovery.c | 85 +++++++++++++++++++++++++++++++++++++++++++++---
+ libmultipath/uevent.c    | 27 +--------------
+ 2 files changed, 82 insertions(+), 30 deletions(-)
+
 -- 
 2.13.2
