@@ -1,31 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 18 Jul 2017 14:04:32 -0400
-Subject: [PATCH] nvme/pci: Fix HMB size calculation
-In-Reply-To: <20170718173954.GA7511@lst.de>
-References: <1500335139-6338-1-git-send-email-keith.busch@intel.com>
- <20170718173954.GA7511@lst.de>
-Message-ID: <20170718180431.GB7613@localhost.localdomain>
+From: okaya@codeaurora.org (Sinan Kaya)
+Date: Tue, 18 Jul 2017 14:52:26 -0400
+Subject: [PATCH] nvme: Acknowledge completion queue on each iteration
+In-Reply-To: <20170718143617.GA7613@localhost.localdomain>
+References: <1500330983-27501-1-git-send-email-okaya@codeaurora.org>
+ <20170717224551.GA1496@localhost.localdomain>
+ <6d10032c-35ec-978c-6b8f-1ab9c07adf7f@codeaurora.org>
+ <20170717225615.GB1496@localhost.localdomain>
+ <79413407294645f0e1252112c3435a29@codeaurora.org>
+ <20170718143617.GA7613@localhost.localdomain>
+Message-ID: <dada875c-ed69-0126-8e83-78a564e6b4bd@codeaurora.org>
 
-On Tue, Jul 18, 2017@07:39:54PM +0200, Christoph Hellwig wrote:
-> On Mon, Jul 17, 2017@07:45:39PM -0400, Keith Busch wrote:
-> > It's possible the preferred HMB size may not be a multiple of the
-> > chunk_size. This patch will set the chunk_size to the descriptor's actual
-> > length so the last iteration doesn't cause the total size to exceed the
-> > allocated HMB size.
-> 
-> This looks a little weird, and might do the wrong thing
-> if we hit the retry loop after reducing chunk_size.
+On 7/18/2017 10:36 AM, Keith Busch wrote:
+> On Mon, Jul 17, 2017@07:07:00PM -0400, okaya@codeaurora.org wrote:
+>> Maybe, I need to understand the design better. I was curious why completion
+>> and submission queues were protected by a single lock causing lock
+>> contention.
+> Ideally the queues are tied to CPUs, so you couldn't have one thread
+> submitting to a particular queue-pair while another thread is reaping
+> completions from it. Such a setup wouldn't get lock contention.
 
-It may look weird when you consider the retry, but I'm pretty sure it
-isn't wrong. The only way you can get to the retry is if the for-loop
-breaks before the last interation, which means chunk_size will be
-unchanged. That's not immediately obvious, though, so maybe this
-implementation was trying to be too clever.
- 
-> I suspect we just need to change to
-> 
-> 	for (size = 0; size < preferred; size += len) {
-> 
-> and move len to function scope.
+I do see that the NVMe driver is creating a completion interrupt on
+each CPU core for the completions. No problems with that. 
 
-That's fine too.
+However, I don't think you can guarantee that there will always be a single
+CPU core targeting one submission queue especially with asynchronous IO.
+
+Lock contention counters from CONFIG_LOCK_STAT are pointing to nvmeq->lock
+in my FIO tests.
+
+Did I miss something?
+
+> 
+> Some machines have so many CPUs, though, that sharing hardware queues
+> is required. We've experimented with separate submission and completion
+> locks for such cases, but I've never seen an improved performance as a
+> result.
+> 
+
+I have also experimented with multiple locks with no significant gains. 
+However, I was curious if somebody else had a better implementation than mine.
+
+-- 
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
