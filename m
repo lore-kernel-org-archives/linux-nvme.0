@@ -1,129 +1,24 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Tue, 18 Jul 2017 09:29:16 +0200
-Subject: [PATCH v2 4/4] libmultipath: fix over-long NVME WWIDs
-In-Reply-To: <20170718072916.24275-1-mwilck@suse.com>
-References: <20170718072916.24275-1-mwilck@suse.com>
-Message-ID: <20170718072916.24275-5-mwilck@suse.com>
+From: kamalax.subbiah@intel.com (Subbiah, KamalaX)
+Date: Tue, 18 Jul 2017 12:13:52 +0000
+Subject: Support for nvme format/fw-download/fw-activate/set-feature in
+ NVMeOF host
+Message-ID: <06DD61BCF94D6D48AEF1059E41772BF32B668682@BGSMSX108.gar.corp.intel.com>
 
-Fix for NVME wwids looking like this (line continuations inserted here
-for readability):
 
-nvme.0000-3163653363666438366239656630386200-\
-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-\
-00000002
+Hi,
 
-which are encountered in some combinations of Linux NVME host and target,
-where the 2nd field represents the serial number (SN) and the 3rd the
-model number (MN).
+Both NVMeOF host? and NVMeOF target server is configured with RHEL OS v7.3 and upstream kernel v4.10.4.
+NIC card (both target and host) - Mellanox Technologies MT27710 Family [ConnectX-4??? Lx], driver: mlx5_core, version: 3.0-1, firmware v14.14.1100.
+1. Powered on the NVMeOF target server with single drive.
+2. NVMe OF Target and Host? is configured and loaded with all nvme modules and mlx5 drivers.
+3. Discovered the device with 'nvme discover -t rdma -a 1.1.1.1 -s 4440' in host.
+4. Connected to the target with 'nvme connect -n subsystemName -t rdma -a 1.1.1.1 -s 4440' in host.
+5.Verify drive discovery??? <ls /dev/nvme*> in host.
 
-The device mapper allows map names only up to 128 characters.
-Strip the "00" sequences at the end of the serial and model field,
-they are hex-encoded 0-bytes which are forbidden by the NVME spec
-anyway.
+The following nvme commands are giving error in host:
+nvme format
+nvme fw-download
+nvme fw-activate 
+nvme set-feature for temperature threshold.
 
-Signed-off-by: Martin Wilck <mwilck at suse.com>
-Acked-by: Benjamin Marzinski <bmarzins at redhat.com>
-Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
----
- libmultipath/discovery.c | 79 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
-
-diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
-index 419a148b..17ab1913 100644
---- a/libmultipath/discovery.c
-+++ b/libmultipath/discovery.c
-@@ -1598,6 +1598,82 @@ get_prio (struct path * pp)
- 	return 0;
- }
- 
-+/*
-+ * Mangle string of length *len starting at start
-+ * by removing character sequence "00" (hex for a 0 byte),
-+ * starting at end, backwards.
-+ * Changes the value of *len if characters were removed.
-+ * Returns a pointer to the position where "end" was moved to.
-+ */
-+static char
-+*skip_zeroes_backward(char* start, int *len, char *end)
-+{
-+	char *p = end;
-+
-+	while (p >= start + 2 && *(p - 1) == '0' && *(p - 2) == '0')
-+		p -= 2;
-+
-+	if (p == end)
-+		return p;
-+
-+	memmove(p, end, start + *len + 1 - end);
-+	*len -= end - p;
-+
-+	return p;
-+}
-+
-+/*
-+ * Fix for NVME wwids looking like this:
-+ * nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
-+ * which are encountered in some combinations of Linux NVME host and target.
-+ * The '00' are hex-encoded 0-bytes which are forbidden in the serial (SN)
-+ * and model (MN) fields. Discard them.
-+ * If a WWID of the above type is found, sets pp->wwid and returns a value > 0.
-+ * Otherwise, returns 0.
-+ */
-+static int
-+fix_broken_nvme_wwid(struct path *pp, const char *value, int size)
-+{
-+	static const char _nvme[] = "nvme.";
-+	int len, i;
-+	char mangled[256];
-+	char *p;
-+
-+	len = strlen(value);
-+	if (len >= sizeof(mangled))
-+		return 0;
-+
-+	/* Check that value starts with "nvme.%04x-" */
-+	if (memcmp(value, _nvme, sizeof(_nvme) - 1) || value[9] != '-')
-+		return 0;
-+	for (i = 5; i < 9; i++)
-+		if (!isxdigit(value[i]))
-+			return 0;
-+
-+	memcpy(mangled, value, len + 1);
-+
-+	/* search end of "model" part and strip trailing '00' */
-+	p = memrchr(mangled, '-', len);
-+	if (p == NULL)
-+		return 0;
-+
-+	p = skip_zeroes_backward(mangled, &len, p);
-+
-+	/* search end of "serial" part */
-+	p = memrchr(mangled, '-', p - mangled);
-+	if (p == NULL || memrchr(mangled, '-', p - mangled) != mangled + 9)
-+	    /* We expect exactly 3 '-' in the value */
-+		return 0;
-+
-+	p = skip_zeroes_backward(mangled, &len, p);
-+	if (len >= size)
-+		return 0;
-+
-+	memcpy(pp->wwid, mangled, len + 1);
-+	condlog(2, "%s: over-long WWID shortened to %s", pp->dev, pp->wwid);
-+	return len;
-+}
-+
- static int
- get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
- {
-@@ -1610,6 +1686,9 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
- 	if (value && strlen(value)) {
- 		len = strlcpy(pp->wwid, value, WWID_SIZE);
- 		if (len >= WWID_SIZE) {
-+			len = fix_broken_nvme_wwid(pp, value, WWID_SIZE);
-+			if (len > 0)
-+				return len;
- 			condlog(0, "%s: wwid overflow", pp->dev);
- 			len = WWID_SIZE;
- 		}
--- 
-2.13.2
+Is there any support for these commands in NVMeOF host?
