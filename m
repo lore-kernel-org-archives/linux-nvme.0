@@ -1,36 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 17 Jul 2017 19:47:53 -0400
-Subject: [PATCH] nvme/pci: Fix HMB size calculation
-In-Reply-To: <1500335139-6338-1-git-send-email-keith.busch@intel.com>
-References: <1500335139-6338-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20170717234753.GD1496@localhost.localdomain>
+From: mwilck@suse.com (Martin Wilck)
+Date: Tue, 18 Jul 2017 09:29:13 +0200
+Subject: [PATCH v2 1/4] libmultipath: get_udev_uid: make sure pp->wwid is
+ 0-terminated
+In-Reply-To: <20170718072916.24275-1-mwilck@suse.com>
+References: <20170718072916.24275-1-mwilck@suse.com>
+Message-ID: <20170718072916.24275-2-mwilck@suse.com>
 
-On Mon, Jul 17, 2017@07:45:39PM -0400, Keith Busch wrote:
-> It's possible the preferred HMB size may not be a multiple of the
-> chunk_size. This patch will set the chunk_size to the descriptor's actual
-> length so the last iteration doesn't cause the total size to exceed the
-> allocated HMB size.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+If the first WWID_LEN bytes of the uuid_attribute do not contain
+a 0 byte, pp->wwid may end up not properly terminated. Fix it by
+using strlcpy() rather than strncpy().
 
-Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
+Signed-off-by: Martin Wilck <mwilck at suse.com>
+Acked-by: Benjamin Marzinski <bmarzins at redhat.com>
 
-> ---
->  drivers/nvme/host/pci.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index d321597..e22ffda 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1641,6 +1641,7 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
->  		if (!bufs[i])
->  			break;
->  
-> +		chunk_size = len;
->  		descs[i].addr = cpu_to_le64(dma_addr);
->  		descs[i].size = cpu_to_le32(len / dev->ctrl.page_size);
->  		i++;
-> -- 
-> 2.5.5
-> 
+---
+ libmultipath/discovery.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
+index 663c8eaa..419a148b 100644
+--- a/libmultipath/discovery.c
++++ b/libmultipath/discovery.c
+@@ -1608,13 +1608,11 @@ get_udev_uid(struct path * pp, char *uid_attribute, struct udev_device *udev)
+ 	if (!value || strlen(value) == 0)
+ 		value = getenv(uid_attribute);
+ 	if (value && strlen(value)) {
+-		if (strlen(value) + 1 > WWID_SIZE) {
++		len = strlcpy(pp->wwid, value, WWID_SIZE);
++		if (len >= WWID_SIZE) {
+ 			condlog(0, "%s: wwid overflow", pp->dev);
+ 			len = WWID_SIZE;
+-		} else {
+-			len = strlen(value);
+ 		}
+-		strncpy(pp->wwid, value, len);
+ 	} else {
+ 		condlog(3, "%s: no %s attribute", pp->dev,
+ 			uid_attribute);
+-- 
+2.13.2
