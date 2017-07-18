@@ -1,24 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 18 Jul 2017 10:36:17 -0400
-Subject: [PATCH] nvme: Acknowledge completion queue on each iteration
-In-Reply-To: <79413407294645f0e1252112c3435a29@codeaurora.org>
-References: <1500330983-27501-1-git-send-email-okaya@codeaurora.org>
- <20170717224551.GA1496@localhost.localdomain>
- <6d10032c-35ec-978c-6b8f-1ab9c07adf7f@codeaurora.org>
- <20170717225615.GB1496@localhost.localdomain>
- <79413407294645f0e1252112c3435a29@codeaurora.org>
-Message-ID: <20170718143617.GA7613@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 18 Jul 2017 19:39:54 +0200
+Subject: [PATCH] nvme/pci: Fix HMB size calculation
+In-Reply-To: <1500335139-6338-1-git-send-email-keith.busch@intel.com>
+References: <1500335139-6338-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170718173954.GA7511@lst.de>
 
-On Mon, Jul 17, 2017@07:07:00PM -0400, okaya@codeaurora.org wrote:
-> Maybe, I need to understand the design better. I was curious why completion
-> and submission queues were protected by a single lock causing lock
-> contention.
+On Mon, Jul 17, 2017@07:45:39PM -0400, Keith Busch wrote:
+> It's possible the preferred HMB size may not be a multiple of the
+> chunk_size. This patch will set the chunk_size to the descriptor's actual
+> length so the last iteration doesn't cause the total size to exceed the
+> allocated HMB size.
 
-Ideally the queues are tied to CPUs, so you couldn't have one thread
-submitting to a particular queue-pair while another thread is reaping
-completions from it. Such a setup wouldn't get lock contention.
+This looks a little weird, and might do the wrong thing
+if we hit the retry loop after reducing chunk_size.
 
-Some machines have so many CPUs, though, that sharing hardware queues
-is required. We've experimented with separate submission and completion
-locks for such cases, but I've never seen an improved performance as a
-result.
+I suspect we just need to change to
+
+	for (size = 0; size < preferred; size += len) {
+
+and move len to function scope.
