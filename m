@@ -1,29 +1,24 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 18 Jul 2017 10:23:46 -0400
-Subject: Support for nvme format/fw-download/fw-activate/set-feature in
- NVMeOF host
-In-Reply-To: <06DD61BCF94D6D48AEF1059E41772BF32B668682@BGSMSX108.gar.corp.intel.com>
-References: <06DD61BCF94D6D48AEF1059E41772BF32B668682@BGSMSX108.gar.corp.intel.com>
-Message-ID: <20170718142345.GF1496@localhost.localdomain>
+Date: Tue, 18 Jul 2017 10:36:17 -0400
+Subject: [PATCH] nvme: Acknowledge completion queue on each iteration
+In-Reply-To: <79413407294645f0e1252112c3435a29@codeaurora.org>
+References: <1500330983-27501-1-git-send-email-okaya@codeaurora.org>
+ <20170717224551.GA1496@localhost.localdomain>
+ <6d10032c-35ec-978c-6b8f-1ab9c07adf7f@codeaurora.org>
+ <20170717225615.GB1496@localhost.localdomain>
+ <79413407294645f0e1252112c3435a29@codeaurora.org>
+Message-ID: <20170718143617.GA7613@localhost.localdomain>
 
-On Tue, Jul 18, 2017@12:13:52PM +0000, Subbiah, KamalaX wrote:
-> Hi,
-> 
-> Both NVMeOF host? and NVMeOF target server is configured with RHEL OS v7.3 and upstream kernel v4.10.4.
-> NIC card (both target and host) - Mellanox Technologies MT27710 Family [ConnectX-4??? Lx], driver: mlx5_core, version: 3.0-1, firmware v14.14.1100.
-> 1. Powered on the NVMeOF target server with single drive.
-> 2. NVMe OF Target and Host? is configured and loaded with all nvme modules and mlx5 drivers.
-> 3. Discovered the device with 'nvme discover -t rdma -a 1.1.1.1 -s 4440' in host.
-> 4. Connected to the target with 'nvme connect -n subsystemName -t rdma -a 1.1.1.1 -s 4440' in host.
-> 5.Verify drive discovery??? <ls /dev/nvme*> in host.
-> 
-> The following nvme commands are giving error in host:
-> nvme format
-> nvme fw-download
-> nvme fw-activate 
-> nvme set-feature for temperature threshold.
-> 
-> Is there any support for these commands in NVMeOF host?
+On Mon, Jul 17, 2017@07:07:00PM -0400, okaya@codeaurora.org wrote:
+> Maybe, I need to understand the design better. I was curious why completion
+> and submission queues were protected by a single lock causing lock
+> contention.
 
-The host is just reporting the status it got from the target. None of
-those commands are supported in the target.
+Ideally the queues are tied to CPUs, so you couldn't have one thread
+submitting to a particular queue-pair while another thread is reaping
+completions from it. Such a setup wouldn't get lock contention.
+
+Some machines have so many CPUs, though, that sharing hardware queues
+is required. We've experimented with separate submission and completion
+locks for such cases, but I've never seen an improved performance as a
+result.
