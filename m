@@ -1,42 +1,41 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Wed, 19 Jul 2017 12:50:00 +0530
-Subject: [PATCH 05/13] mpt3sas: Set NVMe device queue depth as 128
-In-Reply-To: <AT5PR84MB00821C8CD515212788107EA0ABAE0@AT5PR84MB0082.NAMPRD84.PROD.OUTLOOK.COM>
-References: <1499763313-7214-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1499763313-7214-6-git-send-email-suganath-prabu.subramani@broadcom.com>
- <AT5PR84MB00821C8CD515212788107EA0ABAE0@AT5PR84MB0082.NAMPRD84.PROD.OUTLOOK.COM>
-Message-ID: <CA+RiK67TcoYYSw=Mz6KY96A=LdV9oz205Sx3jksGVp66y03mGg@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 19 Jul 2017 12:20:57 +0300
+Subject: [PATCH] nvme: Acknowledge completion queue on each iteration
+In-Reply-To: <1500330983-27501-1-git-send-email-okaya@codeaurora.org>
+References: <1500330983-27501-1-git-send-email-okaya@codeaurora.org>
+Message-ID: <5595ca25-f616-c0f8-fb2c-241a951e8848@grimberg.me>
 
-Hi Elliott,
-We are maintaining NVMe drives as scsi device in mpt3sas driver.
-There are lot of firmware/hardware level dependencies and after lot of
-discussions we arrived this value (128).
-So, we prefer not to provide module parameter to change this at least for now.
-
-Thanks,
-Suganath Prabu S
-
-On Tue, Jul 11, 2017 at 10:53 PM, Elliott, Robert (Persistent Memory)
-<elliott@hpe.com> wrote:
->> +++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
->> @@ -115,7 +115,7 @@
->>
->>  #define MPT3SAS_RAID_MAX_SECTORS     8192
->>  #define MPT3SAS_HOST_PAGE_SIZE_4K    12
->> -
->> +#define MPT3SAS_NVME_QUEUE_DEPTH     128
-> ...
->> +             /*TODO-right Queue Depth?*/
->> +             qdepth = MPT3SAS_NVME_QUEUE_DEPTH;
->> +             ds = "NVMe";
->
-> The native NVMe driver is getting a modparam to set that value (rather than
-> using a #define of 1024) in this patch:
->         http://lists.infradead.org/pipermail/linux-nvme/2017-July/011734.html
->
-> Perhaps this driver should do the same.
->
+> Code is moving the completion queue doorbell after processing all completed
+> events and sending callbacks to the block layer on each iteration.
+> 
+> This is causing a performance drop when a lot of jobs are queued towards
+> the HW. Move the completion queue doorbell on each loop instead and allow new
+> jobs to be queued by the HW.
+> 
+> Signed-off-by: Sinan Kaya <okaya at codeaurora.org>
 > ---
-> Robert Elliott, HPE Persistent Memory
->
->
+>   drivers/nvme/host/pci.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d10d2f2..33d9b5b 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -810,13 +810,12 @@ static void nvme_process_cq(struct nvme_queue *nvmeq)
+>   
+>   	while (nvme_read_cqe(nvmeq, &cqe)) {
+>   		nvme_handle_cqe(nvmeq, &cqe);
+> +		nvme_ring_cq_doorbell(nvmeq);
+>   		consumed++;
+>   	}
+>   
+> -	if (consumed) {
+> -		nvme_ring_cq_doorbell(nvmeq);
+> +	if (consumed)
+>   		nvmeq->cqe_seen = 1;
+> -	}
+>   }
+
+Agree with Keith that this is definitely not the way to go, it
+adds mmio operations in the hot path with very little gain (if
+at all).
