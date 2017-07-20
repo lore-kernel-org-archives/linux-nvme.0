@@ -1,25 +1,54 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 20 Jul 2017 11:18:15 +0300
-Subject: [PATCH v2 1/2] nvme: add virt boundary per ctrl
-In-Reply-To: <20170720002420.26408-2-chaitanya.kulkarni@hgst.com>
-References: <20170720002420.26408-1-chaitanya.kulkarni@hgst.com>
- <20170720002420.26408-2-chaitanya.kulkarni@hgst.com>
-Message-ID: <d77d86e9-0c75-d592-10e1-a058bfd3ca7e@mellanox.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 20 Jul 2017 11:02:42 +0200
+Subject: [GIT PULL] nvme updates for 4.13-rc
+Message-ID: <20170720090242.lektog4im7prs5on@infradead.org>
 
+Hi Jens,
 
+below are a couple nvme fixes for 4.13 that I'd like to get out
+before -rc2.  We have a few more things on the list that still
+need review and should go into 4.13 as well.
 
-On 7/20/2017 3:24 AM, Chaitanya Kulkarni wrote:
-> This patch is reimplementation of the original patch provided by
-> Max Gurtovoy <maxg at mellanox.com> :-
-> https://emea01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.spinics.net%2Flists%2Flinux-rdma%2Fmsg48610.html&data=02%7C01%7Cmaxg%40mellanox.com%7C8e2c2130762648af3d4d08d4cf05e0b8%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636361071558824020&sdata=Lga5DwzFYFReOqVHZDV7br0ucuvT0sDmJmnoB5G7VdM%3D&reserved=0
->
-> For controllers that can handle arbitrarily sized bios (e.g advanced
-> RDMA and PCI ctrls) we can allow the block layer to pass us gaps by
-> setting the queue virt_boundary_mask according to each ctrl constraints.
->
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
-> ---
+The following changes since commit cb8c65ccff7f77d0285f1b126c72d37b2572c865:
 
-hi,
-you can add:
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+  Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc (2017-07-17 15:08:29 -0700)
+
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.13
+
+for you to fetch changes up to ed4151f9422706fc0afe09f55f30dd4bbc2ebb49:
+
+  nvmet: don't report 0-bytes in serial number (2017-07-18 19:33:44 +0200)
+
+----------------------------------------------------------------
+Christoph Hellwig (2):
+      nvme: fix byte swapping in the streams code
+      nvmet-fc: fix byte swapping in nvmet_fc_ls_create_association
+
+Christophe JAILLET (1):
+      nvme-pci: Fix an error handling path in 'nvme_probe()'
+
+David Wayne Fugate (1):
+      nvme-pci: add another device ID with stripe quirk
+
+Johannes Thumshirn (3):
+      nvmet: prefix version configfs file with attr
+      nvmet: Move serial number from controller to subsystem
+      nvmet: preserve controller serial number between reboots
+
+Keith Busch (1):
+      nvme-pci: Remove nvme_setup_prps BUG_ON
+
+Martin Wilck (1):
+      nvmet: don't report 0-bytes in serial number
+
+ drivers/nvme/host/core.c        |  2 +-
+ drivers/nvme/host/pci.c         | 43 ++++++++++++++++++++++++++++++-----------
+ drivers/nvme/target/admin-cmd.c | 16 +++++++++++++--
+ drivers/nvme/target/configfs.c  | 30 ++++++++++++++++++++++++----
+ drivers/nvme/target/core.c      |  5 ++---
+ drivers/nvme/target/fc.c        |  8 ++++----
+ drivers/nvme/target/nvmet.h     |  2 +-
+ include/linux/nvme.h            | 14 +++++++-------
+ 8 files changed, 87 insertions(+), 33 deletions(-)
