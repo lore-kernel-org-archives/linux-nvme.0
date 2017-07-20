@@ -1,28 +1,37 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 20 Jul 2017 08:42:10 -0600
-Subject: [GIT PULL] nvme updates for 4.13-rc
-In-Reply-To: <20170720090242.lektog4im7prs5on@infradead.org>
-References: <20170720090242.lektog4im7prs5on@infradead.org>
-Message-ID: <a613eb4a-ac05-0bf8-42bc-1f9668606bfb@kernel.dk>
+From: mwilck@suse.com (Martin Wilck)
+Date: Thu, 20 Jul 2017 17:27:42 +0200
+Subject: [PATCH v2 0/3] Improve readbility of NVME "wwid" attribute
+Message-ID: <20170720152745.3274-1-mwilck@suse.com>
 
-On 07/20/2017 03:02 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> below are a couple nvme fixes for 4.13 that I'd like to get out
-> before -rc2.  We have a few more things on the list that still
-> need review and should go into 4.13 as well.
-> 
-> The following changes since commit cb8c65ccff7f77d0285f1b126c72d37b2572c865:
-> 
->   Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc (2017-07-17 15:08:29 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.13
+With the current implementation, the default "fallback" WWID generation
+code (if no nguid, euid etc. are defined) for Linux NVME host and target
+results in the following WWID format:
 
-Pulling this into my for-linus adds a ton of other stuff. Not a huge
-deal at this point, but it's pretty annoying. I applied the patches
-instead.
+nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
+
+This is not only hard to read, it poses real problems e.g. for multipath
+(dm WWIDs are limited to 128 characters).
+
+With this patch series, the WWID on a Linux host connected to a Linux target
+looks like this:
+
+nvme.0000-65613435333665653738613464363961-4c696e7578-00000001
+
+Changes wrt v1:
+ * 1/3: new, moved helper to include/linux/string.h (Christoph Hellwig)
+        (you suggested kernel.h, but I think this matches string.h better)      
+ * Dropped the last patch from the v1 series that would have changed valid WWIDs for
+   HW NVME controllers.
+
+Martin Wilck (3):
+  string.h: add memcpy_and_pad()
+  nvmet: identify controller: improve standard compliance
+  nvme: wwid_show: strip trailing 0-bytes
+
+ drivers/nvme/host/core.c        |  6 ++++--
+ drivers/nvme/target/admin-cmd.c | 13 ++++++-------
+ include/linux/string.h          | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 9 deletions(-)
 
 -- 
-Jens Axboe
+2.13.2
