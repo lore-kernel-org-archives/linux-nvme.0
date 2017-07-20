@@ -1,53 +1,59 @@
-From: okaya@codeaurora.org (Sinan Kaya)
-Date: Wed, 19 Jul 2017 06:37:22 -0400
-Subject: [PATCH] nvme: Acknowledge completion queue on each iteration
-In-Reply-To: <5595ca25-f616-c0f8-fb2c-241a951e8848@grimberg.me>
-References: <1500330983-27501-1-git-send-email-okaya@codeaurora.org>
- <5595ca25-f616-c0f8-fb2c-241a951e8848@grimberg.me>
-Message-ID: <933e9d49-ecfd-cc83-c116-29f97211480c@codeaurora.org>
+From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
+Date: Wed, 19 Jul 2017 17:24:18 -0700
+Subject: nvme-pci: add sgl support v2. 
+Message-ID: <20170720002420.26408-1-chaitanya.kulkarni@hgst.com>
 
-On 7/19/2017 5:20 AM, Sagi Grimberg wrote:
->> Code is moving the completion queue doorbell after processing all completed
->> events and sending callbacks to the block layer on each iteration.
->>
->> This is causing a performance drop when a lot of jobs are queued towards
->> the HW. Move the completion queue doorbell on each loop instead and allow new
->> jobs to be queued by the HW.
->>
->> Signed-off-by: Sinan Kaya <okaya at codeaurora.org>
->> ---
->>   drivers/nvme/host/pci.c | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index d10d2f2..33d9b5b 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -810,13 +810,12 @@ static void nvme_process_cq(struct nvme_queue *nvmeq)
->>         while (nvme_read_cqe(nvmeq, &cqe)) {
->>           nvme_handle_cqe(nvmeq, &cqe);
->> +        nvme_ring_cq_doorbell(nvmeq);
->>           consumed++;
->>       }
->>   -    if (consumed) {
->> -        nvme_ring_cq_doorbell(nvmeq);
->> +    if (consumed)
->>           nvmeq->cqe_seen = 1;
->> -    }
->>   }
-> 
-> Agree with Keith that this is definitely not the way to go, it
-> adds mmio operations in the hot path with very little gain (if
-> at all).
-> 
+Hi,
 
-Understood, different architectures might have different latency accessing the HW
-registers. It might be expansive on some platform like you indicated and this change
-would make it worse.
+This is the second version of patch-series for adding SGL support for 
+nvme-pci driver.
 
-I'm doing a self NACK as well.
+Changes since the first version:-
 
--- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+1. Introduced nvme controller virt_boundary mask. For controllers that
+   can handle arbitrarily sized bios (e.g advanced RDMA and PCI ctrls)
+   we can allow the block layer to pass us gaps by setting the 
+   queue.virt_boundary_mask according to each ctrl constraints.
+2. Simplified code for setting up the SGLs.
+3. Added SGL helper functions.
+4. Modified commit log.
+5. Use the newly introduced virt_boundary mask and clear its 
+   value for SGL capable controllers in PCIe driver.
+
+I've tested these patches on PCIe and loop driver.
+
+[PATCH v2 1/2] nvme: add virt boundary per ctrl
+[PATCH v2 2/2] nvme-pci: add sgl support
+
+For reference version 1 details:-
+
+Cover letter:-
+
+Following patch adds the SGL support in the NVMe driver.
+We observed approximately 5% performance improvement in the 
+IOPs, bandwidth, and latency as block size gets larger ( >= 32k).
+
+In the current implementation, we add "sgl_threshold" module
+parameter to decide whether to use SGL or PRP for IO requests, we
+set the default value for sgl_threshold to 32k.
+This value is exported and configurable via sysfs.
+
+Commit Log: -
+
+This adds SGL support for NVMe PCIe driver which is
+reimplementation of the initial version provided by
+Rajiv Shanmugam Madeswaran(smrajiv15 at gmail.com):-
+"block: nvme-core: Scatter gather list support in the 
+NVMe Block Driver".
+
+In order to enable SGL mode for the driver, the user can set the 
+sgl_threshold module parameter. This parameter can be used
+in the two modes:-
+
+1. Allow all IOs to use SGL mode. (set sgl_threshold to 1). 
+2. Set up the IO size threshold to determine whether to use 
+    SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
+    use SGL only for IOs which are >= 4096 in the size).
+
+Regards,
+Chaitanya
