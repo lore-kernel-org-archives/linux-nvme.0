@@ -1,15 +1,55 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 24 Jul 2017 18:45:26 -0400
-Subject: Test Unit Ready translation seems wrong in latest driver
-In-Reply-To: <99d24253f526a6f8f6ca4c9883dde14a@mail.gmail.com>
-References: <706a68b8482154bdf77efe7fb195fe24@mail.gmail.com>
- <20170724220153.GB11979@localhost.localdomain>
- <99d24253f526a6f8f6ca4c9883dde14a@mail.gmail.com>
-Message-ID: <20170724224525.GC11979@localhost.localdomain>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
+Date: Tue, 25 Jul 2017 10:50:04 +0530
+Subject: [PATCH v2 00/13] mpt3sas driver NVMe support:
+In-Reply-To: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <CA+RiK66Mkm53D-Gf5YyqQx6Zt9eiGWcqX2F9yvJUrSgPQ_dZYQ@mail.gmail.com>
 
-On Mon, Jul 24, 2017@04:21:36PM -0600, Sathya Prakash Veerichetty wrote:
-> My bad, I was referring to 4.12.  So there will not be any support to SCSI
-> translation at all or is there a different interface?
+Is there any update on these patches ?
 
-Correct, no support for SCSI when using NVMe. The NVMe interface is the
-one to use for managing NVMe devices.
+Thanks,
+Suganath Prabu S
+
+On Fri, Jul 14, 2017 at 6:52 PM, Suganath Prabu S
+<suganath-prabu.subramani@broadcom.com> wrote:
+> Ventura Series controller are Tri-mode. The controller and
+> firmware are capable of supporting NVMe devices and
+> PCIe switches to be connected with the controller. This
+> patch set adds driver level support for NVMe devices and
+> PCIe switches.
+>
+> Suganath Prabu S (13):
+>   mpt3sas: Update MPI Header
+>   mpt3sas: Add nvme device support in slave alloc, target alloc and
+>     probe
+>   mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
+>   mpt3sas: Added support for nvme encapsulated request message.
+>   mpt3sas: API 's to support NVMe drive addition to SML
+>   mpt3sas: API's to remove nvme drive from sml
+>   mpt3sas: Handle NVMe PCIe device related events generated
+>        from firmware.
+>   mpt3sas: Set NVMe device queue depth as 128
+>   mpt3sas: scan and add nvme device after controller reset
+>   mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
+>   mpt3sas: NVMe drive support for BTDHMAPPING ioctl command and log
+>     info
+>   mpt3sas: Fix nvme drives checking for tlr.
+>   mpt3sas: Update mpt3sas driver version.
+>
+>  drivers/scsi/mpt3sas/mpi/mpi2.h          |   43 +-
+>  drivers/scsi/mpt3sas/mpi/mpi2_cnfg.h     |  647 ++++++++++-
+>  drivers/scsi/mpt3sas/mpi/mpi2_init.h     |   11 +-
+>  drivers/scsi/mpt3sas/mpi/mpi2_ioc.h      |  331 ++++++-
+>  drivers/scsi/mpt3sas/mpi/mpi2_pci.h      |  142 +++
+>  drivers/scsi/mpt3sas/mpi/mpi2_tool.h     |   14 +-
+>  drivers/scsi/mpt3sas/mpt3sas_base.c      |  710 +++++++++++-
+>  drivers/scsi/mpt3sas/mpt3sas_base.h      |  171 +++-
+>  drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
+>  drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  158 ++-
+>  drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 1874 ++++++++++++++++++++++++++++--
+>  drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
+>  12 files changed, 4063 insertions(+), 140 deletions(-)
+>  create mode 100644 drivers/scsi/mpt3sas/mpi/mpi2_pci.h
+>
+> Thanks,
+> Suganath Prabu S
