@@ -1,55 +1,30 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Tue, 25 Jul 2017 10:50:04 +0530
-Subject: [PATCH v2 00/13] mpt3sas driver NVMe support:
-In-Reply-To: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <CA+RiK66Mkm53D-Gf5YyqQx6Zt9eiGWcqX2F9yvJUrSgPQ_dZYQ@mail.gmail.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Tue, 25 Jul 2017 21:28:26 +0800
+Subject: [PATCH] nvme: wwid_show: show uuid first if existed
+Message-ID: <1500989306-18460-1-git-send-email-guanjunxiong@huawei.com>
 
-Is there any update on these patches ?
+The NGUID/EUI64 is not universal unique because a controller may reuse a non-zero NGUID
+or EUI64 value for a new namespace after the original namespace using the value has been
+deleted. Therefore, UUID of a namescpace prevails over NGUID/EUI64 for showing wwid.
 
-Thanks,
-Suganath Prabu S
+Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
+---
+ drivers/nvme/host/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Fri, Jul 14, 2017 at 6:52 PM, Suganath Prabu S
-<suganath-prabu.subramani@broadcom.com> wrote:
-> Ventura Series controller are Tri-mode. The controller and
-> firmware are capable of supporting NVMe devices and
-> PCIe switches to be connected with the controller. This
-> patch set adds driver level support for NVMe devices and
-> PCIe switches.
->
-> Suganath Prabu S (13):
->   mpt3sas: Update MPI Header
->   mpt3sas: Add nvme device support in slave alloc, target alloc and
->     probe
->   mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
->   mpt3sas: Added support for nvme encapsulated request message.
->   mpt3sas: API 's to support NVMe drive addition to SML
->   mpt3sas: API's to remove nvme drive from sml
->   mpt3sas: Handle NVMe PCIe device related events generated
->        from firmware.
->   mpt3sas: Set NVMe device queue depth as 128
->   mpt3sas: scan and add nvme device after controller reset
->   mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
->   mpt3sas: NVMe drive support for BTDHMAPPING ioctl command and log
->     info
->   mpt3sas: Fix nvme drives checking for tlr.
->   mpt3sas: Update mpt3sas driver version.
->
->  drivers/scsi/mpt3sas/mpi/mpi2.h          |   43 +-
->  drivers/scsi/mpt3sas/mpi/mpi2_cnfg.h     |  647 ++++++++++-
->  drivers/scsi/mpt3sas/mpi/mpi2_init.h     |   11 +-
->  drivers/scsi/mpt3sas/mpi/mpi2_ioc.h      |  331 ++++++-
->  drivers/scsi/mpt3sas/mpi/mpi2_pci.h      |  142 +++
->  drivers/scsi/mpt3sas/mpi/mpi2_tool.h     |   14 +-
->  drivers/scsi/mpt3sas/mpt3sas_base.c      |  710 +++++++++++-
->  drivers/scsi/mpt3sas/mpt3sas_base.h      |  171 +++-
->  drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
->  drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  158 ++-
->  drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 1874 ++++++++++++++++++++++++++++--
->  drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
->  12 files changed, 4063 insertions(+), 140 deletions(-)
->  create mode 100644 drivers/scsi/mpt3sas/mpi/mpi2_pci.h
->
-> Thanks,
-> Suganath Prabu S
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d70df1d..e609913 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1995,6 +1995,9 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+ 	int serial_len = sizeof(ctrl->serial);
+ 	int model_len = sizeof(ctrl->model);
+ 
++	if (memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
++		return sprintf(buf, "uuid.%16phN\n", ns->uuid);
++
+ 	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
+ 		return sprintf(buf, "eui.%16phN\n", ns->nguid);
+ 
+-- 
+2.6.4.windows.1
