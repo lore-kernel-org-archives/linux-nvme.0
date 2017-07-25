@@ -1,8 +1,9 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 25 Jul 2017 18:00:30 +0200
-Subject: [RFC] nvme: Fabrics should use the fctype field for data direction
-In-Reply-To: <20170712165819.5326-1-jonathan.derrick@intel.com>
-References: <20170712165819.5326-1-jonathan.derrick@intel.com>
-Message-ID: <20170725160030.brz6d67b5o4ruawt@infradead.org>
+Date: Tue, 25 Jul 2017 18:00:44 +0200
+Subject: [PATCH] nvme_fc: address target disconnect race conditions in
+ fcp io submit
+In-Reply-To: <20170718212934.21410-1-jsmart2021@gmail.com>
+References: <20170718212934.21410-1-jsmart2021@gmail.com>
+Message-ID: <20170725160044.465jixdlfanx6767@infradead.org>
 
 Thanks, applied to nvme-4.13.
