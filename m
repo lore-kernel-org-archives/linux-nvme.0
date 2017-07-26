@@ -1,33 +1,26 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 25 Jul 2017 20:13:28 +0300
-Subject: [PATCH 1/1] nvme: fix CMB sysfs file removal in reset path
-In-Reply-To: <20170725155630.GA25693@lst.de>
-References: <1500991116-8227-1-git-send-email-maxg@mellanox.com>
- <20170725155630.GA25693@lst.de>
-Message-ID: <49d30a85-736e-be6f-466b-cce4a0970063@mellanox.com>
+From: alon@vastdata.com (Alon Horev)
+Date: Wed, 26 Jul 2017 12:33:00 +0300
+Subject: nvmet panics during high load
+Message-ID: <CAF9HSikTcqojqWOx7cjBsv9fLCvbkU_f6-1CgQ16Wpb1f5oQ4g@mail.gmail.com>
 
+Hi All,
 
+This is my first post on this mailing list. Let me know if this is the
+wrong place or format to post bugs in.
 
-On 7/25/2017 6:56 PM, Christoph Hellwig wrote:
-> On Tue, Jul 25, 2017@04:58:36PM +0300, Max Gurtovoy wrote:
->> Currently we create the sysfs entry even if we fail mapping
->> it. In that case, the unmapping will not remove the sysfs created
->> file.
->>
->> Fixes: f63572dff ("nvme: unmap CMB and remove sysfs file in reset path")
->
-> This looks correct, but I wonder if the better plan would be to only
-> add the sysfs file if we have a working CMB?
+We're running nvmef using RDMA on kernel 4.11.8.
+We found a zero-dereference bug in nvmet during high load and
+identified the root cause:
+The location according to current linux master (fd2b2c57) is
+drivers/nvme/target/rdma.c at function nvmet_rdma_get_rsp line 170.
+list_first_entry is called on the list of free responses (free_rsps)
+which is empty and obviously unexpected. I added an assert to validate
+that and also tested a hack that enlarges the queue times 10 and it
+seemed to solve it.
+It's probably not a leak but a miscalculation of the size of the queue
+(queue->recv_queue_size * 2). Can anyone explain the rationale behind
+this calculation? Is the queue assumed to never be empty?
 
-Yes I thought about it too, but in case we don't want to "use_cmb_sqes"
-and still want to see the device CMB capabilities, using this sysfs we 
-could.
-Why to do it ? for using this iomem for p2pmem for example.
-Since, p2pmem is not yet upstream we can go with working CMB approach.
+I'd happily submit a patch. Just want to make sure it's the right one.
 
->
-> Also the comment about the auto-removal above the call to
-> sysfs_add_file_to_group for dev_attr_cmb looks wrong to me, that
-> might be worth fixing up as well.
-
-Sure, I'll update it in V2.
+Thanks, Alon Horev
