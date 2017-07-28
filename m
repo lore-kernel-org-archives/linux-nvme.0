@@ -1,64 +1,74 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 28 Jul 2017 09:58:34 +0200
-Subject: [PATCH 1/2] nvme: Fix nvme reset command timeout handling
-In-Reply-To: <1501174721-8253-1-git-send-email-keith.busch@intel.com>
-References: <1501174721-8253-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20170728075834.GC4043@linux-x5ow.site>
+From: sweda@ibl.org (Sean Sweda)
+Date: Fri, 28 Jul 2017 13:22:52 -0400
+Subject: kernel panic during mkfs (4.12.2, 4.13-rc2) 
+Message-ID: <7B47340E-0B9A-4C61-A166-71F832A2BB80@ibl.org>
 
-On Thu, Jul 27, 2017@12:58:40PM -0400, Keith Busch wrote:
->  static void nvme_set_latency_tolerance(struct device *dev, s32 val)
-> @@ -1856,17 +1857,25 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->  
->  	kfree(id);
->  
-> +	if (ret < 0)
-> +		return ret;
-> +
+I consistently experience an "invalid opcode" kernel panic while running  
+mkfs.ext4 on a md raid hybrid mirror (nvme SSD + standard SATA hard drive)  
+under kernels 4.12.2 & 4.13-rc2.  No problem with kernel 4.11.x.  The panic  
+occurs at the very end of "Discarding device blocks" portion of mkfs.
 
-This is a bit confusing IMHO, how about this?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3b77cfe5aa1e..71a97db3ce91 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1835,13 +1835,16 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		 * In fabrics we need to verify the cntlid matches the
- 		 * admin connect
- 		 */
--		if (ctrl->cntlid != le16_to_cpu(id->cntlid))
-+		if (ctrl->cntlid != le16_to_cpu(id->cntlid)) {
- 			ret = -EINVAL;
-+			goto free_id;
-+		}
- 
- 		if (!ctrl->opts->discovery_nqn && !ctrl->kas) {
- 			dev_err(ctrl->device,
- 				"keep-alive support is mandatory for fabrics\n");
- 			ret = -EINVAL;
-+			goto free_id;
- 		}
- 	} else {
- 		ctrl->cntlid = le16_to_cpu(id->cntlid);
-@@ -1862,6 +1865,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->identified = true;
- 
- 	return ret;
-+
-+free_id:
-+	kfree(id);
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_init_identify);
+Here's an attempt to transcribe a partial backtrace from a picture I took  
+of console (can fwd if desired):
 
-Or ditch the goto and do a kfree(id); return ret; directly in the if blocks?
+invalid opcode: 0000 [#1] SMP
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.13.0-rc2 #1
+Hardware name: Sytem manufacturer System Product Name/PRIME x370-PRO, BIOS  
+0805 06/20
+RIP: blk_mq_end_request+0x5e/0x60
+...
+Call Trace:
+<IRQ>
+nvme_complete_rq+0x17/0xb8
+nvme_pci_complete_rq+0x77/0xc0
+__blk_mq_complete_request+0x8a/0x138
+blk_mq_complete_request+0x12/0x18
+nvme_process_cq+0xa8/0x170
+nvme_irq+0x19/0x30
+__handle_irq_event_percpu+0x38/0x190
+handle_irq_event_percpu+0x1e/0x50
+handle_irq_event+0x27/0x50
+handle_edge_irq+0x68/0x198
+handle_irq+0x6a/0x100
+do_IRQ+0x41/0xc0
+common_interrupt+0x86/0x86
 
-Byte,
-	Johannes
- 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+
+command that triggers the panic is simply
+$ mkfs.ext4 -m0 /dev/md1
+
+
+kernel config & boot log:
+https://gist.github.com/seansweda/2e3d921bae61a30d13fdafb0d7816a58
+
+
+RAID 1 created by:
+$ mdadm --create -n 2 -l 1 --bitmap=internal --write-behind=4096 /dev/md1  
+/dev/nvme0n1p2 -W /dev/sda2
+
+$ cat /proc/mdstat
+md1 : active raid1 sda2[1](W) nvme0n1p2[0]
+       365756736 blocks super 1.2 [2/2] [UU]
+       bitmap: 1/3 pages [4KB], 65536KB chunk
+
+
+$ smartctl -i /dev/nvme0n1
+smartctl 6.5 2016-05-07 r4318 [x86_64-linux-4.11.11-gentoo] (local build)
+Copyright (C) 2002-16, Bruce Allen, Christian Franke, www.smartmontools.org
+
+=== START OF INFORMATION SECTION ===
+Model Number:                       PLEXTOR PX-512M8PeG
+Serial Number:                      P02709118023
+Firmware Version:                   1.05
+PCI Vendor ID:                      0x14a4
+PCI Vendor Subsystem ID:            0x1b4b
+IEEE OUI Identifier:                0x002303
+Total NVM Capacity:                 512,110,190,592 [512 GB]
+Unallocated NVM Capacity:           0
+Controller ID:                      1
+Number of Namespaces:               1
+Namespace 1 Size/Capacity:          512,110,190,592 [512 GB]
+Namespace 1 Utilization:            0
+Namespace 1 Formatted LBA Size:     512
+Local Time is:                      Fri Jul 28 02:01:49 2017 EDT
