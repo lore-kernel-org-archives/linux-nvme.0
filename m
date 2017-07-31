@@ -1,66 +1,203 @@
-From: sim@linux.vnet.ibm.com (Narasimhan V)
-Date: Mon, 31 Jul 2017 20:11:59 +0530
-Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
- same path gain.
-In-Reply-To: <31fc10fb-386a-c430-4ca6-1a48e6b356d0@huawei.com>
-References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
- <20170424145842.GA32128@infradead.org>
- <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
- <20170427064041.GB28074@infradead.org>
- <31fc10fb-386a-c430-4ca6-1a48e6b356d0@huawei.com>
-Message-ID: <be62cd00899ecf800cb2d2d9fd4267ab@linux.vnet.ibm.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 31 Jul 2017 13:20:30 -0700
+Subject: [PATCH] nvme_fc: Reattach to localports on re-registration
+Message-ID: <20170731202030.18150-1-jsmart2021@gmail.com>
 
-On 2017-04-27 12:46, Guan Junxiong wrote:
-> On 2017/4/27 14:40, Christoph Hellwig wrote:
->> On Tue, Apr 25, 2017@09:20:00AM +0800, Guan Junxiong wrote:
->>> Hi ,Christoph:
->>>    What's the benefits of this feature? If we execute the following 
->>> cmd
->>> 10 times, it will generate 10 character and at least 20 block 
->>> devices.
->> 
->> The number of block devices will depend on the number of namespaces
->> configured, but yes, this is expected.  The NVMe architecture allows
->> for multiple connections from a given host to a subsystem.
->> 
->> .
->> 
-> Hi, Christoph,Thanks for your reply!
-> 
-> Currently, the number of block devices will depend on both the number 
-> of
-> namespaces configured in a subsystem and the number of connections 
-> created by
-> connect command.
-> 
-> In addition , I still have the suggestion:
-> Can this feature or problematic behavior be adjusted to prevent 
-> generating
-> another block devices when a new connection is created from a given 
-> host to
-> a subsystem via the same patho< Maybe a character device (controller) 
-> or
-> block device (namespaces) can represent more connections given the same 
-> path.
-> 
-> Looking forward for you response. Thanks.
+If the LLDD resets or detaches from an fc port, the LLDD will
+deregister all remoteports seen by the fc port and deregister the
+localport associated with the fc port. The teardown of the localport
+structure will be held off due to reference counting until all the
+remoteports are removed (and they are held off until all
+controllers/associations to terminated). Currently, if the fc port
+is reinit/reattached and registered again as a localport it is
+treated as an independent entity from the prior localport and all
+prior remoteports and controllers cannot be revived. They are
+created as new and separate entities.
 
-Hellwig,
+This patch changes the localport registration to look at the known
+localports that are waiting to be torndown. If they are the same port
+based on wwn's, the local port is transitioned out of the teardown
+state.  This allows the remote ports and controller connections to
+be reestablished and resumed as long as the localport can also be
+reregistered within the timeout windows.
 
-I think this is more of a confusing/problematic behaviour than a 
-feature, as stated.
+The patch adds a new routine nvme_fc_attach_to_unreg_lport() with
+the functionality and moves the lport get/put routines to avoid
+forward references.
 
-We might connect to same subsystem again, and see a different nvme 
-subsystem, block devices.
-Tools like fdisk will discover duplicate block devices as different 
-ones.
-So, we might think it is a different subsystem. And thus, might have 
-data corruption issues.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 144 ++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 106 insertions(+), 38 deletions(-)
 
-Looking forward for your clarification in such scenarios, and probably 
-your take on this
-being feature vs issue.
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 5c2a08ef08ba..6ce05529650e 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -220,6 +220,90 @@ static int __nvme_fc_del_ctrl(struct nvme_fc_ctrl *);
+ static void __nvme_fc_delete_hw_queue(struct nvme_fc_ctrl *,
+ 			struct nvme_fc_queue *, unsigned int);
+ 
++static void
++nvme_fc_free_lport(struct kref *ref)
++{
++	struct nvme_fc_lport *lport =
++		container_of(ref, struct nvme_fc_lport, ref);
++	unsigned long flags;
++
++	WARN_ON(lport->localport.port_state != FC_OBJSTATE_DELETED);
++	WARN_ON(!list_empty(&lport->endp_list));
++
++	/* remove from transport list */
++	spin_lock_irqsave(&nvme_fc_lock, flags);
++	list_del(&lport->port_list);
++	spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++	/* let the LLDD know we've finished tearing it down */
++	lport->ops->localport_delete(&lport->localport);
++
++	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
++	ida_destroy(&lport->endp_cnt);
++
++	put_device(lport->dev);
++
++	kfree(lport);
++}
++
++static void
++nvme_fc_lport_put(struct nvme_fc_lport *lport)
++{
++	kref_put(&lport->ref, nvme_fc_free_lport);
++}
++
++static int
++nvme_fc_lport_get(struct nvme_fc_lport *lport)
++{
++	return kref_get_unless_zero(&lport->ref);
++}
++
++
++static struct nvme_fc_lport *
++nvme_fc_attach_to_unreg_lport(struct nvme_fc_port_info *pinfo)
++{
++	struct nvme_fc_lport *lport;
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvme_fc_lock, flags);
++
++	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
++		if (lport->localport.node_name != pinfo->node_name ||
++		    lport->localport.port_name != pinfo->port_name)
++			continue;
++
++		if (lport->localport.port_state != FC_OBJSTATE_DELETED) {
++			lport = ERR_PTR(-EEXIST);
++			goto out_done;
++		}
++
++		if (!nvme_fc_lport_get(lport)) {
++			/*
++			 * fails if ref cnt already 0. If so,
++			 * act as if lport already deleted
++			 */
++			lport = NULL;
++			goto out_done;
++		}
++
++		/* resume the lport */
++
++		lport->localport.port_role = pinfo->port_role;
++		lport->localport.port_id = pinfo->port_id;
++		lport->localport.port_state = FC_OBJSTATE_ONLINE;
++
++		spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++		return lport;
++	}
++
++	lport = NULL;
++
++out_done:
++	spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++	return lport;
++}
+ 
+ /**
+  * nvme_fc_register_localport - transport entry point called by an
+@@ -257,6 +341,28 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+ 		goto out_reghost_failed;
+ 	}
+ 
++	/*
++	 * look to see if there is already a localport that had been
++	 * deregistered and in the process of waiting for all the
++	 * references to fully be removed.  If the references haven't
++	 * expired, we can simply re-enable the localport. Remoteports
++	 * and controller reconnections should resume naturally.
++	 */
++	newrec = nvme_fc_attach_to_unreg_lport(pinfo);
++
++	/* found an lport, but something about its state is bad */
++	if (IS_ERR(newrec)) {
++		ret = PTR_ERR(newrec);
++		goto out_reghost_failed;
++
++	/* found existing lport, which was resumed */
++	} else if (newrec) {
++		*portptr = &newrec->localport;
++		return 0;
++	}
++
++	/* nothing found - allocate a new localport struct */
++
+ 	newrec = kmalloc((sizeof(*newrec) + template->local_priv_sz),
+ 			 GFP_KERNEL);
+ 	if (!newrec) {
+@@ -310,44 +416,6 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
+ }
+ EXPORT_SYMBOL_GPL(nvme_fc_register_localport);
+ 
+-static void
+-nvme_fc_free_lport(struct kref *ref)
+-{
+-	struct nvme_fc_lport *lport =
+-		container_of(ref, struct nvme_fc_lport, ref);
+-	unsigned long flags;
+-
+-	WARN_ON(lport->localport.port_state != FC_OBJSTATE_DELETED);
+-	WARN_ON(!list_empty(&lport->endp_list));
+-
+-	/* remove from transport list */
+-	spin_lock_irqsave(&nvme_fc_lock, flags);
+-	list_del(&lport->port_list);
+-	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+-
+-	/* let the LLDD know we've finished tearing it down */
+-	lport->ops->localport_delete(&lport->localport);
+-
+-	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
+-	ida_destroy(&lport->endp_cnt);
+-
+-	put_device(lport->dev);
+-
+-	kfree(lport);
+-}
+-
+-static void
+-nvme_fc_lport_put(struct nvme_fc_lport *lport)
+-{
+-	kref_put(&lport->ref, nvme_fc_free_lport);
+-}
+-
+-static int
+-nvme_fc_lport_get(struct nvme_fc_lport *lport)
+-{
+-	return kref_get_unless_zero(&lport->ref);
+-}
+-
+ /**
+  * nvme_fc_unregister_localport - transport entry point called by an
+  *                              LLDD to deregister/remove a previously
 -- 
-Regards
-Narasimhan V
+2.13.1
