@@ -1,203 +1,144 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 31 Jul 2017 13:20:30 -0700
-Subject: [PATCH] nvme_fc: Reattach to localports on re-registration
-Message-ID: <20170731202030.18150-1-jsmart2021@gmail.com>
+Date: Mon, 31 Jul 2017 13:21:14 -0700
+Subject: [PATCH] nvmet_fc: Simplify sg list handling
+Message-ID: <20170731202114.18202-1-jsmart2021@gmail.com>
 
-If the LLDD resets or detaches from an fc port, the LLDD will
-deregister all remoteports seen by the fc port and deregister the
-localport associated with the fc port. The teardown of the localport
-structure will be held off due to reference counting until all the
-remoteports are removed (and they are held off until all
-controllers/associations to terminated). Currently, if the fc port
-is reinit/reattached and registered again as a localport it is
-treated as an independent entity from the prior localport and all
-prior remoteports and controllers cannot be revived. They are
-created as new and separate entities.
+The existing nvmet_fc sg list handling has 2 faults:
+a) the request between LLDD and transport has too large of an sg
+   list (256 elements), which is normally 256k (64 elements).
+b) sglist handling doesn't optimize on the fact that each element
+   is a page.
 
-This patch changes the localport registration to look at the known
-localports that are waiting to be torndown. If they are the same port
-based on wwn's, the local port is transitioned out of the teardown
-state.  This allows the remote ports and controller connections to
-be reestablished and resumed as long as the localport can also be
-reregistered within the timeout windows.
-
-The patch adds a new routine nvme_fc_attach_to_unreg_lport() with
-the functionality and moves the lport get/put routines to avoid
-forward references.
+This patch removes the static sg list in the request and uses the
+dynamic list already present in the nvmet_fc transport. It also
+simplies the handling of the sg list on multiple sequences to
+take advantage of the per-page divisions.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 144 ++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 106 insertions(+), 38 deletions(-)
+ drivers/nvme/target/fc.c       | 48 +++++++++---------------------------------
+ include/linux/nvme-fc-driver.h |  2 +-
+ 2 files changed, 11 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5c2a08ef08ba..6ce05529650e 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -220,6 +220,90 @@ static int __nvme_fc_del_ctrl(struct nvme_fc_ctrl *);
- static void __nvme_fc_delete_hw_queue(struct nvme_fc_ctrl *,
- 			struct nvme_fc_queue *, unsigned int);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 31ca55dfcb1d..49948a412dcc 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -58,7 +58,8 @@ struct nvmet_fc_ls_iod {
+ 	struct work_struct		work;
+ } __aligned(sizeof(unsigned long long));
  
-+static void
-+nvme_fc_free_lport(struct kref *ref)
-+{
-+	struct nvme_fc_lport *lport =
-+		container_of(ref, struct nvme_fc_lport, ref);
-+	unsigned long flags;
-+
-+	WARN_ON(lport->localport.port_state != FC_OBJSTATE_DELETED);
-+	WARN_ON(!list_empty(&lport->endp_list));
-+
-+	/* remove from transport list */
-+	spin_lock_irqsave(&nvme_fc_lock, flags);
-+	list_del(&lport->port_list);
-+	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+
-+	/* let the LLDD know we've finished tearing it down */
-+	lport->ops->localport_delete(&lport->localport);
-+
-+	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
-+	ida_destroy(&lport->endp_cnt);
-+
-+	put_device(lport->dev);
-+
-+	kfree(lport);
-+}
-+
-+static void
-+nvme_fc_lport_put(struct nvme_fc_lport *lport)
-+{
-+	kref_put(&lport->ref, nvme_fc_free_lport);
-+}
-+
-+static int
-+nvme_fc_lport_get(struct nvme_fc_lport *lport)
-+{
-+	return kref_get_unless_zero(&lport->ref);
-+}
-+
-+
-+static struct nvme_fc_lport *
-+nvme_fc_attach_to_unreg_lport(struct nvme_fc_port_info *pinfo)
-+{
-+	struct nvme_fc_lport *lport;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvme_fc_lock, flags);
-+
-+	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
-+		if (lport->localport.node_name != pinfo->node_name ||
-+		    lport->localport.port_name != pinfo->port_name)
-+			continue;
-+
-+		if (lport->localport.port_state != FC_OBJSTATE_DELETED) {
-+			lport = ERR_PTR(-EEXIST);
-+			goto out_done;
-+		}
-+
-+		if (!nvme_fc_lport_get(lport)) {
-+			/*
-+			 * fails if ref cnt already 0. If so,
-+			 * act as if lport already deleted
-+			 */
-+			lport = NULL;
-+			goto out_done;
-+		}
-+
-+		/* resume the lport */
-+
-+		lport->localport.port_role = pinfo->port_role;
-+		lport->localport.port_id = pinfo->port_id;
-+		lport->localport.port_state = FC_OBJSTATE_ONLINE;
-+
-+		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+
-+		return lport;
-+	}
-+
-+	lport = NULL;
-+
-+out_done:
-+	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+
-+	return lport;
-+}
+-#define NVMET_FC_MAX_KB_PER_XFR		256
++#define NVMET_FC_MAX_SEQ_LENGTH		(256 * 1024)
++#define NVMET_FC_MAX_XFR_SGENTS		(NVMET_FC_MAX_SEQ_LENGTH / PAGE_SIZE)
  
- /**
-  * nvme_fc_register_localport - transport entry point called by an
-@@ -257,6 +341,28 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
- 		goto out_reghost_failed;
- 	}
+ enum nvmet_fcp_datadir {
+ 	NVMET_FCP_NODATA,
+@@ -74,9 +75,7 @@ struct nvmet_fc_fcp_iod {
+ 	struct nvme_fc_ersp_iu		rspiubuf;
+ 	dma_addr_t			rspdma;
+ 	struct scatterlist		*data_sg;
+-	struct scatterlist		*next_sg;
+ 	int				data_sg_cnt;
+-	u32				next_sg_offset;
+ 	u32				total_length;
+ 	u32				offset;
+ 	enum nvmet_fcp_datadir		io_dir;
+@@ -112,6 +111,7 @@ struct nvmet_fc_tgtport {
+ 	struct ida			assoc_cnt;
+ 	struct nvmet_port		*port;
+ 	struct kref			ref;
++	u32				max_sg_cnt;
+ };
  
-+	/*
-+	 * look to see if there is already a localport that had been
-+	 * deregistered and in the process of waiting for all the
-+	 * references to fully be removed.  If the references haven't
-+	 * expired, we can simply re-enable the localport. Remoteports
-+	 * and controller reconnections should resume naturally.
-+	 */
-+	newrec = nvme_fc_attach_to_unreg_lport(pinfo);
-+
-+	/* found an lport, but something about its state is bad */
-+	if (IS_ERR(newrec)) {
-+		ret = PTR_ERR(newrec);
-+		goto out_reghost_failed;
-+
-+	/* found existing lport, which was resumed */
-+	} else if (newrec) {
-+		*portptr = &newrec->localport;
-+		return 0;
-+	}
-+
-+	/* nothing found - allocate a new localport struct */
-+
- 	newrec = kmalloc((sizeof(*newrec) + template->local_priv_sz),
- 			 GFP_KERNEL);
- 	if (!newrec) {
-@@ -310,44 +416,6 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
- }
- EXPORT_SYMBOL_GPL(nvme_fc_register_localport);
+ struct nvmet_fc_tgt_queue {
+@@ -897,6 +897,8 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+ 	INIT_LIST_HEAD(&newrec->assoc_list);
+ 	kref_init(&newrec->ref);
+ 	ida_init(&newrec->assoc_cnt);
++	newrec->max_sg_cnt = min_t(u32, NVMET_FC_MAX_XFR_SGENTS,
++					template->max_sgl_segments);
  
--static void
--nvme_fc_free_lport(struct kref *ref)
--{
--	struct nvme_fc_lport *lport =
--		container_of(ref, struct nvme_fc_lport, ref);
--	unsigned long flags;
+ 	ret = nvmet_fc_alloc_ls_iodlist(newrec);
+ 	if (ret) {
+@@ -1769,51 +1771,23 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
+ 				struct nvmet_fc_fcp_iod *fod, u8 op)
+ {
+ 	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
+-	struct scatterlist *sg, *datasg;
+ 	unsigned long flags;
+-	u32 tlen, sg_off;
++	u32 tlen;
+ 	int ret;
+ 
+ 	fcpreq->op = op;
+ 	fcpreq->offset = fod->offset;
+ 	fcpreq->timeout = NVME_FC_TGTOP_TIMEOUT_SEC;
+-	tlen = min_t(u32, (NVMET_FC_MAX_KB_PER_XFR * 1024),
++
++	tlen = min_t(u32, tgtport->max_sg_cnt * PAGE_SIZE,
+ 			(fod->total_length - fod->offset));
+-	tlen = min_t(u32, tlen, NVME_FC_MAX_SEGMENTS * PAGE_SIZE);
+-	tlen = min_t(u32, tlen, fod->tgtport->ops->max_sgl_segments
+-					* PAGE_SIZE);
+ 	fcpreq->transfer_length = tlen;
+ 	fcpreq->transferred_length = 0;
+ 	fcpreq->fcp_error = 0;
+ 	fcpreq->rsplen = 0;
+ 
+-	fcpreq->sg_cnt = 0;
 -
--	WARN_ON(lport->localport.port_state != FC_OBJSTATE_DELETED);
--	WARN_ON(!list_empty(&lport->endp_list));
+-	datasg = fod->next_sg;
+-	sg_off = fod->next_sg_offset;
 -
--	/* remove from transport list */
--	spin_lock_irqsave(&nvme_fc_lock, flags);
--	list_del(&lport->port_list);
--	spin_unlock_irqrestore(&nvme_fc_lock, flags);
--
--	/* let the LLDD know we've finished tearing it down */
--	lport->ops->localport_delete(&lport->localport);
--
--	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
--	ida_destroy(&lport->endp_cnt);
--
--	put_device(lport->dev);
--
--	kfree(lport);
--}
--
--static void
--nvme_fc_lport_put(struct nvme_fc_lport *lport)
--{
--	kref_put(&lport->ref, nvme_fc_free_lport);
--}
--
--static int
--nvme_fc_lport_get(struct nvme_fc_lport *lport)
--{
--	return kref_get_unless_zero(&lport->ref);
--}
--
- /**
-  * nvme_fc_unregister_localport - transport entry point called by an
-  *                              LLDD to deregister/remove a previously
+-	for (sg = fcpreq->sg ; tlen; sg++) {
+-		*sg = *datasg;
+-		if (sg_off) {
+-			sg->offset += sg_off;
+-			sg->length -= sg_off;
+-			sg->dma_address += sg_off;
+-			sg_off = 0;
+-		}
+-		if (tlen < sg->length) {
+-			sg->length = tlen;
+-			fod->next_sg = datasg;
+-			fod->next_sg_offset += tlen;
+-		} else if (tlen == sg->length) {
+-			fod->next_sg_offset = 0;
+-			fod->next_sg = sg_next(datasg);
+-		} else {
+-			fod->next_sg_offset = 0;
+-			datasg = sg_next(datasg);
+-		}
+-		tlen -= sg->length;
+-		fcpreq->sg_cnt++;
+-	}
++	fcpreq->sg = &fod->data_sg[fod->offset / PAGE_SIZE];
++	fcpreq->sg_cnt = DIV_ROUND_UP(tlen, PAGE_SIZE);
+ 
+ 	/*
+ 	 * If the last READDATA request: check if LLDD supports
+@@ -2128,8 +2102,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ 	fod->req.sg = fod->data_sg;
+ 	fod->req.sg_cnt = fod->data_sg_cnt;
+ 	fod->offset = 0;
+-	fod->next_sg = fod->data_sg;
+-	fod->next_sg_offset = 0;
+ 
+ 	if (fod->io_dir == NVMET_FCP_WRITE) {
+ 		/* pull the data over before invoking nvmet layer */
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 6c8c5d8041b7..c659953236d3 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -619,7 +619,7 @@ struct nvmefc_tgt_fcp_req {
+ 	u32			timeout;
+ 	u32			transfer_length;
+ 	struct fc_ba_rjt	ba_rjt;
+-	struct scatterlist	sg[NVME_FC_MAX_SEGMENTS];
++	struct scatterlist	*sg;
+ 	int			sg_cnt;
+ 	void			*rspaddr;
+ 	dma_addr_t		rspdma;
 -- 
 2.13.1
