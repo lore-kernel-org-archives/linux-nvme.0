@@ -1,40 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 31 Jul 2017 09:45:37 +0300
-Subject: [PATCH V3] nvme-pci: add sgl support
-In-Reply-To: <20170726181931.21150-1-chaitanya.kulkarni@hgst.com>
-References: <20170726181931.21150-1-chaitanya.kulkarni@hgst.com>
-Message-ID: <4af4843c-1f8e-3b97-af79-ec065dbffd5b@grimberg.me>
+Date: Mon, 31 Jul 2017 09:47:31 +0300
+Subject: [PATCH] nvme-rdma: "nvme disconnect" stuck after remove a target
+In-Reply-To: <77FF42D3D537D24484F0BF5E2458C0C08507BCF3@EXMAIL1.taec.toshiba.com>
+References: <77FF42D3D537D24484F0BF5E2458C0C08507BCF3@EXMAIL1.taec.toshiba.com>
+Message-ID: <8daffba0-3276-39cc-27a8-9b2dbe13805c@grimberg.me>
 
-Chaitanya,
 
-> In order to enable SGL mode for the driver, the user can set the
-> sgl_threshold module parameter. This parameter can be used
-> in the two modes:-
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 3d25add..44316bc 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1637,7 +1637,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
+>                  nvme_rdma_free_io_queues(ctrl);
+>          }
 > 
-> 1. Allow all IOs to use SGL mode. (set sgl_threshold to 1).
-> 2. Set up the IO size threshold to determine whether to use
->      SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
->      use SGL only for IOs which are >= 4096 in the size).
+> -       if (test_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[0].flags))
+> +       if (test_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags))
+>                  nvme_shutdown_ctrl(&ctrl->ctrl);
+> 
+>          blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
 
-The fact that you introduce a sgl_threshold implies that prps
-are better than sgls for small I/O sizes, are sgls better
-than prps to large I/O size?
+I think you are not testing upstream code which already contain this
+change from:
 
-I think it would be better to maintain a fallback mechanism instead of a
-threshold modparam. My main problem with this is that it looks like we
-cannot handle payloads smaller than sgl_threshold which are not
-prp-able.
+commit b282a88d910296facf89fd1088832f9b41fa00c5
+Author: Sagi Grimberg <sagi at grimberg.me>
+Date:   Thu May 4 13:33:11 2017 +0300
 
-What if we always try to prp a request, but if we fail and the device
-supports SGLs (it must, because we got a non-prp-able payload) we create
-a sgl for it. For small block size the fallback is cheap and for large
-I/Os the fallback is small compared to the device latency. This way we
-can handle any bio_vec payload coming down at us.
+     nvme-rdma: Get rid of CONNECTED state
 
-In the future, we can mark a bio with gappy payload and we can just
-rely on that instead of the fallback instead of deprecating a modparam.
+     We only care about if the queue is LIVE for request submission,
+     so no need for CONNECTED.
 
-My experience from threshold modparams, is that their not really used
-efficiently outside the test case of the author.
-
-Thoughts?
+     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+     Signed-off-by: Christoph Hellwig <hch at lst.de>
