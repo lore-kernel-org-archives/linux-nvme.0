@@ -1,36 +1,37 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 31 Jul 2017 09:47:31 +0300
-Subject: [PATCH] nvme-rdma: "nvme disconnect" stuck after remove a target
-In-Reply-To: <77FF42D3D537D24484F0BF5E2458C0C08507BCF3@EXMAIL1.taec.toshiba.com>
-References: <77FF42D3D537D24484F0BF5E2458C0C08507BCF3@EXMAIL1.taec.toshiba.com>
-Message-ID: <8daffba0-3276-39cc-27a8-9b2dbe13805c@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 31 Jul 2017 03:13:09 -0400
+Subject: [PATCH V3] nvme-pci: add sgl support
+In-Reply-To: <4af4843c-1f8e-3b97-af79-ec065dbffd5b@grimberg.me>
+References: <20170726181931.21150-1-chaitanya.kulkarni@hgst.com>
+ <4af4843c-1f8e-3b97-af79-ec065dbffd5b@grimberg.me>
+Message-ID: <20170731071309.GD8674@localhost.localdomain>
 
-
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 3d25add..44316bc 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1637,7 +1637,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
->                  nvme_rdma_free_io_queues(ctrl);
->          }
+On Mon, Jul 31, 2017@09:45:37AM +0300, Sagi Grimberg wrote:
+> Chaitanya,
 > 
-> -       if (test_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[0].flags))
-> +       if (test_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags))
->                  nvme_shutdown_ctrl(&ctrl->ctrl);
+> > In order to enable SGL mode for the driver, the user can set the
+> > sgl_threshold module parameter. This parameter can be used
+> > in the two modes:-
+> > 
+> > 1. Allow all IOs to use SGL mode. (set sgl_threshold to 1).
+> > 2. Set up the IO size threshold to determine whether to use
+> >      SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
+> >      use SGL only for IOs which are >= 4096 in the size).
 > 
->          blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+> The fact that you introduce a sgl_threshold implies that prps
+> are better than sgls for small I/O sizes, are sgls better
+> than prps to large I/O size?
 
-I think you are not testing upstream code which already contain this
-change from:
+It can't possibly be just a matter of the IO size. It must be a matter of
+physical continuity as well. Considering that each SG entry is twice the
+size of a PRP entry, PRP must be faster for a physically discontiguous
+buffer if only because the PRP list is half the size.
 
-commit b282a88d910296facf89fd1088832f9b41fa00c5
-Author: Sagi Grimberg <sagi at grimberg.me>
-Date:   Thu May 4 13:33:11 2017 +0300
+I've no device to test with, but I'd guess SGL is only better if the
+number of SGE's happens to be less than half the number of the equivalent
+PRP entries. Something like this:
 
-     nvme-rdma: Get rid of CONNECTED state
-
-     We only care about if the queue is LIVE for request submission,
-     so no need for CONNECTED.
-
-     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-     Signed-off-by: Christoph Hellwig <hch at lst.de>
+  if (iod->nents <= ((blk_rq_bytes(req) / dev->page_size) / 2))
+    /* Use SGL */
+  else
+    /* Use PRP */
