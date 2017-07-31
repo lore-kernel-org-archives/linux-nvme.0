@@ -1,32 +1,66 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 31 Jul 2017 14:18:02 +0300
-Subject: [PATCH V3] nvme-pci: add sgl support
-In-Reply-To: <20170731071309.GD8674@localhost.localdomain>
-References: <20170726181931.21150-1-chaitanya.kulkarni@hgst.com>
- <4af4843c-1f8e-3b97-af79-ec065dbffd5b@grimberg.me>
- <20170731071309.GD8674@localhost.localdomain>
-Message-ID: <5061fd1e-664f-59ce-ef10-9daaa13f92b2@grimberg.me>
+From: sim@linux.vnet.ibm.com (Narasimhan V)
+Date: Mon, 31 Jul 2017 20:11:59 +0530
+Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
+ same path gain.
+In-Reply-To: <31fc10fb-386a-c430-4ca6-1a48e6b356d0@huawei.com>
+References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
+ <20170424145842.GA32128@infradead.org>
+ <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
+ <20170427064041.GB28074@infradead.org>
+ <31fc10fb-386a-c430-4ca6-1a48e6b356d0@huawei.com>
+Message-ID: <be62cd00899ecf800cb2d2d9fd4267ab@linux.vnet.ibm.com>
 
-
->> The fact that you introduce a sgl_threshold implies that prps
->> are better than sgls for small I/O sizes, are sgls better
->> than prps to large I/O size?
+On 2017-04-27 12:46, Guan Junxiong wrote:
+> On 2017/4/27 14:40, Christoph Hellwig wrote:
+>> On Tue, Apr 25, 2017@09:20:00AM +0800, Guan Junxiong wrote:
+>>> Hi ,Christoph:
+>>>    What's the benefits of this feature? If we execute the following 
+>>> cmd
+>>> 10 times, it will generate 10 character and at least 20 block 
+>>> devices.
+>> 
+>> The number of block devices will depend on the number of namespaces
+>> configured, but yes, this is expected.  The NVMe architecture allows
+>> for multiple connections from a given host to a subsystem.
+>> 
+>> .
+>> 
+> Hi, Christoph,Thanks for your reply!
 > 
-> It can't possibly be just a matter of the IO size. It must be a matter of
-> physical continuity as well. Considering that each SG entry is twice the
-> size of a PRP entry, PRP must be faster for a physically discontiguous
-> buffer if only because the PRP list is half the size.
-
-Fully agree
-
-> I've no device to test with, but I'd guess SGL is only better if the
-> number of SGE's happens to be less than half the number of the equivalent
-> PRP entries. Something like this:
+> Currently, the number of block devices will depend on both the number 
+> of
+> namespaces configured in a subsystem and the number of connections 
+> created by
+> connect command.
 > 
->    if (iod->nents <= ((blk_rq_bytes(req) / dev->page_size) / 2))
->      /* Use SGL */
->    else
->      /* Use PRP */
+> In addition , I still have the suggestion:
+> Can this feature or problematic behavior be adjusted to prevent 
+> generating
+> another block devices when a new connection is created from a given 
+> host to
+> a subsystem via the same patho< Maybe a character device (controller) 
+> or
+> block device (namespaces) can represent more connections given the same 
+> path.
+> 
+> Looking forward for you response. Thanks.
 
-That's a device character really. I don't think we can/should come up
-with heuristics that matches all the devices out there...
+Hellwig,
+
+I think this is more of a confusing/problematic behaviour than a 
+feature, as stated.
+
+We might connect to same subsystem again, and see a different nvme 
+subsystem, block devices.
+Tools like fdisk will discover duplicate block devices as different 
+ones.
+So, we might think it is a different subsystem. And thus, might have 
+data corruption issues.
+
+Looking forward for your clarification in such scenarios, and probably 
+your take on this
+being feature vs issue.
+
+-- 
+Regards
+Narasimhan V
