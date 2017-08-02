@@ -1,33 +1,24 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 2 Aug 2017 11:17:38 +0200
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 2 Aug 2017 07:32:36 -0700
 Subject: [PATCH 2/2] lpfc: support nvmet_fc defer_rcv callback
 In-Reply-To: <20170802083220.GE4256@linux-x5ow.site>
 References: <20170801221240.31723-1-jsmart2021@gmail.com>
  <20170801221240.31723-3-jsmart2021@gmail.com>
  <20170802083220.GE4256@linux-x5ow.site>
-Message-ID: <20170802091738.GH4256@linux-x5ow.site>
+Message-ID: <fe17a99f-ad17-53ba-7c25-79e4c4545c14@gmail.com>
 
-On Wed, Aug 02, 2017@10:32:20AM +0200, Johannes Thumshirn wrote:
-> On Tue, Aug 01, 2017@03:12:40PM -0700, James Smart wrote:
-> > This patch is intended to enter the kernel through the nvme block
-> > tree which pulls in the nvmet_fc api change at the same time. It is
-> > not to be merged via the scsi trees without the latest nvme support
-> > in it.
+On 8/2/2017 1:32 AM, Johannes Thumshirn wrote:
+>>   		len += snprintf(buf+len, PAGE_SIZE-len,
+>> -				"FCP: Rcv %08x Release %08x Drop %08x\n",
+>> +				"FCP: Rcv %08x Defer %08x Release %08x "
+>> +				"Drop %08x\n",
 > 
-> This should be placed below the '---' separator, so git won't pick it up and
-> preserve it in the history.
+> Please don't split the string across lines, it makes grepping hard.
+> Checkpatch actually warns you about that.
 
-Btw, I just found out and thought it's worth sharing: You can use 'git notes'
-for these notes and if you use git format-patch --notes git automatically
-places you r notes underneath the separator.
+The indentation and length of the string exceeds the 80 chararacters. so 
+has to be split.  lpfc is littered with this in the debug path. It'll be 
+one of the things we address in the efct refactoring. For now, this 
+style has been grandfathered in.
 
-Byte,
-	Johannes
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+-- james
