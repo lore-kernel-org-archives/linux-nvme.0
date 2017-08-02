@@ -1,69 +1,49 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 2 Aug 2017 10:14:40 +0200
-Subject: [PATCH v2 00/13] mpt3sas driver NVMe support:
-In-Reply-To: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <e679a449-90c3-d2e1-2b31-1387cf414e09@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 2 Aug 2017 10:16:17 +0200
+Subject: [PATCH 1/2] nvmet_fc: add defer_req callback for deferment of
+ cmd buffer return
+In-Reply-To: <20170801221240.31723-2-jsmart2021@gmail.com>
+References: <20170801221240.31723-1-jsmart2021@gmail.com>
+ <20170801221240.31723-2-jsmart2021@gmail.com>
+Message-ID: <20170802081617.GD4256@linux-x5ow.site>
 
-On 07/14/2017 03:22 PM, Suganath Prabu S wrote:
-> Ventura Series controller are Tri-mode. The controller and
-> firmware are capable of supporting NVMe devices and
-> PCIe switches to be connected with the controller. This
-> patch set adds driver level support for NVMe devices and
-> PCIe switches.
-> 
-> Suganath Prabu S (13):
->   mpt3sas: Update MPI Header
->   mpt3sas: Add nvme device support in slave alloc, target alloc and
->     probe
->   mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
->   mpt3sas: Added support for nvme encapsulated request message.
->   mpt3sas: API 's to support NVMe drive addition to SML
->   mpt3sas: API's to remove nvme drive from sml
->   mpt3sas: Handle NVMe PCIe device related events generated            
->        from firmware.
->   mpt3sas: Set NVMe device queue depth as 128
->   mpt3sas: scan and add nvme device after controller reset
->   mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
->   mpt3sas: NVMe drive support for BTDHMAPPING ioctl command and log
->     info
->   mpt3sas: Fix nvme drives checking for tlr.
->   mpt3sas: Update mpt3sas driver version.
-> 
->  drivers/scsi/mpt3sas/mpi/mpi2.h          |   43 +-
->  drivers/scsi/mpt3sas/mpi/mpi2_cnfg.h     |  647 ++++++++++-
->  drivers/scsi/mpt3sas/mpi/mpi2_init.h     |   11 +-
->  drivers/scsi/mpt3sas/mpi/mpi2_ioc.h      |  331 ++++++-
->  drivers/scsi/mpt3sas/mpi/mpi2_pci.h      |  142 +++
->  drivers/scsi/mpt3sas/mpi/mpi2_tool.h     |   14 +-
->  drivers/scsi/mpt3sas/mpt3sas_base.c      |  710 +++++++++++-
->  drivers/scsi/mpt3sas/mpt3sas_base.h      |  171 +++-
->  drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
->  drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  158 ++-
->  drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 1874 ++++++++++++++++++++++++++++--
->  drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
->  12 files changed, 4063 insertions(+), 140 deletions(-)
->  create mode 100644 drivers/scsi/mpt3sas/mpi/mpi2_pci.h
-> 
-I'm not happy with this approach.
-NVMe devices should _not_ appear as SCSI devices; this will just confuse
-matters _and_ will be incompatible with 'normal' NVMe devices.
+On Tue, Aug 01, 2017@03:12:39PM -0700, James Smart wrote:
+> @@ -463,9 +472,9 @@ static struct nvmet_fc_fcp_iod *
+>  nvmet_fc_alloc_fcp_iod(struct nvmet_fc_tgt_queue *queue)
+>  {
+>  	static struct nvmet_fc_fcp_iod *fod;
+> -	unsigned long flags;
+>  
+> -	spin_lock_irqsave(&queue->qlock, flags);
+> +	/* Caller must hold queue->qlock */
++       lockped_assert_held(&queue->qlock); 
+So we can check if the caller really holds the queue lock.
 
-Rather I would like to see the driver to hook into the existing NVMe
-framework (which essentially means to treat the mpt3sas as a weird
-NVMe-over-Fabrics HBA), and expose the NVMe devices like any other NVMe HBA.
+> +
+>  	fod = list_first_entry_or_null(&queue->fod_list,
+>  					struct nvmet_fc_fcp_iod, fcp_list);
+>  	if (fod) {
 
-I'm sorry that you'll have to redo your patchset (again), but this is
-the only way I see how this patchset can be brought forward.
+[...]
 
-I'd be happy to discuss implementation details with you.
+> +	for (;;) {
+> +		deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
+> +				struct nvmet_fc_defer_fcp_req, req_list);
+> +		if (!deferfcp)
+> +			break;
 
-Cheers,
+        while ((deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
+				struct nvmet_fc_defer_fcp_req,
+				req_list)) != NULL) {
+?
 
-Hannes
+Other than that,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
