@@ -1,44 +1,74 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 2 Aug 2017 10:16:17 +0200
-Subject: [PATCH 1/2] nvmet_fc: add defer_req callback for deferment of
- cmd buffer return
-In-Reply-To: <20170801221240.31723-2-jsmart2021@gmail.com>
+Date: Wed, 2 Aug 2017 10:32:20 +0200
+Subject: [PATCH 2/2] lpfc: support nvmet_fc defer_rcv callback
+In-Reply-To: <20170801221240.31723-3-jsmart2021@gmail.com>
 References: <20170801221240.31723-1-jsmart2021@gmail.com>
- <20170801221240.31723-2-jsmart2021@gmail.com>
-Message-ID: <20170802081617.GD4256@linux-x5ow.site>
+ <20170801221240.31723-3-jsmart2021@gmail.com>
+Message-ID: <20170802083220.GE4256@linux-x5ow.site>
 
-On Tue, Aug 01, 2017@03:12:39PM -0700, James Smart wrote:
-> @@ -463,9 +472,9 @@ static struct nvmet_fc_fcp_iod *
->  nvmet_fc_alloc_fcp_iod(struct nvmet_fc_tgt_queue *queue)
->  {
->  	static struct nvmet_fc_fcp_iod *fod;
-> -	unsigned long flags;
->  
-> -	spin_lock_irqsave(&queue->qlock, flags);
-> +	/* Caller must hold queue->qlock */
-+       lockped_assert_held(&queue->qlock); 
-So we can check if the caller really holds the queue lock.
+On Tue, Aug 01, 2017@03:12:40PM -0700, James Smart wrote:
+> This patch is intended to enter the kernel through the nvme block
+> tree which pulls in the nvmet_fc api change at the same time. It is
+> not to be merged via the scsi trees without the latest nvme support
+> in it.
 
-> +
->  	fod = list_first_entry_or_null(&queue->fod_list,
->  					struct nvmet_fc_fcp_iod, fcp_list);
->  	if (fod) {
+This should be placed below the '---' separator, so git won't pick it up and
+preserve it in the history.
 
 [...]
 
-> +	for (;;) {
-> +		deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
-> +				struct nvmet_fc_defer_fcp_req, req_list);
-> +		if (!deferfcp)
-> +			break;
+>  
+>  		len += snprintf(buf+len, PAGE_SIZE-len,
+> -				"FCP: Rcv %08x Release %08x Drop %08x\n",
+> +				"FCP: Rcv %08x Defer %08x Release %08x "
+> +				"Drop %08x\n",
 
-        while ((deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
-				struct nvmet_fc_defer_fcp_req,
-				req_list)) != NULL) {
-?
+Please don't split the string across lines, it makes grepping hard.
+Checkpatch actually warns you about that.
 
-Other than that,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+>  				atomic_read(&tgtp->rcv_fcp_cmd_in),
+> +				atomic_read(&tgtp->rcv_fcp_cmd_defer),
+>  				atomic_read(&tgtp->xmt_fcp_release),
+>  				atomic_read(&tgtp->rcv_fcp_cmd_drop));
+>  
+> diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
+> index 5cc8b0f7d885..744f3f395b64 100644
+> --- a/drivers/scsi/lpfc/lpfc_debugfs.c
+> +++ b/drivers/scsi/lpfc/lpfc_debugfs.c
+> @@ -782,8 +782,11 @@ lpfc_debugfs_nvmestat_data(struct lpfc_vport *vport, char *buf, int size)
+>  				atomic_read(&tgtp->xmt_ls_rsp_error));
+>  
+>  		len += snprintf(buf + len, size - len,
+> -				"FCP: Rcv %08x Drop %08x\n",
+> +				"FCP: Rcv %08x Defer %08x Release %08x "
+> +				"Drop %08x\n",
+>  				atomic_read(&tgtp->rcv_fcp_cmd_in),
+> +				atomic_read(&tgtp->rcv_fcp_cmd_defer),
+> +				atomic_read(&tgtp->xmt_fcp_release),
+>  				atomic_read(&tgtp->rcv_fcp_cmd_drop));
+
+Ditto.
+
+
+[...]
+
+> +	tgtp = (struct lpfc_nvmet_tgtport *)phba->targetport->private;
+
+No need to cast from void *
+
+[...]
+
+> +	/* Processing of FCP command is deferred */
+> +	if (rc == -EOVERFLOW) {
+> +		lpfc_nvmeio_data(phba,
+> +				 "NVMET RCV BUSY: xri x%x sz %d from %06x\n",
+> +				 oxid, size, sid);
+> +		/* defer reposting rcv buffer till .defer_rcv callback */
+> +		ctxp->rqb_buffer = (void *)nvmebuf;
+
+nvmebuf is a 'struct rqb_dmabuf *' and ctxp->rqb_buffer expects 'struct
+rqb_dmabuf *', why do you need a void * cast here?
+
 
 -- 
 Johannes Thumshirn                                          Storage
