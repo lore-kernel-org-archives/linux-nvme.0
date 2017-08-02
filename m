@@ -1,53 +1,47 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue,  1 Aug 2017 15:12:38 -0700
-Subject: [PATCH 0/2] nvmet_fc: work around overalloc of queue elements
-Message-ID: <20170801221240.31723-1-jsmart2021@gmail.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 2 Aug 2017 15:51:09 +0800
+Subject: [PATCH V2] nvme-cli/list: fix when nvme device can not be open
+Message-ID: <1501660269-11024-1-git-send-email-guanjunxiong@huawei.com>
 
-At queue creation, the transport allocates a local job struct
-(struct nvmet_fc_fcp_iod) for each possible element of the queue.
-When a new CMD is received from the wire, a jobs struct is allocated
-from the queue and then used for the duration of the command.
-The job struct contains buffer space for the wire command iu. Thus,
-upon allocation of the job struct, the cmd iu buffer is copied to
-the job struct and the LLDD may immediately free/reuse the CMD IU
-buffer passed in the call.
+This patch checks the validity of fd returned by open operation on
+the nvme divices. For example, when a user who doesn't have the
+permission to open the device trys to use nvme list command to list
+nvme devices, the fd is returned as -1 and errno indicates permission
+denied.
+In addition,this patch closes the current open device before
+processing the next device.
 
-However, in some circumstances, due to the packetized nature of FC
-and the api of the FC LLDD which may issue a hw command to send the
-wire response, but the LLDD may not get the hw completion for the
-command and upcall the nvmet_fc layer before a new command may be
-asynchronously received on the wire. In other words, its possible
-for the initiator to get the response from the wire, thus believe a
-command slot free, and send a new command iu. The new command iu
-may be received by the LLDD and passed to the transport before the
-LLDD had serviced the hw completion and made the teardown calls for
-the original job struct. As such, there is no available job struct
-available for the new io. E.g. it appears like the host sent more
-queue elements than the queue size. It didn't based on it's
-understanding.
+Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+---
 
-Rather than treat this temporarily overflow of the queue resources
-as a hard connection failure, change the api slightly to temporarily
-queue the new command until the job resource is freed up. The impact
-to the LLDD is in the cases where release can't be immediate, the
-LLDD must wait until a new callback is called notifying the release
-of the cmd iu buffer. Support for this api change is indicated by a
-non-null callback function, and the new buffer-held semantic is
-indicated by an -EOVERFLOW status code return from
-nvmet_fc_rcv_fcp_req().
+The V1 version was _applied_ in the mail list , but isn't applied into
+nvme-cli mainstream. Here comes the new version:
 
+change since V1:
+* rebase latest master branch and fix conflicts
+* add reviewed-by tag of Christoph
 
-James Smart (2):
-  nvmet_fc: add defer_req callback for deferment of cmd buffer return
-  lpfc: support nvmet_fc defer_rcv callback
+ nvme.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- drivers/nvme/target/fc.c         | 212 +++++++++++++++++++++++++++++++++------
- drivers/scsi/lpfc/lpfc_attr.c    |   4 +-
- drivers/scsi/lpfc/lpfc_debugfs.c |   5 +-
- drivers/scsi/lpfc/lpfc_nvmet.c   |  30 ++++++
- drivers/scsi/lpfc/lpfc_nvmet.h   |   1 +
- include/linux/nvme-fc-driver.h   |   7 ++
- 6 files changed, 229 insertions(+), 30 deletions(-)
-
+diff --git a/nvme.c b/nvme.c
+index 235a1bb..b4a039a 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -911,7 +911,13 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
+ 	for (i = 0; i < n; i++) {
+ 		snprintf(path, sizeof(path), "%s%s", dev, devices[i]->d_name);
+ 		fd = open(path, O_RDONLY);
++		if (fd < 0) {
++			fprintf(stderr, "can not open %s: %s\n", path,
++					strerror(errno));
++			return errno;
++		}
+ 		ret = get_nvme_info(fd, &list_items[i], path);
++		close(fd);
+ 		if (ret)
+ 			return ret;
+ 	}
 -- 
-2.13.1
+2.11.1
