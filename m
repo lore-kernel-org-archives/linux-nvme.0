@@ -1,56 +1,114 @@
 From: sreekanth.reddy@broadcom.com (Sreekanth Reddy)
-Date: Thu, 3 Aug 2017 15:04:25 +0530
-Subject: [PATCH v2 01/13] mpt3sas: Update MPI Header
-In-Reply-To: <20170803075556.GA4333@linux-x5ow.site>
+Date: Thu, 3 Aug 2017 15:22:42 +0530
+Subject: [PATCH v2 08/13] mpt3sas: Set NVMe device queue depth as 128
+In-Reply-To: <cde9c298-0dfc-5d23-a81b-31d50d599524@suse.de>
 References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1500038560-11231-2-git-send-email-suganath-prabu.subramani@broadcom.com>
- <4492534a-9c30-94c5-eae7-dc17f0e9d057@suse.de>
- <20170803075556.GA4333@linux-x5ow.site>
-Message-ID: <CAK=zhgoQ0iNRoHGrgk58UspAdbdOwegGUumFdN0B75bUku8N_g@mail.gmail.com>
+ <1500038560-11231-9-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <cde9c298-0dfc-5d23-a81b-31d50d599524@suse.de>
+Message-ID: <CAK=zhgqi=EagQca3KFDeBLk3YocYaRfpSeSH2zuGpBm6_VpfWg@mail.gmail.com>
 
-On Thu, Aug 3, 2017@1:25 PM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
-> On Thu, Aug 03, 2017@08:24:59AM +0200, Hannes Reinecke wrote:
->> > +   U32
->> > +           IOCLogInfo;                     /*0x10 */
->> > +   U16
->> > +           ErrorResponseCount;             /*0x14 */
->> > +   U16
->> > +           Reserved4;                      /*0x16 */
->> > +} MPI26_NVME_ENCAPSULATED_ERROR_REPLY,
->> > +   *PTR_MPI26_NVME_ENCAPSULATED_ERROR_REPLY,
->> > +   Mpi26NVMeEncapsulatedErrorReply_t,
->> > +   *pMpi26NVMeEncapsulatedErrorReply_t;
->> > +
->> > +
->> > +#endif
->> > +
->> > +
->> Very odd indentation.
->> Please reformat to have type and variable on one line.
->
-> And use Linux types and no CamelCase and no typedefs (especially not for
-> pointers), you're not on Windows here.
+On Thu, Aug 3, 2017@12:09 PM, Hannes Reinecke <hare@suse.de> wrote:
+> On 07/14/2017 03:22 PM, Suganath Prabu S wrote:
+>> Sets nvme device queue depth, name and displays device capabilities
+>>
+>> Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
+>> Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
+>> ---
+>>  drivers/scsi/mpt3sas/mpt3sas_base.h  |    2 +-
+>>  drivers/scsi/mpt3sas/mpt3sas_scsih.c |   40 ++++++++++++++++++++++++++++++++++
+>>  2 files changed, 41 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.h b/drivers/scsi/mpt3sas/mpt3sas_base.h
+>> index 0a8187e..b7855c8 100644
+>> --- a/drivers/scsi/mpt3sas/mpt3sas_base.h
+>> +++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
+>> @@ -115,7 +115,7 @@
+>>
+>>  #define MPT3SAS_RAID_MAX_SECTORS     8192
+>>  #define MPT3SAS_HOST_PAGE_SIZE_4K    12
+>> -
+>> +#define MPT3SAS_NVME_QUEUE_DEPTH     128
+>>  #define MPT_NAME_LENGTH                      32      /* generic length of strings */
+>>  #define MPT_STRING_LENGTH            64
+>>
+>> diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+>> index 1dd9674..c5a131f 100644
+>> --- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+>> +++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+>> @@ -2290,6 +2290,7 @@ scsih_slave_configure(struct scsi_device *sdev)
+>>       struct MPT3SAS_DEVICE *sas_device_priv_data;
+>>       struct MPT3SAS_TARGET *sas_target_priv_data;
+>>       struct _sas_device *sas_device;
+>> +     struct _pcie_device *pcie_device;
+>>       struct _raid_device *raid_device;
+>>       unsigned long flags;
+>>       int qdepth;
+>> @@ -2420,6 +2421,45 @@ scsih_slave_configure(struct scsi_device *sdev)
+>>               }
+>>       }
+>>
+>> +     /* PCIe handling */
+>> +     if (sas_target_priv_data->flags & MPT_TARGET_FLAGS_PCIE_DEVICE) {
+>> +             spin_lock_irqsave(&ioc->pcie_device_lock, flags);
+>> +             pcie_device = __mpt3sas_get_pdev_by_wwid(ioc,
+>> +                             sas_device_priv_data->sas_target->sas_address);
+>> +             if (!pcie_device) {
+>> +                     spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
+>> +                     dfailprintk(ioc, pr_warn(MPT3SAS_FMT
+>> +                             "failure at %s:%d/%s()!\n", ioc->name, __FILE__,
+>> +                             __LINE__, __func__));
+>> +                     return 1;
+>> +             }
+>> +
+>> +             /*TODO-right Queue Depth?*/
+>> +             qdepth = MPT3SAS_NVME_QUEUE_DEPTH;
+>> +             ds = "NVMe";
+>> +             /*TODO-Add device name when defined*/
+>> +             sdev_printk(KERN_INFO, sdev,
+>> +                     "%s: handle(0x%04x), wwid(0x%016llx), port(%d)\n",
+>> +                     ds, handle, (unsigned long long)pcie_device->wwid,
+>> +                     pcie_device->port_num);
+>> +             if (pcie_device->enclosure_handle != 0)
+>> +                     sdev_printk(KERN_INFO, sdev,
+>> +                     "%s: enclosure logical id(0x%016llx), slot(%d)\n",
+>> +                     ds,
+>> +                     (unsigned long long)pcie_device->enclosure_logical_id,
+>> +                     pcie_device->slot);
+>> +             if (pcie_device->connector_name[0] != '\0')
+>> +                     sdev_printk(KERN_INFO, sdev,
+>> +                             "%s: enclosure level(0x%04x),"
+>> +                             "connector name( %s)\n", ds,
+>> +                             pcie_device->enclosure_level,
+>> +                             pcie_device->connector_name);
+>> +             pcie_device_put(pcie_device);
+>> +             spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
+>> +             scsih_change_queue_depth(sdev, qdepth);
+>> +             return 0;
+>> +     }
+>> +
+>>       spin_lock_irqsave(&ioc->sas_device_lock, flags);
+>>       sas_device = __mpt3sas_get_sdev_by_addr(ioc,
+>>          sas_device_priv_data->sas_target->sas_address);
+>>
+> Well; what are these TODOs doing here?
+> If you know things are not correct, why not doing them correctly?
+> If you cannot do them correctly, why?
 
-We will reformat to have type and variable on one line as suggested by Hannes.
+Hannes,
 
-But it will be going have a huge change in the driver, if we want to
-remove the CamelCase and typedefs. From legacy days onwards mpi
-headers has the CamelCase type variable names and the same variables
-are used in the code in large number of places. Also our MPI headers
-are common across the OS platforms and so maintaining mpi headers
-updates will be more difficult.
+These TODOs comments are added during initial development phase. We
+will remove these TODO comments.
 
 Thanks,
 Sreekanth
 
 >
-> Thanks,
->         Johannes
+> Cheers,
 >
+> Hannes
 > --
-> Johannes Thumshirn                                          Storage
-> jthumshirn at suse.de                                +49 911 74053 689
+> Dr. Hannes Reinecke                Teamlead Storage & Networking
+> hare at suse.de                                   +49 911 74053 688
 > SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-> GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+> GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
 > HRB 21284 (AG N?rnberg)
-> Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
