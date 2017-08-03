@@ -1,29 +1,41 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 3 Aug 2017 08:43:28 +0200
-Subject: [PATCH v2 10/13] mpt3as:
- Add-Task-management-debug-info-for-NVMe-drives.
-In-Reply-To: <1500038560-11231-11-git-send-email-suganath-prabu.subramani@broadcom.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 3 Aug 2017 09:55:56 +0200
+Subject: [PATCH v2 01/13] mpt3sas: Update MPI Header
+In-Reply-To: <4492534a-9c30-94c5-eae7-dc17f0e9d057@suse.de>
 References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1500038560-11231-11-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <a8522797-3bc3-1441-3d22-0683e2446869@suse.de>
+ <1500038560-11231-2-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <4492534a-9c30-94c5-eae7-dc17f0e9d057@suse.de>
+Message-ID: <20170803075556.GA4333@linux-x5ow.site>
 
-On 07/14/2017 03:22 PM, Suganath Prabu S wrote:
-> Added debug information for NVMe/PCIe drives in target rest path.
-> 
-> Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
-> Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
-> ---
->  drivers/scsi/mpt3sas/mpt3sas_scsih.c |   83 ++++++++++++++++++++++++++++-----
->  1 files changed, 70 insertions(+), 13 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On Thu, Aug 03, 2017@08:24:59AM +0200, Hannes Reinecke wrote:
+> > +	U32
+> > +		IOCLogInfo;                     /*0x10 */
+> > +	U16
+> > +		ErrorResponseCount;             /*0x14 */
+> > +	U16
+> > +		Reserved4;                      /*0x16 */
+> > +} MPI26_NVME_ENCAPSULATED_ERROR_REPLY,
+> > +	*PTR_MPI26_NVME_ENCAPSULATED_ERROR_REPLY,
+> > +	Mpi26NVMeEncapsulatedErrorReply_t,
+> > +	*pMpi26NVMeEncapsulatedErrorReply_t;
+> > +
+> > +
+> > +#endif
+> > +
+> > +
+> Very odd indentation.
+> Please reformat to have type and variable on one line.
 
-Cheers,
+And use Linux types and no CamelCase and no typedefs (especially not for
+pointers), you're not on Windows here.
 
-Hannes
+Thanks,
+	Johannes
+
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
