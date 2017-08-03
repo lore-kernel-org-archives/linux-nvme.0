@@ -1,22 +1,19 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 3 Aug 2017 08:44:03 +0200
-Subject: [PATCH v2 11/13] mpt3sas: NVMe drive support for BTDHMAPPING
- ioctl command and log info
-In-Reply-To: <1500038560-11231-12-git-send-email-suganath-prabu.subramani@broadcom.com>
+Date: Thu, 3 Aug 2017 08:44:44 +0200
+Subject: [PATCH v2 12/13] mpt3sas: Fix nvme drives checking for tlr.
+In-Reply-To: <1500038560-11231-13-git-send-email-suganath-prabu.subramani@broadcom.com>
 References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1500038560-11231-12-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <f51a7368-1204-9dcc-a516-9552f5bddd4f@suse.de>
+ <1500038560-11231-13-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <c5bfb7b9-49bc-a503-9674-591a9bcaa6fa@suse.de>
 
 On 07/14/2017 03:22 PM, Suganath Prabu S wrote:
-> * Added debug prints for pcie devices in ioctl debug path. Which
-> will be helpful for debugging.
-> * Added PCIe device support for ioctl BTDHMAPPING ioctl.
+> Check for NVMe drives before enabling or checking tlr.
 > 
 > Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
 > Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
 > ---
->  drivers/scsi/mpt3sas/mpt3sas_ctl.c |   88 +++++++++++++++++++++++------------
->  1 files changed, 58 insertions(+), 30 deletions(-)
+>  drivers/scsi/mpt3sas/mpt3sas_scsih.c |   22 ++++++++++++++++------
+>  1 files changed, 16 insertions(+), 6 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
