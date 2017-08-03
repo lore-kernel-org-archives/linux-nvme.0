@@ -1,34 +1,21 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 3 Aug 2017 08:35:11 +0200
-Subject: [PATCH v2 05/13] mpt3sas: API 's to support NVMe drive addition
- to SML
-In-Reply-To: <1500038560-11231-6-git-send-email-suganath-prabu.subramani@broadcom.com>
+Date: Thu, 3 Aug 2017 08:36:23 +0200
+Subject: [PATCH v2 06/13] mpt3sas: API's to remove nvme drive from sml
+In-Reply-To: <1500038560-11231-7-git-send-email-suganath-prabu.subramani@broadcom.com>
 References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1500038560-11231-6-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <55bb3055-9216-7b9d-32c5-25d29046e11d@suse.de>
+ <1500038560-11231-7-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <d037976e-5e7d-aecd-772c-1d1244406089@suse.de>
 
 On 07/14/2017 03:22 PM, Suganath Prabu S wrote:
-> Below Functions are added in various paths to support NVMe
-> drive addition.
-> 
-> _scsih_pcie_add_device
-> _scsih_pcie_device_add
-> _scsih_pcie_device_init_add
-> _scsih_check_pcie_access_status
-> _scsih_pcie_check_device
-> 
-> mpt3sas_get_pdev_by_handle
-> 
-> mpt3sas_config_get_pcie_device_pg0
-> mpt3sas_config_get_pcie_device_pg2
+> Below API's are included in nvme drive remove path.
+> _scsih_pcie_device_remove_by_handle
+> _scsih_pcie_device_remove_from_sml
 > 
 > Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
 > Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
 > ---
->  drivers/scsi/mpt3sas/mpt3sas_base.h   |   10 +
->  drivers/scsi/mpt3sas/mpt3sas_config.c |  100 +++++++
->  drivers/scsi/mpt3sas/mpt3sas_scsih.c  |  473 ++++++++++++++++++++++++++++++++-
->  3 files changed, 575 insertions(+), 8 deletions(-)
+>  drivers/scsi/mpt3sas/mpt3sas_scsih.c |  148 +++++++++++++++++++++++++++++++++-
+>  1 files changed, 145 insertions(+), 3 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
