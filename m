@@ -1,27 +1,30 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu,  3 Aug 2017 11:28:47 +0200
-Subject: [PATCH 1/2] nvme: rdma: remove NVME_RDMA_MAX_SEGMENT_SIZE
-Message-ID: <20170803092848.7788-1-jthumshirn@suse.de>
+Date: Thu,  3 Aug 2017 11:28:48 +0200
+Subject: [PATCH 2/2] nvmet: fcloop: remove ALL_OPTS define
+In-Reply-To: <20170803092848.7788-1-jthumshirn@suse.de>
+References: <20170803092848.7788-1-jthumshirn@suse.de>
+Message-ID: <20170803092848.7788-2-jthumshirn@suse.de>
 
-NVME_RDMA_MAX_SEGMENT_SIZE is not used anywhere, zap it.
+ALL_OPTS isn't used anywhere, remove it.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/rdma.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/nvme/target/fcloop.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index da04df1af231..57ac96ff9acb 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -36,8 +36,6 @@
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 1bb9d5b311b1..1cb9847ec261 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -193,9 +193,6 @@ fcloop_parse_nm_options(struct device *dev, u64 *nname, u64 *pname,
  
- #define NVME_RDMA_CONNECT_TIMEOUT_MS	3000		/* 3 second */
+ #define TGTPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN)
  
--#define NVME_RDMA_MAX_SEGMENT_SIZE	0xffffff	/* 24-bit SGL field */
+-#define ALL_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
+-			 NVMF_OPT_FCADDR | NVMF_OPT_LPWWNN | NVMF_OPT_LPWWPN)
 -
- #define NVME_RDMA_MAX_SEGMENTS		256
  
- #define NVME_RDMA_MAX_INLINE_SEGMENTS	1
+ static DEFINE_SPINLOCK(fcloop_lock);
+ static LIST_HEAD(fcloop_lports);
 -- 
 2.12.3
