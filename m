@@ -1,24 +1,24 @@
-From: yogi43222@gmail.com (Yogi Wannabe)
-Date: Fri, 4 Aug 2017 18:04:23 -0700
-Subject: NVME card works on kernel 3.19.8 but not on 4.19.31
-Message-ID: <CAGSHeY0H82iiKtYDiAmqdH_C6PytitvfkrmgYmQVcFnnmVWhmA@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 5 Aug 2017 06:53:53 -0700
+Subject: [PATCH v2 00/13] mpt3sas driver NVMe support:
+In-Reply-To: <e679a449-90c3-d2e1-2b31-1387cf414e09@suse.de>
+References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <e679a449-90c3-d2e1-2b31-1387cf414e09@suse.de>
+Message-ID: <20170805135353.GA7526@infradead.org>
 
-Hi,
+On Wed, Aug 02, 2017@10:14:40AM +0200, Hannes Reinecke wrote:
+> I'm not happy with this approach.
+> NVMe devices should _not_ appear as SCSI devices; this will just confuse
+> matters _and_ will be incompatible with 'normal' NVMe devices.
+> 
+> Rather I would like to see the driver to hook into the existing NVMe
+> framework (which essentially means to treat the mpt3sas as a weird
+> NVMe-over-Fabrics HBA), and expose the NVMe devices like any other NVMe HBA.
 
-Our NVME card works fine on Centos 7.3 with kernel 3.19.8. But with
-Centos 7.3 and kernel 4.19.31 the driver
+That doesn't make any sense.  The devices behind the mpt adapter don't
+look like NVMe devices at all for the hosts - there are no NVMe commands
+or queues involved at all, they hide behind the same somewhat leaky
+scsi abstraction as other devices behind the mpt controller.
 
-1. detects the board
-2. creates I/O submission and completion queues
-3. sends identify cmd to retrive controller information
-4. /dev/nvme0 node is created.
-
-However, /dev/nvme0n1 is not created and the drive does not show up in
-/proc/partitions. Two things we have observed are that
-
-1. identify cmd to retrive namespace information is not called
-2. BLK_DEV_NVME_SCSI is not set in .config file on the running kernel
-
-Any clues on what could be going wrong?
-
-TIA
+The only additional leak is that the controller now supports NVMe-like
+PRPs in additions to its existing two SGL formats.
