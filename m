@@ -1,13 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 7 Aug 2017 09:38:07 +0200
-Subject: [PATCH v2 1/2] nvmet_fc: add defer_req callback for deferment of
- cmd buffer return
-In-Reply-To: <20170805002933.23397-2-jsmart2021@gmail.com>
+Date: Mon, 7 Aug 2017 09:38:50 +0200
+Subject: [PATCH v2 2/2] lpfc: support nvmet_fc defer_rcv callback
+In-Reply-To: <20170805002933.23397-3-jsmart2021@gmail.com>
 References: <20170805002933.23397-1-jsmart2021@gmail.com>
- <20170805002933.23397-2-jsmart2021@gmail.com>
-Message-ID: <20170807073807.GC3978@linux-x5ow.site>
+ <20170805002933.23397-3-jsmart2021@gmail.com>
+Message-ID: <20170807073850.GD3978@linux-x5ow.site>
 
-Thanks James,
+Thanks,
+
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
