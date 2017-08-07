@@ -1,22 +1,22 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 7 Aug 2017 03:23:18 +0300
-Subject: [PATCH v6 for-4.13 0/7] Automatic affinity settings for nvme over
- rdma
-In-Reply-To: <1501874327.79618.12.camel@redhat.com>
-References: <1497796677-15794-1-git-send-email-sagi@grimberg.me>
- <20170619122806.GA29061@lst.de> <20170626100113.GA14446@lst.de>
- <7a91bc31-9a4d-a07c-002d-af06143c4257@grimberg.me>
- <2eecc5bb-e356-73e5-a2fc-1f1867a779f3@grimberg.me>
- <1501874327.79618.12.camel@redhat.com>
-Message-ID: <8b65f820-99e7-fdb3-319a-921308815613@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Sun, 6 Aug 2017 20:30:26 -0400
+Subject: Naming Convention for NVMe CLI Plugin Commands
+In-Reply-To: <MWHPR04MB102593E65AA6F0D3C4377A29EAB60@MWHPR04MB1025.namprd04.prod.outlook.com>
+References: <MWHPR04MB102593E65AA6F0D3C4377A29EAB60@MWHPR04MB1025.namprd04.prod.outlook.com>
+Message-ID: <20170807003025.GB842@localhost.localdomain>
 
+On Fri, Aug 04, 2017@07:51:45PM +0000, Jeffrey Lien wrote:
+> Is there any standard naming convention set for the nvme cli plugin
+> commands?  I've gotten a request from one customer to add the prefix
+> "vs-" (for vendor specific) to some of the cli plugin commands.  i.e.
+> nvme wdc smart-log-add would become nvme wdc vs-smart-log-add.  It's
+> not a big change to make but then it doesn't match the plugin commands
+> from other vendors.  
 
-> You're confusing me Sagi.  This thread is the v6 of this patchset.
-> Don't you have a v8 of this patchset in this mailing list?
+Hi Jeff,
 
-I do,
-
-> Are you saying you want me to grab v6 and not v8, or are you asking in the
-> wrong thread?
-
-Wrong thread from mailbox search... You should grab v8. Thanks.
+The naming hasn't really been formalized, so I suppose you can call
+it whatever you want. Your specific example sounds a little redundant
+IMO since it's already a vendor specific command by virtue of it not
+being a top level sub-command; every command under a vendor plugin is
+vendor specific. But I won't push back if you want to call it that.
