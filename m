@@ -1,72 +1,92 @@
-From: kashyap.desai@broadcom.com (Kashyap Desai)
-Date: Mon, 7 Aug 2017 19:26:34 +0530
+From: James.Bottomley@HansenPartnership.com (James Bottomley)
+Date: Mon, 07 Aug 2017 07:18:12 -0700
 Subject: [PATCH v2 00/13] mpt3sas driver NVMe support:
-In-Reply-To: <1501944129.3649.9.camel@HansenPartnership.com>
+In-Reply-To: <0ada8680ebfeb026662d858ec2b38ef4@mail.gmail.com>
 References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <e679a449-90c3-d2e1-2b31-1387cf414e09@suse.de>	
+ <e679a449-90c3-d2e1-2b31-1387cf414e09@suse.de>
  <20170805135353.GA7526@infradead.org>
  <1501944129.3649.9.camel@HansenPartnership.com>
-Message-ID: <0ada8680ebfeb026662d858ec2b38ef4@mail.gmail.com>
+ <0ada8680ebfeb026662d858ec2b38ef4@mail.gmail.com>
+Message-ID: <1502115492.2841.20.camel@HansenPartnership.com>
 
-> -----Original Message-----
-> From: James Bottomley [mailto:James.Bottomley at HansenPartnership.com]
-> Sent: Saturday, August 05, 2017 8:12 PM
-> To: Christoph Hellwig; Hannes Reinecke
-> Cc: Suganath Prabu S; martin.petersen at oracle.com; linux-
-> scsi at vger.kernel.org; Sathya.Prakash at broadcom.com;
-> kashyap.desai at broadcom.com; linux-kernel at vger.kernel.org;
-> chaitra.basappa at broadcom.com; sreekanth.reddy at broadcom.com; linux-
-> nvme at lists.infradead.org
-> Subject: Re: [PATCH v2 00/13] mpt3sas driver NVMe support:
->
-> On Sat, 2017-08-05@06:53 -0700, Christoph Hellwig wrote:
-> > On Wed, Aug 02, 2017@10:14:40AM +0200, Hannes Reinecke wrote:
-> > >
-> > > I'm not happy with this approach.
-> > > NVMe devices should _not_ appear as SCSI devices; this will just
-> > > confuse matters _and_ will be incompatible with 'normal' NVMe
-> > > devices.
-> > >
-> > > Rather I would like to see the driver to hook into the existing NVMe
-> > > framework (which essentially means to treat the mpt3sas as a weird
-> > > NVMe-over-Fabrics HBA), and expose the NVMe devices like any other
-> > > NVMe HBA.
-> >
-> > That doesn't make any sense.  The devices behind the mpt adapter don't
-> > look like NVMe devices at all for the hosts - there are no NVMe
-> > commands or queues involved at all, they hide behind the same somewhat
-> > leaky scsi abstraction as other devices behind the mpt controller.
->
-> You might think about what we did for SAS: split the generic handler into
-> two
-> pieces, libsas for driving the devices, which mpt didn't need because of
-> the fat
-> firmware and the SAS transport class so mpt could at least show the same
-> sysfs
-> files as everything else for SAS devices.
+On Mon, 2017-08-07@19:26 +0530, Kashyap Desai wrote:
+> > 
+> > -----Original Message-----
+> > From: James Bottomley [mailto:James.Bottomley at HansenPartnership.com
+> > ]
+> > Sent: Saturday, August 05, 2017 8:12 PM
+> > To: Christoph Hellwig; Hannes Reinecke
+> > Cc: Suganath Prabu S; martin.petersen at oracle.com; linux-
+> > scsi at vger.kernel.org; Sathya.Prakash at broadcom.com;
+> > kashyap.desai at broadcom.com; linux-kernel at vger.kernel.org;
+> > chaitra.basappa at broadcom.com; sreekanth.reddy at broadcom.com; linux-
+> > nvme at lists.infradead.org
+> > Subject: Re: [PATCH v2 00/13] mpt3sas driver NVMe support:
+> > 
+> > On Sat, 2017-08-05@06:53 -0700, Christoph Hellwig wrote:
+> > > 
+> > > On Wed, Aug 02, 2017@10:14:40AM +0200, Hannes Reinecke wrote:
+> > > > 
+> > > > 
+> > > > I'm not happy with this approach.
+> > > > NVMe devices should _not_ appear as SCSI devices; this will
+> > > > just
+> > > > confuse matters _and_ will be incompatible with 'normal' NVMe
+> > > > devices.
+> > > > 
+> > > > Rather I would like to see the driver to hook into the existing
+> > > > NVMe
+> > > > framework (which essentially means to treat the mpt3sas as a
+> > > > weird
+> > > > NVMe-over-Fabrics HBA), and expose the NVMe devices like any
+> > > > other
+> > > > NVMe HBA.
+> > > 
+> > > That doesn't make any sense.??The devices behind the mpt adapter
+> > > don't
+> > > look like NVMe devices at all for the hosts - there are no NVMe
+> > > commands or queues involved at all, they hide behind the same
+> > > somewhat
+> > > leaky scsi abstraction as other devices behind the mpt
+> > > controller.
+> > 
+> > You might think about what we did for SAS: split the generic
+> > handler into
+> > two
+> > pieces, libsas for driving the devices, which mpt didn't need
+> > because of
+> > the fat
+> > firmware and the SAS transport class so mpt could at least show the
+> > same
+> > sysfs
+> > files as everything else for SAS devices.
+> 
+> ?Ventura generation of controllers are adding connectivity of NVME
+> ?drives seamlessly and protocol handling is in Firmware.
+> ?Same as SCSI to ATA translation done in firmware, Ventura controller
+> ?is doing SCSI to NVME translation and for end user protocol handling
+> ?is abstracted.
+> 
+> ?This product handles new Transport protocol (NVME) same as ATA and
+> ?transport is abstracted for end user.
+> 
+> NVME pass-through related driver code, it is just a big tunnel for
+> user space application. It is just a basic framework like SATA PASS-
+> Through in existing mpt3sas driver.
 
- Ventura generation of controllers are adding connectivity of NVME
- drives seamlessly and protocol handling is in Firmware.
- Same as SCSI to ATA translation done in firmware, Ventura controller
- is doing SCSI to NVME translation and for end user protocol handling
- is abstracted.
+I know how it works ... and I'm on record as not liking your SATL
+approach because we keep tripping across bugs in the SATL that we have
+to fix in the driver.
 
- This product handles new Transport protocol (NVME) same as ATA and
- transport is abstracted for end user.
+However, at least for bot SAS and SATA they appear to the system as
+SCSI devices regardless of HBA, so we've largely smoothed over any
+problems if you transfer from mp3sas to another SAS/SATA controller.
 
-NVME pass-through related driver code, it is just a big tunnel for user
-space application.
-It is just a basic framework like SATA PASS-Through in existing mpt3sas
-driver.
+I believe your current proposal is to have NVMe devices appear as SCSI,
+which isn't how the native NVMe driver handles them at all. ?This is
+going to have to be special cased in any tool designed to handle nvme
+devices and it's going to cause big problems if someone changes
+controller (or moves the device). ?What's the proposal for making this
+as painless as possible?
 
->
-> Fortunately for NVMe it's very simple at the moment its just a couple of
-> host
-> files and wwid on the devices.
->
-> James
->
->
-> > The only additional leak is that the controller now supports NVMe-
-> > like PRPs in additions to its existing two SGL formats.
-> >
+James
