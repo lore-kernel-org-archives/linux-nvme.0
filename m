@@ -1,18 +1,35 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Mon, 7 Aug 2017 13:13:48 +0000
-Subject: [PATCH v2 1/1] nvme: fix CMB sysfs file removal in reset path
-In-Reply-To: <1501368308-20750-1-git-send-email-maxg@mellanox.com>
-References: <1501368308-20750-1-git-send-email-maxg@mellanox.com>
-Message-ID: <733D56EB-5028-4EBA-9057-011C50DE6C8D@raithlin.com>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Mon, 7 Aug 2017 10:42:57 -0300
+Subject: nvmf question - synchronization between target/initiator regarding
+ partitions
+Message-ID: <82c4d1d8-ffa9-fa99-df58-05e2945eafdc@linux.vnet.ibm.com>
+
+We observed that it's possible to perform partition operations in both
+nvmf target and initiator block devices, like creating and deleting
+partitions.
+
+But there is no sync mechanism between target and initiator regarding
+the partitions operations. After creating a partition on initiator, for
+example, we don't see it on target side. We could format it like ext4 on
+initiator, and still target cannot see it. It's possible to trigger a
+BLKRRPART ioctl on target, which end up calling revalidate_disk() on
+nvme driver and then partitions are perceived.
+
+So, question: is this behavior expected/acceptable? Is it completely up
+to userspace to deal with the synchronization between host/target?
+I think answer might be yes since partitions are a higher level of
+abstraction than nvmf (which is purely block device aware).
+
+But if kernel could/should jump in, we possibly could try to issue a
+revalidate_disk on target whenever this operation is performed on
+initiator side (and vice-versa). I confess I couldn't find such sync
+idea in NVMe over fabrics spec, though.
+Also, reading NVMe spec 1.3, we do have the optional feature
+"reservations", but seems it doesn't mention target (only multiple hosts).
+
+Thanks in advance for any ideas on this subject.
+Cheers,
 
 
-> Currently we create the sysfs entry even if we fail mapping
-> it. In that case, the unmapping will not remove the sysfs created
-> file. There is no good reason to create a sysfs entry for a non
-> working CMB and show his characteristics.
->
-> Fixes: f63572dff ("nvme: unmap CMB and remove sysfs file in reset path")
 
-Looks good.
-
-Reviewed-by: Stephen Bates <sbates at raithlin.com>
+Guilherme
