@@ -1,18 +1,18 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 7 Aug 2017 09:38:50 +0200
-Subject: [PATCH v2 2/2] lpfc: support nvmet_fc defer_rcv callback
-In-Reply-To: <20170805002933.23397-3-jsmart2021@gmail.com>
-References: <20170805002933.23397-1-jsmart2021@gmail.com>
- <20170805002933.23397-3-jsmart2021@gmail.com>
-Message-ID: <20170807073850.GD3978@linux-x5ow.site>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Mon, 7 Aug 2017 13:13:48 +0000
+Subject: [PATCH v2 1/1] nvme: fix CMB sysfs file removal in reset path
+In-Reply-To: <1501368308-20750-1-git-send-email-maxg@mellanox.com>
+References: <1501368308-20750-1-git-send-email-maxg@mellanox.com>
+Message-ID: <733D56EB-5028-4EBA-9057-011C50DE6C8D@raithlin.com>
 
-Thanks,
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> Currently we create the sysfs entry even if we fail mapping
+> it. In that case, the unmapping will not remove the sysfs created
+> file. There is no good reason to create a sysfs entry for a non
+> working CMB and show his characteristics.
+>
+> Fixes: f63572dff ("nvme: unmap CMB and remove sysfs file in reset path")
+
+Looks good.
+
+Reviewed-by: Stephen Bates <sbates at raithlin.com>
