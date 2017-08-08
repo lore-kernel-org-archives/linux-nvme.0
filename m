@@ -1,29 +1,56 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Aug 2017 03:29:52 -0400
-Subject: [PATCH v2 00/13] mpt3sas driver NVMe support:
-In-Reply-To: <CAK=zhgp6y6bWYBWJSg-8A6x_PYRgq1S83OZcGVghh3LKov7UfQ@mail.gmail.com>
-References: <1500038560-11231-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <e679a449-90c3-d2e1-2b31-1387cf414e09@suse.de>
- <20170805135353.GA7526@infradead.org>
- <1501944129.3649.9.camel@HansenPartnership.com>
- <0ada8680ebfeb026662d858ec2b38ef4@mail.gmail.com>
- <1502115492.2841.20.camel@HansenPartnership.com>
- <da1e0ded0c7d4bab1cfa0850488c8fb7@mail.gmail.com>
- <1502120725.2841.28.camel@HansenPartnership.com>
- <20170808040449.GE842@localhost.localdomain>
- <CAK=zhgp6y6bWYBWJSg-8A6x_PYRgq1S83OZcGVghh3LKov7UfQ@mail.gmail.com>
-Message-ID: <20170808072952.GB9938@localhost.localdomain>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
+Date: Tue,  8 Aug 2017 14:33:42 +0530
+Subject: [PATCH v3 00/13] mpt3sas driver NVMe support:
+Message-ID: <1502183035-7441-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-On Tue, Aug 08, 2017@12:33:40PM +0530, Sreekanth Reddy wrote:
-> On Tue, Aug 8, 2017@9:34 AM, Keith Busch <keith.busch@intel.com> wrote:
-> >
-> > It looks like they can make existing nvme tooling work with little
-> > effort if they have the driver implement NVME_IOCTL_ADMIN_COMMAND, and
-> 
-> Precisely, I was thinking on the same line and you clarified. I will
-> spend sometime on this and get back to you.
+Ventura Series controller are Tri-mode. The controller and
+firmware are capable of supporting NVMe devices and
+PCIe switches to be connected with the controller. This
+patch set adds driver level support for NVMe devices and
+PCIe switches.
 
-Sounds good. Just note that while the majority of NVMe management should
-be reachable with just that IOCTL, some tooling features may not work
-correctly since they look for /dev/nvmeX, and I assume this driver will
-create /dev/sdX instead.
+mpt3sas v3 patset:
+Posting version v3. This accommodates below changes
+over v2 patch.
+
+1. In the MPI header files patch, Reformatted headers to have type
+and variable on one line as suggested.
+2. As suggested, started using blk_queue_virt_boundary() API
+for NVMe drives and simplified the PRP formation.
+3. Removed 'TODO' comments.
+
+Suganath Prabu S (13):
+  mpt3sas: Update MPI Header
+  mpt3sas: Add nvme device support in slave alloc, target alloc and
+    probe
+  mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
+  mpt3sas: Added support for nvme encapsulated request message.
+  mpt3sas: API 's to support NVMe drive addition to SML
+  mpt3sas: API's to remove nvme drive from sml
+  mpt3sas: Handle NVMe PCIe device related events generated            
+         from firmware.
+  mpt3sas: Set NVMe device queue depth as 128
+  mpt3sas: scan and add nvme device after controller reset
+  mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
+  mpt3sas: NVMe drive support for BTDHMAPPING ioctl command and log
+    info
+  mpt3sas: Fix nvme drives checking for tlr.
+  mpt3sas: Update mpt3sas driver version.
+
+ drivers/scsi/mpt3sas/mpi/mpi2.h          |   43 +-
+ drivers/scsi/mpt3sas/mpi/mpi2_cnfg.h     |  564 +++++++++-
+ drivers/scsi/mpt3sas/mpi/mpi2_init.h     |   11 +-
+ drivers/scsi/mpt3sas/mpi/mpi2_ioc.h      |  282 +++++-
+ drivers/scsi/mpt3sas/mpi/mpi2_pci.h      |  112 ++
+ drivers/scsi/mpt3sas/mpi/mpi2_tool.h     |   14 +-
+ drivers/scsi/mpt3sas/mpt3sas_base.c      |  754 ++++++++++++-
+ drivers/scsi/mpt3sas/mpt3sas_base.h      |  171 +++-
+ drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
+ drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  158 ++-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 1881 ++++++++++++++++++++++++++++--
+ drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
+ 12 files changed, 3929 insertions(+), 163 deletions(-)
+ create mode 100644 drivers/scsi/mpt3sas/mpi/mpi2_pci.h
+
+Thanks,
+Suganath Prabu S
