@@ -1,35 +1,31 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 08 Aug 2017 12:12:13 -0400
-Subject: [PATCH v3 03/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
- devices
-In-Reply-To: <1502183035-7441-4-git-send-email-suganath-prabu.subramani@broadcom.com>
- (Suganath Prabu S.'s message of "Tue, 8 Aug 2017 14:33:45 +0530")
-References: <1502183035-7441-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1502183035-7441-4-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <yq1o9rq6ntu.fsf@oracle.com>
+From: dledford@redhat.com (Doug Ledford)
+Date: Tue, 08 Aug 2017 15:14:36 -0400
+Subject: [PATCH v8 0/7] Automatic affinity settings for nvme-rdma
+In-Reply-To: <20170713085700.GL1528@mtr-leonro.local>
+References: <1499933384-17407-1-git-send-email-sagi@grimberg.me>
+ <20170713082041.GK1528@mtr-leonro.local>
+ <d3e93dfa-79c0-22c5-eacd-a8699b924de8@grimberg.me>
+ <20170713085700.GL1528@mtr-leonro.local>
+Message-ID: <1502219676.3002.11.camel@redhat.com>
 
+On Thu, 2017-07-13@11:57 +0300, Leon Romanovsky wrote:
+> On Thu, Jul 13, 2017@11:28:22AM +0300, Sagi Grimberg wrote:
+> > 
+> > > > Doug, please consider this patch set for inclusion.
+> > > 
+> > > On which branch did you base your code?
+> > 
+> > Linus 4.12 + block tree updates.
+> 
+> Thanks
 
-Suganath,
+Hi Sagi,
 
-> +	/*
-> +	 ** Below code detects gaps/holes in IO data buffers.
-> +	 ** What does holes/gaps mean?
-> +	 ** Any SGE except first one in a SGL starts at non NVME page size
-> +	 ** aligned address OR Any SGE except last one in a SGL ends at
-> +	 ** non NVME page size boundary.
-> +	 **
-> +	 ** Driver has already informed block layer by setting boundary rules
-> +	 ** for bio merging done at NVME page size boundary calling kernel API
-> +	 ** blk_queue_virt_boundary inside slave_config.
-> +	 ** Still there is possibility of IO coming with holes to driver because
-> +	 ** of IO merging done by IO scheduler.
-
-All this SGL to PRP code needs to go.
-
-If you are seeing anything that's not a valid PRP after setting the
-queue virt boundary then there's a block layer bug that needs to be
-debugged and fixed. Regardless of whether you are using an I/O scheduler
-or not.
+I've pulled this into a branch and pushed it to my github for 0day
+testing.  There were a number of conflicts, so please double check that
+my branch is resolved out the way you want.  Thanks.
 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+Doug Ledford <dledford at redhat.com>
+    GPG KeyID: B826A3330E572FDD
+    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
