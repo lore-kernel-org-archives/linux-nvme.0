@@ -1,49 +1,62 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 9 Aug 2017 11:38:49 -0500
-Subject: Flush warning
-In-Reply-To: <20170809162749.GA4069@obsidianresearch.com>
-References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
- <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
- <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
- <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
- <20170809162749.GA4069@obsidianresearch.com>
-Message-ID: <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Wed,  9 Aug 2017 09:52:38 -0700
+Subject: [PATCH 4.12 054/106] blk-mq: Include all present CPUs in the default
+ queue mapping
+In-Reply-To: <20170809164515.714288642@linuxfoundation.org>
+References: <20170809164515.714288642@linuxfoundation.org>
+Message-ID: <20170809164524.037800602@linuxfoundation.org>
 
-> On Wed, Aug 09, 2017@11:21:38AM -0500, Steve Wise wrote:
-> 
-> > > I don't know.  I read the workqueue doc on WQ_MEM_RECLAIM, but I don't
-> know
-> > > how
-> > > to tell if iw_cm needs this or not.  Can you give me an example of a
-workqueue
-> > > that _does_ need WQ_MEM_RECLAIM?  I _think_ it means your workqueue is
-> > > required
-> > > to run something that would get triggered by the oom OS code, but I don't
-know
-> > > if that would include rdma CMs or not...
-> >
-> > Many of the workqueues in infiniband/core use WQ_MEM_RECLAIM: cma, iwcm,
-> mad,
-> > multicast, sa_query, and ucma.
-> >
-> > Hey Sean, do you have any insight into whether the CMA modules really need
-> > WQ_MEM_RECLAIM for their workqueues?
-> >
-> > Does anyone else know?
-> 
-> Consider that the ib_core can be used to back storage. Ie consider a
-> situation where iSER/NFS/SRP needs to reconnect to respond to kernel
-> paging/reclaim.
-> 
-> On the surface it seems reasonable to me that these are on a reclaim
-> path?
-> 
-> Jason
+4.12-stable review patch.  If anyone has any objections, please let me know.
 
-hmm.  That seems reasonable.  Then I would think the nvme_rdma would also need
-to be using a reclaim workqueue.
+------------------
 
-Sagi, Do you think I should add a private workqueue with WQ_MEM_RECLAIM to
-nvme_rdma vs using the system_wq?  nvme/target probably needs one also...
+From: Christoph Hellwig <hch@lst.de>
 
-Steve.
+commit 5f042e7cbd9ebd3580077dcdc21f35e68c2adf5f upstream.
+
+This way we get a nice distribution independent of the current cpu
+online / offline state.
+
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Jens Axboe <axboe at kernel.dk>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: linux-block at vger.kernel.org
+Cc: linux-nvme at lists.infradead.org
+Link: http://lkml.kernel.org/r/20170626102058.10200-2-hch at lst.de
+Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
+Cc: Oleksandr Natalenko <oleksandr at natalenko.name>
+Cc: Mike Galbraith <efault at gmx.de>
+Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+
+---
+ block/blk-mq-cpumap.c |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+--- a/block/blk-mq-cpumap.c
++++ b/block/blk-mq-cpumap.c
+@@ -35,7 +35,6 @@ int blk_mq_map_queues(struct blk_mq_tag_
+ {
+ 	unsigned int *map = set->mq_map;
+ 	unsigned int nr_queues = set->nr_hw_queues;
+-	const struct cpumask *online_mask = cpu_online_mask;
+ 	unsigned int i, nr_cpus, nr_uniq_cpus, queue, first_sibling;
+ 	cpumask_var_t cpus;
+ 
+@@ -44,7 +43,7 @@ int blk_mq_map_queues(struct blk_mq_tag_
+ 
+ 	cpumask_clear(cpus);
+ 	nr_cpus = nr_uniq_cpus = 0;
+-	for_each_cpu(i, online_mask) {
++	for_each_present_cpu(i) {
+ 		nr_cpus++;
+ 		first_sibling = get_first_sibling(i);
+ 		if (!cpumask_test_cpu(first_sibling, cpus))
+@@ -54,7 +53,7 @@ int blk_mq_map_queues(struct blk_mq_tag_
+ 
+ 	queue = 0;
+ 	for_each_possible_cpu(i) {
+-		if (!cpumask_test_cpu(i, online_mask)) {
++		if (!cpumask_test_cpu(i, cpu_present_mask)) {
+ 			map[i] = 0;
+ 			continue;
+ 		}
