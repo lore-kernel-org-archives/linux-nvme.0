@@ -1,50 +1,47 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Wed, 9 Aug 2017 18:07:13 +0530
-Subject: [PATCH v3 03/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe
- devices
-In-Reply-To: <yq1o9rq6ntu.fsf@oracle.com>
-References: <1502183035-7441-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1502183035-7441-4-git-send-email-suganath-prabu.subramani@broadcom.com>
- <yq1o9rq6ntu.fsf@oracle.com>
-Message-ID: <CA+RiK65ccL8tMKhpyW=ZPRnSX2tetNhHJMnGzn2P=oBbK1LU4w@mail.gmail.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 9 Aug 2017 11:21:38 -0500
+Subject: Flush warning
+In-Reply-To: <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
+References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
+ <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
+ <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
+Message-ID: <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
 
-Hi Martin,
-This code was added to detect holes, when we started testing with 4.9
-kernel. when we disabled "use_blk_mq" and no merges, we are hitting
-issues with holes. Anyhow In latest upstream, it got fixed with this
-commit 5a8d75a1b8c99bdc926ba69b7b7dbe4fae81a5af
+> 
+> > > The WARNING seems to be due to nvmet_rdma_queue_connect() calling
+> > > flush_scheduled_work() while in the upcall from the RDMA_CM.  It I running
+> on
+> > > the iw_cm event workqueue, which is created with WQ_MEM_RECLAIM set.
+> I'm
+> > not
+> > > sure what this WARNING is telling me.  Does the iw_cm workqueue NOT need
+> > > WQ_MEM_RECLAIM set?  Or is there some other issue with the nvmet/rdma
+> > code doing
+> > > work flushing in the iw_cm workq context?
+> >
+> > This flush is designed to prevent nvmet-rdma from having too much
+> > inflight resources in case of a high pace of controller teardown and
+> > establishment (like you trigger in your test).
+> >
+> > queue teardowns are run on system_wq, does iw_cm needs memory
+> > reclamation protection?
+> 
+> I don't know.  I read the workqueue doc on WQ_MEM_RECLAIM, but I don't know
+> how
+> to tell if iw_cm needs this or not.  Can you give me an example of a workqueue
+> that _does_ need WQ_MEM_RECLAIM?  I _think_ it means your workqueue is
+> required
+> to run something that would get triggered by the oom OS code, but I don't know
+> if that would include rdma CMs or not...
 
-So we are removing the code related to hole detection .
+Many of the workqueues in infiniband/core use WQ_MEM_RECLAIM: cma, iwcm, mad,
+multicast, sa_query, and ucma. 
 
-Thanks,
-Suganath Prabu S
+Hey Sean, do you have any insight into whether the CMA modules really need
+WQ_MEM_RECLAIM for their workqueues?
 
+Does anyone else know?
 
+Thanks!
 
-On Tue, Aug 8, 2017 at 9:42 PM, Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
->
-> Suganath,
->
->> +     /*
->> +      ** Below code detects gaps/holes in IO data buffers.
->> +      ** What does holes/gaps mean?
->> +      ** Any SGE except first one in a SGL starts at non NVME page size
->> +      ** aligned address OR Any SGE except last one in a SGL ends at
->> +      ** non NVME page size boundary.
->> +      **
->> +      ** Driver has already informed block layer by setting boundary rules
->> +      ** for bio merging done at NVME page size boundary calling kernel API
->> +      ** blk_queue_virt_boundary inside slave_config.
->> +      ** Still there is possibility of IO coming with holes to driver because
->> +      ** of IO merging done by IO scheduler.
->
-> All this SGL to PRP code needs to go.
->
-> If you are seeing anything that's not a valid PRP after setting the
-> queue virt boundary then there's a block layer bug that needs to be
-> debugged and fixed. Regardless of whether you are using an I/O scheduler
-> or not.
->
-> --
-> Martin K. Petersen      Oracle Linux Engineering
+Steve.
