@@ -1,10 +1,20 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 10 Aug 2017 11:08:33 +0200
-Subject: [PATCH 2/2] lpfc: support nvmet_fc defer_rcv callback
-In-Reply-To: <20170801221240.31723-3-jsmart2021@gmail.com>
-References: <20170801221240.31723-1-jsmart2021@gmail.com>
- <20170801221240.31723-3-jsmart2021@gmail.com>
-Message-ID: <20170810090833.dwxelipklkvy3c6u@infradead.org>
+Date: Thu, 10 Aug 2017 02:09:58 -0700
+Subject: [PATCH] nvme-cli: fix connecting failure due to invalid uuid
+ format of hostid
+In-Reply-To: <1501767496-14144-1-git-send-email-guanjunxiong@huawei.com>
+References: <1501767496-14144-1-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <20170810090958.GA3880@infradead.org>
 
-Applied to nvme-4.13 with the void casts removed, but the strings left
-as the surrounding code.
+On Thu, Aug 03, 2017@09:38:16PM +0800, Guan Junxiong wrote:
+> When we connect or discover a target with --hostid option via the
+> /etc/nvme/hostid file, we fails this operation because the hostid
+> is only 35 not 36 bytes which doesn't pass the uuid checking in the
+> kernel.The last character is overridden with null bytes because fgets
+> reads at most one less than sizeof of buffer characters.
+> 
+> Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
+
+Looks good,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
