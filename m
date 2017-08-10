@@ -1,48 +1,36 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 10 Aug 2017 11:04:10 +0200
-Subject: [PATCH 1/2] nvmet_fc: add defer_req callback for deferment of
- cmd buffer return
-In-Reply-To: <20170802081617.GD4256@linux-x5ow.site>
-References: <20170801221240.31723-1-jsmart2021@gmail.com>
- <20170801221240.31723-2-jsmart2021@gmail.com>
- <20170802081617.GD4256@linux-x5ow.site>
-Message-ID: <20170810090410.x7xrk6dhml7ce7yh@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 10 Aug 2017 11:05:06 +0200
+Subject: [PATCH 1/2] nvme: Fix nvme reset command timeout handling
+In-Reply-To: <20170810085716.GA23246@lst.de>
+References: <1501174721-8253-1-git-send-email-keith.busch@intel.com>
+ <20170728075834.GC4043@linux-x5ow.site>
+ <20170810083827.GB22739@lst.de>
+ <20170810084818.GM4841@linux-x5ow.site>
+ <20170810085716.GA23246@lst.de>
+Message-ID: <20170810090506.GN4841@linux-x5ow.site>
 
-On Wed, Aug 02, 2017@10:16:17AM +0200, Johannes Thumshirn wrote:
-> On Tue, Aug 01, 2017@03:12:39PM -0700, James Smart wrote:
-> > @@ -463,9 +472,9 @@ static struct nvmet_fc_fcp_iod *
-> >  nvmet_fc_alloc_fcp_iod(struct nvmet_fc_tgt_queue *queue)
-> >  {
-> >  	static struct nvmet_fc_fcp_iod *fod;
-> > -	unsigned long flags;
-> >  
-> > -	spin_lock_irqsave(&queue->qlock, flags);
-> > +	/* Caller must hold queue->qlock */
-> +       lockped_assert_held(&queue->qlock); 
-> So we can check if the caller really holds the queue lock.
+On Thu, Aug 10, 2017@10:57:16AM +0200, Christoph Hellwig wrote:
+> On Thu, Aug 10, 2017@10:48:18AM +0200, Johannes Thumshirn wrote:
+> > On Thu, Aug 10, 2017@10:38:27AM +0200, Christoph Hellwig wrote:
+> > > Agreed.
+> > > 
+> > > We probably should get this series into 4.13, so other comments would
+> > > be welcome.
+> > 
+> > So with my proposed change I'm fine with it, so 
+> > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> > IFF the change is made. 
+> 
+> Given that you're awake now: can you resend a full patch with your
+> proposed changes included so that it can be tested when the Americans
+> get up? :)
 
-I've added the assert after applying the patch to the nvme-4.13 tree.
+It was originally Keith's patch, but sure, if you want me to.
 
-> > +
-> >  	fod = list_first_entry_or_null(&queue->fod_list,
-> >  					struct nvmet_fc_fcp_iod, fcp_list);
-> >  	if (fod) {
-> 
-> [...]
-> 
-> > +	for (;;) {
-> > +		deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
-> > +				struct nvmet_fc_defer_fcp_req, req_list);
-> > +		if (!deferfcp)
-> > +			break;
-> 
->         while ((deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
-> 				struct nvmet_fc_defer_fcp_req,
-> 				req_list)) != NULL) {
-> ?
-> 
-> Other than that,
-
-I have to admit that I'd just prefer an opencoded list_empty +
-container_of in both cases.  But given that all that is just personal
-preference I've left the code as submitted by James.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
