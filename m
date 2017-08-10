@@ -1,23 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 10 Aug 2017 10:57:16 +0200
-Subject: [PATCH 1/2] nvme: Fix nvme reset command timeout handling
-In-Reply-To: <20170810084818.GM4841@linux-x5ow.site>
-References: <1501174721-8253-1-git-send-email-keith.busch@intel.com>
- <20170728075834.GC4043@linux-x5ow.site> <20170810083827.GB22739@lst.de>
- <20170810084818.GM4841@linux-x5ow.site>
-Message-ID: <20170810085716.GA23246@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 10 Aug 2017 01:59:05 -0700
+Subject: [PATCH V3] nvme-pci: add sgl support
+In-Reply-To: <20170801084803.GB7837@localhost.localdomain>
+References: <20170726181931.21150-1-chaitanya.kulkarni@hgst.com>
+ <4af4843c-1f8e-3b97-af79-ec065dbffd5b@grimberg.me>
+ <MWHPR04MB1008D3259D1E7EDB5BAC0FDD86B30@MWHPR04MB1008.namprd04.prod.outlook.com>
+ <20170801084803.GB7837@localhost.localdomain>
+Message-ID: <20170810085905.GA12494@infradead.org>
 
-On Thu, Aug 10, 2017@10:48:18AM +0200, Johannes Thumshirn wrote:
-> On Thu, Aug 10, 2017@10:38:27AM +0200, Christoph Hellwig wrote:
-> > Agreed.
-> > 
-> > We probably should get this series into 4.13, so other comments would
-> > be welcome.
+On Tue, Aug 01, 2017@04:48:04AM -0400, Keith Busch wrote:
+> On Tue, Aug 01, 2017@08:29:00AM +0000, Chaitanya Kulkarni wrote:
+> > [CK] Yes, I've observed approximately %5 better
+> > performance for IO sizes larger than 32k (for sgl_threshold = 32k).
 > 
-> So with my proposed change I'm fine with it, so 
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> IFF the change is made. 
+> Is that a physically contiguous 32k, or does each 4k require a different
+> SG element? Could you try to force both conditions and see how each
+> scenario compares with PRP?
 
-Given that you're awake now: can you resend a full patch with your
-proposed changes included so that it can be tested when the Americans
-get up? :)
+How do we find out the segment alignment without walking the list of
+biovecs, which would be rather annoying.
