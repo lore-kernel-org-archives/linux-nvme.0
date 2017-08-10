@@ -1,21 +1,25 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 10 Aug 2017 10:36:50 +0200
-Subject: [PATCH] nvme: fix directive command numd calculation
-In-Reply-To: <6cfd6f4a-ead7-2e60-398e-748dd1b62b3c@kernel.dk>
-References: <CGME20170809182322epcas2p177ff5f42184c24dcab4a73a9c640916b@epcas2p1.samsung.com>
- <1502303189-11939-1-git-send-email-kwan.huen@ssi.samsung.com>
- <6cfd6f4a-ead7-2e60-398e-748dd1b62b3c@kernel.dk>
-Message-ID: <20170810083650.GA22739@lst.de>
+Date: Thu, 10 Aug 2017 10:38:27 +0200
+Subject: [PATCH 1/2] nvme: Fix nvme reset command timeout handling
+In-Reply-To: <20170728075834.GC4043@linux-x5ow.site>
+References: <1501174721-8253-1-git-send-email-keith.busch@intel.com>
+ <20170728075834.GC4043@linux-x5ow.site>
+Message-ID: <20170810083827.GB22739@lst.de>
 
-On Wed, Aug 09, 2017@01:23:47PM -0600, Jens Axboe wrote:
-> On 08/09/2017 12:26 PM, kwan.huen@ssi.samsung.com wrote:
-> > From: "Kwan (Hingkwan) Huen-SSI" <kwan.huen at samsung.com>
-> > 
-> > The numd field of directive receive command takes number of dwords to 
-> > transfer. This fix has the correct calculation for numd.
+On Fri, Jul 28, 2017@09:58:34AM +0200, Johannes Thumshirn wrote:
+> On Thu, Jul 27, 2017@12:58:40PM -0400, Keith Busch wrote:
+> >  static void nvme_set_latency_tolerance(struct device *dev, s32 val)
+> > @@ -1856,17 +1857,25 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+> >  
+> >  	kfree(id);
+> >  
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
 > 
-> Oops, that's my bad.
-> 
-> Reviewed-by: Jens Axboe <axboe at kernel.dk>
+> This is a bit confusing IMHO, how about this?
 
-Do you want to take it directly for the block tree?
+Agreed.
+
+We probably should get this series into 4.13, so other comments would
+be welcome.
