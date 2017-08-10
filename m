@@ -1,9 +1,10 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 10 Aug 2017 01:59:50 -0700
-Subject: Bug Report: can't unload nvme module in case of disabled device
-In-Reply-To: <f28ebc80-0e67-8af7-79b2-a4b368e4bd83@mellanox.com>
-References: <f28ebc80-0e67-8af7-79b2-a4b368e4bd83@mellanox.com>
-Message-ID: <20170810085950.GB12494@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 10 Aug 2017 10:55:10 +0200
+Subject: [PATCH 00/12] Few more patches from the centralization set
+In-Reply-To: <1499667759-15965-1-git-send-email-sagi@grimberg.me>
+References: <1499667759-15965-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170810085510.GA23011@lst.de>
 
-Is this a PCIe or fabrics controller?  Did you get a chance to bisect
-where this behavior appeared?
+Thanks Sagi,
+
+I've applied the series to the nvme-4.14 branch.
