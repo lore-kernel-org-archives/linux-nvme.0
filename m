@@ -1,10 +1,10 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 10 Aug 2017 02:24:21 -0700
-Subject: [PATCH] nvme_fc: Reattach to localports on re-registration
-In-Reply-To: <20170731202030.18150-1-jsmart2021@gmail.com>
-References: <20170731202030.18150-1-jsmart2021@gmail.com>
-Message-ID: <20170810092421.GB1442@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 10 Aug 2017 11:26:24 +0200
+Subject: [PATCH v2] nvme: Fix nvme reset command timeout handling
+In-Reply-To: <20170810092331.11159-1-jthumshirn@suse.de>
+References: <20170810092331.11159-1-jthumshirn@suse.de>
+Message-ID: <20170810092624.GA24539@lst.de>
 
-This looks reasonable to me:
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
