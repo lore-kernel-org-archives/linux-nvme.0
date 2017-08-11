@@ -1,20 +1,24 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 16 Aug 2017 17:17:23 +0200
-Subject: Centralize nvme controller reset, delete and fabrics periodic
- reconnects
-In-Reply-To: <de413980-1382-7567-b0d4-3207a4476719@grimberg.me>
-References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
- <20170816104935.GA30525@lst.de>
- <de413980-1382-7567-b0d4-3207a4476719@grimberg.me>
-Message-ID: <20170816151723.GA18932@lst.de>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Fri, 11 Aug 2017 05:08:37 -0600
+Subject: nvme-4.14 rebased
+In-Reply-To: <20170816081346.GA18770@lst.de>
+References: <20170816081346.GA18770@lst.de>
+Message-ID: <fe7dede5-824f-fc20-766d-417775193c66@intel.com>
 
-On Wed, Aug 16, 2017@04:51:31PM +0300, Sagi Grimberg wrote:
-> I think its a very desirable goal to have PCIe consolidate with fabrics
-> here, so I'd like to shoot for that and backoff later (and change again
-> where makes sense).
->
-> Having said that, I'm very much open to suggestions if you have anything
-> better in mind...
+On 08/16/2017 02:13 AM, Christoph Hellwig wrote:
+> Hi all,
+> 
+> I've rebased the nvme-4.14 branch on top of the nvme-4.13 branch
+> to avoid conflicts.  As part of that I made the timestamp set features
+> return an error similar to the other reset fixes.
+> 
+> Jon: can you double check the change is correct?
+> 
 
-Not too many suggestions - you want to see it done before we go on
-merging the code..
+Hi Christoph,
+
+The only thing I'd suggest is not letting a failure to set the timestamp
+be a failure to initialize the controller.
+
+Regards,
+Jon
