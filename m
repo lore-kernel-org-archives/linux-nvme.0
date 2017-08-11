@@ -1,554 +1,2745 @@
 From: kwan.huen@samsung.com (kwan.huen@samsung.com)
-Date: Thu, 10 Aug 2017 19:54:10 -0700
-Subject: [PATCH 1/2] nvme-cli: add nvme directive command support
+Date: Thu, 10 Aug 2017 19:54:11 -0700
+Subject: [PATCH 2/2] nvme-cli: add documentation for directive commands
 In-Reply-To: <1502420051-12378-1-git-send-email-kwan.huen@samsung.com>
 References: <1502420051-12378-1-git-send-email-kwan.huen@samsung.com>
- <CGME20170811025054epcas1p48a24a0bd619e8bf754127422db8ebab9@epcas1p4.samsung.com>
-Message-ID: <1502420051-12378-2-git-send-email-kwan.huen@samsung.com>
+ <CGME20170811025056epcas1p30aae5c55b4c1dc7a6ae9142a11bf41ed@epcas1p3.samsung.com>
+Message-ID: <1502420051-12378-3-git-send-email-kwan.huen@samsung.com>
 
 From: "Kwan (Hingkwan) Huen-SSI" <kwan.huen@samsung.com>
 
 Signed-off-by: Kwan (Hingkwan) Huen-SSI <kwan.huen at samsung.com>
 ---
- linux/nvme.h   |  35 ++++++++
- nvme-builtin.h |   2 +
- nvme-ioctl.c   |  41 +++++++++
- nvme-ioctl.h   |   5 ++
- nvme-print.c   |  59 ++++++++++++-
- nvme-print.h   |   1 +
- nvme.c         | 260 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 402 insertions(+), 1 deletion(-)
+ Documentation/nvme-dir-receive.1    | 235 +++++++++
+ Documentation/nvme-dir-receive.html | 975 +++++++++++++++++++++++++++++++++++
+ Documentation/nvme-dir-receive.txt  | 118 +++++
+ Documentation/nvme-dir-send.1       | 241 +++++++++
+ Documentation/nvme-dir-send.html    | 988 ++++++++++++++++++++++++++++++++++++
+ Documentation/nvme-dir-send.txt     | 124 +++++
+ 6 files changed, 2681 insertions(+)
+ create mode 100644 Documentation/nvme-dir-receive.1
+ create mode 100644 Documentation/nvme-dir-receive.html
+ create mode 100644 Documentation/nvme-dir-receive.txt
+ create mode 100644 Documentation/nvme-dir-send.1
+ create mode 100644 Documentation/nvme-dir-send.html
+ create mode 100644 Documentation/nvme-dir-send.txt
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index 19354a5..44b8bd0 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -253,6 +253,7 @@ enum {
- 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
- 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
- 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
-+	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
- 	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 7,
- };
- 
-@@ -304,6 +305,19 @@ enum {
- };
- 
- enum {
-+	NVME_DIR_IDENTIFY		= 0x00,
-+	NVME_DIR_STREAMS		= 0x01,
-+	NVME_DIR_SND_ID_OP_ENABLE	= 0x01,
-+	NVME_DIR_SND_ST_OP_REL_ID	= 0x01,
-+	NVME_DIR_SND_ST_OP_REL_RSC	= 0x02,
-+	NVME_DIR_RCV_ID_OP_PARAM	= 0x01,
-+	NVME_DIR_RCV_ST_OP_PARAM	= 0x01,
-+	NVME_DIR_RCV_ST_OP_STATUS	= 0x02,
-+	NVME_DIR_RCV_ST_OP_RESOURCE	= 0x03,
-+	NVME_DIR_ENDIR			= 0x01,
-+};
+diff --git a/Documentation/nvme-dir-receive.1 b/Documentation/nvme-dir-receive.1
+new file mode 100644
+index 0000000..7b6c1db
+--- /dev/null
++++ b/Documentation/nvme-dir-receive.1
+@@ -0,0 +1,235 @@
++'\" t
++.\"     Title: nvme-dir-receive
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
++.\"      Date: 08/10/2017
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-DIR\-RECEIVE" "1" "08/10/2017" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-dir-receive \- Send a directive receive command, returns applicable results
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme dir\-receive\fR <device> [\-\-namespace\-id=<nsid> | \-n <nsid>]
++                          [\-\-data\-len=<data\-len> | \-l <data\-len>]
++                          [\-\-dir\-type=<dtype> | \-D <dtype>]
++                          [\-\-dir\-spec=<dspec> | \-S <dspec>]
++                          [\-\-dir\-oper=<doper> | \-O <doper>]
++                          [\-\-req\-resource=<nsr> | \-r <nsr>]
++                          [\-\-human\-readable | \-H]
++                          [\-\-raw\-binary | \-b]
++.fi
++.SH "DESCRIPTION"
++.sp
++Submits an NVMe Directive Receive admin command and returns the applicable results\&. This may be the combination of directive type, and operation, as well as number of requested resource if specific operation needs it\&.
++.sp
++The <device> parameter is mandatory and may be either the NVMe character device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1)\&.
++.sp
++On success, the returned directive\(cqs parameter structure (if applicable) is returned in one of several ways depending on the option flags; the structure may parsed by the program and printed in a readable format if it is a known structure, displayed in hex, or the raw buffer may be printed to stdout for another program to parse\&.
++.SH "OPTIONS"
++.PP
++\-n <nsid>, \-\-namespace\-id=<nsid>
++.RS 4
++Retrieve the feature for the given nsid\&. This is optional and most features do not use this value\&.
++.RE
++.PP
++\-D <dtype>, \-\-dir\-type=<dtype>
++.RS 4
++Directive type
++.RE
++.PP
++\-S <dspec>, \-\-dir\-spec=<dspec>
++.RS 4
++Directive specific
++.RE
++.PP
++\-O <doper>, \-\-dir\-oper=<doper>
++.RS 4
++Directive operation
++.RE
++.PP
++\-r <nsr>, \-\-req\-resource=<nsr>
++.RS 4
++Directive requested resource count
++.RE
++.sp
+++
++.TS
++allbox tab(:);
++lt lt
++lt lt
++lt lt
++lt lt
++lt lt
++lt lt.
++T{
++.sp
++Select
++T}:T{
++.sp
++Description
++T}
++T{
++.sp
++0
++T}:T{
++.sp
++Current
++T}
++T{
++.sp
++1
++T}:T{
++.sp
++Default
++T}
++T{
++.sp
++2
++T}:T{
++.sp
++Saved
++T}
++T{
++.sp
++3
++T}:T{
++.sp
++Supported capabilities
++T}
++T{
++.sp
++4\(en7
++T}:T{
++.sp
++Reserved
++T}
++.TE
++.sp 1
++.PP
++\-l <data\-len>, \-\-data\-len=<data\-len>
++.RS 4
++The data length for the buffer returned for this feature\&. Most known features do not use this value\&. The exception is LBA Range Type
++.RE
++.PP
++\-b, \-\-raw\-binary
++.RS 4
++Print the raw receive buffer to stdout if the command returns a structure\&.
++.RE
++.PP
++\-H, \-\-human\-readable
++.RS 4
++Print the decoded receive buffer to stdout if the command returns a structure\&.
++.RE
++.SH "EXAMPLES"
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Identify directive type supported :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-receive /dev/nvme0 \-\-dir\-type 0 \-\-dir\-oper 1 \-\-human\-readable
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Get stream directive parameters :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-receive /dev/nvme0 \-\-dir\-type 1 \-\-dir\-oper 1 \-\-human\-readable
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Allocate 3 streams for namespace 1
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-receive /dev/nvme0n1 \-\-dir\-type 1 \-\-dir\-oper 3 \-\-req\-resource 3 \-\-human\-readable
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Get streams directive status :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-receive /dev/nvme0 \-\-dir\-type 1 \-\-dir\-oper 2 \-\-human\-readable
++.fi
++.if n \{\
++.RE
++.\}
++.sp
++It is probably a bad idea to not redirect stdout when using this mode\&.
++.RE
++.SH "NVME"
++.sp
++Part of the nvme\-user suite
+diff --git a/Documentation/nvme-dir-receive.html b/Documentation/nvme-dir-receive.html
+new file mode 100644
+index 0000000..c704e5f
+--- /dev/null
++++ b/Documentation/nvme-dir-receive.html
+@@ -0,0 +1,975 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc 8.6.9" />
++<title>nvme-dir-receive(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 +
-+enum {
- 	NVME_NS_FEAT_THIN	= 1 << 0,
- 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
- 	NVME_NS_FLBAS_META_EXT	= 0x10,
-@@ -582,6 +596,7 @@ enum {
- 	NVME_RW_PRINFO_PRCHK_APP	= 1 << 11,
- 	NVME_RW_PRINFO_PRCHK_GUARD	= 1 << 12,
- 	NVME_RW_PRINFO_PRACT		= 1 << 13,
-+	NVME_RW_DTYPE_STREAMS		= 1 << 4,
- };
- 
- struct nvme_dsm_cmd {
-@@ -656,6 +671,8 @@ enum nvme_admin_opcode {
- 	nvme_admin_download_fw		= 0x11,
- 	nvme_admin_ns_attach		= 0x15,
- 	nvme_admin_keep_alive		= 0x18,
-+	nvme_admin_directive_send       = 0x19,
-+	nvme_admin_directive_recv       = 0x1a,
- 	nvme_admin_dbbuf		= 0x7C,
- 	nvme_admin_format_nvm		= 0x80,
- 	nvme_admin_security_send	= 0x81,
-@@ -983,6 +1000,23 @@ struct nvme_dbbuf {
- 	__u32			rsvd12[6];
- };
- 
-+struct nvme_directive_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd2[2];
-+	union nvme_data_ptr	dptr;
-+	__le32			numd;
-+	__u8			doper;
-+	__u8			dtype;
-+	__le16			dspec;
-+	__u8			endir;
-+	__u8			tdtype;
-+	__u16			rsvd15;
-+	__u32			rsvd16[3];
-+};
-+
- struct nvme_command {
- 	union {
- 		struct nvme_common_command common;
-@@ -1003,6 +1037,7 @@ struct nvme_command {
- 		struct nvmf_property_set_command prop_set;
- 		struct nvmf_property_get_command prop_get;
- 		struct nvme_dbbuf dbbuf;
-+		struct nvme_directive_cmd directive;
- 	};
- };
- 
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index 2143ffd..b24c25b 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -52,6 +52,8 @@ COMMAND_LIST(
- 	ENTRY("connect", "Connect to NVMeoF subsystem", connect_cmd)
- 	ENTRY("disconnect", "Disconnect from NVMeoF subsystem", disconnect_cmd)
- 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
-+	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
-+	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
- );
- 
- #endif
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index e0955b7..ca77c44 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -588,3 +588,44 @@ int nvme_sec_recv(int fd, __u32 nsid, __u8 nssf, __u16 spsp,
- 		*result = cmd.result;
- 	return err;
- }
-+
-+int nvme_dir_send(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
-+                  __u32 data_len, __u32 dw12, void *data, __u32 *result)
-+{
-+        struct nvme_admin_cmd cmd = {
-+                .opcode         = nvme_admin_directive_send,
-+                .addr           = (__u64)(uintptr_t) data,
-+                .data_len       = data_len,
-+                .nsid           = nsid,
-+                .cdw10          = data_len? (data_len >> 2) - 1 : 0,
-+                .cdw11          = dspec << 16 | dtype << 8 | doper,
-+                .cdw12          = dw12,
-+        };
-+        int err;
-+
-+        err = nvme_submit_admin_passthru(fd, &cmd);
-+        if (!err && result)
-+                *result = cmd.result;
-+        return err;
++/* Default font. */
++body {
++  font-family: Georgia,serif;
 +}
 +
-+int nvme_dir_recv(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
-+                  __u32 data_len, __u32 dw12, void *data, __u32 *result)
-+{
-+        struct nvme_admin_cmd cmd = {
-+                .opcode         = nvme_admin_directive_recv,
-+                .addr           = (__u64)(uintptr_t) data,
-+                .data_len       = data_len,
-+                .nsid           = nsid,
-+                .cdw10          = data_len? (data_len >> 2) - 1 : 0,
-+                .cdw11          = dspec << 16 | dtype << 8 | doper,
-+                .cdw12          = dw12,
-+        };
-+        int err;
-+
-+        err = nvme_submit_admin_passthru(fd, &cmd);
-+        if (!err && result)
-+                *result = cmd.result;
-+        return err;
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
 +}
 +
-diff --git a/nvme-ioctl.h b/nvme-ioctl.h
-index 7818721..4aee90a 100644
---- a/nvme-ioctl.h
-+++ b/nvme-ioctl.h
-@@ -116,4 +116,9 @@ int nvme_sec_recv(int fd, __u32 nsid, __u8 nssf, __u16 spsp,
- int nvme_subsystem_reset(int fd);
- int nvme_reset_controller(int fd);
- 
-+int nvme_dir_send(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
-+		  __u32 data_len, __u32 dw12, void *data, __u32 *result);
-+int nvme_dir_recv(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
-+		  __u32 data_len, __u32 dw12, void *data, __u32 *result);
-+
- #endif				/* _NVME_LIB_H */
-diff --git a/nvme-print.c b/nvme-print.c
-index f03382f..cec0bdb 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -122,7 +122,9 @@ static void show_nvme_id_ctrl_ctratt(__le32 ctrl_ctratt)
- static void show_nvme_id_ctrl_oacs(__le16 ctrl_oacs)
- {
- 	__u16 oacs = le16_to_cpu(ctrl_oacs);
--	__u16 rsvd = (oacs & 0xFFF0) >> 4;
-+	__u16 rsvd = (oacs & 0xFFF0) >> 6;
-+	__u16 dir = (oacs & 0x20) >> 5;
-+	__u16 sft = (oacs & 0x10) >> 4;
- 	__u16 nsm = (oacs & 0x8) >> 3;
- 	__u16 fwc = (oacs & 0x4) >> 2;
- 	__u16 fmt = (oacs & 0x2) >> 1;
-@@ -130,6 +132,10 @@ static void show_nvme_id_ctrl_oacs(__le16 ctrl_oacs)
- 
- 	if (rsvd)
- 		printf(" [15:4] : %#x\tReserved\n", rsvd);
-+	printf("  [5:5] : %#x\tDirectives %sSupported\n",
-+		dir, dir ? "" : "Not ");
-+	printf("  [4:4] : %#x\tDevice Self-test %sSupported\n",
-+		sft, sft ? "" : "Not ");
- 	printf("  [3:3] : %#x\tNS Management and Attachment %sSupported\n",
- 		nsm, nsm ? "" : "Not ");
- 	printf("  [2:2] : %#x\tFW Commit and Download %sSupported\n",
-@@ -1242,6 +1248,57 @@ static void show_host_mem_buffer(struct nvme_host_mem_buffer *hmb)
- 	printf("\tHost Memory Buffer Size                  (HSIZE): %u\n", hmb->hsize);
- }
- 
-+void nvme_directive_show_fields(__u8 dtype, __u8 doper, unsigned int result, unsigned char *buf)
-+{
-+        __u8 *field = buf;
-+        int count, i;
-+        switch (dtype) {
-+        case NVME_DIR_IDENTIFY:
-+                switch (doper) {
-+                case NVME_DIR_RCV_ID_OP_PARAM:
-+                        printf("\tDirective support \n");
-+                        printf("\t\tIdentify Directive  : %s\n", (*field & 0x1) ? "supported":"not supported");
-+                        printf("\t\tStream Directive    : %s\n", (*field & 0x2) ? "supported":"not supported");
-+                        printf("\tDirective status \n");
-+                        printf("\t\tIdentify Directive  : %s\n", (*(field + 32) & 0x1) ? "enabled" : "disabled");
-+                        printf("\t\tStream Directive    : %s\n", (*(field + 32) & 0x2) ? "enabled" : "disabled");
-+                        break;
-+                default:
-+                        fprintf(stderr, "invalid directive operations for Identify Directives\n");
-+                }
-+                break;
-+        case NVME_DIR_STREAMS:
-+                switch (doper) {
-+                case NVME_DIR_RCV_ST_OP_PARAM:
-+                        printf("\tMax Streams Limit                          (MSL): %u\n", *(__u16 *) field);
-+                        printf("\tNVM Subsystem Streams Available           (NSSA): %u\n", *(__u16 *) (field + 2));
-+                        printf("\tNVM Subsystem Streams Open                (NSSO): %u\n", *(__u16 *) (field + 4));
-+                        printf("\tStream Write Size (in unit of LB size)     (SWS): %u\n", *(__u32 *) (field + 16));
-+                        printf("\tStream Granularity Size (in unit of SWS)   (SGS): %u\n", *(__u16 *) (field + 20));
-+                        printf("\tNamespece Streams Allocated                (NSA): %u\n", *(__u16 *) (field + 22));
-+                        printf("\tNamespace Streams Open                     (NSO): %u\n", *(__u16 *) (field + 24));
-+                        break;
-+                case NVME_DIR_RCV_ST_OP_STATUS:
-+                        count = *(__u16 *) field;
-+                        printf("\tOpen Stream Count  : %u\n", *(__u16 *) field);
-+                        for ( i = 0; i < count; i++ ) {
-+                                printf("\tStream Identifier %.6u : %u\n", i + 1, *(__u16 *) (field + ((i + 1) * 2)));
-+                        }
-+                        break;
-+                case NVME_DIR_RCV_ST_OP_RESOURCE:
-+                        printf("\tNamespace Streams Allocated (NSA): %u\n", result & 0xffff);
-+                        break;
-+                default:
-+                        fprintf(stderr, "invalid directive operations for Streams Directives\n");
-+                }
-+                break;
-+        default:
-+                fprintf(stderr, "invalid directive type\n");
-+                break;
-+        }
-+        return;
++body {
++  margin: 1em 5% 1em 5%;
 +}
 +
- void nvme_feature_show_fields(__u32 fid, unsigned int result, unsigned char *buf)
- {
- 	__u8 field;
-diff --git a/nvme-print.h b/nvme-print.h
-index fd89c96..4cdcb95 100644
---- a/nvme-print.h
-+++ b/nvme-print.h
-@@ -29,6 +29,7 @@ void show_ctrl_registers(void *bar, unsigned int mode);
- void show_nvme_id_ns_descs(void *data);
- 
- void nvme_feature_show_fields(__u32 fid, unsigned int result, unsigned char *buf);
-+void nvme_directive_show_fields(__u8 dtype, __u8 doper, unsigned int result, unsigned char *buf);
- char *nvme_status_to_string(__u32 status);
- char *nvme_select_to_string(int sel);
- char *nvme_feature_to_string(int feature);
-diff --git a/nvme.c b/nvme.c
-index b4a039a..e78a379 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -1925,6 +1925,142 @@ static int sec_send(int argc, char **argv, struct command *cmd, struct plugin *p
- 	return err;
- }
- 
-+static int dir_send(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+        const char *desc = "Set directive parameters of the "\
-+                "specified directive type.";
-+        const char *raw_binary = "show infos in binary format";
-+        const char *namespace_id = "identifier of desired namespace";
-+        const char *data_len = "buffer len (if) data is returned";
-+        const char *dtype = "directive type";
-+        const char *dspec = "directive specification associated with directive type";
-+        const char *doper = "directive operation";
-+        const char *endir = "directive enable";
-+        const char *ttype = "target directive type to be enabled/disabled";
-+        const char *human_readable = "show infos in readable format";
-+        int err, fd;
-+        __u32 result;
-+        __u32 dw12 = 0;
-+        void *buf = NULL;
-+        int ffd = STDIN_FILENO;
-+
-+        struct config {
-+                char *file;
-+                __u32 namespace_id;
-+                __u32 data_len;
-+                __u16 dspec;
-+                __u8  dtype;
-+                __u8  doper;
-+                __u16 endir;
-+                __u8  ttype;
-+                int  raw_binary;
-+                int  human_readable;
-+        };
-+
-+        struct config cfg = {
-+                .file         = "",
-+                .namespace_id = 1,
-+                .data_len     = 0,
-+                .dspec        = 0,
-+                .dtype        = 0,
-+                .ttype        = 0,
-+                .doper        = 0,
-+                .endir        = 1,
-+        };
-+
-+        const struct argconfig_commandline_options command_line_options[] = {
-+                {"namespace-id",   'n', "NUM", CFG_POSITIVE, &cfg.namespace_id,   required_argument, namespace_id},
-+                {"data-len",       'l', "NUM", CFG_POSITIVE, &cfg.data_len,       required_argument, data_len},
-+                {"raw-binary",     'b', "FLAG",CFG_NONE,     &cfg.raw_binary,     no_argument,       raw_binary},
-+                {"dir-type",       'D', "NUM", CFG_BYTE,     &cfg.dtype,          required_argument, dtype},
-+                {"target-dir",     'T', "NUM", CFG_BYTE,     &cfg.ttype,          required_argument, ttype},
-+                {"dir-spec",       'S', "NUM", CFG_SHORT,    &cfg.dspec,          required_argument, dspec},
-+                {"dir-oper",       'O', "NUM", CFG_BYTE,     &cfg.doper,          required_argument, doper},
-+                {"endir",          'e', "NUM", CFG_SHORT,    &cfg.endir,          required_argument, endir},
-+                {"human-readable", 'H', "FLAG",CFG_NONE,     &cfg.human_readable, no_argument,       human_readable},
-+                {NULL}
-+        };
-+
-+        fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
-+	if (fd < 0)
-+		return fd;
-+
-+        switch (cfg.dtype) {
-+        case NVME_DIR_IDENTIFY:
-+                switch (cfg.doper) {
-+                case NVME_DIR_SND_ID_OP_ENABLE:
-+                        if (!cfg.ttype) {
-+                                fprintf(stderr, "target-dir required param\n");
-+                                return EINVAL;
-+                        }
-+                        dw12 = cfg.ttype << 8 | cfg.endir;
-+                        break;
-+                default:
-+                        fprintf(stderr, "invalid directive operations for Identify Directives\n");
-+                        return EINVAL;
-+                }
-+                break;
-+        case NVME_DIR_STREAMS:
-+                switch (cfg.doper) {
-+                case NVME_DIR_SND_ST_OP_REL_ID:
-+                case NVME_DIR_SND_ST_OP_REL_RSC:
-+                        break;
-+                default:
-+                        fprintf(stderr, "invalid directive operations for Streams Directives\n");
-+                        return EINVAL;
-+                }
-+                break;
-+        default:
-+                fprintf(stderr, "invalid directive type\n");
-+                return EINVAL;
-+                break;
-+        }
-+
-+
-+        if (cfg.data_len) {
-+                if (posix_memalign(&buf, getpagesize(), cfg.data_len))
-+                        exit(ENOMEM);
-+                memset(buf, 0, cfg.data_len);
-+        }
-+
-+        if (buf) {
-+                if (strlen(cfg.file)) {
-+                        ffd = open(cfg.file, O_RDONLY);
-+                        if (ffd <= 0) {
-+                                fprintf(stderr, "no firmware file provided\n");
-+                                return -EINVAL;
-+                        }
-+                }
-+                if (read(ffd, (void *)buf, cfg.data_len) < 0) {
-+                        fprintf(stderr, "failed to read data buffer from input file\n");
-+                        return EINVAL;
-+                }
-+        }
-+
-+        err = nvme_dir_send(fd, cfg.namespace_id, cfg.dspec, cfg.dtype, cfg.doper,
-+                                cfg.data_len, dw12, buf, &result);
-+        if (err < 0) {
-+                perror("dir-send");
-+                return errno;
-+        }
-+        if (!err) {
-+                printf("dir-send: type %#x, operation %#x, spec_val %#x, nsid %#x, result %#x \n",
-+                                cfg.dtype, cfg.doper, cfg.dspec, cfg.namespace_id, result);
-+                if (buf) {
-+                        if (!cfg.raw_binary)
-+                                d(buf, cfg.data_len, 16, 1);
-+                        else
-+                                d_raw(buf, cfg.data_len);
-+                }
-+        }
-+        else if (err > 0)
-+                fprintf(stderr, "NVMe Status:%s(%x)\n",
-+                                nvme_status_to_string(err), err);
-+        if (buf)
-+                free(buf);
-+        return err;
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
 +}
 +
- static int write_uncor(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
- 	int err, fd;
-@@ -2753,6 +2889,130 @@ static int sec_recv(int argc, char **argv, struct command *cmd, struct plugin *p
- 	return err;
- }
- 
-+static int dir_receive(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+        const char *desc = "Read directive parameters of the "\
-+                "specified directive type.";
-+        const char *raw_binary = "show infos in binary format";
-+        const char *namespace_id = "identifier of desired namespace";
-+        const char *data_len = "buffer len (if) data is returned";
-+        const char *dtype = "directive type";
-+        const char *dspec = "directive specification associated with directive type";
-+        const char *doper = "directive operation";
-+        const char *nsr = "namespace stream requested";
-+        const char *human_readable = "show infos in readable format";
-+        int err, fd;
-+        __u32 result;
-+        __u32 dw12 = 0;
-+        void *buf = NULL;
-+
-+        struct config {
-+                __u32 namespace_id;
-+                __u32 data_len;
-+                __u16 dspec;
-+                __u8  dtype;
-+                __u8  doper;
-+                __u16 nsr; /* dw12 for NVME_DIR_ST_RCVOP_STATUS */
-+                int  raw_binary;
-+                int  human_readable;
-+        };
-+
-+        struct config cfg = {
-+                .namespace_id = 1,
-+                .data_len     = 0,
-+                .dspec        = 0,
-+                .dtype        = 0,
-+                .doper        = 0,
-+                .nsr          = 0,
-+        };
-+
-+        const struct argconfig_commandline_options command_line_options[] = {
-+                {"namespace-id",   'n', "NUM", CFG_POSITIVE, &cfg.namespace_id,   required_argument, namespace_id},
-+                {"data-len",       'l', "NUM", CFG_POSITIVE, &cfg.data_len,       required_argument, data_len},
-+                {"raw-binary",     'b', "FLAG",CFG_NONE,     &cfg.raw_binary,     no_argument,       raw_binary},
-+                {"dir-type",       'D', "NUM", CFG_BYTE,     &cfg.dtype,          required_argument, dtype},
-+                {"dir-spec",       'S', "NUM", CFG_SHORT,    &cfg.dspec,          required_argument, dspec},
-+                {"dir-oper",       'O', "NUM", CFG_BYTE,     &cfg.doper,          required_argument, doper},
-+                {"req-resource",   'r', "NUM", CFG_SHORT,    &cfg.nsr,            required_argument, nsr},
-+                {"human-readable", 'H', "FLAG",CFG_NONE,     &cfg.human_readable, no_argument,       human_readable},
-+                {NULL}
-+        };
-+
-+        fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
-+	if (fd < 0)
-+		return fd;
-+
-+        switch (cfg.dtype) {
-+        case NVME_DIR_IDENTIFY:
-+                switch (cfg.doper) {
-+                case NVME_DIR_RCV_ID_OP_PARAM:
-+                        if (!cfg.data_len)
-+                                cfg.data_len = 4096;
-+                        break;
-+                default:
-+                        fprintf(stderr, "invalid directive operations for Identify Directives\n");
-+                        return EINVAL;
-+                }
-+                break;
-+        case NVME_DIR_STREAMS:
-+                switch (cfg.doper) {
-+                case NVME_DIR_RCV_ST_OP_PARAM:
-+                        if (!cfg.data_len)
-+                                cfg.data_len = 32;
-+                        break;
-+                case NVME_DIR_RCV_ST_OP_STATUS:
-+                        if (!cfg.data_len)
-+                                cfg.data_len = 128 * 1024;
-+                        break;
-+                case NVME_DIR_RCV_ST_OP_RESOURCE:
-+                        dw12 = cfg.nsr;
-+                        break;
-+                default:
-+                        fprintf(stderr, "invalid directive operations for Streams Directives\n");
-+                        return EINVAL;
-+                }
-+                break;
-+        default:
-+                fprintf(stderr, "invalid directive type\n");
-+                return EINVAL;
-+                break;
-+        }
-+
-+        if (cfg.data_len) {
-+                if (posix_memalign(&buf, getpagesize(), cfg.data_len))
-+                        exit(ENOMEM);
-+                memset(buf, 0, cfg.data_len);
-+        }
-+
-+        err = nvme_dir_recv(fd, cfg.namespace_id, cfg.dspec, cfg.dtype, cfg.doper,
-+                        cfg.data_len, dw12, buf, &result);
-+        if (err < 0) {
-+                perror("dir-receive");
-+                return errno;
-+        }
-+
-+        if (!err) {
-+                printf("dir-receive: type %#x, operation %#x, spec %#x, nsid %#x, result %#x \n",
-+                                cfg.dtype, cfg.doper, cfg.dspec, cfg.namespace_id, result);
-+                if (cfg.human_readable)
-+                        nvme_directive_show_fields(cfg.dtype, cfg.doper, result, buf);
-+                else {
-+                        if (buf) {
-+                                if (!cfg.raw_binary)
-+                                        d(buf, cfg.data_len, 16, 1);
-+                                else
-+                                        d_raw(buf, cfg.data_len);
-+                        }
-+                }
-+        }
-+        else if (err > 0)
-+                fprintf(stderr, "NVMe Status:%s(%x)\n",
-+                                nvme_status_to_string(err), err);
-+        if (buf)
-+                free(buf);
-+        return err;
++em {
++  font-style: italic;
++  color: navy;
 +}
 +
- static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, struct command *cmd)
- {
- 	void *data = NULL, *metadata = NULL;
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++pre {
++  white-space: pre-wrap;
++}
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; vertical-align: text-bottom; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++ at media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overriden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++ at media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-dir-receive(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-dir-receive -
++   Send a directive receive command, returns applicable results
++</p>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme dir-receive</em> &lt;device&gt; [--namespace-id=&lt;nsid&gt; | -n &lt;nsid&gt;]
++                          [--data-len=&lt;data-len&gt; | -l &lt;data-len&gt;]
++                          [--dir-type=&lt;dtype&gt; | -D &lt;dtype&gt;]
++                          [--dir-spec=&lt;dspec&gt; | -S &lt;dspec&gt;]
++                          [--dir-oper=&lt;doper&gt; | -O &lt;doper&gt;]
++                          [--req-resource=&lt;nsr&gt; | -r &lt;nsr&gt;]
++                          [--human-readable | -H]
++                          [--raw-binary | -b]</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Submits an NVMe Directive Receive admin command and returns the applicable
++results. This may be the combination of directive type, and operation, as
++well as number of requested resource if specific operation needs it.</p></div>
++<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory and may be either the NVMe character
++device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).</p></div>
++<div class="paragraph"><p>On success, the returned directive&#8217;s parameter structure (if applicable) is
++returned in one of several ways depending on the option flags; the
++structure may parsed by the program and printed in a readable format
++if it is a known structure, displayed in hex, or the raw buffer may be
++printed to stdout for another program to parse.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-n &lt;nsid&gt;
++</dt>
++<dt class="hdlist1">
++--namespace-id=&lt;nsid&gt;
++</dt>
++<dd>
++<p>
++        Retrieve the feature for the given nsid. This is optional and
++        most features do not use this value.
++</p>
++</dd>
++<dt class="hdlist1">
++-D &lt;dtype&gt;
++</dt>
++<dt class="hdlist1">
++--dir-type=&lt;dtype&gt;
++</dt>
++<dd>
++<p>
++        Directive type
++</p>
++</dd>
++<dt class="hdlist1">
++-S &lt;dspec&gt;
++</dt>
++<dt class="hdlist1">
++--dir-spec=&lt;dspec&gt;
++</dt>
++<dd>
++<p>
++        Directive specific
++</p>
++</dd>
++<dt class="hdlist1">
++-O &lt;doper&gt;
++</dt>
++<dt class="hdlist1">
++--dir-oper=&lt;doper&gt;
++</dt>
++<dd>
++<p>
++        Directive operation
++</p>
++</dd>
++<dt class="hdlist1">
++-r &lt;nsr&gt;
++</dt>
++<dt class="hdlist1">
++--req-resource=&lt;nsr&gt;
++</dt>
++<dd>
++<p>
++        Directive requested resource count
++</p>
++</dd>
++</dl></div>
++<div class="paragraph"><p>+</p></div>
++<div class="tableblock">
++<table rules="all"
++width="100%"
++frame="border"
++cellspacing="0" cellpadding="4">
++<col width="50%" />
++<col width="50%" />
++<tbody>
++<tr>
++<td align="left" valign="top"><p class="table">Select</p></td>
++<td align="left" valign="top"><p class="table">Description</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">0</p></td>
++<td align="left" valign="top"><p class="table">Current</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">1</p></td>
++<td align="left" valign="top"><p class="table">Default</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">2</p></td>
++<td align="left" valign="top"><p class="table">Saved</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">3</p></td>
++<td align="left" valign="top"><p class="table">Supported capabilities</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">4?7</p></td>
++<td align="left" valign="top"><p class="table">Reserved</p></td>
++</tr>
++</tbody>
++</table>
++</div>
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-l &lt;data-len&gt;
++</dt>
++<dt class="hdlist1">
++--data-len=&lt;data-len&gt;
++</dt>
++<dd>
++<p>
++        The data length for the buffer returned for this feature. Most
++        known features do not use this value. The exception is LBA
++        Range Type
++</p>
++</dd>
++<dt class="hdlist1">
++-b
++</dt>
++<dt class="hdlist1">
++--raw-binary
++</dt>
++<dd>
++<p>
++        Print the raw receive buffer to stdout if the command returns
++        a structure.
++</p>
++</dd>
++<dt class="hdlist1">
++-H
++</dt>
++<dt class="hdlist1">
++--human-readable
++</dt>
++<dd>
++<p>
++        Print the decoded receive buffer to stdout if the command returns
++        a structure.
++</p>
++</dd>
++</dl></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<p>
++Identify directive type supported :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-receive /dev/nvme0 --dir-type 0 --dir-oper 1 --human-readable</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Get stream directive parameters :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-receive /dev/nvme0 --dir-type 1 --dir-oper 1 --human-readable</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Allocate 3 streams for namespace 1
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-receive /dev/nvme0n1 --dir-type 1 --dir-oper 3 --req-resource 3 --human-readable</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Get streams directive status :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-receive /dev/nvme0 --dir-type 1 --dir-oper 2 --human-readable</code></pre>
++</div></div>
++<div class="paragraph"><p>It is probably a bad idea to not redirect stdout when using this mode.</p></div>
++</li>
++</ul></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated
++ 2017-08-10 18:23:42 PDT
++</div>
++</div>
++</body>
++</html>
+diff --git a/Documentation/nvme-dir-receive.txt b/Documentation/nvme-dir-receive.txt
+new file mode 100644
+index 0000000..b412c0b
+--- /dev/null
++++ b/Documentation/nvme-dir-receive.txt
+@@ -0,0 +1,118 @@
++nvme-dir-receive(1)
++===================
++
++NAME
++----
++nvme-dir-receive - Send a directive receive command, returns applicable results
++
++SYNOPSIS
++--------
++[verse]
++'nvme dir-receive' <device> [--namespace-id=<nsid> | -n <nsid>]
++			  [--data-len=<data-len> | -l <data-len>]
++			  [--dir-type=<dtype> | -D <dtype>]
++			  [--dir-spec=<dspec> | -S <dspec>]
++			  [--dir-oper=<doper> | -O <doper>]
++			  [--req-resource=<nsr> | -r <nsr>]
++			  [--human-readable | -H]
++			  [--raw-binary | -b]
++
++DESCRIPTION
++-----------
++Submits an NVMe Directive Receive admin command and returns the applicable
++results. This may be the combination of directive type, and operation, as 
++well as number of requested resource if specific operation needs it.
++
++The <device> parameter is mandatory and may be either the NVMe character
++device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).
++
++On success, the returned directive's parameter structure (if applicable) is 
++returned in one of several ways depending on the option flags; the
++structure may parsed by the program and printed in a readable format
++if it is a known structure, displayed in hex, or the raw buffer may be
++printed to stdout for another program to parse.
++
++OPTIONS
++-------
++-n <nsid>::
++--namespace-id=<nsid>::
++	Retrieve the feature for the given nsid. This is optional and
++	most features do not use this value.
++
++-D <dtype>::
++--dir-type=<dtype>::
++	Directive type	
++
++-S <dspec>::
++--dir-spec=<dspec>::
++	Directive specific	
++
++-O <doper>::
++--dir-oper=<doper>::
++	Directive operation	
++
++-r <nsr>::
++--req-resource=<nsr>::
++	Directive requested resource count
++
+++
++[]
++|==================
++|Select|Description
++|0|Current 
++|1|Default 
++|2|Saved
++|3|Supported capabilities
++|4?7|Reserved
++|==================
++
++-l <data-len>::
++--data-len=<data-len>::
++	The data length for the buffer returned for this feature. Most
++	known features do not use this value. The exception is LBA
++	Range Type
++
++-b::
++--raw-binary::
++	Print the raw receive buffer to stdout if the command returns
++	a structure.
++
++-H::
++--human-readable::
++	Print the decoded receive buffer to stdout if the command returns
++	a structure.
++
++EXAMPLES
++--------
++* Identify directive type supported :
+++
++------------
++# nvme dir-receive /dev/nvme0 --dir-type 0 --dir-oper 1 --human-readable
++------------
+++
++
++* Get stream directive parameters : 
+++
++------------
++# nvme dir-receive /dev/nvme0 --dir-type 1 --dir-oper 1 --human-readable 
++------------
+++
++
++* Allocate 3 streams for namespace 1
+++
++------------
++# nvme dir-receive /dev/nvme0n1 --dir-type 1 --dir-oper 3 --req-resource 3 --human-readable 
++------------
+++
++
++* Get streams directive status :
+++
++------------
++# nvme dir-receive /dev/nvme0 --dir-type 1 --dir-oper 2 --human-readable 
++------------
+++
++It is probably a bad idea to not redirect stdout when using this mode.
++
++NVME
++----
++Part of the nvme-user suite
+diff --git a/Documentation/nvme-dir-send.1 b/Documentation/nvme-dir-send.1
+new file mode 100644
+index 0000000..4da11bd
+--- /dev/null
++++ b/Documentation/nvme-dir-send.1
+@@ -0,0 +1,241 @@
++'\" t
++.\"     Title: nvme-dir-send
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
++.\"      Date: 08/10/2017
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-DIR\-SEND" "1" "08/10/2017" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-dir-send \- Issue a directive send command, returns applicable results
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme dir\-send\fR <device> [\-\-namespace\-id=<nsid> | \-n <nsid>]
++                          [\-\-data\-len=<data\-len> | \-l <data\-len>]
++                          [\-\-dir\-type=<dtype> | \-D <dtype>]
++                          [\-\-dir\-spec=<dspec> | \-S <dspec>]
++                          [\-\-dir\-oper=<doper> | \-O <doper>]
++                          [\-\-endir=<endir> | \-e <endir>]
++                          [\-\-target\-dir=<tdir> | \-T <tdir>]
++                          [\-\-human\-readable | \-H]
++                          [\-\-raw\-binary | \-b]
++.fi
++.SH "DESCRIPTION"
++.sp
++Submits an NVMe Directive Send admin command and returns the applicable results\&. This may be the combination of directive type, and operation, as well as target directive and its enable/disable status of the operation, if specific operation needs it\&.
++.sp
++The <device> parameter is mandatory and may be either the NVMe character device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1)\&.
++.sp
++On success, the returned directive\(cqs parameter structure (if applicable) is returned in one of several ways depending on the option flags; the structure may parsed by the program and printed in a readable format if it is a known structure, displayed in hex, or the raw buffer may be printed to stdout for another program to parse\&.
++.SH "OPTIONS"
++.PP
++\-n <nsid>, \-\-namespace\-id=<nsid>
++.RS 4
++Retrieve the feature for the given nsid\&. This is optional and most features do not use this value\&.
++.RE
++.PP
++\-D <dtype>, \-\-dir\-type=<dtype>
++.RS 4
++Directive type
++.RE
++.PP
++\-S <dspec>, \-\-dir\-spec=<dspec>
++.RS 4
++Directive specific
++.RE
++.PP
++\-O <doper>, \-\-dir\-oper=<doper>
++.RS 4
++Directive operation
++.RE
++.PP
++\-T <tdir>, \-\-target\-dir=<nsr>
++.RS 4
++Target directive of the operation
++.RE
++.PP
++\-e <endir>, \-\-endir=<endir>
++.RS 4
++Target directive enable(1) or disable (0) operation
++.RE
++.sp
+++
++.TS
++allbox tab(:);
++lt lt
++lt lt
++lt lt
++lt lt
++lt lt
++lt lt.
++T{
++.sp
++Select
++T}:T{
++.sp
++Description
++T}
++T{
++.sp
++0
++T}:T{
++.sp
++Current
++T}
++T{
++.sp
++1
++T}:T{
++.sp
++Default
++T}
++T{
++.sp
++2
++T}:T{
++.sp
++Saved
++T}
++T{
++.sp
++3
++T}:T{
++.sp
++Supported capabilities
++T}
++T{
++.sp
++4\(en7
++T}:T{
++.sp
++Reserved
++T}
++.TE
++.sp 1
++.PP
++\-l <data\-len>, \-\-data\-len=<data\-len>
++.RS 4
++The data length for the buffer returned for this feature\&. Most known features do not use this value\&. The exception is LBA Range Type
++.RE
++.PP
++\-b, \-\-raw\-binary
++.RS 4
++Print the raw receive buffer to stdout if the command returns a structure\&.
++.RE
++.PP
++\-H, \-\-human\-readable
++.RS 4
++Print the decoded receive buffer to stdout if the command returns a structure\&.
++.RE
++.SH "EXAMPLES"
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Enable streams directive :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-send /dev/nvme0n1 \-\-dir\-type 0 \-\-dir\-oper 1 \-\-target\-dir 1 \-\-endir 1
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Disable streams directive :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-send /dev/nvme0n1 \-\-dir\-type 0 \-\-dir\-oper 1 \-\-target\-dir 1 \-\-endir 0
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Release all allocated streams resource :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-send /dev/nvme0n1 \-\-dir\-type 1 \-\-dir\-oper 2
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Release stream ID 3 :
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme dir\-send /dev/nvme0 \-\-dir\-type 1 \-\-dir\-oper 1 \-\-dir\-spec 3
++.fi
++.if n \{\
++.RE
++.\}
++.sp
++It is probably a bad idea to not redirect stdout when using this mode\&.
++.RE
++.SH "NVME"
++.sp
++Part of the nvme\-user suite
+diff --git a/Documentation/nvme-dir-send.html b/Documentation/nvme-dir-send.html
+new file mode 100644
+index 0000000..5aa7cdd
+--- /dev/null
++++ b/Documentation/nvme-dir-send.html
+@@ -0,0 +1,988 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc 8.6.9" />
++<title>nvme-dir-send(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
++
++/* Default font. */
++body {
++  font-family: Georgia,serif;
++}
++
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
++}
++
++body {
++  margin: 1em 5% 1em 5%;
++}
++
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
++}
++
++em {
++  font-style: italic;
++  color: navy;
++}
++
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++pre {
++  white-space: pre-wrap;
++}
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; vertical-align: text-bottom; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++ at media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overriden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++ at media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-dir-send(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-dir-send -
++   Issue a directive send command, returns applicable results
++</p>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme dir-send</em> &lt;device&gt; [--namespace-id=&lt;nsid&gt; | -n &lt;nsid&gt;]
++                          [--data-len=&lt;data-len&gt; | -l &lt;data-len&gt;]
++                          [--dir-type=&lt;dtype&gt; | -D &lt;dtype&gt;]
++                          [--dir-spec=&lt;dspec&gt; | -S &lt;dspec&gt;]
++                          [--dir-oper=&lt;doper&gt; | -O &lt;doper&gt;]
++                          [--endir=&lt;endir&gt; | -e &lt;endir&gt;]
++                          [--target-dir=&lt;tdir&gt; | -T &lt;tdir&gt;]
++                          [--human-readable | -H]
++                          [--raw-binary | -b]</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Submits an NVMe Directive Send admin command and returns the applicable
++results. This may be the combination of directive type, and operation, as
++well as target directive and its enable/disable status of the operation,
++if specific operation needs it.</p></div>
++<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory and may be either the NVMe character
++device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).</p></div>
++<div class="paragraph"><p>On success, the returned directive&#8217;s parameter structure (if applicable) is
++returned in one of several ways depending on the option flags; the
++structure may parsed by the program and printed in a readable format
++if it is a known structure, displayed in hex, or the raw buffer may be
++printed to stdout for another program to parse.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-n &lt;nsid&gt;
++</dt>
++<dt class="hdlist1">
++--namespace-id=&lt;nsid&gt;
++</dt>
++<dd>
++<p>
++        Retrieve the feature for the given nsid. This is optional and
++        most features do not use this value.
++</p>
++</dd>
++<dt class="hdlist1">
++-D &lt;dtype&gt;
++</dt>
++<dt class="hdlist1">
++--dir-type=&lt;dtype&gt;
++</dt>
++<dd>
++<p>
++        Directive type
++</p>
++</dd>
++<dt class="hdlist1">
++-S &lt;dspec&gt;
++</dt>
++<dt class="hdlist1">
++--dir-spec=&lt;dspec&gt;
++</dt>
++<dd>
++<p>
++        Directive specific
++</p>
++</dd>
++<dt class="hdlist1">
++-O &lt;doper&gt;
++</dt>
++<dt class="hdlist1">
++--dir-oper=&lt;doper&gt;
++</dt>
++<dd>
++<p>
++        Directive operation
++</p>
++</dd>
++<dt class="hdlist1">
++-T &lt;tdir&gt;
++</dt>
++<dt class="hdlist1">
++--target-dir=&lt;nsr&gt;
++</dt>
++<dd>
++<p>
++        Target directive of the operation
++</p>
++</dd>
++<dt class="hdlist1">
++-e &lt;endir&gt;
++</dt>
++<dt class="hdlist1">
++--endir=&lt;endir&gt;
++</dt>
++<dd>
++<p>
++        Target directive enable(1) or disable (0) operation
++</p>
++</dd>
++</dl></div>
++<div class="paragraph"><p>+</p></div>
++<div class="tableblock">
++<table rules="all"
++width="100%"
++frame="border"
++cellspacing="0" cellpadding="4">
++<col width="50%" />
++<col width="50%" />
++<tbody>
++<tr>
++<td align="left" valign="top"><p class="table">Select</p></td>
++<td align="left" valign="top"><p class="table">Description</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">0</p></td>
++<td align="left" valign="top"><p class="table">Current</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">1</p></td>
++<td align="left" valign="top"><p class="table">Default</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">2</p></td>
++<td align="left" valign="top"><p class="table">Saved</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">3</p></td>
++<td align="left" valign="top"><p class="table">Supported capabilities</p></td>
++</tr>
++<tr>
++<td align="left" valign="top"><p class="table">4?7</p></td>
++<td align="left" valign="top"><p class="table">Reserved</p></td>
++</tr>
++</tbody>
++</table>
++</div>
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-l &lt;data-len&gt;
++</dt>
++<dt class="hdlist1">
++--data-len=&lt;data-len&gt;
++</dt>
++<dd>
++<p>
++        The data length for the buffer returned for this feature. Most
++        known features do not use this value. The exception is LBA
++        Range Type
++</p>
++</dd>
++<dt class="hdlist1">
++-b
++</dt>
++<dt class="hdlist1">
++--raw-binary
++</dt>
++<dd>
++<p>
++        Print the raw receive buffer to stdout if the command returns
++        a structure.
++</p>
++</dd>
++<dt class="hdlist1">
++-H
++</dt>
++<dt class="hdlist1">
++--human-readable
++</dt>
++<dd>
++<p>
++        Print the decoded receive buffer to stdout if the command returns
++        a structure.
++</p>
++</dd>
++</dl></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<p>
++Enable streams directive :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-send /dev/nvme0n1 --dir-type 0 --dir-oper 1 --target-dir 1 --endir 1</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Disable streams directive :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-send /dev/nvme0n1 --dir-type 0 --dir-oper 1 --target-dir 1 --endir 0</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Release all allocated streams resource :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-send /dev/nvme0n1 --dir-type 1 --dir-oper 2</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Release stream ID 3 :
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme dir-send /dev/nvme0 --dir-type 1 --dir-oper 1 --dir-spec 3</code></pre>
++</div></div>
++<div class="paragraph"><p>It is probably a bad idea to not redirect stdout when using this mode.</p></div>
++</li>
++</ul></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated
++ 2017-08-10 19:09:21 PDT
++</div>
++</div>
++</body>
++</html>
+diff --git a/Documentation/nvme-dir-send.txt b/Documentation/nvme-dir-send.txt
+new file mode 100644
+index 0000000..eb5dad0
+--- /dev/null
++++ b/Documentation/nvme-dir-send.txt
+@@ -0,0 +1,124 @@
++nvme-dir-send(1)
++================
++
++NAME
++----
++nvme-dir-send - Issue a directive send command, returns applicable results
++
++SYNOPSIS
++--------
++[verse]
++'nvme dir-send' <device> [--namespace-id=<nsid> | -n <nsid>]
++			  [--data-len=<data-len> | -l <data-len>]
++			  [--dir-type=<dtype> | -D <dtype>]
++			  [--dir-spec=<dspec> | -S <dspec>]
++			  [--dir-oper=<doper> | -O <doper>]
++			  [--endir=<endir> | -e <endir>]
++			  [--target-dir=<tdir> | -T <tdir>]
++			  [--human-readable | -H]
++			  [--raw-binary | -b]
++
++DESCRIPTION
++-----------
++Submits an NVMe Directive Send admin command and returns the applicable
++results. This may be the combination of directive type, and operation, as
++well as target directive and its enable/disable status of the operation,
++if specific operation needs it.
++
++The <device> parameter is mandatory and may be either the NVMe character
++device (ex: /dev/nvme0), or a namespace block device (ex: /dev/nvme0n1).
++
++On success, the returned directive's parameter structure (if applicable) is
++returned in one of several ways depending on the option flags; the
++structure may parsed by the program and printed in a readable format
++if it is a known structure, displayed in hex, or the raw buffer may be
++printed to stdout for another program to parse.
++
++OPTIONS
++-------
++-n <nsid>::
++--namespace-id=<nsid>::
++	Retrieve the feature for the given nsid. This is optional and
++	most features do not use this value.
++
++-D <dtype>::
++--dir-type=<dtype>::
++	Directive type	
++
++-S <dspec>::
++--dir-spec=<dspec>::
++	Directive specific	
++
++-O <doper>::
++--dir-oper=<doper>::
++	Directive operation	
++
++-T <tdir>::
++--target-dir=<nsr>::
++	Target directive of the operation
++
++-e <endir>::
++--endir=<endir>::
++	Target directive enable(1) or disable (0) operation
++
+++
++[]
++|==================
++|Select|Description
++|0|Current 
++|1|Default 
++|2|Saved
++|3|Supported capabilities
++|4?7|Reserved
++|==================
++
++-l <data-len>::
++--data-len=<data-len>::
++	The data length for the buffer returned for this feature. Most
++	known features do not use this value. The exception is LBA
++	Range Type
++
++-b::
++--raw-binary::
++	Print the raw receive buffer to stdout if the command returns
++	a structure.
++
++-H::
++--human-readable::
++	Print the decoded receive buffer to stdout if the command returns
++	a structure.
++
++EXAMPLES
++--------
++* Enable streams directive :
+++
++------------
++# nvme dir-send /dev/nvme0n1 --dir-type 0 --dir-oper 1 --target-dir 1 --endir 1
++------------
+++
++
++* Disable streams directive :
+++
++------------
++# nvme dir-send /dev/nvme0n1 --dir-type 0 --dir-oper 1 --target-dir 1 --endir 0
++------------
+++
++
++* Release all allocated streams resource :
+++
++------------
++# nvme dir-send /dev/nvme0n1 --dir-type 1 --dir-oper 2
++------------
+++
++
++* Release stream ID 3 :
+++
++------------
++# nvme dir-send /dev/nvme0 --dir-type 1 --dir-oper 1 --dir-spec 3
++------------
+++
++It is probably a bad idea to not redirect stdout when using this mode.
++
++NVME
++----
++Part of the nvme-user suite
 -- 
 2.7.4
