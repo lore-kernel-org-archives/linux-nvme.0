@@ -1,57 +1,45 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 13 Aug 2017 18:45:04 +0300
-Subject: [PATCH] nvme-cli/fabrics: Add ctrl-loss-tmo param to connect cmd
-Message-ID: <1502639104-27315-1-git-send-email-maxg@mellanox.com>
+Date: Sun, 13 Aug 2017 19:21:07 +0300
+Subject: [PATCH 2/2] nvme: Rename AMS symbolic constants to fit specification
+In-Reply-To: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
+References: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1502641267-2984-2-git-send-email-maxg@mellanox.com>
 
-From: Nitzan Carmi <nitzanc@mellanox.com>
-
-Added 'ctrl-loss-tmo' to 'connect' command so users can specify the
-controller lost timeout period.
-
-usage examples:
-nvme connect --ctrl-loss-tmo=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
-nvme connect -l 0 -t rdma -a 10.0.1.1 -n test_nvme
-
-Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- fabrics.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/nvme/host/core.c |    2 +-
+ include/linux/nvme.h     |    6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 9ed1127..4871e17 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -58,6 +58,7 @@ static struct config {
- 	char *queue_size;
- 	char *keep_alive_tmo;
- 	char *reconnect_delay;
-+	char *ctrl_loss_tmo;
- 	char *raw;
- 	char *device;
- } cfg = { NULL };
-@@ -585,6 +586,14 @@ static int build_options(char *argstr, int max_len)
- 		max_len -= len;
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 37046ac..8bfb8cd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1447,7 +1447,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
  
-+	if (cfg.ctrl_loss_tmo) {
-+		len = snprintf(argstr, max_len, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
-+		if (len < 0)
-+			return -EINVAL;
-+		argstr += len;
-+		max_len -= len;
-+	}
-+
- 	return 0;
- }
+ 	ctrl->ctrl_config = NVME_CC_CSS_NVM;
+ 	ctrl->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
+-	ctrl->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
++	ctrl->ctrl_config |= NVME_CC_AMS_RR | NVME_CC_SHN_NONE;
+ 	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 	ctrl->ctrl_config |= NVME_CC_ENABLE;
  
-@@ -863,6 +872,7 @@ int connect(const char *desc, int argc, char **argv)
- 		{"queue-size",      'Q', "LIST", CFG_STRING, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
- 		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
-+		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
- 		{NULL},
- 	};
- 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index ebbe6e8..8dd8b3f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -140,9 +140,9 @@ enum {
+ 	NVME_CC_SHN_SHIFT	= 14,
+ 	NVME_CC_IOSQES_SHIFT	= 16,
+ 	NVME_CC_IOCQES_SHIFT	= 20,
+-	NVME_CC_ARB_RR		= 0 << NVME_CC_AMS_SHIFT,
+-	NVME_CC_ARB_WRRU	= 1 << NVME_CC_AMS_SHIFT,
+-	NVME_CC_ARB_VS		= 7 << NVME_CC_AMS_SHIFT,
++	NVME_CC_AMS_RR		= 0 << NVME_CC_AMS_SHIFT,
++	NVME_CC_AMS_WRRU	= 1 << NVME_CC_AMS_SHIFT,
++	NVME_CC_AMS_VS		= 7 << NVME_CC_AMS_SHIFT,
+ 	NVME_CC_SHN_NONE	= 0 << NVME_CC_SHN_SHIFT,
+ 	NVME_CC_SHN_NORMAL	= 1 << NVME_CC_SHN_SHIFT,
+ 	NVME_CC_SHN_ABRUPT	= 2 << NVME_CC_SHN_SHIFT,
 -- 
-2.9.4
+1.7.1
