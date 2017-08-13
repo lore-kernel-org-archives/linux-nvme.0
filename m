@@ -1,76 +1,83 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Sun, 13 Aug 2017 09:46:51 +0300
-Subject: Flush warning
-In-Reply-To: <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
-References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
- <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
- <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
- <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
- <20170809162749.GA4069@obsidianresearch.com>
- <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
-Message-ID: <20170813064651.GR24282@mtr-leonro.local>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 13 Aug 2017 11:29:59 +0300
+Subject: Bug Report: can't unload nvme module in case of disabled device
+In-Reply-To: <20170810193615.GB1180@localhost.localdomain>
+References: <f28ebc80-0e67-8af7-79b2-a4b368e4bd83@mellanox.com>
+ <20170810085950.GB12494@infradead.org>
+ <6e1797d9-3b2c-6f9b-a5a8-d23aed778d8b@mellanox.com>
+ <20170810193615.GB1180@localhost.localdomain>
+Message-ID: <b4c07a4b-de93-ef0c-d3d4-79baaa01d0c6@mellanox.com>
 
-On Wed, Aug 09, 2017@11:38:49AM -0500, Steve Wise wrote:
-> > On Wed, Aug 09, 2017@11:21:38AM -0500, Steve Wise wrote:
-> >
-> > > > I don't know.  I read the workqueue doc on WQ_MEM_RECLAIM, but I don't
-> > know
-> > > > how
-> > > > to tell if iw_cm needs this or not.  Can you give me an example of a
-> workqueue
-> > > > that _does_ need WQ_MEM_RECLAIM?  I _think_ it means your workqueue is
-> > > > required
-> > > > to run something that would get triggered by the oom OS code, but I don't
-> know
-> > > > if that would include rdma CMs or not...
-> > >
-> > > Many of the workqueues in infiniband/core use WQ_MEM_RECLAIM: cma, iwcm,
-> > mad,
-> > > multicast, sa_query, and ucma.
-> > >
-> > > Hey Sean, do you have any insight into whether the CMA modules really need
-> > > WQ_MEM_RECLAIM for their workqueues?
-> > >
-> > > Does anyone else know?
-> >
-> > Consider that the ib_core can be used to back storage. Ie consider a
-> > situation where iSER/NFS/SRP needs to reconnect to respond to kernel
-> > paging/reclaim.
-> >
-> > On the surface it seems reasonable to me that these are on a reclaim
-> > path?
-> >
-> > Jason
->
-> hmm.  That seems reasonable.  Then I would think the nvme_rdma would also need
-> to be using a reclaim workqueue.
->
-> Sagi, Do you think I should add a private workqueue with WQ_MEM_RECLAIM to
-> nvme_rdma vs using the system_wq?  nvme/target probably needs one also...
 
-The workqueue which frees the memory and doesn't allocate memory during execution
-is supposed to be marked as WQ_MEM_RECLAIM. This flag will cause to priority increase
-for such workqueue during low memory conditions.
 
-I don't remember it for sure, but I think that shrinker will call to
-such workqueue in these conditions. In normal conditions, it won't
-change a lot.
+On 8/10/2017 10:36 PM, Keith Busch wrote:
+> On Thu, Aug 10, 2017@08:04:13PM +0300, Max Gurtovoy wrote:
+>>
+>> I'm using PCIe ctrl.
+>> Using 4.13-rc4+ I couldn't even run easier scenario of only unloading the
+>> nvme module (with SAMSUNG MZPLL1T6HEHP-00003 and Intel P3500/3700 devices):
+>>
+>> [  369.997917] INFO: task modprobe:3709 blocked for more than 120 seconds.
+>> [  370.005215]       Not tainted 4.13.0-rc4+ #21
+>> [  370.010017] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables
+>> this message.
+>> [  370.018647] modprobe        D    0  3709   3654 0x00000000
+>> [  370.024695] Call Trace:
+>> [  370.027400]  __schedule+0x1dc/0x780
+>> [  370.031261]  schedule+0x36/0x80
+>> [  370.034756]  blk_mq_freeze_queue_wait+0x4b/0xb0
+>> [  370.039750]  ? remove_wait_queue+0x60/0x60
+>> [  370.044263]  blk_freeze_queue+0x1a/0x20
+>> [  370.048489]  blk_cleanup_queue+0x7f/0x150
+>> [  370.052927]  nvme_dev_remove_admin+0x36/0x50 [nvme]
+>> [  370.058303]  nvme_remove+0xa2/0x130 [nvme]
+>> [  370.062820]  pci_device_remove+0x39/0xc0
+>> [  370.067142]  device_release_driver_internal+0x141/0x200
+>> [  370.072898]  driver_detach+0x3f/0x80
+>> [  370.076852]  bus_remove_driver+0x55/0xd0
+>> [  370.081186]  driver_unregister+0x2c/0x50
+>> [  370.085521]  pci_unregister_driver+0x2a/0xa0
+>> [  370.090227]  nvme_exit+0x10/0xb84 [nvme]
+>> [  370.094562]  SyS_delete_module+0x171/0x250
+>> [  370.099101]  ? exit_to_usermode_loop+0x5e/0x88
+>> [  370.103996]  entry_SYSCALL_64_fastpath+0x1a/0xa5
+>> [  370.109096] RIP: 0033:0x7f146b5106b7
+>> [  370.113037] RSP: 002b:00007ffd2cae12e8 EFLAGS: 00000206 ORIG_RAX:
+>> 00000000000000b0
+>> [  370.121431] RAX: ffffffffffffffda RBX: 0000000000000003 RCX:
+>> 00007f146b5106b7
+>> [  370.129295] RDX: 0000000000000000 RSI: 0000000000000800 RDI:
+>> 000000000223f5e8
+>> [  370.137167] RBP: 000000000223f580 R08: 00007f146b7d5060 R09:
+>> 00007f146b580a40
+>> [  370.145029] R10: 00007ffd2cae1070 R11: 0000000000000206 R12:
+>> 00007ffd2cae0310
+>> [  370.152890] R13: 0000000000000000 R14: 000000000223f5e8 R15:
+>> 0000000000000000
+>>
+>> the new scenario:
+>> 1. modprobe nvme
+>> 2. sleep 10
+>> 3. modprobe -r nvme
+>>
+>> works on 4.11.0/4.12.0 but not on 4.13.0-rc4+.
+>
+> This I'm not able to reproduce. The stack trace is saying there are
+> entered requests on the admin queue, but that shouldn't be possible at
+> this point in nvme_remove. I'll keep looking.
+>
 
-Thanks
+After bisecting I found that the following commit caused the simple 
+load/unload nvme driver failure:
 
->
-> Steve.
->
->
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170813/eabd2a36/attachment.sig>
+commit 1ad43c0078b79a76accd0fe64062e47b3430dc6b
+Author: Ming Lei <minlei at redhat.com>
+Date:   Wed Aug 2 08:01:45 2017 +0800
+
+     blk-mq: don't leak preempt counter/q_usage_counter when allocating 
+rq failed
+
+Adding Ming to this thread.
+
+I'm continuing with the debug of the new scenario (load nvme && sleep 10 
+&& unload nvme).
