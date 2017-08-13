@@ -1,19 +1,57 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 13 Aug 2017 17:01:52 +0300
-Subject: nvmet panics during high load
-In-Reply-To: <CAF9HSi=CzKixvu_VNB+PbZM_08jPHJ2dZBz77RFUpd6waD=H8Q@mail.gmail.com>
-References: <CAF9HSikTcqojqWOx7cjBsv9fLCvbkU_f6-1CgQ16Wpb1f5oQ4g@mail.gmail.com>
- <ee61dc25-bb67-8466-6cc9-d20b4ff0104f@grimberg.me>
- <4d0b76b9-4358-6043-4eba-9d5504ce3a1e@grimberg.me>
- <CAF9HSi=yMpLZZTgbi4XDiZZrrseL6axbw1+e+R6JLdr4EKh1Dw@mail.gmail.com>
- <CAF9HSi=CzKixvu_VNB+PbZM_08jPHJ2dZBz77RFUpd6waD=H8Q@mail.gmail.com>
-Message-ID: <cedb98d0-3aea-e229-4f2f-092bbd49f7b2@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 13 Aug 2017 18:45:04 +0300
+Subject: [PATCH] nvme-cli/fabrics: Add ctrl-loss-tmo param to connect cmd
+Message-ID: <1502639104-27315-1-git-send-email-maxg@mellanox.com>
 
+From: Nitzan Carmi <nitzanc@mellanox.com>
 
-> Sorry for the lack of response. I havn't tested the patch.
-> I intended to look into the issue further and suggest a simpler
-> solution that simply calculates the maximum queue size correctly but
-> simply didn't have the time.
+Added 'ctrl-loss-tmo' to 'connect' command so users can specify the
+controller lost timeout period.
 
-AFAICT there is no maximum calculation, it depends on the congestion
-that the target may experience..
+usage examples:
+nvme connect --ctrl-loss-tmo=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
+nvme connect -l 0 -t rdma -a 10.0.1.1 -n test_nvme
+
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ fabrics.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/fabrics.c b/fabrics.c
+index 9ed1127..4871e17 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -58,6 +58,7 @@ static struct config {
+ 	char *queue_size;
+ 	char *keep_alive_tmo;
+ 	char *reconnect_delay;
++	char *ctrl_loss_tmo;
+ 	char *raw;
+ 	char *device;
+ } cfg = { NULL };
+@@ -585,6 +586,14 @@ static int build_options(char *argstr, int max_len)
+ 		max_len -= len;
+ 	}
+ 
++	if (cfg.ctrl_loss_tmo) {
++		len = snprintf(argstr, max_len, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
++		if (len < 0)
++			return -EINVAL;
++		argstr += len;
++		max_len -= len;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -863,6 +872,7 @@ int connect(const char *desc, int argc, char **argv)
+ 		{"queue-size",      'Q', "LIST", CFG_STRING, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
+ 		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
++		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
+ 		{NULL},
+ 	};
+ 
+-- 
+2.9.4
