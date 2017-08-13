@@ -1,63 +1,52 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Sun, 13 Aug 2017 13:33:59 +0300
-Subject: Flush warning
-In-Reply-To: <90ada4f5-d6a1-2b93-5164-c593955c20cf@grimberg.me>
-References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
- <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
- <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
- <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
- <20170809162749.GA4069@obsidianresearch.com>
- <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
- <20170813064651.GR24282@mtr-leonro.local>
- <90ada4f5-d6a1-2b93-5164-c593955c20cf@grimberg.me>
-Message-ID: <20170813103359.GW24282@mtr-leonro.local>
-
-On Sun, Aug 13, 2017@02:14:58AM -0700, Sagi Grimberg wrote:
->
-> > > > > Does anyone else know?
-> > > >
-> > > > Consider that the ib_core can be used to back storage. Ie consider a
-> > > > situation where iSER/NFS/SRP needs to reconnect to respond to kernel
-> > > > paging/reclaim.
-> > > >
-> > > > On the surface it seems reasonable to me that these are on a reclaim
-> > > > path?
->
-> I'm pretty sure that ULP connect will trigger memory allocations, which
-> will fail under memory pressure... Maybe I'm missing something.
->
-> > > hmm.  That seems reasonable.  Then I would think the nvme_rdma would also need
-> > > to be using a reclaim workqueue.
-> > >
-> > > Sagi, Do you think I should add a private workqueue with WQ_MEM_RECLAIM to
-> > > nvme_rdma vs using the system_wq?  nvme/target probably needs one also...
->
-> I'm not sure, being unable to flush system workqueue from CM context is
-> somewhat limiting... We could use a private workqueue for nvmet
-> teardowns but I'm not sure we want to do that.
->
-> > The workqueue which frees the memory and doesn't allocate memory during execution
-> > is supposed to be marked as WQ_MEM_RECLAIM. This flag will cause to priority increase
-> > for such workqueue during low memory conditions.
->
-> Which to my understanding means that CM workqueue should not use it as
-> on each CM connect, by definition the ULP allocates memory (qp, cq etc).
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 13 Aug 2017 04:53:59 -0700
+Subject: nvmet panics during high load
+In-Reply-To: <ee61dc25-bb67-8466-6cc9-d20b4ff0104f@grimberg.me>
+References: <CAF9HSikTcqojqWOx7cjBsv9fLCvbkU_f6-1CgQ16Wpb1f5oQ4g@mail.gmail.com>
+ <ee61dc25-bb67-8466-6cc9-d20b4ff0104f@grimberg.me>
+Message-ID: <4d0b76b9-4358-6043-4eba-9d5504ce3a1e@grimberg.me>
 
 
-From my understanding too.
-That workqueue was introduced in 2005, in a977049dacde
-("[PATCH] IB: Add the kernel CM implementation"), it is not clear if it
-was intentionally.
+>> Hi All,
+> 
+> Hey Alon,
+> 
+>> This is my first post on this mailing list. Let me know if this is the
+>> wrong place or format to post bugs in.
+> 
+> This is the correct place.
+> 
+>> We're running nvmef using RDMA on kernel 4.11.8.
+>> We found a zero-dereference bug in nvmet during high load and
+>> identified the root cause:
+>> The location according to current linux master (fd2b2c57) is
+>> drivers/nvme/target/rdma.c at function nvmet_rdma_get_rsp line 170.
+>> list_first_entry is called on the list of free responses (free_rsps)
+>> which is empty and obviously unexpected. I added an assert to validate
+>> that and also tested a hack that enlarges the queue times 10 and it
+>> seemed to solve it.
+>> It's probably not a leak but a miscalculation of the size of the queue
+>> (queue->recv_queue_size * 2). Can anyone explain the rationale behind
+>> this calculation? Is the queue assumed to never be empty?
+> 
+> Well, you are correct that the code assumes that it always has a free
+> rsp to use, and yes, its a wrong assumptions. The reason is that
+> rsps are freed upon the send completion of a nvme command (cqe).
+> 
+> If for example one or more acks from the host on this send were dropped
+> (which can very well happen on a high load switched fabric environment),
+> then we might end up needing more resources than we originally thought.
+> 
+> Does your cluster involve one or more switches cascade? That would
+> explain how we're getting there.
+> 
+> We use heuristics of 2x the queue_size so that we can't pipeline
+> queue-depth and also have a queue-depth to spare as completions might
+> take time.
+> 
+> I think that allocating 10x is an overkill, but maybe something that
+> grows lazily can fit better (not sure if we want to shrink as well).
+> 
+> Can you tryout this (untested) patch:
 
-Hal,
-do you remember the rationale there?
-
-
-Thanks
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170813/2463088f/attachment-0001.sig>
+Alon, did you happen to test this?
