@@ -1,32 +1,51 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 14 Aug 2017 16:24:15 -0400
-Subject: Bug Report: can't unload nvme module in case of disabled device
-In-Reply-To: <b4c07a4b-de93-ef0c-d3d4-79baaa01d0c6@mellanox.com>
-References: <f28ebc80-0e67-8af7-79b2-a4b368e4bd83@mellanox.com>
- <20170810085950.GB12494@infradead.org>
- <6e1797d9-3b2c-6f9b-a5a8-d23aed778d8b@mellanox.com>
- <20170810193615.GB1180@localhost.localdomain>
- <b4c07a4b-de93-ef0c-d3d4-79baaa01d0c6@mellanox.com>
-Message-ID: <20170814202414.GH7233@localhost.localdomain>
+Date: Mon, 14 Aug 2017 16:40:11 -0400
+Subject: [PATCH] blk-mq: Fix queue usage on failed request allocation
+Message-ID: <1502743211-14992-1-git-send-email-keith.busch@intel.com>
 
-On Sun, Aug 13, 2017@11:29:59AM +0300, Max Gurtovoy wrote:
-> 
-> After bisecting I found that the following commit caused the simple
-> load/unload nvme driver failure:
-> 
-> commit 1ad43c0078b79a76accd0fe64062e47b3430dc6b
-> Author: Ming Lei <minlei at redhat.com>
-> Date:   Wed Aug 2 08:01:45 2017 +0800
-> 
->     blk-mq: don't leak preempt counter/q_usage_counter when allocating rq
-> failed
-> 
-> Adding Ming to this thread.
-> 
-> I'm continuing with the debug of the new scenario (load nvme && sleep 10 &&
-> unload nvme).
+blk_mq_get_request() does not release the callers queue usage counter
+when allocation fails. The caller still needs to account for its own
+queue usage when it is unable to allocate a request.
+
+Fixes: 1ad43c0078b7 ("blk-mq: don't leak preempt counter/q_usage_counter when allocating rq failed")
+
+Reported-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-mq.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 535cbdf..4603b11 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -360,12 +360,12 @@ struct request *blk_mq_alloc_request(struct request_queue *q, unsigned int op,
+ 		return ERR_PTR(ret);
  
-I'm reviewing that commit, and it looks wrong to me. It is only pairing
-the blk_queue_exit if request allocation was successful. That will get
-the q_usage_counter off when request allocation fails, making a queue
-freeze impossible. I'll send a patch.
+ 	rq = blk_mq_get_request(q, NULL, op, &alloc_data);
++	blk_queue_exit(q);
+ 
+ 	if (!rq)
+ 		return ERR_PTR(-EWOULDBLOCK);
+ 
+ 	blk_mq_put_ctx(alloc_data.ctx);
+-	blk_queue_exit(q);
+ 
+ 	rq->__data_len = 0;
+ 	rq->__sector = (sector_t) -1;
+@@ -411,12 +411,11 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ 	alloc_data.ctx = __blk_mq_get_ctx(q, cpu);
+ 
+ 	rq = blk_mq_get_request(q, NULL, op, &alloc_data);
++	blk_queue_exit(q);
+ 
+ 	if (!rq)
+ 		return ERR_PTR(-EWOULDBLOCK);
+ 
+-	blk_queue_exit(q);
+-
+ 	return rq;
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
+-- 
+2.5.5
