@@ -1,38 +1,21 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 14 Aug 2017 11:20:32 -0700
-Subject: [PATCH] nvmet_fc: correct use after free on list teardown
-Message-ID: <20170814182032.20755-1-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 14 Aug 2017 15:17:45 -0400
+Subject: [PATCH] nvme-cli/fabrics: Add ctrl-loss-tmo param to connect cmd
+In-Reply-To: <1502639104-27315-1-git-send-email-maxg@mellanox.com>
+References: <1502639104-27315-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20170814191745.GG7233@localhost.localdomain>
 
-Use list_for_each_entry_safe to prevent list handling from referencing
-next pointers directly after list_del's
+On Sun, Aug 13, 2017@06:45:04PM +0300, Max Gurtovoy wrote:
+> From: Nitzan Carmi <nitzanc at mellanox.com>
+> 
+> Added 'ctrl-loss-tmo' to 'connect' command so users can specify the
+> controller lost timeout period.
+> 
+> usage examples:
+> nvme connect --ctrl-loss-tmo=0 --transport=rdma --traddr=10.0.1.1 --nqn=test-nvme
+> nvme connect -l 0 -t rdma -a 10.0.1.1 -n test_nvme
+> 
+> Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1b7f2520a20d..b200f9aadd52 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -704,7 +704,7 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
- {
- 	struct nvmet_fc_tgtport *tgtport = queue->assoc->tgtport;
- 	struct nvmet_fc_fcp_iod *fod = queue->fod;
--	struct nvmet_fc_defer_fcp_req *deferfcp;
-+	struct nvmet_fc_defer_fcp_req *deferfcp, *tempptr;
- 	unsigned long flags;
- 	int i, writedataactive;
- 	bool disconnect;
-@@ -735,7 +735,8 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
- 	}
- 
- 	/* Cleanup defer'ed IOs in queue */
--	list_for_each_entry(deferfcp, &queue->avail_defer_list, req_list) {
-+	list_for_each_entry_safe(deferfcp, tempptr, &queue->avail_defer_list,
-+				req_list) {
- 		list_del(&deferfcp->req_list);
- 		kfree(deferfcp);
- 	}
--- 
-2.13.1
+Looks good, applied.
