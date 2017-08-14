@@ -1,35 +1,38 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Mon, 14 Aug 2017 14:16:49 +0000
-Subject: [PATCH v2 1/2] nvmet_fc: add defer_req callback for deferment of
- cmd buffer return
-References: <20170805002933.23397-1-jsmart2021@gmail.com>
- <20170805002933.23397-2-jsmart2021@gmail.com>
-Message-ID: <CY1PR0401MB15363E9796381A376013E71C988C0@CY1PR0401MB1536.namprd04.prod.outlook.com>
+From: sean.hefty@intel.com (Hefty, Sean)
+Date: Mon, 14 Aug 2017 17:01:54 +0000
+Subject: Flush warning
+In-Reply-To: <3d9cca62-4612-53dc-776c-3aeb2df58365@dev.mellanox.co.il>
+References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
+ <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
+ <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
+ <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
+ <20170809162749.GA4069@obsidianresearch.com>
+ <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
+ <20170813064651.GR24282@mtr-leonro.local>
+ <90ada4f5-d6a1-2b93-5164-c593955c20cf@grimberg.me>
+ <20170813103359.GW24282@mtr-leonro.local>
+ <3d9cca62-4612-53dc-776c-3aeb2df58365@dev.mellanox.co.il>
+Message-ID: <1828884A29C6694DAF28B7E6B8A82373AB17595A@ORSMSX109.amr.corp.intel.com>
 
-On 08/04/17 17:29, James Smart wrote:
-> +	/* Cleanup defer'ed IOs in queue */
-> +	list_for_each_entry(deferfcp, &queue->avail_defer_list, req_list) {
-> +		list_del(&deferfcp->req_list);
-> +		kfree(deferfcp);
-> +	}
+> >>> The workqueue which frees the memory and doesn't allocate memory
+> >>> during execution is supposed to be marked as WQ_MEM_RECLAIM. This
+> >>> flag will cause to priority increase for such workqueue during low
+> memory conditions.
+> >>
+> >> Which to my understanding means that CM workqueue should not use it
+> >> as on each CM connect, by definition the ULP allocates memory (qp,
+> cq etc).
+> >
+> > From my understanding too.
+> > That workqueue was introduced in 2005, in a977049dacde ("[PATCH] IB:
+> > Add the kernel CM implementation"), it is not clear if it was
+> > intentionally.
+> >
+> > Hal,
+> > do you remember the rationale there?
+> 
+> Sean is best to respond to this.
 
-Hello James,
+I believe the work queue was to avoid potential deadlocks that could arise from using the MAD work queue.  The original submission did not mark the work queue with WQ_MEM_RECLAIM.  I do not know when that change was added.
 
-Coverity reports a user-after-free for the above code:
-
-*** CID 1416424:  Memory - illegal accesses  (USE_AFTER_FREE)
-/drivers/nvme/target/fc.c: 738 in nvmet_fc_delete_target_queue()
-732     					&tgtport->fc_target_port, fod->fcpreq);
-733     			}
-734     		}
-735     	}
-736     
-737     	/* Cleanup defer'ed IOs in queue */
->>>     CID 1416424:  Memory - illegal accesses  (USE_AFTER_FREE)
->>>     Dereferencing freed pointer "deferfcp".
-738     	list_for_each_entry(deferfcp, &queue->avail_defer_list, req_list) {
-739     		list_del(&deferfcp->req_list);
-740     		kfree(deferfcp);
-741     	}
-742     
-743     	for (;;) {
+- Sean
