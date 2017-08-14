@@ -1,62 +1,72 @@
-From: hal@dev.mellanox.co.il (Hal Rosenstock)
-Date: Mon, 14 Aug 2017 08:13:04 -0400
-Subject: Flush warning
-In-Reply-To: <20170813103359.GW24282@mtr-leonro.local>
-References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
- <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
- <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
- <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
- <20170809162749.GA4069@obsidianresearch.com>
- <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
- <20170813064651.GR24282@mtr-leonro.local>
- <90ada4f5-d6a1-2b93-5164-c593955c20cf@grimberg.me>
- <20170813103359.GW24282@mtr-leonro.local>
-Message-ID: <3d9cca62-4612-53dc-776c-3aeb2df58365@dev.mellanox.co.il>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 14 Aug 2017 15:29:26 +0300
+Subject: [PATCH 1/1] nvme-rdma: Use unlikely macro in the fast path
+Message-ID: <1502713766-10055-1-git-send-email-maxg@mellanox.com>
 
-On 8/13/2017 6:33 AM, Leon Romanovsky wrote:
-> On Sun, Aug 13, 2017@02:14:58AM -0700, Sagi Grimberg wrote:
->>
->>>>>> Does anyone else know?
->>>>>
->>>>> Consider that the ib_core can be used to back storage. Ie consider a
->>>>> situation where iSER/NFS/SRP needs to reconnect to respond to kernel
->>>>> paging/reclaim.
->>>>>
->>>>> On the surface it seems reasonable to me that these are on a reclaim
->>>>> path?
->>
->> I'm pretty sure that ULP connect will trigger memory allocations, which
->> will fail under memory pressure... Maybe I'm missing something.
->>
->>>> hmm.  That seems reasonable.  Then I would think the nvme_rdma would also need
->>>> to be using a reclaim workqueue.
->>>>
->>>> Sagi, Do you think I should add a private workqueue with WQ_MEM_RECLAIM to
->>>> nvme_rdma vs using the system_wq?  nvme/target probably needs one also...
->>
->> I'm not sure, being unable to flush system workqueue from CM context is
->> somewhat limiting... We could use a private workqueue for nvmet
->> teardowns but I'm not sure we want to do that.
->>
->>> The workqueue which frees the memory and doesn't allocate memory during execution
->>> is supposed to be marked as WQ_MEM_RECLAIM. This flag will cause to priority increase
->>> for such workqueue during low memory conditions.
->>
->> Which to my understanding means that CM workqueue should not use it as
->> on each CM connect, by definition the ULP allocates memory (qp, cq etc).
-> 
-> From my understanding too.
-> That workqueue was introduced in 2005, in a977049dacde
-> ("[PATCH] IB: Add the kernel CM implementation"), it is not clear if it
-> was intentionally.
-> 
-> Hal,
-> do you remember the rationale there?
+This patch slightly improves performance (mainly for small block sizes).
 
-Sean is best to respond to this.
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
 
--- Hal
-
-> 
-> Thanks
-> 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index da04df1..8540dbb 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -856,7 +856,7 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
+ 
+ 	if (req->mr->need_inval) {
+ 		res = nvme_rdma_inv_rkey(queue, req);
+-		if (res < 0) {
++		if (unlikely(res < 0)) {
+ 			dev_err(ctrl->ctrl.device,
+ 				"Queueing INV WR for rkey %#x failed (%d)\n",
+ 				req->mr->rkey, res);
+@@ -921,7 +921,7 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
+ 	int nr;
+ 
+ 	nr = ib_map_mr_sg(req->mr, req->sg_table.sgl, count, NULL, PAGE_SIZE);
+-	if (nr < count) {
++	if (unlikely(nr < count)) {
+ 		if (nr < 0)
+ 			return nr;
+ 		return -EINVAL;
+@@ -1057,7 +1057,7 @@ static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
+ 		first = &wr;
+ 
+ 	ret = ib_post_send(queue->qp, first, &bad_wr);
+-	if (ret) {
++	if (unlikely(ret)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			     "%s failed with error code %d\n", __func__, ret);
+ 	}
+@@ -1083,7 +1083,7 @@ static int nvme_rdma_post_recv(struct nvme_rdma_queue *queue,
+ 	wr.num_sge  = 1;
+ 
+ 	ret = ib_post_recv(queue->qp, &wr, &bad_wr);
+-	if (ret) {
++	if (unlikely(ret)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			"%s failed with error code %d\n", __func__, ret);
+ 	}
+@@ -1443,7 +1443,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	blk_mq_start_request(rq);
+ 
+ 	err = nvme_rdma_map_data(queue, rq, c);
+-	if (err < 0) {
++	if (unlikely(err < 0)) {
+ 		dev_err(queue->ctrl->ctrl.device,
+ 			     "Failed to map data (%d)\n", err);
+ 		nvme_cleanup_cmd(rq);
+@@ -1457,7 +1457,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		flush = true;
+ 	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+ 			req->mr->need_inval ? &req->reg_wr.wr : NULL, flush);
+-	if (err) {
++	if (unlikely(err)) {
+ 		nvme_rdma_unmap_data(queue, rq);
+ 		goto err;
+ 	}
+-- 
+1.7.1
