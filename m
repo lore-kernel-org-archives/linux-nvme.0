@@ -1,98 +1,62 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 13 Aug 2017 19:21:06 +0300
-Subject: [PATCH 1/2] nvme: Add symbolic constants for CC identifiers
-Message-ID: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
+From: hal@dev.mellanox.co.il (Hal Rosenstock)
+Date: Mon, 14 Aug 2017 08:13:04 -0400
+Subject: Flush warning
+In-Reply-To: <20170813103359.GW24282@mtr-leonro.local>
+References: <016301d30c86$e7034ae0$b509e0a0$@opengridcomputing.com>
+ <9bc142de-b8ba-acb6-5ea1-2ccdbb578655@grimberg.me>
+ <003401d30f91$c7e2a3f0$57a7ebd0$@opengridcomputing.com>
+ <00ff01d3112b$94142350$bc3c69f0$@opengridcomputing.com>
+ <20170809162749.GA4069@obsidianresearch.com>
+ <011601d3112d$fa305b70$ee911250$@opengridcomputing.com>
+ <20170813064651.GR24282@mtr-leonro.local>
+ <90ada4f5-d6a1-2b93-5164-c593955c20cf@grimberg.me>
+ <20170813103359.GW24282@mtr-leonro.local>
+Message-ID: <3d9cca62-4612-53dc-776c-3aeb2df58365@dev.mellanox.co.il>
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/core.c |   14 +++++++-------
- include/linux/nvme.h       |   24 +++++++++++++++---------
- 2 files changed, 22 insertions(+), 16 deletions(-)
+On 8/13/2017 6:33 AM, Leon Romanovsky wrote:
+> On Sun, Aug 13, 2017@02:14:58AM -0700, Sagi Grimberg wrote:
+>>
+>>>>>> Does anyone else know?
+>>>>>
+>>>>> Consider that the ib_core can be used to back storage. Ie consider a
+>>>>> situation where iSER/NFS/SRP needs to reconnect to respond to kernel
+>>>>> paging/reclaim.
+>>>>>
+>>>>> On the surface it seems reasonable to me that these are on a reclaim
+>>>>> path?
+>>
+>> I'm pretty sure that ULP connect will trigger memory allocations, which
+>> will fail under memory pressure... Maybe I'm missing something.
+>>
+>>>> hmm.  That seems reasonable.  Then I would think the nvme_rdma would also need
+>>>> to be using a reclaim workqueue.
+>>>>
+>>>> Sagi, Do you think I should add a private workqueue with WQ_MEM_RECLAIM to
+>>>> nvme_rdma vs using the system_wq?  nvme/target probably needs one also...
+>>
+>> I'm not sure, being unable to flush system workqueue from CM context is
+>> somewhat limiting... We could use a private workqueue for nvmet
+>> teardowns but I'm not sure we want to do that.
+>>
+>>> The workqueue which frees the memory and doesn't allocate memory during execution
+>>> is supposed to be marked as WQ_MEM_RECLAIM. This flag will cause to priority increase
+>>> for such workqueue during low memory conditions.
+>>
+>> Which to my understanding means that CM workqueue should not use it as
+>> on each CM connect, by definition the ULP allocates memory (qp, cq etc).
+> 
+> From my understanding too.
+> That workqueue was introduced in 2005, in a977049dacde
+> ("[PATCH] IB: Add the kernel CM implementation"), it is not clear if it
+> was intentionally.
+> 
+> Hal,
+> do you remember the rationale there?
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index f4b02bb..9955c2d 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -538,37 +538,37 @@ void nvmet_req_uninit(struct nvmet_req *req)
- 
- static inline bool nvmet_cc_en(u32 cc)
- {
--	return cc & 0x1;
-+	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
- }
- 
- static inline u8 nvmet_cc_css(u32 cc)
- {
--	return (cc >> 4) & 0x7;
-+	return (cc >> NVME_CC_CSS_SHIFT) & 0x7;
- }
- 
- static inline u8 nvmet_cc_mps(u32 cc)
- {
--	return (cc >> 7) & 0xf;
-+	return (cc >> NVME_CC_MPS_SHIFT) & 0xf;
- }
- 
- static inline u8 nvmet_cc_ams(u32 cc)
- {
--	return (cc >> 11) & 0x7;
-+	return (cc >> NVME_CC_AMS_SHIFT) & 0x7;
- }
- 
- static inline u8 nvmet_cc_shn(u32 cc)
- {
--	return (cc >> 14) & 0x3;
-+	return (cc >> NVME_CC_SHN_SHIFT) & 0x3;
- }
- 
- static inline u8 nvmet_cc_iosqes(u32 cc)
- {
--	return (cc >> 16) & 0xf;
-+	return (cc >> NVME_CC_IOSQES_SHIFT) & 0xf;
- }
- 
- static inline u8 nvmet_cc_iocqes(u32 cc)
- {
--	return (cc >> 20) & 0xf;
-+	return (cc >> NVME_CC_IOCQES_SHIFT) & 0xf;
- }
- 
- static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 25d8225..ebbe6e8 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -133,16 +133,22 @@ enum {
- enum {
- 	NVME_CC_ENABLE		= 1 << 0,
- 	NVME_CC_CSS_NVM		= 0 << 4,
-+	NVME_CC_EN_SHIFT	= 0,
-+	NVME_CC_CSS_SHIFT	= 4,
- 	NVME_CC_MPS_SHIFT	= 7,
--	NVME_CC_ARB_RR		= 0 << 11,
--	NVME_CC_ARB_WRRU	= 1 << 11,
--	NVME_CC_ARB_VS		= 7 << 11,
--	NVME_CC_SHN_NONE	= 0 << 14,
--	NVME_CC_SHN_NORMAL	= 1 << 14,
--	NVME_CC_SHN_ABRUPT	= 2 << 14,
--	NVME_CC_SHN_MASK	= 3 << 14,
--	NVME_CC_IOSQES		= NVME_NVM_IOSQES << 16,
--	NVME_CC_IOCQES		= NVME_NVM_IOCQES << 20,
-+	NVME_CC_AMS_SHIFT	= 11,
-+	NVME_CC_SHN_SHIFT	= 14,
-+	NVME_CC_IOSQES_SHIFT	= 16,
-+	NVME_CC_IOCQES_SHIFT	= 20,
-+	NVME_CC_ARB_RR		= 0 << NVME_CC_AMS_SHIFT,
-+	NVME_CC_ARB_WRRU	= 1 << NVME_CC_AMS_SHIFT,
-+	NVME_CC_ARB_VS		= 7 << NVME_CC_AMS_SHIFT,
-+	NVME_CC_SHN_NONE	= 0 << NVME_CC_SHN_SHIFT,
-+	NVME_CC_SHN_NORMAL	= 1 << NVME_CC_SHN_SHIFT,
-+	NVME_CC_SHN_ABRUPT	= 2 << NVME_CC_SHN_SHIFT,
-+	NVME_CC_SHN_MASK	= 3 << NVME_CC_SHN_SHIFT,
-+	NVME_CC_IOSQES		= NVME_NVM_IOSQES << NVME_CC_IOSQES_SHIFT,
-+	NVME_CC_IOCQES		= NVME_NVM_IOCQES << NVME_CC_IOCQES_SHIFT,
- 	NVME_CSTS_RDY		= 1 << 0,
- 	NVME_CSTS_CFS		= 1 << 1,
- 	NVME_CSTS_NSSRO		= 1 << 4,
--- 
-1.7.1
+Sean is best to respond to this.
+
+-- Hal
+
+> 
+> Thanks
+> 
