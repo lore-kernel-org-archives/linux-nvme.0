@@ -1,60 +1,32 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Mon, 14 Aug 2017 22:12:36 +0200
-Subject: [PATCH v4 0/3] Improve readbility of NVME "wwid" attribute (target
- side)
-In-Reply-To: <20170810084541.bawqaebfycnguomx@infradead.org>
-References: <20170810084541.bawqaebfycnguomx@infradead.org>
-Message-ID: <20170814201239.15255-1-mwilck@suse.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 14 Aug 2017 16:24:15 -0400
+Subject: Bug Report: can't unload nvme module in case of disabled device
+In-Reply-To: <b4c07a4b-de93-ef0c-d3d4-79baaa01d0c6@mellanox.com>
+References: <f28ebc80-0e67-8af7-79b2-a4b368e4bd83@mellanox.com>
+ <20170810085950.GB12494@infradead.org>
+ <6e1797d9-3b2c-6f9b-a5a8-d23aed778d8b@mellanox.com>
+ <20170810193615.GB1180@localhost.localdomain>
+ <b4c07a4b-de93-ef0c-d3d4-79baaa01d0c6@mellanox.com>
+Message-ID: <20170814202414.GH7233@localhost.localdomain>
 
-Hi Christoph,
-
-I'm reposting the target-side of my patch rebased against 4.13-rc
-as requested.
-
-NOTE: an error has occurred while merging the previous version of my patch.
-This is fixed by patch 1/3 in the series - that's an important fix for 4.13,
-please push forward. 2/3 and 3/3 move the "copy_and_pad" functionality to a generic
-helper, as requested. I've split this off in case the generic function meets
-criticism elsewhere.
-
-Original cover letter:
-
-With the current implementation, the default "fallback" WWID generation
-code (if no nguid, euid etc. are defined) for Linux NVME host and target
-results in the following WWID format:
-
-nvme.0000-3163653363666438366239656630386200-4c696e75780000000000000000000000000000000000000000000000000000000000000000000000-00000002
-
-This is not only hard to read, it poses real problems e.g. for multipath
-(dm WWIDs are limited to 128 characters).
-
-With this patch series, the WWID on a Linux host connected to a Linux target
-looks like this:
-
-nvme.0000-65613435333665653738613464363961-4c696e7578-00000001
-
-Changes wrt v1:
- * 1/3: new, moved helper to include/linux/string.h (Christoph Hellwig)
-        (you suggested kernel.h, but I think this matches string.h better)      
- * Dropped the last patch from the v1 series that would have changed valid WWIDs for
-   HW NVME controllers.
-
-Changes wrt v2:
- * 3/3: Make sure no underflow occurs (Joe Perches)
-
-Changes wrt v3:
- * Rebased on 4.13-rc3.
- * Dropped client-side patch which was merged in nvme-4.13 already.
- * Split off bug fix (patch 1/3).
-
-Martin Wilck (3):
-  nvmet_execute_identify_ctrl: don't overwrite with 0-bytes
-  string.h: add memcpy_and_pad()
-  nvmet_execute_identify_ctrl: use memcpy_and_pad()
-
- drivers/nvme/target/admin-cmd.c | 20 +++-----------------
- include/linux/string.h          | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 17 deletions(-)
-
--- 
-2.14.0
+On Sun, Aug 13, 2017@11:29:59AM +0300, Max Gurtovoy wrote:
+> 
+> After bisecting I found that the following commit caused the simple
+> load/unload nvme driver failure:
+> 
+> commit 1ad43c0078b79a76accd0fe64062e47b3430dc6b
+> Author: Ming Lei <minlei at redhat.com>
+> Date:   Wed Aug 2 08:01:45 2017 +0800
+> 
+>     blk-mq: don't leak preempt counter/q_usage_counter when allocating rq
+> failed
+> 
+> Adding Ming to this thread.
+> 
+> I'm continuing with the debug of the new scenario (load nvme && sleep 10 &&
+> unload nvme).
+ 
+I'm reviewing that commit, and it looks wrong to me. It is only pairing
+the blk_queue_exit if request allocation was successful. That will get
+the q_usage_counter off when request allocation fails, making a queue
+freeze impossible. I'll send a patch.
