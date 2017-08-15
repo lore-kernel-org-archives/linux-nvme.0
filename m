@@ -1,23 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:58:34 +0300
-Subject: [PATCH 1/1] nvme-rdma: Use unlikely macro in the fast path
-In-Reply-To: <c7105632-b69e-7a7c-d700-dfb224e32ebc@mellanox.com>
-References: <1502713766-10055-1-git-send-email-maxg@mellanox.com>
- <407fda2c-b54d-a4a6-7504-a7fc51a416f5@grimberg.me>
- <c7105632-b69e-7a7c-d700-dfb224e32ebc@mellanox.com>
-Message-ID: <73d33114-8930-045a-b2c5-89ef34d87ff0@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 15 Aug 2017 14:58:35 +0300
+Subject: [PATCH] blk-mq: Fix queue usage on failed request allocation
+In-Reply-To: <1502743211-14992-1-git-send-email-keith.busch@intel.com>
+References: <1502743211-14992-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1810fc11-5199-977c-4505-eece5d2fa44d@mellanox.com>
 
 
-> 1 subsystem, 1 ns (null blk backing device)
-> 
-> 
-> bs      (w/w.o)
-> ---    ---------
-> 512:    912k/900k
-> 1k:     912k/900k
-> 2k :    911k/901k
-> 4k:     922k/906k
 
-That's somewhat surprising...
+On 8/14/2017 11:40 PM, Keith Busch wrote:
+> blk_mq_get_request() does not release the callers queue usage counter
+> when allocation fails. The caller still needs to account for its own
+> queue usage when it is unable to allocate a request.
+>
+> Fixes: 1ad43c0078b7 ("blk-mq: don't leak preempt counter/q_usage_counter when allocating rq failed")
+>
+> Reported-by: Max Gurtovoy <maxg at mellanox.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
 
-Thanks
+tested with 4.13-rc5+ using the following commands in a loop:
+
+1. modprobe nvme
+2. sleep 10
+3. modprobe -r nvme
+
+Looks good,
+
+Tested-by: Max Gurtovoy <maxg at mellanox.com>
