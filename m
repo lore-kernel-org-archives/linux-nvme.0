@@ -1,12 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:07:43 +0300
-Subject: [PATCH 2/2] nvme: Rename AMS symbolic constants to fit
- specification
-In-Reply-To: <1502641267-2984-2-git-send-email-maxg@mellanox.com>
-References: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
- <1502641267-2984-2-git-send-email-maxg@mellanox.com>
-Message-ID: <ccce001d-e878-6c01-0db5-7cf678bb80cf@grimberg.me>
+Date: Tue, 15 Aug 2017 12:08:47 +0300
+Subject: [PATCH 1/1] nvme-rdma: Use unlikely macro in the fast path
+In-Reply-To: <1502713766-10055-1-git-send-email-maxg@mellanox.com>
+References: <1502713766-10055-1-git-send-email-maxg@mellanox.com>
+Message-ID: <407fda2c-b54d-a4a6-7504-a7fc51a416f5@grimberg.me>
+
+> This patch slightly improves performance (mainly for small block sizes).
+
+This looks fine,
 
 Looks fine,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+Since you mentioned it, can you quantify what that bought us?
