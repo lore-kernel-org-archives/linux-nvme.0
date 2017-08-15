@@ -1,27 +1,64 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:24:05 +0300
-Subject: [PATCH] nvme: fix identify namespace logging
-Message-ID: <1502789045-10260-1-git-send-email-sagi@grimberg.me>
+Date: Tue, 15 Aug 2017 12:52:13 +0300
+Subject: Centralize nvme controller reset,
+ delete and fabrics periodic reconnects
+Message-ID: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
 
-Use ctrl->device and lose the func name.
+This is the third part of the attempt to centralize controller reset,
+delete and fabrics error recovery in nvme core.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As a reminder, the motivation is to get as much of the duplicate logic
+existing in the various nvme transports to coommon code as possible.
+We strive to have nvme core and fabrics modules take care of nvme and
+fabrics constructs and initialization procedures and have our transports
+simply worry about the underlying medium and spec extensions/enhancements.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 25a12998a498..a2ac892f470e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1174,7 +1174,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
- static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
- {
- 	if (nvme_identify_ns(ns->ctrl, ns->ns_id, id)) {
--		dev_warn(ns->ctrl->dev, "%s: Identify failure\n", __func__);
-+		dev_warn(ns->ctrl->device, "Identify namespace failed\n");
- 		return -ENODEV;
- 	}
- 
+This set is a step in that direction in the sense that it places a generic
+controller initialization flows in nvme core, and converts two transports
+to use common code.
+
+The set is gradually reshaping nvme-rdma code to be more generic and then
+simply move it to nvme-core (controller reset and delete) and nvme-fabrics
+(error recovery and periodic reconnects). Then, nvme-loop is converted to
+use nvme-core in one shot (Simply rip out all the duplicated logic).
+
+Note that this patch set shouldn't break any transport that still does not
+use it (pci, fc). The next part would be to take a stab at these transports
+and add whatever is still needed to common code.
+
+I tested this set with controller resets, deletes and error recovery in
+the presence of I/O load. I tested rdma and loop.
+
+Note that this direction got some exposure [1] and I tried to incorporate
+feedback so if no hard objections are raised I plan to land this in 4.14.
+
+This set applies on nvme-4.14 plus 4.13 recent fixes.
+
+[1]:
+http://www.mail-archive.com/linux-block at vger.kernel.org/msg09923.html
+https://lwn.net/Articles/725720/
+
+Sagi Grimberg (12):
+  nvme: move err and reconnect work to nvme ctrl
+  nvme-rdma: move admin specific resources to alloc_queue
+  nvme-rdma: split nvme_rdma_alloc_io_queues
+  nvme-rdma: restructure create_ctrl a bit
+  nvme-rdma: introduce nvme_rdma_alloc/stop/free_admin_queue
+  nvme-rdma: plumb nvme ctrl to various routines
+  nvme-rdma: split generic probe out of create_ctrl
+  nvme: add some ctrl ops for centralizing control plane logic.
+  nvme: move control plane handling to nvme core
+  nvme-fabrics: handle reconnects in fabrics library
+  nvme: add sed-opal ctrl manipulation in admin configuration
+  nvme-loop: convert to nvme-core control plane management
+
+ drivers/nvme/host/core.c    | 312 +++++++++++++++++++++++++++
+ drivers/nvme/host/fabrics.c | 103 +++++++++
+ drivers/nvme/host/fabrics.h |   1 +
+ drivers/nvme/host/nvme.h    |  27 +++
+ drivers/nvme/host/rdma.c    | 515 +++++++++-----------------------------------
+ drivers/nvme/target/loop.c  | 443 ++++++++++++++-----------------------
+ 6 files changed, 706 insertions(+), 695 deletions(-)
+
 -- 
 2.7.4
