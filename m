@@ -1,79 +1,146 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:52:16 +0300
-Subject: [PATCH 03/12] nvme-rdma: split nvme_rdma_alloc_io_queues
+Date: Tue, 15 Aug 2017 12:52:17 +0300
+Subject: [PATCH 04/12] nvme-rdma: restructure create_ctrl a bit
 In-Reply-To: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
 References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1502790745-12569-4-git-send-email-sagi@grimberg.me>
+Message-ID: <1502790745-12569-5-git-send-email-sagi@grimberg.me>
 
-We're going to call it from the core, so split
-nr_io_queues setting to the call-sites.
+We'd like to split the generic part out, so rearrange
+to ease the split. post_configure will be called after the
+controller basic configuration occured and identification.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ drivers/nvme/host/rdma.c | 89 ++++++++++++++++++++++++++----------------------
+ 1 file changed, 48 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d94b4df364a5..a0981fd5291c 100644
+index a0981fd5291c..dc903625a759 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -643,12 +643,11 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	return ret;
- }
+@@ -1844,6 +1844,39 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.get_address		= nvmf_get_address,
+ };
  
--static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
-+static unsigned int nvme_rdma_nr_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
- 	struct ib_device *ibdev = ctrl->device->dev;
- 	unsigned int nr_io_queues;
--	int i, ret;
- 
- 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
- 
-@@ -660,16 +659,12 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	nr_io_queues = min_t(unsigned int, nr_io_queues,
- 				ibdev->num_comp_vectors);
- 
--	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
--	if (ret)
--		return ret;
--
--	ctrl->ctrl.queue_count = nr_io_queues + 1;
--	if (ctrl->ctrl.queue_count < 2)
--		return 0;
-+	return nr_io_queues;
-+}
- 
--	dev_info(ctrl->ctrl.device,
--		"creating %d I/O queues.\n", nr_io_queues);
-+static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
++static int nvme_rdma_post_configure(struct nvme_ctrl *ctrl)
 +{
-+	int i, ret;
- 
- 	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
- 		ret = nvme_rdma_alloc_queue(ctrl, i,
-@@ -838,8 +833,21 @@ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
- 
- static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
++	/* sanity check icdoff */
++	if (ctrl->icdoff) {
++		dev_err(ctrl->device, "icdoff is not supported!\n");
++		return -EINVAL;
++	}
++
++	/* sanity check keyed sgls */
++	if (!(ctrl->sgls & (1 << 20))) {
++		dev_err(ctrl->device, "Mandatory keyed sgls are not support\n");
++		return -EINVAL;
++	}
++
++	if (ctrl->opts->queue_size > ctrl->maxcmd) {
++		/* warn if maxcmd is lower than queue_size */
++		dev_warn(ctrl->device,
++			"queue_size %zu > ctrl maxcmd %u, clamping down\n",
++			ctrl->opts->queue_size, ctrl->maxcmd);
++		ctrl->opts->queue_size = ctrl->maxcmd;
++	}
++
++	if (ctrl->opts->queue_size > ctrl->sqsize + 1) {
++		/* warn if sqsize is lower than queue_size */
++		dev_warn(ctrl->device,
++			"queue_size %zu > ctrl sqsize %u, clamping down\n",
++			ctrl->opts->queue_size, ctrl->sqsize + 1);
++		ctrl->opts->queue_size = ctrl->sqsize + 1;
++	}
++
++	return 0;
++}
++
+ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		struct nvmf_ctrl_options *opts)
  {
-+	unsigned int nr_io_queues;
- 	int ret;
+@@ -1855,7 +1888,11 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+ 	if (!ctrl)
+ 		return ERR_PTR(-ENOMEM);
++
+ 	ctrl->ctrl.opts = opts;
++	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
++	ctrl->ctrl.sqsize = opts->queue_size - 1;
++	ctrl->ctrl.kato = opts->kato;
+ 	INIT_LIST_HEAD(&ctrl->list);
  
-+	nr_io_queues = nvme_rdma_nr_io_queues(ctrl);
-+	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
-+	if (ret)
-+		return ret;
+ 	if (opts->mask & NVMF_OPT_TRSVCID)
+@@ -1880,10 +1917,16 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		}
+ 	}
+ 
++	ret = -ENOMEM;
++	ctrl->queues = kcalloc(ctrl->ctrl.queue_count, sizeof(*ctrl->queues),
++				GFP_KERNEL);
++	if (!ctrl->queues)
++		goto out_free_ctrl;
 +
-+	ctrl->ctrl.queue_count = nr_io_queues + 1;
-+	if (ctrl->ctrl.queue_count < 2)
-+		return 0;
-+
-+	dev_info(ctrl->ctrl.device,
-+		"creating %d I/O queues.\n", nr_io_queues);
-+
- 	ret = nvme_rdma_alloc_io_queues(ctrl);
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
+ 				0 /* no quirks, we're perfect! */);
  	if (ret)
- 		return ret;
+-		goto out_free_ctrl;
++		goto out_kfree_queues;
+ 
+ 	INIT_DELAYED_WORK(&ctrl->ctrl.reconnect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
+@@ -1891,49 +1934,13 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	INIT_WORK(&ctrl->ctrl.delete_work, nvme_rdma_del_ctrl_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+ 
+-	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
+-	ctrl->ctrl.sqsize = opts->queue_size - 1;
+-	ctrl->ctrl.kato = opts->kato;
+-
+-	ret = -ENOMEM;
+-	ctrl->queues = kcalloc(ctrl->ctrl.queue_count, sizeof(*ctrl->queues),
+-				GFP_KERNEL);
+-	if (!ctrl->queues)
+-		goto out_uninit_ctrl;
+-
+ 	ret = nvme_rdma_configure_admin_queue(ctrl, true);
+ 	if (ret)
+-		goto out_kfree_queues;
+-
+-	/* sanity check icdoff */
+-	if (ctrl->ctrl.icdoff) {
+-		dev_err(ctrl->ctrl.device, "icdoff is not supported!\n");
+-		ret = -EINVAL;
+-		goto out_remove_admin_queue;
+-	}
+-
+-	/* sanity check keyed sgls */
+-	if (!(ctrl->ctrl.sgls & (1 << 20))) {
+-		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not support\n");
+-		ret = -EINVAL;
+-		goto out_remove_admin_queue;
+-	}
+-
+-	if (opts->queue_size > ctrl->ctrl.maxcmd) {
+-		/* warn if maxcmd is lower than queue_size */
+-		dev_warn(ctrl->ctrl.device,
+-			"queue_size %zu > ctrl maxcmd %u, clamping down\n",
+-			opts->queue_size, ctrl->ctrl.maxcmd);
+-		opts->queue_size = ctrl->ctrl.maxcmd;
+-	}
++		goto out_uninit_ctrl;
+ 
+-	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
+-		/* warn if sqsize is lower than queue_size */
+-		dev_warn(ctrl->ctrl.device,
+-			"queue_size %zu > ctrl sqsize %u, clamping down\n",
+-			opts->queue_size, ctrl->ctrl.sqsize + 1);
+-		opts->queue_size = ctrl->ctrl.sqsize + 1;
+-	}
++	ret = nvme_rdma_post_configure(&ctrl->ctrl);
++	if (ret)
++		goto out_uninit_ctrl;
+ 
+ 	if (opts->nr_io_queues) {
+ 		ret = nvme_rdma_configure_io_queues(ctrl, true);
 -- 
 2.7.4
