@@ -1,12 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:05:46 +0300
-Subject: [PATCH v2] nvme: Fix nvme reset command timeout handling
-In-Reply-To: <20170810092331.11159-1-jthumshirn@suse.de>
-References: <20170810092331.11159-1-jthumshirn@suse.de>
-Message-ID: <0d7917e3-1c22-73ea-1c74-ee5d5bf4b957@grimberg.me>
+Date: Tue, 15 Aug 2017 12:07:30 +0300
+Subject: [PATCH 1/2] nvme: Add symbolic constants for CC identifiers
+In-Reply-To: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
+References: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
+Message-ID: <5c3c59d2-81d9-7fba-f66a-d9986ae7e94a@grimberg.me>
 
-Looks good,
+Looks fine,
 
-Reviewed-by: Sagi Grimberg <sagi at grmberg.me>
-
-p.s. we'll need also to update the configure timestamp configuration.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
