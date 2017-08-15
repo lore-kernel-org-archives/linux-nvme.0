@@ -1,34 +1,27 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 15 Aug 2017 12:15:22 +0300
-Subject: [PATCH 1/1] nvme-rdma: Use unlikely macro in the fast path
-In-Reply-To: <407fda2c-b54d-a4a6-7504-a7fc51a416f5@grimberg.me>
-References: <1502713766-10055-1-git-send-email-maxg@mellanox.com>
- <407fda2c-b54d-a4a6-7504-a7fc51a416f5@grimberg.me>
-Message-ID: <c7105632-b69e-7a7c-d700-dfb224e32ebc@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 15 Aug 2017 12:24:05 +0300
+Subject: [PATCH] nvme: fix identify namespace logging
+Message-ID: <1502789045-10260-1-git-send-email-sagi@grimberg.me>
 
+Use ctrl->device and lose the func name.
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 8/15/2017 12:08 PM, Sagi Grimberg wrote:
->> This patch slightly improves performance (mainly for small block sizes).
->
-> This looks fine,
->
-> Looks fine,
->
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
->
-> Since you mentioned it, can you quantify what that bought us?
-
-1 subsystem, 1 ns (null blk backing device)
-
-
-bs      (w/w.o)
----    ---------
-512:    912k/900k
-1k:     912k/900k
-2k :    911k/901k
-4k:     922k/906k
-8k:     568k/569k
-16k:    288k/288k
-
--Max
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 25a12998a498..a2ac892f470e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1174,7 +1174,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
+ static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
+ {
+ 	if (nvme_identify_ns(ns->ctrl, ns->ns_id, id)) {
+-		dev_warn(ns->ctrl->dev, "%s: Identify failure\n", __func__);
++		dev_warn(ns->ctrl->device, "Identify namespace failed\n");
+ 		return -ENODEV;
+ 	}
+ 
+-- 
+2.7.4
