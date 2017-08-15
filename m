@@ -1,98 +1,79 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:52:15 +0300
-Subject: [PATCH 02/12] nvme-rdma: move admin specific resources to alloc_queue
+Date: Tue, 15 Aug 2017 12:52:16 +0300
+Subject: [PATCH 03/12] nvme-rdma: split nvme_rdma_alloc_io_queues
 In-Reply-To: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
 References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1502790745-12569-3-git-send-email-sagi@grimberg.me>
+Message-ID: <1502790745-12569-4-git-send-email-sagi@grimberg.me>
 
-We're trying to make admin queue configuration generic, so
-move the rdma specifics to the queue allocation (based on
-the queue index passed).
+We're going to call it from the core, so split
+nr_io_queues setting to the call-sites.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ drivers/nvme/host/rdma.c | 30 +++++++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 10e54f81e3d9..d94b4df364a5 100644
+index d94b4df364a5..a0981fd5291c 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -544,6 +544,23 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
- 		goto out_destroy_cm_id;
- 	}
- 
-+	if (!idx) {
-+		ctrl->device = ctrl->queues[0].device;
-+		ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
-+			ctrl->device->dev->attrs.max_fast_reg_page_list_len);
-+		ctrl->ctrl.max_hw_sectors =
-+			(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
-+
-+		ret = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
-+			&ctrl->async_event_sqe, sizeof(struct nvme_command),
-+			DMA_TO_DEVICE);
-+		if (ret) {
-+			nvme_rdma_destroy_queue_ib(&ctrl->queues[0]);
-+			goto out_destroy_cm_id;
-+		}
-+
-+	}
-+
- 	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
- 
- 	return 0;
-@@ -567,6 +584,10 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
- 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
- 		return;
- 
-+	if (!nvme_rdma_queue_idx(queue))
-+		nvme_rdma_free_qe(queue->device->dev,
-+			&queue->ctrl->async_event_sqe,
-+			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	nvme_rdma_destroy_queue_ib(queue);
- 	rdma_destroy_id(queue->cm_id);
+@@ -643,12 +643,11 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 	return ret;
  }
-@@ -735,8 +756,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
+ 
+-static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
++static unsigned int nvme_rdma_nr_io_queues(struct nvme_rdma_ctrl *ctrl)
  {
--	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
-@@ -754,11 +773,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (error)
- 		return error;
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+ 	struct ib_device *ibdev = ctrl->device->dev;
+ 	unsigned int nr_io_queues;
+-	int i, ret;
  
--	ctrl->device = ctrl->queues[0].device;
--
--	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
--		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
--
- 	if (new) {
- 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
- 		if (IS_ERR(ctrl->ctrl.admin_tagset))
-@@ -794,19 +808,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (error)
- 		goto out_cleanup_queue;
+ 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
  
--	ctrl->ctrl.max_hw_sectors =
--		(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
--
- 	error = nvme_init_identify(&ctrl->ctrl);
- 	if (error)
- 		goto out_cleanup_queue;
+@@ -660,16 +659,12 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 	nr_io_queues = min_t(unsigned int, nr_io_queues,
+ 				ibdev->num_comp_vectors);
  
--	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
--			&ctrl->async_event_sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
--	if (error)
--		goto out_cleanup_queue;
+-	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+-	if (ret)
+-		return ret;
 -
- 	return 0;
+-	ctrl->ctrl.queue_count = nr_io_queues + 1;
+-	if (ctrl->ctrl.queue_count < 2)
+-		return 0;
++	return nr_io_queues;
++}
  
- out_cleanup_queue:
+-	dev_info(ctrl->ctrl.device,
+-		"creating %d I/O queues.\n", nr_io_queues);
++static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
++{
++	int i, ret;
+ 
+ 	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+ 		ret = nvme_rdma_alloc_queue(ctrl, i,
+@@ -838,8 +833,21 @@ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 
+ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ {
++	unsigned int nr_io_queues;
+ 	int ret;
+ 
++	nr_io_queues = nvme_rdma_nr_io_queues(ctrl);
++	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
++	if (ret)
++		return ret;
++
++	ctrl->ctrl.queue_count = nr_io_queues + 1;
++	if (ctrl->ctrl.queue_count < 2)
++		return 0;
++
++	dev_info(ctrl->ctrl.device,
++		"creating %d I/O queues.\n", nr_io_queues);
++
+ 	ret = nvme_rdma_alloc_io_queues(ctrl);
+ 	if (ret)
+ 		return ret;
 -- 
 2.7.4
