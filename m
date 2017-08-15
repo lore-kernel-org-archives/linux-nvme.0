@@ -1,156 +1,98 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:52:14 +0300
-Subject: [PATCH 01/12] nvme: move err and reconnect work to nvme ctrl
+Date: Tue, 15 Aug 2017 12:52:15 +0300
+Subject: [PATCH 02/12] nvme-rdma: move admin specific resources to alloc_queue
 In-Reply-To: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
 References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1502790745-12569-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1502790745-12569-3-git-send-email-sagi@grimberg.me>
 
-In theory, all fabric transports can/should use these.
+We're trying to make admin queue configuration generic, so
+move the rdma specifics to the queue allocation (based on
+the queue index passed).
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c |  4 ++++
- drivers/nvme/host/nvme.h |  3 +++
- drivers/nvme/host/rdma.c | 29 +++++++++++------------------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ drivers/nvme/host/rdma.c | 37 +++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a2ac892f470e..bbaf5b98f2fe 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2703,6 +2703,10 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
- void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- {
- 	nvme_stop_keep_alive(ctrl);
-+	if (ctrl->ops->flags & NVME_F_FABRICS) {
-+		cancel_work_sync(&ctrl->err_work);
-+		cancel_delayed_work_sync(&ctrl->reconnect_work);
-+	}
- 	flush_work(&ctrl->async_event_work);
- 	flush_work(&ctrl->scan_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2c8a02be46fd..c52ba1405788 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -186,6 +186,9 @@ struct nvme_ctrl {
- 	u16 maxcmd;
- 	int nr_reconnects;
- 	struct nvmf_ctrl_options *opts;
-+	struct delayed_work reconnect_work;
-+	struct work_struct delete_work;
-+	struct work_struct err_work;
- };
- 
- struct nvme_ns {
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 74fd62062377..10e54f81e3d9 100644
+index 10e54f81e3d9..d94b4df364a5 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -105,13 +105,9 @@ struct nvme_rdma_ctrl {
- 
- 	/* other member variables */
- 	struct blk_mq_tag_set	tag_set;
--	struct work_struct	delete_work;
--	struct work_struct	err_work;
- 
- 	struct nvme_rdma_qe	async_event_sqe;
- 
--	struct delayed_work	reconnect_work;
--
- 	struct list_head	list;
- 
- 	struct blk_mq_tag_set	admin_tag_set;
-@@ -908,18 +904,18 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
- 	if (nvmf_should_reconnect(&ctrl->ctrl)) {
- 		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
- 			ctrl->ctrl.opts->reconnect_delay);
--		queue_delayed_work(nvme_wq, &ctrl->reconnect_work,
-+		queue_delayed_work(nvme_wq, &ctrl->ctrl.reconnect_work,
- 				ctrl->ctrl.opts->reconnect_delay * HZ);
- 	} else {
- 		dev_info(ctrl->ctrl.device, "Removing controller...\n");
--		queue_work(nvme_wq, &ctrl->delete_work);
-+		queue_work(nvme_wq, &ctrl->ctrl.delete_work);
+@@ -544,6 +544,23 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		goto out_destroy_cm_id;
  	}
- }
  
- static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl = container_of(to_delayed_work(work),
--			struct nvme_rdma_ctrl, reconnect_work);
-+			struct nvme_rdma_ctrl, ctrl.reconnect_work);
- 	bool changed;
- 	int ret;
- 
-@@ -958,7 +954,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- static void nvme_rdma_error_recovery_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl = container_of(work,
--			struct nvme_rdma_ctrl, err_work);
-+			struct nvme_rdma_ctrl, ctrl.err_work);
- 
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 
-@@ -991,7 +987,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
- 		return;
- 
--	queue_work(nvme_wq, &ctrl->err_work);
-+	queue_work(nvme_wq, &ctrl->ctrl.err_work);
- }
- 
- static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
-@@ -1725,9 +1721,6 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
- 
- static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- {
--	cancel_work_sync(&ctrl->err_work);
--	cancel_delayed_work_sync(&ctrl->reconnect_work);
--
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
-@@ -1758,7 +1751,7 @@ static void nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl)
- static void nvme_rdma_del_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_rdma_ctrl *ctrl = container_of(work,
--				struct nvme_rdma_ctrl, delete_work);
-+				struct nvme_rdma_ctrl, ctrl.delete_work);
- 
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_rdma_remove_ctrl(ctrl);
-@@ -1769,7 +1762,7 @@ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
- 		return -EBUSY;
- 
--	if (!queue_work(nvme_wq, &ctrl->delete_work))
-+	if (!queue_work(nvme_wq, &ctrl->ctrl.delete_work))
- 		return -EBUSY;
++	if (!idx) {
++		ctrl->device = ctrl->queues[0].device;
++		ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
++			ctrl->device->dev->attrs.max_fast_reg_page_list_len);
++		ctrl->ctrl.max_hw_sectors =
++			(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
++
++		ret = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
++			&ctrl->async_event_sqe, sizeof(struct nvme_command),
++			DMA_TO_DEVICE);
++		if (ret) {
++			nvme_rdma_destroy_queue_ib(&ctrl->queues[0]);
++			goto out_destroy_cm_id;
++		}
++
++	}
++
+ 	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
  
  	return 0;
-@@ -1788,7 +1781,7 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
- 		return -EBUSY;
- 	ret = __nvme_rdma_del_ctrl(ctrl);
- 	if (!ret)
--		flush_work(&ctrl->delete_work);
-+		flush_work(&ctrl->ctrl.delete_work);
- 	nvme_put_ctrl(&ctrl->ctrl);
- 	return ret;
+@@ -567,6 +584,10 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+ 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+ 		return;
+ 
++	if (!nvme_rdma_queue_idx(queue))
++		nvme_rdma_free_qe(queue->device->dev,
++			&queue->ctrl->async_event_sqe,
++			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 	nvme_rdma_destroy_queue_ib(queue);
+ 	rdma_destroy_id(queue->cm_id);
  }
-@@ -1879,10 +1872,10 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	if (ret)
- 		goto out_free_ctrl;
+@@ -735,8 +756,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
+-			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+@@ -754,11 +773,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (error)
+ 		return error;
  
--	INIT_DELAYED_WORK(&ctrl->reconnect_work,
-+	INIT_DELAYED_WORK(&ctrl->ctrl.reconnect_work,
- 			nvme_rdma_reconnect_ctrl_work);
--	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
--	INIT_WORK(&ctrl->delete_work, nvme_rdma_del_ctrl_work);
-+	INIT_WORK(&ctrl->ctrl.err_work, nvme_rdma_error_recovery_work);
-+	INIT_WORK(&ctrl->ctrl.delete_work, nvme_rdma_del_ctrl_work);
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+-	ctrl->device = ctrl->queues[0].device;
+-
+-	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
+-		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
+-
+ 	if (new) {
+ 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+ 		if (IS_ERR(ctrl->ctrl.admin_tagset))
+@@ -794,19 +808,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (error)
+ 		goto out_cleanup_queue;
  
- 	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
+-	ctrl->ctrl.max_hw_sectors =
+-		(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
+-
+ 	error = nvme_init_identify(&ctrl->ctrl);
+ 	if (error)
+ 		goto out_cleanup_queue;
+ 
+-	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
+-			&ctrl->async_event_sqe, sizeof(struct nvme_command),
+-			DMA_TO_DEVICE);
+-	if (error)
+-		goto out_cleanup_queue;
+-
+ 	return 0;
+ 
+ out_cleanup_queue:
 -- 
 2.7.4
