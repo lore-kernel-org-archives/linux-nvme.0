@@ -1,146 +1,173 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:52:17 +0300
-Subject: [PATCH 04/12] nvme-rdma: restructure create_ctrl a bit
+Date: Tue, 15 Aug 2017 12:52:18 +0300
+Subject: [PATCH 05/12] nvme-rdma: introduce
+ nvme_rdma_alloc/stop/free_admin_queue
 In-Reply-To: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
 References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1502790745-12569-5-git-send-email-sagi@grimberg.me>
+Message-ID: <1502790745-12569-6-git-send-email-sagi@grimberg.me>
 
-We'd like to split the generic part out, so rearrange
-to ease the split. post_configure will be called after the
-controller basic configuration occured and identification.
+The core will eventually call this type of callouts
+to allocate/stop/free the HW admin queue.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 89 ++++++++++++++++++++++++++----------------------
- 1 file changed, 48 insertions(+), 41 deletions(-)
+ drivers/nvme/host/rdma.c | 81 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 55 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index a0981fd5291c..dc903625a759 100644
+index dc903625a759..8a8163c82733 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -1844,6 +1844,39 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.get_address		= nvmf_get_address,
- };
- 
-+static int nvme_rdma_post_configure(struct nvme_ctrl *ctrl)
-+{
-+	/* sanity check icdoff */
-+	if (ctrl->icdoff) {
-+		dev_err(ctrl->device, "icdoff is not supported!\n");
-+		return -EINVAL;
-+	}
-+
-+	/* sanity check keyed sgls */
-+	if (!(ctrl->sgls & (1 << 20))) {
-+		dev_err(ctrl->device, "Mandatory keyed sgls are not support\n");
-+		return -EINVAL;
-+	}
-+
-+	if (ctrl->opts->queue_size > ctrl->maxcmd) {
-+		/* warn if maxcmd is lower than queue_size */
-+		dev_warn(ctrl->device,
-+			"queue_size %zu > ctrl maxcmd %u, clamping down\n",
-+			ctrl->opts->queue_size, ctrl->maxcmd);
-+		ctrl->opts->queue_size = ctrl->maxcmd;
-+	}
-+
-+	if (ctrl->opts->queue_size > ctrl->sqsize + 1) {
-+		/* warn if sqsize is lower than queue_size */
-+		dev_warn(ctrl->device,
-+			"queue_size %zu > ctrl sqsize %u, clamping down\n",
-+			ctrl->opts->queue_size, ctrl->sqsize + 1);
-+		ctrl->opts->queue_size = ctrl->sqsize + 1;
-+	}
-+
-+	return 0;
-+}
-+
- static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
- {
-@@ -1855,7 +1888,11 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl)
- 		return ERR_PTR(-ENOMEM);
-+
- 	ctrl->ctrl.opts = opts;
-+	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
-+	ctrl->ctrl.sqsize = opts->queue_size - 1;
-+	ctrl->ctrl.kato = opts->kato;
- 	INIT_LIST_HEAD(&ctrl->list);
- 
- 	if (opts->mask & NVMF_OPT_TRSVCID)
-@@ -1880,10 +1917,16 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		}
+@@ -544,23 +544,6 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		goto out_destroy_cm_id;
  	}
  
-+	ret = -ENOMEM;
-+	ctrl->queues = kcalloc(ctrl->ctrl.queue_count, sizeof(*ctrl->queues),
-+				GFP_KERNEL);
-+	if (!ctrl->queues)
-+		goto out_free_ctrl;
+-	if (!idx) {
+-		ctrl->device = ctrl->queues[0].device;
+-		ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
+-			ctrl->device->dev->attrs.max_fast_reg_page_list_len);
+-		ctrl->ctrl.max_hw_sectors =
+-			(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
+-
+-		ret = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
+-			&ctrl->async_event_sqe, sizeof(struct nvme_command),
+-			DMA_TO_DEVICE);
+-		if (ret) {
+-			nvme_rdma_destroy_queue_ib(&ctrl->queues[0]);
+-			goto out_destroy_cm_id;
+-		}
+-
+-	}
+-
+ 	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
+ 
+ 	return 0;
+@@ -579,19 +562,32 @@ static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
+ 	ib_drain_qp(queue->qp);
+ }
+ 
++static void nvme_rdma_stop_admin_queue(struct nvme_ctrl *ctrl)
++{
++	nvme_rdma_stop_queue(&to_rdma_ctrl(ctrl)->queues[0]);
++}
 +
- 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
- 				0 /* no quirks, we're perfect! */);
- 	if (ret)
--		goto out_free_ctrl;
-+		goto out_kfree_queues;
+ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+ {
+ 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+ 		return;
  
- 	INIT_DELAYED_WORK(&ctrl->ctrl.reconnect_work,
- 			nvme_rdma_reconnect_ctrl_work);
-@@ -1891,49 +1934,13 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	INIT_WORK(&ctrl->ctrl.delete_work, nvme_rdma_del_ctrl_work);
- 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+-	if (!nvme_rdma_queue_idx(queue))
+-		nvme_rdma_free_qe(queue->device->dev,
+-			&queue->ctrl->async_event_sqe,
+-			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 	nvme_rdma_destroy_queue_ib(queue);
+ 	rdma_destroy_id(queue->cm_id);
+ }
  
--	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
--	ctrl->ctrl.sqsize = opts->queue_size - 1;
--	ctrl->ctrl.kato = opts->kato;
--
--	ret = -ENOMEM;
--	ctrl->queues = kcalloc(ctrl->ctrl.queue_count, sizeof(*ctrl->queues),
--				GFP_KERNEL);
--	if (!ctrl->queues)
--		goto out_uninit_ctrl;
--
- 	ret = nvme_rdma_configure_admin_queue(ctrl, true);
- 	if (ret)
--		goto out_kfree_queues;
--
--	/* sanity check icdoff */
--	if (ctrl->ctrl.icdoff) {
--		dev_err(ctrl->ctrl.device, "icdoff is not supported!\n");
--		ret = -EINVAL;
--		goto out_remove_admin_queue;
--	}
--
--	/* sanity check keyed sgls */
--	if (!(ctrl->ctrl.sgls & (1 << 20))) {
--		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not support\n");
--		ret = -EINVAL;
--		goto out_remove_admin_queue;
--	}
--
--	if (opts->queue_size > ctrl->ctrl.maxcmd) {
--		/* warn if maxcmd is lower than queue_size */
--		dev_warn(ctrl->ctrl.device,
--			"queue_size %zu > ctrl maxcmd %u, clamping down\n",
--			opts->queue_size, ctrl->ctrl.maxcmd);
--		opts->queue_size = ctrl->ctrl.maxcmd;
--	}
-+		goto out_uninit_ctrl;
++static void nvme_rdma_free_admin_queue(struct nvme_ctrl *nctrl)
++{
++	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
++	struct nvme_rdma_queue *queue = &ctrl->queues[0];
++
++	nvme_rdma_free_qe(queue->device->dev,
++		&queue->ctrl->async_event_sqe,
++		sizeof(struct nvme_command), DMA_TO_DEVICE);
++
++	nvme_rdma_free_queue(queue);
++}
++
+ static void nvme_rdma_free_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
+ 	int i;
+@@ -625,6 +621,11 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+ 	return ret;
+ }
  
--	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
--		/* warn if sqsize is lower than queue_size */
--		dev_warn(ctrl->ctrl.device,
--			"queue_size %zu > ctrl sqsize %u, clamping down\n",
--			opts->queue_size, ctrl->ctrl.sqsize + 1);
--		opts->queue_size = ctrl->ctrl.sqsize + 1;
--	}
-+	ret = nvme_rdma_post_configure(&ctrl->ctrl);
++static int nvme_rdma_start_admin_queue(struct nvme_ctrl *ctrl)
++{
++	return nvme_rdma_start_queue(to_rdma_ctrl(ctrl), 0);
++}
++
+ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
+ 	int i, ret = 0;
+@@ -751,12 +752,40 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
++	nvme_rdma_stop_admin_queue(&ctrl->ctrl);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, true);
+ 	}
++	nvme_rdma_free_admin_queue(&ctrl->ctrl);
++}
++
++static int nvme_rdma_alloc_admin_queue(struct nvme_ctrl *nctrl)
++{
++	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
++	int ret;
++
++	ret = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
 +	if (ret)
-+		goto out_uninit_ctrl;
++		return ret;
++
++	ctrl->device = ctrl->queues[0].device;
++	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
++		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
++	ctrl->ctrl.max_hw_sectors =
++		(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
++
++	ret = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
++		&ctrl->async_event_sqe, sizeof(struct nvme_command),
++		DMA_TO_DEVICE);
++	if (ret)
++		goto out_free_queue;
++
++	return 0;
++
++out_free_queue:
+ 	nvme_rdma_free_queue(&ctrl->queues[0]);
++	return ret;
+ }
  
- 	if (opts->nr_io_queues) {
- 		ret = nvme_rdma_configure_io_queues(ctrl, true);
+ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+@@ -764,7 +793,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ {
+ 	int error;
+ 
+-	error = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
++	error = nvme_rdma_alloc_admin_queue(&ctrl->ctrl);
+ 	if (error)
+ 		return error;
+ 
+@@ -784,7 +813,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 			goto out_free_queue;
+ 	}
+ 
+-	error = nvme_rdma_start_queue(ctrl, 0);
++	error = nvme_rdma_start_admin_queue(&ctrl->ctrl);
+ 	if (error)
+ 		goto out_cleanup_queue;
+ 
+@@ -816,7 +845,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (new)
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, true);
+ out_free_queue:
+-	nvme_rdma_free_queue(&ctrl->queues[0]);
++	nvme_rdma_free_admin_queue(&ctrl->ctrl);
+ 	return error;
+ }
+ 
+@@ -976,7 +1005,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 		nvme_rdma_stop_io_queues(ctrl);
+ 	}
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
++	nvme_rdma_stop_admin_queue(&ctrl->ctrl);
+ 
+ 	/* We must take care of fastfail/requeue all our inflight requests */
+ 	if (ctrl->ctrl.queue_count > 1)
 -- 
 2.7.4
