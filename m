@@ -1,64 +1,156 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 15 Aug 2017 12:52:13 +0300
-Subject: Centralize nvme controller reset,
- delete and fabrics periodic reconnects
-Message-ID: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+Date: Tue, 15 Aug 2017 12:52:14 +0300
+Subject: [PATCH 01/12] nvme: move err and reconnect work to nvme ctrl
+In-Reply-To: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1502790745-12569-2-git-send-email-sagi@grimberg.me>
 
-This is the third part of the attempt to centralize controller reset,
-delete and fabrics error recovery in nvme core.
+In theory, all fabric transports can/should use these.
 
-As a reminder, the motivation is to get as much of the duplicate logic
-existing in the various nvme transports to coommon code as possible.
-We strive to have nvme core and fabrics modules take care of nvme and
-fabrics constructs and initialization procedures and have our transports
-simply worry about the underlying medium and spec extensions/enhancements.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c |  4 ++++
+ drivers/nvme/host/nvme.h |  3 +++
+ drivers/nvme/host/rdma.c | 29 +++++++++++------------------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-This set is a step in that direction in the sense that it places a generic
-controller initialization flows in nvme core, and converts two transports
-to use common code.
-
-The set is gradually reshaping nvme-rdma code to be more generic and then
-simply move it to nvme-core (controller reset and delete) and nvme-fabrics
-(error recovery and periodic reconnects). Then, nvme-loop is converted to
-use nvme-core in one shot (Simply rip out all the duplicated logic).
-
-Note that this patch set shouldn't break any transport that still does not
-use it (pci, fc). The next part would be to take a stab at these transports
-and add whatever is still needed to common code.
-
-I tested this set with controller resets, deletes and error recovery in
-the presence of I/O load. I tested rdma and loop.
-
-Note that this direction got some exposure [1] and I tried to incorporate
-feedback so if no hard objections are raised I plan to land this in 4.14.
-
-This set applies on nvme-4.14 plus 4.13 recent fixes.
-
-[1]:
-http://www.mail-archive.com/linux-block at vger.kernel.org/msg09923.html
-https://lwn.net/Articles/725720/
-
-Sagi Grimberg (12):
-  nvme: move err and reconnect work to nvme ctrl
-  nvme-rdma: move admin specific resources to alloc_queue
-  nvme-rdma: split nvme_rdma_alloc_io_queues
-  nvme-rdma: restructure create_ctrl a bit
-  nvme-rdma: introduce nvme_rdma_alloc/stop/free_admin_queue
-  nvme-rdma: plumb nvme ctrl to various routines
-  nvme-rdma: split generic probe out of create_ctrl
-  nvme: add some ctrl ops for centralizing control plane logic.
-  nvme: move control plane handling to nvme core
-  nvme-fabrics: handle reconnects in fabrics library
-  nvme: add sed-opal ctrl manipulation in admin configuration
-  nvme-loop: convert to nvme-core control plane management
-
- drivers/nvme/host/core.c    | 312 +++++++++++++++++++++++++++
- drivers/nvme/host/fabrics.c | 103 +++++++++
- drivers/nvme/host/fabrics.h |   1 +
- drivers/nvme/host/nvme.h    |  27 +++
- drivers/nvme/host/rdma.c    | 515 +++++++++-----------------------------------
- drivers/nvme/target/loop.c  | 443 ++++++++++++++-----------------------
- 6 files changed, 706 insertions(+), 695 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a2ac892f470e..bbaf5b98f2fe 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2703,6 +2703,10 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	nvme_stop_keep_alive(ctrl);
++	if (ctrl->ops->flags & NVME_F_FABRICS) {
++		cancel_work_sync(&ctrl->err_work);
++		cancel_delayed_work_sync(&ctrl->reconnect_work);
++	}
+ 	flush_work(&ctrl->async_event_work);
+ 	flush_work(&ctrl->scan_work);
+ 	cancel_work_sync(&ctrl->fw_act_work);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2c8a02be46fd..c52ba1405788 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -186,6 +186,9 @@ struct nvme_ctrl {
+ 	u16 maxcmd;
+ 	int nr_reconnects;
+ 	struct nvmf_ctrl_options *opts;
++	struct delayed_work reconnect_work;
++	struct work_struct delete_work;
++	struct work_struct err_work;
+ };
+ 
+ struct nvme_ns {
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 74fd62062377..10e54f81e3d9 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -105,13 +105,9 @@ struct nvme_rdma_ctrl {
+ 
+ 	/* other member variables */
+ 	struct blk_mq_tag_set	tag_set;
+-	struct work_struct	delete_work;
+-	struct work_struct	err_work;
+ 
+ 	struct nvme_rdma_qe	async_event_sqe;
+ 
+-	struct delayed_work	reconnect_work;
+-
+ 	struct list_head	list;
+ 
+ 	struct blk_mq_tag_set	admin_tag_set;
+@@ -908,18 +904,18 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+ 	if (nvmf_should_reconnect(&ctrl->ctrl)) {
+ 		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
+ 			ctrl->ctrl.opts->reconnect_delay);
+-		queue_delayed_work(nvme_wq, &ctrl->reconnect_work,
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.reconnect_work,
+ 				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else {
+ 		dev_info(ctrl->ctrl.device, "Removing controller...\n");
+-		queue_work(nvme_wq, &ctrl->delete_work);
++		queue_work(nvme_wq, &ctrl->ctrl.delete_work);
+ 	}
+ }
+ 
+ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(to_delayed_work(work),
+-			struct nvme_rdma_ctrl, reconnect_work);
++			struct nvme_rdma_ctrl, ctrl.reconnect_work);
+ 	bool changed;
+ 	int ret;
+ 
+@@ -958,7 +954,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-			struct nvme_rdma_ctrl, err_work);
++			struct nvme_rdma_ctrl, ctrl.err_work);
+ 
+ 	nvme_stop_ctrl(&ctrl->ctrl);
+ 
+@@ -991,7 +987,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
+ 		return;
+ 
+-	queue_work(nvme_wq, &ctrl->err_work);
++	queue_work(nvme_wq, &ctrl->ctrl.err_work);
+ }
+ 
+ static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
+@@ -1725,9 +1721,6 @@ static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
+ 
+ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
+-	cancel_work_sync(&ctrl->err_work);
+-	cancel_delayed_work_sync(&ctrl->reconnect_work);
+-
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+@@ -1758,7 +1751,7 @@ static void nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl)
+ static void nvme_rdma_del_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-				struct nvme_rdma_ctrl, delete_work);
++				struct nvme_rdma_ctrl, ctrl.delete_work);
+ 
+ 	nvme_stop_ctrl(&ctrl->ctrl);
+ 	nvme_rdma_remove_ctrl(ctrl);
+@@ -1769,7 +1762,7 @@ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+ 		return -EBUSY;
+ 
+-	if (!queue_work(nvme_wq, &ctrl->delete_work))
++	if (!queue_work(nvme_wq, &ctrl->ctrl.delete_work))
+ 		return -EBUSY;
+ 
+ 	return 0;
+@@ -1788,7 +1781,7 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
+ 		return -EBUSY;
+ 	ret = __nvme_rdma_del_ctrl(ctrl);
+ 	if (!ret)
+-		flush_work(&ctrl->delete_work);
++		flush_work(&ctrl->ctrl.delete_work);
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ 	return ret;
+ }
+@@ -1879,10 +1872,10 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	if (ret)
+ 		goto out_free_ctrl;
+ 
+-	INIT_DELAYED_WORK(&ctrl->reconnect_work,
++	INIT_DELAYED_WORK(&ctrl->ctrl.reconnect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
+-	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+-	INIT_WORK(&ctrl->delete_work, nvme_rdma_del_ctrl_work);
++	INIT_WORK(&ctrl->ctrl.err_work, nvme_rdma_error_recovery_work);
++	INIT_WORK(&ctrl->ctrl.delete_work, nvme_rdma_del_ctrl_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+ 
+ 	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
 -- 
 2.7.4
