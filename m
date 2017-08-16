@@ -1,10 +1,24 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 16 Aug 2017 01:10:30 -0700
-Subject: [PATCH 1/2] nvme: Add symbolic constants for CC identifiers
-In-Reply-To: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
-References: <1502641267-2984-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20170816081030.GB11377@infradead.org>
+Date: Wed, 16 Aug 2017 01:11:05 -0700
+Subject: nvmet panics during high load
+In-Reply-To: <cedb98d0-3aea-e229-4f2f-092bbd49f7b2@grimberg.me>
+References: <CAF9HSikTcqojqWOx7cjBsv9fLCvbkU_f6-1CgQ16Wpb1f5oQ4g@mail.gmail.com>
+ <ee61dc25-bb67-8466-6cc9-d20b4ff0104f@grimberg.me>
+ <4d0b76b9-4358-6043-4eba-9d5504ce3a1e@grimberg.me>
+ <CAF9HSi=yMpLZZTgbi4XDiZZrrseL6axbw1+e+R6JLdr4EKh1Dw@mail.gmail.com>
+ <CAF9HSi=CzKixvu_VNB+PbZM_08jPHJ2dZBz77RFUpd6waD=H8Q@mail.gmail.com>
+ <cedb98d0-3aea-e229-4f2f-092bbd49f7b2@grimberg.me>
+Message-ID: <20170816081105.GC11377@infradead.org>
 
-Thanks,
+On Sun, Aug 13, 2017@05:01:52PM +0300, Sagi Grimberg wrote:
+> 
+> > Sorry for the lack of response. I havn't tested the patch.
+> > I intended to look into the issue further and suggest a simpler
+> > solution that simply calculates the maximum queue size correctly but
+> > simply didn't have the time.
+> 
+> AFAICT there is no maximum calculation, it depends on the congestion
+> that the target may experience..
 
-applied both patches to nvme-4.14.
+So how about providing a few more receive than send buffer by default
+(less than now) and dynamically allocating over the threshold?
