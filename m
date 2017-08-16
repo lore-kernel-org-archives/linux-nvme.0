@@ -1,18 +1,30 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 16 Aug 2017 01:16:39 -0700
-Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
-In-Reply-To: <f02a02e6-f2c3-c07d-bca5-e0eac587a8a0@linux.vnet.ibm.com>
-References: <20170710102049.GF5105@linux-x5ow.site>
- <77c7d11c-bd67-8663-cc10-da3af8bfcd22@grimberg.me>
- <20170710113353.GG5105@linux-x5ow.site>
- <ebc9dccc-ce68-f5f3-3e24-372b2cd7f44b@grimberg.me>
- <20170710115003.GH5105@linux-x5ow.site>
- <4df0a8a8-168f-06c4-6112-dfd2893d6e06@grimberg.me>
- <20170711085204.GA7846@linux-x5ow.site>
- <a0656ff3-f2b9-4580-bf6f-8206cd73b680@grimberg.me>
- <20170714112554.GF8497@linux-x5ow.site>
- <f02a02e6-f2c3-c07d-bca5-e0eac587a8a0@linux.vnet.ibm.com>
-Message-ID: <20170816081639.GB29784@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 16 Aug 2017 12:23:19 +0300
+Subject: nvmet panics during high load
+In-Reply-To: <20170816081105.GC11377@infradead.org>
+References: <CAF9HSikTcqojqWOx7cjBsv9fLCvbkU_f6-1CgQ16Wpb1f5oQ4g@mail.gmail.com>
+ <ee61dc25-bb67-8466-6cc9-d20b4ff0104f@grimberg.me>
+ <4d0b76b9-4358-6043-4eba-9d5504ce3a1e@grimberg.me>
+ <CAF9HSi=yMpLZZTgbi4XDiZZrrseL6axbw1+e+R6JLdr4EKh1Dw@mail.gmail.com>
+ <CAF9HSi=CzKixvu_VNB+PbZM_08jPHJ2dZBz77RFUpd6waD=H8Q@mail.gmail.com>
+ <cedb98d0-3aea-e229-4f2f-092bbd49f7b2@grimberg.me>
+ <20170816081105.GC11377@infradead.org>
+Message-ID: <c74c5d52-1f57-d88f-7dc8-0b449da4f003@grimberg.me>
 
-We're having discussions in the working group to allow I/O commands
-to reset the keepalive timer.  Stay tuned.
+
+>>> Sorry for the lack of response. I havn't tested the patch.
+>>> I intended to look into the issue further and suggest a simpler
+>>> solution that simply calculates the maximum queue size correctly but
+>>> simply didn't have the time.
+>>
+>> AFAICT there is no maximum calculation, it depends on the congestion
+>> that the target may experience..
+> 
+> So how about providing a few more receive than send buffer by default
+> (less than now) and dynamically allocating over the threshold?
+
+We can do that, but it would also introduce a dma map/unmap on the I/O
+path. The send buffers are small enough to keep them around when we hit
+congestion I think.
+
+We can go either way here I guess...
