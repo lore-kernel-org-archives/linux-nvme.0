@@ -1,41 +1,43 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 16 Aug 2017 16:51:31 +0300
-Subject: Centralize nvme controller reset, delete and fabrics periodic
- reconnects
-In-Reply-To: <20170816104935.GA30525@lst.de>
-References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
- <20170816104935.GA30525@lst.de>
-Message-ID: <de413980-1382-7567-b0d4-3207a4476719@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 16 Aug 2017 17:35:48 +0300
+Subject: [PATCH 2/3] nvme: introduce max_segments controller attribute
+In-Reply-To: <390a1e0d-8b83-576f-1e9a-c9136b7daf39@grimberg.me>
+References: <1502878860-11750-1-git-send-email-maxg@mellanox.com>
+ <1502878860-11750-2-git-send-email-maxg@mellanox.com>
+ <390a1e0d-8b83-576f-1e9a-c9136b7daf39@grimberg.me>
+Message-ID: <ea59ff5e-5bcc-9dfc-a248-ef02f977dafc@mellanox.com>
 
 
-> Did you get a chance to take a look at converting PCIe over?
 
-I started to play around with it, not anywhere near getting it in
-shape though...
+On 8/16/2017 4:29 PM, Sagi Grimberg wrote:
+>
+>> Each ctrl will limit max_segments according to it's hardware
+>> restrictions. Implement the restriction for RDMA transport.
+>>
+>> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+>> ---
+>>   drivers/nvme/host/core.c |    4 ++--
+>>   drivers/nvme/host/nvme.h |    1 +
+>>   drivers/nvme/host/rdma.c |    1 +
+>>   3 files changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 8cf37e7..cc0681e 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -1495,8 +1495,8 @@ static void nvme_set_queue_limits(struct
+>> nvme_ctrl *ctrl,
+>>       bool vwc = false;
+>>         if (ctrl->max_hw_sectors) {
+>> -        u32 max_segments =
+>> -            (ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1;
+>> +        u32 max_segments = min_not_zero(ctrl->max_segments,
+>> +            (ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1);
+>
+> Why is this needed with patches 1,3 applied?
+>
+> We set the page_size and we set max_hw_sectors accordingly.
 
-> A lot of the design decisions seem to be driven by allowing PCIe
-> as well,
-
-That's true.
-
-> and I'd like to see if that's possible / useful to start
-> with.
- From what my radar got, it seems feasible. If you look at the nvme-core
-routines, they really consists of the abstract part of the controller
-initiation. From what I've seen so far, PCIe will require some extra
-hooks on top of what we have now (some portion of nvme_pci_enable will
-probably need to be added as well, and we'll need some generic
-representation for pci device error states). I do expect nvme-core
-changes for PCIe, but I don't expect the teardown/initiation structure
-to change.
-
-The only real design choice taken to accommodate PCIe was to manage
-admin and io queues in the transports instead of nvme-core as queues
-release procedure is different in PCIe.
-
-I think its a very desirable goal to have PCIe consolidate with fabrics
-here, so I'd like to shoot for that and backoff later (and change again
-where makes sense).
-
-Having said that, I'm very much open to suggestions if you have anything
-better in mind...
+We didn't touch the ctrl->page_size. It's always 4k (the target checks it).
+This may cause max_segments to be bigger than hw limitation (in PPC for 
+example).
