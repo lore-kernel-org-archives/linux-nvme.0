@@ -1,25 +1,65 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 16 Aug 2017 22:04:09 +0300
-Subject: [PATCH 2/3] nvme: introduce max_segments controller attribute
-In-Reply-To: <ea59ff5e-5bcc-9dfc-a248-ef02f977dafc@mellanox.com>
-References: <1502878860-11750-1-git-send-email-maxg@mellanox.com>
- <1502878860-11750-2-git-send-email-maxg@mellanox.com>
- <390a1e0d-8b83-576f-1e9a-c9136b7daf39@grimberg.me>
- <ea59ff5e-5bcc-9dfc-a248-ef02f977dafc@mellanox.com>
-Message-ID: <bd77f99f-67c9-b648-1b93-43d3a6feb414@grimberg.me>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Wed, 16 Aug 2017 15:55:52 -0400
+Subject: [PATCH] nvme: Honor RTD3 Entry Latency for shutdowns
+Message-ID: <20170816195552.22492-1-martin.petersen@oracle.com>
 
+If an NVMe controller reports RTD3 Entry Latency bigger than
+shutdown_timeout, use that value to set the shutdown timer. Otherwise
+fall back to the module parameter which defaults to 5 seconds.
 
->> Why is this needed with patches 1,3 applied?
->>
->> We set the page_size and we set max_hw_sectors accordingly.
-> 
-> We didn't touch the ctrl->page_size. It's always 4k (the target checks it).
-> This may cause max_segments to be bigger than hw limitation (in PPC for 
-> example).
+Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+---
+ drivers/nvme/host/core.c | 18 +++++++++++++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-Right, got confused for a second, but why shouldn't we modify the
-ctrl page_size in rdma? Its not really a controller attribute, but
-rather the local HCA attribute really.
-
-Or, we could simply fix nvme-core to take PAGE_SIZE if supported by
-the ctrl and fallback to 4k otherwise.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b7dfbbeccb47..ed8f286f24bd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1465,7 +1465,7 @@ EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
+ 
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	unsigned long timeout = jiffies + (shutdown_timeout * HZ);
++	unsigned long timeout = jiffies + (ctrl->shutdown_timeout * HZ);
+ 	u32 csts;
+ 	int ret;
+ 
+@@ -1833,6 +1833,22 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->sgls = le32_to_cpu(id->sgls);
+ 	ctrl->kas = le16_to_cpu(id->kas);
+ 
++	if (ctrl->vs >= NVME_VS(1, 2, 0)) {
++		u32 transition_time = le32_to_cpu(id->rtd3e);
++
++		do_div(transition_time, 1000000); /* us -> s */
++
++		if (transition_time > shutdown_timeout) {
++			ctrl->shutdown_timeout = transition_time;
++			dev_warn(ctrl->device,
++				 "Shutdown timeout set to %u seconds\n",
++				 ctrl->shutdown_timeout);
++		}
++	}
++
++	if (!ctrl->shutdown_timeout)
++		ctrl->shutdown_timeout = shutdown_timeout;
++
+ 	ctrl->npss = id->npss;
+ 	ctrl->apsta = id->apsta;
+ 	prev_apst_enabled = ctrl->apst_enabled;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2c8a02be46fd..9b959ee18cb6 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -162,6 +162,7 @@ struct nvme_ctrl {
+ 	u16 kas;
+ 	u8 npss;
+ 	u8 apsta;
++	unsigned int shutdown_timeout;
+ 	unsigned int kato;
+ 	bool subsystem;
+ 	unsigned long quirks;
+-- 
+2.13.0
