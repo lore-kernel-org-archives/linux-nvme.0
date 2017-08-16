@@ -1,12 +1,13 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 16 Aug 2017 10:13:46 +0200
-Subject: nvme-4.14 rebased
-Message-ID: <20170816081346.GA18770@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 16 Aug 2017 01:16:05 -0700
+Subject: Centralize nvme controller reset, delete and fabrics periodic
+ reconnects
+In-Reply-To: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170816081605.GA29784@infradead.org>
 
-Hi all,
+> This set applies on nvme-4.14 plus 4.13 recent fixes.
 
-I've rebased the nvme-4.14 branch on top of the nvme-4.13 branch
-to avoid conflicts.  As part of that I made the timestamp set features
-return an error similar to the other reset fixes.
-
-Jon: can you double check the change is correct?
+I can't get this applied at all.  A pointer to a git repo would
+always be nice for patchsets as large as this one, especially if
+the base is a bit murky..
