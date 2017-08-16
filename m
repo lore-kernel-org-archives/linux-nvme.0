@@ -1,13 +1,12 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 16 Aug 2017 01:12:01 -0700
-Subject: [PATCH v4 0/3] Improve readbility of NVME "wwid" attribute
- (target side)
-In-Reply-To: <20170814201239.15255-1-mwilck@suse.com>
-References: <20170810084541.bawqaebfycnguomx@infradead.org>
- <20170814201239.15255-1-mwilck@suse.com>
-Message-ID: <20170816081201.GD11377@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 16 Aug 2017 10:13:46 +0200
+Subject: nvme-4.14 rebased
+Message-ID: <20170816081346.GA18770@lst.de>
 
-Thanks, applied patch 1 to nvme-4.13, and the rest to nvme-4.14.
+Hi all,
 
-Btw, for future patches please use the driver name as prefix and
-not a function name.
+I've rebased the nvme-4.14 branch on top of the nvme-4.13 branch
+to avoid conflicts.  As part of that I made the timestamp set features
+return an error similar to the other reset fixes.
+
+Jon: can you double check the change is correct?
