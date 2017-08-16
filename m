@@ -1,30 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 16 Aug 2017 12:23:19 +0300
-Subject: nvmet panics during high load
-In-Reply-To: <20170816081105.GC11377@infradead.org>
-References: <CAF9HSikTcqojqWOx7cjBsv9fLCvbkU_f6-1CgQ16Wpb1f5oQ4g@mail.gmail.com>
- <ee61dc25-bb67-8466-6cc9-d20b4ff0104f@grimberg.me>
- <4d0b76b9-4358-6043-4eba-9d5504ce3a1e@grimberg.me>
- <CAF9HSi=yMpLZZTgbi4XDiZZrrseL6axbw1+e+R6JLdr4EKh1Dw@mail.gmail.com>
- <CAF9HSi=CzKixvu_VNB+PbZM_08jPHJ2dZBz77RFUpd6waD=H8Q@mail.gmail.com>
- <cedb98d0-3aea-e229-4f2f-092bbd49f7b2@grimberg.me>
- <20170816081105.GC11377@infradead.org>
-Message-ID: <c74c5d52-1f57-d88f-7dc8-0b449da4f003@grimberg.me>
+Date: Wed, 16 Aug 2017 12:33:47 +0300
+Subject: Centralize nvme controller reset, delete and fabrics periodic
+ reconnects
+In-Reply-To: <20170816081605.GA29784@infradead.org>
+References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+ <20170816081605.GA29784@infradead.org>
+Message-ID: <964d191e-0fe4-e440-71e6-0fd186d4f52b@grimberg.me>
 
-
->>> Sorry for the lack of response. I havn't tested the patch.
->>> I intended to look into the issue further and suggest a simpler
->>> solution that simply calculates the maximum queue size correctly but
->>> simply didn't have the time.
->>
->> AFAICT there is no maximum calculation, it depends on the congestion
->> that the target may experience..
+>> This set applies on nvme-4.14 plus 4.13 recent fixes.
 > 
-> So how about providing a few more receive than send buffer by default
-> (less than now) and dynamically allocating over the threshold?
+> I can't get this applied at all.
 
-We can do that, but it would also introduce a dma map/unmap on the I/O
-path. The send buffers are small enough to keep them around when we hit
-congestion I think.
+That's probably because this is on top of the rdma affinity
+patches which are already in Doug's tree...
 
-We can go either way here I guess...
+> A pointer to a git repo would
+> always be nice for patchsets as large as this one, especially if
+> the base is a bit murky..
+
+Sure, should I have it on top of the affinity patches or not?
