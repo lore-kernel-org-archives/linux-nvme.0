@@ -1,8 +1,8 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 16 Aug 2017 01:04:41 -0700
-Subject: [PATCH] nvme: fix identify namespace logging
-In-Reply-To: <1502789045-10260-1-git-send-email-sagi@grimberg.me>
-References: <1502789045-10260-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170816080441.GA31159@infradead.org>
+Date: Wed, 16 Aug 2017 01:04:55 -0700
+Subject: [PATCH] nvmet_fc: correct use after free on list teardown
+In-Reply-To: <20170814182032.20755-1-jsmart2021@gmail.com>
+References: <20170814182032.20755-1-jsmart2021@gmail.com>
+Message-ID: <20170816080455.GB31159@infradead.org>
 
-Applied to nvme-4.14, thanks.
+Applied to nvme-4.13, thanks.
