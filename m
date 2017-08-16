@@ -1,23 +1,37 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Wed, 16 Aug 2017 13:19:00 -0300
-Subject: I/O Errors due to keepalive timeouts with NVMf RDMA
-In-Reply-To: <20170816081639.GB29784@infradead.org>
-References: <20170710102049.GF5105@linux-x5ow.site>
- <77c7d11c-bd67-8663-cc10-da3af8bfcd22@grimberg.me>
- <20170710113353.GG5105@linux-x5ow.site>
- <ebc9dccc-ce68-f5f3-3e24-372b2cd7f44b@grimberg.me>
- <20170710115003.GH5105@linux-x5ow.site>
- <4df0a8a8-168f-06c4-6112-dfd2893d6e06@grimberg.me>
- <20170711085204.GA7846@linux-x5ow.site>
- <a0656ff3-f2b9-4580-bf6f-8206cd73b680@grimberg.me>
- <20170714112554.GF8497@linux-x5ow.site>
- <f02a02e6-f2c3-c07d-bca5-e0eac587a8a0@linux.vnet.ibm.com>
- <20170816081639.GB29784@infradead.org>
-Message-ID: <61e877ac-200c-c393-0a41-b1684a10f8c7@linux.vnet.ibm.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 16 Aug 2017 10:47:03 -0700
+Subject: [PATCH] nvmet_fc: eliminate static local variables
+Message-ID: <20170816174703.25072-1-jsmart2021@gmail.com>
 
-On 08/16/2017 05:16 AM, Christoph Hellwig wrote:
-> We're having discussions in the working group to allow I/O commands
-> to reset the keepalive timer.  Stay tuned.
-> 
+There were 2 statics introduced that were bogus. Removed the static
+designations.
 
-Cool, thanks Christoph!
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/fc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 6a7a4730e48c..421e43bf1dd7 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -394,7 +394,7 @@ nvmet_fc_free_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
+ static struct nvmet_fc_ls_iod *
+ nvmet_fc_alloc_ls_iod(struct nvmet_fc_tgtport *tgtport)
+ {
+-	static struct nvmet_fc_ls_iod *iod;
++	struct nvmet_fc_ls_iod *iod;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+@@ -471,7 +471,7 @@ nvmet_fc_destroy_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+ static struct nvmet_fc_fcp_iod *
+ nvmet_fc_alloc_fcp_iod(struct nvmet_fc_tgt_queue *queue)
+ {
+-	static struct nvmet_fc_fcp_iod *fod;
++	struct nvmet_fc_fcp_iod *fod;
+ 
+ 	lockdep_assert_held(&queue->qlock);
+ 
+-- 
+2.13.1
