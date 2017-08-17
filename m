@@ -1,21 +1,22 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 17 Aug 2017 11:01:13 -0400
-Subject: [PATCH] nvme: Honor RTD3 Entry Latency for shutdowns
-In-Reply-To: <yq1wp63qlug.fsf@oracle.com>
-References: <20170816195552.22492-1-martin.petersen@oracle.com>
- <20170816202543.ilkhynyffe2tjrl7@sbauer-Z170X-UD5>
- <yq1wp63qlug.fsf@oracle.com>
-Message-ID: <20170817150113.GL7233@localhost.localdomain>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 17 Aug 2017 18:46:56 +0300
+Subject: [PATCH] nvme-fabrics: fix reporting of unrecognized options
+In-Reply-To: <20170817115934.3999-1-hch@lst.de>
+References: <20170817115934.3999-1-hch@lst.de>
+Message-ID: <bd606f89-72a1-ecb6-6e67-7770624ec460@mellanox.com>
 
-On Wed, Aug 16, 2017@04:49:43PM -0400, Martin K. Petersen wrote:
-> 
-> Scott,
-> 
-> > My only concern is if this value extends past the DPM_WATCHDOG timeout
-> > value. If it does we're going to end up panic()ing the kernel during
-> > suspends. If others agree I think we should set it to the minimum value
-> > of DPM_WATCHDOG_TIMEOUT and shutdown_timeout.
-> 
-> I don't have a problem with that. Keith?
 
-Sounds good to me as well.
+
+On 8/17/2017 2:59 PM, Christoph Hellwig wrote:
+> Only print the specified options that are not recognized, instead
+> of the whole list of options.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/fabrics.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+
+Looks good,
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
