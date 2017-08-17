@@ -1,39 +1,17 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 17 Aug 2017 16:45:06 -0400
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 17 Aug 2017 14:47:30 -0600
 Subject: [PATCH] nvme/pci: Set cqe_seen on polled completions
-Message-ID: <1503002706-32394-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1503002706-32394-1-git-send-email-keith.busch@intel.com>
+References: <1503002706-32394-1-git-send-email-keith.busch@intel.com>
+Message-ID: <5e13a757-66d0-dadd-f926-c3d2e1d0cc6c@kernel.dk>
 
-Fixes: 920d13a884 ("nvme-pci: factor out the cqe reading mechanics from __nvme_process_cq")
+On 08/17/2017 02:45 PM, Keith Busch wrote:
+> Fixes: 920d13a884 ("nvme-pci: factor out the cqe reading mechanics from __nvme_process_cq")
+> 
+> Reported-by: Jens Axboe <axboe at kernel.dk>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Reported-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Tested-by: Jens Axboe <axboe at kenel.dk>
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ea5eb4c..e9886e1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -795,6 +795,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
- 		return;
- 	}
- 
-+	nvmeq->cqe_seen = 1;
- 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
- 	nvme_end_request(req, cqe->status, cqe->result);
- }
-@@ -824,10 +825,8 @@ static void nvme_process_cq(struct nvme_queue *nvmeq)
- 		consumed++;
- 	}
- 
--	if (consumed) {
-+	if (consumed)
- 		nvme_ring_cq_doorbell(nvmeq);
--		nvmeq->cqe_seen = 1;
--	}
- }
- 
- static irqreturn_t nvme_irq(int irq, void *data)
 -- 
-2.5.5
+Jens Axboe
