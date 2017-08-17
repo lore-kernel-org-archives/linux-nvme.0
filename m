@@ -1,34 +1,28 @@
-From: dan.carpenter@oracle.com (Dan Carpenter)
-Date: Thu, 17 Aug 2017 09:41:53 +0300
-Subject: [PATCH] nvmet_fc: use list_for_each_safe()
-Message-ID: <20170817064023.daho5p5dncqhqdar@mwanda>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 17 Aug 2017 10:21:08 +0300
+Subject: Centralize nvme controller reset, delete and fabrics periodic
+ reconnects
+In-Reply-To: <20170816151723.GA18932@lst.de>
+References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+ <20170816104935.GA30525@lst.de>
+ <de413980-1382-7567-b0d4-3207a4476719@grimberg.me>
+ <20170816151723.GA18932@lst.de>
+Message-ID: <d3ee0b6c-feac-8e40-f658-4791e454f60e@grimberg.me>
 
-We are freeing the list and the current code dereferences "deferfcp"
-after it's freed.  Let's use list_for_each_entry_safe() instead.
 
-Fixes: 0fb228d30b8d ("nvmet_fc: add defer_req callback for deferment of cmd buffer return")
-Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+>> Having said that, I'm very much open to suggestions if you have anything
+>> better in mind...
+> 
+> Not too many suggestions - you want to see it done before we go on
+> merging the code..
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 1b7f2520a20d..a42158c83f25 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -704,7 +704,7 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
- {
- 	struct nvmet_fc_tgtport *tgtport = queue->assoc->tgtport;
- 	struct nvmet_fc_fcp_iod *fod = queue->fod;
--	struct nvmet_fc_defer_fcp_req *deferfcp;
-+	struct nvmet_fc_defer_fcp_req *deferfcp, *next;
- 	unsigned long flags;
- 	int i, writedataactive;
- 	bool disconnect;
-@@ -735,7 +735,8 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
- 	}
- 
- 	/* Cleanup defer'ed IOs in queue */
--	list_for_each_entry(deferfcp, &queue->avail_defer_list, req_list) {
-+	list_for_each_entry_safe(deferfcp, next, &queue->avail_defer_list,
-+				 req_list) {
- 		list_del(&deferfcp->req_list);
- 		kfree(deferfcp);
- 	}
+Something is not adding up in your reply :)
+
+You want to see it done before we merge? Or are you asking if I
+want to see it done? I designed it to be incremental and not
+break existing transports.
+
+Personally I think that pci conversion will have to be incremental
+and gradual as we need some preparations in place first. So if you are
+reluctant to get it in without full conversion its ok, just note it will
+take me some time to get both pci and fc converted.
