@@ -1,45 +1,69 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 17 Aug 2017 11:42:25 -0600
-Subject: [PATCH] nvme: Honor RTD3 Entry Latency for shutdowns
-In-Reply-To: <yq1o9rektt3.fsf@oracle.com>
-References: <20170816195552.22492-1-martin.petersen@oracle.com>
- <20170816202543.ilkhynyffe2tjrl7@sbauer-Z170X-UD5>
- <yq1wp63qlug.fsf@oracle.com>
- <20170817150113.GL7233@localhost.localdomain>
- <yq1o9rektt3.fsf@oracle.com>
-Message-ID: <20170817174224.tkgrkl4hp2yjgkag@sbauer-Z170X-UD5>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 17 Aug 2017 13:32:20 -0600
+Subject: [RFC PATCH] nvme: always return IRQ_HANDLED
+Message-ID: <06b85884-efb4-e419-4b31-3aa4751bb338@kernel.dk>
 
-On Thu, Aug 17, 2017@01:06:32PM -0400, Martin K. Petersen wrote:
-> 
-> Keith,
-> 
-> >> > My only concern is if this value extends past the DPM_WATCHDOG
-> >> > timeout value. If it does we're going to end up panic()ing the
-> >> > kernel during suspends. If others agree I think we should set it to
-> >> > the minimum value of DPM_WATCHDOG_TIMEOUT and shutdown_timeout.
-> >> 
-> >> I don't have a problem with that. Keith?
-> >
-> > Sounds good to me as well.
-> 
-> Hrm, this gets pretty messy.
-> 
-> DPM_WATCHDOG_TIMEOUT is buried deep in the config options (hidden behind
-> PM_DEBUG and EXPERT). And as a result doesn't appear to be enabled in
-> most common kernel configs. It also isn't exported from the PM subsystem
-> in a generic way.
-> 
-> In addition, I'm not sure what we'd do in case a device demands a 10
-> second shutdown time but the user has the kernel configured with a 2
-> second DPM watchdog. Then what? The device is still going to take 10
-> seconds to complete the shutdown request.
+We currently have an issue with nvme when polling is used. Just
+ran some testing on 4.13-rc5, and it's trivial to trigger an IRQ
+disable ala:
 
-ugh, I thought it would be as easy as if (IS_ENABLED(CONFIG_DPM_WATCHDOG))
-but I guess since that's a runtime check GCC cant remove the scope below,
-since it's not known at compilation time.
+[   52.412851] irq 77: nobody cared (try booting with the "irqpoll" option)
+[   52.415310] irq 70: nobody cared (try booting with the "irqpoll" option)
 
-We wont be able to fix this without some gross ifdefs/ifndefs.
+when running a few processes polling. The reason is pretty obvious - if
+we're effective at polling, the triggered IRQ will never find any
+events. If this happens enough times in a row, the kernel disables our
+IRQ since we keep returning IRQ_NONE.
 
-I guess we can do a dev_warn() or something if the shutdown time is >
-than some threshold instead? That way if people are getting sporatic
-panics on suspends we can see that warning and fix it from there?
+Question is, what's the best way to solve this. Ideally we should not be
+triggering an IRQ at all, but that's still not in mainline. Can we
+safely just return IRQ_HANDLED always? That should work except for the
+case where we happen to run into an IRQ flood where DO want to turn off
+the nvme irq. For now, I think that's small price to pay, since the
+current issue is much worse and leaves the device in a weird non-working
+state where some queue interrupts are turned off.
+
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 74a124a06264..21a35faff86f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -160,7 +160,6 @@ struct nvme_queue {
+ 	u16 cq_head;
+ 	u16 qid;
+ 	u8 cq_phase;
+-	u8 cqe_seen;
+ 	u32 *dbbuf_sq_db;
+ 	u32 *dbbuf_cq_db;
+ 	u32 *dbbuf_sq_ei;
+@@ -830,22 +829,19 @@ static void nvme_process_cq(struct nvme_queue *nvmeq)
+ 		consumed++;
+ 	}
+ 
+-	if (consumed) {
++	if (consumed)
+ 		nvme_ring_cq_doorbell(nvmeq);
+-		nvmeq->cqe_seen = 1;
+-	}
+ }
+ 
+ static irqreturn_t nvme_irq(int irq, void *data)
+ {
+-	irqreturn_t result;
+ 	struct nvme_queue *nvmeq = data;
++
+ 	spin_lock(&nvmeq->q_lock);
+ 	nvme_process_cq(nvmeq);
+-	result = nvmeq->cqe_seen ? IRQ_HANDLED : IRQ_NONE;
+-	nvmeq->cqe_seen = 0;
+ 	spin_unlock(&nvmeq->q_lock);
+-	return result;
++
++	return IRQ_HANDLED;
+ }
+ 
+ static irqreturn_t nvme_irq_check(int irq, void *data)
+
+-- 
+Jens Axboe
