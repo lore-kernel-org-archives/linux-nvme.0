@@ -1,15 +1,39 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 18 Aug 2017 00:14:28 -0700
-Subject: [RFC PATCH] nvme: always return IRQ_HANDLED
-In-Reply-To: <28c04e46-043f-2864-f9c6-d4a76e5e2248@kernel.dk>
-References: <06b85884-efb4-e419-4b31-3aa4751bb338@kernel.dk>
- <20170817201526.GA21397@localhost.localdomain>
- <60b6e2b7-86d1-d5c7-66af-e771d17384b8@kernel.dk>
- <20170817202945.GB21397@localhost.localdomain>
- <28c04e46-043f-2864-f9c6-d4a76e5e2248@kernel.dk>
-Message-ID: <20170818071428.GA5460@infradead.org>
+Date: Fri, 18 Aug 2017 13:27:55 +0200
+Subject: [GIT PULL] nvme updates for 4.13
+Message-ID: <20170818112755.mm5y4n6ekgrnpc3j@infradead.org>
 
-On Thu, Aug 17, 2017@02:25:27PM -0600, Jens Axboe wrote:
-> Yes, that will work. We need to get this into 4.13.
+The fixes are getting really small now - two for FC, one for PCI, one
+for the fabrics layer and one for the target.
 
-I'll pick it up for the pull request I'm going to send you today.
+The following changes since commit a082b426286d1ead97fb87646ea361d528be023d:
+
+  nvme: fix directive command numd calculation (2017-08-10 19:53:44 +0200)
+
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.13
+
+for you to fetch changes up to e9d8a0fdeacd843c85dcef480cdb2ab76bcdb6e4:
+
+  nvme-pci: set cqe_seen on polled completions (2017-08-18 09:19:39 +0200)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme-fabrics: fix reporting of unrecognized options
+
+James Smart (2):
+      nvmet-fc: correct use after free on list teardown
+      nvmet-fc: eliminate incorrect static markers on local variables
+
+Keith Busch (1):
+      nvme-pci: set cqe_seen on polled completions
+
+Martin Wilck (1):
+      nvmet: don't overwrite identify sn/fr with 0-bytes
+
+ drivers/nvme/host/fabrics.c     | 3 ++-
+ drivers/nvme/host/pci.c         | 5 ++---
+ drivers/nvme/target/admin-cmd.c | 6 ------
+ drivers/nvme/target/fc.c        | 9 +++++----
+ 4 files changed, 9 insertions(+), 14 deletions(-)
