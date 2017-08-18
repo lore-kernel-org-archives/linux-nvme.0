@@ -1,7 +1,7 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 18 Aug 2017 13:27:55 +0200
+Date: Fri, 18 Aug 2017 13:39:48 +0200
 Subject: [GIT PULL] nvme updates for 4.13
-Message-ID: <20170818112755.mm5y4n6ekgrnpc3j@infradead.org>
+Message-ID: <20170818113948.367hvkhmfbjms436@infradead.org>
 
 The fixes are getting really small now - two for FC, one for PCI, one
 for the fabrics layer and one for the target.
