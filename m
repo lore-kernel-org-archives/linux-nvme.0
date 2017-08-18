@@ -1,39 +1,15 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 18 Aug 2017 13:39:48 +0200
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 18 Aug 2017 08:09:23 -0600
 Subject: [GIT PULL] nvme updates for 4.13
-Message-ID: <20170818113948.367hvkhmfbjms436@infradead.org>
+In-Reply-To: <20170818112755.mm5y4n6ekgrnpc3j@infradead.org>
+References: <20170818112755.mm5y4n6ekgrnpc3j@infradead.org>
+Message-ID: <cf9988d3-46fd-f7df-4c69-ec30f8dcad35@kernel.dk>
 
-The fixes are getting really small now - two for FC, one for PCI, one
-for the fabrics layer and one for the target.
+On 08/18/2017 05:27 AM, Christoph Hellwig wrote:
+> The fixes are getting really small now - two for FC, one for PCI, one
+> for the fabrics layer and one for the target.
 
-The following changes since commit a082b426286d1ead97fb87646ea361d528be023d:
+Pulled, thanks.
 
-  nvme: fix directive command numd calculation (2017-08-10 19:53:44 +0200)
-
-are available in the git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.13
-
-for you to fetch changes up to e9d8a0fdeacd843c85dcef480cdb2ab76bcdb6e4:
-
-  nvme-pci: set cqe_seen on polled completions (2017-08-18 09:19:39 +0200)
-
-----------------------------------------------------------------
-Christoph Hellwig (1):
-      nvme-fabrics: fix reporting of unrecognized options
-
-James Smart (2):
-      nvmet-fc: correct use after free on list teardown
-      nvmet-fc: eliminate incorrect static markers on local variables
-
-Keith Busch (1):
-      nvme-pci: set cqe_seen on polled completions
-
-Martin Wilck (1):
-      nvmet: don't overwrite identify sn/fr with 0-bytes
-
- drivers/nvme/host/fabrics.c     | 3 ++-
- drivers/nvme/host/pci.c         | 5 ++---
- drivers/nvme/target/admin-cmd.c | 6 ------
- drivers/nvme/target/fc.c        | 9 +++++----
- 4 files changed, 9 insertions(+), 14 deletions(-)
+-- 
+Jens Axboe
