@@ -1,15 +1,46 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 18 Aug 2017 08:09:23 -0600
-Subject: [GIT PULL] nvme updates for 4.13
-In-Reply-To: <20170818112755.mm5y4n6ekgrnpc3j@infradead.org>
-References: <20170818112755.mm5y4n6ekgrnpc3j@infradead.org>
-Message-ID: <cf9988d3-46fd-f7df-4c69-ec30f8dcad35@kernel.dk>
+From: dledford@redhat.com (Doug Ledford)
+Date: Fri, 18 Aug 2017 10:46:58 -0400
+Subject: [PATCH v2 0/3] Allow ib_clients to nullify .add but still get
+ .remove events reliably
+In-Reply-To: <8927ea7d-c6ba-4f32-4ede-0897e83bcda2@mellanox.com>
+References: <1498983652-18250-1-git-send-email-sagi@grimberg.me>
+ <8927ea7d-c6ba-4f32-4ede-0897e83bcda2@mellanox.com>
+Message-ID: <1503067618.2598.7.camel@redhat.com>
 
-On 08/18/2017 05:27 AM, Christoph Hellwig wrote:
-> The fixes are getting really small now - two for FC, one for PCI, one
-> for the fabrics layer and one for the target.
+On Sun, 2017-07-02@12:14 +0300, Max Gurtovoy wrote:
+> 
+> On 7/2/2017 11:20 AM, Sagi Grimberg wrote:
+> > Some ULPs are just interested in device removal notification with
+> > no specific
+> > association because they work over RDMA_CM so no need for detecting
+> > appearance
+> > of the devices. That wasn't the because the corresponding
+> > ib_client_data
+> > was never added to the device clients list when the ib_client
+> > registers,
+> > Patch 1 fixes it. Patches 2-3 just removes the empty .add callout
+> > nvme(t)-rdma set.
+> > 
+> > Changes from v1:
+> > - reword patch 1 change log title
+> > - collected review tags
+> > 
+> > Note that this will create a conflict with jens's for-4.13 which we
+> > added
+> > ib_client registration to nvmet-rdma.
+> > 
+> > Sagi Grimberg (3):
+> >   RDMA/core: make ib_device.add method optional
+> >   nvme-rdma: remove redundant empty device add callout
+> >   nvmet-rdma: remove redundant empty device add callout
+> 
+> All these patches looks fine to me,
+> 
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 
-Pulled, thanks.
+Thanks, series applied.
 
 -- 
-Jens Axboe
+Doug Ledford <dledford at redhat.com>
+    GPG KeyID: B826A3330E572FDD
+    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
