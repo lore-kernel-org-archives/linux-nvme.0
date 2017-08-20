@@ -1,49 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 20 Aug 2017 09:35:25 +0300
-Subject: [PATCH 2/3] nvme: introduce max_segments controller attribute
-In-Reply-To: <20170817074034.GC24372@lst.de>
-References: <1502878860-11750-1-git-send-email-maxg@mellanox.com>
- <1502878860-11750-2-git-send-email-maxg@mellanox.com>
- <390a1e0d-8b83-576f-1e9a-c9136b7daf39@grimberg.me>
- <ea59ff5e-5bcc-9dfc-a248-ef02f977dafc@mellanox.com>
- <bd77f99f-67c9-b648-1b93-43d3a6feb414@grimberg.me>
- <20170817074034.GC24372@lst.de>
-Message-ID: <39824829-4a0c-6418-2de7-719461fb3662@grimberg.me>
+Date: Sun, 20 Aug 2017 09:37:55 +0300
+Subject: Centralize nvme controller reset, delete and fabrics periodic
+ reconnects
+In-Reply-To: <20170817073620.GA24372@lst.de>
+References: <1502790745-12569-1-git-send-email-sagi@grimberg.me>
+ <20170816104935.GA30525@lst.de>
+ <de413980-1382-7567-b0d4-3207a4476719@grimberg.me>
+ <20170816151723.GA18932@lst.de>
+ <d3ee0b6c-feac-8e40-f658-4791e454f60e@grimberg.me>
+ <20170817073620.GA24372@lst.de>
+Message-ID: <434101e0-7efd-eb98-211e-3ae540fa73a1@grimberg.me>
 
 
->>>> Why is this needed with patches 1,3 applied?
->>>>
->>>> We set the page_size and we set max_hw_sectors accordingly.
->>>
->>> We didn't touch the ctrl->page_size. It's always 4k (the target checks it).
->>> This may cause max_segments to be bigger than hw limitation (in PPC for
->>> example).
+>> You want to see it done before we merge? Or are you asking if I
+>> want to see it done? I designed it to be incremental and not
+>> break existing transports.
 >>
->> Right, got confused for a second, but why shouldn't we modify the
->> ctrl page_size in rdma? Its not really a controller attribute, but
->> rather the local HCA attribute really.
+>> Personally I think that pci conversion will have to be incremental
+>> and gradual as we need some preparations in place first. So if you are
+>> reluctant to get it in without full conversion its ok, just note it will
+>> take me some time to get both pci and fc converted.
 > 
-> But the controller needs to support it, and NVMe controllers are
-> only required to support a 4k page size, the rest is optional.
+> I'd really like to see at least a demo PCI conversion.
 
-How exacly is the controller required to support the pag_size for
-fabrics?
+Let me see what if I can allocate some time for it.
 
-It could have implications on mdts, but AFAIR, mdts is reported in
-units of MPSMIN so I'm not exactly sure how exactly the controller
-needs to support it.
+> Guess I need to take care of it then.
 
->> Or, we could simply fix nvme-core to take PAGE_SIZE if supported by
->> the ctrl and fallback to 4k otherwise.
-> 
-> For PCIe (before fabrics existed) we used to do that, but we changed
-> it for ppc64 in this commit:
-> 
-> c5c9f25b98 ("NVMe: default to 4k device page size")
-
-Yea... I'm wandering if this is specific to NVMe or it can trigger
-in RDMA as well.
-
-Note that for iSER we always use 4k page vectors, but that was
-historically done before we had gaps detection in the block layer
-and we had higher chance to do bounce buffering in iSER.
+If you feel this is a gating item for inclusion then your help will be
+highly appreciated.
