@@ -1,7 +1,7 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 22 Aug 2017 12:36:49 +0300
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 22 Aug 2017 11:40:35 +0200
 Subject: [PATCH 2/3] nvme: introduce max_segments controller attribute
-In-Reply-To: <20170822063215.GA6627@lst.de>
+In-Reply-To: <64ff7c30-cfb7-0e66-6882-59349faf8fc2@mellanox.com>
 References: <1502878860-11750-1-git-send-email-maxg@mellanox.com>
  <1502878860-11750-2-git-send-email-maxg@mellanox.com>
  <390a1e0d-8b83-576f-1e9a-c9136b7daf39@grimberg.me>
@@ -10,12 +10,17 @@ References: <1502878860-11750-1-git-send-email-maxg@mellanox.com>
  <20170817074034.GC24372@lst.de>
  <39824829-4a0c-6418-2de7-719461fb3662@grimberg.me>
  <20170822063215.GA6627@lst.de>
-Message-ID: <64ff7c30-cfb7-0e66-6882-59349faf8fc2@mellanox.com>
+ <64ff7c30-cfb7-0e66-6882-59349faf8fc2@mellanox.com>
+Message-ID: <20170822094035.GA10045@lst.de>
 
-> So for now to be safe it might be a good idea to always use a 4k
-> MR page size..
+On Tue, Aug 22, 2017@12:36:49PM +0300, Max Gurtovoy wrote:
+>> So for now to be safe it might be a good idea to always use a 4k
+>> MR page size..
+>>
 >
+> So should I send a fix only for the MR page size (4k) for now ?
+> Or should we add the infrastructure for virt_boundary and max_segments per 
+> ctrl too ?
 
-So should I send a fix only for the MR page size (4k) for now ?
-Or should we add the infrastructure for virt_boundary and max_segments 
-per ctrl too ?
+We'll eventually want both, but for 4.13 fixing the MR page size to
+4k should be fine.
