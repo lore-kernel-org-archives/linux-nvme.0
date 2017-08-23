@@ -1,69 +1,28 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 23 Aug 2017 18:32:58 -0400
-Subject: [PATCH v2] nvme: Honor RTD3 Entry Latency for shutdowns
-In-Reply-To: <20170817174224.tkgrkl4hp2yjgkag@sbauer-Z170X-UD5>
-References: <20170817174224.tkgrkl4hp2yjgkag@sbauer-Z170X-UD5>
-Message-ID: <20170823223258.6695-1-martin.petersen@oracle.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 23 Aug 2017 18:53:00 -0400
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170823175815.3646-11-hch@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+Message-ID: <20170823225259.GD16596@localhost.localdomain>
 
-If an NVMe v1.2+ compliant controller reports RTD3 Entry Latency larger
-than shutdown_timeout, up to a maximum of 60 seconds, use that value to
-set the shutdown timer. Otherwise fall back to the module parameter
-which defaults to 5 seconds.
+On Wed, Aug 23, 2017@07:58:15PM +0200, Christoph Hellwig wrote:
+> 
+> TODO: implement sysfs interfaces for the new subsystem and
+> subsystem-namespace object.  Unless we can come up with something
+> better than sysfs here..
 
-Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
----
- drivers/nvme/host/core.c | 19 ++++++++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b7dfbbeccb47..13cc601012b0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1465,7 +1465,7 @@ EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
+Can we get symlinks from the multipath'ed nvme block device to the
+individual paths? I think it should be something like the following:
  
- int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
- {
--	unsigned long timeout = jiffies + (shutdown_timeout * HZ);
-+	unsigned long timeout = jiffies + (ctrl->shutdown_timeout * HZ);
- 	u32 csts;
- 	int ret;
- 
-@@ -1833,6 +1833,23 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->sgls = le32_to_cpu(id->sgls);
- 	ctrl->kas = le16_to_cpu(id->kas);
- 
-+	if (ctrl->vs >= NVME_VS(1, 2, 0)) {
-+		u32 transition_time = le32_to_cpu(id->rtd3e);
+> @@ -2616,6 +2821,10 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>  	if (ns->ndev && nvme_nvm_register_sysfs(ns))
+>  		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+>  			ns->disk->disk_name);
+> +
+> +	if (new)
+> +		add_disk(ns->head->disk);
 +
-+		do_div(transition_time, 1000000); /* us -> s */
-+		clamp(transition_time, shutdown_timeout, 60); /* max 60s */
-+
-+		if (transition_time != shutdown_timeout) {
-+			ctrl->shutdown_timeout = transition_time;
-+			dev_warn(ctrl->device,
-+				 "Shutdown timeout set to %u seconds\n",
-+				 ctrl->shutdown_timeout);
-+		}
-+	}
-+
-+	if (!ctrl->shutdown_timeout)
-+		ctrl->shutdown_timeout = shutdown_timeout;
-+
- 	ctrl->npss = id->npss;
- 	ctrl->apsta = id->apsta;
- 	prev_apst_enabled = ctrl->apst_enabled;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2c8a02be46fd..9b959ee18cb6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -162,6 +162,7 @@ struct nvme_ctrl {
- 	u16 kas;
- 	u8 npss;
- 	u8 apsta;
-+	unsigned int shutdown_timeout;
- 	unsigned int kato;
- 	bool subsystem;
- 	unsigned long quirks;
--- 
-2.14.1
++	sysfs_create_link(&disk_to_dev(ns->head->disk)->kobj,
++			  &disk_to_dev(ns->disk)->kobj,
++			  ns->disk->name);
