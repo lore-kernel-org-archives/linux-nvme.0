@@ -1,58 +1,95 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Wed, 23 Aug 2017 18:21:55 +0000
-Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170823175815.3646-11-hch@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 23 Aug 2017 18:04:34 -0400
+Subject: [PATCH 06/10] nvme: track subsystems
+In-Reply-To: <20170823175815.3646-7-hch@lst.de>
 References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-11-hch@lst.de>
-Message-ID: <1503512512.2484.16.camel@wdc.com>
+ <20170823175815.3646-7-hch@lst.de>
+Message-ID: <20170823220434.GB16596@localhost.localdomain>
 
-On Wed, 2017-08-23@19:58 +0200, Christoph Hellwig wrote:
-> +static blk_qc_t nvme_make_request(struct request_queue *q, struct bio *bio)
+Looks great. A few minor comments below.
+
+On Wed, Aug 23, 2017@07:58:11PM +0200, Christoph Hellwig wrote:
+> +static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
 > +{
-> +	struct nvme_ns_head *head = q->queuedata;
-> +	struct nvme_ns *ns;
-> +	blk_qc_t ret = BLK_QC_T_NONE;
-> +	int srcu_idx;
+> +	struct nvme_subsystem *subsys;
 > +
-> +	srcu_idx = srcu_read_lock(&head->srcu);
-> +	ns = srcu_dereference(head->current_path, &head->srcu);
-> +	if (unlikely(!ns || ns->ctrl->state != NVME_CTRL_LIVE))
-> +		ns = nvme_find_path(head);
-> +	if (likely(ns)) {
-> +		bio->bi_disk = ns->disk;
-> +		bio->bi_opf |= REQ_FAILFAST_TRANSPORT;
-> +		ret = generic_make_request_fast(bio);
-> +	} else if (!list_empty_careful(&head->list)) {
-> +		printk_ratelimited("no path available - requeing I/O\n");
+> +	lockdep_assert_held(&nvme_subsystems_lock);
 > +
-> +		spin_lock_irq(&head->requeue_lock);
-> +		bio_list_add(&head->requeue_list, bio);
-> +		spin_unlock_irq(&head->requeue_lock);
-> +	} else {
-> +		printk_ratelimited("no path - failing I/O\n");
-> +
-> +		bio->bi_status = BLK_STS_IOERR;
-> +		bio_endio(bio);
+> +	list_for_each_entry(subsys, &nvme_subsystems, entry) {
+> +		if (strcmp(subsys->subnqn, subsysnqn))
+> +			continue;
+> +		if (!kref_get_unless_zero(&subsys->ref))
+> +			continue;
+
+You should be able to just return immediately here since there can't be
+a duplicated subsysnqn in the list.
+
+> +		return subsys;
 > +	}
 > +
-> +	srcu_read_unlock(&head->srcu, srcu_idx);
-> +	return ret;
+> +	return NULL;
 > +}
+> +
+> +static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+> +{
+> +	struct nvme_subsystem *subsys, *found;
+> +
+> +	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+> +	if (!subsys)
+> +		return -ENOMEM;
+> +	INIT_LIST_HEAD(&subsys->ctrls);
+> +	kref_init(&subsys->ref);
+> +	nvme_init_subnqn(subsys, ctrl, id);
+> +	mutex_init(&subsys->lock);
+> +
+> +	mutex_lock(&nvme_subsystems_lock);
 
-Hello Christoph,
+This could be a spinlock instead of a mutex.
 
-Since generic_make_request_fast() returns BLK_STS_AGAIN for a dying path:
-can the same kind of soft lockups occur with the NVMe multipathing code as
-with the current upstream device mapper multipathing code? See e.g.
-"[PATCH 3/7] dm-mpath: Do not lock up a CPU with requeuing activity"
-(https://www.redhat.com/archives/dm-devel/2017-August/msg00124.html).
+> +	found = __nvme_find_get_subsystem(subsys->subnqn);
+> +	if (found) {
+> +		/*
+> +		 * Verify that the subsystem actually supports multiple
+> +		 * controllers, else bail out.
+> +		 */
+> +		kfree(subsys);
+> +		if (!(id->cmic & (1 << 1))) {
+> +			dev_err(ctrl->device,
+> +				"ignoring ctrl due to duplicate subnqn (%s).\n",
+> +				found->subnqn);
+> +			mutex_unlock(&nvme_subsystems_lock);
+> +			return -EINVAL;
 
-Another question about this code is what will happen if
-generic_make_request_fast() returns BLK_STS_AGAIN and the submit_bio() or
-generic_make_request() caller ignores the return value of the called
-function? A quick grep revealed that there is plenty of code that ignores
-the return value of these last two functions.
+Returning -EINVAL here will cause nvme_init_identify to fail. Do we want
+that to happen here? I think we want to be able to manage controllers
+in such a state, but just checking if there's a good reason to not allow
+them.
 
-Thanks,
-
-Bart.
+> +		}
+> +
+> +		subsys = found;
+> +	} else {
+> +		list_add_tail(&subsys->entry, &nvme_subsystems);
+> +	}
+> +
+> +	ctrl->subsys = subsys;
+> +	mutex_unlock(&nvme_subsystems_lock);
+> +
+> +	mutex_lock(&subsys->lock);
+> +	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+> +	mutex_unlock(&subsys->lock);
+> +
+> +	return 0;
+>  }
+>  
+>  /*
+> @@ -1801,7 +1882,11 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  		return -EIO;
+>  	}
+>  
+> -	nvme_init_subnqn(ctrl, id);
+> +	ret = nvme_init_subsystem(ctrl, id);
+> +	if (ret) {
+> +		kfree(id);
+> +		return ret;
+> +	}
