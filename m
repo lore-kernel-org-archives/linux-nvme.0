@@ -1,69 +1,62 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 23 Aug 2017 19:58:13 +0200
-Subject: [PATCH 08/10] block: provide a generic_make_request_fast helper
+Date: Wed, 23 Aug 2017 19:58:14 +0200
+Subject: [PATCH 09/10] blk-mq: add a blk_steal_bios helper
 In-Reply-To: <20170823175815.3646-1-hch@lst.de>
 References: <20170823175815.3646-1-hch@lst.de>
-Message-ID: <20170823175815.3646-9-hch@lst.de>
+Message-ID: <20170823175815.3646-10-hch@lst.de>
 
-This helper allows reinserting a bio into a new queue without much
-overhead, but requires all queue limits to be the same for the upper
-and lower queues, and it does not provide any recursion preventions,
-which requires the caller to not split the bio.
+This helpers allows to bounce steal the uncompleted bios from a request so
+that they can be reissued on another path.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-core.c       | 26 ++++++++++++++++++++++++++
- include/linux/blkdev.h |  1 +
- 2 files changed, 27 insertions(+)
+ block/blk-core.c       | 20 ++++++++++++++++++++
+ include/linux/blkdev.h |  2 ++
+ 2 files changed, 22 insertions(+)
 
 diff --git a/block/blk-core.c b/block/blk-core.c
-index 0c7050f20a60..e91f3477538f 100644
+index e91f3477538f..db18e3befdd5 100644
 --- a/block/blk-core.c
 +++ b/block/blk-core.c
-@@ -2224,6 +2224,32 @@ blk_qc_t generic_make_request(struct bio *bio)
+@@ -2702,6 +2702,26 @@ struct request *blk_fetch_request(struct request_queue *q)
  }
- EXPORT_SYMBOL(generic_make_request);
+ EXPORT_SYMBOL(blk_fetch_request);
  
 +/*
-+ * Fast-path version of generic_make_request.  The caller must ensure that
-+ * generic_make_request_checks has already been called with the limits that
-+ * fit the queue, and no recursion prevention is provided.
++ * Steal bios from a request.  The request must not have been partially
++ * completed before.
 + */
-+blk_qc_t generic_make_request_fast(struct bio *bio)
++void blk_steal_bios(struct bio_list *list, struct request *rq)
 +{
-+	struct request_queue *q = bio->bi_disk->queue;
-+	bool nowait = bio->bi_opf & REQ_NOWAIT;
-+	blk_qc_t ret = BLK_QC_T_NONE;
-+
-+	if (unlikely(blk_queue_enter(q, nowait))) {
-+		if (nowait && !blk_queue_dying(q))
-+			bio->bi_status = BLK_STS_AGAIN;
++	if (rq->bio) {
++		if (list->tail)
++			list->tail->bi_next = rq->bio;
 +		else
-+			bio->bi_status = BLK_STS_IOERR;
-+		bio_endio(bio);
-+		return BLK_QC_T_NONE;
++			list->head = rq->bio;
++		list->tail = rq->biotail;
 +	}
 +
-+	ret = q->make_request_fn(q, bio);
-+	blk_queue_exit(q);
-+	return ret;
++	rq->bio = NULL;
++	rq->biotail = NULL;
++	rq->__data_len = 0;
 +}
-+EXPORT_SYMBOL_GPL(generic_make_request_fast);
++EXPORT_SYMBOL_GPL(blk_steal_bios);
 +
  /**
-  * submit_bio - submit a bio to the block device layer for I/O
-  * @bio: The &struct bio which describes the I/O
+  * blk_update_request - Special helper function for request stacking drivers
+  * @req:      the request being processed
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 25f6a0cb27d3..5f81151d181a 100644
+index 5f81151d181a..e8c11ad68809 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -938,6 +938,7 @@ do {								\
- extern int blk_register_queue(struct gendisk *disk);
- extern void blk_unregister_queue(struct gendisk *disk);
- extern blk_qc_t generic_make_request(struct bio *bio);
-+extern blk_qc_t generic_make_request_fast(struct bio *bio);
- extern void blk_rq_init(struct request_queue *q, struct request *rq);
- extern void blk_init_request_from_bio(struct request *req, struct bio *bio);
- extern void blk_put_request(struct request *);
+@@ -1112,6 +1112,8 @@ extern struct request *blk_peek_request(struct request_queue *q);
+ extern void blk_start_request(struct request *rq);
+ extern struct request *blk_fetch_request(struct request_queue *q);
+ 
++void blk_steal_bios(struct bio_list *list, struct request *rq);
++
+ /*
+  * Request completion related functions.
+  *
 -- 
 2.11.0
