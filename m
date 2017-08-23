@@ -1,26 +1,34 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 22 Aug 2017 11:40:35 +0200
-Subject: [PATCH 2/3] nvme: introduce max_segments controller attribute
-In-Reply-To: <64ff7c30-cfb7-0e66-6882-59349faf8fc2@mellanox.com>
-References: <1502878860-11750-1-git-send-email-maxg@mellanox.com>
- <1502878860-11750-2-git-send-email-maxg@mellanox.com>
- <390a1e0d-8b83-576f-1e9a-c9136b7daf39@grimberg.me>
- <ea59ff5e-5bcc-9dfc-a248-ef02f977dafc@mellanox.com>
- <bd77f99f-67c9-b648-1b93-43d3a6feb414@grimberg.me>
- <20170817074034.GC24372@lst.de>
- <39824829-4a0c-6418-2de7-719461fb3662@grimberg.me>
- <20170822063215.GA6627@lst.de>
- <64ff7c30-cfb7-0e66-6882-59349faf8fc2@mellanox.com>
-Message-ID: <20170822094035.GA10045@lst.de>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 22 Aug 2017 22:18:06 -0400
+Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
+In-Reply-To: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ (Suganath Prabu S.'s message of "Mon, 21 Aug 2017 19:02:10 +0530")
+References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <yq1lgmbauxt.fsf@oracle.com>
 
-On Tue, Aug 22, 2017@12:36:49PM +0300, Max Gurtovoy wrote:
->> So for now to be safe it might be a good idea to always use a 4k
->> MR page size..
->>
->
-> So should I send a fix only for the MR page size (4k) for now ?
-> Or should we add the infrastructure for virt_boundary and max_segments per 
-> ctrl too ?
 
-We'll eventually want both, but for 4.13 fixing the MR page size to
-4k should be fine.
+Suganath,
+
+>   mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
+
+I'm still confused about this patch.
+
+ - I don't understand why you go through all these hoops to decide
+   whether to use PRPs or IEEE scatterlists. If the firmware translation
+   is slow, why even bother with the SG format in the first place? Set
+   the max I/O size to match MDTS and you're done.
+
+ - What's the benefit of using SG for regular I/O commands?
+
+ - If the unmap translation in firmware is slow, why don't you translate
+   WRITE SAME/w UNMAP set to DSM DEALLOCATE without requiring
+   applications to do encapsulated passthrough?
+
+Also make sure you attribute your patches correctly (From: root
+<root at dhcp-135-24-192-103.dhcp.avagotech.net>). And you don't need that
+long CC: list. Just send the patch series to linux-scsi at vger.kernel.org.
+
+Thanks!
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
