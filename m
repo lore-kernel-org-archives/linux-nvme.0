@@ -1,36 +1,40 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 23 Aug 2017 19:58:06 +0200
-Subject: [PATCH 01/10] nvme: report more detailed status codes to the block
- layer
+Date: Wed, 23 Aug 2017 19:58:07 +0200
+Subject: [PATCH 02/10] nvme: allow calling nvme_change_ctrl_state from irq
+ context
 In-Reply-To: <20170823175815.3646-1-hch@lst.de>
 References: <20170823175815.3646-1-hch@lst.de>
-Message-ID: <20170823175815.3646-2-hch@lst.de>
+Message-ID: <20170823175815.3646-3-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/nvme/host/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1db8de0bee87..b8ecd155be19 100644
+index b8ecd155be19..f91c649c9ca5 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -113,7 +113,16 @@ static blk_status_t nvme_error_status(struct request *req)
- 	case NVME_SC_WRITE_FAULT:
- 	case NVME_SC_READ_ERROR:
- 	case NVME_SC_UNWRITTEN_BLOCK:
-+	case NVME_SC_ACCESS_DENIED:
-+	case NVME_SC_READ_ONLY:
- 		return BLK_STS_MEDIUM;
-+	case NVME_SC_GUARD_CHECK:
-+	case NVME_SC_APPTAG_CHECK:
-+	case NVME_SC_REFTAG_CHECK:
-+	case NVME_SC_INVALID_PI:
-+		return BLK_STS_PROTECTION;
-+	case NVME_SC_RESERVATION_CONFLICT:
-+		return BLK_STS_NEXUS;
- 	default:
- 		return BLK_STS_IOERR;
- 	}
+@@ -176,9 +176,10 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state)
+ {
+ 	enum nvme_ctrl_state old_state;
++	unsigned long flags;
+ 	bool changed = false;
+ 
+-	spin_lock_irq(&ctrl->lock);
++	spin_lock_irqsave(&ctrl->lock, flags);
+ 
+ 	old_state = ctrl->state;
+ 	switch (new_state) {
+@@ -239,7 +240,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 	if (changed)
+ 		ctrl->state = new_state;
+ 
+-	spin_unlock_irq(&ctrl->lock);
++	spin_unlock_irqrestore(&ctrl->lock, flags);
+ 
+ 	return changed;
+ }
 -- 
 2.11.0
