@@ -1,40 +1,36 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 23 Aug 2017 19:58:07 +0200
-Subject: [PATCH 02/10] nvme: allow calling nvme_change_ctrl_state from irq
- context
+Date: Wed, 23 Aug 2017 19:58:08 +0200
+Subject: [PATCH 03/10] nvme: remove unused struct nvme_ns fields
 In-Reply-To: <20170823175815.3646-1-hch@lst.de>
 References: <20170823175815.3646-1-hch@lst.de>
-Message-ID: <20170823175815.3646-3-hch@lst.de>
+Message-ID: <20170823175815.3646-4-hch@lst.de>
+
+And move the flags for the flags field near that field while touching
+this area.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/host/nvme.h | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b8ecd155be19..f91c649c9ca5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -176,9 +176,10 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state)
- {
- 	enum nvme_ctrl_state old_state;
-+	unsigned long flags;
- 	bool changed = false;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2c8a02be46fd..82074b68f36f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -210,13 +210,9 @@ struct nvme_ns {
+ 	bool ext;
+ 	u8 pi_type;
+ 	unsigned long flags;
+-	u16 noiob;
+-
+ #define NVME_NS_REMOVING 0
+ #define NVME_NS_DEAD     1
+-
+-	u64 mode_select_num_blocks;
+-	u32 mode_select_block_len;
++	u16 noiob;
+ };
  
--	spin_lock_irq(&ctrl->lock);
-+	spin_lock_irqsave(&ctrl->lock, flags);
- 
- 	old_state = ctrl->state;
- 	switch (new_state) {
-@@ -239,7 +240,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	if (changed)
- 		ctrl->state = new_state;
- 
--	spin_unlock_irq(&ctrl->lock);
-+	spin_unlock_irqrestore(&ctrl->lock, flags);
- 
- 	return changed;
- }
+ struct nvme_ctrl_ops {
 -- 
 2.11.0
