@@ -1,23 +1,43 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 24 Aug 2017 02:02:22 -0700
-Subject: [PATCH v2] nvme: Honor RTD3 Entry Latency for shutdowns
-In-Reply-To: <20170823223258.6695-1-martin.petersen@oracle.com>
-References: <20170817174224.tkgrkl4hp2yjgkag@sbauer-Z170X-UD5>
- <20170823223258.6695-1-martin.petersen@oracle.com>
-Message-ID: <20170824090222.GA2543@infradead.org>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 24 Aug 2017 15:11:19 +0300
+Subject: kernel NULL pointer during reset_controller operation with IO on
+ 4.11.0-rc7
+In-Reply-To: <20170425180630.GU14088@mtr-leonro.local>
+References: <1413097100.14743757.1492668219336.JavaMail.zimbra@redhat.com>
+ <97bb90ec-4337-62f7-f08d-a673975a5637@grimberg.me>
+ <20170425180630.GU14088@mtr-leonro.local>
+Message-ID: <cbc43d35-27c9-331d-b345-b09530477d74@mellanox.com>
 
-On Wed, Aug 23, 2017@06:32:58PM -0400, Martin K. Petersen wrote:
-> If an NVMe v1.2+ compliant controller reports RTD3 Entry Latency larger
-> than shutdown_timeout, up to a maximum of 60 seconds, use that value to
-> set the shutdown timer. Otherwise fall back to the module parameter
-> which defaults to 5 seconds.
 
-This generally looks fine, but NVMe allows TPs and thus new fields
-to be implemented even against older spec versions, so we should avoid
-version tests wherever possible.
 
-> +	if (ctrl->vs >= NVME_VS(1, 2, 0)) {
-> +		u32 transition_time = le32_to_cpu(id->rtd3e);
+On 4/25/2017 9:06 PM, Leon Romanovsky wrote:
+> On Thu, Apr 20, 2017@07:21:29PM +0300, Sagi Grimberg wrote:
+>>
+>>> [1]
+>>> [ 5968.515237] DMAR: DRHD: handling fault status reg 2
+>>> [ 5968.519449] mlx5_2:dump_cqe:262:(pid 0): dump error cqe
+>>> [ 5968.519450] 00000000 00000000 00000000 00000000
+>>> [ 5968.519451] 00000000 00000000 00000000 00000000
+>>> [ 5968.519451] 00000000 00000000 00000000 00000000
+>>> [ 5968.519452] 00000000 02005104 00000316 a71710e3
+>>
+>> Max, Can you decode this for us?
+>
+> I'm not Max and maybe he will shed more light on it. I didn't find such
+> error in our documentation.
 
-So instead of the version check here I'd check for a non-zero
-RTD3E field instead.
+
+Sorry for the late response.
+
+Yi Zhang,
+Is it still repro ?
+
+-Max.
+
+>
+> Thanks
+>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+>> the body of a message to majordomo at vger.kernel.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
