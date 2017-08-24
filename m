@@ -1,43 +1,35 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 24 Aug 2017 15:11:19 +0300
-Subject: kernel NULL pointer during reset_controller operation with IO on
- 4.11.0-rc7
-In-Reply-To: <20170425180630.GU14088@mtr-leonro.local>
-References: <1413097100.14743757.1492668219336.JavaMail.zimbra@redhat.com>
- <97bb90ec-4337-62f7-f08d-a673975a5637@grimberg.me>
- <20170425180630.GU14088@mtr-leonro.local>
-Message-ID: <cbc43d35-27c9-331d-b345-b09530477d74@mellanox.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Thu, 24 Aug 2017 20:17:32 +0000
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170824085954.GD19504@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de> <1503512512.2484.16.camel@wdc.com>
+ <20170824085954.GD19504@lst.de>
+Message-ID: <1503605798.2899.43.camel@wdc.com>
 
+On Thu, 2017-08-24@10:59 +0200, hch@lst.de wrote:
+> On Wed, Aug 23, 2017@06:21:55PM +0000, Bart Van Assche wrote:
+> > Since generic_make_request_fast() returns BLK_STS_AGAIN for a dying path:
+> > can the same kind of soft lockups occur with the NVMe multipathing code as
+> > with the current upstream device mapper multipathing code? See e.g.
+> > "[PATCH 3/7] dm-mpath: Do not lock up a CPU with requeuing activity"
+> > (https://www.redhat.com/archives/dm-devel/2017-August/msg00124.html).
+> 
+> I suspect the code is not going to hit it because we check the controller
+> state before trying to queue I/O on the lower queue.  But if you point
+> me to a good reproducer test case I'd like to check.
 
+For NVMe over RDMA, how about the simulate_network_failure_loop() function in
+https://github.com/bvanassche/srp-test/blob/master/lib/functions? It simulates
+a network failure by writing into the reset_controller sysfs attribute.
 
-On 4/25/2017 9:06 PM, Leon Romanovsky wrote:
-> On Thu, Apr 20, 2017@07:21:29PM +0300, Sagi Grimberg wrote:
->>
->>> [1]
->>> [ 5968.515237] DMAR: DRHD: handling fault status reg 2
->>> [ 5968.519449] mlx5_2:dump_cqe:262:(pid 0): dump error cqe
->>> [ 5968.519450] 00000000 00000000 00000000 00000000
->>> [ 5968.519451] 00000000 00000000 00000000 00000000
->>> [ 5968.519451] 00000000 00000000 00000000 00000000
->>> [ 5968.519452] 00000000 02005104 00000316 a71710e3
->>
->> Max, Can you decode this for us?
->
-> I'm not Max and maybe he will shed more light on it. I didn't find such
-> error in our documentation.
+> Also does the "single queue" case in your mail refer to the old
+> request code?  nvme only uses blk-mq so it would not hit that.
+> But either way I think get_request should be fixed to return
+> BLK_STS_IOERR if the queue is dying instead of BLK_STS_AGAIN.
 
+The description in the patch I referred to indeed refers to the old request
+code in the block layer. When I prepared that patch I had analyzed the
+behavior of the old request code only.
 
-Sorry for the late response.
-
-Yi Zhang,
-Is it still repro ?
-
--Max.
-
->
-> Thanks
->
->> --
->> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
->> the body of a message to majordomo at vger.kernel.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Bart.
