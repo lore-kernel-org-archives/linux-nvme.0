@@ -1,35 +1,73 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Thu, 24 Aug 2017 20:17:32 +0000
-Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170824085954.GD19504@lst.de>
-References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-11-hch@lst.de> <1503512512.2484.16.camel@wdc.com>
- <20170824085954.GD19504@lst.de>
-Message-ID: <1503605798.2899.43.camel@wdc.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 24 Aug 2017 22:26:41 -0400
+Subject: [PATCH v3] nvme: Honor RTD3 Entry Latency for shutdowns
+In-Reply-To: <20170824090222.GA2543@infradead.org>
+References: <20170824090222.GA2543@infradead.org>
+Message-ID: <20170825022641.1424-1-martin.petersen@oracle.com>
 
-On Thu, 2017-08-24@10:59 +0200, hch@lst.de wrote:
-> On Wed, Aug 23, 2017@06:21:55PM +0000, Bart Van Assche wrote:
-> > Since generic_make_request_fast() returns BLK_STS_AGAIN for a dying path:
-> > can the same kind of soft lockups occur with the NVMe multipathing code as
-> > with the current upstream device mapper multipathing code? See e.g.
-> > "[PATCH 3/7] dm-mpath: Do not lock up a CPU with requeuing activity"
-> > (https://www.redhat.com/archives/dm-devel/2017-August/msg00124.html).
-> 
-> I suspect the code is not going to hit it because we check the controller
-> state before trying to queue I/O on the lower queue.  But if you point
-> me to a good reproducer test case I'd like to check.
+If an NVMe controller reports RTD3 Entry Latency larger than
+shutdown_timeout, up to a maximum of 60 seconds, use that value to set
+the shutdown timer. Otherwise fall back to the module parameter which
+defaults to 5 seconds.
 
-For NVMe over RDMA, how about the simulate_network_failure_loop() function in
-https://github.com/bvanassche/srp-test/blob/master/lib/functions? It simulates
-a network failure by writing into the reset_controller sysfs attribute.
+Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+---
+ drivers/nvme/host/core.c | 16 +++++++++++++++-
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-> Also does the "single queue" case in your mail refer to the old
-> request code?  nvme only uses blk-mq so it would not hit that.
-> But either way I think get_request should be fixed to return
-> BLK_STS_IOERR if the queue is dying instead of BLK_STS_AGAIN.
-
-The description in the patch I referred to indeed refers to the old request
-code in the block layer. When I prepared that patch I had analyzed the
-behavior of the old request code only.
-
-Bart.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b7dfbbeccb47..775b702f9c91 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1465,7 +1465,7 @@ EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
+ 
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	unsigned long timeout = jiffies + (shutdown_timeout * HZ);
++	unsigned long timeout = jiffies + (ctrl->shutdown_timeout * HZ);
+ 	u32 csts;
+ 	int ret;
+ 
+@@ -1765,6 +1765,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	int ret, page_shift;
+ 	u32 max_hw_sectors;
+ 	bool prev_apst_enabled;
++	u32 transition_time;
+ 
+ 	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
+ 	if (ret) {
+@@ -1833,6 +1834,19 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	ctrl->sgls = le32_to_cpu(id->sgls);
+ 	ctrl->kas = le16_to_cpu(id->kas);
+ 
++	transition_time = le32_to_cpu(id->rtd3e);
++	if (transition_time) {
++		do_div(transition_time, 1000000); /* us -> s */
++		clamp(transition_time, shutdown_timeout, 60); /* max 60s */
++		ctrl->shutdown_timeout = transition_time;
++
++		if (transition_time != shutdown_timeout)
++			dev_warn(ctrl->device,
++				 "Shutdown timeout set to %u seconds\n",
++				 ctrl->shutdown_timeout);
++	} else
++		ctrl->shutdown_timeout = shutdown_timeout;
++
+ 	ctrl->npss = id->npss;
+ 	ctrl->apsta = id->apsta;
+ 	prev_apst_enabled = ctrl->apst_enabled;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2c8a02be46fd..9b959ee18cb6 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -162,6 +162,7 @@ struct nvme_ctrl {
+ 	u16 kas;
+ 	u8 npss;
+ 	u8 apsta;
++	unsigned int shutdown_timeout;
+ 	unsigned int kato;
+ 	bool subsystem;
+ 	unsigned long quirks;
+-- 
+2.14.1
