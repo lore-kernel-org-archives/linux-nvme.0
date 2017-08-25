@@ -1,21 +1,17 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 24 Aug 2017 22:26:26 -0400
-Subject: [PATCH v2] nvme: Honor RTD3 Entry Latency for shutdowns
-In-Reply-To: <20170824090222.GA2543@infradead.org> (Christoph Hellwig's
- message of "Thu, 24 Aug 2017 02:02:22 -0700")
-References: <20170817174224.tkgrkl4hp2yjgkag@sbauer-Z170X-UD5>
- <20170823223258.6695-1-martin.petersen@oracle.com>
- <20170824090222.GA2543@infradead.org>
-Message-ID: <yq1ziao757x.fsf@oracle.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 25 Aug 2017 00:41:26 -0700
+Subject: [PATCH v3] nvme: Honor RTD3 Entry Latency for shutdowns
+In-Reply-To: <20170825022641.1424-1-martin.petersen@oracle.com>
+References: <20170824090222.GA2543@infradead.org>
+ <20170825022641.1424-1-martin.petersen@oracle.com>
+Message-ID: <20170825074126.GA14685@infradead.org>
 
+On Thu, Aug 24, 2017@10:26:41PM -0400, Martin K. Petersen wrote:
+> If an NVMe controller reports RTD3 Entry Latency larger than
+> shutdown_timeout, up to a maximum of 60 seconds, use that value to set
+> the shutdown timer. Otherwise fall back to the module parameter which
+> defaults to 5 seconds.
+> 
+> Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
 
-Christoph,
-
-> This generally looks fine, but NVMe allows TPs and thus new fields
-> to be implemented even against older spec versions, so we should avoid
-> version tests wherever possible.
-
-Fine with me. I was just mirroring the other version conditionals.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Do you think this is urgent enough for 4.13?
