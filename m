@@ -1,48 +1,71 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 28 Aug 2017 19:41:44 +0300
-Subject: [PATCH] nvme-fabrics: Allow 0 as KATO value
-In-Reply-To: <20170828141032.800-1-gpiccoli@linux.vnet.ibm.com>
-References: <20170828141032.800-1-gpiccoli@linux.vnet.ibm.com>
-Message-ID: <29c5954d-eda6-4a6f-1e50-95399c32a917@grimberg.me>
+From: felipeapolanco@gmail.com (Felipe Arturo Polanco)
+Date: Mon, 28 Aug 2017 12:53:47 -0400
+Subject: NVMe driver with kernel panic
+In-Reply-To: <20170828150512.GA3913@localhost.localdomain>
+References: <CADcj3=5oXJzsBO7eNPNbGM+W9qKwbVBmmokY9h7-qP8butZLTg@mail.gmail.com>
+ <20170821200436.GF21397@localhost.localdomain>
+ <CADcj3=7aCwiOLyo9E+zUs2HqNzsED28GVLkBx5t0Sdx91cdZVA@mail.gmail.com>
+ <20170828143616.GG1207@localhost.localdomain>
+ <CADcj3=5W68+MJDTwCGEcTqcKfRpOw5g+h3s8jFpT7hqcZoYvxw@mail.gmail.com>
+ <20170828150512.GA3913@localhost.localdomain>
+Message-ID: <CADcj3=5KGXuk7RRrKeQCCfM5H-JU_C1VQTXZe2UPLZNi_bv5Gg@mail.gmail.com>
 
+Thanks Keith,
 
-> Currently, driver code allows user to set 0 as KATO
-> (Keep Alive TimeOut), but it's not being respected.
-> This patch enforces the expected behavior.
+We got in touch with the people of VzLinux since we have support with
+them, they analyzed the crash core dump and sent us a patch for the
+nvme driver.
 
-It was originally possible to set it to zero, but I guess
-somewhere down the road the restriction was added.
+They said the following:
+Presence of gap is known from crashdumps, there is misaligned request.
+Only first and last requests can have free space in a page.
+Crashdumps pointed to such request in the middle.
 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 2e582a240943..d734ae852e1a 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -556,6 +556,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   {
->   	substring_t args[MAX_OPT_ARGS];
->   	char *options, *o, *p;
-> +	bool set_kato = true;
->   	int token, ret = 0;
->   	size_t nqnlen  = 0;
->   	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
-> @@ -668,6 +669,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			} else if (token == 0) {
->   				/* Allowed for debug */
->   				pr_warn("keep_alive_tmo 0 won't execute keep alives!!!\n");
-> +				set_kato = false;
->   			}
->   			opts->kato = token;
->   			break;
-> @@ -761,7 +763,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   	uuid_copy(&opts->host->id, &hostid);
->   
->   out:
-> -	if (!opts->discovery_nqn && !opts->kato)
-> +	if (set_kato && !opts->discovery_nqn && !opts->kato)
->   		opts->kato = NVME_DEFAULT_KATO;
->   	kfree(options);
->   	return ret;
-> 
+We are testing the patch and so far is good, we have no way to
+reproduce the crash so we can't be 100% if this prevents it.
 
-How about simply setting opts->kato = NVME_DEFAULT_KATO as a default
-at the beginning and remove this condition instead..
+Have you heard of related cases with misaligned requests? Maybe this
+was fixed in recent versions of the kernel or module.
+
+Thanks,
+
+On Mon, Aug 28, 2017@11:05 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Mon, Aug 28, 2017@10:47:02AM -0400, Felipe Arturo Polanco wrote:
+>> Hi,
+>>
+>> Sorry, I truncated the message since they were all the same, some got
+>> lost because there were a lot of information per second:
+>>
+>> [95673.434065] systemd-journald[709]: /dev/kmsg buffer overrun, some
+>> messages lost.
+>> [95673.434072] sg[14] phys_addr:0x0000007d867b5000 offset:0
+>> length:4096 dma_address:0x0000007d867b5000 dma_length:4096
+>> [95673.434078] sg[16] phys_addr:0x0000007d867eb000 offset:0
+>> length:4096 dma_address:0x0000007d867eb000 dma_length:4096
+>> [95673.434085] sg[18] phys_addr:0x0000007d63e7a000 offset:0
+>> length:12288 dma_address:0x0000007d63e7a000 dma_length:12288
+>> [95673.434099] sg[3] phys_addr:0x0000007d867ea000 offset:0 length:4096
+>> dma_address:0x0000007d867ea000 dma_length:4096
+>> [95673.434103] sg[5] phys_addr:0x0000007d63e1b000 offset:0 length:4096
+>> dma_address:0x0000007d63e1b000 dma_length:4096
+>> [95673.434108] sg[7] phys_addr:0x0000007d867c1000 offset:0 length:4096
+>> dma_address:0x0000007d867c1000 dma_length:4096
+>> [95673.434116] sg[10] phys_addr:0x0000007d86d08000 offset:0
+>> length:4096 dma_address:0x0000007d86d08000 dma_length:4096
+>> [95673.434120] sg[12] phys_addr:0x0000007d63e8c000 offset:0
+>> length:1024 dma_address:0x0000007d63e8c000 dma_length:1024
+>> [95673.434129] sg[15] phys_addr:0x0000007d8679f000 offset:0
+>> length:4096 dma_address:0x0000007d8679f000 dma_length:4096
+>> [95673.434137] sg[18] phys_addr:0x0000007d63e7a000 offset:0
+>> length:12288 dma_address:0x0000007d63e7a000 dma_length:12288
+>> [95673.434143] sg[1] phys_addr:0x0000007d8a4e8000 offset:0 length:4096
+>> dma_address:0x0000007d8a4e8000 dma_length:4096
+>> [95673.434149] sg[4] phys_addr:0x0000003c8d25e000 offset:0 length:4096
+>> dma_address:0x0000003c8d25e000 dma_length:4096
+>>
+>> It was logs and logs of this.
+>
+> Hm, I won't be able to piece this together with missing and interleaved
+> messages.  The code was supposed to just warn and print the sgl
+> once, but it looks like "WARN_ONCE" returns true even if we already
+> warned on that condition... I'll see if we can fix this.
