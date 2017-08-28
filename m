@@ -1,52 +1,29 @@
-From: omri@excelero.com (Omri Mann)
-Date: Mon, 28 Aug 2017 15:07:37 +0300
-Subject: [PATCH] nvmet: Add support for HOST_ID feature.
-Message-ID: <1503922057-1141-1-git-send-email-omri@excelero.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 28 Aug 2017 15:38:44 +0300
+Subject: [PATCH 08/10] block: provide a generic_make_request_fast helper
+In-Reply-To: <20170828115445.GA17731@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-9-hch@lst.de>
+ <326ee3b3-441f-e093-6d6f-7356e1ff8487@grimberg.me>
+ <20170828085447.GB4358@lst.de>
+ <7ff339f0-e9bc-514f-18a0-596d8e409436@grimberg.me>
+ <20170828115445.GA17731@lst.de>
+Message-ID: <d2d93491-5196-4c9d-9990-3b4ef7147467@grimberg.me>
 
-Add host_id feature to NVMeoF targets. This will be required in order to
-support reservations.
-Signed-off-by: Omri Mann <omri at excelero.com>
----
- drivers/nvme/target/admin-cmd.c | 7 +++++++
- drivers/nvme/target/nvmet.h     | 1 +
- 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index a53bb66..071de0b 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -461,6 +461,10 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
- 		nvmet_set_result(req, req->sq->ctrl->kato);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		status = nvmet_copy_from_sgl(req, 0, &req->sq->ctrl->host_id,
-+						8);
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-@@ -509,6 +513,9 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 	case NVME_FEAT_KATO:
- 		nvmet_set_result(req, req->sq->ctrl->kato * 1000);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		status = nvmet_copy_to_sgl(req, 0, &req->sq->ctrl->host_id, 8);
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index e3b244c..841f35d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -132,6 +132,7 @@ struct nvmet_ctrl {
- 
- 	char			subsysnqn[NVMF_NQN_FIELD_LEN];
- 	char			hostnqn[NVMF_NQN_FIELD_LEN];
-+	u64			host_id;
- };
- 
- struct nvmet_subsys {
--- 
-1.8.3.1
+>>> That being said ->make_request basically doesn't care about actual
+>>> limits at all, it mostly care about support features (e.g. discard, fua,
+>>> etc).  So I think a lot of these limits could porbably be lifted,
+>>> but I'd need to add the check to generic_make_request_checks back.
+>>
+>> Different virt_boundary capabilities will trigger bio splits which
+>> can make make_request blocking (due to lack of tags).
+> 
+> All the bio splitting is done in blk_queue_split, and other things
+> related to limits are done even later in blk_mq_make_request when
+> building the request.  For normal make_request based stacking drivers
+> nothing of this matters, although a few drivers t call blk_queue_split
+> manually from their make_request method.
+
+Maybe I misunderstood the change log comment, but didn't it said that
+the caller is not allowed to submit a bio that might split?
