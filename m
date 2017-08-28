@@ -1,49 +1,39 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 Aug 2017 10:50:15 +0200
-Subject: [PATCH 07/10] nvme: track shared namespaces
-In-Reply-To: <bee7c6c3-bf6b-8f7e-ad8f-fd5e238a94ef@grimberg.me>
+Date: Mon, 28 Aug 2017 10:54:47 +0200
+Subject: [PATCH 08/10] block: provide a generic_make_request_fast helper
+In-Reply-To: <326ee3b3-441f-e093-6d6f-7356e1ff8487@grimberg.me>
 References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-8-hch@lst.de>
- <bee7c6c3-bf6b-8f7e-ad8f-fd5e238a94ef@grimberg.me>
-Message-ID: <20170828085015.GA4358@lst.de>
+ <20170823175815.3646-9-hch@lst.de>
+ <326ee3b3-441f-e093-6d6f-7356e1ff8487@grimberg.me>
+Message-ID: <20170828085447.GB4358@lst.de>
 
-On Mon, Aug 28, 2017@09:51:14AM +0300, Sagi Grimberg wrote:
->> To allow lockless path lookup the list of nvme_ns structures per
->> nvme_ns_head is protected by SRCU, which requires freeing the nvme_ns
->> structure through call_srcu.
+On Mon, Aug 28, 2017@10:00:35AM +0300, Sagi Grimberg wrote:
+>> This helper allows reinserting a bio into a new queue without much
+>> overhead, but requires all queue limits to be the same for the upper
+>> and lower queues, and it does not provide any recursion preventions,
+>> which requires the caller to not split the bio.
 >
-> I haven't read the later patches yet, but what requires sleep in the
-> path selection?
-
-->make_request is allowed to sleep, and often will.
-
->> +	} else {
->> +		u8 eui64[8] = { 0 }, nguid[16] = { 0 };
->> +		uuid_t uuid = uuid_null;
->> +
->> +		nvme_report_ns_ids(ctrl, nsid, id, eui64, nguid, &uuid);
->> +		if (!uuid_equal(&head->uuid, &uuid) ||
->> +		    memcmp(&head->nguid, &nguid, sizeof(head->nguid)) ||
->> +		    memcmp(&head->eui64, &eui64, sizeof(head->eui64))) {
+> Isn't the same limits constraint too restrictive?
 >
-> Suggestion, given that this matching pattern returns in several places
-> would it be better to move it to nvme_ns_match_id()?
+> Say I have two paths to the same namespace via two different HBAs, each
+> with its own virt_boundary capability for example? That would require us
+> to split failover bio wouldn't it?
 
-I'll look into it.  Maybe we'll need a nvme_ns_ids structure to avoid
-having tons of parameters, though.
+Uh oh - different transports for the same subsystem will be intereting.
+For one it's not specified anywhere so I'd like to kick off a discussion
+on the working group mailing list about it.
 
->>   +/*
->> + * Anchor structure for namespaces.  There is one for each namespace in a
->> + * NVMe subsystem that any of our controllers can see, and the namespace
->> + * structure for each controller is chained of it.  For private namespaces
->> + * there is a 1:1 relation to our namespace structures, that is ->list
->> + * only ever has a single entry for private namespaces.
->> + */
->> +struct nvme_ns_head {
->> +	struct list_head	list;
+That being said ->make_request basically doesn't care about actual
+limits at all, it mostly care about support features (e.g. discard, fua,
+etc).  So I think a lot of these limits could porbably be lifted,
+but I'd need to add the check to generic_make_request_checks back.
+
+>> +/*
+>> + * Fast-path version of generic_make_request.
 >
-> Maybe siblings is a better name than list,
-> and the nvme_ns list_head should be called
-> sibling_entry (or just sibling)?
+> generic_make_request is also called in the fast-path, maybe reword it
+> to: "Fast version of generic_make_request"
 
-Yeah.
+Yeah.  Maybe generic_make_request_direct or direct_make_request
+is a better name as it describes the recursion avoidance bypassing
+a little better.
