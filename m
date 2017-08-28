@@ -1,32 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 Aug 2017 19:38:09 +0200
-Subject: ALPSS: reminder and submission deadline
-Message-ID: <20170828173809.25983-1-hch@lst.de>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Mon, 28 Aug 2017 14:52:14 -0300
+Subject: [PATCH] nvme-fabrics: Allow 0 as KATO value
+In-Reply-To: <29c5954d-eda6-4a6f-1e50-95399c32a917@grimberg.me>
+References: <20170828141032.800-1-gpiccoli@linux.vnet.ibm.com>
+ <29c5954d-eda6-4a6f-1e50-95399c32a917@grimberg.me>
+Message-ID: <375bb4d7-71e0-c516-7eb9-19bbb440a5b4@linux.vnet.ibm.com>
 
-Just one more month to go until the Alpine Linux Persistence and Storage
-Summit (ALPSS) will be held from September 27-29 at the Lizumerhuette
-in Austria!
+On 08/28/2017 01:41 PM, Sagi Grimberg wrote:
+> 
+> [...] 
+> How about simply setting opts->kato = NVME_DEFAULT_KATO as a default
+> at the beginning and remove this condition instead..
+> 
 
-If you want to submit a 30-minute talk please do so until Sep 1st, as we
-plan to finalize our schedule.  BOFs and team meetings will be scheduled
-ad-hoc in the available meeting rooms or outside with a beautiful mountain
-panorama.
+Good for me, I can send a v2.
+Thanks Sagi.
+Cheers,
 
-If you only want to attend you can do so until last minute as long as
-space doesn't run.
 
-To submit a talk or request attendance please send a mail to:
-
-	alpss-pc at lists.infradead.org
-
-More details are available on our website:
-
-	http://www.alpss.at/
-
-Thank you on behalf of the program committee:
-
-    Stephen Bates
-    Sagi Grimberg
-    Christoph Hellwig
-    Johannes Thumshirn
-    Richard Weinberger
+Guilherme
