@@ -1,15 +1,51 @@
-From: sim@linux.vnet.ibm.com (Narasimhan V)
-Date: Mon, 28 Aug 2017 20:30:55 +0530
-Subject: NVMf initiator persistent across boots
-Message-ID: <6cdc2a01691ce8dd501987c646519a95@linux.vnet.ibm.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 28 Aug 2017 18:49:37 +0300
+Subject: blk_mq_reinit_tagset during NVMEoF port toggling
+In-Reply-To: <00e4d4a4-1cc4-9f22-0755-14b733548254@grimberg.me>
+References: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
+ <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
+ <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
+ <00e4d4a4-1cc4-9f22-0755-14b733548254@grimberg.me>
+Message-ID: <1091216f-dfff-892c-f0b4-5c6ee009eeb0@mellanox.com>
 
-Hi All,
 
-Could we have NVMf initiator setup persistent across boots ?
 
-Is this a possibility ? If yes, I would like suggestions on how this 
-could be implemented.
+On 8/28/2017 4:30 PM, Sagi Grimberg wrote:
+> 
+>>>> Hi guys,
+>>>
+>>> Hi Max, CCing linux-nvme.
+>> Hi Sagi,
+>>>
+>>>> we have encountered a bug during our port toggling test with MP 
+>>>> using NVMEoF over RDMA (1 IO queue repro it quickly).
+>>>> We have been receiving local protection errors dumps after failing 
+>>>> back to the port that became active again (it's not the 
+>>>> retransmission issue we fixed in the past). After debugging it we 
+>>>> saw that the requests have been doing a reinit process 
+>>>> (dereg_mr/alloc_mr).
+>>>> But somehow the req->mr->need_inval is still true in the beginning 
+>>>> of nvme_rdma_queue_rq function. This shouldn't happen since we 
+>>>> should have perform the dereg_mr/alloc_mr in the reinit func and set 
+>>>> it to false.
+>>>> We don't see this issue in kernel older than 4.11 so before bisecting:
+>>>
+>>> Which code base is this max?
+>> The code base is kernel 4.13.0-rc3.
+>>>
+>>> is commit 842594c8775b585c58459e044708c0335b6aa6b7 applied?
+>> Yes.
+>>>
+>>> if so, maybe it is possible that not all requests are being 
+>>> reinitialized.
+>>> Can you reproduce with the following applied:
+>> We reproduced this issue with similar prints and we didn't see them.
+>> blk_mq_reinit_tagset() went over all the the static requests.
+> 
+> If mr->need_inval is true in queue_rq it means that reinit was not
+> called on it, did you see a request that performed reinit but
+> still had need_inval == true?
 
--- 
-Regards
-Narasimhan V
+No. The requests that are "reinited" are the static_rqs.
+ From what I saw in the code, the MP has a cloned request queue that it 
+uses but those requests are not "reinited" (only the original requests).
