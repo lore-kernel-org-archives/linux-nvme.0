@@ -1,33 +1,42 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Mon, 28 Aug 2017 20:41:23 +0800
-Subject: [PATCH 07/10] nvme: track shared namespaces
-In-Reply-To: <20170823175815.3646-8-hch@lst.de>
-References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-8-hch@lst.de>
-Message-ID: <ec2a91f0-5825-9cfc-50ca-afea27fd8ef3@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 28 Aug 2017 16:30:57 +0300
+Subject: blk_mq_reinit_tagset during NVMEoF port toggling
+In-Reply-To: <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
+References: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
+ <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
+ <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
+Message-ID: <00e4d4a4-1cc4-9f22-0755-14b733548254@grimberg.me>
 
 
+>>> Hi guys,
+>>
+>> Hi Max, CCing linux-nvme.
+> Hi Sagi,
+>>
+>>> we have encountered a bug during our port toggling test with MP using 
+>>> NVMEoF over RDMA (1 IO queue repro it quickly).
+>>> We have been receiving local protection errors dumps after failing 
+>>> back to the port that became active again (it's not the 
+>>> retransmission issue we fixed in the past). After debugging it we saw 
+>>> that the requests have been doing a reinit process (dereg_mr/alloc_mr).
+>>> But somehow the req->mr->need_inval is still true in the beginning of 
+>>> nvme_rdma_queue_rq function. This shouldn't happen since we should 
+>>> have perform the dereg_mr/alloc_mr in the reinit func and set it to 
+>>> false.
+>>> We don't see this issue in kernel older than 4.11 so before bisecting:
+>>
+>> Which code base is this max?
+> The code base is kernel 4.13.0-rc3.
+>>
+>> is commit 842594c8775b585c58459e044708c0335b6aa6b7 applied?
+> Yes.
+>>
+>> if so, maybe it is possible that not all requests are being 
+>> reinitialized.
+>> Can you reproduce with the following applied:
+> We reproduced this issue with similar prints and we didn't see them.
+> blk_mq_reinit_tagset() went over all the the static requests.
 
-On 2017/8/24 1:58, Christoph Hellwig wrote:
-> +static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
-> +		struct nvme_id_ns *id)
-> +{
-> +	struct nvme_ctrl *ctrl = ns->ctrl;
-> +	bool is_shared = id->nmic & (1 << 0);
-> +	struct nvme_ns_head *head = NULL;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&ctrl->subsys->lock);
-> +	if (is_shared)
-> +		head = __nvme_find_ns_head(ctrl->subsys, nsid);
-
-If a namespace can be accessed by another subsystem,  the above line
-will ignore such namespace.
-
-Or does the NVMe/NVMf specification constrain that any namespace
-can only be accessed by a subsystem?
-
-More comments after testing will be sent later.
-
-Thanks
-Guan Junxiong
+If mr->need_inval is true in queue_rq it means that reinit was not
+called on it, did you see a request that performed reinit but
+still had need_inval == true?
