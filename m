@@ -1,40 +1,46 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 28 Aug 2017 10:23:33 +0300
-Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170823175815.3646-11-hch@lst.de>
-References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-11-hch@lst.de>
-Message-ID: <84429b00-300f-a36b-c4ac-b7d930ca6c7e@grimberg.me>
+Date: Mon, 28 Aug 2017 10:40:23 +0300
+Subject: blk_mq_reinit_tagset during NVMEoF port toggling
+In-Reply-To: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
+References: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
+Message-ID: <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
 
+> Hi guys,
 
-> This patch adds initial multipath support to the nvme driver.  For each
-> namespace we create a new block device node, which can be used to access
-> that namespace through any of the controllers that refer to it.
-> 
-> Currently we will always send I/O to the first available path, this will
-> be changed once the NVMe Asynchronous Namespace Access (ANA) TP is
-> ratified and implemented, at which point we will look at the ANA state
-> for each namespace.  Another possibility that was prototyped is to
-> use the path that is closes to the submitting NUMA code, which will be
-> mostly interesting for PCI, but might also be useful for RDMA or FC
-> transports in the future.  There is not plan to implement round robin
-> or I/O service time path selectors, as those are not scalable with
-> the performance rates provided by NVMe.
-> 
-> The multipath device will go away once all paths to it disappear,
-> any delay to keep it alive needs to be implemented at the controller
-> level.
-> 
-> TODO: implement sysfs interfaces for the new subsystem and
-> subsystem-namespace object.  Unless we can come up with something
-> better than sysfs here..
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+Hi Max, CCing linux-nvme.
 
-Christoph,
+> we have encountered a bug during our port toggling test with MP using 
+> NVMEoF over RDMA (1 IO queue repro it quickly).
+> We have been receiving local protection errors dumps after failing back 
+> to the port that became active again (it's not the retransmission issue 
+> we fixed in the past). After debugging it we saw that the requests have 
+> been doing a reinit process (dereg_mr/alloc_mr).
+> But somehow the req->mr->need_inval is still true in the beginning of 
+> nvme_rdma_queue_rq function. This shouldn't happen since we should have 
+> perform the dereg_mr/alloc_mr in the reinit func and set it to false.
+> We don't see this issue in kernel older than 4.11 so before bisecting:
 
-This is really taking a lot into the nvme driver. I'm not sure if
-this approach will be used in other block driver, but would it
-make sense to place the block_device node creation, the make_request
-and failover logic and maybe the path selection in the block layer
-leaving just the construction of the path mappings in nvme?
+Which code base is this max?
+
+is commit 842594c8775b585c58459e044708c0335b6aa6b7 applied?
+
+if so, maybe it is possible that not all requests are being reinitialized.
+Can you reproduce with the following applied:
+--
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index d0be72ccb091..420ef106057e 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -302,8 +302,10 @@ int blk_mq_reinit_tagset(struct blk_mq_tag_set *set)
+                         continue;
+
+                 for (j = 0; j < tags->nr_tags; j++) {
+-                       if (!tags->static_rqs[j])
++                       if (!tags->static_rqs[j]) {
++                               pr_info("passing rq %d\n", j);
+                                 continue;
++                       }
+
+                         ret = set->ops->reinit_request(set->driver_data,
+                                                 tags->static_rqs[j]);
+--
