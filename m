@@ -1,51 +1,42 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 28 Aug 2017 18:49:37 +0300
-Subject: blk_mq_reinit_tagset during NVMEoF port toggling
-In-Reply-To: <00e4d4a4-1cc4-9f22-0755-14b733548254@grimberg.me>
-References: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
- <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
- <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
- <00e4d4a4-1cc4-9f22-0755-14b733548254@grimberg.me>
-Message-ID: <1091216f-dfff-892c-f0b4-5c6ee009eeb0@mellanox.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 28 Aug 2017 09:51:38 -0600
+Subject: [GIT PULL] nvme update for Linux 4.14
+In-Reply-To: <20170828143343.evhchzfzam3whgwm@infradead.org>
+References: <20170828143343.evhchzfzam3whgwm@infradead.org>
+Message-ID: <199590da-6ff8-24de-abca-00f23608b93b@kernel.dk>
 
-
-
-On 8/28/2017 4:30 PM, Sagi Grimberg wrote:
+On 08/28/2017 08:33 AM, Christoph Hellwig wrote:
+> Hi Jens,
 > 
->>>> Hi guys,
->>>
->>> Hi Max, CCing linux-nvme.
->> Hi Sagi,
->>>
->>>> we have encountered a bug during our port toggling test with MP 
->>>> using NVMEoF over RDMA (1 IO queue repro it quickly).
->>>> We have been receiving local protection errors dumps after failing 
->>>> back to the port that became active again (it's not the 
->>>> retransmission issue we fixed in the past). After debugging it we 
->>>> saw that the requests have been doing a reinit process 
->>>> (dereg_mr/alloc_mr).
->>>> But somehow the req->mr->need_inval is still true in the beginning 
->>>> of nvme_rdma_queue_rq function. This shouldn't happen since we 
->>>> should have perform the dereg_mr/alloc_mr in the reinit func and set 
->>>> it to false.
->>>> We don't see this issue in kernel older than 4.11 so before bisecting:
->>>
->>> Which code base is this max?
->> The code base is kernel 4.13.0-rc3.
->>>
->>> is commit 842594c8775b585c58459e044708c0335b6aa6b7 applied?
->> Yes.
->>>
->>> if so, maybe it is possible that not all requests are being 
->>> reinitialized.
->>> Can you reproduce with the following applied:
->> We reproduced this issue with similar prints and we didn't see them.
->> blk_mq_reinit_tagset() went over all the the static requests.
+> below is the current set of NVMe updates for Linux 4.14.
 > 
-> If mr->need_inval is true in queue_rq it means that reinit was not
-> called on it, did you see a request that performed reinit but
-> still had need_inval == true?
+> The biggest bit comes from Sagi and refactors the RDMA driver to prepare
+> for more code sharing in the setup and teardown path.  But we have various
+> features and bug fixes from a lot of people as well.
+> 
+> The following changes since commit 16a5a480f067f945fd27bf91ffdce3f959b0d4b6:
+> 
+>   nvmet-fc: correct use after free on list teardown (2017-08-16 10:06:18 +0200)
+> 
+> are available in the git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.14
+> 
+> for you to fetch changes up to 16edd3d0272368eee5cac13356787c1f4d4eb255:
+> 
+>   nvme: honor RTD3 Entry Latency for shutdowns (2017-08-28 16:29:29 +0200)
 
-No. The requests that are "reinited" are the static_rqs.
- From what I saw in the code, the MP has a cloned request queue that it 
-uses but those requests are not "reinited" (only the original requests).
+What is this against, exactly? It doesn't merge cleanly with my 4.14 branch.
+>From a quick look, looks like it's conflicting with:
+
+commit d09f2b45f346f0a9e5e1b5fcea531b1b393671dc
+Author: Sagi Grimberg <sagi at grimberg.me>
+Date:   Sun Jul 2 10:56:43 2017 +0300
+
+    nvme: split nvme_uninit_ctrl into stop and uninit
+
+which went into master after for-4.14/block was forked off. I can fix it
+up, but would be best if you did it.
+
+-- 
+Jens Axboe
