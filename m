@@ -1,40 +1,112 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Mon, 28 Aug 2017 11:34:54 +0300
-Subject: blk_mq_reinit_tagset during NVMEoF port toggling
-In-Reply-To: <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
-References: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
- <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
-Message-ID: <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 28 Aug 2017 10:47:18 +0200
+Subject: [PATCH for-4.13] nvme-pci: use dma memory for the host memory buffer
+ descriptors
+Message-ID: <20170828084718.29007-1-hch@lst.de>
 
-On 8/28/2017 10:40 AM, Sagi Grimberg wrote:
->> Hi guys,
->
-> Hi Max, CCing linux-nvme.
-Hi Sagi,
->
->> we have encountered a bug during our port toggling test with MP using 
->> NVMEoF over RDMA (1 IO queue repro it quickly).
->> We have been receiving local protection errors dumps after failing 
->> back to the port that became active again (it's not the 
->> retransmission issue we fixed in the past). After debugging it we saw 
->> that the requests have been doing a reinit process (dereg_mr/alloc_mr).
->> But somehow the req->mr->need_inval is still true in the beginning of 
->> nvme_rdma_queue_rq function. This shouldn't happen since we should 
->> have perform the dereg_mr/alloc_mr in the reinit func and set it to 
->> false.
->> We don't see this issue in kernel older than 4.11 so before bisecting:
->
-> Which code base is this max?
-The code base is kernel 4.13.0-rc3.
->
-> is commit 842594c8775b585c58459e044708c0335b6aa6b7 applied?
-Yes.
->
-> if so, maybe it is possible that not all requests are being 
-> reinitialized.
-> Can you reproduce with the following applied:
-We reproduced this issue with similar prints and we didn't see them.
-blk_mq_reinit_tagset() went over all the the static requests.
+The NVMe 1.3 specification says in section 5.21.1.13:
 
-Thanks,
-Israel.
+"After a successful completion of a Set Features enabling the host memory
+ buffer, the host shall not write to the associated host memory region,
+ buffer size, or descriptor list until the host memory buffer has been
+ disabled."
+
+While this doesn't state that the descriptor list must remain accessible
+to the device it certainly implies it must remaing readable by the device.
+
+So switch to a dma coherent allocation for the descriptor list just to be
+safe - it's not like the cost for it matters compared to the actual
+memory buffers.
+
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 925467b31a33..e5d0a394e49a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -109,6 +109,7 @@ struct nvme_dev {
+ 	/* host memory buffer support: */
+ 	u64 host_mem_size;
+ 	u32 nr_host_mem_descs;
++	dma_addr_t host_mem_descs_dma;
+ 	struct nvme_host_mem_buf_desc *host_mem_descs;
+ 	void **host_mem_desc_bufs;
+ };
+@@ -1565,16 +1566,10 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
+ 
+ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ {
+-	size_t len = dev->nr_host_mem_descs * sizeof(*dev->host_mem_descs);
++	u64 dma_addr = dev->host_mem_descs_dma;
+ 	struct nvme_command c;
+-	u64 dma_addr;
+ 	int ret;
+ 
+-	dma_addr = dma_map_single(dev->dev, dev->host_mem_descs, len,
+-			DMA_TO_DEVICE);
+-	if (dma_mapping_error(dev->dev, dma_addr))
+-		return -ENOMEM;
+-
+ 	memset(&c, 0, sizeof(c));
+ 	c.features.opcode	= nvme_admin_set_features;
+ 	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
+@@ -1591,7 +1586,6 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 			 "failed to set host mem (err %d, flags %#x).\n",
+ 			 ret, bits);
+ 	}
+-	dma_unmap_single(dev->dev, dma_addr, len, DMA_TO_DEVICE);
+ 	return ret;
+ }
+ 
+@@ -1609,7 +1603,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 
+ 	kfree(dev->host_mem_desc_bufs);
+ 	dev->host_mem_desc_bufs = NULL;
+-	kfree(dev->host_mem_descs);
++	dma_free_coherent(dev->dev,
++			dev->nr_host_mem_descs * sizeof(*dev->host_mem_descs),
++			dev->host_mem_descs, dev->host_mem_descs_dma);
+ 	dev->host_mem_descs = NULL;
+ }
+ 
+@@ -1617,6 +1613,7 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
+ {
+ 	struct nvme_host_mem_buf_desc *descs;
+ 	u32 chunk_size, max_entries, len;
++	dma_addr_t descs_dma;
+ 	int i = 0;
+ 	void **bufs;
+ 	u64 size = 0, tmp;
+@@ -1627,7 +1624,8 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
+ 	tmp = (preferred + chunk_size - 1);
+ 	do_div(tmp, chunk_size);
+ 	max_entries = tmp;
+-	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
++	descs = dma_zalloc_coherent(dev->dev, max_entries * sizeof(*descs),
++			&descs_dma, GFP_KERNEL);
+ 	if (!descs)
+ 		goto out;
+ 
+@@ -1661,6 +1659,7 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
+ 	dev->nr_host_mem_descs = i;
+ 	dev->host_mem_size = size;
+ 	dev->host_mem_descs = descs;
++	dev->host_mem_descs_dma = descs_dma;
+ 	dev->host_mem_desc_bufs = bufs;
+ 	return 0;
+ 
+@@ -1674,7 +1673,8 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
+ 
+ 	kfree(bufs);
+ out_free_descs:
+-	kfree(descs);
++	dma_free_coherent(dev->dev, max_entries * sizeof(*dev->host_mem_descs),
++			descs, descs_dma);
+ out:
+ 	/* try a smaller chunk size if we failed early */
+ 	if (chunk_size >= PAGE_SIZE * 2 && (i == 0 || size < min)) {
+-- 
+2.11.0
