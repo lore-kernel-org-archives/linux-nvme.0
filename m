@@ -1,31 +1,41 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 28 Aug 2017 12:05:38 -0600
-Subject: [GIT PULL] nvme update for Linux 4.14
-In-Reply-To: <20170828175744.GA26713@infradead.org>
-References: <20170828143343.evhchzfzam3whgwm@infradead.org>
- <199590da-6ff8-24de-abca-00f23608b93b@kernel.dk>
- <20170828155336.GA5302@infradead.org>
- <3c45e618-6a96-6443-258a-dac8f93ccc7a@kernel.dk>
- <20170828155925.GA32254@infradead.org>
- <44a35d51-48d5-7181-df7e-b75fcbc053d9@kernel.dk>
- <20170828175744.GA26713@infradead.org>
-Message-ID: <3c714d50-5b75-6a94-2fad-3ab491afc1cf@kernel.dk>
+From: daniel.verkamp@intel.com (Verkamp, Daniel)
+Date: Mon, 28 Aug 2017 18:10:44 +0000
+Subject: [PATCH] nvmet: Add support for HOST_ID feature.
+In-Reply-To: <859a5a5d-9aa1-44e6-7d67-42fed0339a8b@grimberg.me>
+References: <1503922057-1141-1-git-send-email-omri@excelero.com>
+ <859a5a5d-9aa1-44e6-7d67-42fed0339a8b@grimberg.me>
+Message-ID: <A5F28D4A728A7E41839CDC5C3B5A01E8872735FF@FMSMSX103.amr.corp.intel.com>
 
-On 08/28/2017 11:57 AM, Christoph Hellwig wrote:
-> On Mon, Aug 28, 2017@10:03:39AM -0600, Jens Axboe wrote:
->> But one rock is shittier than the other. If you based it against
->> 4.14, then at least I only have to resolve the the problem once.
->>
->> The real problem is that the patch that went into master had
->> cleanups too. You should push back against that, since it will
->> inevitably cause problems by diverging 4.13 and 4.14 more than
->> absolutely necessary. Having conflicts in nvme for the block tree
->> is not isolated to this series, unfortunately.
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
+> Of Sagi Grimberg
+> Sent: Monday, August 28, 2017 6:44 AM
+> To: Omri Mann <omri at excelero.com>; linux-nvme at lists.infradead.org
+> Cc: Mike Christie <mchristi at redhat.com>
+> Subject: Re: [PATCH] nvmet: Add support for HOST_ID feature.
 > 
-> Given that the update doesn't appear to be in your for-next branch
-> yet: do you want me to rebase it and resend?
+> > diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> > index e3b244c..841f35d 100644
+> > --- a/drivers/nvme/target/nvmet.h
+> > +++ b/drivers/nvme/target/nvmet.h
+> > @@ -132,6 +132,7 @@ struct nvmet_ctrl {
+> >
+> >   	char			subsysnqn[NVMF_NQN_FIELD_LEN];
+> >   	char			hostnqn[NVMF_NQN_FIELD_LEN];
+> > +	u64			host_id;
+> 
+> I'd move it to the first cacheline given it will be accessed
+> in the hot path.
+> 
+> Other than that, looks fine,
+> 
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Yes please.
+The specification says that NVMe-oF must use a 128-bit host ID - from NVMe 1.3, 5.21.1.19.2:
 
--- 
-Jens Axboe
+"The Host Identifier is a mandatory feature in NVMe over Fabrics.  The Host Identifier shall be an extended 128-bit Host Identifier." 
+
+The target should also check the EXHID bit in the Get Features - Host Identifier command.
+
+Thanks,
+-- Daniel Verkamp
