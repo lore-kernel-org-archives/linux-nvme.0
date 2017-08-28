@@ -1,53 +1,39 @@
-From: omri@excelero.com (Omri Mann)
-Date: Mon, 28 Aug 2017 17:20:24 +0300
-Subject: [PATCH V2] nvmet: Add support for HOST_ID feature.
-Message-ID: <1503930024-18829-1-git-send-email-omri@excelero.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 28 Aug 2017 16:24:44 +0200
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <e17a3f51-30ed-9588-eac3-5e76cab80848@grimberg.me>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+ <84429b00-300f-a36b-c4ac-b7d930ca6c7e@grimberg.me>
+ <20170828090620.GA4529@lst.de>
+ <e17a3f51-30ed-9588-eac3-5e76cab80848@grimberg.me>
+Message-ID: <20170828142444.GA29181@lst.de>
 
-Add host_id feature to NVMeoF targets. This will be required in order to
-support reservations.
-Signed-off-by: Omri Mann <omri at excelero.com>
----
- drivers/nvme/target/admin-cmd.c | 7 +++++++
- drivers/nvme/target/nvmet.h     | 2 ++
- 2 files changed, 9 insertions(+)
+On Mon, Aug 28, 2017@04:40:43PM +0300, Sagi Grimberg wrote:
+> I thought your multipathing code would really live in the block
+> layer and only require something really basic from nvme (which could
+> easily be applied on other drivers). But I do understand it might
+> create a lot of churn.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index a53bb66..071de0b 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -461,6 +461,10 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
- 		nvmet_set_result(req, req->sq->ctrl->kato);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		status = nvmet_copy_from_sgl(req, 0, &req->sq->ctrl->host_id,
-+						8);
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-@@ -509,6 +513,9 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 	case NVME_FEAT_KATO:
- 		nvmet_set_result(req, req->sq->ctrl->kato * 1000);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		status = nvmet_copy_to_sgl(req, 0, &req->sq->ctrl->host_id, 8);
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index e3b244c..246ef9c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -110,6 +110,8 @@ struct nvmet_ctrl {
- 	struct nvmet_cq		**cqs;
- 	struct nvmet_sq		**sqs;
- 
-+	u64			host_id;
-+
- 	struct mutex		lock;
- 	u64			cap;
- 	u32			cc;
--- 
-1.8.3.1
+The earlier versions did a lot more in common code, but I gradually
+moved away from that:
+
+ - first I didn't have a separate queue, but just bounced I/O between
+   sibling queues.  So there was no new make_request based queue,
+   and we had to track the relations in the block layer, with a
+   callback to check the path status
+ - I got rid of the non-trivial path selector
+
+So in the end very little block layer code remained.  But then again
+very little nvme code remained either..
+
+> btw, why are partial completions something that can't be done
+> without cloning the bio? is it possible to clone the bio once from the
+> completion flow when you see that you got a partial completion?
+
+The problem with partial completions is that blk_update_request
+completes bios as soon as it get enough bytes to finish them.
+
+This should not be an unsolvable problem, but it will be a bit messy
+at least.  But then again I hope that no new protocols will be designed
+with partial completions - SCSI is pretty special in that regard.
