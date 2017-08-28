@@ -1,42 +1,48 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 28 Aug 2017 16:30:57 +0300
-Subject: blk_mq_reinit_tagset during NVMEoF port toggling
-In-Reply-To: <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
-References: <85228a2d-053f-cf79-292e-725aad6ee5fa@mellanox.com>
- <e47ee442-0361-eb7c-6da3-e3b9f61015d5@grimberg.me>
- <72b1ad70-707e-7f2f-b2a7-55bd21754c57@mellanox.com>
-Message-ID: <00e4d4a4-1cc4-9f22-0755-14b733548254@grimberg.me>
+Date: Mon, 28 Aug 2017 16:40:43 +0300
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170828090620.GA4529@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+ <84429b00-300f-a36b-c4ac-b7d930ca6c7e@grimberg.me>
+ <20170828090620.GA4529@lst.de>
+Message-ID: <e17a3f51-30ed-9588-eac3-5e76cab80848@grimberg.me>
 
 
->>> Hi guys,
->>
->> Hi Max, CCing linux-nvme.
-> Hi Sagi,
->>
->>> we have encountered a bug during our port toggling test with MP using 
->>> NVMEoF over RDMA (1 IO queue repro it quickly).
->>> We have been receiving local protection errors dumps after failing 
->>> back to the port that became active again (it's not the 
->>> retransmission issue we fixed in the past). After debugging it we saw 
->>> that the requests have been doing a reinit process (dereg_mr/alloc_mr).
->>> But somehow the req->mr->need_inval is still true in the beginning of 
->>> nvme_rdma_queue_rq function. This shouldn't happen since we should 
->>> have perform the dereg_mr/alloc_mr in the reinit func and set it to 
->>> false.
->>> We don't see this issue in kernel older than 4.11 so before bisecting:
->>
->> Which code base is this max?
-> The code base is kernel 4.13.0-rc3.
->>
->> is commit 842594c8775b585c58459e044708c0335b6aa6b7 applied?
-> Yes.
->>
->> if so, maybe it is possible that not all requests are being 
->> reinitialized.
->> Can you reproduce with the following applied:
-> We reproduced this issue with similar prints and we didn't see them.
-> blk_mq_reinit_tagset() went over all the the static requests.
+>> the make_request
+> 
+> That basically just does a lookup (in a data structure we need for
+> tracking the siblings inside nvme anyway) and the submits the
+> I/O again.  The generic code all is in generic_make_request_fast.
+> There are two more things which could move into common code, one
+> reasonable, the other not:
+> 
+>   (1) the whole requeue_list list logic.  I thought about moving this
+>       to the block layer as I'd also have some other use cases for it,
+>       but decided to wait until those materialize to see if I'd really
+>       need it.
+>   (2) turning the logic inside out, e.g. providing a generic make_request
+>       and supplying a find_path callback to it.  This would require (1)
+>       but even then we'd save basically no code, add an indirect call
+>       in the fast path and make things harder to read.  This actually
+>       is how I started out and didn't like it.
+> 
+>> and failover logic
+> 
+> The big thing about the failover logic is looking a the detailed error
+> codes and changing the controller state, all of which is fundamentally
+> driver specific.  The only thing that could reasonably be common is
+> the requeue_list handling as mentioned above.  Note that this will
+> become even more integrated with the nvme driver once ANA support
+> lands.
 
-If mr->need_inval is true in queue_rq it means that reinit was not
-called on it, did you see a request that performed reinit but
-still had need_inval == true?
+Not arguing with you at all, you obviously gave it a lot of thought.
+
+I thought your multipathing code would really live in the block
+layer and only require something really basic from nvme (which could
+easily be applied on other drivers). But I do understand it might
+create a lot of churn.
+
+btw, why are partial completions something that can't be done
+without cloning the bio? is it possible to clone the bio once from the
+completion flow when you see that you got a partial completion?
