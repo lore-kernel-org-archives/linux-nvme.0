@@ -1,39 +1,73 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 Aug 2017 10:54:47 +0200
-Subject: [PATCH 08/10] block: provide a generic_make_request_fast helper
-In-Reply-To: <326ee3b3-441f-e093-6d6f-7356e1ff8487@grimberg.me>
+Date: Mon, 28 Aug 2017 11:06:20 +0200
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <84429b00-300f-a36b-c4ac-b7d930ca6c7e@grimberg.me>
 References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-9-hch@lst.de>
- <326ee3b3-441f-e093-6d6f-7356e1ff8487@grimberg.me>
-Message-ID: <20170828085447.GB4358@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+ <84429b00-300f-a36b-c4ac-b7d930ca6c7e@grimberg.me>
+Message-ID: <20170828090620.GA4529@lst.de>
 
-On Mon, Aug 28, 2017@10:00:35AM +0300, Sagi Grimberg wrote:
->> This helper allows reinserting a bio into a new queue without much
->> overhead, but requires all queue limits to be the same for the upper
->> and lower queues, and it does not provide any recursion preventions,
->> which requires the caller to not split the bio.
->
-> Isn't the same limits constraint too restrictive?
->
-> Say I have two paths to the same namespace via two different HBAs, each
-> with its own virt_boundary capability for example? That would require us
-> to split failover bio wouldn't it?
+On Mon, Aug 28, 2017@10:23:33AM +0300, Sagi Grimberg wrote:
+> This is really taking a lot into the nvme driver.
 
-Uh oh - different transports for the same subsystem will be intereting.
-For one it's not specified anywhere so I'd like to kick off a discussion
-on the working group mailing list about it.
+This patch adds about 100 lines of code, out of which 1/4th is the
+parsing of status codes.  I don't think it's all that much..
 
-That being said ->make_request basically doesn't care about actual
-limits at all, it mostly care about support features (e.g. discard, fua,
-etc).  So I think a lot of these limits could porbably be lifted,
-but I'd need to add the check to generic_make_request_checks back.
+> I'm not sure if
+> this approach will be used in other block driver, but would it
+> make sense to place the block_device node creation,
 
->> +/*
->> + * Fast-path version of generic_make_request.
->
-> generic_make_request is also called in the fast-path, maybe reword it
-> to: "Fast version of generic_make_request"
+I really want to reduce the amount of boilerplate code for creating
+a block queue and I have some ideas for that.  But that's not in
+any way related to this multi-path code.
 
-Yeah.  Maybe generic_make_request_direct or direct_make_request
-is a better name as it describes the recursion avoidance bypassing
-a little better.
+> the make_request
+
+That basically just does a lookup (in a data structure we need for
+tracking the siblings inside nvme anyway) and the submits the
+I/O again.  The generic code all is in generic_make_request_fast.
+There are two more things which could move into common code, one
+reasonable, the other not:
+
+ (1) the whole requeue_list list logic.  I thought about moving this
+     to the block layer as I'd also have some other use cases for it,
+     but decided to wait until those materialize to see if I'd really
+     need it.
+ (2) turning the logic inside out, e.g. providing a generic make_request
+     and supplying a find_path callback to it.  This would require (1)
+     but even then we'd save basically no code, add an indirect call
+     in the fast path and make things harder to read.  This actually
+     is how I started out and didn't like it.
+
+> and failover logic
+
+The big thing about the failover logic is looking a the detailed error
+codes and changing the controller state, all of which is fundamentally
+driver specific.  The only thing that could reasonably be common is
+the requeue_list handling as mentioned above.  Note that this will
+become even more integrated with the nvme driver once ANA support
+lands.
+
+> and maybe the path selection in the block layer
+> leaving just the construction of the path mappings in nvme?
+
+The point is that path selection fundamentally depends on your
+actual protocol.  E.g. for NVMe we now look at the controller state
+as that's what our keep alive work on, and what reflects that status
+in PCIe. We could try to communicate this up, but it would just lead
+to more data structure that get out of sync.  And this will become
+much worse with ANA where we have even more fine grained state.
+In the end path selection right now is less than 20 lines of code.
+
+Path selection is complicated when you want non-trivial path selector
+algorithms like round robin or service time, but I'd really avoid having
+those on nvme - we already have multiple queues to go beyong the limits
+of a single queue and use blk-mq for that, and once we're beyond the
+limits of a single transport path for performance reasons I'd much
+rather rely on ANA, numa nodes or static partitioning of namepsaces
+than trying to do dynamic decicions in the fast path.  But if I don't
+get what I want there and we'll need more complicated algorithms they
+absolutely should be in common code.  In fact one of my earlier protoypes
+moved the dm-mpath path selector algorithms to core block code and
+tried to use them - it just turned out enabling them was pretty much
+pointless.
