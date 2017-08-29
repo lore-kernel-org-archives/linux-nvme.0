@@ -1,21 +1,29 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 29 Aug 2017 09:10:35 -0600
-Subject: [GIT PULL] nvme update for Linux 4.14, take 2
-In-Reply-To: <20170829150507.rjixn6uf3id6kltx@infradead.org>
-References: <20170829150507.rjixn6uf3id6kltx@infradead.org>
-Message-ID: <9a27048d-1252-985f-c905-b738d709b204@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 29 Aug 2017 11:41:38 -0400
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170829145559.GA32760@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+ <20170829145417.GA4428@localhost.localdomain>
+ <20170829145559.GA32760@lst.de>
+Message-ID: <20170829154138.GB4428@localhost.localdomain>
 
-On 08/29/2017 09:05 AM, Christoph Hellwig wrote:
-> Hi Jens,
+On Tue, Aug 29, 2017@04:55:59PM +0200, Christoph Hellwig wrote:
+> On Tue, Aug 29, 2017@10:54:17AM -0400, Keith Busch wrote:
+> > It also looks like new submissions will get a new path only from the
+> > fact that the original/primary is being reset. The controller reset
+> > itself seems a bit heavy-handed. Can we just set head->current_path to
+> > the next active controller in the list?
 > 
-> below is the current set of NVMe updates for Linux 4.14, now against your
-> postmerge branch, and with three more patches.
-> 
-> The biggest bit comes from Sagi and refactors the RDMA driver to prepare
-> for more code sharing in the setup and teardown path.  But we have various
-> features and bug fixes from a lot of people as well.
+> For ANA we'll have to do that anyway, but if we got a failure
+> that clearly indicates a path failure what benefit is there in not
+> resetting the controller?  But yeah, maybe we can just switch the
+> path for non-ANA controllers and wait for timeouts to do their work.
 
-Pulled, thanks.
+Okay, sounds reasonable.
 
--- 
-Jens Axboe
+Speaking of timeouts, nvme_req_needs_retry will fail the command
+immediately rather than try the alternate path if it was cancelled due
+to timeout handling. Should we create a new construct for a command's
+total time separate from recovery timeout so we may try an alternate
+paths?
