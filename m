@@ -1,91 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 28 Aug 2017 18:03:00 -0400
-Subject: [PATCH] nvme: Use metadata for passthrough commands
-Message-ID: <1503957780-12905-1-git-send-email-keith.busch@intel.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Tue, 29 Aug 2017 10:42:18 +0800
+Subject: [PATCH 07/10] nvme: track shared namespaces
+In-Reply-To: <20170828143011.GA29260@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-8-hch@lst.de>
+ <ec2a91f0-5825-9cfc-50ca-afea27fd8ef3@huawei.com>
+ <20170828143011.GA29260@lst.de>
+Message-ID: <33a56620-f615-71b0-9321-bde8494132db@huawei.com>
 
-The ioctls' struct allows the user to provide a metadata address and
-length for a passthrough command. This patch uses these values that were
-previously ignored and deletes the now unused wrapper function.
+Hi, Christoph
 
-Note the implementation currently requires a gendisk so will not work
-for admin commands.
+On 2017/8/28 22:30, Christoph Hellwig wrote:
+> On Mon, Aug 28, 2017@08:41:23PM +0800, Guan Junxiong wrote:
+>> If a namespace can be accessed by another subsystem,  the above line
+>> will ignore such namespace.
+> And that's intentional.
+>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 21 +++++++--------------
- drivers/nvme/host/nvme.h |  7 -------
- 2 files changed, 7 insertions(+), 21 deletions(-)
+As for the __nvme_find_ns_head function, can it lookup the namespace
+globally, not in the current subsytem. Take hypermetro scenario for
+example, two namespaces which should be viewed as the same namespaces
+from the database application but exist in two different cities respectively.
+Some vendors maybe specify those two namespaces with the same UUID.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0f3d4bf..df282e4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -704,10 +704,10 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
- 
--int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void __user *ubuffer, unsigned bufflen,
--		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
--		u32 *result, unsigned timeout)
-+static int nvme_submit_user_cmd(struct request_queue *q,
-+		struct nvme_command *cmd, void __user *ubuffer,
-+		unsigned bufflen, void __user *meta_buffer, unsigned meta_len,
-+		u32 meta_seed, u32 *result, unsigned timeout)
- {
- 	bool write = nvme_is_write(cmd);
- 	struct nvme_ns *ns = q->queuedata;
-@@ -790,14 +790,6 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	return ret;
- }
- 
--int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void __user *ubuffer, unsigned bufflen, u32 *result,
--		unsigned timeout)
--{
--	return __nvme_submit_user_cmd(q, cmd, ubuffer, bufflen, NULL, 0, 0,
--			result, timeout);
--}
--
- static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- {
- 	struct nvme_ctrl *ctrl = rq->end_io_data;
-@@ -1087,7 +1079,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	c.rw.apptag = cpu_to_le16(io.apptag);
- 	c.rw.appmask = cpu_to_le16(io.appmask);
- 
--	return __nvme_submit_user_cmd(ns->queue, &c,
-+	return nvme_submit_user_cmd(ns->queue, &c,
- 			(void __user *)(uintptr_t)io.addr, length,
- 			metadata, meta_len, io.slba, NULL, 0);
- }
-@@ -1125,7 +1117,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
--			&cmd.result, timeout);
-+			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata,
-+			0, &cmd.result, timeout);
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
- 			return -EFAULT;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1fc35de..194b4c8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -342,13 +342,6 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
- 		unsigned timeout, int qid, int at_head, int flags);
--int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void __user *ubuffer, unsigned bufflen, u32 *result,
--		unsigned timeout);
--int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void __user *ubuffer, unsigned bufflen,
--		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
--		u32 *result, unsigned timeout);
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
--- 
-2.5.5
+In addition, could you add a switch to turn on/off finding namespaces in
+a subsystem-wide level or globally?
+
+>> Or does the NVMe/NVMf specification constrain that any namespace
+>> can only be accessed by a subsystem?
+> Yes, inside the NVMe spec a Namespace is contained inside a Subsystem.
+> That doesn't preclude other ways to access the LBAs, but they are outside
+> the specification (e.g. also exporting them as SCSI).
+
+Can namespace be shared between two subsystem?  If not, for hypermetro scenario,
+we need keep more information of a storage array in city A synchronized with the other
+in city B.
