@@ -1,69 +1,135 @@
-From: omri@excelero.com (Omri Mann)
-Date: Tue, 29 Aug 2017 12:13:02 +0300
-Subject: [PATCH V3] nvmet: Add support for HOST_ID feature.
-Message-ID: <1503997982-13175-1-git-send-email-omri@excelero.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 29 Aug 2017 11:30:55 +0200
+Subject: [PATCH] nvme: Use metadata for passthrough commands
+In-Reply-To: <1503957780-12905-1-git-send-email-keith.busch@intel.com>
+References: <1503957780-12905-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170829093055.GA12334@lst.de>
 
-Add hostid feature to NVMeoF targets. This will be required in order to
-support reservations.
-Signed-off-by: Omri Mann <omri at excelero.com>
+Btw, what do you think about throwing in a patch liks this if we're
+touching the area anyway?
+
 ---
- drivers/nvme/target/admin-cmd.c   | 10 ++++++++++
- drivers/nvme/target/fabrics-cmd.c |  1 +
- drivers/nvme/target/nvmet.h       |  2 ++
- 3 files changed, 13 insertions(+)
+>From 5f7f9b6c2f14be938d178cd39ccc92eea61044ab Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 29 Aug 2017 11:24:52 +0200
+Subject: nvme: factor metadata handling out of __nvme_submit_user_cmd
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index a53bb66..b98ec5e 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -461,6 +461,9 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
- 		nvmet_set_result(req, req->sq->ctrl->kato);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		status = NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-@@ -509,6 +512,13 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 	case NVME_FEAT_KATO:
- 		nvmet_set_result(req, req->sq->ctrl->kato * 1000);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		if (!(le32_to_cpu(req->cmd->common.cdw10[1]) & 1))
-+			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		else
-+			status = nvmet_copy_to_sgl(req, 0,
-+					&req->sq->ctrl->hostid, 16);
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 3cc1726..859a667 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -154,6 +154,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 				  le32_to_cpu(c->kato), &ctrl);
- 	if (status)
- 		goto out;
-+	uuid_copy(&ctrl->hostid, &d->hostid);
+Keep the metadata code in a separate helper instead of making the
+main function more complicated.
+
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/core.c | 78 +++++++++++++++++++++++++-----------------------
+ 1 file changed, 41 insertions(+), 37 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b0dd58db110e..8e0c041cdc78 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -600,6 +600,40 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ }
+ EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
  
- 	status = nvmet_install_queue(ctrl, req);
- 	if (status) {
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index e3b244c..ae7c6b7 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -110,6 +110,8 @@ struct nvmet_ctrl {
- 	struct nvmet_cq		**cqs;
- 	struct nvmet_sq		**sqs;
- 
-+	uuid_t			hostid;
++static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
++		unsigned len, u32 seed, bool write)
++{
++	struct bio_integrity_payload *bip;
++	int ret = -ENOMEM;
++	void *buf;
 +
- 	struct mutex		lock;
- 	u64			cap;
- 	u32			cc;
++	buf = kmalloc(len, GFP_KERNEL);
++	if (!buf)
++		goto out;
++
++	ret = -EFAULT;
++	if (write && copy_from_user(buf, buf, len))
++		goto out_free_meta;
++
++	bip = bio_integrity_alloc(bio, GFP_KERNEL, 1);
++	if (IS_ERR(bip)) {
++		ret = PTR_ERR(bip);
++		goto out_free_meta;
++	}
++
++	bip->bip_iter.bi_size = len;
++	bip->bip_iter.bi_sector = seed;
++	ret = bio_integrity_add_page(bio, virt_to_page(buf), len,
++			offset_in_page(buf));
++	if (ret == len)
++		return buf;
++	ret = -ENOMEM;
++out_free_meta:
++	kfree(buf);
++out:
++	return ERR_PTR(ret);
++}
++
+ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void __user *ubuffer, unsigned bufflen,
+ 		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
+@@ -625,46 +659,17 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		if (ret)
+ 			goto out;
+ 		bio = req->bio;
+-
+-		if (!disk)
+-			goto submit;
+ 		bio->bi_disk = disk;
+-
+-		if (meta_buffer && meta_len) {
+-			struct bio_integrity_payload *bip;
+-
+-			meta = kmalloc(meta_len, GFP_KERNEL);
+-			if (!meta) {
+-				ret = -ENOMEM;
++		if (disk && meta_buffer && meta_len) {
++			meta = nvme_add_user_metadata(bio, meta_buffer, meta_len,
++					meta_seed, write);
++			if (IS_ERR(meta)) {
++				ret = PTR_ERR(meta);
+ 				goto out_unmap;
+ 			}
+-
+-			if (write) {
+-				if (copy_from_user(meta, meta_buffer,
+-						meta_len)) {
+-					ret = -EFAULT;
+-					goto out_free_meta;
+-				}
+-			}
+-
+-			bip = bio_integrity_alloc(bio, GFP_KERNEL, 1);
+-			if (IS_ERR(bip)) {
+-				ret = PTR_ERR(bip);
+-				goto out_free_meta;
+-			}
+-
+-			bip->bip_iter.bi_size = meta_len;
+-			bip->bip_iter.bi_sector = meta_seed;
+-
+-			ret = bio_integrity_add_page(bio, virt_to_page(meta),
+-					meta_len, offset_in_page(meta));
+-			if (ret != meta_len) {
+-				ret = -ENOMEM;
+-				goto out_free_meta;
+-			}
+ 		}
+ 	}
+- submit:
++
+ 	blk_execute_rq(req->q, disk, req, 0);
+ 	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
+ 		ret = -EINTR;
+@@ -675,9 +680,8 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (meta && !ret && !write) {
+ 		if (copy_to_user(meta_buffer, meta, meta_len))
+ 			ret = -EFAULT;
++		kfree(meta);
+ 	}
+- out_free_meta:
+-	kfree(meta);
+  out_unmap:
+ 	if (bio)
+ 		blk_rq_unmap_user(bio);
 -- 
-1.8.3.1
+2.11.0
