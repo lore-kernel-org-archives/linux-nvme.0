@@ -1,47 +1,48 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 29 Aug 2017 08:34:29 -0600
-Subject: [GIT PULL] nvme update for Linux 4.14
-In-Reply-To: <bcceb1b2-2b17-7a98-a459-5ba0bc661e74@grimberg.me>
-References: <20170828143343.evhchzfzam3whgwm@infradead.org>
- <199590da-6ff8-24de-abca-00f23608b93b@kernel.dk>
- <20170828155336.GA5302@infradead.org>
- <3c45e618-6a96-6443-258a-dac8f93ccc7a@kernel.dk>
- <20170828155925.GA32254@infradead.org>
- <44a35d51-48d5-7181-df7e-b75fcbc053d9@kernel.dk>
- <20170828175744.GA26713@infradead.org>
- <3c714d50-5b75-6a94-2fad-3ab491afc1cf@kernel.dk>
- <20170828184035.GA11383@infradead.org>
- <379b013e-4762-6871-e9b2-861772143817@kernel.dk>
- <20170828194325.GA3447@infradead.org>
- <bcceb1b2-2b17-7a98-a459-5ba0bc661e74@grimberg.me>
-Message-ID: <b0471487-4bf6-4040-7e21-a23cef5bc96c@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 29 Aug 2017 10:54:17 -0400
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170823175815.3646-11-hch@lst.de>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+Message-ID: <20170829145417.GA4428@localhost.localdomain>
 
-On 08/28/2017 01:56 PM, Sagi Grimberg wrote:
->>>> Meh, I don't think that'll work out - the rdma refactoring from
->>>> Sagi deeply depends on the un?nit_ctrl split..
->>>
->>> I can do a for-4.14/block-postmerge branch, which is for-4.14/block
->>> with -rc7 pulled in. Should apply on top of that.
->>>
->>> Did that branch, doesn't apply. But should be easier for you to
->>> rebase on top of that branch. Pushed it out.
->>
->> I've pushed out a nvme-4.14-rebase branch with the rebase, but I didn't
->> have time for non-trivial testing yet, that'll have to wait for
->> tomorrow.
->>
->> Sagi: can you double check the resolutions around blk_mq_reinit_tagse?
-> 
-> Thanks for doing it Christoph,
-> 
-> It looks good to me, there is one glitch in patch:
-> "nvme-rdma: reuse configure/destroy_admin_queue"
-> 
-> The "nvme_rdma_configure_admin_queue" block needs to
-> be squashed into "nvme-rdma: don't free tagset on resets> 
-> I'll do that now.
+On Wed, Aug 23, 2017@07:58:15PM +0200, Christoph Hellwig wrote:
+> +	/* Anything else could be a path failure, so should be retried */
+> +	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+> +	blk_steal_bios(&ns->head->requeue_list, req);
+> +	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+> +
+> +	nvme_reset_ctrl(ns->ctrl);
+> +	kblockd_schedule_work(&ns->head->requeue_work);
+> +	return true;
+> +}
 
-Let me know when it's ready.
+It appears this isn't going to cause the path selection to failover for
+the requeued work. The bio's bi_disk is unchanged from the failed path when the
+requeue_work submits the bio again so it will use the same path, right? 
 
--- 
-Jens Axboe
+It also looks like new submissions will get a new path only from the
+fact that the original/primary is being reset. The controller reset
+itself seems a bit heavy-handed. Can we just set head->current_path to
+the next active controller in the list?
+
+
+> +static void nvme_requeue_work(struct work_struct *work)
+> +{
+> +	struct nvme_ns_head *head =
+> +		container_of(work, struct nvme_ns_head, requeue_work);
+> +	struct bio *bio, *next;
+> +
+> +	spin_lock_irq(&head->requeue_lock);
+> +	next = bio_list_get(&head->requeue_list);
+> +	spin_unlock_irq(&head->requeue_lock);
+> +
+> +	while ((bio = next) != NULL) {
+> +		next = bio->bi_next;
+> +		bio->bi_next = NULL;
+> +		generic_make_request_fast(bio);
+> +	}
+> +}
+
+Here, I think we need to reevaluate the path (nvme_find_path) and set
+bio->bi_disk accordingly.
