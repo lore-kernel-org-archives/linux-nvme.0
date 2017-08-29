@@ -1,124 +1,34 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 Aug 2017 15:13:41 +0200
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 29 Aug 2017 15:59:23 +0200
 Subject: [PATCH for-4.13] nvme-pci: use dma memory for the host memory
  buffer descriptors
 In-Reply-To: <20170828084718.29007-1-hch@lst.de>
 References: <20170828084718.29007-1-hch@lst.de>
-Message-ID: <20170829131341.GA29699@lst.de>
-
-Can I get a quick review for this one?
+Message-ID: <20170829135923.GF9310@linux-x5ow.site>
 
 On Mon, Aug 28, 2017@10:47:18AM +0200, Christoph Hellwig wrote:
-> The NVMe 1.3 specification says in section 5.21.1.13:
-> 
-> "After a successful completion of a Set Features enabling the host memory
->  buffer, the host shall not write to the associated host memory region,
->  buffer size, or descriptor list until the host memory buffer has been
->  disabled."
-> 
-> While this doesn't state that the descriptor list must remain accessible
-> to the device it certainly implies it must remaing readable by the device.
-> 
-> So switch to a dma coherent allocation for the descriptor list just to be
-> safe - it's not like the cost for it matters compared to the actual
-> memory buffers.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/nvme/host/pci.c | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 925467b31a33..e5d0a394e49a 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -109,6 +109,7 @@ struct nvme_dev {
->  	/* host memory buffer support: */
->  	u64 host_mem_size;
->  	u32 nr_host_mem_descs;
-> +	dma_addr_t host_mem_descs_dma;
->  	struct nvme_host_mem_buf_desc *host_mem_descs;
->  	void **host_mem_desc_bufs;
->  };
-> @@ -1565,16 +1566,10 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
->  
->  static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
->  {
-> -	size_t len = dev->nr_host_mem_descs * sizeof(*dev->host_mem_descs);
-> +	u64 dma_addr = dev->host_mem_descs_dma;
->  	struct nvme_command c;
-> -	u64 dma_addr;
->  	int ret;
->  
-> -	dma_addr = dma_map_single(dev->dev, dev->host_mem_descs, len,
-> -			DMA_TO_DEVICE);
-> -	if (dma_mapping_error(dev->dev, dma_addr))
-> -		return -ENOMEM;
-> -
->  	memset(&c, 0, sizeof(c));
->  	c.features.opcode	= nvme_admin_set_features;
->  	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
-> @@ -1591,7 +1586,6 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
->  			 "failed to set host mem (err %d, flags %#x).\n",
->  			 ret, bits);
->  	}
-> -	dma_unmap_single(dev->dev, dma_addr, len, DMA_TO_DEVICE);
->  	return ret;
->  }
->  
-> @@ -1609,7 +1603,9 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
->  
->  	kfree(dev->host_mem_desc_bufs);
->  	dev->host_mem_desc_bufs = NULL;
-> -	kfree(dev->host_mem_descs);
-> +	dma_free_coherent(dev->dev,
-> +			dev->nr_host_mem_descs * sizeof(*dev->host_mem_descs),
-> +			dev->host_mem_descs, dev->host_mem_descs_dma);
->  	dev->host_mem_descs = NULL;
->  }
->  
-> @@ -1617,6 +1613,7 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
->  {
->  	struct nvme_host_mem_buf_desc *descs;
->  	u32 chunk_size, max_entries, len;
-> +	dma_addr_t descs_dma;
->  	int i = 0;
->  	void **bufs;
->  	u64 size = 0, tmp;
-> @@ -1627,7 +1624,8 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
->  	tmp = (preferred + chunk_size - 1);
->  	do_div(tmp, chunk_size);
->  	max_entries = tmp;
 > -	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
 > +	descs = dma_zalloc_coherent(dev->dev, max_entries * sizeof(*descs),
 > +			&descs_dma, GFP_KERNEL);
->  	if (!descs)
->  		goto out;
->  
-> @@ -1661,6 +1659,7 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
->  	dev->nr_host_mem_descs = i;
->  	dev->host_mem_size = size;
->  	dev->host_mem_descs = descs;
-> +	dev->host_mem_descs_dma = descs_dma;
->  	dev->host_mem_desc_bufs = bufs;
->  	return 0;
->  
-> @@ -1674,7 +1673,8 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
->  
->  	kfree(bufs);
->  out_free_descs:
+
+[...]
+
 > -	kfree(descs);
 > +	dma_free_coherent(dev->dev, max_entries * sizeof(*dev->host_mem_descs),
 > +			descs, descs_dma);
->  out:
->  	/* try a smaller chunk size if we failed early */
->  	if (chunk_size >= PAGE_SIZE * 2 && (i == 0 || size < min)) {
-> -- 
-> 2.11.0
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+
+If the patch isn't super urgent, I'd prefere the sizeof() arguments being
+aligned, i.e. either sizeof(*descs) _or_ sizeof(*dev->host_mem_descs) but not
+both. It's rather confusing for the reader. Maybe just cache the max_entries *
+sizeof(*dev->host_mem_descs) value?
+
+Other than that it looks good to me,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
