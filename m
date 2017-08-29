@@ -1,48 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 29 Aug 2017 10:54:17 -0400
-Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170823175815.3646-11-hch@lst.de>
-References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-11-hch@lst.de>
-Message-ID: <20170829145417.GA4428@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 29 Aug 2017 07:49:15 -0700
+Subject: [PATCH V3] nvmet: Add support for HOST_ID feature.
+In-Reply-To: <1503997982-13175-1-git-send-email-omri@excelero.com>
+References: <1503997982-13175-1-git-send-email-omri@excelero.com>
+Message-ID: <20170829144915.GA19316@infradead.org>
 
-On Wed, Aug 23, 2017@07:58:15PM +0200, Christoph Hellwig wrote:
-> +	/* Anything else could be a path failure, so should be retried */
-> +	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-> +	blk_steal_bios(&ns->head->requeue_list, req);
-> +	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-> +
-> +	nvme_reset_ctrl(ns->ctrl);
-> +	kblockd_schedule_work(&ns->head->requeue_work);
-> +	return true;
-> +}
+> +	case NVME_FEAT_HOST_ID:
+> +		if (!(le32_to_cpu(req->cmd->common.cdw10[1]) & 1))
+> +			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+> +		else
+> +			status = nvmet_copy_to_sgl(req, 0,
+> +					&req->sq->ctrl->hostid, 16);
+> +		break;
 
-It appears this isn't going to cause the path selection to failover for
-the requeued work. The bio's bi_disk is unchanged from the failed path when the
-requeue_work submits the bio again so it will use the same path, right? 
+The 16 here should be a sizeof(uuid_t) or sizeof(req->sq->ctrl->hostid),
+but we can fix this up when applying the patch.
 
-It also looks like new submissions will get a new path only from the
-fact that the original/primary is being reset. The controller reset
-itself seems a bit heavy-handed. Can we just set head->current_path to
-the next active controller in the list?
+Looks good,
 
-
-> +static void nvme_requeue_work(struct work_struct *work)
-> +{
-> +	struct nvme_ns_head *head =
-> +		container_of(work, struct nvme_ns_head, requeue_work);
-> +	struct bio *bio, *next;
-> +
-> +	spin_lock_irq(&head->requeue_lock);
-> +	next = bio_list_get(&head->requeue_list);
-> +	spin_unlock_irq(&head->requeue_lock);
-> +
-> +	while ((bio = next) != NULL) {
-> +		next = bio->bi_next;
-> +		bio->bi_next = NULL;
-> +		generic_make_request_fast(bio);
-> +	}
-> +}
-
-Here, I think we need to reevaluate the path (nvme_find_path) and set
-bio->bi_disk accordingly.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
