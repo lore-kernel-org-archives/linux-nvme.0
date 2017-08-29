@@ -1,27 +1,15 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 Aug 2017 16:50:33 +0200
-Subject: [PATCH for-4.13] nvme-pci: use dma memory for the host memory
- buffer descriptors
-In-Reply-To: <20170829135923.GF9310@linux-x5ow.site>
-References: <20170828084718.29007-1-hch@lst.de>
- <20170829135923.GF9310@linux-x5ow.site>
-Message-ID: <20170829145032.GA32673@lst.de>
+Date: Tue, 29 Aug 2017 16:51:08 +0200
+Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <e751810f-bb91-f764-dd51-ce2faaf209f0@huawei.com>
+References: <20170823175815.3646-1-hch@lst.de>
+ <20170823175815.3646-11-hch@lst.de>
+ <e751810f-bb91-f764-dd51-ce2faaf209f0@huawei.com>
+Message-ID: <20170829145108.GB32673@lst.de>
 
-On Tue, Aug 29, 2017@03:59:23PM +0200, Johannes Thumshirn wrote:
-> On Mon, Aug 28, 2017@10:47:18AM +0200, Christoph Hellwig wrote:
-> > -	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
-> > +	descs = dma_zalloc_coherent(dev->dev, max_entries * sizeof(*descs),
-> > +			&descs_dma, GFP_KERNEL);
-> 
-> [...]
-> 
-> > -	kfree(descs);
-> > +	dma_free_coherent(dev->dev, max_entries * sizeof(*dev->host_mem_descs),
-> > +			descs, descs_dma);
-> 
-> If the patch isn't super urgent, I'd prefere the sizeof() arguments being
-> aligned, i.e. either sizeof(*descs) _or_ sizeof(*dev->host_mem_descs) but not
-> both. It's rather confusing for the reader. Maybe just cache the max_entries *
-> sizeof(*dev->host_mem_descs) value?
+On Tue, Aug 29, 2017@06:22:50PM +0800, Guan Junxiong wrote:
+> Does this introduce conflicts with current DM-Multipath used for NVMe/NVMeF
+> when path IO error occurs?  Such IO will be retried not only on the nvme-mpath
+> internal path, but also on the dm-mpath path.
 
-Sure, I'll fix it up.
+It will not reach back to dm-multipath if we fail over here.
