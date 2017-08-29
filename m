@@ -1,100 +1,61 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Tue, 29 Aug 2017 10:33:44 -0700
-Subject: [PATCH] nvme-fabrics: Convert nvmf_transports_mutex to an rwsem
-Message-ID: <20170829173344.3402-1-roland@kernel.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 29 Aug 2017 15:43:23 -0400
+Subject: [PATCH] nvme: Use metadata for passthrough commands
+In-Reply-To: <20170829084350.GA10895@lst.de>
+References: <1503957780-12905-1-git-send-email-keith.busch@intel.com>
+ <20170829084350.GA10895@lst.de>
+Message-ID: <20170829194323.GC4428@localhost.localdomain>
 
-From: Roland Dreier <roland@purestorage.com>
+On Tue, Aug 29, 2017@10:43:50AM +0200, Christoph Hellwig wrote:
+> On Mon, Aug 28, 2017@06:03:00PM -0400, Keith Busch wrote:
+> > The ioctls' struct allows the user to provide a metadata address and
+> > length for a passthrough command. This patch uses these values that were
+> > previously ignored and deletes the now unused wrapper function.
+> > 
+> > Note the implementation currently requires a gendisk so will not work
+> > for admin commands.
+> 
+> This looks generally ok.  I thought NVME_IOCTL_SUBMIT_IO was added because
+> the other ioctls don't supported metadata, but history tells me it
+> was the other way around, and NVME_IOCTL_SUBMIT_IO came before
+> the other ioctls.
 
-The mutex protects against the list of transports changing while a controller is
-being created, but using a plain old mutex means that it also serializes controller
-creation.  This unnecessarily slows down creating multiple controllers - for example
-for the RDMA transport, creating a controller involves establishing one connection
-for every IO queue, which involves even more network/software round trips, so the
-delay can become significant.
+Yep, NVME_IOCTL_SUBMIT_IO was conceived when read/write/compare were the
+only commands in the IO set. The structure is unusable for any other IO
+commands, so we extended the admin passthrough only after it was too
+late to undo SUBMIT_IO.
+ 
+> But that begs the question: is it time to deprecate NVME_IOCTL_SUBMIT_IO
+> slowly?  nvme-cli unfortunately still uses it for read/write/compare
+> though.
 
-The simplest way to fix this is to change the mutex to an rwsem and only hold it for
-writing when the list is being mutated.  Since we can take the rwsem for reading
-while creating a controller, we can create multiple controllers in parallel.
+I can certainly discourage new usage of SUBMIT_IO. I'll look into having
+nvme-cli use the passthrough, but it'll break some usage for existing
+kernels, so the transition may be slow.
 
-Signed-off-by: Roland Dreier <roland at purestorage.com>
----
- drivers/nvme/host/fabrics.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+> Do we need this sniplet from nvme_submit_io in nvme_user_cmd or
+> nvme_submit_user_cmd as well:
+> 
+> 	if (ns->ext) {
+> 		length += meta_len;
+> 		meta_len = 0;
+> 	} else if (meta_len) {
+> 		if ((io.metadata & 3) || !io.metadata)
+> 			return -EINVAL;
+> 	}
+> 
+> ?
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 5f5cd306f76d..714535903b7f 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -22,7 +22,7 @@
- #include "fabrics.h"
- 
- static LIST_HEAD(nvmf_transports);
--static DEFINE_MUTEX(nvmf_transports_mutex);
-+static DECLARE_RWSEM(nvmf_transports_rwsem);
- 
- static LIST_HEAD(nvmf_hosts);
- static DEFINE_MUTEX(nvmf_hosts_mutex);
-@@ -495,9 +495,9 @@ int nvmf_register_transport(struct nvmf_transport_ops *ops)
- 	if (!ops->create_ctrl)
- 		return -EINVAL;
- 
--	mutex_lock(&nvmf_transports_mutex);
-+	down_write(&nvmf_transports_rwsem);
- 	list_add_tail(&ops->entry, &nvmf_transports);
--	mutex_unlock(&nvmf_transports_mutex);
-+	up_write(&nvmf_transports_rwsem);
- 
- 	return 0;
- }
-@@ -514,9 +514,9 @@ EXPORT_SYMBOL_GPL(nvmf_register_transport);
-  */
- void nvmf_unregister_transport(struct nvmf_transport_ops *ops)
- {
--	mutex_lock(&nvmf_transports_mutex);
-+	down_write(&nvmf_transports_rwsem);
- 	list_del(&ops->entry);
--	mutex_unlock(&nvmf_transports_mutex);
-+	up_write(&nvmf_transports_rwsem);
- }
- EXPORT_SYMBOL_GPL(nvmf_unregister_transport);
- 
-@@ -525,7 +525,7 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
- {
- 	struct nvmf_transport_ops *ops;
- 
--	lockdep_assert_held(&nvmf_transports_mutex);
-+	lockdep_assert_held(&nvmf_transports_rwsem);
- 
- 	list_for_each_entry(ops, &nvmf_transports, entry) {
- 		if (strcmp(ops->name, opts->transport) == 0)
-@@ -850,7 +850,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		goto out_free_opts;
- 	opts->mask &= ~NVMF_REQUIRED_OPTS;
- 
--	mutex_lock(&nvmf_transports_mutex);
-+	down_read(&nvmf_transports_rwsem);
- 	ops = nvmf_lookup_transport(opts);
- 	if (!ops) {
- 		pr_info("no handler found for transport %s.\n",
-@@ -877,16 +877,16 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		dev_warn(ctrl->device,
- 			"controller returned incorrect NQN: \"%s\".\n",
- 			ctrl->subnqn);
--		mutex_unlock(&nvmf_transports_mutex);
-+		up_read(&nvmf_transports_rwsem);
- 		ctrl->ops->delete_ctrl(ctrl);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	mutex_unlock(&nvmf_transports_mutex);
-+	up_read(&nvmf_transports_rwsem);
- 	return ctrl;
- 
- out_unlock:
--	mutex_unlock(&nvmf_transports_mutex);
-+	up_read(&nvmf_transports_rwsem);
- out_free_opts:
- 	nvmf_free_options(opts);
- 	return ERR_PTR(ret);
--- 
-2.14.1
+That shouldn't be necessary with passthrough ioctl since it takes transfer
+lengths directly from the user. The SUBMIT_IO ioctl had to infer these based
+on the LBA.
+
+
+> Also last but not least I'd be tempted to say that the
+> removal of __nvme_submit_user_cmd shold be a separate prep patch.
+
+Sounds good, I'll resend with that split, along with your patch separating
+metadata setup from the rest of the user command.
+
+I also noticed we need to skip nvme_dif_remap for REQ_OP_DRV_IN/OUT
+requests for this to really work. I'll add that to the series.
