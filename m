@@ -1,21 +1,20 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 29 Aug 2017 07:49:15 -0700
-Subject: [PATCH V3] nvmet: Add support for HOST_ID feature.
-In-Reply-To: <1503997982-13175-1-git-send-email-omri@excelero.com>
-References: <1503997982-13175-1-git-send-email-omri@excelero.com>
-Message-ID: <20170829144915.GA19316@infradead.org>
+Date: Tue, 29 Aug 2017 07:50:06 -0700
+Subject: [GIT PULL] nvme update for Linux 4.14
+In-Reply-To: <b0471487-4bf6-4040-7e21-a23cef5bc96c@kernel.dk>
+References: <3c45e618-6a96-6443-258a-dac8f93ccc7a@kernel.dk>
+ <20170828155925.GA32254@infradead.org>
+ <44a35d51-48d5-7181-df7e-b75fcbc053d9@kernel.dk>
+ <20170828175744.GA26713@infradead.org>
+ <3c714d50-5b75-6a94-2fad-3ab491afc1cf@kernel.dk>
+ <20170828184035.GA11383@infradead.org>
+ <379b013e-4762-6871-e9b2-861772143817@kernel.dk>
+ <20170828194325.GA3447@infradead.org>
+ <bcceb1b2-2b17-7a98-a459-5ba0bc661e74@grimberg.me>
+ <b0471487-4bf6-4040-7e21-a23cef5bc96c@kernel.dk>
+Message-ID: <20170829145006.GA22225@infradead.org>
 
-> +	case NVME_FEAT_HOST_ID:
-> +		if (!(le32_to_cpu(req->cmd->common.cdw10[1]) & 1))
-> +			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-> +		else
-> +			status = nvmet_copy_to_sgl(req, 0,
-> +					&req->sq->ctrl->hostid, 16);
-> +		break;
+On Tue, Aug 29, 2017@08:34:29AM -0600, Jens Axboe wrote:
+> Let me know when it's ready.
 
-The 16 here should be a sizeof(uuid_t) or sizeof(req->sq->ctrl->hostid),
-but we can fix this up when applying the patch.
-
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+I'll send you another pull request in a bit.
