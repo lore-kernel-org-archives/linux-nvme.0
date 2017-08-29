@@ -1,34 +1,47 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 29 Aug 2017 15:59:23 +0200
-Subject: [PATCH for-4.13] nvme-pci: use dma memory for the host memory
- buffer descriptors
-In-Reply-To: <20170828084718.29007-1-hch@lst.de>
-References: <20170828084718.29007-1-hch@lst.de>
-Message-ID: <20170829135923.GF9310@linux-x5ow.site>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 29 Aug 2017 08:34:29 -0600
+Subject: [GIT PULL] nvme update for Linux 4.14
+In-Reply-To: <bcceb1b2-2b17-7a98-a459-5ba0bc661e74@grimberg.me>
+References: <20170828143343.evhchzfzam3whgwm@infradead.org>
+ <199590da-6ff8-24de-abca-00f23608b93b@kernel.dk>
+ <20170828155336.GA5302@infradead.org>
+ <3c45e618-6a96-6443-258a-dac8f93ccc7a@kernel.dk>
+ <20170828155925.GA32254@infradead.org>
+ <44a35d51-48d5-7181-df7e-b75fcbc053d9@kernel.dk>
+ <20170828175744.GA26713@infradead.org>
+ <3c714d50-5b75-6a94-2fad-3ab491afc1cf@kernel.dk>
+ <20170828184035.GA11383@infradead.org>
+ <379b013e-4762-6871-e9b2-861772143817@kernel.dk>
+ <20170828194325.GA3447@infradead.org>
+ <bcceb1b2-2b17-7a98-a459-5ba0bc661e74@grimberg.me>
+Message-ID: <b0471487-4bf6-4040-7e21-a23cef5bc96c@kernel.dk>
 
-On Mon, Aug 28, 2017@10:47:18AM +0200, Christoph Hellwig wrote:
-> -	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
-> +	descs = dma_zalloc_coherent(dev->dev, max_entries * sizeof(*descs),
-> +			&descs_dma, GFP_KERNEL);
+On 08/28/2017 01:56 PM, Sagi Grimberg wrote:
+>>>> Meh, I don't think that'll work out - the rdma refactoring from
+>>>> Sagi deeply depends on the un?nit_ctrl split..
+>>>
+>>> I can do a for-4.14/block-postmerge branch, which is for-4.14/block
+>>> with -rc7 pulled in. Should apply on top of that.
+>>>
+>>> Did that branch, doesn't apply. But should be easier for you to
+>>> rebase on top of that branch. Pushed it out.
+>>
+>> I've pushed out a nvme-4.14-rebase branch with the rebase, but I didn't
+>> have time for non-trivial testing yet, that'll have to wait for
+>> tomorrow.
+>>
+>> Sagi: can you double check the resolutions around blk_mq_reinit_tagse?
+> 
+> Thanks for doing it Christoph,
+> 
+> It looks good to me, there is one glitch in patch:
+> "nvme-rdma: reuse configure/destroy_admin_queue"
+> 
+> The "nvme_rdma_configure_admin_queue" block needs to
+> be squashed into "nvme-rdma: don't free tagset on resets> 
+> I'll do that now.
 
-[...]
-
-> -	kfree(descs);
-> +	dma_free_coherent(dev->dev, max_entries * sizeof(*dev->host_mem_descs),
-> +			descs, descs_dma);
-
-If the patch isn't super urgent, I'd prefere the sizeof() arguments being
-aligned, i.e. either sizeof(*descs) _or_ sizeof(*dev->host_mem_descs) but not
-both. It's rather confusing for the reader. Maybe just cache the max_entries *
-sizeof(*dev->host_mem_descs) value?
-
-Other than that it looks good to me,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Let me know when it's ready.
 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Jens Axboe
