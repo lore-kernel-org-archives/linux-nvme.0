@@ -1,20 +1,27 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 29 Aug 2017 07:50:06 -0700
-Subject: [GIT PULL] nvme update for Linux 4.14
-In-Reply-To: <b0471487-4bf6-4040-7e21-a23cef5bc96c@kernel.dk>
-References: <3c45e618-6a96-6443-258a-dac8f93ccc7a@kernel.dk>
- <20170828155925.GA32254@infradead.org>
- <44a35d51-48d5-7181-df7e-b75fcbc053d9@kernel.dk>
- <20170828175744.GA26713@infradead.org>
- <3c714d50-5b75-6a94-2fad-3ab491afc1cf@kernel.dk>
- <20170828184035.GA11383@infradead.org>
- <379b013e-4762-6871-e9b2-861772143817@kernel.dk>
- <20170828194325.GA3447@infradead.org>
- <bcceb1b2-2b17-7a98-a459-5ba0bc661e74@grimberg.me>
- <b0471487-4bf6-4040-7e21-a23cef5bc96c@kernel.dk>
-Message-ID: <20170829145006.GA22225@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 29 Aug 2017 16:50:33 +0200
+Subject: [PATCH for-4.13] nvme-pci: use dma memory for the host memory
+ buffer descriptors
+In-Reply-To: <20170829135923.GF9310@linux-x5ow.site>
+References: <20170828084718.29007-1-hch@lst.de>
+ <20170829135923.GF9310@linux-x5ow.site>
+Message-ID: <20170829145032.GA32673@lst.de>
 
-On Tue, Aug 29, 2017@08:34:29AM -0600, Jens Axboe wrote:
-> Let me know when it's ready.
+On Tue, Aug 29, 2017@03:59:23PM +0200, Johannes Thumshirn wrote:
+> On Mon, Aug 28, 2017@10:47:18AM +0200, Christoph Hellwig wrote:
+> > -	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
+> > +	descs = dma_zalloc_coherent(dev->dev, max_entries * sizeof(*descs),
+> > +			&descs_dma, GFP_KERNEL);
+> 
+> [...]
+> 
+> > -	kfree(descs);
+> > +	dma_free_coherent(dev->dev, max_entries * sizeof(*dev->host_mem_descs),
+> > +			descs, descs_dma);
+> 
+> If the patch isn't super urgent, I'd prefere the sizeof() arguments being
+> aligned, i.e. either sizeof(*descs) _or_ sizeof(*dev->host_mem_descs) but not
+> both. It's rather confusing for the reader. Maybe just cache the max_entries *
+> sizeof(*dev->host_mem_descs) value?
 
-I'll send you another pull request in a bit.
+Sure, I'll fix it up.
