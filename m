@@ -1,25 +1,20 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 30 Aug 2017 10:55:11 +0300
-Subject: [PATCH v2] nvme: fix the definition of Admin doorbell buffer
- config support
-In-Reply-To: <1504166149-16770-1-git-send-email-changpeng.liu@intel.com>
-References: <1504166149-16770-1-git-send-email-changpeng.liu@intel.com>
-Message-ID: <769ffc1e-7861-c984-2c4f-48ae417ded73@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 30 Aug 2017 10:14:43 +0200
+Subject: [PATCHv2 1/4] nvme: factor metadata handling out of
+ __nvme_submit_user_cmd
+In-Reply-To: <d885cc92-38e0-5f61-9b1e-5cd0fdd40d32@mellanox.com>
+References: <1504043164-5398-1-git-send-email-keith.busch@intel.com>
+ <1504043164-5398-2-git-send-email-keith.busch@intel.com>
+ <d885cc92-38e0-5f61-9b1e-5cd0fdd40d32@mellanox.com>
+Message-ID: <20170830081443.GA17819@lst.de>
 
+> did we move the kfree(meta) here in porpose ?
+> I think we'll leak in the "write" case.
 
+Oops, my fault.
 
-On 8/31/2017 10:55 AM, Changpeng Liu wrote:
-> NVMe 1.3 specification defines the Optional Admin Command Support
-> feature flags, bit 8 set to '1' then the controller supports the
-> Doorbell Buffer Config command. Bit 7 is used for Virtualization
-> Mangement command.
-> 
-> Signed-off-by: Changpeng Liu <changpeng.liu at intel.com>
-> ---
->   include/linux/nvme.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+> In general, I prefer allocating and freeing the meta buffer in the same 
+> function but maybe it make sense to act otherwise here.
 
-thanks,
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Think of nvme_add_user_metadata as the memory allocator, given
+that it returns the buffer :)
