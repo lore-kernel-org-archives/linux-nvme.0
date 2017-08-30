@@ -1,85 +1,87 @@
 From: omri@excelero.com (Omri Mann)
-Date: Wed, 30 Aug 2017 13:34:26 +0300
-Subject: [PATCH] Add support for reservations to NVMeoF target
-In-Reply-To: <20170830082825.GA8834@infradead.org>
-References: <1503497088-12775-1-git-send-email-omri@excelero.com>
- <d787b603-ce2c-c130-d5f9-5178f1e55997@grimberg.me>
- <20170830082825.GA8834@infradead.org>
-Message-ID: <CAJgS9SUW90MY-0S58K1wELTYU7U3x71zgpGcLiAshgn1AskZxg@mail.gmail.com>
+Date: Wed, 30 Aug 2017 15:22:59 +0300
+Subject: [PATCH V4] nvmet: Add support for HOST_ID feature.
+Message-ID: <1504095779-13255-1-git-send-email-omri@excelero.com>
 
-  I think nvme-cli already supports the reservation related commands
-including resv-report
-in version 1.1
+Add host_id feature to NVMeoF targets. This will be required in order to
+support reservations.
+Signed-off-by: Omri Mann <omri at excelero.com>
+---
+ drivers/nvme/target/admin-cmd.c   | 14 ++++++++++++--
+ drivers/nvme/target/fabrics-cmd.c |  1 +
+ drivers/nvme/target/nvmet.h       |  2 ++
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-On Wed, Aug 30, 2017@11:28 AM, Christoph Hellwig <hch@infradead.org> wrote:
-> On Mon, Aug 28, 2017@09:00:20AM +0300, Sagi Grimberg wrote:
->> Hi Omri,
->>
->> First, please follow the format of patch submission as described
->> in: Documentation/process/submitting-patches.rst
->>
->> Second, I would love to see a generic reservations lib so nvmet
->> and LIO can share the same abstraction (with proper callouts
->> in place). But I don't think its a gating issue.
->> Adding Mike to the thread.
->>
->> Third, persistent reservations should survive power loss, which
->> means they need to be logged in a file at least.
->
-> Strictly speaking they only need to be persistent depending on the CPTPL
-> field in the Reservation Register command, but implementing that is
-> mandatory, so yes we'll need it.  And I really want it to actually
-> do atomic updates, unlike the LIO code which could corrupt its database
-> fairly easily.
->
-> Bart (added to Cc) did some nice work on a switch and even a DLM
-> implementation for SCST, which I'd really like to get into mainline:
->
->         https://github.com/bvanassche/scst/blob/master/scst/src/scst_pres.c
->         https://github.com/bvanassche/scst/blob/master/scst/src/scst_dlm.c
->
-> and I'd love to get some of that code (or at least the ideas) into
-> mainline - both for NVMe and possibly also for the existing SCSI
-> target.
->
->
->> As for the implementation itself, any reason to choose a rw_lock
->> instead of a rcu protection scheme? Up until now we got the
->> IO path to be lock free and I'm not very enthusiast starting now.
->
-> Agreed.
->
->> > index 3b4d47a..4eb4182 100644
->> > --- a/drivers/nvme/target/io-cmd.c
->> > +++ b/drivers/nvme/target/io-cmd.c
->> > @@ -16,6 +16,8 @@
->> >   #include <linux/module.h>
->> >   #include "nvmet.h"
->> > +#define IEKEY      0x8     /* Ignore Existing Key */
->
-> Needs to got to include/linux/nvme.h
->
->> > +static void nvmet_execute_resv_report(struct nvmet_req *req)
->> > +{
->> > +   union {
->> > +           struct {
->> > +                   __le32  gen;
->> > +                   u8      rtype;
->> > +                   __le16  regctls;
->> > +                   u16     rsvd2;
->> > +                   u8      ptpls;
->> > +                   u8      rsvd14[14];
->> > +           } __packed hdr;
->> > +           struct {
->> > +                   __le16  cntlid;
->> > +                   u8      rcsts;
->> > +                   u8      rsvd5[5];
->> > +                   __le64  hostid;
->> > +                   __le64  rkey;
->> > +           } __packed cntrl;
->>
->> These are generic nvme structures, so they should live in
->> nvme protocol header.
->
-> Agreed.   Also support for the reservation report command in nvme-cli
-> would be really nice for debugging.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index ff1f970..22f61a1 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -387,7 +387,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 	u32 val32;
+ 	u16 status = 0;
+ 
+-	switch (cdw10 & 0xf) {
++	switch (cdw10 & 0xff) {
+ 	case NVME_FEAT_NUM_QUEUES:
+ 		nvmet_set_result(req,
+ 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
+@@ -397,6 +397,9 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
+ 		nvmet_set_result(req, req->sq->ctrl->kato);
+ 		break;
++	case NVME_FEAT_HOST_ID:
++		status = NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
++		break;
+ 	default:
+ 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+ 		break;
+@@ -411,7 +414,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
+ 	u16 status = 0;
+ 
+-	switch (cdw10 & 0xf) {
++	switch (cdw10 & 0xff) {
+ 	/*
+ 	 * These features are mandatory in the spec, but we don't
+ 	 * have a useful way to implement them.  We'll eventually
+@@ -445,6 +448,13 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 	case NVME_FEAT_KATO:
+ 		nvmet_set_result(req, req->sq->ctrl->kato * 1000);
+ 		break;
++	case NVME_FEAT_HOST_ID:
++		if (!(le32_to_cpu(req->cmd->common.cdw10[1]) & 1))
++			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
++		else
++			status = nvmet_copy_to_sgl(req, 0,
++			req->sq->ctrl->hostid, sizeof(req->sq->ctrl->hostid));
++		break;
+ 	default:
+ 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+ 		break;
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 3cc1726..40c8682 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -154,6 +154,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 				  le32_to_cpu(c->kato), &ctrl);
+ 	if (status)
+ 		goto out;
++	memcpy(ctrl->hostid, d->hostid, sizeof(ctrl->hostid));
+ 
+ 	status = nvmet_install_queue(ctrl, req);
+ 	if (status) {
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index cfc5c7f..60b823d 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -108,6 +108,8 @@ struct nvmet_ctrl {
+ 	struct nvmet_cq		**cqs;
+ 	struct nvmet_sq		**sqs;
+ 
++	u8			hostid[16];
++
+ 	struct mutex		lock;
+ 	u64			cap;
+ 	u64			serial;
+-- 
+1.8.3.1
