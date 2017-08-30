@@ -1,87 +1,89 @@
-From: omri@excelero.com (Omri Mann)
-Date: Wed, 30 Aug 2017 15:22:59 +0300
-Subject: [PATCH V4] nvmet: Add support for HOST_ID feature.
-Message-ID: <1504095779-13255-1-git-send-email-omri@excelero.com>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
+Date: Wed, 30 Aug 2017 18:00:26 +0530
+Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
+In-Reply-To: <yq1lgmbauxt.fsf@oracle.com>
+References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <yq1lgmbauxt.fsf@oracle.com>
+Message-ID: <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
 
-Add host_id feature to NVMeoF targets. This will be required in order to
-support reservations.
-Signed-off-by: Omri Mann <omri at excelero.com>
----
- drivers/nvme/target/admin-cmd.c   | 14 ++++++++++++--
- drivers/nvme/target/fabrics-cmd.c |  1 +
- drivers/nvme/target/nvmet.h       |  2 ++
- 3 files changed, 15 insertions(+), 2 deletions(-)
+Hi Martin,
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index ff1f970..22f61a1 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -387,7 +387,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 	u32 val32;
- 	u16 status = 0;
- 
--	switch (cdw10 & 0xf) {
-+	switch (cdw10 & 0xff) {
- 	case NVME_FEAT_NUM_QUEUES:
- 		nvmet_set_result(req,
- 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
-@@ -397,6 +397,9 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
- 		nvmet_set_result(req, req->sq->ctrl->kato);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		status = NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-@@ -411,7 +414,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
- 	u16 status = 0;
- 
--	switch (cdw10 & 0xf) {
-+	switch (cdw10 & 0xff) {
- 	/*
- 	 * These features are mandatory in the spec, but we don't
- 	 * have a useful way to implement them.  We'll eventually
-@@ -445,6 +448,13 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 	case NVME_FEAT_KATO:
- 		nvmet_set_result(req, req->sq->ctrl->kato * 1000);
- 		break;
-+	case NVME_FEAT_HOST_ID:
-+		if (!(le32_to_cpu(req->cmd->common.cdw10[1]) & 1))
-+			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		else
-+			status = nvmet_copy_to_sgl(req, 0,
-+			req->sq->ctrl->hostid, sizeof(req->sq->ctrl->hostid));
-+		break;
- 	default:
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		break;
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 3cc1726..40c8682 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -154,6 +154,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 				  le32_to_cpu(c->kato), &ctrl);
- 	if (status)
- 		goto out;
-+	memcpy(ctrl->hostid, d->hostid, sizeof(ctrl->hostid));
- 
- 	status = nvmet_install_queue(ctrl, req);
- 	if (status) {
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index cfc5c7f..60b823d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -108,6 +108,8 @@ struct nvmet_ctrl {
- 	struct nvmet_cq		**cqs;
- 	struct nvmet_sq		**sqs;
- 
-+	u8			hostid[16];
-+
- 	struct mutex		lock;
- 	u64			cap;
- 	u64			serial;
--- 
-1.8.3.1
+Replied in line.
+
+- I don't understand why you go through all these hoops to decide
+  whether to use PRPs or IEEE scatterlists. If the firmware translation
+  is slow, why even bother with the SG format in the first place? Set
+  the max I/O size to match MDTS and you're done.
+
+=>  We will  set MDTS value as max hw sectors using
+blk_queue_max_hw_sectors(). As of now, we see correct MDTS value is
+being set to block layer via VPD page 0xb0 (Block limits VPD page )
+response from FW for NVME device.
+=> I will remove MDTS checks in IO path.
+
+
+- What's the benefit of using SG for regular I/O commands?
+
+=>  Broadcom's IT Tri-mode HBA hardware has a capability of
+translating IEEE SGLs to PRP's only up to ~4 page block size.
+If the IO block size is greater than that (along with other condition
+described code base_is_prp_possible), driver has to frame the PRP's to
+avoid FW intervention. Both the case is a fast path, but for smaller
+IO (up to 20K) size will frame IEEE SGL and large IO size will frame
+PRP format SGL. Theoretically we want to use h/w capability (to
+translate IEEE to PRP) for smaller IO size to leverage h/w capability.
+We are investigating if at all we can send all PRP and avoid checks in
+driver, but that exercise may take time as we have many different
+opinions. We prefer to use existing code as it is stable and in-line
+with h/w requirement.
+
+
+- If the unmap translation in firmware is slow, why don't you translate
+  WRITE SAME/w UNMAP set to DSM DEALLOCATE without requiring
+  applications to do encapsulated passthrough?
+
+=> As of now, current FW supports UNMAP command but not WRITE_SAME for
+NVME drive. We did some experiment to convert UMAP command in driver,
+but that is not really giving any performance improvement. We would
+like to continue with UNMAP (and all other non-read/write commands) to
+be handled in FW.
+
+
+- Also make sure you attribute your patches correctly (From: root
+<root at dhcp-135-24-192-103.dhcp.avagotech.net>). And you don't need
+that long CC: list. Just send the patch series to
+linux-scsi at vger.kernel.org.
+
+=>  I will fix this type of issue going forward
+
+Thanks,
+Suganath Prabu S
+
+On Wed, Aug 23, 2017 at 7:48 AM, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+>
+> Suganath,
+>
+>>   mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
+>
+> I'm still confused about this patch.
+>
+>  - I don't understand why you go through all these hoops to decide
+>    whether to use PRPs or IEEE scatterlists. If the firmware translation
+>    is slow, why even bother with the SG format in the first place? Set
+>    the max I/O size to match MDTS and you're done.
+>
+>  - What's the benefit of using SG for regular I/O commands?
+>
+>  - If the unmap translation in firmware is slow, why don't you translate
+>    WRITE SAME/w UNMAP set to DSM DEALLOCATE without requiring
+>    applications to do encapsulated passthrough?
+>
+> Also make sure you attribute your patches correctly (From: root
+> <root at dhcp-135-24-192-103.dhcp.avagotech.net>). And you don't need that
+> long CC: list. Just send the patch series to linux-scsi at vger.kernel.org.
+>
+> Thanks!
+>
+> --
+> Martin K. Petersen      Oracle Linux Engineering
