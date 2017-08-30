@@ -1,41 +1,43 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 30 Aug 2017 17:07:55 +0200
-Subject: [GIT PULL] last minute NVMe fixes for 4.13
-Message-ID: <20170830150755.r64wwfrawsb4i34w@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 30 Aug 2017 18:10:07 +0300
+Subject: [GIT PULL] nvme update for Linux 4.14, take 2
+In-Reply-To: <9a27048d-1252-985f-c905-b738d709b204@kernel.dk>
+References: <20170829150507.rjixn6uf3id6kltx@infradead.org>
+ <9a27048d-1252-985f-c905-b738d709b204@kernel.dk>
+Message-ID: <38ddd70f-3fec-09c0-dafb-eba1e8f9cc18@grimberg.me>
 
-Hi Jens,
 
-three more fixes for 4.13 below:
+>> Hi Jens,
+>>
+>> below is the current set of NVMe updates for Linux 4.14, now against your
+>> postmerge branch, and with three more patches.
+>>
+>> The biggest bit comes from Sagi and refactors the RDMA driver to prepare
+>> for more code sharing in the setup and teardown path.  But we have various
+>> features and bug fixes from a lot of people as well.
+> 
+> Pulled, thanks.
 
- - fix the incorrect bit for the doorbell buffer features (Changpeng Liu)
- - always use a 4k MR page size for RDMA, to not get in trouble with
-   offset in non-4k page size systems (no-op for x86) (Max Gurtovoy)
- - and a fix for the new nvme host memory buffer support to keep the
-   descriptor list DMA mapped when the buffer is enabled (me)
+I just realized that patch:
+--
+commit d352ae205d8b05f3f7558d10f474d8436581b3e2
+Author: Bart Van Assche <bart.vanassche at wdc.com>
+Date:   Thu Aug 17 16:23:03 2017 -0700
 
-The following changes since commit e9d8a0fdeacd843c85dcef480cdb2ab76bcdb6e4:
+     blk-mq: Make blk_mq_reinit_tagset() calls easier to read
 
-  nvme-pci: set cqe_seen on polled completions (2017-08-18 09:19:39 +0200)
+     Since blk_mq_ops.reinit_request is only called from inside
+     blk_mq_reinit_tagset(), make this function pointer an argument of
+     blk_mq_reinit_tagset() instead of a member of struct blk_mq_ops.
+     This patch does not change any functionality but makes
+     blk_mq_reinit_tagset() calls easier to read and to analyze.
+--
 
-are available in the git repository at:
+Makes it impossible for me to move controller reset flow to
+nvme-core without adding a trampoline (as the reinit_request
+is transport specific)...
 
-  git://git.infradead.org/nvme.git nvme-4.13
+I'd really like to avoid adding more churn to the code refactoring
+than it already has.
 
-for you to fetch changes up to 223694b9ae8bfba99f3528d49d07a740af6ff95a:
-
-  nvme: fix the definition of the doorbell buffer config support bit (2017-08-30 14:46:32 +0200)
-
-----------------------------------------------------------------
-Changpeng Liu (1):
-      nvme: fix the definition of the doorbell buffer config support bit
-
-Christoph Hellwig (1):
-      nvme-pci: use dma memory for the host memory buffer descriptors
-
-Max Gurtovoy (1):
-      nvme-rdma: default MR page size to 4k
-
- drivers/nvme/host/pci.c  | 22 +++++++++++-----------
- drivers/nvme/host/rdma.c |  8 ++++++--
- include/linux/nvme.h     |  2 +-
- 3 files changed, 18 insertions(+), 14 deletions(-)
+Given that this patch is not fixing anything should we revert it?
