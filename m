@@ -1,9 +1,13 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 30 Aug 2017 12:54:00 +0300
-Subject: [PATCH v2] nvme: fix the definition of Admin doorbell buffer
- config support
-In-Reply-To: <1504166149-16770-1-git-send-email-changpeng.liu@intel.com>
-References: <1504166149-16770-1-git-send-email-changpeng.liu@intel.com>
-Message-ID: <2b2a7b63-e552-1f62-83a3-f25ad6fda773@grimberg.me>
+Date: Wed, 30 Aug 2017 12:55:42 +0300
+Subject: [PATCH v2] nvme-fabrics: Prevent KATO to be set as 0
+In-Reply-To: <20170829220346.19424-1-gpiccoli@linux.vnet.ibm.com>
+References: <20170829220346.19424-1-gpiccoli@linux.vnet.ibm.com>
+Message-ID: <d67a9ef4-8c01-f842-3eed-4ef873c22dfd@grimberg.me>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+> Since the debug feature of setting KATO to 0 is not working
+> anymore, remove it from code. If user sets it to 0, default
+> value will be explicitly used.
+
+Why not allowing it? its pretty useful for testing.
