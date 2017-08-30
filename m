@@ -1,44 +1,70 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Wed, 30 Aug 2017 09:55:31 -0300
-Subject: [PATCH v2] nvme-fabrics: Prevent KATO to be set as 0
-In-Reply-To: <d67a9ef4-8c01-f842-3eed-4ef873c22dfd@grimberg.me>
-References: <20170829220346.19424-1-gpiccoli@linux.vnet.ibm.com>
- <d67a9ef4-8c01-f842-3eed-4ef873c22dfd@grimberg.me>
-Message-ID: <194a3a6e-0936-b5e4-33b4-8b4335e7887b@linux.vnet.ibm.com>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
+Date: Wed, 30 Aug 2017 19:38:24 +0530
+Subject: [v5 00/14] mpt3sas driver NVMe support:
+Message-ID: <1504102118-7152-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-On 08/30/2017 06:55 AM, Sagi Grimberg wrote:
-> 
->> Since the debug feature of setting KATO to 0 is not working
->> anymore, remove it from code. If user sets it to 0, default
->> value will be explicitly used.
-> 
-> Why not allowing it? its pretty useful for testing.
-> 
+Ventura Series controller are Tri-mode. The controller and
+firmware are capable of supporting NVMe devices and
+PCIe switches to be connected with the controller. This
+patch set adds driver level support for NVMe devices and
+PCIe switches.
 
-Okay, so I misinterpreted your last message.
+mpt3sas v5 patset:
+1) Removed the check to find data transfer length
+exceeding MDTS, Since we are setting max I/O size to
+match MDTS, this check is not required.
 
-My understanding was that since the condition was added in some point of
-time, the possibility of KATO being set to 0 was "indirectly" dropped
-and your suggestion was to _drop it officially_.
+mpt3sas v4 patset:
+1) Removed code which detects gaps/holes in IO data buffers.
+With commit-id 5a8d75a1b8c99bdc926ba69b7b7dbe4fae81a5af (block:
+fix bio_will_gap() for first bvec with offset) driver can always assume that
+their won't be any holes in the data buffers pointed by SGE's
 
-My bad...
+2) Added Patch 14, This has sparse warning fixes.
 
-So, please clarify it to me: do we want to allow a 0 value for KATO? If
-yes, no piece of code is needed in the target to stop sending keep alives?
-The way it "works" today (aka my 1st patch), if we set KATO as 0, we get
-timeout right after connection. When I first set KATO to 0 in my debug,
-I was expecting to disable keep alives, not getting timeouts heheh
+mpt3sas v3 patset:
+Posting version v3. This accommodates below changes
+over v2 patch.
 
+1. In the MPI header files patch, Reformatted headers to have type
+and variable on one line as suggested.
+2. As suggested, started using blk_queue_virt_boundary() API
+for NVMe drives and simplified the PRP formation.
+3. Removed 'TODO' comments
 
-So, the purpose of KATO == 0 is to:
+Suganath Prabu S (14):
+  Update MPI Header
+  mpt3sas: Add nvme device support in slave alloc,  target      alloc
+    and probe
+  mpt3sas: SGL to PRP Translation for I/Os to NVMe  devices
+  mpt3sas: Added support for nvme encapsulated request      message.
+  mpt3sas: API 's to support NVMe drive addition to  SML
+  mpt3sas: API's to remove nvme drive from sml
+  mpt3sas: Handle NVMe PCIe device related events  generated            
+           from firmware.
+  mpt3sas: Set NVMe device queue depth as 128
+  mpt3sas: scan and add nvme device after controller  reset
+  mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
+  mpt3sas: NVMe drive support for BTDHMAPPING ioctl  command      and
+    log info
+  mpt3sas: Fix nvme drives checking for tlr.
+  mpt3sas: Update mpt3sas driver version.
+  mpt3sas: Fix sparse warnings
 
-(a) Get timeouts right after the connection is complete and keep getting
-them forever? Or...
+ drivers/scsi/mpt3sas/mpi/mpi2.h          |   43 +-
+ drivers/scsi/mpt3sas/mpi/mpi2_cnfg.h     |  564 +++++++-
+ drivers/scsi/mpt3sas/mpi/mpi2_init.h     |   11 +-
+ drivers/scsi/mpt3sas/mpi/mpi2_ioc.h      |  282 +++-
+ drivers/scsi/mpt3sas/mpi/mpi2_pci.h      |  112 ++
+ drivers/scsi/mpt3sas/mpi/mpi2_tool.h     |   14 +-
+ drivers/scsi/mpt3sas/mpt3sas_base.c      |  675 +++++++++-
+ drivers/scsi/mpt3sas/mpt3sas_base.h      |  171 ++-
+ drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
+ drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  158 ++-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 2079 +++++++++++++++++++++++++++---
+ drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
+ 12 files changed, 3937 insertions(+), 274 deletions(-)
+ create mode 100644 drivers/scsi/mpt3sas/mpi/mpi2_pci.h
 
-(b) Disable keep alives at all? (and in this case, we need to inform the
-target to not send keep alives in case of a 0 valued kato).
-
-Thanks in advance,
-
-
-Guilherme
+-- 
+2.5.5
