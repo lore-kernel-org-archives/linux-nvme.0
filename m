@@ -1,86 +1,97 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Thu, 31 Aug 2017 10:28:06 +0530
-Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
-In-Reply-To: <yq1a82gxwqm.fsf@oracle.com>
-References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <yq1lgmbauxt.fsf@oracle.com>
- <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
- <yq1a82gxwqm.fsf@oracle.com>
-Message-ID: <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Thu, 31 Aug 2017 15:15:42 +0800
+Subject: kernel NULL pointer during reset_controller operation with IO on
+ 4.11.0-rc7
+In-Reply-To: <7ceef67d-4424-97d5-02f5-7569a1f5a20e@mellanox.com>
+References: <1413097100.14743757.1492668219336.JavaMail.zimbra@redhat.com>
+ <97bb90ec-4337-62f7-f08d-a673975a5637@grimberg.me>
+ <20170425180630.GU14088@mtr-leonro.local>
+ <cbc43d35-27c9-331d-b345-b09530477d74@mellanox.com>
+ <39bb8b67-4018-09bd-9d7d-a8f8534084a7@redhat.com>
+ <7ceef67d-4424-97d5-02f5-7569a1f5a20e@mellanox.com>
+Message-ID: <1101dc7c-f4bd-6411-985c-8cf7325ad1d8@redhat.com>
 
-Hi Martin,
-Replied inline.
 
-Thanks,
-Suganath Prabu S
-
-On Thu, Aug 31, 2017 at 8:35 AM, Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
+> I couldn't repro it, but for some reason you got an overflow in the QP 
+> send queue.
+> seems like something might be wrong with the calculation (probably 
+> signaling calculation).
 >
-> Hi Suganath,
+> please supply more details:
+> 1. link layer ?
+> 2. HCA type + FW versions on target/host sides ?
+> 3. B2B connection ?
 >
->> Theoretically we want to use h/w capability (to translate IEEE to PRP)
->> for smaller IO size to leverage h/w capability.
+> try this one as a first step:
 >
-> Nobody says we have to use the capability just because the hardware has
-> it.
+Hi Max
+I retest this issue on 4.13.0-rc6/4.13.0-rc7 without your patch, found 
+this issue cannot be reproduced any more.
+Here is my environment:
+link layer:mlx5_roce
+HCA:
+04:00.0 Infiniband controller: Mellanox Technologies MT27700 Family 
+[ConnectX-4]
+04:00.1 Infiniband controller: Mellanox Technologies MT27700 Family 
+[ConnectX-4]
+05:00.0 Ethernet controller: Mellanox Technologies MT27710 Family 
+[ConnectX-4 Lx]
+05:00.1 Ethernet controller: Mellanox Technologies MT27710 Family 
+[ConnectX-4 Lx]
+Firmware:
+[   13.489854] mlx5_core 0000:04:00.0: firmware version: 12.18.1000
+[   14.360121] mlx5_core 0000:04:00.1: firmware version: 12.18.1000
+[   15.091088] mlx5_core 0000:05:00.0: firmware version: 14.18.1000
+[   15.936417] mlx5_core 0000:05:00.1: firmware version: 14.18.1000
+The two server connected by switch.
+
+Will let you know and retest your patch when I reproduced it in the future.
+
+Thanks
+Yi
+
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 82fcb07..1437306 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -88,6 +88,7 @@ struct nvme_rdma_queue {
+>         struct nvme_rdma_qe     *rsp_ring;
+>         atomic_t                sig_count;
+>         int                     queue_size;
+> +       int                     limit_mask;
+>         size_t                  cmnd_capsule_len;
+>         struct nvme_rdma_ctrl   *ctrl;
+>         struct nvme_rdma_device *device;
+> @@ -521,6 +522,7 @@ static int nvme_rdma_init_queue(struct 
+> nvme_rdma_ctrl *ctrl,
 >
-> Unlike some other operating systems, Linux will only submit I/Os to the
-> driver that conform to the reported underlying constraints of the
-> hardware.
-
-<Suganath> In general, h/w constraints are handled. What we missed is
-Fast Path h/w
-which is not exposed to OS.
-
-> I fail to understand how letting the HBA firmware translate an
-> SGL to a PRP for a subset of I/Os could do anything but add latency.
-
-<Suganath> Let me explain - NVME device fast path is possible in two ways.
-IEEE SGL and PRP SGL. Due to h/w constraint we choose IEEE SGL only for
-smaller IO size.
-Both above is true h/w Fast Path and no firmware involvement.
-
-> Plus complexity in the hot path of the driver.
-
-<Suganath> Agree with you. We are planning to see if we can keep only
-simple Fast
-Path using only PRP. It will take some time to finalize as we have to
-engage h/w and f/w team.  BTW - This area is h/w dependent and we do not
-see further changes in this area.
-
+>         queue->queue_size = queue_size;
+>         atomic_set(&queue->sig_count, 0);
+> +       queue->limit_mask = (min(32, 1 << ilog2((queue->queue_size + 
+> 1) / 2))) - 1;
 >
->> - If the unmap translation in firmware is slow, why don't you translate
->>   WRITE SAME/w UNMAP set to DSM DEALLOCATE without requiring
->>   applications to do encapsulated passthrough?
+>         queue->cm_id = rdma_create_id(&init_net, nvme_rdma_cm_handler, 
+> queue,
+>                         RDMA_PS_TCP, IB_QPT_RC);
+> @@ -1009,9 +1011,7 @@ static void nvme_rdma_send_done(struct ib_cq 
+> *cq, struct ib_wc *wc)
+>   */
+>  static inline bool nvme_rdma_queue_sig_limit(struct nvme_rdma_queue 
+> *queue)
+>  {
+> -       int limit = 1 << ilog2((queue->queue_size + 1) / 2);
+> -
+> -       return (atomic_inc_return(&queue->sig_count) & (limit - 1)) == 0;
+> +       return (atomic_inc_return(&queue->sig_count) & 
+> (queue->limit_mask)) == 0;
+>  }
 >
->> => As of now, current FW supports UNMAP command but not WRITE_SAME for
->> NVME drive. We did some experiment to convert UMAP command in driver,
->> but that is not really giving any performance improvement.
+>  static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
 >
-> It is imperative that the common use case, Linux' discard
-> infrastructure, is working correctly and is as performant as any
-> application-driven passthrough workaround.
 >
-> Unlike SCSI-to-SATA translation you have the benefit of a 1:1 mapping
-> between UNMAP and DEALLOCATE. I'm not even sure why there would be a
-> significant performance penalty in the firmware?
-
-<Suganath> I agree. Currently there is no performance issue for UNMAP
-translation in
-FW.
-
-
->> We would like to continue with UNMAP (and all other non-read/write
->> commands) to be handled in FW.
 >
-> And yet patch 4 circumvents that statement by adding support for
-> encapsulated commands to bypass the FW translation...
-
-<Suganath> This path is not due to performance reason. User wants to
-interact with
-NVME drive in native NVME command for management.
-
 >
-> --
-> Martin K. Petersen      Oracle Linux Engineering
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
