@@ -1,42 +1,50 @@
-From: daniel.verkamp@intel.com (Daniel Verkamp)
-Date: Wed, 30 Aug 2017 15:25:16 -0700
-Subject: [PATCH] nvme-cli: generate spec-compliant UUID NQNs
-Message-ID: <20170830222516.44089-1-daniel.verkamp@intel.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Wed, 30 Aug 2017 23:05:37 -0400
+Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
+In-Reply-To: <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
+ (Suganath Prabu Subramani's message of "Wed, 30 Aug 2017 18:00:26
+ +0530")
+References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <yq1lgmbauxt.fsf@oracle.com>
+ <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
+Message-ID: <yq1a82gxwqm.fsf@oracle.com>
 
-The gen-hostnqn command previously generated UUID NQNs in a format that
-does not match the NVMe specification.
 
-Signed-off-by: Daniel Verkamp <daniel.verkamp at intel.com>
----
- Documentation/nvme-gen-hostnqn.txt | 2 +-
- nvme.c                             | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Hi Suganath,
 
-diff --git a/Documentation/nvme-gen-hostnqn.txt b/Documentation/nvme-gen-hostnqn.txt
-index 6d5346f..9efefb5 100644
---- a/Documentation/nvme-gen-hostnqn.txt
-+++ b/Documentation/nvme-gen-hostnqn.txt
-@@ -13,7 +13,7 @@ SYNOPSIS
- DESCRIPTION
- -----------
- Generate a random host NQN in the form:
--nqn.2014-08.org.nvmexpress:NVMf:uuid:1b4e28ba-2fa1-11d2-883f-0016d3cca427
-+nqn.2014-08.org.nvmexpress:uuid:1b4e28ba-2fa1-11d2-883f-0016d3cca427
- and prints it to stdout.
- 
- OPTIONS
-diff --git a/nvme.c b/nvme.c
-index 676e8bf..f1d6d65 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -3217,7 +3217,7 @@ static int gen_hostnqn_cmd(int argc, char **argv, struct command *command, struc
- 
- 	uuid_generate_random(uuid);
- 	uuid_unparse_lower(uuid, uuid_str);
--	printf("nqn.2014-08.org.nvmexpress:NVMf:uuid:%s\n", uuid_str);
-+	printf("nqn.2014-08.org.nvmexpress:uuid:%s\n", uuid_str);
- 	return 0;
- }
- #else
+> Theoretically we want to use h/w capability (to translate IEEE to PRP)
+> for smaller IO size to leverage h/w capability.
+
+Nobody says we have to use the capability just because the hardware has
+it.
+
+Unlike some other operating systems, Linux will only submit I/Os to the
+driver that conform to the reported underlying constraints of the
+hardware. I fail to understand how letting the HBA firmware translate an
+SGL to a PRP for a subset of I/Os could do anything but add latency.
+Plus complexity in the hot path of the driver.
+
+> - If the unmap translation in firmware is slow, why don't you translate
+>   WRITE SAME/w UNMAP set to DSM DEALLOCATE without requiring
+>   applications to do encapsulated passthrough?
+
+> => As of now, current FW supports UNMAP command but not WRITE_SAME for
+> NVME drive. We did some experiment to convert UMAP command in driver,
+> but that is not really giving any performance improvement.
+
+It is imperative that the common use case, Linux' discard
+infrastructure, is working correctly and is as performant as any
+application-driven passthrough workaround.
+
+Unlike SCSI-to-SATA translation you have the benefit of a 1:1 mapping
+between UNMAP and DEALLOCATE. I'm not even sure why there would be a
+significant performance penalty in the firmware?
+
+> We would like to continue with UNMAP (and all other non-read/write
+> commands) to be handled in FW.
+
+And yet patch 4 circumvents that statement by adding support for
+encapsulated commands to bypass the FW translation...
+
 -- 
-2.13.5
+Martin K. Petersen	Oracle Linux Engineering
