@@ -1,14 +1,44 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 31 Aug 2017 13:06:27 -0400
-Subject: [PATCH] nvme-cli: generate spec-compliant UUID NQNs
-In-Reply-To: <20170830222516.44089-1-daniel.verkamp@intel.com>
-References: <20170830222516.44089-1-daniel.verkamp@intel.com>
-Message-ID: <20170831170627.GC17331@localhost.localdomain>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 31 Aug 2017 23:22:44 -0400
+Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
+In-Reply-To: <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
+ (Suganath Prabu Subramani's message of "Thu, 31 Aug 2017 10:28:06
+ +0530")
+References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <yq1lgmbauxt.fsf@oracle.com>
+ <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
+ <yq1a82gxwqm.fsf@oracle.com>
+ <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
+Message-ID: <yq13787w1a3.fsf@oracle.com>
 
-On Wed, Aug 30, 2017@03:25:16PM -0700, Daniel Verkamp wrote:
-> The gen-hostnqn command previously generated UUID NQNs in a format that
-> does not match the NVMe specification.
-> 
-> Signed-off-by: Daniel Verkamp <daniel.verkamp at intel.com>
 
-Applied, thanks for the fix!
+Hi Suganath,
+
+> Let me explain - NVME device fast path is possible in two ways.  IEEE
+> SGL and PRP SGL. Due to h/w constraint we choose IEEE SGL only for
+> smaller IO size.  Both above is true h/w Fast Path and no firmware
+> involvement.
+
+> Agree with you. We are planning to see if we can keep only simple Fast
+> Path using only PRP.
+
+That would be great, thank you!
+
+> Currently there is no performance issue for UNMAP translation in FW.
+
+Good!
+
+>> And yet patch 4 circumvents that statement by adding support for
+>> encapsulated commands to bypass the FW translation...
+>
+> This path is not due to performance reason. User wants to interact
+> with NVME drive in native NVME command for management.
+
+Patch 4 states:
+
+"This encapsulated NVMe command is used by applications to send direct
+NVMe commands to NVMe drives or for handling unmap where the translation
+at controller/firmware level is having performance issues."
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
