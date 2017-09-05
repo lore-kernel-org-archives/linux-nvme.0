@@ -1,20 +1,50 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Tue, 5 Sep 2017 21:58:57 +0900
-Subject: [PATCH 2/2] nvme-pci: use appropriate initial chunk size for HMB
- allocation
-In-Reply-To: <20170904200502.GB16423@lst.de>
-References: <1504538610-15670-1-git-send-email-akinobu.mita@gmail.com>
- <1504538610-15670-3-git-send-email-akinobu.mita@gmail.com>
- <20170904200502.GB16423@lst.de>
-Message-ID: <CAC5umyhMxf9j7G-G3_P=8C1Fzi2qqiEQ43EuKbveGUtNX2L=kw@mail.gmail.com>
+From: mwilck@suse.com (Martin Wilck)
+Date: Tue,  5 Sep 2017 20:23:26 +0200
+Subject: [PATCH] string.h: un-fortify memcpy_and_pad
+In-Reply-To: <CAK8P3a0u5w1C+L6t9h5+4fu0gt79u68B+txhF6adAT3MVfwW3Q@mail.gmail.com>
+References: <CAK8P3a0u5w1C+L6t9h5+4fu0gt79u68B+txhF6adAT3MVfwW3Q@mail.gmail.com>
+Message-ID: <20170905182326.15681-1-mwilck@suse.com>
 
-2017-09-05 5:05 GMT+09:00 Christoph Hellwig <hch at lst.de>:
-> Looks fine,
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
->
-> (It might need some context changes depending on the fate of the
-> previous patch, but I'll resend it together with other HMB bits if
-> needed)
+The way I'd implemented the new helper memcpy_and_pad  with
+__FORTIFY_INLINE caused compiler warnings for certain kernel
+configurations.
 
-Sounds good.  Please send it together.
+This helper is only used in a single place at this time, and thus
+doesn't benefit much from fortification. So simplify the code
+by dropping fortification support for now.
+
+Fixes: 3c5fa8cd18f8 "string.h: add memcpy_and_pad()"
+Signed-off-by: Martin Wilck <mwilck at suse.com>
+---
+ include/linux/string.h | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
+
+diff --git a/include/linux/string.h b/include/linux/string.h
+index 0bec4151b0eb9..0495cd3c81689 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -404,20 +404,9 @@ __FORTIFY_INLINE char *strcpy(char *p, const char *q)
+  * @count: The number of bytes to copy
+  * @pad: Character to use for padding if space is left in destination.
+  */
+-__FORTIFY_INLINE void memcpy_and_pad(void *dest, size_t dest_len,
+-				     const void *src, size_t count, int pad)
++static inline void memcpy_and_pad(void *dest, size_t dest_len,
++				  const void *src, size_t count, int pad)
+ {
+-	size_t dest_size = __builtin_object_size(dest, 0);
+-	size_t src_size = __builtin_object_size(src, 0);
+-
+-	if (__builtin_constant_p(dest_len) && __builtin_constant_p(count)) {
+-		if (dest_size < dest_len && dest_size < count)
+-			__write_overflow();
+-		else if (src_size < dest_len && src_size < count)
+-			__read_overflow3();
+-	}
+-	if (dest_size < dest_len)
+-		fortify_panic(__func__);
+ 	if (dest_len > count) {
+ 		memcpy(dest, src, count);
+ 		memset(dest + count, pad,  dest_len - count);
+-- 
+2.14.0
