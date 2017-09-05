@@ -1,73 +1,52 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue,  5 Sep 2017 13:59:14 +0300
-Subject: [PATCH 0/3] nvmet-rdma: SRQ per completion vector
-Message-ID: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+Date: Tue,  5 Sep 2017 13:59:15 +0300
+Subject: [PATCH 1/3] nvmet-rdma: use srq pointer in rdma_cmd
+In-Reply-To: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+References: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1504609157-3004-2-git-send-email-maxg@mellanox.com>
 
-This is a new feature for NVMEoF RDMA target, that is intended to save resource allocation
-(by sharing them) and utilize the locality (completions and memory) to get the best
-performance with Shared Receive Queues (SRQs). We'll create a SRQ per completion vector
-(and not per device) and assosiate each created QP/CQ with an appropriate SRQ. This will
-also reduce the lock contention on the single SRQ per device (today's solution).
+This is a preparetion patch that creates an infrastructure in post
+recv mechanism for the SRQ per completion vector feature.
 
-My testing environment included 4 initiators (CX5, CX5, CX4, CX3) that were connected to 4
-subsystems (1 ns per sub) throw 2 ports (each initiator connected to unique subsystem
-backed in a different bull_blk device) using a switch to the NVMEoF target (CX5).
-I used RoCE link layer.
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/rdma.c |    9 ++++++---
+ 1 files changed, 6 insertions(+), 3 deletions(-)
 
-Configuration:
- - Irqbalancer stopped on each server
- - set_irq_affinity.sh on each interface
- - 2 initiators run traffic throw port 1
- - 2 initiators run traffic throw port 2
- - On initiator set register_always=N
- - Fio with 12 jobs, iodepth 128
-
-Memory consumption calculation for recv buffers (target):
- - Multiple SRQ: SRQ_size * comp_num * ib_devs_num * inline_buffer_size
- - Single SRQ: SRQ_size * 1 * ib_devs_num * inline_buffer_size
- - MQ: RQ_size * CPU_num * ctrl_num * inline_buffer_size
-
-Cases:
- 1. Multiple SRQ with 1024 entries:
-    - Mem = 1024 * 24 * 2 * 4k = 192MiB (Constant number - not depend on initiators number)
- 2. Multiple SRQ with 256 entries:
-    - Mem = 256 * 24 * 2 * 4k = 48MiB (Constant number - not depend on initiators number)
- 3. MQ:
-    - Mem = 256 * 24 * 8 * 4k = 192MiB (Mem grows for every new created ctrl)
- 4. Single SRQ (current SRQ implementation):
-    - Mem = 4096 * 1 * 2 * 4k = 32MiB (Constant number - not depend on initiators number)
-
-results:
-
-BS    1.read (target CPU)   2.read (target CPU)    3.read (target CPU)   4.read (target CPU)
----  --------------------- --------------------- --------------------- ----------------------
-1k     5.88M (80%)            5.45M (72%)            6.77M (91%)          2.2M (72%)
-
-2k     3.56M (65%)            3.45M (59%)            3.72M (64%)          2.12M (59%)
-
-4k     1.8M (33%)             1.87M (32%)            1.88M (32%)          1.59M (34%)
-
-BS    1.write (target CPU)   2.write (target CPU) 3.write (target CPU)   4.write (target CPU)
----  --------------------- --------------------- --------------------- ----------------------
-1k     5.42M (63%)            5.14M (55%)            7.75M (82%)          2.14M (74%)
-
-2k     4.15M (56%)            4.14M (51%)            4.16M (52%)          2.08M (73%)
-
-4k     2.17M (28%)            2.17M (27%)            2.16M (28%)          1.62M (24%)
-
-
-We can see the perf improvement between Case 2 and Case 4 (same order of resource).
-We can see the benefit in resource consumption (mem and CPU) with a small perf loss
-between cases 2 and 3.
-There is still an open question between the perf differance for 1k between Case 1 and
-Case 3, but I guess we can investigate and improve it incrementaly.
-
-Thanks to Idan Burstein and Oren Duer for suggesting this nice feature.
-
-Max Gurtovoy (3):
-  nvmet-rdma: use srq pointer in rdma_cmd
-  nvmet-rdma: use SRQ per completion vector
-  nvmet-rdma: add module parameter for SRQ size
-
- drivers/nvme/target/rdma.c |  156 ++++++++++++++++++++++++++++++++++----------
- 1 files changed, 121 insertions(+), 35 deletions(-)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 56a4cba..fb322b3 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -45,6 +45,7 @@ struct nvmet_rdma_cmd {
+ 	struct page		*inline_page;
+ 	struct nvme_command     *nvme_cmd;
+ 	struct nvmet_rdma_queue	*queue;
++	struct ib_srq		*srq;
+ };
+ 
+ enum {
+@@ -442,8 +443,8 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+ 		cmd->sge[0].addr, cmd->sge[0].length,
+ 		DMA_FROM_DEVICE);
+ 
+-	if (ndev->srq)
+-		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
++	if (cmd->srq)
++		return ib_post_srq_recv(cmd->srq, &cmd->wr, &bad_wr);
+ 	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
+ }
+ 
+@@ -819,8 +820,10 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+ 	ndev->srq = srq;
+ 	ndev->srq_size = srq_size;
+ 
+-	for (i = 0; i < srq_size; i++)
++	for (i = 0; i < srq_size; i++) {
++		ndev->srq_cmds[i].srq = srq;
+ 		nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
++	}
+ 
+ 	return 0;
+ 
+-- 
+1.7.1
