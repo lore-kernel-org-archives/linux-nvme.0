@@ -1,49 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  6 Sep 2017 18:30:32 +0300
-Subject: [PATCH 3/3] block: remove blk_mq_reinit_tagset
-In-Reply-To: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
-References: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1504711832-28425-4-git-send-email-sagi@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 6 Sep 2017 16:11:32 -0400
+Subject: [PATCH 4/4] nvme-pci: implement the HMB entry number and size
+ limitations
+In-Reply-To: <20170906135532.21358-5-hch@lst.de>
+References: <20170906135532.21358-1-hch@lst.de>
+ <20170906135532.21358-5-hch@lst.de>
+Message-ID: <20170906201131.GE17331@localhost.localdomain>
 
-No callers left.
+On Wed, Sep 06, 2017@03:55:32PM +0200, Christoph Hellwig wrote:
+> Adds support for the new Host Memory Buffer Minimum Descriptor Entry Size
+> and Host Memory Maximum Descriptors Entries field that were added in
+> TP 4002 HMB Enhancements.  These allow the controller to advertise
+> limits for the usual number of segments in the host memory buffer, as
+> well as a minimum usable per-segment size.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Suggested-by: Bart Van Assche <bart.vanassche at wdc.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- block/blk-mq-tag.c     | 7 -------
- include/linux/blk-mq.h | 2 --
- 2 files changed, 9 deletions(-)
+Looks good.
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index bce1c76fc768..c81b40ecd3f1 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -327,13 +327,6 @@ int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
- }
- EXPORT_SYMBOL_GPL(blk_mq_tagset_iter);
- 
--int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
--			 int (reinit_request)(void *, struct request *))
--{
--	return blk_mq_tagset_iter(set, set->driver_data, reinit_request);
--}
--EXPORT_SYMBOL_GPL(blk_mq_reinit_tagset);
--
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 		void *priv)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 6bc29f73a9aa..cfd64e500d82 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -261,8 +261,6 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout);
- int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
- 		int (reinit_request)(void *, struct request *));
--int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
--			 int (reinit_request)(void *, struct request *));
- 
- int blk_mq_map_queues(struct blk_mq_tag_set *set);
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
--- 
-2.7.4
+Reviewed-by: Keith Busch <keith.busch at intel.com>
