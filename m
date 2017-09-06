@@ -1,32 +1,9 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Wed, 6 Sep 2017 15:02:44 +0200
-Subject: [PATCH] string.h: un-fortify memcpy_and_pad
-In-Reply-To: <CAK8P3a1WnD6G+VU4vg3pQ-TJjLmr+o0c0fZTRHg=FQqpiQ=fzA@mail.gmail.com>
-References: <CAK8P3a0u5w1C+L6t9h5+4fu0gt79u68B+txhF6adAT3MVfwW3Q@mail.gmail.com>
- <20170905182326.15681-1-mwilck@suse.com>
- <CAK8P3a1WnD6G+VU4vg3pQ-TJjLmr+o0c0fZTRHg=FQqpiQ=fzA@mail.gmail.com>
-Message-ID: <CAK8P3a3uYZNP+C5MHS1nbo4-j1Azr472RrDivwbiL+yWisYJRQ@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed,  6 Sep 2017 15:55:28 +0200
+Subject: nvme host memory buffer fixes and updates
+Message-ID: <20170906135532.21358-1-hch@lst.de>
 
-On Tue, Sep 5, 2017@9:26 PM, Arnd Bergmann <arnd@arndb.de> wrote:
-> On Tue, Sep 5, 2017@8:23 PM, Martin Wilck <mwilck@suse.com> wrote:
->> The way I'd implemented the new helper memcpy_and_pad  with
->> __FORTIFY_INLINE caused compiler warnings for certain kernel
->> configurations.
->>
->> This helper is only used in a single place at this time, and thus
->> doesn't benefit much from fortification. So simplify the code
->> by dropping fortification support for now.
->>
->> Fixes: 3c5fa8cd18f8 "string.h: add memcpy_and_pad()"
->> Signed-off-by: Martin Wilck <mwilck at suse.com>
->
-> Looks good to me,
->
-> Acked-by: Arnd Bergmann <arnd at arndb.de>
->
-> I've added this to my randconfig testing tree, if you don't hear anything
-> from me by tomorrow, you can assume that it caused no other failures.
+Hi all,
 
-build-tested successfully.
-
-Tested-by: Arnd Bergmann <arnd at arndb.de>
+this series fixes a few bugs in the HMB code, and adds support
+for two trivial new tunables exposed by some devices.
