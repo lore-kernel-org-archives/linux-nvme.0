@@ -1,84 +1,92 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  6 Sep 2017 15:55:31 +0200
-Subject: [PATCH 3/4] nvme-pci: propagate (some) errors from host memory buffer
- setup
+Date: Wed,  6 Sep 2017 15:55:32 +0200
+Subject: [PATCH 4/4] nvme-pci: implement the HMB entry number and size
+ limitations
 In-Reply-To: <20170906135532.21358-1-hch@lst.de>
 References: <20170906135532.21358-1-hch@lst.de>
-Message-ID: <20170906135532.21358-4-hch@lst.de>
+Message-ID: <20170906135532.21358-5-hch@lst.de>
 
-We want to catch command execution errors when resetting the device, so
-propagate errors from the Set Features when setting up the host memory
-buffer.  We keep ignoring memory allocation failures, as the spec
-clearly says that the controller must work without a host memory buffer.
+Adds support for the new Host Memory Buffer Minimum Descriptor Entry Size
+and Host Memory Maximum Descriptors Entries field that were added in
+TP 4002 HMB Enhancements.  These allow the controller to advertise
+limits for the usual number of segments in the host memory buffer, as
+well as a minimum usable per-segment size.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Cc: stable at vger.kernel.org
 ---
- drivers/nvme/host/pci.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 2 ++
+ drivers/nvme/host/nvme.h | 3 +++
+ drivers/nvme/host/pci.c  | 6 +++++-
+ include/linux/nvme.h     | 4 +++-
+ 4 files changed, 13 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 277a7a02cba5..407fc1c80d5b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1897,6 +1897,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		ctrl->cntlid = le16_to_cpu(id->cntlid);
+ 		ctrl->hmpre = le32_to_cpu(id->hmpre);
+ 		ctrl->hmmin = le32_to_cpu(id->hmmin);
++		ctrl->hmminds = le32_to_cpu(id->hmminds);
++		ctrl->hmmaxd = le16_to_cpu(id->hmmaxd);
+ 	}
+ 
+ 	kfree(id);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a19a587d60ed..432c543beaed 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -176,8 +176,11 @@ struct nvme_ctrl {
+ 	u64 ps_max_latency_us;
+ 	bool apst_enabled;
+ 
++	/* PCIe only: */
+ 	u32 hmpre;
+ 	u32 hmmin;
++	u32 hmminds;
++	u16 hmmaxd;
+ 
+ 	/* Fabrics only */
+ 	u16 sqsize;
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6d2acf06c180..06ea46801578 100644
+index 06ea46801578..ef9093f617ac 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1693,12 +1693,13 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
- 	return -ENOMEM;
- }
+@@ -1628,6 +1628,10 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 	tmp = (preferred + chunk_size - 1);
+ 	do_div(tmp, chunk_size);
+ 	max_entries = tmp;
++
++	if (dev->ctrl.hmmaxd && dev->ctrl.hmmaxd < max_entries)
++		max_entries = dev->ctrl.hmmaxd;
++
+ 	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
+ 	if (!descs)
+ 		goto out;
+@@ -1681,7 +1685,7 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
  
--static void nvme_setup_host_mem(struct nvme_dev *dev)
-+static int nvme_setup_host_mem(struct nvme_dev *dev)
- {
- 	u64 max = (u64)max_host_mem_size_mb * SZ_1M;
- 	u64 preferred = (u64)dev->ctrl.hmpre * 4096;
- 	u64 min = (u64)dev->ctrl.hmmin * 4096;
- 	u32 enable_bits = NVME_HOST_MEM_ENABLE;
-+	int ret = 0;
- 
- 	preferred = min(preferred, max);
- 	if (min > max) {
-@@ -1706,7 +1707,7 @@ static void nvme_setup_host_mem(struct nvme_dev *dev)
- 			"min host memory (%lld MiB) above limit (%d MiB).\n",
- 			min >> ilog2(SZ_1M), max_host_mem_size_mb);
- 		nvme_free_host_mem(dev);
--		return;
-+		return 0;
- 	}
- 
- 	/*
-@@ -1723,7 +1724,7 @@ static void nvme_setup_host_mem(struct nvme_dev *dev)
- 		if (nvme_alloc_host_mem(dev, min, preferred)) {
- 			dev_warn(dev->ctrl.device,
- 				"failed to allocate host memory buffer.\n");
--			return;
-+			return 0; /* controller must work without HMB */
- 		}
- 
- 		dev_info(dev->ctrl.device,
-@@ -1731,8 +1732,10 @@ static void nvme_setup_host_mem(struct nvme_dev *dev)
- 			dev->host_mem_size >> ilog2(SZ_1M));
- 	}
- 
--	if (nvme_set_host_mem(dev, enable_bits))
-+	ret = nvme_set_host_mem(dev, enable_bits);
-+	if (ret)
- 		nvme_free_host_mem(dev);
-+	return ret;
- }
- 
- static int nvme_setup_io_queues(struct nvme_dev *dev)
-@@ -2176,8 +2179,11 @@ static void nvme_reset_work(struct work_struct *work)
- 				 "unable to allocate dma for dbbuf\n");
- 	}
- 
--	if (dev->ctrl.hmpre)
--		nvme_setup_host_mem(dev);
-+	if (dev->ctrl.hmpre) {
-+		result = nvme_setup_host_mem(dev);
-+		if (result < 0)
-+			goto out;
-+	}
- 
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
+ 	/* start big and work our way down */
+ 	for (chunk_size = min_t(u64, preferred, PAGE_SIZE * MAX_ORDER_NR_PAGES);
+-	     chunk_size >= PAGE_SIZE * 2;
++	     chunk_size >= max_t(u32, dev->ctrl.hmminds * 4096, PAGE_SIZE * 2);
+ 	     chunk_size /= 2) {
+ 		if (!__nvme_alloc_host_mem(dev, preferred, chunk_size)) {
+ 			if (!min || dev->host_mem_size >= min)
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 05560c2ecc83..c46f42269021 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -226,7 +226,9 @@ struct nvme_id_ctrl {
+ 	__le16			mntmt;
+ 	__le16			mxtmt;
+ 	__le32			sanicap;
+-	__u8			rsvd332[180];
++	__le32			hmminds;
++	__le16			hmmaxd;
++	__u8			rsvd338[174];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
 -- 
 2.11.0
