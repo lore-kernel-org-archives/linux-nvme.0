@@ -1,34 +1,129 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 6 Sep 2017 12:30:20 +0300
-Subject: [PATCH v2] nvme-fabrics: Prevent KATO to be set as 0
-In-Reply-To: <5be8a934-0695-55fc-0a80-1794cefd6a96@linux.vnet.ibm.com>
-References: <20170829220346.19424-1-gpiccoli@linux.vnet.ibm.com>
- <d67a9ef4-8c01-f842-3eed-4ef873c22dfd@grimberg.me>
- <194a3a6e-0936-b5e4-33b4-8b4335e7887b@linux.vnet.ibm.com>
- <5be8a934-0695-55fc-0a80-1794cefd6a96@linux.vnet.ibm.com>
-Message-ID: <89ebdefc-6fc7-77ad-d483-ef2befb9815d@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed,  6 Sep 2017 11:50:25 +0200
+Subject: [PATCH] nvme: fix lightnvm check
+Message-ID: <20170906095025.8918-1-hch@lst.de>
 
+nvme_nvm_ns_supported assumes every device is a pci_dev, which leads to
+reading an incorrect field, or possible even a dereference of unallocated
+memory for fabrics controllers.
 
->> My bad...
->>
->> So, please clarify it to me: do we want to allow a 0 value for KATO? If
->> yes, no piece of code is needed in the target to stop sending keep alives?
->> The way it "works" today (aka my 1st patch), if we set KATO as 0, we get
->> timeout right after connection. When I first set KATO to 0 in my debug,
->> I was expecting to disable keep alives, not getting timeouts heheh
->>
->>
->> So, the purpose of KATO == 0 is to:
->>
->> (a) Get timeouts right after the connection is complete and keep getting
->> them forever? Or...
->>
->> (b) Disable keep alives at all? (and in this case, we need to inform the
->> target to not send keep alives in case of a 0 valued kato).
+Fix this by introducing a quirk for lighnvm capable devices instead.
 
-Its just a simple way to test that the target does comply to the kato
-by not sending it a keep-alive and wait for it to teardown the 
-controller, seems useful to keep to have a sanity check that it
-doesn't break.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Cc: stable at vger.kernel.org
+---
 
-So lets go with (a)
+Now sent to the correct linux-nvme list address..
+
+ drivers/nvme/host/core.c     |  9 +++++----
+ drivers/nvme/host/lightnvm.c | 26 --------------------------
+ drivers/nvme/host/nvme.h     | 10 +++++-----
+ drivers/nvme/host/pci.c      |  4 ++++
+ 4 files changed, 14 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 277a7a02cba5..8040fc14fd15 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2377,10 +2377,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ 	nvme_report_ns_ids(ctrl, ns->ns_id, id, ns->eui, ns->nguid, &ns->uuid);
+ 
+-	if (nvme_nvm_ns_supported(ns, id) &&
+-				nvme_nvm_register(ns, disk_name, node)) {
+-		dev_warn(ctrl->device, "%s: LightNVM init failure\n", __func__);
+-		goto out_free_id;
++	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
++		if (nvme_nvm_register(ns, disk_name, node)) {
++			dev_warn(ctrl->device, "LightNVM init failure\n");
++			goto out_free_id;
++		}
+ 	}
+ 
+ 	disk = alloc_disk_node(0, node);
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index c1a28569e843..1f79e3f141e6 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -955,29 +955,3 @@ void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
+ 	sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+ 					&nvm_dev_attr_group);
+ }
+-
+-/* move to shared place when used in multiple places. */
+-#define PCI_VENDOR_ID_CNEX 0x1d1d
+-#define PCI_DEVICE_ID_CNEX_WL 0x2807
+-#define PCI_DEVICE_ID_CNEX_QEMU 0x1f1f
+-
+-int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id)
+-{
+-	struct nvme_ctrl *ctrl = ns->ctrl;
+-	/* XXX: this is poking into PCI structures from generic code! */
+-	struct pci_dev *pdev = to_pci_dev(ctrl->dev);
+-
+-	/* QEMU NVMe simulator - PCI ID + Vendor specific bit */
+-	if (pdev->vendor == PCI_VENDOR_ID_CNEX &&
+-				pdev->device == PCI_DEVICE_ID_CNEX_QEMU &&
+-							id->vs[0] == 0x1)
+-		return 1;
+-
+-	/* CNEX Labs - PCI ID + Vendor specific bit */
+-	if (pdev->vendor == PCI_VENDOR_ID_CNEX &&
+-				pdev->device == PCI_DEVICE_ID_CNEX_WL &&
+-							id->vs[0] == 0x1)
+-		return 1;
+-
+-	return 0;
+-}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a19a587d60ed..b8ba7c85e61b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -75,6 +75,11 @@ enum nvme_quirks {
+ 	 * The deepest sleep state should not be used.
+ 	 */
+ 	NVME_QUIRK_NO_DEEPEST_PS		= (1 << 5),
++
++	/*
++	 * Supports the LighNVM command set if indicated in vs[1].
++	 */
++	NVME_QUIRK_LIGHTNVM			= (1 << 6),
+ };
+ 
+ /*
+@@ -320,7 +325,6 @@ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ 
+ #ifdef CONFIG_NVM
+-int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id);
+ int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
+ void nvme_nvm_unregister(struct nvme_ns *ns);
+ int nvme_nvm_register_sysfs(struct nvme_ns *ns);
+@@ -339,10 +343,6 @@ static inline int nvme_nvm_register_sysfs(struct nvme_ns *ns)
+ 	return 0;
+ }
+ static inline void nvme_nvm_unregister_sysfs(struct nvme_ns *ns) {};
+-static inline int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id)
+-{
+-	return 0;
+-}
+ static inline int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 							unsigned long arg)
+ {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 11874afb2422..dc0146e6c952 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2497,6 +2497,10 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
++	{ PCI_DEVICE(0x1d1d, 0x1f1f),	/* LighNVM qemu device */
++		.driver_data = NVME_QUIRK_LIGHTNVM, },
++	{ PCI_DEVICE(0x1d1d, 0x2807),	/* CNEX WL */
++		.driver_data = NVME_QUIRK_LIGHTNVM, },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+-- 
+2.11.0
