@@ -1,31 +1,31 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  7 Sep 2017 16:27:28 -0700
-Subject: [PATCH 4/5] nvmet-fcloop: remove use of FC-specific error codes
+Date: Thu,  7 Sep 2017 16:27:29 -0700
+Subject: [PATCH 5/5] lpfc: remove use of FC-specific error codes
 In-Reply-To: <20170907232729.28763-1-jsmart2021@gmail.com>
 References: <20170907232729.28763-1-jsmart2021@gmail.com>
-Message-ID: <20170907232729.28763-5-jsmart2021@gmail.com>
+Message-ID: <20170907232729.28763-6-jsmart2021@gmail.com>
 
-The FC-NVME transport loopback test module used the FC-specific error
-codes in cases where it emulated a transport abort case. Instead of
-using the FC-specific values, now use a generic value (NVME_SC_INTERNAL).
+The lpfc driver used the FC-specific error when it needed to return
+an error to the FC-NVME transport. Convert to use a generic value
+(NVME_SC_INTERNAL).
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fcloop.c | 2 +-
+ drivers/scsi/lpfc/lpfc_nvme.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 1cb9847ec261..1fd1afbb8b2a 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -576,7 +576,7 @@ fcloop_tgt_fcp_abort(struct nvmet_fc_target_port *tgtport,
- 	tfcp_req->aborted = true;
- 	spin_unlock(&tfcp_req->reqlock);
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index 0a0a1b92d01d..d05af618e63f 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -884,7 +884,7 @@ lpfc_nvme_io_cmd_wqe_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *pwqeIn,
+ 					 wcqe->total_data_placed);
+ 			nCmd->transferred_length = 0;
+ 			nCmd->rcv_rsplen = 0;
+-			nCmd->status = NVME_SC_FC_TRANSPORT_ERROR;
++			nCmd->status = NVME_SC_INTERNAL;
+ 		}
+ 	}
  
--	tfcp_req->status = NVME_SC_FC_TRANSPORT_ABORTED;
-+	tfcp_req->status = NVME_SC_INTERNAL;
- 
- 	/*
- 	 * nothing more to do. If io wasn't active, the transport should
 -- 
 2.13.1
