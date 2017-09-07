@@ -1,41 +1,58 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  7 Sep 2017 16:27:25 -0700
-Subject: [PATCH 1/5] nvme: remove FC transport-specific error values
+Date: Thu,  7 Sep 2017 16:27:26 -0700
+Subject: [PATCH 2/5] nvme-fc: remove use of FC-specific error codes
 In-Reply-To: <20170907232729.28763-1-jsmart2021@gmail.com>
 References: <20170907232729.28763-1-jsmart2021@gmail.com>
-Message-ID: <20170907232729.28763-2-jsmart2021@gmail.com>
+Message-ID: <20170907232729.28763-3-jsmart2021@gmail.com>
 
-The NVM express group recinded the reserved range for the transport.
-Remove the FC-centric values that had been defined.
+The FC-NVME transport used the FC-specific error codes in cases where
+it had to fabricate an error to go back up stack. Instead of using the
+FC-specific values, now use a generic value (NVME_SC_INTERNAL).
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- include/linux/nvme.h | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/nvme/host/fc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 823bf6f80dae..3aedd930b988 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1133,19 +1133,6 @@ enum {
- 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 6e436987baae..af075e998944 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1376,7 +1376,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED)
+ 		status = cpu_to_le16((NVME_SC_ABORT_REQ | NVME_SC_DNR) << 1);
+ 	else if (freq->status)
+-		status = cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR << 1);
++		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
  
- 	NVME_SC_DNR			= 0x4000,
--
--
--	/*
--	 * FC Transport-specific error status values for NVME commands
--	 *
--	 * Transport-specific status code values must be in the range 0xB0..0xBF
--	 */
--
--	/* Generic FC failure - catchall */
--	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
--
--	/* I/O failure due to FC ABTS'd */
--	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
- };
+ 	/*
+ 	 * For the linux implementation, if we have an unsuccesful
+@@ -1404,7 +1404,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 		 */
+ 		if (freq->transferred_length !=
+ 			be32_to_cpu(op->cmd_iu.data_len)) {
+-			status = cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR << 1);
++			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
+ 			goto done;
+ 		}
+ 		result.u64 = 0;
+@@ -1421,7 +1421,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 					freq->transferred_length ||
+ 			     op->rsp_iu.status_code ||
+ 			     sqe->common.command_id != cqe->command_id)) {
+-			status = cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR << 1);
++			status = cpu_to_le16(NVME_SC_INTERNAL << 1);
+ 			goto done;
+ 		}
+ 		result = cqe->result;
+@@ -1429,7 +1429,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 		break;
  
- struct nvme_completion {
+ 	default:
+-		status = cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR << 1);
++		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
+ 		goto done;
+ 	}
+ 
 -- 
 2.13.1
