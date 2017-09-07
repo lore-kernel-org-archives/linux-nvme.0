@@ -1,54 +1,53 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  7 Sep 2017 13:20:23 -0700
-Subject: [PATCH 1/2] nvme: Add transport SGL definitions
+Date: Thu,  7 Sep 2017 13:20:24 -0700
+Subject: [PATCH 2/2] nvme-fc: use transport-specific sgl format
 In-Reply-To: <20170907202024.25207-1-jsmart2021@gmail.com>
 References: <20170907202024.25207-1-jsmart2021@gmail.com>
-Message-ID: <20170907202024.25207-2-jsmart2021@gmail.com>
+Message-ID: <20170907202024.25207-3-jsmart2021@gmail.com>
 
-Add the sgl type code for Transport SGL Data Block Descriptor.
+Sync with NVM Express spec change and FC-NVME 1.18.
 
-Add the sgl sub type code 0x0A, used by FC Transport.
+FC transport sets SGL type to Transport SGL Data Block Descriptor and
+subtype to transport-specific value 0x0A.
+
+Removed the warn-on's on the PRP fields. They are unneeded. They were
+to check for values from the upper layer that weren't set right, and
+for the most part were fine. But, with Async events, which reuse the
+same structure and 2nd time issued the SGL overlay converted them to
+the Transport SGL values - the warn-on's were errantly firing.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- include/linux/nvme.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/nvme/host/fc.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c46f42269021..823bf6f80dae 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -471,12 +471,14 @@ enum nvme_opcode {
-  *
-  * @NVME_SGL_FMT_ADDRESS:     absolute address of the data block
-  * @NVME_SGL_FMT_OFFSET:      relative offset of the in-capsule data block
-+ * @NVME_SGL_FMT_TRANSPORT_A: transport defined format, value 0xA
-  * @NVME_SGL_FMT_INVALIDATE:  RDMA transport specific remote invalidation
-  *                            request subtype
-  */
- enum {
- 	NVME_SGL_FMT_ADDRESS		= 0x00,
- 	NVME_SGL_FMT_OFFSET		= 0x01,
-+	NVME_SGL_FMT_TRANSPORT_A	= 0x0A,
- 	NVME_SGL_FMT_INVALIDATE		= 0x0f,
- };
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index d2e882c0f496..6e436987baae 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1989,16 +1989,17 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 	 * as well as those by FC-NVME spec.
+ 	 */
+ 	WARN_ON_ONCE(sqe->common.metadata);
+-	WARN_ON_ONCE(sqe->common.dptr.prp1);
+-	WARN_ON_ONCE(sqe->common.dptr.prp2);
+ 	sqe->common.flags |= NVME_CMD_SGL_METABUF;
  
-@@ -490,12 +492,16 @@ enum {
-  *
-  * For struct nvme_keyed_sgl_desc:
-  *   @NVME_KEY_SGL_FMT_DATA_DESC:	keyed data block descriptor
-+ *
-+ * Transport-specific SGL types:
-+ *   @NVME_TRANSPORT_SGL_DATA_DESC:	Transport SGL data dlock descriptor
-  */
- enum {
- 	NVME_SGL_FMT_DATA_DESC		= 0x00,
- 	NVME_SGL_FMT_SEG_DESC		= 0x02,
- 	NVME_SGL_FMT_LAST_SEG_DESC	= 0x03,
- 	NVME_KEY_SGL_FMT_DATA_DESC	= 0x04,
-+	NVME_TRANSPORT_SGL_DATA_DESC	= 0x05,
- };
+ 	/*
+-	 * format SQE DPTR field per FC-NVME rules
+-	 *    type=data block descr; subtype=offset;
+-	 *    offset is currently 0.
++	 * format SQE DPTR field per FC-NVME rules:
++	 *    type=0x5     Transport SGL Data Block Descriptor
++	 *    subtype=0xA  Transport-specific value
++	 *    address=0
++	 *    length=length of the data series
+ 	 */
+-	sqe->rw.dptr.sgl.type = NVME_SGL_FMT_OFFSET;
++	sqe->rw.dptr.sgl.type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
++					NVME_SGL_FMT_TRANSPORT_A;
+ 	sqe->rw.dptr.sgl.length = cpu_to_le32(data_len);
+ 	sqe->rw.dptr.sgl.addr = 0;
  
- struct nvme_sgl_desc {
 -- 
 2.13.1
