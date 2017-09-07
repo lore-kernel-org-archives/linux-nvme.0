@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Sep 2017 11:42:24 +0200
-Subject: [PATCH 2/3] nvme: introduce nvme_reinit_tagset
-In-Reply-To: <1504711832-28425-3-git-send-email-sagi@grimberg.me>
+Date: Thu, 7 Sep 2017 11:43:07 +0200
+Subject: [PATCH 3/3] block: remove blk_mq_reinit_tagset
+In-Reply-To: <1504711832-28425-4-git-send-email-sagi@grimberg.me>
 References: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
- <1504711832-28425-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20170907094224.udepllz3lqpj7537@linux-x5ow.site>
+ <1504711832-28425-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20170907094307.24aaswad43wwum2v@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
