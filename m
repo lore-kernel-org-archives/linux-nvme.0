@@ -1,27 +1,41 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  7 Sep 2017 16:27:24 -0700
-Subject: [PATCH 0/5] nvme: remove FC transport status values
-Message-ID: <20170907232729.28763-1-jsmart2021@gmail.com>
+Date: Thu,  7 Sep 2017 16:27:25 -0700
+Subject: [PATCH 1/5] nvme: remove FC transport-specific error values
+In-Reply-To: <20170907232729.28763-1-jsmart2021@gmail.com>
+References: <20170907232729.28763-1-jsmart2021@gmail.com>
+Message-ID: <20170907232729.28763-2-jsmart2021@gmail.com>
 
 The NVM express group recinded the reserved range for the transport.
-Remove the FC-centric values that had been defined and convert the
-FC transport and LLDD to use generic values.
+Remove the FC-centric values that had been defined.
 
-*** BLURB HERE ***
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ include/linux/nvme.h | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-James Smart (5):
-  nvme: remove FC transport-specific error values
-  nvme-fc: remove use of FC-specific error codes
-  nvmet-fc: remove use of FC-specific error codes
-  nvmet-fcloop: remove use of FC-specific error codes
-  lpfc: remove use of FC-specific error codes
-
- drivers/nvme/host/fc.c        |  8 ++++----
- drivers/nvme/target/fc.c      |  9 +++------
- drivers/nvme/target/fcloop.c  |  2 +-
- drivers/scsi/lpfc/lpfc_nvme.c |  2 +-
- include/linux/nvme.h          | 13 -------------
- 5 files changed, 9 insertions(+), 25 deletions(-)
-
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 823bf6f80dae..3aedd930b988 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1133,19 +1133,6 @@ enum {
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
+ 	NVME_SC_DNR			= 0x4000,
+-
+-
+-	/*
+-	 * FC Transport-specific error status values for NVME commands
+-	 *
+-	 * Transport-specific status code values must be in the range 0xB0..0xBF
+-	 */
+-
+-	/* Generic FC failure - catchall */
+-	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
+-
+-	/* I/O failure due to FC ABTS'd */
+-	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
+ };
+ 
+ struct nvme_completion {
 -- 
 2.13.1
