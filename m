@@ -1,17 +1,18 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Sep 2017 11:39:46 +0200
-Subject: [PATCH 1/3] block: introduce blk_mq_tagset_iter
-In-Reply-To: <1504711832-28425-2-git-send-email-sagi@grimberg.me>
-References: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
- <1504711832-28425-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170907093946.tktinwz4ay2qoxrn@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 7 Sep 2017 14:01:28 +0200
+Subject: [PATCH] nvme: fix lightnvm check
+In-Reply-To: <20170906150604.GD17331@localhost.localdomain>
+References: <20170906094825.8845-1-hch@lst.de>
+ <20170906150604.GD17331@localhost.localdomain>
+Message-ID: <20170907120128.GB18794@lst.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+On Wed, Sep 06, 2017@11:06:04AM -0400, Keith Busch wrote:
+> Ugh, even with this quirk, new lightnvm device will be broken for
+> all existing kernels. This sort of thing really could benefit from a
+> standard's defined capability or command set supported bit to distinguish
+> lightnvm devices. Lacking that, this looks like the only thing we can
+> do at the moment.
+
+I told them to register a different class code for these devices a long
+time ago, but nothing happened.  Then again I might underestimate the
+complexity of getting a class code..
