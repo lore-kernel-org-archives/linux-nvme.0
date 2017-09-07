@@ -1,57 +1,69 @@
-From: marcolso@amazon.com (Marc Olson)
-Date: Wed,  6 Sep 2017 17:23:56 -0700
-Subject: [PATCH] nvme: update timeout module parameter type
-Message-ID: <1504743836-25516-1-git-send-email-marcolso@amazon.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Thu, 7 Sep 2017 08:18:05 +0300
+Subject: [LPC] 2nd RDMA Mini-Summit Schedule
+Message-ID: <20170907051805.GA19175@mtr-leonro.local>
 
-The underlying blk_mq_tag_set, and request timeout parameters support an
-unsigned int. Extend the size of the nvme module parameters for io and
-admin commands to match.
+Hi,
 
-Signed-off-by: Marc Olson <marcolso at amazon.com>
+We're happy to announce schedule of the 2nd RDMA mini-summit, which will be
+held as part of coming Linux Plumbers Conference 2017.
 
----
- drivers/nvme/host/core.c | 8 ++++----
- drivers/nvme/host/nvme.h | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+During the conference, we will have two sessions: main track session and
+round table session.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fbeca06..097f678 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -34,13 +34,13 @@
- 
- #define NVME_MINORS		(1U << MINORBITS)
- 
--unsigned char admin_timeout = 60;
--module_param(admin_timeout, byte, 0644);
-+unsigned int admin_timeout = 60;
-+module_param(admin_timeout, uint, 0644);
- MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
- EXPORT_SYMBOL_GPL(admin_timeout);
- 
--unsigned char nvme_io_timeout = 30;
--module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
-+unsigned int nvme_io_timeout = 30;
-+module_param_named(io_timeout, nvme_io_timeout, uint, 0644);
- MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
- EXPORT_SYMBOL_GPL(nvme_io_timeout);
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8edafd8..6afabc4 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -30,10 +30,10 @@ enum {
- 	NVME_SC_CANCELLED		= -EINTR,
- };
- 
--extern unsigned char nvme_io_timeout;
-+extern unsigned int nvme_io_timeout;
- #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
- 
--extern unsigned char admin_timeout;
-+extern unsigned int admin_timeout;
- #define ADMIN_TIMEOUT	(admin_timeout * HZ)
- 
- extern unsigned char shutdown_timeout;
--- 
-2.7.4
+First session will be held on Thursday, September 14, 2017 from 9:30am ? 12:30pm
+with the topics relevant for the wider audience.
+
+In the second session, we  will focus on more face to face discussions in round
+table format and it will be scheduled a little bit later once we will get meeting
+room.
+
+---------------------------------------------------------------------------------------
+FIRST SESSION:
+---------------------------------------------------------------------------------------
+ * Backporting issues with multi-subsystem device (RDMA + netdev + more) by Don Dutile
+   - More and more devices in RDMA are dependent on netdev as well as other
+     subsystems -- target, NFS, scsi, block, cgroups, SELinux.... Can we make
+     backporting task for distro people easier?
+ * kABI Update by Matan Barak
+   - Going forward with a flexible and secure RDMA kABI
+ * System Boot and RDMA by Jason Gunthrope
+   - Discuss boot-time issues with the RDMA subsystem
+ * Paravirtual RDMA device by Marcel Apfelbaum and Yuval Shaia
+   - QEMU's limited RDMA support leaves it behind other modern hypervisors.
+     Marcel and Yuval will present the implementation of an emulated RDMA device,
+     analyze its performance and usability, and finally talk about future plans
+     for a possible virtio-rdma device.
+  * TX Flow Steering for IPsec by Liran Liss (pending time slot)
+   - The IPsec protocol provides both encryption and authentication for IP
+     protocol packets. Users of the raw ethernet QP that send/receive IPsec packets
+     could benefit from the IPsec crypto offloads capabilities that are
+     available in recent NICs.
+  * OpenFabrics Alliance - Status and New Directions by Jason Gunthrope
+  * BOF - Open Discussion
+   - Open discussion with the community lead by Leon Romanovsky, Jason Gunthorpe,
+     Christoph Lameter and Dennis Dalessandro
+
+---------------------------------------------------------------------------------------
+ROUND TABLE SESSION:
+---------------------------------------------------------------------------------------
+Possible list, bring your own topics:
+ * RDMA and ULPs
+ * Verbs testing suite
+ * RDMA netlink and RDMAtool future plans
+ * RDMA and the Linux IP stack
+ * Infrastructure issues with Travis CI
+ * Infrastructure gaps with rdma-core
+ * Packaging as part of CI for rdma-core.
+ * ....
+
+See you next week at Linux Plumber Conference 2017.
+
+Thanks
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170907/7194bc5a/attachment.sig>
