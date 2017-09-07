@@ -1,53 +1,50 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  7 Sep 2017 13:20:24 -0700
-Subject: [PATCH 2/2] nvme-fc: use transport-specific sgl format
-In-Reply-To: <20170907202024.25207-1-jsmart2021@gmail.com>
-References: <20170907202024.25207-1-jsmart2021@gmail.com>
-Message-ID: <20170907202024.25207-3-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 7 Sep 2017 16:37:59 -0400
+Subject: [PATCH] nvme: allow timed-out ios to retry
+In-Reply-To: <20170907201804.24979-1-jsmart2021@gmail.com>
+References: <20170907201804.24979-1-jsmart2021@gmail.com>
+Message-ID: <20170907203759.GA2832@localhost.localdomain>
 
-Sync with NVM Express spec change and FC-NVME 1.18.
+On Thu, Sep 07, 2017@01:18:04PM -0700, James Smart wrote:
+> Currently the nvme_req_needs_retry() applies several checks to see if
+> a retry is allowed. On of those is whether the current time has exceeded
+> the start time of the io plus the timeout length. This check, if an io
+> times out, means there is never a retry allowed for the io. Which means
+> applications see the io failure.
+> 
+> Remove this check and allow the io to timeout, like it does on other
+> protocols, and retries to be made.
+> 
+> On the FC transport, a frame can be lost for an individual io, and there
+> may be no other errors that escalate for the connection/association.
+> The io will timeout, which causes the transport to escalate into creating
+> a new association, but the io that timed out, due to this retry logic, has
+> already failed back to the application and things are hosed.
 
-FC transport sets SGL type to Transport SGL Data Block Descriptor and
-subtype to transport-specific value 0x0A.
+I'm a bit conflicted on this. While it'd be nice to give commands a chance
+to succeed after a timeout handling's controller reset, some uses would
+rather a command fail fast than succeed slow, and this change could keep
+a request outstanding for a very long time.
 
-Removed the warn-on's on the PRP fields. They are unneeded. They were
-to check for values from the upper layer that weren't set right, and
-for the most part were fine. But, with Async events, which reuse the
-same structure and 2nd time issued the SGL overlay converted them to
-the Transport SGL values - the warn-on's were errantly firing.
+What if we have a second timeout value: one for in-flight timeout before
+abort/controller resset, and another for total request lifetime?
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index d2e882c0f496..6e436987baae 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1989,16 +1989,17 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	 * as well as those by FC-NVME spec.
- 	 */
- 	WARN_ON_ONCE(sqe->common.metadata);
--	WARN_ON_ONCE(sqe->common.dptr.prp1);
--	WARN_ON_ONCE(sqe->common.dptr.prp2);
- 	sqe->common.flags |= NVME_CMD_SGL_METABUF;
- 
- 	/*
--	 * format SQE DPTR field per FC-NVME rules
--	 *    type=data block descr; subtype=offset;
--	 *    offset is currently 0.
-+	 * format SQE DPTR field per FC-NVME rules:
-+	 *    type=0x5     Transport SGL Data Block Descriptor
-+	 *    subtype=0xA  Transport-specific value
-+	 *    address=0
-+	 *    length=length of the data series
- 	 */
--	sqe->rw.dptr.sgl.type = NVME_SGL_FMT_OFFSET;
-+	sqe->rw.dptr.sgl.type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
-+					NVME_SGL_FMT_TRANSPORT_A;
- 	sqe->rw.dptr.sgl.length = cpu_to_le32(data_len);
- 	sqe->rw.dptr.sgl.addr = 0;
- 
--- 
-2.13.1
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+>  drivers/nvme/host/core.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index acc816b67582..90d09067a82a 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -134,8 +134,6 @@ static inline bool nvme_req_needs_retry(struct request *req)
+>  		return false;
+>  	if (nvme_req(req)->status & NVME_SC_DNR)
+>  		return false;
+> -	if (jiffies - req->start_time >= req->timeout)
+> -		return false;
+>  	if (nvme_req(req)->retries >= nvme_max_retries)
+>  		return false;
+>  	return true;
+> -- 
