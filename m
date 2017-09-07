@@ -1,17 +1,43 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Sep 2017 11:43:07 +0200
-Subject: [PATCH 3/3] block: remove blk_mq_reinit_tagset
-In-Reply-To: <1504711832-28425-4-git-send-email-sagi@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 7 Sep 2017 13:07:18 +0300
+Subject: [PATCH 0/3] Move tagset reinit to its only current consumer,
+ nvme-core
+In-Reply-To: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
 References: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
- <1504711832-28425-4-git-send-email-sagi@grimberg.me>
-Message-ID: <20170907094307.24aaswad43wwum2v@linux-x5ow.site>
+Message-ID: <a9b25790-1998-102c-cabc-d7647a4c070a@mellanox.com>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+
+
+On 9/6/2017 6:30 PM, Sagi Grimberg wrote:
+> As suggested by Bart Van Assche, get rid of
+> blk_mq_reinit_tagset and move it to nvme-core (its
+> only current consumer).
+> 
+> Instead, introduce a more generic tagset iterator helper.
+> 
+> Sagi Grimberg (3):
+>    block: introduce blk_mq_tagset_iter
+>    nvme: introduce nvme_reinit_tagset
+>    block: remove blk_mq_reinit_tagset
+> 
+>   block/blk-mq-tag.c       | 11 +++++------
+>   drivers/nvme/host/core.c | 13 +++++++++++++
+>   drivers/nvme/host/fc.c   |  3 ++-
+>   drivers/nvme/host/nvme.h |  2 ++
+>   drivers/nvme/host/rdma.c |  7 +++----
+>   include/linux/blk-mq.h   |  4 ++--
+>   6 files changed, 27 insertions(+), 13 deletions(-)
+> 
+
+The series looks good to me,
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+
+BTW, if we talking about the reinit_tagset, can you explain the 
+motivation for dereg_mr and alloc new mr for the RDMA transport layer ?
+we don't do it in iSER/SRP so I wonder what is special here ?
+I got some local protection errors in MP tests and under high load FIO 
+(that cause cmd TMO to expire and abort the cmds and then reconnect).
+I wonder if there is a connection between the two. I'm also debugging a 
+situation that we might have free/dereg/local_invalidate the MR before 
+the QP moved to ERR state.
