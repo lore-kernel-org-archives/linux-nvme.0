@@ -1,43 +1,63 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 7 Sep 2017 13:07:18 +0300
-Subject: [PATCH 0/3] Move tagset reinit to its only current consumer,
- nvme-core
-In-Reply-To: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
-References: <1504711832-28425-1-git-send-email-sagi@grimberg.me>
-Message-ID: <a9b25790-1998-102c-cabc-d7647a4c070a@mellanox.com>
+Date: Thu, 7 Sep 2017 13:47:08 +0300
+Subject: [PATCH 2/3] nvmet-rdma: use SRQ per completion vector
+In-Reply-To: <b02ac628-3960-7874-90bf-0a96e8938ea7@grimberg.me>
+References: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+ <1504609157-3004-3-git-send-email-maxg@mellanox.com>
+ <b02ac628-3960-7874-90bf-0a96e8938ea7@grimberg.me>
+Message-ID: <688ba6a5-c8bc-78ee-3933-8dc755f44b11@mellanox.com>
 
 
 
-On 9/6/2017 6:30 PM, Sagi Grimberg wrote:
-> As suggested by Bart Van Assche, get rid of
-> blk_mq_reinit_tagset and move it to nvme-core (its
-> only current consumer).
+On 9/6/2017 5:50 PM, Sagi Grimberg wrote:
 > 
-> Instead, introduce a more generic tagset iterator helper.
+>> In order to save resource allocation and utilize the completion
+>> locality in a better way, allocate Shared Receive Queues (SRQs) per
+>> completion vector (and not per device).
 > 
-> Sagi Grimberg (3):
->    block: introduce blk_mq_tagset_iter
->    nvme: introduce nvme_reinit_tagset
->    block: remove blk_mq_reinit_tagset
+> Something is backwards here, srq per vector is not saving resources
+> compared to srq per-device, maybe compared to normal receive queues
+> (if we have enough initiators).
+
+I meant compared to the normal MQ state.
+Also I added a module param that one can control the amount of resource 
+allocations.
+
 > 
->   block/blk-mq-tag.c       | 11 +++++------
->   drivers/nvme/host/core.c | 13 +++++++++++++
->   drivers/nvme/host/fc.c   |  3 ++-
->   drivers/nvme/host/nvme.h |  2 ++
->   drivers/nvme/host/rdma.c |  7 +++----
->   include/linux/blk-mq.h   |  4 ++--
->   6 files changed, 27 insertions(+), 13 deletions(-)
+> And what do you mean by "utilize the completion locality in a better
+> way"? How is using srq affecting a completion queue locality?
+
+I meant that for each completion that arrives on CPU N the "local" SRQ_N 
+will be the one that will post_recv (and lock the srq spin_lock) the buffer.
+In SRQ per device we'll get completions from all CPU's and a single SRQ 
+will be "working" on all the CPU's.
+
+maybe we can rephrase it.
+
 > 
+>> Assosiate each created QP/CQ
+> 
+> associate
 
-The series looks good to me,
+:)
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> 
+>> with an appropriate SRQ according to the queue index. This association
+>> will reduce the lock contention in the fast path
+> 
+> It reduces lock contention compared to srq-per-device, not normal
+> receive queues.
 
-BTW, if we talking about the reinit_tagset, can you explain the 
-motivation for dereg_mr and alloc new mr for the RDMA transport layer ?
-we don't do it in iSER/SRP so I wonder what is special here ?
-I got some local protection errors in MP tests and under high load FIO 
-(that cause cmd TMO to expire and abort the cmds and then reconnect).
-I wonder if there is a connection between the two. I'm also debugging a 
-situation that we might have free/dereg/local_invalidate the MR before 
-the QP moved to ERR state.
+of course.
+
+> 
+> 
+>> and increase the locality in memory buffers.
+> 
+> How does it increase locality in memory buffers?
+
+We are sharing buffers between many connections (compared to normal MQ). 
+lets say that many initiatores are running traffic. In that case the 
+shared buffers will be "hot" much more than the case that each resource 
+will be used by 1 consumer. I assume the MM unit can recognize this 
+situation.
