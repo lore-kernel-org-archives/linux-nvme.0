@@ -1,21 +1,57 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 6 Sep 2017 17:49:09 -0400
-Subject: [PATCH 3/4] nvme-pci: propagate (some) errors from host memory
- buffer setup
-In-Reply-To: <20170906135532.21358-4-hch@lst.de>
-References: <20170906135532.21358-1-hch@lst.de>
- <20170906135532.21358-4-hch@lst.de>
-Message-ID: <20170906214909.GI17331@localhost.localdomain>
+From: marcolso@amazon.com (Marc Olson)
+Date: Wed,  6 Sep 2017 17:23:56 -0700
+Subject: [PATCH] nvme: update timeout module parameter type
+Message-ID: <1504743836-25516-1-git-send-email-marcolso@amazon.com>
 
-On Wed, Sep 06, 2017@03:55:31PM +0200, Christoph Hellwig wrote:
-> We want to catch command execution errors when resetting the device, so
-> propagate errors from the Set Features when setting up the host memory
-> buffer.  We keep ignoring memory allocation failures, as the spec
-> clearly says that the controller must work without a host memory buffer.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Cc: stable at vger.kernel.org
+The underlying blk_mq_tag_set, and request timeout parameters support an
+unsigned int. Extend the size of the nvme module parameters for io and
+admin commands to match.
 
-Looks good.
+Signed-off-by: Marc Olson <marcolso at amazon.com>
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 8 ++++----
+ drivers/nvme/host/nvme.h | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index fbeca06..097f678 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -34,13 +34,13 @@
+ 
+ #define NVME_MINORS		(1U << MINORBITS)
+ 
+-unsigned char admin_timeout = 60;
+-module_param(admin_timeout, byte, 0644);
++unsigned int admin_timeout = 60;
++module_param(admin_timeout, uint, 0644);
+ MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
+ EXPORT_SYMBOL_GPL(admin_timeout);
+ 
+-unsigned char nvme_io_timeout = 30;
+-module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
++unsigned int nvme_io_timeout = 30;
++module_param_named(io_timeout, nvme_io_timeout, uint, 0644);
+ MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
+ EXPORT_SYMBOL_GPL(nvme_io_timeout);
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 8edafd8..6afabc4 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -30,10 +30,10 @@ enum {
+ 	NVME_SC_CANCELLED		= -EINTR,
+ };
+ 
+-extern unsigned char nvme_io_timeout;
++extern unsigned int nvme_io_timeout;
+ #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+ 
+-extern unsigned char admin_timeout;
++extern unsigned int admin_timeout;
+ #define ADMIN_TIMEOUT	(admin_timeout * HZ)
+ 
+ extern unsigned char shutdown_timeout;
+-- 
+2.7.4
