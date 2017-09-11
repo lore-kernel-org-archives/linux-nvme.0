@@ -1,28 +1,50 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 11 Sep 2017 16:14:50 -0700
-Subject: [PATCH] nvmet: bump NVMET_NR_QUEUES to 128
-Message-ID: <20170911231450.20409-1-jsmart2021@gmail.com>
+Date: Mon, 11 Sep 2017 16:16:53 -0700
+Subject: [PATCH] nvmet-fc: fix failing max io queue connections
+Message-ID: <20170911231653.28070-1-jsmart2021@gmail.com>
 
-Raise the max number of IO queues to 128. There are several hosts with
-more than 64 cpus/threads.
+fc transport is treating NVMET_NR_QUEUES as maximum queue count,
+e.g. admin queue plus NVMET_NR_QUEUES-1 io queues.
+But NVMET_NR_QUEUES is the number of io queues, so maximum queue
+count is really NVMET_NR_QUEUES+1.
+
+Fix the handling in the target fc transport
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/nvmet.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/fc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7b8e20adf760..e342f02845c1 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -314,7 +314,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 088f07250d76..c48c83d97e30 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -148,7 +148,7 @@ struct nvmet_fc_tgt_assoc {
+ 	u32				a_id;
+ 	struct nvmet_fc_tgtport		*tgtport;
+ 	struct list_head		a_list;
+-	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES];
++	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
+ 	struct kref			ref;
+ };
  
- #define NVMET_QUEUE_SIZE	1024
--#define NVMET_NR_QUEUES		64
-+#define NVMET_NR_QUEUES		128
- #define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
- #define NVMET_KAS		10
- #define NVMET_DISC_KATO		120
+@@ -608,7 +608,7 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	unsigned long flags;
+ 	int ret;
+ 
+-	if (qid >= NVMET_NR_QUEUES)
++	if (qid > NVMET_NR_QUEUES)
+ 		return NULL;
+ 
+ 	queue = kzalloc((sizeof(*queue) +
+@@ -888,7 +888,7 @@ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
+ 	int i;
+ 
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+-	for (i = NVMET_NR_QUEUES - 1; i >= 0; i--) {
++	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
+ 		queue = assoc->queues[i];
+ 		if (queue) {
+ 			if (!nvmet_fc_tgt_q_get(queue))
 -- 
 2.13.1
