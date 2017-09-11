@@ -1,34 +1,28 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 11 Sep 2017 16:00:52 -0600
-Subject: [GIT PULL] nvme fixes for 4.14, take 2
-In-Reply-To: <20170911215512.GA9661@infradead.org>
-References: <20170911215512.GA9661@infradead.org>
-Message-ID: <fdc40d9b-dd0e-68fb-66a5-5eb35b7ca2c4@kernel.dk>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 11 Sep 2017 16:14:50 -0700
+Subject: [PATCH] nvmet: bump NVMET_NR_QUEUES to 128
+Message-ID: <20170911231450.20409-1-jsmart2021@gmail.com>
 
-On 09/11/2017 03:55 PM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> below are a few small fixes for the current merge window:
-> 
->  - fix string.h compilation failures with the new memcpy_and_pad
->    helper (Martin Wilck)
->  - fix incorrect dereference of a PCI data structure in the lightnvm
->    support code (me)
->  - HMB fixes (Akinobu Mita and me)
-> 
-> The following changes since commit 09c2c359be546df45be0b158ea1d3cc8ea83c876:
-> 
->   block: fix integer overflow in __blkdev_sectors_to_bio_pages() (2017-09-11 09:46:49 -0600)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.14
-> 
-> for you to fetch changes up to 1359798f9d4082eb04575efdd19512fbd9c28464:
-> 
->   string.h: un-fortify memcpy_and_pad (2017-09-11 12:29:41 -0400)
+Raise the max number of IO queues to 128. There are several hosts with
+more than 64 cpus/threads.
 
-LGTM, pulled.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/nvmet.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 7b8e20adf760..e342f02845c1 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -314,7 +314,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+ 
+ #define NVMET_QUEUE_SIZE	1024
+-#define NVMET_NR_QUEUES		64
++#define NVMET_NR_QUEUES		128
+ #define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
+ #define NVMET_KAS		10
+ #define NVMET_DISC_KATO		120
 -- 
-Jens Axboe
+2.13.1
