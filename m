@@ -1,64 +1,68 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 8 Sep 2017 09:11:12 -0700
-Subject: [PATCH] nvme: allow timed-out ios to retry
-In-Reply-To: <20170907203759.GA2832@localhost.localdomain>
-References: <20170907201804.24979-1-jsmart2021@gmail.com>
- <20170907203759.GA2832@localhost.localdomain>
-Message-ID: <a6b3ce68-1df1-7d9a-0234-a7aab59cd863@gmail.com>
+From: mwilck@suse.de (Martin Wilck)
+Date: Mon, 11 Sep 2017 11:44:38 +0200
+Subject: [PATCH] string.h: un-fortify memcpy_and_pad
+In-Reply-To: <20170906123657.25534-1-mwilck@suse.com>
+References: <20170831182101.0e4ad9a2@canb.auug.org.au>
+ <20170906123657.25534-1-mwilck@suse.com>
+Message-ID: <1505123078.4683.5.camel@suse.de>
 
-On 9/7/2017 1:37 PM, Keith Busch wrote:
-> On Thu, Sep 07, 2017@01:18:04PM -0700, James Smart wrote:
->> Currently the nvme_req_needs_retry() applies several checks to see if
->> a retry is allowed. On of those is whether the current time has exceeded
->> the start time of the io plus the timeout length. This check, if an io
->> times out, means there is never a retry allowed for the io. Which means
->> applications see the io failure.
->>
->> Remove this check and allow the io to timeout, like it does on other
->> protocols, and retries to be made.
->>
->> On the FC transport, a frame can be lost for an individual io, and there
->> may be no other errors that escalate for the connection/association.
->> The io will timeout, which causes the transport to escalate into creating
->> a new association, but the io that timed out, due to this retry logic, has
->> already failed back to the application and things are hosed.
+On Wed, 2017-09-06@14:36 +0200, Martin Wilck wrote:
+> The way I'd implemented the new helper memcpy_and_pad  with
+> __FORTIFY_INLINE caused compiler warnings for certain kernel
+> configurations.
 > 
-> I'm a bit conflicted on this. While it'd be nice to give commands a chance
-> to succeed after a timeout handling's controller reset, some uses would
-> rather a command fail fast than succeed slow, and this change could keep
-> a request outstanding for a very long time.
+> This helper is only used in a single place at this time, and thus
+> doesn't benefit much from fortification. So simplify the code
+> by dropping fortification support for now.
 > 
-> What if we have a second timeout value: one for in-flight timeout before
-> abort/controller resset, and another for total request lifetime?
+> Fixes: 01f33c336e2d "string.h: add memcpy_and_pad()"
+> Signed-off-by: Martin Wilck <mwilck at suse.com>
+> Acked-by: Arnd Bergmann <arnd at arndb.de>
+> 
+> ---
+>  include/linux/string.h | 15 ++-------------
+>  1 file changed, 2 insertions(+), 13 deletions(-)
 
-I believe its mandatory to allow an in-flight timeout and at least 1 
-retry, unless the io callee explicitly disables the retry.  We can't 
-make an enterprise-quality solution otherwise.
+Hello Stephen and Christoph,
 
-I assume the existing NVME_IO_TIMEOUT value is what we continue to use 
-for the in-flight timeout. "In-flight" defined as outstanding and 
-waiting on the controller: i.e. placed on the SQ by the host/transport 
-and no corresponding completion received from the controller.
+my broken patch 01f33c336e2d is in Linus' tree and causing compiler
+warnings there. Could you please take care that this fix is pulled in
+on top of it? Or should I take another action myself?
 
-I'm ok with a lifetime timeout. But - is it necessary? Usually the 
-lifetime timeout is (io timeout * # retries allowed) and it allows for 
-slop as the "timeout" recovery isn't always immediate/instantaneous. In 
-other words, Timeout will fire at time X, then the transport does what 
-it needs to recover the io as of the timeout, which may take an 
-additional amount of time Y, then the retry determinism kicks in. So 
-it's not a hard M time ticks.
-
-Like SCSI added "fast_io_fail_tmo" to it's similar "blocked" conditions 
-for an io - I expect we need a 3rd timeout for "fastfail". I/O is 
-stopped/terminated when the controller is reset or reconnect started. If 
-a further retry is not allowed, it will fail back to the callee. If a 
-further retry is allowed, the io is queued on the blk queue, but the blk 
-queue is stopped by the transport waits for controller reconnection. The 
-fastfail timer would start as of the blocking of the blk queues. The 
-timer would be cancelled if connectivity is restored and the blk queue 
-released again allowing the io to be in-flight again. Timeout expiration 
-would fail all pending io on the block queue with a connectivity status 
-error and no further retries attempted.
+Thanks,
+Martin
 
 
--- james
+> 
+> diff --git a/include/linux/string.h b/include/linux/string.h
+> index e1eeb0a8a9693..54d21783e18dd 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+> @@ -434,20 +434,9 @@ __FORTIFY_INLINE char *strcpy(char *p, const
+> char *q)
+>   * @count: The number of bytes to copy
+>   * @pad: Character to use for padding if space is left in
+> destination.
+>   */
+> -__FORTIFY_INLINE void memcpy_and_pad(void *dest, size_t dest_len,
+> -				     const void *src, size_t count,
+> int pad)
+> +static inline void memcpy_and_pad(void *dest, size_t dest_len,
+> +				  const void *src, size_t count, int
+> pad)
+>  {
+> -	size_t dest_size = __builtin_object_size(dest, 0);
+> -	size_t src_size = __builtin_object_size(src, 0);
+> -
+> -	if (__builtin_constant_p(dest_len) &&
+> __builtin_constant_p(count)) {
+> -		if (dest_size < dest_len && dest_size < count)
+> -			__write_overflow();
+> -		else if (src_size < dest_len && src_size < count)
+> -			__read_overflow3();
+> -	}
+> -	if (dest_size < dest_len)
+> -		fortify_panic(__func__);
+>  	if (dest_len > count) {
+>  		memcpy(dest, src, count);
+>  		memset(dest + count, pad,  dest_len - count);
