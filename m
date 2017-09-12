@@ -1,50 +1,67 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 11 Sep 2017 16:16:53 -0700
-Subject: [PATCH] nvmet-fc: fix failing max io queue connections
-Message-ID: <20170911231653.28070-1-jsmart2021@gmail.com>
+From: anish.jhaveri@paviliondata.com (Anish M Jhaveri)
+Date: Mon, 11 Sep 2017 21:20:48 -0700
+Subject: [PATCH 00/10] nvme multipath support on top of nvme-4.13 branch
+Message-ID: <20170912042048.pdbyl6vsoeui6bnp@haynes>
 
-fc transport is treating NVMET_NR_QUEUES as maximum queue count,
-e.g. admin queue plus NVMET_NR_QUEUES-1 io queues.
-But NVMET_NR_QUEUES is the number of io queues, so maximum queue
-count is really NVMET_NR_QUEUES+1.
+Hello everyone,
+Please find patchset for supporting Multipathing using nvme namespace 
+and nvme controller. 
 
-Fix the handling in the target fc transport
+Basic idea behind the design and implementation is to re-use the same 
+logic which is between generic nvme namespace and it's controller. 
+One controller to many namespaces. Similarly, this implementation uses
+one multipath controller and sibling namespaces.
+It creates a head multipath nvme namespace as soon as it find a nvme
+namespace during enumeration which has property of being shared. Prior
+to creating new head multipath device, nvme namespace check for match-
+ing NGUID, if it finds one, this nvme namespace is added as a sibling
+to that given namespaces head device. 
+Failover is triggered either due to keep-alive timer expiration or RDMA
+ timeout. Selection is of device is based on first available standby
+device. As of present this implementation support Active-Standby multi-
+path model.
+On selection of device, a command is sent to target for acknowledgement 
+of active device. In meanwhile if any IO are received, they get queued 
+under head multipath device congestion queue and processed as soon as
+a single path becomes active. In scenario where new active path results
+in failure, it will cancel those IOs after multiple retries.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I have gone through the solutiion Christoph Hellwig suggested and this
+one follow similar path except for it doesn't require any change from 
+kernel and will work prior version of kernel.
+It can made standalone module and be used with other block devices as
+we open any block device handle.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 088f07250d76..c48c83d97e30 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -148,7 +148,7 @@ struct nvmet_fc_tgt_assoc {
- 	u32				a_id;
- 	struct nvmet_fc_tgtport		*tgtport;
- 	struct list_head		a_list;
--	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES];
-+	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
- 	struct kref			ref;
- };
+It has been tested with interface up/down on host and target, target
+node crash and disconnect command. Performance has been tested with
+multiple multipath devices on single host and there is un-noticeable
+ difference in numbers. 
+
+The git tree for above changes is available at 
+https://github.com/paviliondata/nvme.git
+Branch nvme-4.13
+
+Web interface
+https://github.com/paviliondata/nvme/tree/nvme-4.13
  
-@@ -608,7 +608,7 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 	unsigned long flags;
- 	int ret;
- 
--	if (qid >= NVMET_NR_QUEUES)
-+	if (qid > NVMET_NR_QUEUES)
- 		return NULL;
- 
- 	queue = kzalloc((sizeof(*queue) +
-@@ -888,7 +888,7 @@ nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
- 	int i;
- 
- 	spin_lock_irqsave(&tgtport->lock, flags);
--	for (i = NVMET_NR_QUEUES - 1; i >= 0; i--) {
-+	for (i = NVMET_NR_QUEUES; i >= 0; i--) {
- 		queue = assoc->queues[i];
- 		if (queue) {
- 			if (!nvmet_fc_tgt_q_get(queue))
+Please peruse through the patchset and comment. 
+
+Anish M Jhaveri (10):
+  Initial multipath implementation.
+  RDMA timeout triggers failover.
+  Failover timeout and time between failover same ns.
+  NVME command to set namespace active.
+  Init multipath head controller.
+  Init multipath head namespace.
+  Selection of active namespace.
+  Multipath make request, retry and cancel IO.
+  Sysfs entries for multipath head
+  Reserved tag for active ns command
+
+ drivers/nvme/host/core.c | 1245 +++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |   37 +-
+ drivers/nvme/host/rdma.c |    5 +-
+ 3 files changed, 1259 insertions(+), 28 deletions(-)
+
 -- 
-2.13.1
+2.9.3
