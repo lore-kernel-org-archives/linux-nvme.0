@@ -1,258 +1,462 @@
 From: anish.jhaveri@paviliondata.com (Anish M Jhaveri)
-Date: Mon, 11 Sep 2017 21:26:27 -0700
-Subject: [PATCH 06/10] Init multipath head namespace.
-Message-ID: <20170912042627.2ut7onndfmeqxd5r@haynes>
+Date: Mon, 11 Sep 2017 21:30:10 -0700
+Subject: [PATCH 08/10] Multipath make request, retry and cancel IO.
+Message-ID: <20170912043010.c6vyupdwpv7wihrl@haynes>
 
-Initialize multipath head namespace. The way generic namespace is related to a generic controller, similarly multipath head namespace is related to multipath head controller. It is initialized as part of a single shared namespace enumeration. We will initialize the bio list and congestion wait queue for given multipath head namespace, this queue will be used during failover to requeue any IO returned from active path for resubmission. nvme_mpath_flush_io_work is implemented to take care of condition when both interfaces is down and IO is queued up on head mulitpath devices congestion queue. Added functionality to add and delete namespace to head multipath namespace list. This logic is similar to namespace list we have per controller. On deletion of namespaces, check if this was last namespace part of multipath head device and remove the head multipath namespace.
+Implementation of Multipath nvme_mpath_make_request function registered as part blk_queue_make_request. IO in this function is redirected to active namespace for given multipath controller as far as the active namespace is not in removal state or failover is not in progress. If either failover is in progress we queue the IO into multipath head device congestion queue as part of IO failure. IO will be retried as many times for resubmission as far as it is not exceeding nvme_max_retries count. Resubmission of IO also looks for varios conditions like head or child namespace removal, failover in progress, cleanup done flag which reset after disconnection of device causing failover through disconnect command. Cancelling of IO is called as part of disconnect command to cleanup any IO left over in multipath head device congestion queue.
 
 Signed-off-by: Anish M Jhaveri <anish.jhaveri at paviliondata.com>
 ---
- drivers/nvme/host/core.c | 233 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 233 insertions(+)
+ drivers/nvme/host/core.c | 430 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 428 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2987e0a..cefa506 100644
+index cb2c90f..4043c00 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2436,6 +2436,239 @@ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
- 	return 0;
+@@ -1168,6 +1168,434 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	return status;
  }
  
-+static struct nvme_ns *nvme_find_get_mpath_ns(struct nvme_ctrl *ctrl)
++static struct nvme_ns *nvme_get_active_ns_for_mpath_ns(struct nvme_ns *mpath_ns)
 +{
-+	struct nvme_ns *ns = NULL;
-+	mutex_lock(&ctrl->namespaces_mutex);
-+    list_for_each_entry(ns, &ctrl->mpath_namespace, list) {
-+		if (ns)
-+			break;
-+	}
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+	return ns;
-+}
++	struct nvme_ns *ns = NULL, *next;
 +
-+/*Adding namespace to multipath list under multipath controller*/
-+static void nvme_add_ns_mpath_ctrl(struct nvme_ns *ns)
-+{
-+	struct nvme_ns *mpath_ns = NULL;
-+	mpath_ns = nvme_find_get_mpath_ns(ns->mpath_ctrl);
-+	mutex_lock(&ns->mpath_ctrl->namespaces_mutex);
-+	list_add_tail(&ns->mpathlist, &ns->mpath_ctrl->namespaces);
-+	test_and_set_bit(NVME_CTRL_MPATH_CHILD, &ns->ctrl->flags);
-+	test_and_set_bit(NVME_NS_MULTIPATH, &ns->flags);
-+	mutex_unlock(&ns->mpath_ctrl->namespaces_mutex);
-+	kref_get(&mpath_ns->kref);
-+}
-+
-+/*Deleting namespace from multipath list under multipath controller*/
-+static int nvme_del_ns_mpath_ctrl(struct nvme_ns *ns)
-+{
-+
-+	struct nvme_ns *mpath_ns = NULL, *nsa = NULL, *next;
-+
-+	if (!ns->mpath_ctrl)
-+		return NVME_NO_MPATH_NS_AVAIL;
-+	mpath_ns = nvme_find_get_mpath_ns(ns->mpath_ctrl);
-+	mutex_lock(&mpath_ns->ctrl->namespaces_mutex);
-+	test_and_clear_bit(NVME_NS_MULTIPATH, &ns->flags);
-+	list_del_init(&ns->mpathlist);
-+	list_for_each_entry_safe(nsa, next, &mpath_ns->ctrl->namespaces, mpathlist) {
-+		if (nsa == ns) {
-+			list_del_init(&ns->mpathlist);
-+			continue;
-+		}
-+	}
-+	mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
-+
-+	/*Check if we were the last device to a given head or parent device.
-+	If last device then remove head device also.*/
-+	if (mpath_ns == nvme_get_ns_for_mpath_ns(mpath_ns)) {
-+		nvme_put_ns(mpath_ns);
-+		nvme_mpath_ns_remove(mpath_ns);
-+		/*cancel delayed work as we are the last device */
-+		cancel_delayed_work_sync(&ns->mpath_ctrl->cu_work);
-+		return NVME_NO_MPATH_NS_AVAIL;
-+	} else {
-+		blk_mq_freeze_queue(ns->disk->queue);
-+		set_capacity(ns->disk, 0);
-+		blk_mq_unfreeze_queue(ns->disk->queue);
-+		revalidate_disk(ns->disk);
-+		nvme_put_ns(mpath_ns);
-+		return NVME_MPATH_NS_AVAIL;
-+	}
-+}
-+
-+
-+static struct nvme_ns *nvme_alloc_mpath_ns(struct nvme_ns *nsa)
-+{
-+	struct gendisk *disk;
-+	struct nvme_id_ns *id;
-+	char disk_name[DISK_NAME_LEN];
-+	char devpath[DISK_NAME_LEN+4];
-+	struct nvme_ctrl *ctrl = NULL;
-+	struct nvme_ns *ns = NULL;
-+	int node;
-+
-+	ctrl = nvme_init_mpath_ctrl(nsa->ctrl);
-+	if (!ctrl)
-+		return NULL;
-+
-+	node = dev_to_node(ctrl->dev);
-+	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
-+	if (!ns)
-+		goto out_free_ctrl;
-+	ns->ctrl = ctrl;
-+	ns->instance = ida_simple_get(&ns->ctrl->ns_ida, 1, 0, GFP_KERNEL);
-+	if (ns->instance < 0)
-+		goto out_free_ns;
-+
-+	ns->queue = blk_alloc_queue(GFP_KERNEL);
-+	if (IS_ERR(ns->queue))
-+		goto out_release_instance;
-+
-+	blk_queue_make_request(ns->queue, nvme_mpath_make_request);
-+
-+	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, ns->queue);
-+	ns->queue->queuedata = ns;
-+	kref_init(&ns->kref);
-+	ns->ns_id = nsa->ns_id;
-+	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
-+
-+	test_and_set_bit(NVME_NS_ROOT, &ns->flags);
-+	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
-+	nvme_set_queue_limits(ctrl, ns->queue);
-+	blk_queue_rq_timeout(ns->queue, mpath_io_timeout * HZ);
-+	sprintf(disk_name, "mpnvme%dn%d", ctrl->instance, ns->instance);
-+	sprintf(devpath, "/dev/mpnvme%dn%d", ctrl->instance, ns->instance);
-+	if (nvme_revalidate_ns(nsa, &id))
-+		goto out_free_queue;
-+
-+	disk = alloc_disk_node(0, node);
-+	if (!disk)
-+		goto out_free_id;
-+
-+	disk->fops = &nvme_fops;
-+	disk->private_data = ns;
-+	disk->queue = ns->queue;
-+	disk->flags = GENHD_FL_EXT_DEVT;
-+	memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
-+	ns->disk = disk;
-+	__nvme_revalidate_disk(disk, id);
-+	init_waitqueue_head(&ns->fq_full);
-+	init_waitqueue_entry(&ns->fq_cong_wait, nvme_mpath_thread);
-+	bio_list_init(&ns->fq_cong);
-+	nsa->mpath_ctrl = ns->ctrl;
-+	nsa->ctrl->mpath_ctrl = (void *)ns->ctrl;
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_add_tail(&ns->list, &ctrl->mpath_namespace);
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+	nvme_add_ns_mpath_ctrl(nsa);
-+
-+	memcpy(&ns->mpath_nguid, &nsa->mpath_nguid, NVME_NIDT_NGUID_LEN);
-+	kref_get(&ns->ctrl->kref);
-+
-+	device_add_disk(ctrl->device, ns->disk);
-+
-+
-+	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
-+		&nvme_ns_attr_group)) {
-+		pr_warn("%s: failed to create sysfs group for identification\n",
-+			ns->disk->disk_name);
-+		goto out_del_gendisk;
-+	}
-+
-+	ns->bdev = blkdev_get_by_path(devpath,
-+			 FMODE_READ | FMODE_WRITE, NULL);
-+	if (IS_ERR(ns->bdev)) {
-+		pr_warn("%s: failed to get block device\n",
-+			 ns->disk->disk_name);
-+		goto out_sysfs_remove_group;
-+	}
-+
-+	kfree(id);
-+
-+	if (nvme_set_ns_active(nsa, ns, NVME_FAILOVER_RETRIES)) {
-+		pr_info("%s:%d Failed to set active Namespace nvme%dn%d\n", __FUNCTION__, __LINE__, nsa->ctrl->instance, nsa->instance);
-+	}
-+
-+    /* init delayed work for IO cleanup when both iface are down */
-+    INIT_DELAYED_WORK(&ctrl->cu_work, nvme_mpath_flush_io_work);
-+    return ns;
-+
-+ out_sysfs_remove_group:
-+	sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
-+			&nvme_ns_attr_group);
-+ out_del_gendisk:
-+	del_gendisk(ns->disk);
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	test_and_clear_bit(NVME_NS_MULTIPATH, &nsa->flags);
-+	list_del_init(&nsa->mpathlist);
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+	nsa->mpath_ctrl = NULL;
-+	nsa->ctrl->mpath_ctrl = NULL;
-+ out_free_id:
-+	kfree(id);
-+ out_free_queue:
-+	blk_cleanup_queue(ns->queue);
-+ out_release_instance:
-+	ida_simple_remove(&ctrl->ns_ida, ns->instance);
-+ out_free_ns:
-+	kfree(ns);
-+ out_free_ctrl:
-+	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
-+	spin_lock(&dev_list_lock);
-+	list_del(&ctrl->node);
-+	spin_unlock(&dev_list_lock);
-+	nvme_put_ctrl(ctrl);
-+	return NULL;
-+}
-+
-+static void nvme_shared_ns(struct nvme_ns *shared_ns)
-+{
-+	struct nvme_ctrl *ctrl = NULL;
-+	struct nvme_ns *ns, *ret = NULL;
-+	/*
-+	  Check if the namespace is shared and another namespace with same
-+	  serial number exist amount the controllers.
-+	*/
-+
-+	spin_lock(&dev_list_lock);
-+	list_for_each_entry(ctrl, &nvme_ctrl_list, node) {
-+		list_for_each_entry(ns, &ctrl->namespaces, list) {
-+			if (ns == shared_ns)
-+				continue;
-+			/*
-+			 * Revalidating a dead namespace sets capacity to 0. This will
-+			 * end buffered writers dirtying pages that can't be synced.
-+			 */
-+			if (!ns->disk || test_bit(NVME_NS_DEAD, &ns->flags))
-+				continue;
-+
-+			if (!strncmp(ns->nguid, shared_ns->nguid, NVME_NIDT_NGUID_LEN)) {
-+				if (test_bit(NVME_NS_MULTIPATH, &ns->flags)) {
-+					shared_ns->mpath_ctrl = ns->mpath_ctrl;
-+					shared_ns->ctrl->mpath_ctrl = (void *)ns->mpath_ctrl;
-+					ret = shared_ns;
-+				} else {
-+					ret = ns;
-+				}
-+				goto found_ns;
++	/*Only get active Namespace if given Namespace is head or parent
++	 of Multipath group otherwise just return the same namespace.*/
++	if (test_bit(NVME_NS_ROOT, &mpath_ns->flags)) {
++		mutex_lock(&mpath_ns->ctrl->namespaces_mutex);
++		list_for_each_entry_safe(ns, next, &mpath_ns->ctrl->namespaces, mpathlist) {
++			if (ns->active) {
++				mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++				return ns;
 +			}
 +		}
-+	}
-+	spin_unlock(&dev_list_lock);
++		mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
 +
-+	if (shared_ns->nmic & 0x1) {
-+		shared_ns->active = 1;
-+		nvme_alloc_mpath_ns(shared_ns);
++		/* did not find active */
++		ns = NULL;
++		pr_debug(" No active ns found for mpath ns mpnvme%dn%d\n", mpath_ns->ctrl->instance, mpath_ns->instance);
++		return ns;
 +	}
-+	return;
-+ found_ns:
-+	spin_unlock(&dev_list_lock);
-+	if (ret == shared_ns)
-+		nvme_add_ns_mpath_ctrl(shared_ns);
++	return mpath_ns;
 +}
- static struct nvme_ns *nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++
++static struct nvme_ns *nvme_get_ns_for_mpath_ns(struct nvme_ns *mpath_ns)
++{
++	struct nvme_ns *ns = NULL, *next;
++	if (test_bit(NVME_NS_ROOT, &mpath_ns->flags)) {
++		mutex_lock(&mpath_ns->ctrl->namespaces_mutex);
++		list_for_each_entry_safe(ns, next, &mpath_ns->ctrl->namespaces, mpathlist) {
++			if (ns) {
++				mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++				return ns;
++			}
++		}
++		mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++		pr_debug(" No sibling device found for mpath mpnvme%dn%d\n", mpath_ns->ctrl->instance, mpath_ns->instance);
++	}
++	return mpath_ns;
++}
++
++/*
++ * Returns non-zero value if operation is write, zero otherwise.
++ */
++static inline int nvme_mpath_bio_is_write(struct bio *bio)
++{
++
++	return op_is_write(bio_op(bio)) ? 1 : 0;
++
++}
++
++/*
++ * Starts the io accounting for given io request. Again, code from stand alone
++ * volume io accounting can not be shared since it operates on struct request.
++ */
++static void nvme_mpath_blk_account_io_start(struct bio *bio,
++		struct nvme_ns *mpath_ns, struct nvme_mpath_priv *priv)
++{
++	int rw;
++	int cpu;
++	struct hd_struct *part;
++
++	rw = nvme_mpath_bio_is_write(bio);
++	cpu = part_stat_lock();
++
++	part = disk_map_sector_rcu(mpath_ns->disk, priv->bi_sector);
++	part_round_stats(cpu, part);
++	part_inc_in_flight(part, rw);
++
++	part_stat_unlock();
++	priv->part = part;
++}
++
++/*
++ * Stats accounting for IO requests on multipath volume.
++ * Same code for stand-alone volume can not be reused since it works on
++ * struct request. Multipath volume does not maintain its own request,
++ * rather it simply redirects IO requests to the active volume.
++ */
++static void nvme_mpath_blk_account_io_done(struct bio *bio,
++					   struct nvme_ns *mpath_ns,
++					   struct nvme_mpath_priv *priv)
++{
++	int rw;
++	int cpu;
++	struct hd_struct *part;
++	unsigned long flags;
++	unsigned long duration;
++
++	spin_lock_irqsave(mpath_ns->queue->queue_lock, flags);
++
++	duration = jiffies - priv->start_time;
++	cpu = part_stat_lock();
++
++	rw = nvme_mpath_bio_is_write(bio);
++	cpu  = part_stat_lock();
++	part = priv->part;
++
++	part_stat_inc(cpu, part, ios[rw]);
++	part_stat_add(cpu, part, ticks[rw], duration);
++	part_round_stats(cpu, part);
++	part_stat_add(cpu, part, sectors[rw], priv->nr_bytes >> 9);
++	part_dec_in_flight(part, rw);
++	part_stat_unlock();
++
++	spin_unlock_irqrestore(mpath_ns->queue->queue_lock, flags);
++}
++
++static void nvme_mpath_cancel_ios(struct nvme_ns *mpath_ns)
++{
++	struct nvme_mpath_priv *priv;
++	struct bio *bio;
++	struct bio_list bios;
++	unsigned long flags;
++
++	mutex_lock(&mpath_ns->ctrl->namespaces_mutex);
++	spin_lock_irqsave(&mpath_ns->ctrl->lock, flags);
++	if (bio_list_empty(&mpath_ns->fq_cong)) {
++		spin_unlock_irqrestore(&mpath_ns->ctrl->lock, flags);
++		goto biolist_empty;
++	}
++
++	bio_list_init(&bios);
++	bio_list_merge(&bios, &mpath_ns->fq_cong);
++
++	bio_list_init(&mpath_ns->fq_cong);
++	remove_wait_queue(&mpath_ns->fq_full, &mpath_ns->fq_cong_wait);
++	spin_unlock_irqrestore(&mpath_ns->ctrl->lock, flags);
++
++	while (bio_list_peek(&bios)) {
++		bio = bio_list_pop(&bios);
++		priv = bio->bi_private;
++		bio->bi_status = BLK_STS_IOERR;
++		bio->bi_bdev = priv->bi_bdev;
++		bio->bi_end_io = priv->bi_end_io;
++		bio->bi_private = priv->bi_private;
++		nvme_mpath_blk_account_io_done(bio, mpath_ns, priv);
++		bio_endio(bio);
++		mempool_free(priv, mpath_ns->ctrl->mpath_req_pool);
++	}
++biolist_empty:
++	mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++}
++
++static void nvme_mpath_flush_io_work(struct work_struct *work)
++{
++	struct nvme_ctrl *mpath_ctrl = container_of(to_delayed_work(work),
++		 struct nvme_ctrl, cu_work);
++	struct nvme_ns *mpath_ns = NULL;
++	struct nvme_ns *next;
++
++	list_for_each_entry_safe(mpath_ns, next, &mpath_ctrl->mpath_namespace, list) {
++		if (mpath_ns)
++			break;
++	}
++
++	if (!mpath_ns) {
++		dev_err(mpath_ctrl->device, "No Multipath namespace found.\n");
++		return;
++	}
++
++	if (test_bit(NVME_NS_FO_IN_PROGRESS, &mpath_ns->flags))
++		goto exit;
++
++	if (test_bit(NVME_NS_ROOT, &mpath_ns->flags)) {
++		nvme_mpath_cancel_ios(mpath_ns);
++	}
++
++	return;
++ exit:
++	schedule_delayed_work(&mpath_ctrl->cu_work, nvme_io_timeout*HZ);
++}
++
++
++
++static void nvme_mpath_resubmit_bios(struct nvme_ns *mpath_ns)
++{
++	struct nvme_mpath_priv *priv;
++	struct nvme_ns *ns = NULL, *next;
++	struct bio *bio;
++	struct bio_vec *bvec;
++	struct bio_list bios;
++	unsigned long flags;
++	struct blk_plug plug;
++
++	/*
++	 *Get active namespace before resending the IO
++	 */
++
++	mutex_lock(&mpath_ns->ctrl->namespaces_mutex);
++	if (test_bit(NVME_NS_FO_IN_PROGRESS, &mpath_ns->flags)) {
++		goto namespaces_mutex_unlock;
++	}
++	
++	if (list_empty(&mpath_ns->ctrl->namespaces)) {
++		goto namespaces_mutex_unlock;
++	}
++
++	list_for_each_entry_safe(ns, next, &mpath_ns->ctrl->namespaces, mpathlist) {
++		if (ns->active && test_bit(NVME_NS_MULTIPATH, &ns->flags))
++			break;
++	}
++
++	if (!ns) {
++		goto namespaces_mutex_unlock;
++	}
++
++	if (test_bit(NVME_NS_REMOVING, &ns->flags)) {
++		goto namespaces_mutex_unlock;
++	}
++
++	/*In case of disconnect we wait for cleanup to complete
++	 *for disconnecting device 
++	 */
++	if (!mpath_ns->ctrl->cleanup_done) {
++		goto namespaces_mutex_unlock;
++	}
++
++	if (test_bit(NVME_NS_REMOVING, &mpath_ns->flags)) {
++		goto namespaces_mutex_unlock;
++	}
++
++	spin_lock_irqsave(&mpath_ns->ctrl->lock, flags);
++	if (bio_list_empty(&mpath_ns->fq_cong)) {
++		spin_unlock_irqrestore(&mpath_ns->ctrl->lock, flags);
++		goto namespaces_mutex_unlock;
++	}
++
++	bio_list_init(&bios);
++	bio_list_merge(&bios, &mpath_ns->fq_cong);
++
++	bio_list_init(&mpath_ns->fq_cong);
++	remove_wait_queue(&mpath_ns->fq_full, &mpath_ns->fq_cong_wait);
++	spin_unlock_irqrestore(&mpath_ns->ctrl->lock, flags);
++
++	blk_start_plug(&plug);
++
++	while (bio_list_peek(&bios)) {
++		bio = bio_list_pop(&bios);
++		priv = bio->bi_private;
++		bvec = &priv->bio->bi_io_vec[0];
++		priv->ns = ns;
++		bio->bi_bdev = ns->bdev;
++		bvec = &bio->bi_io_vec[0];
++		bio->bi_status = 0;
++		bio->bi_flags = priv->bi_flags;
++		bio->bi_iter.bi_idx = 0;
++		bio->bi_iter.bi_bvec_done = 0;
++		bio->bi_iter.bi_sector = priv->bi_sector;
++		bio->bi_iter.bi_size = priv->nr_bytes;
++		bio->bi_vcnt = priv->bi_vcnt;
++		bio->bi_phys_segments = priv->bi_phys_segments;
++		bio->bi_seg_front_size = 0;
++		bio->bi_seg_back_size = 0;
++		atomic_set(&bio->__bi_remaining, 1);
++		generic_make_request(bio);
++	}
++	blk_finish_plug(&plug);
++
++namespaces_mutex_unlock:
++	mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++}
++
++/*This logic get executed during IO errors on head or parent Multipath device.*/
++static int nvme_mpath_kthread(void *data)
++{
++	struct nvme_ns *mpath_ns, *next;
++	struct nvme_ctrl *mpath_ctrl, *next_ctrl;
++
++	while (!kthread_should_stop()) {
++		set_current_state(TASK_INTERRUPTIBLE);
++		list_for_each_entry_safe(mpath_ctrl, next_ctrl, &nvme_mpath_ctrl_list, node) {
++			list_for_each_entry_safe(mpath_ns, next, &mpath_ctrl->mpath_namespace, list) {
++				if (!mpath_ns)
++					continue;
++				rcu_read_lock();
++				if (waitqueue_active(&mpath_ns->fq_full))
++					nvme_mpath_resubmit_bios(mpath_ns);
++				rcu_read_unlock();
++			}
++		}
++		schedule_timeout(round_jiffies_relative(HZ));
++	}
++	return 0;
++}
++
++
++static bool nvme_mpath_retry_bio(struct bio *bio)
++{
++	unsigned long flags;
++
++	struct nvme_mpath_priv *priv = bio->bi_private;
++	struct nvme_ns *mpath_ns = priv->mpath_ns;
++
++	spin_lock_irqsave(&mpath_ns->ctrl->lock, flags);
++	if (!waitqueue_active(&mpath_ns->fq_full))
++		add_wait_queue(&mpath_ns->fq_full, &mpath_ns->fq_cong_wait);
++
++	bio_list_add(&mpath_ns->fq_cong, bio);
++
++	spin_unlock_irqrestore(&mpath_ns->ctrl->lock, flags);
++	return true;
++}
++
++static inline int nvme_mpath_bio_has_error(struct bio *bio)
++{
++	return ((bio->bi_status != 0) ? 1:0);
++}
++
++
++static void nvme_mpath_endio(struct bio *bio)
++{
++	int ret;
++	struct nvme_ns *mpath_ns;
++	struct nvme_mpath_priv *priv;
++
++	priv = bio->bi_private;
++	mpath_ns = priv->mpath_ns;
++
++	ret = nvme_mpath_bio_has_error(bio);
++	if (ret) {
++		if (!test_bit(NVME_NS_REMOVING, &mpath_ns->flags)) {
++			if (priv->nr_retries > 0) {
++				priv->nr_retries--;
++				ret = nvme_mpath_retry_bio(bio);
++				if (ret)
++					return;
++			}
++		}
++	} else {
++		nvme_mpath_blk_account_io_done(bio, mpath_ns, priv);
++	}
++
++	mpath_ns =  priv->mpath_ns;
++	bio->bi_bdev = priv->bi_bdev;
++	bio->bi_end_io = priv->bi_end_io;
++	bio->bi_private = priv->bi_private;
++	bio_endio(bio);
++
++	mempool_free(priv, mpath_ns->ctrl->mpath_req_pool);
++}
++
++static void nvme_mpath_priv_bio(struct nvme_mpath_priv *priv, struct bio *bio,
++struct nvme_ns *ns, struct nvme_ns *mpath_ns)
++{
++	priv->bi_bdev = bio->bi_bdev;
++	priv->bi_end_io = bio->bi_end_io;
++	priv->bi_private = bio->bi_private;
++	priv->bi_flags = bio->bi_flags;
++	priv->bi_sector = bio->bi_iter.bi_sector;
++	priv->nr_bytes = bio->bi_iter.bi_size;
++	priv->bio = bio;
++	priv->bi_vcnt = bio->bi_vcnt;
++	priv->bi_phys_segments = bio->bi_phys_segments;
++	priv->bvec = &bio->bi_io_vec[0];
++	/*Count for two connections, so twice the retry logic.*/
++	priv->nr_retries = nvme_max_retries;
++	priv->start_time = jiffies;
++	priv->ns = ns;
++	priv->mpath_ns = mpath_ns;
++	bio->bi_opf |= REQ_FAILFAST_TRANSPORT;
++	bio->bi_private = priv;
++	bio->bi_end_io = nvme_mpath_endio;
++	bio->bi_bdev = ns->bdev;
++}
++
++static blk_qc_t nvme_mpath_make_request(struct request_queue *q, struct bio *bio)
++
++{
++	struct nvme_mpath_priv *priv = NULL;
++	struct nvme_ns *ns = NULL;
++	struct nvme_ns *mpath_ns = q->queuedata;
++
++	if (test_bit(NVME_NS_REMOVING, &mpath_ns->flags)) {
++		goto out_exit_mpath_request;
++	}
++
++	priv = mempool_alloc(mpath_ns->ctrl->mpath_req_pool, GFP_ATOMIC);
++	if (unlikely(!priv)) {
++		dev_err(mpath_ns->ctrl->device, "failed allocating mpath priv request\n");
++		goto out_exit_mpath_request;
++	}
++
++mpath_retry:
++	mutex_lock(&mpath_ns->ctrl->namespaces_mutex);
++
++	list_for_each_entry(ns, &mpath_ns->ctrl->namespaces, mpathlist) {
++		if (test_bit(NVME_NS_REMOVING, &ns->flags)) {
++			continue;
++		}
++
++		if (test_bit(NVME_NS_FO_IN_PROGRESS, &mpath_ns->flags)) {
++			break;
++		}
++
++		if (ns->active) {
++			if (ns->mpath_ctrl != mpath_ns->ctrl) {
++				mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++				dev_err(mpath_ns->ctrl->device, "Incorrect namespace parent child combination.\n");
++				goto mpath_retry;
++			}
++			nvme_mpath_priv_bio(priv, bio, ns, mpath_ns);
++			nvme_mpath_blk_account_io_start(bio, mpath_ns, priv);
++			generic_make_request(bio);
++			mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++			goto out_mpath_return;
++		}
++	}
++
++	list_for_each_entry(ns, &mpath_ns->ctrl->namespaces, mpathlist) {
++		if (!ns->active) {
++			nvme_mpath_priv_bio(priv, bio, ns, mpath_ns);
++			nvme_mpath_blk_account_io_start(bio, mpath_ns, priv);
++			mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++			goto out_exit_mpath_request;
++		}
++	}
++
++	mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
++
++ out_exit_mpath_request:
++	bio->bi_status = BLK_STS_IOERR;
++	bio_endio(bio);
++
++ out_mpath_return:
++	return BLK_QC_T_NONE;
++}
++
+ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 		unsigned int cmd, unsigned long arg)
  {
- 	struct nvme_ns *ns;
+@@ -2767,8 +3195,6 @@ void nvme_trigger_failover(struct nvme_ctrl *ctrl)
+ 			test_and_clear_bit(NVME_NS_FO_IN_PROGRESS, &mpath_ns->flags);
+ 		}
+ 
+-		if (!test_bit(NVME_NS_FO_IN_PROGRESS, &mpath_ns->flags)) {
+-		}
+ 		mutex_unlock(&mpath_ns->ctrl->namespaces_mutex);
+ 	}
+ }
 -- 
 2.9.3
