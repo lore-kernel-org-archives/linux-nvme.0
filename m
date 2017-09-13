@@ -1,81 +1,27 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Wed, 13 Sep 2017 16:02:16 +0300
-Subject: [LPC] 2nd RDMA Mini-Summit Schedule
-In-Reply-To: <20170907051805.GA19175@mtr-leonro.local>
-References: <20170907051805.GA19175@mtr-leonro.local>
-Message-ID: <20170913130216.GT3405@mtr-leonro.local>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 13 Sep 2017 10:34:43 -0400
+Subject: [PATCH 01/10] Initial multipath implementation.
+In-Reply-To: <20170913054822.pkykbsvyh36uto5f@haynes>
+References: <20170912042149.drr5dumro5grm7iu@haynes>
+ <20170912160043.GB2832@localhost.localdomain>
+ <20170913054822.pkykbsvyh36uto5f@haynes>
+Message-ID: <20170913143442.GE2832@localhost.localdomain>
 
-On Thu, Sep 07, 2017@08:18:05AM +0300, Leon Romanovsky wrote:
-> Hi,
->
-> We're happy to announce schedule of the 2nd RDMA mini-summit, which will be
-> held as part of coming Linux Plumbers Conference 2017.
->
-> During the conference, we will have two sessions: main track session and
-> round table session.
->
-> First session will be held on Thursday, September 14, 2017 from 9:30am ? 12:30pm
-> with the topics relevant for the wider audience.
->
-> In the second session, we  will focus on more face to face discussions in round
-> table format and it will be scheduled a little bit later once we will get meeting
-> room.
+On Tue, Sep 12, 2017@10:48:22PM -0700, Anish Jhaveri wrote:
+> On Tue, Sep 12, 2017@12:00:44PM -0400, Keith Busch wrote:
+> > 
+> > I find this patch series confusing to review. You declare these failover
+> > functions in patch 1, use them in patch 2, but they're not defined until
+> > patch 7.
+> Sorry for late reply. 
+> 
+> Idea was to keep header file changes as separate patch. 
+> I will move the function declaration to patch 7 and 
+> rearrange the patch series. If you or anyone else finds 
+> something which could help in browsing the changes, I
+> will try to incorporate next patchset.
 
-UPDATE:
-The round table will take place at 2:00pm on Thursday, September 14,
-2017 in one of the speakers's suites (3rd floor, near Georgia I/II).
-
-Thanks
-
->
-> ---------------------------------------------------------------------------------------
-> FIRST SESSION:
-> ---------------------------------------------------------------------------------------
->  * Backporting issues with multi-subsystem device (RDMA + netdev + more) by Don Dutile
->    - More and more devices in RDMA are dependent on netdev as well as other
->      subsystems -- target, NFS, scsi, block, cgroups, SELinux.... Can we make
->      backporting task for distro people easier?
->  * kABI Update by Matan Barak
->    - Going forward with a flexible and secure RDMA kABI
->  * System Boot and RDMA by Jason Gunthrope
->    - Discuss boot-time issues with the RDMA subsystem
->  * Paravirtual RDMA device by Marcel Apfelbaum and Yuval Shaia
->    - QEMU's limited RDMA support leaves it behind other modern hypervisors.
->      Marcel and Yuval will present the implementation of an emulated RDMA device,
->      analyze its performance and usability, and finally talk about future plans
->      for a possible virtio-rdma device.
->   * TX Flow Steering for IPsec by Liran Liss (pending time slot)
->    - The IPsec protocol provides both encryption and authentication for IP
->      protocol packets. Users of the raw ethernet QP that send/receive IPsec packets
->      could benefit from the IPsec crypto offloads capabilities that are
->      available in recent NICs.
->   * OpenFabrics Alliance - Status and New Directions by Jason Gunthrope
->   * BOF - Open Discussion
->    - Open discussion with the community lead by Leon Romanovsky, Jason Gunthorpe,
->      Christoph Lameter and Dennis Dalessandro
->
-> ---------------------------------------------------------------------------------------
-> ROUND TABLE SESSION:
-> ---------------------------------------------------------------------------------------
-> Possible list, bring your own topics:
->  * RDMA and ULPs
->  * Verbs testing suite
->  * RDMA netlink and RDMAtool future plans
->  * RDMA and the Linux IP stack
->  * Infrastructure issues with Travis CI
->  * Infrastructure gaps with rdma-core
->  * Packaging as part of CI for rdma-core.
->  * ....
->
-> See you next week at Linux Plumber Conference 2017.
->
-> Thanks
-
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170913/633c57ed/attachment.sig>
+At the very least, you don't want any patch in the series to depend
+on a future patch just to compile. There are multiple breakages like
+that in your series. For example, patch 5 starts a kthread at function
+nvme_mpath_kthread, but that function doesn't exist until patch 8.
