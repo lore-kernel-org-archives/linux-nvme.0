@@ -1,64 +1,81 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Wed, 13 Sep 2017 12:45:06 +0530
-Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
-In-Reply-To: <CA+RiK667V9nDEr7RywED2_RoSq97m511HZTpGqPbij9-=vADvQ@mail.gmail.com>
-References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <yq1lgmbauxt.fsf@oracle.com>
- <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
- <yq1a82gxwqm.fsf@oracle.com>
- <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
- <yq13787w1a3.fsf@oracle.com>
- <CA+RiK667V9nDEr7RywED2_RoSq97m511HZTpGqPbij9-=vADvQ@mail.gmail.com>
-Message-ID: <CA+RiK64sJZzTcTHODHj0monB2_0xKAkvjrC79rGv2mNUPO87-A@mail.gmail.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Wed, 13 Sep 2017 16:02:16 +0300
+Subject: [LPC] 2nd RDMA Mini-Summit Schedule
+In-Reply-To: <20170907051805.GA19175@mtr-leonro.local>
+References: <20170907051805.GA19175@mtr-leonro.local>
+Message-ID: <20170913130216.GT3405@mtr-leonro.local>
 
-Hi Martin,
+On Thu, Sep 07, 2017@08:18:05AM +0300, Leon Romanovsky wrote:
+> Hi,
+>
+> We're happy to announce schedule of the 2nd RDMA mini-summit, which will be
+> held as part of coming Linux Plumbers Conference 2017.
+>
+> During the conference, we will have two sessions: main track session and
+> round table session.
+>
+> First session will be held on Thursday, September 14, 2017 from 9:30am ? 12:30pm
+> with the topics relevant for the wider audience.
+>
+> In the second session, we  will focus on more face to face discussions in round
+> table format and it will be scheduled a little bit later once we will get meeting
+> room.
 
-Is there any update on the submitted mpt3sas patches.
+UPDATE:
+The round table will take place at 2:00pm on Thursday, September 14,
+2017 in one of the speakers's suites (3rd floor, near Georgia I/II).
 
-Thanks,
-Suganath Prabu S
+Thanks
 
-On Fri, Sep 1, 2017 at 2:09 PM, Suganath Prabu Subramani
-<suganath-prabu.subramani@broadcom.com> wrote:
-> Hi Martin,
 >
-> On Fri, Sep 1, 2017 at 8:52 AM, Martin K. Petersen
-> <martin.petersen@oracle.com> wrote:
->>
->> Hi Suganath,
->>
->>> Let me explain - NVME device fast path is possible in two ways.  IEEE
->>> SGL and PRP SGL. Due to h/w constraint we choose IEEE SGL only for
->>> smaller IO size.  Both above is true h/w Fast Path and no firmware
->>> involvement.
->>
->>> Agree with you. We are planning to see if we can keep only simple Fast
->>> Path using only PRP.
->>
->> That would be great, thank you!
->>
->>> Currently there is no performance issue for UNMAP translation in FW.
->>
->> Good!
->>
->>>> And yet patch 4 circumvents that statement by adding support for
->>>> encapsulated commands to bypass the FW translation...
->>>
->>> This path is not due to performance reason. User wants to interact
->>> with NVME drive in native NVME command for management.
->>
->> Patch 4 states:
->>
->> "This encapsulated NVMe command is used by applications to send direct
->> NVMe commands to NVMe drives or for handling unmap where the translation
->> at controller/firmware level is having performance issues."
->>
->> --
+> ---------------------------------------------------------------------------------------
+> FIRST SESSION:
+> ---------------------------------------------------------------------------------------
+>  * Backporting issues with multi-subsystem device (RDMA + netdev + more) by Don Dutile
+>    - More and more devices in RDMA are dependent on netdev as well as other
+>      subsystems -- target, NFS, scsi, block, cgroups, SELinux.... Can we make
+>      backporting task for distro people easier?
+>  * kABI Update by Matan Barak
+>    - Going forward with a flexible and secure RDMA kABI
+>  * System Boot and RDMA by Jason Gunthrope
+>    - Discuss boot-time issues with the RDMA subsystem
+>  * Paravirtual RDMA device by Marcel Apfelbaum and Yuval Shaia
+>    - QEMU's limited RDMA support leaves it behind other modern hypervisors.
+>      Marcel and Yuval will present the implementation of an emulated RDMA device,
+>      analyze its performance and usability, and finally talk about future plans
+>      for a possible virtio-rdma device.
+>   * TX Flow Steering for IPsec by Liran Liss (pending time slot)
+>    - The IPsec protocol provides both encryption and authentication for IP
+>      protocol packets. Users of the raw ethernet QP that send/receive IPsec packets
+>      could benefit from the IPsec crypto offloads capabilities that are
+>      available in recent NICs.
+>   * OpenFabrics Alliance - Status and New Directions by Jason Gunthrope
+>   * BOF - Open Discussion
+>    - Open discussion with the community lead by Leon Romanovsky, Jason Gunthorpe,
+>      Christoph Lameter and Dennis Dalessandro
 >
-> The statement in description of patch 4 is added by mistake, We ll
-> correct the description and re sending that.
+> ---------------------------------------------------------------------------------------
+> ROUND TABLE SESSION:
+> ---------------------------------------------------------------------------------------
+> Possible list, bring your own topics:
+>  * RDMA and ULPs
+>  * Verbs testing suite
+>  * RDMA netlink and RDMAtool future plans
+>  * RDMA and the Linux IP stack
+>  * Infrastructure issues with Travis CI
+>  * Infrastructure gaps with rdma-core
+>  * Packaging as part of CI for rdma-core.
+>  * ....
 >
->> Martin K. Petersen      Oracle Linux Engineering
+> See you next week at Linux Plumber Conference 2017.
 >
-> Thanks,
-> Suganath Prabu S
+> Thanks
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170913/633c57ed/attachment.sig>
