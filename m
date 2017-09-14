@@ -1,25 +1,25 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 14 Sep 2017 10:25:13 -0700
-Subject: [PATCH 0/5] nvme: remove FC transport status values
-In-Reply-To: <20170914165530.GA7335@infradead.org>
-References: <20170907232729.28763-1-jsmart2021@gmail.com>
- <20170914165530.GA7335@infradead.org>
-Message-ID: <e20c231e-f41c-b371-2ce6-7de8f3a2dd02@broadcom.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 14 Sep 2017 10:38:40 -0700
+Subject: [PATCH v3 0/3] nvme_fc: add uevent to allow dynamic connects
+Message-ID: <20170914173843.3195-1-jsmart2021@gmail.com>
 
-I'm good, but it's not critical.
+These patches add support for generating a uevent which can be
+caught and converted to a nvme-cli connect-all request for the
+FC initiator and target ports.
 
--- james
+Also contains a patch to catch connection attempts that duplicate
+already-in-existence associations.
 
+Cut on nvme-4.14
 
-On 9/14/2017 9:55 AM, Christoph Hellwig wrote:
-> Just trying to check in:
->
-> I'm tempted to add this and the transport SGL patch into the for 4.14
-> tree given that it's mostly trivial and a spec compliance fix.
->
-> Do you (and Jens) agree with that?
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+James Smart (3):
+  nvme_fc: create fc class and transport device
+  nvme_fc: add uevent for auto-connect
+  nvme_fc: Avoid duplicate associations between same port pairs
+
+ drivers/nvme/host/fc.c         | 132 ++++++++++++++++++++++++++++++++++++++++-
+ include/linux/nvme-fc-driver.h |   2 +
+ 2 files changed, 133 insertions(+), 1 deletion(-)
+
+-- 
+2.13.1
