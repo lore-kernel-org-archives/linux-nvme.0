@@ -1,70 +1,43 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Thu, 14 Sep 2017 13:59:28 -0300
-Subject: [PATCH] nvme-fabrics: Allow 0 as KATO value
-Message-ID: <20170914165928.30862-1-gpiccoli@linux.vnet.ibm.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 14 Sep 2017 10:01:39 -0700
+Subject: [PATCH] nvmet: implement valid sqhd values in completions
+In-Reply-To: <20170907201836.25067-1-jsmart2021@gmail.com>
+References: <20170907201836.25067-1-jsmart2021@gmail.com>
+Message-ID: <20170914170139.GA25583@infradead.org>
 
-Currently, driver code allows user to set 0 as KATO
-(Keep Alive TimeOut), but this is not being respected.
-This patch enforces the expected behavior.
+On Thu, Sep 07, 2017@01:18:36PM -0700, James Smart wrote:
+> To support sqhd, for initiators that are following the spec and
+> paying attention to sqhd vs their sqtail values:
+> - add sqhd to struct nvmet_sq
+> - initialize sqhd to 0 in nvmet_sq_setup
+> - rather than propagate the 0's-based qsize value from the connect message
+>   which requires a +1 in every sqhd update, and as nothing else references
+>   it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
+> - validate connect message sqsize being non-zero per spec.
+> - updated assign sqhd for every completion that goes back.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+>  drivers/nvme/target/core.c        | 9 +++++----
+>  drivers/nvme/target/fabrics-cmd.c | 9 +++++++--
+>  drivers/nvme/target/nvmet.h       | 1 +
+>  3 files changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 7c23eaf8e563..434394ead4a2 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -390,8 +390,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+>  	if (status)
+>  		nvmet_set_status(req, status);
+>  
+> -	/* XXX: need to fill in something useful for sq_head */
+> -	req->rsp->sq_head = 0;
+> +	req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
+> +	req->rsp->sq_head = req->sq->sqhd;
 
-Signed-off-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
----
-v3: Implemented Sagi's suggestion of setting KATO to default
-early and then remove condition on "out" label.
+This is missing an endianes conversion:
 
- drivers/nvme/host/fabrics.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 47307752dc65..555c976cc2ee 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -565,6 +565,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
- 	opts->nr_io_queues = num_online_cpus();
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
-+	opts->kato = NVME_DEFAULT_KATO;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -655,21 +656,22 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				goto out;
- 			}
- 
--			if (opts->discovery_nqn) {
--				pr_err("Discovery controllers cannot accept keep_alive_tmo != 0\n");
--				ret = -EINVAL;
--				goto out;
--			}
--
- 			if (token < 0) {
- 				pr_err("Invalid keep_alive_tmo %d\n", token);
- 				ret = -EINVAL;
- 				goto out;
--			} else if (token == 0) {
-+			} else if (token == 0 && !opts->discovery_nqn) {
- 				/* Allowed for debug */
- 				pr_warn("keep_alive_tmo 0 won't execute keep alives!!!\n");
- 			}
- 			opts->kato = token;
-+
-+			if (opts->discovery_nqn && opts->kato) {
-+				pr_err("Discovery controllers cannot accept KATO != 0\n");
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+
- 			break;
- 		case NVMF_OPT_CTRL_LOSS_TMO:
- 			if (match_int(args, &token)) {
-@@ -762,8 +764,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	uuid_copy(&opts->host->id, &hostid);
- 
- out:
--	if (!opts->discovery_nqn && !opts->kato)
--		opts->kato = NVME_DEFAULT_KATO;
- 	kfree(options);
- 	return ret;
- }
--- 
-2.14.1
+drivers/nvme/target/core.c:394:27: warning: incorrect type in assignment (different base types)
+drivers/nvme/target/core.c:394:27:    expected restricted __le16 [usertype] sq_head
+drivers/nvme/target/core.c:394:27:    got unsigned short [unsigned] [usertype] sqhd
