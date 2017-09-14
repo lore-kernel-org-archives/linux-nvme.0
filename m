@@ -1,82 +1,53 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 14 Sep 2017 10:38:43 -0700
-Subject: [PATCH v3 3/3] nvme_fc: Avoid duplicate associations between same
- port pairs
-In-Reply-To: <20170914173843.3195-1-jsmart2021@gmail.com>
-References: <20170914173843.3195-1-jsmart2021@gmail.com>
-Message-ID: <20170914173843.3195-4-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 14 Sep 2017 13:54:39 -0400
+Subject: [PATCH] nvme/pci: Initialize queue memory before interrupts
+Message-ID: <1505411679-1625-1-git-send-email-keith.busch@intel.com>
 
-Rescans can occur due to subsystem list changes on an FC remoteport.
-Rescans may attempt to reconnect to subsystems where there is already
-an association in place. There should only be 1 association in place
-at a time for the following tuple:
-  <hostnqn, hostid, host FC port, target FC port, subnqn>
+A spurious interrupt before the nvme driver has initialized the completion
+queue may inadvertently cause the driver to believe it has a completion
+to process. This may result in a NULL dereference since the nvmeq's tags
+are not set at this point.
 
-Catch connection attempts to associations that already exist and
-fail the attempts.
+The patch initializes the host's CQ memory so that a spurious interrupt
+isn't mistaken for a real completion.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
-
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-v3:
-  this patch created by content movement
-  slight mod for uuid type
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/nvme/host/fc.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index cb0cd4f5c4b5..e7c1d767fb4c 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2783,6 +2783,19 @@ static const struct blk_mq_ops nvme_fc_admin_mq_ops = {
- };
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 925467b..df96562 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1310,11 +1310,11 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	if (result < 0)
+ 		goto release_cq;
  
++	nvme_init_queue(nvmeq, qid);
+ 	result = queue_request_irq(nvmeq);
+ 	if (result < 0)
+ 		goto release_sq;
  
-+static inline bool
-+__nvme_fc_options_match(struct nvmf_ctrl_options *opts,
-+			struct nvme_fc_ctrl *ctrl)
-+{
-+	if (strcmp(opts->subsysnqn, ctrl->ctrl.opts->subsysnqn) ||
-+	    strcmp(opts->host->nqn, ctrl->ctrl.opts->host->nqn) ||
-+	    memcmp(&opts->host->id, &ctrl->ctrl.opts->host->id,
-+				sizeof(uuid_t)))
-+		return false;
-+
-+	return true;
-+}
-+
- static struct nvme_ctrl *
- nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	struct nvme_fc_lport *lport, struct nvme_fc_rport *rport)
-@@ -2790,6 +2803,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	struct nvme_fc_ctrl *ctrl;
- 	unsigned long flags;
- 	int ret, idx;
-+	bool found = false;
+-	nvme_init_queue(nvmeq, qid);
+ 	return result;
  
- 	if (!(rport->remoteport.port_role &
- 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
-@@ -2797,6 +2811,20 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		goto out_fail;
- 	}
+  release_sq:
+@@ -1460,6 +1460,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 		return result;
  
-+	spin_lock_irqsave(&rport->lock, flags);
-+	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
-+		if (__nvme_fc_options_match(opts, ctrl)) {
-+			found = true;
-+			break;
-+		}
-+	}
-+	spin_unlock_irqrestore(&rport->lock, flags);
-+
-+	if (found) {
-+		ret = -EALREADY;
-+		goto out_fail;
-+	}
-+
- 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl) {
- 		ret = -ENOMEM;
+ 	nvmeq->cq_vector = 0;
++	nvme_init_queue(nvmeq, 0);
+ 	result = queue_request_irq(nvmeq);
+ 	if (result) {
+ 		nvmeq->cq_vector = -1;
+@@ -2134,7 +2135,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
+ 		goto out;
+ 
+-	nvme_init_queue(dev->queues[0], 0);
+ 	result = nvme_alloc_admin_tags(dev);
+ 	if (result)
+ 		goto out;
 -- 
-2.13.1
+2.5.5
