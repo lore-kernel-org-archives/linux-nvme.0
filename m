@@ -1,41 +1,43 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 14 Sep 2017 15:06:14 -0400
-Subject: [PATCH] nvme/pci: Print invalid SGL only once
-Message-ID: <1505415974-13489-1-git-send-email-keith.busch@intel.com>
+From: Himanshu.Madhani@cavium.com (Madhani, Himanshu)
+Date: Thu, 14 Sep 2017 19:39:05 +0000
+Subject: [PATCH] qla2xxx: convert nvme Transport error to internal error
+In-Reply-To: <20170914183015.21540-1-jsmart2021@gmail.com>
+References: <20170914183015.21540-1-jsmart2021@gmail.com>
+Message-ID: <5CEF2024-2483-401C-8134-3709DF54CBB6@cavium.com>
 
-The WARN_ONCE macro returns true if the condition is true, not if the
-warn was raised, so we're printing the scatter list every time it's
-invalid. This is excessive and makes debugging harder, so this patch
-prints it just once.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+> On Sep 14, 2017,@11:30 AM, James Smart <jsmart2021@gmail.com> wrote:
+> 
+> Patch removing transport-specific errors crosssed with a qla2xxx update
+> that referenced the status value being removed.
+> 
+> Swap status to an internal error.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+> drivers/scsi/qla2xxx/qla_nvme.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
+> index 1f59e7a74c7b..6b33a1f24f56 100644
+> --- a/drivers/scsi/qla2xxx/qla_nvme.c
+> +++ b/drivers/scsi/qla2xxx/qla_nvme.c
+> @@ -180,7 +180,7 @@ static void qla_nvme_sp_done(void *ptr, int res)
+> 		goto rel;
+> 
+> 	if (unlikely(res == QLA_FUNCTION_FAILED))
+> -		fd->status = NVME_SC_FC_TRANSPORT_ERROR;
+> +		fd->status = NVME_SC_INTERNAL;
+> 	else
+> 		fd->status = 0;
+> 
+> -- 
+> 2.13.1
+> 
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index df96562..33d66da 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -554,6 +554,8 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 	dma_addr_t prp_dma;
- 	int nprps, i;
- 
-+	static bool sgl_warned = false;
-+
- 	length -= (page_size - offset);
- 	if (length <= 0)
- 		return BLK_STS_OK;
-@@ -619,8 +621,9 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
- 	return BLK_STS_OK;
- 
-  bad_sgl:
--	if (WARN_ONCE(1, "Invalid SGL for payload:%d nents:%d\n",
-+	if (!sgl_warned && WARN_ONCE(1, "Invalid SGL for payload:%d nents:%d\n",
- 				blk_rq_payload_bytes(req), iod->nents)) {
-+		sgl_warned = true;
- 		for_each_sg(iod->sg, sg, iod->nents, i) {
- 			dma_addr_t phys = sg_phys(sg);
- 			pr_warn("sg[%d] phys_addr:%pad offset:%d length:%d "
--- 
-2.5.5
+Looks good.
+
+Acked-by: Himanshu Madhani <himanshu.madhani at cavium.com>
+
+Thanks,
+- Himanshu
