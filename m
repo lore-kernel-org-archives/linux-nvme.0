@@ -1,95 +1,81 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 14 Sep 2017 10:58:10 -0700
-Subject: [PATCH v2] nvmet: implement valid sqhd values in completions
-Message-ID: <20170914175810.13011-1-jsmart2021@gmail.com>
+Date: Thu, 14 Sep 2017 11:03:09 -0700
+Subject: [PATCH v2] nvme: stop aer posting if controller state not live
+Message-ID: <20170914180309.20851-1-jsmart2021@gmail.com>
 
-To support sqhd, for initiators that are following the spec and
-paying attention to sqhd vs their sqtail values:
-- add sqhd to struct nvmet_sq
-- initialize sqhd to 0 in nvmet_sq_setup
-- rather than propagate the 0's-based qsize value from the connect message
-  which requires a +1 in every sqhd update, and as nothing else references
-  it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
-- validate connect message sqsize being non-zero per spec.
-- updated assign sqhd for every completion that goes back.
+If an nvme async_event command completes, in most cases, a new
+async event is posted. However, if the controller enters a
+resetting or reconnecting state, there is nothing to block the
+scheduled work element from posting the async event again. Nor are
+there calls from the transport to stop async events when an
+association dies.
+
+In the case of FC, where the association is torn down, the aer must
+be aborted on the FC link and completes through the normal job
+completion path. Thus the terminated async event ends up being
+rescheduled even though the controller isn't in a valid state for
+the aer, and the reposting gets the transport into a partially torn
+down data structure.
+
+It's possible to hit the scenario on rdma, although much less likely
+due to an aer completing right as the association is terminated and
+as the association teardown reclaims the blk requests via
+nvme_cancel_request() so its immediate, not a link-related action
+like on FC.
+
+Fix by putting controller state checks in both the async event
+completion routine where it schedules the async event and in the
+async event work routine before it calls into the transport. It's
+effectively a "stop_async_events()" behavior.  The transport, when
+it creates a new association with the subsystem will transition
+the state back to live and is already restarting the async event
+posting.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 
 ---
-v2: assignment corrected for endianness
+v2:
+  rework if test into while stmt
 
- drivers/nvme/target/core.c        | 9 +++++----
- drivers/nvme/target/fabrics-cmd.c | 9 +++++++--
- drivers/nvme/target/nvmet.h       | 1 +
- 3 files changed, 13 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7c23eaf8e563..764d46698b03 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -390,8 +390,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- 	if (status)
- 		nvmet_set_status(req, status);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 90d09067a82a..fd1f489d4f9a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2588,7 +2588,7 @@ static void nvme_async_event_work(struct work_struct *work)
+ 		container_of(work, struct nvme_ctrl, async_event_work);
  
--	/* XXX: need to fill in something useful for sq_head */
--	req->rsp->sq_head = 0;
-+	req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
-+	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
- 	if (likely(req->sq)) /* may happen during early failure */
- 		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
- 	req->rsp->command_id = req->cmd->common.command_id;
-@@ -412,7 +412,7 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
- 		u16 qid, u16 size)
+ 	spin_lock_irq(&ctrl->lock);
+-	while (ctrl->event_limit > 0) {
++	while (ctrl->state == NVME_CTRL_LIVE && ctrl->event_limit > 0) {
+ 		int aer_idx = --ctrl->event_limit;
+ 
+ 		spin_unlock_irq(&ctrl->lock);
+@@ -2667,7 +2667,12 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res)
  {
- 	cq->qid = qid;
--	cq->size = size;
-+	cq->size = size;	/* 1's-based number now ! */
+ 	u32 result = le32_to_cpu(res->u32);
+-	bool done = true;
++	bool done = true, live = true;
++
++	spin_lock_irq(&ctrl->lock);
++	if (unlikely(ctrl->state != NVME_CTRL_LIVE))
++		live = false;
++	spin_unlock_irq(&ctrl->lock);
  
- 	ctrl->cqs[qid] = cq;
- }
-@@ -420,8 +420,9 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
- void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
- 		u16 qid, u16 size)
- {
-+	sq->sqhd = 0;
- 	sq->qid = qid;
--	sq->size = size;
-+	sq->size = size;	/* 1's-based number now ! */
- 
- 	ctrl->sqs[qid] = sq;
- }
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 859a66725291..db3bf6b8bf9e 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -109,9 +109,14 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 		pr_warn("queue already connected!\n");
- 		return NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
- 	}
-+	if (!sqsize) {
-+		pr_warn("queue size zero!\n");
-+		return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
-+	}
- 
--	nvmet_cq_setup(ctrl, req->cq, qid, sqsize);
--	nvmet_sq_setup(ctrl, req->sq, qid, sqsize);
-+	/* note: convert queue size from 0's-based value to 1's-based value */
-+	nvmet_cq_setup(ctrl, req->cq, qid, sqsize + 1);
-+	nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1);
- 	return 0;
- }
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7d261ab894f4..7b8e20adf760 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -74,6 +74,7 @@ struct nvmet_sq {
- 	struct percpu_ref	ref;
- 	u16			qid;
- 	u16			size;
-+	u16			sqhd;
- 	struct completion	free_done;
- 	struct completion	confirm_done;
- };
+ 	switch (le16_to_cpu(status) >> 1) {
+ 	case NVME_SC_SUCCESS:
+@@ -2675,7 +2680,8 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		/*FALLTHRU*/
+ 	case NVME_SC_ABORT_REQ:
+ 		++ctrl->event_limit;
+-		queue_work(nvme_wq, &ctrl->async_event_work);
++		if (live)
++			schedule_work(&ctrl->async_event_work);
+ 		break;
+ 	default:
+ 		break;
 -- 
 2.13.1
