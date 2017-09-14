@@ -1,128 +1,105 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 14 Sep 2017 10:38:42 -0700
-Subject: [PATCH v3 2/3] nvme_fc: add uevent for auto-connect
+Date: Thu, 14 Sep 2017 10:38:41 -0700
+Subject: [PATCH v3 1/3] nvme_fc: create fc class and transport device
 In-Reply-To: <20170914173843.3195-1-jsmart2021@gmail.com>
 References: <20170914173843.3195-1-jsmart2021@gmail.com>
-Message-ID: <20170914173843.3195-3-jsmart2021@gmail.com>
+Message-ID: <20170914173843.3195-2-jsmart2021@gmail.com>
 
-To support auto-connecting to FC-NVME devices upon their dynamic
-appearance, add a uevent that can kick off connection scripts.
-uevent is posted against the fc_udev device.
-
-patch set tested with the following rule to kick an nvme-cli connect-all
-for the FC initiator and FC target ports. This is just an example for
-testing and not intended for real life use.
-
-ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery", \
-        ENV{NVMEFC_HOST_TRADDR}=="*", ENV{NVMEFC_TRADDR}=="*", \
-	RUN+="/bin/sh -c '/usr/local/sbin/nvme connect-all --transport=fc --host-traddr=$env{NVMEFC_HOST_TRADDR} --traddr=$env{NVMEFC_TRADDR} >> /tmp/nvme_fc.log'"
-
-I will post proposed udev/systemd scripts for possible kernel support.
+Added a new fc class and a device node for udev events under it.
+I expect the fc class will eventually be the location where the
+FC SCSI and FC NVME merge in the future. Therefore names are
+kept somewhat generic.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
-v2: changed syntax of event to specify a fc event type with FC_EVENT
-  variable, and independent variables for host_traddr and traddr.
-  Added nvme_fc_rescan_remoteport().
 v3:
-  Stayed with snprintf over kasprintf. The xxaddr fields, per FC-NVME
-    spec, are fixed length, so hardcoding their length is acceptable.
-    Also, if allocation was to fail, it potentially causes a
-    critical loss in connectivity as the event wouldn't be posted.
-    Better to allocate on the stack and ensure the event can be
-    posted. Added define and comments on string length.
-  Split duplicate connection check into separate patch.
+  Genericized udev event device name.
+  Added comments about future expectations.
+  Kept fc class and udev device in the nvme module due to its
+     small size. in future, it can move to somewhere else.
 
- drivers/nvme/host/fc.c         | 49 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme-fc-driver.h |  2 ++
- 2 files changed, 51 insertions(+)
+ drivers/nvme/host/fc.c | 55 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 54 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index f9e9dddc7e92..cb0cd4f5c4b5 100644
+index d2e882c0f496..f9e9dddc7e92 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -459,6 +459,36 @@ nvme_fc_unregister_localport(struct nvme_fc_local_port *portptr)
- }
- EXPORT_SYMBOL_GPL(nvme_fc_unregister_localport);
+@@ -213,6 +213,13 @@ static DEFINE_IDA(nvme_fc_ctrl_cnt);
+ 
+ 
  
 +/*
-+ * TRADDR strings, per FC-NVME are fixed format:
-+ *   "nn-0x<16hexdigits>:pn-0x<16hexdigits>" - 43 characters
-+ * udev event will only differ by prefix of what field is
-+ * being specified:
-+ *    "NVMEFC_HOST_TRADDR=" or "NVMEFC_TRADDR=" - 19 max characters
-+ *  19 + 43 + null_fudge = 64 characters
++ * These items are short-term. They will eventually be moved into
++ * a generic FC class. See comments in module init.
 + */
-+#define FCNVME_TRADDR_LENGTH		64
++static struct class *fc_class;
++static struct device *fc_udev_device;
 +
-+static void
-+nvme_fc_signal_discovery_scan(struct nvme_fc_lport *lport,
-+		struct nvme_fc_rport *rport)
-+{
-+	char hostaddr[FCNVME_TRADDR_LENGTH];	/* NVMEFC_HOST_TRADDR=...*/
-+	char tgtaddr[FCNVME_TRADDR_LENGTH];	/* NVMEFC_TRADDR=...*/
-+	char *envp[4] = { "FC_EVENT=nvmediscovery", hostaddr, tgtaddr, NULL };
-+
-+	if (!(rport->remoteport.port_role & FC_PORT_ROLE_NVME_DISCOVERY))
-+		return;
-+
-+	snprintf(hostaddr, sizeof(hostaddr),
-+		"NVMEFC_HOST_TRADDR=nn-0x%016llx:pn-0x%016llx",
-+		lport->localport.node_name, lport->localport.port_name);
-+	snprintf(tgtaddr, sizeof(tgtaddr),
-+		"NVMEFC_TRADDR=nn-0x%016llx:pn-0x%016llx",
-+		rport->remoteport.node_name, rport->remoteport.port_name);
-+	kobject_uevent_env(&fc_udev_device->kobj, KOBJ_CHANGE, envp);
-+}
-+
- /**
-  * nvme_fc_register_remoteport - transport entry point called by an
-  *                              LLDD to register the existence of a NVME
-@@ -523,6 +553,8 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	list_add_tail(&newrec->endp_list, &lport->endp_list);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
  
-+	nvme_fc_signal_discovery_scan(lport, newrec);
-+
- 	*portptr = &newrec->remoteport;
- 	return 0;
+ /* *********************** FC-NVME Port Management ************************ */
  
-@@ -641,6 +673,23 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
+@@ -2996,7 +3003,50 @@ static struct nvmf_transport_ops nvme_fc_transport = {
+ 
+ static int __init nvme_fc_init_module(void)
+ {
+-	return nvmf_register_transport(&nvme_fc_transport);
++	int ret;
++
++	/*
++	 * NOTE:
++	 * It is expected that in the future the kernel will combine
++	 * the FC-isms that are currently under scsi and now being
++	 * added to by NVME into a new standalone FC class. The SCSI
++	 * and NVME protocols and their devices would be under this
++	 * new FC class.
++	 *
++	 * As we need something to post FC-specific udev events to,
++	 * specifically for nvme probe events, start by creating the
++	 * new device class.  When the new standalone FC class is
++	 * put in place, this code will move to a more generic
++	 * location for the class.
++	 */
++	fc_class = class_create(THIS_MODULE, "fc");
++	if (IS_ERR(fc_class)) {
++		pr_err("couldn't register class fc\n");
++		return PTR_ERR(fc_class);
++	}
++
++	/*
++	 * Create a device for the FC-centric udev events
++	 */
++	fc_udev_device = device_create(fc_class, NULL, MKDEV(0, 0), NULL,
++				"fc_udev_device");
++	if (IS_ERR(fc_udev_device)) {
++		pr_err("couldn't create fc_udev device!\n");
++		ret = PTR_ERR(fc_udev_device);
++		goto out_destroy_class;
++	}
++
++	ret = nvmf_register_transport(&nvme_fc_transport);
++	if (ret)
++		goto out_destroy_device;
++
++	return 0;
++
++out_destroy_device:
++	device_destroy(fc_class, MKDEV(0, 0));
++out_destroy_class:
++	class_destroy(fc_class);
++	return ret;
  }
- EXPORT_SYMBOL_GPL(nvme_fc_unregister_remoteport);
  
-+/**
-+ * nvme_fc_rescan_remoteport - transport entry point called by an
-+ *                              LLDD to request a nvme device rescan.
-+ * @remoteport: pointer to the (registered) remote port that is to be
-+ *              rescanned.
-+ *
-+ * Returns: N/A
-+ */
-+void
-+nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport)
-+{
-+	struct nvme_fc_rport *rport = remoteport_to_rport(remoteport);
+ static void __exit nvme_fc_exit_module(void)
+@@ -3009,6 +3059,9 @@ static void __exit nvme_fc_exit_module(void)
+ 
+ 	ida_destroy(&nvme_fc_local_port_cnt);
+ 	ida_destroy(&nvme_fc_ctrl_cnt);
 +
-+	nvme_fc_signal_discovery_scan(rport->lport, rport);
-+}
-+EXPORT_SYMBOL_GPL(nvme_fc_rescan_remoteport);
-+
++	device_destroy(fc_class, MKDEV(0, 0));
++	class_destroy(fc_class);
+ }
  
- /* *********************** FC-NVME DMA Handling **************************** */
- 
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 9c5cb4480806..1af80055053a 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -451,6 +451,8 @@ int nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 
- int nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *remoteport);
- 
-+void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
-+
- 
- 
- /*
+ module_init(nvme_fc_init_module);
 -- 
 2.13.1
