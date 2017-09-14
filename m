@@ -1,30 +1,16 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 14 Sep 2017 11:30:15 -0700
-Subject: [PATCH] qla2xxx: convert nvme Transport error to internal error
-Message-ID: <20170914183015.21540-1-jsmart2021@gmail.com>
+Date: Thu, 14 Sep 2017 11:36:48 -0700
+Subject: [PATCH] nvmet: bump NVMET_NR_QUEUES to 128
+In-Reply-To: <20170914170300.GA1235@infradead.org>
+References: <20170911231450.20409-1-jsmart2021@gmail.com>
+ <20170914170300.GA1235@infradead.org>
+Message-ID: <ee9de017-69e9-670e-b763-1eea73598d66@gmail.com>
 
-Patch removing transport-specific errors crosssed with a qla2xxx update
-that referenced the status value being removed.
+On 9/14/2017 10:03 AM, Christoph Hellwig wrote:
+> This looks ok as a quick check, but any chance you could send
+> a patch to make this configurable through configfs?  Preferably
+> also for the max queue size.
 
-Swap status to an internal error.
+Yep - I'll put one together
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/scsi/qla2xxx/qla_nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index 1f59e7a74c7b..6b33a1f24f56 100644
---- a/drivers/scsi/qla2xxx/qla_nvme.c
-+++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -180,7 +180,7 @@ static void qla_nvme_sp_done(void *ptr, int res)
- 		goto rel;
- 
- 	if (unlikely(res == QLA_FUNCTION_FAILED))
--		fd->status = NVME_SC_FC_TRANSPORT_ERROR;
-+		fd->status = NVME_SC_INTERNAL;
- 	else
- 		fd->status = 0;
- 
--- 
-2.13.1
+-- james
