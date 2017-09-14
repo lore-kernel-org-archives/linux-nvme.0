@@ -1,91 +1,13 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Thu, 14 Sep 2017 19:48:35 +0300
-Subject: [LPC] 2nd RDMA Mini-Summit Schedule
-In-Reply-To: <20170913130216.GT3405@mtr-leonro.local>
-References: <20170907051805.GA19175@mtr-leonro.local>
- <20170913130216.GT3405@mtr-leonro.local>
-Message-ID: <20170914164835.GB3405@mtr-leonro.local>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 14 Sep 2017 09:55:30 -0700
+Subject: [PATCH 0/5] nvme: remove FC transport status values
+In-Reply-To: <20170907232729.28763-1-jsmart2021@gmail.com>
+References: <20170907232729.28763-1-jsmart2021@gmail.com>
+Message-ID: <20170914165530.GA7335@infradead.org>
 
-On Wed, Sep 13, 2017@04:02:16PM +0300, Leon Romanovsky wrote:
-> On Thu, Sep 07, 2017@08:18:05AM +0300, Leon Romanovsky wrote:
-> > Hi,
-> >
-> > We're happy to announce schedule of the 2nd RDMA mini-summit, which will be
-> > held as part of coming Linux Plumbers Conference 2017.
-> >
-> > During the conference, we will have two sessions: main track session and
-> > round table session.
-> >
-> > First session will be held on Thursday, September 14, 2017 from 9:30am ? 12:30pm
-> > with the topics relevant for the wider audience.
-> >
-> > In the second session, we  will focus on more face to face discussions in round
-> > table format and it will be scheduled a little bit later once we will get meeting
-> > room.
->
-> UPDATE:
-> The round table will take place at 2:00pm on Thursday, September 14,
-> 2017 in one of the speakers's suites (3rd floor, near Georgia I/II).
->
-> Thanks
+Just trying to check in:
 
-UPDATE:
-RDMA round table will be held at Platinum Ballroom J. from 2:00pm till 6:30pm.
+I'm tempted to add this and the transport SGL patch into the for 4.14
+tree given that it's mostly trivial and a spec compliance fix.
 
-Thanks
-
->
-> >
-> > ---------------------------------------------------------------------------------------
-> > FIRST SESSION:
-> > ---------------------------------------------------------------------------------------
-> >  * Backporting issues with multi-subsystem device (RDMA + netdev + more) by Don Dutile
-> >    - More and more devices in RDMA are dependent on netdev as well as other
-> >      subsystems -- target, NFS, scsi, block, cgroups, SELinux.... Can we make
-> >      backporting task for distro people easier?
-> >  * kABI Update by Matan Barak
-> >    - Going forward with a flexible and secure RDMA kABI
-> >  * System Boot and RDMA by Jason Gunthrope
-> >    - Discuss boot-time issues with the RDMA subsystem
-> >  * Paravirtual RDMA device by Marcel Apfelbaum and Yuval Shaia
-> >    - QEMU's limited RDMA support leaves it behind other modern hypervisors.
-> >      Marcel and Yuval will present the implementation of an emulated RDMA device,
-> >      analyze its performance and usability, and finally talk about future plans
-> >      for a possible virtio-rdma device.
-> >   * TX Flow Steering for IPsec by Liran Liss (pending time slot)
-> >    - The IPsec protocol provides both encryption and authentication for IP
-> >      protocol packets. Users of the raw ethernet QP that send/receive IPsec packets
-> >      could benefit from the IPsec crypto offloads capabilities that are
-> >      available in recent NICs.
-> >   * OpenFabrics Alliance - Status and New Directions by Jason Gunthrope
-> >   * BOF - Open Discussion
-> >    - Open discussion with the community lead by Leon Romanovsky, Jason Gunthorpe,
-> >      Christoph Lameter and Dennis Dalessandro
-> >
-> > ---------------------------------------------------------------------------------------
-> > ROUND TABLE SESSION:
-> > ---------------------------------------------------------------------------------------
-> > Possible list, bring your own topics:
-> >  * RDMA and ULPs
-> >  * Verbs testing suite
-> >  * RDMA netlink and RDMAtool future plans
-> >  * RDMA and the Linux IP stack
-> >  * Infrastructure issues with Travis CI
-> >  * Infrastructure gaps with rdma-core
-> >  * Packaging as part of CI for rdma-core.
-> >  * ....
-> >
-> > See you next week at Linux Plumber Conference 2017.
-> >
-> > Thanks
->
->
-
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170914/97ef8cbf/attachment.sig>
+Do you (and Jens) agree with that?
