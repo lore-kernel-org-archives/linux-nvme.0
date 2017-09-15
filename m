@@ -1,84 +1,77 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 16 Sep 2017 00:44:52 +0800
-Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in case of
- BLK_STS_RESOURCE
-In-Reply-To: <20170915164456.9803-1-ming.lei@redhat.com>
-References: <20170915164456.9803-1-ming.lei@redhat.com>
-Message-ID: <20170915164456.9803-2-ming.lei@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 15 Sep 2017 13:05:38 -0400
+Subject: [PATCHv2] nvme/pci: Print invalid SGL only once
+Message-ID: <1505495138-11325-1-git-send-email-keith.busch@intel.com>
 
-If .queue_rq() returns BLK_STS_RESOURCE, blk-mq will rerun
-the queue in the three situations:
+The WARN_ONCE macro returns true if the condition is true, not if the
+warn was raised, so we're printing the scatter list every time it's
+invalid. This is excessive and makes debugging harder, so this patch
+prints it just once.
 
-1) if BLK_MQ_S_SCHED_RESTART is set
-- queue is rerun after one rq is completed, see blk_mq_sched_restart()
-which is run from blk_mq_free_request()
-
-2) BLK_MQ_S_TAG_WAITING is set
-- queue is rerun after one tag is freed
-
-3) otherwise
-- queue is run immediately in blk_mq_dispatch_rq_list()
-
-So calling blk_mq_delay_run_hw_queue() inside .queue_rq() doesn't make
-sense because no matter it is called or not, the queue still will be
-rerun soon in above three situations, and the busy req can be dispatched
-again.
-
-Cc: Mike Snitzer <snitzer at redhat.com>
-Cc: dm-devel at redhat.com
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: linux-nvme at lists.infradead.org
-Cc: "James E.J. Bottomley" <jejb at linux.vnet.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
-Cc: linux-scsi at vger.kernel.org
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/md/dm-rq.c      | 1 -
- drivers/nvme/host/fc.c  | 3 ---
- drivers/scsi/scsi_lib.c | 4 ----
- 3 files changed, 8 deletions(-)
+v1 -> v2:
 
-diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
-index c6ebc5b1e00e..71422cea1c4a 100644
---- a/drivers/md/dm-rq.c
-+++ b/drivers/md/dm-rq.c
-@@ -761,7 +761,6 @@ static blk_status_t dm_mq_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		/* Undo dm_start_request() before requeuing */
- 		rq_end_stats(md, rq);
- 		rq_completed(md, rq_data_dir(rq), false);
--		blk_mq_delay_run_hw_queue(hctx, 100/*ms*/);
- 		return BLK_STS_RESOURCE;
- 	}
+  Use the kernel's DO_ONCE macro rather than try to track that in the driver.
+
+ drivers/nvme/host/pci.c | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index df96562..ea4485a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -24,6 +24,7 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/once.h>
+ #include <linux/pci.h>
+ #include <linux/poison.h>
+ #include <linux/t10-pi.h>
+@@ -539,6 +540,20 @@ static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
+ }
+ #endif
  
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index d2e882c0f496..17727eee5d5f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2041,9 +2041,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
++static void nvme_print_sgl(struct scatterlist *sgl, int nents)
++{
++	int i;
++	struct scatterlist *sg;
++
++	for_each_sg(sgl, sg, nents, i) {
++		dma_addr_t phys = sg_phys(sg);
++		pr_warn("sg[%d] phys_addr:%pad offset:%d length:%d "
++			"dma_address:%pad dma_length:%d\n",
++			i, &phys, sg->offset, sg->length, &sg_dma_address(sg),
++			sg_dma_len(sg));
++	}
++}
++
+ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+@@ -619,19 +634,10 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
  	return BLK_STS_OK;
  
- busy:
--	if (!(op->flags & FCOP_FLAGS_AEN) && queue->hctx)
--		blk_mq_delay_run_hw_queue(queue->hctx, NVMEFC_QUEUE_DELAY);
+  bad_sgl:
+-	if (WARN_ONCE(1, "Invalid SGL for payload:%d nents:%d\n",
+-				blk_rq_payload_bytes(req), iod->nents)) {
+-		for_each_sg(iod->sg, sg, iod->nents, i) {
+-			dma_addr_t phys = sg_phys(sg);
+-			pr_warn("sg[%d] phys_addr:%pad offset:%d length:%d "
+-			       "dma_address:%pad dma_length:%d\n", i, &phys,
+-					sg->offset, sg->length,
+-					&sg_dma_address(sg),
+-					sg_dma_len(sg));
+-		}
+-	}
++	WARN(DO_ONCE(nvme_print_sgl, iod->sg, iod->nents),
++			"Invalid SGL for payload:%d nents:%d\n",
++			blk_rq_payload_bytes(req), iod->nents);
+ 	return BLK_STS_IOERR;
 -
- 	return BLK_STS_RESOURCE;
  }
  
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 9cf6a80fe297..71d5bf1345c9 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -2010,11 +2010,7 @@ static blk_status_t scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
- out:
- 	switch (ret) {
- 	case BLK_STS_OK:
--		break;
- 	case BLK_STS_RESOURCE:
--		if (atomic_read(&sdev->device_busy) == 0 &&
--		    !scsi_device_blocked(sdev))
--			blk_mq_delay_run_hw_queue(hctx, SCSI_QUEUE_DELAY);
- 		break;
- 	default:
- 		/*
+ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
 -- 
-2.9.5
+2.5.5
