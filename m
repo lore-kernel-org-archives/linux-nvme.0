@@ -1,14 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 15 Sep 2017 17:42:19 +0200
-Subject: [PATCH] nvme/pci: Print invalid SGL only once
-In-Reply-To: <20170915154401.GE8878@localhost.localdomain>
-References: <1505415974-13489-1-git-send-email-keith.busch@intel.com>
- <20170915145553.GA1147@lst.de> <20170915151713.GD8878@localhost.localdomain>
- <20170915154401.GE8878@localhost.localdomain>
-Message-ID: <20170915154219.GB3422@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 15 Sep 2017 08:43:39 -0700
+Subject: [PATCH v2] nvme: stop aer posting if controller state not live
+In-Reply-To: <20170914180309.20851-1-jsmart2021@gmail.com>
+References: <20170914180309.20851-1-jsmart2021@gmail.com>
+Message-ID: <20170915154339.GA26222@infradead.org>
 
-On Fri, Sep 15, 2017@11:44:01AM -0400, Keith Busch wrote:
-> I should have known Linux had a macro to do something "once". Is the
-> following more acceptable?
+> +	bool done = true, live = true;
+> +
+> +	spin_lock_irq(&ctrl->lock);
+> +	if (unlikely(ctrl->state != NVME_CTRL_LIVE))
+> +		live = false;
+> +	spin_unlock_irq(&ctrl->lock);
 
-This looks much nicer.
+Taking a lock isn't going to help us anything when reading a single
+value.  But I can just remove it when applying, the rest of the patch
+looks good to me.
