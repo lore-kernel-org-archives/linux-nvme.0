@@ -1,9 +1,9 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 15 Sep 2017 09:36:42 +0200
-Subject: [PATCH] nvme/pci: Print invalid SGL only once
-In-Reply-To: <1505415974-13489-1-git-send-email-keith.busch@intel.com>
-References: <1505415974-13489-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20170915073642.mmqyhpgetoqjhq6x@linux-x5ow.site>
+Date: Fri, 15 Sep 2017 09:37:40 +0200
+Subject: [PATCH] nvme/pci: Initialize queue memory before interrupts
+In-Reply-To: <1505411679-1625-1-git-send-email-keith.busch@intel.com>
+References: <1505411679-1625-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170915073740.unrio4lqg532wx67@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
