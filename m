@@ -1,27 +1,14 @@
-From: yyt168@gmail.com (Tony Yang)
-Date: Fri, 15 Sep 2017 22:08:13 +0800
-Subject: Compile nvme 4.13 appear error
-Message-ID: <CADL4p-qzviN+8EuHA=vXE+E=Ot_ur7dWuXW0zdmGPnx4-gsdpA@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 15 Sep 2017 16:55:53 +0200
+Subject: [PATCH] nvme/pci: Print invalid SGL only once
+In-Reply-To: <1505415974-13489-1-git-send-email-keith.busch@intel.com>
+References: <1505415974-13489-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170915145553.GA1147@lst.de>
 
-Dear All
+On Thu, Sep 14, 2017@03:06:14PM -0400, Keith Busch wrote:
+> The WARN_ONCE macro returns true if the condition is true, not if the
+> warn was raised, so we're printing the scatter list every time it's
+> invalid. This is excessive and makes debugging harder, so this patch
+> prints it just once.
 
-
-     I use make to Compile nvme 4.13, Appear this error
-
-  CC drivers/acpi/acpica/nsxfname.o
-make[3]: *** No rule to make target `drivers/acpi/acpica/nsxfobj.o',
-needed by `drivers/acpi/acpica/acpi.o'. Stop.
-make[2]: *** [drivers/acpi/acpica] Error 2
-make[1]: *** [drivers/acpi] Error 2
-make: *** [drivers] Error 2
-[root at cescel03 nvme-nvme-4.13]# uname -r
-2.6.32-431.el6.x86_64
-[root at cescel03 nvme-nvme-4.13]# pwd
-/u01/soft/nvme-nvme-4.13
-
-Could you tell me how to solve this problem? I checked, The nsxfobj.o
-file does not exist nvme 4.13 package.
-
-Thanks
-
----Tony
+Please use the printk_ratelimited() helper instead.
