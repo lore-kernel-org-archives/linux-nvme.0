@@ -1,43 +1,25 @@
-From: Himanshu.Madhani@cavium.com (Madhani, Himanshu)
-Date: Thu, 14 Sep 2017 19:39:05 +0000
-Subject: [PATCH] qla2xxx: convert nvme Transport error to internal error
-In-Reply-To: <20170914183015.21540-1-jsmart2021@gmail.com>
-References: <20170914183015.21540-1-jsmart2021@gmail.com>
-Message-ID: <5CEF2024-2483-401C-8134-3709DF54CBB6@cavium.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 14 Sep 2017 21:07:03 -0400
+Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
+In-Reply-To: <CA+RiK64sJZzTcTHODHj0monB2_0xKAkvjrC79rGv2mNUPO87-A@mail.gmail.com>
+ (Suganath Prabu Subramani's message of "Wed, 13 Sep 2017 12:45:06
+ +0530")
+References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <yq1lgmbauxt.fsf@oracle.com>
+ <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
+ <yq1a82gxwqm.fsf@oracle.com>
+ <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
+ <yq13787w1a3.fsf@oracle.com>
+ <CA+RiK667V9nDEr7RywED2_RoSq97m511HZTpGqPbij9-=vADvQ@mail.gmail.com>
+ <CA+RiK64sJZzTcTHODHj0monB2_0xKAkvjrC79rGv2mNUPO87-A@mail.gmail.com>
+Message-ID: <yq1wp50rcqw.fsf@oracle.com>
 
 
-> On Sep 14, 2017,@11:30 AM, James Smart <jsmart2021@gmail.com> wrote:
-> 
-> Patch removing transport-specific errors crosssed with a qla2xxx update
-> that referenced the status value being removed.
-> 
-> Swap status to an internal error.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
-> drivers/scsi/qla2xxx/qla_nvme.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-> index 1f59e7a74c7b..6b33a1f24f56 100644
-> --- a/drivers/scsi/qla2xxx/qla_nvme.c
-> +++ b/drivers/scsi/qla2xxx/qla_nvme.c
-> @@ -180,7 +180,7 @@ static void qla_nvme_sp_done(void *ptr, int res)
-> 		goto rel;
-> 
-> 	if (unlikely(res == QLA_FUNCTION_FAILED))
-> -		fd->status = NVME_SC_FC_TRANSPORT_ERROR;
-> +		fd->status = NVME_SC_INTERNAL;
-> 	else
-> 		fd->status = 0;
-> 
-> -- 
-> 2.13.1
-> 
+Suganath,
 
-Looks good.
+> Is there any update on the submitted mpt3sas patches.
 
-Acked-by: Himanshu Madhani <himanshu.madhani at cavium.com>
+We are waiting for you to report back your findings on PRP vs. SGL.
 
-Thanks,
-- Himanshu
+-- 
+Martin K. Petersen	Oracle Linux Engineering
