@@ -1,15 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 15 Sep 2017 20:07:01 +0200
-Subject: [PATCH 00/10] nvme multipath support on top of nvme-4.13 branch
-In-Reply-To: <20170912042048.pdbyl6vsoeui6bnp@haynes>
-References: <20170912042048.pdbyl6vsoeui6bnp@haynes>
-Message-ID: <20170915180701.GA8981@lst.de>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Fri, 15 Sep 2017 21:02:22 -0400
+Subject: [PATCH] qla2xxx: convert nvme Transport error to internal error
+In-Reply-To: <5CEF2024-2483-401C-8134-3709DF54CBB6@cavium.com> (Himanshu
+ Madhani's message of "Thu, 14 Sep 2017 19:39:05 +0000")
+References: <20170914183015.21540-1-jsmart2021@gmail.com>
+ <5CEF2024-2483-401C-8134-3709DF54CBB6@cavium.com>
+Message-ID: <yq1poartq01.fsf@oracle.com>
 
-Hi Anish,
 
-I looked over the code a bit, and I'm rather confused by the newly
-added commands.  Which controller supports them?  Also the NVMe
-working group went down a very different way with the ALUA approch,
-which uses different grouping concepts and doesn't require path
-activations - for Linux we'd really like to stick to only standardized
-multipath implementations.
+Himanshu,
+
+>> Patch removing transport-specific errors crosssed with a qla2xxx update
+>> that referenced the status value being removed.
+>> 
+>> Swap status to an internal error.
+
+Applied to 4.14/scsi-fixes.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
