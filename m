@@ -1,10 +1,10 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Fri, 15 Sep 2017 21:02:56 -0400
+Date: Fri, 15 Sep 2017 21:05:28 -0400
 Subject: [PATCHv2] nvme/pci: Print invalid SGL only once
 In-Reply-To: <1505495138-11325-1-git-send-email-keith.busch@intel.com> (Keith
  Busch's message of "Fri, 15 Sep 2017 13:05:38 -0400")
 References: <1505495138-11325-1-git-send-email-keith.busch@intel.com>
-Message-ID: <yq1lglftpz3.fsf@oracle.com>
+Message-ID: <yq1h8w3tpuv.fsf@oracle.com>
 
 
 Keith,
@@ -14,7 +14,7 @@ Keith,
 > invalid. This is excessive and makes debugging harder, so this patch
 > prints it just once.
 
-
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
