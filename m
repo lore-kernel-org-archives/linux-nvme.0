@@ -1,21 +1,20 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Fri, 15 Sep 2017 21:02:22 -0400
-Subject: [PATCH] qla2xxx: convert nvme Transport error to internal error
-In-Reply-To: <5CEF2024-2483-401C-8134-3709DF54CBB6@cavium.com> (Himanshu
- Madhani's message of "Thu, 14 Sep 2017 19:39:05 +0000")
-References: <20170914183015.21540-1-jsmart2021@gmail.com>
- <5CEF2024-2483-401C-8134-3709DF54CBB6@cavium.com>
-Message-ID: <yq1poartq01.fsf@oracle.com>
+Date: Fri, 15 Sep 2017 21:02:56 -0400
+Subject: [PATCHv2] nvme/pci: Print invalid SGL only once
+In-Reply-To: <1505495138-11325-1-git-send-email-keith.busch@intel.com> (Keith
+ Busch's message of "Fri, 15 Sep 2017 13:05:38 -0400")
+References: <1505495138-11325-1-git-send-email-keith.busch@intel.com>
+Message-ID: <yq1lglftpz3.fsf@oracle.com>
 
 
-Himanshu,
+Keith,
 
->> Patch removing transport-specific errors crosssed with a qla2xxx update
->> that referenced the status value being removed.
->> 
->> Swap status to an internal error.
+> The WARN_ONCE macro returns true if the condition is true, not if the
+> warn was raised, so we're printing the scatter list every time it's
+> invalid. This is excessive and makes debugging harder, so this patch
+> prints it just once.
 
-Applied to 4.14/scsi-fixes.
+
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
