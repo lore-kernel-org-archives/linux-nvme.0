@@ -1,48 +1,59 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sat, 16 Sep 2017 13:04:07 +0300
-Subject: [PATCH v2] nvmet: implement valid sqhd values in completions
-In-Reply-To: <20170914175810.13011-1-jsmart2021@gmail.com>
-References: <20170914175810.13011-1-jsmart2021@gmail.com>
-Message-ID: <e554b8fc-4045-eef0-44fe-ef707955bff7@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sun, 17 Sep 2017 20:40:01 +0800
+Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in
+ case of BLK_STS_RESOURCE
+In-Reply-To: <1505498249.3420.15.camel@wdc.com>
+References: <20170915164456.9803-1-ming.lei@redhat.com>
+ <20170915164456.9803-2-ming.lei@redhat.com>
+ <1505498249.3420.15.camel@wdc.com>
+Message-ID: <20170917124000.GB6289@ming.t460p>
 
+On Fri, Sep 15, 2017@05:57:31PM +0000, Bart Van Assche wrote:
+> On Sat, 2017-09-16@00:44 +0800, Ming Lei wrote:
+> > If .queue_rq() returns BLK_STS_RESOURCE, blk-mq will rerun
+> > the queue in the three situations:
+> > 
+> > 1) if BLK_MQ_S_SCHED_RESTART is set
+> > - queue is rerun after one rq is completed, see blk_mq_sched_restart()
+> > which is run from blk_mq_free_request()
+> > 
+> > 2) BLK_MQ_S_TAG_WAITING is set
+> > - queue is rerun after one tag is freed
+> > 
+> > 3) otherwise
+> > - queue is run immediately in blk_mq_dispatch_rq_list()
+> > 
+> > So calling blk_mq_delay_run_hw_queue() inside .queue_rq() doesn't make
+> > sense because no matter it is called or not, the queue still will be
+> > rerun soon in above three situations, and the busy req can be dispatched
+> > again.
+> 
+> NAK
+> 
+> Block drivers call blk_mq_delay_run_hw_queue() if it is known that the queue
+> has to be rerun later even if no request has completed before the delay has
+> expired. This patch breaks at least the SCSI core and the dm-mpath drivers.
 
+"if no request has completed before the delay has expired" can't be a
+reason to rerun the queue, because the queue can still be busy.
 
-On 9/14/2017 8:58 PM, James Smart wrote:
-> To support sqhd, for initiators that are following the spec and
-> paying attention to sqhd vs their sqtail values:
-> - add sqhd to struct nvmet_sq
-> - initialize sqhd to 0 in nvmet_sq_setup
-> - rather than propagate the 0's-based qsize value from the connect message
->    which requires a +1 in every sqhd update, and as nothing else references
->    it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
-> - validate connect message sqsize being non-zero per spec.
-> - updated assign sqhd for every completion that goes back.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> 
-> ---
-> v2: assignment corrected for endianness
-> 
->   drivers/nvme/target/core.c        | 9 +++++----
->   drivers/nvme/target/fabrics-cmd.c | 9 +++++++--
->   drivers/nvme/target/nvmet.h       | 1 +
->   3 files changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 7c23eaf8e563..764d46698b03 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -390,8 +390,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
->   	if (status)
->   		nvmet_set_status(req, status);
->   
-> -	/* XXX: need to fill in something useful for sq_head */
-> -	req->rsp->sq_head = 0;
-> +	req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
-> +	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
->   	if (likely(req->sq)) /* may happen during early failure */
->   		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
->   	req->rsp->command_id = req->cmd->common.command_id;
+The only reason is that there isn't any requests in-flight and
+queue is still busy, but I'd rather understand what the exact
+situation is, instead of using this kind of workaround. If no
+such situation, we should remove that.
 
-According to the "if (likely(req->sq)) /* may happen during early 
-failure */" condition, we can get null deref here 2 lines above that...
+For SCSI, it might be reasonable to run the hw queue after
+a random time when atomic_read(&sdev->device_busy) is zero,
+that means the queue may be busy even when there isn't any
+requests in-flight in this queue. Could you or someone share
+what the case is? Then we can avoid to use this workaround.
+
+For dm-mpath, it might be related with path, but I have to say
+it is still a workaround.
+
+I suggest to understand the root cause, instead of keeping this
+ugly random delay because run hw queue after 100ms may be useless
+in 99.99% times.
+
+-- 
+Ming
