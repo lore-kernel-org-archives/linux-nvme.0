@@ -1,27 +1,48 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 Sep 2017 13:49:03 -0400
-Subject: [PATCH] nvme: allow timed-out ios to retry
-In-Reply-To: <b38a5890-1732-ea2c-204d-3b57956068e3@broadcom.com>
-References: <20170907201804.24979-1-jsmart2021@gmail.com>
- <20170907203759.GA2832@localhost.localdomain>
- <a6b3ce68-1df1-7d9a-0234-a7aab59cd863@gmail.com>
- <e2ccf8e7-7c58-4f8d-a8e2-c9e846090e8c@broadcom.com>
- <20170918172447.GC17096@localhost.localdomain>
- <b38a5890-1732-ea2c-204d-3b57956068e3@broadcom.com>
-Message-ID: <20170918174902.GE17096@localhost.localdomain>
+From: brudas@exadel.com (Bogdan Rudas)
+Date: Mon, 18 Sep 2017 21:20:16 +0300
+Subject: NVMe and SR-IOV, how to use together?
+In-Reply-To: <20170918161148.GA310@infradead.org>
+References: <CAO+XWgk1o26gj5n-3vszuoQqXzaLjKdevU133X3206FMzxO6rQ@mail.gmail.com>
+ <20170918161148.GA310@infradead.org>
+Message-ID: <CAO+XWgkEZZUqFos7ZV7YbO4HtsUnWjARRTnuDTrSOxm_T0_zmw@mail.gmail.com>
 
-On Mon, Sep 18, 2017@10:42:00AM -0700, James Smart wrote:
-> On 9/18/2017 10:24 AM, Keith Busch wrote:
-> > On Mon, Sep 18, 2017@10:15:45AM -0700, James Smart wrote:
-> > > So where are we with this - what should be put in place ?
-> > > 
-> > > The one revision I'd make from above based is - we'd only apply this timer
-> > > on an I/O marked with a fastfail flag.
-> > That's unnecessary as we already return 'false' immediately from the
-> > blk_noretry_request check (which checks failfast) prior to checking the
-> > timeout and retry count. So, I think you're patch is good as-is.
-> ok - how about a Reviewed-by ?
+I run kernel 4.4.27 which don't have a support for SR-IOV in NVMe
+driver, that's why I do not see a VFs in lspci output.
 
-I accidently sent directly to Christoph off-list.
+Thank you.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+On Mon, Sep 18, 2017@7:11 PM, Christoph Hellwig <hch@infradead.org> wrote:
+> SR-IOV itself only allows you to create new virtual functions,
+> you can look at any number of Linux howtos on creating them using
+> the sysfs interface.
+>
+> As far as NVMe is concerned there are multiple levels of interaction
+> that could be possible, all optional.
+>
+> First NVMe since version 1.1 supports subsystems with multiple
+> controlles, and you can use namespace management (if support by the
+> device) to assign namespaces to one or more controllers.  On Linux
+> you can use the nvme-cli tool for that.
+>
+> Since NVMe 1.3 there are virtualization extensions that also allow to
+> assign resources like queue pairs to specific VMs.  There is no support
+> in Linux or nvme-cli for that at the moment.
+
+
+
+-- 
+Bogdan Rudas
+Director of IT Europe
+Exadel Inc.
+http://www.exadel.com/
+E-mail: brudas at exadel.com
+Skype ID: bogdan.rudas
+
+-- 
+
+
+CONFIDENTIALITY NOTICE: This email and files attached to it are 
+confidential. If you are not the intended recipient you are hereby notified 
+that using, copying, distributing or taking any action in reliance on the 
+contents of this information is strictly prohibited. If you have received 
+this email in error please notify the sender and delete this email.
