@@ -1,19 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 18 Sep 2017 02:17:36 +0200
-Subject: [PATCH 10/10] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170829154138.GB4428@localhost.localdomain>
-References: <20170823175815.3646-1-hch@lst.de>
- <20170823175815.3646-11-hch@lst.de>
- <20170829145417.GA4428@localhost.localdomain> <20170829145559.GA32760@lst.de>
- <20170829154138.GB4428@localhost.localdomain>
-Message-ID: <20170918001736.GA4441@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sun, 17 Sep 2017 17:27:13 -0700
+Subject: [PATCH] nvme: allow timed-out ios to retry
+In-Reply-To: <20170907203759.GA2832@localhost.localdomain>
+References: <20170907201804.24979-1-jsmart2021@gmail.com>
+ <20170907203759.GA2832@localhost.localdomain>
+Message-ID: <20170918002713.GA20043@infradead.org>
 
-On Tue, Aug 29, 2017@11:41:38AM -0400, Keith Busch wrote:
-> Speaking of timeouts, nvme_req_needs_retry will fail the command
-> immediately rather than try the alternate path if it was cancelled due
-> to timeout handling. Should we create a new construct for a command's
-> total time separate from recovery timeout so we may try an alternate
-> paths?
+On Thu, Sep 07, 2017@04:37:59PM -0400, Keith Busch wrote:
+> I'm a bit conflicted on this. While it'd be nice to give commands a chance
+> to succeed after a timeout handling's controller reset, some uses would
+> rather a command fail fast than succeed slow, and this change could keep
+> a request outstanding for a very long time.
 
-We probably need to anyway, see the discussion with James in the
-other thread.
+That's what we have the fastfail flags for, which we set for all
+the internal commands for example? and evaluate just a little bit
+above the start_time line.
