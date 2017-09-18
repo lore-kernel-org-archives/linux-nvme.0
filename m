@@ -1,22 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 18 Sep 2017 09:11:48 -0700
-Subject: NVMe and SR-IOV, how to use together?
-In-Reply-To: <CAO+XWgk1o26gj5n-3vszuoQqXzaLjKdevU133X3206FMzxO6rQ@mail.gmail.com>
-References: <CAO+XWgk1o26gj5n-3vszuoQqXzaLjKdevU133X3206FMzxO6rQ@mail.gmail.com>
-Message-ID: <20170918161148.GA310@infradead.org>
+Date: Mon, 18 Sep 2017 09:12:19 -0700
+Subject: [PATCH v3 3/3] nvme_fc: Avoid duplicate associations between
+ same port pairs
+In-Reply-To: <20170914173843.3195-4-jsmart2021@gmail.com>
+References: <20170914173843.3195-1-jsmart2021@gmail.com>
+ <20170914173843.3195-4-jsmart2021@gmail.com>
+Message-ID: <20170918161219.GB310@infradead.org>
 
-SR-IOV itself only allows you to create new virtual functions,
-you can look at any number of Linux howtos on creating them using
-the sysfs interface.
+On Thu, Sep 14, 2017@10:38:43AM -0700, James Smart wrote:
+> Rescans can occur due to subsystem list changes on an FC remoteport.
+> Rescans may attempt to reconnect to subsystems where there is already
+> an association in place. There should only be 1 association in place
+> at a time for the following tuple:
+>   <hostnqn, hostid, host FC port, target FC port, subnqn>
 
-As far as NVMe is concerned there are multiple levels of interaction
-that could be possible, all optional.
-
-First NVMe since version 1.1 supports subsystems with multiple
-controlles, and you can use namespace management (if support by the
-device) to assign namespaces to one or more controllers.  On Linux
-you can use the nvme-cli tool for that.
-
-Since NVMe 1.3 there are virtualization extensions that also allow to
-assign resources like queue pairs to specific VMs.  There is no support
-in Linux or nvme-cli for that at the moment.
+There is absolutely no requirement for this limitation in the NVMe
+spec.
