@@ -1,29 +1,29 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 18 Sep 2017 08:00:39 -0600
-Subject: compile nvme not find bi_disk
-In-Reply-To: <CADL4p-rjo2DisDwRP5YFDDMZS-GrP3fKijGSmp26Uqa+BACB6A@mail.gmail.com>
-References: <CADL4p-rjo2DisDwRP5YFDDMZS-GrP3fKijGSmp26Uqa+BACB6A@mail.gmail.com>
-Message-ID: <659ced79-5aba-668c-ae16-4b04bcf31d7c@kernel.dk>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Mon, 18 Sep 2017 15:18:16 +0000
+Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in case
+ of BLK_STS_RESOURCE
+In-Reply-To: <20170917124000.GB6289@ming.t460p>
+References: <20170915164456.9803-1-ming.lei@redhat.com>
+ <20170915164456.9803-2-ming.lei@redhat.com>
+ <1505498249.3420.15.camel@wdc.com> <20170917124000.GB6289@ming.t460p>
+Message-ID: <1505747894.2685.6.camel@wdc.com>
 
-On 09/18/2017 07:47 AM, Tony Yang wrote:
-> Dear All
-> 
->   I'm compiling nvme, but encountered the following error, how can I
-> solve it? Thanks
-> 
->  CHK     include/generated/compile.h
->   CC [M]  drivers/nvme/host/core.o
-> drivers/nvme/host/core.c: In function ?__nvme_submit_user_cmd?:
-> drivers/nvme/host/core.c:631: error: ?struct bio? has no member named ?bi_disk?
-> make[3]: *** [drivers/nvme/host/core.o] Error 1
-> make[2]: *** [drivers/nvme/host] Error 2
-> make[1]: *** [drivers/nvme] Error 2
-> make: *** [drivers] Error 2
-> [root at cescel03 nvme-nvme-4.13]# bi_disk
+On Sun, 2017-09-17@20:40 +0800, Ming Lei wrote:
+> "if no request has completed before the delay has expired" can't be a
+> reason to rerun the queue, because the queue can still be busy.
 
-You're not running a mainline version of the kernel, looks like you're
-trying to compile a newer version of the nvme driver on an older kernel
-version.  That's not going to work.
+That statement of you shows that there are important aspects of the SCSI
+core and dm-mpath driver that you don't understand.
 
--- 
-Jens Axboe
+> I suggest to understand the root cause, instead of keeping this
+> ugly random delay because run hw queue after 100ms may be useless
+> in 99.99% times.
+
+If you are still looking at removing the blk_mq_delay_run_hw_queue() calls
+then I think you are looking in the wrong direction. What kind of problem
+are you trying to solve? Is it perhaps that there can be a delay between
+dm-mpath request completion and the queueing of a new request? If so,
+adding a queue run call into the dm-mpath end_io callback is probably
+sufficient and probably can replace this entire patch series.
+
+Bart.
