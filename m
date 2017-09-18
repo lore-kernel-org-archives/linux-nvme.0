@@ -1,103 +1,22 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 18 Sep 2017 09:08:29 -0700
-Subject: [REPOST][PATCH v3] nvmet: implement valid sqhd values in completions
-Message-ID: <20170918160829.895-1-jsmart2021@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 18 Sep 2017 09:11:48 -0700
+Subject: NVMe and SR-IOV, how to use together?
+In-Reply-To: <CAO+XWgk1o26gj5n-3vszuoQqXzaLjKdevU133X3206FMzxO6rQ@mail.gmail.com>
+References: <CAO+XWgk1o26gj5n-3vszuoQqXzaLjKdevU133X3206FMzxO6rQ@mail.gmail.com>
+Message-ID: <20170918161148.GA310@infradead.org>
 
-To support sqhd, for initiators that are following the spec and
-paying attention to sqhd vs their sqtail values:
-- add sqhd to struct nvmet_sq
-- initialize sqhd to 0 in nvmet_sq_setup
-- rather than propagate the 0's-based qsize value from the connect message
-  which requires a +1 in every sqhd update, and as nothing else references
-  it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
-- validate connect message sqsize being non-zero per spec.
-- updated assign sqhd for every completion that goes back.
+SR-IOV itself only allows you to create new virtual functions,
+you can look at any number of Linux howtos on creating them using
+the sysfs interface.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+As far as NVMe is concerned there are multiple levels of interaction
+that could be possible, all optional.
 
----
-v2:
-  v2: assignment corrected for endianness
-v3:
-  removed if test on req->sq that is unneeded
+First NVMe since version 1.1 supports subsystems with multiple
+controlles, and you can use namespace management (if support by the
+device) to assign namespaces to one or more controllers.  On Linux
+you can use the nvme-cli tool for that.
 
-  repost fixed the "comment" indicator in the patch header
-
- drivers/nvme/target/core.c        | 12 ++++++------
- drivers/nvme/target/fabrics-cmd.c |  9 +++++++--
- drivers/nvme/target/nvmet.h       |  1 +
- 3 files changed, 14 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7c23eaf8e563..8c86c258d2e8 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -390,10 +390,9 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- 	if (status)
- 		nvmet_set_status(req, status);
- 
--	/* XXX: need to fill in something useful for sq_head */
--	req->rsp->sq_head = 0;
--	if (likely(req->sq)) /* may happen during early failure */
--		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
-+	req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
-+	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
-+	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
- 	req->rsp->command_id = req->cmd->common.command_id;
- 
- 	if (req->ns)
-@@ -412,7 +411,7 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
- 		u16 qid, u16 size)
- {
- 	cq->qid = qid;
--	cq->size = size;
-+	cq->size = size;	/* 1's-based number now ! */
- 
- 	ctrl->cqs[qid] = cq;
- }
-@@ -420,8 +419,9 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
- void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
- 		u16 qid, u16 size)
- {
-+	sq->sqhd = 0;
- 	sq->qid = qid;
--	sq->size = size;
-+	sq->size = size;	/* 1's-based number now ! */
- 
- 	ctrl->sqs[qid] = sq;
- }
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 859a66725291..db3bf6b8bf9e 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -109,9 +109,14 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 		pr_warn("queue already connected!\n");
- 		return NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
- 	}
-+	if (!sqsize) {
-+		pr_warn("queue size zero!\n");
-+		return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
-+	}
- 
--	nvmet_cq_setup(ctrl, req->cq, qid, sqsize);
--	nvmet_sq_setup(ctrl, req->sq, qid, sqsize);
-+	/* note: convert queue size from 0's-based value to 1's-based value */
-+	nvmet_cq_setup(ctrl, req->cq, qid, sqsize + 1);
-+	nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1);
- 	return 0;
- }
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7d261ab894f4..7b8e20adf760 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -74,6 +74,7 @@ struct nvmet_sq {
- 	struct percpu_ref	ref;
- 	u16			qid;
- 	u16			size;
-+	u16			sqhd;
- 	struct completion	free_done;
- 	struct completion	confirm_done;
- };
--- 
-2.13.1
+Since NVMe 1.3 there are virtualization extensions that also allow to
+assign resources like queue pairs to specific VMs.  There is no support
+in Linux or nvme-cli for that at the moment.
