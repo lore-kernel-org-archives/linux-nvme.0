@@ -1,17 +1,16 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 17 Sep 2017 17:27:13 -0700
-Subject: [PATCH] nvme: allow timed-out ios to retry
-In-Reply-To: <20170907203759.GA2832@localhost.localdomain>
-References: <20170907201804.24979-1-jsmart2021@gmail.com>
- <20170907203759.GA2832@localhost.localdomain>
-Message-ID: <20170918002713.GA20043@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 18 Sep 2017 09:57:59 +0200
+Subject: [PATCHv2] nvme/pci: Print invalid SGL only once
+In-Reply-To: <1505495138-11325-1-git-send-email-keith.busch@intel.com>
+References: <1505495138-11325-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170918075759.5mjy3fzdgdhxwtao@linux-x5ow.site>
 
-On Thu, Sep 07, 2017@04:37:59PM -0400, Keith Busch wrote:
-> I'm a bit conflicted on this. While it'd be nice to give commands a chance
-> to succeed after a timeout handling's controller reset, some uses would
-> rather a command fail fast than succeed slow, and this change could keep
-> a request outstanding for a very long time.
-
-That's what we have the fastfail flags for, which we set for all
-the internal commands for example? and evaluate just a little bit
-above the start_time line.
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
