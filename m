@@ -1,67 +1,44 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 18 Sep 2017 16:14:44 -0700
-Subject: nvme multipath support V2
-Message-ID: <20170918231453.27128-1-hch@lst.de>
+Date: Mon, 18 Sep 2017 16:14:46 -0700
+Subject: [PATCH 2/9] block: move REQ_NOWAIT
+In-Reply-To: <20170918231453.27128-1-hch@lst.de>
+References: <20170918231453.27128-1-hch@lst.de>
+Message-ID: <20170918231453.27128-3-hch@lst.de>
 
-Hi all,
+This flag should be before the operation-specific REQ_NOUNMAP bit.
 
-this series adds support for multipathing, that is accessing nvme
-namespaces through multiple controllers to the nvme core driver.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ include/linux/blk_types.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-It is a very thin and efficient implementation that relies on
-close cooperation with other bits of the nvme driver, and few small
-and simple block helpers.
-
-Compared to dm-multipath the important differences are how management
-of the paths is done, and how the I/O path works.
-
-Management of the paths is fully integrated into the nvme driver,
-for each newly found nvme controller we check if there are other
-controllers that refer to the same subsystem, and if so we link them
-up in the nvme driver.  Then for each namespace found we check if
-the namespace id and identifiers match to check if we have multiple
-controllers that refer to the same namespaces.  For now path
-availability is based entirely on the controller status, which at
-least for fabrics will be continuously updated based on the mandatory
-keep alive timer.  Once the Asynchronous Namespace Access (ANA)
-proposal passes in NVMe we will also get per-namespace states in
-addition to that, but for now any details of that remain confidential
-to NVMe members.
-
-The I/O path is very different from the existing multipath drivers,
-which is enabled by the fact that NVMe (unlike SCSI) does not support
-partial completions - a controller will either complete a whole
-command or not, but never only complete parts of it.  Because of that
-there is no need to clone bios or requests - the I/O path simply
-redirects the I/O to a suitable path.  For successful commands
-multipath is not in the completion stack at all.  For failed commands
-we decide if the error could be a path failure, and if yes remove
-the bios from the request structure and requeue them before completing
-the request.  All together this means there is no performance
-degradation compared to normal nvme operation when using the multipath
-device node (at least not until I find a dual ported DRAM backed
-device :))
-
-There are a couple questions left in the individual patches, comments
-welcome.
-
-Note that this series requires the previous series to remove bi_bdev,
-in doubt use the git tree below for testing.
-
-A git tree is available at:
-
-   git://git.infradead.org/users/hch/block.git nvme-mpath
-
-gitweb:
-
-   http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-mpath
-
-Changes since V1:
-  - introduce new nvme_ns_ids structure to clean up identifier handling
-  - generic_make_request_fast is now named direct_make_request and calls
-    generic_make_request_checks
-  - reset bi_disk on resubmission
-  - create sysfs links between the existing nvme namespace block devices and
-    the new share mpath device
-  - temporarily added the timeout patches from James, this should go into
-    nvme-4.14, though
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index a2d2aa709cef..acc2f3cdc2fc 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -224,11 +224,11 @@ enum req_flag_bits {
+ 	__REQ_PREFLUSH,		/* request for cache flush */
+ 	__REQ_RAHEAD,		/* read ahead, can fail anytime */
+ 	__REQ_BACKGROUND,	/* background IO */
++	__REQ_NOWAIT,           /* Don't wait if request will block */
+ 
+ 	/* command specific flags for REQ_OP_WRITE_ZEROES: */
+ 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
+ 
+-	__REQ_NOWAIT,           /* Don't wait if request will block */
+ 	__REQ_NR_BITS,		/* stops here */
+ };
+ 
+@@ -245,9 +245,9 @@ enum req_flag_bits {
+ #define REQ_PREFLUSH		(1ULL << __REQ_PREFLUSH)
+ #define REQ_RAHEAD		(1ULL << __REQ_RAHEAD)
+ #define REQ_BACKGROUND		(1ULL << __REQ_BACKGROUND)
++#define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
+ 
+ #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
+-#define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
+ 
+ #define REQ_FAILFAST_MASK \
+ 	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
+-- 
+2.14.1
