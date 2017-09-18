@@ -1,42 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 Sep 2017 13:27:34 -0400
-Subject: compile nvme 4.13 appear error
-In-Reply-To: <CADL4p-phBMqbqzR052xHBf_0=PPuGyvR82FoS=aaM_h7w_S7SA@mail.gmail.com>
-References: <CADL4p-phBMqbqzR052xHBf_0=PPuGyvR82FoS=aaM_h7w_S7SA@mail.gmail.com>
-Message-ID: <20170918172734.GD17096@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 18 Sep 2017 10:42:00 -0700
+Subject: [PATCH] nvme: allow timed-out ios to retry
+In-Reply-To: <20170918172447.GC17096@localhost.localdomain>
+References: <20170907201804.24979-1-jsmart2021@gmail.com>
+ <20170907203759.GA2832@localhost.localdomain>
+ <a6b3ce68-1df1-7d9a-0234-a7aab59cd863@gmail.com>
+ <e2ccf8e7-7c58-4f8d-a8e2-c9e846090e8c@broadcom.com>
+ <20170918172447.GC17096@localhost.localdomain>
+Message-ID: <b38a5890-1732-ea2c-204d-3b57956068e3@broadcom.com>
 
-On Mon, Sep 18, 2017@09:02:15PM +0800, Tony Yang wrote:
-> Dear All
-> 
->   I at redhat 6.5 ,kernel is 2.6.32-431.el6.x86_64?I comile nvme 4.13
-> appear this error:
-> 
-> [root at cescel03 nvme-nvme-4.13]# make
->   CHK     include/config/kernel.release
->   CHK     include/generated/uapi/linux/version.h
->   CHK     include/generated/utsrelease.h
->   CHK     include/generated/bounds.h
->   CHK     include/generated/timeconst.h
->   CHK     include/generated/asm-offsets.h
->   CALL    scripts/checksyscalls.sh
->   CHK     scripts/mod/devicetable-offsets.h
->   CHK     include/generated/compile.h
->   AR      drivers/nvme/host/built-in.o
->   CC [M]  drivers/nvme/host/core.o
-> drivers/nvme/host/core.c: In function ?nvme_alloc_mpath_ns?:
-> drivers/nvme/host/core.c:3111: error: ?NVME_FAILOVER_RETRIES?
-> undeclared (first use in this function)
-> drivers/nvme/host/core.c:3111: error: (Each undeclared identifier is
-> reported only once
-> drivers/nvme/host/core.c:3111: error: for each function it appears in.)
-> drivers/nvme/host/core.c: In function ?nvme_trigger_failover?:
-> drivers/nvme/host/core.c:3277: error: ?NVME_FAILOVER_RETRIES?
-> undeclared (first use in this function)
-> make[3]: *** [drivers/nvme/host/core.o] Error 1
-> make[2]: *** [drivers/nvme/host] Error 2
-> make[1]: *** [drivers/nvme] Error 2
-> make: *** [drivers] Error 2
-
-Not sure where you got this source. The 4.13 kernel doesn't contain an
-nvme driver with such errors, so it looks like whoever packaged up your
-source really botched it up from applying out-of-tree stuff.
+On 9/18/2017 10:24 AM, Keith Busch wrote:
+> On Mon, Sep 18, 2017@10:15:45AM -0700, James Smart wrote:
+>> So where are we with this - what should be put in place ?
+>>
+>> The one revision I'd make from above based is - we'd only apply this timer
+>> on an I/O marked with a fastfail flag.
+> That's unnecessary as we already return 'false' immediately from the
+> blk_noretry_request check (which checks failfast) prior to checking the
+> timeout and retry count. So, I think you're patch is good as-is.
+ok - how about a Reviewed-by ?
