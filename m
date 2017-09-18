@@ -1,63 +1,38 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Mon, 18 Sep 2017 16:09:09 +0530
-Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
-In-Reply-To: <yq1wp50rcqw.fsf@oracle.com>
-References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <yq1lgmbauxt.fsf@oracle.com>
- <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
- <yq1a82gxwqm.fsf@oracle.com>
- <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
- <yq13787w1a3.fsf@oracle.com>
- <CA+RiK667V9nDEr7RywED2_RoSq97m511HZTpGqPbij9-=vADvQ@mail.gmail.com>
- <CA+RiK64sJZzTcTHODHj0monB2_0xKAkvjrC79rGv2mNUPO87-A@mail.gmail.com>
- <yq1wp50rcqw.fsf@oracle.com>
-Message-ID: <CA+RiK65GPnfqpQAuUWEs_NdW9crumkGparCqynN_dBti8BPXqQ@mail.gmail.com>
+From: yyt168@gmail.com (Tony Yang)
+Date: Mon, 18 Sep 2017 21:02:15 +0800
+Subject: compile nvme 4.13 appear error
+Message-ID: <CADL4p-phBMqbqzR052xHBf_0=PPuGyvR82FoS=aaM_h7w_S7SA@mail.gmail.com>
 
-Hi Martin,
+Dear All
 
-On Fri, Sep 15, 2017 at 6:37 AM, Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
->
-> Suganath,
->
->> Is there any update on the submitted mpt3sas patches.
->
-> We are waiting for you to report back your findings on PRP vs. SGL.
+  I at redhat 6.5 ,kernel is 2.6.32-431.el6.x86_64?I comile nvme 4.13
+appear this error:
 
-We are working on this, since there is h/w dependent, we are in
-discussion with H/W & F/W team and doing experiments. If there is no
-impact, and if SGL translation has to be removed, this change has to
-go through some phase of testing, before we post it to upstream, since
-that is not inline with H/W requirement.
+[root at cescel03 nvme-nvme-4.13]# make
+  CHK     include/config/kernel.release
+  CHK     include/generated/uapi/linux/version.h
+  CHK     include/generated/utsrelease.h
+  CHK     include/generated/bounds.h
+  CHK     include/generated/timeconst.h
+  CHK     include/generated/asm-offsets.h
+  CALL    scripts/checksyscalls.sh
+  CHK     scripts/mod/devicetable-offsets.h
+  CHK     include/generated/compile.h
+  AR      drivers/nvme/host/built-in.o
+  CC [M]  drivers/nvme/host/core.o
+drivers/nvme/host/core.c: In function ?nvme_alloc_mpath_ns?:
+drivers/nvme/host/core.c:3111: error: ?NVME_FAILOVER_RETRIES?
+undeclared (first use in this function)
+drivers/nvme/host/core.c:3111: error: (Each undeclared identifier is
+reported only once
+drivers/nvme/host/core.c:3111: error: for each function it appears in.)
+drivers/nvme/host/core.c: In function ?nvme_trigger_failover?:
+drivers/nvme/host/core.c:3277: error: ?NVME_FAILOVER_RETRIES?
+undeclared (first use in this function)
+make[3]: *** [drivers/nvme/host/core.o] Error 1
+make[2]: *** [drivers/nvme/host] Error 2
+make[1]: *** [drivers/nvme] Error 2
+make: *** [drivers] Error 2
+[root at cescel03 nvme-nvme-4.13]#
 
-The hardware translation of IEEE SGL to NVMe PRPs has limitation.
-
-We have added the below comment in patch 3 as well:
-
-if a command cannot be translated by hardware then it will go
-to firmware and the firmware needs to translate it. And this will
-have a performance reduction. To avoid that driver proactively
-checks whether the translation will be done in hardware or not,
-if not then driver try to translate inside the driver
-
-Current code posted to upstream is inline with hardware requirements
-and well tested internally.
-
-SGL vs NVMe PRP building in driver is small sanity check for decision making
-and it is not going to change in long run.
-
-Also, Making all PRP buffer may or may not need FW changes (assuming
-it is possible.),
-we may end up into multiple FW version check.
-
-Since this is main IO path and current driver is following H/W limitation,
-we should avoid any changes in this area until and unless change is
-universal acceptable in FW (for all type of work load).
-
-Hope this clarifies.
->
-> --
-> Martin K. Petersen      Oracle Linux Engineering
-
-Thanks,
-Suganath Prabu S
+Could you tell me how to solve this problem?Thanks
