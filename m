@@ -1,101 +1,23 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 18 Sep 2017 09:01:18 -0700
-Subject: [PATCH v3] nvmet: implement valid sqhd values in completions
-Message-ID: <20170918160118.21114-1-jsmart2021@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 18 Sep 2017 09:05:12 -0700
+Subject: [PATCH v2] nvmet: implement valid sqhd values in completions
+In-Reply-To: <14692960-9fed-2d6a-28bb-16e98f28fce6@gmail.com>
+References: <20170914175810.13011-1-jsmart2021@gmail.com>
+ <e554b8fc-4045-eef0-44fe-ef707955bff7@mellanox.com>
+ <14692960-9fed-2d6a-28bb-16e98f28fce6@gmail.com>
+Message-ID: <20170918160512.GA19805@infradead.org>
 
-To support sqhd, for initiators that are following the spec and
-paying attention to sqhd vs their sqtail values:
-- add sqhd to struct nvmet_sq
-- initialize sqhd to 0 in nvmet_sq_setup
-- rather than propagate the 0's-based qsize value from the connect message
-  which requires a +1 in every sqhd update, and as nothing else references
-  it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
-- validate connect message sqsize being non-zero per spec.
-- updated assign sqhd for every completion that goes back.
+On Mon, Sep 18, 2017@09:00:32AM -0700, James Smart wrote:
+> I think the likely statement is erroneous. In order to get to this point the
+> transport has to call nvmet_req_init(), and the first thing it does is
+> assign the sq and there's never an unset. So any completion of the routine,
+> even if failure to nvmet_req_init() has sq set.  There's also several other
+> cases in nvmet_req_init() where if the transport set it to NULL an oops
+> would occur.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+That seems to be the case now - this check and comment looks like a
+leftover from earlier versions where this wasn't the case.
 
---
-v2:
-  v2: assignment corrected for endianness
-v3:
-  removed if test on req->sq that is unneeded
----
- drivers/nvme/target/core.c        | 12 ++++++------
- drivers/nvme/target/fabrics-cmd.c |  9 +++++++--
- drivers/nvme/target/nvmet.h       |  1 +
- 3 files changed, 14 insertions(+), 8 deletions(-)
+> I'll send a revised patch that also removes the "if (likely())" test.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7c23eaf8e563..8c86c258d2e8 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -390,10 +390,9 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- 	if (status)
- 		nvmet_set_status(req, status);
- 
--	/* XXX: need to fill in something useful for sq_head */
--	req->rsp->sq_head = 0;
--	if (likely(req->sq)) /* may happen during early failure */
--		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
-+	req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
-+	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
-+	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
- 	req->rsp->command_id = req->cmd->common.command_id;
- 
- 	if (req->ns)
-@@ -412,7 +411,7 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
- 		u16 qid, u16 size)
- {
- 	cq->qid = qid;
--	cq->size = size;
-+	cq->size = size;	/* 1's-based number now ! */
- 
- 	ctrl->cqs[qid] = cq;
- }
-@@ -420,8 +419,9 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
- void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
- 		u16 qid, u16 size)
- {
-+	sq->sqhd = 0;
- 	sq->qid = qid;
--	sq->size = size;
-+	sq->size = size;	/* 1's-based number now ! */
- 
- 	ctrl->sqs[qid] = sq;
- }
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 859a66725291..db3bf6b8bf9e 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -109,9 +109,14 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 		pr_warn("queue already connected!\n");
- 		return NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
- 	}
-+	if (!sqsize) {
-+		pr_warn("queue size zero!\n");
-+		return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
-+	}
- 
--	nvmet_cq_setup(ctrl, req->cq, qid, sqsize);
--	nvmet_sq_setup(ctrl, req->sq, qid, sqsize);
-+	/* note: convert queue size from 0's-based value to 1's-based value */
-+	nvmet_cq_setup(ctrl, req->cq, qid, sqsize + 1);
-+	nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1);
- 	return 0;
- }
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7d261ab894f4..7b8e20adf760 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -74,6 +74,7 @@ struct nvmet_sq {
- 	struct percpu_ref	ref;
- 	u16			qid;
- 	u16			size;
-+	u16			sqhd;
- 	struct completion	free_done;
- 	struct completion	confirm_done;
- };
--- 
-2.13.1
+Yes, please do.
