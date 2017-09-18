@@ -1,29 +1,19 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Mon, 18 Sep 2017 15:18:16 +0000
-Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in case
- of BLK_STS_RESOURCE
-In-Reply-To: <20170917124000.GB6289@ming.t460p>
-References: <20170915164456.9803-1-ming.lei@redhat.com>
- <20170915164456.9803-2-ming.lei@redhat.com>
- <1505498249.3420.15.camel@wdc.com> <20170917124000.GB6289@ming.t460p>
-Message-ID: <1505747894.2685.6.camel@wdc.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 18 Sep 2017 17:49:39 +0200
+Subject: [PATCH v2] fs: pass the write life time hint to the mapped
+ filesystem
+In-Reply-To: <2f7829a5-d47b-e6a0-cc10-8b534e9772ab@moysys.com>
+References: <2f7829a5-d47b-e6a0-cc10-8b534e9772ab@moysys.com>
+Message-ID: <20170918154939.GA13431@lst.de>
 
-On Sun, 2017-09-17@20:40 +0800, Ming Lei wrote:
-> "if no request has completed before the delay has expired" can't be a
-> reason to rerun the queue, because the queue can still be busy.
+On Mon, Sep 18, 2017@09:45:57AM -0600, Michael Moy wrote:
+> The write hint needs to be copied to the mapped filesystem
+> so it can be passed down to the nvme device driver.
+>
+> v2: fix tabs in the email
 
-That statement of you shows that there are important aspects of the SCSI
-core and dm-mpath driver that you don't understand.
+If you want the write hint for buffered I/O you need to set it on the
+inode using F_SET_RW_HINT.
 
-> I suggest to understand the root cause, instead of keeping this
-> ugly random delay because run hw queue after 100ms may be useless
-> in 99.99% times.
-
-If you are still looking at removing the blk_mq_delay_run_hw_queue() calls
-then I think you are looking in the wrong direction. What kind of problem
-are you trying to solve? Is it perhaps that there can be a delay between
-dm-mpath request completion and the queueing of a new request? If so,
-adding a queue run call into the dm-mpath end_io callback is probably
-sufficient and probably can replace this entire patch series.
-
-Bart.
+With your patch we'd magically move the file hint to the inode hint
+on each write.
