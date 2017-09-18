@@ -1,16 +1,15 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 Sep 2017 14:41:53 -0400
-Subject: NVMe and SR-IOV, how to use together?
-In-Reply-To: <CAO+XWgkEZZUqFos7ZV7YbO4HtsUnWjARRTnuDTrSOxm_T0_zmw@mail.gmail.com>
-References: <CAO+XWgk1o26gj5n-3vszuoQqXzaLjKdevU133X3206FMzxO6rQ@mail.gmail.com>
- <20170918161148.GA310@infradead.org>
- <CAO+XWgkEZZUqFos7ZV7YbO4HtsUnWjARRTnuDTrSOxm_T0_zmw@mail.gmail.com>
-Message-ID: <20170918184153.GF17096@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 18 Sep 2017 16:08:35 -0700
+Subject: [PATCH] nvme-fabrics: Allow 0 as KATO value
+In-Reply-To: <20170914165928.30862-1-gpiccoli@linux.vnet.ibm.com>
+References: <20170914165928.30862-1-gpiccoli@linux.vnet.ibm.com>
+Message-ID: <20170918230835.GA31242@infradead.org>
 
-On Mon, Sep 18, 2017@09:20:16PM +0300, Bogdan Rudas wrote:
-> I run kernel 4.4.27 which don't have a support for SR-IOV in NVMe
-> driver, that's why I do not see a VFs in lspci output.
+On Thu, Sep 14, 2017@01:59:28PM -0300, Guilherme G. Piccoli wrote:
+> Currently, driver code allows user to set 0 as KATO
+> (Keep Alive TimeOut), but this is not being respected.
+> This patch enforces the expected behavior.
+> 
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
 
-The driver has nothing to do with what lspci will output. If you don't
-see the SR-IOV capability structure there, that means your drive doesn't
-support it.
+Thanks, applied to nvme-4.14 after an offline ACK from Sagi.
