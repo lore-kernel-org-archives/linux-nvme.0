@@ -1,18 +1,15 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 18 Sep 2017 09:12:19 -0700
-Subject: [PATCH v3 3/3] nvme_fc: Avoid duplicate associations between
- same port pairs
-In-Reply-To: <20170914173843.3195-4-jsmart2021@gmail.com>
+Date: Mon, 18 Sep 2017 09:13:30 -0700
+Subject: [PATCH v3 1/3] nvme_fc: create fc class and transport device
+In-Reply-To: <20170914173843.3195-2-jsmart2021@gmail.com>
 References: <20170914173843.3195-1-jsmart2021@gmail.com>
- <20170914173843.3195-4-jsmart2021@gmail.com>
-Message-ID: <20170918161219.GB310@infradead.org>
+ <20170914173843.3195-2-jsmart2021@gmail.com>
+Message-ID: <20170918161330.GC310@infradead.org>
 
-On Thu, Sep 14, 2017@10:38:43AM -0700, James Smart wrote:
-> Rescans can occur due to subsystem list changes on an FC remoteport.
-> Rescans may attempt to reconnect to subsystems where there is already
-> an association in place. There should only be 1 association in place
-> at a time for the following tuple:
->   <hostnqn, hostid, host FC port, target FC port, subnqn>
+Looks ok,
 
-There is absolutely no requirement for this limitation in the NVMe
-spec.
+although I really wish we could come up with some common FC code,
+including making the existing FC drivers use more infrastructure
+from libfc..
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
