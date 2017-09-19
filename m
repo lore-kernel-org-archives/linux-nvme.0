@@ -1,15 +1,31 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 19 Sep 2017 16:29:47 -0700
-Subject: [PATCH] nvmet_fc: ensure target queue id within range.
-In-Reply-To: <20170919221254.32339-1-jsmart2021@gmail.com>
-References: <20170919221254.32339-1-jsmart2021@gmail.com>
-Message-ID: <2f341b6f-53fc-5515-5f57-a28b12e53941@gmail.com>
+Date: Tue, 19 Sep 2017 16:33:56 -0700
+Subject: [PATCH v2] nvmet_fc: ensure target queue id within range.
+Message-ID: <20170919233356.15403-1-jsmart2021@gmail.com>
 
-On 9/19/2017 3:12 PM, James Smart wrote:
-> When searching for queue id's ensure they are within the expected range
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+When searching for queue id's ensure they are within the expected range
 
-Please ignore - reposting a v2.
+Signed-off-by: James Smart <james.smart at broadcom.com>
 
--- james
+---
+v2: v1 did a >= check, should be > check only
+
+ drivers/nvme/target/fc.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 0d262052a19a..75b1752e8375 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -776,6 +776,9 @@ nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
+ 	u16 qid = nvmet_fc_getqueueid(connection_id);
+ 	unsigned long flags;
+ 
++	if (qid > NVMET_NR_QUEUES)
++		return NULL;
++
+ 	spin_lock_irqsave(&tgtport->lock, flags);
+ 	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
+ 		if (association_id == assoc->association_id) {
+-- 
+2.13.1
