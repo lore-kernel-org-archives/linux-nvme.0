@@ -1,40 +1,40 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 19 Sep 2017 13:33:35 -0400
-Subject: compile nvme 4.13 appear error
-In-Reply-To: <CADL4p-pCuQmoEmRrwb0skct8OEJjGsTEkfhC4guV8Pgx6rWAew@mail.gmail.com>
-References: <CADL4p-phBMqbqzR052xHBf_0=PPuGyvR82FoS=aaM_h7w_S7SA@mail.gmail.com>
- <20170918172734.GD17096@localhost.localdomain>
- <CADL4p-pPFxsi1B0gTKutUEAdiWpHCk99NR0E4ed6Y5_eYe=p0Q@mail.gmail.com>
- <20170919021019.GA5096@localhost.localdomain>
- <CADL4p-pCuQmoEmRrwb0skct8OEJjGsTEkfhC4guV8Pgx6rWAew@mail.gmail.com>
-Message-ID: <20170919173335.GD6180@localhost.localdomain>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 19 Sep 2017 18:42:30 +0000
+Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in case
+ of BLK_STS_RESOURCE
+In-Reply-To: <CACVXFVNvGna59hYG+gF7O41tKNURdbb+gm0sW-FGemnJi0RrRg@mail.gmail.com>
+References: <20170915164456.9803-1-ming.lei@redhat.com>
+ <20170915164456.9803-2-ming.lei@redhat.com>
+ <1505498249.3420.15.camel@wdc.com> <20170917124000.GB6289@ming.t460p>
+ <1505747894.2685.6.camel@wdc.com> <20170919054308.GA2517@ming.t460p>
+ <1505835394.2671.18.camel@wdc.com> <20170919155603.GB22809@redhat.com>
+ <20170919160401.GC19830@ming.t460p> <1505839754.2671.42.camel@wdc.com>
+ <CACVXFVNvGna59hYG+gF7O41tKNURdbb+gm0sW-FGemnJi0RrRg@mail.gmail.com>
+Message-ID: <1505846549.2671.52.camel@wdc.com>
 
-On Tue, Sep 19, 2017@11:27:39PM +0800, Tony Yang wrote:
-> Hi,
+On Wed, 2017-09-20@00:55 +0800, Ming Lei wrote:
+> On Wed, Sep 20, 2017 at 12:49 AM, Bart Van Assche
+> <Bart.VanAssche@wdc.com> wrote:
+> > On Wed, 2017-09-20@00:04 +0800, Ming Lei wrote:
+> > > Run queue at end_io is definitely wrong, because blk-mq has SCHED_RESTART
+> > > to do that already.
+> > 
+> > Sorry but I disagree. If SCHED_RESTART is set that causes the blk-mq core to
+> > reexamine the software queues and the hctx dispatch list but not the requeue
+> > list. If a block driver returns BLK_STS_RESOURCE then requests end up on the
+> > requeue list. Hence the following code in scsi_end_request():
 > 
->  I Once again downloaded the nvme 4.13 in
-> http://git.infradead.org/nvme.git, and then recompile the kernel, the
-> error occurred, how can I solve it, I hope to get your help, thank you
-> very much?
-> 
->  CC [M]  drivers/nvme/host/core.o
-> drivers/nvme/host/core.c: In function 'nvme_alloc_mpath_ns':
-> drivers/nvme/host/core.c:3111:34: error: 'NVME_FAILOVER_RETRIES'
-> undeclared (first use in this function)
->   if (nvme_set_ns_active(nsa, ns, NVME_FAILOVER_RETRIES)) {
->                                   ^
-> drivers/nvme/host/core.c:3111:34: note: each undeclared identifier is
-> reported only once for each function it appears in
-> drivers/nvme/host/core.c: In function 'nvme_trigger_failover':
-> drivers/nvme/host/core.c:3277:50: error: 'NVME_FAILOVER_RETRIES'
-> undeclared (first use in this function)
->      if (nvme_set_ns_active(standby_ns, mpath_ns, NVME_FAILOVER_RETRIES)) {
->                                                   ^
-> make[3]: *** [drivers/nvme/host/core.o] Error 1
-> make[2]: *** [drivers/nvme/host] Error 2
-> make[1]: *** [drivers/nvme] Error 2
-> make: *** [drivers] Error 2
+> That doesn't need SCHED_RESTART, because it is requeue's
+> responsibility to do that,
+> see blk_mq_requeue_work(), which will run hw queue at the end of this func.
 
-Like I said before, those errors do not exist in an unmodified version
-of the git repo you're linking to. You've out-of-tree stuff in your
-source, so you or whoever set it up broke it.
+That's not what I was trying to explain. What I was trying to explain is that
+every block driver that can cause a request to end up on the requeue list is
+responsible for kicking the requeue list at a later time. Hence the
+kblockd_schedule_work(&sdev->requeue_work) call in the SCSI core and the
+blk_mq_kick_requeue_list() and blk_mq_delay_kick_requeue_list() calls in the
+dm code. What I would like to see is measurement results for dm-mpath without
+this patch series and a call to kick the requeue list added to the dm-mpath
+end_io code.
+
+Bart.
