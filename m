@@ -1,63 +1,52 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 20 Sep 2017 06:44:16 +0800
-Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in
- case of BLK_STS_RESOURCE
-In-Reply-To: <1505846549.2671.52.camel@wdc.com>
-References: <1505498249.3420.15.camel@wdc.com>
- <20170917124000.GB6289@ming.t460p>
- <1505747894.2685.6.camel@wdc.com>
- <20170919054308.GA2517@ming.t460p>
- <1505835394.2671.18.camel@wdc.com>
- <20170919155603.GB22809@redhat.com>
- <20170919160401.GC19830@ming.t460p>
- <1505839754.2671.42.camel@wdc.com>
- <CACVXFVNvGna59hYG+gF7O41tKNURdbb+gm0sW-FGemnJi0RrRg@mail.gmail.com>
- <1505846549.2671.52.camel@wdc.com>
-Message-ID: <20170919224410.GA21829@ming.t460p>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 19 Sep 2017 16:16:08 -0700
+Subject: [PATCH] nvme_fc: retry initial controller connections 3 times
+Message-ID: <20170919231608.5575-1-jsmart2021@gmail.com>
 
-On Tue, Sep 19, 2017@06:42:30PM +0000, Bart Van Assche wrote:
-> On Wed, 2017-09-20@00:55 +0800, Ming Lei wrote:
-> > On Wed, Sep 20, 2017 at 12:49 AM, Bart Van Assche
-> > <Bart.VanAssche@wdc.com> wrote:
-> > > On Wed, 2017-09-20@00:04 +0800, Ming Lei wrote:
-> > > > Run queue at end_io is definitely wrong, because blk-mq has SCHED_RESTART
-> > > > to do that already.
-> > > 
-> > > Sorry but I disagree. If SCHED_RESTART is set that causes the blk-mq core to
-> > > reexamine the software queues and the hctx dispatch list but not the requeue
-> > > list. If a block driver returns BLK_STS_RESOURCE then requests end up on the
-> > > requeue list. Hence the following code in scsi_end_request():
-> > 
-> > That doesn't need SCHED_RESTART, because it is requeue's
-> > responsibility to do that,
-> > see blk_mq_requeue_work(), which will run hw queue at the end of this func.
-> 
-> That's not what I was trying to explain. What I was trying to explain is that
-> every block driver that can cause a request to end up on the requeue list is
-> responsible for kicking the requeue list at a later time. Hence the
-> kblockd_schedule_work(&sdev->requeue_work) call in the SCSI core and the
-> blk_mq_kick_requeue_list() and blk_mq_delay_kick_requeue_list() calls in the
-> dm code. What I would like to see is measurement results for dm-mpath without
-> this patch series and a call to kick the requeue list added to the dm-mpath
-> end_io code.
+Currently, if a frame is lost of command fails as part of initial
+association create for a new controller, the new controller connection
+request will immediately fail.
 
-For this issue, it isn't same between SCSI and dm-rq.
+Add in an immediate 3 retry loop before giving up.
 
-We don't need to run queue in .end_io of dm, and the theory is
-simple, otherwise it isn't performance issue, and should be I/O hang.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-1) every dm-rq's request is 1:1 mapped to SCSI's request
-
-2) if there is any mapped SCSI request not finished, either
-in-flight or in requeue list or whatever, there will be one
-corresponding dm-rq's request in-flight
-
-3) once the mapped SCSI request is completed, dm-rq's completion
-path will be triggered and dm-rq's queue will be rerun because of
-SCHED_RESTART in dm-rq
-
-So the hw queue of dm-rq has been run in dm-rq's completion path
-already, right? Why do we need to do it again in the hot path?
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index af075e998944..1b91614263e3 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2734,7 +2734,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ {
+ 	struct nvme_fc_ctrl *ctrl;
+ 	unsigned long flags;
+-	int ret, idx;
++	int ret, idx, retry;
+ 
+ 	if (!(rport->remoteport.port_role &
+ 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
+@@ -2825,9 +2825,19 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+ 	spin_unlock_irqrestore(&rport->lock, flags);
+ 
+-	ret = nvme_fc_create_association(ctrl);
++	for (retry = 0; retry < 3; retry++) {
++		ret = nvme_fc_create_association(ctrl);
++		if (!ret)
++			break;
++	}
++
+ 	if (ret) {
++		/* couldn't schedule retry - fail out */
++		dev_err(ctrl->ctrl.device,
++			"NVME-FC{%d}: Connect retry failed\n", ctrl->cnum);
++
+ 		ctrl->ctrl.opts = NULL;
++
+ 		/* initiate nvme ctrl ref counting teardown */
+ 		nvme_uninit_ctrl(&ctrl->ctrl);
+ 		nvme_put_ctrl(&ctrl->ctrl);
 -- 
-Ming
+2.13.1
