@@ -1,31 +1,63 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 19 Sep 2017 16:33:56 -0700
-Subject: [PATCH v2] nvmet_fc: ensure target queue id within range.
-Message-ID: <20170919233356.15403-1-jsmart2021@gmail.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Tue, 19 Sep 2017 19:50:06 -0400
+Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in
+ case of BLK_STS_RESOURCE
+In-Reply-To: <1505863546.2671.55.camel@wdc.com>
+References: <1505747894.2685.6.camel@wdc.com>
+ <20170919054308.GA2517@ming.t460p>
+ <1505835394.2671.18.camel@wdc.com>
+ <20170919155603.GB22809@redhat.com>
+ <20170919160401.GC19830@ming.t460p>
+ <1505839754.2671.42.camel@wdc.com>
+ <CACVXFVNvGna59hYG+gF7O41tKNURdbb+gm0sW-FGemnJi0RrRg@mail.gmail.com>
+ <1505846549.2671.52.camel@wdc.com>
+ <20170919224410.GA21829@ming.t460p>
+ <1505863546.2671.55.camel@wdc.com>
+Message-ID: <20170919235006.GB23864@redhat.com>
 
-When searching for queue id's ensure they are within the expected range
+On Tue, Sep 19 2017 at  7:25pm -0400,
+Bart Van Assche <Bart.VanAssche@wdc.com> wrote:
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+> On Wed, 2017-09-20@06:44 +0800, Ming Lei wrote:
+> > For this issue, it isn't same between SCSI and dm-rq.
+> > 
+> > We don't need to run queue in .end_io of dm, and the theory is
+> > simple, otherwise it isn't performance issue, and should be I/O hang.
+> > 
+> > 1) every dm-rq's request is 1:1 mapped to SCSI's request
+> > 
+> > 2) if there is any mapped SCSI request not finished, either
+> > in-flight or in requeue list or whatever, there will be one
+> > corresponding dm-rq's request in-flight
+> > 
+> > 3) once the mapped SCSI request is completed, dm-rq's completion
+> > path will be triggered and dm-rq's queue will be rerun because of
+> > SCHED_RESTART in dm-rq
+> > 
+> > So the hw queue of dm-rq has been run in dm-rq's completion path
+> > already, right? Why do we need to do it again in the hot path?
+> 
+> The measurement data in the description of patch 5/5 shows a significant
+> performance regression for an important workload, namely random I/O.
+> Additionally, the performance improvement for sequential I/O was achieved
+> for an unrealistically low queue depth.
 
----
-v2: v1 did a >= check, should be > check only
+So you've ignored Ming's question entirely and instead decided to focus
+on previous questions you raised to Ming that he ignored.  This is
+getting tedious.
 
- drivers/nvme/target/fc.c | 3 +++
- 1 file changed, 3 insertions(+)
+Especially given that Ming said the first patch that all this fighting
+has been over isn't even required to attain the improvements.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 0d262052a19a..75b1752e8375 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -776,6 +776,9 @@ nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
- 	u16 qid = nvmet_fc_getqueueid(connection_id);
- 	unsigned long flags;
- 
-+	if (qid > NVMET_NR_QUEUES)
-+		return NULL;
-+
- 	spin_lock_irqsave(&tgtport->lock, flags);
- 	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
- 		if (association_id == assoc->association_id) {
--- 
-2.13.1
+Ming, please retest both your baseline and patched setup with a
+queue_depth of >= 32.  Also, please do 3 - 5 runs to get a avg and std
+dev across the runs.
+
+> Sorry but given these measurement results I don't see why I should
+> spend more time on this patch series. 
+
+Bart, I've historically genuinely always appreciated your review and
+insight.  But if your future "review" on this patchset would take the
+form shown in this thread then please don't spend more time on it.
+
+Mike
