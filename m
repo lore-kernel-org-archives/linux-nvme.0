@@ -1,25 +1,53 @@
-From: anish.jhaveri@paviliondata.com (Anish Jhaveri)
-Date: Mon, 18 Sep 2017 22:10:37 -0700
-Subject: [PATCH 00/10] nvme multipath support on top of nvme-4.13 branch
-In-Reply-To: <20170915180701.GA8981@lst.de>
-References: <20170912042048.pdbyl6vsoeui6bnp@haynes>
- <20170915180701.GA8981@lst.de>
-Message-ID: <20170919051036.ttno3memte777ddx@haynes>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 19 Sep 2017 13:43:13 +0800
+Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in
+ case of BLK_STS_RESOURCE
+In-Reply-To: <1505747894.2685.6.camel@wdc.com>
+References: <20170915164456.9803-1-ming.lei@redhat.com>
+ <20170915164456.9803-2-ming.lei@redhat.com>
+ <1505498249.3420.15.camel@wdc.com>
+ <20170917124000.GB6289@ming.t460p>
+ <1505747894.2685.6.camel@wdc.com>
+Message-ID: <20170919054308.GA2517@ming.t460p>
 
-On Fri, Sep 15, 2017@08:07:01PM +0200, Christoph Hellwig wrote:
-> Hi Anish,
+On Mon, Sep 18, 2017@03:18:16PM +0000, Bart Van Assche wrote:
+> On Sun, 2017-09-17@20:40 +0800, Ming Lei wrote:
+> > "if no request has completed before the delay has expired" can't be a
+> > reason to rerun the queue, because the queue can still be busy.
 > 
-> I looked over the code a bit, and I'm rather confused by the newly
-> added commands.  Which controller supports them?  Also the NVMe
-> working group went down a very different way with the ALUA approch,
-> which uses different grouping concepts and doesn't require path
-> activations - for Linux we'd really like to stick to only standardized
-> multipath implementations.
-Hi Christoph, 
-Thanks for looking over the code. The newly added commands were to
-support Asymmetric NVME Namespace Subsystem. Though, I can remove
-those commands and make it active-active configuration. I noticed
-you have sent out the review with changes adding new structures
-and functions which makes it very similar in terms of implementation.
-The only reason I proposed given changes, as it doesn't require any 
-change to kernel. 
+> That statement of you shows that there are important aspects of the SCSI
+> core and dm-mpath driver that you don't understand.
+
+Then can you tell me why blk-mq's SCHED_RESTART can't cover
+the rerun when there are in-flight requests? What is the case
+in which dm-rq can return BUSY and there aren't any in-flight
+requests meantime?
+
+Also you are the author of adding 'blk_mq_delay_run_hw_queue(
+hctx, 100/*ms*/)' in dm-rq, you never explain in commit
+6077c2d706097c0(dm rq: Avoid that request processing stalls
+sporadically) what the root cause is for your request stall
+and why this patch fixes your issue. Even you don't explain
+why is the delay 100ms?
+
+So it is a workaound, isn't it?
+
+My concern is that it isn't good to add blk_mq_delay_run_hw_queue(hctx, 100/*ms*/)
+in the hot path since it should been covered by SCHED_RESTART
+if there are in-flight requests.
+
+> 
+> > I suggest to understand the root cause, instead of keeping this
+> > ugly random delay because run hw queue after 100ms may be useless
+> > in 99.99% times.
+> 
+> If you are still looking at removing the blk_mq_delay_run_hw_queue() calls
+> then I think you are looking in the wrong direction. What kind of problem
+> are you trying to solve? Is it perhaps that there can be a delay between
+
+Actually the improvement on dm-rq IO schedule(the patch 2 ~ 5) doesn't
+need this patch.
+
+
+-- 
+Ming
