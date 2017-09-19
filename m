@@ -1,230 +1,28 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 19 Sep 2017 14:01:50 -0700
-Subject: [PATCH v4] nvme_fcloop: fix port deletes and callbacks
-Message-ID: <20170919210150.20151-1-jsmart2021@gmail.com>
+Date: Tue, 19 Sep 2017 14:02:10 -0700
+Subject: [PATCH] nvme_fc: add message on final controller removal
+Message-ID: <20170919210210.20201-1-jsmart2021@gmail.com>
 
-Now that there are potentially long delays between when a
-remoteport or targetport delete calls is made and when the
-callback occurs (dev_loss_tmo timeout), no longer block in the
-delete routines and move the final nport puts to the callbacks.
-
-Moved the fcloop_nport_get/put/free routines to avoid forward
-declarations.
-
-Ensure port_info structs used in registrations are nulled in
-case fields are not set (ex: devloss_tmo values).
+Given disparity between class level delete and transport delete,
+add an info message when the transport controller object deletes.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
-This is the 4th version of this patch:
-v2: cut on nvme-4.12
-v3: remove remoteport and localport completions
-v4: repost. removed erroneous fc.c mod. collapse return ret statement
-    to direct return calls in __remoteport_unreg and __targetport_unreg.
+ drivers/nvme/host/fc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/nvme/target/fcloop.c | 102 ++++++++++++++++---------------------------
- 1 file changed, 38 insertions(+), 64 deletions(-)
-
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 1fd1afbb8b2a..7b75d9de55ab 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -224,8 +224,6 @@ struct fcloop_nport {
- 	struct fcloop_lport *lport;
- 	struct list_head nport_list;
- 	struct kref ref;
--	struct completion rport_unreg_done;
--	struct completion tport_unreg_done;
- 	u64 node_name;
- 	u64 port_name;
- 	u32 port_role;
-@@ -631,6 +629,32 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
- }
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 2748a84cec3a..c70aa0975361 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1817,6 +1817,8 @@ nvme_fc_ctrl_free(struct kref *ref)
+ 		container_of(ref, struct nvme_fc_ctrl, ref);
+ 	unsigned long flags;
  
- static void
-+fcloop_nport_free(struct kref *ref)
-+{
-+	struct fcloop_nport *nport =
-+		container_of(ref, struct fcloop_nport, ref);
-+	unsigned long flags;
++	dev_info(ctrl->dev, "NVME-FC{%d}: Controller Removed\n", ctrl->cnum);
 +
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	list_del(&nport->nport_list);
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+
-+	kfree(nport);
-+}
-+
-+static void
-+fcloop_nport_put(struct fcloop_nport *nport)
-+{
-+	kref_put(&nport->ref, fcloop_nport_free);
-+}
-+
-+static int
-+fcloop_nport_get(struct fcloop_nport *nport)
-+{
-+	return kref_get_unless_zero(&nport->ref);
-+}
-+
-+static void
- fcloop_localport_delete(struct nvme_fc_local_port *localport)
- {
- 	struct fcloop_lport *lport = localport->private;
-@@ -644,8 +668,7 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
- {
- 	struct fcloop_rport *rport = remoteport->private;
- 
--	/* release any threads waiting for the unreg to complete */
--	complete(&rport->nport->rport_unreg_done);
-+	fcloop_nport_put(rport->nport);
- }
- 
- static void
-@@ -653,8 +676,7 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
- {
- 	struct fcloop_tport *tport = targetport->private;
- 
--	/* release any threads waiting for the unreg to complete */
--	complete(&tport->nport->tport_unreg_done);
-+	fcloop_nport_put(tport->nport);
- }
- 
- #define	FCLOOP_HW_QUEUES		4
-@@ -722,6 +744,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 		goto out_free_opts;
- 	}
- 
-+	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = opts->wwnn;
- 	pinfo.port_name = opts->wwpn;
- 	pinfo.port_role = opts->roles;
-@@ -804,32 +827,6 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
- 	return ret ? ret : count;
- }
- 
--static void
--fcloop_nport_free(struct kref *ref)
--{
--	struct fcloop_nport *nport =
--		container_of(ref, struct fcloop_nport, ref);
--	unsigned long flags;
--
--	spin_lock_irqsave(&fcloop_lock, flags);
--	list_del(&nport->nport_list);
--	spin_unlock_irqrestore(&fcloop_lock, flags);
--
--	kfree(nport);
--}
--
--static void
--fcloop_nport_put(struct fcloop_nport *nport)
--{
--	kref_put(&nport->ref, fcloop_nport_free);
--}
--
--static int
--fcloop_nport_get(struct fcloop_nport *nport)
--{
--	return kref_get_unless_zero(&nport->ref);
--}
--
- static struct fcloop_nport *
- fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
- {
-@@ -938,6 +935,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
- 	if (!nport)
- 		return -EIO;
- 
-+	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = nport->node_name;
- 	pinfo.port_name = nport->port_name;
- 	pinfo.port_role = nport->port_role;
-@@ -979,24 +977,12 @@ __unlink_remote_port(struct fcloop_nport *nport)
- }
- 
- static int
--__wait_remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
-+__remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
- {
--	int ret;
--
- 	if (!rport)
- 		return -EALREADY;
- 
--	init_completion(&nport->rport_unreg_done);
--
--	ret = nvme_fc_unregister_remoteport(rport->remoteport);
--	if (ret)
--		return ret;
--
--	wait_for_completion(&nport->rport_unreg_done);
--
--	fcloop_nport_put(nport);
--
--	return ret;
-+	return nvme_fc_unregister_remoteport(rport->remoteport);
- }
- 
- static ssize_t
-@@ -1029,7 +1015,7 @@ fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
- 	if (!nport)
- 		return -ENOENT;
- 
--	ret = __wait_remoteport_unreg(nport, rport);
-+	ret = __remoteport_unreg(nport, rport);
- 
- 	return ret ? ret : count;
- }
-@@ -1086,24 +1072,12 @@ __unlink_target_port(struct fcloop_nport *nport)
- }
- 
- static int
--__wait_targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
-+__targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
- {
--	int ret;
--
- 	if (!tport)
- 		return -EALREADY;
- 
--	init_completion(&nport->tport_unreg_done);
--
--	ret = nvmet_fc_unregister_targetport(tport->targetport);
--	if (ret)
--		return ret;
--
--	wait_for_completion(&nport->tport_unreg_done);
--
--	fcloop_nport_put(nport);
--
--	return ret;
-+	return nvmet_fc_unregister_targetport(tport->targetport);
- }
- 
- static ssize_t
-@@ -1136,7 +1110,7 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
- 	if (!nport)
- 		return -ENOENT;
- 
--	ret = __wait_targetport_unreg(nport, tport);
-+	ret = __targetport_unreg(nport, tport);
- 
- 	return ret ? ret : count;
- }
-@@ -1223,11 +1197,11 @@ static void __exit fcloop_exit(void)
- 
- 		spin_unlock_irqrestore(&fcloop_lock, flags);
- 
--		ret = __wait_targetport_unreg(nport, tport);
-+		ret = __targetport_unreg(nport, tport);
- 		if (ret)
- 			pr_warn("%s: Failed deleting target port\n", __func__);
- 
--		ret = __wait_remoteport_unreg(nport, rport);
-+		ret = __remoteport_unreg(nport, rport);
- 		if (ret)
- 			pr_warn("%s: Failed deleting remote port\n", __func__);
- 
+ 	if (ctrl->ctrl.tagset) {
+ 		blk_cleanup_queue(ctrl->ctrl.connect_q);
+ 		blk_mq_free_tag_set(&ctrl->tag_set);
 -- 
 2.13.1
