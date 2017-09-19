@@ -1,40 +1,230 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Tue, 19 Sep 2017 18:42:30 +0000
-Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in case
- of BLK_STS_RESOURCE
-In-Reply-To: <CACVXFVNvGna59hYG+gF7O41tKNURdbb+gm0sW-FGemnJi0RrRg@mail.gmail.com>
-References: <20170915164456.9803-1-ming.lei@redhat.com>
- <20170915164456.9803-2-ming.lei@redhat.com>
- <1505498249.3420.15.camel@wdc.com> <20170917124000.GB6289@ming.t460p>
- <1505747894.2685.6.camel@wdc.com> <20170919054308.GA2517@ming.t460p>
- <1505835394.2671.18.camel@wdc.com> <20170919155603.GB22809@redhat.com>
- <20170919160401.GC19830@ming.t460p> <1505839754.2671.42.camel@wdc.com>
- <CACVXFVNvGna59hYG+gF7O41tKNURdbb+gm0sW-FGemnJi0RrRg@mail.gmail.com>
-Message-ID: <1505846549.2671.52.camel@wdc.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 19 Sep 2017 14:01:50 -0700
+Subject: [PATCH v4] nvme_fcloop: fix port deletes and callbacks
+Message-ID: <20170919210150.20151-1-jsmart2021@gmail.com>
 
-On Wed, 2017-09-20@00:55 +0800, Ming Lei wrote:
-> On Wed, Sep 20, 2017 at 12:49 AM, Bart Van Assche
-> <Bart.VanAssche@wdc.com> wrote:
-> > On Wed, 2017-09-20@00:04 +0800, Ming Lei wrote:
-> > > Run queue at end_io is definitely wrong, because blk-mq has SCHED_RESTART
-> > > to do that already.
-> > 
-> > Sorry but I disagree. If SCHED_RESTART is set that causes the blk-mq core to
-> > reexamine the software queues and the hctx dispatch list but not the requeue
-> > list. If a block driver returns BLK_STS_RESOURCE then requests end up on the
-> > requeue list. Hence the following code in scsi_end_request():
-> 
-> That doesn't need SCHED_RESTART, because it is requeue's
-> responsibility to do that,
-> see blk_mq_requeue_work(), which will run hw queue at the end of this func.
+Now that there are potentially long delays between when a
+remoteport or targetport delete calls is made and when the
+callback occurs (dev_loss_tmo timeout), no longer block in the
+delete routines and move the final nport puts to the callbacks.
 
-That's not what I was trying to explain. What I was trying to explain is that
-every block driver that can cause a request to end up on the requeue list is
-responsible for kicking the requeue list at a later time. Hence the
-kblockd_schedule_work(&sdev->requeue_work) call in the SCSI core and the
-blk_mq_kick_requeue_list() and blk_mq_delay_kick_requeue_list() calls in the
-dm code. What I would like to see is measurement results for dm-mpath without
-this patch series and a call to kick the requeue list added to the dm-mpath
-end_io code.
+Moved the fcloop_nport_get/put/free routines to avoid forward
+declarations.
 
-Bart.
+Ensure port_info structs used in registrations are nulled in
+case fields are not set (ex: devloss_tmo values).
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+This is the 4th version of this patch:
+v2: cut on nvme-4.12
+v3: remove remoteport and localport completions
+v4: repost. removed erroneous fc.c mod. collapse return ret statement
+    to direct return calls in __remoteport_unreg and __targetport_unreg.
+
+ drivers/nvme/target/fcloop.c | 102 ++++++++++++++++---------------------------
+ 1 file changed, 38 insertions(+), 64 deletions(-)
+
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 1fd1afbb8b2a..7b75d9de55ab 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -224,8 +224,6 @@ struct fcloop_nport {
+ 	struct fcloop_lport *lport;
+ 	struct list_head nport_list;
+ 	struct kref ref;
+-	struct completion rport_unreg_done;
+-	struct completion tport_unreg_done;
+ 	u64 node_name;
+ 	u64 port_name;
+ 	u32 port_role;
+@@ -631,6 +629,32 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ }
+ 
+ static void
++fcloop_nport_free(struct kref *ref)
++{
++	struct fcloop_nport *nport =
++		container_of(ref, struct fcloop_nport, ref);
++	unsigned long flags;
++
++	spin_lock_irqsave(&fcloop_lock, flags);
++	list_del(&nport->nport_list);
++	spin_unlock_irqrestore(&fcloop_lock, flags);
++
++	kfree(nport);
++}
++
++static void
++fcloop_nport_put(struct fcloop_nport *nport)
++{
++	kref_put(&nport->ref, fcloop_nport_free);
++}
++
++static int
++fcloop_nport_get(struct fcloop_nport *nport)
++{
++	return kref_get_unless_zero(&nport->ref);
++}
++
++static void
+ fcloop_localport_delete(struct nvme_fc_local_port *localport)
+ {
+ 	struct fcloop_lport *lport = localport->private;
+@@ -644,8 +668,7 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+ {
+ 	struct fcloop_rport *rport = remoteport->private;
+ 
+-	/* release any threads waiting for the unreg to complete */
+-	complete(&rport->nport->rport_unreg_done);
++	fcloop_nport_put(rport->nport);
+ }
+ 
+ static void
+@@ -653,8 +676,7 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
+ {
+ 	struct fcloop_tport *tport = targetport->private;
+ 
+-	/* release any threads waiting for the unreg to complete */
+-	complete(&tport->nport->tport_unreg_done);
++	fcloop_nport_put(tport->nport);
+ }
+ 
+ #define	FCLOOP_HW_QUEUES		4
+@@ -722,6 +744,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+ 		goto out_free_opts;
+ 	}
+ 
++	memset(&pinfo, 0, sizeof(pinfo));
+ 	pinfo.node_name = opts->wwnn;
+ 	pinfo.port_name = opts->wwpn;
+ 	pinfo.port_role = opts->roles;
+@@ -804,32 +827,6 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
+ 	return ret ? ret : count;
+ }
+ 
+-static void
+-fcloop_nport_free(struct kref *ref)
+-{
+-	struct fcloop_nport *nport =
+-		container_of(ref, struct fcloop_nport, ref);
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&fcloop_lock, flags);
+-	list_del(&nport->nport_list);
+-	spin_unlock_irqrestore(&fcloop_lock, flags);
+-
+-	kfree(nport);
+-}
+-
+-static void
+-fcloop_nport_put(struct fcloop_nport *nport)
+-{
+-	kref_put(&nport->ref, fcloop_nport_free);
+-}
+-
+-static int
+-fcloop_nport_get(struct fcloop_nport *nport)
+-{
+-	return kref_get_unless_zero(&nport->ref);
+-}
+-
+ static struct fcloop_nport *
+ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+ {
+@@ -938,6 +935,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
+ 	if (!nport)
+ 		return -EIO;
+ 
++	memset(&pinfo, 0, sizeof(pinfo));
+ 	pinfo.node_name = nport->node_name;
+ 	pinfo.port_name = nport->port_name;
+ 	pinfo.port_role = nport->port_role;
+@@ -979,24 +977,12 @@ __unlink_remote_port(struct fcloop_nport *nport)
+ }
+ 
+ static int
+-__wait_remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
++__remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
+ {
+-	int ret;
+-
+ 	if (!rport)
+ 		return -EALREADY;
+ 
+-	init_completion(&nport->rport_unreg_done);
+-
+-	ret = nvme_fc_unregister_remoteport(rport->remoteport);
+-	if (ret)
+-		return ret;
+-
+-	wait_for_completion(&nport->rport_unreg_done);
+-
+-	fcloop_nport_put(nport);
+-
+-	return ret;
++	return nvme_fc_unregister_remoteport(rport->remoteport);
+ }
+ 
+ static ssize_t
+@@ -1029,7 +1015,7 @@ fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
+ 	if (!nport)
+ 		return -ENOENT;
+ 
+-	ret = __wait_remoteport_unreg(nport, rport);
++	ret = __remoteport_unreg(nport, rport);
+ 
+ 	return ret ? ret : count;
+ }
+@@ -1086,24 +1072,12 @@ __unlink_target_port(struct fcloop_nport *nport)
+ }
+ 
+ static int
+-__wait_targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
++__targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
+ {
+-	int ret;
+-
+ 	if (!tport)
+ 		return -EALREADY;
+ 
+-	init_completion(&nport->tport_unreg_done);
+-
+-	ret = nvmet_fc_unregister_targetport(tport->targetport);
+-	if (ret)
+-		return ret;
+-
+-	wait_for_completion(&nport->tport_unreg_done);
+-
+-	fcloop_nport_put(nport);
+-
+-	return ret;
++	return nvmet_fc_unregister_targetport(tport->targetport);
+ }
+ 
+ static ssize_t
+@@ -1136,7 +1110,7 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
+ 	if (!nport)
+ 		return -ENOENT;
+ 
+-	ret = __wait_targetport_unreg(nport, tport);
++	ret = __targetport_unreg(nport, tport);
+ 
+ 	return ret ? ret : count;
+ }
+@@ -1223,11 +1197,11 @@ static void __exit fcloop_exit(void)
+ 
+ 		spin_unlock_irqrestore(&fcloop_lock, flags);
+ 
+-		ret = __wait_targetport_unreg(nport, tport);
++		ret = __targetport_unreg(nport, tport);
+ 		if (ret)
+ 			pr_warn("%s: Failed deleting target port\n", __func__);
+ 
+-		ret = __wait_remoteport_unreg(nport, rport);
++		ret = __remoteport_unreg(nport, rport);
+ 		if (ret)
+ 			pr_warn("%s: Failed deleting remote port\n", __func__);
+ 
+-- 
+2.13.1
