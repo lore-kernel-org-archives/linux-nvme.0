@@ -1,39 +1,30 @@
-From: judy.brock@samsung.com (Judy Brock)
-Date: Wed, 20 Sep 2017 03:21:29 +0000
-Subject: Samsung SSD 960 EVO 500GB S3 issue
-In-Reply-To: <CAAd53p4FfQ+L0J4-TuMqPLaOTs1i9afEHKA_tof+ZN6R6dn=Tw@mail.gmail.com>
-References: <CGME20170920031552epcas5p4e89cc3b0c2fb64723d8954716326518c@epcas5p4.samsung.com>
- <CAAd53p4FfQ+L0J4-TuMqPLaOTs1i9afEHKA_tof+ZN6R6dn=Tw@mail.gmail.com>
-Message-ID: <af96708c0e464dbda4053d432f358b59@samsung.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 20 Sep 2017 10:15:45 +0200
+Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <CADL4p-pcUCoibEWxfFeLHoYhsM3nuSedoe2QTK-ahys+1+TXbg@mail.gmail.com>
+References: <20170918231453.27128-1-hch@lst.de>
+ <20170918231453.27128-10-hch@lst.de>
+ <CADL4p-pcUCoibEWxfFeLHoYhsM3nuSedoe2QTK-ahys+1+TXbg@mail.gmail.com>
+Message-ID: <20170920081545.p2a6x4qar3zbz4kw@linux-x5ow.site>
 
-Hi Kai-Heng,
+On Wed, Sep 20, 2017@08:18:41AM +0800, Tony Yang wrote:
+> Hi , Christoph
+> 
+>      I use the above code to recompile the kernel. The following error
+> occurred. I can't find the blk_steal_bios function. What's the reason
+> for that? Hope to get your help, thank you
 
-	>>Can you take a look?
+Hi Ton,
 
-I'm not in a group that works on or looks at linux bugs - I have passed along some of the exchanges here to internal groups.  I will do the same with the below but I guess I am an unofficial communication path to those internal groups. Will try to find out if there is anyone who is an officially better contact that can take more formal responsibility for these issues when they arise.
+have you puled it from Christoph's git? I just did a git pull and it builds
+fine.
 
-Thanks,
-Judy
-
------Original Message-----
-From: Kai-Heng Feng [mailto:kai.heng.feng@canonical.com] 
-Sent: Tuesday, September 19, 2017 8:16 PM
-To: Judy Brock
-Cc: Andy Lutomirski; linux-nvme
-Subject: Samsung SSD 960 EVO 500GB S3 issue
-
-Hi Judy,
-
-Just found that Andy reached to you, apology for doing the same.
-
-Here's another Samsung NVMe bug [1], this time it's not about PS4. Can you take a look?
-
-A quick summary:
-- The user runs a Ryzen desktop.
-- A quick google shows that firmware version 2B7QCXE7 is already latest.
-- NVMe controller is dead after resume from S3, but not immediately, it's around 3 mins.
-- Disable deepest power state (PS4) can still reproduce the issue.
-- Disable APST before controller shutdown makes no difference.
-- In addition to disabling APST, explicitly set power state to 0 before controller shutdown makes no difference.
-
-[1] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1705748
+Byte,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
