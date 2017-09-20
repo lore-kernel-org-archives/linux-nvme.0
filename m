@@ -1,27 +1,21 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 20 Sep 2017 13:27:17 +0200
-Subject: [PATCH 2/2] nvme-rdma: give up reconnect if state change fails
-In-Reply-To: <1505905573-25371-2-git-send-email-sagi@grimberg.me>
-References: <1505905573-25371-1-git-send-email-sagi@grimberg.me>
- <1505905573-25371-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170920112717.qi4txbrbwefw74gx@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 20 Sep 2017 14:27:58 +0300
+Subject: [PATCH] nvme: allow timed-out ios to retry
+In-Reply-To: <20170918002713.GA20043@infradead.org>
+References: <20170907201804.24979-1-jsmart2021@gmail.com>
+ <20170907203759.GA2832@localhost.localdomain>
+ <20170918002713.GA20043@infradead.org>
+Message-ID: <4201794f-94ac-5825-44f8-715dda700223@grimberg.me>
 
-On Wed, Sep 20, 2017@02:06:13PM +0300, Sagi Grimberg wrote:
->  	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-> -	WARN_ON_ONCE(!changed);
-> +	if (!changed) {
-> +		/* We are probably in DELETING state */
+>> I'm a bit conflicted on this. While it'd be nice to give commands a chance
+>> to succeed after a timeout handling's controller reset, some uses would
+>> rather a command fail fast than succeed slow, and this change could keep
+>> a request outstanding for a very long time.
+> 
+> That's what we have the fastfail flags for, which we set for all
+> the internal commands for example? and evaluate just a little bit
+> above the start_time line.
 
-Shouldn't we check if we're really in DELETING instead of just speculating we
-are?
+I'm 100% on board with this change!
 
-Byte,
-	Johannes
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
