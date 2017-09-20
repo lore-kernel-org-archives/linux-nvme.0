@@ -1,31 +1,54 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Sep 2017 14:09:26 +0300
-Subject: [PATCH v3 3/3] nvme_fc: Avoid duplicate associations between same
- port pairs
-In-Reply-To: <0fc47d1d-88d3-c598-1ff2-24488c6b0789@gmail.com>
-References: <20170914173843.3195-1-jsmart2021@gmail.com>
- <20170914173843.3195-4-jsmart2021@gmail.com>
- <20170918161219.GB310@infradead.org>
- <7f610102-562c-18e0-659a-ff06b0186ac2@broadcom.com>
- <20170918231715.GB12410@infradead.org>
- <0fc47d1d-88d3-c598-1ff2-24488c6b0789@gmail.com>
-Message-ID: <24b9c725-3252-125d-5beb-6efc6476f2c3@grimberg.me>
+Date: Wed, 20 Sep 2017 14:14:02 +0300
+Subject: [REPOST][PATCH v3] nvmet: implement valid sqhd values in
+ completions
+In-Reply-To: <20170918160829.895-1-jsmart2021@gmail.com>
+References: <20170918160829.895-1-jsmart2021@gmail.com>
+Message-ID: <1d417d0e-3ae8-7928-d3ab-ebd70657f8e5@grimberg.me>
 
 
-> So we're on the same page - I'll add the option for "check for 
-> duplicates" to the cli,
 
-Agree its useful to have
-
-> which will pass it on to the kernel, but the 
-> implementation of the check will be in the kernel in each transport.
+On 18/09/17 19:08, James Smart wrote:
+> To support sqhd, for initiators that are following the spec and
+> paying attention to sqhd vs their sqtail values:
+> - add sqhd to struct nvmet_sq
+> - initialize sqhd to 0 in nvmet_sq_setup
+> - rather than propagate the 0's-based qsize value from the connect message
+>    which requires a +1 in every sqhd update, and as nothing else references
+>    it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
+> - validate connect message sqsize being non-zero per spec.
+> - updated assign sqhd for every completion that goes back.
 > 
-> By keeping the check in the kernel it will:
-> - avoid race conditions of what the "active controller" list is between 
-> user and kernel space
-> - keep transport-port specific knowledge of what connect fields are 
-> meaningful in the transport,
-> - avoids adding any infrastructure to get the connect fields into user 
-> space if the cli were to do the checking.
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> 
+> ---
+> v2:
+>    v2: assignment corrected for endianness
+> v3:
+>    removed if test on req->sq that is unneeded
+> 
+>    repost fixed the "comment" indicator in the patch header
+> 
+>   drivers/nvme/target/core.c        | 12 ++++++------
+>   drivers/nvme/target/fabrics-cmd.c |  9 +++++++--
+>   drivers/nvme/target/nvmet.h       |  1 +
+>   3 files changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 7c23eaf8e563..8c86c258d2e8 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -390,10 +390,9 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+>   	if (status)
+>   		nvmet_set_status(req, status);
+>   
+> -	/* XXX: need to fill in something useful for sq_head */
+> -	req->rsp->sq_head = 0;
+> -	if (likely(req->sq)) /* may happen during early failure */
+> -		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
 
-Also agree here.
+It wasn't documented why it is safe to remove the condition statement.
+
+Besides that, looks good to me,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
