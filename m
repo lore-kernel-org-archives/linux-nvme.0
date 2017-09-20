@@ -1,21 +1,21 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 20 Sep 2017 10:50:18 -0700
-Subject: [PATCH v3 1/3] nvme_fc: create fc class and transport device
-In-Reply-To: <20170920103041.idkzk5kerewgv5yk@linux-x5ow.site>
+Date: Wed, 20 Sep 2017 10:50:36 -0700
+Subject: [PATCH v3 2/3] nvme_fc: add uevent for auto-connect
+In-Reply-To: <cc8e2fbd-e8c6-cfaf-2fc9-5c743e6db99d@gmail.com>
 References: <20170914173843.3195-1-jsmart2021@gmail.com>
- <20170914173843.3195-2-jsmart2021@gmail.com>
- <20170918161330.GC310@infradead.org>
- <20170920103041.idkzk5kerewgv5yk@linux-x5ow.site>
-Message-ID: <20170920175018.GA8962@infradead.org>
+ <20170914173843.3195-3-jsmart2021@gmail.com>
+ <20170918161404.GD310@infradead.org>
+ <cc8e2fbd-e8c6-cfaf-2fc9-5c743e6db99d@gmail.com>
+Message-ID: <20170920175036.GB8962@infradead.org>
 
-On Wed, Sep 20, 2017@12:30:41PM +0200, Johannes Thumshirn wrote:
-> the problem with libfc currently is it is made for fcoe, despite being named
-> libfc.
+On Tue, Sep 19, 2017@07:53:08AM -0700, James Smart wrote:
+> On 9/18/2017 9:14 AM, Christoph Hellwig wrote:
+> > Looks fine,
+> > 
+> > Reviewed-by: Christoph Hellwig <hch at lst.de>
+> > 
+> 
+> ok can you merge patches 1 and 2 while I replace patch 3 with something that
+> applies to all transports ?
 
-Well, that's my point - we should be able to use more bits in a common
-FC layer.  I don't really care about the exact name.
-
-> The other hand it is hard-wired to FCP so bringing NVMe into it is a
-> bit challanging, BTDT.
-
-FC-NVMe layers on top of FCP.
+Sure, I'll add them to the nvme-4.15 branch once that opens.
