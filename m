@@ -1,35 +1,42 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 20 Sep 2017 12:32:09 +0300
-Subject: [REPOST][PATCH v3] nvmet: implement valid sqhd values in
- completions
-In-Reply-To: <20170918160829.895-1-jsmart2021@gmail.com>
-References: <20170918160829.895-1-jsmart2021@gmail.com>
-Message-ID: <8d14cd31-5cfb-1f15-727f-2c1950bf2ddf@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 20 Sep 2017 11:42:33 +0200
+Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170918231453.27128-10-hch@lst.de>
+References: <20170918231453.27128-1-hch@lst.de>
+ <20170918231453.27128-10-hch@lst.de>
+Message-ID: <20170920094232.fxzar6op4v3d3ezl@linux-x5ow.site>
 
-
-
-On 9/18/2017 7:08 PM, James Smart wrote:
-> To support sqhd, for initiators that are following the spec and
-> paying attention to sqhd vs their sqtail values:
-> - add sqhd to struct nvmet_sq
-> - initialize sqhd to 0 in nvmet_sq_setup
-> - rather than propagate the 0's-based qsize value from the connect message
->    which requires a +1 in every sqhd update, and as nothing else references
->    it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
-> - validate connect message sqsize being non-zero per spec.
-> - updated assign sqhd for every completion that goes back.
+On Mon, Sep 18, 2017@04:14:53PM -0700, Christoph Hellwig wrote:
+> This patch adds initial multipath support to the nvme driver.  For each
+> namespace we create a new block device node, which can be used to access
+> that namespace through any of the controllers that refer to it.
 > 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+> Currently we will always send I/O to the first available path, this will
+> be changed once the NVMe Asynchronous Namespace Access (ANA) TP is
+> ratified and implemented, at which point we will look at the ANA state
+> for each namespace.  Another possibility that was prototyped is to
+> use the path that is closes to the submitting NUMA code, which will be
+> mostly interesting for PCI, but might also be useful for RDMA or FC
+> transports in the future.  There is not plan to implement round robin
+                                    no ^
+> or I/O service time path selectors, as those are not scalable with
+> the performance rates provided by NVMe.
 > 
-> ---
-> v2:
->    v2: assignment corrected for endianness
-> v3:
->    removed if test on req->sq that is unneeded
-> 
->    repost fixed the "comment" indicator in the patch header
+> The multipath device will go away once all paths to it disappear,
+> any delay to keep it alive needs to be implemented at the controller
+> level.
 
+Sorry for the typo only mail, I'll be going around a real review soon but I
+wanted to test the patchset in my nvme-rdma setup and just hit a panic in
+ib_core with your branched merged into -rc1.
 
-Looks good thanks,
+Byte,
+	Johannes
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
