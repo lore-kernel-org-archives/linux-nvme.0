@@ -1,26 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 20 Sep 2017 10:15:45 +0200
-Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <CADL4p-pcUCoibEWxfFeLHoYhsM3nuSedoe2QTK-ahys+1+TXbg@mail.gmail.com>
+Date: Wed, 20 Sep 2017 10:27:16 +0200
+Subject: [PATCH 7/9] nvme: introduce a nvme_ns_ids structure
+In-Reply-To: <20170918231453.27128-8-hch@lst.de>
 References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-10-hch@lst.de>
- <CADL4p-pcUCoibEWxfFeLHoYhsM3nuSedoe2QTK-ahys+1+TXbg@mail.gmail.com>
-Message-ID: <20170920081545.p2a6x4qar3zbz4kw@linux-x5ow.site>
+ <20170918231453.27128-8-hch@lst.de>
+Message-ID: <20170920082716.tpezpxw4opfr4f2w@linux-x5ow.site>
 
-On Wed, Sep 20, 2017@08:18:41AM +0800, Tony Yang wrote:
-> Hi , Christoph
-> 
->      I use the above code to recompile the kernel. The following error
-> occurred. I can't find the blk_steal_bios function. What's the reason
-> for that? Hope to get your help, thank you
-
-Hi Ton,
-
-have you puled it from Christoph's git? I just did a git pull and it builds
-fine.
-
-Byte,
-	Johannes
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
