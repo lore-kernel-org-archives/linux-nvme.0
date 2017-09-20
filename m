@@ -1,42 +1,35 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 20 Sep 2017 10:36:43 +0200
-Subject: [PATCH 8/9] nvme: track shared namespaces
-In-Reply-To: <20170918231453.27128-9-hch@lst.de>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-9-hch@lst.de>
-Message-ID: <20170920083643.xe6dbr4iu53hhm5t@linux-x5ow.site>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 20 Sep 2017 12:32:09 +0300
+Subject: [REPOST][PATCH v3] nvmet: implement valid sqhd values in
+ completions
+In-Reply-To: <20170918160829.895-1-jsmart2021@gmail.com>
+References: <20170918160829.895-1-jsmart2021@gmail.com>
+Message-ID: <8d14cd31-5cfb-1f15-727f-2c1950bf2ddf@mellanox.com>
 
-On Mon, Sep 18, 2017@04:14:52PM -0700, Christoph Hellwig wrote:
-> Introduce a new struct nvme_ns_head [1] that holds information about
-> an actual namespace, unlike struct nvme_ns, which only holds the
-> per-controller namespace information.  For private namespaces there
-> is a 1:1 relation of the two, but for shared namespaces this lets us
-> discover all the paths to it.  For now only the identifiers are moved
-> to the new structure, but most of the information in struct nvme_ns
-> should eventually move over.
+
+
+On 9/18/2017 7:08 PM, James Smart wrote:
+> To support sqhd, for initiators that are following the spec and
+> paying attention to sqhd vs their sqtail values:
+> - add sqhd to struct nvmet_sq
+> - initialize sqhd to 0 in nvmet_sq_setup
+> - rather than propagate the 0's-based qsize value from the connect message
+>    which requires a +1 in every sqhd update, and as nothing else references
+>    it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
+> - validate connect message sqsize being non-zero per spec.
+> - updated assign sqhd for every completion that goes back.
 > 
-> To allow lockless path lookup the list of nvme_ns structures per
-> nvme_ns_head is protected by SRCU, which requires freeing the nvme_ns
-> structure through call_srcu.
+> Signed-off-by: James Smart <james.smart at broadcom.com>
 > 
-> [1] comments welcome if you have a better name for it, the current one is
->     horrible.  One idea would be to rename the current struct nvme_ns
->     to struct nvme_ns_link or similar and use the nvme_ns name for the
->     new structure.  But that would involve a lot of churn.
+> ---
+> v2:
+>    v2: assignment corrected for endianness
+> v3:
+>    removed if test on req->sq that is unneeded
+> 
+>    repost fixed the "comment" indicator in the patch header
 
-Being one of the persons who has to backport a lot of NVMe code to older
-kernels I'm not a huge fan of renaming nmve_ns.
 
-That said, I don't have a better name for nvme_ns_head (yet) but I'll try to
-think of one as well. OTOH looking at nvme_ns_head it actaully is the list
-head of the nvme_ns list.
+Looks good thanks,
 
-Byte,
-	Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
