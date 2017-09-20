@@ -1,17 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 20 Sep 2017 16:55:46 +0200
-Subject: nvme multipath support V2
-In-Reply-To: <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
-Message-ID: <20170920145546.GB4709@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 20 Sep 2017 07:57:01 -0700
+Subject: [REPOST][PATCH v3] nvmet: implement valid sqhd values in
+ completions
+In-Reply-To: <1d417d0e-3ae8-7928-d3ab-ebd70657f8e5@grimberg.me>
+References: <20170918160829.895-1-jsmart2021@gmail.com>
+ <1d417d0e-3ae8-7928-d3ab-ebd70657f8e5@grimberg.me>
+Message-ID: <20170920145701.GA7561@infradead.org>
 
-On Wed, Sep 20, 2017@01:09:59PM +0200, Johannes Thumshirn wrote:
-> Using your patchset and doing the sanme double connect trick I get the same
-> two block devices of cause.
+On Wed, Sep 20, 2017@02:14:02PM +0300, Sagi Grimberg wrote:
+> > -	if (likely(req->sq)) /* may happen during early failure */
+> > -		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
 > 
-> How do I connect using both paths?
+> It wasn't documented why it is safe to remove the condition statement.
 
-Same as above.  But now in addition to the /dev/nvmeXnY devices you
-should also see a /dev/nvme/nsZ device.  The sysfs entry for it shows
-which paths it belongs to.
+I'll add something to the commit log based on the discussion on the
+list on the previous iteration.
