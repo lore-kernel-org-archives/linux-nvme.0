@@ -1,44 +1,23 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 20 Sep 2017 09:19:26 +0800
-Subject: [PATCH 1/5] block: don't call blk_mq_delay_run_hw_queue() in
- case of BLK_STS_RESOURCE
-In-Reply-To: <1505839754.2671.42.camel@wdc.com>
-References: <20170915164456.9803-1-ming.lei@redhat.com>
- <20170915164456.9803-2-ming.lei@redhat.com>
- <1505498249.3420.15.camel@wdc.com>
- <20170917124000.GB6289@ming.t460p>
- <1505747894.2685.6.camel@wdc.com>
- <20170919054308.GA2517@ming.t460p>
- <1505835394.2671.18.camel@wdc.com>
- <20170919155603.GB22809@redhat.com>
- <20170919160401.GC19830@ming.t460p>
- <1505839754.2671.42.camel@wdc.com>
-Message-ID: <20170920011925.GB23062@ming.t460p>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Wed, 20 Sep 2017 11:15:42 +0800
+Subject: Samsung SSD 960 EVO 500GB S3 issue
+Message-ID: <CAAd53p4FfQ+L0J4-TuMqPLaOTs1i9afEHKA_tof+ZN6R6dn=Tw@mail.gmail.com>
 
-On Tue, Sep 19, 2017@04:49:15PM +0000, Bart Van Assche wrote:
-> On Wed, 2017-09-20@00:04 +0800, Ming Lei wrote:
-> > Run queue at end_io is definitely wrong, because blk-mq has SCHED_RESTART
-> > to do that already.
-> 
-> Sorry but I disagree. If SCHED_RESTART is set that causes the blk-mq core to
-> reexamine the software queues and the hctx dispatch list but not the requeue
-> list. If a block driver returns BLK_STS_RESOURCE then requests end up on the
-> requeue list. Hence the following code in scsi_end_request():
-> 
-> 	if (scsi_target(sdev)->single_lun || !list_empty(&sdev->host->starved_list))
-> 		kblockd_schedule_work(&sdev->requeue_work);
-> 	else
-> 		blk_mq_run_hw_queues(q, true);
+Hi Judy,
 
-Let's focus on dm-rq.
+Just found that Andy reached to you, apology for doing the same.
 
-I have explained before, dm-rq is different with SCSI's, we don't need
-to requeue request any more in dm-rq if blk_get_request() returns NULL
-in multipath_clone_and_map(), since SCHED_RESTART can cover that
-definitely.
+Here's another Samsung NVMe bug [1], this time it's not about PS4. Can
+you take a look?
 
-Not mention dm_mq_delay_requeue_request() will run the queue explicitly
-if it has to be done. That needn't SCHED_RESTART to cover, right?
+A quick summary:
+- The user runs a Ryzen desktop.
+- A quick google shows that firmware version 2B7QCXE7 is already latest.
+- NVMe controller is dead after resume from S3, but not immediately,
+it's around 3 mins.
+- Disable deepest power state (PS4) can still reproduce the issue.
+- Disable APST before controller shutdown makes no difference.
+- In addition to disabling APST, explicitly set power state to 0
+before controller shutdown makes no difference.
 
--- 
-Ming
+[1] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1705748
