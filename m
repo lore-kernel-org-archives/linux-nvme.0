@@ -1,27 +1,40 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 20 Sep 2017 14:47:59 -0700
-Subject: [PATCH] nvme_fc: add message on final controller removal
-In-Reply-To: <20170920213214.GC10442@infradead.org>
-References: <20170919210210.20201-1-jsmart2021@gmail.com>
- <20170920213214.GC10442@infradead.org>
-Message-ID: <28899ddd-7fbb-89bb-97eb-9c54ae6d9cbb@gmail.com>
+Date: Wed, 20 Sep 2017 15:16:23 -0700
+Subject: [PATCH] nvme_fc: fix iowait hang
+Message-ID: <20170920221623.2509-1-jsmart2021@gmail.com>
 
-On 9/20/2017 2:32 PM, Christoph Hellwig wrote:
-> On Tue, Sep 19, 2017@02:02:10PM -0700, James Smart wrote:
->> Given disparity between class level delete and transport delete,
->> add an info message when the transport controller object deletes.
-> 
-> Hmm.  Why do we need this in the FC code?
-> 
+Add missing iowait head initialization.
+Fix irqsave vs irq
 
-It's a debug aid. I'm finding all the transitions spit out messages 
-saying controller is deleting, which makes the admin think it's deleted. 
-But what really happened was the delete calls were made to the core 
-routines, but those routines are getting hung up in ns teardown. So 
-admins are reporting things as "deleted" when they really aren't yet. 
-This message just book-ends the initial deleting messages.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-it could certainly go in the core nvme_free_ctrl() call before it calls 
-the transport free routine.
-
--- james
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index af075e998944..8182b1999f49 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2545,10 +2545,10 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	nvme_fc_abort_aen_ops(ctrl);
+ 
+ 	/* wait for all io that had to be aborted */
+-	spin_lock_irqsave(&ctrl->lock, flags);
++	spin_lock_irq(&ctrl->lock);
+ 	wait_event_lock_irq(ctrl->ioabort_wait, ctrl->iocnt == 0, ctrl->lock);
+ 	ctrl->flags &= ~FCCTRL_TERMIO;
+-	spin_unlock_irqrestore(&ctrl->lock, flags);
++	spin_unlock_irq(&ctrl->lock);
+ 
+ 	nvme_fc_term_aen_ops(ctrl);
+ 
+@@ -2760,6 +2760,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	ctrl->rport = rport;
+ 	ctrl->dev = lport->dev;
+ 	ctrl->cnum = idx;
++	init_waitqueue_head(&ctrl->ioabort_wait);
+ 
+ 	get_device(ctrl->dev);
+ 	kref_init(&ctrl->ref);
+-- 
+2.13.1
