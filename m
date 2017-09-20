@@ -1,12 +1,14 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 20 Sep 2017 14:32:55 -0700
-Subject: [PATCH v2] nvmet_fc: ensure target queue id within range.
-In-Reply-To: <20170919233356.15403-1-jsmart2021@gmail.com>
-References: <20170919233356.15403-1-jsmart2021@gmail.com>
-Message-ID: <20170920213255.GE10442@infradead.org>
+Date: Wed, 20 Sep 2017 14:33:07 -0700
+Subject: [PATCH] nvmet_fc: sync header templates with comments
+In-Reply-To: <20170920180726.31764-1-jsmart2021@gmail.com>
+References: <20170920180726.31764-1-jsmart2021@gmail.com>
+Message-ID: <20170920213307.GF10442@infradead.org>
 
-On Tue, Sep 19, 2017@04:33:56PM -0700, James Smart wrote:
-> When searching for queue id's ensure they are within the expected range
+On Wed, Sep 20, 2017@11:07:26AM -0700, James Smart wrote:
+> Comments were incorrect:
+> - defer_rcv was in host port template. moved to target port template
+> - Added Mandatory statements for target port template items
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 
