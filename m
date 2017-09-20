@@ -1,17 +1,21 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 20 Sep 2017 14:33:07 -0700
-Subject: [PATCH] nvmet_fc: sync header templates with comments
-In-Reply-To: <20170920180726.31764-1-jsmart2021@gmail.com>
-References: <20170920180726.31764-1-jsmart2021@gmail.com>
-Message-ID: <20170920213307.GF10442@infradead.org>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 20 Sep 2017 15:37:12 -0600
+Subject: [GIT PULL] nvme fixes for 4.14-rc2
+In-Reply-To: <20170920212928.wfzm34jajrpzmmdy@infradead.org>
+References: <20170920212928.wfzm34jajrpzmmdy@infradead.org>
+Message-ID: <ca8b404a-10e8-9ec1-11b0-54c765b81b61@kernel.dk>
 
-On Wed, Sep 20, 2017@11:07:26AM -0700, James Smart wrote:
-> Comments were incorrect:
-> - defer_rcv was in host port template. moved to target port template
-> - Added Mandatory statements for target port template items
+On 09/20/2017 03:29 PM, Christoph Hellwig wrote:
+> Hi Jens,
 > 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+> a couple nvme fixes for -rc2 are below:
+> 
+>  - fixes for the Fibre Channel host/target to fix spec compliance
+>  - allow a zero keep alive timeout
+>  - make the debug printk for broken SGLs work better
+>  - fix queue zeroing during initialization
 
-Looks fine,
+Pulled, thanks.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+-- 
+Jens Axboe
