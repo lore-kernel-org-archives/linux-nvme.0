@@ -1,52 +1,57 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 20 Sep 2017 11:07:26 -0700
-Subject: [PATCH] nvmet_fc: sync header templates with comments
-Message-ID: <20170920180726.31764-1-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 20 Sep 2017 15:07:52 -0400
+Subject: [PATCH] nvme: set physical block size to value discovered in
+ Identify Namespace
+In-Reply-To: <20170920174814.GA2556@infradead.org>
+References: <20170920170605.42161-1-andrzej.jakowski@intel.com>
+ <20170920174842.GB1379@localhost.localdomain>
+ <20170920174814.GA2556@infradead.org>
+Message-ID: <20170920190752.GC1379@localhost.localdomain>
 
-Comments were incorrect:
-- defer_rcv was in host port template. moved to target port template
-- Added Mandatory statements for target port template items
+On Wed, Sep 20, 2017@10:48:14AM -0700, Christoph Hellwig wrote:
+> On Wed, Sep 20, 2017@01:48:42PM -0400, Keith Busch wrote:
+> > I think what you're wanting to say is:
+> > 
+> >   The physical block size will default to the logical block size unless
+> >   otherwise specified. While NVMe doesn't provide a way to discover the
+> >   physical block size, the format with best relative performance is a
+> >   good indicator as to the underlying block size.
+> 
+> I don't like this at all.  It's a really nasty guesswork.  If you need
+> this to get reasonable performance out of a specific device please
+> quirk it.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- include/linux/nvme-fc-driver.h | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+I don't think it's about "reasonable" performance; it's about getting
+extra relative performance. What else can the best performing LBAF
+indicate other than the device's preferred access alignment/granularity?
+The spec provides this hint, so it's not really a guess, but maybe
+there's a better way to make use of it instead of  considering it to be
+the physical block size? io_opt?
 
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 9c5cb4480806..a726f96010d5 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -346,11 +346,6 @@ struct nvme_fc_remote_port {
-  *       indicating an FC transport Aborted status.
-  *       Entrypoint is Mandatory.
-  *
-- * @defer_rcv:  Called by the transport to signal the LLLD that it has
-- *       begun processing of a previously received NVME CMD IU. The LLDD
-- *       is now free to re-use the rcv buffer associated with the
-- *       nvmefc_tgt_fcp_req.
-- *
-  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
-  *       supports for cpu affinitization.
-  *       Value is Mandatory. Must be at least 1.
-@@ -806,11 +801,19 @@ struct nvmet_fc_target_port {
-  *       outstanding operation (if there was one) to complete, then will
-  *       call the fcp_req_release() callback to return the command's
-  *       exchange context back to the LLDD.
-+ *       Entrypoint is Mandatory.
-  *
-  * @fcp_req_release:  Called by the transport to return a nvmefc_tgt_fcp_req
-  *       to the LLDD after all operations on the fcp operation are complete.
-  *       This may be due to the command completing or upon completion of
-  *       abort cleanup.
-+ *       Entrypoint is Mandatory.
-+ *
-+ * @defer_rcv:  Called by the transport to signal the LLLD that it has
-+ *       begun processing of a previously received NVME CMD IU. The LLDD
-+ *       is now free to re-use the rcv buffer associated with the
-+ *       nvmefc_tgt_fcp_req.
-+ *       Entrypoint is Optional.
-  *
-  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
-  *       supports for cpu affinitization.
--- 
-2.13.1
+On a slightly related topic, I think we should fix the  consistency
+in what's reported in the queue's attributes after reformatting the
+namespace. Check out the following for what happens today:
+
+Start with a 512b format:
+
+# cat /sys/block/nvme0n1/queue/{minimum_io_size,logical_block_size,physical_block_size}
+512
+512
+512
+
+Format it to 4k:
+
+# cat /sys/block/nvme0n1/queue/{minimum_io_size,logical_block_size,physical_block_size}
+4096
+4096
+4096
+
+Format it back to 512b:
+
+# cat /sys/block/nvme0n1/queue/{minimum_io_size,logical_block_size,physical_block_size}
+4096
+512
+4096
+
+The first and last are the exact same NVMe format, but they're reported
+differently.
