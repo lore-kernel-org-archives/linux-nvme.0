@@ -1,54 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Sep 2017 14:14:02 +0300
-Subject: [REPOST][PATCH v3] nvmet: implement valid sqhd values in
- completions
-In-Reply-To: <20170918160829.895-1-jsmart2021@gmail.com>
-References: <20170918160829.895-1-jsmart2021@gmail.com>
-Message-ID: <1d417d0e-3ae8-7928-d3ab-ebd70657f8e5@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 20 Sep 2017 13:09:59 +0200
+Subject: nvme multipath support V2
+In-Reply-To: <20170918231453.27128-1-hch@lst.de>
+References: <20170918231453.27128-1-hch@lst.de>
+Message-ID: <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
 
+Hi Christoph,
 
+I wanted to test your patches, but I fail to see how I have to set it up.
 
-On 18/09/17 19:08, James Smart wrote:
-> To support sqhd, for initiators that are following the spec and
-> paying attention to sqhd vs their sqtail values:
-> - add sqhd to struct nvmet_sq
-> - initialize sqhd to 0 in nvmet_sq_setup
-> - rather than propagate the 0's-based qsize value from the connect message
->    which requires a +1 in every sqhd update, and as nothing else references
->    it, convert to 1's-based value in nvmt_sq/cq_setup() calls.
-> - validate connect message sqsize being non-zero per spec.
-> - updated assign sqhd for every completion that goes back.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> 
-> ---
-> v2:
->    v2: assignment corrected for endianness
-> v3:
->    removed if test on req->sq that is unneeded
-> 
->    repost fixed the "comment" indicator in the patch header
-> 
->   drivers/nvme/target/core.c        | 12 ++++++------
->   drivers/nvme/target/fabrics-cmd.c |  9 +++++++--
->   drivers/nvme/target/nvmet.h       |  1 +
->   3 files changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 7c23eaf8e563..8c86c258d2e8 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -390,10 +390,9 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
->   	if (status)
->   		nvmet_set_status(req, status);
->   
-> -	/* XXX: need to fill in something useful for sq_head */
-> -	req->rsp->sq_head = 0;
-> -	if (likely(req->sq)) /* may happen during early failure */
-> -		req->rsp->sq_id = cpu_to_le16(req->sq->qid);
+I do have a host with two RDMA HCAs connected to the target (Linux), for "normal
+dm-mpath" test I do nvme connect with the host traddr argument for both of the
+HCAs and get two nvme block devices which I can add to multipath.
 
-It wasn't documented why it is safe to remove the condition statement.
+Using your patchset and doing the sanme double connect trick I get the same
+two block devices of cause.
 
-Besides that, looks good to me,
+How do I connect using both paths?
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Thanks,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
