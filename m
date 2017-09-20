@@ -1,38 +1,28 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 20 Sep 2017 11:42:33 +0200
-Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170918231453.27128-10-hch@lst.de>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-10-hch@lst.de>
-Message-ID: <20170920094232.fxzar6op4v3d3ezl@linux-x5ow.site>
+Date: Wed, 20 Sep 2017 12:30:41 +0200
+Subject: [PATCH v3 1/3] nvme_fc: create fc class and transport device
+In-Reply-To: <20170918161330.GC310@infradead.org>
+References: <20170914173843.3195-1-jsmart2021@gmail.com>
+ <20170914173843.3195-2-jsmart2021@gmail.com>
+ <20170918161330.GC310@infradead.org>
+Message-ID: <20170920103041.idkzk5kerewgv5yk@linux-x5ow.site>
 
-On Mon, Sep 18, 2017@04:14:53PM -0700, Christoph Hellwig wrote:
-> This patch adds initial multipath support to the nvme driver.  For each
-> namespace we create a new block device node, which can be used to access
-> that namespace through any of the controllers that refer to it.
+On Mon, Sep 18, 2017@09:13:30AM -0700, Christoph Hellwig wrote:
+> Looks ok,
 > 
-> Currently we will always send I/O to the first available path, this will
-> be changed once the NVMe Asynchronous Namespace Access (ANA) TP is
-> ratified and implemented, at which point we will look at the ANA state
-> for each namespace.  Another possibility that was prototyped is to
-> use the path that is closes to the submitting NUMA code, which will be
-> mostly interesting for PCI, but might also be useful for RDMA or FC
-> transports in the future.  There is not plan to implement round robin
-                                    no ^
-> or I/O service time path selectors, as those are not scalable with
-> the performance rates provided by NVMe.
-> 
-> The multipath device will go away once all paths to it disappear,
-> any delay to keep it alive needs to be implemented at the controller
-> level.
+> although I really wish we could come up with some common FC code,
+> including making the existing FC drivers use more infrastructure
+> from libfc..
 
-Sorry for the typo only mail, I'll be going around a real review soon but I
-wanted to test the patchset in my nvme-rdma setup and just hit a panic in
-ib_core with your branched merged into -rc1.
+the problem with libfc currently is it is made for fcoe, despite being named
+libfc. The other hand it is hard-wired to FCP so bringing NVMe into it is a
+bit challanging, BTDT.
 
-Byte,
-	Johannes
+It's not that it is impossible, it's just not something that can be done in a
+day or two of hacking.
 
+Anyways,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
