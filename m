@@ -1,27 +1,53 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Sep 2017 17:12:46 -0400
-Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170920235250.GA28865@lst.de>
+Date: Thu, 21 Sep 2017 18:52:19 -0400
+Subject: [PATCH 6/9] nvme: track subsystems
+In-Reply-To: <20170918231453.27128-7-hch@lst.de>
 References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-10-hch@lst.de>
- <20170920225822.GE1379@localhost.localdomain>
- <20170920235250.GA28865@lst.de>
-Message-ID: <20170921211246.GB10713@localhost.localdomain>
+ <20170918231453.27128-7-hch@lst.de>
+Message-ID: <20170921225218.GA4375@localhost.localdomain>
 
-On Thu, Sep 21, 2017@01:52:50AM +0200, Christoph Hellwig wrote:
-> I noticed the odd renaming in sysfs and though about gettind rid
-> of the /dev/nvme/ directory.  I just need to come up with a good
-> name for the device nodes - the name can't contain /dev/nvme* as
-> nvme-cli would break if it sees files that start with nvme in /dev/.
+On Mon, Sep 18, 2017@04:14:50PM -0700, Christoph Hellwig wrote:
+> +static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+> +{
+> +	struct nvme_subsystem *subsys, *found;
+> +
+> +	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+> +	if (!subsys)
+> +		return -ENOMEM;
+> +	INIT_LIST_HEAD(&subsys->ctrls);
+> +	kref_init(&subsys->ref);
+> +	nvme_init_subnqn(subsys, ctrl, id);
+> +	mutex_init(&subsys->lock);
+> +
+> +	mutex_lock(&nvme_subsystems_lock);
+> +	found = __nvme_find_get_subsystem(subsys->subnqn);
+> +	if (found) {
+> +		/*
+> +		 * Verify that the subsystem actually supports multiple
+> +		 * controllers, else bail out.
+> +		 */
+> +		kfree(subsys);
+> +		if (!(id->cmic & (1 << 1))) {
+> +			dev_err(ctrl->device,
+> +				"ignoring ctrl due to duplicate subnqn (%s).\n",
+> +				found->subnqn);
+> +			mutex_unlock(&nvme_subsystems_lock);
+> +			return -EINVAL;
+> +		}
+> +
+> +		subsys = found;
+> +	} else {
+> +		list_add_tail(&subsys->entry, &nvme_subsystems);
+> +	}
+> +
+> +	ctrl->subsys = subsys;
+> +	mutex_unlock(&nvme_subsystems_lock);
+> +
+> +	mutex_lock(&subsys->lock);
+> +	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
+> +	mutex_unlock(&subsys->lock);
 
-Ah, didn't know that. I'll fix nvme-cli to handle this.
-
-We can still use a different naming convention for the multipath handles.
-
-> /dev/nvmN ?
-
-Looks safe.
-
-BTW, considered persistent nameing rules to symlink these from
-/dev/disk/by-id/? May need to add an attribute to the multipath object
-to assist that.
+This function is called every time nvme_init_identify is called, which
+happens on every controller reset. The controller reset does not remove
+itself from the subsystem list of controllers, so its entry is getting
+doubly added after a controller reset.
