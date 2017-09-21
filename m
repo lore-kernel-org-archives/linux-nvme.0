@@ -1,30 +1,25 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 21 Sep 2017 07:22:17 +0200
-Subject: [PATCH 8/9] nvme: track shared namespaces
-In-Reply-To: <20170920145436.GA4709@lst.de>
+Date: Thu, 21 Sep 2017 07:23:45 +0200
+Subject: nvme multipath support V2
+In-Reply-To: <20170920145546.GB4709@lst.de>
 References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-9-hch@lst.de>
- <20170920083643.xe6dbr4iu53hhm5t@linux-x5ow.site>
- <20170920145436.GA4709@lst.de>
-Message-ID: <20170921052217.kmrcmsf4gttubsyd@linux-x5ow.site>
+ <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
+ <20170920145546.GB4709@lst.de>
+Message-ID: <20170921052345.pj5ymmqsfmckas2b@linux-x5ow.site>
 
-On Wed, Sep 20, 2017@04:54:36PM +0200, Christoph Hellwig wrote:
-> On Wed, Sep 20, 2017@10:36:43AM +0200, Johannes Thumshirn wrote:
-> > Being one of the persons who has to backport a lot of NVMe code to older
-> > kernels I'm not a huge fan of renaming nmve_ns.
+On Wed, Sep 20, 2017@04:55:46PM +0200, Christoph Hellwig wrote:
+> On Wed, Sep 20, 2017@01:09:59PM +0200, Johannes Thumshirn wrote:
+> > Using your patchset and doing the sanme double connect trick I get the same
+> > two block devices of cause.
+> > 
+> > How do I connect using both paths?
 > 
-> The churn is main main worry.  Well and that I don't have a reall good
-> name for what currently is nvme_ns either :)
-> 
-> > That said, I don't have a better name for nvme_ns_head (yet) but I'll try to
-> > think of one as well. OTOH looking at nvme_ns_head it actaully is the list
-> > head of the nvme_ns list.
-> 
-> But head also has connotations in the SAN world.  Maybe nvme_ns_chain?
+> Same as above.  But now in addition to the /dev/nvmeXnY devices you
+> should also see a /dev/nvme/nsZ device.  The sysfs entry for it shows
+> which paths it belongs to.
 
-I know that's why I didn't really like it all too much in the first place as
-well. For nvme_ns_chain, it's not a chain really (the list itself is a chain,
-the structure really is the list head...), but I suck at naming things so.
+Ah OK, we maybe should update nvme-cli to recognize it as well then. I just
+looked at the output of nvme list and obviously didn't find it.
 
 -- 
 Johannes Thumshirn                                          Storage
