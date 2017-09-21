@@ -1,34 +1,27 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 21 Sep 2017 08:13:49 -0700
-Subject: [PATCH] nvme: fix sqhd reference when admin queue connect fails
-Message-ID: <20170921151349.18234-1-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 21 Sep 2017 17:12:46 -0400
+Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170920235250.GA28865@lst.de>
+References: <20170918231453.27128-1-hch@lst.de>
+ <20170918231453.27128-10-hch@lst.de>
+ <20170920225822.GE1379@localhost.localdomain>
+ <20170920235250.GA28865@lst.de>
+Message-ID: <20170921211246.GB10713@localhost.localdomain>
 
-Fix bug in sqhd patch.
+On Thu, Sep 21, 2017@01:52:50AM +0200, Christoph Hellwig wrote:
+> I noticed the odd renaming in sysfs and though about gettind rid
+> of the /dev/nvme/ directory.  I just need to come up with a good
+> name for the device nodes - the name can't contain /dev/nvme* as
+> nvme-cli would break if it sees files that start with nvme in /dev/.
 
-It wasn't the sq that was at risk. In the case where the admin queue
-Connect command fails, the sq->size field is not set. Therefore, this
-becomes a divide by zero error.
+Ah, didn't know that. I'll fix nvme-cli to handle this.
 
-Add a quick check to bypass under this failure condition.
+We can still use a different naming convention for the multipath handles.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> /dev/nvmN ?
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 8c86c258d2e8..8b6175d0531a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -390,7 +390,8 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- 	if (status)
- 		nvmet_set_status(req, status);
- 
--	req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
-+	if (req->sq->size)
-+		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
- 	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
- 	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
- 	req->rsp->command_id = req->cmd->common.command_id;
--- 
-2.13.1
+Looks safe.
+
+BTW, considered persistent nameing rules to symlink these from
+/dev/disk/by-id/? May need to add an attribute to the multipath object
+to assist that.
