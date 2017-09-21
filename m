@@ -1,34 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Sep 2017 17:01:38 +0300
-Subject: [PATCH 3/3] nvme-rdma: don't fully stop the controller in error
- recovery
-In-Reply-To: <1506002498-9177-1-git-send-email-sagi@grimberg.me>
-References: <1506002498-9177-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1506002498-9177-3-git-send-email-sagi@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 21 Sep 2017 16:10:33 +0200
+Subject: [PATCH] nvme: make controller 'state' sysfs attribute pollable
+In-Reply-To: <20170921051915.cfj2j5vu4bjqn5za@linux-x5ow.site>
+References: <20170920104032.14014-1-jthumshirn@suse.de>
+ <20170920145931.GA5208@lst.de>
+ <20170921051915.cfj2j5vu4bjqn5za@linux-x5ow.site>
+Message-ID: <20170921141033.GA17575@lst.de>
 
-By calling nvme_stop_ctrl on a already failed controller will
-wait for the scan work to complete (only by identify timeout
-expiration which is 60 seconds). This is unnecessary when we
-already know that the controller has failed.
+On Thu, Sep 21, 2017@07:19:15AM +0200, Johannes Thumshirn wrote:
+> So why exposing it then in the first time?
 
-Reported-by: Yi Zhang <yizhan at redhat.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It is a really nice debug aid, but the states really are an internal
+detail of the implementation, and can (and probably will soon, see the
+fc states discussion) change.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 8441f6b3f617..92a03ff5fb4d 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -967,7 +967,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 	struct nvme_rdma_ctrl *ctrl = container_of(work,
- 			struct nvme_rdma_ctrl, err_work);
- 
--	nvme_stop_ctrl(&ctrl->ctrl);
-+	nvme_stop_keep_alive(&ctrl->ctrl);
- 
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
--- 
-2.7.4
+Maybe we need to move things like this to debugfs, but yet another
+interface seems a little annoying.
