@@ -1,22 +1,30 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 21 Sep 2017 07:19:15 +0200
-Subject: [PATCH] nvme: make controller 'state' sysfs attribute pollable
-In-Reply-To: <20170920145931.GA5208@lst.de>
-References: <20170920104032.14014-1-jthumshirn@suse.de>
- <20170920145931.GA5208@lst.de>
-Message-ID: <20170921051915.cfj2j5vu4bjqn5za@linux-x5ow.site>
+Date: Thu, 21 Sep 2017 07:22:17 +0200
+Subject: [PATCH 8/9] nvme: track shared namespaces
+In-Reply-To: <20170920145436.GA4709@lst.de>
+References: <20170918231453.27128-1-hch@lst.de>
+ <20170918231453.27128-9-hch@lst.de>
+ <20170920083643.xe6dbr4iu53hhm5t@linux-x5ow.site>
+ <20170920145436.GA4709@lst.de>
+Message-ID: <20170921052217.kmrcmsf4gttubsyd@linux-x5ow.site>
 
-On Wed, Sep 20, 2017@04:59:31PM +0200, Christoph Hellwig wrote:
-> On Wed, Sep 20, 2017@12:40:32PM +0200, Johannes Thumshirn wrote:
-> > Notify sysfs about changes of a nvme controller so user-space can watch the
-> > file via poll() or select() in order to react to a state change.
+On Wed, Sep 20, 2017@04:54:36PM +0200, Christoph Hellwig wrote:
+> On Wed, Sep 20, 2017@10:36:43AM +0200, Johannes Thumshirn wrote:
+> > Being one of the persons who has to backport a lot of NVMe code to older
+> > kernels I'm not a huge fan of renaming nmve_ns.
 > 
-> Userspace has no business polling for the state.
+> The churn is main main worry.  Well and that I don't have a reall good
+> name for what currently is nvme_ns either :)
+> 
+> > That said, I don't have a better name for nvme_ns_head (yet) but I'll try to
+> > think of one as well. OTOH looking at nvme_ns_head it actaully is the list
+> > head of the nvme_ns list.
+> 
+> But head also has connotations in the SAN world.  Maybe nvme_ns_chain?
 
-So why exposing it then in the first time? I know you don't want dm-mpath in
-NVMe (neither do I) but we have to have something until your patchset and ANA
-is merged. And with this patch it's trivial to build a path checker that just
-looks at the state attribute in sysfs.
+I know that's why I didn't really like it all too much in the first place as
+well. For nvme_ns_chain, it's not a chain really (the list itself is a chain,
+the structure really is the list head...), but I suck at naming things so.
 
 -- 
 Johannes Thumshirn                                          Storage
