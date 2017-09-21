@@ -1,39 +1,40 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Sep 2017 17:01:36 +0300
-Subject: [PATCH 1/3] nvme-core: Use nvme_wq to queue async events and fw
- activation
-Message-ID: <1506002498-9177-1-git-send-email-sagi@grimberg.me>
+Date: Thu, 21 Sep 2017 17:01:37 +0300
+Subject: [PATCH v2 2/3] nvme-rdma: give up reconnect if state change fails
+In-Reply-To: <1506002498-9177-1-git-send-email-sagi@grimberg.me>
+References: <1506002498-9177-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1506002498-9177-2-git-send-email-sagi@grimberg.me>
 
-async_event_work might race as it is executed from two different
-workqueues at the moment.
+If we failed to transition to state LIVE after a successful
+reconnect, then controller deletion already started. In this
+case there is no point moving forward with reconnect.
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes from v1:
+- warn if ctrl state is not deleteing.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5589f67d2cd8..bb2aad078637 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2676,7 +2676,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 	case NVME_SC_ABORT_REQ:
- 		++ctrl->event_limit;
- 		if (ctrl->state == NVME_CTRL_LIVE)
--			schedule_work(&ctrl->async_event_work);
-+			queue_work(nvme_wq, &ctrl->async_event_work);
- 		break;
- 	default:
- 		break;
-@@ -2691,7 +2691,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		nvme_queue_scan(ctrl);
- 		break;
- 	case NVME_AER_NOTICE_FW_ACT_STARTING:
--		schedule_work(&ctrl->fw_act_work);
-+		queue_work(nvme_wq, &ctrl->fw_act_work);
- 		break;
- 	default:
- 		dev_warn(ctrl->device, "async event result %08x\n", result);
+ drivers/nvme/host/rdma.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 58983000964b..8441f6b3f617 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -942,7 +942,12 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 	}
+ 
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+-	WARN_ON_ONCE(!changed);
++	if (!changed) {
++		/* state change failure is ok if we're in DELETING state */
++		WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
++		return;
++	}
++
+ 	ctrl->ctrl.nr_reconnects = 0;
+ 
+ 	nvme_start_ctrl(&ctrl->ctrl);
 -- 
 2.7.4
