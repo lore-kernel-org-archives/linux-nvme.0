@@ -1,31 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 21 Sep 2017 07:16:15 +0200
-Subject: [PATCH v3 1/3] nvme_fc: create fc class and transport device
-In-Reply-To: <20170920175018.GA8962@infradead.org>
-References: <20170914173843.3195-1-jsmart2021@gmail.com>
- <20170914173843.3195-2-jsmart2021@gmail.com>
- <20170918161330.GC310@infradead.org>
- <20170920103041.idkzk5kerewgv5yk@linux-x5ow.site>
- <20170920175018.GA8962@infradead.org>
-Message-ID: <20170921051615.6fnmqktvuoi4smyr@linux-x5ow.site>
+Date: Thu, 21 Sep 2017 07:19:15 +0200
+Subject: [PATCH] nvme: make controller 'state' sysfs attribute pollable
+In-Reply-To: <20170920145931.GA5208@lst.de>
+References: <20170920104032.14014-1-jthumshirn@suse.de>
+ <20170920145931.GA5208@lst.de>
+Message-ID: <20170921051915.cfj2j5vu4bjqn5za@linux-x5ow.site>
 
-On Wed, Sep 20, 2017@10:50:18AM -0700, Christoph Hellwig wrote:
-> On Wed, Sep 20, 2017@12:30:41PM +0200, Johannes Thumshirn wrote:
-> > the problem with libfc currently is it is made for fcoe, despite being named
-> > libfc.
+On Wed, Sep 20, 2017@04:59:31PM +0200, Christoph Hellwig wrote:
+> On Wed, Sep 20, 2017@12:40:32PM +0200, Johannes Thumshirn wrote:
+> > Notify sysfs about changes of a nvme controller so user-space can watch the
+> > file via poll() or select() in order to react to a state change.
 > 
-> Well, that's my point - we should be able to use more bits in a common
-> FC layer.  I don't really care about the exact name.
+> Userspace has no business polling for the state.
 
-Yes, that's on my long term TODO list, getting rid of the SKBs used internally
-so ibmvfc can be switched over, allow the setting of the NVMe Type code (or
-even arbitrary typecodes) yada, yada.  It'll benefit fnic, bnx2fc and qedfc as
-well, but I haven't been able to do much in this regard. Hannes and I have
-internal patchsets flying around solving the fist little bits for it but
-they're far from completion.
-
-Byte,
-	Johannes
+So why exposing it then in the first time? I know you don't want dm-mpath in
+NVMe (neither do I) but we have to have something until your patchset and ANA
+is merged. And with this patch it's trivial to build a path checker that just
+looks at the state attribute in sysfs.
 
 -- 
 Johannes Thumshirn                                          Storage
