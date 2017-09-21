@@ -1,30 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 21 Sep 2017 07:23:45 +0200
-Subject: nvme multipath support V2
-In-Reply-To: <20170920145546.GB4709@lst.de>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
- <20170920145546.GB4709@lst.de>
-Message-ID: <20170921052345.pj5ymmqsfmckas2b@linux-x5ow.site>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Thu, 21 Sep 2017 20:47:10 +0800
+Subject: [PATCH] nvme: make controller 'state' sysfs attribute pollable
+In-Reply-To: <20170920145931.GA5208@lst.de>
+References: <20170920104032.14014-1-jthumshirn@suse.de>
+ <20170920145931.GA5208@lst.de>
+Message-ID: <82f50ba2-a9c6-256f-5fd3-f515592c4fa7@huawei.com>
 
-On Wed, Sep 20, 2017@04:55:46PM +0200, Christoph Hellwig wrote:
-> On Wed, Sep 20, 2017@01:09:59PM +0200, Johannes Thumshirn wrote:
-> > Using your patchset and doing the sanme double connect trick I get the same
-> > two block devices of cause.
-> > 
-> > How do I connect using both paths?
+
+
+On 2017/9/20 22:59, Christoph Hellwig wrote:
+> On Wed, Sep 20, 2017@12:40:32PM +0200, Johannes Thumshirn wrote:
+>> Notify sysfs about changes of a nvme controller so user-space can watch the
+>> file via poll() or select() in order to react to a state change.
 > 
-> Same as above.  But now in addition to the /dev/nvmeXnY devices you
-> should also see a /dev/nvme/nsZ device.  The sysfs entry for it shows
-> which paths it belongs to.
+> Userspace has no business polling for the state.
+> 
 
-Ah OK, we maybe should update nvme-cli to recognize it as well then. I just
-looked at the output of nvme list and obviously didn't find it.
+Please consider this patch. At least upstream multipath-tools is using the sysfs state now:
+[1] https://git.opensvc.com/gitweb.cgi?p=multipath-tools/.git;a=commitdiff;h=29c3b0446c4d919859f9e87b291563d483aab594
+[2] https://git.opensvc.com/gitweb.cgi?p=multipath-tools/.git;a=commitdiff;h=d2561442cc0b444e8a728bac2c1466468816ee9d
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> 
+> 
