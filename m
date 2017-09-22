@@ -1,48 +1,48 @@
-From: yyt168@gmail.com (Tony Yang)
-Date: Fri, 22 Sep 2017 08:21:09 +0800
-Subject: nvme multipath support V2
-In-Reply-To: <20170921145002.GA18634@lst.de>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
- <20170920145546.GB4709@lst.de>
- <20170921052345.pj5ymmqsfmckas2b@linux-x5ow.site>
- <20170921145002.GA18634@lst.de>
-Message-ID: <CADL4p-qh=2KKc3FC_d8hBd7V5bnHeDF0fbXdQOpv2Xfy28wR9Q@mail.gmail.com>
+From: richard.weinberger@gmail.com (Richard Weinberger)
+Date: Fri, 22 Sep 2017 14:12:30 +0200
+Subject: [PATCH] nvme_fc: fix iowait hang
+In-Reply-To: <20170920221623.2509-1-jsmart2021@gmail.com>
+References: <20170920221623.2509-1-jsmart2021@gmail.com>
+Message-ID: <CAFLxGvzncizyq1K+qkRrCRD184X4KXtPNbR_4P6GVX=nzRTx2w@mail.gmail.com>
 
-Excuse me,
-   ask an junior question, how can you complete the nvme mpath package
-clone, I use git clone, after completion, found no nvme directory.
+On Thu, Sep 21, 2017@12:16 AM, James Smart <jsmart2021@gmail.com> wrote:
+> Add missing iowait head initialization.
+> Fix irqsave vs irq
 
+Please explain why _irqsave is the wrong spinlock variant.
+You know why, I know why, but not all of us do. ;-)
 
-[root at scst1 soft]#  git clone
-git://git.infradead.org/users/hch/block.git nvme-mpath
-Cloning into 'nvme-mpath'...
-remote: Counting objects: 5623436, done.
-remote: Compressing objects: 100% (922468/922468), done.
-remote: Total 5623436 (delta 4757577), reused 5524606 (delta 4658819)
-Receiving objects: 100% (5623436/5623436), 1.12 GiB | 3.17 MiB/s, done.
-Resolving deltas: 100% (4757577/4757577), done.
-Checking out files: 100% (50795/50795), done.
-
-
-[root at scst1 drivers]# pwd
-/u01/soft/nvme-mpath/drivers
-
-[root at scst1 drivers]# ls nvme
-ls: cannot access nvme: No such file or directory
-
-Thanks
-
-2017-09-21 22:50 GMT+08:00 Christoph Hellwig <hch at lst.de>:
-> On Thu, Sep 21, 2017@07:23:45AM +0200, Johannes Thumshirn wrote:
->> Ah OK, we maybe should update nvme-cli to recognize it as well then. I just
->> looked at the output of nvme list and obviously didn't find it.
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+>  drivers/nvme/host/fc.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> Overloading the new per-subsystem nodes into nvme list would be
-> very confusing I think.  We could add a new command to list subsystems
-> instead of controllers, if just doing a ls in /dev or sysfs is too hard.
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index af075e998944..8182b1999f49 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2545,10 +2545,10 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+>         nvme_fc_abort_aen_ops(ctrl);
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>         /* wait for all io that had to be aborted */
+> -       spin_lock_irqsave(&ctrl->lock, flags);
+> +       spin_lock_irq(&ctrl->lock);
+>         wait_event_lock_irq(ctrl->ioabort_wait, ctrl->iocnt == 0, ctrl->lock);
+>         ctrl->flags &= ~FCCTRL_TERMIO;
+> -       spin_unlock_irqrestore(&ctrl->lock, flags);
+> +       spin_unlock_irq(&ctrl->lock);
+>
+>         nvme_fc_term_aen_ops(ctrl);
+>
+> @@ -2760,6 +2760,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+>         ctrl->rport = rport;
+>         ctrl->dev = lport->dev;
+>         ctrl->cnum = idx;
+> +       init_waitqueue_head(&ctrl->ioabort_wait);
+>
+>         get_device(ctrl->dev);
+>         kref_init(&ctrl->ref);
+
+-- 
+Thanks,
+//richard
