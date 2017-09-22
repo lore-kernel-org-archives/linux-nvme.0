@@ -1,53 +1,42 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Sep 2017 11:09:16 -0400
-Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170918231453.27128-10-hch@lst.de>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-10-hch@lst.de>
-Message-ID: <20170922150915.GA1294@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 22 Sep 2017 10:55:37 -0700
+Subject: [GIT PULL] another set of nvme fixes for 4.14-rc2
+Message-ID: <20170922175537.z5gvxcbckoli6vn5@infradead.org>
 
-On Mon, Sep 18, 2017@04:14:53PM -0700, Christoph Hellwig wrote:
-> +static void nvme_failover_req(struct request *req)
-> +{
-> +	struct nvme_ns *ns = req->q->queuedata;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-> +	blk_steal_bios(&ns->head->requeue_list, req);
-> +	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-> +
-> +	nvme_reset_ctrl(ns->ctrl);
-> +	kblockd_schedule_work(&ns->head->requeue_work);
-> +}
+The fix for the target sqhdr fix is the critical one that we really want
+before -rc2.  But we've also accumulated a fair batch of small FC and
+RDMA fixes as well.
 
-Need to call blk_mq_free_req after stealing all its bios to prevent
-leaking that entered request.
 
-All together, I needed just two small changes to the entire series to
-get everything testing successfully. Here's the diff on top of your set:
+The following changes since commit cd9e0a08e4f6173f9d7a469cabd09938fc4f0e25:
 
----
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5449c83..55620ba 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -115,6 +115,8 @@ static void nvme_failover_req(struct request *req)
- 	blk_steal_bios(&ns->head->requeue_list, req);
- 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
- 
-+	blk_mq_free_request(req);
-+
- 	nvme_reset_ctrl(ns->ctrl);
- 	kblockd_schedule_work(&ns->head->requeue_work);
- }
-@@ -1935,6 +1937,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
- 	struct nvme_subsystem *subsys, *found;
- 
-+	if (ctrl->identified)
-+		return 0;
-+
- 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
- 	if (!subsys)
- 		return -ENOMEM;
---
+  block: fix a crash caused by wrong API (2017-09-21 13:20:40 -0600)
+
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.14
+
+for you to fetch changes up to 4384e7ae7686aa914ee4f163be1790d03e2e8f28:
+
+  nvme-fcloop: fix port deletes and callbacks (2017-09-22 07:27:08 -0700)
+
+----------------------------------------------------------------
+James Smart (5):
+      nvme: fix sqhd reference when admin queue connect fails
+      nvmet-fc: on port remove call put outside lock
+      nvmet-fc: ensure target queue id within range.
+      nvmet-fc: sync header templates with comments
+      nvme-fcloop: fix port deletes and callbacks
+
+Sagi Grimberg (3):
+      nvme-core: Use nvme_wq to queue async events and fw activation
+      nvme-rdma: give up reconnect if state change fails
+      nvme-rdma: don't fully stop the controller in error recovery
+
+ drivers/nvme/host/core.c       |   4 +-
+ drivers/nvme/host/rdma.c       |   9 +++-
+ drivers/nvme/target/core.c     |   3 +-
+ drivers/nvme/target/fc.c       |   9 +++-
+ drivers/nvme/target/fcloop.c   | 102 +++++++++++++++--------------------------
+ include/linux/nvme-fc-driver.h |  13 ++++--
+ 6 files changed, 65 insertions(+), 75 deletions(-)
