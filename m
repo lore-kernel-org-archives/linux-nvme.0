@@ -1,53 +1,48 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Sep 2017 18:52:19 -0400
-Subject: [PATCH 6/9] nvme: track subsystems
-In-Reply-To: <20170918231453.27128-7-hch@lst.de>
+From: yyt168@gmail.com (Tony Yang)
+Date: Fri, 22 Sep 2017 08:21:09 +0800
+Subject: nvme multipath support V2
+In-Reply-To: <20170921145002.GA18634@lst.de>
 References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-7-hch@lst.de>
-Message-ID: <20170921225218.GA4375@localhost.localdomain>
+ <20170920110959.hwvujtis6ywnbb5p@linux-x5ow.site>
+ <20170920145546.GB4709@lst.de>
+ <20170921052345.pj5ymmqsfmckas2b@linux-x5ow.site>
+ <20170921145002.GA18634@lst.de>
+Message-ID: <CADL4p-qh=2KKc3FC_d8hBd7V5bnHeDF0fbXdQOpv2Xfy28wR9Q@mail.gmail.com>
 
-On Mon, Sep 18, 2017@04:14:50PM -0700, Christoph Hellwig wrote:
-> +static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-> +{
-> +	struct nvme_subsystem *subsys, *found;
-> +
-> +	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
-> +	if (!subsys)
-> +		return -ENOMEM;
-> +	INIT_LIST_HEAD(&subsys->ctrls);
-> +	kref_init(&subsys->ref);
-> +	nvme_init_subnqn(subsys, ctrl, id);
-> +	mutex_init(&subsys->lock);
-> +
-> +	mutex_lock(&nvme_subsystems_lock);
-> +	found = __nvme_find_get_subsystem(subsys->subnqn);
-> +	if (found) {
-> +		/*
-> +		 * Verify that the subsystem actually supports multiple
-> +		 * controllers, else bail out.
-> +		 */
-> +		kfree(subsys);
-> +		if (!(id->cmic & (1 << 1))) {
-> +			dev_err(ctrl->device,
-> +				"ignoring ctrl due to duplicate subnqn (%s).\n",
-> +				found->subnqn);
-> +			mutex_unlock(&nvme_subsystems_lock);
-> +			return -EINVAL;
-> +		}
-> +
-> +		subsys = found;
-> +	} else {
-> +		list_add_tail(&subsys->entry, &nvme_subsystems);
-> +	}
-> +
-> +	ctrl->subsys = subsys;
-> +	mutex_unlock(&nvme_subsystems_lock);
-> +
-> +	mutex_lock(&subsys->lock);
-> +	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
-> +	mutex_unlock(&subsys->lock);
+Excuse me,
+   ask an junior question, how can you complete the nvme mpath package
+clone, I use git clone, after completion, found no nvme directory.
 
-This function is called every time nvme_init_identify is called, which
-happens on every controller reset. The controller reset does not remove
-itself from the subsystem list of controllers, so its entry is getting
-doubly added after a controller reset.
+
+[root at scst1 soft]#  git clone
+git://git.infradead.org/users/hch/block.git nvme-mpath
+Cloning into 'nvme-mpath'...
+remote: Counting objects: 5623436, done.
+remote: Compressing objects: 100% (922468/922468), done.
+remote: Total 5623436 (delta 4757577), reused 5524606 (delta 4658819)
+Receiving objects: 100% (5623436/5623436), 1.12 GiB | 3.17 MiB/s, done.
+Resolving deltas: 100% (4757577/4757577), done.
+Checking out files: 100% (50795/50795), done.
+
+
+[root at scst1 drivers]# pwd
+/u01/soft/nvme-mpath/drivers
+
+[root at scst1 drivers]# ls nvme
+ls: cannot access nvme: No such file or directory
+
+Thanks
+
+2017-09-21 22:50 GMT+08:00 Christoph Hellwig <hch at lst.de>:
+> On Thu, Sep 21, 2017@07:23:45AM +0200, Johannes Thumshirn wrote:
+>> Ah OK, we maybe should update nvme-cli to recognize it as well then. I just
+>> looked at the output of nvme list and obviously didn't find it.
+>
+> Overloading the new per-subsystem nodes into nvme list would be
+> very confusing I think.  We could add a new command to list subsystems
+> instead of controllers, if just doing a ls in /dev or sysfs is too hard.
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
