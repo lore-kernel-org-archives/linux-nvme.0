@@ -1,48 +1,53 @@
-From: richard.weinberger@gmail.com (Richard Weinberger)
-Date: Fri, 22 Sep 2017 14:12:30 +0200
-Subject: [PATCH] nvme_fc: fix iowait hang
-In-Reply-To: <20170920221623.2509-1-jsmart2021@gmail.com>
-References: <20170920221623.2509-1-jsmart2021@gmail.com>
-Message-ID: <CAFLxGvzncizyq1K+qkRrCRD184X4KXtPNbR_4P6GVX=nzRTx2w@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 22 Sep 2017 11:09:16 -0400
+Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170918231453.27128-10-hch@lst.de>
+References: <20170918231453.27128-1-hch@lst.de>
+ <20170918231453.27128-10-hch@lst.de>
+Message-ID: <20170922150915.GA1294@localhost.localdomain>
 
-On Thu, Sep 21, 2017@12:16 AM, James Smart <jsmart2021@gmail.com> wrote:
-> Add missing iowait head initialization.
-> Fix irqsave vs irq
+On Mon, Sep 18, 2017@04:14:53PM -0700, Christoph Hellwig wrote:
+> +static void nvme_failover_req(struct request *req)
+> +{
+> +	struct nvme_ns *ns = req->q->queuedata;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+> +	blk_steal_bios(&ns->head->requeue_list, req);
+> +	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+> +
+> +	nvme_reset_ctrl(ns->ctrl);
+> +	kblockd_schedule_work(&ns->head->requeue_work);
+> +}
 
-Please explain why _irqsave is the wrong spinlock variant.
-You know why, I know why, but not all of us do. ;-)
+Need to call blk_mq_free_req after stealing all its bios to prevent
+leaking that entered request.
 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
->  drivers/nvme/host/fc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index af075e998944..8182b1999f49 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2545,10 +2545,10 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
->         nvme_fc_abort_aen_ops(ctrl);
->
->         /* wait for all io that had to be aborted */
-> -       spin_lock_irqsave(&ctrl->lock, flags);
-> +       spin_lock_irq(&ctrl->lock);
->         wait_event_lock_irq(ctrl->ioabort_wait, ctrl->iocnt == 0, ctrl->lock);
->         ctrl->flags &= ~FCCTRL_TERMIO;
-> -       spin_unlock_irqrestore(&ctrl->lock, flags);
-> +       spin_unlock_irq(&ctrl->lock);
->
->         nvme_fc_term_aen_ops(ctrl);
->
-> @@ -2760,6 +2760,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
->         ctrl->rport = rport;
->         ctrl->dev = lport->dev;
->         ctrl->cnum = idx;
-> +       init_waitqueue_head(&ctrl->ioabort_wait);
->
->         get_device(ctrl->dev);
->         kref_init(&ctrl->ref);
+All together, I needed just two small changes to the entire series to
+get everything testing successfully. Here's the diff on top of your set:
 
--- 
-Thanks,
-//richard
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5449c83..55620ba 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -115,6 +115,8 @@ static void nvme_failover_req(struct request *req)
+ 	blk_steal_bios(&ns->head->requeue_list, req);
+ 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+ 
++	blk_mq_free_request(req);
++
+ 	nvme_reset_ctrl(ns->ctrl);
+ 	kblockd_schedule_work(&ns->head->requeue_work);
+ }
+@@ -1935,6 +1937,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ {
+ 	struct nvme_subsystem *subsys, *found;
+ 
++	if (ctrl->identified)
++		return 0;
++
+ 	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+ 	if (!subsys)
+ 		return -ENOMEM;
+--
