@@ -1,42 +1,92 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 22 Sep 2017 12:33:18 -0600
-Subject: [GIT PULL] another set of nvme fixes for 4.14-rc2
-In-Reply-To: <20170922175537.z5gvxcbckoli6vn5@infradead.org>
-References: <20170922175537.z5gvxcbckoli6vn5@infradead.org>
-Message-ID: <ca4e3765-6d56-b963-3525-a1a67a0769fd@kernel.dk>
+From: jeff.lien@wdc.com (jeffreyalien)
+Date: Fri, 22 Sep 2017 16:51:45 -0500
+Subject: [PATCH 1/2] nvme-cli : Add Namespace Rescan Command
+Message-ID: <1506117105-21330-1-git-send-email-jeff.lien@wdc.com>
 
-On 09/22/2017 11:55 AM, Christoph Hellwig wrote:
-> The fix for the target sqhdr fix is the critical one that we really want
-> before -rc2.  But we've also accumulated a fair batch of small FC and
-> RDMA fixes as well.
-> 
-> 
-> The following changes since commit cd9e0a08e4f6173f9d7a469cabd09938fc4f0e25:
-> 
->   block: fix a crash caused by wrong API (2017-09-21 13:20:40 -0600)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.14
-> 
-> for you to fetch changes up to 4384e7ae7686aa914ee4f163be1790d03e2e8f28:
-> 
->   nvme-fcloop: fix port deletes and callbacks (2017-09-22 07:27:08 -0700)
-> 
-> ----------------------------------------------------------------
-> James Smart (5):
->       nvme: fix sqhd reference when admin queue connect fails
->       nvmet-fc: on port remove call put outside lock
->       nvmet-fc: ensure target queue id within range.
->       nvmet-fc: sync header templates with comments
->       nvme-fcloop: fix port deletes and callbacks
-> 
-> Sagi Grimberg (3):
->       nvme-core: Use nvme_wq to queue async events and fw activation
->       nvme-rdma: give up reconnect if state change fails
->       nvme-rdma: don't fully stop the controller in error recovery
+Signed-off-by: jeffreyalien <jeff.lien at wdc.com>
+---
+ nvme-builtin.h |  1 +
+ nvme-ioctl.c   | 10 ++++++++++
+ nvme-ioctl.h   |  1 +
+ nvme.c         | 21 +++++++++++++++++++++
+ 4 files changed, 33 insertions(+)
 
-Pulled, thanks.
-
+diff --git a/nvme-builtin.h b/nvme-builtin.h
+index b24c25b..a96d42e 100644
+--- a/nvme-builtin.h
++++ b/nvme-builtin.h
+@@ -46,6 +46,7 @@ COMMAND_LIST(
+ 	ENTRY("sanitize-log", "Retrive sanitize log, show it", sanitize_log)
+ 	ENTRY("reset", "Resets the controller", reset)
+ 	ENTRY("subsystem-reset", "Resets the controller", subsystem_reset)
++	ENTRY("ns-rescan", "Rescans the NVME namespaces", ns_rescan)
+ 	ENTRY("show-regs", "Shows the controller registers. Requires admin character device", show_registers)
+ 	ENTRY("discover", "Discover NVMeoF subsystems", discover_cmd)
+ 	ENTRY("connect-all", "Discover and Connect to NVMeoF subsystems", connect_all_cmd)
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index 52243fa..1843faf 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -58,6 +58,16 @@ int nvme_reset_controller(int fd)
+ 	return ioctl(fd, NVME_IOCTL_RESET);
+ }
+ 
++int nvme_ns_rescan(int fd)
++{
++	int ret;
++
++	ret = nvme_verify_chr(fd);
++	if (ret)
++		return ret;
++	return ioctl(fd, NVME_IOCTL_RESCAN);
++}
++
+ int nvme_get_nsid(int fd)
+ {
+ 	static struct stat nvme_stat;
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index 4aee90a..6b3e0b4 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -115,6 +115,7 @@ int nvme_sec_recv(int fd, __u32 nsid, __u8 nssf, __u16 spsp,
+ 
+ int nvme_subsystem_reset(int fd);
+ int nvme_reset_controller(int fd);
++int nvme_ns_rescan(int fd);
+ 
+ int nvme_dir_send(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
+ 		  __u32 data_len, __u32 dw12, void *data, __u32 *result);
+diff --git a/nvme.c b/nvme.c
+index d495cbb..6ff5002 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1501,6 +1501,27 @@ static int reset(int argc, char **argv, struct command *cmd, struct plugin *plug
+ 	return err;
+ }
+ 
++static int ns_rescan(int argc, char **argv, struct command *cmd, struct plugin *plugin)
++{
++	const char *desc = "Rescans the NVMe namespaces\n";
++	int err, fd;
++
++	const struct argconfig_commandline_options command_line_options[] = {
++		{NULL}
++	};
++
++	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
++	err = nvme_ns_rescan(fd);
++	if (err < 0) {
++		perror("Namespace Rescan");
++		return errno;
++	}
++	return err;
++}
++
+ static int sanitize(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+ 	char *desc = "Send a sanitize command.";
 -- 
-Jens Axboe
+1.8.3.1
