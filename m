@@ -1,32 +1,40 @@
-From: rdunlap@infradead.org (Randy Dunlap)
-Date: Fri, 22 Sep 2017 18:04:43 -0700
-Subject: [PATCH] nvme: use menu Kconfig interface
-Message-ID: <1c39a10d-6782-3737-80f7-e29fe0d12980@infradead.org>
+From: jsmart2021@gmail.com (James Smart)
+Date: Sat, 23 Sep 2017 09:41:12 -0700
+Subject: [PATCH v2] nvme_fc: fix iowait hang
+Message-ID: <20170923164112.10753-1-jsmart2021@gmail.com>
 
-From: Randy Dunlap <rdunlap@infradead.org>
+Add missing iowait head initialization.
+Fix irqsave vs irq: wait_event_lock_irq() doesn't do irq save/restore
 
-Add a menu interface for NVME host and target support so that it is
-presented to users more like other Kconfig symbols.
-This makes the Device Driver menu less cluttered (easier to read)
-and keeps all of these symbols grouped together.
-
-Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
-Cc: Jay Sternberg <jay.e.sternberg at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: linux-nvme at lists.infradead.org
+Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/Kconfig |    4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvme/host/fc.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---- lnx-414-rc1.orig/drivers/nvme/Kconfig
-+++ lnx-414-rc1/drivers/nvme/Kconfig
-@@ -1,2 +1,6 @@
-+menu "NVME Support"
-+
- source "drivers/nvme/host/Kconfig"
- source "drivers/nvme/target/Kconfig"
-+
-+endmenu
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index af075e998944..8182b1999f49 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2545,10 +2545,10 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	nvme_fc_abort_aen_ops(ctrl);
+ 
+ 	/* wait for all io that had to be aborted */
+-	spin_lock_irqsave(&ctrl->lock, flags);
++	spin_lock_irq(&ctrl->lock);
+ 	wait_event_lock_irq(ctrl->ioabort_wait, ctrl->iocnt == 0, ctrl->lock);
+ 	ctrl->flags &= ~FCCTRL_TERMIO;
+-	spin_unlock_irqrestore(&ctrl->lock, flags);
++	spin_unlock_irq(&ctrl->lock);
+ 
+ 	nvme_fc_term_aen_ops(ctrl);
+ 
+@@ -2760,6 +2760,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	ctrl->rport = rport;
+ 	ctrl->dev = lport->dev;
+ 	ctrl->cnum = idx;
++	init_waitqueue_head(&ctrl->ioabort_wait);
+ 
+ 	get_device(ctrl->dev);
+ 	kref_init(&ctrl->ref);
+-- 
+2.13.1
