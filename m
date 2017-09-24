@@ -1,21 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 24 Sep 2017 16:53:41 +0200
-Subject: [PATCH v2] nvme-fabrics: request transport module
-In-Reply-To: <892afcbe-b947-af99-c640-58e84f26493d@wdc.com>
-References: <1506258955-18109-1-git-send-email-sagi@grimberg.me>
- <892afcbe-b947-af99-c640-58e84f26493d@wdc.com>
-Message-ID: <20170924145341.GA14806@lst.de>
+Date: Sun, 24 Sep 2017 16:56:05 +0200
+Subject: [PATCH rfc] nvme-cli: NVMf auto discovery systemd service
+In-Reply-To: <1506258095-15916-1-git-send-email-sagi@grimberg.me>
+References: <1506258095-15916-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170924145605.GB14806@lst.de>
 
-On Sun, Sep 24, 2017@04:33:14PM +0200, Damien Le Moal wrote:
-> > Help userspace to not make sure transport module is
-> > loaded.
-> > 
-> > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> 
-> Shouldn't this read "Help userspace to make sure transport module is
-> loaded." ?
-> Extra "not"...
+This looks reasoanable to me, although I'm really not the expert
+for systemd stuff.
 
-It should.  Be except for that typo the patch looks good to me:
+Does it handle the case where /etc/nvme/discovery.conf is non-existent
+(yes, you created in the specfile, but not everyone uses rpms).
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+> We can also add some documentation into discovery.conf to help
+> the user add discovery endpoints.
+
+That would be great for the default one, e.g. some example RDMA
+and FC configfs.
