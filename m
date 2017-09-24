@@ -1,33 +1,22 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 24 Sep 2017 16:15:55 +0300
+From: damien.lemoal@wdc.com (Damien Le Moal)
+Date: Sun, 24 Sep 2017 16:33:14 +0200
 Subject: [PATCH v2] nvme-fabrics: request transport module
-Message-ID: <1506258955-18109-1-git-send-email-sagi@grimberg.me>
+In-Reply-To: <1506258955-18109-1-git-send-email-sagi@grimberg.me>
+References: <1506258955-18109-1-git-send-email-sagi@grimberg.me>
+Message-ID: <892afcbe-b947-af99-c640-58e84f26493d@wdc.com>
 
-Help userspace to not make sure transport module is
-loaded.
+Sagi,
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v1:
-- got rid of redundant module name resolution code and ignore request_module
-  retcode
+On 9/24/17 15:15, Sagi Grimberg wrote:
+> Help userspace to not make sure transport module is
+> loaded.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
- drivers/nvme/host/fabrics.c | 3 +++
- 1 file changed, 3 insertions(+)
+Shouldn't this read "Help userspace to make sure transport module is
+loaded." ?
+Extra "not"...
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 6d68738f01ea..ef38552911d4 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -945,6 +945,9 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 	if (ret)
- 		goto out_free_opts;
- 
-+
-+	request_module("nvme-%s", opts->transport);
-+
- 	/*
- 	 * Check the generic options first as we need a valid transport for
- 	 * the lookup below.  Then clear the generic flags so that transport
 -- 
-2.7.4
+Damien Le Moal
+Western Digital Research
