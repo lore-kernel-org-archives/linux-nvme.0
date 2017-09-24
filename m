@@ -1,30 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 24 Sep 2017 16:48:31 +0200
-Subject: [PATCH 9/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170922150915.GA1294@localhost.localdomain>
-References: <20170918231453.27128-1-hch@lst.de>
- <20170918231453.27128-10-hch@lst.de>
- <20170922150915.GA1294@localhost.localdomain>
-Message-ID: <20170924144831.GC13681@lst.de>
+Date: Sun, 24 Sep 2017 16:53:41 +0200
+Subject: [PATCH v2] nvme-fabrics: request transport module
+In-Reply-To: <892afcbe-b947-af99-c640-58e84f26493d@wdc.com>
+References: <1506258955-18109-1-git-send-email-sagi@grimberg.me>
+ <892afcbe-b947-af99-c640-58e84f26493d@wdc.com>
+Message-ID: <20170924145341.GA14806@lst.de>
 
-On Fri, Sep 22, 2017@11:09:16AM -0400, Keith Busch wrote:
-> On Mon, Sep 18, 2017@04:14:53PM -0700, Christoph Hellwig wrote:
-> > +static void nvme_failover_req(struct request *req)
-> > +{
-> > +	struct nvme_ns *ns = req->q->queuedata;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-> > +	blk_steal_bios(&ns->head->requeue_list, req);
-> > +	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-> > +
-> > +	nvme_reset_ctrl(ns->ctrl);
-> > +	kblockd_schedule_work(&ns->head->requeue_work);
-> > +}
+On Sun, Sep 24, 2017@04:33:14PM +0200, Damien Le Moal wrote:
+> > Help userspace to not make sure transport module is
+> > loaded.
+> > 
+> > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > 
-> Need to call blk_mq_free_req after stealing all its bios to prevent
-> leaking that entered request.
+> Shouldn't this read "Help userspace to make sure transport module is
+> loaded." ?
+> Extra "not"...
 
-I think this should be a blk_mq_end_request actually.  The difference
-is that blk_mq_end_request will get the I/O accounting right, and
-treats the case of having and ->end_io handler correctly as well.
+It should.  Be except for that typo the patch looks good to me:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
