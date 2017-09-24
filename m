@@ -1,18 +1,33 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 24 Sep 2017 15:04:46 +0200
-Subject: [PATCH rfc] nvme-fabrics: request transport module
-In-Reply-To: <74246ccf-53e3-7956-3117-16e44f2f8793@grimberg.me>
-References: <1506257125-15257-1-git-send-email-sagi@grimberg.me>
- <20170924125507.GA11632@infradead.org>
- <74246ccf-53e3-7956-3117-16e44f2f8793@grimberg.me>
-Message-ID: <20170924130446.GA7373@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 24 Sep 2017 16:15:55 +0300
+Subject: [PATCH v2] nvme-fabrics: request transport module
+Message-ID: <1506258955-18109-1-git-send-email-sagi@grimberg.me>
 
-On Sun, Sep 24, 2017@04:03:55PM +0300, Sagi Grimberg wrote:
->> Also if I remember correctly request_module returns an error if the
->> driver is built-in, thus most callers either don't check the return
->> value or just print a warning (I personally hate the warning, so I think
->> we should just do the simple request_module call).
->
-> So skip the return value altogether? I don't mind that...
+Help userspace to not make sure transport module is
+loaded.
 
-Yes.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v1:
+- got rid of redundant module name resolution code and ignore request_module
+  retcode
+
+ drivers/nvme/host/fabrics.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 6d68738f01ea..ef38552911d4 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -945,6 +945,9 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 	if (ret)
+ 		goto out_free_opts;
+ 
++
++	request_module("nvme-%s", opts->transport);
++
+ 	/*
+ 	 * Check the generic options first as we need a valid transport for
+ 	 * the lookup below.  Then clear the generic flags so that transport
+-- 
+2.7.4
