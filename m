@@ -1,13 +1,12 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 25 Sep 2017 10:45:35 -0400
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 25 Sep 2017 17:07:20 +0200
 Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
 In-Reply-To: <55a10165-ac3c-f808-b031-6d907c314c30@suse.de>
 References: <20170925134031.10548-1-hch@lst.de>
  <20170925134031.10548-9-hch@lst.de>
- <1fb2f077-151a-b02f-2bf5-329ef5951a68@suse.de>
- <20170925135007.GA9725@lst.de>
+ <1fb2f077-151a-b02f-2bf5-329ef5951a68@suse.de> <20170925135007.GA9725@lst.de>
  <55a10165-ac3c-f808-b031-6d907c314c30@suse.de>
-Message-ID: <20170925144535.GB6331@localhost.localdomain>
+Message-ID: <20170925150720.GA11055@lst.de>
 
 On Mon, Sep 25, 2017@04:05:17PM +0200, Hannes Reinecke wrote:
 > On 09/25/2017 03:50 PM, Christoph Hellwig wrote:
@@ -23,9 +22,6 @@ On Mon, Sep 25, 2017@04:05:17PM +0200, Hannes Reinecke wrote:
 > Care to give some specifics?
 > How would userspace passthrough be affected?
 
-Ioctls aside, if you've only one disk handle, it's a little difficult to
-compare iostats on each path, which can be useful for diagnosing issues.
-
-> I would've thought that we're sending the ioctl down one path, and we'd
-> be getting the completion back on the same path/queue/whatever.
-> (Unless we're talking multi-command ioctls, but those are evil anyway)
+Because specific commands will have to go to the right controller and
+not just any avaiable controller.  If we only expose a single node
+for multipath there is no way to chose the specific one.
