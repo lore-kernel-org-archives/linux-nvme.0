@@ -1,354 +1,248 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 25 Sep 2017 15:40:27 +0200
-Subject: [PATCH 5/9] nvme: track subsystems
+Date: Mon, 25 Sep 2017 15:40:28 +0200
+Subject: [PATCH 6/9] nvme: introduce a nvme_ns_ids structure
 In-Reply-To: <20170925134031.10548-1-hch@lst.de>
 References: <20170925134031.10548-1-hch@lst.de>
-Message-ID: <20170925134031.10548-6-hch@lst.de>
+Message-ID: <20170925134031.10548-7-hch@lst.de>
 
-This adds a new nvme_subsystem structure so that we can track multiple
-controllers that belong to a single subsystem.  For now we only use it
-to store the NQN, and to check that we don't have duplicate NQNs unless
-the involved subsystems support multiple controllers.
+This allows us to manage the various uniqueue namespace identifiers
+together instead needing various variables and arguments.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c    | 153 +++++++++++++++++++++++++++++++++++---------
- drivers/nvme/host/fabrics.c |   4 +-
- drivers/nvme/host/nvme.h    |  20 ++++--
- 3 files changed, 141 insertions(+), 36 deletions(-)
+ drivers/nvme/host/core.c | 69 +++++++++++++++++++++++++++---------------------
+ drivers/nvme/host/nvme.h | 14 +++++++---
+ 2 files changed, 49 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bb2aad078637..15cecb708334 100644
+index 15cecb708334..bcfe8ea1c2bb 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -71,6 +71,9 @@ MODULE_PARM_DESC(streams, "turn on support for Streams write directives");
- struct workqueue_struct *nvme_wq;
- EXPORT_SYMBOL_GPL(nvme_wq);
- 
-+static LIST_HEAD(nvme_subsystems);
-+static DEFINE_MUTEX(nvme_subsystems_lock);
-+
- static LIST_HEAD(nvme_ctrl_list);
- static DEFINE_SPINLOCK(dev_list_lock);
- 
-@@ -1736,14 +1739,15 @@ static bool quirk_matches(const struct nvme_id_ctrl *id,
- 		string_matches(id->fr, q->fr, sizeof(id->fr));
+@@ -781,7 +781,7 @@ static int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
  }
  
--static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-+static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ctrl,
-+		struct nvme_id_ctrl *id)
+ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+-		u8 *eui64, u8 *nguid, uuid_t *uuid)
++		struct nvme_ns_ids *ids)
  {
- 	size_t nqnlen;
- 	int off;
- 
- 	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
- 	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
--		strcpy(ctrl->subnqn, id->subnqn);
-+		strcpy(subsys->subnqn, id->subnqn);
- 		return;
- 	}
- 
-@@ -1751,14 +1755,95 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
- 
- 	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
--	off = snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
-+	off = snprintf(subsys->subnqn, NVMF_NQN_SIZE,
- 			"nqn.2014.08.org.nvmexpress:%4x%4x",
- 			le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
--	memcpy(ctrl->subnqn + off, id->sn, sizeof(id->sn));
-+	memcpy(subsys->subnqn + off, id->sn, sizeof(id->sn));
- 	off += sizeof(id->sn);
--	memcpy(ctrl->subnqn + off, id->mn, sizeof(id->mn));
-+	memcpy(subsys->subnqn + off, id->mn, sizeof(id->mn));
- 	off += sizeof(id->mn);
--	memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
-+	memset(subsys->subnqn + off, 0, sizeof(subsys->subnqn) - off);
-+}
-+
-+static void nvme_free_subsystem(struct kref *ref)
-+{
-+	struct nvme_subsystem *subsys =
-+			container_of(ref, struct nvme_subsystem, ref);
-+
-+	mutex_lock(&nvme_subsystems_lock);
-+	list_del(&subsys->entry);
-+	mutex_unlock(&nvme_subsystems_lock);
-+
-+	kfree(subsys);
-+}
-+
-+static void nvme_put_subsystem(struct nvme_subsystem *subsys)
-+{
-+	kref_put(&subsys->ref, nvme_free_subsystem);
-+}
-+
-+static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
-+{
-+	struct nvme_subsystem *subsys;
-+
-+	lockdep_assert_held(&nvme_subsystems_lock);
-+
-+	list_for_each_entry(subsys, &nvme_subsystems, entry) {
-+		if (strcmp(subsys->subnqn, subsysnqn))
-+			continue;
-+		if (!kref_get_unless_zero(&subsys->ref))
-+			continue;
-+		return subsys;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-+{
-+	struct nvme_subsystem *subsys, *found;
-+
-+	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
-+	if (!subsys)
-+		return -ENOMEM;
-+	INIT_LIST_HEAD(&subsys->ctrls);
-+	kref_init(&subsys->ref);
-+	nvme_init_subnqn(subsys, ctrl, id);
-+	memcpy(subsys->serial, id->sn, sizeof(subsys->serial));
-+	memcpy(subsys->model, id->mn, sizeof(subsys->model));
-+	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
-+	subsys->vendor_id = le16_to_cpu(id->vid);
-+	mutex_init(&subsys->lock);
-+
-+	mutex_lock(&nvme_subsystems_lock);
-+	found = __nvme_find_get_subsystem(subsys->subnqn);
-+	if (found) {
-+		/*
-+		 * Verify that the subsystem actually supports multiple
-+		 * controllers, else bail out.
-+		 */
-+		kfree(subsys);
-+		if (!(id->cmic & (1 << 1))) {
-+			dev_err(ctrl->device,
-+				"ignoring ctrl due to duplicate subnqn (%s).\n",
-+				found->subnqn);
-+			mutex_unlock(&nvme_subsystems_lock);
-+			return -EINVAL;
-+		}
-+
-+		subsys = found;
-+	} else {
-+		list_add_tail(&subsys->entry, &nvme_subsystems);
-+	}
-+
-+	ctrl->subsys = subsys;
-+	mutex_unlock(&nvme_subsystems_lock);
-+
-+	mutex_lock(&subsys->lock);
-+	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
-+	mutex_unlock(&subsys->lock);
-+
-+	return 0;
+ 	struct nvme_command c = { };
+ 	int status;
+@@ -817,7 +817,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+ 				goto free_data;
+ 			}
+ 			len = NVME_NIDT_EUI64_LEN;
+-			memcpy(eui64, data + pos + sizeof(*cur), len);
++			memcpy(ids->eui64, data + pos + sizeof(*cur), len);
+ 			break;
+ 		case NVME_NIDT_NGUID:
+ 			if (cur->nidl != NVME_NIDT_NGUID_LEN) {
+@@ -827,7 +827,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+ 				goto free_data;
+ 			}
+ 			len = NVME_NIDT_NGUID_LEN;
+-			memcpy(nguid, data + pos + sizeof(*cur), len);
++			memcpy(ids->nguid, data + pos + sizeof(*cur), len);
+ 			break;
+ 		case NVME_NIDT_UUID:
+ 			if (cur->nidl != NVME_NIDT_UUID_LEN) {
+@@ -837,7 +837,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+ 				goto free_data;
+ 			}
+ 			len = NVME_NIDT_UUID_LEN;
+-			uuid_copy(uuid, data + pos + sizeof(*cur));
++			uuid_copy(&ids->uuid, data + pos + sizeof(*cur));
+ 			break;
+ 		default:
+ 			/* Skip unnkown types */
+@@ -1178,22 +1178,31 @@ static void nvme_config_discard(struct nvme_ns *ns)
  }
  
- /*
-@@ -1796,9 +1881,13 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		return -EIO;
+ static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
+-		struct nvme_id_ns *id, u8 *eui64, u8 *nguid, uuid_t *uuid)
++		struct nvme_id_ns *id, struct nvme_ns_ids *ids)
+ {
++	memset(ids, 0, sizeof(*ids));
++
+ 	if (ctrl->vs >= NVME_VS(1, 1, 0))
+-		memcpy(eui64, id->eui64, sizeof(id->eui64));
++		memcpy(ids->eui64, id->eui64, sizeof(id->eui64));
+ 	if (ctrl->vs >= NVME_VS(1, 2, 0))
+-		memcpy(nguid, id->nguid, sizeof(id->nguid));
++		memcpy(ids->nguid, id->nguid, sizeof(id->nguid));
+ 	if (ctrl->vs >= NVME_VS(1, 3, 0)) {
+ 		 /* Don't treat error as fatal we potentially
+ 		  * already have a NGUID or EUI-64
+ 		  */
+-		if (nvme_identify_ns_descs(ctrl, nsid, eui64, nguid, uuid))
++		if (nvme_identify_ns_descs(ctrl, nsid, ids))
+ 			dev_warn(ctrl->device,
+ 				 "%s: Identify Descriptors failed\n", __func__);
+ 	}
+ }
+ 
++static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
++{
++	return uuid_equal(&a->uuid, &b->uuid) &&
++		memcmp(&a->nguid, &b->nguid, sizeof(a->nguid)) == 0 &&
++		memcmp(&a->eui64, &b->eui64, sizeof(a->eui64)) == 0;
++}
++
+ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ {
+ 	struct nvme_ns *ns = disk->private_data;
+@@ -1234,8 +1243,7 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	struct nvme_ns *ns = disk->private_data;
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	struct nvme_id_ns *id;
+-	u8 eui64[8] = { 0 }, nguid[16] = { 0 };
+-	uuid_t uuid = uuid_null;
++	struct nvme_ns_ids ids;
+ 	int ret = 0;
+ 
+ 	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
+@@ -1252,10 +1260,8 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 		goto out;
  	}
  
--	nvme_init_subnqn(ctrl, id);
--
- 	if (!ctrl->identified) {
-+		int i;
-+
-+		ret = nvme_init_subsystem(ctrl, id);
-+		if (ret)
-+			goto out_free;
-+
- 		/*
- 		 * Check for quirks.  Quirk can depend on firmware version,
- 		 * so, in principle, the set of quirks present can change
-@@ -1807,9 +1896,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		 * the device, but we'd have to make sure that the driver
- 		 * behaves intelligently if the quirks change.
- 		 */
--
--		int i;
--
- 		for (i = 0; i < ARRAY_SIZE(core_quirks); i++) {
- 			if (quirk_matches(id, &core_quirks[i]))
- 				ctrl->quirks |= core_quirks[i].quirks;
-@@ -1822,14 +1908,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	}
- 
- 	ctrl->oacs = le16_to_cpu(id->oacs);
--	ctrl->vid = le16_to_cpu(id->vid);
- 	ctrl->oncs = le16_to_cpup(&id->oncs);
- 	atomic_set(&ctrl->abort_limit, id->acl + 1);
- 	ctrl->vwc = id->vwc;
- 	ctrl->cntlid = le16_to_cpup(&id->cntlid);
--	memcpy(ctrl->serial, id->sn, sizeof(id->sn));
--	memcpy(ctrl->model, id->mn, sizeof(id->mn));
--	memcpy(ctrl->firmware_rev, id->fr, sizeof(id->fr));
- 	if (id->mdts)
- 		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
- 	else
-@@ -2054,9 +2136,9 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+-	nvme_report_ns_ids(ctrl, ns->ns_id, id, eui64, nguid, &uuid);
+-	if (!uuid_equal(&ns->uuid, &uuid) ||
+-	    memcmp(&ns->nguid, &nguid, sizeof(ns->nguid)) ||
+-	    memcmp(&ns->eui, &eui64, sizeof(ns->eui))) {
++	nvme_report_ns_ids(ctrl, ns->ns_id, id, &ids);
++	if (!nvme_ns_ids_equal(&ns->ids, &ids)) {
+ 		dev_err(ctrl->device,
+ 			"identifiers changed for nsid %d\n", ns->ns_id);
+ 		ret = -ENODEV;
+@@ -2136,18 +2142,19 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
  								char *buf)
  {
  	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	struct nvme_ctrl *ctrl = ns->ctrl;
--	int serial_len = sizeof(ctrl->serial);
--	int model_len = sizeof(ctrl->model);
-+	struct nvme_subsystem *subsys = ns->ctrl->subsys;
-+	int serial_len = sizeof(subsys->serial);
-+	int model_len = sizeof(subsys->model);
++	struct nvme_ns_ids *ids = &ns->ids;
+ 	struct nvme_subsystem *subsys = ns->ctrl->subsys;
+ 	int serial_len = sizeof(subsys->serial);
+ 	int model_len = sizeof(subsys->model);
  
- 	if (!uuid_is_null(&ns->uuid))
- 		return sprintf(buf, "uuid.%pU\n", &ns->uuid);
-@@ -2067,15 +2149,16 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- 	if (memchr_inv(ns->eui, 0, sizeof(ns->eui)))
- 		return sprintf(buf, "eui.%8phN\n", ns->eui);
+-	if (!uuid_is_null(&ns->uuid))
+-		return sprintf(buf, "uuid.%pU\n", &ns->uuid);
++	if (!uuid_is_null(&ids->uuid))
++		return sprintf(buf, "uuid.%pU\n", &ids->uuid);
  
--	while (serial_len > 0 && (ctrl->serial[serial_len - 1] == ' ' ||
--				  ctrl->serial[serial_len - 1] == '\0'))
-+	while (serial_len > 0 && (subsys->serial[serial_len - 1] == ' ' ||
-+				  subsys->serial[serial_len - 1] == '\0'))
- 		serial_len--;
--	while (model_len > 0 && (ctrl->model[model_len - 1] == ' ' ||
--				 ctrl->model[model_len - 1] == '\0'))
-+	while (model_len > 0 && (subsys->model[model_len - 1] == ' ' ||
-+				 subsys->model[model_len - 1] == '\0'))
- 		model_len--;
+-	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
+-		return sprintf(buf, "eui.%16phN\n", ns->nguid);
++	if (memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
++		return sprintf(buf, "eui.%16phN\n", ids->nguid);
  
--	return sprintf(buf, "nvme.%04x-%*phN-%*phN-%08x\n", ctrl->vid,
--		serial_len, ctrl->serial, model_len, ctrl->model, ns->ns_id);
-+	return sprintf(buf, "nvme.%04x-%*phN-%*phN-%08x\n", subsys->vendor_id,
-+		serial_len, subsys->serial, model_len, subsys->model,
-+		ns->ns_id);
- }
- static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
+-	if (memchr_inv(ns->eui, 0, sizeof(ns->eui)))
+-		return sprintf(buf, "eui.%8phN\n", ns->eui);
++	if (memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
++		return sprintf(buf, "eui.%8phN\n", ids->eui64);
  
-@@ -2161,10 +2244,15 @@ static ssize_t  field##_show(struct device *dev,				\
- 			    struct device_attribute *attr, char *buf)		\
- {										\
-         struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
--        return sprintf(buf, "%.*s\n", (int)sizeof(ctrl->field), ctrl->field);	\
-+        return sprintf(buf, "%.*s\n",						\
-+		(int)sizeof(ctrl->subsys->field), ctrl->subsys->field);		\
- }										\
- static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
- 
-+nvme_show_str_function(model);
-+nvme_show_str_function(serial);
-+nvme_show_str_function(firmware_rev);
-+
- #define nvme_show_int_function(field)						\
- static ssize_t  field##_show(struct device *dev,				\
- 			    struct device_attribute *attr, char *buf)		\
-@@ -2174,9 +2262,6 @@ static ssize_t  field##_show(struct device *dev,				\
- }										\
- static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
- 
--nvme_show_str_function(model);
--nvme_show_str_function(serial);
--nvme_show_str_function(firmware_rev);
- nvme_show_int_function(cntlid);
- 
- static ssize_t nvme_sysfs_delete(struct device *dev,
-@@ -2230,7 +2315,7 @@ static ssize_t nvme_sysfs_show_subsysnqn(struct device *dev,
+ 	while (serial_len > 0 && (subsys->serial[serial_len - 1] == ' ' ||
+ 				  subsys->serial[serial_len - 1] == '\0'))
+@@ -2166,7 +2173,7 @@ static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
+ 			  char *buf)
  {
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->subnqn);
-+	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->subsys->subnqn);
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+-	return sprintf(buf, "%pU\n", ns->nguid);
++	return sprintf(buf, "%pU\n", ns->ids.nguid);
  }
- static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
+ static DEVICE_ATTR(nguid, S_IRUGO, nguid_show, NULL);
  
-@@ -2770,12 +2855,22 @@ EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
- static void nvme_free_ctrl(struct kref *kref)
+@@ -2174,16 +2181,17 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+ 								char *buf)
  {
- 	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
-+	struct nvme_subsystem *subsys = ctrl->subsys;
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
++	struct nvme_ns_ids *ids = &ns->ids;
  
- 	put_device(ctrl->device);
- 	nvme_release_instance(ctrl);
- 	ida_destroy(&ctrl->ns_ida);
- 
-+	if (subsys) {
-+		mutex_lock(&subsys->lock);
-+		list_del(&ctrl->subsys_entry);
-+		mutex_unlock(&subsys->lock);
-+	}
-+
- 	ctrl->ops->free_ctrl(ctrl);
-+
-+	if (subsys)
-+		nvme_put_subsystem(subsys);
- }
- 
- void nvme_put_ctrl(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 555c976cc2ee..8744ee38ee3d 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -874,10 +874,10 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		goto out_unlock;
+ 	/* For backward compatibility expose the NGUID to userspace if
+ 	 * we have no UUID set
+ 	 */
+-	if (uuid_is_null(&ns->uuid)) {
++	if (uuid_is_null(&ids->uuid)) {
+ 		printk_ratelimited(KERN_WARNING
+ 				   "No UUID available providing old NGUID\n");
+-		return sprintf(buf, "%pU\n", ns->nguid);
++		return sprintf(buf, "%pU\n", ids->nguid);
  	}
+-	return sprintf(buf, "%pU\n", &ns->uuid);
++	return sprintf(buf, "%pU\n", &ids->uuid);
+ }
+ static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
  
--	if (strcmp(ctrl->subnqn, opts->subsysnqn)) {
-+	if (strcmp(ctrl->subsys->subnqn, opts->subsysnqn)) {
- 		dev_warn(ctrl->device,
- 			"controller returned incorrect NQN: \"%s\".\n",
--			ctrl->subnqn);
-+			ctrl->subsys->subnqn);
- 		up_read(&nvmf_transports_rwsem);
- 		ctrl->ops->delete_ctrl(ctrl);
- 		return ERR_PTR(-EINVAL);
+@@ -2191,7 +2199,7 @@ static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
+ 								char *buf)
+ {
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+-	return sprintf(buf, "%8phd\n", ns->eui);
++	return sprintf(buf, "%8phd\n", ns->ids.eui64);
+ }
+ static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
+ 
+@@ -2217,18 +2225,19 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ {
+ 	struct device *dev = container_of(kobj, struct device, kobj);
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
++	struct nvme_ns_ids *ids = &ns->ids;
+ 
+ 	if (a == &dev_attr_uuid.attr) {
+-		if (uuid_is_null(&ns->uuid) ||
+-		    !memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
++		if (uuid_is_null(&ids->uuid) ||
++		    !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
+ 			return 0;
+ 	}
+ 	if (a == &dev_attr_nguid.attr) {
+-		if (!memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
++		if (!memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
+ 			return 0;
+ 	}
+ 	if (a == &dev_attr_eui.attr) {
+-		if (!memchr_inv(ns->eui, 0, sizeof(ns->eui)))
++		if (!memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
+ 			return 0;
+ 	}
+ 	return a->mode;
+@@ -2460,7 +2469,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	if (id->ncap == 0)
+ 		goto out_free_id;
+ 
+-	nvme_report_ns_ids(ctrl, ns->ns_id, id, ns->eui, ns->nguid, &ns->uuid);
++	nvme_report_ns_ids(ctrl, ns->ns_id, id, &ns->ids);
+ 
+ 	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
+ 		if (nvme_nvm_register(ns, disk_name, node)) {
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d3f3c4447515..33677b2e104b 100644
+index 33677b2e104b..505cd310dc34 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -138,13 +138,12 @@ struct nvme_ctrl {
- 	struct ida ns_ida;
- 	struct work_struct reset_work;
- 
-+	struct nvme_subsystem *subsys;
-+	struct list_head subsys_entry;
-+
- 	struct opal_dev *opal_dev;
- 
- 	char name[12];
--	char serial[20];
--	char model[40];
--	char firmware_rev[8];
--	char subnqn[NVMF_NQN_SIZE];
- 	u16 cntlid;
- 
- 	u32 ctrl_config;
-@@ -155,7 +154,6 @@ struct nvme_ctrl {
- 	u32 page_size;
- 	u32 max_hw_sectors;
- 	u16 oncs;
--	u16 vid;
- 	u16 oacs;
- 	u16 nssa;
- 	u16 nr_streams;
-@@ -197,6 +195,18 @@ struct nvme_ctrl {
- 	struct nvmf_ctrl_options *opts;
+@@ -207,6 +207,15 @@ struct nvme_subsystem {
+ 	u16			vendor_id;
  };
  
-+struct nvme_subsystem {
-+	struct list_head	entry;
-+	struct mutex		lock;
-+	struct list_head	ctrls;
-+	struct kref		ref;
-+	char			subnqn[NVMF_NQN_SIZE];
-+	char			serial[20];
-+	char			model[40];
-+	char			firmware_rev[8];
-+	u16			vendor_id;
++/*
++ * Container structure for uniqueue namespace identifiers.
++ */
++struct nvme_ns_ids {
++	u8	eui64[8];
++	u8	nguid[16];
++	uuid_t	uuid;
 +};
 +
  struct nvme_ns {
  	struct list_head list;
  
+@@ -217,11 +226,8 @@ struct nvme_ns {
+ 	struct kref kref;
+ 	int instance;
+ 
+-	u8 eui[8];
+-	u8 nguid[16];
+-	uuid_t uuid;
+-
+ 	unsigned ns_id;
++	struct nvme_ns_ids ids;
+ 	int lba_shift;
+ 	u16 ms;
+ 	u16 sgs;
 -- 
 2.14.1
