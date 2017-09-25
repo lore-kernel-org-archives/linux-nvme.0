@@ -1,39 +1,74 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 25 Sep 2017 15:40:24 +0200
-Subject: [PATCH 2/9] block: add REQ_DRV bit
+Date: Mon, 25 Sep 2017 15:40:25 +0200
+Subject: [PATCH 3/9] block: provide a direct_make_request helper
 In-Reply-To: <20170925134031.10548-1-hch@lst.de>
 References: <20170925134031.10548-1-hch@lst.de>
-Message-ID: <20170925134031.10548-3-hch@lst.de>
+Message-ID: <20170925134031.10548-4-hch@lst.de>
 
-Set aside a bit in the request/bio flags for driver use.
+This helper allows reinserting a bio into a new queue without much
+overhead, but requires all queue limits to be the same for the upper
+and lower queues, and it does not provide any recursion preventions.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/blk_types.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ block/blk-core.c       | 32 ++++++++++++++++++++++++++++++++
+ include/linux/blkdev.h |  1 +
+ 2 files changed, 33 insertions(+)
 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index acc2f3cdc2fc..7ec2ed097a8a 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -229,6 +229,9 @@ enum req_flag_bits {
- 	/* command specific flags for REQ_OP_WRITE_ZEROES: */
- 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 048be4aa6024..d7b5d392b550 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -2241,6 +2241,38 @@ blk_qc_t generic_make_request(struct bio *bio)
+ }
+ EXPORT_SYMBOL(generic_make_request);
  
-+	/* for driver use */
-+	__REQ_DRV,
++/**
++ * direct_make_request - hand a buffer directly to its device driver for I/O
++ * @bio:  The bio describing the location in memory and on the device.
++ *
++ * This function behaves like generic_make_request(), but does not protect
++ * against recursion.  Must only be used if the called driver is known
++ * to not re-issue this bio or a split to itself.
++ */
++blk_qc_t direct_make_request(struct bio *bio)
++{
++	struct request_queue *q = bio->bi_disk->queue;
++	bool nowait = bio->bi_opf & REQ_NOWAIT;
++	blk_qc_t ret;
 +
- 	__REQ_NR_BITS,		/* stops here */
- };
- 
-@@ -249,6 +252,8 @@ enum req_flag_bits {
- 
- #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
- 
-+#define REQ_DRV			(1ULL << __REQ_DRV)
++	if (!generic_make_request_checks(bio))
++		return BLK_QC_T_NONE;
 +
- #define REQ_FAILFAST_MASK \
- 	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
- 
++	if (unlikely(blk_queue_enter(q, nowait))) {
++		if (nowait && !blk_queue_dying(q))
++			bio->bi_status = BLK_STS_AGAIN;
++		else
++			bio->bi_status = BLK_STS_IOERR;
++		bio_endio(bio);
++		return BLK_QC_T_NONE;
++	}
++
++	ret = q->make_request_fn(q, bio);
++	blk_queue_exit(q);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(direct_make_request);
++
+ /**
+  * submit_bio - submit a bio to the block device layer for I/O
+  * @bio: The &struct bio which describes the I/O
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 02fa42d24b52..780f01db5899 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -936,6 +936,7 @@ do {								\
+ extern int blk_register_queue(struct gendisk *disk);
+ extern void blk_unregister_queue(struct gendisk *disk);
+ extern blk_qc_t generic_make_request(struct bio *bio);
++extern blk_qc_t direct_make_request(struct bio *bio);
+ extern void blk_rq_init(struct request_queue *q, struct request *rq);
+ extern void blk_init_request_from_bio(struct request *req, struct bio *bio);
+ extern void blk_put_request(struct request *);
 -- 
 2.14.1
