@@ -1,20 +1,50 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 25 Sep 2017 10:47:27 -0600
-Subject: [PATCH] nvme: use menu Kconfig interface
-In-Reply-To: <1c39a10d-6782-3737-80f7-e29fe0d12980@infradead.org>
-References: <1c39a10d-6782-3737-80f7-e29fe0d12980@infradead.org>
-Message-ID: <20170925164727.GF8463@localhost.localdomain>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 25 Sep 2017 16:22:21 -0400
+Subject: [PATCH v4 00/14] mpt3sas driver NVMe support:
+In-Reply-To: <CA+RiK65GPnfqpQAuUWEs_NdW9crumkGparCqynN_dBti8BPXqQ@mail.gmail.com>
+ (Suganath Prabu Subramani's message of "Mon, 18 Sep 2017 16:09:09
+ +0530")
+References: <1503322344-5900-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <yq1lgmbauxt.fsf@oracle.com>
+ <CA+RiK65F0CUNkc7AXN7n-rwvmf=Xm-t6dNvG134hY9yapwgDYg@mail.gmail.com>
+ <yq1a82gxwqm.fsf@oracle.com>
+ <CA+RiK67f59U5Ss_Z2=veBRODtBSp1-4VTbosLkHkgaxY9XA6hQ@mail.gmail.com>
+ <yq13787w1a3.fsf@oracle.com>
+ <CA+RiK667V9nDEr7RywED2_RoSq97m511HZTpGqPbij9-=vADvQ@mail.gmail.com>
+ <CA+RiK64sJZzTcTHODHj0monB2_0xKAkvjrC79rGv2mNUPO87-A@mail.gmail.com>
+ <yq1wp50rcqw.fsf@oracle.com>
+ <CA+RiK65GPnfqpQAuUWEs_NdW9crumkGparCqynN_dBti8BPXqQ@mail.gmail.com>
+Message-ID: <yq1o9pyfs02.fsf@oracle.com>
 
-On Fri, Sep 22, 2017@06:04:43PM -0700, Randy Dunlap wrote:
-> From: Randy Dunlap <rdunlap at infradead.org>
-> 
-> Add a menu interface for NVME host and target support so that it is
-> presented to users more like other Kconfig symbols.
-> This makes the Device Driver menu less cluttered (easier to read)
-> and keeps all of these symbols grouped together.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap at infradead.org>
 
-Thanks, looks good.
+Hi Suganath,
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+> Also, Making all PRP buffer may or may not need FW changes (assuming
+> it is possible.), we may end up into multiple FW version check.
+
+I don't understand how submitting an I/O that is guaranteed to honor the
+constraints of the target NVMe drive could possibly cause problems for
+the controller firmware. Quite the contrary, it's the best case
+scenario.
+
+> Since this is main IO path and current driver is following H/W
+> limitation, we should avoid any changes in this area until and unless
+> change is universal acceptable in FW (for all type of work load).
+
+This is why you need to involve the Linux community early in the design
+process and not when your implementation is complete.
+
+We could have told you right away what the correct approach would be for
+your Linux driver. And that said approach works for products from other
+vendors so we see no compelling reason to deviate from it.
+
+As evidenced by Broadcom disowning the legacy mpt and megaraid drivers,
+I will be stuck maintaining this mpt3sas code for a decade or more. Long
+after Broadcom has ended official support and moved on to different
+ASICs and programming interfaces. Consequently, I am very heavily biased
+towards solutions that leverage the shared interfaces provided by the
+kernel and that don't have special cases and workarounds inside the
+driver.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
