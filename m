@@ -1,24 +1,61 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 25 Sep 2017 14:52:11 +0200
-Subject: [PATCH] nvme: make controller 'state' sysfs attribute pollable
-In-Reply-To: <daf5fe87-6b93-68aa-65be-b442615b9bd0@suse.de>
-References: <20170920104032.14014-1-jthumshirn@suse.de>
- <20170920145931.GA5208@lst.de>
- <20170921051915.cfj2j5vu4bjqn5za@linux-x5ow.site>
- <83264609-d5f9-8990-d79e-0b6eed1b2471@grimberg.me>
- <31e90477-59fc-8f70-d482-50c25393f58f@suse.de>
- <6d9304e2-f943-f063-1298-c6a2d582f78f@grimberg.me>
- <daf5fe87-6b93-68aa-65be-b442615b9bd0@suse.de>
-Message-ID: <20170925125211.GD8130@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 25 Sep 2017 06:07:29 -0700
+Subject: ACPI object counter overrun on frequent nvme resets
+Message-ID: <20170925130729.GA14151@infradead.org>
 
-On Mon, Sep 25, 2017@10:23:16AM +0200, Hannes Reinecke wrote:
-> > We could have such an interface I assume. But it would suck to maintain
-> > yet another state (we are already having enough trouble to have a
-> > coherent controller state machine).
-> 
-> Weell ... we could be using a notifier chain for that.
-> I think I should post my patchset.
+Hi all,
 
-The point is: if you want proper multipath behavior use the nvme
-in-kernel multipath code.  If you want to weird crap in userspace don't
-expect any help from the kernel driver.
+when doing an error injection test with the nvme-pci driver on Linux 4.14
+almost rc2 (820bf5c419e4b85298e5c3001bd1b5be46d60765 plus a few nvme
+patches) that does a lot of nvme resets which shut down and re-enable the
+PCI device I see a flood of warnings like:
+
+[   78.237286] ACPI Warning: Large Reference Count (0x1001) in object ffff88007d702c68, Type=0x1D (20170728/utdelete-473)
+
+Throwing in a dump_stack into the path it comes from:
+
+[   78.238387] CPU: 0 PID: 286 Comm: kworker/u8:3 Not tainted 4.14.0-rc1+ #134
+[   78.238998] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+[   78.239720] Workqueue: nvme-wq nvme_reset_work
+[   78.239995] Call Trace:
+[   78.239995]  dump_stack+0x63/0x83
+[   78.239995]  acpi_ut_update_ref_count+0x2f7/0x2fe
+[   78.239995]  acpi_ut_update_object_reference+0x114/0x182
+[   78.239995]  acpi_ut_add_reference+0x1b/0x1e
+[   78.239995]  acpi_ds_init_package_element+0x149/0x16e
+[   78.239995]  ? acpi_ds_build_internal_object+0xca/0x12c
+[   78.239995]  acpi_ds_build_internal_package_obj+0x1b2/0x258
+[   78.239995]  ? acpi_ds_build_internal_package_obj+0x1b2/0x258
+[   78.239995]  acpi_ds_eval_data_object_operands+0xd3/0x123
+[   78.239995]  acpi_ds_exec_end_op+0x288/0x3e1
+[   78.239995]  acpi_ps_parse_loop+0x519/0x57b
+[   78.239995]  acpi_ps_parse_aml+0x93/0x29c
+[   78.239995]  acpi_ps_execute_method+0x148/0x17f
+[   78.239995]  acpi_ns_evaluate+0x1c1/0x24d
+[   78.239995]  acpi_ut_evaluate_object+0x72/0x197
+[   78.239995]  acpi_rs_get_prt_method_data+0x21/0x45
+[   78.239995]  acpi_get_irq_routing_table+0x2c/0x30
+[   78.239995]  acpi_pci_irq_find_prt_entry+0x8e/0x2c0
+[   78.239995]  ? irq_get_irq_data+0x9/0x20
+[   78.239995]  ? mp_unmap_irq+0xf/0x70
+[   78.239995]  acpi_pci_irq_lookup+0x26/0x1a0
+[   78.239995]  acpi_pci_irq_enable+0x5b/0x1b0
+[   78.239995]  ? pci_read_config_word+0x22/0x30
+[   78.239995]  pcibios_enable_device+0x28/0x30
+[   78.239995]  do_pci_enable_device+0x5f/0xe0
+[   78.239995]  pci_enable_device_flags+0xc3/0x110
+[   78.239995]  pci_enable_device_mem+0xe/0x10
+[   78.239995]  nvme_reset_work+0x4c/0x1610
+[   78.239995]  ? sched_clock+0x9/0x10
+[   78.239995]  ? sched_clock_local+0x17/0x90
+[   78.239995]  ? _raw_spin_lock+0x9/0x10
+[   78.239995]  ? pick_next_task_fair+0x420/0x690
+[   78.239995]  ? _raw_spin_unlock_irq+0x9/0x20
+[   78.239995]  ? finish_task_switch+0x7b/0x1f0
+[   78.239995]  ? __schedule+0x2d7/0x800
+[   78.239995]  process_one_work+0x1db/0x3e0
+[   78.239995]  worker_thread+0x43/0x3f0
+[   78.239995]  kthread+0x103/0x140
+[   78.239995]  ? process_one_work+0x3e0/0x3e0
+[   78.239995]  ? kthread_create_on_node+0x40/0x40
+[   78.239995]  ret_from_fork+0x25/0x30
