@@ -1,61 +1,52 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 25 Sep 2017 06:07:29 -0700
-Subject: ACPI object counter overrun on frequent nvme resets
-Message-ID: <20170925130729.GA14151@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 25 Sep 2017 16:22:53 +0300
+Subject: [PATCH rfc] nvme-cli: NVMf auto discovery systemd service
+In-Reply-To: <20170925075517.3kpbkj3snig35hb2@linux-x5ow.site>
+References: <1506258095-15916-1-git-send-email-sagi@grimberg.me>
+ <20170925075517.3kpbkj3snig35hb2@linux-x5ow.site>
+Message-ID: <ec56b6fa-89b0-6646-6618-1e857b234349@grimberg.me>
 
-Hi all,
 
-when doing an error injection test with the nvme-pci driver on Linux 4.14
-almost rc2 (820bf5c419e4b85298e5c3001bd1b5be46d60765 plus a few nvme
-patches) that does a lot of nvme resets which shut down and re-enable the
-PCI device I see a flood of warnings like:
+>> +        if [ ! -f /etc/nvme/discovery.conf ]; then
+>> +		touch /etc/nvme/discovery.conf
+>> +        fi
+> 
+> I don't think having an empty discovery.conf is a particularly good idea, the
+> contents should be either added by hand or by some configuration/installer
+> tool (YAST, Anaconda, Chef, Puppet, yada yada).
 
-[   78.237286] ACPI Warning: Large Reference Count (0x1001) in object ffff88007d702c68, Type=0x1D (20170728/utdelete-473)
+Its just placing the file there to not fail the service by definition of
+the conf not being there - if its empty it just silently exits. We can
+skip it if you think its not a good idea.
 
-Throwing in a dump_stack into the path it comes from:
+>> +# NVMf auto-discovery service
+>> +install -m 0755 systemd/nvmf-discovery.service /lib/systemd/system/
+>> +systemctl enable nvmf-discovery.service
+> 
+> Unconditionally starting services will is (at least for SUSE RPMs) a no-go.
 
-[   78.238387] CPU: 0 PID: 286 Comm: kworker/u8:3 Not tainted 4.14.0-rc1+ #134
-[   78.238998] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-[   78.239720] Workqueue: nvme-wq nvme_reset_work
-[   78.239995] Call Trace:
-[   78.239995]  dump_stack+0x63/0x83
-[   78.239995]  acpi_ut_update_ref_count+0x2f7/0x2fe
-[   78.239995]  acpi_ut_update_object_reference+0x114/0x182
-[   78.239995]  acpi_ut_add_reference+0x1b/0x1e
-[   78.239995]  acpi_ds_init_package_element+0x149/0x16e
-[   78.239995]  ? acpi_ds_build_internal_object+0xca/0x12c
-[   78.239995]  acpi_ds_build_internal_package_obj+0x1b2/0x258
-[   78.239995]  ? acpi_ds_build_internal_package_obj+0x1b2/0x258
-[   78.239995]  acpi_ds_eval_data_object_operands+0xd3/0x123
-[   78.239995]  acpi_ds_exec_end_op+0x288/0x3e1
-[   78.239995]  acpi_ps_parse_loop+0x519/0x57b
-[   78.239995]  acpi_ps_parse_aml+0x93/0x29c
-[   78.239995]  acpi_ps_execute_method+0x148/0x17f
-[   78.239995]  acpi_ns_evaluate+0x1c1/0x24d
-[   78.239995]  acpi_ut_evaluate_object+0x72/0x197
-[   78.239995]  acpi_rs_get_prt_method_data+0x21/0x45
-[   78.239995]  acpi_get_irq_routing_table+0x2c/0x30
-[   78.239995]  acpi_pci_irq_find_prt_entry+0x8e/0x2c0
-[   78.239995]  ? irq_get_irq_data+0x9/0x20
-[   78.239995]  ? mp_unmap_irq+0xf/0x70
-[   78.239995]  acpi_pci_irq_lookup+0x26/0x1a0
-[   78.239995]  acpi_pci_irq_enable+0x5b/0x1b0
-[   78.239995]  ? pci_read_config_word+0x22/0x30
-[   78.239995]  pcibios_enable_device+0x28/0x30
-[   78.239995]  do_pci_enable_device+0x5f/0xe0
-[   78.239995]  pci_enable_device_flags+0xc3/0x110
-[   78.239995]  pci_enable_device_mem+0xe/0x10
-[   78.239995]  nvme_reset_work+0x4c/0x1610
-[   78.239995]  ? sched_clock+0x9/0x10
-[   78.239995]  ? sched_clock_local+0x17/0x90
-[   78.239995]  ? _raw_spin_lock+0x9/0x10
-[   78.239995]  ? pick_next_task_fair+0x420/0x690
-[   78.239995]  ? _raw_spin_unlock_irq+0x9/0x20
-[   78.239995]  ? finish_task_switch+0x7b/0x1f0
-[   78.239995]  ? __schedule+0x2d7/0x800
-[   78.239995]  process_one_work+0x1db/0x3e0
-[   78.239995]  worker_thread+0x43/0x3f0
-[   78.239995]  kthread+0x103/0x140
-[   78.239995]  ? process_one_work+0x3e0/0x3e0
-[   78.239995]  ? kthread_create_on_node+0x40/0x40
-[   78.239995]  ret_from_fork+0x25/0x30
+OK, we can lose it.
+
+>> +
+>> +# we rely on /dev/nvme-fabrics misc device, so auto load nvme-fabrics
+>> +# at boot time
+>> +echo nvme-fabrics >> /etc/modules-load.d/modules.conf
+> 
+> This should be done in the systemd unit file I think. Something like this:
+> 
+>> diff --git a/systemd/nvmf-discovery.service b/systemd/nvmf-discovery.service
+>> new file mode 100644
+>> index 000000000000..25f7bf1f077b
+>> --- /dev/null
+>> +++ b/systemd/nvmf-discovery.service
+>> @@ -0,0 +1,12 @@
+>> +[Unit]
+>> +Description=NVMf auto discovery service
+>> +After=systemd-modules-load.service network-online.target
+>> +
+>> +[Service]
+>> +Type=oneshot
+> 
+> ExecStartPre=-/sbin/modprobe nvme-fabrics
+
+looks better!
