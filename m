@@ -1,74 +1,63 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 25 Sep 2017 15:40:25 +0200
-Subject: [PATCH 3/9] block: provide a direct_make_request helper
+Date: Mon, 25 Sep 2017 15:40:26 +0200
+Subject: [PATCH 4/9] block: add a blk_steal_bios helper
 In-Reply-To: <20170925134031.10548-1-hch@lst.de>
 References: <20170925134031.10548-1-hch@lst.de>
-Message-ID: <20170925134031.10548-4-hch@lst.de>
+Message-ID: <20170925134031.10548-5-hch@lst.de>
 
-This helper allows reinserting a bio into a new queue without much
-overhead, but requires all queue limits to be the same for the upper
-and lower queues, and it does not provide any recursion preventions.
+This helpers allows to bounce steal the uncompleted bios from a request so
+that they can be reissued on another path.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- block/blk-core.c       | 32 ++++++++++++++++++++++++++++++++
- include/linux/blkdev.h |  1 +
- 2 files changed, 33 insertions(+)
+ block/blk-core.c       | 20 ++++++++++++++++++++
+ include/linux/blkdev.h |  2 ++
+ 2 files changed, 22 insertions(+)
 
 diff --git a/block/blk-core.c b/block/blk-core.c
-index 048be4aa6024..d7b5d392b550 100644
+index d7b5d392b550..856fb626d9fe 100644
 --- a/block/blk-core.c
 +++ b/block/blk-core.c
-@@ -2241,6 +2241,38 @@ blk_qc_t generic_make_request(struct bio *bio)
+@@ -2727,6 +2727,26 @@ struct request *blk_fetch_request(struct request_queue *q)
  }
- EXPORT_SYMBOL(generic_make_request);
+ EXPORT_SYMBOL(blk_fetch_request);
  
-+/**
-+ * direct_make_request - hand a buffer directly to its device driver for I/O
-+ * @bio:  The bio describing the location in memory and on the device.
-+ *
-+ * This function behaves like generic_make_request(), but does not protect
-+ * against recursion.  Must only be used if the called driver is known
-+ * to not re-issue this bio or a split to itself.
++/*
++ * Steal bios from a request.  The request must not have been partially
++ * completed before.
 + */
-+blk_qc_t direct_make_request(struct bio *bio)
++void blk_steal_bios(struct bio_list *list, struct request *rq)
 +{
-+	struct request_queue *q = bio->bi_disk->queue;
-+	bool nowait = bio->bi_opf & REQ_NOWAIT;
-+	blk_qc_t ret;
-+
-+	if (!generic_make_request_checks(bio))
-+		return BLK_QC_T_NONE;
-+
-+	if (unlikely(blk_queue_enter(q, nowait))) {
-+		if (nowait && !blk_queue_dying(q))
-+			bio->bi_status = BLK_STS_AGAIN;
++	if (rq->bio) {
++		if (list->tail)
++			list->tail->bi_next = rq->bio;
 +		else
-+			bio->bi_status = BLK_STS_IOERR;
-+		bio_endio(bio);
-+		return BLK_QC_T_NONE;
++			list->head = rq->bio;
++		list->tail = rq->biotail;
 +	}
 +
-+	ret = q->make_request_fn(q, bio);
-+	blk_queue_exit(q);
-+	return ret;
++	rq->bio = NULL;
++	rq->biotail = NULL;
++	rq->__data_len = 0;
 +}
-+EXPORT_SYMBOL_GPL(direct_make_request);
++EXPORT_SYMBOL_GPL(blk_steal_bios);
 +
  /**
-  * submit_bio - submit a bio to the block device layer for I/O
-  * @bio: The &struct bio which describes the I/O
+  * blk_update_request - Special helper function for request stacking drivers
+  * @req:      the request being processed
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 02fa42d24b52..780f01db5899 100644
+index 780f01db5899..45c63764a14e 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -936,6 +936,7 @@ do {								\
- extern int blk_register_queue(struct gendisk *disk);
- extern void blk_unregister_queue(struct gendisk *disk);
- extern blk_qc_t generic_make_request(struct bio *bio);
-+extern blk_qc_t direct_make_request(struct bio *bio);
- extern void blk_rq_init(struct request_queue *q, struct request *rq);
- extern void blk_init_request_from_bio(struct request *req, struct bio *bio);
- extern void blk_put_request(struct request *);
+@@ -1110,6 +1110,8 @@ extern struct request *blk_peek_request(struct request_queue *q);
+ extern void blk_start_request(struct request *rq);
+ extern struct request *blk_fetch_request(struct request_queue *q);
+ 
++void blk_steal_bios(struct bio_list *list, struct request *rq);
++
+ /*
+  * Request completion related functions.
+  *
 -- 
 2.14.1
