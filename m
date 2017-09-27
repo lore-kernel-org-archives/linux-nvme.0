@@ -1,106 +1,101 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 26 Sep 2017 21:13:17 -0700
-Subject: [PATCH] nvme_fc: correct io timeout behavior
-Message-ID: <20170927041317.6575-1-jsmart2021@gmail.com>
+Date: Tue, 26 Sep 2017 21:50:42 -0700
+Subject: [PATCH v2 3/7] nvme_fc: add a dev_loss_tmo field to the remoteport
+In-Reply-To: <20170927045046.22238-1-jsmart2021@gmail.com>
+References: <20170927045046.22238-1-jsmart2021@gmail.com>
+Message-ID: <20170927045046.22238-4-jsmart2021@gmail.com>
 
-the transport io timeout behavior wasn't quite correct. It ignored
-that the io termination is supposed to be synchronous so it possibly
-allowed the blk request to be restarted while the io associated was
-still aborting. Timeouts on reserved commands, those used for
-association create, where never timing out, they hung out forever.
-We also were setting DNR in cases where we wanted to allow an io
-retry, which caused apps to see errors they shouldn't have.
-
-Thus following changes made:
-- clean up how we set the Aborted status and DNR
-- don't treat reserved commands differently, let them timeout.
-  Other retry policies will kick in.
-- rather than wait for aborts to finish and block the thread,
-  initiate the abort and restart the timeout timer. The abort
-  will complete and complete the io.
-- in cases of timeout while port is disconnected or abort is in
-  progress, simply restart the timeout timer. The devloss
-  functionality and abort completion will resolve it.
+Add a dev_loss_tmo value, paralleling the SCSI FC transport, for device
+connectivity loss. The transport can initialize it in the
+nvme_fc_register_remoteport() call or fall back on a default of 60s.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 37 +++++++++++++++++++++++++------------
- 1 file changed, 25 insertions(+), 12 deletions(-)
+ drivers/nvme/host/fc.c         | 14 ++++++++++++++
+ include/linux/nvme-fc-driver.h |  9 +++++++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index af075e998944..346513cb8b49 100644
+index ce5718b33d13..db6484bfe02b 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -1374,7 +1374,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+@@ -45,6 +45,10 @@ enum nvme_fc_queue_flags {
  
- 	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED)
--		status = cpu_to_le16((NVME_SC_ABORT_REQ | NVME_SC_DNR) << 1);
-+		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
- 	else if (freq->status)
- 		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
+ #define NVMEFC_QUEUE_DELAY	3		/* ms units */
  
-@@ -1445,15 +1445,22 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 		goto check_error;
- 	}
- 
-+	if (unlikely(!status && op->flags & FCOP_FLAGS_TERMIO))
-+		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
++#define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
++#define NVME_FC_EXPECTED_RECONNECT_TM	2	/* seconds - E_D_TOV */
++#define NVME_FC_MIN_DEV_LOSS_TMO	(2 * NVME_FC_EXPECTED_RECONNECT_TM)
 +
-+	/*
-+	 * Force failures of commands if we're killing the controller
-+	 * or have an error on a command used to create an new association
-+	 */
-+	if (status && (blk_queue_dying(rq->q) ||
-+			ctrl->ctrl.state == NVME_CTRL_NEW ||
-+			ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
-+		status |= cpu_to_le16(NVME_SC_DNR << 1);
+ struct nvme_fc_queue {
+ 	struct nvme_fc_ctrl	*ctrl;
+ 	struct device		*dev;
+@@ -478,6 +482,12 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
+ 	unsigned long flags;
+ 	int ret, idx;
+ 
++	if (pinfo->dev_loss_tmo &&
++			pinfo->dev_loss_tmo < NVME_FC_MIN_DEV_LOSS_TMO) {
++		ret = -EINVAL;
++		goto out_reghost_failed;
++	}
 +
- 	complete_rq = __nvme_fc_fcpop_chk_teardowns(ctrl, op);
--	if (!complete_rq) {
--		if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
--			status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
--			if (blk_queue_dying(rq->q))
--				status |= cpu_to_le16(NVME_SC_DNR << 1);
--		}
-+	if (!complete_rq)
- 		nvme_end_request(rq, status, result);
--	} else
+ 	newrec = kmalloc((sizeof(*newrec) + lport->ops->remote_priv_sz),
+ 			 GFP_KERNEL);
+ 	if (!newrec) {
+@@ -511,6 +521,10 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
+ 	newrec->remoteport.port_id = pinfo->port_id;
+ 	newrec->remoteport.port_state = FC_OBJSTATE_ONLINE;
+ 	newrec->remoteport.port_num = idx;
++	if (pinfo->dev_loss_tmo)
++		newrec->remoteport.dev_loss_tmo = pinfo->dev_loss_tmo;
 +	else
- 		__nvme_fc_final_op_cleanup(rq);
++		newrec->remoteport.dev_loss_tmo = NVME_FC_DEFAULT_DEV_LOSS_TMO;
  
- check_error:
-@@ -1842,13 +1849,14 @@ nvme_fc_timeout(struct request *rq, bool reserved)
- 	struct nvme_fc_ctrl *ctrl = op->ctrl;
- 	int ret;
+ 	spin_lock_irqsave(&nvme_fc_lock, flags);
+ 	list_add_tail(&newrec->endp_list, &lport->endp_list);
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index a726f96010d5..6e457e4f9543 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -40,6 +40,8 @@
+  * @node_name: FC WWNN for the port
+  * @port_name: FC WWPN for the port
+  * @port_role: What NVME roles are supported (see FC_PORT_ROLE_xxx)
++ * @dev_loss_tmo: maximum delay for reconnects to an association on
++ *             this device. Used only on a remoteport.
+  *
+  * Initialization values for dynamic port fields:
+  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
+@@ -50,6 +52,7 @@ struct nvme_fc_port_info {
+ 	u64			port_name;
+ 	u32			port_role;
+ 	u32			port_id;
++	u32			dev_loss_tmo;
+ };
  
--	if (reserved)
-+	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
-+			atomic_read(&op->state) == FCPOP_STATE_ABORTED)
- 		return BLK_EH_RESET_TIMER;
  
- 	ret = __nvme_fc_abort_op(ctrl, op);
- 	if (ret)
--		/* io wasn't active to abort consider it done */
--		return BLK_EH_HANDLED;
-+		/* io wasn't active to abort */
-+		return BLK_EH_NOT_HANDLED;
+@@ -202,6 +205,9 @@ enum nvme_fc_obj_state {
+  *             The length of the buffer corresponds to the local_priv_sz
+  *             value specified in the nvme_fc_port_template supplied by
+  *             the LLDD.
++ * @dev_loss_tmo: maximum delay for reconnects to an association on
++ *             this device. To modify, lldd must call
++ *             nvme_fc_set_remoteport_devloss().
+  *
+  * Fields with dynamic values. Values may change base on link state. LLDD
+  * may reference fields directly to change them. Initialized by the
+@@ -259,10 +265,9 @@ struct nvme_fc_remote_port {
+ 	u32 port_role;
+ 	u64 node_name;
+ 	u64 port_name;
+-
+ 	struct nvme_fc_local_port *localport;
+-
+ 	void *private;
++	u32 dev_loss_tmo;
  
- 	/*
- 	 * we can't individually ABTS an io without affecting the queue,
-@@ -1859,7 +1867,12 @@ nvme_fc_timeout(struct request *rq, bool reserved)
- 	 */
- 	nvme_fc_error_recovery(ctrl, "io timeout error");
- 
--	return BLK_EH_HANDLED;
-+	/*
-+	 * the io abort has been initiated. Have the reset timer
-+	 * restarted and the abort completion will complete the io
-+	 * shortly. Avoids a synchronous wait while the abort finishes.
-+	 */
-+	return BLK_EH_RESET_TIMER;
- }
- 
- static int
+ 	/* dynamic fields */
+ 	u32 port_id;
 -- 
 2.13.1
