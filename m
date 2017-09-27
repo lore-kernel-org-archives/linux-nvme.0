@@ -1,101 +1,51 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 26 Sep 2017 21:50:42 -0700
-Subject: [PATCH v2 3/7] nvme_fc: add a dev_loss_tmo field to the remoteport
-In-Reply-To: <20170927045046.22238-1-jsmart2021@gmail.com>
-References: <20170927045046.22238-1-jsmart2021@gmail.com>
-Message-ID: <20170927045046.22238-4-jsmart2021@gmail.com>
+Date: Tue, 26 Sep 2017 21:50:39 -0700
+Subject: [PATCH v2 0/7] nvme_fc: add dev_loss_tmo support
+Message-ID: <20170927045046.22238-1-jsmart2021@gmail.com>
 
-Add a dev_loss_tmo value, paralleling the SCSI FC transport, for device
-connectivity loss. The transport can initialize it in the
-nvme_fc_register_remoteport() call or fall back on a default of 60s.
+FC, on the SCSI side, has long had a device loss timeout which governed
+how long it would hide connectivity loss to remote targets. The timeout
+value is maintained in the SCSI FC transport and admins are used to
+going there to maintain it.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c         | 14 ++++++++++++++
- include/linux/nvme-fc-driver.h |  9 +++++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
+Eventually, the SCSI FC transport will be moved into something
+independent from and above SCSI so that SCSI and NVME protocols can
+be peers. In the meantime, to add the functionality now, and sync with
+the SCSI FC transport, the LLDD will be used as the conduit. The
+initial value for the timeout can be set by the LLDD when it creates
+the remoteport via nvme_fc_register_remoteport(). Later, if the value
+is updated via the SCSI transport, the LLDD can call a new nvme_fc
+routine to update the remoteport's dev_loss_tmo value, which can then
+be propagated to the nvme controllers on the remoteport.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index ce5718b33d13..db6484bfe02b 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -45,6 +45,10 @@ enum nvme_fc_queue_flags {
- 
- #define NVMEFC_QUEUE_DELAY	3		/* ms units */
- 
-+#define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
-+#define NVME_FC_EXPECTED_RECONNECT_TM	2	/* seconds - E_D_TOV */
-+#define NVME_FC_MIN_DEV_LOSS_TMO	(2 * NVME_FC_EXPECTED_RECONNECT_TM)
-+
- struct nvme_fc_queue {
- 	struct nvme_fc_ctrl	*ctrl;
- 	struct device		*dev;
-@@ -478,6 +482,12 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	unsigned long flags;
- 	int ret, idx;
- 
-+	if (pinfo->dev_loss_tmo &&
-+			pinfo->dev_loss_tmo < NVME_FC_MIN_DEV_LOSS_TMO) {
-+		ret = -EINVAL;
-+		goto out_reghost_failed;
-+	}
-+
- 	newrec = kmalloc((sizeof(*newrec) + lport->ops->remote_priv_sz),
- 			 GFP_KERNEL);
- 	if (!newrec) {
-@@ -511,6 +521,10 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	newrec->remoteport.port_id = pinfo->port_id;
- 	newrec->remoteport.port_state = FC_OBJSTATE_ONLINE;
- 	newrec->remoteport.port_num = idx;
-+	if (pinfo->dev_loss_tmo)
-+		newrec->remoteport.dev_loss_tmo = pinfo->dev_loss_tmo;
-+	else
-+		newrec->remoteport.dev_loss_tmo = NVME_FC_DEFAULT_DEV_LOSS_TMO;
- 
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
- 	list_add_tail(&newrec->endp_list, &lport->endp_list);
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index a726f96010d5..6e457e4f9543 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -40,6 +40,8 @@
-  * @node_name: FC WWNN for the port
-  * @port_name: FC WWPN for the port
-  * @port_role: What NVME roles are supported (see FC_PORT_ROLE_xxx)
-+ * @dev_loss_tmo: maximum delay for reconnects to an association on
-+ *             this device. Used only on a remoteport.
-  *
-  * Initialization values for dynamic port fields:
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-@@ -50,6 +52,7 @@ struct nvme_fc_port_info {
- 	u64			port_name;
- 	u32			port_role;
- 	u32			port_id;
-+	u32			dev_loss_tmo;
- };
- 
- 
-@@ -202,6 +205,9 @@ enum nvme_fc_obj_state {
-  *             The length of the buffer corresponds to the local_priv_sz
-  *             value specified in the nvme_fc_port_template supplied by
-  *             the LLDD.
-+ * @dev_loss_tmo: maximum delay for reconnects to an association on
-+ *             this device. To modify, lldd must call
-+ *             nvme_fc_set_remoteport_devloss().
-  *
-  * Fields with dynamic values. Values may change base on link state. LLDD
-  * may reference fields directly to change them. Initialized by the
-@@ -259,10 +265,9 @@ struct nvme_fc_remote_port {
- 	u32 port_role;
- 	u64 node_name;
- 	u64 port_name;
--
- 	struct nvme_fc_local_port *localport;
--
- 	void *private;
-+	u32 dev_loss_tmo;
- 
- 	/* dynamic fields */
- 	u32 port_id;
+The fabrics implementation already has a similar timer, the
+ctrl_loss_tmo. The timer defaults to 60s with reconnect retry intervals
+every 10s. The nvme_fc transport will set the ctlr_loss_tmo to the lesser
+of the ctrl_loss_tmo set at controller creation and the dev_loss_tmo
+value for the remote port the controller is attached via. The nvme_fc
+behaves like the other transports - it retries up to the ctrl_loss_tmo
+time window, with reconnect retries a periodic intervals. The reconnect
+retries will be disabled if there is not connectivity to the remote port.
+
+The patches were cut on the nvme-4.14 branch
+Patch 7, which adds the dev_loss_tmo timeout, is dependent on the
+nvme_fc_signal_discovery_scan() routine added by this patch:
+http://lists.infradead.org/pipermail/linux-nvme/2017-September/012781.html
+The patch has been approved but not yet pulled into a tree.
+
+James Smart (7):
+  nvme core: allow controller RESETTING to RECONNECTING transition
+  nvme_fc: change ctlr state assignments during reset/reconnect
+  nvme_fc: add a dev_loss_tmo field to the remoteport
+  nvme_fc: add dev_loss_tmo to controller
+  nvme_fc: check connectivity before initiating reconnects
+  nvme_fc: move remote port get/put/free location
+  nvme_fc: add dev_loss_tmo timeout and remoteport resume support
+
+ drivers/nvme/host/core.c       |   1 +
+ drivers/nvme/host/fc.c         | 481 +++++++++++++++++++++++++++++++++++------
+ include/linux/nvme-fc-driver.h |  11 +-
+ 3 files changed, 421 insertions(+), 72 deletions(-)
+
 -- 
 2.13.1
