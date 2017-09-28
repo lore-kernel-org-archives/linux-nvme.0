@@ -1,107 +1,126 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 28 Sep 2017 08:35:52 -0700
-Subject: [PATCH 1/2] nvmet: fix ctlr ref counting
+Date: Thu, 28 Sep 2017 08:35:53 -0700
+Subject: [PATCH 2/2] nvmet: Fix fatal_err_work deadlock
 In-Reply-To: <20170928153553.13993-1-jsmart2021@gmail.com>
 References: <20170928153553.13993-1-jsmart2021@gmail.com>
-Message-ID: <20170928153553.13993-2-jsmart2021@gmail.com>
+Message-ID: <20170928153553.13993-3-jsmart2021@gmail.com>
 
-Current code:
-initializes the reference at allocation
-increments reference when ctlr finds are done
-has decrements to back out of ctlr finds
-decrements in admin queue connect cmd failures to
-  cause ctlr free
-in nvmet_sq_destroy() decrements to cause ctlr free
+Below is  a stack trace for an issue that was reported.
 
-Issue is: nvmet_sq_destroy is called for every queue (admin and
-io), thus the controller is freed upon the first queue termination.
-It's an early "free". There could be other ctlr struct changes made
-while subsequent queues are being torn down.
+What's happening is that the nvmet layer had it's controller kato
+timeout fire, which causes it to schedule its fatal error handler
+via the fatal_err_work element. The error handler is invoked, which
+calls the transport delete_ctrl() entry point, and as the transport
+tears down the controller, nvmet_sq_destroy ends up doing the final
+put on the ctlr causing it to enter its free routine. The ctlr free
+routine does a cancel_work_sync() on fatal_err_work element, which
+then does a flush_work and wait_for_completion. But, as the wait is
+in the context of the work element being flushed, its in a catch-22
+and the thread hangs.
 
-An illustration of use-after-free was seen where the mutex for the
-ctrl was corrupted resulting in a mutex_lock hang.
+[  326.903131] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
+[  326.909832] nvmet: ctrl 1 fatal error occurred!
+[  327.643100] lpfc 0000:04:00.0: 0:6313 NVMET Defer ctx release xri
+x114 flg x2
+[  494.582064] INFO: task kworker/0:2:243 blocked for more than 120
+seconds.
+[  494.589638]       Not tainted 4.14.0-rc1.James+ #1
+[  494.594986] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+disables this message.
+[  494.603718] kworker/0:2     D    0   243      2 0x80000000
+[  494.609839] Workqueue: events nvmet_fatal_error_handler [nvmet]
+[  494.616447] Call Trace:
+[  494.619177]  __schedule+0x28d/0x890
+[  494.623070]  schedule+0x36/0x80
+[  494.626571]  schedule_timeout+0x1dd/0x300
+[  494.631044]  ? dequeue_task_fair+0x592/0x840
+[  494.635810]  ? pick_next_task_fair+0x23b/0x5c0
+[  494.640756]  wait_for_completion+0x121/0x180
+[  494.645521]  ? wake_up_q+0x80/0x80
+[  494.649315]  flush_work+0x11d/0x1a0
+[  494.653206]  ? wake_up_worker+0x30/0x30
+[  494.657484]  __cancel_work_timer+0x10b/0x190
+[  494.662249]  cancel_work_sync+0x10/0x20
+[  494.666525]  nvmet_ctrl_put+0xa3/0x100 [nvmet]
+[  494.671482]  nvmet_sq_:q+0x64/0xd0 [nvmet]
+[  494.676540]  nvmet_fc_delete_target_queue+0x202/0x220 [nvmet_fc]
+[  494.683245]  nvmet_fc_delete_target_assoc+0x6d/0xc0 [nvmet_fc]
+[  494.689743]  nvmet_fc_delete_ctrl+0x137/0x1a0 [nvmet_fc]
+[  494.695673]  nvmet_fatal_error_handler+0x30/0x40 [nvmet]
+[  494.701589]  process_one_work+0x149/0x360
+[  494.706064]  worker_thread+0x4d/0x3c0
+[  494.710148]  kthread+0x109/0x140
+[  494.713751]  ? rescuer_thread+0x380/0x380
+[  494.718214]  ? kthread_park+0x60/0x60
 
-Fix by:
-- make a formal control ref get routine.
-- have each sq binding to the ctlr do a ctlr get. This will
-  now pair with the put on each sq destroy.
-- in sq_destroy, if destroying the admin queue, do an
-  additional put so that ctlr will be torn down on last
-  queue sq_destroy
+Correct by creating a final free work element, which is scheduled
+by the final ctrl put routine, so that when the cancel_work_sync
+is called, it cannot be in the same work_q element context.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
-Reported-by: Zhang Yi <yizhan at redhat.com>
 ---
- drivers/nvme/target/core.c        | 16 ++++++++++++++--
- drivers/nvme/target/fabrics-cmd.c |  1 +
- drivers/nvme/target/nvmet.h       |  1 +
- 3 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/nvme/target/core.c  | 26 ++++++++++++++++++--------
+ drivers/nvme/target/nvmet.h |  1 +
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 1b208beeef50..035a3919d095 100644
+index 035a3919d095..7c133e11d3c1 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -440,8 +440,15 @@ void nvmet_sq_destroy(struct nvmet_sq *sq)
- 	 * If this is the admin queue, complete all AERs so that our
- 	 * queue doesn't have outstanding requests on it.
- 	 */
--	if (sq->ctrl && sq->ctrl->sqs && sq->ctrl->sqs[0] == sq)
-+	if (sq->ctrl && sq->ctrl->sqs && sq->ctrl->sqs[0] == sq) {
- 		nvmet_async_events_free(sq->ctrl);
-+		/*
-+		 * if freeing admin queue, do another controller
-+		 * put so that the controller will be released on
-+		 * on the last queue reference being released.
-+		 */
-+		nvmet_ctrl_put(sq->ctrl);
-+	}
- 	percpu_ref_kill_and_confirm(&sq->ref, nvmet_confirm_sq);
- 	wait_for_completion(&sq->confirm_done);
- 	wait_for_completion(&sq->free_done);
-@@ -650,7 +657,7 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn, const char *hostnqn, u16 cntlid,
- 				pr_warn("hostnqn mismatch.\n");
- 				continue;
- 			}
--			if (!kref_get_unless_zero(&ctrl->ref))
-+			if (!nvmet_ctrl_get(ctrl))
- 				continue;
- 
- 			*ret = ctrl;
-@@ -867,6 +874,11 @@ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
- 	kref_put(&ctrl->ref, nvmet_ctrl_free);
+@@ -847,17 +847,12 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	return status;
  }
  
-+int nvmet_ctrl_get(struct nvmet_ctrl *ctrl)
+-static void nvmet_ctrl_free(struct kref *ref)
++static void nvmet_ctrl_free_work(struct work_struct *work)
+ {
+-	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
++	struct nvmet_ctrl *ctrl =
++			container_of(work, struct nvmet_ctrl, free_work);
+ 	struct nvmet_subsys *subsys = ctrl->subsys;
+ 
+-	nvmet_stop_keep_alive_timer(ctrl);
+-
+-	mutex_lock(&subsys->lock);
+-	list_del(&ctrl->subsys_entry);
+-	mutex_unlock(&subsys->lock);
+-
+ 	flush_work(&ctrl->async_event_work);
+ 	cancel_work_sync(&ctrl->fatal_err_work);
+ 
+@@ -869,6 +864,21 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 	kfree(ctrl);
+ }
+ 
++static void nvmet_ctrl_free(struct kref *ref)
 +{
-+	return kref_get_unless_zero(&ctrl->ref);
++	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
++	struct nvmet_subsys *subsys = ctrl->subsys;
++
++	nvmet_stop_keep_alive_timer(ctrl);
++
++	mutex_lock(&subsys->lock);
++	list_del(&ctrl->subsys_entry);
++	mutex_unlock(&subsys->lock);
++
++	INIT_WORK(&ctrl->free_work, nvmet_ctrl_free_work);
++	schedule_work(&ctrl->free_work);
 +}
 +
- static void nvmet_fatal_error_handler(struct work_struct *work)
+ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
  {
- 	struct nvmet_ctrl *ctrl =
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index db3bf6b8bf9e..ceb007e460fd 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -113,6 +113,7 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 		pr_warn("queue size zero!\n");
- 		return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 	}
-+	nvmet_ctrl_get(ctrl);
- 
- 	/* note: convert queue size from 0's-based value to 1's-based value */
- 	nvmet_cq_setup(ctrl, req->cq, qid, sqsize + 1);
+ 	kref_put(&ctrl->ref, nvmet_ctrl_free);
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7b8e20adf760..6c3a5a5fc71e 100644
+index 6c3a5a5fc71e..568ad560c112 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -283,6 +283,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- u16 nvmet_ctrl_find_get(const char *subsysnqn, const char *hostnqn, u16 cntlid,
- 		struct nvmet_req *req, struct nvmet_ctrl **ret);
- void nvmet_ctrl_put(struct nvmet_ctrl *ctrl);
-+int nvmet_ctrl_get(struct nvmet_ctrl *ctrl);
- u16 nvmet_check_ctrl_status(struct nvmet_req *req, struct nvme_command *cmd);
+@@ -129,6 +129,7 @@ struct nvmet_ctrl {
+ 	struct kref		ref;
+ 	struct delayed_work	ka_work;
+ 	struct work_struct	fatal_err_work;
++	struct work_struct	free_work;
  
- struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 	struct nvmet_fabrics_ops *ops;
+ 
 -- 
 2.13.1
