@@ -1,126 +1,17 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 28 Sep 2017 08:35:53 -0700
-Subject: [PATCH 2/2] nvmet: Fix fatal_err_work deadlock
-In-Reply-To: <20170928153553.13993-1-jsmart2021@gmail.com>
-References: <20170928153553.13993-1-jsmart2021@gmail.com>
-Message-ID: <20170928153553.13993-3-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 28 Sep 2017 09:53:16 -0600
+Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170925134031.10548-9-hch@lst.de>
+References: <20170925134031.10548-1-hch@lst.de>
+ <20170925134031.10548-9-hch@lst.de>
+Message-ID: <20170928155315.GK8463@localhost.localdomain>
 
-Below is  a stack trace for an issue that was reported.
+On Mon, Sep 25, 2017@03:40:30PM +0200, Christoph Hellwig wrote:
+> The new block devices nodes for multipath access will show up as
+> 
+> 	/dev/nvm-subXnZ
 
-What's happening is that the nvmet layer had it's controller kato
-timeout fire, which causes it to schedule its fatal error handler
-via the fatal_err_work element. The error handler is invoked, which
-calls the transport delete_ctrl() entry point, and as the transport
-tears down the controller, nvmet_sq_destroy ends up doing the final
-put on the ctlr causing it to enter its free routine. The ctlr free
-routine does a cancel_work_sync() on fatal_err_work element, which
-then does a flush_work and wait_for_completion. But, as the wait is
-in the context of the work element being flushed, its in a catch-22
-and the thread hangs.
-
-[  326.903131] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-[  326.909832] nvmet: ctrl 1 fatal error occurred!
-[  327.643100] lpfc 0000:04:00.0: 0:6313 NVMET Defer ctx release xri
-x114 flg x2
-[  494.582064] INFO: task kworker/0:2:243 blocked for more than 120
-seconds.
-[  494.589638]       Not tainted 4.14.0-rc1.James+ #1
-[  494.594986] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  494.603718] kworker/0:2     D    0   243      2 0x80000000
-[  494.609839] Workqueue: events nvmet_fatal_error_handler [nvmet]
-[  494.616447] Call Trace:
-[  494.619177]  __schedule+0x28d/0x890
-[  494.623070]  schedule+0x36/0x80
-[  494.626571]  schedule_timeout+0x1dd/0x300
-[  494.631044]  ? dequeue_task_fair+0x592/0x840
-[  494.635810]  ? pick_next_task_fair+0x23b/0x5c0
-[  494.640756]  wait_for_completion+0x121/0x180
-[  494.645521]  ? wake_up_q+0x80/0x80
-[  494.649315]  flush_work+0x11d/0x1a0
-[  494.653206]  ? wake_up_worker+0x30/0x30
-[  494.657484]  __cancel_work_timer+0x10b/0x190
-[  494.662249]  cancel_work_sync+0x10/0x20
-[  494.666525]  nvmet_ctrl_put+0xa3/0x100 [nvmet]
-[  494.671482]  nvmet_sq_:q+0x64/0xd0 [nvmet]
-[  494.676540]  nvmet_fc_delete_target_queue+0x202/0x220 [nvmet_fc]
-[  494.683245]  nvmet_fc_delete_target_assoc+0x6d/0xc0 [nvmet_fc]
-[  494.689743]  nvmet_fc_delete_ctrl+0x137/0x1a0 [nvmet_fc]
-[  494.695673]  nvmet_fatal_error_handler+0x30/0x40 [nvmet]
-[  494.701589]  process_one_work+0x149/0x360
-[  494.706064]  worker_thread+0x4d/0x3c0
-[  494.710148]  kthread+0x109/0x140
-[  494.713751]  ? rescuer_thread+0x380/0x380
-[  494.718214]  ? kthread_park+0x60/0x60
-
-Correct by creating a final free work element, which is scheduled
-by the final ctrl put routine, so that when the cancel_work_sync
-is called, it cannot be in the same work_q element context.
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/core.c  | 26 ++++++++++++++++++--------
- drivers/nvme/target/nvmet.h |  1 +
- 2 files changed, 19 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 035a3919d095..7c133e11d3c1 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -847,17 +847,12 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	return status;
- }
- 
--static void nvmet_ctrl_free(struct kref *ref)
-+static void nvmet_ctrl_free_work(struct work_struct *work)
- {
--	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
-+	struct nvmet_ctrl *ctrl =
-+			container_of(work, struct nvmet_ctrl, free_work);
- 	struct nvmet_subsys *subsys = ctrl->subsys;
- 
--	nvmet_stop_keep_alive_timer(ctrl);
--
--	mutex_lock(&subsys->lock);
--	list_del(&ctrl->subsys_entry);
--	mutex_unlock(&subsys->lock);
--
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fatal_err_work);
- 
-@@ -869,6 +864,21 @@ static void nvmet_ctrl_free(struct kref *ref)
- 	kfree(ctrl);
- }
- 
-+static void nvmet_ctrl_free(struct kref *ref)
-+{
-+	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
-+	struct nvmet_subsys *subsys = ctrl->subsys;
-+
-+	nvmet_stop_keep_alive_timer(ctrl);
-+
-+	mutex_lock(&subsys->lock);
-+	list_del(&ctrl->subsys_entry);
-+	mutex_unlock(&subsys->lock);
-+
-+	INIT_WORK(&ctrl->free_work, nvmet_ctrl_free_work);
-+	schedule_work(&ctrl->free_work);
-+}
-+
- void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
- {
- 	kref_put(&ctrl->ref, nvmet_ctrl_free);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 6c3a5a5fc71e..568ad560c112 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -129,6 +129,7 @@ struct nvmet_ctrl {
- 	struct kref		ref;
- 	struct delayed_work	ka_work;
- 	struct work_struct	fatal_err_work;
-+	struct work_struct	free_work;
- 
- 	struct nvmet_fabrics_ops *ops;
- 
--- 
-2.13.1
+Just thinking ahead ... Once this goes in, someone will want to boot their
+OS from a multipath target. It was a pain getting installers to recognize
+/dev/nvmeXnY as an install destination. I'm not sure if installers have
+gotten any better in the last 5 years about recognizing new block names.
