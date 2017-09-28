@@ -1,26 +1,24 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 27 Sep 2017 08:40:54 -0700
-Subject: [PATCH] nvmet_fc: Reduce work_q count
-In-Reply-To: <20170927083813.qbm5un7m7z2uamxt@linux-x5ow.site>
-References: <20170927040958.5981-1-jsmart2021@gmail.com>
- <20170927083813.qbm5un7m7z2uamxt@linux-x5ow.site>
-Message-ID: <4e34dfe9-ead4-aa61-bd71-0561fba6d14a@gmail.com>
+Date: Thu, 28 Sep 2017 08:35:51 -0700
+Subject: [PATCH 0/2] nvmet: address controller teardown issues
+Message-ID: <20170928153553.13993-1-jsmart2021@gmail.com>
 
-On 9/27/2017 1:38 AM, Johannes Thumshirn wrote:
-> On Tue, Sep 26, 2017@09:09:58PM -0700, James Smart wrote:
->> Instead of a work_q per controller queue, use a global workqueue.
-> 
-> Could you be a bit more specific on why you want to use one global
-> nvme-fc workqueue?
-> 
-> Thanks,
-> 	Johannes
-> 
+Controller deletes were showing a nasty stack trace with
+flush_work hanging. Looking at the issue, it became clear the
+ref counting for nvmet was allowing the controller to be freed
+too early causing use after free errors.
 
-Based on the recommendation from Christoph:
-http://lists.infradead.org/pipermail/linux-nvme/2017-May/010388.html
+First patch addresses ctrl ref counting
+second patch addresses flush_work hang
 
-This patch has gone through several itterations with the last 
-recommendation being the single work_q.
+James Smart (2):
+  nvmet: fix ctlr ref counting
+  nvmet: Fix fatal_err_work deadlock
 
--- james
+ drivers/nvme/target/core.c        | 42 +++++++++++++++++++++++++++++----------
+ drivers/nvme/target/fabrics-cmd.c |  1 +
+ drivers/nvme/target/nvmet.h       |  2 ++
+ 3 files changed, 35 insertions(+), 10 deletions(-)
+
+-- 
+2.13.1
