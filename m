@@ -1,25 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 28 Sep 2017 16:04:08 +0200
-Subject: [PATCH] nvmet_fc: Reduce work_q count
-In-Reply-To: <4e34dfe9-ead4-aa61-bd71-0561fba6d14a@gmail.com>
-References: <20170927040958.5981-1-jsmart2021@gmail.com>
- <20170927083813.qbm5un7m7z2uamxt@linux-x5ow.site>
- <4e34dfe9-ead4-aa61-bd71-0561fba6d14a@gmail.com>
-Message-ID: <20170928140328.jqrqfxlha36p7y3f@linux-x5ow.site>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 28 Sep 2017 09:56:31 -0700
+Subject: [PATCH] nvme_fc: avoid workqueue flush stalls
+Message-ID: <20170928165631.16097-1-jsmart2021@gmail.com>
 
-On Wed, Sep 27, 2017@08:40:54AM -0700, James Smart wrote:
-> Based on the recommendation from Christoph:
-> http://lists.infradead.org/pipermail/linux-nvme/2017-May/010388.html
-> 
-> This patch has gone through several itterations with the last recommendation
-> being the single work_q.
+There's no need to wait for the full nvme_wq, which is now shared,
+to flush. flush only the delete_work item.
 
-Ah OK thanks
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index ac898571b1e5..2bd94de09b8a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2846,7 +2846,7 @@ nvme_fc_del_nvme_ctrl(struct nvme_ctrl *nctrl)
+ 	ret = __nvme_fc_del_ctrl(ctrl);
+ 
+ 	if (!ret)
+-		flush_workqueue(nvme_wq);
++		flush_work(&ctrl->delete_work);
+ 
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.13.1
