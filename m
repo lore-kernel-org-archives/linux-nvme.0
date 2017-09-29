@@ -1,17 +1,27 @@
-From: Steve.Schremmer@netapp.com (Schremmer, Steven)
-Date: Fri, 29 Sep 2017 19:27:57 +0000
-Subject: [PATCH 2/2] nvme: use device_add_disk_with_groups()
-In-Reply-To: <20170928193637.24707-2-mwilck@suse.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 29 Sep 2017 16:59:49 -0600
+Subject: [PATCH 1/2] block: genhd: add device_add_disk_with_groups
+In-Reply-To: <20170928193637.24707-1-mwilck@suse.com>
 References: <20170928193637.24707-1-mwilck@suse.com>
- <20170928193637.24707-2-mwilck@suse.com>
-Message-ID: <BN6PR06MB2481721314222F0625734DB48C7E0@BN6PR06MB2481.namprd06.prod.outlook.com>
+Message-ID: <20170929225949.GP8463@localhost.localdomain>
 
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Martin Wilck
-> Sent: Thursday, September 28, 2017 2:37 PM
-> To: Jens Axboe <axboe at kernel.dk>; Christoph Hellwig <hch at lst.de>; Johannes Thumshirn <jthumshirn at suse.de>
-> Cc: linux-block at vger.kernel.org; Martin Wilck <mwilck at suse.de>; linux-kernel at vger.kernel.org; linux-nvme at lists.infradead.org;
-> Hannes Reinecke <hare at suse.de>
-> Subject: [PATCH 2/2] nvme: use device_add_disk_with_groups()
+On Thu, Sep 28, 2017@09:36:36PM +0200, Martin Wilck wrote:
+> In the NVME subsystem, we're seeing a race condition with udev where
+> device_add_disk() is called (which triggers an "add" uevent), and a
+> sysfs attribute group is added to the disk device afterwards.
+> If udev rules access these attributes before they are created,
+> udev processing of the device is incomplete, in particular, device
+> WWIDs may not be determined correctly.
 > 
+> To fix this, this patch introduces a new function
+> device_add_disk_with_groups(), which takes a list of attribute groups
+> and adds them to the device before sending out uevents.
+> 
+> Signed-off-by: Martin Wilck <mwilck at suse.com>
 
-Tested-by: Steve Schremmer <steve.schremmer at netapp.com>
+Is NVMe the only one having this problem? Was putting our attributes in
+the disk's kobj a bad choice?
+
+Any, looks fine to me.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
