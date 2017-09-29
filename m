@@ -1,79 +1,95 @@
-From: lv.zheng@intel.com (Zheng, Lv)
-Date: Fri, 29 Sep 2017 04:40:09 +0000
-Subject: ACPI object counter overrun on frequent nvme resets
-In-Reply-To: <20170925130729.GA14151@infradead.org>
-References: <20170925130729.GA14151@infradead.org>
-Message-ID: <1AE640813FDE7649BE1B193DEA596E886CF6F735@SHSMSX101.ccr.corp.intel.com>
+From: abhishek.shah@broadcom.com (Abhishek Shah)
+Date: Fri, 29 Sep 2017 10:59:26 +0530
+Subject: [PATCH] nvme-pci: Use PCI bus address for data/queues in CMB
+Message-ID: <1506662966-10865-1-git-send-email-abhishek.shah@broadcom.com>
 
-Hi
+Currently, NVMe PCI host driver is programming CMB dma address as
+I/O SQs addresses. This results in failures on systems where 1:1
+outbound mapping is not used (example Broadcom iProc SOCs) because
+CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
+try to access CMB using dma address.
 
-I've converted this bug into a Bugzilla entry here:
-https://bugzilla.kernel.org/show_bug.cgi?id=197071
+To have CMB working on systems without 1:1 outbound mapping, we
+program PCI bus address for I/O SQs instead of dma address. This
+approach will work on systems with/without 1:1 outbound mapping.
 
-Thanks
-Lv
+The patch is tested on Broadcom Stingray platform(arm64), which
+does not have 1:1 outbound mapping, as well as on x86 platform,
+which has 1:1 outbound mapping.
 
-> From: linux-acpi-owner at vger.kernel.org [mailto:linux-acpi-owner at vger.kernel.org] On Behalf Of
-> Subject: ACPI object counter overrun on frequent nvme resets
-> 
-> Hi all,
-> 
-> when doing an error injection test with the nvme-pci driver on Linux 4.14
-> almost rc2 (820bf5c419e4b85298e5c3001bd1b5be46d60765 plus a few nvme
-> patches) that does a lot of nvme resets which shut down and re-enable the
-> PCI device I see a flood of warnings like:
-> 
-> [   78.237286] ACPI Warning: Large Reference Count (0x1001) in object ffff88007d702c68, Type=0x1D
-> (20170728/utdelete-473)
-> 
-> Throwing in a dump_stack into the path it comes from:
-> 
-> [   78.238387] CPU: 0 PID: 286 Comm: kworker/u8:3 Not tainted 4.14.0-rc1+ #134
-> [   78.238998] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-> [   78.239720] Workqueue: nvme-wq nvme_reset_work
-> [   78.239995] Call Trace:
-> [   78.239995]  dump_stack+0x63/0x83
-> [   78.239995]  acpi_ut_update_ref_count+0x2f7/0x2fe
-> [   78.239995]  acpi_ut_update_object_reference+0x114/0x182
-> [   78.239995]  acpi_ut_add_reference+0x1b/0x1e
-> [   78.239995]  acpi_ds_init_package_element+0x149/0x16e
-> [   78.239995]  ? acpi_ds_build_internal_object+0xca/0x12c
-> [   78.239995]  acpi_ds_build_internal_package_obj+0x1b2/0x258
-> [   78.239995]  ? acpi_ds_build_internal_package_obj+0x1b2/0x258
-> [   78.239995]  acpi_ds_eval_data_object_operands+0xd3/0x123
-> [   78.239995]  acpi_ds_exec_end_op+0x288/0x3e1
-> [   78.239995]  acpi_ps_parse_loop+0x519/0x57b
-> [   78.239995]  acpi_ps_parse_aml+0x93/0x29c
-> [   78.239995]  acpi_ps_execute_method+0x148/0x17f
-> [   78.239995]  acpi_ns_evaluate+0x1c1/0x24d
-> [   78.239995]  acpi_ut_evaluate_object+0x72/0x197
-> [   78.239995]  acpi_rs_get_prt_method_data+0x21/0x45
-> [   78.239995]  acpi_get_irq_routing_table+0x2c/0x30
-> [   78.239995]  acpi_pci_irq_find_prt_entry+0x8e/0x2c0
-> [   78.239995]  ? irq_get_irq_data+0x9/0x20
-> [   78.239995]  ? mp_unmap_irq+0xf/0x70
-> [   78.239995]  acpi_pci_irq_lookup+0x26/0x1a0
-> [   78.239995]  acpi_pci_irq_enable+0x5b/0x1b0
-> [   78.239995]  ? pci_read_config_word+0x22/0x30
-> [   78.239995]  pcibios_enable_device+0x28/0x30
-> [   78.239995]  do_pci_enable_device+0x5f/0xe0
-> [   78.239995]  pci_enable_device_flags+0xc3/0x110
-> [   78.239995]  pci_enable_device_mem+0xe/0x10
-> [   78.239995]  nvme_reset_work+0x4c/0x1610
-> [   78.239995]  ? sched_clock+0x9/0x10
-> [   78.239995]  ? sched_clock_local+0x17/0x90
-> [   78.239995]  ? _raw_spin_lock+0x9/0x10
-> [   78.239995]  ? pick_next_task_fair+0x420/0x690
-> [   78.239995]  ? _raw_spin_unlock_irq+0x9/0x20
-> [   78.239995]  ? finish_task_switch+0x7b/0x1f0
-> [   78.239995]  ? __schedule+0x2d7/0x800
-> [   78.239995]  process_one_work+0x1db/0x3e0
-> [   78.239995]  worker_thread+0x43/0x3f0
-> [   78.239995]  kthread+0x103/0x140
-> [   78.239995]  ? process_one_work+0x3e0/0x3e0
-> [   78.239995]  ? kthread_create_on_node+0x40/0x40
-> [   78.239995]  ret_from_fork+0x25/0x30
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-acpi" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
+Cc: stable at vger.kernel.org
+Signed-off-by: Abhishek Shah <abhishek.shah at broadcom.com>
+Reviewed-by: Anup Patel <anup.patel at broadcom.com>
+Reviewed-by: Ray Jui <ray.jui at broadcom.com>
+Reviewed-by: Scott Branden <scott.branden at broadcom.com>
+---
+ drivers/nvme/host/pci.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4a21213..29e3bd8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -94,6 +94,7 @@ struct nvme_dev {
+ 	bool subsystem;
+ 	void __iomem *cmb;
+ 	dma_addr_t cmb_dma_addr;
++	pci_bus_addr_t cmb_bus_addr;
+ 	u64 cmb_size;
+ 	u32 cmbsz;
+ 	u32 cmbloc;
+@@ -1220,7 +1221,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 	if (qid && dev->cmb && use_cmb_sqes && NVME_CMB_SQS(dev->cmbsz)) {
+ 		unsigned offset = (qid - 1) * roundup(SQ_SIZE(depth),
+ 						      dev->ctrl.page_size);
+-		nvmeq->sq_dma_addr = dev->cmb_dma_addr + offset;
++		nvmeq->sq_dma_addr = dev->cmb_bus_addr + offset;
+ 		nvmeq->sq_cmds_io = dev->cmb + offset;
+ 	} else {
+ 		nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
+@@ -1514,8 +1515,28 @@ static ssize_t nvme_cmb_show(struct device *dev,
+ }
+ static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
+ 
++static int nvme_find_cmb_bus_addr(struct pci_dev *pdev,
++				  dma_addr_t dma_addr,
++				  u64 size,
++				  pci_bus_addr_t *bus_addr)
++{
++	struct resource *res;
++	struct pci_bus_region region;
++	struct resource tres = DEFINE_RES_MEM(dma_addr, size);
++
++	res = pci_find_resource(pdev, &tres);
++	if (!res)
++		return -EIO;
++
++	pcibios_resource_to_bus(pdev->bus, &region, res);
++	*bus_addr = region.start + (dma_addr - res->start);
++
++	return 0;
++}
++
+ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ {
++	int rc;
+ 	u64 szu, size, offset;
+ 	resource_size_t bar_size;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+@@ -1553,6 +1574,13 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 
+ 	dev->cmb_dma_addr = dma_addr;
+ 	dev->cmb_size = size;
++
++	rc = nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr);
++	if (rc) {
++		iounmap(cmb);
++		return NULL;
++	}
++
+ 	return cmb;
+ }
+ 
+-- 
+2.7.4
