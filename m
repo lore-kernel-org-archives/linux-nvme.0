@@ -1,32 +1,73 @@
-From: yyt168@gmail.com (Tony Yang)
-Date: Fri, 29 Sep 2017 22:21:53 +0800
-Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170928155315.GK8463@localhost.localdomain>
-References: <20170925134031.10548-1-hch@lst.de>
- <20170925134031.10548-9-hch@lst.de>
- <20170928155315.GK8463@localhost.localdomain>
-Message-ID: <CADL4p-rbv8eH0UYjPkA2oTNafZgv16k0rmJEcj2=jz7yyYf8KA@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 29 Sep 2017 08:42:42 -0600
+Subject: [PATCH] nvme-pci: Use PCI bus address for data/queues in CMB
+In-Reply-To: <1506662966-10865-1-git-send-email-abhishek.shah@broadcom.com>
+References: <1506662966-10865-1-git-send-email-abhishek.shah@broadcom.com>
+Message-ID: <20170929144242.GN8463@localhost.localdomain>
 
-Hi, All
+On Fri, Sep 29, 2017@10:59:26AM +0530, Abhishek Shah wrote:
+> Currently, NVMe PCI host driver is programming CMB dma address as
+> I/O SQs addresses. This results in failures on systems where 1:1
+> outbound mapping is not used (example Broadcom iProc SOCs) because
+> CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
+> try to access CMB using dma address.
+> 
+> To have CMB working on systems without 1:1 outbound mapping, we
+> program PCI bus address for I/O SQs instead of dma address. This
+> approach will work on systems with/without 1:1 outbound mapping.
+> 
+> The patch is tested on Broadcom Stingray platform(arm64), which
+> does not have 1:1 outbound mapping, as well as on x86 platform,
+> which has 1:1 outbound mapping.
+> 
+> Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
+> Cc: stable at vger.kernel.org
+> Signed-off-by: Abhishek Shah <abhishek.shah at broadcom.com>
+> Reviewed-by: Anup Patel <anup.patel at broadcom.com>
+> Reviewed-by: Ray Jui <ray.jui at broadcom.com>
+> Reviewed-by: Scott Branden <scott.branden at broadcom.com>
 
-     Because my environment requirements, the kernel must use 4.8.17,
-I would like to ask, how to use the kernel 4.8.17 nvme multi-path?
-Because I see support for multi-path versions are above 4.13
+Thanks for the patch.
 
-Expect everyone's help, thank you very much
+On a similar note, we also break CMB usage in virutalization with direct
+assigned devices: the guest doesn't know the host physical bus address,
+so it sets the CMB queue address incorrectly there, too. I don't know of
+a way to fix that other than disabling CMB.
 
-2017-09-28 23:53 GMT+08:00 Keith Busch <keith.busch at intel.com>:
-> On Mon, Sep 25, 2017@03:40:30PM +0200, Christoph Hellwig wrote:
->> The new block devices nodes for multipath access will show up as
->>
->>       /dev/nvm-subXnZ
->
-> Just thinking ahead ... Once this goes in, someone will want to boot their
-> OS from a multipath target. It was a pain getting installers to recognize
-> /dev/nvmeXnY as an install destination. I'm not sure if installers have
-> gotten any better in the last 5 years about recognizing new block names.
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+>  static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+>  {
+> +	int rc;
+>  	u64 szu, size, offset;
+>  	resource_size_t bar_size;
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> @@ -1553,6 +1574,13 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+>  
+>  	dev->cmb_dma_addr = dma_addr;
+>  	dev->cmb_size = size;
+> +
+> +	rc = nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr);
+> +	if (rc) {
+> +		iounmap(cmb);
+> +		return NULL;
+> +	}
+> +
+>  	return cmb;
+>  }
+
+Minor suggestion: it's a little simpler if you find the bus address
+before ioremap:
+
+---
+@@ -1554,6 +1554,10 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 		size = bar_size - offset;
+ 
+ 	dma_addr = pci_resource_start(pdev, NVME_CMB_BIR(dev->cmbloc)) + offset;
++
++	if (nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr))
++		return NULL;
++
+ 	cmb = ioremap_wc(dma_addr, size);
+ 	if (!cmb)
+ 		return NULL;
+--
