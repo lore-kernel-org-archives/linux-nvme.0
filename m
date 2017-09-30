@@ -1,18 +1,12 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 29 Sep 2017 17:00:07 -0600
-Subject: [PATCH 2/2] nvme: use device_add_disk_with_groups()
-In-Reply-To: <20170928193637.24707-2-mwilck@suse.com>
-References: <20170928193637.24707-1-mwilck@suse.com>
- <20170928193637.24707-2-mwilck@suse.com>
-Message-ID: <20170929230006.GQ8463@localhost.localdomain>
+From: yyt168@gmail.com (Tony Yang)
+Date: Sat, 30 Sep 2017 08:08:40 +0800
+Subject: How to enable multi-path on kernel 4.8.17
+Message-ID: <CADL4p-r7izEpgh+58r-4mrtezEgkXN9C85_Tp=RNA11jhAy5TQ@mail.gmail.com>
 
-On Thu, Sep 28, 2017@09:36:37PM +0200, Martin Wilck wrote:
-> By using device_add_disk_with_groups(), we can avoid the race
-> condition with udev rule processing, because no udev event will
-> be triggered before all attributes are available.
-> 
-> Signed-off-by: Martin Wilck <mwilck at suse.com>
+Hi, All
 
-Looks good.
+     Because my environment requirements, the kernel must use 4.8.17,
+I would like to ask, how to use the kernel 4.8.17 nvme multi-path?
+Because I see support for multi-path versions are above 4.13
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Expect everyone's help, thank you very much
