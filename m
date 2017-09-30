@@ -1,30 +1,40 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sat, 30 Sep 2017 20:09:06 +0200
-Subject: [PATCH 2/2] nvmet: Fix fatal_err_work deadlock
-In-Reply-To: <20170928153553.13993-3-jsmart2021@gmail.com>
-References: <20170928153553.13993-1-jsmart2021@gmail.com>
- <20170928153553.13993-3-jsmart2021@gmail.com>
-Message-ID: <b5315d31-1d2c-b328-abd2-a734d4017372@grimberg.me>
+From: jsmart2021@gmail.com (James Smart)
+Date: Sat, 30 Sep 2017 11:32:39 -0700
+Subject: [PATCH] nvmet_fc: Reduce work_q count
+In-Reply-To: <90b9711d-e279-443d-1693-dad24524cc74@grimberg.me>
+References: <20170927040958.5981-1-jsmart2021@gmail.com>
+ <90b9711d-e279-443d-1693-dad24524cc74@grimberg.me>
+Message-ID: <e86009d5-2ca6-8de3-d142-781724bf00d8@gmail.com>
 
-> Below is  a stack trace for an issue that was reported.
+On 9/30/2017 10:17 AM, Sagi Grimberg wrote:
 > 
-> What's happening is that the nvmet layer had it's controller kato
-> timeout fire, which causes it to schedule its fatal error handler
-> via the fatal_err_work element. The error handler is invoked, which
-> calls the transport delete_ctrl() entry point, and as the transport
-> tears down the controller, nvmet_sq_destroy ends up doing the final
-> put on the ctlr causing it to enter its free routine. The ctlr free
-> routine does a cancel_work_sync() on fatal_err_work element, which
-> then does a flush_work and wait_for_completion. But, as the wait is
-> in the context of the work element being flushed, its in a catch-22
-> and the thread hangs.
+>> @@ -504,9 +505,11 @@ nvmet_fc_queue_fcp_req(struct nvmet_fc_tgtport 
+>> *tgtport,
+>> ????? fcpreq->hwqid = queue->qid ?
+>> ????????????? ((queue->qid - 1) % tgtport->ops->max_hw_queues) : 0;
+>> -??? if (tgtport->ops->target_features & NVMET_FCTGTFEAT_CMD_IN_ISR)
+>> -??????? queue_work_on(queue->cpu, queue->work_q, &fod->work);
+>> -??? else
+>> +??? if (tgtport->ops->target_features & NVMET_FCTGTFEAT_CMD_IN_ISR) {
+>> +??????? cpu = (queue->cpu == WORK_CPU_UNBOUND) ?
+>> +??????????????????? get_cpu() : queue->cpu;
+> 
+> Why doing this? Why not let workqueue choose it for you? it will
+> attempt your local cpu, but if its busy it will get someone else...
+> 
+> You can simply queue it with WORK_CPU_UNBOUND if it happened to be set
+> this way...
 
-fatal error handler was taking the assumption that that delete_ctrl
-execution is asynchronous given that controller teardown is refcounted
-by queues that are refcounted by inflight IO. This suggests that
-controller actual free is async by nature, probably should have
-documented it...
+Because we're still trying to get cpu affinity on the connection 
+resources that will be shared by the io on the same queue.
 
-Is fc's delete_ctrl blocks until all inflight IO is drained? I would
-suggest to defer this blocking routine out of the fatal_error path like
-rdma and loop. Is that something that breaks your design?
+And we're trying to spread out the cpu utilization rather than ganging 
+up on a few cpus (e.g. the lldd may have (quite a few) fewer msix than 
+there are cpus).
+
+But... as I now got lpfc to move to a softirq model (still needs to be 
+merged), and cavium, as the other FC adapter was already there. I'm 
+going to come around and delete these "IN_ISR" cases. I was going to
+delay that but perhaps nows the time to do so.
+
+-- james
