@@ -1,44 +1,42 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Sat, 30 Sep 2017 12:33:26 -0700
-Subject: [PATCH 2/2] nvmet: Fix fatal_err_work deadlock
-In-Reply-To: <b5315d31-1d2c-b328-abd2-a734d4017372@grimberg.me>
-References: <20170928153553.13993-1-jsmart2021@gmail.com>
- <20170928153553.13993-3-jsmart2021@gmail.com>
- <b5315d31-1d2c-b328-abd2-a734d4017372@grimberg.me>
-Message-ID: <991eab4b-d27c-2a17-ee14-0d9b11d9d2b1@broadcom.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Sat, 30 Sep 2017 21:37:38 +0200
+Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20170928155315.GK8463@localhost.localdomain> (Keith Busch's
+ message of "Thu, 28 Sep 2017 09:53:16 -0600")
+References: <20170925134031.10548-1-hch@lst.de>
+ <20170925134031.10548-9-hch@lst.de>
+ <20170928155315.GK8463@localhost.localdomain>
+Message-ID: <mqdk20ghta5.fsf@linux-x5ow.site>
 
-On 9/30/2017 11:09 AM, Sagi Grimberg wrote:
->> Below is? a stack trace for an issue that was reported.
->>
->> What's happening is that the nvmet layer had it's controller kato
->> timeout fire, which causes it to schedule its fatal error handler
->> via the fatal_err_work element. The error handler is invoked, which
->> calls the transport delete_ctrl() entry point, and as the transport
->> tears down the controller, nvmet_sq_destroy ends up doing the final
->> put on the ctlr causing it to enter its free routine. The ctlr free
->> routine does a cancel_work_sync() on fatal_err_work element, which
->> then does a flush_work and wait_for_completion. But, as the wait is
->> in the context of the work element being flushed, its in a catch-22
->> and the thread hangs.
+
+[+Cc Hannes ]
+
+Keith Busch <keith.busch at intel.com> writes:
+
+> On Mon, Sep 25, 2017@03:40:30PM +0200, Christoph Hellwig wrote:
+>> The new block devices nodes for multipath access will show up as
+>> 
+>> 	/dev/nvm-subXnZ
 >
-> fatal error handler was taking the assumption that that delete_ctrl
-> execution is asynchronous given that controller teardown is refcounted
-> by queues that are refcounted by inflight IO. This suggests that
-> controller actual free is async by nature, probably should have
-> documented it...
->
-> Is fc's delete_ctrl blocks until all inflight IO is drained? I would
-> suggest to defer this blocking routine out of the fatal_error path like
-> rdma and loop. Is that something that breaks your design?
+> Just thinking ahead ... Once this goes in, someone will want to boot their
+> OS from a multipath target. It was a pain getting installers to recognize
+> /dev/nvmeXnY as an install destination. I'm not sure if installers have
+> gotten any better in the last 5 years about recognizing new block names.
 
-No - it really doesn't block waiting (like the host side) although it 
-may appear that way. Real difference is it processes the teardown in its 
-entirety and its possible, especially on light/idle load, the ref 
-counting could cause things to occur in the delete_ctrl context. Whereas 
-rdma and loop definitely convert over to another workq context for 
-teardown. Yes, I can do that too.? Yes, if there are requirements like 
-this for a transport - please add comments/documentation.? Although, as 
-you can see by this proposed patch, an implementation can be made in the 
-core that places no requirement on a transport.
+We discussed (Hannes, Christoph and me) this as well offline this week
+and it should eithr be possible with some udev magic (fake a
+/dev/mapper/WWID symlink) or a shim device-mapper target that prevents
+dm-mpath from attaching to the underlying block devices and creates a
+real /dev/mapper/WWID device node (Christoph especially dislikes
+this). None of them are pretty, but probably all we can do so far.
 
--- james
+Byte,
+        Johannes
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
