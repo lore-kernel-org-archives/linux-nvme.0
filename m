@@ -1,12 +1,88 @@
-From: yyt168@gmail.com (Tony Yang)
-Date: Sat, 30 Sep 2017 08:08:40 +0800
-Subject: How to enable multi-path on kernel 4.8.17
-Message-ID: <CADL4p-r7izEpgh+58r-4mrtezEgkXN9C85_Tp=RNA11jhAy5TQ@mail.gmail.com>
+From: abhishek.shah@broadcom.com (Abhishek Shah)
+Date: Sat, 30 Sep 2017 14:30:16 +0530
+Subject: [PATCH] nvme-pci: Use PCI bus address for data/queues in CMB
+In-Reply-To: <20170929144242.GN8463@localhost.localdomain>
+References: <1506662966-10865-1-git-send-email-abhishek.shah@broadcom.com>
+ <20170929144242.GN8463@localhost.localdomain>
+Message-ID: <CAKUFe6YHJ+jBgxtEy+YTTDQtphtOEz6+xfBXdowsFKy7ZMqW3w@mail.gmail.com>
 
-Hi, All
+Hi Keith,
 
-     Because my environment requirements, the kernel must use 4.8.17,
-I would like to ask, how to use the kernel 4.8.17 nvme multi-path?
-Because I see support for multi-path versions are above 4.13
+On Fri, Sep 29, 2017@8:12 PM, Keith Busch <keith.busch@intel.com> wrote:
+>
+> On Fri, Sep 29, 2017@10:59:26AM +0530, Abhishek Shah wrote:
+> > Currently, NVMe PCI host driver is programming CMB dma address as
+> > I/O SQs addresses. This results in failures on systems where 1:1
+> > outbound mapping is not used (example Broadcom iProc SOCs) because
+> > CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
+> > try to access CMB using dma address.
+> >
+> > To have CMB working on systems without 1:1 outbound mapping, we
+> > program PCI bus address for I/O SQs instead of dma address. This
+> > approach will work on systems with/without 1:1 outbound mapping.
+> >
+> > The patch is tested on Broadcom Stingray platform(arm64), which
+> > does not have 1:1 outbound mapping, as well as on x86 platform,
+> > which has 1:1 outbound mapping.
+> >
+> > Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
+> > Cc: stable at vger.kernel.org
+> > Signed-off-by: Abhishek Shah <abhishek.shah at broadcom.com>
+> > Reviewed-by: Anup Patel <anup.patel at broadcom.com>
+> > Reviewed-by: Ray Jui <ray.jui at broadcom.com>
+> > Reviewed-by: Scott Branden <scott.branden at broadcom.com>
+>
+> Thanks for the patch.
+>
+> On a similar note, we also break CMB usage in virutalization with direct
+> assigned devices: the guest doesn't know the host physical bus address,
+> so it sets the CMB queue address incorrectly there, too. I don't know of
+> a way to fix that other than disabling CMB.
 
-Expect everyone's help, thank you very much
+I don't have much idea on CMB usage in virtualization... will let
+someone else comment on this.
+>
+>
+>
+> >  static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+> >  {
+> > +     int rc;
+> >       u64 szu, size, offset;
+> >       resource_size_t bar_size;
+> >       struct pci_dev *pdev = to_pci_dev(dev->dev);
+> > @@ -1553,6 +1574,13 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+> >
+> >       dev->cmb_dma_addr = dma_addr;
+> >       dev->cmb_size = size;
+> > +
+> > +     rc = nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr);
+> > +     if (rc) {
+> > +             iounmap(cmb);
+> > +             return NULL;
+> > +     }
+> > +
+> >       return cmb;
+> >  }
+>
+> Minor suggestion: it's a little simpler if you find the bus address
+> before ioremap:
+>
+> ---
+> @@ -1554,6 +1554,10 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+>                 size = bar_size - offset;
+>
+>         dma_addr = pci_resource_start(pdev, NVME_CMB_BIR(dev->cmbloc)) + offset;
+> +
+> +       if (nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr))
+> +               return NULL;
+> +
+>         cmb = ioremap_wc(dma_addr, size);
+>         if (!cmb)
+>                 return NULL;
+> --
+
+Thanks for the suggestion, will push patch with this change.
+
+
+Regards,
+Abhishek
