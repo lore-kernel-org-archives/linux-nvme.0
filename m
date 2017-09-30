@@ -1,88 +1,88 @@
 From: abhishek.shah@broadcom.com (Abhishek Shah)
-Date: Sat, 30 Sep 2017 14:30:16 +0530
-Subject: [PATCH] nvme-pci: Use PCI bus address for data/queues in CMB
-In-Reply-To: <20170929144242.GN8463@localhost.localdomain>
-References: <1506662966-10865-1-git-send-email-abhishek.shah@broadcom.com>
- <20170929144242.GN8463@localhost.localdomain>
-Message-ID: <CAKUFe6YHJ+jBgxtEy+YTTDQtphtOEz6+xfBXdowsFKy7ZMqW3w@mail.gmail.com>
+Date: Sat, 30 Sep 2017 14:58:42 +0530
+Subject: [PATCH v2] nvme-pci: Use PCI bus address for data/queues in CMB
+Message-ID: <1506763722-10687-1-git-send-email-abhishek.shah@broadcom.com>
 
-Hi Keith,
+Currently, NVMe PCI host driver is programming CMB dma address as
+I/O SQs addresses. This results in failures on systems where 1:1
+outbound mapping is not used (example Broadcom iProc SOCs) because
+CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
+try to access CMB using dma address.
 
-On Fri, Sep 29, 2017@8:12 PM, Keith Busch <keith.busch@intel.com> wrote:
->
-> On Fri, Sep 29, 2017@10:59:26AM +0530, Abhishek Shah wrote:
-> > Currently, NVMe PCI host driver is programming CMB dma address as
-> > I/O SQs addresses. This results in failures on systems where 1:1
-> > outbound mapping is not used (example Broadcom iProc SOCs) because
-> > CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
-> > try to access CMB using dma address.
-> >
-> > To have CMB working on systems without 1:1 outbound mapping, we
-> > program PCI bus address for I/O SQs instead of dma address. This
-> > approach will work on systems with/without 1:1 outbound mapping.
-> >
-> > The patch is tested on Broadcom Stingray platform(arm64), which
-> > does not have 1:1 outbound mapping, as well as on x86 platform,
-> > which has 1:1 outbound mapping.
-> >
-> > Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
-> > Cc: stable at vger.kernel.org
-> > Signed-off-by: Abhishek Shah <abhishek.shah at broadcom.com>
-> > Reviewed-by: Anup Patel <anup.patel at broadcom.com>
-> > Reviewed-by: Ray Jui <ray.jui at broadcom.com>
-> > Reviewed-by: Scott Branden <scott.branden at broadcom.com>
->
-> Thanks for the patch.
->
-> On a similar note, we also break CMB usage in virutalization with direct
-> assigned devices: the guest doesn't know the host physical bus address,
-> so it sets the CMB queue address incorrectly there, too. I don't know of
-> a way to fix that other than disabling CMB.
+To have CMB working on systems without 1:1 outbound mapping, we
+program PCI bus address for I/O SQs instead of dma address. This
+approach will work on systems with/without 1:1 outbound mapping.
 
-I don't have much idea on CMB usage in virtualization... will let
-someone else comment on this.
->
->
->
-> >  static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
-> >  {
-> > +     int rc;
-> >       u64 szu, size, offset;
-> >       resource_size_t bar_size;
-> >       struct pci_dev *pdev = to_pci_dev(dev->dev);
-> > @@ -1553,6 +1574,13 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
-> >
-> >       dev->cmb_dma_addr = dma_addr;
-> >       dev->cmb_size = size;
-> > +
-> > +     rc = nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr);
-> > +     if (rc) {
-> > +             iounmap(cmb);
-> > +             return NULL;
-> > +     }
-> > +
-> >       return cmb;
-> >  }
->
-> Minor suggestion: it's a little simpler if you find the bus address
-> before ioremap:
->
-> ---
-> @@ -1554,6 +1554,10 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
->                 size = bar_size - offset;
->
->         dma_addr = pci_resource_start(pdev, NVME_CMB_BIR(dev->cmbloc)) + offset;
-> +
-> +       if (nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr))
-> +               return NULL;
-> +
->         cmb = ioremap_wc(dma_addr, size);
->         if (!cmb)
->                 return NULL;
-> --
+The patch is tested on Broadcom Stingray platform(arm64), which
+does not have 1:1 outbound mapping, as well as on x86 platform,
+which has 1:1 outbound mapping.
 
-Thanks for the suggestion, will push patch with this change.
+Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
+Cc: stable at vger.kernel.org
+Signed-off-by: Abhishek Shah <abhishek.shah at broadcom.com>
+Reviewed-by: Anup Patel <anup.patel at broadcom.com>
+Reviewed-by: Ray Jui <ray.jui at broadcom.com>
+Reviewed-by: Scott Branden <scott.branden at broadcom.com>
+---
+ drivers/nvme/host/pci.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-
-Regards,
-Abhishek
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4a21213..1387050 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -94,6 +94,7 @@ struct nvme_dev {
+ 	bool subsystem;
+ 	void __iomem *cmb;
+ 	dma_addr_t cmb_dma_addr;
++	pci_bus_addr_t cmb_bus_addr;
+ 	u64 cmb_size;
+ 	u32 cmbsz;
+ 	u32 cmbloc;
+@@ -1220,7 +1221,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 	if (qid && dev->cmb && use_cmb_sqes && NVME_CMB_SQS(dev->cmbsz)) {
+ 		unsigned offset = (qid - 1) * roundup(SQ_SIZE(depth),
+ 						      dev->ctrl.page_size);
+-		nvmeq->sq_dma_addr = dev->cmb_dma_addr + offset;
++		nvmeq->sq_dma_addr = dev->cmb_bus_addr + offset;
+ 		nvmeq->sq_cmds_io = dev->cmb + offset;
+ 	} else {
+ 		nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
+@@ -1514,6 +1515,25 @@ static ssize_t nvme_cmb_show(struct device *dev,
+ }
+ static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
+ 
++static int nvme_find_cmb_bus_addr(struct pci_dev *pdev,
++				  dma_addr_t dma_addr,
++				  u64 size,
++				  pci_bus_addr_t *bus_addr)
++{
++	struct resource *res;
++	struct pci_bus_region region;
++	struct resource tres = DEFINE_RES_MEM(dma_addr, size);
++
++	res = pci_find_resource(pdev, &tres);
++	if (!res)
++		return -EIO;
++
++	pcibios_resource_to_bus(pdev->bus, &region, res);
++	*bus_addr = region.start + (dma_addr - res->start);
++
++	return 0;
++}
++
+ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ {
+ 	u64 szu, size, offset;
+@@ -1547,6 +1567,9 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 		size = bar_size - offset;
+ 
+ 	dma_addr = pci_resource_start(pdev, NVME_CMB_BIR(dev->cmbloc)) + offset;
++	if (nvme_find_cmb_bus_addr(pdev, dma_addr, size, &dev->cmb_bus_addr))
++		return NULL;
++
+ 	cmb = ioremap_wc(dma_addr, size);
+ 	if (!cmb)
+ 		return NULL;
+-- 
+2.7.4
