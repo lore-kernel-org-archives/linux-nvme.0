@@ -1,69 +1,51 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 1 Oct 2017 01:47:00 -0700
-Subject: [PATCH] nvme_fc: correct io timeout behavior
-In-Reply-To: <20170927041317.6575-1-jsmart2021@gmail.com>
-References: <20170927041317.6575-1-jsmart2021@gmail.com>
-Message-ID: <20171001084700.GB878@infradead.org>
+From: bhumirks@gmail.com (Bhumika Goyal)
+Date: Mon,  2 Oct 2017 00:44:38 +0530
+Subject: [PATCH] nvme: make config_item_type __ro_after_init
+Message-ID: <1506885278-9234-1-git-send-email-bhumirks@gmail.com>
 
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1374,7 +1374,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
->  				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
->  
->  	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED)
-> -		status = cpu_to_le16((NVME_SC_ABORT_REQ | NVME_SC_DNR) << 1);
-> +		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+Make these __ro_after_init as they are only stored as a reference in the
+ci_type field of a config_item structure during the init phase in the
+function config_group_init_type_name. None of the fields of these
+structures are modified after the init phase, so they can be
+__ro_after_init.
 
-So the DNR bit goes away, ok.
+Structures found using Coccinelle and changes done by hand.
 
-> @@ -1445,15 +1445,22 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
->  		goto check_error;
->  	}
->  
-> +	if (unlikely(!status && op->flags & FCOP_FLAGS_TERMIO))
-> +		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+Signed-off-by: Bhumika Goyal <bhumirks at gmail.com>
+---
+ drivers/nvme/target/configfs.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-We grow another aborted case.  And btw, we really should not use
-NVME_SC_ABORT_REQ here because the command never reched the controller
-to actually get a nvme abort.  We might have to live with this for
-now, but can you please review might addition of new status codes
-for these host-internal cases in the latest ANA draft?
-
-> +	/*
-> +	 * Force failures of commands if we're killing the controller
-> +	 * or have an error on a command used to create an new association
-> +	 */
-> +	if (status && (blk_queue_dying(rq->q) ||
-> +			ctrl->ctrl.state == NVME_CTRL_NEW ||
-> +			ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
-> +		status |= cpu_to_le16(NVME_SC_DNR << 1);
-
-And here we add back the dnr bit based on a few conditions.
-As a nitpick I think the way the conditionals are nested isn't very
-readable, can we split the first line up, please?
-
-	 if (status &&
-	     (blk_queue_dying(rq->q) ||
-	      ctrl->ctrl.state == NVME_CTRL_NEW ||
-	      ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
-		status |= cpu_to_le16(NVME_SC_DNR << 1);
-
->  	complete_rq = __nvme_fc_fcpop_chk_teardowns(ctrl, op);
-> +	if (!complete_rq)
->  		nvme_end_request(rq, status, result);
-> +	else
->  		__nvme_fc_final_op_cleanup(rq);
-
-avoid the unneeded invert and local variable:
-
-	if (unlikely(__nvme_fc_fcpop_chk_teardowns(ctrl, op)))
-		__nvme_fc_final_op_cleanup(rq);
-	else
-		nvme_end_request(rq, status, result);
-
-and while we're at it: the AEN special case above assigns complete_rq,
-but that value will never be read, so the complete_rq can be removed
-entirely.
-
-Can you split the reset handler bits into a separate patch with
-a separate explanation?
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b6aeb1d..075d9b5 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -767,7 +767,7 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
+ 	.make_group		= nvmet_subsys_make,
+ };
+ 
+-static struct config_item_type nvmet_subsystems_type = {
++static struct config_item_type nvmet_subsystems_type __ro_after_init = {
+ 	.ct_group_ops		= &nvmet_subsystems_group_ops,
+ 	.ct_owner		= THIS_MODULE,
+ };
+@@ -921,7 +921,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 	.make_group		= nvmet_ports_make,
+ };
+ 
+-static struct config_item_type nvmet_ports_type = {
++static struct config_item_type nvmet_ports_type __ro_after_init = {
+ 	.ct_group_ops		= &nvmet_ports_group_ops,
+ 	.ct_owner		= THIS_MODULE,
+ };
+@@ -963,7 +963,7 @@ static struct config_group *nvmet_hosts_make_group(struct config_group *group,
+ 	.make_group		= nvmet_hosts_make_group,
+ };
+ 
+-static struct config_item_type nvmet_hosts_type = {
++static struct config_item_type nvmet_hosts_type __ro_after_init = {
+ 	.ct_group_ops		= &nvmet_hosts_group_ops,
+ 	.ct_owner		= THIS_MODULE,
+ };
+-- 
+1.9.1
