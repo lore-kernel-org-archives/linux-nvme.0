@@ -1,18 +1,16 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 1 Oct 2017 10:07:32 +0200
-Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <CADL4p-rbv8eH0UYjPkA2oTNafZgv16k0rmJEcj2=jz7yyYf8KA@mail.gmail.com>
-References: <20170925134031.10548-1-hch@lst.de>
- <20170925134031.10548-9-hch@lst.de>
- <20170928155315.GK8463@localhost.localdomain>
- <CADL4p-rbv8eH0UYjPkA2oTNafZgv16k0rmJEcj2=jz7yyYf8KA@mail.gmail.com>
-Message-ID: <20171001080732.GB11895@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sun, 1 Oct 2017 01:39:32 -0700
+Subject: [PATCH] nvmet_fc: Reduce work_q count
+In-Reply-To: <e86009d5-2ca6-8de3-d142-781724bf00d8@gmail.com>
+References: <20170927040958.5981-1-jsmart2021@gmail.com>
+ <90b9711d-e279-443d-1693-dad24524cc74@grimberg.me>
+ <e86009d5-2ca6-8de3-d142-781724bf00d8@gmail.com>
+Message-ID: <20171001083932.GA878@infradead.org>
 
-On Fri, Sep 29, 2017@10:21:53PM +0800, Tony Yang wrote:
-> Hi, All
-> 
->      Because my environment requirements, the kernel must use 4.8.17,
-> I would like to ask, how to use the kernel 4.8.17 nvme multi-path?
-> Because I see support for multi-path versions are above 4.13
+On Sat, Sep 30, 2017@11:32:39AM -0700, James Smart wrote:
+> Because we're still trying to get cpu affinity on the connection resources
+> that will be shared by the io on the same queue.
 
-In that case we simply can't help you.
+And that's exactly what plain queue_work will give you.  If it doesn't
+do exactly what your open code logic does it has a bug that needs to
+be fixed.
