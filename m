@@ -1,35 +1,49 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 02 Oct 2017 16:46:51 +0200
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 2 Oct 2017 17:08:21 +0200
 Subject: [PATCH] nvme: reset retires after path failover
-In-Reply-To: <20171002143503.14507-1-jthumshirn@suse.de> (Johannes Thumshirn's
- message of "Mon, 2 Oct 2017 16:35:03 +0200")
+In-Reply-To: <20171002144310.GR8463@localhost.localdomain>
 References: <1506952559-1588-1-git-send-email-hare@suse.de>
  <20171002143503.14507-1-jthumshirn@suse.de>
-Message-ID: <mqdshf138v8.fsf@linux-x5ow.site>
+ <20171002144310.GR8463@localhost.localdomain>
+Message-ID: <d8080cdb-87fb-f008-a71c-2edf4e49117e@suse.de>
 
-Gah, please ignore this one. I tested on the wrong device.
+On 10/02/2017 04:43 PM, Keith Busch wrote:
+> On Mon, Oct 02, 2017@04:35:03PM +0200, Johannes Thumshirn wrote:
+>> When we do a path failover we should also reset the retry counter to 0
+>> so we're not accidently failing I/O after a path failover.
+>>
+>> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+>> ---
+>>  drivers/nvme/host/core.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 1ef11ca0fc5e..f1d8b239b7b6 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -118,6 +118,7 @@ static void nvme_failover_req(struct request *req)
+>>  	blk_mq_end_request(req, 0);
+>>  
+>>  	nvme_reset_ctrl(ns->ctrl);
+>> +	nvme_req(req)->retries = 0;
+>>  	kblockd_schedule_work(&ns->head->requeue_work);
+>>  }
+> 
+> Won't this make it possible to retry indefinitely? We've removed the retry
+> time limit, so the only thing preventing inifinite retries on retryable
+> errors is the max retry limit.
+> 
+Please do check my earlier patch series.
+The idea is to first retry paths, and then failover to other paths.
+Once all paths are exhausted we'll requeue the I/O in nvme_make_request().
+So from that we shouldn't have any infinite retries.
 
-But FYI, when triggering a path failure in my RDMA setup (setting one
-switch port down) I get these nice messages:
-[ 1148.124063] nvme nvme0: SEND for CQE 0xffff8817c3720180 failed with
-status transport retry counter exceeded (12)
-[ 1148.180489] nvme nvme0: failed nvme_keep_alive_end_io error=10
-[ 1148.187887] nvme nvme0: Reconnecting in 10 seconds...
-[ 1148.194356] print_req_error: I/O error, dev nvme0n1, sector 1690128
-[ 1148.194361] print_req_error: I/O error, dev nvme0n1, sector 1692168
-[ 1148.194367] print_req_error: I/O error, dev nvme0n1, sector 1694208
-[ 1148.379058] XFS (nvms0n1): writeback error on sector 1628688
+Cheers,
 
-the nvme ones are expected, but I don't really like to see writeback
-errors from the FS here. Something's still a bit off.
-
-Byte,
-        Johannes
-
+Hannes
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
 HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
