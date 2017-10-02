@@ -1,20 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 2 Oct 2017 10:20:39 -0600
-Subject: [PATCH 2/6] nvme: use 'nvmsXnZ' instead of 'nvm-subXnZ'
-In-Reply-To: <20171002161621.GB11048@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 2 Oct 2017 18:22:54 +0200
+Subject: [PATCH 6/6] nvme: ignore retries for multipath devices
+In-Reply-To: <1506952559-1588-7-git-send-email-hare@suse.de>
 References: <1506952559-1588-1-git-send-email-hare@suse.de>
- <1506952559-1588-3-git-send-email-hare@suse.de>
- <20171002161621.GB11048@lst.de>
-Message-ID: <20171002162038.GS8463@localhost.localdomain>
+ <1506952559-1588-7-git-send-email-hare@suse.de>
+Message-ID: <20171002162254.GA11497@lst.de>
 
-On Mon, Oct 02, 2017@06:16:21PM +0200, Christoph Hellwig wrote:
-> On Mon, Oct 02, 2017@03:55:55PM +0200, Hannes Reinecke wrote:
-> > Align with overall nvme device naming scheme.
-> 
-> It is very close to the normal /dev/nvme* devices, so I feat it will
-> create a lot of confusion.
-> 
-> But given that all device name suggestions so far suck I'd be happy
-> to take a stawpoll of linux-nvme subscribers :)
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1ef11ca..ac7676a 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -201,7 +201,8 @@ static inline bool nvme_req_needs_retry(struct request *req)
+>  		return false;
+>  	if (nvme_req(req)->status & NVME_SC_DNR)
+>  		return false;
+> -	if (nvme_req(req)->retries >= nvme_max_retries)
+> +	if (nvme_req(req)->retries >= nvme_max_retries &&
+> +	    !(req->cmd_flags & REQ_NVME_MPATH))
+>  		return false;
+>  	return true;
 
-Of the options availble, +1 to Hannes' nvmsXnY.
+All failover logic is inside a nvme_req_needs_retry() conditional,
+so this change looks completely broken - it basically disables
+failover.
