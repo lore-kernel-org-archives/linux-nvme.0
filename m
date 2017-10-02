@@ -1,24 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 2 Oct 2017 18:42:18 +0200
-Subject: [PATCH 3/6] nvme: claim block devices
-In-Reply-To: <1506952559-1588-4-git-send-email-hare@suse.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 2 Oct 2017 10:53:18 -0600
+Subject: [PATCH 5/6] nvme: Export subsystems to /sys/class/nvme-subsys
+In-Reply-To: <20171002161808.GD11048@lst.de>
 References: <1506952559-1588-1-git-send-email-hare@suse.de>
- <1506952559-1588-4-git-send-email-hare@suse.de>
-Message-ID: <20171002164218.GA11886@lst.de>
+ <1506952559-1588-6-git-send-email-hare@suse.de>
+ <20171002161808.GD11048@lst.de>
+Message-ID: <20171002165317.GT8463@localhost.localdomain>
 
-On Mon, Oct 02, 2017@03:55:56PM +0200, Hannes Reinecke wrote:
-> When setting up a multipath device we need to claim the underlying
-> block devices to avoid other systems and/or programs to access it.
-> And we should be using the standard holders/slave sysfs relationship
-> instead of the hand-crafted 'mpath' links.
+On Mon, Oct 02, 2017@06:18:08PM +0200, Christoph Hellwig wrote:
+> On Mon, Oct 02, 2017@03:55:58PM +0200, Hannes Reinecke wrote:
+> > Create a class for each subsystem to create a 'device' link
+> > for each subsystem device.
+> 
+> I thought about this as it seems useful.  The only downside is that
+> iff we run into subsystems with duplicate NQNs (or fake NQNs using
+> MN/SN) we are in deep trouble once this is exposed in sysfs.
+> 
+> Keith was the one most concerned about that, so I'd like him to
+> chime in.
 
-This completely breaks backwards compatibility:
+The driver will unbind from the controller if it detects an unsupported
+duplicate nvme subsystem. The same logic will prevent duplciate sysfs
+entries in this patch, so I think we're okay from that standpoint.
 
-root at testvm:~# mkfs.xfs /dev/nvme0n1 -f
-mkfs.xfs: cannot open /dev/nvme0n1: Device or resource busy
+My concern was the user can't query or fix the controller that has the
+duplicate subsystem name since we unbind from it. Unbinding is probably
+the right thing to do, though, so the confused subsystem can be fixed
+when the user isolates it from the others.
 
-Also we really do not want and outstanding struct block_device reference
-all the time - struct block_device should only have a reference if
-the block device node is in use or a file system is mounted.  Avoiding
-this case was the whole point of my refactor to store the gendisk
-instead of the block_device in struct bio.
+BTW, I just notice nvme_init_subsystem needs call nvme_put_subsystem in
+the invalid duplicate subnqn case.
