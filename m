@@ -1,51 +1,64 @@
-From: bhumirks@gmail.com (Bhumika Goyal)
-Date: Mon,  2 Oct 2017 00:44:38 +0530
-Subject: [PATCH] nvme: make config_item_type __ro_after_init
-Message-ID: <1506885278-9234-1-git-send-email-bhumirks@gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 2 Oct 2017 08:19:30 +0200
+Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <mqdk20ghta5.fsf@linux-x5ow.site>
+References: <20170925134031.10548-1-hch@lst.de>
+ <20170925134031.10548-9-hch@lst.de>
+ <20170928155315.GK8463@localhost.localdomain>
+ <mqdk20ghta5.fsf@linux-x5ow.site>
+Message-ID: <c6fe82f1-558f-50ee-e053-d55f4ec54801@suse.de>
 
-Make these __ro_after_init as they are only stored as a reference in the
-ci_type field of a config_item structure during the init phase in the
-function config_group_init_type_name. None of the fields of these
-structures are modified after the init phase, so they can be
-__ro_after_init.
+On 09/30/2017 09:37 PM, Johannes Thumshirn wrote:
+> 
+> [+Cc Hannes ]
+> 
+> Keith Busch <keith.busch at intel.com> writes:
+> 
+>> On Mon, Sep 25, 2017@03:40:30PM +0200, Christoph Hellwig wrote:
+>>> The new block devices nodes for multipath access will show up as
+>>>
+>>> 	/dev/nvm-subXnZ
+>>
+>> Just thinking ahead ... Once this goes in, someone will want to boot their
+>> OS from a multipath target. It was a pain getting installers to recognize
+>> /dev/nvmeXnY as an install destination. I'm not sure if installers have
+>> gotten any better in the last 5 years about recognizing new block names.
+> 
+> We discussed (Hannes, Christoph and me) this as well offline this week
+> and it should eithr be possible with some udev magic (fake a
+> /dev/mapper/WWID symlink) or a shim device-mapper target that prevents
+> dm-mpath from attaching to the underlying block devices and creates a
+> real /dev/mapper/WWID device node (Christoph especially dislikes
+> this). None of them are pretty, but probably all we can do so far.
+> 
+There are several issues here.
+The one is the device-naming issue; I'm heavily against the nvm-subX
+thing. Why don't we just name them
 
-Structures found using Coccinelle and changes done by hand.
+/dev/nvmsXnZ
 
-Signed-off-by: Bhumika Goyal <bhumirks at gmail.com>
----
- drivers/nvme/target/configfs.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+which nicely aligns with the existing /dev/nvmeXnZ naming scheme.
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index b6aeb1d..075d9b5 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -767,7 +767,7 @@ static struct config_group *nvmet_subsys_make(struct config_group *group,
- 	.make_group		= nvmet_subsys_make,
- };
- 
--static struct config_item_type nvmet_subsystems_type = {
-+static struct config_item_type nvmet_subsystems_type __ro_after_init = {
- 	.ct_group_ops		= &nvmet_subsystems_group_ops,
- 	.ct_owner		= THIS_MODULE,
- };
-@@ -921,7 +921,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 	.make_group		= nvmet_ports_make,
- };
- 
--static struct config_item_type nvmet_ports_type = {
-+static struct config_item_type nvmet_ports_type __ro_after_init = {
- 	.ct_group_ops		= &nvmet_ports_group_ops,
- 	.ct_owner		= THIS_MODULE,
- };
-@@ -963,7 +963,7 @@ static struct config_group *nvmet_hosts_make_group(struct config_group *group,
- 	.make_group		= nvmet_hosts_make_group,
- };
- 
--static struct config_item_type nvmet_hosts_type = {
-+static struct config_item_type nvmet_hosts_type __ro_after_init = {
- 	.ct_group_ops		= &nvmet_hosts_group_ops,
- 	.ct_owner		= THIS_MODULE,
- };
+The other issue is how to enable multipath booting. Painful experience
+tells us we _need_ to be able to figure out if a device is multipath
+capable without having to invoke any external tools, ie the device
+itself need to carry some marker 'this device is multipath capable'.
+In NVMe speak this means we have to export the CMIC bit from the
+Identify controller data structure to somewhere in sysfs.
+
+Then it's easy to setup a udev rule which sets 'SYSTEMD_READY=0'
+whenever this setting is detected, and the entire udev mechanism will
+leave it alone.
+
+Once this is done we have the paths nicely separated in udev, and then
+setting up the symlinks pointing to the correct device is trivial.
+
+Cheers,
+
+Hannes
 -- 
-1.9.1
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
