@@ -1,41 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 3 Oct 2017 13:53:55 +0200
-Subject: [PATCH 6/6] nvme: ignore retries for multipath devices
-In-Reply-To: <9d603720-2f86-ab3c-6ba3-9d57afb3568e@suse.de>
+Date: Tue, 3 Oct 2017 13:55:07 +0200
+Subject: [PATCH 3/6] nvme: claim block devices
+In-Reply-To: <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
 References: <1506952559-1588-1-git-send-email-hare@suse.de>
- <1506952559-1588-7-git-send-email-hare@suse.de>
- <20171002162254.GA11497@lst.de>
- <9d603720-2f86-ab3c-6ba3-9d57afb3568e@suse.de>
-Message-ID: <20171003115355.GB24650@lst.de>
+ <1506952559-1588-4-git-send-email-hare@suse.de>
+ <20171002164218.GA11886@lst.de>
+ <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
+Message-ID: <20171003115506.GC24650@lst.de>
 
-On Tue, Oct 03, 2017@12:02:38PM +0200, Hannes Reinecke wrote:
-> >>  	if (nvme_req(req)->status & NVME_SC_DNR)
-> >>  		return false;
-> >> -	if (nvme_req(req)->retries >= nvme_max_retries)
-> >> +	if (nvme_req(req)->retries >= nvme_max_retries &&
-> >> +	    !(req->cmd_flags & REQ_NVME_MPATH))
-> >>  		return false;
-> >>  	return true;
-> > 
-> > All failover logic is inside a nvme_req_needs_retry() conditional,
-> > so this change looks completely broken - it basically disables
-> > failover.
-> > 
-> Not in our tests.
-> Without this patch we'd been seeing I/O errors during failover; with
-> this patch I/O continues on the failover path.
+On Tue, Oct 03, 2017@12:08:26PM +0200, Hannes Reinecke wrote:
+> With this patch dm-multipath will ignore this device, so it's
+> _impossible_ to setup any device-mapper or md device on top of the
+> 'nvme' device.
+> Without this patch md will happily autostart any RAID device on these
+> devices when it find a signature.
+> Or the user can mount it.
+> Or swap can attach it as a swapspace.
+> 
+> _AND_ you can do the same with the subsystem device, too, without any
+> indication that anything is amiss.
+> 
+> Do we really want this?
 
-http://git.infradead.org/users/hch/block.git/blob/refs/heads/nvme-mpath:/drivers/nvme/host/core.c#l208
+I though we agreed last week to do dynamic claiming.
 
-210	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
-211		if (nvme_req_needs_failover(req)) {
-212			nvme_failover_req(req);
-213			return;
-214		 }
-
-The only call to nvme_failover_req is guarded by nvme_req_needs_retry,
-and you change needs_retry to return true for MPATH requests that
-exceed the number of retries.  I just don't see how we'd hit the
-max_retries count, as each retry before should have already taken
-nvme_req_needs_failover before.  What error code do you see this
-with?  What kinds of device/setup?
+That is if someone claims the multipath-device we extend that claim to
+all /dev/nvmeXnY devices, and if someone claims one of the /dev/nvmeXnY
+devices we extent it to the multipath node.  That should solve all of
+the above issues.
