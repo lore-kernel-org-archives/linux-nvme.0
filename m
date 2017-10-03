@@ -1,79 +1,41 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 3 Oct 2017 12:48:34 +0300
-Subject: Bug report: ref tag error while running IO > MDTS on nvme device
-Message-ID: <25030a78-f59b-a9de-b570-e9e05c9f4411@mellanox.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 3 Oct 2017 12:00:16 +0200
+Subject: [PATCH 4/6] nvme: display 'NMIC' namespace attribute
+In-Reply-To: <20171002161654.GC11048@lst.de>
+References: <1506952559-1588-1-git-send-email-hare@suse.de>
+ <1506952559-1588-5-git-send-email-hare@suse.de>
+ <20171002161654.GC11048@lst.de>
+Message-ID: <e5f46d2d-9473-c99c-9319-8567567b6994@suse.de>
 
-Hi guys,
-I would like to report a bug while running fio on local nvme device 
-(SAMSUNG MZPLL1T6HEHP-00003) that was formated to use integrity:
+On 10/02/2017 06:16 PM, Christoph Hellwig wrote:
+> On Mon, Oct 02, 2017@03:55:57PM +0200, Hannes Reinecke wrote:
+>> From: Johannes Thumshirn <jthumshirn at suse.de>
+>>
+>> To figure out if a namespace is shared via multipath we need to expose
+>> the 'NMIC' value to sysfs.
+> 
+> What for?
+> 
+Do stop systemd/udev doing weird things on the device.
+If we have the 'NMIC' attribute in sysfs we can evaluate it during event
+handling, and set the 'SYSTEMD_READY=0' flag if NMIC=1.
+By setting this attribute udev is instructed to not do any fancy
+checking, and systemd will leave it alone.
+Otherwise systemd will happily forward the block device to all attached
+services, btrfs will start checking the device, blkid will be scanning
+for filesystems, swap will declaring this device as a valid swap space
+and the like.
 
-nvme format /dev/nvme2n1 -n 1 -l 1 -i 2 -p 0 -m 0
-nvme id-ns /dev/nvme2n1:
+One of the painful lessons learned when moving multipath-tools to
+systemd; we absolutely need an indicator in sysfs to handle multipath
+devices race-free.
 
-NVME Identify Namespace 1:
-nsze    : 0xba4d4ab0
-ncap    : 0xba4d4ab0
-nuse    : 0xba4d4ab0
-nsfeat  : 0
-nlbaf   : 3
-flbas   : 0x1
-mc      : 0x3
-dpc     : 0x1f
-dps     : 0x2
-nmic    : 0x1
-rescap  : 0x7f
-fpi     : 0x80
-nawun   : 0
-nawupf  : 0
-nacwu   : 0
-nabsn   : 0
-nabo    : 0
-nabspf  : 0
-noiob   : 0
-nvmcap  : 1600321314816
-nguid   : 334842304a6000840025384100000002
-eui64   : 002538e671000457
-lbaf  0 : ms:0   lbads:9  rp:0x1
-lbaf  1 : ms:8   lbads:9  rp:0x3 (in use)
-lbaf  2 : ms:0   lbads:12 rp:0
-lbaf  3 : ms:8   lbads:12 rp:0x2
+Cheers,
 
-running traffic up to IO size <= 128KB works fine but running bigger IO 
-that the MDTS caused many ref tag errors (for example):
-
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 324043008 
-(rcvd 0)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2929058096 
-(rcvd 1241579520)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2292844816 
-(rcvd 2483027968)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2523145472 
-(rcvd 243859455)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 1177656832 
-(rcvd 15400959)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 187312640 
-(rcvd 243859455)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2344798720 
-(rcvd 126418943)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2892037376 
-(rcvd 126418943)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2292845056 
-(rcvd 143196159)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 1237630256 
-(rcvd 1241579520)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 1237630208 
-(rcvd 143196159)
-[Tue Oct  3 12:34:25 2017] nvme2n1: ref tag error at location 2986034432 
-(rcvd 243859455)
-[Tue Oct  3 12:34:45 2017] nvme2n1: ref tag error at location 881629440 
-(rcvd 15400959)
-[Tue Oct  3 12:34:45 2017] nvme2n1: ref tag error at location 1889589504 
-(rcvd 243859455)
-[Tue Oct  3 12:34:45 2017] nvme2n1: ref tag error at location 1889589504 
-(rcvd 243859455)
-
-haven't debugged it yet, but if anyone has an idea for the root cause, 
-it would be great.
-
-Thanks,
--Max.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
