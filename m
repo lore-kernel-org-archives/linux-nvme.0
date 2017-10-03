@@ -1,89 +1,62 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 3 Oct 2017 18:01:10 +0200
-Subject: [PATCH 4/6] nvme: display 'NMIC' namespace attribute
-In-Reply-To: <20171003114924.GA24650@lst.de>
-References: <1506952559-1588-1-git-send-email-hare@suse.de>
- <1506952559-1588-5-git-send-email-hare@suse.de>
- <20171002161654.GC11048@lst.de>
- <e5f46d2d-9473-c99c-9319-8567567b6994@suse.de>
- <20171003114924.GA24650@lst.de>
-Message-ID: <a99239fb-2f35-a53a-2a7b-52b324e76d86@suse.de>
+From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
+Date: Tue,  3 Oct 2017 12:24:24 -0700
+Subject: [PATCH V4] nvme-pci: add SGL support 
+Message-ID: <1507058666-15298-1-git-send-email-ckulkarnilinux@gmail.com>
 
-On 10/03/2017 01:49 PM, Christoph Hellwig wrote:
-> On Tue, Oct 03, 2017@12:00:16PM +0200, Hannes Reinecke wrote:
->> Do stop systemd/udev doing weird things on the device.
-> 
-> Please define weird things, preferably actual practical wierd things
-> you've observed with this implementation and then document them here
-> in the patch description.
-> 
-Any event will be passed to systemd, and ends up being passed as a
-'target' to the systemd service evaluation routines.
-One of the services happens to be the systemd-fsck at .service, which will
-be calling fsck on every device found in /etc/fstab.
+This is the fourth version of the patch for adding the SGL support
+for nvme-pci driver.
 
-If now this device is specified with an fs uuid (as it's common
-nowadays) systemd will be invoking fsck on each device carrying this UUID.
-As we're having _two_ devices with the same UUID (at the very least;
-actually it's 'number of paths + 1'), systemd will be invoking fsck on
-_each_ of those devices.
-All pointing to the same underlying namespace.
-I'd be very curious to figure out how fsck deals with such a situation.
+Changes since v3:-
 
-And then systemd will try to _mount_ each of those devices, which is
-where the real fun begins. Depending on the timing it might chose to
-mount any of those devices, more often than not at the same time as
-another fsck instance is running on another path.
-Again, I sincerely doubt that either mount nor fsck is able to handle
-these situations.
+1. Modify SGL helper functions and add prefix nvme_pci_sgl.
+2. Use average request physical segment(s) size to conditionally use SGLs.
+   This approach is different from the original one, the original approach
+   was based no the IO size. The new approach considers IO size and 
+   number of physical segments present in the request to conditionally
+   use SGLs.
+3. Adjust the patch for Linux 4.14-rc3.
 
-The errors from these scenarios will vary wildly, from simple I/O errors
-to filesystems corruption.
+Changes since v2:-
 
-Hence it's adviseable to set the 'SYSTEMD_READY=0' flag on all
-underlying paths, and only forward the 'real' multipathed device to
-systemd for evaluation.
-But this needs to be done _before_ any other event has a chance to
-interrupt here.
-_And_ we cannot call an external userspace program here, as this is
-multipathing, and we might be called for an 'add' event when all paths
-are down, at which point we cannot access the root-fs and udev will
-stall trying to load the said program.
-Hence the event will never finished processing, the path will never
-recover, and your system is dead with all paths running.
-Not good.
+1. Adjust the patch for latest nvme driver changes.
+2. For initial submission use the default virt boundary values.
+    
+In future, work on the patch series for relaxing the virt boundary
+for each transport.
 
->> If we have the 'NMIC' attribute in sysfs we can evaluate it during event
->> handling, and set the 'SYSTEMD_READY=0' flag if NMIC=1.
-> 
-> Bonus points of including such sniplets in the patch description,
-> similar to how I offered udev rules in the main multipath path.
-> 
-Okay, will be doing so.
+[PATCH V3] nvme-pci: add sgl support
 
->> One of the painful lessons learned when moving multipath-tools to
->> systemd; we absolutely need an indicator in sysfs to handle multipath
->> devices race-free.
-> 
-> dm-multipath devices require userspace setup, nvme-mpath ones don't.
-> That's a huge difference that would make udev rules a lot simpler.
-> But if they don't I'd like to see a good explanation here, both to
-> understand why you'd want this flag, and also if there is a way to
-> just do the right thing from the kernel.
-> 
+Changes since the v1:-
 
-As mentioned above, yes, the udev rules will be massively simpler.
-Essentially, the rule just boils down to setting the 'SYSTEMD_READY=0'
-flag when NMIC is set.
-But for that we need to figure out _if_ that bit is set, and we need to
-do so without any external userspace program.
+1. Introduced nvme controller virt_boundary mask. For controllers that
+   can handle arbitrarily sized bios (e.g advanced RDMA and PCI ctrls)
+   we can allow the block layer to pass us gaps by setting the 
+   queue.virt_boundary_mask according to each ctrl constraints.
+2. Simplified code for setting up the SGLs.
+3. Added SGL helper functions.
+4. Modified commit log.
+5. Use the newly introduced virt_boundary mask and clear its 
+   value for SGL capable controllers in PCIe driver.
 
-Cheers,
+For reference v1 details:-
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+This adds SGL support for NVMe PCIe driver which is
+reimplementation of the initial version provided by
+Rajiv Shanmugam Madeswaran(smrajiv15 at gmail.com):-
+"block: nvme-core: Scatter gather list support in the 
+NVMe Block Driver".
+
+In order to enable SGL mode for the driver, the user can set the 
+sgl_threshold module parameter. This parameter can be used
+in the two modes:-
+
+1. Allow all IOs to use SGL mode. (set sgl_threshold to 1). 
+2. Set up the IO size threshold to determine whether to use 
+    SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
+    use SGL only for IOs which are >= 4096 in the size).
+
+[PATCH V4 1/2] nvme: add SGL controller capability constant
+[PATCH V4 2/2] nvme-pci: add SGL support
+
+-Regards,
+Chaitanya
