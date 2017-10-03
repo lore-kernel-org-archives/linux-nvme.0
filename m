@@ -1,53 +1,32 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 3 Oct 2017 12:08:26 +0200
-Subject: [PATCH 3/6] nvme: claim block devices
-In-Reply-To: <20171002164218.GA11886@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 3 Oct 2017 13:49:24 +0200
+Subject: [PATCH 4/6] nvme: display 'NMIC' namespace attribute
+In-Reply-To: <e5f46d2d-9473-c99c-9319-8567567b6994@suse.de>
 References: <1506952559-1588-1-git-send-email-hare@suse.de>
- <1506952559-1588-4-git-send-email-hare@suse.de>
- <20171002164218.GA11886@lst.de>
-Message-ID: <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
+ <1506952559-1588-5-git-send-email-hare@suse.de>
+ <20171002161654.GC11048@lst.de>
+ <e5f46d2d-9473-c99c-9319-8567567b6994@suse.de>
+Message-ID: <20171003114924.GA24650@lst.de>
 
-On 10/02/2017 06:42 PM, Christoph Hellwig wrote:
-> On Mon, Oct 02, 2017@03:55:56PM +0200, Hannes Reinecke wrote:
->> When setting up a multipath device we need to claim the underlying
->> block devices to avoid other systems and/or programs to access it.
->> And we should be using the standard holders/slave sysfs relationship
->> instead of the hand-crafted 'mpath' links.
-> 
-> This completely breaks backwards compatibility:
-> 
-> root at testvm:~# mkfs.xfs /dev/nvme0n1 -f
-> mkfs.xfs: cannot open /dev/nvme0n1: Device or resource busy
-> 
-> Also we really do not want and outstanding struct block_device reference
-> all the time - struct block_device should only have a reference if
-> the block device node is in use or a file system is mounted.  Avoiding
-> this case was the whole point of my refactor to store the gendisk
-> instead of the block_device in struct bio.
-> 
-Uh-oh.
+On Tue, Oct 03, 2017@12:00:16PM +0200, Hannes Reinecke wrote:
+> Do stop systemd/udev doing weird things on the device.
 
-And now the fun begins.
+Please define weird things, preferably actual practical wierd things
+you've observed with this implementation and then document them here
+in the patch description.
 
-With this patch dm-multipath will ignore this device, so it's
-_impossible_ to setup any device-mapper or md device on top of the
-'nvme' device.
-Without this patch md will happily autostart any RAID device on these
-devices when it find a signature.
-Or the user can mount it.
-Or swap can attach it as a swapspace.
+> If we have the 'NMIC' attribute in sysfs we can evaluate it during event
+> handling, and set the 'SYSTEMD_READY=0' flag if NMIC=1.
 
-_AND_ you can do the same with the subsystem device, too, without any
-indication that anything is amiss.
+Bonus points of including such sniplets in the patch description,
+similar to how I offered udev rules in the main multipath path.
 
-Do we really want this?
+> One of the painful lessons learned when moving multipath-tools to
+> systemd; we absolutely need an indicator in sysfs to handle multipath
+> devices race-free.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+dm-multipath devices require userspace setup, nvme-mpath ones don't.
+That's a huge difference that would make udev rules a lot simpler.
+But if they don't I'd like to see a good explanation here, both to
+understand why you'd want this flag, and also if there is a way to
+just do the right thing from the kernel.
