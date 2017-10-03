@@ -1,62 +1,32 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue,  3 Oct 2017 12:24:24 -0700
-Subject: [PATCH V4] nvme-pci: add SGL support 
-Message-ID: <1507058666-15298-1-git-send-email-ckulkarnilinux@gmail.com>
+Date: Tue,  3 Oct 2017 12:24:25 -0700
+Subject: [PATCH V4 1/2] nvme: add SGL controller capability constant
+In-Reply-To: <1507058666-15298-1-git-send-email-ckulkarnilinux@gmail.com>
+References: <1507058666-15298-1-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1507058666-15298-2-git-send-email-ckulkarnilinux@gmail.com>
 
-This is the fourth version of the patch for adding the SGL support
-for nvme-pci driver.
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-Changes since v3:-
+This adds a constant definition which can be used to determine whether
+NVMe Controller supports SGL mode for IOs.
 
-1. Modify SGL helper functions and add prefix nvme_pci_sgl.
-2. Use average request physical segment(s) size to conditionally use SGLs.
-   This approach is different from the original one, the original approach
-   was based no the IO size. The new approach considers IO size and 
-   number of physical segments present in the request to conditionally
-   use SGLs.
-3. Adjust the patch for Linux 4.14-rc3.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ include/linux/nvme.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes since v2:-
-
-1. Adjust the patch for latest nvme driver changes.
-2. For initial submission use the default virt boundary values.
-    
-In future, work on the patch series for relaxing the virt boundary
-for each transport.
-
-[PATCH V3] nvme-pci: add sgl support
-
-Changes since the v1:-
-
-1. Introduced nvme controller virt_boundary mask. For controllers that
-   can handle arbitrarily sized bios (e.g advanced RDMA and PCI ctrls)
-   we can allow the block layer to pass us gaps by setting the 
-   queue.virt_boundary_mask according to each ctrl constraints.
-2. Simplified code for setting up the SGLs.
-3. Added SGL helper functions.
-4. Modified commit log.
-5. Use the newly introduced virt_boundary mask and clear its 
-   value for SGL capable controllers in PCIe driver.
-
-For reference v1 details:-
-
-This adds SGL support for NVMe PCIe driver which is
-reimplementation of the initial version provided by
-Rajiv Shanmugam Madeswaran(smrajiv15 at gmail.com):-
-"block: nvme-core: Scatter gather list support in the 
-NVMe Block Driver".
-
-In order to enable SGL mode for the driver, the user can set the 
-sgl_threshold module parameter. This parameter can be used
-in the two modes:-
-
-1. Allow all IOs to use SGL mode. (set sgl_threshold to 1). 
-2. Set up the IO size threshold to determine whether to use 
-    SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
-    use SGL only for IOs which are >= 4096 in the size).
-
-[PATCH V4 1/2] nvme: add SGL controller capability constant
-[PATCH V4 2/2] nvme-pci: add SGL support
-
--Regards,
-Chaitanya
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 9310ce77..22bbcfb 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -466,6 +466,8 @@ enum nvme_opcode {
+ 	nvme_cmd_resv_release	= 0x15,
+ };
+ 
++#define NVME_CTRL_SUPP_SGL     0x1
++
+ /*
+  * Descriptor subtype - lower 4 bits of nvme_(keyed_)sgl_desc identifier
+  *
+-- 
+1.8.3.1
