@@ -1,22 +1,27 @@
-From: nnlnachu@gmail.com (Nachammai Lakshmanan)
-Date: Wed, 4 Oct 2017 17:43:05 +0530
-Subject: A way in nvme driver to control the maximum queue depth
-Message-ID: <CAEy7waaGj01g0eXG58e4b8_rDpg23ZW9puWZzCBe1vWT=v1gHA@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 4 Oct 2017 14:04:00 -0600
+Subject: [PATCH V4 1/2] nvme: add SGL controller capability constant
+In-Reply-To: <1507058666-15298-2-git-send-email-ckulkarnilinux@gmail.com>
+References: <1507058666-15298-1-git-send-email-ckulkarnilinux@gmail.com>
+ <1507058666-15298-2-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <20171004200359.GA2384@localhost.localdomain>
 
-Hi,
+On Tue, Oct 03, 2017@12:24:25PM -0700, Chaitanya Kulkarni wrote:
+> From: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 9310ce77..22bbcfb 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -466,6 +466,8 @@ enum nvme_opcode {
+>  	nvme_cmd_resv_release	= 0x15,
+>  };
+>  
+> +#define NVME_CTRL_SUPP_SGL     0x1
+> +
 
+I don't think this needs to be its own patch.
 
+This should be in enum along with all the other NVME_CTRL_* identify
+controller constants.
 
-I am looking for an ioctl to enable queue depth greater than 1.
-Something similar to SG_SET_COMMAND_Q (which is for SCSI devices).
-
-And also is there a way to get/set the max queue depth at driver layer
-? (For, SCSI device this can be done by using SG_GET_SCSI_ID ? where
-sg_scsi_id structure has a field(d_queue_depth) to get/set queue
-depth)
-
-
-
-Regards,
-
-Nachammai
+SGLs would also be supported if the value is 2 as well, right?
