@@ -1,127 +1,52 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 3 Oct 2017 13:01:39 -0700
-Subject: [PATCH] nvme_fc: correct io timeout behavior
-In-Reply-To: <20171001084700.GB878@infradead.org>
-References: <20170927041317.6575-1-jsmart2021@gmail.com>
- <20171001084700.GB878@infradead.org>
-Message-ID: <ddf42345-7e87-f618-f93d-ab756648305d@gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 4 Oct 2017 07:42:00 +0200
+Subject: [PATCH 3/6] nvme: claim block devices
+In-Reply-To: <20171003115506.GC24650@lst.de>
+References: <1506952559-1588-1-git-send-email-hare@suse.de>
+ <1506952559-1588-4-git-send-email-hare@suse.de>
+ <20171002164218.GA11886@lst.de>
+ <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
+ <20171003115506.GC24650@lst.de>
+Message-ID: <bd388bdf-25ac-8b25-f832-ba1316a64dc4@suse.de>
 
-On 10/1/2017 1:47 AM, Christoph Hellwig wrote:
->> --- a/drivers/nvme/host/fc.c
->> +++ b/drivers/nvme/host/fc.c
->> @@ -1374,7 +1374,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
->>   				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
->>   
->>   	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED)
->> -		status = cpu_to_le16((NVME_SC_ABORT_REQ | NVME_SC_DNR) << 1);
->> +		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+On 10/03/2017 01:55 PM, Christoph Hellwig wrote:
+> On Tue, Oct 03, 2017@12:08:26PM +0200, Hannes Reinecke wrote:
+>> With this patch dm-multipath will ignore this device, so it's
+>> _impossible_ to setup any device-mapper or md device on top of the
+>> 'nvme' device.
+>> Without this patch md will happily autostart any RAID device on these
+>> devices when it find a signature.
+>> Or the user can mount it.
+>> Or swap can attach it as a swapspace.
+>>
+>> _AND_ you can do the same with the subsystem device, too, without any
+>> indication that anything is amiss.
+>>
+>> Do we really want this?
 > 
-> So the DNR bit goes away, ok.
-
-yes.  The aborted state is happening on io aborted due to resets, DNR 
-was causing it to fail back to the app rather than be rescheduled for 
-post reconnect.
-
-
->> @@ -1445,15 +1445,22 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
->>   		goto check_error;
->>   	}
->>   
->> +	if (unlikely(!status && op->flags & FCOP_FLAGS_TERMIO))
->> +		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+> I though we agreed last week to do dynamic claiming.
 > 
-> We grow another aborted case.  
-
-actually, I believe this is overlapped on the above FCPOP_STATE_ABORTED 
-flag checked above. So I believe I can remove this.
-
-Note: these FCPOP_STATE_ABORTED/FCOP_FLAGS_TERMIO should only be set in 
-cases where the controller is being torn down after a transport error, 
-io timeout, or loss of connectivity.
-
-
-> And btw, we really should not use
-> NVME_SC_ABORT_REQ here because the command never reched the controller
-> to actually get a nvme abort.  We might have to live with this for
-> now, but can you please review might addition of new status codes
-> for these host-internal cases in the latest ANA draft?
-
-Ok.  Two comments:
-1) The same statement must apply to nvme_cancel_request(), which is used 
-whenever a controller is torn down before reconnect attempts. That's 
-where I pulled the value to return from.
-
-2) The command may have indeed reached the controller and have had some 
-level of execution. True though, a NVME Abort would never have reached 
-the controller to kill it.
-
-Yes. I'll review the ANA draft recommendations. From my perspective, 
-this is independent of ANA and I believe the proposal to add a couple of 
-generic transport errors to the base spec was the right thing to do.
-
-I'm good if you want me to change this to a transport error rather than 
-the ABORTED status.
-
-
+> That is if someone claims the multipath-device we extend that claim to
+> all /dev/nvmeXnY devices, and if someone claims one of the /dev/nvmeXnY
+> devices we extent it to the multipath node.  That should solve all of
+> the above issues.
 > 
->> +	/*
->> +	 * Force failures of commands if we're killing the controller
->> +	 * or have an error on a command used to create an new association
->> +	 */
->> +	if (status && (blk_queue_dying(rq->q) ||
->> +			ctrl->ctrl.state == NVME_CTRL_NEW ||
->> +			ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
->> +		status |= cpu_to_le16(NVME_SC_DNR << 1);
-> 
-> And here we add back the dnr bit based on a few conditions.
+Hmm. Not sure how you would be doing that. Who should be doing the
+claiming? Typically the claim is done whenever a device is created on
+top of the other...
 
-yep - in these cases:
-a) blk_queue_dying being where the controller is being deleted/torn down 
-for good
-b) the io was related to controller initial connect or reconnect  (I 
-don't believe "the special" designation on the request was sufficient as 
-it didn't apply to read_reg cmds that do get/set_property which could 
-have failed too).
+What about an alternative plan: make creation of the subsystem device
+fully dynamic.
+But if a subsystem device is created it will always claim the underlying
+device. Then we can make the creation dependent on the NMIC attribute,
+and existing setups would not be affected.
 
-we do want them to fail back to the callee completely without retry. if 
-(a) the controller dies/is removed. if (b) the controller connect 
-attempt fails and the reconnect/retry policy kicks in.
+Cheers,
 
-
-> As a nitpick I think the way the conditionals are nested isn't very
-> readable, can we split the first line up, please?
-> 
-> 	 if (status &&
-> 	     (blk_queue_dying(rq->q) ||
-> 	      ctrl->ctrl.state == NVME_CTRL_NEW ||
-> 	      ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
-> 		status |= cpu_to_le16(NVME_SC_DNR << 1);
-> 
-
-yes
-
-
->>   	complete_rq = __nvme_fc_fcpop_chk_teardowns(ctrl, op);
->> +	if (!complete_rq)
->>   		nvme_end_request(rq, status, result);
->> +	else
->>   		__nvme_fc_final_op_cleanup(rq);
-> 
-> avoid the unneeded invert and local variable:
-> 
-> 	if (unlikely(__nvme_fc_fcpop_chk_teardowns(ctrl, op)))
-> 		__nvme_fc_final_op_cleanup(rq);
-> 	else
-> 		nvme_end_request(rq, status, result);
-> 
-
-ok
-
-> and while we're at it: the AEN special case above assigns complete_rq,
-> but that value will never be read, so the complete_rq can be removed
-> entirely.
-> 
-> Can you split the reset handler bits into a separate patch with
-> a separate explanation?
-
-ok
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
