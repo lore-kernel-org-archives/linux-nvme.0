@@ -1,16 +1,22 @@
-From: abhishek.shah@broadcom.com (Abhishek Shah)
-Date: Wed, 4 Oct 2017 15:07:17 +0530
-Subject: [PATCH v2] nvme-pci: Use PCI bus address for data/queues in CMB
-In-Reply-To: <20171004063027.GA20459@lst.de>
-References: <1506763722-10687-1-git-send-email-abhishek.shah@broadcom.com>
- <20171001074203.GA11115@lst.de> <20171002172128.GV8463@localhost.localdomain>
- <20171004063027.GA20459@lst.de>
-Message-ID: <CAKUFe6aqX5V10eszHMaD906+zhvk9iavOKSn0t0=XYM1rA9_3w@mail.gmail.com>
+From: mwilck@suse.com (Martin Wilck)
+Date: Wed, 04 Oct 2017 12:33:12 +0200
+Subject: [PATCH 1/2] block: genhd: add device_add_disk_with_groups
+In-Reply-To: <20171001080003.GD11554@lst.de>
+References: <20170928193637.24707-1-mwilck@suse.com>
+ <20171001080003.GD11554@lst.de>
+Message-ID: <1507113192.22324.1.camel@suse.com>
 
-yes, this patch works for our platform.
+On Sun, 2017-10-01@10:00 +0200, Christoph Hellwig wrote:
+> While this looks okay-ish to me I really don't want people confused
+> with three variants of add_disk, we really need to consolidate
+> our helpers there a bit..
+> 
 
-On Wed, Oct 4, 2017@12:00 PM, Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, Oct 02, 2017@11:21:29AM -0600, Keith Busch wrote:
->> Yah, calling this a DMA address was a misnomer and confusing.
->
-> Abhishek, can you test if this works for you?
+Can you give me a hint what you'd like to see?
+
+Martin
+
+-- 
+Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
+SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
