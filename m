@@ -1,13 +1,25 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 5 Oct 2017 01:00:40 -0700
-Subject: [PATCH v2 4/7] nvme_fc: add dev_loss_tmo to controller
-In-Reply-To: <20170927045046.22238-5-jsmart2021@gmail.com>
+Date: Thu, 5 Oct 2017 01:01:39 -0700
+Subject: [PATCH v2 5/7] nvme_fc: check connectivity before initiating
+ reconnects
+In-Reply-To: <20170927045046.22238-6-jsmart2021@gmail.com>
 References: <20170927045046.22238-1-jsmart2021@gmail.com>
- <20170927045046.22238-5-jsmart2021@gmail.com>
-Message-ID: <20171005080040.GB5063@infradead.org>
+ <20170927045046.22238-6-jsmart2021@gmail.com>
+Message-ID: <20171005080139.GC5063@infradead.org>
 
-Can you please add the dev_loss_tmo to the generic nvme_ctrl and build
-the infrastructure in common code?
+> +nvme_fc_rport_is_online(struct nvme_fc_rport *rport)
+> +{
+> +	unsigned long flags;
+> +	bool online;
+> +
+> +	spin_lock_irqsave(&rport->lock, flags);
+> +	online = (rport->remoteport.port_state == FC_OBJSTATE_ONLINE);
+> +	spin_unlock_irqrestore(&rport->lock, flags);
+> +
+> +	return online;
 
-Then as a next step we can look into inferring it from the remote port
-for FC.
+There is no need to take a lock for reading a value <= the native
+register size ever.
+
+So just open code the check at the callsites, and with that the
+patch looks fine to me.
