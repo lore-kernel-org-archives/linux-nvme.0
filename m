@@ -1,27 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 5 Oct 2017 16:47:38 +0200
-Subject: [PATCH 3/6] nvme: claim block devices
-In-Reply-To: <6e9b4ef9-c88a-d8b0-1ae7-16e8403e60df@suse.com>
-References: <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
- <20171003115506.GC24650@lst.de>
- <bd388bdf-25ac-8b25-f832-ba1316a64dc4@suse.de>
- <20171004061533.GA20131@lst.de>
- <19dbdf11-86c4-b6ea-a18c-a78fcae822d5@suse.de>
- <20171004071312.GA21143@lst.de> <yq1poa2wgd2.fsf@oracle.com>
- <20171005065124.h5t3gtufptevja4s@linux-x5ow.site>
- <20171005140525.GB2384@localhost.localdomain>
- <6e9b4ef9-c88a-d8b0-1ae7-16e8403e60df@suse.com>
-Message-ID: <20171005144738.GA28996@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 5 Oct 2017 18:36:54 +0200
+Subject: [GIT PULL] nvme fixes for Linux 4.14-rc4
+Message-ID: <20171005163654.walnk7642obfyjp6@infradead.org>
 
-On Thu, Oct 05, 2017@04:39:23PM +0200, Hannes Reinecke wrote:
-> I'm fine with having individual char devs for the controller and the
-> namespaces. That was the plan anyway, and they don't get into play with
-> systemd et al.
+A trivial one-liner from Martin to fix the visible of the uuid attr,
+and another one (originally from Abhishek Shah, rewritten by me) to
+fix the CMB addresses passed back to the controller in case of a system
+that remaps BAR addresses between host and device.
 
-How hardcoded is the assumption that /dev/nvmeX is the chardev for
-/dev/nvmeXn*?
+The following changes since commit a5f3d8a5eaaf917878f07998e6f1ea46024e6bab:
 
-I thought that was quite deep and thus would want to keep /dev/nvmeX
-as a multipathed devices (maybe some lightweight multipathing, aka
-always go to the first controller) and then have another chardev
-like /dev/nvmeXpN or /dev/nvmeXcN for each controller?
+  bcache: use llist_for_each_entry_safe() in __closure_wake_up() (2017-09-27 14:54:49 -0600)
+
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.14
+
+for you to fetch changes up to 8969f1f8291762c13147c1ba89d46238af01675b:
+
+  nvme-pci: Use PCI bus address for data/queues in CMB (2017-10-04 11:42:53 +0200)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme-pci: Use PCI bus address for data/queues in CMB
+
+Martin Wilck (1):
+      nvme: fix visibility of "uuid" ns attribute
+
+ drivers/nvme/host/core.c |  2 +-
+ drivers/nvme/host/pci.c  | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
