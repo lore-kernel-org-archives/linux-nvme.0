@@ -1,10 +1,8 @@
-From: hare@suse.com (Hannes Reinecke)
-Date: Thu, 5 Oct 2017 16:39:23 +0200
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 5 Oct 2017 16:47:38 +0200
 Subject: [PATCH 3/6] nvme: claim block devices
-In-Reply-To: <20171005140525.GB2384@localhost.localdomain>
-References: <1506952559-1588-4-git-send-email-hare@suse.de>
- <20171002164218.GA11886@lst.de>
- <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
+In-Reply-To: <6e9b4ef9-c88a-d8b0-1ae7-16e8403e60df@suse.com>
+References: <ece83015-0def-8e36-5645-7be00be95c40@suse.de>
  <20171003115506.GC24650@lst.de>
  <bd388bdf-25ac-8b25-f832-ba1316a64dc4@suse.de>
  <20171004061533.GA20131@lst.de>
@@ -12,40 +10,18 @@ References: <1506952559-1588-4-git-send-email-hare@suse.de>
  <20171004071312.GA21143@lst.de> <yq1poa2wgd2.fsf@oracle.com>
  <20171005065124.h5t3gtufptevja4s@linux-x5ow.site>
  <20171005140525.GB2384@localhost.localdomain>
-Message-ID: <6e9b4ef9-c88a-d8b0-1ae7-16e8403e60df@suse.com>
+ <6e9b4ef9-c88a-d8b0-1ae7-16e8403e60df@suse.com>
+Message-ID: <20171005144738.GA28996@lst.de>
 
-On 10/05/2017 04:05 PM, Keith Busch wrote:
-> On Thu, Oct 05, 2017@08:51:24AM +0200, Johannes Thumshirn wrote:
->> On Wed, Oct 04, 2017@09:08:57PM -0400,  Martin K. Petersen  wrote:
->>>
->>> Christoph,
->>>
->>>> The only other option I could think of would be to turn names around:
->>>> make /dev/nvmeX (chardev) and /dev/nvmeXnY the per-subsystem devices
->>>> that are multipathed if available.  We'd then need new devices for the
->>>> invdividual controllers.
->>>
->>> I like that approach.
->>
->> /me too
-> 
-> I can get on board with this approach for the namespaces, but the
-> controller char devs should stay as they are for compatibility and
-> existing tools. The IO commands (including reservations) are not
-> controller specific, so not knowing which path is used will okay for
-> namespaces. Most admin commands are controller specific, so we can't
-> just shift the controller handle to the subsystem level.
-> 
-I'm fine with having individual char devs for the controller and the
-namespaces. That was the plan anyway, and they don't get into play with
-systemd et al.
+On Thu, Oct 05, 2017@04:39:23PM +0200, Hannes Reinecke wrote:
+> I'm fine with having individual char devs for the controller and the
+> namespaces. That was the plan anyway, and they don't get into play with
+> systemd et al.
 
-Cheers,
+How hardcoded is the assumption that /dev/nvmeX is the chardev for
+/dev/nvmeXn*?
 
-Hannes
--- 
-Dr. Hannes Reinecke		               zSeries & Storage
-hare at suse.com			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+I thought that was quite deep and thus would want to keep /dev/nvmeX
+as a multipathed devices (maybe some lightweight multipathing, aka
+always go to the first controller) and then have another chardev
+like /dev/nvmeXpN or /dev/nvmeXcN for each controller?
