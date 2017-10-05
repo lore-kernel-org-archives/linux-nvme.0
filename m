@@ -1,36 +1,45 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 5 Oct 2017 10:45:12 -0600
-Subject: [GIT PULL] nvme fixes for Linux 4.14-rc4
-In-Reply-To: <20171005163654.walnk7642obfyjp6@infradead.org>
-References: <20171005163654.walnk7642obfyjp6@infradead.org>
-Message-ID: <8f1e6bc2-f511-7209-bc28-3876ed806755@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu,  5 Oct 2017 18:46:46 +0200
+Subject: [PATCH] nvme: simplify compat_ioctl handling
+Message-ID: <20171005164646.17473-1-hch@lst.de>
 
-On 10/05/2017 10:36 AM, Christoph Hellwig wrote:
-> A trivial one-liner from Martin to fix the visible of the uuid attr,
-> and another one (originally from Abhishek Shah, rewritten by me) to
-> fix the CMB addresses passed back to the controller in case of a system
-> that remaps BAR addresses between host and device.
-> 
-> The following changes since commit a5f3d8a5eaaf917878f07998e6f1ea46024e6bab:
-> 
->   bcache: use llist_for_each_entry_safe() in __closure_wake_up() (2017-09-27 14:54:49 -0600)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.14
-> 
-> for you to fetch changes up to 8969f1f8291762c13147c1ba89d46238af01675b:
-> 
->   nvme-pci: Use PCI bus address for data/queues in CMB (2017-10-04 11:42:53 +0200)
-> 
-> ----------------------------------------------------------------
-> Christoph Hellwig (1):
->       nvme-pci: Use PCI bus address for data/queues in CMB
-> 
-> Martin Wilck (1):
->       nvme: fix visibility of "uuid" ns attribute
+We can just use our normal ioctl handler for the compat case and remove
+the boilerplate code for it.
 
-Pulled, thanks.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/core.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 26c8913435b2..573cc3b59bfa 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1052,16 +1052,6 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 	}
+ }
+ 
+-#ifdef CONFIG_COMPAT
+-static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
+-			unsigned int cmd, unsigned long arg)
+-{
+-	return nvme_ioctl(bdev, mode, cmd, arg);
+-}
+-#else
+-#define nvme_compat_ioctl	NULL
+-#endif
+-
+ static int nvme_open(struct block_device *bdev, fmode_t mode)
+ {
+ 	return nvme_get_ns_from_disk(bdev->bd_disk) ? 0 : -ENXIO;
+@@ -1380,7 +1370,7 @@ EXPORT_SYMBOL_GPL(nvme_sec_submit);
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+-	.compat_ioctl	= nvme_compat_ioctl,
++	.compat_ioctl	= nvme_ioctl,
+ 	.open		= nvme_open,
+ 	.release	= nvme_release,
+ 	.getgeo		= nvme_getgeo,
 -- 
-Jens Axboe
+2.14.1
