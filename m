@@ -1,70 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  6 Oct 2017 09:14:55 -0600
-Subject: [PATCH-stable] nvme: protect against simultaneous shutdown invocations
-Message-ID: <20171006151455.18816-1-keith.busch@intel.com>
+From: yogi43222@gmail.com (Yogi Wannabe)
+Date: Fri, 6 Oct 2017 14:49:06 -0700
+Subject: Missing interrupts in kernel 4.5.0-21.cavium.el7.aarch64
+Message-ID: <CAGSHeY1uhgMT5oQBt8fxEzO1k=s9q9eBaFGm+oVt9a31_Ga9aA@mail.gmail.com>
 
-commit 77bf25ea70200cddf083f74b7f617e5f07fac8bd upstream
+Hi,
 
-Back-ported to 4.4. The difference is the file location of the struct
-definition that's adding the mutex.
+Our NVMe controller works fine with Kernel 3.9.xx. On kernel
+4.5.0-21.cavium.el7.aarch64 we see some issues with interrupts.
 
-This fixes reported kernel panics in 4.4-stable from simultaneous
-controller resets that was never supposed to be allowed to happen.
+Upon nvme driver load it, sends an Identify cmd.. The controller
+processes the cmd and sends a completion interrupt. The driver does
+not see this interrupt nor is it visible in /proc/interrupts. After
+admin timeout duration, driver disables controller and calls
+free_irq(). As soon as free_irq() is called, interrupt reaches driver
+and nvme_irq() is called. The interrupt vector is usually 17.
 
-Cc: <stable at vger.kernel.org> # 4.4
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/nvme.h | 2 ++
- drivers/nvme/host/pci.c  | 3 +++
- 2 files changed, 5 insertions(+)
+Are there any known issues that could be causing this weird behavior?
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index b8a5a8e8f57d..88cf4f5025b0 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -14,6 +14,7 @@
- #ifndef _NVME_H
- #define _NVME_H
- 
-+#include <linux/mutex.h>
- #include <linux/nvme.h>
- #include <linux/pci.h>
- #include <linux/kref.h>
-@@ -62,6 +63,7 @@ struct nvme_dev {
- 	struct work_struct reset_work;
- 	struct work_struct probe_work;
- 	struct work_struct scan_work;
-+	struct mutex shutdown_lock;
- 	char name[12];
- 	char serial[20];
- 	char model[40];
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4c673d45f1bd..a36072b926f8 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2954,6 +2954,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 
- 	nvme_dev_list_remove(dev);
- 
-+	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(to_pci_dev(dev->dev))) {
- 		nvme_freeze_queues(dev);
- 		csts = readl(&dev->bar->csts);
-@@ -2972,6 +2973,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 
- 	for (i = dev->queue_count - 1; i >= 0; i--)
- 		nvme_clear_queue(dev->queues[i]);
-+	mutex_unlock(&dev->shutdown_lock);
- }
- 
- static void nvme_dev_remove(struct nvme_dev *dev)
-@@ -3328,6 +3330,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	INIT_LIST_HEAD(&dev->namespaces);
- 	INIT_WORK(&dev->reset_work, nvme_reset_work);
-+	mutex_init(&dev->shutdown_lock);
- 	dev->dev = get_device(&pdev->dev);
- 	pci_set_drvdata(pdev, dev);
- 
--- 
-2.13.6
+TIA
+Yogi
