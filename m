@@ -1,45 +1,34 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 7 Oct 2017 08:53:37 -0700
-Subject: [PATCH v2 2/7] nvme_fc: change ctlr state assignments during
- reset/reconnect
-In-Reply-To: <20171005075730.GA5063@infradead.org>
+Date: Sat, 7 Oct 2017 09:08:21 -0700
+Subject: [PATCH v2 4/7] nvme_fc: add dev_loss_tmo to controller
+In-Reply-To: <20171005080040.GB5063@infradead.org>
 References: <20170927045046.22238-1-jsmart2021@gmail.com>
- <20170927045046.22238-3-jsmart2021@gmail.com>
- <20171005075730.GA5063@infradead.org>
-Message-ID: <95dd2176-c5bb-386f-6a7a-4705576713fd@gmail.com>
+ <20170927045046.22238-5-jsmart2021@gmail.com>
+ <20171005080040.GB5063@infradead.org>
+Message-ID: <9c9b8f0d-cc31-91ec-1be8-b5fd616dd0c5@gmail.com>
 
-On 10/5/2017 12:57 AM, Christoph Hellwig wrote:
->>   	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
->> -	WARN_ON_ONCE(!changed);
->>   
->>   	ctrl->ctrl.nr_reconnects = 0;
->>   
->> -	nvme_start_ctrl(&ctrl->ctrl);
->> +	if (changed)
->> +		nvme_start_ctrl(&ctrl->ctrl);
+On 10/5/2017 1:00 AM, Christoph Hellwig wrote:
+> Can you please add the dev_loss_tmo to the generic nvme_ctrl and build
+> the infrastructure in common code?
 > 
-> It's just cosmetic, but can you folow the RDMA pattern here:
-> 
-> 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-> 	if (!changed) {
-> 		/* state change failure is ok if we're in DELETING state */
-> 		WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
-> 		return;
-> 	}
-> 
-> else the patch looks fine:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Then as a next step we can look into inferring it from the remote port
+> for FC.
 > 
 
-Actually, it's not just cosmetic. I don't want the warning to be 
-displayed. With FC's notification on device loss, in testing, we've seen 
-a device loss occur as this state transition occurs. I doubt that's 
-something rdma would ever see. With the device connectivity loss 
-notification, the state moves from NEW to RESETTING, then RECONNECTING. 
-I prefer to clear the reconnect counter (as we just went through a 
-connect) to ensure that the full reconnect attempts will occur.
+Hmm - this raise flags in my mind. I'm not sure how a dev_loss_tmo 
+applies to any other transport other than FC.
 
-As such, I'd prefer to leave it the same.
+I am inclined to rework this a bit though as I think the mashing of the 
+dev_loss_tmo value into the controller's ctrl_loss_tmo has caused 
+confusion. The dev_loss_tmo should stay in the transport and be specific 
+to the remoteport.  Mashing them also caused us to loose the initial 
+creation ctrl_loss_tmo value if there had been one set and the dev_loss 
+value dynamically changed.  I'll rework it so that: dev_loss_tmo is an 
+FC internal timer that acts on the remoteport.  Upon device loss, the 
+remote ports dev_loss timer will be started, and any controllers on the 
+remote port will have their associations torn down and their 
+ctrl_loss_tmo (aka max_reconnects and reconnect_delay) started. If a 
+controllers max_reconnects is hit it will be deleted. If the rport's 
+dev_loss_tmo is hit, it will delete any suspended controller.
 
 -- james
