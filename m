@@ -1,33 +1,16 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 9 Oct 2017 08:49:45 -0600
-Subject: Missing interrupts in kernel 4.5.0-21.cavium.el7.aarch64
-In-Reply-To: <CAGSHeY1uhgMT5oQBt8fxEzO1k=s9q9eBaFGm+oVt9a31_Ga9aA@mail.gmail.com>
-References: <CAGSHeY1uhgMT5oQBt8fxEzO1k=s9q9eBaFGm+oVt9a31_Ga9aA@mail.gmail.com>
-Message-ID: <20171009144945.GB19329@localhost.localdomain>
+Date: Mon, 9 Oct 2017 09:12:11 -0600
+Subject: [PATCH] nvme: simplify compat_ioctl handling
+In-Reply-To: <20171005164646.17473-1-hch@lst.de>
+References: <20171005164646.17473-1-hch@lst.de>
+Message-ID: <20171009151210.GC19329@localhost.localdomain>
 
-On Fri, Oct 06, 2017@02:49:06PM -0700, Yogi Wannabe wrote:
-> Our NVMe controller works fine with Kernel 3.9.xx. On kernel
-> 4.5.0-21.cavium.el7.aarch64 we see some issues with interrupts.
+On Thu, Oct 05, 2017@06:46:46PM +0200, Christoph Hellwig wrote:
+> We can just use our normal ioctl handler for the compat case and remove
+> the boilerplate code for it.
 > 
-> Upon nvme driver load it, sends an Identify cmd.. The controller
-> processes the cmd and sends a completion interrupt. The driver does
-> not see this interrupt nor is it visible in /proc/interrupts. After
-> admin timeout duration, driver disables controller and calls
-> free_irq(). As soon as free_irq() is called, interrupt reaches driver
-> and nvme_irq() is called. The interrupt vector is usually 17.
-> 
-> Are there any known issues that could be causing this weird behavior?
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-4.5 removed the completion queue polling, relying exclusively on
-interrupts to find these sorts of problems.
+Looks good. The compact ioctl was left-over from SG_IO handling.
 
-After that, lots of people reported failures with device initialization.
-
-I don't believe the root caused was found since no issues were reported
-when we enabled MSI/MSIx for early init in 4.6.
-
-For more details, see:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2016-May/004653.html
-
-This unfortauntely was not picked up by the 4.5-stable.
+Reviewed-by: Keith Busch <keith.busch at intel.com>
