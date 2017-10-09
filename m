@@ -1,52 +1,77 @@
-From: rjw@rjwysocki.net (Rafael J. Wysocki)
-Date: Tue, 10 Oct 2017 00:13:08 +0200
-Subject: Fwd: [Bug 196907] [Regression] New default s2idle does not work
- on Dell XPS 13 9360 with Ubuntu 16.04.3 LTS (Xenial Xerus)
-In-Reply-To: <20171009222215.GF19329@localhost.localdomain>
-References: <1636342.6qveo3Fvtu@aspire.rjw.lan>
- <5479293.9hsiVanX3S@aspire.rjw.lan>
- <20171009222215.GF19329@localhost.localdomain>
-Message-ID: <2021794.JWb2XVz4cJ@aspire.rjw.lan>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon,  9 Oct 2017 16:39:22 -0700
+Subject: [PATCH v2] nvme_fc: retry initial controller connections 3 times
+Message-ID: <20171009233922.7216-1-jsmart2021@gmail.com>
 
-On Tuesday, October 10, 2017 12:22:15 AM CEST Keith Busch wrote:
-> On Tue, Oct 10, 2017@12:01:33AM +0200, Rafael J. Wysocki wrote:
-> > On Tuesday, October 10, 2017 12:14:14 AM CEST Keith Busch wrote:
-> > > On Mon, Oct 09, 2017@11:52:26PM +0200, Rafael J. Wysocki wrote:
-> > > > Hi,
-> > > > 
-> > > > We are seeing a resume issue with a Hynix SSD (PC300 NVMe SK hynix 512GB)
-> > > > with respect to suspend-to-idle (S3 resume works for the reporter,
-> > > > interestingly enough).  It appears to be limited to Hynix and to that
-> > > > specific SSD ATM.
-> > > > 
-> > > > Also it is reported to work in 4.11-rc1 and it already is failing in 4.13,
-> > > > so it looks like something between the two broke it.
-> > > > 
-> > > > Any ideas of what that might be?
-> > > > 
-> > > > Or anything we should try/test to narrow it down?
-> > > > 
-> > > > Any help will be appreciated.
-> > > 
-> > > I'd start with the APST feature and see if disabling that helps.
-> > > That can be done with the nvme_core module param:
-> > > 
-> > >   default_ps_max_latency_us=0
-> > > 
-> > 
-> > We've tried that and it doesn't help.
-> 
-> But it wasn't done correctly according to the notes on the
-> bugzilla. May be just a typo, but want make sure: it says they used
-> "nvme.default_ps_max_latency_us=0" on the kernel's command line, which
-> doesn't mean anything. It's "nvme_core" that provides that module
-> parameter.
+Currently, if a frame is lost of command fails as part of initial
+association create for a new controller, the new controller connection
+request will immediately fail.
 
-OK, thanks!
+Add in an immediate 3 retry loop before giving up.
 
-I've added you to the CC in the BZ.
+Signed-off-by: James Smart <james.smart at broadcom.com>
 
-I'll ask the reporter to repeat the test with the correct param.
+---
+v2:
+  Add additional comment information on why the retries. The comment
+  should sufficiently explain the background.
+  Note: rdma, in most cases, if initial connections or commands failed,
+  would also fail on first connect attempt.
+---
+ drivers/nvme/host/fc.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-Thanks,
-Rafael
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 1075488a81d6..18e036c6833b 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2790,7 +2790,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ {
+ 	struct nvme_fc_ctrl *ctrl;
+ 	unsigned long flags;
+-	int ret, idx;
++	int ret, idx, retry;
+ 
+ 	if (!(rport->remoteport.port_role &
+ 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
+@@ -2882,9 +2882,37 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+ 	spin_unlock_irqrestore(&rport->lock, flags);
+ 
+-	ret = nvme_fc_create_association(ctrl);
++	/*
++	 * It's possible that transactions used to create the association
++	 * may fail. Examples: CreateAssociation LS or CreateIOConnection
++	 * LS gets dropped/corrupted/fails; or a frame gets dropped or a
++	 * command times out for one of the actions to init the controller
++	 * (Connect, Get/Set_Property, Set_Features, etc). Many of these
++	 * transport errors (frame drop, LS failure) inherently must kill
++	 * the association. The transport is coded so that any command used
++	 * to create the association (prior to a LIVE state transition
++	 * while NEW or RECONNECTING) will fail if it completes in error or
++	 * times out.
++	 *
++	 * As such: as the connect request was mostly likely due to a
++	 * udev event that discovered the remote port, meaning there is
++	 * not an admin or script there to restart if the connect
++	 * request fails, retry the initial connection creation up to
++	 * three times before giving up and declaring failure.
++	 */
++	for (retry = 0; retry < 3; retry++) {
++		ret = nvme_fc_create_association(ctrl);
++		if (!ret)
++			break;
++	}
++
+ 	if (ret) {
++		/* couldn't schedule retry - fail out */
++		dev_err(ctrl->ctrl.device,
++			"NVME-FC{%d}: Connect retry failed\n", ctrl->cnum);
++
+ 		ctrl->ctrl.opts = NULL;
++
+ 		/* initiate nvme ctrl ref counting teardown */
+ 		nvme_uninit_ctrl(&ctrl->ctrl);
+ 		nvme_put_ctrl(&ctrl->ctrl);
+-- 
+2.13.1
