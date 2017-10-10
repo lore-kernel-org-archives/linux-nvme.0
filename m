@@ -1,43 +1,27 @@
-From: roys@lightbitslabs.com (roys@lightbitslabs.com)
-Date: Tue, 10 Oct 2017 18:59:27 +0300
-Subject: [PATCH] nvme/target: Change max_nsid in subsystem due to ns_disable
- if needed
-Message-ID: <1507651167-4839-1-git-send-email-roys@lightbitslabs.com>
+From: greg@kroah.com (Greg KH)
+Date: Tue, 10 Oct 2017 19:47:20 +0200
+Subject: [PATCH-stable] nvme: protect against simultaneous shutdown
+ invocations
+In-Reply-To: <20171006151455.18816-1-keith.busch@intel.com>
+References: <20171006151455.18816-1-keith.busch@intel.com>
+Message-ID: <20171010174720.GA747@kroah.com>
 
-From: Roy Shterman <roys@lightbitslabs.com>
+On Fri, Oct 06, 2017@09:14:55AM -0600, Keith Busch wrote:
+> commit 77bf25ea70200cddf083f74b7f617e5f07fac8bd upstream
+> 
+> Back-ported to 4.4. The difference is the file location of the struct
+> definition that's adding the mutex.
+> 
+> This fixes reported kernel panics in 4.4-stable from simultaneous
+> controller resets that was never supposed to be allowed to happen.
+> 
+> Cc: <stable at vger.kernel.org> # 4.4
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/nvme.h | 2 ++
+>  drivers/nvme/host/pci.c  | 3 +++
+>  2 files changed, 5 insertions(+)
 
-In case we disable namespaces which has the nsid like
-subsystem max_nsid we need to search for the next largest nsid
-in this subsystem. If the subsystem don't has more namespaces
-we set it to 0, else we take nsid from the last namespace in
-namespaces list because the list is sorted while inserting.
+Thanks for the patch, now queued up.
 
-Signed-off-by: Roy Shterman <roys at lightbitslabs.com>
----
- drivers/nvme/target/core.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index eb9399a..e996972 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -334,6 +334,17 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
- 
- 	ns->enabled = false;
- 	list_del_rcu(&ns->dev_link);
-+
-+	if (ns->nsid == subsys->max_nsid) {
-+		if (list_empty(&subsys->namespaces)) {
-+			subsys->max_nsid = 0;
-+		} else {
-+			struct nvmet_ns *ns = list_last_entry(&subsys->namespaces, struct nvmet_ns, entry);
-+
-+			subsys->max_nsid = ns->nsid;
-+		}
-+	}
-+
- 	mutex_unlock(&subsys->lock);
- 
- 	/*
--- 
-2.7.4
+greg k-h
