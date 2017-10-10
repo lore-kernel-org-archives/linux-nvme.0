@@ -1,43 +1,29 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Tue, 10 Oct 2017 14:40:30 +0300
-Subject: [PATCH 1/4] nvmet: Add port pointer to nvmet_ctrl structure
-In-Reply-To: <1507635633-16665-1-git-send-email-israelr@mellanox.com>
-References: <1507635633-16665-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1507635633-16665-2-git-send-email-israelr@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 10 Oct 2017 15:48:44 +0200
+Subject: [PATCH] nvme_fc auto-connect scripts
+In-Reply-To: <20171009201032.2018-1-jsmart2021@gmail.com>
+References: <20171009201032.2018-1-jsmart2021@gmail.com>
+Message-ID: <20171010134844.hlgn7mif6yek2vvp@linux-x5ow.site>
 
-The ctrl is the "engine" of the subsystem per port, so link them
-for future usage.
+On Mon, Oct 09, 2017@01:10:32PM -0700, James Smart wrote:
+> cp nvmefc_boot_connections.sh        /usr/sbin/lpfc/
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/core.c  | 1 +
- drivers/nvme/target/nvmet.h | 1 +
- 2 files changed, 2 insertions(+)
+[...]
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 1b208be..08270c1 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -819,6 +819,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 		/* keep-alive timeout in seconds */
- 		ctrl->kato = DIV_ROUND_UP(kato, 1000);
- 	}
-+	ctrl->port = req->port;
- 	nvmet_start_keep_alive_timer(ctrl);
- 
- 	mutex_lock(&subsys->lock);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7b8e20a..dc586e7 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -108,6 +108,7 @@ static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
- 
- struct nvmet_ctrl {
- 	struct nvmet_subsys	*subsys;
-+	struct nvmet_port	*port;
- 	struct nvmet_cq		**cqs;
- 	struct nvmet_sq		**sqs;
- 
+> +ExecStart=/bin/sh -c "/usr/sbin/lpfc/nvmefc_boot_connections.sh"
+
+/usr/sbin/lpfc wont get past our package reviewers, %_sbindir (for rpm, I'm
+sure there is an equivalent for deb as well) should be used there.
+
+
+Also wouldn't it make sense to have the scripts/services in nvme-cli?
+
+Byte,
+	Johannes
 -- 
-1.8.4.3
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
