@@ -1,34 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 15:29:08 +0300
-Subject: [PATCH 3/7] nvme-rdma: move assignment to declaration
+Date: Wed, 11 Oct 2017 15:29:09 +0300
+Subject: [PATCH 4/7] nvme-rdma: Check that reinit_request got a proper mr
 In-Reply-To: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507724952-13917-4-git-send-email-sagi@grimberg.me>
+Message-ID: <1507724952-13917-5-git-send-email-sagi@grimberg.me>
 
-No need for the extra line for trivial assignments.
+Warn if req->mr is NULL as it should never happen.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/nvme/host/rdma.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 09f774abe5a8..6e62657662fd 100644
+index 6e62657662fd..93f4dd0b6f26 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -434,11 +434,9 @@ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
+@@ -274,6 +274,9 @@ static int nvme_rdma_reinit_request(void *data, struct request *rq)
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+ 	int ret = 0;
  
- static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- {
--	struct nvme_rdma_device *dev;
--	struct ib_device *ibdev;
-+	struct nvme_rdma_device *dev = queue->device;
-+	struct ib_device *ibdev = dev->dev;
++	if (WARN_ON_ONCE(!req->mr))
++		return 0;
++
+ 	ib_dereg_mr(req->mr);
  
--	dev = queue->device;
--	ibdev = dev->dev;
- 	rdma_destroy_qp(queue->cm_id);
- 	ib_free_cq(queue->ib_cq);
- 
+ 	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
 -- 
 2.7.4
