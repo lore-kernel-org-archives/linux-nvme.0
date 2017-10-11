@@ -1,23 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 14:54:47 +0300
-Subject: [PATCH 3/9] block: provide a direct_make_request helper
-In-Reply-To: <20170925134031.10548-4-hch@lst.de>
+Date: Wed, 11 Oct 2017 14:57:31 +0300
+Subject: [PATCH 5/9] nvme: track subsystems
+In-Reply-To: <20170925134031.10548-6-hch@lst.de>
 References: <20170925134031.10548-1-hch@lst.de>
- <20170925134031.10548-4-hch@lst.de>
-Message-ID: <eb2f78e6-042f-f39b-39e7-322c9a831dd2@grimberg.me>
+ <20170925134031.10548-6-hch@lst.de>
+Message-ID: <1535c6f9-8ddf-ab30-2bbd-5d9ce626b913@grimberg.me>
 
+> @@ -2230,7 +2315,7 @@ static ssize_t nvme_sysfs_show_subsysnqn(struct device *dev,
+>   {
+>   	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>   
+> -	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->subnqn);
+> +	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->subsys->subnqn);
+>   }
+>   static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
+>   
+> @@ -2770,12 +2855,22 @@ EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
+>   static void nvme_free_ctrl(struct kref *kref)
+>   {
+>   	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
+> +	struct nvme_subsystem *subsys = ctrl->subsys;
+>   
+>   	put_device(ctrl->device);
+>   	nvme_release_instance(ctrl);
+>   	ida_destroy(&ctrl->ns_ida);
+>   
+> +	if (subsys) {
+> +		mutex_lock(&subsys->lock);
+> +		list_del(&ctrl->subsys_entry);
+> +		mutex_unlock(&subsys->lock);
+> +	}
+> +
 
-> +/**
-> + * direct_make_request - hand a buffer directly to its device driver for I/O
-> + * @bio:  The bio describing the location in memory and on the device.
-> + *
-> + * This function behaves like generic_make_request(), but does not protect
-> + * against recursion.  Must only be used if the called driver is known
-> + * to not re-issue this bio or a split to itself.
-> + */
-
-Can you explain a bit on the comment? What happens if nvme attempts
-to failover a split if the original IO didn't comply to the
-virt_boundary?
-
-Would that cause any problems?
+When can this happen? can a controller not have a subsys?
