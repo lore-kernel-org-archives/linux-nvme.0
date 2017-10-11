@@ -1,86 +1,52 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 15:29:11 +0300
-Subject: [PATCH 6/7] nvme-rdma: teardown admin/io queues once on error recovery
+Date: Wed, 11 Oct 2017 15:29:12 +0300
+Subject: [PATCH 7/7] nvme-rdma: change queue flag semantics DELETING ->
+ ALLOCATED
 In-Reply-To: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507724952-13917-7-git-send-email-sagi@grimberg.me>
+Message-ID: <1507724952-13917-8-git-send-email-sagi@grimberg.me>
 
-Relying on the queue state while tearing down on every reconnect
-attempt is not a good design. We should do it once in err_work
-and simply try to establish the queues for each reconnect attempt.
+Instead of marking we are deleting, mark we
+are allocated and check that instead. This makes
+the logic symmetrical to connected mark check.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ drivers/nvme/host/rdma.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index e3fe57011fcb..2a18465bf361 100644
+index 2a18465bf361..405895b1dff2 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -925,10 +925,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+@@ -79,8 +79,8 @@ struct nvme_rdma_request {
+ };
  
- 	++ctrl->ctrl.nr_reconnects;
+ enum nvme_rdma_queue_flags {
+-	NVME_RDMA_Q_LIVE		= 0,
+-	NVME_RDMA_Q_DELETING		= 1,
++	NVME_RDMA_Q_ALLOCATED		= 0,
++	NVME_RDMA_Q_LIVE		= 1,
+ };
  
--	if (ctrl->ctrl.queue_count > 1)
--		nvme_rdma_destroy_io_queues(ctrl, false);
--
--	nvme_rdma_destroy_admin_queue(ctrl, false);
- 	ret = nvme_rdma_configure_admin_queue(ctrl, false);
- 	if (ret)
- 		goto requeue;
-@@ -936,7 +932,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 	if (ctrl->ctrl.queue_count > 1) {
- 		ret = nvme_rdma_configure_io_queues(ctrl, false);
- 		if (ret)
--			goto requeue;
-+			goto destroy_admin;
+ struct nvme_rdma_queue {
+@@ -549,7 +549,7 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		goto out_destroy_cm_id;
  	}
  
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-@@ -946,14 +942,17 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+-	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
++	set_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags);
+ 
+ 	return 0;
+ 
+@@ -569,7 +569,7 @@ static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
+ 
+ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+ {
+-	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
++	if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
  		return;
- 	}
  
--	ctrl->ctrl.nr_reconnects = 0;
--
- 	nvme_start_ctrl(&ctrl->ctrl);
- 
--	dev_info(ctrl->ctrl.device, "Successfully reconnected\n");
-+	dev_info(ctrl->ctrl.device, "Successfully reconnected (%d attepmpt)\n",
-+			ctrl->ctrl.nr_reconnects);
-+
-+	ctrl->ctrl.nr_reconnects = 0;
- 
- 	return;
- 
-+destroy_admin:
-+	nvme_rdma_destroy_admin_queue(ctrl, false);
- requeue:
- 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
- 			ctrl->ctrl.nr_reconnects);
-@@ -969,17 +968,15 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
--		nvme_rdma_stop_io_queues(ctrl);
--	}
--	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
--	nvme_rdma_stop_queue(&ctrl->queues[0]);
--
--	/* We must take care of fastfail/requeue all our inflight requests */
--	if (ctrl->ctrl.queue_count > 1)
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
- 					nvme_cancel_request, &ctrl->ctrl);
-+		nvme_rdma_destroy_io_queues(ctrl, false);
-+	}
-+
-+	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
- 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
- 				nvme_cancel_request, &ctrl->ctrl);
-+	nvme_rdma_destroy_admin_queue(ctrl, false);
- 
- 	/*
- 	 * queues are not a live anymore, so restart the queues to fail fast
+ 	nvme_rdma_destroy_queue_ib(queue);
 -- 
 2.7.4
