@@ -1,35 +1,22 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 11 Oct 2017 07:35:08 -0700
-Subject: [PATCH v2 3/7] nvme_fc: add a dev_loss_tmo field to the remoteport
-In-Reply-To: <984d8db1-c518-b515-05b5-46ba61c58c84@grimberg.me>
-References: <20170927045046.22238-1-jsmart2021@gmail.com>
- <20170927045046.22238-4-jsmart2021@gmail.com>
- <984d8db1-c518-b515-05b5-46ba61c58c84@grimberg.me>
-Message-ID: <d79a9eca-5fbc-1933-986e-bb16467e34cc@broadcom.com>
-
-On 10/11/2017 3:11 AM, Sagi Grimberg wrote:
->
->> +#define NVME_FC_DEFAULT_DEV_LOSS_TMO 60??? /* seconds */
->
-> Why not reusing NVMF_DEF_CTRL_LOSS_TMO ? and isn't 60 seconds
-> a little to aggressive to give up?
-
-Because there is an existing FC port timeout which is currently over on 
-the SCSI side of the house.? The FC port will support both SCSI and 
-FC-NVME simultaneously on the FC port - so it spans/affects both.? When 
-the "common fc class" is created and moved out from under scsi, it will 
-be the one with the value.
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 11 Oct 2017 17:35:22 +0300
+Subject: [PATCH 4/4] nvmet: Add feature close connection from target side
+In-Reply-To: <2b6780b5-29f6-72f3-5d40-9737710b94d9@grimberg.me>
+References: <1507635633-16665-1-git-send-email-israelr@mellanox.com>
+ <1507635633-16665-5-git-send-email-israelr@mellanox.com>
+ <2b6780b5-29f6-72f3-5d40-9737710b94d9@grimberg.me>
+Message-ID: <7b7c1c96-dee7-d5ee-6ffe-10cb125dc1f2@mellanox.com>
 
 
->
-> What do you do with the ctrl_loss_tmo user parameter?
 
-Well - this patch munged the dev_loss_tmo value into the 
-ctrl_loss_tmo-based values. That is an issue - so in a prior comment I 
-stated I'm reposting with the controller loss timeout kept separate from 
-the fc port dev_loss_tmo. Thus NVMF_DEF_CTRL_LOSS_TMO and ctrl_loss_tmo 
-will be used normally - like it is with RDMA. Dev_loss_tmo will be 
-tracked at the fc port level and if fires, will trump wherever the 
-controller is in its ctrl_loss_tmo
+On 10/11/2017 2:20 PM, Sagi Grimberg wrote:
+> 
+>> This allows the user to close any connection from target side
+>> by writing to the file "force_close" at the controller folder.
+>> Full path:
+>> /config/nvmet/subsystems/<SUBSYSTEM_NAME>/controllers/<CTRL_ID>/force_close 
+>>
+> 
+> Why not rmdir?
 
--- james
+Theese dirs weren't created by mkdir..
