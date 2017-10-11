@@ -1,29 +1,24 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Wed, 11 Oct 2017 07:52:13 -0700
-Subject: [PATCH v2 7/7] nvme_fc: add dev_loss_tmo timeout and remoteport
- resume support
-In-Reply-To: <88124a13-30d4-8906-f9c7-6c00d6d7ee31@grimberg.me>
-References: <20170927045046.22238-1-jsmart2021@gmail.com>
- <20170927045046.22238-8-jsmart2021@gmail.com>
- <88124a13-30d4-8906-f9c7-6c00d6d7ee31@grimberg.me>
-Message-ID: <68b78559-e75a-7c2d-a588-c6063954d16a@broadcom.com>
+Date: Wed, 11 Oct 2017 08:07:36 -0700
+Subject: [PATCH v2] nvme_fc: retry initial controller connections 3 times
+In-Reply-To: <d80601a9-bead-2b21-fdaf-fea01fbdbafe@grimberg.me>
+References: <20171009233922.7216-1-jsmart2021@gmail.com>
+ <d80601a9-bead-2b21-fdaf-fea01fbdbafe@grimberg.me>
+Message-ID: <542d4c8e-54fc-0fd7-c29d-5cf1ed2934fa@broadcom.com>
 
-On 10/11/2017 3:29 AM, Sagi Grimberg wrote:
-> OK, I think I finally understand the existence of the two tmos.
-> But may I ask, what happens if we only have ctrl_loss_tmo support?
->
-> If I understand correctly, it would behave exactly as expected as the
-> controller will periodically attempt reconnect until ctrl_loss_tmo fires
-> and then it is deleted. With dev_loss_tmo, once the lower between
-> ctrl_loss_tmo and dev_loss_tmo expires, the controller is deleted.
-> If my understanding is correct, this just adds a level of confusion
-> to setup procedure doesn't it?
+On 10/11/2017 4:09 AM, Sagi Grimberg wrote:
+> Its not directly related to this patch, but the error handling here
+> seems non trivial, why isn't this going to the normal out_* error
+> targets below in the function?
 
-agree with your statements. And no, it doesn't add confusion. You are 
-ignoring the whole history coming from the SCSI side that is expected 
-and well-known. If anything, adding the per-controller ctrl_loss_tmo 
-that has different values, making fc-nvme behave differently than scsi 
-on the same port (running scsi and fc concurrently perhaps), is what 
-adds confusion.
+Because, while debugging the original flow which did teardown in the 
+calling sequence like rdma, had a lot of concurrency issues and didn't 
+fit well with a more generic create_association/delete_association back 
+end. The issue is how many things are real hw contexts in FC that have 
+to be flushed with the lldd before delete can really occur.? Those paths 
+are all solved already for the LIVE->DELETING flows using ref-counting.? 
+So, I perform the calling-sequence teardown until the nvme controller is 
+init'd, at which point I defer to the normal refcounting delete flows. 
+There's a comment that highlights that.
 
 -- james
