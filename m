@@ -1,31 +1,86 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 15:29:10 +0300
-Subject: [PATCH 5/7] nvme-rdma: Don't local invalidate if the queue is not live
+Date: Wed, 11 Oct 2017 15:29:11 +0300
+Subject: [PATCH 6/7] nvme-rdma: teardown admin/io queues once on error recovery
 In-Reply-To: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507724952-13917-6-git-send-email-sagi@grimberg.me>
+Message-ID: <1507724952-13917-7-git-send-email-sagi@grimberg.me>
 
-No chance for the local invalidate to succeed if the queue-pair
-is in error state. Most likely the target will do a remote
-invalidation of our mr so not a big loss on the test_bit.
+Relying on the queue state while tearing down on every reconnect
+attempt is not a good design. We should do it once in err_work
+and simply try to establish the queues for each reconnect attempt.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 93f4dd0b6f26..e3fe57011fcb 100644
+index e3fe57011fcb..2a18465bf361 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -1055,7 +1055,7 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
- 	if (!blk_rq_bytes(rq))
- 		return;
+@@ -925,10 +925,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
  
--	if (req->mr->need_inval) {
-+	if (req->mr->need_inval && test_bit(NVME_RDMA_Q_LIVE, &req->queue->flags)) {
- 		res = nvme_rdma_inv_rkey(queue, req);
- 		if (unlikely(res < 0)) {
- 			dev_err(ctrl->ctrl.device,
+ 	++ctrl->ctrl.nr_reconnects;
+ 
+-	if (ctrl->ctrl.queue_count > 1)
+-		nvme_rdma_destroy_io_queues(ctrl, false);
+-
+-	nvme_rdma_destroy_admin_queue(ctrl, false);
+ 	ret = nvme_rdma_configure_admin_queue(ctrl, false);
+ 	if (ret)
+ 		goto requeue;
+@@ -936,7 +932,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		ret = nvme_rdma_configure_io_queues(ctrl, false);
+ 		if (ret)
+-			goto requeue;
++			goto destroy_admin;
+ 	}
+ 
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+@@ -946,14 +942,17 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	ctrl->ctrl.nr_reconnects = 0;
+-
+ 	nvme_start_ctrl(&ctrl->ctrl);
+ 
+-	dev_info(ctrl->ctrl.device, "Successfully reconnected\n");
++	dev_info(ctrl->ctrl.device, "Successfully reconnected (%d attepmpt)\n",
++			ctrl->ctrl.nr_reconnects);
++
++	ctrl->ctrl.nr_reconnects = 0;
+ 
+ 	return;
+ 
++destroy_admin:
++	nvme_rdma_destroy_admin_queue(ctrl, false);
+ requeue:
+ 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+ 			ctrl->ctrl.nr_reconnects);
+@@ -969,17 +968,15 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
+-		nvme_rdma_stop_io_queues(ctrl);
+-	}
+-	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
+-
+-	/* We must take care of fastfail/requeue all our inflight requests */
+-	if (ctrl->ctrl.queue_count > 1)
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
++		nvme_rdma_destroy_io_queues(ctrl, false);
++	}
++
++	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
++	nvme_rdma_destroy_admin_queue(ctrl, false);
+ 
+ 	/*
+ 	 * queues are not a live anymore, so restart the queues to fail fast
 -- 
 2.7.4
