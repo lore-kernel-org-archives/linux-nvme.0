@@ -1,78 +1,118 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 12:53:06 +0300
-Subject: [PATCH v2 1/3] block: introduce blk_mq_tagset_iter
+Date: Wed, 11 Oct 2017 12:53:07 +0300
+Subject: [PATCH v2 2/3] nvme: introduce nvme_reinit_tagset
 In-Reply-To: <1507715588-1041-1-git-send-email-sagi@grimberg.me>
 References: <1507715588-1041-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507715588-1041-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1507715588-1041-3-git-send-email-sagi@grimberg.me>
 
-Iterator helper to apply a function on all the
-tags in a given tagset. export it as it will be used
-outside the block layer later on.
+Move blk_mq_reinit_tagset from blk-mq to nvme core
+as the only user of it. Current transports that use
+it (rdma, fc) simply implement .reinit_request op.
 
-Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
+This patch does not change any functionality.
+
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- block/blk-mq-tag.c     | 16 +++++++++++-----
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 10 ++++++++++
+ drivers/nvme/host/fc.c   |  3 ++-
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/rdma.c |  7 +++----
+ 4 files changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 6714507aa6c7..bce1c76fc768 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -298,12 +298,12 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 26c8913435b2..7414e25a75f0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2944,6 +2944,16 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
  }
- EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
+ EXPORT_SYMBOL_GPL(nvme_start_queues);
  
--int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
--			 int (reinit_request)(void *, struct request *))
-+int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
-+			 int (fn)(void *, struct request *))
- {
- 	int i, j, ret = 0;
- 
--	if (WARN_ON_ONCE(!reinit_request))
-+	if (WARN_ON_ONCE(!fn))
- 		goto out;
- 
- 	for (i = 0; i < set->nr_hw_queues; i++) {
-@@ -316,8 +316,7 @@ int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
- 			if (!tags->static_rqs[j])
- 				continue;
- 
--			ret = reinit_request(set->driver_data,
--					     tags->static_rqs[j]);
-+			ret = fn(data, tags->static_rqs[j]);
- 			if (ret)
- 				goto out;
- 		}
-@@ -326,6 +325,13 @@ int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
- out:
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(blk_mq_tagset_iter);
-+
-+int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
-+			 int (reinit_request)(void *, struct request *))
++int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
 +{
-+	return blk_mq_tagset_iter(set, set->driver_data, reinit_request);
++	if (!ctrl->ops->reinit_request)
++		return 0;
++
++	return blk_mq_tagset_iter(set, set->driver_data,
++			ctrl->ops->reinit_request);
 +}
- EXPORT_SYMBOL_GPL(blk_mq_reinit_tagset);
++EXPORT_SYMBOL_GPL(nvme_reinit_tagset);
++
+ int __init nvme_core_init(void)
+ {
+ 	int result;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index b8e0822127c1..372a0685b12a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2393,7 +2393,7 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
  
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 50c6485cb04f..6bc29f73a9aa 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -259,6 +259,8 @@ void blk_freeze_queue_start(struct request_queue *q);
- void blk_mq_freeze_queue_wait(struct request_queue *q);
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout);
-+int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
-+		int (reinit_request)(void *, struct request *));
- int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
- 			 int (reinit_request)(void *, struct request *));
+ 	nvme_fc_init_io_queues(ctrl);
  
+-	ret = blk_mq_reinit_tagset(&ctrl->tag_set, nvme_fc_reinit_request);
++	ret = nvme_reinit_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+ 	if (ret)
+ 		goto out_free_io_queues;
+ 
+@@ -2753,6 +2753,7 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+ 	.submit_async_event	= nvme_fc_submit_async_event,
+ 	.delete_ctrl		= nvme_fc_del_nvme_ctrl,
+ 	.get_address		= nvmf_get_address,
++	.reinit_request		= nvme_fc_reinit_request,
+ };
+ 
+ static void
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index df787f39f4c1..cb9d93048f3d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -237,6 +237,7 @@ struct nvme_ctrl_ops {
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
+ 	int (*delete_ctrl)(struct nvme_ctrl *ctrl);
+ 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
++	int (*reinit_request)(void *data, struct request *rq);
+ };
+ 
+ static inline bool nvme_ctrl_ready(struct nvme_ctrl *ctrl)
+@@ -311,6 +312,7 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
+ void nvme_start_freeze(struct nvme_ctrl *ctrl);
++int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set);
+ 
+ #define NVME_QID_ANY -1
+ struct request *nvme_alloc_request(struct request_queue *q,
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 92a03ff5fb4d..039f38cb6987 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -774,8 +774,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 			goto out_free_tagset;
+ 		}
+ 	} else {
+-		error = blk_mq_reinit_tagset(&ctrl->admin_tag_set,
+-					     nvme_rdma_reinit_request);
++		error = nvme_reinit_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+ 		if (error)
+ 			goto out_free_queue;
+ 	}
+@@ -855,8 +854,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 			goto out_free_tag_set;
+ 		}
+ 	} else {
+-		ret = blk_mq_reinit_tagset(&ctrl->tag_set,
+-					   nvme_rdma_reinit_request);
++		ret = nvme_reinit_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+ 		if (ret)
+ 			goto out_free_io_queues;
+ 
+@@ -1845,6 +1843,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.submit_async_event	= nvme_rdma_submit_async_event,
+ 	.delete_ctrl		= nvme_rdma_del_ctrl,
+ 	.get_address		= nvmf_get_address,
++	.reinit_request		= nvme_rdma_reinit_request,
+ };
+ 
+ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
 -- 
 2.7.4
