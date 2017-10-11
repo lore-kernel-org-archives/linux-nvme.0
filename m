@@ -1,32 +1,35 @@
-From: guanjx09@163.com (Guan Junxiong)
-Date: Wed, 11 Oct 2017 22:32:40 +0800
-Subject: [PATCH 2/6] nvme: use 'nvmsXnZ' instead of 'nvm-subXnZ'
-In-Reply-To: <20171002162038.GS8463@localhost.localdomain>
-References: <1506952559-1588-1-git-send-email-hare@suse.de>
- <1506952559-1588-3-git-send-email-hare@suse.de>
- <20171002161621.GB11048@lst.de> <20171002162038.GS8463@localhost.localdomain>
-Message-ID: <d9796b73-5309-a5e5-679b-dd0c67437e2b@163.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 11 Oct 2017 07:35:08 -0700
+Subject: [PATCH v2 3/7] nvme_fc: add a dev_loss_tmo field to the remoteport
+In-Reply-To: <984d8db1-c518-b515-05b5-46ba61c58c84@grimberg.me>
+References: <20170927045046.22238-1-jsmart2021@gmail.com>
+ <20170927045046.22238-4-jsmart2021@gmail.com>
+ <984d8db1-c518-b515-05b5-46ba61c58c84@grimberg.me>
+Message-ID: <d79a9eca-5fbc-1933-986e-bb16467e34cc@broadcom.com>
+
+On 10/11/2017 3:11 AM, Sagi Grimberg wrote:
+>
+>> +#define NVME_FC_DEFAULT_DEV_LOSS_TMO 60??? /* seconds */
+>
+> Why not reusing NVMF_DEF_CTRL_LOSS_TMO ? and isn't 60 seconds
+> a little to aggressive to give up?
+
+Because there is an existing FC port timeout which is currently over on 
+the SCSI side of the house.? The FC port will support both SCSI and 
+FC-NVME simultaneously on the FC port - so it spans/affects both.? When 
+the "common fc class" is created and moved out from under scsi, it will 
+be the one with the value.
 
 
+>
+> What do you do with the ctrl_loss_tmo user parameter?
 
-On Tuesday, October 03, 2017 12:20 AM, Keith Busch wrote:
-> On Mon, Oct 02, 2017@06:16:21PM +0200, Christoph Hellwig wrote:
->> On Mon, Oct 02, 2017@03:55:55PM +0200, Hannes Reinecke wrote:
->>> Align with overall nvme device naming scheme.
->>
->> It is very close to the normal /dev/nvme* devices, so I feat it will
->> create a lot of confusion.
->>
->> But given that all device name suggestions so far suck I'd be happy
->> to take a stawpoll of linux-nvme subscribers :)
-> 
-> Of the options availble, +1 to Hannes' nvmsXnY.
-> 
+Well - this patch munged the dev_loss_tmo value into the 
+ctrl_loss_tmo-based values. That is an issue - so in a prior comment I 
+stated I'm reposting with the controller loss timeout kept separate from 
+the fc port dev_loss_tmo. Thus NVMF_DEF_CTRL_LOSS_TMO and ctrl_loss_tmo 
+will be used normally - like it is with RDMA. Dev_loss_tmo will be 
+tracked at the fc port level and if fires, will trump wherever the 
+controller is in its ctrl_loss_tmo
 
-+1 for Hanne's nvmsXnY
-
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
+-- james
