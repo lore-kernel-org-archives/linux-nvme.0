@@ -1,181 +1,89 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 10 Oct 2017 17:35:36 -0700
-Subject: [PATCH] nvme-cli: add duplicate_connect parameter support
-Message-ID: <20171011003536.5996-1-jsmart2021@gmail.com>
+From: lv.zheng@intel.com (Zheng, Lv)
+Date: Wed, 11 Oct 2017 06:16:10 +0000
+Subject: ACPI object counter overrun on frequent nvme resets
+In-Reply-To: <1AE640813FDE7649BE1B193DEA596E886CF6F735@SHSMSX101.ccr.corp.intel.com>
+References: <20170925130729.GA14151@infradead.org>
+ <1AE640813FDE7649BE1B193DEA596E886CF6F735@SHSMSX101.ccr.corp.intel.com>
+Message-ID: <1AE640813FDE7649BE1B193DEA596E886CF7A228@SHSMSX101.ccr.corp.intel.com>
 
-Add support for the duplicate_connect parameter for the fabrics
-device.
+> From: Zheng, Lv
+> Subject: RE: ACPI object counter overrun on frequent nvme resets
+> 
+> Hi
+> 
+> I've converted this bug into a Bugzilla entry here:
+> https://bugzilla.kernel.org/show_bug.cgi?id=197071
 
-Rather than add yet another 6-line code block, created a small helper
-routine invoked for each argument option.
+Christoph, could you help to provide the detailed debugging information there.
+We need dmesg output and acpidump output.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- fabrics.c | 124 +++++++++++++++++++-------------------------------------------
- 1 file changed, 38 insertions(+), 86 deletions(-)
+Thanks in advance.
 
-diff --git a/fabrics.c b/fabrics.c
-index 4871e17..dcde6c2 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -59,6 +59,7 @@ static struct config {
- 	char *keep_alive_tmo;
- 	char *reconnect_delay;
- 	char *ctrl_loss_tmo;
-+	char *duplicate_connect;
- 	char *raw;
- 	char *device;
- } cfg = { NULL };
-@@ -484,6 +485,22 @@ out:
- 	return ret;
- }
- 
-+static int
-+add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
-+{
-+	int len;
-+
-+	if (arg) {
-+		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
-+		if (len < 0)
-+			return -EINVAL;
-+		*argstr += len;
-+		*max_len -= len;
-+	}
-+
-+	return 0;
-+}
-+
- static int build_options(char *argstr, int max_len)
- {
- 	int len;
-@@ -500,99 +517,33 @@ static int build_options(char *argstr, int max_len)
- 		}
- 	}
- 
-+	/* always specify nqn as first arg - this will init the string */
- 	len = snprintf(argstr, max_len, "nqn=%s", cfg.nqn);
- 	if (len < 0)
- 		return -EINVAL;
- 	argstr += len;
- 	max_len -= len;
- 
--	len = snprintf(argstr, max_len, ",transport=%s", cfg.transport);
--	if (len < 0)
-+	if (add_argument(&argstr, &max_len, "transport", cfg.transport) ||
-+	    add_argument(&argstr, &max_len, "traddr", cfg.traddr) ||
-+	    add_argument(&argstr, &max_len, "host_traddr", cfg.host_traddr) ||
-+	    add_argument(&argstr, &max_len, "trsvcid", cfg.trsvcid) ||
-+	    ((cfg.hostnqn || nvmf_hostnqn_file()) &&
-+		    add_argument(&argstr, &max_len, "hostnqn", cfg.hostnqn)) ||
-+	    ((cfg.hostid || nvmf_hostid_file()) &&
-+		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
-+	    add_argument(&argstr, &max_len, "nr_io_queues",
-+		    cfg.nr_io_queues) ||
-+	    add_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
-+	    add_argument(&argstr, &max_len, "keep_alive_tmo",
-+		    cfg.keep_alive_tmo) ||
-+	    add_argument(&argstr, &max_len, "reconnect_delay",
-+		    cfg.reconnect_delay) ||
-+	    add_argument(&argstr, &max_len, "ctrl_loss_tmo",
-+		    cfg.ctrl_loss_tmo) ||
-+	    add_argument(&argstr, &max_len, "duplicate_connect",
-+		    cfg.duplicate_connect))
- 		return -EINVAL;
--	argstr += len;
--	max_len -= len;
--
--	if (cfg.traddr) {
--		len = snprintf(argstr, max_len, ",traddr=%s", cfg.traddr);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.host_traddr) {
--		len = snprintf(argstr, max_len, ",host_traddr=%s", cfg.host_traddr);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.trsvcid) {
--		len = snprintf(argstr, max_len, ",trsvcid=%s", cfg.trsvcid);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.hostnqn || nvmf_hostnqn_file()) {
--		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.hostid || nvmf_hostid_file()) {
--		len = snprintf(argstr, max_len, ",hostid=%s", cfg.hostid);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.nr_io_queues) {
--		len = snprintf(argstr, max_len, ",nr_io_queues=%s",
--				cfg.nr_io_queues);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.queue_size) {
--		len = snprintf(argstr, max_len, ",queue_size=%s",
--				cfg.queue_size);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.keep_alive_tmo) {
--		len = snprintf(argstr, max_len, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.reconnect_delay) {
--		len = snprintf(argstr, max_len, ",reconnect_delay=%s", cfg.reconnect_delay);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
--
--	if (cfg.ctrl_loss_tmo) {
--		len = snprintf(argstr, max_len, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
--		if (len < 0)
--			return -EINVAL;
--		argstr += len;
--		max_len -= len;
--	}
- 
- 	return 0;
- }
-@@ -873,6 +824,7 @@ int connect(const char *desc, int argc, char **argv)
- 		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-+		{"duplicate_connect", 'D', "LIST", CFG_STRING, &cfg.duplicate_connect, required_argument, "allow duplicate connections between same transport host and subsystem port" },
- 		{NULL},
- 	};
- 
--- 
-2.13.1
+> 
+> Thanks
+> Lv
+> 
+> > From: linux-acpi-owner at vger.kernel.org [mailto:linux-acpi-owner at vger.kernel.org] On Behalf Of
+> > Subject: ACPI object counter overrun on frequent nvme resets
+> >
+> > Hi all,
+> >
+> > when doing an error injection test with the nvme-pci driver on Linux 4.14
+> > almost rc2 (820bf5c419e4b85298e5c3001bd1b5be46d60765 plus a few nvme
+> > patches) that does a lot of nvme resets which shut down and re-enable the
+> > PCI device I see a flood of warnings like:
+> >
+> > [   78.237286] ACPI Warning: Large Reference Count (0x1001) in object ffff88007d702c68, Type=0x1D
+> > (20170728/utdelete-473)
+> >
+> > Throwing in a dump_stack into the path it comes from:
+> >
+> > [   78.238387] CPU: 0 PID: 286 Comm: kworker/u8:3 Not tainted 4.14.0-rc1+ #134
+> > [   78.238998] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+> > [   78.239720] Workqueue: nvme-wq nvme_reset_work
+> > [   78.239995] Call Trace:
+> > [   78.239995]  dump_stack+0x63/0x83
+> > [   78.239995]  acpi_ut_update_ref_count+0x2f7/0x2fe
+> > [   78.239995]  acpi_ut_update_object_reference+0x114/0x182
+> > [   78.239995]  acpi_ut_add_reference+0x1b/0x1e
+> > [   78.239995]  acpi_ds_init_package_element+0x149/0x16e
+> > [   78.239995]  ? acpi_ds_build_internal_object+0xca/0x12c
+> > [   78.239995]  acpi_ds_build_internal_package_obj+0x1b2/0x258
+> > [   78.239995]  ? acpi_ds_build_internal_package_obj+0x1b2/0x258
+> > [   78.239995]  acpi_ds_eval_data_object_operands+0xd3/0x123
+> > [   78.239995]  acpi_ds_exec_end_op+0x288/0x3e1
+> > [   78.239995]  acpi_ps_parse_loop+0x519/0x57b
+> > [   78.239995]  acpi_ps_parse_aml+0x93/0x29c
+> > [   78.239995]  acpi_ps_execute_method+0x148/0x17f
+> > [   78.239995]  acpi_ns_evaluate+0x1c1/0x24d
+> > [   78.239995]  acpi_ut_evaluate_object+0x72/0x197
+> > [   78.239995]  acpi_rs_get_prt_method_data+0x21/0x45
+> > [   78.239995]  acpi_get_irq_routing_table+0x2c/0x30
+> > [   78.239995]  acpi_pci_irq_find_prt_entry+0x8e/0x2c0
+> > [   78.239995]  ? irq_get_irq_data+0x9/0x20
+> > [   78.239995]  ? mp_unmap_irq+0xf/0x70
+> > [   78.239995]  acpi_pci_irq_lookup+0x26/0x1a0
+> > [   78.239995]  acpi_pci_irq_enable+0x5b/0x1b0
+> > [   78.239995]  ? pci_read_config_word+0x22/0x30
+> > [   78.239995]  pcibios_enable_device+0x28/0x30
+> > [   78.239995]  do_pci_enable_device+0x5f/0xe0
+> > [   78.239995]  pci_enable_device_flags+0xc3/0x110
+> > [   78.239995]  pci_enable_device_mem+0xe/0x10
+> > [   78.239995]  nvme_reset_work+0x4c/0x1610
+> > [   78.239995]  ? sched_clock+0x9/0x10
+> > [   78.239995]  ? sched_clock_local+0x17/0x90
+> > [   78.239995]  ? _raw_spin_lock+0x9/0x10
+> > [   78.239995]  ? pick_next_task_fair+0x420/0x690
+> > [   78.239995]  ? _raw_spin_unlock_irq+0x9/0x20
+> > [   78.239995]  ? finish_task_switch+0x7b/0x1f0
+> > [   78.239995]  ? __schedule+0x2d7/0x800
+> > [   78.239995]  process_one_work+0x1db/0x3e0
+> > [   78.239995]  worker_thread+0x43/0x3f0
+> > [   78.239995]  kthread+0x103/0x140
+> > [   78.239995]  ? process_one_work+0x3e0/0x3e0
+> > [   78.239995]  ? kthread_create_on_node+0x40/0x40
+> > [   78.239995]  ret_from_fork+0x25/0x30
+> > --
+> > To unsubscribe from this list: send the line "unsubscribe linux-acpi" in
+> > the body of a message to majordomo at vger.kernel.org
+> > More majordomo info at  http://vger.kernel.org/majordomo-info.html
