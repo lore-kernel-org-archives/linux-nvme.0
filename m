@@ -1,15 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 13:11:02 +0300
-Subject: [PATCH v2 3/7] nvme_fc: add a dev_loss_tmo field to the remoteport
-In-Reply-To: <20170927045046.22238-4-jsmart2021@gmail.com>
+Date: Wed, 11 Oct 2017 13:14:09 +0300
+Subject: [PATCH v2 4/7] nvme_fc: add dev_loss_tmo to controller
+In-Reply-To: <20170927045046.22238-5-jsmart2021@gmail.com>
 References: <20170927045046.22238-1-jsmart2021@gmail.com>
- <20170927045046.22238-4-jsmart2021@gmail.com>
-Message-ID: <984d8db1-c518-b515-05b5-46ba61c58c84@grimberg.me>
+ <20170927045046.22238-5-jsmart2021@gmail.com>
+Message-ID: <b9a80a06-e5f2-c15f-1155-26c3fa071142@grimberg.me>
 
+> +static void
+> +nvme_fc_set_ctrl_devloss(struct nvme_fc_ctrl *ctrl,
+> +		struct nvmf_ctrl_options *opts)
+> +{
+> +	u32 dev_loss_tmo;
+> +
+> +	/*
+> +	 * dev_loss_tmo will be the max amount of time after an association
+> +	 * failure that will be allowed for a new association to be
+> +	 * established. It doesn't matter why the original association
+> +	 * failed (FC connectivity loss, transport error, admin-request).
+> +	 * The new association must be established before dev_loss_tmo
+> +	 * expires or the controller will be torn down.
+> +	 *
+> +	 * If the connect parameters are less than the FC port dev_loss_tmo
+> +	 * parameter, scale dev_loss_tmo to the connect parameters.
+> +	 *
+> +	 * If the connect parameters are larger than the FC port
+> +	 * dev_loss_tmo parameter, adjust the connect parameters so that
+> +	 * there is at least 1 attempt at a reconnect attempt before failing.
+> +	 * Note: reconnects will be attempted only if there is FC connectivity.
+> +	 */
 
-> +#define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
-
-Why not reusing NVMF_DEF_CTRL_LOSS_TMO ? and isn't 60 seconds
-a little to aggressive to give up?
-
-What do you do with the ctrl_loss_tmo user parameter?
+OK now I see where you are accounting for fabrics ctrl_loss_tmo, but
+given that we have a default, what is the use for your private FC port
+default?
