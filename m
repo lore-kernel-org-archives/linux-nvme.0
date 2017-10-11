@@ -1,30 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 15:29:09 +0300
-Subject: [PATCH 4/7] nvme-rdma: Check that reinit_request got a proper mr
+Date: Wed, 11 Oct 2017 15:29:10 +0300
+Subject: [PATCH 5/7] nvme-rdma: Don't local invalidate if the queue is not live
 In-Reply-To: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507724952-13917-5-git-send-email-sagi@grimberg.me>
+Message-ID: <1507724952-13917-6-git-send-email-sagi@grimberg.me>
 
-Warn if req->mr is NULL as it should never happen.
+No chance for the local invalidate to succeed if the queue-pair
+is in error state. Most likely the target will do a remote
+invalidation of our mr so not a big loss on the test_bit.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 6e62657662fd..93f4dd0b6f26 100644
+index 93f4dd0b6f26..e3fe57011fcb 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -274,6 +274,9 @@ static int nvme_rdma_reinit_request(void *data, struct request *rq)
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
- 	int ret = 0;
+@@ -1055,7 +1055,7 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
+ 	if (!blk_rq_bytes(rq))
+ 		return;
  
-+	if (WARN_ON_ONCE(!req->mr))
-+		return 0;
-+
- 	ib_dereg_mr(req->mr);
- 
- 	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
+-	if (req->mr->need_inval) {
++	if (req->mr->need_inval && test_bit(NVME_RDMA_Q_LIVE, &req->queue->flags)) {
+ 		res = nvme_rdma_inv_rkey(queue, req);
+ 		if (unlikely(res < 0)) {
+ 			dev_err(ctrl->ctrl.device,
 -- 
 2.7.4
