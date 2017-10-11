@@ -1,52 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 15:29:12 +0300
-Subject: [PATCH 7/7] nvme-rdma: change queue flag semantics DELETING ->
- ALLOCATED
-In-Reply-To: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 11 Oct 2017 15:33:20 +0200
+Subject: [PATCH 1/7] nvme-rdma: pass tagset to directly
+ nvme_rdma_free_tagset
+In-Reply-To: <1507724952-13917-2-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507724952-13917-8-git-send-email-sagi@grimberg.me>
+ <1507724952-13917-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20171011133320.j2uj4hco5gpomeqv@linux-x5ow.site>
 
-Instead of marking we are deleting, mark we
-are allocated and check that instead. This makes
-the logic symmetrical to connected mark check.
-
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2a18465bf361..405895b1dff2 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -79,8 +79,8 @@ struct nvme_rdma_request {
- };
- 
- enum nvme_rdma_queue_flags {
--	NVME_RDMA_Q_LIVE		= 0,
--	NVME_RDMA_Q_DELETING		= 1,
-+	NVME_RDMA_Q_ALLOCATED		= 0,
-+	NVME_RDMA_Q_LIVE		= 1,
- };
- 
- struct nvme_rdma_queue {
-@@ -549,7 +549,7 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
- 		goto out_destroy_cm_id;
- 	}
- 
--	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
-+	set_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags);
- 
- 	return 0;
- 
-@@ -569,7 +569,7 @@ static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
- 
- static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
- {
--	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
-+	if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
- 		return;
- 
- 	nvme_rdma_destroy_queue_ib(queue);
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
-2.7.4
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
