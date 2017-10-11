@@ -1,34 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 13:00:18 +0300
-Subject: [PATCH v2] nvme-pci: Use PCI bus address for data/queues in CMB
-In-Reply-To: <20171001074203.GA11115@lst.de>
-References: <1506763722-10687-1-git-send-email-abhishek.shah@broadcom.com>
- <20171001074203.GA11115@lst.de>
-Message-ID: <d2d574a7-3639-0917-3051-3ea4669de892@grimberg.me>
+Date: Wed, 11 Oct 2017 13:01:06 +0300
+Subject: [PATCH] nvme: simplify compat_ioctl handling
+In-Reply-To: <20171005164646.17473-1-hch@lst.de>
+References: <20171005164646.17473-1-hch@lst.de>
+Message-ID: <8b075910-73a3-cf09-8369-13c4797f4b48@grimberg.me>
 
-> ---
->  From b78f4164881125c4fecfdb87878d0120b2177c53 Mon Sep 17 00:00:00 2001
-> From: Christoph Hellwig <hch at lst.de>
-> Date: Sun, 1 Oct 2017 09:37:35 +0200
-> Subject: nvme-pci: Use PCI bus address for data/queues in CMB
-> 
-> Currently, NVMe PCI host driver is programming CMB dma address as
-> I/O SQs addresses. This results in failures on systems where 1:1
-> outbound mapping is not used (example Broadcom iProc SOCs) because
-> CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
-> try to access CMB using dma address.
-> 
-> To have CMB working on systems without 1:1 outbound mapping, we
-> program PCI bus address for I/O SQs instead of dma address. This
-> approach will work on systems with/without 1:1 outbound mapping.
-> 
-> Based on a report and previous patch from Abhishek Shah.
-> 
-> Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
-> Cc: stable at vger.kernel.org
-> Reported-by: Abhishek Shah <abhishek.shah at broadcom.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-
-This looks good,
+Looks good,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
