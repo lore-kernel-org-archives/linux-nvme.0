@@ -1,50 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 12:53:08 +0300
-Subject: [PATCH v2 3/3] block: remove blk_mq_reinit_tagset
-In-Reply-To: <1507715588-1041-1-git-send-email-sagi@grimberg.me>
-References: <1507715588-1041-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1507715588-1041-4-git-send-email-sagi@grimberg.me>
+Date: Wed, 11 Oct 2017 13:00:18 +0300
+Subject: [PATCH v2] nvme-pci: Use PCI bus address for data/queues in CMB
+In-Reply-To: <20171001074203.GA11115@lst.de>
+References: <1506763722-10687-1-git-send-email-abhishek.shah@broadcom.com>
+ <20171001074203.GA11115@lst.de>
+Message-ID: <d2d574a7-3639-0917-3051-3ea4669de892@grimberg.me>
 
-No callers left.
+> ---
+>  From b78f4164881125c4fecfdb87878d0120b2177c53 Mon Sep 17 00:00:00 2001
+> From: Christoph Hellwig <hch at lst.de>
+> Date: Sun, 1 Oct 2017 09:37:35 +0200
+> Subject: nvme-pci: Use PCI bus address for data/queues in CMB
+> 
+> Currently, NVMe PCI host driver is programming CMB dma address as
+> I/O SQs addresses. This results in failures on systems where 1:1
+> outbound mapping is not used (example Broadcom iProc SOCs) because
+> CMB BAR will be progammed with PCI bus address but NVMe PCI EP will
+> try to access CMB using dma address.
+> 
+> To have CMB working on systems without 1:1 outbound mapping, we
+> program PCI bus address for I/O SQs instead of dma address. This
+> approach will work on systems with/without 1:1 outbound mapping.
+> 
+> Based on a report and previous patch from Abhishek Shah.
+> 
+> Fixes: 8ffaadf7 ("NVMe: Use CMB for the IO SQes if available")
+> Cc: stable at vger.kernel.org
+> Reported-by: Abhishek Shah <abhishek.shah at broadcom.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- block/blk-mq-tag.c     | 7 -------
- include/linux/blk-mq.h | 2 --
- 2 files changed, 9 deletions(-)
+This looks good,
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index bce1c76fc768..c81b40ecd3f1 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -327,13 +327,6 @@ int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
- }
- EXPORT_SYMBOL_GPL(blk_mq_tagset_iter);
- 
--int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
--			 int (reinit_request)(void *, struct request *))
--{
--	return blk_mq_tagset_iter(set, set->driver_data, reinit_request);
--}
--EXPORT_SYMBOL_GPL(blk_mq_reinit_tagset);
--
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 		void *priv)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 6bc29f73a9aa..cfd64e500d82 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -261,8 +261,6 @@ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout);
- int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
- 		int (reinit_request)(void *, struct request *));
--int blk_mq_reinit_tagset(struct blk_mq_tag_set *set,
--			 int (reinit_request)(void *, struct request *));
- 
- int blk_mq_map_queues(struct blk_mq_tag_set *set);
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
--- 
-2.7.4
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
