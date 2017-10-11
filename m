@@ -1,12 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 11 Oct 2017 15:34:10 +0200
-Subject: [PATCH 2/7] nvme-rdma: fix wrong logging message
-In-Reply-To: <1507724952-13917-3-git-send-email-sagi@grimberg.me>
+Date: Wed, 11 Oct 2017 15:34:35 +0200
+Subject: [PATCH 3/7] nvme-rdma: move assignment to declaration
+In-Reply-To: <1507724952-13917-4-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
- <1507724952-13917-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20171011133410.wglrx4ozjlfk2dds@linux-x5ow.site>
+ <1507724952-13917-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20171011133435.lgselq25zwjbjsbu@linux-x5ow.site>
 
-heh yeah that one's puzzled me quite a bit the 1st time I tried nvme-rdma,
+Fair enough,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
