@@ -1,97 +1,181 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 10 Oct 2017 17:35:10 -0700
-Subject: [PATCH 1/3] nvme: add duplicate_connect option
-In-Reply-To: <20171011003512.5946-1-jsmart2021@gmail.com>
-References: <20171011003512.5946-1-jsmart2021@gmail.com>
-Message-ID: <20171011003512.5946-2-jsmart2021@gmail.com>
+Date: Tue, 10 Oct 2017 17:35:36 -0700
+Subject: [PATCH] nvme-cli: add duplicate_connect parameter support
+Message-ID: <20171011003536.5996-1-jsmart2021@gmail.com>
 
-Add the option "duplicate_connect", which can be 1 for true, 0 for false.
-Default is false.
+Add support for the duplicate_connect parameter for the fabrics
+device.
 
-When false, the transport should validate whether a new controller request
-is targeted for the same host transport addressing and target transport
-addressing as an existing controller. If so, the new controller request
-should be rejected.
-
-When true, the callee is explicitly requesting a duplicate controller
-connection to be made and the new request should be attempted.
+Rather than add yet another 6-line code block, created a small helper
+routine invoked for each argument option.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fabrics.c | 19 ++++++++++++++++++-
- drivers/nvme/host/fabrics.h |  2 ++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ fabrics.c | 124 +++++++++++++++++++-------------------------------------------
+ 1 file changed, 38 insertions(+), 86 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 8bca36a46924..4177137a2ee6 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -548,6 +548,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_HOSTNQN,		"hostnqn=%s"		},
- 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
- 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
-+	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect=%d"	},
- 	{ NVMF_OPT_ERR,			NULL			}
- };
+diff --git a/fabrics.c b/fabrics.c
+index 4871e17..dcde6c2 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -59,6 +59,7 @@ static struct config {
+ 	char *keep_alive_tmo;
+ 	char *reconnect_delay;
+ 	char *ctrl_loss_tmo;
++	char *duplicate_connect;
+ 	char *raw;
+ 	char *device;
+ } cfg = { NULL };
+@@ -484,6 +485,22 @@ out:
+ 	return ret;
+ }
  
-@@ -566,6 +567,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->nr_io_queues = num_online_cpus();
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
- 	opts->kato = NVME_DEFAULT_KATO;
-+	opts->duplicate_connect = false;
++static int
++add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
++{
++	int len;
++
++	if (arg) {
++		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
++		if (len < 0)
++			return -EINVAL;
++		*argstr += len;
++		*max_len -= len;
++	}
++
++	return 0;
++}
++
+ static int build_options(char *argstr, int max_len)
+ {
+ 	int len;
+@@ -500,99 +517,33 @@ static int build_options(char *argstr, int max_len)
+ 		}
+ 	}
  
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -742,6 +744,21 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				goto out;
- 			}
- 			break;
-+		case NVMF_OPT_DUP_CONNECT:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			if (token == 0)
-+				opts->duplicate_connect = false;
-+			else if (token == 1)
-+				opts->duplicate_connect = true;
-+			else {
-+				pr_err("Invalid duplicate_connect %d\n", token);
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -823,7 +840,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
--				 NVMF_OPT_HOST_ID)
-+				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT)
++	/* always specify nqn as first arg - this will init the string */
+ 	len = snprintf(argstr, max_len, "nqn=%s", cfg.nqn);
+ 	if (len < 0)
+ 		return -EINVAL;
+ 	argstr += len;
+ 	max_len -= len;
  
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index bf33663218cd..a7590cc59ba2 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -57,6 +57,7 @@ enum {
- 	NVMF_OPT_HOST_TRADDR	= 1 << 10,
- 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
- 	NVMF_OPT_HOST_ID	= 1 << 12,
-+	NVMF_OPT_DUP_CONNECT	= 1 << 13,
- };
+-	len = snprintf(argstr, max_len, ",transport=%s", cfg.transport);
+-	if (len < 0)
++	if (add_argument(&argstr, &max_len, "transport", cfg.transport) ||
++	    add_argument(&argstr, &max_len, "traddr", cfg.traddr) ||
++	    add_argument(&argstr, &max_len, "host_traddr", cfg.host_traddr) ||
++	    add_argument(&argstr, &max_len, "trsvcid", cfg.trsvcid) ||
++	    ((cfg.hostnqn || nvmf_hostnqn_file()) &&
++		    add_argument(&argstr, &max_len, "hostnqn", cfg.hostnqn)) ||
++	    ((cfg.hostid || nvmf_hostid_file()) &&
++		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
++	    add_argument(&argstr, &max_len, "nr_io_queues",
++		    cfg.nr_io_queues) ||
++	    add_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
++	    add_argument(&argstr, &max_len, "keep_alive_tmo",
++		    cfg.keep_alive_tmo) ||
++	    add_argument(&argstr, &max_len, "reconnect_delay",
++		    cfg.reconnect_delay) ||
++	    add_argument(&argstr, &max_len, "ctrl_loss_tmo",
++		    cfg.ctrl_loss_tmo) ||
++	    add_argument(&argstr, &max_len, "duplicate_connect",
++		    cfg.duplicate_connect))
+ 		return -EINVAL;
+-	argstr += len;
+-	max_len -= len;
+-
+-	if (cfg.traddr) {
+-		len = snprintf(argstr, max_len, ",traddr=%s", cfg.traddr);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.host_traddr) {
+-		len = snprintf(argstr, max_len, ",host_traddr=%s", cfg.host_traddr);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.trsvcid) {
+-		len = snprintf(argstr, max_len, ",trsvcid=%s", cfg.trsvcid);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.hostnqn || nvmf_hostnqn_file()) {
+-		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.hostid || nvmf_hostid_file()) {
+-		len = snprintf(argstr, max_len, ",hostid=%s", cfg.hostid);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.nr_io_queues) {
+-		len = snprintf(argstr, max_len, ",nr_io_queues=%s",
+-				cfg.nr_io_queues);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.queue_size) {
+-		len = snprintf(argstr, max_len, ",queue_size=%s",
+-				cfg.queue_size);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.keep_alive_tmo) {
+-		len = snprintf(argstr, max_len, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.reconnect_delay) {
+-		len = snprintf(argstr, max_len, ",reconnect_delay=%s", cfg.reconnect_delay);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.ctrl_loss_tmo) {
+-		len = snprintf(argstr, max_len, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
  
- /**
-@@ -96,6 +97,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_io_queues;
- 	unsigned int		reconnect_delay;
- 	bool			discovery_nqn;
-+	bool			duplicate_connect;
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
- 	int			max_reconnects;
+ 	return 0;
+ }
+@@ -873,6 +824,7 @@ int connect(const char *desc, int argc, char **argv)
+ 		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+ 		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
++		{"duplicate_connect", 'D', "LIST", CFG_STRING, &cfg.duplicate_connect, required_argument, "allow duplicate connections between same transport host and subsystem port" },
+ 		{NULL},
+ 	};
+ 
 -- 
 2.13.1
