@@ -1,15 +1,15 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Oct 2017 14:20:25 +0300
-Subject: [PATCH 4/4] nvmet: Add feature close connection from target side
-In-Reply-To: <1507635633-16665-5-git-send-email-israelr@mellanox.com>
+Date: Wed, 11 Oct 2017 14:11:26 +0300
+Subject: [PATCH 2/4] nvmet: Fix error flow in nvmet_alloc_ctrl()
+In-Reply-To: <1507635633-16665-3-git-send-email-israelr@mellanox.com>
 References: <1507635633-16665-1-git-send-email-israelr@mellanox.com>
- <1507635633-16665-5-git-send-email-israelr@mellanox.com>
-Message-ID: <2b6780b5-29f6-72f3-5d40-9737710b94d9@grimberg.me>
+ <1507635633-16665-3-git-send-email-israelr@mellanox.com>
+Message-ID: <3378b1a9-2dd8-0768-d691-51543d588a4c@grimberg.me>
 
+Israel,
 
-> This allows the user to close any connection from target side
-> by writing to the file "force_close" at the controller folder.
-> Full path:
-> /config/nvmet/subsystems/<SUBSYSTEM_NAME>/controllers/<CTRL_ID>/force_close
+> Also rearrange nvmet_ctrl_free().
 
-Why not rmdir?
+It would be better to separate into two patches.
+In the nvmet_ctrl_free() patch, please explain
+why is the rearrangement needed.
