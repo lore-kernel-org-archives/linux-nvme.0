@@ -1,13 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 11 Oct 2017 15:33:20 +0200
-Subject: [PATCH 1/7] nvme-rdma: pass tagset to directly
- nvme_rdma_free_tagset
-In-Reply-To: <1507724952-13917-2-git-send-email-sagi@grimberg.me>
+Date: Wed, 11 Oct 2017 15:34:10 +0200
+Subject: [PATCH 2/7] nvme-rdma: fix wrong logging message
+In-Reply-To: <1507724952-13917-3-git-send-email-sagi@grimberg.me>
 References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
- <1507724952-13917-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20171011133320.j2uj4hco5gpomeqv@linux-x5ow.site>
+ <1507724952-13917-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20171011133410.wglrx4ozjlfk2dds@linux-x5ow.site>
 
-Looks good,
+heh yeah that one's puzzled me quite a bit the 1st time I tried nvme-rdma,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
