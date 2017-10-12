@@ -1,20 +1,52 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 12 Oct 2017 18:58:46 +0300
-Subject: [PATCH 3/4] nvmet: Add controllers to configfs
-In-Reply-To: <d06594ae-225e-8065-bead-019c99f309ad@gmail.com>
-References: <1507635633-16665-1-git-send-email-israelr@mellanox.com>
- <1507635633-16665-4-git-send-email-israelr@mellanox.com>
- <d06594ae-225e-8065-bead-019c99f309ad@gmail.com>
-Message-ID: <f8a2c50d-2f4e-588a-e39d-3c4692037bb5@mellanox.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 12 Oct 2017 16:52:51 -0600
+Subject: [PATCH 1/8] lib: Introduce sgl_alloc() and sgl_free()
+In-Reply-To: <20171012224550.25440-2-bart.vanassche@wdc.com>
+References: <20171012224550.25440-1-bart.vanassche@wdc.com>
+ <20171012224550.25440-2-bart.vanassche@wdc.com>
+Message-ID: <ee12eeaf-9848-478d-4ebe-9d3497e248e0@kernel.dk>
 
-
-
-On 10/12/2017 3:16 PM, roy wrote:
-> hi,
+On 10/12/2017 04:45 PM, Bart Van Assche wrote:
+> Many kernel drivers contain code that allocate and free both a
+> scatterlist and the pages that populate that scatterlist.
+> Introduce functions under lib/ that perform these tasks instead
+> of duplicating this functionality in multiple drivers.
 > 
-> Consider exposing all the info about the port (trtype, adrfam, etc') 
-> maybe by symlink the controller to to port config_item.
+> Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
+> ---
+>  include/linux/sgl_alloc.h |  16 ++++++++
+>  lib/Kconfig               |   4 ++
+>  lib/Makefile              |   1 +
+>  lib/sgl_alloc.c           | 102 ++++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 123 insertions(+)
+>  create mode 100644 include/linux/sgl_alloc.h
+>  create mode 100644 lib/sgl_alloc.c
+> 
+> diff --git a/include/linux/sgl_alloc.h b/include/linux/sgl_alloc.h
+> new file mode 100644
+> index 000000000000..a0f719690c9e
+> --- /dev/null
+> +++ b/include/linux/sgl_alloc.h
+> @@ -0,0 +1,16 @@
+> +#ifndef _SGL_ALLOC_H_
+> +#define _SGL_ALLOC_H_
+> +
+> +#include <linux/types.h> /* bool, gfp_t */
+> +
+> +struct scatterlist;
+> +
+> +struct scatterlist *sgl_alloc_order(unsigned long long length,
+> +				    unsigned int order, unsigned int *nent_p,
+> +				    gfp_t gfp, bool chainable);
+> +struct scatterlist *sgl_alloc(unsigned long long length, unsigned int *nent_p,
+> +			      gfp_t gfp);
+> +void sgl_free_order(struct scatterlist *sgl, int order);
+> +void sgl_free(struct scatterlist *sgl);
+> +
+> +#endif /* _SGL_ALLOC_H_ */
 
-We tought about it, but since we create the dirs dynamically (and not by 
-the user performing mkdir), we prefered not to hack this symlink at 
-first stage.
+Should this just go into linux/scatterlist.h instead of creating a new header
+file?
+
+-- 
+Jens Axboe
