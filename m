@@ -1,12 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 13 Oct 2017 10:45:57 +0200
-Subject: [PATCH 7/8] scsi/pmcraid: Remove an unused structure member
-In-Reply-To: <20171012224550.25440-8-bart.vanassche@wdc.com>
+Date: Fri, 13 Oct 2017 10:47:18 +0200
+Subject: [PATCH 8/8] scsi/pmcraid: Use sgl_alloc_order() and
+ sgl_free_order()
+In-Reply-To: <20171012224550.25440-9-bart.vanassche@wdc.com>
 References: <20171012224550.25440-1-bart.vanassche@wdc.com>
- <20171012224550.25440-8-bart.vanassche@wdc.com>
-Message-ID: <20171013084556.nm74pesdsn6aejfb@linux-x5ow.site>
+ <20171012224550.25440-9-bart.vanassche@wdc.com>
+Message-ID: <20171013084717.7odpun36aywlvbvd@linux-x5ow.site>
 
-Fair enough,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
