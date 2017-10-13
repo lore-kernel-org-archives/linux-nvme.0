@@ -1,129 +1,63 @@
 From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Thu, 12 Oct 2017 20:19:27 -0700
+Date: Thu, 12 Oct 2017 20:35:44 -0700
 Subject: [PATCH V6] nvme-pci: add SGL support
-In-Reply-To: <a04ca9b1-c551-d86e-2e61-fc37c7ddd086@mellanox.com>
+In-Reply-To: <d06ea87b-1b0c-e581-b6f1-b4b2647eb431@grimberg.me>
 References: <1507232903-9532-1-git-send-email-ckulkarnilinux@gmail.com>
  <1507232903-9532-2-git-send-email-ckulkarnilinux@gmail.com>
- <a04ca9b1-c551-d86e-2e61-fc37c7ddd086@mellanox.com>
-Message-ID: <CAK0tqikZJCOzYoQSi4E1DS41RdnVrt477GunFajO0dF58Y=aTA@mail.gmail.com>
+ <d06ea87b-1b0c-e581-b6f1-b4b2647eb431@grimberg.me>
+Message-ID: <CAK0tqi=cx8NGiD_3pfk0R1JtrytO99AUoNy6d0HSd8wJhvyArA@mail.gmail.com>
 
-On Sun, Oct 8, 2017@2:16 AM, Max Gurtovoy <maxg@mellanox.com> wrote:
+On Wed, Oct 11, 2017@4:01 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
+> Chaitanya,
 >
+> Sorry for the late reply, was on vacation...
 >
-> On 10/5/2017 10:48 PM, Chaitanya Kulkarni wrote:
->>
 >> From: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 >>
 >> This adds SGL support for NVMe PCIe driver, based on an earlier patch
 >> from Rajiv Shanmugam Madeswaran <smrajiv15 at gmail.com>. This patch
 >> refactors the original code and adds new module parameter sgl_threshold
 >> to determine whether to use SGL or PRP for IOs.
->>
->> The usage of SGLs is controlled by the sgl_threshold module parameter,
->> which allows to conditionally use SGLs if average request segment size
->> (avg_seg_size) is greater than sgl_threshold. In the original patch,
->> the decision of using SGLs was dependent only on the IO size,
->> with the new approach we consider not only IO size but also the
->> number of physical segments present in the IO.
->>
->> We calculate avg_seg_size based on request payload bytes and number
->> of physical segments present in the request.
 >
 >
-> Can you add some performance numbers here to show the benefit ?
-> and also please recomend the user when it's better to use sgls vs prps.
->
-[CK] Yes, once we finish with all the code changes I'll collect the numbers
-on the final version.
->>
->> For e.g.:-
->>
->> 1. blk_rq_nr_phys_segments = 2 blk_rq_payload_bytes = 8k
->> avg_seg_size = 4K use sgl if avg_seg_size >= sgl_threshold.
->>
->> 2. blk_rq_nr_phys_segments = 2 blk_rq_payload_bytes = 64k
->> avg_seg_size = 32K use sgl if avg_seg_size >= sgl_threshold.
->>
->> 3. blk_rq_nr_phys_segments = 16 blk_rq_payload_bytes = 64k
->> avg_seg_size = 4K use sgl if avg_seg_size
->
->
-> typo :)
-[CK] I'll fix it in the next version.
->
->>
->> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
->> ---
->>   drivers/nvme/host/pci.c | 222
->> ++++++++++++++++++++++++++++++++++++++++++------
->>   1 file changed, 197 insertions(+), 25 deletions(-)
->>
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index cb73bc8..56db876 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -45,6 +45,8 @@
->>    */
->>   #define NVME_AQ_BLKMQ_DEPTH   (NVME_AQ_DEPTH - NVME_NR_AERS)
->>   +#define SGES_PER_PAGE          (PAGE_SIZE / sizeof(struct
->> nvme_sgl_desc))
->
->
-> should we use PAGE_SIZE or ctrl->page_size ?
-[CK]In nvme_setup_sgls() there are two cases where we allocate the SGL.
-Both the cases are dependant on the way we setup the DMA pools.
+> One of the more appealing values of SGL support is removing the
+> virt_boundary constraint from the driver and use SGLs to issue
+> "gappy" IO. I would be very happy to see this happening, is this
+> something you plan to address?
 
-In function nvme_setup_prp_pools() it uses 256 for dev->prp_small_pool &
-PAGE_SIZE for dev->prp_page_pool as a pool block size parameter.
+[CK]Yes, once this patch gets accepted I'm planning to add the
+support for gappy IOs and remove the virt_boundary constraints.
 
-When we setup the SGLs at that time we allocate memory from either of these
-pools. For the first case (entries <= (256 / sizeof(struct nvme_sgl_desc)))
-it uses small pool, for the second case it uses dev->prp_page_pool.
-As mentioned above dev->prp_page_pool uses PAGE_SIZE for size of the
-blocks for which we allocate the memory. So in order to calculate the
-number of entries which are going in the allocated DMA block (sgl_list)
-we need to use PAGE_SIZE.
 >
->> +
->>   static int use_threaded_interrupts;
->>   module_param(use_threaded_interrupts, int, 0);
->>   @@ -57,6 +59,10 @@
->>   MODULE_PARM_DESC(max_host_mem_size_mb,
->>         "Maximum Host Memory Buffer (HMB) size per controller (in MiB)");
->>   +static unsigned int sgl_threshold = SZ_32K;
->> +module_param(sgl_threshold, uint, 0644);
->> +MODULE_PARM_DESC(sgl_threshold, "use SGL for I/O larger or equal to this
->> size");
->> +
+> This is why I wanted to not have a threshold based sgl/prp selection
+> as it does not allow us to remove the virt_boundary constraint for
+> controllers that don't have the "prp-able limitation".
 >
->
-> please mention that 0 value disable sgl usage.
-[CK] Sounds good, I'll add this in the next version of this patch.
->
->
->>   static int io_queue_depth_set(const char *val, const struct kernel_param
->> *kp);
->>   static const struct kernel_param_ops io_queue_depth_ops = {
->>         .set = io_queue_depth_set,
->> @@ -178,6 +184,7 @@ struct nvme_queue {
->>   struct nvme_iod {
->>         struct nvme_request req;
->>         struct nvme_queue *nvmeq;
->> +       bool use_sgl;
->>         int aborted;
->>         int npages;             /* In the PRP list. 0 means small pool in
->> use */
->>         int nents;              /* Used in scatterlist */
->> @@ -331,17 +338,32 @@ static int nvme_npages(unsigned size, struct
->> nvme_dev *dev)
->>         return DIV_ROUND_UP(8 * nprps, PAGE_SIZE - 8);
->>   }
->>   +/*
+> We could have also a threshold to select the optimal selection for
+> sgl/prp, but it would need to meet the following conditions:
+> - choose prp if
+>    1. avg_seg_size is < sgl_threshold
+>    2. bio_vec is not gappy
+[CK] Yes, we should do this ultimately instead of getting rid of the
+         threshold parameter.
+
+> (2) would mean traversing the bio_vec until we integrate this into
+>     the block layer. But given that this is cheap when the bio_vec
+>     is small and long bio_vecs its probably negligible compared to
+>     the longer transfer latency.
+[CK] Agree.
+>>
+>> +/*
 >> + * Calculates the number of pages needed for the SGL segments. For
 >> example a 4k
 >> + * page can accommodate 256 SGL descriptors.
 >> + */
 >> +static int nvme_npages_sgl(unsigned int num_seg)
+>
+>
+> Can you place nvme_pci_ prefix on all the new routines you add?
+[CK] Sure.
+>
 >> +{
 >> +       return DIV_ROUND_UP(num_seg * sizeof(struct nvme_sgl_desc),
 >> PAGE_SIZE);
@@ -133,6 +67,13 @@ we need to use PAGE_SIZE.
 >> -               unsigned int size, unsigned int nseg)
 >> +               unsigned int size, unsigned int nseg, bool use_sgl)
 >>   {
+>
+>
+> I would suggest that also for functions that you touch their signature
+> make them nvme_pci_*.
+[CK] Sure, I'll make this change in the next version of this patch.
+>
+>
 >> -       return sizeof(__le64 *) * nvme_npages(size, dev) +
 >> -                       sizeof(struct scatterlist) * nseg;
 >> +       size_t alloc_size;
@@ -154,7 +95,7 @@ we need to use PAGE_SIZE.
 >> NVME_INT_PAGES, use_sgl);
 >>   }
 >>     static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void
->> *data,
+>> *data,[CK] Noted.
 >> @@ -425,10 +447,10 @@ static void __nvme_submit_cmd(struct nvme_queue
 >> *nvmeq,
 >>         nvmeq->sq_tail = tail;
@@ -175,8 +116,7 @@ we need to use PAGE_SIZE.
 >> -               iod->sg = kmalloc(nvme_iod_alloc_size(dev, size, nseg),
 >> GFP_ATOMIC);
 >> +               size_t alloc_size = nvme_iod_alloc_size(dev, size, nseg,
->> +                               iod->use_sgl);2. Remove the prp suffix in the dev->prp_small_pool and dev->prp_page_pool in all places
-    of code.
+>> +                               iod->use_sgl);
 >> +
 >> +               iod->sg = kmalloc(alloc_size, GFP_ATOMIC);
 >>                 if (!iod->sg)
@@ -301,186 +241,7 @@ we need to use PAGE_SIZE.
 >> *req,
 >> +               struct nvme_rw_command *cmd)
 >> +{
->> +       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->> +       int length = blk_rq_payload_bytes(req);
->> +       struct dma_pool *pool;
->> +       struct nvme_sgl_desc *sg_list;
->> +       struct scatterlist *sg = iod->sg;
->> +       int entries = iod->nents, i = 0;
->> +       dma_addr_t sgl_dma;
->> +
->> +       iod->use_sgl = true;
->> +
->> +       cmd->flags = NVME_CMD_SGL_METABUF; /* setting the transfer type as
->> SGL */
->> +
->> +       if (length == sg_dma_len(sg)) {
->> +               nvme_pci_sgl_set_data(&cmd->dptr.sgl, sg);
->> +               return BLK_STS_OK;
->> +       }
->> +
->> +       if (entries <= 256 / sizeof(struct nvme_sgl_desc)) {
 >
 >
-> where does 256 comes from ? can we use macro definition here ?
-[CK] The function nvme_setup_prp_pools() uses 256 literal value
-to setup the small dma pool. This value is also used as a literal
-in the function nvme_setup_prps(). In order to keep the implementation
-of the nvme_setup_sgls() similar to the nvme_setup_prps() when
-calculating the number of entries with as a literal we use 256.
-
-Also if you observed we are also using dev->prp_small_pool and
-dev->prp_page_pool in nvme_setup_sgls() in this patch.
-
-The purpose of this patch to add the SGL support without introducing any
-cleanup in the existing code to make it easier to review.
-
-I'll be happy to send a separate cleanup patch with following changes once
-this patch gets accepted:-
-
-1. Remove the 256 value and use the
-    NVME_PCI_DMA_POOL_SMALL_BLK_SIZE or any other macro name that
-    everyone prefers.
-2. Remove the prp suffix in the dev->prp_small_pool and dev->prp_page_pool
-    in all places of code.
->
->
->> +               pool = dev->prp_small_pool;
->> +               iod->npages = 0;
->> +       } else {
->> +               pool = dev->prp_page_pool;
->> +               iod->npages = 1;
->> +       }
->> +
->> +       sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
->> +       if (!sg_list) {
->> +               iod->npages = -1;
->> +               return BLK_STS_RESOURCE;
->> +       }
->> +
->> +       iod_list(req)[0] = sg_list;
->> +       iod->first_dma = sgl_dma;
->> +
->> +       if (entries <= SGES_PER_PAGE) {
->> +               nvme_pci_sgl_set_last_seg(&cmd->dptr.sgl, sgl_dma,
->> entries);
->> +
->> +               for (i = 0; i < entries; i++) {
->> +                       nvme_pci_sgl_set_data(&sg_list[i], sg);
->> +                       length -= sg_dma_len(sg);
->> +                       sg = sg_next(sg);
->> +               }
->> +
->> +               WARN_ON(length > 0);
->> +               return BLK_STS_OK;
->> +       }
->> +
->> +       nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma);
->> +
->> +       do {
->> +               if (i == SGES_PER_PAGE) {
->> +                       struct nvme_sgl_desc *old_sg_desc = sg_list;
->> +                       struct nvme_sgl_desc *link = &old_sg_desc[i - 1];
->> +
->> +                       sg_list = dma_pool_alloc(pool, GFP_ATOMIC,
->> &sgl_dma);
->> +                       if (!sg_list)
->> +                               return BLK_STS_RESOURCE;
->> +
->> +                       i = 0;
->> +                       iod_list(req)[iod->npages++] = sg_list;
->> +                       sg_list[i++] = *link;
->> +
->> +                       if (entries < SGES_PER_PAGE)
->> +                               nvme_pci_sgl_set_last_seg(link, sgl_dma,
->> entries);
->> +                       else
->> +                               nvme_pci_sgl_set_seg(link, sgl_dma);
->> +               }
->> +
->> +               nvme_pci_sgl_set_data(&sg_list[i], sg);
->> +
->> +               length -= sg_dma_len(sg);
->> +               sg = sg_next(sg);
->> +               entries--;
->> +       } while (length > 0);
->> +
->> +       WARN_ON(entries > 0);
->> +       return BLK_STS_OK;
->> +}
->> +
->> +static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request
->> *req)
->> +{
->> +       struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->> +       unsigned int avg_seg_size;
->> +
->> +       avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req),
->> +                       blk_rq_nr_phys_segments(req));
->> +
->> +       if (!(dev->ctrl.sgls & ((1 << 0) | (1 << 1))))
->
->
-> Can you create macros for the spec definitions ?
-> In case of Dword alignment and granularity, where do we check that
-> requirement ?
->
->
->> +               return false;
->> +       if (!iod->nvmeq->qid)
->> +               return false;
->> +       if (!sgl_threshold || avg_seg_size < sgl_threshold)
->> +               return false;
->> +       return true;
->> +}
->> +
->>   static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request
->> *req,
->>                 struct nvme_command *cmnd)
->>   {
->> @@ -662,7 +828,11 @@ static blk_status_t nvme_map_data(struct nvme_dev
->> *dev, struct request *req,
->>                                 DMA_ATTR_NO_WARN))
->>                 goto out;
->>   -     ret = nvme_setup_prps(dev, req);
->> +       if (nvme_pci_use_sgls(dev, req))
->> +               ret = nvme_setup_sgls(dev, req, &cmnd->rw);
->> +       else
->> +               ret = nvme_setup_prps(dev, req, &cmnd->rw);
->> +
->>         if (ret != BLK_STS_OK)
->>                 goto out_unmap;
->>   @@ -682,8 +852,6 @@ static blk_status_t nvme_map_data(struct nvme_dev
->> *dev, struct request *req,
->>                         goto out_unmap;
->>         }
->>   -     cmnd->rw.dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
->> -       cmnd->rw.dptr.prp2 = cpu_to_le64(iod->first_dma);
->>         if (blk_integrity_rq(req))
->>                 cmnd->rw.metadata =
->> cpu_to_le64(sg_dma_address(&iod->meta_sg));
->>         return BLK_STS_OK;
->> @@ -1379,7 +1547,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev
->> *dev)
->>                 dev->admin_tagset.queue_depth = NVME_AQ_BLKMQ_DEPTH - 1;
->>                 dev->admin_tagset.timeout = ADMIN_TIMEOUT;
->>                 dev->admin_tagset.numa_node = dev_to_node(dev->dev);
->> -               dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
->> +               dev->admin_tagset.cmd_size = nvme_cmd_size(dev, false);
->>                 dev->admin_tagset.flags = BLK_MQ_F_NO_SCHED;
->>                 dev->admin_tagset.driver_data = dev;
->>   @@ -1906,7 +2074,11 @@ static int nvme_dev_add(struct nvme_dev *dev)
->>                 dev->tagset.numa_node = dev_to_node(dev->dev);
->>                 dev->tagset.queue_depth =
->>                                 min_t(int, dev->q_depth, BLK_MQ_MAX_DEPTH)
->> - 1;
->> -               dev->tagset.cmd_size = nvme_cmd_size(dev);
->> +               dev->tagset.cmd_size = nvme_cmd_size(dev, false);
->> +               if ((dev->ctrl.sgls & ((1 << 0) | (1 << 1))) &&
->> sgl_threshold) {
->> +                       dev->tagset.cmd_size = max(dev->tagset.cmd_size,
->> +                                       nvme_cmd_size(dev, true));
->> +               }
->>                 dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
->>                 dev->tagset.driver_data = dev;
->>
+> nvme_pci_*
+[CK] Noted.
