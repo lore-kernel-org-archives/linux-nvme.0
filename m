@@ -1,90 +1,39 @@
-From: nitzanc@mellanox.com (Nitzan Carmi)
-Date: Sun, 15 Oct 2017 11:05:50 +0300
-Subject: [PATCH 6/7] nvme-rdma: teardown admin/io queues once on error
- recovery
-In-Reply-To: <1507724952-13917-7-git-send-email-sagi@grimberg.me>
-References: <1507724952-13917-1-git-send-email-sagi@grimberg.me>
- <1507724952-13917-7-git-send-email-sagi@grimberg.me>
-Message-ID: <cee6d667-af6c-71c4-e996-96f907e8ef29@mellanox.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 15 Oct 2017 16:25:59 +0300
+Subject: [PATCH 3/4] nvmet: Add controllers to configfs
+In-Reply-To: <834d07fa-5830-ea7a-11b1-f20ebf47831c@gmail.com>
+References: <1507635633-16665-1-git-send-email-israelr@mellanox.com>
+ <1507635633-16665-4-git-send-email-israelr@mellanox.com>
+ <834d07fa-5830-ea7a-11b1-f20ebf47831c@gmail.com>
+Message-ID: <923a51f0-61f7-7813-97fc-65bf072a9bb6@mellanox.com>
 
 
 
-On 11/10/2017 15:29, Sagi Grimberg wrote:
-> Relying on the queue state while tearing down on every reconnect
-> attempt is not a good design. We should do it once in err_work
-> and simply try to establish the queues for each reconnect attempt.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/rdma.c | 27 ++++++++++++---------------
->   1 file changed, 12 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index e3fe57011fcb..2a18465bf361 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -925,10 +925,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
->   
->   	++ctrl->ctrl.nr_reconnects;
->   
-> -	if (ctrl->ctrl.queue_count > 1)
-> -		nvme_rdma_destroy_io_queues(ctrl, false);
-> -
-> -	nvme_rdma_destroy_admin_queue(ctrl, false);
->   	ret = nvme_rdma_configure_admin_queue(ctrl, false);
->   	if (ret)
->   		goto requeue;
-> @@ -936,7 +932,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
->   	if (ctrl->ctrl.queue_count > 1) {
->   		ret = nvme_rdma_configure_io_queues(ctrl, false);
->   		if (ret)
-> -			goto requeue;
-> +			goto destroy_admin;
->   	}
->   
->   	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-> @@ -946,14 +942,17 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
->   		return;
->   	}
->   
-> -	ctrl->ctrl.nr_reconnects = 0;
-> -
->   	nvme_start_ctrl(&ctrl->ctrl);
->   
-> -	dev_info(ctrl->ctrl.device, "Successfully reconnected\n");
-> +	dev_info(ctrl->ctrl.device, "Successfully reconnected (%d attepmpt)\n",
-typo :)
-> +			ctrl->ctrl.nr_reconnects);
-> +
-> +	ctrl->ctrl.nr_reconnects = 0;
->   
->   	return;
->   
-> +destroy_admin:
-> +	nvme_rdma_destroy_admin_queue(ctrl, false);
->   requeue:
->   	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
->   			ctrl->ctrl.nr_reconnects);
-> @@ -969,17 +968,15 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
->   
->   	if (ctrl->ctrl.queue_count > 1) {
->   		nvme_stop_queues(&ctrl->ctrl);
-> -		nvme_rdma_stop_io_queues(ctrl);
-> -	}
-> -	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-> -	nvme_rdma_stop_queue(&ctrl->queues[0]);
-> -
-> -	/* We must take care of fastfail/requeue all our inflight requests */
-> -	if (ctrl->ctrl.queue_count > 1)
->   		blk_mq_tagset_busy_iter(&ctrl->tag_set,
->   					nvme_cancel_request, &ctrl->ctrl);
-> +		nvme_rdma_destroy_io_queues(ctrl, false);
-> +	}
-> +
-> +	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->   	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->   				nvme_cancel_request, &ctrl->ctrl);
-> +	nvme_rdma_destroy_admin_queue(ctrl, false);
->   
->   	/*
->   	 * queues are not a live anymore, so restart the queues to fail fast
+On 10/15/2017 11:49 AM, roy wrote:
+> Hi,
+> 
+> I think there is a potential problem here. for example in the next scenario:
+> 
+> core X is reading .../controllers/N/hostnqn and core Y is handling 
+> nvmet_ctrl_free. basically
+> 
+> core Y can free the ctrl while core X will try to do sprintf on 
+> ctrl->hostnqn which will cause NULL dereference.
+> 
+> Am I missing something?
+> 
+
+we delete the ctrl_configfs before freeing the ctrl. parallel processing 
+should be protected by internal configfs mutex, just like in the case of 
+reading namespace or port items.
+
+for example:
+
+static ssize_t nvmet_ns_enable_show(struct config_item *item, char *page)
+{
+         return sprintf(page, "%d\n", to_nvmet_ns(item)->enabled);
+}
+
+What I do see is an option for freeing the port (by rmdir ../ports/1/) 
+and then ctrl->port will point to freed memory. I guess we can cache the 
+needed values we want to show.
