@@ -1,10 +1,13 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 16 Oct 2017 05:50:40 -0700
-Subject: [PATCH v2] nvme_fc: retry initial controller connections 3 times
-In-Reply-To: <20171009233922.7216-1-jsmart2021@gmail.com>
-References: <20171009233922.7216-1-jsmart2021@gmail.com>
-Message-ID: <20171016125040.GE26833@infradead.org>
+Date: Mon, 16 Oct 2017 06:00:53 -0700
+Subject: [PATCH] nvme/target: Change max_nsid in subsystem due to
+ ns_disable if needed
+In-Reply-To: <1507651167-4839-1-git-send-email-roys@lightbitslabs.com>
+References: <1507651167-4839-1-git-send-email-roys@lightbitslabs.com>
+Message-ID: <20171016130053.GA1936@infradead.org>
 
-Thanks,
+Actually, this doesn't even compile..  the entry in ->namespaces
+is dev_link, not entry.
 
-I will apply this to the nvme-4.14 tree.
+If you resend please also fix the line > 80 chars, preferably
+by adding a new helper that returns the new max_nsid value.
