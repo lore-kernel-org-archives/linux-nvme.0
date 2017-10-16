@@ -1,15 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 16 Oct 2017 13:34:07 +0300
-Subject: [PATCH] nvmet: protect sqhd update by a lock
-In-Reply-To: <20171013203800.24125-1-jsmart2021@gmail.com>
-References: <20171013203800.24125-1-jsmart2021@gmail.com>
-Message-ID: <982bd969-c099-fc6c-9fb5-11884abd8da8@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 16 Oct 2017 05:46:21 -0700
+Subject: [PATCH 4.14-rc] nvme-rdma: stop controller reset if the
+ controller is deleting
+In-Reply-To: <1507715391-430-1-git-send-email-sagi@grimberg.me>
+References: <1507715391-430-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20171016124621.GA26833@infradead.org>
 
-
-> In testing target io in read write mix, we did indeed get into cases
-> where sqhd didn't update properly and slowly missed enough updates to
-> shutdown the queue.
+On Wed, Oct 11, 2017@12:49:51PM +0300, Sagi Grimberg wrote:
+> If the controller is deleting (in case the user decided to delete
+> it), we have no point to continue reset sequence.
 > 
-> Protect the read/modify/set update of sqhd under a lock for coherency.
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-How does this fix the issue given that updates are not protected?
+Looks good and mirrors what we do in reconnect.
+
+I'll apply it to nvme-4.14.
