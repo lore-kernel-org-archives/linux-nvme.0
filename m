@@ -1,80 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 17 Oct 2017 13:34:56 +0300
-Subject: [PATCH nvmetcli 2/2] nvmetcli: decorate namespace,
- subsystem and port UI
-In-Reply-To: <1508236496-23921-1-git-send-email-sagi@grimberg.me>
-References: <1508236496-23921-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1508236496-23921-2-git-send-email-sagi@grimberg.me>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 17 Oct 2017 07:19:30 -0700
+Subject: [PATCH v2] nvmet: protect sqhd update by a lock
+In-Reply-To: <20171017064306.GA16133@infradead.org>
+References: <20171016151820.14766-1-jsmart2021@gmail.com>
+ <20171017064306.GA16133@infradead.org>
+Message-ID: <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
 
-Display some info on the on the UI node.
+On 10/16/2017 11:43 PM, Christoph Hellwig wrote:
+>>   	if (status)
+>>   		nvmet_set_status(req, status);
+>>   
+>> +	spin_lock_irqsave(&req->sq->sqhd_lock, flags);
+>>   	if (req->sq->size)
+>>   		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
+>>   	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
+>> +	spin_unlock_irqrestore(&req->sq->sqhd_lock, flags);
+> What performance impact does this have?   I'm really reluctant to put
+> an irq disabling spinlock into a hot path for a feature that
+> theoretically is in the spec but ignored by every host.
+>
+> I'd much rather play games with cmpxchg or similar here.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- nvmetcli | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+It's not ignored by every host. Its ignored by the linux host. There are 
+other hosts out there that follow the spec and pay attention to sqhd - 
+and the linux target would like to be used with them.
 
-diff --git a/nvmetcli b/nvmetcli
-index 951b6431e6f0..ae86e89b61aa 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -24,7 +24,10 @@ import os
- import sys
- import configshell_fb as configshell
- import nvmet as nvme
-+import uuid
- 
-+def ngiud_set(nguid):
-+    return any(c.isdigit() and c != '0' for c in nguid)
- 
- class UINode(configshell.node.ConfigNode):
-     def __init__(self, name, parent=None, cfnode=None, shell=None):
-@@ -160,6 +163,13 @@ class UISubsystemNode(UINode):
-         UINamespacesNode(self)
-         UIAllowedHostsNode(self)
- 
-+    def summary(self):
-+        info = []
-+        info.append("version=" + self.cfnode.get_attr("attr","version"))
-+        info.append("allow_any=" + self.cfnode.get_attr("attr","allow_any_host"))
-+        info.append("serial=" + self.cfnode.get_attr("attr","serial"))
-+        return (", ".join(info), True)
-+
- 
- class UINamespacesNode(UINode):
-     def __init__(self, parent):
-@@ -247,6 +257,19 @@ class UINamespaceNode(UINode):
-                 raise configshell.ExecutionError(
-                     "The Namespace could not be disabled.")
- 
-+    def summary(self):
-+        info = []
-+        info.append("path=" + self.cfnode.get_attr("device", "path"))
-+        ns_uuid = self.cfnode.get_attr("device", "uuid")
-+        if uuid.UUID(ns_uuid).int != 0:
-+            info.append("uuid=" + str(ns_uuid))
-+        ns_nguid = self.cfnode.get_attr("device", "nguid")
-+        if ngiud_set(ns_nguid):
-+            info.append("nguid=" + ns_nguid)
-+        info.append("enabled" if self.cfnode.get_enable() else "disabled")
-+        ns_enabled = self.cfnode.get_enable()
-+        return (", ".join(info), True if ns_enabled == 1 else ns_enabled)
-+
- 
- class UIAllowedHostsNode(UINode):
-     def __init__(self, parent):
-@@ -361,6 +384,13 @@ class UIPortNode(UINode):
-             return "enabled"
-         return "disabled"
- 
-+    def summary(self):
-+        info = []
-+        info.append("traddr=" + self.cfnode.get_attr("addr", "traddr"))
-+        info.append("trsvcid=" + self.cfnode.get_attr("addr", "trsvcid"))
-+        info.append("trtype=" + self.cfnode.get_attr("addr", "trtype"))
-+        return (", ".join(info), True)
-+
- 
- class UIPortSubsystemsNode(UINode):
-     def __init__(self, parent):
--- 
-2.7.4
+I'm open to other alternatives, but in the past, with pci adapter 
+interfaces with similar "ring" index updates, the increment followed by 
+modulo has always proven to be an issue for such tricks.
+
+-- james
