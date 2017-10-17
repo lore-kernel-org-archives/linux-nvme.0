@@ -1,36 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 17 Oct 2017 13:01:34 +0300
-Subject: v4.14-rc5 NVMeOF regression?
-In-Reply-To: <1508192588.2493.60.camel@wdc.com>
-References: <1508192588.2493.60.camel@wdc.com>
-Message-ID: <82de6177-27f5-463e-3446-0305fd9f6790@grimberg.me>
+Date: Tue, 17 Oct 2017 13:34:55 +0300
+Subject: [PATCH nvmetcli 1/2] nvmetcli: Expose ls to dump UI configuration
+Message-ID: <1508236496-23921-1-git-send-email-sagi@grimberg.me>
 
+for running: nvmetcli ls
 
-> Hello,
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ nvmetcli | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Hi Bart, thanks for reporting
-
-> It has been a while since I ran any NVMeOF tests. But when I tried to test
-> the v4.14-rc5 NVMeOF drivers the output shown below appeared. Is this a
-> known issue? The following test triggered these call stacks:
-
-Yea, we probably need to silence those with:
---
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 92a03ff5fb4d..d7504f180d93 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1988,7 +1988,7 @@ static void nvme_rdma_remove_one(struct ib_device 
-*ib_device, void *client_data)
-         struct nvme_rdma_ctrl *ctrl;
-
-         /* Delete all controllers using this device */
--       mutex_lock(&nvme_rdma_ctrl_mutex);
-+       mutex_lock_nested(&nvme_rdma_ctrl_mutex, SINGLE_DEPTH_NESTING);
-         list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
-                 if (ctrl->device->dev != ib_device)
-                         continue;
---
-
-I'll compile with CONFIG_DEBUG_LOCK_ALLOC and check this, but if you
-happen to beat me to it, I can use your Tested-by tag.
+diff --git a/nvmetcli b/nvmetcli
+index 5378365eb91f..951b6431e6f0 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -554,6 +554,7 @@ def usage():
+     print("syntax: %s save [file_to_save_to]" % sys.argv[0])
+     print("        %s restore [file_to_restore_from]" % sys.argv[0])
+     print("        %s clear" % sys.argv[0])
++    print("        %s ls" % sys.argv[0])
+     sys.exit(-1)
+ 
+ 
+@@ -577,7 +578,14 @@ def clear(unused):
+     nvme.Root().clear_existing()
+ 
+ 
+-funcs = dict(save=save, restore=restore, clear=clear)
++def ls(unused):
++    shell = configshell.shell.ConfigShell('~/.nvmetcli')
++    UIRootNode(shell)
++    shell.run_cmdline("ls")
++    sys.exit(0)
++
++
++funcs = dict(save=save, restore=restore, clear=clear, ls=ls)
+ 
+ 
+ def main():
+-- 
+2.7.4
