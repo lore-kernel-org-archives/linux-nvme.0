@@ -1,21 +1,20 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 16 Oct 2017 23:43:06 -0700
-Subject: [PATCH v2] nvmet: protect sqhd update by a lock
-In-Reply-To: <20171016151820.14766-1-jsmart2021@gmail.com>
-References: <20171016151820.14766-1-jsmart2021@gmail.com>
-Message-ID: <20171017064306.GA16133@infradead.org>
+Date: Mon, 16 Oct 2017 23:50:55 -0700
+Subject: [PATCH v2 0/3] Move tagset reinit to its only current consumer,
+ nvme-core
+In-Reply-To: <718a34b5-b28e-fc4f-5b42-f961dde53482@kernel.dk>
+References: <1507715588-1041-1-git-send-email-sagi@grimberg.me>
+ <20171016124817.GB26833@infradead.org>
+ <718a34b5-b28e-fc4f-5b42-f961dde53482@kernel.dk>
+Message-ID: <20171017065055.GA4164@infradead.org>
 
->  	if (status)
->  		nvmet_set_status(req, status);
->  
-> +	spin_lock_irqsave(&req->sq->sqhd_lock, flags);
->  	if (req->sq->size)
->  		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
->  	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
-> +	spin_unlock_irqrestore(&req->sq->sqhd_lock, flags);
+On Mon, Oct 16, 2017@08:47:38AM -0600, Jens Axboe wrote:
+> On 10/16/2017 06:48 AM, Christoph Hellwig wrote:
+> > Jens, are you fine with picking this up throught the nvme tree?
+> > I think Sagi's later changes rely on it, so that would make life
+> > a littler easier.
+> 
+> Yeah that's fine, you can add my reviewed-by to the patches
+> as well.
 
-What performance impact does this have?   I'm really reluctant to put
-an irq disabling spinlock into a hot path for a feature that
-theoretically is in the spec but ignored by every host.
-
-I'd much rather play games with cmpxchg or similar here.
+Ok, applied to nvme-4.15 with your ACK.
