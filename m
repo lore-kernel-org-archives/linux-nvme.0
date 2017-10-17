@@ -1,215 +1,459 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Mon, 16 Oct 2017 22:23:09 +0000
-Subject: v4.14-rc5 NVMeOF regression?
-Message-ID: <1508192588.2493.60.camel@wdc.com>
+From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
+Date: Mon, 16 Oct 2017 18:24:20 -0700
+Subject: [PATCH V7] nvme-pci: add SGL support
+Message-ID: <1508203460-13852-1-git-send-email-ckulkarnilinux@gmail.com>
 
-Hello,
+From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-It has been a while since I ran any NVMeOF tests. But when I tried to test
-the v4.14-rc5 NVMeOF drivers the output shown below appeared. Is this a
-known issue? The following test triggered these call stacks:
+This adds SGL support for NVMe PCIe driver, based on an earlier patch
+from Rajiv Shanmugam Madeswaran <smrajiv15 at gmail.com>. This patch
+refactors the original code and adds new module parameter sgl_threshold
+to determine whether to use SGL or PRP for IOs.
 
-# srp-test/run_tests -n -f xfs -e deadline -r 60
+The usage of SGLs is controlled by the sgl_threshold module parameter,
+which allows to conditionally use SGLs if average request segment
+size (avg_seg_size) is greater than sgl_threshold. In the original patch,
+the decision of using SGLs was dependent only on the IO size,
+with the new approach we consider not only IO size but also the
+number of physical segments present in the IO.
 
-Thanks,
+We calculate avg_seg_size based on request payload bytes and number
+of physical segments present in the request.
 
-Bart.
+For e.g.:-
 
-======================================================
-======================================================
-WARNING: possible circular locking dependency detected
-WARNING: possible circular locking dependency detected
-4.14.0-rc5-dbg+ #3 Not tainted
-4.14.0-rc5-dbg+ #3 Not tainted
-------------------------------------------------------
-------------------------------------------------------
-modprobe/2272 is trying to acquire lock:
-modprobe/2272 is trying to acquire lock:
- ("events"){+.+.}, at: [<ffffffff81084185>] flush_workqueue+0x75/0x520
- ("events"){+.+.}, at: [<ffffffff81084185>] flush_workqueue+0x75/0x520
+1. blk_rq_nr_phys_segments = 2 blk_rq_payload_bytes = 8k
+avg_seg_size = 4K use sgl if avg_seg_size >= sgl_threshold.
 
-but task is already holding lock:
+2. blk_rq_nr_phys_segments = 2 blk_rq_payload_bytes = 64k
+avg_seg_size = 32K use sgl if avg_seg_size >= sgl_threshold.
 
-but task is already holding lock:
- (device_mutex){+.+.}, at: [<ffffffffa05d6bf7>] ib_unregister_client+0x27/0x200 [ib_core]
- (device_mutex){+.+.}, at: [<ffffffffa05d6bf7>] ib_unregister_client+0x27/0x200 [ib_core]
+3. blk_rq_nr_phys_segments = 16 blk_rq_payload_bytes = 64k
+avg_seg_size = 4K use sgl if avg_seg_size >= sgl_threshold.
 
-which lock already depends on the new lock.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+This is the seventh version of the patch for adding SGL support
+for nvme-pci driver.
 
+Changes since v6:-
 
-which lock already depends on the new lock.
+1. Refactor the code in nvme_setup_sgls() and get rid of
+   the special case of handling single segment.
+2. In the process of adding SGL support, we changed the signature
+   of some functions. Add prefix "nvme_pci_" to those function.
+3. Fix a typo in the commit message.
+4. Add information about how to disable the SGLs in the
+   description of newly added module parameter sgl_threshold.
+5. Change the code base from Linux 4.14-rc3 to 4.14.0-rc4.
 
+Changes since v5:-
 
-the existing dependency chain (in reverse order) is:
+1. Remove the NVME_CTRL_SGL_NOT_SUPP enum constant and use
+   simple comparison bits to determine whether controller supports
+   SGL or not.
 
-the existing dependency chain (in reverse order) is:
+Changes since v4:-
 
--> #3 (device_mutex){+.+.}:
+1. Replace NVME_CTRL_SUPP_SGL macro with enum NVME_CTRL_SGL_NOT_SUPP.
+2. Adjust patch for new enum.
+3. Merge two patches into one.
 
--> #3 (device_mutex){+.+.}:
-       lock_acquire+0xdc/0x1d0
-       lock_acquire+0xdc/0x1d0
-       __mutex_lock+0x86/0x990
-       __mutex_lock+0x86/0x990
-       mutex_lock_nested+0x1b/0x20
-       mutex_lock_nested+0x1b/0x20
-       ib_register_device+0xa3/0x650 [ib_core]
-       ib_register_device+0xa3/0x650 [ib_core]
-       mlx4_ib_add+0xcfd/0x1440 [mlx4_ib]
-       mlx4_ib_add+0xcfd/0x1440 [mlx4_ib]
-       mlx4_add_device+0x45/0xe0 [mlx4_core]
-       mlx4_add_device+0x45/0xe0 [mlx4_core]
-       mlx4_register_interface+0xa8/0x120 [mlx4_core]
-       mlx4_register_interface+0xa8/0x120 [mlx4_core]
-       0xffffffffa05b2051
-       0xffffffffa05b2051
-       do_one_initcall+0x43/0x166
-       do_one_initcall+0x43/0x166
-       do_init_module+0x5f/0x206
-       do_init_module+0x5f/0x206
-       load_module+0x26fe/0x2db0
-       load_module+0x26fe/0x2db0
-       SYSC_finit_module+0xbc/0xf0
-       SYSC_finit_module+0xbc/0xf0
-       SyS_finit_module+0xe/0x10
-       SyS_finit_module+0xe/0x10
-       entry_SYSCALL_64_fastpath+0x18/0xad
-       entry_SYSCALL_64_fastpath+0x18/0xad
+Changes since v3:-
 
--> #2 (intf_mutex){+.+.}:
+1. Modify SGL helper functions and add prefix nvme_pci_sgl.
+2. Use average request physical segment(s) size to conditionally use SGLs.
+   This approach is different from the original one, the original approach
+   was based no the IO size. The new approach considers IO size and
+   number of physical segments present in the request to conditionally
+   use SGLs.
+3. Adjust the patch for Linux 4.14-rc3.
 
--> #2 (intf_mutex){+.+.}:
-       lock_acquire+0xdc/0x1d0
-       lock_acquire+0xdc/0x1d0
-       __mutex_lock+0x86/0x990
-       __mutex_lock+0x86/0x990
-       mutex_lock_nested+0x1b/0x20
-       mutex_lock_nested+0x1b/0x20
-       mlx4_register_device+0x30/0xc0 [mlx4_core]
-       mlx4_register_device+0x30/0xc0 [mlx4_core]
-       mlx4_load_one+0x15f4/0x16f0 [mlx4_core]
-       mlx4_load_one+0x15f4/0x16f0 [mlx4_core]
-       mlx4_init_one+0x4b9/0x700 [mlx4_core]
-       mlx4_init_one+0x4b9/0x700 [mlx4_core]
-       local_pci_probe+0x42/0xa0
-       local_pci_probe+0x42/0xa0
-       work_for_cpu_fn+0x14/0x20
-       work_for_cpu_fn+0x14/0x20
-       process_one_work+0x1fd/0x630
-       process_one_work+0x1fd/0x630
-       worker_thread+0x1db/0x3b0
-       worker_thread+0x1db/0x3b0
-       kthread+0x11e/0x150
-       kthread+0x11e/0x150
-       ret_from_fork+0x27/0x40
-       ret_from_fork+0x27/0x40
+Changes since v2:-
 
--> #1 ((&wfc.work)){+.+.}:
+1. Adjust the patch for latest nvme driver changes.
+2. For initial submission use the default virt boundary values.
 
--> #1 ((&wfc.work)){+.+.}:
-       lock_acquire+0xdc/0x1d0
-       lock_acquire+0xdc/0x1d0
-       process_one_work+0x1da/0x630
-       process_one_work+0x1da/0x630
-       worker_thread+0x4e/0x3b0
-       worker_thread+0x4e/0x3b0
-       kthread+0x11e/0x150
-       kthread+0x11e/0x150
-       ret_from_fork+0x27/0x40
-       ret_from_fork+0x27/0x40
+In future, work on the patch series for relaxing the virt boundary
+for each transport.
 
--> #0 ("events"){+.+.}:
+Changes since the v1:-
 
--> #0 ("events"){+.+.}:
-       __lock_acquire+0x13b5/0x13f0
-       __lock_acquire+0x13b5/0x13f0
-       lock_acquire+0xdc/0x1d0
-       lock_acquire+0xdc/0x1d0
-       flush_workqueue+0x98/0x520
-       flush_workqueue+0x98/0x520
-       nvmet_rdma_remove_one+0x73/0xa0 [nvmet_rdma]
-       nvmet_rdma_remove_one+0x73/0xa0 [nvmet_rdma]
-       ib_unregister_client+0x18f/0x200 [ib_core]
-       ib_unregister_client+0x18f/0x200 [ib_core]
-       nvmet_rdma_exit+0xb3/0x856 [nvmet_rdma]
-       nvmet_rdma_exit+0xb3/0x856 [nvmet_rdma]
-       SyS_delete_module+0x18c/0x1e0
-       SyS_delete_module+0x18c/0x1e0
-       entry_SYSCALL_64_fastpath+0x18/0xad
-       entry_SYSCALL_64_fastpath+0x18/0xad
+1. Introduced nvme controller virt_boundary mask. For controllers that
+   can handle arbitrarily sized bios (e.g advanced RDMA and PCI ctrls)
+   we can allow the block layer to pass us gaps by setting the
+   queue.virt_boundary_mask according to each ctrl constraints.
+2. Simplified code for setting up the SGLs.
+3. Added SGL helper functions.
+4. Modified commit log.
+5. Use the newly introduced virt_boundary mask and clear its
+   value for SGL capable controllers in PCIe driver.
 
-other info that might help us debug this:
+For reference v1 details:-
 
+This adds SGL support for NVMe PCIe driver which is
+reimplementation of the initial version provided by
+Rajiv Shanmugam Madeswaran(smrajiv15 at gmail.com):-
+"block: nvme-core: Scatter gather list support in the
+NVMe Block Driver".
 
-other info that might help us debug this:
+In order to enable SGL mode for the driver, the user can set the
+sgl_threshold module parameter. This parameter can be used
+in the two modes:-
 
-Chain exists of:
-  "events" --> intf_mutex --> device_mutex
+1. Allow all IOs to use SGL mode. (set sgl_threshold to 1).
+2. Set up the IO size threshold to determine whether to use
+    SGLs or PRPs for each IO. (set sgl_threshold to 4096 to
+    use SGL only for IOs which are >= 4096 in the size).
+---
+ drivers/nvme/host/pci.c | 214 ++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 187 insertions(+), 27 deletions(-)
 
-Chain exists of:
-  "events" --> intf_mutex --> device_mutex
-
- Possible unsafe locking scenario:
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       CPU0                    CPU1
-       ----                    ----
-       ----                    ----
-  lock(device_mutex);
-  lock(device_mutex);
-                               lock(intf_mutex);
-                               lock(intf_mutex);
-                               lock(device_mutex);
-                               lock(device_mutex);
-  lock("events");
-  lock("events");
-
- *** DEADLOCK ***
-
-
- *** DEADLOCK ***
-
-1 lock held by modprobe/2272:
-1 lock held by modprobe/2272:
- #0:  (device_mutex){+.+.}, at: [<ffffffffa05d6bf7>] ib_unregister_client+0x27/0x200 [ib_core]
- #0:  (device_mutex){+.+.}, at: [<ffffffffa05d6bf7>] ib_unregister_client+0x27/0x200 [ib_core]
-
-stack backtrace:
-
-stack backtrace:
-CPU: 9 PID: 2272 Comm: modprobe Not tainted 4.14.0-rc5-dbg+ #3
-CPU: 9 PID: 2272 Comm: modprobe Not tainted 4.14.0-rc5-dbg+ #3
-Hardware name: Dell Inc. PowerEdge R720/0VWT90, BIOS 1.3.6 09/11/2012
-Hardware name: Dell Inc. PowerEdge R720/0VWT90, BIOS 1.3.6 09/11/2012
-Call Trace:
-Call Trace:
- dump_stack+0x68/0x9f
- dump_stack+0x68/0x9f
- print_circular_bug.isra.38+0x1d8/0x1e6
- print_circular_bug.isra.38+0x1d8/0x1e6
- __lock_acquire+0x13b5/0x13f0
- __lock_acquire+0x13b5/0x13f0
- lock_acquire+0xdc/0x1d0
- lock_acquire+0xdc/0x1d0
- ? lock_acquire+0xdc/0x1d0
- ? lock_acquire+0xdc/0x1d0
- ? flush_workqueue+0x75/0x520
- ? flush_workqueue+0x75/0x520
- flush_workqueue+0x98/0x520
- flush_workqueue+0x98/0x520
- ? flush_workqueue+0x75/0x520
- ? flush_workqueue+0x75/0x520
- nvmet_rdma_remove_one+0x73/0xa0 [nvmet_rdma]
- nvmet_rdma_remove_one+0x73/0xa0 [nvmet_rdma]
- ? nvmet_rdma_remove_one+0x73/0xa0 [nvmet_rdma]
- ? nvmet_rdma_remove_one+0x73/0xa0 [nvmet_rdma]
- ib_unregister_client+0x18f/0x200 [ib_core]
- ib_unregister_client+0x18f/0x200 [ib_core]
- nvmet_rdma_exit+0xb3/0x856 [nvmet_rdma]
- nvmet_rdma_exit+0xb3/0x856 [nvmet_rdma]
- SyS_delete_module+0x18c/0x1e0
- SyS_delete_module+0x18c/0x1e0
- entry_SYSCALL_64_fastpath+0x18/0xad
- entry_SYSCALL_64_fastpath+0x18/0xad
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3f5a04c..45a3397 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -45,6 +45,8 @@
+  */
+ #define NVME_AQ_BLKMQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AERS)
+ 
++#define SGES_PER_PAGE	(PAGE_SIZE / sizeof(struct nvme_sgl_desc))
++
+ static int use_threaded_interrupts;
+ module_param(use_threaded_interrupts, int, 0);
+ 
+@@ -57,6 +59,12 @@
+ MODULE_PARM_DESC(max_host_mem_size_mb,
+ 	"Maximum Host Memory Buffer (HMB) size per controller (in MiB)");
+ 
++static unsigned int sgl_threshold = SZ_32K;
++module_param(sgl_threshold, uint, 0644);
++MODULE_PARM_DESC(sgl_threshold,
++		"Use SGLs when average request segment size is larger or equal to "
++		"this size. Use 0 to disable SGLs.");
++
+ static int io_queue_depth_set(const char *val, const struct kernel_param *kp);
+ static const struct kernel_param_ops io_queue_depth_ops = {
+ 	.set = io_queue_depth_set,
+@@ -178,6 +186,7 @@ struct nvme_queue {
+ struct nvme_iod {
+ 	struct nvme_request req;
+ 	struct nvme_queue *nvmeq;
++	bool use_sgl;
+ 	int aborted;
+ 	int npages;		/* In the PRP list. 0 means small pool in use */
+ 	int nents;		/* Used in scatterlist */
+@@ -331,17 +340,35 @@ static int nvme_npages(unsigned size, struct nvme_dev *dev)
+ 	return DIV_ROUND_UP(8 * nprps, PAGE_SIZE - 8);
+ }
+ 
+-static unsigned int nvme_iod_alloc_size(struct nvme_dev *dev,
+-		unsigned int size, unsigned int nseg)
++/*
++ * Calculates the number of pages needed for the SGL segments. For example a 4k
++ * page can accommodate 256 SGL descriptors.
++ */
++static int nvme_pci_npages_sgl(unsigned int num_seg)
++{
++	return DIV_ROUND_UP(num_seg * sizeof(struct nvme_sgl_desc), PAGE_SIZE);
++}
++
++static unsigned int nvme_pci_iod_alloc_size(struct nvme_dev *dev,
++		unsigned int size, unsigned int nseg, bool use_sgl)
+ {
+-	return sizeof(__le64 *) * nvme_npages(size, dev) +
+-			sizeof(struct scatterlist) * nseg;
++	size_t alloc_size;
++
++	if (use_sgl)
++		alloc_size = sizeof(__le64 *) * nvme_pci_npages_sgl(nseg);
++	else
++		alloc_size = sizeof(__le64 *) * nvme_npages(size, dev);
++
++	return alloc_size + sizeof(struct scatterlist) * nseg;
+ }
+ 
+-static unsigned int nvme_cmd_size(struct nvme_dev *dev)
++static unsigned int nvme_pci_cmd_size(struct nvme_dev *dev, bool use_sgl)
+ {
+-	return sizeof(struct nvme_iod) +
+-		nvme_iod_alloc_size(dev, NVME_INT_BYTES(dev), NVME_INT_PAGES);
++	unsigned int alloc_size = nvme_pci_iod_alloc_size(dev,
++				    NVME_INT_BYTES(dev), NVME_INT_PAGES,
++				    use_sgl);
++
++	return sizeof(struct nvme_iod) + alloc_size;
+ }
+ 
+ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+@@ -425,10 +452,10 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
+ 	nvmeq->sq_tail = tail;
+ }
+ 
+-static __le64 **iod_list(struct request *req)
++static void **nvme_pci_iod_list(struct request *req)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	return (__le64 **)(iod->sg + blk_rq_nr_phys_segments(req));
++	return (void **)(iod->sg + blk_rq_nr_phys_segments(req));
+ }
+ 
+ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+@@ -438,7 +465,10 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+ 	unsigned int size = blk_rq_payload_bytes(rq);
+ 
+ 	if (nseg > NVME_INT_PAGES || size > NVME_INT_BYTES(dev)) {
+-		iod->sg = kmalloc(nvme_iod_alloc_size(dev, size, nseg), GFP_ATOMIC);
++		size_t alloc_size = nvme_pci_iod_alloc_size(dev, size, nseg,
++				iod->use_sgl);
++
++		iod->sg = kmalloc(alloc_size, GFP_ATOMIC);
+ 		if (!iod->sg)
+ 			return BLK_STS_RESOURCE;
+ 	} else {
+@@ -456,18 +486,31 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+ static void nvme_free_iod(struct nvme_dev *dev, struct request *req)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	const int last_prp = dev->ctrl.page_size / 8 - 1;
++	const int last_prp = dev->ctrl.page_size / sizeof(__le64) - 1;
++	dma_addr_t dma_addr = iod->first_dma, next_dma_addr;
++
+ 	int i;
+-	__le64 **list = iod_list(req);
+-	dma_addr_t prp_dma = iod->first_dma;
+ 
+ 	if (iod->npages == 0)
+-		dma_pool_free(dev->prp_small_pool, list[0], prp_dma);
++		dma_pool_free(dev->prp_small_pool, nvme_pci_iod_list(req)[0],
++			dma_addr);
++
+ 	for (i = 0; i < iod->npages; i++) {
+-		__le64 *prp_list = list[i];
+-		dma_addr_t next_prp_dma = le64_to_cpu(prp_list[last_prp]);
+-		dma_pool_free(dev->prp_page_pool, prp_list, prp_dma);
+-		prp_dma = next_prp_dma;
++		void *addr = nvme_pci_iod_list(req)[i];
++
++		if (iod->use_sgl) {
++			struct nvme_sgl_desc *sg_list = addr;
++
++			next_dma_addr =
++			    le64_to_cpu((sg_list[SGES_PER_PAGE - 1]).addr);
++		} else {
++			__le64 *prp_list = addr;
++
++			next_dma_addr = le64_to_cpu(prp_list[last_prp]);
++		}
++
++		dma_pool_free(dev->prp_page_pool, addr, dma_addr);
++		dma_addr = next_dma_addr;
+ 	}
+ 
+ 	if (iod->sg != iod->inline_sg)
+@@ -555,7 +598,8 @@ static void nvme_print_sgl(struct scatterlist *sgl, int nents)
+ 	}
+ }
+ 
+-static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
++static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
++		struct request *req, struct nvme_rw_command *cmnd)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	struct dma_pool *pool;
+@@ -566,14 +610,16 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
+ 	u32 page_size = dev->ctrl.page_size;
+ 	int offset = dma_addr & (page_size - 1);
+ 	__le64 *prp_list;
+-	__le64 **list = iod_list(req);
++	void **list = nvme_pci_iod_list(req);
+ 	dma_addr_t prp_dma;
+ 	int nprps, i;
+ 
++	iod->use_sgl = false;
++
+ 	length -= (page_size - offset);
+ 	if (length <= 0) {
+ 		iod->first_dma = 0;
+-		return BLK_STS_OK;
++		goto done;
+ 	}
+ 
+ 	dma_len -= (page_size - offset);
+@@ -587,7 +633,7 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
+ 
+ 	if (length <= page_size) {
+ 		iod->first_dma = dma_addr;
+-		return BLK_STS_OK;
++		goto done;
+ 	}
+ 
+ 	nprps = DIV_ROUND_UP(length, page_size);
+@@ -634,6 +680,10 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
+ 		dma_len = sg_dma_len(sg);
+ 	}
+ 
++done:
++	cmnd->dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
++	cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
++
+ 	return BLK_STS_OK;
+ 
+  bad_sgl:
+@@ -643,6 +693,110 @@ static blk_status_t nvme_setup_prps(struct nvme_dev *dev, struct request *req)
+ 	return BLK_STS_IOERR;
+ }
+ 
++static void nvme_pci_sgl_set_data(struct nvme_sgl_desc *sge,
++		struct scatterlist *sg)
++{
++	sge->addr = cpu_to_le64(sg_dma_address(sg));
++	sge->length = cpu_to_le32(sg_dma_len(sg));
++	sge->type = NVME_SGL_FMT_DATA_DESC << 4;
++}
++
++static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
++		dma_addr_t dma_addr, int entries)
++{
++	sge->addr = cpu_to_le64(dma_addr);
++	if (entries < SGES_PER_PAGE) {
++		sge->length = cpu_to_le32(entries * sizeof(*sge));
++		sge->type = NVME_SGL_FMT_LAST_SEG_DESC << 4;
++	} else {
++		sge->length = cpu_to_le32(PAGE_SIZE);
++		sge->type = NVME_SGL_FMT_SEG_DESC << 4;
++	}
++}
++
++static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
++		struct request *req, struct nvme_rw_command *cmd)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	int length = blk_rq_payload_bytes(req);
++	struct dma_pool *pool;
++	struct nvme_sgl_desc *sg_list;
++	struct scatterlist *sg = iod->sg;
++	int entries = iod->nents, i = 0;
++	dma_addr_t sgl_dma;
++
++	iod->use_sgl = true;
++
++	/* setting the transfer type as SGL */
++	cmd->flags = NVME_CMD_SGL_METABUF;
++
++	if (length == sg_dma_len(sg)) {
++		nvme_pci_sgl_set_data(&cmd->dptr.sgl, sg);
++		return BLK_STS_OK;
++	}
++
++	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
++		pool = dev->prp_small_pool;
++		iod->npages = 0;
++	} else {
++		pool = dev->prp_page_pool;
++		iod->npages = 1;
++	}
++
++	sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
++	if (!sg_list) {
++		iod->npages = -1;
++		return BLK_STS_RESOURCE;
++	}
++
++	nvme_pci_iod_list(req)[0] = sg_list;
++	iod->first_dma = sgl_dma;
++
++	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
++
++	do {
++		if (i == SGES_PER_PAGE) {
++			struct nvme_sgl_desc *old_sg_desc = sg_list;
++			struct nvme_sgl_desc *link = &old_sg_desc[i - 1];
++
++			sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
++			if (!sg_list)
++				return BLK_STS_RESOURCE;
++
++			i = 0;
++			nvme_pci_iod_list(req)[iod->npages++] = sg_list;
++			sg_list[i++] = *link;
++			nvme_pci_sgl_set_seg(link, sgl_dma, entries);
++		}
++
++		nvme_pci_sgl_set_data(&sg_list[i++], sg);
++
++		length -= sg_dma_len(sg);
++		sg = sg_next(sg);
++		entries--;
++	} while (length > 0);
++
++	WARN_ON(entries > 0);
++	return BLK_STS_OK;
++}
++
++static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	unsigned int avg_seg_size;
++
++	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req),
++			blk_rq_nr_phys_segments(req));
++
++	if (!(dev->ctrl.sgls & ((1 << 0) | (1 << 1))))
++		return false;
++	if (!iod->nvmeq->qid)
++		return false;
++	if (!sgl_threshold || avg_seg_size < sgl_threshold)
++		return false;
++	return true;
++}
++
+ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+@@ -662,7 +816,11 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 				DMA_ATTR_NO_WARN))
+ 		goto out;
+ 
+-	ret = nvme_setup_prps(dev, req);
++	if (nvme_pci_use_sgls(dev, req))
++		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
++	else
++		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
++
+ 	if (ret != BLK_STS_OK)
+ 		goto out_unmap;
+ 
+@@ -682,8 +840,6 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 			goto out_unmap;
+ 	}
+ 
+-	cmnd->rw.dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
+-	cmnd->rw.dptr.prp2 = cpu_to_le64(iod->first_dma);
+ 	if (blk_integrity_rq(req))
+ 		cmnd->rw.metadata = cpu_to_le64(sg_dma_address(&iod->meta_sg));
+ 	return BLK_STS_OK;
+@@ -1379,7 +1535,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+ 		dev->admin_tagset.queue_depth = NVME_AQ_BLKMQ_DEPTH - 1;
+ 		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
+ 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
+-		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
++		dev->admin_tagset.cmd_size = nvme_pci_cmd_size(dev, false);
+ 		dev->admin_tagset.flags = BLK_MQ_F_NO_SCHED;
+ 		dev->admin_tagset.driver_data = dev;
+ 
+@@ -1906,7 +2062,11 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		dev->tagset.numa_node = dev_to_node(dev->dev);
+ 		dev->tagset.queue_depth =
+ 				min_t(int, dev->q_depth, BLK_MQ_MAX_DEPTH) - 1;
+-		dev->tagset.cmd_size = nvme_cmd_size(dev);
++		dev->tagset.cmd_size = nvme_pci_cmd_size(dev, false);
++		if ((dev->ctrl.sgls & ((1 << 0) | (1 << 1))) && sgl_threshold) {
++			dev->tagset.cmd_size = max(dev->tagset.cmd_size,
++					nvme_pci_cmd_size(dev, true));
++		}
+ 		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+ 		dev->tagset.driver_data = dev;
+ 
+-- 
+1.8.3.1
