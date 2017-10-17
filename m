@@ -1,141 +1,109 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 17 Oct 2017 16:32:46 -0700
-Subject: [PATCH v3 3/5] nvme_fc: add a dev_loss_tmo field to the remoteport
+Date: Tue, 17 Oct 2017 16:32:45 -0700
+Subject: [PATCH v3 2/5] nvme_fc: change ctlr state assignments during
+ reset/reconnect
 In-Reply-To: <20171017233248.6769-1-jsmart2021@gmail.com>
 References: <20171017233248.6769-1-jsmart2021@gmail.com>
-Message-ID: <20171017233248.6769-4-jsmart2021@gmail.com>
+Message-ID: <20171017233248.6769-3-jsmart2021@gmail.com>
 
-Add a dev_loss_tmo value, paralleling the SCSI FC transport, for device
-connectivity loss.
+Clean up some of the controller state checks and add the
+RESETTING->RECONNECTING state transition.
 
-The transport initializes the value in the nvme_fc_register_remoteport()
-call. If the value is not set, a default of 60s is set.
-
-Add a new routine to the api, nvme_fc_set_remoteport_devloss() routine,
-which allows the lldd to dynamically update the value on an existing
-remoteport.
+Specifically:
+- the movement of the RESETTING state change and schedule of
+  reset_work to core doesn't work wiht nvme_fc_error_recovery
+  setting state to RECONNECTING before attempting to reset.
+  Remove the state change as the reset request does it.
+- In the rare cases where an error occurs right as we're
+  transitioning to LIVE, defer the controller start actions.
+- In error handling on teardown of associations while
+  performing initial controller creation - avoid quiesce
+  calls on the admin_q. They are unneeded.
+- Add the RESETTING->RECONNECTING transition in the reset
+  handler.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 
 ---
-v3:
- Removed the expected reconnect time and min devloss defines. They
- were not that meaningful.
- Incorporated the new nvme_fc_set_remoteport_devloss() routine
- which was in a different patch in v2. New routine no longer
- touches controllers. It only modifies the remoteport.
+v3: no change. incorporated Reviewed-by's
 ---
- drivers/nvme/host/fc.c         | 31 +++++++++++++++++++++++++++++++
- include/linux/nvme-fc-driver.h | 11 +++++++++--
- 2 files changed, 40 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fc.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5afb518c39ad..3ac49e670c38 100644
+index 48c241620d2b..5afb518c39ad 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -45,6 +45,8 @@ enum nvme_fc_queue_flags {
+@@ -1881,13 +1881,6 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ 	dev_warn(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: resetting controller\n", ctrl->cnum);
  
- #define NVMEFC_QUEUE_DELAY	3		/* ms units */
- 
-+#define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
-+
- struct nvme_fc_queue {
- 	struct nvme_fc_ctrl	*ctrl;
- 	struct device		*dev;
-@@ -587,6 +589,11 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	newrec->remoteport.port_id = pinfo->port_id;
- 	newrec->remoteport.port_state = FC_OBJSTATE_ONLINE;
- 	newrec->remoteport.port_num = idx;
-+	/* a registration value of dev_loss_tmo=0 results in the default */
-+	if (pinfo->dev_loss_tmo)
-+		newrec->remoteport.dev_loss_tmo = pinfo->dev_loss_tmo;
-+	else
-+		newrec->remoteport.dev_loss_tmo = NVME_FC_DEFAULT_DEV_LOSS_TMO;
- 
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
- 	list_add_tail(&newrec->endp_list, &lport->endp_list);
-@@ -690,6 +697,30 @@ nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport)
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
+-		dev_err(ctrl->ctrl.device,
+-			"NVME-FC{%d}: error_recovery: Couldn't change state "
+-			"to RECONNECTING\n", ctrl->cnum);
+-		return;
+-	}
+-
+ 	nvme_reset_ctrl(&ctrl->ctrl);
  }
- EXPORT_SYMBOL_GPL(nvme_fc_rescan_remoteport);
  
-+int
-+nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *portptr,
-+			u32 dev_loss_tmo)
-+{
-+	struct nvme_fc_rport *rport = remoteport_to_rport(portptr);
-+	struct nvme_fc_ctrl *ctrl;
-+	unsigned long flags;
+@@ -2521,11 +2514,11 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	}
+ 
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+-	WARN_ON_ONCE(!changed);
+ 
+ 	ctrl->ctrl.nr_reconnects = 0;
+ 
+-	nvme_start_ctrl(&ctrl->ctrl);
++	if (changed)
++		nvme_start_ctrl(&ctrl->ctrl);
+ 
+ 	return 0;	/* Success */
+ 
+@@ -2593,7 +2586,8 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	 * use blk_mq_tagset_busy_itr() and the transport routine to
+ 	 * terminate the exchanges.
+ 	 */
+-	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	if (ctrl->ctrl.state != NVME_CTRL_NEW)
++		blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_fc_terminate_exchange, &ctrl->ctrl);
+ 
+@@ -2697,12 +2691,8 @@ nvme_fc_del_nvme_ctrl(struct nvme_ctrl *nctrl)
+ static void
+ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ {
+-	/* If we are resetting/deleting then do nothing */
+-	if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
+-		WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
+-			ctrl->ctrl.state == NVME_CTRL_LIVE);
++	if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING)
+ 		return;
+-	}
+ 
+ 	dev_info(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: reset: Reconnect attempt failed (%d)\n",
+@@ -2731,9 +2721,17 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 	int ret;
+ 
+ 	nvme_stop_ctrl(&ctrl->ctrl);
 +
-+	spin_lock_irqsave(&rport->lock, flags);
-+
-+	if (portptr->port_state != FC_OBJSTATE_ONLINE) {
-+		spin_unlock_irqrestore(&rport->lock, flags);
-+		return -EINVAL;
+ 	/* will block will waiting for io to terminate */
+ 	nvme_fc_delete_association(ctrl);
+ 
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
++		dev_err(ctrl->ctrl.device,
++			"NVME-FC{%d}: error_recovery: Couldn't change state "
++			"to RECONNECTING\n", ctrl->cnum);
++		return;
 +	}
 +
-+	/* a dev_loss_tmo of 0 (immediate) is allowed to be set */
-+	rport->remoteport.dev_loss_tmo = dev_loss_tmo;
-+
-+	spin_unlock_irqrestore(&rport->lock, flags);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_fc_set_remoteport_devloss);
-+
- 
- /* *********************** FC-NVME DMA Handling **************************** */
- 
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 4ea03b9a5c8c..3de268bf86bf 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -40,6 +40,8 @@
-  * @node_name: FC WWNN for the port
-  * @port_name: FC WWPN for the port
-  * @port_role: What NVME roles are supported (see FC_PORT_ROLE_xxx)
-+ * @dev_loss_tmo: maximum delay for reconnects to an association on
-+ *             this device. Used only on a remoteport.
-  *
-  * Initialization values for dynamic port fields:
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-@@ -50,6 +52,7 @@ struct nvme_fc_port_info {
- 	u64			port_name;
- 	u32			port_role;
- 	u32			port_id;
-+	u32			dev_loss_tmo;
- };
- 
- 
-@@ -202,6 +205,9 @@ enum nvme_fc_obj_state {
-  *             The length of the buffer corresponds to the local_priv_sz
-  *             value specified in the nvme_fc_port_template supplied by
-  *             the LLDD.
-+ * @dev_loss_tmo: maximum delay for reconnects to an association on
-+ *             this device. To modify, lldd must call
-+ *             nvme_fc_set_remoteport_devloss().
-  *
-  * Fields with dynamic values. Values may change base on link state. LLDD
-  * may reference fields directly to change them. Initialized by the
-@@ -259,10 +265,9 @@ struct nvme_fc_remote_port {
- 	u32 port_role;
- 	u64 node_name;
- 	u64 port_name;
--
- 	struct nvme_fc_local_port *localport;
--
- 	void *private;
-+	u32 dev_loss_tmo;
- 
- 	/* dynamic fields */
- 	u32 port_id;
-@@ -448,6 +453,8 @@ int nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *remoteport);
- 
- void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
- 
-+int nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *remoteport,
-+			u32 dev_loss_tmo);
- 
- 
- /*
+ 	ret = nvme_fc_create_association(ctrl);
+ 	if (ret)
+ 		nvme_fc_reconnect_or_delete(ctrl, ret);
 -- 
 2.13.1
