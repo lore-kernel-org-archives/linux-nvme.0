@@ -1,127 +1,36 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 17 Oct 2017 08:22:18 +0200
-Subject: [PATCH v2 8/8] scsi/pmcraid: Use sgl_alloc_order() and
- sgl_free_order()
-In-Reply-To: <20171016224940.1332-9-bart.vanassche@wdc.com>
-References: <20171016224940.1332-1-bart.vanassche@wdc.com>
- <20171016224940.1332-9-bart.vanassche@wdc.com>
-Message-ID: <00b49c32-505e-410a-40dd-9d6f793354be@suse.de>
+Date: Tue, 17 Oct 2017 08:34:19 +0200
+Subject: [PATCH v9 10/10] block, nvme: Introduce blk_mq_req_flags_t
+In-Reply-To: <20171016232905.5047-11-bart.vanassche@wdc.com>
+References: <20171016232905.5047-1-bart.vanassche@wdc.com>
+ <20171016232905.5047-11-bart.vanassche@wdc.com>
+Message-ID: <56950f16-7c51-3e58-edd8-2cdf9049f686@suse.de>
 
-On 10/17/2017 12:49 AM, Bart Van Assche wrote:
-> Use the sgl_alloc_order() and sgl_free_order() functions instead
-> of open coding these functions.
+On 10/17/2017 01:29 AM, Bart Van Assche wrote:
+> Several block layer and NVMe core functions accept a combination
+> of BLK_MQ_REQ_* flags through the 'flags' argument but there is
+> no verification at compile time whether the right type of block
+> layer flags is passed. Make it possible for sparse to verify this.
+> This patch does not change any functionality.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> Cc: linux-scsi at vger.kernel.org
-> Cc: Martin K. Petersen <martin.petersen at oracle.com>
-> Cc: Anil Ravindranath <anil_ravindranath at pmc-sierra.com>
+> Cc: linux-nvme at lists.infradead.org
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Johannes Thumshirn <jthumshirn at suse.de>
+> Cc: Ming Lei <ming.lei at redhat.com>
 > ---
->  drivers/scsi/Kconfig   |  1 +
->  drivers/scsi/pmcraid.c | 43 ++++---------------------------------------
->  drivers/scsi/pmcraid.h |  2 +-
->  3 files changed, 6 insertions(+), 40 deletions(-)
+>  block/blk-core.c          | 12 ++++++------
+>  block/blk-mq.c            |  4 ++--
+>  block/blk-mq.h            |  2 +-
+>  drivers/nvme/host/core.c  |  5 +++--
+>  drivers/nvme/host/nvme.h  |  5 +++--
+>  include/linux/blk-mq.h    | 17 +++++++++++------
+>  include/linux/blk_types.h |  2 ++
+>  include/linux/blkdev.h    |  4 ++--
+>  8 files changed, 30 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
-> index d11e75e76195..632200ec36a6 100644
-> --- a/drivers/scsi/Kconfig
-> +++ b/drivers/scsi/Kconfig
-> @@ -1576,6 +1576,7 @@ config ZFCP
->  config SCSI_PMCRAID
->  	tristate "PMC SIERRA Linux MaxRAID adapter support"
->  	depends on PCI && SCSI && NET
-> +	select SGL_ALLOC
->  	---help---
->  	  This driver supports the PMC SIERRA MaxRAID adapters.
->  
-> diff --git a/drivers/scsi/pmcraid.c b/drivers/scsi/pmcraid.c
-> index b4d6cd8cd1ad..95fc0352f9bb 100644
-> --- a/drivers/scsi/pmcraid.c
-> +++ b/drivers/scsi/pmcraid.c
-> @@ -3232,12 +3232,7 @@ static int pmcraid_build_ioadl(
->   */
->  static void pmcraid_free_sglist(struct pmcraid_sglist *sglist)
->  {
-> -	int i;
-> -
-> -	for (i = 0; i < sglist->num_sg; i++)
-> -		__free_pages(sg_page(&(sglist->scatterlist[i])),
-> -			     sglist->order);
-> -
-> +	sgl_free_order(sglist->scatterlist, sglist->order);
->  	kfree(sglist);
->  }
->  
-> @@ -3254,50 +3249,20 @@ static void pmcraid_free_sglist(struct pmcraid_sglist *sglist)
->  static struct pmcraid_sglist *pmcraid_alloc_sglist(int buflen)
->  {
->  	struct pmcraid_sglist *sglist;
-> -	struct scatterlist *scatterlist;
-> -	struct page *page;
-> -	int num_elem, i, j;
->  	int sg_size;
->  	int order;
-> -	int bsize_elem;
->  
->  	sg_size = buflen / (PMCRAID_MAX_IOADLS - 1);
->  	order = (sg_size > 0) ? get_order(sg_size) : 0;
-> -	bsize_elem = PAGE_SIZE * (1 << order);
-> -
-> -	/* Determine the actual number of sg entries needed */
-> -	if (buflen % bsize_elem)
-> -		num_elem = (buflen / bsize_elem) + 1;
-> -	else
-> -		num_elem = buflen / bsize_elem;
->  
->  	/* Allocate a scatter/gather list for the DMA */
-> -	sglist = kzalloc(sizeof(struct pmcraid_sglist) +
-> -			 (sizeof(struct scatterlist) * (num_elem - 1)),
-> -			 GFP_KERNEL);
-> -
-> +	sglist = kzalloc(sizeof(struct pmcraid_sglist), GFP_KERNEL);
->  	if (sglist == NULL)
->  		return NULL;
->  
-> -	scatterlist = sglist->scatterlist;
-> -	sg_init_table(scatterlist, num_elem);
->  	sglist->order = order;
-> -	sglist->num_sg = num_elem;
-> -	sg_size = buflen;
-> -
-> -	for (i = 0; i < num_elem; i++) {
-> -		page = alloc_pages(GFP_KERNEL|GFP_DMA|__GFP_ZERO, order);
-> -		if (!page) {
-> -			for (j = i - 1; j >= 0; j--)
-> -				__free_pages(sg_page(&scatterlist[j]), order);
-> -			kfree(sglist);
-> -			return NULL;
-> -		}
-> -
-> -		sg_set_page(&scatterlist[i], page,
-> -			sg_size < bsize_elem ? sg_size : bsize_elem, 0);
-> -		sg_size -= bsize_elem;
-> -	}
-> +	sgl_alloc_order(buflen, order, false,
-> +			GFP_KERNEL | GFP_DMA | __GFP_ZERO, &sglist->num_sg);
->  
->  	return sglist;
->  }
-> diff --git a/drivers/scsi/pmcraid.h b/drivers/scsi/pmcraid.h
-> index 44da91712115..754ef30927e2 100644
-> --- a/drivers/scsi/pmcraid.h
-> +++ b/drivers/scsi/pmcraid.h
-> @@ -542,7 +542,7 @@ struct pmcraid_sglist {
->  	u32 order;
->  	u32 num_sg;
->  	u32 num_dma_sg;
-> -	struct scatterlist scatterlist[1];
-> +	struct scatterlist *scatterlist;
->  };
->  
->  /* page D0 inquiry data of focal point resource */
-> 
-The comment to ipr applied here, too.
-We need input from the pmcraid folks if this is a valid conversion.
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
