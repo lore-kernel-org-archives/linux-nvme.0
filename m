@@ -1,32 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 17 Oct 2017 07:19:30 -0700
-Subject: [PATCH v2] nvmet: protect sqhd update by a lock
-In-Reply-To: <20171017064306.GA16133@infradead.org>
-References: <20171016151820.14766-1-jsmart2021@gmail.com>
- <20171017064306.GA16133@infradead.org>
-Message-ID: <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 17 Oct 2017 14:28:29 +0000
+Subject: [PATCH v2 7/8] scsi/pmcraid: Remove an unused structure member
+In-Reply-To: <5ea64c10-aa3e-f0ee-cfba-e93b3d8e1428@suse.de>
+References: <20171016224940.1332-1-bart.vanassche@wdc.com>
+ <20171016224940.1332-8-bart.vanassche@wdc.com>
+ <5ea64c10-aa3e-f0ee-cfba-e93b3d8e1428@suse.de>
+Message-ID: <1508250508.3596.0.camel@wdc.com>
 
-On 10/16/2017 11:43 PM, Christoph Hellwig wrote:
->>   	if (status)
->>   		nvmet_set_status(req, status);
->>   
->> +	spin_lock_irqsave(&req->sq->sqhd_lock, flags);
->>   	if (req->sq->size)
->>   		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
->>   	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
->> +	spin_unlock_irqrestore(&req->sq->sqhd_lock, flags);
-> What performance impact does this have?   I'm really reluctant to put
-> an irq disabling spinlock into a hot path for a feature that
-> theoretically is in the spec but ignored by every host.
->
-> I'd much rather play games with cmpxchg or similar here.
+On Tue, 2017-10-17@08:21 +0200, Hannes Reinecke wrote:
+> On 10/17/2017 12:49 AM, Bart Van Assche wrote:
+> > Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
+> > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> > Cc: linux-scsi at vger.kernel.org
+> > Cc: Martin K. Petersen <martin.petersen at oracle.com>
+> > Cc: Anil Ravindranath <anil_ravindranath at pmc-sierra.com>
+> > ---
+> >  drivers/scsi/pmcraid.h | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/drivers/scsi/pmcraid.h b/drivers/scsi/pmcraid.h
+> > index 8bfac72a242b..44da91712115 100644
+> > --- a/drivers/scsi/pmcraid.h
+> > +++ b/drivers/scsi/pmcraid.h
+> > @@ -542,7 +542,6 @@ struct pmcraid_sglist {
+> >  	u32 order;
+> >  	u32 num_sg;
+> >  	u32 num_dma_sg;
+> > -	u32 buffer_len;
+> >  	struct scatterlist scatterlist[1];
+> >  };
+> >  
+> > 
+> 
+> This actually is the same story that we've had with ipr (and, looking at
+> the code, those two drivers look awfully similar ...).
+> pmcraid_sglist looks as if it's a hardware-dependent structure, so just
+> removing one entry from the middle of a structure might not be a good idea.
+> But this is something for the pmcraid folks to clarify.
 
-It's not ignored by every host. Its ignored by the linux host. There are 
-other hosts out there that follow the spec and pay attention to sqhd - 
-and the linux target would like to be used with them.
+Hello Hannes,
 
-I'm open to other alternatives, but in the past, with pci adapter 
-interfaces with similar "ring" index updates, the increment followed by 
-modulo has always proven to be an issue for such tricks.
+Sorry but I don't see how a structure that contains a struct scatterlist
+could be hardware-dependent?
 
--- james
+Thanks,
+
+Bart.
