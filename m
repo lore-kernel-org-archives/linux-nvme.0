@@ -1,51 +1,41 @@
-From: jeff.lien@hgst.com (jeffreyalien)
-Date: Tue, 17 Oct 2017 11:56:43 -0500
-Subject: [PATCH] nvme-cli : wdc-plugin Add support for WDC SN100 and SN200
- devices.
-Message-ID: <20171017165643.31988-1-jeff.lien@hgst.com>
+From: pmenzel@molgen.mpg.de (Paul Menzel)
+Date: Tue, 17 Oct 2017 22:33:56 +0200
+Subject: How to improve long suspend time in `nvme_shutdown_ctrl`
+Message-ID: <72b666c9-dd57-ef87-e89e-ba280f34e90c@molgen.mpg.de>
 
-From: jeffreyalien <jeff.lien@wdc.com>
+Dear Linux folks,
 
-Update the checking for the wdc-plugin commands so that a
-"Device not supported" message will be displayed for non-WDC
-devices.
 
-Signed-off-by: jeffreyalien <jeff.lien at wdc.com>
----
- wdc-nvme.c |   13 ++++++++-----
- 1 files changed, 8 insertions(+), 5 deletions(-)
+Instrumenting ACPI S3 suspend time with AnalyzeSusend [1] on Linux 
+4.14-rc5 on a TUXEDO Book BU1406 shows that 338 ms are spend in nvme.
 
-diff --git a/wdc-nvme.c b/wdc-nvme.c
-index 03c86c9..b981298 100644
---- a/wdc-nvme.c
-+++ b/wdc-nvme.c
-@@ -47,9 +47,11 @@
- #define WDC_NVME_SUBCMD_SHIFT	8
- 
- #define WDC_NVME_LOG_SIZE_DATA_LEN			0x08
-+
- /* Device Config */
--#define WDC_NVME_GF_VID		0x1c58
--#define WDC_NVME_GF_CNTL_ID 0x0003
-+#define WDC_NVME_VID  			0x1c58
-+#define WDC_NVME_SN100_CNTL_ID	0x0003
-+#define WDC_NVME_SN200_CNTL_ID	0x0023
- 
- /* Capture Diagnostics */
- #define WDC_NVME_CAP_DIAG_HEADER_TOC_SIZE	WDC_NVME_LOG_SIZE_DATA_LEN
-@@ -200,9 +202,10 @@ static int wdc_check_device(int fd)
- 		return -1;
- 	}
- 	ret = -1;
--	/* GF : ctrl->cntlid == PCI Device ID, use that with VID to identify GF Device */
--	if ((le32_to_cpu(ctrl.cntlid) == WDC_NVME_GF_CNTL_ID) &&
--			(le32_to_cpu(ctrl.vid) == WDC_NVME_GF_VID))
-+	/* WDC : ctrl->cntlid == PCI Device ID, use that with VID to identify WDC Devices */
-+	if ((le32_to_cpu(ctrl.vid) == WDC_NVME_VID) &&
-+		((le32_to_cpu(ctrl.cntlid) == WDC_NVME_SN100_CNTL_ID) ||
-+		(le32_to_cpu(ctrl.cntlid) == WDC_NVME_SN200_CNTL_ID)))
- 		ret = 0;
- 	else
- 		fprintf(stderr, "WARNING : WDC : Device not supported\n");
--- 
-1.7.1
+> nvme @ 0000:04:00.0 {nvme} async_device (Total Suspend: 356.823 ms Total Resume: 20.148 ms)
+```
+$ lspci -nn -s 4:00.0
+04:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co 
+Ltd NVMe SSD Controller SM961/PM961 [144d:a804]$ sudo 
+./analyze_suspend.py -config config/suspend-callgraph.cfg
+```
+
+ From the HTML output:
+
+> nvme_shutdown_ctrl [nvme_core] (321.044 ms @ 476.668326)
+> ? nvme_pci_reg_write32 [nvme] (0.000 ms @ 476.668327)
+>   nvme_pci_reg_read32 [nvme] (0.033 ms @ 476.668329)
+>   msleep (104.991 ms @ 476.668363)
+>   nvme_pci_reg_read32 [nvme] (0.004 ms @ 476.773356)
+>   msleep (107.992 ms @ 476.773361)
+>   nvme_pci_reg_read32 [nvme] (0.001 ms @ 476.881355)
+>   msleep (108.009 ms @ 476.881357)
+>   nvme_pci_reg_read32 [nvme] (0.001 ms @ 476.989367)
+
+Is that the right register to read? Can this be improved? If not, is 
+that a firmware bug?
+
+
+Kind regards,
+
+Paul
+
+
+[1] https://github.com/01org/pm-graph
