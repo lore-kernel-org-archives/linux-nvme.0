@@ -1,10 +1,10 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 17 Oct 2017 08:07:48 +0200
-Subject: [PATCH v2 3/8] nvmet/fc: Use sgl_alloc() and sgl_free()
-In-Reply-To: <20171016224940.1332-4-bart.vanassche@wdc.com>
+Date: Tue, 17 Oct 2017 08:08:23 +0200
+Subject: [PATCH v2 4/8] nvmet/rdma: Use sgl_alloc() and sgl_free()
+In-Reply-To: <20171016224940.1332-5-bart.vanassche@wdc.com>
 References: <20171016224940.1332-1-bart.vanassche@wdc.com>
- <20171016224940.1332-4-bart.vanassche@wdc.com>
-Message-ID: <97bcefd4-bff2-9b14-7981-21e238c2d2e6@suse.de>
+ <20171016224940.1332-5-bart.vanassche@wdc.com>
+Message-ID: <3169fd91-8a1c-5b9f-cdb0-2ffafe25f41e@suse.de>
 
 On 10/17/2017 12:49 AM, Bart Van Assche wrote:
 > Use the sgl_alloc() and sgl_free() functions instead of open coding
@@ -14,12 +14,11 @@ On 10/17/2017 12:49 AM, Bart Van Assche wrote:
 > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > Cc: Keith Busch <keith.busch at intel.com>
 > Cc: Christoph Hellwig <hch at lst.de>
-> Cc: James Smart <james.smart at broadcom.com>
 > Cc: Sagi Grimberg <sagi at grimberg.me>
 > ---
 >  drivers/nvme/target/Kconfig |  1 +
->  drivers/nvme/target/fc.c    | 36 ++----------------------------------
->  2 files changed, 3 insertions(+), 34 deletions(-)
+>  drivers/nvme/target/rdma.c  | 63 +++------------------------------------------
+>  2 files changed, 5 insertions(+), 59 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
