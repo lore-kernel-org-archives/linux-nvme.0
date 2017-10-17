@@ -1,17 +1,10 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 17 Oct 2017 08:39:01 -0600
-Subject: [PATCH] nvme-cli: add duplicate_connect parameter support
-In-Reply-To: <20171011003536.5996-1-jsmart2021@gmail.com>
-References: <20171011003536.5996-1-jsmart2021@gmail.com>
-Message-ID: <20171017143900.GA32530@localhost.localdomain>
+Date: Tue, 17 Oct 2017 08:39:12 -0600
+Subject: [PATCH nvme-cli] fabrics: also set queue_size and nr_io_queues
+ on connect-all connects
+In-Reply-To: <128ca19e-e5ce-a8bf-8cd5-ac45143c859e@grimberg.me>
+References: <20171017084838.6827-1-jthumshirn@suse.de>
+ <128ca19e-e5ce-a8bf-8cd5-ac45143c859e@grimberg.me>
+Message-ID: <20171017143912.GB32530@localhost.localdomain>
 
-On Tue, Oct 10, 2017@05:35:36PM -0700, James Smart wrote:
-> Add support for the duplicate_connect parameter for the fabrics
-> device.
-> 
-> Rather than add yet another 6-line code block, created a small helper
-> routine invoked for each argument option.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-
-Thanks, applied.
+Applied, thanks!
