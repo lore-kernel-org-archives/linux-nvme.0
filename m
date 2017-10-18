@@ -1,12 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 18 Oct 2017 10:27:18 +0200
-Subject: [PATCH v3 2/5] nvme_fc: change ctlr state assignments during
- reset/reconnect
-In-Reply-To: <20171017233248.6769-3-jsmart2021@gmail.com>
+Date: Wed, 18 Oct 2017 10:28:38 +0200
+Subject: [PATCH v3 3/5] nvme_fc: add a dev_loss_tmo field to the remoteport
+In-Reply-To: <20171017233248.6769-4-jsmart2021@gmail.com>
 References: <20171017233248.6769-1-jsmart2021@gmail.com>
- <20171017233248.6769-3-jsmart2021@gmail.com>
-Message-ID: <20171018082718.owx425jm642xu4jc@linux-x5ow.site>
-
+ <20171017233248.6769-4-jsmart2021@gmail.com>
+Message-ID: <20171018082838.vc3teuks3uf53e3x@linux-x5ow.site>
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
