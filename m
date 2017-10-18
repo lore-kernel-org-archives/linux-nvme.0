@@ -1,28 +1,23 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Wed, 18 Oct 2017 12:38:26 +0000
-Subject: [PATCH 3/3] nvme-loop: Add BLK_MQ_F_NO_SCHED flag to admin tag set
-In-Reply-To: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
-References: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1508330306-26844-4-git-send-email-israelr@mellanox.com>
+Date: Wed, 18 Oct 2017 12:38:23 +0000
+Subject: [PATCH 0/3] Add BLK_MQ_F_NO_SCHED flag to admin tag set
+Message-ID: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
 
+Since commit b86dd81
+"block: get rid of blk-mq default scheduler choice Kconfig entries",
+when setting nr_hw_queues to 1 the admin tag set uses mq-deadline scheduler.
 This flag is useful for admin queues that aren't used for normal IO.
+We already use this flag at nvme-pci.
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
----
+Israel Rukshin (3):
+  nvme-rdma: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+  nvme-fc: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+  nvme-loop: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+
+ drivers/nvme/host/fc.c     | 1 +
+ drivers/nvme/host/rdma.c   | 1 +
  drivers/nvme/target/loop.c | 1 +
- 1 file changed, 1 insertion(+)
+ 3 files changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 92628c4..c56354e 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -365,6 +365,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	ctrl->admin_tag_set.driver_data = ctrl;
- 	ctrl->admin_tag_set.nr_hw_queues = 1;
- 	ctrl->admin_tag_set.timeout = ADMIN_TIMEOUT;
-+	ctrl->admin_tag_set.flags = BLK_MQ_F_NO_SCHED;
- 
- 	ctrl->queues[0].ctrl = ctrl;
- 	error = nvmet_sq_init(&ctrl->queues[0].nvme_sq);
 -- 
 1.8.3.1
