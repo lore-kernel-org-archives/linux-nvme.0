@@ -1,41 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 18 Oct 2017 00:23:43 -0700
-Subject: [PATCH v2] nvmet: protect sqhd update by a lock
-In-Reply-To: <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
-References: <20171016151820.14766-1-jsmart2021@gmail.com>
- <20171017064306.GA16133@infradead.org>
- <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
-Message-ID: <20171018072343.GA13666@infradead.org>
+From: nitzanc@mellanox.com (Nitzan Carmi)
+Date: Wed, 18 Oct 2017 07:44:09 +0000
+Subject: [PATCH] nvme-rdma: Add debug message when reaches timeout
+Message-ID: <20171018074409.7483-1-nitzanc@mellanox.com>
 
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On Tue, Oct 17, 2017@07:19:30AM -0700, James Smart wrote:
-> On 10/16/2017 11:43 PM, Christoph Hellwig wrote:
-> > >   	if (status)
-> > >   		nvmet_set_status(req, status);
-> > > +	spin_lock_irqsave(&req->sq->sqhd_lock, flags);
-> > >   	if (req->sq->size)
-> > >   		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
-> > >   	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
-> > > +	spin_unlock_irqrestore(&req->sq->sqhd_lock, flags);
-> > What performance impact does this have?   I'm really reluctant to put
-> > an irq disabling spinlock into a hot path for a feature that
-> > theoretically is in the spec but ignored by every host.
-> > 
-> > I'd much rather play games with cmpxchg or similar here.
-> 
-> It's not ignored by every host. Its ignored by the linux host. There are
-> other hosts out there that follow the spec and pay attention to sqhd - and
-> the linux target would like to be used with them.
-> 
-> I'm open to other alternatives, but in the past, with pci adapter interfaces
-> with similar "ring" index updates, the increment followed by modulo has
-> always proven to be an issue for such tricks.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 92a03ff..00c033e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1582,6 +1582,10 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+ {
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
 
-Something like:
++	dev_dbg_ratelimited(req->queue->ctrl->ctrl.device,
++						"Reached timeout - cid %d qid %d", rq->tag,
++						cpu_to_le16(nvme_rdma_queue_idx(req->queue)));
++
+ 	/* queue error recovery */
+ 	nvme_rdma_error_recovery(req->queue->ctrl);
 
-	do {
-		old_sqhd = req->sq->sqhd;
-		new_sqhd = (old + 1) % req->sq->size;
-	} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) != old_sqhd);
-
-should do the job.
+--
+2.9.4
