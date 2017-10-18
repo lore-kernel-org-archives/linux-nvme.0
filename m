@@ -1,18 +1,26 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 18 Oct 2017 10:29:29 +0200
-Subject: [PATCH v3 4/5] nvme_fc: check connectivity before initiating
- reconnects
-In-Reply-To: <20171017233248.6769-5-jsmart2021@gmail.com>
-References: <20171017233248.6769-1-jsmart2021@gmail.com>
- <20171017233248.6769-5-jsmart2021@gmail.com>
-Message-ID: <20171018082929.oybrk3rmzfhor6ab@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 18 Oct 2017 12:12:30 +0200
+Subject: [PATCH 5/9] nvme: track subsystems
+In-Reply-To: <1535c6f9-8ddf-ab30-2bbd-5d9ce626b913@grimberg.me>
+References: <20170925134031.10548-1-hch@lst.de>
+ <20170925134031.10548-6-hch@lst.de>
+ <1535c6f9-8ddf-ab30-2bbd-5d9ce626b913@grimberg.me>
+Message-ID: <20171018101230.GA14859@lst.de>
 
+>>   static void nvme_free_ctrl(struct kref *kref)
+>>   {
+>>   	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
+>> +	struct nvme_subsystem *subsys = ctrl->subsys;
+>>     	put_device(ctrl->device);
+>>   	nvme_release_instance(ctrl);
+>>   	ida_destroy(&ctrl->ns_ida);
+>>   +	if (subsys) {
+>> +		mutex_lock(&subsys->lock);
+>> +		list_del(&ctrl->subsys_entry);
+>> +		mutex_unlock(&subsys->lock);
+>> +	}
+>> +
+>
+> When can this happen? can a controller not have a subsys?
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+When we fail early enough to not have set up the subsystem yet.
