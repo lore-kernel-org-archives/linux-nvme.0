@@ -1,26 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 18 Oct 2017 12:12:30 +0200
-Subject: [PATCH 5/9] nvme: track subsystems
-In-Reply-To: <1535c6f9-8ddf-ab30-2bbd-5d9ce626b913@grimberg.me>
+Date: Wed, 18 Oct 2017 12:15:52 +0200
+Subject: [PATCH 7/9] nvme: track shared namespaces
+In-Reply-To: <68479c83-cdaa-77e0-232e-45c94b704765@grimberg.me>
 References: <20170925134031.10548-1-hch@lst.de>
- <20170925134031.10548-6-hch@lst.de>
- <1535c6f9-8ddf-ab30-2bbd-5d9ce626b913@grimberg.me>
-Message-ID: <20171018101230.GA14859@lst.de>
+ <20170925134031.10548-8-hch@lst.de>
+ <68479c83-cdaa-77e0-232e-45c94b704765@grimberg.me>
+Message-ID: <20171018101552.GB14859@lst.de>
 
->>   static void nvme_free_ctrl(struct kref *kref)
->>   {
->>   	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
->> +	struct nvme_subsystem *subsys = ctrl->subsys;
->>     	put_device(ctrl->device);
->>   	nvme_release_instance(ctrl);
->>   	ida_destroy(&ctrl->ns_ida);
->>   +	if (subsys) {
->> +		mutex_lock(&subsys->lock);
->> +		list_del(&ctrl->subsys_entry);
->> +		mutex_unlock(&subsys->lock);
->> +	}
->> +
+On Wed, Oct 11, 2017@03:04:14PM +0300, Sagi Grimberg wrote:
 >
-> When can this happen? can a controller not have a subsys?
+>> +/*
+>> + * Anchor structure for namespaces.  There is one for each namespace in a
+>> + * NVMe subsystem that any of our controllers can see, and the namespace
+>> + * structure for each controller is chained of it.  For private namespaces
+>> + * there is a 1:1 relation to our namespace structures, that is ->list
+>> + * only ever has a single entry for private namespaces.
+>> + */
+>> +struct nvme_ns_head {
+>> +	struct list_head	list;
+>
+> Didn't we agree to call this list_head siblings?
 
-When we fail early enough to not have set up the subsystem yet.
+Don't think I did.
+
+>>     	struct nvme_ctrl *ctrl;
+>>   	struct request_queue *queue;
+>>   	struct gendisk *disk;
+>> +	struct list_head siblings;
+>
+> And this list_head list (or entry, or sibling, or sibling_entry)?
+
+I think siblings fits perfectly fine.  It is a lot more descriptive
+than entry..
