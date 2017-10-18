@@ -1,9 +1,25 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 18 Oct 2017 18:30:29 +0300
-Subject: [PATCH 3/3] nvme-loop: Add BLK_MQ_F_NO_SCHED flag to admin tag set
-In-Reply-To: <1508330306-26844-4-git-send-email-israelr@mellanox.com>
-References: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
- <1508330306-26844-4-git-send-email-israelr@mellanox.com>
-Message-ID: <b733818c-072a-dbd8-6e55-6ac2fa360e10@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 18 Oct 2017 10:21:12 -0600
+Subject: [PATCH 1/5] nvme-core: Make nvme_init/uninit_ctrl setup/teardown
+ symmetric
+In-Reply-To: <4627b34e-449a-cd93-ac70-a628d558cac3@grimberg.me>
+References: <1508324864-23087-1-git-send-email-sagi@grimberg.me>
+ <1508324864-23087-2-git-send-email-sagi@grimberg.me>
+ <20171018150859.GD32530@localhost.localdomain>
+ <4627b34e-449a-cd93-ac70-a628d558cac3@grimberg.me>
+Message-ID: <20171018162111.GA1780@localhost.localdomain>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+On Wed, Oct 18, 2017@06:29:40PM +0300, Sagi Grimberg wrote:
+> Can you explain how would I see naming clashes? I'm not sure I
+> understand what you are referring to.
+
+It's been a while since I tested this. I used to observe -EEXIST errors
+setting up the kobj's from something as simple as this:
+
+  dd if=/dev/nvme0n1 of=/dev/null conv=noerror 2> /dev/null &
+  echo 1 > /sys/class/nvme/nvme0/device/remove
+  echo 1 > /sys/bus/pci/rescan
+
+The rescan would recreate nvme0n1 that still exists from the open
+handle. I'm not seeing an error today; not sure what changed, but I'm
+looking into that now.
