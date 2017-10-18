@@ -1,10 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 18 Oct 2017 10:28:38 +0200
-Subject: [PATCH v3 3/5] nvme_fc: add a dev_loss_tmo field to the remoteport
-In-Reply-To: <20171017233248.6769-4-jsmart2021@gmail.com>
+Date: Wed, 18 Oct 2017 10:29:29 +0200
+Subject: [PATCH v3 4/5] nvme_fc: check connectivity before initiating
+ reconnects
+In-Reply-To: <20171017233248.6769-5-jsmart2021@gmail.com>
 References: <20171017233248.6769-1-jsmart2021@gmail.com>
- <20171017233248.6769-4-jsmart2021@gmail.com>
-Message-ID: <20171018082838.vc3teuks3uf53e3x@linux-x5ow.site>
+ <20171017233248.6769-5-jsmart2021@gmail.com>
+Message-ID: <20171018082929.oybrk3rmzfhor6ab@linux-x5ow.site>
+
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
