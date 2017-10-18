@@ -1,29 +1,31 @@
-From: drake@endlessm.com (Daniel Drake)
-Date: Wed, 18 Oct 2017 11:01:33 +0800
-Subject: AHCI NVMe remap update
-Message-ID: <CAD8Lp450TSnpzTAGiAgKjJws6VnVu9ZWv_x-GFQ5RhNOTnNCpQ@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 18 Oct 2017 08:26:05 +0300
+Subject: v4.14-rc5 NVMeOF regression?
+In-Reply-To: <5fb38923-36f7-c069-5f1d-96f4a9c98248@wdc.com>
+References: <1508192588.2493.60.camel@wdc.com>
+ <82de6177-27f5-463e-3446-0305fd9f6790@grimberg.me>
+ <5fb38923-36f7-c069-5f1d-96f4a9c98248@wdc.com>
+Message-ID: <07f75a37-cd25-81c1-3264-2be80bb9a763@grimberg.me>
 
-Hi Dan,
 
-Thanks for the patches you posted last year at:
-  http://lists.infradead.org/pipermail/linux-nvme/2016-October/006800.html
-  [PATCH 0/5] ahci: nvme remap support
+> Hello Sagi,
+> 
+> Had I mentioned that I ran into a real deadlock and not only into a 
+> lockdep complaint?
 
-Looks like these patches stalled because of a lack of clarity of how
-the device operates. Has there been any movement since then?
+No, and the output is a lockdep complaint which I thought needed
+silencing.
 
-The issue became less critical soon after when Lenovo published a BIOS
-update for affected models allowing the user to go into the BIOS and
-disable RAID mode - it looked like it might have been a one off
-headache for some models.
+If you ran into a real deadlock, did you have any other output from
+hung_task watchdog? I do not yet understand the root cause from
+lockdep info provided.
 
-However it appears that Lenovo's newer models are still coming with
-the RAID mode by default (we have seen this on Yoga 720), and asking
-ordinary users to go into the BIOS, disable RAID and lose access to
-their Windows install is not always a feasible option (we're trying to
-support dual boot here).
+Also, do you know at which test-case this happened?
 
-Would be great if you could take another look at this.
+> Additionally, can you explain to me why you think the 
+> above patch is necessary? As far as I can see nvme_rdma_ctrl_mutex is 
+> not held around the ib_register_client(&nvme_rdma_ib_client) call nor 
+> around the ib_unregister_client(&nvme_rdma_ib_client) calls.
 
-Thanks
-Daniel
+Its held under ib_unregister_client, my understanding is that the
+_nested annotation is required for the inner mutex lock acquire.
