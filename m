@@ -1,34 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 18 Oct 2017 12:15:52 +0200
-Subject: [PATCH 7/9] nvme: track shared namespaces
-In-Reply-To: <68479c83-cdaa-77e0-232e-45c94b704765@grimberg.me>
-References: <20170925134031.10548-1-hch@lst.de>
- <20170925134031.10548-8-hch@lst.de>
- <68479c83-cdaa-77e0-232e-45c94b704765@grimberg.me>
-Message-ID: <20171018101552.GB14859@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 18 Oct 2017 13:44:32 +0300
+Subject: [PATCH] nvme-rdma: Add debug message when reaches timeout
+In-Reply-To: <20171018074409.7483-1-nitzanc@mellanox.com>
+References: <20171018074409.7483-1-nitzanc@mellanox.com>
+Message-ID: <06c1a240-c459-6db9-e8f7-2213ec052b36@grimberg.me>
 
-On Wed, Oct 11, 2017@03:04:14PM +0300, Sagi Grimberg wrote:
->
->> +/*
->> + * Anchor structure for namespaces.  There is one for each namespace in a
->> + * NVMe subsystem that any of our controllers can see, and the namespace
->> + * structure for each controller is chained of it.  For private namespaces
->> + * there is a 1:1 relation to our namespace structures, that is ->list
->> + * only ever has a single entry for private namespaces.
->> + */
->> +struct nvme_ns_head {
->> +	struct list_head	list;
->
-> Didn't we agree to call this list_head siblings?
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 92a03ff..00c033e 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1582,6 +1582,10 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+>   {
+>   	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+> 
+> +	dev_dbg_ratelimited(req->queue->ctrl->ctrl.device,
+> +						"Reached timeout - cid %d qid %d", rq->tag,
+> +						cpu_to_le16(nvme_rdma_queue_idx(req->queue)));
+> +
 
-Don't think I did.
-
->>     	struct nvme_ctrl *ctrl;
->>   	struct request_queue *queue;
->>   	struct gendisk *disk;
->> +	struct list_head siblings;
->
-> And this list_head list (or entry, or sibling, or sibling_entry)?
-
-I think siblings fits perfectly fine.  It is a lot more descriptive
-than entry..
+The alignment needs fixing.
