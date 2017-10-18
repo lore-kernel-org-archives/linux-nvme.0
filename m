@@ -1,29 +1,16 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 18 Oct 2017 17:31:56 +0300
-Subject: [PATCH 0/3] Add BLK_MQ_F_NO_SCHED flag to admin tag set
-In-Reply-To: <4f73e090-513c-aa07-a4aa-fcea4bc944a0@mellanox.com>
-References: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
- <ac3c9220-a7be-cbd4-324a-ceeb4c31c139@grimberg.me>
- <4f73e090-513c-aa07-a4aa-fcea4bc944a0@mellanox.com>
-Message-ID: <7c0b3811-6df7-3bb7-b527-3995fdaeccb6@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 18 Oct 2017 09:02:15 -0600
+Subject: How to improve long suspend time in `nvme_shutdown_ctrl`
+In-Reply-To: <e6cf0383-038f-b8e5-22e8-0956e04f0edd@molgen.mpg.de>
+References: <72b666c9-dd57-ef87-e89e-ba280f34e90c@molgen.mpg.de>
+ <20171018074523.GA20872@infradead.org>
+ <e6cf0383-038f-b8e5-22e8-0956e04f0edd@molgen.mpg.de>
+Message-ID: <20171018150215.GC32530@localhost.localdomain>
 
+On Wed, Oct 18, 2017@12:58:04PM +0200, Paul Menzel wrote:
+> rtd3e   : 4c4b40
 
->>> Since commit b86dd81
->>> "block: get rid of blk-mq default scheduler choice Kconfig entries",
->>> when setting nr_hw_queues to 1 the admin tag set uses mq-deadline 
->>> scheduler.
->>> This flag is useful for admin queues that aren't used for normal IO.
->>> We already use this flag at nvme-pci.
->>
->> How is the fact that we set a single hw queue has anything to do with
->> the admin tagset?
-> 
-> Setting nr_hw_queues attribute of admin tag set to 1 influence the value
-> of nr_hw_queues attribute of the admin queue.
-> At /block/elevator.c
-> elevator_init() selects the scheduler according to the value of 
-> nr_hw_queues
-> attribute of the admin queue.
-
-Oh, I confused your meaning with setting nr_hw_queues to 1 in the IO
-tagset makes a difference for the admin tagset.
+The specification recommends time to shutdown not exceed rtd3e, which you
+have here at 5 seconds, so it sounds like you're well below the device's
+maximum. The 338ms your system spent in nvme is already pretty good,
+it seems.
