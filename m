@@ -1,21 +1,47 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 18 Oct 2017 09:45:42 -0700
-Subject: [PATCH v2] nvmet: protect sqhd update by a lock
-In-Reply-To: <20171018072343.GA13666@infradead.org>
-References: <20171016151820.14766-1-jsmart2021@gmail.com>
- <20171017064306.GA16133@infradead.org>
- <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
- <20171018072343.GA13666@infradead.org>
-Message-ID: <3ac0e8f3-69f1-e147-6221-809d68cb1ccf@gmail.com>
+Date: Wed, 18 Oct 2017 09:52:16 -0700
+Subject: [PATCH v3] nvmet: synchronize sqhd update
+Message-ID: <20171018165216.25563-1-jsmart2021@gmail.com>
 
-On 10/18/2017 12:23 AM, Christoph Hellwig wrote:
-> do {
-> 		old_sqhd = req->sq->sqhd;
-> 		new_sqhd = (old + 1) % req->sq->size;
-> 	} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) != old_sqhd);
+In testing target io in read write mix, we did indeed get into cases
+where sqhd didn't update properly and slowly missed enough updates to
+shutdown the queue.
 
-sweet. does look good.
+Protect the updating sqhd by using cmpxchg
 
-I'll repost as v3, but with an ammended title
+Signed-off-by: James Smart <james.smart at broadcom.com>
 
--- james
+---
+v2: move locks so around update and assignment
+v3: convert to cmpxchg
+---
+ drivers/nvme/target/core.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index cfc35cbb6fe2..72d02f871c03 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -387,11 +387,18 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 
+ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+ {
++	u16 old_sqhd, new_sqhd;
++
+ 	if (status)
+ 		nvmet_set_status(req, status);
+ 
+-	if (req->sq->size)
+-		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
++	if (req->sq->size) {
++		do {
++			old_sqhd = req->sq->sqhd;
++			new_sqhd = (old_sqhd + 1) % req->sq->size;
++		} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
++					old_sqhd);
++	}
+ 	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
+ 	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
+ 	req->rsp->command_id = req->cmd->common.command_id;
+-- 
+2.13.1
