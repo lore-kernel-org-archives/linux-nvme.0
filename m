@@ -1,66 +1,35 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 18 Oct 2017 14:33:59 -0700
-Subject: [PATCH v4] nvmet: synchronize sqhd update
-Message-ID: <20171018213359.3587-1-jsmart2021@gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 18 Oct 2017 14:41:37 -0700
+Subject: [PATCH 2/3] nvme-fc: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+In-Reply-To: <1508330306-26844-3-git-send-email-israelr@mellanox.com>
+References: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
+ <1508330306-26844-3-git-send-email-israelr@mellanox.com>
+Message-ID: <d0e51f56-401c-b1cb-90ad-a3cc8e208bd4@broadcom.com>
 
-In testing target io in read write mix, we did indeed get into cases
-where sqhd didn't update properly and slowly missed enough updates to
-shutdown the queue.
+On 10/18/2017 5:38 AM, Israel Rukshin wrote:
+> Since commit b86dd81
+> "block: get rid of blk-mq default scheduler choice Kconfig entries",
+> when setting nr_hw_queues to 1 the admin tag set uses mq-deadline scheduler.
+> This flag is useful for admin queues that aren't used for normal IO.
+>
+> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+> ---
+>   drivers/nvme/host/fc.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index af075e9..b383735 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2796,6 +2796,7 @@ enum {
+>   	ctrl->admin_tag_set.driver_data = ctrl;
+>   	ctrl->admin_tag_set.nr_hw_queues = 1;
+>   	ctrl->admin_tag_set.timeout = ADMIN_TIMEOUT;
+> +	ctrl->admin_tag_set.flags = BLK_MQ_F_NO_SCHED;
+>   
+>   	ret = blk_mq_alloc_tag_set(&ctrl->admin_tag_set);
+>   	if (ret)
 
-Protect the updating sqhd by using cmpxchg
+Looks fine
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
-
----
-v2: move locks so around update and assignment
-v3: convert to cmpxchg
-v4: as u16 cmpxchg appears to not always be supported, convert sqhd to u32
----
- drivers/nvme/target/core.c  | 15 ++++++++++++---
- drivers/nvme/target/nvmet.h |  2 +-
- 2 files changed, 13 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index cfc35cbb6fe2..a469f1996dca 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -387,12 +387,21 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
- 
- static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
- {
-+	u32 old_sqhd, new_sqhd;
-+	u16 sqhd;
-+
- 	if (status)
- 		nvmet_set_status(req, status);
- 
--	if (req->sq->size)
--		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
--	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
-+	if (req->sq->size) {
-+		do {
-+			old_sqhd = req->sq->sqhd;
-+			new_sqhd = (old_sqhd + 1) % req->sq->size;
-+		} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
-+					old_sqhd);
-+	}
-+	sqhd = req->sq->sqhd & 0x0000FFFF;
-+	req->rsp->sq_head = cpu_to_le16(sqhd);
- 	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
- 	req->rsp->command_id = req->cmd->common.command_id;
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index ed38b44a7007..ebc1446e205e 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -74,7 +74,7 @@ struct nvmet_sq {
- 	struct percpu_ref	ref;
- 	u16			qid;
- 	u16			size;
--	u16			sqhd;
-+	u32			sqhd;
- 	struct completion	free_done;
- 	struct completion	confirm_done;
- };
--- 
-2.13.1
+Signed-off-by: James Smart? <james.smart at broadcom.com>
