@@ -1,23 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 Oct 2017 09:08:59 -0600
-Subject: [PATCH 1/5] nvme-core: Make nvme_init/uninit_ctrl setup/teardown
- symmetric
-In-Reply-To: <1508324864-23087-2-git-send-email-sagi@grimberg.me>
-References: <1508324864-23087-1-git-send-email-sagi@grimberg.me>
- <1508324864-23087-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20171018150859.GD32530@localhost.localdomain>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Wed, 18 Oct 2017 18:16:17 +0300
+Subject: [PATCH 0/3] Add BLK_MQ_F_NO_SCHED flag to admin tag set
+In-Reply-To: <7c0b3811-6df7-3bb7-b527-3995fdaeccb6@grimberg.me>
+References: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
+ <ac3c9220-a7be-cbd4-324a-ceeb4c31c139@grimberg.me>
+ <4f73e090-513c-aa07-a4aa-fcea4bc944a0@mellanox.com>
+ <7c0b3811-6df7-3bb7-b527-3995fdaeccb6@grimberg.me>
+Message-ID: <5c549412-dd4b-4c96-97aa-64350bd21e98@mellanox.com>
 
-On Wed, Oct 18, 2017@02:07:40PM +0300, Sagi Grimberg wrote:
-> From: Roy Shterman <roys at lightbitslabs.com>
-> 
-> Its strange to have some of the cleanup for nvme_init_ctrl in
-> nvme_free_ctrl. This cause us to have some magic ctrl refcount
-> handling in controller initialization error paths.
-> 
-> Make the init/uninit symmetric so we can have a sane and
-> maintainable error sequences.
 
-It's not magic. It's just preventing name reuse when some management
-code retains an open handle after the device was removed. Otherwise
-you're going to get naming clashes when you bring up a new device with
-the same name from reusing the still in-use instance.
+
+On 10/18/2017 5:31 PM, Sagi Grimberg wrote:
+>
+>>>> Since commit b86dd81
+>>>> "block: get rid of blk-mq default scheduler choice Kconfig entries",
+>>>> when setting nr_hw_queues to 1 the admin tag set uses mq-deadline 
+>>>> scheduler.
+>>>> This flag is useful for admin queues that aren't used for normal IO.
+>>>> We already use this flag at nvme-pci.
+>>>
+>>> How is the fact that we set a single hw queue has anything to do with
+>>> the admin tagset?
+>>
+>> Setting nr_hw_queues attribute of admin tag set to 1 influence the value
+>> of nr_hw_queues attribute of the admin queue.
+>> At /block/elevator.c
+>> elevator_init() selects the scheduler according to the value of 
+>> nr_hw_queues
+>> attribute of the admin queue.
+>
+> Oh, I confused your meaning with setting nr_hw_queues to 1 in the IO
+> tagset makes a difference for the admin tagset.
+
+No,
+I just wanted to say that before commit b86dd8 there was no scheduler 
+for the admin q.
+After commit b86dd8 I saw that mq-deadline scheduler was selected for 
+the admin q.
