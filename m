@@ -1,248 +1,213 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 18 Oct 2017 18:52:51 +0200
-Subject: [PATCH 10/17] nvme: switch controller refcounting to use struct device
+Date: Wed, 18 Oct 2017 18:52:52 +0200
+Subject: [PATCH 11/17] nvme: get rid of nvme_ctrl_list
 In-Reply-To: <20171018165258.23212-1-hch@lst.de>
 References: <20171018165258.23212-1-hch@lst.de>
-Message-ID: <20171018165258.23212-11-hch@lst.de>
+Message-ID: <20171018165258.23212-12-hch@lst.de>
 
-Instead of allocating a separate struct device for the character device
-handle embedd it into struct nvme_ctrl and use it for the main controller
-refcounting.  This removes double refcounting and gets us an automatic
-reference for the character device operations.  We keep ctrl->device as a
-pointer for now to avoid chaning printks all over, but in the future we
-could look into message printing helpers that take a controller structure
-similar to what other subsystems do.
-
-Note the delete_ctrl operation always already has a reference when it
-is entered now, so we don't need to do the unless_zero variant there.
+Use the core chrdev code to set up the link between the character device
+and the nvme controller.  This allows us to get rid of the global list
+of all controllers, and also ensures that we have both a reference to
+the controller and the transport module before the open method of the
+character device is called.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c   | 43 ++++++++++++++++++++++---------------------
- drivers/nvme/host/fc.c     |  8 ++------
- drivers/nvme/host/nvme.h   | 12 +++++++++++-
- drivers/nvme/host/pci.c    |  2 +-
- drivers/nvme/host/rdma.c   |  5 ++---
- drivers/nvme/target/loop.c |  2 +-
- 6 files changed, 39 insertions(+), 33 deletions(-)
+ drivers/nvme/host/core.c | 76 ++++++++++--------------------------------------
+ drivers/nvme/host/nvme.h |  3 +-
+ 2 files changed, 18 insertions(+), 61 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 05a6fad89352..7c1d1c4f93fc 100644
+index 7c1d1c4f93fc..3757f5695de2 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1915,7 +1915,7 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
- 			ret = -EWOULDBLOCK;
- 			break;
- 		}
--		if (!kref_get_unless_zero(&ctrl->kref))
-+		if (!kobject_get_unless_zero(&ctrl->device->kobj))
- 			break;
- 		file->private_data = ctrl;
- 		ret = 0;
-@@ -2374,7 +2374,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	list_add_tail(&ns->list, &ctrl->namespaces);
- 	mutex_unlock(&ctrl->namespaces_mutex);
+@@ -52,9 +52,6 @@ static u8 nvme_max_retries = 5;
+ module_param_named(max_retries, nvme_max_retries, byte, 0644);
+ MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
  
--	kref_get(&ctrl->kref);
-+	nvme_get_ctrl(ctrl);
+-static int nvme_char_major;
+-module_param(nvme_char_major, int, 0);
+-
+ static unsigned long default_ps_max_latency_us = 100000;
+ module_param(default_ps_max_latency_us, ulong, 0644);
+ MODULE_PARM_DESC(default_ps_max_latency_us,
+@@ -71,11 +68,8 @@ MODULE_PARM_DESC(streams, "turn on support for Streams write directives");
+ struct workqueue_struct *nvme_wq;
+ EXPORT_SYMBOL_GPL(nvme_wq);
  
- 	kfree(id);
+-static LIST_HEAD(nvme_ctrl_list);
+-static DEFINE_SPINLOCK(dev_list_lock);
+-
+ static DEFINE_IDA(nvme_instance_ida);
+-
++static dev_t nvme_chr_devt;
+ static struct class *nvme_class;
  
-@@ -2703,7 +2703,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
+ static __le32 nvme_get_log_dw10(u8 lid, size_t size)
+@@ -1031,20 +1025,12 @@ static int nvme_open(struct block_device *bdev, fmode_t mode)
+ 
+ 	if (!kref_get_unless_zero(&ns->kref))
+ 		return -ENXIO;
+-	if (!try_module_get(ns->ctrl->ops->module)) {
+-		kref_put(&ns->kref, nvme_free_ns);
+-		return -ENXIO;
+-	}
+-
+ 	return 0;
+ }
+ 
+ static void nvme_release(struct gendisk *disk, fmode_t mode)
+ {
+-	struct nvme_ns *ns = disk->private_data;
+-
+-	module_put(ns->ctrl->ops->module);
+-	nvme_put_ns(ns);
++	nvme_put_ns(disk->private_data);
+ }
+ 
+ static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
+@@ -1902,33 +1888,12 @@ EXPORT_SYMBOL_GPL(nvme_init_identify);
+ 
+ static int nvme_dev_open(struct inode *inode, struct file *file)
+ {
+-	struct nvme_ctrl *ctrl;
+-	int instance = iminor(inode);
+-	int ret = -ENODEV;
+-
+-	spin_lock(&dev_list_lock);
+-	list_for_each_entry(ctrl, &nvme_ctrl_list, node) {
+-		if (ctrl->instance != instance)
+-			continue;
+-
+-		if (!ctrl->admin_q) {
+-			ret = -EWOULDBLOCK;
+-			break;
+-		}
+-		if (!kobject_get_unless_zero(&ctrl->device->kobj))
+-			break;
+-		file->private_data = ctrl;
+-		ret = 0;
+-		break;
+-	}
+-	spin_unlock(&dev_list_lock);
+-
+-	return ret;
+-}
++	struct nvme_ctrl *ctrl =
++		container_of(inode->i_cdev, struct nvme_ctrl, cdev);
+ 
+-static int nvme_dev_release(struct inode *inode, struct file *file)
+-{
+-	nvme_put_ctrl(file->private_data);
++	if (!ctrl->admin_q)
++		return -EWOULDBLOCK;
++	file->private_data = ctrl;
+ 	return 0;
+ }
+ 
+@@ -1992,7 +1957,6 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ static const struct file_operations nvme_dev_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.open		= nvme_dev_open,
+-	.release	= nvme_dev_release,
+ 	.unlocked_ioctl	= nvme_dev_ioctl,
+ 	.compat_ioctl	= nvme_dev_ioctl,
+ };
+@@ -2703,11 +2667,7 @@ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
  
  void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
  {
--	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
-+	device_del(ctrl->device);
- 
- 	spin_lock(&dev_list_lock);
- 	list_del(&ctrl->node);
-@@ -2711,23 +2711,17 @@ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+-	device_del(ctrl->device);
+-
+-	spin_lock(&dev_list_lock);
+-	list_del(&ctrl->node);
+-	spin_unlock(&dev_list_lock);
++	cdev_device_del(&ctrl->cdev, ctrl->device);
  }
  EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
  
--static void nvme_free_ctrl(struct kref *kref)
-+static void nvme_free_ctrl(struct device *dev)
- {
--	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
-+	struct nvme_ctrl *ctrl =
-+		container_of(dev, struct nvme_ctrl, ctrl_device);
+@@ -2750,7 +2710,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
  
--	put_device(ctrl->device);
- 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
- 	ida_destroy(&ctrl->ns_ida);
- 
- 	ctrl->ops->free_ctrl(ctrl);
- }
- 
--void nvme_put_ctrl(struct nvme_ctrl *ctrl)
--{
--	kref_put(&ctrl->kref, nvme_free_ctrl);
--}
--EXPORT_SYMBOL_GPL(nvme_put_ctrl);
--
- /*
-  * Initialize a NVMe controller structures.  This needs to be called during
-  * earliest initialization so that we have the initialized structured around
-@@ -2742,7 +2736,6 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	spin_lock_init(&ctrl->lock);
- 	INIT_LIST_HEAD(&ctrl->namespaces);
- 	mutex_init(&ctrl->namespaces_mutex);
--	kref_init(&ctrl->kref);
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
- 	ctrl->quirks = quirks;
-@@ -2755,15 +2748,21 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 		goto out;
- 	ctrl->instance = ret;
- 
--	ctrl->device = device_create_with_groups(nvme_class, ctrl->dev,
--				MKDEV(nvme_char_major, ctrl->instance),
--				ctrl, nvme_dev_attr_groups,
--				"nvme%d", ctrl->instance);
--	if (IS_ERR(ctrl->device)) {
--		ret = PTR_ERR(ctrl->device);
-+	device_initialize(&ctrl->ctrl_device);
-+	ctrl->device = &ctrl->ctrl_device;
-+	ctrl->device->devt = MKDEV(nvme_char_major, ctrl->instance);
-+	ctrl->device->class = nvme_class;
-+	ctrl->device->parent = ctrl->dev;
-+	ctrl->device->groups = nvme_dev_attr_groups;
-+	ctrl->device->release = nvme_free_ctrl;
-+	dev_set_drvdata(ctrl->device, ctrl);
-+	ret = dev_set_name(ctrl->device, "nvme%d", ctrl->instance);
-+	if (ret)
+ 	device_initialize(&ctrl->ctrl_device);
+ 	ctrl->device = &ctrl->ctrl_device;
+-	ctrl->device->devt = MKDEV(nvme_char_major, ctrl->instance);
++	ctrl->device->devt = MKDEV(MAJOR(nvme_chr_devt), ctrl->instance);
+ 	ctrl->device->class = nvme_class;
+ 	ctrl->device->parent = ctrl->dev;
+ 	ctrl->device->groups = nvme_dev_attr_groups;
+@@ -2759,16 +2719,15 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ret = dev_set_name(ctrl->device, "nvme%d", ctrl->instance);
+ 	if (ret)
  		goto out_release_instance;
--	}
--	get_device(ctrl->device);
-+	ret = device_add(ctrl->device);
-+	if (ret)
-+		goto out_free_name;
+-	ret = device_add(ctrl->device);
 +
++	cdev_init(&ctrl->cdev, &nvme_dev_fops);
++	ctrl->cdev.owner = ops->module;
++	ret = cdev_device_add(&ctrl->cdev, ctrl->device);
+ 	if (ret)
+ 		goto out_free_name;
+ 
  	ida_init(&ctrl->ns_ida);
  
- 	spin_lock(&dev_list_lock);
-@@ -2779,6 +2778,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
+-	spin_lock(&dev_list_lock);
+-	list_add_tail(&ctrl->node, &nvme_ctrl_list);
+-	spin_unlock(&dev_list_lock);
+-
+ 	/*
+ 	 * Initialize latency tolerance controls.  The sysfs files won't
+ 	 * be visible to userspace unless the device actually supports APST.
+@@ -2899,12 +2858,9 @@ int __init nvme_core_init(void)
+ 	if (!nvme_wq)
+ 		return -ENOMEM;
  
+-	result = __register_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme",
+-							&nvme_dev_fops);
++	result = alloc_chrdev_region(&nvme_chr_devt, 0, NVME_MINORS, "nvme");
+ 	if (result < 0)
+ 		goto destroy_wq;
+-	else if (result > 0)
+-		nvme_char_major = result;
+ 
+ 	nvme_class = class_create(THIS_MODULE, "nvme");
+ 	if (IS_ERR(nvme_class)) {
+@@ -2915,7 +2871,7 @@ int __init nvme_core_init(void)
  	return 0;
-+out_free_name:
-+	kfree_const(dev->kobj.name);
- out_release_instance:
- 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
- out:
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b8e0822127c1..e45c6350e01c 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2681,14 +2681,10 @@ nvme_fc_del_nvme_ctrl(struct nvme_ctrl *nctrl)
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
- 	int ret;
  
--	if (!kref_get_unless_zero(&ctrl->ctrl.kref))
--		return -EBUSY;
--
-+	nvme_get_ctrl(&ctrl->ctrl);
- 	ret = __nvme_fc_del_ctrl(ctrl);
--
- 	if (!ret)
- 		flush_workqueue(nvme_wq);
--
- 	nvme_put_ctrl(&ctrl->ctrl);
- 
- 	return ret;
-@@ -2905,7 +2901,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		return ERR_PTR(ret);
- 	}
- 
--	kref_get(&ctrl->ctrl.kref);
-+	nvme_get_ctrl(&ctrl->ctrl);
- 
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index df787f39f4c1..55286acd5387 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -127,12 +127,12 @@ struct nvme_ctrl {
- 	struct request_queue *admin_q;
- 	struct request_queue *connect_q;
- 	struct device *dev;
--	struct kref kref;
- 	int instance;
- 	struct blk_mq_tag_set *tagset;
- 	struct blk_mq_tag_set *admin_tagset;
- 	struct list_head namespaces;
- 	struct mutex namespaces_mutex;
-+	struct device ctrl_device;
- 	struct device *device;	/* char device */
- 	struct list_head node;
- 	struct ida ns_ida;
-@@ -278,6 +278,16 @@ static inline void nvme_end_request(struct request *req, __le16 status,
- 	blk_mq_complete_request(req);
+ unregister_chrdev:
+-	__unregister_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme");
++	unregister_chrdev_region(nvme_chr_devt, NVME_MINORS);
+ destroy_wq:
+ 	destroy_workqueue(nvme_wq);
+ 	return result;
+@@ -2924,7 +2880,7 @@ int __init nvme_core_init(void)
+ void nvme_core_exit(void)
+ {
+ 	class_destroy(nvme_class);
+-	__unregister_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme");
++	unregister_chrdev_region(nvme_chr_devt, NVME_MINORS);
+ 	destroy_workqueue(nvme_wq);
  }
  
-+static inline void nvme_get_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	get_device(ctrl->device);
-+}
-+
-+static inline void nvme_put_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	put_device(ctrl->device);
-+}
-+
- void nvme_complete_rq(struct request *req);
- void nvme_cancel_request(struct request *req, void *data, bool reserved);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cb73bc8cad3b..485f38558ba1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2132,7 +2132,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
- {
- 	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 55286acd5387..e16346048b73 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -15,6 +15,7 @@
+ #define _NVME_H
  
--	kref_get(&dev->ctrl.kref);
-+	nvme_get_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, false);
- 	if (!schedule_work(&dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 92a03ff5fb4d..63f649c655f0 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1793,8 +1793,7 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
- 	 * Keep a reference until all work is flushed since
- 	 * __nvme_rdma_del_ctrl can free the ctrl mem
- 	 */
--	if (!kref_get_unless_zero(&ctrl->ctrl.kref))
--		return -EBUSY;
-+	nvme_get_ctrl(&ctrl->ctrl);
- 	ret = __nvme_rdma_del_ctrl(ctrl);
- 	if (!ret)
- 		flush_work(&ctrl->delete_work);
-@@ -1950,7 +1949,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	dev_info(ctrl->ctrl.device, "new ctrl: NQN \"%s\", addr %pISpcs\n",
- 		ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
+ #include <linux/nvme.h>
++#include <linux/cdev.h>
+ #include <linux/pci.h>
+ #include <linux/kref.h>
+ #include <linux/blk-mq.h>
+@@ -134,7 +135,7 @@ struct nvme_ctrl {
+ 	struct mutex namespaces_mutex;
+ 	struct device ctrl_device;
+ 	struct device *device;	/* char device */
+-	struct list_head node;
++	struct cdev cdev;
+ 	struct ida ns_ida;
+ 	struct work_struct reset_work;
  
--	kref_get(&ctrl->ctrl.kref);
-+	nvme_get_ctrl(&ctrl->ctrl);
- 
- 	mutex_lock(&nvme_rdma_ctrl_mutex);
- 	list_add_tail(&ctrl->list, &nvme_rdma_ctrl_list);
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 92628c432926..818864c33979 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -641,7 +641,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
- 	dev_info(ctrl->ctrl.device,
- 		 "new ctrl: \"%s\"\n", ctrl->ctrl.opts->subsysnqn);
- 
--	kref_get(&ctrl->ctrl.kref);
-+	nvme_get_ctrl(&ctrl->ctrl);
- 
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
- 	WARN_ON_ONCE(!changed);
 -- 
 2.14.1
