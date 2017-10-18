@@ -1,23 +1,41 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 17 Oct 2017 23:55:33 -0700
-Subject: v4.14-rc5 NVMeOF regression?
-In-Reply-To: <07f75a37-cd25-81c1-3264-2be80bb9a763@grimberg.me>
-References: <1508192588.2493.60.camel@wdc.com>
- <82de6177-27f5-463e-3446-0305fd9f6790@grimberg.me>
- <5fb38923-36f7-c069-5f1d-96f4a9c98248@wdc.com>
- <07f75a37-cd25-81c1-3264-2be80bb9a763@grimberg.me>
-Message-ID: <20171018065533.GA7694@infradead.org>
+Date: Wed, 18 Oct 2017 00:23:43 -0700
+Subject: [PATCH v2] nvmet: protect sqhd update by a lock
+In-Reply-To: <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
+References: <20171016151820.14766-1-jsmart2021@gmail.com>
+ <20171017064306.GA16133@infradead.org>
+ <65999d52-2f65-2d9c-4cc4-db9d17fd9cab@broadcom.com>
+Message-ID: <20171018072343.GA13666@infradead.org>
 
-On Wed, Oct 18, 2017@08:26:05AM +0300, Sagi Grimberg wrote:
-> > Additionally, can you explain to me why you think the above patch is
-> > necessary? As far as I can see nvme_rdma_ctrl_mutex is not held around
-> > the ib_register_client(&nvme_rdma_ib_client) call nor around the
-> > ib_unregister_client(&nvme_rdma_ib_client) calls.
+
+On Tue, Oct 17, 2017@07:19:30AM -0700, James Smart wrote:
+> On 10/16/2017 11:43 PM, Christoph Hellwig wrote:
+> > >   	if (status)
+> > >   		nvmet_set_status(req, status);
+> > > +	spin_lock_irqsave(&req->sq->sqhd_lock, flags);
+> > >   	if (req->sq->size)
+> > >   		req->sq->sqhd = (req->sq->sqhd + 1) % req->sq->size;
+> > >   	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd);
+> > > +	spin_unlock_irqrestore(&req->sq->sqhd_lock, flags);
+> > What performance impact does this have?   I'm really reluctant to put
+> > an irq disabling spinlock into a hot path for a feature that
+> > theoretically is in the spec but ignored by every host.
+> > 
+> > I'd much rather play games with cmpxchg or similar here.
 > 
-> Its held under ib_unregister_client, my understanding is that the
-> _nested annotation is required for the inner mutex lock acquire.
+> It's not ignored by every host. Its ignored by the linux host. There are
+> other hosts out there that follow the spec and pay attention to sqhd - and
+> the linux target would like to be used with them.
+> 
+> I'm open to other alternatives, but in the past, with pci adapter interfaces
+> with similar "ring" index updates, the increment followed by modulo has
+> always proven to be an issue for such tricks.
 
-No.  Anytime we take a single lock out of order it is a bug an a
-potential deadlock.  _nested only works if we have multiple instances
-of a lock (say in each inode) and we have a well defined ordering
-between the instances (e.g. by the address of the inode structure).
+Something like:
+
+	do {
+		old_sqhd = req->sq->sqhd;
+		new_sqhd = (old + 1) % req->sq->size;
+	} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) != old_sqhd);
+
+should do the job.
