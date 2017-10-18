@@ -1,61 +1,90 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 18 Oct 2017 13:46:07 +0300
-Subject: [PATCH v2] nvme/target: Change max_nsid in subsystem due to
- ns_disable if needed
-Message-ID: <1508323567-8536-1-git-send-email-sagi@grimberg.me>
+From: pmenzel@molgen.mpg.de (Paul Menzel)
+Date: Wed, 18 Oct 2017 12:58:04 +0200
+Subject: How to improve long suspend time in `nvme_shutdown_ctrl`
+In-Reply-To: <20171018074523.GA20872@infradead.org>
+References: <72b666c9-dd57-ef87-e89e-ba280f34e90c@molgen.mpg.de>
+ <20171018074523.GA20872@infradead.org>
+Message-ID: <e6cf0383-038f-b8e5-22e8-0956e04f0edd@molgen.mpg.de>
 
-From: Roy Shterman <roys@lightbitslabs.com>
+Dear Christoph,
 
-In case we disable namespaces which has the nsid like
-subsystem max_nsid we need to search for the next largest nsid
-in this subsystem. If the subsystem don't has more namespaces
-we set it to 0, else we take nsid from the last namespace in
-namespaces list because the list is sorted while inserting.
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Roy Shterman <roys at lightbitslabs.com>
----
-Changes from v1:
-- Fixed compilation glitch
-- moved max_nsid to a dedicated function
+Am 18.10.2017 um 09:45 schrieb Christoph Hellwig:
+> On Tue, Oct 17, 2017@10:33:56PM +0200, Paul Menzel wrote:
+>> Is that the right register to read? Can this be improved? If not, is that a
+>> firmware bug?
+> 
+> Take a look at nvme_shutdown_ctrl - it's pretty simple.
+> 
+> It asks the device to shut down, and then polls the controller status
+> register every 10 milliseconds if the shutdown has completed.
+> 
+> So the drive performs as expected, but it is indeed rather slow.
 
- drivers/nvme/target/core.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Thank you. Then for the record, here is the device in question. 
+(Hopefully that?s the culprit.) I?ll contact TUXEDO if they can get in 
+touch with Samsung.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 1b208beeef50..794a3d322cd5 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -57,6 +57,18 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf, size_t len)
- 	return 0;
- }
- 
-+static void nvmet_subsys_update_max_nsid(struct nvmet_subsys *subsys)
-+{
-+	if (list_empty(&subsys->namespaces)) {
-+		subsys->max_nsid = 0;
-+	} else {
-+		struct nvmet_ns *ns =
-+			list_last_entry(&subsys->namespaces, struct nvmet_ns, dev_link);
-+
-+		subsys->max_nsid = ns->nsid;
-+	}
-+}
-+
- static u32 nvmet_async_event_result(struct nvmet_async_event *aen)
- {
- 	return aen->event_type | (aen->event_info << 8) | (aen->log_page << 16);
-@@ -334,6 +346,10 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
- 
- 	ns->enabled = false;
- 	list_del_rcu(&ns->dev_link);
-+
-+	if (ns->nsid == subsys->max_nsid)
-+		nvmet_subsys_update_max_nsid(subsys);
-+
- 	mutex_unlock(&subsys->lock);
- 
- 	/*
--- 
-2.7.4
+```
+$ sudo nvme id-ctrl /dev/nvme0n1
+NVME Identify Controller:
+vid     : 0x144d
+ssvid   : 0x144d
+sn      : S316NA0HA02167
+mn      : SAMSUNG MZVKW512HMJP-00000
+fr      : CXA7300Q
+rab     : 2
+ieee    : 002538
+cmic    : 0
+mdts    : 0
+cntlid  : 2
+ver     : 10200
+rtd3r   : 186a0
+rtd3e   : 4c4b40
+oaes    : 0
+oacs    : 0x17
+acl     : 7
+aerl    : 3
+frmw    : 0x16
+lpa     : 0x3
+elpe    : 63
+npss    : 4
+avscc   : 0x1
+apsta   : 0x1
+wctemp  : 343
+cctemp  : 346
+mtfa    : 0
+hmpre   : 0
+hmmin   : 0
+tnvmcap : 512110190592
+unvmcap : 0
+rpmbs   : 0
+sqes    : 0x66
+cqes    : 0x44
+nn      : 1
+oncs    : 0x1f
+fuses   : 0
+fna     : 0
+vwc     : 0x1
+awun    : 255
+awupf   : 0
+nvscc   : 1
+acwu    : 0
+sgls    : 0
+subnqn  :
+ps    0 : mp:6.80W operational enlat:0 exlat:0 rrt:0 rrl:0
+           rwt:0 rwl:0 idle_power:- active_power:-
+ps    1 : mp:5.60W operational enlat:0 exlat:0 rrt:1 rrl:1
+           rwt:1 rwl:1 idle_power:- active_power:-
+ps    2 : mp:4.40W operational enlat:0 exlat:0 rrt:2 rrl:2
+           rwt:2 rwl:2 idle_power:- active_power:-
+ps    3 : mp:0.0400W non-operational enlat:210 exlat:1500 rrt:3 rrl:3
+           rwt:3 rwl:3 idle_power:- active_power:-
+ps    4 : mp:0.0050W non-operational enlat:2200 exlat:6000 rrt:4 rrl:4
+           rwt:4 rwl:4 idle_power:- active_power:-
+```
+
+
+Kind regards,
+
+Paul
