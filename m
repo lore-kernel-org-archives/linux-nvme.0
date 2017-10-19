@@ -1,24 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 15:54:48 +0200
-Subject: [PATCH 10/17] nvme: switch controller refcounting to use
- struct device
-In-Reply-To: <58a30ee0-f268-2d92-eccd-9d241402a460@grimberg.me>
-References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-11-hch@lst.de>
- <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
- <20171019072053.GA12168@lst.de>
- <05edcff6-4c56-39d9-83c8-e3eae03b824d@grimberg.me>
- <20171019073741.GA12348@lst.de>
- <827bd4b9-4228-32e4-e8dd-17679f2dfeba@grimberg.me>
- <20171019101855.GA17326@lst.de>
- <58a30ee0-f268-2d92-eccd-9d241402a460@grimberg.me>
-Message-ID: <20171019135448.GE21452@lst.de>
+Date: Thu, 19 Oct 2017 15:55:22 +0200
+Subject: [PATCH 4.14-rc] nvme-rdma: Fix error status return in tagset
+ allocation failure
+In-Reply-To: <9cb7f448-f4a3-e3e6-e906-749a56daa943@grimberg.me>
+References: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
+ <20171019084926.GA14227@lst.de>
+ <9604c4ac-0a0f-a029-1894-051e6de50072@grimberg.me>
+ <20171019102022.GC17326@lst.de>
+ <9cb7f448-f4a3-e3e6-e906-749a56daa943@grimberg.me>
+Message-ID: <20171019135522.GF21452@lst.de>
 
-On Thu, Oct 19, 2017@01:33:55PM +0300, Sagi Grimberg wrote:
->> Well, the ctrl device integration is what enables us to do this.
->> Before that the ctrl refcount could have reached null by the time
->> we call the delete_ctrl method.
+On Thu, Oct 19, 2017@01:28:42PM +0300, Sagi Grimberg wrote:
+>>> We could, but that would mean that the nvme_ctrl tagset pointer will
+>>> need to be updated later (or from the routine itself).
+>>
+>> That why I want to pass the address of the tagset pointers, so that
+>> it can be updated.
 >
-> OK, maybe a change log mention then?
+> But I'm targeting this code to nvme-core which at this point, only has
+> a pointer to the tagsets (which are embedded in the transport ctrl
+> structs).
 
-I thought I did that, but I can be more detailed.
+But with a a double indirection you _can_ update the pointers.
