@@ -1,63 +1,18 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Thu, 19 Oct 2017 14:33:46 +0800
-Subject: nvmeof rdma regression issue on 4.14.0-rc1 (or maybe mlx4?)
-In-Reply-To: <6d639dd4-9366-2ecf-b49e-751c7a167528@grimberg.me>
-References: <1735134433.8514119.1505997532669.JavaMail.zimbra@redhat.com>
- <1215229914.8516804.1505998051674.JavaMail.zimbra@redhat.com>
- <20170921144421.GA15285@infradead.org>
- <47493aa0-4cad-721b-4ea2-c3b2293340aa@grimberg.me>
- <e8aa9f2e-14b1-23f0-f672-07a913842c9d@redhat.com>
- <20170924103426.GB25094@mtr-leonro.local>
- <4d0e27f2-99e4-ffc7-18a5-e5757c27dad4@redhat.com>
- <4faccebf-7fcf-58b9-1605-82ee9acc652b@grimberg.me>
- <e44f4640-44b2-4692-ca57-08f9ebf4da2c@redhat.com>
- <729c512f-55ff-25e4-6dd9-8b4dcc31bb8d@grimberg.me>
- <ff355fcf-5089-f297-d3fa-9b86d133236b@redhat.com>
- <6d639dd4-9366-2ecf-b49e-751c7a167528@grimberg.me>
-Message-ID: <64135330-a62d-87b8-c805-6b52fd40bf81@redhat.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 19 Oct 2017 08:46:53 +0200
+Subject: [PATCH 01/17] block: move REQ_NOWAIT
+In-Reply-To: <20171018165258.23212-2-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:42 +0200")
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-2-hch@lst.de>
+Message-ID: <mqd4lqv8wiq.fsf@linux-x5ow.site>
 
-
-
-On 10/16/2017 06:21 PM, Sagi Grimberg wrote:
->>> Lets take this one step at a time, starting with this issue.
->>>
->>> First, there is a reason why a simple create_ctrl fails, can we isolate
->>> exactly which call fails? Was something else going on that might have
->>> made the simple create_ctrl fail?
->>>
->>> We don't see any "rdma_resolve_addr failed" or "failed to connect 
->>> queue"
->>> messages but we do see "creating I/O queues" which means that we either
->>> failed at IO tagset allocation or initializing connect_q.
->>>
->>> We have a missing error code assignment so can you try the following 
->>> patch:
->>
->> Hi Sagi
->> Sorry for the late response, here is the log with your patch, let me 
->> know if you need more test.
->
-> Hi Yi,
->
-> I was referring to the bug you reported on a simple create_ctrl failed:
-> https://pastebin.com/7z0XSGSd
->
-> Does it reproduce?
->
-yes, this issue was reproduced during "git bisect" with below patch
-
-commit 31fdf18401703df246e20fc0382ed3594e6cf8d8
-Author: Sagi Grimberg <sagi at grimberg.me>
-Date:   Mon Aug 28 21:40:06 2017 +0200
-
-     nvme-rdma: reuse configure/destroy_admin_queue
-
-     No need to open-code it.
-
-     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-     Signed-off-by: Christoph Hellwig <hch at lst.de>
-
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
