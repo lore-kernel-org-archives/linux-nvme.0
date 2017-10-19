@@ -1,24 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 15:55:22 +0200
-Subject: [PATCH 4.14-rc] nvme-rdma: Fix error status return in tagset
- allocation failure
-In-Reply-To: <9cb7f448-f4a3-e3e6-e906-749a56daa943@grimberg.me>
-References: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
- <20171019084926.GA14227@lst.de>
- <9604c4ac-0a0f-a029-1894-051e6de50072@grimberg.me>
- <20171019102022.GC17326@lst.de>
- <9cb7f448-f4a3-e3e6-e906-749a56daa943@grimberg.me>
-Message-ID: <20171019135522.GF21452@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 19 Oct 2017 17:42:46 +0300
+Subject: [PATCH 03/17] block: provide a direct_make_request helper
+In-Reply-To: <20171019135430.GD21452@lst.de>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-4-hch@lst.de>
+ <d8605553-ef38-4aa2-1513-39ae49de3856@grimberg.me>
+ <20171019135430.GD21452@lst.de>
+Message-ID: <254bc6d0-31ea-4719-baf5-2d847356db97@grimberg.me>
 
-On Thu, Oct 19, 2017@01:28:42PM +0300, Sagi Grimberg wrote:
->>> We could, but that would mean that the nvme_ctrl tagset pointer will
->>> need to be updated later (or from the routine itself).
+
+>>> +/**
+>>> + * direct_make_request - hand a buffer directly to its device driver for I/O
+>>> + * @bio:  The bio describing the location in memory and on the device.
+>>> + *
+>>> + * This function behaves like generic_make_request(), but does not protect
+>>> + * against recursion.  Must only be used if the called driver is known
+>>> + * to not call generic_make_request (or direct_make_request) again from
+>>> + * its make_request function.  (Calling direct_make_request again from
+>>> + * a workqueue is perfectly fine as that doesn't recurse).
 >>
->> That why I want to pass the address of the tagset pointers, so that
->> it can be updated.
->
-> But I'm targeting this code to nvme-core which at this point, only has
-> a pointer to the tagsets (which are embedded in the transport ctrl
-> structs).
+>> Question: are the double spaces on purpose?
+> 
+> Yes.  It's a very common style, and especially useful with monospace fonts.
+> https://en.wikipedia.org/wiki/Sentence_spacing for reference.
+> 
 
-But with a a double indirection you _can_ update the pointers.
+Thanks.
