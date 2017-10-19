@@ -1,16 +1,13 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 19 Oct 2017 09:48:22 -0600
-Subject: [PATCH V7] nvme-pci: add SGL support
-In-Reply-To: <20171019102847.GA6828@infradead.org>
-References: <1508203460-13852-1-git-send-email-ckulkarnilinux@gmail.com>
- <20171019102847.GA6828@infradead.org>
-Message-ID: <20171019154821.GD2768@localhost.localdomain>
+Date: Thu, 19 Oct 2017 09:14:27 -0600
+Subject: [PATCH 07/17] nvme: use ida_simple_{get,remove} for the
+ controller instance
+In-Reply-To: <20171018165258.23212-8-hch@lst.de>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-8-hch@lst.de>
+Message-ID: <20171019151426.GC2768@localhost.localdomain>
 
-Yeah, I don't have any major concerns. I was hung up on the
-tagset.cmd_size being smaller when SGL's are used, but it took me a
-minute to determine that's okay as we were overallocating it before.
-
-The criteria used to select sgl usage makes sense, so good to go on my
-end.
+This is a good cleanup, and I'd support this patch going in ahead of
+this series on its own if you want to apply to 4.15 immediately.
 
 Reviewed-by: Keith Busch <keith.busch at intel.com>
