@@ -1,23 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 09:37:41 +0200
-Subject: [PATCH 10/17] nvme: switch controller refcounting to use
- struct device
-In-Reply-To: <05edcff6-4c56-39d9-83c8-e3eae03b824d@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 19 Oct 2017 09:45:56 +0200
+Subject: [PATCH 17/17] nvme: also expose the namespace identification
+ sysfs files for mpath nodes
+In-Reply-To: <20171018165258.23212-18-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:58 +0200")
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-11-hch@lst.de>
- <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
- <20171019072053.GA12168@lst.de>
- <05edcff6-4c56-39d9-83c8-e3eae03b824d@grimberg.me>
-Message-ID: <20171019073741.GA12348@lst.de>
+ <20171018165258.23212-18-hch@lst.de>
+Message-ID: <mqdd15j60nf.fsf@linux-x5ow.site>
 
-On Thu, Oct 19, 2017@10:31:20AM +0300, Sagi Grimberg wrote:
-> I don't think the fabrics device does not help us to keep the ctrl
-> allocated until we finish removal.
-
-All fabrics drivers grab an extra reference during ->create_ctrl,
-which we will drop when releasing the file descriptor that we used
-to create the device.
-
-By the time we call ->delete_ctrl in nvmf_create_ctrl we must still
-have that reference because we are still in a ->write call and thus
-->release can't have been called yet.
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
