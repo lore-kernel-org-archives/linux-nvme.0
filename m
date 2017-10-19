@@ -1,18 +1,22 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 10:40:43 +0200
-Subject: [PATCH 2/2] nvmet: Fix fatal_err_work deadlock
-In-Reply-To: <20170928153553.13993-3-jsmart2021@gmail.com> (James Smart's
- message of "Thu, 28 Sep 2017 08:35:53 -0700")
-References: <20170928153553.13993-1-jsmart2021@gmail.com>
- <20170928153553.13993-3-jsmart2021@gmail.com>
-Message-ID: <mqd376fzg1g.fsf@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 19 Oct 2017 10:49:26 +0200
+Subject: [PATCH 4.14-rc] nvme-rdma: Fix error status return in tagset
+ allocation failure
+In-Reply-To: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
+References: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20171019084926.GA14227@lst.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+>  	if (new) {
+>  		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+> -		if (IS_ERR(ctrl->ctrl.admin_tagset))
+> +		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
+> +			error = PTR_ERR(ctrl->ctrl.admin_tagset);
+>  			goto out_free_queue;
+> +		}
+
+Can we return an error code instead and just pass in the tag set
+to be allocated instead of the admin flag?A  E.g.:
+
+	error = nvme_rdma_alloc_tagset(&ctrl->ctrl, &ctrl->ctrl.admin_tagset);
+	if (error)
+		goto out_free_queue;
