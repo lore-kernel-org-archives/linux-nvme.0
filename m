@@ -1,17 +1,10 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 01:56:53 -0700
-Subject: [PATCH v4] nvmet: synchronize sqhd update
-In-Reply-To: <20171018213359.3587-1-jsmart2021@gmail.com>
-References: <20171018213359.3587-1-jsmart2021@gmail.com>
-Message-ID: <20171019085653.GA2622@infradead.org>
+Date: Thu, 19 Oct 2017 01:59:26 -0700
+Subject: [PATCH 0/3] Add BLK_MQ_F_NO_SCHED flag to admin tag set
+In-Reply-To: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
+References: <1508330306-26844-1-git-send-email-israelr@mellanox.com>
+Message-ID: <20171019085926.GA4974@infradead.org>
 
-On Wed, Oct 18, 2017@02:33:59PM -0700, James Smart wrote:
-> In testing target io in read write mix, we did indeed get into cases
-> where sqhd didn't update properly and slowly missed enough updates to
-> shutdown the queue.
-> 
-> Protect the updating sqhd by using cmpxchg
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+Thanks Israel,
 
-Applied to nvme-4.14 with a small changelog fixup.
+applied the whole series to nvme-4.15
