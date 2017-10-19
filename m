@@ -1,50 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 16:00:30 +0300
-Subject: [PATCH v2 4.14-rc fix-regression] nvme-rdma: Fix possible double free
- in reconnect flow
-Message-ID: <1508418030-23031-1-git-send-email-sagi@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 19 Oct 2017 15:15:35 +0200
+Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
+In-Reply-To: <1d2fe3fa-564f-c056-bbc5-b80282bee912@suse.de>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-7-hch@lst.de>
+ <1d2fe3fa-564f-c056-bbc5-b80282bee912@suse.de>
+Message-ID: <20171019131535.GB20645@lst.de>
 
-The fact that we free the async event buffer in
-nvme_rdma_destroy_admin_queue can cause us to free it
-more than once because this happens in every reconnect
-attempt since commit 31fdf1840170. we rely on the queue
-state flags DELETING to avoid this for other resources.
+On Thu, Oct 19, 2017@02:45:03PM +0200, Hannes Reinecke wrote:
+> > No way in hell this would get through.  Preemptive NAK right here.
+> >
+> > That whole idea is just amazingly stupid, and no one has even
+> > explained a reason for it.
+> 
+> I wonder what has changed ...
 
-A more complete fix is to not destroy the admin/io queues
-unconditionally on every reconnect attempt, but its a bit
-more extensive and will go in the next release.
-
-Fixes: 31fdf1840170 ("nvme-rdma: reuse configure/destroy_admin_queue")
-Reported-by: Yi Zhang <yi.zhang at redhat.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 92a03ff5fb4d..ec22da478ba3 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -571,6 +571,11 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
- 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
- 		return;
- 
-+	if(nvme_rdma_queue_idx(queue) == 0)
-+		nvme_rdma_free_qe(queue->device->dev,
-+			&queue->ctrl->async_event_sqe,
-+			sizeof(struct nvme_command), DMA_TO_DEVICE);
-+
- 	nvme_rdma_destroy_queue_ib(queue);
- 	rdma_destroy_id(queue->cm_id);
- }
-@@ -739,8 +744,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
--	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
--- 
-2.7.4
+The nvme-controller devices aren't accessible to anyone outside the
+nvme driver itself, so they aren't just hidden, as far as the rest
+of the kernel is concerned they don't exist.  They just allow reusing
+block layer code in the nvme driver instead of reimplementing it.
