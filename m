@@ -1,21 +1,100 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 19 Oct 2017 16:11:37 -0700
-Subject: [PATCH v2 0/2] nvme_fc: rework io timeouts and termination
-Message-ID: <20171019231139.23611-1-jsmart2021@gmail.com>
+Date: Thu, 19 Oct 2017 16:11:38 -0700
+Subject: [PATCH v2 1/2] nvme_fc: correct io termination handling
+In-Reply-To: <20171019231139.23611-1-jsmart2021@gmail.com>
+References: <20171019231139.23611-1-jsmart2021@gmail.com>
+Message-ID: <20171019231139.23611-2-jsmart2021@gmail.com>
 
-This is a rework of a prior patch that has now been split into two
-patches. One patch addresses changes to the io timeout error handler.
-The other patch addresses io completions for failing ios to ensure
-io retries or to fail commands during association create.
+The io completion handling for i/o's that are failing due to
+to a transport error or association termination had issues, causing
+io failures (DNR set so retries didn't kick in) or long stalls.
 
-Patches also address prior review comments
+Change the io completion handler for the following items:
 
-James Smart (2):
-  nvme_fc: correct io termination handling
-  nvme_fc: correct io timeout behavior
+When an io has been completed due to a transport abort (based on an
+exchange error) or when marked as aborted as part of an association
+termination (FCOP_FLAGS_TERMIO), set the NVME completion status to
+NVME_SC_ABORTED. By default, do not set DNR on the status so that a
+retry can be attempted after association recreate.
 
- drivers/nvme/host/fc.c | 45 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 28 insertions(+), 17 deletions(-)
+In cases where an io is failed (non-successful nvme status including
+aborted), if the controller is being deleted (blk_queue_dying) or
+the io was part of the ios used for association creation (ctrl state
+is NEW or RECONNECTING), then additionally set the DNR bit so the io
+will not be retried. If the failed io was part of association creation,
+the failure will tear down the partially completioned association and
+typically restart a new reconnect attempt (another create association
+later).
 
+Rearranged code flow to remove a largely unneeded local variable.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 18e036c6833b..ce8617188d3a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1387,7 +1387,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 	struct nvme_command *sqe = &op->cmd_iu.sqe;
+ 	__le16 status = cpu_to_le16(NVME_SC_SUCCESS << 1);
+ 	union nvme_result result;
+-	bool complete_rq, terminate_assoc = true;
++	bool terminate_assoc = true;
+ 
+ 	/*
+ 	 * WARNING:
+@@ -1429,8 +1429,9 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 	fc_dma_sync_single_for_cpu(ctrl->lport->dev, op->fcp_req.rspdma,
+ 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
+ 
+-	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED)
+-		status = cpu_to_le16((NVME_SC_ABORT_REQ | NVME_SC_DNR) << 1);
++	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED ||
++			op->flags & FCOP_FLAGS_TERMIO)
++		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+ 	else if (freq->status)
+ 		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
+ 
+@@ -1494,23 +1495,27 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ done:
+ 	if (op->flags & FCOP_FLAGS_AEN) {
+ 		nvme_complete_async_event(&queue->ctrl->ctrl, status, &result);
+-		complete_rq = __nvme_fc_fcpop_chk_teardowns(ctrl, op);
++		__nvme_fc_fcpop_chk_teardowns(ctrl, op);
+ 		atomic_set(&op->state, FCPOP_STATE_IDLE);
+ 		op->flags = FCOP_FLAGS_AEN;	/* clear other flags */
+ 		nvme_fc_ctrl_put(ctrl);
+ 		goto check_error;
+ 	}
+ 
+-	complete_rq = __nvme_fc_fcpop_chk_teardowns(ctrl, op);
+-	if (!complete_rq) {
+-		if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
+-			status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+-			if (blk_queue_dying(rq->q))
+-				status |= cpu_to_le16(NVME_SC_DNR << 1);
+-		}
+-		nvme_end_request(rq, status, result);
+-	} else
++	/*
++	 * Force failures of commands if we're killing the controller
++	 * or have an error on a command used to create an new association
++	 */
++	if (status &&
++	    (blk_queue_dying(rq->q) ||
++	     ctrl->ctrl.state == NVME_CTRL_NEW ||
++	     ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
++		status |= cpu_to_le16(NVME_SC_DNR << 1);
++
++	if (__nvme_fc_fcpop_chk_teardowns(ctrl, op))
+ 		__nvme_fc_final_op_cleanup(rq);
++	else
++		nvme_end_request(rq, status, result);
+ 
+ check_error:
+ 	if (terminate_assoc)
 -- 
 2.13.1
