@@ -1,52 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 14:00:57 +0300
-Subject: [PATCH 4.14-rc fix-regression] nvme-rdma: Fix possible double free in
- reconnect flow
-Message-ID: <1508410857-13678-1-git-send-email-sagi@grimberg.me>
+Date: Thu, 19 Oct 2017 14:06:07 +0300
+Subject: [PATCH 15/17] nvme: track shared namespaces
+In-Reply-To: <20171018165258.23212-16-hch@lst.de>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-16-hch@lst.de>
+Message-ID: <3c68d0c8-a063-44f9-a76b-0970c9e4ad5d@grimberg.me>
 
-The fact that we free the async event buffer in
-nvme_rdma_destroy_admin_queue can cause us to free it
-more than once because this happens in every reconnect
-attempt (we rely on the queue state flags DELETING
-to avoid this for other resources).
+Christoph,
 
-A more complete fix is to not destroy the admin/io queues
-unconditionally on every reconnect attempt, but its a bit
-more extensive and will go in the next release.
+>   static void nvme_free_ns(struct kref *kref)
+>   {
+>   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
+>   
+> +	if (ns->head)
+> +		nvme_put_ns_head(ns->head);
+> +
 
-Reported-by: Yi Zhang <yi.zhang at redhat.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Note that this might cause a minor conflict with nvme-4.15
-patches, but it will be easy enough to resolve it.
+When can we not have a ns-head set?
 
- drivers/nvme/host/rdma.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 92a03ff5fb4d..ec22da478ba3 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -571,6 +571,11 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
- 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
- 		return;
- 
-+	if(nvme_rdma_queue_idx(queue) == 0)
-+		nvme_rdma_free_qe(queue->device->dev,
-+			&queue->ctrl->async_event_sqe,
-+			sizeof(struct nvme_command), DMA_TO_DEVICE);
-+
- 	nvme_rdma_destroy_queue_ib(queue);
- 	rdma_destroy_id(queue->cm_id);
- }
-@@ -739,8 +744,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
--	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
--- 
-2.7.4
+AFAICT, if nvme_alloc_ns succeeded, we have it set don't we?
