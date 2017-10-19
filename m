@@ -1,63 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 09:55:46 +0300
-Subject: nvmeof rdma regression issue on 4.14.0-rc1 (or maybe mlx4?)
-In-Reply-To: <64135330-a62d-87b8-c805-6b52fd40bf81@redhat.com>
-References: <1735134433.8514119.1505997532669.JavaMail.zimbra@redhat.com>
- <1215229914.8516804.1505998051674.JavaMail.zimbra@redhat.com>
- <20170921144421.GA15285@infradead.org>
- <47493aa0-4cad-721b-4ea2-c3b2293340aa@grimberg.me>
- <e8aa9f2e-14b1-23f0-f672-07a913842c9d@redhat.com>
- <20170924103426.GB25094@mtr-leonro.local>
- <4d0e27f2-99e4-ffc7-18a5-e5757c27dad4@redhat.com>
- <4faccebf-7fcf-58b9-1605-82ee9acc652b@grimberg.me>
- <e44f4640-44b2-4692-ca57-08f9ebf4da2c@redhat.com>
- <729c512f-55ff-25e4-6dd9-8b4dcc31bb8d@grimberg.me>
- <ff355fcf-5089-f297-d3fa-9b86d133236b@redhat.com>
- <6d639dd4-9366-2ecf-b49e-751c7a167528@grimberg.me>
- <64135330-a62d-87b8-c805-6b52fd40bf81@redhat.com>
-Message-ID: <62eea88b-caa4-5799-3d8f-8d8789879aa8@grimberg.me>
+Date: Thu, 19 Oct 2017 09:58:09 +0300
+Subject: [PATCH 4.14-rc] nvme-rdma: Fix error status return in tagset
+ allocation failure
+Message-ID: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
->> Hi Yi,
->>
->> I was referring to the bug you reported on a simple create_ctrl failed:
->> https://pastebin.com/7z0XSGSd
->>
->> Does it reproduce?
->>
-> yes, this issue was reproduced during "git bisect" with below patch
-
-OK, if this does not reproduce with the latest code, lets put it aside
-for now.
-
-So as for the error you see, can you please try the following patch?
---
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 405895b1dff2..916658e010ff 100644
+index 405895b1dff2..4948c0fb3d05 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -572,6 +572,11 @@ static void nvme_rdma_free_queue(struct 
-nvme_rdma_queue *queue)
-         if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
-                 return;
-
-+       if(nvme_rdma_queue_idx(queue) == 0)
-+               nvme_rdma_free_qe(queue->device->dev,
-+                       &queue->ctrl->async_event_sqe,
-+                       sizeof(struct nvme_command), DMA_TO_DEVICE);
-+
-         nvme_rdma_destroy_queue_ib(queue);
-         rdma_destroy_id(queue->cm_id);
-  }
-@@ -739,8 +744,6 @@ static struct blk_mq_tag_set 
-*nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
-  static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
-                 bool remove)
-  {
--       nvme_rdma_free_qe(ctrl->queues[0].device->dev, 
-&ctrl->async_event_sqe,
--                       sizeof(struct nvme_command), DMA_TO_DEVICE);
-         nvme_rdma_stop_queue(&ctrl->queues[0]);
-         if (remove) {
-                 blk_cleanup_queue(ctrl->ctrl.admin_q);
---
+@@ -765,8 +765,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 
+ 	if (new) {
+ 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+-		if (IS_ERR(ctrl->ctrl.admin_tagset))
++		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
++			error = PTR_ERR(ctrl->ctrl.admin_tagset);
+ 			goto out_free_queue;
++		}
+ 
+ 		ctrl->ctrl.admin_q = blk_mq_init_queue(&ctrl->admin_tag_set);
+ 		if (IS_ERR(ctrl->ctrl.admin_q)) {
+@@ -845,8 +847,10 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 
+ 	if (new) {
+ 		ctrl->ctrl.tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, false);
+-		if (IS_ERR(ctrl->ctrl.tagset))
++		if (IS_ERR(ctrl->ctrl.tagset)) {
++			ret = PTR_ERR(ctrl->ctrl.tagset);
+ 			goto out_free_io_queues;
++		}
+ 
+ 		ctrl->ctrl.connect_q = blk_mq_init_queue(&ctrl->tag_set);
+ 		if (IS_ERR(ctrl->ctrl.connect_q)) {
+-- 
+2.7.4
