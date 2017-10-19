@@ -1,20 +1,13 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 08:23:17 -0700
-Subject: [PATCH 2/3] nvme_fc: add support for duplicate_connect option
-In-Reply-To: <20171011003512.5946-3-jsmart2021@gmail.com>
-References: <20171011003512.5946-1-jsmart2021@gmail.com>
- <20171011003512.5946-3-jsmart2021@gmail.com>
-Message-ID: <20171019152317.GB4239@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 19 Oct 2017 18:24:26 +0300
+Subject: [PATCH 17/17] nvme: also expose the namespace identification
+ sysfs files for mpath nodes
+In-Reply-To: <20171018165258.23212-18-hch@lst.de>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-18-hch@lst.de>
+Message-ID: <44b2f237-3c32-38f9-13d0-9ea70e1166e2@grimberg.me>
 
-> +static inline bool
-> +__nvme_fc_options_match(struct nvmf_ctrl_options *opts,
-> +			struct nvme_fc_ctrl *ctrl)
-> +{
-> +	if (strcmp(opts->subsysnqn, ctrl->ctrl.opts->subsysnqn) ||
-> +	    strcmp(opts->host->nqn, ctrl->ctrl.opts->host->nqn) ||
-> +	    memcmp(&opts->host->id, &ctrl->ctrl.opts->host->id,
-> +				sizeof(uuid_t)))
-> +		return false;
+I like the fact that we're expose only the device
+nodes.
 
-This just checks generic options and isn't FC specific.  As a properly
-named helper it might make sense in common code.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
