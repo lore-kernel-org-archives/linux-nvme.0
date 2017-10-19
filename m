@@ -1,24 +1,33 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 11:04:50 +0200
-Subject: NVMe target log page offset not supported
-In-Reply-To: <20171019085111.GB14227@lst.de> (Christoph Helwig's message of
- "Thu, 19 Oct 2017 10:51:11 +0200")
-References: <A5F28D4A728A7E41839CDC5C3B5A01E887295CEF@FMSMSX103.amr.corp.intel.com>
- <20171019085111.GB14227@lst.de>
-Message-ID: <mqdh8uv1pa7.fsf@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 19 Oct 2017 12:41:21 +0300
+Subject: [PATCH 4.14-rc] nvme-rdma: Fix error status return in tagset
+ allocation failure
+In-Reply-To: <20171019084926.GA14227@lst.de>
+References: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
+ <20171019084926.GA14227@lst.de>
+Message-ID: <9604c4ac-0a0f-a029-1894-051e6de50072@grimberg.me>
 
-Christoph Helwig <hch at lst.de> writes:
-> Chaitanya has a really nice test framework, I think it might be a good
 
-Do you (or Chaitanya) have a link to this test framework? You
-promised it to me quite some time ago ;-)
+>>   	if (new) {
+>>   		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+>> -		if (IS_ERR(ctrl->ctrl.admin_tagset))
+>> +		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
+>> +			error = PTR_ERR(ctrl->ctrl.admin_tagset);
+>>   			goto out_free_queue;
+>> +		}
+> 
+> Can we return an error code instead and just pass in the tag set
+> to be allocated instead of the admin flag?A  E.g.:
+> 
+> 	error = nvme_rdma_alloc_tagset(&ctrl->ctrl, &ctrl->ctrl.admin_tagset);
+> 	if (error)
+> 		goto out_free_queue;
 
-Thanks,
-        Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+We could, but that would mean that the nvme_ctrl tagset pointer will
+need to be updated later (or from the routine itself).
+
+I'm intending this code for nvme-core (and this would be ->alloc_tagset
+callout) so ultimately I'd like to move the tagset embedding in struct
+nvme_ctrl but given that its a hot-path reference, I suggest we hold it
+back until we make struct nvme_ctrl arranged better for the hot path
+dereferencing.
