@@ -1,53 +1,27 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 19 Oct 2017 08:58:13 -0700
-Subject: [PATCH 1/3] nvme: add duplicate_connect option
-In-Reply-To: <20171019152024.GA4239@infradead.org>
+Date: Thu, 19 Oct 2017 08:59:06 -0700
+Subject: [PATCH 2/3] nvme_fc: add support for duplicate_connect option
+In-Reply-To: <20171019152317.GB4239@infradead.org>
 References: <20171011003512.5946-1-jsmart2021@gmail.com>
- <20171011003512.5946-2-jsmart2021@gmail.com>
- <20171019152024.GA4239@infradead.org>
-Message-ID: <458ccb0c-41fd-2709-5d90-033f8a111e75@gmail.com>
+ <20171011003512.5946-3-jsmart2021@gmail.com>
+ <20171019152317.GB4239@infradead.org>
+Message-ID: <89d38cc7-0a6e-d374-4005-96a178a18c78@gmail.com>
 
-On 10/19/2017 8:20 AM, Christoph Hellwig wrote:
->> +	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect=%d"	},
+On 10/19/2017 8:23 AM, Christoph Hellwig wrote:
+>> +static inline bool
+>> +__nvme_fc_options_match(struct nvmf_ctrl_options *opts,
+>> +			struct nvme_fc_ctrl *ctrl)
+>> +{
+>> +	if (strcmp(opts->subsysnqn, ctrl->ctrl.opts->subsysnqn) ||
+>> +	    strcmp(opts->host->nqn, ctrl->ctrl.opts->host->nqn) ||
+>> +	    memcmp(&opts->host->id, &ctrl->ctrl.opts->host->id,
+>> +				sizeof(uuid_t)))
+>> +		return false;
 > 
-> This is a boolean parameter, so please drop the "=%d here".
-> 
->> +		case NVMF_OPT_DUP_CONNECT:
->> +			if (match_int(args, &token)) {
->> +				ret = -EINVAL;
->> +				goto out;
->> +			}
->> +			if (token == 0)
->> +				opts->duplicate_connect = false;
->> +			else if (token == 1)
->> +				opts->duplicate_connect = true;
->> +			else {
->> +				pr_err("Invalid duplicate_connect %d\n", token);
->> +				ret = -EINVAL;
->> +				goto out;
->> +			}
->> +			break;
-> 
-> And replace all this code by:
-> 
-> 	case NVMF_OPT_DUP_CONNECT:
-> 		opts->duplicate_connect = true;
-> 		break;
-> 
-> That being said I'd be tempted to keep the existing behavior as
-> the default, and make noduplicates the option.
+> This just checks generic options and isn't FC specific.  As a properly
+> named helper it might make sense in common code.
 > 
 
-ok, so the mere existence of the parameter means it's true.  That's fine 
-and I can repost.
-
-I disagree with allowing duplicates to be the default.  Generically, I 
-think it should be the exception. Let the admin that will create 
-duplicates, thus is well aware of the ramifications and that it is a 
-duplication, use the explicit syntax.  Note: currently patches only 
-allow the option for "nvme connect", not "connect-all".
-
-Selfishly, making duplicates allowed the defaults also impacts the 
-scripts posted for FC, and widens the nvme cli syntax to connect-all.
+Agree, I can make a short helper
 
 -- james
