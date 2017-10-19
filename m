@@ -1,19 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 09:22:09 +0200
-Subject: [PATCH 11/17] nvme: get rid of nvme_ctrl_list
-In-Reply-To: <20171018165258.23212-12-hch@lst.de> (Christoph Hellwig's message
- of "Wed, 18 Oct 2017 18:52:52 +0200")
+Date: Thu, 19 Oct 2017 09:23:49 +0200
+Subject: [PATCH 12/17] nvme: check for a live controller in nvme_dev_open
+In-Reply-To: <20171018165258.23212-13-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:53 +0200")
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-12-hch@lst.de>
-Message-ID: <mqd60bb7gbi.fsf@linux-x5ow.site>
+ <20171018165258.23212-13-hch@lst.de>
+Message-ID: <mqdvajb61oa.fsf@linux-x5ow.site>
 
-I'm not sure if the removel of the major number module_param is good
-from an ABI POV. This could lead to some unexpected results for those
-poor souls that used it.
-
-Apart from that,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
