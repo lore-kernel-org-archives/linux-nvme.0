@@ -1,13 +1,26 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 18:24:26 +0300
-Subject: [PATCH 17/17] nvme: also expose the namespace identification
- sysfs files for mpath nodes
-In-Reply-To: <20171018165258.23212-18-hch@lst.de>
-References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-18-hch@lst.de>
-Message-ID: <44b2f237-3c32-38f9-13d0-9ea70e1166e2@grimberg.me>
+Date: Thu, 19 Oct 2017 18:31:38 +0300
+Subject: [PATCH 1/5] nvme-core: Make nvme_init/uninit_ctrl setup/teardown
+ symmetric
+In-Reply-To: <20171019152910.GA24808@lst.de>
+References: <1508324864-23087-1-git-send-email-sagi@grimberg.me>
+ <1508324864-23087-2-git-send-email-sagi@grimberg.me>
+ <20171019152910.GA24808@lst.de>
+Message-ID: <0a081ffc-5a3d-6b52-7257-18e39034ce93@grimberg.me>
 
-I like the fact that we're expose only the device
-nodes.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>> From: Roy Shterman <roys at lightbitslabs.com>
+>>
+>> Its strange to have some of the cleanup for nvme_init_ctrl in
+>> nvme_free_ctrl. This cause us to have some magic ctrl refcount
+>> handling in controller initialization error paths.
+>>
+>> Make the init/uninit symmetric so we can have a sane and
+>> maintainable error sequences.
+> 
+> This totally conflicts with my refcount / device rework in the
+> mpath patchset..
+
+I know...
+
+Do you want me to rebase on top of your next round of patches?
