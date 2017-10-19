@@ -1,28 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 10:31:20 +0300
-Subject: [PATCH 10/17] nvme: switch controller refcounting to use struct
- device
-In-Reply-To: <20171019072053.GA12168@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 19 Oct 2017 09:36:02 +0200
+Subject: [PATCH 15/17] nvme: track shared namespaces
+In-Reply-To: <20171018165258.23212-16-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:56 +0200")
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-11-hch@lst.de>
- <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
- <20171019072053.GA12168@lst.de>
-Message-ID: <05edcff6-4c56-39d9-83c8-e3eae03b824d@grimberg.me>
+ <20171018165258.23212-16-hch@lst.de>
+Message-ID: <mqdk1zr613x.fsf@linux-x5ow.site>
 
-
->>> -	if (!kref_get_unless_zero(&ctrl->ctrl.kref))
->>> -		return -EBUSY;
->>> +	nvme_get_ctrl(&ctrl->ctrl);
->>
->> Given that we take this reference before we are protected with
->> the state change I think this should still be get_unless_zero.
-> 
-> Because we now refcount the device we must have a reference on it
-> when we call the sysfs file for it, and for the fabrics file
-> we have an explicit reference already.  So there should not be
-> any need to do the unless_zero.
-
-I don't think the fabrics device does not help us to keep the ctrl
-allocated until we finish removal.
-
-I do agree that the kobj reference in nvme_dev_open keeps it alive.
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
