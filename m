@@ -1,25 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 15:51:51 +0200
-Subject: [PATCH 15/17] nvme: track shared namespaces
-In-Reply-To: <3c68d0c8-a063-44f9-a76b-0970c9e4ad5d@grimberg.me>
-References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-16-hch@lst.de>
- <3c68d0c8-a063-44f9-a76b-0970c9e4ad5d@grimberg.me>
-Message-ID: <20171019135151.GB21452@lst.de>
+Date: Thu, 19 Oct 2017 15:52:32 +0200
+Subject: [PATCH 4.14-rc fix-regression] nvme-rdma: Fix possible double
+ free in reconnect flow
+In-Reply-To: <1508410857-13678-1-git-send-email-sagi@grimberg.me>
+References: <1508410857-13678-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20171019135232.GC21452@lst.de>
 
-On Thu, Oct 19, 2017@02:06:07PM +0300, Sagi Grimberg wrote:
-> Christoph,
->
->>   static void nvme_free_ns(struct kref *kref)
->>   {
->>   	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
->>   +	if (ns->head)
->> +		nvme_put_ns_head(ns->head);
->> +
->
-> When can we not have a ns-head set?
->
-> AFAICT, if nvme_alloc_ns succeeded, we have it set don't we?
+> +	if(nvme_rdma_queue_idx(queue) == 0)
 
-Yes, I don't think we should need it.  Let me verify that for the
-next round.
+missing space before the opening brace, but I can fix that up.
