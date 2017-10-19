@@ -1,12 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 09:45:56 +0200
-Subject: [PATCH 17/17] nvme: also expose the namespace identification
- sysfs files for mpath nodes
-In-Reply-To: <20171018165258.23212-18-hch@lst.de> (Christoph Hellwig's message
- of "Wed, 18 Oct 2017 18:52:58 +0200")
-References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-18-hch@lst.de>
-Message-ID: <mqdd15j60nf.fsf@linux-x5ow.site>
+Date: Thu, 19 Oct 2017 10:00:01 +0200
+Subject: [PATCH v3] nvmet: synchronize sqhd update
+In-Reply-To: <20171018165216.25563-1-jsmart2021@gmail.com> (James Smart's
+ message of "Wed, 18 Oct 2017 09:52:16 -0700")
+References: <20171018165216.25563-1-jsmart2021@gmail.com>
+Message-ID: <mqd60bb5zzy.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
