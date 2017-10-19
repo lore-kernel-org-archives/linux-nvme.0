@@ -1,11 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 10:18:10 +0300
-Subject: [PATCH 11/17] nvme: get rid of nvme_ctrl_list
-In-Reply-To: <20171018165258.23212-12-hch@lst.de>
+Date: Thu, 19 Oct 2017 10:18:28 +0300
+Subject: [PATCH 12/17] nvme: check for a live controller in nvme_dev_open
+In-Reply-To: <20171018165258.23212-13-hch@lst.de>
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-12-hch@lst.de>
-Message-ID: <acd8acfe-5f9a-6b1e-67ff-22a7ba8c16c3@grimberg.me>
+ <20171018165258.23212-13-hch@lst.de>
+Message-ID: <562df233-f146-66fd-f660-fb773884d36e@grimberg.me>
 
-Looks good!
+Looks good,
 
-Reviewed-by: Sagi Grimberg <sgi at grimberg.me>
+Reviewed-by: Sagi Grimberg <sagi at rimbeg.me>
