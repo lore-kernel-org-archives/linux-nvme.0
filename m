@@ -1,12 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 08:53:07 +0200
-Subject: [PATCH 07/17] nvme: use ida_simple_{get,
- remove} for the controller instance
-In-Reply-To: <20171018165258.23212-8-hch@lst.de> (Christoph Hellwig's message
- of "Wed, 18 Oct 2017 18:52:48 +0200")
+Date: Thu, 19 Oct 2017 08:54:08 +0200
+Subject: [PATCH 08/17] nvme: use kref_get_unless_zero in nvme_find_get_ns
+In-Reply-To: <20171018165258.23212-9-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:49 +0200")
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-8-hch@lst.de>
-Message-ID: <mqdshef7hnw.fsf@linux-x5ow.site>
+ <20171018165258.23212-9-hch@lst.de>
+Message-ID: <mqdmv4n7hm7.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
