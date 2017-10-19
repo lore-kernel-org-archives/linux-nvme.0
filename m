@@ -1,31 +1,26 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 12:18:08 +0200
-Subject: NVMe target log page offset not supported
-In-Reply-To: <MWHPR04MB1008D60CB5469DD12F6896BE86420@MWHPR04MB1008.namprd04.prod.outlook.com>
- (Chaitanya Kulkarni's message of "Thu, 19 Oct 2017 09:56:20 +0000")
-References: <A5F28D4A728A7E41839CDC5C3B5A01E887295CEF@FMSMSX103.amr.corp.intel.com>
- <20171019085111.GB14227@lst.de> <mqdh8uv1pa7.fsf@linux-x5ow.site>
- <MWHPR04MB1008D60CB5469DD12F6896BE86420@MWHPR04MB1008.namprd04.prod.outlook.com>
-Message-ID: <mqd8tg7bfvj.fsf@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 19 Oct 2017 12:18:55 +0200
+Subject: [PATCH 10/17] nvme: switch controller refcounting to use
+ struct device
+In-Reply-To: <827bd4b9-4228-32e4-e8dd-17679f2dfeba@grimberg.me>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-11-hch@lst.de>
+ <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
+ <20171019072053.GA12168@lst.de>
+ <05edcff6-4c56-39d9-83c8-e3eae03b824d@grimberg.me>
+ <20171019073741.GA12348@lst.de>
+ <827bd4b9-4228-32e4-e8dd-17679f2dfeba@grimberg.me>
+Message-ID: <20171019101855.GA17326@lst.de>
 
-Chaitanya Kulkarni <Chaitanya.Kulkarni at wdc.com> writes:
-
-> Hi Johannes,
+On Thu, Oct 19, 2017@01:02:59PM +0300, Sagi Grimberg wrote:
+>> By the time we call ->delete_ctrl in nvmf_create_ctrl we must still
+>> have that reference because we are still in a ->write call and thus
+>> ->release can't have been called yet.
 >
-> I was able to incorporate all the comments received on the first version and added some new testcases.
->
-> Please have a look at the following link:-
->
-> https://github.com/ChaitanayaKulkarni/nvmftests.
+> Thanks for the clarification. Is it worth a preparatory patch to
+> change that before the ctrl device integration for change log
+> clarity?
 
-I'll have a look at this version.
-
-Thanks a lot,
-       Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Well, the ctrl device integration is what enables us to do this.
+Before that the ctrl refcount could have reached null by the time
+we call the delete_ctrl method.
