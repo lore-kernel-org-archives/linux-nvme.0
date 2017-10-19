@@ -1,11 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 10:31:26 +0200
-Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
-In-Reply-To: <20171018165258.23212-7-hch@lst.de> (Christoph Hellwig's message
- of "Wed, 18 Oct 2017 18:52:47 +0200")
+Date: Thu, 19 Oct 2017 10:32:18 +0200
+Subject: [PATCH 05/17] block: don't look at the struct device dev_t in
+ disk_devt
+In-Reply-To: <20171018165258.23212-6-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:46 +0200")
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-7-hch@lst.de>
-Message-ID: <mqdr2tz1qu9.fsf@linux-x5ow.site>
+ <20171018165258.23212-6-hch@lst.de>
+Message-ID: <mqdlgk71qst.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
