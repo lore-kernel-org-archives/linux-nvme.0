@@ -1,33 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 12:41:21 +0300
-Subject: [PATCH 4.14-rc] nvme-rdma: Fix error status return in tagset
- allocation failure
-In-Reply-To: <20171019084926.GA14227@lst.de>
-References: <1508396289-12237-1-git-send-email-sagi@grimberg.me>
- <20171019084926.GA14227@lst.de>
-Message-ID: <9604c4ac-0a0f-a029-1894-051e6de50072@grimberg.me>
+Date: Thu, 19 Oct 2017 12:44:13 +0300
+Subject: nvmeof rdma regression issue on 4.14.0-rc1 (or maybe mlx4?)
+In-Reply-To: <0561ed58-7104-d8b6-1709-ea181ac493f5@redhat.com>
+References: <1735134433.8514119.1505997532669.JavaMail.zimbra@redhat.com>
+ <1215229914.8516804.1505998051674.JavaMail.zimbra@redhat.com>
+ <20170921144421.GA15285@infradead.org>
+ <47493aa0-4cad-721b-4ea2-c3b2293340aa@grimberg.me>
+ <e8aa9f2e-14b1-23f0-f672-07a913842c9d@redhat.com>
+ <20170924103426.GB25094@mtr-leonro.local>
+ <4d0e27f2-99e4-ffc7-18a5-e5757c27dad4@redhat.com>
+ <4faccebf-7fcf-58b9-1605-82ee9acc652b@grimberg.me>
+ <e44f4640-44b2-4692-ca57-08f9ebf4da2c@redhat.com>
+ <729c512f-55ff-25e4-6dd9-8b4dcc31bb8d@grimberg.me>
+ <ff355fcf-5089-f297-d3fa-9b86d133236b@redhat.com>
+ <6d639dd4-9366-2ecf-b49e-751c7a167528@grimberg.me>
+ <64135330-a62d-87b8-c805-6b52fd40bf81@redhat.com>
+ <62eea88b-caa4-5799-3d8f-8d8789879aa8@grimberg.me>
+ <0561ed58-7104-d8b6-1709-ea181ac493f5@redhat.com>
+Message-ID: <0069d38b-efb7-0d41-ff0f-2087572cb22f@grimberg.me>
 
 
->>   	if (new) {
->>   		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
->> -		if (IS_ERR(ctrl->ctrl.admin_tagset))
->> +		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
->> +			error = PTR_ERR(ctrl->ctrl.admin_tagset);
->>   			goto out_free_queue;
->> +		}
-> 
-> Can we return an error code instead and just pass in the tag set
-> to be allocated instead of the admin flag?A  E.g.:
-> 
-> 	error = nvme_rdma_alloc_tagset(&ctrl->ctrl, &ctrl->ctrl.admin_tagset);
-> 	if (error)
-> 		goto out_free_queue;
+> Hi Sagi
+> With this patch, no such error log found on host side,
 
-We could, but that would mean that the nvme_ctrl tagset pointer will
-need to be updated later (or from the routine itself).
 
-I'm intending this code for nvme-core (and this would be ->alloc_tagset
-callout) so ultimately I'd like to move the tagset embedding in struct
-nvme_ctrl but given that its a hot-path reference, I suggest we hold it
-back until we make struct nvme_ctrl arranged better for the hot path
-dereferencing.
+Awsome. that's the culprit...
+
+> but I found there 
+> is no nvme0n1 device node even get "nvme nvme0: Successfully 
+> reconnected" on host.
+
+That is expected because you did not persist a namespace UUID
+which caused the kernel to generate a random one. That confused
+the host as it got the same namespace ID with a different UUID.
+
+Can you please set a uuid when you rerun the test?
