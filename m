@@ -1,27 +1,21 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 19 Oct 2017 13:24:37 -0700
-Subject: [PATCH] nvme_fc: avoid workqueue flush stalls
-In-Reply-To: <01c52881-b172-0d86-5db2-596acf6394db@grimberg.me>
-References: <20170928165631.16097-1-jsmart2021@gmail.com>
- <01c52881-b172-0d86-5db2-596acf6394db@grimberg.me>
-Message-ID: <327c6f13-0bd3-5e95-a9e5-d104c561680d@broadcom.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 19 Oct 2017 16:11:37 -0700
+Subject: [PATCH v2 0/2] nvme_fc: rework io timeouts and termination
+Message-ID: <20171019231139.23611-1-jsmart2021@gmail.com>
 
-On 9/30/2017 10:18 AM, Sagi Grimberg wrote:
->
->> There's no need to wait for the full nvme_wq, which is now shared,
->> to flush. flush only the delete_work item.
->
-> The patch looks correct, but can you explain what stalled that this
-> patch fixes?
+This is a rework of a prior patch that has now been split into two
+patches. One patch addresses changes to the io timeout error handler.
+The other patch addresses io completions for failing ios to ensure
+io retries or to fail commands during association create.
 
-I don't have an explicit failure case. While reviewing the code for the 
-other stall issue with fatal_err_work, I realized that this flush is now 
-waiting on a work queue shared by everything nvmf.? It used to be solely 
-a nvme-fc transport workqueue. There's no need for waiting on anything 
-more than the delete work item. And having it raise in scope of the nvmf 
-thread perhaps makes it wait for a lot of other unnecessary things - 
-slowing it down.
+Patches also address prior review comments
 
-If you're ok with it - can you Ack/Review it ?
+James Smart (2):
+  nvme_fc: correct io termination handling
+  nvme_fc: correct io timeout behavior
 
--- james
+ drivers/nvme/host/fc.c | 45 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 28 insertions(+), 17 deletions(-)
+
+-- 
+2.13.1
