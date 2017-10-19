@@ -1,40 +1,28 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Oct 2017 13:01:24 +0300
-Subject: NVMe target log page offset not supported
-In-Reply-To: <MWHPR04MB1008D60CB5469DD12F6896BE86420@MWHPR04MB1008.namprd04.prod.outlook.com>
-References: <A5F28D4A728A7E41839CDC5C3B5A01E887295CEF@FMSMSX103.amr.corp.intel.com>
- <20171019085111.GB14227@lst.de> <mqdh8uv1pa7.fsf@linux-x5ow.site>
- <MWHPR04MB1008D60CB5469DD12F6896BE86420@MWHPR04MB1008.namprd04.prod.outlook.com>
-Message-ID: <6d0126ad-90bd-11c2-ad4d-21e6fd32c0a7@grimberg.me>
+Date: Thu, 19 Oct 2017 13:02:59 +0300
+Subject: [PATCH 10/17] nvme: switch controller refcounting to use struct
+ device
+In-Reply-To: <20171019073741.GA12348@lst.de>
+References: <20171018165258.23212-1-hch@lst.de>
+ <20171018165258.23212-11-hch@lst.de>
+ <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
+ <20171019072053.GA12168@lst.de>
+ <05edcff6-4c56-39d9-83c8-e3eae03b824d@grimberg.me>
+ <20171019073741.GA12348@lst.de>
+Message-ID: <827bd4b9-4228-32e4-e8dd-17679f2dfeba@grimberg.me>
 
-> Hi Johannes,
-> 
-> I was able to incorporate all the comments received on the first version and added some new testcases.
-> 
-> Please have a look at the following link:-
-> 
-> https://github.com/ChaitanayaKulkarni/nvmftests.
-> 
-> Following is the list of the changes since V1 :-
-> 
->      1. Addition of new testcases to improve the coverage.
->      2. Improved directory structure for code clarity.
->      3. Libification of the common code.
->      4. Support to use different block devices on the target side.
->      5. Centralize test configuration management.
->      6. Support to execute File System related operations on the host side.
->      7. Adjust the code to incorporate the comments received for the
->         first version.
->      8. Support for setting different log levels for each component.
->      9. Support for quick performance measurements.
->      10. Class hierarchy documentation and sequence diagram.
->      11. Improved workqueue management for host namesapce to
->          run parallel commands.
 
-Hi Chaitanya,
+>> I don't think the fabrics device does not help us to keep the ctrl
+>> allocated until we finish removal.
+> 
+> All fabrics drivers grab an extra reference during ->create_ctrl,
+> which we will drop when releasing the file descriptor that we used
+> to create the device.
+> 
+> By the time we call ->delete_ctrl in nvmf_create_ctrl we must still
+> have that reference because we are still in a ->write call and thus
+> ->release can't have been called yet.
 
-Would it be possible to post patches so we can effectively provide
-feedback?
-
-One thing by a 5 seconds browse, its a shame that you work directly
-on top of configfs and not import nvme plugin from nvmetcli repo...
+Thanks for the clarification. Is it worth a preparatory patch to
+change that before the ctrl device integration for change log
+clarity?
