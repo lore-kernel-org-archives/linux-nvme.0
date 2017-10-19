@@ -1,30 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 19 Oct 2017 09:20:53 +0200
-Subject: [PATCH 10/17] nvme: switch controller refcounting to use
- struct device
-In-Reply-To: <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 19 Oct 2017 09:22:09 +0200
+Subject: [PATCH 11/17] nvme: get rid of nvme_ctrl_list
+In-Reply-To: <20171018165258.23212-12-hch@lst.de> (Christoph Hellwig's message
+ of "Wed, 18 Oct 2017 18:52:52 +0200")
 References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-11-hch@lst.de>
- <b4e85bf7-f0ae-4ea9-2caa-3ba3645f88ea@grimberg.me>
-Message-ID: <20171019072053.GA12168@lst.de>
+ <20171018165258.23212-12-hch@lst.de>
+Message-ID: <mqd60bb7gbi.fsf@linux-x5ow.site>
 
-On Thu, Oct 19, 2017@10:17:01AM +0300, Sagi Grimberg wrote:
->
->
->> -	if (!kref_get_unless_zero(&ctrl->ctrl.kref))
->> -		return -EBUSY;
->> +	nvme_get_ctrl(&ctrl->ctrl);
->
-> Given that we take this reference before we are protected with
-> the state change I think this should still be get_unless_zero.
+I'm not sure if the removel of the major number module_param is good
+from an ABI POV. This could lead to some unexpected results for those
+poor souls that used it.
 
-Because we now refcount the device we must have a reference on it
-when we call the sysfs file for it, and for the fabrics file
-we have an explicit reference already.  So there should not be
-any need to do the unless_zero.
+Apart from that,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-> Maybe we can introduce get_device_unless_zero() for this?
-
-I thought about it for the other open coded versions and my decision
-was that I want to send a patch for it next merge window, but not
-now to avoid having to coordinate with the driver core tree.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
