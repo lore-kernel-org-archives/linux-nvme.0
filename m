@@ -1,71 +1,52 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 19 Oct 2017 10:38:25 +0000
-Subject: NVMe target log page offset not supported
-In-Reply-To: <6d0126ad-90bd-11c2-ad4d-21e6fd32c0a7@grimberg.me>
-References: <A5F28D4A728A7E41839CDC5C3B5A01E887295CEF@FMSMSX103.amr.corp.intel.com>
- <20171019085111.GB14227@lst.de> <mqdh8uv1pa7.fsf@linux-x5ow.site>
- <MWHPR04MB1008D60CB5469DD12F6896BE86420@MWHPR04MB1008.namprd04.prod.outlook.com>,
- <6d0126ad-90bd-11c2-ad4d-21e6fd32c0a7@grimberg.me>
-Message-ID: <MWHPR04MB10088DF73F1E6CEB0F07F09F86420@MWHPR04MB1008.namprd04.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 19 Oct 2017 14:00:57 +0300
+Subject: [PATCH 4.14-rc fix-regression] nvme-rdma: Fix possible double free in
+ reconnect flow
+Message-ID: <1508410857-13678-1-git-send-email-sagi@grimberg.me>
 
-Sure, I'll post a patch series for the latest version.
+The fact that we free the async event buffer in
+nvme_rdma_destroy_admin_queue can cause us to free it
+more than once because this happens in every reconnect
+attempt (we rely on the queue state flags DELETING
+to avoid this for other resources).
 
-With the new structure of the code, it should be easy to add nvme plug-in from the nvmetcli.
+A more complete fix is to not destroy the admin/io queues
+unconditionally on every reconnect attempt, but its a bit
+more extensive and will go in the next release.
 
-Prior to that what I'm looking for in the comments:-
+Reported-by: Yi Zhang <yi.zhang at redhat.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Note that this might cause a minor conflict with nvme-4.15
+patches, but it will be easy enough to resolve it.
 
-1. What are new file system types we should add in the utils? 
-2. Is threading model on the host side needs to be replicated on the target side?
-3. Right now we have a single thread for each namespace and associated work queue to execute the command on the namespace for the host, similar to namespace do we really need a separate thread for each controller also on the host side? What about target side controller.
-4. Any specific fio workloads need to be added for basic testing?
+ drivers/nvme/host/rdma.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Any other comments.
-
-Regards,
--Chaitanya
-  
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Thursday, October 19, 2017 3:01:24 AM
-To: Chaitanya Kulkarni; Johannes Thumshirn
-Cc: Verkamp, Daniel; linux-nvme at lists.infradead.org; Hannes Reinecke; Christoph Hellwig
-Subject: Re: NVMe target log page offset not supported
-?   
-> Hi Johannes,
-> 
-> I was able to incorporate all the comments received on the first version and added some new testcases.
-> 
-> Please have a look at the following link:-
-> 
-> https://github.com/ChaitanayaKulkarni/nvmftests.
-
- https://avatars3.githubusercontent.com/u/24584550?s=400&v=4 
-
-ChaitanayaKulkarni/nvmftests
-github.com
-Contribute to nvmftests development by creating an account on GitHub.
-
-> 
-> Following is the list of the changes since V1 :-
-> 
->????? 1. Addition of new testcases to improve the coverage.
->????? 2. Improved directory structure for code clarity.
->????? 3. Libification of the common code.
->????? 4. Support to use different block devices on the target side.
->????? 5. Centralize test configuration management.
->????? 6. Support to execute File System related operations on the host side.
->????? 7. Adjust the code to incorporate the comments received for the
->???????? first version.
->????? 8. Support for setting different log levels for each component.
->????? 9. Support for quick performance measurements.
->????? 10. Class hierarchy documentation and sequence diagram.
->????? 11. Improved workqueue management for host namesapce to
->????????? run parallel commands.
-
-Hi Chaitanya,
-
-Would it be possible to post patches so we can effectively provide
-feedback?
-
-One thing by a 5 seconds browse, its a shame that you work directly
-on top of configfs and not import nvme plugin from nvmetcli repo...
-    
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 92a03ff5fb4d..ec22da478ba3 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -571,6 +571,11 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+ 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+ 		return;
+ 
++	if(nvme_rdma_queue_idx(queue) == 0)
++		nvme_rdma_free_qe(queue->device->dev,
++			&queue->ctrl->async_event_sqe,
++			sizeof(struct nvme_command), DMA_TO_DEVICE);
++
+ 	nvme_rdma_destroy_queue_ib(queue);
+ 	rdma_destroy_id(queue->cm_id);
+ }
+@@ -739,8 +744,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
+-			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+-- 
+2.7.4
