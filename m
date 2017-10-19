@@ -1,12 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Oct 2017 10:32:18 +0200
-Subject: [PATCH 05/17] block: don't look at the struct device dev_t in
- disk_devt
-In-Reply-To: <20171018165258.23212-6-hch@lst.de> (Christoph Hellwig's message
- of "Wed, 18 Oct 2017 18:52:46 +0200")
-References: <20171018165258.23212-1-hch@lst.de>
- <20171018165258.23212-6-hch@lst.de>
-Message-ID: <mqdlgk71qst.fsf@linux-x5ow.site>
+Date: Thu, 19 Oct 2017 10:40:43 +0200
+Subject: [PATCH 2/2] nvmet: Fix fatal_err_work deadlock
+In-Reply-To: <20170928153553.13993-3-jsmart2021@gmail.com> (James Smart's
+ message of "Thu, 28 Sep 2017 08:35:53 -0700")
+References: <20170928153553.13993-1-jsmart2021@gmail.com>
+ <20170928153553.13993-3-jsmart2021@gmail.com>
+Message-ID: <mqd376fzg1g.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
