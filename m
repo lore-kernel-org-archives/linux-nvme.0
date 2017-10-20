@@ -1,45 +1,37 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 20 Oct 2017 07:58:58 +0200
-Subject: [PATCH v3 1/5] nvme core: allow controller RESETTING to
- RECONNECTING transition
-In-Reply-To: <20171017233248.6769-2-jsmart2021@gmail.com>
+Date: Fri, 20 Oct 2017 08:00:08 +0200
+Subject: [PATCH v3 2/5] nvme_fc: change ctlr state assignments during
+ reset/reconnect
+In-Reply-To: <20171017233248.6769-3-jsmart2021@gmail.com>
 References: <20171017233248.6769-1-jsmart2021@gmail.com>
- <20171017233248.6769-2-jsmart2021@gmail.com>
-Message-ID: <72657ea3-d42e-0fdc-a5c6-9bdd9f47237b@suse.de>
+ <20171017233248.6769-3-jsmart2021@gmail.com>
+Message-ID: <06d12d08-990f-26fa-fe73-127dbe4a7f4e@suse.de>
 
 On 10/18/2017 01:32 AM, James Smart wrote:
-> Allow controller state transition : RESETTING to RECONNECTING
+> Clean up some of the controller state checks and add the
+> RESETTING->RECONNECTING state transition.
 > 
-> Transport will typically transition from LIVE->RESETTING when
-> initially performing a reset or recovering from an error. Adding
-> this transition allows a transport to transition to RECONNECTING
-> when it checks/waits for connectivity then creates new transport
-> connections and reinits the controller.
-> 
-> -- james
+> Specifically:
+> - the movement of the RESETTING state change and schedule of
+>   reset_work to core doesn't work wiht nvme_fc_error_recovery
+>   setting state to RECONNECTING before attempting to reset.
+>   Remove the state change as the reset request does it.
+> - In the rare cases where an error occurs right as we're
+>   transitioning to LIVE, defer the controller start actions.
+> - In error handling on teardown of associations while
+>   performing initial controller creation - avoid quiesce
+>   calls on the admin_q. They are unneeded.
+> - Add the RESETTING->RECONNECTING transition in the reset
+>   handler.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 > 
 > ---
 > v3: no change. incorporated Reviewed-by's
 > ---
->  drivers/nvme/host/core.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 26c8913435b2..aa9e2df27bf7 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -205,6 +205,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->  	case NVME_CTRL_RECONNECTING:
->  		switch (old_state) {
->  		case NVME_CTRL_LIVE:
-> +		case NVME_CTRL_RESETTING:
->  			changed = true;
->  			/* FALLTHRU */
->  		default:
+>  drivers/nvme/host/fc.c | 28 +++++++++++++---------------
+>  1 file changed, 13 insertions(+), 15 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
