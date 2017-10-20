@@ -1,25 +1,40 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 20 Oct 2017 16:06:34 -0700
-Subject: [PATCHv2 2/5] nvme/fc: remove unused "queue_size" field
-In-Reply-To: <20171020221924.30659-3-keith.busch@intel.com>
-References: <20171020221924.30659-1-keith.busch@intel.com>
- <20171020221924.30659-3-keith.busch@intel.com>
-Message-ID: <bb21869c-0e51-af12-1070-c7f0c6de30d3@broadcom.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri, 20 Oct 2017 16:17:07 -0700
+Subject: [PATCH v2 2/4] nvme: add helper to compare options to controller
+In-Reply-To: <20171020231709.3183-1-jsmart2021@gmail.com>
+References: <20171020231709.3183-1-jsmart2021@gmail.com>
+Message-ID: <20171020231709.3183-3-jsmart2021@gmail.com>
 
-On 10/20/2017 3:19 PM, Keith Busch wrote:
-> This was being saved in a structure, but never used anywhere. The queue
-> size is obtained through other means, so there's no reason to duplicate
-> this without a user for it.
->
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->   drivers/nvme/host/fc.c | 9 +++------
->
+Adds a helper function that compares the host and subsytem
+specified in a connect options list vs a controller.
 
-Looks good. This stuff was left over when queuesize moved into the nvme 
-ctrl.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fabrics.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
--- james
-
-Reviewed-by: James Smart <james.smart at broadcom.com>
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index a7590cc59ba2..42232e731f19 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -133,6 +133,18 @@ struct nvmf_transport_ops {
+ 					struct nvmf_ctrl_options *opts);
+ };
+ 
++static inline bool
++nvmf_ctlr_matches_baseopts(struct nvme_ctrl *ctrl,
++			struct nvmf_ctrl_options *opts)
++{
++	if (strcmp(opts->subsysnqn, ctrl->opts->subsysnqn) ||
++	    strcmp(opts->host->nqn, ctrl->opts->host->nqn) ||
++	    memcmp(&opts->host->id, &ctrl->opts->host->id, sizeof(uuid_t)))
++		return false;
++
++	return true;
++}
++
+ int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+-- 
+2.13.1
