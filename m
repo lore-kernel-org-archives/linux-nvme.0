@@ -1,31 +1,131 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 20 Oct 2017 07:50:45 -0700
-Subject: [PATCH v3 3/5] nvme_fc: add a dev_loss_tmo field to the remoteport
-In-Reply-To: <ee0d6875-843f-103e-fa1e-825bf18acf48@suse.de>
-References: <20171017233248.6769-1-jsmart2021@gmail.com>
- <20171017233248.6769-4-jsmart2021@gmail.com>
- <ee0d6875-843f-103e-fa1e-825bf18acf48@suse.de>
-Message-ID: <390ba07b-bdd5-ec3c-ded2-dd1286404025@gmail.com>
+Date: Fri, 20 Oct 2017 09:12:53 -0700
+Subject: [PATCH v2] nvmet: Fix fatal_err_work deadlock
+Message-ID: <20171020161253.29296-1-jsmart2021@gmail.com>
 
-On 10/19/2017 11:04 PM, Hannes Reinecke wrote:
-> Is this exported to sysfs somewhere? If not, can we have it in sysfs?
-> It surely made live _so_ much easier when configuring the odd device...
-> 
-> Other than that:
-> 
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> 
-> Cheers,
-> 
-> Hannes
-> 
+Below is  a stack trace for an issue that was reported.
 
-Currently, the scsi transpoirt fc_rport sysfs entry has the dev_loss_tmo 
-attribute, and when set, the driver will call the 
-nvme_fc_set_remoteport_devloss() routine to set it on the nvme-fc 
-remoteport.
+What's happening is that the nvmet layer had it's controller kato
+timeout fire, which causes it to schedule its fatal error handler
+via the fatal_err_work element. The error handler is invoked, which
+calls the transport delete_ctrl() entry point, and as the transport
+tears down the controller, nvmet_sq_destroy ends up doing the final
+put on the ctlr causing it to enter its free routine. The ctlr free
+routine does a cancel_work_sync() on fatal_err_work element, which
+then does a flush_work and wait_for_completion. But, as the wait is
+in the context of the work element being flushed, its in a catch-22
+and the thread hangs.
 
-When we genericize the fc transport, it will be on the generic fc_rport, 
-and the set will call both the SCSI transport/lldd and the NVME remoteport.
+[  326.903131] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
+[  326.909832] nvmet: ctrl 1 fatal error occurred!
+[  327.643100] lpfc 0000:04:00.0: 0:6313 NVMET Defer ctx release xri
+x114 flg x2
+[  494.582064] INFO: task kworker/0:2:243 blocked for more than 120
+seconds.
+[  494.589638]       Not tainted 4.14.0-rc1.James+ #1
+[  494.594986] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+disables this message.
+[  494.603718] kworker/0:2     D    0   243      2 0x80000000
+[  494.609839] Workqueue: events nvmet_fatal_error_handler [nvmet]
+[  494.616447] Call Trace:
+[  494.619177]  __schedule+0x28d/0x890
+[  494.623070]  schedule+0x36/0x80
+[  494.626571]  schedule_timeout+0x1dd/0x300
+[  494.631044]  ? dequeue_task_fair+0x592/0x840
+[  494.635810]  ? pick_next_task_fair+0x23b/0x5c0
+[  494.640756]  wait_for_completion+0x121/0x180
+[  494.645521]  ? wake_up_q+0x80/0x80
+[  494.649315]  flush_work+0x11d/0x1a0
+[  494.653206]  ? wake_up_worker+0x30/0x30
+[  494.657484]  __cancel_work_timer+0x10b/0x190
+[  494.662249]  cancel_work_sync+0x10/0x20
+[  494.666525]  nvmet_ctrl_put+0xa3/0x100 [nvmet]
+[  494.671482]  nvmet_sq_:q+0x64/0xd0 [nvmet]
+[  494.676540]  nvmet_fc_delete_target_queue+0x202/0x220 [nvmet_fc]
+[  494.683245]  nvmet_fc_delete_target_assoc+0x6d/0xc0 [nvmet_fc]
+[  494.689743]  nvmet_fc_delete_ctrl+0x137/0x1a0 [nvmet_fc]
+[  494.695673]  nvmet_fatal_error_handler+0x30/0x40 [nvmet]
+[  494.701589]  process_one_work+0x149/0x360
+[  494.706064]  worker_thread+0x4d/0x3c0
+[  494.710148]  kthread+0x109/0x140
+[  494.713751]  ? rescuer_thread+0x380/0x380
+[  494.718214]  ? kthread_park+0x60/0x60
 
--- james
+Correct by creating a final free work element, which is scheduled
+by the final ctrl put routine, so that when the flush_work (was
+cancel_work_sync) is called, it cannot be in the same work_q
+element context.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+
+---
+v2: convert cancel_work_sync() to flush_work() for fatal_err_work
+---
+ drivers/nvme/target/core.c  | 28 +++++++++++++++++++---------
+ drivers/nvme/target/nvmet.h |  1 +
+ 2 files changed, 20 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 1b208beeef50..3bc671abdeb7 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -840,19 +840,14 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	return status;
+ }
+ 
+-static void nvmet_ctrl_free(struct kref *ref)
++static void nvmet_ctrl_free_work(struct work_struct *work)
+ {
+-	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
++	struct nvmet_ctrl *ctrl =
++			container_of(work, struct nvmet_ctrl, free_work);
+ 	struct nvmet_subsys *subsys = ctrl->subsys;
+ 
+-	nvmet_stop_keep_alive_timer(ctrl);
+-
+-	mutex_lock(&subsys->lock);
+-	list_del(&ctrl->subsys_entry);
+-	mutex_unlock(&subsys->lock);
+-
+ 	flush_work(&ctrl->async_event_work);
+-	cancel_work_sync(&ctrl->fatal_err_work);
++	flush_work(&ctrl->fatal_err_work);
+ 
+ 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+ 	nvmet_subsys_put(subsys);
+@@ -862,6 +857,21 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 	kfree(ctrl);
+ }
+ 
++static void nvmet_ctrl_free(struct kref *ref)
++{
++	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
++	struct nvmet_subsys *subsys = ctrl->subsys;
++
++	nvmet_stop_keep_alive_timer(ctrl);
++
++	mutex_lock(&subsys->lock);
++	list_del(&ctrl->subsys_entry);
++	mutex_unlock(&subsys->lock);
++
++	INIT_WORK(&ctrl->free_work, nvmet_ctrl_free_work);
++	schedule_work(&ctrl->free_work);
++}
++
+ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
+ {
+ 	kref_put(&ctrl->ref, nvmet_ctrl_free);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e342f02845c1..ed38b44a7007 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -129,6 +129,7 @@ struct nvmet_ctrl {
+ 	struct kref		ref;
+ 	struct delayed_work	ka_work;
+ 	struct work_struct	fatal_err_work;
++	struct work_struct	free_work;
+ 
+ 	struct nvmet_fabrics_ops *ops;
+ 
+-- 
+2.13.1
