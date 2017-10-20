@@ -1,131 +1,178 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 20 Oct 2017 09:12:53 -0700
-Subject: [PATCH v2] nvmet: Fix fatal_err_work deadlock
-Message-ID: <20171020161253.29296-1-jsmart2021@gmail.com>
+Date: Fri, 20 Oct 2017 11:53:07 -0700
+Subject: [PATCH v3 5/5] nvme_fc: add dev_loss_tmo timeout and remoteport
+ resume support
+In-Reply-To: <1ea7f564-36ed-a952-22c3-4f7b58be6665@suse.de>
+References: <20171017233248.6769-1-jsmart2021@gmail.com>
+ <20171017233248.6769-6-jsmart2021@gmail.com>
+ <1ea7f564-36ed-a952-22c3-4f7b58be6665@suse.de>
+Message-ID: <7cd69378-9ce8-6734-f164-9cd1b72b53eb@gmail.com>
 
-Below is  a stack trace for an issue that was reported.
+On 10/19/2017 11:27 PM, Hannes Reinecke wrote:
+...
+>> +static struct nvme_fc_rport *
+>> +nvme_fc_attach_to_suspended_rport(struct nvme_fc_lport *lport,
+>> +				struct nvme_fc_port_info *pinfo)
+>> +{
+...
+>> +
+>> +		/* has it been unregistered */
+>> +		if (rport->remoteport.port_state != FC_OBJSTATE_DELETED) {
+>> +			/* means lldd called us twice */
+>> +			spin_unlock_irqrestore(&rport->lock, flags);
+>> +			nvme_fc_rport_put(rport);
+>> +			return ERR_PTR(-ESTALE);
+>> +		}
+>> +
+> Why can't we re-use this rport?
+> It's patently _not_ deleted, so we should be good to use it, right?
+> Someone else might've messed up, but if _we_ get our reference counting
+> right that shouldn't affect us, no?
+> Plus: How would we recover from such a situation?
+> The rport most likely will _never_ go away, meaning we'll always hit
+> this scenario for each and every connection attempt.
+> (Speaking from experience here; I've hit this scenario accidentally :-)
+> So the only chance we have is a reboot.
 
-What's happening is that the nvmet layer had it's controller kato
-timeout fire, which causes it to schedule its fatal error handler
-via the fatal_err_work element. The error handler is invoked, which
-calls the transport delete_ctrl() entry point, and as the transport
-tears down the controller, nvmet_sq_destroy ends up doing the final
-put on the ctlr causing it to enter its free routine. The ctlr free
-routine does a cancel_work_sync() on fatal_err_work element, which
-then does a flush_work and wait_for_completion. But, as the wait is
-in the context of the work element being flushed, its in a catch-22
-and the thread hangs.
 
-[  326.903131] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-[  326.909832] nvmet: ctrl 1 fatal error occurred!
-[  327.643100] lpfc 0000:04:00.0: 0:6313 NVMET Defer ctx release xri
-x114 flg x2
-[  494.582064] INFO: task kworker/0:2:243 blocked for more than 120
-seconds.
-[  494.589638]       Not tainted 4.14.0-rc1.James+ #1
-[  494.594986] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  494.603718] kworker/0:2     D    0   243      2 0x80000000
-[  494.609839] Workqueue: events nvmet_fatal_error_handler [nvmet]
-[  494.616447] Call Trace:
-[  494.619177]  __schedule+0x28d/0x890
-[  494.623070]  schedule+0x36/0x80
-[  494.626571]  schedule_timeout+0x1dd/0x300
-[  494.631044]  ? dequeue_task_fair+0x592/0x840
-[  494.635810]  ? pick_next_task_fair+0x23b/0x5c0
-[  494.640756]  wait_for_completion+0x121/0x180
-[  494.645521]  ? wake_up_q+0x80/0x80
-[  494.649315]  flush_work+0x11d/0x1a0
-[  494.653206]  ? wake_up_worker+0x30/0x30
-[  494.657484]  __cancel_work_timer+0x10b/0x190
-[  494.662249]  cancel_work_sync+0x10/0x20
-[  494.666525]  nvmet_ctrl_put+0xa3/0x100 [nvmet]
-[  494.671482]  nvmet_sq_:q+0x64/0xd0 [nvmet]
-[  494.676540]  nvmet_fc_delete_target_queue+0x202/0x220 [nvmet_fc]
-[  494.683245]  nvmet_fc_delete_target_assoc+0x6d/0xc0 [nvmet_fc]
-[  494.689743]  nvmet_fc_delete_ctrl+0x137/0x1a0 [nvmet_fc]
-[  494.695673]  nvmet_fatal_error_handler+0x30/0x40 [nvmet]
-[  494.701589]  process_one_work+0x149/0x360
-[  494.706064]  worker_thread+0x4d/0x3c0
-[  494.710148]  kthread+0x109/0x140
-[  494.713751]  ? rescuer_thread+0x380/0x380
-[  494.718214]  ? kthread_park+0x60/0x60
+Because if it's not in a deleted state, then it's one that is 
+effectively live/present and there can be only 1 remoteport with the 
+same WWPN/WWNN on the localport.  This would be the case of a lldd 
+calling register for the same remoteport twice, which we don't allow.
+I'm not looking to allow or survive such a driver error - I'll let the 
+second registration fail as it is illegal.
 
-Correct by creating a final free work element, which is scheduled
-by the final ctrl put routine, so that when the flush_work (was
-cancel_work_sync) is called, it cannot be in the same work_q
-element context.
+How did you hit this scenario ? it would really surprise me.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
 
----
-v2: convert cancel_work_sync() to flush_work() for fatal_err_work
----
- drivers/nvme/target/core.c  | 28 +++++++++++++++++++---------
- drivers/nvme/target/nvmet.h |  1 +
- 2 files changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 1b208beeef50..3bc671abdeb7 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -840,19 +840,14 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	return status;
- }
- 
--static void nvmet_ctrl_free(struct kref *ref)
-+static void nvmet_ctrl_free_work(struct work_struct *work)
- {
--	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
-+	struct nvmet_ctrl *ctrl =
-+			container_of(work, struct nvmet_ctrl, free_work);
- 	struct nvmet_subsys *subsys = ctrl->subsys;
- 
--	nvmet_stop_keep_alive_timer(ctrl);
--
--	mutex_lock(&subsys->lock);
--	list_del(&ctrl->subsys_entry);
--	mutex_unlock(&subsys->lock);
--
- 	flush_work(&ctrl->async_event_work);
--	cancel_work_sync(&ctrl->fatal_err_work);
-+	flush_work(&ctrl->fatal_err_work);
- 
- 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
- 	nvmet_subsys_put(subsys);
-@@ -862,6 +857,21 @@ static void nvmet_ctrl_free(struct kref *ref)
- 	kfree(ctrl);
- }
- 
-+static void nvmet_ctrl_free(struct kref *ref)
-+{
-+	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
-+	struct nvmet_subsys *subsys = ctrl->subsys;
-+
-+	nvmet_stop_keep_alive_timer(ctrl);
-+
-+	mutex_lock(&subsys->lock);
-+	list_del(&ctrl->subsys_entry);
-+	mutex_unlock(&subsys->lock);
-+
-+	INIT_WORK(&ctrl->free_work, nvmet_ctrl_free_work);
-+	schedule_work(&ctrl->free_work);
-+}
-+
- void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
- {
- 	kref_put(&ctrl->ref, nvmet_ctrl_free);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index e342f02845c1..ed38b44a7007 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -129,6 +129,7 @@ struct nvmet_ctrl {
- 	struct kref		ref;
- 	struct delayed_work	ka_work;
- 	struct work_struct	fatal_err_work;
-+	struct work_struct	free_work;
- 
- 	struct nvmet_fabrics_ops *ops;
- 
--- 
-2.13.1
+>>   }
+>>   
+>> +static void
+>> +nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
+>> +{
+>> +	dev_info(ctrl->ctrl.device,
+>> +		"NVME-FC{%d}: controller connectivity lost. Awaiting "
+>> +		"Reconnect", ctrl->cnum);
+>> +
+>> +	switch (ctrl->ctrl.state) {
+>> +	case NVME_CTRL_NEW:
+>> +	case NVME_CTRL_LIVE:
+>> +		/*
+>> +		 * Schedule a controller reset. The reset will
+>> +		 * terminate the association and schedule the
+>> +		 * reconnect timer. Reconnects will be attempted
+>> +		 * until either the ctlr_loss_tmo
+>> +		 * (max_retries * connect_delay) expires or the
+>> +		 * remoteport's dev_loss_tmo expires.
+>> +		 */
+>> +		if (nvme_reset_ctrl(&ctrl->ctrl)) {
+>> +			dev_warn(ctrl->ctrl.device,
+>> +				"NVME-FC{%d}: Couldn't schedule reset. "
+>> +				"Deleting controller.\n",
+>> +				ctrl->cnum);
+>> +			__nvme_fc_del_ctrl(ctrl);
+>> +		}
+>> +		break;
+>> +
+>> +	case NVME_CTRL_RECONNECTING:
+>> +		/*
+>> +		 * The association has already been terminated
+>> +		 * and the controller is attempting reconnects.
+>> +		 * No need to do anything futher. Reconnects will
+>> +		 * be attempted until either the ctlr_loss_tmo
+>> +		 * (max_retries * connect_delay) expires or the
+>> +		 * remoteport's dev_loss_tmo expires.
+>> +		 */
+>> +		break;
+>> +
+>> +	case NVME_CTRL_RESETTING:
+>> +		/*
+>> +		 * Controller is already in the process of
+>> +		 * terminating the association. No need to do
+>> +		 * anything further. The reconnect step will
+>> +		 * kick in naturally after the association is
+>> +		 * terminated.
+>> +		 */
+>> +		break;
+>> +
+>> +	case NVME_CTRL_DELETING:
+>> +	default:
+>> +		/* no action to take - let it delete */
+>> +		break;
+>> +	}
+>> +}
+>> +
+>>   /**
+>>    * nvme_fc_unregister_remoteport - transport entry point called by an
+>>    *                              LLDD to deregister/remove a previously
+>> @@ -667,15 +868,32 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
+>>   	}
+>>   	portptr->port_state = FC_OBJSTATE_DELETED;
+>>   
+>> -	/* tear down all associations to the remote port */
+>> -	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
+>> -		__nvme_fc_del_ctrl(ctrl);
+>> +	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list) {
+>> +		/* if dev_loss_tmo==0, dev loss is immediate */
+>> +		if (!portptr->dev_loss_tmo) {
+>> +			dev_warn(ctrl->ctrl.device,
+>> +				"NVME-FC{%d}: controller connectivity lost. "
+>> +				"Deleting controller.\n",
+>> +				ctrl->cnum);
+>> +			__nvme_fc_del_ctrl(ctrl);
+>> +		} else
+>> +			nvme_fc_ctrl_connectivity_loss(ctrl);
+>> +	}
+>>   
+>>   	spin_unlock_irqrestore(&rport->lock, flags);
+>>   
+>>   	nvme_fc_abort_lsops(rport);
+>>   
+>> +	queue_delayed_work(nvme_wq, &rport->dev_loss_work,
+>> +			portptr->dev_loss_tmo * HZ);
+>> +
+>> +	/*nvme_fc_ctrl_connectivity_loss
+>> +	 * release the reference, which will allow, if all controllers
+>> +	 * go away, which should only occur after dev_loss_tmo occurs,
+>> +	 * for the rport to be torn down.
+>> +	 */
+>>   	nvme_fc_rport_put(rport);
+>> +
+>>   	return 0;
+>>   }
+>>   EXPORT_SYMBOL_GPL(nvme_fc_unregister_remoteport);
+> 
+> Hmm.
+> The dev_loss_tmo is pretty awkward; scheduling a per-rport structure
+> only to tear down all attached _controllers_ once an rport goes down.
+> But seeing that __nvme_fc_del_ctrl() is actually just punting the
+> deletion to a workqueue I guess that's okay.
+
+I guess so. Just reusing the existing delete code paths whcih set the
+nvme controller state.
+
+> Also we might end up having called __nvme_fc_del_ctrl() for each
+> controller, making me wonder why we need to schedule a dev_loss_work if
+> all controllers are being removed anyway.
+
+I'm not sure I follow, but..  We could defer to the ctlr_loss_tmo 
+completely, but it may be longer than dev_loss_tmo and I think the 
+confuses people that may set the dev_loss_tmo value an expect things to 
+terminate at dev_loss_tmo. Currently, the controller delete is 
+min(dev_loss_tmo, ctlr_loss_tmo).
+
+
+> Also I'm not exactly thrilled with the reference counting; we put things
+> on a workqueue but do not increase the reference for it.
+> Which means that the rport structure might be freed even though it's
+> still on the workqueue. Shouldn't we rather take a reference before
+> putting it on the workqueue, and drop the reference once we're done with
+> the workqueue function?
+
+ok, I agree.  I'll rework so that there is no dev_loss_tmo timer 
+running. Instead, we'll record the rport connectivity loss time, and in 
+the controller reconnect loops, if we try to reconnect but connectivity 
+has been lost for dev_loss_tmo, we'll give up.
+
+-- james
