@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 20 Oct 2017 10:15:46 +0200
-Subject: [PATCH v2 1/2] nvme_fc: correct io termination handling
-In-Reply-To: <20171019231139.23611-2-jsmart2021@gmail.com> (James Smart's
- message of "Thu, 19 Oct 2017 16:11:38 -0700")
+Date: Fri, 20 Oct 2017 10:18:38 +0200
+Subject: [PATCH v2 2/2] nvme_fc: correct io timeout behavior
+In-Reply-To: <20171019231139.23611-3-jsmart2021@gmail.com> (James Smart's
+ message of "Thu, 19 Oct 2017 16:11:39 -0700")
 References: <20171019231139.23611-1-jsmart2021@gmail.com>
- <20171019231139.23611-2-jsmart2021@gmail.com>
-Message-ID: <mqda80mqlot.fsf@linux-x5ow.site>
+ <20171019231139.23611-3-jsmart2021@gmail.com>
+Message-ID: <mqd4lquqlk1.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
