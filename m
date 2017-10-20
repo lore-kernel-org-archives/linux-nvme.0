@@ -1,18 +1,30 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 20 Oct 2017 10:18:38 +0200
-Subject: [PATCH v2 2/2] nvme_fc: correct io timeout behavior
-In-Reply-To: <20171019231139.23611-3-jsmart2021@gmail.com> (James Smart's
- message of "Thu, 19 Oct 2017 16:11:39 -0700")
-References: <20171019231139.23611-1-jsmart2021@gmail.com>
- <20171019231139.23611-3-jsmart2021@gmail.com>
-Message-ID: <mqd4lquqlk1.fsf@linux-x5ow.site>
+From: nitzanc@mellanox.com (Nitzan Carmi)
+Date: Fri, 20 Oct 2017 08:24:22 +0000
+Subject: [PATCH] nvme-rdma: Add debug message when reaches timeout
+Message-ID: <20171020082422.4888-1-nitzanc@mellanox.com>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 92a03ff..8d2bbd7 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1581,6 +1581,12 @@ static enum blk_eh_timer_return
+ nvme_rdma_timeout(struct request *rq, bool reserved)
+ {
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
++	struct nvme_command *cmd = req->sqe.data;
++
++	dev_dbg_ratelimited(req->queue->ctrl->ctrl.device,
++			    "Reached timeout: command id %d opcode %d qid %d",
++			    cmd->common.command_id, cmd->common.opcode,
++			    nvme_rdma_queue_idx(req->queue));
+ 
+ 	/* queue error recovery */
+ 	nvme_rdma_error_recovery(req->queue->ctrl);
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.9.4
