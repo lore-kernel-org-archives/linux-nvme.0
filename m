@@ -1,89 +1,120 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 20 Oct 2017 16:17:06 -0700
-Subject: [PATCH v2 1/4] nvme: add duplicate_connect option
+Date: Fri, 20 Oct 2017 16:17:09 -0700
+Subject: [PATCH v2 4/4] nvme-rdma: add support for duplicate_connect option
 In-Reply-To: <20171020231709.3183-1-jsmart2021@gmail.com>
 References: <20171020231709.3183-1-jsmart2021@gmail.com>
-Message-ID: <20171020231709.3183-2-jsmart2021@gmail.com>
+Message-ID: <20171020231709.3183-5-jsmart2021@gmail.com>
 
-Add the "duplicate_connect" boolean option (presence means true).
-Default is false.
-
-When false, the transport should validate whether a new controller request
-is targeted for the same host transport addressing and target transport
-addressing as an existing controller. If so, the new controller request
-should be rejected.
-
-When true, the callee is explicitly requesting a duplicate controller
-connection to be made and the new request should be attempted.
+Adds support for the duplicate_connect option. When set to true,
+checks whether there's an existing controller via the same target
+address (traddr), target port (trsvcid), and if specified, host
+address (host_traddr). Fails the connection request if there is
+an existing controller.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
-
---
-v2:
- duplicate_connect option converted to a boolean
 ---
- drivers/nvme/host/fabrics.c | 7 ++++++-
- drivers/nvme/host/fabrics.h | 2 ++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 82 insertions(+)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 8bca36a46924..4a83137b0268 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -548,6 +548,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_HOSTNQN,		"hostnqn=%s"		},
- 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
- 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
-+	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
- 	{ NVMF_OPT_ERR,			NULL			}
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index a5577e06a620..523881444fee 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1848,6 +1848,83 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.reinit_request		= nvme_rdma_reinit_request,
  };
  
-@@ -566,6 +567,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	opts->nr_io_queues = num_online_cpus();
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
- 	opts->kato = NVME_DEFAULT_KATO;
-+	opts->duplicate_connect = false;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
- 	if (!options)
-@@ -742,6 +744,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				goto out;
- 			}
- 			break;
-+		case NVMF_OPT_DUP_CONNECT:
-+			opts->duplicate_connect = true;
++static inline bool
++__nvme_rdma_options_match(struct nvme_rdma_ctrl *ctrl,
++	struct nvmf_ctrl_options *opts)
++{
++	char *stdport = __stringify(NVME_RDMA_IP_PORT);
++
++
++	if (!nvmf_ctlr_matches_baseopts(&ctrl->ctrl, opts) ||
++	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr))
++		return false;
++
++	if (opts->mask & NVMF_OPT_TRSVCID &&
++	    ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
++		if (strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
++			return false;
++	} else if (opts->mask & NVMF_OPT_TRSVCID) {
++		if (strcmp(opts->trsvcid, stdport))
++			return false;
++	} else if (ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
++		if (strcmp(stdport, ctrl->ctrl.opts->trsvcid))
++			return false;
++	}
++	/* else, it's a match as both have stdport. Fall to next checks */
++
++	/*
++	 * checking the local address is rough. In most cases, one
++	 * is not specified and the host port is selected by the stack.
++	 *
++	 * Assume no match if:
++	 *  local address is specified and address is not the same
++	 *  local address is not specified but remote is, or vice versa
++	 *    (admin using specific host_traddr when it matters).
++	 */
++	if (opts->mask & NVMF_OPT_HOST_TRADDR &&
++	    ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
++		if (strcmp(opts->host_traddr, ctrl->ctrl.opts->host_traddr))
++			return false;
++	} else if (opts->mask & NVMF_OPT_HOST_TRADDR ||
++		   ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
++		return false;
++	/*
++	 * if neither controller had an host port specified, assume it's
++	 * a match as everything else matched.
++	 */
++
++	return true;
++}
++
++/*
++ * Fails a connection request if it matches an existing controller
++ * (association) with the same tuple:
++ * <Host NQN, Host ID, local address, remote address, remote port, SUBSYS NQN>
++ *
++ * if local address is not specified in the request, it will match an
++ * existing controller with all the other parameters the same and no
++ * local port address specified as well.
++ *
++ * The ports don't need to be compared as they are intrinsically
++ * already matched by the port pointers supplied.
++ */
++static bool
++nvme_rdma_existing_controller(struct nvmf_ctrl_options *opts)
++{
++	struct nvme_rdma_ctrl *ctrl;
++	bool found = false;
++
++	mutex_lock(&nvme_rdma_ctrl_mutex);
++	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
++		found = __nvme_rdma_options_match(ctrl, opts);
++		if (found)
 +			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -823,7 +828,7 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
--				 NVMF_OPT_HOST_ID)
-+				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT)
++	}
++	mutex_unlock(&nvme_rdma_ctrl_mutex);
++
++	return found;
++}
++
+ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		struct nvmf_ctrl_options *opts)
+ {
+@@ -1884,6 +1961,11 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		}
+ 	}
  
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index bf33663218cd..a7590cc59ba2 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -57,6 +57,7 @@ enum {
- 	NVMF_OPT_HOST_TRADDR	= 1 << 10,
- 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
- 	NVMF_OPT_HOST_ID	= 1 << 12,
-+	NVMF_OPT_DUP_CONNECT	= 1 << 13,
- };
- 
- /**
-@@ -96,6 +97,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		nr_io_queues;
- 	unsigned int		reconnect_delay;
- 	bool			discovery_nqn;
-+	bool			duplicate_connect;
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
- 	int			max_reconnects;
++	if (!opts->duplicate_connect && nvme_rdma_existing_controller(opts)) {
++		ret = -EALREADY;
++		goto out_free_ctrl;
++	}
++
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
+ 				0 /* no quirks, we're perfect! */);
+ 	if (ret)
 -- 
 2.13.1
