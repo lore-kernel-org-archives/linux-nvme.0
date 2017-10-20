@@ -1,120 +1,202 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 20 Oct 2017 16:17:09 -0700
-Subject: [PATCH v2 4/4] nvme-rdma: add support for duplicate_connect option
-In-Reply-To: <20171020231709.3183-1-jsmart2021@gmail.com>
-References: <20171020231709.3183-1-jsmart2021@gmail.com>
-Message-ID: <20171020231709.3183-5-jsmart2021@gmail.com>
+Date: Fri, 20 Oct 2017 16:18:15 -0700
+Subject: [PATCH v2] nvme-cli: add duplicate_connect parameter support
+Message-ID: <20171020231815.3288-1-jsmart2021@gmail.com>
 
-Adds support for the duplicate_connect option. When set to true,
-checks whether there's an existing controller via the same target
-address (traddr), target port (trsvcid), and if specified, host
-address (host_traddr). Fails the connection request if there is
-an existing controller.
+Add support for the duplicate_connect parameter for the fabrics
+device.
+
+Rather than add yet another 6-line code block, created a small helper
+routine invoked for each argument option.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/rdma.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index a5577e06a620..523881444fee 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1848,6 +1848,83 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.reinit_request		= nvme_rdma_reinit_request,
- };
+---
+v2:
+  converted to a boolean arg (true if present).
+  helper expanded for different arg types
+---
+ fabrics.c | 140 ++++++++++++++++++++++++--------------------------------------
+ 1 file changed, 54 insertions(+), 86 deletions(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index 5dec9f4..4bdaaf2 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -61,6 +61,7 @@ static struct config {
+ 	char *ctrl_loss_tmo;
+ 	char *raw;
+ 	char *device;
++	int  duplicate_connect;
+ } cfg = { NULL };
  
-+static inline bool
-+__nvme_rdma_options_match(struct nvme_rdma_ctrl *ctrl,
-+	struct nvmf_ctrl_options *opts)
+ #define BUF_SIZE		4096
+@@ -484,6 +485,38 @@ out:
+ 	return ret;
+ }
+ 
++static int
++add_bool_argument(char **argstr, int *max_len, char *arg_str, bool arg)
 +{
-+	char *stdport = __stringify(NVME_RDMA_IP_PORT);
++	int len;
 +
-+
-+	if (!nvmf_ctlr_matches_baseopts(&ctrl->ctrl, opts) ||
-+	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr))
-+		return false;
-+
-+	if (opts->mask & NVMF_OPT_TRSVCID &&
-+	    ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
-+		if (strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
-+			return false;
-+	} else if (opts->mask & NVMF_OPT_TRSVCID) {
-+		if (strcmp(opts->trsvcid, stdport))
-+			return false;
-+	} else if (ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
-+		if (strcmp(stdport, ctrl->ctrl.opts->trsvcid))
-+			return false;
++	if (arg) {
++		len = snprintf(*argstr, *max_len, ",%s", arg_str);
++		if (len < 0)
++			return -EINVAL;
++		*argstr += len;
++		*max_len -= len;
 +	}
-+	/* else, it's a match as both have stdport. Fall to next checks */
 +
-+	/*
-+	 * checking the local address is rough. In most cases, one
-+	 * is not specified and the host port is selected by the stack.
-+	 *
-+	 * Assume no match if:
-+	 *  local address is specified and address is not the same
-+	 *  local address is not specified but remote is, or vice versa
-+	 *    (admin using specific host_traddr when it matters).
-+	 */
-+	if (opts->mask & NVMF_OPT_HOST_TRADDR &&
-+	    ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
-+		if (strcmp(opts->host_traddr, ctrl->ctrl.opts->host_traddr))
-+			return false;
-+	} else if (opts->mask & NVMF_OPT_HOST_TRADDR ||
-+		   ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
-+		return false;
-+	/*
-+	 * if neither controller had an host port specified, assume it's
-+	 * a match as everything else matched.
-+	 */
-+
-+	return true;
++	return 0;
 +}
 +
-+/*
-+ * Fails a connection request if it matches an existing controller
-+ * (association) with the same tuple:
-+ * <Host NQN, Host ID, local address, remote address, remote port, SUBSYS NQN>
-+ *
-+ * if local address is not specified in the request, it will match an
-+ * existing controller with all the other parameters the same and no
-+ * local port address specified as well.
-+ *
-+ * The ports don't need to be compared as they are intrinsically
-+ * already matched by the port pointers supplied.
-+ */
-+static bool
-+nvme_rdma_existing_controller(struct nvmf_ctrl_options *opts)
++static int
++add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
 +{
-+	struct nvme_rdma_ctrl *ctrl;
-+	bool found = false;
++	int len;
 +
-+	mutex_lock(&nvme_rdma_ctrl_mutex);
-+	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
-+		found = __nvme_rdma_options_match(ctrl, opts);
-+		if (found)
-+			break;
++	if (arg) {
++		len = snprintf(*argstr, *max_len, ",%s=%s", arg_str, arg);
++		if (len < 0)
++			return -EINVAL;
++		*argstr += len;
++		*max_len -= len;
 +	}
-+	mutex_unlock(&nvme_rdma_ctrl_mutex);
 +
-+	return found;
++	return 0;
 +}
 +
- static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
+ static int build_options(char *argstr, int max_len)
  {
-@@ -1884,6 +1961,11 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	int len;
+@@ -500,99 +533,33 @@ static int build_options(char *argstr, int max_len)
  		}
  	}
  
-+	if (!opts->duplicate_connect && nvme_rdma_existing_controller(opts)) {
-+		ret = -EALREADY;
-+		goto out_free_ctrl;
-+	}
-+
- 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
- 				0 /* no quirks, we're perfect! */);
- 	if (ret)
++	/* always specify nqn as first arg - this will init the string */
+ 	len = snprintf(argstr, max_len, "nqn=%s", cfg.nqn);
+ 	if (len < 0)
+ 		return -EINVAL;
+ 	argstr += len;
+ 	max_len -= len;
+ 
+-	len = snprintf(argstr, max_len, ",transport=%s", cfg.transport);
+-	if (len < 0)
++	if (add_argument(&argstr, &max_len, "transport", cfg.transport) ||
++	    add_argument(&argstr, &max_len, "traddr", cfg.traddr) ||
++	    add_argument(&argstr, &max_len, "host_traddr", cfg.host_traddr) ||
++	    add_argument(&argstr, &max_len, "trsvcid", cfg.trsvcid) ||
++	    ((cfg.hostnqn || nvmf_hostnqn_file()) &&
++		    add_argument(&argstr, &max_len, "hostnqn", cfg.hostnqn)) ||
++	    ((cfg.hostid || nvmf_hostid_file()) &&
++		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
++	    add_argument(&argstr, &max_len, "nr_io_queues",
++				cfg.nr_io_queues) ||
++	    add_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
++	    add_argument(&argstr, &max_len, "keep_alive_tmo",
++				cfg.keep_alive_tmo) ||
++	    add_argument(&argstr, &max_len, "reconnect_delay",
++				cfg.reconnect_delay) ||
++	    add_argument(&argstr, &max_len, "ctrl_loss_tmo",
++				cfg.ctrl_loss_tmo) ||
++	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
++				cfg.duplicate_connect))
+ 		return -EINVAL;
+-	argstr += len;
+-	max_len -= len;
+-
+-	if (cfg.traddr) {
+-		len = snprintf(argstr, max_len, ",traddr=%s", cfg.traddr);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.host_traddr) {
+-		len = snprintf(argstr, max_len, ",host_traddr=%s", cfg.host_traddr);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.trsvcid) {
+-		len = snprintf(argstr, max_len, ",trsvcid=%s", cfg.trsvcid);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.hostnqn || nvmf_hostnqn_file()) {
+-		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.hostid || nvmf_hostid_file()) {
+-		len = snprintf(argstr, max_len, ",hostid=%s", cfg.hostid);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.nr_io_queues) {
+-		len = snprintf(argstr, max_len, ",nr_io_queues=%s",
+-				cfg.nr_io_queues);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.queue_size) {
+-		len = snprintf(argstr, max_len, ",queue_size=%s",
+-				cfg.queue_size);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.keep_alive_tmo) {
+-		len = snprintf(argstr, max_len, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.reconnect_delay) {
+-		len = snprintf(argstr, max_len, ",reconnect_delay=%s", cfg.reconnect_delay);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+-
+-	if (cfg.ctrl_loss_tmo) {
+-		len = snprintf(argstr, max_len, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
+-		if (len < 0)
+-			return -EINVAL;
+-		argstr += len;
+-		max_len -= len;
+-	}
+ 
+ 	return 0;
+ }
+@@ -888,6 +855,7 @@ int connect(const char *desc, int argc, char **argv)
+ 		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+ 		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
++		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
+ 		{NULL},
+ 	};
+ 
 -- 
 2.13.1
