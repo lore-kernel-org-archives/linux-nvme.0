@@ -1,28 +1,27 @@
-From: nitzanc@mellanox.com (Nitzan Carmi)
-Date: Sun, 22 Oct 2017 09:37:04 +0000
-Subject: [PATCH] nvme-rdma: Add debug message when reaches timeout
-Message-ID: <20171022093704.25203-1-nitzanc@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 22 Oct 2017 13:05:19 +0300
+Subject: [PATCH] nvme_fc: avoid workqueue flush stalls
+In-Reply-To: <327c6f13-0bd3-5e95-a9e5-d104c561680d@broadcom.com>
+References: <20170928165631.16097-1-jsmart2021@gmail.com>
+ <01c52881-b172-0d86-5db2-596acf6394db@grimberg.me>
+ <327c6f13-0bd3-5e95-a9e5-d104c561680d@broadcom.com>
+Message-ID: <56c72dfe-132f-f219-3d50-c7775a84a209@grimberg.me>
 
-Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/rdma.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 92a03ff..f2f9a47 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1582,6 +1582,10 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
- {
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
- 
-+	dev_warn(req->queue->ctrl->ctrl.device,
-+		 "I/O %d QID %d timeout, recover controller\n",
-+		 rq->tag, nvme_rdma_queue_idx(req->queue));
-+
- 	/* queue error recovery */
- 	nvme_rdma_error_recovery(req->queue->ctrl);
- 
--- 
-2.9.4
+>>> There's no need to wait for the full nvme_wq, which is now shared,
+>>> to flush. flush only the delete_work item.
+>>
+>> The patch looks correct, but can you explain what stalled that this
+>> patch fixes?
+> 
+> I don't have an explicit failure case. While reviewing the code for the 
+> other stall issue with fatal_err_work, I realized that this flush is now 
+> waiting on a work queue shared by everything nvmf.? It used to be solely 
+> a nvme-fc transport workqueue. There's no need for waiting on anything 
+> more than the delete work item. And having it raise in scope of the nvmf 
+> thread perhaps makes it wait for a lot of other unnecessary things - 
+> slowing it down.
+> 
+> If you're ok with it - can you Ack/Review it ?
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
