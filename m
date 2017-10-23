@@ -1,22 +1,28 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 23 Oct 2017 17:42:55 +0300
-Subject: [PATCH v2] nvme-rdma: fix possible hang when issuing commands
- during ctrl removal
-In-Reply-To: <1508763851-15338-1-git-send-email-sagi@grimberg.me>
-References: <1508763851-15338-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1bfc4bbb-b841-c547-8c08-c259996c7e59@mellanox.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 23 Oct 2017 07:50:13 -0700
+Subject: [PATCH v2] nvmet: Fix fatal_err_work deadlock
+In-Reply-To: <a1123d71-51f8-1d72-3e5d-67f23634543a@grimberg.me>
+References: <20171020161253.29296-1-jsmart2021@gmail.com>
+ <20171023082805.GA25383@infradead.org>
+ <a1123d71-51f8-1d72-3e5d-67f23634543a@grimberg.me>
+Message-ID: <20171023145013.GA3017@infradead.org>
 
+On Mon, Oct 23, 2017@02:05:08PM +0300, Sagi Grimberg wrote:
+> Regardless of flush_work or cancel_work_sync, its a deadlock
+> in fc.
+> 
+> in rdma/loop we always call ->free_ctrl from a different context.
+> 
+> In rdma we do that from the rdma_cm context, in loop we schedule
+> host side delete on nvme_wq, in fc apparently we can get to
+> free_ctrl directly from that context.
 
-> 
-> Reported-by: Bart Van Assche <bart.vanassche at wdc.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> Changes from v1:
-> - squashed to ctrl state conditions in nvme_rdma_queue_is_ready
-> 
->   drivers/nvme/host/rdma.c | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
-> 
+Yes, nvmet_fc_delete_ctrl -> nvmet_fc_delete_target_assoc ->
+nvmet_fc_delete_target_queue.
 
-Looks good,
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> If fatal_err_work calls ->delete_ctrl() and that in turn gets to put the
+> last reference on the ctrl it will end up in ->free_ctrl() under
+> fatal_err_work context which will then try to flush fatal_err_work.
+
+Yes, and the way I understand flush_work that is perfectly fine for
+flush_work, just not for cancel_work_sync.
