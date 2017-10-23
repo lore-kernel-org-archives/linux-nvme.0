@@ -1,42 +1,41 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 23 Oct 2017 20:43:13 +0300
-Subject: [PATCH 16/17] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20171023145126.2471-17-hch@lst.de>
-References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-17-hch@lst.de>
-Message-ID: <b975ad9e-a40a-0e89-1a8d-fc9e417ff681@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 23 Oct 2017 13:27:58 -0600
+Subject: NVMe-CLI intel-nvme.c RHEL 6.9 Compile Errors
+In-Reply-To: <20171023154844.bzg5crhusqehxrho@sbauer-Z170X-UD5>
+References: <MWHPR04MB102554E84EE6D1CC8ADBF47EEA460@MWHPR04MB1025.namprd04.prod.outlook.com>
+ <20171023154844.bzg5crhusqehxrho@sbauer-Z170X-UD5>
+Message-ID: <20171023192758.GF30713@localhost.localdomain>
 
+On Mon, Oct 23, 2017@09:48:45AM -0600, Scott Bauer wrote:
+> On Mon, Oct 23, 2017@03:43:36PM +0000, Jeffrey Lien wrote:
+> > Keith, 
+> > We noticed these compile errors when trying to build the latest version of the NVME CLI on RHEL 6.9 and SLES 11.4:
+> > [ddtest at gfox3-rh69 nvme-cli-kb]$ make
+> > NVME_VERSION = 1.4
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c argconfig.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c suffix.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c parser.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c nvme-print.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c nvme-ioctl.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c nvme-lightnvm.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c fabrics.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c json.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c plugin.c
+> > cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DNVME_VERSION='"1.4"' -c intel-nvme.c
+> > cc1: warnings being treated as errors
+> > intel-nvme.c: In function \u2018get_internal_log\u2019:
+> > intel-nvme.c:782: error: dereferencing pointer \u2018ehdr\u2019 does break strict-aliasing rules
+> > intel-nvme.c:785: error: dereferencing pointer \u2018ehdr\u2019 does break strict-aliasing rules
+> > intel-nvme.c:741: note: initialized from here
+> > intel-nvme.c:643: error: \u2018ad\u2019 may be used uninitialized in this function
+> > intel-nvme.c:645: error: \u2018ehdr\u2019 may be used uninitialized in this function
+> > make: *** [intel-nvme.o] Error 1
+> > 
+> 
+> If you need to build it right now while I fix it you can add -fno-strict-aliasing.
+> 
+> As for the actual error, I think the c-spec allows for a char type to be aliased to
+> any other type without invoking undefiened behavior. I'll try and find that in the spec
+> to verify. What GCC version does RHEL 6.9 have?
 
->   static inline bool nvme_req_needs_retry(struct request *req)
->   {
->   	if (blk_noretry_request(req))
-> @@ -143,6 +204,11 @@ static inline bool nvme_req_needs_retry(struct request *req)
->   void nvme_complete_rq(struct request *req)
->   {
->   	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
-> +		if (nvme_req_needs_failover(req)) {
-> +			nvme_failover_req(req);
-> +			return;
-> +		}
-> +
->   		nvme_req(req)->retries++;
->   		blk_mq_requeue_request(req, true);
->   		return;
-
-Nit, consider having the !nvme_req_needs_failover() case in an else
-clause, just a suggestion though.
-
-
-
-> @@ -171,6 +237,18 @@ void nvme_cancel_request(struct request *req, void *data, bool reserved)
->   }
->   EXPORT_SYMBOL_GPL(nvme_cancel_request);
-
-Question,
-
-Does the statement in nvme_cancel_request:
-
-         if (blk_queue_dying(req->q))
-                 status |= NVME_SC_DNR;
-
-still holds?
+Some kind of weird casting rules. Should be fixed now.
