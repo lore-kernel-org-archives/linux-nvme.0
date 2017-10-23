@@ -1,31 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 23 Oct 2017 09:33:35 +0300
-Subject: nvme multipath support V4
-In-Reply-To: <fbccc0db-77cd-fabc-0225-4b515729f214@huawei.com>
-References: <20171018165258.23212-1-hch@lst.de>
- <fbccc0db-77cd-fabc-0225-4b515729f214@huawei.com>
-Message-ID: <495580b5-2dcf-b547-4c08-8a10fa4844a1@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 23 Oct 2017 10:21:40 +0200
+Subject: [PATCH v2 1/4] nvme: add duplicate_connect option
+In-Reply-To: <20171020231709.3183-2-jsmart2021@gmail.com> (James Smart's
+ message of "Fri, 20 Oct 2017 16:17:06 -0700")
+References: <20171020231709.3183-1-jsmart2021@gmail.com>
+ <20171020231709.3183-2-jsmart2021@gmail.com>
+Message-ID: <mqdinf6z33f.fsf@linux-x5ow.site>
 
-Guan,
-
-> If per-controller block device nodes are hidden, how can the user-space tools
-> such as multipath-tools and nvme-cli (if it supports) know status of each path of
-> the multipath device?
-
-if at all, the path state is reflected on the controller class device
-node, not on the namespace block device node. However, this is not
-something user-space can rely on as well.
-
-> In some cases, the admin wants to know which path is in down state , in degraded
-> state such as suffering intermittent IO error because of shaky link and he can fix
-> the link or isolate such link from the normal path.
-
-We have a ctrl_loss_tmo that will remove such a degraded controller
-after timeout expiration (default is 600 seconds). When we remove
-this controller we log this information so its available for a sysadmin
-to fix this if needed/desired.
-
-What we would probably need to do, is either to add a nvme-cli "rescan"
-option to discover and connect to all unconnected controllers so the
-sysadmin can run after fixing an issue, or introduce a daemon that does
-this every say 60 seconds or something.
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
