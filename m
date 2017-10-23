@@ -1,35 +1,85 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 23 Oct 2017 16:51:17 +0200
-Subject: [PATCH 08/17] nvme: use kref_get_unless_zero in nvme_find_get_ns
+Date: Mon, 23 Oct 2017 16:51:18 +0200
+Subject: [PATCH 09/17] nvme: simplify nvme_open
 In-Reply-To: <20171023145126.2471-1-hch@lst.de>
 References: <20171023145126.2471-1-hch@lst.de>
-Message-ID: <20171023145126.2471-9-hch@lst.de>
+Message-ID: <20171023145126.2471-10-hch@lst.de>
 
-For kref_get_unless_zero to protect against lookup vs free races we need
-to use it in all places where we aren't guaranteed to already hold a
-reference.  There is no such guarantee in nvme_find_get_ns, so switch to
-kref_get_unless_zero in this function.
+Now that we are protected against lookup vs free races for the namespace
+by using kref_get_unless_zero we don't need the hack of NULLing out the
+disk private data during removal.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 40 ++++++++++------------------------------
+ 1 file changed, 10 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7fae42d595d5..1d931deac83b 100644
+index 1d931deac83b..9f8ae15c9fe8 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2290,7 +2290,8 @@ static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		if (ns->ns_id == nsid) {
--			kref_get(&ns->kref);
-+			if (!kref_get_unless_zero(&ns->kref))
-+				continue;
- 			ret = ns;
- 			break;
- 		}
+@@ -253,12 +253,6 @@ static void nvme_free_ns(struct kref *kref)
+ 	if (ns->ndev)
+ 		nvme_nvm_unregister(ns);
+ 
+-	if (ns->disk) {
+-		spin_lock(&dev_list_lock);
+-		ns->disk->private_data = NULL;
+-		spin_unlock(&dev_list_lock);
+-	}
+-
+ 	put_disk(ns->disk);
+ 	ida_simple_remove(&ns->ctrl->ns_ida, ns->instance);
+ 	nvme_put_ctrl(ns->ctrl);
+@@ -270,29 +264,6 @@ static void nvme_put_ns(struct nvme_ns *ns)
+ 	kref_put(&ns->kref, nvme_free_ns);
+ }
+ 
+-static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk)
+-{
+-	struct nvme_ns *ns;
+-
+-	spin_lock(&dev_list_lock);
+-	ns = disk->private_data;
+-	if (ns) {
+-		if (!kref_get_unless_zero(&ns->kref))
+-			goto fail;
+-		if (!try_module_get(ns->ctrl->ops->module))
+-			goto fail_put_ns;
+-	}
+-	spin_unlock(&dev_list_lock);
+-
+-	return ns;
+-
+-fail_put_ns:
+-	kref_put(&ns->kref, nvme_free_ns);
+-fail:
+-	spin_unlock(&dev_list_lock);
+-	return NULL;
+-}
+-
+ struct request *nvme_alloc_request(struct request_queue *q,
+ 		struct nvme_command *cmd, unsigned int flags, int qid)
+ {
+@@ -1056,7 +1027,16 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 
+ static int nvme_open(struct block_device *bdev, fmode_t mode)
+ {
+-	return nvme_get_ns_from_disk(bdev->bd_disk) ? 0 : -ENXIO;
++	struct nvme_ns *ns = bdev->bd_disk->private_data;
++
++	if (!kref_get_unless_zero(&ns->kref))
++		return -ENXIO;
++	if (!try_module_get(ns->ctrl->ops->module)) {
++		kref_put(&ns->kref, nvme_free_ns);
++		return -ENXIO;
++	}
++
++	return 0;
+ }
+ 
+ static void nvme_release(struct gendisk *disk, fmode_t mode)
 -- 
 2.14.2
