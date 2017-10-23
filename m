@@ -1,27 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 23 Oct 2017 18:25:42 +0300
-Subject: [PATCH 2/5] nvme-rdma: rework create_ctrl error flow
-In-Reply-To: <20171023143255.GB25448@lst.de>
-References: <1508324864-23087-1-git-send-email-sagi@grimberg.me>
- <1508324864-23087-3-git-send-email-sagi@grimberg.me>
- <20171023143255.GB25448@lst.de>
-Message-ID: <9023b292-f403-f9fd-40cf-daa82fa60942@grimberg.me>
+Date: Mon, 23 Oct 2017 18:32:47 +0300
+Subject: [PATCH 16/17] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20171023145126.2471-17-hch@lst.de>
+References: <20171023145126.2471-1-hch@lst.de>
+ <20171023145126.2471-17-hch@lst.de>
+Message-ID: <68df1af0-7cc8-febc-e2f6-85251f120a76@grimberg.me>
 
 
->> Now that we have nvme_init/uninit_ctrl doing the right thing, we
->> can fix this by making the error sequence sane and simple (just
->> undo what we did until the error).
->>
->> Also, allocate ctrl->queues before calling nvme_init_ctrl, just
->> to separate the driver private resource allocation and the core
->> resource allocations.
-> 
-> Once we did the init we'll have to do a put and not just free it.
-> That will become even more important when using a struct device for
-> refcounting the controller.
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 7735571ffc9a..bbece5edabff 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1050,6 +1050,8 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+>   {
+>   	struct nvme_queue *nvmeq = hctx->driver_data;
+>   
+> +	printk_ratelimited("%s: called\n", __func__);
+> +
 
-:(
-
-I want to get to a point where the transports allocate everything they
-need in their private struct, and then do nvme common things. This
-asymmetric behavior is going hard to keep correct once got right.
+This must be a left-over...
