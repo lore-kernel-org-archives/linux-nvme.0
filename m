@@ -1,28 +1,86 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 23 Oct 2017 07:50:13 -0700
-Subject: [PATCH v2] nvmet: Fix fatal_err_work deadlock
-In-Reply-To: <a1123d71-51f8-1d72-3e5d-67f23634543a@grimberg.me>
-References: <20171020161253.29296-1-jsmart2021@gmail.com>
- <20171023082805.GA25383@infradead.org>
- <a1123d71-51f8-1d72-3e5d-67f23634543a@grimberg.me>
-Message-ID: <20171023145013.GA3017@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 23 Oct 2017 16:51:09 +0200
+Subject: nvme multipath support V5
+Message-ID: <20171023145126.2471-1-hch@lst.de>
 
-On Mon, Oct 23, 2017@02:05:08PM +0300, Sagi Grimberg wrote:
-> Regardless of flush_work or cancel_work_sync, its a deadlock
-> in fc.
-> 
-> in rdma/loop we always call ->free_ctrl from a different context.
-> 
-> In rdma we do that from the rdma_cm context, in loop we schedule
-> host side delete on nvme_wq, in fc apparently we can get to
-> free_ctrl directly from that context.
+Hi all,
 
-Yes, nvmet_fc_delete_ctrl -> nvmet_fc_delete_target_assoc ->
-nvmet_fc_delete_target_queue.
+this series adds support for multipathing, that is accessing nvme
+namespaces through multiple controllers to the nvme core driver.
 
-> If fatal_err_work calls ->delete_ctrl() and that in turn gets to put the
-> last reference on the ctrl it will end up in ->free_ctrl() under
-> fatal_err_work context which will then try to flush fatal_err_work.
+It is a very thin and efficient implementation that relies on
+close cooperation with other bits of the nvme driver, and few small
+and simple block helpers.
 
-Yes, and the way I understand flush_work that is perfectly fine for
-flush_work, just not for cancel_work_sync.
+Compared to dm-multipath the important differences are how management
+of the paths is done, and how the I/O path works.
+
+Management of the paths is fully integrated into the nvme driver,
+for each newly found nvme controller we check if there are other
+controllers that refer to the same subsystem, and if so we link them
+up in the nvme driver.  Then for each namespace found we check if
+the namespace id and identifiers match to check if we have multiple
+controllers that refer to the same namespaces.  For now path
+availability is based entirely on the controller status, which at
+least for fabrics will be continuously updated based on the mandatory
+keep alive timer.  Once the Asynchronous Namespace Access (ANA)
+proposal passes in NVMe we will also get per-namespace states in
+addition to that, but for now any details of that remain confidential
+to NVMe members.
+
+The I/O path is very different from the existing multipath drivers,
+which is enabled by the fact that NVMe (unlike SCSI) does not support
+partial completions - a controller will either complete a whole
+command or not, but never only complete parts of it.  Because of that
+there is no need to clone bios or requests - the I/O path simply
+redirects the I/O to a suitable path.  For successful commands
+multipath is not in the completion stack at all.  For failed commands
+we decide if the error could be a path failure, and if yes remove
+the bios from the request structure and requeue them before completing
+the request.  All together this means there is no performance
+degradation compared to normal nvme operation when using the multipath
+device node (at least not until I find a dual ported DRAM backed
+device :))
+
+A git tree is available at:
+
+   git://git.infradead.org/users/hch/block.git nvme-mpath
+
+gitweb:
+
+   http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-mpath
+
+Changes since V4:
+  - add a refcount to release the device in struct nvme_subsystem
+  - use the instance to name the nvme_subsystems in sysfs
+  - remove a NULL check before nvme_put_ns_head
+  - take a ns_head reference in ->open
+  - improve open protection for GENHD_FL_HIDDEN
+  - add poll support for the mpath device
+
+Changes since V3:
+  - new block layer support for hidden gendisks
+  - a couple new patches to refactor device handling before the
+    actual multipath support
+  - don't expose per-controller block device nodes
+  - use /dev/nvmeXnZ as the device nodes for the whole subsystem.
+  - expose subsystems in sysfs (Hannes Reinecke)
+  - fix a subsystem leak when duplicate NQNs are found
+  - fix up some names
+  - don't clear current_path if freeing a different namespace
+
+Changes since V2:
+  - don't create duplicate subsystems on reset (Keith Bush)
+  - free requests properly when failing over in I/O completion (Keith Bush)
+  - new devices names: /dev/nvm-sub%dn%d
+  - expose the namespace identification sysfs files for the mpath nodes
+
+Changes since V1:
+  - introduce new nvme_ns_ids structure to clean up identifier handling
+  - generic_make_request_fast is now named direct_make_request and calls
+    generic_make_request_checks
+  - reset bi_disk on resubmission
+  - create sysfs links between the existing nvme namespace block devices and
+    the new share mpath device
+  - temporarily added the timeout patches from James, this should go into
+    nvme-4.14, though
