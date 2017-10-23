@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 23 Oct 2017 11:28:05 +0200
-Subject: [PATCH v2 3/4] nvme_fc: add support for duplicate_connect option
-In-Reply-To: <20171020231709.3183-4-jsmart2021@gmail.com> (James Smart's
- message of "Fri, 20 Oct 2017 16:17:08 -0700")
+Date: Mon, 23 Oct 2017 11:30:18 +0200
+Subject: [PATCH v2 4/4] nvme-rdma: add support for duplicate_connect option
+In-Reply-To: <20171020231709.3183-5-jsmart2021@gmail.com> (James Smart's
+ message of "Fri, 20 Oct 2017 16:17:09 -0700")
 References: <20171020231709.3183-1-jsmart2021@gmail.com>
- <20171020231709.3183-4-jsmart2021@gmail.com>
-Message-ID: <mqda80ijjru.fsf@linux-x5ow.site>
+ <20171020231709.3183-5-jsmart2021@gmail.com>
+Message-ID: <mqdwp3mnrdh.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
