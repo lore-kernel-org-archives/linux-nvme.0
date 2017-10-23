@@ -1,82 +1,56 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 23 Oct 2017 15:03:57 -0700
-Subject: [PATCH v3] nvmet: Fix fatal_err_work deadlock
-Message-ID: <20171023220357.11106-1-jsmart2021@gmail.com>
+Date: Mon, 23 Oct 2017 15:11:36 -0700
+Subject: [PATCH] nvme_fc: remove NVME_FC_MAX_SEGMENTS
+Message-ID: <20171023221136.23216-1-jsmart2021@gmail.com>
 
-Below is  a stack trace for an issue that was reported.
+The define is an arbitrary limit to the io size on the initiator,
+capping the io to 1MB-4KB.
 
-What's happening is that the nvmet layer had it's controller kato
-timeout fire, which causes it to schedule its fatal error handler
-via the fatal_err_work element. The error handler is invoked, which
-calls the transport delete_ctrl() entry point, and as the transport
-tears down the controller, nvmet_sq_destroy ends up doing the final
-put on the ctlr causing it to enter its free routine. The ctlr free
-routine does a cancel_work_sync() on fatal_err_work element, which
-then does a flush_work and wait_for_completion. But, as the wait is
-in the context of the work element being flushed, its in a catch-22
-and the thread hangs.
-
-[  326.903131] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-[  326.909832] nvmet: ctrl 1 fatal error occurred!
-[  327.643100] lpfc 0000:04:00.0: 0:6313 NVMET Defer ctx release xri
-x114 flg x2
-[  494.582064] INFO: task kworker/0:2:243 blocked for more than 120
-seconds.
-[  494.589638]       Not tainted 4.14.0-rc1.James+ #1
-[  494.594986] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  494.603718] kworker/0:2     D    0   243      2 0x80000000
-[  494.609839] Workqueue: events nvmet_fatal_error_handler [nvmet]
-[  494.616447] Call Trace:
-[  494.619177]  __schedule+0x28d/0x890
-[  494.623070]  schedule+0x36/0x80
-[  494.626571]  schedule_timeout+0x1dd/0x300
-[  494.631044]  ? dequeue_task_fair+0x592/0x840
-[  494.635810]  ? pick_next_task_fair+0x23b/0x5c0
-[  494.640756]  wait_for_completion+0x121/0x180
-[  494.645521]  ? wake_up_q+0x80/0x80
-[  494.649315]  flush_work+0x11d/0x1a0
-[  494.653206]  ? wake_up_worker+0x30/0x30
-[  494.657484]  __cancel_work_timer+0x10b/0x190
-[  494.662249]  cancel_work_sync+0x10/0x20
-[  494.666525]  nvmet_ctrl_put+0xa3/0x100 [nvmet]
-[  494.671482]  nvmet_sq_:q+0x64/0xd0 [nvmet]
-[  494.676540]  nvmet_fc_delete_target_queue+0x202/0x220 [nvmet_fc]
-[  494.683245]  nvmet_fc_delete_target_assoc+0x6d/0xc0 [nvmet_fc]
-[  494.689743]  nvmet_fc_delete_ctrl+0x137/0x1a0 [nvmet_fc]
-[  494.695673]  nvmet_fatal_error_handler+0x30/0x40 [nvmet]
-[  494.701589]  process_one_work+0x149/0x360
-[  494.706064]  worker_thread+0x4d/0x3c0
-[  494.710148]  kthread+0x109/0x140
-[  494.713751]  ? rescuer_thread+0x380/0x380
-[  494.718214]  ? kthread_park+0x60/0x60
-
-Correct by using flush_work() rather than cancel_work_sync().
+Remove the define from the transport. I/O size will solely be limited
+by the LLDD sg limits.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
-
 ---
-v2:
-  convert cancel_work_sync() to flush_work() for fatal_err_work
-v3:
-  remove the addition of a new workq context. not needed as
-  flush_work supports being called within the context
+ drivers/nvme/host/fc.c         | 6 ++----
+ include/linux/nvme-fc-driver.h | 2 --
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
- drivers/nvme/target/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index da088293eafc..009eaca1c006 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -865,7 +865,7 @@ static void nvmet_ctrl_free(struct kref *ref)
- 	mutex_unlock(&subsys->lock);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index c60129949377..bfb688ba28db 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2644,7 +2644,6 @@ static int
+ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+-	u32 segs;
+ 	int ret;
+ 	bool changed;
  
- 	flush_work(&ctrl->async_event_work);
--	cancel_work_sync(&ctrl->fatal_err_work);
-+	flush_work(&ctrl->fatal_err_work);
+@@ -2698,9 +2697,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	if (ret)
+ 		goto out_disconnect_admin_queue;
  
- 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
- 	nvmet_subsys_put(subsys);
+-	segs = min_t(u32, NVME_FC_MAX_SEGMENTS,
+-			ctrl->lport->ops->max_sgl_segments);
+-	ctrl->ctrl.max_hw_sectors = (segs - 1) << (PAGE_SHIFT - 9);
++	ctrl->ctrl.max_hw_sectors =
++		(ctrl->lport->ops->max_sgl_segments - 1) << (PAGE_SHIFT - 9);
+ 
+ 	ret = nvme_init_identify(&ctrl->ctrl);
+ 	if (ret)
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 3de268bf86bf..496ff759f84c 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -105,8 +105,6 @@ enum nvmefc_fcp_datadir {
+ };
+ 
+ 
+-#define NVME_FC_MAX_SEGMENTS		256
+-
+ /**
+  * struct nvmefc_fcp_req - Request structure passed from NVME-FC transport
+  *                         to LLDD in order to perform a NVME FCP IO operation.
 -- 
 2.13.1
