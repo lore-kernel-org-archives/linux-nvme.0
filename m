@@ -1,18 +1,33 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 23 Oct 2017 10:31:00 +0200
-Subject: [PATCH v2 2/4] nvme: add helper to compare options to controller
-In-Reply-To: <20171020231709.3183-3-jsmart2021@gmail.com> (James Smart's
- message of "Fri, 20 Oct 2017 16:17:07 -0700")
-References: <20171020231709.3183-1-jsmart2021@gmail.com>
- <20171020231709.3183-3-jsmart2021@gmail.com>
-Message-ID: <mqdd15ez2nv.fsf@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 23 Oct 2017 12:04:18 +0300
+Subject: [PATCH] nvme-rdma: fix possible hang when issuing commands during
+ ctrl removal
+In-Reply-To: <20171023082345.GA19156@lst.de>
+References: <1508697771-3552-1-git-send-email-sagi@grimberg.me>
+ <20171023082345.GA19156@lst.de>
+Message-ID: <230d99f3-7f35-5c8d-41b9-5c4867c7f2bb@grimberg.me>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+
+>>   			/*
+>> +			 * deleting state means that the ctrl will never accept
+>> +			 * commands again, fail it permanently.
+>> +			 */
+>> +			if (queue->ctrl->ctrl.state == NVME_CTRL_DELETING) {
+>> +				nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+>> +				return BLK_STS_IOERR;
+> 
+> What does the NVME_SC_ABORT_REQ buy us here compared to just returning
+> BLK_STS_IOERR as in the reconnecting case?
+
+reg_write32() issues a sync command, which returns
+nvme_req(req)->status (blk_execute_request error detection is caller
+specific). without it nvme_shutdown_ctrl thinks reg_write32() succeeded
+and polls with reg_read32() for no good reason.
+
+And its needed for the reconnecting case too, we just never noticed
+it for that case.
+
+> Why can't we just merge the two cases?
+
+Because we fail for slightly different reasons so I thought two
+distinct conditionals looks cleaner, but we can merge the two.
