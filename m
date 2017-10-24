@@ -1,28 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 24 Oct 2017 09:20:19 +0200
-Subject: [PATCH 07/17] block: add a poll_fn callback to struct
- request_queue
-In-Reply-To: <20171023145126.2471-8-hch@lst.de>
+Date: Tue, 24 Oct 2017 09:21:03 +0200
+Subject: [PATCH 08/17] nvme: use kref_get_unless_zero in nvme_find_get_ns
+In-Reply-To: <20171023145126.2471-9-hch@lst.de>
 References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-8-hch@lst.de>
-Message-ID: <bffdb2ae-3abf-279f-b07a-ce1f7ea067c4@suse.de>
+ <20171023145126.2471-9-hch@lst.de>
+Message-ID: <e6c92822-7c64-b11b-8bb3-41c456ad4c8b@suse.de>
 
 On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
-> That we we can also poll non blk-mq queues.  Mostly needed for
-> the NVMe multipath code, but could also be useful elsewhere.
+> For kref_get_unless_zero to protect against lookup vs free races we need
+> to use it in all places where we aren't guaranteed to already hold a
+> reference.  There is no such guarantee in nvme_find_get_ns, so switch to
+> kref_get_unless_zero in this function.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  block/blk-core.c             | 11 +++++++++++
->  block/blk-mq.c               | 14 +++++---------
->  drivers/nvme/target/io-cmd.c |  2 +-
->  fs/block_dev.c               |  4 ++--
->  fs/direct-io.c               |  2 +-
->  fs/iomap.c                   |  2 +-
->  include/linux/blkdev.h       |  4 +++-
->  mm/page_io.c                 |  2 +-
->  8 files changed, 25 insertions(+), 16 deletions(-)
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
+>  drivers/nvme/host/core.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
