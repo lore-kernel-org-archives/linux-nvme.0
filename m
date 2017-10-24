@@ -1,25 +1,34 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 24 Oct 2017 09:24:41 +0200
-Subject: [PATCH 11/17] nvme: get rid of nvme_ctrl_list
-In-Reply-To: <20171023145126.2471-12-hch@lst.de>
+Date: Tue, 24 Oct 2017 09:25:06 +0200
+Subject: [PATCH 12/17] nvme: check for a live controller in nvme_dev_open
+In-Reply-To: <20171023145126.2471-13-hch@lst.de>
 References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-12-hch@lst.de>
-Message-ID: <5b477087-d31d-43a1-2c1e-4d142f4786c3@suse.de>
+ <20171023145126.2471-13-hch@lst.de>
+Message-ID: <8939bd97-0127-2f15-d243-c110f0e219cf@suse.de>
 
 On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
-> Use the core chrdev code to set up the link between the character device
-> and the nvme controller.  This allows us to get rid of the global list
-> of all controllers, and also ensures that we have both a reference to
-> the controller and the transport module before the open method of the
-> character device is called.
+> This is a much more sensible check than just the admin queue.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Sagi Grimberg <sgi at grimberg.me>
+> Reviewed-by: Sagi Grimberg <sagi at rimbeg.me>
 > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/host/core.c | 76 ++++++++++--------------------------------------
->  drivers/nvme/host/nvme.h |  3 +-
->  2 files changed, 18 insertions(+), 61 deletions(-)
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index a56a1e0432e7..df525ab42fcd 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1891,7 +1891,7 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
+>  	struct nvme_ctrl *ctrl =
+>  		container_of(inode->i_cdev, struct nvme_ctrl, cdev);
+>  
+> -	if (!ctrl->admin_q)
+> +	if (ctrl->state != NVME_CTRL_LIVE)
+>  		return -EWOULDBLOCK;
+>  	file->private_data = ctrl;
+>  	return 0;
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
