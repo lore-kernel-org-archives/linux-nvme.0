@@ -1,62 +1,30 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 24 Oct 2017 11:44:26 +0300
-Subject: [PATCH 04/17] block: add a blk_steal_bios helper
-In-Reply-To: <20171023145126.2471-5-hch@lst.de>
-References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-5-hch@lst.de>
-Message-ID: <ac15137b-b1a4-3988-17cc-fd6c25749542@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 24 Oct 2017 15:25:19 +0300
+Subject: [PATCH 0/3] centralize transport not ready request check
+Message-ID: <1508847922-26699-1-git-send-email-sagi@grimberg.me>
 
+In all fabrics transports, queues are fully functional (live) only
+once we are connected in the nvmf level. When we get into reset, delete
+or error recovery scenarios with inflight commands, we need to check
+that we are ready issue a command.
 
+First check that the queue is LIVE. if not, we can only allow connect
+commands to be issued (to help us get to LIVE). Centralize this check
+and make all our fabric transport use it.
 
-On 10/23/2017 5:51 PM, Christoph Hellwig wrote:
-> This helpers allows to bounce steal the uncompleted bios from a request so
-> that they can be reissued on another path.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   block/blk-core.c       | 20 ++++++++++++++++++++
->   include/linux/blkdev.h |  2 ++
->   2 files changed, 22 insertions(+)
-> 
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index b8c80f39f5fe..e804529e65a5 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -2767,6 +2767,26 @@ struct request *blk_fetch_request(struct request_queue *q)
->   }
->   EXPORT_SYMBOL(blk_fetch_request);
->   
-> +/*
-> + * Steal bios from a request.  The request must not have been partially
-> + * completed before.
-> + */
+rdma + loop were tested.
 
-Maybe we can add to the comment that "list" is the destination for the 
-stolen bio.
+Sagi Grimberg (3):
+  nvme-fabrics: Introduce init command check for a queue that is not
+    alive
+  nvme-fc: Check if queue is ready in queue_rq
+  nvme-loop: Check if queue is ready in queue_rq
 
-> +void blk_steal_bios(struct bio_list *list, struct request *rq)
-> +{
-> +	if (rq->bio) {
-> +		if (list->tail)
-> +			list->tail->bi_next = rq->bio;
-> +		else
-> +			list->head = rq->bio;
-> +		list->tail = rq->biotail;
+ drivers/nvme/host/fabrics.h | 30 ++++++++++++++++++++++++++++++
+ drivers/nvme/host/fc.c      | 19 ++++++++++++++++++-
+ drivers/nvme/host/rdma.c    | 29 ++++++-----------------------
+ drivers/nvme/target/loop.c  | 25 ++++++++++++++++++++++++-
+ 4 files changed, 78 insertions(+), 25 deletions(-)
 
-if list->tail != NULL don't we lose the "list->tail->bi_next = rq->bio;" 
-assignment after assigning "list->tail = rq->biotail;" ?
-
-> +	}
-> +
-> +	rq->bio = NULL;
-
-we can add this NULL assignment inside the big "if", but I'm not sure 
-regarding the next 2 assignments.
-Anyway not a big deal.
-
-> +	rq->biotail = NULL;
-> +	rq->__data_len = 0;
-> +}
-> +EXPORT_SYMBOL_GPL(blk_steal_bios);
-> +
+-- 
+2.7.4
