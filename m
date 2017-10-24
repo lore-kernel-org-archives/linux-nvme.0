@@ -1,27 +1,35 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 24 Oct 2017 10:31:14 +0300
-Subject: [PATCH v2] nvmet: Fix fatal_err_work deadlock
-In-Reply-To: <20171023145013.GA3017@infradead.org>
-References: <20171020161253.29296-1-jsmart2021@gmail.com>
- <20171023082805.GA25383@infradead.org>
- <a1123d71-51f8-1d72-3e5d-67f23634543a@grimberg.me>
- <20171023145013.GA3017@infradead.org>
-Message-ID: <b2ec3e9e-2a06-e925-060d-f37e7c7a47cd@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 24 Oct 2017 09:33:26 +0200
+Subject: [PATCH 13/17] nvme: track subsystems
+In-Reply-To: <20171023145126.2471-14-hch@lst.de>
+References: <20171023145126.2471-1-hch@lst.de>
+ <20171023145126.2471-14-hch@lst.de>
+Message-ID: <3670fe01-f17d-92e4-ba51-fdd9fdfd3a6c@suse.de>
 
-
->> If fatal_err_work calls ->delete_ctrl() and that in turn gets to put the
->> last reference on the ctrl it will end up in ->free_ctrl() under
->> fatal_err_work context which will then try to flush fatal_err_work.
+On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
+> This adds a new nvme_subsystem structure so that we can track multiple
+> controllers that belong to a single subsystem.  For now we only use it
+> to store the NQN, and to check that we don't have duplicate NQNs unless
+> the involved subsystems support multiple controllers.
 > 
-> Yes, and the way I understand flush_work that is perfectly fine for
-> flush_work, just not for cancel_work_sync.
+> Includes code originally from Hannes Reinecke to expose the subsystems
+> in sysfs.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/core.c    | 200 +++++++++++++++++++++++++++++++++++++-------
+>  drivers/nvme/host/fabrics.c |   4 +-
+>  drivers/nvme/host/nvme.h    |  26 ++++--
+>  3 files changed, 194 insertions(+), 36 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Really?
+Cheers,
 
-My understanding is that flush_work() is inserting a barrier work
-into the worker running the work right after the running work and waits
-for it to complete.
-
-How will the barrier complete without the current work completing?
-
-James, can you give it a shot?
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
