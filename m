@@ -1,29 +1,28 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 24 Oct 2017 09:18:47 +0200
-Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
-In-Reply-To: <20171023145126.2471-7-hch@lst.de>
+Date: Tue, 24 Oct 2017 09:20:19 +0200
+Subject: [PATCH 07/17] block: add a poll_fn callback to struct
+ request_queue
+In-Reply-To: <20171023145126.2471-8-hch@lst.de>
 References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-7-hch@lst.de>
-Message-ID: <09f8a87b-f8da-9f5a-6efd-f5e9acfaee45@suse.de>
+ <20171023145126.2471-8-hch@lst.de>
+Message-ID: <bffdb2ae-3abf-279f-b07a-ce1f7ea067c4@suse.de>
 
 On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
-> With this flag a driver can create a gendisk that can be used for I/O
-> submission inside the kernel, but which is not registered as user
-> facing block device.  This will be useful for the NVMe multipath
-> implementation.
+> That we we can also poll non blk-mq queues.  Mostly needed for
+> the NVMe multipath code, but could also be useful elsewhere.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  block/genhd.c         | 57 +++++++++++++++++++++++++++++++++++----------------
->  include/linux/genhd.h |  1 +
->  2 files changed, 40 insertions(+), 18 deletions(-)
-> 
-Can we have some information in sysfs to figure out if a gendisk is
-hidden? I'd hate having to do an inverse lookup in /proc/partitions;
-it's always hard to prove that something is _not_ present.
-And we already present various information (like disk_removable_show()),
-so it's not without precedent.
-And it would make integration with systemd/udev easier.
+>  block/blk-core.c             | 11 +++++++++++
+>  block/blk-mq.c               | 14 +++++---------
+>  drivers/nvme/target/io-cmd.c |  2 +-
+>  fs/block_dev.c               |  4 ++--
+>  fs/direct-io.c               |  2 +-
+>  fs/iomap.c                   |  2 +-
+>  include/linux/blkdev.h       |  4 +++-
+>  mm/page_io.c                 |  2 +-
+>  8 files changed, 25 insertions(+), 16 deletions(-)
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
