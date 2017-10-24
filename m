@@ -1,150 +1,192 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 24 Oct 2017 09:43:11 +0200
-Subject: [PATCH 16/17] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20171023145126.2471-17-hch@lst.de>
+Date: Tue, 24 Oct 2017 09:45:44 +0200
+Subject: [PATCH 17/17] nvme: also expose the namespace identification
+ sysfs files for mpath nodes
+In-Reply-To: <20171023145126.2471-18-hch@lst.de>
 References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-17-hch@lst.de>
-Message-ID: <104278cd-0383-71e0-45c2-750108723b8b@suse.de>
+ <20171023145126.2471-18-hch@lst.de>
+Message-ID: <ab2161cc-aa24-4137-8a68-08e63adce764@suse.de>
 
 On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
-> This patch adds native multipath support to the nvme driver.  For each
-> namespace we create only single block device node, which can be used
-> to access that namespace through any of the controllers that refer to it.
-> The gendisk for each controllers path to the name space still exists
-> inside the kernel, but is hidden from userspace.  The character device
-> nodes are still available on a per-controller basis.  A new link from
-> the sysfs directory for the subsystem allows to find all controllers
-> for a given subsystem.
-> 
-> Currently we will always send I/O to the first available path, this will
-> be changed once the NVMe Asynchronous Namespace Access (ANA) TP is
-> ratified and implemented, at which point we will look at the ANA state
-> for each namespace.  Another possibility that was prototyped is to
-> use the path that is closes to the submitting NUMA code, which will be
-> mostly interesting for PCI, but might also be useful for RDMA or FC
-> transports in the future.  There is not plan to implement round robin
-> or I/O service time path selectors, as those are not scalable with
-> the performance rates provided by NVMe.
-> 
-> The multipath device will go away once all paths to it disappear,
-> any delay to keep it alive needs to be implemented at the controller
-> level.
+> We do this by adding a helper that returns the ns_head for a device that
+> can belong to either the per-controller or per-subsystem block device
+> nodes, and otherwise reuse all the existing code.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Keith Busch <keith.busch at intel.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/host/core.c | 398 ++++++++++++++++++++++++++++++++++++++++-------
->  drivers/nvme/host/nvme.h |  15 +-
->  drivers/nvme/host/pci.c  |   2 +
->  3 files changed, 355 insertions(+), 60 deletions(-)
+>  drivers/nvme/host/core.c | 69 +++++++++++++++++++++++++++++-------------------
+>  1 file changed, 42 insertions(+), 27 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 1db26729bd89..22c06cd3bef0 100644
+> index 22c06cd3bef0..334735db90c8 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -102,6 +102,20 @@ static int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
->  	return ret;
->  }
+> @@ -76,6 +76,7 @@ static DEFINE_IDA(nvme_instance_ida);
+>  static dev_t nvme_chr_devt;
+>  static struct class *nvme_class;
+>  static struct class *nvme_subsys_class;
+> +static const struct attribute_group nvme_ns_id_attr_group;
 >  
-> +static void nvme_failover_req(struct request *req)
+>  static __le32 nvme_get_log_dw10(u8 lid, size_t size)
+>  {
+> @@ -329,6 +330,8 @@ static void nvme_free_ns_head(struct kref *ref)
+>  	struct nvme_ns_head *head =
+>  		container_of(ref, struct nvme_ns_head, ref);
+>  
+> +	sysfs_remove_group(&disk_to_dev(head->disk)->kobj,
+> +			   &nvme_ns_id_attr_group);
+>  	del_gendisk(head->disk);
+>  	blk_set_queue_dying(head->disk->queue);
+>  	/* make sure all pending bios are cleaned up */
+> @@ -1925,7 +1928,7 @@ static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
+>  static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>  {
+>  	struct nvme_subsystem *subsys, *found;
+> -	int ret = -ENOMEM;
+> +	int ret;
+>  
+>  	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+>  	if (!subsys)
+> @@ -2267,12 +2270,22 @@ static ssize_t nvme_sysfs_rescan(struct device *dev,
+>  }
+>  static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
+>  
+> +static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
 > +{
-> +	struct nvme_ns *ns = req->q->queuedata;
-> +	unsigned long flags;
+> +	struct gendisk *disk = dev_to_disk(dev);
 > +
-> +	spin_lock_irqsave(&ns->head->requeue_lock, flags);
-> +	blk_steal_bios(&ns->head->requeue_list, req);
-> +	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
-> +	blk_mq_end_request(req, 0);
-> +
-> +	nvme_reset_ctrl(ns->ctrl);
-> +	kblockd_schedule_work(&ns->head->requeue_work);
+> +	if (disk->fops == &nvme_fops)
+> +		return nvme_get_ns_from_dev(dev)->head;
+> +	else
+> +		return disk->private_data;
 > +}
 > +
->  static blk_status_t nvme_error_status(struct request *req)
+>  static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+> -								char *buf)
+> +		char *buf)
 >  {
->  	switch (nvme_req(req)->status & 0x7ff) {
-> @@ -129,6 +143,53 @@ static blk_status_t nvme_error_status(struct request *req)
->  	}
+> -	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> -	struct nvme_ns_ids *ids = &ns->head->ids;
+> -	struct nvme_subsystem *subsys = ns->ctrl->subsys;
+> +	struct nvme_ns_head *head = dev_to_ns_head(dev);
+> +	struct nvme_ns_ids *ids = &head->ids;
+> +	struct nvme_subsystem *subsys = head->subsys;
+>  	int serial_len = sizeof(subsys->serial);
+>  	int model_len = sizeof(subsys->model);
+>  
+> @@ -2294,23 +2307,21 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+>  
+>  	return sprintf(buf, "nvme.%04x-%*phN-%*phN-%08x\n", subsys->vendor_id,
+>  		serial_len, subsys->serial, model_len, subsys->model,
+> -		ns->head->ns_id);
+> +		head->ns_id);
+>  }
+>  static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
+>  
+>  static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
+> -			  char *buf)
+> +		char *buf)
+>  {
+> -	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> -	return sprintf(buf, "%pU\n", ns->head->ids.nguid);
+> +	return sprintf(buf, "%pU\n", dev_to_ns_head(dev)->ids.nguid);
+>  }
+>  static DEVICE_ATTR(nguid, S_IRUGO, nguid_show, NULL);
+>  
+>  static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+> -								char *buf)
+> +		char *buf)
+>  {
+> -	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> -	struct nvme_ns_ids *ids = &ns->head->ids;
+> +	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
+>  
+>  	/* For backward compatibility expose the NGUID to userspace if
+>  	 * we have no UUID set
+> @@ -2325,22 +2336,20 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+>  static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
+>  
+>  static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
+> -								char *buf)
+> +		char *buf)
+>  {
+> -	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> -	return sprintf(buf, "%8phd\n", ns->head->ids.eui64);
+> +	return sprintf(buf, "%8phd\n", dev_to_ns_head(dev)->ids.eui64);
+>  }
+>  static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
+>  
+>  static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
+> -								char *buf)
+> +		char *buf)
+>  {
+> -	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> -	return sprintf(buf, "%d\n", ns->head->ns_id);
+> +	return sprintf(buf, "%d\n", dev_to_ns_head(dev)->ns_id);
+>  }
+>  static DEVICE_ATTR(nsid, S_IRUGO, nsid_show, NULL);
+>  
+> -static struct attribute *nvme_ns_attrs[] = {
+> +static struct attribute *nvme_ns_id_attrs[] = {
+>  	&dev_attr_wwid.attr,
+>  	&dev_attr_uuid.attr,
+>  	&dev_attr_nguid.attr,
+> @@ -2349,12 +2358,11 @@ static struct attribute *nvme_ns_attrs[] = {
+>  	NULL,
+>  };
+>  
+> -static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+> +static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+>  		struct attribute *a, int n)
+>  {
+>  	struct device *dev = container_of(kobj, struct device, kobj);
+> -	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> -	struct nvme_ns_ids *ids = &ns->head->ids;
+> +	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
+>  
+>  	if (a == &dev_attr_uuid.attr) {
+>  		if (uuid_is_null(&ids->uuid) ||
+> @@ -2372,9 +2380,9 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+>  	return a->mode;
 >  }
 >  
-> +static bool nvme_req_needs_failover(struct request *req)
-> +{
-> +	if (!(req->cmd_flags & REQ_NVME_MPATH))
-> +		return false;
-> +
-> +	switch (nvme_req(req)->status & 0x7ff) {
-> +	/*
-> +	 * Generic command status:
-> +	 */
-> +	case NVME_SC_INVALID_OPCODE:
-> +	case NVME_SC_INVALID_FIELD:
-> +	case NVME_SC_INVALID_NS:
-> +	case NVME_SC_LBA_RANGE:
-> +	case NVME_SC_CAP_EXCEEDED:
-> +	case NVME_SC_RESERVATION_CONFLICT:
-> +		return false;
-> +
-> +	/*
-> +	 * I/O command set specific error.  Unfortunately these values are
-> +	 * reused for fabrics commands, but those should never get here.
-> +	 */
-> +	case NVME_SC_BAD_ATTRIBUTES:
-> +	case NVME_SC_INVALID_PI:
-> +	case NVME_SC_READ_ONLY:
-> +	case NVME_SC_ONCS_NOT_SUPPORTED:
-> +		WARN_ON_ONCE(nvme_req(req)->cmd->common.opcode ==
-> +			nvme_fabrics_command);
-> +		return false;
-> +
-> +	/*
-> +	 * Media and Data Integrity Errors:
-> +	 */
-> +	case NVME_SC_WRITE_FAULT:
-> +	case NVME_SC_READ_ERROR:
-> +	case NVME_SC_GUARD_CHECK:
-> +	case NVME_SC_APPTAG_CHECK:
-> +	case NVME_SC_REFTAG_CHECK:
-> +	case NVME_SC_COMPARE_FAILED:
-> +	case NVME_SC_ACCESS_DENIED:
-> +	case NVME_SC_UNWRITTEN_BLOCK:
-> +		return false;
+> -static const struct attribute_group nvme_ns_attr_group = {
+> -	.attrs		= nvme_ns_attrs,
+> -	.is_visible	= nvme_ns_attrs_are_visible,
+> +static const struct attribute_group nvme_ns_id_attr_group = {
+> +	.attrs		= nvme_ns_id_attrs,
+> +	.is_visible	= nvme_ns_id_attrs_are_visible,
+>  };
+>  
+>  #define nvme_show_str_function(field)						\
+> @@ -2883,15 +2891,20 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>  
+>  	device_add_disk(ctrl->device, ns->disk);
+>  	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+> -					&nvme_ns_attr_group))
+> +					&nvme_ns_id_attr_group))
+>  		pr_warn("%s: failed to create sysfs group for identification\n",
+>  			ns->disk->disk_name);
+>  	if (ns->ndev && nvme_nvm_register_sysfs(ns))
+>  		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+>  			ns->disk->disk_name);
+>  
+> -	if (new)
+> +	if (new) {
+>  		device_add_disk(&ns->head->subsys->dev, ns->head->disk);
+> +		if (sysfs_create_group(&disk_to_dev(ns->head->disk)->kobj,
+> +				&nvme_ns_id_attr_group))
+> +			pr_warn("%s: failed to create sysfs group for identification\n",
+> +				ns->head->disk->disk_name);
 > +	}
-> +
-> +	/* Everything else could be a path failure, so should be retried */
-> +	return true;
-> +}
-> +
->  static inline bool nvme_req_needs_retry(struct request *req)
->  {
->  	if (blk_noretry_request(req))
-> @@ -143,6 +204,11 @@ static inline bool nvme_req_needs_retry(struct request *req)
->  void nvme_complete_rq(struct request *req)
->  {
->  	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
-> +		if (nvme_req_needs_failover(req)) {
-> +			nvme_failover_req(req);
-> +			return;
-> +		}
-> +
->  		nvme_req(req)->retries++;
->  		blk_mq_requeue_request(req, true);
->  		return;
-Sure this works? nvme_req_needs_retry() checks blk_noretry_request():
-
-static inline bool nvme_req_needs_retry(struct request *req)
-{
-	if (blk_noretry_request(req))
-		return false;
-
-which has:
-#define blk_noretry_request(rq) \
-	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
-			     REQ_FAILFAST_DRIVER))
-
-The original idea here was to _set_ these bits on multipath path devices
-so that they won't attempt any retry, but rather forward the I/O error
-to the multipath device itself for failover.
-So if these bits are set (as they should be for multipathed devices)
-we'll never attempt any failover...
+>  
+>  	return;
+>   out_unlink_ns:
+device_add_disk_with_groups()?
+What happened to that proposal?
 
 Cheers,
 
