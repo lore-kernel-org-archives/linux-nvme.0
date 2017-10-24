@@ -1,56 +1,31 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 23 Oct 2017 15:11:36 -0700
-Subject: [PATCH] nvme_fc: remove NVME_FC_MAX_SEGMENTS
-Message-ID: <20171023221136.23216-1-jsmart2021@gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 24 Oct 2017 09:05:58 +0200
+Subject: [PATCH 03/17] block: provide a direct_make_request helper
+In-Reply-To: <20171023145126.2471-4-hch@lst.de>
+References: <20171023145126.2471-1-hch@lst.de>
+ <20171023145126.2471-4-hch@lst.de>
+Message-ID: <330023d9-b2de-04da-01c5-4d71e910f332@suse.de>
 
-The define is an arbitrary limit to the io size on the initiator,
-capping the io to 1MB-4KB.
+On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
+> This helper allows reinserting a bio into a new queue without much
+> overhead, but requires all queue limits to be the same for the upper
+> and lower queues, and it does not provide any recursion preventions.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  block/blk-core.c       | 34 ++++++++++++++++++++++++++++++++++
+>  include/linux/blkdev.h |  1 +
+>  2 files changed, 35 insertions(+)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Remove the define from the transport. I/O size will solely be limited
-by the LLDD sg limits.
+Cheers,
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c         | 6 ++----
- include/linux/nvme-fc-driver.h | 2 --
- 2 files changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index c60129949377..bfb688ba28db 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2644,7 +2644,6 @@ static int
- nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
--	u32 segs;
- 	int ret;
- 	bool changed;
- 
-@@ -2698,9 +2697,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	if (ret)
- 		goto out_disconnect_admin_queue;
- 
--	segs = min_t(u32, NVME_FC_MAX_SEGMENTS,
--			ctrl->lport->ops->max_sgl_segments);
--	ctrl->ctrl.max_hw_sectors = (segs - 1) << (PAGE_SHIFT - 9);
-+	ctrl->ctrl.max_hw_sectors =
-+		(ctrl->lport->ops->max_sgl_segments - 1) << (PAGE_SHIFT - 9);
- 
- 	ret = nvme_init_identify(&ctrl->ctrl);
- 	if (ret)
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 3de268bf86bf..496ff759f84c 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -105,8 +105,6 @@ enum nvmefc_fcp_datadir {
- };
- 
- 
--#define NVME_FC_MAX_SEGMENTS		256
--
- /**
-  * struct nvmefc_fcp_req - Request structure passed from NVME-FC transport
-  *                         to LLDD in order to perform a NVME FCP IO operation.
+Hannes
 -- 
-2.13.1
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
