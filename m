@@ -1,24 +1,22 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 24 Oct 2017 09:05:58 +0200
-Subject: [PATCH 03/17] block: provide a direct_make_request helper
-In-Reply-To: <20171023145126.2471-4-hch@lst.de>
+Date: Tue, 24 Oct 2017 09:07:19 +0200
+Subject: [PATCH 04/17] block: add a blk_steal_bios helper
+In-Reply-To: <20171023145126.2471-5-hch@lst.de>
 References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-4-hch@lst.de>
-Message-ID: <330023d9-b2de-04da-01c5-4d71e910f332@suse.de>
+ <20171023145126.2471-5-hch@lst.de>
+Message-ID: <c1a19718-bb24-0a36-8d89-874c79291bc0@suse.de>
 
 On 10/23/2017 04:51 PM, Christoph Hellwig wrote:
-> This helper allows reinserting a bio into a new queue without much
-> overhead, but requires all queue limits to be the same for the upper
-> and lower queues, and it does not provide any recursion preventions.
+> This helpers allows to bounce steal the uncompleted bios from a request so
+> that they can be reissued on another path.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  block/blk-core.c       | 34 ++++++++++++++++++++++++++++++++++
->  include/linux/blkdev.h |  1 +
->  2 files changed, 35 insertions(+)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+>  block/blk-core.c       | 20 ++++++++++++++++++++
+>  include/linux/blkdev.h |  2 ++
+>  2 files changed, 22 insertions(+)
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
