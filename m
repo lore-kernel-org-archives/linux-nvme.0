@@ -1,111 +1,94 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 24 Oct 2017 15:25:20 +0300
-Subject: [PATCH 1/3] nvme-fabrics: Introduce init command check for a queue
- that is not alive
+Date: Tue, 24 Oct 2017 15:25:21 +0300
+Subject: [PATCH 2/3] nvme-fc: Check if queue is ready in queue_rq
 In-Reply-To: <1508847922-26699-1-git-send-email-sagi@grimberg.me>
 References: <1508847922-26699-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1508847922-26699-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1508847922-26699-3-git-send-email-sagi@grimberg.me>
 
-When the fabrics queue is not alive and fully functional, no
-commands should be allowed to pass but connect (which moves
-the queue to a fully functional state). Any other command
-should be failed, with either temporary status BLK_STS_RESOUCE
-or permanent status BLK_STS_IOERR.
+In case the queue is not LIVE (fully functional
+and connected in the nvmf level), we cannot
+allow any commands other than connect to pass
+through.
 
-This is shared across all fabrics, hence move the check to
-fabrics helper.
+Add a new queue state flag NVME_FC_Q_LIVE which is
+set after nvmf connect and cleared in queue teardown.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fabrics.h | 30 ++++++++++++++++++++++++++++++
- drivers/nvme/host/rdma.c    | 29 ++++++-----------------------
- 2 files changed, 36 insertions(+), 23 deletions(-)
+ drivers/nvme/host/fc.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index bf33663218cd..d464cc03cd23 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -142,4 +142,34 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts);
- int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index c6c903f1b172..7ab131500387 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -41,6 +41,7 @@
  
-+static inline blk_status_t nvmf_check_init_req(struct nvme_ctrl *ctrl,
+ enum nvme_fc_queue_flags {
+ 	NVME_FC_Q_CONNECTED = (1 << 0),
++	NVME_FC_Q_LIVE = (1 << 1),
+ };
+ 
+ #define NVMEFC_QUEUE_DELAY	3		/* ms units */
+@@ -1715,6 +1716,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+ 	if (!test_and_clear_bit(NVME_FC_Q_CONNECTED, &queue->flags))
+ 		return;
+ 
++	clear_bit(NVME_FC_Q_LIVE, &queue->flags);
+ 	/*
+ 	 * Current implementation never disconnects a single queue.
+ 	 * It always terminates a whole association. So there is never
+@@ -1722,7 +1724,6 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+ 	 */
+ 
+ 	queue->connection_id = 0;
+-	clear_bit(NVME_FC_Q_CONNECTED, &queue->flags);
+ }
+ 
+ static void
+@@ -1801,6 +1802,8 @@ nvme_fc_connect_io_queues(struct nvme_fc_ctrl *ctrl, u16 qsize)
+ 		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
+ 		if (ret)
+ 			break;
++
++		set_bit(NVME_FC_Q_LIVE, &ctrl->queues[i].flags);
+ 	}
+ 
+ 	return ret;
+@@ -2115,6 +2118,14 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 	return BLK_STS_RESOURCE;
+ }
+ 
++static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
 +		struct request *rq)
 +{
-+	struct nvme_command *cmd = nvme_req(rq)->cmd;
-+
-+	/*
-+	 * We cannot accept any other command until the connect
-+	 * command has completed, so only allow connect to pass.
-+	 */
-+	if (!blk_rq_is_passthrough(rq) ||
-+	    cmd->common.opcode != nvme_fabrics_command ||
-+	    cmd->fabrics.fctype != nvme_fabrics_type_connect) {
-+		/*
-+		 * reconnecting state means transport disruption, which
-+		 * can take a long time and even might fail permanently,
-+		 * fail fast to give upper layers a chance to failover.
-+		 * deleting state means that the ctrl will never accept
-+		 * commands again, fail it permanently.
-+		 */
-+		if (ctrl->state == NVME_CTRL_RECONNECTING ||
-+		    ctrl->state == NVME_CTRL_DELETING) {
-+			nvme_req(rq)->status = NVME_SC_ABORT_REQ;
-+			return BLK_STS_IOERR;
-+		}
-+		return BLK_STS_RESOURCE; /* try again later */
-+	}
-+
++	if (unlikely(!test_bit(NVME_FC_Q_LIVE, &queue->flags)))
++		return nvmf_check_init_req(&queue->ctrl->ctrl, rq);
 +	return BLK_STS_OK;
 +}
 +
- #endif /* _NVME_FABRICS_H */
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index a5577e06a620..3e6ece0005e4 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1591,28 +1591,11 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
-  * We cannot accept any other command until the Connect command has completed.
-  */
- static inline blk_status_t
--nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue, struct request *rq)
--{
--	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
--		struct nvme_command *cmd = nvme_req(rq)->cmd;
--
--		if (!blk_rq_is_passthrough(rq) ||
--		    cmd->common.opcode != nvme_fabrics_command ||
--		    cmd->fabrics.fctype != nvme_fabrics_type_connect) {
--			/*
--			 * reconnecting state means transport disruption, which
--			 * can take a long time and even might fail permanently,
--			 * so we can't let incoming I/O be requeued forever.
--			 * fail it fast to allow upper layers a chance to
--			 * failover.
--			 */
--			if (queue->ctrl->ctrl.state == NVME_CTRL_RECONNECTING)
--				return BLK_STS_IOERR;
--			return BLK_STS_RESOURCE; /* try again later */
--		}
--	}
--
--	return 0;
-+nvme_rdma_is_ready(struct nvme_rdma_queue *queue, struct request *rq)
-+{
-+	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags)))
-+		return nvmf_check_init_req(&queue->ctrl->ctrl, rq);
-+	return BLK_STS_OK;
- }
+ static blk_status_t
+ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			const struct blk_mq_queue_data *bd)
+@@ -2130,6 +2141,10 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	u32 data_len;
+ 	blk_status_t ret;
  
- static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
-@@ -1631,7 +1614,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	WARN_ON_ONCE(rq->tag < 0);
- 
--	ret = nvme_rdma_queue_is_ready(queue, rq);
-+	ret = nvme_rdma_is_ready(queue, rq);
- 	if (unlikely(ret))
++	ret = nvme_fc_is_ready(queue, rq);
++	if (unlikely(ret))
++		return ret;
++
+ 	ret = nvme_setup_cmd(ns, rq, sqe);
+ 	if (ret)
  		return ret;
+@@ -2465,6 +2480,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	if (ret)
+ 		goto out_disconnect_admin_queue;
  
++	set_bit(NVME_FC_Q_LIVE, &ctrl->queues[0].flags);
++
+ 	/*
+ 	 * Check controller capabilities
+ 	 *
 -- 
 2.7.4
