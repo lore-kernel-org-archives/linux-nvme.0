@@ -1,97 +1,21 @@
-From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:42 -0700
-Subject: [PATCH V2 25/46] nvmftests-tests: add a test for create/delete host
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 25 Oct 2017 09:30:32 +0200
+Subject: [PATCH V2 00/46] nvmftests: NVMe Over Fabrics Unit Test Framework
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
+ (Chaitanya Kulkarni's message of "Tue, 24 Oct 2017 18:30:17 -0700")
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-26-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <mqda80fn0pz.fsf@linux-x5ow.site>
 
-From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Hi Chaitanya,
 
-This adds a new test to create and delete host with loopback
-device.
+thanks for doing this. I'll give it a spin in my NVMf test setup.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- .../nvmftests/tests/test_nvmf_create_host.py       | 71 ++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
-
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
-new file mode 100644
-index 0000000..1f69535
---- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
-@@ -0,0 +1,71 @@
-+# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
-+#
-+# This program is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU General Public License
-+# as published by the Free Software Foundation; either version 2
-+# of the License, or (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-+# MA  02110-1301, USA.
-+#
-+#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-+#
-+"""
-+NVMF Create/Delete Host :-
-+
-+    1. From the config file create Target.
-+    2. From the config file create host and connect to target.
-+    3. Delete Host.
-+    4. Delete Target.
-+"""
-+
-+
-+import sys
-+from nose.tools import assert_equal
-+sys.path.append("../")
-+from utils.misc.loopback import Loopback
-+from nvmf_test import NVMFTest
-+from nvmf.target import NVMFTarget
-+from nvmf.host import NVMFHost
-+
-+
-+class TestNVMFCreateHost(NVMFTest):
-+
-+    """ Represents Host Creation testcase """
-+
-+    def __init__(self):
-+        NVMFTest.__init__(self)
-+        self.host_subsys = None
-+        self.target_subsys = None
-+        self.setup_log_dir(self.__class__.__name__)
-+
-+    def setUp(self):
-+        """ Pre section of testcase """
-+        self.loopdev = Loopback(self.mount_path, self.data_size,
-+                                self.block_size, self.nr_dev)
-+        self.loopdev.init()
-+        self.build_target_config(self.loopdev.dev_list)
-+        self.target_subsys = NVMFTarget(self.target_type)
-+        ret = self.target_subsys.config(self.target_config_file)
-+        assert_equal(ret, True, "ERROR : target config failed")
-+        self.host_subsys = NVMFHost(self.target_type)
-+
-+    def tearDown(self):
-+        """ Post section of testcase """
-+        self.host_subsys.delete()
-+        self.target_subsys.delete()
-+        self.loopdev.delete()
-+
-+    def test_create_host(self):
-+        """ Testcase main """
-+        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.config(self.target_config_file)
-+        assert_equal(ret, True, "ERROR : host config failed")
-+        raw_input("Press enter to continue ...")
+Byte,
+        Johannes
 -- 
-1.8.3.1
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
