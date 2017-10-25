@@ -1,27 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:59 -0700
-Subject: [PATCH V2 42/46] nvmftests-tests: add a host template
+Date: Tue, 24 Oct 2017 18:30:53 -0700
+Subject: [PATCH V2 36/46] nvmftests-tests: add a test to run mkfs and fio
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-43-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-37-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a host test template which can be easily copied
-to write a new testcase.
+This adds a new test to format host namespace(s) with mkfs,
+mount the file system and run fio.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_host_template.py     | 62 ++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
+ .../selftests/nvmftests/tests/test_nvmf_mkfs.py    | 65 ++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
 new file mode 100644
-index 0000000..bd3e50b
+index 0000000..6f78e86
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
-@@ -0,0 +1,62 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
+@@ -0,0 +1,65 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,11 +42,11 @@ index 0000000..bd3e50b
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF host template :-
++NVMF test mkfs on each subsystem :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Write testcase code in the testcase function.
++    3. Execute mkfs on all host namespaces.
 +    4. Delete Host.
 +    5. Delete Target.
 +"""
@@ -59,9 +59,9 @@ index 0000000..bd3e50b
 +from nvmf_test import NVMFTest
 +
 +
-+class TestNVMFHostTemplate(NVMFTest):
++class TestNVMFMKFS(NVMFTest):
 +
-+    """ Represents host template testcase """
++    """ Represents mkfs testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
@@ -73,16 +73,19 @@ index 0000000..bd3e50b
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFHostTemplate, self).common_setup()
++        super(TestNVMFMKFS, self).common_setup()
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFHostTemplate, self).common_tear_down()
++        super(TestNVMFMKFS, self).common_tear_down()
 +        self.loopdev.delete()
 +
-+    def test_host(self):
++    def test_mkfs(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        assert_equal(0, 0, "")
++        ret = self.host_subsys.mkfs_seq("ext4")
++        assert_equal(ret, True, "ERROR : mkfs failed.")
++        ret = self.host_subsys.run_fs_ios(self.fio_fs_write)
++        assert_equal(ret, True, "ERROR : fio failed.")
 -- 
 1.8.3.1
