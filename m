@@ -1,28 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:31:00 -0700
-Subject: [PATCH V2 43/46] nvmftests-tests: add a test to run traffic and
- disable ns
+Date: Tue, 24 Oct 2017 18:31:01 -0700
+Subject: [PATCH V2 44/46] nvmftests-tests: add a test to measure perf with fio
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-44-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-45-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test to run the IOs from the host
-and disable the ns on the target.
+This adds a new test which runs fio to measure performance
+with simple workload.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_run_host_traffic.py  | 111 +++++++++++++++++++++
- 1 file changed, 111 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
+ .../selftests/nvmftests/tests/test_nvmf_perf.py    | 63 ++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
 new file mode 100644
-index 0000000..bf057d0
+index 0000000..853b5558
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
-@@ -0,0 +1,111 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
+@@ -0,0 +1,63 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -43,44 +42,26 @@ index 0000000..bf057d0
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF run host traffic and disable target namespace(s) :-
++NVMF test parallel IOs on all controllers :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Start host traffic parallely on all host ns, disable target ns.
++    3. Run parallel IOs on all available controller(s) and its namespace(s).
 +    4. Delete Host.
 +    5. Delete Target.
 +"""
 +
 +
-+import time
 +import sys
 +from nose.tools import assert_equal
 +sys.path.append("../")
-+from utils.diskio import DD
 +from utils.misc.loopback import Loopback
 +from nvmf_test import NVMFTest
 +
 +
-+def __run_traffic__(iocfg):
-+    """ dd worker thread function to run IOs until it fails.
-+        - Args :
-+              - iocfg : io configuration.
-+        - Returns :
-+              - True when dd command fails.
-+    """
-+    print("Run traffic :- ")
-+    while True:
-+        ret = DD.run_io(iocfg)
-+        # For this testcase we need dd to fail after disabling the ns
-+        if ret is False:
-+            return True
++class TestNVMFParallelPerf(NVMFTest):
 +
-+
-+class TestNVMFHostTraffic(NVMFTest):
-+
-+    """ Represents disable target namespace(s) while host traffic is running
-+        testcase """
++    """ Represents Parallel Subsystem IO testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
@@ -92,47 +73,17 @@ index 0000000..bf057d0
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        self.dd_read_traffic = {"IO_TYPE": "dd",
-+                                "IODIR": "read",
-+                                "THREAD": __run_traffic__,
-+                                "IF": None,
-+                                "OF": "/dev/null",
-+                                "BS": "4K",
-+                                "COUNT": str(self.data_size / self.block_size),
-+                                "RC": 0}
-+        super(TestNVMFHostTraffic, self).common_setup()
++        super(TestNVMFParallelPerf, self).common_setup()
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFHostTraffic, self).common_tear_down()
++        super(TestNVMFParallelPerf, self).common_tear_down()
 +        self.loopdev.delete()
 +
-+    def disable_target_ns(self):
-+        ret = True
-+        for target_subsys in iter(self.target_subsys):
-+            try:
-+                print("Target Subsystem NQN " + target_subsys.nqn)
-+                for target_ns in iter(target_subsys):
-+                    try:
-+                        ns_path = target_ns.ns_path
-+                        print(" Target NS ID " + str(target_ns.ns_id))
-+                        print(" Disabling Target NS Path " + ns_path)
-+                        if target_ns.disable() is False:
-+                            print("ERROR : failed to disable ns " + ns_path)
-+                            ret = False
-+                    except StopIteration:
-+                        break
-+            except StopIteration:
-+                break
-+        return ret
-+
-+    def test_host_traffic(self):
++    def test_parallel_perf(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        self.host_subsys.run_traffic_parallel(self.dd_read_traffic)
-+        time.sleep(5)
-+        ret = self.disable_target_ns()
-+        assert_equal(ret, True, "ERROR : target ns disable failed")
-+        self.host_subsys.wait_traffic_parallel()
++        ret = self.host_subsys.run_perf_parallel(self.fio_read)
++        assert_equal(ret, True, "ERROR : running IOs failed.")
 -- 
 1.8.3.1
