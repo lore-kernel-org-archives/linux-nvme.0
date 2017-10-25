@@ -1,29 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:55 -0700
-Subject: [PATCH V2 38/46] nvmftests-tests: add a test to run IOs with dd
- randomly
+Date: Tue, 24 Oct 2017 18:30:54 -0700
+Subject: [PATCH V2 37/46] nvmftests-tests: add a test to enable/disable target
+ ns
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-39-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-38-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test to run IOs on all the controller
-and its namespaces by randomly selecting the controller
-from the host.
+This adds a new test to enable/disable target namespace.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_random_io.py         | 65 ++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_random_io.py
+ .../nvmftests/tests/test_nvmf_ns_enable_disable.py | 83 ++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ns_enable_disable.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_random_io.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_random_io.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_ns_enable_disable.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_ns_enable_disable.py
 new file mode 100644
-index 0000000..33bb4cb
+index 0000000..94b521b
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_random_io.py
-@@ -0,0 +1,65 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_ns_enable_disable.py
+@@ -0,0 +1,83 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -44,11 +42,11 @@ index 0000000..33bb4cb
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF randomly select a controller and run IOs :-
++NVMF test enable disable target namespace :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Randomly select the controller and run IOs on all namespaces(s).
++    3. Exercise enable disable target namespace options.
 +    4. Delete Host.
 +    5. Delete Target.
 +"""
@@ -61,9 +59,9 @@ index 0000000..33bb4cb
 +from nvmf_test import NVMFTest
 +
 +
-+class TestNVMFRandomIO(NVMFTest):
++class TestNVMFNSEnableDisable(NVMFTest):
 +
-+    """ Represents Random Susbsytem IO testcase """
++    """ Represents enable disable target namespace testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
@@ -75,19 +73,37 @@ index 0000000..33bb4cb
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFRandomIO, self).common_setup()
++        super(TestNVMFNSEnableDisable, self).common_setup()
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFRandomIO, self).common_tear_down()
++        super(TestNVMFNSEnableDisable, self).common_tear_down()
 +        self.loopdev.delete()
 +
-+    def test_random_io(self):
++    def target_ns_enable_disable(self, target_ns):
++        target_ns_path_str = " Target NS Path " + target_ns.ns_path
++        print(" Target NS ID " + str(target_ns.ns_id))
++
++        ret = target_ns.disable()
++        assert_equal(ret, True, "ERROR : target ns enable failed ...")
++        print(target_ns_path_str + " disabled successfully")
++
++        ret = target_ns.enable()
++        assert_equal(ret, True, "ERROR : target ns disable failed ...")
++        print(target_ns_path_str + " enabled successfully")
++
++    def test_ns_enable_disable(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.run_ios_random(self.dd_read)
-+        assert_equal(ret, True, "ERROR : running IOs failed.")
-+        ret = self.host_subsys.run_ios_random(self.dd_write)
-+        assert_equal(ret, True, "ERROR : running IOs failed.")
++        for target_subsys in iter(self.target_subsys):
++            try:
++                print("Target Subsystem NQN " + target_subsys.nqn)
++                for target_ns in iter(target_subsys):
++                    try:
++                        self.target_ns_enable_disable(target_ns)
++                    except StopIteration:
++                        break
++            except StopIteration:
++                break
 -- 
 1.8.3.1
