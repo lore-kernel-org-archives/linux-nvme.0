@@ -1,27 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:47 -0700
-Subject: [PATCH V2 30/46] nvmftests-tests: add a test for get-ns-id
+Date: Tue, 24 Oct 2017 18:30:40 -0700
+Subject: [PATCH V2 23/46] nvmftests-tests: add a test for generic block device
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-31-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-24-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test to execute get-ns-id command
-from host.
+This adds a new testcase to create target and host, on the
+target side it uses generic block device.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_get_ns_id.py         | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_get_ns_id.py
+ .../nvmftests/tests/test_nvmf_create_gen_blk.py    | 71 ++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_get_ns_id.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_get_ns_id.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
 new file mode 100644
-index 0000000..9e49a08
+index 0000000..7ee4eab
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_get_ns_id.py
-@@ -0,0 +1,63 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
+@@ -0,0 +1,71 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,48 +42,56 @@ index 0000000..9e49a08
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF test get-ns-id on each controller :-
++NVMF Create/Delete Host using generic block device :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Execute get-ns-id on all controllers.
-+    4. Delete Host.
-+    5. Delete Target.
++    3. Delete Host.
++    4. Delete Target.
 +"""
 +
 +
 +import sys
 +from nose.tools import assert_equal
 +sys.path.append("../")
-+from utils.misc.loopback import Loopback
++from utils.misc.generic_blk_dev import GenBlk
 +from nvmf_test import NVMFTest
++from nvmf.target import NVMFTarget
++from nvmf.host import NVMFHost
 +
 +
-+class TestNVMFGetNsId(NVMFTest):
++class TestNVMFCreateGenBlk(NVMFTest):
 +
-+    """ Represents Identify Controller testcase """
++    """ Represents Host Creation testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
++        self.host_subsys = None
++        self.target_subsys = None
 +        self.setup_log_dir(self.__class__.__name__)
 +
 +    def setUp(self):
 +        """ Pre section of testcase """
-+        self.loopdev = Loopback(self.mount_path, self.data_size,
-+                                self.block_size, self.nr_dev)
-+        self.loopdev.init()
-+        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFGetNsId, self).common_setup()
++        self.gendev = GenBlk(len(self.blk_dev_pool))
++        self.gendev.init(self.blk_dev_pool)
++
++        self.build_target_config(self.gendev.dev_list)
++
++        self.target_subsys = NVMFTarget(self.target_type)
++        ret = self.target_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : target config failed")
++
++        self.host_subsys = NVMFHost(self.target_type)
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFGetNsId, self).common_tear_down()
-+        self.loopdev.delete()
++        self.host_subsys.delete()
++        self.target_subsys.delete()
 +
-+    def test_get_nsid(self):
++    def test_create_gen_blk(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.get_ns_id()
-+        assert_equal(ret, True, "ERROR : id controller failed.")
++        ret = self.host_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : host config failed")
 -- 
 1.8.3.1
