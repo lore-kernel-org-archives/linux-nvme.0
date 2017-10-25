@@ -1,33 +1,29 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:19 -0700
-Subject: [PATCH V2 02/46] nvmftests-utils: add utility class to define
- constants
+Date: Tue, 24 Oct 2017 18:30:20 -0700
+Subject: [PATCH V2 03/46] nvmftests-utils: add shell command package
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-3-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-4-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-The new directory utils holds utility classes required
-for the framework/tests.
-
-This adds a new class to store all the constants/literals
-which are used in the core test framework and tests.
+This adds a new class which is a wrapper to execute
+a shell command and support for the shell package.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/utils/const/__init__.py    | 21 +++++++++
- .../selftests/nvmftests/utils/const/const.py       | 50 ++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/utils/const/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/const/const.py
+ .../selftests/nvmftests/utils/shell/__init__.py    | 20 +++++++++
+ .../testing/selftests/nvmftests/utils/shell/cmd.py | 47 ++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/utils/shell/__init__.py
+ create mode 100644 tools/testing/selftests/nvmftests/utils/shell/cmd.py
 
-diff --git a/tools/testing/selftests/nvmftests/utils/const/__init__.py b/tools/testing/selftests/nvmftests/utils/const/__init__.py
+diff --git a/tools/testing/selftests/nvmftests/utils/shell/__init__.py b/tools/testing/selftests/nvmftests/utils/shell/__init__.py
 new file mode 100644
-index 0000000..4623af3
+index 0000000..7ddf843
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/utils/const/__init__.py
-@@ -0,0 +1,21 @@
++++ b/tools/testing/selftests/nvmftests/utils/shell/__init__.py
+@@ -0,0 +1,20 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -47,14 +43,13 @@ index 0000000..4623af3
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+
-+from .const import Const
-diff --git a/tools/testing/selftests/nvmftests/utils/const/const.py b/tools/testing/selftests/nvmftests/utils/const/const.py
++from .cmd import Cmd
+diff --git a/tools/testing/selftests/nvmftests/utils/shell/cmd.py b/tools/testing/selftests/nvmftests/utils/shell/cmd.py
 new file mode 100644
-index 0000000..128b031
+index 0000000..4a1a645
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/utils/const/const.py
-@@ -0,0 +1,50 @@
++++ b/tools/testing/selftests/nvmftests/utils/shell/cmd.py
+@@ -0,0 +1,47 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -74,36 +69,33 @@ index 0000000..128b031
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+""" Represents General Constants used in the framework.
++""" Represents Shell Command execution.
 +"""
++import subprocess
 +
 +
-+class Const:
++class Cmd(object):
 +
 +    """
-+    Represents a host.
++    Represents a shell command execution.
 +        - Attributes :
-+            General constants for testcases.
 +    """
 +
-+    XXX = "XXX"
-+    ONE_KB = 1024
-+    ONE_MB = ONE_KB * ONE_KB
-+    ONE_GB = ONE_MB * ONE_KB
++    @staticmethod
++    def exec_cmd(cmd):
++        """ Wrapper for executing a shell command.
++            - Args :
++                - cmd : command to execute.
++            - Returns :
++                - True if cmd returns 0, False otherwise.
++        """
++        proc = None
++        try:
++            proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
++        except Exception as err:
++            print(str(err))
++            return False
 +
-+    KB = "KB"
-+    MB = "MB"
-+    GB = "GB"
-+
-+    EXT4 = "ext4"
-+
-+    CTRL_BLK_FILE_NAME = 2
-+    SMART_LOG_VALUE = 1
-+    ALLOW_HOST_VALUE = 0
-+
-+    SYSFS_DEFAULT_MOUNT_PATH = "/sys/kernel/config/"
-+    SYSFS_NVMET = "/nvmet/"
-+    SYSFS_NVMET_SUBSYS = SYSFS_NVMET + "/subsystems/"
-+    SYSFS_NVMET_SUBSYS_NS = "/namespaces/"
++        return True if proc.wait() == 0 else False
 -- 
 1.8.3.1
