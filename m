@@ -1,27 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:53 -0700
-Subject: [PATCH V2 36/46] nvmftests-tests: add a test to run mkfs and fio
+Date: Tue, 24 Oct 2017 18:30:49 -0700
+Subject: [PATCH V2 32/46] nvmftests-tests: add a test for identify namespace
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-37-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-33-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test to format host namespace(s) with mkfs,
-mount the file system and run fio.
+This adds a new test to execute identify namespace command
+from host.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/tests/test_nvmf_mkfs.py    | 65 ++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
+ .../selftests/nvmftests/tests/test_nvmf_id_ns.py   | 63 ++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_id_ns.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_id_ns.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_id_ns.py
 new file mode 100644
-index 0000000..6f78e86
+index 0000000..365bcad
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
-@@ -0,0 +1,65 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_id_ns.py
+@@ -0,0 +1,63 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,11 +42,11 @@ index 0000000..6f78e86
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF test mkfs on each subsystem :-
++NVMF test id-ns on each namespace :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Execute mkfs on all host namespaces.
++    3. Execute id-ns.
 +    4. Delete Host.
 +    5. Delete Target.
 +"""
@@ -59,9 +59,9 @@ index 0000000..6f78e86
 +from nvmf_test import NVMFTest
 +
 +
-+class TestNVMFMKFS(NVMFTest):
++class TestNVMFIdentifyNamespace(NVMFTest):
 +
-+    """ Represents mkfs testcase """
++    """ Represents Identify Namespace Test testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
@@ -73,19 +73,17 @@ index 0000000..6f78e86
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFMKFS, self).common_setup()
++        super(TestNVMFIdentifyNamespace, self).common_setup()
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFMKFS, self).common_tear_down()
++        super(TestNVMFIdentifyNamespace, self).common_tear_down()
 +        self.loopdev.delete()
 +
-+    def test_mkfs(self):
++    def test_identify_namespace(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.mkfs_seq("ext4")
-+        assert_equal(ret, True, "ERROR : mkfs failed.")
-+        ret = self.host_subsys.run_fs_ios(self.fio_fs_write)
-+        assert_equal(ret, True, "ERROR : fio failed.")
++        ret = self.host_subsys.id_ns()
++        assert_equal(ret, True, "ERROR : id ns failed.")
 -- 
 1.8.3.1
