@@ -1,86 +1,152 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:31:03 -0700
-Subject: [PATCH V2 46/46] nvmftests: add Makefile
+Date: Tue, 24 Oct 2017 18:31:02 -0700
+Subject: [PATCH V2 45/46] nvmftests: add class documentation and sequence
+ diagram
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-47-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-46-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tools/testing/selftests/nvmftests/Makefile | 63 ++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/Makefile
+ tools/testing/selftests/nvmftests/doc/Makefile     |  7 ++
+ .../selftests/nvmftests/doc/sequence-diag/Makefile |  7 ++
+ .../nvmftests/doc/sequence-diag/nvmftests.plantuml | 98 ++++++++++++++++++++++
+ 3 files changed, 112 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/doc/Makefile
+ create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
+ create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
 
-diff --git a/tools/testing/selftests/nvmftests/Makefile b/tools/testing/selftests/nvmftests/Makefile
+diff --git a/tools/testing/selftests/nvmftests/doc/Makefile b/tools/testing/selftests/nvmftests/doc/Makefile
 new file mode 100644
-index 0000000..ecb523a
+index 0000000..868b34a
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/Makefile
-@@ -0,0 +1,63 @@
-+# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
-+#
-+# This program is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU General Public License
-+# as published by the Free Software Foundation; either version 2
-+# of the License, or (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-+# MA  02110-1301, USA.
-+#
-+#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-+#
-+
-+help: all
-+
-+all:
-+	@echo "Usage:"
-+	@echo
-+	@echo "  make run         - Run all testcases."
-+	@echo "  make doc         - Generate Documentation."
-+	@echo "  make cleanall    - removes *pyc, documentation."
-+	@echo "  make static_check- runs pep8, flake8, and pylint on code."
-+
++++ b/tools/testing/selftests/nvmftests/doc/Makefile
+@@ -0,0 +1,7 @@
 +doc:
-+	@make -C doc/
-+
-+run:
-+	@ln -s tests/config config
-+	nose2 --verbose
-+	@rm -fr config
-+
-+static_check:
-+	for i in `find . -name \*.py  | grep -v __init__ | grep -v state_machine`;\
-+	do\
-+			echo "Pylint :- " ;\
-+			printf "%10s    " $${i};\
-+			pylint $${i} 2>&1  | grep "^Your code" |  awk '{print $$7}';\
-+			echo "--------------------------------------------";\
-+			echo "pep8 :- ";\
-+			pep8 $${i};\
-+			echo "flake8 :- ";\
-+			flake8 $${i};\
-+	done
-+
-+cleanall: clean
-+	@rm -fr tests/logs tests/*fio.log loop.json logs
-+	@find . -name \*_fio.log | xargs rm -fr
-+	@make -C doc/ clean
++	@epydoc -v --output=Documentation ../nvmf/*py ../tests/*py ../utils/*py
++	@make -C sequence-diag/
 +
 +clean:
-+	@rm -fr config
-+	@find . -name \*pyc | xargs rm -fr
-+	@find . -name __pycache__ | xargs rm -fr
-+	@find . -name \*ropeproject | xargs rm -fr
++	@make -C sequence-diag/ clean
++	@rm -fr Documentation
+diff --git a/tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile b/tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
+new file mode 100644
+index 0000000..4a25c61
+--- /dev/null
++++ b/tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
+@@ -0,0 +1,7 @@
++SRC=nvmftests
 +
-+.PHONY: doc clean cleanall
++all:
++	@plantuml ${SRC}.plantuml
++
++clean:
++	@rm -fr ${SRC}.png
+diff --git a/tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml b/tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
+new file mode 100644
+index 0000000..f3df765
+--- /dev/null
++++ b/tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
+@@ -0,0 +1,98 @@
++ at startuml
++autonumber
++
++title nvmftest Sequence
++
++box "testcase.py" #LightBlue
++participant "Testcase" as tc
++end box
++
++box "target.py " #LightYellow
++participant "Target subsystems" as t
++end box
++
++box "target_subsystem.py" #LightBlue
++participant "Target namespace" as ts
++
++end box
++
++box "target_ns.py" #Gray
++participant "target namespace processing" as tns
++end box
++
++activate tc
++tc->t : initialize target object
++
++activate t
++t->ts : read config file and create target subsystem config_loop_target()
++ts->ts : initialize the target subsystem init()
++activate ts
++
++activate tns
++tns->tns : create and initialize namespace(s) init()
++tns->tns : initialize with device nguid
++tns->tns : initialize with device path
++tns->tns : enable ns enable_ns()
++
++tns->ts :
++ts->t :
++t->t : initialize port and assign subsystems to the port init()
++t->tc
++
++box "host.py " #LightYellow
++participant "host subsystems" as h
++end box
++
++box "host_subsystem.py" #LightBlue
++participant "host Namespace" as hs
++end box
++
++box "host_ns.py" #Gray
++participant "host namespace processing" as hns
++end box
++
++activate tc
++tc->h : initialize and configure host config()
++
++activate h
++h->hs : read config file and create host subsystem config_loop()
++hs->hs : initialize the host subsystem, connect to target init_ctrl()
++
++activate hs
++hs->hns : create and initialize namespace init_ctrl_ns()
++hns->hns : validate sysfs entries
++
++activate hns
++hns->hns : validate host namespace as a block device init()
++hns->hns : validate sysfs entries validate_sysfs_ns()
++
++hns->hs :
++hs->h :
++h->tc
++
++tc->tc : execute test case operations
++
++tc->h : delete host delete()
++h->hs : delete host system delete()
++hs->hns : delete host namespace delete()
++
++hns->hs :
++deactivate hns
++hs->h :
++deactivate hs
++h->tc
++deactivate h
++
++tc->t : delete target delete()
++t->t : delete port delete()
++t->ts : delete target subsystem delete()
++ts->tns : delete target namespaces delete()
++tns->ts
++deactivate tns
++deactivate ts
++ts->t
++deactivate t
++t->tc
++deactivate tc
++
++ at enduml
 -- 
 1.8.3.1
