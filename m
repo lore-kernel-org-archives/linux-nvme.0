@@ -1,202 +1,109 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:18 -0700
-Subject: [PATCH V2 01/46] nvmftests: add nvmftests README file
+Date: Tue, 24 Oct 2017 18:30:19 -0700
+Subject: [PATCH V2 02/46] nvmftests-utils: add utility class to define
+ constants
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-2-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-3-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds readme file for NVMe Over Fabrics unit test
-framework (nvmftests).
+The new directory utils holds utility classes required
+for the framework/tests.
+
+This adds a new class to store all the constants/literals
+which are used in the core test framework and tests.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tools/testing/selftests/nvmftests/README.md | 176 ++++++++++++++++++++++++++++
- 1 file changed, 177 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/README.md
+ .../selftests/nvmftests/utils/const/__init__.py    | 21 +++++++++
+ .../selftests/nvmftests/utils/const/const.py       | 50 ++++++++++++++++++++++
+ 2 files changed, 71 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/utils/const/__init__.py
+ create mode 100644 tools/testing/selftests/nvmftests/utils/const/const.py
 
-diff --git a/tools/testing/selftests/nvmftests/README.md b/tools/testing/selftests/nvmftests/README.md
+diff --git a/tools/testing/selftests/nvmftests/utils/const/__init__.py b/tools/testing/selftests/nvmftests/utils/const/__init__.py
 new file mode 100644
-index 0000000..b20a96a
+index 0000000..4623af3
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/README.md
-@@ -0,0 +1,176 @@
-+nvmftests
-+=========
++++ b/tools/testing/selftests/nvmftests/utils/const/__init__.py
+@@ -0,0 +1,21 @@
++# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
++#
++
++from .const import Const
+diff --git a/tools/testing/selftests/nvmftests/utils/const/const.py b/tools/testing/selftests/nvmftests/utils/const/const.py
+new file mode 100644
+index 0000000..128b031
+--- /dev/null
++++ b/tools/testing/selftests/nvmftests/utils/const/const.py
+@@ -0,0 +1,50 @@
++# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
++#
++""" Represents General Constants used in the framework.
++"""
 +
 +
-+1. Introduction
-+---------------
++class Const:
 +
-+    This contains NVMe Over Fabrics unit test framework. The purpose of this
-+    framework is to provide a platform to create different scenarios and test
-+    specific functionality for NVMe Over Fabrics Subsystem (NVMeOF).
++    """
++    Represents a host.
++        - Attributes :
++            General constants for testcases.
++    """
 +
-+2. Overview
-+-----------
++    XXX = "XXX"
++    ONE_KB = 1024
++    ONE_MB = ONE_KB * ONE_KB
++    ONE_GB = ONE_MB * ONE_KB
 +
-+    The main objective of this framework is to have a platform in place which
-+    can provide :-
-+    2.1. Classes and methods for each component in the NVMeOF subsystem.
-+    2.2. Ability to build NVMeOF subsystem based on the configuration file.
-+    2.3. Ability to issue sequential and parallel commands to the different
-+         namespaces and controllers from the host and target side.
++    KB = "KB"
++    MB = "MB"
++    GB = "GB"
 +
-+    All the testcases are written in python3 and nose2 format.
++    EXT4 = "ext4"
 +
-+3. Class hierarchy, design considerations and directory structure
-+-----------------------------------------------------------------
++    CTRL_BLK_FILE_NAME = 2
++    SMART_LOG_VALUE = 1
++    ALLOW_HOST_VALUE = 0
 +
-+    This framework follows a simple class hierarchy. Each test is a
-+    direct subclass or indirect subclass of NVMeOFTest. To write a new testcase
-+    one can copy an existing template test_nvmf_target_template.py or
-+    test_nvmf_host_template.py and start adding new testcase specific
-+    functionality.
-+
-+    3.1. Core Classes :- (path $NVMFTESTSHOME/nvmf/)
-+       Target Classes :- (path $NVMFTESTSHOME/nvmf/target)
-+           NVMeOFTarget :- Represents Target.
-+           NVMeOFTargetSubsystem :- Represents a Target Subsystem.
-+           NVMeOFTargetNamespace :- Represents a Target Namespace.
-+           NVMeOFTargetPort :- Represents a Target Port.
-+       Host Classes :- (path $NVMFTESTSHOME/nvmf/host)
-+           NVMeOFHost :- Represents Host.
-+           NVMeOFHostController :- Represents a Host Controller.
-+           NVMeOFHostNamespace :- Represents a Host Namespace.
-+
-+       We divide host and target side components into two different class
-+       hierarchies. On the host side, we have a controller represented as a
-+       character device and each namespace as a block device. In order to
-+       add any new functionality to the framework please modify core classes
-+       for each component and propagate new interfaces to the top
-+       level (in host.py/target.py). On the target side, we have subsystem(s),
-+       namespace(s), and port(s) which are configured using configfs.
-+       For detailed class hierarchy please look into documentation.
-+    3.2. Testcase class:-
-+        NVMeOFTest :- Base class for each testcase, contains common functions.
-+                      Each testcase is direct or indirect subclass of
-+                      NVMeOFTest. Testcase class consumes the host and target
-+                      classes mentioned in the 3.1 to build the
-+                      NVMeOF subsystems.
-+    3.3 Directory Structure
-+        Following is the quick overview of the directory structure :-
-+        .
-+        |-- doc                 :- documentation.
-+        |   |-- Documentation   :- class documentation.
-+        |   |-- sequence-diag   :- sequence diagram.
-+        |-- nvmf                :- NVMF core test framework files.
-+        |   |-- host            :- NVMF host core files.
-+        |   |-- target          :- NVMF target core files.
-+        |-- tests               :- test cases.
-+        |   |-- config          :- test configuration JSON files.
-+        |-- utils               :- utility classes.
-+            |-- const           :- constant(s) definitions.
-+            |-- diskio          :- diskio related wrappers.
-+            |-- fs              :- fs related wrappers.
-+            |-- misc            :- miscellaneous files.
-+            |-- shell           :- shell command related wrappers.
-+            |-- log             :- module logger helpers.
-+
-+4. Adding new testcases
-+-----------------------
-+
-+    4.1. Please refer to host or target template testcase.
-+    4.2. Copy the template file with your testcase name.
-+    4.3. Update the class name with testcase name, this has to be unique.
-+    4.4. Update the test case function name.
-+    4.5. If necessary update the core files and add new functionality.
-+    4.6. Add testcase main function to determine success or failure.
-+    4.7. Update setUp() and tearDown() to add pre and post functionality.
-+    4.8. Once testcase is ready make sure :-
-+         4.8.1. Run pep8, flake8, pylint and fix errors/warnings.
-+                -Example "$ make static_check" will run pep8, flake8, and
-+                pylint on all the python files in current directory.
-+         4.8.2. Execute make doc to generate the documentation.
-+                -Example "$ make doc" will create and update existing
-+                 documentation.
-+
-+5. Running testcases with framework
-+-----------------------------------
-+
-+    Here are some examples of running testcases with nose2 :-
-+        5.1. Running single testcase with nose2 :-
-+            from $NVMFTESTSHOME/tests
-+            # nose2 --verbose test_nvmf_create_target
-+            # nose2 --verbose test_nvmf_create_host
-+
-+        5.2. Running all the testcases :-
-+            from $NVMFTESTSHOME/tests
-+            # nose2 --verbose
-+
-+        5.3 Running all the testcases from makefile :-
-+            from #NVMFTESTSHOME
-+            # make run
-+
-+    Some notes on execution:-
-+        In the current implementation, it uses file backed loop or nvme-pci
-+        block device on the target side. For some testcase execution,
-+        a new file is created and linked with loop device. It expects that
-+        "mount_path" in the nvmftests.json has enough space available to store
-+        backend files which are used for target namespaces. Please edit the
-+        target subsystems and namespace configuration, size of the loop device
-+        backed file on the target side in the
-+        $NVMFTESTSHOME/tests/config/nvmftests.json according to your need.
-+
-+        For host and target setup, you may have to configure timeout (sleep())
-+        values in the code to make sure previous steps are completed
-+        successfully and resources are online before executing next the steps.
-+        We are planning to make these sleep() calls configurable in the future
-+        release.
-+
-+6. Logging
-+----------
-+
-+    For each testcase, it will create a separate log directory with the test
-+    name under logs/. This directory will be used for temporary files and
-+    storing execution logs of each testcase. Current implementation stores
-+    stdout and stderr for each testcase under log directory, e.g.:-
-+        logs/
-+        |-- TestNVMFCreateHost
-+        |   |-- TestNVMFCreateHost
-+        |       |-- stderr.log
-+        |       |-- stdout.log
-+        |-- TestNVMFCreateTarget
-+        |   |?????? TestNVMFCreateTarget
-+        |       |-- stderr.log
-+        |       |-- stdout.log
-+        |-- TestNVMFCtrlRescan
-+        |   |-- TestNVMFCtrlRescan
-+                .
-+                .
-+                .
-+
-+7. Test configuration
-+---------------------
-+
-+    There are two types of config files used by the framework :-
-+    7.1. nvmftests.json :- ($NVMFTESTSHOME/tests/config/nvmftests.json)
-+         file contains the information about various testcase parameters.
-+    7.2. loop.json :- This file is auto-generated by the test framework
-+         for the target configuration based on the parameters set in the
-+         nvmftests.json.
-+
-+8. Dependencies
-+---------------
-+
-+    8.1. Python(>= 3.0)
-+    8.2. nose(http://nose.readthedocs.io
-+    8.3. nose2(Installation guide http://nose2.readthedocs.io/)
-+    8.4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
-+    8.5. flake8(https://pypi.python.org/pypi/flake8)
-+    8.6. pylint(https://www.pylint.org/)
-+    8.7. Epydoc(http://epydoc.sourceforge.net/)
-+    8.8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
-+    8.9. fio(https://github.com/axboe/fio)
-+
-+    Python package management system pip can be used to install most of the
-+    listed packages(https://pip.pypa.io/en/stable/installing/) :-
-+
-+    $ pip install nose nose2 natsort pep8 flake8 pylint epydoc
++    SYSFS_DEFAULT_MOUNT_PATH = "/sys/kernel/config/"
++    SYSFS_NVMET = "/nvmet/"
++    SYSFS_NVMET_SUBSYS = SYSFS_NVMET + "/subsystems/"
++    SYSFS_NVMET_SUBSYS_NS = "/namespaces/"
 -- 
 1.8.3.1
