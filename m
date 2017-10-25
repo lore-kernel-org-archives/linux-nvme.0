@@ -1,152 +1,92 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:31:02 -0700
-Subject: [PATCH V2 45/46] nvmftests: add class documentation and sequence
- diagram
+Date: Tue, 24 Oct 2017 18:30:51 -0700
+Subject: [PATCH V2 34/46] nvmftests-tests: add a test to run IOs with dd
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-46-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-35-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
+This adds a new test to run IOs on all the controllers
+and its namespaces. At a time it selects only one namespace
+to run IOs.
+
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tools/testing/selftests/nvmftests/doc/Makefile     |  7 ++
- .../selftests/nvmftests/doc/sequence-diag/Makefile |  7 ++
- .../nvmftests/doc/sequence-diag/nvmftests.plantuml | 98 ++++++++++++++++++++++
- 3 files changed, 112 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/doc/Makefile
- create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
- create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
+ .../selftests/nvmftests/tests/test_nvmf_io.py      | 65 ++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_io.py
 
-diff --git a/tools/testing/selftests/nvmftests/doc/Makefile b/tools/testing/selftests/nvmftests/doc/Makefile
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_io.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_io.py
 new file mode 100644
-index 0000000..868b34a
+index 0000000..b1ccaa8
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/doc/Makefile
-@@ -0,0 +1,7 @@
-+doc:
-+	@epydoc -v --output=Documentation ../nvmf/*py ../tests/*py ../utils/*py
-+	@make -C sequence-diag/
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_io.py
+@@ -0,0 +1,65 @@
++# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
++#
++"""
++NVMF sequntially select a controller and run IOs:-
 +
-+clean:
-+	@make -C sequence-diag/ clean
-+	@rm -fr Documentation
-diff --git a/tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile b/tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
-new file mode 100644
-index 0000000..4a25c61
---- /dev/null
-+++ b/tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
-@@ -0,0 +1,7 @@
-+SRC=nvmftests
++    1. From the config file create Target.
++    2. From the config file create host and connect to target.
++    3. Run IOs sequentially iterating over controller(s) and its namespaces(s).
++    3. Delete Host.
++    4. Delete Target.
++"""
 +
-+all:
-+	@plantuml ${SRC}.plantuml
 +
-+clean:
-+	@rm -fr ${SRC}.png
-diff --git a/tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml b/tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
-new file mode 100644
-index 0000000..f3df765
---- /dev/null
-+++ b/tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
-@@ -0,0 +1,98 @@
-+ at startuml
-+autonumber
++import sys
++from nose.tools import assert_equal
++sys.path.append("../")
++from utils.misc.loopback import Loopback
++from nvmf_test import NVMFTest
 +
-+title nvmftest Sequence
 +
-+box "testcase.py" #LightBlue
-+participant "Testcase" as tc
-+end box
++class TestNVMFIO(NVMFTest):
 +
-+box "target.py " #LightYellow
-+participant "Target subsystems" as t
-+end box
++    """ Represents Sequential Subsystem IO testcase """
 +
-+box "target_subsystem.py" #LightBlue
-+participant "Target namespace" as ts
++    def __init__(self):
++        NVMFTest.__init__(self)
++        self.setup_log_dir(self.__class__.__name__)
 +
-+end box
++    def setUp(self):
++        """ Pre section of testcase """
++        self.loopdev = Loopback(self.mount_path, self.data_size,
++                                self.block_size, self.nr_dev)
++        self.loopdev.init()
++        self.build_target_config(self.loopdev.dev_list)
++        super(TestNVMFIO, self).common_setup()
 +
-+box "target_ns.py" #Gray
-+participant "target namespace processing" as tns
-+end box
++    def tearDown(self):
++        """ Post section of testcase """
++        super(TestNVMFIO, self).common_tear_down()
++        self.loopdev.delete()
 +
-+activate tc
-+tc->t : initialize target object
-+
-+activate t
-+t->ts : read config file and create target subsystem config_loop_target()
-+ts->ts : initialize the target subsystem init()
-+activate ts
-+
-+activate tns
-+tns->tns : create and initialize namespace(s) init()
-+tns->tns : initialize with device nguid
-+tns->tns : initialize with device path
-+tns->tns : enable ns enable_ns()
-+
-+tns->ts :
-+ts->t :
-+t->t : initialize port and assign subsystems to the port init()
-+t->tc
-+
-+box "host.py " #LightYellow
-+participant "host subsystems" as h
-+end box
-+
-+box "host_subsystem.py" #LightBlue
-+participant "host Namespace" as hs
-+end box
-+
-+box "host_ns.py" #Gray
-+participant "host namespace processing" as hns
-+end box
-+
-+activate tc
-+tc->h : initialize and configure host config()
-+
-+activate h
-+h->hs : read config file and create host subsystem config_loop()
-+hs->hs : initialize the host subsystem, connect to target init_ctrl()
-+
-+activate hs
-+hs->hns : create and initialize namespace init_ctrl_ns()
-+hns->hns : validate sysfs entries
-+
-+activate hns
-+hns->hns : validate host namespace as a block device init()
-+hns->hns : validate sysfs entries validate_sysfs_ns()
-+
-+hns->hs :
-+hs->h :
-+h->tc
-+
-+tc->tc : execute test case operations
-+
-+tc->h : delete host delete()
-+h->hs : delete host system delete()
-+hs->hns : delete host namespace delete()
-+
-+hns->hs :
-+deactivate hns
-+hs->h :
-+deactivate hs
-+h->tc
-+deactivate h
-+
-+tc->t : delete target delete()
-+t->t : delete port delete()
-+t->ts : delete target subsystem delete()
-+ts->tns : delete target namespaces delete()
-+tns->ts
-+deactivate tns
-+deactivate ts
-+ts->t
-+deactivate t
-+t->tc
-+deactivate tc
-+
-+ at enduml
++    def test_io(self):
++        """ Testcase main """
++        print("Now Running " + self.__class__.__name__)
++        ret = self.host_subsys.run_ios_seq(self.dd_read)
++        assert_equal(ret, True, "ERROR : running IOs failed.")
++        ret = self.host_subsys.run_ios_seq(self.dd_write)
++        assert_equal(ret, True, "ERROR : running IOs failed.")
 -- 
 1.8.3.1
