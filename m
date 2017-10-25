@@ -1,28 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:57 -0700
-Subject: [PATCH V2 40/46] nvmftests-tests: add a test to scan target subsys/ns
+Date: Tue, 24 Oct 2017 18:30:58 -0700
+Subject: [PATCH V2 41/46] nvmftests-tests: add a target template
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-41-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-42-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test to scan all the target subsys and ns.
-This can be used as a template where scanning of target subsystems
-is needed while the test is in progress.
+This adds a target test template which can be easily copied
+to write a new testcase.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_scan_target.py       | 76 ++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_scan_target.py
+ .../nvmftests/tests/test_nvmf_target_template.py   | 64 ++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_scan_target.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_scan_target.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
 new file mode 100644
-index 0000000..b65e737
+index 0000000..08f0978
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_scan_target.py
-@@ -0,0 +1,76 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
+@@ -0,0 +1,64 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -43,13 +42,11 @@ index 0000000..b65e737
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF scan Target :-
++NVMF target template :-
 +
 +    1. From the config file create Target.
-+    2. From the config file create host and connect to target.
-+    3. Scan target subsystem.
-+    4. Delete Host.
-+    5. Delete Target.
++    2. Write testcase code here.
++    3. Delete Target.
 +"""
 +
 +
@@ -58,14 +55,16 @@ index 0000000..b65e737
 +sys.path.append("../")
 +from utils.misc.loopback import Loopback
 +from nvmf_test import NVMFTest
++from nvmf.target import NVMFTarget
 +
 +
-+class TestNVMFScanTarget(NVMFTest):
++class TestNVMFTargetTemplate(NVMFTest):
 +
-+    """ Represents host controller scan testcase """
++    """ Represents target template testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
++        self.target_subsys = None
 +        self.setup_log_dir(self.__class__.__name__)
 +
 +    def setUp(self):
@@ -74,30 +73,18 @@ index 0000000..b65e737
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFScanTarget, self).common_setup()
++        self.target_subsys = NVMFTarget(self.target_type)
++        ret = self.target_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : target config failed")
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFScanTarget, self).common_tear_down()
++        self.target_subsys.delete()
 +        self.loopdev.delete()
 +
-+    def test_scan_target(self):
++    def test_target(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        success = True
-+        for target_subsys in iter(self.target_subsys):
-+            try:
-+                print("Target Controller " + target_subsys.nqn)
-+                for target_ns in iter(target_subsys):
-+                    try:
-+                        print(" Target NS " + target_ns.ns_path)
-+                    except StopIteration:
-+                        success = False
-+                        break
-+            except StopIteration:
-+                success = False
-+                break
-+
-+        assert_equal(success, True, "ERROR : failed to scan host")
++        assert_equal(0, 0, "")
 -- 
 1.8.3.1
