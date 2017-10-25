@@ -1,28 +1,26 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:31 -0700
-Subject: [PATCH V2 14/46] nvmftests-nvmf: add target package
+Date: Tue, 24 Oct 2017 18:30:30 -0700
+Subject: [PATCH V2 13/46] nvmftests-nvmf: add support for target
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-15-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-14-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a support for target package. In current implementation
-target package supports port, ns, subsystem and configuration
-management in loop mode.
+This adds a new class to handle the target operations.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/nvmf/target/__init__.py    | 25 ++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/__init__.py
+ .../selftests/nvmftests/nvmf/target/target.py      | 210 +++++++++++++++++++++
+ 1 file changed, 210 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/target/__init__.py b/tools/testing/selftests/nvmftests/nvmf/target/__init__.py
+diff --git a/tools/testing/selftests/nvmftests/nvmf/target/target.py b/tools/testing/selftests/nvmftests/nvmf/target/target.py
 new file mode 100644
-index 0000000..66a1320
+index 0000000..87cae14
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/target/__init__.py
-@@ -0,0 +1,25 @@
++++ b/tools/testing/selftests/nvmftests/nvmf/target/target.py
+@@ -0,0 +1,210 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,11 +40,196 @@ index 0000000..66a1320
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
++""" Represents NVMe Over Fabric Target.
++"""
 +
-+from .target import NVMFTarget
-+from .target_subsystem import NVMFTargetSubsystem
-+from .target_ns import NVMFTargetNamespace
-+from .port import NVMFTargetPort
-+from .target_config_generator import TargetConfig
++import sys
++import json
++from nose.tools import assert_equal
++
++from utils.shell import Cmd
++from utils.const import Const
++from utils.log import Log
++from nvmf.target.target_subsystem import NVMFTargetSubsystem
++from nvmf.target.port import NVMFTargetPort
++
++
++class NVMFTarget(object):
++
++    """
++    Represents a target subsystem.
++
++        - Attributes:
++            - subsys_list : list of the subsystem.
++            - port_list : list of the ports.
++            - target_type : target type for ports.
++            - cfgfs : configfs mount point.
++    """
++    def __init__(self, target_type):
++        self.subsys_list = []
++        self.port_list = []
++        self.target_type = target_type
++        self.cfgfs = Const.SYSFS_DEFAULT_MOUNT_PATH
++        self.logger = Log.get_logger(__name__, 'target')
++        self.subsys_list_index = 0
++
++        assert_equal(self.load_configfs(), True)
++
++    def __iter__(self):
++        self.subsys_list_index = 0
++        return self
++
++    def __next__(self):
++        index = self.subsys_list_index
++        self.subsys_list_index += 1
++        if len(self.subsys_list) > index:
++            return self.subsys_list[index]
++        raise StopIteration
++
++    def next(self):
++        """ Iterator next function """
++        return self.__next__()
++
++    def load_configfs(self):
++        """ Load configfs.
++            - Args :
++                - None.
++            -Returns :
++                - True on success, False on failure.
++        """
++        Cmd.exec_cmd("modprobe configfs")
++        ret = Cmd.exec_cmd("mountpoint -q " + self.cfgfs)
++        if ret is False:
++            ret = Cmd.exec_cmd("mount -t configfs none " + self.cfgfs)
++            if ret is False:
++                self.logger.error("failed to mount configfs.")
++                sys.exit(ret)
++            ret = Cmd.exec_cmd("mountpoint -q " + self.cfgfs)
++            if ret is True:
++                self.logger.info("Configfs mounted at " + self.cfgfs + ".")
++            else:
++                self.logger.error("unable to mount configfs at " +
++                                  self.cfgfs + ".")
++        return ret
++
++    def config_loop_target(self, config_file):
++        """ Configure loop target :-
++            1. Create subsystem(s) and respective namespace(s).
++            2. Create port(s) and linked them to respective subsystem(s).
++            3. Create in memory configuration from JSON config file.
++            - Args :
++                - config_file : json config file path.
++            -Returns :
++                - True on success, False on failure.
++        """
++        ret = Cmd.exec_cmd("modprobe nvme-loop")
++        if ret is False:
++            self.logger.error("failed to load nvme-loop.")
++            return False
++
++        try:
++            config_file_handle = open(config_file, "r")
++            config = json.loads(config_file_handle.read())
++            config_file_handle.close()
++        except Exception, err:
++            self.logger.error(str(err) + ".")
++            return False
++
++        # Subsystem
++        for sscfg in config['subsystems']:
++            # Create Subsystem
++            subsys = NVMFTargetSubsystem(self.cfgfs,
++                                         sscfg['nqn'],
++                                         sscfg['allowed_hosts']
++                                         [Const.ALLOW_HOST_VALUE],
++                                         sscfg['attr']['allow_any_host'])
++            if subsys.init() is False:
++                return False
++
++            self.subsys_list.append(subsys)
++
++            for nscfg in sscfg['namespaces']:
++                ns_attr = {}
++                ns_attr['device_nguid'] = str(nscfg['device']['nguid'])
++                ns_attr['device_path'] = str(nscfg['device']['path'])
++                ns_attr['enable'] = str(nscfg['enable'])
++                ns_attr['nsid'] = str(nscfg['nsid'])
++                if subsys.create_ns(**ns_attr) is False:
++                    return False
++
++        # Port
++        for pcfg in config['ports']:
++            port_cfg = {}
++            port_cfg['addr_treq'] = pcfg['addr']['treq']
++            port_cfg['addr_traddr'] = pcfg['addr']['traddr']
++            port_cfg['addr_trtype'] = pcfg['addr']['trtype']
++            port_cfg['addr_adrfam'] = pcfg['addr']['adrfam']
++            port_cfg['addr_trsvcid'] = pcfg['addr']['trsvcid']
++            port_cfg['portid'] = str(pcfg['portid'])
++            port_cfg['subsystems'] = pcfg['subsystems']
++
++            port = NVMFTargetPort(self.cfgfs, port_cfg['portid'], **port_cfg)
++            if port.init() is False:
++                return False
++
++            self.port_list.append(port)
++
++            for subsys in port_cfg['subsystems']:
++                ret = port.add_subsys(subsys)
++                if ret is False:
++                    self.logger.error("failed to add subsystem " +
++                                      subsys + " to port " +
++                                      port.port_id + ".")
++                    return False
++
++        return True
++
++    def config(self, config_file="config/loop.json"):
++        """ Wrapper for creating target configuration.
++            - Args :
++                - config_file : json config_file.
++            -Returns :
++                - True on success, False on failure.
++        """
++        if Cmd.exec_cmd("modprobe nvme") is False:
++            self.logger.error("failed to load nvme.")
++            return False
++
++        if Cmd.exec_cmd("modprobe nvmet") is False:
++            self.logger.error("unable to load nvmet module.")
++            return False
++
++        ret = False
++        if self.target_type == "loop":
++            self.logger.info("Configuring loop target ... ")
++            ret = self.config_loop_target(config_file)
++        else:
++            self.logger.error("only loop target type is supported.")
++
++        return ret
++
++    def delete(self):
++        """ Target Cleanup.
++            - Args :
++                - None.
++            -Returns :
++                - True on success, False on failure.
++        """
++        self.logger.info("Cleanup is in progress ...")
++        ret = True
++        for port in self.port_list:
++            if port.delete() is False:
++                ret = False
++
++        for subsys in iter(self):
++            if subsys.delete() is False:
++                ret = False
++
++        self.logger.info("Removing Modules ...")
++        Cmd.exec_cmd("modprobe -r nvme_loop")
++        Cmd.exec_cmd("modprobe -r nvmet")
++        Cmd.exec_cmd("modprobe -r nvme_fabrics")
++        self.logger.info("DONE.")
++        return ret
 -- 
 1.8.3.1
