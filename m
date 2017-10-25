@@ -1,27 +1,28 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:40 -0700
-Subject: [PATCH V2 23/46] nvmftests-tests: add a test for generic block device
+Date: Tue, 24 Oct 2017 18:31:00 -0700
+Subject: [PATCH V2 43/46] nvmftests-tests: add a test to run traffic and
+ disable ns
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-24-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-44-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new testcase to create target and host, on the
-target side it uses generic block device.
+This adds a new test to run the IOs from the host
+and disable the ns on the target.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_create_gen_blk.py    | 71 ++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
+ .../nvmftests/tests/test_nvmf_run_host_traffic.py  | 111 +++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
 new file mode 100644
-index 0000000..7ee4eab
+index 0000000..bf057d0
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
-@@ -0,0 +1,71 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
+@@ -0,0 +1,111 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,56 +43,96 @@ index 0000000..7ee4eab
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF Create/Delete Host using generic block device :-
++NVMF run host traffic and disable target namespace(s) :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Delete Host.
-+    4. Delete Target.
++    3. Start host traffic parallely on all host ns, disable target ns.
++    4. Delete Host.
++    5. Delete Target.
 +"""
 +
 +
++import time
 +import sys
 +from nose.tools import assert_equal
 +sys.path.append("../")
-+from utils.misc.generic_blk_dev import GenBlk
++from utils.diskio import DD
++from utils.misc.loopback import Loopback
 +from nvmf_test import NVMFTest
-+from nvmf.target import NVMFTarget
-+from nvmf.host import NVMFHost
 +
 +
-+class TestNVMFCreateGenBlk(NVMFTest):
++def __run_traffic__(iocfg):
++    """ dd worker thread function to run IOs until it fails.
++        - Args :
++              - iocfg : io configuration.
++        - Returns :
++              - True when dd command fails.
++    """
++    print("Run traffic :- ")
++    while True:
++        ret = DD.run_io(iocfg)
++        # For this testcase we need dd to fail after disabling the ns
++        if ret is False:
++            return True
 +
-+    """ Represents Host Creation testcase """
++
++class TestNVMFHostTraffic(NVMFTest):
++
++    """ Represents disable target namespace(s) while host traffic is running
++        testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
-+        self.host_subsys = None
-+        self.target_subsys = None
 +        self.setup_log_dir(self.__class__.__name__)
 +
 +    def setUp(self):
 +        """ Pre section of testcase """
-+        self.gendev = GenBlk(len(self.blk_dev_pool))
-+        self.gendev.init(self.blk_dev_pool)
-+
-+        self.build_target_config(self.gendev.dev_list)
-+
-+        self.target_subsys = NVMFTarget(self.target_type)
-+        ret = self.target_subsys.config(self.target_config_file)
-+        assert_equal(ret, True, "ERROR : target config failed")
-+
-+        self.host_subsys = NVMFHost(self.target_type)
++        self.loopdev = Loopback(self.mount_path, self.data_size,
++                                self.block_size, self.nr_dev)
++        self.loopdev.init()
++        self.build_target_config(self.loopdev.dev_list)
++        self.dd_read_traffic = {"IO_TYPE": "dd",
++                                "IODIR": "read",
++                                "THREAD": __run_traffic__,
++                                "IF": None,
++                                "OF": "/dev/null",
++                                "BS": "4K",
++                                "COUNT": str(self.data_size / self.block_size),
++                                "RC": 0}
++        super(TestNVMFHostTraffic, self).common_setup()
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        self.host_subsys.delete()
-+        self.target_subsys.delete()
++        super(TestNVMFHostTraffic, self).common_tear_down()
++        self.loopdev.delete()
 +
-+    def test_create_gen_blk(self):
++    def disable_target_ns(self):
++        ret = True
++        for target_subsys in iter(self.target_subsys):
++            try:
++                print("Target Subsystem NQN " + target_subsys.nqn)
++                for target_ns in iter(target_subsys):
++                    try:
++                        ns_path = target_ns.ns_path
++                        print(" Target NS ID " + str(target_ns.ns_id))
++                        print(" Disabling Target NS Path " + ns_path)
++                        if target_ns.disable() is False:
++                            print("ERROR : failed to disable ns " + ns_path)
++                            ret = False
++                    except StopIteration:
++                        break
++            except StopIteration:
++                break
++        return ret
++
++    def test_host_traffic(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.config(self.target_config_file)
-+        assert_equal(ret, True, "ERROR : host config failed")
++        self.host_subsys.run_traffic_parallel(self.dd_read_traffic)
++        time.sleep(5)
++        ret = self.disable_target_ns()
++        assert_equal(ret, True, "ERROR : target ns disable failed")
++        self.host_subsys.wait_traffic_parallel()
 -- 
 1.8.3.1
