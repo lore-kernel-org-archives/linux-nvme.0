@@ -1,28 +1,24 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:35 -0700
-Subject: [PATCH V2 18/46] nvmftests-nvmf: add host package
+Date: Tue, 24 Oct 2017 18:30:36 -0700
+Subject: [PATCH V2 19/46] nvmftests-nvmf: add nvmf core package
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-19-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-20-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a support for host package. In current implementation
-host package supports ns, subsystem and configuration
-management in loop mode.
-
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/nvmf/host/__init__.py      | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/__init__.py
+ tools/testing/selftests/nvmftests/nvmf/__init__.py | 28 ++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/nvmf/__init__.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/host/__init__.py b/tools/testing/selftests/nvmftests/nvmf/host/__init__.py
+diff --git a/tools/testing/selftests/nvmftests/nvmf/__init__.py b/tools/testing/selftests/nvmftests/nvmf/__init__.py
 new file mode 100644
-index 0000000..10a2e4ee
+index 0000000..57c3985
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/host/__init__.py
-@@ -0,0 +1,23 @@
++++ b/tools/testing/selftests/nvmftests/nvmf/__init__.py
+@@ -0,0 +1,28 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,9 +38,14 @@ index 0000000..10a2e4ee
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+
 +from .host import NVMFHost
-+from .host_subsystem import NVMFHostController
-+from .host_ns import NVMFHostNamespace
++from .host import NVMFHostController
++from .host import NVMFHostNamespace
++
++from .target import NVMFTarget
++from .target import NVMFTargetSubsystem
++from .target import NVMFTargetNamespace
++from .target import NVMFTargetPort
++from .target import TargetConfig
 -- 
 1.8.3.1
