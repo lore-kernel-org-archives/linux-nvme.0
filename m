@@ -1,28 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:38 -0700
-Subject: [PATCH V2 21/46] nvmftests-tests: add support for test logger
+Date: Tue, 24 Oct 2017 18:30:39 -0700
+Subject: [PATCH V2 22/46] nvmftests-tests: add a parent class for tests
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-22-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-23-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds support to store hierarchical logs for each execution.
-Each test will use its unique class name under which this will
-store all the logs.
+This adds a parent class for tests. Each test should inherit this
+class and use common code present in the base class if possible.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/tests/nvmf_test_logger.py  | 50 ++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/nvmf_test_logger.py
+ .../testing/selftests/nvmftests/tests/nvmf_test.py | 204 +++++++++++++++++++++
+ 1 file changed, 204 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/nvmf_test.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/nvmf_test_logger.py b/tools/testing/selftests/nvmftests/tests/nvmf_test_logger.py
+diff --git a/tools/testing/selftests/nvmftests/tests/nvmf_test.py b/tools/testing/selftests/nvmftests/tests/nvmf_test.py
 new file mode 100644
-index 0000000..16230f8
+index 0000000..e1c155e
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/nvmf_test_logger.py
-@@ -0,0 +1,50 @@
++++ b/tools/testing/selftests/nvmftests/tests/nvmf_test.py
+@@ -0,0 +1,204 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,36 +41,190 @@ index 0000000..16230f8
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+"""Logger for NVMe Test Framwwork.
++""" Base Class for all NVMF testcases.
 +"""
++
++import os
 +import sys
++import json
++from nose.tools import assert_equal
++
++from utils.const import Const
++from utils.diskio import DD
++from utils.diskio import FIO
++from nvmf.target import NVMFTarget
++from nvmf.host import NVMFHost
++from nvmf.target.target_config_generator import TargetConfig
++from nvmf_test_logger import NVMFLogger
 +
 +
-+class NVMFLogger(object):
-+    """ Represents Logger for NVMe Testframework.  """
-+    def __init__(self, log_file_path):
-+        """ Logger setup.
++def __dd_worker__(iocfg):
++    """ dd worker thread function.
++        - Args :
++            - iocfg : io configuration.
++        - Returns :
++            - Return value of dd command.
++    """
++    return DD.run_io(iocfg)
++
++
++def __fio_worker__(iocfg):
++    """ fio worker thread function.
++        - Args :
++            - iocfg : io configuration.
++        - Returns :
++            - Return value of fio command.
++    """
++    return FIO.run_io(iocfg)
++
++
++class NVMFTest(object):
++
++    """ Common attributes for all testcases """
++
++    def __init__(self):
++        # TODO : make this dictionary
++        self.config_file = 'config/nvmftests.json'
++        self.data_size = 0
++        self.block_size = 0
++        self.nr_dev = 0
++        self.mount_path = Const.XXX
++        self.test_log_dir = Const.XXX
++        self.nr_dev = 0
++        self.nr_target_subsys = 0
++        self.nr_ns_per_subsys = 0
++        self.target_config_file = Const.XXX
++        self.target_type = Const.XXX
++        self.loopdev = None
++        self.host_subsys = None
++        self.target_subsys = None
++        self.log_dir = './logs/' + self.__class__.__name__ + '/'
++        self.err_str = "ERROR : " + self.__class__.__name__ + " : "
++        self.fio_read = {}
++        self.fio_fs_write = {}
++        self.dd_read = {}
++        self.dd_write = {}
++        self.blk_dev_pool = []
++
++        self.load_config()
++
++    def build_target_config(self, dev_list):
++        """ Generates target config file in JSON format from test config file.
 +            - Args :
-+                - log_file_path : path to store the log.
-+        """
-+        self.terminal = sys.stdout
-+        self.log = open(log_file_path, "w")
-+
-+    def write(self, log_message):
-+        """ Logger write.
-+            - Args :
-+                - log_message : string to write in the log file.
-+            - Returns:
++                - None.
++            - Returns :
 +                - None.
 +        """
-+        self.terminal.write(log_message)
-+        self.log.write(log_message)
++        with open(self.config_file) as cfg_file:
++            cfg = json.load(cfg_file)
++            # target subsystem and namespsce config
++            self.nr_dev = int(cfg['nr_dev'])
++            self.nr_target_subsys = int(cfg['nr_target_subsys'])
++            self.nr_ns_per_subsys = int(cfg['nr_ns_per_subsys'])
++            self.target_config_file = cfg['target_config_file']
++            target_cfg = TargetConfig(self.target_config_file,
++                                      self.nr_target_subsys,
++                                      self.nr_ns_per_subsys,
++                                      dev_list)
++            target_cfg.build_target_subsys()
 +
-+    def flush(self):
-+        """ This flush method is needed for python 3 compatibility.
-+            this handles the flush command by doing nothing.
-+            you might want to specify some extra behavior here.
++    def load_config(self):
++        """ Load basic test configuration.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
 +        """
-+        pass
++        with open(self.config_file) as nvmftest_config:
++            cfg = json.load(nvmftest_config)
++            self.mount_path = cfg['mount_path']
++            self.data_size = self.human_to_bytes(cfg['data_size'])
++            self.block_size = self.human_to_bytes(cfg['block_size'])
++            self.nr_dev = int(cfg['nr_dev'])
++            # fio device read
++            self.fio_read = cfg['fio_read']
++            self.fio_read['filename'] = Const.XXX
++            self.fio_read['THREAD'] = __fio_worker__
++            self.fio_read['RC'] = 0
++            # fio file system write
++            self.fio_fs_write = cfg['fio_fs_write']
++            self.fio_fs_write['directory'] = Const.XXX
++            self.fio_fs_write['THREAD'] = __fio_worker__
++            self.fio_fs_write['RC'] = 0
++            # dd write
++            self.dd_read = cfg['dd_read']
++            self.dd_read['THREAD'] = __dd_worker__
++            self.dd_read['IF'] = None
++            self.dd_read['COUNT'] = str(self.data_size / self.block_size)
++            self.dd_read['RC'] = 0
++            # dd read
++            self.dd_write = cfg['dd_write']
++            self.dd_write['THREAD'] = __dd_worker__
++            self.dd_write['OF'] = None
++            self.dd_write['COUNT'] = str(self.data_size / self.block_size)
++            self.dd_write['RC'] = 0
++
++            self.target_type = cfg['target_type']
++            # block_dev_pool
++            self.blk_dev_pool = cfg['block_dev_pool']
++            return True
++        return False
++
++    def human_to_bytes(self, num_str):
++        """ Converts human readble format to bytes.
++            Args :
++              - num_str : human readble string.
++            Returns :
++              - On success decimal equivalant of num_str, 0 on failure.
++        """
++        decimal_bytes = 0
++        num_suffix = str(num_str[-2:]).upper()
++        if num_suffix == Const.KB:
++            decimal_bytes = int(num_str.split("K")[0]) * Const.ONE_KB
++        elif num_suffix == Const.MB:
++            decimal_bytes = int(num_str.split("M")[0]) * Const.ONE_MB
++        elif num_suffix == Const.GB:
++            decimal_bytes = int(num_str.split("G")[0]) * Const.ONE_GB
++        else:
++            print(self.err_str + "invalid suffix " + num_str)
++
++        return decimal_bytes
++
++    def setup_log_dir(self, test_name):
++        """ Set up the log directory for a testcase.
++            Args :
++              - test_name : name of the testcase.
++            Returns :
++              - None.
++        """
++        self.test_log_dir = self.log_dir + "/" + test_name
++        if not os.path.exists(self.test_log_dir):
++            os.makedirs(self.test_log_dir)
++        sys.stdout = NVMFLogger(self.test_log_dir + "/" + "stdout.log")
++        sys.stderr = NVMFLogger(self.test_log_dir + "/" + "stderr.log")
++
++    def common_setup(self):
++        """ Common test case setup function.
++            Args :
++              - None.
++            Returns :
++              - None.
++        """
++        self.target_subsys = NVMFTarget(self.target_type)
++        ret = self.target_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : target config failed")
++        self.host_subsys = NVMFHost(self.target_type)
++        ret = self.host_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : host config failed")
++
++    def common_tear_down(self):
++        """ Common test case tear down function.
++            Args :
++              - None.
++            Returns :
++              - None.
++        """
++        self.host_subsys.delete()
++        self.target_subsys.delete()
 -- 
 1.8.3.1
