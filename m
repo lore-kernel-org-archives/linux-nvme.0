@@ -1,27 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:45 -0700
-Subject: [PATCH V2 28/46] nvmftests-tests: add a test for controller rescan
+Date: Tue, 24 Oct 2017 18:30:42 -0700
+Subject: [PATCH V2 25/46] nvmftests-tests: add a test for create/delete host
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-29-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-26-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test to execute controller rescan command
-from host.
+This adds a new test to create and delete host with loopback
+device.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_ctrl_rescan.py       | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_rescan.py
+ .../nvmftests/tests/test_nvmf_create_host.py       | 71 ++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_rescan.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_rescan.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
 new file mode 100644
-index 0000000..f75f443
+index 0000000..1f69535
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_rescan.py
-@@ -0,0 +1,63 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
+@@ -0,0 +1,71 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,13 +42,12 @@ index 0000000..f75f443
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF host controller rescan :-
++NVMF Create/Delete Host :-
 +
-+    1. From config file create Target.
-+    2. From config file create host and connect to target.
-+    3. Call controller rescan on each host controller.
-+    4. Delete Host.
-+    5. Delete Target.
++    1. From the config file create Target.
++    2. From the config file create host and connect to target.
++    3. Delete Host.
++    4. Delete Target.
 +"""
 +
 +
@@ -57,14 +56,18 @@ index 0000000..f75f443
 +sys.path.append("../")
 +from utils.misc.loopback import Loopback
 +from nvmf_test import NVMFTest
++from nvmf.target import NVMFTarget
++from nvmf.host import NVMFHost
 +
 +
-+class TestNVMFCtrlRescan(NVMFTest):
++class TestNVMFCreateHost(NVMFTest):
 +
-+    """ Represents host controller rescan testcase """
++    """ Represents Host Creation testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
++        self.host_subsys = None
++        self.target_subsys = None
 +        self.setup_log_dir(self.__class__.__name__)
 +
 +    def setUp(self):
@@ -73,17 +76,22 @@ index 0000000..f75f443
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFCtrlRescan, self).common_setup()
++        self.target_subsys = NVMFTarget(self.target_type)
++        ret = self.target_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : target config failed")
++        self.host_subsys = NVMFHost(self.target_type)
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFCtrlRescan, self).common_tear_down()
++        self.host_subsys.delete()
++        self.target_subsys.delete()
 +        self.loopdev.delete()
 +
-+    def test_ctrl_rescan(self):
++    def test_create_host(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.ctrl_rescan()
-+        assert_equal(ret, True, "ERROR : ctrl rescan failed")
++        ret = self.host_subsys.config(self.target_config_file)
++        assert_equal(ret, True, "ERROR : host config failed")
++        raw_input("Press enter to continue ...")
 -- 
 1.8.3.1
