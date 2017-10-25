@@ -1,31 +1,26 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:26 -0700
-Subject: [PATCH V2 09/46] nvmftests-nvmf: add target config generator
+Date: Tue, 24 Oct 2017 18:30:28 -0700
+Subject: [PATCH V2 11/46] nvmftests-nvmf: add support for target port
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-10-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-12-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new class to generate target configuration on
-the fly. Framework will read the user configuration file and
-create a target configuration JSON file on the
-fly using this class.
-
-This is useful to have a centralized configuration management.
+This adds a new class to handle the target port operations.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmf/target/target_config_generator.py         | 222 +++++++++++++++++++++
- 1 file changed, 222 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_config_generator.py
+ .../selftests/nvmftests/nvmf/target/port.py        | 122 +++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/port.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/target/target_config_generator.py b/tools/testing/selftests/nvmftests/nvmf/target/target_config_generator.py
+diff --git a/tools/testing/selftests/nvmftests/nvmf/target/port.py b/tools/testing/selftests/nvmftests/nvmf/target/port.py
 new file mode 100644
-index 0000000..0da28f9
+index 0000000..a622ea2
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/target/target_config_generator.py
-@@ -0,0 +1,222 @@
++++ b/tools/testing/selftests/nvmftests/nvmf/target/port.py
+@@ -0,0 +1,122 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -45,208 +40,108 @@ index 0000000..0da28f9
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+""" Represents NVMe Over Fabric Target config file generator.
++""" Represents NVMe Over Fabric Target Port.
 +"""
 +
-+import json
++import os
++import shutil
++
++from utils.shell import Cmd
++from utils.const import Const
++from utils.log import Log
 +
 +
-+class Port:
++class NVMFTargetPort(object):
 +    """
-+    Represents target port config generator.
++    Represents a target port.
 +
-+        - Attributes:
-+            - port_id : unique port identification number.
-+            - port_dict : dictionary to hold port attributes.
-+            - addr : to hold address attributes.
-+            - referrals : list of target port referals.
-+            - subsystems : list of the subsystems associated with this port.
++        - Attributes :
++            - cfgfs : configfs mountpoint.
++            - port_id : port identification number.
++            - port_path : port path in configfs.
++            - port_conf : dictionary to hold the port attributes.
 +    """
-+    def __init__(self, port_id):
++    def __init__(self, cfgfs, port_id, **port_conf):
++        self.cfgfs = cfgfs
 +        self.port_id = port_id
-+        self.port_dict = {}
-+        self.addr = {}
-+        self.referrals = [None]
-+        self.subsystems = []
++        self.port_path = self.cfgfs + "/nvmet/ports/" + port_id + "/"
++        self.port_conf = {}
++        self.port_conf['addr_treq'] = port_conf['addr_treq']
++        self.port_conf['addr_traddr'] = port_conf['addr_traddr']
++        self.port_conf['addr_trtype'] = port_conf['addr_trtype']
++        self.port_conf['addr_adrfam'] = port_conf['addr_adrfam']
++        self.port_conf['addr_trsvcid'] = port_conf['addr_trsvcid']
++        self.port_conf['referrals'] = Const.XXX
++        self.port_conf['subsystems'] = port_conf['subsystems']
++        self.logger = Log.get_logger(__name__, 'port')
 +
-+    def build_addr(self):
-+        """ Initialize address attributes for this port.
++    def init(self):
++        """ Create and initialize port.
 +            - Args :
 +                - None.
 +            - Returns :
-+                - None.
++                - True on success, False on failure.
 +        """
-+        self.addr['adrfam'] = ""
-+        self.addr['traddr'] = ""
-+        self.addr['treq'] = "not specified"
-+        self.addr['trsvcid'] = ""
-+        self.addr['trtype'] = "loop"
-+        self.port_dict['addr'] = self.addr
++        if self.port_conf['addr_trtype'] != "loop":
++            self.logger.error("only loop transport type is supported.")
++            return False
 +
-+    def build_subsystems(self, subsys_list):
-+        """ Initialize subsystem list associated with this port.
++        ret = Cmd.exec_cmd("mkdir -p " + self.port_path)
++        if ret is False:
++            self.logger.error("failed to create " + self.port_path + ".")
++            return False
++
++        # initialize transport type
++        self.logger.info("Port " + self.port_path + " created successfully.")
++
++        ret = Cmd.exec_cmd("echo -n \"" + self.port_conf['addr_trtype'] +
++                           "\" > " + self.port_path + "/addr_trtype")
++        if ret is False:
++            status = "trtype " + self.port_path + " failed."
++            self.logger.error(status)
++        else:
++            status = "Port " + self.port_path + " initialized successfully."
++            self.logger.info(status)
++        return ret
++
++    def add_subsys(self, subsys_name):
++        """ Link Subsystem to this port.
++            - Args :
++                - subsys_name : subsystem nqn to be linked.
++            - Returns :
++                - True on success, False on failure.
++        """
++        src = self.cfgfs + "/nvmet/subsystems/" + subsys_name
++        if not os.path.exists(src):
++            self.logger.error("subsystem '" + src + "' not present.")
++            return False
++        dest = self.port_path + "/subsystems/"
++        cmd = "ln -s " + src + " " + dest
++        self.logger.info(cmd)
++        return Cmd.exec_cmd(cmd)
++
++    def delete(self):
++        """ Delete this port.
 +            - Args :
 +                - None.
 +            -Returns :
-+                - Port attributes dictionary.
++                - True on success, False on failure.
 +        """
-+        self.subsystem = subsys_list
-+        self.port_dict['subsystems'] = self.subsystem
++        self.logger.info("Deleting port " + self.port_id + ".")
++        subsys_symlink = self.port_path + "/subsystem/"
++        try:
 +
-+    def build_port(self, nqn_list):
-+        """ Builds port addr, subsystems, id, and referrals.
-+            - Args :
-+                - List of the subsystem nqn associated with this port.
-+            - Returns :
-+                - Port dictionary with valid values.
-+        """
-+        self.build_addr()
-+        self.build_subsystems(nqn_list)
-+        self.port_dict['portid'] = self.port_id
-+        self.port_dict['referrals'] = self.referrals
-+        return self.port_dict
++            if os.path.isdir(subsys_symlink):
++                shutil.rmtree(subsys_symlink, ignore_errors=True)
++                self.logger.info("Unlink subsystem fromn port successfully.")
 +
++            if os.path.isdir(self.port_path):
++                shutil.rmtree(self.port_path, ignore_errors=True)
 +
-+class Subsystem:
-+    """
-+    Represents target subsystem config generator.
-+
-+        - Attributes:
-+            - nr_ns : number of namespaces per subsystem.
-+            - dev_list : list of block devices.
-+            - nqn : subsystem nqn.
-+            - ns_list : namespace list for this subsystem.
-+            - allowd_hosts : allowd hosts.
-+            - attr : subsystem attributes.
-+            - namespace : namespace attributes.
-+            - device : namespace device attibutes.
-+    """
-+    def __init__(self, nr_ns, nqn, dev_list):
-+        self.nr_ns = nr_ns
-+        self.dev_list = dev_list
-+        self.nqn = nqn
-+        self.ns_list = []
-+        self.allowd_hosts = []
-+        self.attr = {}
-+        self.namespace = {}
-+        self.device = {}
-+        self.nguid = "00000000-0000-0000-0000-000000000000"
-+
-+    def add_ns(self, ns_cfg):
-+        """ Updates subsystem namespace list with new namespace.
-+            - Args :
-+                - ns_cfg : namespace configuration.
-+            - Returns :
-+                - None.
-+        """
-+        self.allowd_hosts = []
-+        self.attr = {}
-+        self.namespace = {}
-+        self.device = {}
-+
-+        self.allowd_hosts.append('hostnqn')
-+        self.attr['allow_any_host'] = '1'
-+        self.device['nguid'] = ns_cfg['device']['nguid']
-+        self.device['path'] = ns_cfg['device']['path']
-+        self.namespace['device'] = self.device
-+        self.namespace['enable'] = ns_cfg['enable']
-+        self.namespace['nsid'] = ns_cfg['nsid']
-+        ns = self.namespace
-+        self.ns_list.append(ns)
-+
-+    def build_ns(self):
-+        """ Build namespace configuration using available devices.
-+            - Args :
-+                - ns_cfg : namespace configuration.
-+            - Returns :
-+                - None.
-+        """
-+        for i in range(0, self.nr_ns):
-+            ns_cfg = {}
-+            ns_cfg['device'] = {}
-+            ns_cfg['device']['nguid'] = self.nguid
-+            ns_cfg['device']['path'] = self.dev_list[i % len(self.dev_list)]
-+            ns_cfg['enable'] = 1
-+            ns_cfg['nsid'] = i + 1
-+            self.add_ns(ns_cfg)
-+
-+    def build_subsys(self):
-+        """ Initialize subsystem entry.
-+            - Args :
-+                - None.
-+            - Returns :
-+                - subsystem entry dictionary.
-+        """
-+        self.build_ns()
-+        subsys_entry = {}
-+        subsys_entry['allowed_hosts'] = self.allowd_hosts
-+        subsys_entry['attr'] = self.attr
-+        subsys_entry['namespaces'] = self.ns_list
-+        subsys_entry['nqn'] = self.nqn
-+        subsys = []
-+        subsys.append(subsys_entry)
-+        return subsys_entry
-+
-+
-+class TargetConfig:
-+    """
-+    Represents target config generator.
-+
-+        - Attributes:
-+            - subsys_list : list of subsystems associsted with this target.
-+            - port_list : list of the ports associated with this target.
-+            - config_file_path : path name to test config file.
-+            - nr_subsys : number of subsystems present in this target.
-+            - nr_ns : number of namespaces per subsystem.
-+            - dev_list : list of devices to be used for namespaces.
-+    """
-+    def __init__(self, config_file_path, nr_subsys, nr_ns, dev_list):
-+        self.subsys_list = []
-+        self.port_list = []
-+        self.config_file_path = config_file_path
-+        self.nr_subsys = nr_subsys
-+        self.nr_ns = nr_ns
-+        self.dev_list = dev_list
-+
-+    def pp_json(self, json_string, sort=True, indents=4):
-+        """ Prints formatted JSON output.
-+            - Args :
-+                - json_string : JSON string.
-+                - sort : flag to sort JSON values before formatting.
-+                - idents : identation width.
-+            -Returns :
-+                - formatted JSON string.
-+        """
-+        if type(json_string) is str:
-+            return json.dumps(json.loads(json_string),
-+                              sort_keys=sort, indent=indents)
-+        return json.dumps(json_string, sort_keys=sort, indent=indents)
-+
-+    def build_target_subsys(self):
-+        """ Builds the Target config and dumps in JSON format.
-+            - Args :
-+                - None.
-+            - Returns :
-+                - None.
-+        """
-+        nqn_list = []
-+        subsys_list = []
-+        port_list = []
-+        for i in range(0, self.nr_subsys):
-+            nqn = "testnqn" + str(i + 1)
-+            subsys = Subsystem(self.nr_ns, nqn, self.dev_list)
-+            subsys_list.append(subsys.build_subsys())
-+            nqn_list.append(nqn)
-+
-+        # TODO : improve support for multiple ports
-+        p = Port(1)
-+        port_list.append(p.build_port(nqn_list))
-+
-+        target_config_str = {}
-+        target_config_str['ports'] = port_list
-+        target_config_str['subsystems'] = subsys_list
-+        data = self.pp_json(target_config_str)
-+        with open(self.config_file_path, "w+") as config_file:
-+            config_file.write(data)
++        except Exception, err:
++            self.logger.error(str(err) + ".")
++            return False
++        self.logger.info("Removed port " + self.port_path + " successfully.")
++        return True
 -- 
 1.8.3.1
