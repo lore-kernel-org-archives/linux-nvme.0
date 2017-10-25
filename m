@@ -1,26 +1,26 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:32 -0700
-Subject: [PATCH V2 15/46] nvmftests-nvmf: add support for host ns
+Date: Tue, 24 Oct 2017 18:30:33 -0700
+Subject: [PATCH V2 16/46] nvmftests-nvmf: add support for host subsystem
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-16-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-17-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new class to handle the host namespace operations.
+This adds a new class to handle the host subsystem operations.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/nvmf/host/host_ns.py       | 262 +++++++++++++++++++++
- 1 file changed, 262 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
+ .../nvmftests/nvmf/host/host_subsystem.py          | 527 +++++++++++++++++++++
+ 1 file changed, 527 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_subsystem.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/host/host_ns.py b/tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
+diff --git a/tools/testing/selftests/nvmftests/nvmf/host/host_subsystem.py b/tools/testing/selftests/nvmftests/nvmf/host/host_subsystem.py
 new file mode 100644
-index 0000000..42d6f6b
+index 0000000..e32d952
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
-@@ -0,0 +1,262 @@
++++ b/tools/testing/selftests/nvmftests/nvmf/host/host_subsystem.py
+@@ -0,0 +1,527 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -40,145 +40,132 @@ index 0000000..42d6f6b
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+""" Represents NVMe Over Fabric Host Namespace.
++""" Represents NVMe Over Fabric Host Controller.
 +"""
 +
-+import Queue
++import re
++import os
++import stat
 +import time
-+import copy
-+import threading
++import random
++import string
++import subprocess
++from natsort import natsorted
 +
-+from utils.fs import Ext4FS
-+from utils.log import Log
++from utils.const import Const
 +from utils.shell import Cmd
++from utils.log import Log
++from nvmf.host.host_ns import NVMFHostNamespace
 +
 +
-+class NVMFNSThread(threading.Thread):
++class NVMFHostController(object):
 +    """
-+    Represents a worker thread.
++    Represents a host controller.
 +
 +        - Attributes :
-+            - target : thread Target.
-+            - workq : workqueue shared between producer and worker thread.
++            - nqn : ctrl nqn.
++            - ctrl_dev : controller device.
++            - ctrl_dict : controller attributes.
++            - ns_list : list of namespaces.
++            - ns_dev_list : namespace device list.
++            - transport : transport type.
 +    """
-+    def __init__(self, group=None, target=None, name=None,
-+                 args=[], kwargs=None, verbose=None):
-+        """Default Thread Constructor."""
-+        super(NVMFNSThread, self).__init__()
-+        self.target = target
-+        self.name = name
-+        self.workq = args[0]
-+        self.q_cond_var = args[1]
++    def __init__(self, nqn, transport):
++        self.nqn = nqn
++        self.ctrl_dev = None
++        self.ctrl_dict = {}
++        self.ns_list = []
++        self.ns_dev_list = []
++        self.transport = transport
++        self.ns_list_index = 0
++        self.logger = Log.get_logger(__name__, 'host_subsystem')
 +
-+    def run(self):
-+        """ Default Thread Function """
-+        while True:
-+            with self.q_cond_var:
-+                # if queue is empty wait
-+                if self.workq.empty():
-+                    self.q_cond_var.wait()
++    def __iter__(self):
++        self.ns_list_index = 0
++        return self
 +
-+                # get the item from the queue if None exit
-+                # use None as signal to exit worker queue
-+                item = self.workq.get()
-+                if item is None:
-+                    break
++    def __next__(self):
++        index = self.ns_list_index
++        self.ns_list_index += 1
++        if (len(self.ns_list) > index):
++            return self.ns_list[index]
++        raise StopIteration
 +
-+                ret = item['THREAD'](item)
-+                # On Error just shutdown the worker thread
-+                # complete all the remaining operations and quit
-+                if ret is False:
-+                    self.workq.put(None)
++    def next(self):
++        """ Iterator next function """
++        return self.__next__()
 +
-+
-+class NVMFHostNamespace(object):
-+    """
-+    Represents a host namespace.
-+
-+        - Attributes :
-+            - ns_dev : block device associated with this namespace.
-+            - mount_path : mounted directory.
-+            - worker_thread : handle for io worker thread.
-+            - workq : workqueue shared between producer and worker thread.
-+            - q_cond_var : condition variable for queue operations.
-+            - fs_type : file system type for mkfs.
-+            - fs : file system object.
-+    """
-+    def __init__(self, ns_dev):
-+        self.ns_dev = ns_dev
-+        self.mount_path = None
-+        self.worker_thread = None
-+        self.workq = Queue.Queue()
-+        self.q_cond_var = threading.Condition()
-+        self.fs_type = None
-+        self.fs = None
-+        self.logger = Log.get_logger(__name__, 'host_ns')
-+
-+    def init(self):
-+        """ Create worker thread.
++    def run_io_all_ns(self, iocfg):
++        """ Start IOs on all the namespaces of this controller parallelly.
 +            - Args :
-+                - None.
++                - iocfg : io configuration.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        if self.id_ns() is False:
-+            return False
++        ret = True
++        for ns in iter(self):
++            try:
++                if ns.start_io(iocfg) is False:
++                    self.logger.error("start IO " + ns.ns_dev + ".")
++                    ret = False
++                    break
++                self.logger.info("start IO " + ns.ns_dev + " SUCCESS.")
++            except StopIteration:
++                break
 +
-+        # Create worker thread for this ns
-+        self.worker_thread = NVMFNSThread(args=[self.workq, self.q_cond_var])
-+        self.worker_thread.setDaemon(True)
-+        self.worker_thread.start()
++        return ret
++
++    def wait_io_all_ns(self):
++        """ Wait until workqueue is empty.
++            - Args :
++                - None.
++            - Returns :
++                - True if namespace wait IO is successful, False otherwise.
++        """
++        for ns in iter(self):
++            try:
++                ret = ns.wait_io()
++                if ret is False:
++                    return False
++            except StopIteration:
++                break
 +        return True
 +
-+    def id_ns(self):
-+        """ Wrapper for id-ns command.
++    def run_io_seq(self, iocfg):
++        """ Exercise IOs on each namespace.
 +            - Args :
-+                - None.
++                - iocfg : io configuration.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        id_ns_cmd = "nvme id-ns " + self.ns_dev
-+        return Cmd.exec_cmd(id_ns_cmd)
++        ret = True
++        for ns in iter(self):
++            try:
++                if ns.start_io(iocfg) is False:
++                    self.logger.error("start IO " + ns.ns_dev + ".")
++                    ret = False
++                    break
++                ret = ns.wait_io()
++            except StopIteration:
++                break
++        return ret
 +
-+    def ns_descs(self):
-+        """ Wrapper for ns-descs command.
-+            - Args :
-+                - None.
-+            - Returns :
-+                - True on success, False on failure.
-+        """
-+        ns_descs_cmd = "nvme ns-descs " + self.ns_dev
-+        return Cmd.exec_cmd(ns_descs_cmd)
-+
-+    def get_ns_id(self):
-+        """ Wrapper for get-ns-id command.
-+            - Args :
-+                - None.
-+            - Returns :
-+                - True on success, False on failure.
-+        """
-+        get_ns_id_cmd = "nvme get-ns-id " + self.ns_dev
-+        return Cmd.exec_cmd(get_ns_id_cmd)
-+
-+    def mkfs(self, fs_type):
-+        """ Format namespace with file system and mount on the unique
-+            namespace directory.
++    def run_mkfs_seq(self, fs_type):
++        """ Run mkfs.
 +            - Args :
 +                - fs_type : file system type.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        if fs_type == "ext4":
-+            self.fs = Ext4FS(self.ns_dev)
-+            if self.fs.mkfs() is True and self.fs.mount() is True:
-+                return True
-+            else:
-+                self.logger.error("mkfs failed for " + self.ns_dev + ".")
-+                return False
-+        else:
-+            self.logger.error("file system is not supported.")
-+
-+        return False
++        ret = True
++        for ns in iter(self):
++            try:
++                if ns.mkfs(fs_type) is False:
++                    ret = False
++                    break
++            except StopIteration:
++                break
++        return ret
 +
 +    def run_fs_ios(self, iocfg):
 +        """ Run IOs on mounted file system.
@@ -187,101 +174,379 @@ index 0000000..42d6f6b
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        if self.fs.is_mounted() is False:
-+            return False
++        ret = True
++        for ns in iter(self):
++            try:
++                if ns.run_fs_ios(iocfg) is False:
++                    ret = False
++                    break
++            except StopIteration:
++                break
++        return ret
 +
-+        mount_path = self.fs.get_mount_path()
-+        iocfg['directory'] = mount_path + "/"
-+
-+        if self.worker_thread.is_alive():
-+            with self.q_cond_var:
-+                self.workq.put(iocfg)
-+                self.q_cond_var.notifyAll()
-+        else:
-+            self.logger.error("worker thread is not running.")
-+            return False
-+        return True
-+
-+    def start_io(self, iocfg):
-+        """ Add new work IO item to workqueue and notify worker thread.
++    def run_io_random(self, iocfg):
++        """ Select the namespce randomely and wait for the IOs completion,
++            repeat this for all the namespaces.
 +            - Args :
-+                - IO Configuration passed to worker thread.
++                - iocfg : io configuration.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        iocfg = copy.deepcopy(iocfg)
-+        self.logger.info(iocfg)
-+        if iocfg['IO_TYPE'] == 'dd':
-+            if iocfg['IODIR'] == "read":
-+                iocfg['IF'] = self.ns_dev
-+            elif iocfg['IODIR'] == "write":
-+                iocfg['OF'] = self.ns_dev
-+            else:
-+                self.logger.error("io config " + iocfg + " not supported.")
++        num_list = range(0, len(self.ns_list))
++
++        for i in range(0, len(self.ns_list)):
++            random.shuffle(num_list)
++            ns_id = num_list.pop()
++
++            host_ns = self.ns_list[ns_id]
++            if host_ns.start_io(iocfg) is False:
 +                return False
-+        elif iocfg['IO_TYPE'] == 'fio':
-+            iocfg['filename'] = self.ns_dev
-+        else:
-+            self.logger.error("invalid IO type " + iocfg['IO_TYPE'])
-+        if self.worker_thread.is_alive():
-+            with self.q_cond_var:
-+                self.workq.put(iocfg)
-+                self.q_cond_var.notifyAll()
-+        else:
-+            self.logger.error("worker thread is not running.")
-+            return False
++            host_ns.wait_io()
 +
 +        return True
 +
-+    def wait_io(self):
-+        """ Wait until queue is empty.
++    def __ctrl_set_attr__(self, attr):
++        """ Set host controller attribute.
 +            - Args :
-+                - None.
++                - attr : sysfs attribute to set.
 +            - Returns :
-+                - True on success, False otherwise.
++                - True on success, False on failure.
 +        """
-+        self.logger.info("Checking for worker thread " + self.ns_dev + ".")
-+        if self.worker_thread.is_alive():
-+            self.logger.info("Waiting for thread " + self.ns_dev + ".")
-+            while not self.workq.empty() and \
-+                    self.worker_thread.is_alive() is True:
-+                # Wait till waorker thread is alive.
-+                time.sleep(1)
-+        else:
-+            self.logger.error("worker thread is not alive")
-+            return False
-+        self.logger.info("# WAIT COMPLETE " + self.ns_dev + ".")
-+        return True
++        sysfs_path = "/sys/class/nvme-fabrics/ctl/"
++        cmd = "echo 1 >" + sysfs_path + self.ctrl_dev.split('/')[-1] \
++              + "/" + attr
++        return Cmd.exec_cmd(cmd)
 +
-+    def unmount_cleanup(self):
-+        """ Unmount the namespace and cleanup the mount path.
++    def ctrl_rescan(self):
++        """ Issue controller rescan.
 +            - Args :
 +                - None.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        if self.fs is not None:
-+            return self.fs.umount()
++        return self.__ctrl_set_attr__("rescan_controller")
 +
++    def ctrl_reset(self):
++        """ Issue controller reset.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        return self.__ctrl_set_attr__("reset_controller")
++
++    def run_smart_log(self, nsid="0xFFFFFFFF"):
++        """ Wrapper for nvme smart-log command.
++            - Args :
++                - nsid : namespace id for smart log, defaults to ctrl.
++            - Returns:
++                - True on success, False on failure.
++        """
++        smart_log_cmd = "nvme smart-log " + self.ctrl_dev + " -n " + str(nsid)
++        self.logger.info(smart_log_cmd)
++        proc = subprocess.Popen(smart_log_cmd,
++                                shell=True,
++                                stdout=subprocess.PIPE)
++        err = proc.wait()
++        if err != 0:
++            self.logger.error("nvme smart log failed.")
++            return False
++
++        for line in proc.stdout:
++            if "data_units_read" in line:
++                temp_str = line.split(":")[Const.SMART_LOG_VALUE].strip()
++                data_units_read = string.replace(temp_str, ",", "")
++            if "data_units_written" in line:
++                temp_str = line.split(":")[Const.SMART_LOG_VALUE].strip()
++                data_units_written = string.replace(temp_str, ",", "")
++            if "host_read_commands" in line:
++                temp_str = line.split(":")[Const.SMART_LOG_VALUE].strip()
++                host_read_commands = string.replace(temp_str, ",", "")
++            if "host_write_commands" in line:
++                temp_str = line.split(":")[Const.SMART_LOG_VALUE].strip()
++                host_write_commands = string.replace(temp_str, ",", "")
++
++        self.logger.info("data_units_read " + data_units_read)
++        self.logger.info("data_units_written " + data_units_written)
++        self.logger.info("host_read_commands " + host_read_commands)
++        self.logger.info("host_write_commands " + host_write_commands)
 +        return True
++
++    def smart_log(self):
++        """ Execute smart-log command.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        # Run smart log on controller
++        self.run_smart_log()
++        i = 1
++        for ns in iter(self):
++            try:
++                if self.run_smart_log(i) is False:
++                    return False
++                i += 1
++            except StopIteration:
++                break
++        return True
++
++    def validate_sysfs_ns(self):
++        """ Validate sysfs entries for the host controller and namespace(s).
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        ctrl_bdev = self.ctrl_dev.split("/")[Const.CTRL_BLK_FILE_NAME]
++        # Validate ctrl in the sysfs
++        cmd = "basename $(dirname $(grep -ls " + self.nqn + \
++              " /sys/class/nvme-fabrics/ctl/*/subsysnqn))"
++        proc = subprocess.Popen(cmd,
++                                shell=True,
++                                stdout=subprocess.PIPE)
++        for line in proc.stdout:
++            line = line.strip('\n')
++            # compare nvmeN in /dev/nvmeN in sysfs
++            if line != ctrl_bdev:
++                self.logger.error("host ctrl " + self.ctrl_dev +
++                                  " not present.")
++                return False
++        dir_list = os.listdir("/sys/class/nvme-fabrics/ctl/" + ctrl_bdev + "/")
++
++        pat = re.compile("^" + ctrl_bdev + "+n[0-9]+$")
++        for line in dir_list:
++            line = line.strip('\n')
++            if pat.match(line):
++                if "/dev/" + line not in self.ns_dev_list:
++                    self.logger.error("ns " + line + " not found in sysfs.")
++                    return False
++
++        self.logger.info("sysfs entries for ctrl and ns created successfully.")
++        return True
++
++    def build_ns_list(self):
++        """ Generate next available controller and namespace id on the fly.
++            Build the ns list for this controller.
++            - Args :
++                - None.
++            - Returns :
++                - ctrl and ns list on success, None on failure.
++        """
++        ctrl = Const.XXX
++        ns_list = []
++        try:
++            dev_list = os.listdir("/dev/")
++        except Exception, err:
++            self.logger.error(str(err) + ".")
++            return None, None
++        dev_list = natsorted(dev_list, key=lambda y: y.lower())
++        # we assume that atleast one namespace is created on target
++        # find ctrl
++        pat = re.compile("^nvme[0-9]+$")
++        for line in dev_list:
++            line = line.strip('\n')
++            if pat.match(line):
++                ctrl = line
++
++        if ctrl == Const.XXX:
++            self.logger.error("controller '/dev/nvme*' not found.")
++            return None, None
++        # allow namespaces to appear in the /dev/
++        time.sleep(2)
++        # find namespace(s) associated with ctrl
++        try:
++            dir_list = os.listdir("/dev/")
++        except Exception, err:
++            self.logger.error(str(err))
++            return None, None
++        pat = re.compile("^" + ctrl + "+n[0-9]+$")
++        for line in dir_list:
++            line = line.strip('\n')
++            if pat.match(line):
++                self.logger.info("Generated namespace name /dev/" + line + ".")
++                ns_list.append("/dev/" + line)
++
++        if len(ns_list) == 0:
++            self.logger.error("host ns not found for ctrl " + ctrl + ".")
++            return None, None
++
++        ctrl = "/dev/" + ctrl
++        return ctrl, ns_list
++
++    def init_ns(self):
++        """ Initialize and build namespace list and validate sysfs entries.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        self.logger.info("Expecting following namespaces " +
++                         str(self.ns_dev_list) + ".")
++        for ns_dev in self.ns_dev_list:
++            if not stat.S_ISBLK(os.stat(ns_dev).st_mode):
++                self.logger.error("expected block dev " + ns_dev + ".")
++                return False
++
++            self.logger.info("Found NS " + ns_dev + ".")
++            host_ns = NVMFHostNamespace(ns_dev)
++            host_ns.init()
++            self.ns_list.append(host_ns)
++        # allow sysfs entries to populate
++        time.sleep(1)
++        if self.validate_sysfs_ns() is False:
++            self.logger.error("unable to verify sysfs entries.")
++            return False
++        self.logger.info("Host sysfs entries are validated.")
++        return True
++
++    def validate_fabric_ctrl(self):
++        """ Validate this is a fabric controller.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++
++        if not stat.S_ISCHR(os.stat(self.ctrl_dev).st_mode):
++            self.logger.error("failed to find char device for host ctrl.")
++
++        cmd = "find /sys/devices -name " + self.ctrl_dev.split("/")[-2] \
++              + " | grep nvme-fabric"
++        self.logger.info(cmd)
++        return Cmd.exec_cmd(cmd)
++
++    def init_ctrl(self):
++        """ Initialize controller and build controller attributes.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        # initialize nqn and transport
++        cmd = "echo  \"transport=" + self.transport + ",nqn=" + \
++              self.nqn + "\" > /dev/nvme-fabrics"
++        self.logger.info("Host Connect command : " + cmd)
++        if Cmd.exec_cmd(cmd) is False:
++            self.logger.info("ERROR : host connect command failed")
++            return False
++        self.ctrl_dev, self.ns_dev_list = self.build_ns_list()
++
++        if self.validate_fabric_ctrl() is False or self.id_ctrl() is False:
++            return False
++
++        return self.init_ns()
++
++    def id_ctrl(self):
++        """ Wrapper for executing id-ctrl command.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        id_ctrl_cmd = "nvme id-ctrl " + self.ctrl_dev
++        proc = subprocess.Popen(id_ctrl_cmd,
++                                shell=True,
++                                stdout=subprocess.PIPE)
++        err = proc.wait()
++        if err != 0:
++            self.logger.error("nvme id-ctrl failed.")
++            return False
++
++        for line in proc.stdout:
++            if line.startswith('subnqn') or \
++               line.startswith('NVME Identify Controller'):
++                continue
++            if line.startswith('ps ') or line.strip().startswith('rwt'):
++                continue
++            key, val = line.split(':')
++            self.ctrl_dict[key.strip()] = val.strip()
++
++        self.logger.info("ID controller :- ")
++        self.logger.info(self.ctrl_dict)
++        return True
++
++    def id_ns(self):
++        """ Wrapper for executing id-ns command on all namespaces of this
++            controller.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        for host_ns in iter(self):
++            if host_ns.id_ns() is False:
++                return False
++        return True
++
++    def ns_descs(self):
++        """ Wrapper for executing ns_descs command on all namespaces of this
++            controller.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        for host_ns in iter(self):
++            if host_ns.ns_descs() is False:
++                return False
++        return True
++
++    def get_ns_id(self):
++        """ Wrapper for executing get-ns-id command on all namespaces of this
++            controller.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        for host_ns in iter(self):
++            if host_ns.get_ns_id() is False:
++                return False
++        return True
++
++    def generate_next_ns_id(self):
++        """ Return next namespace id.
++            - Args :
++                - None.
++            - Returns :
++                - next namespace id.
++        """
++        return len(self.ns_list) + 1
 +
 +    def delete(self):
-+        """ Namespace clanup.
++        """ Delete subsystem and associated namespace(s).
 +            - Args :
 +                - None.
 +            - Returns :
-+                - None.
++                - True on success, False on failure.
 +        """
-+        self.logger.info("delete ns waiting for workq to finish all items")
-+        if self.worker_thread.is_alive():
-+            with self.q_cond_var:
-+                self.workq.put(None)
-+                self.q_cond_var.notifyAll()
++        self.logger.info("Deleting subsystem " + self.nqn + ".")
++        for host_ns in self.ns_list:
++            host_ns.delete()
++        cmd = "dirname $(grep -ls " + self.nqn + \
++              " /sys/class/nvme-fabrics/ctl/*/subsysnqn)"
++        try:
++            proc = subprocess.Popen(cmd,
++                                    shell=True,
++                                    stdout=subprocess.PIPE)
++            for line in proc.stdout:
++                line = line.strip('\n')
++                if not os.path.isdir(line):
++                    self.logger.error("host ctrl dir " + self.nqn +
++                                      " not present.")
++                    return False
++                cmd = "nvme disconnect -n " + self.nqn
++                self.logger.info("disconnecting : " + cmd)
++                ret = Cmd.exec_cmd(cmd)
++                if ret is False:
++                    self.logger.error("failed to delete ctrl " +
++                                      self.nqn + ".")
++                    return False
++        except Exception, err:
++            self.logger.error(str(err) + ".")
++            return False
 +
-+            while not self.workq.empty() and \
-+                    self.worker_thread.is_alive() is True:
-+                time.sleep(1)
-+
-+        self.unmount_cleanup()
++        return True
 -- 
 1.8.3.1
