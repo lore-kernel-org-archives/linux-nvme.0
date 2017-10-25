@@ -1,206 +1,202 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:17 -0700
-Subject: [PATCH V2 00/46] nvmftests: NVMe Over Fabrics Unit Test Framework
-Message-ID: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
+Date: Tue, 24 Oct 2017 18:30:18 -0700
+Subject: [PATCH V2 01/46] nvmftests: add nvmftests README file
+In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
+References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-2-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-Hi,
+This adds readme file for NVMe Over Fabrics unit test
+framework (nvmftests).
 
-This contains second version of the NVMe Over Fabrics unit test framework (nvmftests).
-
-Changes since V1:-
-    1. Addition of new testcases to improve the coverage.
-    2. Improved directory structure for code clarity.
-    3. Libification of the common code.
-    4. Support to use different block devices on the target side.
-    5. Centralize test configuration management.
-    6. Support to execute File System related operations on the host side.
-    7. Adjust the code to incorporate the comments received for the
-       first version.
-    8. Support for setting different log levels for each component.
-    9. Support for quick performance measurements.
-    10. Class hierarchy documentation and sequence diagram.
-    11. Improved workqueue management for host namesapce to
-        run parallel commands.
-
-It will be great if I can get some feedback, I'll be happy to incorporate
-the comments and make it more usable.
-
-Following is the code repository for current code:-
-    https://github.com/ChaitanayaKulkarni/nvmftests/releases
-
-For the purpose of review, this patch series is generated against
-$KERN_SRC/tools/testing/selftests/.
-
-Regards,
--Chaitanya
-
-Chaitanya Kulkarni (46):
-  nvmftests: add nvmftests README file
-  nvmftests-utils: add utility class to define constants
-  nvmftests-utils: add shell command package
-  nvmftests-utils: add log package
-  nvmftests-utils: add diskio package
-  nvmftests-utils: add fs package
-  nvmftests-utils: add misc package
-  nvmftests: add utils package
-  nvmftests-nvmf: add target config generator
-  nvmftests-nvmf: add support for target ns
-  nvmftests-nvmf: add support for target port
-  nvmftests-nvmf: add support for target subsystem
-  nvmftests-nvmf: add support for target
-  nvmftests-nvmf: add target package
-  nvmftests-nvmf: add support for host ns
-  nvmftests-nvmf: add support for host subsystem
-  nvmftests-nvmf: add support for host
-  nvmftests-nvmf: add host package
-  nvmftests-nvmf: add nvmf core package
-  nvmftests-tests: add user config file
-  nvmftests-tests: add support for test logger
-  nvmftests-tests: add a parent class for tests
-  nvmftests-tests: add a test for generic block device
-  nvmftests-tests: add a test for ns-descs
-  nvmftests-tests: add a test for create/delete host
-  nvmftests-tests: add a test for NVMe PCIe target ns
-  nvmftests-tests: add a test to create and delete target
-  nvmftests-tests: add a test for controller rescan
-  nvmftests-tests: add a test for controller reset
-  nvmftests-tests: add a test for get-ns-id
-  nvmftests-tests: add a test for identify controller
-  nvmftests-tests: add a test for identify namespace
-  nvmftests-tests: add a test for smart-log
-  nvmftests-tests: add a test to run IOs with dd
-  nvmftests-tests: add a test to run IOs parallely with dd
-  nvmftests-tests: add a test to run mkfs and fio
-  nvmftests-tests: add a test to enable/disable target ns
-  nvmftests-tests: add a test to run IOs with dd randomly
-  nvmftests-tests: add a test to scan host ctrls and ns
-  nvmftests-tests: add a test to scan target subsys/ns
-  nvmftests-tests: add a target template
-  nvmftests-tests: add a host template
-  nvmftests-tests: add a test to run traffic and disable ns
-  nvmftests-tests: add a test to measure perf with fio
-  nvmftests: add class documentation and sequence diagram
-  nvmftests: add Makefile
-
- tools/testing/selftests/nvmftests/Makefile         |  63 +++
- tools/testing/selftests/nvmftests/README.md        | 177 +++++++
- tools/testing/selftests/nvmftests/doc/Makefile     |   7 +
- .../selftests/nvmftests/doc/sequence-diag/Makefile |   7 +
- .../nvmftests/doc/sequence-diag/nvmftests.plantuml |  98 ++++
- tools/testing/selftests/nvmftests/nvmf/__init__.py |  28 ++
- .../selftests/nvmftests/nvmf/host/__init__.py      |  23 +
- .../testing/selftests/nvmftests/nvmf/host/host.py  | 365 ++++++++++++++
- .../selftests/nvmftests/nvmf/host/host_ns.py       | 262 ++++++++++
- .../nvmftests/nvmf/host/host_subsystem.py          | 527 +++++++++++++++++++++
- .../selftests/nvmftests/nvmf/target/__init__.py    |  25 +
- .../selftests/nvmftests/nvmf/target/port.py        | 122 +++++
- .../selftests/nvmftests/nvmf/target/target.py      | 210 ++++++++
- .../nvmf/target/target_config_generator.py         | 222 +++++++++
- .../selftests/nvmftests/nvmf/target/target_ns.py   | 117 +++++
- .../nvmftests/nvmf/target/target_subsystem.py      | 140 ++++++
- .../nvmftests/tests/config/nvmftests.json          |  83 ++++
- .../testing/selftests/nvmftests/tests/nvmf_test.py | 204 ++++++++
- .../selftests/nvmftests/tests/nvmf_test_logger.py  |  50 ++
- .../nvmftests/tests/test_nvmf_create_gen_blk.py    |  71 +++
- .../nvmftests/tests/test_nvmf_create_host.py       |  71 +++
- .../nvmftests/tests/test_nvmf_create_pci_target.py |  70 +++
- .../nvmftests/tests/test_nvmf_create_target.py     |  62 +++
- .../nvmftests/tests/test_nvmf_ctrl_rescan.py       |  63 +++
- .../nvmftests/tests/test_nvmf_ctrl_reset.py        |  63 +++
- .../nvmftests/tests/test_nvmf_get_ns_id.py         |  63 +++
- .../nvmftests/tests/test_nvmf_host_template.py     |  62 +++
- .../selftests/nvmftests/tests/test_nvmf_id_ctrl.py |  63 +++
- .../selftests/nvmftests/tests/test_nvmf_id_ns.py   |  63 +++
- .../selftests/nvmftests/tests/test_nvmf_io.py      |  65 +++
- .../selftests/nvmftests/tests/test_nvmf_mkfs.py    |  65 +++
- .../nvmftests/tests/test_nvmf_ns_descs.py          |  63 +++
- .../nvmftests/tests/test_nvmf_ns_enable_disable.py |  83 ++++
- .../nvmftests/tests/test_nvmf_parallel_io.py       |  65 +++
- .../selftests/nvmftests/tests/test_nvmf_perf.py    |  63 +++
- .../nvmftests/tests/test_nvmf_random_io.py         |  65 +++
- .../nvmftests/tests/test_nvmf_run_host_traffic.py  | 111 +++++
- .../nvmftests/tests/test_nvmf_scan_host.py         |  76 +++
- .../nvmftests/tests/test_nvmf_scan_target.py       |  76 +++
- .../nvmftests/tests/test_nvmf_smart_log.py         |  63 +++
- .../nvmftests/tests/test_nvmf_target_template.py   |  64 +++
- .../testing/selftests/nvmftests/utils/__init__.py  |  32 ++
- .../selftests/nvmftests/utils/const/__init__.py    |  21 +
- .../selftests/nvmftests/utils/const/const.py       |  50 ++
- .../selftests/nvmftests/utils/diskio/__init__.py   |  21 +
- .../testing/selftests/nvmftests/utils/diskio/dd.py |  50 ++
- .../selftests/nvmftests/utils/diskio/fio.py        |  74 +++
- .../selftests/nvmftests/utils/fs/__init__.py       |  21 +
- .../testing/selftests/nvmftests/utils/fs/ext4fs.py | 108 +++++
- .../selftests/nvmftests/utils/fs/filesystem.py     | 122 +++++
- .../selftests/nvmftests/utils/log/__init__.py      |  20 +
- tools/testing/selftests/nvmftests/utils/log/log.py |  58 +++
- .../selftests/nvmftests/utils/misc/__init__.py     |  23 +
- .../nvmftests/utils/misc/generic_blk_dev.py        |  58 +++
- .../selftests/nvmftests/utils/misc/loopback.py     | 103 ++++
- .../selftests/nvmftests/utils/misc/nvme_pci.py     | 114 +++++
- .../selftests/nvmftests/utils/shell/__init__.py    |  20 +
- .../testing/selftests/nvmftests/utils/shell/cmd.py |  47 ++
- 58 files changed, 5182 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/Makefile
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ tools/testing/selftests/nvmftests/README.md | 176 ++++++++++++++++++++++++++++
+ 1 file changed, 177 insertions(+)
  create mode 100644 tools/testing/selftests/nvmftests/README.md
- create mode 100644 tools/testing/selftests/nvmftests/doc/Makefile
- create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
- create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_subsystem.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/port.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_config_generator.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_ns.py
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_subsystem.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/config/nvmftests.json
- create mode 100644 tools/testing/selftests/nvmftests/tests/nvmf_test.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/nvmf_test_logger.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_pci_target.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_target.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_rescan.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_reset.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_get_ns_id.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_id_ctrl.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_id_ns.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_io.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ns_descs.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ns_enable_disable.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_parallel_io.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_random_io.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_scan_host.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_scan_target.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_smart_log.py
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/const/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/const/const.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/diskio/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/diskio/dd.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/diskio/fio.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/fs/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/fs/ext4fs.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/fs/filesystem.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/log/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/log/log.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/misc/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/misc/generic_blk_dev.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/misc/loopback.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/misc/nvme_pci.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/shell/__init__.py
- create mode 100644 tools/testing/selftests/nvmftests/utils/shell/cmd.py
 
+diff --git a/tools/testing/selftests/nvmftests/README.md b/tools/testing/selftests/nvmftests/README.md
+new file mode 100644
+index 0000000..b20a96a
+--- /dev/null
++++ b/tools/testing/selftests/nvmftests/README.md
+@@ -0,0 +1,176 @@
++nvmftests
++=========
++
++
++1. Introduction
++---------------
++
++    This contains NVMe Over Fabrics unit test framework. The purpose of this
++    framework is to provide a platform to create different scenarios and test
++    specific functionality for NVMe Over Fabrics Subsystem (NVMeOF).
++
++2. Overview
++-----------
++
++    The main objective of this framework is to have a platform in place which
++    can provide :-
++    2.1. Classes and methods for each component in the NVMeOF subsystem.
++    2.2. Ability to build NVMeOF subsystem based on the configuration file.
++    2.3. Ability to issue sequential and parallel commands to the different
++         namespaces and controllers from the host and target side.
++
++    All the testcases are written in python3 and nose2 format.
++
++3. Class hierarchy, design considerations and directory structure
++-----------------------------------------------------------------
++
++    This framework follows a simple class hierarchy. Each test is a
++    direct subclass or indirect subclass of NVMeOFTest. To write a new testcase
++    one can copy an existing template test_nvmf_target_template.py or
++    test_nvmf_host_template.py and start adding new testcase specific
++    functionality.
++
++    3.1. Core Classes :- (path $NVMFTESTSHOME/nvmf/)
++       Target Classes :- (path $NVMFTESTSHOME/nvmf/target)
++           NVMeOFTarget :- Represents Target.
++           NVMeOFTargetSubsystem :- Represents a Target Subsystem.
++           NVMeOFTargetNamespace :- Represents a Target Namespace.
++           NVMeOFTargetPort :- Represents a Target Port.
++       Host Classes :- (path $NVMFTESTSHOME/nvmf/host)
++           NVMeOFHost :- Represents Host.
++           NVMeOFHostController :- Represents a Host Controller.
++           NVMeOFHostNamespace :- Represents a Host Namespace.
++
++       We divide host and target side components into two different class
++       hierarchies. On the host side, we have a controller represented as a
++       character device and each namespace as a block device. In order to
++       add any new functionality to the framework please modify core classes
++       for each component and propagate new interfaces to the top
++       level (in host.py/target.py). On the target side, we have subsystem(s),
++       namespace(s), and port(s) which are configured using configfs.
++       For detailed class hierarchy please look into documentation.
++    3.2. Testcase class:-
++        NVMeOFTest :- Base class for each testcase, contains common functions.
++                      Each testcase is direct or indirect subclass of
++                      NVMeOFTest. Testcase class consumes the host and target
++                      classes mentioned in the 3.1 to build the
++                      NVMeOF subsystems.
++    3.3 Directory Structure
++        Following is the quick overview of the directory structure :-
++        .
++        |-- doc                 :- documentation.
++        |   |-- Documentation   :- class documentation.
++        |   |-- sequence-diag   :- sequence diagram.
++        |-- nvmf                :- NVMF core test framework files.
++        |   |-- host            :- NVMF host core files.
++        |   |-- target          :- NVMF target core files.
++        |-- tests               :- test cases.
++        |   |-- config          :- test configuration JSON files.
++        |-- utils               :- utility classes.
++            |-- const           :- constant(s) definitions.
++            |-- diskio          :- diskio related wrappers.
++            |-- fs              :- fs related wrappers.
++            |-- misc            :- miscellaneous files.
++            |-- shell           :- shell command related wrappers.
++            |-- log             :- module logger helpers.
++
++4. Adding new testcases
++-----------------------
++
++    4.1. Please refer to host or target template testcase.
++    4.2. Copy the template file with your testcase name.
++    4.3. Update the class name with testcase name, this has to be unique.
++    4.4. Update the test case function name.
++    4.5. If necessary update the core files and add new functionality.
++    4.6. Add testcase main function to determine success or failure.
++    4.7. Update setUp() and tearDown() to add pre and post functionality.
++    4.8. Once testcase is ready make sure :-
++         4.8.1. Run pep8, flake8, pylint and fix errors/warnings.
++                -Example "$ make static_check" will run pep8, flake8, and
++                pylint on all the python files in current directory.
++         4.8.2. Execute make doc to generate the documentation.
++                -Example "$ make doc" will create and update existing
++                 documentation.
++
++5. Running testcases with framework
++-----------------------------------
++
++    Here are some examples of running testcases with nose2 :-
++        5.1. Running single testcase with nose2 :-
++            from $NVMFTESTSHOME/tests
++            # nose2 --verbose test_nvmf_create_target
++            # nose2 --verbose test_nvmf_create_host
++
++        5.2. Running all the testcases :-
++            from $NVMFTESTSHOME/tests
++            # nose2 --verbose
++
++        5.3 Running all the testcases from makefile :-
++            from #NVMFTESTSHOME
++            # make run
++
++    Some notes on execution:-
++        In the current implementation, it uses file backed loop or nvme-pci
++        block device on the target side. For some testcase execution,
++        a new file is created and linked with loop device. It expects that
++        "mount_path" in the nvmftests.json has enough space available to store
++        backend files which are used for target namespaces. Please edit the
++        target subsystems and namespace configuration, size of the loop device
++        backed file on the target side in the
++        $NVMFTESTSHOME/tests/config/nvmftests.json according to your need.
++
++        For host and target setup, you may have to configure timeout (sleep())
++        values in the code to make sure previous steps are completed
++        successfully and resources are online before executing next the steps.
++        We are planning to make these sleep() calls configurable in the future
++        release.
++
++6. Logging
++----------
++
++    For each testcase, it will create a separate log directory with the test
++    name under logs/. This directory will be used for temporary files and
++    storing execution logs of each testcase. Current implementation stores
++    stdout and stderr for each testcase under log directory, e.g.:-
++        logs/
++        |-- TestNVMFCreateHost
++        |   |-- TestNVMFCreateHost
++        |       |-- stderr.log
++        |       |-- stdout.log
++        |-- TestNVMFCreateTarget
++        |   |?????? TestNVMFCreateTarget
++        |       |-- stderr.log
++        |       |-- stdout.log
++        |-- TestNVMFCtrlRescan
++        |   |-- TestNVMFCtrlRescan
++                .
++                .
++                .
++
++7. Test configuration
++---------------------
++
++    There are two types of config files used by the framework :-
++    7.1. nvmftests.json :- ($NVMFTESTSHOME/tests/config/nvmftests.json)
++         file contains the information about various testcase parameters.
++    7.2. loop.json :- This file is auto-generated by the test framework
++         for the target configuration based on the parameters set in the
++         nvmftests.json.
++
++8. Dependencies
++---------------
++
++    8.1. Python(>= 3.0)
++    8.2. nose(http://nose.readthedocs.io
++    8.3. nose2(Installation guide http://nose2.readthedocs.io/)
++    8.4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
++    8.5. flake8(https://pypi.python.org/pypi/flake8)
++    8.6. pylint(https://www.pylint.org/)
++    8.7. Epydoc(http://epydoc.sourceforge.net/)
++    8.8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
++    8.9. fio(https://github.com/axboe/fio)
++
++    Python package management system pip can be used to install most of the
++    listed packages(https://pip.pypa.io/en/stable/installing/) :-
++
++    $ pip install nose nose2 natsort pep8 flake8 pylint epydoc
 -- 
 1.8.3.1
