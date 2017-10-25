@@ -1,26 +1,26 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:27 -0700
-Subject: [PATCH V2 10/46] nvmftests-nvmf: add support for target ns
+Date: Tue, 24 Oct 2017 18:30:29 -0700
+Subject: [PATCH V2 12/46] nvmftests-nvmf: add support for target subsystem
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-11-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-13-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new class to handle the target namespace operations.
+This adds a new class to handle the target subsystem operations.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/nvmf/target/target_ns.py   | 117 +++++++++++++++++++++
- 1 file changed, 117 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_ns.py
+ .../nvmftests/nvmf/target/target_subsystem.py      | 140 +++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_subsystem.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/target/target_ns.py b/tools/testing/selftests/nvmftests/nvmf/target/target_ns.py
+diff --git a/tools/testing/selftests/nvmftests/nvmf/target/target_subsystem.py b/tools/testing/selftests/nvmftests/nvmf/target/target_subsystem.py
 new file mode 100644
-index 0000000..0e3ba65
+index 0000000..abaaecd
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/target/target_ns.py
-@@ -0,0 +1,117 @@
++++ b/tools/testing/selftests/nvmftests/nvmf/target/target_subsystem.py
+@@ -0,0 +1,140 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -40,7 +40,7 @@ index 0000000..0e3ba65
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+""" Represents NVMe Over Fabric Target Namespace.
++""" Represents NVMe Over Fabric Target Subsystem.
 +"""
 +
 +import os
@@ -49,94 +49,117 @@ index 0000000..0e3ba65
 +from utils.shell import Cmd
 +from utils.const import Const
 +from utils.log import Log
++from nvmf.target.target_ns import NVMFTargetNamespace
 +
 +
-+class NVMFTargetNamespace(object):
++class NVMFTargetSubsystem(object):
 +    """
-+    Represents a target namespace.
++    Represents a target subsystem.
 +
 +        - Attributes :
-+            - ns_attr : namespace attributes.
++            - ns_list : list of namespaces.
 +            - cfgfs : configfs path.
 +            - nqn : subsystem nqn.
-+            - ns_id : namespace identifier.
-+            - ns_path : namespace path in configfs tree.
-+            - ns_attr : namespace attributes.
++            - subsys_path : subsystem path in configfs.
++            - allowed_hosts : configfs allowed host attribute.
++            - attr_allow_any_host : configfs allow any host attribute.
 +    """
-+    def __init__(self, cfgfs, nqn, ns_id, **ns_attr):
-+        self.ns_attr = {}
++    def __init__(self, cfgfs, nqn, allowed_hosts, attr_allow_any_host):
++        self.ns_list = []
 +        self.cfgfs = cfgfs
 +        self.nqn = nqn
-+        self.ns_id = ns_id
-+        self.ns_path = (self.cfgfs + Const.SYSFS_NVMET_SUBSYS +
-+                        nqn + Const.SYSFS_NVMET_SUBSYS_NS + str(ns_id) + "/")
-+        self.ns_attr['device_nguid'] = ns_attr['device_nguid']
-+        self.ns_attr['device_path'] = ns_attr['device_path']
-+        self.ns_attr['enable'] = ns_attr['enable']
-+        self.logger = Log.get_logger(__name__, 'target_ns')
++        self.subsys_path = self.cfgfs + Const.SYSFS_NVMET_SUBSYS + nqn + "/"
++        self.allowed_hosts = allowed_hosts
++        self.attr_allow_any_host = attr_allow_any_host
++        self.logger = Log.get_logger(__name__, 'target_subsystem')
++        self.ns_list_index = 0
++
++    def __iter__(self):
++        self.ns_list_index = 0
++        return self
++
++    def __next__(self):
++        index = self.ns_list_index
++        self.ns_list_index += 1
++        if len(self.ns_list) > index:
++            return self.ns_list[index]
++        raise StopIteration
++
++    def next(self):
++        """ Iterator next function """
++        return self.__next__()
 +
 +    def init(self):
-+        """ Create and initialize namespace.
++        """ Create and initialize target subsystem.
 +            - Args :
 +                - None.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        self.logger.info("Creating ns " + self.ns_path + " ...")
++        # create subsystem dir
++        self.logger.info("Creating subsys path " + self.subsys_path + ".")
 +        try:
-+            os.makedirs(self.ns_path)
++            os.makedirs(self.subsys_path)
 +        except Exception, err:
 +            self.logger.error(str(err) + ".")
 +            return False
++        # allow any host
++        self.logger.info("Configuring allowed hosts ...")
++        ret = Cmd.exec_cmd("echo " + self.attr_allow_any_host + " >" +
++                           self.subsys_path + "/attr_allow_any_host")
++        if ret is False:
++            self.logger.error(self.subsys_path + " creation failed.")
++        else:
++            self.logger.info(self.subsys_path + " created successfully.")
++        return ret
 +
-+        cmd = "echo -n " + self.ns_attr['device_path'] + " > " + \
-+              self.ns_path + "/device_path"
-+
-+        if Cmd.exec_cmd(cmd) is False:
-+            self.logger.error("failed to configure device path.")
-+            return False
-+
-+        if self.ns_attr['enable'] == '1':
-+            if self.enable() is False:
-+                self.logger.error("enable ns " + self.ns_path + " failed.")
-+                return False
-+
-+        self.logger.info("NS " + self.ns_path + " enabled.")
-+        return True
-+
-+    def disable(self):
-+        """ Disable Namespace.
++    def create_ns(self, **ns_attr):
++        """ Create, initialize and store namespace in subsystem's list.
 +            - Args :
-+                - None.
++                - ns_attr : namespace attributes.
++            - Returns :
++                - namespace handle on success, None on error.
++        """
++        ns_id = len(self.ns_list) + 1
++
++        ns = NVMFTargetNamespace(self.cfgfs, self.nqn, ns_id, **ns_attr)
++        if ns.init() is False:
++            return None
++        self.ns_list.append(ns)
++        return ns
++
++    def delete_ns(self, ns):
++        """ Delete single namespace.
++            - Args :
++                - ns : target namespace object to be deleted.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        self.ns_attr['enable'] = '0'
-+        return Cmd.exec_cmd("echo 0 > " + self.ns_path + "/enable")
++        self.logger.info("Deleting namespace " + self.nqn + " : " +
++                         ns.ns_path + ".")
++        ret = ns.delete()
++        if ret is False:
++            self.logger.error("delete ns failed for " + ns.ns_path + ".")
 +
-+    def enable(self):
-+        """ Enable Namespace.
-+            - Args :
-+                - None.
-+            - Returns :
-+                - True on success, False on failure.
-+        """
-+        self.ns_attr['enable'] = '1'
-+        return Cmd.exec_cmd("echo 1 > " + self.ns_path + "/enable")
++        return ret
 +
 +    def delete(self):
-+        """ Delete namespace.
++        """ Delete subsystem and associated namespace(s).
 +            - Args :
-+                 - None.
++                - None.
 +            - Returns :
-+                 - True on success, False on failure.
++                - True on success, False on failure.
 +        """
-+        self.logger.info("Removing NS " + self.ns_path + ".")
-+        ret = os.path.exists(self.ns_path)
-+        if ret is True:
-+            shutil.rmtree(self.ns_path, ignore_errors=True)
-+        else:
-+            self.logger.error("path " + self.ns_path + " doesn't exists.")
++        self.logger.info("Deleting subsystem " + self.nqn)
++        ret = True
++        for ns in iter(self):
++            if self.delete_ns(ns) is False:
++                # try and continue deleting namespaces for cleanup after error
++                ret = False
++
++        if os.path.exists(self.subsys_path):
++            shutil.rmtree(self.subsys_path, ignore_errors=True)
++
 +        return ret
 -- 
 1.8.3.1
