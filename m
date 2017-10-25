@@ -1,25 +1,172 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:28 -0700
-Subject: [PATCH V2 11/46] nvmftests-nvmf: add support for target port
+Date: Tue, 24 Oct 2017 18:30:23 -0700
+Subject: [PATCH V2 06/46] nvmftests-utils: add fs package
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-12-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-7-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new class to handle the target port operations.
+This adds wrapper classes for handling different
+file system related operations. In current implementation
+it has a support for ext4 file system.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/nvmf/target/port.py        | 122 +++++++++++++++++++++
- 1 file changed, 122 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/port.py
+ .../selftests/nvmftests/utils/fs/__init__.py       |  21 ++++
+ .../testing/selftests/nvmftests/utils/fs/ext4fs.py | 108 ++++++++++++++++++
+ .../selftests/nvmftests/utils/fs/filesystem.py     | 122 +++++++++++++++++++++
+ 3 files changed, 251 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/utils/fs/__init__.py
+ create mode 100644 tools/testing/selftests/nvmftests/utils/fs/ext4fs.py
+ create mode 100644 tools/testing/selftests/nvmftests/utils/fs/filesystem.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/target/port.py b/tools/testing/selftests/nvmftests/nvmf/target/port.py
+diff --git a/tools/testing/selftests/nvmftests/utils/fs/__init__.py b/tools/testing/selftests/nvmftests/utils/fs/__init__.py
 new file mode 100644
-index 0000000..a622ea2
+index 0000000..e83f580
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/target/port.py
++++ b/tools/testing/selftests/nvmftests/utils/fs/__init__.py
+@@ -0,0 +1,21 @@
++# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
++#
++from .filesystem import FileSystem
++from .ext4fs import Ext4FS
+diff --git a/tools/testing/selftests/nvmftests/utils/fs/ext4fs.py b/tools/testing/selftests/nvmftests/utils/fs/ext4fs.py
+new file mode 100644
+index 0000000..e0a5146
+--- /dev/null
++++ b/tools/testing/selftests/nvmftests/utils/fs/ext4fs.py
+@@ -0,0 +1,108 @@
++# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
++#
++""" Represents Ext4 File system.
++"""
++import os
++import logging
++
++from .filesystem import FileSystem
++from utils.shell import Cmd
++
++
++class Ext4FS(FileSystem):
++    """
++    Represents Ext4 File System management interface.
++
++        - Attributes :
++    """
++    def __init__(self, dev_path, mount_path=None):
++        super(Ext4FS, self).__init__("ext4", dev_path, mount_path)
++        self.logger = logging.getLogger(__name__)
++        self.log_format = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
++        self.log_format += '%(filename)20s %(funcName)20s %(lineno)4d'
++        self.log_format += '%(pathname)s'
++        self.formatter = logging.Formatter(self.log_format)
++        self.logger.setLevel(logging.WARNING)
++
++    def get_mount_path(self):
++        """ Accessor for file system mountpath.
++            - Args :
++                - None.
++            - Returns :
++                - File system mountpath.
++        """
++        return super(Ext4FS, self).get_mount_path()
++
++    def mkfs(self):
++        """ Execute mkfs on target deivce.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if super(Ext4FS, self).mkfs() is False:
++            return False
++
++        if Cmd.exec_cmd("mkfs.ext4 " + self.dev_path) is False:
++            self.logger.error("mkfs failed")
++            return False
++
++        self.logger.info("mkfs successful!!!")
++        return True
++
++    def mount(self):
++        """ Mount Target device on the mount path.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if super(Ext4FS, self).mount() is False:
++            return False
++        return Cmd.exec_cmd("mount " + self.dev_path + " " + self.mount_path)
++
++    def is_mounted(self):
++        """ Check if mount_path is mounted.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        return Cmd.exec_cmd("mountpoint -q " + self.mount_path)
++
++    def umount(self):
++        """ Unmount target device from mount path.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if super(Ext4FS, self).umount() is False:
++            return False
++
++        ret = True
++        Cmd.exec_cmd("umount " + self.mount_path)
++        try:
++            os.rmdir(self.mount_path)
++        except Exception as err:
++            self.logger.info(str(err))
++            ret = False
++
++        return ret
+diff --git a/tools/testing/selftests/nvmftests/utils/fs/filesystem.py b/tools/testing/selftests/nvmftests/utils/fs/filesystem.py
+new file mode 100644
+index 0000000..cedb9e9
+--- /dev/null
++++ b/tools/testing/selftests/nvmftests/utils/fs/filesystem.py
 @@ -0,0 +1,122 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
@@ -40,108 +187,108 @@ index 0000000..a622ea2
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+""" Represents NVMe Over Fabric Target Port.
++""" Represents File System Base class.
 +"""
-+
 +import os
-+import shutil
++import stat
++import logging
++
 +
 +from utils.shell import Cmd
-+from utils.const import Const
-+from utils.log import Log
 +
 +
-+class NVMFTargetPort(object):
++class FileSystem(object):
 +    """
-+    Represents a target port.
++    Represents file system management interface.
 +
 +        - Attributes :
-+            - cfgfs : configfs mountpoint.
-+            - port_id : port identification number.
-+            - port_path : port path in configfs.
-+            - port_conf : dictionary to hold the port attributes.
++            - fs_name : file system name.
++            - dev_path : target device.
++            - mount_path : path to mount target device.
 +    """
-+    def __init__(self, cfgfs, port_id, **port_conf):
-+        self.cfgfs = cfgfs
-+        self.port_id = port_id
-+        self.port_path = self.cfgfs + "/nvmet/ports/" + port_id + "/"
-+        self.port_conf = {}
-+        self.port_conf['addr_treq'] = port_conf['addr_treq']
-+        self.port_conf['addr_traddr'] = port_conf['addr_traddr']
-+        self.port_conf['addr_trtype'] = port_conf['addr_trtype']
-+        self.port_conf['addr_adrfam'] = port_conf['addr_adrfam']
-+        self.port_conf['addr_trsvcid'] = port_conf['addr_trsvcid']
-+        self.port_conf['referrals'] = Const.XXX
-+        self.port_conf['subsystems'] = port_conf['subsystems']
-+        self.logger = Log.get_logger(__name__, 'port')
++    def __init__(self, fs_name, dev_path, mount_path=None):
++        self.fs_name = fs_name
++        self.dev_path = dev_path
++        self.mount_path = mount_path
++        if self.mount_path is None:
++            self.mount_path = "/mnt/" + self.dev_path.split('/')[-1]
 +
-+    def init(self):
-+        """ Create and initialize port.
++        self.logger = logging.getLogger(__name__)
++        self.log_format = '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
++        self.log_format += '%(filename)20s %(funcName)20s %(lineno)4d'
++        self.log_format += '%(pathname)s'
++        self.formatter = logging.Formatter(self.log_format)
++        self.logger.setLevel(logging.WARNING)
++
++    def mkfs(self):
++        """ Check preconditions for the mkfs operation, subclass should
++            implement actual mkfs.
 +            - Args :
 +                - None.
 +            - Returns :
 +                - True on success, False on failure.
 +        """
-+        if self.port_conf['addr_trtype'] != "loop":
-+            self.logger.error("only loop transport type is supported.")
++        if not os.path.exists(self.dev_path):
++            self.logger.info("ERROR : device path %s is not present.",
++                             self.dev_path)
 +            return False
 +
-+        ret = Cmd.exec_cmd("mkdir -p " + self.port_path)
-+        if ret is False:
-+            self.logger.error("failed to create " + self.port_path + ".")
++        if not stat.S_ISBLK(os.stat(self.dev_path).st_mode):
++            self.logger.info("ERRO : block device expected for mkfs.")
 +            return False
 +
-+        # initialize transport type
-+        self.logger.info("Port " + self.port_path + " created successfully.")
-+
-+        ret = Cmd.exec_cmd("echo -n \"" + self.port_conf['addr_trtype'] +
-+                           "\" > " + self.port_path + "/addr_trtype")
-+        if ret is False:
-+            status = "trtype " + self.port_path + " failed."
-+            self.logger.error(status)
-+        else:
-+            status = "Port " + self.port_path + " initialized successfully."
-+            self.logger.info(status)
-+        return ret
-+
-+    def add_subsys(self, subsys_name):
-+        """ Link Subsystem to this port.
-+            - Args :
-+                - subsys_name : subsystem nqn to be linked.
-+            - Returns :
-+                - True on success, False on failure.
-+        """
-+        src = self.cfgfs + "/nvmet/subsystems/" + subsys_name
-+        if not os.path.exists(src):
-+            self.logger.error("subsystem '" + src + "' not present.")
++        if self.is_mounted() is True:
++            self.logger.info("ERROR : device is already mounted.")
 +            return False
-+        dest = self.port_path + "/subsystems/"
-+        cmd = "ln -s " + src + " " + dest
-+        self.logger.info(cmd)
-+        return Cmd.exec_cmd(cmd)
 +
-+    def delete(self):
-+        """ Delete this port.
-+            - Args :
-+                - None.
-+            -Returns :
-+                - True on success, False on failure.
-+        """
-+        self.logger.info("Deleting port " + self.port_id + ".")
-+        subsys_symlink = self.port_path + "/subsystem/"
-+        try:
-+
-+            if os.path.isdir(subsys_symlink):
-+                shutil.rmtree(subsys_symlink, ignore_errors=True)
-+                self.logger.info("Unlink subsystem fromn port successfully.")
-+
-+            if os.path.isdir(self.port_path):
-+                shutil.rmtree(self.port_path, ignore_errors=True)
-+
-+        except Exception, err:
-+            self.logger.error(str(err) + ".")
-+            return False
-+        self.logger.info("Removed port " + self.port_path + " successfully.")
 +        return True
++
++    def mount(self):
++        """ Check preconditions for the mount operation.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if not os.path.exists(self.mount_path):
++            try:
++                os.makedirs(self.mount_path)
++            except Exception as err:
++                self.logger.info(str(err))
++                return False
++
++        return True
++
++    def get_mount_path(self):
++        """ Accessor for file system mountpath.
++            - Args :
++                - None.
++            - Returns :
++                - File system mountpath.
++        """
++        # TODO : add mount check here
++        return self.mount_path
++
++    def umount(self):
++        """ Check preconditions for the umount operation.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if not self.is_mounted():
++            self.logger.info("fs is not mounted")
++            return False
++
++        return True
++
++    def is_mounted(self):
++        """ Check if mount_path is mounted.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        return Cmd.exec_cmd("mountpoint -q " + self.mount_path)
 -- 
 1.8.3.1
