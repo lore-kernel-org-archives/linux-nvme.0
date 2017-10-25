@@ -1,27 +1,27 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:31:01 -0700
-Subject: [PATCH V2 44/46] nvmftests-tests: add a test to measure perf with fio
+Date: Tue, 24 Oct 2017 18:30:59 -0700
+Subject: [PATCH V2 42/46] nvmftests-tests: add a host template
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-45-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-43-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new test which runs fio to measure performance
-with simple workload.
+This adds a host test template which can be easily copied
+to write a new testcase.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/tests/test_nvmf_perf.py    | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
+ .../nvmftests/tests/test_nvmf_host_template.py     | 62 ++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
+diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
 new file mode 100644
-index 0000000..853b5558
+index 0000000..bd3e50b
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
-@@ -0,0 +1,63 @@
++++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
+@@ -0,0 +1,62 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,11 +42,11 @@ index 0000000..853b5558
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +"""
-+NVMF test parallel IOs on all controllers :-
++NVMF host template :-
 +
 +    1. From the config file create Target.
 +    2. From the config file create host and connect to target.
-+    3. Run parallel IOs on all available controller(s) and its namespace(s).
++    3. Write testcase code in the testcase function.
 +    4. Delete Host.
 +    5. Delete Target.
 +"""
@@ -59,9 +59,9 @@ index 0000000..853b5558
 +from nvmf_test import NVMFTest
 +
 +
-+class TestNVMFParallelPerf(NVMFTest):
++class TestNVMFHostTemplate(NVMFTest):
 +
-+    """ Represents Parallel Subsystem IO testcase """
++    """ Represents host template testcase """
 +
 +    def __init__(self):
 +        NVMFTest.__init__(self)
@@ -73,17 +73,16 @@ index 0000000..853b5558
 +                                self.block_size, self.nr_dev)
 +        self.loopdev.init()
 +        self.build_target_config(self.loopdev.dev_list)
-+        super(TestNVMFParallelPerf, self).common_setup()
++        super(TestNVMFHostTemplate, self).common_setup()
 +
 +    def tearDown(self):
 +        """ Post section of testcase """
-+        super(TestNVMFParallelPerf, self).common_tear_down()
++        super(TestNVMFHostTemplate, self).common_tear_down()
 +        self.loopdev.delete()
 +
-+    def test_parallel_perf(self):
++    def test_host(self):
 +        """ Testcase main """
 +        print("Now Running " + self.__class__.__name__)
-+        ret = self.host_subsys.run_perf_parallel(self.fio_read)
-+        assert_equal(ret, True, "ERROR : running IOs failed.")
++        assert_equal(0, 0, "")
 -- 
 1.8.3.1
