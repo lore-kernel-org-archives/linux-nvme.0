@@ -1,26 +1,26 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:30 -0700
-Subject: [PATCH V2 13/46] nvmftests-nvmf: add support for target
+Date: Tue, 24 Oct 2017 18:30:32 -0700
+Subject: [PATCH V2 15/46] nvmftests-nvmf: add support for host ns
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-14-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-16-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a new class to handle the target operations.
+This adds a new class to handle the host namespace operations.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../selftests/nvmftests/nvmf/target/target.py      | 210 +++++++++++++++++++++
- 1 file changed, 210 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target.py
+ .../selftests/nvmftests/nvmf/host/host_ns.py       | 262 +++++++++++++++++++++
+ 1 file changed, 262 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
 
-diff --git a/tools/testing/selftests/nvmftests/nvmf/target/target.py b/tools/testing/selftests/nvmftests/nvmf/target/target.py
+diff --git a/tools/testing/selftests/nvmftests/nvmf/host/host_ns.py b/tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
 new file mode 100644
-index 0000000..87cae14
+index 0000000..42d6f6b
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/nvmf/target/target.py
-@@ -0,0 +1,210 @@
++++ b/tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
+@@ -0,0 +1,262 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -40,196 +40,248 @@ index 0000000..87cae14
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+""" Represents NVMe Over Fabric Target.
++""" Represents NVMe Over Fabric Host Namespace.
 +"""
 +
-+import sys
-+import json
-+from nose.tools import assert_equal
++import Queue
++import time
++import copy
++import threading
 +
-+from utils.shell import Cmd
-+from utils.const import Const
++from utils.fs import Ext4FS
 +from utils.log import Log
-+from nvmf.target.target_subsystem import NVMFTargetSubsystem
-+from nvmf.target.port import NVMFTargetPort
++from utils.shell import Cmd
 +
 +
-+class NVMFTarget(object):
-+
++class NVMFNSThread(threading.Thread):
 +    """
-+    Represents a target subsystem.
++    Represents a worker thread.
 +
-+        - Attributes:
-+            - subsys_list : list of the subsystem.
-+            - port_list : list of the ports.
-+            - target_type : target type for ports.
-+            - cfgfs : configfs mount point.
++        - Attributes :
++            - target : thread Target.
++            - workq : workqueue shared between producer and worker thread.
 +    """
-+    def __init__(self, target_type):
-+        self.subsys_list = []
-+        self.port_list = []
-+        self.target_type = target_type
-+        self.cfgfs = Const.SYSFS_DEFAULT_MOUNT_PATH
-+        self.logger = Log.get_logger(__name__, 'target')
-+        self.subsys_list_index = 0
++    def __init__(self, group=None, target=None, name=None,
++                 args=[], kwargs=None, verbose=None):
++        """Default Thread Constructor."""
++        super(NVMFNSThread, self).__init__()
++        self.target = target
++        self.name = name
++        self.workq = args[0]
++        self.q_cond_var = args[1]
 +
-+        assert_equal(self.load_configfs(), True)
++    def run(self):
++        """ Default Thread Function """
++        while True:
++            with self.q_cond_var:
++                # if queue is empty wait
++                if self.workq.empty():
++                    self.q_cond_var.wait()
 +
-+    def __iter__(self):
-+        self.subsys_list_index = 0
-+        return self
++                # get the item from the queue if None exit
++                # use None as signal to exit worker queue
++                item = self.workq.get()
++                if item is None:
++                    break
 +
-+    def __next__(self):
-+        index = self.subsys_list_index
-+        self.subsys_list_index += 1
-+        if len(self.subsys_list) > index:
-+            return self.subsys_list[index]
-+        raise StopIteration
++                ret = item['THREAD'](item)
++                # On Error just shutdown the worker thread
++                # complete all the remaining operations and quit
++                if ret is False:
++                    self.workq.put(None)
 +
-+    def next(self):
-+        """ Iterator next function """
-+        return self.__next__()
 +
-+    def load_configfs(self):
-+        """ Load configfs.
++class NVMFHostNamespace(object):
++    """
++    Represents a host namespace.
++
++        - Attributes :
++            - ns_dev : block device associated with this namespace.
++            - mount_path : mounted directory.
++            - worker_thread : handle for io worker thread.
++            - workq : workqueue shared between producer and worker thread.
++            - q_cond_var : condition variable for queue operations.
++            - fs_type : file system type for mkfs.
++            - fs : file system object.
++    """
++    def __init__(self, ns_dev):
++        self.ns_dev = ns_dev
++        self.mount_path = None
++        self.worker_thread = None
++        self.workq = Queue.Queue()
++        self.q_cond_var = threading.Condition()
++        self.fs_type = None
++        self.fs = None
++        self.logger = Log.get_logger(__name__, 'host_ns')
++
++    def init(self):
++        """ Create worker thread.
 +            - Args :
 +                - None.
-+            -Returns :
++            - Returns :
 +                - True on success, False on failure.
 +        """
-+        Cmd.exec_cmd("modprobe configfs")
-+        ret = Cmd.exec_cmd("mountpoint -q " + self.cfgfs)
-+        if ret is False:
-+            ret = Cmd.exec_cmd("mount -t configfs none " + self.cfgfs)
-+            if ret is False:
-+                self.logger.error("failed to mount configfs.")
-+                sys.exit(ret)
-+            ret = Cmd.exec_cmd("mountpoint -q " + self.cfgfs)
-+            if ret is True:
-+                self.logger.info("Configfs mounted at " + self.cfgfs + ".")
-+            else:
-+                self.logger.error("unable to mount configfs at " +
-+                                  self.cfgfs + ".")
-+        return ret
++        if self.id_ns() is False:
++            return False
 +
-+    def config_loop_target(self, config_file):
-+        """ Configure loop target :-
-+            1. Create subsystem(s) and respective namespace(s).
-+            2. Create port(s) and linked them to respective subsystem(s).
-+            3. Create in memory configuration from JSON config file.
++        # Create worker thread for this ns
++        self.worker_thread = NVMFNSThread(args=[self.workq, self.q_cond_var])
++        self.worker_thread.setDaemon(True)
++        self.worker_thread.start()
++        return True
++
++    def id_ns(self):
++        """ Wrapper for id-ns command.
 +            - Args :
-+                - config_file : json config file path.
-+            -Returns :
++                - None.
++            - Returns :
 +                - True on success, False on failure.
 +        """
-+        ret = Cmd.exec_cmd("modprobe nvme-loop")
-+        if ret is False:
-+            self.logger.error("failed to load nvme-loop.")
++        id_ns_cmd = "nvme id-ns " + self.ns_dev
++        return Cmd.exec_cmd(id_ns_cmd)
++
++    def ns_descs(self):
++        """ Wrapper for ns-descs command.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        ns_descs_cmd = "nvme ns-descs " + self.ns_dev
++        return Cmd.exec_cmd(ns_descs_cmd)
++
++    def get_ns_id(self):
++        """ Wrapper for get-ns-id command.
++            - Args :
++                - None.
++            - Returns :
++                - True on success, False on failure.
++        """
++        get_ns_id_cmd = "nvme get-ns-id " + self.ns_dev
++        return Cmd.exec_cmd(get_ns_id_cmd)
++
++    def mkfs(self, fs_type):
++        """ Format namespace with file system and mount on the unique
++            namespace directory.
++            - Args :
++                - fs_type : file system type.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if fs_type == "ext4":
++            self.fs = Ext4FS(self.ns_dev)
++            if self.fs.mkfs() is True and self.fs.mount() is True:
++                return True
++            else:
++                self.logger.error("mkfs failed for " + self.ns_dev + ".")
++                return False
++        else:
++            self.logger.error("file system is not supported.")
++
++        return False
++
++    def run_fs_ios(self, iocfg):
++        """ Run IOs on mounted file system.
++            - Args :
++                - iocfg : io configuration.
++            - Returns :
++                - True on success, False on failure.
++        """
++        if self.fs.is_mounted() is False:
 +            return False
 +
-+        try:
-+            config_file_handle = open(config_file, "r")
-+            config = json.loads(config_file_handle.read())
-+            config_file_handle.close()
-+        except Exception, err:
-+            self.logger.error(str(err) + ".")
++        mount_path = self.fs.get_mount_path()
++        iocfg['directory'] = mount_path + "/"
++
++        if self.worker_thread.is_alive():
++            with self.q_cond_var:
++                self.workq.put(iocfg)
++                self.q_cond_var.notifyAll()
++        else:
++            self.logger.error("worker thread is not running.")
 +            return False
++        return True
 +
-+        # Subsystem
-+        for sscfg in config['subsystems']:
-+            # Create Subsystem
-+            subsys = NVMFTargetSubsystem(self.cfgfs,
-+                                         sscfg['nqn'],
-+                                         sscfg['allowed_hosts']
-+                                         [Const.ALLOW_HOST_VALUE],
-+                                         sscfg['attr']['allow_any_host'])
-+            if subsys.init() is False:
++    def start_io(self, iocfg):
++        """ Add new work IO item to workqueue and notify worker thread.
++            - Args :
++                - IO Configuration passed to worker thread.
++            - Returns :
++                - True on success, False on failure.
++        """
++        iocfg = copy.deepcopy(iocfg)
++        self.logger.info(iocfg)
++        if iocfg['IO_TYPE'] == 'dd':
++            if iocfg['IODIR'] == "read":
++                iocfg['IF'] = self.ns_dev
++            elif iocfg['IODIR'] == "write":
++                iocfg['OF'] = self.ns_dev
++            else:
++                self.logger.error("io config " + iocfg + " not supported.")
 +                return False
-+
-+            self.subsys_list.append(subsys)
-+
-+            for nscfg in sscfg['namespaces']:
-+                ns_attr = {}
-+                ns_attr['device_nguid'] = str(nscfg['device']['nguid'])
-+                ns_attr['device_path'] = str(nscfg['device']['path'])
-+                ns_attr['enable'] = str(nscfg['enable'])
-+                ns_attr['nsid'] = str(nscfg['nsid'])
-+                if subsys.create_ns(**ns_attr) is False:
-+                    return False
-+
-+        # Port
-+        for pcfg in config['ports']:
-+            port_cfg = {}
-+            port_cfg['addr_treq'] = pcfg['addr']['treq']
-+            port_cfg['addr_traddr'] = pcfg['addr']['traddr']
-+            port_cfg['addr_trtype'] = pcfg['addr']['trtype']
-+            port_cfg['addr_adrfam'] = pcfg['addr']['adrfam']
-+            port_cfg['addr_trsvcid'] = pcfg['addr']['trsvcid']
-+            port_cfg['portid'] = str(pcfg['portid'])
-+            port_cfg['subsystems'] = pcfg['subsystems']
-+
-+            port = NVMFTargetPort(self.cfgfs, port_cfg['portid'], **port_cfg)
-+            if port.init() is False:
-+                return False
-+
-+            self.port_list.append(port)
-+
-+            for subsys in port_cfg['subsystems']:
-+                ret = port.add_subsys(subsys)
-+                if ret is False:
-+                    self.logger.error("failed to add subsystem " +
-+                                      subsys + " to port " +
-+                                      port.port_id + ".")
-+                    return False
++        elif iocfg['IO_TYPE'] == 'fio':
++            iocfg['filename'] = self.ns_dev
++        else:
++            self.logger.error("invalid IO type " + iocfg['IO_TYPE'])
++        if self.worker_thread.is_alive():
++            with self.q_cond_var:
++                self.workq.put(iocfg)
++                self.q_cond_var.notifyAll()
++        else:
++            self.logger.error("worker thread is not running.")
++            return False
 +
 +        return True
 +
-+    def config(self, config_file="config/loop.json"):
-+        """ Wrapper for creating target configuration.
-+            - Args :
-+                - config_file : json config_file.
-+            -Returns :
-+                - True on success, False on failure.
-+        """
-+        if Cmd.exec_cmd("modprobe nvme") is False:
-+            self.logger.error("failed to load nvme.")
-+            return False
-+
-+        if Cmd.exec_cmd("modprobe nvmet") is False:
-+            self.logger.error("unable to load nvmet module.")
-+            return False
-+
-+        ret = False
-+        if self.target_type == "loop":
-+            self.logger.info("Configuring loop target ... ")
-+            ret = self.config_loop_target(config_file)
-+        else:
-+            self.logger.error("only loop target type is supported.")
-+
-+        return ret
-+
-+    def delete(self):
-+        """ Target Cleanup.
++    def wait_io(self):
++        """ Wait until queue is empty.
 +            - Args :
 +                - None.
-+            -Returns :
++            - Returns :
++                - True on success, False otherwise.
++        """
++        self.logger.info("Checking for worker thread " + self.ns_dev + ".")
++        if self.worker_thread.is_alive():
++            self.logger.info("Waiting for thread " + self.ns_dev + ".")
++            while not self.workq.empty() and \
++                    self.worker_thread.is_alive() is True:
++                # Wait till waorker thread is alive.
++                time.sleep(1)
++        else:
++            self.logger.error("worker thread is not alive")
++            return False
++        self.logger.info("# WAIT COMPLETE " + self.ns_dev + ".")
++        return True
++
++    def unmount_cleanup(self):
++        """ Unmount the namespace and cleanup the mount path.
++            - Args :
++                - None.
++            - Returns :
 +                - True on success, False on failure.
 +        """
-+        self.logger.info("Cleanup is in progress ...")
-+        ret = True
-+        for port in self.port_list:
-+            if port.delete() is False:
-+                ret = False
++        if self.fs is not None:
++            return self.fs.umount()
 +
-+        for subsys in iter(self):
-+            if subsys.delete() is False:
-+                ret = False
++        return True
 +
-+        self.logger.info("Removing Modules ...")
-+        Cmd.exec_cmd("modprobe -r nvme_loop")
-+        Cmd.exec_cmd("modprobe -r nvmet")
-+        Cmd.exec_cmd("modprobe -r nvme_fabrics")
-+        self.logger.info("DONE.")
-+        return ret
++    def delete(self):
++        """ Namespace clanup.
++            - Args :
++                - None.
++            - Returns :
++                - None.
++        """
++        self.logger.info("delete ns waiting for workq to finish all items")
++        if self.worker_thread.is_alive():
++            with self.q_cond_var:
++                self.workq.put(None)
++                self.q_cond_var.notifyAll()
++
++            while not self.workq.empty() and \
++                    self.worker_thread.is_alive() is True:
++                time.sleep(1)
++
++        self.unmount_cleanup()
 -- 
 1.8.3.1
