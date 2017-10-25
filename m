@@ -1,27 +1,24 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 24 Oct 2017 18:30:58 -0700
-Subject: [PATCH V2 41/46] nvmftests-tests: add a target template
+Date: Tue, 24 Oct 2017 18:31:03 -0700
+Subject: [PATCH V2 46/46] nvmftests: add Makefile
 In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
 References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <1508895063-6280-42-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <1508895063-6280-47-git-send-email-ckulkarnilinux@gmail.com>
 
 From: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-This adds a target test template which can be easily copied
-to write a new testcase.
-
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- .../nvmftests/tests/test_nvmf_target_template.py   | 64 ++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
- create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
+ tools/testing/selftests/nvmftests/Makefile | 63 ++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 tools/testing/selftests/nvmftests/Makefile
 
-diff --git a/tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py b/tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
+diff --git a/tools/testing/selftests/nvmftests/Makefile b/tools/testing/selftests/nvmftests/Makefile
 new file mode 100644
-index 0000000..08f0978
+index 0000000..ecb523a
 --- /dev/null
-+++ b/tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
-@@ -0,0 +1,64 @@
++++ b/tools/testing/selftests/nvmftests/Makefile
+@@ -0,0 +1,63 @@
 +# Copyright (c) 2016-2017 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -41,50 +38,49 @@ index 0000000..08f0978
 +#
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
-+"""
-+NVMF target template :-
 +
-+    1. From the config file create Target.
-+    2. Write testcase code here.
-+    3. Delete Target.
-+"""
++help: all
 +
++all:
++	@echo "Usage:"
++	@echo
++	@echo "  make run         - Run all testcases."
++	@echo "  make doc         - Generate Documentation."
++	@echo "  make cleanall    - removes *pyc, documentation."
++	@echo "  make static_check- runs pep8, flake8, and pylint on code."
 +
-+import sys
-+from nose.tools import assert_equal
-+sys.path.append("../")
-+from utils.misc.loopback import Loopback
-+from nvmf_test import NVMFTest
-+from nvmf.target import NVMFTarget
++doc:
++	@make -C doc/
 +
++run:
++	@ln -s tests/config config
++	nose2 --verbose
++	@rm -fr config
 +
-+class TestNVMFTargetTemplate(NVMFTest):
++static_check:
++	for i in `find . -name \*.py  | grep -v __init__ | grep -v state_machine`;\
++	do\
++			echo "Pylint :- " ;\
++			printf "%10s    " $${i};\
++			pylint $${i} 2>&1  | grep "^Your code" |  awk '{print $$7}';\
++			echo "--------------------------------------------";\
++			echo "pep8 :- ";\
++			pep8 $${i};\
++			echo "flake8 :- ";\
++			flake8 $${i};\
++	done
 +
-+    """ Represents target template testcase """
++cleanall: clean
++	@rm -fr tests/logs tests/*fio.log loop.json logs
++	@find . -name \*_fio.log | xargs rm -fr
++	@make -C doc/ clean
 +
-+    def __init__(self):
-+        NVMFTest.__init__(self)
-+        self.target_subsys = None
-+        self.setup_log_dir(self.__class__.__name__)
++clean:
++	@rm -fr config
++	@find . -name \*pyc | xargs rm -fr
++	@find . -name __pycache__ | xargs rm -fr
++	@find . -name \*ropeproject | xargs rm -fr
 +
-+    def setUp(self):
-+        """ Pre section of testcase """
-+        self.loopdev = Loopback(self.mount_path, self.data_size,
-+                                self.block_size, self.nr_dev)
-+        self.loopdev.init()
-+        self.build_target_config(self.loopdev.dev_list)
-+        self.target_subsys = NVMFTarget(self.target_type)
-+        ret = self.target_subsys.config(self.target_config_file)
-+        assert_equal(ret, True, "ERROR : target config failed")
-+
-+    def tearDown(self):
-+        """ Post section of testcase """
-+        self.target_subsys.delete()
-+        self.loopdev.delete()
-+
-+    def test_target(self):
-+        """ Testcase main """
-+        print("Now Running " + self.__class__.__name__)
-+        assert_equal(0, 0, "")
++.PHONY: doc clean cleanall
 -- 
 1.8.3.1
