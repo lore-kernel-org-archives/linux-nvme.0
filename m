@@ -1,31 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 27 Oct 2017 13:51:22 -0600
-Subject: [PATCH urgent-4.14] nvme: Fix setting logical block format when
- revalidating
-Message-ID: <20171027195122.1810-1-keith.busch@intel.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 27 Oct 2017 13:09:46 -0700
+Subject: [PATCH 2/3] nvme-fc: Check if queue is ready in queue_rq
+In-Reply-To: <1508847922-26699-3-git-send-email-sagi@grimberg.me>
+References: <1508847922-26699-1-git-send-email-sagi@grimberg.me>
+ <1508847922-26699-3-git-send-email-sagi@grimberg.me>
+Message-ID: <8283bcee-394e-af25-b6ce-bf48e218d7a2@broadcom.com>
 
-Revalidating the disk needs to set the logical block format and capacity,
-otherwise it can't figure out if the users modified anything about
-the namespace.
+On 10/24/2017 5:25 AM, Sagi Grimberg wrote:
+> In case the queue is not LIVE (fully functional
+> and connected in the nvmf level), we cannot
+> allow any commands other than connect to pass
+> through.
+>
+> Add a new queue state flag NVME_FC_Q_LIVE which is
+> set after nvmf connect and cleared in queue teardown.
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>
+looks fine
 
-Fixes: cdbff4f26bd9 ("nvme: remove nvme_revalidate_ns")
+Reviewed-by: James Smart <james.smart at broadcom.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5a14cc7f28ee..37f9039bb9ca 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1249,6 +1249,7 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 		goto out;
- 	}
- 
-+	__nvme_revalidate_disk(disk, id);
- 	nvme_report_ns_ids(ctrl, ns->ns_id, id, eui64, nguid, &uuid);
- 	if (!uuid_equal(&ns->uuid, &uuid) ||
- 	    memcmp(&ns->nguid, &nguid, sizeof(ns->nguid)) ||
--- 
-2.13.6
+-- james
