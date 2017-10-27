@@ -1,50 +1,37 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 27 Oct 2017 09:16:06 +0200
-Subject: [PATCH v4 5/5] nvme_fc: add dev_loss_tmo timeout and remoteport
- resume support
-In-Reply-To: <20171025234317.13302-6-jsmart2021@gmail.com>
-References: <20171025234317.13302-1-jsmart2021@gmail.com>
- <20171025234317.13302-6-jsmart2021@gmail.com>
-Message-ID: <d79f9cf9-a910-4dfb-3cf1-d26a6c0326a5@suse.de>
+Date: Fri, 27 Oct 2017 09:16:17 +0200
+Subject: [PATCH] nvme-fc: Zero out SGL before submitting AEN
+Message-ID: <1509088577-7342-1-git-send-email-hare@suse.de>
 
-On 10/26/2017 01:43 AM, James Smart wrote:
-> This patch adds the dev_loss_tmo functionality to the transport.
-> 
-> When a remoteport is unregistered (connectivity lost), the following
-> actions are taken:
-> - the remoteport is marked DELETED
-> - the time when dev_loss_tmo would expire is set in the remoteport
-> - all controllers on the remoteport are reset.
-> 
-> After a controller resets, it will stall in a RECONNECTING state
-> waiting for one of the following:
-> - the controller will continue to attempt reconnect per max_retries
->   and reconnect_delay. As no remoteport connectivity, the reconnect
->   attempt will immediately fail. if max reconnects has not been
->   reached, a new reconnect_delay timer will be schedule. If the
->   current time plus another reconnect_delay exceeds when dev_loss_tmo
->   expires on the remote port, then the reconnect_delay will be
->   shortend to schedule no later than when dev_loss_tmo expires.
->   if max reconnect attempts are reached (e.g. ctrl_loss_tmo reached)
->   or dev_loss_tmo ix exceeded without connectivity, the controller
->   is deleted.
-> - the remoteport is re-registered prior to dev_loss_tmo expiring.
->   The resume of the remoteport will immediately attempt to reconnect
->   each of its suspended controllers.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
->  drivers/nvme/host/fc.c | 281 ++++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 242 insertions(+), 39 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+nvme_fc_start_fc_op() will be updating the SGL entries of the
+sqe, so we need to zero those before resubmitting a received
+AEN. Otherwise we trigger the WARN_ON() in nvme_fc_start_fc_op().
 
-Cheers,
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/fc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Hannes
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index b600c07..db0a7f6 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2181,6 +2181,7 @@ enum {
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(arg);
+ 	struct nvme_fc_fcp_op *aen_op;
++	struct nvme_command *sqe;
+ 	unsigned long flags;
+ 	bool terminating = false;
+ 	blk_status_t ret;
+@@ -2197,6 +2198,8 @@ enum {
+ 		return;
+ 
+ 	aen_op = &ctrl->aen_ops[aer_idx];
++	sqe = &aen_op->cmd_iu.sqe;
++	memset(&sqe->common.dptr, 0, sizeof(union nvme_data_ptr));
+ 
+ 	ret = nvme_fc_start_fcp_op(ctrl, aen_op->queue, aen_op, 0,
+ 					NVMEFC_FCP_NODATA);
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+1.8.5.6
