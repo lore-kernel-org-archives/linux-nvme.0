@@ -1,37 +1,60 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 27 Oct 2017 09:16:17 +0200
-Subject: [PATCH] nvme-fc: Zero out SGL before submitting AEN
-Message-ID: <1509088577-7342-1-git-send-email-hare@suse.de>
+Date: Fri, 27 Oct 2017 09:48:16 +0200
+Subject: [PATCH] nvme_fc auto-connect scripts
+In-Reply-To: <20171009201032.2018-1-jsmart2021@gmail.com>
+References: <20171009201032.2018-1-jsmart2021@gmail.com>
+Message-ID: <e542bb4d-946f-a080-5701-f8019fdbc752@suse.de>
 
-nvme_fc_start_fc_op() will be updating the SGL entries of the
-sqe, so we need to zero those before resubmitting a received
-AEN. Otherwise we trigger the WARN_ON() in nvme_fc_start_fc_op().
+On 10/09/2017 10:10 PM, James Smart wrote:
+> Sagi recently posted a "one-shot" call to nvme-connect via a systemd
+> script. FC has no problems operating with it assuming all the required
+> connect fields are present (host_traddr required).
+> 
+> However FC is a bit more dynamic, and we've built up scripts that can
+> be triggered whenever a new FC remote port with a discovery subsytem is
+> detected. Whenever such a port is detected (by registration of the
+> remoteport with the nvme_fc transport by the lldd), the transport
+> generates a udev event.  A udev rule is created that parses the event
+> information into the FC remote port (traddr) that supports a discovery
+> subsystem and the FC host port that is connected to the FC remote port
+> (host_traddr). The rule then invokes an instance-based systemd service
+> to perform a "nvme connect-all" with the traddr and host-traddr info.
+> 
+> To resolve some issues seen by discovery of remote ports before the udev
+> service was running and where the events were not replayed, there is an
+> additional systemd service that runs once and invokes a script which
+> locates the FC host ports on the system, looks for any connected FC
+> remote ports with discovery subsystems, and invokes a connect-all for
+> them.  The FC port information is specific to lpfc attributes currently,
+> but when the shared transport is in place, they will be common.
+> 
+> I don't claim to be a systemd expert, so comments are certainly welcome.
+> 
+In general I'm not in favour of calling 'systemctl start' from a udev
+rule; this typically will cause systemd to rearrange the internal
+dependency chain, and might trigger various services to be enabled or
+disabled.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/fc.c | 3 +++
- 1 file changed, 3 insertions(+)
+The 'normal' flow of events is:
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b600c07..db0a7f6 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2181,6 +2181,7 @@ enum {
- {
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(arg);
- 	struct nvme_fc_fcp_op *aen_op;
-+	struct nvme_command *sqe;
- 	unsigned long flags;
- 	bool terminating = false;
- 	blk_status_t ret;
-@@ -2197,6 +2198,8 @@ enum {
- 		return;
- 
- 	aen_op = &ctrl->aen_ops[aer_idx];
-+	sqe = &aen_op->cmd_iu.sqe;
-+	memset(&sqe->common.dptr, 0, sizeof(union nvme_data_ptr));
- 
- 	ret = nvme_fc_start_fcp_op(ctrl, aen_op->queue, aen_op, 0,
- 					NVMEFC_FCP_NODATA);
+kernel device -> uevent -> udev rules -> systemd services
+
+ie for the autoconnect it would be _far_ better if we could have an
+event per NVMe lport device, as then we could call 'connect' on the
+lport device.
+
+So a better workflow would be to have the 'discovery' event trigger a
+'change' (or 'add'?) event on the lports, and then we could have
+per-lport udev rules triggering the actualy connect.
+
+Let's see if I can come up with something along these lines.
+
+Cheers,
+
+Hannes
 -- 
-1.8.5.6
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
