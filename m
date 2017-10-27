@@ -1,124 +1,324 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 27 Oct 2017 13:12:49 -0700
-Subject: [PATCH v4] nvmet: Fix fatal_err_work deadlock
-Message-ID: <20171027201249.31728-1-jsmart2021@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 27 Oct 2017 17:07:56 -0600
+Subject: [PATCH] nvme: freeze IO accesses around format
+In-Reply-To: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
+References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
+Message-ID: <20171027230756.GA17245@localhost.localdomain>
 
-Below is  a stack trace for an issue that was reported.
+On Fri, Oct 27, 2017@10:35:58AM -0600, Jens Axboe wrote:
+> @@ -1013,10 +1013,23 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+>  	if (cmd.timeout_ms)
+>  		timeout = msecs_to_jiffies(cmd.timeout_ms);
+>  
+> +	/*
+> +	 * Freeze current access to the device, and prevent new ones, around
+> +	 * a format operation.
+> +	 */
+> +	if (cmd.opcode == nvme_admin_format_nvm) {
+> +		nvme_start_freeze(ctrl);
+> +		nvme_wait_freeze(ctrl);
+> +	}
+> +
+>  	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+>  			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
+>  			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata,
+>  			0, &cmd.result, timeout);
+> +
+> +	if (cmd.opcode == nvme_admin_format_nvm)
+> +		nvme_unfreeze(ctrl);
+> +
 
-What's happening is that the nvmet layer had it's controller kato
-timeout fire, which causes it to schedule its fatal error handler
-via the fatal_err_work element. The error handler is invoked, which
-calls the transport delete_ctrl() entry point, and as the transport
-tears down the controller, nvmet_sq_destroy ends up doing the final
-put on the ctlr causing it to enter its free routine. The ctlr free
-routine does a cancel_work_sync() on fatal_err_work element, which
-then does a flush_work and wait_for_completion. But, as the wait is
-in the context of the work element being flushed, its in a catch-22
-and the thread hangs.
+Testing some obscure vendor specific IO commands, I noticed this
+will deadlock if an IO command opcode happens to be the same as an
+nvme_admin_format_nvm command since the IO queues are all frozen.
 
-[  326.903131] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-[  326.909832] nvmet: ctrl 1 fatal error occurred!
-[  327.643100] lpfc 0000:04:00.0: 0:6313 NVMET Defer ctx release xri
-x114 flg x2
-[  494.582064] INFO: task kworker/0:2:243 blocked for more than 120
-seconds.
-[  494.589638]       Not tainted 4.14.0-rc1.James+ #1
-[  494.594986] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
-disables this message.
-[  494.603718] kworker/0:2     D    0   243      2 0x80000000
-[  494.609839] Workqueue: events nvmet_fatal_error_handler [nvmet]
-[  494.616447] Call Trace:
-[  494.619177]  __schedule+0x28d/0x890
-[  494.623070]  schedule+0x36/0x80
-[  494.626571]  schedule_timeout+0x1dd/0x300
-[  494.631044]  ? dequeue_task_fair+0x592/0x840
-[  494.635810]  ? pick_next_task_fair+0x23b/0x5c0
-[  494.640756]  wait_for_completion+0x121/0x180
-[  494.645521]  ? wake_up_q+0x80/0x80
-[  494.649315]  flush_work+0x11d/0x1a0
-[  494.653206]  ? wake_up_worker+0x30/0x30
-[  494.657484]  __cancel_work_timer+0x10b/0x190
-[  494.662249]  cancel_work_sync+0x10/0x20
-[  494.666525]  nvmet_ctrl_put+0xa3/0x100 [nvmet]
-[  494.671482]  nvmet_sq_:q+0x64/0xd0 [nvmet]
-[  494.676540]  nvmet_fc_delete_target_queue+0x202/0x220 [nvmet_fc]
-[  494.683245]  nvmet_fc_delete_target_assoc+0x6d/0xc0 [nvmet_fc]
-[  494.689743]  nvmet_fc_delete_ctrl+0x137/0x1a0 [nvmet_fc]
-[  494.695673]  nvmet_fatal_error_handler+0x30/0x40 [nvmet]
-[  494.701589]  process_one_work+0x149/0x360
-[  494.706064]  worker_thread+0x4d/0x3c0
-[  494.710148]  kthread+0x109/0x140
-[  494.713751]  ? rescuer_thread+0x380/0x380
-[  494.718214]  ? kthread_park+0x60/0x60
+You can check 'ns == NULL' before checking the opcode.
 
-Correct by having the fc transport convert to a different workq context
-for the actual controller teardown which may call the cancel_work_sync.
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
+I also have this patch that's more generic and will perform actions
+based on the controller's command effects:
 
 ---
-v4:
-  walk away from changing nvmet_fatal_error_handler and context in core.
-  Adapt nvmet-fc transport to switch context in the delete_ctrl callback
-  like the other transports.
----
- drivers/nvme/target/fc.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+commit 760052c4f2d697c19e0f3a78f2f9bc36b2b6b92f
+Author: Keith Busch <keith.busch at intel.com>
+Date:   Fri Oct 27 10:35:58 2017 -0600
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 58e010bdda3e..5f2570f5dfa9 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -150,6 +150,7 @@ struct nvmet_fc_tgt_assoc {
- 	struct list_head		a_list;
- 	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES + 1];
- 	struct kref			ref;
-+	struct work_struct		del_work;
- };
+    nvme: Check admin passthru command effects
+    
+    This patch saves the effects log page if the controller supports it,
+    and performs appropriate actions before and after an admin passthrough
+    command is completed.
+    
+    The NVMe standard provides a command effects log page so the host is
+    aware of actions it may need to do in response to a particular passthrough
+    command. For example, the command may need to run with IO quiesced to
+    prevent timeouts or undefined behavior, or it may change the logical
+    block formats that alter how the host needs to construct commands.
+    
+    If the controller does not support the command effects log page, the
+    driver will define the effects for known opcodes. The nvme format is
+    the only such command in this patch with known effects.
+    
+    Signed-off-by: Keith Busch <keith.busch at intel.com>
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 37f9039bb9ca..9b352541672d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -76,6 +76,10 @@ static DEFINE_SPINLOCK(dev_list_lock);
  
+ static struct class *nvme_class;
  
-@@ -232,6 +233,7 @@ static void nvmet_fc_tgtport_put(struct nvmet_fc_tgtport *tgtport);
- static int nvmet_fc_tgtport_get(struct nvmet_fc_tgtport *tgtport);
- static void nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 					struct nvmet_fc_fcp_iod *fod);
-+static void nvmet_fc_delete_target_assoc(struct nvmet_fc_tgt_assoc *assoc);
- 
- 
- /* *********************** FC-NVME DMA Handling **************************** */
-@@ -802,6 +804,16 @@ nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
- 	return NULL;
++static void nvme_scan(struct nvme_ctrl *ctrl);
++static void nvme_ns_remove(struct nvme_ns *ns);
++static int nvme_revalidate_disk(struct gendisk *disk);
++
+ static __le32 nvme_get_log_dw10(u8 lid, size_t size)
+ {
+ 	return cpu_to_le32((((size / 4) - 1) << 16) | lid);
+@@ -982,12 +986,68 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 			metadata, meta_len, io.slba, NULL, 0);
  }
  
-+static void
-+nvmet_fc_delete_assoc(struct work_struct *work)
++static void nvme_get_admin_effects(struct nvme_ctrl *ctrl, u8 opcode, u32 *effects)
 +{
-+	struct nvmet_fc_tgt_assoc *assoc =
-+		container_of(work, struct nvmet_fc_tgt_assoc, del_work);
++	if (ctrl->effects)
++		*effects = le32_to_cpu(ctrl->effects->acs[opcode]);
 +
-+	nvmet_fc_delete_target_assoc(assoc);
-+	nvmet_fc_tgt_a_put(assoc);
++	if (*effects != 0)
++		return;
++
++	/*
++	 * Set known effects for opcodes if the controller doesn't support
++	 * reporting the command's effects.
++	 */
++	switch (opcode) {
++	case nvme_admin_format_nvm:
++		*effects = NVME_CMD_FX_CSUPP | NVME_CMD_FX_LBCC |
++					NVME_CMD_FX_CSE_MASK;
++		break;
++	default:
++		break;
++	}
 +}
 +
- static struct nvmet_fc_tgt_assoc *
- nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport)
++static void nvme_passthru_start(struct nvme_ctrl *ctrl, u32 effects)
++{
++	if (effects & (NVME_CMD_FX_LBCC | NVME_CMD_FX_CSE_MASK)) {
++		nvme_start_freeze(ctrl);
++		nvme_wait_freeze(ctrl);
++	}
++}
++
++static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
++{
++	/*
++	 * Revaildate LBA changes prior to unfreezing. This is necessary to
++	 * prevent memory corruption if a logical block size was changed by
++	 * this command.
++	 */
++	if (effects & NVME_CMD_FX_LBCC) {
++		struct nvme_ns *ns;
++
++		mutex_lock(&ctrl->namespaces_mutex);
++		list_for_each_entry(ns, &ctrl->namespaces, list) {
++			if (ns->disk && nvme_revalidate_disk(ns->disk))
++				nvme_ns_remove(ns);
++		}
++		mutex_unlock(&ctrl->namespaces_mutex);
++	}
++	if (effects & (NVME_CMD_FX_LBCC | NVME_CMD_FX_CSE_MASK))
++		nvme_unfreeze(ctrl);
++	if (effects & NVME_CMD_FX_CCC)
++		nvme_init_identify(ctrl);
++	if (effects & (NVME_CMD_FX_NIC | NVME_CMD_FX_NCC))
++		nvme_scan(ctrl);
++}
++
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd)
  {
-@@ -826,6 +838,7 @@ nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport)
- 	assoc->a_id = idx;
- 	INIT_LIST_HEAD(&assoc->a_list);
- 	kref_init(&assoc->ref);
-+	INIT_WORK(&assoc->del_work, nvmet_fc_delete_assoc);
+ 	struct nvme_passthru_cmd cmd;
+ 	struct nvme_command c;
+ 	unsigned timeout = 0;
++	u32 effects = 0;
+ 	int status;
  
- 	while (needrandom) {
- 		get_random_bytes(&ran, sizeof(ran) - BYTES_FOR_QID);
-@@ -1118,8 +1131,7 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
- 		nvmet_fc_tgtport_put(tgtport);
+ 	if (!capable(CAP_SYS_ADMIN))
+@@ -997,6 +1057,9 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	if (cmd.flags)
+ 		return -EINVAL;
  
- 		if (found_ctrl) {
--			nvmet_fc_delete_target_assoc(assoc);
--			nvmet_fc_tgt_a_put(assoc);
-+			schedule_work(&assoc->del_work);
- 			return;
- 		}
++	if (ns != NULL)
++		nvme_get_admin_effects(ctrl, cmd.opcode, &effects);
++
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+ 	c.common.flags = cmd.flags;
+@@ -1013,10 +1076,13 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	if (cmd.timeout_ms)
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
  
--- 
-2.13.1
++	nvme_passthru_start(ctrl, effects);
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+ 			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
+ 			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata,
+ 			0, &cmd.result, timeout);
++	nvme_passthru_end(ctrl, effects);
++
+ 	if (status >= 0) {
+ 		if (put_user(cmd.result, &ucmd->result))
+ 			return -EFAULT;
+@@ -1762,6 +1828,37 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
+ }
+ 
++static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log, size_t size)
++{
++	struct nvme_command c = { };
++
++
++	c.common.opcode = nvme_admin_get_log_page;
++	c.common.nsid = cpu_to_le32(NVME_NSID_ALL);
++	c.common.cdw10[0] = nvme_get_log_dw10(log_page, size);
++
++	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
++}
++
++static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
++{
++	int ret;
++
++	if (!ctrl->effects)
++		ctrl->effects = kzalloc(sizeof(*ctrl->effects), GFP_KERNEL);
++
++	if (!ctrl->effects)
++		return 0;
++
++	ret = nvme_get_log(ctrl, NVME_LOG_CMD_FX, ctrl->effects,
++					sizeof(*ctrl->effects));
++	if (ret) {
++		kfree(ctrl->effects);
++		ctrl->effects = NULL;
++	}
++	return ret;
++}
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -1797,6 +1894,12 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		return -EIO;
+ 	}
+ 
++	if (id->lpa & NVME_CTRL_LPA_CMD_FX_LOG) {
++		ret = nvme_get_effects_log(ctrl);
++		if (ret < 0)
++			return ret;
++	}
++
+ 	nvme_init_subnqn(ctrl, id);
+ 
+ 	if (!ctrl->identified) {
+@@ -2522,10 +2625,8 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
+ 	nvme_remove_invalid_namespaces(ctrl, nn);
+ }
+ 
+-static void nvme_scan_work(struct work_struct *work)
++static void nvme_scan(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_ctrl *ctrl =
+-		container_of(work, struct nvme_ctrl, scan_work);
+ 	struct nvme_id_ctrl *id;
+ 	unsigned nn;
+ 
+@@ -2549,6 +2650,14 @@ static void nvme_scan_work(struct work_struct *work)
+ 	kfree(id);
+ }
+ 
++static void nvme_scan_work(struct work_struct *work)
++{
++	struct nvme_ctrl *ctrl =
++		container_of(work, struct nvme_ctrl, scan_work);
++
++	nvme_scan(ctrl);
++}
++
+ void nvme_queue_scan(struct nvme_ctrl *ctrl)
+ {
+ 	/*
+@@ -2615,18 +2724,13 @@ static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
+ 
+ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_command c = { };
+ 	struct nvme_fw_slot_info_log *log;
+ 
+ 	log = kmalloc(sizeof(*log), GFP_KERNEL);
+ 	if (!log)
+ 		return;
+ 
+-	c.common.opcode = nvme_admin_get_log_page;
+-	c.common.nsid = cpu_to_le32(NVME_NSID_ALL);
+-	c.common.cdw10[0] = nvme_get_log_dw10(NVME_LOG_FW_SLOT, sizeof(*log));
+-
+-	if (!nvme_submit_sync_cmd(ctrl->admin_q, &c, log, sizeof(*log)))
++	if (nvme_get_log(ctrl, NVME_LOG_FW_SLOT, log, sizeof(*log)))
+ 		dev_warn(ctrl->device,
+ 				"Get FW SLOT INFO log error\n");
+ 	kfree(log);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index d3f3c4447515..69dd8d2cf05c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -172,6 +172,7 @@ struct nvme_ctrl {
+ 	bool subsystem;
+ 	unsigned long quirks;
+ 	struct nvme_id_power_state psd[32];
++	struct nvme_effects_log *effects;
+ 	struct work_struct scan_work;
+ 	struct work_struct async_event_work;
+ 	struct delayed_work ka_work;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 9310ce77d8e1..cad7bde44f8e 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -267,6 +267,7 @@ enum {
+ 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
+ 	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+ 	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 8,
++	NVME_CTRL_LPA_CMD_FX_LOG		= 1 << 1,
+ };
+ 
+ struct nvme_lbaf {
+@@ -396,6 +397,22 @@ struct nvme_fw_slot_info_log {
+ };
+ 
+ enum {
++	NVME_CMD_FX_CSUPP	= 1 << 0,
++	NVME_CMD_FX_LBCC	= 1 << 1,
++	NVME_CMD_FX_NCC		= 1 << 2,
++	NVME_CMD_FX_NIC		= 1 << 3,
++	NVME_CMD_FX_CCC		= 1 << 4,
++	NVME_CMD_FX_CSE_MASK	= 3 << 16,
++};
++
++struct nvme_effects_log {
++	__le32 acs[256];
++	__le32 iocs[256];
++	__u8   resv[2048];
++};
++
++
++enum {
+ 	NVME_SMART_CRIT_SPARE		= 1 << 0,
+ 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
+ 	NVME_SMART_CRIT_RELIABILITY	= 1 << 2,
+@@ -712,6 +729,7 @@ enum {
+ 	NVME_LOG_ERROR		= 0x01,
+ 	NVME_LOG_SMART		= 0x02,
+ 	NVME_LOG_FW_SLOT	= 0x03,
++	NVME_LOG_CMD_FX		= 0x05,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
+ 	NVME_FWACT_REPL		= (0 << 3),
+--
