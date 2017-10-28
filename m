@@ -1,31 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 28 Oct 2017 08:38:25 +0200
-Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
-In-Reply-To: <20171024213959.GB23307@redhat.com>
-References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-7-hch@lst.de> <20171024213959.GB23307@redhat.com>
-Message-ID: <20171028063825.GA14261@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 27 Oct 2017 23:45:08 -0700
+Subject: [PATCH] nvme: freeze IO accesses around format
+In-Reply-To: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
+References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
+Message-ID: <20171028064508.GA20977@infradead.org>
 
-On Tue, Oct 24, 2017@05:40:00PM -0400, Mike Snitzer wrote:
-> Having the NVme driver go to such lengths to hide its resources from
-> upper layers is certainly the work of an evil genius experiencing some
-> serious territorial issues.  Not sugar-coating it.. you wouldn't.
-
-I'm pretty surre Hannes will appreciate being called an evil genius :)
-
-> I kept meaning to reply to your earlier iterations on this series to
-> ask: can we please get a CONFIG_NVME_MULTIPATHING knob to make it so
-> that the NVMe driver doesn't implicitly consume (and hide) all
-> per-controler devices?
-
-I thought about adding it, but mostly for a different reason: it's
-quite a bit of code, and we now start to see NVMe in deeply embedded
-contexts, e.g. the latest Compact Flash spec is based on NVMe, so it
-might be a good idea to give people a chance to avoid the overhead.
-
-> Ah well.  There is only one correct way to do NVMe multipathing after
-> all right?
-
-I don't think you'll get very useful results, even if you try.  But I
-guess we'll just have to tell people to use SuSE if they want NVMe
-multipathing to work then :)
+And what about sanitize?  I guess instead of looking at opcodes directly
+we'd better look at the indications in the Commands Supported and Effects
+log.  That's what the Windows driver does, btw.
