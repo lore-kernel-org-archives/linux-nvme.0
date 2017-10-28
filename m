@@ -1,28 +1,27 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 29 Oct 2017 03:01:52 +0900
-Subject: [PATCH] nvme-cli: fix wrong bitmask in number of rpmb units.
-Message-ID: <1509213712-32675-1-git-send-email-minwoo.im.dev@gmail.com>
+Date: Sun, 29 Oct 2017 03:26:33 +0900
+Subject: [PATCH] nvme-cli: make command description const
+Message-ID: <1509215193-13119-1-git-send-email-minwoo.im.dev@gmail.com>
 
-Number of RPMB Units is a 3-bit field[02:00].
-Bitmask should be 0111b(7h) to get this field.
+Make desc in sanitize_log() const.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- nvme-print.c | 2 +-
+ nvme.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 9f524cd..e79b3f4 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -218,7 +218,7 @@ static void show_nvme_id_ctrl_rpmbs(__le32 ctrl_rpmbs)
- 	__u32 tsz = (rpmbs & 0xFF0000) >> 16;
- 	__u32 rsvd = (rpmbs & 0xFFC0) >> 6;
- 	__u32 auth = (rpmbs & 0x38) >> 3;
--	__u32 rpmb = rpmbs & 0x3;
-+	__u32 rpmb = rpmbs & 0x7;
+diff --git a/nvme.c b/nvme.c
+index 9ac6a3c..ed1c61f 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -488,7 +488,7 @@ static const char * sanitize_mon_status_to_string(__u16 status)
  
- 	printf(" [31:24]: %#x\tAccess Size\n", asz);
- 	printf(" [23:16]: %#x\tTotal Size\n", tsz);
+ static int sanitize_log(int argc, char **argv, struct command *command, struct plugin *plugin)
+ {
+-	char *desc = "Retrieve sanitize log and show it.";
++	const char *desc = "Retrieve sanitize log and show it.";
+ 	int fd;
+ 	int ret;
+ 	__u8 output[NVME_SANITIZE_LOG_DATA_LEN] = {0};
 -- 
 2.7.4
