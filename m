@@ -1,88 +1,74 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Sat, 28 Oct 2017 15:34:39 +0200
-Subject: [PATCH] nvme_fc auto-connect scripts
-In-Reply-To: <352f980c-2422-f917-a551-99bedf27e0ab@broadcom.com>
-References: <20171009201032.2018-1-jsmart2021@gmail.com>
- <e542bb4d-946f-a080-5701-f8019fdbc752@suse.de>
- <352f980c-2422-f917-a551-99bedf27e0ab@broadcom.com>
-Message-ID: <f0300e47-e219-19f9-1495-a662f9062b4d@suse.de>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Sat, 28 Oct 2017 10:17:45 -0400
+Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
+In-Reply-To: <20171028063825.GA14261@lst.de>
+References: <20171023145126.2471-1-hch@lst.de>
+ <20171023145126.2471-7-hch@lst.de>
+ <20171024213959.GB23307@redhat.com> <20171028063825.GA14261@lst.de>
+Message-ID: <20171028141745.GA32039@redhat.com>
 
-On 10/27/2017 07:50 PM, James Smart wrote:
-> On 10/27/2017 12:48 AM, Hannes Reinecke wrote:
->> On 10/09/2017 10:10 PM, James Smart wrote:
->>> Sagi recently posted a "one-shot" call to nvme-connect via a systemd
->>> script. FC has no problems operating with it assuming all the required
->>> connect fields are present (host_traddr required).
->>>
->>> However FC is a bit more dynamic, and we've built up scripts that can
->>> be triggered whenever a new FC remote port with a discovery subsytem is
->>> detected. Whenever such a port is detected (by registration of the
->>> remoteport with the nvme_fc transport by the lldd), the transport
->>> generates a udev event.? A udev rule is created that parses the event
->>> information into the FC remote port (traddr) that supports a discovery
->>> subsystem and the FC host port that is connected to the FC remote port
->>> (host_traddr). The rule then invokes an instance-based systemd service
->>> to perform a "nvme connect-all" with the traddr and host-traddr info.
->>>
->>> To resolve some issues seen by discovery of remote ports before the udev
->>> service was running and where the events were not replayed, there is an
->>> additional systemd service that runs once and invokes a script which
->>> locates the FC host ports on the system, looks for any connected FC
->>> remote ports with discovery subsystems, and invokes a connect-all for
->>> them.? The FC port information is specific to lpfc attributes currently,
->>> but when the shared transport is in place, they will be common.
->>>
->>> I don't claim to be a systemd expert, so comments are certainly welcome.
->>>
->> In general I'm not in favour of calling 'systemctl start' from a udev
->> rule; this typically will cause systemd to rearrange the internal
->> dependency chain, and might trigger various services to be enabled or
->> disabled.
->>
->> The 'normal' flow of events is:
->>
->> kernel device -> uevent -> udev rules -> systemd services
->>
->> ie for the autoconnect it would be _far_ better if we could have an
->> event per NVMe lport device, as then we could call 'connect' on the
->> lport device.
->>
->> So a better workflow would be to have the 'discovery' event trigger a
->> 'change' (or 'add'?) event on the lports, and then we could have
->> per-lport udev rules triggering the actualy connect.
->>
->> Let's see if I can come up with something along these lines.
->>
->> Cheers,
->>
->> Hannes
-> 
-> I'm certainly open to better options. udev/systemd is far from nice.?
-> However, what I did has quite a bit of precedence.
-> 
-> I have no idea what you would scan on by just an lport. It's not enough
-> for nvme-cli. You must have the lport and the rport information, which
-> is passed via the udev event info and which must also be passed to nvme
-> connect-all
-> 
-Oh, I know that.
-What I would prefer is to have a single udev rule per nvme connection,
-containing both lport and rport information.
-That would relieve us of having additional configuration, and we can
-enable/disable connection by just having that udev rule.
-This works pretty well; we're doing it exactly the same way on S/390 for
-the network and zfcp connections.
-So if we have that then we only need to know when the lport/rport
-combination is ready; once that is done we can call the udev rule.
-Ideally we'll be getting an event containing both of these informations,
-then udev will be selecting the correct rule automatically.
+On Sat, Oct 28 2017 at  2:38am -0400,
+Christoph Hellwig <hch@lst.de> wrote:
 
-Cheers,
+> On Tue, Oct 24, 2017@05:40:00PM -0400, Mike Snitzer wrote:
+> > Having the NVme driver go to such lengths to hide its resources from
+> > upper layers is certainly the work of an evil genius experiencing some
+> > serious territorial issues.  Not sugar-coating it.. you wouldn't.
+> 
+> I'm pretty surre Hannes will appreciate being called an evil genius :)
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Well, to be fair.. it doesn't take that much brain power to arrive at
+isolationism.
+
+And pretty sure Hannes had a better idea with using the blkdev_get
+(holders/claim) interface but you quickly dismissed that.  Despite it
+being the best _existing_ way to ensure mutual exclusion with the rest
+of the block layer.
+
+> > I kept meaning to reply to your earlier iterations on this series to
+> > ask: can we please get a CONFIG_NVME_MULTIPATHING knob to make it so
+> > that the NVMe driver doesn't implicitly consume (and hide) all
+> > per-controler devices?
+> 
+> I thought about adding it, but mostly for a different reason: it's
+> quite a bit of code, and we now start to see NVMe in deeply embedded
+> contexts, e.g. the latest Compact Flash spec is based on NVMe, so it
+> might be a good idea to give people a chance to avoid the overhead.
+
+OK, so please add it.
+
+> > Ah well.  There is only one correct way to do NVMe multipathing after
+> > all right?
+> 
+> I don't think you'll get very useful results, even if you try.  But I
+> guess we'll just have to tell people to use SuSE if they want NVMe
+> multipathing to work then :)
+
+Don't do that.  Don't assume you know it all.  Don't fabricate vendor
+wars in your head and then project it out to the rest of the community.
+We're all in this together.
+
+Fact is Hannes and I have exchanged private mail (in response to this
+very thread) and we agree that your approach is currently not suitable
+for enterprise deployment.  Hannes needs to also deal with the coming
+duality of Linux multipathing and you aren't making it easy.  Just
+because you're able to be myopic doesn't mean the rest of us with way
+more direct customers behind us can be.
+
+You're finding your way with this new multipath model and I'm happy to
+see that happen.  But what I'm not happy about is the steps you're
+taking to be actively disruptive.  There were so many ways this all
+could've gone and sadly you've elected to stand up an architecture that
+doesn't even allow the prospect of reuse.  And for what?  Because doing
+so takes 10% more work?  Well we can backfill that work if you'll grant
+us an open-mind.
+
+I'm really not against you.  I just need very basic controls put into
+the NVMe multipathing code that allows it to be disabled (yet reused).
+Not that I have immediate plans to actually _use_ it.  My hope is I can
+delegate NVMe multipathing to NVMe!  But I need the latitude to find my
+way with the requirements I am, or will be, needing to consider.
+
+Please don't paint me and others in my position into a corner.
+
+Mike
