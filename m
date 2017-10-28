@@ -1,155 +1,75 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 28 Oct 2017 10:21:13 -0700
-Subject: [PATCH 4/5] lpfc: Add NVME rescan support via RSCNs
+Date: Sat, 28 Oct 2017 10:21:11 -0700
+Subject: [PATCH 2/5] nvmet_fc: support transport subsystem events
 In-Reply-To: <20171028172114.2045-1-jsmart2021@gmail.com>
 References: <20171028172114.2045-1-jsmart2021@gmail.com>
-Message-ID: <20171028172114.2045-5-jsmart2021@gmail.com>
+Message-ID: <20171028172114.2045-3-jsmart2021@gmail.com>
 
-This patch adds NVME rescan support via RSCNs
+This patch adds support for transport events to signal discovery
+controller changes.
 
-NVME Target:
-  Adds support for the new nvme_subsystem_change callback. The
-  callback can be invoked by the nvmet_fc transport when it detects
-  conditions that would like to have nvme discovery invoked again.
-  Typically this is upon the addition of new subsystems added to
-  the nvmet configuration (thus the transport tying the callback
-  being invoked to port add calls).
-  The callback routine will generate an RSCN to the fabric in
-  order to cause RSCN events to all initiators with view of the
-  nport.
+Add new lldd api for a subsystem change. The lldd is to generate the
+appropriate RSCN for the FC-NVME targetport.
 
-NVME Host:
-  Upon reception of an RSCN event for an nport which supports
-  NVME initiator and which is currently logged in and PRLI'd,
-  the initiator will call the nvme_fc transport
-  nvme_fc_rescan_remoteport() routine to request nvme discovery
-  to be performed again on the port pair.
+Add transport op for discov_chg callback from the nvmet layer.
 
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_crtn.h  |  2 ++
- drivers/scsi/lpfc/lpfc_els.c   |  4 ++++
- drivers/scsi/lpfc/lpfc_nvme.c  | 42 ++++++++++++++++++++++++++++++++++++++++++
- drivers/scsi/lpfc/lpfc_nvmet.c | 18 ++++++++++++++++++
- 4 files changed, 66 insertions(+)
+ drivers/nvme/target/fc.c       | 10 ++++++++++
+ include/linux/nvme-fc-driver.h |  6 ++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
-index 6657b71d5a57..86f034fefa46 100644
---- a/drivers/scsi/lpfc/lpfc_crtn.h
-+++ b/drivers/scsi/lpfc/lpfc_crtn.h
-@@ -546,6 +546,8 @@ int lpfc_sli4_dump_page_a0(struct lpfc_hba *phba, struct lpfcMboxq *mbox);
- void lpfc_mbx_cmpl_rdp_page_a0(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb);
- 
- /* NVME interfaces. */
-+void lpfc_nvme_rescan_port(struct lpfc_vport *vport,
-+			   struct lpfc_nodelist *ndlp);
- void lpfc_nvme_unregister_port(struct lpfc_vport *vport,
- 			struct lpfc_nodelist *ndlp);
- int lpfc_nvme_register_port(struct lpfc_vport *vport,
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index 936fc22dfcae..b02684113c75 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -6071,6 +6071,10 @@ lpfc_rscn_recovery_check(struct lpfc_vport *vport)
- 		if (vport->phba->nvmet_support)
- 			continue;
- 
-+		/* Check to see if we need to NVME rescan this remoteport. */
-+		if (ndlp->nlp_fc4_type & NLP_FC4_NVME)
-+			lpfc_nvme_rescan_port(vport, ndlp);
-+
- 		lpfc_disc_state_machine(vport, ndlp, NULL,
- 					NLP_EVT_DEVICE_RECOVERY);
- 		lpfc_cancel_retry_delay_tmo(vport, ndlp);
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index 23bdb1ca106e..b372da3672eb 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.c
-+++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -2375,6 +2375,48 @@ lpfc_nvme_register_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
- #endif
- }
- 
-+/* lpfc_nvme_rescan_port - Check to see if we should rescan this remoteport
-+ *
-+ * If the ndlp represents an NVME Target, that we are logged into,
-+ * ping the NVME FC Transport layer to initiate a device rescan
-+ * on this remote NPort.
-+ */
-+void
-+lpfc_nvme_rescan_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
-+{
-+#if (IS_ENABLED(CONFIG_NVME_FC))
-+	struct lpfc_nvme_rport *rport;
-+	struct nvme_fc_remote_port *remoteport;
-+
-+	rport = ndlp->nrport;
-+
-+	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
-+			 "6170 Rescan NPort DID x%06x type x%x state x%x rport %p\n",
-+			 ndlp->nlp_DID, ndlp->nlp_type, ndlp->nlp_state, rport);
-+	if (!rport)
-+		goto input_err;
-+	remoteport = rport->remoteport;
-+	if (!remoteport)
-+		goto input_err;
-+
-+	/* Only rescan if we are an NVME target in the MAPPED state */
-+	if (remoteport->port_role & FC_PORT_ROLE_NVME_TARGET &&
-+	    ndlp->nlp_state == NLP_STE_MAPPED_NODE) {
-+		nvme_fc_rescan_remoteport(remoteport);
-+
-+		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
-+				 "6172 NVME rescanned DID x%06x "
-+				 "port_state x%x\n",
-+				 ndlp->nlp_DID, remoteport->port_state);
-+	}
-+input_err:
-+	return;
-+#endif
-+	lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
-+			 "6169 State error: lport %p, rport%p FCID x%06x\n",
-+			 vport->localport, ndlp->rport, ndlp->nlp_DID);
-+}
-+
- /* lpfc_nvme_unregister_port - unbind the DID and port_role from this rport.
-  *
-  * There is no notion of Devloss or rport recovery from the current
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index 0b7c1a49e203..51888192eed7 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -866,6 +866,23 @@ lpfc_nvmet_defer_rcv(struct nvmet_fc_target_port *tgtport,
- 	lpfc_rq_buf_free(phba, &nvmebuf->hbuf); /* repost */
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 58e010bdda3e..590133c35d11 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2546,6 +2546,15 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 		nvmet_fc_tgtport_put(tgtport);
  }
  
 +static void
-+lpfc_nvmet_subsystem_change(struct nvmet_fc_target_port *tgtport)
++nvmet_fc_port_subsys_event(struct nvmet_port *port)
 +{
-+	struct lpfc_nvmet_tgtport *tgtp;
-+	struct lpfc_hba *phba;
-+	uint32_t rc;
++	struct nvmet_fc_tgtport *tgtport = port->priv;
 +
-+	tgtp = tgtport->private;
-+	phba = tgtp->phba;
-+
-+	rc = lpfc_issue_els_rscn(phba->pport, 0);
-+	lpfc_printf_log(phba, KERN_ERR, LOG_NVME,
-+			"6420 NVMET subsystem change: "
-+			"Notification %s\n",
-+			(rc) ? "Failed" : "Sent");
++	if (tgtport && tgtport->ops->nvme_subsystem_change)
++		tgtport->ops->nvme_subsystem_change(&tgtport->fc_target_port);
 +}
 +
- static struct nvmet_fc_target_template lpfc_tgttemplate = {
- 	.targetport_delete = lpfc_nvmet_targetport_delete,
- 	.xmt_ls_rsp     = lpfc_nvmet_xmt_ls_rsp,
-@@ -873,6 +890,7 @@ static struct nvmet_fc_target_template lpfc_tgttemplate = {
- 	.fcp_abort      = lpfc_nvmet_xmt_fcp_abort,
- 	.fcp_req_release = lpfc_nvmet_xmt_fcp_release,
- 	.defer_rcv	= lpfc_nvmet_defer_rcv,
-+	.nvme_subsystem_change = lpfc_nvmet_subsystem_change,
+ static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_FC,
+@@ -2554,6 +2563,7 @@ static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.remove_port		= nvmet_fc_remove_port,
+ 	.queue_response		= nvmet_fc_fcp_nvme_cmd_done,
+ 	.delete_ctrl		= nvmet_fc_delete_ctrl,
++	.discov_chg		= nvmet_fc_port_subsys_event,
+ };
  
- 	.max_hw_queues  = 1,
- 	.max_sgl_segments = LPFC_NVMET_DEFAULT_SEGS,
+ static int __init nvmet_fc_init_module(void)
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 2be4db353937..ac9d7f190650 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -344,6 +344,11 @@ struct nvme_fc_remote_port {
+  *       indicating an FC transport Aborted status.
+  *       Entrypoint is Mandatory.
+  *
++ * @nvme_subsystem_change:  Called by the transport to generate FC state change
++ *       notifications to NVME initiators. The state change notifications should
++ *       cause the initiator to reconnect to the discovery controller on the
++ *       targetport to look for new discovery log records.
++ *
+  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
+  *       supports for cpu affinitization.
+  *       Value is Mandatory. Must be at least 1.
+@@ -856,6 +861,7 @@ struct nvmet_fc_target_template {
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
+ 	void (*defer_rcv)(struct nvmet_fc_target_port *tgtport,
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
++	void (*nvme_subsystem_change)(struct nvmet_fc_target_port *tgtport);
+ 
+ 	u32	max_hw_queues;
+ 	u16	max_sgl_segments;
 -- 
 2.13.1
