@@ -1,300 +1,155 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 28 Oct 2017 10:21:12 -0700
-Subject: [PATCH 3/5] lpfc: Add support to generate RSCN events for nport
+Date: Sat, 28 Oct 2017 10:21:13 -0700
+Subject: [PATCH 4/5] lpfc: Add NVME rescan support via RSCNs
 In-Reply-To: <20171028172114.2045-1-jsmart2021@gmail.com>
 References: <20171028172114.2045-1-jsmart2021@gmail.com>
-Message-ID: <20171028172114.2045-4-jsmart2021@gmail.com>
+Message-ID: <20171028172114.2045-5-jsmart2021@gmail.com>
 
-This patch adds general Changed Attribute RSCN support, both transmit
-and receive, to the driver. This support will be used with NVME to
-request initiators to perform nvme discovery.
+This patch adds NVME rescan support via RSCNs
 
-This patch:
-adds RSCN definitions
-adds statistics on RSCN transmissions
-creates a routine that will transmit a Changed Attribute RSCN
-Handle RSCN receipt
+NVME Target:
+  Adds support for the new nvme_subsystem_change callback. The
+  callback can be invoked by the nvmet_fc transport when it detects
+  conditions that would like to have nvme discovery invoked again.
+  Typically this is upon the addition of new subsystems added to
+  the nvmet configuration (thus the transport tying the callback
+  being invoked to port add calls).
+  The callback routine will generate an RSCN to the fabric in
+  order to cause RSCN events to all initiators with view of the
+  nport.
+
+NVME Host:
+  Upon reception of an RSCN event for an nport which supports
+  NVME initiator and which is currently logged in and PRLI'd,
+  the initiator will call the nvme_fc transport
+  nvme_fc_rescan_remoteport() routine to request nvme discovery
+  to be performed again on the port pair.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc.h         |   1 +
- drivers/scsi/lpfc/lpfc_crtn.h    |   2 +
- drivers/scsi/lpfc/lpfc_els.c     | 114 +++++++++++++++++++++++++++++++++++++++
- drivers/scsi/lpfc/lpfc_hbadisc.c |  35 ++++++++++++
- drivers/scsi/lpfc/lpfc_hw.h      |   9 ++++
- drivers/scsi/lpfc/lpfc_sli.c     |   1 +
- 6 files changed, 162 insertions(+)
+ drivers/scsi/lpfc/lpfc_crtn.h  |  2 ++
+ drivers/scsi/lpfc/lpfc_els.c   |  4 ++++
+ drivers/scsi/lpfc/lpfc_nvme.c  | 42 ++++++++++++++++++++++++++++++++++++++++++
+ drivers/scsi/lpfc/lpfc_nvmet.c | 18 ++++++++++++++++++
+ 4 files changed, 66 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index 8eb3f96fe068..157788f0bc10 100644
---- a/drivers/scsi/lpfc/lpfc.h
-+++ b/drivers/scsi/lpfc/lpfc.h
-@@ -277,6 +277,7 @@ struct lpfc_stats {
- 	uint32_t elsXmitADISC;
- 	uint32_t elsXmitLOGO;
- 	uint32_t elsXmitSCR;
-+	uint32_t elsXmitRSCN;
- 	uint32_t elsXmitRNID;
- 	uint32_t elsXmitFARP;
- 	uint32_t elsXmitFARPR;
 diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
-index 7e300734b345..6657b71d5a57 100644
+index 6657b71d5a57..86f034fefa46 100644
 --- a/drivers/scsi/lpfc/lpfc_crtn.h
 +++ b/drivers/scsi/lpfc/lpfc_crtn.h
-@@ -142,6 +142,7 @@ int lpfc_issue_els_adisc(struct lpfc_vport *, struct lpfc_nodelist *, uint8_t);
- int lpfc_issue_els_logo(struct lpfc_vport *, struct lpfc_nodelist *, uint8_t);
- int lpfc_issue_els_npiv_logo(struct lpfc_vport *, struct lpfc_nodelist *);
- int lpfc_issue_els_scr(struct lpfc_vport *, uint32_t, uint8_t);
-+int lpfc_issue_els_rscn(struct lpfc_vport *vport, uint8_t retry);
- int lpfc_issue_fabric_reglogin(struct lpfc_vport *);
- int lpfc_els_free_iocb(struct lpfc_hba *, struct lpfc_iocbq *);
- int lpfc_ct_free_iocb(struct lpfc_hba *, struct lpfc_iocbq *);
-@@ -357,6 +358,7 @@ void lpfc_mbox_timeout_handler(struct lpfc_hba *);
- struct lpfc_nodelist *lpfc_findnode_did(struct lpfc_vport *, uint32_t);
- struct lpfc_nodelist *lpfc_findnode_wwpn(struct lpfc_vport *,
- 					 struct lpfc_name *);
-+struct lpfc_nodelist *lpfc_findnode_mapped(struct lpfc_vport *vport);
+@@ -546,6 +546,8 @@ int lpfc_sli4_dump_page_a0(struct lpfc_hba *phba, struct lpfcMboxq *mbox);
+ void lpfc_mbx_cmpl_rdp_page_a0(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb);
  
- int lpfc_sli_issue_mbox_wait(struct lpfc_hba *, LPFC_MBOXQ_t *, uint32_t);
- 
+ /* NVME interfaces. */
++void lpfc_nvme_rescan_port(struct lpfc_vport *vport,
++			   struct lpfc_nodelist *ndlp);
+ void lpfc_nvme_unregister_port(struct lpfc_vport *vport,
+ 			struct lpfc_nodelist *ndlp);
+ int lpfc_nvme_register_port(struct lpfc_vport *vport,
 diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index 468a66371de9..936fc22dfcae 100644
+index 936fc22dfcae..b02684113c75 100644
 --- a/drivers/scsi/lpfc/lpfc_els.c
 +++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -2868,6 +2868,109 @@ lpfc_cmpl_els_cmd(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+@@ -6071,6 +6071,10 @@ lpfc_rscn_recovery_check(struct lpfc_vport *vport)
+ 		if (vport->phba->nvmet_support)
+ 			continue;
+ 
++		/* Check to see if we need to NVME rescan this remoteport. */
++		if (ndlp->nlp_fc4_type & NLP_FC4_NVME)
++			lpfc_nvme_rescan_port(vport, ndlp);
++
+ 		lpfc_disc_state_machine(vport, ndlp, NULL,
+ 					NLP_EVT_DEVICE_RECOVERY);
+ 		lpfc_cancel_retry_delay_tmo(vport, ndlp);
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index 23bdb1ca106e..b372da3672eb 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -2375,6 +2375,48 @@ lpfc_nvme_register_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
+ #endif
  }
  
- /**
-+ * lpfc_issue_els_rscn - Issue a rscn to an node on a vport
-+ * @vport: pointer to a host virtual N_Port data structure.
-+ * @retry: number of retries to the command IOCB.
++/* lpfc_nvme_rescan_port - Check to see if we should rescan this remoteport
 + *
-+ * This routine issues a RSCN to a fabric node on a @vport.
-+ *  The remote node @nportid is passed into the function. It
-+ * or Pt2Pt topologies, the first MAPPED node will get an RSCN
-+ * notification.  For Fabric topologies, the well known SCR_DID
-+ * gets notified for broadcast to all zone members.
-+ *
-+ * Note that, in lpfc_prep_els_iocb() routine, the reference count of ndlp
-+ * will be incremented by 1 for holding the ndlp and the reference to ndlp
-+ * will be stored into the context1 field of the IOCB for the completion
-+ * callback function to the RSCN ELS command.
-+ *
-+ * Return code
-+ *   0 - Successfully issued RSCN command
-+ *   1 - Failed to issue RSCN command
-+ **/
-+int
-+lpfc_issue_els_rscn(struct lpfc_vport *vport, uint8_t retry)
++ * If the ndlp represents an NVME Target, that we are logged into,
++ * ping the NVME FC Transport layer to initiate a device rescan
++ * on this remote NPort.
++ */
++void
++lpfc_nvme_rescan_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
 +{
-+	struct lpfc_hba  *phba = vport->phba;
-+	struct lpfc_iocbq *elsiocb;
-+	uint8_t *pcmd;
-+	uint16_t cmdsize;
-+	uint32_t value, nportid;
-+	struct lpfc_nodelist *ndlp;
++#if (IS_ENABLED(CONFIG_NVME_FC))
++	struct lpfc_nvme_rport *rport;
++	struct nvme_fc_remote_port *remoteport;
 +
-+	/* Not supported for private loop */
-+	if (phba->fc_topology == LPFC_TOPOLOGY_LOOP &&
-+	    !(vport->fc_flag & FC_PUBLIC_LOOP))
-+		return 1;
++	rport = ndlp->nrport;
 +
-+	cmdsize = (sizeof(uint32_t) + sizeof(SCR));
-+	if (vport->fc_flag & FC_PT2PT) {
-+		ndlp = lpfc_findnode_mapped(vport);
-+		if (!ndlp)
-+			return 1;
-+	} else {
-+		nportid = SCR_DID;
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
++			 "6170 Rescan NPort DID x%06x type x%x state x%x rport %p\n",
++			 ndlp->nlp_DID, ndlp->nlp_type, ndlp->nlp_state, rport);
++	if (!rport)
++		goto input_err;
++	remoteport = rport->remoteport;
++	if (!remoteport)
++		goto input_err;
 +
-+		ndlp = lpfc_findnode_did(vport, nportid);
-+		if (!ndlp) {
-+			ndlp = lpfc_nlp_init(vport, nportid);
-+			if (!ndlp)
-+				return 1;
-+			lpfc_enqueue_node(vport, ndlp);
-+		} else if (!NLP_CHK_NODE_ACT(ndlp)) {
-+			ndlp = lpfc_enable_node(vport, ndlp,
-+						NLP_STE_UNUSED_NODE);
-+			if (!ndlp)
-+				return 1;
-+		}
++	/* Only rescan if we are an NVME target in the MAPPED state */
++	if (remoteport->port_role & FC_PORT_ROLE_NVME_TARGET &&
++	    ndlp->nlp_state == NLP_STE_MAPPED_NODE) {
++		nvme_fc_rescan_remoteport(remoteport);
++
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
++				 "6172 NVME rescanned DID x%06x "
++				 "port_state x%x\n",
++				 ndlp->nlp_DID, remoteport->port_state);
 +	}
-+	elsiocb = lpfc_prep_els_iocb(vport, 1, cmdsize, retry, ndlp,
-+				     ndlp->nlp_DID, ELS_CMD_RSCN_XMT);
-+
-+	if (!elsiocb) {
-+		/* This will trigger the release of the node just
-+		 * allocated
-+		 */
-+		lpfc_nlp_put(ndlp);
-+		return 1;
-+	}
-+
-+	pcmd = (uint8_t *)(((struct lpfc_dmabuf *)elsiocb->context2)->virt);
-+
-+	*((uint32_t *)(pcmd)) = ELS_CMD_RSCN_XMT;
-+	pcmd += sizeof(uint32_t);
-+
-+	/* For SCR, remainder of payload is SCR parameter page */
-+	memset(pcmd, 0, sizeof(struct fc_RSCN));
-+	/* Generic Attribute of 0 is used */
-+	value = vport->fc_myDID;
-+
-+	((struct fc_RSCN *)pcmd)->NPort_ID = be32_to_cpu(value);
-+
-+	lpfc_debugfs_disc_trc(vport, LPFC_DISC_TRC_ELS_CMD,
-+			      "Issue RSCN:       did:x%x",
-+			      ndlp->nlp_DID, 0, 0);
-+
-+	phba->fc_stat.elsXmitRSCN++;
-+	elsiocb->iocb_cmpl = lpfc_cmpl_els_cmd;
-+	if (lpfc_sli_issue_iocb(phba, LPFC_ELS_RING, elsiocb, 0) ==
-+	    IOCB_ERROR) {
-+		/* The additional lpfc_nlp_put will cause the following
-+		 * lpfc_els_free_iocb routine to trigger the rlease of
-+		 * the node.
-+		 */
-+		lpfc_nlp_put(ndlp);
-+		lpfc_els_free_iocb(phba, elsiocb);
-+		return 1;
-+	}
-+	/* This will cause the callback-function lpfc_cmpl_els_cmd to
-+	 * trigger the release of node.
-+	 */
-+
-+	lpfc_nlp_put(ndlp);
-+	return 0;
++input_err:
++	return;
++#endif
++	lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
++			 "6169 State error: lport %p, rport%p FCID x%06x\n",
++			 vport->localport, ndlp->rport, ndlp->nlp_DID);
 +}
 +
-+/**
-  * lpfc_issue_els_scr - Issue a scr to an node on a vport
-  * @vport: pointer to a host virtual N_Port data structure.
-  * @nportid: N_Port identifier to the remote node.
-@@ -6071,6 +6174,16 @@ lpfc_els_rcv_rscn(struct lpfc_vport *vport, struct lpfc_iocbq *cmdiocb,
- 		fc_host_post_event(shost, fc_get_event_number(),
- 			FCH_EVT_RSCN, lp[i]);
- 
-+	/* Check if RSCN is coming from a direct-connected remote NPort */
-+	if (vport->fc_flag & FC_PT2PT) {
-+		/* If so, just ACC it, no other action needed for now */
-+		lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS,
-+				 "2024 pt2pt RSCN %08x Data: x%x x%x\n",
-+				 *lp, vport->fc_flag, payload_len);
-+		lpfc_els_rsp_acc(vport, ELS_CMD_ACC, cmdiocb, ndlp, NULL);
-+		return 0;
-+	}
-+
- 	/* If we are about to begin discovery, just ACC the RSCN.
- 	 * Discovery processing will satisfy it.
- 	 */
-@@ -7886,6 +7999,7 @@ lpfc_els_unsol_buffer(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
- 	elsiocb->context1 = lpfc_nlp_get(ndlp);
- 	elsiocb->vport = vport;
- 
-+	/* Since RSCN can be varying lengths, lets mask that off */
- 	if ((cmd & ELS_CMD_MASK) == ELS_CMD_RSCN) {
- 		cmd &= ELS_CMD_MASK;
- 	}
-diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
-index 20808349a80e..3eb37d5070c3 100644
---- a/drivers/scsi/lpfc/lpfc_hbadisc.c
-+++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
-@@ -5119,6 +5119,41 @@ __lpfc_findnode_did(struct lpfc_vport *vport, uint32_t did)
+ /* lpfc_nvme_unregister_port - unbind the DID and port_role from this rport.
+  *
+  * There is no notion of Devloss or rport recovery from the current
+diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
+index 0b7c1a49e203..51888192eed7 100644
+--- a/drivers/scsi/lpfc/lpfc_nvmet.c
++++ b/drivers/scsi/lpfc/lpfc_nvmet.c
+@@ -866,6 +866,23 @@ lpfc_nvmet_defer_rcv(struct nvmet_fc_target_port *tgtport,
+ 	lpfc_rq_buf_free(phba, &nvmebuf->hbuf); /* repost */
  }
  
- struct lpfc_nodelist *
-+lpfc_findnode_mapped(struct lpfc_vport *vport)
++static void
++lpfc_nvmet_subsystem_change(struct nvmet_fc_target_port *tgtport)
 +{
-+	struct Scsi_Host *shost = lpfc_shost_from_vport(vport);
-+	struct lpfc_nodelist *ndlp;
-+	uint32_t data1;
-+	unsigned long iflags;
++	struct lpfc_nvmet_tgtport *tgtp;
++	struct lpfc_hba *phba;
++	uint32_t rc;
 +
-+	spin_lock_irqsave(shost->host_lock, iflags);
++	tgtp = tgtport->private;
++	phba = tgtp->phba;
 +
-+	list_for_each_entry(ndlp, &vport->fc_nodes, nlp_listp) {
-+		if (ndlp->nlp_state == NLP_STE_UNMAPPED_NODE ||
-+		    ndlp->nlp_state == NLP_STE_MAPPED_NODE) {
-+			data1 = (((uint32_t)ndlp->nlp_state << 24) |
-+				 ((uint32_t)ndlp->nlp_xri << 16) |
-+				 ((uint32_t)ndlp->nlp_type << 8) |
-+				 ((uint32_t)ndlp->nlp_rpi & 0xff));
-+			spin_unlock_irqrestore(shost->host_lock, iflags);
-+			lpfc_printf_vlog(vport, KERN_INFO, LOG_NODE,
-+					 "2025 FIND node DID "
-+					 "Data: x%p x%x x%x x%x %p\n",
-+					 ndlp, ndlp->nlp_DID,
-+					 ndlp->nlp_flag, data1,
-+					 ndlp->active_rrqs_xri_bitmap);
-+			return ndlp;
-+		}
-+	}
-+	spin_unlock_irqrestore(shost->host_lock, iflags);
-+
-+	/* FIND node did <did> NOT FOUND */
-+	lpfc_printf_vlog(vport, KERN_INFO, LOG_NODE,
-+			 "2026 FIND mapped did NOT FOUND.\n");
-+	return NULL;
++	rc = lpfc_issue_els_rscn(phba->pport, 0);
++	lpfc_printf_log(phba, KERN_ERR, LOG_NVME,
++			"6420 NVMET subsystem change: "
++			"Notification %s\n",
++			(rc) ? "Failed" : "Sent");
 +}
 +
-+struct lpfc_nodelist *
- lpfc_findnode_did(struct lpfc_vport *vport, uint32_t did)
- {
- 	struct Scsi_Host *shost = lpfc_shost_from_vport(vport);
-diff --git a/drivers/scsi/lpfc/lpfc_hw.h b/drivers/scsi/lpfc/lpfc_hw.h
-index bdc1f184f67a..a1443592fa46 100644
---- a/drivers/scsi/lpfc/lpfc_hw.h
-+++ b/drivers/scsi/lpfc/lpfc_hw.h
-@@ -561,6 +561,8 @@ struct fc_vft_header {
+ static struct nvmet_fc_target_template lpfc_tgttemplate = {
+ 	.targetport_delete = lpfc_nvmet_targetport_delete,
+ 	.xmt_ls_rsp     = lpfc_nvmet_xmt_ls_rsp,
+@@ -873,6 +890,7 @@ static struct nvmet_fc_target_template lpfc_tgttemplate = {
+ 	.fcp_abort      = lpfc_nvmet_xmt_fcp_abort,
+ 	.fcp_req_release = lpfc_nvmet_xmt_fcp_release,
+ 	.defer_rcv	= lpfc_nvmet_defer_rcv,
++	.nvme_subsystem_change = lpfc_nvmet_subsystem_change,
  
- /*
-  *  Extended Link Service LS_COMMAND codes (Payload Word 0)
-+ *  The supported payload size is also hard-coded into this word
-+ *  when necessary.
-  */
- #ifdef __BIG_ENDIAN_BITFIELD
- #define ELS_CMD_MASK      0xffff0000
-@@ -597,6 +599,7 @@ struct fc_vft_header {
- #define ELS_CMD_RPS       0x56000000
- #define ELS_CMD_RPL       0x57000000
- #define ELS_CMD_FAN       0x60000000
-+#define ELS_CMD_RSCN_XMT  0x61040008
- #define ELS_CMD_RSCN      0x61040000
- #define ELS_CMD_SCR       0x62000000
- #define ELS_CMD_RNID      0x78000000
-@@ -637,6 +640,7 @@ struct fc_vft_header {
- #define ELS_CMD_RPS       0x56
- #define ELS_CMD_RPL       0x57
- #define ELS_CMD_FAN       0x60
-+#define ELS_CMD_RSCN_XMT  0x08000461
- #define ELS_CMD_RSCN      0x0461
- #define ELS_CMD_SCR       0x62
- #define ELS_CMD_RNID      0x78
-@@ -1088,6 +1092,11 @@ struct fc_lcb_res_frame {
- 	uint16_t      lcb_duration;     /* LCB Payload Word 2, bit 15:0  */
- };
- 
-+struct fc_RSCN {	/* RSCN ELS frame */
-+#define RSCN_EQ_PORT_ATTRIBUTE	2
-+	uint32_t NPort_ID;
-+};
-+
- /*
-  * Read Diagnostic Parameters (RDP) ELS frame.
-  */
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 8b119f87b51d..53a4ac67c9e1 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -8761,6 +8761,7 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
- 		if (if_type == LPFC_SLI_INTF_IF_TYPE_2) {
- 			if (pcmd && (*pcmd == ELS_CMD_FLOGI ||
- 				*pcmd == ELS_CMD_SCR ||
-+				*pcmd == ELS_CMD_RSCN_XMT ||
- 				*pcmd == ELS_CMD_FDISC ||
- 				*pcmd == ELS_CMD_LOGO ||
- 				*pcmd == ELS_CMD_PLOGI)) {
+ 	.max_hw_queues  = 1,
+ 	.max_sgl_segments = LPFC_NVMET_DEFAULT_SEGS,
 -- 
 2.13.1
