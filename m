@@ -1,7 +1,9 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 28 Oct 2017 10:21:09 -0700
-Subject: [PATCH 0/5] nvmet/nvmet_fc: add events for discovery controller rescan
-Message-ID: <20171028172114.2045-1-jsmart2021@gmail.com>
+Date: Sat, 28 Oct 2017 10:21:10 -0700
+Subject: [PATCH 1/5] nvmet: call transport on subsystem add and delete
+In-Reply-To: <20171028172114.2045-1-jsmart2021@gmail.com>
+References: <20171028172114.2045-1-jsmart2021@gmail.com>
+Message-ID: <20171028172114.2045-2-jsmart2021@gmail.com>
 
 A transport may have a transport-specific mechanism that can signal
 when discovery controller content has changed and request a host
@@ -13,41 +15,81 @@ hosts. A host, upon receiving the RSCN, would validate connectivity
 then initiate a discovery controller rescan, allowing new subsystems
 to be connected to or updating subsystem connectivity tables.
 
-These patches:
-- Modify the nvmet core layer to call a transport callback on every
-  subsystem add or remove from a transport port.
-- Modify the nvmet-fc transport to support the callback, and add its
-  own internal lldd api to generate RSCN's via the lldd.
-- Modify the lpfc driver to send/receive RSCNs for FC-NVME: transmit
-  the changed attribute RSCN on the target, receiving the RSCN on
-  the initiator and invoking the nvmet-fc transport rescan api.
-  Also adds manual sysfs mechanism to generate the RSCN on the target.
+Modify the subsystem link/unlink routines to always call a new
+nvmet_port_subsystem_chg() routine whenever a new subsystem is
+linked to a port or removed from a port.
 
+The nvmet_port_subsystem_chg() routine will look to see if the
+transport supports a discovery change callback, and if so, calls
+the callback.
 
-Dick Kennedy (1):
-  lpfc: Add sysfs interface to post NVME RSCN
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/configfs.c |  2 ++
+ drivers/nvme/target/core.c     | 10 ++++++++++
+ drivers/nvme/target/nvmet.h    |  2 ++
+ 3 files changed, 14 insertions(+)
 
-James Smart (4):
-  nvmet: call transport on subsystem add and delete
-  nvmet_fc: support transport subsystem events
-  lpfc: Add support to generate RSCN events for nport
-  lpfc: Add NVME rescan support via RSCNs
-
- drivers/nvme/target/configfs.c   |   2 +
- drivers/nvme/target/core.c       |  10 ++++
- drivers/nvme/target/fc.c         |  10 ++++
- drivers/nvme/target/nvmet.h      |   2 +
- drivers/scsi/lpfc/lpfc.h         |   2 +
- drivers/scsi/lpfc/lpfc_attr.c    |  62 ++++++++++++++++++++
- drivers/scsi/lpfc/lpfc_crtn.h    |   4 ++
- drivers/scsi/lpfc/lpfc_els.c     | 118 +++++++++++++++++++++++++++++++++++++++
- drivers/scsi/lpfc/lpfc_hbadisc.c |  35 ++++++++++++
- drivers/scsi/lpfc/lpfc_hw.h      |   9 +++
- drivers/scsi/lpfc/lpfc_nvme.c    |  42 ++++++++++++++
- drivers/scsi/lpfc/lpfc_nvmet.c   |  18 ++++++
- drivers/scsi/lpfc/lpfc_sli.c     |   1 +
- include/linux/nvme-fc-driver.h   |   6 ++
- 14 files changed, 321 insertions(+)
-
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b6aeb1d70951..38adcd7eafb1 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -503,6 +503,7 @@ static int nvmet_port_subsys_allow_link(struct config_item *parent,
+ 	list_add_tail(&link->entry, &port->subsystems);
+ 	nvmet_genctr++;
+ 	up_write(&nvmet_config_sem);
++	nvmet_port_subsystem_chg(port);
+ 	return 0;
+ 
+ out_free_link:
+@@ -529,6 +530,7 @@ static void nvmet_port_subsys_drop_link(struct config_item *parent,
+ found:
+ 	list_del(&p->entry);
+ 	nvmet_genctr++;
++	nvmet_port_subsystem_chg(port);
+ 	if (list_empty(&port->subsystems))
+ 		nvmet_disable_port(port);
+ 	up_write(&nvmet_config_sem);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index da088293eafc..f70d900774d0 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -206,6 +206,16 @@ void nvmet_disable_port(struct nvmet_port *port)
+ 	module_put(ops->owner);
+ }
+ 
++void nvmet_port_subsystem_chg(struct nvmet_port *port)
++{
++	struct nvmet_fabrics_ops *ops;
++
++	ops = nvmet_transports[port->disc_addr.trtype];
++
++	if (ops->discov_chg)
++		ops->discov_chg(port);
++}
++
+ static void nvmet_keep_alive_timer(struct work_struct *work)
+ {
+ 	struct nvmet_ctrl *ctrl = container_of(to_delayed_work(work),
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index e342f02845c1..87c7f6e84694 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -209,6 +209,7 @@ struct nvmet_fabrics_ops {
+ 	int (*add_port)(struct nvmet_port *port);
+ 	void (*remove_port)(struct nvmet_port *port);
+ 	void (*delete_ctrl)(struct nvmet_ctrl *ctrl);
++	void (*discov_chg)(struct nvmet_port *port);
+ };
+ 
+ #define NVMET_MAX_INLINE_BIOVEC	8
+@@ -302,6 +303,7 @@ void nvmet_unregister_transport(struct nvmet_fabrics_ops *ops);
+ 
+ int nvmet_enable_port(struct nvmet_port *port);
+ void nvmet_disable_port(struct nvmet_port *port);
++void nvmet_port_subsystem_chg(struct nvmet_port *port);
+ 
+ void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port);
+ void nvmet_referral_disable(struct nvmet_port *port);
 -- 
 2.13.1
