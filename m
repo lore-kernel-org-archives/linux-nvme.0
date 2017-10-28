@@ -1,27 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 28 Oct 2017 08:32:52 +0200
-Subject: [PATCH 16/17] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <104278cd-0383-71e0-45c2-750108723b8b@suse.de>
+Date: Sat, 28 Oct 2017 08:38:25 +0200
+Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
+In-Reply-To: <20171024213959.GB23307@redhat.com>
 References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-17-hch@lst.de>
- <104278cd-0383-71e0-45c2-750108723b8b@suse.de>
-Message-ID: <20171028063252.GA13998@lst.de>
+ <20171023145126.2471-7-hch@lst.de> <20171024213959.GB23307@redhat.com>
+Message-ID: <20171028063825.GA14261@lst.de>
 
-> Sure this works?
+On Tue, Oct 24, 2017@05:40:00PM -0400, Mike Snitzer wrote:
+> Having the NVme driver go to such lengths to hide its resources from
+> upper layers is certainly the work of an evil genius experiencing some
+> serious territorial issues.  Not sugar-coating it.. you wouldn't.
 
-It does.
+I'm pretty surre Hannes will appreciate being called an evil genius :)
 
-> nvme_req_needs_retry() checks blk_noretry_request():
+> I kept meaning to reply to your earlier iterations on this series to
+> ask: can we please get a CONFIG_NVME_MULTIPATHING knob to make it so
+> that the NVMe driver doesn't implicitly consume (and hide) all
+> per-controler devices?
 
-> The original idea here was to _set_ these bits on multipath path devices
-> so that they won't attempt any retry, but rather forward the I/O error
-> to the multipath device itself for failover.
-> So if these bits are set (as they should be for multipathed devices)
-> we'll never attempt any failover...
+I thought about adding it, but mostly for a different reason: it's
+quite a bit of code, and we now start to see NVMe in deeply embedded
+contexts, e.g. the latest Compact Flash spec is based on NVMe, so it
+might be a good idea to give people a chance to avoid the overhead.
 
-While that might have been the "original" idea, it isn't what this code
-does.  We never set any of the REQ_FAILFAST_* bits in
-nvme_ns_head_make_request.  In NVMe there aren't really any device
-equivalents of REQ_FAILFAST_ that make sense for multipath.  The only
-one that we map to is the limited retry bit, and that is media centric,
-so a failver would not help.
+> Ah well.  There is only one correct way to do NVMe multipathing after
+> all right?
+
+I don't think you'll get very useful results, even if you try.  But I
+guess we'll just have to tell people to use SuSE if they want NVMe
+multipathing to work then :)
