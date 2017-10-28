@@ -1,74 +1,38 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Sat, 28 Oct 2017 10:17:45 -0400
-Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
-In-Reply-To: <20171028063825.GA14261@lst.de>
-References: <20171023145126.2471-1-hch@lst.de>
- <20171023145126.2471-7-hch@lst.de>
- <20171024213959.GB23307@redhat.com> <20171028063825.GA14261@lst.de>
-Message-ID: <20171028141745.GA32039@redhat.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Sat, 28 Oct 2017 09:08:50 -0700
+Subject: [PATCH] nvme_fc auto-connect scripts
+In-Reply-To: <f0300e47-e219-19f9-1495-a662f9062b4d@suse.de>
+References: <20171009201032.2018-1-jsmart2021@gmail.com>
+ <e542bb4d-946f-a080-5701-f8019fdbc752@suse.de>
+ <352f980c-2422-f917-a551-99bedf27e0ab@broadcom.com>
+ <f0300e47-e219-19f9-1495-a662f9062b4d@suse.de>
+Message-ID: <159cfcc6-40e8-9062-7341-9a3de5f177af@broadcom.com>
 
-On Sat, Oct 28 2017 at  2:38am -0400,
-Christoph Hellwig <hch@lst.de> wrote:
+On 10/28/2017 6:34 AM, Hannes Reinecke wrote:
+>
+> Oh, I know that.
+> What I would prefer is to have a single udev rule per nvme connection,
+> containing both lport and rport information.
+> That would relieve us of having additional configuration, and we can
+> enable/disable connection by just having that udev rule.
+> This works pretty well; we're doing it exactly the same way on S/390 for
+> the network and zfcp connections.
+> So if we have that then we only need to know when the lport/rport
+> combination is ready; once that is done we can call the udev rule.
+> Ideally we'll be getting an event containing both of these informations,
+> then udev will be selecting the correct rule automatically.
+>
+> Cheers,
+>
+> Hannes
 
-> On Tue, Oct 24, 2017@05:40:00PM -0400, Mike Snitzer wrote:
-> > Having the NVme driver go to such lengths to hide its resources from
-> > upper layers is certainly the work of an evil genius experiencing some
-> > serious territorial issues.  Not sugar-coating it.. you wouldn't.
-> 
-> I'm pretty surre Hannes will appreciate being called an evil genius :)
+The main reason for the systemd use was the potential duration of the 
+resulting nvme connect-all. The scripts are simple if udev makes the 
+nvme cli call and don't require anything other than a single generic 
+rule. But given its potential stalls, very bad.
 
-Well, to be fair.. it doesn't take that much brain power to arrive at
-isolationism.
+If I understand you correctly, what you describe requires apriori 
+knowledge of the connections in order to add the udevs rule. This is a 
+step backward from current FC behavior and what users are used to.
 
-And pretty sure Hannes had a better idea with using the blkdev_get
-(holders/claim) interface but you quickly dismissed that.  Despite it
-being the best _existing_ way to ensure mutual exclusion with the rest
-of the block layer.
-
-> > I kept meaning to reply to your earlier iterations on this series to
-> > ask: can we please get a CONFIG_NVME_MULTIPATHING knob to make it so
-> > that the NVMe driver doesn't implicitly consume (and hide) all
-> > per-controler devices?
-> 
-> I thought about adding it, but mostly for a different reason: it's
-> quite a bit of code, and we now start to see NVMe in deeply embedded
-> contexts, e.g. the latest Compact Flash spec is based on NVMe, so it
-> might be a good idea to give people a chance to avoid the overhead.
-
-OK, so please add it.
-
-> > Ah well.  There is only one correct way to do NVMe multipathing after
-> > all right?
-> 
-> I don't think you'll get very useful results, even if you try.  But I
-> guess we'll just have to tell people to use SuSE if they want NVMe
-> multipathing to work then :)
-
-Don't do that.  Don't assume you know it all.  Don't fabricate vendor
-wars in your head and then project it out to the rest of the community.
-We're all in this together.
-
-Fact is Hannes and I have exchanged private mail (in response to this
-very thread) and we agree that your approach is currently not suitable
-for enterprise deployment.  Hannes needs to also deal with the coming
-duality of Linux multipathing and you aren't making it easy.  Just
-because you're able to be myopic doesn't mean the rest of us with way
-more direct customers behind us can be.
-
-You're finding your way with this new multipath model and I'm happy to
-see that happen.  But what I'm not happy about is the steps you're
-taking to be actively disruptive.  There were so many ways this all
-could've gone and sadly you've elected to stand up an architecture that
-doesn't even allow the prospect of reuse.  And for what?  Because doing
-so takes 10% more work?  Well we can backfill that work if you'll grant
-us an open-mind.
-
-I'm really not against you.  I just need very basic controls put into
-the NVMe multipathing code that allows it to be disabled (yet reused).
-Not that I have immediate plans to actually _use_ it.  My hope is I can
-delegate NVMe multipathing to NVMe!  But I need the latitude to find my
-way with the requirements I am, or will be, needing to consider.
-
-Please don't paint me and others in my position into a corner.
-
-Mike
+-- james
