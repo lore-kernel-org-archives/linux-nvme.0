@@ -1,35 +1,31 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Sun, 29 Oct 2017 19:43:21 +0200
-Subject: [PATCH 0/2] Performance Improvents for Secured Mode NVMe over
- Fabrics and other RDMA ULPs
-In-Reply-To: <8cb59a0a-c902-0c0e-27a8-fdf9b98982ac@mellanox.com>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Sun, 29 Oct 2017 11:52:37 -0600
+Subject: [PATCH 2/2] nvme-rdma: Add remote_invalidation module parameter
+In-Reply-To: <1509295101-14081-3-git-send-email-idanb@mellanox.com>
 References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
- <e1ba4993-5c77-4754-967c-4da8ec34bf77@grimberg.me>
- <8cb59a0a-c902-0c0e-27a8-fdf9b98982ac@mellanox.com>
-Message-ID: <20171029174321.GM16127@mtr-leonro.local>
+ <1509295101-14081-3-git-send-email-idanb@mellanox.com>
+Message-ID: <20171029175237.GD4488@ziepe.ca>
 
-On Sun, Oct 29, 2017@07:09:41PM +0200, Max Gurtovoy wrote:
-> > What about mlx4 btw?
->
-> We still haven't try to improve the mlx4, but it's on our plate.
+On Sun, Oct 29, 2017@06:38:21PM +0200, idanb@mellanox.com wrote:
+  
+> +static bool remote_invalidation = true;
+> +module_param(remote_invalidation, bool, 0444);
+> +MODULE_PARM_DESC(remote_invalidation,
+> +	 "request remote invalidation from subsystem (default: true)");
 
-Max and Idan thanks for doing it.
+Please no module options.
 
-The improvements look good, but I wonder what type of testing did you do?
-Did you run full verification suite on it?
+If your device has a performance anomaly that makes
+SEND_WITH_INVALIDATE slower than local invalidation, then we need to
+talk about having a new verbs flag for this situation so all the ULPs
+can avoid using SEND_WITH_INVALIDATE..
 
-Thanks
+Sagi, is this really an apples to apples comparison?
 
->
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171029/af83295b/attachment.sig>
+When I was talking with Chuck on NFS there were some various issues on
+that side that made the local invalidate run faster, but it wasn't
+actually working properly.
+
+Does nvme wait for the local invalidate to finish before moving on?
+
+Jason
