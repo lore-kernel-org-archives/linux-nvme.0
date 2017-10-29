@@ -1,33 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 29 Oct 2017 13:57:45 +0200
-Subject: controller deletion consolidation
-In-Reply-To: <20171029084431.8702-1-hch@lst.de>
-References: <20171029084431.8702-1-hch@lst.de>
-Message-ID: <c82f8c4f-052a-7233-d0df-59c7c6a7a1a6@grimberg.me>
+Date: Sun, 29 Oct 2017 14:21:01 +0200
+Subject: [PATCH 1/2] nvme-rdma: reuse nvme_delete_ctrl when reconnect attempts
+ expire
+Message-ID: <1509279662-32169-1-git-send-email-sagi@grimberg.me>
 
+instead of just queueing delete work
 
-> Hi all,
-> 
-> this series consolidates a lot of the boilerplate code in controller
-> deletion.  I did this when applying the FC patches that finally made
-> it look exactly like RDMA.
-> 
-> This will probably conflict a bit with Sagis consolidation series, but
-> in the end should make it easier.
+Reported-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Definitely a step in the right direction. Looks good.
-
-> Two notes:
-> 
->   - do we need the cancellation of reset_work in FC?  If so we probably
->     want it in RDMA and loop as well.
-
-We probably do.
-
->   - should RDMA really queue delete_work manually in
->     nvme_rdma_reconnect_or_remove instead of going through the state
->     machine?  That seems like a bug to me.
-> 
-
-I had this fix from the centralization patches, I can easily extract it
-out and send it asap.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 4f8a249a2c12..5e95a9860f35 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -912,7 +912,7 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+ 				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else {
+ 		dev_info(ctrl->ctrl.device, "Removing controller...\n");
+-		queue_work(nvme_wq, &ctrl->ctrl.delete_work);
++		nvme_delete_ctrl(&ctrl->ctrl);
+ 	}
+ }
+ 
+-- 
+2.7.4
