@@ -1,58 +1,419 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 29 Oct 2017 10:44:28 +0200
-Subject: [PATCH 2/5] nvme-fc: merge __nvme_fc_schedule_delete_work into
- __nvme_fc_del_ctrl
+Date: Sun, 29 Oct 2017 10:44:29 +0200
+Subject: [PATCH 3/5] nvme: move controller deletion to common code
 In-Reply-To: <20171029084431.8702-1-hch@lst.de>
 References: <20171029084431.8702-1-hch@lst.de>
-Message-ID: <20171029084431.8702-3-hch@lst.de>
+Message-ID: <20171029084431.8702-4-hch@lst.de>
 
-No need to have two functions doing the same thing.
+Move the ->delete_work and the associated helpers to common code instead
+of duplicating them in every driver.  This also adds the missing reference
+get/put for the loop driver.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/fc.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ drivers/nvme/host/core.c    | 38 ++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/fabrics.c |  2 +-
+ drivers/nvme/host/fc.c      | 42 +++++----------------------------------
+ drivers/nvme/host/nvme.h    |  5 ++++-
+ drivers/nvme/host/rdma.c    | 45 ++++++------------------------------------
+ drivers/nvme/target/loop.c  | 48 +++++++++------------------------------------
+ 6 files changed, 62 insertions(+), 118 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 50cc17e99475..827e9efbe556 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2663,22 +2663,14 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
- 	nvme_put_ctrl(&ctrl->ctrl);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index df525ab42fcd..d835ac05bbf7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -97,6 +97,41 @@ static int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
+ 	return ret;
  }
  
--static bool
--__nvme_fc_schedule_delete_work(struct nvme_fc_ctrl *ctrl)
--{
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
--		return true;
--
--	if (!queue_work(nvme_wq, &ctrl->delete_work))
--		return true;
--
--	return false;
--}
--
- static int
- __nvme_fc_del_ctrl(struct nvme_fc_ctrl *ctrl)
- {
--	return __nvme_fc_schedule_delete_work(ctrl) ? -EBUSY : 0;
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
++static void nvme_delete_ctrl_work(struct work_struct *work)
++{
++	struct nvme_ctrl *ctrl =
++		container_of(work, struct nvme_ctrl, delete_work);
++
++	ctrl->ops->delete_ctrl(ctrl);
++}
++
++int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
++{
++	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
 +		return -EBUSY;
 +	if (!queue_work(nvme_wq, &ctrl->delete_work))
 +		return -EBUSY;
 +	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_delete_ctrl);
++
++int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl)
++{
++	int ret = 0;
++
++	/*
++	 * Keep a reference until the work is flushed since ->delete_ctrl
++	 * can free the controller.
++	 */
++	nvme_get_ctrl(ctrl);
++	ret = nvme_delete_ctrl(ctrl);
++	if (!ret)
++		flush_work(&ctrl->delete_work);
++	nvme_put_ctrl(ctrl);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvme_delete_ctrl_sync);
++
+ static blk_status_t nvme_error_status(struct request *req)
+ {
+ 	switch (nvme_req(req)->status & 0x7ff) {
+@@ -2122,7 +2157,7 @@ static ssize_t nvme_sysfs_delete(struct device *dev,
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+ 
+ 	if (device_remove_file_self(dev, attr))
+-		ctrl->ops->delete_ctrl(ctrl);
++		nvme_delete_ctrl_sync(ctrl);
+ 	return count;
+ }
+ static DEVICE_ATTR(delete_controller, S_IWUSR, NULL, nvme_sysfs_delete);
+@@ -2702,6 +2737,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
++	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+ 
+ 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 4a83137b0268..a4967de5bb25 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -887,7 +887,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 			"controller returned incorrect NQN: \"%s\".\n",
+ 			ctrl->subnqn);
+ 		up_read(&nvmf_transports_rwsem);
+-		ctrl->ops->delete_ctrl(ctrl);
++		nvme_delete_ctrl_sync(ctrl);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 827e9efbe556..a7bdb17de29d 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -157,7 +157,6 @@ struct nvme_fc_ctrl {
+ 	struct blk_mq_tag_set	admin_tag_set;
+ 	struct blk_mq_tag_set	tag_set;
+ 
+-	struct work_struct	delete_work;
+ 	struct delayed_work	connect_work;
+ 
+ 	struct kref		ref;
+@@ -223,7 +222,6 @@ static struct device *fc_udev_device;
+ 
+ /* *********************** FC-NVME Port Management ************************ */
+ 
+-static int __nvme_fc_del_ctrl(struct nvme_fc_ctrl *);
+ static void __nvme_fc_delete_hw_queue(struct nvme_fc_ctrl *,
+ 			struct nvme_fc_queue *, unsigned int);
+ 
+@@ -662,7 +660,7 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
+ 
+ 	/* tear down all associations to the remote port */
+ 	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
+-		__nvme_fc_del_ctrl(ctrl);
++		nvme_delete_ctrl(&ctrl->ctrl);
+ 
+ 	spin_unlock_irqrestore(&rport->lock, flags);
+ 
+@@ -2636,10 +2634,9 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
  }
  
- /*
-@@ -2724,7 +2716,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ static void
+-nvme_fc_delete_ctrl_work(struct work_struct *work)
++nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ {
+-	struct nvme_fc_ctrl *ctrl =
+-		container_of(work, struct nvme_fc_ctrl, delete_work);
++	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
+ 	cancel_work_sync(&ctrl->ctrl.reset_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+@@ -2663,34 +2660,6 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ }
+ 
+-static int
+-__nvme_fc_del_ctrl(struct nvme_fc_ctrl *ctrl)
+-{
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+-		return -EBUSY;
+-	if (!queue_work(nvme_wq, &ctrl->delete_work))
+-		return -EBUSY;
+-	return 0;
+-}
+-
+-/*
+- * Request from nvme core layer to delete the controller
+- */
+-static int
+-nvme_fc_del_nvme_ctrl(struct nvme_ctrl *nctrl)
+-{
+-	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+-	int ret;
+-
+-	nvme_get_ctrl(&ctrl->ctrl);
+-	ret = __nvme_fc_del_ctrl(ctrl);
+-	if (!ret)
+-		flush_work(&ctrl->delete_work);
+-	nvme_put_ctrl(&ctrl->ctrl);
+-
+-	return ret;
+-}
+-
+ static void
+ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ {
+@@ -2716,7 +2685,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
  				"NVME-FC{%d}: Max reconnect attempts (%d) "
  				"reached. Removing controller\n",
  				ctrl->cnum, ctrl->ctrl.nr_reconnects);
--		WARN_ON(__nvme_fc_schedule_delete_work(ctrl));
-+		WARN_ON(__nvme_fc_del_ctrl(ctrl));
+-		WARN_ON(__nvme_fc_del_ctrl(ctrl));
++		WARN_ON(nvme_delete_ctrl(&ctrl->ctrl));
  	}
  }
  
+@@ -2748,7 +2717,7 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+ 	.reg_write32		= nvmf_reg_write32,
+ 	.free_ctrl		= nvme_fc_nvme_ctrl_freed,
+ 	.submit_async_event	= nvme_fc_submit_async_event,
+-	.delete_ctrl		= nvme_fc_del_nvme_ctrl,
++	.delete_ctrl		= nvme_fc_delete_ctrl,
+ 	.get_address		= nvmf_get_address,
+ 	.reinit_request		= nvme_fc_reinit_request,
+ };
+@@ -2851,7 +2820,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	get_device(ctrl->dev);
+ 	kref_init(&ctrl->ref);
+ 
+-	INIT_WORK(&ctrl->delete_work, nvme_fc_delete_ctrl_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+ 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
+ 	spin_lock_init(&ctrl->lock);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1bb2bc165e54..35d9cee515f1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -138,6 +138,7 @@ struct nvme_ctrl {
+ 	struct cdev cdev;
+ 	struct ida ns_ida;
+ 	struct work_struct reset_work;
++	struct work_struct delete_work;
+ 
+ 	struct opal_dev *opal_dev;
+ 
+@@ -236,7 +237,7 @@ struct nvme_ctrl_ops {
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
+-	int (*delete_ctrl)(struct nvme_ctrl *ctrl);
++	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
+ 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+ 	int (*reinit_request)(void *data, struct request *rq);
+ };
+@@ -339,6 +340,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
++int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
++int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ 
+ #ifdef CONFIG_NVM
+ int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 32b0a9ef26e6..5175b465997d 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -105,7 +105,6 @@ struct nvme_rdma_ctrl {
+ 
+ 	/* other member variables */
+ 	struct blk_mq_tag_set	tag_set;
+-	struct work_struct	delete_work;
+ 	struct work_struct	err_work;
+ 
+ 	struct nvme_rdma_qe	async_event_sqe;
+@@ -913,7 +912,7 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+ 				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else {
+ 		dev_info(ctrl->ctrl.device, "Removing controller...\n");
+-		queue_work(nvme_wq, &ctrl->delete_work);
++		queue_work(nvme_wq, &ctrl->ctrl.delete_work);
+ 	}
+ }
+ 
+@@ -1764,41 +1763,10 @@ static void nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl)
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ }
+ 
+-static void nvme_rdma_del_ctrl_work(struct work_struct *work)
++static void nvme_rdma_delete_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-				struct nvme_rdma_ctrl, delete_work);
+-
+-	nvme_stop_ctrl(&ctrl->ctrl);
+-	nvme_rdma_remove_ctrl(ctrl);
+-}
+-
+-static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
+-{
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+-		return -EBUSY;
+-
+-	if (!queue_work(nvme_wq, &ctrl->delete_work))
+-		return -EBUSY;
+-
+-	return 0;
+-}
+-
+-static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
+-{
+-	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+-	int ret = 0;
+-
+-	/*
+-	 * Keep a reference until all work is flushed since
+-	 * __nvme_rdma_del_ctrl can free the ctrl mem
+-	 */
+-	nvme_get_ctrl(&ctrl->ctrl);
+-	ret = __nvme_rdma_del_ctrl(ctrl);
+-	if (!ret)
+-		flush_work(&ctrl->delete_work);
+-	nvme_put_ctrl(&ctrl->ctrl);
+-	return ret;
++	nvme_stop_ctrl(ctrl);
++	nvme_rdma_remove_ctrl(to_rdma_ctrl(ctrl));
+ }
+ 
+ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+@@ -1846,7 +1814,7 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.reg_write32		= nvmf_reg_write32,
+ 	.free_ctrl		= nvme_rdma_free_ctrl,
+ 	.submit_async_event	= nvme_rdma_submit_async_event,
+-	.delete_ctrl		= nvme_rdma_del_ctrl,
++	.delete_ctrl		= nvme_rdma_delete_ctrl,
+ 	.get_address		= nvmf_get_address,
+ 	.reinit_request		= nvme_rdma_reinit_request,
+ };
+@@ -1977,7 +1945,6 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	INIT_DELAYED_WORK(&ctrl->reconnect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
+ 	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
+-	INIT_WORK(&ctrl->delete_work, nvme_rdma_del_ctrl_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+ 
+ 	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
+@@ -2081,7 +2048,7 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ 		dev_info(ctrl->ctrl.device,
+ 			"Removing ctrl: NQN \"%s\", addr %pISp\n",
+ 			ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
+-		__nvme_rdma_del_ctrl(ctrl);
++		nvme_delete_ctrl(&ctrl->ctrl);
+ 	}
+ 	mutex_unlock(&nvme_rdma_ctrl_mutex);
+ 
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index f83e925fe64a..7f9f3fc3fb2a 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -53,7 +53,6 @@ struct nvme_loop_ctrl {
+ 	struct nvme_ctrl	ctrl;
+ 
+ 	struct nvmet_ctrl	*target_ctrl;
+-	struct work_struct	delete_work;
+ };
+ 
+ static inline struct nvme_loop_ctrl *to_loop_ctrl(struct nvme_ctrl *ctrl)
+@@ -439,41 +438,13 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
+ 	nvme_loop_destroy_admin_queue(ctrl);
+ }
+ 
+-static void nvme_loop_del_ctrl_work(struct work_struct *work)
++static void nvme_loop_delete_ctrl_host(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_loop_ctrl *ctrl = container_of(work,
+-				struct nvme_loop_ctrl, delete_work);
+-
+-	nvme_stop_ctrl(&ctrl->ctrl);
+-	nvme_remove_namespaces(&ctrl->ctrl);
+-	nvme_loop_shutdown_ctrl(ctrl);
+-	nvme_uninit_ctrl(&ctrl->ctrl);
+-	nvme_put_ctrl(&ctrl->ctrl);
+-}
+-
+-static int __nvme_loop_del_ctrl(struct nvme_loop_ctrl *ctrl)
+-{
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+-		return -EBUSY;
+-
+-	if (!queue_work(nvme_wq, &ctrl->delete_work))
+-		return -EBUSY;
+-
+-	return 0;
+-}
+-
+-static int nvme_loop_del_ctrl(struct nvme_ctrl *nctrl)
+-{
+-	struct nvme_loop_ctrl *ctrl = to_loop_ctrl(nctrl);
+-	int ret;
+-
+-	ret = __nvme_loop_del_ctrl(ctrl);
+-	if (ret)
+-		return ret;
+-
+-	flush_work(&ctrl->delete_work);
+-
+-	return 0;
++	nvme_stop_ctrl(ctrl);
++	nvme_remove_namespaces(ctrl);
++	nvme_loop_shutdown_ctrl(to_loop_ctrl(ctrl));
++	nvme_uninit_ctrl(ctrl);
++	nvme_put_ctrl(ctrl);
+ }
+ 
+ static void nvme_loop_delete_ctrl(struct nvmet_ctrl *nctrl)
+@@ -483,7 +454,7 @@ static void nvme_loop_delete_ctrl(struct nvmet_ctrl *nctrl)
+ 	mutex_lock(&nvme_loop_ctrl_mutex);
+ 	list_for_each_entry(ctrl, &nvme_loop_ctrl_list, list) {
+ 		if (ctrl->ctrl.cntlid == nctrl->cntlid)
+-			__nvme_loop_del_ctrl(ctrl);
++			nvme_delete_ctrl(&ctrl->ctrl);
+ 	}
+ 	mutex_unlock(&nvme_loop_ctrl_mutex);
+ }
+@@ -539,7 +510,7 @@ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
+ 	.reg_write32		= nvmf_reg_write32,
+ 	.free_ctrl		= nvme_loop_free_ctrl,
+ 	.submit_async_event	= nvme_loop_submit_async_event,
+-	.delete_ctrl		= nvme_loop_del_ctrl,
++	.delete_ctrl		= nvme_loop_delete_ctrl_host,
+ };
+ 
+ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+@@ -601,7 +572,6 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+ 	ctrl->ctrl.opts = opts;
+ 	INIT_LIST_HEAD(&ctrl->list);
+ 
+-	INIT_WORK(&ctrl->delete_work, nvme_loop_del_ctrl_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_loop_reset_ctrl_work);
+ 
+ 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_loop_ctrl_ops,
+@@ -731,7 +701,7 @@ static void __exit nvme_loop_cleanup_module(void)
+ 
+ 	mutex_lock(&nvme_loop_ctrl_mutex);
+ 	list_for_each_entry_safe(ctrl, next, &nvme_loop_ctrl_list, list)
+-		__nvme_loop_del_ctrl(ctrl);
++		nvme_delete_ctrl(&ctrl->ctrl);
+ 	mutex_unlock(&nvme_loop_ctrl_mutex);
+ 
+ 	flush_workqueue(nvme_wq);
 -- 
 2.14.2
