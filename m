@@ -1,27 +1,28 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 29 Oct 2017 03:26:33 +0900
-Subject: [PATCH] nvme-cli: make command description const
-Message-ID: <1509215193-13119-1-git-send-email-minwoo.im.dev@gmail.com>
+From: anish.jhaveri@paviliondata.com (Anish Jhaveri)
+Date: Sun, 29 Oct 2017 08:00:00 +0000
+Subject: [PATCH 06/17] block: introduce GENHD_FL_HIDDEN
+In-Reply-To: <99f3c781-71ce-f915-d6f4-88d6dd115876@huawei.com>
+References: <20171023145126.2471-1-hch@lst.de>
+ <20171023145126.2471-7-hch@lst.de> <20171024213959.GB23307@redhat.com>
+ <20171028063825.GA14261@lst.de>
+ <dc988a8a-8c88-fe20-34a0-de5cdd615b6b@huawei.com>
+ <20171028074245.GA15510@lst.de>
+ <99f3c781-71ce-f915-d6f4-88d6dd115876@huawei.com>
+Message-ID: <DM3PR17MB0825BEF3B830E3ADF08688B097580@DM3PR17MB0825.namprd17.prod.outlook.com>
 
-Make desc in sanitize_log() const.
+On Saturday, October 28, 2017 3:10 AM,  Guan Junxiong wrote:
 
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>Does it mean some extra works such as:
+>1) showing the path topology of nvme multipath device
+Isn't connection to the target suppose guide the host to the shortest and fastest path available path or so called most optimized path. Sysfs entry can easily store that as we store path related info over there. 
 
-diff --git a/nvme.c b/nvme.c
-index 9ac6a3c..ed1c61f 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -488,7 +488,7 @@ static const char * sanitize_mon_status_to_string(__u16 status)
+>2) daemon to implement immediate and delayed failback
+This is also based on target, whenever target is ready for immediate or delayed failback it will let the connect from host succeed. Until then host is in reconnecting state across all path until it finds an optimized or un-optimized path. Why is this extra daemon needed ?
  
- static int sanitize_log(int argc, char **argv, struct command *command, struct plugin *plugin)
- {
--	char *desc = "Retrieve sanitize log and show it.";
-+	const char *desc = "Retrieve sanitize log and show it.";
- 	int fd;
- 	int ret;
- 	__u8 output[NVME_SANITIZE_LOG_DATA_LEN] = {0};
--- 
-2.7.4
+>4) grouping paths besides ANA
+Why we cannot use NS Group here.
+
+Would be good idea to move away from legacy way of doing things for NVME devices. NVME Multipath implementation by Christoph is very simple. How about not making it super complicated.  
+
+Best regards,
+Anish
