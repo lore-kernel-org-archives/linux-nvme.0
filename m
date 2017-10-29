@@ -1,34 +1,58 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 29 Oct 2017 10:44:27 +0200
-Subject: [PATCH 1/5] nvme-fc: avoid workqueue flush stalls
+Date: Sun, 29 Oct 2017 10:44:28 +0200
+Subject: [PATCH 2/5] nvme-fc: merge __nvme_fc_schedule_delete_work into
+ __nvme_fc_del_ctrl
 In-Reply-To: <20171029084431.8702-1-hch@lst.de>
 References: <20171029084431.8702-1-hch@lst.de>
-Message-ID: <20171029084431.8702-2-hch@lst.de>
+Message-ID: <20171029084431.8702-3-hch@lst.de>
 
-From: James Smart <jsmart2021@gmail.com>
+No need to have two functions doing the same thing.
 
-There's no need to wait for the full nvme_wq, which is now shared,
-to flush. flush only the delete_work item.
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
-Reviewed-by: Sagi Grimberg <sgi at grimberg.me>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/fc.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b600c07803cf..50cc17e99475 100644
+index 50cc17e99475..827e9efbe556 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2693,7 +2693,7 @@ nvme_fc_del_nvme_ctrl(struct nvme_ctrl *nctrl)
- 	nvme_get_ctrl(&ctrl->ctrl);
- 	ret = __nvme_fc_del_ctrl(ctrl);
- 	if (!ret)
--		flush_workqueue(nvme_wq);
-+		flush_work(&ctrl->delete_work);
+@@ -2663,22 +2663,14 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
  	nvme_put_ctrl(&ctrl->ctrl);
+ }
  
- 	return ret;
+-static bool
+-__nvme_fc_schedule_delete_work(struct nvme_fc_ctrl *ctrl)
+-{
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+-		return true;
+-
+-	if (!queue_work(nvme_wq, &ctrl->delete_work))
+-		return true;
+-
+-	return false;
+-}
+-
+ static int
+ __nvme_fc_del_ctrl(struct nvme_fc_ctrl *ctrl)
+ {
+-	return __nvme_fc_schedule_delete_work(ctrl) ? -EBUSY : 0;
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
++		return -EBUSY;
++	if (!queue_work(nvme_wq, &ctrl->delete_work))
++		return -EBUSY;
++	return 0;
+ }
+ 
+ /*
+@@ -2724,7 +2716,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 				"NVME-FC{%d}: Max reconnect attempts (%d) "
+ 				"reached. Removing controller\n",
+ 				ctrl->cnum, ctrl->ctrl.nr_reconnects);
+-		WARN_ON(__nvme_fc_schedule_delete_work(ctrl));
++		WARN_ON(__nvme_fc_del_ctrl(ctrl));
+ 	}
+ }
+ 
 -- 
 2.14.2
