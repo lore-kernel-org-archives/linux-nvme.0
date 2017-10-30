@@ -1,20 +1,19 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 30 Oct 2017 11:44:26 +0200
-Subject: [PATCH 2/2] nvme-rdma: Add remote_invalidation module parameter
-In-Reply-To: <7e038d80-de95-8fb7-e313-825e40c03e88@mellanox.com>
-References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
- <1509295101-14081-3-git-send-email-idanb@mellanox.com>
- <20171029175237.GD4488@ziepe.ca>
- <740c93f4-164e-d4e3-97b1-313a0420ae81@grimberg.me>
- <7e038d80-de95-8fb7-e313-825e40c03e88@mellanox.com>
-Message-ID: <38523e67-fa00-dd03-5b6f-34cd6f863c8f@grimberg.me>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Mon, 30 Oct 2017 18:14:30 +0800
+Subject: [PATCHv2 5/5] nvme: Send uevent for unhandled AEN completions
+In-Reply-To: <20171020223746.31287-1-keith.busch@intel.com>
+References: <20171020223746.31287-1-keith.busch@intel.com>
+Message-ID: <b05dcfac-0d50-4b90-544e-646bbfce57bb@huawei.com>
 
 
-> I agree we should fix this, nevertheless I don't expect this to create 
-> an IO rate issue for long queue depths.
-> Indeed we will have a tradeoff here of latency vs rate.
+On 2017/10/21 6:37, Keith Busch wrote:
+>  static void nvme_async_event_work(struct work_struct *work)
+>  {
+>  	struct nvme_ctrl *ctrl =
+>  		container_of(work, struct nvme_ctrl, async_event_work);
+>  
+> +	nvme_aen_uevent(ctrl);
+>  	ctrl->ops->submit_async_event(ctrl);
+>  }
 
-I suggest we hold back with this one for now, I have fixes for
-the local invalidate flow. Once we get them in we can see if
-this approach makes a difference, and if so, we need to expose
-it through a generic mechanism.
+Is this based on 4.15 or 4.14? I failed to apply it.
