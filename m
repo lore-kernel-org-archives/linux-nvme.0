@@ -1,35 +1,20 @@
-From: idanb@mellanox.com (idanb)
-Date: Mon, 30 Oct 2017 10:45:12 +0200
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 30 Oct 2017 11:44:26 +0200
 Subject: [PATCH 2/2] nvme-rdma: Add remote_invalidation module parameter
-In-Reply-To: <4423f96f-bf42-3603-aa6a-fa259a1d09d1@grimberg.me>
+In-Reply-To: <7e038d80-de95-8fb7-e313-825e40c03e88@mellanox.com>
 References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
  <1509295101-14081-3-git-send-email-idanb@mellanox.com>
- <4423f96f-bf42-3603-aa6a-fa259a1d09d1@grimberg.me>
-Message-ID: <2f9723ae-93f4-aeec-22b0-31634d52b3aa@mellanox.com>
+ <20171029175237.GD4488@ziepe.ca>
+ <740c93f4-164e-d4e3-97b1-313a0420ae81@grimberg.me>
+ <7e038d80-de95-8fb7-e313-825e40c03e88@mellanox.com>
+Message-ID: <38523e67-fa00-dd03-5b6f-34cd6f863c8f@grimberg.me>
 
 
+> I agree we should fix this, nevertheless I don't expect this to create 
+> an IO rate issue for long queue depths.
+> Indeed we will have a tradeoff here of latency vs rate.
 
-On 10/30/2017 10:11 AM, Sagi Grimberg wrote:
-> Idan,
->
->> NVMe over Fabrics in its secure "register_always" mode
->> registers and invalidates the user buffer upon each IO.
->> The protocol enables the host to request the susbsystem
->> to use SEND WITH INVALIDATE operation while returning the
->> response capsule and invalidate the local key
->> (remote_invalidation).
->> In some HW implementations, the local network adapter may
->> perform better while using local invalidation operations.
->
-> This is a device quirk and if you want to optimize for this
-> you need to expose it via verbs interface. We won't add a module
-> parameter for implementation specific stuff.
-
-After our discussion yesterday I was thinking it may be better to hide
-it within the nvme host driver while having a messages size threshold for
-using send_with_invalidate. To make it device agnostic we will need
-to come out with an idea of how to expose such limitation.
-
->
-> Note that we currently need to rework the case where we use local
-> invalidates and properly wait for them to complete.
+I suggest we hold back with this one for now, I have fixes for
+the local invalidate flow. Once we get them in we can see if
+this approach makes a difference, and if so, we need to expose
+it through a generic mechanism.
