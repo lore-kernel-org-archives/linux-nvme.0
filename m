@@ -1,14 +1,22 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 30 Oct 2017 13:36:16 -0600
-Subject: [PATCH] nvme-cli: fix wrong bitmask in number of rpmb units.
-In-Reply-To: <1509213712-32675-1-git-send-email-minwoo.im.dev@gmail.com>
-References: <1509213712-32675-1-git-send-email-minwoo.im.dev@gmail.com>
-Message-ID: <20171030193615.GH17245@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 30 Oct 2017 12:52:44 -0700
+Subject: [PATCH 2/5] nvme-fc: merge __nvme_fc_schedule_delete_work into
+ __nvme_fc_del_ctrl
+In-Reply-To: <20171029084431.8702-3-hch@lst.de>
+References: <20171029084431.8702-1-hch@lst.de>
+ <20171029084431.8702-3-hch@lst.de>
+Message-ID: <3df3f145-8586-baef-a30e-ad31bef7a1e2@broadcom.com>
 
-On Sun, Oct 29, 2017@03:01:52AM +0900, Minwoo Im wrote:
-> Number of RPMB Units is a 3-bit field[02:00].
-> Bitmask should be 0111b(7h) to get this field.
-> 
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+On 10/29/2017 1:44 AM, Christoph Hellwig wrote:
+> No need to have two functions doing the same thing.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   drivers/nvme/host/fc.c | 20 ++++++--------------
+>   1 file changed, 6 insertions(+), 14 deletions(-)
+>
+>
 
-Applied, thanks.
+Looks fine.
+
+Reviewed-by: James Smart? <james.smart at broadcom.com>
