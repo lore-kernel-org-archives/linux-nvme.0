@@ -1,20 +1,35 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 30 Oct 2017 13:00:29 -0700
-Subject: [PATCH 5/5] nvme: consolidate common code from ->reset_work
-In-Reply-To: <20171029084431.8702-6-hch@lst.de>
-References: <20171029084431.8702-1-hch@lst.de>
- <20171029084431.8702-6-hch@lst.de>
-Message-ID: <09da8c25-e855-f260-ac56-cff3de54e9f9@broadcom.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Mon, 30 Oct 2017 20:37:09 +0000
+Subject: [PATCH v2 6/8] scsi/ipr: Use sgl_alloc_order() and
+ sgl_free_order()
+In-Reply-To: <ce6f2f5b-b4bc-380f-8ac1-1e91e4d6bf24@linux.vnet.ibm.com>
+References: <20171016224940.1332-1-bart.vanassche@wdc.com>
+ <20171016224940.1332-7-bart.vanassche@wdc.com>
+ <c804098f-5543-395c-1395-5778ef74a61b@suse.de>
+ <ce6f2f5b-b4bc-380f-8ac1-1e91e4d6bf24@linux.vnet.ibm.com>
+Message-ID: <1509395828.27259.21.camel@wdc.com>
 
-On 10/29/2017 1:44 AM, Christoph Hellwig wrote:
-> No change in behavior except that the FC code cancels two work items a
-> little later now.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->
+On Wed, 2017-10-18@15:57 -0500, Brian King wrote:
+> On 10/17/2017 01:19 AM, Hannes Reinecke wrote:
+> > On 10/17/2017 12:49 AM, Bart Van Assche wrote:
+> > > [ ... ]
+> > 
+> > Not sure if this is a valid conversion.
+> > Originally the driver would allocate a single buffer; with this buffer
+> > we have two distinct buffers.
+> > Given that this is used to download the microcode I'm not sure if this
+> > isn't a hardware-dependent structure which requires a single buffer
+> > including the sglist.
+> > Brian, can you shed some light here?
+> 
+> The struct ipr_sglist is not a hardware defined data structure, so on initial
+> glance, this should be OK. I'll load it up and give it a try to make sure
+> it doesn't break code download.
 
+Hello Brian,
 
-Looks fine.
+Have you already obtained any test results?
 
-Reviewed-by: James Smart? <james.smart at broadcom.com>
+Thanks,
+
+Bart.
