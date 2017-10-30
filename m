@@ -1,31 +1,25 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Mon, 30 Oct 2017 07:21:10 +0200
-Subject: [PATCH 0/2] Performance Improvents for Secured Mode NVMe over
- Fabrics and other RDMA ULPs
-In-Reply-To: <AM0PR0502MB38906F57CD68C3707F8FE765C5580@AM0PR0502MB3890.eurprd05.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 30 Oct 2017 10:11:54 +0200
+Subject: [PATCH 2/2] nvme-rdma: Add remote_invalidation module parameter
+In-Reply-To: <1509295101-14081-3-git-send-email-idanb@mellanox.com>
 References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
- <e1ba4993-5c77-4754-967c-4da8ec34bf77@grimberg.me>
- <8cb59a0a-c902-0c0e-27a8-fdf9b98982ac@mellanox.com>
- <20171029174321.GM16127@mtr-leonro.local>
- <AM0PR0502MB38906F57CD68C3707F8FE765C5580@AM0PR0502MB3890.eurprd05.prod.outlook.com>
-Message-ID: <20171030052110.GP16127@mtr-leonro.local>
+ <1509295101-14081-3-git-send-email-idanb@mellanox.com>
+Message-ID: <4423f96f-bf42-3603-aa6a-fa259a1d09d1@grimberg.me>
 
-On Sun, Oct 29, 2017@06:03:43PM +0000, Idan Burstein wrote:
-> Leon,
->
-> We only did performance testing at the block level.
+Idan,
 
-Excellent, so please, as a Mellanox employee, run it through our
-standard submission channels, so at least we will be sure that you
-are not breaking anything.
+> NVMe over Fabrics in its secure "register_always" mode
+> registers and invalidates the user buffer upon each IO.
+> The protocol enables the host to request the susbsystem
+> to use SEND WITH INVALIDATE operation while returning the
+> response capsule and invalidate the local key
+> (remote_invalidation).
+> In some HW implementations, the local network adapter may
+> perform better while using local invalidation operations.
 
-Please talk with Max, he did it before and he knows how to do it right.
+This is a device quirk and if you want to optimize for this
+you need to expose it via verbs interface. We won't add a module
+parameter for implementation specific stuff.
 
-Thanks
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171030/46aec3a2/attachment.sig>
+Note that we currently need to rework the case where we use local
+invalidates and properly wait for them to complete.
