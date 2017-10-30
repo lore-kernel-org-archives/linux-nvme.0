@@ -1,20 +1,18 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Mon, 30 Oct 2017 12:52:44 -0700
-Subject: [PATCH 2/5] nvme-fc: merge __nvme_fc_schedule_delete_work into
- __nvme_fc_del_ctrl
-In-Reply-To: <20171029084431.8702-3-hch@lst.de>
+Date: Mon, 30 Oct 2017 12:58:06 -0700
+Subject: [PATCH 3/5] nvme: move controller deletion to common code
+In-Reply-To: <20171029084431.8702-4-hch@lst.de>
 References: <20171029084431.8702-1-hch@lst.de>
- <20171029084431.8702-3-hch@lst.de>
-Message-ID: <3df3f145-8586-baef-a30e-ad31bef7a1e2@broadcom.com>
+ <20171029084431.8702-4-hch@lst.de>
+Message-ID: <89831278-db71-8fb4-b562-3da9ebbb5cd5@broadcom.com>
 
 On 10/29/2017 1:44 AM, Christoph Hellwig wrote:
-> No need to have two functions doing the same thing.
+> Move the ->delete_work and the associated helpers to common code instead
+> of duplicating them in every driver.  This also adds the missing reference
+> get/put for the loop driver.
 >
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->   drivers/nvme/host/fc.c | 20 ++++++--------------
->   1 file changed, 6 insertions(+), 14 deletions(-)
->
 >
 
 Looks fine.
