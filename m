@@ -1,37 +1,17 @@
-From: idanb@mellanox.com (idanb)
-Date: Mon, 30 Oct 2017 14:35:42 +0200
-Subject: [PATCH 2/2] nvme-rdma: Add remote_invalidation module parameter
-In-Reply-To: <360f892f-b88d-0947-1590-ab1d64d4da13@grimberg.me>
-References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
- <1509295101-14081-3-git-send-email-idanb@mellanox.com>
- <20171029175237.GD4488@ziepe.ca>
- <740c93f4-164e-d4e3-97b1-313a0420ae81@grimberg.me>
- <7e038d80-de95-8fb7-e313-825e40c03e88@mellanox.com>
- <38523e67-fa00-dd03-5b6f-34cd6f863c8f@grimberg.me>
- <5783e083-93d4-8e72-c380-03fc54a0291b@mellanox.com>
- <360f892f-b88d-0947-1590-ab1d64d4da13@grimberg.me>
-Message-ID: <22964904-2537-51c3-bf39-5b2197aec5b9@mellanox.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 30 Oct 2017 08:23:34 -0600
+Subject: [PATCH urgent-4.14] nvme: Fix setting logical block format when
+ revalidating
+In-Reply-To: <20171027195122.1810-1-keith.busch@intel.com>
+References: <20171027195122.1810-1-keith.busch@intel.com>
+Message-ID: <fb7b1486-ab1c-05f8-3c3b-7dbaef6d75c3@kernel.dk>
 
+On 10/27/2017 01:51 PM, Keith Busch wrote:
+> Revalidating the disk needs to set the logical block format and capacity,
+> otherwise it can't figure out if the users modified anything about
+> the namespace.
 
-On 10/30/2017 12:33 PM, Sagi Grimberg wrote:
->
->
->>>> I agree we should fix this, nevertheless I don't expect this to 
->>>> create an IO rate issue for long queue depths.
->>>> Indeed we will have a tradeoff here of latency vs rate.
->>>
->>> I suggest we hold back with this one for now, I have fixes for
->>> the local invalidate flow. Once we get them in we can see if
->>> this approach makes a difference, and if so, we need to expose
->>> it through a generic mechanism.
->>
->> I suggest that you'll post the patches to the list and we'll investigate
->> the latency implications, if the implications are negligible, we have a
->> win here for small IOs.
->>
->> When will you be able to post your patches?
->
-> I can post them now, but I prefer to test them first ;)
+Applied, thanks Keith.
 
-Sounds good, we will check once you'll post them.
-I expect no impact on IOPs,  just latency.
+-- 
+Jens Axboe
