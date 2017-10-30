@@ -1,104 +1,43 @@
-From: chuck.lever@oracle.com (Chuck Lever)
-Date: Sun, 29 Oct 2017 14:24:23 -0400
-Subject: [PATCH 2/2] nvme-rdma: Add remote_invalidation module parameter
-In-Reply-To: <1509295101-14081-3-git-send-email-idanb@mellanox.com>
-References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
- <1509295101-14081-3-git-send-email-idanb@mellanox.com>
-Message-ID: <87A0B150-CE67-4C8C-914E-53F66411E1BB@oracle.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Mon, 30 Oct 2017 11:37:55 +0800
+Subject: [PATCH 16/17] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20171023145126.2471-17-hch@lst.de>
+References: <20171023145126.2471-1-hch@lst.de>
+ <20171023145126.2471-17-hch@lst.de>
+Message-ID: <70b681c5-5fae-ae40-2ff6-60cf75d52616@huawei.com>
 
 
-> On Oct 29, 2017,@12:38 PM, idanb@mellanox.com wrote:
-> 
-> From: Idan Burstein <idanb at mellanox.com>
-> 
-> NVMe over Fabrics in its secure "register_always" mode
-> registers and invalidates the user buffer upon each IO.
-> The protocol enables the host to request the susbsystem
-> to use SEND WITH INVALIDATE operation while returning the
-> response capsule and invalidate the local key
-> (remote_invalidation).
-> In some HW implementations, the local network adapter may
-> perform better while using local invalidation operations.
-> 
-> The results below show that running with local invalidation
-> rather then remote invalidation improve the iops one could
-> achieve by using the ConnectX-5Ex network adapter by x1.36 factor.
-> Nevertheless, using local invalidation induce more CPU overhead
-> than enabling the target to invalidate remotly, therefore,
-> because there is a CPU% vs IOPs limit tradeoff we propose to
-> have module parameter to define whether to request remote
-> invalidation or not.
-> 
-> The following results were taken against a single nvme over fabrics
-> subsystem with a single namespace backed by null_blk:
-> 
-> Block Size       s/g reg_wr      inline reg_wr    inline reg_wr + local inv
-> ++++++++++++   ++++++++++++++   ++++++++++++++++ +++++++++++++++++++++++++++
-> 512B            1446.6K/8.57%    5224.2K/76.21%   7143.3K/79.72%
-> 1KB             1390.6K/8.5%     4656.7K/71.69%   5860.6K/55.45%
-> 2KB             1343.8K/8.6%     3410.3K/38.96%   4106.7K/55.82%
-> 4KB             1254.8K/8.39%    2033.6K/15.86%   2165.3K/17.48%
-> 8KB             1079.5K/7.7%     1143.1K/7.27%    1158.2K/7.33%
-> 16KB            603.4K/3.64%     593.8K/3.4%      588.9K/3.77%
-> 32KB            294.8K/2.04%     293.7K/1.98%     294.4K/2.93%
-> 64KB            138.2K/1.32%     141.6K/1.26%     135.6K/1.34%
 
-Units reported here are KIOPS and %CPU ? What was the benchmark?
-
-Was any root cause analysis done to understand why the IOPS
-rate changes without RI? Reduction in avg RTT? Fewer long-
-running outliers? Lock contention in the ULP?
-
-I am curious enough to add a similar setting to NFS/RDMA,
-now that I have mlx5 devices.
-
-
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> Signed-off-by: Idan Burstein <idanb at mellanox.com>
-> ---
-> drivers/nvme/host/rdma.c | 10 ++++++++--
-> 1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 92a03ff..7f8225d 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -146,6 +146,11 @@ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
-> MODULE_PARM_DESC(register_always,
-> 	 "Use memory registration even for contiguous memory regions");
-> 
-> +static bool remote_invalidation = true;
-> +module_param(remote_invalidation, bool, 0444);
-> +MODULE_PARM_DESC(remote_invalidation,
-> +	 "request remote invalidation from subsystem (default: true)");
-
-The use of a module parameter would be awkward in systems
-that have a heterogenous collection of HCAs.
-
-
+On 2017/10/23 22:51, Christoph Hellwig wrote:
+> @@ -2427,20 +2681,46 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+>  	if (ret) {
+>  		dev_err(ctrl->device,
+>  			"duplicate IDs for nsid %d\n", nsid);
+> -		goto out_free_head;
+> +		goto out_release_instance;
+>  	}
+>  
+> +	ret = -ENOMEM;
+> +	q = blk_alloc_queue_node(GFP_KERNEL, NUMA_NO_NODE);
+> +	if (!q)
+> +		goto out_free_head;
+> +	q->queuedata = head;
+> +	blk_queue_make_request(q, nvme_ns_head_make_request);
+> +	q->poll_fn = nvme_ns_head_poll;
+> +	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, q);
+> +	/* set to a default value for 512 until disk is validated */
+> +	blk_queue_logical_block_size(q, 512);
+> +	nvme_set_queue_limits(ctrl, q);
 > +
-> static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
-> 		struct rdma_cm_event *event);
-> static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
-> @@ -1152,8 +1157,9 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
-> 	sg->addr = cpu_to_le64(req->mr->iova);
-> 	put_unaligned_le24(req->mr->length, sg->length);
-> 	put_unaligned_le32(req->mr->rkey, sg->key);
-> -	sg->type = (NVME_KEY_SGL_FMT_DATA_DESC << 4) |
-> -			NVME_SGL_FMT_INVALIDATE;
-> +	sg->type = NVME_KEY_SGL_FMT_DATA_DESC << 4;
-> +	if (remote_invalidation)
-> +		sg->type |= NVME_SGL_FMT_INVALIDATE;
-> 
-> 	return 0;
-> }
-> -- 
-> 1.8.3.1
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> +	head->disk = alloc_disk(0);
+> +	if (!head->disk)
+> +		goto out_cleanup_queue;
+> +	head->disk->fops = &nvme_ns_head_ops;
+> +	head->disk->private_data = head;
+> +	head->disk->queue = q;
+> +	head->disk->flags = GENHD_FL_EXT_DEVT;
+> +	sprintf(head->disk->disk_name, "nvme%dn%d",
+> +			ctrl->subsys->instance, nsid);
 
---
-Chuck Lever
+Is it okay to use head->instance instead of nsid for disk name nvme#n# ?
+Becuase _nsid_ sets are not continuous sometimes, so disk name is ugly in that case.
