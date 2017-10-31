@@ -1,23 +1,41 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 31 Oct 2017 08:22:25 -0400
-Subject: [PATCH 0/5] nvmet/nvmet_fc: add events for discovery controller
- rescan
-In-Reply-To: <20171029011456.12885-1-jsmart2021@gmail.com> (James Smart's
- message of "Sat, 28 Oct 2017 18:14:51 -0700")
-References: <20171029011456.12885-1-jsmart2021@gmail.com>
-Message-ID: <yq1wp3bcxry.fsf@oracle.com>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
+Date: Tue, 31 Oct 2017 18:02:26 +0530
+Subject: [PATCH 00/13] mpt3sas driver NVMe support:
+Message-ID: <1509453159-7028-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 
+Ventura Series controller are Tri-mode. The controller and
+firmware are capable of supporting NVMe devices and
+PCIe switches to be connected with the controller. This
+patch set adds driver level support for NVMe devices and
+PCIe switches.
 
-James,
+Suganath Prabu S (13):
+  mpt3sas: Add nvme device support in slave alloc,      target  alloc
+    and probe
+  mpt3sas: SGL to PRP Translation for I/Os to NVMe      devices
+  mpt3sas: Added support for nvme encapsulated request      message.
+  mpt3sas: API 's to support NVMe drive addition to  SML
+  mpt3sas: API's to remove nvme drive from sml
+  mpt3sas: Handle NVMe PCIe device related events      generated from
+    firmware.
+  mpt3sas: Set NVMe device queue depth as 128
+  mpt3sas: scan and add nvme device after controller      reset
+  mpt3as: Add-Task-management-debug-info-for-NVMe-drives.
+  mpt3sas: NVMe drive support for BTDHMAPPING ioctl      command and log
+    info
+  mpt3sas: Fix nvme drives checking for tlr.
+  mpt3sas: Fix sparse warnings
+  mpt3sas: Update mpt3sas driver version.
 
-> Note: These patches were posted to the nvme list this morning. I should
-> have cc'd the scsi list as well - so I'm not posting to the scsi list.
-> I fully expect all patches to be pulled via the nvme-4.15 tree then the
-> block tree.
+ drivers/scsi/mpt3sas/mpt3sas_base.c      |  643 ++++++++-
+ drivers/scsi/mpt3sas/mpt3sas_base.h      |  171 ++-
+ drivers/scsi/mpt3sas/mpt3sas_config.c    |  100 ++
+ drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  158 ++-
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 2080 +++++++++++++++++++++++++++---
+ drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |    2 +-
+ 7 files changed, 3054 insertions(+), 330 deletions(-)
 
-The SCSI pieces look OK to me.
-
-Acked-by: Martin K. Petersen <martin.petersen at oracle.com>
-
+Thanks,
+Suganath Prabu S
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.5.5
