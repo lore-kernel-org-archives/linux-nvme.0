@@ -1,690 +1,236 @@
 From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
-Date: Tue, 31 Oct 2017 18:02:28 +0530
-Subject: [PATCH 02/13] mpt3sas: SGL to PRP Translation for I/Os to NVMe devices
+Date: Tue, 31 Oct 2017 18:02:31 +0530
+Subject: [PATCH 05/13] mpt3sas: API's to remove nvme drive from sml
 In-Reply-To: <1509453159-7028-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 References: <1509453159-7028-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <1509453159-7028-3-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <1509453159-7028-6-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-* Added support for translating the SGLs associated with incoming
-commands either to IEE SGL or NVMe PRPs for NVMe devices.
-
-* The hardware translation of IEEE SGL to NVMe PRPs has limitation
-and if a command cannot be translated by hardware then it will go
-to firmware and the firmware needs to translate it. And this will
-have a performance reduction. To avoid that driver proactively
-checks whether the translation will be done in hardware or not,
-if not then driver try to translate inside the driver.
+Below API's are included in nvme drive remove path.
+_scsih_pcie_device_remove_by_handle
+_scsih_pcie_device_remove_from_sml
 
 Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
 Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
 ---
- drivers/scsi/mpt3sas/mpt3sas_base.c      | 339 ++++++++++++++++++++++++++++++-
- drivers/scsi/mpt3sas/mpt3sas_base.h      |  41 +++-
- drivers/scsi/mpt3sas/mpt3sas_ctl.c       |   1 +
- drivers/scsi/mpt3sas/mpt3sas_scsih.c     |  14 +-
- drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |   2 +-
- 5 files changed, 380 insertions(+), 17 deletions(-)
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c | 148 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 145 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index 11c6afe..1ad3cbb 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -59,6 +59,7 @@
- #include <linux/time.h>
- #include <linux/ktime.h>
- #include <linux/kthread.h>
-+#include <asm/page.h>        /* To get host page size per arch */
- #include <linux/aer.h>
- 
- 
-@@ -1344,7 +1345,218 @@ _base_build_sg(struct MPT3SAS_ADAPTER *ioc, void *psge,
- 	}
- }
- 
--/* IEEE format sgls */
-+/**
-+ * base_make_prp_nvme -
-+ * Prepare PRPs(Physical Region Page)- SGLs specific to NVMe drives only
-+ *
-+ * @ioc:		per adapter object
-+ * @scmd:		SCSI command from the mid-layer
-+ * @mpi_request:	mpi request
-+ * @smid:		msg Index
-+ * @sge_count:		scatter gather element count.
-+ *
-+ * Returns:		true: PRPs are built
-+ *			false: IEEE SGLs needs to be built
-+ */
-+void
-+base_make_prp_nvme(struct MPT3SAS_ADAPTER *ioc,
-+		struct scsi_cmnd *scmd,
-+		Mpi25SCSIIORequest_t *mpi_request,
-+		u16 smid, int sge_count)
-+{
-+	int sge_len, offset, num_prp_in_chain = 0;
-+	Mpi25IeeeSgeChain64_t *main_chain_element, *ptr_first_sgl;
-+	u64 *curr_buff;
-+	dma_addr_t msg_phys;
-+	u64 sge_addr;
-+	u32 page_mask, page_mask_result;
-+	struct scatterlist *sg_scmd;
-+	u32 first_prp_len;
-+	int data_len = scsi_bufflen(scmd);
-+	u32 nvme_pg_size;
-+
-+	nvme_pg_size = max_t(u32, ioc->page_size, NVME_PRP_PAGE_SIZE);
-+	/*
-+	 * Nvme has a very convoluted prp format.  One prp is required
-+	 * for each page or partial page. Driver need to split up OS sg_list
-+	 * entries if it is longer than one page or cross a page
-+	 * boundary.  Driver also have to insert a PRP list pointer entry as
-+	 * the last entry in each physical page of the PRP list.
-+	 *
-+	 * NOTE: The first PRP "entry" is actually placed in the first
-+	 * SGL entry in the main message as IEEE 64 format.  The 2nd
-+	 * entry in the main message is the chain element, and the rest
-+	 * of the PRP entries are built in the contiguous pcie buffer.
-+	 */
-+	page_mask = nvme_pg_size - 1;
-+
-+	/*
-+	 * Native SGL is needed.
-+	 * Put a chain element in main message frame that points to the first
-+	 * chain buffer.
-+	 *
-+	 * NOTE:  The ChainOffset field must be 0 when using a chain pointer to
-+	 *        a native SGL.
-+	 */
-+
-+	/* Set main message chain element pointer */
-+	main_chain_element = (pMpi25IeeeSgeChain64_t)&mpi_request->SGL;
-+	/*
-+	 * For NVMe the chain element needs to be the 2nd SG entry in the main
-+	 * message.
-+	 */
-+	main_chain_element = (Mpi25IeeeSgeChain64_t *)
-+		((u8 *)main_chain_element + sizeof(MPI25_IEEE_SGE_CHAIN64));
-+
-+	/*
-+	 * For the PRP entries, use the specially allocated buffer of
-+	 * contiguous memory.  Normal chain buffers can't be used
-+	 * because each chain buffer would need to be the size of an OS
-+	 * page (4k).
-+	 */
-+	curr_buff = mpt3sas_base_get_pcie_sgl(ioc, smid);
-+	msg_phys = (dma_addr_t)mpt3sas_base_get_pcie_sgl_dma(ioc, smid);
-+
-+	main_chain_element->Address = cpu_to_le64(msg_phys);
-+	main_chain_element->NextChainOffset = 0;
-+	main_chain_element->Flags = MPI2_IEEE_SGE_FLAGS_CHAIN_ELEMENT |
-+			MPI2_IEEE_SGE_FLAGS_SYSTEM_ADDR |
-+			MPI26_IEEE_SGE_FLAGS_NSF_NVME_PRP;
-+
-+	/* Build first prp, sge need not to be page aligned*/
-+	ptr_first_sgl = (pMpi25IeeeSgeChain64_t)&mpi_request->SGL;
-+	sg_scmd = scsi_sglist(scmd);
-+	sge_addr = sg_dma_address(sg_scmd);
-+	sge_len = sg_dma_len(sg_scmd);
-+
-+	offset = (u32)(sge_addr & page_mask);
-+	first_prp_len = nvme_pg_size - offset;
-+
-+	ptr_first_sgl->Address = cpu_to_le64(sge_addr);
-+	ptr_first_sgl->Length = cpu_to_le32(first_prp_len);
-+
-+	data_len -= first_prp_len;
-+
-+	if (sge_len > first_prp_len) {
-+		sge_addr += first_prp_len;
-+		sge_len -= first_prp_len;
-+	} else if (data_len && (sge_len == first_prp_len)) {
-+		sg_scmd = sg_next(sg_scmd);
-+		sge_addr = sg_dma_address(sg_scmd);
-+		sge_len = sg_dma_len(sg_scmd);
-+	}
-+
-+	for (;;) {
-+		offset = (u32)(sge_addr & page_mask);
-+
-+		/* Put PRP pointer due to page boundary*/
-+		page_mask_result = (uintptr_t)(curr_buff + 1) & page_mask;
-+		if (unlikely(!page_mask_result)) {
-+			scmd_printk(KERN_NOTICE,
-+				scmd, "page boundary curr_buff: 0x%p\n",
-+				curr_buff);
-+			msg_phys += 8;
-+			*curr_buff = cpu_to_le64(msg_phys);
-+			curr_buff++;
-+			num_prp_in_chain++;
-+		}
-+
-+		*curr_buff = cpu_to_le64(sge_addr);
-+		curr_buff++;
-+		msg_phys += 8;
-+		num_prp_in_chain++;
-+
-+		sge_addr += nvme_pg_size;
-+		sge_len -= nvme_pg_size;
-+		data_len -= nvme_pg_size;
-+
-+		if (data_len <= 0)
-+			break;
-+
-+		if (sge_len > 0)
-+			continue;
-+
-+		sg_scmd = sg_next(sg_scmd);
-+		sge_addr = sg_dma_address(sg_scmd);
-+		sge_len = sg_dma_len(sg_scmd);
-+	}
-+
-+	main_chain_element->Length =
-+		cpu_to_le32(num_prp_in_chain * sizeof(u64));
-+	return;
-+}
-+
-+static bool
-+base_is_prp_possible(struct MPT3SAS_ADAPTER *ioc,
-+	struct _pcie_device *pcie_device, struct scsi_cmnd *scmd, int sge_count)
-+{
-+	u32 data_length = 0;
-+	struct scatterlist *sg_scmd;
-+	bool build_prp = true;
-+
-+	data_length = cpu_to_le32(scsi_bufflen(scmd));
-+	sg_scmd = scsi_sglist(scmd);
-+
-+	/* If Datalenth is <= 16K and number of SGE???s entries are <= 2
-+	 * we built IEEE SGL
-+	 */
-+	if ((data_length <= NVME_PRP_PAGE_SIZE*4) && (sge_count <= 2))
-+		build_prp = false;
-+
-+	return build_prp;
-+}
-+
-+/**
-+ * _base_check_pcie_native_sgl - This function is called for PCIe end devices to
-+ * determine if the driver needs to build a native SGL.  If so, that native
-+ * SGL is built in the special contiguous buffers allocated especially for
-+ * PCIe SGL creation.  If the driver will not build a native SGL, return
-+ * TRUE and a normal IEEE SGL will be built.  Currently this routine
-+ * supports NVMe.
-+ * @ioc: per adapter object
-+ * @mpi_request: mf request pointer
-+ * @smid: system request message index
-+ * @scmd: scsi command
-+ * @pcie_device: points to the PCIe device's info
-+ *
-+ * Returns 0 if native SGL was built, 1 if no SGL was built
-+ */
-+static int
-+_base_check_pcie_native_sgl(struct MPT3SAS_ADAPTER *ioc,
-+	Mpi25SCSIIORequest_t *mpi_request, u16 smid, struct scsi_cmnd *scmd,
-+	struct _pcie_device *pcie_device)
-+{
-+	struct scatterlist *sg_scmd;
-+	int sges_left;
-+
-+	/* Get the SG list pointer and info. */
-+	sg_scmd = scsi_sglist(scmd);
-+	sges_left = scsi_dma_map(scmd);
-+	if (sges_left < 0) {
-+		sdev_printk(KERN_ERR, scmd->device,
-+			"scsi_dma_map failed: request for %d bytes!\n",
-+			scsi_bufflen(scmd));
-+		return 1;
-+	}
-+
-+	/* Check if we need to build a native SG list. */
-+	if (base_is_prp_possible(ioc, pcie_device,
-+				scmd, sges_left) == 0) {
-+		/* We built a native SG list, just return. */
-+		goto out;
-+	}
-+
-+	/*
-+	 * Build native NVMe PRP.
-+	 */
-+	base_make_prp_nvme(ioc, scmd, mpi_request,
-+			smid, sges_left);
-+
-+	return 0;
-+out:
-+	scsi_dma_unmap(scmd);
-+	return 1;
-+}
- 
- /**
-  * _base_add_sg_single_ieee - add sg element for IEEE format
-@@ -1391,9 +1603,11 @@ _base_build_zero_len_sge_ieee(struct MPT3SAS_ADAPTER *ioc, void *paddr)
- 
- /**
-  * _base_build_sg_scmd - main sg creation routine
-+ *		pcie_device is unused here!
-  * @ioc: per adapter object
-  * @scmd: scsi command
-  * @smid: system request message index
-+ * @unused: unused pcie_device pointer
-  * Context: none.
-  *
-  * The main routine that builds scatter gather table from a given
-@@ -1403,7 +1617,7 @@ _base_build_zero_len_sge_ieee(struct MPT3SAS_ADAPTER *ioc, void *paddr)
-  */
- static int
- _base_build_sg_scmd(struct MPT3SAS_ADAPTER *ioc,
--		struct scsi_cmnd *scmd, u16 smid)
-+	struct scsi_cmnd *scmd, u16 smid, struct _pcie_device *unused)
- {
- 	Mpi2SCSIIORequest_t *mpi_request;
- 	dma_addr_t chain_dma;
-@@ -1537,6 +1751,8 @@ _base_build_sg_scmd(struct MPT3SAS_ADAPTER *ioc,
-  * @ioc: per adapter object
-  * @scmd: scsi command
-  * @smid: system request message index
-+ * @pcie_device: Pointer to pcie_device. If set, the pcie native sgl will be
-+ * constructed on need.
-  * Context: none.
-  *
-  * The main routine that builds scatter gather table from a given
-@@ -1546,9 +1762,9 @@ _base_build_sg_scmd(struct MPT3SAS_ADAPTER *ioc,
-  */
- static int
- _base_build_sg_scmd_ieee(struct MPT3SAS_ADAPTER *ioc,
--	struct scsi_cmnd *scmd, u16 smid)
-+	struct scsi_cmnd *scmd, u16 smid, struct _pcie_device *pcie_device)
- {
--	Mpi2SCSIIORequest_t *mpi_request;
-+	Mpi25SCSIIORequest_t *mpi_request;
- 	dma_addr_t chain_dma;
- 	struct scatterlist *sg_scmd;
- 	void *sg_local, *chain;
-@@ -1571,6 +1787,13 @@ _base_build_sg_scmd_ieee(struct MPT3SAS_ADAPTER *ioc,
- 	chain_sgl_flags = MPI2_IEEE_SGE_FLAGS_CHAIN_ELEMENT |
- 	    MPI2_IEEE_SGE_FLAGS_SYSTEM_ADDR;
- 
-+	/* Check if we need to build a native SG list. */
-+	if ((pcie_device) && (_base_check_pcie_native_sgl(ioc, mpi_request,
-+			smid, scmd, pcie_device) == 0)) {
-+		/* We built a native SG list, just return. */
-+		return 0;
-+	}
-+
- 	sg_scmd = scsi_sglist(scmd);
- 	sges_left = scsi_dma_map(scmd);
- 	if (sges_left < 0) {
-@@ -1582,12 +1805,12 @@ _base_build_sg_scmd_ieee(struct MPT3SAS_ADAPTER *ioc,
- 
- 	sg_local = &mpi_request->SGL;
- 	sges_in_segment = (ioc->request_sz -
--	    offsetof(Mpi2SCSIIORequest_t, SGL))/ioc->sge_size_ieee;
-+		   offsetof(Mpi25SCSIIORequest_t, SGL))/ioc->sge_size_ieee;
- 	if (sges_left <= sges_in_segment)
- 		goto fill_in_last_segment;
- 
- 	mpi_request->ChainOffset = (sges_in_segment - 1 /* chain element */) +
--	    (offsetof(Mpi2SCSIIORequest_t, SGL)/ioc->sge_size_ieee);
-+	    (offsetof(Mpi25SCSIIORequest_t, SGL)/ioc->sge_size_ieee);
- 
- 	/* fill in main message segment when there is a chain following */
- 	while (sges_in_segment > 1) {
-@@ -2267,6 +2490,33 @@ mpt3sas_base_get_sense_buffer_dma(struct MPT3SAS_ADAPTER *ioc, u16 smid)
- }
- 
- /**
-+ * mpt3sas_base_get_pcie_sgl - obtain a PCIe SGL virt addr
-+ * @ioc: per adapter object
-+ * @smid: system request message index
-+ *
-+ * Returns virt pointer to a PCIe SGL.
-+ */
-+void *
-+mpt3sas_base_get_pcie_sgl(struct MPT3SAS_ADAPTER *ioc, u16 smid)
-+{
-+	return (void *)(ioc->scsi_lookup[smid - 1].pcie_sg_list.pcie_sgl);
-+}
-+
-+/**
-+ * mpt3sas_base_get_pcie_sgl_dma - obtain a PCIe SGL dma addr
-+ * @ioc: per adapter object
-+ * @smid: system request message index
-+ *
-+ * Returns phys pointer to the address of the PCIe buffer.
-+ */
-+void *
-+mpt3sas_base_get_pcie_sgl_dma(struct MPT3SAS_ADAPTER *ioc, u16 smid)
-+{
-+	return (void *)(uintptr_t)
-+		(ioc->scsi_lookup[smid - 1].pcie_sg_list.pcie_sgl_dma);
-+}
-+
-+/**
-  * mpt3sas_base_get_reply_virt_addr - obtain reply frames virt address
-  * @ioc: per adapter object
-  * @phys_addr: lower 32 physical addr of the reply
-@@ -2945,6 +3195,11 @@ _base_display_ioc_capabilities(struct MPT3SAS_ADAPTER *ioc)
- 
- 	_base_display_OEMs_branding(ioc);
- 
-+	if (ioc->facts.ProtocolFlags & MPI2_IOCFACTS_PROTOCOL_NVME_DEVICES) {
-+		pr_info("%sNVMe", i ? "," : "");
-+		i++;
-+	}
-+
- 	pr_info(MPT3SAS_FMT "Protocol=(", ioc->name);
- 
- 	if (ioc->facts.ProtocolFlags & MPI2_IOCFACTS_PROTOCOL_SCSI_INITIATOR) {
-@@ -3245,6 +3500,17 @@ _base_release_memory_pools(struct MPT3SAS_ADAPTER *ioc)
- 		kfree(ioc->reply_post);
- 	}
- 
-+	if (ioc->pcie_sgl_dma_pool) {
-+		for (i = 0; i < ioc->scsiio_depth; i++) {
-+			if (ioc->scsi_lookup[i].pcie_sg_list.pcie_sgl)
-+				pci_pool_free(ioc->pcie_sgl_dma_pool,
-+				ioc->scsi_lookup[i].pcie_sg_list.pcie_sgl,
-+				ioc->scsi_lookup[i].pcie_sg_list.pcie_sgl_dma);
-+		}
-+		if (ioc->pcie_sgl_dma_pool)
-+			pci_pool_destroy(ioc->pcie_sgl_dma_pool);
-+	}
-+
- 	if (ioc->config_page) {
- 		dexitprintk(ioc, pr_info(MPT3SAS_FMT
- 		    "config_page(0x%p): free\n", ioc->name,
-@@ -3286,7 +3552,7 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
- 	u16 chains_needed_per_io;
- 	u32 sz, total_sz, reply_post_free_sz;
- 	u32 retry_sz;
--	u16 max_request_credit;
-+	u16 max_request_credit, nvme_blocks_needed;
- 	unsigned short sg_tablesize;
- 	u16 sge_size;
- 	int i;
-@@ -3630,7 +3896,52 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
- 		"internal(0x%p): depth(%d), start smid(%d)\n",
- 		ioc->name, ioc->internal,
- 	    ioc->internal_depth, ioc->internal_smid));
-+	/*
-+	 * The number of NVMe page sized blocks needed is:
-+	 *     (((sg_tablesize * 8) - 1) / (page_size - 8)) + 1
-+	 * ((sg_tablesize * 8) - 1) is the max PRP's minus the first PRP entry
-+	 * that is placed in the main message frame.  8 is the size of each PRP
-+	 * entry or PRP list pointer entry.  8 is subtracted from page_size
-+	 * because of the PRP list pointer entry at the end of a page, so this
-+	 * is not counted as a PRP entry.  The 1 added page is a round up.
-+	 *
-+	 * To avoid allocation failures due to the amount of memory that could
-+	 * be required for NVMe PRP's, only each set of NVMe blocks will be
-+	 * contiguous, so a new set is allocated for each possible I/O.
-+	 */
-+	if (ioc->facts.ProtocolFlags & MPI2_IOCFACTS_PROTOCOL_NVME_DEVICES) {
-+		nvme_blocks_needed =
-+			(ioc->shost->sg_tablesize * NVME_PRP_SIZE) - 1;
-+		nvme_blocks_needed /= (ioc->page_size - NVME_PRP_SIZE);
-+		nvme_blocks_needed++;
-+
-+		sz = nvme_blocks_needed * ioc->page_size;
-+		ioc->pcie_sgl_dma_pool =
-+			pci_pool_create("PCIe SGL pool", ioc->pdev, sz, 16, 0);
-+		if (!ioc->pcie_sgl_dma_pool) {
-+			pr_info(MPT3SAS_FMT
-+			    "PCIe SGL pool: pci_pool_create failed\n",
-+			    ioc->name);
-+			goto out;
-+		}
-+		for (i = 0; i < ioc->scsiio_depth; i++) {
-+			ioc->scsi_lookup[i].pcie_sg_list.pcie_sgl =
-+					pci_pool_alloc(ioc->pcie_sgl_dma_pool,
-+					GFP_KERNEL,
-+				&ioc->scsi_lookup[i].pcie_sg_list.pcie_sgl_dma);
-+			if (!ioc->scsi_lookup[i].pcie_sg_list.pcie_sgl) {
-+				pr_info(MPT3SAS_FMT
-+				    "PCIe SGL pool: pci_pool_alloc failed\n",
-+				    ioc->name);
-+				goto out;
-+			}
-+		}
- 
-+		dinitprintk(ioc, pr_info(MPT3SAS_FMT "PCIe sgl pool depth(%d), "
-+			"element_size(%d), pool_size(%d kB)\n", ioc->name,
-+			ioc->scsiio_depth, sz, (sz * ioc->scsiio_depth)/1024));
-+		total_sz += sz * ioc->scsiio_depth;
-+	}
- 	/* sense buffers, 4 byte align */
- 	sz = ioc->scsiio_depth * SCSI_SENSE_BUFFERSIZE;
- 	ioc->sense_dma_pool = dma_pool_create("sense pool", &ioc->pdev->dev, sz,
-@@ -4475,6 +4786,19 @@ _base_get_ioc_facts(struct MPT3SAS_ADAPTER *ioc)
- 	    le16_to_cpu(mpi_reply.HighPriorityCredit);
- 	facts->ReplyFrameSize = mpi_reply.ReplyFrameSize;
- 	facts->MaxDevHandle = le16_to_cpu(mpi_reply.MaxDevHandle);
-+	facts->CurrentHostPageSize = mpi_reply.CurrentHostPageSize;
-+
-+	/*
-+	 * Get the Page Size from IOC Facts. If it's 0, default to 4k.
-+	 */
-+	ioc->page_size = 1 << facts->CurrentHostPageSize;
-+	if (ioc->page_size == 1) {
-+		pr_info(MPT3SAS_FMT "CurrentHostPageSize is 0: Setting "
-+			"default host page size to 4k\n", ioc->name);
-+		ioc->page_size = 1 << MPT3SAS_HOST_PAGE_SIZE_4K;
-+	}
-+	dinitprintk(ioc, pr_info(MPT3SAS_FMT "CurrentHostPageSize(%d)\n",
-+		ioc->name, facts->CurrentHostPageSize));
- 
- 	dinitprintk(ioc, pr_info(MPT3SAS_FMT
- 		"hba queue depth(%d), max chains per io(%d)\n",
-@@ -4514,6 +4838,7 @@ _base_send_ioc_init(struct MPT3SAS_ADAPTER *ioc)
- 	mpi_request.VP_ID = 0;
- 	mpi_request.MsgVersion = cpu_to_le16(ioc->hba_mpi_version_belonged);
- 	mpi_request.HeaderVersion = cpu_to_le16(MPI2_HEADER_VERSION);
-+	mpi_request.HostPageSize = MPT3SAS_HOST_PAGE_SIZE_4K;
- 
- 	if (_base_is_controller_msix_enabled(ioc))
- 		mpi_request.HostMSIxVectors = ioc->reply_queue_count;
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.h b/drivers/scsi/mpt3sas/mpt3sas_base.h
-index dd04a28..4758729 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.h
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
-@@ -54,6 +54,7 @@
- #include "mpi/mpi2_raid.h"
- #include "mpi/mpi2_tool.h"
- #include "mpi/mpi2_sas.h"
-+#include "mpi/mpi2_pci.h"
- 
- #include <scsi/scsi.h>
- #include <scsi/scsi_cmnd.h>
-@@ -115,6 +116,7 @@
- #define MPT3SAS_KDUMP_SCSI_IO_DEPTH	200
- 
- #define MPT3SAS_RAID_MAX_SECTORS	8192
-+#define MPT3SAS_HOST_PAGE_SIZE_4K	12
- 
- #define MPT_NAME_LENGTH			32	/* generic length of strings */
- #define MPT_STRING_LENGTH		64
-@@ -133,6 +135,15 @@
- #define DEFAULT_NUM_FWCHAIN_ELEMTS	8
- 
- /*
-+ * NVMe defines
-+ */
-+#define	NVME_PRP_SIZE			8	/* PRP size */
-+#define	NVME_CMD_PRP1_OFFSET		24	/* PRP1 offset in NVMe cmd */
-+#define	NVME_CMD_PRP2_OFFSET		32	/* PRP2 offset in NVMe cmd */
-+#define	NVME_ERROR_RESPONSE_SIZE	16	/* Max NVME Error Response */
-+#define	NVME_PRP_PAGE_SIZE		4096	/* Page size */
-+
-+/*
-  * reset phases
-  */
- #define MPT3_IOC_PRE_RESET		1 /* prior to host reset */
-@@ -737,6 +748,16 @@ enum reset_type {
- };
- 
- /**
-+ * struct pcie_sg_list - PCIe SGL buffer (contiguous per I/O)
-+ * @pcie_sgl: PCIe native SGL for NVMe devices
-+ * @pcie_sgl_dma: physical address
-+ */
-+struct pcie_sg_list {
-+	void            *pcie_sgl;
-+	dma_addr_t      pcie_sgl_dma;
-+};
-+
-+/**
-  * struct chain_tracker - firmware chain tracker
-  * @chain_buffer: chain buffer
-  * @chain_buffer_dma: physical address
-@@ -762,6 +783,7 @@ struct scsiio_tracker {
- 	struct scsi_cmnd *scmd;
- 	u8	cb_idx;
- 	u8	direct_io;
-+	struct pcie_sg_list pcie_sg_list;
- 	struct list_head chain_list;
- 	struct list_head tracker_list;
- 	u16     msix_io;
-@@ -835,13 +857,19 @@ typedef void (*MPT_ADD_SGE)(void *paddr, u32 flags_length, dma_addr_t dma_addr);
- 
- /* SAS3.0 support */
- typedef int (*MPT_BUILD_SG_SCMD)(struct MPT3SAS_ADAPTER *ioc,
--		struct scsi_cmnd *scmd, u16 smid);
-+	struct scsi_cmnd *scmd, u16 smid, struct _pcie_device *pcie_device);
- typedef void (*MPT_BUILD_SG)(struct MPT3SAS_ADAPTER *ioc, void *psge,
- 		dma_addr_t data_out_dma, size_t data_out_sz,
- 		dma_addr_t data_in_dma, size_t data_in_sz);
- typedef void (*MPT_BUILD_ZERO_LEN_SGE)(struct MPT3SAS_ADAPTER *ioc,
- 		void *paddr);
- 
-+/* SAS3.5 support */
-+typedef void (*NVME_BUILD_PRP)(struct MPT3SAS_ADAPTER *ioc, u16 smid,
-+	Mpi26NVMeEncapsulatedRequest_t *nvme_encap_request,
-+	dma_addr_t data_out_dma, size_t data_out_sz, dma_addr_t data_in_dma,
-+	size_t data_in_sz);
-+
- /* To support atomic and non atomic descriptors*/
- typedef void (*PUT_SMID_IO_FP_HIP) (struct MPT3SAS_ADAPTER *ioc, u16 smid,
- 	u16 funcdep);
-@@ -884,6 +912,7 @@ struct mpt3sas_facts {
- 	u16			MaxDevHandle;
- 	u16			MaxPersistentEntries;
- 	u16			MinDevHandle;
-+	u8			CurrentHostPageSize;
- };
- 
- struct mpt3sas_port_facts {
-@@ -1223,6 +1252,11 @@ struct MPT3SAS_ADAPTER {
- 	int		pending_io_count;
- 	wait_queue_head_t reset_wq;
- 
-+	/* PCIe SGL */
-+	struct dma_pool *pcie_sgl_dma_pool;
-+	/* Host Page Size */
-+	u32		page_size;
-+
- 	/* chain */
- 	struct chain_tracker *chain_lookup;
- 	struct list_head free_chain_list;
-@@ -1356,7 +1390,8 @@ void *mpt3sas_base_get_msg_frame(struct MPT3SAS_ADAPTER *ioc, u16 smid);
- void *mpt3sas_base_get_sense_buffer(struct MPT3SAS_ADAPTER *ioc, u16 smid);
- __le32 mpt3sas_base_get_sense_buffer_dma(struct MPT3SAS_ADAPTER *ioc,
- 	u16 smid);
--
-+void *mpt3sas_base_get_pcie_sgl(struct MPT3SAS_ADAPTER *ioc, u16 smid);
-+void *mpt3sas_base_get_pcie_sgl_dma(struct MPT3SAS_ADAPTER *ioc, u16 smid);
- void mpt3sas_base_sync_reply_irqs(struct MPT3SAS_ADAPTER *ioc);
- 
- /* hi-priority queue */
-@@ -1570,7 +1605,7 @@ void
- mpt3sas_scsi_direct_io_set(struct MPT3SAS_ADAPTER *ioc, u16 smid, u8 direct_io);
- void
- mpt3sas_setup_direct_io(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd,
--	struct _raid_device *raid_device, Mpi2SCSIIORequest_t *mpi_request,
-+	struct _raid_device *raid_device, Mpi25SCSIIORequest_t *mpi_request,
- 	u16 smid);
- 
- /* NCQ Prio Handling Check */
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_ctl.c b/drivers/scsi/mpt3sas/mpt3sas_ctl.c
-index d448fed..67c7280 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_ctl.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_ctl.c
-@@ -299,6 +299,7 @@ mpt3sas_ctl_done(struct MPT3SAS_ADAPTER *ioc, u16 smid, u8 msix_index,
- 			}
- 		}
- 	}
-+
- 	_ctl_display_some_debug(ioc, smid, "ctl_done", mpi_reply);
- 	ioc->ctl_cmds.status &= ~MPT3_CMD_PENDING;
- 	complete(&ioc->ctl_cmds.done);
 diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 4c9b63e..51dd92c 100644
+index d3f8a10..d83560c 100644
 --- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
 +++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -4256,7 +4256,7 @@ _scsih_flush_running_cmds(struct MPT3SAS_ADAPTER *ioc)
+@@ -73,6 +73,8 @@ static void _scsih_remove_device(struct MPT3SAS_ADAPTER *ioc,
+ static int _scsih_add_device(struct MPT3SAS_ADAPTER *ioc, u16 handle,
+ 	u8 retry_count, u8 is_pd);
+ static int _scsih_pcie_add_device(struct MPT3SAS_ADAPTER *ioc, u16 handle);
++static void _scsih_pcie_device_remove_from_sml(struct MPT3SAS_ADAPTER *ioc,
++	struct _pcie_device *pcie_device);
+ static u8 _scsih_check_for_pending_tm(struct MPT3SAS_ADAPTER *ioc, u16 smid);
+ 
+ /* global parameters */
+@@ -1126,6 +1128,41 @@ _scsih_pcie_device_remove(struct MPT3SAS_ADAPTER *ioc,
+ 		pcie_device_put(pcie_device);
+ 	}
+ }
++
++
++/**
++ * _scsih_pcie_device_remove_by_handle - removing pcie device object by handle
++ * @ioc: per adapter object
++ * @handle: device handle
++ *
++ * Return nothing.
++ */
++static void
++_scsih_pcie_device_remove_by_handle(struct MPT3SAS_ADAPTER *ioc, u16 handle)
++{
++	struct _pcie_device *pcie_device;
++	unsigned long flags;
++	int was_on_pcie_device_list = 0;
++
++	if (ioc->shost_recovery)
++		return;
++
++	spin_lock_irqsave(&ioc->pcie_device_lock, flags);
++	pcie_device = __mpt3sas_get_pdev_by_handle(ioc, handle);
++	if (pcie_device) {
++		if (!list_empty(&pcie_device->list)) {
++			list_del_init(&pcie_device->list);
++			was_on_pcie_device_list = 1;
++			pcie_device_put(pcie_device);
++		}
++	}
++	spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
++	if (was_on_pcie_device_list) {
++		_scsih_pcie_device_remove_from_sml(ioc, pcie_device);
++		pcie_device_put(pcie_device);
++	}
++}
++
+ /**
+  * _scsih_pcie_device_add - add pcie_device object
+  * @ioc: per adapter object
+@@ -6567,6 +6604,83 @@ _scsih_check_pcie_access_status(struct MPT3SAS_ADAPTER *ioc, u64 wwid,
+ 			(unsigned long long)wwid, handle);
+ 	return rc;
+ }
++
++/**
++ * _scsih_pcie_device_remove_from_sml -  removing pcie device
++ * from SML and free up associated memory
++ * @ioc: per adapter object
++ * @pcie_device: the pcie_device object
++ *
++ * Return nothing.
++ */
++static void
++_scsih_pcie_device_remove_from_sml(struct MPT3SAS_ADAPTER *ioc,
++	struct _pcie_device *pcie_device)
++{
++	struct MPT3SAS_TARGET *sas_target_priv_data;
++
++	dewtprintk(ioc, pr_info(MPT3SAS_FMT
++	    "%s: enter: handle(0x%04x), wwid(0x%016llx)\n", ioc->name, __func__,
++	    pcie_device->handle, (unsigned long long)
++	    pcie_device->wwid));
++	if (pcie_device->enclosure_handle != 0)
++		dewtprintk(ioc, pr_info(MPT3SAS_FMT
++		    "%s: enter: enclosure logical id(0x%016llx), slot(%d)\n",
++		    ioc->name, __func__,
++		    (unsigned long long)pcie_device->enclosure_logical_id,
++		    pcie_device->slot));
++	if (pcie_device->connector_name[0] != '\0')
++		dewtprintk(ioc, pr_info(MPT3SAS_FMT
++		    "%s: enter: enclosure level(0x%04x), connector name( %s)\n",
++		    ioc->name, __func__,
++		    pcie_device->enclosure_level,
++		    pcie_device->connector_name));
++
++	if (pcie_device->starget && pcie_device->starget->hostdata) {
++		sas_target_priv_data = pcie_device->starget->hostdata;
++		sas_target_priv_data->deleted = 1;
++		_scsih_ublock_io_device(ioc, pcie_device->wwid);
++		sas_target_priv_data->handle = MPT3SAS_INVALID_DEVICE_HANDLE;
++	}
++
++	pr_info(MPT3SAS_FMT
++		"removing handle(0x%04x), wwid (0x%016llx)\n",
++		ioc->name, pcie_device->handle,
++		(unsigned long long) pcie_device->wwid);
++	if (pcie_device->enclosure_handle != 0)
++		pr_info(MPT3SAS_FMT
++		    "removing : enclosure logical id(0x%016llx), slot(%d)\n",
++		    ioc->name,
++		    (unsigned long long)pcie_device->enclosure_logical_id,
++		    pcie_device->slot);
++	if (pcie_device->connector_name[0] != '\0')
++		pr_info(MPT3SAS_FMT
++		    "removing: enclosure level(0x%04x), connector name( %s)\n",
++		    ioc->name, pcie_device->enclosure_level,
++		    pcie_device->connector_name);
++
++	if (pcie_device->starget)
++		scsi_remove_target(&pcie_device->starget->dev);
++	dewtprintk(ioc, pr_info(MPT3SAS_FMT
++	    "%s: exit: handle(0x%04x), wwid(0x%016llx)\n", ioc->name, __func__,
++	    pcie_device->handle, (unsigned long long)
++	    pcie_device->wwid));
++	if (pcie_device->enclosure_handle != 0)
++		dewtprintk(ioc, pr_info(MPT3SAS_FMT
++			"%s: exit: enclosure logical id(0x%016llx), slot(%d)\n",
++			ioc->name, __func__,
++			(unsigned long long)pcie_device->enclosure_logical_id,
++			pcie_device->slot));
++	if (pcie_device->connector_name[0] != '\0')
++		dewtprintk(ioc, pr_info(MPT3SAS_FMT
++		    "%s: exit: enclosure level(0x%04x), connector name( %s)\n",
++		    ioc->name, __func__, pcie_device->enclosure_level,
++		    pcie_device->connector_name));
++
++	kfree(pcie_device->serial_number);
++}
++
++
+ /**
+  * _scsih_pcie_check_device - checking device responsiveness
+  * @ioc: per adapter object
+@@ -8186,17 +8300,18 @@ _scsih_search_responding_expanders(struct MPT3SAS_ADAPTER *ioc)
+ }
+ 
+ /**
+- * _scsih_remove_unresponding_sas_devices - removing unresponding devices
++ * _scsih_remove_unresponding_devices - removing unresponding devices
+  * @ioc: per adapter object
+  *
+  * Return nothing.
   */
  static void
- _scsih_setup_eedp(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd,
--	Mpi2SCSIIORequest_t *mpi_request)
-+	Mpi25SCSIIORequest_t *mpi_request)
+-_scsih_remove_unresponding_sas_devices(struct MPT3SAS_ADAPTER *ioc)
++_scsih_remove_unresponding_devices(struct MPT3SAS_ADAPTER *ioc)
  {
- 	u16 eedp_flags;
- 	unsigned char prot_op = scsi_get_prot_op(scmd);
-@@ -4359,7 +4359,8 @@ scsih_qcmd(struct Scsi_Host *shost, struct scsi_cmnd *scmd)
- 	struct _raid_device *raid_device;
- 	struct request *rq = scmd->request;
- 	int class;
--	Mpi2SCSIIORequest_t *mpi_request;
-+	Mpi25SCSIIORequest_t *mpi_request;
-+	struct _pcie_device *pcie_device = NULL;
- 	u32 mpi_control;
- 	u16 smid;
- 	u16 handle;
-@@ -4447,7 +4448,7 @@ scsih_qcmd(struct Scsi_Host *shost, struct scsi_cmnd *scmd)
- 		goto out;
+ 	struct _sas_device *sas_device, *sas_device_next;
+ 	struct _sas_node *sas_expander, *sas_expander_next;
+ 	struct _raid_device *raid_device, *raid_device_next;
++	struct _pcie_device *pcie_device, *pcie_device_next;
+ 	struct list_head tmp_list;
+ 	unsigned long flags;
+ 	LIST_HEAD(head);
+@@ -8230,6 +8345,26 @@ _scsih_remove_unresponding_sas_devices(struct MPT3SAS_ADAPTER *ioc)
+ 		sas_device_put(sas_device);
  	}
- 	mpi_request = mpt3sas_base_get_msg_frame(ioc, smid);
--	memset(mpi_request, 0, sizeof(Mpi2SCSIIORequest_t));
-+	memset(mpi_request, 0, ioc->request_sz);
- 	_scsih_setup_eedp(ioc, scmd, mpi_request);
  
- 	if (scmd->cmd_len == 32)
-@@ -4466,13 +4467,14 @@ scsih_qcmd(struct Scsi_Host *shost, struct scsi_cmnd *scmd)
- 	mpi_request->SenseBufferLength = SCSI_SENSE_BUFFERSIZE;
- 	mpi_request->SenseBufferLowAddress =
- 	    mpt3sas_base_get_sense_buffer_dma(ioc, smid);
--	mpi_request->SGLOffset0 = offsetof(Mpi2SCSIIORequest_t, SGL) / 4;
-+	mpi_request->SGLOffset0 = offsetof(Mpi25SCSIIORequest_t, SGL) / 4;
- 	int_to_scsilun(sas_device_priv_data->lun, (struct scsi_lun *)
- 	    mpi_request->LUN);
- 	memcpy(mpi_request->CDB.CDB32, scmd->cmnd, scmd->cmd_len);
- 
- 	if (mpi_request->DataLength) {
--		if (ioc->build_sg_scmd(ioc, scmd, smid)) {
-+		pcie_device = sas_target_priv_data->pcie_dev;
-+		if (ioc->build_sg_scmd(ioc, scmd, smid, pcie_device)) {
- 			mpt3sas_base_free_smid(ioc, smid);
- 			goto out;
++	pr_info(MPT3SAS_FMT
++		" Removing unresponding devices: pcie end-devices\n"
++		, ioc->name);
++	INIT_LIST_HEAD(&head);
++	spin_lock_irqsave(&ioc->pcie_device_lock, flags);
++	list_for_each_entry_safe(pcie_device, pcie_device_next,
++	    &ioc->pcie_device_list, list) {
++		if (!pcie_device->responding)
++			list_move_tail(&pcie_device->list, &head);
++		else
++			pcie_device->responding = 0;
++	}
++	spin_unlock_irqrestore(&ioc->pcie_device_lock, flags);
++
++	list_for_each_entry_safe(pcie_device, pcie_device_next, &head, list) {
++		_scsih_pcie_device_remove_from_sml(ioc, pcie_device);
++		list_del_init(&pcie_device->list);
++		pcie_device_put(pcie_device);
++	}
++
+ 	/* removing unresponding volumes */
+ 	if (ioc->ir_firmware) {
+ 		pr_info(MPT3SAS_FMT "removing unresponding devices: volumes\n",
+@@ -8631,7 +8766,7 @@ _mpt3sas_fw_work(struct MPT3SAS_ADAPTER *ioc, struct fw_event_work *fw_event)
+ 				goto out;
+ 			ssleep(1);
  		}
-@@ -4925,7 +4927,7 @@ out_unlock:
- static u8
- _scsih_io_done(struct MPT3SAS_ADAPTER *ioc, u16 smid, u8 msix_index, u32 reply)
- {
--	Mpi2SCSIIORequest_t *mpi_request;
-+	Mpi25SCSIIORequest_t *mpi_request;
- 	Mpi2SCSIIOReply_t *mpi_reply;
- 	struct scsi_cmnd *scmd;
- 	u16 ioc_status;
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c b/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c
-index 540bd50..ced7d9f 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c
-@@ -299,7 +299,7 @@ mpt3sas_scsi_direct_io_set(struct MPT3SAS_ADAPTER *ioc, u16 smid, u8 direct_io)
-  */
- void
- mpt3sas_setup_direct_io(struct MPT3SAS_ADAPTER *ioc, struct scsi_cmnd *scmd,
--	struct _raid_device *raid_device, Mpi2SCSIIORequest_t *mpi_request,
-+	struct _raid_device *raid_device, Mpi25SCSIIORequest_t *mpi_request,
- 	u16 smid)
- {
- 	sector_t v_lba, p_lba, stripe_off, column, io_size;
+-		_scsih_remove_unresponding_sas_devices(ioc);
++		_scsih_remove_unresponding_devices(ioc);
+ 		_scsih_scan_for_devices_after_reset(ioc);
+ 		break;
+ 	case MPT3SAS_PORT_ENABLE_COMPLETE:
+@@ -9019,6 +9154,7 @@ static void scsih_remove(struct pci_dev *pdev)
+ 	struct _sas_port *mpt3sas_port, *next_port;
+ 	struct _raid_device *raid_device, *next;
+ 	struct MPT3SAS_TARGET *sas_target_priv_data;
++	struct _pcie_device *pcie_device, *pcienext;
+ 	struct workqueue_struct	*wq;
+ 	unsigned long flags;
+ 
+@@ -9047,6 +9183,12 @@ static void scsih_remove(struct pci_dev *pdev)
+ 		    (unsigned long long) raid_device->wwid);
+ 		_scsih_raid_device_remove(ioc, raid_device);
+ 	}
++	list_for_each_entry_safe(pcie_device, pcienext, &ioc->pcie_device_list,
++		list) {
++		_scsih_pcie_device_remove_from_sml(ioc, pcie_device);
++		list_del_init(&pcie_device->list);
++		pcie_device_put(pcie_device);
++	}
+ 
+ 	/* free ports attached to the sas_host */
+ 	list_for_each_entry_safe(mpt3sas_port, next_port,
 -- 
 2.5.5
