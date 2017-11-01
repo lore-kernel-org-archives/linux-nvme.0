@@ -1,44 +1,141 @@
-From: ard.biesheuvel@linaro.org (Ard Biesheuvel)
-Date: Wed, 1 Nov 2017 15:51:07 +0000
-Subject: [PATCH v2 2/8] crypto: scompress - use sgl_alloc() and sgl_free()
-In-Reply-To: <1509551145.2530.10.camel@wdc.com>
-References: <20171016224940.1332-1-bart.vanassche@wdc.com>
- <20171016224940.1332-3-bart.vanassche@wdc.com>
- <1509547836.2530.1.camel@wdc.com>
- <CAKv+Gu_-pqqVn5QeuM_OR0itQS-v5uFATt-ZzNDmPy8CHSLrGg@mail.gmail.com>
- <1509551145.2530.10.camel@wdc.com>
-Message-ID: <CAKv+Gu9Ae_pd3WUPDM+5VbF_TiR7uV0rVeUCY2C0+kLq6NM-3w@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 1 Nov 2017 08:56:03 -0700
+Subject: [PATCH] nvme: freeze IO accesses around format
+In-Reply-To: <20171027230756.GA17245@localhost.localdomain>
+References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
+ <20171027230756.GA17245@localhost.localdomain>
+Message-ID: <20171101155603.GC25317@infradead.org>
 
-On 1 November 2017@15:45, Bart Van Assche <Bart.VanAssche@wdc.com> wrote:
-> On Wed, 2017-11-01@15:17 +0000, Ard Biesheuvel wrote:
->> On 1 November 2017@14:50, Bart Van Assche <Bart.VanAssche@wdc.com> wrote:
->> > On Mon, 2017-10-16@15:49 -0700, Bart Van Assche wrote:
->> > > Use the sgl_alloc() and sgl_free() functions instead of open coding
->> > > these functions.
->> > >
->> > > Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
->> > > Cc: Ard Biesheuvel <ard.biesheuvel at linaro.org>
->> > > Cc: Herbert Xu <herbert at gondor.apana.org.au>
->> >
->> > Ard and/or Herbert, can you please have a look at this patch and let us know
->> > whether or not it looks fine to you?
->>
->> The patch itself does not look unreasonable, but I can't find
->> sgl_alloc() anywhere in the source tree. Given that you have cc'ed me
->> on this patch only, I can only assume that you are adding this as part
->> of the series, but without any context, I can't really review this,
->> sorry.
->
-> Hello Ard,
->
-> Do you expect to be Cc-ed personally or is Cc-ing the linux-crypto mailing
-> list sufficient? The linux-crypto mailing list was Cc-ed for the entire patch
-> series as one can see here:
-> https://www.mail-archive.com/linux-crypto at vger.kernel.org/msg28485.html.
->
+>     If the controller does not support the command effects log page, the
+>     driver will define the effects for known opcodes. The nvme format is
+>     the only such command in this patch with known effects.
 
-I guess people's opinions may differ regarding what they want to be
-cc'ed on, but in general, you should at least cc everyone on the cover
-letter if you cc them on individual patches, and in my case, I'd
-rather have the whole series even if only a single patch is relevant
-to me.
+Sanitize is another one.  Also Format might either affect a single
+namespace or the whole controller depending on what it advertises in
+FNA.
+
+> +static void nvme_get_admin_effects(struct nvme_ctrl *ctrl, u8 opcode, u32 *effects)
+
+Overly long line.
+
+> +{
+> +	if (ctrl->effects)
+> +		*effects = le32_to_cpu(ctrl->effects->acs[opcode]);
+> +
+> +	if (*effects != 0)
+> +		return;
+> +
+> +	/*
+> +	 * Set known effects for opcodes if the controller doesn't support
+> +	 * reporting the command's effects.
+> +	 */
+> +	switch (opcode) {
+> +	case nvme_admin_format_nvm:
+> +		*effects = NVME_CMD_FX_CSUPP | NVME_CMD_FX_LBCC |
+> +					NVME_CMD_FX_CSE_MASK;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+
+Hmm.  I'd expect it to be something like:
+
+static u32 nvme_get_admin_effects((struct nvme_ctrl *ctrl, u8 opcode)
+{
+	if (ctrl->effects)
+		return le32_to_cpu(ctrl->effects->acs[opcode]);
+
+	switch (opcode) {
+		...
+	}
+}
+
+That is: a) return the value instead of pass by reference, and
+b) if the controller supports the log page rely on it.
+
+Also don't we need to also handle this for I/O commands?  While
+non of the currently defined I/O commands would need anything, the
+spec defines the mechanism? and it might be useful for vendor
+specific commands.
+
+> +static void nvme_passthru_start(struct nvme_ctrl *ctrl, u32 effects)
+> +{
+> +	if (effects & (NVME_CMD_FX_LBCC | NVME_CMD_FX_CSE_MASK)) {
+> +		nvme_start_freeze(ctrl);
+> +		nvme_wait_freeze(ctrl);
+> +	}
+> +}
+
+I'd move the nvme_get_admin_effects call into this, and return the
+value from this function to keep the caller a little more uncluttered.
+
+> +	if (effects & NVME_CMD_FX_LBCC) {
+> +		struct nvme_ns *ns;
+> +
+> +		mutex_lock(&ctrl->namespaces_mutex);
+> +		list_for_each_entry(ns, &ctrl->namespaces, list) {
+> +			if (ns->disk && nvme_revalidate_disk(ns->disk))
+> +				nvme_ns_remove(ns);
+> +		}
+> +		mutex_unlock(&ctrl->namespaces_mutex);
+> +	}
+
+Split the code above into a helper?
+
+> +static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log, size_t size)
+
+To loong line again.  Also I think adding this helper should probably
+be a preparation patch.
+
+> +{
+> +	struct nvme_command c = { };
+> +
+> +
+> +	c.common.opcode = nvme_admin_get_log_page;
+
+Double empty line.
+
+> +static void nvme_scan(struct nvme_ctrl *ctrl)
+>  {
+> -	struct nvme_ctrl *ctrl =
+> -		container_of(work, struct nvme_ctrl, scan_work);
+>  	struct nvme_id_ctrl *id;
+>  	unsigned nn;
+>  
+> @@ -2549,6 +2650,14 @@ static void nvme_scan_work(struct work_struct *work)
+>  	kfree(id);
+>  }
+>  
+> +static void nvme_scan_work(struct work_struct *work)
+> +{
+> +	struct nvme_ctrl *ctrl =
+> +		container_of(work, struct nvme_ctrl, scan_work);
+> +
+> +	nvme_scan(ctrl);
+> +}
+
+Why do we do the scan inline here, but not in any other place?
+
+> @@ -267,6 +267,7 @@ enum {
+>  	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
+>  	NVME_CTRL_OACS_DIRECTIVES		= 1 << 5,
+>  	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 8,
+> +	NVME_CTRL_LPA_CMD_FX_LOG		= 1 << 1,
+
+I'd just use the bit directly, given that it doesn't have a name
+in the spec either.
+
+>  enum {
+> +	NVME_CMD_FX_CSUPP	= 1 << 0,
+> +	NVME_CMD_FX_LBCC	= 1 << 1,
+> +	NVME_CMD_FX_NCC		= 1 << 2,
+> +	NVME_CMD_FX_NIC		= 1 << 3,
+> +	NVME_CMD_FX_CCC		= 1 << 4,
+> +	NVME_CMD_FX_CSE_MASK	= 3 << 16,
+
+s/NVME_CMD_FX/NVME_CMD_EFFECTS/g ?
+
+> +	NVME_LOG_CMD_FX		= 0x05,
+
+same here.
