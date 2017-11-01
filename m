@@ -1,97 +1,40 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 1 Nov 2017 10:21:47 -0600
-Subject: [PATCH] nvme: freeze IO accesses around format
-In-Reply-To: <20171101155603.GC25317@infradead.org>
-References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
- <20171027230756.GA17245@localhost.localdomain>
- <20171101155603.GC25317@infradead.org>
-Message-ID: <20171101162147.GA26245@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 1 Nov 2017 09:03:37 -0700
+Subject: [PATCH 0/5] nvmet/nvmet_fc: add events for discovery controller
+ rescan
+In-Reply-To: <20171101153817.GB13553@infradead.org>
+References: <20171028172114.2045-1-jsmart2021@gmail.com>
+ <286e4dc4-af2c-3482-4345-a7b9984da994@grimberg.me>
+ <ed37c118-6a9b-b4ab-dc8c-27eaa0c178f9@broadcom.com>
+ <20171101153817.GB13553@infradead.org>
+Message-ID: <7b7521f3-5412-4969-41dc-c5d87eacd72f@gmail.com>
 
-On Wed, Nov 01, 2017@08:56:03AM -0700, Christoph Hellwig wrote:
-> >     If the controller does not support the command effects log page, the
-> >     driver will define the effects for known opcodes. The nvme format is
-> >     the only such command in this patch with known effects.
+On 11/1/2017 8:38 AM, Christoph Hellwig wrote:
+> On Sun, Oct 29, 2017@09:43:14PM -0700, James Smart wrote:
+>> Currently, the FC-NVME standard strongly suggests a discovery controller on
+>> each target.
 > 
-> Sanitize is another one.  Also Format might either affect a single
-> namespace or the whole controller depending on what it advertises in
-> FNA.
-
-Okay, we can freeze single nvme namespace's request queues if desired.
-It's only a little more code to do that.
- 
-> static u32 nvme_get_admin_effects((struct nvme_ctrl *ctrl, u8 opcode)
-> {
-> 	if (ctrl->effects)
-> 		return le32_to_cpu(ctrl->effects->acs[opcode]);
+> Yikes.  This is a new requirement not backed by anything in NVMe or
+> NVMeoF itself.  Please have discussion in the technical working group
+> on this behavior first.
 > 
-> 	switch (opcode) {
-> 		...
-> 	}
-> }
+> It's not that I'm against it - but I really want this sort of optional
+> transport behavior clearly documented in the actual NVMe spec first.
 > 
-> That is: a) return the value instead of pass by reference, and
-> b) if the controller supports the log page rely on it.
 
-Agreed, that's better.
- 
-> Also don't we need to also handle this for I/O commands?  While
-> non of the currently defined I/O commands would need anything, the
-> spec defines the mechanism? and it might be useful for vendor
-> specific commands
+See my last email.
 
-That gets tricky. What if the IO command effects says it needs to run
-exclusively? We don't have a way to quiesce IO queues and then issue our
-exclusive IO through the frozen queue. We'd deadlock trying to allocate
-a request from it.
+The "strongly suggest" is laymans language for the word "should" that 
+was used in the standard. Should was used so that discovery of the 
+available discovery controllers on FC could be done in an automatic and 
+dynamic way without apriori knowledge. Any FC target device is free to 
+choose if and where they implement discovery controllers, just as on any 
+other transport in nvmf.
 
-If it's okay, I'd like to handle the IO command effects separately for
-future work.
+We have had discussions in the technical working group and with nvme 
+leadership on this and as I said, its well within what a transport can 
+do. It's doing nothing illegal or odd. It doesn't require explicit 
+documentation in a NVMe spec. It is in a NVME fabrics-based transport 
+specification.
 
-> > +static void nvme_passthru_start(struct nvme_ctrl *ctrl, u32 effects)
-> > +{
-> > +	if (effects & (NVME_CMD_FX_LBCC | NVME_CMD_FX_CSE_MASK)) {
-> > +		nvme_start_freeze(ctrl);
-> > +		nvme_wait_freeze(ctrl);
-> > +	}
-> > +}
-> 
-> I'd move the nvme_get_admin_effects call into this, and return the
-> value from this function to keep the caller a little more uncluttered.
-
-Sounds good.
- 
-> > +static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log, size_t size)
-> 
-> To loong line again.  Also I think adding this helper should probably
-> be a preparation patch.
-
-Will do.
- 
-> > +static void nvme_scan_work(struct work_struct *work)
-> > +{
-> > +	struct nvme_ctrl *ctrl =
-> > +		container_of(work, struct nvme_ctrl, scan_work);
-> > +
-> > +	nvme_scan(ctrl);
-> > +}
-> 
-> Why do we do the scan inline here, but not in any other place?
-
-Huh, not sure. I wanted the driver to react to the command's effects
-before returning from the ioctl. I don't know why I thought that was
-important, though. Will queue it as normal.
-
-> >  enum {
-> > +	NVME_CMD_FX_CSUPP	= 1 << 0,
-> > +	NVME_CMD_FX_LBCC	= 1 << 1,
-> > +	NVME_CMD_FX_NCC		= 1 << 2,
-> > +	NVME_CMD_FX_NIC		= 1 << 3,
-> > +	NVME_CMD_FX_CCC		= 1 << 4,
-> > +	NVME_CMD_FX_CSE_MASK	= 3 << 16,
-> 
-> s/NVME_CMD_FX/NVME_CMD_EFFECTS/g ?
-
-Just trying to shorten the name with an abbreviation. Will spell it out
-in the next patch.
-
-Thanks for the feedback.
+-- james
