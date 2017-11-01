@@ -1,57 +1,50 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 1 Nov 2017 12:13:48 +0100
-Subject: [PATCH v2 6/8] scsi/ipr: Use sgl_alloc_order() and
- sgl_free_order()
-In-Reply-To: <33515fd2-9639-7981-e344-80cdacd40d32@linux.vnet.ibm.com>
-References: <20171016224940.1332-1-bart.vanassche@wdc.com>
- <20171016224940.1332-7-bart.vanassche@wdc.com>
- <c804098f-5543-395c-1395-5778ef74a61b@suse.de>
- <ce6f2f5b-b4bc-380f-8ac1-1e91e4d6bf24@linux.vnet.ibm.com>
- <1509395828.27259.21.camel@wdc.com>
- <33515fd2-9639-7981-e344-80cdacd40d32@linux.vnet.ibm.com>
-Message-ID: <a3274a4a-e0aa-0081-dfa1-e3c884800133@suse.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed,  1 Nov 2017 14:51:46 +0200
+Subject: [PATCH 1/1] nvme-rdma: Introduce nvme_rdma_destroy_qp
+Message-ID: <1509540706-26130-1-git-send-email-maxg@mellanox.com>
 
-On 10/30/2017 10:01 PM, Brian King wrote:
-> On 10/30/2017 03:37 PM, Bart Van Assche wrote:
->> On Wed, 2017-10-18@15:57 -0500, Brian King wrote:
->>> On 10/17/2017 01:19 AM, Hannes Reinecke wrote:
->>>> On 10/17/2017 12:49 AM, Bart Van Assche wrote:
->>>>> [ ... ]
->>>>
->>>> Not sure if this is a valid conversion.
->>>> Originally the driver would allocate a single buffer; with this buffer
->>>> we have two distinct buffers.
->>>> Given that this is used to download the microcode I'm not sure if this
->>>> isn't a hardware-dependent structure which requires a single buffer
->>>> including the sglist.
->>>> Brian, can you shed some light here?
->>>
->>> The struct ipr_sglist is not a hardware defined data structure, so on initial
->>> glance, this should be OK. I'll load it up and give it a try to make sure
->>> it doesn't break code download.
->>
->> Hello Brian,
->>
->> Have you already obtained any test results?
-> 
-> Bart,
-> 
-> Yes. I tried this out on an ipr adapter and it looks fine.
-> 
-> Acked-by: Brian King <brking at linux.vnet.ibm.com>
-> 
-Thanks for the confirmation.
+QP object is created using rdma_cm api, therefore the destruction
+should use the same api for symmetry.
 
-Bart, you can add my
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c |   10 ++++++++--
+ 1 files changed, 8 insertions(+), 2 deletions(-)
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 87bac27..d955cbc 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -267,6 +267,12 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+ 	return ret;
+ }
+ 
++static void nvme_rdma_destroy_qp(struct nvme_rdma_queue *queue)
++{
++	rdma_destroy_qp(queue->cm_id);
++	queue->qp = NULL;
++}
++
+ static int nvme_rdma_reinit_request(void *data, struct request *rq)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = data;
+@@ -439,7 +445,7 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
+ 
+ 	dev = queue->device;
+ 	ibdev = dev->dev;
+-	rdma_destroy_qp(queue->cm_id);
++	nvme_rdma_destroy_qp(queue);
+ 	ib_free_cq(queue->ib_cq);
+ 
+ 	nvme_rdma_free_ring(ibdev, queue->rsp_ring, queue->queue_size,
+@@ -493,7 +499,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	return 0;
+ 
+ out_destroy_qp:
+-	ib_destroy_qp(queue->qp);
++	nvme_rdma_destroy_qp(queue);
+ out_destroy_ib_cq:
+ 	ib_free_cq(queue->ib_cq);
+ out_put_dev:
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+1.7.1
