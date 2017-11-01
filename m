@@ -1,25 +1,39 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 1 Nov 2017 09:45:45 -0600
-Subject: [PATCH] nvme: freeze IO accesses around format
-In-Reply-To: <20171101154337.GB25317@infradead.org>
-References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
- <20171101154337.GB25317@infradead.org>
-Message-ID: <a663090e-903a-7ee0-c998-6f4898960470@kernel.dk>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Wed, 1 Nov 2017 15:45:46 +0000
+Subject: [PATCH v2 2/8] crypto: scompress - use sgl_alloc() and sgl_free()
+In-Reply-To: <CAKv+Gu_-pqqVn5QeuM_OR0itQS-v5uFATt-ZzNDmPy8CHSLrGg@mail.gmail.com>
+References: <20171016224940.1332-1-bart.vanassche@wdc.com>
+ <20171016224940.1332-3-bart.vanassche@wdc.com>
+ <1509547836.2530.1.camel@wdc.com>
+ <CAKv+Gu_-pqqVn5QeuM_OR0itQS-v5uFATt-ZzNDmPy8CHSLrGg@mail.gmail.com>
+Message-ID: <1509551145.2530.10.camel@wdc.com>
 
-On 11/01/2017 09:43 AM, Christoph Hellwig wrote:
-> On Fri, Oct 27, 2017@10:35:58AM -0600, Jens Axboe wrote:
->> Prevents this by freezing IO access to the device around a format.
->> Without this, the following set of commands can easily make your device
->> disappear:
->>
->> parted -s /dev/nvme3n1 mklabel gpt
->> parted -s /dev/nvme3n1 mkpart primary 0G 100G
->> parted -s /dev/nvme3n1 rm 1
->> nvme format /dev/nvme3
+On Wed, 2017-11-01@15:17 +0000, Ard Biesheuvel wrote:
+> On 1 November 2017@14:50, Bart Van Assche <Bart.VanAssche@wdc.com> wrote:
+> > On Mon, 2017-10-16@15:49 -0700, Bart Van Assche wrote:
+> > > Use the sgl_alloc() and sgl_free() functions instead of open coding
+> > > these functions.
+> > > 
+> > > Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
+> > > Cc: Ard Biesheuvel <ard.biesheuvel at linaro.org>
+> > > Cc: Herbert Xu <herbert at gondor.apana.org.au>
+> > 
+> > Ard and/or Herbert, can you please have a look at this patch and let us know
+> > whether or not it looks fine to you?
 > 
-> Can you wire this test case up for blktests?
+> The patch itself does not look unreasonable, but I can't find
+> sgl_alloc() anywhere in the source tree. Given that you have cc'ed me
+> on this patch only, I can only assume that you are adding this as part
+> of the series, but without any context, I can't really review this,
+> sorry.
 
-Yeah that's a good idea, I'll do that.
+Hello Ard,
 
--- 
-Jens Axboe
+Do you expect to be Cc-ed personally or is Cc-ing the linux-crypto mailing
+list sufficient? The linux-crypto mailing list was Cc-ed for the entire patch
+series as one can see here:
+https://www.mail-archive.com/linux-crypto at vger.kernel.org/msg28485.html.
+
+Thanks,
+
+Bart.
