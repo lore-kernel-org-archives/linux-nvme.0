@@ -1,20 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 1 Nov 2017 08:38:17 -0700
-Subject: [PATCH 0/5] nvmet/nvmet_fc: add events for discovery controller
- rescan
-In-Reply-To: <ed37c118-6a9b-b4ab-dc8c-27eaa0c178f9@broadcom.com>
-References: <20171028172114.2045-1-jsmart2021@gmail.com>
- <286e4dc4-af2c-3482-4345-a7b9984da994@grimberg.me>
- <ed37c118-6a9b-b4ab-dc8c-27eaa0c178f9@broadcom.com>
-Message-ID: <20171101153817.GB13553@infradead.org>
+Date: Wed, 1 Nov 2017 08:42:32 -0700
+Subject: [PATCH] nvme: freeze IO accesses around format
+In-Reply-To: <ac29e201-7d60-d698-d6a3-9b4c0307c91f@kernel.dk>
+References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
+ <20171028064508.GA20977@infradead.org>
+ <ac29e201-7d60-d698-d6a3-9b4c0307c91f@kernel.dk>
+Message-ID: <20171101154232.GA25317@infradead.org>
 
-On Sun, Oct 29, 2017@09:43:14PM -0700, James Smart wrote:
-> Currently, the FC-NVME standard strongly suggests a discovery controller on
-> each target.
+On Mon, Oct 30, 2017@08:30:04AM -0600, Jens Axboe wrote:
+> On 10/28/2017 12:45 AM, Christoph Hellwig wrote:
+> > And what about sanitize?  I guess instead of looking at opcodes directly
+> > we'd better look at the indications in the Commands Supported and Effects
+> > log.  That's what the Windows driver does, btw.
+> 
+> Isn't that exactly what Keith's patch did?
 
-Yikes.  This is a new requirement not backed by anything in NVMe or
-NVMeoF itself.  Please have discussion in the technical working group
-on this behavior first.
-
-It's not that I'm against it - but I really want this sort of optional
-transport behavior clearly documented in the actual NVMe spec first.
+Ooops I had missed his patch was a completely different approach.
