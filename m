@@ -1,26 +1,50 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 1 Jun 2017 08:59:52 +0200
-Subject: [PATCH v1 7/7] nvmet: allow overriding the NVMe VS via configfs
-In-Reply-To: <20170601065255.GG16778@lst.de>
-References: <cover.1496237370.git.jthumshirn@suse.de>
- <d7170a45381be21b7d0da629406a063db62aaa42.1496237370.git.jthumshirn@suse.de>
- <20170601065255.GG16778@lst.de>
-Message-ID: <0af0f525-918d-d2b3-2f08-f4f19c83fab1@suse.de>
+Date: Wed, 1 Nov 2017 12:13:48 +0100
+Subject: [PATCH v2 6/8] scsi/ipr: Use sgl_alloc_order() and
+ sgl_free_order()
+In-Reply-To: <33515fd2-9639-7981-e344-80cdacd40d32@linux.vnet.ibm.com>
+References: <20171016224940.1332-1-bart.vanassche@wdc.com>
+ <20171016224940.1332-7-bart.vanassche@wdc.com>
+ <c804098f-5543-395c-1395-5778ef74a61b@suse.de>
+ <ce6f2f5b-b4bc-380f-8ac1-1e91e4d6bf24@linux.vnet.ibm.com>
+ <1509395828.27259.21.camel@wdc.com>
+ <33515fd2-9639-7981-e344-80cdacd40d32@linux.vnet.ibm.com>
+Message-ID: <a3274a4a-e0aa-0081-dfa1-e3c884800133@suse.de>
 
-On 06/01/2017 08:52 AM, Christoph Hellwig wrote:
-> On Wed, May 31, 2017@03:32:17PM +0200, Johannes Thumshirn wrote:
->> Allow overriding the announced NVMe Version of a via configfs.
+On 10/30/2017 10:01 PM, Brian King wrote:
+> On 10/30/2017 03:37 PM, Bart Van Assche wrote:
+>> On Wed, 2017-10-18@15:57 -0500, Brian King wrote:
+>>> On 10/17/2017 01:19 AM, Hannes Reinecke wrote:
+>>>> On 10/17/2017 12:49 AM, Bart Van Assche wrote:
+>>>>> [ ... ]
+>>>>
+>>>> Not sure if this is a valid conversion.
+>>>> Originally the driver would allocate a single buffer; with this buffer
+>>>> we have two distinct buffers.
+>>>> Given that this is used to download the microcode I'm not sure if this
+>>>> isn't a hardware-dependent structure which requires a single buffer
+>>>> including the sglist.
+>>>> Brian, can you shed some light here?
+>>>
+>>> The struct ipr_sglist is not a hardware defined data structure, so on initial
+>>> glance, this should be OK. I'll load it up and give it a try to make sure
+>>> it doesn't break code download.
 >>
->> This is particularly helpful when debugging new features for the host
->> or target side without bumping the hard coded version (as the target
->> might not be fully compliant to the announced version yet).
+>> Hello Brian,
+>>
+>> Have you already obtained any test results?
 > 
-> It is.  Just bump to 1.3, please as Identify 3h is the only mandatory
-> change: http://nvmexpress.org/changes/
+> Bart,
 > 
-Actually, I still do like this.
-With it it'll be very easy to test version compliance; and validate our
-initiator behaviour against older versions.
+> Yes. I tried this out on an ipr adapter and it looks fine.
+> 
+> Acked-by: Brian King <brking at linux.vnet.ibm.com>
+> 
+Thanks for the confirmation.
+
+Bart, you can add my
+
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
