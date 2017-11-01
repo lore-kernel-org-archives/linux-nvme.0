@@ -1,46 +1,57 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Wed, 1 Nov 2017 11:58:19 -0600
-Subject: [PATCH 0/3] Fix request completion holes
-In-Reply-To: <5f3955d2-9116-5f18-2299-cc697947d599@grimberg.me>
-References: <1509440122-1190-1-git-send-email-sagi@grimberg.me>
- <8abcde91-9150-2982-3900-078619bcdac0@mellanox.com>
- <a950a671-22a1-432c-555e-8309c8a64a88@grimberg.me>
- <d9dcdb05-d001-53d8-7ed7-5fafc1709f4a@mellanox.com>
- <20171101165036.GD1030@ziepe.ca>
- <5f3955d2-9116-5f18-2299-cc697947d599@grimberg.me>
-Message-ID: <20171101175819.GG1030@ziepe.ca>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed,  1 Nov 2017 12:03:59 -0600
+Subject: [PATCH 1/2] nvme: Factor get log into a helper
+Message-ID: <20171101180400.6619-1-keith.busch@intel.com>
 
-On Wed, Nov 01, 2017@07:31:39PM +0200, Sagi Grimberg wrote:
+And fix the warning on a successful firmware log.
 
-> the default mode utilize remote invalidation, so no, its not valid.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-Well, usually the ULP design should allow some things to be reaped
-async, and latency senstive things to be sync.
-
-Eg if you have a SEND using a local buffer with a RKEY, then you'd
-declare the RKEY data completed when SEND_WITH_INVALIDATE is returned.
-
-Recycling the lkey command buffer is an async process and can wait
-unsignaled until something signalled comes to push its completion
-through.
-
-This approach reduces the # of CQEs required at the expense of
-delaying reaping the lkey buffer.
-
-> Without remote invalidate I'm not sure, don't remember the ordering
-> rules from the top of my head. Idan, does a local invalidate completion
-> guarantee a prior send completion (of a non-related buffer)? I vaguely
-> remember that explicit fencing is required to guarantee that.
-
-This was the case I thought Idan was testing..
-
-Local invalidate is defined to always be ordered by the spec, so it
-is required to guarentee that the SEND is completed.
-
-> I guess we could not signal send completions if we are in a local
-> invalidate mode, but I'm liking this less and less...
-
-If the SEND reaping can be defered as above, then the local invalidate
-completion becomes the signaled CQE that allows the SEND to be reaped.
-
-Jason
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 07b9f4e1c283..bae987b5dc79 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1760,6 +1760,18 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 	memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
+ }
+ 
++static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log,
++								size_t size)
++{
++	struct nvme_command c = { };
++
++	c.common.opcode = nvme_admin_get_log_page;
++	c.common.nsid = cpu_to_le32(NVME_NSID_ALL);
++	c.common.cdw10[0] = nvme_get_log_dw10(log_page, size);
++
++	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
++}
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -2592,18 +2604,13 @@ static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
+ 
+ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
+ {
+-	struct nvme_command c = { };
+ 	struct nvme_fw_slot_info_log *log;
+ 
+ 	log = kmalloc(sizeof(*log), GFP_KERNEL);
+ 	if (!log)
+ 		return;
+ 
+-	c.common.opcode = nvme_admin_get_log_page;
+-	c.common.nsid = cpu_to_le32(NVME_NSID_ALL);
+-	c.common.cdw10[0] = nvme_get_log_dw10(NVME_LOG_FW_SLOT, sizeof(*log));
+-
+-	if (!nvme_submit_sync_cmd(ctrl->admin_q, &c, log, sizeof(*log)))
++	if (nvme_get_log(ctrl, NVME_LOG_FW_SLOT, log, sizeof(*log)))
+ 		dev_warn(ctrl->device,
+ 				"Get FW SLOT INFO log error\n");
+ 	kfree(log);
+-- 
+2.13.6
