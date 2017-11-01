@@ -1,18 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 1 Nov 2017 08:42:32 -0700
+Date: Wed, 1 Nov 2017 08:43:37 -0700
 Subject: [PATCH] nvme: freeze IO accesses around format
-In-Reply-To: <ac29e201-7d60-d698-d6a3-9b4c0307c91f@kernel.dk>
+In-Reply-To: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
 References: <6951d74c-e765-1b5d-6e39-d88d261bf9b9@kernel.dk>
- <20171028064508.GA20977@infradead.org>
- <ac29e201-7d60-d698-d6a3-9b4c0307c91f@kernel.dk>
-Message-ID: <20171101154232.GA25317@infradead.org>
+Message-ID: <20171101154337.GB25317@infradead.org>
 
-On Mon, Oct 30, 2017@08:30:04AM -0600, Jens Axboe wrote:
-> On 10/28/2017 12:45 AM, Christoph Hellwig wrote:
-> > And what about sanitize?  I guess instead of looking at opcodes directly
-> > we'd better look at the indications in the Commands Supported and Effects
-> > log.  That's what the Windows driver does, btw.
+On Fri, Oct 27, 2017@10:35:58AM -0600, Jens Axboe wrote:
+> Prevents this by freezing IO access to the device around a format.
+> Without this, the following set of commands can easily make your device
+> disappear:
 > 
-> Isn't that exactly what Keith's patch did?
+> parted -s /dev/nvme3n1 mklabel gpt
+> parted -s /dev/nvme3n1 mkpart primary 0G 100G
+> parted -s /dev/nvme3n1 rm 1
+> nvme format /dev/nvme3
 
-Ooops I had missed his patch was a completely different approach.
+Can you wire this test case up for blktests?
