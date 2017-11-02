@@ -1,65 +1,51 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  2 Nov 2017 21:29:51 +0300
-Subject: [PATCH 4/7] block: add a blk_steal_bios helper
+Date: Thu,  2 Nov 2017 21:29:52 +0300
+Subject: [PATCH 5/7] block: don't look at the struct device dev_t in disk_devt
 In-Reply-To: <20171102182954.9263-1-hch@lst.de>
 References: <20171102182954.9263-1-hch@lst.de>
-Message-ID: <20171102182954.9263-5-hch@lst.de>
+Message-ID: <20171102182954.9263-6-hch@lst.de>
 
-This helpers allows to bounce steal the uncompleted bios from a request so
-that they can be reissued on another path.
+The hidden gendisks introduced in the next patch need to keep the dev
+field in their struct device empty so that udev won't try to create
+block device nodes for them.  To support that rewrite disk_devt to
+look at the major and first_minor fields in the gendisk itself instead
+of looking into the struct device.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- block/blk-core.c       | 21 +++++++++++++++++++++
- include/linux/blkdev.h |  2 ++
- 2 files changed, 23 insertions(+)
+ block/genhd.c         | 4 ----
+ include/linux/genhd.h | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index b8c80f39f5fe..54fe673fb3ba 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -2767,6 +2767,27 @@ struct request *blk_fetch_request(struct request_queue *q)
+diff --git a/block/genhd.c b/block/genhd.c
+index dd305c65ffb0..1174d24e405e 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -649,10 +649,6 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
+ 		return;
+ 	}
+ 	disk_to_dev(disk)->devt = devt;
+-
+-	/* ->major and ->first_minor aren't supposed to be
+-	 * dereferenced from here on, but set them just in case.
+-	 */
+ 	disk->major = MAJOR(devt);
+ 	disk->first_minor = MINOR(devt);
+ 
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index ea652bfcd675..5c0ed5db33c2 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -234,7 +234,7 @@ static inline bool disk_part_scan_enabled(struct gendisk *disk)
+ 
+ static inline dev_t disk_devt(struct gendisk *disk)
+ {
+-	return disk_to_dev(disk)->devt;
++	return MKDEV(disk->major, disk->first_minor);
  }
- EXPORT_SYMBOL(blk_fetch_request);
  
-+/*
-+ * Steal bios from a request and add them to a bio list.
-+ * The request must not have been partially completed before.
-+ */
-+void blk_steal_bios(struct bio_list *list, struct request *rq)
-+{
-+	if (rq->bio) {
-+		if (list->tail)
-+			list->tail->bi_next = rq->bio;
-+		else
-+			list->head = rq->bio;
-+		list->tail = rq->biotail;
-+
-+		rq->bio = NULL;
-+		rq->biotail = NULL;
-+	}
-+
-+	rq->__data_len = 0;
-+}
-+EXPORT_SYMBOL_GPL(blk_steal_bios);
-+
- /**
-  * blk_update_request - Special helper function for request stacking drivers
-  * @req:      the request being processed
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 780f01db5899..45c63764a14e 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1110,6 +1110,8 @@ extern struct request *blk_peek_request(struct request_queue *q);
- extern void blk_start_request(struct request *rq);
- extern struct request *blk_fetch_request(struct request_queue *q);
- 
-+void blk_steal_bios(struct bio_list *list, struct request *rq);
-+
- /*
-  * Request completion related functions.
-  *
+ static inline dev_t part_devt(struct hd_struct *part)
 -- 
 2.14.2
