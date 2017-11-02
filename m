@@ -1,32 +1,28 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 2 Nov 2017 20:29:27 +0800
-Subject: [PATCH] nvme-pci: avoid dereference of symbol from unloaded module
-In-Reply-To: <8b9a2473-c011-6224-b69a-61194cfac030@grimberg.me>
-References: <20171102093624.20333-1-ming.lei@redhat.com>
- <8b9a2473-c011-6224-b69a-61194cfac030@grimberg.me>
-Message-ID: <20171102122926.GB6764@ming.t460p>
+From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Thu, 2 Nov 2017 14:54:46 +0100
+Subject: [PATCH 1/2] nvme: Factor get log into a helper
+In-Reply-To: <20171101180400.6619-1-keith.busch@intel.com>
+References: <20171101180400.6619-1-keith.busch@intel.com>
+Message-ID: <69279313-BED6-4E67-82E2-FAEA2C9D5C4A@javigon.com>
 
-On Thu, Nov 02, 2017@02:10:16PM +0200, Sagi Grimberg wrote:
+> On 1 Nov 2017,@19.03, Keith Busch <keith.busch@intel.com> wrote:
 > 
-> > The 'remove_work' may be scheduled to run after nvme_remove()
-> > returns since we can't simply cancel it in nvme_remove() for
-> > avoiding deadlock. Once nvme_remove() returns, this module(nvme)
-> > can be unloaded.
-> > 
-> > On the other hand, nvme_put_ctrl() calls ctr->ops->free_ctrl
-> > which may point to nvme_pci_free_ctrl() in unloaded module.
-> > 
-> > This patch avoids this issue by holding the module refcount before
-> > scheduling 'remove_work'.
+> And fix the warning on a successful firmware log.
 > 
-> Why not simply flushing all scheduled works in module exit?
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+> drivers/nvme/host/core.c | 19 +++++++++++++------
+> 1 file changed, 13 insertions(+), 6 deletions(-)
+> 
 
-The nvme_wq is shared by all kinds of host(PCI, FC, ...), so
-not good to flush all queued work in 'nvme_wq' just before
-removing pci host module only.
+Looks good.
 
-Not mention 'remove_work' is actually scheduled by system wq
-instead of nvme_wq.
+Reviewed-by: Javier Gonz?lez <javier at cnexlabs.com>
 
--- 
-Ming
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171102/4844b024/attachment.sig>
