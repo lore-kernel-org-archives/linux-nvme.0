@@ -1,51 +1,39 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 2 Nov 2017 10:06:30 +0200
-Subject: [PATCH 0/3] Fix request completion holes
-In-Reply-To: <20171101175819.GG1030@ziepe.ca>
-References: <1509440122-1190-1-git-send-email-sagi@grimberg.me>
- <8abcde91-9150-2982-3900-078619bcdac0@mellanox.com>
- <a950a671-22a1-432c-555e-8309c8a64a88@grimberg.me>
- <d9dcdb05-d001-53d8-7ed7-5fafc1709f4a@mellanox.com>
- <20171101165036.GD1030@ziepe.ca>
- <5f3955d2-9116-5f18-2299-cc697947d599@grimberg.me>
- <20171101175819.GG1030@ziepe.ca>
-Message-ID: <5810bb05-fffd-a0f2-3509-9d9b89a2ef32@grimberg.me>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 2 Nov 2017 18:00:15 +0900
+Subject: [PATCH 2/2] nvme: Check admin passthru command effects
+In-Reply-To: <20171101180400.6619-2-keith.busch@intel.com>
+References: <20171101180400.6619-1-keith.busch@intel.com>
+ <20171101180400.6619-2-keith.busch@intel.com>
+Message-ID: <CAA7jztcsxofX35nbg3UkA3MP0CE6FAV8cmTHavBmigeQq2gCjA@mail.gmail.com>
 
+Hi Keith,
 
->> the default mode utilize remote invalidation, so no, its not valid.
-> 
-> Well, usually the ULP design should allow some things to be reaped
-> async, and latency senstive things to be sync.
-> 
-> Eg if you have a SEND using a local buffer with a RKEY, then you'd
-> declare the RKEY data completed when SEND_WITH_INVALIDATE is returned.
-> 
-> Recycling the lkey command buffer is an async process and can wait
-> unsignaled until something signalled comes to push its completion
-> through.
+I have found a tiny typo in a comment during a review your code.
 
-Not when using inline data with the send, which is the main issue
-here. if we inline data to the command, we will use the local
-dma lkey, which does not even have a local invalidate following it.
+> +
+> +static void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+> +                                                               u32 effects)
+> +{
+> +       /*
+> +        * Revaildate LBA changes prior to unfreezing. This is necessary to
+> +        * prevent memory corruption if a logical block size was changed by
+> +        * this command.
 
-> This approach reduces the # of CQEs required at the expense of
-> delaying reaping the lkey buffer.
+"Revalidate" seems okay for this comment.
 
-Yes, I understand the advantage of suppressing send completions..
+> +        */
+> +       if (effects & NVME_CMD_EFFECTS_LBCC)
+> +               nvme_update_formats(ctrl);
+> +       if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
+> +               nvme_unfreeze(ctrl);
+> +       if (effects & NVME_CMD_EFFECTS_CCC)
+> +               nvme_init_identify(ctrl);
+> +       if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
+> +               nvme_queue_scan(ctrl);
+> +}
+> +
 
-But I'm not very fond of non-trivial behavior depending on all sort of
-overly complicated conditions.
+I always appreciate your dedication to this amazing nvme driver.
+Thanks,
 
->> Without remote invalidate I'm not sure, don't remember the ordering
->> rules from the top of my head. Idan, does a local invalidate completion
->> guarantee a prior send completion (of a non-related buffer)? I vaguely
->> remember that explicit fencing is required to guarantee that.
-> 
-> This was the case I thought Idan was testing..
-
-Still doesn't mean it is guaranteed to do the right thing :)
-
-> Local invalidate is defined to always be ordered by the spec, so it
-> is required to guarentee that the SEND is completed.
-So local invalidate completion is guaranteed to come after all the
-completions prior to it in the send queue?
+Minwoo
