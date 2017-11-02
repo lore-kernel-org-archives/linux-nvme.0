@@ -1,61 +1,89 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  2 Nov 2017 21:28:53 +0300
-Subject: [PATCH 3/6] nvme: don't pass struct nvme_ns to nvme_init_integrity
+Date: Thu,  2 Nov 2017 21:28:54 +0300
+Subject: [PATCH 4/6] nvme: don't pass struct nvme_ns to nvme_config_discard
 In-Reply-To: <20171102182856.9162-1-hch@lst.de>
 References: <20171102182856.9162-1-hch@lst.de>
-Message-ID: <20171102182856.9162-4-hch@lst.de>
+Message-ID: <20171102182856.9162-5-hch@lst.de>
 
 To allow reusing this function for the multipath node.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bc27f6603861..8702e49c5c45 100644
+index 8702e49c5c45..bfdbecdc307a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1081,12 +1081,12 @@ static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
+@@ -1118,29 +1118,26 @@ static void nvme_set_chunk_size(struct nvme_ns *ns)
+ 	blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(chunk_size));
  }
  
- #ifdef CONFIG_BLK_DEV_INTEGRITY
--static void nvme_init_integrity(struct nvme_ns *ns)
-+static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type)
+-static void nvme_config_discard(struct nvme_ns *ns)
++static void nvme_config_discard(struct nvme_ctrl *ctrl,
++		unsigned stream_alignment, struct request_queue *queue)
  {
- 	struct blk_integrity integrity;
+-	struct nvme_ctrl *ctrl = ns->ctrl;
+-	u32 logical_block_size = queue_logical_block_size(ns->queue);
++	u32 size = queue_logical_block_size(queue);
++
++	if (stream_alignment)
++		size *= stream_alignment;
  
- 	memset(&integrity, 0, sizeof(integrity));
--	switch (ns->pi_type) {
-+	switch (pi_type) {
- 	case NVME_NS_DPS_PI_TYPE3:
- 		integrity.profile = &t10_pi_type3_crc;
- 		integrity.tag_size = sizeof(u16) + sizeof(u32);
-@@ -1102,12 +1102,12 @@ static void nvme_init_integrity(struct nvme_ns *ns)
- 		integrity.profile = NULL;
- 		break;
- 	}
--	integrity.tuple_size = ns->ms;
--	blk_integrity_register(ns->disk, &integrity);
--	blk_queue_max_integrity_segments(ns->queue, 1);
-+	integrity.tuple_size = ms;
-+	blk_integrity_register(disk, &integrity);
-+	blk_queue_max_integrity_segments(disk->queue, 1);
+ 	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
+ 			NVME_DSM_MAX_RANGES);
+ 
+-	if (ctrl->nr_streams && ns->sws && ns->sgs) {
+-		unsigned int sz = logical_block_size * ns->sws * ns->sgs;
++	queue->limits.discard_alignment = size;
++	queue->limits.discard_granularity = size;
+ 
+-		ns->queue->limits.discard_alignment = sz;
+-		ns->queue->limits.discard_granularity = sz;
+-	} else {
+-		ns->queue->limits.discard_alignment = logical_block_size;
+-		ns->queue->limits.discard_granularity = logical_block_size;
+-	}
+-	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
+-	blk_queue_max_discard_segments(ns->queue, NVME_DSM_MAX_RANGES);
+-	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
++	blk_queue_max_discard_sectors(queue, UINT_MAX);
++	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
++	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, queue);
+ 
+ 	if (ctrl->quirks & NVME_QUIRK_DEALLOCATE_ZEROES)
+-		blk_queue_max_write_zeroes_sectors(ns->queue, UINT_MAX);
++		blk_queue_max_write_zeroes_sectors(queue, UINT_MAX);
  }
- #else
--static void nvme_init_integrity(struct nvme_ns *ns)
-+static void nvme_init_integrity(struct gendisk *disk, u16 ms, u8 pi_type)
+ 
+ static void nvme_report_ns_ids(struct nvme_ctrl *ctrl, unsigned int nsid,
+@@ -1164,6 +1161,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
  {
- }
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
-@@ -1191,7 +1191,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 		nvme_set_chunk_size(ns);
- 	if (ns->ms && !ns->ext &&
- 	    (ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
--		nvme_init_integrity(ns);
-+		nvme_init_integrity(disk, ns->ms, ns->pi_type);
- 	if (ns->ms && !(ns->ms == 8 && ns->pi_type) && !blk_get_integrity(disk))
- 		set_capacity(disk, 0);
+ 	struct nvme_ns *ns = disk->private_data;
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
++	unsigned stream_alignment = 0;
+ 	u16 bs;
+ 
+ 	/*
+@@ -1183,6 +1181,9 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
  	else
+ 		ns->pi_type = 0;
+ 
++	if (ctrl->nr_streams && ns->sws && ns->sgs)
++		stream_alignment = ns->sws * ns->sgs;
++
+ 	blk_mq_freeze_queue(disk->queue);
+ 	blk_integrity_unregister(disk);
+ 
+@@ -1198,7 +1199,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 		set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
+ 
+ 	if (ctrl->oncs & NVME_CTRL_ONCS_DSM)
+-		nvme_config_discard(ns);
++		nvme_config_discard(ctrl, stream_alignment, disk->queue);
+ 	blk_mq_unfreeze_queue(disk->queue);
+ }
+ 
 -- 
 2.14.2
