@@ -1,39 +1,27 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 2 Nov 2017 18:00:15 +0900
-Subject: [PATCH 2/2] nvme: Check admin passthru command effects
-In-Reply-To: <20171101180400.6619-2-keith.busch@intel.com>
-References: <20171101180400.6619-1-keith.busch@intel.com>
- <20171101180400.6619-2-keith.busch@intel.com>
-Message-ID: <CAA7jztcsxofX35nbg3UkA3MP0CE6FAV8cmTHavBmigeQq2gCjA@mail.gmail.com>
+Date: Thu,  2 Nov 2017 18:07:44 +0900
+Subject: [PATCH] nvme: comment typo fixed in clearing AER
+Message-ID: <1509613664-25006-1-git-send-email-minwoo.im.dev@gmail.com>
 
-Hi Keith,
+a tiny typo fixed in a comment.
 
-I have found a tiny typo in a comment during a review your code.
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +
-> +static void nvme_passthru_end(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-> +                                                               u32 effects)
-> +{
-> +       /*
-> +        * Revaildate LBA changes prior to unfreezing. This is necessary to
-> +        * prevent memory corruption if a logical block size was changed by
-> +        * this command.
-
-"Revalidate" seems okay for this comment.
-
-> +        */
-> +       if (effects & NVME_CMD_EFFECTS_LBCC)
-> +               nvme_update_formats(ctrl);
-> +       if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
-> +               nvme_unfreeze(ctrl);
-> +       if (effects & NVME_CMD_EFFECTS_CCC)
-> +               nvme_init_identify(ctrl);
-> +       if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
-> +               nvme_queue_scan(ctrl);
-> +}
-> +
-
-I always appreciate your dedication to this amazing nvme driver.
-Thanks,
-
-Minwoo
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 07b9f4e..6474435 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2637,7 +2637,7 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 		return;
+ 
+ 	nvme_start_queues(ctrl);
+-	/* read FW slot informationi to clear the AER*/
++	/* read FW slot information to clear the AER */
+ 	nvme_get_fw_slot_info(ctrl);
+ }
+ 
+-- 
+2.7.4
