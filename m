@@ -1,55 +1,90 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  2 Nov 2017 21:28:51 +0300
-Subject: [PATCH 1/6] nvme: move the dying queue check from cancel to completion
+Date: Thu,  2 Nov 2017 21:28:52 +0300
+Subject: [PATCH 2/6] nvme: always unregister the integrity profile in
+ __nvme_revalidate_disk
 In-Reply-To: <20171102182856.9162-1-hch@lst.de>
 References: <20171102182856.9162-1-hch@lst.de>
-Message-ID: <20171102182856.9162-2-hch@lst.de>
+Message-ID: <20171102182856.9162-3-hch@lst.de>
 
-With multipath we don't want a hard DNR bit on a request that is cancelled
-by a controller reset, but instead want to be able to retry it on another
-patch.  To archive this don't always set the DNR bit when the queue is
-dying in nvme_cancel_request, but defer that decision to
-nvme_req_needs_retry.  Note that it applies to any command there and not
-just cancelled commands, but one the queue is dying that is the right
-thing to do anyway.
+This is safe because the queue is always frozen when we revalidate, and
+it simplifies both the existing code as well as the multipath
+implementation.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 40 ++++++++++------------------------------
+ 1 file changed, 10 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 07b9f4e1c283..1c2686d4eaf3 100644
+index 1c2686d4eaf3..bc27f6603861 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -172,6 +172,8 @@ static inline bool nvme_req_needs_retry(struct request *req)
- 		return false;
- 	if (nvme_req(req)->retries >= nvme_max_retries)
- 		return false;
-+	if (blk_queue_dying(req->q))
-+		return false;
- 	return true;
+@@ -1081,29 +1081,6 @@ static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
  }
  
-@@ -189,18 +191,13 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
- 
- void nvme_cancel_request(struct request *req, void *data, bool reserved)
- {
--	int status;
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+-static void nvme_prep_integrity(struct gendisk *disk, struct nvme_id_ns *id,
+-		u16 bs)
+-{
+-	struct nvme_ns *ns = disk->private_data;
+-	u16 old_ms = ns->ms;
+-	u8 pi_type = 0;
 -
- 	if (!blk_mq_request_started(req))
- 		return;
- 
- 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
- 				"Cancelling I/O %d", req->tag);
- 
--	status = NVME_SC_ABORT_REQ;
--	if (blk_queue_dying(req->q))
--		status |= NVME_SC_DNR;
--	nvme_req(req)->status = status;
-+	nvme_req(req)->status = NVME_SC_ABORT_REQ;
- 	blk_mq_complete_request(req);
- 
+-	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
+-	ns->ext = ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT);
+-
+-	/* PI implementation requires metadata equal t10 pi tuple size */
+-	if (ns->ms == sizeof(struct t10_pi_tuple))
+-		pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+-
+-	if (blk_get_integrity(disk) &&
+-	    (ns->pi_type != pi_type || ns->ms != old_ms ||
+-	     bs != queue_logical_block_size(disk->queue) ||
+-	     (ns->ms && ns->ext)))
+-		blk_integrity_unregister(disk);
+-
+-	ns->pi_type = pi_type;
+-}
+-
+ static void nvme_init_integrity(struct nvme_ns *ns)
+ {
+ 	struct blk_integrity integrity;
+@@ -1130,10 +1107,6 @@ static void nvme_init_integrity(struct nvme_ns *ns)
+ 	blk_queue_max_integrity_segments(ns->queue, 1);
  }
+ #else
+-static void nvme_prep_integrity(struct gendisk *disk, struct nvme_id_ns *id,
+-		u16 bs)
+-{
+-}
+ static void nvme_init_integrity(struct nvme_ns *ns)
+ {
+ }
+@@ -1202,15 +1175,22 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 		ns->lba_shift = 9;
+ 	bs = 1 << ns->lba_shift;
+ 	ns->noiob = le16_to_cpu(id->noiob);
++	ns->ext = ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT);
++	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
++	/* the PI implementation requires metadata equal t10 pi tuple size */
++	if (ns->ms == sizeof(struct t10_pi_tuple))
++		ns->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
++	else
++		ns->pi_type = 0;
+ 
+ 	blk_mq_freeze_queue(disk->queue);
++	blk_integrity_unregister(disk);
+ 
+-	if (ctrl->ops->flags & NVME_F_METADATA_SUPPORTED)
+-		nvme_prep_integrity(disk, id, bs);
+ 	blk_queue_logical_block_size(ns->queue, bs);
+ 	if (ns->noiob)
+ 		nvme_set_chunk_size(ns);
+-	if (ns->ms && !blk_get_integrity(disk) && !ns->ext)
++	if (ns->ms && !ns->ext &&
++	    (ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+ 		nvme_init_integrity(ns);
+ 	if (ns->ms && !(ns->ms == 8 && ns->pi_type) && !blk_get_integrity(disk))
+ 		set_capacity(disk, 0);
 -- 
 2.14.2
