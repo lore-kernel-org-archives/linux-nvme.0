@@ -1,7 +1,7 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 2 Nov 2017 11:18:42 -0500
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Thu, 2 Nov 2017 10:36:14 -0600
 Subject: [PATCH 0/3] Fix request completion holes
-In-Reply-To: <20171102151254.GE18874@ziepe.ca>
+In-Reply-To: <022e01d353f6$3fcbafd0$bf630f70$@opengridcomputing.com>
 References: <1509440122-1190-1-git-send-email-sagi@grimberg.me>
  <8abcde91-9150-2982-3900-078619bcdac0@mellanox.com>
  <a950a671-22a1-432c-555e-8309c8a64a88@grimberg.me>
@@ -11,54 +11,45 @@ References: <1509440122-1190-1-git-send-email-sagi@grimberg.me>
  <20171101175819.GG1030@ziepe.ca>
  <5810bb05-fffd-a0f2-3509-9d9b89a2ef32@grimberg.me>
  <20171102151254.GE18874@ziepe.ca>
-Message-ID: <022e01d353f6$3fcbafd0$bf630f70$@opengridcomputing.com>
+ <022e01d353f6$3fcbafd0$bf630f70$@opengridcomputing.com>
+Message-ID: <20171102163614.GK18874@ziepe.ca>
 
+On Thu, Nov 02, 2017@11:18:42AM -0500, Steve Wise wrote:
 
+> iWARP spec too.   This is in regard to completion ordering though.  The local
+> invalidate send WR must have the IB_SEND_FENCE flag set if you want it to only
+> be executed after all prior send WRs are executed.
 
-> -----Original Message-----
-> From: linux-rdma-owner at vger.kernel.org [mailto:linux-rdma-
-> owner at vger.kernel.org] On Behalf Of Jason Gunthorpe
-> Sent: Thursday, November 02, 2017 10:13 AM
-> To: Sagi Grimberg
-> Cc: idanb; Max Gurtovoy; linux-rdma at vger.kernel.org; linux-
-> nvme at lists.infradead.org; Christoph Hellwig
-> Subject: Re: [PATCH 0/3] Fix request completion holes
-> 
-> On Thu, Nov 02, 2017@10:06:30AM +0200, Sagi Grimberg wrote:
-> >
-> > >>the default mode utilize remote invalidation, so no, its not valid.
-> > >
-> > >Well, usually the ULP design should allow some things to be reaped
-> > >async, and latency senstive things to be sync.
-> > >
-> > >Eg if you have a SEND using a local buffer with a RKEY, then you'd
-> > >declare the RKEY data completed when SEND_WITH_INVALIDATE is returned.
-> > >
-> > >Recycling the lkey command buffer is an async process and can wait
-> > >unsignaled until something signalled comes to push its completion
-> > >through.
-> >
-> > Not when using inline data with the send, which is the main issue
-> > here. if we inline data to the command, we will use the local
-> > dma lkey, which does not even have a local invalidate following it.
-> 
-> Does nvme use inline data send and RKEY transfer in the same SEND?
-> Then it would need to signal the SEND if remote invalidate is used,
-> otherwise it only needs to signal the local invalidate for the RKEY..
-> 
-> > >Local invalidate is defined to always be ordered by the spec, so it
-> > >is required to guarentee that the SEND is completed.
-> 
-> > So local invalidate completion is guaranteed to come after all the
-> > completions prior to it in the send queue?
-> 
-> IBA spec says so..
-> 
+Oh right, yes, you need to have local invalidate fence to guarentee
+that, but usually a local operation will not refer to a RKEY, so
+execution ordering wont matter.
 
-iWARP spec too.   This is in regard to completion ordering though.  The local
-invalidate send WR must have the IB_SEND_FENCE flag set if you want it to only
-be executed after all prior send WRs are executed.    Either way, the
-completions are always inserted into the cq in-sq-submission-order and a
-signaled completion implies completions of all prior unsignaled WRs.
+But this is a good general point, doesn't a ULP need to set FENCE on
+SEND, eg:
 
-Steve.
+ RDMA READ (rkey)
+ RDMA READ (rkey)
+ SEND w/ FENCE (tell remote to invalidate rkey)
+
+Otherwise IBA Table 79 says RDMA READ can pass SEND and we have a
+situation where the rkey has become invalidated when the remote is
+still trying to use it.
+
+IBA actually explicitly calls this out (pg 538):
+
+ RDMA Read operations may be executed at the target after subse-
+ quent Send and Invalidate operation already performed the invalida-
+ tion at the target. That may cause the RDMA Read operation to fail.
+ Setting the Fence Indicator on the subsequent operations guarantees
+ that the RDMA Read will fully complete before the invalidation takes
+ place.
+
+None of our ULPs use IB_SEND_FENCE - so this is a bug!
+
+> Either way, the completions are always inserted into the cq
+> in-sq-submission-order and a signaled completion implies completions
+> of all prior unsignaled WRs.
+
+Yes, excactly what is relevant for this nvme case..
+
+Jason
