@@ -1,245 +1,41 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri,  3 Nov 2017 08:13:17 -0700
-Subject: [PATCH 2/2] nvme_fc: decouple ns references from lldd references
-In-Reply-To: <20171103151317.16431-1-jsmart2021@gmail.com>
-References: <20171103151317.16431-1-jsmart2021@gmail.com>
-Message-ID: <20171103151317.16431-3-jsmart2021@gmail.com>
+From: joe@perches.com (Joe Perches)
+Date: Fri, 03 Nov 2017 08:16:37 -0700
+Subject: [PATCH 3/3] nvme: fix eui_show() print format
+In-Reply-To: <20171103125516.GC25186@lst.de>
+References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
+ <1509703370-20379-4-git-send-email-javier@cnexlabs.com>
+ <20171103125516.GC25186@lst.de>
+Message-ID: <1509722197.15520.17.camel@perches.com>
 
-In the lldd api, a lldd may unregister a remoteport (loss of connectivity
-or driver unload) or localport (driver unload). The lldd must wait for the
-remoteport_delete or localport_delete before completing its actions post
-the unregister.  The xxx_deletes currently occur only when the xxxport
-structure is fully freed after all references are removed. Thus the lldd
-may be held hostage until an app or in-kernel entity that has a namespace
-open finally closes so the namespace can be removed, the controller
-removed, thus the transport objects, thus the lldd.
+On Fri, 2017-11-03@13:55 +0100, Christoph Hellwig wrote:
+> On Fri, Nov 03, 2017@11:02:50AM +0100, Javier Gonz?lez wrote:
+> > Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+[]
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+[]
+> > @@ -2108,7 +2108,7 @@ static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
+> >  								char *buf)
+> >  {
+> >  	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+> > -	return sprintf(buf, "%8phd\n", ns->eui);
+> > +	return sprintf(buf, "%8phD\n", ns->eui);
+> >  }
+> >  static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
+> 
+> This looks correct.  I wonder what the old code printed - does someone
+> have a device with an EUI-64 at hand to quickly cross check what we
+> did before?
 
-This patch decouples the transport and os-facing objects from the lldd
-and the remoteport and localport. There is a point in all deletions
-where the transport will no longer interact with the lldd on behalf of
-a controller. That point centers around the association established
-with the target/subsystem. It will access the lldd whenever it attempts
-to create an association and while the association is active. New
-associations may only be created if the remoteport is live (thus the
-localport is live). It will not access the lldd after deleting the
-association.
+It uses spaces between bytes and not dashes.
 
-Therefore, the patch tracks the count of active controllers - those with
-associations being created or that are active - on a remoteport. It also
-tracks the number of remoteports that have active controllers, on a
-a localport. When a remoteport is unregistered, as soon as there are no
-active controllers, the lldd's remoteport_delete may be called and the
-lldd may continue. Similarly, when a localport is unregistered, as soon
-as there are no remoteports with active controllers, the localport_delete
-callback may be made. This significantly speeds up unregistration with
-the lldd.
+The code has been this way a couple years now.
 
-The transport objects continue in suspended status with reconnect timers
-running, and upon expiration, normal ref-counting will occur and the
-objects will be freed. The transport object may still be held hostage
-by the application/kernel module, but that is acceptable.
+I think this proposal, while it might fix an
+unintentional output style, could also be an API
+and could cause user breakage if changed.
 
-With this change, the lldd may be fully unloaded and reloaded, and
-if registrations occur prior to the timeouts, the nvme controller and
-namespaces will resume normally as if a link bounce.
+Perhaps this should just become
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 78 insertions(+), 6 deletions(-)
+	%8ph
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index c49971d1a051..da9296a1eb26 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -126,6 +126,7 @@ struct nvme_fc_lport {
- 	struct device			*dev;	/* physical device for dma */
- 	struct nvme_fc_port_template	*ops;
- 	struct kref			ref;
-+	atomic_t                        act_rport_cnt;
- } __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
- 
- struct nvme_fc_rport {
-@@ -138,6 +139,7 @@ struct nvme_fc_rport {
- 	struct nvme_fc_lport		*lport;
- 	spinlock_t			lock;
- 	struct kref			ref;
-+	atomic_t                        act_ctrl_cnt;
- 	unsigned long			dev_loss_end;
- } __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
- 
-@@ -153,6 +155,7 @@ struct nvme_fc_ctrl {
- 	struct nvme_fc_rport	*rport;
- 	u32			cnum;
- 
-+	bool			assoc_active;
- 	u64			association_id;
- 
- 	struct list_head	ctrl_list;	/* rport->ctrl_list */
-@@ -243,9 +246,6 @@ nvme_fc_free_lport(struct kref *ref)
- 	list_del(&lport->port_list);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
--	/* let the LLDD know we've finished tearing it down */
--	lport->ops->localport_delete(&lport->localport);
--
- 	ida_simple_remove(&nvme_fc_local_port_cnt, lport->localport.port_num);
- 	ida_destroy(&lport->endp_cnt);
- 
-@@ -400,6 +400,7 @@ nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
- 	INIT_LIST_HEAD(&newrec->port_list);
- 	INIT_LIST_HEAD(&newrec->endp_list);
- 	kref_init(&newrec->ref);
-+	atomic_set(&newrec->act_rport_cnt, 0);
- 	newrec->ops = template;
- 	newrec->dev = dev;
- 	ida_init(&newrec->endp_cnt);
-@@ -462,6 +463,9 @@ nvme_fc_unregister_localport(struct nvme_fc_local_port *portptr)
- 
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
-+	if (atomic_read(&lport->act_rport_cnt) == 0)
-+		lport->ops->localport_delete(&lport->localport);
-+
- 	nvme_fc_lport_put(lport);
- 
- 	return 0;
-@@ -515,9 +519,6 @@ nvme_fc_free_rport(struct kref *ref)
- 	list_del(&rport->endp_list);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
--	/* let the LLDD know we've finished tearing it down */
--	lport->ops->remoteport_delete(&rport->remoteport);
--
- 	ida_simple_remove(&lport->endp_cnt, rport->remoteport.port_num);
- 
- 	kfree(rport);
-@@ -704,6 +705,7 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	INIT_LIST_HEAD(&newrec->ctrl_list);
- 	INIT_LIST_HEAD(&newrec->ls_req_list);
- 	kref_init(&newrec->ref);
-+	atomic_set(&newrec->act_ctrl_cnt, 0);
- 	spin_lock_init(&newrec->lock);
- 	newrec->remoteport.localport = &lport->localport;
- 	newrec->dev = lport->dev;
-@@ -859,6 +861,9 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
- 
- 	nvme_fc_abort_lsops(rport);
- 
-+	if (atomic_read(&rport->act_ctrl_cnt) == 0)
-+		rport->lport->ops->remoteport_delete(portptr);
-+
- 	/*
- 	 * release the reference, which will allow, if all controllers
- 	 * go away, which should only occur after dev_loss_tmo occurs,
-@@ -2639,6 +2644,61 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
- 	return ret;
- }
- 
-+static void
-+nvme_fc_rport_active_on_lport(struct nvme_fc_rport *rport)
-+{
-+	struct nvme_fc_lport *lport = rport->lport;
-+
-+	atomic_inc(&lport->act_rport_cnt);
-+}
-+
-+static void
-+nvme_fc_rport_inactive_on_lport(struct nvme_fc_rport *rport)
-+{
-+	struct nvme_fc_lport *lport = rport->lport;
-+	u32 cnt;
-+
-+	cnt = atomic_dec_return(&lport->act_rport_cnt);
-+	if (cnt == 0 && lport->localport.port_state == FC_OBJSTATE_DELETED)
-+		lport->ops->localport_delete(&lport->localport);
-+}
-+
-+static int
-+nvme_fc_ctlr_active_on_rport(struct nvme_fc_ctrl *ctrl)
-+{
-+	struct nvme_fc_rport *rport = ctrl->rport;
-+	u32 cnt;
-+
-+	if (ctrl->assoc_active)
-+		return 1;
-+
-+	ctrl->assoc_active = true;
-+	cnt = atomic_inc_return(&rport->act_ctrl_cnt);
-+	if (cnt == 1)
-+		nvme_fc_rport_active_on_lport(rport);
-+
-+	return 0;
-+}
-+
-+static int
-+nvme_fc_ctlr_inactive_on_rport(struct nvme_fc_ctrl *ctrl)
-+{
-+	struct nvme_fc_rport *rport = ctrl->rport;
-+	struct nvme_fc_lport *lport = rport->lport;
-+	u32 cnt;
-+
-+	/* ctrl->assoc_active=false will be set independently */
-+
-+	cnt = atomic_dec_return(&rport->act_ctrl_cnt);
-+	if (cnt == 0) {
-+		if (rport->remoteport.port_state == FC_OBJSTATE_DELETED)
-+			lport->ops->remoteport_delete(&rport->remoteport);
-+		nvme_fc_rport_inactive_on_lport(rport);
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * This routine restarts the controller on the host side, and
-  * on the link side, recreates the controller association.
-@@ -2655,6 +2715,9 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE)
- 		return -ENODEV;
- 
-+	if (nvme_fc_ctlr_active_on_rport(ctrl))
-+		return -ENOTUNIQ;
-+
- 	/*
- 	 * Create the admin queue
- 	 */
-@@ -2762,6 +2825,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
- out_free_queue:
- 	nvme_fc_free_queue(&ctrl->queues[0]);
-+	ctrl->assoc_active = false;
-+	nvme_fc_ctlr_inactive_on_rport(ctrl);
- 
- 	return ret;
- }
-@@ -2777,6 +2842,10 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- {
- 	unsigned long flags;
- 
-+	if (!ctrl->assoc_active)
-+		return;
-+	ctrl->assoc_active = false;
-+
- 	spin_lock_irqsave(&ctrl->lock, flags);
- 	ctrl->flags |= FCCTRL_TERMIO;
- 	ctrl->iocnt = 0;
-@@ -2849,6 +2918,8 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 
- 	__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
- 	nvme_fc_free_queue(&ctrl->queues[0]);
-+
-+	nvme_fc_ctlr_inactive_on_rport(ctrl);
- }
- 
- static void
-@@ -3048,6 +3119,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	ctrl->rport = rport;
- 	ctrl->dev = lport->dev;
- 	ctrl->cnum = idx;
-+	ctrl->assoc_active = false;
- 
- 	get_device(ctrl->dev);
- 	kref_init(&ctrl->ref);
--- 
-2.13.1
+without D
