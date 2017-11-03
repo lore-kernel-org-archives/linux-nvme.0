@@ -1,99 +1,129 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 3 Nov 2017 11:24:49 +0100
-Subject: [PATCH] nvme_fc auto-connect scripts
-In-Reply-To: <c71cc8e0-79d3-a135-1b3c-32b081d687ff@suse.de>
-References: <20171009201032.2018-1-jsmart2021@gmail.com>
- <e542bb4d-946f-a080-5701-f8019fdbc752@suse.de>
- <352f980c-2422-f917-a551-99bedf27e0ab@broadcom.com>
- <f0300e47-e219-19f9-1495-a662f9062b4d@suse.de>
- <159cfcc6-40e8-9062-7341-9a3de5f177af@broadcom.com>
- <c71cc8e0-79d3-a135-1b3c-32b081d687ff@suse.de>
-Message-ID: <34c754eb-79d0-8d39-e82d-6182029b2871@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 3 Nov 2017 15:17:03 +0300
+Subject: [GIT PULL] nvme updates for Linux 4.15
+Message-ID: <20171103121703.kupyb5rvuyvaevsr@infradead.org>
 
-On 11/03/2017 10:37 AM, Hannes Reinecke wrote:
-> On 10/28/2017 06:08 PM, James Smart wrote:
-[ .. ]
->>
->> The main reason for the systemd use was the potential duration of the
->> resulting nvme connect-all. The scripts are simple if udev makes the
->> nvme cli call and don't require anything other than a single generic
->> rule. But given its potential stalls, very bad.
->>
->> If I understand you correctly, what you describe requires apriori
->> knowledge of the connections in order to add the udevs rule. This is a
->> step backward from current FC behavior and what users are used to.
->>
-> So, here's my take for this:
-> 
-> # cat 65-nvme-fc-connect-nvmf-test-subsys1.rules
-> SUBSYSTEM!="block, GOTO="nvme_autoconnect_end"
-> ACTION!="add|change", GOTO="nvme_autoconnect_end"
-> ENV{FC_EVENT}!="nvmediscovery", GOTO="nvme_autoconnect_end"
-> ENV{NVMEFC_HOST_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
-> ENV{NVMEFC_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
-> RUN+="/usr/sbin/nvme connect -t fc \
-> --host-traddr=$env{NVMEFC_HOST_TRADDR} \
-> -n nvmf-test-subsys1 -a $env{NVMEFC_TRADDR}"
-> LABEL="nvme_autoconnect_end"
-> 
-> Obviously, we would need to filter for the appropriate values of traddr
-> and host_traddr to not attempt connections to non-existing namespaces.
-> 
-> However, I do see the problem of nvme connect stalls; if we were having
-> a systemd service we would solve this issue nicely, indeed.
-> But then we shouldn't activate the service, it should rather be
-> activated per default, but depend on a specifice NVMe-FC _target_, which
-> should be presented by the discovery event.
-> 
-> Let's see what I can cobble together here.
-> 
-Upon further review, we actually _could_ avoid delays upon the 'nvme
-connect' call if we were delegating the call to the connect workqueue:
+Hi Jens,
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 1ca100a..6c36a93 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3302,28 +3302,7 @@ nvme_fc_init_ctrl(struct device *dev, struct
-nvmf_ctrl_options *opts,
+below are the currently queue nvme updates for Linux 4.15.  There are
+a few more things that could make it for this merge window, but I'd
+like to get things into linux-next, especially for the unlikely case
+that Linus decided to cut -rc8.
 
-        nvme_fc_set_ctrl_devloss(ctrl, opts);
+Highlights:
+ - support for SGLs in the PCIe driver (Chaitanya Kulkarni)
+ - disable I/O schedulers for the admin queue (Israel Rukshin)
+ - various Fibre Channel fixes and enhancements (James Smart)
+ - various refactoring for better code sharing between transports
+   (Sagi Grimberg and me)
 
--       ret = nvme_fc_create_association(ctrl);
--       if (ret) {
--               ctrl->ctrl.opts = NULL;
--               /* initiate nvme ctrl ref counting teardown */
--               nvme_uninit_ctrl(&ctrl->ctrl);
--
--               /* Remove core ctrl ref. */
--               nvme_put_ctrl(&ctrl->ctrl);
--
--               /* as we're past the point where we transition to the ref
--                * counting teardown path, if we return a bad pointer here,
--                * the calling routine, thinking it's prior to the
--                * transition, will do an rport put. Since the teardown
--                * path also does a rport put, we do an extra get here to
--                * so proper order/teardown happens.
--                */
--               nvme_fc_rport_get(rport);
--
--               if (ret > 0)
--                       ret = -EIO;
--               return ERR_PTR(ret);
--       }
-+       queue_delayed_work(nvme_fc_wq, &ctrl->connect_work, 0);
+as well as lots of little bits from various contributors.
 
-Then it should be perfectly possible to have a udev rule with just
-kicking off the 'nvme connect', any eventual cleanup would be done by
-either the number of reconnects being exhausted or dev_loss_tmo kicking in.
-James?
+The following changes since commit 9c9883744dda1cc38339a448dd8435140537027e:
 
-Cheers,
+  block: move __elv_next_request to blk-core.c (2017-10-03 08:43:04 -0600)
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.15
+
+for you to fetch changes up to a806c6c81e6c0d07c8a8b2643bad4a37a196d681:
+
+  nvme: comment typo fixed in clearing AER (2017-11-03 10:02:20 +0300)
+
+----------------------------------------------------------------
+Chaitanya Kulkarni (1):
+      nvme-pci: add SGL support
+
+Christoph Hellwig (11):
+      nvme: simplify compat_ioctl handling
+      nvme: use ida_simple_{get,remove} for the controller instance
+      nvme: use kref_get_unless_zero in nvme_find_get_ns
+      nvme: simplify nvme_open
+      nvme: switch controller refcounting to use struct device
+      nvme: get rid of nvme_ctrl_list
+      nvme: check for a live controller in nvme_dev_open
+      nvme-fc: merge __nvme_fc_schedule_delete_work into __nvme_fc_del_ctrl
+      nvme: move controller deletion to common code
+      nvme-rdma: remove nvme_rdma_remove_ctrl
+      nvme: consolidate common code from ->reset_work
+
+Israel Rukshin (3):
+      nvme-rdma: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+      nvme-fc: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+      nvme-loop: Add BLK_MQ_F_NO_SCHED flag to admin tag set
+
+James Smart (18):
+      nvmet: bump NVMET_NR_QUEUES to 128
+      nvme-fc: add uevent for auto-connect
+      nvme-fc: create fc class and transport device
+      nvme-fc: move remote port get/put/free location
+      nvme-fc: correct io termination handling
+      nvme-fc: correct io timeout behavior
+      nvme: add duplicate_connect option
+      nvme: add helper to compare options to controller
+      nvme-rdma: add support for duplicate_connect option
+      nvme-fc: add support for duplicate_connect option
+      nvme-fc: remove NVME_FC_MAX_SEGMENTS
+      nvme-fc: avoid workqueue flush stalls
+      nvme-fc: change ctlr state assignments during reset/reconnect
+      nvme-fc: add a dev_loss_tmo field to the remoteport
+      nvme-fc: check connectivity before initiating reconnects
+      nvme: allow controller RESETTING to RECONNECTING transition
+      nvme-fc: add dev_loss_tmo timeout and remoteport resume support
+      nvmet: fix fatal_err_work deadlock
+
+Keith Busch (1):
+      nvme: Remove unused headers
+
+Marc Olson (1):
+      nvme: update timeout module parameter type
+
+Max Gurtovoy (1):
+      nvme-rdma: align nvme_rdma_device structure
+
+Minwoo Im (2):
+      nvme-pci: fix typos in comments
+      nvme: comment typo fixed in clearing AER
+
+Nitzan Carmi (1):
+      nvme-rdma: Add debug message when reaches timeout
+
+Randy Dunlap (1):
+      nvme: use menu Kconfig interface
+
+Roy Shterman (1):
+      nvmet: Change max_nsid in subsystem due to ns_disable if needed
+
+Sagi Grimberg (14):
+      nvme-fabrics: request transport module
+      block: introduce blk_mq_tagset_iter
+      nvme: introduce nvme_reinit_tagset
+      block: remove blk_mq_reinit_tagset
+      nvme-rdma: pass tagset to directly nvme_rdma_free_tagset
+      nvme-rdma: fix wrong logging message
+      nvme-rdma: move assignment to declaration
+      nvme-rdma: Check that reinit_request got a proper mr
+      nvme-rdma: teardown admin/io queues once on error recovery
+      nvme-rdma: Don't local invalidate if the queue is not live
+      nvme-rdma: change queue flag semantics DELETING -> ALLOCATED
+      nvme-rdma: stop controller reset if the controller is deleting
+      nvme-rdma: reuse nvme_delete_ctrl when reconnect attempts expire
+      nvme: flush reset_work before safely continuing with delete operation
+
+ block/blk-mq-tag.c             |  11 +-
+ drivers/nvme/Kconfig           |   4 +
+ drivers/nvme/host/core.c       | 260 +++++++---------
+ drivers/nvme/host/fabrics.c    |  12 +-
+ drivers/nvme/host/fabrics.h    |  14 +
+ drivers/nvme/host/fc.c         | 656 ++++++++++++++++++++++++++++++-----------
+ drivers/nvme/host/nvme.h       |  26 +-
+ drivers/nvme/host/pci.c        | 224 +++++++++++---
+ drivers/nvme/host/rdma.c       | 225 ++++++++------
+ drivers/nvme/target/core.c     |  13 +
+ drivers/nvme/target/fc.c       |  16 +-
+ drivers/nvme/target/loop.c     |  47 +--
+ drivers/nvme/target/nvmet.h    |   2 +-
+ include/linux/blk-mq.h         |   4 +-
+ include/linux/nvme-fc-driver.h |  15 +-
+ 15 files changed, 1026 insertions(+), 503 deletions(-)
