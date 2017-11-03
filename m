@@ -1,40 +1,24 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri,  3 Nov 2017 09:33:30 -0700
-Subject: [PATCH v3] lpfc: Tie in to new dev_loss_tmo interface in nvme
- transport
-Message-ID: <20171103163330.28659-1-jsmart2021@gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 3 Nov 2017 10:16:07 -0700
+Subject: [PATCH 1/1] nvme/fc: add 'discovery' sysfs attribute to fc
+ transport device
+In-Reply-To: <1509722369-95879-2-git-send-email-hare@suse.de>
+References: <1509722369-95879-1-git-send-email-hare@suse.de>
+ <1509722369-95879-2-git-send-email-hare@suse.de>
+Message-ID: <e0620b86-9ed7-772f-8416-a5033ca6d8d1@broadcom.com>
 
-This patch calls the new nvme transport routine for dev_loss_tmo
-whenever the SCSI fc transport calls the lldd to make a dynamic
-change to a remote ports dev_loss_tmo.
+On 11/3/2017 8:19 AM, Hannes Reinecke wrote:
+> The fc transport device should allow for a rediscovery, as userspace
+> might have lost the events.
+> So add a sysfs entry 'discovery' to trigger the discover uevents.
+>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>
+Ok - so I like this as it removes the lpfc-specific script that was 
+there to deal with pre-udev-present events that weren't replayed and 
+makes it a simple script that access this new attribute. It does not 
+change the content or need for the other scripts that service the udev 
+event and starts the systemd script to make makes the nvme connect-all call.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
-
----
-This lpfc patch, as dependent upon the new nvme transport
-nvme_fc_set_remoteport_devloss() call, should enter via nvme-4.15
-
-v2/v3:
-  Ensure nvme_fc is enabled for compilation
----
- drivers/scsi/lpfc/lpfc_attr.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-index c17677f494af..3e02bc3a7c3f 100644
---- a/drivers/scsi/lpfc/lpfc_attr.c
-+++ b/drivers/scsi/lpfc/lpfc_attr.c
-@@ -3246,6 +3246,11 @@ lpfc_update_rport_devloss_tmo(struct lpfc_vport *vport)
- 			continue;
- 		if (ndlp->rport)
- 			ndlp->rport->dev_loss_tmo = vport->cfg_devloss_tmo;
-+#if (IS_ENABLED(CONFIG_NVME_FC))
-+		if (ndlp->nrport)
-+			nvme_fc_set_remoteport_devloss(ndlp->nrport->remoteport,
-+						       vport->cfg_devloss_tmo);
-+#endif
- 	}
- 	spin_unlock_irq(shost->host_lock);
- }
--- 
-2.13.1
