@@ -1,27 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 3 Nov 2017 13:53:40 +0100
-Subject: [PATCH 1/3] nvme: do not check for ns on rw path
-In-Reply-To: <1509703370-20379-2-git-send-email-javier@cnexlabs.com>
+Date: Fri, 3 Nov 2017 13:54:29 +0100
+Subject: [PATCH 2/3] nvme: compare NQN string with right size
+In-Reply-To: <1509703370-20379-3-git-send-email-javier@cnexlabs.com>
 References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
- <1509703370-20379-2-git-send-email-javier@cnexlabs.com>
-Message-ID: <20171103125339.GA25186@lst.de>
+ <1509703370-20379-3-git-send-email-javier@cnexlabs.com>
+Message-ID: <20171103125429.GB25186@lst.de>
 
-> -	if (ns && ns->ms &&
-> +	if (ns->ms &&
->  	    (!ns->pi_type || ns->ms != sizeof(struct t10_pi_tuple)) &&
->  	    !blk_integrity_rq(req) && !blk_rq_is_passthrough(req))
->  		return BLK_STS_NOTSUPP;
+On Fri, Nov 03, 2017@11:02:49AM +0100, Javier Gonz?lez wrote:
+> Compare subnqns using NVMF_NQN_SIZE as it is < 256
+> 
+> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index bd1d5ff911c9..ae8ab0a1ef0d 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1743,7 +1743,7 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>  
+>  	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+>  	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+> -		strcpy(ctrl->subnqn, id->subnqn);
+> +		strncpy(ctrl->subnqn, id->subnqn, NVMF_NQN_SIZE);
+>  		return;
+>  	}
 
-blk_rq_is_passthrough also can't be true here.
-
-How about:
-
-	if (ns->ms && !blk_integrity_rq(req) &&
-	    (!ns->pi_type || ns->ms != sizeof(struct t10_pi_tuple)))
-		return BLK_STS_NOTSUPP;
-
-Although I have to admit I don't really understand what this check
-is even trying to do.  It basically checks for a namespace that has
-a format with metadata that is not T10 protection information and
-then rejects all I/O to it.  Why are we even creating a block device
-node for such a thing?
+This isn't a compare, but a copy.  Except for that it looks ok to me.
