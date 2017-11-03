@@ -1,22 +1,40 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 3 Nov 2017 10:33:36 -0600
-Subject: block layer patches for nvme multipath support
-In-Reply-To: <20171102182954.9263-1-hch@lst.de>
-References: <20171102182954.9263-1-hch@lst.de>
-Message-ID: <983167e5-5e0c-9d83-bde3-ee0ec9bd3223@kernel.dk>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri,  3 Nov 2017 09:33:30 -0700
+Subject: [PATCH v3] lpfc: Tie in to new dev_loss_tmo interface in nvme
+ transport
+Message-ID: <20171103163330.28659-1-jsmart2021@gmail.com>
 
-On 11/02/2017 12:29 PM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> these patches add the block layer helpers / tweaks for NVMe multipath
-> support.  Can you review them for inclusion?
-> 
-> There have been no functional changes to the versions posted with
-> previous nvme multipath patchset.
+This patch calls the new nvme transport routine for dev_loss_tmo
+whenever the SCSI fc transport calls the lldd to make a dynamic
+change to a remote ports dev_loss_tmo.
 
-I've queued this up. I really hate the direct_make_request(), but
-I also don't have a good suggestion on how to do this any better
-right now.
+Signed-off-by: James Smart <james.smart at broadcom.com>
 
+---
+This lpfc patch, as dependent upon the new nvme transport
+nvme_fc_set_remoteport_devloss() call, should enter via nvme-4.15
+
+v2/v3:
+  Ensure nvme_fc is enabled for compilation
+---
+ drivers/scsi/lpfc/lpfc_attr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
+index c17677f494af..3e02bc3a7c3f 100644
+--- a/drivers/scsi/lpfc/lpfc_attr.c
++++ b/drivers/scsi/lpfc/lpfc_attr.c
+@@ -3246,6 +3246,11 @@ lpfc_update_rport_devloss_tmo(struct lpfc_vport *vport)
+ 			continue;
+ 		if (ndlp->rport)
+ 			ndlp->rport->dev_loss_tmo = vport->cfg_devloss_tmo;
++#if (IS_ENABLED(CONFIG_NVME_FC))
++		if (ndlp->nrport)
++			nvme_fc_set_remoteport_devloss(ndlp->nrport->remoteport,
++						       vport->cfg_devloss_tmo);
++#endif
+ 	}
+ 	spin_unlock_irq(shost->host_lock);
+ }
 -- 
-Jens Axboe
+2.13.1
