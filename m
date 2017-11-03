@@ -1,12 +1,13 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 3 Nov 2017 00:02:51 -0700
-Subject: [PATCH 1/1] nvme-rdma: Introduce nvme_rdma_destroy_qp
-In-Reply-To: <1509540706-26130-1-git-send-email-maxg@mellanox.com>
-References: <1509540706-26130-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20171103070251.GA31429@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 3 Nov 2017 08:03:09 +0100
+Subject: [PATCH] nvme: comment typo fixed in clearing AER
+In-Reply-To: <1509613664-25006-1-git-send-email-minwoo.im.dev@gmail.com>
+References: <1509613664-25006-1-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <20171103070309.GA17184@lst.de>
 
-On Wed, Nov 01, 2017@02:51:46PM +0200, Max Gurtovoy wrote:
-> QP object is created using rdma_cm api, therefore the destruction
-> should use the same api for symmetry.
+On Thu, Nov 02, 2017@06:07:44PM +0900, Minwoo Im wrote:
+> a tiny typo fixed in a comment.
+> 
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 
-Please resend against current nvme-4.15.
+Thanks, applied to nvme-4.15.
