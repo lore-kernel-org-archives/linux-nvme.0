@@ -1,41 +1,37 @@
-From: joe@perches.com (Joe Perches)
-Date: Fri, 03 Nov 2017 08:16:37 -0700
-Subject: [PATCH 3/3] nvme: fix eui_show() print format
-In-Reply-To: <20171103125516.GC25186@lst.de>
-References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
- <1509703370-20379-4-git-send-email-javier@cnexlabs.com>
- <20171103125516.GC25186@lst.de>
-Message-ID: <1509722197.15520.17.camel@perches.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri,  3 Nov 2017 16:19:28 +0100
+Subject: [PATCH 0/1] NVMe-FC autoconnect, second try
+Message-ID: <1509722369-95879-1-git-send-email-hare@suse.de>
 
-On Fri, 2017-11-03@13:55 +0100, Christoph Hellwig wrote:
-> On Fri, Nov 03, 2017@11:02:50AM +0100, Javier Gonz?lez wrote:
-> > Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
-[]
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-[]
-> > @@ -2108,7 +2108,7 @@ static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
-> >  								char *buf)
-> >  {
-> >  	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-> > -	return sprintf(buf, "%8phd\n", ns->eui);
-> > +	return sprintf(buf, "%8phD\n", ns->eui);
-> >  }
-> >  static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
-> 
-> This looks correct.  I wonder what the old code printed - does someone
-> have a device with an EUI-64 at hand to quickly cross check what we
-> did before?
+Hi all,
 
-It uses spaces between bytes and not dashes.
+here's my attempt a NVMe-FC autoconnect.
+Primarily it's just a patch adding a 'discovery' sysfs attribute
+to /sys/class/fc/nvme_fc_transport.
 
-The code has been this way a couple years now.
+Writing '1' (or anything) into it will cause nvme-fc to resend uevents
+for every known host_traddr:traddr combination.
 
-I think this proposal, while it might fix an
-unintentional output style, could also be an API
-and could cause user breakage if changed.
+With that we can then add the simple udev rule:
 
-Perhaps this should just become
+SUBSYSTEM!="block, GOTO="nvme_autoconnect_end"
+ACTION!="add|change", GOTO="nvme_autoconnect_end"
+ENV{FC_EVENT}!="nvmediscovery", GOTO="nvme_autoconnect_end"
+ENV{NVMEFC_HOST_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
+ENV{NVMEFC_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
+RUN+="/usr/sbin/nvme connect-all -t fc --host-traddr=$env{NVMEFC_HOST_TRADDR} -a $env{NVMEFC_TRADDR}"
+LABEL="nvme_autoconnect_end"
 
-	%8ph
+to facilitate autodiscovery.
 
-without D
+This does not address the potential stall in nvme connect-all that James
+mentioned, but I do think that should be fixed via other means.
+
+Hannes Reinecke (1):
+  nvme/fc: add 'discovery' sysfs attribute to fc transport device
+
+ drivers/nvme/host/fc.c | 63 ++++++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 54 insertions(+), 9 deletions(-)
+
+-- 
+1.8.5.6
