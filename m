@@ -1,54 +1,55 @@
-From: jg@lightnvm.io (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Sat, 4 Nov 2017 12:22:20 +0100
-Subject: [PATCH 3/3] nvme: fix eui_show() print format
-In-Reply-To: <1509722197.15520.17.camel@perches.com>
-References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
- <1509703370-20379-4-git-send-email-javier@cnexlabs.com>
- <20171103125516.GC25186@lst.de> <1509722197.15520.17.camel@perches.com>
-Message-ID: <2AC384A2-C792-45AF-AF11-89CBC128C527@lightnvm.io>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sat,  4 Nov 2017 16:16:27 +0200
+Subject: [PATCH v2 1/1] nvme-rdma: Introduce nvme_rdma_destroy_qp
+Message-ID: <1509804987-656-1-git-send-email-maxg@mellanox.com>
 
-> On 3 Nov 2017,@16.16, Joe Perches <joe@perches.com> wrote:
-> 
-> On Fri, 2017-11-03@13:55 +0100, Christoph Hellwig wrote:
->> On Fri, Nov 03, 2017@11:02:50AM +0100, Javier Gonz?lez wrote:
->>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
-> []
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> []
->>> @@ -2108,7 +2108,7 @@ static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
->>> 								char *buf)
->>> {
->>> 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
->>> -	return sprintf(buf, "%8phd\n", ns->eui);
->>> +	return sprintf(buf, "%8phD\n", ns->eui);
->>> }
->>> static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
->> 
->> This looks correct.  I wonder what the old code printed - does someone
->> have a device with an EUI-64 at hand to quickly cross check what we
->> did before?
-> 
-> It uses spaces between bytes and not dashes.
-> 
-> The code has been this way a couple years now.
-> 
-> I think this proposal, while it might fix an
-> unintentional output style, could also be an API
-> and could cause user breakage if changed.
-> 
-> Perhaps this should just become
-> 
-> 	%8ph
-> 
-> without D
+QP object is created using rdma_cm api, therefore the destruction
+should use the same api for symmetry.
 
-That would be ok with me.
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
 
-Javier.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171104/47095145/attachment.sig>
+Changes from v1:
+ - rebase against nvme-4.15
+
+---
+ drivers/nvme/host/rdma.c |   10 ++++++++--
+ 1 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 03644ec..ae3e4d6 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -266,6 +266,12 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+ 	return ret;
+ }
+ 
++static void nvme_rdma_destroy_qp(struct nvme_rdma_queue *queue)
++{
++	rdma_destroy_qp(queue->cm_id);
++	queue->qp = NULL;
++}
++
+ static int nvme_rdma_reinit_request(void *data, struct request *rq)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = data;
+@@ -439,7 +445,7 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
+ 	struct nvme_rdma_device *dev = queue->device;
+ 	struct ib_device *ibdev = dev->dev;
+ 
+-	rdma_destroy_qp(queue->cm_id);
++	nvme_rdma_destroy_qp(queue);
+ 	ib_free_cq(queue->ib_cq);
+ 
+ 	nvme_rdma_free_ring(ibdev, queue->rsp_ring, queue->queue_size,
+@@ -493,7 +499,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	return 0;
+ 
+ out_destroy_qp:
+-	ib_destroy_qp(queue->qp);
++	nvme_rdma_destroy_qp(queue);
+ out_destroy_ib_cq:
+ 	ib_free_cq(queue->ib_cq);
+ out_put_dev:
+-- 
+1.7.1
