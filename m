@@ -1,25 +1,54 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 4 Nov 2017 09:18:25 +0100
-Subject: [PATCH 1/3] nvme: do not check for ns on rw path
-In-Reply-To: <20171103150203.GA11300@localhost.localdomain>
+From: jg@lightnvm.io (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Sat, 4 Nov 2017 12:22:20 +0100
+Subject: [PATCH 3/3] nvme: fix eui_show() print format
+In-Reply-To: <1509722197.15520.17.camel@perches.com>
 References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
- <1509703370-20379-2-git-send-email-javier@cnexlabs.com>
- <20171103125339.GA25186@lst.de>
- <20171103150203.GA11300@localhost.localdomain>
-Message-ID: <20171104081825.GA19180@lst.de>
+ <1509703370-20379-4-git-send-email-javier@cnexlabs.com>
+ <20171103125516.GC25186@lst.de> <1509722197.15520.17.camel@perches.com>
+Message-ID: <2AC384A2-C792-45AF-AF11-89CBC128C527@lightnvm.io>
 
-On Fri, Nov 03, 2017@09:02:04AM -0600, Keith Busch wrote:
-> If the namespace has metadata, but the request doesn't have a metadata
-> payload attached to it for whatever reason, we can't construct the command
-> for that format. We also can't have the controller strip/generate the
-> payload with PRACT bit set if it's not a T10 format, so we just fail
-> the command.
+> On 3 Nov 2017,@16.16, Joe Perches <joe@perches.com> wrote:
+> 
+> On Fri, 2017-11-03@13:55 +0100, Christoph Hellwig wrote:
+>> On Fri, Nov 03, 2017@11:02:50AM +0100, Javier Gonz?lez wrote:
+>>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+> []
+>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> []
+>>> @@ -2108,7 +2108,7 @@ static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
+>>> 								char *buf)
+>>> {
+>>> 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+>>> -	return sprintf(buf, "%8phd\n", ns->eui);
+>>> +	return sprintf(buf, "%8phD\n", ns->eui);
+>>> }
+>>> static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
+>> 
+>> This looks correct.  I wonder what the old code printed - does someone
+>> have a device with an EUI-64 at hand to quickly cross check what we
+>> did before?
+> 
+> It uses spaces between bytes and not dashes.
+> 
+> The code has been this way a couple years now.
+> 
+> I think this proposal, while it might fix an
+> unintentional output style, could also be an API
+> and could cause user breakage if changed.
+> 
+> Perhaps this should just become
+> 
+> 	%8ph
+> 
+> without D
 
-The only metadata payload a READ or WRITE request can have is a protection
-information one.  For a namespace formatted with protection information
-bio_integrity_prep as called from blk_mq_make_request will ensure we
-always have metadata attached.
+That would be ok with me.
 
-If a namespace is formatted with non-PI metadata we will never have
-metadata attached to the bio/request and should not even present the
-namespace to the kernel.
+Javier.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171104/47095145/attachment.sig>
