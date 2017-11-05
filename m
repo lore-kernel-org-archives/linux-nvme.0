@@ -1,10 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 5 Nov 2017 16:01:52 +0200
-Subject: [PATCH 1/6] nvme: move the dying queue check from cancel to
- completion
-In-Reply-To: <20171102182856.9162-2-hch@lst.de>
+Date: Sun, 5 Nov 2017 16:02:56 +0200
+Subject: [PATCH 2/6] nvme: always unregister the integrity profile in
+ __nvme_revalidate_disk
+In-Reply-To: <20171102182856.9162-3-hch@lst.de>
 References: <20171102182856.9162-1-hch@lst.de>
- <20171102182856.9162-2-hch@lst.de>
-Message-ID: <0c6187ca-b714-2f24-9f41-791103b9d8e5@grimberg.me>
+ <20171102182856.9162-3-hch@lst.de>
+Message-ID: <7e5423d5-4c57-3925-84aa-cadc98844d01@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
