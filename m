@@ -1,33 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Sat, 4 Nov 2017 09:38:45 -0600
-Subject: [PATCH 1/3] nvme: do not check for ns on rw path
-In-Reply-To: <20171104081825.GA19180@lst.de>
-References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
- <1509703370-20379-2-git-send-email-javier@cnexlabs.com>
- <20171103125339.GA25186@lst.de>
- <20171103150203.GA11300@localhost.localdomain>
- <20171104081825.GA19180@lst.de>
-Message-ID: <20171104153844.GA12777@localhost.localdomain>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Sun,  5 Nov 2017 08:43:01 +0000
+Subject: [PATCH] nvmet-rdma: Update queue list during ib_device removal
+Message-ID: <1509871381-6247-1-git-send-email-israelr@mellanox.com>
 
-On Sat, Nov 04, 2017@09:18:25AM +0100, Christoph Hellwig wrote:
-> On Fri, Nov 03, 2017@09:02:04AM -0600, Keith Busch wrote:
-> > If the namespace has metadata, but the request doesn't have a metadata
-> > payload attached to it for whatever reason, we can't construct the command
-> > for that format. We also can't have the controller strip/generate the
-> > payload with PRACT bit set if it's not a T10 format, so we just fail
-> > the command.
-> 
-> The only metadata payload a READ or WRITE request can have is a protection
-> information one.  For a namespace formatted with protection information
-> bio_integrity_prep as called from blk_mq_make_request will ensure we
-> always have metadata attached.
-> 
-> If a namespace is formatted with non-PI metadata we will never have
-> metadata attached to the bio/request and should not even present the
-> namespace to the kernel.
+A NULL deref happens when nvmet_rdma_remove_one() is called more than once
+(e.g. while connected via 2 ports).
+The first call frees the queues related to the first ib_device but
+doesn't remove them from the queue list.
+While calling nvmet_rdma_remove_one() for the second ib_device it goes over
+the full queue list again and we get the NULL deref.
 
-That's not quite right. For non-PI metadata formats, we use the
-'nop_profile', which gets the metadata buffer allocated so we can safely
-use a metadata formatted namespace. There's no in-kernel user of the
-allocated payload, but we still need the metadata buffer in order to
-use the namespace at all.
+Fixes: f1d4ef7d ("nvmet-rdma: register ib_client to not deadlock in device removal")
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi at grmberg.me>
+---
+ drivers/nvme/target/rdma.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 76d2bb7..3333d41 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1512,15 +1512,17 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
+ 
+ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ {
+-	struct nvmet_rdma_queue *queue;
++	struct nvmet_rdma_queue *queue, *tmp;
+ 
+ 	/* Device is being removed, delete all queues using this device */
+ 	mutex_lock(&nvmet_rdma_queue_mutex);
+-	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
++	list_for_each_entry_safe(queue, tmp, &nvmet_rdma_queue_list,
++				 queue_list) {
+ 		if (queue->dev->device != ib_device)
+ 			continue;
+ 
+ 		pr_info("Removing queue %d\n", queue->idx);
++		list_del_init(&queue->queue_list);
+ 		__nvmet_rdma_queue_disconnect(queue);
+ 	}
+ 	mutex_unlock(&nvmet_rdma_queue_mutex);
+-- 
+1.8.3.1
