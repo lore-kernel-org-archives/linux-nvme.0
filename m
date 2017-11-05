@@ -1,16 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 5 Nov 2017 16:00:38 +0200
-Subject: [PATCH v2 1/1] nvme-rdma: Introduce nvme_rdma_destroy_qp
-In-Reply-To: <1509804987-656-1-git-send-email-maxg@mellanox.com>
-References: <1509804987-656-1-git-send-email-maxg@mellanox.com>
-Message-ID: <99ae0d5e-5ccf-a4f2-4e1c-d6e1f0e10016@grimberg.me>
+Date: Sun, 5 Nov 2017 16:01:52 +0200
+Subject: [PATCH 1/6] nvme: move the dying queue check from cancel to
+ completion
+In-Reply-To: <20171102182856.9162-2-hch@lst.de>
+References: <20171102182856.9162-1-hch@lst.de>
+ <20171102182856.9162-2-hch@lst.de>
+Message-ID: <0c6187ca-b714-2f24-9f41-791103b9d8e5@grimberg.me>
 
-
-> +static void nvme_rdma_destroy_qp(struct nvme_rdma_queue *queue)
-> +{
-> +	rdma_destroy_qp(queue->cm_id);
-> +	queue->qp = NULL;
-
-Why is setting the qp to NULL needed here?
-
-I'd rather not do this if we don't have a good reason reason for it.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
