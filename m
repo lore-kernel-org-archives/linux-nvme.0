@@ -1,11 +1,66 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 6 Nov 2017 17:48:39 +0100
-Subject: [PATCH] nvme-rdma: Use mr pool
-In-Reply-To: <1509982181-6340-1-git-send-email-israelr@mellanox.com>
-References: <1509982181-6340-1-git-send-email-israelr@mellanox.com>
-Message-ID: <20171106164839.GA27494@lst.de>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 6 Nov 2017 12:03:56 -0500
+Subject: [PATCH 4/5] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20171102183034.9320-5-hch@lst.de>
+References: <20171102183034.9320-1-hch@lst.de>
+ <20171102183034.9320-5-hch@lst.de>
+Message-ID: <20171106170356.GD25073@redhat.com>
 
-Do you have any performance numbers for this change?
+On Thu, Nov 02 2017 at  2:30pm -0400,
+Christoph Hellwig <hch@lst.de> wrote:
 
-Also we shouldn't need the hack for the flush special case in
-nvme_rdma_post_send once we stop embedding the MR in struct request.
+> This patch adds native multipath support to the nvme driver.  For each
+> namespace we create only single block device node, which can be used
+> to access that namespace through any of the controllers that refer to it.
+> The gendisk for each controllers path to the name space still exists
+> inside the kernel, but is hidden from userspace.  The character device
+> nodes are still available on a per-controller basis.  A new link from
+> the sysfs directory for the subsystem allows to find all controllers
+> for a given subsystem.
+> 
+> Currently we will always send I/O to the first available path, this will
+> be changed once the NVMe Asynchronous Namespace Access (ANA) TP is
+> ratified and implemented, at which point we will look at the ANA state
+> for each namespace.  Another possibility that was prototyped is to
+> use the path that is closes to the submitting NUMA code, which will be
+> mostly interesting for PCI, but might also be useful for RDMA or FC
+> transports in the future.  There is not plan to implement round robin
+> or I/O service time path selectors, as those are not scalable with
+> the performance rates provided by NVMe.
+> 
+> The multipath device will go away once all paths to it disappear,
+> any delay to keep it alive needs to be implemented at the controller
+> level.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/Kconfig     |   9 ++
+>  drivers/nvme/host/Makefile    |   1 +
+>  drivers/nvme/host/core.c      | 133 +++++++++++++++++++---
+>  drivers/nvme/host/multipath.c | 255 ++++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h      |  57 ++++++++++
+>  5 files changed, 440 insertions(+), 15 deletions(-)
+>  create mode 100644 drivers/nvme/host/multipath.c
+> 
+> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+> index 46d6cb1e03bd..45886800a1df 100644
+> --- a/drivers/nvme/host/Kconfig
+> +++ b/drivers/nvme/host/Kconfig
+> @@ -13,6 +13,15 @@ config BLK_DEV_NVME
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called nvme.
+>  
+> +config NVME_MULTIPATH
+> +	bool "NVMe multipath support"
+> +	depends on NVME_CORE
+> +	---help---
+> +	   This option enables support for multipath access to NVMe
+> +	   subsystems.  If this option is enabled only a single
+> +	   /dev/nvneXnY device will show up for each NVMe namespaces,
+> +	   even if it is accessible through multiple controllers.
+> +
+>  config NVME_FABRICS
+>  	tristate
+>  
+
+Thanks for adding this, appreciate it.
