@@ -1,14 +1,28 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 6 Nov 2017 13:40:56 +0200
-Subject: [PATCH v2 1/1] nvme-rdma: Introduce nvme_rdma_destroy_qp
-In-Reply-To: <afa1c1cd-fd0d-aa1d-4ae7-3d760d5f7a67@mellanox.com>
-References: <1509804987-656-1-git-send-email-maxg@mellanox.com>
- <99ae0d5e-5ccf-a4f2-4e1c-d6e1f0e10016@grimberg.me>
- <d1bf1913-115c-fb07-2b4e-1d5322872f2b@mellanox.com>
- <88037f7c-0c24-c911-b605-9136d3009277@grimberg.me>
- <afa1c1cd-fd0d-aa1d-4ae7-3d760d5f7a67@mellanox.com>
-Message-ID: <3a5e4644-f0d6-4a56-6232-b556014b2652@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon,  6 Nov 2017 16:18:51 +0200
+Subject: [PATCH 1/1] nvme-rdma: Fix nvme_rdma_create_queue_ib error flow
+Message-ID: <1509977931-18160-1-git-send-email-maxg@mellanox.com>
 
-> Ok, I'll send a fix to the error flow (this was my main goal).
+QP object is created using rdma_cm api, therefore the destruction
+should use the same api for symmetry.
 
-Thanks Max
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0ebb539..957d626 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -493,7 +493,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 	return 0;
+ 
+ out_destroy_qp:
+-	ib_destroy_qp(queue->qp);
++	rdma_destroy_qp(queue->cm_id);
+ out_destroy_ib_cq:
+ 	ib_free_cq(queue->ib_cq);
+ out_put_dev:
+-- 
+1.8.3.1
