@@ -1,28 +1,44 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 7 Nov 2017 16:40:06 +0200
-Subject: [PATCH 0/3] nvmet-rdma: SRQ per completion vector
-In-Reply-To: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
-References: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
-Message-ID: <9602adeb-85a0-1db2-0195-31bdedd16d1b@mellanox.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Tue, 7 Nov 2017 17:43:25 +0200
+Subject: [PATCH] nvme-rdma: Use mr pool
+In-Reply-To: <20171106164839.GA27494@lst.de>
+References: <1509982181-6340-1-git-send-email-israelr@mellanox.com>
+ <20171106164839.GA27494@lst.de>
+Message-ID: <726ae6aa-57ec-4442-9dee-fd3bce818e62@mellanox.com>
 
-Hi Christoph/Sagi,
+On 11/6/2017 6:48 PM, Christoph Hellwig wrote:
+> Do you have any performance numbers for this change?
+>
+> Also we shouldn't need the hack for the flush special case in
+> nvme_rdma_post_send once we stop embedding the MR in struct request.
 
-On 9/5/2017 1:59 PM, Max Gurtovoy wrote:
-> This is a new feature for NVMEoF RDMA target, that is intended to save resource allocation
-> (by sharing them) and utilize the locality (completions and memory) to get the best
-> performance with Shared Receive Queues (SRQs). We'll create a SRQ per completion vector
-> (and not per device) and assosiate each created QP/CQ with an appropriate SRQ. This will
-> also reduce the lock contention on the single SRQ per device (today's solution).
-> 
-> My testing environment included 4 initiators (CX5, CX5, CX4, CX3) that were connected to 4
-> subsystems (1 ns per sub) throw 2 ports (each initiator connected to unique subsystem
-> backed in a different bull_blk device) using a switch to the NVMEoF target (CX5).
-> I used RoCE link layer.
-> 
+Hi Christoph,
 
-what is the approach for this SRQ feature ?
-I haven't seen much progress with the CQ pool patches (we first wanted 
-it to be on top of the CQ pool patches).
-Should I resent it with your comments or wait till CQ pool will be in ?
+Yes, I have some performance numbers.
 
--Max.
+Here is my results for READ/WRITE IOPs:
+
+BS = 512B:
+     32 Jobs (1 device):
+         1) w/ mr pool 6.4 M / 6.2 M
+         2) w/o mr pool 6.4 M / 6.2 M
+
+     512 Jobs (8 devices at the same subsystem):
+         1) w/ mr pool  8.2 M / 7.8 M
+         2) w/o mr pool  8.2 M / 7.9 M
+
+BS = 4k:
+      32 Jobs (1 device):
+         1) w/ mr pool  2.4 M/ 2 M
+         2) w/o mr pool  2.4 M/ 2 M
+
+     512 Jobs (8 devices at the same subsystem):
+         1) w/ mr pool 2.1 M / 2.2 M
+         2) w/o mr pool  2.1M / 2.1 M
+
+
+You can see from the results that there is no performance degradation 
+with my patch.
+
+Regards,
+Israel
