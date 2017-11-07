@@ -1,100 +1,201 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  7 Nov 2017 15:13:14 -0700
-Subject: [PATCHv3 5/5] nvme: Send uevent for some asynchronous events
+Date: Tue,  7 Nov 2017 15:13:12 -0700
+Subject: [PATCHv3 3/5] nvme: Single AEN request
 In-Reply-To: <20171107221314.27822-1-keith.busch@intel.com>
 References: <20171107221314.27822-1-keith.busch@intel.com>
-Message-ID: <20171107221314.27822-6-keith.busch@intel.com>
+Message-ID: <20171107221314.27822-4-keith.busch@intel.com>
 
-This will give udev a chance to observe and handle asynchronous event
-notifications and clear the log to unmask future events of the same type.
-The driver will create a change uevent of the asyncronuos event result
-before submitting the next AEN request to the device if a completed AEN
-event is of type error, smart, command set or vendor specific,
+The driver can handle tracking only one AEN request, so this patch
+removes handling for multiple ones.
 
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: James Smart  <james.smart at broadcom.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 28 ++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- include/linux/nvme.h     |  4 ++++
- 3 files changed, 33 insertions(+)
+ drivers/nvme/host/core.c   | 28 +++-------------------------
+ drivers/nvme/host/fc.c     |  9 +++------
+ drivers/nvme/host/nvme.h   |  3 +--
+ drivers/nvme/host/pci.c    |  4 ++--
+ drivers/nvme/host/rdma.c   |  5 +----
+ drivers/nvme/target/loop.c |  2 +-
+ 6 files changed, 11 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f5e059af65cc..486d02204c5d 100644
+index a3e2710be7c8..179ae56c4ad0 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2678,11 +2678,28 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
- 
-+static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
-+{
-+	char *envp[2] = {NULL, NULL};
-+	u32 aen = ctrl->aen;
-+
-+	ctrl->aen = 0;
-+	if (!aen)
-+		return;
-+
-+	envp[0] = kasprintf(GFP_KERNEL, "NVME_AEN=%#08x", aen);
-+	if (!envp[0])
-+		return;
-+	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
-+	kfree(envp[0]);
-+}
-+
- static void nvme_async_event_work(struct work_struct *work)
- {
+@@ -2683,15 +2683,7 @@ static void nvme_async_event_work(struct work_struct *work)
  	struct nvme_ctrl *ctrl =
  		container_of(work, struct nvme_ctrl, async_event_work);
  
-+	nvme_aen_uevent(ctrl);
- 	ctrl->ops->submit_async_event(ctrl);
+-	spin_lock_irq(&ctrl->lock);
+-	while (ctrl->state == NVME_CTRL_LIVE && ctrl->event_limit > 0) {
+-		int aer_idx = --ctrl->event_limit;
+-
+-		spin_unlock_irq(&ctrl->lock);
+-		ctrl->ops->submit_async_event(ctrl, aer_idx);
+-		spin_lock_irq(&ctrl->lock);
+-	}
+-	spin_unlock_irq(&ctrl->lock);
++	ctrl->ops->submit_async_event(ctrl);
  }
  
-@@ -2754,6 +2771,17 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 	if (le16_to_cpu(status) >> 1 != NVME_SC_SUCCESS)
+ static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
+@@ -2758,22 +2750,8 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res)
+ {
+ 	u32 result = le32_to_cpu(res->u32);
+-	bool done = true;
+ 
+-	switch (le16_to_cpu(status) >> 1) {
+-	case NVME_SC_SUCCESS:
+-		done = false;
+-		/*FALLTHRU*/
+-	case NVME_SC_ABORT_REQ:
+-		++ctrl->event_limit;
+-		if (ctrl->state == NVME_CTRL_LIVE)
+-			queue_work(nvme_wq, &ctrl->async_event_work);
+-		break;
+-	default:
+-		break;
+-	}
+-
+-	if (done)
++	if (le16_to_cpu(status) >> 1 != NVME_SC_SUCCESS)
  		return;
  
-+	switch (result & 0x7) {
-+	case NVME_AER_ERROR:
-+	case NVME_AER_SMART:
-+	case NVME_AER_CSS:
-+	case NVME_AER_VS:
-+		ctrl->aen = result;
-+		break;
-+	default:
-+		break;
-+	}
-+
  	switch (result & 0xff07) {
- 	case NVME_AER_NOTICE_NS_CHANGED:
- 		dev_info(ctrl->device, "rescanning\n");
+@@ -2787,12 +2765,12 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 	default:
+ 		dev_warn(ctrl->device, "async event result %08x\n", result);
+ 	}
++	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+ 
+ void nvme_queue_async_events(struct nvme_ctrl *ctrl)
+ {
+-	ctrl->event_limit = NVME_NR_AEN_COMMANDS;
+ 	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
+ EXPORT_SYMBOL_GPL(nvme_queue_async_events);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 5905897995c7..b80392a97d9e 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2369,7 +2369,7 @@ nvme_fc_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+ }
+ 
+ static void
+-nvme_fc_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
++nvme_fc_submit_async_event(struct nvme_ctrl *arg)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(arg);
+ 	struct nvme_fc_fcp_op *aen_op;
+@@ -2377,9 +2377,6 @@ nvme_fc_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
+ 	bool terminating = false;
+ 	blk_status_t ret;
+ 
+-	if (aer_idx > NVME_NR_AEN_COMMANDS)
+-		return;
+-
+ 	spin_lock_irqsave(&ctrl->lock, flags);
+ 	if (ctrl->flags & FCCTRL_TERMIO)
+ 		terminating = true;
+@@ -2388,13 +2385,13 @@ nvme_fc_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
+ 	if (terminating)
+ 		return;
+ 
+-	aen_op = &ctrl->aen_ops[aer_idx];
++	aen_op = &ctrl->aen_ops[0];
+ 
+ 	ret = nvme_fc_start_fcp_op(ctrl, aen_op->queue, aen_op, 0,
+ 					NVMEFC_FCP_NODATA);
+ 	if (ret)
+ 		dev_err(ctrl->ctrl.device,
+-			"failed async event work [%d]\n", aer_idx);
++			"failed async event work\n");
+ }
+ 
+ static void
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 151062573ece..b50ac356c3db 100644
+index a6d750cfa6b2..b55c97ecea31 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -168,6 +168,7 @@ struct nvme_ctrl {
- 	u16 kas;
- 	u8 npss;
- 	u8 apsta;
-+	u32 aen;
- 	unsigned int shutdown_timeout;
- 	unsigned int kato;
- 	bool subsystem;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 89ffa7eed2fd..aea87f0d917b 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -428,6 +428,10 @@ enum {
- };
+@@ -162,7 +162,6 @@ struct nvme_ctrl {
+ 	u16 nssa;
+ 	u16 nr_streams;
+ 	atomic_t abort_limit;
+-	u8 event_limit;
+ 	u8 vwc;
+ 	u32 vs;
+ 	u32 sgls;
+@@ -237,7 +236,7 @@ struct nvme_ctrl_ops {
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+-	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
++	void (*submit_async_event)(struct nvme_ctrl *ctrl);
+ 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
+ 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+ 	int (*reinit_request)(void *data, struct request *rq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index c3dfd84feef7..429d56f1a19e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1043,7 +1043,7 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+ 	return __nvme_poll(nvmeq, tag);
+ }
  
- enum {
-+	NVME_AER_ERROR			= 0,
-+	NVME_AER_SMART			= 1,
-+	NVME_AER_CSS			= 6,
-+	NVME_AER_VS			= 7,
- 	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
- };
+-static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl, int aer_idx)
++static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_dev *dev = to_nvme_dev(ctrl);
+ 	struct nvme_queue *nvmeq = dev->queues[0];
+@@ -1051,7 +1051,7 @@ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl, int aer_idx)
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = nvme_admin_async_event;
+-	c.common.command_id = NVME_AQ_BLK_MQ_DEPTH + aer_idx;
++	c.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	__nvme_submit_cmd(nvmeq, &c);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index e92277304a8c..5ba3f5304119 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1293,7 +1293,7 @@ static struct blk_mq_tags *nvme_rdma_tagset(struct nvme_rdma_queue *queue)
+ 	return queue->ctrl->tag_set.tags[queue_idx - 1];
+ }
+ 
+-static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
++static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(arg);
+ 	struct nvme_rdma_queue *queue = &ctrl->queues[0];
+@@ -1303,9 +1303,6 @@ static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
+ 	struct ib_sge sge;
+ 	int ret;
+ 
+-	if (WARN_ON_ONCE(aer_idx != 0))
+-		return;
+-
+ 	ib_dma_sync_single_for_cpu(dev, sqe->dma, sizeof(*cmd), DMA_TO_DEVICE);
+ 
+ 	memset(cmd, 0, sizeof(*cmd));
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 7258b796f209..f40e70eb4a38 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -184,7 +184,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	return BLK_STS_OK;
+ }
+ 
+-static void nvme_loop_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
++static void nvme_loop_submit_async_event(struct nvme_ctrl *arg)
+ {
+ 	struct nvme_loop_ctrl *ctrl = to_loop_ctrl(arg);
+ 	struct nvme_loop_queue *queue = &ctrl->queues[0];
 -- 
 2.13.6
