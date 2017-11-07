@@ -1,320 +1,67 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  7 Nov 2017 15:13:10 -0700
-Subject: [PATCHv3 1/5] nvme: Centralize AEN defines
+Date: Tue,  7 Nov 2017 15:13:11 -0700
+Subject: [PATCHv3 2/5] nvme/fc: remove unused "queue_size" field
 In-Reply-To: <20171107221314.27822-1-keith.busch@intel.com>
 References: <20171107221314.27822-1-keith.busch@intel.com>
-Message-ID: <20171107221314.27822-2-keith.busch@intel.com>
+Message-ID: <20171107221314.27822-3-keith.busch@intel.com>
 
-All the transports were unnecessarilly duplicating the AEN request
-accounting. This patch defines everything in one place.
+This was being saved in a structure, but never used anywhere. The queue
+size is obtained through other means, so there's no reason to duplicate
+this without a user for it.
 
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c   |  2 +-
- drivers/nvme/host/fc.c     | 33 ++++++++++++---------------------
- drivers/nvme/host/nvme.h   |  1 -
- drivers/nvme/host/pci.c    | 16 +++-------------
- drivers/nvme/host/rdma.c   | 14 +++-----------
- drivers/nvme/target/loop.c | 14 +++-----------
- include/linux/nvme.h       |  8 ++++++++
- 7 files changed, 30 insertions(+), 58 deletions(-)
+ drivers/nvme/host/fc.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6f20c3a5673f..a3e2710be7c8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2792,7 +2792,7 @@ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
- 
- void nvme_queue_async_events(struct nvme_ctrl *ctrl)
- {
--	ctrl->event_limit = NVME_NR_AERS;
-+	ctrl->event_limit = NVME_NR_AEN_COMMANDS;
- 	queue_work(nvme_wq, &ctrl->async_event_work);
- }
- EXPORT_SYMBOL_GPL(nvme_queue_async_events);
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 113c30be7276..2c54b0e114ed 100644
+index 2c54b0e114ed..5905897995c7 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -30,15 +30,6 @@
- /* *************************** Data Structures/Defines ****************** */
- 
- 
--/*
-- * We handle AEN commands ourselves and don't even let the
-- * block layer know about them.
-- */
--#define NVME_FC_NR_AEN_COMMANDS	1
--#define NVME_FC_AQ_BLKMQ_DEPTH	\
--	(NVME_AQ_DEPTH - NVME_FC_NR_AEN_COMMANDS)
--#define AEN_CMDID_BASE		(NVME_FC_AQ_BLKMQ_DEPTH + 1)
--
- enum nvme_fc_queue_flags {
- 	NVME_FC_Q_CONNECTED = (1 << 0),
- };
-@@ -167,7 +158,7 @@ struct nvme_fc_ctrl {
- 	u32			iocnt;
- 	wait_queue_head_t	ioabort_wait;
- 
--	struct nvme_fc_fcp_op	aen_ops[NVME_FC_NR_AEN_COMMANDS];
-+	struct nvme_fc_fcp_op	aen_ops[NVME_NR_AEN_COMMANDS];
- 
- 	struct nvme_ctrl	ctrl;
- };
-@@ -1533,7 +1524,7 @@ nvme_fc_abort_aen_ops(struct nvme_fc_ctrl *ctrl)
- 	unsigned long flags;
- 	int i, ret;
- 
--	for (i = 0; i < NVME_FC_NR_AEN_COMMANDS; i++, aen_op++) {
-+	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++) {
- 		if (atomic_read(&aen_op->state) != FCPOP_STATE_ACTIVE)
- 			continue;
- 
-@@ -1803,7 +1794,7 @@ nvme_fc_init_aen_ops(struct nvme_fc_ctrl *ctrl)
- 	int i, ret;
- 
- 	aen_op = ctrl->aen_ops;
--	for (i = 0; i < NVME_FC_NR_AEN_COMMANDS; i++, aen_op++) {
-+	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++) {
- 		private = kzalloc(ctrl->lport->ops->fcprqst_priv_sz,
- 						GFP_KERNEL);
- 		if (!private)
-@@ -1813,7 +1804,7 @@ nvme_fc_init_aen_ops(struct nvme_fc_ctrl *ctrl)
- 		sqe = &cmdiu->sqe;
- 		ret = __nvme_fc_init_request(ctrl, &ctrl->queues[0],
- 				aen_op, (struct request *)NULL,
--				(AEN_CMDID_BASE + i));
-+				(NVME_AQ_BLK_MQ_DEPTH + i));
- 		if (ret) {
- 			kfree(private);
- 			return ret;
-@@ -1826,7 +1817,7 @@ nvme_fc_init_aen_ops(struct nvme_fc_ctrl *ctrl)
- 		memset(sqe, 0, sizeof(*sqe));
- 		sqe->common.opcode = nvme_admin_async_event;
- 		/* Note: core layer may overwrite the sqe.command_id value */
--		sqe->common.command_id = AEN_CMDID_BASE + i;
-+		sqe->common.command_id = NVME_AQ_BLK_MQ_DEPTH + i;
- 	}
- 	return 0;
+@@ -43,7 +43,6 @@ struct nvme_fc_queue {
+ 	struct device		*dev;
+ 	struct blk_mq_hw_ctx	*hctx;
+ 	void			*lldd_handle;
+-	int			queue_size;
+ 	size_t			cmnd_capsule_len;
+ 	u32			qnum;
+ 	u32			rqcnt;
+@@ -1873,7 +1872,7 @@ nvme_fc_init_admin_hctx(struct blk_mq_hw_ctx *hctx, void *data,
  }
-@@ -1838,7 +1829,7 @@ nvme_fc_term_aen_ops(struct nvme_fc_ctrl *ctrl)
+ 
+ static void
+-nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx, size_t queue_size)
++nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
+ {
+ 	struct nvme_fc_queue *queue;
+ 
+@@ -1889,8 +1888,6 @@ nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx, size_t queue_size)
+ 	else
+ 		queue->cmnd_capsule_len = sizeof(struct nvme_command);
+ 
+-	queue->queue_size = queue_size;
+-
+ 	/*
+ 	 * Considered whether we should allocate buffers for all SQEs
+ 	 * and CQEs and dma map them - mapping their respective entries
+@@ -2014,7 +2011,7 @@ nvme_fc_init_io_queues(struct nvme_fc_ctrl *ctrl)
  	int i;
  
- 	aen_op = ctrl->aen_ops;
--	for (i = 0; i < NVME_FC_NR_AEN_COMMANDS; i++, aen_op++) {
-+	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++) {
- 		if (!aen_op->fcp_req.private)
- 			continue;
+ 	for (i = 1; i < ctrl->ctrl.queue_count; i++)
+-		nvme_fc_init_queue(ctrl, i, ctrl->ctrl.sqsize);
++		nvme_fc_init_queue(ctrl, i);
+ }
  
-@@ -2389,7 +2380,7 @@ nvme_fc_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
- 	bool terminating = false;
- 	blk_status_t ret;
- 
--	if (aer_idx > NVME_FC_NR_AEN_COMMANDS)
-+	if (aer_idx > NVME_NR_AEN_COMMANDS)
- 		return;
- 
- 	spin_lock_irqsave(&ctrl->lock, flags);
-@@ -2651,16 +2642,16 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ static void
+@@ -2642,7 +2639,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
  	 * Create the admin queue
  	 */
  
--	nvme_fc_init_queue(ctrl, 0, NVME_FC_AQ_BLKMQ_DEPTH);
-+	nvme_fc_init_queue(ctrl, 0, NVME_AQ_BLK_MQ_DEPTH);
+-	nvme_fc_init_queue(ctrl, 0, NVME_AQ_BLK_MQ_DEPTH);
++	nvme_fc_init_queue(ctrl, 0);
  
  	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
--				NVME_FC_AQ_BLKMQ_DEPTH);
-+				NVME_AQ_BLK_MQ_DEPTH);
- 	if (ret)
- 		goto out_free_queue;
- 
- 	ret = nvme_fc_connect_admin_queue(ctrl, &ctrl->queues[0],
--				NVME_FC_AQ_BLKMQ_DEPTH,
--				(NVME_FC_AQ_BLKMQ_DEPTH / 4));
-+				NVME_AQ_BLK_MQ_DEPTH,
-+				(NVME_AQ_BLK_MQ_DEPTH / 4));
- 	if (ret)
- 		goto out_delete_hw_queue;
- 
-@@ -3065,7 +3056,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
- 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
--	ctrl->admin_tag_set.queue_depth = NVME_FC_AQ_BLKMQ_DEPTH;
-+	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 	ctrl->admin_tag_set.reserved_tags = 2; /* fabric connect + Keep-Alive */
- 	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
- 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_fc_fcp_op) +
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f7c21cea9485..a6d750cfa6b2 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -313,7 +313,6 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
- int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- 		bool send);
- 
--#define NVME_NR_AERS	1
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res);
- void nvme_queue_async_events(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 32c413ec818c..c3dfd84feef7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -35,12 +35,6 @@
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
- 
--/*
-- * We handle AEN commands ourselves and don't even let the
-- * block layer know about them.
-- */
--#define NVME_AQ_BLKMQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AERS)
--
- #define SGES_PER_PAGE	(PAGE_SIZE / sizeof(struct nvme_sgl_desc))
- 
- static int use_threaded_interrupts;
-@@ -956,7 +950,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
- 	 * for them but rather special case them here.
- 	 */
- 	if (unlikely(nvmeq->qid == 0 &&
--			cqe->command_id >= NVME_AQ_BLKMQ_DEPTH)) {
-+			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
- 		nvme_complete_async_event(&nvmeq->dev->ctrl,
- 				cqe->status, &cqe->result);
- 		return;
-@@ -1057,7 +1051,7 @@ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl, int aer_idx)
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_admin_async_event;
--	c.common.command_id = NVME_AQ_BLKMQ_DEPTH + aer_idx;
-+	c.common.command_id = NVME_AQ_BLK_MQ_DEPTH + aer_idx;
- 
- 	spin_lock_irq(&nvmeq->q_lock);
- 	__nvme_submit_cmd(nvmeq, &c);
-@@ -1524,11 +1518,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 		dev->admin_tagset.ops = &nvme_mq_admin_ops;
- 		dev->admin_tagset.nr_hw_queues = 1;
- 
--		/*
--		 * Subtract one to leave an empty queue entry for 'Full Queue'
--		 * condition. See NVM-Express 1.2 specification, section 4.1.2.
--		 */
--		dev->admin_tagset.queue_depth = NVME_AQ_BLKMQ_DEPTH - 1;
-+		dev->admin_tagset.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
- 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
- 		dev->admin_tagset.cmd_size = nvme_pci_cmd_size(dev, false);
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 03644ecf68d2..e92277304a8c 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -41,14 +41,6 @@
- 
- #define NVME_RDMA_MAX_INLINE_SEGMENTS	1
- 
--/*
-- * We handle AEN commands ourselves and don't even let the
-- * block layer know about them.
-- */
--#define NVME_RDMA_NR_AEN_COMMANDS      1
--#define NVME_RDMA_AQ_BLKMQ_DEPTH       \
--	(NVME_AQ_DEPTH - NVME_RDMA_NR_AEN_COMMANDS)
--
- struct nvme_rdma_device {
- 	struct ib_device	*dev;
- 	struct ib_pd		*pd;
-@@ -690,7 +682,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- 		set = &ctrl->admin_tag_set;
- 		memset(set, 0, sizeof(*set));
- 		set->ops = &nvme_rdma_admin_mq_ops;
--		set->queue_depth = NVME_RDMA_AQ_BLKMQ_DEPTH;
-+		set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 		set->reserved_tags = 2; /* connect + keep-alive */
- 		set->numa_node = NUMA_NO_NODE;
- 		set->cmd_size = sizeof(struct nvme_rdma_request) +
-@@ -1318,7 +1310,7 @@ static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
- 
- 	memset(cmd, 0, sizeof(*cmd));
- 	cmd->common.opcode = nvme_admin_async_event;
--	cmd->common.command_id = NVME_RDMA_AQ_BLKMQ_DEPTH;
-+	cmd->common.command_id = NVME_AQ_BLK_MQ_DEPTH;
- 	cmd->common.flags |= NVME_CMD_SGL_METABUF;
- 	nvme_rdma_set_sg_null(cmd);
- 
-@@ -1380,7 +1372,7 @@ static int __nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc, int tag)
- 	 * for them but rather special case them here.
- 	 */
- 	if (unlikely(nvme_rdma_queue_idx(queue) == 0 &&
--			cqe->command_id >= NVME_RDMA_AQ_BLKMQ_DEPTH))
-+			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH))
- 		nvme_complete_async_event(&queue->ctrl->ctrl, cqe->status,
- 				&cqe->result);
- 	else
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index bc95c6ed531a..7258b796f209 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -23,14 +23,6 @@
- 
- #define NVME_LOOP_MAX_SEGMENTS		256
- 
--/*
-- * We handle AEN commands ourselves and don't even let the
-- * block layer know about them.
-- */
--#define NVME_LOOP_NR_AEN_COMMANDS	1
--#define NVME_LOOP_AQ_BLKMQ_DEPTH	\
--	(NVME_AQ_DEPTH - NVME_LOOP_NR_AEN_COMMANDS)
--
- struct nvme_loop_iod {
- 	struct nvme_request	nvme_req;
- 	struct nvme_command	cmd;
-@@ -112,7 +104,7 @@ static void nvme_loop_queue_response(struct nvmet_req *req)
- 	 * for them but rather special case them here.
- 	 */
- 	if (unlikely(nvme_loop_queue_idx(queue) == 0 &&
--			cqe->command_id >= NVME_LOOP_AQ_BLKMQ_DEPTH)) {
-+			cqe->command_id >= NVME_AQ_BLK_MQ_DEPTH)) {
- 		nvme_complete_async_event(&queue->ctrl->ctrl, cqe->status,
- 				&cqe->result);
- 	} else {
-@@ -200,7 +192,7 @@ static void nvme_loop_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
- 
- 	memset(&iod->cmd, 0, sizeof(iod->cmd));
- 	iod->cmd.common.opcode = nvme_admin_async_event;
--	iod->cmd.common.command_id = NVME_LOOP_AQ_BLKMQ_DEPTH;
-+	iod->cmd.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 
- 	if (!nvmet_req_init(&iod->req, &queue->nvme_cq, &queue->nvme_sq,
-@@ -356,7 +348,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 
- 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
- 	ctrl->admin_tag_set.ops = &nvme_loop_admin_mq_ops;
--	ctrl->admin_tag_set.queue_depth = NVME_LOOP_AQ_BLKMQ_DEPTH;
-+	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
- 	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
- 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_loop_iod) +
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index fd1d4508a612..89ffa7eed2fd 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -90,6 +90,14 @@ enum {
- };
- 
- #define NVME_AQ_DEPTH		32
-+#define NVME_NR_AEN_COMMANDS	1
-+#define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
-+
-+/*
-+ * Subtract one to leave an empty queue entry for 'Full Queue' condition. See
-+ * NVM-Express 1.2 specification, section 4.1.2.
-+ */
-+#define NVME_AQ_MQ_TAG_DEPTH	(NVME_AQ_BLK_MQ_DEPTH - 1)
- 
- enum {
- 	NVME_REG_CAP	= 0x0000,	/* Controller Capabilities */
+ 				NVME_AQ_BLK_MQ_DEPTH);
 -- 
 2.13.6
