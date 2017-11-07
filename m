@@ -1,24 +1,37 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 7 Nov 2017 11:25:28 -0800
-Subject: [PATCH 1/1] nvme/fc: add 'discovery' sysfs attribute to fc
- transport device
-In-Reply-To: <1509722369-95879-2-git-send-email-hare@suse.de>
-References: <1509722369-95879-1-git-send-email-hare@suse.de>
- <1509722369-95879-2-git-send-email-hare@suse.de>
-Message-ID: <20171107192528.GC13618@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  7 Nov 2017 15:13:09 -0700
+Subject: [PATCHv3 0/5] Asynchronous events for udev
+Message-ID: <20171107221314.27822-1-keith.busch@intel.com>
 
-> +	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
-> +		list_for_each_entry_safe(rport, tmp_rport,
-> +					 &lport->endp_list, endp_list) {
-> +			if (!nvme_fc_rport_get(rport))
-> +				continue;
-> +			spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +			nvme_fc_signal_discovery_scan(lport, rport);
-> +			nvme_fc_rport_put(rport);
-> +			spin_lock_irqsave(&nvme_fc_lock, flags);
-> +		}
-> +	}
-> +	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+This series updates asynchronous event notification throughout the driver
+by centralizing common definitions, simplifying the code with a single
+outstanding asynchronous event request, and ending with creating a change
+uevent if the event result matches a whitelist of events to notify.
 
-What guarantees the list next pointers are still valid after
-you dropped nvme_fc_lock?
+v2 -> v3:
+  Merged to current nvme-4.15
+
+  Use a whitelist instead of notifying all unhandled events
+
+  Added define for the blk-mq tagset queue_depth (patch 1/5)
+
+  Added reviews from previous round
+
+Keith Busch (5):
+  nvme: Centralize AEN defines
+  nvme/fc: remove unused "queue_size" field
+  nvme: Single AEN request
+  nvme: Unexport starting async event work
+  nvme: Send uevent for some asynchronous events
+
+ drivers/nvme/host/core.c   | 62 ++++++++++++++++++++++++----------------------
+ drivers/nvme/host/fc.c     | 47 ++++++++++++-----------------------
+ drivers/nvme/host/nvme.h   |  6 ++---
+ drivers/nvme/host/pci.c    | 18 +++-----------
+ drivers/nvme/host/rdma.c   | 19 +++-----------
+ drivers/nvme/target/loop.c | 16 +++---------
+ include/linux/nvme.h       | 12 +++++++++
+ 7 files changed, 75 insertions(+), 105 deletions(-)
+
+-- 
+2.13.6
