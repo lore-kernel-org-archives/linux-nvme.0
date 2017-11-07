@@ -1,67 +1,57 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  7 Nov 2017 15:13:11 -0700
-Subject: [PATCHv3 2/5] nvme/fc: remove unused "queue_size" field
+Date: Tue,  7 Nov 2017 15:13:13 -0700
+Subject: [PATCHv3 4/5] nvme: Unexport starting async event work
 In-Reply-To: <20171107221314.27822-1-keith.busch@intel.com>
 References: <20171107221314.27822-1-keith.busch@intel.com>
-Message-ID: <20171107221314.27822-3-keith.busch@intel.com>
+Message-ID: <20171107221314.27822-5-keith.busch@intel.com>
 
-This was being saved in a structure, but never used anywhere. The queue
-size is obtained through other means, so there's no reason to duplicate
-this without a user for it.
+Async event work is for core use only and should not be called directly
+from drivers.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/fc.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 8 +-------
+ drivers/nvme/host/nvme.h | 1 -
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 2c54b0e114ed..5905897995c7 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -43,7 +43,6 @@ struct nvme_fc_queue {
- 	struct device		*dev;
- 	struct blk_mq_hw_ctx	*hctx;
- 	void			*lldd_handle;
--	int			queue_size;
- 	size_t			cmnd_capsule_len;
- 	u32			qnum;
- 	u32			rqcnt;
-@@ -1873,7 +1872,7 @@ nvme_fc_init_admin_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 179ae56c4ad0..f5e059af65cc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2769,12 +2769,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
  }
+ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
  
- static void
--nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx, size_t queue_size)
-+nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx)
- {
- 	struct nvme_fc_queue *queue;
- 
-@@ -1889,8 +1888,6 @@ nvme_fc_init_queue(struct nvme_fc_ctrl *ctrl, int idx, size_t queue_size)
- 	else
- 		queue->cmnd_capsule_len = sizeof(struct nvme_command);
- 
--	queue->queue_size = queue_size;
+-void nvme_queue_async_events(struct nvme_ctrl *ctrl)
+-{
+-	queue_work(nvme_wq, &ctrl->async_event_work);
+-}
+-EXPORT_SYMBOL_GPL(nvme_queue_async_events);
 -
- 	/*
- 	 * Considered whether we should allocate buffers for all SQEs
- 	 * and CQEs and dma map them - mapping their respective entries
-@@ -2014,7 +2011,7 @@ nvme_fc_init_io_queues(struct nvme_fc_ctrl *ctrl)
- 	int i;
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	nvme_stop_keep_alive(ctrl);
+@@ -2791,7 +2785,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
  
- 	for (i = 1; i < ctrl->ctrl.queue_count; i++)
--		nvme_fc_init_queue(ctrl, i, ctrl->ctrl.sqsize);
-+		nvme_fc_init_queue(ctrl, i);
+ 	if (ctrl->queue_count > 1) {
+ 		nvme_queue_scan(ctrl);
+-		nvme_queue_async_events(ctrl);
++		queue_work(nvme_wq, &ctrl->async_event_work);
+ 		nvme_start_queues(ctrl);
+ 	}
  }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b55c97ecea31..151062573ece 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -314,7 +314,6 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
  
- static void
-@@ -2642,7 +2639,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	 * Create the admin queue
- 	 */
+ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res);
+-void nvme_queue_async_events(struct nvme_ctrl *ctrl);
  
--	nvme_fc_init_queue(ctrl, 0, NVME_AQ_BLK_MQ_DEPTH);
-+	nvme_fc_init_queue(ctrl, 0);
- 
- 	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
- 				NVME_AQ_BLK_MQ_DEPTH);
+ void nvme_stop_queues(struct nvme_ctrl *ctrl);
+ void nvme_start_queues(struct nvme_ctrl *ctrl);
 -- 
 2.13.6
