@@ -1,22 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 7 Nov 2017 09:35:12 -0700
-Subject: [PATCH] nvme: fix and clarify the check for missing metadata
-In-Reply-To: <20171107162734.4600-1-hch@lst.de>
-References: <20171107162734.4600-1-hch@lst.de>
-Message-ID: <20171107163511.GD29942@localhost.localdomain>
+From: javigon.napster@gmail.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Tue, 7 Nov 2017 17:36:18 +0100
+Subject: [PATCH 3/3] nvme: fix eui_show() print format
+In-Reply-To: <20171107162828.GA26824@lst.de>
+References: <1509703370-20379-1-git-send-email-javier@cnexlabs.com>
+ <1509703370-20379-4-git-send-email-javier@cnexlabs.com>
+ <20171103125516.GC25186@lst.de> <1509722197.15520.17.camel@perches.com>
+ <2AC384A2-C792-45AF-AF11-89CBC128C527@lightnvm.io>
+ <20171107162828.GA26824@lst.de>
+Message-ID: <7A69CDDA-7901-4A4C-BCE4-B5A83300202C@gmail.com>
 
-On Tue, Nov 07, 2017@05:27:34PM +0100, Christoph Hellwig wrote:
-> Update the check in nvme_setup_rw for missing metadata so that it is
-> together with the other metadata handling, does not contain impossible
-> to reach conditions and warns if we get an impossible requests for
-> a (non-PI) metadata-enabled namespace when CONFIG_BLK_DEV_INTEGRITY
-> is not set.
+
+> On 7 Nov 2017,@17.28, Christoph Hellwig <hch@lst.de> wrote:
 > 
-> Also add a little helper that checks if a given metadata configuration
-> contains protection information
+> On Sat, Nov 04, 2017@12:22:20PM +0100, Javier Gonz?lez wrote:
+>>> Perhaps this should just become
+>>> 
+>>>    %8ph
+>>> 
+>>> without D
+>> 
+>> That would be ok with me.
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Can you resend a patch for that?
+> 
 
-Looks good to me.
+Sure. I?ll send it tomorrow together with the copy fix with the right commit message. 
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Javier
