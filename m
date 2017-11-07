@@ -1,44 +1,28 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 7 Nov 2017 15:37:37 +0200
-Subject: [PATCH] nvmet: fix comment typos in admin-cmd.c
-In-Reply-To: <1510056622-21186-1-git-send-email-minwoo.im.dev@gmail.com>
-References: <1510056622-21186-1-git-send-email-minwoo.im.dev@gmail.com>
-Message-ID: <aba21324-8130-6260-1558-9f32cc16a2c5@mellanox.com>
+Date: Tue, 7 Nov 2017 16:40:06 +0200
+Subject: [PATCH 0/3] nvmet-rdma: SRQ per completion vector
+In-Reply-To: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+References: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+Message-ID: <9602adeb-85a0-1db2-0195-31bdedd16d1b@mellanox.com>
 
+Hi Christoph/Sagi,
 
-
-On 11/7/2017 2:10 PM, Minwoo Im wrote:
-> small typos fixed in admin-cmd.c
+On 9/5/2017 1:59 PM, Max Gurtovoy wrote:
+> This is a new feature for NVMEoF RDMA target, that is intended to save resource allocation
+> (by sharing them) and utilize the locality (completions and memory) to get the best
+> performance with Shared Receive Queues (SRQs). We'll create a SRQ per completion vector
+> (and not per device) and assosiate each created QP/CQ with an appropriate SRQ. This will
+> also reduce the lock contention on the single SRQ per device (today's solution).
 > 
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->   drivers/nvme/target/admin-cmd.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index c4a0bf3..9a7d691 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -300,7 +300,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
->   	}
->   
->   	/*
-> -	 * nuse = ncap = nsze isn't aways true, but we have no way to find
-> +	 * nuse = ncap = nsze isn't always true, but we have no way to find
->   	 * that out from the underlying device.
->   	 */
->   	id->ncap = id->nuse = id->nsze =
-> @@ -424,7 +424,7 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
->   }
->   
->   /*
-> - * A "mimimum viable" abort implementation: the command is mandatory in the
-> + * A "minimum viable" abort implementation: the command is mandatory in the
->    * spec, but we are not required to do any useful work.  We couldn't really
->    * do a useful abort, so don't bother even with waiting for the command
->    * to be exectuted and return immediately telling the command to abort
+> My testing environment included 4 initiators (CX5, CX5, CX4, CX3) that were connected to 4
+> subsystems (1 ns per sub) throw 2 ports (each initiator connected to unique subsystem
+> backed in a different bull_blk device) using a switch to the NVMEoF target (CX5).
+> I used RoCE link layer.
 > 
 
-Looks fine thanks,
+what is the approach for this SRQ feature ?
+I haven't seen much progress with the CQ pool patches (we first wanted 
+it to be on top of the CQ pool patches).
+Should I resent it with your comments or wait till CQ pool will be in ?
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+-Max.
