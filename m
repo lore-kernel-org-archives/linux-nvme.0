@@ -1,33 +1,36 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 8 Nov 2017 10:15:31 -0800
-Subject: [PATCH] nvme-pci: avoid dereference of symbol from unloaded module
-In-Reply-To: <20171102122926.GB6764@ming.t460p>
-References: <20171102093624.20333-1-ming.lei@redhat.com>
- <8b9a2473-c011-6224-b69a-61194cfac030@grimberg.me>
- <20171102122926.GB6764@ming.t460p>
-Message-ID: <20171108181531.GA6606@infradead.org>
+Date: Wed, 8 Nov 2017 10:16:38 -0800
+Subject: [PATCH 1/1] nvme/fc: add 'discovery' sysfs attribute to fc
+ transport device
+In-Reply-To: <16dd3bc5-ae52-1ff5-3841-d313f676ed90@suse.de>
+References: <1509722369-95879-1-git-send-email-hare@suse.de>
+ <1509722369-95879-2-git-send-email-hare@suse.de>
+ <20171107192528.GC13618@infradead.org>
+ <16dd3bc5-ae52-1ff5-3841-d313f676ed90@suse.de>
+Message-ID: <20171108181638.GB6606@infradead.org>
 
-On Thu, Nov 02, 2017@08:29:27PM +0800, Ming Lei wrote:
-> On Thu, Nov 02, 2017@02:10:16PM +0200, Sagi Grimberg wrote:
+On Wed, Nov 08, 2017@05:31:23PM +0100, Hannes Reinecke wrote:
+> On 11/07/2017 08:25 PM, Christoph Hellwig wrote:
+> >> +	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+> >> +		list_for_each_entry_safe(rport, tmp_rport,
+> >> +					 &lport->endp_list, endp_list) {
+> >> +			if (!nvme_fc_rport_get(rport))
+> >> +				continue;
+> >> +			spin_unlock_irqrestore(&nvme_fc_lock, flags);
+> >> +			nvme_fc_signal_discovery_scan(lport, rport);
+> >> +			nvme_fc_rport_put(rport);
+> >> +			spin_lock_irqsave(&nvme_fc_lock, flags);
+> >> +		}
+> >> +	}
+> >> +	spin_unlock_irqrestore(&nvme_fc_lock, flags);
 > > 
-> > > The 'remove_work' may be scheduled to run after nvme_remove()
-> > > returns since we can't simply cancel it in nvme_remove() for
-> > > avoiding deadlock. Once nvme_remove() returns, this module(nvme)
-> > > can be unloaded.
-> > > 
-> > > On the other hand, nvme_put_ctrl() calls ctr->ops->free_ctrl
-> > > which may point to nvme_pci_free_ctrl() in unloaded module.
-> > > 
-> > > This patch avoids this issue by holding the module refcount before
-> > > scheduling 'remove_work'.
+> > What guarantees the list next pointers are still valid after
+> > you dropped nvme_fc_lock?
 > > 
-> > Why not simply flushing all scheduled works in module exit?
-> 
-> The nvme_wq is shared by all kinds of host(PCI, FC, ...), so
-> not good to flush all queued work in 'nvme_wq' just before
-> removing pci host module only.
-> 
-> Not mention 'remove_work' is actually scheduled by system wq
-> instead of nvme_wq.
+> You know, I wondered about that, too.
+> But then I cannot hold the lock when calling nvme_fc_rport_put().
+> And I'm somewhat reluctant to use list_for_each_entry_safe() in the
+> outer loop.
 
-Still seems better than messing with module reference counts.
+list_for_each_entry_safe isn't going to help you with races - it
+only helps you when you delete the current node.
