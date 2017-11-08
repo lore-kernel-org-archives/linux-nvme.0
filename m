@@ -1,19 +1,163 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Wed, 8 Nov 2017 09:40:10 +0800
-Subject: [PATCHv3 5/5] nvme: Send uevent for some asynchronous events
-In-Reply-To: <20171107221314.27822-6-keith.busch@intel.com>
-References: <20171107221314.27822-1-keith.busch@intel.com>
- <20171107221314.27822-6-keith.busch@intel.com>
-Message-ID: <66c2e71a-a74f-54c0-8cba-b5f13bd0b5c4@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 8 Nov 2017 09:34:34 +0200
+Subject: [PATCH] nvme-rdma: Use mr pool
+In-Reply-To: <1509982181-6340-1-git-send-email-israelr@mellanox.com>
+References: <1509982181-6340-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1e936d85-fef7-c582-7fe9-794ba6a98b71@grimberg.me>
 
 
-Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
+> @@ -490,8 +456,27 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+>   		goto out_destroy_qp;
+>   	}
+>   
+> +	if (idx == 0)
+> +		queue->ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
+> +				ibdev->attrs.max_fast_reg_page_list_len);
 
-On 2017/11/8 6:13, Keith Busch wrote:
-> This will give udev a chance to observe and handle asynchronous event
-> notifications and clear the log to unmask future events of the same type.
-> The driver will create a change uevent of the asyncronuos event result
-> before submitting the next AEN request to the device if a completed AEN
-> event is of type error, smart, command set or vendor specific,
+Please keep that where it was.
+
+> +
+> +	ret = ib_mr_pool_init(queue->qp, &queue->qp->rdma_mrs,
+> +			      queue->queue_size,
+> +			      IB_MR_TYPE_MEM_REG,
+> +			      queue->ctrl->max_fr_pages);
+> +
+
+Why the extra newline?
+
+> +	if (ret) {
+> +		dev_err(queue->ctrl->ctrl.device,
+> +			"failed to initialize MR pool sized %d for QID %d\n",
+> +			queue->queue_size, idx);
+> +		goto out_destroy_ring;
+> +	}
+> +
+>   	return 0;
+>   
+> +out_destroy_ring:
+> +	nvme_rdma_free_ring(ibdev, queue->rsp_ring, queue->queue_size,
+> +			    sizeof(struct nvme_completion), DMA_FROM_DEVICE);
+>   out_destroy_qp:
+>   	ib_destroy_qp(queue->qp);
+>   out_destroy_ib_cq:
+> @@ -764,9 +749,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>   
+>   	ctrl->device = ctrl->queues[0].device;
+>   
+> -	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
+> -		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
+> -
+>   	if (new) {
+>   		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+>   		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
+> @@ -779,11 +761,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>   			error = PTR_ERR(ctrl->ctrl.admin_q);
+>   			goto out_free_tagset;
+>   		}
+> -	} else {
+> -		error = blk_mq_reinit_tagset(&ctrl->admin_tag_set,
+> -					     nvme_rdma_reinit_request);
+> -		if (error)
+> -			goto out_free_queue;
+>   	}
+>   
+>   	error = nvme_rdma_start_queue(ctrl, 0);
+> @@ -863,11 +840,6 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   			goto out_free_tag_set;
+>   		}
+>   	} else {
+> -		ret = blk_mq_reinit_tagset(&ctrl->tag_set,
+> -					   nvme_rdma_reinit_request);
+> -		if (ret)
+> -			goto out_free_io_queues;
+> -
+>   		blk_mq_update_nr_hw_queues(&ctrl->tag_set,
+>   			ctrl->ctrl.queue_count - 1);
+>   	}
+> @@ -1065,14 +1037,19 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
+>   	if (!blk_rq_bytes(rq))
+>   		return;
+>   
+> -	if (req->mr->need_inval) {
+> -		res = nvme_rdma_inv_rkey(queue, req);
+> -		if (unlikely(res < 0)) {
+> -			dev_err(ctrl->ctrl.device,
+> -				"Queueing INV WR for rkey %#x failed (%d)\n",
+> -				req->mr->rkey, res);
+> -			nvme_rdma_error_recovery(queue->ctrl);
+> +	if (req->mr) {
+> +		if (req->mr->need_inval) {
+> +			res = nvme_rdma_inv_rkey(queue, req);
+> +			if (unlikely(res < 0)) {
+> +				dev_err(ctrl->ctrl.device,
+> +					"Queueing INV WR for rkey %#x failed (%d)\n",
+> +					req->mr->rkey, res);
+> +				nvme_rdma_error_recovery(queue->ctrl);
+> +			}
+>   		}
+> +
+> +		ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
+> +		req->mr = NULL;
+
+restoring the MR before the local invalidation completed? that's wrong.
+You should rebase on top of my completion signaling fixes. I have
+v2 in the pipe.
+
+>   	}
+>   
+>   	ib_dma_unmap_sg(ibdev, req->sg_table.sgl,
+> @@ -1131,12 +1108,18 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
+>   	struct nvme_keyed_sgl_desc *sg = &c->common.dptr.ksgl;
+>   	int nr;
+>   
+> +	req->mr = ib_mr_pool_get(queue->qp, &queue->qp->rdma_mrs);
+> +	if (!req->mr)
+> +		return -EAGAIN;
+
+unlikely
+
+> +
+>   	/*
+>   	 * Align the MR to a 4K page size to match the ctrl page size and
+>   	 * the block virtual boundary.
+>   	 */
+>   	nr = ib_map_mr_sg(req->mr, req->sg_table.sgl, count, NULL, SZ_4K);
+>   	if (unlikely(nr < count)) {
+> +		ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
+> +		req->mr = NULL;
+>   		if (nr < 0)
+>   			return nr;
+>   		return -EINVAL;
+> @@ -1176,7 +1159,6 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+>   
+>   	req->num_sge = 1;
+>   	req->inline_data = false;
+> -	req->mr->need_inval = false;
+>   
+>   	c->common.flags |= NVME_CMD_SGL_METABUF;
+>   
+> @@ -1362,7 +1344,7 @@ static int nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
+>   	if (rq->tag == tag)
+>   		ret = 1;
+>   
+> -	if ((wc->wc_flags & IB_WC_WITH_INVALIDATE) &&
+> +	if (req->mr && (wc->wc_flags & IB_WC_WITH_INVALIDATE) &&
+>   	    wc->ex.invalidate_rkey == req->mr->rkey)
+>   		req->mr->need_inval = false;
+
+If you got a remote invalidate without an MR its a protocol error.
+
+>   
+> @@ -1674,7 +1656,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>   	if (req_op(rq) == REQ_OP_FLUSH)
+>   		flush = true;
+>   	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+> -			req->mr->need_inval ? &req->reg_wr.wr : NULL, flush);
+> +			req->mr ? &req->reg_wr.wr : NULL, flush);
+
+Please keep the need_inval condition as well.
+
+>   	if (unlikely(err)) {
+>   		nvme_rdma_unmap_data(queue, rq);
+>   		goto err;
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
