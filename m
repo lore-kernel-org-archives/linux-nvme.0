@@ -1,32 +1,41 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 8 Nov 2017 12:18:32 +0100
-Subject: [PATCH 4/5] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20171108085417.GA19990@lst.de>
-References: <20171102183034.9320-1-hch@lst.de>
- <20171102183034.9320-5-hch@lst.de> <20171108085417.GA19990@lst.de>
-Message-ID: <70376777-56f1-76f8-84be-d2df4a855fa6@suse.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed,  8 Nov 2017 15:00:32 +0200
+Subject: [PATCH 1/1] nvme-rdma: Fix memory leak during queue allocation
+Message-ID: <1510146032-25434-1-git-send-email-maxg@mellanox.com>
 
-On 11/08/2017 09:54 AM, Christoph Hellwig wrote:
-> Can I get a review for this one?  The only changes vs the previously
-> reviewed versions is that we don't use the multipath code at all for
-> subsystems that aren't multiported, and that there is an explicit
-> opt-out at compile and module load time, so it shouldn't be that hard
-> to review for those who reviewed the previous versions.
-> 
-The one thing I need to try is co-existence with dm-multipath, ie
-ensuring that dm-multipath stays out of the way if nvme multipathing is
-enabled.
+In case nvme_rdma_wait_for_cm timeout expires before we get
+an established or rejected event (rdma_connect succeeded) from
+rdma_cm, we end up with leaking the ib resources for dedicated
+queue.
+This scenario can easily reproduced using traffic test during port
+toggling.
 
-I hope to get it done sometime later this week
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-And I'll see to get the other patches reviewed.
-
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0ebb539..fcb278a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -545,13 +545,16 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (ret) {
+ 		dev_info(ctrl->ctrl.device,
+ 			"rdma_resolve_addr wait failed (%d).\n", ret);
+-		goto out_destroy_cm_id;
++		goto out_destroy_queue_ib;
+ 	}
+ 
+ 	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
+ 
+ 	return 0;
+ 
++out_destroy_queue_ib:
++	if (ret == -ETIMEDOUT)
++		nvme_rdma_destroy_queue_ib(queue);
+ out_destroy_cm_id:
+ 	rdma_destroy_id(queue->cm_id);
+ 	return ret;
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+1.8.3.1
