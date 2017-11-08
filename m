@@ -1,119 +1,33 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  8 Nov 2017 12:06:16 +0200
-Subject: [PATCH v2 3/3] nvme-rdma: wait for local invalidation before
- completing a request
-In-Reply-To: <20171108100616.26605-1-sagi@grimberg.me>
-References: <20171108100616.26605-1-sagi@grimberg.me>
-Message-ID: <20171108100616.26605-4-sagi@grimberg.me>
+From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Wed,  8 Nov 2017 10:59:03 +0100
+Subject: [PATCH v2] nvme: compare NQN string with right size
+Message-ID: <1510135144-1557-1-git-send-email-javier@cnexlabs.com>
 
-We must not complete a request before the host memory region is
-invalidated. Luckily we have send with invalidate protocol support
-so we usually don't need to execute it, but in case the target
-did not invalidate a memory region for us, we must wait for
-the invalidation to complete before unmapping host memory and
-completing the I/O.
+From: Javier Gonz?lez <jg@lightnvm.io>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Copy subnqns using NVMF_NQN_SIZE as it is < 256
+
+Changes since V1:
+  - Fix commit message to indicate that it is a copy and not a comparison.
+
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/rdma.c | 47 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 30 insertions(+), 17 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 998f7cb445d9..6ddaa7964657 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1014,8 +1014,24 @@ static void nvme_rdma_memreg_done(struct ib_cq *cq, struct ib_wc *wc)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 37f9039bb9ca..b3bc9fb39a6c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1744,7 +1744,7 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
  
- static void nvme_rdma_inv_rkey_done(struct ib_cq *cq, struct ib_wc *wc)
- {
--	if (unlikely(wc->status != IB_WC_SUCCESS))
-+	struct nvme_rdma_request *req =
-+		container_of(wc->wr_cqe, struct nvme_rdma_request, reg_cqe);
-+	struct request *rq = blk_mq_rq_from_pdu(req);
-+	unsigned long flags;
-+	bool end;
-+
-+	if (unlikely(wc->status != IB_WC_SUCCESS)) {
- 		nvme_rdma_wr_error(cq, wc, "LOCAL_INV");
-+		return;
-+	}
-+
-+	spin_lock_irqsave(&req->lock, flags);
-+	req->mr->need_inval = false;
-+	end = (req->resp_completed && req->send_completed);
-+	spin_unlock_irqrestore(&req->lock, flags);
-+	if (end)
-+		nvme_end_request(rq, req->cqe.status, req->cqe.result);
-+
- }
- 
- static int nvme_rdma_inv_rkey(struct nvme_rdma_queue *queue,
-@@ -1026,7 +1042,7 @@ static int nvme_rdma_inv_rkey(struct nvme_rdma_queue *queue,
- 		.opcode		    = IB_WR_LOCAL_INV,
- 		.next		    = NULL,
- 		.num_sge	    = 0,
--		.send_flags	    = 0,
-+		.send_flags	    = IB_SEND_SIGNALED,
- 		.ex.invalidate_rkey = req->mr->rkey,
- 	};
- 
-@@ -1040,24 +1056,12 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
- 		struct request *rq)
- {
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
--	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
- 	struct nvme_rdma_device *dev = queue->device;
- 	struct ib_device *ibdev = dev->dev;
--	int res;
- 
- 	if (!blk_rq_bytes(rq))
+ 	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
+ 	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
+-		strcpy(ctrl->subnqn, id->subnqn);
++		strncpy(ctrl->subnqn, id->subnqn, NVMF_NQN_SIZE);
  		return;
+ 	}
  
--	if (req->mr->need_inval && test_bit(NVME_RDMA_Q_LIVE, &req->queue->flags)) {
--		res = nvme_rdma_inv_rkey(queue, req);
--		if (unlikely(res < 0)) {
--			dev_err(ctrl->ctrl.device,
--				"Queueing INV WR for rkey %#x failed (%d)\n",
--				req->mr->rkey, res);
--			nvme_rdma_error_recovery(queue->ctrl);
--		}
--	}
--
- 	ib_dma_unmap_sg(ibdev, req->sg_table.sgl,
- 			req->nents, rq_data_dir(rq) ==
- 				    WRITE ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
-@@ -1213,7 +1217,7 @@ static void nvme_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
- 
- 	spin_lock_irqsave(&req->lock, flags);
- 	req->send_completed = true;
--	end = req->resp_completed;
-+	end = req->resp_completed && !req->mr->need_inval;
- 	spin_unlock_irqrestore(&req->lock, flags);
- 	if (end)
- 		nvme_end_request(rq, req->cqe.status, req->cqe.result);
-@@ -1338,12 +1342,21 @@ static int nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
- 	req->cqe.result = cqe->result;
- 
- 	if ((wc->wc_flags & IB_WC_WITH_INVALIDATE) &&
--	    wc->ex.invalidate_rkey == req->mr->rkey)
-+	    wc->ex.invalidate_rkey == req->mr->rkey) {
- 		req->mr->need_inval = false;
-+	} else if (req->mr->need_inval) {
-+		ret = nvme_rdma_inv_rkey(queue, req);
-+		if (unlikely(ret < 0)) {
-+			dev_err(queue->ctrl->ctrl.device,
-+				"Queueing INV WR for rkey %#x failed (%d)\n",
-+				req->mr->rkey, ret);
-+			nvme_rdma_error_recovery(queue->ctrl);
-+		}
-+	}
- 
- 	spin_lock_irqsave(&req->lock, flags);
- 	req->resp_completed = true;
--	end = req->send_completed;
-+	end = req->send_completed && !req->mr->need_inval;
- 	spin_unlock_irqrestore(&req->lock, flags);
- 	if (end) {
- 		if (rq->tag == tag)
 -- 
-2.14.1
+2.7.4
