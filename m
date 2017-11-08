@@ -1,45 +1,33 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Wed, 8 Nov 2017 17:44:55 +0000
-Subject: [PATCH 1/2] NVMe-CLI : WDC-Plugin Updated Smart Log Commands
-In-Reply-To: <20171108170323.GB25017@localhost.localdomain>
-References: <20171108164947.28987-1-jeff.lien@wdc.com>
- <20171108170323.GB25017@localhost.localdomain>
-Message-ID: <MWHPR04MB10257A56ECF31A5607B2FE09EA560@MWHPR04MB1025.namprd04.prod.outlook.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 8 Nov 2017 10:15:31 -0800
+Subject: [PATCH] nvme-pci: avoid dereference of symbol from unloaded module
+In-Reply-To: <20171102122926.GB6764@ming.t460p>
+References: <20171102093624.20333-1-ming.lei@redhat.com>
+ <8b9a2473-c011-6224-b69a-61194cfac030@grimberg.me>
+ <20171102122926.GB6764@ming.t460p>
+Message-ID: <20171108181531.GA6606@infradead.org>
 
-Keith, 
-We had a customer request/require the vs prefix; that was the reason for adding.  I agree it's redundant, but figured it was easy enough to change.   
+On Thu, Nov 02, 2017@08:29:27PM +0800, Ming Lei wrote:
+> On Thu, Nov 02, 2017@02:10:16PM +0200, Sagi Grimberg wrote:
+> > 
+> > > The 'remove_work' may be scheduled to run after nvme_remove()
+> > > returns since we can't simply cancel it in nvme_remove() for
+> > > avoiding deadlock. Once nvme_remove() returns, this module(nvme)
+> > > can be unloaded.
+> > > 
+> > > On the other hand, nvme_put_ctrl() calls ctr->ops->free_ctrl
+> > > which may point to nvme_pci_free_ctrl() in unloaded module.
+> > > 
+> > > This patch avoids this issue by holding the module refcount before
+> > > scheduling 'remove_work'.
+> > 
+> > Why not simply flushing all scheduled works in module exit?
+> 
+> The nvme_wq is shared by all kinds of host(PCI, FC, ...), so
+> not good to flush all queued work in 'nvme_wq' just before
+> removing pci host module only.
+> 
+> Not mention 'remove_work' is actually scheduled by system wq
+> instead of nvme_wq.
 
-I can delete the extra whitespace easy enough; I just thought it helped make it a little more readable.  
-
-
-Jeff Lien
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, November 8, 2017 11:03 AM
-To: Jeffrey Lien
-Cc: linux-nvme at lists.infradead.org; Jeff Lien
-Subject: Re: [PATCH 1/2] NVMe-CLI : WDC-Plugin Updated Smart Log Commands
-
-On Wed, Nov 08, 2017@10:49:47AM -0600, jeffreyalien wrote:
->  PLUGIN(NAME("wdc", "Western Digital vendor specific extensions"),
->  	COMMAND_LIST(
-> -		ENTRY("cap-diag", "WDC Capture-Diagnostics", wdc_cap_diag)
-> -		ENTRY("drive-log", "WDC Drive Log", wdc_drive_log)
-> -		ENTRY("get-crash-dump", "WDC Crash Dump", wdc_get_crash_dump)
-> -		ENTRY("id-ctrl", "WDC identify controller", wdc_id_ctrl)
-> -		ENTRY("purge", "WDC Purge", wdc_purge)
-> -		ENTRY("purge-monitor", "WDC Purge Monitor", wdc_purge_monitor)
-> -		ENTRY("smart-log-add", "WDC Additional Smart Log", wdc_smart_log_add)
-> + 		ENTRY("cap-diag", "              WDC Capture-Diagnostics", wdc_cap_diag)
-> + 		ENTRY("drive-log", "              WDC Drive Log", wdc_drive_log)
-> + 		ENTRY("get-crash-dump", "              WDC Crash Dump", wdc_get_crash_dump)
-> + 		ENTRY("id-ctrl", "              WDC identify controller", wdc_id_ctrl)
-> + 		ENTRY("purge", "              WDC Purge", wdc_purge)
-> + 		ENTRY("purge-monitor", "              WDC Purge Monitor", wdc_purge_monitor)
-> + 		ENTRY("vs-smart-add-log", "             WDC Additional Smart Log", wdc_smart_add_log)
-> + 		ENTRY("vs-smart-add-log-c1", "          WDC Additional Smart Log for C1 Log page", wdc_smart_add_log_c1)
->  	)
->  );
-
-I wasn't sure why you added so much whitespace for your descriptions until I ran it. Maybe drop the "vs-" prefix since it's already vendor-specific by virtue of being a vendor specific plugin? The alignment comes out nicer that way.
+Still seems better than messing with module reference counts.
