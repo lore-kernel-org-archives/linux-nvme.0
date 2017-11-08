@@ -1,33 +1,16 @@
-From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed,  8 Nov 2017 10:59:03 +0100
-Subject: [PATCH v2] nvme: compare NQN string with right size
-Message-ID: <1510135144-1557-1-git-send-email-javier@cnexlabs.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 8 Nov 2017 12:07:25 +0200
+Subject: [PATCH 0/3] nvmet-rdma: SRQ per completion vector
+In-Reply-To: <9602adeb-85a0-1db2-0195-31bdedd16d1b@mellanox.com>
+References: <1504609157-3004-1-git-send-email-maxg@mellanox.com>
+ <9602adeb-85a0-1db2-0195-31bdedd16d1b@mellanox.com>
+Message-ID: <0ae855fb-3779-be87-ac03-7494adcbad1c@grimberg.me>
 
-From: Javier Gonz?lez <jg@lightnvm.io>
+Max,
 
-Copy subnqns using NVMF_NQN_SIZE as it is < 256
+> what is the approach for this SRQ feature ?
+> I haven't seen much progress with the CQ pool patches (we first wanted 
+> it to be on top of the CQ pool patches).
+> Should I resent it with your comments or wait till CQ pool will be in ?
 
-Changes since V1:
-  - Fix commit message to indicate that it is a copy and not a comparison.
-
-Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 37f9039bb9ca..b3bc9fb39a6c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1744,7 +1744,7 @@ static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 
- 	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
- 	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
--		strcpy(ctrl->subnqn, id->subnqn);
-+		strncpy(ctrl->subnqn, id->subnqn, NVMF_NQN_SIZE);
- 		return;
- 	}
- 
--- 
-2.7.4
+Just sent out a v3 of the CQ pool patches.
