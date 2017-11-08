@@ -1,21 +1,32 @@
-From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Wed, 08 Nov 2017 02:27:14 -0800
-Subject: [PATCH v3 2/9] IB/isert: use implicit CQ allocation
-In-Reply-To: <20171108095742.25365-3-sagi@grimberg.me>
-References: <20171108095742.25365-1-sagi@grimberg.me>
- <20171108095742.25365-3-sagi@grimberg.me>
-Message-ID: <1510136834.29624.78.camel@haakon3.daterainc.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 8 Nov 2017 12:18:32 +0100
+Subject: [PATCH 4/5] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20171108085417.GA19990@lst.de>
+References: <20171102183034.9320-1-hch@lst.de>
+ <20171102183034.9320-5-hch@lst.de> <20171108085417.GA19990@lst.de>
+Message-ID: <70376777-56f1-76f8-84be-d2df4a855fa6@suse.de>
 
-On Wed, 2017-11-08@11:57 +0200, Sagi Grimberg wrote:
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> [hch: ported to the new API]
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/infiniband/ulp/isert/ib_isert.c | 165 ++++----------------------------
->  drivers/infiniband/ulp/isert/ib_isert.h |  16 ----
->  2 files changed, 20 insertions(+), 161 deletions(-)
+On 11/08/2017 09:54 AM, Christoph Hellwig wrote:
+> Can I get a review for this one?  The only changes vs the previously
+> reviewed versions is that we don't use the multipath code at all for
+> subsystems that aren't multiported, and that there is an explicit
+> opt-out at compile and module load time, so it shouldn't be that hard
+> to review for those who reviewed the previous versions.
 > 
+The one thing I need to try is co-existence with dm-multipath, ie
+ensuring that dm-multipath stays out of the way if nvme multipathing is
+enabled.
 
-Likewise.
+I hope to get it done sometime later this week
 
-Reviewed-by: Nicholas Bellinger <nab at linux-iscsi.org>
+And I'll see to get the other patches reviewed.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
