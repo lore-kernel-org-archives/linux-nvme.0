@@ -1,43 +1,126 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 8 Nov 2017 17:31:23 +0100
-Subject: [PATCH 1/1] nvme/fc: add 'discovery' sysfs attribute to fc
- transport device
-In-Reply-To: <20171107192528.GC13618@infradead.org>
-References: <1509722369-95879-1-git-send-email-hare@suse.de>
- <1509722369-95879-2-git-send-email-hare@suse.de>
- <20171107192528.GC13618@infradead.org>
-Message-ID: <16dd3bc5-ae52-1ff5-3841-d313f676ed90@suse.de>
+From: chuck.lever@oracle.com (Chuck Lever)
+Date: Wed, 8 Nov 2017 11:42:12 -0500
+Subject: [PATCH v3 0/9] Introduce per-device completion queue pools
+In-Reply-To: <20171108095742.25365-1-sagi@grimberg.me>
+References: <20171108095742.25365-1-sagi@grimberg.me>
+Message-ID: <F7FAF7FD-AE2C-4428-A779-06C9768E0C73@oracle.com>
 
-On 11/07/2017 08:25 PM, Christoph Hellwig wrote:
->> +	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
->> +		list_for_each_entry_safe(rport, tmp_rport,
->> +					 &lport->endp_list, endp_list) {
->> +			if (!nvme_fc_rport_get(rport))
->> +				continue;
->> +			spin_unlock_irqrestore(&nvme_fc_lock, flags);
->> +			nvme_fc_signal_discovery_scan(lport, rport);
->> +			nvme_fc_rport_put(rport);
->> +			spin_lock_irqsave(&nvme_fc_lock, flags);
->> +		}
->> +	}
->> +	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+
+> On Nov 8, 2017,@4:57 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
 > 
-> What guarantees the list next pointers are still valid after
-> you dropped nvme_fc_lock?
+> This is the third re-incarnation of the CQ pool patches proposed
+> by Christoph and I.
 > 
-You know, I wondered about that, too.
-But then I cannot hold the lock when calling nvme_fc_rport_put().
-And I'm somewhat reluctant to use list_for_each_entry_safe() in the
-outer loop.
+> Our ULPs often want to make smart decisions on completion vector
+> affinitization when using multiple completion queues spread on
+> multiple cpu cores. We can see examples for this in iser, srp, nvme-rdma.
+> 
+> This patch set attempts to move this smartness to the rdma core by
+> introducing per-device CQ pools that by definition spread
+> across cpu cores. In addition, we completely make the completion
+> queue allocation transparent to the ULP by adding affinity hints
+> to create_qp which tells the rdma core to select (or allocate)
+> a completion queue that has the needed affinity for it.
+> 
+> This API gives us a similar approach to whats used in the networking
+> stack where the device completion queues are hidden from the application.
+> With the affinitization hints, we also do not compromise performance
+> as the completion queue will be affinitized correctly.
+> 
+> One thing that should be noticed is that now different ULPs using this
+> API may share completion queues (given that they use the same polling context).
+> However, even without this API they share interrupt vectors (and CPUs
+> that are assigned to them). Thus aggregating consumers on less completion
+> queues will result in better overall completion processing efficiency per
+> completion event (or interrupt).
 
-I'll be checking what we can do here.
+Hi Sagi, glad to see progress on this!
 
-Cheers,
+When running on the same CPU, Send and Receive completions compete
+for the same finite CPU resource. In addition, they compete with
+soft IRQ tasks that are also pinned to that CPU, and any other
+BOUND workqueue tasks that are running there.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Send and Receive completions often have significant work to do
+(for example, DMA syncing or unmapping followed by some parsing
+of the completion results) and are all serialized on ib_poll_wq or
+by soft IRQ.
+
+This limits IOPS, and restricts other users of that shared CQ.
+
+I recognize that handling interrupts on the same core where they
+fired is best, but some of this work has to be allowed to migrate
+when this CPU core is already fully utilized. A lot of the RDMA
+core and ULP workqueues are BOUND, which prevents task migration,
+even in the upper layers.
+
+I would like to see a capability of intelligently spreading the
+CQ workload for a single QP onto more CPU cores.
+
+As an example, I've found that ensuring that NFS/RDMA's Receive
+and Send completions are handled on separate CPU cores results in
+slightly higher IOPS (~5%) and lower latency jitter on one mount
+point.
+
+This is more critical now that our ULPs are handling more Send
+completions.
+
+
+> In addition, we introduce a configfs knob to our nvme-target to
+> bound I/O threads to a given cpulist (can be a subset). This is
+> useful for numa configurations where the backend device access is
+> configured with care to numa affinity, and we want to restrict rdma
+> device and I/O threads affinity accordingly.
+> 
+> The patch set convert iser, isert, srpt, svcrdma, nvme-rdma and
+> nvmet-rdma to use the new API.
+
+Is there a straightforward way to assess whether this work
+improves scalability and performance when multiple ULPs share a
+device?
+
+
+> Comments and feedback is welcome.
+> 
+> Christoph Hellwig (1):
+>  nvme-rdma: use implicit CQ allocation
+> 
+> Sagi Grimberg (8):
+>  RDMA/core: Add implicit per-device completion queue pools
+>  IB/isert: use implicit CQ allocation
+>  IB/iser: use implicit CQ allocation
+>  IB/srpt: use implicit CQ allocation
+>  svcrdma: Use RDMA core implicit CQ allocation
+>  nvmet-rdma: use implicit CQ allocation
+>  nvmet: allow assignment of a cpulist for each nvmet port
+>  nvmet-rdma: assign cq completion vector based on the port allowed cpus
+> 
+> drivers/infiniband/core/core_priv.h      |   6 +
+> drivers/infiniband/core/cq.c             | 193 +++++++++++++++++++++++++++++++
+> drivers/infiniband/core/device.c         |   4 +
+> drivers/infiniband/core/verbs.c          |  69 ++++++++++-
+> drivers/infiniband/ulp/iser/iscsi_iser.h |  19 ---
+> drivers/infiniband/ulp/iser/iser_verbs.c |  82 ++-----------
+> drivers/infiniband/ulp/isert/ib_isert.c  | 165 ++++----------------------
+> drivers/infiniband/ulp/isert/ib_isert.h  |  16 ---
+> drivers/infiniband/ulp/srpt/ib_srpt.c    |  46 +++-----
+> drivers/infiniband/ulp/srpt/ib_srpt.h    |   1 -
+> drivers/nvme/host/rdma.c                 |  62 +++++-----
+> drivers/nvme/target/configfs.c           |  75 ++++++++++++
+> drivers/nvme/target/nvmet.h              |   4 +
+> drivers/nvme/target/rdma.c               |  71 +++++-------
+> include/linux/sunrpc/svc_rdma.h          |   2 -
+> include/rdma/ib_verbs.h                  |  31 ++++-
+> net/sunrpc/xprtrdma/svc_rdma_transport.c |  22 +---
+> 17 files changed, 468 insertions(+), 400 deletions(-)
+> 
+> -- 
+> 2.14.1
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+--
+Chuck Lever
