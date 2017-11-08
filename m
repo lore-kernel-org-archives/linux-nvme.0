@@ -1,223 +1,165 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  8 Nov 2017 11:57:36 +0200
-Subject: [PATCH v3 3/9] IB/iser: use implicit CQ allocation
+Date: Wed,  8 Nov 2017 11:57:37 +0200
+Subject: [PATCH v3 4/9] IB/srpt: use implicit CQ allocation
 In-Reply-To: <20171108095742.25365-1-sagi@grimberg.me>
 References: <20171108095742.25365-1-sagi@grimberg.me>
-Message-ID: <20171108095742.25365-4-sagi@grimberg.me>
+Message-ID: <20171108095742.25365-5-sagi@grimberg.me>
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 [hch: ported to the new API]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/infiniband/ulp/iser/iscsi_iser.h | 19 --------
- drivers/infiniband/ulp/iser/iser_verbs.c | 82 ++++----------------------------
- 2 files changed, 8 insertions(+), 93 deletions(-)
+ drivers/infiniband/ulp/srpt/ib_srpt.c | 46 ++++++++++++-----------------------
+ drivers/infiniband/ulp/srpt/ib_srpt.h |  1 -
+ 2 files changed, 15 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/infiniband/ulp/iser/iscsi_iser.h b/drivers/infiniband/ulp/iser/iscsi_iser.h
-index c1ae4aeae2f9..cc4134acebdf 100644
---- a/drivers/infiniband/ulp/iser/iscsi_iser.h
-+++ b/drivers/infiniband/ulp/iser/iscsi_iser.h
-@@ -317,18 +317,6 @@ struct iser_conn;
- struct ib_conn;
- struct iscsi_iser_task;
+diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.c b/drivers/infiniband/ulp/srpt/ib_srpt.c
+index 9e8e9220f816..256d0d5b32e5 100644
+--- a/drivers/infiniband/ulp/srpt/ib_srpt.c
++++ b/drivers/infiniband/ulp/srpt/ib_srpt.c
+@@ -798,7 +798,7 @@ static int srpt_zerolength_write(struct srpt_rdma_ch *ch)
  
--/**
-- * struct iser_comp - iSER completion context
-- *
-- * @cq:         completion queue
-- * @active_qps: Number of active QPs attached
-- *              to completion context
-- */
--struct iser_comp {
--	struct ib_cq		*cq;
--	int                      active_qps;
--};
--
- /**
-  * struct iser_device - Memory registration operations
-  *     per-device registration schemes
-@@ -365,9 +353,6 @@ struct iser_reg_ops {
-  * @event_handler: IB events handle routine
-  * @ig_list:	   entry in devices list
-  * @refcount:      Reference counter, dominated by open iser connections
-- * @comps_used:    Number of completion contexts used, Min between online
-- *                 cpus and device max completion vectors
-- * @comps:         Dinamically allocated array of completion handlers
-  * @reg_ops:       Registration ops
-  * @remote_inv_sup: Remote invalidate is supported on this device
-  */
-@@ -377,8 +362,6 @@ struct iser_device {
- 	struct ib_event_handler      event_handler;
- 	struct list_head             ig_list;
- 	int                          refcount;
--	int			     comps_used;
--	struct iser_comp	     *comps;
- 	const struct iser_reg_ops    *reg_ops;
- 	bool                         remote_inv_sup;
- };
-@@ -456,7 +439,6 @@ struct iser_fr_pool {
-  * @sig_count:           send work request signal count
-  * @rx_wr:               receive work request for batch posts
-  * @device:              reference to iser device
-- * @comp:                iser completion context
-  * @fr_pool:             connection fast registration poool
-  * @pi_support:          Indicate device T10-PI support
-  */
-@@ -467,7 +449,6 @@ struct ib_conn {
- 	u8                           sig_count;
- 	struct ib_recv_wr	     rx_wr[ISER_MIN_POSTED_RX];
- 	struct iser_device          *device;
--	struct iser_comp	    *comp;
- 	struct iser_fr_pool          fr_pool;
- 	bool			     pi_support;
- 	struct ib_cqe		     reg_cqe;
-diff --git a/drivers/infiniband/ulp/iser/iser_verbs.c b/drivers/infiniband/ulp/iser/iser_verbs.c
-index 55a73b0ed4c6..8f8d853b1dc9 100644
---- a/drivers/infiniband/ulp/iser/iser_verbs.c
-+++ b/drivers/infiniband/ulp/iser/iser_verbs.c
-@@ -68,40 +68,17 @@ static void iser_event_handler(struct ib_event_handler *handler,
- static int iser_create_device_ib_res(struct iser_device *device)
+ static void srpt_zerolength_write_done(struct ib_cq *cq, struct ib_wc *wc)
  {
- 	struct ib_device *ib_dev = device->ib_device;
--	int ret, i, max_cqe;
-+	int ret;
+-	struct srpt_rdma_ch *ch = cq->cq_context;
++	struct srpt_rdma_ch *ch = wc->qp->qp_context;
  
- 	ret = iser_assign_reg_ops(device);
- 	if (ret)
- 		return ret;
+ 	if (wc->status == IB_WC_SUCCESS) {
+ 		srpt_process_wait_list(ch);
+@@ -1201,7 +1201,7 @@ static int srpt_abort_cmd(struct srpt_send_ioctx *ioctx)
+  */
+ static void srpt_rdma_read_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+-	struct srpt_rdma_ch *ch = cq->cq_context;
++	struct srpt_rdma_ch *ch = wc->qp->qp_context;
+ 	struct srpt_send_ioctx *ioctx =
+ 		container_of(wc->wr_cqe, struct srpt_send_ioctx, rdma_cqe);
  
--	device->comps_used = min_t(int, num_online_cpus(),
--				 ib_dev->num_comp_vectors);
+@@ -1526,7 +1526,7 @@ static void srpt_handle_new_iu(struct srpt_rdma_ch *ch,
+ 
+ static void srpt_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+-	struct srpt_rdma_ch *ch = cq->cq_context;
++	struct srpt_rdma_ch *ch = wc->qp->qp_context;
+ 	struct srpt_recv_ioctx *ioctx =
+ 		container_of(wc->wr_cqe, struct srpt_recv_ioctx, ioctx.cqe);
+ 
+@@ -1580,7 +1580,7 @@ static void srpt_process_wait_list(struct srpt_rdma_ch *ch)
+  */
+ static void srpt_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+-	struct srpt_rdma_ch *ch = cq->cq_context;
++	struct srpt_rdma_ch *ch = wc->qp->qp_context;
+ 	struct srpt_send_ioctx *ioctx =
+ 		container_of(wc->wr_cqe, struct srpt_send_ioctx, ioctx.cqe);
+ 	enum srpt_command_state state;
+@@ -1626,23 +1626,14 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
+ 		goto out;
+ 
+ retry:
+-	ch->cq = ib_alloc_cq(sdev->device, ch, ch->rq_size + srp_sq_size,
+-			0 /* XXX: spread CQs */, IB_POLL_WORKQUEUE);
+-	if (IS_ERR(ch->cq)) {
+-		ret = PTR_ERR(ch->cq);
+-		pr_err("failed to create CQ cqe= %d ret= %d\n",
+-		       ch->rq_size + srp_sq_size, ret);
+-		goto out;
+-	}
 -
--	device->comps = kcalloc(device->comps_used, sizeof(*device->comps),
--				GFP_KERNEL);
--	if (!device->comps)
--		goto comps_err;
--
--	max_cqe = min(ISER_MAX_CQ_LEN, ib_dev->attrs.max_cqe);
--
--	iser_info("using %d CQs, device %s supports %d vectors max_cqe %d\n",
--		  device->comps_used, ib_dev->name,
--		  ib_dev->num_comp_vectors, max_cqe);
--
- 	device->pd = ib_alloc_pd(ib_dev,
- 		iser_always_reg ? 0 : IB_PD_UNSAFE_GLOBAL_RKEY);
--	if (IS_ERR(device->pd))
--		goto pd_err;
--
--	for (i = 0; i < device->comps_used; i++) {
--		struct iser_comp *comp = &device->comps[i];
--
--		comp->cq = ib_alloc_cq(ib_dev, comp, max_cqe, i,
--				       IB_POLL_SOFTIRQ);
--		if (IS_ERR(comp->cq)) {
--			comp->cq = NULL;
--			goto cq_err;
--		}
-+	if (IS_ERR(device->pd)) {
-+		ret = PTR_ERR(device->pd);
++	qp_init->create_flags = IB_QP_CREATE_ASSIGN_CQS;
+ 	qp_init->qp_context = (void *)ch;
+ 	qp_init->event_handler
+ 		= (void(*)(struct ib_event *, void*))srpt_qp_event;
+-	qp_init->send_cq = ch->cq;
+-	qp_init->recv_cq = ch->cq;
+ 	qp_init->srq = sdev->srq;
+ 	qp_init->sq_sig_type = IB_SIGNAL_REQ_WR;
+ 	qp_init->qp_type = IB_QPT_RC;
++	qp_init->poll_ctx = IB_POLL_WORKQUEUE;
+ 	/*
+ 	 * We divide up our send queue size into half SEND WRs to send the
+ 	 * completions, and half R/W contexts to actually do the RDMA
+@@ -1653,6 +1644,9 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
+ 	qp_init->cap.max_send_wr = srp_sq_size / 2;
+ 	qp_init->cap.max_rdma_ctxs = srp_sq_size / 2;
+ 	qp_init->cap.max_send_sge = min(attrs->max_sge, SRPT_MAX_SG_PER_WQE);
++
++	qp_init->cap.max_recv_wr = ch->rq_size;
++
+ 	qp_init->port_num = ch->sport->port;
+ 
+ 	ch->qp = ib_create_qp(sdev->pd, qp_init);
+@@ -1660,19 +1654,17 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
+ 		ret = PTR_ERR(ch->qp);
+ 		if (ret == -ENOMEM) {
+ 			srp_sq_size /= 2;
+-			if (srp_sq_size >= MIN_SRPT_SQ_SIZE) {
+-				ib_destroy_cq(ch->cq);
++			if (srp_sq_size >= MIN_SRPT_SQ_SIZE)
+ 				goto retry;
+-			}
+ 		}
+ 		pr_err("failed to create_qp ret= %d\n", ret);
+-		goto err_destroy_cq;
 +		goto out;
  	}
  
- 	INIT_IB_EVENT_HANDLER(&device->event_handler, ib_dev,
-@@ -109,19 +86,9 @@ static int iser_create_device_ib_res(struct iser_device *device)
- 	ib_register_event_handler(&device->event_handler);
- 	return 0;
+ 	atomic_set(&ch->sq_wr_avail, qp_init->cap.max_send_wr);
  
--cq_err:
--	for (i = 0; i < device->comps_used; i++) {
--		struct iser_comp *comp = &device->comps[i];
--
--		if (comp->cq)
--			ib_free_cq(comp->cq);
--	}
--	ib_dealloc_pd(device->pd);
--pd_err:
--	kfree(device->comps);
--comps_err:
-+out:
- 	iser_err("failed to allocate an IB resource\n");
--	return -1;
-+	return ret;
+-	pr_debug("%s: max_cqe= %d max_sge= %d sq_size = %d cm_id= %p\n",
+-		 __func__, ch->cq->cqe, qp_init->cap.max_send_sge,
++	pr_debug("%s: max_sge= %d sq_size = %d cm_id= %p\n",
++		 __func__, qp_init->cap.max_send_sge,
+ 		 qp_init->cap.max_send_wr, ch->cm_id);
+ 
+ 	ret = srpt_init_ch_qp(ch, ch->qp);
+@@ -1685,17 +1677,9 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
+ 
+ err_destroy_qp:
+ 	ib_destroy_qp(ch->qp);
+-err_destroy_cq:
+-	ib_free_cq(ch->cq);
+ 	goto out;
  }
  
+-static void srpt_destroy_ch_ib(struct srpt_rdma_ch *ch)
+-{
+-	ib_destroy_qp(ch->qp);
+-	ib_free_cq(ch->cq);
+-}
+-
  /**
-@@ -130,20 +97,8 @@ static int iser_create_device_ib_res(struct iser_device *device)
-  */
- static void iser_free_device_ib_res(struct iser_device *device)
- {
--	int i;
--
--	for (i = 0; i < device->comps_used; i++) {
--		struct iser_comp *comp = &device->comps[i];
--
--		ib_free_cq(comp->cq);
--		comp->cq = NULL;
--	}
--
- 	ib_unregister_event_handler(&device->event_handler);
- 	ib_dealloc_pd(device->pd);
--
--	kfree(device->comps);
--	device->comps = NULL;
- 	device->pd = NULL;
- }
+  * srpt_close_ch() - Close an RDMA channel.
+  *
+@@ -1812,7 +1796,7 @@ static void srpt_release_channel_work(struct work_struct *w)
  
-@@ -423,7 +378,6 @@ static int iser_create_ib_conn_res(struct ib_conn *ib_conn)
- 	struct ib_device	*ib_dev;
- 	struct ib_qp_init_attr	init_attr;
- 	int			ret = -ENOMEM;
--	int index, min_index = 0;
+ 	ib_destroy_cm_id(ch->cm_id);
  
- 	BUG_ON(ib_conn->device == NULL);
+-	srpt_destroy_ch_ib(ch);
++	ib_destroy_qp(ch->qp);
  
-@@ -431,23 +385,10 @@ static int iser_create_ib_conn_res(struct ib_conn *ib_conn)
- 	ib_dev = device->ib_device;
+ 	srpt_free_ioctx_ring((struct srpt_ioctx **)ch->ioctx_ring,
+ 			     ch->sport->sdev, ch->rq_size,
+@@ -2070,7 +2054,7 @@ static int srpt_cm_req_recv(struct ib_cm_id *cm_id,
+ 	ch->sess = NULL;
  
- 	memset(&init_attr, 0, sizeof init_attr);
--
--	mutex_lock(&ig.connlist_mutex);
--	/* select the CQ with the minimal number of usages */
--	for (index = 0; index < device->comps_used; index++) {
--		if (device->comps[index].active_qps <
--		    device->comps[min_index].active_qps)
--			min_index = index;
--	}
--	ib_conn->comp = &device->comps[min_index];
--	ib_conn->comp->active_qps++;
--	mutex_unlock(&ig.connlist_mutex);
--	iser_info("cq index %d used for ib_conn %p\n", min_index, ib_conn);
--
-+	init_attr.create_flags = IB_QP_CREATE_ASSIGN_CQS;
- 	init_attr.event_handler = iser_qp_event_callback;
- 	init_attr.qp_context	= (void *)ib_conn;
--	init_attr.send_cq	= ib_conn->comp->cq;
--	init_attr.recv_cq	= ib_conn->comp->cq;
-+	init_attr.poll_ctx = IB_POLL_SOFTIRQ;
- 	init_attr.cap.max_recv_wr  = ISER_QP_MAX_RECV_DTOS;
- 	init_attr.cap.max_send_sge = 2;
- 	init_attr.cap.max_recv_sge = 1;
-@@ -483,11 +424,7 @@ static int iser_create_ib_conn_res(struct ib_conn *ib_conn)
- 	return ret;
+ destroy_ib:
+-	srpt_destroy_ch_ib(ch);
++	ib_destroy_qp(ch->qp);
  
- out_err:
--	mutex_lock(&ig.connlist_mutex);
--	ib_conn->comp->active_qps--;
--	mutex_unlock(&ig.connlist_mutex);
- 	iser_err("unable to alloc mem or create resource, err %d\n", ret);
--
- 	return ret;
- }
- 
-@@ -597,9 +534,6 @@ static void iser_free_ib_conn_res(struct iser_conn *iser_conn,
- 		  iser_conn, ib_conn->cma_id, ib_conn->qp);
- 
- 	if (ib_conn->qp != NULL) {
--		mutex_lock(&ig.connlist_mutex);
--		ib_conn->comp->active_qps--;
--		mutex_unlock(&ig.connlist_mutex);
- 		rdma_destroy_qp(ib_conn->cma_id);
- 		ib_conn->qp = NULL;
- 	}
+ free_ring:
+ 	srpt_free_ioctx_ring((struct srpt_ioctx **)ch->ioctx_ring,
+diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
+index 1b817e51b84b..4ab0d94af174 100644
+--- a/drivers/infiniband/ulp/srpt/ib_srpt.h
++++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
+@@ -265,7 +265,6 @@ enum rdma_ch_state {
+ struct srpt_rdma_ch {
+ 	struct ib_cm_id		*cm_id;
+ 	struct ib_qp		*qp;
+-	struct ib_cq		*cq;
+ 	struct ib_cqe		zw_cqe;
+ 	struct kref		kref;
+ 	int			rq_size;
 -- 
 2.14.1
