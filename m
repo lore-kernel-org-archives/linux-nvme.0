@@ -1,165 +1,81 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  8 Nov 2017 11:57:37 +0200
-Subject: [PATCH v3 4/9] IB/srpt: use implicit CQ allocation
+Date: Wed,  8 Nov 2017 11:57:38 +0200
+Subject: [PATCH v3 5/9] svcrdma: Use RDMA core implicit CQ allocation
 In-Reply-To: <20171108095742.25365-1-sagi@grimberg.me>
 References: <20171108095742.25365-1-sagi@grimberg.me>
-Message-ID: <20171108095742.25365-5-sagi@grimberg.me>
+Message-ID: <20171108095742.25365-6-sagi@grimberg.me>
+
+Get some of the wisdom of CQ completion vector spreading
+and CQ queue-pair chunking for free.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-[hch: ported to the new API]
-Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/infiniband/ulp/srpt/ib_srpt.c | 46 ++++++++++++-----------------------
- drivers/infiniband/ulp/srpt/ib_srpt.h |  1 -
- 2 files changed, 15 insertions(+), 32 deletions(-)
+ include/linux/sunrpc/svc_rdma.h          |  2 --
+ net/sunrpc/xprtrdma/svc_rdma_transport.c | 22 ++--------------------
+ 2 files changed, 2 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.c b/drivers/infiniband/ulp/srpt/ib_srpt.c
-index 9e8e9220f816..256d0d5b32e5 100644
---- a/drivers/infiniband/ulp/srpt/ib_srpt.c
-+++ b/drivers/infiniband/ulp/srpt/ib_srpt.c
-@@ -798,7 +798,7 @@ static int srpt_zerolength_write(struct srpt_rdma_ch *ch)
+diff --git a/include/linux/sunrpc/svc_rdma.h b/include/linux/sunrpc/svc_rdma.h
+index 995c6fe9ee90..95e0b7a1b311 100644
+--- a/include/linux/sunrpc/svc_rdma.h
++++ b/include/linux/sunrpc/svc_rdma.h
+@@ -118,8 +118,6 @@ struct svcxprt_rdma {
+ 	struct list_head     sc_rq_dto_q;
+ 	spinlock_t	     sc_rq_dto_lock;
+ 	struct ib_qp         *sc_qp;
+-	struct ib_cq         *sc_rq_cq;
+-	struct ib_cq         *sc_sq_cq;
  
- static void srpt_zerolength_write_done(struct ib_cq *cq, struct ib_wc *wc)
- {
--	struct srpt_rdma_ch *ch = cq->cq_context;
-+	struct srpt_rdma_ch *ch = wc->qp->qp_context;
+ 	spinlock_t	     sc_lock;		/* transport lock */
  
- 	if (wc->status == IB_WC_SUCCESS) {
- 		srpt_process_wait_list(ch);
-@@ -1201,7 +1201,7 @@ static int srpt_abort_cmd(struct srpt_send_ioctx *ioctx)
-  */
- static void srpt_rdma_read_done(struct ib_cq *cq, struct ib_wc *wc)
- {
--	struct srpt_rdma_ch *ch = cq->cq_context;
-+	struct srpt_rdma_ch *ch = wc->qp->qp_context;
- 	struct srpt_send_ioctx *ioctx =
- 		container_of(wc->wr_cqe, struct srpt_send_ioctx, rdma_cqe);
- 
-@@ -1526,7 +1526,7 @@ static void srpt_handle_new_iu(struct srpt_rdma_ch *ch,
- 
- static void srpt_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- {
--	struct srpt_rdma_ch *ch = cq->cq_context;
-+	struct srpt_rdma_ch *ch = wc->qp->qp_context;
- 	struct srpt_recv_ioctx *ioctx =
- 		container_of(wc->wr_cqe, struct srpt_recv_ioctx, ioctx.cqe);
- 
-@@ -1580,7 +1580,7 @@ static void srpt_process_wait_list(struct srpt_rdma_ch *ch)
-  */
- static void srpt_send_done(struct ib_cq *cq, struct ib_wc *wc)
- {
--	struct srpt_rdma_ch *ch = cq->cq_context;
-+	struct srpt_rdma_ch *ch = wc->qp->qp_context;
- 	struct srpt_send_ioctx *ioctx =
- 		container_of(wc->wr_cqe, struct srpt_send_ioctx, ioctx.cqe);
- 	enum srpt_command_state state;
-@@ -1626,23 +1626,14 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
- 		goto out;
- 
- retry:
--	ch->cq = ib_alloc_cq(sdev->device, ch, ch->rq_size + srp_sq_size,
--			0 /* XXX: spread CQs */, IB_POLL_WORKQUEUE);
--	if (IS_ERR(ch->cq)) {
--		ret = PTR_ERR(ch->cq);
--		pr_err("failed to create CQ cqe= %d ret= %d\n",
--		       ch->rq_size + srp_sq_size, ret);
--		goto out;
--	}
--
-+	qp_init->create_flags = IB_QP_CREATE_ASSIGN_CQS;
- 	qp_init->qp_context = (void *)ch;
- 	qp_init->event_handler
- 		= (void(*)(struct ib_event *, void*))srpt_qp_event;
--	qp_init->send_cq = ch->cq;
--	qp_init->recv_cq = ch->cq;
- 	qp_init->srq = sdev->srq;
- 	qp_init->sq_sig_type = IB_SIGNAL_REQ_WR;
- 	qp_init->qp_type = IB_QPT_RC;
-+	qp_init->poll_ctx = IB_POLL_WORKQUEUE;
- 	/*
- 	 * We divide up our send queue size into half SEND WRs to send the
- 	 * completions, and half R/W contexts to actually do the RDMA
-@@ -1653,6 +1644,9 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
- 	qp_init->cap.max_send_wr = srp_sq_size / 2;
- 	qp_init->cap.max_rdma_ctxs = srp_sq_size / 2;
- 	qp_init->cap.max_send_sge = min(attrs->max_sge, SRPT_MAX_SG_PER_WQE);
-+
-+	qp_init->cap.max_recv_wr = ch->rq_size;
-+
- 	qp_init->port_num = ch->sport->port;
- 
- 	ch->qp = ib_create_qp(sdev->pd, qp_init);
-@@ -1660,19 +1654,17 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
- 		ret = PTR_ERR(ch->qp);
- 		if (ret == -ENOMEM) {
- 			srp_sq_size /= 2;
--			if (srp_sq_size >= MIN_SRPT_SQ_SIZE) {
--				ib_destroy_cq(ch->cq);
-+			if (srp_sq_size >= MIN_SRPT_SQ_SIZE)
- 				goto retry;
--			}
- 		}
- 		pr_err("failed to create_qp ret= %d\n", ret);
--		goto err_destroy_cq;
-+		goto out;
+diff --git a/net/sunrpc/xprtrdma/svc_rdma_transport.c b/net/sunrpc/xprtrdma/svc_rdma_transport.c
+index 5caf8e722a11..d51ead156898 100644
+--- a/net/sunrpc/xprtrdma/svc_rdma_transport.c
++++ b/net/sunrpc/xprtrdma/svc_rdma_transport.c
+@@ -780,21 +780,11 @@ static struct svc_xprt *svc_rdma_accept(struct svc_xprt *xprt)
+ 		dprintk("svcrdma: error creating PD for connect request\n");
+ 		goto errout;
  	}
+-	newxprt->sc_sq_cq = ib_alloc_cq(dev, newxprt, newxprt->sc_sq_depth,
+-					0, IB_POLL_WORKQUEUE);
+-	if (IS_ERR(newxprt->sc_sq_cq)) {
+-		dprintk("svcrdma: error creating SQ CQ for connect request\n");
+-		goto errout;
+-	}
+-	newxprt->sc_rq_cq = ib_alloc_cq(dev, newxprt, newxprt->sc_rq_depth,
+-					0, IB_POLL_WORKQUEUE);
+-	if (IS_ERR(newxprt->sc_rq_cq)) {
+-		dprintk("svcrdma: error creating RQ CQ for connect request\n");
+-		goto errout;
+-	}
  
- 	atomic_set(&ch->sq_wr_avail, qp_init->cap.max_send_wr);
+ 	memset(&qp_attr, 0, sizeof qp_attr);
+ 	qp_attr.event_handler = qp_event_handler;
++	qp_attr.create_flags = IB_QP_CREATE_ASSIGN_CQS;
++	qp_attr.poll_ctx = IB_POLL_WORKQUEUE;
+ 	qp_attr.qp_context = &newxprt->sc_xprt;
+ 	qp_attr.port_num = newxprt->sc_port_num;
+ 	qp_attr.cap.max_rdma_ctxs = ctxts;
+@@ -804,8 +794,6 @@ static struct svc_xprt *svc_rdma_accept(struct svc_xprt *xprt)
+ 	qp_attr.cap.max_recv_sge = newxprt->sc_max_sge;
+ 	qp_attr.sq_sig_type = IB_SIGNAL_REQ_WR;
+ 	qp_attr.qp_type = IB_QPT_RC;
+-	qp_attr.send_cq = newxprt->sc_sq_cq;
+-	qp_attr.recv_cq = newxprt->sc_rq_cq;
+ 	dprintk("svcrdma: newxprt->sc_cm_id=%p, newxprt->sc_pd=%p\n",
+ 		newxprt->sc_cm_id, newxprt->sc_pd);
+ 	dprintk("    cap.max_send_wr = %d, cap.max_recv_wr = %d\n",
+@@ -959,12 +947,6 @@ static void __svc_rdma_free(struct work_struct *work)
+ 	if (rdma->sc_qp && !IS_ERR(rdma->sc_qp))
+ 		ib_destroy_qp(rdma->sc_qp);
  
--	pr_debug("%s: max_cqe= %d max_sge= %d sq_size = %d cm_id= %p\n",
--		 __func__, ch->cq->cqe, qp_init->cap.max_send_sge,
-+	pr_debug("%s: max_sge= %d sq_size = %d cm_id= %p\n",
-+		 __func__, qp_init->cap.max_send_sge,
- 		 qp_init->cap.max_send_wr, ch->cm_id);
- 
- 	ret = srpt_init_ch_qp(ch, ch->qp);
-@@ -1685,17 +1677,9 @@ static int srpt_create_ch_ib(struct srpt_rdma_ch *ch)
- 
- err_destroy_qp:
- 	ib_destroy_qp(ch->qp);
--err_destroy_cq:
--	ib_free_cq(ch->cq);
- 	goto out;
- }
- 
--static void srpt_destroy_ch_ib(struct srpt_rdma_ch *ch)
--{
--	ib_destroy_qp(ch->qp);
--	ib_free_cq(ch->cq);
--}
+-	if (rdma->sc_sq_cq && !IS_ERR(rdma->sc_sq_cq))
+-		ib_free_cq(rdma->sc_sq_cq);
 -
- /**
-  * srpt_close_ch() - Close an RDMA channel.
-  *
-@@ -1812,7 +1796,7 @@ static void srpt_release_channel_work(struct work_struct *w)
+-	if (rdma->sc_rq_cq && !IS_ERR(rdma->sc_rq_cq))
+-		ib_free_cq(rdma->sc_rq_cq);
+-
+ 	if (rdma->sc_pd && !IS_ERR(rdma->sc_pd))
+ 		ib_dealloc_pd(rdma->sc_pd);
  
- 	ib_destroy_cm_id(ch->cm_id);
- 
--	srpt_destroy_ch_ib(ch);
-+	ib_destroy_qp(ch->qp);
- 
- 	srpt_free_ioctx_ring((struct srpt_ioctx **)ch->ioctx_ring,
- 			     ch->sport->sdev, ch->rq_size,
-@@ -2070,7 +2054,7 @@ static int srpt_cm_req_recv(struct ib_cm_id *cm_id,
- 	ch->sess = NULL;
- 
- destroy_ib:
--	srpt_destroy_ch_ib(ch);
-+	ib_destroy_qp(ch->qp);
- 
- free_ring:
- 	srpt_free_ioctx_ring((struct srpt_ioctx **)ch->ioctx_ring,
-diff --git a/drivers/infiniband/ulp/srpt/ib_srpt.h b/drivers/infiniband/ulp/srpt/ib_srpt.h
-index 1b817e51b84b..4ab0d94af174 100644
---- a/drivers/infiniband/ulp/srpt/ib_srpt.h
-+++ b/drivers/infiniband/ulp/srpt/ib_srpt.h
-@@ -265,7 +265,6 @@ enum rdma_ch_state {
- struct srpt_rdma_ch {
- 	struct ib_cm_id		*cm_id;
- 	struct ib_qp		*qp;
--	struct ib_cq		*cq;
- 	struct ib_cqe		zw_cqe;
- 	struct kref		kref;
- 	int			rq_size;
 -- 
 2.14.1
