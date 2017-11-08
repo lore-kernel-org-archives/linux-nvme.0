@@ -1,16 +1,16 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Wed, 8 Nov 2017 09:37:34 +0800
-Subject: [PATCHv3 1/5] nvme: Centralize AEN defines
-In-Reply-To: <20171107221314.27822-2-keith.busch@intel.com>
+Date: Wed, 8 Nov 2017 09:38:33 +0800
+Subject: [PATCHv3 2/5] nvme/fc: remove unused "queue_size" field
+In-Reply-To: <20171107221314.27822-3-keith.busch@intel.com>
 References: <20171107221314.27822-1-keith.busch@intel.com>
- <20171107221314.27822-2-keith.busch@intel.com>
-Message-ID: <f352114e-5421-7d21-0374-3185f6cde764@huawei.com>
+ <20171107221314.27822-3-keith.busch@intel.com>
+Message-ID: <ff3e3d65-9814-6d36-661c-820c2ed6ef3d@huawei.com>
 
 
-Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
 
 On 2017/11/8 6:13, Keith Busch wrote:
-> All the transports were unnecessarilly duplicating the AEN request
-> accounting. This patch defines everything in one place.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> This was being saved in a structure, but never used anywhere. The queue
+> size is obtained through other means, so there's no reason to duplicate
+> this without a user for it.
+
+Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
