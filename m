@@ -1,72 +1,36 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  8 Nov 2017 12:00:30 +0200
-Subject: [PATCH 3/3] nvmet: remove redundant local variable
-In-Reply-To: <20171108100030.25745-1-sagi@grimberg.me>
-References: <20171108100030.25745-1-sagi@grimberg.me>
-Message-ID: <20171108100030.25745-4-sagi@grimberg.me>
+From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Wed,  8 Nov 2017 10:59:04 +0100
+Subject: [PATCH v2] nvme: fix eui_show() print format
+In-Reply-To: <1510135144-1557-1-git-send-email-javier@cnexlabs.com>
+References: <1510135144-1557-1-git-send-email-javier@cnexlabs.com>
+Message-ID: <1510135144-1557-2-git-send-email-javier@cnexlabs.com>
 
-the status is either success or some status id and
-we don't need a local variable for it.
+From: Javier Gonz?lez <jg@lightnvm.io>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Fix print formatting, but keep the original output to prevent user
+breakage as suggested by Joe Perches.
+
+Change since v1:
+  - Maintain the original output format printing spaces instead of dashes
+
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/target/admin-cmd.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 871c2e5e17a0..6b921c253618 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -35,17 +35,14 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
- static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 		struct nvme_smart_log *slog)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b3bc9fb39a6c..6c9d313c6f90 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2109,7 +2109,7 @@ static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
+ 								char *buf)
  {
--	u16 status;
- 	struct nvmet_ns *ns;
- 	u64 host_reads, host_writes, data_units_read, data_units_written;
- 
--	status = NVME_SC_SUCCESS;
- 	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->get_log_page.nsid);
- 	if (!ns) {
--		status = NVME_SC_INVALID_NS;
- 		pr_err("nvmet : Could not find namespace id : %d\n",
- 				le32_to_cpu(req->cmd->get_log_page.nsid));
--		goto out;
-+		return NVME_SC_INVALID_NS;
- 	}
- 
- 	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
-@@ -58,20 +55,18 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 	put_unaligned_le64(host_writes, &slog->host_writes[0]);
- 	put_unaligned_le64(data_units_written, &slog->data_units_written[0]);
- 	nvmet_put_namespace(ns);
--out:
--	return status;
-+
-+	return NVME_SC_SUCCESS;
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+-	return sprintf(buf, "%8phd\n", ns->eui);
++	return sprintf(buf, "%8ph\n", ns->eui);
  }
+ static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
  
- static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 		struct nvme_smart_log *slog)
- {
--	u16 status;
- 	u64 host_reads = 0, host_writes = 0;
- 	u64 data_units_read = 0, data_units_written = 0;
- 	struct nvmet_ns *ns;
- 	struct nvmet_ctrl *ctrl;
- 
--	status = NVME_SC_SUCCESS;
- 	ctrl = req->sq->ctrl;
- 
- 	rcu_read_lock();
-@@ -91,7 +86,7 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 	put_unaligned_le64(host_writes, &slog->host_writes[0]);
- 	put_unaligned_le64(data_units_written, &slog->data_units_written[0]);
- 
--	return status;
-+	return NVME_SC_SUCCESS;
- }
- 
- static u16 nvmet_get_smart_log(struct nvmet_req *req,
 -- 
-2.14.1
+2.7.4
