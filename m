@@ -1,28 +1,36 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 7 Nov 2017 17:04:24 -0700
-Subject: [PATCHv3 2/5] nvme/fc: remove unused "queue_size" field
-In-Reply-To: <45c5bfad-4854-2e01-905e-bcd8cbf42314@broadcom.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 8 Nov 2017 09:35:39 +0800
+Subject: [PATCHv3 3/5] nvme: Single AEN request
+In-Reply-To: <20171107221314.27822-4-keith.busch@intel.com>
 References: <20171107221314.27822-1-keith.busch@intel.com>
- <20171107221314.27822-3-keith.busch@intel.com>
- <45c5bfad-4854-2e01-905e-bcd8cbf42314@broadcom.com>
-Message-ID: <20171108000423.GA25017@localhost.localdomain>
+ <20171107221314.27822-4-keith.busch@intel.com>
+Message-ID: <6cdfcd03-37d2-06cb-35e7-0d5798a2a827@huawei.com>
 
-On Tue, Nov 07, 2017@03:56:52PM -0800, James Smart wrote:
->    On 11/7/2017 2:13 PM, Keith Busch wrote:
-> 
->  This was being saved in a structure, but never used anywhere. The queue
->  size is obtained through other means, so there's no reason to duplicate
->  this without a user for it.
-> 
->  Reviewed-by: Sagi Grimberg [1]<sagi at grimberg.me>
->  Signed-off-by: Keith Busch [2]<keith.busch at intel.com>
->  ---
->   drivers/nvme/host/fc.c | 9 +++------
->   1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> 
->    I had reviewed the v2.
-> 
->    Reviewed-by: James Smart [3]<james.smart at broadcom.com>
 
-Indeed, sorry about that, and thank you for the review.
+On 2017/11/8 6:13, Keith Busch wrote:
+>  static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
+> @@ -2758,22 +2750,8 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>  		union nvme_result *res)
+>  {
+>  	u32 result = le32_to_cpu(res->u32);
+> -	bool done = true;
+>  
+> -	switch (le16_to_cpu(status) >> 1) {
+> -	case NVME_SC_SUCCESS:
+> -		done = false;
+> -		/*FALLTHRU*/
+> -	case NVME_SC_ABORT_REQ:
+> -		++ctrl->event_limit;
+> -		if (ctrl->state == NVME_CTRL_LIVE)
+> -			queue_work(nvme_wq, &ctrl->async_event_work);
+> -		break;
+> -	default:
+> -		break;
+> -	}
+> -
+> -	if (done)
+> +	if (le16_to_cpu(status) >> 1 != NVME_SC_SUCCESS)
+>  		return;
+If  le16_to_cpu(status) >> 1 is NVME_SC_ABORT_REQ, the current async event request is
+aborted and there is no pending request in the queue of async event request of the target.
+Why do you choose not to submit another async event request to the target?
