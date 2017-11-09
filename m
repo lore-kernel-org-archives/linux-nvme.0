@@ -1,35 +1,25 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 Nov 2017 16:51:41 +0100
-Subject: [PATCH 4/5] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <163098dc-02f0-4146-17da-903971e5214d@suse.de>
-References: <20171102183034.9320-1-hch@lst.de>
- <20171102183034.9320-5-hch@lst.de>
- <163098dc-02f0-4146-17da-903971e5214d@suse.de>
-Message-ID: <20171109155141.GA25997@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 9 Nov 2017 09:04:11 -0700
+Subject: [PATCHv3 3/5] nvme: Single AEN request
+In-Reply-To: <20171109092450.GC17120@lst.de>
+References: <20171107221314.27822-1-keith.busch@intel.com>
+ <20171107221314.27822-4-keith.busch@intel.com>
+ <6cdfcd03-37d2-06cb-35e7-0d5798a2a827@huawei.com>
+ <20171109092450.GC17120@lst.de>
+Message-ID: <20171109160410.GD25017@localhost.localdomain>
 
-On Thu, Nov 09, 2017@04:44:32PM +0100, Hannes Reinecke wrote:
-> - We don't have the topology information in sysfs;
+On Thu, Nov 09, 2017@10:24:50AM +0100, Christoph Hellwig wrote:
+> On Wed, Nov 08, 2017@09:35:39AM +0800, Guan Junxiong wrote:
+> > If  le16_to_cpu(status) >> 1 is NVME_SC_ABORT_REQ, the current async event request is
+> > aborted and there is no pending request in the queue of async event request of the target.
+> > Why do you choose not to submit another async event request to the target?
+> 
+> We're never going to send an abort for the AER, so this status code
+> will only happen if the controller is being torn down, in that case we
+> don't want to submit another one until the controller is set up again.
 
-We have all the topology information in sysfs, but you seem to look
-for the wrong thing.
-
-> while the namespace
-> device has the 'slaves' and 'holders' directories, they remain empty,
-> and the path devices don't even have those directories. I really would
-> like to see them populated to help things like dracut figuring out the
-> topology when building up a list of modules to include.
-
-Of course there aren't because there is not block device you can hold
-for the controller.  
-
-> - The patch doesn't integrate with the 'claim' mechanism for block
-> devices, ie device-mapper might accidentally stumble upon it when
-> traversing devices.
-
-Same as above.  There is no block device to be claimed.
-
-> I'll be sending two patches to resurrect the 'bd_link_disk_holder'
-> idea I posted earlier; that should take care of these issues.
-
-It doesn't.  There is not block device you can hold, so there is no
-point in claiming it.
+Yeah, reclaiming the AER count on abort was a trick for controller resets
+when we were tracking those requests. Back then, every reset you'd see
+at least one "Cancelling I/O QID 0" message for AER commands. We've had
+a better way to handle this wor a while now, so that was left-over
+dead code.
