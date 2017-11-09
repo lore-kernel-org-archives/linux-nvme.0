@@ -1,65 +1,31 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Thu,  9 Nov 2017 01:12:03 -0500
-Subject: [PATCH] nvme-pci: disable APST on Samsung SSD 960 EVO + ASUS PRIME
- B350M-A
-Message-ID: <20171109061203.18857-1-kai.heng.feng@canonical.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 9 Nov 2017 10:13:48 +0100
+Subject: [PATCH 4/5] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <70376777-56f1-76f8-84be-d2df4a855fa6@suse.de>
+References: <20171102183034.9320-1-hch@lst.de>
+ <20171102183034.9320-5-hch@lst.de> <20171108085417.GA19990@lst.de>
+ <70376777-56f1-76f8-84be-d2df4a855fa6@suse.de>
+Message-ID: <20171109091348.GA16793@lst.de>
 
-The NVMe device in question drops off the PCIe bus after system suspend.
-I've tried several approaches to workaround this issue, but none of them
-works:
-- NVME_QUIRK_DELAY_BEFORE_CHK_RDY
-- NVME_QUIRK_NO_DEEPEST_PS
-- Disable APST before controller shutdown
-- Delay between controller shutdown and system suspend
-- Explicitly set power state to 0 before controller shutdown
+On Wed, Nov 08, 2017@12:18:32PM +0100, Hannes Reinecke wrote:
+> On 11/08/2017 09:54 AM, Christoph Hellwig wrote:
+> > Can I get a review for this one?  The only changes vs the previously
+> > reviewed versions is that we don't use the multipath code at all for
+> > subsystems that aren't multiported, and that there is an explicit
+> > opt-out at compile and module load time, so it shouldn't be that hard
+> > to review for those who reviewed the previous versions.
+> > 
+> The one thing I need to try is co-existence with dm-multipath, ie
+> ensuring that dm-multipath stays out of the way if nvme multipathing is
+> enabled.
 
-Fortunately it's a desktop, so disable APST won't hurt the battery.
+For one it will work just fine on the single node.  Second you easily
+check it from the sysfs layout.
 
-Also, change the quirk function name to reflect it's for vendor
-combination quirks.
+> 
+> I hope to get it done sometime later this week
+> 
+> And I'll see to get the other patches reviewed.
 
-BugLink: https://bugs.launchpad.net/bugs/1705748
-Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
----
- drivers/nvme/host/pci.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 32c413ec818c..3bb8c1915334 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2438,7 +2438,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	return -ENODEV;
- }
- 
--static unsigned long check_dell_samsung_bug(struct pci_dev *pdev)
-+static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- {
- 	if (pdev->vendor == 0x144d && pdev->device == 0xa802) {
- 		/*
-@@ -2453,6 +2453,14 @@ static unsigned long check_dell_samsung_bug(struct pci_dev *pdev)
- 		    (dmi_match(DMI_PRODUCT_NAME, "XPS 15 9550") ||
- 		     dmi_match(DMI_PRODUCT_NAME, "Precision 5510")))
- 			return NVME_QUIRK_NO_DEEPEST_PS;
-+	} else if (pdev->vendor == 0x144d && pdev->device == 0xa804) {
-+		/*
-+		 * Samsung SSD 960 EVO drops off the PCIe bus after system
-+		 * suspend on a Ryzen board, ASUS PRIME B350M-A.
-+		 */
-+		if (dmi_match(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC.") &&
-+		    dmi_match(DMI_BOARD_NAME, "PRIME B350M-A"))
-+			return NVME_QUIRK_NO_APST;
- 	}
- 
- 	return 0;
-@@ -2492,7 +2500,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result)
- 		goto unmap;
- 
--	quirks |= check_dell_samsung_bug(pdev);
-+	quirks |= check_vendor_combination_bug(pdev);
- 
- 	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
- 			quirks);
--- 
-2.14.1
+Please do so now - you've complained about things going slow for a
+merge in this merge window, and now we're only waiting for you.
