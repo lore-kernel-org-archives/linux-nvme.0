@@ -1,55 +1,46 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 9 Nov 2017 13:09:10 +0200
-Subject: [PATCH 1/1] nvme-rdma: Fix memory leak during queue allocation
-In-Reply-To: <2d6e460f-2310-bb06-3d1c-f2ecdc4b2dc7@grimberg.me>
-References: <1510146032-25434-1-git-send-email-maxg@mellanox.com>
- <2d6e460f-2310-bb06-3d1c-f2ecdc4b2dc7@grimberg.me>
-Message-ID: <cb2271d1-5af1-7b23-fac0-9d0139454cee@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 9 Nov 2017 13:14:23 +0200
+Subject: [PATCH v2 2/3] nvme-rdma: don't complete requests before a send
+ work request has completed
+In-Reply-To: <20171109092110.GB16966@lst.de>
+References: <20171108100616.26605-1-sagi@grimberg.me>
+ <20171108100616.26605-3-sagi@grimberg.me> <20171109092110.GB16966@lst.de>
+Message-ID: <0f368bc9-2e9f-4008-316c-46b85661a274@grimberg.me>
 
 
 
-On 11/9/2017 1:02 PM, Sagi Grimberg wrote:
+On 11/09/2017 11:21 AM, Christoph Hellwig wrote:
+>> +	}
+>> +
+>> +	spin_lock_irqsave(&req->lock, flags);
+>> +	req->send_completed = true;
+>> +	end = req->resp_completed;
+>> +	spin_unlock_irqrestore(&req->lock, flags);
 > 
->> In case nvme_rdma_wait_for_cm timeout expires before we get
->> an established or rejected event (rdma_connect succeeded) from
->> rdma_cm, we end up with leaking the ib resources for dedicated
->> queue.
->> This scenario can easily reproduced using traffic test during port
->> toggling.
->>
->> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
->> ---
->> ? drivers/nvme/host/rdma.c | 5 ++++-
->> ? 1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 0ebb539..fcb278a 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -545,13 +545,16 @@ static int nvme_rdma_alloc_queue(struct 
->> nvme_rdma_ctrl *ctrl,
->> ????? if (ret) {
->> ????????? dev_info(ctrl->ctrl.device,
->> ????????????? "rdma_resolve_addr wait failed (%d).\n", ret);
-> 
-> Are you rebased? this message have changed I think.
+> Wouldn't it be better to use atomic bitops (test_and_set_bit and co)
+> for these flags instead of needing a irqsave lock?
 
-I'm working on the main master. Should I work on top of nvme-4.15 ? from 
-what I saw few days ago, it's wasn't rebased on top of 4.14-rc8
+Here it will be better, but in the next patch, where we need to check
+also for MR invalidation atomically I don't know.
 
-> 
->> -??????? goto out_destroy_cm_id;
->> +??????? goto out_destroy_queue_ib;
->> ????? }
->> ????? clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
->> ????? return 0;
->> +out_destroy_queue_ib:
->> +??? if (ret == -ETIMEDOUT)
->> +??????? nvme_rdma_destroy_queue_ib(queue);
-> 
-> This does not look safe to me. What protects that nvme_rdma_cm_handler
-> will not destroy the ib queue as well? I think we need to destroy the
-> cm_id first (guarantee that we will never handle other cma events)
-> and only then destroy the ib queue if needed.
+The logic is:
+1. on RECV: complete if (send completed and MR invalidated)
+2. on SEND: complete if (recv completed and MR invalidated)
+3. on INV: complete if (recv completed and send completed)
 
-You mean we need to destroy cm_id always before destroying ib queue ?
+We need the conditions to be atomic because the CQ can be processed
+from two contexts (and trust me, it falls apart fast if we don't protect
+it). Not sure I understand how I can achieve this with atomic bitops.
+
+We could relax the spinlock to _bh I think as we are only racing with
+irq-poll.
+
+>>   	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+>> -			req->mr->need_inval ? &req->reg_wr.wr : NULL);
+>> +			req->mr->need_inval ? &req->reg_wr.wr : NULL, true);
+> 
+> Looks like the unsignalled completions just removed in the last patch
+> are coming back here.
+
+That's because of the async event send, not sure why its here though,
+I'll check.
