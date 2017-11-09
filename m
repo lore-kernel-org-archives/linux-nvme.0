@@ -1,36 +1,41 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 9 Nov 2017 13:40:03 +0200
-Subject: [PATCH 1/1] nvme-rdma: Fix memory leak during queue allocation
-In-Reply-To: <cb2271d1-5af1-7b23-fac0-9d0139454cee@mellanox.com>
-References: <1510146032-25434-1-git-send-email-maxg@mellanox.com>
- <2d6e460f-2310-bb06-3d1c-f2ecdc4b2dc7@grimberg.me>
- <cb2271d1-5af1-7b23-fac0-9d0139454cee@mellanox.com>
-Message-ID: <5b0bc10a-1b0f-95d5-7563-d4c92fc547c4@grimberg.me>
+From: stephane.gonauer@6wind.com (stephane gonauer)
+Date: Thu, 9 Nov 2017 12:48:19 +0100
+Subject: building nvmetcli in buildroot
+Message-ID: <CANqv2T0CL+hJz0+_yUBnwQ995mupBTOBMpqEcrvi9ZawDBBCtg@mail.gmail.com>
+
+Hello,
+
+I would like to embed nvmetcli into a buildroot project of mine. So I
+wrote the first patch (0001-package-add-nvmetcli-package.patch) to
+include the nvmetcli as a package .
+
+However this doesn't work well because the setup.cfg from your tree
+ends up causing buildroot to try to copy nvmetcli.py to the *HOST*
+/usr/sbin.
+
+I looked around other python packages built in my configuration and
+no-one seems to use the same "install_scripts" keyword.
+
+So I made the second patch (0001-build-remove-setup.cfg.patch) which
+applies against the current nvmetcli tree. With this one, buildroot
+does work but the script is placed into /usr/bin.
+
+I wonder if this patch could be applied to your tree or if a better
+solution exists.
 
 
->> Are you rebased? this message have changed I think.
-> 
-> I'm working on the main master. Should I work on top of nvme-4.15 ? from 
-> what I saw few days ago, it's wasn't rebased on top of 4.14-rc8
-
-Yes, or at least make sure your patches apply on nvme-4.XX latest branch
-where we collect patches to.
-
->>> -??????? goto out_destroy_cm_id;
->>> +??????? goto out_destroy_queue_ib;
->>> ????? }
->>> ????? clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
->>> ????? return 0;
->>> +out_destroy_queue_ib:
->>> +??? if (ret == -ETIMEDOUT)
->>> +??????? nvme_rdma_destroy_queue_ib(queue);
->>
->> This does not look safe to me. What protects that nvme_rdma_cm_handler
->> will not destroy the ib queue as well? I think we need to destroy the
->> cm_id first (guarantee that we will never handle other cma events)
->> and only then destroy the ib queue if needed.
-> 
-> You mean we need to destroy cm_id always before destroying ib queue ?
-
-Yes, this is the only way to guarantee that the cm handler won't race
-with this call site.
+St?phane
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-package-add-nvmetcli-package.patch
+Type: text/x-patch
+Size: 2281 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171109/517df33f/attachment-0002.bin>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-build-remove-setup.cfg.patch
+Type: text/x-patch
+Size: 753 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171109/517df33f/attachment-0003.bin>
