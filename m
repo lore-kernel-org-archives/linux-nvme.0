@@ -1,10 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 Nov 2017 10:41:12 +0100
-Subject: [PATCH 2/3] nvmet: remove redundant memset if failed to
- get_smart_log failed
-In-Reply-To: <20171108100030.25745-3-sagi@grimberg.me>
-References: <20171108100030.25745-1-sagi@grimberg.me>
- <20171108100030.25745-3-sagi@grimberg.me>
-Message-ID: <20171109094112.GA17687@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 9 Nov 2017 12:31:53 +0200
+Subject: [PATCH] nvme-pci: avoid dereference of symbol from unloaded module
+In-Reply-To: <20171108181531.GA6606@infradead.org>
+References: <20171102093624.20333-1-ming.lei@redhat.com>
+ <8b9a2473-c011-6224-b69a-61194cfac030@grimberg.me>
+ <20171102122926.GB6764@ming.t460p> <20171108181531.GA6606@infradead.org>
+Message-ID: <b70e6cb0-3f6c-73e1-8bc1-078eb4e04dd0@grimberg.me>
 
-I've applied patches 2 and 3 to nvme-4.15.
+
+>> The nvme_wq is shared by all kinds of host(PCI, FC, ...), so
+>> not good to flush all queued work in 'nvme_wq' just before
+>> removing pci host module only.
+>>
+>> Not mention 'remove_work' is actually scheduled by system wq
+>> instead of nvme_wq.
+> 
+> Still seems better than messing with module reference counts.
+
+And also does not change the behavior (failing module unload).
