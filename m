@@ -1,40 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 9 Nov 2017 18:09:48 +0200
-Subject: [PATCH 3/5] nvme: track shared namespaces
-In-Reply-To: <20171109132046.GA22728@lst.de>
-References: <20171102183034.9320-1-hch@lst.de>
- <20171102183034.9320-4-hch@lst.de>
- <ddc19090-b69b-ffa1-fd85-497b410b2b94@grimberg.me>
- <20171109125214.GA21795@lst.de>
- <1a4292d3-b9c6-976c-69aa-a42f84469cb2@grimberg.me>
- <20171109132046.GA22728@lst.de>
-Message-ID: <1e0afeee-81d4-ca8e-4caa-2321640873e2@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 9 Nov 2017 09:18:46 -0700
+Subject: [PATCHv3 5/5] nvme: Send uevent for some asynchronous events
+In-Reply-To: <20171109092702.GE17120@lst.de>
+References: <20171107221314.27822-1-keith.busch@intel.com>
+ <20171107221314.27822-6-keith.busch@intel.com>
+ <20171109092702.GE17120@lst.de>
+Message-ID: <20171109161846.GE25017@localhost.localdomain>
 
-
->>>>> To allow lockless path lookup the list of nvme_ns structures per
->>>>> nvme_ns_head is protected by SRCU, which requires freeing the nvme_ns
->>>>> structure through call_srcu.
->>>>
->>>> Can you remind me why isn't rcu sufficient? Can looking up a
->>>> path (ns from head->list) block?
->>>
->>> blk_mq_make_request can block.
->>
->> Oh I see, so can you explain why srcu should cover direct_make_request?
->>
->> What if we were to do:
->> --
->> 	rcu_read_lock();
->> 	ns = nvme_find_path(head);
->> 	rcu_read_unlock();
->> 	if (likely(ns)) {
->> 		...
->> --
+On Thu, Nov 09, 2017@10:27:03AM +0100, Christoph Hellwig wrote:
+> On Tue, Nov 07, 2017@03:13:14PM -0700, Keith Busch wrote:
+> > +static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+> > +{
+> > +	char *envp[2] = {NULL, NULL};
+> > +	u32 aen = ctrl->aen;
+> > +
+> > +	ctrl->aen = 0;
 > 
-> That way we'd have to take and release a namespace reference for every I/O.
+> Seems like we should use cmpxchg on aen.
 
-Yea,
+> > +		ctrl->aen = result;
+> 
+> Can we call the field aen_result?
+> 
+> Given that the rest of the series looks good I'd be tempted to just
+> fix that up and apply it.  Are you ok with that?
 
-I'm good,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Thanks, the suggestions sound good to me. If you want to edit the commit
+when applying, I would much appreciate.
