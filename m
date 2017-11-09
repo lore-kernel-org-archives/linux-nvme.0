@@ -1,13 +1,36 @@
-From: yyt168@gmail.com (Tony Yang)
-Date: Thu, 9 Nov 2017 23:20:23 +0800
-Subject: kernel 4.14 how to install Mellanox connectx-3 infiniband driver?
-In-Reply-To: <CADL4p-rRJ6ydSuYBsjUOOE88ZUF5g_akY5Eb-bnA4ZsodhLEDQ@mail.gmail.com>
-References: <CADL4p-rRJ6ydSuYBsjUOOE88ZUF5g_akY5Eb-bnA4ZsodhLEDQ@mail.gmail.com>
-Message-ID: <CADL4p-r918miLJZeOviG5+OUeYGwML65SpuEwZ8=AmfNkUHHMQ@mail.gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 9 Nov 2017 07:36:22 -0800
+Subject: [PATCH v2 1/4] qla2xxx_nvmet: Add files for FC-NVMe Target support
+In-Reply-To: <20171109031754.10270-2-himanshu.madhani@cavium.com>
+References: <20171109031754.10270-1-himanshu.madhani@cavium.com>
+ <20171109031754.10270-2-himanshu.madhani@cavium.com>
+Message-ID: <3cf657ee-67a7-1b33-9a79-a0415d7a651b@broadcom.com>
 
-Hi, All
-   I downloaded the nvme with multipath kernel, The kernel version is
-4.14, I encountered a problem, I use Mellanox connectx-3 infiniband
-driver. Because the 4.14 kernel version is too new to install
-infiniband driver, does anyone encounter with me The same situation?
-How to solve? Thank you for your help.
+On 11/8/2017 7:17 PM, Himanshu Madhani wrote:
+> +static struct nvmet_fc_target_template qla_nvmet_fc_transport = {
+> +	.targetport_delete	= qla_nvmet_targetport_delete,
+> +	.xmt_ls_rsp		= qla_nvmet_ls_rsp,
+> +	.fcp_op			= qla_nvmet_fcp_op,
+> +	.fcp_abort		= qla_nvmet_fcp_abort,
+> +	.fcp_req_release	= qla_nvmet_fcp_req_release,
+> +	.max_hw_queues		= 8,
+> +	.max_sgl_segments	= 128,
+> +	.max_dif_sgl_segments	= 64,
+> +	.dma_boundary		= 0xFFFFFFFF,
+> +	.target_features	= NVMET_FCTGTFEAT_READDATA_RSP |
+> +					NVMET_FCTGTFEAT_CMD_IN_ISR |
+> +					NVMET_FCTGTFEAT_OPDONE_IN_ISR,
+> +	.target_priv_sz	= sizeof(struct nvme_private),
+> +};
+>
+
+ From the patch set prior:
+ > Agree we do nvme_fc* callbacks in deferred context, but without the 
+xxx_IN_ISR flag during NVMe Target template registration, we were 
+running into crash due to recursive spin_lock held as part of CTIO 
+response in our driver.
+
+Can you look into removing this recursive spin lock ? ?? I don't think 
+it's a good idea to be holding a spin lock when upcalling the transport.
+
+-- james
