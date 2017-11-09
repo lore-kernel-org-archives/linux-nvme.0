@@ -1,15 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 9 Nov 2017 13:37:43 +0200
-Subject: [PATCH 3/5] nvme: track shared namespaces
-In-Reply-To: <20171102183034.9320-4-hch@lst.de>
-References: <20171102183034.9320-1-hch@lst.de>
- <20171102183034.9320-4-hch@lst.de>
-Message-ID: <ddc19090-b69b-ffa1-fd85-497b410b2b94@grimberg.me>
+Date: Thu, 9 Nov 2017 13:38:22 +0200
+Subject: [PATCH V2] nvme-pci: avoid dereference of symbol from unloaded
+ module
+In-Reply-To: <20171109113207.24286-1-ming.lei@redhat.com>
+References: <20171109113207.24286-1-ming.lei@redhat.com>
+Message-ID: <95639e8e-20f2-4c9a-665d-9ada725786f3@grimberg.me>
 
+Thanks Ming,
 
-> To allow lockless path lookup the list of nvme_ns structures per
-> nvme_ns_head is protected by SRCU, which requires freeing the nvme_ns
-> structure through call_srcu.
-
-Can you remind me why isn't rcu sufficient? Can looking up a
-path (ns from head->list) block?
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
