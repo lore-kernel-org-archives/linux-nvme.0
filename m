@@ -1,26 +1,41 @@
 From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Thu, 9 Nov 2017 17:31:57 +0000
-Subject: [PATCH v3 0/9] Introduce per-device completion queue pools
-In-Reply-To: <d5820b65-b428-7cd1-f7f1-7d8d89d21cf5@grimberg.me>
+Date: Thu, 9 Nov 2017 17:33:35 +0000
+Subject: [PATCH v3 1/9] RDMA/core: Add implicit per-device completion
+ queue pools
+In-Reply-To: <23b598f2-6982-0d15-69e4-c526c627ec33@grimberg.me>
 References: <20171108095742.25365-1-sagi@grimberg.me>
- <1510245771.2608.6.camel@wdc.com>
- <d5820b65-b428-7cd1-f7f1-7d8d89d21cf5@grimberg.me>
-Message-ID: <1510248716.2608.17.camel@wdc.com>
+ <20171108095742.25365-2-sagi@grimberg.me>
+ <fe2c23b7-2923-2693-28c3-6a6f399bda26@mellanox.com>
+ <23b598f2-6982-0d15-69e4-c526c627ec33@grimberg.me>
+Message-ID: <1510248814.2608.19.camel@wdc.com>
 
-On Thu, 2017-11-09@19:22 +0200, Sagi Grimberg wrote:
-> But I'm afraid don't understand how the fact that ULPs will run on
-> different ports matter? how would the fact that we had two different
-> pools on different ports make a difference?
+On Thu, 2017-11-09@19:31 +0200, Sagi Grimberg wrote:
+> > > +static int ib_alloc_cqs(struct ib_device *dev, int nr_cqes,
+> > > +        enum ib_poll_context poll_ctx)
+> > > +{
+> > > +    LIST_HEAD(tmp_list);
+> > > +    struct ib_cq *cq;
+> > > +    unsigned long flags;
+> > > +    int nr_cqs, ret, i;
+> > > +
+> > > +    /*
+> > > +     * Allocated at least as many CQEs as requested, and otherwise
+> > > +     * a reasonable batch size so that we can share CQs between
+> > > +     * multiple users instead of allocating a larger number of CQs.
+> > > +     */
+> > > +    nr_cqes = max(nr_cqes, min(dev->attrs.max_cqe, IB_CQE_BATCH));
+> > 
+> > did you mean min() ?
+> 
+> No, I meant max. If we choose the CQ size, we choose the min between the
+> default and the device capability, if the user chooses, we rely that it
+> asked for no more than the device capability (and if not, allocation
+> will fail, as it should).
 
-If each RDMA port is only used by a single ULP then the ULP driver can provide
-a better value for the CQ size than IB_CQE_BATCH. If CQ pools would be created
-by ULPs then it would be easy for ULPs to pass their choice of CQ size to the
-RDMA core.
+Hello Sagi,
 
-In case multiple ULPs share an RDMA port then which CQ is chosen for the ULP
-will depend on the order in which the ULP drivers are loaded. This may lead to
-hard to debug performance issues, e.g. due to different lock contention
-behavior. That's another reason why per-ULP CQ pools look more interesting to
-me than one CQ pool per HCA.
+How about the following:
+
+	min(dev->attrs.max_cqe, max(nr_cqes, IB_CQE_BATCH))
 
 Bart.
