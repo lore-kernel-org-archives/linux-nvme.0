@@ -1,34 +1,63 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 Nov 2017 14:20:46 +0100
-Subject: [PATCH 3/5] nvme: track shared namespaces
-In-Reply-To: <1a4292d3-b9c6-976c-69aa-a42f84469cb2@grimberg.me>
-References: <20171102183034.9320-1-hch@lst.de>
- <20171102183034.9320-4-hch@lst.de>
- <ddc19090-b69b-ffa1-fd85-497b410b2b94@grimberg.me>
- <20171109125214.GA21795@lst.de>
- <1a4292d3-b9c6-976c-69aa-a42f84469cb2@grimberg.me>
-Message-ID: <20171109132046.GA22728@lst.de>
+Date: Thu,  9 Nov 2017 14:29:27 +0100
+Subject: [PATCH] nvmet: kill nvmet_inline_bio_init
+Message-ID: <20171109132927.1766-1-hch@lst.de>
 
-On Thu, Nov 09, 2017@02:59:50PM +0200, Sagi Grimberg wrote:
->
->>>> To allow lockless path lookup the list of nvme_ns structures per
->>>> nvme_ns_head is protected by SRCU, which requires freeing the nvme_ns
->>>> structure through call_srcu.
->>>
->>> Can you remind me why isn't rcu sufficient? Can looking up a
->>> path (ns from head->list) block?
->>
->> blk_mq_make_request can block.
->
-> Oh I see, so can you explain why srcu should cover direct_make_request?
->
-> What if we were to do:
-> --
-> 	rcu_read_lock();
-> 	ns = nvme_find_path(head);
-> 	rcu_read_unlock();
-> 	if (likely(ns)) {
-> 		...
-> --
+Much easier to just opencode this helper.  Also use ARRAY_SIZE instead of
+passing the inline bvec array size manually.
 
-That way we'd have to take and release a namespace reference for every I/O.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/target/io-cmd.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index db632818777d..0a4372a016f2 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -33,18 +33,11 @@ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+ 			req->ns->blksize_shift;
+ }
+ 
+-static void nvmet_inline_bio_init(struct nvmet_req *req)
+-{
+-	struct bio *bio = &req->inline_bio;
+-
+-	bio_init(bio, req->inline_bvec, NVMET_MAX_INLINE_BIOVEC);
+-}
+-
+ static void nvmet_execute_rw(struct nvmet_req *req)
+ {
+ 	int sg_cnt = req->sg_cnt;
++	struct bio *bio = &req->inline_bio;
+ 	struct scatterlist *sg;
+-	struct bio *bio;
+ 	sector_t sector;
+ 	blk_qc_t cookie;
+ 	int op, op_flags = 0, i;
+@@ -66,8 +59,7 @@ static void nvmet_execute_rw(struct nvmet_req *req)
+ 	sector = le64_to_cpu(req->cmd->rw.slba);
+ 	sector <<= (req->ns->blksize_shift - 9);
+ 
+-	nvmet_inline_bio_init(req);
+-	bio = &req->inline_bio;
++	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
+ 	bio_set_dev(bio, req->ns->bdev);
+ 	bio->bi_iter.bi_sector = sector;
+ 	bio->bi_private = req;
+@@ -99,11 +91,9 @@ static void nvmet_execute_rw(struct nvmet_req *req)
+ 
+ static void nvmet_execute_flush(struct nvmet_req *req)
+ {
+-	struct bio *bio;
+-
+-	nvmet_inline_bio_init(req);
+-	bio = &req->inline_bio;
++	struct bio *bio = &req->inline_bio;
+ 
++	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
+ 	bio_set_dev(bio, req->ns->bdev);
+ 	bio->bi_private = req;
+ 	bio->bi_end_io = nvmet_bio_done;
+-- 
+2.14.2
