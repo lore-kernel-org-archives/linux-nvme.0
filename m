@@ -1,193 +1,60 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  9 Nov 2017 18:44:48 +0100
-Subject: [PATCH 5/7] nvme: also expose the namespace identification sysfs
- files for mpath nodes
+Date: Thu,  9 Nov 2017 18:44:49 +0100
+Subject: [PATCH 6/7] block: create 'slaves' and 'holders' entries for hidden
+ gendisks
 In-Reply-To: <20171109174450.17142-1-hch@lst.de>
 References: <20171109174450.17142-1-hch@lst.de>
-Message-ID: <20171109174450.17142-6-hch@lst.de>
+Message-ID: <20171109174450.17142-7-hch@lst.de>
 
-We do this by adding a helper that returns the ns_head for a device that
-can belong to either the per-controller or per-subsystem block device
-nodes, and otherwise reuse all the existing code.
+From: Hannes Reinecke <hare@suse.de>
 
+When creating nvme multipath devices we should populate the 'slaves' and
+'holders' directorys properly to aid userspace topology detection.
+
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+[hch: split from a larger patch]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c      | 57 +++++++++++++++++++++++--------------------
- drivers/nvme/host/multipath.c |  6 +++++
- drivers/nvme/host/nvme.h      |  1 +
- 3 files changed, 38 insertions(+), 26 deletions(-)
+ block/genhd.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a65449741650..fab4c46e4e50 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2381,12 +2381,22 @@ static ssize_t nvme_sysfs_rescan(struct device *dev,
- }
- static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
+diff --git a/block/genhd.c b/block/genhd.c
+index 835e907e6e01..3de1671631bf 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -585,14 +585,14 @@ static void register_disk(struct device *parent, struct gendisk *disk)
+ 	 */
+ 	pm_runtime_set_memalloc_noio(ddev, true);
  
-+static inline struct nvme_ns_head *dev_to_ns_head(struct device *dev)
-+{
-+	struct gendisk *disk = dev_to_disk(dev);
++	disk->part0.holder_dir = kobject_create_and_add("holders", &ddev->kobj);
++	disk->slave_dir = kobject_create_and_add("slaves", &ddev->kobj);
 +
-+	if (disk->fops == &nvme_fops)
-+		return nvme_get_ns_from_dev(dev)->head;
-+	else
-+		return disk->private_data;
-+}
+ 	if (disk->flags & GENHD_FL_HIDDEN) {
+ 		dev_set_uevent_suppress(ddev, 0);
+ 		return;
+ 	}
+ 
+-	disk->part0.holder_dir = kobject_create_and_add("holders", &ddev->kobj);
+-	disk->slave_dir = kobject_create_and_add("slaves", &ddev->kobj);
+-
+ 	/* No minors to use for partitions */
+ 	if (!disk_part_scan_enabled(disk))
+ 		goto exit;
+@@ -728,11 +728,11 @@ void del_gendisk(struct gendisk *disk)
+ 		WARN_ON(1);
+ 	}
+ 
+-	if (!(disk->flags & GENHD_FL_HIDDEN)) {
++	if (!(disk->flags & GENHD_FL_HIDDEN))
+ 		blk_unregister_region(disk_devt(disk), disk->minors);
+-		kobject_put(disk->part0.holder_dir);
+-		kobject_put(disk->slave_dir);
+-	}
 +
- static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
--								char *buf)
-+		char *buf)
- {
--	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	struct nvme_ns_ids *ids = &ns->head->ids;
--	struct nvme_subsystem *subsys = ns->ctrl->subsys;
-+	struct nvme_ns_head *head = dev_to_ns_head(dev);
-+	struct nvme_ns_ids *ids = &head->ids;
-+	struct nvme_subsystem *subsys = head->subsys;
- 	int serial_len = sizeof(subsys->serial);
- 	int model_len = sizeof(subsys->model);
++	kobject_put(disk->part0.holder_dir);
++	kobject_put(disk->slave_dir);
  
-@@ -2408,23 +2418,21 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- 
- 	return sprintf(buf, "nvme.%04x-%*phN-%*phN-%08x\n", subsys->vendor_id,
- 		serial_len, subsys->serial, model_len, subsys->model,
--		ns->head->ns_id);
-+		head->ns_id);
- }
- static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
- 
- static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
--			  char *buf)
-+		char *buf)
- {
--	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	return sprintf(buf, "%pU\n", ns->head->ids.nguid);
-+	return sprintf(buf, "%pU\n", dev_to_ns_head(dev)->ids.nguid);
- }
- static DEVICE_ATTR(nguid, S_IRUGO, nguid_show, NULL);
- 
- static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
--								char *buf)
-+		char *buf)
- {
--	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	struct nvme_ns_ids *ids = &ns->head->ids;
-+	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
- 
- 	/* For backward compatibility expose the NGUID to userspace if
- 	 * we have no UUID set
-@@ -2439,22 +2447,20 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
- static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
- 
- static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
--								char *buf)
-+		char *buf)
- {
--	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	return sprintf(buf, "%8ph\n", ns->head->ids.eui64);
-+	return sprintf(buf, "%8ph\n", dev_to_ns_head(dev)->ids.eui64);
- }
- static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
- 
- static ssize_t nsid_show(struct device *dev, struct device_attribute *attr,
--								char *buf)
-+		char *buf)
- {
--	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	return sprintf(buf, "%d\n", ns->head->ns_id);
-+	return sprintf(buf, "%d\n", dev_to_ns_head(dev)->ns_id);
- }
- static DEVICE_ATTR(nsid, S_IRUGO, nsid_show, NULL);
- 
--static struct attribute *nvme_ns_attrs[] = {
-+static struct attribute *nvme_ns_id_attrs[] = {
- 	&dev_attr_wwid.attr,
- 	&dev_attr_uuid.attr,
- 	&dev_attr_nguid.attr,
-@@ -2463,12 +2469,11 @@ static struct attribute *nvme_ns_attrs[] = {
- 	NULL,
- };
- 
--static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
-+static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
- {
- 	struct device *dev = container_of(kobj, struct device, kobj);
--	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	struct nvme_ns_ids *ids = &ns->head->ids;
-+	struct nvme_ns_ids *ids = &dev_to_ns_head(dev)->ids;
- 
- 	if (a == &dev_attr_uuid.attr) {
- 		if (uuid_is_null(&ids->uuid) ||
-@@ -2486,9 +2491,9 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 	return a->mode;
- }
- 
--static const struct attribute_group nvme_ns_attr_group = {
--	.attrs		= nvme_ns_attrs,
--	.is_visible	= nvme_ns_attrs_are_visible,
-+const struct attribute_group nvme_ns_id_attr_group = {
-+	.attrs		= nvme_ns_id_attrs,
-+	.is_visible	= nvme_ns_id_attrs_are_visible,
- };
- 
- #define nvme_show_str_function(field)						\
-@@ -2865,7 +2870,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	device_add_disk(ctrl->device, ns->disk);
- 	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_attr_group))
-+					&nvme_ns_id_attr_group))
- 		pr_warn("%s: failed to create sysfs group for identification\n",
- 			ns->disk->disk_name);
- 	if (ns->ndev && nvme_nvm_register_sysfs(ns))
-@@ -2898,7 +2903,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		if (blk_get_integrity(ns->disk))
- 			blk_integrity_unregister(ns->disk);
- 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_attr_group);
-+					&nvme_ns_id_attr_group);
- 		if (ns->ndev)
- 			nvme_nvm_unregister_sysfs(ns);
- 		del_gendisk(ns->disk);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 062754ebebfd..850275896e49 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -239,12 +239,18 @@ void nvme_mpath_add_disk(struct nvme_ns_head *head)
- 	if (!head->disk)
- 		return;
- 	device_add_disk(&head->subsys->dev, head->disk);
-+	if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
-+			&nvme_ns_id_attr_group))
-+		pr_warn("%s: failed to create sysfs group for identification\n",
-+			head->disk->disk_name);
- }
- 
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
-+	sysfs_remove_group(&disk_to_dev(head->disk)->kobj,
-+			   &nvme_ns_id_attr_group);
- 	del_gendisk(head->disk);
- 	blk_set_queue_dying(head->disk->queue);
- 	/* make sure all pending bios are cleaned up */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f310842d1600..598525d9c125 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -395,6 +395,7 @@ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
- 
-+extern const struct attribute_group nvme_ns_id_attr_group;
- extern const struct block_device_operations nvme_ns_head_ops;
- 
- #ifdef CONFIG_NVME_MULTIPATH
+ 	part_stat_set_all(&disk->part0, 0);
+ 	disk->part0.stamp = 0;
 -- 
 2.14.2
