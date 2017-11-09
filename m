@@ -1,31 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 Nov 2017 10:13:48 +0100
-Subject: [PATCH 4/5] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <70376777-56f1-76f8-84be-d2df4a855fa6@suse.de>
-References: <20171102183034.9320-1-hch@lst.de>
- <20171102183034.9320-5-hch@lst.de> <20171108085417.GA19990@lst.de>
- <70376777-56f1-76f8-84be-d2df4a855fa6@suse.de>
-Message-ID: <20171109091348.GA16793@lst.de>
+Date: Thu, 9 Nov 2017 10:18:58 +0100
+Subject: [PATCH v2 1/3] nvme-rdma: don't suppress send completions
+In-Reply-To: <20171108100616.26605-2-sagi@grimberg.me>
+References: <20171108100616.26605-1-sagi@grimberg.me>
+ <20171108100616.26605-2-sagi@grimberg.me>
+Message-ID: <20171109091858.GA16966@lst.de>
 
-On Wed, Nov 08, 2017@12:18:32PM +0100, Hannes Reinecke wrote:
-> On 11/08/2017 09:54 AM, Christoph Hellwig wrote:
-> > Can I get a review for this one?  The only changes vs the previously
-> > reviewed versions is that we don't use the multipath code at all for
-> > subsystems that aren't multiported, and that there is an explicit
-> > opt-out at compile and module load time, so it shouldn't be that hard
-> > to review for those who reviewed the previous versions.
-> > 
-> The one thing I need to try is co-existence with dm-multipath, ie
-> ensuring that dm-multipath stays out of the way if nvme multipathing is
-> enabled.
-
-For one it will work just fine on the single node.  Second you easily
-check it from the sysfs layout.
-
+On Wed, Nov 08, 2017@12:06:14PM +0200, Sagi Grimberg wrote:
+> The entire completions suppress mechanism is currently
+> broken because the HCA might retry a send operation
+> (due to dropped ack) after the nvme transaction has completed.
 > 
-> I hope to get it done sometime later this week
-> 
-> And I'll see to get the other patches reviewed.
+> In order to handle this, we signal all send completions (besides
+> async event which is not racing anything).
 
-Please do so now - you've complained about things going slow for a
-merge in this merge window, and now we're only waiting for you.
+Oh well, so much for all these unsignalled completion optimizations..
+
+So in which cases do unsignalled completions work at all?  Seems like
+we need to fix up a lot of other ULPs as well.
+
+Looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+> -	 */
+> -	if (nvme_rdma_queue_sig_limit(queue) || flush)
+> -		wr.send_flags |= IB_SEND_SIGNALED;
+> +	wr.send_flags = IB_SEND_SIGNALED;
+
+But..  Is there any benefit in just setting IB_SIGNAL_ALL_WR on the QP?
