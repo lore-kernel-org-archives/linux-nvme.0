@@ -1,47 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 9 Nov 2017 13:02:49 +0200
-Subject: [PATCH 1/1] nvme-rdma: Fix memory leak during queue allocation
-In-Reply-To: <1510146032-25434-1-git-send-email-maxg@mellanox.com>
-References: <1510146032-25434-1-git-send-email-maxg@mellanox.com>
-Message-ID: <2d6e460f-2310-bb06-3d1c-f2ecdc4b2dc7@grimberg.me>
+Date: Thu, 9 Nov 2017 13:08:04 +0200
+Subject: [PATCH v2 1/3] nvme-rdma: don't suppress send completions
+In-Reply-To: <20171109091858.GA16966@lst.de>
+References: <20171108100616.26605-1-sagi@grimberg.me>
+ <20171108100616.26605-2-sagi@grimberg.me> <20171109091858.GA16966@lst.de>
+Message-ID: <921c4331-9456-3783-423a-9c5c5e405131@grimberg.me>
 
 
-> In case nvme_rdma_wait_for_cm timeout expires before we get
-> an established or rejected event (rdma_connect succeeded) from
-> rdma_cm, we end up with leaking the ib resources for dedicated
-> queue.
-> This scenario can easily reproduced using traffic test during port
-> toggling.
+>> The entire completions suppress mechanism is currently
+>> broken because the HCA might retry a send operation
+>> (due to dropped ack) after the nvme transaction has completed.
+>>
+>> In order to handle this, we signal all send completions (besides
+>> async event which is not racing anything).
 > 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/host/rdma.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+> Oh well, so much for all these unsignalled completion optimizations..
 > 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 0ebb539..fcb278a 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -545,13 +545,16 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
->   	if (ret) {
->   		dev_info(ctrl->ctrl.device,
->   			"rdma_resolve_addr wait failed (%d).\n", ret);
+> So in which cases do unsignalled completions work at all?
 
-Are you rebased? this message have changed I think.
+Probably in cases where no in-capsule data is used we're fine because
+the command buffers mappings are long lived, and for non-RPC like
+applications.
 
-> -		goto out_destroy_cm_id;
-> +		goto out_destroy_queue_ib;
->   	}
->   
->   	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
->   
->   	return 0;
->   
-> +out_destroy_queue_ib:
-> +	if (ret == -ETIMEDOUT)
-> +		nvme_rdma_destroy_queue_ib(queue);
+> Seems like we need to fix up a lot of other ULPs as well.
 
-This does not look safe to me. What protects that nvme_rdma_cm_handler
-will not destroy the ib queue as well? I think we need to destroy the
-cm_id first (guarantee that we will never handle other cma events)
-and only then destroy the ib queue if needed.
+Probably only those that support in-capsule data (which I hear
+SRP does too these days).
+
+>> -	 */
+>> -	if (nvme_rdma_queue_sig_limit(queue) || flush)
+>> -		wr.send_flags |= IB_SEND_SIGNALED;
+>> +	wr.send_flags = IB_SEND_SIGNALED;
+> 
+> But..  Is there any benefit in just setting IB_SIGNAL_ALL_WR on the QP?
+
+There is one case I still don't want to signal send completion, thats
+the AEN request. It doesn't have a request structure, and preferred not
+to check on it for every send completion, and its not racing anything
+(mentioned this above).
+
+I can change that though if there is a strong desire.
