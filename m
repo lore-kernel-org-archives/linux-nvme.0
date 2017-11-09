@@ -1,44 +1,57 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 9 Nov 2017 09:13:54 +0800
-Subject: [PATCH] nvme-pci: avoid dereference of symbol from unloaded module
-In-Reply-To: <20171108181531.GA6606@infradead.org>
-References: <20171102093624.20333-1-ming.lei@redhat.com>
- <8b9a2473-c011-6224-b69a-61194cfac030@grimberg.me>
- <20171102122926.GB6764@ming.t460p>
- <20171108181531.GA6606@infradead.org>
-Message-ID: <20171109011347.GA14520@ming.t460p>
+From: himanshu.madhani@cavium.com (Himanshu Madhani)
+Date: Wed, 8 Nov 2017 19:17:50 -0800
+Subject: [PATCH v2 0/4] qla2xxx: Add FC-NVMe Target support
+Message-ID: <20171109031754.10270-1-himanshu.madhani@cavium.com>
 
-On Wed, Nov 08, 2017@10:15:31AM -0800, Christoph Hellwig wrote:
-> On Thu, Nov 02, 2017@08:29:27PM +0800, Ming Lei wrote:
-> > On Thu, Nov 02, 2017@02:10:16PM +0200, Sagi Grimberg wrote:
-> > > 
-> > > > The 'remove_work' may be scheduled to run after nvme_remove()
-> > > > returns since we can't simply cancel it in nvme_remove() for
-> > > > avoiding deadlock. Once nvme_remove() returns, this module(nvme)
-> > > > can be unloaded.
-> > > > 
-> > > > On the other hand, nvme_put_ctrl() calls ctr->ops->free_ctrl
-> > > > which may point to nvme_pci_free_ctrl() in unloaded module.
-> > > > 
-> > > > This patch avoids this issue by holding the module refcount before
-> > > > scheduling 'remove_work'.
-> > > 
-> > > Why not simply flushing all scheduled works in module exit?
-> > 
-> > The nvme_wq is shared by all kinds of host(PCI, FC, ...), so
-> > not good to flush all queued work in 'nvme_wq' just before
-> > removing pci host module only.
-> > 
-> > Not mention 'remove_work' is actually scheduled by system wq
-> > instead of nvme_wq.
-> 
-> Still seems better than messing with module reference counts.
+Hi Christoph/Sagi, 
 
-If 'remove_work' can be queued via 'nvme_wq', I think it is doable to
-call flush_workqueue(nvme_wq) in nvme_exit(): drivers/nvme/host/pci.c.
+I've corrected the mailing list and maintainers for this series. 
 
-Otherwise, it may not be a good idea to flush the global wq, please
-see comment of 'flush_scheduled_work()'.
+This series adds support for FC-NVMe Target.
+
+Patch #1 addes new qla_nvmet files for FC-NVMe Target support.
+Patch #2 adds Kconfig and Makefile changes to prepare code compile.
+Patch #3 and #4 has bulk of changes to handle FC-NVMe Target LS4
+processing via Purex pass through path.
+
+Note: All the patches in this series must be applied before they can be compilable.
+
+These patches were cut against 4.15/scsi-queue.
+
+Changes from v1 -> v2
+
+o Fixed 0-day kernel warning and build regression.
+
+Thanks,
+Himanshu 
+
+Anil Gurumurthy (4):
+  qla2xxx_nvmet: Add files for FC-NVMe Target support
+  qla2xxx_nvmet: Added Makefile and Kconfig changes
+  qla2xxx_nvmet: Add FC-NVMe Target LS request handling
+  qla2xxx_nvmet: Add FC-NVMe Target handling
+
+ drivers/scsi/qla2xxx/Kconfig      |   1 +
+ drivers/scsi/qla2xxx/Makefile     |   3 +-
+ drivers/scsi/qla2xxx/qla_dbg.c    |   1 +
+ drivers/scsi/qla2xxx/qla_dbg.h    |   2 +
+ drivers/scsi/qla2xxx/qla_def.h    |  35 +-
+ drivers/scsi/qla2xxx/qla_fw.h     | 263 +++++++++++
+ drivers/scsi/qla2xxx/qla_gbl.h    |  17 +-
+ drivers/scsi/qla2xxx/qla_gs.c     |  15 +-
+ drivers/scsi/qla2xxx/qla_init.c   |  49 +-
+ drivers/scsi/qla2xxx/qla_iocb.c   |  42 +-
+ drivers/scsi/qla2xxx/qla_isr.c    |  70 +++
+ drivers/scsi/qla2xxx/qla_mbx.c    | 100 +++-
+ drivers/scsi/qla2xxx/qla_nvme.h   |  33 --
+ drivers/scsi/qla2xxx/qla_nvmet.c  | 783 ++++++++++++++++++++++++++++++++
+ drivers/scsi/qla2xxx/qla_nvmet.h  | 130 ++++++
+ drivers/scsi/qla2xxx/qla_os.c     |  75 ++-
+ drivers/scsi/qla2xxx/qla_target.c | 932 +++++++++++++++++++++++++++++++++++++-
+ drivers/scsi/qla2xxx/qla_target.h |  93 +++-
+ 18 files changed, 2585 insertions(+), 59 deletions(-)
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.c
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.h
 
 -- 
-Ming
+2.12.0
