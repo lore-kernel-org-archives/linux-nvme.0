@@ -1,45 +1,43 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu,  9 Nov 2017 19:32:07 +0800
-Subject: [PATCH V2] nvme-pci: avoid dereference of symbol from unloaded module
-Message-ID: <20171109113207.24286-1-ming.lei@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 9 Nov 2017 13:33:16 +0200
+Subject: [PATCH 1/5] nvme: track subsystems
+In-Reply-To: <20171102183034.9320-2-hch@lst.de>
+References: <20171102183034.9320-1-hch@lst.de>
+ <20171102183034.9320-2-hch@lst.de>
+Message-ID: <fbacd62b-4228-60cb-a382-9c88daadb336@grimberg.me>
 
-The 'remove_work' may be scheduled to run after nvme_remove()
-returns since we can't simply cancel it in nvme_remove() for
-avoiding deadlock. Once nvme_remove() returns, this module(nvme)
-can be unloaded.
 
-On the other hand, nvme_put_ctrl() calls ctr->ops->free_ctrl
-which may point to nvme_pci_free_ctrl() in unloaded module.
+> +static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+> +{
+> +	struct nvme_subsystem *subsys, *found;
+> +	int ret;
+> +
+> +	subsys = kzalloc(sizeof(*subsys), GFP_KERNEL);
+> +	if (!subsys)
+> +		return -ENOMEM;
+> +	ret = ida_simple_get(&nvme_subsystems_ida, 0, 0, GFP_KERNEL);
+> +	if (ret < 0) {
+> +		kfree(subsys);
+> +		return ret;
+> +	}
+> +	subsys->instance = ret;
+> +	mutex_init(&subsys->lock);
+> +	kref_init(&subsys->ref);
+> +	INIT_LIST_HEAD(&subsys->ctrls);
+> +	nvme_init_subnqn(subsys, ctrl, id);
+> +	memcpy(subsys->serial, id->sn, sizeof(subsys->serial));
+> +	memcpy(subsys->model, id->mn, sizeof(subsys->model));
+> +	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
+> +	subsys->vendor_id = le16_to_cpu(id->vid);
+> +	subsys->cmic = id->cmic;
+> +
+> +	subsys->dev.class = nvme_subsys_class;
+> +	subsys->dev.release = nvme_release_subsystem;
+> +	dev_set_name(&subsys->dev, "nvme-subsys%d", subsys->instance);
+> +	device_initialize(&subsys->dev);
+> +
 
-This patch avoids this issue by queuing 'remove_work' via 'nvme_wq',
-and flush this worqueue in nvme_exit() as suggested by Sagi.
-
-Suggested-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 32c413ec818c..be2ea99684ff 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2290,7 +2290,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
- 
- 	nvme_get_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, false);
--	if (!schedule_work(&dev->remove_work))
-+	if (!queue_work(nvme_wq, &dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
- }
- 
-@@ -2713,6 +2713,7 @@ static int __init nvme_init(void)
- static void __exit nvme_exit(void)
- {
- 	pci_unregister_driver(&nvme_driver);
-+	flush_workqueue(nvme_wq);
- 	_nvme_check_size();
- }
- 
--- 
-2.9.5
+Any reason to do all this before we know if we found an existing 
+subsystem? Also can the enumeration become with "holes" because you
+acquire a subsystem ida temporarily and free it (and another subsystem
+just came in)? Not a big issue though...
