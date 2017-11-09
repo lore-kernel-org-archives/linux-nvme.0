@@ -1,25 +1,33 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 Nov 2017 10:21:10 +0100
-Subject: [PATCH v2 2/3] nvme-rdma: don't complete requests before a
- send work request has completed
-In-Reply-To: <20171108100616.26605-3-sagi@grimberg.me>
-References: <20171108100616.26605-1-sagi@grimberg.me>
- <20171108100616.26605-3-sagi@grimberg.me>
-Message-ID: <20171109092110.GB16966@lst.de>
+Date: Thu, 9 Nov 2017 10:23:38 +0100
+Subject: [PATCHv3 1/5] nvme: Centralize AEN defines
+In-Reply-To: <20171107221314.27822-2-keith.busch@intel.com>
+References: <20171107221314.27822-1-keith.busch@intel.com>
+ <20171107221314.27822-2-keith.busch@intel.com>
+Message-ID: <20171109092338.GA17120@lst.de>
 
-> +	}
+Looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index fd1d4508a612..89ffa7eed2fd 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -90,6 +90,14 @@ enum {
+>  };
+>  
+>  #define NVME_AQ_DEPTH		32
+> +#define NVME_NR_AEN_COMMANDS	1
+> +#define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
 > +
-> +	spin_lock_irqsave(&req->lock, flags);
-> +	req->send_completed = true;
-> +	end = req->resp_completed;
-> +	spin_unlock_irqrestore(&req->lock, flags);
+> +/*
+> + * Subtract one to leave an empty queue entry for 'Full Queue' condition. See
+> + * NVM-Express 1.2 specification, section 4.1.2.
+> + */
+> +#define NVME_AQ_MQ_TAG_DEPTH	(NVME_AQ_BLK_MQ_DEPTH - 1)
 
-Wouldn't it be better to use atomic bitops (test_and_set_bit and co)
-for these flags instead of needing a irqsave lock?
+But none of these (including NVME_AQ_DEPTH) really is a protocol
+constant, so this should probably move to drivers/nvme/host/nvme.h.
 
->  	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
-> -			req->mr->need_inval ? &req->reg_wr.wr : NULL);
-> +			req->mr->need_inval ? &req->reg_wr.wr : NULL, true);
-
-Looks like the unsignalled completions just removed in the last patch
-are coming back here.
+No need to do that in this patchseries, though.
