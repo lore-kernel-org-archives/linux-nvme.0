@@ -1,83 +1,59 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 10 Nov 2017 10:58:23 +0100
-Subject: [PATCH 2/2] nvme: expose subsys attribute to sysfs
+Date: Fri, 10 Nov 2017 10:58:22 +0100
+Subject: [PATCH 1/2] nvme: add Kconfig option 'NVME_MULTIPATH_DEFAULT'
 In-Reply-To: <1510307903-3346-1-git-send-email-hare@suse.de>
 References: <1510307903-3346-1-git-send-email-hare@suse.de>
-Message-ID: <1510307903-3346-3-git-send-email-hare@suse.de>
+Message-ID: <1510307903-3346-2-git-send-email-hare@suse.de>
 
-We should be exposing the subsystem attributes like 'model' and
-'subsysnqn' to sysfs to allow for easier identification of the
-subsystem.
+Add a configuration option to enable or disable NVMe multipath
+per default.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ drivers/nvme/host/Kconfig     | 11 +++++++++++
+ drivers/nvme/host/multipath.c |  8 +++++++-
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6e9effa..4e574b4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1912,6 +1912,52 @@ static struct nvme_subsystem *__nvme_find_get_subsystem(const char *subsysnqn)
- 	return NULL;
- }
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 4588680..cc0cbab 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -22,6 +22,17 @@ config NVME_MULTIPATH
+ 	   /dev/nvneXnY device will show up for each NVMe namespaces,
+ 	   even if it is accessible through multiple controllers.
  
-+#define SUBSYS_ATTR_RO(_name, _mode, _show)			\
-+	struct device_attribute subsys_attr_##_name = __ATTR(_name, _mode, _show, NULL)
++config NVME_MULTIPATH_DEFAULT
++       bool "NVMe multipath support enabled by default"
++       depends on NVME_MULTIPATH
++	default y
++       ---help---
++          This option enables multipath access to NVMe subsystems
++	  per default. It can be overridden with the boot/module option
++	  nvme_core.multipath later on.
 +
-+static ssize_t nvme_subsys_show_nqn(struct device *dev,
-+				    struct device_attribute *attr,
-+				    char *buf)
-+{
-+	struct nvme_subsystem *subsys =
-+		container_of(dev, struct nvme_subsystem, dev);
++	  If unsure say Y.
 +
-+	return snprintf(buf, PAGE_SIZE, "%s\n", subsys->subnqn);
-+}
-+static SUBSYS_ATTR_RO(subsysnqn, S_IRUGO, nvme_subsys_show_nqn);
-+
-+#define nvme_subsys_show_str_function(field)				\
-+static ssize_t subsys_##field##_show(struct device *dev,		\
-+			    struct device_attribute *attr, char *buf)	\
-+{									\
-+	struct nvme_subsystem *subsys =					\
-+		container_of(dev, struct nvme_subsystem, dev);		\
-+	return sprintf(buf, "%.*s\n",					\
-+		       (int)sizeof(subsys->field), subsys->field);	\
-+}									\
-+static SUBSYS_ATTR_RO(field, S_IRUGO, subsys_##field##_show);
-+
-+nvme_subsys_show_str_function(model);
-+nvme_subsys_show_str_function(serial);
-+nvme_subsys_show_str_function(firmware_rev);
-+
-+static struct attribute *nvme_subsys_attrs[] = {
-+	&subsys_attr_model.attr,
-+	&subsys_attr_serial.attr,
-+	&subsys_attr_firmware_rev.attr,
-+	&subsys_attr_subsysnqn.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group nvme_subsys_attrs_group = {
-+	.attrs = nvme_subsys_attrs,
-+};
-+
-+static const struct attribute_group *nvme_subsys_attrs_groups[] = {
-+	&nvme_subsys_attrs_group,
-+	NULL,
-+};
-+
- static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
- 	struct nvme_subsystem *subsys, *found;
-@@ -1939,6 +1985,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ config NVME_FABRICS
+ 	tristate
  
- 	subsys->dev.class = nvme_subsys_class;
- 	subsys->dev.release = nvme_release_subsystem;
-+	subsys->dev.groups = nvme_subsys_attrs_groups;
- 	dev_set_name(&subsys->dev, "nvme-subsys%d", subsys->instance);
- 	device_initialize(&subsys->dev);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 8502758..9ceef3e 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -14,7 +14,13 @@
+ #include <linux/moduleparam.h>
+ #include "nvme.h"
  
+-static bool multipath = true;
++#ifdef CONFIG_NVME_MULTIPATH_DEFAULT
++#define NVME_MULTIPATH_DEFAULT true
++#else
++#define NVME_MULTIPATH_DEFAULT false
++#endif
++
++static bool multipath = NVME_MULTIPATH_DEFAULT;
+ module_param(multipath, bool, 0644);
+ MODULE_PARM_DESC(multipath,
+ 	"turn on native support for multiple controllers per subsystem");
 -- 
 1.8.5.6
