@@ -1,38 +1,57 @@
-From: dmngaie@gmail.com (Dennis Mungai)
-Date: Fri, 10 Nov 2017 16:31:21 +0300
-Subject: When will Linux support new RAID controllers
-In-Reply-To: <20171110131937.GA26181@infradead.org>
-References: <CAGRSmLs-Hr+FFfa4_29kidEeL2d7b+cEP6u1OkOUoYW6Cm15BA@mail.gmail.com>
- <20171110131937.GA26181@infradead.org>
-Message-ID: <CAKKYfmEqw48mjBsKoy=qeny6B1X8PKytSN4UwpvSupo87746kg@mail.gmail.com>
+From: stephane.gonauer@6wind.com (stephane gonauer)
+Date: Fri, 10 Nov 2017 15:31:11 +0100
+Subject: building nvmetcli in buildroot
+In-Reply-To: <20171110111741.GA28245@korriban>
+References: <CANqv2T0CL+hJz0+_yUBnwQ995mupBTOBMpqEcrvi9ZawDBBCtg@mail.gmail.com>
+ <20171109171019.GA15304@lst.de>
+ <CANqv2T2Uhy__zyQY-tixnfFmCYOZV7y=grmsgtshRkhx6nwoLw@mail.gmail.com>
+ <20171110111741.GA28245@korriban>
+Message-ID: <CANqv2T0dkK5AnTkRJZs2UewW+TpGy32q8JTWRQtzjkr5MSaVWQ@mail.gmail.com>
 
-That feature would be especially important on systems where the
-BIOS/UEFI environment offers no option to toggle back the AHCI mode.
-This "RAID" Intel features is also known as "Intel Premium RST mode"
-on all current Clevo systems, and on such a platform (the Clevo
-P751DM2-G, marketed by the likes of Schenker and Origin PC) is based
-on this platform.
+Hi,
 
--Dennis.
+We are using official buildroot 2017.08.
 
-On 10 November 2017@16:19, Christoph Hellwig <hch@infradead.org> wrote:
-> On Thu, Nov 09, 2017@10:24:54AM -0800, David F. wrote:
->> It seems that Linux will not see any HD on Intel's 100 Series or newer
->> chipsets (Z170, etc.) when in RAID mode.  (typically these systems
->> have M2 NVMe devices ). This is problematic when wanting to use Linux
->> on the system without having to disable RAID and when on their with
->> Windows.   Maybe not a linux-raid issue, but is Linux RAID issue
->> within the kernel device support.
+The build I made was for a not yet open source target but the issue
+should be the same on a standard x86 buildroot.
+(And we didn't patch build infrastructure for that target)
+
+St?phane
+
+2017-11-10 12:17 GMT+01:00 Mauro Rodrigues <maurosr at linux.vnet.ibm.com>:
+> On Fri, Nov 10, 2017@08:43:05AM +0100, stephane gonauer wrote:
+>> Hi,
+>>
+>> I dug further into the question to better understand.
+>>
+>> From my understanding the root cause lies in setuptools :
+>>
+>> - buildroot uses --prefix option to set the prefix to $(TARGET_DIR)
+>> - the setup.cfg from nvmetcli uses -install-script
+>> - When both options are present, install-script completely overrides
+>> --prefix and is considered as an absolute path.
+>>
+>> I tried to uses $(TARGET_DIR) inside setup.cfg but it is not evaluated
+>> when reaching setup.cfg (and it results in a path containing the
+>> TARGET_DIR and not its value).
+>>
+>> Unless someone knows how to better use setuptools, I don't see a
+>> solution inside nvmetcli tree
+>>
+>> St?phane
 >
-> Dan (on Cc) posted some patches to support the awkwared so called
-> "RAID" mode (it really should be Intel landgrab mode) in the client
-> chipsets more than a year ago.
+> From the top of my head I don't recall to see a different solution for
+> this.
 >
-> It needed a bit of a rework to be present as a fake PCIe root port
-> instead of the platform driver magic, so I wonder what happened to
-> it - Dan any chance to get back to it?
+> Is your buildroot tool opensource? I would like to see how it deals
+> with python packages.
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> Also, I'll take a look if there is a different option from setuptools
+> standpoint.
+>>
+>> 2017-11-09 18:10 GMT+01:00 Christoph Hellwig <hch at lst.de>:
+>> > I'm perfectly happy to make life for buildroots easier, but nvmetcli
+>> > is an admin tool that should live in /usr/sbin.  We'll need to find
+>> > a way for that to still be the default.
+>>
+>
