@@ -1,42 +1,46 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 10 Nov 2017 10:39:56 -0700
-Subject: [GIT PULL] nvme updates for Linux 4.15
-In-Reply-To: <9bcc3b27-0008-b11e-5bbe-4e908326e031@kernel.dk>
-References: <20171110143407.zapukx3fhfcr4fm5@infradead.org>
- <e4ae08a2-4724-6ae5-6e64-7f42fb825bad@kernel.dk>
- <fe9a0a40-11d0-97b4-86e1-ba66d3932eb1@kernel.dk>
- <20171110172248.GA8381@infradead.org>
- <a2178e34-ecae-f90d-bef4-eb02af6eb43e@kernel.dk>
- <20171110173342.GA15114@infradead.org>
- <9bcc3b27-0008-b11e-5bbe-4e908326e031@kernel.dk>
-Message-ID: <5c78255c-2678-db0c-55a2-128a11aff660@kernel.dk>
+From: df7729@gmail.com (David F.)
+Date: Fri, 10 Nov 2017 11:06:02 -0800
+Subject: When will Linux support new RAID controllers
+In-Reply-To: <CAKKYfmEqw48mjBsKoy=qeny6B1X8PKytSN4UwpvSupo87746kg@mail.gmail.com>
+References: <CAGRSmLs-Hr+FFfa4_29kidEeL2d7b+cEP6u1OkOUoYW6Cm15BA@mail.gmail.com>
+ <20171110131937.GA26181@infradead.org>
+ <CAKKYfmEqw48mjBsKoy=qeny6B1X8PKytSN4UwpvSupo87746kg@mail.gmail.com>
+Message-ID: <CAGRSmLsvAR6wth7tPd5J2kAydy64uQ+h45Yu-SUeOAHkfOHXHA@mail.gmail.com>
 
-On 11/10/2017 10:38 AM, Jens Axboe wrote:
-> On 11/10/2017 10:33 AM, Christoph Hellwig wrote:
->> On Fri, Nov 10, 2017@10:27:24AM -0700, Jens Axboe wrote:
->>> That makes for a bit of an awkward merge, why wasn't this fixed up
->>> in your tree?
+A patch would be great.  There has been several cases where no option
+to use AHCI mode available, or where a box seller would offer Linux as
+an alternate boot option against Windows in RAID mode (on the mobo)
+but could no longer provide Linux with their systems (without
+additional costs for add-in raid controller).
+
+On Fri, Nov 10, 2017@5:31 AM, Dennis Mungai <dmngaie@gmail.com> wrote:
+> That feature would be especially important on systems where the
+> BIOS/UEFI environment offers no option to toggle back the AHCI mode.
+> This "RAID" Intel features is also known as "Intel Premium RST mode"
+> on all current Clevo systems, and on such a platform (the Clevo
+> P751DM2-G, marketed by the likes of Schenker and Origin PC) is based
+> on this platform.
+>
+> -Dennis.
+>
+> On 10 November 2017@16:19, Christoph Hellwig <hch@infradead.org> wrote:
+>> On Thu, Nov 09, 2017@10:24:54AM -0800, David F. wrote:
+>>> It seems that Linux will not see any HD on Intel's 100 Series or newer
+>>> chipsets (Z170, etc.) when in RAID mode.  (typically these systems
+>>> have M2 NVMe devices ). This is problematic when wanting to use Linux
+>>> on the system without having to disable RAID and when on their with
+>>> Windows.   Maybe not a linux-raid issue, but is Linux RAID issue
+>>> within the kernel device support.
 >>
->> Because you asked me to always base on for-4.15/block last time?
-> 
-> That's not what I meant. It's conflicting because of a patch, that's
-> fine. But the code in your tree is:
-> 
-> if (a == &dev_attr_uuid.attr) {
->         if (uuid_is_null(&ids->uuid) ||
->             !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
->                 return 0;
-> }
-> 
-> and you're saying the right resolution is:
-> 
-> if (a == &dev_attr_uuid.attr) {
->         if (uuid_is_null(&ids->uuid) ||
->             !memchr_inv(ids->nguid, 0, sizeof(ids->nguid)))
->                 return 0;
-> }
-
-This one should have had the && instead of course...
-
--- 
-Jens Axboe
+>> Dan (on Cc) posted some patches to support the awkwared so called
+>> "RAID" mode (it really should be Intel landgrab mode) in the client
+>> chipsets more than a year ago.
+>>
+>> It needed a bit of a rework to be present as a fake PCIe root port
+>> instead of the platform driver magic, so I wonder what happened to
+>> it - Dan any chance to get back to it?
+>>
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-nvme
