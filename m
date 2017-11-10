@@ -1,45 +1,25 @@
-From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Thu, 9 Nov 2017 21:01:20 -0800 (PST)
-Subject: [PATCH v2 1/4] qla2xxx_nvmet: Add files for FC-NVMe Target support
-In-Reply-To: <3cf657ee-67a7-1b33-9a79-a0415d7a651b@broadcom.com>
-References: <20171109031754.10270-1-himanshu.madhani@cavium.com>
- <20171109031754.10270-2-himanshu.madhani@cavium.com>
- <3cf657ee-67a7-1b33-9a79-a0415d7a651b@broadcom.com>
-Message-ID: <alpine.OSX.2.21.1711092053130.44710@n5102mv83lvdv1.qlogic.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 10 Nov 2017 06:07:48 +0100
+Subject: [PATCH 4/7] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20171110045236.GA32408@lst.de>
+References: <20171109174450.17142-1-hch@lst.de>
+ <20171109174450.17142-5-hch@lst.de>
+ <20171109212111.GA1718@localhost.localdomain> <20171110045236.GA32408@lst.de>
+Message-ID: <20171110050748.GA32668@lst.de>
 
-Hi James,
-
-On Thu, 9 Nov 2017, 7:36am, James Smart wrote:
-
-> On 11/8/2017 7:17 PM, Himanshu Madhani wrote:
-> > +static struct nvmet_fc_target_template qla_nvmet_fc_transport = {
-> > +	.targetport_delete	= qla_nvmet_targetport_delete,
-> > +	.xmt_ls_rsp		= qla_nvmet_ls_rsp,
-> > +	.fcp_op			= qla_nvmet_fcp_op,
-> > +	.fcp_abort		= qla_nvmet_fcp_abort,
-> > +	.fcp_req_release	= qla_nvmet_fcp_req_release,
-> > +	.max_hw_queues		= 8,
-> > +	.max_sgl_segments	= 128,
-> > +	.max_dif_sgl_segments	= 64,
-> > +	.dma_boundary		= 0xFFFFFFFF,
-> > +	.target_features	= NVMET_FCTGTFEAT_READDATA_RSP |
-> > +					NVMET_FCTGTFEAT_CMD_IN_ISR |
-> > +					NVMET_FCTGTFEAT_OPDONE_IN_ISR,
-> > +	.target_priv_sz	= sizeof(struct nvme_private),
-> > +};
+On Fri, Nov 10, 2017@05:52:36AM +0100, Christoph Hellwig wrote:
+> > If we've CMIC capabilities, we'll use the subsys->instance; if we don't
+> > have CMIC, we use the ctrl->instance. 
 > > 
+> > Since the two instances are independent of each other, they can create
+> > duplicate names.
+> > 
+> > To fix, I think we'll need to always use the subsys instance for
+> > consistency if CONFIG_NVME_MULTIPATH=y.
 > 
-> From the patch set prior:
-> > Agree we do nvme_fc* callbacks in deferred context, but without the
-> xxx_IN_ISR flag during NVMe Target template registration, we were running into
-> crash due to recursive spin_lock held as part of CTIO response in our driver.
-> 
-> Can you look into removing this recursive spin lock ? ?? I don't think it's a
-> good idea to be holding a spin lock when upcalling the transport.
-> 
+> Yes, we should.  But once we do that we should just always use
+> subsys->instance, as it will always be the same as ctrl->instance
+> for CONFIG_NVME_MULTIPATH=n.
 
-Yes, Will work on removing spin lock. 
-
-> -- james
-> 
-> 
+Scrap that.  Of course they aren't always the same in the
+CONFIG_NVME_MULTIPATH=n.  We'll need your patch as-is.
