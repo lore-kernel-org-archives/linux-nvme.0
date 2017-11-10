@@ -1,55 +1,32 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 10 Nov 2017 08:27:10 +0100
-Subject: [PATCH 4/7] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20171109174450.17142-5-hch@lst.de>
-References: <20171109174450.17142-1-hch@lst.de>
- <20171109174450.17142-5-hch@lst.de>
-Message-ID: <b82fcfa1-4c8c-e834-b929-12411dd6e6ac@suse.de>
+From: stephane.gonauer@6wind.com (stephane gonauer)
+Date: Fri, 10 Nov 2017 08:43:05 +0100
+Subject: building nvmetcli in buildroot
+In-Reply-To: <20171109171019.GA15304@lst.de>
+References: <CANqv2T0CL+hJz0+_yUBnwQ995mupBTOBMpqEcrvi9ZawDBBCtg@mail.gmail.com>
+ <20171109171019.GA15304@lst.de>
+Message-ID: <CANqv2T2Uhy__zyQY-tixnfFmCYOZV7y=grmsgtshRkhx6nwoLw@mail.gmail.com>
 
-On 11/09/2017 06:44 PM, Christoph Hellwig wrote:
-> This patch adds native multipath support to the nvme driver.  For each
-> namespace we create only single block device node, which can be used
-> to access that namespace through any of the controllers that refer to it.
-> The gendisk for each controllers path to the name space still exists
-> inside the kernel, but is hidden from userspace.  The character device
-> nodes are still available on a per-controller basis.  A new link from
-> the sysfs directory for the subsystem allows to find all controllers
-> for a given subsystem.
-> 
-> Currently we will always send I/O to the first available path, this will
-> be changed once the NVMe Asynchronous Namespace Access (ANA) TP is
-> ratified and implemented, at which point we will look at the ANA state
-> for each namespace.  Another possibility that was prototyped is to
-> use the path that is closes to the submitting NUMA code, which will be
-> mostly interesting for PCI, but might also be useful for RDMA or FC
-> transports in the future.  There is not plan to implement round robin
-> or I/O service time path selectors, as those are not scalable with
-> the performance rates provided by NVMe.
-> 
-> The multipath device will go away once all paths to it disappear,
-> any delay to keep it alive needs to be implemented at the controller
-> level.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/nvme/host/Kconfig     |   9 ++
->  drivers/nvme/host/Makefile    |   1 +
->  drivers/nvme/host/core.c      | 133 +++++++++++++++++++---
->  drivers/nvme/host/multipath.c | 255 ++++++++++++++++++++++++++++++++++++++++++
->  drivers/nvme/host/nvme.h      |  57 ++++++++++
->  5 files changed, 440 insertions(+), 15 deletions(-)
->  create mode 100644 drivers/nvme/host/multipath.c
-> 
-After much discussion I'm finally fine with this.
+Hi,
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+I dug further into the question to better understand.
 
-Cheers,
+>From my understanding the root cause lies in setuptools :
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+- buildroot uses --prefix option to set the prefix to $(TARGET_DIR)
+- the setup.cfg from nvmetcli uses -install-script
+- When both options are present, install-script completely overrides
+--prefix and is considered as an absolute path.
+
+I tried to uses $(TARGET_DIR) inside setup.cfg but it is not evaluated
+when reaching setup.cfg (and it results in a path containing the
+TARGET_DIR and not its value).
+
+Unless someone knows how to better use setuptools, I don't see a
+solution inside nvmetcli tree
+
+St?phane
+
+2017-11-09 18:10 GMT+01:00 Christoph Hellwig <hch at lst.de>:
+> I'm perfectly happy to make life for buildroots easier, but nvmetcli
+> is an admin tool that should live in /usr/sbin.  We'll need to find
+> a way for that to still be the default.
