@@ -1,39 +1,56 @@
-From: jeff.lien@wdc.com (jeffreyalien)
-Date: Fri, 10 Nov 2017 16:04:59 -0600
-Subject: [PATCH] NVMe: Add Quirk Delay Before CHK RDY for WDC SN200
-Message-ID: <20171110220459.5554-1-jeff.lien@wdc.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri, 10 Nov 2017 15:38:45 -0800
+Subject: [PATCH] nvmet_fc: correct ref counting error when deferred rcv used
+Message-ID: <20171110233845.32002-1-jsmart2021@gmail.com>
 
-Signed-off-by: jeffreyalien <jeff.lien at wdc.com>
+Whenever a cmd is received a reference is taken while looking up the
+queue. The reference is removed after the cmd is done as the iod is
+returned for reuse. The fod may be reused for a deferred (recevied but
+no job context) cmd.  Existing code removes the reference only if the
+fod is not reused for another command. Given the fod may be used for
+one or more ios, although a reference was taken per io, it won't be
+matched on the frees.
+
+Remove the reference on every fod free. This pairs the references to
+each io.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/nvme.h | 2 +-
- drivers/nvme/host/pci.c  | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/target/fc.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d3f3c4447515..044af553204c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -108,7 +108,7 @@ static inline struct nvme_request *nvme_req(struct request *req)
-  * NVME_QUIRK_DELAY_BEFORE_CHK_RDY quirk enabled. The value (in ms) was
-  * found empirically.
-  */
--#define NVME_QUIRK_DELAY_AMOUNT		2000
-+#define NVME_QUIRK_DELAY_AMOUNT		2300
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 5f2570f5dfa9..5da4777ab8fb 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -534,15 +534,15 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
  
- enum nvme_ctrl_state {
- 	NVME_CTRL_NEW,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3f5a04c586ce..75539f7c58b9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2519,6 +2519,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
- 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+	{ PCI_DEVICE(0x1c58, 0x0023),	/* WDC SN200 adapter */
-+		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1c5f, 0x0540),	/* Memblaze Pblaze4 adapter */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x144d, 0xa821),   /* Samsung PM1725 */
+ 	tgtport->ops->fcp_req_release(&tgtport->fc_target_port, fcpreq);
+ 
++	/* release the queue lookup reference on the completed IO */
++	nvmet_fc_tgt_q_put(queue);
++
+ 	spin_lock_irqsave(&queue->qlock, flags);
+ 	deferfcp = list_first_entry_or_null(&queue->pending_cmd_list,
+ 				struct nvmet_fc_defer_fcp_req, req_list);
+ 	if (!deferfcp) {
+ 		list_add_tail(&fod->fcp_list, &fod->queue->fod_list);
+ 		spin_unlock_irqrestore(&queue->qlock, flags);
+-
+-		/* Release reference taken at queue lookup and fod allocation */
+-		nvmet_fc_tgt_q_put(queue);
+ 		return;
+ 	}
+ 
+@@ -761,6 +761,9 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
+ 		tgtport->ops->fcp_req_release(&tgtport->fc_target_port,
+ 				deferfcp->fcp_req);
+ 
++		/* release the queue lookup reference */
++		nvmet_fc_tgt_q_put(queue);
++
+ 		kfree(deferfcp);
+ 
+ 		spin_lock_irqsave(&queue->qlock, flags);
 -- 
-2.14.2.746.g8fb8a94
+2.13.1
