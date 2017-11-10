@@ -1,21 +1,14 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 10 Nov 2017 10:58:21 +0100
-Subject: [PATCH 0/2] Two small follow-up patches for nvme multipathing
-Message-ID: <1510307903-3346-1-git-send-email-hare@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 10 Nov 2017 12:13:57 +0100
+Subject: [PATCH 1/2] nvme: add Kconfig option 'NVME_MULTIPATH_DEFAULT'
+In-Reply-To: <1510307903-3346-2-git-send-email-hare@suse.de>
+References: <1510307903-3346-1-git-send-email-hare@suse.de>
+ <1510307903-3346-2-git-send-email-hare@suse.de>
+Message-ID: <20171110111357.GA7837@lst.de>
 
-Hi all,
+On Fri, Nov 10, 2017@10:58:22AM +0100, Hannes Reinecke wrote:
+> Add a configuration option to enable or disable NVMe multipath
+> per default.
 
-here are some small follow-up patches for nvme multipathing.
-Patches are relative to hchs nvme-mpath branch.
-
-Hannes Reinecke (2):
-  nvme: add Kconfig option 'NVME_MULTIPATH_DEFAULT'
-  nvme: expose subsys attribute to sysfs
-
- drivers/nvme/host/Kconfig     | 11 ++++++++++
- drivers/nvme/host/core.c      | 47 +++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/multipath.c |  8 +++++++-
- 3 files changed, 65 insertions(+), 1 deletion(-)
-
--- 
-1.8.5.6
+NAK.  If you really want a local override please keep this as a local
+patch.
