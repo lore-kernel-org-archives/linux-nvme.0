@@ -1,30 +1,39 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 10 Nov 2017 09:19:17 +0100
-Subject: building nvmetcli in buildroot
-In-Reply-To: <CANqv2T2Uhy__zyQY-tixnfFmCYOZV7y=grmsgtshRkhx6nwoLw@mail.gmail.com>
-References: <CANqv2T0CL+hJz0+_yUBnwQ995mupBTOBMpqEcrvi9ZawDBBCtg@mail.gmail.com>
- <20171109171019.GA15304@lst.de>
- <CANqv2T2Uhy__zyQY-tixnfFmCYOZV7y=grmsgtshRkhx6nwoLw@mail.gmail.com>
-Message-ID: <20171110081917.GA4056@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 10 Nov 2017 09:21:20 +0100
+Subject: [PATCH 5/7] nvme: also expose the namespace identification sysfs
+ files for mpath nodes
+In-Reply-To: <20171109174450.17142-6-hch@lst.de>
+References: <20171109174450.17142-1-hch@lst.de>
+ <20171109174450.17142-6-hch@lst.de>
+Message-ID: <3d24b1ad-5fee-ee4b-8518-a040c1b39006@suse.de>
 
-On Fri, Nov 10, 2017@08:43:05AM +0100, stephane gonauer wrote:
-> Hi,
+On 11/09/2017 06:44 PM, Christoph Hellwig wrote:
+> We do this by adding a helper that returns the ns_head for a device that
+> can belong to either the per-controller or per-subsystem block device
+> nodes, and otherwise reuse all the existing code.
 > 
-> I dug further into the question to better understand.
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Keith Busch <keith.busch at intel.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  drivers/nvme/host/core.c      | 57 +++++++++++++++++++++++--------------------
+>  drivers/nvme/host/multipath.c |  6 +++++
+>  drivers/nvme/host/nvme.h      |  1 +
+>  3 files changed, 38 insertions(+), 26 deletions(-)
 > 
-> >From my understanding the root cause lies in setuptools :
-> 
-> - buildroot uses --prefix option to set the prefix to $(TARGET_DIR)
-> - the setup.cfg from nvmetcli uses -install-script
-> - When both options are present, install-script completely overrides
-> --prefix and is considered as an absolute path.
-> 
-> I tried to uses $(TARGET_DIR) inside setup.cfg but it is not evaluated
-> when reaching setup.cfg (and it results in a path containing the
-> TARGET_DIR and not its value).
-> 
-> Unless someone knows how to better use setuptools, I don't see a
-> solution inside nvmetcli tree
+In principle, yes, but I would like to have some more info (like
+subsysnqn, and maybe 'model' etc) in the subsys sysfs entry, too.
+But this can be handled in a later patch, so:
 
-What do other python tools that install into sbin or similar use?
-There must be all kinds of precedence for this..
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
