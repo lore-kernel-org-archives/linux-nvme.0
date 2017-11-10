@@ -1,29 +1,22 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 10 Nov 2017 13:21:54 +0100
-Subject: [PATCH 1/2] nvme: add Kconfig option 'NVME_MULTIPATH_DEFAULT'
-In-Reply-To: <20171110111357.GA7837@lst.de>
-References: <1510307903-3346-1-git-send-email-hare@suse.de>
- <1510307903-3346-2-git-send-email-hare@suse.de>
- <20171110111357.GA7837@lst.de>
-Message-ID: <b7cb0745-cb0b-099c-e1e8-25e7a5209129@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 10 Nov 2017 05:19:37 -0800
+Subject: When will Linux support new RAID controllers
+In-Reply-To: <CAGRSmLs-Hr+FFfa4_29kidEeL2d7b+cEP6u1OkOUoYW6Cm15BA@mail.gmail.com>
+References: <CAGRSmLs-Hr+FFfa4_29kidEeL2d7b+cEP6u1OkOUoYW6Cm15BA@mail.gmail.com>
+Message-ID: <20171110131937.GA26181@infradead.org>
 
-On 11/10/2017 12:13 PM, Christoph Hellwig wrote:
-> On Fri, Nov 10, 2017@10:58:22AM +0100, Hannes Reinecke wrote:
->> Add a configuration option to enable or disable NVMe multipath
->> per default.
-> 
-> NAK.  If you really want a local override please keep this as a local
-> patch.
-> 
-Well, I had to try :-)
-But keeping a distro-specific patch (if the need arises) is fine by me.
+On Thu, Nov 09, 2017@10:24:54AM -0800, David F. wrote:
+> It seems that Linux will not see any HD on Intel's 100 Series or newer
+> chipsets (Z170, etc.) when in RAID mode.  (typically these systems
+> have M2 NVMe devices ). This is problematic when wanting to use Linux
+> on the system without having to disable RAID and when on their with
+> Windows.   Maybe not a linux-raid issue, but is Linux RAID issue
+> within the kernel device support.
 
-Cheers,
+Dan (on Cc) posted some patches to support the awkwared so called
+"RAID" mode (it really should be Intel landgrab mode) in the client
+chipsets more than a year ago.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+It needed a bit of a rework to be present as a fake PCIe root port
+instead of the platform driver magic, so I wonder what happened to
+it - Dan any chance to get back to it?
