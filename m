@@ -1,24 +1,21 @@
-From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Thu, 9 Nov 2017 20:06:01 -0800 (PST)
-Subject: [PATCH v2 0/4] qla2xxx: Add FC-NVMe Target support
-In-Reply-To: <20171109093321.GA17246@lst.de>
-References: <20171109031754.10270-1-himanshu.madhani@cavium.com>
- <20171109093321.GA17246@lst.de>
-Message-ID: <alpine.OSX.2.21.1711092004500.44710@n5102mv83lvdv1.qlogic.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 10 Nov 2017 05:52:36 +0100
+Subject: [PATCH 4/7] nvme: implement multipath access to nvme subsystems
+In-Reply-To: <20171109212111.GA1718@localhost.localdomain>
+References: <20171109174450.17142-1-hch@lst.de>
+ <20171109174450.17142-5-hch@lst.de>
+ <20171109212111.GA1718@localhost.localdomain>
+Message-ID: <20171110045236.GA32408@lst.de>
 
-
-
-On Thu, 9 Nov 2017, 1:33am, Christoph Hellwig wrote:
-
-> Before even looking at the patches:  they seem to add a lot of new
-> sparse warnings, mostly about endianess issues.  Given that FC-NVMe
-> is a mix of BE and LE structures getting this right is important.
-> Please fix them up first.
+> If we've CMIC capabilities, we'll use the subsys->instance; if we don't
+> have CMIC, we use the ctrl->instance. 
 > 
+> Since the two instances are independent of each other, they can create
+> duplicate names.
 > 
-> 
+> To fix, I think we'll need to always use the subsys instance for
+> consistency if CONFIG_NVME_MULTIPATH=y.
 
-Sure, will fix up endianess warnings and resubmit patches.
-
-Thanks,
-Himanshu
+Yes, we should.  But once we do that we should just always use
+subsys->instance, as it will always be the same as ctrl->instance
+for CONFIG_NVME_MULTIPATH=n.
