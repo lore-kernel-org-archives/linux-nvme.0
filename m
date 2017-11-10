@@ -1,25 +1,45 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 10 Nov 2017 05:54:18 +0100
-Subject: [PATCH 4/7] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20171109212217.GA16454@redhat.com>
-References: <20171109174450.17142-1-hch@lst.de>
- <20171109174450.17142-5-hch@lst.de> <20171109212217.GA16454@redhat.com>
-Message-ID: <20171110045418.GB32408@lst.de>
+From: himanshu.madhani@cavium.com (Himanshu Madhani)
+Date: Thu, 9 Nov 2017 21:01:20 -0800 (PST)
+Subject: [PATCH v2 1/4] qla2xxx_nvmet: Add files for FC-NVMe Target support
+In-Reply-To: <3cf657ee-67a7-1b33-9a79-a0415d7a651b@broadcom.com>
+References: <20171109031754.10270-1-himanshu.madhani@cavium.com>
+ <20171109031754.10270-2-himanshu.madhani@cavium.com>
+ <3cf657ee-67a7-1b33-9a79-a0415d7a651b@broadcom.com>
+Message-ID: <alpine.OSX.2.21.1711092053130.44710@n5102mv83lvdv1.qlogic.org>
 
-On Thu, Nov 09, 2017@04:22:17PM -0500, Mike Snitzer wrote:
-> Your 0th header speaks to the NVMe multipath IO path leveraging NVMe's
-> lack of partial completion but I think it'd be useful to have this
-> header (that actually gets committed) speak to it.
+Hi James,
 
-There is a comment above blk_steal_bios to this respect, which is in
-the tree.
+On Thu, 9 Nov 2017, 7:36am, James Smart wrote:
 
-> Also, the block core patch to introduce blk_steal_bios() already went in
-> but should there be a QUEUE_FLAG that gets set by drivers like NVMe that
-> don't support partial completion?
+> On 11/8/2017 7:17 PM, Himanshu Madhani wrote:
+> > +static struct nvmet_fc_target_template qla_nvmet_fc_transport = {
+> > +	.targetport_delete	= qla_nvmet_targetport_delete,
+> > +	.xmt_ls_rsp		= qla_nvmet_ls_rsp,
+> > +	.fcp_op			= qla_nvmet_fcp_op,
+> > +	.fcp_abort		= qla_nvmet_fcp_abort,
+> > +	.fcp_req_release	= qla_nvmet_fcp_req_release,
+> > +	.max_hw_queues		= 8,
+> > +	.max_sgl_segments	= 128,
+> > +	.max_dif_sgl_segments	= 64,
+> > +	.dma_boundary		= 0xFFFFFFFF,
+> > +	.target_features	= NVMET_FCTGTFEAT_READDATA_RSP |
+> > +					NVMET_FCTGTFEAT_CMD_IN_ISR |
+> > +					NVMET_FCTGTFEAT_OPDONE_IN_ISR,
+> > +	.target_priv_sz	= sizeof(struct nvme_private),
+> > +};
+> > 
 > 
-> This would make it easier for other future drivers to know whether they
-> can use a more optimized IO path.
+> From the patch set prior:
+> > Agree we do nvme_fc* callbacks in deferred context, but without the
+> xxx_IN_ISR flag during NVMe Target template registration, we were running into
+> crash due to recursive spin_lock held as part of CTIO response in our driver.
+> 
+> Can you look into removing this recursive spin lock ? ?? I don't think it's a
+> good idea to be holding a spin lock when upcalling the transport.
+> 
 
-As-is there is not real need for this.  But if you want to use a similar
-path in dm-multipath feel free to add the flag when needed.
+Yes, Will work on removing spin lock. 
+
+> -- james
+> 
+> 
