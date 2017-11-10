@@ -1,57 +1,107 @@
-From: stephane.gonauer@6wind.com (stephane gonauer)
-Date: Fri, 10 Nov 2017 15:31:11 +0100
-Subject: building nvmetcli in buildroot
-In-Reply-To: <20171110111741.GA28245@korriban>
-References: <CANqv2T0CL+hJz0+_yUBnwQ995mupBTOBMpqEcrvi9ZawDBBCtg@mail.gmail.com>
- <20171109171019.GA15304@lst.de>
- <CANqv2T2Uhy__zyQY-tixnfFmCYOZV7y=grmsgtshRkhx6nwoLw@mail.gmail.com>
- <20171110111741.GA28245@korriban>
-Message-ID: <CANqv2T0dkK5AnTkRJZs2UewW+TpGy32q8JTWRQtzjkr5MSaVWQ@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 10 Nov 2017 15:34:07 +0100
+Subject: [GIT PULL] nvme updates for Linux 4.15
+Message-ID: <20171110143407.zapukx3fhfcr4fm5@infradead.org>
 
-Hi,
+Hi Jens,
 
-We are using official buildroot 2017.08.
+another round of NVMe updates for 4.15.
 
-The build I made was for a not yet open source target but the issue
-should be the same on a standard x86 buildroot.
-(And we didn't patch build infrastructure for that target)
+The biggest items are:
 
-St?phane
+ - native multipath support (me + Hannes)
+ - userspace notifications for AENs (Keith)
+ - obey the command effects log page (Keith)
 
-2017-11-10 12:17 GMT+01:00 Mauro Rodrigues <maurosr at linux.vnet.ibm.com>:
-> On Fri, Nov 10, 2017@08:43:05AM +0100, stephane gonauer wrote:
->> Hi,
->>
->> I dug further into the question to better understand.
->>
->> From my understanding the root cause lies in setuptools :
->>
->> - buildroot uses --prefix option to set the prefix to $(TARGET_DIR)
->> - the setup.cfg from nvmetcli uses -install-script
->> - When both options are present, install-script completely overrides
->> --prefix and is considered as an absolute path.
->>
->> I tried to uses $(TARGET_DIR) inside setup.cfg but it is not evaluated
->> when reaching setup.cfg (and it results in a path containing the
->> TARGET_DIR and not its value).
->>
->> Unless someone knows how to better use setuptools, I don't see a
->> solution inside nvmetcli tree
->>
->> St?phane
->
-> From the top of my head I don't recall to see a different solution for
-> this.
->
-> Is your buildroot tool opensource? I would like to see how it deals
-> with python packages.
->
-> Also, I'll take a look if there is a different option from setuptools
-> standpoint.
->>
->> 2017-11-09 18:10 GMT+01:00 Christoph Hellwig <hch at lst.de>:
->> > I'm perfectly happy to make life for buildroots easier, but nvmetcli
->> > is an admin tool that should live in /usr/sbin.  We'll need to find
->> > a way for that to still be the default.
->>
->
+in addition to that lots of fixes from a wide variety of people.
+
+The following changes since commit 7d1dff993252366cc5e21e07b80072d323628363:
+
+  blktrace: fix unlocked registration of tracepoints (2017-11-07 09:42:10 -0700)
+
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.15
+
+for you to fetch changes up to b119d90862842a055ff78ca54953d430da314808:
+
+  nvme: expose subsys attribute to sysfs (2017-11-10 12:16:19 +0100)
+
+----------------------------------------------------------------
+Christoph Hellwig (14):
+      nvme: move the dying queue check from cancel to completion
+      nvme: always unregister the integrity profile in __nvme_revalidate_disk
+      nvme: don't pass struct nvme_ns to nvme_init_integrity
+      nvme: don't pass struct nvme_ns to nvme_config_discard
+      nvme: set the chunk size before freezing the queue
+      nvme: split __nvme_revalidate_disk
+      nvme: fix and clarify the check for missing metadata
+      nvmet: better data length validation
+      nvmet: kill nvmet_inline_bio_init
+      nvme: track subsystems
+      nvme: introduce a nvme_ns_ids structure
+      nvme: track shared namespaces
+      nvme: implement multipath access to nvme subsystems
+      nvme: also expose the namespace identification sysfs files for mpath nodes
+
+Hannes Reinecke (3):
+      block: create 'slaves' and 'holders' entries for hidden gendisks
+      nvme: create 'slaves' and 'holders' entries for hidden controllers
+      nvme: expose subsys attribute to sysfs
+
+Israel Rukshin (1):
+      nvmet-rdma: update queue list during ib_device removal
+
+James Smart (3):
+      nvme-fc: fix localport resume using stale values
+      nvme-fc: decouple ns references from lldd references
+      lpfc: tie in to new dev_loss_tmo interface in nvme transport
+
+Javier Gonz?lez (2):
+      nvme: compare NQN string with right size
+      nvme: fix eui_show() print format
+
+Keith Busch (7):
+      nvme: factor get log into a helper
+      nvme: check admin passthru command effects
+      nvme: centralize AEN defines
+      nvme-fc: remove unused "queue_size" field
+      nvme: remove handling of multiple AEN requests
+      nvme: unexport starting async event work
+      nvme: send uevent for some asynchronous events
+
+Max Gurtovoy (1):
+      nvme-rdma: fix nvme_rdma_create_queue_ib error flow
+
+Ming Lei (1):
+      nvme-pci: avoid dereference of symbol from unloaded module
+
+Minwoo Im (1):
+      nvmet: fix comment typos in admin-cmd.c
+
+Sagi Grimberg (2):
+      nvmet: remove redundant memset if failed to get_smart_log failed
+      nvmet: remove redundant local variable
+
+ block/genhd.c                   |   14 +-
+ drivers/nvme/host/Kconfig       |    9 +
+ drivers/nvme/host/Makefile      |    1 +
+ drivers/nvme/host/core.c        | 1050 ++++++++++++++++++++++++++++++---------
+ drivers/nvme/host/fabrics.c     |    4 +-
+ drivers/nvme/host/fc.c          |  143 ++++--
+ drivers/nvme/host/lightnvm.c    |   14 +-
+ drivers/nvme/host/multipath.c   |  291 +++++++++++
+ drivers/nvme/host/nvme.h        |  138 ++++-
+ drivers/nvme/host/pci.c         |   21 +-
+ drivers/nvme/host/rdma.c        |   21 +-
+ drivers/nvme/target/admin-cmd.c |   21 +-
+ drivers/nvme/target/core.c      |   10 +
+ drivers/nvme/target/fc.c        |   32 +-
+ drivers/nvme/target/io-cmd.c    |   18 +-
+ drivers/nvme/target/loop.c      |   19 +-
+ drivers/nvme/target/nvmet.h     |    4 +
+ drivers/nvme/target/rdma.c      |   16 +-
+ drivers/scsi/lpfc/lpfc_attr.c   |    5 +
+ include/linux/nvme.h            |   30 ++
+ 20 files changed, 1456 insertions(+), 405 deletions(-)
+ create mode 100644 drivers/nvme/host/multipath.c
