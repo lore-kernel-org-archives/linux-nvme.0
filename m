@@ -1,22 +1,19 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Nov 2017 22:27:52 +0200
-Subject: [PATCH 1/1] nvme-rdma: Introduce
- nvme_rdma_configure_blk/nvme_rdma_destroy_blk
-In-Reply-To: <20171108181754.GA471@lst.de>
-References: <1510060989-10391-1-git-send-email-maxg@mellanox.com>
- <20171108181754.GA471@lst.de>
-Message-ID: <a469a4fb-741e-99d5-9708-4725c9b9a035@grimberg.me>
+Date: Mon, 13 Nov 2017 22:28:32 +0200
+Subject: [PATCH v3 1/9] RDMA/core: Add implicit per-device completion
+ queue pools
+In-Reply-To: <1510248814.2608.19.camel@wdc.com>
+References: <20171108095742.25365-1-sagi@grimberg.me>
+ <20171108095742.25365-2-sagi@grimberg.me>
+ <fe2c23b7-2923-2693-28c3-6a6f399bda26@mellanox.com>
+ <23b598f2-6982-0d15-69e4-c526c627ec33@grimberg.me>
+ <1510248814.2608.19.camel@wdc.com>
+Message-ID: <1ac39e4b-81c8-1571-0fdf-8e9a38f1a5de@grimberg.me>
 
-
->> Create new helpers to avoid code and logic duplication between admin/IO
->> block layer resources creation and destruction.
+> Hello Sagi,
 > 
-> How is this going to interact with Sagi's refactoring in this area?
+> How about the following:
+> 
+> 	min(dev->attrs.max_cqe, max(nr_cqes, IB_CQE_BATCH))
 
-It shouldn't really interfere, its just something that will move to
-nvme-core as-is, but as I told Max, we need to find a better name for
-it.
-
-And I also remember you had a few plans to modify the calling
-conventions so if you have a good idea, maybe now would be a good
-time to offer something else so we can move up to this direction.
+That would work too, thanks Bart!
