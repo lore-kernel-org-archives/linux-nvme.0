@@ -1,57 +1,9 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Mon, 13 Nov 2017 21:24:44 +0000
-Subject: FW: [PATCH 1/2] NVMe-CLI : WDC-Plugin Updated Smart Log Commands
-References: <20171108164947.28987-1-jeff.lien@wdc.com>
- <20171108170323.GB25017@localhost.localdomain> 
-Message-ID: <MWHPR04MB10258A34FE2D489A71A224F2EA2B0@MWHPR04MB1025.namprd04.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 13 Nov 2017 23:25:18 +0200
+Subject: [PATCH 2/2] nvme: expose subsys attribute to sysfs
+In-Reply-To: <1510307903-3346-3-git-send-email-hare@suse.de>
+References: <1510307903-3346-1-git-send-email-hare@suse.de>
+ <1510307903-3346-3-git-send-email-hare@suse.de>
+Message-ID: <6c3e1a7a-e00a-51c1-4c26-9b0e943d7621@grimberg.me>
 
-Keith,
-Just wondering how to proceed on this change?  I can't really drop the vs prefix since a customer is requiring it.  I can remove the extra whitespace though if you prefer that.     
-
-
-Jeff Lien
-
------Original Message-----
-From: Jeffrey Lien 
-Sent: Wednesday, November 8, 2017 11:45 AM
-To: 'Keith Busch'
-Cc: linux-nvme at lists.infradead.org
-Subject: RE: [PATCH 1/2] NVMe-CLI : WDC-Plugin Updated Smart Log Commands
-
-Keith, 
-We had a customer request/require the vs prefix; that was the reason for adding.  I agree it's redundant, but figured it was easy enough to change.   
-
-I can delete the extra whitespace easy enough; I just thought it helped make it a little more readable.  
-
-
-Jeff Lien
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, November 8, 2017 11:03 AM
-To: Jeffrey Lien
-Cc: linux-nvme at lists.infradead.org; Jeff Lien
-Subject: Re: [PATCH 1/2] NVMe-CLI : WDC-Plugin Updated Smart Log Commands
-
-On Wed, Nov 08, 2017@10:49:47AM -0600, jeffreyalien wrote:
->  PLUGIN(NAME("wdc", "Western Digital vendor specific extensions"),
->  	COMMAND_LIST(
-> -		ENTRY("cap-diag", "WDC Capture-Diagnostics", wdc_cap_diag)
-> -		ENTRY("drive-log", "WDC Drive Log", wdc_drive_log)
-> -		ENTRY("get-crash-dump", "WDC Crash Dump", wdc_get_crash_dump)
-> -		ENTRY("id-ctrl", "WDC identify controller", wdc_id_ctrl)
-> -		ENTRY("purge", "WDC Purge", wdc_purge)
-> -		ENTRY("purge-monitor", "WDC Purge Monitor", wdc_purge_monitor)
-> -		ENTRY("smart-log-add", "WDC Additional Smart Log", wdc_smart_log_add)
-> + 		ENTRY("cap-diag", "              WDC Capture-Diagnostics", wdc_cap_diag)
-> + 		ENTRY("drive-log", "              WDC Drive Log", wdc_drive_log)
-> + 		ENTRY("get-crash-dump", "              WDC Crash Dump", wdc_get_crash_dump)
-> + 		ENTRY("id-ctrl", "              WDC identify controller", wdc_id_ctrl)
-> + 		ENTRY("purge", "              WDC Purge", wdc_purge)
-> + 		ENTRY("purge-monitor", "              WDC Purge Monitor", wdc_purge_monitor)
-> + 		ENTRY("vs-smart-add-log", "             WDC Additional Smart Log", wdc_smart_add_log)
-> + 		ENTRY("vs-smart-add-log-c1", "          WDC Additional Smart Log for C1 Log page", wdc_smart_add_log_c1)
->  	)
->  );
-
-I wasn't sure why you added so much whitespace for your descriptions until I ran it. Maybe drop the "vs-" prefix since it's already vendor-specific by virtue of being a vendor specific plugin? The alignment comes out nicer that way.
+Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
