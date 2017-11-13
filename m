@@ -1,35 +1,48 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Nov 2017 21:31:37 +0200
-Subject: [PATCH v2 1/1] nvme-rdma: Fix memory leak during queue allocation
-In-Reply-To: <1510481554-28106-1-git-send-email-maxg@mellanox.com>
-References: <1510481554-28106-1-git-send-email-maxg@mellanox.com>
-Message-ID: <9b3b8587-ae00-fff6-cf0d-7e02e091a143@grimberg.me>
+From: garsilva@embeddedor.com (Gustavo A. R. Silva)
+Date: Mon, 13 Nov 2017 13:36:50 -0600
+Subject: [PATCH] nvme: host: core: fix NULL pointer dereference in
+ nvme_pr_command
+Message-ID: <20171113193650.GA2832@embeddedor.com>
 
-Hi Max,
+_head_ pointer is being dereferenced when it is NULL.
 
->   out_destroy_qp:
-> -	rdma_destroy_qp(queue->cm_id);
-> +	ib_destroy_qp(queue->qp);
+Fix this by moving the code that dereferences such pointer after it has
+been properly initialized in function nvme_get_ns_from_disk.
 
-Why was this changed? Any specific reason?>
+Addresses-Coverity-ID: 1461344
+Fixes: 32acab3181c7 ("nvme: implement multipath access to nvme subsystems")
+Signed-off-by: Gustavo A. R. Silva <garsilva at embeddedor.com>
+---
+ drivers/nvme/host/core.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
->   out_destroy_ib_cq:
->   	ib_free_cq(queue->ib_cq);
->   out_put_dev:
-> @@ -546,6 +555,7 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
->   
->   out_destroy_cm_id:
->   	rdma_destroy_id(queue->cm_id);
-> +	nvme_rdma_destroy_queue_ib(queue);
->   	return ret;
->   }
->   
-> @@ -563,8 +573,8 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
->   	if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
->   		return;
->   
-> -	nvme_rdma_destroy_queue_ib(queue);
->   	rdma_destroy_id(queue->cm_id);
-> +	nvme_rdma_destroy_queue_ib(queue);
-
-Why was this changed? What race are you preventing here?
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 25da74d..9b9c324 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1452,16 +1452,16 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+ 	put_unaligned_le64(key, &data[0]);
+ 	put_unaligned_le64(sa_key, &data[8]);
+ 
+-	memset(&c, 0, sizeof(c));
+-	c.common.opcode = op;
+-	c.common.nsid = cpu_to_le32(head->ns_id);
+-	c.common.cdw10[0] = cpu_to_le32(cdw10);
+-
+ 	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
+-	if (unlikely(!ns))
++	if (unlikely(!ns)) {
+ 		ret = -EWOULDBLOCK;
+-	else
++	} else {
++		memset(&c, 0, sizeof(c));
++		c.common.opcode = op;
++		c.common.nsid = cpu_to_le32(head->ns_id);
++		c.common.cdw10[0] = cpu_to_le32(cdw10);
+ 		ret = nvme_submit_sync_cmd(ns->queue, &c, data, 16);
++	}
+ 	nvme_put_ns_from_disk(head, srcu_idx);
+ 	return ret;
+ }
+-- 
+2.7.4
