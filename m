@@ -1,44 +1,15 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Nov 2017 22:21:43 +0200
-Subject: [PATCH 4/4] nvmet: Add feature close connection from target side
-In-Reply-To: <1510576183-17215-5-git-send-email-israelr@mellanox.com>
-References: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
- <1510576183-17215-5-git-send-email-israelr@mellanox.com>
-Message-ID: <6279e907-06df-34dc-ab63-9c4b9ed94f6b@grimberg.me>
+Date: Mon, 13 Nov 2017 22:25:59 +0200
+Subject: [PATCH 1/1] nvme-rdma: Introduce
+ nvme_rdma_configure_blk/nvme_rdma_destroy_blk
+In-Reply-To: <1510060989-10391-1-git-send-email-maxg@mellanox.com>
+References: <1510060989-10391-1-git-send-email-maxg@mellanox.com>
+Message-ID: <25446ba6-52c9-7e05-b2ab-a7f57600ee31@grimberg.me>
 
-Hi Israel,
+Hey Max,
 
-> This allows the user to close any connection from target side
-> by writing to the file "force_close" at the controller folder.
-> Full path:
-> /config/nvmet/subsystems/<SUBSYSTEM_NAME>/controllers/<CTRL_ID>/force_close
-> 
-> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/target/configfs.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index 2413df6..90e5925 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -496,10 +496,23 @@ static ssize_t nvmet_ctrl_trsvcid_show(struct config_item *item, char *page)
->   
->   CONFIGFS_ATTR_RO(nvmet_ctrl_, trsvcid);
->   
-> +static ssize_t nvmet_ctrl_force_close_store(struct config_item *item,
-> +		const char *page, size_t count)
+> Create new helpers to avoid code and logic duplication between admin/IO
+> block layer resources creation and destruction.
 
-Maybe simply 'delete' is a better attribute name?
-
-> +{
-> +	struct nvmet_ctrl *ctrl = to_nvmet_ctrl(item);
-> +
-> +	ctrl->ops->delete_ctrl(ctrl);
-> +
-
-What guarantees that calling delete_ctrl is safe here? Controllers can
-be freed under various conditions (client disconnect, fatal_error,
-device removal). What protects from user initiated force_close hitting
-a use-after-free condition?
+I really (really) dislike the names (sorry). Can you come up with 
+something better?
