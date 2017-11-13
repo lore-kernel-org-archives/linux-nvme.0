@@ -1,32 +1,47 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Mon, 13 Nov 2017 12:29:39 +0000
-Subject: [PATCH v2 0/4] Add controllers to nvmet configfs
-Message-ID: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+Date: Mon, 13 Nov 2017 12:29:41 +0000
+Subject: [PATCH 2/4] nvmet: Rearrange nvmet_ctrl_free()
+In-Reply-To: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+References: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1510576183-17215-3-git-send-email-israelr@mellanox.com>
 
-This patch series expands nvmet configfs.
-It adds to nvmet two main features
- - Close an active connection from target side.
- - Show all connections from the target point of view.
+Make it symmetric to nvmet_alloc_ctrl().
 
-Those functionalities have some benefits:
- - Give the administrator more control and information
- - Enforce new ACL while there are active connections
- - Disconnect from unreachable Hosts
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Changes from v1:
- - Split commit "Fix error flow in nvmet_alloc_ctrl()" to two
- - Embed some port info (traddr and trsvcid) in nvmet_ctrl struct
-
-Israel Rukshin (4):
-  nvmet: Fix error flow in nvmet_alloc_ctrl()
-  nvmet: Rearrange nvmet_ctrl_free()
-  nvmet: Add controllers to configfs
-  nvmet: Add feature close connection from target side
-
- drivers/nvme/target/configfs.c | 86 ++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c     | 19 ++++++++--
- drivers/nvme/target/nvmet.h    | 12 ++++++
- 3 files changed, 113 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 5699c9a..995976e 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -870,21 +870,22 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
+ 	struct nvmet_subsys *subsys = ctrl->subsys;
+ 
+-	nvmet_stop_keep_alive_timer(ctrl);
+-
+ 	mutex_lock(&subsys->lock);
+ 	list_del(&ctrl->subsys_entry);
+ 	mutex_unlock(&subsys->lock);
+ 
++	nvmet_stop_keep_alive_timer(ctrl);
++
+ 	flush_work(&ctrl->async_event_work);
+ 	cancel_work_sync(&ctrl->fatal_err_work);
+ 
+ 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+-	nvmet_subsys_put(subsys);
+ 
+ 	kfree(ctrl->sqs);
+ 	kfree(ctrl->cqs);
+ 	kfree(ctrl);
++
++	nvmet_subsys_put(subsys);
+ }
+ 
+ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
 -- 
 1.8.3.1
