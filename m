@@ -1,20 +1,48 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 12 Nov 2017 19:43:43 +0200
-Subject: [PATCH 1/1] nvme-rdma: Introduce
- nvme_rdma_configure_blk/nvme_rdma_destroy_blk
-In-Reply-To: <20171108181754.GA471@lst.de>
-References: <1510060989-10391-1-git-send-email-maxg@mellanox.com>
- <20171108181754.GA471@lst.de>
-Message-ID: <c957ffa3-6c55-e892-c0b3-3e9094a1d4bf@mellanox.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Mon, 13 Nov 2017 12:29:43 +0000
+Subject: [PATCH 4/4] nvmet: Add feature close connection from target side
+In-Reply-To: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+References: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1510576183-17215-5-git-send-email-israelr@mellanox.com>
 
+This allows the user to close any connection from target side
+by writing to the file "force_close" at the controller folder.
+Full path:
+/config/nvmet/subsystems/<SUBSYSTEM_NAME>/controllers/<CTRL_ID>/force_close
 
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/configfs.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-On 11/8/2017 8:17 PM, Christoph Hellwig wrote:
-> On Tue, Nov 07, 2017@03:23:09PM +0200, Max Gurtovoy wrote:
->> Create new helpers to avoid code and logic duplication between admin/IO
->> block layer resources creation and destruction.
-> 
-> How is this going to interact with Sagi's refactoring in this area?
-> 
-
-I'll send an updated version over nvme/for-4.15
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 2413df6..90e5925 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -496,10 +496,23 @@ static ssize_t nvmet_ctrl_trsvcid_show(struct config_item *item, char *page)
+ 
+ CONFIGFS_ATTR_RO(nvmet_ctrl_, trsvcid);
+ 
++static ssize_t nvmet_ctrl_force_close_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_ctrl *ctrl = to_nvmet_ctrl(item);
++
++	ctrl->ops->delete_ctrl(ctrl);
++
++	return count;
++}
++
++CONFIGFS_ATTR_WO(nvmet_ctrl_, force_close);
++
+ static struct configfs_attribute *nvmet_ctrl_attrs[] = {
+ 	&nvmet_ctrl_attr_hostnqn,
+ 	&nvmet_ctrl_attr_traddr,
+ 	&nvmet_ctrl_attr_trsvcid,
++	&nvmet_ctrl_attr_force_close,
+ 	NULL,
+ };
+ 
+-- 
+1.8.3.1
