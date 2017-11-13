@@ -1,47 +1,39 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Mon, 13 Nov 2017 12:29:41 +0000
-Subject: [PATCH 2/4] nvmet: Rearrange nvmet_ctrl_free()
+Date: Mon, 13 Nov 2017 12:29:40 +0000
+Subject: [PATCH 1/4] nvmet: Fix error flow in nvmet_alloc_ctrl()
 In-Reply-To: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
 References: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1510576183-17215-3-git-send-email-israelr@mellanox.com>
+Message-ID: <1510576183-17215-2-git-send-email-israelr@mellanox.com>
 
-Make it symmetric to nvmet_alloc_ctrl().
+Remove the allocated id on error.
 
 Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/target/core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/nvme/target/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 5699c9a..995976e 100644
+index 22a2a2b..5699c9a 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -870,21 +870,22 @@ static void nvmet_ctrl_free(struct kref *ref)
- 	struct nvmet_ctrl *ctrl = container_of(ref, struct nvmet_ctrl, ref);
- 	struct nvmet_subsys *subsys = ctrl->subsys;
+@@ -821,7 +821,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 		/* Don't accept keep-alive timeout for discovery controllers */
+ 		if (kato) {
+ 			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+-			goto out_free_sqs;
++			goto out_remove_ida;
+ 		}
  
--	nvmet_stop_keep_alive_timer(ctrl);
--
- 	mutex_lock(&subsys->lock);
- 	list_del(&ctrl->subsys_entry);
- 	mutex_unlock(&subsys->lock);
+ 		/*
+@@ -851,6 +851,8 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	*ctrlp = ctrl;
+ 	return 0;
  
-+	nvmet_stop_keep_alive_timer(ctrl);
-+
- 	flush_work(&ctrl->async_event_work);
- 	cancel_work_sync(&ctrl->fatal_err_work);
- 
- 	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
--	nvmet_subsys_put(subsys);
- 
++out_remove_ida:
++	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+ out_free_sqs:
  	kfree(ctrl->sqs);
- 	kfree(ctrl->cqs);
- 	kfree(ctrl);
-+
-+	nvmet_subsys_put(subsys);
- }
- 
- void nvmet_ctrl_put(struct nvmet_ctrl *ctrl)
+ out_free_cqs:
 -- 
 1.8.3.1
