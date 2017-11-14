@@ -1,45 +1,36 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 14 Nov 2017 11:14:41 +0200
-Subject: [PATCH v3 2/9] IB/isert: use implicit CQ allocation
-In-Reply-To: <20171108095742.25365-3-sagi@grimberg.me>
-References: <20171108095742.25365-1-sagi@grimberg.me>
- <20171108095742.25365-3-sagi@grimberg.me>
-Message-ID: <e0428a24-a9b5-75f1-f514-ef6df6c5dd69@mellanox.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Tue, 14 Nov 2017 12:04:03 +0200
+Subject: [PATCH 3/4] nvmet: Add controllers to configfs
+In-Reply-To: <4521c253-156a-b462-1c2d-3b20a59874ba@grimberg.me>
+References: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+ <1510576183-17215-4-git-send-email-israelr@mellanox.com>
+ <4521c253-156a-b462-1c2d-3b20a59874ba@grimberg.me>
+Message-ID: <de0724f9-8bea-360c-75c6-5daeb25a7955@mellanox.com>
 
-Hi Sagi,
+On 11/13/2017 10:18 PM, Sagi Grimberg wrote:
+>
+>> +void nvmet_ctrl_configfs_del(struct nvmet_ctrl *ctrl)
+>> +{
+>> +    if (d_inode(ctrl->group.cg_item.ci_dentry))
+>> +        configfs_unregister_group(&ctrl->group);
+>
+> I'm not sure I understand the conditional here, care to explain?
 
-> @@ -535,13 +410,15 @@ isert_connect_request(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
->   
->   	isert_set_nego_params(isert_conn, &event->param.conn);
->   
-> -	ret = isert_conn_setup_qp(isert_conn, cma_id);
-> -	if (ret)
-> +	isert_conn->qp = isert_create_qp(isert_conn, cma_id);
-> +	if (IS_ERR(isert_conn->qp)) {
-> +		ret = PTR_ERR(isert_conn->qp);
->   		goto out_conn_dev;
-> +	}
->   
->   	ret = isert_login_post_recv(isert_conn);
->   	if (ret)
-> -		goto out_conn_dev;
-> +		goto out_conn_qp;
+Since I created the controller folder with configfs_register_group(), it 
+creates this folder as a default folder.
+Default folders are removed when their parent folder is removed.
 
-This is a bug fix, right ?
+The new filesystem hierarchy:
+<SUBSYSTEM>/controllers/<CTRL_ID>/
 
->   
->   	ret = isert_rdma_accept(isert_conn);
->   	if (ret)
-> @@ -553,6 +430,8 @@ isert_connect_request(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
->   
->   	return 0;
->   
-> +out_conn_qp:
-> +	ib_destroy_qp(isert_conn->qp);
+Both controllers and controller (CTRL_ID) are default folders.
+This condition protect us from a case that the user remove the subsystem 
+folder with active connections.
+When subsystem folder is removed by the user it first remove the 
+controllers folder
+and then it removes all the controller (CTRL_ID)  folders.
+In this case there is no need to remove again the controller (CTRL_ID)  
+folders when
+the actual controller object is going to be freed.
 
-maybe use rdma_destroy_qp(isert_conn->cm_id) as we do in nvme/nvmet_rdma ?
-
-
-Otherwise, Looks good
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+This check simply asks if controller (CTRL_ID) folders was already removed.
