@@ -1,15 +1,46 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 16 Nov 2017 20:37:18 +0200
-Subject: [PATCH 2/3] nvmet-rdma: use srq pointer in rdma_cmd
-In-Reply-To: <1510852885-25519-3-git-send-email-maxg@mellanox.com>
-References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
- <1510852885-25519-3-git-send-email-maxg@mellanox.com>
-Message-ID: <b79baa94-6aa6-53ec-2f20-bb9b61e7fea9@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 16 Nov 2017 13:36:49 -0700
+Subject: [PATCH 1/2] nvme: Fix NULL dereference on reservation request
+Message-ID: <20171116203650.19591-1-keith.busch@intel.com>
 
+This fixes using the NULL 'head' before getting the reference. It is
+however possible the head will always be NULL, so this patch uses the
+struct nvme_ns to get the ns_id field.
 
-> This is a preparetion patch that creates an infrastructure in post
-> recv mechanism for the SRQ per completion vector feature.
-> 
-> Change-Id: I0b0130920580e6999f0517400a45a1078e9553c9
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-No need for this Change-Id...
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 25da74d310d1..a2ab4e440bea 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1449,19 +1449,19 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
+ 	int srcu_idx, ret;
+ 	u8 data[16] = { 0, };
+ 
++	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
++	if (unlikely(!ns))
++		return -EWOULDBLOCK;
++
+ 	put_unaligned_le64(key, &data[0]);
+ 	put_unaligned_le64(sa_key, &data[8]);
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = op;
+-	c.common.nsid = cpu_to_le32(head->ns_id);
++	c.common.nsid = cpu_to_le32(ns->head->ns_id);
+ 	c.common.cdw10[0] = cpu_to_le32(cdw10);
+ 
+-	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
+-	if (unlikely(!ns))
+-		ret = -EWOULDBLOCK;
+-	else
+-		ret = nvme_submit_sync_cmd(ns->queue, &c, data, 16);
++	ret = nvme_submit_sync_cmd(ns->queue, &c, data, 16);
+ 	nvme_put_ns_from_disk(head, srcu_idx);
+ 	return ret;
+ }
+-- 
+2.13.6
