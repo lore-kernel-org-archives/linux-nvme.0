@@ -1,28 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 16 Nov 2017 20:32:41 +0200
-Subject: [PATCH 1/3] IB/core: add a simple SRQ pool per PD
-In-Reply-To: <1510852885-25519-2-git-send-email-maxg@mellanox.com>
+Date: Thu, 16 Nov 2017 20:36:33 +0200
+Subject: [PATCH v2 0/3] nvmet-rdma: SRQ per completion vector
+In-Reply-To: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
 References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
- <1510852885-25519-2-git-send-email-maxg@mellanox.com>
-Message-ID: <49940a5c-4a9e-7c66-5077-79fe45415155@grimberg.me>
+Message-ID: <263c6c9d-0dd2-da4f-12a9-efefd361e592@grimberg.me>
 
 
-> +EXPORT_SYMBOL(ib_srq_pool_init);
-> +
-> +void ib_srq_pool_destroy(struct ib_pd *pd)
-> +{
-> +	struct ib_srq *srq;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&pd->srq_lock, flags);
-> +	while (!list_empty(&pd->srqs)) {
-> +		srq = list_first_entry(&pd->srqs, struct ib_srq, pd_entry);
-> +		list_del(&srq->pd_entry);
-> +
-> +		spin_unlock_irqrestore(&pd->srq_lock, flags);
-> +		ib_destroy_srq(srq);
-> +		spin_lock_irqsave(&pd->srq_lock, flags);
-> +	}
-> +	spin_unlock_irqrestore(&pd->srq_lock, flags);
+> Since there is an active discussion regarding the CQ pool architecture, I decided to push
+> this feature (maybe it can be pushed before CQ pool).
+> 
+> This is a new feature for NVMEoF RDMA target,
 
-Why not just splicing the list and iterate sanely?
+Any chance having this for the rest? isert, srpt, svcrdma?
+
+> results:
+> 
+> BS    1.read (target CPU)   2.read (target CPU)    3.read (target CPU)   4.read (target CPU)
+> ---  --------------------- --------------------- --------------------- ----------------------
+> 1k     5.88M (80%)            5.45M (72%)            6.77M (91%)          2.2M (72%)
+> 
+> 2k     3.56M (65%)            3.45M (59%)            3.72M (64%)          2.12M (59%)
+> 
+> 4k     1.8M (33%)             1.87M (32%)            1.88M (32%)          1.59M (34%)
+
+I'm blown by the fact that there is such a small difference for 4k
+reads, how many cpu-cores did you have on the target-system? single
+numa-node? Maybe if that is the case we can use less srqs than 
+per-completion-vector...
