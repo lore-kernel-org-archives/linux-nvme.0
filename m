@@ -1,52 +1,37 @@
-From: freeman.zhang1992@gmail.com (Zhengyu Zhang)
-Date: Thu, 16 Nov 2017 09:47:22 +0800
-Subject: Is There Any Plan for Bit-Bucket SGL Implement?
-In-Reply-To: <20171115155145.GA2989@localhost.localdomain>
-References: <03d5178a-1edc-8a8b-f55b-9c96ee7d4101@gmail.com>
- <20171115155145.GA2989@localhost.localdomain>
-Message-ID: <52c16cf5-c25a-319d-4843-3053bff6d72a@gmail.com>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Thu, 16 Nov 2017 10:01:17 +0300
+Subject: [bug report] nvme: track shared namespaces
+Message-ID: <20171116070116.hbncfaea3635lxqm@mwanda>
 
-Hi Keith!
+Hello Christoph Hellwig,
 
-Thank you very much for your reply.
+This is a semi-automatic email about new static checker warnings.
 
-On 11/15/17 11:51 PM, Keith Busch wrote:
->> - Is there any plan to implement (Bit-Bucket)SGL in linux kernel?
-> 
-> No plans to do this as far as I know. The read request the nvme driver
-> receives has no way of conveying information for it to set up a bit-bucket
-> descriptor. Even if it did, there doesn't appear to be any user for
-> such a feature in Linux.
-> 
->> - Is there any other way to make use of this feature?
-> 
-> Not in Linux.
-> 
->> - Is this feature hardware-specific?
-> 
-> Yes, hardware advertises support for the feature in identify controller's
-> SGLS field, bit 16.
-> 
+The patch ed754e5deeb1: "nvme: track shared namespaces" from Nov 9, 
+2017, leads to the following Smatch complaint:
 
-It's a pity to know this. The spec notes this feature certainly for a
-reason but I just don't know their original motivation :(
+    drivers/nvme/host/core.c:2991 nvme_ns_remove()
+     error: we previously assumed 'head' could be null (see line 2983)
 
-Actually, I thought I could be the user of bit-bucket SGL when
-developing my data processing application. Or at least, I can do some
-tests to see whether this feature can improve performance since
-bit-bucket SGL may reduce command number drastically when users perform
-sequential read-skip interleave operations.
+drivers/nvme/host/core.c
+  2982		nvme_mpath_clear_current_path(ns);
+  2983		if (head)
+                    ^^^^
+The patch adds a check
 
-I plan to check some other drivers (e.g. SPDK) or maybe try to figure
-out some patches myself (if my p3700 hardware supports it)...
+  2984			list_del_rcu(&ns->siblings);
+  2985		mutex_unlock(&ns->ctrl->subsys->lock);
+  2986	
+  2987		mutex_lock(&ns->ctrl->namespaces_mutex);
+  2988		list_del_init(&ns->list);
+  2989		mutex_unlock(&ns->ctrl->namespaces_mutex);
+  2990	
+  2991		synchronize_srcu(&head->srcu);
+                                  ^^^^^^^^^^
+and a new unchecked dereference.
 
+  2992		nvme_put_ns(ns);
+  2993	}
 
-Thanks!
-Zhengyu
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0xFA035ADF.asc
-Type: application/pgp-keys
-Size: 3123 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171116/d6539e38/attachment.bin>
+regards,
+dan carpenter
