@@ -1,33 +1,47 @@
-From: dledford@redhat.com (Doug Ledford)
-Date: Thu, 16 Nov 2017 10:58:13 -0500
-Subject: [PATCH v2 0/3] Fix request completion holes
-In-Reply-To: <e89f72c6-12ce-c149-c81e-f3adb43a8e9e@grimberg.me>
-References: <20171108100616.26605-1-sagi@grimberg.me>
- <1510611044.3735.49.camel@redhat.com>
- <e89f72c6-12ce-c149-c81e-f3adb43a8e9e@grimberg.me>
-Message-ID: <1510847893.8751.0.camel@redhat.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 17 Nov 2017 01:37:29 +0900
+Subject: [PATCH] nvme-pci: avoid hmb desc array idx out-of-bound when
+ hmmaxd set.
+In-Reply-To: <1510850064-10419-1-git-send-email-minwoo.im.dev@gmail.com>
+References: <1510850064-10419-1-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <CAA7jztde+cNEXDsAJ+BuxBD07o1=1rOqb8PD4FjLJAopbx3_Rg@mail.gmail.com>
 
-On Thu, 2017-11-16@17:39 +0200, Sagi Grimberg wrote:
-> > Sagi, are you ready for me to take this series in?  It seemed like there
-> > was a question as to whether you might want to try atomics instead of
-> > spin locks, or do you want to stick with spinlocks?
-> 
-> I still need a review for this, and I think we'll get it in through the
-> nvme tree (via the block tree). Thanks.
++ added linux-nvme at lists.infradead.org
 
-Sorry, I didn't pay that close of attention to the files patched in each
-one.  I just saw rdma in each subject line and assumed it was an rdma
-destined patch series.  Looking closer I see it was really just Cc:ed to
-linux-rdma for review.
-
--- 
-Doug Ledford <dledford at redhat.com>
-    GPG KeyID: B826A3330E572FDD
-    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: This is a digitally signed message part
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171116/3528d82b/attachment.sig>
+On Fri, Nov 17, 2017@1:34 AM, Minwoo Im <minwoo.im.dev@gmail.com> wrote:
+> hmb descriptor idx out-of-bound occurs in case of below conditions.
+> preferred = 128MiB
+> chunk_size = 4MiB
+> hmmaxd = 1
+>
+> Current code will not allow rmmod which will free hmb descriptors
+> to be done successfully in above case.
+>
+> "descs[i]" will be set in for-loop without seeing any conditions
+> related to "max_entries" after a single "descs" was allocated by
+> (max_entries = 1) in this case.
+>
+> Added a condition into for-loop to check index of descriptors.
+>
+> Fixes: 044a9df1("nvme-pci: implement the HMB entry number and size limitations")
+> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+> ---
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 762b840..c66e57d 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1787,7 +1787,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+>         if (!bufs)
+>                 goto out_free_descs;
+>
+> -       for (size = 0; size < preferred; size += len) {
+> +       for (size = 0; size < preferred && i < max_entries; size += len) {
+>                 dma_addr_t dma_addr;
+>
+>                 len = min_t(u64, chunk_size, preferred - size);
+> --
+> 2.7.4
+>
