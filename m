@@ -1,46 +1,48 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 16 Nov 2017 13:36:49 -0700
-Subject: [PATCH 1/2] nvme: Fix NULL dereference on reservation request
-Message-ID: <20171116203650.19591-1-keith.busch@intel.com>
+Date: Thu, 16 Nov 2017 13:36:50 -0700
+Subject: [PATCH 2/2] nvme: Suppress static analyis warning
+In-Reply-To: <20171116203650.19591-1-keith.busch@intel.com>
+References: <20171116203650.19591-1-keith.busch@intel.com>
+Message-ID: <20171116203650.19591-2-keith.busch@intel.com>
 
-This fixes using the NULL 'head' before getting the reference. It is
-however possible the head will always be NULL, so this patch uses the
-struct nvme_ns to get the ns_id field.
+The ns->head is always valid, so we don't need to check for NULL.
 
+Reported-by: Dan Carpenter <dan.caprenter at oracle.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 25da74d310d1..a2ab4e440bea 100644
+index a2ab4e440bea..f837d666cbd4 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1449,19 +1449,19 @@ static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
- 	int srcu_idx, ret;
- 	u8 data[16] = { 0, };
+@@ -2961,8 +2961,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
  
-+	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
-+	if (unlikely(!ns))
-+		return -EWOULDBLOCK;
-+
- 	put_unaligned_le64(key, &data[0]);
- 	put_unaligned_le64(sa_key, &data[8]);
+ static void nvme_ns_remove(struct nvme_ns *ns)
+ {
+-	struct nvme_ns_head *head = ns->head;
+-
+ 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+ 		return;
  
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = op;
--	c.common.nsid = cpu_to_le32(head->ns_id);
-+	c.common.nsid = cpu_to_le32(ns->head->ns_id);
- 	c.common.cdw10[0] = cpu_to_le32(cdw10);
+@@ -2980,15 +2978,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
  
--	ns = nvme_get_ns_from_disk(bdev->bd_disk, &head, &srcu_idx);
--	if (unlikely(!ns))
--		ret = -EWOULDBLOCK;
--	else
--		ret = nvme_submit_sync_cmd(ns->queue, &c, data, 16);
-+	ret = nvme_submit_sync_cmd(ns->queue, &c, data, 16);
- 	nvme_put_ns_from_disk(head, srcu_idx);
- 	return ret;
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+ 	nvme_mpath_clear_current_path(ns);
+-	if (head)
+-		list_del_rcu(&ns->siblings);
++	list_del_rcu(&ns->siblings);
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
+ 	mutex_lock(&ns->ctrl->namespaces_mutex);
+ 	list_del_init(&ns->list);
+ 	mutex_unlock(&ns->ctrl->namespaces_mutex);
+ 
+-	synchronize_srcu(&head->srcu);
++	synchronize_srcu(&ns->head->srcu);
+ 	nvme_put_ns(ns);
  }
+ 
 -- 
 2.13.6
