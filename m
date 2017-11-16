@@ -1,48 +1,70 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 16 Nov 2017 13:36:50 -0700
-Subject: [PATCH 2/2] nvme: Suppress static analyis warning
-In-Reply-To: <20171116203650.19591-1-keith.busch@intel.com>
-References: <20171116203650.19591-1-keith.busch@intel.com>
-Message-ID: <20171116203650.19591-2-keith.busch@intel.com>
+Date: Thu, 16 Nov 2017 16:57:10 -0700
+Subject: [PATCH-stable] nvme: Fix memory order on async queue deletion
+Message-ID: <20171116235710.20224-1-keith.busch@intel.com>
 
-The ns->head is always valid, so we don't need to check for NULL.
+This patch is a fix specific to the 3.19 - 4.4 kernels. The 4.5 kernel
+inadvertently fixed this bug differently (db3cbfff5bcc0), but is not
+a stable candidate due it being a complicated re-write of the entire
+feature.
 
-Reported-by: Dan Carpenter <dan.caprenter at oracle.com>
+This patch fixes a potential timing bug with nvme's asynchronous queue
+deletion, which causes an allocated request to be accidentally released
+due to the ordering of the shared completion context among the sq/cq
+pair. The completion context saves the request that issued the queue
+deletion. If the submission side deletion happens to reset the active
+request, the completion side will release the wrong request tag back into
+the pool of available tags. This means the driver will create multiple
+commands with the same tag, corrupting the queue context.
+
+The error is observable in the kernel logs like:
+
+  "nvme XX:YY:ZZ completed id XX twice on qid:0"
+
+In this particular case, this message occurs because the queue is
+corrupted.
+
+The following timing sequence demonstrates the error:
+
+  CPU A                                 CPU B
+  -----------------------               -----------------------------
+  nvme_irq
+   nvme_process_cq
+    async_completion
+     queue_kthread_work  ----------->   nvme_del_sq_work_handler
+                                         nvme_delete_cq
+                                          adapter_async_del_queue
+                                           nvme_submit_admin_async_cmd
+                                            cmdinfo->req = req;
+
+     blk_mq_free_request(cmdinfo->req); <-- wrong request!!!
+
+This patch fixes the bug by releasing the request in the completion side
+prior to waking the submission thread, such that that thread can't muck
+with the shared completion context.
+
+Fixes: a4aea5623d4a5 ("NVMe: Convert to blk-mq")
+
+Cc: <stable at vger.kernel.org> # 4.4.x
+Cc: <stable at vger.kernel.org> # 4.1.x
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a2ab4e440bea..f837d666cbd4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2961,8 +2961,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- static void nvme_ns_remove(struct nvme_ns *ns)
- {
--	struct nvme_ns_head *head = ns->head;
--
- 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
- 		return;
- 
-@@ -2980,15 +2978,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	mutex_lock(&ns->ctrl->subsys->lock);
- 	nvme_mpath_clear_current_path(ns);
--	if (head)
--		list_del_rcu(&ns->siblings);
-+	list_del_rcu(&ns->siblings);
- 	mutex_unlock(&ns->ctrl->subsys->lock);
- 
- 	mutex_lock(&ns->ctrl->namespaces_mutex);
- 	list_del_init(&ns->list);
- 	mutex_unlock(&ns->ctrl->namespaces_mutex);
- 
--	synchronize_srcu(&head->srcu);
-+	synchronize_srcu(&ns->head->srcu);
- 	nvme_put_ns(ns);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 669edbd47602..d6ceb8b91cd6 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -350,8 +350,8 @@ static void async_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	struct async_cmd_info *cmdinfo = ctx;
+ 	cmdinfo->result = le32_to_cpup(&cqe->result);
+ 	cmdinfo->status = le16_to_cpup(&cqe->status) >> 1;
+-	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
+ 	blk_mq_free_request(cmdinfo->req);
++	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
  }
  
+ static inline struct nvme_cmd_info *get_cmd_from_tag(struct nvme_queue *nvmeq,
 -- 
 2.13.6
