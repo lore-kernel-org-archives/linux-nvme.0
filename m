@@ -1,60 +1,12 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 16 Nov 2017 19:26:18 +0200
-Subject: [Suspected-Phishing][PATCH 2/3] nvmet-rdma: use srq pointer in
- rdma_cmd
-In-Reply-To: <1510852885-25519-3-git-send-email-maxg@mellanox.com>
-References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
- <1510852885-25519-3-git-send-email-maxg@mellanox.com>
-Message-ID: <843c45c3-66bc-29fd-7ec9-62858fd33f27@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 16 Nov 2017 10:42:21 -0700
+Subject: [PATCH] nvme-pci: avoid hmb desc array idx out-of-bound when
+ hmmaxd set.
+In-Reply-To: <CAA7jztde+cNEXDsAJ+BuxBD07o1=1rOqb8PD4FjLJAopbx3_Rg@mail.gmail.com>
+References: <1510850064-10419-1-git-send-email-minwoo.im.dev@gmail.com>
+ <CAA7jztde+cNEXDsAJ+BuxBD07o1=1rOqb8PD4FjLJAopbx3_Rg@mail.gmail.com>
+Message-ID: <20171116174220.GA18278@localhost.localdomain>
 
+Looks good.
 
-
-On 11/16/2017 7:21 PM, Max Gurtovoy wrote:
-> This is a preparetion patch that creates an infrastructure in post
-> recv mechanism for the SRQ per completion vector feature.
-> 
-> Change-Id: I0b0130920580e6999f0517400a45a1078e9553c9
-
-please ignore the change-id, it's just a hook in my git.
-
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/target/rdma.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 4991290..3ecfc12 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -45,6 +45,7 @@ struct nvmet_rdma_cmd {
->   	struct page		*inline_page;
->   	struct nvme_command     *nvme_cmd;
->   	struct nvmet_rdma_queue	*queue;
-> +	struct ib_srq		*srq;
->   };
->   
->   enum {
-> @@ -442,8 +443,8 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
->   		cmd->sge[0].addr, cmd->sge[0].length,
->   		DMA_FROM_DEVICE);
->   
-> -	if (ndev->srq)
-> -		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
-> +	if (cmd->srq)
-> +		return ib_post_srq_recv(cmd->srq, &cmd->wr, &bad_wr);
->   	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
->   }
->   
-> @@ -821,8 +822,10 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->   	ndev->srq = srq;
->   	ndev->srq_size = srq_size;
->   
-> -	for (i = 0; i < srq_size; i++)
-> +	for (i = 0; i < srq_size; i++) {
-> +		ndev->srq_cmds[i].srq = srq;
->   		nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
-> +	}
->   
->   	return 0;
->   
-> 
+Reviewed-by: Keith Busch <keith.busch at intel.com>
