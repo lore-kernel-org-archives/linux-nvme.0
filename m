@@ -1,55 +1,52 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 15 Nov 2017 17:00:21 -0800
-Subject: [PATCH] nvmet_fc: fix better length checking
-Message-ID: <20171116010021.12308-1-jsmart2021@gmail.com>
+From: freeman.zhang1992@gmail.com (Zhengyu Zhang)
+Date: Thu, 16 Nov 2017 09:47:22 +0800
+Subject: Is There Any Plan for Bit-Bucket SGL Implement?
+In-Reply-To: <20171115155145.GA2989@localhost.localdomain>
+References: <03d5178a-1edc-8a8b-f55b-9c96ee7d4101@gmail.com>
+ <20171115155145.GA2989@localhost.localdomain>
+Message-ID: <52c16cf5-c25a-319d-4843-3053bff6d72a@gmail.com>
 
-Reorganize nvmet_fc_handle_fcp_rqst() so that the nvmet req.transfer_len
-field is set after the call nvmet_req_init(). An update to nvmet now
-has nvmet_req_init() clearing the field, thus the fc transport was losing
-the value.
+Hi Keith!
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Thank you very much for your reply.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 739b8feadc7d..664d3013f68f 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2144,6 +2144,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 			struct nvmet_fc_fcp_iod *fod)
- {
- 	struct nvme_fc_cmd_iu *cmdiu = &fod->cmdiubuf;
-+	u32 xfrlen = be32_to_cpu(cmdiu->data_len);
- 	int ret;
- 
- 	/*
-@@ -2157,7 +2158,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 
- 	fod->fcpreq->done = nvmet_fc_xmt_fcp_op_done;
- 
--	fod->req.transfer_len = be32_to_cpu(cmdiu->data_len);
- 	if (cmdiu->flags & FCNVME_CMD_FLAGS_WRITE) {
- 		fod->io_dir = NVMET_FCP_WRITE;
- 		if (!nvme_is_write(&cmdiu->sqe))
-@@ -2168,7 +2168,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 			goto transport_error;
- 	} else {
- 		fod->io_dir = NVMET_FCP_NODATA;
--		if (fod->req.transfer_len)
-+		if (xfrlen)
- 			goto transport_error;
- 	}
- 
-@@ -2192,6 +2192,8 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 		return;
- 	}
- 
-+	fod->req.transfer_len = xfrlen;
-+
- 	/* keep a running counter of tail position */
- 	atomic_inc(&fod->queue->sqtail);
- 
--- 
-2.13.1
+On 11/15/17 11:51 PM, Keith Busch wrote:
+>> - Is there any plan to implement (Bit-Bucket)SGL in linux kernel?
+> 
+> No plans to do this as far as I know. The read request the nvme driver
+> receives has no way of conveying information for it to set up a bit-bucket
+> descriptor. Even if it did, there doesn't appear to be any user for
+> such a feature in Linux.
+> 
+>> - Is there any other way to make use of this feature?
+> 
+> Not in Linux.
+> 
+>> - Is this feature hardware-specific?
+> 
+> Yes, hardware advertises support for the feature in identify controller's
+> SGLS field, bit 16.
+> 
+
+It's a pity to know this. The spec notes this feature certainly for a
+reason but I just don't know their original motivation :(
+
+Actually, I thought I could be the user of bit-bucket SGL when
+developing my data processing application. Or at least, I can do some
+tests to see whether this feature can improve performance since
+bit-bucket SGL may reduce command number drastically when users perform
+sequential read-skip interleave operations.
+
+I plan to check some other drivers (e.g. SPDK) or maybe try to figure
+out some patches myself (if my p3700 hardware supports it)...
+
+
+Thanks!
+Zhengyu
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0xFA035ADF.asc
+Type: application/pgp-keys
+Size: 3123 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171116/d6539e38/attachment.bin>
