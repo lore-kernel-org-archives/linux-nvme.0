@@ -1,47 +1,53 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 17 Nov 2017 01:37:29 +0900
-Subject: [PATCH] nvme-pci: avoid hmb desc array idx out-of-bound when
- hmmaxd set.
-In-Reply-To: <1510850064-10419-1-git-send-email-minwoo.im.dev@gmail.com>
-References: <1510850064-10419-1-git-send-email-minwoo.im.dev@gmail.com>
-Message-ID: <CAA7jztde+cNEXDsAJ+BuxBD07o1=1rOqb8PD4FjLJAopbx3_Rg@mail.gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 16 Nov 2017 19:21:24 +0200
+Subject: [PATCH 2/3] nvmet-rdma: use srq pointer in rdma_cmd
+In-Reply-To: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
+References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1510852885-25519-3-git-send-email-maxg@mellanox.com>
 
-+ added linux-nvme at lists.infradead.org
+This is a preparetion patch that creates an infrastructure in post
+recv mechanism for the SRQ per completion vector feature.
 
-On Fri, Nov 17, 2017@1:34 AM, Minwoo Im <minwoo.im.dev@gmail.com> wrote:
-> hmb descriptor idx out-of-bound occurs in case of below conditions.
-> preferred = 128MiB
-> chunk_size = 4MiB
-> hmmaxd = 1
->
-> Current code will not allow rmmod which will free hmb descriptors
-> to be done successfully in above case.
->
-> "descs[i]" will be set in for-loop without seeing any conditions
-> related to "max_entries" after a single "descs" was allocated by
-> (max_entries = 1) in this case.
->
-> Added a condition into for-loop to check index of descriptors.
->
-> Fixes: 044a9df1("nvme-pci: implement the HMB entry number and size limitations")
-> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
-> ---
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 762b840..c66e57d 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1787,7 +1787,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
->         if (!bufs)
->                 goto out_free_descs;
->
-> -       for (size = 0; size < preferred; size += len) {
-> +       for (size = 0; size < preferred && i < max_entries; size += len) {
->                 dma_addr_t dma_addr;
->
->                 len = min_t(u64, chunk_size, preferred - size);
-> --
-> 2.7.4
->
+Change-Id: I0b0130920580e6999f0517400a45a1078e9553c9
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/rdma.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 4991290..3ecfc12 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -45,6 +45,7 @@ struct nvmet_rdma_cmd {
+ 	struct page		*inline_page;
+ 	struct nvme_command     *nvme_cmd;
+ 	struct nvmet_rdma_queue	*queue;
++	struct ib_srq		*srq;
+ };
+ 
+ enum {
+@@ -442,8 +443,8 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+ 		cmd->sge[0].addr, cmd->sge[0].length,
+ 		DMA_FROM_DEVICE);
+ 
+-	if (ndev->srq)
+-		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
++	if (cmd->srq)
++		return ib_post_srq_recv(cmd->srq, &cmd->wr, &bad_wr);
+ 	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
+ }
+ 
+@@ -821,8 +822,10 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+ 	ndev->srq = srq;
+ 	ndev->srq_size = srq_size;
+ 
+-	for (i = 0; i < srq_size; i++)
++	for (i = 0; i < srq_size; i++) {
++		ndev->srq_cmds[i].srq = srq;
+ 		nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
++	}
+ 
+ 	return 0;
+ 
+-- 
+1.8.3.1
