@@ -1,70 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 16 Nov 2017 16:57:10 -0700
-Subject: [PATCH-stable] nvme: Fix memory order on async queue deletion
-Message-ID: <20171116235710.20224-1-keith.busch@intel.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Fri, 17 Nov 2017 21:12:46 +0200
+Subject: [PATCH 1/3] IB/core: add a simple SRQ pool per PD
+In-Reply-To: <20171116181049.GO18825@mtr-leonro.local>
+References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
+ <1510852885-25519-2-git-send-email-maxg@mellanox.com>
+ <20171116181049.GO18825@mtr-leonro.local>
+Message-ID: <c94d2e03-dd32-ff0a-789f-aae4d65f3955@mellanox.com>
 
-This patch is a fix specific to the 3.19 - 4.4 kernels. The 4.5 kernel
-inadvertently fixed this bug differently (db3cbfff5bcc0), but is not
-a stable candidate due it being a complicated re-write of the entire
-feature.
+>> +#ifndef _RDMA_SRQ_POOL_H
+>> +#define _RDMA_SRQ_POOL_H 1
+>> +
+>> +#include <rdma/ib_verbs.h>
+>> +
+>> +struct ib_srq *ib_srq_pool_get(struct ib_pd *pd);
+>> +void ib_srq_pool_put(struct ib_pd *pd, struct ib_srq *srq);
+>> +
+>> +int ib_srq_pool_init(struct ib_pd *pd, int nr,
+>> +		struct ib_srq_init_attr *srq_attr);
+>> +void ib_srq_pool_destroy(struct ib_pd *pd);
+> 
+> Can you please use rdma_ prefix instead of ib_ prefix?
+> 
+> Thanks
+> 
 
-This patch fixes a potential timing bug with nvme's asynchronous queue
-deletion, which causes an allocated request to be accidentally released
-due to the ordering of the shared completion context among the sq/cq
-pair. The completion context saves the request that issued the queue
-deletion. If the submission side deletion happens to reset the active
-request, the completion side will release the wrong request tag back into
-the pool of available tags. This means the driver will create multiple
-commands with the same tag, corrupting the queue context.
+Do you mean rdma_srq_pool_get instead of ib_srq_pool_get ? is this new 
+convetion ? this is a pool that contain ib_srq objects and not rdma_srq 
+objects..
 
-The error is observable in the kernel logs like:
+I can do it if needed.
 
-  "nvme XX:YY:ZZ completed id XX twice on qid:0"
-
-In this particular case, this message occurs because the queue is
-corrupted.
-
-The following timing sequence demonstrates the error:
-
-  CPU A                                 CPU B
-  -----------------------               -----------------------------
-  nvme_irq
-   nvme_process_cq
-    async_completion
-     queue_kthread_work  ----------->   nvme_del_sq_work_handler
-                                         nvme_delete_cq
-                                          adapter_async_del_queue
-                                           nvme_submit_admin_async_cmd
-                                            cmdinfo->req = req;
-
-     blk_mq_free_request(cmdinfo->req); <-- wrong request!!!
-
-This patch fixes the bug by releasing the request in the completion side
-prior to waking the submission thread, such that that thread can't muck
-with the shared completion context.
-
-Fixes: a4aea5623d4a5 ("NVMe: Convert to blk-mq")
-
-Cc: <stable at vger.kernel.org> # 4.4.x
-Cc: <stable at vger.kernel.org> # 4.1.x
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 669edbd47602..d6ceb8b91cd6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -350,8 +350,8 @@ static void async_completion(struct nvme_queue *nvmeq, void *ctx,
- 	struct async_cmd_info *cmdinfo = ctx;
- 	cmdinfo->result = le32_to_cpup(&cqe->result);
- 	cmdinfo->status = le16_to_cpup(&cqe->status) >> 1;
--	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
- 	blk_mq_free_request(cmdinfo->req);
-+	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
- }
- 
- static inline struct nvme_cmd_info *get_cmd_from_tag(struct nvme_queue *nvmeq,
--- 
-2.13.6
+>> +
+>> +#endif /* _RDMA_SRQ_POOL_H */
+>> --
+>> 1.8.3.1
+>>
