@@ -1,37 +1,34 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Fri, 17 Nov 2017 21:12:46 +0200
+Date: Fri, 17 Nov 2017 21:17:11 +0200
 Subject: [PATCH 1/3] IB/core: add a simple SRQ pool per PD
-In-Reply-To: <20171116181049.GO18825@mtr-leonro.local>
+In-Reply-To: <49940a5c-4a9e-7c66-5077-79fe45415155@grimberg.me>
 References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
  <1510852885-25519-2-git-send-email-maxg@mellanox.com>
- <20171116181049.GO18825@mtr-leonro.local>
-Message-ID: <c94d2e03-dd32-ff0a-789f-aae4d65f3955@mellanox.com>
+ <49940a5c-4a9e-7c66-5077-79fe45415155@grimberg.me>
+Message-ID: <5cb60ddd-4223-db53-d91f-4ec51fb3d1f4@mellanox.com>
 
->> +#ifndef _RDMA_SRQ_POOL_H
->> +#define _RDMA_SRQ_POOL_H 1
->> +
->> +#include <rdma/ib_verbs.h>
->> +
->> +struct ib_srq *ib_srq_pool_get(struct ib_pd *pd);
->> +void ib_srq_pool_put(struct ib_pd *pd, struct ib_srq *srq);
->> +
->> +int ib_srq_pool_init(struct ib_pd *pd, int nr,
->> +		struct ib_srq_init_attr *srq_attr);
->> +void ib_srq_pool_destroy(struct ib_pd *pd);
+
+
+On 11/16/2017 8:32 PM, Sagi Grimberg wrote:
 > 
-> Can you please use rdma_ prefix instead of ib_ prefix?
-> 
-> Thanks
-> 
-
-Do you mean rdma_srq_pool_get instead of ib_srq_pool_get ? is this new 
-convetion ? this is a pool that contain ib_srq objects and not rdma_srq 
-objects..
-
-I can do it if needed.
-
+>> +EXPORT_SYMBOL(ib_srq_pool_init);
 >> +
->> +#endif /* _RDMA_SRQ_POOL_H */
->> --
->> 1.8.3.1
->>
+>> +void ib_srq_pool_destroy(struct ib_pd *pd)
+>> +{
+>> +??? struct ib_srq *srq;
+>> +??? unsigned long flags;
+>> +
+>> +??? spin_lock_irqsave(&pd->srq_lock, flags);
+>> +??? while (!list_empty(&pd->srqs)) {
+>> +??????? srq = list_first_entry(&pd->srqs, struct ib_srq, pd_entry);
+>> +??????? list_del(&srq->pd_entry);
+>> +
+>> +??????? spin_unlock_irqrestore(&pd->srq_lock, flags);
+>> +??????? ib_destroy_srq(srq);
+>> +??????? spin_lock_irqsave(&pd->srq_lock, flags);
+>> +??? }
+>> +??? spin_unlock_irqrestore(&pd->srq_lock, flags);
+> 
+> Why not just splicing the list and iterate sanely?
+
+sure, I'll use list_splice_init(&pd->srqs, &tmp_list)
