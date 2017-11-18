@@ -1,50 +1,59 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Fri, 17 Nov 2017 21:32:42 +0200
-Subject: [PATCH v2 0/3] nvmet-rdma: SRQ per completion vector
-In-Reply-To: <263c6c9d-0dd2-da4f-12a9-efefd361e592@grimberg.me>
+From: leonro@mellanox.com (Leon Romanovsky)
+Date: Sat, 18 Nov 2017 09:36:56 +0200
+Subject: [PATCH 1/3] IB/core: add a simple SRQ pool per PD
+In-Reply-To: <c94d2e03-dd32-ff0a-789f-aae4d65f3955@mellanox.com>
 References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
- <263c6c9d-0dd2-da4f-12a9-efefd361e592@grimberg.me>
-Message-ID: <a8e2be0b-deb7-8cc1-92ce-fc5dea3e241a@mellanox.com>
+ <1510852885-25519-2-git-send-email-maxg@mellanox.com>
+ <20171116181049.GO18825@mtr-leonro.local>
+ <c94d2e03-dd32-ff0a-789f-aae4d65f3955@mellanox.com>
+Message-ID: <20171118073656.GS18825@mtr-leonro.local>
 
+On Fri, Nov 17, 2017@09:12:46PM +0200, Max Gurtovoy wrote:
+> > > +#ifndef _RDMA_SRQ_POOL_H
+> > > +#define _RDMA_SRQ_POOL_H 1
+> > > +
+> > > +#include <rdma/ib_verbs.h>
+> > > +
+> > > +struct ib_srq *ib_srq_pool_get(struct ib_pd *pd);
+> > > +void ib_srq_pool_put(struct ib_pd *pd, struct ib_srq *srq);
+> > > +
+> > > +int ib_srq_pool_init(struct ib_pd *pd, int nr,
+> > > +		struct ib_srq_init_attr *srq_attr);
+> > > +void ib_srq_pool_destroy(struct ib_pd *pd);
+> >
+> > Can you please use rdma_ prefix instead of ib_ prefix?
+> >
+> > Thanks
+> >
+>
+> Do you mean rdma_srq_pool_get instead of ib_srq_pool_get ? is this new
+> convetion ? this is a pool that contain ib_srq objects and not rdma_srq
+> objects..
 
+I want to follow similar pattern as was chosen for various popular pools
+implementation, like dma_pool_, mempool e.t.c
 
-On 11/16/2017 8:36 PM, Sagi Grimberg wrote:
-> 
->> Since there is an active discussion regarding the CQ pool 
->> architecture, I decided to push
->> this feature (maybe it can be pushed before CQ pool).
->>
->> This is a new feature for NVMEoF RDMA target,
-> 
-> Any chance having this for the rest? isert, srpt, svcrdma?
-> 
+IMHO rdma_srqpool_* looks cleaner than it is now.
 
-We can implement it for isert, but I think it's better to see how the CQ 
-pool will be defined first.
-It can bring a big benefit and improvement for ib_srpt (similar to 
-NVMEoF target) but I'm not sure if I can commit for that one soon..
+Thanks
 
->> results:
->>
->> BS??? 1.read (target CPU)?? 2.read (target CPU)??? 3.read (target 
->> CPU)?? 4.read (target CPU)
->> ---? --------------------- --------------------- --------------------- 
->> ----------------------
->> 1k???? 5.88M (80%)??????????? 5.45M (72%)??????????? 6.77M 
->> (91%)????????? 2.2M (72%)
->>
->> 2k???? 3.56M (65%)??????????? 3.45M (59%)??????????? 3.72M 
->> (64%)????????? 2.12M (59%)
->>
->> 4k???? 1.8M (33%)???????????? 1.87M (32%)??????????? 1.88M 
->> (32%)????????? 1.59M (34%)
-> 
-> I'm blown by the fact that there is such a small difference for 4k
-> reads, how many cpu-cores did you have on the target-system? single
-> numa-node? Maybe if that is the case we can use less srqs than 
-> per-completion-vector...
+>
+> I can do it if needed.
 
-These results were taken without the performance improvments we sent few 
-weeks ago and on different and weaker servers.
-Are you suggesting another module param for srq_count per device ? I 
-tried to avoid that.
+>
+> > > +
+> > > +#endif /* _RDMA_SRQ_POOL_H */
+> > > --
+> > > 1.8.3.1
+> > >
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171118/298fd8de/attachment.sig>
