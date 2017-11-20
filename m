@@ -1,132 +1,143 @@
-From: leonro@mellanox.com (Leon Romanovsky)
-Date: Mon, 20 Nov 2017 13:34:52 +0200
-Subject: [PATCH v2 0/3] nvmet-rdma: SRQ per completion vector
-In-Reply-To: <14682e66-de0d-042b-434b-0eb40fb79f0c@grimberg.me>
-References: <1510852885-25519-1-git-send-email-maxg@mellanox.com>
- <263c6c9d-0dd2-da4f-12a9-efefd361e592@grimberg.me>
- <a8e2be0b-deb7-8cc1-92ce-fc5dea3e241a@mellanox.com>
- <20171118125229.GT18825@mtr-leonro.local>
- <935af437-d69e-e258-c00a-8bf9a04f9988@mellanox.com>
- <20171118144042.GU18825@mtr-leonro.local>
- <d6579bd6-053e-1214-ea95-ff72e6191cb0@mellanox.com>
- <14682e66-de0d-042b-434b-0eb40fb79f0c@grimberg.me>
-Message-ID: <20171120113452.GH18825@mtr-leonro.local>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 20 Nov 2017 14:08:20 +0200
+Subject: [PATCH v3 0/9] Introduce per-device completion queue pools
+In-Reply-To: <A6E320D9-63F4-4FFE-A5E2-EB3ED19D0CB3@oracle.com>
+References: <20171108095742.25365-1-sagi@grimberg.me>
+ <F7FAF7FD-AE2C-4428-A779-06C9768E0C73@oracle.com>
+ <b502f211-c477-3acd-be01-eaf645edc117@grimberg.me>
+ <4B49C591-8671-4683-A437-215BAA6B56CD@oracle.com>
+ <a79c3899-5599-aa7e-5c5b-75ec98cdc490@grimberg.me>
+ <A6E320D9-63F4-4FFE-A5E2-EB3ED19D0CB3@oracle.com>
+Message-ID: <b4493cd9-62d6-c855-2b55-9749df7fa90d@grimberg.me>
 
-On Mon, Nov 20, 2017@01:00:28PM +0200, Sagi Grimberg wrote:
->
-> > > > > > We can implement it for isert, but I think it's better
-> > > > > > to see how the CQ
-> > > > > > pool will be defined first.
-> > > > > > It can bring a big benefit and improvement for ib_srpt
-> > > > > > (similar to NVMEoF
-> > > > > > target) but I'm not sure if I can commit for that one soon..
-> > > > >
-> > > > > Too bad, but I don't see inclusion of generic SRQ pool code in RDMA
-> > > > > subsystem without actual conversion of existing ULP clients.
-> > > > >
-> > > > > Thanks
-> > > > >
-> > > >
-> > > > This patchset adds this feature to NVMEoF target so actually
-> > > > there are ULPs
-> > > > that use it. Same issue we have with mr_pool that only RDMA rw.c
-> > > > use it (Now
-> > > > we're adding it to NVMEoF initiators too - in review).
-> > >
-> > > The difference between your code and mr_pool is that mr_pool is part of
-> > > RDMA/core and in use by RDMA/core (rw.c), which in use by all ULPs.
-> > >
-> > > However if you insist, we can remove EXPORT_SYMBOL from mr_pool
-> > > implementation, because of being part of RDMA/core and it blows
-> > > symbols map without need. Should I?
-> >
-> > No, we'll use it in NVMEoF host as I mentioned earlier.
-> > >
-> > > In your case, you are proposing generic interface, which supposed to be
-> > > good fit for all ULPs but without those ULPs.
-> > >
-> > > > I can add srq_pool to iSER target code but I don't want to
-> > > > re-write it again
-> > > > in few weeks, when the CQ pool will be added.
-> > >
-> > > So, please finalize interface in RFC stage and once you are ready,
-> > > proceed to
-> > > the actual patches.
-> > >
-> > > > Regarding other ULPs, we don't have a testing environment for them so I
-> > > > prefer not to commit on their implementation in the near future.
-> > >
-> > > You are not expected to have all testing environment, it is their (ULPs
-> > > maintainers) responsibility to test your conversion, because you are
-> > > doing conversion to generic interface.
-> > >
-> > > >
-> > > > I don't know why we can't add this feature "as is".
-> > > > Other ULPs maintainers might use it once it will be pushed.
-> > >
-> > > Sorry, but it is not how kernel development process works.
-> > > "You propose -> you do" and not "You propose -> they do".
-> >
-> > I'm not changing an interface here. So all the other ULPs that use SRQ
-> > (ipoib and srpt) currently will cuntinue using it.
-> > I don't know why this patchset brought up the idea to add SRQ pools to
-> > isert/svcrdma/etc.., but knowing that there are patches (under
-> > discussions) that will have a big enfluance on these drivers (at least
-> > isert), it doesn't make sence to implement *new* feature (SRQ usage) and
-> > chage it a week afterwards.
->
-> I'm almost sorry I asked :)
->
 
-There is nothing to sorry about it. It was just a matter of time when we
-would see it.
+> Recall that NFS is limited to a single QP per client-server
+> pair.
+> 
+> ib_alloc_cq(compvec) determines which CPU will handle Receive
+> completions for a QP. Let's call this CPU R.
+> 
+> I assume any CPU can initiate an RPC Call. For example, let's
+> say an application is running on CPU C != R.
+> 
+> The Receive completion occurs on CPU R. Suppose the Receive
+> matches to an incoming RPC that had no registered MRs. The
+> Receive completion can invoke xprt_complete_rqst in the
+> Receive completion handler to complete the RPC on CPU R
+> without another context switch.
+> 
+> The problem is that the RPC completes on CPU R because the
+> RPC stack uses a BOUND workqueue, and so does NFS. Thus at
+> least the RPC and NFS completion processing are competing
+> for CPU R, instead of being handled on other CPUs, and
+> maybe the requesting application is also likely to migrate
+> onto CPU R.
+> 
+> I observed this behavior experimentally.
+> 
+> Today, the xprtrdma Receive completion handler processes
+> simple RPCs (ie, RPCs with no MRs) immediately, but finishes
+> completion processing for RPCs with MRs by re-scheduling
+> them on an UNBOUND secondary workqueue.
+> 
+> I thought it would save me a context switch if the Receive
+> completion handler dealt with an RPC with only one MR that
+> had been remotely invalidated as a simple RPC, and allowed
+> it to complete immediately (all it needs to do is DMA unmap
+> that already-invalidated MR) rather than re-scheduling.
+> 
+> Assuming NFS READs and WRITEs are less than 1MB and the
+> payload can be registered in a single MR, I can avoid
+> that context switch for every I/O (and this assumption
+> is valid for my test system, using CX-3 Pro).
+> 
+> Except when I tried this, the IOPS throughput dropped
+> considerably, even while the measured per-RPC latency was
+> lower by the expected 5-15 microseconds. CPU R was running
+> flat out handling Receives, RPC completions, and NFS I/O
+> completions. In one case I recall seeing a 12 thread fio
+> run not using CPU on any other core on the client.
 
-The reason why I'm so direct in this case, is related to the fact that
-resource pools are really beneficial when they are used for create/destroy
-of resources in (massive) dynamic operations.
+I see your point Chuck. The design choice here assumes that
+other CPUs are equally occupied (even with NFS-RPC context) hence the
+choice on which cpu to run would almost always want to run the local
+cpu.
 
-In the proposed code (nvme-rdma), it is not the case and resources (SRQ)
-are statically allocated, hence it makes no sense to me to propose new interface
-without seeing any benefits from it.
+If this is not the case, then this design does not apply.
 
-This is why I'm asking from Max or implement real users of this interface or
-don't provide that interface at all.
+>> My baseline assumption is that other cpu cores have their own tasks
+>> that they are handling, and making RDMA completions be processed
+>> on a different cpu is blocking something, maybe not the submitter,
+>> but something else. So under the assumption that completion processing
+>> always comes on the expense of something, choosing anything else other
+>> than the cpu core that the I/O was submitted on is an inferior choice.
+>>
+>> Is my understanding correct that you are trying to emphasize that
+>> unbound workqueues make sense on some use-cases for initiator drivers
+>> (like xprtrdma)?
+> 
+> No, I'm just searching for the right tool for the job.
+> 
+> I think what you are saying is that when a file system
+> like XFS resides on an RDMA-enabled block device, you
+> have multiple QPs and CQs to route the completion
+> workload back to the CPUs that dispatched the work. There
+> shouldn't be an issue there similar to NFS, even though
+> XFS might also use BOUND workqueues. Fair enough.
 
-> Max,
->
-> Leon's request while adding more work for you is valid as I see it. Leon
-> and Doug (like other kernel maintainers and others in our community) are
-> interested in improving the RDMA core subsystem in the sense of offering
-> useful interfaces and having the consumers implement as less as
-> possible. Making useful features/interfaces (like in your case)
-> available for (and adopted by) most of the common consumers is helping
-> the community and the subsystem as a whole rather than helping the
-> specific module we happen to be focused on at that specific time. The
-> long term goal is to make the consumers do as much as possible with
-> implementing as less as possible.
->
-> Having said that, if it was up to me, I wouldn't say its a hard
-> requirement but definitely encouraged (I try to do it for the core
-> interfaces I happen to offer and I know others have too).
-> I think that Doug and others should really decide on the direction here.
->
-> What do others think?
+The issue I've seen with unbound workqueues is that the
+worker thread can migrate between cpus which messes up
+the locality we are trying to achieve. However, we could
+easily add IB_POLL_UNBOUND_WORKQUEUE polling context if
+that helps your use case.
 
-Right, I'm not alone here.
+> Latency is also introduced when ib_comp_wq cannot get
+> scheduled for some time because of competing work on
+> the same CPU. Soft IRQ, Send completions, or other
+> HIGHPRI work can delay the dispatch of RPC and NFS work
+> on a particular CPU.
 
-I already said my position in this mailing list, but will repeat it:
-core work is must to move forward and to make this community better.
+True, but again, the design assumes that other cores can (and
+will) run similar tasks. The overhead of trying to select an
+"optimal" cpu at exactly that moment is something we would want
+to avoid for fast storage devices. Moreover, in high stress these
+decisions are not guaranteed to be optimal and might be counter
+productive (as estimations often can be).
 
-Thanks
+>> I'm stating the obvious here, but this issue historically existed in
+>> various devices ranging from network to storage and more. The solution
+>> is using multiple queues (ideally per-cpu) and try to have minimal
+>> synchronization in the submission path (like XPS for networking) and
+>> keep completions as local as possible to the submission cores (like flow
+>> steering).
+> 
+> For the time being, the Linux NFS client does not support
+> multiple connections to a single NFS server. There is some
+> protocol standards work to be done to help clients discover
+> all distinct network paths to a server. We're also looking
+> at safe ways to schedule NFS RPCs over multiple connections.
+> 
+> To get multiple connections today you can use pNFS with
+> block devices, but that doesn't help the metadata workload
+> (GETATTRs, LOOKUPs, and the like), and not everyone wants
+> to use pNFS.
+> 
+> Also, there are some deployment scenarios where "creating
+> another connection" has an undesirable scalability impact:
 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20171120/044e20d8/attachment.sig>
+I can understand that.
+
+> - The NFS client has dozens or hundreds of CPUs. Typical
+> for a single large host running containers, where the
+> host's kernel NFS client manages the mounts, which are
+> shared among containers.
+> 
+> - The NFS client has mounted dozens or hundreds of NFS
+> servers, and thus wants to conserve its connection count
+> to avoid managing MxN connections.
+
+So in this use-case, do you really see that non-local cpu
+selection for completion processing is performing better?
+
+ From my experience, linear scaling is much harder to achieve
+with bouncing cpus with all the context-switching overhead involved.
