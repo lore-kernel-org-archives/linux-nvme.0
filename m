@@ -1,23 +1,49 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 20 Nov 2017 10:32:05 +0100
-Subject: [PATCH v2 1/3] nvme-rdma: don't suppress send completions
-In-Reply-To: <4ac0bc2e-498b-0fc1-4e30-7ff76bd036f1@grimberg.me>
-References: <20171108100616.26605-1-sagi@grimberg.me>
- <20171108100616.26605-2-sagi@grimberg.me> <20171109091858.GA16966@lst.de>
- <921c4331-9456-3783-423a-9c5c5e405131@grimberg.me>
- <20171120081809.GB27552@lst.de>
- <4ac0bc2e-498b-0fc1-4e30-7ff76bd036f1@grimberg.me>
-Message-ID: <20171120093205.GB29719@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 20 Nov 2017 12:41:53 +0200
+Subject: [PATCH v3 0/3] Fix request completion holes
+Message-ID: <20171120104156.31344-1-sagi@grimberg.me>
 
-On Mon, Nov 20, 2017@10:33:02AM +0200, Sagi Grimberg wrote:
->> I don't really like having a special case just for this slow path
->> special case.  So if we can avoid it without too much overhead let's
->> do it, otherwise we can keep it as-is.
->
-> Saving the state of the request completions adds complication in
-> general, and we don't even have a request for AENs so it would mean to
-> keep it under the queue, and we don't really race anything because we
-> don't have inline data there. So I think its simpler to keep it as is.
+We have two holes in nvme-rdma when completing request.
 
-Ok, let's keep it.  But please add a comment explaining why the
-non-signalled completions are fine for the AER but no one else.
+1. We never wait for send work request to complete before completing
+a request. It is possible that the HCA retries a send operation (due
+to dropped ack) after the nvme cqe has already arrived back to the host.
+If we unmap the host buffer upon reception of the cqe, the HCA might
+get iommu errors when attempting to access an unmapped host buffer.
+We must wait also for the send completion before completing a request,
+most of the time it will be before the nvme cqe has arrived back so
+we pay only for the extra cq entry processing.
+
+2. We don't wait for the request memory region to be fully invalidated
+in case the target didn't invalidate remotely. We must wait for the local
+invalidation to complete before completing the request.
+
+Note that we might face two concurrent completion processing contexts for
+a single request. One is the ib_cq irq-poll context and the second is
+blk_mq_poll which is invoked from IOCB_HIPRI requests. Thus we need the
+completion flags updates (send/receive) to be atomic. A new request
+lock is introduced to guarantee the mutual exclusion of the completion
+flags updates.
+
+Thanks to Christoph for suggesting request refcounts instead of a private
+lock.
+
+Changes from v2:
+- Fixed send completion signalling in patch 1 (still signal conditionally
+  as we still want to suppress it for async events)
+- replaced req->lock with req->ref for micro-optimization (Christoph)
+
+Changes from v1:
+- Added atomic send/resp_completed updated (via per-request lock)
+
+Sagi Grimberg (3):
+  nvme-rdma: don't suppress send completions
+  nvme-rdma: don't complete requests before a send work request has
+    completed
+  nvme-rdma: wait for local invalidation before completing a request
+
+ drivers/nvme/host/rdma.c | 105 ++++++++++++++++++++++-------------------------
+ 1 file changed, 50 insertions(+), 55 deletions(-)
+
+-- 
+2.14.1
