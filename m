@@ -1,20 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 19 Nov 2017 23:37:55 -0800
-Subject: [PATCH v2 0/3] Fix request completion holes
-In-Reply-To: <e89f72c6-12ce-c149-c81e-f3adb43a8e9e@grimberg.me>
-References: <20171108100616.26605-1-sagi@grimberg.me>
- <1510611044.3735.49.camel@redhat.com>
- <e89f72c6-12ce-c149-c81e-f3adb43a8e9e@grimberg.me>
-Message-ID: <20171120073755.GA2236@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 20 Nov 2017 09:09:51 +0100
+Subject: [PATCH v2] nvme-rdma: Use mr pool
+In-Reply-To: <1510674794-3800-1-git-send-email-israelr@mellanox.com>
+References: <1510674794-3800-1-git-send-email-israelr@mellanox.com>
+Message-ID: <20171120080951.GA27552@lst.de>
 
-On Thu, Nov 16, 2017@05:39:55PM +0200, Sagi Grimberg wrote:
-> 
-> > Sagi, are you ready for me to take this series in?  It seemed like there
-> > was a question as to whether you might want to try atomics instead of
-> > spin locks, or do you want to stick with spinlocks?
-> 
-> I still need a review for this, and I think we'll get it in through the
-> nvme tree (via the block tree). Thanks.
+> @@ -495,8 +457,26 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+>  		goto out_destroy_qp;
+>  	}
+>  
+> +	if (idx == 0)
+> +		queue->ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
+> +				ibdev->attrs.max_fast_reg_page_list_len);
+> +
 
-I've  done an initial review pass, but I'd really like to see someone
-who has more RDMA experience to take a look as well.
+Hmm.  Why is this code moved here from nvme_rdma_configure_admin_queue?
+I really don't like per-controller initialization in per-queue functions
+but if there is no good way around it it needs a very good explanation,
+and that explanation should be in a comment place next to the code.
+
+> +	req->mr = ib_mr_pool_get(queue->qp, &queue->qp->rdma_mrs);
+> +	if (unlikely(!req->mr))
+> +		return -EAGAIN;
+> +
+
+Shouldn't the MR pool be sized that this always succeeds?  If so a
+WARN_ON_ONCE() here might be useful.
