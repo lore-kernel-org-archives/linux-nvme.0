@@ -1,12 +1,10 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 19 Nov 2017 23:32:59 -0800
-Subject: [PATCH] nvme-pci: avoid hmb desc array idx out-of-bound when
- hmmaxd set.
-In-Reply-To: <CAA7jztde+cNEXDsAJ+BuxBD07o1=1rOqb8PD4FjLJAopbx3_Rg@mail.gmail.com>
-References: <1510850064-10419-1-git-send-email-minwoo.im.dev@gmail.com>
- <CAA7jztde+cNEXDsAJ+BuxBD07o1=1rOqb8PD4FjLJAopbx3_Rg@mail.gmail.com>
-Message-ID: <20171120073259.GD6511@infradead.org>
+Date: Sun, 19 Nov 2017 23:33:30 -0800
+Subject: [PATCH 1/2] nvme: Fix NULL dereference on reservation request
+In-Reply-To: <20171116203650.19591-1-keith.busch@intel.com>
+References: <20171116203650.19591-1-keith.busch@intel.com>
+Message-ID: <20171120073330.GE6511@infradead.org>
 
-Thanks,
+Thanks
 
-applied to nvme-4.15.
+applied both patches to nvme-4.15.
