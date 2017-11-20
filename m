@@ -1,22 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 20 Nov 2017 10:33:11 +0200
-Subject: [PATCH v2 0/3] Fix request completion holes
-In-Reply-To: <20171120073755.GA2236@infradead.org>
+Date: Mon, 20 Nov 2017 10:37:54 +0200
+Subject: [PATCH v2 2/3] nvme-rdma: don't complete requests before a send
+ work request has completed
+In-Reply-To: <20171120083130.GC27552@lst.de>
 References: <20171108100616.26605-1-sagi@grimberg.me>
- <1510611044.3735.49.camel@redhat.com>
- <e89f72c6-12ce-c149-c81e-f3adb43a8e9e@grimberg.me>
- <20171120073755.GA2236@infradead.org>
-Message-ID: <37edfd7b-2de3-ba30-8770-8a14266d7cdd@grimberg.me>
+ <20171108100616.26605-3-sagi@grimberg.me> <20171109092110.GB16966@lst.de>
+ <0f368bc9-2e9f-4008-316c-46b85661a274@grimberg.me>
+ <20171120083130.GC27552@lst.de>
+Message-ID: <384d8a51-aa2f-5954-c9fd-a0c88d7e5364@grimberg.me>
 
 
->>> Sagi, are you ready for me to take this series in?  It seemed like there
->>> was a question as to whether you might want to try atomics instead of
->>> spin locks, or do you want to stick with spinlocks?
->>
->> I still need a review for this, and I think we'll get it in through the
->> nvme tree (via the block tree). Thanks.
+> Both send and recv completed only ever go from not set to set on a live
+> requests, so that's easy.  need_inval only goes from set to cleared
+> so I'm not too worried about it either, but due to the lack of atomic
+> bitops there it will need better memory barries, or just a switch
+> to bitops..
 > 
-> I've  done an initial review pass, but I'd really like to see someone
-> who has more RDMA experience to take a look as well.
+> But looking at this in a little more detail I wonder if we just want
+> a recount on the nvme_rdma_request, untested patch below.
 
-Perhaps Max can have a look?
+I'll give it a shot.
