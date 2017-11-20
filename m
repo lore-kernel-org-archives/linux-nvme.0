@@ -1,38 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 20 Nov 2017 14:26:51 +0200
-Subject: [PATCH v3 0/9] Introduce per-device completion queue pools
-In-Reply-To: <1510676487.2280.4.camel@wdc.com>
+Date: Mon, 20 Nov 2017 14:31:53 +0200
+Subject: [PATCH v3 1/9] RDMA/core: Add implicit per-device completion
+ queue pools
+In-Reply-To: <1510676885.2280.9.camel@wdc.com>
 References: <20171108095742.25365-1-sagi@grimberg.me>
- <1510245771.2608.6.camel@wdc.com>
- <d5820b65-b428-7cd1-f7f1-7d8d89d21cf5@grimberg.me>
- <1510248716.2608.17.camel@wdc.com>
- <6af627c8-2814-d562-21a2-f10788e44458@grimberg.me>
- <1510676487.2280.4.camel@wdc.com>
-Message-ID: <da18d9bc-4db4-8bc1-dd61-05cb14dcd53c@grimberg.me>
+ <20171108095742.25365-2-sagi@grimberg.me> <1510676885.2280.9.camel@wdc.com>
+Message-ID: <4fc5c223-358b-303b-26d6-abbc1620a74e@grimberg.me>
 
 
->> The ULP is free to pass in an affinity hint to enforce locality to a
->> specific cpu core. Would that solve this issue?
+>> +struct ib_cq *ib_find_get_cq(struct ib_device *dev, unsigned int nr_cqe,
+>> +               enum ib_poll_context poll_ctx, int affinity_hint)
+>> +{
+>> +       struct ib_cq *cq, *found;
+>> +       unsigned long flags;
+>> +       int vector, ret;
+>> +
+>> +       if (poll_ctx >= ARRAY_SIZE(dev->cq_pools))
+>> +               return ERR_PTR(-EINVAL);
+>> +
+>> +       if (!ib_find_vector_affinity(dev, affinity_hint, &vector)) {
+>> +               /*
+>> +                * Couldn't find matching vector affinity so project
+>> +                * the affinty to the device completion vector range
+>> +                */
+>> +               vector = affinity_hint % dev->num_comp_vectors;
+>> +       }
 > 
-> Only for mlx5 adapters because only the mlx5 driver implements
-> .get_vector_affinity(). For other adapters the following code is used to chose a
-> vector:
+> So depending on whether or not the HCA driver implements .get_vector_affinity()
+> either pci_irq_get_affinity() is used or "vector = affinity_hint %
+> dev->num_comp_vectors"? Sorry but I think that kind of differences makes it
+> unnecessarily hard for ULP maintainers to provide predictable performance and
+> consistent behavior across HCAs.
 
-Looks like even that will get reverted for 4.15 :)
-Due to the change in user experience for managed irq vectors.
-
-> 
->      vector = affinity_hint % dev->num_comp_vectors;
-> 
-> That means whether or not a single CQ will be used by different CPUs depends on
-> how the ULP associates 'affinity_hint' with CPUs.
-
-My intension was to pass it down to ib_alloc_cq and then convert
-ib_cq_poll_work to run queue_work_on(cq->cpu, ib_comp_wq, &cq->work)
-
-Note that you point out something that is more relevant to server/target
-side ULPs (hence the assumption of workqueue mode).
-
-So up until now I count Bart and Max on per-ULP pools, on the other
-hand theres Christoph and I for per-device pools. Can we get a tie
-breaker?
+Well, as a ULP maintainer I think that in the lack of
+.get_vector_affinity() I would do that same thing as this code. srp
+itself is doing the same thing in srp_create_target()
