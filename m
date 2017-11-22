@@ -1,32 +1,58 @@
-From: kevin@umd.edu (Kevin M. Hildebrand)
-Date: Wed, 22 Nov 2017 12:56:39 -0500
-Subject: NVMe array support
-Message-ID: <CAJmU7Q=P0cnSU1U0nVu3Tk8_kAajVEra1OWUPxCt8ZD3Qio9cA@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 22 Nov 2017 20:58:34 +0200
+Subject: [PATCH v5 0/4] Fix request completion holes
+Message-ID: <20171122185838.28855-1-sagi@grimberg.me>
 
-I've got eight Samsung PM1725a NVMe drives I'm trying to combine into
-an array to be able to aggregate the performance of having multiple
-drives.  My initial experiments have yielded abysmal performance in
-most cases.  I've tried creating RAID 0 arrays with MD raid, ZFS, and
-a few others and most of the time I'm getting somewhere around the
-performance of a single drive, even though I've got more than one.
-The only way I can get decent performance is when writing to the array
-in direct mode (O_DIRECT).  I've been using fio, fdt, and dd for
-running tests.  Has anyone successfully created software arrays of
-NVMe drives and been able to get usable performance from them?  The
-drives are all in a DELL R940 server, which has 4 Skylake CPUs, and
-all of the drives are connected to a single CPU, with full PCI
-bandwidth.
+We have two holes in nvme-rdma when completing request.
 
-Sorry if this isn't the right place to send this message, I'm having a
-hard time finding anyone that's doing this.
+1. We never wait for send work request to complete before completing
+a request. It is possible that the HCA retries a send operation (due
+to dropped ack) after the nvme cqe has already arrived back to the host.
+If we unmap the host buffer upon reception of the cqe, the HCA might
+get iommu errors when attempting to access an unmapped host buffer.
+We must wait also for the send completion before completing a request,
+most of the time it will be before the nvme cqe has arrived back so
+we pay only for the extra cq entry processing.
 
-If anyone's doing this successfully, I'd love to hear more about your
-configuration.
+2. We don't wait for the request memory region to be fully invalidated
+in case the target didn't invalidate remotely. We must wait for the local
+invalidation to complete before completing the request.
 
-Thanks!
-Kevin
+Note that we might face two concurrent completion processing contexts for
+a single request. One is the ib_cq irq-poll context and the second is
+blk_mq_poll which is invoked from IOCB_HIPRI requests. Thus we need the
+completion flags updates (send/receive) to be atomic. A new request
+lock is introduced to guarantee the mutual exclusion of the completion
+flags updates.
 
---
-Kevin Hildebrand
-University of Maryland
-Division of IT
+Thanks to Christoph for suggesting request refcounts instead of a private
+lock.
+
+Changes from v4:
+- Fixed send_done dereference in case of send error completion
+
+Changes from v3:
+- Added a patch for detecting bogus remote invalidation (while we're in the area)
+- Saved a third atomic op for local invalidate (Christoph)
+- pull the status and result from nvme cqe to nvme_rdma_request
+
+Changes from v2:
+- Fixed send completion signalling in patch 1 (still signal conditionally
+  as we still want to suppress it for async events)
+- replaced req->lock with req->ref for micro-optimization (Christoph)
+
+Changes from v1:
+- Added atomic send/resp_completed updated (via per-request lock)
+
+Sagi Grimberg (4):
+  nvme-rdma: don't suppress send completions
+  nvme-rdma: don't complete requests before a send work request has
+    completed
+  nvme-rdma: wait for local invalidation before completing a request
+  nvme-rdma: Check remotely invalidated rkey matches our expected rkey
+
+ drivers/nvme/host/rdma.c | 118 +++++++++++++++++++++++++----------------------
+ 1 file changed, 63 insertions(+), 55 deletions(-)
+
+-- 
+2.14.1
