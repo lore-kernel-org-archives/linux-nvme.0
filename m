@@ -1,65 +1,61 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 23 Nov 2017 15:44:38 +0100
-Subject: [GIT PULL] nvme fixes for Linux 4.15
-Message-ID: <20171123144438.wfs2fo64l6vwgfxj@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 23 Nov 2017 17:35:20 +0200
+Subject: [PATCH v6 0/4] Fix request completion holes
+Message-ID: <20171123153524.24554-1-sagi@grimberg.me>
 
-Hi Jens,
+We have two holes in nvme-rdma when completing request.
 
-a couple nvme fixes for 4.15:
+1. We never wait for send work request to complete before completing
+a request. It is possible that the HCA retries a send operation (due
+to dropped ack) after the nvme cqe has already arrived back to the host.
+If we unmap the host buffer upon reception of the cqe, the HCA might
+get iommu errors when attempting to access an unmapped host buffer.
+We must wait also for the send completion before completing a request,
+most of the time it will be before the nvme cqe has arrived back so
+we pay only for the extra cq entry processing.
 
- - expand the queue ready fix that we only had for RDMA to also cover FC and
-   loop by moving it to common code (Sagi)
- - fix an array out of bounds in the PCIe HMB code (Minwoo Im)
- - two new device quirks (Jeff Lien and Kai-Heng Feng)
- - static checkers fixes (Keith Busch)
- - FC target refcount fix (James Smart)
- - A trivial spelling fix in new code (Colin Ian King)
+2. We don't wait for the request memory region to be fully invalidated
+in case the target didn't invalidate remotely. We must wait for the local
+invalidation to complete before completing the request.
 
+Note that we might face two concurrent completion processing contexts for
+a single request. One is the ib_cq irq-poll context and the second is
+blk_mq_poll which is invoked from IOCB_HIPRI requests. Thus we need the
+completion flags updates (send/receive) to be atomic. A new request
+lock is introduced to guarantee the mutual exclusion of the completion
+flags updates.
 
-The following changes since commit 1690102de5651bb85b23d5eeaff682a6b96d705b:
+Thanks to Christoph for suggesting request refcounts instead of a private
+lock.
 
-  blktrace: Use blk_trace_bio_get_cgid inside blk_add_trace_bio (2017-11-19 12:37:26 -0700)
+Changes from v5:
+- Splitted done handler to async and normal send to simplify the code
 
-are available in the git repository at:
+Changes from v4:
+- Fixed send_done dereference in case of send error completion
 
-  git://git.infradead.org/nvme.git nvme-4.15
+Changes from v3:
+- Added a patch for detecting bogus remote invalidation (while we're in the area)
+- Saved a third atomic op for local invalidate (Christoph)
+- pull the status and result from nvme cqe to nvme_rdma_request
 
-for you to fetch changes up to 8c97eeccf0ad8783c057830119467b877bdfced7:
+Changes from v2:
+- Fixed send completion signalling in patch 1 (still signal conditionally
+  as we still want to suppress it for async events)
+- replaced req->lock with req->ref for micro-optimization (Christoph)
 
-  nvme-pci: add quirk for delay before CHK RDY for WDC SN200 (2017-11-23 09:12:08 +0100)
+Changes from v1:
+- Added atomic send/resp_completed updated (via per-request lock)
 
-----------------------------------------------------------------
-Colin Ian King (1):
-      nvme: fix spelling mistake: "requeing" -> "requeuing"
+Sagi Grimberg (4):
+  nvme-rdma: don't suppress send completions
+  nvme-rdma: don't complete requests before a send work request has
+    completed
+  nvme-rdma: wait for local invalidation before completing a request
+  nvme-rdma: Check remotely invalidated rkey matches our expected rkey
 
-James Smart (1):
-      nvmet-fc: correct ref counting error when deferred rcv used
+ drivers/nvme/host/rdma.c | 126 +++++++++++++++++++++++++----------------------
+ 1 file changed, 67 insertions(+), 59 deletions(-)
 
-Jeff Lien (1):
-      nvme-pci: add quirk for delay before CHK RDY for WDC SN200
-
-Kai-Heng Feng (1):
-      nvme-pci: disable APST on Samsung SSD 960 EVO + ASUS PRIME B350M-A
-
-Keith Busch (2):
-      nvme: Fix NULL dereference on reservation request
-      nvme: Suppress static analyis warning
-
-Minwoo Im (1):
-      nvme-pci: avoid hmb desc array idx out-of-bound when hmmaxd set.
-
-Sagi Grimberg (3):
-      nvme-fabrics: introduce init command check for a queue that is not alive
-      nvme-fc: check if queue is ready in queue_rq
-      nvme-loop: check if queue is ready in queue_rq
-
- drivers/nvme/host/core.c      | 19 ++++++++-----------
- drivers/nvme/host/fabrics.h   | 30 ++++++++++++++++++++++++++++++
- drivers/nvme/host/fc.c        | 19 ++++++++++++++++++-
- drivers/nvme/host/multipath.c |  2 +-
- drivers/nvme/host/nvme.h      |  2 +-
- drivers/nvme/host/pci.c       | 16 +++++++++++++---
- drivers/nvme/host/rdma.c      | 32 ++++++--------------------------
- drivers/nvme/target/fc.c      |  9 ++++++---
- drivers/nvme/target/loop.c    | 25 ++++++++++++++++++++++++-
- 9 files changed, 107 insertions(+), 47 deletions(-)
+-- 
+2.14.1
