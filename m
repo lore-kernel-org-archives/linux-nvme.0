@@ -1,23 +1,39 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 24 Nov 2017 00:32:59 -0800
-Subject: [GIT PULL] nvme fixes for Linux 4.15
-In-Reply-To: <1dcadbce-8a97-9578-686a-c43bd8dc06fc@kernel.dk>
-References: <20171123144438.wfs2fo64l6vwgfxj@infradead.org>
- <514cf7e6-f651-112e-c8bb-e5ad837d4394@kernel.dk>
- <1dcadbce-8a97-9578-686a-c43bd8dc06fc@kernel.dk>
-Message-ID: <20171124083259.GA10952@infradead.org>
+From: ddiss@suse.de (David Disseldorp)
+Date: Fri, 24 Nov 2017 16:30:53 +0100
+Subject: [PATCH] nvme: set discard_alignment to zero
+Message-ID: <20171124153053.23056-1-ddiss@suse.de>
 
-On Thu, Nov 23, 2017@10:04:55PM -0700, Jens Axboe wrote:
-> > +       NVME_FC_Q_LIVE = (1 << 1),                                              
-> > }; 
-> > 
-> > for flags that are used with set_bit() and friends? That's just
-> > misleading, should be 0, 1, etc, not a shift.
-> > 
-> > The rest looks pretty straight forward, but the above is an eye sore.
+Similar to 7c084289795b ("rbd: set discard_alignment to zero"), NVMe
+devices are currently incorrectly initialised with the block queue
+discard_alignment set to the NVMe stream alignment.
 
-Yes, it is misleading, but so far harmless.
+As per Documentation/ABI/testing/sysfs-block:
+  The discard_alignment parameter indicates how many bytes the beginning
+  of the device is offset from the internal allocation unit's natural
+  alignment.
 
-Your fixup looks good to me:
+Correcting the discard_alignment parameter to zero has no effect on how
+discard requests are propagated through the block layer - @alignment in
+__blkdev_issue_discard() remains zero. However, it does fix other
+consumers, such as LIO's Block Limits VPD response.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: David Disseldorp <ddiss at suse.de>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 25da74d310d1..2e224ab5c340 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1287,7 +1287,7 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl,
+ 	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
+ 			NVME_DSM_MAX_RANGES);
+ 
+-	queue->limits.discard_alignment = size;
++	queue->limits.discard_alignment = 0;
+ 	queue->limits.discard_granularity = size;
+ 
+ 	blk_queue_max_discard_sectors(queue, UINT_MAX);
+-- 
+2.13.6
