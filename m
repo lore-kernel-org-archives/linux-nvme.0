@@ -1,32 +1,33 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 24 Nov 2017 10:15:07 -0700
-Subject: [GIT PULL] nvme fixes for Linux 4.15
-In-Reply-To: <20171124083259.GA10952@infradead.org>
-References: <20171123144438.wfs2fo64l6vwgfxj@infradead.org>
- <514cf7e6-f651-112e-c8bb-e5ad837d4394@kernel.dk>
- <1dcadbce-8a97-9578-686a-c43bd8dc06fc@kernel.dk>
- <20171124083259.GA10952@infradead.org>
-Message-ID: <1e686d99-ca88-cb56-4b5e-de1642395bb6@kernel.dk>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sat, 25 Nov 2017 03:03:00 +0900
+Subject: [PATCH] nvme-pci: fix NULL pointer dereference in nvme_free_host_mem()
+Message-ID: <1511546580-3165-1-git-send-email-minwoo.im.dev@gmail.com>
 
-On 11/24/2017 01:32 AM, Christoph Hellwig wrote:
-> On Thu, Nov 23, 2017@10:04:55PM -0700, Jens Axboe wrote:
->>> +       NVME_FC_Q_LIVE = (1 << 1),                                              
->>> }; 
->>>
->>> for flags that are used with set_bit() and friends? That's just
->>> misleading, should be 0, 1, etc, not a shift.
->>>
->>> The rest looks pretty straight forward, but the above is an eye sore.
-> 
-> Yes, it is misleading, but so far harmless.
+Following condition which will cause NULL pointer dereference will
+occur in nvme_free_host_mem() when it tries to remove pci device via
+nvme_remove() especially after a failure of host memory allocation for HMB.
 
-Yeah, but it just takes a few more bits...
+    "(host_mem_descs == NULL) && (nr_host_mem_descs != 0)"
 
-> Your fixup looks good to me:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+It's because __nr_host_mem_descs__ is not cleared to 0 unlike
+__host_mem_descs__ is so.
 
-Thanks, I've added it.
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6173747..f5800c3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1759,6 +1759,7 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 			dev->nr_host_mem_descs * sizeof(*dev->host_mem_descs),
+ 			dev->host_mem_descs, dev->host_mem_descs_dma);
+ 	dev->host_mem_descs = NULL;
++	dev->nr_host_mem_descs = 0;
+ }
+ 
+ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
 -- 
-Jens Axboe
+2.7.4
