@@ -1,11 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 28 Nov 2017 13:36:47 +0100
-Subject: [PATCH v3 1/1] nvme-rdma: Fix memory leak during queue allocation
-In-Reply-To: <1511370080-23326-1-git-send-email-maxg@mellanox.com>
-References: <1511370080-23326-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20171128123647.GC30316@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 28 Nov 2017 04:37:36 -0800
+Subject: [PATCH] nvme-cli: add new HMB identify fields of TP 4002
+In-Reply-To: <1511870207-17033-1-git-send-email-minwoo.im.dev@gmail.com>
+References: <1511870207-17033-1-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <20171128123736.GA1736@infradead.org>
 
-Looks good and applied to nvme-4.15.
+Thanks, this looks good:
 
-In the long run I wonder if we want a real queue state machine intead
-of the flags..
+Reviewed-by: Christoph Hellwig <hch at lst.de>
