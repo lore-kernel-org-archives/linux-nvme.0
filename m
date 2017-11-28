@@ -1,91 +1,10 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 28 Nov 2017 18:28:44 +0200
-Subject: [PATCH v4 1/1] nvme-rdma: Fix memory leak during queue allocation
-Message-ID: <1511886524-18445-1-git-send-email-maxg@mellanox.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 28 Nov 2017 08:49:02 -0800
+Subject: [PATCH] nvme-cli: resync nvme.h with the kernel's
+In-Reply-To: <1511880077-30443-1-git-send-email-minwoo.im.dev@gmail.com>
+References: <1511880077-30443-1-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <20171128164902.GA26510@infradead.org>
 
-In case nvme_rdma_wait_for_cm timeout expires before we get
-an established or rejected event (rdma_connect succeeded) from
-rdma_cm, we end up with leaking the ib transport resources for
-dedicated queue. This scenario can easily reproduced using traffic
-test during port toggling.
-Also, in order to protect from parallel ib queue destruction, that
-may be invoked from different context's, introduce new flag that
-stands for transport readiness. While we're here, protect also against
-a situation that we can receive rdma_cm events during ib queue destruction.
+Looks good,
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
-
-Changes from v3:
- - comment ib_destroy_qp usage
- 
-Changes from v2:
- - remove redundant code (from Sagi)
-
-Changes from v1:
- - added new queue flag bit NVME_RDMA_Q_TR_READY to avoid parallel destruction
- - guarantee that cm_id destroyed before ib queue resources (from Sagi)
- - rebase over nvme-4.15
-
----
- drivers/nvme/host/rdma.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 02ef077..37af565 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -77,6 +77,7 @@ struct nvme_rdma_request {
- enum nvme_rdma_queue_flags {
- 	NVME_RDMA_Q_ALLOCATED		= 0,
- 	NVME_RDMA_Q_LIVE		= 1,
-+	NVME_RDMA_Q_TR_READY		= 2,
- };
- 
- struct nvme_rdma_queue {
-@@ -390,12 +391,23 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
- 
- static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- {
--	struct nvme_rdma_device *dev = queue->device;
--	struct ib_device *ibdev = dev->dev;
-+	struct nvme_rdma_device *dev;
-+	struct ib_device *ibdev;
-+
-+	if (!test_and_clear_bit(NVME_RDMA_Q_TR_READY, &queue->flags))
-+		return;
-+
-+	dev = queue->device;
-+	ibdev = dev->dev;
- 
- 	ib_mr_pool_destroy(queue->qp, &queue->qp->rdma_mrs);
- 
--	rdma_destroy_qp(queue->cm_id);
-+	/*
-+	 * The cm_id object might have been destroyed during RDMA connection
-+	 * establishment error flow to avoid getting other cma events, thus
-+	 * the destruction of the QP shouldn't use rdma_cm API.
-+	 */
-+	ib_destroy_qp(queue->qp);
- 	ib_free_cq(queue->ib_cq);
- 
- 	nvme_rdma_free_ring(ibdev, queue->rsp_ring, queue->queue_size,
-@@ -463,6 +475,8 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 		goto out_destroy_ring;
- 	}
- 
-+	set_bit(NVME_RDMA_Q_TR_READY, &queue->flags);
-+
- 	return 0;
- 
- out_destroy_ring:
-@@ -529,6 +543,7 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
- 
- out_destroy_cm_id:
- 	rdma_destroy_id(queue->cm_id);
-+	nvme_rdma_destroy_queue_ib(queue);
- 	return ret;
- }
- 
--- 
-1.8.3.1
+Reviewed-by: Christoph Hellwig <hch at lst.de>
