@@ -1,30 +1,33 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 28 Nov 2017 23:21:57 +0900
-Subject: [PATCH] nvme-cli: add new HMB identify fields of TP 4002
-In-Reply-To: <20171128130411.GA1822@infradead.org>
-References: <1511870207-17033-1-git-send-email-minwoo.im.dev@gmail.com>
- <20171128123736.GA1736@infradead.org>
- <CAA7jztfaOPPMONxSZi+uMbdFAMqmxE7cESpX4kFH_-36R1FQSg@mail.gmail.com>
- <20171128130411.GA1822@infradead.org>
-Message-ID: <CAA7jztdL1E5zaPDzQc3FtJ-mfuiY09QZ_n+xeP1wtssN+Gszfg@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 28 Nov 2017 15:26:00 +0100
+Subject: [PATCH v3 1/1] nvme-rdma: Fix memory leak during queue allocation
+In-Reply-To: <3d575588-a910-a371-fdb3-cb56afcbabcd@mellanox.com>
+References: <1511370080-23326-1-git-send-email-maxg@mellanox.com>
+ <20171128123647.GC30316@lst.de> <20171128124217.GA30487@lst.de>
+ <3d575588-a910-a371-fdb3-cb56afcbabcd@mellanox.com>
+Message-ID: <20171128142600.GA441@lst.de>
 
-On Tue, Nov 28, 2017@10:04 PM, Christoph Hellwig <hch@infradead.org> wrote:
-> On Tue, Nov 28, 2017@09:58:59PM +0900, Minwoo Im wrote:
->> I'm sorry for making confusions because of the numbering of reserved field.
->> It should be started with 338 instead of 332.
->>
->> The following patch will be good to be reviewed.
+On Tue, Nov 28, 2017@04:18:38PM +0200, Max Gurtovoy wrote:
 >
-> To make things easier it might be a good idea to start by copying
-> over nvme.h from the kernel as a first commit.
+>
+> On 11/28/2017 2:42 PM, Christoph Hellwig wrote:
+>> On Tue, Nov 28, 2017@01:36:47PM +0100, Christoph Hellwig wrote:
+>>> Looks good and applied to nvme-4.15.
+>>>
+>>> In the long run I wonder if we want a real queue state machine intead
+>>> of the flags..
+>>
+>> Actually, that was a little fast.  This conflicts with the MR pool
+>> switch.
+>
+> I'll resend f needed.
 
-Hi Christoph,
+Yes, please.
 
-I really appreciate your suggestion for a good idea of nvme.h.
-I'm going to send a patch for a sync of nvme.h with kernel's to be reviewed.
-After that, I'll send this kind of patch of "HMB identify fields" again.
+>>
+>> Also why does it switch from rdma_destroy_qp to ib_destroy_qp?
+>>
+>
+> because the cm_id might be destroyed (see the error flow).
 
-If I've got anything wrong or misunderstood from your review, please
-feel free to let me know.
-
-Thanks,
+Needs detailed comments please.
