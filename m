@@ -1,51 +1,18 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 28 Nov 2017 04:38:13 -0800
-Subject: [PATCH] nvme: set discard_alignment to zero
-In-Reply-To: <20171124153053.23056-1-ddiss@suse.de>
-References: <20171124153053.23056-1-ddiss@suse.de>
-Message-ID: <20171128123812.GB1736@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 28 Nov 2017 13:42:17 +0100
+Subject: [PATCH v3 1/1] nvme-rdma: Fix memory leak during queue allocation
+In-Reply-To: <20171128123647.GC30316@lst.de>
+References: <1511370080-23326-1-git-send-email-maxg@mellanox.com>
+ <20171128123647.GC30316@lst.de>
+Message-ID: <20171128124217.GA30487@lst.de>
 
-Adding Jens, who added this code, but it looks fine to me.
+On Tue, Nov 28, 2017@01:36:47PM +0100, Christoph Hellwig wrote:
+> Looks good and applied to nvme-4.15.
+> 
+> In the long run I wonder if we want a real queue state machine intead
+> of the flags..
 
-On Fri, Nov 24, 2017@04:30:53PM +0100, David Disseldorp wrote:
-> Similar to 7c084289795b ("rbd: set discard_alignment to zero"), NVMe
-> devices are currently incorrectly initialised with the block queue
-> discard_alignment set to the NVMe stream alignment.
-> 
-> As per Documentation/ABI/testing/sysfs-block:
->   The discard_alignment parameter indicates how many bytes the beginning
->   of the device is offset from the internal allocation unit's natural
->   alignment.
-> 
-> Correcting the discard_alignment parameter to zero has no effect on how
-> discard requests are propagated through the block layer - @alignment in
-> __blkdev_issue_discard() remains zero. However, it does fix other
-> consumers, such as LIO's Block Limits VPD response.
-> 
-> Signed-off-by: David Disseldorp <ddiss at suse.de>
-> ---
->  drivers/nvme/host/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 25da74d310d1..2e224ab5c340 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1287,7 +1287,7 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl,
->  	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
->  			NVME_DSM_MAX_RANGES);
->  
-> -	queue->limits.discard_alignment = size;
-> +	queue->limits.discard_alignment = 0;
->  	queue->limits.discard_granularity = size;
->  
->  	blk_queue_max_discard_sectors(queue, UINT_MAX);
-> -- 
-> 2.13.6
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+Actually, that was a little fast.  This conflicts with the MR pool
+switch.
+
+Also why does it switch from rdma_destroy_qp to ib_destroy_qp?
