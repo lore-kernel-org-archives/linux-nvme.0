@@ -1,17 +1,27 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 28 Nov 2017 05:04:11 -0800
-Subject: [PATCH] nvme-cli: add new HMB identify fields of TP 4002
-In-Reply-To: <CAA7jztfaOPPMONxSZi+uMbdFAMqmxE7cESpX4kFH_-36R1FQSg@mail.gmail.com>
-References: <1511870207-17033-1-git-send-email-minwoo.im.dev@gmail.com>
- <20171128123736.GA1736@infradead.org>
- <CAA7jztfaOPPMONxSZi+uMbdFAMqmxE7cESpX4kFH_-36R1FQSg@mail.gmail.com>
-Message-ID: <20171128130411.GA1822@infradead.org>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 28 Nov 2017 16:18:38 +0200
+Subject: [PATCH v3 1/1] nvme-rdma: Fix memory leak during queue allocation
+In-Reply-To: <20171128124217.GA30487@lst.de>
+References: <1511370080-23326-1-git-send-email-maxg@mellanox.com>
+ <20171128123647.GC30316@lst.de> <20171128124217.GA30487@lst.de>
+Message-ID: <3d575588-a910-a371-fdb3-cb56afcbabcd@mellanox.com>
 
-On Tue, Nov 28, 2017@09:58:59PM +0900, Minwoo Im wrote:
-> I'm sorry for making confusions because of the numbering of reserved field.
-> It should be started with 338 instead of 332.
+
+
+On 11/28/2017 2:42 PM, Christoph Hellwig wrote:
+> On Tue, Nov 28, 2017@01:36:47PM +0100, Christoph Hellwig wrote:
+>> Looks good and applied to nvme-4.15.
+>>
+>> In the long run I wonder if we want a real queue state machine intead
+>> of the flags..
 > 
-> The following patch will be good to be reviewed.
+> Actually, that was a little fast.  This conflicts with the MR pool
+> switch.
 
-To make things easier it might be a good idea to start by copying
-over nvme.h from the kernel as a first commit.
+I'll resend f needed.
+
+> 
+> Also why does it switch from rdma_destroy_qp to ib_destroy_qp?
+> 
+
+because the cm_id might be destroyed (see the error flow).
