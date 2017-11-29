@@ -1,30 +1,71 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 29 Nov 2017 15:11:37 -0800
-Subject: [PATCH] nvme_fc: remove double put reference if admin connect fails
-Message-ID: <20171129231137.32384-1-jsmart2021@gmail.com>
+Date: Wed, 29 Nov 2017 15:11:55 -0800
+Subject: [PATCH] nvmet_fc: cleanup nvmet add_port/remove_port
+Message-ID: <20171129231155.32480-1-jsmart2021@gmail.com>
 
-There are two put references in the failure case of initial
-create_association. The first put actually frees the controller,
-thus the second put references freed memory.
+The current fc transport add_port routine validates that there is a
+matching port to the target port config. It then takes a reference
+on the targetport. The del_port removes the reference.
 
-Remove the unnecessary 2nd put
+Unfortunately, if the LLDD undergoes a hw reset or driver unload and
+wants to unreg the targetport, due to the reference, the targetport
+effectively can't be removed. It requires the admin to remove the
+port from the nvmet config first, which calls the del_port.
+Note: it appears nvmetcli clear skips over the del_port call (I'm
+not attempting to change that).
+
+There's no real reason to take the reference. With FC, there is nothing
+to enable or disable as the presence of the FC targetport implicitly
+means its enabled, and removal of the targtport means its disabled.
+
+Change add_port to simply validate and change remove_port to a noop.
+No references are taken on the targetport.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/nvme/target/fc.c | 23 ++---------------------
+ 1 file changed, 2 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 0a8af4daef89..794e66e4aa20 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3221,7 +3221,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 5fd86039e353..b652208cb37b 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2522,14 +2522,7 @@ nvmet_fc_add_port(struct nvmet_port *port)
+ 	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
+ 		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
+ 		    (tgtport->fc_target_port.port_name == traddr.pn)) {
+-			/* a FC port can only be 1 nvmet port id */
+-			if (!tgtport->port) {
+-				tgtport->port = port;
+-				port->priv = tgtport;
+-				nvmet_fc_tgtport_get(tgtport);
+-				ret = 0;
+-			} else
+-				ret = -EALREADY;
++			ret = 0;
+ 			break;
+ 		}
+ 	}
+@@ -2540,19 +2533,7 @@ nvmet_fc_add_port(struct nvmet_port *port)
+ static void
+ nvmet_fc_remove_port(struct nvmet_port *port)
+ {
+-	struct nvmet_fc_tgtport *tgtport = port->priv;
+-	unsigned long flags;
+-	bool matched = false;
+-
+-	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+-	if (tgtport->port == port) {
+-		matched = true;
+-		tgtport->port = NULL;
+-	}
+-	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+-
+-	if (matched)
+-		nvmet_fc_tgtport_put(tgtport);
++	/* nothing to do */
+ }
  
- 		/* initiate nvme ctrl ref counting teardown */
- 		nvme_uninit_ctrl(&ctrl->ctrl);
--		nvme_put_ctrl(&ctrl->ctrl);
- 
- 		/* Remove core ctrl ref. */
- 		nvme_put_ctrl(&ctrl->ctrl);
+ static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
 -- 
 2.13.1
