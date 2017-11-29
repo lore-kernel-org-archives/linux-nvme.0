@@ -1,18 +1,21 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 29 Nov 2017 09:30:44 -0700
-Subject: [GIT PULL] nvme fixes for Linux 4.15
-In-Reply-To: <20171129161621.ijlhfxjde6ke4r6p@infradead.org>
-References: <20171129161621.ijlhfxjde6ke4r6p@infradead.org>
-Message-ID: <46fc17b9-2d75-4a3f-9520-3003a8bf4672@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 29 Nov 2017 09:38:37 -0700
+Subject: [PATCH 2/2] NVMe-CLI : WDC-Plugin Documentation for Updated
+ Smart Log Command
+In-Reply-To: <MWHPR04MB1025D9A09C89FF51CA5BAEACEA3A0@MWHPR04MB1025.namprd04.prod.outlook.com>
+References: <20171128142955.9747-1-jeff.lien@wdc.com>
+ <20171128154724.GA11758@localhost.localdomain>
+ <MWHPR04MB1025D9A09C89FF51CA5BAEACEA3A0@MWHPR04MB1025.namprd04.prod.outlook.com>
+Message-ID: <20171129163836.GD24085@localhost.localdomain>
 
-On 11/29/2017 09:16 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> a few more nvme updates for 4.15.  A single small PCIe fix, and a number
-> of patches for RDMA that are a little larger than what I'd like to see
-> for -rc2, but they fix important issues seen in the wild.
+On Tue, Nov 28, 2017@04:24:05PM +0000, Jeffrey Lien wrote:
+> Yea, I wasn't sure why the auto-generated files are included with the txt file vs just the txt file.  It seems to make more sense to push just the txt fail and then regenerate the other files, but that doesn't match what was done in the past.  
 
-Looks good to me, pulled. Thanks.
+Push now, thanks.
 
--- 
-Jens Axboe
+I'd just recommend unstaging the .html and .1 files before committing,
+and I'll generate the docs as needed. It's usually not a problem when
+they're included in a pull request, but when conflicts in the generated
+files happen, it's easier to fix by regenerating them than trying to
+merge. The only reason we have them under source control is to not have
+a dependency on asciidoc to install the program.
