@@ -1,21 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 29 Nov 2017 09:38:37 -0700
-Subject: [PATCH 2/2] NVMe-CLI : WDC-Plugin Documentation for Updated
- Smart Log Command
-In-Reply-To: <MWHPR04MB1025D9A09C89FF51CA5BAEACEA3A0@MWHPR04MB1025.namprd04.prod.outlook.com>
-References: <20171128142955.9747-1-jeff.lien@wdc.com>
- <20171128154724.GA11758@localhost.localdomain>
- <MWHPR04MB1025D9A09C89FF51CA5BAEACEA3A0@MWHPR04MB1025.namprd04.prod.outlook.com>
-Message-ID: <20171129163836.GD24085@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 29 Nov 2017 15:11:37 -0800
+Subject: [PATCH] nvme_fc: remove double put reference if admin connect fails
+Message-ID: <20171129231137.32384-1-jsmart2021@gmail.com>
 
-On Tue, Nov 28, 2017@04:24:05PM +0000, Jeffrey Lien wrote:
-> Yea, I wasn't sure why the auto-generated files are included with the txt file vs just the txt file.  It seems to make more sense to push just the txt fail and then regenerate the other files, but that doesn't match what was done in the past.  
+There are two put references in the failure case of initial
+create_association. The first put actually frees the controller,
+thus the second put references freed memory.
 
-Push now, thanks.
+Remove the unnecessary 2nd put
 
-I'd just recommend unstaging the .html and .1 files before committing,
-and I'll generate the docs as needed. It's usually not a problem when
-they're included in a pull request, but when conflicts in the generated
-files happen, it's easier to fix by regenerating them than trying to
-merge. The only reason we have them under source control is to not have
-a dependency on asciidoc to install the program.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 0a8af4daef89..794e66e4aa20 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3221,7 +3221,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 
+ 		/* initiate nvme ctrl ref counting teardown */
+ 		nvme_uninit_ctrl(&ctrl->ctrl);
+-		nvme_put_ctrl(&ctrl->ctrl);
+ 
+ 		/* Remove core ctrl ref. */
+ 		nvme_put_ctrl(&ctrl->ctrl);
+-- 
+2.13.1
