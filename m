@@ -1,10 +1,42 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 28 Nov 2017 17:50:01 +0100
-Subject: [PATCH v4 1/1] nvme-rdma: Fix memory leak during queue allocation
-In-Reply-To: <1511886524-18445-1-git-send-email-maxg@mellanox.com>
-References: <1511886524-18445-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20171128165001.GA3696@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 29 Nov 2017 08:16:21 -0800
+Subject: [GIT PULL] nvme fixes for Linux 4.15
+Message-ID: <20171129161621.ijlhfxjde6ke4r6p@infradead.org>
 
-Thanks,
+Hi Jens,
 
-applied to nvme-4.15
+a few more nvme updates for 4.15.  A single small PCIe fix, and a number
+of patches for RDMA that are a little larger than what I'd like to see
+for -rc2, but they fix important issues seen in the wild.
+
+The following changes since commit 6c4ca1e36cdc1a0a7a84797804b87920ccbebf51:
+
+  bcache: check return value of register_shrinker (2017-11-24 16:23:01 -0700)
+
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.15
+
+for you to fetch changes up to 7e5dd57ef3081ff6c03908d786ed5087f6fbb7ae:
+
+  nvme-pci: fix NULL pointer dereference in nvme_free_host_mem() (2017-11-28 08:49:26 -0800)
+
+----------------------------------------------------------------
+Israel Rukshin (1):
+      nvme-rdma: Use mr pool
+
+Max Gurtovoy (1):
+      nvme-rdma: fix memory leak during queue allocation
+
+Minwoo Im (1):
+      nvme-pci: fix NULL pointer dereference in nvme_free_host_mem()
+
+Sagi Grimberg (4):
+      nvme-rdma: don't suppress send completions
+      nvme-rdma: don't complete requests before a send work request has completed
+      nvme-rdma: wait for local invalidation before completing a request
+      nvme-rdma: Check remotely invalidated rkey matches our expected rkey
+
+ drivers/nvme/host/pci.c  |   1 +
+ drivers/nvme/host/rdma.c | 234 ++++++++++++++++++++++++-----------------------
+ 2 files changed, 119 insertions(+), 116 deletions(-)
