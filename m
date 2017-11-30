@@ -1,71 +1,225 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 29 Nov 2017 15:11:55 -0800
-Subject: [PATCH] nvmet_fc: cleanup nvmet add_port/remove_port
-Message-ID: <20171129231155.32480-1-jsmart2021@gmail.com>
+Date: Wed, 29 Nov 2017 16:47:32 -0800
+Subject: [PATCH 3/4] nvme_fcloop: rework to remove xxx_IN_ISR feature flags
+In-Reply-To: <20171130004733.19330-1-jsmart2021@gmail.com>
+References: <20171130004733.19330-1-jsmart2021@gmail.com>
+Message-ID: <20171130004733.19330-4-jsmart2021@gmail.com>
 
-The current fc transport add_port routine validates that there is a
-matching port to the target port config. It then takes a reference
-on the targetport. The del_port removes the reference.
+The existing fcloop driver expects the target side upcalls to
+the transport to context switch, thus the calls into the nvmet layer
+are not done in the calling context of the host/initiator down calls.
+The xxx_IN_ISR feature flags are used to select this logic.
 
-Unfortunately, if the LLDD undergoes a hw reset or driver unload and
-wants to unreg the targetport, due to the reference, the targetport
-effectively can't be removed. It requires the admin to remove the
-port from the nvmet config first, which calls the del_port.
-Note: it appears nvmetcli clear skips over the del_port call (I'm
-not attempting to change that).
+The xxx_IN_ISR feature flags should go away in the nvmet_fc transport
+as no other lldd utilizes them. Both Broadcom and Cavium lldds have their
+own non-ISR deferred handlers thus the nvmet calls can be made directly.
 
-There's no real reason to take the reference. With FC, there is nothing
-to enable or disable as the presence of the FC targetport implicitly
-means its enabled, and removal of the targtport means its disabled.
+This patch converts the paths that make the target upcalls (command
+receive, abort receive) such that they schedule a work item rather
+than expecting the transport to schedule the work item.
 
-Change add_port to simply validate and change remove_port to a noop.
-No references are taken on the targetport.
+The patch also cleans up the following:
+- The completion path from target to host scheduled a host work
+  element called "work". Rename it "tio_done_work" for code clarity.
+- The abort io path called a iniwork item to call the host side
+  io done. This is no longer needed as the abort routine can make
+  the same call.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fc.c | 23 ++---------------------
- 1 file changed, 2 insertions(+), 21 deletions(-)
+ drivers/nvme/target/fcloop.c | 98 ++++++++++++++++++++++++++++----------------
+ 1 file changed, 63 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 5fd86039e353..b652208cb37b 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2522,14 +2522,7 @@ nvmet_fc_add_port(struct nvmet_port *port)
- 	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
- 		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
- 		    (tgtport->fc_target_port.port_name == traddr.pn)) {
--			/* a FC port can only be 1 nvmet port id */
--			if (!tgtport->port) {
--				tgtport->port = port;
--				port->priv = tgtport;
--				nvmet_fc_tgtport_get(tgtport);
--				ret = 0;
--			} else
--				ret = -EALREADY;
-+			ret = 0;
- 			break;
- 		}
- 	}
-@@ -2540,19 +2533,7 @@ nvmet_fc_add_port(struct nvmet_port *port)
- static void
- nvmet_fc_remove_port(struct nvmet_port *port)
- {
--	struct nvmet_fc_tgtport *tgtport = port->priv;
--	unsigned long flags;
--	bool matched = false;
--
--	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
--	if (tgtport->port == port) {
--		matched = true;
--		tgtport->port = NULL;
--	}
--	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
--
--	if (matched)
--		nvmet_fc_tgtport_put(tgtport);
-+	/* nothing to do */
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index c0080f6ab2f5..c5015199c031 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -249,14 +249,15 @@ struct fcloop_fcpreq {
+ 	u16				status;
+ 	bool				active;
+ 	bool				aborted;
+-	struct work_struct		work;
++	struct work_struct		fcp_rcv_work;
++	struct work_struct		abort_rcv_work;
++	struct work_struct		tio_done_work;
+ 	struct nvmefc_tgt_fcp_req	tgt_fcp_req;
+ };
+ 
+ struct fcloop_ini_fcpreq {
+ 	struct nvmefc_fcp_req		*fcpreq;
+ 	struct fcloop_fcpreq		*tfcp_req;
+-	struct work_struct		iniwork;
+ };
+ 
+ static inline struct fcloop_lsreq *
+@@ -347,17 +348,58 @@ fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *tport,
+ 	return 0;
  }
  
- static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+-/*
+- * FCP IO operation done by initiator abort.
+- * call back up initiator "done" flows.
+- */
+ static void
+-fcloop_tgt_fcprqst_ini_done_work(struct work_struct *work)
++fcloop_fcp_recv_work(struct work_struct *work)
++{
++	struct fcloop_fcpreq *tfcp_req =
++		container_of(work, struct fcloop_fcpreq, fcp_rcv_work);
++	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
++	struct fcloop_ini_fcpreq *inireq = NULL;
++	int ret = 0;
++
++	ret = nvmet_fc_rcv_fcp_req(tfcp_req->tport->targetport,
++				&tfcp_req->tgt_fcp_req,
++				fcpreq->cmdaddr, fcpreq->cmdlen);
++	if (ret) {
++		inireq = fcpreq->private;
++		inireq->tfcp_req = NULL;
++
++		fcpreq->status = tfcp_req->status;
++		fcpreq->done(fcpreq);
++	}
++}
++
++static void
++fcloop_call_host_done(struct nvmefc_fcp_req *fcpreq,
++			struct fcloop_fcpreq *tfcp_req, int status)
++{
++	struct fcloop_ini_fcpreq *inireq = NULL;
++
++	if (fcpreq) {
++		inireq = fcpreq->private;
++		inireq->tfcp_req = NULL;
++
++		fcpreq->status = status;
++		fcpreq->done(fcpreq);
++	}
++}
++
++static void
++fcloop_fcp_abort_recv_work(struct work_struct *work)
+ {
+-	struct fcloop_ini_fcpreq *inireq =
+-		container_of(work, struct fcloop_ini_fcpreq, iniwork);
++	struct fcloop_fcpreq *tfcp_req =
++		container_of(work, struct fcloop_fcpreq, abort_rcv_work);
++	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
++
++	if (tfcp_req->tport->targetport)
++		nvmet_fc_rcv_fcp_abort(tfcp_req->tport->targetport,
++					&tfcp_req->tgt_fcp_req);
++
++	spin_lock(&tfcp_req->reqlock);
++	tfcp_req->fcpreq = NULL;
++	spin_unlock(&tfcp_req->reqlock);
+ 
+-	inireq->fcpreq->done(inireq->fcpreq);
++	fcloop_call_host_done(fcpreq, tfcp_req, -ECANCELED);
+ }
+ 
+ /*
+@@ -368,8 +410,7 @@ static void
+ fcloop_tgt_fcprqst_done_work(struct work_struct *work)
+ {
+ 	struct fcloop_fcpreq *tfcp_req =
+-		container_of(work, struct fcloop_fcpreq, work);
+-	struct fcloop_tport *tport = tfcp_req->tport;
++		container_of(work, struct fcloop_fcpreq, tio_done_work);
+ 	struct nvmefc_fcp_req *fcpreq;
+ 
+ 	spin_lock(&tfcp_req->reqlock);
+@@ -377,10 +418,7 @@ fcloop_tgt_fcprqst_done_work(struct work_struct *work)
+ 	tfcp_req->fcpreq = NULL;
+ 	spin_unlock(&tfcp_req->reqlock);
+ 
+-	if (tport->remoteport && fcpreq) {
+-		fcpreq->status = tfcp_req->status;
+-		fcpreq->done(fcpreq);
+-	}
++	fcloop_call_host_done(fcpreq, tfcp_req, tfcp_req->status);
+ 
+ 	kfree(tfcp_req);
+ }
+@@ -395,7 +433,6 @@ fcloop_fcp_req(struct nvme_fc_local_port *localport,
+ 	struct fcloop_rport *rport = remoteport->private;
+ 	struct fcloop_ini_fcpreq *inireq = fcpreq->private;
+ 	struct fcloop_fcpreq *tfcp_req;
+-	int ret = 0;
+ 
+ 	if (!rport->targetport)
+ 		return -ECONNREFUSED;
+@@ -406,16 +443,16 @@ fcloop_fcp_req(struct nvme_fc_local_port *localport,
+ 
+ 	inireq->fcpreq = fcpreq;
+ 	inireq->tfcp_req = tfcp_req;
+-	INIT_WORK(&inireq->iniwork, fcloop_tgt_fcprqst_ini_done_work);
+ 	tfcp_req->fcpreq = fcpreq;
+ 	tfcp_req->tport = rport->targetport->private;
+ 	spin_lock_init(&tfcp_req->reqlock);
+-	INIT_WORK(&tfcp_req->work, fcloop_tgt_fcprqst_done_work);
++	INIT_WORK(&tfcp_req->fcp_rcv_work, fcloop_fcp_recv_work);
++	INIT_WORK(&tfcp_req->abort_rcv_work, fcloop_fcp_abort_recv_work);
++	INIT_WORK(&tfcp_req->tio_done_work, fcloop_tgt_fcprqst_done_work);
+ 
+-	ret = nvmet_fc_rcv_fcp_req(rport->targetport, &tfcp_req->tgt_fcp_req,
+-				 fcpreq->cmdaddr, fcpreq->cmdlen);
++	schedule_work(&tfcp_req->fcp_rcv_work);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static void
+@@ -594,7 +631,7 @@ fcloop_fcp_req_release(struct nvmet_fc_target_port *tgtport,
+ {
+ 	struct fcloop_fcpreq *tfcp_req = tgt_fcp_req_to_fcpreq(tgt_fcpreq);
+ 
+-	schedule_work(&tfcp_req->work);
++	schedule_work(&tfcp_req->tio_done_work);
+ }
+ 
+ static void
+@@ -610,13 +647,12 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 			void *hw_queue_handle,
+ 			struct nvmefc_fcp_req *fcpreq)
+ {
+-	struct fcloop_rport *rport = remoteport->private;
+ 	struct fcloop_ini_fcpreq *inireq = fcpreq->private;
+ 	struct fcloop_fcpreq *tfcp_req = inireq->tfcp_req;
+ 
+ 	if (!tfcp_req)
+ 		/* abort has already been called */
+-		goto finish;
++		return;
+ 
+ 	/* break initiator/target relationship for io */
+ 	spin_lock(&tfcp_req->reqlock);
+@@ -624,14 +660,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 	tfcp_req->fcpreq = NULL;
+ 	spin_unlock(&tfcp_req->reqlock);
+ 
+-	if (rport->targetport)
+-		nvmet_fc_rcv_fcp_abort(rport->targetport,
+-					&tfcp_req->tgt_fcp_req);
+-
+-finish:
+-	/* post the aborted io completion */
+-	fcpreq->status = -ECANCELED;
+-	schedule_work(&inireq->iniwork);
++	WARN_ON(!schedule_work(&tfcp_req->abort_rcv_work));
+ }
+ 
+ static void
+@@ -721,8 +750,7 @@ static struct nvmet_fc_target_template tgttemplate = {
+ 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
+ 	.dma_boundary		= FCLOOP_DMABOUND_4G,
+ 	/* optional features */
+-	.target_features	= NVMET_FCTGTFEAT_CMD_IN_ISR |
+-				  NVMET_FCTGTFEAT_OPDONE_IN_ISR,
++	.target_features	= 0,
+ 	/* sizes of additional private data for data structures */
+ 	.target_priv_sz		= sizeof(struct fcloop_tport),
+ };
 -- 
 2.13.1
