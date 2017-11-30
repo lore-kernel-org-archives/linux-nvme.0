@@ -1,124 +1,62 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 29 Nov 2017 16:47:31 -0800
-Subject: [PATCH 2/4] nvme_fcloop: disassocate local port structs
+Date: Wed, 29 Nov 2017 16:47:30 -0800
+Subject: [PATCH 1/4] nvme_fcloop: fix abort race condition
 In-Reply-To: <20171130004733.19330-1-jsmart2021@gmail.com>
 References: <20171130004733.19330-1-jsmart2021@gmail.com>
-Message-ID: <20171130004733.19330-3-jsmart2021@gmail.com>
+Message-ID: <20171130004733.19330-2-jsmart2021@gmail.com>
 
-The current fcloop driver gets its lport structure from the private
-area co-allocated with the fc_localport. All is fine except the
-teardown path, which wants to wait on the completion, which is marked
-complete by the delete_localport callback performed after
-unregister_localport.  The issue is, the nvme_fc transport frees the
-localport structure immediately after delete_localport is called,
-meaning the original routine is trying to wait on a complete that
-was just freed.
+A test case revealed a race condition of an i/o completing on a thread
+parallel to the delete_association generating the aborts for the
+outstanding ios on the controller.  The i/o completion was freeing the
+target fcloop context, thus the abort task referenced the just-freed
+memory.
 
-Change such that a lport struct is allocated coincident with the
-addition and registration of a localport. The private area of the
-localport now contains just a backpointer to the real lport struct.
-Now, the completion can be waited for, and after completing, the
-new structure can be kfree'd.
+Correct by clearing the target/initiator cross pointers in the io
+completion and abort tasks before calling the callbacks. On aborts
+that detect already finished io's, ensure the complete context is
+called.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fcloop.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ drivers/nvme/target/fcloop.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 3eb2a0733f46..c0080f6ab2f5 100644
+index 7b75d9de55ab..3eb2a0733f46 100644
 --- a/drivers/nvme/target/fcloop.c
 +++ b/drivers/nvme/target/fcloop.c
-@@ -204,6 +204,10 @@ struct fcloop_lport {
- 	struct completion unreg_done;
- };
+@@ -370,6 +370,7 @@ fcloop_tgt_fcprqst_done_work(struct work_struct *work)
  
-+struct fcloop_lport_priv {
-+	struct fcloop_lport *lport;
-+};
-+
- struct fcloop_rport {
- 	struct nvme_fc_remote_port *remoteport;
- 	struct nvmet_fc_target_port *targetport;
-@@ -659,7 +663,8 @@ fcloop_nport_get(struct fcloop_nport *nport)
- static void
- fcloop_localport_delete(struct nvme_fc_local_port *localport)
- {
--	struct fcloop_lport *lport = localport->private;
-+	struct fcloop_lport_priv *lport_priv = localport->private;
-+	struct fcloop_lport *lport = lport_priv->lport;
+ 	spin_lock(&tfcp_req->reqlock);
+ 	fcpreq = tfcp_req->fcpreq;
++	tfcp_req->fcpreq = NULL;
+ 	spin_unlock(&tfcp_req->reqlock);
  
- 	/* release any threads waiting for the unreg to complete */
- 	complete(&lport->unreg_done);
-@@ -699,7 +704,7 @@ static struct nvme_fc_port_template fctemplate = {
- 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
- 	.dma_boundary		= FCLOOP_DMABOUND_4G,
- 	/* sizes of additional private data for data structures */
--	.local_priv_sz		= sizeof(struct fcloop_lport),
-+	.local_priv_sz		= sizeof(struct fcloop_lport_priv),
- 	.remote_priv_sz		= sizeof(struct fcloop_rport),
- 	.lsrqst_priv_sz		= sizeof(struct fcloop_lsreq),
- 	.fcprqst_priv_sz	= sizeof(struct fcloop_ini_fcpreq),
-@@ -730,11 +735,17 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 	struct fcloop_ctrl_options *opts;
- 	struct nvme_fc_local_port *localport;
- 	struct fcloop_lport *lport;
--	int ret;
-+	struct fcloop_lport_priv *lport_priv;
-+	unsigned long flags;
-+	int ret = -ENOMEM;
-+
-+	lport = kzalloc(sizeof(*lport), GFP_KERNEL);
-+	if (!lport)
-+		return -ENOMEM;
+ 	if (tport->remoteport && fcpreq) {
+@@ -611,11 +612,7 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
  
- 	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
- 	if (!opts)
--		return -ENOMEM;
-+		goto out_free_lport;
- 
- 	ret = fcloop_parse_options(opts, buf);
- 	if (ret)
-@@ -754,23 +765,25 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 
- 	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL, &localport);
- 	if (!ret) {
--		unsigned long flags;
+ 	if (!tfcp_req)
+ 		/* abort has already been called */
+-		return;
 -
- 		/* success */
--		lport = localport->private;
-+		lport_priv = localport->private;
-+		lport_priv->lport = lport;
+-	if (rport->targetport)
+-		nvmet_fc_rcv_fcp_abort(rport->targetport,
+-					&tfcp_req->tgt_fcp_req);
++		goto finish;
+ 
+ 	/* break initiator/target relationship for io */
+ 	spin_lock(&tfcp_req->reqlock);
+@@ -623,6 +620,11 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ 	tfcp_req->fcpreq = NULL;
+ 	spin_unlock(&tfcp_req->reqlock);
+ 
++	if (rport->targetport)
++		nvmet_fc_rcv_fcp_abort(rport->targetport,
++					&tfcp_req->tgt_fcp_req);
 +
- 		lport->localport = localport;
- 		INIT_LIST_HEAD(&lport->lport_list);
- 
- 		spin_lock_irqsave(&fcloop_lock, flags);
- 		list_add_tail(&lport->lport_list, &fcloop_lports);
- 		spin_unlock_irqrestore(&fcloop_lock, flags);
--
--		/* mark all of the input buffer consumed */
--		ret = count;
- 	}
- 
- out_free_opts:
- 	kfree(opts);
-+out_free_lport:
-+	/* free only if we're going to fail */
-+	if (ret)
-+		kfree(lport);
-+
- 	return ret ? ret : count;
- }
- 
-@@ -792,6 +805,8 @@ __wait_localport_unreg(struct fcloop_lport *lport)
- 
- 	wait_for_completion(&lport->unreg_done);
- 
-+	kfree(lport);
-+
- 	return ret;
- }
- 
++finish:
+ 	/* post the aborted io completion */
+ 	fcpreq->status = -ECANCELED;
+ 	schedule_work(&inireq->iniwork);
 -- 
 2.13.1
