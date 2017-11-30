@@ -1,36 +1,39 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri,  1 Dec 2017 00:49:17 +0900
-Subject: [PATCH] nvme-cli: update show_registers_cc() to use nvme.h
-Message-ID: <1512056957-17841-1-git-send-email-minwoo.im.dev@gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 30 Nov 2017 08:44:56 -0800
+Subject: [PATCH v2] nvme-fc: don't require user to enter host_traddr
+In-Reply-To: <20171130151210.8168-1-jthumshirn@suse.de>
+References: <20171130151210.8168-1-jthumshirn@suse.de>
+Message-ID: <f9b1eb5d-df4d-08fe-90da-5548bc1b6039@broadcom.com>
 
-Replace constants for shift in show_register_cc() with macros defined.
-Also clean up a small typo (IOSQES to IOCQES).
+On 11/30/2017 7:12 AM, Johannes Thumshirn wrote:
+> One major usability difference between NVMf RDMA and FC is resolving
+> the default host transport address in RDMA. This is perfectly doable
+> in FC as well, as we already have all possible lport <-> rport
+> combinations pre-populated so we can pick the first lport that has a
+> connection to our desired rport per default or optionally use the user
+> supplied lport if we have one.
+>
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Cc: James Smart <james.smart at broadcom.com>
 
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- nvme-print.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+This is unnecessary and can create weird configurations. It assumes 
+connections are manually created. The weirdness is: a) an admin has to 
+know there are multiple paths in order to connect them and be 
+intelligent on how to get the complex name strings and try to know what 
+connections are already in existence;? b) if a users has a connectivity 
+loss beyond dev_loss_tmo or ctlr_loss_tmo such that the controller is 
+terminated, they must manually issue the connec commands again; and c) 
+those un-knowledgeable users will unknowingly find that their multiple 
+paths aren't connected and the system will gang up on the host adapter 
+detected on the system with connectivity. All things unexpected and not 
+what occurs with FC and SCSI and which will result in system support calls.
 
-diff --git a/nvme-print.c b/nvme-print.c
-index db11dd7..e84c73f 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1923,11 +1923,11 @@ static void show_registers_cc_shn (__u8 shn)
- 
- static void show_registers_cc(__u32 cc)
- {
--	printf("\tI/O Completion Queue Entry Size (IOSQES): %u bytes\n", 1 <<   ((cc & 0x00f00000) >> 20));
--	printf("\tI/O Submission Queue Entry Size (IOSQES): %u bytes\n", 1 <<   ((cc & 0x000f0000) >> 16));
--	show_registers_cc_shn((cc & 0x0000c000) >> 14);
--	show_registers_cc_ams((cc & 0x00003800) >> 11);
--	printf("\tMemory Page Size                   (MPS): %u bytes\n", 1 <<  (12 + ((cc & 0x00000780) >> 7)));
-+	printf("\tI/O Completion Queue Entry Size (IOCQES): %u bytes\n", 1 << ((cc & 0x00f00000) >> NVME_CC_IOCQES_SHIFT));
-+	printf("\tI/O Submission Queue Entry Size (IOSQES): %u bytes\n", 1 << ((cc & 0x000f0000) >> NVME_CC_IOSQES_SHIFT));
-+	show_registers_cc_shn((cc & 0x0000c000) >> NVME_CC_SHN_SHIFT);
-+	show_registers_cc_ams((cc & 0x00003800) >> NVME_CC_AMS_SHIFT);
-+	printf("\tMemory Page Size                   (MPS): %u bytes\n", 1 << (12 + ((cc & 0x00000780) >> NVME_CC_MPS_SHIFT)));
- 	printf("\tI/O Command Sets Selected          (CSS): %s\n", (cc & 0x00000070) ? "Reserved":"NVM Command Set");
- 	printf("\tEnable                              (EN): %s\n\n", (cc & 0x00000001) ? "Yes":"No");
- }
--- 
-2.7.4
+If the system uses the FC auto-connect scripts things will be properly 
+connected across all paths connected to the subsystem - automatically, 
+including resume after an extended connectivity loss - and the system 
+will behave just like FC does with SCSI.
+
+I see no reason to add this patch.? Please move away from manual 
+configuration.
+
+-- james
