@@ -1,65 +1,36 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 30 Nov 2017 16:12:10 +0100
-Subject: [PATCH v2] nvme-fc: don't require user to enter host_traddr
-Message-ID: <20171130151210.8168-1-jthumshirn@suse.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri,  1 Dec 2017 00:49:17 +0900
+Subject: [PATCH] nvme-cli: update show_registers_cc() to use nvme.h
+Message-ID: <1512056957-17841-1-git-send-email-minwoo.im.dev@gmail.com>
 
-One major usability difference between NVMf RDMA and FC is resolving
-the default host transport address in RDMA. This is perfectly doable
-in FC as well, as we already have all possible lport <-> rport
-combinations pre-populated so we can pick the first lport that has a
-connection to our desired rport per default or optionally use the user
-supplied lport if we have one.
+Replace constants for shift in show_register_cc() with macros defined.
+Also clean up a small typo (IOSQES to IOCQES).
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Cc: James Smart <james.smart at broadcom.com>
---
-Changes to v1:
-- Both laddr.pn and laddr.nn must be present _if_ we take the laddr into
-  account (Hannes)
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/fc.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ nvme-print.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 7ab0be55c7d0..063b9c3438ce 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3328,15 +3328,19 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
- 	if (ret || !raddr.nn || !raddr.pn)
- 		return ERR_PTR(-EINVAL);
+diff --git a/nvme-print.c b/nvme-print.c
+index db11dd7..e84c73f 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1923,11 +1923,11 @@ static void show_registers_cc_shn (__u8 shn)
  
--	ret = nvme_fc_parse_traddr(&laddr, opts->host_traddr, NVMF_TRADDR_SIZE);
--	if (ret || !laddr.nn || !laddr.pn)
--		return ERR_PTR(-EINVAL);
-+	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
-+		ret = nvme_fc_parse_traddr(&laddr, opts->host_traddr,
-+					   NVMF_TRADDR_SIZE);
-+		if (ret || !laddr.nn || !laddr.pn)
-+			return ERR_PTR(-EINVAL);
-+	}
- 
- 	/* find the host and remote ports to connect together */
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
- 	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
--		if (lport->localport.node_name != laddr.nn ||
--		    lport->localport.port_name != laddr.pn)
-+		if (!(laddr.nn && laddr.pn) &&
-+		    (lport->localport.node_name != laddr.nn ||
-+		     lport->localport.port_name != laddr.pn))
- 			continue;
- 
- 		list_for_each_entry(rport, &lport->endp_list, endp_list) {
-@@ -3364,8 +3368,9 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
- 
- static struct nvmf_transport_ops nvme_fc_transport = {
- 	.name		= "fc",
--	.required_opts	= NVMF_OPT_TRADDR | NVMF_OPT_HOST_TRADDR,
--	.allowed_opts	= NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_CTRL_LOSS_TMO,
-+	.required_opts	= NVMF_OPT_TRADDR,
-+	.allowed_opts	= NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_CTRL_LOSS_TMO
-+				| NVMF_OPT_HOST_TRADDR,
- 	.create_ctrl	= nvme_fc_create_ctrl,
- };
- 
+ static void show_registers_cc(__u32 cc)
+ {
+-	printf("\tI/O Completion Queue Entry Size (IOSQES): %u bytes\n", 1 <<   ((cc & 0x00f00000) >> 20));
+-	printf("\tI/O Submission Queue Entry Size (IOSQES): %u bytes\n", 1 <<   ((cc & 0x000f0000) >> 16));
+-	show_registers_cc_shn((cc & 0x0000c000) >> 14);
+-	show_registers_cc_ams((cc & 0x00003800) >> 11);
+-	printf("\tMemory Page Size                   (MPS): %u bytes\n", 1 <<  (12 + ((cc & 0x00000780) >> 7)));
++	printf("\tI/O Completion Queue Entry Size (IOCQES): %u bytes\n", 1 << ((cc & 0x00f00000) >> NVME_CC_IOCQES_SHIFT));
++	printf("\tI/O Submission Queue Entry Size (IOSQES): %u bytes\n", 1 << ((cc & 0x000f0000) >> NVME_CC_IOSQES_SHIFT));
++	show_registers_cc_shn((cc & 0x0000c000) >> NVME_CC_SHN_SHIFT);
++	show_registers_cc_ams((cc & 0x00003800) >> NVME_CC_AMS_SHIFT);
++	printf("\tMemory Page Size                   (MPS): %u bytes\n", 1 << (12 + ((cc & 0x00000780) >> NVME_CC_MPS_SHIFT)));
+ 	printf("\tI/O Command Sets Selected          (CSS): %s\n", (cc & 0x00000070) ? "Reserved":"NVM Command Set");
+ 	printf("\tEnable                              (EN): %s\n\n", (cc & 0x00000001) ? "Yes":"No");
+ }
 -- 
-2.13.6
+2.7.4
