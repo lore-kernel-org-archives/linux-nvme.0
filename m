@@ -1,77 +1,169 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 01 Dec 2017 09:34:17 +0100
-Subject: [PATCH v2] nvme-fc: don't require user to enter host_traddr
-In-Reply-To: <f9b1eb5d-df4d-08fe-90da-5548bc1b6039@broadcom.com> (James
- Smart's message of "Thu, 30 Nov 2017 08:44:56 -0800")
-References: <20171130151210.8168-1-jthumshirn@suse.de>
- <f9b1eb5d-df4d-08fe-90da-5548bc1b6039@broadcom.com>
-Message-ID: <mqdefoe4zjq.fsf@linux-x5ow.site>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri,  1 Dec 2017 10:27:16 +0100
+Subject: [PATCHv2] nvme/fc: add 'discovery' sysfs attribute to fc transport
+ device
+Message-ID: <1512120436-58685-1-git-send-email-hare@suse.de>
 
-James Smart <james.smart at broadcom.com> writes:
+The fc transport device should allow for a rediscovery, as userspace
+might have lost the events.
+So add a sysfs entry 'discovery' to trigger the discover uevents.
 
-> On 11/30/2017 7:12 AM, Johannes Thumshirn wrote:
->> One major usability difference between NVMf RDMA and FC is resolving
->> the default host transport address in RDMA. This is perfectly doable
->> in FC as well, as we already have all possible lport <-> rport
->> combinations pre-populated so we can pick the first lport that has a
->> connection to our desired rport per default or optionally use the user
->> supplied lport if we have one.
->>
->> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
->> Cc: James Smart <james.smart at broadcom.com>
->
-> This is unnecessary and can create weird configurations. It assumes
-> connections are manually created.
+With this patch one can add a simple udev rule like:
 
-a) connections can (and will) be maually created and for this the users
-have to know the topology or connection establishment will fail b) there
-is no need that the connections are manually created. Sagi did post an
-RFC systemd service which calls nvme connect-all and this is what should
-be done regardless if we're running on FC-NVME or NVMe over RDMA any new
-transport that may come in the future. What I want is a consistent user
-experience within NVMe, as I am the one that has to answer a
-documentation team's inquiries on how to configure NVMf, support QA in
-testing and fix end user bugs. The least thing I want ot do is tell them
-"well if you use rdma you have to use the nvme-connect.service, if you
-use FC you have to have some magic udev rules and auto-connect scripts,
-if you use $POSSIBLE_NEW_TRANSPORT you have to yada, yada".
+# cat /usr/lib/udev/rules.d/65-nvme-fc-autoconnect.rules
+SUBSYSTEM!="block, GOTO="nvme_autoconnect_end"
+ACTION!="add|change", GOTO="nvme_autoconnect_end"
+ENV{FC_EVENT}!="nvmediscovery", GOTO="nvme_autoconnect_end"
+ENV{NVMEFC_HOST_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
+ENV{NVMEFC_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
+RUN+="/usr/sbin/nvme connect-all -t fc --host-traddr=$env{NVMEFC_HOST_TRADDR} -a $env{NVMEFC_TRADDR}"
+LABEL="nvme_autoconnect_end"
 
-I don't really like that we have to manully connect either but this
-behaviour was first in NVMe so we should either stick to that or convert
-RDMA over to using some sort of udev magic as well (which wont work as
-far as I know, and it definitively won't work with TCP if and when it's
-there).
+to facilitate autoconnect.
 
-> The weirdness is: a) an admin has to
-> know there are multiple paths in order to connect them and be
-> intelligent on how to get the complex name strings and try to know
-> what connections are already in existence;? b) if a users has a
-> connectivity loss beyond dev_loss_tmo or ctlr_loss_tmo such that the
-> controller is terminated, they must manually issue the connec commands
-> again; and c) those un-knowledgeable users will unknowingly find that
-> their multiple paths aren't connected and the system will gang up on
-> the host adapter detected on the system with connectivity. All things
-> unexpected and not what occurs with FC and SCSI and which will result
-> in system support calls.
->
-> If the system uses the FC auto-connect scripts things will be properly
-> connected across all paths connected to the subsystem - automatically,
-> including resume after an extended connectivity loss - and the system
-> will behave just like FC does with SCSI.
->
-> I see no reason to add this patch.? Please move away from manual
-> configuration.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+Cc: James Smart <james.smart at broadcom.com>
+Cc: Ewan Milne <emilne at redhat.com>
+Cc: Johannes Thumshirn <jthumshirn at suse.com>
+---
+ drivers/nvme/host/fc.c | 75 ++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 66 insertions(+), 9 deletions(-)
 
-OK so the please help with moving NVMe away from manual configuration.
-
-I'm fine with either way I just don't want to have N different ways
-because it is a documentation and usability nightmare.
-
-        Johannes
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 18e3954..349e7c1 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -134,6 +134,7 @@ struct nvme_fc_rport {
+ 	struct list_head		endp_list; /* for lport->endp_list */
+ 	struct list_head		ctrl_list;
+ 	struct list_head		ls_req_list;
++	struct list_head		disc_list;
+ 	struct device			*dev;	/* physical device for dma */
+ 	struct nvme_fc_lport		*lport;
+ 	spinlock_t			lock;
+@@ -227,7 +228,6 @@ struct nvme_fc_ctrl {
+  * These items are short-term. They will eventually be moved into
+  * a generic FC class. See comments in module init.
+  */
+-static struct class *fc_class;
+ static struct device *fc_udev_device;
+ 
+ 
+@@ -710,6 +710,7 @@ static void __nvme_fc_delete_hw_queue(struct nvme_fc_ctrl *,
+ 	INIT_LIST_HEAD(&newrec->endp_list);
+ 	INIT_LIST_HEAD(&newrec->ctrl_list);
+ 	INIT_LIST_HEAD(&newrec->ls_req_list);
++	INIT_LIST_HEAD(&newrec->disc_list);
+ 	kref_init(&newrec->ref);
+ 	atomic_set(&newrec->act_ctrl_cnt, 0);
+ 	spin_lock_init(&newrec->lock);
+@@ -3457,6 +3458,63 @@ struct nvmet_fc_traddr {
+ 	.create_ctrl	= nvme_fc_create_ctrl,
+ };
+ 
++static ssize_t nvme_fc_discovery_store(struct device *dev,
++				       struct device_attribute *attr,
++				       const char *buf, size_t count)
++{
++	unsigned long flags;
++	LIST_HEAD(nvme_fc_disc_list);
++	struct nvme_fc_lport *lport;
++	struct nvme_fc_rport *rport, *tmp_rport;
++
++	spin_lock_irqsave(&nvme_fc_lock, flags);
++	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
++		list_for_each_entry(rport, &lport->endp_list, endp_list) {
++			if (!nvme_fc_lport_get(lport))
++				continue;
++			if (!nvme_fc_rport_get(rport))
++				continue;
++			if (list_empty(&rport->disc_list))
++				list_add_tail(&rport->disc_list,
++					      &nvme_fc_disc_list);
++		}
++	}
++	spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++	list_for_each_entry_safe(rport, tmp_rport,
++				 &nvme_fc_disc_list, disc_list) {
++		spin_lock_irqsave(&nvme_fc_lock, flags);
++		list_del_init(&rport->disc_list);
++		spin_unlock_irqrestore(&nvme_fc_lock, flags);
++		lport = rport->lport;
++		nvme_fc_signal_discovery_scan(lport, rport);
++		nvme_fc_rport_put(rport);
++		nvme_fc_lport_put(lport);
++	}
++	return count;
++}
++static DEVICE_ATTR(discovery, S_IWUSR, NULL, nvme_fc_discovery_store);
++
++static struct attribute *nvme_fc_attrs[] = {
++	&dev_attr_discovery.attr,
++	NULL
++};
++
++static struct attribute_group nvme_fc_attr_group = {
++	.attrs = nvme_fc_attrs,
++};
++
++static const struct attribute_group *nvme_fc_attr_groups[] = {
++	&nvme_fc_attr_group,
++	NULL
++};
++
++static struct class fc_class = {
++	.name = "fc",
++	.dev_groups = nvme_fc_attr_groups,
++	.owner = THIS_MODULE,
++};
++
+ static int __init nvme_fc_init_module(void)
+ {
+ 	int ret;
+@@ -3479,17 +3537,16 @@ static int __init nvme_fc_init_module(void)
+ 	 * put in place, this code will move to a more generic
+ 	 * location for the class.
+ 	 */
+-	fc_class = class_create(THIS_MODULE, "fc");
+-	if (IS_ERR(fc_class)) {
++	ret = class_register(&fc_class);
++	if (ret) {
+ 		pr_err("couldn't register class fc\n");
+-		ret = PTR_ERR(fc_class);
+ 		goto out_destory_workqueue;
+ 	}
+ 
+ 	/*
+ 	 * Create a device for the FC-centric udev events
+ 	 */
+-	fc_udev_device = device_create(fc_class, NULL, MKDEV(0, 0), NULL,
++	fc_udev_device = device_create(&fc_class, NULL, MKDEV(0, 0), NULL,
+ 				"fc_udev_device");
+ 	if (IS_ERR(fc_udev_device)) {
+ 		pr_err("couldn't create fc_udev device!\n");
+@@ -3504,9 +3561,9 @@ static int __init nvme_fc_init_module(void)
+ 	return 0;
+ 
+ out_destroy_device:
+-	device_destroy(fc_class, MKDEV(0, 0));
++	device_destroy(&fc_class, MKDEV(0, 0));
+ out_destroy_class:
+-	class_destroy(fc_class);
++	class_unregister(&fc_class);
+ out_destory_workqueue:
+ 	destroy_workqueue(nvme_fc_wq);
+ 	return ret;
+@@ -3525,8 +3582,8 @@ static void __exit nvme_fc_exit_module(void)
+ 	ida_destroy(&nvme_fc_local_port_cnt);
+ 	ida_destroy(&nvme_fc_ctrl_cnt);
+ 
+-	device_destroy(fc_class, MKDEV(0, 0));
+-	class_destroy(fc_class);
++	device_destroy(&fc_class, MKDEV(0, 0));
++	class_unregister(&fc_class);
+ }
+ 
+ module_init(nvme_fc_init_module);
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.5.6
