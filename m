@@ -1,49 +1,72 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 1 Dec 2017 15:15:26 -0700
-Subject: [PATCH] nvme: set discard_alignment to zero
-In-Reply-To: <20171128123812.GB1736@infradead.org>
-References: <20171124153053.23056-1-ddiss@suse.de>
- <20171128123812.GB1736@infradead.org>
-Message-ID: <e4698065-6338-2831-9416-0a8bc258e912@kernel.dk>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
+Date: Sat,  2 Dec 2017 02:19:26 -0800
+Subject: [PATCH] mpt3sas: Remove unused variable requeue_event
+Message-ID: <1512209966-27239-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-On 11/28/2017 05:38 AM, Christoph Hellwig wrote:
-> Adding Jens, who added this code, but it looks fine to me.
-> 
-> On Fri, Nov 24, 2017@04:30:53PM +0100, David Disseldorp wrote:
->> Similar to 7c084289795b ("rbd: set discard_alignment to zero"), NVMe
->> devices are currently incorrectly initialised with the block queue
->> discard_alignment set to the NVMe stream alignment.
->>
->> As per Documentation/ABI/testing/sysfs-block:
->>   The discard_alignment parameter indicates how many bytes the beginning
->>   of the device is offset from the internal allocation unit's natural
->>   alignment.
->>
->> Correcting the discard_alignment parameter to zero has no effect on how
->> discard requests are propagated through the block layer - @alignment in
->> __blkdev_issue_discard() remains zero. However, it does fix other
->> consumers, such as LIO's Block Limits VPD response.
->>
->> Signed-off-by: David Disseldorp <ddiss at suse.de>
->> ---
->>  drivers/nvme/host/core.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 25da74d310d1..2e224ab5c340 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -1287,7 +1287,7 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl,
->>  	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
->>  			NVME_DSM_MAX_RANGES);
->>  
->> -	queue->limits.discard_alignment = size;
->> +	queue->limits.discard_alignment = 0;
->>  	queue->limits.discard_granularity = size;
->>  
->>  	blk_queue_max_discard_sectors(queue, UINT_MAX);
+No Functional change just cleanup,
+Removed variable requeue_event and made function as void.
 
-Looks good to me.
+Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
+---
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+index 362f406..c71f964 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+@@ -7211,7 +7211,7 @@ _scsih_pcie_topology_change_event_debug(struct MPT3SAS_ADAPTER *ioc,
+  * Context: user.
+  *
+  */
+-static int
++static void
+ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
+ 	struct fw_event_work *fw_event)
+ {
+@@ -7221,7 +7221,6 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
+ 	u8 link_rate, prev_link_rate;
+ 	unsigned long flags;
+ 	int rc;
+-	int requeue_event;
+ 	Mpi26EventDataPCIeTopologyChangeList_t *event_data =
+ 		(Mpi26EventDataPCIeTopologyChangeList_t *) fw_event->event_data;
+ 	struct _pcie_device *pcie_device;
+@@ -7231,12 +7230,12 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
+ 
+ 	if (ioc->shost_recovery || ioc->remove_host ||
+ 		ioc->pci_error_recovery)
+-		return 0;
++		return;
+ 
+ 	if (fw_event->ignore) {
+ 		dewtprintk(ioc, pr_info(MPT3SAS_FMT "ignoring switch event\n",
+ 			ioc->name));
+-		return 0;
++		return;
+ 	}
+ 
+ 	/* handle siblings events */
+@@ -7244,10 +7243,10 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
+ 		if (fw_event->ignore) {
+ 			dewtprintk(ioc, pr_info(MPT3SAS_FMT
+ 				"ignoring switch event\n", ioc->name));
+-			return 0;
++			return;
+ 		}
+ 		if (ioc->remove_host || ioc->pci_error_recovery)
+-			return 0;
++			return;
+ 		reason_code = event_data->PortEntry[i].PortStatus;
+ 		handle =
+ 			le16_to_cpu(event_data->PortEntry[i].AttachedDevHandle);
+@@ -7316,7 +7315,6 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
+ 			break;
+ 		}
+ 	}
+-	return requeue_event;
+ }
+ 
+ /**
 -- 
-Jens Axboe
+2.5.5
