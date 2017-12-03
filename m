@@ -1,72 +1,29 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
-Date: Sat,  2 Dec 2017 02:19:26 -0800
-Subject: [PATCH] mpt3sas: Remove unused variable requeue_event
-Message-ID: <1512209966-27239-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sun,  3 Dec 2017 14:37:10 +0900
+Subject: [PATCH] nvme-pci: remove an unnecessary variable initialization in
+ HMB code
+Message-ID: <1512279430-2806-1-git-send-email-minwoo.im.dev@gmail.com>
 
-No Functional change just cleanup,
-Removed variable requeue_event and made function as void.
+The local variable __size__ will be set a bit later in a for-loop.
+Remove the explicit initialization at the beginning of this function.
 
-Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/scsi/mpt3sas/mpt3sas_scsih.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 362f406..c71f964 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -7211,7 +7211,7 @@ _scsih_pcie_topology_change_event_debug(struct MPT3SAS_ADAPTER *ioc,
-  * Context: user.
-  *
-  */
--static int
-+static void
- _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
- 	struct fw_event_work *fw_event)
- {
-@@ -7221,7 +7221,6 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
- 	u8 link_rate, prev_link_rate;
- 	unsigned long flags;
- 	int rc;
--	int requeue_event;
- 	Mpi26EventDataPCIeTopologyChangeList_t *event_data =
- 		(Mpi26EventDataPCIeTopologyChangeList_t *) fw_event->event_data;
- 	struct _pcie_device *pcie_device;
-@@ -7231,12 +7230,12 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f5800c3..9f7993b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1770,7 +1770,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 	dma_addr_t descs_dma;
+ 	int i = 0;
+ 	void **bufs;
+-	u64 size = 0, tmp;
++	u64 size, tmp;
  
- 	if (ioc->shost_recovery || ioc->remove_host ||
- 		ioc->pci_error_recovery)
--		return 0;
-+		return;
- 
- 	if (fw_event->ignore) {
- 		dewtprintk(ioc, pr_info(MPT3SAS_FMT "ignoring switch event\n",
- 			ioc->name));
--		return 0;
-+		return;
- 	}
- 
- 	/* handle siblings events */
-@@ -7244,10 +7243,10 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
- 		if (fw_event->ignore) {
- 			dewtprintk(ioc, pr_info(MPT3SAS_FMT
- 				"ignoring switch event\n", ioc->name));
--			return 0;
-+			return;
- 		}
- 		if (ioc->remove_host || ioc->pci_error_recovery)
--			return 0;
-+			return;
- 		reason_code = event_data->PortEntry[i].PortStatus;
- 		handle =
- 			le16_to_cpu(event_data->PortEntry[i].AttachedDevHandle);
-@@ -7316,7 +7315,6 @@ _scsih_pcie_topology_change_event(struct MPT3SAS_ADAPTER *ioc,
- 			break;
- 		}
- 	}
--	return requeue_event;
- }
- 
- /**
+ 	tmp = (preferred + chunk_size - 1);
+ 	do_div(tmp, chunk_size);
 -- 
-2.5.5
+2.7.4
