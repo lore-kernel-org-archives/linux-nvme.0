@@ -1,12 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Dec 2017 23:24:08 +0100
-Subject: "nvme0c1n1: detected capacity change from 0 to 268435456000"
- message in controller reset
-In-Reply-To: <a40e737d-33e3-b2fe-b079-048ecdc92963@grimberg.me>
-References: <a40e737d-33e3-b2fe-b079-048ecdc92963@grimberg.me>
-Message-ID: <20171204222408.GA19382@lst.de>
+Date: Mon, 4 Dec 2017 23:33:28 +0100
+Subject: [PATCH 2/4] nvmet: Rearrange nvmet_ctrl_free()
+In-Reply-To: <1510576183-17215-3-git-send-email-israelr@mellanox.com>
+References: <1510576183-17215-1-git-send-email-israelr@mellanox.com>
+ <1510576183-17215-3-git-send-email-israelr@mellanox.com>
+Message-ID: <20171204223328.GB19672@lst.de>
 
-On Wed, Nov 15, 2017@11:10:50PM +0200, Sagi Grimberg wrote:
-> I get this message when running nvme reset /dev/nvme0
+Thanks,
 
-What's the exact setup?
+applied to nvme-4.16.
