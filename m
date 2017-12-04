@@ -1,152 +1,172 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  4 Dec 2017 11:24:34 +0200
-Subject: [PATCH rfc 1/2] nvme: support smart read-only critical warning event
+Date: Mon,  4 Dec 2017 11:24:35 +0200
+Subject: [PATCH rfc 2/2] nvmet: expose option to emulate a nvm subsystem in
+ read-only mode
 In-Reply-To: <20171204092435.20000-1-sagi@grimberg.me>
 References: <20171204092435.20000-1-sagi@grimberg.me>
-Message-ID: <20171204092435.20000-2-sagi@grimberg.me>
+Message-ID: <20171204092435.20000-3-sagi@grimberg.me>
 
-In case a controller sent us a critical warning AER,
-we should query the smart information and in case the
-media was placed in read only mode, we need to set
-all the controller namespaces (and the namespaces heads)
-in read-only (or set to rw in case its not set).
+Useful for exercising the host. Also, if a host connects to
+a subsystem which is read-only to begin with, queue an AER
+to let it know about it.
 
-Given that in fabrics we may also connect to a read-only
-subsystem, we add the disk as read-only to start with.
-Once the subsystem will be in rw mode, we restore
-the disk rw permissions.
+In read-only state, we fail writes/dsms/write-zeros.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c      | 51 +++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/multipath.c |  4 ++++
- drivers/nvme/host/nvme.h      |  2 ++
- 3 files changed, 57 insertions(+)
+ drivers/nvme/target/admin-cmd.c   |  3 +++
+ drivers/nvme/target/configfs.c    | 34 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c        |  2 +-
+ drivers/nvme/target/fabrics-cmd.c |  3 +++
+ drivers/nvme/target/io-cmd.c      |  8 +++++++-
+ drivers/nvme/target/nvmet.h       |  3 +++
+ 6 files changed, 51 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 25e3168cec44..eaae1b4f6a4e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2949,6 +2949,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 6b921c253618..aab646f44a66 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -69,6 +69,9 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
  
- 	kfree(id);
+ 	ctrl = req->sq->ctrl;
  
-+	if (ctrl->subsys->read_only)
-+		set_disk_ro(ns->disk, true);
++	if(req->sq->ctrl->subsys->read_only)
++		slog->critical_warning |= NVME_SMART_CRIT_MEDIA;
 +
- 	device_add_disk(ctrl->device, ns->disk);
- 	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
- 					&nvme_ns_id_attr_group))
-@@ -3192,6 +3195,49 @@ static void nvme_get_fw_slot_info(struct nvme_ctrl *ctrl)
- 	kfree(log);
- }
+ 	rcu_read_lock();
+ 	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
+ 		host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 8f378030c8e4..c966228439f6 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -711,6 +711,39 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
  
-+static void nvme_get_smart_log(struct nvme_ctrl *ctrl)
+ CONFIGFS_ATTR(nvmet_subsys_, attr_allow_any_host);
+ 
++static ssize_t nvmet_subsys_attr_ro_show(struct config_item *item,
++		char *page)
 +{
-+	struct nvme_smart_log *log;
-+	struct nvme_ns *ns;
-+
-+	log = kmalloc(sizeof(*log), GFP_KERNEL);
-+	if (!log)
-+		return;
-+
-+	if (nvme_get_log(ctrl, NVME_LOG_SMART, log, sizeof(*log))) {
-+		dev_warn(ctrl->device, "Get SMART log error\n");
-+		goto out;
-+	}
-+
-+	if (log->critical_warning & NVME_SMART_CRIT_MEDIA) {
-+		dev_warn(ctrl->device,
-+			"critical warning: media placed in read-only\n");
-+		ctrl->subsys->read_only = true;
-+	} else {
-+		dev_info(ctrl->device,
-+			"media placed in read-write mode\n");
-+		ctrl->subsys->read_only = false;
-+	}
-+
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+		set_disk_ro(ns->disk, ctrl->subsys->read_only);
-+		if (ns->head->disk)
-+			set_disk_ro(ns->head->disk, ctrl->subsys->read_only);
-+	}
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+out:
-+	kfree(log);
++	return snprintf(page, PAGE_SIZE, "%d\n",
++		to_subsys(item)->read_only);
 +}
 +
-+static void nvme_smart_work(struct work_struct *work)
++static ssize_t nvmet_subsys_attr_ro_store(struct config_item *item,
++		const char *page, size_t count)
 +{
-+	struct nvme_ctrl *ctrl =
-+		container_of(work, struct nvme_ctrl, smart_work);
++	struct nvmet_subsys *subsys = to_subsys(item);
++	bool subsys_ro = subsys->read_only;
++	bool ro;
 +
-+	nvme_get_smart_log(ctrl);
++	if (strtobool(page, &ro))
++		return -EINVAL;
++
++	subsys->read_only = ro;
++	if ((!subsys_ro && ro) || (subsys_ro && !ro)) {
++		struct nvmet_ctrl *ctrl;
++
++		/* read only state change, send a SMART AER */
++		mutex_lock(&subsys->lock);
++		list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
++			nvmet_add_async_event(ctrl, NVME_AER_SMART, 0, 0);
++		mutex_unlock(&subsys->lock);
++	}
++
++	return count;
 +}
 +
- static void nvme_fw_act_work(struct work_struct *work)
++CONFIGFS_ATTR(nvmet_subsys_, attr_ro);
++
+ static ssize_t nvmet_subsys_attr_version_show(struct config_item *item,
+ 					      char *page)
  {
- 	struct nvme_ctrl *ctrl = container_of(work,
-@@ -3251,6 +3297,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 	case NVME_AER_NOTICE_FW_ACT_STARTING:
- 		queue_work(nvme_wq, &ctrl->fw_act_work);
- 		break;
-+	case NVME_AER_SMART:
-+		queue_work(nvme_wq, &ctrl->smart_work);
-+		break;
- 	default:
- 		dev_warn(ctrl->device, "async event result %08x\n", result);
+@@ -770,6 +803,7 @@ CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
+ 
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
++	&nvmet_subsys_attr_attr_ro,
+ 	&nvmet_subsys_attr_attr_version,
+ 	&nvmet_subsys_attr_attr_serial,
+ 	NULL,
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 841a37dfb987..5b4d30db9776 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -117,7 +117,7 @@ static void nvmet_async_event_work(struct work_struct *work)
  	}
-@@ -3263,6 +3312,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
- 	nvme_stop_keep_alive(ctrl);
- 	flush_work(&ctrl->async_event_work);
- 	flush_work(&ctrl->scan_work);
-+	flush_work(&ctrl->smart_work);
- 	cancel_work_sync(&ctrl->fw_act_work);
  }
- EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
-@@ -3328,6 +3378,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
-+	INIT_WORK(&ctrl->smart_work, nvme_smart_work);
- 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
  
- 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 1218a9fca846..b833ba3c78cb 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -238,6 +238,10 @@ void nvme_mpath_add_disk(struct nvme_ns_head *head)
+-static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
  {
- 	if (!head->disk)
- 		return;
-+
-+	if (head->subsys->read_only)
-+		set_disk_ro(head->disk, true);
-+
- 	device_add_disk(&head->subsys->dev, head->disk);
- 	if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
- 			&nvme_ns_id_attr_group))
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4361b71891e9..caa8f7130ec6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -181,6 +181,7 @@ struct nvme_ctrl {
- 	struct nvme_id_power_state psd[32];
- 	struct nvme_effects_log *effects;
- 	struct work_struct scan_work;
-+	struct work_struct smart_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
- 	struct work_struct fw_act_work;
-@@ -226,6 +227,7 @@ struct nvme_subsystem {
- 	u8			cmic;
- 	u16			vendor_id;
- 	struct ida		ns_ida;
-+	bool			read_only;
- };
+ 	struct nvmet_async_event *aen;
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 62315cc4b5b0..fc9ef44d2b49 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -177,6 +177,9 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 		goto out;
+ 	}
  
- /*
++	if(req->sq->ctrl->subsys->read_only)
++		nvmet_add_async_event(req->sq->ctrl, NVME_AER_SMART, 0, 0);
++
+ 	pr_info("creating controller %d for subsystem %s for NQN %s.\n",
+ 		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn);
+ 	req->rsp->result.u16 = cpu_to_le16(ctrl->cntlid);
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 0a4372a016f2..6f121d2f2ea3 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -202,8 +202,10 @@ u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 
+ 	switch (cmd->common.opcode) {
+-	case nvme_cmd_read:
+ 	case nvme_cmd_write:
++		if(unlikely(req->sq->ctrl->subsys->read_only))
++			return NVME_SC_READ_ONLY | NVME_SC_DNR;
++	case nvme_cmd_read:
+ 		req->execute = nvmet_execute_rw;
+ 		req->data_len = nvmet_rw_len(req);
+ 		return 0;
+@@ -212,11 +214,15 @@ u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		req->data_len = 0;
+ 		return 0;
+ 	case nvme_cmd_dsm:
++		if(unlikely(req->sq->ctrl->subsys->read_only))
++			return NVME_SC_READ_ONLY | NVME_SC_DNR;
+ 		req->execute = nvmet_execute_dsm;
+ 		req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
+ 			sizeof(struct nvme_dsm_range);
+ 		return 0;
+ 	case nvme_cmd_write_zeroes:
++		if(unlikely(req->sq->ctrl->subsys->read_only))
++			return NVME_SC_READ_ONLY | NVME_SC_DNR;
+ 		req->execute = nvmet_execute_write_zeroes;
+ 		return 0;
+ 	default:
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index d69d948c8f36..a9fb763020b6 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -144,6 +144,7 @@ struct nvmet_ctrl {
+ 
+ struct nvmet_subsys {
+ 	enum nvme_subsys_type	type;
++	bool			read_only;
+ 
+ 	struct mutex		lock;
+ 	struct kref		ref;
+@@ -287,6 +288,8 @@ void nvmet_sq_destroy(struct nvmet_sq *sq);
+ int nvmet_sq_init(struct nvmet_sq *sq);
+ 
+ void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl);
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++		u8 event_info, u8 log_page);
+ 
+ void nvmet_update_cc(struct nvmet_ctrl *ctrl, u32 new);
+ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
 -- 
 2.14.1
