@@ -1,448 +1,1101 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Mon, 4 Dec 2017 22:06:43 +0800
-Subject: [PATCH 1/2] nvme-cli: add support to get properties for NVMe over
- Fabric
+Date: Mon, 4 Dec 2017 22:06:44 +0800
+Subject: [PATCH 2/2] nvme-cli: support to set the property for NVMe over Fabric
 In-Reply-To: <1512396404-18872-1-git-send-email-guanjunxiong@huawei.com>
 References: <1512396404-18872-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <1512396404-18872-2-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <1512396404-18872-3-git-send-email-guanjunxiong@huawei.com>
 
 Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
 ---
- Documentation/nvme-show-regs.1   |  13 +++--
- Documentation/nvme-show-regs.txt |  23 +++++---
- nvme-builtin.h                   |   2 +-
- nvme-ioctl.c                     |  74 +++++++++++++++++++++++++
- nvme-ioctl.h                     |   1 +
- nvme-print.c                     | 115 ++++++++++++++++++++++-----------------
- nvme-print.h                     |   2 +-
- nvme.c                           |  25 ++++++---
- 8 files changed, 180 insertions(+), 75 deletions(-)
+ Documentation/nvme-set-property.1    |  51 +++
+ Documentation/nvme-set-property.html | 814 +++++++++++++++++++++++++++++++++++
+ Documentation/nvme-set-property.txt  |  34 ++
+ nvme-builtin.h                       |   1 +
+ nvme-ioctl.c                         |  20 +
+ nvme-ioctl.h                         |   1 +
+ nvme-print.c                         |  19 +
+ nvme-print.h                         |   1 +
+ nvme.c                               |  52 +++
+ 9 files changed, 993 insertions(+)
+ create mode 100644 Documentation/nvme-set-property.1
+ create mode 100644 Documentation/nvme-set-property.html
+ create mode 100644 Documentation/nvme-set-property.txt
 
-diff --git a/Documentation/nvme-show-regs.1 b/Documentation/nvme-show-regs.1
-index 7250035..8f05a1d 100644
---- a/Documentation/nvme-show-regs.1
-+++ b/Documentation/nvme-show-regs.1
-@@ -28,7 +28,7 @@
- .\" * MAIN CONTENT STARTS HERE *
- .\" -----------------------------------------------------------------
- .SH "NAME"
--nvme-show-regs \- Reads and shows the defined NVMe controller registers\&.
-+nvme-show-regs \- Reads and shows the defined NVMe controller registers for NVMe over PCIe or the controller properties for NVMe over Fabrics\&.
- .SH "SYNOPSIS"
- .sp
- .nf
-@@ -36,14 +36,15 @@ nvme-show-regs \- Reads and shows the defined NVMe controller registers\&.
- .fi
- .SH "DESCRIPTION"
- .sp
--For the NVMe device given, sends an identify namespace command and provides the result and returned structure\&.
-+For the NVMe over PCIe device given, sends an identify namespace command and provides the result and returned structure\&. For the NVMe over Fabrics device given, sends a fabric command and provides the result and returned structure\&.
- .sp
--The <device> parameter is mandatory and must be the nvme admin character device (ex: /dev/nvme0)\&. The program uses knowledge of the sysfs layout to map the device to the pci resource stored there and mmaps the memory to get access to the registers\&.
-+The <device> parameter is mandatory and must be the nvme admin character device (ex: /dev/nvme0)\&.For the NVMe over PCIe, the program uses knowledge of the sysfs layout to map the device to the pci resource stored there and mmaps the memory to get access to the registers\&. For NVMe over Fabrics, the programs sends a fabric command to get the properties of the target NVMe controller\&. Only the supported properties are displayed\&.
+diff --git a/Documentation/nvme-set-property.1 b/Documentation/nvme-set-property.1
+new file mode 100644
+index 0000000..0ade108
+--- /dev/null
++++ b/Documentation/nvme-set-property.1
+@@ -0,0 +1,51 @@
++'\" t
++.\"     Title: nvme-set-property
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
++.\"      Date: 06/28/2017
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-SET\-PROPERTY" "1" "11/24/2017" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-set-propery \- Writes and shows the defined NVMe controller property for NVMe ove Fabric
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme set\-property\fR <device> [\-\-offset=<offset> | \-n <nsid>]
++                          [\-\-value=<val> | \-v <val>]
++.fi
++.SH "DESCRIPTION"
++.sp
++Writes and shows the defined NVMe controller property  for NVMe ove Fabric\&. Please use it carefully\&.
++.SH "OPTIONS"
++.PP
++\-o <offset>, \-\-offset=<offset>
++.RS 4
++The offset of the property\&.
++.RE
++.SH "EXAMPLES"
++.RE
++.SH "NVME"
++.sp
++Part of the nvme\-user suite
+diff --git a/Documentation/nvme-set-property.html b/Documentation/nvme-set-property.html
+new file mode 100644
+index 0000000..fdee504
+--- /dev/null
++++ b/Documentation/nvme-set-property.html
+@@ -0,0 +1,814 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc 8.6.8" />
++<title>nvme-set-property(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 +
- .SH "OPTIONS"
- .PP
- \-H, \-\-human\-readable
- .RS 4
--Display registers in human readable format\&.
-+Display registers or supported properties in human readable format\&.
- .RE
- .SH "EXAMPLES"
- .sp
-@@ -55,7 +56,7 @@ Display registers in human readable format\&.
- .sp -1
- .IP \(bu 2.3
- .\}
--Show the nvme pci controller registers in a binary format:
-+Show the NVMe over PCIe controller registers or the NVMe over Fabric controller properties in a binary format:
- .sp
- .if n \{\
- .RS 4
-@@ -76,7 +77,7 @@ Show the nvme pci controller registers in a binary format:
- .sp -1
- .IP \(bu 2.3
- .\}
--Show the nvme pci controller registers in a human readable format:
-+Show the NVMe over PCIe controller registers or the NVMe over Fabric controller properties in a human readable format:
- .sp
- .if n \{\
- .RS 4
-diff --git a/Documentation/nvme-show-regs.txt b/Documentation/nvme-show-regs.txt
-index 8b8b000..bf6c44c 100644
---- a/Documentation/nvme-show-regs.txt
-+++ b/Documentation/nvme-show-regs.txt
-@@ -3,7 +3,8 @@ nvme-id-ns(1)
- 
- NAME
- ----
--nvme-show-regs - Reads and shows the defined NVMe controller registers.
-+nvme-show-regs - Reads and shows the defined NVMe controller registers for
-+NVMe over PCIe or the controller properties for NVMe over Fabrics.
- 
- SYNOPSIS
- --------
-@@ -12,29 +13,35 @@ SYNOPSIS
- 
- DESCRIPTION
- -----------
--For the NVMe device given, sends an identify namespace command and
-+For the NVMe over PCIe device given, sends an identify namespace command and
- provides the result and returned structure.
-+For the NVMe over Fabrics device given, sends a fabric command and provides
-+the result and returned structure.
- 
- The <device> parameter is mandatory and must be the nvme admin character
--device (ex: /dev/nvme0). The program uses knowledge of the sysfs layout
--to map the device to the pci resource stored there and mmaps the memory
--to get access to the registers.
-+device (ex: /dev/nvme0). For NVMe over PCIe, the program uses knowledge of the
-+sysfs layout to map the device to the pci resource stored there and mmaps the
-+memory to get access to the registers. For NVMe over Fabrics, the programs
-+sends a fabric command to get the properties of the target NVMe controller.
-+Only the supported properties are displayed.
- 
- OPTIONS
- -------
- -H::
- --human-readable::
--       Display registers in human readable format. 
-+       Display registers or supported properties in human readable format.
- 
- 
- EXAMPLES
- --------
--* Show the nvme pci controller registers in a binary format:
-+* Show the NVMe over PCIe controller registers or the NVMe over Fabric controller
-+properties in a binary format:
- +
- ------------
- # nvme show-regs /dev/nvme0
- ------------
--* Show the nvme pci controller registers in a human readable format:
-+* Show the NVMe over PCIe controller registers or the NVMe over Fabric controller
-+properties in a human readable format:
- +
- ------------
- # nvme show-regs /dev/nvme0 -H
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index 1a5ab36..2676dfc 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -48,7 +48,7 @@ COMMAND_LIST(
- 	ENTRY("reset", "Resets the controller", reset)
- 	ENTRY("subsystem-reset", "Resets the controller", subsystem_reset)
- 	ENTRY("ns-rescan", "Rescans the NVME namespaces", ns_rescan)
--	ENTRY("show-regs", "Shows the controller registers. Requires admin character device", show_registers)
-+	ENTRY("show-regs", "Shows the controller registers or properties. Requires character device", show_registers)
- 	ENTRY("discover", "Discover NVMeoF subsystems", discover_cmd)
- 	ENTRY("connect-all", "Discover and Connect to NVMeoF subsystems", connect_all_cmd)
- 	ENTRY("connect", "Connect to NVMeoF subsystem", connect_cmd)
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index 4948c87..fcb8be7 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -447,6 +447,80 @@ int nvme_set_feature(int fd, __u32 nsid, __u8 fid, __u32 value, bool save,
- 			    data_len, data, result);
- }
- 
-+int nvme_property(int fd, __u8 fctype, __le32 off, __le64 *value, __u8 attrib)
-+{
-+	int err;
-+	struct nvmf_property_get_command *prop_get_cmd;
-+	struct nvmf_property_set_command *prop_set_cmd;
-+	struct nvme_admin_cmd cmd = {
-+		.opcode		= nvme_fabrics_command,
-+	};
-+
-+	if (!value)
-+		return EINVAL;
-+	if (fctype == nvme_fabrics_type_property_get){
-+		prop_get_cmd = (struct nvmf_property_get_command *)&cmd;
-+		prop_get_cmd->fctype = nvme_fabrics_type_property_get;
-+		prop_get_cmd->offset = off;
-+		prop_get_cmd->attrib = attrib;
-+	}
-+	else if(fctype == nvme_fabrics_type_property_set) {
-+		prop_set_cmd = (struct nvmf_property_set_command *)&cmd;
-+		prop_set_cmd->fctype = nvme_fabrics_type_property_set;
-+		prop_set_cmd->offset = off;
-+		prop_set_cmd->attrib = attrib;
-+		prop_set_cmd->value = *value;
-+	}
-+	else return EINVAL;
-+
-+	err = nvme_submit_admin_passthru(fd, &cmd);
-+	if (!err && fctype == nvme_fabrics_type_property_get) {
-+		*value = cpu_to_le64(cmd.result);
-+	}
-+
-+	return err;
++/* Default font. */
++body {
++  font-family: Georgia,serif;
 +}
 +
-+int nvme_get_properties(int fd, void **pbar)
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
++}
++
++body {
++  margin: 1em 5% 1em 5%;
++}
++
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
++}
++
++em {
++  font-style: italic;
++  color: navy;
++}
++
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++ at media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overriden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++ at media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-set-property(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-set-property -
++  Writes and shows the defined NVMe controller property for NVMe ove Fabric
++</p>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme set-property</em> &lt;device&gt; [--offset=&lt;offset&gt; | -o &lt;offset&gt; ]
++                                                    [--value=&lt;val&gt; | -v &lt;val&gt; ]</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Writes and shows the defined NVMe controller property  for NVMe ove Fabric.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-o
++</dt>
++<dt class="hdlist1">
++--offset
++</dt>
++<dd>
++<p>
++       The offset of the property
++</p>
++</dd>
++</dl></div>
++<dt class="hdlist1">
++-v
++</dt>
++<dt class="hdlist1">
++--value
++</dt>
++<dd>
++<p>
++      The value of the property to be set
++</p>
++</dd>
++</dl></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<div class="listingblock">
++<div class="content">
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated 2017-11-24 10:11:58 EST
++</div>
++</div>
++</body>
++</html>
+diff --git a/Documentation/nvme-set-property.txt b/Documentation/nvme-set-property.txt
+new file mode 100644
+index 0000000..14efaa6
+--- /dev/null
++++ b/Documentation/nvme-set-property.txt
+@@ -0,0 +1,34 @@
++nvme-set-property(1)
++=============
++
++NAME
++----
++nvme-set-property - Writes and shows the defined NVMe controller property
++for NVMe ove Fabric
++
++SYNOPSIS
++--------
++[verse]
++'nvme set-property' <device> [--offset=<offset> | -o <offset>] [--value=<val> | -v <val>]
++
++
++DESCRIPTION
++-----------
++Writes and shows the defined NVMe controller property  for NVMe ove Fabric
++
++OPTIONS
++-------
++-o::
++--offset::
++       The offset of the property
++
++-v::
++--value:
++	The value of the property to be set
++
++EXAMPLES
++--------
++
++NVME
++----
++Part of the nvme-user suite
+diff --git a/nvme-builtin.h b/nvme-builtin.h
+index 2676dfc..193d9c0 100644
+--- a/nvme-builtin.h
++++ b/nvme-builtin.h
+@@ -56,6 +56,7 @@ COMMAND_LIST(
+ 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
+ 	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
+ 	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
++	ENTRY("set-property", "Set a property and show the resulting value", set_property)
+ );
+ 
+ #endif
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index fcb8be7..d4e0d06 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -521,6 +521,26 @@ int nvme_get_properties(int fd, void **pbar)
+ 	return ret;
+ }
+ 
++int nvme_set_property(int fd, int offset, int value)
 +{
-+	__le64 value64;
-+	__le32 off;
-+	int err, ret = EINVAL;
++	__le64 val = cpu_to_le64(value);
++	__le32 off = cpu_to_le32(offset);
 +	bool is64bit = false;
-+	int size = getpagesize();
 +
-+	*pbar = malloc(size);
-+	if (!*pbar)
-+		return ret;
-+
-+	memset(*pbar, 0xff, size);
-+	for (off = NVME_REG_CAP; off <= NVME_REG_CMBSZ; off += 4) {
-+		switch (off) {
-+		case NVME_REG_CAP:
-+		case NVME_REG_ASQ:
-+		case NVME_REG_ACQ:
-+			is64bit = true;
-+			break;
-+		default:
-+			is64bit = false;
-+		}
-+		err = nvme_property(fd, nvme_fabrics_type_property_get,
-+				off, &value64, is64bit ? 1: 0);
-+		if (err) {
-+			if (is64bit)
-+				off += 4;
-+			continue;
-+		}
-+		ret = 0;
-+		if (is64bit)
-+			*(uint64_t *)(*pbar + off) = le64_to_cpu(value64);
-+		else
-+			*(uint32_t *)(*pbar + off) = le32_to_cpu(value64);
++	switch (off) {
++	case NVME_REG_CAP:
++	case NVME_REG_ASQ:
++	case NVME_REG_ACQ:
++		is64bit = true;
++		break;
++	default:
++		is64bit = false;
 +	}
 +
-+	return ret;
++	return nvme_property(fd, nvme_fabrics_type_property_set,
++			off, &val, is64bit ? 1: 0);
 +}
 +
  int nvme_get_feature(int fd, __u32 nsid, __u8 fid, __u8 sel, __u32 cdw11,
  		     __u32 data_len, void *data, __u32 *result)
  {
 diff --git a/nvme-ioctl.h b/nvme-ioctl.h
-index 6b3e0b4..90e2e18 100644
+index 90e2e18..7cc80c8 100644
 --- a/nvme-ioctl.h
 +++ b/nvme-ioctl.h
-@@ -121,5 +121,6 @@ int nvme_dir_send(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
- 		  __u32 data_len, __u32 dw12, void *data, __u32 *result);
+@@ -122,5 +122,6 @@ int nvme_dir_send(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
  int nvme_dir_recv(int fd, __u32 nsid, __u16 dspec, __u8 dtype, __u8 doper,
  		  __u32 data_len, __u32 dw12, void *data, __u32 *result);
-+int nvme_get_properties(int fd, void **pbar);
+ int nvme_get_properties(int fd, void **pbar);
++int nvme_set_property(int fd, int offset, int value);
  
  #endif				/* _NVME_LIB_H */
 diff --git a/nvme-print.c b/nvme-print.c
-index d50c3b6..1c754de 100644
+index 1c754de..a736029 100644
 --- a/nvme-print.c
 +++ b/nvme-print.c
-@@ -2030,7 +2030,7 @@ static inline __u64 mmio_read64(void *addr)
- 	return le32_to_cpu(*p) | ((uint64_t)le32_to_cpu(*(p + 1)) << 32);
- }
- 
--void show_ctrl_registers(void *bar, unsigned int mode)
-+void show_ctrl_registers(void *bar, unsigned int mode, bool fabrics)
- {
- 	uint64_t cap, asq, acq;
- 	uint32_t vs, intms, intmc, cc, csts, nssr, aqa, cmbsz, cmbloc;
-@@ -2051,55 +2051,70 @@ void show_ctrl_registers(void *bar, unsigned int mode)
- 	cmbsz = mmio_read32(bar + NVME_REG_CMBSZ);
- 
- 	if (human) {
--		printf("cap     : %"PRIx64"\n", cap);
--		show_registers_cap((struct nvme_bar_cap *)&cap);
--
--		printf("version : %x\n", vs);
--		show_registers_version(vs);
--
--		printf("intms   : %x\n", intms);
--		printf("\tInterrupt Vector Mask Set (IVMS): %x\n\n", intms);
--
--		printf("intmc   : %x\n", intmc);
--		printf("\tInterrupt Vector Mask Clear (IVMC): %x\n\n", intmc);
--
--		printf("cc      : %x\n", cc);
--		show_registers_cc(cc);
--
--		printf("csts    : %x\n", csts);
--		show_registers_csts(csts);
--
--		printf("nssr    : %x\n", nssr);
--		printf("\tNVM Subsystem Reset Control (NSSRC): %u\n\n", nssr);
--
--		printf("aqa     : %x\n", aqa);
--		show_registers_aqa(aqa);
--
--		printf("asq     : %"PRIx64"\n", asq);
--		printf("\tAdmin Submission Queue Base (ASQB): %"PRIx64"\n\n",
--				asq);
--
--		printf("acq     : %"PRIx64"\n", acq);
--		printf("\tAdmin Completion Queue Base (ACQB): %"PRIx64"\n\n",
--				acq);
--
--		printf("cmbloc  : %x\n", cmbloc);
--		show_registers_cmbloc(cmbloc, cmbsz);
--
--		printf("cmbsz   : %x\n", cmbsz);
--		show_registers_cmbsz(cmbsz);
-+		if (cap != 0xffffffff) {
-+			printf("cap     : %"PRIx64"\n", cap);
-+			show_registers_cap((struct nvme_bar_cap *)&cap);
-+		}
-+		if (vs != 0xffffffff) {
-+			printf("version : %x\n", vs);
-+			show_registers_version(vs);
-+		}
-+		if (cc != 0xffffffff) {
-+			printf("cc      : %x\n", cc);
-+			show_registers_cc(cc);
-+		}
-+		if (csts != 0xffffffff) {
-+			printf("csts    : %x\n", csts);
-+			show_registers_csts(csts);
-+		}
-+		if (nssr != 0xffffffff) {
-+			printf("nssr    : %x\n", nssr);
-+			printf("\tNVM Subsystem Reset Control (NSSRC): %u\n\n", nssr);
-+		}
-+		if (!fabrics) {
-+			printf("intms   : %x\n", intms);
-+			printf("\tInterrupt Vector Mask Set (IVMS): %x\n\n",
-+					intms);
-+
-+			printf("intmc   : %x\n", intmc);
-+			printf("\tInterrupt Vector Mask Clear (IVMC): %x\n\n",
-+					intmc);
-+			printf("aqa     : %x\n", aqa);
-+			show_registers_aqa(aqa);
-+
-+			printf("asq     : %"PRIx64"\n", asq);
-+			printf("\tAdmin Submission Queue Base (ASQB): %"PRIx64"\n\n",
-+					asq);
-+
-+			printf("acq     : %"PRIx64"\n", acq);
-+			printf("\tAdmin Completion Queue Base (ACQB): %"PRIx64"\n\n",
-+					acq);
-+
-+			printf("cmbloc  : %x\n", cmbloc);
-+			show_registers_cmbloc(cmbloc, cmbsz);
-+
-+			printf("cmbsz   : %x\n", cmbsz);
-+			show_registers_cmbsz(cmbsz);
-+		}
- 	} else {
--		printf("cap     : %"PRIx64"\n", cap);
--		printf("version : %x\n", vs);
--		printf("intms   : %x\n", intms);
--		printf("intmc   : %x\n", intmc);
--		printf("cc      : %x\n", cc);
--		printf("csts    : %x\n", csts);
--		printf("nssr    : %x\n", nssr);
--		printf("aqa     : %x\n", aqa);
--		printf("asq     : %"PRIx64"\n", asq);
--		printf("acq     : %"PRIx64"\n", acq);
--		printf("cmbloc  : %x\n", cmbloc);
--		printf("cmbsz   : %x\n", cmbsz);
-+		if (cap != 0xffffffff)
-+			printf("cap     : %"PRIx64"\n", cap);
-+		if (vs != 0xffffffff)
-+			printf("version : %x\n", vs);
-+		if (cc != 0xffffffff)
-+			printf("cc      : %x\n", cc);
-+		if (csts != 0xffffffff)
-+			printf("csts    : %x\n", csts);
-+		if (nssr != 0xffffffff)
-+			printf("nssr    : %x\n", nssr);
-+		if (!fabrics) {
-+			printf("intms   : %x\n", intms);
-+			printf("intmc   : %x\n", intmc);
-+			printf("aqa     : %x\n", aqa);
-+			printf("asq     : %"PRIx64"\n", asq);
-+			printf("acq     : %"PRIx64"\n", acq);
-+			printf("cmbloc  : %x\n", cmbloc);
-+			printf("cmbsz   : %x\n", cmbsz);
-+		}
+@@ -1111,6 +1111,25 @@ char *nvme_feature_to_string(int feature)
  	}
  }
+ 
++char *nvme_register_to_string(int reg)
++{
++	switch (reg) {
++	case NVME_REG_CAP:	return "Controller Capabilities";
++	case NVME_REG_VS:	return "Version";
++	case NVME_REG_INTMS:	return "Interrupt Vector Mask Set";
++	case NVME_REG_INTMC:	return "Interrupt Vector Mask Clear";
++	case NVME_REG_CC:	return "Controller Configuration";
++	case NVME_REG_CSTS:	return "Controller Status";
++	case NVME_REG_NSSR:	return "NVM Subsystem Reset";
++	case NVME_REG_AQA:	return "Admin Queue Attributes";
++	case NVME_REG_ASQ:	return "Admin Submission Queue Base Address";
++	case NVME_REG_ACQ:	return "Admin Completion Queue Base Address";
++	case NVME_REG_CMBLOC:	return "Controller Memory Buffer Location";
++	case NVME_REG_CMBSZ:	return "Controller Memory Buffer Size";
++	default:			return "Unknown";
++	}
++}
++
+ char* nvme_select_to_string(int sel)
+ {
+ 	switch (sel) {
 diff --git a/nvme-print.h b/nvme-print.h
-index d110b98..d61bde0 100644
+index d61bde0..0dd8d85 100644
 --- a/nvme-print.h
 +++ b/nvme-print.h
-@@ -26,7 +26,7 @@ void show_error_log(struct nvme_error_log_page *err_log, int entries, const char
- void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
- void show_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
- void show_effects_log(struct nvme_effects_log_page *effects);
--void show_ctrl_registers(void *bar, unsigned int mode);
-+void show_ctrl_registers(void *bar, unsigned int mode, bool fabrics);
- void show_nvme_id_ns_descs(void *data);
+@@ -34,6 +34,7 @@ void nvme_directive_show_fields(__u8 dtype, __u8 doper, unsigned int result, uns
+ char *nvme_status_to_string(__u32 status);
+ char *nvme_select_to_string(int sel);
+ char *nvme_feature_to_string(int feature);
++char *nvme_register_to_string(int reg);
  
- void nvme_feature_show_fields(__u32 fid, unsigned int result, unsigned char *buf);
+ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vendor_show)(__u8 *vs, struct json_object *root));
+ void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int flags);
 diff --git a/nvme.c b/nvme.c
-index 7830ea2..8932255 100644
+index 8932255..e6acec2 100644
 --- a/nvme.c
 +++ b/nvme.c
-@@ -802,23 +802,23 @@ static char *nvme_char_from_block(char *block)
- 
- static void *get_registers(void)
- {
--	int pci_fd;
-+	int fd;
- 	char *base, path[512];
- 	void *membase;
- 
- 	base = nvme_char_from_block((char *)devicename);
- 	sprintf(path, "/sys/class/nvme/%s/device/resource0", base);
--	pci_fd = open(path, O_RDONLY);
--	if (pci_fd < 0) {
-+	fd = open(path, O_RDONLY);
-+	if (fd < 0) {
- 		sprintf(path, "/sys/class/misc/%s/device/resource0", base);
--		pci_fd = open(path, O_RDONLY);
-+		fd = open(path, O_RDONLY);
- 	}
--	if (pci_fd < 0) {
-+	if (fd < 0) {
- 		fprintf(stderr, "%s did not find a pci resource\n", base);
- 		return NULL;
- 	}
- 
--	membase = mmap(NULL, getpagesize(), PROT_READ, MAP_SHARED, pci_fd, 0);
-+	membase = mmap(NULL, getpagesize(), PROT_READ, MAP_SHARED, fd, 0);
- 	if (membase == MAP_FAILED) {
- 		fprintf(stderr, "%s failed to map\n", base);
- 		return NULL;
-@@ -1663,7 +1663,8 @@ static int show_registers(int argc, char **argv, struct command *cmd, struct plu
- 					"in binary or human-readable format";
- 	const char *human_readable = "show info in readable format";
- 	void *bar;
--	int fd;
-+	int fd, err;
-+	bool fabrics = true;
- 
- 	struct config {
- 		int human_readable;
-@@ -1682,11 +1683,17 @@ static int show_registers(int argc, char **argv, struct command *cmd, struct plu
- 	if (fd < 0)
- 		return fd;
- 
--	bar = get_registers();
-+	err = nvme_get_properties(fd, &bar);
-+	if (err) {
-+		bar = get_registers();
-+		fabrics = false;
-+	}
- 	if (!bar)
- 		return ENODEV;
-+	show_ctrl_registers(bar, cfg.human_readable ? HUMAN : 0, fabrics);
- 
--	show_ctrl_registers(bar, cfg.human_readable ? HUMAN : 0);
-+	if (fabrics)
-+		free(bar);
+@@ -1697,6 +1697,58 @@ static int show_registers(int argc, char **argv, struct command *cmd, struct plu
  	return 0;
  }
  
++static int set_property(int argc, char **argv, struct command *cmd, struct plugin *plugin)
++{
++	const char *desc = "Writes and shows the defined NVMe controller property "\
++			   "for NVMe ove Fabric";
++	const char *offset = "the offset of the property";
++	const char *value = "the value of the property to be set";
++	int fd, err;
++
++	struct config {
++		int offset;
++		int value;
++	};
++
++	struct config cfg = {
++		.offset = -1,
++		.value = -1,
++	};
++
++	const struct argconfig_commandline_options command_line_options[] = {
++		{"offset", 'o', "NUM", CFG_POSITIVE, &cfg.offset, required_argument, offset},
++		{"value", 'v', "NUM", CFG_POSITIVE, &cfg.value, required_argument, value},
++		{NULL}
++	};
++
++	fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
++	if (fd < 0)
++		return fd;
++
++	if (cfg.offset == -1) {
++		fprintf(stderr, "offset required param");
++		return EINVAL;
++	}
++	if (cfg.value == -1) {
++		fprintf(stderr, "value required param");
++		return EINVAL;
++	}
++
++	err = nvme_set_property(fd, cfg.offset, cfg.value);
++	if (err < 0) {
++		perror("set-property");
++		return errno;
++	} else if (!err) {
++		printf("set-property: %02x (%s), value: %#08x\n", cfg.offset,
++				nvme_register_to_string(cfg.offset), cfg.value);
++	} else if (err > 0) {
++		fprintf(stderr, "NVMe Status: %s(%x)\n",
++				nvme_status_to_string(err), err);
++	}
++
++	return err;
++}
++
+ static int format(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+ 	const char *desc = "Re-format a specified namespace on the "\
 -- 
 2.11.1
