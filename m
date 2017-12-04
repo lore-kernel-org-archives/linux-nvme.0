@@ -1,82 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun,  3 Dec 2017 10:25:35 +0200
-Subject: [PATCH v2 2/2] nvmetcli: decorate namespace, subsystem and port UI
-In-Reply-To: <20171203082535.17663-1-sagi@grimberg.me>
-References: <20171203082535.17663-1-sagi@grimberg.me>
-Message-ID: <20171203082535.17663-2-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 4 Dec 2017 08:18:19 +0100
+Subject: [PATCHv2] nvme/fc: add 'discovery' sysfs attribute to fc
+ transport device
+In-Reply-To: <aa2b156b-7fa0-dc0d-4885-7ac4b4dd9842@broadcom.com>
+References: <1512120436-58685-1-git-send-email-hare@suse.de>
+ <aa2b156b-7fa0-dc0d-4885-7ac4b4dd9842@broadcom.com>
+Message-ID: <c6214e48-9e26-f2fc-f8f0-9e0b5dac17be@suse.de>
 
-Display some info on the on the UI node.
+On 12/01/2017 05:21 PM, James Smart wrote:
+> On 12/1/2017 1:27 AM, Hannes Reinecke wrote:
+>> +??? spin_lock_irqsave(&nvme_fc_lock, flags);
+>> +??? list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
+>> +??????? list_for_each_entry(rport, &lport->endp_list, endp_list) {
+>> +??????????? if (!nvme_fc_lport_get(lport))
+>> +??????????????? continue;
+>> +??????????? if (!nvme_fc_rport_get(rport))
+>> +??????????????? continue;
+> 
+> ref counting messed up if rport_get fails - need to back out the lport get.
+> 
+Bah. Correct.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v1:
-- Fixed nguid_set detection to refer to hex digits
+Will be sending a new version.
 
- nvmetcli | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Cheers,
 
-diff --git a/nvmetcli b/nvmetcli
-index 0c590c9638f1..ead6429d5be5 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -24,7 +24,11 @@ import os
- import sys
- import configshell_fb as configshell
- import nvmet as nvme
-+from string import hexdigits
-+import uuid
- 
-+def ngiud_set(nguid):
-+    return any(c in hexdigits and c != '0' for c in nguid)
- 
- class UINode(configshell.node.ConfigNode):
-     def __init__(self, name, parent=None, cfnode=None, shell=None):
-@@ -160,6 +164,13 @@ class UISubsystemNode(UINode):
-         UINamespacesNode(self)
-         UIAllowedHostsNode(self)
- 
-+    def summary(self):
-+        info = []
-+        info.append("version=" + self.cfnode.get_attr("attr","version"))
-+        info.append("allow_any=" + self.cfnode.get_attr("attr","allow_any_host"))
-+        info.append("serial=" + self.cfnode.get_attr("attr","serial"))
-+        return (", ".join(info), True)
-+
- 
- class UINamespacesNode(UINode):
-     def __init__(self, parent):
-@@ -247,6 +258,19 @@ class UINamespaceNode(UINode):
-                 raise configshell.ExecutionError(
-                     "The Namespace could not be disabled.")
- 
-+    def summary(self):
-+        info = []
-+        info.append("path=" + self.cfnode.get_attr("device", "path"))
-+        ns_uuid = self.cfnode.get_attr("device", "uuid")
-+        if uuid.UUID(ns_uuid).int != 0:
-+            info.append("uuid=" + str(ns_uuid))
-+        ns_nguid = self.cfnode.get_attr("device", "nguid")
-+        if ngiud_set(ns_nguid):
-+            info.append("nguid=" + ns_nguid)
-+        info.append("enabled" if self.cfnode.get_enable() else "disabled")
-+        ns_enabled = self.cfnode.get_enable()
-+        return (", ".join(info), True if ns_enabled == 1 else ns_enabled)
-+
- 
- class UIAllowedHostsNode(UINode):
-     def __init__(self, parent):
-@@ -356,6 +380,12 @@ class UIPortNode(UINode):
-         UIPortSubsystemsNode(self)
-         UIReferralsNode(self)
- 
-+    def summary(self):
-+        info = []
-+        info.append("traddr=" + self.cfnode.get_attr("addr", "traddr"))
-+        info.append("trsvcid=" + self.cfnode.get_attr("addr", "trsvcid"))
-+        info.append("trtype=" + self.cfnode.get_attr("addr", "trtype"))
-+        return (", ".join(info), True)
- 
- class UIPortSubsystemsNode(UINode):
-     def __init__(self, parent):
+Hannes
 -- 
-2.14.1
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
