@@ -1,10 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 04 Dec 2017 09:50:50 +0100
-Subject: [PATCH 1/2] nvmet: lower log level for each queue creation
-In-Reply-To: <20171204084710.15828-1-sagi@grimberg.me> (Sagi Grimberg's
- message of "Mon, 4 Dec 2017 10:47:09 +0200")
+Date: Mon, 04 Dec 2017 09:51:03 +0100
+Subject: [PATCH 2/2] nvmet-rdma: lowering log level for chatty debug
+ messages
+In-Reply-To: <20171204084710.15828-2-sagi@grimberg.me> (Sagi Grimberg's
+ message of "Mon, 4 Dec 2017 10:47:10 +0200")
 References: <20171204084710.15828-1-sagi@grimberg.me>
-Message-ID: <mqdd13unafp.fsf@linux-x5ow.site>
+ <20171204084710.15828-2-sagi@grimberg.me>
+Message-ID: <mqd7eu2nafc.fsf@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
