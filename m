@@ -1,44 +1,65 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Mon, 4 Dec 2017 22:06:42 +0800
-Subject: [PATCH 0/2] nvme-cli: add options to set/get property of NVMf
-Message-ID: <1512396404-18872-1-git-send-email-guanjunxiong@huawei.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 5 Dec 2017 00:27:34 +0900
+Subject: [PATCH 2/2] nvme-cli: support to set the property for NVMe over
+ Fabric
+In-Reply-To: <1512396404-18872-3-git-send-email-guanjunxiong@huawei.com>
+References: <1512396404-18872-1-git-send-email-guanjunxiong@huawei.com>
+ <1512396404-18872-3-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <CAA7jzteRTxRxUO9g0ra0DMZy1TYnhz9c8poYw+XbC6+3GrUVtw@mail.gmail.com>
 
-Hi all,
+Hello Guan,
 
-To make it easy to use, this two patches add the support to set/get the
-properties for NVMe over Fabric. 
+> +int nvme_set_property(int fd, int offset, int value)
+> +{
+> +       __le64 val = cpu_to_le64(value);
+> +       __le32 off = cpu_to_le32(offset);
+> +       bool is64bit = false;
+                               ^^^^^^^
+Local variable __is64bit__ will be set a bit later in a switch statement.
+Initialization seems unnecessary for this local variable.
 
-Patch 1/2  makes use of show-regs option which only supports PCIe previously
-to support NVMf.
-Patch 2/2  adds new option named set-property to support setting the property 
-of NVMf. IMO, it is the responsibility of kernel to try to avoid malicious
-operation such as setting NRSS from the user space. So I ignore this in
-the nvme-cli.
+> +static int set_property(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+> +{
+> +       const char *desc = "Writes and shows the defined NVMe controller property "\
+> +                          "for NVMe ove Fabric";
+> +       const char *offset = "the offset of the property";
+> +       const char *value = "the value of the property to be set";
+> +       int fd, err;
+> +
+> +       struct config {
+> +               int offset;
+> +               int value;
+> +       };
+> +
+> +       struct config cfg = {
+> +               .offset = -1,
+> +               .value = -1,
+> +       };
+> +
+> +       const struct argconfig_commandline_options command_line_options[] = {
+> +               {"offset", 'o', "NUM", CFG_POSITIVE, &cfg.offset, required_argument, offset},
+> +               {"value", 'v', "NUM", CFG_POSITIVE, &cfg.value, required_argument, value},
+> +               {NULL}
+> +       };
+> +
+> +       fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
+> +       if (fd < 0)
+> +               return fd;
+> +
+> +       if (cfg.offset == -1) {
+> +               fprintf(stderr, "offset required param");
+> +               return EINVAL;
+> +       }
+> +       if (cfg.value == -1) {
+> +               fprintf(stderr, "value required param");
+> +               return EINVAL;
+> +       }
+> +
+> +       err = nvme_set_property(fd, cfg.offset, cfg.value);
+> +       if (err < 0) {
+> +               perror("set-property");
+> +               return errno;
+                               ^^^^^
+__errno__ can be found nowhere in this scope. __err__?
 
-Welcome any comments.
-
-Thanks
-
-
-Guan Junxiong (2):
-  nvme-cli: add support to get properties for NVMe over Fabric
-  nvme-cli: support to set the property for NVMe over Fabric
-
- Documentation/nvme-set-property.1    |  51 +++
- Documentation/nvme-set-property.html | 814 +++++++++++++++++++++++++++++++++++
- Documentation/nvme-set-property.txt  |  34 ++
- Documentation/nvme-show-regs.1       |  13 +-
- Documentation/nvme-show-regs.txt     |  23 +-
- nvme-builtin.h                       |   3 +-
- nvme-ioctl.c                         |  94 ++++
- nvme-ioctl.h                         |   2 +
- nvme-print.c                         | 134 +++---
- nvme-print.h                         |   3 +-
- nvme.c                               |  77 +++-
- 11 files changed, 1173 insertions(+), 75 deletions(-)
- create mode 100644 Documentation/nvme-set-property.1
- create mode 100644 Documentation/nvme-set-property.html
- create mode 100644 Documentation/nvme-set-property.txt
-
--- 
-2.11.1
+Thanks,
