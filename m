@@ -1,108 +1,12 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 5 Dec 2017 00:46:34 +0900
-Subject: [PATCH 1/2] nvme-cli: add support to get properties for NVMe over
- Fabric
-In-Reply-To: <1512396404-18872-2-git-send-email-guanjunxiong@huawei.com>
-References: <1512396404-18872-1-git-send-email-guanjunxiong@huawei.com>
- <1512396404-18872-2-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <CAA7jztfY_hbngB+5jEx7aDc9qBQtpQpB7rzNSGYtd6EiV7tcsQ@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 4 Dec 2017 17:19:30 +0100
+Subject: [PATCH rfc 2/2] nvmet: expose option to emulate a nvm
+ subsystem in read-only mode
+In-Reply-To: <20171204092435.20000-3-sagi@grimberg.me>
+References: <20171204092435.20000-1-sagi@grimberg.me>
+ <20171204092435.20000-3-sagi@grimberg.me>
+Message-ID: <20171204161930.GA12277@lst.de>
 
-HI Guan,
-
-> +int nvme_property(int fd, __u8 fctype, __le32 off, __le64 *value, __u8 attrib)
-> +{
-> +       int err;
-> +       struct nvmf_property_get_command *prop_get_cmd;
-> +       struct nvmf_property_set_command *prop_set_cmd;
-> +       struct nvme_admin_cmd cmd = {
-> +               .opcode         = nvme_fabrics_command,
-> +       };
-> +
-> +       if (!value)
-> +               return EINVAL;
-                              ^^^^^^^^
-A caller that included in another patch is expecting it to be a negative value
-like -EINVAL. A caller will recognize this positive value as NVMe status.
-It should be returned as a negative when it's about Linux error code.
-
-
-> +       if (fctype == nvme_fabrics_type_property_get){
-> +               prop_get_cmd = (struct nvmf_property_get_command *)&cmd;
-> +               prop_get_cmd->fctype = nvme_fabrics_type_property_get;
-> +               prop_get_cmd->offset = off;
-> +               prop_get_cmd->attrib = attrib;
-> +       }
-> +       else if(fctype == nvme_fabrics_type_property_set) {
-> +               prop_set_cmd = (struct nvmf_property_set_command *)&cmd;
-> +               prop_set_cmd->fctype = nvme_fabrics_type_property_set;
-> +               prop_set_cmd->offset = off;
-> +               prop_set_cmd->attrib = attrib;
-> +               prop_set_cmd->value = *value;
-> +       }
-> +       else return EINVAL;
-                              ^^^^^^^^
-Same as above.
-
-
-> +
-> +       err = nvme_submit_admin_passthru(fd, &cmd);
-> +       if (!err && fctype == nvme_fabrics_type_property_get) {
-> +               *value = cpu_to_le64(cmd.result);
-> +       }
-> +
-> +       return err;
-> +}
-> +
-> +int nvme_get_properties(int fd, void **pbar)
-> +{
-> +       __le64 value64;
-> +       __le32 off;
-> +       int err, ret = EINVAL;
-                            ^^^^^^^^^^
-Should it be a negative value?
-
-
-> +       bool is64bit = false;
-                                ^^^^^^
-Initialization seems unnecessary because it will be set properly
-before getting used.
-
-
->  static void *get_registers(void)
->  {
-> -       int pci_fd;
-> +       int fd;
->         char *base, path[512];
->         void *membase;
->
->         base = nvme_char_from_block((char *)devicename);
->         sprintf(path, "/sys/class/nvme/%s/device/resource0", base);
-> -       pci_fd = open(path, O_RDONLY);
-> -       if (pci_fd < 0) {
-> +       fd = open(path, O_RDONLY);
-> +       if (fd < 0) {
->                 sprintf(path, "/sys/class/misc/%s/device/resource0", base);
-> -               pci_fd = open(path, O_RDONLY);
-> +               fd = open(path, O_RDONLY);
->         }
-> -       if (pci_fd < 0) {
-> +       if (fd < 0) {
->                 fprintf(stderr, "%s did not find a pci resource\n", base);
->                 return NULL;
->         }
->
-> -       membase = mmap(NULL, getpagesize(), PROT_READ, MAP_SHARED, pci_fd, 0);
-> +       membase = mmap(NULL, getpagesize(), PROT_READ, MAP_SHARED, fd, 0);
->         if (membase == MAP_FAILED) {
->                 fprintf(stderr, "%s failed to map\n", base);
->                 return NULL;
-
-Is this code you intended? This code looks showing some changes only
-just for re-naming.
-I'm just asking if this change point should be included in this patch
-set or not.
-
-If you think I misunderstood what you have intended, or went wrong,
-please let me know.
-
-Thanks,
+I don't think that is what the SMART log is inteded for.  Please
+review the write protected namespace TP in the working group instead
+and make sure it passes soon so that we can use it.
