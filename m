@@ -1,10 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Dec 2017 21:13:22 +0100
-Subject: [PATCH v2 1/2] nvmetcli: Expose ls to dump UI configuration
-In-Reply-To: <20171203082535.17663-1-sagi@grimberg.me>
-References: <20171203082535.17663-1-sagi@grimberg.me>
-Message-ID: <20171204201322.GE17023@lst.de>
+Date: Mon, 4 Dec 2017 21:16:38 +0100
+Subject: [PATCH] nvmet-rdma: removed queues cleanup from module exit
+In-Reply-To: <20171113212905.28894-1-sagi@grimberg.me>
+References: <20171113212905.28894-1-sagi@grimberg.me>
+Message-ID: <20171204201638.GA17283@lst.de>
 
-Thanks Sagi,
+Thanks,
 
-I've applied both patches.
+applied to nvme-4.16.
