@@ -1,28 +1,20 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 4 Dec 2017 20:11:14 +0200
-Subject: [PATCH rfc 2/2] nvmet: expose option to emulate a nvm subsystem
- in read-only mode
-In-Reply-To: <20171204161930.GA12277@lst.de>
-References: <20171204092435.20000-1-sagi@grimberg.me>
- <20171204092435.20000-3-sagi@grimberg.me> <20171204161930.GA12277@lst.de>
-Message-ID: <c3d78077-b5b0-c05e-fca1-ca9ef5a0e1eb@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 4 Dec 2017 21:11:46 +0100
+Subject: [PATCH] nvme-pci: remove an unnecessary variable
+ initialization in HMB code
+In-Reply-To: <CAA7jztd=fbtacLjOn5B04Nf2x-gzYr1qGiiuDZh-vK_SfiTwvg@mail.gmail.com>
+References: <1512279430-2806-1-git-send-email-minwoo.im.dev@gmail.com>
+ <CAA7jztd=fbtacLjOn5B04Nf2x-gzYr1qGiiuDZh-vK_SfiTwvg@mail.gmail.com>
+Message-ID: <20171204201145.GD17023@lst.de>
 
-Hey Christoph,
+On Sun, Dec 03, 2017@02:56:24PM +0900, Minwoo Im wrote:
+> Sorry for making confusions. The following patch is good to be reviewed.
+> + Added one more removal for an unnecessary variable initialization in
+> nvme_setup_host_mem()
+> 
+> 
+> The local variable __size__ and __ret__ will be set a bit later.
+> Remove the explicit initialization at the beginning of those functions.
 
-> I don't think that is what the SMART log is inteded for.
-
-Can you please elaborate what you mean? are you talking about this
-patch in particular (simply an emulation)? or support for this
-altogether? A subsystem can, at any point, be placed in read-only mode.
-In that case it needs to send SMART AER to indicate health status
-change. I think that if the media has been placed in read-only mode, we
-need to log it, and set all the subsystem namespaces in read-only mode.
-
-Anything different you think we need to do here?
-
-> Please review the write protected namespace TP in the working group instead
-> and make sure it passes soon so that we can use it.
-
-I did look at write protect, this is not the use-case here.
-write-protect is a per-namespace attribute which is controlled by
-the host, this addresses NVMe subsystem critical warning scenario.
+This one looks fine, but please resend it in in its own thread in
+proper formatting.
