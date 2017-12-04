@@ -1,55 +1,25 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue, 5 Dec 2017 05:31:30 +0900
-Subject: [PATCH] nvme-pci: remove an unnecessary initialization in HMB code
-In-Reply-To: <CAA7jztfv_LtBKVnEzr8HV078Q=1tvEk1TSs=+yMVBaJkzDNAgQ@mail.gmail.com>
-References: <1512419034-5857-1-git-send-email-minwoo.im.dev@gmail.com>
- <CAA7jztfv_LtBKVnEzr8HV078Q=1tvEk1TSs=+yMVBaJkzDNAgQ@mail.gmail.com>
-Message-ID: <CAA7jztcdp+Umx9rgJGk3QdG64mOr4i8_MeL=8+NCqLzTSmvNCQ@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 4 Dec 2017 21:06:53 +0100
+Subject: [PATCH rfc 2/2] nvmet: expose option to emulate a nvm
+ subsystem in read-only mode
+In-Reply-To: <c3d78077-b5b0-c05e-fca1-ca9ef5a0e1eb@grimberg.me>
+References: <20171204092435.20000-1-sagi@grimberg.me>
+ <20171204092435.20000-3-sagi@grimberg.me> <20171204161930.GA12277@lst.de>
+ <c3d78077-b5b0-c05e-fca1-ca9ef5a0e1eb@grimberg.me>
+Message-ID: <20171204200653.GA17023@lst.de>
 
-On Tue, Dec 5, 2017@5:26 AM, Minwoo Im <minwoo.im.dev@gmail.com> wrote:
-> On Tue, Dec 5, 2017@5:23 AM, Minwoo Im <minwoo.im.dev@gmail.com> wrote:
->> The local variable __size__ will be set a bit later in a for-loop.
->> Remove the explicit initialization at the beginning of this function.
->>
->> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
->> ---
->>  drivers/nvme/host/pci.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index f5800c3..35331fa 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -1770,7 +1770,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
->>         dma_addr_t descs_dma;
->>         int i = 0;
->>         void **bufs;
->> -       u64 size = 0, tmp;
->> +       u64 size, tmp;
->>
->>         tmp = (preferred + chunk_size - 1);
->>         do_div(tmp, chunk_size);
->> @@ -1853,7 +1853,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
->>         u64 preferred = (u64)dev->ctrl.hmpre * 4096;
->>         u64 min = (u64)dev->ctrl.hmmin * 4096;
->>         u32 enable_bits = NVME_HOST_MEM_ENABLE;
->> -       int ret = 0;
->> +       int ret;
->>
->>         preferred = min(preferred, max);
->>         if (min > max) {
->> --
->> 2.7.4
->>
+On Mon, Dec 04, 2017@08:11:14PM +0200, Sagi Grimberg wrote:
+> Can you please elaborate what you mean? are you talking about this
+> patch in particular (simply an emulation)? or support for this
+> altogether? A subsystem can, at any point, be placed in read-only mode.
+> In that case it needs to send SMART AER to indicate health status
+> change. I think that if the media has been placed in read-only mode, we
+> need to log it, and set all the subsystem namespaces in read-only mode.
 >
-> Please ignore this mail. Sorry for making confusions.
->
->
-> Thanks,
+> Anything different you think we need to do here?
 
-Hi Christoph,
-
-I think you have alraedy picked it up.
-I'll not make any improper patch(format, description, etc) from now on.
-
-Thanks to you for picking it up.
+Yes, but for that we should trigger it off gettind a EROFS warning
+from the block device, not through sysfs. Having the explicit sysfs
+no, and the code to send the AER on connect suggests to me that
+this was intended to be used to emulate a r/o setting, but apparently
+I was wrong.
