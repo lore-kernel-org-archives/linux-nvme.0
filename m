@@ -1,10 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Dec 2017 21:16:58 +0100
-Subject: [PATCH 1/2] nvmet: lower log level for each queue creation
-In-Reply-To: <20171204084710.15828-1-sagi@grimberg.me>
-References: <20171204084710.15828-1-sagi@grimberg.me>
-Message-ID: <20171204201658.GB17283@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 4 Dec 2017 12:19:05 -0800
+Subject: [PATCH 0/4] nvme_fcloop: abort and isr context changes
+In-Reply-To: <20171130004733.19330-1-jsmart2021@gmail.com>
+References: <20171130004733.19330-1-jsmart2021@gmail.com>
+Message-ID: <20171204201905.GA11628@infradead.org>
 
 Thanks,
 
-applied both patches to nvme-4.16.
+applied to nvme-4.16.
