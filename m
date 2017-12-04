@@ -1,10 +1,23 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 4 Dec 2017 12:21:00 -0800
-Subject: [PATCH] nvmet_fc: cleanup nvmet add_port/remove_port
-In-Reply-To: <20171129231155.32480-1-jsmart2021@gmail.com>
-References: <20171129231155.32480-1-jsmart2021@gmail.com>
-Message-ID: <20171204202100.GD11628@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 4 Dec 2017 21:07:21 +0100
+Subject: [PATCH rfc 1/2] nvme: support smart read-only critical warning
+ event
+In-Reply-To: <20171204092435.20000-2-sagi@grimberg.me>
+References: <20171204092435.20000-1-sagi@grimberg.me>
+ <20171204092435.20000-2-sagi@grimberg.me>
+Message-ID: <20171204200721.GB17023@lst.de>
 
-Thanks,
+On Mon, Dec 04, 2017@11:24:34AM +0200, Sagi Grimberg wrote:
+> In case a controller sent us a critical warning AER,
+> we should query the smart information and in case the
+> media was placed in read only mode, we need to set
+> all the controller namespaces (and the namespaces heads)
+> in read-only (or set to rw in case its not set).
+> 
+> Given that in fabrics we may also connect to a read-only
+> subsystem, we add the disk as read-only to start with.
+> Once the subsystem will be in rw mode, we restore
+> the disk rw permissions.
 
-applied to nvme-4.15.
+We are sending the smart log notification on to userspace, so with this
+we now have two parties that are trying to clear the log page..
