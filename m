@@ -1,18 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 04 Dec 2017 09:33:21 +0100
-Subject: [PATCH v2 2/2] nvmetcli: decorate namespace, subsystem and port UI
-In-Reply-To: <20171203082535.17663-2-sagi@grimberg.me> (Sagi Grimberg's
- message of "Sun, 3 Dec 2017 10:25:35 +0200")
-References: <20171203082535.17663-1-sagi@grimberg.me>
- <20171203082535.17663-2-sagi@grimberg.me>
-Message-ID: <mqdtvx6nb8u.fsf@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon,  4 Dec 2017 10:47:09 +0200
+Subject: [PATCH 1/2] nvmet: lower log level for each queue creation
+Message-ID: <20171204084710.15828-1-sagi@grimberg.me>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Its a bit chatty to report on each queue, lets log
+it only for debug purposes.
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/fabrics-cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 9e41904b0380..62315cc4b5b0 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -235,7 +235,7 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 		goto out_ctrl_put;
+ 	}
+ 
+-	pr_info("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
++	pr_debug("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
+ 
+ out:
+ 	kfree(d);
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.14.1
