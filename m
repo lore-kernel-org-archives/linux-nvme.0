@@ -1,15 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 04 Dec 2017 09:32:16 +0100
-Subject: [PATCH v2 1/2] nvmetcli: Expose ls to dump UI configuration
-In-Reply-To: <20171203082535.17663-1-sagi@grimberg.me> (Sagi Grimberg's
- message of "Sun, 3 Dec 2017 10:25:34 +0200")
+Date: Mon, 04 Dec 2017 09:33:21 +0100
+Subject: [PATCH v2 2/2] nvmetcli: decorate namespace, subsystem and port UI
+In-Reply-To: <20171203082535.17663-2-sagi@grimberg.me> (Sagi Grimberg's
+ message of "Sun, 3 Dec 2017 10:25:35 +0200")
 References: <20171203082535.17663-1-sagi@grimberg.me>
-Message-ID: <mqdzi6ynban.fsf@linux-x5ow.site>
+ <20171203082535.17663-2-sagi@grimberg.me>
+Message-ID: <mqdtvx6nb8u.fsf@linux-x5ow.site>
 
-Sagi Grimberg <sagi at grimberg.me> writes:
-> for running: nvmetcli ls
-
-Nice one,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
