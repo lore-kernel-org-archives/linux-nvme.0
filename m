@@ -1,23 +1,37 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Dec 2017 21:07:21 +0100
-Subject: [PATCH rfc 1/2] nvme: support smart read-only critical warning
- event
-In-Reply-To: <20171204092435.20000-2-sagi@grimberg.me>
-References: <20171204092435.20000-1-sagi@grimberg.me>
- <20171204092435.20000-2-sagi@grimberg.me>
-Message-ID: <20171204200721.GB17023@lst.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue,  5 Dec 2017 05:23:54 +0900
+Subject: [PATCH] nvme-pci: remove an unnecessary initialization in HMB code
+Message-ID: <1512419034-5857-1-git-send-email-minwoo.im.dev@gmail.com>
 
-On Mon, Dec 04, 2017@11:24:34AM +0200, Sagi Grimberg wrote:
-> In case a controller sent us a critical warning AER,
-> we should query the smart information and in case the
-> media was placed in read only mode, we need to set
-> all the controller namespaces (and the namespaces heads)
-> in read-only (or set to rw in case its not set).
-> 
-> Given that in fabrics we may also connect to a read-only
-> subsystem, we add the disk as read-only to start with.
-> Once the subsystem will be in rw mode, we restore
-> the disk rw permissions.
+The local variable __size__ will be set a bit later in a for-loop.
+Remove the explicit initialization at the beginning of this function.
 
-We are sending the smart log notification on to userspace, so with this
-we now have two parties that are trying to clear the log page..
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f5800c3..35331fa 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1770,7 +1770,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+ 	dma_addr_t descs_dma;
+ 	int i = 0;
+ 	void **bufs;
+-	u64 size = 0, tmp;
++	u64 size, tmp;
+ 
+ 	tmp = (preferred + chunk_size - 1);
+ 	do_div(tmp, chunk_size);
+@@ -1853,7 +1853,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+ 	u64 preferred = (u64)dev->ctrl.hmpre * 4096;
+ 	u64 min = (u64)dev->ctrl.hmmin * 4096;
+ 	u32 enable_bits = NVME_HOST_MEM_ENABLE;
+-	int ret = 0;
++	int ret;
+ 
+ 	preferred = min(preferred, max);
+ 	if (min > max) {
+-- 
+2.7.4
