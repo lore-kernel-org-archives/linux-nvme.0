@@ -1,127 +1,55 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Tue, 5 Dec 2017 08:38:20 +0800
-Subject: [PATCH 1/2] nvme-cli: add support to get properties for NVMe over
- Fabric
-In-Reply-To: <CAA7jztfY_hbngB+5jEx7aDc9qBQtpQpB7rzNSGYtd6EiV7tcsQ@mail.gmail.com>
-References: <1512396404-18872-1-git-send-email-guanjunxiong@huawei.com>
- <1512396404-18872-2-git-send-email-guanjunxiong@huawei.com>
- <CAA7jztfY_hbngB+5jEx7aDc9qBQtpQpB7rzNSGYtd6EiV7tcsQ@mail.gmail.com>
-Message-ID: <fb36199a-f540-a157-d695-60bbb7ed75d9@huawei.com>
+From: df7729@gmail.com (David F.)
+Date: Mon, 4 Dec 2017 18:01:10 -0800
+Subject: When will Linux support new RAID controllers
+In-Reply-To: <CAGRSmLsvAR6wth7tPd5J2kAydy64uQ+h45Yu-SUeOAHkfOHXHA@mail.gmail.com>
+References: <CAGRSmLs-Hr+FFfa4_29kidEeL2d7b+cEP6u1OkOUoYW6Cm15BA@mail.gmail.com>
+ <20171110131937.GA26181@infradead.org>
+ <CAKKYfmEqw48mjBsKoy=qeny6B1X8PKytSN4UwpvSupo87746kg@mail.gmail.com>
+ <CAGRSmLsvAR6wth7tPd5J2kAydy64uQ+h45Yu-SUeOAHkfOHXHA@mail.gmail.com>
+Message-ID: <CAGRSmLto7dG19zgUkdZjuhacWXo=ju6WdS0YVjC5xOOsGjV9kg@mail.gmail.com>
 
-Hi Minwoo,
+Hi,
 
-On 2017/12/4 23:46, Minwoo Im wrote:
-> HI Guan,
-> 
->> +int nvme_property(int fd, __u8 fctype, __le32 off, __le64 *value, __u8 attrib)
->> +{
->> +       int err;
->> +       struct nvmf_property_get_command *prop_get_cmd;
->> +       struct nvmf_property_set_command *prop_set_cmd;
->> +       struct nvme_admin_cmd cmd = {
->> +               .opcode         = nvme_fabrics_command,
->> +       };
->> +
->> +       if (!value)
->> +               return EINVAL;
->                               ^^^^^^^^
-> A caller that included in another patch is expecting it to be a negative value
-> like -EINVAL. A caller will recognize this positive value as NVMe status.
-> It should be returned as a negative when it's about Linux error code.
-> 
+Any word if the patch is available?
 
-This convention is complied in the kernel side, but when I check options of the nvme-cli
-, this convention is not always complied. Most of them uses the positive Linux error code.
-On the other side, the NVMe error status code returned from kernel can be distinguished
-by the highest bit.
+Is this going mainline anytime soon?
 
-> 
->> +       if (fctype == nvme_fabrics_type_property_get){
->> +               prop_get_cmd = (struct nvmf_property_get_command *)&cmd;
->> +               prop_get_cmd->fctype = nvme_fabrics_type_property_get;
->> +               prop_get_cmd->offset = off;
->> +               prop_get_cmd->attrib = attrib;
->> +       }
->> +       else if(fctype == nvme_fabrics_type_property_set) {
->> +               prop_set_cmd = (struct nvmf_property_set_command *)&cmd;
->> +               prop_set_cmd->fctype = nvme_fabrics_type_property_set;
->> +               prop_set_cmd->offset = off;
->> +               prop_set_cmd->attrib = attrib;
->> +               prop_set_cmd->value = *value;
->> +       }
->> +       else return EINVAL;
->                               ^^^^^^^^
-> Same as above.
-> 
-> 
->> +
->> +       err = nvme_submit_admin_passthru(fd, &cmd);
->> +       if (!err && fctype == nvme_fabrics_type_property_get) {
->> +               *value = cpu_to_le64(cmd.result);
->> +       }
->> +
->> +       return err;
->> +}
->> +
->> +int nvme_get_properties(int fd, void **pbar)
->> +{
->> +       __le64 value64;
->> +       __le32 off;
->> +       int err, ret = EINVAL;
->                             ^^^^^^^^^^
-> Should it be a negative value?
-> 
-> 
->> +       bool is64bit = false;
->                                 ^^^^^^
-> Initialization seems unnecessary because it will be set properly
-> before getting used.
-> 
 
-Agreed, thanks.
-
-> 
->>  static void *get_registers(void)
->>  {
->> -       int pci_fd;
->> +       int fd;
->>         char *base, path[512];
->>         void *membase;
+On Fri, Nov 10, 2017@11:06 AM, David F. <df7729@gmail.com> wrote:
+> A patch would be great.  There has been several cases where no option
+> to use AHCI mode available, or where a box seller would offer Linux as
+> an alternate boot option against Windows in RAID mode (on the mobo)
+> but could no longer provide Linux with their systems (without
+> additional costs for add-in raid controller).
+>
+> On Fri, Nov 10, 2017@5:31 AM, Dennis Mungai <dmngaie@gmail.com> wrote:
+>> That feature would be especially important on systems where the
+>> BIOS/UEFI environment offers no option to toggle back the AHCI mode.
+>> This "RAID" Intel features is also known as "Intel Premium RST mode"
+>> on all current Clevo systems, and on such a platform (the Clevo
+>> P751DM2-G, marketed by the likes of Schenker and Origin PC) is based
+>> on this platform.
 >>
->>         base = nvme_char_from_block((char *)devicename);
->>         sprintf(path, "/sys/class/nvme/%s/device/resource0", base);
->> -       pci_fd = open(path, O_RDONLY);
->> -       if (pci_fd < 0) {
->> +       fd = open(path, O_RDONLY);
->> +       if (fd < 0) {
->>                 sprintf(path, "/sys/class/misc/%s/device/resource0", base);
->> -               pci_fd = open(path, O_RDONLY);
->> +               fd = open(path, O_RDONLY);
->>         }
->> -       if (pci_fd < 0) {
->> +       if (fd < 0) {
->>                 fprintf(stderr, "%s did not find a pci resource\n", base);
->>                 return NULL;
->>         }
+>> -Dennis.
 >>
->> -       membase = mmap(NULL, getpagesize(), PROT_READ, MAP_SHARED, pci_fd, 0);
->> +       membase = mmap(NULL, getpagesize(), PROT_READ, MAP_SHARED, fd, 0);
->>         if (membase == MAP_FAILED) {
->>                 fprintf(stderr, "%s failed to map\n", base);
->>                 return NULL;
-> 
-> Is this code you intended? This code looks showing some changes only
-> just for re-naming.
-> I'm just asking if this change point should be included in this patch
-> set or not.
-> 
-
-It should be. fd means it can be pci_fd or nvmf_fd.
-
-> If you think I misunderstood what you have intended, or went wrong,
-> please let me know.
-> 
-
-Thanks.
-Guan
-.
+>> On 10 November 2017@16:19, Christoph Hellwig <hch@infradead.org> wrote:
+>>> On Thu, Nov 09, 2017@10:24:54AM -0800, David F. wrote:
+>>>> It seems that Linux will not see any HD on Intel's 100 Series or newer
+>>>> chipsets (Z170, etc.) when in RAID mode.  (typically these systems
+>>>> have M2 NVMe devices ). This is problematic when wanting to use Linux
+>>>> on the system without having to disable RAID and when on their with
+>>>> Windows.   Maybe not a linux-raid issue, but is Linux RAID issue
+>>>> within the kernel device support.
+>>>
+>>> Dan (on Cc) posted some patches to support the awkwared so called
+>>> "RAID" mode (it really should be Intel landgrab mode) in the client
+>>> chipsets more than a year ago.
+>>>
+>>> It needed a bit of a rework to be present as a fake PCIe root port
+>>> instead of the platform driver magic, so I wonder what happened to
+>>> it - Dan any chance to get back to it?
+>>>
+>>> _______________________________________________
+>>> Linux-nvme mailing list
+>>> Linux-nvme at lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-nvme
