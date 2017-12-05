@@ -1,45 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 5 Dec 2017 09:22:05 +0200
-Subject: [PATCH rfc 2/2] nvmet: expose option to emulate a nvm subsystem
- in read-only mode
-In-Reply-To: <20171204200653.GA17023@lst.de>
+Date: Tue, 5 Dec 2017 09:28:53 +0200
+Subject: [PATCH rfc 1/2] nvme: support smart read-only critical warning
+ event
+In-Reply-To: <20171204200721.GB17023@lst.de>
 References: <20171204092435.20000-1-sagi@grimberg.me>
- <20171204092435.20000-3-sagi@grimberg.me> <20171204161930.GA12277@lst.de>
- <c3d78077-b5b0-c05e-fca1-ca9ef5a0e1eb@grimberg.me>
- <20171204200653.GA17023@lst.de>
-Message-ID: <8abf14b8-53a0-c39d-e17e-99bd7840b7a7@grimberg.me>
+ <20171204092435.20000-2-sagi@grimberg.me> <20171204200721.GB17023@lst.de>
+Message-ID: <0c6a853d-c8c5-2144-09e1-8e6cae90fb2a@grimberg.me>
 
 
->> Can you please elaborate what you mean? are you talking about this
->> patch in particular (simply an emulation)? or support for this
->> altogether? A subsystem can, at any point, be placed in read-only mode.
->> In that case it needs to send SMART AER to indicate health status
->> change. I think that if the media has been placed in read-only mode, we
->> need to log it, and set all the subsystem namespaces in read-only mode.
+>> In case a controller sent us a critical warning AER,
+>> we should query the smart information and in case the
+>> media was placed in read only mode, we need to set
+>> all the controller namespaces (and the namespaces heads)
+>> in read-only (or set to rw in case its not set).
 >>
->> Anything different you think we need to do here?
+>> Given that in fabrics we may also connect to a read-only
+>> subsystem, we add the disk as read-only to start with.
+>> Once the subsystem will be in rw mode, we restore
+>> the disk rw permissions.
 > 
-> Yes, but for that we should trigger it off gettind a EROFS warning
-> from the block device, not through sysfs.
+> We are sending the smart log notification on to userspace, so with this
+> we now have two parties that are trying to clear the log page..
 
-Just to be clear, that is exactly what I intended to do.
+Not at the moment, but soon we will send smart logs to userspace, yes.
 
-fs/block_dev.c checks bdev_read_only() in blkdev_write_iter and also
-there is a patchset to enforce this for several places in the block
-layer from Ilya Dryomov ("block: enforce ioctl(BLKROSET) and
-set_disk_ro()")
+I guess we have two choices for this:
 
-I wander if we need this also in generic_write_checks()?
+1. let userspace handle it and expose a knob to modify all controller
+namespaces to r/o.
 
-> Having the explicit sysfs
-> no, and the code to send the AER on connect suggests to me that
-> this was intended to be used to emulate a r/o setting, but apparently
-> I was wrong.
+2. handle the event in the kernel, issue the log page with retain bit on
+and only then notify userspace.
 
-I'm not sure I understand your point here, can you explain what you
-mean?
-
-nvmet sends a smart AER in case a host connected to a subsystem
-in r/o state because there no other way it will know that (other than
-failing writes when they come). Its just an attempt to notify the host
-right away instead of waiting for it to issue writes and fail later.
+I personally prefer (2), what do others think?
