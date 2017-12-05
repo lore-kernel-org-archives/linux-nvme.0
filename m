@@ -1,17 +1,48 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 05 Dec 2017 13:26:43 +0100
-Subject: [PATCH] nvmetcli: port decoration coloring only if its enabled
-In-Reply-To: <20171205114842.15212-1-sagi@grimberg.me> (Sagi Grimberg's
- message of "Tue, 5 Dec 2017 13:48:42 +0200")
-References: <20171205114842.15212-1-sagi@grimberg.me>
-Message-ID: <mqdy3mhtl6k.fsf@linux-x5ow.site>
+From: thomas.tai@oracle.com (Thomas Tai)
+Date: Tue,  5 Dec 2017 12:01:35 -0700
+Subject: [PATCH] nvme: nvme_remove should cancel the reset_work before setting
+ the ctrl state
+Message-ID: <1512500495-16147-1-git-send-email-thomas.tai@oracle.com>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+During nvme_probe, a reset_work task is queued up
+for execution. When removing the nvme during unbinding,
+the remove function set the ctrl state to NVME_CTRL_DELETING
+and then cancel the reset_work. The correct sequence should
+have been cancel the reset_work first then change the state.
+
+Otherwise, if the reset_work happens to schedule to work,
+the NVME_CTRL_DELETING causes the reset_work function to
+fail with "failed to make controller live".
+
+Steps to reproduce the problem:
+
+drive="0000:14:00.0"
+for i in {1..20};
+do
+   echo iteration $i
+   driverctl set-override $drive nvme
+done
+
+Signed-off-by: Thomas Tai <thomas.tai at oracle.com>
+Reviewed-by: Kyle Fortin <kyle.fortin at oracle.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a11cfd4..e2d10f9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2534,9 +2534,9 @@ static void nvme_remove(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
+-	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+ 
+ 	cancel_work_sync(&dev->ctrl.reset_work);
++	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+ 	pci_set_drvdata(pdev, NULL);
+ 
+ 	if (!pci_device_is_present(pdev)) {
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
