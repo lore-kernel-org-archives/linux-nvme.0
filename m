@@ -1,58 +1,47 @@
-From: thomas.tai@oracle.com (Thomas Tai)
-Date: Tue, 5 Dec 2017 15:43:09 -0500
-Subject: [PATCH] nvme: nvme_remove should cancel the reset_work before
- setting the ctrl state
-In-Reply-To: <20171205200952.GA20019@localhost.localdomain>
-References: <1512500495-16147-1-git-send-email-thomas.tai@oracle.com>
- <20171205200952.GA20019@localhost.localdomain>
-Message-ID: <a47a4ffd-6c14-bf72-02c9-03afe2eae60d@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 6 Dec 2017 08:11:25 +0100
+Subject: [PATCH] nvme-fc: Implement async-connect option
+In-Reply-To: <363cfdca-be70-ab28-e241-c835d18c588f@broadcom.com>
+References: <1512461082-41520-1-git-send-email-hare@suse.de>
+ <363cfdca-be70-ab28-e241-c835d18c588f@broadcom.com>
+Message-ID: <ca87766f-b9b0-3894-aa37-a2a93cd4ec74@suse.de>
 
-
-
-On 2017-12-05 03:09 PM, Keith Busch wrote:
-> On Tue, Dec 05, 2017@12:01:35PM -0700, Thomas Tai wrote:
->> During nvme_probe, a reset_work task is queued up
->> for execution. When removing the nvme during unbinding,
->> the remove function set the ctrl state to NVME_CTRL_DELETING
->> and then cancel the reset_work. The correct sequence should
->> have been cancel the reset_work first then change the state.
+On 12/05/2017 08:41 PM, James Smart wrote:
+> On 12/5/2017 12:04 AM, Hannes Reinecke wrote:
+>> By opening the control fd with O_NONBLOCK the fabrics module will
+>> attempt an async connect if implemented.
+>> This is especially useful when calling 'nvme connect' from an udev
+>> rule, as there each program should return as fast as possible to
+>> avoid an udev event processing stall.
 >>
->> Otherwise, if the reset_work happens to schedule to work,
->> the NVME_CTRL_DELETING causes the reset_work function to
->> fail with "failed to make controller live".
+>> Signed-off-by: Hannes Reinecke <hare at suse.com>
+>>
 > 
-> The message seems to make sense. You requested to unbind the driver
-> before the controller went live.
->   
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index a11cfd4..e2d10f9 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -2534,9 +2534,9 @@ static void nvme_remove(struct pci_dev *pdev)
->>   {
->>   	struct nvme_dev *dev = pci_get_drvdata(pdev);
->>   
->> -	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
->>   
->>   	cancel_work_sync(&dev->ctrl.reset_work);
->> +	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
->>   	pci_set_drvdata(pdev, NULL);
+> This seems odd.?? I would have thought any async connect option would
+> have been isolated in the fabrics.c file and applicable to any transport.
 > 
-> The state is changed before synchronously cancelling the reset work so
-> that nvme_remove is guaranteed another reset can't possibly occur while
-> we're deleting the controller. This change provies a small window for
-> which that could happen, and bad things will happen if it does.
+Possibly.
 
-Hi Keith,
-Thank you for your explanation. So changing the state before 
-cancel_work_sync() is the right way to go then.
-
-Thank you,
-Thomas
-
+> I can understand why this works as fc is well suited for this division
+> (allocates ctrl 1st, then makes 1st connection in same style as
+> reconnects). But the other transports aren't structure the same way so
+> they're going to be a bit more trouble.
 > 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
+That was actually my plan; I actually looking into making the
+connect/reconnect workqueue function the default, and drop the
+distinction between 1st connect and reconnect.
+With that the only difference between 'async' and normal connect would
+be the delay when scheduling the workqueue item.
+
+But RDMA turned out to be a bit more complex, so I did this patch first
+to gauge response.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
