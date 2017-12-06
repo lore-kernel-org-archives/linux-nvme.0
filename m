@@ -1,40 +1,18 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed,  6 Dec 2017 18:21:20 +0200
-Subject: [PATCH 1/1] nvme-rdma: remove redundant boolean for inline_data
-Message-ID: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 6 Dec 2017 23:46:50 +0100
+Subject: [PATCH rfc 2/2] nvmet: expose option to emulate a nvm
+ subsystem in read-only mode
+In-Reply-To: <8abf14b8-53a0-c39d-e17e-99bd7840b7a7@grimberg.me>
+References: <20171204092435.20000-1-sagi@grimberg.me>
+ <20171204092435.20000-3-sagi@grimberg.me> <20171204161930.GA12277@lst.de>
+ <c3d78077-b5b0-c05e-fca1-ca9ef5a0e1eb@grimberg.me>
+ <20171204200653.GA17023@lst.de>
+ <8abf14b8-53a0-c39d-e17e-99bd7840b7a7@grimberg.me>
+Message-ID: <20171206224650.GB14274@lst.de>
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/rdma.c | 3 ---
- 1 file changed, 3 deletions(-)
+On Tue, Dec 05, 2017@09:22:05AM +0200, Sagi Grimberg wrote:
+> Just to be clear, that is exactly what I intended to do.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 37af565..225f7f1 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -66,7 +66,6 @@ struct nvme_rdma_request {
- 	struct ib_sge		sge[1 + NVME_RDMA_MAX_INLINE_SEGMENTS];
- 	u32			num_sge;
- 	int			nents;
--	bool			inline_data;
- 	struct ib_reg_wr	reg_wr;
- 	struct ib_cqe		reg_cqe;
- 	struct nvme_rdma_queue  *queue;
-@@ -1086,7 +1085,6 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
- 	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
- 	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
- 
--	req->inline_data = true;
- 	req->num_sge++;
- 	return 0;
- }
-@@ -1158,7 +1156,6 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
- 	int count, ret;
- 
- 	req->num_sge = 1;
--	req->inline_data = false;
- 	refcount_set(&req->ref, 2); /* send and recv completions */
- 
- 	c->common.flags |= NVME_CMD_SGL_METABUF;
--- 
-1.8.3.1
+My point is that we should not have a configfs nob to turn
+on the r/o nob, but do it based on an error from the lower
+block device.
