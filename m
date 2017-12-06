@@ -1,32 +1,40 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 6 Dec 2017 15:40:16 +0200
-Subject: [PATCH] nvmet: Limit num of queues to num of cpus on traget
-In-Reply-To: <a0c4d4d4-5b63-4a88-20d8-6b774802e6fb@grimberg.me>
-References: <20171206113624.989-1-nitzanc@mellanox.com>
- <a0c4d4d4-5b63-4a88-20d8-6b774802e6fb@grimberg.me>
-Message-ID: <ace98df1-d4a8-e25a-ffc8-de3705f2bdf7@mellanox.com>
+Date: Wed,  6 Dec 2017 18:21:20 +0200
+Subject: [PATCH 1/1] nvme-rdma: remove redundant boolean for inline_data
+Message-ID: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
 
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-
-On 12/6/2017 2:54 PM, Sagi Grimberg wrote:
-> 
->> Sagi/Christoph,
->> In case the NVMEoF host asks num_io_queues << num_target_cpus there is
->> a waste of memory allocated in the target side for the sq's/cq's that
->> we never use. We might want to check the number of needed queues in
->> "set_features" cmd and allocate the minimum(wanted, target_capable).
->> This will block the option of creating more queues in a later stage
->> of the host lifecycle, but saves resources.
->>
->> thoughts ?
-> 
-> This is not the way to go at all. If you really care about saving a few
-> Kbytes of nvmet sq/cq and see that its a real problem, you need to
-> allocate them on demand instead of posing this limit to the host.
-> 
-
-Linux host side sets "count = min(*count, nr_io_queues)" in 
-nvme_set_queue_count so there is no chance it will ask more queues in 
-the future. We don't really care of this scenario (wanted_queues < 
-target_capable_queues) but we do care about the case that this patch 
-comes to fix.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 37af565..225f7f1 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -66,7 +66,6 @@ struct nvme_rdma_request {
+ 	struct ib_sge		sge[1 + NVME_RDMA_MAX_INLINE_SEGMENTS];
+ 	u32			num_sge;
+ 	int			nents;
+-	bool			inline_data;
+ 	struct ib_reg_wr	reg_wr;
+ 	struct ib_cqe		reg_cqe;
+ 	struct nvme_rdma_queue  *queue;
+@@ -1086,7 +1085,6 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+ 	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
+ 	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+ 
+-	req->inline_data = true;
+ 	req->num_sge++;
+ 	return 0;
+ }
+@@ -1158,7 +1156,6 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 	int count, ret;
+ 
+ 	req->num_sge = 1;
+-	req->inline_data = false;
+ 	refcount_set(&req->ref, 2); /* send and recv completions */
+ 
+ 	c->common.flags |= NVME_CMD_SGL_METABUF;
+-- 
+1.8.3.1
