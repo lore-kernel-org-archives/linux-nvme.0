@@ -1,30 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 12 Dec 2017 09:39:51 +0100
-Subject: Block Integrity Rq Count Question
-In-Reply-To: <MWHPR04MB1025EDA7D10216C24D00C573EA300@MWHPR04MB1025.namprd04.prod.outlook.com>
-References: <MWHPR04MB1025EDA7D10216C24D00C573EA300@MWHPR04MB1025.namprd04.prod.outlook.com>
-Message-ID: <20171212083951.GA923@lst.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 12 Dec 2017 17:16:59 +0800
+Subject: BUG: NULL pointer at IP: blk_mq_map_swqueue+0xbc/0x200 on
+ 4.15.0-rc2
+In-Reply-To: <20171212083502.GA10646@infradead.org>
+References: <799322399.34367785.1512659684033.JavaMail.zimbra@redhat.com>
+ <1443577037.35143768.1512717869183.JavaMail.zimbra@redhat.com>
+ <20171211035844.GB22819@ming.t460p>
+ <20171212083502.GA10646@infradead.org>
+Message-ID: <20171212091658.GA8529@ming.t460p>
 
-On Fri, Dec 08, 2017@10:04:47PM +0000, Jeffrey Lien wrote:
-> I've noticed an issue when trying to create an ext3/4 filesystem on nvme device with RHEL 7.3 and 7.4 and would like to understand how it's supposed to work or if there's a bug in the driver code.  
+On Tue, Dec 12, 2017@12:35:02AM -0800, Christoph Hellwig wrote:
+> On Mon, Dec 11, 2017@11:58:45AM +0800, Ming Lei wrote:
+> > As we talked offline, this IP points to cpumask_set_cpu(), seems this
+> > case may happen when one CPU isn't mapped to any hw queue, could you test
+> > the following patch to see if it helps your issue?
+> 
+> This looks odd as mq_map should be pre-zeroed.  If it isn't we have
+> a few more problems..
 
-Can you reproduces this on Linux 4.14 / Linux 4.15-rc, please?   The
-code in bio_integrity_prep should allocate the right number of
-bio_vec entries based on what the device asks for, and for NVMe that's
-always 1 in Linux as we don't support SGLs for the metadata transfer.
+This happens in case of updating nr_hw_queue, for example, when the
+number becomes 5 from 12, then the table has to be zeroed for avoiding
+obsolete mapping if one CPU isn't mapped to any hw queue.
 
-> 
-> When doing the mkfs command on an nvme device using lbaf of 1 or 3 (ie using metadata), the call to blk_rq_count_integrity_sg in nvme_map_data returns 2 causing the nvme_map_data function to goto out_unmap and ultimately the request fails.  In the blk_rq_count_integrity_sg function, the check "if (!BIOVEC_PHYS_MERGEABLE(ivprv, iv))" is true causing a 2nd segment to be added.  This seems like it could happen regularly so my question is why the nvme driver map data function is only ever expecting 1 segment?
-> 
-> Jeff Lien
-> Linux Device Driver Development
-> Device Host Apps and Drivers
-> jeff.lien at wdc.com
-> o: 507-322-2416 (ext. 23-2416)
-> m: 507-273-9124
-> 
-> 
-> 
-> 
-> 
----end quoted text---
+Thanks,
+Ming
