@@ -1,28 +1,40 @@
-From: mashimiao.fnst@cn.fujitsu.com (Ma Shimiao)
-Date: Tue, 12 Dec 2017 17:36:39 +0800
-Subject: [PATCH] drviers/nvme/target: fix max dup length for kstrndup
-Message-ID: <20171212093639.21274-1-mashimiao.fnst@cn.fujitsu.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 12 Dec 2017 19:02:26 +0800
+Subject: [PATCH 0/6] blk-mq: fix race related with device
+ deletion/reset/switching sched
+Message-ID: <20171212110232.12495-1-ming.lei@redhat.com>
 
-If source string longer than max, kstrndup will alloc max+1 space.
-So, we should make sure the result will not over limit.
+Hi,
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst at cn.fujitsu.com>
----
- drivers/nvme/target/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The 1st patch fixes one kernel oops triggered by IOs vs. deleting SCSI
+device, and this issue can be triggered in less than 1min on scsi_debug.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b54748ad5f48..0ca259ee4dea 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -975,7 +975,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 		return NULL;
- 	}
- 	subsys->type = type;
--	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
-+	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE - 1,
- 			GFP_KERNEL);
- 	if (!subsys->subsysnqn) {
- 		kfree(subsys);
+The other 5 patch fixes recent Yi Zhang's reports about his NVMe stress
+tests, most of them are related with switching io sched, NVMe reset or
+updating nr_hw_queues.
+
+Thanks,
+Ming
+
+
+Ming Lei (6):
+  blk-mq: quiesce queue before freeing queue
+  blk-mq: support concurrent blk_mq_quiesce_queue()
+  blk-mq: quiesce queue during switching io sched and updating
+    nr_requests
+  blk-mq: avoid to map CPU into stale hw queue
+  blk-mq: fix race between updating nr_hw_queues and switching io sched
+  nvme: remove .init_request callback
+
+ block/blk-core.c         |  9 +++++++++
+ block/blk-mq-pci.c       |  8 ++++++++
+ block/blk-mq.c           | 52 ++++++++++++++++++++++++++++++++++++++++++------
+ block/elevator.c         |  2 ++
+ drivers/nvme/host/core.c |  4 ++--
+ drivers/nvme/host/pci.c  | 40 ++++++++++++++++++-------------------
+ include/linux/blk-mq.h   |  7 ++++++-
+ include/linux/blkdev.h   |  2 ++
+ 8 files changed, 95 insertions(+), 29 deletions(-)
+
 -- 
-2.13.6
+2.9.5
