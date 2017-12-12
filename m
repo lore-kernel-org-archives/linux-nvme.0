@@ -1,34 +1,19 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Mon, 11 Dec 2017 16:50:44 -0700
-Subject: [v3,1/9] RDMA/core: Add implicit per-device completion queue pools
-In-Reply-To: <20171108095742.25365-2-sagi@grimberg.me>
-References: <20171108095742.25365-2-sagi@grimberg.me>
-Message-ID: <20171211235044.GA32331@ziepe.ca>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 11 Dec 2017 17:00:48 -0700
+Subject: Block Integrity Rq Count Question
+In-Reply-To: <MWHPR04MB102571849DD1D1ACD58670DBEA370@MWHPR04MB1025.namprd04.prod.outlook.com>
+References: <MWHPR04MB1025EDA7D10216C24D00C573EA300@MWHPR04MB1025.namprd04.prod.outlook.com>
+ <20171208221946.GB26887@localhost.localdomain>
+ <MWHPR04MB102571849DD1D1ACD58670DBEA370@MWHPR04MB1025.namprd04.prod.outlook.com>
+Message-ID: <20171212000047.GE11218@localhost.localdomain>
 
-On Wed, Nov 08, 2017@11:57:34AM +0200, Sagi Grimberg wrote:
-> Allow a ULP to ask the core to implicitly assign a completion
-> queue to a queue-pair based on a least-used search on a per-device
-> cq pools. The device CQ pools grow in a lazy fashion with every
-> QP creation.
-> 
-> In addition, expose an affinity hint for a queue pair creation.
-> If passed, the core will attempt to attach a CQ with a completion
-> vector that is directed to the cpu core as the affinity hint
-> provided.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+On Mon, Dec 11, 2017@05:54:35PM +0000, Jeffrey Lien wrote:
+> Keith,
+> Your comment below makes sense, but I still have a question.   Where in the driver (or maybe it's block layer) is metadata pointer allocated?   I can't find where that happens in the nvme driver so does this happen in the block layer?   And how do we control whether or not it's 1 contiguous buffer or not?
 
-Sagi, Bart,
-
-Did we reach a conclusion on this? Is v3 the series to take, and
-should it all go through the RDMA tree? It looks like there are some
-missing acks for that??
-
-I think there was also an unapplied comment from bart in the
-patchworks notes...
-
-Could you please add some commit messages when you resend it? Not sure
-I should be accepting such large commits with empty messages???
-
-Thanks,
-Jason
+The function 'nvme_init_integrity' sets up our metadata
+profile and requests single metadata payload segments with
+'blk_queue_max_integrity_segments(disk->queue, 1)', so the fact
+that you're getting multiple segments in your payload suggests some
+inappropriate merging is going on in the block layer. It looks like
+blk_integrity_merge_{bio,rq} are doing the right thing.
