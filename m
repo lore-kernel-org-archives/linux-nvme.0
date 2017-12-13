@@ -1,23 +1,26 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 13 Dec 2017 08:34:35 -0700
-Subject: [PATCH V2 0/2] nvme-cli: add options to set/get property of NVMf
-In-Reply-To: <1513131091-15840-1-git-send-email-guanjunxiong@huawei.com>
-References: <1513131091-15840-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <20171213153433.GK11218@localhost.localdomain>
+Date: Wed, 13 Dec 2017 08:35:10 -0700
+Subject: [PATCH nvme-cli v2] nvme: Introduce new 'list-subsys' command
+In-Reply-To: <20171213143417.19489-1-jthumshirn@suse.de>
+References: <20171213143417.19489-1-jthumshirn@suse.de>
+Message-ID: <20171213153510.GL11218@localhost.localdomain>
 
-On Wed, Dec 13, 2017@10:11:29AM +0800, Guan Junxiong wrote:
-> Hi all,
+On Wed, Dec 13, 2017@03:34:17PM +0100, Johannes Thumshirn wrote:
+> Introduce a 'nvme list-subsys' command to give basic information about
+> connected NVMe subsystems.
 > 
-> To make it easy to use, this two patches add the support to set/get the
-> properties for NVMe over Fabric. 
+> Here's an example output of a host connected to two subsystems on the
+> target with two paths to each subsystem:
+> root at host# nvme list-subsys
+> nvme-subsys0 - NQN=nvmf-test
+> \
+>  +- nvme0 rdma traddr=1.1.1.3 trsvcid=4420 host_traddr=1.1.1.1
+>  +- nvme1 rdma traddr=1.1.1.3 trsvcid=4420 host_traddr=1.1.1.2
+> nvme-subsys1 - NQN=nvmf-test2
+> \
+>  +- nvme2 rdma traddr=1.1.1.3 trsvcid=4420 host_traddr=1.1.1.2
+>  +- nvme3 rdma traddr=1.1.1.3 trsvcid=4420 host_traddr=1.1.1.1
 > 
-> Patch 1/2  makes use of show-regs option which only supports PCIe previously
-> to support NVMf.
-> Patch 2/2  adds new option named set-property to support setting the property 
-> of NVMf. IMO, it is the responsibility of kernel to try to avoid malicious
-> operation such as setting NRSS from the user space. So I ignore this in
-> the nvme-cli.
-> 
-> Welcome any comments.
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-Thanks, I've applied both with some merge and asciidoc fixups.
+Thanks, this looks good to me! Applied.
