@@ -1,42 +1,48 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Tue, 12 Dec 2017 21:17:41 +0000
-Subject: Block Integrity Rq Count Question
-In-Reply-To: <20171212083951.GA923@lst.de>
-References: <MWHPR04MB1025EDA7D10216C24D00C573EA300@MWHPR04MB1025.namprd04.prod.outlook.com>
- <20171212083951.GA923@lst.de>
-Message-ID: <MWHPR04MB10255E98970306D54CF5FB9FEA340@MWHPR04MB1025.namprd04.prod.outlook.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 13 Dec 2017 10:11:29 +0800
+Subject: [PATCH V2 0/2] nvme-cli: add options to set/get property of NVMf
+Message-ID: <1513131091-15840-1-git-send-email-guanjunxiong@huawei.com>
 
-Christoph,
-The problem is resolved in the 4.15.0-rc1.  I'm able to do the mkfs command with nvme_map_data returning 1 segment for all requests.   Is there a specific block layer patch I can reference and recommend to Redhat to pull into their 7.3 and 7.4 releases?
+Hi all,
 
+To make it easy to use, this two patches add the support to set/get the
+properties for NVMe over Fabric. 
 
-Jeff Lien
+Patch 1/2  makes use of show-regs option which only supports PCIe previously
+to support NVMf.
+Patch 2/2  adds new option named set-property to support setting the property 
+of NVMf. IMO, it is the responsibility of kernel to try to avoid malicious
+operation such as setting NRSS from the user space. So I ignore this in
+the nvme-cli.
 
------Original Message-----
-From: Christoph Hellwig [mailto:hch@lst.de] 
-Sent: Tuesday, December 12, 2017 2:40 AM
-To: Jeffrey Lien
-Cc: linux-nvme at lists.infradead.org; Christoph Hellwig; David Darrington; Martin K. Petersen
-Subject: Re: Block Integrity Rq Count Question
+Welcome any comments.
 
-On Fri, Dec 08, 2017@10:04:47PM +0000, Jeffrey Lien wrote:
-> I've noticed an issue when trying to create an ext3/4 filesystem on nvme device with RHEL 7.3 and 7.4 and would like to understand how it's supposed to work or if there's a bug in the driver code.  
+Thanks
 
-Can you reproduces this on Linux 4.14 / Linux 4.15-rc, please?   The
-code in bio_integrity_prep should allocate the right number of bio_vec entries based on what the device asks for, and for NVMe that's always 1 in Linux as we don't support SGLs for the metadata transfer.
+Changes since V1:
+* return nagative -EINVAL and set errno to distinguish positive NVMe error status code (Minwoo)
+* remove uncecessary initialization for local variable _is64bit_ (Minwoo)
+* rebase on latest master
 
-> 
-> When doing the mkfs command on an nvme device using lbaf of 1 or 3 (ie using metadata), the call to blk_rq_count_integrity_sg in nvme_map_data returns 2 causing the nvme_map_data function to goto out_unmap and ultimately the request fails.  In the blk_rq_count_integrity_sg function, the check "if (!BIOVEC_PHYS_MERGEABLE(ivprv, iv))" is true causing a 2nd segment to be added.  This seems like it could happen regularly so my question is why the nvme driver map data function is only ever expecting 1 segment?
-> 
-> Jeff Lien
-> Linux Device Driver Development
-> Device Host Apps and Drivers
-> jeff.lien at wdc.com
-> o: 507-322-2416 (ext. 23-2416)
-> m: 507-273-9124
-> 
-> 
-> 
-> 
-> 
----end quoted text---
+Guan Junxiong (2):
+  nvme-cli: add support to get properties for NVMe over Fabric
+  nvme-cli: support to set the property for NVMe over Fabric
+
+ Documentation/nvme-set-property.1    |  51 +++
+ Documentation/nvme-set-property.html | 814 +++++++++++++++++++++++++++++++++++
+ Documentation/nvme-set-property.txt  |  34 ++
+ Documentation/nvme-show-regs.1       |  13 +-
+ Documentation/nvme-show-regs.txt     |  23 +-
+ nvme-builtin.h                       |   3 +-
+ nvme-ioctl.c                         |  94 ++++
+ nvme-ioctl.h                         |   2 +
+ nvme-print.c                         | 134 +++---
+ nvme-print.h                         |   3 +-
+ nvme.c                               |  77 +++-
+ 11 files changed, 1173 insertions(+), 75 deletions(-)
+ create mode 100644 Documentation/nvme-set-property.1
+ create mode 100644 Documentation/nvme-set-property.html
+ create mode 100644 Documentation/nvme-set-property.txt
+
+-- 
+2.11.1
