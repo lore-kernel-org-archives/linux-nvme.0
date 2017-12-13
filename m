@@ -1,7 +1,7 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 13 Dec 2017 15:06:19 +0100
-Subject: [PATCH nvme-cli] nvme: Introduce new 'list-subsys' command
-Message-ID: <20171213140619.13771-1-jthumshirn@suse.de>
+Date: Wed, 13 Dec 2017 15:34:17 +0100
+Subject: [PATCH nvme-cli v2] nvme: Introduce new 'list-subsys' command
+Message-ID: <20171213143417.19489-1-jthumshirn@suse.de>
 
 Introduce a 'nvme list-subsys' command to give basic information about
 connected NVMe subsystems.
@@ -19,6 +19,11 @@ nvme-subsys1 - NQN=nvmf-test2
  +- nvme3 rdma traddr=1.1.1.3 trsvcid=4420 host_traddr=1.1.1.1
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+---
+Changes to v1:
+- Fix manpage build
+- Check return of asprintf()
 ---
  Documentation/nvme-list-subsys.txt  |  81 +++++++++
  completions/bash-nvme-completion.sh |   2 +-
@@ -32,12 +37,12 @@ Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 diff --git a/Documentation/nvme-list-subsys.txt b/Documentation/nvme-list-subsys.txt
 new file mode 100644
-index 000000000000..9be26ce66e7c
+index 000000000000..c7de7efba654
 --- /dev/null
 +++ b/Documentation/nvme-list-subsys.txt
 @@ -0,0 +1,81 @@
 +nvme-list-subsys(1)
-+============
++===================
 +
 +NAME
 +----
@@ -215,7 +220,7 @@ index d110b980c461..64bdb7edcbeb 100644
  
  #endif
 diff --git a/nvme.c b/nvme.c
-index 7830ea2de4ac..3f287aed97c7 100644
+index 7830ea2de4ac..323aca65ee1e 100644
 --- a/nvme.c
 +++ b/nvme.c
 @@ -826,6 +826,346 @@ static void *get_registers(void)
@@ -263,8 +268,8 @@ index 7830ea2de4ac..3f287aed97c7 100644
 +	int fd;
 +	ssize_t ret;
 +
-+	asprintf(&trpath, "%s/transport", path);
-+	if (!trpath)
++	ret = asprintf(&trpath, "%s/transport", path);
++	if (ret < 0)
 +		return NULL;
 +
 +	transport = calloc(1, 1024);
@@ -305,8 +310,8 @@ index 7830ea2de4ac..3f287aed97c7 100644
 +	ssize_t ret;
 +	int i;
 +
-+	asprintf(&addrpath, "%s/address", path);
-+	if (!addrpath)
++	ret = asprintf(&addrpath, "%s/address", path);
++	if (ret < 0)
 +		return NULL;
 +
 +	address = calloc(1, 1024);
