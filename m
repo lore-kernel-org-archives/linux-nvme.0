@@ -1,101 +1,144 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 14 Dec 2017 10:30:58 +0800
-Subject: [PATCH V2 1/6] blk-mq: quiesce queue before freeing queue
+Date: Thu, 14 Dec 2017 10:30:59 +0800
+Subject: [PATCH V2 2/6] blk-mq: support concurrent blk_mq_quiesce_queue()
 In-Reply-To: <20171214023103.18272-1-ming.lei@redhat.com>
 References: <20171214023103.18272-1-ming.lei@redhat.com>
-Message-ID: <20171214023103.18272-2-ming.lei@redhat.com>
+Message-ID: <20171214023103.18272-3-ming.lei@redhat.com>
 
-After queue is frozen, dispatch still may happen, for example:
+Turns out that blk_mq_freeze_queue() isn't stronger[1] than
+blk_mq_quiesce_queue() because dispatch may still be in-progress after
+queue is frozen, and in several cases, such as switching io scheduler,
+and updating hw queues, we still need to quiesce queue as a supplement
+of freezing queue.
 
-1) requests are submitted from several contexts
-2) requests from all these contexts are inserted to queue, but may dispatch
-to LLD in one of these paths, but other paths sill need to move on even all
-these requests are completed(that means blk_mq_freeze_queue_wait() returns
-at that time)
-3) dispatch after queue freezing still moves on and causes use-after-free,
-because request queue is freed
+As we need to extend uses of blk_mq_quiesce_queue(), it is inevitable
+for us to need support cucurrent quiesce, especailly we can't let
+unquiesce happen when there is quiesce happenning from other contexts.
 
-This patch quiesces queue after it is frozen, and makes sure all
-in-progress dispatch are completed.
+This patch introduces q->mq_quiesce_depth to deal concurrent quiesce,
+and we only unquiesce queue when it is the last one from all contexts.
 
-This patch fixes the following kernel crash when running heavy IOs vs.
-deleting device:
+[1] https://marc.info/?l=linux-block&m=150993988115872&w=2
 
-[   36.719251] BUG: unable to handle kernel NULL pointer dereference at 0000000000000008
-[   36.720318] IP: kyber_has_work+0x14/0x40
-[   36.720847] PGD 254bf5067 P4D 254bf5067 PUD 255e6a067 PMD 0
-[   36.721584] Oops: 0000 [#1] PREEMPT SMP
-[   36.722105] Dumping ftrace buffer:
-[   36.722570]    (ftrace buffer empty)
-[   36.723057] Modules linked in: scsi_debug ebtable_filter ebtables ip6table_filter ip6_tables tcm_loop iscsi_target_mod target_core_file target_core_iblock target_core_pscsi target_core_mod xt_CHECKSUM iptable_mangle ipt_MASQUERADE nf_nat_masquerade_ipv4 iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack libcrc32c bridge stp llc fuse iptable_filter ip_tables sd_mod sg btrfs xor zstd_decompress zstd_compress xxhash raid6_pq mptsas mptscsih bcache crc32c_intel ahci mptbase libahci serio_raw scsi_transport_sas nvme libata shpchp lpc_ich virtio_scsi nvme_core binfmt_misc dm_mod iscsi_tcp libiscsi_tcp libiscsi scsi_transport_iscsi null_blk configs
-[   36.733438] CPU: 2 PID: 2374 Comm: fio Not tainted 4.15.0-rc2.blk_mq_quiesce+ #714
-[   36.735143] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.9.3-1.fc25 04/01/2014
-[   36.736688] RIP: 0010:kyber_has_work+0x14/0x40
-[   36.737515] RSP: 0018:ffffc9000209bca0 EFLAGS: 00010202
-[   36.738431] RAX: 0000000000000008 RBX: ffff88025578bfc8 RCX: ffff880257bf4ed0
-[   36.739581] RDX: 0000000000000038 RSI: ffffffff81a98c6d RDI: ffff88025578bfc8
-[   36.740730] RBP: ffff880253cebfc8 R08: ffffc9000209bda0 R09: ffff8802554f3480
-[   36.741885] R10: ffffc9000209be60 R11: ffff880263f72538 R12: ffff88025573e9e8
-[   36.743036] R13: ffff88025578bfd0 R14: 0000000000000001 R15: 0000000000000000
-[   36.744189] FS:  00007f9b9bee67c0(0000) GS:ffff88027fc80000(0000) knlGS:0000000000000000
-[   36.746617] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   36.748483] CR2: 0000000000000008 CR3: 0000000254bf4001 CR4: 00000000003606e0
-[   36.750164] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[   36.751455] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[   36.752796] Call Trace:
-[   36.753992]  blk_mq_do_dispatch_sched+0x7f/0xe0
-[   36.755110]  blk_mq_sched_dispatch_requests+0x119/0x190
-[   36.756179]  __blk_mq_run_hw_queue+0x83/0x90
-[   36.757144]  __blk_mq_delay_run_hw_queue+0xaf/0x110
-[   36.758046]  blk_mq_run_hw_queue+0x24/0x70
-[   36.758845]  blk_mq_flush_plug_list+0x1e7/0x270
-[   36.759676]  blk_flush_plug_list+0xd6/0x240
-[   36.760463]  blk_finish_plug+0x27/0x40
-[   36.761195]  do_io_submit+0x19b/0x780
-[   36.761921]  ? entry_SYSCALL_64_fastpath+0x1a/0x7d
-[   36.762788]  entry_SYSCALL_64_fastpath+0x1a/0x7d
-[   36.763639] RIP: 0033:0x7f9b9699f697
-[   36.764352] RSP: 002b:00007ffc10f991b8 EFLAGS: 00000206 ORIG_RAX: 00000000000000d1
-[   36.765773] RAX: ffffffffffffffda RBX: 00000000008f6f00 RCX: 00007f9b9699f697
-[   36.766965] RDX: 0000000000a5e6c0 RSI: 0000000000000001 RDI: 00007f9b8462a000
-[   36.768377] RBP: 0000000000000000 R08: 0000000000000001 R09: 00000000008f6420
-[   36.769649] R10: 00007f9b846e5000 R11: 0000000000000206 R12: 00007f9b795d6a70
-[   36.770807] R13: 00007f9b795e4140 R14: 00007f9b795e3fe0 R15: 0000000100000000
-[   36.771955] Code: 83 c7 10 e9 3f 68 d1 ff 0f 1f 44 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 8b 97 b0 00 00 00 48 8d 42 08 48 83 c2 38 <48> 3b 00 74 06 b8 01 00 00 00 c3 48 3b 40 08 75 f4 48 83 c0 10
-[   36.775004] RIP: kyber_has_work+0x14/0x40 RSP: ffffc9000209bca0
-[   36.776012] CR2: 0000000000000008
-[   36.776690] ---[ end trace 4045cbce364ff2a4 ]---
-[   36.777527] Kernel panic - not syncing: Fatal exception
-[   36.778526] Dumping ftrace buffer:
-[   36.779313]    (ftrace buffer empty)
-[   36.780081] Kernel Offset: disabled
-[   36.780877] ---[ end Kernel panic - not syncing: Fatal exception
-
-Cc: stable at vger.kernel.org
+Suggested-by: Bart Van Assche <bart.vanassche at wdc.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ block/blk-mq.c           | 21 ++++++++++++++++-----
+ drivers/nvme/host/core.c |  4 ++--
+ include/linux/blk-mq.h   |  7 ++++++-
+ include/linux/blkdev.h   |  2 ++
+ 4 files changed, 26 insertions(+), 8 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index b8881750a3ac..071a0fb29597 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -694,6 +694,15 @@ void blk_cleanup_queue(struct request_queue *q)
- 	queue_flag_set(QUEUE_FLAG_DEAD, q);
- 	spin_unlock_irq(lock);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 11097477eeab..5d69c8075339 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -196,7 +196,8 @@ void blk_mq_quiesce_queue_nowait(struct request_queue *q)
+ 	unsigned long flags;
  
-+	/*
-+	 * make sure all in-progress dispatch are completed because
-+	 * blk_freeze_queue() can only complete all requests, and
-+	 * dispatch may still be in-progress since we dispatch requests
-+	 * from more than one contexts
-+	 */
-+	if (q->mq_ops)
-+		blk_mq_quiesce_queue(q);
+ 	spin_lock_irqsave(q->queue_lock, flags);
+-	queue_flag_set(QUEUE_FLAG_QUIESCED, q);
++	if (!q->quiesce_depth++)
++		queue_flag_set(QUEUE_FLAG_QUIESCED, q);
+ 	spin_unlock_irqrestore(q->queue_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+@@ -232,22 +233,32 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
+ /*
+  * blk_mq_unquiesce_queue() - counterpart of blk_mq_quiesce_queue()
+  * @q: request queue.
++ * @force: force to unquiesce if set
+  *
+  * This function recovers queue into the state before quiescing
+  * which is done by blk_mq_quiesce_queue.
++ *
++ * Note: @force should be passed as true only when it is done before
++ * cleanup queue, for other cases, please don't use this way.
+  */
+-void blk_mq_unquiesce_queue(struct request_queue *q)
++void __blk_mq_unquiesce_queue(struct request_queue *q, bool force)
+ {
+ 	unsigned long flags;
++	int depth;
+ 
+ 	spin_lock_irqsave(q->queue_lock, flags);
+-	queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
++	if (q->quiesce_depth > 0)
++		q->quiesce_depth--;
++	depth = q->quiesce_depth;
++	if (!depth || force)
++		queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
+ 	spin_unlock_irqrestore(q->queue_lock, flags);
+ 
+ 	/* dispatch requests which are inserted during quiescing */
+-	blk_mq_run_hw_queues(q, true);
++	if (!depth || force)
++		blk_mq_run_hw_queues(q, true);
+ }
+-EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
++EXPORT_SYMBOL_GPL(__blk_mq_unquiesce_queue);
+ 
+ void blk_mq_wake_waiters(struct request_queue *q)
+ {
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f837d666cbd4..1ab1168cd46a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3371,7 +3371,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 	if (ctrl->admin_q)
+-		blk_mq_unquiesce_queue(ctrl->admin_q);
++		__blk_mq_unquiesce_queue(ctrl->admin_q, true);
+ 
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+ 		/*
+@@ -3384,7 +3384,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 		blk_set_queue_dying(ns->queue);
+ 
+ 		/* Forcibly unquiesce queues to avoid blocking dispatch */
+-		blk_mq_unquiesce_queue(ns->queue);
++		__blk_mq_unquiesce_queue(ns->queue, true);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+ }
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 95c9a5c862e2..8a01822dc09e 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -265,7 +265,7 @@ void blk_mq_start_hw_queues(struct request_queue *q);
+ void blk_mq_start_stopped_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
+ void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_quiesce_queue(struct request_queue *q);
+-void blk_mq_unquiesce_queue(struct request_queue *q);
++void __blk_mq_unquiesce_queue(struct request_queue *q, bool force);
+ void blk_mq_delay_run_hw_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
+ bool blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async);
+ void blk_mq_run_hw_queues(struct request_queue *q, bool async);
+@@ -286,6 +286,11 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+ 
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q);
+ 
++static inline void blk_mq_unquiesce_queue(struct request_queue *q)
++{
++	__blk_mq_unquiesce_queue(q, false);
++}
 +
- 	/* for synchronous bio-based driver finish in-flight integrity i/o */
- 	blk_flush_integrity();
+ /*
+  * Driver command data is immediately after the request. So subtract request
+  * size to get back to the original request, add request size to get the PDU.
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 8089ca17db9a..ee3731f417c0 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -570,6 +570,8 @@ struct request_queue {
+ 	int			bypass_depth;
+ 	atomic_t		mq_freeze_depth;
  
++	int			quiesce_depth;
++
+ #if defined(CONFIG_BLK_DEV_BSG)
+ 	bsg_job_fn		*bsg_job_fn;
+ 	struct bsg_class_device bsg_dev;
 -- 
 2.9.5
