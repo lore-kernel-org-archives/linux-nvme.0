@@ -1,22 +1,42 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 14 Dec 2017 11:29:18 -0700
-Subject: [BUG] NULL pointer dereference in nvme_setup_streams_ns
-In-Reply-To: <20171214125617.GA10616@lst.de>
-References: <CGME20171214125019epcas2p3bde40201e0ba4833214c64637d67b24d@epcas2p3.samsung.com>
- <b70776c2-5781-9f65-9ab7-ebb81a86d46d@samsung.com>
- <20171214125617.GA10616@lst.de>
-Message-ID: <20171214182917.GC26752@localhost.localdomain>
+From: jeff.lien@wdc.com (Jeff Lien)
+Date: Thu, 14 Dec 2017 14:49:36 -0600
+Subject: [PATCH] NVMe: Format fix when going from 4k sector size to 512 bytes
+Message-ID: <20171214204936.17793-1-jeff.lien@wdc.com>
 
-On Thu, Dec 14, 2017@01:56:17PM +0100, Christoph Hellwig wrote:
-> Try moving the call to nvme_setup_streams_ns until after the call to
-> nvme_init_ns_head.  I'll prepare a formal patch in a bit when I'm not on the
-> run.
+If you format a device with a 4k sector size back to 512 bytes,
+the queue limit values for physical block size and IO sizes were
+not getting updated; only the logical block size was being
+updated.  This patch adds code to update the physical block
+and IO sizes.
 
-Ah, didn't see you were already fixing this. If you've already got it,
-just skip my "Setup streams" patch.
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+---
+ drivers/nvme/host/core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Arnav,
-Please use plain text for the mailing list in the future.
-
-Thanks,
-Keith
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f837d666cbd4..035ed9e57f70 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1336,6 +1336,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ {
+ 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+ 	unsigned stream_alignment = 0;
++	unsigned short bs;
+ 
+ 	if (ns->ctrl->nr_streams && ns->sws && ns->sgs)
+ 		stream_alignment = ns->sws * ns->sgs;
+@@ -1343,7 +1344,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	blk_mq_freeze_queue(disk->queue);
+ 	blk_integrity_unregister(disk);
+ 
+-	blk_queue_logical_block_size(disk->queue, 1 << ns->lba_shift);
++	bs = 1 << ns->lba_shift;
++	blk_queue_logical_block_size(disk->queue, bs);
++	blk_queue_physical_block_size(ns->queue, bs);
++    	blk_limits_io_min(&ns->queue->limits, bs);
+ 	if (ns->ms && !ns->ext &&
+ 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+ 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
+-- 
+2.14.2.746.g8fb8a94
