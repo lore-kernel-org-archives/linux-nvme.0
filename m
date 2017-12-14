@@ -1,46 +1,46 @@
-From: df7729@gmail.com (David F.)
-Date: Wed, 13 Dec 2017 12:20:32 -0800
-Subject: When will Linux support new RAID controllers
-In-Reply-To: <CAKKYfmGbz5wpU3pAY2rTsuY=e9DsDW=FgTqrbf-shu7TDg1mnA@mail.gmail.com>
-References: <CAGRSmLs-Hr+FFfa4_29kidEeL2d7b+cEP6u1OkOUoYW6Cm15BA@mail.gmail.com>
- <20171110131937.GA26181@infradead.org>
- <CAKKYfmEqw48mjBsKoy=qeny6B1X8PKytSN4UwpvSupo87746kg@mail.gmail.com>
- <CAGRSmLsvAR6wth7tPd5J2kAydy64uQ+h45Yu-SUeOAHkfOHXHA@mail.gmail.com>
- <CAGRSmLto7dG19zgUkdZjuhacWXo=ju6WdS0YVjC5xOOsGjV9kg@mail.gmail.com>
- <20171207141612.2653a0fb@alans-desktop>
- <CAKKYfmGbz5wpU3pAY2rTsuY=e9DsDW=FgTqrbf-shu7TDg1mnA@mail.gmail.com>
-Message-ID: <CAGRSmLvGiL_OfT+N42DcNf8xdar__HTWDVnNvA=L=sa5Hx-VMw@mail.gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 14 Dec 2017 10:30:57 +0800
+Subject: [PATCH V2 0/6] blk-mq: fix race related with device
+ deletion/reset/switching sched
+Message-ID: <20171214023103.18272-1-ming.lei@redhat.com>
 
-Where is the code/patch that was released?  If nobody knows about it,
-nobody can work on it.
+Hi,
 
-"I am not aware of anyone in Intel working on it or planning to work on it
-at this point. Nothing stops someone outside of Intel doing that from the
-code that was released."
+The 1st patch fixes one kernel oops triggered by IOs vs. deleting SCSI
+device, and this issue can be triggered easily on scsi_debug.
 
-On Thu, Dec 7, 2017@6:18 AM, Dennis Mungai <dmngaie@gmail.com> wrote:
-> Eventually, a driver will roll out. The question is when.
->
->
->
-> On 7 December 2017@17:16, Alan Cox <gnomes@lxorguk.ukuu.org.uk> wrote:
->> On Mon, 4 Dec 2017 18:01:10 -0800
->> "David F." <df7729@gmail.com> wrote:
->>
->>> Hi,
->>>
->>> Any word if the patch is available?
->>>
->>> Is this going mainline anytime soon?
->>
->> I am not aware of anyone in Intel working on it or planning to work on it
->> at this point. Nothing stops someone outside of Intel doing that from the
->> code that was released.
->>
->> For things that need BIOS changes whatever the vendor my experience has
->> always been that you make the most impact by talking to the actual system
->> vendor (who controls the BIOS), including telling them why you didn't buy
->> their machine. At the end of the day businesses make decisions based on
->> dollars.
->>
->> Alan
+The other 5 patch fixes recent Yi Zhang's reports about his NVMe stress
+tests, most of them are related with switching io sched, NVMe reset or
+updating nr_hw_queues.
+
+V2:
+	- address stale queue mapping in blk_mq_update_queue_map(), instead
+	of PCI transport, since such issue exists on other transport too,
+	as suggested by Christoph
+	- avoid to introduce nvme_admin_queue_rq() since the nvme queue can
+	be got from hctx->driver_data, which is reliable
+
+
+Thanks,
+Ming
+
+Ming Lei (6):
+  blk-mq: quiesce queue before freeing queue
+  blk-mq: support concurrent blk_mq_quiesce_queue()
+  blk-mq: quiesce queue during switching io sched and updating
+    nr_requests
+  blk-mq: avoid to map CPU into stale hw queue
+  blk-mq: fix race between updating nr_hw_queues and switching io sched
+  nvme-pci: remove .init_request callback
+
+ block/blk-core.c         |  9 ++++++
+ block/blk-mq.c           | 74 ++++++++++++++++++++++++++++++++++++++++++------
+ block/elevator.c         |  2 ++
+ drivers/nvme/host/core.c |  4 +--
+ drivers/nvme/host/pci.c  | 21 +++-----------
+ include/linux/blk-mq.h   |  7 ++++-
+ include/linux/blkdev.h   |  2 ++
+ 7 files changed, 91 insertions(+), 28 deletions(-)
+
+-- 
+2.9.5
