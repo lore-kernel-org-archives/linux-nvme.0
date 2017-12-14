@@ -1,42 +1,18 @@
-From: jeff.lien@wdc.com (Jeff Lien)
-Date: Thu, 14 Dec 2017 14:49:36 -0600
-Subject: [PATCH] NVMe: Format fix when going from 4k sector size to 512 bytes
-Message-ID: <20171214204936.17793-1-jeff.lien@wdc.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 14 Dec 2017 15:42:57 -0700
+Subject: [PATCH] NVMe: Format fix when going from 4k sector size to 512
+ bytes
+In-Reply-To: <20171214204936.17793-1-jeff.lien@wdc.com>
+References: <20171214204936.17793-1-jeff.lien@wdc.com>
+Message-ID: <20171214224257.GE26752@localhost.localdomain>
 
-If you format a device with a 4k sector size back to 512 bytes,
-the queue limit values for physical block size and IO sizes were
-not getting updated; only the logical block size was being
-updated.  This patch adds code to update the physical block
-and IO sizes.
+On Thu, Dec 14, 2017@02:49:36PM -0600, Jeff Lien wrote:
+> If you format a device with a 4k sector size back to 512 bytes,
+> the queue limit values for physical block size and IO sizes were
+> not getting updated; only the logical block size was being
+> updated.  This patch adds code to update the physical block
+> and IO sizes.
 
-Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
----
- drivers/nvme/host/core.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f837d666cbd4..035ed9e57f70 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1336,6 +1336,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- {
- 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
- 	unsigned stream_alignment = 0;
-+	unsigned short bs;
- 
- 	if (ns->ctrl->nr_streams && ns->sws && ns->sgs)
- 		stream_alignment = ns->sws * ns->sgs;
-@@ -1343,7 +1344,10 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_mq_freeze_queue(disk->queue);
- 	blk_integrity_unregister(disk);
- 
--	blk_queue_logical_block_size(disk->queue, 1 << ns->lba_shift);
-+	bs = 1 << ns->lba_shift;
-+	blk_queue_logical_block_size(disk->queue, bs);
-+	blk_queue_physical_block_size(ns->queue, bs);
-+    	blk_limits_io_min(&ns->queue->limits, bs);
- 	if (ns->ms && !ns->ext &&
- 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
- 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
--- 
-2.14.2.746.g8fb8a94
+That's true, though I always considered that to be a happy accident. As
+far as I know, most NVMe SSDs advertising a 512 byte logical block are
+only emulating that size, and are natively 4k or larger.
