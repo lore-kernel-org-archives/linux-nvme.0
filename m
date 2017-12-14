@@ -1,35 +1,22 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 14 Dec 2017 11:20:32 -0700
-Subject: [PATCH] nvme: Setup streams after initializing namespace head
-Message-ID: <20171214182032.4762-1-keith.busch@intel.com>
+Date: Thu, 14 Dec 2017 11:29:18 -0700
+Subject: [BUG] NULL pointer dereference in nvme_setup_streams_ns
+In-Reply-To: <20171214125617.GA10616@lst.de>
+References: <CGME20171214125019epcas2p3bde40201e0ba4833214c64637d67b24d@epcas2p3.samsung.com>
+ <b70776c2-5781-9f65-9ab7-ebb81a86d46d@samsung.com>
+ <20171214125617.GA10616@lst.de>
+Message-ID: <20171214182917.GC26752@localhost.localdomain>
 
-Fixes a NULL pointer dereference.
+On Thu, Dec 14, 2017@01:56:17PM +0100, Christoph Hellwig wrote:
+> Try moving the call to nvme_setup_streams_ns until after the call to
+> nvme_init_ns_head.  I'll prepare a formal patch in a bit when I'm not on the
+> run.
 
-Reported-by: Arnav Dawn <a.dawn at samsung.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ah, didn't see you were already fixing this. If you've already got it,
+just skip my "Setup streams" patch.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9831a592bbb9..15cb0b6bfe4f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2870,7 +2870,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
- 	nvme_set_queue_limits(ctrl, ns->queue);
--	nvme_setup_streams_ns(ctrl, ns);
- 
- 	id = nvme_identify_ns(ctrl, nsid);
- 	if (!id)
-@@ -2881,6 +2880,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	if (nvme_init_ns_head(ns, nsid, id, &new))
- 		goto out_free_id;
-+	nvme_setup_streams_ns(ctrl, ns);
- 	
- #ifdef CONFIG_NVME_MULTIPATH
- 	/*
--- 
-2.13.6
+Arnav,
+Please use plain text for the mailing list in the future.
+
+Thanks,
+Keith
