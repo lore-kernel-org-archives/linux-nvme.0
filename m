@@ -1,44 +1,26 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 16 Dec 2017 03:02:51 +0900
-Subject: [PATCH 2/2] nvme-cli: add a status code of Firmware Commit command
-In-Reply-To: <1513360971-15566-1-git-send-email-minwoo.im.dev@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 15 Dec 2017 11:23:33 -0700
+Subject: [PATCH 1/2] nvme-cli: update Firmware Activate command for new
+ feature
+In-Reply-To: <1513360971-15566-2-git-send-email-minwoo.im.dev@gmail.com>
 References: <1513360971-15566-1-git-send-email-minwoo.im.dev@gmail.com>
-Message-ID: <1513360971-15566-3-git-send-email-minwoo.im.dev@gmail.com>
+ <1513360971-15566-2-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <20171215182333.GG26752@localhost.localdomain>
 
-NVMe 1.3 spec introduced Boot Partition feature with Boot Partition
-Write Prohibited status code for Firmware Commit command.
+On Sat, Dec 16, 2017@03:02:50AM +0900, Minwoo Im wrote:
+> Firmware Activate command were known as "Firmware Activate" in NVMe 1.0 and 1.1.
+> It has been changed to Firmware Commit since 1.2.
+> Also NVMe 1.3 spec introduced boot partition feature to Firmware Commit
+> command.
+> 
+> Update Firmware Activate command name and add a few new feature of boot
+> partition.
 
-Add this status code and print statement when parsing error code.
+Hm, I can't really accept this. The tool existed when the command was
+still called firmware activate in the spec. There are scripts in people's
+environments that automate firmware updates, and we can't just break them
+by changing a command name.
 
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- linux/nvme.h | 1 +
- nvme-print.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/linux/nvme.h b/linux/nvme.h
-index e21610f..a15e6b8 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -1188,6 +1188,7 @@ enum {
- 	NVME_SC_NS_NOT_ATTACHED		= 0x11a,
- 	NVME_SC_THIN_PROV_NOT_SUPP	= 0x11b,
- 	NVME_SC_CTRL_LIST_INVALID	= 0x11c,
-+	NVME_SC_BP_WRITE_PROHIBITED	= 0x11e,
- 
- 	/*
- 	 * I/O Command Set Specific - NVM commands:
-diff --git a/nvme-print.c b/nvme-print.c
-index 87f0766..ef00c41 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1206,6 +1206,7 @@ char *nvme_status_to_string(__u32 status)
- 	case NVME_SC_NS_NOT_ATTACHED:		return "NS_NOT_ATTACHED";
- 	case NVME_SC_THIN_PROV_NOT_SUPP:	return "THIN_PROVISIONING_NOT_SUPPORTED";
- 	case NVME_SC_CTRL_LIST_INVALID:		return "CONTROLLER_LIST_INVALID";
-+	case NVME_SC_BP_WRITE_PROHIBITED:	return "BOOT PARTITION WRITE PROHIBITED";
- 	case NVME_SC_BAD_ATTRIBUTES:		return "BAD_ATTRIBUTES";
- 	case NVME_SC_WRITE_FAULT:		return "WRITE_FAULT";
- 	case NVME_SC_READ_ERROR:		return "READ_ERROR";
--- 
-2.7.4
+What I would accept is an alias command so we can deprecate/hide the
+old command name. I've wanted to add infrastructure for creating aliased
+commands, but I've not had time to get around to it.
