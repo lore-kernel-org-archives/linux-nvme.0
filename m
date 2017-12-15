@@ -1,39 +1,30 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 15 Dec 2017 17:48:28 +0100
-Subject: [GIT PULLL] nvme fixes for Linux 4.15
-Message-ID: <20171215164828.ztoycqf5wettwkkg@infradead.org>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sat, 16 Dec 2017 03:02:49 +0900
+Subject: [PATCH 0/2] nvme-cli: update Firmware Activate command
+Message-ID: <1513360971-15566-1-git-send-email-minwoo.im.dev@gmail.com>
 
-Hi Jens,
+Hi all,
 
-below are a couple important one or two liners fixes for Linux 4.15:
+Name of Firmware Activate command was changed in NVMe 1.2 to Firmware Commit.
+This patch will change the command name accordingly.
+It will also make it support for new feature(Boot Partition) specified in
+this command which was introduced in NVMe 1.3.
 
+Please feel free to give any comments.
 
-The following changes since commit fcf38cdf332a81b20a59e3ebaea81f6b316bbe0c:
+Thanks,
 
-  kyber: fix another domain token wait queue hang (2017-12-06 12:33:07 -0700)
+Minwoo Im (2):
+  nvme-cli: update Firmware Activate command for new feature
+  nvme-cli: add a status code of Firmware Commit command
 
-are available in the git repository at:
+ linux/nvme.h   |  1 +
+ nvme-builtin.h |  2 +-
+ nvme-ioctl.c   |  4 ++--
+ nvme-ioctl.h   |  2 +-
+ nvme-print.c   |  1 +
+ nvme.c         | 35 +++++++++++++++++++++++++----------
+ 6 files changed, 31 insertions(+), 14 deletions(-)
 
-  git://git.infradead.org/nvme.git nvme-4.15
-
-for you to fetch changes up to 654b4a4acd8b52a4272114b95896e9a10d382cde:
-
-  nvme: setup streams after initializing namespace head (2017-12-15 15:18:07 +0100)
-
-----------------------------------------------------------------
-David Disseldorp (1):
-      nvme: set discard_alignment to zero
-
-James Smart (1):
-      nvme-fc: remove double put reference if admin connect fails
-
-Keith Busch (2):
-      nvme: check hw sectors before setting chunk sectors
-      nvme: setup streams after initializing namespace head
-
-Ming Lei (1):
-      nvme: call blk_integrity_unregister after queue is cleaned up
-
- drivers/nvme/host/core.c | 11 ++++++-----
- drivers/nvme/host/fc.c   |  1 -
- 2 files changed, 6 insertions(+), 6 deletions(-)
+-- 
+2.7.4
