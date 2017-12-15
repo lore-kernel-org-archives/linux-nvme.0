@@ -1,18 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 14 Dec 2017 15:42:57 -0700
-Subject: [PATCH] NVMe: Format fix when going from 4k sector size to 512
- bytes
-In-Reply-To: <20171214204936.17793-1-jeff.lien@wdc.com>
-References: <20171214204936.17793-1-jeff.lien@wdc.com>
-Message-ID: <20171214224257.GE26752@localhost.localdomain>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 14 Dec 2017 22:45:50 -0500
+Subject: [PATCH] nvme: Check hw sectors before setting chunk sectors
+In-Reply-To: <20171214182014.4715-1-keith.busch@intel.com> (Keith Busch's
+ message of "Thu, 14 Dec 2017 11:20:14 -0700")
+References: <20171214182014.4715-1-keith.busch@intel.com>
+Message-ID: <yq1o9n0mz69.fsf@oracle.com>
 
-On Thu, Dec 14, 2017@02:49:36PM -0600, Jeff Lien wrote:
-> If you format a device with a 4k sector size back to 512 bytes,
-> the queue limit values for physical block size and IO sizes were
-> not getting updated; only the logical block size was being
-> updated.  This patch adds code to update the physical block
-> and IO sizes.
 
-That's true, though I always considered that to be a happy accident. As
-far as I know, most NVMe SSDs advertising a 512 byte logical block are
-only emulating that size, and are natively 4k or larger.
+Keith,
+
+> Some devices with IDs matching the "stripe" quirk don't actually have
+> this quirk, and don't have an MDTS value. When MDTS is not set, the
+> driver sets the max sectors to UINT_MAX, which is not a power of 2,
+> hitting a BUG_ON from blk_queue_chunk_sectors. This patch skips
+> setting chunk sectors for such devices.
+
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
