@@ -1,44 +1,52 @@
-From: jeff.lien@wdc.com (Jeff Lien)
-Date: Fri, 15 Dec 2017 16:15:39 -0600
-Subject: [PATCH v2] NVMe: Format fix when going from 4k sector size to 512
- bytes
-Message-ID: <20171215221539.4427-1-jeff.lien@wdc.com>
+From: yyt168@gmail.com (Tony Yang)
+Date: Sat, 16 Dec 2017 11:30:27 +0800
+Subject: How to Persistent nvme Storage?
+Message-ID: <CADL4p-oX+AojAs-rSL5CY_p2hZYaK_cJ+Px+NkVeKhh428OUDw@mail.gmail.com>
 
-    If you format a device with a 4k sector size back to 512 bytes,
-    the queue limit values for physical block size and IO sizes were
-    not getting updated; only the logical block size was being
-    updated.  This patch adds code to update the physical block
-    and IO sizes.
+Dear All:
 
-Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
----
- drivers/nvme/host/core.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+      I download the new nvme multipath version (git clone from
+git.infradead.org nvme.git),I want to know how to use the
+      multipath, because I want use udev to Persistent Storage,But
+when use scsi_id command not found any messages.
+      What method can nvme achieve multi-path? Can you provide an
+example? Thank you
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f837d666cbd4..f289d30584c1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1336,6 +1336,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
- {
- 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
- 	unsigned stream_alignment = 0;
-+	unsigned short bs;
- 
- 	if (ns->ctrl->nr_streams && ns->sws && ns->sgs)
- 		stream_alignment = ns->sws * ns->sgs;
-@@ -1343,7 +1344,11 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 	blk_mq_freeze_queue(disk->queue);
- 	blk_integrity_unregister(disk);
- 
--	blk_queue_logical_block_size(disk->queue, 1 << ns->lba_shift);
-+	bs = 1 << ns->lba_shift;
-+	blk_queue_logical_block_size(disk->queue, bs);
-+	blk_queue_physical_block_size(disk->queue, bs);
-+	blk_queue_io_min(disk->queue, bs);
-+
- 	if (ns->ms && !ns->ext &&
- 	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
- 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
--- 
-2.14.2.746.g8fb8a94
+      [root at udev]# lsblk
+NAME          MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sdb             8:16   0   1.8T  0 disk
+dfa           252:0    0   2.9T  0 disk
+??dfa5        252:5    0 734.8G  0 part
+??dfa3        252:3    0 745.1G  0 part
+??dfa1        252:1    0   9.3G  0 part
+??dfa4        252:4    0 745.1G  0 part
+??dfa2        252:2    0 745.1G  0 part
+nvme1n1       259:10   0   2.9T  0 disk
+??nvme1n1p5   259:15   0 734.8G  0 part
+??nvme1n1p3   259:13   0 745.1G  0 part
+??nvme1n1p1   259:11   0   9.3G  0 part
+??nvme1n1p4   259:14   0 745.1G  0 part
+??nvme1n1p2   259:12   0 745.1G  0 part
+loop0           7:0    0   3.8G  0 loop /mnt/cdrom
+sdc             8:32   0 557.9G  0 disk
+??sdc2          8:34   0   512M  0 part /boot
+??sdc3          8:35   0 557.3G  0 part
+? ??rhel-swap 253:1    0     4G  0 lvm  [SWAP]
+? ??rhel-root 253:0    0 553.3G  0 lvm  /
+??sdc1          8:33   0   100M  0 part /boot/efi
+sda             8:0    0   1.8T  0 disk
+nvme0n1       259:0    0   1.8T  0 disk
+??nvme0n1p5   259:5    0   100G  0 part
+??nvme0n1p3   259:3    0     8G  0 part
+??nvme0n1p1   259:1    0     8G  0 part
+??nvme0n1p8   259:8    0   100G  0 part
+??nvme0n1p6   259:6    0   100G  0 part
+??nvme0n1p4   259:4    0     1K  0 part
+??nvme0n1p2   259:2    0     8G  0 part
+??nvme0n1p9   259:9    0   100G  0 part
+??nvme0n1p7   259:7    0   100G  0 part
+[root at udev]# /usr/lib/udev/scsi_id -g -u -d /dev/sdb
+3518f2920201113ff
+[root at udev]# /usr/lib/udev/scsi_id -g -u -d /dev/dfa
+[root at udev]# /usr/lib/udev/scsi_id -g -u -d /dev/dfa5
+[root at udev]# /usr/lib/udev/scsi_id -g -u -d /dev/nvme1n1p5
