@@ -1,28 +1,31 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Mon, 18 Dec 2017 23:04:28 -0500
-Subject: [PATCH v2] NVMe: Format fix when going from 4k sector size to 512
- bytes
-In-Reply-To: <20171215221539.4427-1-jeff.lien@wdc.com> (Jeff Lien's message of
- "Fri, 15 Dec 2017 16:15:39 -0600")
-References: <20171215221539.4427-1-jeff.lien@wdc.com>
-Message-ID: <yq13747jrcj.fsf@oracle.com>
+From: judy.brock@samsung.com (Judy Brock)
+Date: Tue, 19 Dec 2017 04:30:57 +0000
+Subject: Samsung SM961 dies on Lenovo Thinkpad T470
+In-Reply-To: <FA2CCBED-38F2-4321-9AA3-96E40D82DD99@canonical.com>
+References: <CGME20171219033927epcas1p2c2788d1a801fef205ca7a6f2bf1aba3e@epcas1p2.samsung.com>
+ <FA2CCBED-38F2-4321-9AA3-96E40D82DD99@canonical.com>
+Message-ID: <746e28cd2b18426a942c3ddf8177c91d@samsung.com>
 
+Hi,
+I do not know. I will try to find the appropriate group within Samsung to forward this query to.
+Thanks,
+Judy
 
-Jeff,
+-----Original Message-----
+From: Kai Heng Feng [mailto:kai.heng.feng@canonical.com] 
+Sent: Monday, December 18, 2017 7:39 PM
+To: Judy Brock
+Cc: Anthony Wong; linux-nvme
+Subject: Samsung SM961 dies on Lenovo Thinkpad T470
 
-> If you format a device with a 4k sector size back to 512 bytes, the
-> queue limit values for physical block size and IO sizes were not
+Hi Judy,
 
-s/IO sizes/minimum IO size/
+We found another Samsung NVMe bug [1], which occurs on Lenovo ThinkPad T470.
 
-> getting updated; only the logical block size was being updated.  This
-> patch adds code to update the physical block and IO sizes.
+The NVMe dies with APST disabled, means there?s no workaround for the user.
 
-s/and IO sizes/and minimum IO sizes/
+Does this also happen to Windows?
 
-Otherwise OK.
+Kai-Heng
 
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+[1] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1737934
