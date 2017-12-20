@@ -1,126 +1,40 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 19 Dec 2017 16:05:45 -0500
-Subject: [for-4.16 PATCH 4/5] dm mpath: use NVMe error handling to know when
- an error is retryable
-In-Reply-To: <20171219210546.65928-1-snitzer@redhat.com>
-References: <20171219210546.65928-1-snitzer@redhat.com>
-Message-ID: <20171219210546.65928-5-snitzer@redhat.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Wed, 20 Dec 2017 16:20:33 +0900
+Subject: [PATCH] nvme-pci: move use_sgl initialization to nvme_init_iod()
+In-Reply-To: <20171219204530.GB23384@localhost.localdomain>
+References: <1513525642-23481-1-git-send-email-minwoo.im.dev@gmail.com>
+ <20171219204530.GB23384@localhost.localdomain>
+Message-ID: <CAA7jztc15VMYefFECe=5ks1N0GAvBugZ7hfE3YFGDzk5V1NZgA@mail.gmail.com>
 
-Like NVMe's native multipath support, DM multipath's NVMe bio-based
-support now allows NVMe core's error handling to requeue an NVMe blk-mq
-request's bios onto DM multipath's queued_bios list for resubmission
-once fail_path() occurs.  multipath_failover_rq() serves as a
-replacement for the traditional multipath_end_io_bio().
+On Wed, Dec 20, 2017@5:45 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Mon, Dec 18, 2017@12:47:22AM +0900, Minwoo Im wrote:
+>> A flag "use_sgl" of "struct nvme_iod" has been used in nvme_init_iod()
+>> without being set to any value. It seems like "use_sgl" has been set
+>> in either nvme_pci_setup_prps() or nvme_pci_setup_sgls() which occur
+>> later than nvme_init_iod().
+>>
+>> Make "iod->use_sgl" being set in a proper place, nvme_init_iod().
+>> Also move nvme_pci_use_sgls() up above nvme_init_iod() to make it
+>> possible to be called by nvme_init_iod().
+>>
+>> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+>
+> Nice catch. We're potentially corrupting memory without this fix since
+> the allocation size depends on whether or not SGLs are used, so we may
+> be under allocating what's actually used today!
+>
+>> @@ -455,14 +472,17 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+>>       unsigned int size = blk_rq_payload_bytes(rq);
+>>
+>>       if (nseg > NVME_INT_PAGES || size > NVME_INT_BYTES(dev)) {
+>> +             bool use_sgl = nvme_pci_use_sgls(dev, rq);
+>
+> No need for the temporary vairable here, just set iod->use_sgl directly.
 
-DM multipath's bio submission to NVMe must be done in terms that allow
-the reuse of NVMe core's error handling.  The following care is taken to
-realize this reuse:
+It's because the temporary variable "alloc_size" needs "iod->use_sgl".
+I also thought if "iod->sg" is failed in kmalloc(), then
+"iod->use_sgl" needs to be cleared.
+But, even in a fail case, "iod" will be initialized when it needs to
+be used in other requests again.
 
-- NVMe core won't attempt to retry an IO if it has
-  REQ_FAILFAST_TRANSPORT set; so only set it in __map_bio().
-
-- Setup bio's bi_failover_rq hook, to use multipath_failover_rq, so that
-  NVMe blk-mq requests inherit it for use as the failover_rq callback
-  if/when NVMe core determines a request must be retried.
-
-Signed-off-by: Mike Snitzer <snitzer at redhat.com>
----
- drivers/md/dm-mpath.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 51 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/md/dm-mpath.c b/drivers/md/dm-mpath.c
-index 3198093006e4..0ed407e150f5 100644
---- a/drivers/md/dm-mpath.c
-+++ b/drivers/md/dm-mpath.c
-@@ -584,9 +584,13 @@ static struct pgpath *__map_bio(struct multipath *m, struct bio *bio)
- 		return ERR_PTR(-EAGAIN);
- 	}
- 
-+	bio->bi_opf |= REQ_FAILFAST_TRANSPORT;
-+
- 	return pgpath;
- }
- 
-+static void multipath_failover_rq(struct request *rq);
-+
- static struct pgpath *__map_bio_nvme(struct multipath *m, struct bio *bio)
- {
- 	struct pgpath *pgpath;
-@@ -614,6 +618,8 @@ static struct pgpath *__map_bio_nvme(struct multipath *m, struct bio *bio)
- 		return NULL;
- 	}
- 
-+	bio->bi_failover_rq = multipath_failover_rq;
-+
- 	return pgpath;
- }
- 
-@@ -641,7 +647,6 @@ static int __multipath_map_bio(struct multipath *m, struct bio *bio,
- 
- 	bio->bi_status = 0;
- 	bio_set_dev(bio, pgpath->path.dev->bdev);
--	bio->bi_opf |= REQ_FAILFAST_TRANSPORT;
- 
- 	if (pgpath->pg->ps.type->start_io)
- 		pgpath->pg->ps.type->start_io(&pgpath->pg->ps,
-@@ -1610,6 +1615,14 @@ static int multipath_end_io_bio(struct dm_target *ti, struct bio *clone,
- 	unsigned long flags;
- 	int r = DM_ENDIO_DONE;
- 
-+	/*
-+	 * NVMe bio-based only needs to update path selector (on
-+	 * success or errors that NVMe deemed non-retryable)
-+	 * - retryable errors are handled by multipath_failover_rq
-+	 */
-+	if (clone->bi_failover_rq)
-+		goto done;
-+
- 	if (!*error || !retry_error(*error))
- 		goto done;
- 
-@@ -1645,6 +1658,43 @@ static int multipath_end_io_bio(struct dm_target *ti, struct bio *clone,
- 	return r;
- }
- 
-+/*
-+ * multipath_failover_rq serves as a replacement for multipath_end_io_bio
-+ * for all bios in a request with a retryable error.
-+ */
-+static void multipath_failover_rq(struct request *rq)
-+{
-+	struct dm_target *ti = dm_bio_get_target(rq->bio);
-+	struct multipath *m = ti->private;
-+	struct dm_mpath_io *mpio = get_mpio_from_bio(rq->bio);
-+	struct pgpath *pgpath = mpio->pgpath;
-+	unsigned long flags;
-+
-+	if (pgpath) {
-+		struct path_selector *ps = &pgpath->pg->ps;
-+
-+		if (ps->type->end_io)
-+			ps->type->end_io(ps, &pgpath->path, blk_rq_bytes(rq));
-+
-+		fail_path(pgpath);
-+	}
-+
-+	if (atomic_read(&m->nr_valid_paths) == 0 &&
-+	    !test_bit(MPATHF_QUEUE_IF_NO_PATH, &m->flags) &&
-+	    !must_push_back_bio(m)) {
-+		dm_report_EIO(m);
-+		blk_mq_end_request(rq, BLK_STS_IOERR);
-+		return;
-+	}
-+
-+	spin_lock_irqsave(&m->lock, flags);
-+	blk_steal_bios(&m->queued_bios, rq);
-+	spin_unlock_irqrestore(&m->lock, flags);
-+	queue_work(kmultipathd, &m->process_queued_bios);
-+
-+	blk_mq_end_request(rq, 0);
-+}
-+
- /*
-  * Suspend can't complete until all the I/O is processed so if
-  * the last path fails we must error any remaining I/O.
--- 
-2.15.0
+Anyway, I'll send a v2 for this patch.
