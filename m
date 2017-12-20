@@ -1,22 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Dec 2017 21:04:43 +0200
-Subject: How to Persistent nvme Storage?
-In-Reply-To: <CADL4p-oX+AojAs-rSL5CY_p2hZYaK_cJ+Px+NkVeKhh428OUDw@mail.gmail.com>
-References: <CADL4p-oX+AojAs-rSL5CY_p2hZYaK_cJ+Px+NkVeKhh428OUDw@mail.gmail.com>
-Message-ID: <8b1b3096-5c03-6f8d-b3f2-fe0cfa025a5b@grimberg.me>
+Date: Wed, 20 Dec 2017 21:05:01 +0200
+Subject: [PATCH] nvme: Check hw sectors before setting chunk sectors
+In-Reply-To: <20171214182014.4715-1-keith.busch@intel.com>
+References: <20171214182014.4715-1-keith.busch@intel.com>
+Message-ID: <84fa3e85-6472-aa72-603f-b4d96ab7dbdd@grimberg.me>
 
-Tony,
-
-> Dear All:
-> 
->        I download the new nvme multipath version (git clone from
-> git.infradead.org nvme.git),I want to know how to use the
->        multipath, because I want use udev to Persistent Storage,But
-> when use scsi_id command not found any messages.
->        What method can nvme achieve multi-path? Can you provide an
-> example? Thank you
-
-If you opt in CONFIG_NVME_MULTIPATH the nvme device nodes you see
-will actually be multipath devices (no scsi device identification
-needed). Johannes submitted a nvme-cli code to get some more information
-wrt to multipathing.
+Reviewed-by: Sagi Grimberg<sagi at grimberg.me>
