@@ -1,40 +1,111 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed, 20 Dec 2017 16:20:33 +0900
-Subject: [PATCH] nvme-pci: move use_sgl initialization to nvme_init_iod()
-In-Reply-To: <20171219204530.GB23384@localhost.localdomain>
-References: <1513525642-23481-1-git-send-email-minwoo.im.dev@gmail.com>
- <20171219204530.GB23384@localhost.localdomain>
-Message-ID: <CAA7jztc15VMYefFECe=5ks1N0GAvBugZ7hfE3YFGDzk5V1NZgA@mail.gmail.com>
+Date: Wed, 20 Dec 2017 16:30:50 +0900
+Subject: [PATCH V2] nvme-pci: move use_sgl initialization to nvme_init_iod()
+Message-ID: <1513755050-5540-1-git-send-email-minwoo.im.dev@gmail.com>
 
-On Wed, Dec 20, 2017@5:45 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Mon, Dec 18, 2017@12:47:22AM +0900, Minwoo Im wrote:
->> A flag "use_sgl" of "struct nvme_iod" has been used in nvme_init_iod()
->> without being set to any value. It seems like "use_sgl" has been set
->> in either nvme_pci_setup_prps() or nvme_pci_setup_sgls() which occur
->> later than nvme_init_iod().
->>
->> Make "iod->use_sgl" being set in a proper place, nvme_init_iod().
->> Also move nvme_pci_use_sgls() up above nvme_init_iod() to make it
->> possible to be called by nvme_init_iod().
->>
->> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
->
-> Nice catch. We're potentially corrupting memory without this fix since
-> the allocation size depends on whether or not SGLs are used, so we may
-> be under allocating what's actually used today!
->
->> @@ -455,14 +472,17 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
->>       unsigned int size = blk_rq_payload_bytes(rq);
->>
->>       if (nseg > NVME_INT_PAGES || size > NVME_INT_BYTES(dev)) {
->> +             bool use_sgl = nvme_pci_use_sgls(dev, rq);
->
-> No need for the temporary vairable here, just set iod->use_sgl directly.
+A flag "use_sgl" of "struct nvme_iod" has been used in nvme_init_iod()
+without being set to any value. It seems like "use_sgl" has been set
+in either nvme_pci_setup_prps() or nvme_pci_setup_sgls() which occur
+later than nvme_init_iod().
 
-It's because the temporary variable "alloc_size" needs "iod->use_sgl".
-I also thought if "iod->sg" is failed in kmalloc(), then
-"iod->use_sgl" needs to be cleared.
-But, even in a fail case, "iod" will be initialized when it needs to
-be used in other requests again.
+Make "iod->use_sgl" being set in a proper place, nvme_init_iod().
+Also move nvme_pci_use_sgls() up above nvme_init_iod() to make it
+possible to be called by nvme_init_iod().
 
-Anyway, I'll send a v2 for this patch.
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+---
+Change to v1:
+	Set "iod->use_sgl" directly instead of temporary variable (Keith)
+---
+ drivers/nvme/host/pci.c | 42 ++++++++++++++++++++----------------------
+ 1 file changed, 20 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 35331fa..775dc9e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -448,12 +448,31 @@ static void **nvme_pci_iod_list(struct request *req)
+ 	return (void **)(iod->sg + blk_rq_nr_phys_segments(req));
+ }
+ 
++static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	unsigned int avg_seg_size;
++
++	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req),
++			blk_rq_nr_phys_segments(req));
++
++	if (!(dev->ctrl.sgls & ((1 << 0) | (1 << 1))))
++		return false;
++	if (!iod->nvmeq->qid)
++		return false;
++	if (!sgl_threshold || avg_seg_size < sgl_threshold)
++		return false;
++	return true;
++}
++
+ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(rq);
+ 	int nseg = blk_rq_nr_phys_segments(rq);
+ 	unsigned int size = blk_rq_payload_bytes(rq);
+ 
++	iod->use_sgl = nvme_pci_use_sgls(dev, rq);
++
+ 	if (nseg > NVME_INT_PAGES || size > NVME_INT_BYTES(dev)) {
+ 		size_t alloc_size = nvme_pci_iod_alloc_size(dev, size, nseg,
+ 				iod->use_sgl);
+@@ -604,8 +623,6 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 	dma_addr_t prp_dma;
+ 	int nprps, i;
+ 
+-	iod->use_sgl = false;
+-
+ 	length -= (page_size - offset);
+ 	if (length <= 0) {
+ 		iod->first_dma = 0;
+@@ -715,8 +732,6 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+ 	int entries = iod->nents, i = 0;
+ 	dma_addr_t sgl_dma;
+ 
+-	iod->use_sgl = true;
+-
+ 	/* setting the transfer type as SGL */
+ 	cmd->flags = NVME_CMD_SGL_METABUF;
+ 
+@@ -770,23 +785,6 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+ 	return BLK_STS_OK;
+ }
+ 
+-static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
+-{
+-	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	unsigned int avg_seg_size;
+-
+-	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req),
+-			blk_rq_nr_phys_segments(req));
+-
+-	if (!(dev->ctrl.sgls & ((1 << 0) | (1 << 1))))
+-		return false;
+-	if (!iod->nvmeq->qid)
+-		return false;
+-	if (!sgl_threshold || avg_seg_size < sgl_threshold)
+-		return false;
+-	return true;
+-}
+-
+ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
+@@ -806,7 +804,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 				DMA_ATTR_NO_WARN))
+ 		goto out;
+ 
+-	if (nvme_pci_use_sgls(dev, req))
++	if (iod->use_sgl)
+ 		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
+ 	else
+ 		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
+-- 
+2.7.4
