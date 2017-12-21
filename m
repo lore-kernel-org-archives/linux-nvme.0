@@ -1,18 +1,17 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 21 Dec 2017 13:54:23 -0700
-Subject: [PATCH 2/3] nvme/pci: Remove cq_vector check in IO path
-In-Reply-To: <20171221204636.2924-3-keith.busch@intel.com>
+Date: Thu, 21 Dec 2017 13:57:37 -0700
+Subject: [PATCH 3/3] block: Polling completion performance optimization
+In-Reply-To: <20171221204636.2924-4-keith.busch@intel.com>
 References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-3-keith.busch@intel.com>
-Message-ID: <210d5bb5-2ac4-9b69-1207-37b1610554a8@kernel.dk>
+ <20171221204636.2924-4-keith.busch@intel.com>
+Message-ID: <5e69c9fe-b0ae-fc1a-637d-9a3816faa506@kernel.dk>
 
 On 12/21/17 1:46 PM, Keith Busch wrote:
-> This is a micro-optimization removing unnecessary check for a disabled
-> queue. We no longer need this check because blk-mq provides the ability
-> to quiesce queues that nvme uses, and the doorbell registers are never
-> unmapped as long as requests are active.
+> When a request completion is polled, the completion task wakes itself
+> up. This is unnecessary, as the task can just set itself back to
+> running.
 
-Reviewed-by: Jens Axboe <axboe at kernel.dk>
+Looks good to me, I can take it for 4.16 in the block tree.
 
 -- 
 Jens Axboe
