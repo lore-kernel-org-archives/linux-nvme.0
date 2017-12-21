@@ -1,15 +1,46 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 20:31:57 +0200
-Subject: [PATCH 4.15-rc 3/3] nvme-fabrics: Protect against module unload
- during create_ctrl
-In-Reply-To: <20171221102536.GB11259@infradead.org>
-References: <20171221100752.18386-1-sagi@grimberg.me>
- <20171221100752.18386-4-sagi@grimberg.me>
- <20171221102536.GB11259@infradead.org>
-Message-ID: <3405b398-abb1-3a84-215b-769fbaf79891@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 21 Dec 2017 13:46:33 -0700
+Subject: [PATCH 0/3] Performance enhancements
+Message-ID: <20171221204636.2924-1-keith.busch@intel.com>
 
-> Looks good,
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+A few IO micro-optimizations for IO polling and NVMe. I'm really working
+to close the performance gap with userspace drivers, and this gets me
+halfway there on latency. The fastest hardware I could get measured
+roundtrip read latency at 5usec with this series that was previously
+measuring 5.7usec.
 
-Meh, its missing a ref put.. lets hold off on it for now.
+Note with NVMe, you really need to crank up the interrupt coalescing to
+see the completion polling benefit.
+
+Test pre-setup:
+
+  echo performance | tee /sys/devices/system/cpu/cpufreq/policy*/scaling_governor
+  echo 0 > /sys/block/nvme0n1/queue/iostats
+  echo -1 > /sys/block/nvme0n1/queue/io_poll_delay
+  nvme set-feature /dev/nvme0 -f 8 -v 0x4ff
+
+fio profile:
+
+  [global]
+  ioengine=pvsync2
+  rw=randread
+  norandommap
+  direct=1
+  bs=4k
+  hipri
+
+  [hi-pri]
+  filename=/dev/nvme0n1
+  cpus_allowed=2
+
+Keith Busch (3):
+  nvme/pci: Start request after doorbell ring
+  nvme/pci: Remove cq_vector check in IO path
+  block: Polling completion performance optimization
+
+ drivers/nvme/host/pci.c | 14 +++-----------
+ fs/block_dev.c          |  5 ++++-
+ 2 files changed, 7 insertions(+), 12 deletions(-)
+
+-- 
+2.13.6
