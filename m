@@ -1,161 +1,142 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 12:07:51 +0200
-Subject: [PATCH 4.15-rc 2/3] nvme-core/loop/rdma: Host delete_work and
- reset_work on system workqueues
+Date: Thu, 21 Dec 2017 12:07:52 +0200
+Subject: [PATCH 4.15-rc 3/3] nvme-fabrics: Protect against module unload
+ during create_ctrl
 In-Reply-To: <20171221100752.18386-1-sagi@grimberg.me>
 References: <20171221100752.18386-1-sagi@grimberg.me>
-Message-ID: <20171221100752.18386-3-sagi@grimberg.me>
+Message-ID: <20171221100752.18386-4-sagi@grimberg.me>
 
 From: Roy Shterman <roys@lightbitslabs.com>
 
-We need to ensure that delete_work will be hosted on a different
-workqueue than all the works we flush or cancel from it.
-Otherwise we may hit a circular dependency warning [1].
+nvme transport driver module unload may (and usually does) trigger iteration
+over the active controllers and delete them all (sometimes under a mutex).
+However, a controller can be created concurrently with module unload
+which can lead to leakage of resources (most important char device node
+leakage) in case the controller create occured after the unload delete and drain
+sequence. To protect against this, we take a module reference to guarantee that
+the nvme transport driver is not unloaded while creating a controller.
 
-Also, given that delete_work flushes reset_work, host reset_work
-on system_wq and delete_work on system_long_wq. In addition,
-fix the flushing in the individual drivers to flush system_long_wq
-when draining queued deletes.
-
-[1]:
-[  178.491942] =============================================
-[  178.492718] [ INFO: possible recursive locking detected ]
-[  178.493495] 4.9.0-rc4-c844263313a8-lb #3 Tainted: G           OE
-[  178.494382] ---------------------------------------------
-[  178.495160] kworker/5:1/135 is trying to acquire lock:
-[  178.495894]  (
-[  178.496120] "nvme-wq"
-[  178.496471] ){++++.+}
-[  178.496599] , at:
-[  178.496921] [<ffffffffa70ac206>] flush_work+0x1a6/0x2d0
-[  178.497670]
-               but task is already holding lock:
-[  178.498499]  (
-[  178.498724] "nvme-wq"
-[  178.499074] ){++++.+}
-[  178.499202] , at:
-[  178.499520] [<ffffffffa70ad6c2>] process_one_work+0x162/0x6a0
-[  178.500343]
-               other info that might help us debug this:
-[  178.501269]  Possible unsafe locking scenario:
-
-[  178.502113]        CPU0
-[  178.502472]        ----
-[  178.502829]   lock(
-[  178.503115] "nvme-wq"
-[  178.503467] );
-[  178.503716]   lock(
-[  178.504001] "nvme-wq"
-[  178.504353] );
-[  178.504601]
-                *** DEADLOCK ***
-
-[  178.505441]  May be due to missing lock nesting notation
-
-[  178.506453] 2 locks held by kworker/5:1/135:
-[  178.507068]  #0:
-[  178.507330]  (
-[  178.507598] "nvme-wq"
-[  178.507726] ){++++.+}
-[  178.508079] , at:
-[  178.508173] [<ffffffffa70ad6c2>] process_one_work+0x162/0x6a0
-[  178.509004]  #1:
-[  178.509265]  (
-[  178.509532] (&ctrl->delete_work)
-[  178.509795] ){+.+.+.}
-[  178.510145] , at:
-[  178.510239] [<ffffffffa70ad6c2>] process_one_work+0x162/0x6a0
-[  178.511070]
-               stack backtrace:
-:
-[  178.511693] CPU: 5 PID: 135 Comm: kworker/5:1 Tainted: G           OE   4.9.0-rc4-c844263313a8-lb #3
-[  178.512974] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.1-1ubuntu1 04/01/2014
-[  178.514247] Workqueue: nvme-wq nvme_del_ctrl_work [nvme_tcp]
-[  178.515071]  ffffc2668175bae0 ffffffffa7450823 ffffffffa88abd80 ffffffffa88abd80
-[  178.516195]  ffffc2668175bb98 ffffffffa70eb012 ffffffffa8d8d90d ffff9c472e9ea700
-[  178.517318]  ffff9c472e9ea700 ffff9c4700000000 ffff9c4700007200 ab83be61bec0d50e
-[  178.518443] Call Trace:
-[  178.518807]  [<ffffffffa7450823>] dump_stack+0x85/0xc2
-[  178.519542]  [<ffffffffa70eb012>] __lock_acquire+0x17d2/0x18f0
-[  178.520377]  [<ffffffffa75839a7>] ? serial8250_console_putchar+0x27/0x30
-[  178.521330]  [<ffffffffa7583980>] ? wait_for_xmitr+0xa0/0xa0
-[  178.522174]  [<ffffffffa70ac1eb>] ? flush_work+0x18b/0x2d0
-[  178.522975]  [<ffffffffa70eb7cb>] lock_acquire+0x11b/0x220
-[  178.523753]  [<ffffffffa70ac206>] ? flush_work+0x1a6/0x2d0
-[  178.524535]  [<ffffffffa70ac229>] flush_work+0x1c9/0x2d0
-[  178.525291]  [<ffffffffa70ac206>] ? flush_work+0x1a6/0x2d0
-[  178.526077]  [<ffffffffa70a9cf0>] ? flush_workqueue_prep_pwqs+0x220/0x220
-[  178.527040]  [<ffffffffa70ae7cf>] __cancel_work_timer+0x10f/0x1d0
-[  178.527907]  [<ffffffffa70fecb9>] ? vprintk_default+0x29/0x40
-[  178.528726]  [<ffffffffa71cb507>] ? printk+0x48/0x50
-[  178.529434]  [<ffffffffa70ae8c3>] cancel_delayed_work_sync+0x13/0x20
-[  178.530381]  [<ffffffffc042100b>] nvme_stop_ctrl+0x5b/0x70 [nvme_core]
-[  178.531314]  [<ffffffffc0403dcc>] nvme_del_ctrl_work+0x2c/0x50 [nvme_tcp]
-[  178.532271]  [<ffffffffa70ad741>] process_one_work+0x1e1/0x6a0
-[  178.533101]  [<ffffffffa70ad6c2>] ? process_one_work+0x162/0x6a0
-[  178.533954]  [<ffffffffa70adc4e>] worker_thread+0x4e/0x490
-[  178.534735]  [<ffffffffa70adc00>] ? process_one_work+0x6a0/0x6a0
-[  178.535588]  [<ffffffffa70adc00>] ? process_one_work+0x6a0/0x6a0
-[  178.536441]  [<ffffffffa70b48cf>] kthread+0xff/0x120
-[  178.537149]  [<ffffffffa70b47d0>] ? kthread_park+0x60/0x60
-[  178.538094]  [<ffffffffa70b47d0>] ? kthread_park+0x60/0x60
-[  178.538900]  [<ffffffffa78e332a>] ret_from_fork+0x2a/0x40
-
-Signed-off-by: Roy Shterman <roys at lightbitslabs.com>
+Signed-off-by: roy shterman <roys at lightbitslabs.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c   | 4 ++--
- drivers/nvme/host/rdma.c   | 2 +-
- drivers/nvme/target/loop.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/host/fabrics.c | 16 ++++++++++++----
+ drivers/nvme/host/fabrics.h |  2 ++
+ drivers/nvme/host/fc.c      |  1 +
+ drivers/nvme/host/rdma.c    |  1 +
+ drivers/nvme/target/loop.c  |  1 +
+ 5 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 221c97d57562..12fe1704437b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -89,7 +89,7 @@ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 76b4fe6816a0..11bf2d70570f 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -492,7 +492,7 @@ EXPORT_SYMBOL_GPL(nvmf_should_reconnect);
+  */
+ int nvmf_register_transport(struct nvmf_transport_ops *ops)
  {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
- 		return -EBUSY;
--	if (!queue_work(nvme_wq, &ctrl->reset_work))
-+	if (!queue_work(system_wq, &ctrl->reset_work))
- 		return -EBUSY;
- 	return 0;
- }
-@@ -122,7 +122,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
- {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
- 		return -EBUSY;
--	if (!queue_work(nvme_wq, &ctrl->delete_work))
-+	if (!queue_work(system_long_wq, &ctrl->delete_work))
- 		return -EBUSY;
- 	return 0;
- }
+-	if (!ops->create_ctrl)
++	if (!ops->create_ctrl || !ops->module)
+ 		return -EINVAL;
+ 
+ 	down_write(&nvmf_transports_rwsem);
+@@ -868,24 +868,30 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 		goto out_unlock;
+ 	}
+ 
++	if (!try_module_get(ops->module)) {
++		ret = -EBUSY;
++		goto out_unlock;
++	}
++
+ 	ret = nvmf_check_required_opts(opts, ops->required_opts);
+ 	if (ret)
+-		goto out_unlock;
++		goto out_module_put;
+ 	ret = nvmf_check_allowed_opts(opts, NVMF_ALLOWED_OPTS |
+ 				ops->allowed_opts | ops->required_opts);
+ 	if (ret)
+-		goto out_unlock;
++		goto out_module_put;
+ 
+ 	ctrl = ops->create_ctrl(dev, opts);
+ 	if (IS_ERR(ctrl)) {
+ 		ret = PTR_ERR(ctrl);
+-		goto out_unlock;
++		goto out_module_put;
+ 	}
+ 
+ 	if (strcmp(ctrl->subsys->subnqn, opts->subsysnqn)) {
+ 		dev_warn(ctrl->device,
+ 			"controller returned incorrect NQN: \"%s\".\n",
+ 			ctrl->subsys->subnqn);
++		module_put(ops->module);
+ 		up_read(&nvmf_transports_rwsem);
+ 		nvme_delete_ctrl_sync(ctrl);
+ 		return ERR_PTR(-EINVAL);
+@@ -894,6 +900,8 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 	up_read(&nvmf_transports_rwsem);
+ 	return ctrl;
+ 
++out_module_put:
++	module_put(ops->module);
+ out_unlock:
+ 	up_read(&nvmf_transports_rwsem);
+ out_free_opts:
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 9ba614953607..25b19f722f5b 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -108,6 +108,7 @@ struct nvmf_ctrl_options {
+  *			       fabric implementation of NVMe fabrics.
+  * @entry:		Used by the fabrics library to add the new
+  *			registration entry to its linked-list internal tree.
++ * @module:             Transport module reference
+  * @name:		Name of the NVMe fabric driver implementation.
+  * @required_opts:	sysfs command-line options that must be specified
+  *			when adding a new NVMe controller.
+@@ -126,6 +127,7 @@ struct nvmf_ctrl_options {
+  */
+ struct nvmf_transport_ops {
+ 	struct list_head	entry;
++	struct module		*module;
+ 	const char		*name;
+ 	int			required_opts;
+ 	int			allowed_opts;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e2ade0237ffe..e68c6b84c177 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3380,6 +3380,7 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+ 
+ static struct nvmf_transport_ops nvme_fc_transport = {
+ 	.name		= "fc",
++	.module		= THIS_MODULE,
+ 	.required_opts	= NVMF_OPT_TRADDR | NVMF_OPT_HOST_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_CTRL_LOSS_TMO,
+ 	.create_ctrl	= nvme_fc_create_ctrl,
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 0676a09c6eba..ff56d86467de 100644
+index ff56d86467de..596a3dde47fd 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -2028,7 +2028,7 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- 	}
- 	mutex_unlock(&nvme_rdma_ctrl_mutex);
+@@ -2006,6 +2006,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
  
--	flush_workqueue(nvme_wq);
-+	flush_workqueue(system_long_wq);
- }
- 
- static struct ib_client nvme_rdma_ib_client = {
+ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 	.name		= "rdma",
++	.module		= THIS_MODULE,
+ 	.required_opts	= NVMF_OPT_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO,
 diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 8652ed5c86e1..cab6ded4dca6 100644
+index cab6ded4dca6..098d5b978691 100644
 --- a/drivers/nvme/target/loop.c
 +++ b/drivers/nvme/target/loop.c
-@@ -716,7 +716,7 @@ static void __exit nvme_loop_cleanup_module(void)
- 		nvme_delete_ctrl(&ctrl->ctrl);
- 	mutex_unlock(&nvme_loop_ctrl_mutex);
+@@ -686,6 +686,7 @@ static struct nvmet_fabrics_ops nvme_loop_ops = {
  
--	flush_workqueue(nvme_wq);
-+	flush_workqueue(system_long_wq);
- }
+ static struct nvmf_transport_ops nvme_loop_transport = {
+ 	.name		= "loop",
++	.module		= THIS_MODULE,
+ 	.create_ctrl	= nvme_loop_create_ctrl,
+ };
  
- module_init(nvme_loop_init_module);
 -- 
 2.14.1
