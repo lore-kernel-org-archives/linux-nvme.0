@@ -1,34 +1,31 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 21 Dec 2017 09:36:49 +0100
-Subject: [PATCH V2 6/6] nvme-pci: remove .init_request callback
-In-Reply-To: <0fcf3176-7864-8631-e293-2bfa7aacea38@grimberg.me>
-References: <20171214023103.18272-1-ming.lei@redhat.com>
- <20171214023103.18272-7-ming.lei@redhat.com>
- <0fcf3176-7864-8631-e293-2bfa7aacea38@grimberg.me>
-Message-ID: <20171221083648.fuk3rvmisllwviph@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 21 Dec 2017 12:07:49 +0200
+Subject: [PATCH 4.15-rc 0/3] few fabrics fixes targeted to 4.15
+Message-ID: <20171221100752.18386-1-sagi@grimberg.me>
 
-On Thu, Dec 21, 2017@10:20:45AM +0200, Sagi Grimberg wrote:
-> @@ -2470,8 +2465,9 @@ static int nvme_probe(struct pci_dev *pdev, const
-> struct pci_device_id *id)
->         dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
->         if (!dev)
->                 return -ENOMEM;
-> -       dev->queues = kzalloc_node((num_possible_cpus() + 1) * sizeof(void
-> *),
-> -                                                       GFP_KERNEL, node);
-> +
-> +       alloc_size = (num_possible_cpus() + 1) * sizeof(struct nvme_queue
-> *);
-> +       dev->queues = kzalloc_node(alloc_size, GFP_KERNEL, node);
+First two patches address possible hangs when deleting controllers
+under heavy workqueue activities such as inflight ns scans, reconnects,
+and resets. Lockdep complains about circular locking and rightfully so
+as the lock dependency of in-workqueue flush hangs were observed.
 
-Nit:
-	  dev->queues = kcalloc_node(num_possible_cpus() + 1,
-				     sizeof(struct nvme_queue *),
-				     node);
+The third fix is protecting against fabrics controller creation during
+transport driver module unload.
+
+Let's consider these for 4.15-rc
+
+Roy Shterman (3):
+  nvme-core: Don't set nvme_wq as MEM_RECLAIM
+  nvme-core/loop/rdma: Host delete_work and reset_work on system
+    workqueues
+  nvme-fabrics: Protect against module unload during create_ctrl
+
+ drivers/nvme/host/core.c    |  6 +++---
+ drivers/nvme/host/fabrics.c | 16 ++++++++++++----
+ drivers/nvme/host/fabrics.h |  2 ++
+ drivers/nvme/host/fc.c      |  1 +
+ drivers/nvme/host/rdma.c    |  3 ++-
+ drivers/nvme/target/loop.c  |  3 ++-
+ 6 files changed, 22 insertions(+), 9 deletions(-)
+
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.14.1
