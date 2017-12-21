@@ -1,31 +1,33 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 12:07:49 +0200
-Subject: [PATCH 4.15-rc 0/3] few fabrics fixes targeted to 4.15
-Message-ID: <20171221100752.18386-1-sagi@grimberg.me>
+Date: Thu, 21 Dec 2017 12:07:50 +0200
+Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
+In-Reply-To: <20171221100752.18386-1-sagi@grimberg.me>
+References: <20171221100752.18386-1-sagi@grimberg.me>
+Message-ID: <20171221100752.18386-2-sagi@grimberg.me>
 
-First two patches address possible hangs when deleting controllers
-under heavy workqueue activities such as inflight ns scans, reconnects,
-and resets. Lockdep complains about circular locking and rightfully so
-as the lock dependency of in-workqueue flush hangs were observed.
+From: Roy Shterman <roys@lightbitslabs.com>
 
-The third fix is protecting against fabrics controller creation during
-transport driver module unload.
+nvme_wq is not a MEM_RECLAIM workqueue because it
+can allocate memory in some of the works it is executing.
 
-Let's consider these for 4.15-rc
+Signed-off-by: Roy Shterman <roys at lightbitslabs.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Roy Shterman (3):
-  nvme-core: Don't set nvme_wq as MEM_RECLAIM
-  nvme-core/loop/rdma: Host delete_work and reset_work on system
-    workqueues
-  nvme-fabrics: Protect against module unload during create_ctrl
-
- drivers/nvme/host/core.c    |  6 +++---
- drivers/nvme/host/fabrics.c | 16 ++++++++++++----
- drivers/nvme/host/fabrics.h |  2 ++
- drivers/nvme/host/fc.c      |  1 +
- drivers/nvme/host/rdma.c    |  3 ++-
- drivers/nvme/target/loop.c  |  3 ++-
- 6 files changed, 22 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c33f848ab49d..221c97d57562 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3490,7 +3490,7 @@ int __init nvme_core_init(void)
+ 	int result;
+ 
+ 	nvme_wq = alloc_workqueue("nvme-wq",
+-			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
++			WQ_UNBOUND | WQ_SYSFS, 0);
+ 	if (!nvme_wq)
+ 		return -ENOMEM;
+ 
 -- 
 2.14.1
