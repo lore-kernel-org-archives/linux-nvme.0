@@ -1,40 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Dec 2017 14:34:00 -0700
-Subject: [PATCH 3/3] block: Polling completion performance optimization
-In-Reply-To: <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
-References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-4-keith.busch@intel.com>
- <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
- <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
-Message-ID: <20171221213400.GB2975@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 21 Dec 2017 14:15:47 -0800
+Subject: [PATCH] nvme_fcloop: avoid possible uninitialized variable warning
+Message-ID: <20171221221547.3527-1-jsmart2021@gmail.com>
 
-On Thu, Dec 21, 2017@02:00:04PM -0700, Jens Axboe wrote:
-> On 12/21/17 1:56 PM, Scott Bauer wrote:
-> > On 12/21/2017 01:46 PM, Keith Busch wrote:
-> >> @@ -181,7 +181,10 @@ static void blkdev_bio_end_io_simple(struct bio *bio)
-> >>  	struct task_struct *waiter = bio->bi_private;
-> >>  
-> >>  	WRITE_ONCE(bio->bi_private, NULL);
-> >> -	wake_up_process(waiter);
-> >> +	if (current != waiter)
-> >> +		wake_up_process(waiter);
-> >> +	else
-> >> +		__set_current_state(TASK_RUNNING);
-> > 
-> > Do we actually need to set this to TASK_RUNNING? If we get here we're already running, right?
-> > 
-> > Everywhere I see uses of __set_current_state(TASK_RUNNING) it's after we've done a set_current_state(TASK_INTERRUPTIBLE).
-> 
-> We'd only be TASK_RUNNING if the IRQ got to it first. And that's something that
-> should be removed as well - I suspect that'd be a much bigger win, getting rid
-> of the IRQ trigger for polled IO, than most of the micro optimizations. For
-> Keith's testing, looks like he reduced the cost by turning on coalescing, but
-> it'd be cheaper (and better) to not have to rely on that.
+the kbuild test robot send mail of a potential use of an uninitialized
+variable - "tport" in fcloop_delete_targetport() which then calls
+__targetport_unreg() which uses the variable. It will never be the
+case it is uninitialized as the call to __targetport_unreg() only
+occurs if there is a valid nport pointer. And at the time the nport
+pointer is assigned, the tport variable is set.
 
-It would be nice, but the driver doesn't know a request's completion
-is going to be a polled. Even if it did, we don't have a spec defined
-way to tell the controller not to send an interrupt with this command's
-compeletion, which would be negated anyway if any interrupt driven IO
-is mixed in the same queue. We could possibly create a special queue
-with interrupts disabled for this purpose if we can pass the HIPRI hint
-through the request.
+Remove the warning by assigning a NULL value initially.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/fcloop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 9f8a6726df91..34712def81b1 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -1233,7 +1233,7 @@ fcloop_delete_target_port(struct device *dev, struct device_attribute *attr,
+ 		const char *buf, size_t count)
+ {
+ 	struct fcloop_nport *nport = NULL, *tmpport;
+-	struct fcloop_tport *tport;
++	struct fcloop_tport *tport = NULL;
+ 	u64 nodename, portname;
+ 	unsigned long flags;
+ 	int ret;
+-- 
+2.13.1
