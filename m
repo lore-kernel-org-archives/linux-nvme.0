@@ -1,73 +1,31 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 14:54:15 +0200
-Subject: [PATCH 4.15] nvme-rdma: fix concurrent reset and reconnect
-Message-ID: <20171221125415.31841-1-sagi@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 21 Dec 2017 05:00:02 -0800
+Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
+In-Reply-To: <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
+References: <20171221100752.18386-1-sagi@grimberg.me>
+ <20171221100752.18386-2-sagi@grimberg.me>
+ <20171221101741.GB17327@infradead.org>
+ <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
+Message-ID: <20171221130002.GA4239@infradead.org>
 
-Now ctrl state machine allows to transition from RESETTING
-to RECONNECTING. In nvme-rdma when we receive a rdma cm
-DISONNECTED event, we trigger nvme_rdma_error_recovery. This
-happens also when we execute a controller reset, issue a
-cm diconnect request and receive a cm disconnect reply, as
-a result, the reset work and the error recovery work can
-run concurrently.
+On Thu, Dec 21, 2017@12:41:30PM +0200, Sagi Grimberg wrote:
+> AFAIK, WQ_MEM_RECLAIM means that this workqueue can be drained
+> for memory reclaim, which means that a workqueue that hosts works
+> that are allocating memory cannot be such a workqueue.
 
-Until now the state machine prevented from the error recovery
-work from running as a result of a controller reset (RESETTING
--> RECONNECTING was not allowed).
+No.  WQ_MEM_RECLAIM means it has a dededicated rescuer execution
+thread and is guaranteed to make forward progress even under grave
+memory pressure.
 
-To fix this, we adopt the FC state machine approach, we always
-transition from LIVE to RESETTING and only then to RECONNECTING.
-We do this both for the error recovery work and the controller
-reset work:
-1. transition to RESETTING
-2. teardown the controller association
-3. transition to RECONNECTING
+> How does this patch make reset not work in memory reclaim? memory
+> reclaim will drain workqueues that *are* reclaimable workqueues.
 
-This will restore the protection against reset work and
-error recovery work from concurrently running together.
+Without WQ_MEM_RECLAIM we might not be able to execute the reset
+due to the overhead of starting a new helper thread to execute it.
 
-Fixes: 3cec7f9de448 ("nvme: allow controller RESETTING to RECONNECTING transition")
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+> > So instead we'll need to make sure whatever memory allocation required
+> > (which ones, btw?) are marked GFP_NOIO.
+> 
+> namespace scannig can allocate new namespaces.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 596a3dde47fd..edc19b17253d 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -974,12 +974,18 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_start_queues(&ctrl->ctrl);
- 
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
-+		/* state change failure should never happen */
-+		WARN_ON_ONCE(1);
-+		return;
-+	}
-+
- 	nvme_rdma_reconnect_or_remove(ctrl);
- }
- 
- static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
- {
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
- 		return;
- 
- 	queue_work(nvme_wq, &ctrl->err_work);
-@@ -1753,6 +1759,12 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_rdma_shutdown_ctrl(ctrl, false);
- 
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
-+		/* state change failure should never happen */
-+		WARN_ON_ONCE(1);
-+		return;
-+	}
-+
- 	ret = nvme_rdma_configure_admin_queue(ctrl, false);
- 	if (ret)
- 		goto out_fail;
--- 
-2.14.1
+Ok, makes sense.
