@@ -1,28 +1,39 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 12:41:30 +0200
-Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
-In-Reply-To: <20171221101741.GB17327@infradead.org>
+Date: Thu, 21 Dec 2017 12:43:53 +0200
+Subject: [PATCH 4.15-rc 2/3] nvme-core/loop/rdma: Host delete_work and
+ reset_work on system workqueues
+In-Reply-To: <20171221102503.GA11259@infradead.org>
 References: <20171221100752.18386-1-sagi@grimberg.me>
- <20171221100752.18386-2-sagi@grimberg.me>
- <20171221101741.GB17327@infradead.org>
-Message-ID: <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
-
+ <20171221100752.18386-3-sagi@grimberg.me>
+ <20171221102503.GA11259@infradead.org>
+Message-ID: <a963929a-46af-c9b9-5bf4-e172ca2f6d59@grimberg.me>
 
 >> From: Roy Shterman <roys at lightbitslabs.com>
 >>
->> nvme_wq is not a MEM_RECLAIM workqueue because it
->> can allocate memory in some of the works it is executing.
+>> We need to ensure that delete_work will be hosted on a different
+>> workqueue than all the works we flush or cancel from it.
+>> Otherwise we may hit a circular dependency warning [1].
+>>
+>> Also, given that delete_work flushes reset_work, host reset_work
+>> on system_wq and delete_work on system_long_wq. In addition,
+>> fix the flushing in the individual drivers to flush system_long_wq
+>> when draining queued deletes.
 > 
-> But we need reset to work while in memory reclaim.
+> I vaguely remember pointing something like this out :)
 
-AFAIK, WQ_MEM_RECLAIM means that this workqueue can be drained
-for memory reclaim, which means that a workqueue that hosts works
-that are allocating memory cannot be such a workqueue.
+You did :)
 
-How does this patch make reset not work in memory reclaim? memory
-reclaim will drain workqueues that *are* reclaimable workqueues.
+> I think we really need our own, separate WQ for this, e.g. a
+> nvme_reset_wq as reset progress under an swap / paging load is
+> essential and we need it isolated from the system.
 
-> So instead we'll need to make sure whatever memory allocation required
-> (which ones, btw?) are marked GFP_NOIO.
+I agree, this was the thought when introducing nvme_wq.
 
-namespace scannig can allocate new namespaces.
+So you are fine with keeping controller delete in system_wq
+(or system_long_wq)?
+
+> Once we have that patch 1 is probably ok, but the patch adding
+> nvme_reset_wq should go before the current patch 1.  Also please
+> add good comments on the workqueue usage.
+
+OK, I can do that.
