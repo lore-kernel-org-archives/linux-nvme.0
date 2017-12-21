@@ -1,31 +1,23 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 21 Dec 2017 05:00:02 -0800
-Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
-In-Reply-To: <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
+Date: Thu, 21 Dec 2017 05:00:50 -0800
+Subject: [PATCH 4.15-rc 2/3] nvme-core/loop/rdma: Host delete_work and
+ reset_work on system workqueues
+In-Reply-To: <a963929a-46af-c9b9-5bf4-e172ca2f6d59@grimberg.me>
 References: <20171221100752.18386-1-sagi@grimberg.me>
- <20171221100752.18386-2-sagi@grimberg.me>
- <20171221101741.GB17327@infradead.org>
- <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
-Message-ID: <20171221130002.GA4239@infradead.org>
+ <20171221100752.18386-3-sagi@grimberg.me>
+ <20171221102503.GA11259@infradead.org>
+ <a963929a-46af-c9b9-5bf4-e172ca2f6d59@grimberg.me>
+Message-ID: <20171221130050.GB4239@infradead.org>
 
-On Thu, Dec 21, 2017@12:41:30PM +0200, Sagi Grimberg wrote:
-> AFAIK, WQ_MEM_RECLAIM means that this workqueue can be drained
-> for memory reclaim, which means that a workqueue that hosts works
-> that are allocating memory cannot be such a workqueue.
-
-No.  WQ_MEM_RECLAIM means it has a dededicated rescuer execution
-thread and is guaranteed to make forward progress even under grave
-memory pressure.
-
-> How does this patch make reset not work in memory reclaim? memory
-> reclaim will drain workqueues that *are* reclaimable workqueues.
-
-Without WQ_MEM_RECLAIM we might not be able to execute the reset
-due to the overhead of starting a new helper thread to execute it.
-
-> > So instead we'll need to make sure whatever memory allocation required
-> > (which ones, btw?) are marked GFP_NOIO.
+On Thu, Dec 21, 2017@12:43:53PM +0200, Sagi Grimberg wrote:
+> > I think we really need our own, separate WQ for this, e.g. a
+> > nvme_reset_wq as reset progress under an swap / paging load is
+> > essential and we need it isolated from the system.
 > 
-> namespace scannig can allocate new namespaces.
+> I agree, this was the thought when introducing nvme_wq.
+> 
+> So you are fine with keeping controller delete in system_wq
+> (or system_long_wq)?
 
-Ok, makes sense.
+I'd keep delete on the reset workqueue.  If we can avoid depending
+on too many system workqueues we're better off I think.
