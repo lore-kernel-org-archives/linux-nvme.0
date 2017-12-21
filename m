@@ -1,62 +1,18 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 21 Dec 2017 13:53:44 -0700
-Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
-In-Reply-To: <45a16b4c-fbc0-106d-df37-439374c7b5dc@kernel.dk>
+Date: Thu, 21 Dec 2017 13:54:23 -0700
+Subject: [PATCH 2/3] nvme/pci: Remove cq_vector check in IO path
+In-Reply-To: <20171221204636.2924-3-keith.busch@intel.com>
 References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-2-keith.busch@intel.com>
- <45a16b4c-fbc0-106d-df37-439374c7b5dc@kernel.dk>
-Message-ID: <118beb1f-54eb-c65d-1c9c-4775ebde1fa8@kernel.dk>
+ <20171221204636.2924-3-keith.busch@intel.com>
+Message-ID: <210d5bb5-2ac4-9b69-1207-37b1610554a8@kernel.dk>
 
-On 12/21/17 1:49 PM, Jens Axboe wrote:
-> On 12/21/17 1:46 PM, Keith Busch wrote:
->> This is a performance optimization that allows the hardware to work on
->> a command in parallel with the kernel's stats and timeout tracking.
->>
->> Signed-off-by: Keith Busch <keith.busch at intel.com>
->> ---
->>  drivers/nvme/host/pci.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index f5800c3c9082..df5550ce0531 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -886,8 +886,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
->>  			goto out_cleanup_iod;
->>  	}
->>  
->> -	blk_mq_start_request(req);
->> -
->>  	spin_lock_irq(&nvmeq->q_lock);
->>  	if (unlikely(nvmeq->cq_vector < 0)) {
->>  		ret = BLK_STS_IOERR;
->> @@ -895,6 +893,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
->>  		goto out_cleanup_iod;
->>  	}
->>  	__nvme_submit_cmd(nvmeq, &cmnd);
->> +	blk_mq_start_request(req);
->>  	nvme_process_cq(nvmeq);
->>  	spin_unlock_irq(&nvmeq->q_lock);
->>  	return BLK_STS_OK;
-> 
-> I guess this will work since we hold the q_lock, but you should probably
-> include a comment to that effect since it's important that we can't find
-> the completion before we've called started.
-> 
-> Actually, you'd need to reorder this after #2 (I'm assuming, it hasn't
-> shown up yet, but I'm guessing it's kill the cq check after submission)
-> since if we have multiple CPUs on the same hardware queue, one of
-> the other CPUs could find a completion event between your
-> __nvme_submit_cmd() and blk_mq_start_request() call. Very short window,
-> but it does exist.
+On 12/21/17 1:46 PM, Keith Busch wrote:
+> This is a micro-optimization removing unnecessary check for a disabled
+> queue. We no longer need this check because blk-mq provides the ability
+> to quiesce queues that nvme uses, and the doorbell registers are never
+> unmapped as long as requests are active.
 
-Turns out that wasn't what patch 2 was. And the code is right there
-above as well, and under the q_lock, so I guess that race doesn't
-exist.
-
-But that does bring up the fact if we should always be doing the
-nvme_process_cq(nvmeq) after IO submission. For direct/hipri IO,
-maybe it's better to make the submission path faster and skip it?
+Reviewed-by: Jens Axboe <axboe at kernel.dk>
 
 -- 
 Jens Axboe
