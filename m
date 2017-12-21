@@ -1,64 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 15:07:27 +0200
-Subject: [PATCH 4.15] nvme-mpath: fix last path removal during traffic
-Message-ID: <20171221130727.1023-1-sagi@grimberg.me>
+Date: Thu, 21 Dec 2017 15:17:10 +0200
+Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
+In-Reply-To: <20171221130002.GA4239@infradead.org>
+References: <20171221100752.18386-1-sagi@grimberg.me>
+ <20171221100752.18386-2-sagi@grimberg.me>
+ <20171221101741.GB17327@infradead.org>
+ <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
+ <20171221130002.GA4239@infradead.org>
+Message-ID: <f8cc93b5-a32a-f418-a65b-193ee530c481@grimberg.me>
 
-In case our last path is removed during traffic, we
-can end up requeueing the bio(s) but never schedule
-the actual requeue work as upper layers still have
-open handles on the mpath device node.
 
-Fix this by scheduling requeue work if the namespace
-being removed is last path in ns_head path list.
+>> AFAIK, WQ_MEM_RECLAIM means that this workqueue can be drained
+>> for memory reclaim, which means that a workqueue that hosts works
+>> that are allocating memory cannot be such a workqueue.
+> 
+> No.  WQ_MEM_RECLAIM means it has a dededicated rescuer execution
+> thread and is guaranteed to make forward progress even under grave
+> memory pressure.
+> 
+>> How does this patch make reset not work in memory reclaim? memory
+>> reclaim will drain workqueues that *are* reclaimable workqueues.
+> 
+> Without WQ_MEM_RECLAIM we might not be able to execute the reset
+> due to the overhead of starting a new helper thread to execute it.
 
-Fixes: 32acab3181c7 ("nvme: implement multipath access to nvme subsystems")
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c |  1 +
- drivers/nvme/host/nvme.h | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
+OK, thanks for the education :)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 12fe1704437b..2e9a3889074e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3002,6 +3002,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	mutex_unlock(&ns->ctrl->namespaces_mutex);
- 
- 	synchronize_srcu(&ns->head->srcu);
-+	nvme_mpath_check_last_path(ns);
- 	nvme_put_ns(ns);
- }
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4361b71891e9..28d1f586619d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -422,6 +422,15 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
- 		rcu_assign_pointer(head->current_path, NULL);
- }
- struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
-+
-+static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
-+{
-+	struct nvme_ns_head *head = ns->head;
-+
-+	if (head->disk && list_empty(&head->list))
-+		kblockd_schedule_work(&head->requeue_work);
-+}
-+
- #else
- static inline void nvme_failover_req(struct request *req)
- {
-@@ -453,6 +462,9 @@ static inline void nvme_mpath_remove_disk_links(struct nvme_ns *ns)
- static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
- {
- }
-+static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
-+{
-+}
- #endif /* CONFIG_NVME_MULTIPATH */
- 
- #ifdef CONFIG_NVM
--- 
-2.14.1
+Note that the we need to make sure to not flush workqueue !MEM_RECLAIM
+from a workqueue that is MEM_RECLAIM and vice-versa (if we do we will
+can trigger deadlocks in severe memory pressure.
+
+We cannot place the delete_work on the same workqueue as the reset_work
+because we flush reset_work from nvme_delete_ctrl (this is what this
+patch is trying to prevent).
+
+We need a separate workqueue for it, or we can use system_long_wq
+(however this would require making nvme_wq and nvme_reset_wq without
+WQ_MEM_RECLAIM). Or, we introduce a new system_memreclaim_wq?
+
+delete_ctrl does not need MEM_RECLAIM, but it flushes workqueues that
+does need MEM_RECLAIM.
