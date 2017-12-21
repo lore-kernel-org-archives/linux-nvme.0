@@ -1,38 +1,34 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Dec 2017 13:46:34 -0700
-Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
+Date: Thu, 21 Dec 2017 13:46:36 -0700
+Subject: [PATCH 3/3] block: Polling completion performance optimization
 In-Reply-To: <20171221204636.2924-1-keith.busch@intel.com>
 References: <20171221204636.2924-1-keith.busch@intel.com>
-Message-ID: <20171221204636.2924-2-keith.busch@intel.com>
+Message-ID: <20171221204636.2924-4-keith.busch@intel.com>
 
-This is a performance optimization that allows the hardware to work on
-a command in parallel with the kernel's stats and timeout tracking.
+When a request completion is polled, the completion task wakes itself
+up. This is unnecessary, as the task can just set itself back to
+running.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/block_dev.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f5800c3c9082..df5550ce0531 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -886,8 +886,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 			goto out_cleanup_iod;
- 	}
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 4a181fcb5175..ce67ffe73430 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -181,7 +181,10 @@ static void blkdev_bio_end_io_simple(struct bio *bio)
+ 	struct task_struct *waiter = bio->bi_private;
  
--	blk_mq_start_request(req);
--
- 	spin_lock_irq(&nvmeq->q_lock);
- 	if (unlikely(nvmeq->cq_vector < 0)) {
- 		ret = BLK_STS_IOERR;
-@@ -895,6 +893,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		goto out_cleanup_iod;
- 	}
- 	__nvme_submit_cmd(nvmeq, &cmnd);
-+	blk_mq_start_request(req);
- 	nvme_process_cq(nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
- 	return BLK_STS_OK;
+ 	WRITE_ONCE(bio->bi_private, NULL);
+-	wake_up_process(waiter);
++	if (current != waiter)
++		wake_up_process(waiter);
++	else
++		__set_current_state(TASK_RUNNING);
+ }
+ 
+ static ssize_t
 -- 
 2.13.6
