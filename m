@@ -1,46 +1,38 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Dec 2017 13:46:33 -0700
-Subject: [PATCH 0/3] Performance enhancements
-Message-ID: <20171221204636.2924-1-keith.busch@intel.com>
+Date: Thu, 21 Dec 2017 13:46:34 -0700
+Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
+In-Reply-To: <20171221204636.2924-1-keith.busch@intel.com>
+References: <20171221204636.2924-1-keith.busch@intel.com>
+Message-ID: <20171221204636.2924-2-keith.busch@intel.com>
 
-A few IO micro-optimizations for IO polling and NVMe. I'm really working
-to close the performance gap with userspace drivers, and this gets me
-halfway there on latency. The fastest hardware I could get measured
-roundtrip read latency at 5usec with this series that was previously
-measuring 5.7usec.
+This is a performance optimization that allows the hardware to work on
+a command in parallel with the kernel's stats and timeout tracking.
 
-Note with NVMe, you really need to crank up the interrupt coalescing to
-see the completion polling benefit.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Test pre-setup:
-
-  echo performance | tee /sys/devices/system/cpu/cpufreq/policy*/scaling_governor
-  echo 0 > /sys/block/nvme0n1/queue/iostats
-  echo -1 > /sys/block/nvme0n1/queue/io_poll_delay
-  nvme set-feature /dev/nvme0 -f 8 -v 0x4ff
-
-fio profile:
-
-  [global]
-  ioengine=pvsync2
-  rw=randread
-  norandommap
-  direct=1
-  bs=4k
-  hipri
-
-  [hi-pri]
-  filename=/dev/nvme0n1
-  cpus_allowed=2
-
-Keith Busch (3):
-  nvme/pci: Start request after doorbell ring
-  nvme/pci: Remove cq_vector check in IO path
-  block: Polling completion performance optimization
-
- drivers/nvme/host/pci.c | 14 +++-----------
- fs/block_dev.c          |  5 ++++-
- 2 files changed, 7 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f5800c3c9082..df5550ce0531 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -886,8 +886,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			goto out_cleanup_iod;
+ 	}
+ 
+-	blk_mq_start_request(req);
+-
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	if (unlikely(nvmeq->cq_vector < 0)) {
+ 		ret = BLK_STS_IOERR;
+@@ -895,6 +893,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		goto out_cleanup_iod;
+ 	}
+ 	__nvme_submit_cmd(nvmeq, &cmnd);
++	blk_mq_start_request(req);
+ 	nvme_process_cq(nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 	return BLK_STS_OK;
 -- 
 2.13.6
