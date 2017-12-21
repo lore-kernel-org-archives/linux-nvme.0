@@ -1,37 +1,22 @@
-From: sbauer@eng.utah.edu (Scott Bauer)
-Date: Thu, 21 Dec 2017 13:56:34 -0700
-Subject: [PATCH 3/3] block: Polling completion performance optimization
-In-Reply-To: <20171221204636.2924-4-keith.busch@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 21 Dec 2017 14:02:50 -0700
+Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
+In-Reply-To: <118beb1f-54eb-c65d-1c9c-4775ebde1fa8@kernel.dk>
 References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-4-keith.busch@intel.com>
-Message-ID: <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
+ <20171221204636.2924-2-keith.busch@intel.com>
+ <45a16b4c-fbc0-106d-df37-439374c7b5dc@kernel.dk>
+ <118beb1f-54eb-c65d-1c9c-4775ebde1fa8@kernel.dk>
+Message-ID: <20171221210250.GA2975@localhost.localdomain>
 
-
-
-On 12/21/2017 01:46 PM, Keith Busch wrote:
-> When a request completion is polled, the completion task wakes itself
-> up. This is unnecessary, as the task can just set itself back to
-> running.
+On Thu, Dec 21, 2017@01:53:44PM -0700, Jens Axboe wrote:
+> Turns out that wasn't what patch 2 was. And the code is right there
+> above as well, and under the q_lock, so I guess that race doesn't
+> exist.
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  fs/block_dev.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> index 4a181fcb5175..ce67ffe73430 100644
-> --- a/fs/block_dev.c
-> +++ b/fs/block_dev.c
-> @@ -181,7 +181,10 @@ static void blkdev_bio_end_io_simple(struct bio *bio)
->  	struct task_struct *waiter = bio->bi_private;
->  
->  	WRITE_ONCE(bio->bi_private, NULL);
-> -	wake_up_process(waiter);
-> +	if (current != waiter)
-> +		wake_up_process(waiter);
-> +	else
-> +		__set_current_state(TASK_RUNNING);
+> But that does bring up the fact if we should always be doing the
+> nvme_process_cq(nvmeq) after IO submission. For direct/hipri IO,
+> maybe it's better to make the submission path faster and skip it?
 
-Do we actually need to set this to TASK_RUNNING? If we get here we're already running, right?
-
-Everywhere I see uses of __set_current_state(TASK_RUNNING) it's after we've done a set_current_state(TASK_INTERRUPTIBLE).
+Yes, I am okay to remove the opprotunistic nvme_process_cq in the
+submission path. Even under deeply queued IO, I've not seen this provide
+any measurable benefit.
