@@ -1,45 +1,35 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 16:17:29 +0200
-Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
-In-Reply-To: <20171221135402.GA12323@infradead.org>
-References: <20171221100752.18386-1-sagi@grimberg.me>
- <20171221100752.18386-2-sagi@grimberg.me>
- <20171221101741.GB17327@infradead.org>
- <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
- <20171221130002.GA4239@infradead.org>
- <f8cc93b5-a32a-f418-a65b-193ee530c481@grimberg.me>
- <20171221135402.GA12323@infradead.org>
-Message-ID: <3fb52238-1ff6-7ee5-65ba-8a9b5834daa3@grimberg.me>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 21 Dec 2017 08:43:35 -0800
+Subject: [PATCH] nvmet_fc: correct broken add_port
+Message-ID: <20171221164335.12400-1-jsmart2021@gmail.com>
 
+prior patch to remove the add_port reference also removed the saving
+of the port pointer, which mean any io had no port pointer thus was
+rejected. Basically nothing works.
 
->> We cannot place the delete_work on the same workqueue as the reset_work
->> because we flush reset_work from nvme_delete_ctrl (this is what this
->> patch is trying to prevent).
-> 
-> Ok..
-> 
-> Seems like we should instead have a single-thread MEM_RECLAIM
-> workqueue per nvme controller for reset and remove as that would
-> implicitly serialize remove and delete.
-> 
-> Alternatively we could use the reset_work for removal as well.
-> In fact it already has the removal and we'd just need to add
-> a goto for that case if we are in deleting state, e.g. something
-> like the patch below, just for rdma without the core and other
-> transport bits:
+Restore the saving of the port pointer.
 
-The problem I have with these two suggestions is that in my mind,
-delete_ctrl should never fail because there is inflight reset.
+Signed-off-by: James Smart <james.smart at broadcom.com>
 
-Also consider what should we do in module unload where we trigger
-delete of all active controllers, we'd need some retry mechanism
-to clean them up.
+---
+this restores operation but if the targetport is removed, it will no
+longer be functional if it comes back. I will be submitting a more
+involved patch for this shortly
 
-We have three work types:
-1. async stuff like namespace scan, aen etc (which can allocate memory)
-2. reset which flushes (1) and allocates memory on its own (nvme queues
-etc...)
-3. delete which flushes (2)
+ drivers/nvme/target/fc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Maybe it won't be so bad to have three global workqueues to host these
-works?
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index b652208cb37b..fc22415f84fa 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2522,6 +2522,7 @@ nvmet_fc_add_port(struct nvmet_port *port)
+ 	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
+ 		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
+ 		    (tgtport->fc_target_port.port_name == traddr.pn)) {
++			tgtport->port = port;
+ 			ret = 0;
+ 			break;
+ 		}
+-- 
+2.13.1
