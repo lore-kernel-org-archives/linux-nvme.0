@@ -1,39 +1,73 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 12:43:53 +0200
-Subject: [PATCH 4.15-rc 2/3] nvme-core/loop/rdma: Host delete_work and
- reset_work on system workqueues
-In-Reply-To: <20171221102503.GA11259@infradead.org>
-References: <20171221100752.18386-1-sagi@grimberg.me>
- <20171221100752.18386-3-sagi@grimberg.me>
- <20171221102503.GA11259@infradead.org>
-Message-ID: <a963929a-46af-c9b9-5bf4-e172ca2f6d59@grimberg.me>
+Date: Thu, 21 Dec 2017 14:54:15 +0200
+Subject: [PATCH 4.15] nvme-rdma: fix concurrent reset and reconnect
+Message-ID: <20171221125415.31841-1-sagi@grimberg.me>
 
->> From: Roy Shterman <roys at lightbitslabs.com>
->>
->> We need to ensure that delete_work will be hosted on a different
->> workqueue than all the works we flush or cancel from it.
->> Otherwise we may hit a circular dependency warning [1].
->>
->> Also, given that delete_work flushes reset_work, host reset_work
->> on system_wq and delete_work on system_long_wq. In addition,
->> fix the flushing in the individual drivers to flush system_long_wq
->> when draining queued deletes.
-> 
-> I vaguely remember pointing something like this out :)
+Now ctrl state machine allows to transition from RESETTING
+to RECONNECTING. In nvme-rdma when we receive a rdma cm
+DISONNECTED event, we trigger nvme_rdma_error_recovery. This
+happens also when we execute a controller reset, issue a
+cm diconnect request and receive a cm disconnect reply, as
+a result, the reset work and the error recovery work can
+run concurrently.
 
-You did :)
+Until now the state machine prevented from the error recovery
+work from running as a result of a controller reset (RESETTING
+-> RECONNECTING was not allowed).
 
-> I think we really need our own, separate WQ for this, e.g. a
-> nvme_reset_wq as reset progress under an swap / paging load is
-> essential and we need it isolated from the system.
+To fix this, we adopt the FC state machine approach, we always
+transition from LIVE to RESETTING and only then to RECONNECTING.
+We do this both for the error recovery work and the controller
+reset work:
+1. transition to RESETTING
+2. teardown the controller association
+3. transition to RECONNECTING
 
-I agree, this was the thought when introducing nvme_wq.
+This will restore the protection against reset work and
+error recovery work from concurrently running together.
 
-So you are fine with keeping controller delete in system_wq
-(or system_long_wq)?
+Fixes: 3cec7f9de448 ("nvme: allow controller RESETTING to RECONNECTING transition")
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-> Once we have that patch 1 is probably ok, but the patch adding
-> nvme_reset_wq should go before the current patch 1.  Also please
-> add good comments on the workqueue usage.
-
-OK, I can do that.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 596a3dde47fd..edc19b17253d 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -974,12 +974,18 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+ 	nvme_start_queues(&ctrl->ctrl);
+ 
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
++		/* state change failure should never happen */
++		WARN_ON_ONCE(1);
++		return;
++	}
++
+ 	nvme_rdma_reconnect_or_remove(ctrl);
+ }
+ 
+ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+ {
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
+ 		return;
+ 
+ 	queue_work(nvme_wq, &ctrl->err_work);
+@@ -1753,6 +1759,12 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+ 	nvme_stop_ctrl(&ctrl->ctrl);
+ 	nvme_rdma_shutdown_ctrl(ctrl, false);
+ 
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
++		/* state change failure should never happen */
++		WARN_ON_ONCE(1);
++		return;
++	}
++
+ 	ret = nvme_rdma_configure_admin_queue(ctrl, false);
+ 	if (ret)
+ 		goto out_fail;
+-- 
+2.14.1
