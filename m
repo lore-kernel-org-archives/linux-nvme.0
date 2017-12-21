@@ -1,33 +1,161 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 21 Dec 2017 12:07:50 +0200
-Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
+Date: Thu, 21 Dec 2017 12:07:51 +0200
+Subject: [PATCH 4.15-rc 2/3] nvme-core/loop/rdma: Host delete_work and
+ reset_work on system workqueues
 In-Reply-To: <20171221100752.18386-1-sagi@grimberg.me>
 References: <20171221100752.18386-1-sagi@grimberg.me>
-Message-ID: <20171221100752.18386-2-sagi@grimberg.me>
+Message-ID: <20171221100752.18386-3-sagi@grimberg.me>
 
 From: Roy Shterman <roys@lightbitslabs.com>
 
-nvme_wq is not a MEM_RECLAIM workqueue because it
-can allocate memory in some of the works it is executing.
+We need to ensure that delete_work will be hosted on a different
+workqueue than all the works we flush or cancel from it.
+Otherwise we may hit a circular dependency warning [1].
+
+Also, given that delete_work flushes reset_work, host reset_work
+on system_wq and delete_work on system_long_wq. In addition,
+fix the flushing in the individual drivers to flush system_long_wq
+when draining queued deletes.
+
+[1]:
+[  178.491942] =============================================
+[  178.492718] [ INFO: possible recursive locking detected ]
+[  178.493495] 4.9.0-rc4-c844263313a8-lb #3 Tainted: G           OE
+[  178.494382] ---------------------------------------------
+[  178.495160] kworker/5:1/135 is trying to acquire lock:
+[  178.495894]  (
+[  178.496120] "nvme-wq"
+[  178.496471] ){++++.+}
+[  178.496599] , at:
+[  178.496921] [<ffffffffa70ac206>] flush_work+0x1a6/0x2d0
+[  178.497670]
+               but task is already holding lock:
+[  178.498499]  (
+[  178.498724] "nvme-wq"
+[  178.499074] ){++++.+}
+[  178.499202] , at:
+[  178.499520] [<ffffffffa70ad6c2>] process_one_work+0x162/0x6a0
+[  178.500343]
+               other info that might help us debug this:
+[  178.501269]  Possible unsafe locking scenario:
+
+[  178.502113]        CPU0
+[  178.502472]        ----
+[  178.502829]   lock(
+[  178.503115] "nvme-wq"
+[  178.503467] );
+[  178.503716]   lock(
+[  178.504001] "nvme-wq"
+[  178.504353] );
+[  178.504601]
+                *** DEADLOCK ***
+
+[  178.505441]  May be due to missing lock nesting notation
+
+[  178.506453] 2 locks held by kworker/5:1/135:
+[  178.507068]  #0:
+[  178.507330]  (
+[  178.507598] "nvme-wq"
+[  178.507726] ){++++.+}
+[  178.508079] , at:
+[  178.508173] [<ffffffffa70ad6c2>] process_one_work+0x162/0x6a0
+[  178.509004]  #1:
+[  178.509265]  (
+[  178.509532] (&ctrl->delete_work)
+[  178.509795] ){+.+.+.}
+[  178.510145] , at:
+[  178.510239] [<ffffffffa70ad6c2>] process_one_work+0x162/0x6a0
+[  178.511070]
+               stack backtrace:
+:
+[  178.511693] CPU: 5 PID: 135 Comm: kworker/5:1 Tainted: G           OE   4.9.0-rc4-c844263313a8-lb #3
+[  178.512974] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.1-1ubuntu1 04/01/2014
+[  178.514247] Workqueue: nvme-wq nvme_del_ctrl_work [nvme_tcp]
+[  178.515071]  ffffc2668175bae0 ffffffffa7450823 ffffffffa88abd80 ffffffffa88abd80
+[  178.516195]  ffffc2668175bb98 ffffffffa70eb012 ffffffffa8d8d90d ffff9c472e9ea700
+[  178.517318]  ffff9c472e9ea700 ffff9c4700000000 ffff9c4700007200 ab83be61bec0d50e
+[  178.518443] Call Trace:
+[  178.518807]  [<ffffffffa7450823>] dump_stack+0x85/0xc2
+[  178.519542]  [<ffffffffa70eb012>] __lock_acquire+0x17d2/0x18f0
+[  178.520377]  [<ffffffffa75839a7>] ? serial8250_console_putchar+0x27/0x30
+[  178.521330]  [<ffffffffa7583980>] ? wait_for_xmitr+0xa0/0xa0
+[  178.522174]  [<ffffffffa70ac1eb>] ? flush_work+0x18b/0x2d0
+[  178.522975]  [<ffffffffa70eb7cb>] lock_acquire+0x11b/0x220
+[  178.523753]  [<ffffffffa70ac206>] ? flush_work+0x1a6/0x2d0
+[  178.524535]  [<ffffffffa70ac229>] flush_work+0x1c9/0x2d0
+[  178.525291]  [<ffffffffa70ac206>] ? flush_work+0x1a6/0x2d0
+[  178.526077]  [<ffffffffa70a9cf0>] ? flush_workqueue_prep_pwqs+0x220/0x220
+[  178.527040]  [<ffffffffa70ae7cf>] __cancel_work_timer+0x10f/0x1d0
+[  178.527907]  [<ffffffffa70fecb9>] ? vprintk_default+0x29/0x40
+[  178.528726]  [<ffffffffa71cb507>] ? printk+0x48/0x50
+[  178.529434]  [<ffffffffa70ae8c3>] cancel_delayed_work_sync+0x13/0x20
+[  178.530381]  [<ffffffffc042100b>] nvme_stop_ctrl+0x5b/0x70 [nvme_core]
+[  178.531314]  [<ffffffffc0403dcc>] nvme_del_ctrl_work+0x2c/0x50 [nvme_tcp]
+[  178.532271]  [<ffffffffa70ad741>] process_one_work+0x1e1/0x6a0
+[  178.533101]  [<ffffffffa70ad6c2>] ? process_one_work+0x162/0x6a0
+[  178.533954]  [<ffffffffa70adc4e>] worker_thread+0x4e/0x490
+[  178.534735]  [<ffffffffa70adc00>] ? process_one_work+0x6a0/0x6a0
+[  178.535588]  [<ffffffffa70adc00>] ? process_one_work+0x6a0/0x6a0
+[  178.536441]  [<ffffffffa70b48cf>] kthread+0xff/0x120
+[  178.537149]  [<ffffffffa70b47d0>] ? kthread_park+0x60/0x60
+[  178.538094]  [<ffffffffa70b47d0>] ? kthread_park+0x60/0x60
+[  178.538900]  [<ffffffffa78e332a>] ret_from_fork+0x2a/0x40
 
 Signed-off-by: Roy Shterman <roys at lightbitslabs.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c   | 4 ++--
+ drivers/nvme/host/rdma.c   | 2 +-
+ drivers/nvme/target/loop.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c33f848ab49d..221c97d57562 100644
+index 221c97d57562..12fe1704437b 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3490,7 +3490,7 @@ int __init nvme_core_init(void)
- 	int result;
+@@ -89,7 +89,7 @@ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+ 		return -EBUSY;
+-	if (!queue_work(nvme_wq, &ctrl->reset_work))
++	if (!queue_work(system_wq, &ctrl->reset_work))
+ 		return -EBUSY;
+ 	return 0;
+ }
+@@ -122,7 +122,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_DELETING))
+ 		return -EBUSY;
+-	if (!queue_work(nvme_wq, &ctrl->delete_work))
++	if (!queue_work(system_long_wq, &ctrl->delete_work))
+ 		return -EBUSY;
+ 	return 0;
+ }
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 0676a09c6eba..ff56d86467de 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2028,7 +2028,7 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ 	}
+ 	mutex_unlock(&nvme_rdma_ctrl_mutex);
  
- 	nvme_wq = alloc_workqueue("nvme-wq",
--			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-+			WQ_UNBOUND | WQ_SYSFS, 0);
- 	if (!nvme_wq)
- 		return -ENOMEM;
+-	flush_workqueue(nvme_wq);
++	flush_workqueue(system_long_wq);
+ }
  
+ static struct ib_client nvme_rdma_ib_client = {
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 8652ed5c86e1..cab6ded4dca6 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -716,7 +716,7 @@ static void __exit nvme_loop_cleanup_module(void)
+ 		nvme_delete_ctrl(&ctrl->ctrl);
+ 	mutex_unlock(&nvme_loop_ctrl_mutex);
+ 
+-	flush_workqueue(nvme_wq);
++	flush_workqueue(system_long_wq);
+ }
+ 
+ module_init(nvme_loop_init_module);
 -- 
 2.14.1
