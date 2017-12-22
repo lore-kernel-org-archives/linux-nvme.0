@@ -1,32 +1,25 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Fri, 22 Dec 2017 11:41:13 -0500
-Subject: nvmet_fc: correct broken add_port
-In-Reply-To: <079257ac-fc03-d28e-3906-7a584b5bee4a@broadcom.com>
-References: <20171221164335.12400-1-jsmart2021@gmail.com>
- <20171222072336.n6jr2ybr5gspxsrf@linux-x5ow.site>
- <079257ac-fc03-d28e-3906-7a584b5bee4a@broadcom.com>
-Message-ID: <20171222164113.GA31385@redhat.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 22 Dec 2017 09:39:14 -0800
+Subject: [PATCH 4.15-rc 2/3] nvme-core/loop/rdma: Host delete_work and
+ reset_work on system workqueues
+In-Reply-To: <20171221100752.18386-3-sagi@grimberg.me>
+References: <20171221100752.18386-1-sagi@grimberg.me>
+ <20171221100752.18386-3-sagi@grimberg.me>
+Message-ID: <6e87270a-ee67-4b93-e2c3-b977400f9e79@broadcom.com>
 
-On Fri, Dec 22 2017 at 10:50am -0500,
-James Smart <james.smart@broadcom.com> wrote:
+On 12/21/2017 2:07 AM, Sagi Grimberg wrote:
+> From: Roy Shterman <roys at lightbitslabs.com>
+>
+> We need to ensure that delete_work will be hosted on a different
+> workqueue than all the works we flush or cancel from it.
+> Otherwise we may hit a circular dependency warning [1].
+>
+> Also, given that delete_work flushes reset_work, host reset_work
+> on system_wq and delete_work on system_long_wq. In addition,
+> fix the flushing in the individual drivers to flush system_long_wq
+> when draining queued deletes.
+>
+>
+Any particular reason you didn't do similar mods for the fc transport ?
 
-> On 12/21/2017 11:23 PM, Johannes Thumshirn wrote:
-> >But a Fixes: and/or Cc: <stable at vger.kernel.org> might have been a
-> >good Idea as well.
-> >
-> 
-> Fixes perhaps.? The patch that introduced the issue
-> (a0b69cc8e5caff3cb6442dfa807f47b44e716aad) is only in nvme-4.16, so
-> it doesn't quite apply.
-
-Right, a Fixes: reference is useful even if the Cc: stable isn't
-relevant.
-
-This fixes the issue I reported -- where I needed to revert commit
-a0b69cc8e5 ("nvmet-fc: cleanup nvmet add_port/remove_port") to allow
-nvme connect to work with fcloop.
-
-Christoph, please feel free to add:
-
-Fixes: a0b69cc8e5 ("nvmet-fc: cleanup nvmet add_port/remove_port")
-Tested-by: Mike Snitzer <snitzer at redhat.com>
+-- james
