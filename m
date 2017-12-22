@@ -1,137 +1,95 @@
 From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
-Date: Thu, 21 Dec 2017 23:31:41 -0800
-Subject: [PATCH 05/11] mpt3sas: Introduce mpt3sas_get_st_from_smid()
+Date: Thu, 21 Dec 2017 23:31:43 -0800
+Subject: [PATCH 07/11] mpt3sas: always use first reserved smid for ioctl
+ passthrough
 In-Reply-To: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 References: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <1513927907-19735-6-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <1513927907-19735-8-git-send-email-suganath-prabu.subramani@broadcom.com>
 
 From: Hannes Reinecke <hare@suse.de>
 
-Abstract accesses to the scsi_lookup array by introducing
-mpt3sas_get_st_from_smid().
+ioctl passthrough commands require a SCSIIO smid, but cannot
+easily integrate with the block layer. But the driver already
+has reserved some SCSIIO smids and we're only ever allowing
+one ioctl command at a time we can use the first reserved smid
+for ioctl commands.
 
 Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
 Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
 ---
- drivers/scsi/mpt3sas/mpt3sas_base.c      | 22 ++++++++++++++++++----
- drivers/scsi/mpt3sas/mpt3sas_base.h      |  2 ++
- drivers/scsi/mpt3sas/mpt3sas_scsih.c     |  7 ++++---
- drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |  4 +++-
- 4 files changed, 27 insertions(+), 8 deletions(-)
+ drivers/scsi/mpt3sas/mpt3sas_base.c | 19 +++++++++++++------
+ drivers/scsi/mpt3sas/mpt3sas_ctl.c  | 10 ++--------
+ 2 files changed, 15 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index 35d36a9..afe42a8 100644
+index afe42a8..a49040e 100644
 --- a/drivers/scsi/mpt3sas/mpt3sas_base.c
 +++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -888,6 +888,15 @@ _base_async_event(struct MPT3SAS_ADAPTER *ioc, u8 msix_index, u32 reply)
- 	return 1;
- }
- 
-+struct scsiio_tracker *
-+mpt3sas_get_st_from_smid(struct MPT3SAS_ADAPTER *ioc, u16 smid)
-+{
-+	if (WARN_ON(!smid) ||
-+	    WARN_ON(smid >= ioc->hi_priority_smid))
-+		return NULL;
-+	return &ioc->scsi_lookup[smid - 1];
-+}
-+
- /**
-  * _base_get_cb_idx - obtain the callback index
-  * @ioc: per adapter object
-@@ -902,8 +911,11 @@ _base_get_cb_idx(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+@@ -908,14 +908,18 @@ static u8
+ _base_get_cb_idx(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+ {
+ 	int i;
++	u16 ctl_smid = ioc->scsiio_depth - INTERNAL_SCSIIO_CMDS_COUNT + 1;
  	u8 cb_idx = 0xFF;
  
  	if (smid < ioc->hi_priority_smid) {
--		i = smid - 1;
--		cb_idx = ioc->scsi_lookup[i].cb_idx;
-+		struct scsiio_tracker *st;
-+
-+		st = mpt3sas_get_st_from_smid(ioc, smid);
-+		if (st)
-+			cb_idx = st->cb_idx;
+ 		struct scsiio_tracker *st;
+ 
+-		st = mpt3sas_get_st_from_smid(ioc, smid);
+-		if (st)
+-			cb_idx = st->cb_idx;
++		if (smid < ctl_smid) {
++			st = mpt3sas_get_st_from_smid(ioc, smid);
++			if (st)
++				cb_idx = st->cb_idx;
++		} else if (smid == ctl_smid)
++			cb_idx = ioc->ctl_cb_idx;
  	} else if (smid < ioc->internal_smid) {
  		i = smid - ioc->hi_priority_smid;
  		cb_idx = ioc->hpr_lookup[i].cb_idx;
-@@ -1294,6 +1306,7 @@ static struct chain_tracker *
- _base_get_chain_buffer_tracker(struct MPT3SAS_ADAPTER *ioc, u16 smid)
- {
- 	struct chain_tracker *chain_req;
-+	struct scsiio_tracker *st;
- 	unsigned long flags;
+@@ -2922,7 +2926,9 @@ mpt3sas_base_free_smid(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+ 		ioc->scsi_lookup[i].cb_idx = 0xFF;
+ 		ioc->scsi_lookup[i].scmd = NULL;
+ 		ioc->scsi_lookup[i].direct_io = 0;
+-		list_add(&ioc->scsi_lookup[i].tracker_list, &ioc->free_list);
++		if (i < ioc->scsiio_depth - INTERNAL_SCSIIO_CMDS_COUNT)
++			list_add(&ioc->scsi_lookup[i].tracker_list,
++				 &ioc->free_list);
+ 		spin_unlock_irqrestore(&ioc->scsi_lookup_lock, flags);
  
- 	spin_lock_irqsave(&ioc->scsi_lookup_lock, flags);
-@@ -1306,8 +1319,9 @@ _base_get_chain_buffer_tracker(struct MPT3SAS_ADAPTER *ioc, u16 smid)
- 	chain_req = list_entry(ioc->free_chain_list.next,
- 	    struct chain_tracker, tracker_list);
- 	list_del_init(&chain_req->tracker_list);
--	list_add_tail(&chain_req->tracker_list,
--	    &ioc->scsi_lookup[smid - 1].chain_list);
-+	st = mpt3sas_get_st_from_smid(ioc, smid);
-+	if (st)
-+		list_add_tail(&chain_req->tracker_list, &st->chain_list);
- 	spin_unlock_irqrestore(&ioc->scsi_lookup_lock, flags);
- 	return chain_req;
- }
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.h b/drivers/scsi/mpt3sas/mpt3sas_base.h
-index 60f42ca..23e9af5 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.h
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
-@@ -1402,6 +1402,8 @@ void mpt3sas_base_sync_reply_irqs(struct MPT3SAS_ADAPTER *ioc);
- u16 mpt3sas_base_get_smid_hpr(struct MPT3SAS_ADAPTER *ioc, u8 cb_idx);
- u16 mpt3sas_base_get_smid_scsiio(struct MPT3SAS_ADAPTER *ioc, u8 cb_idx,
- 	struct scsi_cmnd *scmd);
-+struct scsiio_tracker *mpt3sas_get_st_from_smid(struct MPT3SAS_ADAPTER *ioc,
-+	u16 smid);
- 
- u16 mpt3sas_base_get_smid(struct MPT3SAS_ADAPTER *ioc, u8 cb_idx);
- void mpt3sas_base_free_smid(struct MPT3SAS_ADAPTER *ioc, u16 smid);
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 7d76e8f..aae7396 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -2779,7 +2779,7 @@ mpt3sas_scsih_issue_tm(struct MPT3SAS_ADAPTER *ioc, u16 handle, uint channel,
+ 		_base_recovery_check(ioc);
+@@ -5787,8 +5793,9 @@ _base_make_ioc_operational(struct MPT3SAS_ADAPTER *ioc)
+ 		ioc->scsi_lookup[i].smid = smid;
+ 		ioc->scsi_lookup[i].scmd = NULL;
+ 		ioc->scsi_lookup[i].direct_io = 0;
+-		list_add_tail(&ioc->scsi_lookup[i].tracker_list,
+-		    &ioc->free_list);
++		if (i < ioc->scsiio_depth - INTERNAL_SCSIIO_CMDS_COUNT)
++			list_add_tail(&ioc->scsi_lookup[i].tracker_list,
++				      &ioc->free_list);
  	}
  
- 	if (type == MPI2_SCSITASKMGMT_TASKTYPE_ABORT_TASK)
--		scsi_lookup = &ioc->scsi_lookup[smid_task - 1];
-+		scsi_lookup = mpt3sas_get_st_from_smid(ioc, smid_task);
+ 	/* hi-priority queue */
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_ctl.c b/drivers/scsi/mpt3sas/mpt3sas_ctl.c
+index b4c374b..4f23498 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_ctl.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_ctl.c
+@@ -724,14 +724,8 @@ _ctl_do_mpt_command(struct MPT3SAS_ADAPTER *ioc, struct mpt3_ioctl_command karg,
+ 			goto out;
+ 		}
+ 	} else {
+-
+-		smid = mpt3sas_base_get_smid_scsiio(ioc, ioc->ctl_cb_idx, NULL);
+-		if (!smid) {
+-			pr_err(MPT3SAS_FMT "%s: failed obtaining a smid\n",
+-			    ioc->name, __func__);
+-			ret = -EAGAIN;
+-			goto out;
+-		}
++		/* Use first reserved smid for passthrough ioctls */
++		smid = ioc->scsiio_depth - INTERNAL_SCSIIO_CMDS_COUNT + 1;
+ 	}
  
- 	dtmprintk(ioc, pr_info(MPT3SAS_FMT
- 		"sending tm: handle(0x%04x), task_type(0x%02x), smid(%d)\n",
-@@ -2797,7 +2797,8 @@ mpt3sas_scsih_issue_tm(struct MPT3SAS_ADAPTER *ioc, u16 handle, uint channel,
- 	mpt3sas_scsih_set_tm_flag(ioc, handle);
- 	init_completion(&ioc->tm_cmds.done);
- 	if ((type == MPI2_SCSITASKMGMT_TASKTYPE_ABORT_TASK) &&
--			(scsi_lookup->msix_io < ioc->reply_queue_count))
-+	    scsi_lookup &&
-+	    (scsi_lookup->msix_io < ioc->reply_queue_count))
- 		msix_task = scsi_lookup->msix_io;
- 	else
- 		msix_task = 0;
-@@ -2838,7 +2839,7 @@ mpt3sas_scsih_issue_tm(struct MPT3SAS_ADAPTER *ioc, u16 handle, uint channel,
- 	switch (type) {
- 	case MPI2_SCSITASKMGMT_TASKTYPE_ABORT_TASK:
- 		rc = SUCCESS;
--		if (scsi_lookup->scmd == NULL)
-+		if (scsi_lookup && scsi_lookup->scmd == NULL)
- 			break;
- 		rc = FAILED;
- 		break;
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c b/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c
-index ced7d9f..890d6a9 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_warpdrive.c
-@@ -270,7 +270,9 @@ out_error:
- inline u8
- mpt3sas_scsi_direct_io_get(struct MPT3SAS_ADAPTER *ioc, u16 smid)
- {
--	return ioc->scsi_lookup[smid - 1].direct_io;
-+	struct scsiio_tracker *st = mpt3sas_get_st_from_smid(ioc, smid);
-+
-+	return st ? st->direct_io : 0;
- }
- 
- /**
+ 	ret = 0;
 -- 
 2.5.5
