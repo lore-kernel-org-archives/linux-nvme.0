@@ -1,34 +1,50 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 22 Dec 2017 08:23:36 +0100
-Subject: [PATCH] nvmet_fc: correct broken add_port
-In-Reply-To: <20171221164335.12400-1-jsmart2021@gmail.com>
-References: <20171221164335.12400-1-jsmart2021@gmail.com>
-Message-ID: <20171222072336.n6jr2ybr5gspxsrf@linux-x5ow.site>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
+Date: Thu, 21 Dec 2017 23:31:37 -0800
+Subject: [PATCH 01/11] mpt3sas: set default value for cb_idx
+In-Reply-To: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+References: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <1513927907-19735-2-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-On Thu, Dec 21, 2017@08:43:35AM -0800, James Smart wrote:
-> prior patch to remove the add_port reference also removed the saving
-> of the port pointer, which mean any io had no port pointer thus was
-> rejected. Basically nothing works.
-> 
-> Restore the saving of the port pointer.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> 
-> ---
-> this restores operation but if the targetport is removed, it will no
-> longer be functional if it comes back. I will be submitting a more
-> involved patch for this shortly
+From: Hannes Reinecke <hare@suse.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+No functional change
 
-But a Fixes: and/or Cc: <stable at vger.kernel.org> might have been a
-good Idea as well.
+Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
+Signed-off-by: Chaitra P B <chaitra.basappa at broadcom.com>
+---
+ drivers/scsi/mpt3sas/modules.order  | 2 +-
+ drivers/scsi/mpt3sas/mpt3sas_base.c | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/scsi/mpt3sas/modules.order b/drivers/scsi/mpt3sas/modules.order
+index 352a4dd..5052fdf 100644
+--- a/drivers/scsi/mpt3sas/modules.order
++++ b/drivers/scsi/mpt3sas/modules.order
+@@ -1 +1 @@
+-kernel/drivers/scsi/mpt3sas/mpt3sas.ko
++kernel//opt/upstream_io_tag/linux/drivers/scsi/mpt3sas/mpt3sas.ko
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
+index 8027de4..0119a39 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_base.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
+@@ -899,7 +899,7 @@ static u8
+ _base_get_cb_idx(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+ {
+ 	int i;
+-	u8 cb_idx;
++	u8 cb_idx = 0xFF;
+ 
+ 	if (smid < ioc->hi_priority_smid) {
+ 		i = smid - 1;
+@@ -910,8 +910,7 @@ _base_get_cb_idx(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+ 	} else if (smid <= ioc->hba_queue_depth) {
+ 		i = smid - ioc->internal_smid;
+ 		cb_idx = ioc->internal_lookup[i].cb_idx;
+-	} else
+-		cb_idx = 0xFF;
++	}
+ 	return cb_idx;
+ }
+ 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.5.5
