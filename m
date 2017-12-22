@@ -1,58 +1,59 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 22 Dec 2017 08:54:06 +0100
-Subject: [PATCH 00/11] mpt3sas: Enable scsi MQ & lockless command
- submission
-In-Reply-To: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-References: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <229526f6-f45a-b4a2-bc7d-b1f787e279c7@suse.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 22 Dec 2017 08:40:10 -0700
+Subject: [PATCH 3/3] block: Polling completion performance optimization
+In-Reply-To: <20171221231054.GA2875@localhost.localdomain>
+References: <20171221204636.2924-1-keith.busch@intel.com>
+ <20171221204636.2924-4-keith.busch@intel.com>
+ <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
+ <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
+ <20171221213400.GB2975@localhost.localdomain>
+ <5d3f06bf-8cb8-048d-30c5-9af611ad9ee7@kernel.dk>
+ <20171221231054.GA2875@localhost.localdomain>
+Message-ID: <0936aeea-ba88-701c-8a77-6e94b2566b02@kernel.dk>
 
-On 12/22/2017 08:31 AM, Suganath Prabu S wrote:
-> From: Hannes Reinecke <hare at suse.de>
+On 12/21/17 4:10 PM, Keith Busch wrote:
+> On Thu, Dec 21, 2017@03:17:41PM -0700, Jens Axboe wrote:
+>> On 12/21/17 2:34 PM, Keith Busch wrote:
+>>> It would be nice, but the driver doesn't know a request's completion
+>>> is going to be a polled. 
+>>
+>> That's trivially solvable though, since the information is available
+>> at submission time.
+>>
+>>> Even if it did, we don't have a spec defined
+>>> way to tell the controller not to send an interrupt with this command's
+>>> compeletion, which would be negated anyway if any interrupt driven IO
+>>> is mixed in the same queue. We could possibly create a special queue
+>>> with interrupts disabled for this purpose if we can pass the HIPRI hint
+>>> through the request.
+>>
+>> There's on way to do it per IO, right. But you can create a sq/cq pair
+>> without interrupts enabled. This would also allow you to scale better
+>> with multiple users of polling, a case where we currently don't
+>> perform as well spdk, for instance.
 > 
-> Hi all,
-> 
-> This patch set is initially posted by Hannes Reinecke to enable scsi
-> multiqueue for the mpt3sas driver.
-> While the HBA only has a single mailbox register for submitting commands,
-> it does have individual receive queues per MSI-X interrupt and as such
-> does benefit from converting it to full multiqueue support. 
-> 
-> Suganath Prabu S (11):
->   mpt3sas: set default value for cb_idx
->   mpt3sas: use list_splice_init()
->   mpt3sas: separate out _base_recovery_check()
->   mpt3sas: open-code _scsih_scsi_lookup_get()
->   mpt3sas: Introduce mpt3sas_get_st_from_smid()
->   mpt3sas: check command status before attempting abort
->   mpt3sas: always use first reserved smid for ioctl      passthrough
->   mpt3sas: simplify task management functions
->   mpt3sas: simplify mpt3sas_scsi_issue_tm()
->   mpt3sas: simplify _wait_for_commands_to_complete()
->   mpt3sas: lockless command submission
-> 
->  drivers/scsi/mpt3sas/modules.order       |   2 +-
->  drivers/scsi/mpt3sas/mpt3sas_base.c      | 199 +++++++++++----------
->  drivers/scsi/mpt3sas/mpt3sas_base.h      |  29 ++-
->  drivers/scsi/mpt3sas/mpt3sas_ctl.c       |  31 ++--
->  drivers/scsi/mpt3sas/mpt3sas_scsih.c     | 292 +++++++------------------------
->  drivers/scsi/mpt3sas/mpt3sas_warpdrive.c |  33 +---
->  6 files changed, 192 insertions(+), 394 deletions(-)
-> 
-> Thanks,
-> Suganath Prabu S
-> 
-Seeing that it's my patchset you can add a
+> Would you be open to have blk-mq provide special hi-pri hardware contexts
+> for all these requests to come through? Maybe one per NUMA node? If not,
+> I don't think have enough unused bits in the NVMe command id to stash
+> the hctx id to extract the original request.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Yeah, in fact I think we HAVE to do it this way. I've been thinking about
+this for a while, and ideally I'd really like blk-mq to support multiple
+queue "pools". It's basically just a mapping thing. Right now you hand
+blk-mq all your queues, and the mappings are defined for one set of
+queues. It'd be nifty to support multiple sets, so we could do things
+like "reserve X for polling", for example, and just have the mappings
+magically work. blk_mq_map_queue() then just needs to take the bio
+or request (or just cmd flags) to be able to decide what set the
+request belongs to, making the mapping a function of {cpu,type}.
 
-to all patches.
+I originally played with this in the context of isolating writes on
+a single queue, to reduce the amount of resources they can grab. And
+it'd work nicely on this as well.
 
-Cheers,
+Completions could be configurable to where the submitter would do it
+(like now, best for sync single thread), or to where you have a/more
+kernel threads doing it (spdk'ish, best for high qd / thread count).
 
-Hannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Jens Axboe
