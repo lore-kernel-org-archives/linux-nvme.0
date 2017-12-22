@@ -1,36 +1,214 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Dec 2017 16:10:55 -0700
-Subject: [PATCH 3/3] block: Polling completion performance optimization
-In-Reply-To: <5d3f06bf-8cb8-048d-30c5-9af611ad9ee7@kernel.dk>
-References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-4-keith.busch@intel.com>
- <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
- <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
- <20171221213400.GB2975@localhost.localdomain>
- <5d3f06bf-8cb8-048d-30c5-9af611ad9ee7@kernel.dk>
-Message-ID: <20171221231054.GA2875@localhost.localdomain>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Fri, 22 Dec 2017 09:34:52 +0800
+Subject: [PATCH V2 6/6] nvme-pci: remove .init_request callback
+In-Reply-To: <0fcf3176-7864-8631-e293-2bfa7aacea38@grimberg.me>
+References: <20171214023103.18272-1-ming.lei@redhat.com>
+ <20171214023103.18272-7-ming.lei@redhat.com>
+ <0fcf3176-7864-8631-e293-2bfa7aacea38@grimberg.me>
+Message-ID: <20171222013445.GA4545@ming.t460p>
 
-On Thu, Dec 21, 2017@03:17:41PM -0700, Jens Axboe wrote:
-> On 12/21/17 2:34 PM, Keith Busch wrote:
-> > It would be nice, but the driver doesn't know a request's completion
-> > is going to be a polled. 
-> 
-> That's trivially solvable though, since the information is available
-> at submission time.
-> 
-> > Even if it did, we don't have a spec defined
-> > way to tell the controller not to send an interrupt with this command's
-> > compeletion, which would be negated anyway if any interrupt driven IO
-> > is mixed in the same queue. We could possibly create a special queue
-> > with interrupts disabled for this purpose if we can pass the HIPRI hint
-> > through the request.
-> 
-> There's on way to do it per IO, right. But you can create a sq/cq pair
-> without interrupts enabled. This would also allow you to scale better
-> with multiple users of polling, a case where we currently don't
-> perform as well spdk, for instance.
+Hi Sagi,
 
-Would you be open to have blk-mq provide special hi-pri hardware contexts
-for all these requests to come through? Maybe one per NUMA node? If not,
-I don't think have enough unused bits in the NVMe command id to stash
-the hctx id to extract the original request.
+On Thu, Dec 21, 2017@10:20:45AM +0200, Sagi Grimberg wrote:
+> Ming,
+> 
+> I'd prefer that we make the pci driver match
+> the rest of the drivers in nvme.
+
+OK, this way looks better.
+
+> 
+> IMO it would be better to allocate a queues array at probe time
+> and simply reuse it at reset sequence.
+> 
+> Can this (untested) patch also fix the issue your seeing:
+
+Please prepare a formal one(at least tested in normal case), either I
+or Zhang Yi may test/verify it.
+
+> --
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index f26aaa393016..a8edb29dac16 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -75,7 +75,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool
+> shutdown);
+>   * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+>   */
+>  struct nvme_dev {
+> -       struct nvme_queue **queues;
+> +       struct nvme_queue *queues;
+>         struct blk_mq_tag_set tagset;
+>         struct blk_mq_tag_set admin_tagset;
+>         u32 __iomem *dbs;
+> @@ -365,7 +365,7 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx
+> *hctx, void *data,
+>                                 unsigned int hctx_idx)
+>  {
+>         struct nvme_dev *dev = data;
+> -       struct nvme_queue *nvmeq = dev->queues[0];
+> +       struct nvme_queue *nvmeq = &dev->queues[0];
+> 
+>         WARN_ON(hctx_idx != 0);
+>         WARN_ON(dev->admin_tagset.tags[0] != hctx->tags);
+> @@ -387,7 +387,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx,
+> void *data,
+>                           unsigned int hctx_idx)
+>  {
+>         struct nvme_dev *dev = data;
+> -       struct nvme_queue *nvmeq = dev->queues[hctx_idx + 1];
+> +       struct nvme_queue *nvmeq = &dev->queues[hctx_idx + 1];
+> 
+>         if (!nvmeq->tags)
+>                 nvmeq->tags = &dev->tagset.tags[hctx_idx];
+> @@ -403,7 +403,7 @@ static int nvme_init_request(struct blk_mq_tag_set *set,
+> struct request *req,
+>         struct nvme_dev *dev = set->driver_data;
+>         struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>         int queue_idx = (set == &dev->tagset) ? hctx_idx + 1 : 0;
+> -       struct nvme_queue *nvmeq = dev->queues[queue_idx];
+> +       struct nvme_queue *nvmeq = &dev->queues[queue_idx];
+> 
+>         BUG_ON(!nvmeq);
+>         iod->nvmeq = nvmeq;
+> @@ -1046,7 +1046,7 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx,
+> unsigned int tag)
+>  static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
+>  {
+>         struct nvme_dev *dev = to_nvme_dev(ctrl);
+> -       struct nvme_queue *nvmeq = dev->queues[0];
+> +       struct nvme_queue *nvmeq = &dev->queues[0];
+>         struct nvme_command c;
+> 
+>         memset(&c, 0, sizeof(c));
+> @@ -1290,10 +1290,8 @@ static void nvme_free_queues(struct nvme_dev *dev,
+> int lowest)
+>         int i;
+> 
+>         for (i = dev->ctrl.queue_count - 1; i >= lowest; i--) {
+> -               struct nvme_queue *nvmeq = dev->queues[i];
+>                 dev->ctrl.queue_count--;
+> -               dev->queues[i] = NULL;
+> -               nvme_free_queue(nvmeq);
+> +               nvme_free_queue(&dev->queues[i]);
+>         }
+>  }
+> 
+> @@ -1325,7 +1323,7 @@ static int nvme_suspend_queue(struct nvme_queue
+> *nvmeq)
+> 
+>  static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+>  {
+> -       struct nvme_queue *nvmeq = dev->queues[0];
+> +       struct nvme_queue *nvmeq = &dev->queues[0];
+> 
+>         if (!nvmeq)
+>                 return;
+> @@ -1387,10 +1385,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev,
+> struct nvme_queue *nvmeq,
+>  static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+>                                                         int depth, int node)
+>  {
+> -       struct nvme_queue *nvmeq = kzalloc_node(sizeof(*nvmeq), GFP_KERNEL,
+> -                                                       node);
+> -       if (!nvmeq)
+> -               return NULL;
+> +       struct nvme_queue *nvmeq = &dev->queues[qid];
+
+Maybe you need to zero *nvmeq again since it is done in current code.
+
+> 
+>         nvmeq->cqes = dma_zalloc_coherent(dev->dev, CQ_SIZE(depth),
+>                                           &nvmeq->cq_dma_addr, GFP_KERNEL);
+> @@ -1409,7 +1404,6 @@ static struct nvme_queue *nvme_alloc_queue(struct
+> nvme_dev *dev, int qid,
+>         nvmeq->q_depth = depth;
+>         nvmeq->qid = qid;
+>         nvmeq->cq_vector = -1;
+> -       dev->queues[qid] = nvmeq;
+>         dev->ctrl.queue_count++;
+> 
+>         return nvmeq;
+> @@ -1592,7 +1586,7 @@ static int nvme_pci_configure_admin_queue(struct
+> nvme_dev *dev)
+>         if (result < 0)
+>                 return result;
+> 
+> -       nvmeq = dev->queues[0];
+> +       nvmeq = &dev->queues[0];
+>         if (!nvmeq) {
+>                 nvmeq = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
+>                                         dev_to_node(dev->dev));
+> @@ -1638,7 +1632,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+> 
+>         max = min(dev->max_qid, dev->ctrl.queue_count - 1);
+>         for (i = dev->online_queues; i <= max; i++) {
+> -               ret = nvme_create_queue(dev->queues[i], i);
+> +               ret = nvme_create_queue(&dev->queues[i], i);
+>                 if (ret)
+>                         break;
+>         }
+> @@ -1894,7 +1888,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+> 
+>  static int nvme_setup_io_queues(struct nvme_dev *dev)
+>  {
+> -       struct nvme_queue *adminq = dev->queues[0];
+> +       struct nvme_queue *adminq = &dev->queues[0];
+>         struct pci_dev *pdev = to_pci_dev(dev->dev);
+>         int result, nr_io_queues;
+>         unsigned long size;
+> @@ -2020,7 +2014,7 @@ static void nvme_disable_io_queues(struct nvme_dev
+> *dev, int queues)
+>   retry:
+>                 timeout = ADMIN_TIMEOUT;
+>                 for (; i > 0; i--, sent++)
+> -                       if (nvme_delete_queue(dev->queues[i], opcode))
+> +                       if (nvme_delete_queue(&dev->queues[i], opcode))
+>                                 break;
+> 
+>                 while (sent--) {
+> @@ -2209,7 +2203,7 @@ static void nvme_dev_disable(struct nvme_dev *dev,
+> bool shutdown)
+> 
+>         queues = dev->online_queues - 1;
+>         for (i = dev->ctrl.queue_count - 1; i > 0; i--)
+> -               nvme_suspend_queue(dev->queues[i]);
+> +               nvme_suspend_queue(&dev->queues[i]);
+> 
+>         if (dead) {
+>                 /* A device might become IO incapable very soon during
+> @@ -2217,7 +2211,7 @@ static void nvme_dev_disable(struct nvme_dev *dev,
+> bool shutdown)
+>                  * queue_count can be 0 here.
+>                  */
+>                 if (dev->ctrl.queue_count)
+> -                       nvme_suspend_queue(dev->queues[0]);
+> +                       nvme_suspend_queue(&dev->queues[0]);
+>         } else {
+>                 nvme_disable_io_queues(dev, queues);
+>                 nvme_disable_admin_queue(dev, shutdown);
+> @@ -2462,6 +2456,7 @@ static int nvme_probe(struct pci_dev *pdev, const
+> struct pci_device_id *id)
+>         int node, result = -ENOMEM;
+>         struct nvme_dev *dev;
+>         unsigned long quirks = id->driver_data;
+> +       unsigned int alloc_size;
+> 
+>         node = dev_to_node(&pdev->dev);
+>         if (node == NUMA_NO_NODE)
+> @@ -2470,8 +2465,9 @@ static int nvme_probe(struct pci_dev *pdev, const
+> struct pci_device_id *id)
+>         dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
+>         if (!dev)
+>                 return -ENOMEM;
+> -       dev->queues = kzalloc_node((num_possible_cpus() + 1) * sizeof(void
+> *),
+> -                                                       GFP_KERNEL, node);
+> +
+> +       alloc_size = (num_possible_cpus() + 1) * sizeof(struct nvme_queue
+> *);
+
+The element size should be 'sizeof(struct nvme_queue)'.
+
+Thanks,
+Ming
