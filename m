@@ -1,289 +1,145 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 25 Dec 2017 14:05:26 +0200
-Subject: [PATCH v2] nvme-pci: allocate device queues storage space at probe
-Message-ID: <20171225120526.29303-1-sagi@grimberg.me>
+Date: Mon, 25 Dec 2017 14:18:30 +0200
+Subject: [PATCH v2] nvme-fabrics: Protect against module unload during
+ create_ctrl
+Message-ID: <20171225121830.30275-1-sagi@grimberg.me>
 
-It may cause race by setting 'nvmeq' in nvme_init_request()
-because .init_request is called inside switching io scheduler, which
-may happen when the NVMe device is being resetted and its nvme queues
-are being freed and created. We don't have any sync between the two
-pathes.
+From: Roy Shterman <roys@lightbitslabs.com>
 
-This patch changes the nvmeq allocation to occur at probe time so
-there is no way we can dereference it at init_request. Also modify
-nvme_alloc_queue to return a status value instead of the nvmeq itself
-(since it no longer allocates the nvme_queue struct).
+nvme transport driver module unload may (and usually does) trigger iteration
+over the active controllers and delete them all (sometimes under a mutex).
+However, a controller can be created concurrently with module unload
+which can lead to leakage of resources (most important char device node
+leakage) in case the controller creation occured after the unload delete and drain
+sequence. To protect against this, we take a module reference to guarantee that
+the nvme transport driver is not unloaded while creating a controller.
 
-[   93.268391] kernel BUG at drivers/nvme/host/pci.c:408!
-[   93.274146] invalid opcode: 0000 [#1] SMP
-[   93.278618] Modules linked in: nfsv3 nfs_acl rpcsec_gss_krb5 auth_rpcgss
-nfsv4 dns_resolver nfs lockd grace fscache sunrpc ipmi_ssif vfat fat
-intel_rapl sb_edac x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel
-kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel iTCO_wdt
-intel_cstate ipmi_si iTCO_vendor_support intel_uncore mxm_wmi mei_me
-ipmi_devintf intel_rapl_perf pcspkr sg ipmi_msghandler lpc_ich dcdbas mei
-shpchp acpi_power_meter wmi dm_multipath ip_tables xfs libcrc32c sd_mod
-mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt
-fb_sys_fops ttm drm ahci libahci nvme libata crc32c_intel nvme_core tg3
-megaraid_sas ptp i2c_core pps_core dm_mirror dm_region_hash dm_log dm_mod
-[   93.349071] CPU: 5 PID: 1842 Comm: sh Not tainted 4.15.0-rc2.ming+ #4
-[   93.356256] Hardware name: Dell Inc. PowerEdge R730xd/072T6D, BIOS 2.5.5 08/16/2017
-[   93.364801] task: 00000000fb8abf2a task.stack: 0000000028bd82d1
-[   93.371408] RIP: 0010:nvme_init_request+0x36/0x40 [nvme]
-[   93.377333] RSP: 0018:ffffc90002537ca8 EFLAGS: 00010246
-[   93.383161] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000008
-[   93.391122] RDX: 0000000000000000 RSI: ffff880276ae0000 RDI: ffff88047bae9008
-[   93.399084] RBP: ffff88047bae9008 R08: ffff88047bae9008 R09: 0000000009dabc00
-[   93.407045] R10: 0000000000000004 R11: 000000000000299c R12: ffff880186bc1f00
-[   93.415007] R13: ffff880276ae0000 R14: 0000000000000000 R15: 0000000000000071
-[   93.422969] FS:  00007f33cf288740(0000) GS:ffff88047ba80000(0000) knlGS:0000000000000000
-[   93.431996] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   93.438407] CR2: 00007f33cf28e000 CR3: 000000047e5bb006 CR4: 00000000001606e0
-[   93.446368] Call Trace:
-[   93.449103]  blk_mq_alloc_rqs+0x231/0x2a0
-[   93.453579]  blk_mq_sched_alloc_tags.isra.8+0x42/0x80
-[   93.459214]  blk_mq_init_sched+0x7e/0x140
-[   93.463687]  elevator_switch+0x5a/0x1f0
-[   93.467966]  ? elevator_get.isra.17+0x52/0xc0
-[   93.472826]  elv_iosched_store+0xde/0x150
-[   93.477299]  queue_attr_store+0x4e/0x90
-[   93.481580]  kernfs_fop_write+0xfa/0x180
-[   93.485958]  __vfs_write+0x33/0x170
-[   93.489851]  ? __inode_security_revalidate+0x4c/0x60
-[   93.495390]  ? selinux_file_permission+0xda/0x130
-[   93.500641]  ? _cond_resched+0x15/0x30
-[   93.504815]  vfs_write+0xad/0x1a0
-[   93.508512]  SyS_write+0x52/0xc0
-[   93.512113]  do_syscall_64+0x61/0x1a0
-[   93.516199]  entry_SYSCALL64_slow_path+0x25/0x25
-[   93.521351] RIP: 0033:0x7f33ce96aab0
-[   93.525337] RSP: 002b:00007ffe57570238 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-[   93.533785] RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f33ce96aab0
-[   93.541746] RDX: 0000000000000006 RSI: 00007f33cf28e000 RDI: 0000000000000001
-[   93.549707] RBP: 00007f33cf28e000 R08: 000000000000000a R09: 00007f33cf288740
-[   93.557669] R10: 00007f33cf288740 R11: 0000000000000246 R12: 00007f33cec42400
-[   93.565630] R13: 0000000000000006 R14: 0000000000000001 R15: 0000000000000000
-[   93.573592] Code: 4c 8d 40 08 4c 39 c7 74 16 48 8b 00 48 8b 04 08 48 85 c0
-74 16 48 89 86 78 01 00 00 31 c0 c3 8d 4a 01 48 63 c9 48 c1 e1 03 eb de <0f>
-0b 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 85 f6 53 48 89
-[   93.594676] RIP: nvme_init_request+0x36/0x40 [nvme] RSP: ffffc90002537ca8
-[   93.602273] ---[ end trace 810dde3993e5f14e ]---
-
-Reported-by: Yi Zhang <yi.zhang at redhat.com>
+Signed-off-by: roy shterman <roys at lightbitslabs.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
 Changes from v1:
-- removed left-over kfree of nvmeq in nvme_free_queue
-- change nvme_alloc_queue to return status value instead of nvmeq pointer
-- removed the old condition of existance of nvmeq before calling nvme_alloc_queue
-  for the admin queue (which assumed nvme_alloc_queue is allocating the nvmeq storage space)
+- restored missing module ref put is success flow
 
- drivers/nvme/host/pci.c | 63 ++++++++++++++++++++-----------------------------
- 1 file changed, 26 insertions(+), 37 deletions(-)
+ drivers/nvme/host/fabrics.c | 17 +++++++++++++----
+ drivers/nvme/host/fabrics.h |  2 ++
+ drivers/nvme/host/fc.c      |  1 +
+ drivers/nvme/host/rdma.c    |  1 +
+ drivers/nvme/target/loop.c  |  1 +
+ 5 files changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f26aaa393016..48c5fb864a61 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -75,7 +75,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 76b4fe6816a0..2f68befd31bf 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -492,7 +492,7 @@ EXPORT_SYMBOL_GPL(nvmf_should_reconnect);
   */
- struct nvme_dev {
--	struct nvme_queue **queues;
-+	struct nvme_queue *queues;
- 	struct blk_mq_tag_set tagset;
- 	struct blk_mq_tag_set admin_tagset;
- 	u32 __iomem *dbs;
-@@ -365,7 +365,7 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 				unsigned int hctx_idx)
+ int nvmf_register_transport(struct nvmf_transport_ops *ops)
  {
- 	struct nvme_dev *dev = data;
--	struct nvme_queue *nvmeq = dev->queues[0];
-+	struct nvme_queue *nvmeq = &dev->queues[0];
+-	if (!ops->create_ctrl)
++	if (!ops->create_ctrl || !ops->module)
+ 		return -EINVAL;
  
- 	WARN_ON(hctx_idx != 0);
- 	WARN_ON(dev->admin_tagset.tags[0] != hctx->tags);
-@@ -387,7 +387,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 			  unsigned int hctx_idx)
- {
- 	struct nvme_dev *dev = data;
--	struct nvme_queue *nvmeq = dev->queues[hctx_idx + 1];
-+	struct nvme_queue *nvmeq = &dev->queues[hctx_idx + 1];
- 
- 	if (!nvmeq->tags)
- 		nvmeq->tags = &dev->tagset.tags[hctx_idx];
-@@ -403,7 +403,7 @@ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
- 	struct nvme_dev *dev = set->driver_data;
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	int queue_idx = (set == &dev->tagset) ? hctx_idx + 1 : 0;
--	struct nvme_queue *nvmeq = dev->queues[queue_idx];
-+	struct nvme_queue *nvmeq = &dev->queues[queue_idx];
- 
- 	BUG_ON(!nvmeq);
- 	iod->nvmeq = nvmeq;
-@@ -1046,7 +1046,7 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
- static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_dev *dev = to_nvme_dev(ctrl);
--	struct nvme_queue *nvmeq = dev->queues[0];
-+	struct nvme_queue *nvmeq = &dev->queues[0];
- 	struct nvme_command c;
- 
- 	memset(&c, 0, sizeof(c));
-@@ -1282,7 +1282,6 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
- 	if (nvmeq->sq_cmds)
- 		dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
- 					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
--	kfree(nvmeq);
- }
- 
- static void nvme_free_queues(struct nvme_dev *dev, int lowest)
-@@ -1290,10 +1289,8 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
- 	int i;
- 
- 	for (i = dev->ctrl.queue_count - 1; i >= lowest; i--) {
--		struct nvme_queue *nvmeq = dev->queues[i];
- 		dev->ctrl.queue_count--;
--		dev->queues[i] = NULL;
--		nvme_free_queue(nvmeq);
-+		nvme_free_queue(&dev->queues[i]);
+ 	down_write(&nvmf_transports_rwsem);
+@@ -868,32 +868,41 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 		goto out_unlock;
  	}
- }
  
-@@ -1325,10 +1322,8 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 
- static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
- {
--	struct nvme_queue *nvmeq = dev->queues[0];
-+	struct nvme_queue *nvmeq = &dev->queues[0];
- 
--	if (!nvmeq)
--		return;
- 	if (nvme_suspend_queue(nvmeq))
- 		return;
- 
-@@ -1384,13 +1379,10 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 	return 0;
- }
- 
--static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
--							int depth, int node)
-+static int nvme_alloc_queue(struct nvme_dev *dev, int qid,
-+		int depth, int node)
- {
--	struct nvme_queue *nvmeq = kzalloc_node(sizeof(*nvmeq), GFP_KERNEL,
--							node);
--	if (!nvmeq)
--		return NULL;
-+	struct nvme_queue *nvmeq = &dev->queues[qid];
- 
- 	nvmeq->cqes = dma_zalloc_coherent(dev->dev, CQ_SIZE(depth),
- 					  &nvmeq->cq_dma_addr, GFP_KERNEL);
-@@ -1409,17 +1401,15 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->q_depth = depth;
- 	nvmeq->qid = qid;
- 	nvmeq->cq_vector = -1;
--	dev->queues[qid] = nvmeq;
- 	dev->ctrl.queue_count++;
- 
--	return nvmeq;
-+	return 0;
- 
-  free_cqdma:
- 	dma_free_coherent(dev->dev, CQ_SIZE(depth), (void *)nvmeq->cqes,
- 							nvmeq->cq_dma_addr);
-  free_nvmeq:
--	kfree(nvmeq);
--	return NULL;
-+	return -ENOMEM;
- }
- 
- static int queue_request_irq(struct nvme_queue *nvmeq)
-@@ -1592,14 +1582,12 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	if (result < 0)
- 		return result;
- 
--	nvmeq = dev->queues[0];
--	if (!nvmeq) {
--		nvmeq = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
--					dev_to_node(dev->dev));
--		if (!nvmeq)
--			return -ENOMEM;
--	}
-+	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
-+			dev_to_node(dev->dev));
-+	if (result)
-+		return result;
- 
-+	nvmeq = &dev->queues[0];
- 	aqa = nvmeq->q_depth - 1;
- 	aqa |= aqa << 16;
- 
-@@ -1629,7 +1617,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 
- 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
- 		/* vector == qid - 1, match nvme_create_queue */
--		if (!nvme_alloc_queue(dev, i, dev->q_depth,
-+		if (nvme_alloc_queue(dev, i, dev->q_depth,
- 		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
- 			ret = -ENOMEM;
- 			break;
-@@ -1638,7 +1626,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 
- 	max = min(dev->max_qid, dev->ctrl.queue_count - 1);
- 	for (i = dev->online_queues; i <= max; i++) {
--		ret = nvme_create_queue(dev->queues[i], i);
-+		ret = nvme_create_queue(&dev->queues[i], i);
- 		if (ret)
- 			break;
- 	}
-@@ -1894,7 +1882,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
- 
- static int nvme_setup_io_queues(struct nvme_dev *dev)
- {
--	struct nvme_queue *adminq = dev->queues[0];
-+	struct nvme_queue *adminq = &dev->queues[0];
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int result, nr_io_queues;
- 	unsigned long size;
-@@ -2020,7 +2008,7 @@ static void nvme_disable_io_queues(struct nvme_dev *dev, int queues)
-  retry:
- 		timeout = ADMIN_TIMEOUT;
- 		for (; i > 0; i--, sent++)
--			if (nvme_delete_queue(dev->queues[i], opcode))
-+			if (nvme_delete_queue(&dev->queues[i], opcode))
- 				break;
- 
- 		while (sent--) {
-@@ -2209,7 +2197,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 
- 	queues = dev->online_queues - 1;
- 	for (i = dev->ctrl.queue_count - 1; i > 0; i--)
--		nvme_suspend_queue(dev->queues[i]);
-+		nvme_suspend_queue(&dev->queues[i]);
- 
- 	if (dead) {
- 		/* A device might become IO incapable very soon during
-@@ -2217,7 +2205,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		 * queue_count can be 0 here.
- 		 */
- 		if (dev->ctrl.queue_count)
--			nvme_suspend_queue(dev->queues[0]);
-+			nvme_suspend_queue(&dev->queues[0]);
- 	} else {
- 		nvme_disable_io_queues(dev, queues);
- 		nvme_disable_admin_queue(dev, shutdown);
-@@ -2470,8 +2458,9 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
- 	if (!dev)
- 		return -ENOMEM;
--	dev->queues = kzalloc_node((num_possible_cpus() + 1) * sizeof(void *),
--							GFP_KERNEL, node);
++	if (!try_module_get(ops->module)) {
++		ret = -EBUSY;
++		goto out_unlock;
++	}
 +
-+	dev->queues = kcalloc_node(num_possible_cpus() + 1,
-+			sizeof(struct nvme_queue), GFP_KERNEL, node);
- 	if (!dev->queues)
- 		goto free;
+ 	ret = nvmf_check_required_opts(opts, ops->required_opts);
+ 	if (ret)
+-		goto out_unlock;
++		goto out_module_put;
+ 	ret = nvmf_check_allowed_opts(opts, NVMF_ALLOWED_OPTS |
+ 				ops->allowed_opts | ops->required_opts);
+ 	if (ret)
+-		goto out_unlock;
++		goto out_module_put;
+ 
+ 	ctrl = ops->create_ctrl(dev, opts);
+ 	if (IS_ERR(ctrl)) {
+ 		ret = PTR_ERR(ctrl);
+-		goto out_unlock;
++		goto out_module_put;
+ 	}
+ 
+ 	if (strcmp(ctrl->subsys->subnqn, opts->subsysnqn)) {
+ 		dev_warn(ctrl->device,
+ 			"controller returned incorrect NQN: \"%s\".\n",
+ 			ctrl->subsys->subnqn);
++		module_put(ops->module);
+ 		up_read(&nvmf_transports_rwsem);
+ 		nvme_delete_ctrl_sync(ctrl);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
++	module_put(ops->module);
+ 	up_read(&nvmf_transports_rwsem);
+ 	return ctrl;
+ 
++out_module_put:
++	module_put(ops->module);
+ out_unlock:
+ 	up_read(&nvmf_transports_rwsem);
+ out_free_opts:
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 9ba614953607..25b19f722f5b 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -108,6 +108,7 @@ struct nvmf_ctrl_options {
+  *			       fabric implementation of NVMe fabrics.
+  * @entry:		Used by the fabrics library to add the new
+  *			registration entry to its linked-list internal tree.
++ * @module:             Transport module reference
+  * @name:		Name of the NVMe fabric driver implementation.
+  * @required_opts:	sysfs command-line options that must be specified
+  *			when adding a new NVMe controller.
+@@ -126,6 +127,7 @@ struct nvmf_ctrl_options {
+  */
+ struct nvmf_transport_ops {
+ 	struct list_head	entry;
++	struct module		*module;
+ 	const char		*name;
+ 	int			required_opts;
+ 	int			allowed_opts;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index e2ade0237ffe..e68c6b84c177 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3380,6 +3380,7 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+ 
+ static struct nvmf_transport_ops nvme_fc_transport = {
+ 	.name		= "fc",
++	.module		= THIS_MODULE,
+ 	.required_opts	= NVMF_OPT_TRADDR | NVMF_OPT_HOST_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_CTRL_LOSS_TMO,
+ 	.create_ctrl	= nvme_fc_create_ctrl,
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 62188c41763b..a5ad1fbd9488 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2006,6 +2006,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 
+ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 	.name		= "rdma",
++	.module		= THIS_MODULE,
+ 	.required_opts	= NVMF_OPT_TRADDR,
+ 	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
+ 			  NVMF_OPT_HOST_TRADDR | NVMF_OPT_CTRL_LOSS_TMO,
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index e83fc562612a..8fe0edd0b421 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -686,6 +686,7 @@ static struct nvmet_fabrics_ops nvme_loop_ops = {
+ 
+ static struct nvmf_transport_ops nvme_loop_transport = {
+ 	.name		= "loop",
++	.module		= THIS_MODULE,
+ 	.create_ctrl	= nvme_loop_create_ctrl,
+ };
  
 -- 
 2.14.1
