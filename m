@@ -1,25 +1,26 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 26 Dec 2017 13:35:18 -0700
-Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
-In-Reply-To: <8c7c2b8a-7e26-c1a1-4681-8c7721184d39@grimberg.me>
-References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-2-keith.busch@intel.com>
- <8c7c2b8a-7e26-c1a1-4681-8c7721184d39@grimberg.me>
-Message-ID: <20171226203518.GA13188@localhost.localdomain>
+Date: Tue, 26 Dec 2017 13:51:10 -0700
+Subject: [for-4.16 PATCH 0/5] block, nvme, dm: allow DM multipath to use
+ NVMe's error handler
+In-Reply-To: <20171219210546.65928-1-snitzer@redhat.com>
+References: <20171219210546.65928-1-snitzer@redhat.com>
+Message-ID: <20171226205109.GB13188@localhost.localdomain>
 
-On Mon, Dec 25, 2017@12:11:47PM +0200, Sagi Grimberg wrote:
-> > This is a performance optimization that allows the hardware to work on
-> > a command in parallel with the kernel's stats and timeout tracking.
+On Tue, Dec 19, 2017@04:05:41PM -0500, Mike Snitzer wrote:
+> These patches enable DM multipath to work well on NVMe over Fabrics
+> devices.  Currently that implies CONFIG_NVME_MULTIPATH is _not_ set.
 > 
-> Curious to know what does this buy us?
+> But follow-on work will be to make it so that native NVMe multipath
+> and DM multipath can be made to co-exist (e.g. blacklisting certain
+> NVMe devices from being consumed by native NVMe multipath?)
 
-blk_mq_start_request doesn't do anything to make the command ready to
-submit to hardware, so this is pure software overhead, somewhere between
-200-300 nanoseconds as far as I can measure (YMMV). We can post the command
-to hardware before taking on this software overhead so the hardware gets
-to fetch the command that much sooner.
+Hi Mike,
 
-One thing to remember is we need to ensure the driver can't complete the
-request before starting it. The driver's exisitng locking does ensure
-that with this patch, so it's just something to keep in mind if anything
-should ever change in the future.
+I've reviewed the series and I support with the goal. I'm not a big fan,
+though, of having yet-another-field to set in bio and req on each IO.
+
+Unless I'm missing something, I think we can make this simpler if you add
+the new 'failover_req_fn' as an attribute of the struct request_queue
+instead of threading it through bio and request. Native nvme multipath
+can set the field directly in the nvme driver, and dm-mpath can set it
+in each path when not using the nvme mpath. What do you think?
