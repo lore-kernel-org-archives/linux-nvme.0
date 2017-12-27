@@ -1,52 +1,49 @@
 From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 26 Dec 2017 21:42:44 -0500
-Subject: [for-4.16 PATCH 0/5] block, nvme, dm: allow DM multipath to use
- NVMe's error handler
-In-Reply-To: <20171226205109.GB13188@localhost.localdomain>
-References: <20171219210546.65928-1-snitzer@redhat.com>
- <20171226205109.GB13188@localhost.localdomain>
-Message-ID: <20171227024244.GA24011@redhat.com>
+Date: Tue, 26 Dec 2017 22:22:53 -0500
+Subject: [for-4.16 PATCH v2 1/5] block: establish request failover callback
+In-Reply-To: <20171227032257.8182-1-snitzer@redhat.com>
+References: <20171227032257.8182-1-snitzer@redhat.com>
+Message-ID: <20171227032257.8182-2-snitzer@redhat.com>
 
-On Tue, Dec 26 2017 at  3:51pm -0500,
-Keith Busch <keith.busch@intel.com> wrote:
+All requests allocated from a request_queue with this callback set can
+failover their requests during completion.
 
-> On Tue, Dec 19, 2017@04:05:41PM -0500, Mike Snitzer wrote:
-> > These patches enable DM multipath to work well on NVMe over Fabrics
-> > devices.  Currently that implies CONFIG_NVME_MULTIPATH is _not_ set.
-> > 
-> > But follow-on work will be to make it so that native NVMe multipath
-> > and DM multipath can be made to co-exist (e.g. blacklisting certain
-> > NVMe devices from being consumed by native NVMe multipath?)
-> 
-> Hi Mike,
-> 
-> I've reviewed the series and I support with the goal. I'm not a big fan,
-> though, of having yet-another-field to set in bio and req on each IO.
+This callback is expected to use the blk_steal_bios() interface to
+transfer a request's bios back to an upper-layer bio-based
+request_queue.
 
-Yeah, I knew they'd be the primary sticking point for this patchset.
-I'm not loving the need to carry the function pointer around either.
+This will be used by both NVMe multipath and DM multipath.  Without it
+DM multipath cannot get access to NVMe-specific error handling that NVMe
+core provides in nvme_complete_rq().
 
-> Unless I'm missing something, I think we can make this simpler if you add
-> the new 'failover_req_fn' as an attribute of the struct request_queue
-> instead of threading it through bio and request. Native nvme multipath
-> can set the field directly in the nvme driver, and dm-mpath can set it
-> in each path when not using the nvme mpath. What do you think?
+Signed-off-by: Mike Snitzer <snitzer at redhat.com>
+---
+ include/linux/blkdev.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I initially didn't like the gotchas associated [1], but I worked through
-them.
-
-I'll post v2 after some testing.
-
-Thanks,
-Mike
-
-[1]:
-With DM multipath, it is easy to reliably establish the function
-pointer.  But clearing it on teardown is awkward.. because another DM
-multipath table may have already taken a reference on the device (as
-could happen when reloading the multipath table associated with the DM
-multipath device).  You are left with a scenario where a new table load 
-would set it, but teardown wouldn't easily know if it should be cleared.
-And not clearing it could easily lead to dereferencing stale memory
-(if/when DM multipath driver were unloaded yet NVMe request_queue
-outliving it).
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 8089ca17db9a..f45f5925e100 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -278,6 +278,7 @@ typedef int (lld_busy_fn) (struct request_queue *q);
+ typedef int (bsg_job_fn) (struct bsg_job *);
+ typedef int (init_rq_fn)(struct request_queue *, struct request *, gfp_t);
+ typedef void (exit_rq_fn)(struct request_queue *, struct request *);
++typedef void (failover_rq_fn)(struct request *);
+ 
+ enum blk_eh_timer_return {
+ 	BLK_EH_NOT_HANDLED,
+@@ -423,6 +424,11 @@ struct request_queue {
+ 	exit_rq_fn		*exit_rq_fn;
+ 	/* Called from inside blk_get_request() */
+ 	void (*initialize_rq_fn)(struct request *rq);
++	/*
++	 * Callback to failover request's bios back to upper layer
++	 * bio-based request_queue using blk_steal_bios().
++	 */
++	failover_rq_fn		*failover_rq_fn;
+ 
+ 	const struct blk_mq_ops	*mq_ops;
+ 
+-- 
+2.15.0
