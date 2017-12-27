@@ -1,83 +1,75 @@
 From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 26 Dec 2017 22:22:54 -0500
-Subject: [for-4.16 PATCH v2 2/5] nvme: use request_queue's failover_rq_fn
- callback for multipath failover
-In-Reply-To: <20171227032257.8182-1-snitzer@redhat.com>
-References: <20171227032257.8182-1-snitzer@redhat.com>
-Message-ID: <20171227032257.8182-3-snitzer@redhat.com>
+Date: Tue, 26 Dec 2017 22:22:52 -0500
+Subject: [for-4.16 PATCH v2 0/5] block, nvme,
+ dm: allow DM multipath to use NVMe's error handler
+Message-ID: <20171227032257.8182-1-snitzer@redhat.com>
 
-Also, remove NVMe-local REQ_NVME_MPATH since setting request_queue's
-failover_rq_fn serves the same purpose.  NVMe's error handling gives a
-request further consideration about it being retryable if its
-request_queue has failover_rq_fn set.
+This v2 follows Keith's suggestion to only add a 'failover_rq_fn' to
+the request_queue (rather than both the bio and request structs).
 
-Signed-off-by: Mike Snitzer <snitzer at redhat.com>
----
- drivers/nvme/host/core.c      | 5 +++--
- drivers/nvme/host/multipath.c | 4 +---
- drivers/nvme/host/nvme.h      | 5 -----
- 3 files changed, 4 insertions(+), 10 deletions(-)
+Jens or Christoph, provided review is favorable, I'd very much
+appreciate it you'd pick up patches 1 - 3 for 4.16.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f837d666cbd4..99f1c7d8514e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -191,8 +191,8 @@ static inline bool nvme_req_needs_retry(struct request *req)
- void nvme_complete_rq(struct request *req)
- {
- 	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
--		if (nvme_req_needs_failover(req)) {
--			nvme_failover_req(req);
-+		if (req->q->failover_rq_fn && nvme_req_needs_failover(req)) {
-+			req->q->failover_rq_fn(req);
- 			return;
- 		}
- 
-@@ -2893,6 +2893,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
- 				ctrl->cntlid, ns->head->instance);
- 		flags = GENHD_FL_HIDDEN;
-+		ns->queue->failover_rq_fn = nvme_failover_req;
- 	} else {
- 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
- 				ns->head->instance);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 1218a9fca846..b576942b96b2 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -35,8 +35,7 @@ void nvme_failover_req(struct request *req)
- 
- bool nvme_req_needs_failover(struct request *req)
- {
--	if (!(req->cmd_flags & REQ_NVME_MPATH))
--		return false;
-+	/* Caller verifies req->q->failover_rq_fn is set */
- 
- 	switch (nvme_req(req)->status & 0x7ff) {
- 	/*
-@@ -128,7 +127,6 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
- 	ns = nvme_find_path(head);
- 	if (likely(ns)) {
- 		bio->bi_disk = ns->disk;
--		bio->bi_opf |= REQ_NVME_MPATH;
- 		ret = direct_make_request(bio);
- 	} else if (!list_empty_careful(&head->list)) {
- 		dev_warn_ratelimited(dev, "no path available - requeuing I/O\n");
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ea1aa5283e8e..5ec44935690f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -95,11 +95,6 @@ struct nvme_request {
- 	u16			status;
- };
- 
--/*
-- * Mark a bio as coming in through the mpath node.
-- */
--#define REQ_NVME_MPATH		REQ_DRV
--
- enum {
- 	NVME_REQ_CANCELLED		= (1 << 0),
- };
+These patches enable DM multipath to work well on NVMe over Fabrics
+devices.  Currently that implies CONFIG_NVME_MULTIPATH is _not_ set.
+
+But follow-on work will be to make it so that native NVMe multipath
+and DM multipath can be made to co-exist (e.g. blacklisting certain
+NVMe devices from being consumed by native NVMe multipath?)
+
+Patch 1 updates block core to formalize a recent construct that
+Christoph embeedded into NVMe core (and native NVMe multipath):
+callback into a bio-based driver from the blk-mq driver's .complete
+hook to blk_steal_bios() a request's bios.
+
+Patch 2 switches NVMe over to using the request_queue's
+'failover_rq_fn' established by Patch 1.
+
+Patch 3 moves the nvme_req_needs_failover() from NVMe multipath to
+core.  Which allows stacked devices (like DM multipath) to make use of
+NVMe's enhanced error handling.
+
+Patch 4 updates DM multipath to also make use of the request_queue's
+'failover_rq_fn' established by Patch 1.
+
+Patch 5 can be largely ignored.. but it illustrates that Patch 1 - 4
+enable DM multipath to avoid extra DM endio callbacks.
+
+These patches have been developed ontop of numerous DM changes I've
+staged for 4.16, see:
+https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git/log/?h=dm-4.16
+(which happens to include these 5 patches at the end, purely for
+interim linux-next coverage purposes as these changes land in the
+appropriate maintainer tree).
+
+I've updated the "mptest" DM multipath testsuite to provide NVMe test
+coverage (using NVMe fcloop), see: https://github.com/snitm/mptest
+
+The tree I've been testing includes all of 'dm-4.16' and all but one
+of the commits from 'nvme-4.16', see:
+https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git/log/?h=dm-4.16_nvme-4.16
+(James Smart has since sent a fix for commit a0b69cc8)
+
+Thanks,
+Mike
+
+Mike Snitzer (5):
+  block: establish request failover callback
+  nvme: use request_queue's failover_rq_fn callback for multipath failover
+  nvme: move nvme_req_needs_failover() from multipath to core
+  dm mpath: use NVMe error handling to know when an error is retryable
+  dm mpath: skip calls to end_io_bio if using NVMe bio-based and round-robin
+
+ drivers/md/dm-mpath.c         | 87 +++++++++++++++++++++++++++++++++++++++++--
+ drivers/md/dm-rq.c            |  8 ++--
+ drivers/md/dm-table.c         |  2 +
+ drivers/md/dm.c               |  7 ++--
+ drivers/nvme/host/core.c      | 51 ++++++++++++++++++++++++-
+ drivers/nvme/host/multipath.c | 48 ------------------------
+ drivers/nvme/host/nvme.h      | 10 -----
+ include/linux/blkdev.h        |  6 +++
+ include/linux/device-mapper.h |  9 +++++
+ 9 files changed, 158 insertions(+), 70 deletions(-)
+
 -- 
 2.15.0
