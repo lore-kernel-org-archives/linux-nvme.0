@@ -1,10 +1,11 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 29 Dec 2017 01:41:01 -0800
-Subject: [PATCH] nvmet_fc: correct broken add_port
-In-Reply-To: <20171221164335.12400-1-jsmart2021@gmail.com>
-References: <20171221164335.12400-1-jsmart2021@gmail.com>
-Message-ID: <20171229094101.GA8745@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 29 Dec 2017 10:43:25 +0100
+Subject: [PATCH v2] nvme-fabrics: Protect against module unload during
+ create_ctrl
+In-Reply-To: <20171225121830.30275-1-sagi@grimberg.me>
+References: <20171225121830.30275-1-sagi@grimberg.me>
+Message-ID: <20171229094325.GA23929@lst.de>
 
 Thanks,
 
-I've folded this into the patch introducing the problem.
+applied to nvme-4.16.
