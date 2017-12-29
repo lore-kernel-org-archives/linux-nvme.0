@@ -1,11 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 29 Dec 2017 10:54:59 +0100
-Subject: [PATCH V2 1/6] blk-mq: quiesce queue before freeing queue
-In-Reply-To: <20171214023103.18272-2-ming.lei@redhat.com>
+Date: Fri, 29 Dec 2017 10:58:33 +0100
+Subject: [PATCH V2 2/6] blk-mq: support concurrent blk_mq_quiesce_queue()
+In-Reply-To: <20171214023103.18272-3-ming.lei@redhat.com>
 References: <20171214023103.18272-1-ming.lei@redhat.com>
- <20171214023103.18272-2-ming.lei@redhat.com>
-Message-ID: <20171229095459.GA24507@lst.de>
+ <20171214023103.18272-3-ming.lei@redhat.com>
+Message-ID: <20171229095833.GB24507@lst.de>
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+The quiesce count looks good to me.  But I'm really worried about
+the force unquiesce in nvme.  I'd feel much better if we could find
+a way to move this into the core.
