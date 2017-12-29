@@ -1,10 +1,27 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 29 Dec 2017 10:28:22 +0100
-Subject: [PATCH] nvme-pci: don't open-code nvme_reset_ctrl
-In-Reply-To: <20171225133717.4557-1-sagi@grimberg.me>
-References: <20171225133717.4557-1-sagi@grimberg.me>
-Message-ID: <20171229092822.GA23197@lst.de>
+Date: Fri, 29 Dec 2017 10:30:22 +0100
+Subject: [PATCH v2] nvme-pci: allocate device queues storage space at probe
+In-Reply-To: <a0561911-8f7a-5600-9fa1-c9502d082f4b@grimberg.me>
+References: <20171225120526.29303-1-sagi@grimberg.me>
+ <20171227062048.GA27546@ming.t460p>
+ <a0561911-8f7a-5600-9fa1-c9502d082f4b@grimberg.me>
+Message-ID: <20171229093022.GA23313@lst.de>
 
-This looks ok, but I really having real functionality inside a WARN_ON
-statement as that obsufcate? things.  But I don't think we even really
-need the WARN_ON here at all.
+On Wed, Dec 27, 2017@10:59:44AM +0200, Sagi Grimberg wrote:
+>
+>> Hi Sagi,
+>>
+>> This patch introduces a new kernel oops:
+>
+> Hi Ming, thanks for testing.
+>
+> It looks like pci resets are not serialized which is in general not
+> healthy and forcing the driver to handle tough races. I think that not
+> serializing it is buggy to begin with.
+>
+> I think [1] should solve the issue you are seeing (and I think correct
+> on its own regardless).
+>
+> Keith, Christoph, any objections?
+
+This looks sensible to me.
