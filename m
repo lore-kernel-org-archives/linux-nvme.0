@@ -1,22 +1,32 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 29 Dec 2017 10:48:14 +0100
-Subject: [PATCH 2/3] nvme/pci: Remove cq_vector check in IO path
-In-Reply-To: <33f024c8-b4be-c8cb-decb-f36eb68fb99a@grimberg.me>
+Date: Fri, 29 Dec 2017 10:50:21 +0100
+Subject: [PATCH 3/3] block: Polling completion performance optimization
+In-Reply-To: <20171221213400.GB2975@localhost.localdomain>
 References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-3-keith.busch@intel.com>
- <95c8319b-3e01-07b5-88a8-864c5a8f60a5@grimberg.me>
- <33f024c8-b4be-c8cb-decb-f36eb68fb99a@grimberg.me>
-Message-ID: <20171229094814.GC24043@lst.de>
+ <20171221204636.2924-4-keith.busch@intel.com>
+ <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
+ <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
+ <20171221213400.GB2975@localhost.localdomain>
+Message-ID: <20171229095021.GD24043@lst.de>
 
-On Wed, Dec 27, 2017@11:01:48PM +0200, Sagi Grimberg wrote:
->
->> Awesome!
->>
->> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
->
-> Wait, aren't we unquiesce queues also in nvme_dev_disable?
->
-> Doesn't that rely that the queues are suspended and queue_rq
-> will fail there?
+On Thu, Dec 21, 2017@02:34:00PM -0700, Keith Busch wrote:
+> It would be nice, but the driver doesn't know a request's completion
+> is going to be a polled.
 
-We don't seem to have any other check as far as I can tell.
+We can trivially set a REQ_POLL bit.  In fact my initial patch kit had
+those on the insitence of Jens, but then I removed it because we had
+no users for it.
+
+> Even if it did, we don't have a spec defined
+> way to tell the controller not to send an interrupt with this command's
+> compeletion, which would be negated anyway if any interrupt driven IO
+> is mixed in the same queue.
+
+Time to add such a flag to the spec then..
+
+> We could possibly create a special queue
+> with interrupts disabled for this purpose if we can pass the HIPRI hint
+> through the request.
+
+Eww.  That means we double our resource usage both in the host and
+the device, which isn't going to be pretty.
