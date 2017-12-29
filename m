@@ -1,26 +1,61 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 29 Dec 2017 08:51:59 -0700
-Subject: [PATCH 3/3] block: Polling completion performance optimization
-In-Reply-To: <20171229095021.GD24043@lst.de>
-References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-4-keith.busch@intel.com>
- <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
- <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
- <20171221213400.GB2975@localhost.localdomain>
- <20171229095021.GD24043@lst.de>
-Message-ID: <20171229155158.GC16407@localhost.localdomain>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Fri, 29 Dec 2017 15:19:04 -0500
+Subject: [for-4.16 PATCH v2 1/5] block: establish request failover callback
+In-Reply-To: <20171229101013.GA25333@lst.de>
+References: <20171227032257.8182-1-snitzer@redhat.com>
+ <20171227032257.8182-2-snitzer@redhat.com>
+ <20171229101013.GA25333@lst.de>
+Message-ID: <20171229201904.GA8876@redhat.com>
 
-On Fri, Dec 29, 2017@10:50:21AM +0100, Christoph Hellwig wrote:
-> > We could possibly create a special queue
-> > with interrupts disabled for this purpose if we can pass the HIPRI hint
-> > through the request.
+On Fri, Dec 29 2017 at  5:10am -0500,
+Christoph Hellwig <hch@lst.de> wrote:
+
+> On Tue, Dec 26, 2017@10:22:53PM -0500, Mike Snitzer wrote:
+> > All requests allocated from a request_queue with this callback set can
+> > failover their requests during completion.
+> > 
+> > This callback is expected to use the blk_steal_bios() interface to
+> > transfer a request's bios back to an upper-layer bio-based
+> > request_queue.
+> > 
+> > This will be used by both NVMe multipath and DM multipath.  Without it
+> > DM multipath cannot get access to NVMe-specific error handling that NVMe
+> > core provides in nvme_complete_rq().
 > 
-> Eww.  That means we double our resource usage both in the host and
-> the device, which isn't going to be pretty.
+> And the whole point is that it should not get any such access.
 
-Yes, this would create some trouble for our simple policy for divvying
-queue resources. We wouldn't be able to use the PCI IRQ affinity for
-these queues CPU map, for example.
+No the whole point is you hijacked multipathing for little to no gain.
 
-Maybe if we can figure out a good policy for WRR queues, that might
-present a similar infrastructure for supporting polled queues as well.
+> The reason why we did nvme multipathing differently is because the
+> design of dm-multipath inflicts so much pain on users that we absolutely
+> want to avoid it this time around.
+
+Is that the royal "we"?
+
+_You_ are the one subjecting users to pain.  There is no reason users
+should need to have multiple management domains for multipathing unless
+they opt-in.  Linux _is_ about choice, yet you're working overtime to
+limit that choice.
+
+You are blatantly ignoring/rejecting both Hannes [1] and I.  Your
+attempt to impose _how_ NVMe multipathing must be done is unacceptable.
+
+Hopefully Jens can see through your senseless position and will accept
+patches 1 - 3 for 4.16.  They offer very minimal change that enables
+users to decide which multipathing they'd prefer to use with NVMe.
+
+Just wish you could stop with this petty bullshit and actually
+collaborate with people.
+
+I've shown how easy it is to enable NVMe multipathing in terms of DM
+multipath (yet preserve your native NVMe multipathing).  Please stop
+being so dogmatic.  Are you scared of being proven wrong about what the
+market wants?
+
+If you'd allow progress toward native NVMe and DM multipathing
+coexisting we'd let the users decide what they prefer.  I don't need to
+impose one way or the other, but I _do_ need to preserve DM multipath
+compatibility given the extensive use of DM multipath in the enterprise
+and increased tooling that builds upon it.
+
+[1] http://lists.infradead.org/pipermail/linux-nvme/2017-October/013719.html
