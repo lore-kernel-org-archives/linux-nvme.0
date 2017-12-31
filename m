@@ -1,38 +1,30 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 31 Dec 2017 14:48:01 +0200
-Subject: [PATCH 3/3] block: Polling completion performance optimization
-In-Reply-To: <20171229095021.GD24043@lst.de>
-References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-4-keith.busch@intel.com>
- <40f03ddc-1f7e-8221-ccb0-d8d311d02870@eng.utah.edu>
- <ce880fba-0663-5b6a-5574-e59914a6af83@kernel.dk>
- <20171221213400.GB2975@localhost.localdomain> <20171229095021.GD24043@lst.de>
-Message-ID: <b00a03f2-dbc7-fb4f-393e-1496861dbf28@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 31 Dec 2017 15:33:27 +0200
+Subject: [PATCH 1/1] nvme: Modify the debug level for setting shutdown timeout
+Message-ID: <1514727207-8460-1-git-send-email-maxg@mellanox.com>
 
+When an NVMe controller reports RTD3 Entry Latency larger than
+the value of shutdown_timeout module parameter, we update the
+shutdown_timeout accordingly to honor RTD3 Entry Latency. Use an
+Informational debug level instead of a Warning level for it.
 
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 12/29/2017 11:50 AM, Christoph Hellwig wrote:
-> On Thu, Dec 21, 2017@02:34:00PM -0700, Keith Busch wrote:
->> It would be nice, but the driver doesn't know a request's completion
->> is going to be a polled.
-> 
-> We can trivially set a REQ_POLL bit.  In fact my initial patch kit had
-> those on the insitence of Jens, but then I removed it because we had
-> no users for it.
-> 
->> Even if it did, we don't have a spec defined
->> way to tell the controller not to send an interrupt with this command's
->> compeletion, which would be negated anyway if any interrupt driven IO
->> is mixed in the same queue.
-> 
-> Time to add such a flag to the spec then..
-
-That would be very useful, ideally we can also hook it into libaio
-to submit without triggering an interrupt and have io_getevents to poll
-the underlying bdev (blk_poll) similar to how the net stack implements
-low latency sockets [1].
-
-Having the ability to suppress interrupts and poll for completions would
-be very useful for file servers or targets living in userspace.
-
-https://lwn.net/Articles/551284/
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1e46e60..4643876 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2253,7 +2253,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 						 shutdown_timeout, 60);
+ 
+ 		if (ctrl->shutdown_timeout != shutdown_timeout)
+-			dev_warn(ctrl->device,
++			dev_info(ctrl->device,
+ 				 "Shutdown timeout set to %u seconds\n",
+ 				 ctrl->shutdown_timeout);
+ 	} else
+-- 
+1.8.3.1
