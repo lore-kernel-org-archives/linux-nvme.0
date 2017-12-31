@@ -1,33 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 31 Dec 2017 11:51:32 +0200
-Subject: [PATCH 4.15-rc 1/3] nvme-core: Don't set nvme_wq as MEM_RECLAIM
-In-Reply-To: <20171229093501.GA23626@lst.de>
-References: <20171221100752.18386-1-sagi@grimberg.me>
- <20171221100752.18386-2-sagi@grimberg.me>
- <20171221101741.GB17327@infradead.org>
- <fd880cf7-e815-fa63-b999-6381b145ffd8@grimberg.me>
- <20171221130002.GA4239@infradead.org>
- <f8cc93b5-a32a-f418-a65b-193ee530c481@grimberg.me>
- <20171221135402.GA12323@infradead.org>
- <3fb52238-1ff6-7ee5-65ba-8a9b5834daa3@grimberg.me>
- <20171229093501.GA23626@lst.de>
-Message-ID: <f1d6cb4c-d49f-8b82-5ff2-08557c5cab27@grimberg.me>
+Date: Sun, 31 Dec 2017 14:01:19 +0200
+Subject: [PATCH v2] nvme-pci: don't open-code nvme_reset_ctrl
+Message-ID: <20171231120119.30066-1-sagi@grimberg.me>
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v1:
+- removed the WARN_ON statement
 
->> We have three work types:
->> 1. async stuff like namespace scan, aen etc (which can allocate memory)
->> 2. reset which flushes (1) and allocates memory on its own (nvme queues
->> etc...)
->> 3. delete which flushes (2)
->>
->> Maybe it won't be so bad to have three global workqueues to host these
->> works?
-> 
-> Yes.  Or at least two given that we don't really a private workqueue
-> for 1 I think.
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-We still need it with MEM_RECLAIM because we flush it from the other
-workqueues. So we don't need a private workqueue, but we need it with
-WQ_MEM_RECLAIM. So either we keep it or introduce system_memreclaim_wq..
-
-Thoughts?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3f30f782cb37..3f7bf21d8d1e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2487,10 +2487,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto release_pools;
+ 
+-	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING);
+ 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+ 
+-	queue_work(nvme_wq, &dev->ctrl.reset_work);
++	nvme_reset_ctrl(&dev->ctrl);
++
+ 	return 0;
+ 
+  release_pools:
+-- 
+2.14.1
