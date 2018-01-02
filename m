@@ -1,29 +1,34 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Wed,  3 Jan 2018 02:07:41 +0800
-Subject: [PATCH] nvme: check ctrl.tagset before start ns scan
-Message-ID: <1514916461-8696-1-git-send-email-jianchao.w.wang@oracle.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 2 Jan 2018 11:01:48 +0800
+Subject: [PATCH V2 2/6] blk-mq: support concurrent blk_mq_quiesce_queue()
+In-Reply-To: <20171229095833.GB24507@lst.de>
+References: <20171214023103.18272-1-ming.lei@redhat.com>
+ <20171214023103.18272-3-ming.lei@redhat.com>
+ <20171229095833.GB24507@lst.de>
+Message-ID: <20180102030146.GA20428@ming.t460p>
 
-ctrl.tagset maybe NULL due to failure of io queue setup or blk-mq
-tagset allocation in nvme_reset_work. Then panic would come up.
-To fix this, just add ctrl.tagset check in nvme_scan_work.
+On Fri, Dec 29, 2017@10:58:33AM +0100, Christoph Hellwig wrote:
+> The quiesce count looks good to me.  But I'm really worried about
+> the force unquiesce in nvme.  I'd feel much better if we could find
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch doesn't change the behaviour wrt. force unquiesce in NVMe,
+which has been done since commit 443bd90f2cca(nvme: host: unquiesce queue
+in nvme_kill_queues()).
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1e46e60..1ed593d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3071,7 +3071,7 @@ static void nvme_scan_work(struct work_struct *work)
- 	struct nvme_id_ctrl *id;
- 	unsigned nn;
- 
--	if (ctrl->state != NVME_CTRL_LIVE)
-+	if ((ctrl->state != NVME_CTRL_LIVE) || !ctrl->tagset)
- 		return;
- 
- 	if (nvme_identify_ctrl(ctrl, &id))
--- 
-2.7.4
+The reason is that NVMe's usage of blk_mq_quiesce_queue() is a bit complicated,
+for example:
+
+- nvme_dev_disable(false) may be called two times in reset_work()
+- queue may never be started in nvme_fw_act_work()
+...
+
+But blk_cleanup_queue() can be triggered anytime.
+
+> a way to move this into the core.
+
+We can't move the force unquiesce into blk_set_queue_dying() or other
+places in core before calling blk_cleanup_queue(), because that may
+break SCSI which uses quiesce to implement device block.
+
+thanks,
+Ming
