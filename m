@@ -1,428 +1,227 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Tue, 2 Jan 2018 22:11:12 +0000
-Subject: [PATCH nvme-cli v2] nvme-cli: add ns-descs subcommand
-In-Reply-To: <20170624071247.GD14437@lst.de>
-References: <20170623073635.3069-1-jthumshirn@suse.de>
- <20170624071247.GD14437@lst.de>
-Message-ID: <MWHPR04MB1025095DCE7BC2B7528EB791EA190@MWHPR04MB1025.namprd04.prod.outlook.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 2 Jan 2018 16:29:43 -0700
+Subject: [for-4.16 PATCH v2 0/5] block, nvme, dm: allow DM multipath to
+ use NVMe's error handler
+In-Reply-To: <20171227032257.8182-1-snitzer@redhat.com>
+References: <20171227032257.8182-1-snitzer@redhat.com>
+Message-ID: <20180102232943.GC26533@localhost.localdomain>
 
-Is the following line from the patch below really needed?
-+#include <linux/uuid.h>
+Instead of hiding NVMe path related errors, the NVMe driver needs to
+code an appropriate generic block status from an NVMe status.
 
-It was causing the following compile error in SLES 11.4
-In file included from nvme.h:34,
-                 from nvme-print.h:4,
-                 from nvme-print.c:6:
-linux/nvme.h:19:24: error: linux/uuid.h: No such file or directory
-make: *** [nvme-print.o] Error 1
+We already do this translation whether or not CONFIG_NVME_MULTIPATHING is
+set, so I think it's silly NVMe native multipathing has a second status
+decoder. This just doubles the work if we need to handle any new NVMe
+status codes in the future.
 
-When I comment out the #include <linux/uuid.h>, it compiles just fine.   I also commented it out on SLES 12.2 and Redhat 7.4 and it compiled just fine without it there as well.
+I have a counter-proposal below that unifies NVMe-to-block status
+translations, and combines common code for determining if an error is a
+path failure. This should work for both NVMe and DM, and DM won't need
+NVMe specifics.
 
-Jeff Lien
-
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Christoph Hellwig
-Sent: Saturday, June 24, 2017 2:13 AM
-To: Johannes Thumshirn
-Cc: Keith Busch; Sagi Grimberg; Linux NVMe Mailinglist; Christoph Hellwig
-Subject: Re: [PATCH nvme-cli v2] nvme-cli: add ns-descs subcommand
-
-Meh, this still didn't properly resync nvme.h.
-
-Something like this is needed for the current tree:
+I can split this into a series if there's indication this is ok and
+satisfies the need.
 
 ---
->From 79afec638c7a0eb636065403615a78db64ecaec7 Mon Sep 17 00:00:00 2001
-From: Christoph Hellwig <hch@lst.de>
-Date: Sat, 24 Jun 2017 09:04:48 +0200
-Subject: resync nvme.h with the kernel
-
-Copy over the current nvme.h from the for-4.13 block tree, and adjust a few callers.  The biggest tweak is that we can't use the kernel uuid.h and either need to use libuuid or our own definition.
-
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- fabrics.c    |   2 +
- linux/nvme.h | 140 +++++++++++++++++++++++++++++++++++++++++++++++++----------
- nvme-print.c |   8 +---
- nvme.c       |   4 --
- nvme.h       |  19 ++++----
- 5 files changed, 129 insertions(+), 44 deletions(-)
-
-diff --git a/fabrics.c b/fabrics.c
-index 87cdba2..da4e04e 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -44,6 +44,8 @@
+diff --git a/drivers/md/dm-mpath.c b/drivers/md/dm-mpath.c
+index f7810cc869ac..f6f7a1aefc53 100644
+--- a/drivers/md/dm-mpath.c
++++ b/drivers/md/dm-mpath.c
+@@ -1475,21 +1475,6 @@ static void activate_path_work(struct work_struct *work)
+ 	activate_or_offline_path(pgpath);
+ }
  
- #include "common.h"
- 
-+#define NVMF_HOSTID_SIZE	36
-+
- static struct config {
- 	char *nqn;
- 	char *transport;
-diff --git a/linux/nvme.h b/linux/nvme.h index d1a322b..291587a 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -16,6 +16,7 @@
- #define _LINUX_NVME_H
- 
- #include <linux/types.h>
-
- /* NQN names in commands fields specified one size */
- #define NVMF_NQN_FIELD_LEN	256
-@@ -23,7 +24,6 @@
- /* However the max length of a qualified name is another size */
- #define NVMF_NQN_SIZE		223
- 
--#define NVMF_HOSTID_SIZE        36
- #define NVMF_TRSVCID_SIZE	32
- #define NVMF_TRADDR_SIZE	256
- #define NVMF_TSAS_SIZE		256
-@@ -102,6 +102,7 @@ enum {
- 	NVME_REG_ACQ	= 0x0030,	/* Admin CQ Base Address */
- 	NVME_REG_CMBLOC = 0x0038,	/* Controller Memory Buffer Location */
- 	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
-+	NVME_REG_DBS	= 0x1000,	/* SQ 0 Tail Doorbell */
- };
- 
- #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
-@@ -249,7 +250,10 @@ enum {
- 	NVME_CTRL_ONCS_COMPARE			= 1 << 0,
- 	NVME_CTRL_ONCS_WRITE_UNCORRECTABLE	= 1 << 1,
- 	NVME_CTRL_ONCS_DSM			= 1 << 2,
-+	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
- 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
-+	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
-+	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 7,
- };
- 
- struct nvme_lbaf {
-@@ -289,6 +293,17 @@ struct nvme_id_ns {  };
- 
- enum {
-+	NVME_ID_CNS_NS			= 0x00,
-+	NVME_ID_CNS_CTRL		= 0x01,
-+	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
-+	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
-+	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
-+	NVME_ID_CNS_NS_PRESENT		= 0x11,
-+	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
-+	NVME_ID_CNS_CTRL_LIST		= 0x13,
-+};
-+
-+enum {
- 	NVME_NS_FEAT_THIN	= 1 << 0,
- 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
- 	NVME_NS_FLBAS_META_EXT	= 0x10,
-@@ -308,6 +323,22 @@ enum {
- 	NVME_NS_DPS_PI_TYPE3	= 3,
- };
- 
-+struct nvme_ns_id_desc {
-+	__u8 nidt;
-+	__u8 nidl;
-+	__le16 reserved;
-+};
-+
-+#define NVME_NIDT_EUI64_LEN	8
-+#define NVME_NIDT_NGUID_LEN	16
-+#define NVME_NIDT_UUID_LEN	16
-+
-+enum {
-+	NVME_NIDT_EUI64		= 0x01,
-+	NVME_NIDT_NGUID		= 0x02,
-+	NVME_NIDT_UUID		= 0x03,
-+};
-+
- struct nvme_smart_log {
- 	__u8			critical_warning;
- 	__u8			temperature[2];
-@@ -549,12 +580,42 @@ enum {
- 	NVME_DSMGMT_AD		= 1 << 2,
- };
- 
-+#define NVME_DSM_MAX_RANGES	256
-+
- struct nvme_dsm_range {
- 	__le32			cattr;
- 	__le32			nlb;
- 	__le64			slba;
- };
- 
-+struct nvme_write_zeroes_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd2;
-+	__le64			metadata;
-+	union nvme_data_ptr	dptr;
-+	__le64			slba;
-+	__le16			length;
-+	__le16			control;
-+	__le32			dsmgmt;
-+	__le32			reftag;
-+	__le16			apptag;
-+	__le16			appmask;
-+};
-+
-+/* Features */
-+
-+struct nvme_feat_auto_pst {
-+	__le64 entries[32];
-+};
-+
-+enum {
-+	NVME_HOST_MEM_ENABLE	= (1 << 0),
-+	NVME_HOST_MEM_RETURN	= (1 << 1),
-+};
-+
- /* Admin commands */
- 
- enum nvme_admin_opcode {
-@@ -573,6 +634,7 @@ enum nvme_admin_opcode {
- 	nvme_admin_download_fw		= 0x11,
- 	nvme_admin_ns_attach		= 0x15,
- 	nvme_admin_keep_alive		= 0x18,
-+	nvme_admin_dbbuf		= 0x7C,
- 	nvme_admin_format_nvm		= 0x80,
- 	nvme_admin_security_send	= 0x81,
- 	nvme_admin_security_recv	= 0x82,
-@@ -620,10 +682,14 @@ struct nvme_identify {
- 	__le32			nsid;
- 	__u64			rsvd2[2];
- 	union nvme_data_ptr	dptr;
--	__le32			cns;
-+	__u8			cns;
-+	__u8			rsvd3;
-+	__le16			ctrlid;
- 	__u32			rsvd11[5];
- };
- 
-+#define NVME_IDENTIFY_DATA_SIZE 4096
-+
- struct nvme_features {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -633,7 +699,16 @@ struct nvme_features {
- 	union nvme_data_ptr	dptr;
- 	__le32			fid;
- 	__le32			dword11;
--	__u32			rsvd12[4];
-+	__le32                  dword12;
-+	__le32                  dword13;
-+	__le32                  dword14;
-+	__le32                  dword15;
-+};
-+
-+struct nvme_host_mem_buf_desc {
-+	__le64			addr;
-+	__le32			size;
-+	__u32			rsvd;
- };
- 
- struct nvme_create_cq {
-@@ -809,7 +884,7 @@ struct nvmf_connect_command {  };
- 
- struct nvmf_connect_data {
--	__u8		hostid[16];
-+	uuid_t		hostid;
- 	__le16		cntlid;
- 	char		resv4[238];
- 	char		subsysnqn[NVMF_NQN_FIELD_LEN];
-@@ -842,6 +917,16 @@ struct nvmf_property_get_command {
- 	__u8		resv4[16];
- };
- 
-+struct nvme_dbbuf {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__u32			rsvd1[5];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__u32			rsvd12[6];
-+};
-+
- struct nvme_command {
- 	union {
- 		struct nvme_common_command common;
-@@ -854,29 +939,17 @@ struct nvme_command {
- 		struct nvme_download_firmware dlfw;
- 		struct nvme_format_cmd format;
- 		struct nvme_dsm_cmd dsm;
-+		struct nvme_write_zeroes_cmd write_zeroes;
- 		struct nvme_abort_cmd abort;
- 		struct nvme_get_log_page_command get_log_page;
- 		struct nvmf_common_command fabrics;
- 		struct nvmf_connect_command connect;
- 		struct nvmf_property_set_command prop_set;
- 		struct nvmf_property_get_command prop_get;
-+		struct nvme_dbbuf dbbuf;
- 	};
- };
- 
--#define NVME_IDENTIFY_CMD_LEN 4096
--#define NVME_ID_CNS_NS_DESC_LIST 0x3
--enum {
--	NVME_NIDT_EUI64		= 0x1,
--	NVME_NIDT_NGUID		= 0x2,
--	NVME_NIDT_UUID		= 0x3,
--};
+-static int noretry_error(blk_status_t error)
+-{
+-	switch (error) {
+-	case BLK_STS_NOTSUPP:
+-	case BLK_STS_NOSPC:
+-	case BLK_STS_TARGET:
+-	case BLK_STS_NEXUS:
+-	case BLK_STS_MEDIUM:
+-		return 1;
+-	}
 -
--struct nvme_ns_id_desc {
--	__u8 nidt;
--	__u8 nidl;
--	__u16 reserved;
--};
+-	/* Anything else could be a path failure, so should be retried */
+-	return 0;
+-}
 -
- static inline bool nvme_is_write(struct nvme_command *cmd)  {
- 	/*
-@@ -958,6 +1031,7 @@ enum {
- 	NVME_SC_BAD_ATTRIBUTES		= 0x180,
- 	NVME_SC_INVALID_PI		= 0x181,
- 	NVME_SC_READ_ONLY		= 0x182,
-+	NVME_SC_ONCS_NOT_SUPPORTED	= 0x183,
- 
- 	/*
- 	 * I/O Command Set Specific - Fabrics commands:
-@@ -984,23 +1058,41 @@ enum {
- 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
- 
- 	NVME_SC_DNR			= 0x4000,
-+
-+
-+	/*
-+	 * FC Transport-specific error status values for NVME commands
-+	 *
-+	 * Transport-specific status code values must be in the range 0xB0..0xBF
-+	 */
-+
-+	/* Generic FC failure - catchall */
-+	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
-+
-+	/* I/O failure due to FC ABTS'd */
-+	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
- };
- 
- struct nvme_completion {
- 	/*
- 	 * Used by Admin and Fabrics commands to return data:
+ static int multipath_end_io(struct dm_target *ti, struct request *clone,
+ 			    blk_status_t error, union map_info *map_context)
+ {
+@@ -1508,7 +1493,7 @@ static int multipath_end_io(struct dm_target *ti, struct request *clone,
+ 	 * request into dm core, which will remake a clone request and
+ 	 * clone bios for it and resubmit it later.
  	 */
--	union {
--		__le16	result16;
--		__le32	result;
--		__le64	result64;
--	};
-+	union nvme_result {
-+		__le16	u16;
-+		__le32	u32;
-+		__le64	u64;
-+	} result;
- 	__le16	sq_head;	/* how much of this queue may be reclaimed */
- 	__le16	sq_id;		/* submission queue that generated this entry */
- 	__u16	command_id;	/* of the command which completed */
- 	__le16	status;		/* did the command fail, and if so, why? */
+-	if (error && !noretry_error(error)) {
++	if (error && blk_path_failure(error)) {
+ 		struct multipath *m = ti->private;
+ 
+ 		r = DM_ENDIO_REQUEUE;
+@@ -1544,7 +1529,7 @@ static int multipath_end_io_bio(struct dm_target *ti, struct bio *clone,
+ 	unsigned long flags;
+ 	int r = DM_ENDIO_DONE;
+ 
+-	if (!*error || noretry_error(*error))
++	if (!*error || !blk_path_failure(*error))
+ 		goto done;
+ 
+ 	if (pgpath)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f837d666cbd4..25ef349fd4e4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -190,20 +190,18 @@ static inline bool nvme_req_needs_retry(struct request *req)
+ 
+ void nvme_complete_rq(struct request *req)
+ {
+-	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
+-		if (nvme_req_needs_failover(req)) {
+-			nvme_failover_req(req);
+-			return;
+-		}
++	blk_status_t status = nvme_error_status(req);
+ 
++	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
++		if (nvme_failover_req(req, status))
++			return;
+ 		if (!blk_queue_dying(req->q)) {
+ 			nvme_req(req)->retries++;
+ 			blk_mq_requeue_request(req, true);
+ 			return;
+ 		}
+ 	}
+-
+-	blk_mq_end_request(req, nvme_error_status(req));
++	blk_mq_end_request(req, status);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_rq);
+ 
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 1218a9fca846..fa3d96780258 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -19,11 +19,16 @@ module_param(multipath, bool, 0644);
+ MODULE_PARM_DESC(multipath,
+ 	"turn on native support for multiple controllers per subsystem");
+ 
+-void nvme_failover_req(struct request *req)
++bool nvme_failover_req(struct request *req, blk_status_t status)
+ {
+ 	struct nvme_ns *ns = req->q->queuedata;
+ 	unsigned long flags;
+ 
++	if (!(req->cmd_flags & REQ_NVME_MPATH))
++		return false;
++	if (!blk_path_failure(status))
++		return false;
++
+ 	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+ 	blk_steal_bios(&ns->head->requeue_list, req);
+ 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+@@ -31,52 +36,6 @@ void nvme_failover_req(struct request *req)
+ 
+ 	nvme_reset_ctrl(ns->ctrl);
+ 	kblockd_schedule_work(&ns->head->requeue_work);
+-}
+-
+-bool nvme_req_needs_failover(struct request *req)
+-{
+-	if (!(req->cmd_flags & REQ_NVME_MPATH))
+-		return false;
+-
+-	switch (nvme_req(req)->status & 0x7ff) {
+-	/*
+-	 * Generic command status:
+-	 */
+-	case NVME_SC_INVALID_OPCODE:
+-	case NVME_SC_INVALID_FIELD:
+-	case NVME_SC_INVALID_NS:
+-	case NVME_SC_LBA_RANGE:
+-	case NVME_SC_CAP_EXCEEDED:
+-	case NVME_SC_RESERVATION_CONFLICT:
+-		return false;
+-
+-	/*
+-	 * I/O command set specific error.  Unfortunately these values are
+-	 * reused for fabrics commands, but those should never get here.
+-	 */
+-	case NVME_SC_BAD_ATTRIBUTES:
+-	case NVME_SC_INVALID_PI:
+-	case NVME_SC_READ_ONLY:
+-	case NVME_SC_ONCS_NOT_SUPPORTED:
+-		WARN_ON_ONCE(nvme_req(req)->cmd->common.opcode ==
+-			nvme_fabrics_command);
+-		return false;
+-
+-	/*
+-	 * Media and Data Integrity Errors:
+-	 */
+-	case NVME_SC_WRITE_FAULT:
+-	case NVME_SC_READ_ERROR:
+-	case NVME_SC_GUARD_CHECK:
+-	case NVME_SC_APPTAG_CHECK:
+-	case NVME_SC_REFTAG_CHECK:
+-	case NVME_SC_COMPARE_FAILED:
+-	case NVME_SC_ACCESS_DENIED:
+-	case NVME_SC_UNWRITTEN_BLOCK:
+-		return false;
+-	}
+-
+-	/* Everything else could be a path failure, so should be retried */
+ 	return true;
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ea1aa5283e8e..a251d1df4895 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -400,8 +400,7 @@ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
+-void nvme_failover_req(struct request *req);
+-bool nvme_req_needs_failover(struct request *req);
++bool nvme_failover_req(struct request *req, blk_status_t status);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+ void nvme_mpath_add_disk(struct nvme_ns_head *head);
+@@ -418,10 +417,7 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ }
+ struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
+ #else
+-static inline void nvme_failover_req(struct request *req)
+-{
+-}
+-static inline bool nvme_req_needs_failover(struct request *req)
++static inline bool nvme_failover_req(struct request *req, blk_status_t status)
+ {
+ 	return false;
+ }
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index a1e628e032da..54e416acf55f 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -39,6 +39,21 @@ typedef u8 __bitwise blk_status_t;
+ 
+ #define BLK_STS_AGAIN		((__force blk_status_t)12)
+ 
++static inline bool blk_path_failure(blk_status_t status)
++{
++	switch (status) {
++	case BLK_STS_NOTSUPP:
++	case BLK_STS_NOSPC:
++	case BLK_STS_TARGET:
++	case BLK_STS_NEXUS:
++	case BLK_STS_MEDIUM:
++	case BLK_STS_PROTECTION:
++		return false;
++	}
++	/* Anything else could be a path failure, so should be retried */
++	return true;
++}
++
+ struct blk_issue_stat {
+ 	u64 stat;
  };
- 
--#define NVME_VS(major, minor) (((major) << 16) | ((minor) << 8))
-+#define NVME_VS(major, minor, tertiary) \
-+	(((major) << 16) | ((minor) << 8) | (tertiary))
-+
-+#define NVME_MAJOR(ver)		((ver) >> 16)
-+#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
-+#define NVME_TERTIARY(ver)	((ver) & 0xff)
- 
- #endif /* _LINUX_NVME_H */
-diff --git a/nvme-print.c b/nvme-print.c index dca4a19..637c695 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -3,10 +3,6 @@
- #include <string.h>
- #include <stdlib.h>
- 
--#ifdef LIBUUID
--#include <uuid/uuid.h>
--#endif
--
- #include "nvme-print.h"
- #include "json.h"
- #include "nvme-models.h"
-@@ -622,7 +618,7 @@ void json_nvme_id_ns_descs(void *data)
- 
- 	root = json_create_object();
- 
--	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
-+	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
- 		struct nvme_ns_id_desc *cur = data + pos;
- 
- 		off = pos + sizeof(*cur);
-@@ -680,7 +676,7 @@ void show_nvme_id_ns_descs(void *data)
- 	__u8 eui64[8];
- 	__u8 nguid[16];
- 
--	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
-+	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
- 		struct nvme_ns_id_desc *cur = data + pos;
- 
- 		if (cur->nidl == 0)
-diff --git a/nvme.c b/nvme.c
-index f746b74..4cb7d63 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -45,10 +45,6 @@
- #include <sys/stat.h>
- #include <sys/time.h>
- 
--#ifdef LIBUUID
--#include <uuid/uuid.h>
--#endif
--
- #include "nvme-print.h"
- #include "nvme-ioctl.h"
- #include "nvme-lightnvm.h"
-diff --git a/nvme.h b/nvme.h
-index 397a1a5..b796961 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -21,6 +21,15 @@
- #include "json.h"
- 
- #define unlikely(x) x
-+
-+#ifdef LIBUUID
-+#include <uuid/uuid.h>
-+#else
-+typedef struct {
-+	__u8 b[16];
-+} uuid_t;
-+#endif
-+
- #include "linux/nvme.h"
- 
- struct nvme_error_log_page {
-@@ -45,16 +54,6 @@ struct nvme_firmware_log_page {
- /* idle and active power scales occupy the last 2 bits of the field */  #define POWER_SCALE(s) ((s) >> 6)
- 
--enum {
--	NVME_ID_CNS_NS			= 0x00,
--	NVME_ID_CNS_CTRL		= 0x01,
--	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
--	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
--	NVME_ID_CNS_NS_PRESENT		= 0x11,
--	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
--	NVME_ID_CNS_CTRL_LIST		= 0x13,
--};
--
- struct nvme_host_mem_buffer {
- 	__u32			hsize;
- 	__u32			hmdlal;
 --
-2.11.0
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
