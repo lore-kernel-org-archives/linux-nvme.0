@@ -1,20 +1,29 @@
-From: alon@vastdata.com (Alon Horev)
-Date: Thu, 1 Mar 2018 09:52:16 +0200
-Subject: Status of "nvmet: Add feature close connection from target side"
-Message-ID: <CAF9HSim=BXt_nFEGYs_yzzcdQyxsw2+pK6X-ZNo9Wr-f2AubJg@mail.gmail.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Wed,  3 Jan 2018 02:07:41 +0800
+Subject: [PATCH] nvme: check ctrl.tagset before start ns scan
+Message-ID: <1514916461-8696-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Hi,
+ctrl.tagset maybe NULL due to failure of io queue setup or blk-mq
+tagset allocation in nvme_reset_work. Then panic would come up.
+To fix this, just add ctrl.tagset check in nvme_scan_work.
 
-A set of patches was submitted to the mailing list on Oct 10 by
-israelr at mellanox.com.
-In terms of due process, what should be done in order to merge the
-feature upstream? we'd be happy to contribute.
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The use case is pretty straightforward: in case a node is misbehaving
-in a cluster we'd like to fence it. Changing the 'allowed_hosts'
-doesn't affect already existing connections, therefore, 'force_close'
-on these hosts would enable disconnecting them to prevent them for
-doing harm.
-
-Thanks, Alon Horev
-VastData
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1e46e60..1ed593d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3071,7 +3071,7 @@ static void nvme_scan_work(struct work_struct *work)
+ 	struct nvme_id_ctrl *id;
+ 	unsigned nn;
+ 
+-	if (ctrl->state != NVME_CTRL_LIVE)
++	if ((ctrl->state != NVME_CTRL_LIVE) || !ctrl->tagset)
+ 		return;
+ 
+ 	if (nvme_identify_ctrl(ctrl, &id))
+-- 
+2.7.4
