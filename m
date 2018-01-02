@@ -1,97 +1,36 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Wed,  3 Jan 2018 07:56:10 +0800
-Subject: [PATCH 3/3] nvme-pci: add nvme_pci_post_init
-In-Reply-To: <1514937370-4805-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1514937370-4805-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1514937370-4805-4-git-send-email-jianchao.w.wang@oracle.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 2 Jan 2018 09:50:39 -0700
+Subject: [PATCH 2/3] nvme/pci: Remove cq_vector check in IO path
+In-Reply-To: <5ee695e8-f294-524a-e945-d484cea6df8a@grimberg.me>
+References: <20171221204636.2924-1-keith.busch@intel.com>
+ <20171221204636.2924-3-keith.busch@intel.com>
+ <95c8319b-3e01-07b5-88a8-864c5a8f60a5@grimberg.me>
+ <33f024c8-b4be-c8cb-decb-f36eb68fb99a@grimberg.me>
+ <20171229094814.GC24043@lst.de>
+ <20171229153950.GB16407@localhost.localdomain>
+ <5ee695e8-f294-524a-e945-d484cea6df8a@grimberg.me>
+Message-ID: <20180102165038.GA24386@localhost.localdomain>
 
-No functional change. Add new interface nvme_pci_post_init to get
-in the nvme sepcific initialization work after identify.
+On Sun, Dec 31, 2017@02:30:09PM +0200, Sagi Grimberg wrote:
+> Not sure if stealing bios from requests is a better design. Note that
+> we do exactly this in other transport (nvme_[rdma|loop|fc]_is_ready).
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/pci.c | 58 +++++++++++++++++++++++++++++--------------------
- 1 file changed, 34 insertions(+), 24 deletions(-)
+Well, we're currently failing requests that may succeed if we could
+back them out for re-entry. While such scenarios are uncommon, I think
+we can handle it better than ending them in failure.
+ 
+> I think it would be better to stick to a coherent behavior across
+> the nvme subsystem. If this condition statement is really something
+> that is buying us measurable performance gain, I think we should apply
+> it for other transports as well (although in fabrics we're a bit
+> different because we have a dedicated connect that enters .queue_rq)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1a63835..c390cf1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2295,11 +2295,41 @@ static int nvme_pci_pre_init(struct nvme_dev *dev)
- 	return nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
- }
- 
-+/* Include initialization work after identify
-+ */
-+static int nvme_pci_post_init(struct nvme_dev *dev)
-+{
-+	int ret;
-+	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
-+
-+	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) {
-+		if (!dev->ctrl.opal_dev)
-+			dev->ctrl.opal_dev =
-+				init_opal_dev(&dev->ctrl, &nvme_sec_submit);
-+		else if (was_suspend)
-+			opal_unlock_from_suspend(dev->ctrl.opal_dev);
-+	} else {
-+		free_opal_dev(dev->ctrl.opal_dev);
-+		dev->ctrl.opal_dev = NULL;
-+	}
-+
-+	if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP) {
-+		if(nvme_dbbuf_dma_alloc(dev))
-+			dev_warn(dev->dev,
-+				 "unable to allocate dma for dbbuf\n");
-+	}
-+
-+	if (dev->ctrl.hmpre) {
-+		ret = nvme_setup_host_mem(dev);
-+		return ret >= 0 ? 0 : ret;
-+	}
-+
-+	return 0;
-+}
- static void nvme_reset_work(struct work_struct *work)
- {
- 	struct nvme_dev *dev =
- 		container_of(work, struct nvme_dev, ctrl.reset_work);
--	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	int result = -ENODEV;
- 
- 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
-@@ -2333,29 +2363,9 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
--	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) {
--		if (!dev->ctrl.opal_dev)
--			dev->ctrl.opal_dev =
--				init_opal_dev(&dev->ctrl, &nvme_sec_submit);
--		else if (was_suspend)
--			opal_unlock_from_suspend(dev->ctrl.opal_dev);
--	} else {
--		free_opal_dev(dev->ctrl.opal_dev);
--		dev->ctrl.opal_dev = NULL;
--	}
--
--	if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP) {
--		result = nvme_dbbuf_dma_alloc(dev);
--		if (result)
--			dev_warn(dev->dev,
--				 "unable to allocate dma for dbbuf\n");
--	}
--
--	if (dev->ctrl.hmpre) {
--		result = nvme_setup_host_mem(dev);
--		if (result < 0)
--			goto out;
--	}
-+	result = nvme_pci_post_init(dev);
-+	if (result)
-+		goto out;
- 
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
--- 
-2.7.4
+We should be able to remove all the state checks in the IO path because
+the handlers putting the controller in an IO-incapable state should be
+able to quiece the queues before transitioning to that state.
+
+This is not a significant gain compared to the other two patches in this
+series, but the sum of all the little things become meaningful.
+
+We'd need to remove this check anyway if we're considering exclusively
+polled queues since they wouldn't have a CQ vector.
