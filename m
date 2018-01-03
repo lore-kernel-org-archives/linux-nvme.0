@@ -1,33 +1,20 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 3 Jan 2018 13:11:31 -0700
-Subject: Bug report - drivers/nvme/host/pci.c?
-In-Reply-To: <20180103200140.GA11172@localhost.localdomain>
-References: <4dcd8c76-872e-69e3-3cbd-d051bdf0bf62@huawei.com>
- <BY2PR04MB2101903E77826A0479550572861E0@BY2PR04MB2101.namprd04.prod.outlook.com>
- <20180103200140.GA11172@localhost.localdomain>
-Message-ID: <20180103201131.GB11172@localhost.localdomain>
+Date: Wed, 3 Jan 2018 13:21:05 -0700
+Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
+In-Reply-To: <6ffc074a-3c5b-c76d-d213-6606a77626e0@kernel.dk>
+References: <20171221204636.2924-1-keith.busch@intel.com>
+ <20171221204636.2924-2-keith.busch@intel.com>
+ <45a16b4c-fbc0-106d-df37-439374c7b5dc@kernel.dk>
+ <118beb1f-54eb-c65d-1c9c-4775ebde1fa8@kernel.dk>
+ <20171221210250.GA2975@localhost.localdomain>
+ <6ffc074a-3c5b-c76d-d213-6606a77626e0@kernel.dk>
+Message-ID: <20180103202105.GC11172@localhost.localdomain>
 
-On Wed, Jan 03, 2018@01:01:41PM -0700, Keith Busch wrote:
-> On Wed, Jan 03, 2018@07:46:05PM +0000, Chaitanya Kulkarni wrote:
-> >    HI Fangjian,
-> > 
-> >    I ran your test on the latest kernel and I did not see the problem.
-> <> 
-> >    Is there a particular reason why you are using Linux version 4.15.0-rc1?
-> > 
-> >    Can you please check if you are having the same problem on the latest
-> >    kernel as mentioned in my log?
-> > 
-> >    Regards,
-> > 
-> >    Chaitanya
-> 
-> I would guess the reporter has an IOMMU enabled that DMA maps into fewer
-> entries than the virtual table has. Since that's possible, I think the
-> WARN_ON is invalid unless you overwrite iod->nents to be the return of
-> dma_map_sg, I think.
+On Thu, Dec 21, 2017@02:01:44PM -0700, Jens Axboe wrote:
+> I haven't either, but curious if others had. It's mostly just extra
+> overhead, I haven't seen it provide a latency reduction of any kind.
 
-Just fyi, the driver selecting when to use SGL vs PRP is done prior to
-DMA mapping the scatter list. An IOMMU may map a virtually contiguous
-buffer into a single address, which is probably where biggest win for
-SGL over PRP exists. I think this driver handling ought to be reworked.
+I've removed the submission side poll in a local build, and amazingly I
+am observing a not insignificant increase in latency without it on some
+workloads with certain hardware. I will have to delay recommending/posting
+removal of this pending further investigation.
