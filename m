@@ -1,38 +1,26 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Wed, 3 Jan 2018 10:47:55 -0700
-Subject: [v3,1/9] RDMA/core: Add implicit per-device completion queue pools
-In-Reply-To: <20171211235044.GA32331@ziepe.ca>
-References: <20171108095742.25365-2-sagi@grimberg.me>
- <20171211235044.GA32331@ziepe.ca>
-Message-ID: <20180103174755.GH11348@ziepe.ca>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 3 Jan 2018 13:01:41 -0700
+Subject: Bug report - drivers/nvme/host/pci.c?
+In-Reply-To: <BY2PR04MB2101903E77826A0479550572861E0@BY2PR04MB2101.namprd04.prod.outlook.com>
+References: <4dcd8c76-872e-69e3-3cbd-d051bdf0bf62@huawei.com>
+ <BY2PR04MB2101903E77826A0479550572861E0@BY2PR04MB2101.namprd04.prod.outlook.com>
+Message-ID: <20180103200140.GA11172@localhost.localdomain>
 
-On Mon, Dec 11, 2017@04:50:44PM -0700, Jason Gunthorpe wrote:
-> On Wed, Nov 08, 2017@11:57:34AM +0200, Sagi Grimberg wrote:
-> > Allow a ULP to ask the core to implicitly assign a completion
-> > queue to a queue-pair based on a least-used search on a per-device
-> > cq pools. The device CQ pools grow in a lazy fashion with every
-> > QP creation.
-> > 
-> > In addition, expose an affinity hint for a queue pair creation.
-> > If passed, the core will attempt to attach a CQ with a completion
-> > vector that is directed to the cpu core as the affinity hint
-> > provided.
-> > 
-> > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+On Wed, Jan 03, 2018@07:46:05PM +0000, Chaitanya Kulkarni wrote:
+>    HI Fangjian,
 > 
-> Sagi, Bart,
+>    I ran your test on the latest kernel and I did not see the problem.
+<> 
+>    Is there a particular reason why you are using Linux version 4.15.0-rc1?
 > 
-> Did we reach a conclusion on this? Is v3 the series to take, and
-> should it all go through the RDMA tree? It looks like there are some
-> missing acks for that??
+>    Can you please check if you are having the same problem on the latest
+>    kernel as mentioned in my log?
 > 
-> I think there was also an unapplied comment from bart in the
-> patchworks notes...
+>    Regards,
 > 
-> Could you please add some commit messages when you resend it? Not sure
-> I should be accepting such large commits with empty messages???
+>    Chaitanya
 
-Hearing nothing, I've dropped this series off patchworks. Please
-resend it when you are ready.
-
-Jason
+I would guess the reporter has an IOMMU enabled that DMA maps into fewer
+entries than the virtual table has. Since that's possible, I think the
+WARN_ON is invalid unless you overwrite iod->nents to be the return of
+dma_map_sg, I think.
