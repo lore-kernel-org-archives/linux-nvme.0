@@ -1,63 +1,28 @@
-From: alex.nlnnfn@gmail.com (Alex Nln)
-Date: Thu, 4 Jan 2018 09:13:50 -0800
-Subject: nvme performance using old blk vs blk-mq, single thread
-Message-ID: <20180104091350.2e6128477f81499a4c233a68@gmail.com>
-
-Hello,
-
-I am testing nvme devices and I found that there is about 15% degradation 
-in performance of a single threaded application when using blk-mq,
-comparing to same application running on kernel with old blk layer.
-
-I use fio-2.2.10, 4k block size, libaio, sequential reads, single thread.
-
-Results for Intel DC P3600 400GB NVMe SSD, drive was natively formatted 
-to 512B and brought to the steady state before test.
-
-# kernel version  kIOPS
-4.14.11-vanilla     163
-3.19.0-vanilla      167
-3.18.1-vanilla      196
-3.16.0-34-generic   193
-
-196K IOPS in 3.18.1 drops to 167K IOPS in 3.19.0
-
-It looks like between 3.8.1 and 3.19.0 the major change related to nvme 
-was conversion of nvme to use blk-mq
-Commit a4aea5623d4a54682b6ff5c18196d7802f3e478f  
-NVMe: Convert to blk-mq
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 04 Jan 2018 12:24:42 -0500
+Subject: [PATCH 1/1] nvme: Modify the debug level for setting shutdown
+ timeout
+In-Reply-To: <b46266c8-e239-ac12-d66e-33d613de597b@mellanox.com> (Max
+ Gurtovoy's message of "Thu, 4 Jan 2018 19:04:19 +0200")
+References: <1514727207-8460-1-git-send-email-maxg@mellanox.com>
+ <20180104100440.GC4436@lst.de>
+ <b46266c8-e239-ac12-d66e-33d613de597b@mellanox.com>
+Message-ID: <yq11sj5v8o5.fsf@oracle.com>
 
 
-Just to verify my results I did more tests on different server with different 
-NVMe disk HGST SN200 800GB
+Max,
 
-# kernel version     kIOPS 
-4.10.0-42-generic    330
-3.16.0-34-generic    375
+> but shutdown_timeout is a module param that one can set to be 10 secs
+> (for example) and then it might be == transition_time and we won't see
+> the print. Then is it not a buggy device anymore ? :)
 
+The intent was to only print when the resulting shutdown_timeout
+deviated from the default value (whether the driver default or the
+admin-provided module parameter).
 
-I would like to ask if this is a known issue or there is something 
-wrong in my setup? There was a similar thread about the same issue while ago 
-in this list but there was no conclusion.
+My only concern with info over warning is that info is often dropped.
+And therefore you have a harder time finding out which value was in
+effect when you subsequently peak at the logs.
 
-
-My fio file:
-
-[global]
-iodepth=128
-direct=1
-ioengine=libaio
-group_reporting
-time_based
-runtime=60
-filesize=32G
-
-[job1]
-rw=read
-filename=/dev/nvme0n1p1
-name=raw=sequential-read
-numjobs=1
-
-
-Thanks,
-Alex
+-- 
+Martin K. Petersen	Oracle Linux Engineering
