@@ -1,66 +1,68 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu,  4 Jan 2018 17:56:14 +0200
-Subject: [PATCH 2/2] nvme: Fix subsystem multiple controllers support check
-In-Reply-To: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
-References: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1515081374-22328-2-git-send-email-maxg@mellanox.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Thu, 4 Jan 2018 11:26:03 -0500
+Subject: [for-4.16 PATCH v2 0/5] block, nvme, dm: allow DM multipath to
+ use NVMe's error handler
+In-Reply-To: <20180104102631.GA4864@lst.de>
+References: <20171227032257.8182-1-snitzer@redhat.com>
+ <20180102232943.GC26533@localhost.localdomain>
+ <20180104102631.GA4864@lst.de>
+Message-ID: <20180104162603.GA20081@redhat.com>
 
-From: Israel Rukshin <israelr@mellanox.com>
+On Thu, Jan 04 2018 at  5:26am -0500,
+Christoph Hellwig <hch@lst.de> wrote:
 
-There is a problem when another module (e.g. nvmet) takes
-a refcount on the nvme block device and the physical nvme drive is removed.
-In that case nvme_free_ctrl() will not be called and the controller state
-will be "deleting" or "dead" unless nvmet module releases the block device.
-Later on, the same nvme drive probes back and nvme_init_subsystem() will be
-called and fail due to duplicate subnqn (if the nvme device doesn't support
-subsystem with multiple controllers). This will cause a probe failure.
-This commit changes the check of multiple controllers support at
-nvme_init_subsystem() by not counting all the controllers at "dead" or
-"deleting" state (this is safe because controllers at this state will never
-be active again).
+> On Tue, Jan 02, 2018@04:29:43PM -0700, Keith Busch wrote:
+> > Instead of hiding NVMe path related errors, the NVMe driver needs to
+> > code an appropriate generic block status from an NVMe status.
+> > 
+> > We already do this translation whether or not CONFIG_NVME_MULTIPATHING is
+> > set, so I think it's silly NVMe native multipathing has a second status
+> > decoder. This just doubles the work if we need to handle any new NVMe
+> > status codes in the future.
+> > 
+> > I have a counter-proposal below that unifies NVMe-to-block status
+> > translations, and combines common code for determining if an error is a
+> > path failure. This should work for both NVMe and DM, and DM won't need
+> > NVMe specifics.
+> > 
+> > I can split this into a series if there's indication this is ok and
+> > satisfies the need.
+> 
+> You'll need to update nvme_error_status to account for all errors
+> handled in nvme_req_needs_failover
 
-Fixes: ab9e00cc72fa ("nvme: track subsystems")
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
----
- drivers/nvme/host/core.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+These weren't accounted for (I may have mis-categorized them in this
+patch, so please feel free to correct):
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cb6b08e..f6dfdd3 100644
+index 25ef349fd4e4..835a9c60200e 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2063,6 +2063,22 @@ static ssize_t nvme_subsys_show_nqn(struct device *dev,
- 	NULL,
- };
- 
-+static int nvme_active_ctrls(struct nvme_subsystem *subsys)
-+{
-+	int count = 0;
-+	struct nvme_ctrl *ctrl;
-+
-+	mutex_lock(&subsys->lock);
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-+		if (ctrl->state != NVME_CTRL_DELETING &&
-+		    ctrl->state != NVME_CTRL_DEAD)
-+			count++;
-+	}
-+	mutex_unlock(&subsys->lock);
-+
-+	return count;
-+}
-+
- static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
- 	struct nvme_subsystem *subsys, *found;
-@@ -2101,7 +2117,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		 * Verify that the subsystem actually supports multiple
- 		 * controllers, else bail out.
- 		 */
--		if (!(id->cmic & (1 << 1))) {
-+		if (nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
- 			dev_err(ctrl->device,
- 				"ignoring ctrl due to duplicate subnqn (%s).\n",
- 				found->subnqn);
--- 
-1.8.3.1
+@@ -165,10 +165,18 @@ static blk_status_t nvme_error_status(struct request *req)
+ 	case NVME_SC_ACCESS_DENIED:
+ 	case NVME_SC_READ_ONLY:
+ 		return BLK_STS_MEDIUM;
++	case NVME_SC_INVALID_OPCODE:
++	case NVME_SC_INVALID_FIELD:
++	case NVME_SC_INVALID_NS:
++	case NVME_SC_LBA_RANGE:
++	case NVME_SC_CAP_EXCEEDED:
++	case NVME_SC_BAD_ATTRIBUTES:
++		return BLK_STS_TARGET;
+ 	case NVME_SC_GUARD_CHECK:
+ 	case NVME_SC_APPTAG_CHECK:
+ 	case NVME_SC_REFTAG_CHECK:
+ 	case NVME_SC_INVALID_PI:
++	case NVME_SC_COMPARE_FAILED:
+ 		return BLK_STS_PROTECTION;
+ 	case NVME_SC_RESERVATION_CONFLICT:
+ 		return BLK_STS_NEXUS;
+
+And of those, these aren't currently used:
+
+NVME_SC_LBA_RANGE
+NVME_SC_CAP_EXCEEDED
+NVME_SC_BAD_ATTRIBUTES
+NVME_SC_COMPARE_FAILED
+
+At least not that I can see.
