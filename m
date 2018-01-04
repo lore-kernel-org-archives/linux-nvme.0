@@ -1,30 +1,37 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 4 Jan 2018 11:26:31 +0100
-Subject: [for-4.16 PATCH v2 0/5] block, nvme, dm: allow DM multipath to
- use NVMe's error handler
-In-Reply-To: <20180102232943.GC26533@localhost.localdomain>
+Date: Thu, 4 Jan 2018 11:28:44 +0100
+Subject: [for-4.16 PATCH v2 1/5] block: establish request failover callback
+In-Reply-To: <20171229201904.GA8876@redhat.com>
 References: <20171227032257.8182-1-snitzer@redhat.com>
- <20180102232943.GC26533@localhost.localdomain>
-Message-ID: <20180104102631.GA4864@lst.de>
+ <20171227032257.8182-2-snitzer@redhat.com> <20171229101013.GA25333@lst.de>
+ <20171229201904.GA8876@redhat.com>
+Message-ID: <20180104102844.GB4864@lst.de>
 
-On Tue, Jan 02, 2018@04:29:43PM -0700, Keith Busch wrote:
-> Instead of hiding NVMe path related errors, the NVMe driver needs to
-> code an appropriate generic block status from an NVMe status.
+On Fri, Dec 29, 2017@03:19:04PM -0500, Mike Snitzer wrote:
+> On Fri, Dec 29 2017 at  5:10am -0500,
+> Christoph Hellwig <hch@lst.de> wrote:
 > 
-> We already do this translation whether or not CONFIG_NVME_MULTIPATHING is
-> set, so I think it's silly NVMe native multipathing has a second status
-> decoder. This just doubles the work if we need to handle any new NVMe
-> status codes in the future.
+> > On Tue, Dec 26, 2017@10:22:53PM -0500, Mike Snitzer wrote:
+> > > All requests allocated from a request_queue with this callback set can
+> > > failover their requests during completion.
+> > > 
+> > > This callback is expected to use the blk_steal_bios() interface to
+> > > transfer a request's bios back to an upper-layer bio-based
+> > > request_queue.
+> > > 
+> > > This will be used by both NVMe multipath and DM multipath.  Without it
+> > > DM multipath cannot get access to NVMe-specific error handling that NVMe
+> > > core provides in nvme_complete_rq().
+> > 
+> > And the whole point is that it should not get any such access.
 > 
-> I have a counter-proposal below that unifies NVMe-to-block status
-> translations, and combines common code for determining if an error is a
-> path failure. This should work for both NVMe and DM, and DM won't need
-> NVMe specifics.
-> 
-> I can split this into a series if there's indication this is ok and
-> satisfies the need.
+> No the whole point is you hijacked multipathing for little to no gain.
 
-You'll need to update nvme_error_status to account for all errors
-handled in nvme_req_needs_failover, and you will probably have to
-add additional BLK_STS_* code.  But if this is all that the rage was
-about I'm perfectly fine with it.
+That is your idea.  In the end there have been a lot of complains about
+dm-multipath, and there was a lot of discussion how to do things better,
+with a broad agreement on this approach.  Up to the point where Hannes
+has started considering doing something similar for scsi.
+
+And to be honest if this is the tone you'd like to set for technical
+discussions I'm not really interested.  Please calm down and stick
+to a technical discussion.
