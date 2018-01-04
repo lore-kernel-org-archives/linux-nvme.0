@@ -1,39 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 4 Jan 2018 11:20:33 +0100
-Subject: [PATCH V2] nvme-pci: fix NULL pointer reference in nvme_alloc_ns
-In-Reply-To: <1515112799-1678-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1515112799-1678-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180104102033.GA4834@lst.de>
+Date: Thu, 4 Jan 2018 11:26:31 +0100
+Subject: [for-4.16 PATCH v2 0/5] block, nvme, dm: allow DM multipath to
+ use NVMe's error handler
+In-Reply-To: <20180102232943.GC26533@localhost.localdomain>
+References: <20171227032257.8182-1-snitzer@redhat.com>
+ <20180102232943.GC26533@localhost.localdomain>
+Message-ID: <20180104102631.GA4864@lst.de>
 
-This looks generally fine to me, ut a few nitpicks below:
+On Tue, Jan 02, 2018@04:29:43PM -0700, Keith Busch wrote:
+> Instead of hiding NVMe path related errors, the NVMe driver needs to
+> code an appropriate generic block status from an NVMe status.
+> 
+> We already do this translation whether or not CONFIG_NVME_MULTIPATHING is
+> set, so I think it's silly NVMe native multipathing has a second status
+> decoder. This just doubles the work if we need to handle any new NVMe
+> status codes in the future.
+> 
+> I have a counter-proposal below that unifies NVMe-to-block status
+> translations, and combines common code for determining if an error is a
+> path failure. This should work for both NVMe and DM, and DM won't need
+> NVMe specifics.
+> 
+> I can split this into a series if there's indication this is ok and
+> satisfies the need.
 
->  - Based on Sagi's suggestion, add new state NVME_CTRL_ADMIN_LIVE.
-
-Maybe call this NVME_CTRL_ADMIN_ONLY ?
-
-> -	if (ctrl->state != NVME_CTRL_LIVE)
-> +	if ((ctrl->state != NVME_CTRL_LIVE) &&
-> +		(ctrl->state != NVME_CTRL_ADMIN_LIVE))
-
-No need for the inner braces, and odd indentation.  Also in general
-I'm tempted to just use switch statements for things like this, e.g.
-
-	switch (ctrl->state) {
-	case NVME_CTRL_ADMIN_LIVE:
-	case NVME_CTRL_LIVE:
-		break;
-	default:
-		return -EWOULDBLOCK;
-	}
-
-> @@ -3074,6 +3087,8 @@ static void nvme_scan_work(struct work_struct *work)
->  	if (ctrl->state != NVME_CTRL_LIVE)
->  		return;
->  
-> +	BUG_ON(!ctrl->tagset);
-
-WARN_ON_ONCE() please.
-
-> +	bool only_adminq = false;
-
-How about a new_state variable instead that holds the new state value?
+You'll need to update nvme_error_status to account for all errors
+handled in nvme_req_needs_failover, and you will probably have to
+add additional BLK_STS_* code.  But if this is all that the rage was
+about I'm perfectly fine with it.
