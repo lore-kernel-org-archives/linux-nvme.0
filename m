@@ -1,28 +1,27 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 04 Jan 2018 12:24:42 -0500
-Subject: [PATCH 1/1] nvme: Modify the debug level for setting shutdown
- timeout
-In-Reply-To: <b46266c8-e239-ac12-d66e-33d613de597b@mellanox.com> (Max
- Gurtovoy's message of "Thu, 4 Jan 2018 19:04:19 +0200")
-References: <1514727207-8460-1-git-send-email-maxg@mellanox.com>
- <20180104100440.GC4436@lst.de>
- <b46266c8-e239-ac12-d66e-33d613de597b@mellanox.com>
-Message-ID: <yq11sj5v8o5.fsf@oracle.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 4 Jan 2018 10:38:04 -0700
+Subject: [PATCH] nvme: Add weighted-round-robin arbitration support
+In-Reply-To: <1515078129-4041-1-git-send-email-joshi.k@samsung.com>
+References: <CGME20180104150334epcas1p14579a6ab7bcf1b6ce326d0bce89c91e1@epcas1p1.samsung.com>
+ <1515078129-4041-1-git-send-email-joshi.k@samsung.com>
+Message-ID: <20180104173804.GA7007@localhost.localdomain>
 
+On Thu, Jan 04, 2018@08:32:09PM +0530, Kanchan Joshi wrote:
+> This patch enables support for Weighted-Round-Robin (WRR) arbitration, so
+> that applications can make use of the prioritization capabilities natively
+> present in NVMe controller.
+> 
+> - It links existing io-nice classes (real-time, best-effort, none, low)
+> to NVMe priorities (urgent, high, medium, low).  This is done through
+> 'request->ioprio' field inside 'queue_rq' function.
+> 
+> - Current driver has 1:1 mapping (1 SQ, 1 CQ) per cpu, encapsulated in
+> 'nvmeq' structure.  This patch refactors the code so that N:1 mapping per
+> cpu can be created; 'nvmeq' has been changed to contain variable number of SQ
+> related fields.  For WRR, 4 submission-queues (corresponding to each queue
+> priorites) need to be created on each cpu.
 
-Max,
-
-> but shutdown_timeout is a module param that one can set to be 10 secs
-> (for example) and then it might be == transition_time and we won't see
-> the print. Then is it not a buggy device anymore ? :)
-
-The intent was to only print when the resulting shutdown_timeout
-deviated from the default value (whether the driver default or the
-admin-provided module parameter).
-
-My only concern with info over warning is that info is often dropped.
-And therefore you have a harder time finding out which value was in
-effect when you subsequently peak at the logs.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+You have a single tagset per CQ for up to N oustandanding commands, but
+allocate enough submission entries for 4 * N. And since they're sharing
+tags, a lower pri task can limit a high-pri one from getting a tag. I
+think we could use a little more help from the block layer for WRR.
