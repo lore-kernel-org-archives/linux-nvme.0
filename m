@@ -1,54 +1,83 @@
 From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 4 Jan 2018 09:08:52 -0500
-Subject: [for-4.16 PATCH v2 0/5] block, nvme, dm: allow DM multipath to
- use NVMe's error handler
-In-Reply-To: <20180104102631.GA4864@lst.de>
+Date: Thu, 4 Jan 2018 09:42:19 -0500
+Subject: [for-4.16 PATCH v2 1/5] block: establish request failover callback
+In-Reply-To: <20180104102844.GB4864@lst.de>
 References: <20171227032257.8182-1-snitzer@redhat.com>
- <20180102232943.GC26533@localhost.localdomain>
- <20180104102631.GA4864@lst.de>
-Message-ID: <20180104140852.GA13288@redhat.com>
+ <20171227032257.8182-2-snitzer@redhat.com>
+ <20171229101013.GA25333@lst.de> <20171229201904.GA8876@redhat.com>
+ <20180104102844.GB4864@lst.de>
+Message-ID: <20180104144219.GB13288@redhat.com>
 
-On Thu, Jan 04 2018 at  5:26am -0500,
+On Thu, Jan 04 2018 at  5:28am -0500,
 Christoph Hellwig <hch@lst.de> wrote:
 
-> On Tue, Jan 02, 2018@04:29:43PM -0700, Keith Busch wrote:
-> > Instead of hiding NVMe path related errors, the NVMe driver needs to
-> > code an appropriate generic block status from an NVMe status.
+> On Fri, Dec 29, 2017@03:19:04PM -0500, Mike Snitzer wrote:
+> > On Fri, Dec 29 2017 at  5:10am -0500,
+> > Christoph Hellwig <hch@lst.de> wrote:
 > > 
-> > We already do this translation whether or not CONFIG_NVME_MULTIPATHING is
-> > set, so I think it's silly NVMe native multipathing has a second status
-> > decoder. This just doubles the work if we need to handle any new NVMe
-> > status codes in the future.
+> > > On Tue, Dec 26, 2017@10:22:53PM -0500, Mike Snitzer wrote:
+> > > > All requests allocated from a request_queue with this callback set can
+> > > > failover their requests during completion.
+> > > > 
+> > > > This callback is expected to use the blk_steal_bios() interface to
+> > > > transfer a request's bios back to an upper-layer bio-based
+> > > > request_queue.
+> > > > 
+> > > > This will be used by both NVMe multipath and DM multipath.  Without it
+> > > > DM multipath cannot get access to NVMe-specific error handling that NVMe
+> > > > core provides in nvme_complete_rq().
+> > > 
+> > > And the whole point is that it should not get any such access.
 > > 
-> > I have a counter-proposal below that unifies NVMe-to-block status
-> > translations, and combines common code for determining if an error is a
-> > path failure. This should work for both NVMe and DM, and DM won't need
-> > NVMe specifics.
-> > 
-> > I can split this into a series if there's indication this is ok and
-> > satisfies the need.
+> > No the whole point is you hijacked multipathing for little to no gain.
 > 
-> You'll need to update nvme_error_status to account for all errors
-> handled in nvme_req_needs_failover, and you will probably have to
-> add additional BLK_STS_* code.  But if this is all that the rage was
-> about I'm perfectly fine with it.
+> That is your idea.  In the end there have been a lot of complains about
+> dm-multipath, and there was a lot of discussion how to do things better,
+> with a broad agreement on this approach.  Up to the point where Hannes
+> has started considering doing something similar for scsi.
 
-Glad you're fine with it.  I thought you'd balk at this too.  Mainly
-because I was unaware nvme_error_status() existed; so I thought any
-amount of new NVMe error translation for upper-layer consumption would
-be met with resistence.
+All the "DM multipath" complaints I heard at LSF were fixable and pretty
+superficial.  Some less so, but Hannes had a vision for addressing
+various SCSI stuff (which really complicated DM multipath).
 
-Keith arrived at this approach based on an exchange we had in private.
+But I'd really rather not dwell on all the history of NVMe native
+multipathing's evolution.  It isn't productive (other than to
+acknowledge that there are far more efficient and productive ways to
+coordinate such a change).
 
-I gave him context for DM multipath's need to access the code NVMe uses
-to determine if an NVMe-specific error is retryable or not.  Explained
-how SCSI uses scsi_dh error handling and
-drivers/scsi/scsi_lib.c:__scsi_error_from_host_byte() to establish a
-"differentiated IO error", and then
-drivers/md/dm-mpath.c:noretry_error() consumes the resulting BLK_STS_*.
+> And to be honest if this is the tone you'd like to set for technical
+> discussions I'm not really interested.  Please calm down and stick
+> to a technical discussion.
 
-Armed with this context Keith was able to take his NVMe knowledge and
-arrive at something you're fine with.  Glad it worked out.
+I think you'd probably agree that you've repeatedly derailed or avoided
+technical discussion if it got into "DM multipath".  But again I'm not
+looking to dwell on how dysfunctional this has been.  I really do
+appreciate your technical expertise.  Sadly, cannot say I feel you think
+similarly of me.
 
-Thanks,
+I will say that I'm human, as such I have limits on what I'm willing to
+accept.  You leveraged your position to the point where it has started
+to feel like you were lording over me.  Tough to accept that.   It makes
+my job _really_ feel like "work".  All I've ever been trying to do
+(since accepting the reality of "NVMe native multipathing") is bridge
+the gap from the old solution to new solution.  I'm not opposed to the
+new solution, it just needs to mature without being the _only_ way to
+provide the feature (NVMe multipathing).  Hopefully we can be productive
+exchanges moving forward.
+
+There are certainly some challenges associated with trying to allow a
+kernel to support both NVMe native multipathing and DM multipathing.
+E.g. would an NVMe device scan multipath blacklist be doable/acceptable?
+
+I'd also like to understand if your vision for NVMe's ANA support will
+model something like scsi_dh?  Meaning ANA is a capability that, when
+attached, augments the behavior of the NVMe device but that it is
+otherwise internal to the device and upper layers will get the benefit
+of ANA handler being attached.  Also, curious to know if you see that as
+needing to be tightly coupled to multipathing?  If so that is the next
+interface point hurdle.
+
+In the end I really think that DM multipath can help make NVMe native
+multipath very robust (and vice-versa).
+
 Mike
