@@ -1,45 +1,42 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  4 Jan 2018 15:46:21 -0700
-Subject: [PATCH 3/5] block: Provide blk_status_t decoding for retryable errors
+Date: Thu,  4 Jan 2018 15:46:22 -0700
+Subject: [PATCH 4/5] nvme/multipath: Use blk_retryable
 In-Reply-To: <20180104224623.8944-1-keith.busch@intel.com>
 References: <20180104224623.8944-1-keith.busch@intel.com>
-Message-ID: <20180104224623.8944-4-keith.busch@intel.com>
+Message-ID: <20180104224623.8944-5-keith.busch@intel.com>
 
-This patch provides a common decoder for block status that may be retried
-so various entities wishing to consult this do not have to duplicate
-this decision.
+Uses common code for determining if an error should be retried on
+alternate path.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- include/linux/blk_types.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/nvme/host/multipath.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index a1e628e032da..b6a8723b493c 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -39,6 +39,22 @@ typedef u8 __bitwise blk_status_t;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index ae9abb600c0f..93bb72b6efb6 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -37,19 +37,7 @@ bool nvme_req_needs_failover(struct request *req, blk_status_t error)
+ {
+ 	if (!(req->cmd_flags & REQ_NVME_MPATH))
+ 		return false;
+-
+-	switch (error) {
+-	case BLK_STS_NOTSUPP:
+-	case BLK_STS_NOSPC:
+-	case BLK_STS_TARGET:
+-	case BLK_STS_NEXUS:
+-	case BLK_STS_MEDIUM:
+-	case BLK_STS_PROTECTION:
+-		return false;
+-	}
+-
+-	/* Everything else could be a path failure, so should be retried */
+-	return true;
++	return blk_retryable(error);
+ }
  
- #define BLK_STS_AGAIN		((__force blk_status_t)12)
- 
-+static inline bool blk_retryable(blk_status_t error)
-+{
-+	switch (error) {
-+	case BLK_STS_NOTSUPP:
-+	case BLK_STS_NOSPC:
-+	case BLK_STS_TARGET:
-+	case BLK_STS_NEXUS:
-+	case BLK_STS_MEDIUM:
-+	case BLK_STS_PROTECTION:
-+		return false;
-+	}
-+
-+	/* Anything else could be a path failure, so should be retried */
-+	return true;
-+}
-+
- struct blk_issue_stat {
- 	u64 stat;
- };
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
 -- 
 2.13.6
