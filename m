@@ -1,20 +1,31 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 3 Jan 2018 13:21:05 -0700
-Subject: [PATCH 1/3] nvme/pci: Start request after doorbell ring
-In-Reply-To: <6ffc074a-3c5b-c76d-d213-6606a77626e0@kernel.dk>
-References: <20171221204636.2924-1-keith.busch@intel.com>
- <20171221204636.2924-2-keith.busch@intel.com>
- <45a16b4c-fbc0-106d-df37-439374c7b5dc@kernel.dk>
- <118beb1f-54eb-c65d-1c9c-4775ebde1fa8@kernel.dk>
- <20171221210250.GA2975@localhost.localdomain>
- <6ffc074a-3c5b-c76d-d213-6606a77626e0@kernel.dk>
-Message-ID: <20180103202105.GC11172@localhost.localdomain>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Thu, 4 Jan 2018 12:01:54 +0800
+Subject: [PATCH] nvme: check ctrl.tagset before start ns scan
+In-Reply-To: <ef7f1b69-c042-60f7-6bd3-6dd4c4d73b90@grimberg.me>
+References: <1514916461-8696-1-git-send-email-jianchao.w.wang@oracle.com>
+ <ef7f1b69-c042-60f7-6bd3-6dd4c4d73b90@grimberg.me>
+Message-ID: <a5b2d8a9-5241-28a3-5f8d-6a9ba0e6ac7d@oracle.com>
 
-On Thu, Dec 21, 2017@02:01:44PM -0700, Jens Axboe wrote:
-> I haven't either, but curious if others had. It's mostly just extra
-> overhead, I haven't seen it provide a latency reduction of any kind.
+Hi sagi
 
-I've removed the submission side poll in a local build, and amazingly I
-am observing a not insignificant increase in latency without it on some
-workloads with certain hardware. I will have to delay recommending/posting
-removal of this pending further investigation.
+Many thanks for your kindly response.
+
+On 01/03/2018 05:37 PM, Sagi Grimberg wrote:
+> Hi Jianchao,
+> 
+>> ctrl.tagset maybe NULL due to failure of io queue setup or blk-mq
+>> tagset allocation in nvme_reset_work. Then panic would come up.
+>> To fix this, just add ctrl.tagset check in nvme_scan_work.
+> 
+> This came up before (and forgotten...) I think we should not
+> have state indicators other than ctrl->state.
+> 
+> How about instead we add a new state NVME_CTRL_ADMIN_LIVE when we have
+> no I/O queues.
+> 
+Yes, that's a good idea that add a new state NMVE_CTRL_ADMIN_LIVE to indicate
+only the admin queue live. On the other hand, add a sanity checking that whether
+ctrl->tagset is NULL is also necessary. :)
+
+Thanks
+Jianchao
