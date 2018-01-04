@@ -1,102 +1,255 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Jan 2018 12:01:30 -0700
-Subject: [PATCH 05/12] block: Introduce PCI P2P flags for request and request
- queue
+Date: Thu,  4 Jan 2018 12:01:29 -0700
+Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
 In-Reply-To: <20180104190137.7654-1-logang@deltatee.com>
 References: <20180104190137.7654-1-logang@deltatee.com>
-Message-ID: <20180104190137.7654-6-logang@deltatee.com>
+Message-ID: <20180104190137.7654-5-logang@deltatee.com>
 
-QUEUE_FLAG_PCI_P2P is introduced meaning a driver's request queue
-supports targeting P2P memory.
+When the ACS P2P flags are set in the downstream port of the switch,
+any P2P TLPs will be sent back to the root complex. The whole point of
+the P2P work is to have TLPs avoid the RC seeing it may not support
+P2P transactions or, at best, it will perform poorly. So we clear these
+flags for all devices involved in transactions with the p2pmem.
 
-REQ_PCI_P2P is introduced to indicate a particular bio request is
-directed to/from PCI P2P memory. A request with this flag is not
-accepted unless the corresponding queues have the QUEUE_FLAG_PCI_P2P
-flag set.
+A count of the number of requests to disable the flags is maintained.
+When the count transitions from 1 to 0, the old flags are restored.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- block/blk-core.c          |  3 +++
- include/linux/blk_types.h | 18 +++++++++++++++++-
- include/linux/blkdev.h    |  2 ++
- 3 files changed, 22 insertions(+), 1 deletion(-)
+ drivers/pci/p2p.c   | 144 ++++++++++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/pci.h |   2 +
+ 2 files changed, 143 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index b8881750a3ac..f347c25731ff 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -2141,6 +2141,9 @@ generic_make_request_checks(struct bio *bio)
- 	if ((bio->bi_opf & REQ_NOWAIT) && !queue_is_rq_based(q))
- 		goto not_supported;
+diff --git a/drivers/pci/p2p.c b/drivers/pci/p2p.c
+index 87cec87b02e3..617adaa905d2 100644
+--- a/drivers/pci/p2p.c
++++ b/drivers/pci/p2p.c
+@@ -227,6 +227,89 @@ static struct pci_dev *find_parent_pci_dev(struct device *dev)
+ }
  
-+	if ((bio->bi_opf & REQ_PCI_P2P) && !blk_queue_pci_p2p(q))
-+		goto not_supported;
-+
- 	if (should_fail_request(&bio->bi_disk->part0, bio->bi_iter.bi_size))
- 		goto end_io;
- 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 9e7d8bd776d2..8e1b4d643478 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -228,6 +228,10 @@ enum req_flag_bits {
- 	__REQ_BACKGROUND,	/* background IO */
- 	__REQ_NOWAIT,           /* Don't wait if request will block */
- 
-+#ifdef CONFIG_PCI_P2P
-+	__REQ_PCI_P2P,		/* request is to/from P2P memory */
-+#endif
-+
- 	/* command specific flags for REQ_OP_WRITE_ZEROES: */
- 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
- 
-@@ -252,6 +256,18 @@ enum req_flag_bits {
- #define REQ_BACKGROUND		(1ULL << __REQ_BACKGROUND)
- #define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
- 
-+#ifdef CONFIG_PCI_P2P
-+/*
-+ * Currently SGLs do not support mixed P2P and regular memory so
-+ * requests with P2P memory must not be merged.
+ /*
++ * The ACS flags for P2P Request Redirect and P2P Completion Redirect need
++ * to be disabled in the downstream port of each device in order for
++ * the TLPs to not be forwarded up to the RC.
 + */
-+#define REQ_PCI_P2P		(1ULL << __REQ_PCI_P2P)
-+#define REQ_IS_PCI_P2P(req)	((req)->cmd_flags & REQ_PCI_P2P)
-+#else
-+#define REQ_PCI_P2P		0
-+#define REQ_IS_PCI_P2P(req)	0
-+#endif /* CONFIG_PCI_P2P */
++#define PCI_P2P_ACS_FLAGS (PCI_ACS_RR | PCI_ACS_CR)
 +
- #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
++static int pci_p2pmem_disable_acs(struct pci_dev *pdev)
++{
++	int pos;
++	u16 ctrl;
++	struct pci_dev *downstream;
++
++	downstream = pci_dev_get(pci_upstream_bridge(pdev));
++	if (!downstream) {
++		dev_err(&pdev->dev, "could not find downstream port\n");
++		return -ENODEV;
++	}
++
++	device_lock(&downstream->dev);
++	if (downstream->p2p_acs_requests++)
++		goto unlock_and_return;
++
++	pos = pci_find_ext_capability(downstream, PCI_EXT_CAP_ID_ACS);
++	if (!pos)
++		goto unlock_and_return;
++
++	pci_read_config_word(downstream, pos + PCI_ACS_CTRL, &ctrl);
++
++	downstream->p2p_old_acs_flags = ctrl & PCI_P2P_ACS_FLAGS;
++
++	if (downstream->p2p_old_acs_flags)
++		dev_info(&pdev->dev, "disabling p2p acs flags: %x\n", ctrl);
++
++	ctrl &= ~PCI_P2P_ACS_FLAGS;
++
++	pci_write_config_word(downstream, pos + PCI_ACS_CTRL, ctrl);
++
++unlock_and_return:
++	device_unlock(&downstream->dev);
++	pci_dev_put(downstream);
++	return 0;
++}
++
++static int pci_p2pmem_reset_acs(struct pci_dev *pdev)
++{
++	int pos;
++	u16 ctrl;
++	struct pci_dev *downstream;
++
++	downstream = pci_dev_get(pci_upstream_bridge(pdev));
++	if (!downstream)
++		return -ENODEV;
++
++	device_lock(&downstream->dev);
++
++	/* Only actually reset the flags on a 1->0 transition */
++	if (!downstream->p2p_acs_requests)
++		goto unlock_and_return;
++
++	if (--downstream->p2p_acs_requests)
++		goto unlock_and_return;
++
++	pos = pci_find_ext_capability(downstream, PCI_EXT_CAP_ID_ACS);
++	if (!pos)
++		goto unlock_and_return;
++
++	pci_read_config_word(downstream, pos + PCI_ACS_CTRL, &ctrl);
++
++	ctrl &= ~PCI_P2P_ACS_FLAGS;
++	ctrl |= downstream->p2p_old_acs_flags;
++
++	if (downstream->p2p_old_acs_flags)
++		dev_info(&pdev->dev, "resetting p2p acs flags: %x\n", ctrl);
++
++	pci_write_config_word(downstream, pos + PCI_ACS_CTRL, ctrl);
++
++unlock_and_return:
++	device_unlock(&downstream->dev);
++	pci_dev_put(downstream);
++	return 0;
++}
++
++/*
+  * If a device is behind a switch, we try to find the upstream bridge
+  * port of the switch. This requires two calls to pci_upstream_bridge:
+  * one for the upstream port on the switch, one on the upstream port
+@@ -340,6 +423,10 @@ int pci_p2pmem_add_client(struct list_head *head, struct device *dev)
+ 			ret = -EXDEV;
+ 			goto put_client;
+ 		}
++
++		ret = pci_p2pmem_disable_acs(client);
++		if (!ret)
++			goto put_client;
+ 	}
  
- #define REQ_DRV			(1ULL << __REQ_DRV)
-@@ -260,7 +276,7 @@ enum req_flag_bits {
- 	(REQ_FAILFAST_DEV | REQ_FAILFAST_TRANSPORT | REQ_FAILFAST_DRIVER)
+ 	new_item = kzalloc(sizeof(*new_item), GFP_KERNEL);
+@@ -363,6 +450,9 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_add_client);
  
- #define REQ_NOMERGE_FLAGS \
--	(REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA)
-+	(REQ_NOMERGE | REQ_PREFLUSH | REQ_FUA | REQ_PCI_P2P)
+ static void pci_p2pmem_client_free(struct pci_p2pmem_client *item)
+ {
++	if (item->p2pmem)
++		pci_p2pmem_reset_acs(item->client);
++
+ 	list_del(&item->list);
+ 	pci_dev_put(item->client);
+ 	pci_dev_put(item->p2pmem);
+@@ -383,6 +473,7 @@ void pci_p2pmem_remove_client(struct list_head *head, struct device *dev)
+ {
+ 	struct pci_p2pmem_client *pos, *tmp;
+ 	struct pci_dev *pdev;
++	struct pci_dev *p2pmem = NULL;
  
- #define bio_op(bio) \
- 	((bio)->bi_opf & REQ_OP_MASK)
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 0ce8a372d506..877b71dd1122 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -651,6 +651,7 @@ struct request_queue {
- #define QUEUE_FLAG_SCSI_PASSTHROUGH 27	/* queue supports SCSI commands */
- #define QUEUE_FLAG_QUIESCED    28	/* queue has been quiesced */
- #define QUEUE_FLAG_PREEMPT_ONLY	29	/* only process REQ_PREEMPT requests */
-+#define QUEUE_FLAG_PCI_P2P     30	/* device supports pci p2p requests */
+ 	pdev = find_parent_pci_dev(dev);
+ 	if (!pdev)
+@@ -392,9 +483,16 @@ void pci_p2pmem_remove_client(struct list_head *head, struct device *dev)
+ 		if (pos->client != pdev)
+ 			continue;
  
- #define QUEUE_FLAG_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
- 				 (1 << QUEUE_FLAG_SAME_COMP)	|	\
-@@ -746,6 +747,7 @@ static inline void queue_flag_clear(unsigned int flag, struct request_queue *q)
- #define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
- #define blk_queue_scsi_passthrough(q)	\
- 	test_bit(QUEUE_FLAG_SCSI_PASSTHROUGH, &(q)->queue_flags)
-+#define blk_queue_pci_p2p(q)	test_bit(QUEUE_FLAG_PCI_P2P, &(q)->queue_flags)
++		if (!p2pmem)
++			p2pmem = pci_dev_get(pos->p2pmem);
++
+ 		pci_p2pmem_client_free(pos);
+ 	}
  
- #define blk_noretry_request(rq) \
- 	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
++	if (p2pmem && list_empty(head))
++		pci_p2pmem_reset_acs(p2pmem);
++
++	pci_dev_put(p2pmem);
+ 	pci_dev_put(pdev);
+ }
+ EXPORT_SYMBOL_GPL(pci_p2pmem_remove_client);
+@@ -412,6 +510,10 @@ void pci_p2pmem_client_list_free(struct list_head *head)
+ {
+ 	struct pci_p2pmem_client *pos, *tmp;
+ 
++	pos = list_first_entry_or_null(head, struct pci_p2pmem_client, list);
++	if (pos && pos->p2pmem)
++		pci_p2pmem_reset_acs(pos->p2pmem);
++
+ 	list_for_each_entry_safe(pos, tmp, head, list)
+ 		pci_p2pmem_client_free(pos);
+ }
+@@ -440,6 +542,40 @@ static bool upstream_bridges_match_list(struct pci_dev *pdev,
+ 	return ret;
+ }
+ 
++static int bind_clients(struct pci_dev *p2pmem, struct list_head *clients)
++{
++	int ret;
++	struct pci_p2pmem_client *pos, *unwind_pos;
++
++	ret = pci_p2pmem_disable_acs(p2pmem);
++	if (ret)
++		return ret;
++
++	list_for_each_entry(pos, clients, list) {
++		ret = pci_p2pmem_disable_acs(pos->client);
++		if (ret)
++			goto unwind;
++
++		pos->p2pmem = pci_dev_get(p2pmem);
++	}
++
++	return 0;
++
++unwind:
++	list_for_each_entry(unwind_pos, clients, list) {
++		if (pos == unwind_pos)
++			break;
++
++		pci_p2pmem_reset_acs(unwind_pos->client);
++		pci_dev_put(unwind_pos->p2pmem);
++		unwind_pos->p2pmem = NULL;
++	}
++
++	pci_p2pmem_reset_acs(p2pmem);
++
++	return ret;
++}
++
+ /**
+  * pci_p2pmem_find - find a p2p mem device compatible with the specified device
+  * @dev: list of device to check (NULL-terminated)
+@@ -450,11 +586,13 @@ static bool upstream_bridges_match_list(struct pci_dev *pdev,
+  *
+  * Returns a pointer to the PCI device with a reference taken (use pci_dev_put
+  * to return the reference) or NULL if no compatible device is found.
++ *
++ * The P2P ACS flags on all applicable PCI devices will be cleared and
++ * reset when the client is removed from the list.
+  */
+ struct pci_dev *pci_p2pmem_find(struct list_head *clients)
+ {
+ 	struct pci_dev *pdev = NULL;
+-	struct pci_p2pmem_client *pos;
+ 
+ 	while ((pdev = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, pdev))) {
+ 		if (!pdev->p2p || !pdev->p2p->published)
+@@ -463,8 +601,8 @@ struct pci_dev *pci_p2pmem_find(struct list_head *clients)
+ 		if (!upstream_bridges_match_list(pdev, clients))
+ 			continue;
+ 
+-		list_for_each_entry(pos, clients, list)
+-			pos->p2pmem = pdev;
++		if (bind_clients(pdev, clients))
++			continue;
+ 
+ 		return pdev;
+ 	}
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 047aea679e87..cdd4d3c3e562 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -435,6 +435,8 @@ struct pci_dev {
+ #endif
+ #ifdef CONFIG_PCI_P2P
+ 	struct pci_p2p *p2p;
++	unsigned int p2p_acs_requests;
++	u16 p2p_old_acs_flags;
+ #endif
+ 	phys_addr_t rom; /* Physical address of ROM if it's not from the BAR */
+ 	size_t romlen; /* Length of ROM if it's not from the BAR */
 -- 
 2.11.0
