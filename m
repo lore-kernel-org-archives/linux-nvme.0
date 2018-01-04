@@ -1,55 +1,66 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu,  4 Jan 2018 17:56:13 +0200
-Subject: [PATCH 1/2] nvme: Take refcount on transport module when using block
- device operations
-Message-ID: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
+Date: Thu,  4 Jan 2018 17:56:14 +0200
+Subject: [PATCH 2/2] nvme: Fix subsystem multiple controllers support check
+In-Reply-To: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
+References: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1515081374-22328-2-git-send-email-maxg@mellanox.com>
 
-From: Nitzan Carmi <nitzanc@mellanox.com>
+From: Israel Rukshin <israelr@mellanox.com>
 
-The block device is backed by the transport so we must ensure that the related
-ops driver will not be removed until all external application (e.g. LVM)
-will release the reference. Otherwise, we might end up referencing freed memory.
+There is a problem when another module (e.g. nvmet) takes
+a refcount on the nvme block device and the physical nvme drive is removed.
+In that case nvme_free_ctrl() will not be called and the controller state
+will be "deleting" or "dead" unless nvmet module releases the block device.
+Later on, the same nvme drive probes back and nvme_init_subsystem() will be
+called and fail due to duplicate subnqn (if the nvme device doesn't support
+subsystem with multiple controllers). This will cause a probe failure.
+This commit changes the check of multiple controllers support at
+nvme_init_subsystem() by not counting all the controllers at "dead" or
+"deleting" state (this is safe because controllers at this state will never
+be active again).
 
+Fixes: ab9e00cc72fa ("nvme: track subsystems")
 Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
 ---
- drivers/nvme/host/core.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 839650e..cb6b08e 100644
+index cb6b08e..f6dfdd3 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1217,16 +1217,27 @@ static int nvme_open(struct block_device *bdev, fmode_t mode)
- #ifdef CONFIG_NVME_MULTIPATH
- 	/* should never be called due to GENHD_FL_HIDDEN */
- 	if (WARN_ON_ONCE(ns->head->disk))
--		return -ENXIO;
-+		goto fail;
- #endif
- 	if (!kref_get_unless_zero(&ns->kref))
--		return -ENXIO;
-+		goto fail;
-+	if (!try_module_get(ns->ctrl->ops->module))
-+		goto fail_put_ns;
-+
- 	return 0;
-+
-+fail_put_ns:
-+	kref_put(&ns->kref, nvme_free_ns);
-+fail:
-+	return -ENXIO;
- }
+@@ -2063,6 +2063,22 @@ static ssize_t nvme_subsys_show_nqn(struct device *dev,
+ 	NULL,
+ };
  
- static void nvme_release(struct gendisk *disk, fmode_t mode)
++static int nvme_active_ctrls(struct nvme_subsystem *subsys)
++{
++	int count = 0;
++	struct nvme_ctrl *ctrl;
++
++	mutex_lock(&subsys->lock);
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		if (ctrl->state != NVME_CTRL_DELETING &&
++		    ctrl->state != NVME_CTRL_DEAD)
++			count++;
++	}
++	mutex_unlock(&subsys->lock);
++
++	return count;
++}
++
+ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
  {
--	nvme_put_ns(disk->private_data);
-+	struct nvme_ns *ns = disk->private_data;
-+
-+	module_put(ns->ctrl->ops->module);
-+	nvme_put_ns(ns);
- }
- 
- static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
+ 	struct nvme_subsystem *subsys, *found;
+@@ -2101,7 +2117,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 		 * Verify that the subsystem actually supports multiple
+ 		 * controllers, else bail out.
+ 		 */
+-		if (!(id->cmic & (1 << 1))) {
++		if (nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
+ 			dev_err(ctrl->device,
+ 				"ignoring ctrl due to duplicate subnqn (%s).\n",
+ 				found->subnqn);
 -- 
 1.8.3.1
