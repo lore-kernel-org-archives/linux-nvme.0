@@ -1,47 +1,30 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 4 Jan 2018 16:13:09 -0700
-Subject: [PATCH 02/12] pci-p2p: Add sysfs group to display p2pmem stats
-In-Reply-To: <20180104215040.GE189897@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-3-logang@deltatee.com>
- <20180104215040.GE189897@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <b83d097d-bcde-b277-6d4f-26cd7f943bbd@deltatee.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Thu, 4 Jan 2018 18:36:27 -0500
+Subject: [PATCH 0/5] Failover criteria unification
+In-Reply-To: <20180104224623.8944-1-keith.busch@intel.com>
+References: <20180104224623.8944-1-keith.busch@intel.com>
+Message-ID: <20180104233627.GA16051@redhat.com>
 
+On Thu, Jan 04 2018 at  5:46pm -0500,
+Keith Busch <keith.busch@intel.com> wrote:
 
-
-On 04/01/18 02:50 PM, Bjorn Helgaas wrote:
-> On Thu, Jan 04, 2018@12:01:27PM -0700, Logan Gunthorpe wrote:
->> Attributes display the total amount of P2P memory, the ammount available
->> and whether it is published or not.
+> The nvme native multipath provided a separate NVMe status decoder,
+> complicating maintenance as new statuses need to be accounted for. This
+> was already diverging from the generic nvme status decoder, which has
+> implications for other components that rely on accurate generic block
+> errors.
 > 
-> s/ammount/amount/ (also below)
-
-Will fix.
-
-> I wonder if "p2pdma" would be a more suggestive term?  It's not really
-> the *memory* that is peer-to-peer; the peer-to-peer part is referring
-> to *access* to the memory.
-
-I agree with Jason on this point. For now, it only describes the 
-peer-to-peer memory attributes. If we change the directory to p2pdma 
-then we'd have to add a mem prefix or something to each attribute.
-
->> @@ -82,6 +130,9 @@ static int pci_p2pmem_setup(struct pci_dev *pdev)
->>   	if (error)
->>   		goto out_pool_destroy;
->>   
->> +	if (sysfs_create_group(&pdev->dev.kobj, &p2pmem_group))
->> +		dev_warn(&pdev->dev, "failed to create p2p sysfs group\n");
+> This series unifies common code among nvme and device-mapper multipath
+> so that user experience regarding the failover fate of a command is the
+> same.
 > 
-> Not sure the warning (by itself) is worthwhile.  If we were going to
-> disable the feature if sysfs_create_group() failed, that's one thing,
-> but we aren't doing anything except generating a warning, which the
-> user can't really do anything with.  If the user is looking for the
-> sysfs file, its absence will be obvious even without the message.
+> Mike:
+> 
+> I split this up because I thought there'd be trouble merging the dm
+> mpath update with the inverted retry logic, but I think you may have
+> rebased the dm-4.16 without that patch, as I'm not seeing it in the most
+> current branch.
 
-Unfortunately, sysfs_create_group() has the warn_unused_result flag set. 
-So I need to do something with the result to squash the warning. I could 
-just assign it to an unused variable but something seemed like it needed 
-to be done and printing a warning was the easiest thing...
-
-Logan
+Right, I dropped that patch since it'd have only resulted in conflicts
+come merge time.  As such, this series can easily go through the nvme
+tree to Jens.
