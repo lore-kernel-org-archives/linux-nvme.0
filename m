@@ -1,120 +1,107 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Jan 2018 12:01:28 -0700
-Subject: [PATCH 03/12] pci-p2p: Add PCI p2pmem dma mappings to adjust the bus
- offset
+Date: Thu,  4 Jan 2018 12:01:32 -0700
+Subject: [PATCH 07/12] nvme-pci: clean up CMB initialization
 In-Reply-To: <20180104190137.7654-1-logang@deltatee.com>
 References: <20180104190137.7654-1-logang@deltatee.com>
-Message-ID: <20180104190137.7654-4-logang@deltatee.com>
+Message-ID: <20180104190137.7654-8-logang@deltatee.com>
 
-The DMA address used when mapping PCI P2P memory must be the PCI bus
-address. Thus, introduce pci_p2pmem_[un]map_sg() to map the correct
-addresses when using P2P memory.
+From: Christoph Hellwig <hch@lst.de>
 
-For this, we assume that an SGL passed to these functions contain all
-p2p memory or no p2p memory.
+Refactor the call to nvme_map_cmb, and change the conditions for probing
+for the CMB.  First remove the version check as NVMe TPs always apply
+to earlier versions of the spec as well.  Second check for the whole CMBSZ
+register for support of the CMB feature instead of just the size field
+inside of it to simplify the code a bit.
 
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/pci/p2p.c        | 43 +++++++++++++++++++++++++++++++++++++++++++
- include/linux/memremap.h |  1 +
- include/linux/pci-p2p.h  |  9 +++++++++
- 3 files changed, 53 insertions(+)
+ drivers/nvme/host/pci.c | 41 ++++++++++++++---------------------------
+ 1 file changed, 14 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/pci/p2p.c b/drivers/pci/p2p.c
-index 03330c7b5e6d..87cec87b02e3 100644
---- a/drivers/pci/p2p.c
-+++ b/drivers/pci/p2p.c
-@@ -184,6 +184,8 @@ int pci_p2pmem_add_resource(struct pci_dev *pdev, int bar, size_t size,
- 	pgmap->res.end = pgmap->res.start + size - 1;
- 	pgmap->ref = &pdev->p2p->devmap_ref;
- 	pgmap->type = MEMORY_DEVICE_PCI_P2P;
-+	pgmap->pci_p2p_bus_offset = pci_bus_address(pdev, bar) -
-+		pci_resource_start(pdev, bar);
- 
- 	addr = devm_memremap_pages(&pdev->dev, pgmap);
- 	if (IS_ERR(addr))
-@@ -598,3 +600,44 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- 	pdev->p2p->published = publish;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f5800c3c9082..58c379af6fb4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1663,21 +1663,20 @@ static ssize_t nvme_cmb_show(struct device *dev,
  }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-+
-+/*
-+ * pci_p2pmem_map_sg - map a pci p2p sg for dma
-+ * @sg:scatter list to map
-+ * @nents:elements in the scatter list
-+ *
-+ * Returns the number of sgls mapped
-+ */
-+int pci_p2pmem_map_sg(struct scatterlist *sg, int nents)
-+{
-+	struct dev_pagemap *pgmap;
-+	struct scatterlist *s;
-+	phys_addr_t paddr;
-+	int i;
-+
-+	for_each_sg(sg, s, nents, i) {
-+		pgmap = sg_page(s)->pgmap;
-+		paddr = sg_phys(s);
-+
-+		s->dma_address = paddr - pgmap->pci_p2p_bus_offset;
-+		sg_dma_len(s) = s->length;
-+	}
-+
-+	return nents;
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pmem_map_sg);
-+
-+/**
-+ * pci_p2pmem_unmap_sg - unmap a pci p2p sg for dma
-+ * @sg:scatter list to map
-+ * @nents:elements in the scatter list
-+ */
-+void pci_p2pmem_unmap_sg(struct scatterlist *sg, int nents)
-+{
-+	struct scatterlist *s;
-+	int i;
-+
-+	for_each_sg(sg, s, nents, i)
-+		dma_mark_clean(phys_to_virt(sg_phys(s)), sg_dma_len(s));
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pmem_unmap_sg);
-diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-index c17a6d167d48..a792f87b9dc3 100644
---- a/include/linux/memremap.h
-+++ b/include/linux/memremap.h
-@@ -125,6 +125,7 @@ struct dev_pagemap {
- 	struct device *dev;
- 	void *data;
- 	enum memory_type type;
-+	u64 pci_p2p_bus_offset;
- };
+ static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
  
- #ifdef CONFIG_ZONE_DEVICE
-diff --git a/include/linux/pci-p2p.h b/include/linux/pci-p2p.h
-index f811c97a5886..154c39905fc9 100644
---- a/include/linux/pci-p2p.h
-+++ b/include/linux/pci-p2p.h
-@@ -34,6 +34,8 @@ int pci_p2pmem_alloc_sgl(struct pci_dev *pdev, struct scatterlist **sgl,
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl,
- 		unsigned int nents);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
-+int pci_p2pmem_map_sg(struct scatterlist *sg, int nents);
-+void pci_p2pmem_unmap_sg(struct scatterlist *sg, int nents);
- #else /* CONFIG_PCI_P2P */
- static inline int pci_p2pmem_add_resource(struct pci_dev *pdev, int bar,
- 		size_t size, u64 offset)
-@@ -81,5 +83,12 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+-static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
++static void nvme_map_cmb(struct nvme_dev *dev)
  {
+ 	u64 szu, size, offset;
+ 	resource_size_t bar_size;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	void __iomem *cmb;
+ 	int bar;
+ 
+ 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
+-	if (!(NVME_CMB_SZ(dev->cmbsz)))
+-		return NULL;
++	if (!dev->cmbsz)
++		return;
+ 	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
+ 
+ 	if (!use_cmb_sqes)
+-		return NULL;
++		return;
+ 
+ 	szu = (u64)1 << (12 + 4 * NVME_CMB_SZU(dev->cmbsz));
+ 	size = szu * NVME_CMB_SZ(dev->cmbsz);
+@@ -1686,7 +1685,7 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 	bar_size = pci_resource_len(pdev, bar);
+ 
+ 	if (offset > bar_size)
+-		return NULL;
++		return;
+ 
+ 	/*
+ 	 * Controllers may support a CMB size larger than their BAR,
+@@ -1696,13 +1695,16 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 	if (size > bar_size - offset)
+ 		size = bar_size - offset;
+ 
+-	cmb = ioremap_wc(pci_resource_start(pdev, bar) + offset, size);
+-	if (!cmb)
+-		return NULL;
+-
++	dev->cmb = ioremap_wc(pci_resource_start(pdev, bar) + offset, size);
++	if (!dev->cmb)
++		return;
+ 	dev->cmb_bus_addr = pci_bus_address(pdev, bar) + offset;
+ 	dev->cmb_size = size;
+-	return cmb;
++
++	if (sysfs_add_file_to_group(&dev->ctrl.device->kobj,
++				    &dev_attr_cmb.attr, NULL))
++		dev_warn(dev->ctrl.device,
++			 "failed to add sysfs attribute for CMB\n");
  }
-+static inline int pci_p2pmem_map_sg(struct scatterlist *sg, int nents)
-+{
-+	return -ENODEV;
-+}
-+static inline void pci_p2pmem_unmap_sg(struct scatterlist *sg, int nents)
-+{
-+}
- #endif /* CONFIG_PCI_P2P */
- #endif /* _LINUX_PCI_P2P_H */
+ 
+ static inline void nvme_release_cmb(struct nvme_dev *dev)
+@@ -2124,22 +2126,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+                         "set queue depth=%u\n", dev->q_depth);
+ 	}
+ 
+-	/*
+-	 * CMBs can currently only exist on >=1.2 PCIe devices. We only
+-	 * populate sysfs if a CMB is implemented. Since nvme_dev_attrs_group
+-	 * has no name we can pass NULL as final argument to
+-	 * sysfs_add_file_to_group.
+-	 */
+-
+-	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2, 0)) {
+-		dev->cmb = nvme_map_cmb(dev);
+-		if (dev->cmb) {
+-			if (sysfs_add_file_to_group(&dev->ctrl.device->kobj,
+-						    &dev_attr_cmb.attr, NULL))
+-				dev_warn(dev->ctrl.device,
+-					 "failed to add sysfs attribute for CMB\n");
+-		}
+-	}
++	nvme_map_cmb(dev);
+ 
+ 	pci_enable_pcie_error_reporting(pdev);
+ 	pci_save_state(pdev);
 -- 
 2.11.0
