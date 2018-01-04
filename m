@@ -1,24 +1,57 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 4 Jan 2018 12:08:18 -0700
-Subject: [PATCH 07/12] nvme-pci: clean up CMB initialization
-In-Reply-To: <20180104190137.7654-8-logang@deltatee.com>
+Date: Thu, 4 Jan 2018 12:52:24 -0700
+Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
+ rdma_rw_ctx_[init|destroy]()
+In-Reply-To: <20180104192225.GS11348@ziepe.ca>
 References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-8-logang@deltatee.com>
-Message-ID: <078f4435-22ac-1ff7-0b91-5022e22d126e@deltatee.com>
+ <20180104190137.7654-7-logang@deltatee.com> <20180104192225.GS11348@ziepe.ca>
+Message-ID: <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
 
 
 
-On 04/01/18 12:01 PM, Logan Gunthorpe wrote:
-> From: Christoph Hellwig <hch at lst.de>
+On 04/01/18 12:22 PM, Jason Gunthorpe wrote:
+> This seems really clunky since we are going to want to do this same
+> logic all over the place.
 > 
-> Refactor the call to nvme_map_cmb, and change the conditions for probing
-> for the CMB.  First remove the version check as NVMe TPs always apply
-> to earlier versions of the spec as well.  Second check for the whole CMBSZ
-> register for support of the CMB feature instead of just the size field
-> inside of it to simplify the code a bit.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> I'd be much happier if dma_map_sg can tell the memory is P2P or not
+> from the scatterlist or dir arguments and not require the callers to
+> have this.
 
-Oops, I forgot:
+We tried things like this in an earlier iteration[1] which assumed the 
+SG was homogenous (all P2P or all regular memory). This required serious 
+ugliness to try and ensure SGs were in fact homogenous[2]. If you don't 
+assume homogenousness you need change every DMA mapping provider or have 
+a way to efficiently know if the SGL contains any P2P pages.
 
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Unfortunately, it's hard to do any of this without significant 
+improvements to the SGL code (like [3]) but I understand there's 
+significant push back against such changes at this time.
+
+> For instance adding DMA_TO_P2P_DEVICE and DMA_FROM_P2P_DEVICE, or
+> adding another bit to the page flags in scatterlist.
+
+Creating new direction flags doesn't really solve the problem you point 
+out. It'd only really work in the rdma_rw_ctx_init() case because that 
+function already takes the direction argument. It doesn't work in the 
+similar block device case because the DMA direction isn't passed through 
+the request.
+
+Though, if there's agreement to do something like that I'm not against it.
+
+> The signature of pci_p2pmem_map_sg also doesn't look very good, it
+> should mirror the usual dma_map_sg, otherwise it needs more revision
+> to extend this to do P2P through a root complex.
+
+Generally, the feedback that I get is to not make changes that try to 
+anticipate the future. It would be easy enough to add those arguments 
+when the code for going through the RC is made (which I expect will be 
+very involved anyway).
+
+Logan
+
+[1] 
+https://github.com/sbates130272/linux-p2pmem/commit/af3d3742669511c343c2c5bfbbfaccc325bee80a
+[2] 
+https://github.com/sbates130272/linux-p2pmem/commit/61ec04fa63c79dab14570ea0e97432d9325ad127
+[3] 
+https://github.com/sbates130272/linux-p2pmem/commit/d8635a4de3c674b577b95653d431fd61c2504ccd
