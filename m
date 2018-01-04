@@ -1,24 +1,21 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 03 Jan 2018 23:07:18 -0500
-Subject: [PATCH 00/11] mpt3sas: Enable scsi MQ & lockless command
- submission
-In-Reply-To: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- (Suganath Prabu S.'s message of "Thu, 21 Dec 2017 23:31:36 -0800")
-References: <1513927907-19735-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <yq1bmiaxo5l.fsf@oracle.com>
+Date: Wed, 03 Jan 2018 23:08:34 -0500
+Subject: [PATCH] mpt3sas: Proper handling of set/clear of "ATA command
+ pending" flag.
+In-Reply-To: <1514444951-9502-1-git-send-email-chaitra.basappa@broadcom.com>
+ (Chaitra P. B.'s message of "Wed, 27 Dec 2017 23:09:11 -0800")
+References: <1514444951-9502-1-git-send-email-chaitra.basappa@broadcom.com>
+Message-ID: <yq17esyxo3h.fsf@oracle.com>
 
 
-Suganath,
+Chaitra,
 
-> This patch set is initially posted by Hannes Reinecke to enable scsi
-> multiqueue for the mpt3sas driver.  While the HBA only has a single
-> mailbox register for submitting commands, it does have individual
-> receive queues per MSI-X interrupt and as such does benefit from
-> converting it to full multiqueue support.
+>  This patch fixes above two issues by setting of "ATA command pending" flag
+>  after checking for whether device deleted, invalid device handle, device
+>  busy with task management. And by setting "ATA command pending" flag to
+>  false in all of the qcmd failure return paths after setting the flag.
 
-This does not apply to 4.16/scsi-queue. Please rebase.
-
-Also, the first patch has some out-of-tree debris in it.
+Applied to 4.16/scsi-queue, thanks!
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
