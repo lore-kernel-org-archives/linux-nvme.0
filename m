@@ -1,127 +1,101 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Jan 2018 12:01:27 -0700
-Subject: [PATCH 02/12] pci-p2p: Add sysfs group to display p2pmem stats
+Date: Thu,  4 Jan 2018 12:01:35 -0700
+Subject: [PATCH 10/12] nvme-pci: Add support for P2P memory in requests
 In-Reply-To: <20180104190137.7654-1-logang@deltatee.com>
 References: <20180104190137.7654-1-logang@deltatee.com>
-Message-ID: <20180104190137.7654-3-logang@deltatee.com>
+Message-ID: <20180104190137.7654-11-logang@deltatee.com>
 
-Attributes display the total amount of P2P memory, the ammount available
-and whether it is published or not.
+For P2P requests we must use the pci_p2pmem_[un]map_sg() functions
+instead of the dma_map_sg functions.
+
+With that, we can then indicate PCI_P2P support in the request queue.
+For this, we create an NVME_F_PCI_P2P flag which tells the core to
+set QUEUE_FLAG_PCI_P2P in the request queue.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 ---
- Documentation/ABI/testing/sysfs-bus-pci | 25 ++++++++++++++++
- drivers/pci/p2p.c                       | 51 +++++++++++++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
+ drivers/nvme/host/core.c |  4 ++++
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 18 ++++++++++++++----
+ 3 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 44d4b2be92fd..7b80ea77faca 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -323,3 +323,28 @@ Description:
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1e46e60b8f10..8a7caaa5ee49 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2861,7 +2861,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns->queue = blk_mq_init_queue(ctrl->tagset);
+ 	if (IS_ERR(ns->queue))
+ 		goto out_free_ns;
++
+ 	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, ns->queue);
++	if (ctrl->ops->flags & NVME_F_PCI_P2P)
++		queue_flag_set_unlocked(QUEUE_FLAG_PCI_P2P, ns->queue);
++
+ 	ns->queue->queuedata = ns;
+ 	ns->ctrl = ctrl;
  
- 		This is similar to /sys/bus/pci/drivers_autoprobe, but
- 		affects only the VFs associated with a specific PF.
-+
-+What:		/sys/bus/pci/devices/.../p2pmem/available
-+Date:		November 2017
-+Contact:	Logan Gunthorpe <logang at deltatee.com>
-+Description:
-+		If the device has any Peer-to-Peer memory registered, this
-+	        file contains the ammount of memory that has not been
-+		allocated (in decimal).
-+
-+What:		/sys/bus/pci/devices/.../p2pmem/size
-+Date:		November 2017
-+Contact:	Logan Gunthorpe <logang at deltatee.com>
-+Description:
-+		If the device has any Peer-to-Peer memory registered, this
-+	        file contains the total ammount of memory that the device
-+		provides (in decimal).
-+
-+What:		/sys/bus/pci/devices/.../p2pmem/published
-+Date:		November 2017
-+Contact:	Logan Gunthorpe <logang at deltatee.com>
-+Description:
-+		If the device has any Peer-to-Peer memory registered, this
-+	        file contains a '1' if the memory has been published for
-+		use inside the kernel or a '0' if it is only intended
-+		for use within the driver that published it.
-diff --git a/drivers/pci/p2p.c b/drivers/pci/p2p.c
-index aa465ac9273d..03330c7b5e6d 100644
---- a/drivers/pci/p2p.c
-+++ b/drivers/pci/p2p.c
-@@ -28,6 +28,53 @@ struct pci_p2p {
- 	bool published;
- };
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ea1aa5283e8e..ae1453238250 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -286,6 +286,7 @@ struct nvme_ctrl_ops {
+ 	unsigned int flags;
+ #define NVME_F_FABRICS			(1 << 0)
+ #define NVME_F_METADATA_SUPPORTED	(1 << 1)
++#define NVME_F_PCI_P2P			(1 << 2)
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 71893babb982..29ef3fd24938 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -792,6 +792,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	enum dma_data_direction dma_dir = rq_data_dir(req) ?
+ 			DMA_TO_DEVICE : DMA_FROM_DEVICE;
+ 	blk_status_t ret = BLK_STS_IOERR;
++	int nents;
  
-+static ssize_t size_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	size_t size = 0;
-+
-+	if (pdev->p2p->pool)
-+		size = gen_pool_size(pdev->p2p->pool);
-+
-+	return snprintf(buf, PAGE_SIZE, "%zd\n", size);
-+}
-+static DEVICE_ATTR_RO(size);
-+
-+static ssize_t available_show(struct device *dev, struct device_attribute *attr,
-+			      char *buf)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	size_t avail = 0;
-+
-+	if (pdev->p2p->pool)
-+		avail = gen_pool_avail(pdev->p2p->pool);
-+
-+	return snprintf(buf, PAGE_SIZE, "%zd\n", avail);
-+}
-+static DEVICE_ATTR_RO(available);
-+
-+static ssize_t published_show(struct device *dev, struct device_attribute *attr,
-+			      char *buf)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+
-+	return snprintf(buf, PAGE_SIZE, "%d\n", pdev->p2p->published);
-+}
-+static DEVICE_ATTR_RO(published);
-+
-+static struct attribute *p2pmem_attrs[] = {
-+	&dev_attr_size.attr,
-+	&dev_attr_available.attr,
-+	&dev_attr_published.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group p2pmem_group = {
-+	.attrs = p2pmem_attrs,
-+	.name = "p2pmem",
-+};
-+
- static void pci_p2pmem_percpu_release(struct percpu_ref *ref)
- {
- 	struct pci_p2p *p2p =
-@@ -54,6 +101,7 @@ static void pci_p2pmem_release(void *data)
- 	percpu_ref_exit(&pdev->p2p->devmap_ref);
+ 	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
+ 	iod->nents = blk_rq_map_sg(q, req, iod->sg);
+@@ -799,8 +800,13 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out;
  
- 	gen_pool_destroy(pdev->p2p->pool);
-+	sysfs_remove_group(&pdev->dev.kobj, &p2pmem_group);
- 	pdev->p2p = NULL;
- }
- 
-@@ -82,6 +130,9 @@ static int pci_p2pmem_setup(struct pci_dev *pdev)
- 	if (error)
- 		goto out_pool_destroy;
- 
-+	if (sysfs_create_group(&pdev->dev.kobj, &p2pmem_group))
-+		dev_warn(&pdev->dev, "failed to create p2p sysfs group\n");
+ 	ret = BLK_STS_RESOURCE;
+-	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
+-				DMA_ATTR_NO_WARN))
 +
- 	pdev->p2p = p2p;
++	if (REQ_IS_PCI_P2P(req))
++		nents = pci_p2pmem_map_sg(iod->sg, iod->nents);
++	else
++		nents = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
++					 dma_dir, DMA_ATTR_NO_WARN);
++	if (!nents)
+ 		goto out;
  
- 	return 0;
+ 	if (nvme_pci_use_sgls(dev, req))
+@@ -844,7 +850,11 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ 			DMA_TO_DEVICE : DMA_FROM_DEVICE;
+ 
+ 	if (iod->nents) {
+-		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
++		if (REQ_IS_PCI_P2P(req))
++			pci_p2pmem_unmap_sg(iod->sg, iod->nents);
++		else
++			dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
++
+ 		if (blk_integrity_rq(req)) {
+ 			if (req_op(req) == REQ_OP_READ)
+ 				nvme_dif_remap(req, nvme_dif_complete);
+@@ -2417,7 +2427,7 @@ static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.name			= "pcie",
+ 	.module			= THIS_MODULE,
+-	.flags			= NVME_F_METADATA_SUPPORTED,
++	.flags			= NVME_F_METADATA_SUPPORTED | NVME_F_PCI_P2P,
+ 	.reg_read32		= nvme_pci_reg_read32,
+ 	.reg_write32		= nvme_pci_reg_write32,
+ 	.reg_read64		= nvme_pci_reg_read64,
 -- 
 2.11.0
