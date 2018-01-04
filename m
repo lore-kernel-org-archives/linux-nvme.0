@@ -1,10 +1,10 @@
 From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 4 Jan 2018 18:44:37 -0500
-Subject: [PATCH 4/5] nvme/multipath: Use blk_retryable
-In-Reply-To: <20180104224623.8944-5-keith.busch@intel.com>
+Date: Thu, 4 Jan 2018 18:45:29 -0500
+Subject: [PATCH 5/5] dm mpath: Use blk_retryable
+In-Reply-To: <20180104224623.8944-6-keith.busch@intel.com>
 References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-5-keith.busch@intel.com>
-Message-ID: <20180104234436.GE16051@redhat.com>
+ <20180104224623.8944-6-keith.busch@intel.com>
+Message-ID: <20180104234529.GF16051@redhat.com>
 
 On Thu, Jan 04 2018 at  5:46pm -0500,
 Keith Busch <keith.busch@intel.com> wrote:
