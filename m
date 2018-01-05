@@ -1,34 +1,44 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 5 Jan 2018 11:14:38 -0700
+Date: Fri, 5 Jan 2018 11:19:28 -0700
 Subject: [PATCH 09/12] nvme-pci: Use PCI p2pmem subsystem to manage the CMB
-In-Reply-To: <281272464.115248600.1515166226009.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <20180105181152.GA10657@localhost.localdomain>
 References: <20180104190137.7654-1-logang@deltatee.com>
  <20180104190137.7654-10-logang@deltatee.com>
- <281272464.115248600.1515166226009.JavaMail.zimbra@kalray.eu>
-Message-ID: <a284e33f-c10d-0540-cd24-ad1993a042b6@deltatee.com>
+ <20180105181152.GA10657@localhost.localdomain>
+Message-ID: <6c89e4b4-1854-c251-a5ec-7e54bc8085fc@deltatee.com>
 
 
 
-On 05/01/18 08:30 AM, Marta Rybczynska wrote:
->> @@ -429,10 +429,7 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
->> {
->> 	u16 tail = nvmeq->sq_tail;
+On 05/01/18 11:11 AM, Keith Busch wrote:
+> On Thu, Jan 04, 2018@12:01:34PM -0700, Logan Gunthorpe wrote:
+>> Register the CMB buffer as p2pmem and use the appropriate allocation
+>> functions to create and destroy the IO SQ.
 >>
->> -	if (nvmeq->sq_cmds_io)
->> -		memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
->> -	else
->> -		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
->> +	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
->>
+>> If the CMB supports WDS and RDS, publish it for use as p2p memory
+>> by other devices.
 > 
-> Why is it always memcpy() and not memcpy_toio()? I'd expect something like
-> if (nvmeq->sq_cmds_is_io)
-> 	memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
-> else
-> 	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+> <>
+> 
+>> +	if (qid && dev->cmb_use_sqes) {
+>> +		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
+> 
+>> +		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
+>> +							    nvmeq->sq_cmds);
+>> +		nvmeq->sq_cmds_is_io = true;
+>> +	}
+> 
+> This gets into some spec type trouble for creating an IO submission
+> queue. We use the sq_dma_addr as the PRP entry to the Create I/O
+> SQ command, which has some requirements:
+> 
+>    "the PRP Entry shall have an offset of 0h."
+> 
+> So this has to be 4k aligned, but pci_alloc_p2pmem doesn't guarantee
+> that. I doubt the spec's intention was to require such alignment for
+> CMB SQs, but there may be controllers enforcing the rule as written.
 
-We're going on the assumption that memory mapped with 
-devm_memremap_pages() can be treated as regular memory. So memcpy_toio 
-is not necessary for P2P memory.
+Although it is not explicitly stated anywhere, pci_alloc_p2pmem() should 
+always be at least 4k aligned. This is because the gen_pool that 
+implements it is created with PAGE_SHIFT for its min_alloc_order.
 
 Logan
