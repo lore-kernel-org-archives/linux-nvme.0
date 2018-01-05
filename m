@@ -1,28 +1,33 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 4 Jan 2018 19:07:44 -0500
-Subject: [PATCH 0/5] Failover criteria unification
-In-Reply-To: <20180104234727.GA15654@localhost.localdomain>
-References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104233627.GA16051@redhat.com>
- <20180104234727.GA15654@localhost.localdomain>
-Message-ID: <20180105000744.GG16051@redhat.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 4 Jan 2018 17:20:19 -0700
+Subject: [PATCH 01/12] pci-p2p: Support peer to peer memory
+In-Reply-To: <20180104215941.GG189897@bhelgaas-glaptop.roam.corp.google.com>
+References: <20180104190137.7654-1-logang@deltatee.com>
+ <20180104190137.7654-2-logang@deltatee.com>
+ <20180104215941.GG189897@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <debc98f9-9c31-26a8-08e2-a2e31fc25e34@deltatee.com>
 
-On Thu, Jan 04 2018 at  6:47pm -0500,
-Keith Busch <keith.busch@intel.com> wrote:
 
-> On Thu, Jan 04, 2018@06:36:27PM -0500, Mike Snitzer wrote:
-> > Right, I dropped that patch since it'd have only resulted in conflicts
-> > come merge time.  As such, this series can easily go through the nvme
-> > tree to Jens.
+
+On 04/01/18 02:59 PM, Bjorn Helgaas wrote:
+> On Thu, Jan 04, 2018@12:01:26PM -0700, Logan Gunthorpe wrote:
+>> Some PCI devices may have memory mapped in a BAR space that's
+>> intended for use in Peer-to-Peer transactions. In order to enable
+>> such transactions the memory must be registered with ZONE_DEVICE pages
+>> so it can be used by DMA interfaces in existing drivers.
+>> ...
 > 
-> It looks like you can also touch up dm to allow it to multipath nvme
-> even if CONFIG_NVME_MULTIPATH is set. It may be useful since native NVMe
-> doesn't multipath namespaces across subsystems, and some crack smoking
-> people want to create something that requires that.
+>> + * pci_p2pmem_alloc_sgl - allocate p2p memory in an sgl
+>> + * @pdev:	the device to allocate memory from
+>> + * @sgl:	the allocated sgl
+>> + * @nents:      the number of sgs in the list
+>> + * @length:     number of bytes to allocate
+> 
+> Your later patches use "SGL" in English text.  If that's the conventional
+> capitalization, please use it here, too.
+> 
 
-I had a "CONFIG_NVME_MULITIPATH=Y" typo in the dm-mpath.c commit that
-added the CONFIG_NVME_MULTIPATH mutual exclussion in dm-4.16; so I
-just dropped it via rebase.
+I'm not sure there is a convention. scatterlist.h uses 'sglist' and 
+'scatterlist' so I'll just change my comments to use the latter.
 
-So now the underlying nvme devices (already multipath'd by NVMe) should
-be discoverable by multipathd.  Who am I to judge crack smokers?
+Logan
