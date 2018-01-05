@@ -1,29 +1,29 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 5 Jan 2018 09:39:48 -0700
-Subject: BUG: NULL pointer at IP: blk_mq_map_swqueue+0xbc/0x200 on
- 4.15.0-rc2
-In-Reply-To: <20171212091658.GA8529@ming.t460p>
-References: <799322399.34367785.1512659684033.JavaMail.zimbra@redhat.com>
- <1443577037.35143768.1512717869183.JavaMail.zimbra@redhat.com>
- <20171211035844.GB22819@ming.t460p> <20171212083502.GA10646@infradead.org>
- <20171212091658.GA8529@ming.t460p>
-Message-ID: <6769265a-4dc0-2f23-a65d-17bde591c483@kernel.dk>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 5 Jan 2018 10:10:51 -0700
+Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
+In-Reply-To: <20180104203300.79487c98@w520.home>
+References: <20180104190137.7654-1-logang@deltatee.com>
+ <20180104190137.7654-5-logang@deltatee.com>
+ <20180104215721.GF189897@bhelgaas-glaptop.roam.corp.google.com>
+ <20180104153551.3118f71b@t450s.home>
+ <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
+ <20180104203300.79487c98@w520.home>
+Message-ID: <77ec7893-6ff5-ebdf-163d-fc4e02077cc2@deltatee.com>
 
-On 12/12/17 2:16 AM, Ming Lei wrote:
-> On Tue, Dec 12, 2017@12:35:02AM -0800, Christoph Hellwig wrote:
->> On Mon, Dec 11, 2017@11:58:45AM +0800, Ming Lei wrote:
->>> As we talked offline, this IP points to cpumask_set_cpu(), seems this
->>> case may happen when one CPU isn't mapped to any hw queue, could you test
->>> the following patch to see if it helps your issue?
->>
->> This looks odd as mq_map should be pre-zeroed.  If it isn't we have
->> a few more problems..
-> 
-> This happens in case of updating nr_hw_queue, for example, when the
-> number becomes 5 from 12, then the table has to be zeroed for avoiding
-> obsolete mapping if one CPU isn't mapped to any hw queue.
 
-Do you have a proper complete patch for this?
 
--- 
-Jens Axboe
+On 04/01/18 08:33 PM, Alex Williamson wrote:
+> That's exactly what IOMMU groups represent, the smallest set of devices
+> which have DMA isolation from other devices.  By poking this hole, the
+> IOMMU group is invalid.  We cannot turn off ACS only for a specific
+> device, in order to enable p2p it needs to be disabled at every
+> downstream port between the devices where we want to enable p2p.
+> Depending on the topology, that could mean we're also enabling p2p for
+> unrelated devices.  Those unrelated devices might be in active use and
+> the p2p IOVAs now have a different destination which is no longer IOMMU
+> translated.
+
+Oh, so IOMMU groups are created based on the existing hierarchy at boot 
+time and not based on the user's needs for isolation?
+
+Logan
