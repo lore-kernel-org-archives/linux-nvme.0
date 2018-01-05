@@ -1,53 +1,78 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 5 Jan 2018 11:44:38 +0800
-Subject: [PATCH V2] nvme-pci: fix NULL pointer reference in nvme_alloc_ns
-In-Reply-To: <20180104102033.GA4834@lst.de>
-References: <1515112799-1678-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180104102033.GA4834@lst.de>
-Message-ID: <29e565f1-95a7-96f3-6681-78af691c633c@oracle.com>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Thu, 4 Jan 2018 21:50:31 -0700
+Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
+ rdma_rw_ctx_[init|destroy]()
+In-Reply-To: <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
+References: <20180104190137.7654-1-logang@deltatee.com>
+ <20180104190137.7654-7-logang@deltatee.com>
+ <20180104192225.GS11348@ziepe.ca>
+ <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
+ <20180104221337.GV11348@ziepe.ca>
+ <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
+Message-ID: <20180105045031.GX11348@ziepe.ca>
 
-Hi Christoph 
+On Thu, Jan 04, 2018@04:44:00PM -0700, Logan Gunthorpe wrote:
+> On 04/01/18 03:13 PM, Jason Gunthorpe wrote:
+> >On Thu, Jan 04, 2018@12:52:24PM -0700, Logan Gunthorpe wrote:
+> >>We tried things like this in an earlier iteration[1] which assumed the SG
+> >>was homogenous (all P2P or all regular memory). This required serious
+> >>ugliness to try and ensure SGs were in fact homogenous[2].
+> >
+> >I'm confused, these patches already assume the sg is homogenous,
+> >right? Sure looks that way. So [2] is just debugging??
+> 
+> Yes, but it's a bit different to expect that someone calling
+> pci_p2pmem_map_sg() will know what they're doing and provide a homogenous
+> SG. It is relatively clear by convention that the entire SG must be
+> homogenous given they're calling a pci_p2pmem function. Where as, allowing
+> P2P SGs into the core DMA code means all we can do is hope that future
+> developers don't screw it up and allow P2P pages to mix in with regular
+> pages.
 
-Many thanks for your kindly response.
+Well that argument applies equally to the RDMA RW API wrappers around
+the DMA API. I think it is fine if sgl are defined to only have P2P or
+not, and that debugging support seemed reasonable to me..
 
-On 01/04/2018 06:20 PM, Christoph Hellwig wrote:
-> This looks generally fine to me, ut a few nitpicks below:
-> 
->>  - Based on Sagi's suggestion, add new state NVME_CTRL_ADMIN_LIVE.
-> 
-> Maybe call this NVME_CTRL_ADMIN_ONLY ?
-Sound more in line with the new state. Use it in next version.
-> 
->> -	if (ctrl->state != NVME_CTRL_LIVE)
->> +	if ((ctrl->state != NVME_CTRL_LIVE) &&
->> +		(ctrl->state != NVME_CTRL_ADMIN_LIVE))
-> 
-> No need for the inner braces, and odd indentation.  Also in general
-> I'm tempted to just use switch statements for things like this, e.g.
-> 
-> 	switch (ctrl->state) {
-> 	case NVME_CTRL_ADMIN_LIVE:
-> 	case NVME_CTRL_LIVE:
-> 		break;
-> 	default:
-> 		return -EWOULDBLOCK;
-> 	}
-> 
-Yes, it looks clearer and more readable. Use it in next version
->> @@ -3074,6 +3087,8 @@ static void nvme_scan_work(struct work_struct *work)
->>  	if (ctrl->state != NVME_CTRL_LIVE)
->>  		return;
->>  
->> +	BUG_ON(!ctrl->tagset);
-> 
-> WARN_ON_ONCE() please.
-Yes, use it in next version
-> 
->> +	bool only_adminq = false;
-> 
-> How about a new_state variable instead that holds the new state value?
-> 
-Yes, it is more reasonable. Use it next version.
+> It's also very difficult to add similar functionality to dma_map_page seeing
+> dma_unmap_page won't have any way to know what it's dealing with. It just
+> seems confusing to support P2P in the SG version and not the page version.
 
-Thanks
-Jianchao
+Well, this proposal is to support P2P in only some RDMA APIs and not
+others, so it seems about as confusing to me..
+
+> >Then we don't need to patch RDMA because RDMA is not special when it
+> >comes to P2P. P2P should work with everything.
+> 
+> Yes, I agree this would be very nice.
+
+Well, it is more than very nice. We have to keep RDMA working after
+all, and if you make it even more special things become harder for us.
+
+It is already the case that DMA in RDMA is very strange. We have
+drivers that provide their own DMA ops, for instance.
+
+And on that topic, does this scheme work with HFI?
+
+On first glance, it looks like no. The PCI device the HFI device is
+attached to may be able to do P2P, so it should be able to trigger the
+support.
+
+However, substituting the p2p_dma_map for the real device op dma_map
+will cause a kernel crash when working with HFI. HFI uses a custom DMA
+ops that returns CPU addreses in the dma_addr_t which the driver
+handles in various special ways. One cannot just replace them with PCI
+bus addresses.
+
+So, this kinda looks to me like it causes bad breakage for some RDMA
+drivers??
+
+This is why P2P must fit in to the common DMA framework somehow, we
+rely on these abstractions to work properly and fully in RDMA.
+
+I think you should consider pushing this directly into the dma_ops
+implementations. Add a p2p_supported flag to struct dma_map_ops, and
+only if it is true can a caller pass a homogeneous SGL to ops->map_sg.
+Only map_sg would be supported for P2P. Upgraded implementations can
+call the helper function.
+
+Jason
