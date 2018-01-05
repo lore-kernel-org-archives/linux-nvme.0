@@ -1,87 +1,195 @@
-From: jglisse@redhat.com (Jerome Glisse)
-Date: Fri, 5 Jan 2018 01:47:01 -0500
-Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
-In-Reply-To: <20180104203300.79487c98@w520.home>
-References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-5-logang@deltatee.com>
- <20180104215721.GF189897@bhelgaas-glaptop.roam.corp.google.com>
- <20180104153551.3118f71b@t450s.home>
- <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
- <20180104203300.79487c98@w520.home>
-Message-ID: <20180105064547.GA3212@redhat.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Sat,  6 Jan 2018 07:33:35 +0800
+Subject: [PATCH V3] nvme-pci: fix NULL pointer reference in nvme_alloc_ns
+Message-ID: <1515195215-8913-1-git-send-email-jianchao.w.wang@oracle.com>
 
-On Thu, Jan 04, 2018@08:33:00PM -0700, Alex Williamson wrote:
-> On Thu, 4 Jan 2018 17:00:47 -0700
-> Logan Gunthorpe <logang@deltatee.com> wrote:
-> 
-> > On 04/01/18 03:35 PM, Alex Williamson wrote:
-> > > Yep, flipping these ACS bits invalidates any IOMMU groups that depend
-> > > on the isolation of that downstream port and I suspect also any peers
-> > > within the same PCI slot of that port and their downstream devices.  The
-> > > entire sub-hierarchy grouping needs to be re-evaluated.  This
-> > > potentially affects running devices that depend on that isolation, so
-> > > I'm not sure how that happens dynamically.  A boot option might be
-> > > easier.  Thanks,  
-> > 
-> > I don't see how this is the case in current kernel code. It appears to 
-> > only enable ACS globally if the IOMMU requests it.
-> 
-> IOMMU groups don't exist unless the IOMMU is enabled and x86 and ARM
-> both request ACS be enabled if an IOMMU is present, so I'm not sure
-> what you're getting at here.  Also, in reply to your other email, if
-> the IOMMU is enabled, every device handled by the IOMMU is a member of
-> an IOMMU group, see struct device.iommu_group.  There's an
-> iommu_group_get() accessor to get a reference to it.
->  
-> > I also don't see how turning off ACS isolation for a specific device is 
-> > going to hurt anything. The IOMMU should still be able to keep going on 
-> > unaware that anything has changed. The only worry is that a security 
-> > hole may now be created if a user was relying on the isolation between 
-> > two devices that are in different VMs or something. However, if a user 
-> > was relying on this, they probably shouldn't have turned on P2P in the 
-> > first place.
-> 
-> That's exactly what IOMMU groups represent, the smallest set of devices
-> which have DMA isolation from other devices.  By poking this hole, the
-> IOMMU group is invalid.  We cannot turn off ACS only for a specific
-> device, in order to enable p2p it needs to be disabled at every
-> downstream port between the devices where we want to enable p2p.
-> Depending on the topology, that could mean we're also enabling p2p for
-> unrelated devices.  Those unrelated devices might be in active use and
-> the p2p IOVAs now have a different destination which is no longer IOMMU
-> translated.
->  
-> > We started with a fairly unintelligent choice to simply disable ACS on 
-> > any kernel that had CONFIG_PCI_P2P set. However, this did not seem like 
-> > a good idea going forward. Instead, we now selectively disable the ACS 
-> > bit only on the downstream ports that are involved in P2P transactions. 
-> > This seems like the safest choice and still allows people to (carefully) 
-> > use P2P adjacent to other devices that need to be isolated.
-> 
-> I don't see that the code is doing much checking that adjacent devices
-> are also affected by the p2p change and of course the IOMMU group is
-> entirely invalid once the p2p holes start getting poked.
-> 
-> > I don't think anyone wants another boot option that must be set in order 
-> > to use this functionality (and only some hardware would require this). 
-> > That's just a huge pain for users.
-> 
-> No, but nor do we need IOMMU groups that no longer represent what
-> they're intended to describe or runtime, unchecked routing changes
-> through the topology for devices that might already be using
-> conflicting IOVA ranges.  Maybe soft hotplugs are another possibility,
-> designate a sub-hierarchy to be removed and re-scanned with ACS
-> disabled.  Otherwise it seems like disabling and re-enabling ACS needs
-> to also handle merging and splitting groups dynamically.  Thanks,
-> 
+When the io queues setup or tagset allocation failed, ctrl.tagset
+is NULL. But the scan work will still be queued and executed, then
+panic comes up due to NULL pointer reference of ctrl.tagset.
 
-Dumb question, can we use a PCI bar address of one device into the
-IOMMU page table of another address ie like we would DMA map a
-regular system page ?
+To fix this, add a new ctrl state NVME_CTRL_ADMIN_ONLY to inidcate
+only admin queue is live. When non io queues or tagset allocation
+failed, ctrl enters into this state, scan work will not be started.
+But async event work and nvme dev ioctl will be still available.
+This will be helpful to do further investigation and recovery.
 
-It would be much better in my view to follow down such path if that
-is at all possible from hardware point of view (i am not sure where
-to dig in the specification to answer my above question).
+V3:
+ - s/NVME_CTRL_ADMIN_LIVE/NVME_CTRL_ADMIN_ONLY/
+ - s/BUG_ON/WARN_ON_ONCE/
+ - Other misc code changes
+V2:
+ - Based on Sagi's suggestion, add new state NVME_CTRL_ADMIN_LIVE.
+ - Change patch name and comment.
 
-Cheers,
-J?r?me
+Suggested-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/core.c | 25 ++++++++++++++++++++++---
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 30 +++++++++++++++++++++---------
+ 3 files changed, 44 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1e46e60..a614cd7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -232,6 +232,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 
+ 	old_state = ctrl->state;
+ 	switch (new_state) {
++	case NVME_CTRL_ADMIN_ONLY:
++		switch (old_state) {
++		case NVME_CTRL_RESETTING:
++			changed = true;
++			/* FALLTHRU */
++		default:
++			break;
++		}
++		break;
+ 	case NVME_CTRL_LIVE:
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+@@ -247,6 +256,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_LIVE:
++		case NVME_CTRL_ADMIN_ONLY:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+@@ -266,6 +276,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 	case NVME_CTRL_DELETING:
+ 		switch (old_state) {
+ 		case NVME_CTRL_LIVE:
++		case NVME_CTRL_ADMIN_ONLY:
+ 		case NVME_CTRL_RESETTING:
+ 		case NVME_CTRL_RECONNECTING:
+ 			changed = true;
+@@ -2337,8 +2348,14 @@ static int nvme_dev_open(struct inode *inode, struct file *file)
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(inode->i_cdev, struct nvme_ctrl, cdev);
+ 
+-	if (ctrl->state != NVME_CTRL_LIVE)
++	switch(ctrl->state) {
++	case NVME_CTRL_LIVE:
++	case NVME_CTRL_ADMIN_ONLY:
++		break;
++	default:
+ 		return -EWOULDBLOCK;
++	}
++
+ 	file->private_data = ctrl;
+ 	return 0;
+ }
+@@ -2602,6 +2619,7 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
+ 	static const char *const state_name[] = {
+ 		[NVME_CTRL_NEW]		= "new",
+ 		[NVME_CTRL_LIVE]	= "live",
++		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
+ 		[NVME_CTRL_RESETTING]	= "resetting",
+ 		[NVME_CTRL_RECONNECTING]= "reconnecting",
+ 		[NVME_CTRL_DELETING]	= "deleting",
+@@ -3074,6 +3092,8 @@ static void nvme_scan_work(struct work_struct *work)
+ 	if (ctrl->state != NVME_CTRL_LIVE)
+ 		return;
+ 
++	WARN_ON_ONCE(!ctrl->tagset);
++
+ 	if (nvme_identify_ctrl(ctrl, &id))
+ 		return;
+ 
+@@ -3094,8 +3114,7 @@ static void nvme_scan_work(struct work_struct *work)
+ void nvme_queue_scan(struct nvme_ctrl *ctrl)
+ {
+ 	/*
+-	 * Do not queue new scan work when a controller is reset during
+-	 * removal.
++	 * Only new queue scan work when admin and IO queues are both alive
+ 	 */
+ 	if (ctrl->state == NVME_CTRL_LIVE)
+ 		queue_work(nvme_wq, &ctrl->scan_work);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ea1aa52..eecf71c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -119,6 +119,7 @@ static inline struct nvme_request *nvme_req(struct request *req)
+ enum nvme_ctrl_state {
+ 	NVME_CTRL_NEW,
+ 	NVME_CTRL_LIVE,
++	NVME_CTRL_ADMIN_ONLY,    /* Only admin queue live */
+ 	NVME_CTRL_RESETTING,
+ 	NVME_CTRL_RECONNECTING,
+ 	NVME_CTRL_DELETING,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f5800c3..e758c5a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2035,13 +2035,12 @@ static void nvme_disable_io_queues(struct nvme_dev *dev, int queues)
+ }
+ 
+ /*
+- * Return: error value if an error occurred setting up the queues or calling
+- * Identify Device.  0 if these succeeded, even if adding some of the
+- * namespaces failed.  At the moment, these failures are silent.  TBD which
+- * failures should be reported.
++ * return error value only when tagset allocation failed
+  */
+ static int nvme_dev_add(struct nvme_dev *dev)
+ {
++	int ret;
++
+ 	if (!dev->ctrl.tagset) {
+ 		dev->tagset.ops = &nvme_mq_ops;
+ 		dev->tagset.nr_hw_queues = dev->online_queues - 1;
+@@ -2057,8 +2056,12 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+ 		dev->tagset.driver_data = dev;
+ 
+-		if (blk_mq_alloc_tag_set(&dev->tagset))
+-			return 0;
++		ret = blk_mq_alloc_tag_set(&dev->tagset);
++		if (ret) {
++			dev_warn(dev->ctrl.device,
++				"IO queues tagset allocation failed %d\n", ret);
++			return ret;
++		}
+ 		dev->ctrl.tagset = &dev->tagset;
+ 
+ 		nvme_dbbuf_set(dev);
+@@ -2291,6 +2294,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+ 	int result = -ENODEV;
++	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+ 
+ 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+ 		goto out;
+@@ -2354,15 +2358,23 @@ static void nvme_reset_work(struct work_struct *work)
+ 		dev_warn(dev->ctrl.device, "IO queues not created\n");
+ 		nvme_kill_queues(&dev->ctrl);
+ 		nvme_remove_namespaces(&dev->ctrl);
++		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+ 		nvme_start_queues(&dev->ctrl);
+ 		nvme_wait_freeze(&dev->ctrl);
+-		nvme_dev_add(dev);
++		/* hit this only when allocate tagset fails */
++		if (nvme_dev_add(dev))
++			new_state = NVME_CTRL_ADMIN_ONLY;
+ 		nvme_unfreeze(&dev->ctrl);
+ 	}
+ 
+-	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
+-		dev_warn(dev->ctrl.device, "failed to mark controller live\n");
++	/*
++	 * If only admin queue live, keep it to do further investigation or
++	 * recovery.
++	 */
++	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
++		dev_warn(dev->ctrl.device,
++			"failed to mark controller state %d\n", new_state);
+ 		goto out;
+ 	}
+ 
+-- 
+2.7.4
