@@ -1,108 +1,178 @@
 From: bart.vanassche@wdc.com (Bart Van Assche)
-Date: Fri,  5 Jan 2018 08:26:47 -0800
-Subject: [PATCH v4 2/5] crypto: scompress - use sgl_alloc() and sgl_free()
+Date: Fri,  5 Jan 2018 08:26:46 -0800
+Subject: [PATCH v4 1/5] lib/scatterlist: Introduce sgl_alloc() and sgl_free()
 In-Reply-To: <20180105162650.31083-1-bart.vanassche@wdc.com>
 References: <20180105162650.31083-1-bart.vanassche@wdc.com>
-Message-ID: <20180105162650.31083-3-bart.vanassche@wdc.com>
+Message-ID: <20180105162650.31083-2-bart.vanassche@wdc.com>
 
-Use the sgl_alloc() and sgl_free() functions instead of open coding
-these functions.
+Many kernel drivers contain code that allocates and frees both a
+scatterlist and the pages that populate that scatterlist.
+Introduce functions in lib/scatterlist.c that perform these tasks
+instead of duplicating this functionality in multiple drivers.
+Only include these functions in the build if CONFIG_SGL_ALLOC=y
+to avoid that the kernel size increases if this functionality is
+not used.
 
 Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
-Acked-by: Ard Biesheuvel <ard.biesheuvel at linaro.org>
-Cc: Herbert Xu <herbert at gondor.apana.org.au>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- crypto/Kconfig     |  1 +
- crypto/scompress.c | 51 ++-------------------------------------------------
- 2 files changed, 3 insertions(+), 49 deletions(-)
+ include/linux/scatterlist.h |  10 +++++
+ lib/Kconfig                 |   4 ++
+ lib/scatterlist.c           | 105 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 119 insertions(+)
 
-diff --git a/crypto/Kconfig b/crypto/Kconfig
-index f7911963bb79..20360e040425 100644
---- a/crypto/Kconfig
-+++ b/crypto/Kconfig
-@@ -106,6 +106,7 @@ config CRYPTO_KPP
- config CRYPTO_ACOMP2
- 	tristate
- 	select CRYPTO_ALGAPI2
-+	select SGL_ALLOC
+diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
+index b7c83254c566..b8a7c1d1dbe3 100644
+--- a/include/linux/scatterlist.h
++++ b/include/linux/scatterlist.h
+@@ -276,6 +276,16 @@ int sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
+ 			      unsigned int n_pages, unsigned int offset,
+ 			      unsigned long size, gfp_t gfp_mask);
  
- config CRYPTO_ACOMP
- 	tristate
-diff --git a/crypto/scompress.c b/crypto/scompress.c
-index 2075e2c4e7df..968bbcf65c94 100644
---- a/crypto/scompress.c
-+++ b/crypto/scompress.c
-@@ -140,53 +140,6 @@ static int crypto_scomp_init_tfm(struct crypto_tfm *tfm)
- 	return ret;
++#ifdef CONFIG_SGL_ALLOC
++struct scatterlist *sgl_alloc_order(unsigned long long length,
++				    unsigned int order, bool chainable,
++				    gfp_t gfp, unsigned int *nent_p);
++struct scatterlist *sgl_alloc(unsigned long long length, gfp_t gfp,
++			      unsigned int *nent_p);
++void sgl_free_order(struct scatterlist *sgl, int order);
++void sgl_free(struct scatterlist *sgl);
++#endif /* CONFIG_SGL_ALLOC */
++
+ size_t sg_copy_buffer(struct scatterlist *sgl, unsigned int nents, void *buf,
+ 		      size_t buflen, off_t skip, bool to_buffer);
+ 
+diff --git a/lib/Kconfig b/lib/Kconfig
+index c5e84fbcb30b..4dd5c11366f9 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -409,6 +409,10 @@ config HAS_DMA
+ 	depends on !NO_DMA
+ 	default y
+ 
++config SGL_ALLOC
++	bool
++	default n
++
+ config DMA_NOOP_OPS
+ 	bool
+ 	depends on HAS_DMA && (!64BIT || ARCH_DMA_ADDR_T_64BIT)
+diff --git a/lib/scatterlist.c b/lib/scatterlist.c
+index 7c1c55f7daaa..9afc9b432083 100644
+--- a/lib/scatterlist.c
++++ b/lib/scatterlist.c
+@@ -474,6 +474,111 @@ int sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
  }
+ EXPORT_SYMBOL(sg_alloc_table_from_pages);
  
--static void crypto_scomp_sg_free(struct scatterlist *sgl)
--{
--	int i, n;
--	struct page *page;
--
--	if (!sgl)
--		return;
--
--	n = sg_nents(sgl);
--	for_each_sg(sgl, sgl, n, i) {
--		page = sg_page(sgl);
--		if (page)
--			__free_page(page);
--	}
--
--	kfree(sgl);
--}
--
--static struct scatterlist *crypto_scomp_sg_alloc(size_t size, gfp_t gfp)
--{
--	struct scatterlist *sgl;
--	struct page *page;
--	int i, n;
--
--	n = ((size - 1) >> PAGE_SHIFT) + 1;
--
--	sgl = kmalloc_array(n, sizeof(struct scatterlist), gfp);
--	if (!sgl)
--		return NULL;
--
--	sg_init_table(sgl, n);
--
--	for (i = 0; i < n; i++) {
--		page = alloc_page(gfp);
--		if (!page)
--			goto err;
--		sg_set_page(sgl + i, page, PAGE_SIZE, 0);
--	}
--
--	return sgl;
--
--err:
--	sg_mark_end(sgl + i);
--	crypto_scomp_sg_free(sgl);
--	return NULL;
--}
--
- static int scomp_acomp_comp_decomp(struct acomp_req *req, int dir)
- {
- 	struct crypto_acomp *tfm = crypto_acomp_reqtfm(req);
-@@ -220,7 +173,7 @@ static int scomp_acomp_comp_decomp(struct acomp_req *req, int dir)
- 					      scratch_dst, &req->dlen, *ctx);
- 	if (!ret) {
- 		if (!req->dst) {
--			req->dst = crypto_scomp_sg_alloc(req->dlen, GFP_ATOMIC);
-+			req->dst = sgl_alloc(req->dlen, GFP_ATOMIC, NULL);
- 			if (!req->dst)
- 				goto out;
- 		}
-@@ -274,7 +227,7 @@ int crypto_init_scomp_ops_async(struct crypto_tfm *tfm)
- 
- 	crt->compress = scomp_acomp_compress;
- 	crt->decompress = scomp_acomp_decompress;
--	crt->dst_free = crypto_scomp_sg_free;
-+	crt->dst_free = sgl_free;
- 	crt->reqsize = sizeof(void *);
- 
- 	return 0;
++#ifdef CONFIG_SGL_ALLOC
++
++/**
++ * sgl_alloc_order - allocate a scatterlist and its pages
++ * @length: Length in bytes of the scatterlist. Must be at least one
++ * @order: Second argument for alloc_pages()
++ * @chainable: Whether or not to allocate an extra element in the scatterlist
++ *	for scatterlist chaining purposes
++ * @gfp: Memory allocation flags
++ * @nent_p: [out] Number of entries in the scatterlist that have pages
++ *
++ * Returns: A pointer to an initialized scatterlist or %NULL upon failure.
++ */
++struct scatterlist *sgl_alloc_order(unsigned long long length,
++				    unsigned int order, bool chainable,
++				    gfp_t gfp, unsigned int *nent_p)
++{
++	struct scatterlist *sgl, *sg;
++	struct page *page;
++	unsigned int nent, nalloc;
++	u32 elem_len;
++
++	nent = round_up(length, PAGE_SIZE << order) >> (PAGE_SHIFT + order);
++	/* Check for integer overflow */
++	if (length > (nent << (PAGE_SHIFT + order)))
++		return NULL;
++	nalloc = nent;
++	if (chainable) {
++		/* Check for integer overflow */
++		if (nalloc + 1 < nalloc)
++			return NULL;
++		nalloc++;
++	}
++	sgl = kmalloc_array(nalloc, sizeof(struct scatterlist),
++			    (gfp & ~GFP_DMA) | __GFP_ZERO);
++	if (!sgl)
++		return NULL;
++
++	sg_init_table(sgl, nent);
++	sg = sgl;
++	while (length) {
++		elem_len = min_t(u64, length, PAGE_SIZE << order);
++		page = alloc_pages(gfp, order);
++		if (!page) {
++			sgl_free(sgl);
++			return NULL;
++		}
++
++		sg_set_page(sg, page, elem_len, 0);
++		length -= elem_len;
++		sg = sg_next(sg);
++	}
++	WARN_ON_ONCE(sg);
++	if (nent_p)
++		*nent_p = nent;
++	return sgl;
++}
++EXPORT_SYMBOL(sgl_alloc_order);
++
++/**
++ * sgl_alloc - allocate a scatterlist and its pages
++ * @length: Length in bytes of the scatterlist
++ * @gfp: Memory allocation flags
++ * @nent_p: [out] Number of entries in the scatterlist
++ *
++ * Returns: A pointer to an initialized scatterlist or %NULL upon failure.
++ */
++struct scatterlist *sgl_alloc(unsigned long long length, gfp_t gfp,
++			      unsigned int *nent_p)
++{
++	return sgl_alloc_order(length, 0, false, gfp, nent_p);
++}
++EXPORT_SYMBOL(sgl_alloc);
++
++/**
++ * sgl_free_order - free a scatterlist and its pages
++ * @sgl: Scatterlist with one or more elements
++ * @order: Second argument for __free_pages()
++ */
++void sgl_free_order(struct scatterlist *sgl, int order)
++{
++	struct scatterlist *sg;
++	struct page *page;
++
++	for (sg = sgl; sg; sg = sg_next(sg)) {
++		page = sg_page(sg);
++		if (page)
++			__free_pages(page, order);
++	}
++	kfree(sgl);
++}
++EXPORT_SYMBOL(sgl_free_order);
++
++/**
++ * sgl_free - free a scatterlist and its pages
++ * @sgl: Scatterlist with one or more elements
++ */
++void sgl_free(struct scatterlist *sgl)
++{
++	sgl_free_order(sgl, 0);
++}
++EXPORT_SYMBOL(sgl_free);
++
++#endif /* CONFIG_SGL_ALLOC */
++
+ void __sg_page_iter_start(struct sg_page_iter *piter,
+ 			  struct scatterlist *sglist, unsigned int nents,
+ 			  unsigned long pgoffset)
 -- 
 2.15.1
