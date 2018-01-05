@@ -1,44 +1,28 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 4 Jan 2018 17:00:47 -0700
-Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
-In-Reply-To: <20180104153551.3118f71b@t450s.home>
-References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-5-logang@deltatee.com>
- <20180104215721.GF189897@bhelgaas-glaptop.roam.corp.google.com>
- <20180104153551.3118f71b@t450s.home>
-Message-ID: <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Thu, 4 Jan 2018 19:07:44 -0500
+Subject: [PATCH 0/5] Failover criteria unification
+In-Reply-To: <20180104234727.GA15654@localhost.localdomain>
+References: <20180104224623.8944-1-keith.busch@intel.com>
+ <20180104233627.GA16051@redhat.com>
+ <20180104234727.GA15654@localhost.localdomain>
+Message-ID: <20180105000744.GG16051@redhat.com>
 
+On Thu, Jan 04 2018 at  6:47pm -0500,
+Keith Busch <keith.busch@intel.com> wrote:
 
+> On Thu, Jan 04, 2018@06:36:27PM -0500, Mike Snitzer wrote:
+> > Right, I dropped that patch since it'd have only resulted in conflicts
+> > come merge time.  As such, this series can easily go through the nvme
+> > tree to Jens.
+> 
+> It looks like you can also touch up dm to allow it to multipath nvme
+> even if CONFIG_NVME_MULTIPATH is set. It may be useful since native NVMe
+> doesn't multipath namespaces across subsystems, and some crack smoking
+> people want to create something that requires that.
 
-On 04/01/18 03:35 PM, Alex Williamson wrote:
-> Yep, flipping these ACS bits invalidates any IOMMU groups that depend
-> on the isolation of that downstream port and I suspect also any peers
-> within the same PCI slot of that port and their downstream devices.  The
-> entire sub-hierarchy grouping needs to be re-evaluated.  This
-> potentially affects running devices that depend on that isolation, so
-> I'm not sure how that happens dynamically.  A boot option might be
-> easier.  Thanks,
+I had a "CONFIG_NVME_MULITIPATH=Y" typo in the dm-mpath.c commit that
+added the CONFIG_NVME_MULTIPATH mutual exclussion in dm-4.16; so I
+just dropped it via rebase.
 
-I don't see how this is the case in current kernel code. It appears to 
-only enable ACS globally if the IOMMU requests it.
-
-I also don't see how turning off ACS isolation for a specific device is 
-going to hurt anything. The IOMMU should still be able to keep going on 
-unaware that anything has changed. The only worry is that a security 
-hole may now be created if a user was relying on the isolation between 
-two devices that are in different VMs or something. However, if a user 
-was relying on this, they probably shouldn't have turned on P2P in the 
-first place.
-
-We started with a fairly unintelligent choice to simply disable ACS on 
-any kernel that had CONFIG_PCI_P2P set. However, this did not seem like 
-a good idea going forward. Instead, we now selectively disable the ACS 
-bit only on the downstream ports that are involved in P2P transactions. 
-This seems like the safest choice and still allows people to (carefully) 
-use P2P adjacent to other devices that need to be isolated.
-
-I don't think anyone wants another boot option that must be set in order 
-to use this functionality (and only some hardware would require this). 
-That's just a huge pain for users.
-
-Logan
+So now the underlying nvme devices (already multipath'd by NVMe) should
+be discoverable by multipathd.  Who am I to judge crack smokers?
