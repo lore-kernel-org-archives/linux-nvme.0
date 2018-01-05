@@ -1,178 +1,108 @@
 From: bart.vanassche@wdc.com (Bart Van Assche)
-Date: Fri,  5 Jan 2018 08:26:46 -0800
-Subject: [PATCH v4 1/5] lib/scatterlist: Introduce sgl_alloc() and sgl_free()
+Date: Fri,  5 Jan 2018 08:26:48 -0800
+Subject: [PATCH v4 3/5] nvmet/fc: Use sgl_alloc() and sgl_free()
 In-Reply-To: <20180105162650.31083-1-bart.vanassche@wdc.com>
 References: <20180105162650.31083-1-bart.vanassche@wdc.com>
-Message-ID: <20180105162650.31083-2-bart.vanassche@wdc.com>
+Message-ID: <20180105162650.31083-4-bart.vanassche@wdc.com>
 
-Many kernel drivers contain code that allocates and frees both a
-scatterlist and the pages that populate that scatterlist.
-Introduce functions in lib/scatterlist.c that perform these tasks
-instead of duplicating this functionality in multiple drivers.
-Only include these functions in the build if CONFIG_SGL_ALLOC=y
-to avoid that the kernel size increases if this functionality is
-not used.
+Use the sgl_alloc() and sgl_free() functions instead of open coding
+these functions.
 
 Signed-off-by: Bart Van Assche <bart.vanassche at wdc.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: James Smart <james.smart at broadcom.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
 ---
- include/linux/scatterlist.h |  10 +++++
- lib/Kconfig                 |   4 ++
- lib/scatterlist.c           | 105 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 119 insertions(+)
+ drivers/nvme/target/Kconfig |  1 +
+ drivers/nvme/target/fc.c    | 36 ++----------------------------------
+ 2 files changed, 3 insertions(+), 34 deletions(-)
 
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index b7c83254c566..b8a7c1d1dbe3 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -276,6 +276,16 @@ int sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
- 			      unsigned int n_pages, unsigned int offset,
- 			      unsigned long size, gfp_t gfp_mask);
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index 03e4ab65fe77..4d9715630e21 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -39,6 +39,7 @@ config NVME_TARGET_FC
+ 	tristate "NVMe over Fabrics FC target driver"
+ 	depends on NVME_TARGET
+ 	depends on HAS_DMA
++	select SGL_ALLOC
+ 	help
+ 	  This enables the NVMe FC target support, which allows exporting NVMe
+ 	  devices over FC.
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 5fd86039e353..840d1a39de33 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1697,31 +1697,12 @@ static int
+ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
+ {
+ 	struct scatterlist *sg;
+-	struct page *page;
+ 	unsigned int nent;
+-	u32 page_len, length;
+-	int i = 0;
  
-+#ifdef CONFIG_SGL_ALLOC
-+struct scatterlist *sgl_alloc_order(unsigned long long length,
-+				    unsigned int order, bool chainable,
-+				    gfp_t gfp, unsigned int *nent_p);
-+struct scatterlist *sgl_alloc(unsigned long long length, gfp_t gfp,
-+			      unsigned int *nent_p);
-+void sgl_free_order(struct scatterlist *sgl, int order);
-+void sgl_free(struct scatterlist *sgl);
-+#endif /* CONFIG_SGL_ALLOC */
-+
- size_t sg_copy_buffer(struct scatterlist *sgl, unsigned int nents, void *buf,
- 		      size_t buflen, off_t skip, bool to_buffer);
+-	length = fod->req.transfer_len;
+-	nent = DIV_ROUND_UP(length, PAGE_SIZE);
+-	sg = kmalloc_array(nent, sizeof(struct scatterlist), GFP_KERNEL);
++	sg = sgl_alloc(fod->req.transfer_len, GFP_KERNEL, &nent);
+ 	if (!sg)
+ 		goto out;
  
-diff --git a/lib/Kconfig b/lib/Kconfig
-index c5e84fbcb30b..4dd5c11366f9 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -409,6 +409,10 @@ config HAS_DMA
- 	depends on !NO_DMA
- 	default y
+-	sg_init_table(sg, nent);
+-
+-	while (length) {
+-		page_len = min_t(u32, length, PAGE_SIZE);
+-
+-		page = alloc_page(GFP_KERNEL);
+-		if (!page)
+-			goto out_free_pages;
+-
+-		sg_set_page(&sg[i], page, page_len, 0);
+-		length -= page_len;
+-		i++;
+-	}
+-
+ 	fod->data_sg = sg;
+ 	fod->data_sg_cnt = nent;
+ 	fod->data_sg_cnt = fc_dma_map_sg(fod->tgtport->dev, sg, nent,
+@@ -1731,14 +1712,6 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
  
-+config SGL_ALLOC
-+	bool
-+	default n
-+
- config DMA_NOOP_OPS
- 	bool
- 	depends on HAS_DMA && (!64BIT || ARCH_DMA_ADDR_T_64BIT)
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index 7c1c55f7daaa..9afc9b432083 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -474,6 +474,111 @@ int sg_alloc_table_from_pages(struct sg_table *sgt, struct page **pages,
+ 	return 0;
+ 
+-out_free_pages:
+-	while (i > 0) {
+-		i--;
+-		__free_page(sg_page(&sg[i]));
+-	}
+-	kfree(sg);
+-	fod->data_sg = NULL;
+-	fod->data_sg_cnt = 0;
+ out:
+ 	return NVME_SC_INTERNAL;
  }
- EXPORT_SYMBOL(sg_alloc_table_from_pages);
+@@ -1746,18 +1719,13 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
+ static void
+ nvmet_fc_free_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
+ {
+-	struct scatterlist *sg;
+-	int count;
+-
+ 	if (!fod->data_sg || !fod->data_sg_cnt)
+ 		return;
  
-+#ifdef CONFIG_SGL_ALLOC
-+
-+/**
-+ * sgl_alloc_order - allocate a scatterlist and its pages
-+ * @length: Length in bytes of the scatterlist. Must be at least one
-+ * @order: Second argument for alloc_pages()
-+ * @chainable: Whether or not to allocate an extra element in the scatterlist
-+ *	for scatterlist chaining purposes
-+ * @gfp: Memory allocation flags
-+ * @nent_p: [out] Number of entries in the scatterlist that have pages
-+ *
-+ * Returns: A pointer to an initialized scatterlist or %NULL upon failure.
-+ */
-+struct scatterlist *sgl_alloc_order(unsigned long long length,
-+				    unsigned int order, bool chainable,
-+				    gfp_t gfp, unsigned int *nent_p)
-+{
-+	struct scatterlist *sgl, *sg;
-+	struct page *page;
-+	unsigned int nent, nalloc;
-+	u32 elem_len;
-+
-+	nent = round_up(length, PAGE_SIZE << order) >> (PAGE_SHIFT + order);
-+	/* Check for integer overflow */
-+	if (length > (nent << (PAGE_SHIFT + order)))
-+		return NULL;
-+	nalloc = nent;
-+	if (chainable) {
-+		/* Check for integer overflow */
-+		if (nalloc + 1 < nalloc)
-+			return NULL;
-+		nalloc++;
-+	}
-+	sgl = kmalloc_array(nalloc, sizeof(struct scatterlist),
-+			    (gfp & ~GFP_DMA) | __GFP_ZERO);
-+	if (!sgl)
-+		return NULL;
-+
-+	sg_init_table(sgl, nent);
-+	sg = sgl;
-+	while (length) {
-+		elem_len = min_t(u64, length, PAGE_SIZE << order);
-+		page = alloc_pages(gfp, order);
-+		if (!page) {
-+			sgl_free(sgl);
-+			return NULL;
-+		}
-+
-+		sg_set_page(sg, page, elem_len, 0);
-+		length -= elem_len;
-+		sg = sg_next(sg);
-+	}
-+	WARN_ON_ONCE(sg);
-+	if (nent_p)
-+		*nent_p = nent;
-+	return sgl;
-+}
-+EXPORT_SYMBOL(sgl_alloc_order);
-+
-+/**
-+ * sgl_alloc - allocate a scatterlist and its pages
-+ * @length: Length in bytes of the scatterlist
-+ * @gfp: Memory allocation flags
-+ * @nent_p: [out] Number of entries in the scatterlist
-+ *
-+ * Returns: A pointer to an initialized scatterlist or %NULL upon failure.
-+ */
-+struct scatterlist *sgl_alloc(unsigned long long length, gfp_t gfp,
-+			      unsigned int *nent_p)
-+{
-+	return sgl_alloc_order(length, 0, false, gfp, nent_p);
-+}
-+EXPORT_SYMBOL(sgl_alloc);
-+
-+/**
-+ * sgl_free_order - free a scatterlist and its pages
-+ * @sgl: Scatterlist with one or more elements
-+ * @order: Second argument for __free_pages()
-+ */
-+void sgl_free_order(struct scatterlist *sgl, int order)
-+{
-+	struct scatterlist *sg;
-+	struct page *page;
-+
-+	for (sg = sgl; sg; sg = sg_next(sg)) {
-+		page = sg_page(sg);
-+		if (page)
-+			__free_pages(page, order);
-+	}
-+	kfree(sgl);
-+}
-+EXPORT_SYMBOL(sgl_free_order);
-+
-+/**
-+ * sgl_free - free a scatterlist and its pages
-+ * @sgl: Scatterlist with one or more elements
-+ */
-+void sgl_free(struct scatterlist *sgl)
-+{
-+	sgl_free_order(sgl, 0);
-+}
-+EXPORT_SYMBOL(sgl_free);
-+
-+#endif /* CONFIG_SGL_ALLOC */
-+
- void __sg_page_iter_start(struct sg_page_iter *piter,
- 			  struct scatterlist *sglist, unsigned int nents,
- 			  unsigned long pgoffset)
+ 	fc_dma_unmap_sg(fod->tgtport->dev, fod->data_sg, fod->data_sg_cnt,
+ 				((fod->io_dir == NVMET_FCP_WRITE) ?
+ 					DMA_FROM_DEVICE : DMA_TO_DEVICE));
+-	for_each_sg(fod->data_sg, sg, fod->data_sg_cnt, count)
+-		__free_page(sg_page(sg));
+-	kfree(fod->data_sg);
++	sgl_free(fod->data_sg);
+ 	fod->data_sg = NULL;
+ 	fod->data_sg_cnt = 0;
+ }
 -- 
 2.15.1
