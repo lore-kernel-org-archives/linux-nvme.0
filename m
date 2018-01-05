@@ -1,35 +1,27 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Fri, 5 Jan 2018 10:18:15 -0700
-Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
-In-Reply-To: <77ec7893-6ff5-ebdf-163d-fc4e02077cc2@deltatee.com>
-References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-5-logang@deltatee.com>
- <20180104215721.GF189897@bhelgaas-glaptop.roam.corp.google.com>
- <20180104153551.3118f71b@t450s.home>
- <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
- <20180104203300.79487c98@w520.home>
- <77ec7893-6ff5-ebdf-163d-fc4e02077cc2@deltatee.com>
-Message-ID: <20180105101815.0fcbc142@t450s.home>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 5 Jan 2018 10:41:06 -0700
+Subject: [GIT PULL] nvme fixes for Linux 4.15
+In-Reply-To: <20180105171502.tacdqy5kh3knh4hg@infradead.org>
+References: <20180105171502.tacdqy5kh3knh4hg@infradead.org>
+Message-ID: <ef7ba239-5d28-9cf7-3212-1aab79a76cb0@kernel.dk>
 
-On Fri, 5 Jan 2018 10:10:51 -0700
-Logan Gunthorpe <logang@deltatee.com> wrote:
-
-> On 04/01/18 08:33 PM, Alex Williamson wrote:
-> > That's exactly what IOMMU groups represent, the smallest set of devices
-> > which have DMA isolation from other devices.  By poking this hole, the
-> > IOMMU group is invalid.  We cannot turn off ACS only for a specific
-> > device, in order to enable p2p it needs to be disabled at every
-> > downstream port between the devices where we want to enable p2p.
-> > Depending on the topology, that could mean we're also enabling p2p for
-> > unrelated devices.  Those unrelated devices might be in active use and
-> > the p2p IOVAs now have a different destination which is no longer IOMMU
-> > translated.  
+On 1/5/18 10:15 AM, Christoph Hellwig wrote:
+> Hi Jens,
 > 
-> Oh, so IOMMU groups are created based on the existing hierarchy at boot 
-> time and not based on the user's needs for isolation?
+> I have a few more small nvme fixes for you for Linux 4.15:
+> 
+> The following changes since commit 6d0e4827b72afc71349784336d5eb6df4df106e6:
+> 
+>   Revert "bdi: add error handle for bdi_debug_register" (2017-12-21 10:01:30 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.15
 
-Yes, IOMMU groups expose the isolation of the system as devices are
-discovered.  Nothing currently accounts for intentionally decreasing
-the isolation between devices.  Thanks,
+Looks fine to me, pulled.
 
-Alex
+4.16 is coming up, would be nice to get at least the preliminary nvme
+stuff pulled in for that.
+
+-- 
+Jens Axboe
