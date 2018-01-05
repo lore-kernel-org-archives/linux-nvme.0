@@ -1,102 +1,47 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Fri, 5 Jan 2018 08:41:08 -0700
-Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
-In-Reply-To: <20180105064547.GA3212@redhat.com>
-References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-5-logang@deltatee.com>
- <20180104215721.GF189897@bhelgaas-glaptop.roam.corp.google.com>
- <20180104153551.3118f71b@t450s.home>
- <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
- <20180104203300.79487c98@w520.home>
- <20180105064547.GA3212@redhat.com>
-Message-ID: <20180105084108.47a45561@t450s.home>
+From: bart.vanassche@wdc.com (Bart Van Assche)
+Date: Fri,  5 Jan 2018 08:26:45 -0800
+Subject: [PATCH v4 0/5] Introduce sgl_alloc() and sgl_free()
+Message-ID: <20180105162650.31083-1-bart.vanassche@wdc.com>
 
-On Fri, 5 Jan 2018 01:47:01 -0500
-Jerome Glisse <jglisse@redhat.com> wrote:
+Hello Jens,
 
-> On Thu, Jan 04, 2018@08:33:00PM -0700, Alex Williamson wrote:
-> > On Thu, 4 Jan 2018 17:00:47 -0700
-> > Logan Gunthorpe <logang@deltatee.com> wrote:
-> >   
-> > > On 04/01/18 03:35 PM, Alex Williamson wrote:  
-> > > > Yep, flipping these ACS bits invalidates any IOMMU groups that depend
-> > > > on the isolation of that downstream port and I suspect also any peers
-> > > > within the same PCI slot of that port and their downstream devices.  The
-> > > > entire sub-hierarchy grouping needs to be re-evaluated.  This
-> > > > potentially affects running devices that depend on that isolation, so
-> > > > I'm not sure how that happens dynamically.  A boot option might be
-> > > > easier.  Thanks,    
-> > > 
-> > > I don't see how this is the case in current kernel code. It appears to 
-> > > only enable ACS globally if the IOMMU requests it.  
-> > 
-> > IOMMU groups don't exist unless the IOMMU is enabled and x86 and ARM
-> > both request ACS be enabled if an IOMMU is present, so I'm not sure
-> > what you're getting at here.  Also, in reply to your other email, if
-> > the IOMMU is enabled, every device handled by the IOMMU is a member of
-> > an IOMMU group, see struct device.iommu_group.  There's an
-> > iommu_group_get() accessor to get a reference to it.
-> >    
-> > > I also don't see how turning off ACS isolation for a specific device is 
-> > > going to hurt anything. The IOMMU should still be able to keep going on 
-> > > unaware that anything has changed. The only worry is that a security 
-> > > hole may now be created if a user was relying on the isolation between 
-> > > two devices that are in different VMs or something. However, if a user 
-> > > was relying on this, they probably shouldn't have turned on P2P in the 
-> > > first place.  
-> > 
-> > That's exactly what IOMMU groups represent, the smallest set of devices
-> > which have DMA isolation from other devices.  By poking this hole, the
-> > IOMMU group is invalid.  We cannot turn off ACS only for a specific
-> > device, in order to enable p2p it needs to be disabled at every
-> > downstream port between the devices where we want to enable p2p.
-> > Depending on the topology, that could mean we're also enabling p2p for
-> > unrelated devices.  Those unrelated devices might be in active use and
-> > the p2p IOVAs now have a different destination which is no longer IOMMU
-> > translated.
-> >    
-> > > We started with a fairly unintelligent choice to simply disable ACS on 
-> > > any kernel that had CONFIG_PCI_P2P set. However, this did not seem like 
-> > > a good idea going forward. Instead, we now selectively disable the ACS 
-> > > bit only on the downstream ports that are involved in P2P transactions. 
-> > > This seems like the safest choice and still allows people to (carefully) 
-> > > use P2P adjacent to other devices that need to be isolated.  
-> > 
-> > I don't see that the code is doing much checking that adjacent devices
-> > are also affected by the p2p change and of course the IOMMU group is
-> > entirely invalid once the p2p holes start getting poked.
-> >   
-> > > I don't think anyone wants another boot option that must be set in order 
-> > > to use this functionality (and only some hardware would require this). 
-> > > That's just a huge pain for users.  
-> > 
-> > No, but nor do we need IOMMU groups that no longer represent what
-> > they're intended to describe or runtime, unchecked routing changes
-> > through the topology for devices that might already be using
-> > conflicting IOVA ranges.  Maybe soft hotplugs are another possibility,
-> > designate a sub-hierarchy to be removed and re-scanned with ACS
-> > disabled.  Otherwise it seems like disabling and re-enabling ACS needs
-> > to also handle merging and splitting groups dynamically.  Thanks,
-> >   
-> 
-> Dumb question, can we use a PCI bar address of one device into the
-> IOMMU page table of another address ie like we would DMA map a
-> regular system page ?
-> 
-> It would be much better in my view to follow down such path if that
-> is at all possible from hardware point of view (i am not sure where
-> to dig in the specification to answer my above question).
+As you know there are multiple drivers that both allocate a scatter/gather
+list and populate that list with pages. This patch series moves the code for
+allocating and freeing such scatterlists from several drivers into
+lib/scatterlist.c. Please consider this patch series for kernel v4.16.
 
-Yes, we can bounce device MMIO through the IOMMU, or at least vfio does
-enable these mappings to allow p2p between devices assigned to the same
-VM and we've seen evidence that they work, but like p2p in general,
-there are likely platform dependencies.  For Logan this doesn't really
-solve the problem unless the device and downstream port support ATS and
-ACS Direct Translated P2P is enable.  That would allow the device to do
-p2p with addresses pre-translated by the IOMMU and cached by ATS on the
-device without the transaction needing to traverse all the way to the
-IOMMU on the root bus.  The security of ATS is pretty questionable in
-general, but that would likely be a solution that wouldn't require
-manipulating the groupings.  Thanks,
+Changes between v3 and v4:
+- Left out patches 6..8 as requested by Martin Petersen. These patches will be
+  sent to Martin after this series has been merged.
 
-Alex
+Changes between v2 and v3:
+- Added Reviewed-by tags that had been posted as replies on v2.
+- Cc'ed the crypto maintainers for the entire patch series.
+
+Changes between v1 and v2:
+- Moved the sgl_alloc*() and sgl_free() functions from a new source file into
+  lib/scatterlist.c.
+- Changed the argument order for the sgl_alloc*() functions such that the
+  (pointer to) the output argument comes last.
+
+Bart Van Assche (5):
+  lib/scatterlist: Introduce sgl_alloc() and sgl_free()
+  crypto: scompress - use sgl_alloc() and sgl_free()
+  nvmet/fc: Use sgl_alloc() and sgl_free()
+  nvmet/rdma: Use sgl_alloc() and sgl_free()
+  target: Use sgl_alloc_order() and sgl_free()
+
+ crypto/Kconfig                         |   1 +
+ crypto/scompress.c                     |  51 +---------------
+ drivers/nvme/target/Kconfig            |   2 +
+ drivers/nvme/target/fc.c               |  36 +----------
+ drivers/nvme/target/rdma.c             |  63 ++------------------
+ drivers/target/Kconfig                 |   1 +
+ drivers/target/target_core_transport.c |  46 ++-------------
+ include/linux/scatterlist.h            |  10 ++++
+ lib/Kconfig                            |   4 ++
+ lib/scatterlist.c                      | 105 +++++++++++++++++++++++++++++++++
+ 10 files changed, 135 insertions(+), 184 deletions(-)
+
+-- 
+2.15.1
