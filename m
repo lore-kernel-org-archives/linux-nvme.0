@@ -1,5 +1,5 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 4 Jan 2018 18:09:43 -0700
+From: alex.williamson@redhat.com (Alex Williamson)
+Date: Thu, 4 Jan 2018 20:33:00 -0700
 Subject: [PATCH 04/12] pci-p2p: Clear ACS P2P flags for all client devices
 In-Reply-To: <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
 References: <20180104190137.7654-1-logang@deltatee.com>
@@ -7,26 +7,69 @@ References: <20180104190137.7654-1-logang@deltatee.com>
  <20180104215721.GF189897@bhelgaas-glaptop.roam.corp.google.com>
  <20180104153551.3118f71b@t450s.home>
  <20fdb5bb-0236-c093-ed53-e12664022f53@deltatee.com>
-Message-ID: <99420cc9-48fd-5692-8426-bd5c2ec0dcf7@deltatee.com>
+Message-ID: <20180104203300.79487c98@w520.home>
 
+On Thu, 4 Jan 2018 17:00:47 -0700
+Logan Gunthorpe <logang@deltatee.com> wrote:
 
-
-On 04/01/18 05:00 PM, Logan Gunthorpe wrote:
-> 
-> 
 > On 04/01/18 03:35 PM, Alex Williamson wrote:
->> Yep, flipping these ACS bits invalidates any IOMMU groups that depend
->> on the isolation of that downstream port and I suspect also any peers
->> within the same PCI slot of that port and their downstream devices.? The
->> entire sub-hierarchy grouping needs to be re-evaluated.? This
->> potentially affects running devices that depend on that isolation, so
->> I'm not sure how that happens dynamically.? A boot option might be
->> easier.? Thanks,
+> > Yep, flipping these ACS bits invalidates any IOMMU groups that depend
+> > on the isolation of that downstream port and I suspect also any peers
+> > within the same PCI slot of that port and their downstream devices.  The
+> > entire sub-hierarchy grouping needs to be re-evaluated.  This
+> > potentially affects running devices that depend on that isolation, so
+> > I'm not sure how that happens dynamically.  A boot option might be
+> > easier.  Thanks,  
 > 
+> I don't see how this is the case in current kernel code. It appears to 
+> only enable ACS globally if the IOMMU requests it.
 
-Also, considering this further: if you can point me to a way to tell if
-a device is in an IOMMU group it should be pretty easy to disallow a
-device that has been assigned to a group from being used in P2P
-transactions.
+IOMMU groups don't exist unless the IOMMU is enabled and x86 and ARM
+both request ACS be enabled if an IOMMU is present, so I'm not sure
+what you're getting at here.  Also, in reply to your other email, if
+the IOMMU is enabled, every device handled by the IOMMU is a member of
+an IOMMU group, see struct device.iommu_group.  There's an
+iommu_group_get() accessor to get a reference to it.
+ 
+> I also don't see how turning off ACS isolation for a specific device is 
+> going to hurt anything. The IOMMU should still be able to keep going on 
+> unaware that anything has changed. The only worry is that a security 
+> hole may now be created if a user was relying on the isolation between 
+> two devices that are in different VMs or something. However, if a user 
+> was relying on this, they probably shouldn't have turned on P2P in the 
+> first place.
 
-Logan
+That's exactly what IOMMU groups represent, the smallest set of devices
+which have DMA isolation from other devices.  By poking this hole, the
+IOMMU group is invalid.  We cannot turn off ACS only for a specific
+device, in order to enable p2p it needs to be disabled at every
+downstream port between the devices where we want to enable p2p.
+Depending on the topology, that could mean we're also enabling p2p for
+unrelated devices.  Those unrelated devices might be in active use and
+the p2p IOVAs now have a different destination which is no longer IOMMU
+translated.
+ 
+> We started with a fairly unintelligent choice to simply disable ACS on 
+> any kernel that had CONFIG_PCI_P2P set. However, this did not seem like 
+> a good idea going forward. Instead, we now selectively disable the ACS 
+> bit only on the downstream ports that are involved in P2P transactions. 
+> This seems like the safest choice and still allows people to (carefully) 
+> use P2P adjacent to other devices that need to be isolated.
+
+I don't see that the code is doing much checking that adjacent devices
+are also affected by the p2p change and of course the IOMMU group is
+entirely invalid once the p2p holes start getting poked.
+
+> I don't think anyone wants another boot option that must be set in order 
+> to use this functionality (and only some hardware would require this). 
+> That's just a huge pain for users.
+
+No, but nor do we need IOMMU groups that no longer represent what
+they're intended to describe or runtime, unchecked routing changes
+through the topology for devices that might already be using
+conflicting IOVA ranges.  Maybe soft hotplugs are another possibility,
+designate a sub-hierarchy to be removed and re-scanned with ACS
+disabled.  Otherwise it seems like disabling and re-enabling ACS needs
+to also handle merging and splitting groups dynamically.  Thanks,
+
+Alex
