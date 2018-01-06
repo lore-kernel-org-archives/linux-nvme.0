@@ -1,7 +1,8 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Sat,  6 Jan 2018 07:33:35 +0800
-Subject: [PATCH V3] nvme-pci: fix NULL pointer reference in nvme_alloc_ns
-Message-ID: <1515195215-8913-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Sat,  6 Jan 2018 08:01:58 +0800
+Subject: [PATCH RESENT V3] nvme-pci: fix NULL pointer reference in
+ nvme_alloc_ns
+Message-ID: <1515196918-20986-1-git-send-email-jianchao.w.wang@oracle.com>
 
 When the io queues setup or tagset allocation failed, ctrl.tagset
 is NULL. But the scan work will still be queued and executed, then
@@ -30,7 +31,7 @@ Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
  3 files changed, 44 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1e46e60..a614cd7 100644
+index 1e46e60..d366961 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
 @@ -232,6 +232,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
@@ -70,7 +71,7 @@ index 1e46e60..a614cd7 100644
  		container_of(inode->i_cdev, struct nvme_ctrl, cdev);
  
 -	if (ctrl->state != NVME_CTRL_LIVE)
-+	switch(ctrl->state) {
++	switch (ctrl->state) {
 +	case NVME_CTRL_LIVE:
 +	case NVME_CTRL_ADMIN_ONLY:
 +		break;
