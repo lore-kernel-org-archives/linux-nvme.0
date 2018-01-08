@@ -1,14 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 8 Jan 2018 10:58:01 +0100
-Subject: [PATCH 3/5] block: Provide blk_status_t decoding for retryable
- errors
-In-Reply-To: <20180104224623.8944-4-keith.busch@intel.com>
+Date: Mon, 8 Jan 2018 10:58:51 +0100
+Subject: [PATCH 0/5] Failover criteria unification
+In-Reply-To: <20180104234727.GA15654@localhost.localdomain>
 References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-4-keith.busch@intel.com>
-Message-ID: <20180108095801.GE4673@lst.de>
+ <20180104233627.GA16051@redhat.com>
+ <20180104234727.GA15654@localhost.localdomain>
+Message-ID: <20180108095851.GF4673@lst.de>
 
-> +static inline bool blk_retryable(blk_status_t error)
+On Thu, Jan 04, 2018@04:47:27PM -0700, Keith Busch wrote:
+> It looks like you can also touch up dm to allow it to multipath nvme
+> even if CONFIG_NVME_MULTIPATH is set. It may be useful since native NVMe
+> doesn't multipath namespaces across subsystems, and some crack smoking
+> people want to create something that requires that.
 
-The naming isn't really useful - it is about the fact that it's
-worth retrying on another path.  So please chose a better name,
-and add a kerneldoc comment describing it.
+Right now that is simply not allowed by the spec.  If Dave comes up
+with a palatable way to retrofit that into the spec we'll support it.
