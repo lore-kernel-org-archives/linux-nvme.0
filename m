@@ -1,58 +1,16 @@
-From: hare@suse.com (Hannes Reinecke)
-Date: Mon, 8 Jan 2018 09:58:05 +0100
-Subject: [PATCH 3/5] block: Provide blk_status_t decoding for retryable
- errors
-In-Reply-To: <20180104224623.8944-4-keith.busch@intel.com>
-References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-4-keith.busch@intel.com>
-Message-ID: <a6ff3178-7166-1d6b-d77a-d8fc3eb2071b@suse.com>
+From: hch@lst.de (hch@lst.de)
+Date: Mon, 8 Jan 2018 10:47:16 +0100
+Subject: Bug report - drivers/nvme/host/pci.c?
+In-Reply-To: <BY2PR04MB21010125E9B1334D2FA505E786130@BY2PR04MB2101.namprd04.prod.outlook.com>
+References: <4dcd8c76-872e-69e3-3cbd-d051bdf0bf62@huawei.com>
+ <BY2PR04MB21010125E9B1334D2FA505E786130@BY2PR04MB2101.namprd04.prod.outlook.com>
+Message-ID: <20180108094716.GA4673@lst.de>
 
-On 01/04/2018 11:46 PM, Keith Busch wrote:
-> This patch provides a common decoder for block status that may be retried
-> so various entities wishing to consult this do not have to duplicate
-> this decision.
+On Mon, Jan 08, 2018@04:25:52AM +0000, Chaitanya Kulkarni wrote:
+> Hi Fangjian,
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  include/linux/blk_types.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
 > 
-> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> index a1e628e032da..b6a8723b493c 100644
-> --- a/include/linux/blk_types.h
-> +++ b/include/linux/blk_types.h
-> @@ -39,6 +39,22 @@ typedef u8 __bitwise blk_status_t;
->  
->  #define BLK_STS_AGAIN		((__force blk_status_t)12)
->  
-> +static inline bool blk_retryable(blk_status_t error)
-> +{
-> +	switch (error) {
-> +	case BLK_STS_NOTSUPP:
-> +	case BLK_STS_NOSPC:
-> +	case BLK_STS_TARGET:
-> +	case BLK_STS_NEXUS:
-> +	case BLK_STS_MEDIUM:
-> +	case BLK_STS_PROTECTION:
-> +		return false;
-> +	}
-> +
-> +	/* Anything else could be a path failure, so should be retried */
-> +	return true;
-> +}
-> +
->  struct blk_issue_stat {
->  	u64 stat;
->  };
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+> In my config I don't have COMFIG_ARM_SMMU* enabled, the test system I have is x86_64.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		               zSeries & Storage
-hare at suse.com			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Try intel_iommu=force if it's an Intel system, or look up the AMD option
+for AMD systems.
