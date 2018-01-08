@@ -1,50 +1,70 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 8 Jan 2018 11:44:41 -0700
-Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
- rdma_rw_ctx_[init|destroy]()
-In-Reply-To: <20180108183434.GA15549@lst.de>
-References: <20180104190137.7654-1-logang@deltatee.com>
- <20180104190137.7654-7-logang@deltatee.com> <20180104192225.GS11348@ziepe.ca>
- <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
- <20180104221337.GV11348@ziepe.ca>
- <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
- <20180105045031.GX11348@ziepe.ca> <20180108145901.GA10743@lst.de>
- <20180108180917.GF11348@ziepe.ca> <20180108183434.GA15549@lst.de>
-Message-ID: <cffacbee-477a-fbe9-19cc-373cd2ec6fef@deltatee.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 8 Jan 2018 19:52:53 +0100
+Subject: [GIT PULL] nvme fixes for Linux 4.16
+Message-ID: <20180108185253.3d4k2wumlm5n4yqd@infradead.org>
 
+Hi Jens,
 
+below are the pending nvme updates for Linux 4.16.  Just fixes and
+cleanups from various contributors this time around.
 
-On 08/01/18 11:34 AM, Christoph Hellwig wrote:
-> But P2P is _not_ a factor of the dma_ops implementation at all,
-> it is something that happens behind the dma_map implementation.
-> 
-> Think about what the dma mapping routines do:
-> 
->   (a) translate from host address to bus addresses
-> 
-> and
-> 
->   (b) flush caches (in non-coherent architectures)
-> 
-> Both are obviously not needed for P2P transfers, as they never reach
-> the host.
+The following changes since commit fb350e0ad99359768e1e80b4784692031ec340e4:
 
-Isn't pci_p2pdma_map_sg doing (a)? It's just translating from a host 
-address to a PCI bus address.
+  blk-mq: fix race between updating nr_hw_queues and switching io sched (2018-01-06 09:25:36 -0700)
 
->> Very long term the IOMMUs under the ops will need to care about this,
->> so the wrapper is not an optimal place to put it - but I wouldn't
->> object if it gets it out of RDMA :)
-> 
-> Unless you have an IOMMU on your PCIe switch and not before/inside
-> the root complex that is not correct.
+are available in the git repository at:
 
-Per the ACS discussion, in the future we might want to implement "ACS 
-Direct Translated P2P" as Alex described. I expect it would be the IOMMU 
-that needs to set that up. So, I think, we also have the dma_map 
-implementations also doing something like:
+  git://git.infradead.org/nvme.git nvme-4.16
 
-(c) setup/manage any security permissions on mappings
-Which P2P may at some point be concerned with.
+for you to fetch changes up to b837b28394fb76993c28bb242db7061ee0417da6:
 
-Logan
+  nvme: fix subsystem multiple controllers support check (2018-01-08 16:57:00 +0100)
+
+----------------------------------------------------------------
+Israel Rukshin (3):
+      nvmet: fix error flow in nvmet_alloc_ctrl()
+      nvmet: rearrange nvmet_ctrl_free()
+      nvme: fix subsystem multiple controllers support check
+
+James Smart (5):
+      nvme_fcloop: fix abort race condition
+      nvme_fcloop: disassocate local port structs
+      nvme_fcloop: rework to remove xxx_IN_ISR feature flags
+      nvme_fcloop: refactor host/target io job access
+      nvmet-fc: cleanup nvmet add_port/remove_port
+
+Jianchao Wang (1):
+      nvme-pci: fix NULL pointer reference in nvme_alloc_ns
+
+Max Gurtovoy (1):
+      nvme: modify the debug level for setting shutdown timeout
+
+Minwoo Im (1):
+      nvme-pci: remove an unnecessary initialization in HMB code
+
+Nitzan Carmi (1):
+      nvme: take refcount on transport module
+
+Roy Shterman (1):
+      nvme-fabrics: protect against module unload during create_ctrl
+
+Sagi Grimberg (4):
+      nvmet-rdma: removed queue cleanup from module exit
+      nvmet-rdma: lowering log level for chatty debug messages
+      nvmet: lower log level for each queue creation
+      nvme-pci: don't open-code nvme_reset_ctrl
+
+ drivers/nvme/host/core.c          |  62 ++++++++--
+ drivers/nvme/host/fabrics.c       |  17 ++-
+ drivers/nvme/host/fabrics.h       |   2 +
+ drivers/nvme/host/fc.c            |   1 +
+ drivers/nvme/host/nvme.h          |   1 +
+ drivers/nvme/host/pci.c           |  38 ++++--
+ drivers/nvme/host/rdma.c          |   1 +
+ drivers/nvme/target/core.c        |  11 +-
+ drivers/nvme/target/fabrics-cmd.c |   2 +-
+ drivers/nvme/target/fc.c          |  24 +---
+ drivers/nvme/target/fcloop.c      | 244 ++++++++++++++++++++++++++++++--------
+ drivers/nvme/target/loop.c        |   1 +
+ drivers/nvme/target/rdma.c        |  20 +---
+ 13 files changed, 307 insertions(+), 117 deletions(-)
