@@ -1,21 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 8 Jan 2018 16:34:36 +0100
-Subject: [PATCH 1/5] nvme: Add more command status translation
-In-Reply-To: <20180108152933.GA9920@redhat.com>
-References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-2-keith.busch@intel.com> <20180108095512.GC4673@lst.de>
- <2beb72a9-8502-fec8-8892-208cbb0967ac@suse.com>
- <20180108101937.GA5423@lst.de> <20180108152933.GA9920@redhat.com>
-Message-ID: <20180108153436.GA11632@lst.de>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue, 9 Jan 2018 00:51:11 +0900
+Subject: [PATCH 1/2] nvme: Take refcount on transport module when using
+ block device operations
+In-Reply-To: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
+References: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
+Message-ID: <CAA7jzte5xvqtN44C8TsLNnymQ6v3_9O+TMBsA7VbD9DrWU5Nnw@mail.gmail.com>
 
-On Mon, Jan 08, 2018@10:29:33AM -0500, Mike Snitzer wrote:
-> No argument needed.  Definitely needs fixing.  Too many upper layers
-> consider BLK_STS_NOSPC retryable (XFS, ext4, dm-thinp, etc).  Which
-> NVME_SC_LBA_RANGE absolutely isn't.
-> 
-> When I backfilled NVME_SC_LBA_RANGE handling I categorized it as
-> BLK_STS_TARGET.  Do you have a better suggestion for how
-> NVME_SC_LBA_RANGE should be categorized?
+Hi Max,
 
-It's basically a kernel bug as it tries to access lbas that do not
-exist.  BLK_STS_TARGET should be fine.
+On Fri, Jan 5, 2018@12:56 AM, Max Gurtovoy <maxg@mellanox.com> wrote:
+> +       kref_put(&ns->kref, nvme_free_ns);
+
+This seems identical to nvme_put_ns(ns);
+It would look better if replaced with nvme_put_ns() function call just
+like nvme_release()
+that you have updated in this patch.
+
+Thanks,
