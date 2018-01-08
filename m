@@ -1,47 +1,24 @@
 From: hare@suse.com (Hannes Reinecke)
-Date: Mon, 8 Jan 2018 09:58:30 +0100
-Subject: [PATCH 4/5] nvme/multipath: Use blk_retryable
-In-Reply-To: <20180104224623.8944-5-keith.busch@intel.com>
+Date: Mon, 8 Jan 2018 09:57:13 +0100
+Subject: [PATCH 2/5] nvme/multipath: Consult blk_status_t for failover
+In-Reply-To: <20180104224623.8944-3-keith.busch@intel.com>
 References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-5-keith.busch@intel.com>
-Message-ID: <724fb25f-ad34-d4f1-4351-90289efca7fb@suse.com>
+ <20180104224623.8944-3-keith.busch@intel.com>
+Message-ID: <1fbfce0c-2666-95c8-34e8-e0c1dd5f58af@suse.com>
 
 On 01/04/2018 11:46 PM, Keith Busch wrote:
-> Uses common code for determining if an error should be retried on
-> alternate path.
+> This removes nvme multipath's specific status decoding to see if failover
+> is needed, using the generic blk_status_t that was translated earlier. This
+> abstraction from the raw NVMe status means nvme status decoding exists
+> in just one place.
 > 
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/nvme/host/multipath.c | 14 +-------------
->  1 file changed, 1 insertion(+), 13 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index ae9abb600c0f..93bb72b6efb6 100644
-> --- a/drivers/nvme/host/multipath.c
-> +++ b/drivers/nvme/host/multipath.c
-> @@ -37,19 +37,7 @@ bool nvme_req_needs_failover(struct request *req, blk_status_t error)
->  {
->  	if (!(req->cmd_flags & REQ_NVME_MPATH))
->  		return false;
-> -
-> -	switch (error) {
-> -	case BLK_STS_NOTSUPP:
-> -	case BLK_STS_NOSPC:
-> -	case BLK_STS_TARGET:
-> -	case BLK_STS_NEXUS:
-> -	case BLK_STS_MEDIUM:
-> -	case BLK_STS_PROTECTION:
-> -		return false;
-> -	}
-> -
-> -	/* Everything else could be a path failure, so should be retried */
-> -	return true;
-> +	return blk_retryable(error);
->  }
->  
->  void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+>  drivers/nvme/host/core.c      |  9 +++++----
+>  drivers/nvme/host/multipath.c | 44 ++++++++-----------------------------------
+>  drivers/nvme/host/nvme.h      |  4 ++--
+>  3 files changed, 15 insertions(+), 42 deletions(-)
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
