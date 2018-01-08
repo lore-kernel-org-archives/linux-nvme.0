@@ -1,19 +1,49 @@
 From: hare@suse.com (Hannes Reinecke)
-Date: Mon, 8 Jan 2018 09:59:28 +0100
-Subject: [PATCH 5/5] dm mpath: Use blk_retryable
-In-Reply-To: <20180104224623.8944-6-keith.busch@intel.com>
+Date: Mon, 8 Jan 2018 09:58:05 +0100
+Subject: [PATCH 3/5] block: Provide blk_status_t decoding for retryable
+ errors
+In-Reply-To: <20180104224623.8944-4-keith.busch@intel.com>
 References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-6-keith.busch@intel.com>
-Message-ID: <cc35a658-5a88-05e9-8c0b-a173037390a9@suse.com>
+ <20180104224623.8944-4-keith.busch@intel.com>
+Message-ID: <a6ff3178-7166-1d6b-d77a-d8fc3eb2071b@suse.com>
 
 On 01/04/2018 11:46 PM, Keith Busch wrote:
-> Uses common code for determining if an error should be retried on
-> alternate path.
+> This patch provides a common decoder for block status that may be retried
+> so various entities wishing to consult this do not have to duplicate
+> this decision.
 > 
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/md/dm-mpath.c | 19 ++-----------------
->  1 file changed, 2 insertions(+), 17 deletions(-)
+>  include/linux/blk_types.h | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index a1e628e032da..b6a8723b493c 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -39,6 +39,22 @@ typedef u8 __bitwise blk_status_t;
+>  
+>  #define BLK_STS_AGAIN		((__force blk_status_t)12)
+>  
+> +static inline bool blk_retryable(blk_status_t error)
+> +{
+> +	switch (error) {
+> +	case BLK_STS_NOTSUPP:
+> +	case BLK_STS_NOSPC:
+> +	case BLK_STS_TARGET:
+> +	case BLK_STS_NEXUS:
+> +	case BLK_STS_MEDIUM:
+> +	case BLK_STS_PROTECTION:
+> +		return false;
+> +	}
+> +
+> +	/* Anything else could be a path failure, so should be retried */
+> +	return true;
+> +}
+> +
+>  struct blk_issue_stat {
+>  	u64 stat;
+>  };
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
