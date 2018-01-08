@@ -1,10 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 8 Jan 2018 11:16:26 +0100
-Subject: [PATCH 2/2] nvme: Fix subsystem multiple controllers support check
-In-Reply-To: <1515081374-22328-2-git-send-email-maxg@mellanox.com>
-References: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
- <1515081374-22328-2-git-send-email-maxg@mellanox.com>
-Message-ID: <20180108101626.GA5383@lst.de>
+Date: Mon, 8 Jan 2018 11:19:37 +0100
+Subject: [PATCH 1/5] nvme: Add more command status translation
+In-Reply-To: <2beb72a9-8502-fec8-8892-208cbb0967ac@suse.com>
+References: <20180104224623.8944-1-keith.busch@intel.com>
+ <20180104224623.8944-2-keith.busch@intel.com> <20180108095512.GC4673@lst.de>
+ <2beb72a9-8502-fec8-8892-208cbb0967ac@suse.com>
+Message-ID: <20180108101937.GA5423@lst.de>
 
-Btw, I suspect we'll need to to do something interesting here for
-the multipath case as well.  Can you investigate that?
+On Mon, Jan 08, 2018@11:09:03AM +0100, Hannes Reinecke wrote:
+> >>  	case NVME_SC_SUCCESS:
+> >>  		return BLK_STS_OK;
+> >>  	case NVME_SC_CAP_EXCEEDED:
+> >> +	case NVME_SC_LBA_RANGE:
+> >>  		return BLK_STS_NOSPC;
+> > 
+> > lba range isn't really enospc.  It is returned when the lba in
+> > the command is outside the logical size of the namespace.
+> > 
+> Isn't that distinction pretty academic?
+> The entire block-to-POSIX error mapping is pretty much ad-hoc anyway...
+
+Yes, BLK_STS_NOSPC matters.  And the fix is pretty trivial, so there is
+no point in arguing.
