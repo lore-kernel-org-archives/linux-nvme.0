@@ -1,34 +1,25 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 8 Jan 2018 12:05:57 -0700
-Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
- rdma_rw_ctx_[init|destroy]()
-In-Reply-To: <20180108185743.GA15936@lst.de>
-References: <20180104190137.7654-7-logang@deltatee.com>
- <20180104192225.GS11348@ziepe.ca>
- <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
- <20180104221337.GV11348@ziepe.ca>
- <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
- <20180105045031.GX11348@ziepe.ca> <20180108145901.GA10743@lst.de>
- <20180108180917.GF11348@ziepe.ca> <20180108183434.GA15549@lst.de>
- <cffacbee-477a-fbe9-19cc-373cd2ec6fef@deltatee.com>
- <20180108185743.GA15936@lst.de>
-Message-ID: <7d276107-d2ae-530b-3d56-e104e22b4eea@deltatee.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 8 Jan 2018 12:20:42 -0700
+Subject: [GIT PULL] nvme fixes for Linux 4.16
+In-Reply-To: <20180108185253.3d4k2wumlm5n4yqd@infradead.org>
+References: <20180108185253.3d4k2wumlm5n4yqd@infradead.org>
+Message-ID: <df77dc88-7321-d6ae-7fec-865b60babc23@kernel.dk>
 
+On 1/8/18 11:52 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> below are the pending nvme updates for Linux 4.16.  Just fixes and
+> cleanups from various contributors this time around.
+> 
+> The following changes since commit fb350e0ad99359768e1e80b4784692031ec340e4:
+> 
+>   blk-mq: fix race between updating nr_hw_queues and switching io sched (2018-01-06 09:25:36 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.16
 
+Thanks, pulled.
 
-On 08/01/18 11:57 AM, Christoph Hellwig wrote:
-> It does, sort of - but in a different way then the normal DMA map
-> ops.  And only to work around the fact that we need to map our
-> P2P space into struct pages.  Without that we could just pass the
-> bus address around, but the Linux stack and VM isn't anywhere near
-> ready for something that advanced.
-
-Yeah, wouldn't that be nice.
-
-Ok, so if we shouldn't touch the dma_map infrastructure how should the 
-workaround to opt-out HFI and QIB look? I'm not that familiar with the 
-RDMA code.
-
-Thanks,
-
-Logan
+-- 
+Jens Axboe
