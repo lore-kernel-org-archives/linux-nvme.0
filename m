@@ -1,25 +1,30 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 8 Jan 2018 12:20:42 -0700
-Subject: [GIT PULL] nvme fixes for Linux 4.16
-In-Reply-To: <20180108185253.3d4k2wumlm5n4yqd@infradead.org>
-References: <20180108185253.3d4k2wumlm5n4yqd@infradead.org>
-Message-ID: <df77dc88-7321-d6ae-7fec-865b60babc23@kernel.dk>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Mon, 8 Jan 2018 12:49:50 -0700
+Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
+ rdma_rw_ctx_[init|destroy]()
+In-Reply-To: <20180108185743.GA15936@lst.de>
+References: <20180104192225.GS11348@ziepe.ca>
+ <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
+ <20180104221337.GV11348@ziepe.ca>
+ <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
+ <20180105045031.GX11348@ziepe.ca> <20180108145901.GA10743@lst.de>
+ <20180108180917.GF11348@ziepe.ca> <20180108183434.GA15549@lst.de>
+ <cffacbee-477a-fbe9-19cc-373cd2ec6fef@deltatee.com>
+ <20180108185743.GA15936@lst.de>
+Message-ID: <20180108194950.GK11348@ziepe.ca>
 
-On 1/8/18 11:52 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> below are the pending nvme updates for Linux 4.16.  Just fixes and
-> cleanups from various contributors this time around.
-> 
-> The following changes since commit fb350e0ad99359768e1e80b4784692031ec340e4:
-> 
->   blk-mq: fix race between updating nr_hw_queues and switching io sched (2018-01-06 09:25:36 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.16
+On Mon, Jan 8, 2018@11:57 AM, Christoph Hellwig <hch@lst.de> wrote:
 
-Thanks, pulled.
+>> (c) setup/manage any security permissions on mappings
+>> Which P2P may at some point be concerned with.
+>
+> Maybe once root complexes with iommus actually support P2P.  But until
+> then we have a lot more more important problems to solve.
 
--- 
-Jens Axboe
+Pretty sure P2P capable IOMMU hardware exists.
+
+With SOC's we also have the scenario that an DMA originated from an
+on-die device wishes to target an off-die PCI BAR (through the IOMMU),
+that definitely exists today, and people care about it :)
+
+Jason
