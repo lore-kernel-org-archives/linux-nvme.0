@@ -1,13 +1,68 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Mon, 8 Jan 2018 16:43:07 +0200
-Subject: [PATCH 2/2] nvme: Fix subsystem multiple controllers support check
-In-Reply-To: <20180108101626.GA5383@lst.de>
-References: <1515081374-22328-1-git-send-email-maxg@mellanox.com>
- <1515081374-22328-2-git-send-email-maxg@mellanox.com>
- <20180108101626.GA5383@lst.de>
-Message-ID: <2d089c20-47f1-c9fc-3eab-53bc668d943f@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 8 Jan 2018 15:59:01 +0100
+Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
+ rdma_rw_ctx_[init|destroy]()
+In-Reply-To: <20180105045031.GX11348@ziepe.ca>
+References: <20180104190137.7654-1-logang@deltatee.com>
+ <20180104190137.7654-7-logang@deltatee.com> <20180104192225.GS11348@ziepe.ca>
+ <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
+ <20180104221337.GV11348@ziepe.ca>
+ <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
+ <20180105045031.GX11348@ziepe.ca>
+Message-ID: <20180108145901.GA10743@lst.de>
 
-On 1/8/2018 12:16 PM, Christoph Hellwig wrote:
-> Btw, I suspect we'll need to to do something interesting here for
-> the multipath case as well.  Can you investigate that?
-Sure :-)
+On Thu, Jan 04, 2018@09:50:31PM -0700, Jason Gunthorpe wrote:
+> Well that argument applies equally to the RDMA RW API wrappers around
+> the DMA API. I think it is fine if sgl are defined to only have P2P or
+> not, and that debugging support seemed reasonable to me..
+> 
+> > It's also very difficult to add similar functionality to dma_map_page seeing
+> > dma_unmap_page won't have any way to know what it's dealing with. It just
+> > seems confusing to support P2P in the SG version and not the page version.
+> 
+> Well, this proposal is to support P2P in only some RDMA APIs and not
+> others, so it seems about as confusing to me..
+
+As usual we implement what actually has a consumer.  On top of that the
+R/W API is the only core RDMA API that actually does DMA mapping for the
+ULP at the moment.  For SENDs and everything else dma maps are done by
+the ULP (I'd like to eventually change that, though - e.g. sends through
+that are inline to the workqueue don't need a dma map to start with).
+
+> Well, it is more than very nice. We have to keep RDMA working after
+> all, and if you make it even more special things become harder for us.
+> 
+> It is already the case that DMA in RDMA is very strange. We have
+> drivers that provide their own DMA ops, for instance.
+
+That's because the initial design was to let the ULPs do the DMA
+mappings, which fundamentally is wrong.  I've fixed it for the R/W
+API when adding it, but no one has started work on SENDs and atomics.
+
+> And on that topic, does this scheme work with HFI?
+
+No, and I guess we need an opt-out.  HFI generally seems to be
+extremely weird.
+
+> This is why P2P must fit in to the common DMA framework somehow, we
+> rely on these abstractions to work properly and fully in RDMA.
+
+Moving P2P up to common RDMA code isn't going to fix this.  For that
+we need to stop preting that something that isn't DMA can abuse the
+dma mapping framework, and until then opt them out of behavior that
+assumes actual DMA like P2P.
+
+> I think you should consider pushing this directly into the dma_ops
+> implementations. Add a p2p_supported flag to struct dma_map_ops, and
+> only if it is true can a caller pass a homogeneous SGL to ops->map_sg.
+> Only map_sg would be supported for P2P. Upgraded implementations can
+> call the helper function.
+
+If at all it should be in the dma_map* wrappers, but for that we'd need
+a good identifier.  And it still would not solve the whole fake dma
+ops issue.
+
+So for now I'd much prefer to let the drivers handle it, and once usage
+grows and we know usage patterns better (and I make progress refactoring
+both the dma-mapping subsystem itself and the RDMA dma map code to not
+be a complete mess) we can move it to the core.
