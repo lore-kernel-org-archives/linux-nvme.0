@@ -1,26 +1,41 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 9 Jan 2018 18:40:33 +0100
-Subject: [PATCH 2/5] nvme/multipath: Consult blk_status_t for failover
-In-Reply-To: <20180109173857.GF15154@localhost.localdomain>
-References: <20180104224623.8944-1-keith.busch@intel.com>
- <20180104224623.8944-3-keith.busch@intel.com> <20180108095707.GD4673@lst.de>
- <20180109173857.GF15154@localhost.localdomain>
-Message-ID: <20180109174033.GA13171@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  9 Jan 2018 12:04:13 -0700
+Subject: [PATCHv2 0/5] nvme/dm failover unification
+Message-ID: <20180109190418.7123-1-keith.busch@intel.com>
 
-On Tue, Jan 09, 2018@10:38:58AM -0700, Keith Busch wrote:
-> On Mon, Jan 08, 2018@01:57:07AM -0800, Christoph Hellwig wrote:
-> > > -	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
-> > > -		if (nvme_req_needs_failover(req)) {
-> > > +	blk_status_t status = nvme_error_status(req);
-> > > +
-> > > +	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
-> > > +		if (nvme_req_needs_failover(req, status)) {
-> > 
-> > We don't really need to call nvme_error_status if nvme_req(req)->status
-> > is zero.
-> 
-> We are already calling nvme_error_status unconditionally for
-> blk_mq_end_request, so we currently read nvme_req(req)->status multiple
-> times in the completion path. I think we'd prefer to read it just once.
+Native nvme multipath provided a separate NVMe status decoder,
+complicating maintenance as new statuses need to be accounted for. This
+was already diverging from the generic nvme status decoder, which has
+implications for other components that rely on accurate generic block
+errors.
 
-Indeed.  Objection retracted.
+This series unifies common code among nvme and device-mapper multipath
+so user experience regarding the failover fate of a command is the same.
+
+v1 -> v2:
+
+  Fixed blk_status_t used for NVME_SC_LBA_RANGE.
+
+  Fixed line break formatting.
+
+  Changed name of new block API for path related errors and added kernel
+  doc for it. 
+
+  Added reviews and acks.
+
+Keith Busch (5):
+  nvme: Add more command status translation
+  nvme/multipath: Consult blk_status_t for failover
+  block: Provide blk_status_t decoding for path errors
+  nvme/multipath: Use blk_path_error
+  dm mpath: Use blk_path_error
+
+ drivers/md/dm-mpath.c         | 19 ++-----------------
+ drivers/nvme/host/core.c      | 16 ++++++++++++----
+ drivers/nvme/host/multipath.c | 44 ++-----------------------------------------
+ drivers/nvme/host/nvme.h      |  5 +++--
+ include/linux/blk_types.h     | 28 +++++++++++++++++++++++++++
+ 5 files changed, 47 insertions(+), 65 deletions(-)
+
+-- 
+2.13.6
