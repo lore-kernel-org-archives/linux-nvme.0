@@ -1,44 +1,42 @@
-From: kashyap.desai@broadcom.com (Kashyap Desai)
-Date: Tue, 9 Jan 2018 22:07:28 +0530
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <20180108100531.GA6967@infradead.org>
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
-Message-ID: <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 9 Jan 2018 09:42:52 -0700
+Subject: [PATCH] nvme: initialize hostid uuid in nvmf_host_default to not
+ leak kernel memory
+In-Reply-To: <20180109152043.30422-1-jthumshirn@suse.de>
+References: <20180109152043.30422-1-jthumshirn@suse.de>
+Message-ID: <20180109164252.GD15154@localhost.localdomain>
 
-Chris -
+On Tue, Jan 09, 2018@04:20:43PM +0100, Johannes Thumshirn wrote:
+> Alexander reports:
+>   according to KMSAN (and common sense as well) the following code in
+>   drivers/nvme/host/fabrics.c
+>   (http://elixir.free-electrons.com/linux/latest/source/drivers/nvme/host/fabrics.c#L68):
+> 
+>     72         host = kmalloc(sizeof(*host), GFP_KERNEL);
+>     73         if (!host)
+>     74                 return NULL;
+>     75
+>     76         kref_init(&host->ref);
+>     77         snprintf(host->nqn, NVMF_NQN_SIZE,
+>     78                 "nqn.2014-08.org.nvmexpress:uuid:%pUb", &host->id);
+> 
+>   uses uninitialized heap memory to generate the unique id for the NVMF host.
+>   If I'm understanding correctly, it can be then passed to the
+>   userspace, so the contents of the uninitialized chunk may potentially
+>   leak.
+>   If the specification doesn't rely on this UID to be random or unique,
+>   I suggest using kzalloc() here, otherwise it might be a good idea to
+>   use a real RNG.
+> 
+> this assumption is correct so initialize the host->id using uuid_gen() as
+> it was done before commit 6bfe04255d5e ("nvme: add hostid token to fabric
+> options").
+> 
+> Fixes: 6bfe04255d5e ("nvme: add hostid token to fabric options")
+> Reported-by: Alexander Potapenko <glider at google.com>
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-Overall NVME support behind MR controller is really a SCSI device. On top
-of that, for MegaRaid, NVME device can be part of Virtual Disk and those
-drive will not be exposed to the driver. User application may like to talk
-to hidden NVME devices (part of VDs). This patch will extend the existing
-interface for megaraid product in the same way it is currently supported
-for other protocols like SMP, SATA pass-through.
+Thanks for the report and the fix. It'd still be good to use the kzalloc
+variant in addition to this.
 
-Example - Current smartmon is using megaraid.h (MFI headers) to send SATA
-pass-through.
-
-https://github.com/mirror/smartmontools/blob/master/megaraid.h
-
-Any open source application is aware of above interface can extend the
-similar support for NVME drives. I agree that current nvme-cli type
-interface is not going to be supported using this method.  In current
-patch, driver processing is very limited since most of the work is handled
-in application + FW.
-
-NVME behind MR controller is not really NVME device to the operating
-system at block layer. Considering this, do you agree or still foresee any
-issues ?
-
-Kashyap
-
------Original Message-----
-From: Christoph Hellwig [mailto:hch@infradead.org]
-Sent: Monday, January 8, 2018 3:36 PM
-To: Shivasharan S
-Cc: linux-scsi at vger.kernel.org; sumit.saxena at broadcom.com;
-linux-nvme at lists.infradead.org; kashyap.desai at broadcom.com
-Subject: Re: [PATCH 13/14] megaraid_sas: NVME passthru command support
-
-NAK.  Please implement the same ioctl interfaces as the nvme driver
-instead of inventing your own incomaptible one.
+Reviewed-by: Keith Busch <keith.busch at intel.com>
