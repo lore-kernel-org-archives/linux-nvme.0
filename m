@@ -1,30 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 9 Jan 2018 17:55:49 +0100
-Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
- rdma_rw_ctx_[init|destroy]()
-In-Reply-To: <20180108190116.GI11348@ziepe.ca>
-References: <20180104190137.7654-7-logang@deltatee.com>
- <20180104192225.GS11348@ziepe.ca>
- <1f8fb3fb-e3dc-94d3-e837-0cd942cf5b87@deltatee.com>
- <20180104221337.GV11348@ziepe.ca>
- <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
- <20180105045031.GX11348@ziepe.ca> <20180108145901.GA10743@lst.de>
- <20180108180917.GF11348@ziepe.ca> <20180108183434.GA15549@lst.de>
- <20180108190116.GI11348@ziepe.ca>
-Message-ID: <20180109165549.GC12159@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 9 Jan 2018 10:05:39 -0700
+Subject: [PATCH] nvme: Add weighted-round-robin arbitration support
+In-Reply-To: <ec6f0d2f-2751-0a29-7762-7a32830e0fcc@samsung.com>
+References: <CGME20180104150334epcas1p14579a6ab7bcf1b6ce326d0bce89c91e1@epcas1p1.samsung.com>
+ <1515078129-4041-1-git-send-email-joshi.k@samsung.com>
+ <20180104173804.GA7007@localhost.localdomain>
+ <ec6f0d2f-2751-0a29-7762-7a32830e0fcc@samsung.com>
+Message-ID: <20180109170539.GE15154@localhost.localdomain>
 
-On Mon, Jan 08, 2018@12:01:16PM -0700, Jason Gunthorpe wrote:
-> > So I very much disagree about where to place that workaround - the
-> > RDMA code is exactly the right place.
-> 
-> But why? RDMA is using core code to do this. It uses dma_ops in struct
-> device and it uses normal dma_map SG. How is it RDMA's problem that
-> some PCI drivers provide strange DMA ops?
+On Tue, Jan 09, 2018@07:20:58PM +0530, Kanchan Joshi wrote:
+> It seems to me that some sort of differentiation (among tasks of various
+> classes) during tag allocation is required to handle this. Perhaps, static
+> division of available tags into 4 priority classes needs to be done in block
+> layer.
 
-Because RDMA uses the dma_virt_ops to pretend a device does DMA when
-in fact it doesn't - at least not for the exact data mapped, or
-as far as I can tell often not all - e.g. the QIB/HFI devices
-might do mmio access for data mapped.
-
-This whole problem only exist because a few RDMA HCA drivers lie
-with the help of the RDMA core.
+Yes, I was thinking either some kind priorty based tag reservation, or
+possibly entirely different hctx's for each priority. The block layer
+currently doesn't provide this kind of separation, but it was mentioned
+the latter might be appropriate for hipri/polled IO, so maybe that idea
+can extend to WRR.
