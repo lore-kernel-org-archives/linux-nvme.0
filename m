@@ -1,28 +1,23 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Tue, 9 Jan 2018 10:10:08 -0700
-Subject: [PATCH 06/12] IB/core: Add optional PCI P2P flag to
- rdma_rw_ctx_[init|destroy]()
-In-Reply-To: <20180109164640.GA12159@lst.de>
-References: <20180104221337.GV11348@ziepe.ca>
- <3e8391a9-8924-be6d-8c43-162a360d75b6@deltatee.com>
- <20180105045031.GX11348@ziepe.ca> <20180108145901.GA10743@lst.de>
- <20180108180917.GF11348@ziepe.ca> <20180108183434.GA15549@lst.de>
- <cffacbee-477a-fbe9-19cc-373cd2ec6fef@deltatee.com>
- <20180108185743.GA15936@lst.de> <20180108194950.GK11348@ziepe.ca>
- <20180109164640.GA12159@lst.de>
-Message-ID: <20180109171008.GB4518@ziepe.ca>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 9 Jan 2018 10:38:58 -0700
+Subject: [PATCH 2/5] nvme/multipath: Consult blk_status_t for failover
+In-Reply-To: <20180108095707.GD4673@lst.de>
+References: <20180104224623.8944-1-keith.busch@intel.com>
+ <20180104224623.8944-3-keith.busch@intel.com>
+ <20180108095707.GD4673@lst.de>
+Message-ID: <20180109173857.GF15154@localhost.localdomain>
 
-On Tue, Jan 09, 2018@05:46:40PM +0100, Christoph Hellwig wrote:
-> On Mon, Jan 08, 2018@12:49:50PM -0700, Jason Gunthorpe wrote:
-> > Pretty sure P2P capable IOMMU hardware exists.
-> > 
-> > With SOC's we also have the scenario that an DMA originated from an
-> > on-die device wishes to target an off-die PCI BAR (through the IOMMU),
-> > that definitely exists today, and people care about it :)
+On Mon, Jan 08, 2018@01:57:07AM -0800, Christoph Hellwig wrote:
+> > -	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
+> > -		if (nvme_req_needs_failover(req)) {
+> > +	blk_status_t status = nvme_error_status(req);
+> > +
+> > +	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
+> > +		if (nvme_req_needs_failover(req, status)) {
 > 
-> Then people will have to help and contribute support for it.
+> We don't really need to call nvme_error_status if nvme_req(req)->status
+> is zero.
 
-Sure. But my point was all this will have to migrate under the dma_ops
-for that to work, so why the resistance to using dma_ops right away?
-
-Jason
+We are already calling nvme_error_status unconditionally for
+blk_mq_end_request, so we currently read nvme_req(req)->status multiple
+times in the completion path. I think we'd prefer to read it just once.
