@@ -1,49 +1,99 @@
 From: kashyap.desai@broadcom.com (Kashyap Desai)
-Date: Wed, 10 Jan 2018 15:02:15 +0530
+Date: Wed, 10 Jan 2018 15:33:30 +0530
 Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <20180109232305.GH15154@localhost.localdomain>
+In-Reply-To: <27ebbe5f-e06b-a800-5518-ec63d65d142a@interlog.com>
 References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
  <20180108100531.GA6967@infradead.org>
  <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
  <20180109164540.GA11861@infradead.org>
  <27ebbe5f-e06b-a800-5518-ec63d65d142a@interlog.com>
- <20180109232305.GH15154@localhost.localdomain>
-Message-ID: <e0eb55ccbcae2640530e43327a7b9aab@mail.gmail.com>
+Message-ID: <e3e6eca50db6f04ef59a9ce3d7f044f6@mail.gmail.com>
 
 > -----Original Message-----
-> From: Keith Busch [mailto:keith.busch at intel.com]
-> Sent: Wednesday, January 10, 2018 4:53 AM
-> To: Douglas Gilbert
-> Cc: Christoph Hellwig; Kashyap Desai; Shivasharan Srikanteshwara; Sumit
-> Saxena; Peter Rivera; linux-nvme at lists.infradead.org; linux-
-> scsi at vger.kernel.org
+> From: Douglas Gilbert [mailto:dgilbert at interlog.com]
+> Sent: Wednesday, January 10, 2018 2:21 AM
+> To: Christoph Hellwig; Kashyap Desai
+> Cc: Shivasharan Srikanteshwara; linux-scsi at vger.kernel.org; Sumit Saxena;
+> linux-nvme at lists.infradead.org; Peter Rivera
 > Subject: Re: [PATCH 13/14] megaraid_sas: NVME passthru command support
 >
-> On Tue, Jan 09, 2018@03:50:44PM -0500, Douglas Gilbert wrote:
-> > Have you tried to do any serious work with <linux/nvme_ioctl.h> and
-> > say compared it with FreeBSD and Microsoft's approach? No prize for
-> > guessing which one is worst (and least extensible). Looks like the
-> > Linux pass-through was at the end of a ToDo list and was "designed"
-> > at 5 a.m in the morning.
+> On 2018-01-09 11:45 AM, Christoph Hellwig wrote:
+> > On Tue, Jan 09, 2018@10:07:28PM +0530, Kashyap Desai wrote:
+> >> Chris -
+> >>
+> >> Overall NVME support behind MR controller is really a SCSI device. On
+> >> top of that, for MegaRaid, NVME device can be part of Virtual Disk
+> >> and those drive will not be exposed to the driver. User application
+> >> may like to talk to hidden NVME devices (part of VDs). This patch
+> >> will extend the existing interface for megaraid product in the same
+> >> way it is currently supported for other protocols like SMP, SATA pass-
+> through.
+> >>
+> >> Example - Current smartmon is using megaraid.h (MFI headers) to send
+> >> SATA pass-through.
+> >>
+> >> https://github.com/mirror/smartmontools/blob/master/megaraid.h
+> >
+> > And that is exactly the example of why we should have never allowed
+> > megaraid any private passthrough ioctls to start with.
 >
-> What the heck are you talking about? FreeBSD's NVMe passthrough is near
-> identical to Linux, and Linux's existed years prior.
+> Christoph,
+> Have you tried to do any serious work with <linux/nvme_ioctl.h> and say
+> compared it with FreeBSD and Microsoft's approach? No prize for guessing
+> which one is worst (and least extensible). Looks like the Linux
+> pass-through
+> was at the end of a ToDo list and was "designed"
+> at 5 a.m in the morning.
 >
-> You're not even touching the nvme subsystem, so why are you copying the
-> linux-nvme mailing list to help you with a non-NVMe device? Please take
-your
-> ignorant and dubious claims elsewhere.
+> RAID cards need a pass-through that allows them to address one of many
+> physical disks behind the virtual disk presented to OS.
+> Pass-throughs need to have uncommited room for extra parameters that will
+> be passed through as-is to the RAID LLD.
 
-Keith -
+Doug - As you mentioned, I notice the same. This type of issue is common for
+all RAID controllers vendors.
+Whatever Christoph mentioned about NVMe type API to be used is possible, but
+may need extra hit in firmware side to convert Linux NVME API to FW specific
+OR deal the same in driver.
+It may come with it's own pros/cons.  Also may not fulfil the end goal. For
+other platforms, we still have to depend upon specialized pass-through code.
+So having said that Firmware of RAID cannot use only one interface for
+pass-through and they have to choose specialized pass-through code.
 
-As we discussed for mpt3sas driver NVME driver support, there was request
-to add linux-nvme at lists.infradead.org for NVME related discussion.
-https://marc.info/?l=linux-kernel&m=149874673729467&w=2
+NVME-CLI interface is designed for NVME drives attached to block layer.
+MegaRaid product is design to keep NVME protocol abstracted (much like SATA
+drives behind SAS controller) and attach those drives/virtual disk to SCSI
+layer.
 
-As you mentioned, we are not touching NVME subsystem, we can skip to add
-NVME mailing list for future submission w.r.t NVME drive behind MR
-(megaraid_sas) and HBA (mpt3sas).
-All the NVME drives behind MegaRaid controller is SCSI device irrespective
-of transport.
+>
+> So until Christoph gives an example of how that can be done with
+> <linux/nvme_ioctl.h> then I would like to see Christoph's objection
+> ignored.
+>
+>
+> And as a maintainer of smartmontools, I would like to point out that
+> pretty
+> well all supported RAIDs, on all platforms need specialized pass-through
+> code.
 
-Kashyap
+If upstream community like to enhance nvme-cli type interface in
+megaraid_sas driver, we may have to come up with one more layer in
+megaraid_sas driver to convert NVME-API to specialized pass-through code.
+It is really not simple to fit into existing design as NVME-CLI/API is
+considering NVME drive associated with nvme.ko modules (/dev/nvmeX). Also we
+don't have many sysfs entries nvme-cli is looking for NVME device etc.. We
+don't have way to talk to Physical disks which is part of VD etc..
+
+Specialized pass-through code is better to extend in application like
+smartmontools etc.
+
+> Start by looking at os_linux.cpp and then at the other OSes. And now
+> smartmontools supports NVMe on most platforms and at the pass-through
+> level, it is just another one, and not a particularly clean one.
+>
+> IMO Intel had their chance on the pass-through front, and blew it.
+> It is now too late to fix it and that job (impossible ?) should not fall
+> to
+> MegaRaid maintainers.
+>
+> Douglas Gilbert
