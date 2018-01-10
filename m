@@ -1,29 +1,20 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Wed, 10 Jan 2018 16:22:15 +0000
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
- <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
-Message-ID: <1515601333.2745.8.camel@wdc.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 10 Jan 2018 10:52:57 -0700
+Subject: [PATCHv2 0/5] nvme/dm failover unification
+In-Reply-To: <20180110082835.GA10185@lst.de>
+References: <20180109190418.7123-1-keith.busch@intel.com>
+ <20180110082835.GA10185@lst.de>
+Message-ID: <599f627a-cb0d-de65-f20b-61fed9c6cd22@kernel.dk>
 
-On Tue, 2018-01-09@22:07 +0530, Kashyap Desai wrote:
-> Overall NVME support behind MR controller is really a SCSI device. On top
-> of that, for MegaRaid, NVME device can be part of Virtual Disk and those
-> drive will not be exposed to the driver. User application may like to talk
-> to hidden NVME devices (part of VDs). This patch will extend the existing
-> interface for megaraid product in the same way it is currently supported
-> for other protocols like SMP, SATA pass-through.
+On 1/10/18 1:28 AM, Christoph Hellwig wrote:
+> The whole series looks fine to me:
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> 
+> Jens, do you want me to apply this to the nvme tree, or pick it up
+> directly?
 
-It seems to me like there is a contradiction in the above paragraph: if some
-NVMe devices are not exposed to the driver, how can a user space application
-ever send NVMe commands to it?
+I queued it up, thanks.
 
-Anyway, has it been considered to implement the NVMe support as an NVMe
-transport driver? The upstream kernel already supports NVMe communication
-with NVMe PCI devices, NVMe over RDMA and NVMe over FC. If communication to
-the NVMe devices behind the MegaRaid controller would be implemented as an
-NVMe transport driver then all functionality of the Linux NVMe driver could
-be reused, including its sysfs entries.
-
-Bart.
+-- 
+Jens Axboe
