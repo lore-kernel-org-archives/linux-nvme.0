@@ -1,60 +1,102 @@
-From: dgilbert@interlog.com (Douglas Gilbert)
-Date: Wed, 10 Jan 2018 15:06:17 -0500
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <1515601333.2745.8.camel@wdc.com>
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
- <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
- <1515601333.2745.8.camel@wdc.com>
-Message-ID: <d6da790a-8248-c71d-6643-6ae3107989d0@interlog.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Thu, 11 Jan 2018 05:36:01 +0800
+Subject: [PATCH V2 1/2] nvme: split resetting state into reset_prepate
+ and resetting
+In-Reply-To: <1515463393-3004-2-git-send-email-jianchao.w.wang@oracle.com>
+References: <1515463393-3004-2-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <201801110540.JVzMJA3Y%fengguang.wu@intel.com>
 
-On 2018-01-10 11:22 AM, Bart Van Assche wrote:
-> On Tue, 2018-01-09@22:07 +0530, Kashyap Desai wrote:
->> Overall NVME support behind MR controller is really a SCSI device. On top
->> of that, for MegaRaid, NVME device can be part of Virtual Disk and those
->> drive will not be exposed to the driver. User application may like to talk
->> to hidden NVME devices (part of VDs). This patch will extend the existing
->> interface for megaraid product in the same way it is currently supported
->> for other protocols like SMP, SATA pass-through.
-> 
-> It seems to me like there is a contradiction in the above paragraph: if some
-> NVMe devices are not exposed to the driver, how can a user space application
-> ever send NVMe commands to it?
+Hi Jianchao,
 
-I think that he meant that the NVMe physical devices (e.g. SSDs) are not
-exposed to the upper layers (e.g. the SCSI mid-layer and above). The
-SCSI subsystem has a no_uld_attach device flag that lets a LLD attach
-physical devices but the sd driver and hence the block layer do not
-"see" them. The idea is that maintenance programs like smartmontools
-can use them via the bsg or sg drivers. The Megaraid driver code does
-not seem to use no_uld_attach. Does the NVMe subsystem have similar
-"generic" (i.e. non-block) devices accessible to the user space?
+Thank you for the patch! Yet something to improve:
 
-> Anyway, has it been considered to implement the NVMe support as an NVMe
-> transport driver? The upstream kernel already supports NVMe communication
-> with NVMe PCI devices, NVMe over RDMA and NVMe over FC. If communication to
-> the NVMe devices behind the MegaRaid controller would be implemented as an
-> NVMe transport driver then all functionality of the Linux NVMe driver could
-> be reused, including its sysfs entries.
+[auto build test ERROR on v4.15-rc7]
+[cannot apply to block/for-next linus/master hch-configfs/for-next next-20180110]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-Broadcom already sell "SAS" HBAs that have "tri-mode" phys. That is a phy
-that can connect to a SAS device (e.g. a SAS expander), a SATA device or a
-NVMe device. Now if I was Broadcom designing a 24 Gbps SAS-4 next generation
-expander I would be thinking of using those tri-mode phys on it. But then
-there is a problem, SAS currently supports 3 protocols: SSP (for SCSI
-storage and enclosure management (SES)), STP (for SATA storage ) and SMP
-(for expander management). The problem is how those NVMe commands, status
-and data cross the wire between the OS HBA (or MegaRaid type controller) and
-an expander. Solving that might need some lateral thinking.
+url:    https://github.com/0day-ci/linux/commits/Jianchao-Wang/nvme-split-resetting-state-into-reset_prepate-and-resetting/20180111-050049
+config: x86_64-randconfig-x018-201801 (attached as .config)
+compiler: gcc-7 (Debian 7.2.0-12) 7.2.1 20171025
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=x86_64 
 
-On one hand the NVM Express folks seem to have shelved the idea of a SCSI
-to NVMe Translation Layer (SNTL) and have not updated an old white paper
-on the subject. Currently there is no SNTL on Linux (there was but it was
-removed) or FreeBSD but there is one on Windows.
+All errors (new ones prefixed by >>):
 
-On the other hand I'm informed that recently the same body accepted the
-SES-3 standard pretty much as-is. That is done with the addition of SES
-Send and SES Receive commands to NVME-MI. The library under sg_ses has
-already been modified to use them (by implementing a specialized SNTL).
+   In file included from arch/x86/include/asm/bug.h:82:0,
+                    from include/linux/bug.h:5,
+                    from include/linux/jump_label.h:187,
+                    from arch/x86/include/asm/string_64.h:6,
+                    from arch/x86/include/asm/string.h:5,
+                    from include/linux/string.h:19,
+                    from include/linux/scatterlist.h:5,
+                    from drivers/nvme/target/loop.c:15:
+   drivers/nvme/target/loop.c: In function 'nvme_loop_reset_ctrl_work':
+>> drivers/nvme/target/loop.c:486:20: error: 'struct nvme_loop_ctrl' has no member named 'state'
+      WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING);
+                       ^
+   include/asm-generic/bug.h:68:25: note: in definition of macro 'WARN_ON_ONCE'
+     int __ret_warn_on = !!(condition);   \
+                            ^~~~~~~~~
 
-Doug Gilbert
+vim +486 drivers/nvme/target/loop.c
+
+   473	
+   474	static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+   475	{
+   476		struct nvme_loop_ctrl *ctrl =
+   477			container_of(work, struct nvme_loop_ctrl, ctrl.reset_work);
+   478		bool changed;
+   479		int ret;
+   480	
+   481		nvme_stop_ctrl(&ctrl->ctrl);
+   482		nvme_loop_shutdown_ctrl(ctrl);
+   483	
+   484		changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING);
+   485		if (!changed) {
+ > 486			WARN_ON_ONCE(ctrl->state != NVME_CTRL_DELETING);
+   487			return;
+   488		}
+   489		ret = nvme_loop_configure_admin_queue(ctrl);
+   490		if (ret)
+   491			goto out_disable;
+   492	
+   493		ret = nvme_loop_init_io_queues(ctrl);
+   494		if (ret)
+   495			goto out_destroy_admin;
+   496	
+   497		ret = nvme_loop_connect_io_queues(ctrl);
+   498		if (ret)
+   499			goto out_destroy_io;
+   500	
+   501		blk_mq_update_nr_hw_queues(&ctrl->tag_set,
+   502				ctrl->ctrl.queue_count - 1);
+   503	
+   504		changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+   505		WARN_ON_ONCE(!changed);
+   506	
+   507		nvme_start_ctrl(&ctrl->ctrl);
+   508	
+   509		return;
+   510	
+   511	out_destroy_io:
+   512		nvme_loop_destroy_io_queues(ctrl);
+   513	out_destroy_admin:
+   514		nvme_loop_destroy_admin_queue(ctrl);
+   515	out_disable:
+   516		dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
+   517		nvme_uninit_ctrl(&ctrl->ctrl);
+   518		nvme_put_ctrl(&ctrl->ctrl);
+   519	}
+   520	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 32830 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180111/7fbba43c/attachment-0001.gz>
