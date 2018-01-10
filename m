@@ -1,99 +1,32 @@
-From: kashyap.desai@broadcom.com (Kashyap Desai)
-Date: Wed, 10 Jan 2018 15:33:30 +0530
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <27ebbe5f-e06b-a800-5518-ec63d65d142a@interlog.com>
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
- <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
- <20180109164540.GA11861@infradead.org>
- <27ebbe5f-e06b-a800-5518-ec63d65d142a@interlog.com>
-Message-ID: <e3e6eca50db6f04ef59a9ce3d7f044f6@mail.gmail.com>
+From: joshi.k@samsung.com (Kanchan Joshi)
+Date: Wed, 10 Jan 2018 20:57:19 +0530
+Subject: [PATCH] nvme: Add weighted-round-robin arbitration support
+In-Reply-To: <20180109170539.GE15154@localhost.localdomain>
+References: <CGME20180104150334epcas1p14579a6ab7bcf1b6ce326d0bce89c91e1@epcas1p1.samsung.com>
+ <1515078129-4041-1-git-send-email-joshi.k@samsung.com>
+ <20180104173804.GA7007@localhost.localdomain>
+ <ec6f0d2f-2751-0a29-7762-7a32830e0fcc@samsung.com>
+ <20180109170539.GE15154@localhost.localdomain>
+Message-ID: <00249810-fdad-9398-1469-03944e8f6164@samsung.com>
 
-> -----Original Message-----
-> From: Douglas Gilbert [mailto:dgilbert at interlog.com]
-> Sent: Wednesday, January 10, 2018 2:21 AM
-> To: Christoph Hellwig; Kashyap Desai
-> Cc: Shivasharan Srikanteshwara; linux-scsi at vger.kernel.org; Sumit Saxena;
-> linux-nvme at lists.infradead.org; Peter Rivera
-> Subject: Re: [PATCH 13/14] megaraid_sas: NVME passthru command support
->
-> On 2018-01-09 11:45 AM, Christoph Hellwig wrote:
-> > On Tue, Jan 09, 2018@10:07:28PM +0530, Kashyap Desai wrote:
-> >> Chris -
-> >>
-> >> Overall NVME support behind MR controller is really a SCSI device. On
-> >> top of that, for MegaRaid, NVME device can be part of Virtual Disk
-> >> and those drive will not be exposed to the driver. User application
-> >> may like to talk to hidden NVME devices (part of VDs). This patch
-> >> will extend the existing interface for megaraid product in the same
-> >> way it is currently supported for other protocols like SMP, SATA pass-
-> through.
-> >>
-> >> Example - Current smartmon is using megaraid.h (MFI headers) to send
-> >> SATA pass-through.
-> >>
-> >> https://github.com/mirror/smartmontools/blob/master/megaraid.h
-> >
-> > And that is exactly the example of why we should have never allowed
-> > megaraid any private passthrough ioctls to start with.
->
-> Christoph,
-> Have you tried to do any serious work with <linux/nvme_ioctl.h> and say
-> compared it with FreeBSD and Microsoft's approach? No prize for guessing
-> which one is worst (and least extensible). Looks like the Linux
-> pass-through
-> was at the end of a ToDo list and was "designed"
-> at 5 a.m in the morning.
->
-> RAID cards need a pass-through that allows them to address one of many
-> physical disks behind the virtual disk presented to OS.
-> Pass-throughs need to have uncommited room for extra parameters that will
-> be passed through as-is to the RAID LLD.
+Different hctx sounds good, and can be used for both polled IO and WRR 
+(somewhat more resource-heavy for WRR though). May I know if that work 
+is in progress already.
+It seems NVMe driver does not have to do much in that scheme-of-things, 
+while block layer takes most of the load.
 
-Doug - As you mentioned, I notice the same. This type of issue is common for
-all RAID controllers vendors.
-Whatever Christoph mentioned about NVMe type API to be used is possible, but
-may need extra hit in firmware side to convert Linux NVME API to FW specific
-OR deal the same in driver.
-It may come with it's own pros/cons.  Also may not fulfil the end goal. For
-other platforms, we still have to depend upon specialized pass-through code.
-So having said that Firmware of RAID cannot use only one interface for
-pass-through and they have to choose specialized pass-through code.
-
-NVME-CLI interface is designed for NVME drives attached to block layer.
-MegaRaid product is design to keep NVME protocol abstracted (much like SATA
-drives behind SAS controller) and attach those drives/virtual disk to SCSI
-layer.
-
->
-> So until Christoph gives an example of how that can be done with
-> <linux/nvme_ioctl.h> then I would like to see Christoph's objection
-> ignored.
->
->
-> And as a maintainer of smartmontools, I would like to point out that
-> pretty
-> well all supported RAIDs, on all platforms need specialized pass-through
-> code.
-
-If upstream community like to enhance nvme-cli type interface in
-megaraid_sas driver, we may have to come up with one more layer in
-megaraid_sas driver to convert NVME-API to specialized pass-through code.
-It is really not simple to fit into existing design as NVME-CLI/API is
-considering NVME drive associated with nvme.ko modules (/dev/nvmeX). Also we
-don't have many sysfs entries nvme-cli is looking for NVME device etc.. We
-don't have way to talk to Physical disks which is part of VD etc..
-
-Specialized pass-through code is better to extend in application like
-smartmontools etc.
-
-> Start by looking at os_linux.cpp and then at the other OSes. And now
-> smartmontools supports NVMe on most platforms and at the pass-through
-> level, it is just another one, and not a particularly clean one.
->
-> IMO Intel had their chance on the pass-through front, and blew it.
-> It is now too late to fix it and that job (impossible ?) should not fall
-> to
-> MegaRaid maintainers.
->
-> Douglas Gilbert
+On Tuesday 09 January 2018 10:35 PM, Keith Busch wrote:
+> On Tue, Jan 09, 2018@07:20:58PM +0530, Kanchan Joshi wrote:
+>> It seems to me that some sort of differentiation (among tasks of various
+>> classes) during tag allocation is required to handle this. Perhaps, static
+>> division of available tags into 4 priority classes needs to be done in block
+>> layer.
+> 
+> Yes, I was thinking either some kind priorty based tag reservation, or
+> possibly entirely different hctx's for each priority. The block layer
+> currently doesn't provide this kind of separation, but it was mentioned
+> the latter might be appropriate for hipri/polled IO, so maybe that idea
+> can extend to WRR.
+> 
+> 
+> 
