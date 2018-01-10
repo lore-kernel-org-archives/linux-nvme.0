@@ -1,24 +1,17 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 9 Jan 2018 16:23:05 -0700
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <27ebbe5f-e06b-a800-5518-ec63d65d142a@interlog.com>
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
- <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
- <20180109164540.GA11861@infradead.org>
- <27ebbe5f-e06b-a800-5518-ec63d65d142a@interlog.com>
-Message-ID: <20180109232305.GH15154@localhost.localdomain>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 10 Jan 2018 08:58:35 +0100
+Subject: [dm-devel] [PATCHv2 1/5] nvme: Add more command status translation
+In-Reply-To: <20180109190418.7123-2-keith.busch@intel.com>
+References: <20180109190418.7123-1-keith.busch@intel.com>
+ <20180109190418.7123-2-keith.busch@intel.com>
+Message-ID: <20180110075835.pmxvsddlnjfm6yex@linux-x5ow.site>
 
-On Tue, Jan 09, 2018@03:50:44PM -0500, Douglas Gilbert wrote:
-> Have you tried to do any serious work with <linux/nvme_ioctl.h> and
-> say compared it with FreeBSD and Microsoft's approach? No prize for
-> guessing which one is worst (and least extensible). Looks like the
-> Linux pass-through was at the end of a ToDo list and was "designed"
-> at 5 a.m in the morning.
-
-What the heck are you talking about? FreeBSD's NVMe passthrough is near
-identical to Linux, and Linux's existed years prior.
- 
-You're not even touching the nvme subsystem, so why are you copying the
-linux-nvme mailing list to help you with a non-NVMe device? Please take
-your ignorant and dubious claims elsewhere.
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
