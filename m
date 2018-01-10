@@ -1,20 +1,19 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 10 Jan 2018 10:52:57 -0700
-Subject: [PATCHv2 0/5] nvme/dm failover unification
-In-Reply-To: <20180110082835.GA10185@lst.de>
-References: <20180109190418.7123-1-keith.busch@intel.com>
- <20180110082835.GA10185@lst.de>
-Message-ID: <599f627a-cb0d-de65-f20b-61fed9c6cd22@kernel.dk>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Wed, 10 Jan 2018 14:39:35 -0500
+Subject: [PATCH] nvme: initialize hostid uuid in nvmf_host_default to
+ not leak kernel memory
+In-Reply-To: <20180109164252.GD15154@localhost.localdomain>
+References: <20180109152043.30422-1-jthumshirn@suse.de>
+ <20180109164252.GD15154@localhost.localdomain>
+Message-ID: <1515613175.3913.105.camel@localhost.localdomain>
 
-On 1/10/18 1:28 AM, Christoph Hellwig wrote:
-> The whole series looks fine to me:
+On Tue, 2018-01-09@09:42 -0700, Keith Busch wrote:
 > 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> 
-> Jens, do you want me to apply this to the nvme tree, or pick it up
-> directly?
+> Thanks for the report and the fix. It'd still be good to use the kzalloc
+> variant in addition to this.
 
-I queued it up, thanks.
+Yes, thanks.  Good point.
 
--- 
-Jens Axboe
+kmalloc() is used elsewhere as well, so maybe another patch?
+
+-Ewan
