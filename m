@@ -1,22 +1,21 @@
-From: bj.sung@sk.com (=?ks_c_5601-1987?B?vLq56cDn?=)
-Date: Thu, 11 Jan 2018 06:41:49 +0000
-Subject: The need for round robin path selector in nvme multipath
-Message-ID: <d673362d861044979094e397f910c61f@skt-tnetpmx1.SKT.AD>
+From: vickey.nitt@gmail.com (VIKASH KUMAR)
+Date: Thu, 11 Jan 2018 14:37:06 +0530
+Subject: Fabric Connect Fails with Chelsio from Windows Host
+Message-ID: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
 
-Hello.
+Hi all,
 
-We are testing dual-port NVMe SSD with nvme multipath code.
-(http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-mpath)
-Thanks Christoph. It is wonderful.
+I have written a Windows application to test NVMe over RDMA with
+Chelsio RNICs in host and target.
+When I issue the fabric connect command from host, target fails in
+nvmet_rdma_map_sgl_keyed( ) with Status code 0x6 (Internal error). And
+RDMA connect command working fine.
 
-And I found that there is no plan to implement round robin path selector in this thread.
-(http://lists.infradead.org/pipermail/linux-nvme/2017-November/013853.html)
+I have tried the same application with Mellanox RNICs, and connect is
+working fine. Also I have tired with the linux host and linux target,
+fabric connect command working fine.
 
-However, in our environment, I think that there is a need for round robin path selector in nvme multipath.
-Specifically, we measured that each port showed 400k IOPS for random read and 1.7 GB/s for sequential read in dual-port NVMe SSD.
-After the simple implementation of round robin path selector in function nvme_find_path to utilize two ports, it showed that 500k IOPS for random read and 3.4 GB/s for sequential read.
+Has anybody tested the linux NVMe over RDMA stack with Chelsio RNIC?
 
-I would like to discuss about this need.
-
-Thanks.
-/Jay Sung
+Thanks,
+Vikash Kumar
