@@ -1,65 +1,47 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Thu, 11 Jan 2018 13:38:15 -0800
-Subject: [PATCH 2/2] nvme: Don't use a stack buffer for keep-alive command
-Message-ID: <20180111213815.2107-1-roland@kernel.org>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 11 Jan 2018 14:29:22 -0800
+Subject: [PATCH] nvme_fc: fix rogue admin cmds stalling teardown
+Message-ID: <20180111222922.3332-1-jsmart2021@gmail.com>
 
-From: Roland Dreier <roland@purestorage.com>
+When connectivity is lost to a device, the association is terminated
+and the blk-mq queues are quiesced/stopped. When connectivity is
+re-established, they are resumed.
 
-In nvme_keep_alive() we pass a request with a pointer to an NVMe command on
-the stack into blk_execute_rq_nowait().  However, the block layer doesn't
-guarantee that the request is fully queued before blk_execute_rq_nowait()
-returns.  If not, and the request is queued after nvme_keep_alive() returns,
-then we'll end up using stack memory that might have been overwritten to
-form the NVMe command we pass to hardware.
+If an admin command is received while connectivity is list, the ioctl
+queues the command on the admin_q and the command stalls (the thread
+issuing the ioctl hangs/waits). if the connectivity is lost long
+enough such that the controller is then deleted, the delete code
+makes its calls to initiate the delete, which then expects the core
+layer to call the transport when all references are removed and the
+controller can be freed.  Unfortunately, nothing in this path dequeued
+the admin command, so a reference sits outstanding and things stop,
+hanging the delete indefinitely.
 
-Fix this by keeping a special command struct in the nvme_ctrl struct right
-next to the delayed work struct used for keep-alives.
+Correct by unquiescing the admin queue in the delete association. This
+means any admin command (which should only be from an ioctl) issued
+after connectivity is lost will detect the controller is in a
+reconnecting state and will (fast) fail the command. Thus, a pending
+reference can no longer be created.  Once connectivity is re-established,
+a new ioctl/admin command would see proper device state and function again.
 
-Signed-off-by: Roland Dreier <roland at purestorage.com>
+Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/core.c | 8 +++-----
- drivers/nvme/host/nvme.h | 1 +
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/nvme/host/fc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 839650e0926a..329f1dd5c421 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -748,13 +748,9 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 306aee47c8ce..fe98e994498c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2921,6 +2921,9 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[0], 0);
+ 	nvme_fc_free_queue(&ctrl->queues[0]);
  
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
- {
--	struct nvme_command c;
- 	struct request *rq;
- 
--	memset(&c, 0, sizeof(c));
--	c.common.opcode = nvme_admin_keep_alive;
--
--	rq = nvme_alloc_request(ctrl->admin_q, &c, BLK_MQ_REQ_RESERVED,
-+	rq = nvme_alloc_request(ctrl->admin_q, &ctrl->ka_cmd, BLK_MQ_REQ_RESERVED,
- 			NVME_QID_ANY);
- 	if (IS_ERR(rq))
- 		return PTR_ERR(rq);
-@@ -786,6 +782,8 @@ void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
- 		return;
- 
- 	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
-+	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
-+	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
- 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++	/* re-enable the admin_q so anything new can fast fail */
++	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
++
+ 	nvme_fc_ctlr_inactive_on_rport(ctrl);
  }
- EXPORT_SYMBOL_GPL(nvme_start_keep_alive);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a00eabd06427..f524c69339b5 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -180,6 +180,7 @@ struct nvme_ctrl {
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
-+	struct nvme_command ka_cmd;
- 	struct work_struct fw_act_work;
  
- 	/* Power saving configuration */
 -- 
-2.14.1
+2.13.1
