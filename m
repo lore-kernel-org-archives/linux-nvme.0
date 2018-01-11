@@ -1,47 +1,44 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Thu, 11 Jan 2018 13:07:46 +0800
-Subject: [PATCH V3 0/2] nvme-pci: fix the timeout case when reset is ongoing
-Message-ID: <1515647268-1717-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Thu, 11 Jan 2018 13:09:39 +0800
+Subject: [PATCH] nvme-pci: calculate iod and avg_seg_size just before use them
+Message-ID: <1515647379-1877-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Hello
+The calculation of iod and avg_seg_size maybe meaningless if
+nvme_pci_use_sgls returns before uses them. So calculate
+just before use them.
 
-NVME_CTRL_RESETTING used to indicate the range of nvme initializing
-strictly in fd634f41(nvme: merge probe_work and reset_work), but it
-is not now. The NVME_CTRL_RESETTING is set before queue the
-reset_work, there could be a big gap before the reset work handles
-the outstanding requests. So when the NVME_CTRL_RESETTING is set,
-nvme_timeout will not only meet the admin requests from the
-initializing procedure, but also the IO and admin requests from
-previous work before nvme_dev_disable is invoked.
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/pci.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-To fix this, based on Christoph's suggestion, splits the
-NVME_CTRL_RESETTING into NVME_CTRL_RESET_PREPARE
-and NVME_CTRL_RESETTING. Before queue the reset work, changes state
-to NVME_CTRL_RESET_PREPARE, after disable work completes, changes
-state to NVME_CTRL_RESETTING. Then we could distinguish the different
-requests and handle them separately. More details, please refer to
-the comment of the 2nd patch.
-
-V3:
- - fix wrong reference in loop.c
- - other misc changes
-
-V2:
- - split NVME_CTRL_RESETTING into NVME_CTRL_RESET_PREPARE and
-   NVME_CTRL_RESETTING. Introduce new patch based on this.
- - distinguish the requests based on the new state in nvme_timeout
- - change comments of patch
-
-Jianchao Wang(2)
-0001-nvme-split-resetting-state-into-reset_prepate-and-re.patch
-0002-nvme-pci-fix-the-timeout-case-when-reset-is-ongoing.patch
-
-drivers/nvme/host/core.c   | 17 ++++++++++++++--
-drivers/nvme/host/fc.c     |  2 ++
-drivers/nvme/host/nvme.h   |  1 +
-drivers/nvme/host/pci.c    | 51 +++++++++++++++++++++++++++++++++-------------
-drivers/nvme/host/rdma.c   |  8 ++++++++
-drivers/nvme/target/loop.c |  5 +++++
-6 files changed, 68 insertions(+), 16 deletions(-)
-
-Thanks Jianchao
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0530432..733b4f4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -772,16 +772,19 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+ 
+ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
+ {
+-	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	struct nvme_iod *iod;
+ 	unsigned int avg_seg_size;
+ 
+-	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req),
+-			blk_rq_nr_phys_segments(req));
+-
+ 	if (!(dev->ctrl.sgls & ((1 << 0) | (1 << 1))))
+ 		return false;
++
++	iod = blk_mq_rq_to_pdu(req);
+ 	if (!iod->nvmeq->qid)
+ 		return false;
++
++	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req),
++			blk_rq_nr_phys_segments(req));
++
+ 	if (!sgl_threshold || avg_seg_size < sgl_threshold)
+ 		return false;
+ 	return true;
+-- 
+2.7.4
