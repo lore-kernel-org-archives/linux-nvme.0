@@ -1,19 +1,33 @@
-From: sathya.prakash@broadcom.com (Sathya Prakash Veerichetty)
-Date: Thu, 11 Jan 2018 11:07:16 -0700
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <20180111174619.GA2860@localhost.localdomain>
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
- <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
- <1515601333.2745.8.camel@wdc.com>
- <d6da790a-8248-c71d-6643-6ae3107989d0@interlog.com>
- <e407e98c266c060412bfa8b64ded18df@mail.gmail.com>
- <20180111174619.GA2860@localhost.localdomain>
-Message-ID: <780f280162fa01c41f15aaeb64503ffd@mail.gmail.com>
+From: roland@kernel.org (Roland Dreier)
+Date: Thu, 11 Jan 2018 13:38:00 -0800
+Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID option
+Message-ID: <20180111213800.1767-1-roland@kernel.org>
 
->>So even when used as a RAID member, there will be a device handle at
-/dev/sdX for each NVMe device the megaraid controller manages?
-In megaraid controller, you can expose bare NVMe drives and RAID volumes
-created out of NVMe drives, when the RAID volume is created underlying
-member drives will not have /dev/sdX entries associated with them, however
-for bare NVMe drives there will be associated /dev/sdX entries.
+From: Roland Dreier <roland@purestorage.com>
+
+We use match_strdup() to get a copy of the option string for host ID string, but
+we just pass it to uuid_parse() and don't store the string pointer, so we need to
+kfree() the string after parsing it.
+
+Signed-off-by: Roland Dreier <roland at purestorage.com>
+---
+ drivers/nvme/host/fabrics.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 76b4fe6816a0..2ba52f9f8185 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -738,7 +738,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -ENOMEM;
+ 				goto out;
+ 			}
+-			if (uuid_parse(p, &hostid)) {
++			ret = uuid_parse(p, &hostid);
++			kfree(p);
++			if (ret) {
+ 				pr_err("Invalid hostid %s\n", p);
+ 				ret = -EINVAL;
+ 				goto out;
+-- 
+2.14.1
