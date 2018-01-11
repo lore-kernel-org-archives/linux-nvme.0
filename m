@@ -1,21 +1,16 @@
-From: vickey.nitt@gmail.com (VIKASH KUMAR)
-Date: Thu, 11 Jan 2018 14:37:06 +0530
-Subject: Fabric Connect Fails with Chelsio from Windows Host
-Message-ID: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 11 Jan 2018 08:48:58 -0700
+Subject: [PATCH] nvme-pci: calculate iod and avg_seg_size just before use
+ them
+In-Reply-To: <1515647379-1877-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1515647379-1877-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180111154857.GA2602@localhost.localdomain>
 
-Hi all,
+On Thu, Jan 11, 2018@01:09:39PM +0800, Jianchao Wang wrote:
+> The calculation of iod and avg_seg_size maybe meaningless if
+> nvme_pci_use_sgls returns before uses them. So calculate
+> just before use them.
 
-I have written a Windows application to test NVMe over RDMA with
-Chelsio RNICs in host and target.
-When I issue the fabric connect command from host, target fails in
-nvmet_rdma_map_sgl_keyed( ) with Status code 0x6 (Internal error). And
-RDMA connect command working fine.
-
-I have tried the same application with Mellanox RNICs, and connect is
-working fine. Also I have tired with the linux host and linux target,
-fabric connect command working fine.
-
-Has anybody tested the linux NVMe over RDMA stack with Chelsio RNIC?
-
-Thanks,
-Vikash Kumar
+The compiler will do the right thing here, but I see what you mean. I
+think Christoph has some SGL improvements coming, though, that will
+obviate this.
