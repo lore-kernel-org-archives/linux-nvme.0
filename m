@@ -1,28 +1,23 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 12 Jan 2018 11:16:57 +0100
-Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
- option
-In-Reply-To: <20180111213800.1767-1-roland@kernel.org>
-References: <20180111213800.1767-1-roland@kernel.org>
-Message-ID: <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 12 Jan 2018 16:09:13 +0100
+Subject: [GIT PULL] one nvme fix for Linux 4.15
+Message-ID: <20180112150913.yu6cs6xzn5vue3v3@infradead.org>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+The following changes since commit 254beb84faccbe2f4eda0b51924857bdfb679969:
 
-Do you mind fixing the same pattern on:
-- NVMF_OPT_TRANSPORT
-- NVMF_OPT_NQN
-- NVMF_OPT_TRADDR
-- NVMF_OPT_TRSVCID
-- NVMF_OPT_HOST_TRADDR
-as well?
+  nvme-fcloop: avoid possible uninitialized variable warning (2017-12-29 10:37:21 +0100)
 
-Thanks,
-	Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.15
+
+for you to fetch changes up to 6b018235b4daabae96d855219fae59c3fb8be417:
+
+  nvme-fabrics: initialize default host->id in nvmf_host_default() (2018-01-08 10:52:03 +0100)
+
+----------------------------------------------------------------
+Ewan D. Milne (1):
+      nvme-fabrics: initialize default host->id in nvmf_host_default()
+
+ drivers/nvme/host/fabrics.c | 1 +
+ 1 file changed, 1 insertion(+)
