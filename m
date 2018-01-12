@@ -1,24 +1,28 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 12 Jan 2018 10:43:11 -0700
-Subject: [GIT PULL] one nvme fix for Linux 4.15
-In-Reply-To: <20180112150913.yu6cs6xzn5vue3v3@infradead.org>
-References: <20180112150913.yu6cs6xzn5vue3v3@infradead.org>
-Message-ID: <07758237-02bd-da54-8025-2944657bab2a@kernel.dk>
+From: roland@kernel.org (Roland Dreier)
+Date: Fri, 12 Jan 2018 12:00:32 -0800
+Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
+ option
+In-Reply-To: <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
+References: <20180111213800.1767-1-roland@kernel.org>
+ <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
+Message-ID: <CAG4TOxMi4SMVL8ETKvjSocB37Rj_P=vc5cMsVv81WBgM-muU8w@mail.gmail.com>
 
-On 1/12/18 8:09 AM, Christoph Hellwig wrote:
-> The following changes since commit 254beb84faccbe2f4eda0b51924857bdfb679969:
-> 
->   nvme-fcloop: avoid possible uninitialized variable warning (2017-12-29 10:37:21 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.15
-> 
-> for you to fetch changes up to 6b018235b4daabae96d855219fae59c3fb8be417:
-> 
->   nvme-fabrics: initialize default host->id in nvmf_host_default() (2018-01-08 10:52:03 +0100)
+On Fri, Jan 12, 2018@2:16 AM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
+> Looks good,
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+>
+> Do you mind fixing the same pattern on:
+> - NVMF_OPT_TRANSPORT
+> - NVMF_OPT_NQN
+> - NVMF_OPT_TRADDR
+> - NVMF_OPT_TRSVCID
+> - NVMF_OPT_HOST_TRADDR
+> as well?
 
-Pulled, thanks.
+Thanks for the review.  I don't think the same pattern is there for
+the other options - a pointer to the string is
+stored in opts and freed in nvmf_free_options(). NVMF_OPT_HOST_ID is
+unique in that we don't stash the
+strdup'ed pointer anywhere.
 
--- 
-Jens Axboe
+ - R.
