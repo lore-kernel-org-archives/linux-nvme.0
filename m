@@ -1,28 +1,8 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Fri, 12 Jan 2018 12:00:32 -0800
-Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
- option
-In-Reply-To: <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
-References: <20180111213800.1767-1-roland@kernel.org>
- <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
-Message-ID: <CAG4TOxMi4SMVL8ETKvjSocB37Rj_P=vc5cMsVv81WBgM-muU8w@mail.gmail.com>
+From: Darren.Trapp@cavium.com (Trapp, Darren)
+Date: Fri, 12 Jan 2018 22:25:53 +0000
+Subject: nvme-fc unregister remote port
+Message-ID: <0F0B1C8F-68EA-49B4-A8A6-E9787D8A94CB@cavium.com>
 
-On Fri, Jan 12, 2018@2:16 AM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
-> Looks good,
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
->
-> Do you mind fixing the same pattern on:
-> - NVMF_OPT_TRANSPORT
-> - NVMF_OPT_NQN
-> - NVMF_OPT_TRADDR
-> - NVMF_OPT_TRSVCID
-> - NVMF_OPT_HOST_TRADDR
-> as well?
+During the unregister remote process, we stop all the q?s, kill the IO (including AEN?s) and try and send a disconnect to the target via a LS request.  But, that request fails since __nvme_fc_send_ls_req first checks to ensure the remote port is ONLINE.  It won?t be since the unregister_remoteport sets the state to DELETED.
 
-Thanks for the review.  I don't think the same pattern is there for
-the other options - a pointer to the string is
-stored in opts and freed in nvmf_free_options(). NVMF_OPT_HOST_ID is
-unique in that we don't stash the
-strdup'ed pointer anywhere.
-
- - R.
+The disconnect never goes to the target to make an orderly shutdown/cleanup.  The target will eventually figure it out when the keep alive?s stop coming.  But it seams we should do an orderly shutdown when we can.
