@@ -1,27 +1,28 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 12 Jan 2018 09:31:21 +0800
-Subject: [PATCH] nvme-pci: calculate iod and avg_seg_size just before use
- them
-In-Reply-To: <20180111154857.GA2602@localhost.localdomain>
-References: <1515647379-1877-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180111154857.GA2602@localhost.localdomain>
-Message-ID: <6a128c20-bf35-8526-224c-7e0de88d0908@oracle.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 12 Jan 2018 11:16:57 +0100
+Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
+ option
+In-Reply-To: <20180111213800.1767-1-roland@kernel.org>
+References: <20180111213800.1767-1-roland@kernel.org>
+Message-ID: <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
 
-Hi Keith
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-Thanks for your kindly response.
+Do you mind fixing the same pattern on:
+- NVMF_OPT_TRANSPORT
+- NVMF_OPT_NQN
+- NVMF_OPT_TRADDR
+- NVMF_OPT_TRSVCID
+- NVMF_OPT_HOST_TRADDR
+as well?
 
-On 01/11/2018 11:48 PM, Keith Busch wrote:
-> On Thu, Jan 11, 2018@01:09:39PM +0800, Jianchao Wang wrote:
->> The calculation of iod and avg_seg_size maybe meaningless if
->> nvme_pci_use_sgls returns before uses them. So calculate
->> just before use them.
-> 
-> The compiler will do the right thing here, but I see what you mean. I
-> think Christoph has some SGL improvements coming, though, that will
-> obviate this.
-> 
-Yeah, that's great.
-
-Thanks
-Jianchao
+Thanks,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
