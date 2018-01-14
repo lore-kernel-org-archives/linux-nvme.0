@@ -1,37 +1,61 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 14 Jan 2018 18:24:42 +0200
-Subject: [PATCH] nvme: free pre-allocated queue if create ioq goes wrong
-In-Reply-To: <CAA7jztfVUq2hCoTbjjCw69f3Z77chwZmrADNU3+w2d4zBCcWfg@mail.gmail.com>
-References: <1515914131-12725-1-git-send-email-minwoo.im.dev@gmail.com>
- <d4a85f57-a499-a580-ba39-8eea6e5c9712@grimberg.me>
- <CAA7jztfVUq2hCoTbjjCw69f3Z77chwZmrADNU3+w2d4zBCcWfg@mail.gmail.com>
-Message-ID: <d7b86468-bccb-0779-693a-3e4a01763fb2@grimberg.me>
+From: nitzanc@mellanox.com (Nitzan Carmi)
+Date: Sun, 14 Jan 2018 16:32:03 +0000
+Subject: [PATCH] nvme-rdma: fix sysfs invoked reset_ctrl error flow
+Message-ID: <20180114163203.4771-1-nitzanc@mellanox.com>
 
+When reset_controller that is invoked by sysfs fails,
+it enters an error flow which practically removes the
+nvme ctrl entirely (similar to delete_ctrl flow). It
+causes the system to hang, since a sysfs attribute cannot
+be unregistered by one of its own methods.
 
+This can be fixed by calling delete_ctrl as a work rather
+than sequential code. In addition, it should give the ctrl
+a chance to recover using reconnection mechanism (consistant
+with FC reset_ctrl error flow). Also, while we're here, return
+suitable errno in case the reset ended with non live ctrl.
 
-On 01/14/2018 11:41 AM, Minwoo Im wrote:
-> Sagi,
-> 
-> On Sun, Jan 14, 2018@6:18 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->> Minwoo,
->>
->>> If either create-sq or create-cq is failed with an NVMe status,
->>> nvme_init_queue() is invoked which was not expected to be called in
->>> nvme_create_queue().
->>> To prevent this inconsistency of queue_count, free queue(s) already
->>> allocated in nvme_create_io_queues() when it goes wrong in
->>> nvme_create_queue().
->>
->>
->> The fix looks good, but I think it would be better to cleanup the queue
->> in the call site where nvme_alloc_queue is called, having it here is a
->> bit awkward IMO.
-> 
-> Thanks for your kind review.
-> 
-> I agree with that allocation and freeing should be in the same place
-> because it looks much more consistent in code.
-> 
-> What about below code?
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/core.c | 6 +++++-
+ drivers/nvme/host/rdma.c | 6 +-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Looks better, please send a proper patch, thanks.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d6358cd..84b80a0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -100,8 +100,12 @@ static int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
+ 	int ret;
+ 
+ 	ret = nvme_reset_ctrl(ctrl);
+-	if (!ret)
++	if (!ret) {
+ 		flush_work(&ctrl->reset_work);
++		if (ctrl->state != NVME_CTRL_LIVE)
++			ret = -ENETRESET;
++	}
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index d06641b..890c488 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1791,11 +1791,7 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+ 	return;
+ 
+ out_fail:
+-	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
+-	nvme_remove_namespaces(&ctrl->ctrl);
+-	nvme_rdma_shutdown_ctrl(ctrl, true);
+-	nvme_uninit_ctrl(&ctrl->ctrl);
+-	nvme_put_ctrl(&ctrl->ctrl);
++	nvme_rdma_reconnect_or_remove(ctrl);
+ }
+ 
+ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+-- 
+2.9.4
