@@ -1,38 +1,37 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 14 Jan 2018 20:40:55 +0900
-Subject: [PATCH 2/2] nvme: pci: remove unnecessary initialization of local
- variable
-Message-ID: <1515930055-20611-1-git-send-email-minwoo.im.dev@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 14 Jan 2018 18:24:42 +0200
+Subject: [PATCH] nvme: free pre-allocated queue if create ioq goes wrong
+In-Reply-To: <CAA7jztfVUq2hCoTbjjCw69f3Z77chwZmrADNU3+w2d4zBCcWfg@mail.gmail.com>
+References: <1515914131-12725-1-git-send-email-minwoo.im.dev@gmail.com>
+ <d4a85f57-a499-a580-ba39-8eea6e5c9712@grimberg.me>
+ <CAA7jztfVUq2hCoTbjjCw69f3Z77chwZmrADNU3+w2d4zBCcWfg@mail.gmail.com>
+Message-ID: <d7b86468-bccb-0779-693a-3e4a01763fb2@grimberg.me>
 
-No functional change with code clean-up.
-Remove unnecessary initialization of local variable in HMB code.
 
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- drivers/nvme/host/pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index fb392c5..3abe12c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1768,7 +1768,7 @@ static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
- 	dma_addr_t descs_dma;
- 	int i = 0;
- 	void **bufs;
--	u64 size = 0, tmp;
-+	u64 size, tmp;
- 
- 	tmp = (preferred + chunk_size - 1);
- 	do_div(tmp, chunk_size);
-@@ -1851,7 +1851,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
- 	u64 preferred = (u64)dev->ctrl.hmpre * SZ_4K;
- 	u64 min = (u64)dev->ctrl.hmmin * SZ_4K;
- 	u32 enable_bits = NVME_HOST_MEM_ENABLE;
--	int ret = 0;
-+	int ret;
- 
- 	preferred = min(preferred, max);
- 	if (min > max) {
--- 
-2.7.4
+On 01/14/2018 11:41 AM, Minwoo Im wrote:
+> Sagi,
+> 
+> On Sun, Jan 14, 2018@6:18 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
+>> Minwoo,
+>>
+>>> If either create-sq or create-cq is failed with an NVMe status,
+>>> nvme_init_queue() is invoked which was not expected to be called in
+>>> nvme_create_queue().
+>>> To prevent this inconsistency of queue_count, free queue(s) already
+>>> allocated in nvme_create_io_queues() when it goes wrong in
+>>> nvme_create_queue().
+>>
+>>
+>> The fix looks good, but I think it would be better to cleanup the queue
+>> in the call site where nvme_alloc_queue is called, having it here is a
+>> bit awkward IMO.
+> 
+> Thanks for your kind review.
+> 
+> I agree with that allocation and freeing should be in the same place
+> because it looks much more consistent in code.
+> 
+> What about below code?
+
+Looks better, please send a proper patch, thanks.
