@@ -1,21 +1,25 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 14 Jan 2018 12:44:53 +0200
-Subject: [PATCH] nvme_fc: correct hang in nvme_ns_remove()
-In-Reply-To: <20180111232138.10669-1-jsmart2021@gmail.com>
-References: <20180111232138.10669-1-jsmart2021@gmail.com>
-Message-ID: <98acda28-7c20-5830-bd8b-11ca77e7c3c1@grimberg.me>
+Date: Sun, 14 Jan 2018 12:50:34 +0200
+Subject: Fabric Connect Fails with Chelsio from Windows Host
+In-Reply-To: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
+References: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
+Message-ID: <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
 
+> Hi all,
+> 
+> I have written a Windows application to test NVMe over RDMA with
+> Chelsio RNICs in host and target.
+> When I issue the fabric connect command from host, target fails in
+> nvmet_rdma_map_sgl_keyed( ) with Status code 0x6 (Internal error). And
+> RDMA connect command working fine.
+> 
+> I have tried the same application with Mellanox RNICs, and connect is
+> working fine. Also I have tired with the linux host and linux target,
+> fabric connect command working fine.
+> 
+> Has anybody tested the linux NVMe over RDMA stack with Chelsio RNIC?
 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index fe98e994498c..99bf51c7e513 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2938,6 +2938,9 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
->   	 * waiting for io to terminate
->   	 */
->   	nvme_fc_delete_association(ctrl);
-> +
-> +	/* resume the io queues so that things will fast fail */
-> +	nvme_start_queues(nctrl);
+I think Steve Wise have.
 
-Is fc also unquiescing the admin queue here?
+As I see it, this probably related to the rdma_rw_ctx that involves MRs.
+Are you able to add some logging prints to your system?
