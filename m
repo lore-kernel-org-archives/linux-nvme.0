@@ -1,20 +1,24 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 14 Jan 2018 11:27:07 +0200
-Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
- option
-In-Reply-To: <CAG4TOxMi4SMVL8ETKvjSocB37Rj_P=vc5cMsVv81WBgM-muU8w@mail.gmail.com>
-References: <20180111213800.1767-1-roland@kernel.org>
- <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
- <CAG4TOxMi4SMVL8ETKvjSocB37Rj_P=vc5cMsVv81WBgM-muU8w@mail.gmail.com>
-Message-ID: <ad6b60fa-6b03-957c-b3b1-623034cea30a@grimberg.me>
+Date: Sun, 14 Jan 2018 11:28:23 +0200
+Subject: [PATCH] nvme-pci: calculate iod and avg_seg_size just before use
+ them
+In-Reply-To: <20180111154857.GA2602@localhost.localdomain>
+References: <1515647379-1877-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180111154857.GA2602@localhost.localdomain>
+Message-ID: <e2b12a6e-c54a-c17b-4749-287633298af6@grimberg.me>
 
 
-> Thanks for the review.  I don't think the same pattern is there for
-> the other options - a pointer to the string is
-> stored in opts and freed in nvmf_free_options(). NVMF_OPT_HOST_ID is
-> unique in that we don't stash the
-> strdup'ed pointer anywhere.
+>> The calculation of iod and avg_seg_size maybe meaningless if
+>> nvme_pci_use_sgls returns before uses them. So calculate
+>> just before use them.
+> 
+> The compiler will do the right thing here, but I see what you mean. I
+> think Christoph has some SGL improvements coming, though, that will
+> obviate this.
 
-Agreed, thanks Roland,
+I think that if its not coming for 4.16, it should be easy enough to
+take it in.
+
+FWIW,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
