@@ -1,72 +1,195 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 14 Jan 2018 18:41:11 +0900
-Subject: [PATCH] nvme: free pre-allocated queue if create ioq goes wrong
-In-Reply-To: <d4a85f57-a499-a580-ba39-8eea6e5c9712@grimberg.me>
-References: <1515914131-12725-1-git-send-email-minwoo.im.dev@gmail.com>
- <d4a85f57-a499-a580-ba39-8eea6e5c9712@grimberg.me>
-Message-ID: <CAA7jztfVUq2hCoTbjjCw69f3Z77chwZmrADNU3+w2d4zBCcWfg@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 14 Jan 2018 11:48:46 +0200
+Subject: [PATCH V3 1/2] nvme: split resetting state into reset_prepate and
+ resetting
+In-Reply-To: <1515647268-1717-2-git-send-email-jianchao.w.wang@oracle.com>
+References: <1515647268-1717-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1515647268-1717-2-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <b502ea5a-d319-3a03-0204-e2b6068bb55e@grimberg.me>
 
-Sagi,
 
-On Sun, Jan 14, 2018@6:18 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
-> Minwoo,
->
->> If either create-sq or create-cq is failed with an NVMe status,
->> nvme_init_queue() is invoked which was not expected to be called in
->> nvme_create_queue().
->> To prevent this inconsistency of queue_count, free queue(s) already
->> allocated in nvme_create_io_queues() when it goes wrong in
->> nvme_create_queue().
->
->
-> The fix looks good, but I think it would be better to cleanup the queue
-> in the call site where nvme_alloc_queue is called, having it here is a
-> bit awkward IMO.
+> Currently, the ctrl->state will be changed to NVME_CTRL_RESETTING
+> before queue the reset work. This is not so strict. There could be
+> a big gap before the reset_work callback is invoked. In addition,
+> there is some disable work in the reset_work callback, strictly
+> speaking, not part of reset work, and could lead to some confusion.
+> 
+> This patch splits the NVME_CTRL_RESETTING into NVME_CTRL_RESET_PREPARE
+> and NVME_CTRL_RESETTING. Before queue the reset work, changes state
+> to NVME_CTRL_RESET_PREPARE, after disable work completes, changes
+> state to NVME_CTRL_RESETTING.
 
-Thanks for your kind review.
+What guarantees that nvme_timeout will do the right thing? If it
+is relying on the fact that nvme-pci sets the state to RESETTING
+only _after_ quiescing the requests queues it needs to be documented
+as its a real delicate dependency.
 
-I agree with that allocation and freeing should be in the same place
-because it looks much more consistent in code.
 
-What about below code?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d53550e..ecef45a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1456,11 +1456,11 @@ static int nvme_create_queue(struct nvme_queue
-*nvmeq, int qid)
+> 
+> Suggested-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> ---
+>   drivers/nvme/host/core.c   | 17 +++++++++++++++--
+>   drivers/nvme/host/fc.c     |  2 ++
+>   drivers/nvme/host/nvme.h   |  1 +
+>   drivers/nvme/host/pci.c    | 28 ++++++++++++++++++++++------
+>   drivers/nvme/host/rdma.c   |  8 ++++++++
+>   drivers/nvme/target/loop.c |  5 +++++
+>   6 files changed, 53 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1e46e60..106a437 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -87,7 +87,7 @@ static __le32 nvme_get_log_dw10(u8 lid, size_t size)
+>   
+>   int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+>   {
+> -	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+> +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESET_PREPARE))
+>   		return -EBUSY;
+>   	if (!queue_work(nvme_wq, &ctrl->reset_work))
+>   		return -EBUSY;
+> @@ -243,7 +243,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   			break;
+>   		}
+>   		break;
+> -	case NVME_CTRL_RESETTING:
+> +	case NVME_CTRL_RESET_PREPARE:
+>   		switch (old_state) {
+>   		case NVME_CTRL_NEW:
+>   		case NVME_CTRL_LIVE:
+> @@ -253,10 +253,21 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   			break;
+>   		}
+>   		break;
+> +
+> +	case NVME_CTRL_RESETTING:
+> +		switch (old_state) {
+> +		case NVME_CTRL_RESET_PREPARE:
+> +			changed = true;
+> +			/* FALLTHRU */
+> +		default:
+> +			break;
+> +		}
+> +		break;
+>   	case NVME_CTRL_RECONNECTING:
+>   		switch (old_state) {
+>   		case NVME_CTRL_LIVE:
+>   		case NVME_CTRL_RESETTING:
+> +		case NVME_CTRL_RESET_PREPARE:
+>   			changed = true;
+>   			/* FALLTHRU */
+>   		default:
+> @@ -267,6 +278,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   		switch (old_state) {
+>   		case NVME_CTRL_LIVE:
+>   		case NVME_CTRL_RESETTING:
+> +		case NVME_CTRL_RESET_PREPARE:
+>   		case NVME_CTRL_RECONNECTING:
+>   			changed = true;
+>   			/* FALLTHRU */
+> @@ -2603,6 +2615,7 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
+>   		[NVME_CTRL_NEW]		= "new",
+>   		[NVME_CTRL_LIVE]	= "live",
+>   		[NVME_CTRL_RESETTING]	= "resetting",
+> +		[NVME_CTRL_RESET_PREPARE]	= "reset-prepare",
+>   		[NVME_CTRL_RECONNECTING]= "reconnecting",
+>   		[NVME_CTRL_DELETING]	= "deleting",
+>   		[NVME_CTRL_DEAD]	= "dead",
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 794e66e..516c1ea 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -547,6 +547,7 @@ nvme_fc_resume_controller(struct nvme_fc_ctrl *ctrl)
+>   		break;
+>   
+>   	case NVME_CTRL_RESETTING:
+> +	case NVME_CTRL_RESET_PREPARE:
+>   		/*
+>   		 * Controller is already in the process of terminating the
+>   		 * association. No need to do anything further. The reconnect
+> @@ -790,6 +791,7 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
+>   		break;
+>   
+>   	case NVME_CTRL_RESETTING:
+> +	case NVME_CTRL_RESET_PREPARE:
+>   		/*
+>   		 * Controller is already in the process of terminating the
+>   		 * association.  No need to do anything further. The reconnect
 
-        nvmeq->cq_vector = qid - 1;
-        result = adapter_alloc_cq(dev, qid, nvmeq);
--       if (result < 0)
-+       if (result)
-                return result;
+James, can you take a look at this?
 
-        result = adapter_alloc_sq(dev, qid, nvmeq);
--       if (result < 0)
-+       if (result)
-                goto release_cq;
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index f5800c3..e477c35 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1141,8 +1141,13 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
+>   	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
+>   
+>   	/* If there is a reset ongoing, we shouldn't reset again. */
+> -	if (dev->ctrl.state == NVME_CTRL_RESETTING)
+> +	switch (dev->ctrl.state) {
+> +	case NVME_CTRL_RESETTING:
+> +	case NVME_CTRL_RESET_PREPARE:
+>   		return false;
+> +	default:
+> +		break;
+> +	}
 
-        nvme_init_queue(nvmeq, qid);
-@@ -1476,7 +1476,6 @@ static int nvme_create_queue(struct nvme_queue
-*nvmeq, int qid)
-        adapter_delete_cq(dev, qid);
-        return result;
- }
--
- static const struct blk_mq_ops nvme_mq_admin_ops = {
-        .queue_rq       = nvme_queue_rq,
-        .complete       = nvme_pci_complete_rq,
-@@ -1637,8 +1636,10 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
-        max = min(dev->max_qid, dev->ctrl.queue_count - 1);
-        for (i = dev->online_queues; i <= max; i++) {
-                ret = nvme_create_queue(dev->queues[i], i);
--               if (ret)
-+               if (ret) {
-+                       nvme_free_queues(dev, dev->online_queues);
-                        break;
-+               }
-        }
+Isn't the indentation off? also in other places...
 
-        /*
+> @@ -2292,7 +2303,7 @@ static void nvme_reset_work(struct work_struct *work)
+>   	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+>   	int result = -ENODEV;
+>   
+> -	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+> +	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESET_PREPARE))
+>   		goto out;
+>   
+>   	/*
+> @@ -2302,6 +2313,11 @@ static void nvme_reset_work(struct work_struct *work)
+>   	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+>   		nvme_dev_disable(dev, false);
+>   
+> +	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
+> +		WARN_ON_ONCE(dev->ctrl.state != NVME_CTRL_DELETING);
+> +		goto out;
+> +	}
+> +
+
+This needs documentation on _why_ here.
+
+> -	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING);
+> +	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESET_PREPARE);
+>   	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+
+Can you rebase on top of my commit:
+4caff8fc19f1 nvme-pci: don't open-code nvme_reset_ctrl
+
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 37af565..8ae073e 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1753,6 +1753,14 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+>   	nvme_stop_ctrl(&ctrl->ctrl);
+>   	nvme_rdma_shutdown_ctrl(ctrl, false);
+>   
+> +	changed = nvme_change_ctrl_state(&ctrl->ctrl,
+> +			NVME_CTRL_RESET_PREPARE);
+> +	if (!changed) {
+> +		/* state change failure is ok if we're in DELETING state */
+> +		WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
+> +		return;
+> +	}
+> +
+
+setting RESET_PREPARE here??
+
+Also, the error recovery code is mutually excluded from reset_work
+by trying to set the same state which is protected by the ctrl state
+machine, so a similar change is needed there.
+
+So in order not to break rdma ctrl reset (again) please look at:
+bcdacf7fc3d8 nvme-rdma: fix concurrent reset and reconnect
