@@ -1,31 +1,50 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sun, 14 Jan 2018 16:14:27 +0900
-Subject: [PATCH] nvme: fix comment typos in nvme_create_io_queues
-Message-ID: <1515914067-12653-1-git-send-email-minwoo.im.dev@gmail.com>
+Date: Sun, 14 Jan 2018 16:15:31 +0900
+Subject: [PATCH] nvme: free pre-allocated queue if create ioq goes wrong
+Message-ID: <1515914131-12725-1-git-send-email-minwoo.im.dev@gmail.com>
 
-fix comment typos in nvme_create_io_queues() like below.
-  _aount_ to _amount_
-  _an_    to _can_
+If either create-sq or create-cq is failed with an NVMe status,
+nvme_init_queue() is invoked which was not expected to be called in
+nvme_create_queue().
+To prevent this inconsistency of queue_count, free queue(s) already
+allocated in nvme_create_io_queues() when it goes wrong in
+nvme_create_queue().
 
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- drivers/nvme/host/pci.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d53550e..7c52141 100644
+index d53550e..a58282d 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1643,8 +1643,8 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+@@ -1456,11 +1456,11 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
  
- 	/*
- 	 * Ignore failing Create SQ/CQ commands, we can continue with less
--	 * than the desired aount of queues, and even a controller without
--	 * I/O queues an still be used to issue admin commands.  This might
-+	 * than the desired amount of queues, and even a controller without
-+	 * I/O queues can still be used to issue admin commands.  This might
- 	 * be useful to upgrade a buggy firmware for example.
- 	 */
- 	return ret >= 0 ? 0 : ret;
+ 	nvmeq->cq_vector = qid - 1;
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
+-	if (result < 0)
+-		return result;
++	if (result)
++		goto free_queue;
+ 
+ 	result = adapter_alloc_sq(dev, qid, nvmeq);
+-	if (result < 0)
++	if (result)
+ 		goto release_cq;
+ 
+ 	nvme_init_queue(nvmeq, qid);
+@@ -1474,9 +1474,10 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	adapter_delete_sq(dev, qid);
+  release_cq:
+ 	adapter_delete_cq(dev, qid);
++ free_queue:
++	nvme_free_queues(dev, dev->online_queues);
+ 	return result;
+ }
+-
+ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.complete	= nvme_pci_complete_rq,
 -- 
 2.7.4
