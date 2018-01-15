@@ -1,39 +1,38 @@
-From: vickey.nitt@gmail.com (VIKASH KUMAR)
-Date: Mon, 15 Jan 2018 11:26:35 +0530
-Subject: Fabric Connect Fails with Chelsio from Windows Host
-In-Reply-To: <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
-References: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
- <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
-Message-ID: <CADNRq_JFMq4CoT-TuUrNkF4hwPU17ZJiJ0-=9zv_5r7TmwW=1g@mail.gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 15 Jan 2018 08:44:20 +0100
+Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
+ option
+In-Reply-To: <CAG4TOxMi4SMVL8ETKvjSocB37Rj_P=vc5cMsVv81WBgM-muU8w@mail.gmail.com>
+References: <20180111213800.1767-1-roland@kernel.org>
+ <20180112101656.cscb4rhv3dj264cc@linux-x5ow.site>
+ <CAG4TOxMi4SMVL8ETKvjSocB37Rj_P=vc5cMsVv81WBgM-muU8w@mail.gmail.com>
+Message-ID: <20180115074420.4yzcro6ufn4ohm5r@linux-x5ow.site>
 
-Hi Sagi Grimverg,
+On Fri, Jan 12, 2018@12:00:32PM -0800, Roland Dreier wrote:
+> On Fri, Jan 12, 2018@2:16 AM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
+> > Looks good,
+> > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> >
+> > Do you mind fixing the same pattern on:
+> > - NVMF_OPT_TRANSPORT
+> > - NVMF_OPT_NQN
+> > - NVMF_OPT_TRADDR
+> > - NVMF_OPT_TRSVCID
+> > - NVMF_OPT_HOST_TRADDR
+> > as well?
+> 
+> Thanks for the review.  I don't think the same pattern is there for
+> the other options - a pointer to the string is
+> stored in opts and freed in nvmf_free_options(). NVMF_OPT_HOST_ID is
+> unique in that we don't stash the
+> strdup'ed pointer anywhere.
 
-Thanks for the reply. Yes I am able to print logs. And you are right
-it's failing inside rdma_rw_ctx_init for _init_mr_wrs and returned
-value is fffffff5.
+Correct. I'm sorry for the false alarm.
 
-
-
-Thanks and Regards
-Vikash Kumar
-
-On Sun, Jan 14, 2018@4:20 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->> Hi all,
->>
->> I have written a Windows application to test NVMe over RDMA with
->> Chelsio RNICs in host and target.
->> When I issue the fabric connect command from host, target fails in
->> nvmet_rdma_map_sgl_keyed( ) with Status code 0x6 (Internal error). And
->> RDMA connect command working fine.
->>
->> I have tried the same application with Mellanox RNICs, and connect is
->> working fine. Also I have tired with the linux host and linux target,
->> fabric connect command working fine.
->>
->> Has anybody tested the linux NVMe over RDMA stack with Chelsio RNIC?
->
->
-> I think Steve Wise have.
->
-> As I see it, this probably related to the rdma_rw_ctx that involves MRs.
-> Are you able to add some logging prints to your system?
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
