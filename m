@@ -1,91 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Jan 2018 18:37:16 +0100
-Subject: [PATCH] nvme-pci: take sglist coalescing in dma_map_sg into account
-Message-ID: <20180115173716.22409-1-hch@lst.de>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 15 Jan 2018 13:04:13 -0700
+Subject: small CMB cleanups
+In-Reply-To: <20180115153348.13105-1-hch@lst.de>
+References: <20180115153348.13105-1-hch@lst.de>
+Message-ID: <f2c2897e-6e70-3c8d-8c40-8da30f553abd@deltatee.com>
 
-Some iommu implementations can merge physically and/or virtually
-contiguous segments inside sg_map_dma.  The NVMe SGL support does not take
-this into account and will warn because of falling off a loop.  Pass the
-number of mapped segments to nvme_pci_setup_sgls so that the SGL setup
-can take the number of mapped segments into account.
+Hey,
 
-Reported-by: Fangjian (Turing) <f.fangjian at huawei.com>
-Fixes: a7a7cbe3 ("nvme-pci: add SGL support")
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
+I've reviewed both these patches and tested them on my p2p setup.
 
-Now to the proper linux-nvme address, sorry if you got this twice.
+Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
 
- drivers/nvme/host/pci.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+Logan
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a7e94cc3c70e..4276ebfff22b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -725,20 +725,19 @@ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
- }
- 
- static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
--		struct request *req, struct nvme_rw_command *cmd)
-+		struct request *req, struct nvme_rw_command *cmd, int entries)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	int length = blk_rq_payload_bytes(req);
- 	struct dma_pool *pool;
- 	struct nvme_sgl_desc *sg_list;
- 	struct scatterlist *sg = iod->sg;
--	int entries = iod->nents, i = 0;
- 	dma_addr_t sgl_dma;
-+	int i = 0;
- 
- 	/* setting the transfer type as SGL */
- 	cmd->flags = NVME_CMD_SGL_METABUF;
- 
--	if (length == sg_dma_len(sg)) {
-+	if (entries == 1) {
- 		nvme_pci_sgl_set_data(&cmd->dptr.sgl, sg);
- 		return BLK_STS_OK;
- 	}
-@@ -778,13 +777,9 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 		}
- 
- 		nvme_pci_sgl_set_data(&sg_list[i++], sg);
--
--		length -= sg_dma_len(sg);
- 		sg = sg_next(sg);
--		entries--;
--	} while (length > 0);
-+	} while (--entries > 0);
- 
--	WARN_ON(entries > 0);
- 	return BLK_STS_OK;
- }
- 
-@@ -796,6 +791,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 	enum dma_data_direction dma_dir = rq_data_dir(req) ?
- 			DMA_TO_DEVICE : DMA_FROM_DEVICE;
- 	blk_status_t ret = BLK_STS_IOERR;
-+	int nr_mapped;
- 
- 	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
- 	iod->nents = blk_rq_map_sg(q, req, iod->sg);
-@@ -803,12 +799,13 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out;
- 
- 	ret = BLK_STS_RESOURCE;
--	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
--				DMA_ATTR_NO_WARN))
-+	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
-+			DMA_ATTR_NO_WARN);
-+	if (!nr_mapped)
- 		goto out;
- 
- 	if (iod->use_sgl)
--		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
-+		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw, nr_mapped);
- 	else
- 		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
- 
--- 
-2.14.2
+On 15/01/18 08:33 AM, Christoph Hellwig wrote:
+> Hi all,
+> 
+> these two CMB cleanups were part of the p2p support series, but really
+> are nvme specific.  Given that we're running out of time for the 4.16
+> merge window, what about pulling them in through the nvme tree?
+> 
