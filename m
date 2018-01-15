@@ -1,24 +1,35 @@
-From: kai.heng.feng@canonical.com (Kai Heng Feng)
-Date: Mon, 15 Jan 2018 19:18:10 +0800
-Subject: 960 evo + APST
-In-Reply-To: <1516014692.300.1235638048.4627AF31@webmail.messagingengine.com>
-References: <1516014692.300.1235638048.4627AF31@webmail.messagingengine.com>
-Message-ID: <9AA08A54-06CB-4EF3-BD46-74456C276496@canonical.com>
+From: kashyap.desai@broadcom.com (Kashyap Desai)
+Date: Mon, 15 Jan 2018 17:46:05 +0530
+Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
+In-Reply-To: <780f280162fa01c41f15aaeb64503ffd@mail.gmail.com>
+References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
+ <20180108100531.GA6967@infradead.org>
+ <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
+ <1515601333.2745.8.camel@wdc.com>
+ <d6da790a-8248-c71d-6643-6ae3107989d0@interlog.com>
+ <e407e98c266c060412bfa8b64ded18df@mail.gmail.com>
+ <20180111174619.GA2860@localhost.localdomain>
+ <780f280162fa01c41f15aaeb64503ffd@mail.gmail.com>
+Message-ID: <6d58b9ecb0fbb23b04545bb736ca8a39@mail.gmail.com>
 
-> 
-> On 15 Jan 2018,@7:11 PM, Joshua Bonnett <me@joshuabonnett.com> wrote:
-> 
-> Really sorry to bother you guys, I am trying to nail down the pm961/sm961/ 960 evo APST bug and I have a dell xps 15 9560 here with a pm961 and it needed APST turned off completely as well and not just turned down. I am just wondering if you tested the 960 evo throughly in any other motherboards or laptops?   Thanks! 
+This patch is not yet included because of the ongoing discussion.
 
-Do you mean that disabling PS4 doesn?t help?
+Chris H, Martin et all -  How are we moving forward with this patch ?
 
-Disable APST completely is not desirable for a laptop.
+Thanks, Kashyap
 
-Please attach the output of `sudo nvme get-feature -f 0x0c -H /dev/nvme0`
-and `sudo nvme id-ctrl /dev/nvme0`, thanks.
-
-Kai-Heng
-
-> 
-> 
-> (let me know if you want me to just leave you be, and I will just wander off to buy some drives or something, no hard feelings) 
+> -----Original Message-----
+> From: Sathya Prakash Veerichetty [mailto:sathya.prakash at broadcom.com]
+> Sent: Thursday, January 11, 2018 11:37 PM
+> To: Keith Busch
+> Cc: dgilbert at interlog.com; Bart Van Assche; hch at infradead.org; Kashyap
+> Desai; Shivasharan Srikanteshwara; Sumit Saxena; linux-
+> nvme at lists.infradead.org; Peter Rivera; linux-scsi at vger.kernel.org
+> Subject: RE: [PATCH 13/14] megaraid_sas: NVME passthru command support
+>
+> >>So even when used as a RAID member, there will be a device handle at
+> /dev/sdX for each NVMe device the megaraid controller manages?
+> In megaraid controller, you can expose bare NVMe drives and RAID volumes
+> created out of NVMe drives, when the RAID volume is created underlying
+> member drives will not have /dev/sdX entries associated with them, however
+> for bare NVMe drives there will be associated /dev/sdX entries.
