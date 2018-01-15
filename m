@@ -1,105 +1,109 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Jan 2018 16:33:47 +0100
-Subject: [PATCH 1/2] nvme-pci: clean up CMB initialization
+Date: Mon, 15 Jan 2018 16:33:48 +0100
+Subject: [PATCH 2/2] nvme-pci: clean up SMBSZ bit definitions
 In-Reply-To: <20180115153348.13105-1-hch@lst.de>
 References: <20180115153348.13105-1-hch@lst.de>
-Message-ID: <20180115153348.13105-2-hch@lst.de>
+Message-ID: <20180115153348.13105-3-hch@lst.de>
 
-Refactor the call to nvme_map_cmb, and change the conditions for probing
-for the CMB.  First remove the version check as NVMe TPs always apply
-to earlier versions of the spec as well.  Second check for the whole CMBSZ
-register for support of the CMB feature instead of just the size field
-inside of it to simplify the code a bit.
+Define the bit positions instead of macros using the magic values,
+and move the expanded helpers to calculate the size and size unit into
+the implementation C file.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 41 ++++++++++++++---------------------------
- 1 file changed, 14 insertions(+), 27 deletions(-)
+ drivers/nvme/host/pci.c | 23 +++++++++++++++++------
+ include/linux/nvme.h    | 22 ++++++++++++++--------
+ 2 files changed, 31 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4d316812f0f4..dfd6cc6e7d9b 100644
+index dfd6cc6e7d9b..a75fb640c9a0 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1654,21 +1654,20 @@ static ssize_t nvme_cmb_show(struct device *dev,
+@@ -1367,7 +1367,7 @@ static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
+ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 				int qid, int depth)
+ {
+-	if (qid && dev->cmb && use_cmb_sqes && NVME_CMB_SQS(dev->cmbsz)) {
++	if (qid && dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+ 		unsigned offset = (qid - 1) * roundup(SQ_SIZE(depth),
+ 						      dev->ctrl.page_size);
+ 		nvmeq->sq_dma_addr = dev->cmb_bus_addr + offset;
+@@ -1654,9 +1654,21 @@ static ssize_t nvme_cmb_show(struct device *dev,
  }
  static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
  
--static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
-+static void nvme_map_cmb(struct nvme_dev *dev)
++static u64 nvme_cmb_size_unit(struct nvme_dev *dev)
++{
++	u8 szu = (dev->cmbsz >> NVME_CMBSZ_SZU_SHIFT) & NVME_CMBSZ_SZU_MASK;
++
++	return 1ULL << (12 + 4 * szu);
++}
++
++static u32 nvme_cmb_size(struct nvme_dev *dev)
++{
++	return (dev->cmbsz >> NVME_CMBSZ_SZ_SHIFT) & NVME_CMBSZ_SZ_MASK;
++}
++
+ static void nvme_map_cmb(struct nvme_dev *dev)
  {
- 	u64 szu, size, offset;
+-	u64 szu, size, offset;
++	u64 size, offset;
  	resource_size_t bar_size;
  	struct pci_dev *pdev = to_pci_dev(dev->dev);
--	void __iomem *cmb;
  	int bar;
- 
- 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
--	if (!(NVME_CMB_SZ(dev->cmbsz)))
--		return NULL;
-+	if (!dev->cmbsz)
-+		return;
- 	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
- 
+@@ -1669,9 +1681,8 @@ static void nvme_map_cmb(struct nvme_dev *dev)
  	if (!use_cmb_sqes)
--		return NULL;
-+		return;
+ 		return;
  
- 	szu = (u64)1 << (12 + 4 * NVME_CMB_SZU(dev->cmbsz));
- 	size = szu * NVME_CMB_SZ(dev->cmbsz);
-@@ -1677,7 +1676,7 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+-	szu = (u64)1 << (12 + 4 * NVME_CMB_SZU(dev->cmbsz));
+-	size = szu * NVME_CMB_SZ(dev->cmbsz);
+-	offset = szu * NVME_CMB_OFST(dev->cmbloc);
++	size = nvme_cmb_size_unit(dev) * nvme_cmb_size(dev);
++	offset = nvme_cmb_size_unit(dev) * NVME_CMB_OFST(dev->cmbloc);
+ 	bar = NVME_CMB_BIR(dev->cmbloc);
  	bar_size = pci_resource_len(pdev, bar);
  
- 	if (offset > bar_size)
--		return NULL;
-+		return;
+@@ -1900,7 +1911,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	if (nr_io_queues == 0)
+ 		return 0;
  
- 	/*
- 	 * Controllers may support a CMB size larger than their BAR,
-@@ -1687,13 +1686,16 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
- 	if (size > bar_size - offset)
- 		size = bar_size - offset;
+-	if (dev->cmb && NVME_CMB_SQS(dev->cmbsz)) {
++	if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+ 		result = nvme_cmb_qdepth(dev, nr_io_queues,
+ 				sizeof(struct nvme_command));
+ 		if (result > 0)
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index aea87f0d917b..4112e2bd747f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -124,14 +124,20 @@ enum {
  
--	cmb = ioremap_wc(pci_resource_start(pdev, bar) + offset, size);
--	if (!cmb)
--		return NULL;
+ #define NVME_CMB_BIR(cmbloc)	((cmbloc) & 0x7)
+ #define NVME_CMB_OFST(cmbloc)	(((cmbloc) >> 12) & 0xfffff)
+-#define NVME_CMB_SZ(cmbsz)	(((cmbsz) >> 12) & 0xfffff)
+-#define NVME_CMB_SZU(cmbsz)	(((cmbsz) >> 8) & 0xf)
 -
-+	dev->cmb = ioremap_wc(pci_resource_start(pdev, bar) + offset, size);
-+	if (!dev->cmb)
-+		return;
- 	dev->cmb_bus_addr = pci_bus_address(pdev, bar) + offset;
- 	dev->cmb_size = size;
--	return cmb;
+-#define NVME_CMB_WDS(cmbsz)	((cmbsz) & 0x10)
+-#define NVME_CMB_RDS(cmbsz)	((cmbsz) & 0x8)
+-#define NVME_CMB_LISTS(cmbsz)	((cmbsz) & 0x4)
+-#define NVME_CMB_CQS(cmbsz)	((cmbsz) & 0x2)
+-#define NVME_CMB_SQS(cmbsz)	((cmbsz) & 0x1)
 +
-+	if (sysfs_add_file_to_group(&dev->ctrl.device->kobj,
-+				    &dev_attr_cmb.attr, NULL))
-+		dev_warn(dev->ctrl.device,
-+			 "failed to add sysfs attribute for CMB\n");
- }
++enum {
++	NVME_CMBSZ_SQS		= 1 << 0,
++	NVME_CMBSZ_CQS		= 1 << 1,
++	NVME_CMBSZ_LISTS	= 1 << 2,
++	NVME_CMBSZ_RDS		= 1 << 3,
++	NVME_CMBSZ_WDS		= 1 << 4,
++
++	NVME_CMBSZ_SZ_SHIFT	= 12,
++	NVME_CMBSZ_SZ_MASK	= 0xfffff,
++
++	NVME_CMBSZ_SZU_SHIFT	= 8,
++	NVME_CMBSZ_SZU_MASK	= 0xf,
++};
  
- static inline void nvme_release_cmb(struct nvme_dev *dev)
-@@ -2118,22 +2120,7 @@ static int nvme_pci_enable(struct nvme_dev *dev)
-                         "set queue depth=%u\n", dev->q_depth);
- 	}
- 
--	/*
--	 * CMBs can currently only exist on >=1.2 PCIe devices. We only
--	 * populate sysfs if a CMB is implemented. Since nvme_dev_attrs_group
--	 * has no name we can pass NULL as final argument to
--	 * sysfs_add_file_to_group.
--	 */
--
--	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2, 0)) {
--		dev->cmb = nvme_map_cmb(dev);
--		if (dev->cmb) {
--			if (sysfs_add_file_to_group(&dev->ctrl.device->kobj,
--						    &dev_attr_cmb.attr, NULL))
--				dev_warn(dev->ctrl.device,
--					 "failed to add sysfs attribute for CMB\n");
--		}
--	}
-+	nvme_map_cmb(dev);
- 
- 	pci_enable_pcie_error_reporting(pdev);
- 	pci_save_state(pdev);
+ /*
+  * Submission and Completion Queue Entry Sizes for the NVM command set.
 -- 
 2.14.2
