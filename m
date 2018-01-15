@@ -1,17 +1,17 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Sun, 14 Jan 2018 19:11:23 -0700
-Subject: [PATCH V3 1/2] nvme: split resetting state into reset_prepate
- and resetting
-In-Reply-To: <2c062c31-ec3d-9d4a-8f5c-0ba6f623dfa4@oracle.com>
-References: <1515647268-1717-1-git-send-email-jianchao.w.wang@oracle.com>
- <1515647268-1717-2-git-send-email-jianchao.w.wang@oracle.com>
- <b502ea5a-d319-3a03-0204-e2b6068bb55e@grimberg.me>
- <2c062c31-ec3d-9d4a-8f5c-0ba6f623dfa4@oracle.com>
-Message-ID: <20180115021123.GE13580@localhost.localdomain>
+Date: Sun, 14 Jan 2018 19:12:54 -0700
+Subject: RDY bit clarification
+In-Reply-To: <CADLzrv_83V8i_bSeUbKA2FDf0Gtm4NCEa7fP-=vxVDk9=qBs8A@mail.gmail.com>
+References: <CADLzrv-QioecdwfNNfipio6iWBzsaDcHovOyAV4qGu8aLwv7Tg@mail.gmail.com>
+ <20180115015753.GA13580@localhost.localdomain>
+ <CADLzrv_83V8i_bSeUbKA2FDf0Gtm4NCEa7fP-=vxVDk9=qBs8A@mail.gmail.com>
+Message-ID: <20180115021254.GF13580@localhost.localdomain>
 
-On Mon, Jan 15, 2018@10:02:04AM +0800, jianchao.wang wrote:
-> Hi keith
-> 
-> Thanks for your kindly review and response.
+On Mon, Jan 15, 2018@07:36:27AM +0530, muthu crazy wrote:
+> My concern is Reading RDY bit will trigger a MemRD PCIe transcation
+> which will add a delay for every command.
+> So it will affect the overall performance.
 
-I agree with Sagi's feedback, but I can't take credit for it. :)
+Maybe I misunderstood what you're referring to. Are you looking at
+nvmet_check_ctrl_status? The controller status is implemented in
+software there and doesn't do MMIO to read it.
