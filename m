@@ -1,11 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Jan 2018 16:22:21 +0100
-Subject: [PATCH resend 0/3] couple of nvme patches resend
-In-Reply-To: <20180114103902.6413-1-sagi@grimberg.me>
-References: <20180114103902.6413-1-sagi@grimberg.me>
-Message-ID: <20180115152221.GB9121@lst.de>
+Date: Mon, 15 Jan 2018 16:22:43 +0100
+Subject: [PATCH] nvme: fix comment typos in nvme_create_io_queues
+In-Reply-To: <1515914067-12653-1-git-send-email-minwoo.im.dev@gmail.com>
+References: <1515914067-12653-1-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <20180115152243.GC9121@lst.de>
 
-On Sun, Jan 14, 2018@12:38:59PM +0200, Sagi Grimberg wrote:
-> Seems these got positive feedback (informally) but were left behind..
+Thanks,
 
-Thanks, applied to nvme-4.6.
+applied to nvme-4.16.
