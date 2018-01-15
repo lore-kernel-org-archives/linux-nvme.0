@@ -1,24 +1,17 @@
-From: muthucrazy90@gmail.com (muthu crazy)
-Date: Mon, 15 Jan 2018 07:36:27 +0530
-Subject: RDY bit clarification
-In-Reply-To: <20180115015753.GA13580@localhost.localdomain>
-References: <CADLzrv-QioecdwfNNfipio6iWBzsaDcHovOyAV4qGu8aLwv7Tg@mail.gmail.com>
- <20180115015753.GA13580@localhost.localdomain>
-Message-ID: <CADLzrv_83V8i_bSeUbKA2FDf0Gtm4NCEa7fP-=vxVDk9=qBs8A@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Sun, 14 Jan 2018 19:11:23 -0700
+Subject: [PATCH V3 1/2] nvme: split resetting state into reset_prepate
+ and resetting
+In-Reply-To: <2c062c31-ec3d-9d4a-8f5c-0ba6f623dfa4@oracle.com>
+References: <1515647268-1717-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1515647268-1717-2-git-send-email-jianchao.w.wang@oracle.com>
+ <b502ea5a-d319-3a03-0204-e2b6068bb55e@grimberg.me>
+ <2c062c31-ec3d-9d4a-8f5c-0ba6f623dfa4@oracle.com>
+Message-ID: <20180115021123.GE13580@localhost.localdomain>
 
-My concern is Reading RDY bit will trigger a MemRD PCIe transcation
-which will add a delay for every command.
-So it will affect the overall performance.
+On Mon, Jan 15, 2018@10:02:04AM +0800, jianchao.wang wrote:
+> Hi keith
+> 
+> Thanks for your kindly review and response.
 
-On 15 January 2018@07:27, Keith Busch <keith.busch@intel.com> wrote:
-> On Sun, Jan 14, 2018@09:26:23AM +0530, muthu crazy wrote:
->> Why does linux nvme target code is checking for NVME_CSTS_RDY == 1
->> before submitting any IO commands to device. Is there any chance RDY
->> can go down after the controller initialization. It make sense if we
->> check for CFS instead of RDY.
->>
->> Isn't causing performance drop?
->
-> I don't think it's for situations where RDY goest down on it's own, but
-> for checking if a badly behaving host sends a command before respecting
-> the proper state transitions.
+I agree with Sagi's feedback, but I can't take credit for it. :)
