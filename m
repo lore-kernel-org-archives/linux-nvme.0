@@ -1,10 +1,10 @@
 From: vickey.nitt@gmail.com (VIKASH KUMAR)
-Date: Mon, 15 Jan 2018 11:16:12 +0530
+Date: Mon, 15 Jan 2018 11:26:35 +0530
 Subject: Fabric Connect Fails with Chelsio from Windows Host
 In-Reply-To: <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
 References: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
  <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
-Message-ID: <CADNRq_LLwAhVDwntO+6V_RSD0ZiPD2n+Gi97X9NxuQSdw80wvA@mail.gmail.com>
+Message-ID: <CADNRq_JFMq4CoT-TuUrNkF4hwPU17ZJiJ0-=9zv_5r7TmwW=1g@mail.gmail.com>
 
 Hi Sagi Grimverg,
 
@@ -13,7 +13,8 @@ it's failing inside rdma_rw_ctx_init for _init_mr_wrs and returned
 value is fffffff5.
 
 
-Thanks and Regards,
+
+Thanks and Regards
 Vikash Kumar
 
 On Sun, Jan 14, 2018@4:20 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
