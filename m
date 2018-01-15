@@ -1,16 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Jan 2018 09:42:40 +0100
-Subject: [PATCH 2/2] nvme: Don't use a stack buffer for keep-alive command
-In-Reply-To: <76436c6a-5dee-b174-3b39-2735f8dc3a05@grimberg.me>
-References: <20180111213815.2107-1-roland@kernel.org>
- <76436c6a-5dee-b174-3b39-2735f8dc3a05@grimberg.me>
-Message-ID: <20180115084240.GA32313@lst.de>
+Date: Mon, 15 Jan 2018 09:44:12 +0100
+Subject: [PATCH 1/2] nvme: pci: replace magic number with readable size
+ macro in hmb code
+In-Reply-To: <1515930040-20561-1-git-send-email-minwoo.im.dev@gmail.com>
+References: <1515930040-20561-1-git-send-email-minwoo.im.dev@gmail.com>
+Message-ID: <20180115084412.GB32313@lst.de>
 
-On Sun, Jan 14, 2018@11:31:40AM +0200, Sagi Grimberg wrote:
-> Thanks Roland,
->
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-
-I think we'll need to fix this properly and embedd the struct nvme_command
-into struct nvme_request.  In the end any command could get an error
-without DNR, and then we'd have a stale SQE on the stack.
+SZ_4K does not add any value at all.  The SZ constants may make some
+size in the megabyte and larger ranges where the multiples of 1024
+aren't totally obviously, but they certainly don't for 4 digit values.
