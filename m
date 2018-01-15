@@ -1,26 +1,54 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 15 Jan 2018 10:25:36 -0700
-Subject: [PATCH] nvme/pci: Check segement valid for SGL use
-In-Reply-To: <20180115172218.GA12251@lst.de>
-References: <20180115130723.31469-1-keith.busch@intel.com>
- <20180115160148.GA9749@lst.de>
- <04bc104b-34c6-ecd6-63a2-fc775b554dff@kernel.dk>
- <20180115172218.GA12251@lst.de>
-Message-ID: <5bfb2835-15e0-2ec0-4b5f-68da3e3ee78c@kernel.dk>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Mon, 15 Jan 2018 17:28:17 +0000
+Subject: 960 evo + APST
+In-Reply-To: <9AA08A54-06CB-4EF3-BD46-74456C276496@canonical.com>
+References: <1516014692.300.1235638048.4627AF31@webmail.messagingengine.com>
+ <9AA08A54-06CB-4EF3-BD46-74456C276496@canonical.com>
+Message-ID: <cbdc65ead10e41efbba41efcb0d56fa6@ausx13mpc120.AMER.DELL.COM>
 
-On 1/15/18 10:22 AM, Christoph Hellwig wrote:
-> On Mon, Jan 15, 2018@09:20:40AM -0700, Jens Axboe wrote:
->> On 1/15/18 9:01 AM, Christoph Hellwig wrote:
->>> Actually this needs to go into nvme-4.15.  The offending commit is
->>> only in 4.15-rc, and not in nvme-4.16 or Jens' for-4.16 tree.
->>
->> I can queue it up for 4.15, there's already been one report of
->> this...
+> -----Original Message-----
+> From: Kai Heng Feng [mailto:kai.heng.feng at canonical.com]
+> Sent: Monday, January 15, 2018 5:18 AM
+> To: Joshua Bonnett <me at joshuabonnett.com>
+> Cc: hch at lst.de; Limonciello, Mario <Mario_Limonciello at Dell.com>; linux-nvme
+> <linux-nvme at lists.infradead.org>
+> Subject: Re: 960 evo + APST
 > 
-> I think we'll need at least another related fix as well.  I'll
-> send you a pull request by tomorrow or so.
+> >
+> > On 15 Jan 2018,@7:11 PM, Joshua Bonnett <me@joshuabonnett.com> wrote:
+> >
+> > Really sorry to bother you guys, I am trying to nail down the pm961/sm961/ 960
+> evo APST bug and I have a dell xps 15 9560 here with a pm961 and it needed APST
+> turned off completely as well and not just turned down. I am just wondering if you
+> tested the 960 evo throughly in any other motherboards or laptops?   Thanks!
+> 
+> Do you mean that disabling PS4 doesn?t help?
+> 
+> Disable APST completely is not desirable for a laptop.
+> 
+> Please attach the output of `sudo nvme get-feature -f 0x0c -H /dev/nvme0`
+> and `sudo nvme id-ctrl /dev/nvme0`, thanks.
+> 
+> Kai-Heng
+> 
+> >
+> >
+> > (let me know if you want me to just leave you be, and I will just wander off to buy
+> some drives or something, no hard feelings)
 
-Sounds good, thanks.
+Joshua,
 
--- 
-Jens Axboe
+I had heard that 9550 and 9560 should both be affected by the same problem, but 9560
+less severe.
+
+The quirks in kernel don't actually turn down 9560 / Precision 5520 though.  They currently
+only apply to XPS 9550/ Precision 5510.  Were you manually setting something to prevent
+going into PS4?
+
+Furthermore, can you please share your BIOS version?  Have you updated to the latest one
+already?  There are supposed to be BIOS mitigations for this problem too.
+
+The latest one is available on LVFS (1.7.0).
+https://fwupd.org/lvfs/device/34578c72-11dc-4378-bc7f-b643866f598c
+
+Thanks,
