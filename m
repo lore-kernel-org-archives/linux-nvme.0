@@ -1,24 +1,38 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Mon, 15 Jan 2018 10:31:11 +0800
-Subject: [PATCH V3 1/2] nvme: split resetting state into reset_prepate and
- resetting
-In-Reply-To: <20180115021123.GE13580@localhost.localdomain>
-References: <1515647268-1717-1-git-send-email-jianchao.w.wang@oracle.com>
- <1515647268-1717-2-git-send-email-jianchao.w.wang@oracle.com>
- <b502ea5a-d319-3a03-0204-e2b6068bb55e@grimberg.me>
- <2c062c31-ec3d-9d4a-8f5c-0ba6f623dfa4@oracle.com>
- <20180115021123.GE13580@localhost.localdomain>
-Message-ID: <98f142f9-75d2-9499-d177-edcc83f62f7f@oracle.com>
+From: vickey.nitt@gmail.com (VIKASH KUMAR)
+Date: Mon, 15 Jan 2018 11:16:12 +0530
+Subject: Fabric Connect Fails with Chelsio from Windows Host
+In-Reply-To: <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
+References: <CADNRq_+3uBmOYTJ+R6RaiU5HUa81vrBMQ2Ug39qqvA1Eng+MKg@mail.gmail.com>
+ <c3a14be0-2cca-842e-7b04-1560bb8af605@grimberg.me>
+Message-ID: <CADNRq_LLwAhVDwntO+6V_RSD0ZiPD2n+Gi97X9NxuQSdw80wvA@mail.gmail.com>
+
+Hi Sagi Grimverg,
+
+Thanks for the reply. Yes I am able to print logs. And you are right
+it's failing inside rdma_rw_ctx_init for _init_mr_wrs and returned
+value is fffffff5.
 
 
+Thanks and Regards,
+Vikash Kumar
 
-On 01/15/2018 10:11 AM, Keith Busch wrote:
-> On Mon, Jan 15, 2018@10:02:04AM +0800, jianchao.wang wrote:
->> Hi keith
+On Sun, Jan 14, 2018@4:20 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
+>> Hi all,
 >>
->> Thanks for your kindly review and response.
-> 
-> I agree with Sagi's feedback, but I can't take credit for it. :)
-> 
-ahh...but sill thank you
-On the other hand, welcome to China and good traveling here !
+>> I have written a Windows application to test NVMe over RDMA with
+>> Chelsio RNICs in host and target.
+>> When I issue the fabric connect command from host, target fails in
+>> nvmet_rdma_map_sgl_keyed( ) with Status code 0x6 (Internal error). And
+>> RDMA connect command working fine.
+>>
+>> I have tried the same application with Mellanox RNICs, and connect is
+>> working fine. Also I have tired with the linux host and linux target,
+>> fabric connect command working fine.
+>>
+>> Has anybody tested the linux NVMe over RDMA stack with Chelsio RNIC?
+>
+>
+> I think Steve Wise have.
+>
+> As I see it, this probably related to the rdma_rw_ctx that involves MRs.
+> Are you able to add some logging prints to your system?
