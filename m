@@ -1,10 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Jan 2018 16:23:01 +0100
-Subject: [PATCH 1/2] nvme-fabrics: Fix memory leak when parsing host ID
- option
-In-Reply-To: <20180111213800.1767-1-roland@kernel.org>
-References: <20180111213800.1767-1-roland@kernel.org>
-Message-ID: <20180115152301.GD9121@lst.de>
+Date: Mon, 15 Jan 2018 16:24:13 +0100
+Subject: [PATCH] nvmet: release a ns reference in nvmet_req_uninit if
+ needed
+In-Reply-To: <20180114163422.20140-1-sagi@grimberg.me>
+References: <20180114163422.20140-1-sagi@grimberg.me>
+Message-ID: <20180115152413.GA9246@lst.de>
 
 Thanks,
 
