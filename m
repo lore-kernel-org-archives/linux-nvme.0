@@ -1,54 +1,91 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Mon, 15 Jan 2018 17:28:17 +0000
-Subject: 960 evo + APST
-In-Reply-To: <9AA08A54-06CB-4EF3-BD46-74456C276496@canonical.com>
-References: <1516014692.300.1235638048.4627AF31@webmail.messagingengine.com>
- <9AA08A54-06CB-4EF3-BD46-74456C276496@canonical.com>
-Message-ID: <cbdc65ead10e41efbba41efcb0d56fa6@ausx13mpc120.AMER.DELL.COM>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 15 Jan 2018 18:37:16 +0100
+Subject: [PATCH] nvme-pci: take sglist coalescing in dma_map_sg into account
+Message-ID: <20180115173716.22409-1-hch@lst.de>
 
-> -----Original Message-----
-> From: Kai Heng Feng [mailto:kai.heng.feng at canonical.com]
-> Sent: Monday, January 15, 2018 5:18 AM
-> To: Joshua Bonnett <me at joshuabonnett.com>
-> Cc: hch at lst.de; Limonciello, Mario <Mario_Limonciello at Dell.com>; linux-nvme
-> <linux-nvme at lists.infradead.org>
-> Subject: Re: 960 evo + APST
-> 
-> >
-> > On 15 Jan 2018,@7:11 PM, Joshua Bonnett <me@joshuabonnett.com> wrote:
-> >
-> > Really sorry to bother you guys, I am trying to nail down the pm961/sm961/ 960
-> evo APST bug and I have a dell xps 15 9560 here with a pm961 and it needed APST
-> turned off completely as well and not just turned down. I am just wondering if you
-> tested the 960 evo throughly in any other motherboards or laptops?   Thanks!
-> 
-> Do you mean that disabling PS4 doesn?t help?
-> 
-> Disable APST completely is not desirable for a laptop.
-> 
-> Please attach the output of `sudo nvme get-feature -f 0x0c -H /dev/nvme0`
-> and `sudo nvme id-ctrl /dev/nvme0`, thanks.
-> 
-> Kai-Heng
-> 
-> >
-> >
-> > (let me know if you want me to just leave you be, and I will just wander off to buy
-> some drives or something, no hard feelings)
+Some iommu implementations can merge physically and/or virtually
+contiguous segments inside sg_map_dma.  The NVMe SGL support does not take
+this into account and will warn because of falling off a loop.  Pass the
+number of mapped segments to nvme_pci_setup_sgls so that the SGL setup
+can take the number of mapped segments into account.
 
-Joshua,
+Reported-by: Fangjian (Turing) <f.fangjian at huawei.com>
+Fixes: a7a7cbe3 ("nvme-pci: add SGL support")
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
 
-I had heard that 9550 and 9560 should both be affected by the same problem, but 9560
-less severe.
+Now to the proper linux-nvme address, sorry if you got this twice.
 
-The quirks in kernel don't actually turn down 9560 / Precision 5520 though.  They currently
-only apply to XPS 9550/ Precision 5510.  Were you manually setting something to prevent
-going into PS4?
+ drivers/nvme/host/pci.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-Furthermore, can you please share your BIOS version?  Have you updated to the latest one
-already?  There are supposed to be BIOS mitigations for this problem too.
-
-The latest one is available on LVFS (1.7.0).
-https://fwupd.org/lvfs/device/34578c72-11dc-4378-bc7f-b643866f598c
-
-Thanks,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a7e94cc3c70e..4276ebfff22b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -725,20 +725,19 @@ static void nvme_pci_sgl_set_seg(struct nvme_sgl_desc *sge,
+ }
+ 
+ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+-		struct request *req, struct nvme_rw_command *cmd)
++		struct request *req, struct nvme_rw_command *cmd, int entries)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	int length = blk_rq_payload_bytes(req);
+ 	struct dma_pool *pool;
+ 	struct nvme_sgl_desc *sg_list;
+ 	struct scatterlist *sg = iod->sg;
+-	int entries = iod->nents, i = 0;
+ 	dma_addr_t sgl_dma;
++	int i = 0;
+ 
+ 	/* setting the transfer type as SGL */
+ 	cmd->flags = NVME_CMD_SGL_METABUF;
+ 
+-	if (length == sg_dma_len(sg)) {
++	if (entries == 1) {
+ 		nvme_pci_sgl_set_data(&cmd->dptr.sgl, sg);
+ 		return BLK_STS_OK;
+ 	}
+@@ -778,13 +777,9 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
+ 		}
+ 
+ 		nvme_pci_sgl_set_data(&sg_list[i++], sg);
+-
+-		length -= sg_dma_len(sg);
+ 		sg = sg_next(sg);
+-		entries--;
+-	} while (length > 0);
++	} while (--entries > 0);
+ 
+-	WARN_ON(entries > 0);
+ 	return BLK_STS_OK;
+ }
+ 
+@@ -796,6 +791,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	enum dma_data_direction dma_dir = rq_data_dir(req) ?
+ 			DMA_TO_DEVICE : DMA_FROM_DEVICE;
+ 	blk_status_t ret = BLK_STS_IOERR;
++	int nr_mapped;
+ 
+ 	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
+ 	iod->nents = blk_rq_map_sg(q, req, iod->sg);
+@@ -803,12 +799,13 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out;
+ 
+ 	ret = BLK_STS_RESOURCE;
+-	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
+-				DMA_ATTR_NO_WARN))
++	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
++			DMA_ATTR_NO_WARN);
++	if (!nr_mapped)
+ 		goto out;
+ 
+ 	if (iod->use_sgl)
+-		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
++		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw, nr_mapped);
+ 	else
+ 		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
+ 
+-- 
+2.14.2
