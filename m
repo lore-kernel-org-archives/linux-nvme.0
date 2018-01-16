@@ -1,30 +1,29 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Mon, 15 Jan 2018 22:06:58 -0500
-Subject: [PATCH 13/14] megaraid_sas: NVME passthru command support
-In-Reply-To: <6d58b9ecb0fbb23b04545bb736ca8a39@mail.gmail.com> (Kashyap
- Desai's message of "Mon, 15 Jan 2018 17:46:05 +0530")
-References: <1515159339-26790-1-git-send-email-shivasharan.srikanteshwara@broadcom.com>
- <20180108100531.GA6967@infradead.org>
- <35aabb7a8b8ffed4040c5ac01c01fb0a@mail.gmail.com>
- <1515601333.2745.8.camel@wdc.com>
- <d6da790a-8248-c71d-6643-6ae3107989d0@interlog.com>
- <e407e98c266c060412bfa8b64ded18df@mail.gmail.com>
- <20180111174619.GA2860@localhost.localdomain>
- <780f280162fa01c41f15aaeb64503ffd@mail.gmail.com>
- <6d58b9ecb0fbb23b04545bb736ca8a39@mail.gmail.com>
-Message-ID: <yq1inc2y019.fsf@oracle.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Tue, 16 Jan 2018 13:06:33 +0800
+Subject: [PATCH 3/3] nvme: free subsystem device name when releasing subsystem
+In-Reply-To: <1516079193-13772-1-git-send-email-guanjunxiong@huawei.com>
+References: <1516079193-13772-1-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <1516079193-13772-3-git-send-email-guanjunxiong@huawei.com>
 
+We need to free the memory as the way we do in the nvme_init_ctrl
+because the dev_set_name helper allocates memory for device name.
 
-Kashyap,
+Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
+---
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> This patch is not yet included because of the ongoing discussion.
->
-> Chris H, Martin et all -  How are we moving forward with this patch ?
-
-Well, I guess I'll go ahead and queue it up even through I am no fan of
-these dreadful driver-specific ioctl interfaces. I really wish the SCSI
-Controller Commands had taken off so we had a standard interface for
-dealing with RAID controllers and devices behind them.
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 5ada879..70ee889 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1961,6 +1961,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+ static void __nvme_release_subsystem(struct nvme_subsystem *subsys)
+ {
+ 	ida_simple_remove(&nvme_subsystems_ida, subsys->instance);
++	kfree_const(subsys->dev.kobj.name);
+ 	kfree(subsys);
+ }
+ 
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.6.4.windows.1
