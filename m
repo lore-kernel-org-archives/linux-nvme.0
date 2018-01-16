@@ -1,29 +1,27 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Tue, 16 Jan 2018 13:06:33 +0800
-Subject: [PATCH 3/3] nvme: free subsystem device name when releasing subsystem
-In-Reply-To: <1516079193-13772-1-git-send-email-guanjunxiong@huawei.com>
-References: <1516079193-13772-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <1516079193-13772-3-git-send-email-guanjunxiong@huawei.com>
+Date: Tue, 16 Jan 2018 13:06:31 +0800
+Subject: [PATCH 1/3] nvmf: fix memory leak for parsing hostid option
+Message-ID: <1516079193-13772-1-git-send-email-guanjunxiong@huawei.com>
 
-We need to free the memory as the way we do in the nvme_init_ctrl
-because the dev_set_name helper allocates memory for device name.
+If we fail to parse uuid of hostid option, we need to
+free the memory allocated by _match_strdup_.
 
 Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
 ---
- drivers/nvme/host/core.c | 1 +
+ drivers/nvme/host/fabrics.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5ada879..70ee889 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1961,6 +1961,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
- static void __nvme_release_subsystem(struct nvme_subsystem *subsys)
- {
- 	ida_simple_remove(&nvme_subsystems_ida, subsys->instance);
-+	kfree_const(subsys->dev.kobj.name);
- 	kfree(subsys);
- }
- 
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 894c2cc..4ced176 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -741,6 +741,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			if (uuid_parse(p, &hostid)) {
+ 				pr_err("Invalid hostid %s\n", p);
++				kfree(p);
+ 				ret = -EINVAL;
+ 				goto out;
+ 			}
 -- 
 2.6.4.windows.1
