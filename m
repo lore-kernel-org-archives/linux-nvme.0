@@ -1,108 +1,45 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 17 Jan 2018 08:46:47 +0100
-Subject: [PATCH v2 1/2] nvme: add tracepoint for nvme_setup_cmd
-In-Reply-To: <20180116164954.GA9812@lst.de>
-References: <20180116142821.11693-1-jthumshirn@suse.de>
- <20180116142821.11693-2-jthumshirn@suse.de>
- <20180116164954.GA9812@lst.de>
-Message-ID: <20180117074647.aqk72mjwtxxo53cd@linux-x5ow.site>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Wed, 17 Jan 2018 16:09:11 +0800
+Subject: [PATCH 2/2] blk-mq: simplify queue mapping & schedule with each
+ possisble CPU
+In-Reply-To: <20180117062251.GC9487@ming.t460p>
+References: <20180112025306.28004-1-ming.lei@redhat.com>
+ <20180112025306.28004-3-ming.lei@redhat.com>
+ <0d36c16b-cb4b-6088-fdf3-2fe5d8f33cd7@oracle.com>
+ <20180116121010.GA26429@ming.t460p>
+ <7c24e321-2d3b-cdec-699a-f58c34300aa9@oracle.com>
+ <20180116153248.GA3018@ming.t460p>
+ <7f5bad86-febc-06fc-67c0-393777d172e4@oracle.com>
+ <20180117035159.GA9487@ming.t460p>
+ <8c8efce8-ea02-0a9e-8369-44c885f4731d@oracle.com>
+ <20180117062251.GC9487@ming.t460p>
+Message-ID: <977e9c62-c7f2-d1df-7d6b-5903f3b21cb6@oracle.com>
 
-On Tue, Jan 16, 2018@05:49:54PM +0100, Christoph Hellwig wrote:
-> > +	trace_seq_printf(p, "slba=%llu, length=%u, control=0x%x, dsmgmt=%u, reftag=%u",
-> 
-> Overly long line.
-> 
-> > +			 (unsigned long long)le64_to_cpu(rw.slba),
-> 
-> u64 now always is an unsigned long long, no need for the cast.
+Hi ming 
 
-Ah OK. Didn't know that. Will fix.
+Thanks for your kindly response.
 
-> > +			 le16_to_cpu(rw.length), le16_to_cpu(rw.control),
-> > +			 le32_to_cpu(rw.dsmgmt), le32_to_cpu(rw.reftag));
-> > +	trace_seq_putc(p, 0);
+On 01/17/2018 02:22 PM, Ming Lei wrote:
+> This warning can't be removed completely, for example, the CPU figured
+> in blk_mq_hctx_next_cpu(hctx) can be put on again just after the
+> following call returns and before __blk_mq_run_hw_queue() is scheduled
+> to run.
 > 
-> This look weird, is there a a good reason for putting a 0 character?
-> 
-> Also I'd be tempted to add a new trace.c file for these and make them
-> dependent on whatever kernel option enables the tracing.
-
-I was considering this as well so let's just do it. 
+> 	kblockd_mod_delayed_work_on(blk_mq_hctx_next_cpu(hctx), &hctx->run_work, msecs_to_jiffies(msecs))
+We could use cpu_active in __blk_mq_run_hw_queue() to narrow the window.
+There is a big gap between cpu_online and cpu_active. rebind_workers is also between them.
 
 > 
-> > --- /dev/null
-> > +++ b/drivers/nvme/host/trace.h
-> > @@ -0,0 +1,69 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> 
-> Please add a real copyright header including the author.
+> Just be curious how you trigger this issue? And is it triggered in CPU
+> hotplug stress test? Or in a normal use case?
 
-I thought this is the new standard. OK will add a copyright header.
+In fact, this is my own investigation about whether the .queue_rq to one hardware queue could be executed on
+the cpu where it is not mapped. Finally, found this hole when cpu hotplug.
+I did the test on NVMe device which has 1-to-1 mapping between cpu and hctx.
+ - A special patch that could hold some requests on ctx->rq_list though .get_budget
+ - A script issues IOs with fio
+ - A script online/offline the cpus continuously
+At first, just the warning above. Then after this patch was introduced, panic came up.
 
-> const char *nvme_trace_parse_cmd(struct trace_seq *p, struct nvme_command cmnd);
-> 
-> > +#define __parse_nvme_cmd(cmd) nvme_trace_parse_cmd(p, cmd)
-> 
-> This looks weird.
-
-Why? For instance that's exactly what SCSI does as well and nicely hides the
-implicit "p".
-
-> > +TRACE_EVENT(nvme_setup_cmd,
-> > +
-> > +	    TP_PROTO(struct nvme_command *cmd),
-> > +
-> > +	    TP_ARGS(cmd),
-> > +
-> 
-> Please remove these empty lines.
-
-Standard coding style in include/trace/events/ that's why I adopted it.
-
-> > +	    TP_STRUCT__entry(
-> > +		    __field( __u8,                opcode   )
-> > +		    __field( __u8,                flags    )
-> > +		    __field( __u16,               cid      )
-> > +		    __field( __le32,              nsid     )
-> > +		    __field( __le64,              metadata )
-> 
-> > +		    __field_struct( struct nvme_command, cmnd )
-> And the additional whitespaces before and after the braces
-
-See above.
-
-> > +	    TP_fast_assign(
-> > +		    __entry->opcode	= cmd->common.opcode;
-> > +		    __entry->flags	= cmd->common.flags;
-> > +		    __entry->cid	= cmd->common.command_id;
-> > +		    __entry->nsid	= cmd->common.nsid;
-> > +		    __entry->metadata	= cmd->common.metadata;
-> > +		    memcpy(&__entry->cmnd, cmd, sizeof(__entry->cmnd));
-> 
-> Copying the whole SQE in tracing seems rather excessive.
-> 
-> > +	    TP_printk("nsid=%u, command_id=%u, flags=0x%x, metadata=0x%llx, cmd=(%s %s)",
-> 
-> Too long line.
-> 
-> > +		      le32_to_cpu(__entry->nsid), __entry->cid, __entry->flags,
-> > +		      (unsigned long long) le64_to_cpu(__entry->metadata),
-> 
-> no need for the cast.
-> 
-> > +#undef TRACE_INCLUDE_PATH
-> > +#define TRACE_INCLUDE_PATH ../../drivers/nvme/host
-> 
-> This seems wrong.  Instead you should make sure we include the srcdir
-> in the makefile, take a look at fs/xfs/Makefile for example.
-
-That's what dma-buf, drm and ras do so I copied it over when moving the TP
-header out of include/trace/events
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks
+Jianchao
