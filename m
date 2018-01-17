@@ -1,231 +1,122 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Wed, 17 Jan 2018 12:54:36 +0800
-Subject: [PATCH V4 1/2] nvme: add NVME_CTRL_RESET_PREPARE state
-In-Reply-To: <1516164877-2170-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1516164877-2170-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1516164877-2170-2-git-send-email-jianchao.w.wang@oracle.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 17 Jan 2018 14:22:52 +0800
+Subject: [PATCH 2/2] blk-mq: simplify queue mapping & schedule with each
+ possisble CPU
+In-Reply-To: <8c8efce8-ea02-0a9e-8369-44c885f4731d@oracle.com>
+References: <20180112025306.28004-1-ming.lei@redhat.com>
+ <20180112025306.28004-3-ming.lei@redhat.com>
+ <0d36c16b-cb4b-6088-fdf3-2fe5d8f33cd7@oracle.com>
+ <20180116121010.GA26429@ming.t460p>
+ <7c24e321-2d3b-cdec-699a-f58c34300aa9@oracle.com>
+ <20180116153248.GA3018@ming.t460p>
+ <7f5bad86-febc-06fc-67c0-393777d172e4@oracle.com>
+ <20180117035159.GA9487@ming.t460p>
+ <8c8efce8-ea02-0a9e-8369-44c885f4731d@oracle.com>
+Message-ID: <20180117062251.GC9487@ming.t460p>
 
-Currently, the ctrl->state will be changed to NVME_CTRL_RESETTING
-before queue the reset work. This is not so strict. There could be
-a big gap before the reset_work callback is invoked. In addition,
-there is some disable work in the reset_work callback, strictly
-speaking, not part of reset work, and could lead to some confusion.
+Hi Jianchao,
 
-In addition, after set state to RESETTING and disable procedure,
-nvme-rdma/fc use NVME_CTRL_RECONNECTING to mark the setup and
-reconnect procedure. The RESETTING state has been narrowed.
+On Wed, Jan 17, 2018@01:24:23PM +0800, jianchao.wang wrote:
+> Hi ming
+> 
+> Thanks for your kindly response.
+> 
+> On 01/17/2018 11:52 AM, Ming Lei wrote:
+> >> It is here.
+> >> __blk_mq_run_hw_queue()
+> >> ....
+> >>     WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask) &&
+> >>         cpu_online(hctx->next_cpu));
+> > I think this warning is triggered after the CPU of hctx->next_cpu becomes
+> > online again, and it should have been dealt with by the following trick,
+> > and this patch is against the previous one, please test it and see if
+> > the warning can be fixed.
+> > 
+> > diff --git a/block/blk-mq.c b/block/blk-mq.c
+> > index 23f0f3ddffcf..0620ccb65e4e 100644
+> > --- a/block/blk-mq.c
+> > +++ b/block/blk-mq.c
+> > @@ -1452,6 +1452,9 @@ static int blk_mq_hctx_next_cpu(struct blk_mq_hw_ctx *hctx)
+> >  			tried = true;
+> >  			goto select_cpu;
+> >  		}
+> > +
+> > +		/* handle after this CPU of hctx->next_cpu becomes online again */
+> > +		hctx->next_cpu_batch = 1;
+> >  		return WORK_CPU_UNBOUND;
+> >  	}
+> >  	return hctx->next_cpu;
+> > 
+> 
+> The WARNING still could be triggered.
+> 
+> [  282.194532] WARNING: CPU: 0 PID: 222 at /home/will/u04/source_code/linux-block/block/blk-mq.c:1315 __blk_mq_run_hw_queue+0x92/0xa0
+> [  282.194534] Modules linked in: ....
+> [  282.194561] CPU: 0 PID: 222 Comm: kworker/2:1H Tainted: G        W        4.15.0-rc7+ #17
+> 
 
-This patch add NVME_CTRL_RESET_PREPARE state to mark the reset_work
-or error recovery work, scheduling gap and disable procedure.
-After that,
- - For nvme-pci, nvmet-loop, set state to RESETTING, start
-   initialization.
- - For nvme-rdma, nvme-fc, set state to RECONNECTING, start
-   initialization or reconnect.
+This warning can't be removed completely, for example, the CPU figured
+in blk_mq_hctx_next_cpu(hctx) can be put on again just after the
+following call returns and before __blk_mq_run_hw_queue() is scheduled
+to run.
 
-Suggested-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/core.c   | 18 +++++++++++++++---
- drivers/nvme/host/fc.c     |  4 ++--
- drivers/nvme/host/nvme.h   |  8 ++++++++
- drivers/nvme/host/pci.c    | 25 +++++++++++++++++++++----
- drivers/nvme/host/rdma.c   |  2 +-
- drivers/nvme/target/loop.c |  5 +++++
- 6 files changed, 52 insertions(+), 10 deletions(-)
+	kblockd_mod_delayed_work_on(blk_mq_hctx_next_cpu(hctx), &hctx->run_work, msecs_to_jiffies(msecs))
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 230cc09..87d209f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -87,7 +87,7 @@ static __le32 nvme_get_log_dw10(u8 lid, size_t size)
- 
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
--	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-+	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESET_PREPARE))
- 		return -EBUSY;
- 	if (!queue_work(nvme_wq, &ctrl->reset_work))
- 		return -EBUSY;
-@@ -260,7 +260,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 			break;
- 		}
- 		break;
--	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_RESET_PREPARE:
- 		switch (old_state) {
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
-@@ -271,10 +271,20 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 			break;
- 		}
- 		break;
-+
-+	case NVME_CTRL_RESETTING:
-+		switch (old_state) {
-+		case NVME_CTRL_RESET_PREPARE:
-+			changed = true;
-+			/* FALLTHRU */
-+		default:
-+			break;
-+		}
-+		break;
- 	case NVME_CTRL_RECONNECTING:
- 		switch (old_state) {
- 		case NVME_CTRL_LIVE:
--		case NVME_CTRL_RESETTING:
-+		case NVME_CTRL_RESET_PREPARE:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
-@@ -286,6 +296,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_ADMIN_ONLY:
- 		case NVME_CTRL_RESETTING:
-+		case NVME_CTRL_RESET_PREPARE:
- 		case NVME_CTRL_RECONNECTING:
- 			changed = true;
- 			/* FALLTHRU */
-@@ -2660,6 +2671,7 @@ static ssize_t nvme_sysfs_show_state(struct device *dev,
- 		[NVME_CTRL_LIVE]	= "live",
- 		[NVME_CTRL_ADMIN_ONLY]	= "only-admin",
- 		[NVME_CTRL_RESETTING]	= "resetting",
-+		[NVME_CTRL_RESET_PREPARE]	= "reset-prepare",
- 		[NVME_CTRL_RECONNECTING]= "reconnecting",
- 		[NVME_CTRL_DELETING]	= "deleting",
- 		[NVME_CTRL_DEAD]	= "dead",
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 306aee4..1ba0669 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -546,7 +546,7 @@ nvme_fc_resume_controller(struct nvme_fc_ctrl *ctrl)
- 		queue_delayed_work(nvme_wq, &ctrl->connect_work, 0);
- 		break;
- 
--	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_RESET_PREPARE:
- 		/*
- 		 * Controller is already in the process of terminating the
- 		 * association. No need to do anything further. The reconnect
-@@ -789,7 +789,7 @@ nvme_fc_ctrl_connectivity_loss(struct nvme_fc_ctrl *ctrl)
- 		 */
- 		break;
- 
--	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_RESET_PREPARE:
- 		/*
- 		 * Controller is already in the process of terminating the
- 		 * association.  No need to do anything further. The reconnect
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a44eeca..e4cae21 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -116,10 +116,18 @@ static inline struct nvme_request *nvme_req(struct request *req)
-  */
- #define NVME_QUIRK_DELAY_AMOUNT		2300
- 
-+/*
-+ * RESET_PREPARE - mark the state of scheduling gap and disable procedure
-+ * RESETTING     - nvme-pci, nvmet loop use it to mark the state of setup
-+ *				   procedure
-+ * RECONNECTING  - nvme-fc, nvme-rdma use it to mark the state of setup
-+ *				   and reconnect procedure
-+ */
- enum nvme_ctrl_state {
- 	NVME_CTRL_NEW,
- 	NVME_CTRL_LIVE,
- 	NVME_CTRL_ADMIN_ONLY,    /* Only admin queue live */
-+	NVME_CTRL_RESET_PREPARE,
- 	NVME_CTRL_RESETTING,
- 	NVME_CTRL_RECONNECTING,
- 	NVME_CTRL_DELETING,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 45f843d..f4b47b9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1139,8 +1139,13 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
- 	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
- 
- 	/* If there is a reset ongoing, we shouldn't reset again. */
--	if (dev->ctrl.state == NVME_CTRL_RESETTING)
-+	switch (dev->ctrl.state) {
-+	case NVME_CTRL_RESETTING:
-+	case NVME_CTRL_RESET_PREPARE:
- 		return false;
-+	default:
-+		break;
-+	}
- 
- 	/* We shouldn't reset unless the controller is on fatal error state
- 	 * _or_ if we lost the communication with it.
-@@ -2181,9 +2186,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	if (pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
--		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--		    dev->ctrl.state == NVME_CTRL_RESETTING)
-+		switch (dev->ctrl.state) {
-+		case NVME_CTRL_LIVE:
-+		case NVME_CTRL_RESETTING:
-+		case NVME_CTRL_RESET_PREPARE:
- 			nvme_start_freeze(&dev->ctrl);
-+			break;
-+		default:
-+			break;
-+		}
-+
- 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
- 			pdev->error_state  != pci_channel_io_normal);
- 	}
-@@ -2294,7 +2306,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	int result = -ENODEV;
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
- 
--	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
-+	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESET_PREPARE))
- 		goto out;
- 
- 	/*
-@@ -2304,6 +2316,11 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
- 
-+	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+		WARN_ON_ONCE(dev->ctrl.state != NVME_CTRL_DELETING);
-+		goto out;
-+	}
-+
- 	result = nvme_pci_enable(dev);
- 	if (result)
- 		goto out;
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d49b1e7..6b5f2f4 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -985,7 +985,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 
- static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
- {
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESET_PREPARE))
- 		return;
- 
- 	queue_work(nvme_wq, &ctrl->err_work);
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index fdfcc96..cbc9249 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -481,6 +481,11 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_loop_shutdown_ctrl(ctrl);
- 
-+	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING);
-+	if (!changed) {
-+		WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
-+		return;
-+	}
- 	ret = nvme_loop_configure_admin_queue(ctrl);
- 	if (ret)
- 		goto out_disable;
--- 
-2.7.4
+Just be curious how you trigger this issue? And is it triggered in CPU
+hotplug stress test? Or in a normal use case?
+
+> >> ....
+> >>
+> >> To eliminate this risk totally, we could blk_mq_hctx_next_cpu return the cpu  even if the cpu is offlined and modify the cpu_online above to cpu_active.
+> >> The kworkers of the per-cpu pool must have be migrated back when the cpu is set active.
+> >> But there seems to be issues in DASD as your previous comment.
+> > Yes, we can't break DASD.
+> > 
+> >> That is the original version of this patch, and both Christian and Stefan
+> >> reported that system can't boot from DASD in this way[2], and I changed
+> >> to AND with cpu_online_mask, then their system can boot well
+> >> On the other hand, there is also risk in 
+> >>
+> >> @@ -440,7 +440,7 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+> >>  		blk_queue_exit(q);
+> >>  		return ERR_PTR(-EXDEV);
+> >>  	}
+> >> -	cpu = cpumask_first(alloc_data.hctx->cpumask);
+> >> +	cpu = cpumask_first_and(alloc_data.hctx->cpumask, cpu_online_mask);
+> >>  	alloc_data.ctx = __blk_mq_get_ctx(q, cpu);
+> >>
+> >> what if the cpus in alloc_data.hctx->cpumask are all offlined ?
+> > This one is crazy, and is used by NVMe only, it should be fine if
+> > the passed 'hctx_idx' is retrieved by the current running CPU, such
+> > as the way of blk_mq_map_queue(). But if not, bad thing may happen.
+> Even if retrieved by current running cpu, the task still could be migrated away when the cpu is offlined.
+> 
+
+I just checked NVMe code, looks only nvmf_connect_io_queue() passes
+one specific 'qid' and calls blk_mq_alloc_request_hctx(); and for others,
+NVME_QID_ANY is passed, then blk_mq_alloc_request() is called in
+nvme_alloc_request().
+
+CC NVMe list and guys.
+
+Hello James, Keith, Christoph and Sagi,
+
+Looks nvmf_connect_io_queue() is run in the following fragile way:
+
+	for (i = 1; i < ctrl->ctrl.queue_count; i++) {
+		...
+		nvmf_connect_io_queue(&ctrl->ctrl, i);
+		...
+	}
+
+The hardware queue idx is passed to nvmf_connect_io_queue() directly
+and finally blk_mq_alloc_request_hctx() is called to allocate request
+for the queue, but all CPUs mapped to this hw queue may become offline
+when running in blk_mq_alloc_request_hctx(), so what is the supposed way
+to handle this situation?
+
+Is it fine to return failure simply in blk_mq_alloc_request_hctx()
+under this situation? But the CPU may become online later...
+
+Thanks,
+Ming
