@@ -1,21 +1,36 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 18 Jan 2018 00:00:31 +0900
-Subject: [PATCH V2] nvme: free pre-allocated queue if create ioq goes wrong
-In-Reply-To: <20180115020016.GB13580@localhost.localdomain>
-References: <1515963650-3805-1-git-send-email-minwoo.im.dev@gmail.com>
- <20180115020016.GB13580@localhost.localdomain>
-Message-ID: <CAA7jztd_Ewejj9DZJKeYRWPi6t-PKW3tB4SR7h+fBT_8ztv0aQ@mail.gmail.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 17 Jan 2018 09:37:02 -0600
+Subject: [PATCH 2/4] nvmet-rdma: notify QP on Last WQE Reached event
+ arrival
+In-Reply-To: <1516197178-26493-3-git-send-email-maxg@mellanox.com>
+References: <1516197178-26493-1-git-send-email-maxg@mellanox.com>
+ <1516197178-26493-3-git-send-email-maxg@mellanox.com>
+Message-ID: <02bf01d38fa9$05254550$0f6fcff0$@opengridcomputing.com>
 
-On Mon, Jan 15, 2018@11:00 AM, Keith Busch <keith.busch@intel.com> wrote:
-> Unless this is the very first pass at initialisation, I don't think we
-> can free queues until after blk_mq_update_nr_hw_queues since the hctx
-> could otherwise point to freed memory.
+> 
+> In order to avoid resource leakage for QP associated with
+> a Shared Receive Queue (SRQ), notify it on Last WQE Reached
+> event arrival.
+> 
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>  drivers/nvme/target/rdma.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> index 4991290..99a14a7 100644
+> --- a/drivers/nvme/target/rdma.c
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -1151,6 +1151,9 @@ static void nvmet_rdma_qp_event(struct ib_event
+> *event, void *priv)
+>  	case IB_EVENT_COMM_EST:
+>  		rdma_notify(queue->cm_id, event->event);
+>  		break;
+> +	case IB_EVENT_QP_LAST_WQE_REACHED:
+> +		ib_notify_qp(queue->cm_id->qp, event->event);
+> +		break;
+>  	default:
+>  		pr_err("received IB QP event: %s (%d)\n",
+>  		       ib_event_msg(event->event), event->event);
 
-If not in the first initial step, if (_online_queues_ < 2) driver will
-kill queues and
-remove namespaces. I thought this "killing queue" will handle what you concerned
-about. If I misunderstand what it is, please let me know.
-
-Otherwise if (_online_queues_ >= 2) which means that
-at least one or more IO queue is prepared, blk_mq_update_nr_hw_queues()
-will be triggered as you said.
+I wonder if this could be handled in ib_dispatch_event() for all ULPS?
