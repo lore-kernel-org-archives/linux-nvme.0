@@ -1,40 +1,40 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 17 Jan 2018 19:06:23 +0200
-Subject: [PATCH 1/1] nvmet: fix PSDT field check in command format
-Message-ID: <1516208783-4629-1-git-send-email-maxg@mellanox.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 17 Jan 2018 19:32:54 +0100
+Subject: [ANNOUNCE] Participate at the Linux FAST Summit '18
+Message-ID: <20180117183254.kv7oscmwuj2ambiq@infradead.org>
 
-PSDT field section according to NVM_Express-1.3:
-"This field specifies whether PRPs or SGLs are used for any data
-transfer associated with the command. PRPs shall be used for all
-Admin commands for NVMe over PCIe. SGLs shall be used for all Admin
-and I/O commands for NVMe over Fabrics. This field shall be set to
-01b for NVMe over Fabrics 1.0 implementations.
+We are pleased to announce that the Call for Participation [1] for the
+2018 USENIX Research in Linux File and Storage Technologies Summit (Linux
+FAST Summit '18) [2] is now available.  Linux FAST Summit '18 will take
+place at the Oakland Marriott City Center on February 15 and will be
+co-located with the 16th USENIX Conference on File and Storage Technologies
+(FAST '18) [3].
 
-Suggested-by: Idan Burstein <idanb at mellanox.com>
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/core.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Linux is one of the most frequently used platforms in file and storage
+research, and FAST is the premier conference for publishing research
+results from the file and storage research community.  This summit will
+bring together key Linux kernel developers and academic researchers.  The
+goal is to provide a forum for presenting and discussing current ideas in
+research with a group of active practitioners in the Linux Kernel.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index ab3a247..438e0ba 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -523,9 +523,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		goto fail;
- 	}
- 
--	/* either variant of SGLs is fine, as we don't support metadata */
--	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
--		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG)) {
-+	/*
-+         * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
-+         * contains an address of a single contiguous physical buffer that is
-+         * byte aligned.
-+         */
-+	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto fail;
- 	}
--- 
-1.8.3.1
+The format will be a single session of short 25-minute talks with
+5-minute questions and answers, as well as 45-minute Birds-of-a-Feather
+sessions (BoFs).
+
+If you have an idea you'd like to share, or a project in the Linux Kernel
+that you'd like to talk about, please send a 400-word summary of the idea
+or project and a short description of the benefits that would be achieved
+by discussion with kernel practitioners and/or academics to
+linuxfast18chairs at usenix.org.  Submissions are due by Friday, January 26,
+2018.
+
+We look forward to receiving your submissions!
+
+Christoph Hellwig
+Erik Riedel, Dell EMC
+Linux FAST Summit '18 Program Co-Chairs
+linuxfast18chairs at usenix.org
+
+[1] https://www.usenix.org/conference/linuxfastsummit18/call-for-participation
+[2] https://www.usenix.org/conference/linuxfastsummit18
+[3] https://www.usenix.org/conference/fast18
