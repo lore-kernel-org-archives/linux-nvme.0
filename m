@@ -1,67 +1,18 @@
-From: nitzanc@mellanox.com (Nitzan Carmi)
-Date: Wed, 17 Jan 2018 11:01:14 +0000
-Subject: [PATCH v2] nvme-rdma: fix sysfs invoked reset_ctrl error flow
-Message-ID: <20180117110114.14871-1-nitzanc@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 17 Jan 2018 14:02:24 +0200
+Subject: [Suspected-Phishing]Re: [PATCH V3 1/2] nvme: split resetting
+ state into reset_prepate and resetting
+In-Reply-To: <87bc4cf6-8f69-0f49-2196-d8e8a27e3223@mellanox.com>
+References: <1515647268-1717-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1515647268-1717-2-git-send-email-jianchao.w.wang@oracle.com>
+ <b502ea5a-d319-3a03-0204-e2b6068bb55e@grimberg.me>
+ <de132a4d-eb8b-10e8-7c96-7836edf1b52a@mellanox.com>
+ <1c001532-234f-bc56-7fb4-bcd08142842e@mellanox.com>
+ <2d198b6a-47f4-8d2b-024d-76161f4b0f90@oracle.com>
+ <538cb758-a343-a823-3a50-993a541414b3@grimberg.me>
+ <87bc4cf6-8f69-0f49-2196-d8e8a27e3223@mellanox.com>
+Message-ID: <bc1e56bd-84fe-0bab-57eb-1f8b691ea19e@grimberg.me>
 
-When reset_controller that is invoked by sysfs fails,
-it enters an error flow which practically removes the
-nvme ctrl entirely (similar to delete_ctrl flow). It
-causes the system to hang, since a sysfs attribute cannot
-be unregistered by one of its own methods.
+> see V4 discussion.. :)
 
-This can be fixed by calling delete_ctrl as a work rather
-than sequential code. In addition, it should give the ctrl
-a chance to recover using reconnection mechanism (consistant
-with FC reset_ctrl error flow). Also, while we're here, return
-suitable errno in case the reset ended with non live ctrl.
-
-Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
-
-Changes from v1:
- - Increment nr_reconnects when reset_ctrl has failed.
-
----
- drivers/nvme/host/core.c | 6 +++++-
- drivers/nvme/host/rdma.c | 7 ++-----
- 2 files changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 839650e..58a6997 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -100,8 +100,12 @@ static int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
- 	int ret;
- 
- 	ret = nvme_reset_ctrl(ctrl);
--	if (!ret)
-+	if (!ret) {
- 		flush_work(&ctrl->reset_work);
-+		if (ctrl->state != NVME_CTRL_LIVE)
-+			ret = -ENETRESET;
-+	}
-+
- 	return ret;
- }
- 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2a0bba7..57d30e9 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1787,11 +1787,8 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
- 	return;
- 
- out_fail:
--	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
--	nvme_remove_namespaces(&ctrl->ctrl);
--	nvme_rdma_shutdown_ctrl(ctrl, true);
--	nvme_uninit_ctrl(&ctrl->ctrl);
--	nvme_put_ctrl(&ctrl->ctrl);
-+	++ctrl->ctrl.nr_reconnects;
-+	nvme_rdma_reconnect_or_remove(ctrl);
- }
- 
- static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
--- 
-2.9.4
+I didn't see any v4
