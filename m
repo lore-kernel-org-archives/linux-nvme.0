@@ -1,45 +1,22 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 17 Jan 2018 16:09:11 +0800
-Subject: [PATCH 2/2] blk-mq: simplify queue mapping & schedule with each
- possisble CPU
-In-Reply-To: <20180117062251.GC9487@ming.t460p>
-References: <20180112025306.28004-1-ming.lei@redhat.com>
- <20180112025306.28004-3-ming.lei@redhat.com>
- <0d36c16b-cb4b-6088-fdf3-2fe5d8f33cd7@oracle.com>
- <20180116121010.GA26429@ming.t460p>
- <7c24e321-2d3b-cdec-699a-f58c34300aa9@oracle.com>
- <20180116153248.GA3018@ming.t460p>
- <7f5bad86-febc-06fc-67c0-393777d172e4@oracle.com>
- <20180117035159.GA9487@ming.t460p>
- <8c8efce8-ea02-0a9e-8369-44c885f4731d@oracle.com>
- <20180117062251.GC9487@ming.t460p>
-Message-ID: <977e9c62-c7f2-d1df-7d6b-5903f3b21cb6@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 17 Jan 2018 10:30:44 +0200
+Subject: [PATCH] nvme-pci: take sglist coalescing in dma_map_sg into
+ account
+In-Reply-To: <20180115173716.22409-1-hch@lst.de>
+References: <20180115173716.22409-1-hch@lst.de>
+Message-ID: <606d11cb-749a-4c09-1167-cb5c27fba94d@grimberg.me>
 
-Hi ming 
 
-Thanks for your kindly response.
-
-On 01/17/2018 02:22 PM, Ming Lei wrote:
-> This warning can't be removed completely, for example, the CPU figured
-> in blk_mq_hctx_next_cpu(hctx) can be put on again just after the
-> following call returns and before __blk_mq_run_hw_queue() is scheduled
-> to run.
+> Some iommu implementations can merge physically and/or virtually
+> contiguous segments inside sg_map_dma.  The NVMe SGL support does not take
+> this into account and will warn because of falling off a loop.  Pass the
+> number of mapped segments to nvme_pci_setup_sgls so that the SGL setup
+> can take the number of mapped segments into account.
 > 
-> 	kblockd_mod_delayed_work_on(blk_mq_hctx_next_cpu(hctx), &hctx->run_work, msecs_to_jiffies(msecs))
-We could use cpu_active in __blk_mq_run_hw_queue() to narrow the window.
-There is a big gap between cpu_online and cpu_active. rebind_workers is also between them.
+> Reported-by: Fangjian (Turing) <f.fangjian at huawei.com>
+> Fixes: a7a7cbe3 ("nvme-pci: add SGL support")
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-> 
-> Just be curious how you trigger this issue? And is it triggered in CPU
-> hotplug stress test? Or in a normal use case?
+This looks good Christoph,
 
-In fact, this is my own investigation about whether the .queue_rq to one hardware queue could be executed on
-the cpu where it is not mapped. Finally, found this hole when cpu hotplug.
-I did the test on NVMe device which has 1-to-1 mapping between cpu and hctx.
- - A special patch that could hold some requests on ctx->rq_list though .get_budget
- - A script issues IOs with fio
- - A script online/offline the cpus continuously
-At first, just the warning above. Then after this patch was introduced, panic came up.
-
-Thanks
-Jianchao
+Reviewed-by: Sagi Grimberg <sagi at rimberg.me>
