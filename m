@@ -1,102 +1,72 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 17 Jan 2018 17:24:43 +0800
-Subject: [PATCH V4 1/2] nvme: add NVME_CTRL_RESET_PREPARE state
-In-Reply-To: <e8b77f1d-10d5-42b0-9906-b0f32cb55e02@oracle.com>
-References: <1516164877-2170-1-git-send-email-jianchao.w.wang@oracle.com>
- <1516164877-2170-2-git-send-email-jianchao.w.wang@oracle.com>
- <11106a93-2e78-c853-e6eb-35c652dab3a9@mellanox.com>
- <e8b77f1d-10d5-42b0-9906-b0f32cb55e02@oracle.com>
-Message-ID: <f35e5904-1812-411d-5995-a64425561103@oracle.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 17 Jan 2018 17:57:45 +0800
+Subject: [PATCH 2/2] blk-mq: simplify queue mapping & schedule with each
+ possisble CPU
+In-Reply-To: <977e9c62-c7f2-d1df-7d6b-5903f3b21cb6@oracle.com>
+References: <20180112025306.28004-3-ming.lei@redhat.com>
+ <0d36c16b-cb4b-6088-fdf3-2fe5d8f33cd7@oracle.com>
+ <20180116121010.GA26429@ming.t460p>
+ <7c24e321-2d3b-cdec-699a-f58c34300aa9@oracle.com>
+ <20180116153248.GA3018@ming.t460p>
+ <7f5bad86-febc-06fc-67c0-393777d172e4@oracle.com>
+ <20180117035159.GA9487@ming.t460p>
+ <8c8efce8-ea02-0a9e-8369-44c885f4731d@oracle.com>
+ <20180117062251.GC9487@ming.t460p>
+ <977e9c62-c7f2-d1df-7d6b-5903f3b21cb6@oracle.com>
+Message-ID: <20180117095744.GF9487@ming.t460p>
 
-Hi max
+Hi Jianchao,
 
-On 01/17/2018 05:19 PM, jianchao.wang wrote:
-> Hi Max
+On Wed, Jan 17, 2018@04:09:11PM +0800, jianchao.wang wrote:
+> Hi ming 
 > 
 > Thanks for your kindly response.
 > 
-> I have merged the response to you together below.
-> On 01/17/2018 05:06 PM, Max Gurtovoy wrote:
->>> ? case NVME_CTRL_RECONNECTING:
->>> ????????? switch (old_state) {
->>> ????????? case NVME_CTRL_LIVE:
->>> -??????? case NVME_CTRL_RESETTING:
->>> +??????? case NVME_CTRL_RESET_PREPARE:
->>
->> As I suggested in V3, please don't allow this transition.
->> We'll move to NVME_CTRL_RECONNECTING from NVME_CTRL_RESETTING.
->>
->> I look on it like that:
->>
->> NVME_CTRL_RESET_PREPARE - "suspend" state
->> NVME_CTRL_RESETTING - "resume" state
->>
->> you don't reconnect from "suspend" state, you must "resume" before you reconnect.
-> 
->>> index d49b1e7..6b5f2f4 100644
->>> --- a/drivers/nvme/host/rdma.c
->>> +++ b/drivers/nvme/host/rdma.c
->>> @@ -985,7 +985,7 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
->>> ? ? static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
->>> ? {
->>> -??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
->>> +??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESET_PREPARE))
->>> ????????? return;
->>
->> We can add a NVME_CTRL_RESET_PREPARE --> NVME_CTRL_RESETTING transition and then move to NVME_CTRL_RECONNECTING (in nvme_rdma_reset_ctrl_work and nvme_rdma_error_recovery_work).
->> I want to add an ability to recover from device removal (actually wanted to send it today but I'm waiting to see what will happen with this patchset) for RDMA and your approach (enable transition to from both "suspend" and "resume" to "reconnect") might be problematic.
->>
->> Sagi/Christoph ?
-> 
-> I used to respond you in the V3 and wait for your feedback.
-> Please refer to:
->>>>
-> After Sagi's nvme-rdma: fix concurrent reset and reconnect, the rdma ctrl state is changed to RECONNECTING state
-> after some clearing and shutdown work, then some initializing procedure,  no matter reset work path or error recovery path.
-> The fc reset work also does the same thing.
-> So if we define the range that RESET_PREPARE includes scheduling gap and disable and clear work, RESETTING includes initializing
-> procedure,  RECONNECTING is very similar with RESETTING.
-> 
-> Maybe we could do like this;
-> In nvme fc/rdma
-> - set state to RESET_PREPARE, queue reset_work/err_work 
-> - clear/shutdown works, set state to RECONNECTING
-> - initialization, set state to LIVE
-> 
-> In nvme pci
-> - set state to RESET_PREPARE, queue reset_work
-> - clear/shutdown works, set state to RESETTING
-> - initialization, set state to LIVE
->>>>
-> 
-> Currently, RECONNECTING has overlapped with RESETTING.
-> So I suggest to use RESET_PREPARE to mark the "suspend" part as you said.
-> And use RECONNECTING to mark the "resume" part in nvme-rdma/fc
-> use RESETTING part to mark the "resume" part in nvme-pci, nvmt-loop.
+> On 01/17/2018 02:22 PM, Ming Lei wrote:
+> > This warning can't be removed completely, for example, the CPU figured
+> > in blk_mq_hctx_next_cpu(hctx) can be put on again just after the
+> > following call returns and before __blk_mq_run_hw_queue() is scheduled
+> > to run.
+> > 
+> > 	kblockd_mod_delayed_work_on(blk_mq_hctx_next_cpu(hctx), &hctx->run_work, msecs_to_jiffies(msecs))
+> We could use cpu_active in __blk_mq_run_hw_queue() to narrow the window.
+> There is a big gap between cpu_online and cpu_active. rebind_workers is also between them.
 
-I have added a comment above the definition of nvme_ctrl_state as below:
-  +/*
-+ * RESET_PREPARE - mark the state of scheduling gap and disable procedure
-+ * RESETTING     - nvme-pci, nvmet loop use it to mark the state of setup
-+ *                   procedure
-+ * RECONNECTING  - nvme-fc, nvme-rdma use it to mark the state of setup
-+ *                   and reconnect procedure
-+ */
+This warning is harmless, also you can't reproduce it without help of your
+special patch, I guess, :-) So the window shouldn't be a big deal. 
 
-Consequently, nvme-fc/rdma don't use RESETTING state any more, but only RESET_PREPARE.
+But it can be a problem about the delay(msecs_to_jiffies(msecs)) passed to
+kblockd_mod_delayed_work_on(), because during the period:
 
-Thanks
-Jianchao
+1) hctx->next_cpu can become online from offline before __blk_mq_run_hw_queue
+is run, your warning is triggered, but it is harmless
+
+2) hctx->next_cpu can become offline from online before __blk_mq_run_hw_queue
+is run, there isn't warning, but once the IO is submitted to hardware,
+after it is completed, how does the HBA/hw queue notify CPU since CPUs
+assigned to this hw queue(irq vector) are offline? blk-mq's timeout
+handler may cover that, but looks too tricky.
 
 > 
-> I want to confirm with all of you, but no none had feedback, so I sent out the patch directly.
-> Please forgive my abrupt actions.
+> > 
+> > Just be curious how you trigger this issue? And is it triggered in CPU
+> > hotplug stress test? Or in a normal use case?
 > 
-> Thanks
-> Jianchao
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwIGAA&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=lUkrKY6u8mGr5k1ajcQSKfsk1N2wKpmD60MJfojz4iY&s=AtvJd5ElCQ_WoO2Q5-LBTEdlZeTmWOHEGO-baUZyl-o&e=
-> 
+> In fact, this is my own investigation about whether the .queue_rq to one hardware queue could be executed on
+> the cpu where it is not mapped. Finally, found this hole when cpu hotplug.
+> I did the test on NVMe device which has 1-to-1 mapping between cpu and hctx.
+>  - A special patch that could hold some requests on ctx->rq_list though .get_budget
+>  - A script issues IOs with fio
+>  - A script online/offline the cpus continuously
+
+Thanks for sharing your reproduction approach.
+
+Without a handler for CPU hotplug, it isn't easy to avoid the warning
+completely in __blk_mq_run_hw_queue().
+
+> At first, just the warning above. Then after this patch was introduced, panic came up.
+
+We have to fix the panic, so I will post the patch you tested in this thread.
+
+Thanks,
+Ming
