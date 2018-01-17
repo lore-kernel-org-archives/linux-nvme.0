@@ -1,40 +1,31 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 17 Jan 2018 19:32:54 +0100
-Subject: [ANNOUNCE] Participate at the Linux FAST Summit '18
-Message-ID: <20180117183254.kv7oscmwuj2ambiq@infradead.org>
+Date: Wed, 17 Jan 2018 19:36:22 +0100
+Subject: [GIT PULL] two more nvme fixes for Linux 4.15
+Message-ID: <20180117183622.3nrboga4prjeck5i@infradead.org>
 
-We are pleased to announce that the Call for Participation [1] for the
-2018 USENIX Research in Linux File and Storage Technologies Summit (Linux
-FAST Summit '18) [2] is now available.  Linux FAST Summit '18 will take
-place at the Oakland Marriott City Center on February 15 and will be
-co-located with the 16th USENIX Conference on File and Storage Technologies
-(FAST '18) [3].
+Hi Jens,
 
-Linux is one of the most frequently used platforms in file and storage
-research, and FAST is the premier conference for publishing research
-results from the file and storage research community.  This summit will
-bring together key Linux kernel developers and academic researchers.  The
-goal is to provide a forum for presenting and discussing current ideas in
-research with a group of active practitioners in the Linux Kernel.
+two more last minute fixes for regressions due to the SGL support that
+is new in Linux 4.15.
 
-The format will be a single session of short 25-minute talks with
-5-minute questions and answers, as well as 45-minute Birds-of-a-Feather
-sessions (BoFs).
+The following changes since commit 32835a074171e7b83c1cefbbf9d681bb9518bbd5:
 
-If you have an idea you'd like to share, or a project in the Linux Kernel
-that you'd like to talk about, please send a 400-word summary of the idea
-or project and a short description of the benefits that would be achieved
-by discussion with kernel practitioners and/or academics to
-linuxfast18chairs at usenix.org.  Submissions are due by Friday, January 26,
-2018.
+  Merge branch 'nvme-4.15' of git://git.infradead.org/nvme into for-linus (2018-01-12 10:42:36 -0700)
 
-We look forward to receiving your submissions!
+are available in the git repository at:
 
-Christoph Hellwig
-Erik Riedel, Dell EMC
-Linux FAST Summit '18 Program Co-Chairs
-linuxfast18chairs at usenix.org
+  git://git.infradead.org/nvme.git nvme-4.15
 
-[1] https://www.usenix.org/conference/linuxfastsummit18/call-for-participation
-[2] https://www.usenix.org/conference/linuxfastsummit18
-[3] https://www.usenix.org/conference/fast18
+for you to fetch changes up to 0eb89a5061873dcb69570b1571e12eb6f00f4ae6:
+
+  nvme-pci: take sglist coalescing in dma_map_sg into account (2018-01-17 17:41:28 +0100)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvme-pci: take sglist coalescing in dma_map_sg into account
+
+Keith Busch (1):
+      nvme-pci: check segement valid for SGL use
+
+ drivers/nvme/host/pci.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
