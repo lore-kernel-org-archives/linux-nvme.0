@@ -1,19 +1,32 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed, 17 Jan 2018 22:08:58 +0900
-Subject: [PATCH 2/2] nvme: pci: remove unnecessary initialization of local
- variable
-In-Reply-To: <20180115020140.GC13580@localhost.localdomain>
-References: <1515930055-20611-1-git-send-email-minwoo.im.dev@gmail.com>
- <20180115020140.GC13580@localhost.localdomain>
-Message-ID: <CAA7jzte33vQj+GH9HZgNffnveuXa58+jB40A5kBt_qHfCCmuXQ@mail.gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 17 Jan 2018 15:52:57 +0200
+Subject: [PATCH 3/4] iser-target: remove dead code
+In-Reply-To: <1516197178-26493-1-git-send-email-maxg@mellanox.com>
+References: <1516197178-26493-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1516197178-26493-4-git-send-email-maxg@mellanox.com>
 
-On Mon, Jan 15, 2018@11:01 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Sun, Jan 14, 2018@08:40:55PM +0900, Minwoo Im wrote:
->> No functional change with code clean-up.
->> Remove unnecessary initialization of local variable in HMB code.
->
-> Looks fine.
->
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
+IB_EVENT_QP_LAST_WQE_REACHED event can arrive only for
+QP associated with Shared Receive Queue (SRQ). There is
+no SRQ usage in iser target.
 
-If don't mind, ping ?
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/infiniband/ulp/isert/ib_isert.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/infiniband/ulp/isert/ib_isert.c b/drivers/infiniband/ulp/isert/ib_isert.c
+index 720dfb3..bde22e1 100644
+--- a/drivers/infiniband/ulp/isert/ib_isert.c
++++ b/drivers/infiniband/ulp/isert/ib_isert.c
+@@ -81,9 +81,6 @@
+ 	case IB_EVENT_COMM_EST:
+ 		rdma_notify(isert_conn->cm_id, IB_EVENT_COMM_EST);
+ 		break;
+-	case IB_EVENT_QP_LAST_WQE_REACHED:
+-		isert_warn("Reached TX IB_EVENT_QP_LAST_WQE_REACHED\n");
+-		break;
+ 	default:
+ 		break;
+ 	}
+-- 
+1.8.3.1
