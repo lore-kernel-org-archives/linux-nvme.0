@@ -1,28 +1,19 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Wed, 17 Jan 2018 21:58:35 +0900
+Date: Wed, 17 Jan 2018 22:00:10 +0900
 Subject: [PATCH 1/2] nvme: pci: replace magic number with readable size
  macro in hmb code
-In-Reply-To: <20180115020846.GD13580@localhost.localdomain>
+In-Reply-To: <20180115084412.GB32313@lst.de>
 References: <1515930040-20561-1-git-send-email-minwoo.im.dev@gmail.com>
- <20180115020846.GD13580@localhost.localdomain>
-Message-ID: <CAA7jzteBx-nbOnFZV4Tprjd-bkbBNFA-6WaC1QZ73oUYfF8YYw@mail.gmail.com>
+ <20180115084412.GB32313@lst.de>
+Message-ID: <CAA7jztcR=QR0dBCa5mt3h4tk3wP5o5=cB95fHNpbQCqTs9ZVTg@mail.gmail.com>
 
-On Mon, Jan 15, 2018@11:08 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Sun, Jan 14, 2018@08:40:40PM +0900, Minwoo Im wrote:
->> Those three identify fields(hmpre, hmmin, hmminds) have size in 4KB
->> units.
->>
->> Replace magic numbers with human-readable size macro.
->>
->> Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
->
-> Looks fine, though I thought an explicit #include <linux/sizes.h> is
-> in order since it's not obvious how we're pulling in these defines, but
-> there's already other SZ_* macro uses in this file, so it must be safe!
->
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
+On Mon, Jan 15, 2018@5:44 PM, Christoph Hellwig <hch@lst.de> wrote:
+> SZ_4K does not add any value at all.  The SZ constants may make some
+> size in the megabyte and larger ranges where the multiples of 1024
+> aren't totally obviously, but they certainly don't for 4 digit values.
 
-Keith,
+Christoph,
 
-Thanks for your kind review.
-I agree that explicit #include always seems right.
+Thanks for giving your kind review.
+Do you mean that SZ_* constants should _not_ be used to represent
+small size like 4K?
