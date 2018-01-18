@@ -1,81 +1,47 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 18 Jan 2018 07:34:59 -0800
-Subject: [PATCH V5 0/2] nvme-pci: fix the timeout case when reset is
- ongoing
-In-Reply-To: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <273980d4-0b11-a3fc-ca83-00e8f957ba87@broadcom.com>
+From: Darren.Trapp@cavium.com (Trapp, Darren)
+Date: Thu, 18 Jan 2018 15:54:26 +0000
+Subject: nvme-fc unregister remote port
+In-Reply-To: <1d5a271d-3622-8b5d-08fc-9ab344a7933c@broadcom.com>
+References: <0F0B1C8F-68EA-49B4-A8A6-E9787D8A94CB@cavium.com>
+ <1d5a271d-3622-8b5d-08fc-9ab344a7933c@broadcom.com>
+Message-ID: <47091667-53B5-4F7D-B244-D3A1A1C6D629@cavium.com>
 
-Jianchao,
+	If you're concerned about driver unload or reset paths - where the 
+       target is present up to that point, I guess it could be better behaved. 
+    	I don't know that it's mandatory as initiator and target have to manage 
+    	the surprise removal cases.
 
-This looks very coherent to me. Thank You.
+Looking at your proposed text for in T11-2017-00419-v001.pdf it will be mandatory:
 
--- james
+An initiator NVMe_Port shall perform the following steps to terminate an NVMeoFC association:
+       1) transmit an ABTS-LS (see 11.3) for all open Exchanges for the NVMeoFC association being
+       terminated, except for a Disconnect NVMe_LS Exchange.
+       2) transmit a Disconnect NVMe_LS request to the corresponding target NVMe_Port unless there
+       is no valid login with the associated NVMe_Port. The Disconnect NVMe_LS request, if
+       transmitted, shall contain an Association Identifier descriptor with the Association Identifier of
+       the NVMeoFC association being terminated.
 
 
+On 1/12/18, 3:23 PM, "James Smart" <james.smart@broadcom.com> wrote:
 
-On 1/18/2018 2:10 AM, Jianchao Wang wrote:
-> Hello
->
-> Please consider the following scenario.
-> nvme_reset_ctrl
->    -> set state to RESETTING
->    -> queue reset_work
->      (scheduling)
-> nvme_reset_work
->    -> nvme_dev_disable
->      -> quiesce queues
->      -> nvme_cancel_request
->         on outstanding requests
-> -------------------------------_boundary_
->    -> nvme initializing (issue request on adminq)
->
-> Before the _boundary_, not only quiesce the queues, but only cancel
-> all the outstanding requests.
->
-> A request could expire when the ctrl state is RESETTING.
->   - If the timeout occur before the _boundary_, the expired requests
->     are from the previous work.
->   - Otherwise, the expired requests are from the controller initializing
->     procedure, such as sending cq/sq create commands to adminq to setup
->     io queues.
-> In current implementation, nvme_timeout cannot identify the _boundary_
-> so only handles second case above.
->
-> In fact, after Sagi's commit (nvme-rdma: fix concurrent reset and
-> reconnect), both nvme-fc/rdma have following pattern:
-> RESETTING    - quiesce blk-mq queues, teardown and delete queues/
->                 connections, clear out outstanding IO requests...
-> RECONNECTING - establish new queues/connections and some other
->                 initializing things.
-> Introduce RECONNECTING to nvme-pci transport to do the same mark
-> Then we get a coherent state definition among nvme pci/rdma/fc
-> transports and nvme_timeout could identify the _boundary_.
->
-> V5:
->   - discard RESET_PREPARE and introduce RESETTING into nvme-pci
->   - change the 1st patch's name and comment
->   - other misc changes
->
-> V4:
->   - rebase patches on Jens' for-next
->   - let RESETTING equal to RECONNECTING in terms of work procedure
->   - change the 1st patch's name and comment
->   - other misc changes
->
-> V3:
->   - fix wrong reference in loop.c
->   - other misc changes
->
-> V2:
->   - split NVME_CTRL_RESETTING into NVME_CTRL_RESET_PREPARE and
->     NVME_CTRL_RESETTING. Introduce new patch based on this.
->   - distinguish the requests based on the new state in nvme_timeout
->   - change comments of patch
->
-> drivers/nvme/host/core.c |  2 +-
-> drivers/nvme/host/pci.c  | 43 ++++++++++++++++++++++++++++++++-----------
-> 2 files changed, 33 insertions(+), 12 deletions(-)
->
-> Thanks
-> Jianchao
+    On 1/12/2018 2:25 PM, Trapp, Darren wrote:
+    > During the unregister remote process, we stop all the q?s, kill the IO (including AEN?s) and try and send a disconnect to the target via a LS request.  But, that request fails since __nvme_fc_send_ls_req first checks to ensure the remote port is ONLINE.  It won?t be since the unregister_remoteport sets the state to DELETED.
+    >
+    > The disconnect never goes to the target to make an orderly shutdown/cleanup.  The target will eventually figure it out when the keep alive?s stop coming.  But it seams we should do an orderly shutdown when we can.
+    
+    Well - it depends on why you are unregistering. In most cases, the 
+    driver is calling unregister as it has logged out of the port - so 
+    there's nothing there to send the disconnect to.
+    
+    If you're concerned about driver unload or reset paths - where the 
+    target is present up to that point, I guess it could be better behaved. 
+    I don't know that it's mandatory as initiator and target have to manage 
+    the surprise removal cases.
+    
+    If that's what you're looking for, we could look into adding a flag to 
+    unregister, or perhaps a slightly different method if we want to keep 
+    interface compatibility - to have the transport delete the controllers 
+    before acting on the unregister.
+    
+    -- james
+    
