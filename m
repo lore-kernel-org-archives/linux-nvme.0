@@ -1,44 +1,81 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Jan 2018 16:32:05 +0100
-Subject: [PATCH v3 1/2] nvme: add tracepoint for nvme_setup_cmd
-In-Reply-To: <20180118152134.GB24168@lst.de>
-References: <20180117105336.8666-1-jthumshirn@suse.de>
- <20180117105336.8666-2-jthumshirn@suse.de>
- <20180118152134.GB24168@lst.de>
-Message-ID: <20180118153205.ipl6yzdfqqoohzbs@linux-x5ow.site>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 18 Jan 2018 07:34:59 -0800
+Subject: [PATCH V5 0/2] nvme-pci: fix the timeout case when reset is
+ ongoing
+In-Reply-To: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <273980d4-0b11-a3fc-ca83-00e8f957ba87@broadcom.com>
 
-On Thu, Jan 18, 2018@04:21:34PM +0100, Christoph Hellwig wrote:
-> On Wed, Jan 17, 2018@11:53:35AM +0100, Johannes Thumshirn wrote:
-> > +nvme-core-y				:= trace.o core.o
-> 
-> trace.o should be conditional on CONFIG_TRACEPOINTS.
- 
-Doesn't do too much of a difference for me if CONFIG_TRACEPOINTS=n but if you
-insist I can do it of cause.
+Jianchao,
 
-> > +TRACE_EVENT(nvme_setup_cmd,
-> > +	    TP_PROTO(struct nvme_command *cmd),
-> > +	    TP_ARGS(cmd),
-> > +	    TP_STRUCT__entry(
-> > +		    __field(__u8, opcode)
-> > +		    __field(__u8, flags)
-> > +		    __field(__u16, cid)
-> > +		    __field(__le32, nsid)
-> > +		    __field(__le64, metadata)
-> > +		    __field_struct( struct nvme_command, cmnd )
-> 
-> This still copies the whole SQE.  I think that is way to much to
-> copy, especially given that you also copy many of the fields separately
-> as well.
+This looks very coherent to me. Thank You.
 
-it's not that much, but ok.
+-- james
 
-Will be sending out a v4 tomorrow.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+
+On 1/18/2018 2:10 AM, Jianchao Wang wrote:
+> Hello
+>
+> Please consider the following scenario.
+> nvme_reset_ctrl
+>    -> set state to RESETTING
+>    -> queue reset_work
+>      (scheduling)
+> nvme_reset_work
+>    -> nvme_dev_disable
+>      -> quiesce queues
+>      -> nvme_cancel_request
+>         on outstanding requests
+> -------------------------------_boundary_
+>    -> nvme initializing (issue request on adminq)
+>
+> Before the _boundary_, not only quiesce the queues, but only cancel
+> all the outstanding requests.
+>
+> A request could expire when the ctrl state is RESETTING.
+>   - If the timeout occur before the _boundary_, the expired requests
+>     are from the previous work.
+>   - Otherwise, the expired requests are from the controller initializing
+>     procedure, such as sending cq/sq create commands to adminq to setup
+>     io queues.
+> In current implementation, nvme_timeout cannot identify the _boundary_
+> so only handles second case above.
+>
+> In fact, after Sagi's commit (nvme-rdma: fix concurrent reset and
+> reconnect), both nvme-fc/rdma have following pattern:
+> RESETTING    - quiesce blk-mq queues, teardown and delete queues/
+>                 connections, clear out outstanding IO requests...
+> RECONNECTING - establish new queues/connections and some other
+>                 initializing things.
+> Introduce RECONNECTING to nvme-pci transport to do the same mark
+> Then we get a coherent state definition among nvme pci/rdma/fc
+> transports and nvme_timeout could identify the _boundary_.
+>
+> V5:
+>   - discard RESET_PREPARE and introduce RESETTING into nvme-pci
+>   - change the 1st patch's name and comment
+>   - other misc changes
+>
+> V4:
+>   - rebase patches on Jens' for-next
+>   - let RESETTING equal to RECONNECTING in terms of work procedure
+>   - change the 1st patch's name and comment
+>   - other misc changes
+>
+> V3:
+>   - fix wrong reference in loop.c
+>   - other misc changes
+>
+> V2:
+>   - split NVME_CTRL_RESETTING into NVME_CTRL_RESET_PREPARE and
+>     NVME_CTRL_RESETTING. Introduce new patch based on this.
+>   - distinguish the requests based on the new state in nvme_timeout
+>   - change comments of patch
+>
+> drivers/nvme/host/core.c |  2 +-
+> drivers/nvme/host/pci.c  | 43 ++++++++++++++++++++++++++++++++-----------
+> 2 files changed, 33 insertions(+), 12 deletions(-)
+>
+> Thanks
+> Jianchao
