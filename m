@@ -1,85 +1,42 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 18 Jan 2018 12:17:18 +0200
-Subject: [PATCH V5 1/2] nvme-pci: introduce RECONNECTING state to mark
- initializing procedure
-In-Reply-To: <1516270202-8051-2-git-send-email-jianchao.w.wang@oracle.com>
-References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
- <1516270202-8051-2-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <4be66899-0246-9d03-eb03-76488e7e629e@mellanox.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 18 Jan 2018 19:25:06 +0900
+Subject: [PATCH V2] nvme: free pre-allocated queue if create ioq goes wrong
+In-Reply-To: <e402e9f4-b884-df4b-3841-445ea38142d2@oracle.com>
+References: <1515963650-3805-1-git-send-email-minwoo.im.dev@gmail.com>
+ <20180115020016.GB13580@localhost.localdomain>
+ <CAA7jztd_Ewejj9DZJKeYRWPi6t-PKW3tB4SR7h+fBT_8ztv0aQ@mail.gmail.com>
+ <e402e9f4-b884-df4b-3841-445ea38142d2@oracle.com>
+Message-ID: <CAA7jztfXAgo33NmmzvHu5dNyNKEkVzgqMWRR6FS4p3Etxx-i6g@mail.gmail.com>
 
+On Thu, Jan 18, 2018 at 2:27 PM, jianchao.wang
+<jianchao.w.wang@oracle.com> wrote:
+> Hi Minwoo
 
+>> Think of the following scenario:
+> nvme_reset_work
+>   -> nvme_setup_io_queues
+>     -> nvme_create_io_queues
+>       -> nvme_free_queues
+>   -> nvme_kill_queues
+>     -> blk_set_queue_dying   // just freeze the queue here, but will not wait to be drained.
+>                                 not new requests come in, but maybe still residual requests in blk-mq queues.
+>     -> blk_mq_unquiesce_queue
+>
+> the queues are _unquiesced_ here, then the residual requests will be queued
+> and go through nvme_queue_rq. Then the freed nvme_queue structure will be accessed.
+> :)
+>
+> Thanks
+> Jianchao
 
-On 1/18/2018 12:10 PM, Jianchao Wang wrote:
-> After Sagi's commit (nvme-rdma: fix concurrent reset and reconnect),
-> both nvme-fc/rdma have following pattern:
-> RESETTING    - quiesce blk-mq queues, teardown and delete queues/
->                 connections, clear out outstanding IO requests...
-> RECONNECTING - establish new queues/connections and some other
->                 initializing things.
+Hi Jianchao,
 
-I guess we can call it NVME_CTRL_CONNECTING in later patch (more 
-suitable name for this state now).
+First of all, I really appreciate letting me know the case.
+It seems no one updates the actual nr_hw_queues value and frees hctxs
+after nvme_kill_queues().
+If you don't mind, would you please tell me where hctxs are freed
+after nvme_kill_queues()?
+I'm still trying to understand what's going on in blk-mq layer, but
+I'm hardly getting to it.
 
-> Introduce RECONNECTING to nvme-pci transport to do the same mark.
-> Then we get a coherent state definition among nvme pci/rdma/fc
-> transports.
-> 
-> Suggested-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> ---
->   drivers/nvme/host/core.c |  2 +-
->   drivers/nvme/host/pci.c  | 19 +++++++++++++++++--
->   2 files changed, 18 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 230cc09..23b3e53 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -242,7 +242,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->   	switch (new_state) {
->   	case NVME_CTRL_ADMIN_ONLY:
->   		switch (old_state) {
-> -		case NVME_CTRL_RESETTING:
-> +		case NVME_CTRL_RECONNECTING:
->   			changed = true;
->   			/* FALLTHRU */
->   		default:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 45f843d..05344be 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1138,9 +1138,14 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
->   	 */
->   	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
->   
-> -	/* If there is a reset ongoing, we shouldn't reset again. */
-> -	if (dev->ctrl.state == NVME_CTRL_RESETTING)
-> +	/* If there is a reset/reinit ongoing, we shouldn't reset again. */
-> +	switch (dev->ctrl.state) {
-> +	case NVME_CTRL_RESETTING:
-> +	case NVME_CTRL_RECONNECTING:
->   		return false;
-> +	default:
-> +		break;
-> +	}
->   
->   	/* We shouldn't reset unless the controller is on fatal error state
->   	 * _or_ if we lost the communication with it.
-> @@ -2304,6 +2309,16 @@ static void nvme_reset_work(struct work_struct *work)
->   	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
->   		nvme_dev_disable(dev, false);
->   
-> +	/*
-> +	 * Introduce RECONNECTING state from nvme-fc/rdma transports to mark the
-> +	 * initializing procedure here.
-> +	 */
-> +	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RECONNECTING)) {
-> +		dev_warn(dev->ctrl.device,
-> +			"failed to mark controller RECONNECTING\n");
-> +		goto out;
-> +	}
-> +
->   	result = nvme_pci_enable(dev);
->   	if (result)
->   		goto out;
-> 
+Thanks,
