@@ -1,24 +1,46 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 18 Jan 2018 19:37:38 +0900
-Subject: [PATCH 1/1] nvmet: fix PSDT field check in command format
-In-Reply-To: <1516208783-4629-1-git-send-email-maxg@mellanox.com>
-References: <1516208783-4629-1-git-send-email-maxg@mellanox.com>
-Message-ID: <CAA7jzteGib4-mZxoSup1-_dm8LkT=bCPRnGirYiDCDL7JU=vWA@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 18 Jan 2018 04:31:14 -0700
+Subject: [PATCH V2] nvme: free pre-allocated queue if create ioq goes wrong
+In-Reply-To: <CAA7jztfXAgo33NmmzvHu5dNyNKEkVzgqMWRR6FS4p3Etxx-i6g@mail.gmail.com>
+References: <1515963650-3805-1-git-send-email-minwoo.im.dev@gmail.com>
+ <20180115020016.GB13580@localhost.localdomain>
+ <CAA7jztd_Ewejj9DZJKeYRWPi6t-PKW3tB4SR7h+fBT_8ztv0aQ@mail.gmail.com>
+ <e402e9f4-b884-df4b-3841-445ea38142d2@oracle.com>
+ <CAA7jztfXAgo33NmmzvHu5dNyNKEkVzgqMWRR6FS4p3Etxx-i6g@mail.gmail.com>
+Message-ID: <20180118113114.GA11093@localhost.localdomain>
 
-On Thu, Jan 18, 2018@2:06 AM, Max Gurtovoy <maxg@mellanox.com> wrote:
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index ab3a247..438e0ba 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -523,9 +523,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+On Thu, Jan 18, 2018@07:25:06PM +0900, Minwoo Im wrote:
+> On Thu, Jan 18, 2018 at 2:27 PM, jianchao.wang
+> <jianchao.w.wang@oracle.com> wrote:
+> > Hi Minwoo
+> 
+> >> Think of the following scenario:
+> > nvme_reset_work
+> >   -> nvme_setup_io_queues
+> >     -> nvme_create_io_queues
+> >       -> nvme_free_queues
+> >   -> nvme_kill_queues
+> >     -> blk_set_queue_dying   // just freeze the queue here, but will not wait to be drained.
+> >                                 not new requests come in, but maybe still residual requests in blk-mq queues.
+> >     -> blk_mq_unquiesce_queue
+> >
+> > the queues are _unquiesced_ here, then the residual requests will be queued
+> > and go through nvme_queue_rq. Then the freed nvme_queue structure will be accessed.
+> > :)
+> >
+> > Thanks
+> > Jianchao
+> 
+> Hi Jianchao,
+> 
+> First of all, I really appreciate letting me know the case.
+> It seems no one updates the actual nr_hw_queues value and frees hctxs
+> after nvme_kill_queues().
+> If you don't mind, would you please tell me where hctxs are freed
+> after nvme_kill_queues()?
 
-> +       /*
-> +         * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
-> +         * contains an address of a single contiguous physical buffer that is
-> +         * byte aligned.
-> +         */
-
-Hi Max,
-
-Indentation of lines except the first one seems starts with
-whitespaces instead of tab.
+The API doesn't let us set the nr_hw_queues to 0. We'd have to free the
+tagset at that point, but we don't free it until the last open reference
+is dropped. I can't seem to recall why that's necessary but I'll stare
+at this a bit longer see if it makes sense. The memory the driver is
+holding onto is not really a big deal either way.
