@@ -1,42 +1,86 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 18 Jan 2018 19:25:06 +0900
-Subject: [PATCH V2] nvme: free pre-allocated queue if create ioq goes wrong
-In-Reply-To: <e402e9f4-b884-df4b-3841-445ea38142d2@oracle.com>
-References: <1515963650-3805-1-git-send-email-minwoo.im.dev@gmail.com>
- <20180115020016.GB13580@localhost.localdomain>
- <CAA7jztd_Ewejj9DZJKeYRWPi6t-PKW3tB4SR7h+fBT_8ztv0aQ@mail.gmail.com>
- <e402e9f4-b884-df4b-3841-445ea38142d2@oracle.com>
-Message-ID: <CAA7jztfXAgo33NmmzvHu5dNyNKEkVzgqMWRR6FS4p3Etxx-i6g@mail.gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 18 Jan 2018 12:31:21 +0200
+Subject: [PATCH 1/4] IB/core: add support for draining Shared receive
+ queues
+In-Reply-To: <1516205474.2820.5.camel@wdc.com>
+References: <1516197178-26493-1-git-send-email-maxg@mellanox.com>
+ <1516197178-26493-2-git-send-email-maxg@mellanox.com>
+ <1516205474.2820.5.camel@wdc.com>
+Message-ID: <a7a9ee47-3133-df04-ccce-a4a30dd50c97@mellanox.com>
 
-On Thu, Jan 18, 2018 at 2:27 PM, jianchao.wang
-<jianchao.w.wang@oracle.com> wrote:
-> Hi Minwoo
 
->> Think of the following scenario:
-> nvme_reset_work
->   -> nvme_setup_io_queues
->     -> nvme_create_io_queues
->       -> nvme_free_queues
->   -> nvme_kill_queues
->     -> blk_set_queue_dying   // just freeze the queue here, but will not wait to be drained.
->                                 not new requests come in, but maybe still residual requests in blk-mq queues.
->     -> blk_mq_unquiesce_queue
->
-> the queues are _unquiesced_ here, then the residual requests will be queued
-> and go through nvme_queue_rq. Then the freed nvme_queue structure will be accessed.
-> :)
->
-> Thanks
-> Jianchao
 
-Hi Jianchao,
+On 1/17/2018 6:11 PM, Bart Van Assche wrote:
+> On Wed, 2018-01-17@15:52 +0200, Max Gurtovoy wrote:
+>> +/*
+>> + * __ib_drain_srq() - Block until all Last WQE Reached event arrives, or
+>> + *                    timeout expires (best effort).
+>> + * @qp:               queue pair associated with SRQ to drain
+>> + *
+>> + * In order to avoid WQE and data segment leakage, one should destroy
+>> + * QP associated after performing the following:
+>> + *  - moving QP to err state
+>> + *  - wait for the Affiliated Asynchronous Last WQE Reached Event
+>> + *  - drain the CQ
+>> + */
+>> +static void __ib_drain_srq(struct ib_qp *qp)
+>> +{
+>> +	struct ib_qp_attr attr = { .qp_state = IB_QPS_ERR };
+>> +	struct ib_cq *cq;
+>> +	int ret;
+>> +
+>> +	if (!qp->srq) {
+>> +		WARN_ONCE(1, "QP 0x%p is not associated with SRQ\n", qp);
+>> +		return;
+>> +	}
+>> +
+>> +	ret = ib_modify_qp(qp, &attr, IB_QP_STATE);
+>> +	if (ret) {
+>> +		WARN_ONCE(ret, "failed to drain shared recv queue: %d\n", ret);
+>> +		return;
+>> +	}
+>> +
+>> +	if (ib_srq_has_cq(qp->srq->srq_type)) {
+>> +		cq = qp->srq->ext.cq;
+>> +	} else if (qp->recv_cq) {
+>> +		cq = qp->recv_cq;
+>> +	} else {
+>> +		WARN_ONCE(1, "QP 0x%p has no CQ associated with SRQ\n", qp);
+>> +		return;
+>> +	}
+>> +
+>> +	/*
+>> +         * ULP should invoke ib_notify_qp on IB_EVENT_QP_LAST_WQE_REACHED
+>> +         * arrival, otherwise timeout will expire and leakage may occur.
+>> +         * Use long timeout, for the buggy ULPs/HCAs that don't notify the
+>> +         * QP nor raising IB_EVENT_QP_LAST_WQE_REACHED event.
+>> +         */
+>> +	if (wait_for_completion_timeout(&qp->srq_completion, 10 * HZ) > 0)
+>> +		ib_process_cq_direct(cq, -1);
+>> +}
+> 
+> Hello Max,
 
-First of all, I really appreciate letting me know the case.
-It seems no one updates the actual nr_hw_queues value and frees hctxs
-after nvme_kill_queues().
-If you don't mind, would you please tell me where hctxs are freed
-after nvme_kill_queues()?
-I'm still trying to understand what's going on in blk-mq layer, but
-I'm hardly getting to it.
+Hello Bart,
 
-Thanks,
+> 
+> It seems weird to me that __ib_drain_srq() does not follow the same approach as
+> __ib_drain_rq(). Have you considered to post an additional receive work entry
+> on the SRQ and to wait until the completion for that work entry is signaled?
+
+This approach will never generate a completion. No flushes for SRQ. we 
+get completion (SRQ recv completion) only if consumed from the wire (and 
+this will not happen in our case).
+
+> That would avoid that a completion has to be added in the ib_qp data structure
+> and would also avoid that all ULPs that use SRQs have to be modified.
+
+I'm always open for new suggestions for implementation :)
+
+> 
+> Thanks,
+> 
+> Bart.
+> 
+
+-Max.
