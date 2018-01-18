@@ -1,55 +1,46 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 18 Jan 2018 08:44:59 -0800
-Subject: nvme-fc unregister remote port
-In-Reply-To: <DEF9BB33-529B-48BC-928B-313E7B536F26@cavium.com>
-References: <0F0B1C8F-68EA-49B4-A8A6-E9787D8A94CB@cavium.com>
- <1d5a271d-3622-8b5d-08fc-9ab344a7933c@broadcom.com>
- <47091667-53B5-4F7D-B244-D3A1A1C6D629@cavium.com>
- <bf30c864-30b5-8333-add8-df3483b318a0@broadcom.com>
- <DEF9BB33-529B-48BC-928B-313E7B536F26@cavium.com>
-Message-ID: <f54ff52d-7df2-104e-9a1c-71d0468c8039@broadcom.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Thu, 18 Jan 2018 18:04:25 +0000
+Subject: [PATCH 2/4] nvmet-rdma: notify QP on Last WQE Reached event
+ arrival
+In-Reply-To: <02bf01d38fa9$05254550$0f6fcff0$@opengridcomputing.com>
+References: <1516197178-26493-1-git-send-email-maxg@mellanox.com>
+ <1516197178-26493-3-git-send-email-maxg@mellanox.com>
+ <02bf01d38fa9$05254550$0f6fcff0$@opengridcomputing.com>
+Message-ID: <1516298665.2676.27.camel@wdc.com>
 
-I'm leaning toward a new routine that is to delete all controllers to a 
-remote port and block any new controllers from being created.? The new 
-routine would be called prior to deregister.? This keeps the remote port 
-active while all the deletes occur - which means all the paths that 
-exist are still valid and don't need to change.
+On Wed, 2018-01-17@09:37 -0600, Steve Wise wrote:
+> > 
+> > In order to avoid resource leakage for QP associated with
+> > a Shared Receive Queue (SRQ), notify it on Last WQE Reached
+> > event arrival.
+> > 
+> > Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> > ---
+> >  drivers/nvme/target/rdma.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> > index 4991290..99a14a7 100644
+> > --- a/drivers/nvme/target/rdma.c
+> > +++ b/drivers/nvme/target/rdma.c
+> > @@ -1151,6 +1151,9 @@ static void nvmet_rdma_qp_event(struct ib_event
+> > *event, void *priv)
+> >  	case IB_EVENT_COMM_EST:
+> >  		rdma_notify(queue->cm_id, event->event);
+> >  		break;
+> > +	case IB_EVENT_QP_LAST_WQE_REACHED:
+> > +		ib_notify_qp(queue->cm_id->qp, event->event);
+> > +		break;
+> >  	default:
+> >  		pr_err("received IB QP event: %s (%d)\n",
+> >  		       ib_event_msg(event->event), event->event);
+> 
+> I wonder if this could be handled in ib_dispatch_event() for all ULPS?
 
--- james
+As far as I can see all ib_dispatch_event() calls for IB_EVENT_QP_LAST_WQE_REACHED
+set element.qp in struct ib_event. So I'd also like to see this proposal to be 
+explored further.
 
+Thanks,
 
-On 1/18/2018 8:23 AM, Trapp, Darren wrote:
-> During the unload I am allowing the transport to cleanup before I logout.  I don?t want to start tearing
-> down internally and return IO?s with errors to the transport and have it start error recovery
-> since it doesn?t know what is going on.
->
-> On 1/18/18, 8:18 AM, "James Smart" <james.smart@broadcom.com> wrote:
->
->      On 1/18/2018 7:54 AM, Trapp, Darren wrote:
->      > 	If you're concerned about driver unload or reset paths - where the
->      >         target is present up to that point, I guess it could be better behaved.
->      >      	I don't know that it's mandatory as initiator and target have to manage
->      >      	the surprise removal cases.
->      >
->      > Looking at your proposed text for in T11-2017-00419-v001.pdf it will be mandatory:
->      >
->      > An initiator NVMe_Port shall perform the following steps to terminate an NVMeoFC association:
->      >         1) transmit an ABTS-LS (see 11.3) for all open Exchanges for the NVMeoFC association being
->      >         terminated, except for a Disconnect NVMe_LS Exchange.
->      >         2) transmit a Disconnect NVMe_LS request to the corresponding target NVMe_Port unless there
->      >         is no valid login with the associated NVMe_Port. The Disconnect NVMe_LS request, if
->      >         transmitted, shall contain an Association Identifier descriptor with the Association Identifier of
->      >         the NVMeoFC association being terminated.
->      
->      True - but: does deregister mean the target is not there thus the login
->      is gone ?   Even with unload, you will be logging out - at what point
->      did the logout occur ?
->      
->      I'll look into whether we can do something to be a bit more graceful for
->      the controlled shutdown flows where login can be delayed.
->      
->      -- james
->      
->      
->      
->
+Bart.
