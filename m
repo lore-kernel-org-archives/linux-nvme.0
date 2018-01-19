@@ -1,28 +1,58 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 19 Jan 2018 20:12:06 +0100
-Subject: [PATCH 2/2] nvme: Don't use a stack buffer for keep-alive command
-In-Reply-To: <CAG4TOxOtFqM-RAdS_r1hsPVuru_=abDtTUmB=XqGFaanBrqbEQ@mail.gmail.com>
-References: <20180111213815.2107-1-roland@kernel.org>
- <76436c6a-5dee-b174-3b39-2735f8dc3a05@grimberg.me>
- <20180115084240.GA32313@lst.de>
- <CAG4TOxOtFqM-RAdS_r1hsPVuru_=abDtTUmB=XqGFaanBrqbEQ@mail.gmail.com>
-Message-ID: <20180119191206.GA19975@lst.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 19 Jan 2018 12:29:36 -0700
+Subject: [GIT PULL] additional nvme fixes and cleanups for Linux 4.16
+In-Reply-To: <20180119190219.cdsqnoiwe77j2zhd@infradead.org>
+References: <20180119190219.cdsqnoiwe77j2zhd@infradead.org>
+Message-ID: <86c41fd7-bfa8-e6b8-d5f3-103c4c8418aa@kernel.dk>
 
-On Tue, Jan 16, 2018@02:46:43PM -0800, Roland Dreier wrote:
-> > I think we'll need to fix this properly and embedd the struct nvme_command
-> > into struct nvme_request.  In the end any command could get an error
-> > without DNR, and then we'd have a stale SQE on the stack.
+On 1/19/18 12:02 PM, Christoph Hellwig wrote:
+> The following changes since commit bf9ae8c5325c0070d0ec81a849bba8d156f65993:
 > 
-> I don't understand.  Are there other places that submit requests with
-> a pointer to stack memory?  I haven't audited everything but I don't
-> know of any places that submit a command and then free it before
-> getting status back.
+>   blk-mq: fix bad clear of RQF_MQ_INFLIGHT in blk_mq_ct_ctx_init() (2018-01-14 10:46:24 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.16
+> 
+> for you to fetch changes up to 88de4598bca84e27b261685c06fff816b8d932a1:
+> 
+>   nvme-pci: clean up SMBSZ bit definitions (2018-01-17 17:55:14 +0100)
+> 
+> ----------------------------------------------------------------
+> Christoph Hellwig (2):
+>       nvme-pci: clean up CMB initialization
+>       nvme-pci: clean up SMBSZ bit definitions
+> 
+> James Smart (2):
+>       nvme-fc: fix rogue admin cmds stalling teardown
+>       nvme-fc: correct hang in nvme_ns_remove()
+> 
+> Minwoo Im (1):
+>       nvme: fix comment typos in nvme_create_io_queues
+> 
+> Roland Dreier (1):
+>       nvme-fabrics: fix memory leak when parsing host ID option
+> 
+> Roy Shterman (1):
+>       nvme: host delete_work and reset_work on separate workqueues
+> 
+> Sagi Grimberg (3):
+>       nvme-pci: serialize pci resets
+>       nvme-pci: allocate device queues storage space at probe
+>       nvmet: release a ns reference in nvmet_req_uninit if needed
+> 
+>  drivers/nvme/host/core.c    |  47 ++++++++++++++--
+>  drivers/nvme/host/fabrics.c |   4 +-
+>  drivers/nvme/host/fc.c      |   6 ++
+>  drivers/nvme/host/nvme.h    |   3 +
+>  drivers/nvme/host/pci.c     | 133 ++++++++++++++++++++------------------------
+>  drivers/nvme/host/rdma.c    |   2 +-
+>  drivers/nvme/target/core.c  |   3 +
+>  drivers/nvme/target/loop.c  |   2 +-
+>  include/linux/nvme.h        |  22 +++++---
+>  9 files changed, 132 insertions(+), 90 deletions(-)
 
-Every caller of nvme_alloc_request (except for lightnvm) uses stack
-memory, but at least the __nvme_submit_sync_cmd and
-nvme_submit_user_cmd synchronously wait for the completion, so it
-doesn't matter.  That leaves nvme_keep_alive, nvme_timeout and
-nvme_delete_queue as problematic.
+Pulled, thanks.
 
-I suspect the right answer is to embedd a struct nvme_command into
-struct nvme_request instead of just pointing to it.
+-- 
+Jens Axboe
