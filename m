@@ -1,30 +1,24 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 19 Jan 2018 17:49:31 +0800
-Subject: [PATCH V5 1/2] nvme-pci: introduce RECONNECTING state to mark
- initializing procedure
-In-Reply-To: <4be66899-0246-9d03-eb03-76488e7e629e@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 19 Jan 2018 04:52:56 -0700
+Subject: [PATCH V5 0/2] nvme-pci: fix the timeout case when reset is
+ ongoing
+In-Reply-To: <84b4e3bc-fe23-607e-9d5e-bb5644eedb54@oracle.com>
 References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
- <1516270202-8051-2-git-send-email-jianchao.w.wang@oracle.com>
- <4be66899-0246-9d03-eb03-76488e7e629e@mellanox.com>
-Message-ID: <4fc5bb3c-9947-35eb-42b5-7d9f5190ee9a@oracle.com>
+ <20180119080130.GE12043@localhost.localdomain>
+ <0639aa2f-d153-5aac-ce08-df0d4b45f9a0@oracle.com>
+ <20180119084218.GF12043@localhost.localdomain>
+ <84b4e3bc-fe23-607e-9d5e-bb5644eedb54@oracle.com>
+Message-ID: <20180119115255.GH12043@localhost.localdomain>
 
-Hi Max
+On Fri, Jan 19, 2018@05:02:06PM +0800, jianchao.wang wrote:
+> We should not use blk_sync_queue here, the requeue_work and run_work will be canceled.
+> Just flush_work(&q->timeout_work) should be ok.
 
-Thanks for your kindly comment and response.
+I agree flushing timeout_work is sufficient. All the other work had
+already better not be running either, so it doesn't hurt to call the
+sync API.
+ 
+> In addition, we could check NVME_CC_ENABLE in nvme_dev_disable to avoid redundant invoking.
+> :)
 
-On 01/18/2018 06:17 PM, Max Gurtovoy wrote:
-> 
-> On 1/18/2018 12:10 PM, Jianchao Wang wrote:
->> After Sagi's commit (nvme-rdma: fix concurrent reset and reconnect),
->> both nvme-fc/rdma have following pattern:
->> RESETTING??? - quiesce blk-mq queues, teardown and delete queues/
->> ??????????????? connections, clear out outstanding IO requests...
->> RECONNECTING - establish new queues/connections and some other
->> ??????????????? initializing things.
-> 
-> I guess we can call it NVME_CTRL_CONNECTING in later patch (more suitable name for this state now).
-
-I think we can change the name in another patchset in which just talk about the more suitable names of the states.
-:)
-Thanks
-Jianchao
+That should already be inferred through reading back the CSTS register.
