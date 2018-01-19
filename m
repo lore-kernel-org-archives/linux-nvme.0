@@ -1,366 +1,418 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 19 Jan 2018 15:18:18 +0100
-Subject: [PATCH v4 1/2] nvme: add tracepoint for nvme_setup_cmd
-In-Reply-To: <20180119141819.11938-1-jthumshirn@suse.de>
-References: <20180119141819.11938-1-jthumshirn@suse.de>
-Message-ID: <20180119141819.11938-2-jthumshirn@suse.de>
+From: jeff.lien@wdc.com (Jeff Lien)
+Date: Fri, 19 Jan 2018 12:00:53 -0600
+Subject: [PATCH] NVMe-CLI WDC-Plugin Update drive essentials code with review
+ comments.
+Message-ID: <20180119180053.20278-1-jeff.lien@wdc.com>
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Hannes Reinecke <hare at suse.de>
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
 ---
-Changes to v2:
-* Don't cast le64_to_cpu() conversions to unsigned long long (Christoph)
-* Add proper copyright header (Christoph)
-* Move trace decoding into own file (Christoph)
-* Include the src directory in the Makefile for trace (Christoph)
-* Removed spaces before and after parenthesis (Christoph)
-* Reduced print lines to fit the 80 char limit (Christoph)
-* Only build trace.o when CONFIG_TRACE=y (Christoph)
-* Only copy non-common command fields to trace decoder (Christoph)
-* Merge write_zeros decoder into rw decoder
-* Don't decode admin commands as I/O commands
+ wdc-nvme.c | 261 +++++++++++++++++++++++++++++--------------------------------
+ 1 file changed, 125 insertions(+), 136 deletions(-)
 
-Changes to v1:
-* Fix typo (Hannes)
-* move include/trace/events/nvme.h -> drivers/nvme/host/trace.h (Christoph)
----
- drivers/nvme/host/Makefile |   4 ++
- drivers/nvme/host/core.c   |   4 ++
- drivers/nvme/host/trace.c  | 161 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/trace.h  | 112 +++++++++++++++++++++++++++++++
- 4 files changed, 281 insertions(+)
- create mode 100644 drivers/nvme/host/trace.c
- create mode 100644 drivers/nvme/host/trace.h
-
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index a25fd43650ad..441e67e3a9d7 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
-+
-+ccflags-y				+= -I$(src)
-+
- obj-$(CONFIG_NVME_CORE)			+= nvme-core.o
- obj-$(CONFIG_BLK_DEV_NVME)		+= nvme.o
- obj-$(CONFIG_NVME_FABRICS)		+= nvme-fabrics.o
-@@ -6,6 +9,7 @@ obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
- obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+diff --git a/wdc-nvme.c b/wdc-nvme.c
+index 3628b1d..9590a9c 100644
+--- a/wdc-nvme.c
++++ b/wdc-nvme.c
+@@ -590,8 +590,7 @@ static int wdc_nvme_check_supported_log_page(int fd, __u8 log_id)
  
- nvme-core-y				:= core.o
-+nvme-core-$(CONFIG_TRACING)		+= trace.o
- nvme-core-$(CONFIG_NVME_MULTIPATH)	+= multipath.o
- nvme-core-$(CONFIG_NVM)			+= lightnvm.o
- 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 839650e0926a..1ca515720216 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -29,6 +29,9 @@
- #include <linux/pm_qos.h>
- #include <asm/unaligned.h>
- 
-+#define CREATE_TRACE_POINTS
-+#include "trace.h"
-+
- #include "nvme.h"
- #include "fabrics.h"
- 
-@@ -591,6 +594,7 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 	/* get the log page length */
+ 	ret = nvme_get_log(fd, 0xFFFFFFFF, WDC_NVME_GET_AVAILABLE_LOG_PAGES_OPCODE,
+-			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO,
+-			   WDC_C2_LOG_BUF_LEN, data);
++			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO, WDC_C2_LOG_BUF_LEN, data);
+ 	if (ret) {
+ 		fprintf(stderr, "ERROR : WDC : Unable to get C2 Log Page length, ret = %d\n", ret);
+ 		goto out;
+@@ -605,8 +604,7 @@ static int wdc_nvme_check_supported_log_page(int fd, __u8 log_id)
  	}
  
- 	cmd->common.command_id = req->tag;
-+	trace_nvme_setup_cmd(cmd, ns ? 0 : 1);
+ 	ret = nvme_get_log(fd, 0xFFFFFFFF, WDC_NVME_GET_AVAILABLE_LOG_PAGES_OPCODE,
+-			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO,
+-			   hdr_ptr->length, data);
++			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO, hdr_ptr->length, data);
+ 	/* parse the data until the List of log page ID's is found */
+ 	if (ret) {
+ 		fprintf(stderr, "ERROR : WDC : Unable to read C2 Log Page data, ret = %d\n", ret);
+@@ -1341,8 +1339,7 @@ static int wdc_get_ca_log_page(int fd, char *format)
+ 	memset(data, 0, sizeof (__u8) * WDC_CA_LOG_BUF_LEN);
+ 
+ 	ret = nvme_get_log(fd, 0xFFFFFFFF, WDC_NVME_GET_DEVICE_INFO_LOG_OPCODE,
+-			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO,
+-			   WDC_CA_LOG_BUF_LEN, data);
++			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO, WDC_CA_LOG_BUF_LEN, data);
+ 	if (strcmp(format, "json"))
+ 		fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(ret), ret);
+ 
+@@ -1391,8 +1388,7 @@ static int wdc_get_c1_log_page(int fd, char *format, uint8_t interval)
+ 	memset(data, 0, sizeof (__u8) * WDC_ADD_LOG_BUF_LEN);
+ 
+ 	ret = nvme_get_log(fd, 0x01, WDC_NVME_ADD_LOG_OPCODE,
+-			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO,
+-			   WDC_ADD_LOG_BUF_LEN, data);
++			   NVME_NO_LOG_LSP, NVME_NO_LOG_LPO, WDC_ADD_LOG_BUF_LEN, data);
+ 	if (strcmp(format, "json"))
+ 		fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(ret), ret);
+ 	if (ret == 0) {
+@@ -1538,7 +1534,6 @@ static int wdc_get_max_transfer_len(int fd, __u32 *maxTransferLen)
+ 	struct nvme_id_ctrl ctrl;
+ 
+ 	__u32 maxTransferLenDevice = 0;
+-	/*__u32 maxTransferLenHost = 0;    * do we need to get the host max transfer length?? */
+ 
+ 	memset(&ctrl, 0, sizeof (struct nvme_id_ctrl));
+ 	ret = nvme_identify_ctrl(fd, &ctrl);
+@@ -1550,13 +1545,6 @@ static int wdc_get_max_transfer_len(int fd, __u32 *maxTransferLen)
+ 	maxTransferLenDevice = (1 << ctrl.mdts) * getpagesize();
+ 	*maxTransferLen = maxTransferLenDevice;
+ 
+-	/*
+-    if( maxTransferLenDevice < maxTransferLenHost)
+-	    *maxTransferLen = maxTransferLenDevice;
+-    else
+-	    *maxTransferLen = maxTransferLenHost;
+-	*/
+-
  	return ret;
  }
- EXPORT_SYMBOL_GPL(nvme_setup_cmd);
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-new file mode 100644
-index 000000000000..1cdc2edee81e
---- /dev/null
-+++ b/drivers/nvme/host/trace.c
-@@ -0,0 +1,161 @@
-+/*
-+ * NVM Express device driver tracepoints
-+ * Copyright (c) 2018 Johannes Thumshirn, SUSE Linux GmbH
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
-+
-+#include "trace.h"
-+
-+struct rw_cmd {
-+	__le64 slba;
-+	__le16 length;
-+	__le16 control;
-+	__le32 dsmgmt;
-+	__le32 reftag;
-+	__le16 apptag;
-+	__le16 appmask;
-+};
-+
-+struct dsm_cmd {
-+	__le32 nr;
-+	__le32 attributes;
-+	__u32 rsvd12[4];
-+};
-+
-+struct create_sq {
-+	__le16 sqid;
-+	__le16 qsize;
-+	__le16 sq_flags;
-+	__le16 cqid;
-+	__u32 rsvd12[4];
-+};
-+
-+struct create_cq {
-+	__le16 cqid;
-+	__le16 qsize;
-+	__le16 cq_flags;
-+	__le16 irq_vector;
-+	__u32 rsvd12[4];
-+};
-+
-+struct identify {
-+	__u8 cns;
-+	__u8 rsvd;
-+	__le16 ctrlid;
-+	u32 rsvd2[5];
-+};
-+
-+static const char *nvme_trace_create_sq(struct trace_seq *p, __le32 *cdw10)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	struct create_sq *csq = (struct create_sq *) cdw10;
-+
-+	trace_seq_printf(p, "sqid=%u, qsize=%u, sq_flags=0x%x, cqid=%u",
-+			 le16_to_cpu(csq->sqid), le16_to_cpu(csq->qsize),
-+			 le16_to_cpu(csq->sq_flags), le16_to_cpu(csq->cqid));
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_create_cq(struct trace_seq *p, __le32 *cdw10)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	struct create_cq *ccq = (struct create_cq *) cdw10;
-+
-+	trace_seq_printf(p, "cqid=%u, qsize=%u, cq_flags=0x%x, irq_vector=%u",
-+			 le16_to_cpu(ccq->cqid), le16_to_cpu(ccq->qsize),
-+			 le16_to_cpu(ccq->cq_flags),
-+			 le16_to_cpu(ccq->irq_vector));
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_admin_identify(struct trace_seq *p, __le32 *cdw10)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	struct identify *idf = (struct identify *) cdw10;
-+
-+	trace_seq_printf(p, "cns=%u, ctrlid=%u",
-+			 idf->cns, le16_to_cpu(idf->ctrlid));
-+
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
+ 
+@@ -1623,50 +1611,50 @@ int wdc_de_VU_read_buffer(int fd, __u32 fileId, __u16 spiDestn, __u32 offsetInDw
+ 
+ int wdc_get_log_dir_max_entries(int fd, __u32* maxNumOfEntries)
+ {
+-    int     		ret = WDC_STATUS_FAILURE;
+-    __u32           headerPayloadSize = 0;
+-    __u8*           fileIdOffsetsBuffer = NULL;
+-    __u32           fileIdOffsetsBufferSize = 0;
+-    __u32           fileNum = 0;
+-    __u16           fileOffset = 0;
+-
+-
+-    if (!fd || !maxNumOfEntries)
+-    {
+-        ret = WDC_STATUS_INVALID_PARAMETER;
+-        return ret;
+-    }
+-    /* 1.Get log directory first four bytes */
+-    if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_size(fd, 0, 5, (__u32*)&headerPayloadSize)))
+-    {
++	int     		ret = WDC_STATUS_FAILURE;
++	__u32           headerPayloadSize = 0;
++	__u8*           fileIdOffsetsBuffer = NULL;
++	__u32           fileIdOffsetsBufferSize = 0;
++	__u32           fileNum = 0;
++	__u16           fileOffset = 0;
 +
 +
-+
-+static const char *nvme_trace_read_write(struct trace_seq *p, __le32 *cdw10)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	struct rw_cmd *rw = (struct rw_cmd *) cdw10;
-+
-+	trace_seq_printf(p,
-+			 "slba=%llu, len=%u, ctrl=0x%x, dsmgmt=%u, reftag=%u",
-+			 le64_to_cpu(rw->slba), le16_to_cpu(rw->length),
-+			 le16_to_cpu(rw->control), le32_to_cpu(rw->dsmgmt),
-+			 le32_to_cpu(rw->reftag));
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_dsm(struct trace_seq *p, __le32 *cdw10)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+	struct dsm_cmd *dsm = (struct dsm_cmd *) cdw10;
-+
-+	trace_seq_printf(p, "nr=%u, attributes=%u",
-+			 le32_to_cpu(dsm->nr), le32_to_cpu(dsm->attributes));
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+static const char *nvme_trace_common(struct trace_seq *p, __le32 *cdw10)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+
-+	trace_seq_printf(p, "cdw10=%*ph", 6, cdw10);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-+
-+const char *nvme_trace_parse_cmd(struct trace_seq *p, bool admin,
-+				 u8 opcode, __le32 *cdw10)
-+{
-+	if (admin) {
-+		switch (opcode) {
-+		case nvme_admin_create_sq:
-+			return nvme_trace_create_sq(p, cdw10);
-+		case nvme_admin_create_cq:
-+			return nvme_trace_create_cq(p, cdw10);
-+		case nvme_admin_identify:
-+			return nvme_trace_admin_identify(p, cdw10);
-+		default:
-+			return nvme_trace_common(p, cdw10);
-+		}
-+	} else {
-+		switch (opcode) {
-+		case nvme_cmd_read:
-+		case nvme_cmd_write:
-+		case nvme_cmd_write_zeroes:
-+			return nvme_trace_read_write(p, cdw10);
-+		case nvme_cmd_dsm:
-+			return nvme_trace_dsm(p, cdw10);
-+		default:
-+			return nvme_trace_common(p, cdw10);
-+		}
++	if (!fd || !maxNumOfEntries)
++	{
++		ret = WDC_STATUS_INVALID_PARAMETER;
++		return ret;
 +	}
-+}
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-new file mode 100644
-index 000000000000..69e054c2e791
---- /dev/null
-+++ b/drivers/nvme/host/trace.h
-@@ -0,0 +1,112 @@
-+/*
-+ * NVM Express device driver tracepoints
-+ * Copyright (c) 2018 Johannes Thumshirn, SUSE Linux GmbH
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
++	/* 1.Get log directory first four bytes */
++	if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_size(fd, 0, 5, (__u32*)&headerPayloadSize)))
++	{
+ 		fprintf(stderr, "ERROR : WDC : %s: Failed to get headerPayloadSize from file directory 0x%x\n",
+ 				__func__, ret);
+-        goto end;
+-    }
++		goto end;
++	}
+ 
+-    fileIdOffsetsBufferSize = WDC_DE_FILE_HEADER_SIZE + (headerPayloadSize * WDC_DE_FILE_OFFSET_SIZE);
+-    fileIdOffsetsBuffer = (__u8*)calloc(1, fileIdOffsetsBufferSize);
++	fileIdOffsetsBufferSize = WDC_DE_FILE_HEADER_SIZE + (headerPayloadSize * WDC_DE_FILE_OFFSET_SIZE);
++	fileIdOffsetsBuffer = (__u8*)calloc(1, fileIdOffsetsBufferSize);
+ 
+-    /* 2.Read to get file offsets */
+-    if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_buffer(fd, 0, 5, 0, fileIdOffsetsBuffer, &fileIdOffsetsBufferSize)))
+-    {
++	/* 2.Read to get file offsets */
++	if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_buffer(fd, 0, 5, 0, fileIdOffsetsBuffer, &fileIdOffsetsBufferSize)))
++	{
+ 		fprintf(stderr, "ERROR : WDC : %s: Failed to get fileIdOffsets from file directory 0x%x\n",
+ 				__func__, ret);
+-        goto end;
+-    }
+-    /* 3.Determine valid entries */
+-    for (fileNum = 0; fileNum < (headerPayloadSize - WDC_DE_FILE_HEADER_SIZE) / WDC_DE_FILE_OFFSET_SIZE; fileNum++)
+-    {
+-        fileOffset = (fileIdOffsetsBuffer[WDC_DE_FILE_HEADER_SIZE + (fileNum * WDC_DE_FILE_OFFSET_SIZE)] << 8) +
+-            fileIdOffsetsBuffer[WDC_DE_FILE_HEADER_SIZE + (fileNum * WDC_DE_FILE_OFFSET_SIZE) + 1];
+-        if (!fileOffset)
+-            continue;
+-        (*maxNumOfEntries)++;
+-    }
+-end:
+-    if (!fileIdOffsetsBuffer)
+-        free(fileIdOffsetsBuffer);
+-    return ret;
++		goto end;
++	}
++	/* 3.Determine valid entries */
++	for (fileNum = 0; fileNum < (headerPayloadSize - WDC_DE_FILE_HEADER_SIZE) / WDC_DE_FILE_OFFSET_SIZE; fileNum++)
++	{
++		fileOffset = (fileIdOffsetsBuffer[WDC_DE_FILE_HEADER_SIZE + (fileNum * WDC_DE_FILE_OFFSET_SIZE)] << 8) +
++				fileIdOffsetsBuffer[WDC_DE_FILE_HEADER_SIZE + (fileNum * WDC_DE_FILE_OFFSET_SIZE) + 1];
++		if (!fileOffset)
++			continue;
++		(*maxNumOfEntries)++;
++	}
++	end:
++	if (!fileIdOffsetsBuffer)
++		free(fileIdOffsetsBuffer);
++	return ret;
+ }
+ 
+ WDC_DRIVE_ESSENTIAL_TYPE wdc_get_essential_type(__u8 fileName[])
+@@ -1691,80 +1679,79 @@ WDC_DRIVE_ESSENTIAL_TYPE wdc_get_essential_type(__u8 fileName[])
+ 
+ int wdc_fetch_log_directory(int fd, PWDC_DE_VU_LOG_DIRECTORY directory)
+ {
+-    int             ret = WDC_STATUS_FAILURE;
+-    __u8            *fileOffset = NULL;
+-    __u8            *fileDirectory = NULL;
+-    __u32           headerSize = 0;
+-    __u32           fileNum = 0, startIdx = 0;
+-    __u16           fileOffsetTemp = 0;
+-    __u32           entryId = 0;
+-    __u32           fileDirectorySize = 0;
+-
+-    if (!fd || !directory)
+-    {
+-        ret = WDC_STATUS_INVALID_PARAMETER;
+-        goto end;
+-    }
+-
+-    if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_size(fd, 0, 5, &fileDirectorySize)))
+-    {
++	int             ret = WDC_STATUS_FAILURE;
++	__u8            *fileOffset = NULL;
++	__u8            *fileDirectory = NULL;
++	__u32           headerSize = 0;
++	__u32           fileNum = 0, startIdx = 0;
++	__u16           fileOffsetTemp = 0;
++	__u32           entryId = 0;
++	__u32           fileDirectorySize = 0;
 +
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM nvme
++	if (!fd || !directory)
++	{
++		ret = WDC_STATUS_INVALID_PARAMETER;
++		goto end;
++	}
 +
-+#if !defined(_TRACE_NVME_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_NVME_H
++	if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_size(fd, 0, 5, &fileDirectorySize)))
++	{
+ 		fprintf(stderr, "ERROR : WDC : %s: Failed to get filesystem directory size, ret = %d\n",
+ 				__func__, ret);
+-        goto end;
+-    }
++		goto end;
++	}
+ 
+-    fileDirectory = (__u8*)calloc(1, fileDirectorySize);
+-    if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_buffer(fd, 0, 5, 0, fileDirectory, &fileDirectorySize)))
+-    {
++	fileDirectory = (__u8*)calloc(1, fileDirectorySize);
++	if (WDC_STATUS_SUCCESS != (ret = wdc_de_VU_read_buffer(fd, 0, 5, 0, fileDirectory, &fileDirectorySize)))
++	{
+ 		fprintf(stderr, "ERROR : WDC : %s: Failed to get filesystem directory, ret = %d\n",
+ 				__func__, ret);
+-        goto end;
+-    }
+-
+-    /* First four bytes of header directory is headerSize */
+-    memcpy(&headerSize, fileDirectory, WDC_DE_FILE_HEADER_SIZE);
+-
+-    if (directory->maxNumLogEntries == 0) //minimum buffer for 1 entry is required
+-    {
+-        ret = WDC_STATUS_INVALID_PARAMETER;
+-        goto end;
+-    }
+-
+-    for (fileNum = 0; fileNum < (headerSize - WDC_DE_FILE_HEADER_SIZE) / WDC_DE_FILE_OFFSET_SIZE; fileNum++)
+-    {
+-        if (entryId >= directory->maxNumLogEntries)
+-            break;
+-        startIdx = WDC_DE_FILE_HEADER_SIZE + (fileNum * WDC_DE_FILE_OFFSET_SIZE);
+-        memcpy(&fileOffsetTemp, fileDirectory + startIdx, sizeof(fileOffsetTemp));
+-        fileOffset = fileDirectory + fileOffsetTemp;
+-
+-        if (0 == fileOffsetTemp)
+-        {
+-            continue;
+-        }
+-
+-        memset(&directory->logEntry[entryId], 0, sizeof(WDC_DRIVE_ESSENTIALS));
+-        memcpy(&directory->logEntry[entryId].metaData, fileOffset, sizeof(WDC_DE_VU_FILE_META_DATA));
+-        directory->logEntry[entryId].metaData.fileName[WDC_DE_FILE_NAME_SIZE - 1] = '\0';
+-        wdc_UtilsDeleteCharFromString((char*)directory->logEntry[entryId].metaData.fileName, WDC_DE_FILE_NAME_SIZE, ' ');
+-        if (0 == directory->logEntry[entryId].metaData.fileID)
+-        {
+-            continue;
+-        }
+-        directory->logEntry[entryId].essentialType = wdc_get_essential_type(directory->logEntry[entryId].metaData.fileName);
+-        /*
+-		fprintf(stderr, "WDC : %s: NVMe VU Log Entry %d, fileName = %s, fileSize = 0x%lx, fileId = 0x%x\n",
+-				__func__, entryId, directory->logEntry[entryId].metaData.fileName,
+-				(long unsigned int)directory->logEntry[entryId].metaData.fileSize, directory->logEntry[entryId].metaData.fileID);
+-		*/
+-        entryId++;
+-    }
+-    directory->numOfValidLogEntries = entryId;
+-end:
+-    if (fileDirectory != NULL)
+-        free(fileDirectory);
+-
+-    return ret;
++		goto end;
++	}
 +
-+#include <linux/nvme.h>
-+#include <linux/tracepoint.h>
-+#include <linux/trace_seq.h>
++	/* First four bytes of header directory is headerSize */
++	memcpy(&headerSize, fileDirectory, WDC_DE_FILE_HEADER_SIZE);
 +
-+#include "nvme.h"
++	if (directory->maxNumLogEntries == 0) //minimum buffer for 1 entry is required
++	{
++		ret = WDC_STATUS_INVALID_PARAMETER;
++		goto end;
++	}
 +
-+#define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
-+#define show_admin_opcode_name(val)					\
-+	__print_symbolic(val,						\
-+		nvme_admin_opcode_name(nvme_admin_delete_sq),		\
-+		nvme_admin_opcode_name(nvme_admin_create_sq),		\
-+		nvme_admin_opcode_name(nvme_admin_get_log_page),	\
-+		nvme_admin_opcode_name(nvme_admin_delete_cq),		\
-+		nvme_admin_opcode_name(nvme_admin_create_cq),		\
-+		nvme_admin_opcode_name(nvme_admin_identify),		\
-+		nvme_admin_opcode_name(nvme_admin_abort_cmd),		\
-+		nvme_admin_opcode_name(nvme_admin_set_features),	\
-+		nvme_admin_opcode_name(nvme_admin_get_features),	\
-+		nvme_admin_opcode_name(nvme_admin_async_event),		\
-+		nvme_admin_opcode_name(nvme_admin_ns_mgmt),		\
-+		nvme_admin_opcode_name(nvme_admin_activate_fw),		\
-+		nvme_admin_opcode_name(nvme_admin_download_fw),		\
-+		nvme_admin_opcode_name(nvme_admin_ns_attach),		\
-+		nvme_admin_opcode_name(nvme_admin_keep_alive),		\
-+		nvme_admin_opcode_name(nvme_admin_directive_send),	\
-+		nvme_admin_opcode_name(nvme_admin_directive_recv),	\
-+		nvme_admin_opcode_name(nvme_admin_dbbuf),		\
-+		nvme_admin_opcode_name(nvme_admin_format_nvm),		\
-+		nvme_admin_opcode_name(nvme_admin_security_send),	\
-+		nvme_admin_opcode_name(nvme_admin_security_recv),	\
-+		nvme_admin_opcode_name(nvme_admin_sanitize_nvm))
++	for (fileNum = 0; fileNum < (headerSize - WDC_DE_FILE_HEADER_SIZE) / WDC_DE_FILE_OFFSET_SIZE; fileNum++)
++	{
++		if (entryId >= directory->maxNumLogEntries)
++			break;
++		startIdx = WDC_DE_FILE_HEADER_SIZE + (fileNum * WDC_DE_FILE_OFFSET_SIZE);
++		memcpy(&fileOffsetTemp, fileDirectory + startIdx, sizeof(fileOffsetTemp));
++		fileOffset = fileDirectory + fileOffsetTemp;
 +
-+#define nvme_opcode_name(opcode)	{ opcode, #opcode }
-+#define show_opcode_name(val)					\
-+	__print_symbolic(val,					\
-+		nvme_opcode_name(nvme_cmd_flush),		\
-+		nvme_opcode_name(nvme_cmd_write),		\
-+		nvme_opcode_name(nvme_cmd_read),		\
-+		nvme_opcode_name(nvme_cmd_write_uncor),		\
-+		nvme_opcode_name(nvme_cmd_compare),		\
-+		nvme_opcode_name(nvme_cmd_write_zeroes),	\
-+		nvme_opcode_name(nvme_cmd_dsm),			\
-+		nvme_opcode_name(nvme_cmd_resv_register),	\
-+		nvme_opcode_name(nvme_cmd_resv_report),		\
-+		nvme_opcode_name(nvme_cmd_resv_acquire),	\
-+		nvme_opcode_name(nvme_cmd_resv_release))
++		if (0 == fileOffsetTemp)
++		{
++			continue;
++		}
 +
-+const char *nvme_trace_parse_cmd(struct trace_seq *p, bool admin, u8 opcode,
-+				 __le32 *cdw10);
-+#define __parse_nvme_cmd(admin, opcode, cdw10) \
-+	nvme_trace_parse_cmd(p, admin, opcode, cdw10)
++		memset(&directory->logEntry[entryId], 0, sizeof(WDC_DRIVE_ESSENTIALS));
++		memcpy(&directory->logEntry[entryId].metaData, fileOffset, sizeof(WDC_DE_VU_FILE_META_DATA));
++		directory->logEntry[entryId].metaData.fileName[WDC_DE_FILE_NAME_SIZE - 1] = '\0';
++		wdc_UtilsDeleteCharFromString((char*)directory->logEntry[entryId].metaData.fileName, WDC_DE_FILE_NAME_SIZE, ' ');
++		if (0 == directory->logEntry[entryId].metaData.fileID)
++		{
++			continue;
++		}
++		directory->logEntry[entryId].essentialType = wdc_get_essential_type(directory->logEntry[entryId].metaData.fileName);
++		/*fprintf(stderr, "WDC : %s: NVMe VU Log Entry %d, fileName = %s, fileSize = 0x%lx, fileId = 0x%x\n",
++			__func__, entryId, directory->logEntry[entryId].metaData.fileName,
++			(long unsigned int)directory->logEntry[entryId].metaData.fileSize, directory->logEntry[entryId].metaData.fileID);
++		 */
++		entryId++;
++	}
++	directory->numOfValidLogEntries = entryId;
++	end:
++	if (fileDirectory != NULL)
++		free(fileDirectory);
 +
-+TRACE_EVENT(nvme_setup_cmd,
-+	    TP_PROTO(struct nvme_command *cmd, bool admin),
-+	    TP_ARGS(cmd, admin),
-+	    TP_STRUCT__entry(
-+		    __field(bool, admin)
-+		    __field(__u8, opcode)
-+		    __field(__u8, flags)
-+		    __field(__u16, cid)
-+		    __field(__le32, nsid)
-+		    __field(__le64, metadata)
-+		    __array(__le32, cdw10, 6)
-+	    ),
-+	    TP_fast_assign(
-+		    __entry->admin = admin;
-+		    __entry->opcode = cmd->common.opcode;
-+		    __entry->flags = cmd->common.flags;
-+		    __entry->cid = cmd->common.command_id;
-+		    __entry->nsid = cmd->common.nsid;
-+		    __entry->metadata = cmd->common.metadata;
-+		    memcpy(__entry->cdw10, cmd->common.cdw10,
-+			   sizeof(__entry->cdw10));
-+	    ),
-+	    TP_printk("nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      le32_to_cpu(__entry->nsid), __entry->cid, __entry->flags,
-+		      le64_to_cpu(__entry->metadata),
-+		      __entry->admin ? show_admin_opcode_name(__entry->opcode)
-+			    : show_opcode_name(__entry->opcode),
-+		      __parse_nvme_cmd(__entry->admin, __entry->opcode,
-+				       __entry->cdw10))
-+);
++	return ret;
+ }
+ 
+ int wdc_fetch_log_file_from_device(int fd, __u32 fileId, __u16 spiDestn, __u64 fileSize, __u8* dataBuffer)
+@@ -1787,7 +1774,7 @@ int wdc_fetch_log_file_from_device(int fd, __u32 fileId, __u16 spiDestn, __u64 f
+ 	if ((fileSize >= maximumTransferLength) || (fileSize > 0xffffffff))
+ 	{
+ 		chunckSize = WDC_DE_VU_READ_BUFFER_STANDARD_OFFSET;
+-    	if (maximumTransferLength < WDC_DE_VU_READ_BUFFER_STANDARD_OFFSET)
++		if (maximumTransferLength < WDC_DE_VU_READ_BUFFER_STANDARD_OFFSET)
+ 			chunckSize = maximumTransferLength;
+ 
+ 		buffSize = chunckSize;
+@@ -1797,7 +1784,7 @@ int wdc_fetch_log_file_from_device(int fd, __u32 fileId, __u16 spiDestn, __u64 f
+ 				buffSize = (__u32)(fileSize - (offsetIdx * chunckSize));
+ 			/* Limitation in VU read buffer - offsetIdx and bufferSize are not greater than u32 */
+ 			ret = wdc_de_VU_read_buffer(fd, fileId, spiDestn,
+-				(__u32)((offsetIdx * chunckSize) / sizeof(__u32)), dataBuffer + (offsetIdx * chunckSize), &buffSize);
++					(__u32)((offsetIdx * chunckSize) / sizeof(__u32)), dataBuffer + (offsetIdx * chunckSize), &buffSize);
+ 			if (ret != WDC_STATUS_SUCCESS)
+ 			{
+ 				fprintf(stderr, "ERROR : WDC : %s: wdc_de_VU_read_buffer failed with ret = %d, fileId = 0x%x, fileSize = 0x%lx\n",
+@@ -1808,7 +1795,7 @@ int wdc_fetch_log_file_from_device(int fd, __u32 fileId, __u16 spiDestn, __u64 f
+ 	} else {
+ 		buffSize = (__u32)fileSize;
+ 		ret = wdc_de_VU_read_buffer(fd, fileId, spiDestn,
+-			(__u32)((offsetIdx * chunckSize) / sizeof(__u32)), dataBuffer, &buffSize);
++				(__u32)((offsetIdx * chunckSize) / sizeof(__u32)), dataBuffer, &buffSize);
+ 		if (ret != WDC_STATUS_SUCCESS)
+ 		{
+ 			fprintf(stderr, "ERROR : WDC : %s: wdc_de_VU_read_buffer failed with ret = %d, fileId = 0x%x, fileSize = 0x%lx\n",
+@@ -1816,7 +1803,7 @@ int wdc_fetch_log_file_from_device(int fd, __u32 fileId, __u16 spiDestn, __u64 f
+ 		}
+ 	}
+ 
+-end:
++	end:
+ 	return ret;
+ }
+ 
+@@ -1925,7 +1912,7 @@ int wdc_de_get_dump_trace(int fd, char * filePath, __u16 binFileNameLen, char *b
+ static int wdc_do_drive_essentials(int fd, char *dir, char *key)
+ {
+ 	int ret = 0;
+-    void *retPtr;
++	void *retPtr;
+ 	char                      fileName[MAX_PATH_LEN];
+ 	__s8                      bufferFolderPath[MAX_PATH_LEN];
+ 	char                      bufferFolderName[MAX_PATH_LEN];
+@@ -1998,7 +1985,7 @@ static int wdc_do_drive_essentials(int fd, char *dir, char *key)
+ 		retPtr = getcwd((char*)currDir, MAX_PATH_LEN);
+ 		if (retPtr != NULL)
+ 			wdc_UtilsSnprintf((char*)bufferFolderPath, MAX_PATH_LEN, "%s%s%s",
+-				(char *)currDir, WDC_DE_PATH_SEPARATOR, (char *)bufferFolderName);
++					(char *)currDir, WDC_DE_PATH_SEPARATOR, (char *)bufferFolderName);
+ 		else {
+ 			fprintf(stderr, "ERROR : WDC : get current working directory failed\n");
+ 			return -1;
+@@ -2056,7 +2043,7 @@ static int wdc_do_drive_essentials(int fd, char *dir, char *key)
+ 
+ 	/* Get Smart log page  */
+ 	memset(&smart_log, 0, sizeof (struct nvme_smart_log));
+-	ret = nvme_smart_log(fd, 0xffffffff, &smart_log);
++	ret = nvme_smart_log(fd, NVME_NSID_ALL, &smart_log);
+ 	if (ret) {
+ 		fprintf(stderr, "ERROR : WDC : nvme_smart_log() failed, ret = %d\n", ret);
+ 	} else {
+@@ -2088,8 +2075,7 @@ static int wdc_do_drive_essentials(int fd, char *dir, char *key)
+ 		memset(dataBuffer, 0, dataBufferSize);
+ 
+ 		ret = nvme_get_log(fd, WDC_DE_GLOBAL_NSID, deVULogPagesList[vuLogIdx].logPageId,
+-			   	NVME_NO_LOG_LSP, NVME_NO_LOG_LPO,
+-				dataBufferSize, dataBuffer);
++				NVME_NO_LOG_LSP, NVME_NO_LOG_LPO, dataBufferSize, dataBuffer);
+ 		if (ret) {
+ 			fprintf(stderr, "ERROR : WDC : nvme_get_log() for log page 0x%x failed, ret = %d\n",
+ 					deVULogPagesList[vuLogIdx].logPageId, ret);
+@@ -2177,6 +2163,9 @@ static int wdc_do_drive_essentials(int fd, char *dir, char *key)
+ 		} else {
+ 			fprintf(stderr, "WDC : wdc_fetch_log_directory failed, ret = %d\n", ret);
+ 		}
 +
-+#endif /* _TRACE_NVME_H */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE trace
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
++		free(deEssentialsList.logEntry);
++		deEssentialsList.logEntry = NULL;
+ 	} else {
+ 		fprintf(stderr, "WDC : wdc_get_log_dir_max_entries failed, ret = %d\n", ret);
+ 	}
+@@ -2223,13 +2212,13 @@ static int wdc_drive_essentials(int argc, char **argv, struct command *command,
+ 	};
+ 
+ 	struct config cfg = {
+-		.dirName = NULL,
++			.dirName = NULL,
+ 	};
+ 
+ 	const struct argconfig_commandline_options command_line_options[] = {
+-		{"dir-name", 'd', "DIRECTORY", CFG_STRING, &cfg.dirName, required_argument, dirName},
+-		{ NULL, '\0', NULL, CFG_NONE, NULL, no_argument, desc},
+-		{NULL}
++			{"dir-name", 'd', "DIRECTORY", CFG_STRING, &cfg.dirName, required_argument, dirName},
++			{ NULL, '\0', NULL, CFG_NONE, NULL, no_argument, desc},
++			{NULL}
+ 	};
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
 -- 
-2.12.3
+2.14.2.746.g8fb8a94
