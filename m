@@ -1,36 +1,63 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Fri, 19 Jan 2018 12:29:23 -0800
-Subject: [PATCH 0/5] qla2xxx: Fixes for FC-NVMe erorr path. 
-Message-ID: <20180119202928.13239-1-himanshu.madhani@cavium.com>
+Date: Fri, 19 Jan 2018 12:29:24 -0800
+Subject: [PATCH 1/5] qla2xxx: Remove unneeded message and minor cleanup for
+ FC-NVMe
+In-Reply-To: <20180119202928.13239-1-himanshu.madhani@cavium.com>
+References: <20180119202928.13239-1-himanshu.madhani@cavium.com>
+Message-ID: <20180119202928.13239-2-himanshu.madhani@cavium.com>
 
-Hi Christoph,
+Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
+---
+ drivers/scsi/qla2xxx/qla_nvme.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-This series has mostly cleanup and support for devloss timeout in qla2xxx
-driver for FC-NVMe protocol. 
-
-Please consider this series for inclusion in 4.16
-
-Thanks,
-Himanshu
-
-Darren Trapp (3):
-  qla2xxx: Set IIDMA and fcport state before qla_nvme_register_remote()
-  qla2xxx: Add changes for devloss timeout in driver
-  qla2xxx: Restore ZIO threshold setting
-
-Himanshu Madhani (2):
-  qla2xxx: Remove unneeded message and minor cleanup for FC-NVMe
-  qla2xxx: Update driver version to 10.00.00.06-k
-
- drivers/scsi/qla2xxx/qla_def.h     |   1 +
- drivers/scsi/qla2xxx/qla_init.c    |  13 ++-
- drivers/scsi/qla2xxx/qla_isr.c     |   5 +-
- drivers/scsi/qla2xxx/qla_nvme.c    | 158 +++++++++++++++----------------------
- drivers/scsi/qla2xxx/qla_nvme.h    |   6 +-
- drivers/scsi/qla2xxx/qla_target.c  |  13 +--
- drivers/scsi/qla2xxx/qla_target.h  |   2 +-
- drivers/scsi/qla2xxx/qla_version.h |   2 +-
- 8 files changed, 94 insertions(+), 106 deletions(-)
-
+diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
+index 6b33a1f24f56..162a523b985e 100644
+--- a/drivers/scsi/qla2xxx/qla_nvme.c
++++ b/drivers/scsi/qla2xxx/qla_nvme.c
+@@ -113,8 +113,6 @@ static int qla_nvme_alloc_queue(struct nvme_fc_local_port *lport,
+ 		return 0;
+ 	}
+ 
+-	ql_log(ql_log_warn, vha, 0xffff,
+-	    "allocating q for idx=%x w/o cpu mask\n", qidx);
+ 	qpair = qla2xxx_create_qpair(vha, 5, vha->vp_idx, true);
+ 	if (qpair == NULL) {
+ 		ql_log(ql_log_warn, vha, 0x2122,
+@@ -313,7 +311,6 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
+ 	uint16_t	avail_dsds;
+ 	uint32_t	*cur_dsd;
+ 	struct req_que *req = NULL;
+-	struct rsp_que *rsp = NULL;
+ 	struct scsi_qla_host *vha = sp->fcport->vha;
+ 	struct qla_hw_data *ha = vha->hw;
+ 	struct qla_qpair *qpair = sp->qpair;
+@@ -322,15 +319,13 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
+ 	struct nvmefc_fcp_req *fd = nvme->u.nvme.desc;
+ 	uint32_t        rval = QLA_SUCCESS;
+ 
++	/* Setup qpair pointers */
++	req = qpair->req;
+ 	tot_dsds = fd->sg_cnt;
+ 
+ 	/* Acquire qpair specific lock */
+ 	spin_lock_irqsave(&qpair->qp_lock, flags);
+ 
+-	/* Setup qpair pointers */
+-	req = qpair->req;
+-	rsp = qpair->rsp;
+-
+ 	/* Check for room in outstanding command list. */
+ 	handle = req->current_outstanding_cmd;
+ 	for (index = 1; index < req->num_outstanding_cmds; index++) {
+@@ -365,7 +360,7 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
+ 		struct nvme_fc_cmd_iu *cmd = fd->cmdaddr;
+ 		if (cmd->sqe.common.opcode == nvme_admin_async_event) {
+ 			nvme->u.nvme.aen_op = 1;
+-			atomic_inc(&vha->hw->nvme_active_aen_cnt);
++			atomic_inc(&ha->nvme_active_aen_cnt);
+ 		}
+ 	}
+ 
 -- 
 2.12.0
