@@ -1,54 +1,51 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 19 Jan 2018 13:55:29 +0800
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 18 Jan 2018 23:05:21 -0700
 Subject: [PATCH V5 2/2] nvme-pci: fixup the timeout case when reset is
  ongoing
-In-Reply-To: <20180119045944.GC12043@localhost.localdomain>
+In-Reply-To: <0b74b36d-ecb5-e9e2-2900-6dc9c9699658@oracle.com>
 References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
  <1516270202-8051-3-git-send-email-jianchao.w.wang@oracle.com>
  <20180119045944.GC12043@localhost.localdomain>
-Message-ID: <0b74b36d-ecb5-e9e2-2900-6dc9c9699658@oracle.com>
+ <0b74b36d-ecb5-e9e2-2900-6dc9c9699658@oracle.com>
+Message-ID: <20180119060521.GD12043@localhost.localdomain>
 
-Hi Keith
+On Fri, Jan 19, 2018@01:55:29PM +0800, jianchao.wang wrote:
+> On 01/19/2018 12:59 PM, Keith Busch wrote:
+> > On Thu, Jan 18, 2018@06:10:02PM +0800, Jianchao Wang wrote:
+> >> +	 * - When the ctrl.state is NVME_CTRL_RESETTING, the expired
+> >> +	 *   request should come from the previous work and we handle
+> >> +	 *   it as nvme_cancel_request.
+> >> +	 * - When the ctrl.state is NVME_CTRL_RECONNECTING, the expired
+> >> +	 *   request should come from the initializing procedure such as
+> >> +	 *   setup io queues, because all the previous outstanding
+> >> +	 *   requests should have been cancelled.
+> >>  	 */
+> >> -	if (dev->ctrl.state == NVME_CTRL_RESETTING) {
+> >> -		dev_warn(dev->ctrl.device,
+> >> -			 "I/O %d QID %d timeout, disable controller\n",
+> >> -			 req->tag, nvmeq->qid);
+> >> -		nvme_dev_disable(dev, false);
+> >> +	switch (dev->ctrl.state) {
+> >> +	case NVME_CTRL_RESETTING:
+> >> +		nvme_req(req)->status = NVME_SC_ABORT_REQ;
+> >> +		return BLK_EH_HANDLED;
+> >> +	case NVME_CTRL_RECONNECTING:
+> >> +		WARN_ON_ONCE(nvmeq->qid);
+> >>  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+> >>  		return BLK_EH_HANDLED;
+> >> +	default:
+> >> +		break;
+> >>  	}
+> > 
+> > The driver may be giving up on the command here, but that doesn't mean
+> > the controller has. We can't just end the request like this because that
+> > will release the memory the controller still owns. We must wait until
+> > after nvme_dev_disable clears bus master because we can't say for sure
+> > the controller isn't going to write to that address right after we end
+> > the request.
+> > 
+> Yes, but the controller is going to be reseted or shutdown at the moment,
+> even if the controller accesses a bad address and goes wrong, everything will
+> be ok after reset or shutdown. :)
 
-Thanks for your kindly response and directive.
-
-On 01/19/2018 12:59 PM, Keith Busch wrote:
-> On Thu, Jan 18, 2018@06:10:02PM +0800, Jianchao Wang wrote:
->> +	 * - When the ctrl.state is NVME_CTRL_RESETTING, the expired
->> +	 *   request should come from the previous work and we handle
->> +	 *   it as nvme_cancel_request.
->> +	 * - When the ctrl.state is NVME_CTRL_RECONNECTING, the expired
->> +	 *   request should come from the initializing procedure such as
->> +	 *   setup io queues, because all the previous outstanding
->> +	 *   requests should have been cancelled.
->>  	 */
->> -	if (dev->ctrl.state == NVME_CTRL_RESETTING) {
->> -		dev_warn(dev->ctrl.device,
->> -			 "I/O %d QID %d timeout, disable controller\n",
->> -			 req->tag, nvmeq->qid);
->> -		nvme_dev_disable(dev, false);
->> +	switch (dev->ctrl.state) {
->> +	case NVME_CTRL_RESETTING:
->> +		nvme_req(req)->status = NVME_SC_ABORT_REQ;
->> +		return BLK_EH_HANDLED;
->> +	case NVME_CTRL_RECONNECTING:
->> +		WARN_ON_ONCE(nvmeq->qid);
->>  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
->>  		return BLK_EH_HANDLED;
->> +	default:
->> +		break;
->>  	}
-> 
-> The driver may be giving up on the command here, but that doesn't mean
-> the controller has. We can't just end the request like this because that
-> will release the memory the controller still owns. We must wait until
-> after nvme_dev_disable clears bus master because we can't say for sure
-> the controller isn't going to write to that address right after we end
-> the request.
-> 
-Yes, but the controller is going to be reseted or shutdown at the moment,
-even if the controller accesses a bad address and goes wrong, everything will
-be ok after reset or shutdown. :)
-
-Thanks
-Jianchao  
+Hm, I don't follow. DMA access after free is never okay.
