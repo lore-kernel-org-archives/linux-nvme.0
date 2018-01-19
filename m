@@ -1,143 +1,155 @@
 From: suganath-prabu.subramani@broadcom.com (Suganath Prabu S)
-Date: Fri, 19 Jan 2018 04:37:39 -0800
-Subject: [PATCH 3/6] mpt3sas: Introduce API's to get BAR0 mapped buffer
- address.
+Date: Fri, 19 Jan 2018 04:37:38 -0800
+Subject: [PATCH 2/6] mpt3sas: Configure reply post queue depth,
+ DMA and sgl  tablesize.
 In-Reply-To: <1516365462-14708-1-git-send-email-suganath-prabu.subramani@broadcom.com>
 References: <1516365462-14708-1-git-send-email-suganath-prabu.subramani@broadcom.com>
-Message-ID: <1516365462-14708-4-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <1516365462-14708-3-git-send-email-suganath-prabu.subramani@broadcom.com>
 
-For MPI Endpoint/Mcpu, Driver should double buffer data buffer/sgl's.
- This is normally copied from host to internal memory of IOC by
- DMA engine of PCI Device. Since the interface to DMA from host
- to mCPU is not present for Mcpu/MPI Endpoint device,
- Driver does double copy of those buffer directly to the mCPU
- memory region via BAR-0 region.
-
- Introduced API's to calculate and return BAR0 mapped
- host buffer's physical and virtual address for the provided smid.
+This configures shost max sector to 128, single reply descriptor
+post queue, sgl table size to 16 and 32 bit DMA for MPI Endpoint
+and it supports 64K as max IO.
 
 Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
 ---
- drivers/scsi/mpt3sas/mpt3sas_base.c | 93 +++++++++++++++++++++++++++++++++++++
- drivers/scsi/mpt3sas/mpt3sas_base.h |  2 +
- 2 files changed, 95 insertions(+)
+ drivers/scsi/mpt3sas/mpt3sas_base.c  | 47 +++++++++++++++++++++++-------------
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c | 40 ++++++++++++++++++------------
+ 2 files changed, 54 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index c0a1c0f..dc289c0 100644
+index a44b9be..c0a1c0f 100644
 --- a/drivers/scsi/mpt3sas/mpt3sas_base.c
 +++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -126,6 +126,99 @@ module_param_call(mpt3sas_fwfault_debug, _scsih_set_fwfault_debug,
- 	param_get_int, &mpt3sas_fwfault_debug, 0644);
+@@ -2214,6 +2214,9 @@ _base_config_dma_addressing(struct MPT3SAS_ADAPTER *ioc, struct pci_dev *pdev)
+ 	struct sysinfo s;
+ 	u64 consistent_dma_mask;
  
- /**
-+ * _base_get_chain - Calculates and Returns virtual chain address
-+ *			 for the provided smid in BAR0 space.
-+ *
-+ * @ioc: per adapter object
-+ * @smid: system request message index
-+ * @sge_chain_count: Scatter gather chain count.
-+ *
-+ * @Return: chain address.
-+ */
-+static inline void *
-+_base_get_chain(struct MPT3SAS_ADAPTER *ioc, u16 smid,
-+		u8 sge_chain_count)
-+{
-+	void *base_chain, *chain_virt;
-+	u16 cmd_credit = ioc->facts.RequestCredit + 1;
++	if (ioc->is_mcpu_endpoint)
++		goto try_32bit;
 +
-+	base_chain  = (void *)ioc->chip + MPI_FRAME_START_OFFSET +
-+		(cmd_credit * ioc->request_sz) +
-+		REPLY_FREE_POOL_SIZE;
-+	chain_virt = base_chain + (smid * ioc->facts.MaxChainDepth *
-+			ioc->request_sz) + (sge_chain_count * ioc->request_sz);
-+	return chain_virt;
-+}
-+
-+/**
-+ * _base_get_chain_phys - Calculates and Returns physical address
-+ *			in BAR0 for scatter gather chains, for
-+ *			the provided smid.
-+ *
-+ * @ioc: per adapter object
-+ * @smid: system request message index
-+ * @sge_chain_count: Scatter gather chain count.
-+ *
-+ * @Return - Physical chain address.
-+ */
-+static inline void *
-+_base_get_chain_phys(struct MPT3SAS_ADAPTER *ioc, u16 smid,
-+		u8 sge_chain_count)
-+{
-+	void *base_chain_phys, *chain_phys;
-+	u16 cmd_credit = ioc->facts.RequestCredit + 1;
-+
-+	base_chain_phys  = (void *)ioc->chip_phys + MPI_FRAME_START_OFFSET +
-+		(cmd_credit * ioc->request_sz) +
-+		REPLY_FREE_POOL_SIZE;
-+	chain_phys = base_chain_phys + (smid * ioc->facts.MaxChainDepth *
-+			ioc->request_sz) + (sge_chain_count * ioc->request_sz);
-+	return chain_phys;
-+}
-+
-+/**
-+ * _base_get_buffer_bar0 - Calculates and Returns BAR0 mapped Host
-+ *			buffer address for the provided smid.
-+ *			(Each smid can have 64K starts from 17024)
-+ *
-+ * @ioc: per adapter object
-+ * @smid: system request message index
-+ *
-+ * @Returns - Pointer to buffer location in BAR0.
-+ */
-+
-+static void *
-+_base_get_buffer_bar0(struct MPT3SAS_ADAPTER *ioc, u16 smid)
-+{
-+	u16 cmd_credit = ioc->facts.RequestCredit + 1;
-+	// Added extra 1 to reach end of chain.
-+	void *chain_end = _base_get_chain(ioc,
-+			cmd_credit + 1,
-+			ioc->facts.MaxChainDepth);
-+	return chain_end + (smid * 64 * 1024);
-+}
-+
-+/**
-+ * _base_get_buffer_phys_bar0 - Calculates and Returns BAR0 mapped
-+ *		Host buffer Physical address for the provided smid.
-+ *		(Each smid can have 64K starts from 17024)
-+ *
-+ * @ioc: per adapter object
-+ * @smid: system request message index
-+ *
-+ * @Returns - Pointer to buffer location in BAR0.
-+ */
-+static void *
-+_base_get_buffer_phys_bar0(struct MPT3SAS_ADAPTER *ioc, u16 smid)
-+{
-+	u16 cmd_credit = ioc->facts.RequestCredit + 1;
-+	void *chain_end_phys = _base_get_chain_phys(ioc,
-+			cmd_credit + 1,
-+			ioc->facts.MaxChainDepth);
-+	return chain_end_phys + (smid * 64 * 1024);
-+}
-+
-+/**
-  *  mpt3sas_remove_dead_ioc_func - kthread context to remove dead ioc
-  * @arg: input argument, used to derive ioc
-  *
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.h b/drivers/scsi/mpt3sas/mpt3sas_base.h
-index 897394d..2529d25 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.h
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.h
-@@ -120,6 +120,8 @@
- #define MPT3SAS_NVME_QUEUE_DEPTH	128
- #define MPT_NAME_LENGTH			32	/* generic length of strings */
- #define MPT_STRING_LENGTH		64
-+#define MPI_FRAME_START_OFFSET		256
-+#define REPLY_FREE_POOL_SIZE		512 /*(32 maxcredix *4)*(4 times)*/
+ 	if (ioc->dma_mask)
+ 		consistent_dma_mask = DMA_BIT_MASK(64);
+ 	else
+@@ -2232,6 +2235,7 @@ _base_config_dma_addressing(struct MPT3SAS_ADAPTER *ioc, struct pci_dev *pdev)
+ 		}
+ 	}
  
- #define MPT_MAX_CALLBACKS		32
++ try_32bit:
+ 	if (!pci_set_dma_mask(pdev, DMA_BIT_MASK(32))
+ 	    && !pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32))) {
+ 		ioc->base_add_sg_single = &_base_add_sg_single_32;
+@@ -3887,17 +3891,21 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
+ 		sg_tablesize = min_t(unsigned short, sg_tablesize,
+ 		   MPT_KDUMP_MIN_PHYS_SEGMENTS);
  
+-	if (sg_tablesize < MPT_MIN_PHYS_SEGMENTS)
+-		sg_tablesize = MPT_MIN_PHYS_SEGMENTS;
+-	else if (sg_tablesize > MPT_MAX_PHYS_SEGMENTS) {
+-		sg_tablesize = min_t(unsigned short, sg_tablesize,
+-				      SG_MAX_SEGMENTS);
+-		pr_warn(MPT3SAS_FMT
+-		 "sg_tablesize(%u) is bigger than kernel"
+-		 " defined SG_CHUNK_SIZE(%u)\n", ioc->name,
+-		 sg_tablesize, MPT_MAX_PHYS_SEGMENTS);
++	if (ioc->is_mcpu_endpoint)
++		ioc->shost->sg_tablesize = MPT_MIN_PHYS_SEGMENTS;
++	else {
++		if (sg_tablesize < MPT_MIN_PHYS_SEGMENTS)
++			sg_tablesize = MPT_MIN_PHYS_SEGMENTS;
++		else if (sg_tablesize > MPT_MAX_PHYS_SEGMENTS) {
++			sg_tablesize = min_t(unsigned short, sg_tablesize,
++					SG_MAX_SEGMENTS);
++			pr_warn(MPT3SAS_FMT
++				"sg_tablesize(%u) is bigger than kernel "
++				"defined SG_CHUNK_SIZE(%u)\n", ioc->name,
++				sg_tablesize, MPT_MAX_PHYS_SEGMENTS);
++		}
++		ioc->shost->sg_tablesize = sg_tablesize;
+ 	}
+-	ioc->shost->sg_tablesize = sg_tablesize;
+ 
+ 	ioc->internal_depth = min_t(int, (facts->HighPriorityCredit + (5)),
+ 		(facts->RequestCredit / 4));
+@@ -3982,13 +3990,18 @@ _base_allocate_memory_pools(struct MPT3SAS_ADAPTER *ioc)
+ 	/* reply free queue sizing - taking into account for 64 FW events */
+ 	ioc->reply_free_queue_depth = ioc->hba_queue_depth + 64;
+ 
+-	/* calculate reply descriptor post queue depth */
+-	ioc->reply_post_queue_depth = ioc->hba_queue_depth +
+-				ioc->reply_free_queue_depth +  1 ;
+-	/* align the reply post queue on the next 16 count boundary */
+-	if (ioc->reply_post_queue_depth % 16)
+-		ioc->reply_post_queue_depth += 16 -
+-		(ioc->reply_post_queue_depth % 16);
++	/* mCPU manage single counters for simplicity */
++	if (ioc->is_mcpu_endpoint)
++		ioc->reply_post_queue_depth = ioc->reply_free_queue_depth;
++	else {
++		/* calculate reply descriptor post queue depth */
++		ioc->reply_post_queue_depth = ioc->hba_queue_depth +
++			ioc->reply_free_queue_depth +  1;
++		/* align the reply post queue on the next 16 count boundary */
++		if (ioc->reply_post_queue_depth % 16)
++			ioc->reply_post_queue_depth += 16 -
++				(ioc->reply_post_queue_depth % 16);
++	}
+ 
+ 	if (ioc->reply_post_queue_depth >
+ 	    facts->MaxReplyDescriptorPostQueueDepth) {
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+index bde3c6f..5e52679 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+@@ -10521,26 +10521,34 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	shost->transportt = mpt3sas_transport_template;
+ 	shost->unique_id = ioc->id;
+ 
+-	if (max_sectors != 0xFFFF) {
+-		if (max_sectors < 64) {
+-			shost->max_sectors = 64;
+-			pr_warn(MPT3SAS_FMT "Invalid value %d passed " \
+-			    "for max_sectors, range is 64 to 32767. Assigning "
+-			    "value of 64.\n", ioc->name, max_sectors);
+-		} else if (max_sectors > 32767) {
+-			shost->max_sectors = 32767;
+-			pr_warn(MPT3SAS_FMT "Invalid value %d passed " \
+-			    "for max_sectors, range is 64 to 32767. Assigning "
+-			    "default value of 32767.\n", ioc->name,
+-			    max_sectors);
+-		} else {
+-			shost->max_sectors = max_sectors & 0xFFFE;
+-			pr_info(MPT3SAS_FMT
++	if (ioc->is_mcpu_endpoint) {
++		/* mCPU MPI support 64K max IO */
++		shost->max_sectors = 128;
++		pr_info(MPT3SAS_FMT
+ 				"The max_sectors value is set to %d\n",
+ 				ioc->name, shost->max_sectors);
++	} else {
++		if (max_sectors != 0xFFFF) {
++			if (max_sectors < 64) {
++				shost->max_sectors = 64;
++				pr_warn(MPT3SAS_FMT "Invalid value %d passed " \
++				    "for max_sectors, range is 64 to 32767. " \
++				    "Assigning value of 64.\n", \
++				    ioc->name, max_sectors);
++			} else if (max_sectors > 32767) {
++				shost->max_sectors = 32767;
++				pr_warn(MPT3SAS_FMT "Invalid value %d passed " \
++				    "for max_sectors, range is 64 to 32767." \
++				    "Assigning default value of 32767.\n", \
++				    ioc->name, max_sectors);
++			} else {
++				shost->max_sectors = max_sectors & 0xFFFE;
++				pr_info(MPT3SAS_FMT
++					"The max_sectors value is set to %d\n",
++					ioc->name, shost->max_sectors);
++			}
+ 		}
+ 	}
+-
+ 	/* register EEDP capabilities with SCSI layer */
+ 	if (prot_mask > 0)
+ 		scsi_host_set_prot(shost, prot_mask);
 -- 
 2.5.5
