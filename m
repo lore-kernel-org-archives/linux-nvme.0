@@ -1,54 +1,78 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Sat, 20 Jan 2018 22:14:51 +0800
-Subject: [PATCH V5 0/2] nvme-pci: fix the timeout case when reset is
- ongoing
-In-Reply-To: <ea00677b-6d79-e9c0-e0af-78e287f29ddd@oracle.com>
-References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180119080130.GE12043@localhost.localdomain>
- <0639aa2f-d153-5aac-ce08-df0d4b45f9a0@oracle.com>
- <20180119084218.GF12043@localhost.localdomain>
- <84b4e3bc-fe23-607e-9d5e-bb5644eedb54@oracle.com>
- <20180119115255.GH12043@localhost.localdomain>
- <3cc0d180-0b7e-e71f-66ce-43f4dfffb701@oracle.com>
- <20180120021119.GJ12043@localhost.localdomain>
- <ea00677b-6d79-e9c0-e0af-78e287f29ddd@oracle.com>
-Message-ID: <b5056edd-4806-0815-ec5e-b023b313a086@oracle.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Sun, 21 Jan 2018 01:24:41 +0800
+Subject: [PATCH 3/6] mpt3sas: Introduce API's to get BAR0 mapped buffer
+ address.
+In-Reply-To: <1516365462-14708-4-git-send-email-suganath-prabu.subramani@broadcom.com>
+References: <1516365462-14708-4-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <201801210120.wtT4VJUt%fengguang.wu@intel.com>
 
+Hi Suganath,
 
+I love your patch! Perhaps something to improve:
 
-On 01/20/2018 10:07 PM, jianchao.wang wrote:
-> Hi Keith
-> 
-> Thanks for you kindly response.
-> 
-> On 01/20/2018 10:11 AM, Keith Busch wrote:
->> On Fri, Jan 19, 2018@09:56:48PM +0800, jianchao.wang wrote:
->>> In nvme_dev_disable, the outstanding requests will be requeued finally.
->>> I'm afraid the requests requeued on the q->requeue_list will be blocked until another requeue
->>> occurs, if we cancel the requeue work before it get scheduled.
->>
->> We should kick the request list in nvme_start_queues.
->>
-> Yes
-> 
-> @@ -3513,8 +3513,10 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
->         struct nvme_ns *ns;
->  
->         mutex_lock(&ctrl->namespaces_mutex);
-> -       list_for_each_entry(ns, &ctrl->namespaces, list)
-> +       list_for_each_entry(ns, &ctrl->namespaces, list) {
->                 blk_mq_unquiesce_queue(ns->queue);
-> +               blk_mq_kick_requeue_list(ns->queue);
-> +       }
->         mutex_unlock(&ctrl->namespaces_mutex);
->  }
+[auto build test WARNING on scsi/for-next]
+[also build test WARNING on v4.15-rc8 next-20180119]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-We have to also add blk_mq_kick_requeue_list in nvme_kill_queues in case of queue_count < 2.
+url:    https://github.com/0day-ci/linux/commits/Suganath-Prabu-S/mpt3sas-Add-PCI-device-ID-for-Andromeda/20180121-002454
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+config: i386-randconfig-x017-201803 (attached as .config)
+compiler: gcc-7 (Debian 7.2.0-12) 7.2.1 20171025
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=i386 
 
-> 
-> Then, nvme_sync_queues could be more universal.
-> 
-> Many thanks for your directive.
-> 
-> Jianchao
-> 
+All warnings (new ones prefixed by >>):
+
+   drivers/scsi/mpt3sas/mpt3sas_base.c: In function '_base_get_chain_phys':
+>> drivers/scsi/mpt3sas/mpt3sas_base.c:171:21: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     base_chain_phys  = (void *)ioc->chip_phys + MPI_FRAME_START_OFFSET +
+                        ^
+   At top level:
+   drivers/scsi/mpt3sas/mpt3sas_base.c:212:1: warning: '_base_get_buffer_phys_bar0' defined but not used [-Wunused-function]
+    _base_get_buffer_phys_bar0(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpt3sas/mpt3sas_base.c:191:1: warning: '_base_get_buffer_bar0' defined but not used [-Wunused-function]
+    _base_get_buffer_bar0(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+    ^~~~~~~~~~~~~~~~~~~~~
+
+vim +171 drivers/scsi/mpt3sas/mpt3sas_base.c
+
+   152	
+   153	/**
+   154	 * _base_get_chain_phys - Calculates and Returns physical address
+   155	 *			in BAR0 for scatter gather chains, for
+   156	 *			the provided smid.
+   157	 *
+   158	 * @ioc: per adapter object
+   159	 * @smid: system request message index
+   160	 * @sge_chain_count: Scatter gather chain count.
+   161	 *
+   162	 * @Return - Physical chain address.
+   163	 */
+   164	static inline void *
+   165	_base_get_chain_phys(struct MPT3SAS_ADAPTER *ioc, u16 smid,
+   166			u8 sge_chain_count)
+   167	{
+   168		void *base_chain_phys, *chain_phys;
+   169		u16 cmd_credit = ioc->facts.RequestCredit + 1;
+   170	
+ > 171		base_chain_phys  = (void *)ioc->chip_phys + MPI_FRAME_START_OFFSET +
+   172			(cmd_credit * ioc->request_sz) +
+   173			REPLY_FREE_POOL_SIZE;
+   174		chain_phys = base_chain_phys + (smid * ioc->facts.MaxChainDepth *
+   175				ioc->request_sz) + (sge_chain_count * ioc->request_sz);
+   176		return chain_phys;
+   177	}
+   178	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 29932 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180121/26642ac9/attachment-0001.gz>
