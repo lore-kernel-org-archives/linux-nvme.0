@@ -1,33 +1,20 @@
-From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Fri, 19 Jan 2018 12:29:27 -0800
-Subject: [PATCH 4/5] qla2xxx: Restore ZIO threshold setting
-In-Reply-To: <20180119202928.13239-1-himanshu.madhani@cavium.com>
-References: <20180119202928.13239-1-himanshu.madhani@cavium.com>
-Message-ID: <20180119202928.13239-5-himanshu.madhani@cavium.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 19 Jan 2018 19:11:20 -0700
+Subject: [PATCH V5 0/2] nvme-pci: fix the timeout case when reset is
+ ongoing
+In-Reply-To: <3cc0d180-0b7e-e71f-66ce-43f4dfffb701@oracle.com>
+References: <1516270202-8051-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180119080130.GE12043@localhost.localdomain>
+ <0639aa2f-d153-5aac-ce08-df0d4b45f9a0@oracle.com>
+ <20180119084218.GF12043@localhost.localdomain>
+ <84b4e3bc-fe23-607e-9d5e-bb5644eedb54@oracle.com>
+ <20180119115255.GH12043@localhost.localdomain>
+ <3cc0d180-0b7e-e71f-66ce-43f4dfffb701@oracle.com>
+Message-ID: <20180120021119.GJ12043@localhost.localdomain>
 
-From: Darren Trapp <darren.trapp@cavium.com>
+On Fri, Jan 19, 2018@09:56:48PM +0800, jianchao.wang wrote:
+> In nvme_dev_disable, the outstanding requests will be requeued finally.
+> I'm afraid the requests requeued on the q->requeue_list will be blocked until another requeue
+> occurs, if we cancel the requeue work before it get scheduled.
 
-Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
-Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
----
- drivers/scsi/qla2xxx/qla_nvme.c | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index a8e81fc14c44..5ee447680ddd 100644
---- a/drivers/scsi/qla2xxx/qla_nvme.c
-+++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -464,11 +464,6 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
- 	/* Set chip new ring index. */
- 	WRT_REG_DWORD(req->req_q_in, req->ring_index);
- 
--	/* Manage unprocessed RIO/ZIO commands in response queue. */
--	if (vha->flags.process_response_queue &&
--	    rsp->ring_ptr->signature != RESPONSE_PROCESSED)
--		qla24xx_process_response_queue(vha, rsp);
--
- queuing_error:
- 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
- 	return rval;
--- 
-2.12.0
+We should kick the request list in nvme_start_queues.
