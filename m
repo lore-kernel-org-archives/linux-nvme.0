@@ -1,42 +1,108 @@
-From: dave@znu.io (David Zarzycki)
-Date: Sun, 21 Jan 2018 08:49:26 -0500
-Subject: Hang when running LLVM+clang test suite
-In-Reply-To: <20180121025030.GK12043@localhost.localdomain>
-References: <7F6A25BD-AA87-4800-886F-1A256FFD8967@znu.io>
- <20180121025030.GK12043@localhost.localdomain>
-Message-ID: <21BE2F60-44C9-41E9-B64F-05C90008D44F@znu.io>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 21 Jan 2018 16:09:35 +0200
+Subject: [Suspected-Phishing][PATCH 1/1] nvme-rdma: remove redundant
+ reference between ib_device and tagset
+In-Reply-To: <1516200212-15088-1-git-send-email-maxg@mellanox.com>
+References: <1516200212-15088-1-git-send-email-maxg@mellanox.com>
+Message-ID: <b2fbcde9-9600-a9a6-e140-9a0ffccedc41@mellanox.com>
 
+please ignore this version.
+I'll send V2.
 
-
-> On Jan 20, 2018,@21:50, Keith Busch <keith.busch@intel.com> wrote:
+On 1/17/2018 4:43 PM, Max Gurtovoy wrote:
+> In the past, before adding f41725bb ("nvme-rdma: Use mr pool") commit,
+> we needed a reference on the ib_device as long as the tagset
+> was alive, as the MRs in the request structures needed a valid ib_device.
+> Now, we allocate/deallocate MR pool per and QP and consume on demand.
 > 
-> On Sat, Jan 20, 2018@05:47:06AM -0500, David Zarzycki wrote:
->> Hello NVMe developers,
->> 
->> The LLVM+clang the test suite regularly (but not reliably) hangs the kernel (version 4.14.13-300.fc27.x86_64). I don?t see this hang when running the test suite in /tmp (tmpfs) or on a SATA SSD.
->> 
->> Here are photos of the console debug info, with the NVMe driver in the backtrace:
->> 
->> http://znu.io/dual8168hang.tar
->> 
->> Here is another instance of the hang, again with NVMe in the backtrace:
->> 
->> http://znu.io/IMG_0362.jpg
+> Also remove nvme_rdma_free_tagset function and use blk_mq_free_tag_set
+> instead, as it unneeded anymore.
 > 
-> It looks like the scheduler is stuck or a task struct is corrupt. I can't
-> think of anything off the top of my head what nvme has to do with that,
-> though. It just invokes the callback associated with a command and
-> doesn't directly manipulate any scheduler structs.
-
-Hi Keith,
-
-Thanks for looking at the backtraces. What other subsystems should I be looking at then?
-
-Given that the LLVM+clang test suite is reliable when built/run in tmpfs, that implies that most of the kernel is reliable. I?ve also run the test suite reliably on an ext4 filesystem on a SATA SSD.
-
-I?ve tried both xfs and ext4 on NVMe and they both crash, which implies that individual filesystems aren't the problem. Please note that the NVMe setup is simple: one partition and no LVM, RAID, bcache, etc.
-
-What?s left at this point? What other combinations or debug parameters should I test?
-
-Thanks for any help you can give,
-Dave
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>   drivers/nvme/host/rdma.c | 34 +++++-----------------------------
+>   1 file changed, 5 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 2a0bba7..5eee1d7 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -666,15 +666,6 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+>   	return ret;
+>   }
+>   
+> -static void nvme_rdma_free_tagset(struct nvme_ctrl *nctrl,
+> -		struct blk_mq_tag_set *set)
+> -{
+> -	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+> -
+> -	blk_mq_free_tag_set(set);
+> -	nvme_rdma_dev_put(ctrl->device);
+> -}
+> -
+>   static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+>   		bool admin)
+>   {
+> @@ -712,24 +703,9 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+>   
+>   	ret = blk_mq_alloc_tag_set(set);
+>   	if (ret)
+> -		goto out;
+> -
+> -	/*
+> -	 * We need a reference on the device as long as the tag_set is alive,
+> -	 * as the MRs in the request structures need a valid ib_device.
+> -	 */
+> -	ret = nvme_rdma_dev_get(ctrl->device);
+> -	if (!ret) {
+> -		ret = -EINVAL;
+> -		goto out_free_tagset;
+> -	}
+> +		return ERR_PTR(ret);
+>   
+>   	return set;
+> -
+> -out_free_tagset:
+> -	blk_mq_free_tag_set(set);
+> -out:
+> -	return ERR_PTR(ret);
+>   }
+>   
+>   static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+> @@ -738,7 +714,7 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>   	nvme_rdma_stop_queue(&ctrl->queues[0]);
+>   	if (remove) {
+>   		blk_cleanup_queue(ctrl->ctrl.admin_q);
+> -		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+> +		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
+>   	}
+>   	nvme_rdma_free_queue(&ctrl->queues[0]);
+>   }
+> @@ -809,7 +785,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+>   		blk_cleanup_queue(ctrl->ctrl.admin_q);
+>   out_free_tagset:
+>   	if (new)
+> -		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+> +		blk_mq_free_tag_set(ctrl->ctrl.admin_tagset);
+>   out_free_queue:
+>   	nvme_rdma_free_queue(&ctrl->queues[0]);
+>   	return error;
+> @@ -821,7 +797,7 @@ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+>   	nvme_rdma_stop_io_queues(ctrl);
+>   	if (remove) {
+>   		blk_cleanup_queue(ctrl->ctrl.connect_q);
+> -		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+> +		blk_mq_free_tag_set(ctrl->ctrl.tagset);
+>   	}
+>   	nvme_rdma_free_io_queues(ctrl);
+>   }
+> @@ -862,7 +838,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+>   		blk_cleanup_queue(ctrl->ctrl.connect_q);
+>   out_free_tag_set:
+>   	if (new)
+> -		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+> +		blk_mq_free_tag_set(ctrl->ctrl.tagset);
+>   out_free_io_queues:
+>   	nvme_rdma_free_io_queues(ctrl);
+>   	return ret;
+> 
