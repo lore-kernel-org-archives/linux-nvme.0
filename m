@@ -1,49 +1,51 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 22 Jan 2018 14:56:29 -0700
-Subject: [PATCH 4/5] nvme/pci: Remove cq_vector checks in io path
+Date: Mon, 22 Jan 2018 14:56:28 -0700
+Subject: [PATCH 3/5] nvme/pci: End stopped queue requests directly
 In-Reply-To: <20180122215630.13697-1-keith.busch@intel.com>
 References: <20180122215630.13697-1-keith.busch@intel.com>
-Message-ID: <20180122215630.13697-4-keith.busch@intel.com>
+Message-ID: <20180122215630.13697-3-keith.busch@intel.com>
 
-We don't need to check for if the queue is suspended in the submission or
-completion path. Requests to suspended queues are no longer submitted, and
-we don't unmap the doorbell while requests are active.
+For requests that have entered a queue that is not able to be brought
+back online, this patch will end those requests directly rather than
+rely on the IO path to handle this error.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ drivers/nvme/host/pci.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9e9e3a59bfb3..99ac0de43206 100644
+index 63b477bfef37..9e9e3a59bfb3 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -889,11 +889,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	blk_mq_start_request(req);
- 
- 	spin_lock_irq(&nvmeq->q_lock);
--	if (unlikely(nvmeq->cq_vector < 0)) {
--		ret = BLK_STS_IOERR;
--		spin_unlock_irq(&nvmeq->q_lock);
--		goto out_cleanup_iod;
--	}
- 	__nvme_submit_cmd(nvmeq, &cmnd);
- 	nvme_process_cq(nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
-@@ -924,11 +919,9 @@ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
- {
- 	u16 head = nvmeq->cq_head;
- 
--	if (likely(nvmeq->cq_vector >= 0)) {
--		if (nvme_dbbuf_update_and_check_event(head, nvmeq->dbbuf_cq_db,
--						      nvmeq->dbbuf_cq_ei))
--			writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
--	}
-+	if (nvme_dbbuf_update_and_check_event(head, nvmeq->dbbuf_cq_db,
-+					      nvmeq->dbbuf_cq_ei))
-+		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
+@@ -2272,6 +2272,19 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 		nvme_put_ctrl(&dev->ctrl);
  }
  
- static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
++static void nvme_end_stopped_queue_request(struct request *req, void *data,
++				   bool reserved)
++{
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	struct nvme_queue *nvmeq = iod->nvmeq;
++
++	if (nvmeq->cq_vector != -1)
++		return;
++	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
++			    "Ending I/O %d QID:%d", req->tag, nvmeq->qid);
++	blk_mq_end_request(req, BLK_STS_IOERR);
++}
++
+ static void nvme_reset_work(struct work_struct *work)
+ {
+ 	struct nvme_dev *dev =
+@@ -2344,6 +2357,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_remove_namespaces(&dev->ctrl);
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
++		nvme_set_iter(&dev->ctrl, dev->ctrl.tagset,
++			      nvme_end_stopped_queue_request);
+ 		nvme_start_queues(&dev->ctrl);
+ 		nvme_wait_freeze(&dev->ctrl);
+ 		/* hit this only when allocate tagset fails */
 -- 
 2.14.3
