@@ -1,23 +1,21 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 22 Jan 2018 11:20:17 -0700
-Subject: Why NVMe MSIx vectors affinity set across NUMA nodes?
-In-Reply-To: <CAKTKpr68UnMAv2ePu7P3Gv8--av7hei16cygCnVcCdABfNb51Q@mail.gmail.com>
-References: <CAKTKpr6V=UPtRRApvQ_TAEuRQB8qqgvDmaaXFjch4wpZUqoAfw@mail.gmail.com>
- <20180122171437.GL12043@localhost.localdomain>
- <CAKTKpr59h-PXz60BNkx4_80gHyeFawcJW17dt9Y5VRrmHRsSQA@mail.gmail.com>
- <20180122173239.GM12043@localhost.localdomain>
- <CAKTKpr4pbpKoojLVb8jCBFLOY67xbV7Q2j95EaOjEOiGMPhFCA@mail.gmail.com>
- <20180122180515.GN12043@localhost.localdomain>
- <CAKTKpr68UnMAv2ePu7P3Gv8--av7hei16cygCnVcCdABfNb51Q@mail.gmail.com>
-Message-ID: <20180122182017.GO12043@localhost.localdomain>
+Date: Mon, 22 Jan 2018 11:37:42 -0700
+Subject: Hang when running LLVM+clang test suite
+In-Reply-To: <26A085AA-98EB-4ACC-A0B2-0F30E7AAC33E@znu.io>
+References: <7F6A25BD-AA87-4800-886F-1A256FFD8967@znu.io>
+ <20180121025030.GK12043@localhost.localdomain>
+ <21BE2F60-44C9-41E9-B64F-05C90008D44F@znu.io>
+ <26A085AA-98EB-4ACC-A0B2-0F30E7AAC33E@znu.io>
+Message-ID: <20180122183742.GP12043@localhost.localdomain>
 
-On Mon, Jan 22, 2018@11:42:45PM +0530, Ganapatrao Kulkarni wrote:
+On Sun, Jan 21, 2018@09:13:27AM -0500, David Zarzycki wrote:
+> To my surprise, I think I?ve narrowed down the bug to the block multi-queue layer. Can you please confirm that the following test is reasonable?
 > 
-> AFAIK, usually drivers sets default affinity and it is likely be node
-> affinity for NUMA systems.
-> Later, it is the user-space(like irqbalance etc) which decides the
-> affinity not the driver.
+> 1) Create a file in /tmp (tmpfs with plenty of RAM and 2x the size needed by the test suite)
+> 2) ?losetup? the file
+> 3) 'cat /sys/block/loop0/queue/scheduler' ("[mq-deadline] none? in this case)
+> 4) Create ext4 partition on /dev/loop0 and mount it
+> 5) Run stress test in the loopback filesystem
 
-Relying on userspace to provide an optimal setting is a bad idea,
-especially for NVMe where we have submission queue cpu affinity that
-doesn't work very efficiently if the completion affinity doesn't match.
+The test looks fair to run. Does your error only happen if using
+mq-deadline, or are there problems when using "none"?
