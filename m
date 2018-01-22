@@ -1,8 +1,8 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 22 Jan 2018 22:01:29 +0800
-Subject: [PATCH 1/4] nvme-pci: introduce RECONNECTING state to mark
+Date: Mon, 22 Jan 2018 22:03:16 +0800
+Subject: [PATCH RESENT] nvme-pci: introduce RECONNECTING state to mark
  initializing procedure
-Message-ID: <1516629689-2846-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
 
 After Sagi's commit (nvme-rdma: fix concurrent reset and reconnect),
 both nvme-fc/rdma have following pattern:
