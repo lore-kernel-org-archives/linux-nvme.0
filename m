@@ -1,178 +1,170 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 22 Jan 2018 14:56:26 -0700
-Subject: [PATCH 1/5] nvme: Request cancelling helpers
-Message-ID: <20180122215630.13697-1-keith.busch@intel.com>
+Date: Mon, 22 Jan 2018 14:56:27 -0700
+Subject: [PATCH 2/5] nvme: Ending failed unstarted requests
+In-Reply-To: <20180122215630.13697-1-keith.busch@intel.com>
+References: <20180122215630.13697-1-keith.busch@intel.com>
+Message-ID: <20180122215630.13697-2-keith.busch@intel.com>
 
-This patch provides an API for cancelling IO requests, replacing each
-driver's use of blk_mq_busy_tag_iter with a more convenient API for nvme
-controllers.
-
-The nvme_cancel_request is used only in the core now, so this patch
-makes that function private.
+This patch provides new nvme driver APIs for directly ending unstarted
+requests when they need to be failed. Previously, drivers needed to
+temporarily quiesce request queues while setting up the IO path to take on
+the responsibilty of error handling, then restart those queues. Handling
+these errors should be done directly in the error handling path, freeing
+up the IO path to not concern itself with such failure cases.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c   | 31 +++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h   |  8 +++++++-
- drivers/nvme/host/pci.c    |  4 +---
- drivers/nvme/host/rdma.c   | 12 ++++--------
- drivers/nvme/target/loop.c |  6 ++----
- 5 files changed, 43 insertions(+), 18 deletions(-)
+ drivers/nvme/host/core.c | 44 +++++++++++++++++++++++++++++++++++---------
+ drivers/nvme/host/nvme.h |  4 ++++
+ drivers/nvme/host/pci.c  |  4 ++--
+ drivers/nvme/host/rdma.c |  8 +++-----
+ 4 files changed, 44 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fde6fd2e7eef..b9cf2bce2132 100644
+index b9cf2bce2132..ae4349a4f3a8 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -233,7 +233,7 @@ void nvme_complete_rq(struct request *req)
- }
- EXPORT_SYMBOL_GPL(nvme_complete_rq);
- 
--void nvme_cancel_request(struct request *req, void *data, bool reserved)
-+static void nvme_cancel_request(struct request *req, void *data, bool reserved)
- {
- 	if (!blk_mq_request_started(req))
- 		return;
-@@ -245,7 +245,34 @@ void nvme_cancel_request(struct request *req, void *data, bool reserved)
- 	blk_mq_complete_request(req);
+@@ -246,6 +246,17 @@ static void nvme_cancel_request(struct request *req, void *data, bool reserved)
  
  }
--EXPORT_SYMBOL_GPL(nvme_cancel_request);
-+
-+void nvme_set_iter(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
-+		   busy_tag_iter_fn *fn)
+ 
++static void nvme_end_unstarted_request(struct request *req, void *data,
++				       bool reserved)
 +{
-+	if (!set)
++	if (blk_mq_request_started(req))
 +		return;
-+	blk_mq_tagset_busy_iter(set, fn, ctrl);
-+}
-+EXPORT_SYMBOL_GPL(nvme_set_iter);
 +
-+void nvme_cancel_io_requests(struct nvme_ctrl *ctrl)
-+{
-+	nvme_set_iter(ctrl, ctrl->tagset, nvme_cancel_request);
++	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
++				"Ending I/O %d", req->tag);
++	blk_mq_end_request(req, BLK_STS_IOERR);
 +}
-+EXPORT_SYMBOL_GPL(nvme_cancel_io_requests);
 +
-+void nvme_cancel_admin_requests(struct nvme_ctrl *ctrl)
-+{
-+	nvme_set_iter(ctrl, ctrl->admin_tagset, nvme_cancel_request);
-+}
-+EXPORT_SYMBOL_GPL(nvme_cancel_admin_requests);
-+
-+void nvme_cancel_requests(struct nvme_ctrl *ctrl)
-+{
-+	nvme_cancel_io_requests(ctrl);
-+	nvme_cancel_admin_requests(ctrl);
-+}
-+EXPORT_SYMBOL_GPL(nvme_cancel_requests);
+ void nvme_set_iter(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 		   busy_tag_iter_fn *fn)
+ {
+@@ -255,6 +266,25 @@ void nvme_set_iter(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ }
+ EXPORT_SYMBOL_GPL(nvme_set_iter);
  
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state)
++void nvme_end_io_requests(struct nvme_ctrl *ctrl)
++{
++	nvme_set_iter(ctrl, ctrl->tagset, nvme_end_unstarted_request);
++}
++EXPORT_SYMBOL_GPL(nvme_end_io_requests);
++
++void nvme_end_admin_requests(struct nvme_ctrl *ctrl)
++{
++	nvme_set_iter(ctrl, ctrl->admin_tagset, nvme_end_unstarted_request);
++}
++EXPORT_SYMBOL_GPL(nvme_end_admin_requests);
++
++void nvme_end_requests(struct nvme_ctrl *ctrl)
++{
++	nvme_end_io_requests(ctrl);
++	nvme_end_admin_requests(ctrl);
++}
++EXPORT_SYMBOL_GPL(nvme_end_requests);
++
+ void nvme_cancel_io_requests(struct nvme_ctrl *ctrl)
+ {
+ 	nvme_set_iter(ctrl, ctrl->tagset, nvme_cancel_request);
+@@ -3215,8 +3245,10 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	 * removing the namespaces' disks; fail all the queues now to avoid
+ 	 * potentially having to clean up the failed sync later.
+ 	 */
+-	if (ctrl->state == NVME_CTRL_DEAD)
++	if (ctrl->state == NVME_CTRL_DEAD) {
+ 		nvme_kill_queues(ctrl);
++		nvme_end_admin_requests(ctrl);
++	}
+ 
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
+ 		nvme_ns_remove(ns);
+@@ -3467,11 +3499,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 	struct nvme_ns *ns;
+ 
+ 	mutex_lock(&ctrl->namespaces_mutex);
+-
+-	/* Forcibly unquiesce queues to avoid blocking dispatch */
+-	if (ctrl->admin_q)
+-		blk_mq_unquiesce_queue(ctrl->admin_q);
+-
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+ 		/*
+ 		 * Revalidating a dead namespace sets capacity to 0. This will
+@@ -3481,11 +3508,10 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 			continue;
+ 		revalidate_disk(ns->disk);
+ 		blk_set_queue_dying(ns->queue);
+-
+-		/* Forcibly unquiesce queues to avoid blocking dispatch */
+-		blk_mq_unquiesce_queue(ns->queue);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
++
++	nvme_end_io_requests(ctrl);
+ }
+ EXPORT_SYMBOL_GPL(nvme_kill_queues);
+ 
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8e7fc1b041b7..5fb9d600f9c0 100644
+index 5fb9d600f9c0..96fbc233cbb2 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -349,7 +349,6 @@ static inline void nvme_put_ctrl(struct nvme_ctrl *ctrl)
- }
- 
- void nvme_complete_rq(struct request *req);
--void nvme_cancel_request(struct request *req, void *data, bool reserved);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
- int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
-@@ -372,6 +371,13 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+@@ -371,6 +371,10 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
  void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
  		union nvme_result *res);
  
-+void nvme_cancel_requests(struct nvme_ctrl *ctrl);
-+void nvme_cancel_io_requests(struct nvme_ctrl *ctrl);
-+void nvme_cancel_admin_requests(struct nvme_ctrl *ctrl);
++void nvme_end_requests(struct nvme_ctrl *ctrl);
++void nvme_end_io_requests(struct nvme_ctrl *ctrl);
++void nvme_end_admin_requests(struct nvme_ctrl *ctrl);
 +
-+void nvme_set_iter(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
-+		   busy_tag_iter_fn *fn);
-+
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
+ void nvme_cancel_requests(struct nvme_ctrl *ctrl);
+ void nvme_cancel_io_requests(struct nvme_ctrl *ctrl);
+ void nvme_cancel_admin_requests(struct nvme_ctrl *ctrl);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a2ffb557b616..4d2477c3c86c 100644
+index 4d2477c3c86c..63b477bfef37 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2213,9 +2213,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	}
- 	nvme_pci_disable(dev);
- 
--	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
--	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
--
-+	nvme_cancel_requests(&dev->ctrl);
+@@ -2216,11 +2216,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	nvme_cancel_requests(&dev->ctrl);
  	/*
  	 * The driver will not be starting up queues again if shutting down so
- 	 * must flush all entered requests to their failed completion to avoid
+-	 * must flush all entered requests to their failed completion to avoid
++	 * must end all entered requests to their failed completion to avoid
+ 	 * deadlocking blk-mq hot-cpu notifier.
+ 	 */
+ 	if (shutdown)
+-		nvme_start_queues(&dev->ctrl);
++		nvme_end_requests(&dev->ctrl);
+ 	mutex_unlock(&dev->shutdown_lock);
+ }
+ 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 38e183461d9d..71070eedb773 100644
+index 71070eedb773..e51a84d1d732 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -957,14 +957,12 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
--		blk_mq_tagset_busy_iter(&ctrl->tag_set,
--					nvme_cancel_request, &ctrl->ctrl);
-+		nvme_cancel_io_requests(&ctrl->ctrl);
- 		nvme_rdma_destroy_io_queues(ctrl, false);
- 	}
- 
- 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
--	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
--				nvme_cancel_request, &ctrl->ctrl);
-+	nvme_cancel_admin_requests(&ctrl->ctrl);
+@@ -966,11 +966,9 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
  	nvme_rdma_destroy_admin_queue(ctrl, false);
  
  	/*
-@@ -1721,8 +1719,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+-	 * queues are not a live anymore, so restart the queues to fail fast
+-	 * new IO
++	 * queues are not a live anymore, so end all unstarted requests.
+ 	 */
+-	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+-	nvme_start_queues(&ctrl->ctrl);
++	nvme_end_requests(&ctrl->ctrl);
  
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
--		blk_mq_tagset_busy_iter(&ctrl->tag_set,
--					nvme_cancel_request, &ctrl->ctrl);
-+		nvme_cancel_io_requests(&ctrl->ctrl);
- 		nvme_rdma_destroy_io_queues(ctrl, shutdown);
- 	}
- 
-@@ -1732,8 +1729,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- 		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
+ 	nvme_rdma_reconnect_or_remove(ctrl);
+ }
+@@ -1730,7 +1728,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
  
  	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
--	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
--				nvme_cancel_request, &ctrl->ctrl);
-+	nvme_cancel_admin_requests(&ctrl->ctrl);
- 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+ 	nvme_cancel_admin_requests(&ctrl->ctrl);
+-	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
++	nvme_end_admin_requests(&ctrl->ctrl);
  	nvme_rdma_destroy_admin_queue(ctrl, shutdown);
  }
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 7991ec3a17db..5dd7834a35da 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -439,8 +439,7 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
--		blk_mq_tagset_busy_iter(&ctrl->tag_set,
--					nvme_cancel_request, &ctrl->ctrl);
-+		nvme_cancel_io_requests(&ctrl->ctrl);
- 		nvme_loop_destroy_io_queues(ctrl);
- 	}
  
-@@ -448,8 +447,7 @@ static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- 		nvme_shutdown_ctrl(&ctrl->ctrl);
- 
- 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
--	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
--				nvme_cancel_request, &ctrl->ctrl);
-+	nvme_cancel_admin_requests(&ctrl->ctrl);
- 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 	nvme_loop_destroy_admin_queue(ctrl);
- }
 -- 
 2.14.3
