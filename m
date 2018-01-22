@@ -1,80 +1,32 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 22 Jan 2018 14:56:30 -0700
-Subject: [PATCH 5/5] nvme: Sync queues on controller resets
-In-Reply-To: <20180122215630.13697-1-keith.busch@intel.com>
-References: <20180122215630.13697-1-keith.busch@intel.com>
-Message-ID: <20180122215630.13697-5-keith.busch@intel.com>
+From: dave@znu.io (David Zarzycki)
+Date: Mon, 22 Jan 2018 18:33:19 -0500
+Subject: Hang when running LLVM+clang test suite
+In-Reply-To: <20180122183742.GP12043@localhost.localdomain>
+References: <7F6A25BD-AA87-4800-886F-1A256FFD8967@znu.io>
+ <20180121025030.GK12043@localhost.localdomain>
+ <21BE2F60-44C9-41E9-B64F-05C90008D44F@znu.io>
+ <26A085AA-98EB-4ACC-A0B2-0F30E7AAC33E@znu.io>
+ <20180122183742.GP12043@localhost.localdomain>
+Message-ID: <DBEE8942-C228-4F34-85A6-6AEB07E017BE@znu.io>
 
-This patch has the nvme pci driver synchronize request queues to ensure
-that starting up the controller is not racing with a previously running
-timeout handler.
 
-Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 15 ++++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  4 +++-
- 3 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ae4349a4f3a8..e8826fab54b8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3578,12 +3578,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
- 	struct nvme_ns *ns;
- 
- 	mutex_lock(&ctrl->namespaces_mutex);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		blk_mq_unquiesce_queue(ns->queue);
-+		blk_mq_kick_requeue_list(ns->queue);
-+	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
- 
-+void nvme_sync_queues(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_sync_queue(ns->queue);
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+}
-+EXPORT_SYMBOL_GPL(nvme_sync_queues);
-+
- int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
- {
- 	if (!ctrl->ops->reinit_request)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 96fbc233cbb2..6e80912fe707 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -384,6 +384,7 @@ void nvme_set_iter(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
- 
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
-+void nvme_sync_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
- void nvme_unfreeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 99ac0de43206..2de40d1780c1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2293,8 +2293,10 @@ static void nvme_reset_work(struct work_struct *work)
- 	 * If we're called to reset a live controller first shut it down before
- 	 * moving on.
- 	 */
--	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
-+	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE) {
- 		nvme_dev_disable(dev, false);
-+		nvme_sync_queues(&dev->ctrl);
-+	}
- 
- 	result = nvme_pci_enable(dev);
- 	if (result)
--- 
-2.14.3
+> On Jan 22, 2018,@13:37, Keith Busch <keith.busch@intel.com> wrote:
+> 
+> On Sun, Jan 21, 2018@09:13:27AM -0500, David Zarzycki wrote:
+>> To my surprise, I think I?ve narrowed down the bug to the block multi-queue layer. Can you please confirm that the following test is reasonable?
+>> 
+>> 1) Create a file in /tmp (tmpfs with plenty of RAM and 2x the size needed by the test suite)
+>> 2) ?losetup? the file
+>> 3) 'cat /sys/block/loop0/queue/scheduler' ("[mq-deadline] none? in this case)
+>> 4) Create ext4 partition on /dev/loop0 and mount it
+>> 5) Run stress test in the loopback filesystem
+> 
+> The test looks fair to run. Does your error only happen if using
+> mq-deadline, or are there problems when using "none??
+
+Hi Keith,
+
+Thanks and yes it does. FWIW, I?ve elimited a variable from the setup (nohz_full), and now it locks up hard. I?m going persuing this further on the linux-block at vger.kernel.org mailing list.
+
+Dave
