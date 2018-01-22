@@ -1,25 +1,25 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 22 Jan 2018 17:15:28 +0100
-Subject: [PATCH v4 1/2] nvme: add tracepoint for nvme_setup_cmd
-In-Reply-To: <20180122161027.GA7097@lst.de>
-References: <20180119141819.11938-1-jthumshirn@suse.de>
- <20180119141819.11938-2-jthumshirn@suse.de>
- <20180122152301.GA5818@lst.de>
- <20180122155356.4doy32sfgzwegmq4@linux-x5ow.site>
- <20180122155956.GA6635@lst.de>
- <20180122160437.4kct2cz2ihwymvct@linux-x5ow.site>
- <20180122161027.GA7097@lst.de>
-Message-ID: <20180122161528.lbiumtejfszlk7sn@linux-x5ow.site>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 22 Jan 2018 10:14:37 -0700
+Subject: Why NVMe MSIx vectors affinity set across NUMA nodes?
+In-Reply-To: <CAKTKpr6V=UPtRRApvQ_TAEuRQB8qqgvDmaaXFjch4wpZUqoAfw@mail.gmail.com>
+References: <CAKTKpr6V=UPtRRApvQ_TAEuRQB8qqgvDmaaXFjch4wpZUqoAfw@mail.gmail.com>
+Message-ID: <20180122171437.GL12043@localhost.localdomain>
 
-On Mon, Jan 22, 2018@05:10:27PM +0100, Christoph Hellwig wrote:
-> Yes.  Although I'd rename trace_nvme_setup_cmd to trace_nvme_setup_nvm_cmd
-> to prepare for new I/O command sets.
+On Mon, Jan 22, 2018@09:55:55AM +0530, Ganapatrao Kulkarni wrote:
+> Hi,
+> 
+> I  have observed that NVMe driver splitting interrupt affinity of MSIx
+> vectors among available NUMA nodes,
+> any specific reason for that?
+> 
+> i see this is happening due to pci flag PCI_IRQ_AFFINITY is set in
+> function nvme_setup_io_queues
+> 
+>    nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
+>                         PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
+> 
+> IMO, having all vectors on same node CPUs improves interrupt latency
+> than distributing among all nodes.
 
-OK then.
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+What affinity maps are you seeing? It's not supposed to share one vector
+across two NUMA nodes, unless you simply don't have enough vectors.
