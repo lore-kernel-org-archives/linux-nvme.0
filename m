@@ -1,10 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 23 Jan 2018 20:15:25 +0100
-Subject: [PATCH v6 0/2] add tracepoints for nvme command submission and
- completion
-In-Reply-To: <20180123143003.28299-1-jthumshirn@suse.de>
-References: <20180123143003.28299-1-jthumshirn@suse.de>
-Message-ID: <20180123191525.GA28131@lst.de>
+Date: Tue, 23 Jan 2018 20:15:52 +0100
+Subject: [PATCH] nvme/pci: Fix queue double allocations
+In-Reply-To: <20180123161619.31372-1-keith.busch@intel.com>
+References: <20180123161619.31372-1-keith.busch@intel.com>
+Message-ID: <20180123191552.GB28131@lst.de>
 
-This version looks fine to me, but doesn't actually apply to the
-nvme-4.16 branch.
+Thanks,
+
+applied to nvme-4.16.
