@@ -1,51 +1,65 @@
-From: tim.oleksii@gmail.com (Oleksii Timofieiev)
-Date: Tue, 23 Jan 2018 22:20:04 +0300
-Subject: [PATCH] nvme-cli: wdc: Removed superfluous output in WDC plugin
-Message-ID: <CAEx0bN_gF7S2OBnnhSyizU0LQA5mJdCMGB1h5C=805dRODA6MQ@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 23 Jan 2018 15:16:32 -0700
+Subject: do_IRQ: 5.33 No irq handler for vector
+In-Reply-To: <06696605-9696-b906-02ca-9ac426722318@oracle.com>
+References: <06696605-9696-b906-02ca-9ac426722318@oracle.com>
+Message-ID: <20180123221632.GB14790@localhost.localdomain>
 
-Hello everyone,
+On Tue, Jan 23, 2018@04:16:48PM +0800, jianchao.wang wrote:
+> Hi all
+> 
+> I got the log following:
+> [  446.908030] do_IRQ: 5.33 No irq handler for vector
+> 
+> When did the following test:
+> loop fio job
+> size=256m
+> rw=randread
+> bs=4k
+> ioengine=libaio
+> iodepth=64
+> direct=1
+> numjobs=16
+> filename=/dev/nvme0n1
+> 
+> and
+>  
+> while true
+> do
+>     echo 1 > /sys/block/nvme0n1/device/reset_controller 
+>     sleep 1
+> done
+> 
+> The 33 is the vector used by nvmeq2~nvme8 (8 cpus on my machine)
+> 
+> When the error log is printed out,  the reset_work is sleeping at
+> nvme_dev_disable
+>   ->nvme_disable_io_queues
+>     -> wait_for_completion_io_timeout
+> 
+> In theory, the irq should have been masked by 
+> nvme_suspend_queue
+>   -> pci_free_irq
+>     -> __free_irq //if no other irq_action
+>       -> irq_shutdown
+>         -> __irq_disable
+>           -> mask_irq
+>             -> pci_msi_mask_irq
+> 
+> Why it is still there ?
 
-Could please someone from WDC review my patch?
-It aims to fix the issue reported
-https://github.com/linux-nvme/nvme-cli/issues/285
+The message most likely indicates there is no struct irq_desc associated
+with the vector on this CPU.
 
-Thank you!
+Even if the device happens to emit an MSI after we call pci_free_irq, we
+haven't disabled MSI at this point, so the struct irq_desc should still
+exist, even if disabled. Now it looks like this calls stack will get to:
 
->From a78fcae735e7b426e75cad81738d534fd1086a3a Mon Sep 17 00:00:00 2001
-From: Oleksii Timofieiev <tim.oleksii@gmail.com>
-Date: Tue, 23 Jan 2018 13:16:22 +0300
-Subject: [PATCH] nvme-cli: wdc: Removed superfluous output in WDC plugin
+  __irq_domain_deactivate_irq
+    x86_vector_deactivate
+      clear_irq_vector
 
-Signed-off-by: Oleksii Timofieiev <tim.oleksii at gmail.com>
----
- wdc-nvme.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/wdc-nvme.c b/wdc-nvme.c
-index 9590a9c..176b3c7 100644
---- a/wdc-nvme.c
-+++ b/wdc-nvme.c
-@@ -1110,8 +1110,6 @@ static void wdc_print_log_normal(struct
-wdc_ssd_perf_stats *perf)
-  (uint64_t)le64_to_cpu(perf->nr_blks));
-  printf("  Average NAND Read Size                         %20f\n",
-  safe_div_fp((le64_to_cpu(perf->nr_blks)), (le64_to_cpu((perf->nr_cmds)))));
-- printf("  Host Write Odd Start Commands                  %20"PRIu64"\n",
-- (uint64_t)le64_to_cpu(perf->hw_os_cmds));
-  printf("  Nand Write Commands                            %20"PRIu64"\n",
-  (uint64_t)le64_to_cpu(perf->nw_cmds));
-  printf("  NAND Write Blocks                              %20"PRIu64"\n",
-@@ -1167,8 +1165,6 @@ static void wdc_print_log_json(struct
-wdc_ssd_perf_stats *perf)
-  (uint64_t)le64_to_cpu(perf->nr_blks));
-  json_object_add_value_int(root, "Average NAND Read Size",
-  safe_div_fp((le64_to_cpu(perf->nr_blks)), (le64_to_cpu((perf->nr_cmds)))));
-- json_object_add_value_int(root, "Host Write Odd Start Commands",
-- (uint64_t)le64_to_cpu(perf->hw_os_cmds));
-  json_object_add_value_int(root, "Nand Write Commands",
-  (uint64_t)le64_to_cpu(perf->nw_cmds));
-  json_object_add_value_int(root, "NAND Write Blocks",
-
-
-Best regards,
-Oleksii
+Which sets the vectors desc to VECTOR_UNUSED, or NULL. Maybe we should
+disable the controller before freeing the irqs. We free the irq's first
+because we were tying that to mean a quiesced queue, but that was before
+we had a way to quiesce blk-mq.
