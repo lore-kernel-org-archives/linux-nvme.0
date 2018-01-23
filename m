@@ -1,20 +1,9 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 23 Jan 2018 08:31:50 -0500
-Subject: [PATCH v5 1/2] nvme: add tracepoint for nvme_setup_cmd
-In-Reply-To: <20180123124616.GA20827@lst.de> (Christoph Hellwig's message of
- "Tue, 23 Jan 2018 13:46:16 +0100")
-References: <20180123105641.24930-1-jthumshirn@suse.de>
- <20180123105641.24930-2-jthumshirn@suse.de>
- <20180123124616.GA20827@lst.de>
-Message-ID: <yq1vafshfax.fsf@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 23 Jan 2018 15:33:34 +0200
+Subject: [PATCH RESENT] nvme-pci: introduce RECONNECTING state to mark
+ initializing procedure
+In-Reply-To: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <52ea2921-1cd6-7473-3a67-05a0eb2c0127@grimberg.me>
 
-
-Christoph,
-
-> Seems like this is still missing the qid in the tracepoint, as it only
-> got added to the completion side.
-
-Yup, noticed the same thing.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+This looks fine to me, but we need Keith to ack on this.
