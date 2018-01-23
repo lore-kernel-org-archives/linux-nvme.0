@@ -1,37 +1,82 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 23 Jan 2018 15:14:52 +0200
-Subject: [PATCH 3/5] nvme/pci: End stopped queue requests directly
-In-Reply-To: <20180122215630.13697-3-keith.busch@intel.com>
-References: <20180122215630.13697-1-keith.busch@intel.com>
- <20180122215630.13697-3-keith.busch@intel.com>
-Message-ID: <dcdebb05-2e3d-2b47-a6db-ab298747cfeb@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 23 Jan 2018 15:30:03 +0100
+Subject: [PATCH v6 2/2] nvme: add tracepoint for nvme_complete_rq
+In-Reply-To: <20180123143003.28299-1-jthumshirn@suse.de>
+References: <20180123143003.28299-1-jthumshirn@suse.de>
+Message-ID: <20180123143003.28299-3-jthumshirn@suse.de>
 
+Add a tracepoint in nvme_complete_rq() for completions of NVMe commands. An
+expmale output of the trace-point is as follows:
 
-> +static void nvme_end_stopped_queue_request(struct request *req, void *data,
-> +				   bool reserved)
+<idle>-0     [001] d.h.     3.505266: nvme_complete_rq: cmdid=989, qid=1, res=0, retries=0, flags=0x0, status=0
 
-nvme_pci_end_stopped_queue_request
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-> +{
-> +	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> +	struct nvme_queue *nvmeq = iod->nvmeq;
-> +
-> +	if (nvmeq->cq_vector != -1)
-> +		return;
-> +	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-> +			    "Ending I/O %d QID:%d", req->tag, nvmeq->qid);
-> +	blk_mq_end_request(req, BLK_STS_IOERR);
-> +}
-> +
->   static void nvme_reset_work(struct work_struct *work)
->   {
->   	struct nvme_dev *dev =
-> @@ -2344,6 +2357,8 @@ static void nvme_reset_work(struct work_struct *work)
->   		nvme_remove_namespaces(&dev->ctrl);
->   		new_state = NVME_CTRL_ADMIN_ONLY;
->   	} else {
-> +		nvme_set_iter(&dev->ctrl, dev->ctrl.tagset,
-> +			      nvme_end_stopped_queue_request);
+---
+Changes to v4:
+* Print QID for completions (Christoph)
 
-It would have been good if we could reuse that in other transports
-where we maintain state flags (NVME_*_Q_LIVE).
+Changes to v2:
+* Pass the whole struct request to the tracepoint
+* Removed spaces after parenthesis (Christoph)
+---
+ drivers/nvme/host/core.c  |  2 ++
+ drivers/nvme/host/trace.h | 26 ++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 29704422ffb7..e81d940c74ac 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -193,6 +193,8 @@ static inline bool nvme_req_needs_retry(struct request *req)
+ 
+ void nvme_complete_rq(struct request *req)
+ {
++	trace_nvme_complete_rq(req);
++
+ 	if (unlikely(nvme_req(req)->status && nvme_req_needs_retry(req))) {
+ 		if (nvme_req_needs_failover(req)) {
+ 			nvme_failover_req(req);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index f17dbfbead5a..afd87235311b 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -130,6 +130,32 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
+ );
+ 
++TRACE_EVENT(nvme_complete_rq,
++	    TP_PROTO(struct request *req),
++	    TP_ARGS(req),
++	    TP_STRUCT__entry(
++		    __field(int, qid)
++		    __field(int, cid)
++		    __field(__le64, result)
++		    __field(u8, retries)
++		    __field(u8, flags)
++		    __field(u16, status)
++	    ),
++	    TP_fast_assign(
++		    __entry->qid = req->q->id;
++		    __entry->cid = req->tag;
++		    __entry->result = nvme_req(req)->result.u64;
++		    __entry->retries = nvme_req(req)->retries;
++		    __entry->flags = nvme_req(req)->flags;
++		    __entry->status = nvme_req(req)->status;
++	    ),
++	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __entry->cid, __entry->qid,
++		      le64_to_cpu(__entry->result),
++		      __entry->retries, __entry->flags, __entry->status)
++
++);
++
+ #endif /* _TRACE_NVME_H */
+ 
+ #undef TRACE_INCLUDE_PATH
+-- 
+2.12.3
