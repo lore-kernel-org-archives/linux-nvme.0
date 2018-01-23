@@ -1,10 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 23 Jan 2018 13:46:16 +0100
-Subject: [PATCH v5 1/2] nvme: add tracepoint for nvme_setup_cmd
-In-Reply-To: <20180123105641.24930-2-jthumshirn@suse.de>
-References: <20180123105641.24930-1-jthumshirn@suse.de>
- <20180123105641.24930-2-jthumshirn@suse.de>
-Message-ID: <20180123124616.GA20827@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 23 Jan 2018 15:02:27 +0200
+Subject: [PATCH 2/5] nvme: Ending failed unstarted requests
+In-Reply-To: <7969da07-a8f5-2653-614e-f930f1d32f16@oracle.com>
+References: <20180122215630.13697-1-keith.busch@intel.com>
+ <20180122215630.13697-2-keith.busch@intel.com>
+ <7969da07-a8f5-2653-614e-f930f1d32f16@oracle.com>
+Message-ID: <e414d8a6-119c-8ebd-115c-96189defa323@grimberg.me>
 
-Seems like this is still missing the qid in the tracepoint, as it only
-got added to the completion side.
+
+>> +static void nvme_end_unstarted_request(struct request *req, void *data,
+>> +				       bool reserved)
+>> +{
+>> +	if (blk_mq_request_started(req))
+>> +		return;
+>> +
+>> +	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+>> +				"Ending I/O %d", req->tag);
+>> +	blk_mq_end_request(req, BLK_STS_IOERR);
+>> +}
+>> +
+> 
+> This unstarted requests have not been dequeued from the blk-mq queue.
+> We cannot end them directly.
+
+I think we cannot complete them. I think its fine to end them.
