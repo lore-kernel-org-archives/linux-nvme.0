@@ -1,118 +1,91 @@
-From: ville.syrjala@linux.intel.com (Ville =?iso-8859-1?Q?Syrj=E4l=E4?=)
-Date: Wed, 24 Jan 2018 15:35:33 +0200
-Subject: [Intel-gfx] REGRESSION in c5552fde102f ("nvme: Enable autonomous
- power state transitions")
-In-Reply-To: <87shaveb5b.fsf@intel.com>
-References: <87shaveb5b.fsf@intel.com>
-Message-ID: <20180124133533.GQ5453@intel.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 24 Jan 2018 16:01:01 +0100
+Subject: [RFD] passthrough ioctl interface considered harmful?
+Message-ID: <20180124150101.rxalj4x44bmwtaba@linux-x5ow.site>
 
-On Wed, Jan 24, 2018@01:42:08PM +0200, Jani Nikula wrote:
-> 
-> Hi Andy, all -
-> 
-> So this is an odd one.
-> 
-> I'm getting display FIFO underruns in a very specific setting: Laptop
-> display switched off, and an external display connected. Other
-> combinations work fine.
-> 
-> I've bisected this to c5552fde102f ("nvme: Enable autonomous power state
-> transitions"), and, being baffled by the result, carefully checked
-> this. There are no problems when running c5552fde102f^, with
-> nvme_core.default_ps_max_latency_us=0, or after 'echo 0 >
-> pm_qos_latency_tolerance_us'. With the last one, restoring the original
-> value of 100000 brings the underruns back.
-> 
-> I have no idea what the root cause mechanism here is, but the bisect is
-> correct. Perhaps something to do with timing. I'd be happy to provide
-> further details.
-> 
-> I see that you have quirked one Samsung device. Incidentally, this
-> Lenovo Yoga 910 (Kabylake, SunrisePoint LP PCH) also has a Samsung NVMe
-> device, just a different one. Details below. I don't know what the
-> failure mode in the quirked one is, so I don't know if this could be the
-> same issue.
+Hey @all,
 
-My first gut feeling would be that by allowing the nvme to go to sleep
-we're gettting into some deeper power saving state, which then causes
-display underruns. How does the package c-state residency look
-before/after the commit?
+Inspired by the discussion at [1] I've distilled a small test-case [1] which
+deletes QID 1 submission and completions queues. When running this while I/O
+is in-flight we obviously get timeouts and thus force controller resets.
 
-I might be wrong too of course. IIRC there were plenty of display
-flicker issues on SKL at least that were magically fixed by unknown
-magic in BIOS updates.
+For some commands commands (nvme_admin_format_nvm, nvme_admin_sanitize_nvm) we
+do already check whether it is a good idea or not and at least warn the user
+about the possible side effects.
 
-> 
-> BR,
-> Jani.
-> 
-> 
-> $ lspci -vvnn -s 02:00.0
-> 02:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co Ltd Device [144d:a804] (prog-if 02 [NVM Express])
-> 	Subsystem: Samsung Electronics Co Ltd Device [144d:a801]
-> 	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
-> 	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-> 	Latency: 0, Cache Line Size: 64 bytes
-> 	Interrupt: pin A routed to IRQ 16
-> 	NUMA node: 0
-> 	Region 0: Memory at a1200000 (64-bit, non-prefetchable) [size=16K]
-> 	Capabilities: [40] Power Management version 3
-> 		Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
-> 		Status: D0 NoSoftRst+ PME-Enable- DSel=0 DScale=0 PME-
-> 	Capabilities: [50] MSI: Enable- Count=1/32 Maskable- 64bit+
-> 		Address: 0000000000000000  Data: 0000
-> 	Capabilities: [70] Express (v2) Endpoint, MSI 00
-> 		DevCap:	MaxPayload 256 bytes, PhantFunc 0, Latency L0s unlimited, L1 unlimited
-> 			ExtTag- AttnBtn- AttnInd- PwrInd- RBE+ FLReset+ SlotPowerLimit 25.000W
-> 		DevCtl:	Report errors: Correctable+ Non-Fatal+ Fatal+ Unsupported+
-> 			RlxdOrd+ ExtTag- PhantFunc- AuxPwr- NoSnoop+ FLReset-
-> 			MaxPayload 256 bytes, MaxReadReq 512 bytes
-> 		DevSta:	CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr+ TransPend-
-> 		LnkCap:	Port #0, Speed 8GT/s, Width x4, ASPM L1, Exit Latency L0s unlimited, L1 <64us
-> 			ClockPM+ Surprise- LLActRep- BwNot- ASPMOptComp+
-> 		LnkCtl:	ASPM L1 Enabled; RCB 64 bytes Disabled- CommClk+
-> 			ExtSynch- ClockPM+ AutWidDis- BWInt- AutBWInt-
-> 		LnkSta:	Speed 8GT/s, Width x4, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
-> 		DevCap2: Completion Timeout: Range ABCD, TimeoutDis+, LTR+, OBFF Not Supported
-> 		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR+, OBFF Disabled
-> 		LnkCtl2: Target Link Speed: 8GT/s, EnterCompliance- SpeedDis-
-> 			 Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
-> 			 Compliance De-emphasis: -6dB
-> 		LnkSta2: Current De-emphasis Level: -6dB, EqualizationComplete+, EqualizationPhase1+
-> 			 EqualizationPhase2+, EqualizationPhase3+, LinkEqualizationRequest-
-> 	Capabilities: [b0] MSI-X: Enable+ Count=33 Masked-
-> 		Vector table: BAR=0 offset=00003000
-> 		PBA: BAR=0 offset=00002000
-> 	Capabilities: [100 v2] Advanced Error Reporting
-> 		UESta:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-> 		UEMsk:	DLP- SDES- TLP- FCP- CmpltTO- CmpltAbrt- UnxCmplt- RxOF- MalfTLP- ECRC- UnsupReq- ACSViol-
-> 		UESvrt:	DLP+ SDES+ TLP- FCP+ CmpltTO- CmpltAbrt- UnxCmplt- RxOF+ MalfTLP+ ECRC- UnsupReq- ACSViol-
-> 		CESta:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- NonFatalErr-
-> 		CEMsk:	RxErr- BadTLP- BadDLLP- Rollover- Timeout- NonFatalErr+
-> 		AERCap:	First Error Pointer: 00, GenCap+ CGenEn- ChkCap+ ChkEn-
-> 	Capabilities: [148 v1] Device Serial Number 00-00-00-00-00-00-00-00
-> 	Capabilities: [158 v1] Power Budgeting <?>
-> 	Capabilities: [168 v1] #19
-> 	Capabilities: [188 v1] Latency Tolerance Reporting
-> 		Max snoop latency: 3145728ns
-> 		Max no snoop latency: 3145728ns
-> 	Capabilities: [190 v1] L1 PM Substates
-> 		L1SubCap: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+ L1_PM_Substates+
-> 			  PortCommonModeRestoreTime=10us PortTPowerOnTime=10us
-> 		L1SubCtl1: PCI-PM_L1.2+ PCI-PM_L1.1+ ASPM_L1.2+ ASPM_L1.1+
-> 			   T_CommonMode=0us LTR1.2_Threshold=163840ns
-> 		L1SubCtl2: T_PwrOn=44us
-> 	Kernel driver in use: nvme
-> 	Kernel modules: nvme
-> 
-> 
-> -- 
-> Jani Nikula, Intel Open Source Technology Center
-> _______________________________________________
-> Intel-gfx mailing list
-> Intel-gfx at lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+Question here is, should we extend the list and/or block specific commands (at
+least while I/O is running)?
 
+Thanks,
+	Johannes
+
+[1] http://lists.infradead.org/pipermail/linux-nvme/2018-January/015181.html
+[2]
+#include <unistd.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stropts.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <linux/nvme.h>
+
+struct nvme_passthru_cmd {
+        __u8    opcode;
+        __u8    flags;
+        __u16   rsvd1;
+        __u32   nsid;
+        __u32   cdw2;
+        __u32   cdw3;
+        __u64   metadata;
+        __u64   addr;
+        __u32   metadata_len;
+        __u32   data_len;
+        __u32   cdw10;
+        __u32   cdw11;
+        __u32   cdw12;
+        __u32   cdw13;
+        __u32   cdw14;
+        __u32   cdw15;
+        __u32   timeout_ms;
+        __u32   result;
+};
+#define nvme_admin_cmd nvme_passthru_cmd
+#define NVME_IOCTL_ADMIN_CMD    _IOWR('N', 0x41, struct nvme_admin_cmd)
+
+
+int main(void)
+{
+	struct nvme_delete_queue cmd = { 0 };
+	int fd;
+	int ret;
+
+	fd = open("/dev/nvme0n1", O_RDWR);
+	if (fd < 0) {
+		perror("open");
+		return 1;
+	}
+
+	cmd.qid = 1;
+
+	cmd.opcode = nvme_admin_delete_cq;
+	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
+	if (ret < 0)
+		perror("ioctl");
+
+	cmd.opcode = nvme_admin_delete_sq;
+	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
+	if (ret < 0)
+		perror("ioctl");
+
+	close(fd);
+
+	return 0;
+}
 -- 
-Ville Syrj?l?
-Intel OTC
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
