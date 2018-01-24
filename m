@@ -1,91 +1,45 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 24 Jan 2018 16:01:01 +0100
-Subject: [RFD] passthrough ioctl interface considered harmful?
-Message-ID: <20180124150101.rxalj4x44bmwtaba@linux-x5ow.site>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 24 Jan 2018 17:31:45 +0200
+Subject: [PATCH v2 1/1] nvmet: fix PSDT field check in command format
+Message-ID: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
 
-Hey @all,
+PSDT field section according to NVM_Express-1.3:
+"This field specifies whether PRPs or SGLs are used for any data
+transfer associated with the command. PRPs shall be used for all
+Admin commands for NVMe over PCIe. SGLs shall be used for all Admin
+and I/O commands for NVMe over Fabrics. This field shall be set to
+01b for NVMe over Fabrics 1.0 implementations.
 
-Inspired by the discussion at [1] I've distilled a small test-case [1] which
-deletes QID 1 submission and completions queues. When running this while I/O
-is in-flight we obviously get timeouts and thus force controller resets.
+Suggested-by: Idan Burstein <idanb at mellanox.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
 
-For some commands commands (nvme_admin_format_nvm, nvme_admin_sanitize_nvm) we
-do already check whether it is a good idea or not and at least warn the user
-about the possible side effects.
+Changes from v1:
+ - use tabs for comment indentation
 
-Question here is, should we extend the list and/or block specific commands (at
-least while I/O is running)?
+---
+ drivers/nvme/target/core.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Thanks,
-	Johannes
-
-[1] http://lists.infradead.org/pipermail/linux-nvme/2018-January/015181.html
-[2]
-#include <unistd.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stropts.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <linux/nvme.h>
-
-struct nvme_passthru_cmd {
-        __u8    opcode;
-        __u8    flags;
-        __u16   rsvd1;
-        __u32   nsid;
-        __u32   cdw2;
-        __u32   cdw3;
-        __u64   metadata;
-        __u64   addr;
-        __u32   metadata_len;
-        __u32   data_len;
-        __u32   cdw10;
-        __u32   cdw11;
-        __u32   cdw12;
-        __u32   cdw13;
-        __u32   cdw14;
-        __u32   cdw15;
-        __u32   timeout_ms;
-        __u32   result;
-};
-#define nvme_admin_cmd nvme_passthru_cmd
-#define NVME_IOCTL_ADMIN_CMD    _IOWR('N', 0x41, struct nvme_admin_cmd)
-
-
-int main(void)
-{
-	struct nvme_delete_queue cmd = { 0 };
-	int fd;
-	int ret;
-
-	fd = open("/dev/nvme0n1", O_RDWR);
-	if (fd < 0) {
-		perror("open");
-		return 1;
-	}
-
-	cmd.qid = 1;
-
-	cmd.opcode = nvme_admin_delete_cq;
-	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
-	if (ret < 0)
-		perror("ioctl");
-
-	cmd.opcode = nvme_admin_delete_sq;
-	ret = ioctl(fd, NVME_IOCTL_ADMIN_CMD, &cmd);
-	if (ret < 0)
-		perror("ioctl");
-
-	close(fd);
-
-	return 0;
-}
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 0bd7371..a78029e 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -520,9 +520,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 		goto fail;
+ 	}
+ 
+-	/* either variant of SGLs is fine, as we don't support metadata */
+-	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
+-		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG)) {
++	/*
++	 * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
++	 * contains an address of a single contiguous physical buffer that is
++	 * byte aligned.
++	 */
++	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
+ 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+ 		goto fail;
+ 	}
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
