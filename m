@@ -1,73 +1,51 @@
-From: mike.kravetz@oracle.com (Mike Kravetz)
-Date: Wed, 24 Jan 2018 10:23:20 -0800
-Subject: [LSF/MM TOPIC] few MM topics
-In-Reply-To: <20180124092649.GC21134@dhcp22.suse.cz>
-References: <20180124092649.GC21134@dhcp22.suse.cz>
-Message-ID: <bee1d564-b4b8-ed0c-edfa-f6df6a24fe21@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 24 Jan 2018 20:42:18 +0200
+Subject: [LSF/MM TOPIC] NVMe over Fabrics auto-discovery in Linux
+In-Reply-To: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
+References: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
+Message-ID: <64ee446d-118d-364a-e9bb-bcbf80b8135b@grimberg.me>
 
-On 01/24/2018 01:26 AM, Michal Hocko wrote:
-> Hi,
-> I would like to propose the following few topics for further discussion
-> at LSF/MM this year. MM track would be the most appropriate one but
-> there is some overlap with FS and NVDIM
-> - memcg OOM behavior has changed around 3.12 as a result of OOM
->   deadlocks when the memcg OOM killer was triggered from the charge
->   path. We simply fail the charge and unroll to a safe place to
->   trigger the OOM killer. This is only done from the #PF path and any
->   g-u-p or kmem accounted allocation can just fail in that case leading
->   to unexpected ENOMEM to userspace. I believe we can return to the
->   original OOM handling now that we have the oom reaper and guranteed
->   forward progress of the OOM path.
->   Discussion http://lkml.kernel.org/r/20171010142434.bpiqmsbb7gttrlcb at dhcp22.suse.cz
-> - It seems there is some demand for large (> MAX_ORDER) allocations.
->   We have that alloc_contig_range which was originally used for CMA and
->   later (ab)used for Giga hugetlb pages. The API is less than optimal
->   and we should probably think about how to make it more generic.
+Hi Johannes,
 
-This is also of interest to me.  I actually started some efforts in this
-area.  The idea (as you mention above) would be to provide a more usable
-API for allocation of contiguous pages/ranges.  And, gigantic huge pages
-would be the first consumer.
-
-alloc_contig_range currently has some issues with being used in a 'more
-generic' way.  A comment describing the routine says "it's the caller's
-responsibility to guarantee that we are the only thread that changes
-migrate type of pageblocks the pages fall in.".  This is true, and I think
-it also applies to users of the underlying routines such as
-start_isolate_page_range.  The CMA code has a mechanism that prevents two
-threads from operating on the same range concurrently.  The other users
-(gigantic page allocation and memory offline) happen infrequently enough
-that we are unlikely to have a conflict.  But, opening this up to more
-generic use will require at least a more generic synchronization mechanism.
-
-> - we have grown a new get_user_pages_longterm. It is an ugly API and
->   I think we really need to have a decent page pinning one with the
->   accounting and limiting.
-> - memory hotplug has seen quite some surgery last year and it seems that
->   DAX/nvdim and HMM have some interest in using it as well. I am mostly
->   interested in struct page self hosting which is already done for NVDIM
->   AFAIU. It would be great if we can unify that for the regular mem
->   hotplug as well.
-> - I would be very interested to talk about memory softofflining
->   (HWPoison) with somebody familiar with this area because I find the
->   development in that area as more or less random without any design in
->   mind. The resulting code is chaotic and stuffed to "random" places.
-
-Me too.  I have looked at some code in this area for huge pages.  At least
-for huge pages there is more work to do as indicated by this comment:
-/*
- * Huge pages. Needs work.
- * Issues:
- * - Error on hugepage is contained in hugepage unit (not in raw page unit.)
- *   To narrow down kill region to one page, we need to break up pmd.
- */
-
--- 
-Mike Kravetz
-
-> - I would also love to talk to some FS people and convince them to move
->   away from GFP_NOFS in favor of the new scope API. I know this just
->   means to send patches but the existing code is quite complex and it
->   really requires somebody familiar with the specific FS to do that
->   work.
+> In NVMe over Fabrics we currently perform target discovery by running either
+> one of 'nvme discover' or 'nvme connect-all' (with or without the use of an
+> appropriate /etc/nvme/discovery.conf).
 > 
+> This is well suited for the RDMA transport, which has no idea of the
+> underlying fabric and it's connections. To automatically connect to an RDMA
+> target Sagi proposed a systemd one-shot service in [1].
+> 
+> The Fibre Channel transport on the other hand does already know it's mapping
+> of rports to lports and thus could automatically connect to the target (with a
+> little help from udev) as shown in [2].
+> 
+> Unfortunately the method for FC is not possible with RDMA and the currently
+> used 'nvme discover/connect/connect-all' method is extremely cumbersome with
+> Fibre Channel, especially as no special setup was/is needed for SCSI devices
+> over Fibre Channel and administrators thus expect it for NVMe as well.
+> 
+> Other downside of the "RDMA version" are 1) once the network topology and thus
+> /etc/nvme/discovery.conf changes one has to rebuild the initrd if nvme is to
+> be started from the initrd and 2) if we use the one-shot systemd service there
+> is no way to automatically re-try the discovery/connect.
+> 
+> I'm hoping we have developers from the RDMA and Fibre Channel transports, as
+> well as seasoned Storage developers with a SCSI Fibre Channel and RDMA
+> knowledge and Distribution Maintainers around to discuss a way to address this
+> problem is a user-friendly way.
+
+Discovery enhancements is a subject the NVMe TWG will be working on in
+the near future, and "discovery of the  the discovery service" is indeed
+a sub-topic IIRC. I'm not sure LSF would be the appropriate forum for
+this.
+
+What we do need to have, is a way to support existing devices. I think
+its acceptable that FC and Ethernet based transports diverge in their
+implementations for this.
+
+For Ethernet based transports we could follow the open-iscsi model which
+has discoveryd service which periodically polls predefined addresses. As
+for updating initramfs, maybe we can live with this limitation for the
+time being?
+
+FC can keep doing its own thing...
