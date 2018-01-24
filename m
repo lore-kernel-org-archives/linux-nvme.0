@@ -1,45 +1,25 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 24 Jan 2018 17:31:45 +0200
-Subject: [PATCH v2 1/1] nvmet: fix PSDT field check in command format
-Message-ID: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 24 Jan 2018 08:48:42 -0700
+Subject: Why NVMe MSIx vectors affinity set across NUMA nodes?
+In-Reply-To: <CAKTKpr45pNcEtruqemwEm0uoDHizCJNNosiNbavz9+6LTttrVg@mail.gmail.com>
+References: <CAKTKpr6V=UPtRRApvQ_TAEuRQB8qqgvDmaaXFjch4wpZUqoAfw@mail.gmail.com>
+ <20180122171437.GL12043@localhost.localdomain>
+ <CAKTKpr59h-PXz60BNkx4_80gHyeFawcJW17dt9Y5VRrmHRsSQA@mail.gmail.com>
+ <20180122173239.GM12043@localhost.localdomain>
+ <CAKTKpr4pbpKoojLVb8jCBFLOY67xbV7Q2j95EaOjEOiGMPhFCA@mail.gmail.com>
+ <20180122180515.GN12043@localhost.localdomain>
+ <CAKTKpr68UnMAv2ePu7P3Gv8--av7hei16cygCnVcCdABfNb51Q@mail.gmail.com>
+ <20180122182017.GO12043@localhost.localdomain>
+ <dda171e0-6c24-ebf7-e6ad-3958cf3de9b9@grimberg.me>
+ <CAKTKpr45pNcEtruqemwEm0uoDHizCJNNosiNbavz9+6LTttrVg@mail.gmail.com>
+Message-ID: <20180124154841.GC14790@localhost.localdomain>
 
-PSDT field section according to NVM_Express-1.3:
-"This field specifies whether PRPs or SGLs are used for any data
-transfer associated with the command. PRPs shall be used for all
-Admin commands for NVMe over PCIe. SGLs shall be used for all Admin
-and I/O commands for NVMe over Fabrics. This field shall be set to
-01b for NVMe over Fabrics 1.0 implementations.
+On Wed, Jan 24, 2018@07:47:44AM +0530, Ganapatrao Kulkarni wrote:
+> application uses libnuma to align to numa locality.
+> here the driver is breaking the affinity.
+> certainly having affinity with remote node cpu will add latency to
+> interrupt response time.
+> here it is for some NVMe queues.
 
-Suggested-by: Idan Burstein <idanb at mellanox.com>
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
-
-Changes from v1:
- - use tabs for comment indentation
-
----
- drivers/nvme/target/core.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 0bd7371..a78029e 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -520,9 +520,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		goto fail;
- 	}
- 
--	/* either variant of SGLs is fine, as we don't support metadata */
--	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
--		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG)) {
-+	/*
-+	 * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
-+	 * contains an address of a single contiguous physical buffer that is
-+	 * byte aligned.
-+	 */
-+	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto fail;
- 	}
--- 
-1.8.3.1
+I bet you can't come up with an IRQ CPU affinity map that performs better
+than the current setup.
