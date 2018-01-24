@@ -1,51 +1,57 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Jan 2018 20:42:18 +0200
+Date: Wed, 24 Jan 2018 20:46:43 +0200
 Subject: [LSF/MM TOPIC] NVMe over Fabrics auto-discovery in Linux
-In-Reply-To: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
+In-Reply-To: <1e47cf3c-b7b7-ac91-f9e4-7588473b7aca@broadcom.com>
 References: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
-Message-ID: <64ee446d-118d-364a-e9bb-bcbf80b8135b@grimberg.me>
+ <464f1939-e3e6-95bc-f3d4-fcb83dfbf075@wdc.com>
+ <860c9d4a-af17-e0d3-5ef1-3224821cda86@suse.de>
+ <1e47cf3c-b7b7-ac91-f9e4-7588473b7aca@broadcom.com>
+Message-ID: <77fbf020-38df-a88d-6bbb-0328d946cf8b@grimberg.me>
 
-Hi Johannes,
 
-> In NVMe over Fabrics we currently perform target discovery by running either
-> one of 'nvme discover' or 'nvme connect-all' (with or without the use of an
-> appropriate /etc/nvme/discovery.conf).
+>> Partially beside the point.
+>>
+>> The problem currently is that FC-NVMe is the only transport which
+>> implements dev_loss_tmo, causing connections to be dropped completely
+>> after a certain time.
+>> After that the user has to manually re-establish the connection via
+>> nvme-cli, or one has to create some udev/systemd interaction (cf the
+>> thread "nvme/fc: add 'discovery' sysfs attribute to fc transport
+>> devices" and others).
+>>
+>> The other transports just keep the reconnection loop running, and the
+>> user has to manually _disconnect_ here.
+>>
+>> So we have a difference in user experience, which should be reconciled.
 > 
-> This is well suited for the RDMA transport, which has no idea of the
-> underlying fabric and it's connections. To automatically connect to an RDMA
-> target Sagi proposed a systemd one-shot service in [1].
-> 
-> The Fibre Channel transport on the other hand does already know it's mapping
-> of rports to lports and thus could automatically connect to the target (with a
-> little help from udev) as shown in [2].
-> 
-> Unfortunately the method for FC is not possible with RDMA and the currently
-> used 'nvme discover/connect/connect-all' method is extremely cumbersome with
-> Fibre Channel, especially as no special setup was/is needed for SCSI devices
-> over Fibre Channel and administrators thus expect it for NVMe as well.
-> 
-> Other downside of the "RDMA version" are 1) once the network topology and thus
-> /etc/nvme/discovery.conf changes one has to rebuild the initrd if nvme is to
-> be started from the initrd and 2) if we use the one-shot systemd service there
-> is no way to automatically re-try the discovery/connect.
-> 
-> I'm hoping we have developers from the RDMA and Fibre Channel transports, as
-> well as seasoned Storage developers with a SCSI Fibre Channel and RDMA
-> knowledge and Distribution Maintainers around to discuss a way to address this
-> problem is a user-friendly way.
+> This is incorrect. Rdma (and FC too) have the reconnect_delay timer that 
+> caps, on a per-controller basis, how long the reconnection loop will run 
+> before the controller is deleted.
 
-Discovery enhancements is a subject the NVMe TWG will be working on in
-the near future, and "discovery of the  the discovery service" is indeed
-a sub-topic IIRC. I'm not sure LSF would be the appropriate forum for
-this.
+echo that...
 
-What we do need to have, is a way to support existing devices. I think
-its acceptable that FC and Ethernet based transports diverge in their
-implementations for this.
+> As stated by Johannes, the real difference in behavior is establishing 
+> the initial connectivity as well as those auto-reconnect behaviors where 
+> connectivity was lost and later regained.
 
-For Ethernet based transports we could follow the open-iscsi model which
-has discoveryd service which periodically polls predefined addresses. As
-for updating initramfs, maybe we can live with this limitation for the
-time being?
+I agree that this is a problem for IP based transports. So until we
+have discovery enhancements we probably need to poll predefined
+discovery subsystems periodically and cross check with what we are
+connected to like iscsi discoveryd..
 
-FC can keep doing its own thing...
+>> Also, a user-space based rediscovery/reconnect will get tricky during
+>> path failover, as one might end up with all connections down and no way
+>> of ever being _able_ to call nvme-cli as the root fs in inaccessible.
+>> But that might be another topic.
+
+Again, polling discovery subsystems every X time will overcome that...
+
+> I don't disagree with this, and do believe, that to support low-memory 
+> issues during failover and reconnectivity (as we've seen in the past), 
+> as well as to make booting easier (stop futzing with ramdisk), it will 
+> likely require some amount of nvme discovery engine within the kernel. 
+> It's difficult as without things like SSDP or LSP, rdma and tcp can't 
+> really do this without admin help. But as you say - this can be a later 
+> topic.
+
+I hope fabrics 1.1 discovery enhancements will tackle all that...
