@@ -1,21 +1,44 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 24 Jan 2018 08:59:35 -0700
-Subject: [RFD] passthrough ioctl interface considered harmful?
-In-Reply-To: <20180124150101.rxalj4x44bmwtaba@linux-x5ow.site>
-References: <20180124150101.rxalj4x44bmwtaba@linux-x5ow.site>
-Message-ID: <20180124155935.GD14790@localhost.localdomain>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 24 Jan 2018 17:57:54 +0200
+Subject: [PATCH 1/1] nvme-rdma: remove redundant boolean for inline_data
+In-Reply-To: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+References: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+Message-ID: <e5486aa5-d9e6-c1f4-3042-daf022cee270@mellanox.com>
 
-On Wed, Jan 24, 2018@04:01:01PM +0100, Johannes Thumshirn wrote:
-> Inspired by the discussion at [1] I've distilled a small test-case [1] which
-> deletes QID 1 submission and completions queues. When running this while I/O
-> is in-flight we obviously get timeouts and thus force controller resets.
-> 
-> For some commands commands (nvme_admin_format_nvm, nvme_admin_sanitize_nvm) we
-> do already check whether it is a good idea or not and at least warn the user
-> about the possible side effects.
-> 
-> Question here is, should we extend the list and/or block specific commands (at
-> least while I/O is running)?
+ping :)
 
-I like to think if you misuse the interface, you get to keep both
-pieces. With great power comes great responsibility.
+On 12/6/2017 6:21 PM, Max Gurtovoy wrote:
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>   drivers/nvme/host/rdma.c | 3 ---
+>   1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 37af565..225f7f1 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -66,7 +66,6 @@ struct nvme_rdma_request {
+>   	struct ib_sge		sge[1 + NVME_RDMA_MAX_INLINE_SEGMENTS];
+>   	u32			num_sge;
+>   	int			nents;
+> -	bool			inline_data;
+>   	struct ib_reg_wr	reg_wr;
+>   	struct ib_cqe		reg_cqe;
+>   	struct nvme_rdma_queue  *queue;
+> @@ -1086,7 +1085,6 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+>   	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
+>   	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+>   
+> -	req->inline_data = true;
+>   	req->num_sge++;
+>   	return 0;
+>   }
+> @@ -1158,7 +1156,6 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+>   	int count, ret;
+>   
+>   	req->num_sge = 1;
+> -	req->inline_data = false;
+>   	refcount_set(&req->ref, 2); /* send and recv completions */
+>   
+>   	c->common.flags |= NVME_CMD_SGL_METABUF;
+> 
