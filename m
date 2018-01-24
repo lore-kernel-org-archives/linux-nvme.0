@@ -1,97 +1,74 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 24 Jan 2018 09:26:28 +0100
-Subject: [LSF/MM TOPIC] NVMe over Fabrics auto-discovery in Linux
-In-Reply-To: <464f1939-e3e6-95bc-f3d4-fcb83dfbf075@wdc.com>
-References: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
- <464f1939-e3e6-95bc-f3d4-fcb83dfbf075@wdc.com>
-Message-ID: <860c9d4a-af17-e0d3-5ef1-3224821cda86@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 24 Jan 2018 09:28:28 +0100
+Subject: [PATCH v7 2/2] nvme: add tracepoint for nvme_complete_rq
+In-Reply-To: <20180124082828.364-1-jthumshirn@suse.de>
+References: <20180124082828.364-1-jthumshirn@suse.de>
+Message-ID: <20180124082828.364-3-jthumshirn@suse.de>
 
-On 01/23/2018 05:09 PM, Bart Van Assche wrote:
-> 
-> 
-> On 01/23/18 07:11, Johannes Thumshirn wrote:
->> In NVMe over Fabrics we currently perform target discovery by running
->> either
->> one of 'nvme discover' or 'nvme connect-all' (with or without the use
->> of an
->> appropriate /etc/nvme/discovery.conf).
->>
->> This is well suited for the RDMA transport, which has no idea of the
->> underlying fabric and it's connections. To automatically connect to an
->> RDMA
->> target Sagi proposed a systemd one-shot service in [1].
->>
->> The Fibre Channel transport on the other hand does already know it's
->> mapping
->> of rports to lports and thus could automatically connect to the target
->> (with a
->> little help from udev) as shown in [2].
->>
->> Unfortunately the method for FC is not possible with RDMA and the
->> currently
->> used 'nvme discover/connect/connect-all' method is extremely
->> cumbersome with
->> Fibre Channel, especially as no special setup was/is needed for SCSI
->> devices
->> over Fibre Channel and administrators thus expect it for NVMe as well.
->>
->> Other downside of the "RDMA version" are 1) once the network topology
->> and thus
->> /etc/nvme/discovery.conf changes one has to rebuild the initrd if nvme
->> is to
->> be started from the initrd and 2) if we use the one-shot systemd
->> service there
->> is no way to automatically re-try the discovery/connect.
->>
->> I'm hoping we have developers from the RDMA and Fibre Channel
->> transports, as
->> well as seasoned Storage developers with a SCSI Fibre Channel and RDMA
->> knowledge and Distribution Maintainers around to discuss a way to
->> address this
->> problem is a user-friendly way.
->>
->> Byte,
->> ????Johannes
->>
->> [1]
->> http://lists.infradead.org/pipermail/linux-nvme/2017-September/012976.html
->>
->> [2]
->> http://lists.infradead.org/pipermail/linux-nvme/2017-December/014324.html
-> 
-> Hello Johannes,
-> 
-> Can you have a look at the SSDP and SLP protocols and see whether one of
-> these protocols or an alternative is appropriate? See also
-> https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol and
-> https://en.wikipedia.org/wiki/Service_Location_Protocol.
-> 
-Partially beside the point.
+Add a tracepoint in nvme_complete_rq() for completions of NVMe commands. An
+expmale output of the trace-point is as follows:
 
-The problem currently is that FC-NVMe is the only transport which
-implements dev_loss_tmo, causing connections to be dropped completely
-after a certain time.
-After that the user has to manually re-establish the connection via
-nvme-cli, or one has to create some udev/systemd interaction (cf the
-thread "nvme/fc: add 'discovery' sysfs attribute to fc transport
-devices" and others).
+<idle>-0     [001] d.h.     3.505266: nvme_complete_rq: cmdid=989, qid=1, res=0, retries=0, flags=0x0, status=0
 
-The other transports just keep the reconnection loop running, and the
-user has to manually _disconnect_ here.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c  |  2 ++
+ drivers/nvme/host/trace.h | 26 ++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-So we have a difference in user experience, which should be reconciled.
-
-Also, a user-space based rediscovery/reconnect will get tricky during
-path failover, as one might end up with all connections down and no way
-of ever being _able_ to call nvme-cli as the root fs in inaccessible.
-But that might be another topic.
-
-Cheers,
-
-Hannes
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 358dfdc1f6da..7cbd4a260d30 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -220,6 +220,8 @@ void nvme_complete_rq(struct request *req)
+ {
+ 	blk_status_t status = nvme_error_status(req);
+ 
++	trace_nvme_complete_rq(req);
++
+ 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
+ 		if (nvme_req_needs_failover(req, status)) {
+ 			nvme_failover_req(req);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index f17dbfbead5a..afd87235311b 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -130,6 +130,32 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
+ );
+ 
++TRACE_EVENT(nvme_complete_rq,
++	    TP_PROTO(struct request *req),
++	    TP_ARGS(req),
++	    TP_STRUCT__entry(
++		    __field(int, qid)
++		    __field(int, cid)
++		    __field(__le64, result)
++		    __field(u8, retries)
++		    __field(u8, flags)
++		    __field(u16, status)
++	    ),
++	    TP_fast_assign(
++		    __entry->qid = req->q->id;
++		    __entry->cid = req->tag;
++		    __entry->result = nvme_req(req)->result.u64;
++		    __entry->retries = nvme_req(req)->retries;
++		    __entry->flags = nvme_req(req)->flags;
++		    __entry->status = nvme_req(req)->status;
++	    ),
++	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __entry->cid, __entry->qid,
++		      le64_to_cpu(__entry->result),
++		      __entry->retries, __entry->flags, __entry->status)
++
++);
++
+ #endif /* _TRACE_NVME_H */
+ 
+ #undef TRACE_INCLUDE_PATH
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+2.13.6
