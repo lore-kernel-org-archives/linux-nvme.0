@@ -1,7 +1,7 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 24 Jan 2018 14:43:44 -0700
-Subject: [PATCH] nvme/pci: Suspend queues after deleting them
-Message-ID: <20180124214344.17884-1-keith.busch@intel.com>
+Date: Wed, 24 Jan 2018 14:55:12 -0700
+Subject: [PATCVH v2] nvme/pci: Suspend queues after deleting them
+Message-ID: <20180124215512.17976-1-keith.busch@intel.com>
 
 The driver had been abusing the cq_vector state to know if new submissions
 were safe, but that was before we could quiesce blk-mq. If the controller
@@ -13,11 +13,16 @@ This patch will disable the interrupts only after the queues are deleted.
 Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
+v1 -> v2:
+
+  Forgot to subtract 1 from the online queues. It happened to pass the
+  test, but still not correct.
+
  drivers/nvme/host/pci.c | 27 ++++++++-------------------
  1 file changed, 8 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c46c239cc1ff..537cfa34d397 100644
+index c46c239cc1ff..e2342d365d3c 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
 @@ -1324,9 +1324,6 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
@@ -38,7 +43,7 @@ index c46c239cc1ff..537cfa34d397 100644
 +static void nvme_disable_io_queues(struct nvme_dev *dev)
  {
 -	int pass;
-+	int pass, queues = dev->online_queues;
++	int pass, queues = dev->online_queues - 1;
  	unsigned long timeout;
  	u8 opcode = nvme_admin_delete_sq;
  
