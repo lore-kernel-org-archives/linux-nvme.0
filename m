@@ -1,87 +1,59 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 24 Jan 2018 14:55:12 -0700
-Subject: [PATCVH v2] nvme/pci: Suspend queues after deleting them
-Message-ID: <20180124215512.17976-1-keith.busch@intel.com>
+From: pmenzel+linux-nvme@molgen.mpg.de (Paul Menzel)
+Date: Wed, 24 Jan 2018 23:29:12 +0100
+Subject: Report long suspend times of NVMe devices (mostly firmware/device
+ issues)
+In-Reply-To: <20180122213024.GR12043@localhost.localdomain>
+References: <9e398971-762d-bb1a-f798-bf0b18cb5b6b@molgen.mpg.de>
+ <20180122213024.GR12043@localhost.localdomain>
+Message-ID: <fd0eb2c3-56c3-0e81-cfba-1ffa6a872efd@molgen.mpg.de>
 
-The driver had been abusing the cq_vector state to know if new submissions
-were safe, but that was before we could quiesce blk-mq. If the controller
-happens to get an interrupt through while we're suspending those queues,
-'no irq handler' warnings may occur.
+Dear Keith,
 
-This patch will disable the interrupts only after the queues are deleted.
 
-Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1 -> v2:
+Thank you for your reply.
 
-  Forgot to subtract 1 from the online queues. It happened to pass the
-  test, but still not correct.
+Am 22.01.2018 um 22:30 schrieb Keith Busch:
+> On Mon, Jan 22, 2018@10:02:12PM +0100, Paul Menzel wrote:
 
- drivers/nvme/host/pci.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+>> Benchmarking the ACPI S3 suspend and resume times with `sleepgraph.py
+>> -config config/suspend-callgraph.cfg` [1], shows that the NVMe disk SAMSUNG
+>> MZVKW512HMJP-00000 in the TUXEDO Book BU1406 takes between 0.3 and 1.4
+>> seconds, holding up the suspend cycle.
+>>
+>> The time is spent in `nvme_shutdown_ctrl()`.
+>>
+>> ### Linux 4.14.1-041401-generic
+>>
+>>> nvme @ 0000:04:00.0 {nvme} async_device (Total Suspend: 1439.299 ms Total Resume: 19.865 ms)
+>>
+>> ### Linux 4.15-rc9
+>>
+>>> nvme @ 0000:04:00.0 {nvme} async_device (Total Suspend: 362.239 ms Total Resume: 19.897 m
+>> It?d be useful, if the Linux kernel logged such issues visibly to the user,
+>> so that the hardware manufacturer can be contacted to fix the device
+>> (probably the firmware).
+>>
+>> In my opinion anything longer than 200 ms should be reported similar to [2],
+>> and maybe worded like below.
+>>
+>>> NVMe took more than 200 ms to do suspend routine
+>>
+>> What do you think?
+> 
+> The nvme spec guides toward longer times than that. I don't see the
+> point of warning users about things operating within spec.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c46c239cc1ff..e2342d365d3c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1324,9 +1324,6 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
- {
- 	struct nvme_queue *nvmeq = &dev->queues[0];
- 
--	if (nvme_suspend_queue(nvmeq))
--		return;
--
- 	if (shutdown)
- 		nvme_shutdown_ctrl(&dev->ctrl);
- 	else
-@@ -2011,9 +2008,9 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	return 0;
- }
- 
--static void nvme_disable_io_queues(struct nvme_dev *dev, int queues)
-+static void nvme_disable_io_queues(struct nvme_dev *dev)
- {
--	int pass;
-+	int pass, queues = dev->online_queues - 1;
- 	unsigned long timeout;
- 	u8 opcode = nvme_admin_delete_sq;
- 
-@@ -2164,7 +2161,7 @@ static void nvme_pci_disable(struct nvme_dev *dev)
- 
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- {
--	int i, queues;
-+	int i;
- 	bool dead = true;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
-@@ -2199,21 +2196,13 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	}
- 	nvme_stop_queues(&dev->ctrl);
- 
--	queues = dev->online_queues - 1;
--	for (i = dev->ctrl.queue_count - 1; i > 0; i--)
--		nvme_suspend_queue(&dev->queues[i]);
--
--	if (dead) {
--		/* A device might become IO incapable very soon during
--		 * probe, before the admin queue is configured. Thus,
--		 * queue_count can be 0 here.
--		 */
--		if (dev->ctrl.queue_count)
--			nvme_suspend_queue(&dev->queues[0]);
--	} else {
--		nvme_disable_io_queues(dev, queues);
-+	if (!dead) {
-+		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
-+	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
-+		nvme_suspend_queue(&dev->queues[i]);
-+
- 	nvme_pci_disable(dev);
- 
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
--- 
-2.14.3
+I quickly glanced over NVM Express revision 1.3 specification [1] but 
+searching for *second *, I could not find something about this. Could 
+you please point me to the section?
+
+In my opinion, it?s a good thing to point users to devices holding up 
+suspend.
+
+
+Kind regards,
+
+Paul
+
+
+[1] https://nvmexpress.org/wp-content/uploads/NVM_Express_Revision_1.3.pdf
