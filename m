@@ -1,47 +1,159 @@
-From: gklkml16@gmail.com (Ganapatrao Kulkarni)
-Date: Wed, 24 Jan 2018 07:47:44 +0530
-Subject: Why NVMe MSIx vectors affinity set across NUMA nodes?
-In-Reply-To: <dda171e0-6c24-ebf7-e6ad-3958cf3de9b9@grimberg.me>
-References: <CAKTKpr6V=UPtRRApvQ_TAEuRQB8qqgvDmaaXFjch4wpZUqoAfw@mail.gmail.com>
- <20180122171437.GL12043@localhost.localdomain>
- <CAKTKpr59h-PXz60BNkx4_80gHyeFawcJW17dt9Y5VRrmHRsSQA@mail.gmail.com>
- <20180122173239.GM12043@localhost.localdomain>
- <CAKTKpr4pbpKoojLVb8jCBFLOY67xbV7Q2j95EaOjEOiGMPhFCA@mail.gmail.com>
- <20180122180515.GN12043@localhost.localdomain>
- <CAKTKpr68UnMAv2ePu7P3Gv8--av7hei16cygCnVcCdABfNb51Q@mail.gmail.com>
- <20180122182017.GO12043@localhost.localdomain>
- <dda171e0-6c24-ebf7-e6ad-3958cf3de9b9@grimberg.me>
-Message-ID: <CAKTKpr45pNcEtruqemwEm0uoDHizCJNNosiNbavz9+6LTttrVg@mail.gmail.com>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
+Date: Wed, 24 Jan 2018 11:14:40 +0530
+Subject: [PATCH 4/6] mpt3sas: Introduce Base function for cloning.
+In-Reply-To: <201801210109.6fbXCSxH%fengguang.wu@intel.com>
+References: <1516365462-14708-5-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <201801210109.6fbXCSxH%fengguang.wu@intel.com>
+Message-ID: <CA+RiK64DhFTBeJvUOJ_mAjSJ-YryqhubEiLhg=qjAYZY=-X=2w@mail.gmail.com>
 
-On Tue, Jan 23, 2018@7:00 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->
->>> AFAIK, usually drivers sets default affinity and it is likely be node
->>> affinity for NUMA systems.
->>> Later, it is the user-space(like irqbalance etc) which decides the
->>> affinity not the driver.
->>
->>
->> Relying on userspace to provide an optimal setting is a bad idea,
->> especially for NVMe where we have submission queue cpu affinity that
->> doesn't work very efficiently if the completion affinity doesn't match.
->
->
-> I tend to agree, also application locality is equally as important as
-> device locality. so spreading across numa nodes will help applications
-> running on the far numa node as well.
->
-> Also, a recent thread [1] related to PCI_IRQ_AFFINITY not allowing
-> userspace to modify irq affinity suggested that maybe that can be
-> supported, but not sure what happened to it.
->
+Hi All,
 
-application uses libnuma to align to numa locality.
-here the driver is breaking the affinity.
-certainly having affinity with remote node cpu will add latency to
-interrupt response time.
-here it is for some NVMe queues.
+We tried to reproduce below error
+"drivers/scsi/mpt3sas/mpt3sas_base.c:315:10: error: implicit
+declaration of function 'mpt3sas_scsih_scsi_lookup_get'; did you mean
+    scmd = mpt3sas_scsih_scsi_lookup_get(ioc, smid);"
 
-> [1] https://www.spinics.net/lists/netdev/msg464301.html
+with base code and Make file flags (sparse) as mentioned under
+reproduce in auto build test log.
 
-thanks
-Ganapat
+We are not seeing this error. We have reviewed the code and it seems
+to be fine. Let us know if we miss something here.
+
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+reproduce:
+        # apt-get install sparse
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF=-D__CHECK_ENDIAN__
+
+  drivers/scsi/mpt3sas/mpt3sas_base.c: In function '_clone_sg_entries':
+   drivers/scsi/mpt3sas/mpt3sas_base.c:315:10: error: implicit
+declaration of function 'mpt3sas_scsih_scsi_lookup_get'; did you mean
+    scmd = mpt3sas_scsih_scsi_lookup_get(ioc, smid);
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    mpt3sas_scsih_issue_locked_tm
+   drivers/scsi/mpt3sas/mpt3sas_base.c:315:8: warning: assignment
+makes pointer from integer without a cast
+    scmd = mpt3sas_scsih_scsi_lookup_get(ioc, smid);
+    ^
+   At top level:
+   drivers/scsi/mpt3sas/mpt3sas_base.c:278:13: warning:
+'_clone_sg_entries' defined but not used
+    static void _clone_sg_entries(struct MPT3SAS_ADAPTER
+    ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+Thanks,
+Suganath Prabu S
+
+On Sat, Jan 20, 2018@11:37 PM, kbuild test robot <lkp@intel.com> wrote:
+> Hi Suganath,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on scsi/for-next]
+> [also build test WARNING on v4.15-rc8 next-20180119]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+>
+> url:    https://github.com/0day-ci/linux/commits/Suganath-Prabu-S/mpt3sas-Add-PCI-device-ID-for-Andromeda/20180121-002454
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+> reproduce:
+>         # apt-get install sparse
+>         make ARCH=x86_64 allmodconfig
+>         make C=1 CF=-D__CHECK_ENDIAN__
+>
+>
+> sparse warnings: (new ones prefixed by >>)
+>
+>>> drivers/scsi/mpt3sas/mpt3sas_base.c:142:24: sparse: cast from restricted __le32
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:142:24: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:142:24: expected unsigned int val
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:142:24: got restricted __le32 <noident>
+>>> drivers/scsi/mpt3sas/mpt3sas_base.c:142:64: sparse: incorrect type in argument 2 (different address spaces) @@ expected void volatile @@ got @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:142:64: expected void volatile
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:142:64: got void COPYING CREDITS Documentation Kbuild Kconfig MAINTAINERS Makefile README arch block certs crypto drivers firmware fs include init ipc kernel lib mm net samples scripts security sound tools usr virt
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:162:24: sparse: cast removes address space of expression
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:315:24: sparse: undefined identifier 'mpt3sas_scsih_scsi_lookup_get'
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:1164:42: sparse: incorrect type in assignment (different base types) @@ expected unsigned short Event @@ got short Event @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:1165:49: sparse: incorrect type in assignment (different base types) @@ expected unsigned int EventContext @@ got ed int EventContext @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:1383:64: sparse: incorrect type in argument 2 (different address spaces) @@ expected void volatile @@ got oid volatile @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:1432:52: sparse: incorrect type in argument 2 (different address spaces) @@ expected void volatile @@ got oid volatile @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:2964:32: sparse: cast removes address space of expression
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3256:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned long val @@ got restunsigned long val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3256:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned long val @@ got restunsigned long val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3256:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned long val @@ got restunsigned long val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3256:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned long val @@ got restunsigned long val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3256:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned long val @@ got restunsigned long val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3411:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3433:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3456:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3477:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:3498:16: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:4950:24: sparse: incorrect type in argument 1 (different base types) @@ expected unsigned int val @@ got restrunsigned int val @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:4971:20: sparse: cast to restricted __le16
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:4980:20: sparse: cast to restricted __le16
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:4994:36: sparse: cast to restricted __le16
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:6175:55: sparse: incorrect type in argument 2 (different address spaces) @@ expected void volatile @@ got oid volatile @@
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:315:53: sparse: call with no type!
+>    drivers/scsi/mpt3sas/mpt3sas_base.c: In function '_clone_sg_entries':
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:315:10: error: implicit declaration of function 'mpt3sas_scsih_scsi_lookup_get'; did you mean
+>     scmd = mpt3sas_scsih_scsi_lookup_get(ioc, smid);
+>     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     mpt3sas_scsih_issue_locked_tm
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:315:8: warning: assignment makes pointer from integer without a cast
+>     scmd = mpt3sas_scsih_scsi_lookup_get(ioc, smid);
+>     ^
+>    At top level:
+>    drivers/scsi/mpt3sas/mpt3sas_base.c:278:13: warning: '_clone_sg_entries' defined but not used
+>     static void _clone_sg_entries(struct MPT3SAS_ADAPTER
+>     ^~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+>
+> vim +142 drivers/scsi/mpt3sas/mpt3sas_base.c
+>
+>    103
+>    104  /**
+>    105   * _scsih_set_fwfault_debug - global setting of ioc->fwfault_debug.
+>    106   *
+>    107   */
+>    108  static int
+>    109  _scsih_set_fwfault_debug(const char *val, const struct kernel_param *kp)
+>    110  {
+>    111          int ret = param_set_int(val, kp);
+>    112          struct MPT3SAS_ADAPTER *ioc;
+>    113
+>    114          if (ret)
+>    115                  return ret;
+>    116
+>    117          /* global ioc spinlock to protect controller list on list operations */
+>    118          pr_info("setting fwfault_debug(%d)\n", mpt3sas_fwfault_debug);
+>    119          spin_lock(&gioc_lock);
+>    120          list_for_each_entry(ioc, &mpt3sas_ioc_list, list)
+>    121                  ioc->fwfault_debug = mpt3sas_fwfault_debug;
+>    122          spin_unlock(&gioc_lock);
+>    123          return 0;
+>    124  }
+>    125  module_param_call(mpt3sas_fwfault_debug, _scsih_set_fwfault_debug,
+>    126          param_get_int, &mpt3sas_fwfault_debug, 0644);
+>    127
+>    128  /**
+>    129   * _base_clone_to_sys_mem - Writes/copies data to system/BAR0 region
+>    130   *
+>    131   * @dst_iomem: Pointer to the destinaltion location in BAR0 space.
+>    132   * @src: Pointer to the Source data.
+>    133   * @size: Size of data to be copied.
+>    134   */
+>    135  static void
+>    136  _base_clone_to_sys_mem(void *dst_iomem, void *src, u32 size)
+>    137  {
+>    138          int i;
+>    139          __le32 *src_virt_mem = (__le32 *)(src);
+>    140
+>    141          for (i = 0; i < size/4; i++)
+>  > 142                  writel(cpu_to_le32(src_virt_mem[i]), dst_iomem + (i * 4));
+>    143  }
+>    144
+>
+> ---
+> 0-DAY kernel test infrastructure                Open Source Technology Center
+> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
