@@ -1,87 +1,101 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Thu, 25 Jan 2018 10:33:41 +0800
-Subject: [PATCH RESENT] nvme-pci: introduce RECONNECTING state to mark
- initializing procedure
-In-Reply-To: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <73d8d789-b7af-85b1-0c5e-7cbc002c1c43@oracle.com>
+Date: Thu, 25 Jan 2018 15:55:16 +0800
+Subject: [PATCVH v2] nvme/pci: Suspend queues after deleting them
+In-Reply-To: <20180124215512.17976-1-keith.busch@intel.com>
+References: <20180124215512.17976-1-keith.busch@intel.com>
+Message-ID: <d6cc5947-dd88-7810-b4c5-18e3282345a1@oracle.com>
 
 Hi Keith
 
-If you have time, can have a look at this.
-That's really appreciated and thanks in advance.
-:)
+Thanks for your patch.
 
+Test ok with looping reset controller and fio.
+Host: ThinkCentre-M910s
+Target: INTEL SSDPEKKR128G7
+
+
+Thanks
 Jianchao
 
-On 01/22/2018 10:03 PM, Jianchao Wang wrote:
-> After Sagi's commit (nvme-rdma: fix concurrent reset and reconnect),
-> both nvme-fc/rdma have following pattern:
-> RESETTING    - quiesce blk-mq queues, teardown and delete queues/
->                connections, clear out outstanding IO requests...
-> RECONNECTING - establish new queues/connections and some other
->                initializing things.
-> Introduce RECONNECTING to nvme-pci transport to do the same mark.
-> Then we get a coherent state definition among nvme pci/rdma/fc
-> transports.
+On 01/25/2018 05:55 AM, Keith Busch wrote:
+> The driver had been abusing the cq_vector state to know if new submissions
+> were safe, but that was before we could quiesce blk-mq. If the controller
+> happens to get an interrupt through while we're suspending those queues,
+> 'no irq handler' warnings may occur.
 > 
-> Suggested-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> This patch will disable the interrupts only after the queues are deleted.
+> 
+> Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/nvme/host/core.c |  2 +-
->  drivers/nvme/host/pci.c  | 19 +++++++++++++++++--
->  2 files changed, 18 insertions(+), 3 deletions(-)
+> v1 -> v2:
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 230cc09..23b3e53 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -242,7 +242,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->  	switch (new_state) {
->  	case NVME_CTRL_ADMIN_ONLY:
->  		switch (old_state) {
-> -		case NVME_CTRL_RESETTING:
-> +		case NVME_CTRL_RECONNECTING:
->  			changed = true;
->  			/* FALLTHRU */
->  		default:
+>   Forgot to subtract 1 from the online queues. It happened to pass the
+>   test, but still not correct.
+> 
+>  drivers/nvme/host/pci.c | 27 ++++++++-------------------
+>  1 file changed, 8 insertions(+), 19 deletions(-)
+> 
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 45f843d..05344be 100644
+> index c46c239cc1ff..e2342d365d3c 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -1138,9 +1138,14 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
->  	 */
->  	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
+> @@ -1324,9 +1324,6 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+>  {
+>  	struct nvme_queue *nvmeq = &dev->queues[0];
 >  
-> -	/* If there is a reset ongoing, we shouldn't reset again. */
-> -	if (dev->ctrl.state == NVME_CTRL_RESETTING)
-> +	/* If there is a reset/reinit ongoing, we shouldn't reset again. */
-> +	switch (dev->ctrl.state) {
-> +	case NVME_CTRL_RESETTING:
-> +	case NVME_CTRL_RECONNECTING:
->  		return false;
-> +	default:
-> +		break;
-> +	}
+> -	if (nvme_suspend_queue(nvmeq))
+> -		return;
+> -
+>  	if (shutdown)
+>  		nvme_shutdown_ctrl(&dev->ctrl);
+>  	else
+> @@ -2011,9 +2008,9 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+>  	return 0;
+>  }
 >  
->  	/* We shouldn't reset unless the controller is on fatal error state
->  	 * _or_ if we lost the communication with it.
-> @@ -2304,6 +2309,16 @@ static void nvme_reset_work(struct work_struct *work)
->  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
->  		nvme_dev_disable(dev, false);
+> -static void nvme_disable_io_queues(struct nvme_dev *dev, int queues)
+> +static void nvme_disable_io_queues(struct nvme_dev *dev)
+>  {
+> -	int pass;
+> +	int pass, queues = dev->online_queues - 1;
+>  	unsigned long timeout;
+>  	u8 opcode = nvme_admin_delete_sq;
 >  
-> +	/*
-> +	 * Introduce RECONNECTING state from nvme-fc/rdma transports to mark the
-> +	 * initializing procedure here.
-> +	 */
-> +	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RECONNECTING)) {
-> +		dev_warn(dev->ctrl.device,
-> +			"failed to mark controller RECONNECTING\n");
-> +		goto out;
-> +	}
+> @@ -2164,7 +2161,7 @@ static void nvme_pci_disable(struct nvme_dev *dev)
+>  
+>  static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  {
+> -	int i, queues;
+> +	int i;
+>  	bool dead = true;
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  
+> @@ -2199,21 +2196,13 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  	}
+>  	nvme_stop_queues(&dev->ctrl);
+>  
+> -	queues = dev->online_queues - 1;
+> -	for (i = dev->ctrl.queue_count - 1; i > 0; i--)
+> -		nvme_suspend_queue(&dev->queues[i]);
+> -
+> -	if (dead) {
+> -		/* A device might become IO incapable very soon during
+> -		 * probe, before the admin queue is configured. Thus,
+> -		 * queue_count can be 0 here.
+> -		 */
+> -		if (dev->ctrl.queue_count)
+> -			nvme_suspend_queue(&dev->queues[0]);
+> -	} else {
+> -		nvme_disable_io_queues(dev, queues);
+> +	if (!dead) {
+> +		nvme_disable_io_queues(dev);
+>  		nvme_disable_admin_queue(dev, shutdown);
+>  	}
+> +	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
+> +		nvme_suspend_queue(&dev->queues[i]);
 > +
->  	result = nvme_pci_enable(dev);
->  	if (result)
->  		goto out;
+>  	nvme_pci_disable(dev);
+>  
+>  	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
 > 
