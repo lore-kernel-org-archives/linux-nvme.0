@@ -1,26 +1,23 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 25 Jan 2018 14:45:19 -0700
-Subject: [PATCH RESENT] nvme-pci: introduce RECONNECTING state to mark
- initializing procedure
-In-Reply-To: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1516629796-2919-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180125214519.GB20258@localhost.localdomain>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Thu, 25 Jan 2018 15:48:42 -0700
+Subject: Reconnect on RDMA device reset
+In-Reply-To: <1516904022.27592.187.camel@redhat.com>
+References: <CADZhsQqDFc1NWmsihOwki8_2Zj0HuYKC_N_x0jMnCtU9Rww1UA@mail.gmail.com>
+ <f0a14240-1566-1bae-1b9f-21880bc3f3a0@grimberg.me>
+ <CADZhsQqvK0LMd9sfxzz+x_5qVnoi4FP0FCFMsTPjpeXyqfXKew@mail.gmail.com>
+ <77cef33e-a563-97fc-7ba6-69f220f1be84@grimberg.me>
+ <1516904022.27592.187.camel@redhat.com>
+Message-ID: <20180125224842.GB11537@ziepe.ca>
 
-On Mon, Jan 22, 2018@10:03:16PM +0800, Jianchao Wang wrote:
-> After Sagi's commit (nvme-rdma: fix concurrent reset and reconnect),
-> both nvme-fc/rdma have following pattern:
-> RESETTING    - quiesce blk-mq queues, teardown and delete queues/
->                connections, clear out outstanding IO requests...
-> RECONNECTING - establish new queues/connections and some other
->                initializing things.
-> Introduce RECONNECTING to nvme-pci transport to do the same mark.
-> Then we get a coherent state definition among nvme pci/rdma/fc
-> transports.
-> 
-> Suggested-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+On Thu, Jan 25, 2018@01:13:42PM -0500, Doug Ledford wrote:
 
-This looks fine. Thank you for your patience.
+> various events.  That might have changed...didn't we just take a patch
+> to rdma-core to drop the shell script?  It might not reconnect
+> automatically with the latest rdma-core, I'd have to check.  Bart should
+> know though...
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+We dropped the shell script in favor of udev. srp_daemon will now
+stop when rdma devices are removed and restart again when they are
+added.
+
+Jason
