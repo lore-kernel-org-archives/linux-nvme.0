@@ -1,48 +1,17 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 25 Jan 2018 16:10:23 +0800
-Subject: [PATCH] nvme: don't retry request marked as NVME_REQ_CANCELLED
-Message-ID: <20180125081023.13303-1-ming.lei@redhat.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 25 Jan 2018 09:35:57 +0100
+Subject: [PATCH 1/1] nvme-rdma: remove redundant boolean for inline_data
+In-Reply-To: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+References: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20180125083557.6lgvfowoiz3wxmt7@linux-x5ow.site>
 
-If request is marked as NVME_REQ_CANCELLED, we don't need to retry for
-requeuing it, and it should be completed immediately. Even simply from
-the flag name, it needn't to be requeued.
 
-Otherwise, it is easy to cause IO hang when IO is timed out in case of
-PCI NVMe:
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-1) IO timeout is triggered, and nvme_timeout() tries to disable
-device(nvme_dev_disable) and reset controller(nvme_reset_ctrl)
-
-2) inside nvme_dev_disable(), queue is frozen and quiesced, and
-try to cancel every request, but the timeout request can't be canceled
-since it is completed by __blk_mq_complete_request() in blk_mq_rq_timed_out().
-
-3) this timeout req is requeued via nvme_complete_rq(), but can't be
-dispatched at all because queue is quiesced and hardware isn't ready,
-finally nvme_wait_freeze() waits for ever in nvme_reset_work().
-
-Cc: "jianchao.wang" <jianchao.w.wang at oracle.com>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: stable at vger.kernel.org
-Reported-by: Xiao Liang <xiliang at redhat.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0ff03cf95f7f..5cd713a164cb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -210,6 +210,8 @@ static inline bool nvme_req_needs_retry(struct request *req)
- 		return false;
- 	if (nvme_req(req)->retries >= nvme_max_retries)
- 		return false;
-+	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-+		return false;
- 	return true;
- }
- 
 -- 
-2.9.5
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
