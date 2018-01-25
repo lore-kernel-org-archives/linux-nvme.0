@@ -1,49 +1,37 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 25 Jan 2018 11:37:33 +0200
-Subject: [PATCH] nvme: don't free uuid pointer before printing it
-In-Reply-To: <20180125080925.6019-1-jthumshirn@suse.de>
-References: <20180125080925.6019-1-jthumshirn@suse.de>
-Message-ID: <cad484e2-4d21-185d-4b28-fb9be12591d5@mellanox.com>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Thu, 25 Jan 2018 11:02:19 +0100
+Subject: [LSF/MM TOPIC] few MM topics
+In-Reply-To: <bee1d564-b4b8-ed0c-edfa-f6df6a24fe21@oracle.com>
+References: <20180124092649.GC21134@dhcp22.suse.cz>
+ <bee1d564-b4b8-ed0c-edfa-f6df6a24fe21@oracle.com>
+Message-ID: <20180125100219.GO28465@dhcp22.suse.cz>
 
-
-
-On 1/25/2018 10:09 AM, Johannes Thumshirn wrote:
-> Commit df351ef73789 ("nvme-fabrics: fix memory leak when parsing host ID
-> option") fixed the leak of 'p' but in case uuid_parse() fails the memory
-> is freed before the error print that is using it.
+On Wed 24-01-18 10:23:20, Mike Kravetz wrote:
+> On 01/24/2018 01:26 AM, Michal Hocko wrote:
+[...]
+> > - It seems there is some demand for large (> MAX_ORDER) allocations.
+> >   We have that alloc_contig_range which was originally used for CMA and
+> >   later (ab)used for Giga hugetlb pages. The API is less than optimal
+> >   and we should probably think about how to make it more generic.
 > 
-> Free it after printing eventual errors.
+> This is also of interest to me.  I actually started some efforts in this
+> area.  The idea (as you mention above) would be to provide a more usable
+> API for allocation of contiguous pages/ranges.  And, gigantic huge pages
+> would be the first consumer.
 > 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> Fixes: df351ef73789 ("nvme-fabrics: fix memory leak when parsing host ID option")
-> Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
-> Cc: Roland Dreier <roland at purestorage.com>
-> ---
->   drivers/nvme/host/fabrics.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index eb46967bb0d5..9cee72a80472 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -739,12 +739,13 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   				goto out;
->   			}
->   			ret = uuid_parse(p, &hostid);
-> -			kfree(p);
->   			if (ret) {
->   				pr_err("Invalid hostid %s\n", p);
->   				ret = -EINVAL;
-> +				kfree(p);
->   				goto out;
->   			}
-> +			kfree(p);
->   			break;
->   		case NVMF_OPT_DUP_CONNECT:
->   			opts->duplicate_connect = true;
-> 
+> alloc_contig_range currently has some issues with being used in a 'more
+> generic' way.  A comment describing the routine says "it's the caller's
+> responsibility to guarantee that we are the only thread that changes
+> migrate type of pageblocks the pages fall in.".  This is true, and I think
+> it also applies to users of the underlying routines such as
+> start_isolate_page_range.  The CMA code has a mechanism that prevents two
+> threads from operating on the same range concurrently.  The other users
+> (gigantic page allocation and memory offline) happen infrequently enough
+> that we are unlikely to have a conflict.  But, opening this up to more
+> generic use will require at least a more generic synchronization mechanism.
 
-
-Looks good,
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Yes, that is exactly my concern and the current state of art that has to
+change. I am not yet sure how. So any discussion seems interesting.
+-- 
+Michal Hocko
+SUSE Labs
