@@ -1,9 +1,9 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 25 Jan 2018 16:20:51 +0100
-Subject: [PATCVH v2] nvme/pci: Suspend queues after deleting them
-In-Reply-To: <20180124215512.17976-1-keith.busch@intel.com>
-References: <20180124215512.17976-1-keith.busch@intel.com>
-Message-ID: <20180125152051.GA1778@lst.de>
+Date: Thu, 25 Jan 2018 16:23:47 +0100
+Subject: [PATCH 1/1] nvme-rdma: remove redundant boolean for inline_data
+In-Reply-To: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+References: <1512577280-32595-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20180125152347.GA1982@lst.de>
 
 Thanks,
 
