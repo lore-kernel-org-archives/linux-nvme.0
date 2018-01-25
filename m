@@ -1,39 +1,29 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu, 25 Jan 2018 22:14:47 +0900
-Subject: [PATCH 0/2] nvme-cli: add support for an abort command with
- documentation
-In-Reply-To: <54e145b5-1518-89ab-61d3-21edd9d44655@broadcom.com>
-References: <1516796682-31793-1-git-send-email-minwoo.im.dev@gmail.com>
- <20180124123141.t4gtx6fvzgei2rei@linux-x5ow.site>
- <98552e25-112b-da7a-6ee8-b046c6a54c18@gmail.com>
- <20180124130315.g7i3yk73avo7wh66@linux-x5ow.site>
- <6f273f10-f805-0f55-425e-e36e38796cd4@gmail.com>
- <54e145b5-1518-89ab-61d3-21edd9d44655@broadcom.com>
-Message-ID: <0f38a5d1-10bc-d187-e68f-7844c4c7582f@gmail.com>
+From: oren.duer@gmail.com (Oren Duer)
+Date: Thu, 25 Jan 2018 16:10:44 +0200
+Subject: Reconnect on RDMA device reset
+In-Reply-To: <77cef33e-a563-97fc-7ba6-69f220f1be84@grimberg.me>
+References: <CADZhsQqDFc1NWmsihOwki8_2Zj0HuYKC_N_x0jMnCtU9Rww1UA@mail.gmail.com>
+ <f0a14240-1566-1bae-1b9f-21880bc3f3a0@grimberg.me>
+ <CADZhsQqvK0LMd9sfxzz+x_5qVnoi4FP0FCFMsTPjpeXyqfXKew@mail.gmail.com>
+ <77cef33e-a563-97fc-7ba6-69f220f1be84@grimberg.me>
+Message-ID: <CADZhsQpM8=MXRU=_015f3bo_EisM8N4vL=8XkO1a4c4yHwbC3w@mail.gmail.com>
 
-Hi James,
+>> Yes, it could be a userspace script/daemon job. But I was under the
+>> impression
+>> that this group tries to consolidate most (all?) of the functionality into
+>> the
+>> driver, and not rely on userspace daemons. Maybe a lesson learnt from
+>> iSCSI?
+>
+>
+> Indeed that is a guideline that was taken early on. But
+> auto-connect/auto-discovery is not something I think we'd like to
+> implement in the kernel...
 
-On 01/25/2018 02:26 AM, James Smart wrote:
-> On 1/24/2018 5:15 AM, Minwoo Im wrote:
->> Or.. Is there any cases that breaks behavior of kernel by an abort
->> command from user space?
->>
-> 
-> Is it possible yes. Is it simple, no.?? Depends on what the command is 
-> and when.? You may confuse a transport which uses aborts - and you're 
-> also mandating the transport peek into the pass-through command to check 
-> for abort so that is can honor the # of outstanding aborts supported by 
-> the controller.
-> 
-> I agree with Johannes. this is an ugly thing to do . The first question 
-> I had is - how do you even know what the command and its CID value is ? 
-> Also, many devices won't actually even do aborts.
-> 
-> -- james
-> 
-
-I totally agree with you. I really appreciate your comments.
-I thought abort command has nothing to do with behavior of kernel, but
-CID is assigned by kernel when issuing an command to device.
-
-Thanks again.
+So to summarize your view on this topic:
+* Agreed that user experience should be such that after an RDMA device reset
+  everything should continue as before without admin intervention.
+* Both for host and target stacks.
+* This should not be handled by the driver itself.
+* A userspace daemon that listens on udev events should retry the reconnects
+  or re-binds using configfs.
