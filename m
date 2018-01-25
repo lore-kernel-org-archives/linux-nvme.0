@@ -1,40 +1,48 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 25 Jan 2018 09:09:25 +0100
-Subject: [PATCH] nvme: don't free uuid pointer before printing it
-Message-ID: <20180125080925.6019-1-jthumshirn@suse.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 25 Jan 2018 16:10:23 +0800
+Subject: [PATCH] nvme: don't retry request marked as NVME_REQ_CANCELLED
+Message-ID: <20180125081023.13303-1-ming.lei@redhat.com>
 
-Commit df351ef73789 ("nvme-fabrics: fix memory leak when parsing host ID
-option") fixed the leak of 'p' but in case uuid_parse() fails the memory
-is freed before the error print that is using it.
+If request is marked as NVME_REQ_CANCELLED, we don't need to retry for
+requeuing it, and it should be completed immediately. Even simply from
+the flag name, it needn't to be requeued.
 
-Free it after printing eventual errors.
+Otherwise, it is easy to cause IO hang when IO is timed out in case of
+PCI NVMe:
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Fixes: df351ef73789 ("nvme-fabrics: fix memory leak when parsing host ID option")
-Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
-Cc: Roland Dreier <roland at purestorage.com>
+1) IO timeout is triggered, and nvme_timeout() tries to disable
+device(nvme_dev_disable) and reset controller(nvme_reset_ctrl)
+
+2) inside nvme_dev_disable(), queue is frozen and quiesced, and
+try to cancel every request, but the timeout request can't be canceled
+since it is completed by __blk_mq_complete_request() in blk_mq_rq_timed_out().
+
+3) this timeout req is requeued via nvme_complete_rq(), but can't be
+dispatched at all because queue is quiesced and hardware isn't ready,
+finally nvme_wait_freeze() waits for ever in nvme_reset_work().
+
+Cc: "jianchao.wang" <jianchao.w.wang at oracle.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: stable at vger.kernel.org
+Reported-by: Xiao Liang <xiliang at redhat.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/fabrics.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index eb46967bb0d5..9cee72a80472 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -739,12 +739,13 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				goto out;
- 			}
- 			ret = uuid_parse(p, &hostid);
--			kfree(p);
- 			if (ret) {
- 				pr_err("Invalid hostid %s\n", p);
- 				ret = -EINVAL;
-+				kfree(p);
- 				goto out;
- 			}
-+			kfree(p);
- 			break;
- 		case NVMF_OPT_DUP_CONNECT:
- 			opts->duplicate_connect = true;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0ff03cf95f7f..5cd713a164cb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -210,6 +210,8 @@ static inline bool nvme_req_needs_retry(struct request *req)
+ 		return false;
+ 	if (nvme_req(req)->retries >= nvme_max_retries)
+ 		return false;
++	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
++		return false;
+ 	return true;
+ }
+ 
 -- 
-2.13.6
+2.9.5
