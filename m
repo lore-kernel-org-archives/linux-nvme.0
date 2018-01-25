@@ -1,99 +1,39 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 25 Jan 2018 13:31:26 +0200
-Subject: [PATCH v1 0/4] Fix host side state machine
-In-Reply-To: <f20a4413-dbb7-c092-f69c-b9edfa3df424@grimberg.me>
-References: <1516813067-1717-1-git-send-email-maxg@mellanox.com>
- <f20a4413-dbb7-c092-f69c-b9edfa3df424@grimberg.me>
-Message-ID: <8151106d-aafe-a5e3-13a0-cc6e7ee13087@mellanox.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Thu, 25 Jan 2018 22:14:47 +0900
+Subject: [PATCH 0/2] nvme-cli: add support for an abort command with
+ documentation
+In-Reply-To: <54e145b5-1518-89ab-61d3-21edd9d44655@broadcom.com>
+References: <1516796682-31793-1-git-send-email-minwoo.im.dev@gmail.com>
+ <20180124123141.t4gtx6fvzgei2rei@linux-x5ow.site>
+ <98552e25-112b-da7a-6ee8-b046c6a54c18@gmail.com>
+ <20180124130315.g7i3yk73avo7wh66@linux-x5ow.site>
+ <6f273f10-f805-0f55-425e-e36e38796cd4@gmail.com>
+ <54e145b5-1518-89ab-61d3-21edd9d44655@broadcom.com>
+Message-ID: <0f38a5d1-10bc-d187-e68f-7844c4c7582f@gmail.com>
 
+Hi James,
 
+On 01/25/2018 02:26 AM, James Smart wrote:
+> On 1/24/2018 5:15 AM, Minwoo Im wrote:
+>> Or.. Is there any cases that breaks behavior of kernel by an abort
+>> command from user space?
+>>
+> 
+> Is it possible yes. Is it simple, no.?? Depends on what the command is 
+> and when.? You may confuse a transport which uses aborts - and you're 
+> also mandating the transport peek into the pass-through command to check 
+> for abort so that is can honor the # of outstanding aborts supported by 
+> the controller.
+> 
+> I agree with Johannes. this is an ugly thing to do . The first question 
+> I had is - how do you even know what the command and its CID value is ? 
+> Also, many devices won't actually even do aborts.
+> 
+> -- james
+> 
 
-On 1/24/2018 9:33 PM, Sagi Grimberg wrote:
-> The series looks reasonable to me, but we'll need James to
-> see if it works out for fc and keith to ack on Jianchao's patch first.
+I totally agree with you. I really appreciate your comments.
+I thought abort command has nothing to do with behavior of kernel, but
+CID is assigned by kernel when issuing an command to device.
 
-James,
-what do you think of the following untested changes to fc host:
-
-
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 01df6d5..2922c20 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2704,7 +2704,7 @@ static inline blk_status_t nvme_fc_is_ready(struct 
-nvme_fc_queue *queue,
-   * on the link side, recreates the controller association.
-   */
-  static int
--nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
-+nvme_fc_create_association(struct nvme_fc_ctrl *ctrl, bool new)
-  {
-         struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-         int ret;
-@@ -2735,7 +2735,7 @@ static inline blk_status_t nvme_fc_is_ready(struct 
-nvme_fc_queue *queue,
-         if (ret)
-                 goto out_delete_hw_queue;
-
--       if (ctrl->ctrl.state != NVME_CTRL_NEW)
-+       if (!new)
-                 blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-
-         ret = nvmf_connect_admin_queue(&ctrl->ctrl);
-@@ -2801,7 +2801,7 @@ static inline blk_status_t nvme_fc_is_ready(struct 
-nvme_fc_queue *queue,
-          */
-
-         if (ctrl->ctrl.queue_count > 1) {
--               if (ctrl->ctrl.state == NVME_CTRL_NEW)
-+               if (new)
-                         ret = nvme_fc_create_io_queues(ctrl);
-                 else
-                         ret = nvme_fc_reinit_io_queues(ctrl);
-@@ -3001,7 +3001,7 @@ static inline blk_status_t nvme_fc_is_ready(struct 
-nvme_fc_queue *queue,
-         }
-
-         if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
--               ret = nvme_fc_create_association(ctrl);
-+               ret = nvme_fc_create_association(ctrl, false);
-         else
-                 ret = -ENOTCONN;
-
-@@ -3036,7 +3036,7 @@ static inline blk_status_t nvme_fc_is_ready(struct 
-nvme_fc_queue *queue,
-                         container_of(to_delayed_work(work),
-                                 struct nvme_fc_ctrl, connect_work);
-
--       ret = nvme_fc_create_association(ctrl);
-+       ret = nvme_fc_create_association(ctrl, false);
-         if (ret)
-                 nvme_fc_reconnect_or_delete(ctrl, ret);
-         else
-@@ -3090,6 +3090,7 @@ static inline blk_status_t nvme_fc_is_ready(struct 
-nvme_fc_queue *queue,
-         struct nvme_fc_ctrl *ctrl;
-         unsigned long flags;
-         int ret, idx, retry;
-+       bool changed;
-
-         if (!(rport->remoteport.port_role &
-             (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
-@@ -3206,8 +3207,11 @@ static inline blk_status_t 
-nvme_fc_is_ready(struct nvme_fc_queue *queue,
-          * request fails, retry the initial connection creation up to
-          * three times before giving up and declaring failure.
-          */
-+       changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING);
-+       WARN_ON_ONCE(!changed);
-+
-         for (retry = 0; retry < 3; retry++) {
--               ret = nvme_fc_create_association(ctrl);
-+               ret = nvme_fc_create_association(ctrl, true);
-                 if (!ret)
-                         break;
-         }
-
-
--Max.
+Thanks again.
