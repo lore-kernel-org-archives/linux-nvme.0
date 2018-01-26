@@ -1,55 +1,84 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 26 Jan 2018 17:31:38 +0800
-Subject: [PATCH 2/2] blk-mq: simplify queue mapping & schedule with each
- possisble CPU
-In-Reply-To: <53da00dc-3d46-dcdb-2be4-277f79a9888b@oracle.com>
-References: <20180116121010.GA26429@ming.t460p>
- <7c24e321-2d3b-cdec-699a-f58c34300aa9@oracle.com>
- <20180116153248.GA3018@ming.t460p>
- <7f5bad86-febc-06fc-67c0-393777d172e4@oracle.com>
- <20180117035159.GA9487@ming.t460p>
- <8c8efce8-ea02-0a9e-8369-44c885f4731d@oracle.com>
- <20180117062251.GC9487@ming.t460p>
- <977e9c62-c7f2-d1df-7d6b-5903f3b21cb6@oracle.com>
- <20180117095744.GF9487@ming.t460p>
- <53da00dc-3d46-dcdb-2be4-277f79a9888b@oracle.com>
-Message-ID: <20180126093129.GA10926@ming.t460p>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 26 Jan 2018 11:21:38 +0100
+Subject: [PATCH v9 2/2] nvme: add tracepoint for nvme_complete_rq
+In-Reply-To: <20180126102138.15529-1-jthumshirn@suse.de>
+References: <20180126102138.15529-1-jthumshirn@suse.de>
+Message-ID: <20180126102138.15529-3-jthumshirn@suse.de>
 
-Hi Jianchao,
+Add a tracepoint in nvme_complete_rq() for completions of NVMe commands. An
+expmale output of the trace-point is as follows:
 
-On Fri, Jan 19, 2018@11:05:35AM +0800, jianchao.wang wrote:
-> Hi ming
-> 
-> Sorry for delayed report this.
-> 
-> On 01/17/2018 05:57 PM, Ming Lei wrote:
-> > 2) hctx->next_cpu can become offline from online before __blk_mq_run_hw_queue
-> > is run, there isn't warning, but once the IO is submitted to hardware,
-> > after it is completed, how does the HBA/hw queue notify CPU since CPUs
-> > assigned to this hw queue(irq vector) are offline? blk-mq's timeout
-> > handler may cover that, but looks too tricky.
-> 
-> In theory, the irq affinity will be migrated to other cpu. This is done by
+<idle>-0     [001] d.h.     3.505266: nvme_complete_rq: cmdid=989, qid=1, res=0, retries=0, flags=0x0, status=0
 
-Yes, but the other CPU should belong to this irq's affinity, and if all
-CPUs in the irq's affinity is DEAD, this irq vector will be shutdown,
-and if there is in-flight IO or will be, then the completion for this
-IOs won't be delivered to CPUs. And now seems we depend on queue's timeout
-handler to handle them.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-> fixup_irqs() in the context of stop_machine.
+---
+Changes to v6:
+* Rebase onto nvme-4.16
 
+Changes to v4:
+* Print QID for completions (Christoph)
 
-> However, in my test, I found this log:
-> 
-> [  267.161043] do_IRQ: 7.33 No irq handler for vector
-> 
-> The 33 is the vector used by nvme cq.
-> The irq seems to be missed and sometimes IO hang occurred.
+Changes to v2:
+* Pass the whole struct request to the tracepoint
+* Removed spaces after parenthesis (Christoph)
+---
+ drivers/nvme/host/core.c  |  2 ++
+ drivers/nvme/host/trace.h | 25 +++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-As I mentioned above, it shouldn't be strange to see in CPU offline/online
-stress test.
-
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 358dfdc1f6da..7cbd4a260d30 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -220,6 +220,8 @@ void nvme_complete_rq(struct request *req)
+ {
+ 	blk_status_t status = nvme_error_status(req);
+ 
++	trace_nvme_complete_rq(req);
++
+ 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
+ 		if (nvme_req_needs_failover(req, status)) {
+ 			nvme_failover_req(req);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index feadf0b57d17..ea91fccd1bc0 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -129,6 +129,31 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
+ );
+ 
++TRACE_EVENT(nvme_complete_rq,
++	    TP_PROTO(struct request *req),
++	    TP_ARGS(req),
++	    TP_STRUCT__entry(
++		    __field(int, qid)
++		    __field(int, cid)
++		    __field(u64, result)
++		    __field(u8, retries)
++		    __field(u8, flags)
++		    __field(u16, status)
++	    ),
++	    TP_fast_assign(
++		    __entry->qid = req->q->id;
++		    __entry->cid = req->tag;
++		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
++		    __entry->retries = nvme_req(req)->retries;
++		    __entry->flags = nvme_req(req)->flags;
++		    __entry->status = nvme_req(req)->status;
++	    ),
++	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __entry->cid, __entry->qid, __entry->result,
++		      __entry->retries, __entry->flags, __entry->status)
++
++);
++
+ #endif /* _TRACE_NVME_H */
+ 
+ #undef TRACE_INCLUDE_PATH
 -- 
-Ming
+2.13.6
