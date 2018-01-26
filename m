@@ -1,84 +1,84 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 26 Jan 2018 11:21:38 +0100
-Subject: [PATCH v9 2/2] nvme: add tracepoint for nvme_complete_rq
-In-Reply-To: <20180126102138.15529-1-jthumshirn@suse.de>
-References: <20180126102138.15529-1-jthumshirn@suse.de>
-Message-ID: <20180126102138.15529-3-jthumshirn@suse.de>
+Date: Fri, 26 Jan 2018 11:21:36 +0100
+Subject: [PATCH v9 0/2] add tracepoints for nvme command submission and
+ completion
+Message-ID: <20180126102138.15529-1-jthumshirn@suse.de>
 
-Add a tracepoint in nvme_complete_rq() for completions of NVMe commands. An
-expmale output of the trace-point is as follows:
+Add tracepoints for nvme command submission and completion. The tracepoints
+are modeled after SCSI's trace_scsi_dispatch_cmd_start() and
+trace_scsi_dispatch_cmd_done() tracepoints and fulfil a similar purpose,
+namely a fast way to check which command is going to be queued into the HW or
+Fabric driver and which command is completed again.
 
-<idle>-0     [001] d.h.     3.505266: nvme_complete_rq: cmdid=989, qid=1, res=0, retries=0, flags=0x0, status=0
+Here's an example output using the qemu emulated pci nvme:
+# tracer: nop
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+    kworker/u8:0-5     [003] ....     9.158541: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=1, qsize=1023, cq_flags=0x3, irq_vector=0)
+          <idle>-0     [003] d.h.     9.158705: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.158712: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_sq sqid=1, qsize=1023, sq_flags=0x1, cqid=1)
+          <idle>-0     [003] d.h.     9.159214: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.159236: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=2, qsize=1023, cq_flags=0x3, irq_vector=1)
+          <idle>-0     [003] d.h.     9.159288: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.159293: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_sq sqid=2, qsize=1023, sq_flags=0x1, cqid=2)
+          <idle>-0     [003] d.h.     9.159479: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.159525: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=3, qsize=1023, cq_flags=0x3, irq_vector=2)
+          <idle>-0     [003] d.h.     9.159565: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.159569: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_sq sqid=3, qsize=1023, sq_flags=0x1, cqid=3)
+          <idle>-0     [003] d.h.     9.159726: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.159769: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_cq cqid=4, qsize=1023, cq_flags=0x3, irq_vector=3)
+          <idle>-0     [003] d.h.     9.159795: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.159799: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_create_sq sqid=4, qsize=1023, sq_flags=0x1, cqid=4)
+          <idle>-0     [003] d.h.     9.159957: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.160971: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_identify cns=0, ctrlid=1)
+          <idle>-0     [003] d.h.     9.161059: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.161101: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_identify cns=0, ctrlid=0)
+          <idle>-0     [003] d.h.     9.161160: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.161305: nvme_setup_admin_cmd:  cmdid=14, flags=0x0, meta=0x0, cmd=(nvme_admin_identify cns=0, ctrlid=0)
+          <idle>-0     [003] d.h.     9.161344: nvme_complete_rq: cmdid=14, qid=0, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.161390: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=718, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=0, len=7, ctrl=0x0, dsmgmt=0, reftag=0)
+          <idle>-0     [003] d.h.     9.161578: nvme_complete_rq: cmdid=718, qid=1, res=0, retries=0, flags=0x0, status=0
+    kworker/u8:0-5     [003] ....     9.161608: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=718, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=24, len=7, ctrl=0x0, dsmgmt=0, reftag=0)
+          <idle>-0     [003] d.h.     9.161681: nvme_complete_rq: cmdid=718, qid=1, res=0, retries=0, flags=0x0, status=0
+              dd-205   [001] ....     9.662909: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=1011, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=0, len=2559, ctrl=0x0, dsmgmt=0, reftag=0)
+              dd-205   [001] ....     9.662967: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=1012, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=2560, len=1535, ctrl=0x0, dsmgmt=0, reftag=0)
+          <idle>-0     [001] d.h.     9.664413: nvme_complete_rq: cmdid=1011, qid=1, res=0, retries=0, flags=0x0, status=0
+          <idle>-0     [001] d.h.     9.664835: nvme_complete_rq: cmdid=1012, qid=1, res=0, retries=0, flags=0x0, status=0
+              dd-205   [001] ....     9.666396: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=1012, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=4096, len=2047, ctrl=0x0, dsmgmt=0, reftag=0)
+              dd-205   [001] ....     9.667914: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=1013, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=6144, len=2047, ctrl=0x0, dsmgmt=0, reftag=0)
+          <idle>-0     [001] d.h.     9.676720: nvme_complete_rq: cmdid=1012, qid=1, res=0, retries=0, flags=0x0, status=0
+              dd-205   [001] d.h.     9.676905: nvme_complete_rq: cmdid=1013, qid=1, res=0, retries=0, flags=0x0, status=0
+              dd-205   [001] ....     9.677552: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=1013, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=8192, len=2047, ctrl=0x0, dsmgmt=0, reftag=0)
+              dd-205   [001] ....     9.678201: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=1014, flags=0x0, meta=0x0, cmd=(nvme_cmd_read slba=10240, len=2047, ctrl=0x0, dsmgmt=0, reftag=0)
+          <idle>-0     [001] d.h.     9.678699: nvme_complete_rq: cmdid=1013, qid=1, res=0, retries=0, flags=0x0, status=0
+              dd-205   [001] d.h.     9.679330: nvme_complete_rq: cmdid=1014, qid=1, res=0, retries=0, flags=0x0, status=0
+              dd-206   [002] ....     9.687920: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=366, flags=0x0, meta=0x0, cmd=(nvme_cmd_write slba=0, len=2559, ctrl=0x0, dsmgmt=0, reftag=0)
+              dd-206   [002] ....     9.688396: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=367, flags=0x0, meta=0x0, cmd=(nvme_cmd_write slba=2560, len=2559, ctrl=0x0, dsmgmt=0, reftag=0)
+              dd-206   [002] ....     9.689290: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=368, flags=0x0, meta=0x0, cmd=(nvme_cmd_write slba=5120, len=2559, ctrl=0x0, dsmgmt=0, reftag=0)
+              dd-206   [002] ....     9.689759: nvme_setup_nvm_cmd: qid=1, nsid=1, cmdid=369, flags=0x0, meta=0x0, cmd=(nvme_cmd_write slba=7680, len=2559, ctrl=0x0, dsmgmt=0, reftag=0)
+          <idle>-0     [002] d.h.     9.690222: nvme_complete_rq: cmdid=366, qid=1, res=0, retries=0, flags=0x0, status=0
+          <idle>-0     [002] d.h.     9.691086: nvme_complete_rq: cmdid=367, qid=1, res=0, retries=0, flags=0x0, status=0
+          <idle>-0     [002] d.h.     9.691935: nvme_complete_rq: cmdid=368, qid=1, res=0, retries=0, flags=0x0, status=0
+          <idle>-0     [002] d.h.     9.692852: nvme_complete_rq: cmdid=369, qid=1, res=0, retries=0, flags=0x0, status=0
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
----
-Changes to v6:
-* Rebase onto nvme-4.16
+Johannes Thumshirn (2):
+  nvme: add tracepoint for nvme_setup_cmd
+  nvme: add tracepoint for nvme_complete_rq
 
-Changes to v4:
-* Print QID for completions (Christoph)
+ drivers/nvme/host/Makefile |   4 ++
+ drivers/nvme/host/core.c   |   9 +++
+ drivers/nvme/host/trace.c  | 130 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/trace.h  | 165 +++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 308 insertions(+)
+ create mode 100644 drivers/nvme/host/trace.c
+ create mode 100644 drivers/nvme/host/trace.h
 
-Changes to v2:
-* Pass the whole struct request to the tracepoint
-* Removed spaces after parenthesis (Christoph)
----
- drivers/nvme/host/core.c  |  2 ++
- drivers/nvme/host/trace.h | 25 +++++++++++++++++++++++++
- 2 files changed, 27 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 358dfdc1f6da..7cbd4a260d30 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -220,6 +220,8 @@ void nvme_complete_rq(struct request *req)
- {
- 	blk_status_t status = nvme_error_status(req);
- 
-+	trace_nvme_complete_rq(req);
-+
- 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
- 		if (nvme_req_needs_failover(req, status)) {
- 			nvme_failover_req(req);
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index feadf0b57d17..ea91fccd1bc0 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -129,6 +129,31 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
- );
- 
-+TRACE_EVENT(nvme_complete_rq,
-+	    TP_PROTO(struct request *req),
-+	    TP_ARGS(req),
-+	    TP_STRUCT__entry(
-+		    __field(int, qid)
-+		    __field(int, cid)
-+		    __field(u64, result)
-+		    __field(u8, retries)
-+		    __field(u8, flags)
-+		    __field(u16, status)
-+	    ),
-+	    TP_fast_assign(
-+		    __entry->qid = req->q->id;
-+		    __entry->cid = req->tag;
-+		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
-+		    __entry->retries = nvme_req(req)->retries;
-+		    __entry->flags = nvme_req(req)->flags;
-+		    __entry->status = nvme_req(req)->status;
-+	    ),
-+	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __entry->cid, __entry->qid, __entry->result,
-+		      __entry->retries, __entry->flags, __entry->status)
-+
-+);
-+
- #endif /* _TRACE_NVME_H */
- 
- #undef TRACE_INCLUDE_PATH
 -- 
 2.13.6
