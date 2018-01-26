@@ -1,48 +1,47 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Sat, 27 Jan 2018 02:49:42 +0900
-Subject: [PATCH] nvme-cli: convert iekey into a no_argument parameter
-Message-ID: <1516988982-27969-1-git-send-email-minwoo.im.dev@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 26 Jan 2018 19:09:44 +0100
+Subject: [GIT PULL] additional nvme updates for 4.16
+Message-ID: <20180126180944.lrdh4dqwntz7pk27@infradead.org>
 
-IEKEY(Ignore Existing Key) option is used widely in Reservation Acquire,
-Reservation Register, and Reservation Release in a type of bool(1-bit).
+The additional week before the 4.15 release gave us time for a few more
+nvme fixes, as well as the nifty trace points from Johannes:
 
-Only resv_release() uses iekey field as a required_argument parameter.
-It seems unnecessary because it will not be checked if this parameter
-is given or not by a following condition because default value is 0.
 
-        if (cfg.iekey > 1)
+The following changes since commit 475a055e62a1eb92f4358ad8a9059df973c190ac:
 
-So remove unnecessary if-statement and convert this field to a
-no_argument type option.
+  blk-throttle: use queue_is_rq_based (2018-01-19 21:10:20 -0700)
 
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
----
- nvme.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+are available in the git repository at:
 
-diff --git a/nvme.c b/nvme.c
-index aa2b8ec..f069622 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -3118,7 +3118,7 @@ static int resv_release(int argc, char **argv, struct command *cmd, struct plugi
- 		{"crkey",        'c', "NUM",  CFG_LONG_SUFFIX, &cfg.crkey,        required_argument, crkey},
- 		{"rtype",        't', "NUM",  CFG_BYTE,        &cfg.rtype,        required_argument, rtype},
- 		{"rrela",        'a', "NUM",  CFG_BYTE,        &cfg.rrela,        required_argument, rrela},
--		{"iekey",        'i', "NUM",  CFG_BYTE,        &cfg.iekey,        required_argument, iekey},
-+		{"iekey",        'i', "",     CFG_NONE,        &cfg.iekey,        no_argument, iekey},
- 		{NULL}
- 	};
- 
-@@ -3128,10 +3128,6 @@ static int resv_release(int argc, char **argv, struct command *cmd, struct plugi
- 
- 	if (!cfg.namespace_id)
- 		cfg.namespace_id = get_nsid(fd);
--	if (cfg.iekey > 1) {
--		fprintf(stderr, "invalid iekey:%d\n", cfg.iekey);
--		return EINVAL;
--	}
- 	if (cfg.rrela > 7) {
- 		fprintf(stderr, "invalid rrela:%d\n", cfg.rrela);
- 		return EINVAL;
--- 
-2.7.4
+  git://git.infradead.org/nvme.git nvme-4.16
+
+for you to fetch changes up to ca5554a696dce37852f6d6721520b4f13fc295c3:
+
+  nvme: add tracepoint for nvme_complete_rq (2018-01-26 12:34:40 +0100)
+
+----------------------------------------------------------------
+Jianchao Wang (1):
+      nvme-pci: introduce RECONNECTING state to mark initializing procedure
+
+Johannes Thumshirn (3):
+      nvme: don't free uuid pointer before printing it
+      nvme: add tracepoint for nvme_setup_cmd
+      nvme: add tracepoint for nvme_complete_rq
+
+Keith Busch (2):
+      nvme-pci: Fix queue double allocations
+      nvme-pci: Suspend queues after deleting them
+
+Max Gurtovoy (1):
+      nvme-rdma: remove redundant boolean for inline_data
+
+ drivers/nvme/host/Makefile  |   4 ++
+ drivers/nvme/host/core.c    |  11 ++-
+ drivers/nvme/host/fabrics.c |   3 +-
+ drivers/nvme/host/pci.c     |  49 +++++++------
+ drivers/nvme/host/rdma.c    |   3 -
+ drivers/nvme/host/trace.c   | 130 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/trace.h   | 165 ++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 339 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/nvme/host/trace.c
+ create mode 100644 drivers/nvme/host/trace.h
