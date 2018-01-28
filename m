@@ -1,47 +1,38 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 28 Jan 2018 15:58:04 +0200
-Subject: [PATCH 2/5] nvme-rdma: use NVME_CTRL_CONNECTING state to mark init
- process
-In-Reply-To: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
-References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1517147887-15645-3-git-send-email-maxg@mellanox.com>
+Date: Sun, 28 Jan 2018 15:58:02 +0200
+Subject: [PATCH v2 0/5] Fix host side state machine
+Message-ID: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
 
-In order to avoid concurrent error recovery during initialization
-process (allowed by the NVME_CTRL_NEW --> NVME_CTRL_RESETTING transition)
-we must mark the ctrl as CONNECTING before initial connection
-establisment.
+Hi all,
+this series is rebased above nvme-4.16.
+Actually there is a still missing part in this tree (but I tested it on
+my own "stable" mixed kernel with this patch):
+"nvme-rdma: fix concurrent reset and reconnect" from Sagi.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/core.c | 1 +
- drivers/nvme/host/rdma.c | 3 +++
- 2 files changed, 4 insertions(+)
+The first motivation for this series was fixing RDMA initiator that crushes in
+case we fail during initial connect and start error recovery during initial
+connection establishment.
+This patchset also renames NVME_CTRL_RECONNECTING to NVME_CTRL_CONNECTING as
+this state doesn't represent only a reconnection flow but also used for
+initialization process.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c1a9706..1d7e304 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -296,6 +296,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		break;
- 	case NVME_CTRL_CONNECTING:
- 		switch (old_state) {
-+		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_RESETTING:
- 			changed = true;
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 219c6a0..d86aee7 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1930,6 +1930,9 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	if (!ctrl->queues)
- 		goto out_uninit_ctrl;
- 
-+	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING);
-+	WARN_ON_ONCE(!changed);
-+
- 	ret = nvme_rdma_configure_admin_queue(ctrl, true);
- 	if (ret)
- 		goto out_kfree_queues;
+changes from V1:
+ - Added FC support
+
+Max Gurtovoy (5):
+  nvme: rename NVME_CTRL_RECONNECTING state to NVME_CTRL_CONNECTING
+  nvme-rdma: use NVME_CTRL_CONNECTING state to mark init process
+  nvme-fc: use NVME_CTRL_CONNECTING state to mark init process
+  nvme: delete NVME_CTRL_LIVE --> NVME_CTRL_CONNECTING transition
+  nvme: delete NVME_CTRL_NEW --> NVME_CTRL_LIVE transition
+
+ drivers/nvme/host/core.c    | 13 ++++++-------
+ drivers/nvme/host/fabrics.h |  9 +++++----
+ drivers/nvme/host/fc.c      | 30 +++++++++++++++++-------------
+ drivers/nvme/host/nvme.h    |  2 +-
+ drivers/nvme/host/pci.c     |  8 ++++----
+ drivers/nvme/host/rdma.c    |  7 +++++--
+ 6 files changed, 38 insertions(+), 31 deletions(-)
+
 -- 
 1.8.3.1
