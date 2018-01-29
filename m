@@ -1,47 +1,65 @@
-From: elliott@hpe.com (Elliott, Robert (Persistent Memory))
-Date: Mon, 29 Jan 2018 15:41:02 +0000
-Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
-In-Reply-To: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
-References: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
-Message-ID: <AT5PR8401MB0387022075AF24A278FA522EABE50@AT5PR8401MB0387.NAMPRD84.PROD.OUTLOOK.COM>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon, 29 Jan 2018 23:46:09 +0800
+Subject: [LSF/MM TOPIC] Two blk-mq related topics
+Message-ID: <20180129154455.GB17176@ming.t460p>
+
+Hi guys,
+
+Two blk-mq related topics
+
+1. blk-mq vs. CPU hotplug & IRQ vectors spread on CPUs
+
+We have done three big changes in this field before, each time some issues
+are fixed, meantime new ones are introduced
+
+1) freeze all queues during CPU hotplug handler
+- issues: queue dependency such as loop-mq/dm vs underlying queues, NVMe admin
+queue vs. namespace queues, and IO hang may be caused during freezing all
+these queues in CPU hotplug handler.
+
+2) IRQ vectors spread on all present CPUs
+- fix issue on 1)
+- new issues introduced: don't support CPU hotplug physically, and cause blk-mq
+warning during dispatch
+
+3) IRQ vectors spread on all possible CPUs
+- can support CPU hotplug physically
+- warning in __blk_mq_run_hw_queue() still may be triggered if CPU
+  offline/online happens between blk_mq_hctx_next_cpu() and running
+   __blk_mq_run_hw_queue()
+- new issues introduced: queue mapping may be distorted completely,
+patch sent out(https://marc.info/?t=151603230900002&r=1&w=2), but may
+need further discussion about this approach; drivers(such as NVMe) may
+need to pass 'num_possible_cpus()' as the max vectors for allocating
+irq vectors; some drivers(NVMe) uses hard-code hw queue index directly,
+then this way becomes very fragile, since the hw queue may be inactive
+from the beginning.
+
+Also starting from 2), another issue is that IO completion may not be
+delivered to CPUs, for example, IO may be dispatched to hw queue just
+before(or after) all CPUs mapped to the hctx become offline, then IRQ
+vector of the hw queue can be shutdown. Now seems we depend on timeout
+handler to deal with the situation, and is there better way to solve this
+issue?
+
+2. When to enable SCSI_MQ at default again?
+
+SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In V4.13-rc1,
+it is enabled at default, but later the patch is reverted in V4.13-rc7, and
+becomes disabled at default too.
+
+Now both the original reported PM issue(actually SCSI quiesce) and the
+sequential IO performance issue have been addressed. And MQ IO schedulers
+are ready too for traditional disks. Are there other issues to be addressed
+for enabling SCSI_MQ at default? When can we do that again?
+
+Last time, the two issues were reported during V4.13 dev cycle just when it is
+enabled at default, that seems if SCSI_MQ isn't enabled at default, it wouldn't
+be exposed to run/tested completely & fully.  
+
+So if we continue to disable it at default, maybe it can never be exposed to
+full test/production environment.
 
 
-
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
-> Of Hannes Reinecke
-> Sent: Monday, January 29, 2018 3:09 AM
-> To: lsf-pc at lists.linux-foundation.org
-> Cc: linux-nvme at lists.infradead.org; linux-scsi at vger.kernel.org; Kashyap
-> Desai <kashyap.desai at broadcom.com>
-> Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
-> 
-> Hi all,
-> 
-> here's a topic which came up on the SCSI ML (cf thread '[RFC 0/2]
-> mpt3sas/megaraid_sas: irq poll and load balancing of reply queue').
-> 
-> When doing I/O tests on a machine with more CPUs than MSIx vectors
-> provided by the HBA we can easily setup a scenario where one CPU is
-> submitting I/O and the other one is completing I/O. Which will result in
-> the latter CPU being stuck in the interrupt completion routine for
-> basically ever, resulting in the lockup detector kicking in.
-> 
-> How should these situations be handled?
-> Should it be made the responsibility of the drivers, ensuring that the
-> interrupt completion routine is terminated after a certain time?
-> Should it be made the resposibility of the upper layers?
-> Should it be the responsibility of the interrupt mapping code?
-> Can/should interrupt polling be used in these situations?
-
-Back when we introduced scsi-mq with hpsa, the best approach was to
-route interrupts and completion handling so each CPU core handles its
-own submissions; this way, they are self-throttling.
-
-Every other arrangement was subject to soft lockups and other problems
-when the completion CPUs become overwhelmed with work.
-
-See https://lkml.org/lkml/2014/9/9/931.
-
----
-Robert Elliott, HPE Persistent Memory
+Thanks,
+Ming
