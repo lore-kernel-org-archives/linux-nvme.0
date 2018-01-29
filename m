@@ -1,32 +1,41 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 29 Jan 2018 10:08:43 +0100
-Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
-Message-ID: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 29 Jan 2018 14:05:29 +0100
+Subject: [LSF/MM TOPIC] NVMe over Fabrics auto-discovery in Linux
+In-Reply-To: <64ee446d-118d-364a-e9bb-bcbf80b8135b@grimberg.me> (Sagi
+ Grimberg's message of "Wed, 24 Jan 2018 20:42:18 +0200")
+References: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
+ <64ee446d-118d-364a-e9bb-bcbf80b8135b@grimberg.me>
+Message-ID: <mqdk1w0lsrq.fsf@linux-x5ow.site>
 
-Hi all,
+Sagi Grimberg <sagi at grimberg.me> writes:
+> Discovery enhancements is a subject the NVMe TWG will be working on in
+> the near future, and "discovery of the  the discovery service" is indeed
+> a sub-topic IIRC. I'm not sure LSF would be the appropriate forum for
+> this.
+>
+> What we do need to have, is a way to support existing devices. I think
+> its acceptable that FC and Ethernet based transports diverge in their
+> implementations for this.
+>
+> For Ethernet based transports we could follow the open-iscsi model which
+> has discoveryd service which periodically polls predefined addresses. As
+> for updating initramfs, maybe we can live with this limitation for the
+> time being?
+>
+> FC can keep doing its own thing...
 
-here's a topic which came up on the SCSI ML (cf thread '[RFC 0/2]
-mpt3sas/megaraid_sas: irq poll and load balancing of reply queue').
+Sure, general discovery enhancements are out of LSF's scope, but for the
+implementing a nvme-discoveryd or something similar for Fabrics 1.0
+based systems discussion LSF would be the right forum IMHO. This model
+still needs /etc/nvme/discovery.conf updates mirrored into the initrd
+etc...
 
-When doing I/O tests on a machine with more CPUs than MSIx vectors
-provided by the HBA we can easily setup a scenario where one CPU is
-submitting I/O and the other one is completing I/O. Which will result in
-the latter CPU being stuck in the interrupt completion routine for
-basically ever, resulting in the lockup detector kicking in.
-
-How should these situations be handled?
-Should it be made the responsibility of the drivers, ensuring that the
-interrupt completion routine is terminated after a certain time?
-Should it be made the resposibility of the upper layers?
-Should it be the responsibility of the interrupt mapping code?
-Can/should interrupt polling be used in these situations?
-
-Cheers,
-
-Hannes
+Byte,
+        Johannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
