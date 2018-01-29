@@ -1,104 +1,60 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Jan 2018 16:59:49 -0700
-Subject: [PATCH 3/3] nvme-pci: Delete HMB asynchronously
-In-Reply-To: <20180129235949.26267-1-keith.busch@intel.com>
-References: <20180129235949.26267-1-keith.busch@intel.com>
-Message-ID: <20180129235949.26267-3-keith.busch@intel.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 30 Jan 2018 01:56:21 +0200
+Subject: [PATCH] nvmet: Change error code of discard command if not
+ supported
+In-Reply-To: <0012e13c-a621-fdc3-f072-294641b00136@grimberg.me>
+References: <1517234450-16502-1-git-send-email-israelr@mellanox.com>
+ <0012e13c-a621-fdc3-f072-294641b00136@grimberg.me>
+Message-ID: <bc3a636d-9e52-ad9a-8a48-a479d33db196@mellanox.com>
 
-Deleting the host memory buffer occurs in the controller disabling
-path. The driver needs to be able to make forward progress even if
-the controller can't produce a completion for that command. Issuing a
-synchronous nvme command within the controller shutdown path could block
-indefinitely if the controller is unable to provide a response for any
-reason, so this patch sends the HMB teardown asynchronously.
 
-Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8fd0e87f0efe..9977b66d98cd 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1714,7 +1714,15 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
- 	}
- }
- 
--static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
-+static void nvme_hmb_endio(struct request *req, blk_status_t error)
-+{
-+	struct completion *c = req->end_io_data;
-+
-+	blk_mq_free_request(req);
-+	complete(c);
-+}
-+
-+static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits, struct completion *complete)
- {
- 	u64 dma_addr = dev->host_mem_descs_dma;
- 	struct nvme_command c;
-@@ -1730,6 +1738,11 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
- 	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
- 	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
- 
-+	if (complete)
-+		return nvme_submit_async_cmd(dev->ctrl.admin_q, &c,
-+					     complete, nvme_hmb_endio,
-+					     ADMIN_TIMEOUT, BLK_MQ_REQ_NOWAIT);
-+
- 	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
- 	if (ret) {
- 		dev_warn(dev->ctrl.device,
-@@ -1760,9 +1773,7 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
- 	dev->nr_host_mem_descs = 0;
- }
- 
--static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
--		u32 chunk_size)
--{
-+static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred, u32 chunk_size) {
- 	struct nvme_host_mem_buf_desc *descs;
- 	u32 max_entries, len;
- 	dma_addr_t descs_dma;
-@@ -1884,7 +1895,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
- 			dev->host_mem_size >> ilog2(SZ_1M));
- 	}
- 
--	ret = nvme_set_host_mem(dev, enable_bits);
-+	ret = nvme_set_host_mem(dev, enable_bits, NULL);
- 	if (ret)
- 		nvme_free_host_mem(dev);
- 	return ret;
-@@ -2152,8 +2163,9 @@ static void nvme_pci_disable(struct nvme_dev *dev)
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- {
- 	int i;
--	bool dead = true;
-+	bool dead = true, hmb_wait = false;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	DECLARE_COMPLETION_ONSTACK(hmb_complete);
- 
- 	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(pdev)) {
-@@ -2181,13 +2193,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		 * but I'd rather be safe than sorry..
- 		 */
- 		if (dev->host_mem_descs)
--			nvme_set_host_mem(dev, 0);
-+			hmb_wait = !nvme_set_host_mem(dev, 0, &hmb_complete);
- 
- 	}
- 	nvme_stop_queues(&dev->ctrl);
- 
- 	if (!dead) {
- 		nvme_disable_io_queues(dev);
-+		if (hmb_wait)
-+			wait_for_completion_timeout(&hmb_complete,
-+						    ADMIN_TIMEOUT);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
- 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
--- 
-2.14.3
+On 1/29/2018 8:30 PM, Sagi Grimberg wrote:
+> 
+>> Execute discard command on block device that doesn't support it
+>> should return not supported error.
+>> Returning internal error while using multi-path fails the path.
+>>
+>> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+>> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+>> ---
+>> ? drivers/nvme/target/io-cmd.c | 9 +++++++--
+>> ? 1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+>> index 0a4372a..00d4607a 100644
+>> --- a/drivers/nvme/target/io-cmd.c
+>> +++ b/drivers/nvme/target/io-cmd.c
+>> @@ -105,10 +105,15 @@ static void nvmet_execute_flush(struct nvmet_req 
+>> *req)
+>> ? static u16 nvmet_discard_range(struct nvmet_ns *ns,
+>> ????????? struct nvme_dsm_range *range, struct bio **bio)
+>> ? {
+>> -??? if (__blkdev_issue_discard(ns->bdev,
+>> +??? int ret;
+>> +
+>> +??? ret = __blkdev_issue_discard(ns->bdev,
+>> ????????????? le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
+>> ????????????? le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
+>> -??????????? GFP_KERNEL, 0, bio))
+>> +??????????? GFP_KERNEL, 0, bio);
+>> +??? if (ret == -EOPNOTSUPP)
+>> +??????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+> 
+> Actually I don't think we are allowed to fail with this status. We claim
+> we support dsm regardless of the underlying backend device (because we
+> can expose different devices in the same subsystem), so we can't fail
+> a valid dsm command on invalid opcode. Either we keep the existing
+> behavior or we simply return success as dsm is a hint anyways...
+
+we can't fail a path in case the backend device doesn't support dsm. The 
+avarage user that will try to create a fs using mkfs.ext4, for example, 
+on top of a multipath device, without the appropriate flags will fail.
+I'm fine with returning successful value, we'll test it and send a V2.
+
+> 
+>> +??? else if (ret)
+>> ????????? return NVME_SC_INTERNAL | NVME_SC_DNR;
+>> ????? return 0;
+>> ? }
+>>
