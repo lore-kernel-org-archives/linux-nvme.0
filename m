@@ -1,22 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 29 Jan 2018 21:55:41 +0200
-Subject: [PATCH] nvme-pci: use NOWAIT flag for nvme_set_host_mem
-In-Reply-To: <20180129160145.GA25515@localhost.localdomain>
-References: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180129160145.GA25515@localhost.localdomain>
-Message-ID: <1b7d3700-945f-9272-b6aa-d2ebeaf0cb1e@grimberg.me>
+Date: Mon, 29 Jan 2018 21:58:29 +0200
+Subject: Reconnect on RDMA device reset
+In-Reply-To: <CADZhsQpM8=MXRU=_015f3bo_EisM8N4vL=8XkO1a4c4yHwbC3w@mail.gmail.com>
+References: <CADZhsQqDFc1NWmsihOwki8_2Zj0HuYKC_N_x0jMnCtU9Rww1UA@mail.gmail.com>
+ <f0a14240-1566-1bae-1b9f-21880bc3f3a0@grimberg.me>
+ <CADZhsQqvK0LMd9sfxzz+x_5qVnoi4FP0FCFMsTPjpeXyqfXKew@mail.gmail.com>
+ <77cef33e-a563-97fc-7ba6-69f220f1be84@grimberg.me>
+ <CADZhsQpM8=MXRU=_015f3bo_EisM8N4vL=8XkO1a4c4yHwbC3w@mail.gmail.com>
+Message-ID: <05b789c6-b60d-6738-f5a4-dd6df9cb2fcb@grimberg.me>
 
-Hey Keith,
 
-> Thanks for the fix. It looks like we still have a problem, though.
-> Commands submitted with the "shutdown_lock" held need to be able to make
-> forward progress without relying on a completion, but this one could
-> block indefinitely.
+> So to summarize your view on this topic:
+> * Agreed that user experience should be such that after an RDMA device reset
+>    everything should continue as before without admin intervention.
 
-Can you explain to me why is the shutdown_lock needed to synchronize
-nvme_dev_disable? More concretely, how is nvme_dev_disable different
-from other places where we rely on the ctrl state to serialize stuff?
+Yes
 
-The only reason I see would be to protect against completion-after-abort
-scenario but I think the block layer should protect against it (checks
-if the request timeout timer fired).
+> * Both for host and target stacks.
+
+Yes
+
+> * This should not be handled by the driver itself.
+> * A userspace daemon that listens on udev events should retry the reconnects
+>    or re-binds using configfs.
+
+No, I'm saying transient errors should be handled by the driver itself,
+recovery from permanent errors (like unplug+replug) should be handled
+outside the kernel.
