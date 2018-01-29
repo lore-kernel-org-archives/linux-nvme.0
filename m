@@ -1,65 +1,47 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 29 Jan 2018 23:46:09 +0800
-Subject: [LSF/MM TOPIC] Two blk-mq related topics
-Message-ID: <20180129154455.GB17176@ming.t460p>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 29 Jan 2018 09:01:46 -0700
+Subject: [PATCH] nvme-pci: use NOWAIT flag for nvme_set_host_mem
+In-Reply-To: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180129160145.GA25515@localhost.localdomain>
 
-Hi guys,
+On Mon, Jan 29, 2018@11:07:35AM +0800, Jianchao Wang wrote:
+> nvme_set_host_mem will invoke nvme_alloc_request without NOWAIT
+> flag, it is unsafe for nvme_dev_disable. The adminq driver tags
+> may have been used up when the previous outstanding adminq requests
+> cannot be completed due to some hardware error. We have to depend
+> on the timeout path to complete the previous outstanding adminq
+> requests and free the tags.
+> However, nvme_timeout will invoke nvme_dev_disable and try to
+> get the shutdown_lock which is held by another context who is
+> sleeping to wait for the tags to be freed by timeout path. A
+> deadlock comes up.
+> 
+> To fix it, let nvme_set_host_mem use NOWAIT flag.
+> 
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 
-Two blk-mq related topics
-
-1. blk-mq vs. CPU hotplug & IRQ vectors spread on CPUs
-
-We have done three big changes in this field before, each time some issues
-are fixed, meantime new ones are introduced
-
-1) freeze all queues during CPU hotplug handler
-- issues: queue dependency such as loop-mq/dm vs underlying queues, NVMe admin
-queue vs. namespace queues, and IO hang may be caused during freezing all
-these queues in CPU hotplug handler.
-
-2) IRQ vectors spread on all present CPUs
-- fix issue on 1)
-- new issues introduced: don't support CPU hotplug physically, and cause blk-mq
-warning during dispatch
-
-3) IRQ vectors spread on all possible CPUs
-- can support CPU hotplug physically
-- warning in __blk_mq_run_hw_queue() still may be triggered if CPU
-  offline/online happens between blk_mq_hctx_next_cpu() and running
-   __blk_mq_run_hw_queue()
-- new issues introduced: queue mapping may be distorted completely,
-patch sent out(https://marc.info/?t=151603230900002&r=1&w=2), but may
-need further discussion about this approach; drivers(such as NVMe) may
-need to pass 'num_possible_cpus()' as the max vectors for allocating
-irq vectors; some drivers(NVMe) uses hard-code hw queue index directly,
-then this way becomes very fragile, since the hw queue may be inactive
-from the beginning.
-
-Also starting from 2), another issue is that IO completion may not be
-delivered to CPUs, for example, IO may be dispatched to hw queue just
-before(or after) all CPUs mapped to the hctx become offline, then IRQ
-vector of the hw queue can be shutdown. Now seems we depend on timeout
-handler to deal with the situation, and is there better way to solve this
-issue?
-
-2. When to enable SCSI_MQ at default again?
-
-SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In V4.13-rc1,
-it is enabled at default, but later the patch is reverted in V4.13-rc7, and
-becomes disabled at default too.
-
-Now both the original reported PM issue(actually SCSI quiesce) and the
-sequential IO performance issue have been addressed. And MQ IO schedulers
-are ready too for traditional disks. Are there other issues to be addressed
-for enabling SCSI_MQ at default? When can we do that again?
-
-Last time, the two issues were reported during V4.13 dev cycle just when it is
-enabled at default, that seems if SCSI_MQ isn't enabled at default, it wouldn't
-be exposed to run/tested completely & fully.  
-
-So if we continue to disable it at default, maybe it can never be exposed to
-full test/production environment.
+Thanks for the fix. It looks like we still have a problem, though.
+Commands submitted with the "shutdown_lock" held need to be able to make
+forward progress without relying on a completion, but this one could
+block indefinitely.
 
 
-Thanks,
-Ming
+>  drivers/nvme/host/pci.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6fe7af0..9532529 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1736,7 +1736,8 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+>  	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+>  	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
+>  
+> -	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
+> +	ret = __nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, NULL, 0, 0,
+> +			NVME_QID_ANY, 0, BLK_MQ_REQ_NOWAIT);
+>  	if (ret) {
+>  		dev_warn(dev->ctrl.device,
+>  			 "failed to set host mem (err %d, flags %#x).\n",
+> -- 
