@@ -1,39 +1,32 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Mon, 29 Jan 2018 16:06:13 +0800
-Subject: [PATCH] nvme-pci: use NOWAIT flag for nvme_set_host_mem
-In-Reply-To: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <40b52195-95c8-4c33-39cc-dc80043161a2@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 29 Jan 2018 10:08:43 +0100
+Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
+Message-ID: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
 
+Hi all,
 
+here's a topic which came up on the SCSI ML (cf thread '[RFC 0/2]
+mpt3sas/megaraid_sas: irq poll and load balancing of reply queue').
 
-On 01/29/2018 11:07 AM, Jianchao Wang wrote:
-> nvme_set_host_mem will invoke nvme_alloc_request without NOWAIT
-> flag, it is unsafe for nvme_dev_disable. The adminq driver tags
-> may have been used up when the previous outstanding adminq requests
-> cannot be completed due to some hardware error. We have to depend
-> on the timeout path to complete the previous outstanding adminq
-> requests and free the tags.
-> However, nvme_timeout will invoke nvme_dev_disable and try to
-> get the shutdown_lock which is held by another context who is
-> sleeping to wait for the tags to be freed by timeout path. A
-> deadlock comes up.
-> 
-> To fix it, let nvme_set_host_mem use NOWAIT flag.
+When doing I/O tests on a machine with more CPUs than MSIx vectors
+provided by the HBA we can easily setup a scenario where one CPU is
+submitting I/O and the other one is completing I/O. Which will result in
+the latter CPU being stuck in the interrupt completion routine for
+basically ever, resulting in the lockup detector kicking in.
 
-In fact, this is the only case about nvme_set_host_mem in
-nvme_dev_disable.
-Consider the following case:
+How should these situations be handled?
+Should it be made the responsibility of the drivers, ensuring that the
+interrupt completion routine is terminated after a certain time?
+Should it be made the resposibility of the upper layers?
+Should it be the responsibility of the interrupt mapping code?
+Can/should interrupt polling be used in these situations?
 
-A adminq request expired.
+Cheers,
 
-timeout_work context
-nvme_timeout
-  -> nvme_dev_disable
-    -> nvme_set_host_mem
-    if this adminq request expires again, the timeout_work
-    cannot handle this case, because it is waiting for the
-    result of nvme_set_host_mem.
-
-Thanks
-Jianchao
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
