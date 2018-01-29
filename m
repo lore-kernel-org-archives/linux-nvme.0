@@ -1,149 +1,104 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Jan 2018 16:59:48 -0700
-Subject: [PATCH 2/3] nvme: Asynchronous driver commands API
+Date: Mon, 29 Jan 2018 16:59:49 -0700
+Subject: [PATCH 3/3] nvme-pci: Delete HMB asynchronously
 In-Reply-To: <20180129235949.26267-1-keith.busch@intel.com>
 References: <20180129235949.26267-1-keith.busch@intel.com>
-Message-ID: <20180129235949.26267-2-keith.busch@intel.com>
+Message-ID: <20180129235949.26267-3-keith.busch@intel.com>
 
-The driver has a recurring pattern of sending internally generated
-non-synchronous commands. This patch just provides a common API to reduce
-the repetition.
+Deleting the host memory buffer occurs in the controller disabling
+path. The driver needs to be able to make forward progress even if
+the controller can't produce a completion for that command. Issuing a
+synchronous nvme command within the controller shutdown path could block
+indefinitely if the controller is unable to provide a response for any
+reason, so this patch sends the HMB teardown asynchronously.
 
+Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 31 +++++++++++++++++++------------
- drivers/nvme/host/nvme.h |  3 +++
- drivers/nvme/host/pci.c  | 27 +++++++--------------------
- 3 files changed, 29 insertions(+), 32 deletions(-)
+ drivers/nvme/host/pci.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ceb5d72d8c97..4bfb4ba6cd14 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -686,6 +686,22 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
- 
-+int nvme_submit_async_cmd(struct request_queue *q, struct nvme_command *cmd,
-+			  void *end_io_data, rq_end_io_fn *done,
-+			  unsigned timeout, blk_mq_req_flags_t flags)
-+{
-+	struct request *req;
-+
-+	req = nvme_alloc_request(q, cmd, flags, NVME_QID_ANY);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+	req->end_io_data = end_io_data;
-+	blk_execute_rq_nowait(q, NULL, req, false, done);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvme_submit_async_cmd);
-+
- static void *nvme_add_user_metadata(struct bio *bio, void __user *ubuf,
- 		unsigned len, u32 seed, bool write)
- {
-@@ -795,22 +811,13 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_command c;
--	struct request *rq;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_admin_keep_alive;
- 
--	rq = nvme_alloc_request(ctrl->admin_q, &c, BLK_MQ_REQ_RESERVED,
--			NVME_QID_ANY);
--	if (IS_ERR(rq))
--		return PTR_ERR(rq);
--
--	rq->timeout = ctrl->kato * HZ;
--	rq->end_io_data = ctrl;
--
--	blk_execute_rq_nowait(rq->q, NULL, rq, 0, nvme_keep_alive_end_io);
--
--	return 0;
-+	return nvme_submit_async_cmd(ctrl->admin_q, &c, ctrl,
-+				     nvme_keep_alive_end_io, ctrl->kato * HZ,
-+				     BLK_MQ_REQ_RESERVED);
- }
- 
- static void nvme_keep_alive_work(struct work_struct *work)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index e7786bc845fe..d0889dcd79d9 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -389,6 +389,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 		struct nvme_command *cmd);
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
-+int nvme_submit_async_cmd(struct request_queue *q, struct nvme_command *cmd,
-+			  void *end_io_data, rq_end_io_fn *done,
-+			  unsigned timeout, blk_mq_req_flags_t flags);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		union nvme_result *result, void *buffer, unsigned bufflen,
- 		unsigned timeout, int qid, int at_head,
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9e3d7b293509..8fd0e87f0efe 100644
+index 8fd0e87f0efe..9977b66d98cd 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1185,7 +1185,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct nvme_queue *nvmeq = iod->nvmeq;
- 	struct nvme_dev *dev = nvmeq->dev;
--	struct request *abort_req;
- 	struct nvme_command cmd;
- 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
-@@ -1259,17 +1258,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		"I/O %d QID %d timeout, aborting\n",
- 		 req->tag, nvmeq->qid);
- 
--	abort_req = nvme_alloc_request(dev->ctrl.admin_q, &cmd,
--			BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
--	if (IS_ERR(abort_req)) {
-+	if (nvme_submit_async_cmd(dev->ctrl.admin_q, &cmd, NULL, abort_endio,
-+				  ADMIN_TIMEOUT, BLK_MQ_REQ_NOWAIT)) {
- 		atomic_inc(&dev->ctrl.abort_limit);
- 		return BLK_EH_RESET_TIMER;
+@@ -1714,7 +1714,15 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
  	}
- 
--	abort_req->timeout = ADMIN_TIMEOUT;
--	abort_req->end_io_data = NULL;
--	blk_execute_rq_nowait(abort_req->q, NULL, abort_req, 0, abort_endio);
--
- 	/*
- 	 * The aborted req will be completed on receiving the abort req.
- 	 * We enable the timer again. If hit twice, it'll cause a device reset,
-@@ -1991,24 +1985,17 @@ static void nvme_del_cq_end(struct request *req, blk_status_t error)
- static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- {
- 	struct request_queue *q = nvmeq->dev->ctrl.admin_q;
--	struct request *req;
- 	struct nvme_command cmd;
- 
-+	rq_end_io_fn *done = (opcode == nvme_admin_delete_cq) ?
-+					nvme_del_cq_end : nvme_del_queue_end;
-+
- 	memset(&cmd, 0, sizeof(cmd));
- 	cmd.delete_queue.opcode = opcode;
- 	cmd.delete_queue.qid = cpu_to_le16(nvmeq->qid);
- 
--	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
--	if (IS_ERR(req))
--		return PTR_ERR(req);
--
--	req->timeout = ADMIN_TIMEOUT;
--	req->end_io_data = nvmeq;
--
--	blk_execute_rq_nowait(q, NULL, req, false,
--			opcode == nvme_admin_delete_cq ?
--				nvme_del_cq_end : nvme_del_queue_end);
--	return 0;
-+	return nvme_submit_async_cmd(q, &cmd, nvmeq, done, ADMIN_TIMEOUT,
-+				     BLK_MQ_REQ_NOWAIT);
  }
  
- static void nvme_disable_io_queues(struct nvme_dev *dev)
+-static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
++static void nvme_hmb_endio(struct request *req, blk_status_t error)
++{
++	struct completion *c = req->end_io_data;
++
++	blk_mq_free_request(req);
++	complete(c);
++}
++
++static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits, struct completion *complete)
+ {
+ 	u64 dma_addr = dev->host_mem_descs_dma;
+ 	struct nvme_command c;
+@@ -1730,6 +1738,11 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+ 	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
+ 
++	if (complete)
++		return nvme_submit_async_cmd(dev->ctrl.admin_q, &c,
++					     complete, nvme_hmb_endio,
++					     ADMIN_TIMEOUT, BLK_MQ_REQ_NOWAIT);
++
+ 	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
+ 	if (ret) {
+ 		dev_warn(dev->ctrl.device,
+@@ -1760,9 +1773,7 @@ static void nvme_free_host_mem(struct nvme_dev *dev)
+ 	dev->nr_host_mem_descs = 0;
+ }
+ 
+-static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred,
+-		u32 chunk_size)
+-{
++static int __nvme_alloc_host_mem(struct nvme_dev *dev, u64 preferred, u32 chunk_size) {
+ 	struct nvme_host_mem_buf_desc *descs;
+ 	u32 max_entries, len;
+ 	dma_addr_t descs_dma;
+@@ -1884,7 +1895,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+ 			dev->host_mem_size >> ilog2(SZ_1M));
+ 	}
+ 
+-	ret = nvme_set_host_mem(dev, enable_bits);
++	ret = nvme_set_host_mem(dev, enable_bits, NULL);
+ 	if (ret)
+ 		nvme_free_host_mem(dev);
+ 	return ret;
+@@ -2152,8 +2163,9 @@ static void nvme_pci_disable(struct nvme_dev *dev)
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ {
+ 	int i;
+-	bool dead = true;
++	bool dead = true, hmb_wait = false;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	DECLARE_COMPLETION_ONSTACK(hmb_complete);
+ 
+ 	mutex_lock(&dev->shutdown_lock);
+ 	if (pci_is_enabled(pdev)) {
+@@ -2181,13 +2193,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		 * but I'd rather be safe than sorry..
+ 		 */
+ 		if (dev->host_mem_descs)
+-			nvme_set_host_mem(dev, 0);
++			hmb_wait = !nvme_set_host_mem(dev, 0, &hmb_complete);
+ 
+ 	}
+ 	nvme_stop_queues(&dev->ctrl);
+ 
+ 	if (!dead) {
+ 		nvme_disable_io_queues(dev);
++		if (hmb_wait)
++			wait_for_completion_timeout(&hmb_complete,
++						    ADMIN_TIMEOUT);
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
+ 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
 -- 
 2.14.3
