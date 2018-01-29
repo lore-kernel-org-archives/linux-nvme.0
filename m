@@ -1,15 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 29 Jan 2018 21:42:32 +0200
-Subject: [PATCH 3/5] nvme-fc: use NVME_CTRL_CONNECTING state to mark init
- process
-In-Reply-To: <1517147887-15645-4-git-send-email-maxg@mellanox.com>
-References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
- <1517147887-15645-4-git-send-email-maxg@mellanox.com>
-Message-ID: <83fbd86f-2733-8e86-f686-f88b93ff3f06@grimberg.me>
+Date: Mon, 29 Jan 2018 21:55:41 +0200
+Subject: [PATCH] nvme-pci: use NOWAIT flag for nvme_set_host_mem
+In-Reply-To: <20180129160145.GA25515@localhost.localdomain>
+References: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180129160145.GA25515@localhost.localdomain>
+Message-ID: <1b7d3700-945f-9272-b6aa-d2ebeaf0cb1e@grimberg.me>
 
+Hey Keith,
 
-> Align with RDMA and PCI transports.
-> 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> Thanks for the fix. It looks like we still have a problem, though.
+> Commands submitted with the "shutdown_lock" held need to be able to make
+> forward progress without relying on a completion, but this one could
+> block indefinitely.
 
-Was this tested?
+Can you explain to me why is the shutdown_lock needed to synchronize
+nvme_dev_disable? More concretely, how is nvme_dev_disable different
+from other places where we rely on the ctrl state to serialize stuff?
+
+The only reason I see would be to protect against completion-after-abort
+scenario but I think the block layer should protect against it (checks
+if the request timeout timer fired).
