@@ -1,87 +1,39 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 28 Jan 2018 15:58:05 +0200
-Subject: [PATCH 3/5] nvme-fc: use NVME_CTRL_CONNECTING state to mark init
- process
-In-Reply-To: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
-References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1517147887-15645-4-git-send-email-maxg@mellanox.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Mon, 29 Jan 2018 11:07:35 +0800
+Subject: [PATCH] nvme-pci: use NOWAIT flag for nvme_set_host_mem
+Message-ID: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Align with RDMA and PCI transports.
+nvme_set_host_mem will invoke nvme_alloc_request without NOWAIT
+flag, it is unsafe for nvme_dev_disable. The adminq driver tags
+may have been used up when the previous outstanding adminq requests
+cannot be completed due to some hardware error. We have to depend
+on the timeout path to complete the previous outstanding adminq
+requests and free the tags.
+However, nvme_timeout will invoke nvme_dev_disable and try to
+get the shutdown_lock which is held by another context who is
+sleeping to wait for the tags to be freed by timeout path. A
+deadlock comes up.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+To fix it, let nvme_set_host_mem use NOWAIT flag.
+
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/fc.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b679971..2992896 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2704,7 +2704,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
-  * on the link side, recreates the controller association.
-  */
- static int
--nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
-+nvme_fc_create_association(struct nvme_fc_ctrl *ctrl, bool new)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
- 	int ret;
-@@ -2735,7 +2735,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
- 	if (ret)
- 		goto out_delete_hw_queue;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6fe7af0..9532529 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1736,7 +1736,8 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+ 	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
  
--	if (ctrl->ctrl.state != NVME_CTRL_NEW)
-+	if (!new)
- 		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 
- 	ret = nvmf_connect_admin_queue(&ctrl->ctrl);
-@@ -2801,7 +2801,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
- 	 */
- 
- 	if (ctrl->ctrl.queue_count > 1) {
--		if (ctrl->ctrl.state == NVME_CTRL_NEW)
-+		if (new)
- 			ret = nvme_fc_create_io_queues(ctrl);
- 		else
- 			ret = nvme_fc_reinit_io_queues(ctrl);
-@@ -3007,7 +3007,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
- 	}
- 
- 	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
--		ret = nvme_fc_create_association(ctrl);
-+		ret = nvme_fc_create_association(ctrl, false);
- 	else
- 		ret = -ENOTCONN;
- 
-@@ -3042,7 +3042,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
- 			container_of(to_delayed_work(work),
- 				struct nvme_fc_ctrl, connect_work);
- 
--	ret = nvme_fc_create_association(ctrl);
-+	ret = nvme_fc_create_association(ctrl, false);
- 	if (ret)
- 		nvme_fc_reconnect_or_delete(ctrl, ret);
- 	else
-@@ -3096,6 +3096,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
- 	struct nvme_fc_ctrl *ctrl;
- 	unsigned long flags;
- 	int ret, idx, retry;
-+	bool changed;
- 
- 	if (!(rport->remoteport.port_role &
- 	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
-@@ -3212,8 +3213,11 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
- 	 * request fails, retry the initial connection creation up to
- 	 * three times before giving up and declaring failure.
- 	 */
-+	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING);
-+	WARN_ON_ONCE(!changed);
-+
- 	for (retry = 0; retry < 3; retry++) {
--		ret = nvme_fc_create_association(ctrl);
-+		ret = nvme_fc_create_association(ctrl, true);
- 		if (!ret)
- 			break;
- 	}
+-	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
++	ret = __nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, NULL, 0, 0,
++			NVME_QID_ANY, 0, BLK_MQ_REQ_NOWAIT);
+ 	if (ret) {
+ 		dev_warn(dev->ctrl.device,
+ 			 "failed to set host mem (err %d, flags %#x).\n",
 -- 
-1.8.3.1
+2.7.4
