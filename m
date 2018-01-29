@@ -1,32 +1,28 @@
-From: James.Bottomley@HansenPartnership.com (James Bottomley)
-Date: Mon, 29 Jan 2018 12:56:30 -0800
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 29 Jan 2018 14:00:11 -0700
 Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <20180129154455.GB17176@ming.t460p>
+In-Reply-To: <1517259390.3969.41.camel@HansenPartnership.com>
 References: <20180129154455.GB17176@ming.t460p>
-Message-ID: <1517259390.3969.41.camel@HansenPartnership.com>
+ <1517259390.3969.41.camel@HansenPartnership.com>
+Message-ID: <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk>
 
-On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
-[...]
-> 2. When to enable SCSI_MQ at default again?
-
-I'm not sure there's much to discuss ... I think the basic answer is as
-soon as Christoph wants to try it again.
-
-> SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In
-> V4.13-rc1, it is enabled at default, but later the patch is reverted
-> in V4.13-rc7, and becomes disabled at default too.
+On 1/29/18 1:56 PM, James Bottomley wrote:
+> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
+> [...]
+>> 2. When to enable SCSI_MQ at default again?
 > 
-> Now both the original reported PM issue(actually SCSI quiesce) and
-> the sequential IO performance issue have been addressed.
+> I'm not sure there's much to discuss ... I think the basic answer is as
+> soon as Christoph wants to try it again.
 
-Is the blocker bug just not closed because no-one thought to do it:
+FWIW, internally I've been running various IO intensive workloads on
+what is essentially 4.12 upstream with scsi-mq the default (with
+mq-deadline as the scheduler) and comparing IO workloads with a
+previous 4.6 kernel (without scsi-mq), and things are looking
+great.
 
-https://bugzilla.kernel.org/show_bug.cgi?id=178381
+We're never going to iron out the last kinks with it being off
+by default, I think we should attempt to flip the switch again
+for 4.16.
 
-(we have confirmed that this issue is now fixed with the original
-reporter?)
-
-And did the Huawei guy (Jonathan Cameron) confirm his performance issue
-was fixed (I don't think I saw email that he did)?
-
-James
+-- 
+Jens Axboe
