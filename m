@@ -1,41 +1,39 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 29 Jan 2018 14:05:29 +0100
-Subject: [LSF/MM TOPIC] NVMe over Fabrics auto-discovery in Linux
-In-Reply-To: <64ee446d-118d-364a-e9bb-bcbf80b8135b@grimberg.me> (Sagi
- Grimberg's message of "Wed, 24 Jan 2018 20:42:18 +0200")
-References: <20180123151132.wrbc7dcjjhpzcnba@linux-x5ow.site>
- <64ee446d-118d-364a-e9bb-bcbf80b8135b@grimberg.me>
-Message-ID: <mqdk1w0lsrq.fsf@linux-x5ow.site>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Mon, 29 Jan 2018 14:00:50 +0000
+Subject: [PATCH] nvmet: Change error code of discard command if not supported
+Message-ID: <1517234450-16502-1-git-send-email-israelr@mellanox.com>
 
-Sagi Grimberg <sagi at grimberg.me> writes:
-> Discovery enhancements is a subject the NVMe TWG will be working on in
-> the near future, and "discovery of the  the discovery service" is indeed
-> a sub-topic IIRC. I'm not sure LSF would be the appropriate forum for
-> this.
->
-> What we do need to have, is a way to support existing devices. I think
-> its acceptable that FC and Ethernet based transports diverge in their
-> implementations for this.
->
-> For Ethernet based transports we could follow the open-iscsi model which
-> has discoveryd service which periodically polls predefined addresses. As
-> for updating initramfs, maybe we can live with this limitation for the
-> time being?
->
-> FC can keep doing its own thing...
+Execute discard command on block device that doesn't support it
+should return not supported error.
+Returning internal error while using multi-path fails the path.
 
-Sure, general discovery enhancements are out of LSF's scope, but for the
-implementing a nvme-discoveryd or something similar for Fabrics 1.0
-based systems discussion LSF would be the right forum IMHO. This model
-still needs /etc/nvme/discovery.conf updates mirrored into the initrd
-etc...
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+---
+ drivers/nvme/target/io-cmd.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Byte,
-        Johannes
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 0a4372a..00d4607a 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -105,10 +105,15 @@ static void nvmet_execute_flush(struct nvmet_req *req)
+ static u16 nvmet_discard_range(struct nvmet_ns *ns,
+ 		struct nvme_dsm_range *range, struct bio **bio)
+ {
+-	if (__blkdev_issue_discard(ns->bdev,
++	int ret;
++
++	ret = __blkdev_issue_discard(ns->bdev,
+ 			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
+ 			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
+-			GFP_KERNEL, 0, bio))
++			GFP_KERNEL, 0, bio);
++	if (ret == -EOPNOTSUPP)
++		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++	else if (ret)
+ 		return NVME_SC_INTERNAL | NVME_SC_DNR;
+ 	return 0;
+ }
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
