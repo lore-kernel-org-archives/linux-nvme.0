@@ -1,28 +1,22 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 29 Jan 2018 14:00:11 -0700
-Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <1517259390.3969.41.camel@HansenPartnership.com>
-References: <20180129154455.GB17176@ming.t460p>
- <1517259390.3969.41.camel@HansenPartnership.com>
-Message-ID: <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 29 Jan 2018 16:17:23 -0500
+Subject: [LSF/MM TOPIC] update NVMe multipath to conditionally claim
+ controllers
+Message-ID: <20180129211722.GB5744@redhat.com>
 
-On 1/29/18 1:56 PM, James Bottomley wrote:
-> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
-> [...]
->> 2. When to enable SCSI_MQ at default again?
-> 
-> I'm not sure there's much to discuss ... I think the basic answer is as
-> soon as Christoph wants to try it again.
+I'd like to have the same Linux kernel be able to use either NVMe's
+native multipath or DM multipath.
 
-FWIW, internally I've been running various IO intensive workloads on
-what is essentially 4.12 upstream with scsi-mq the default (with
-mq-deadline as the scheduler) and comparing IO workloads with a
-previous 4.6 kernel (without scsi-mq), and things are looking
-great.
+Should be relatively simple to filter which controllers can/cannot be
+claimed by NVMe multipathing (without having to resort to the big hammer
+of CONFIG_NVME_MULTIPATH).
 
-We're never going to iron out the last kinks with it being off
-by default, I think we should attempt to flip the switch again
-for 4.16.
+I'd like to understand what is the preferred disposition of the filter
+list (black or white)?  I assume having a blacklist would be more
+inkeeping with Christoph's desire for NVMe to be the default for NVMe
+multipathing.  But that disposition aside, not sure if there are other
+issues that should influence implementing more flexible use of NVMe
+resources.
 
--- 
-Jens Axboe
+Thanks,
+Mike
