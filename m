@@ -1,23 +1,52 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 30 Jan 2018 02:03:42 +0200
-Subject: [PATCH 3/5] nvme-fc: use NVME_CTRL_CONNECTING state to mark init
- process
-In-Reply-To: <83fbd86f-2733-8e86-f686-f88b93ff3f06@grimberg.me>
-References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
- <1517147887-15645-4-git-send-email-maxg@mellanox.com>
- <83fbd86f-2733-8e86-f686-f88b93ff3f06@grimberg.me>
-Message-ID: <5a292701-2222-f1d5-0c03-edc776be487d@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 30 Jan 2018 09:24:09 +0800
+Subject: [LSF/MM TOPIC] Two blk-mq related topics
+In-Reply-To: <1517259390.3969.41.camel@HansenPartnership.com>
+References: <20180129154455.GB17176@ming.t460p>
+ <1517259390.3969.41.camel@HansenPartnership.com>
+Message-ID: <20180130012408.GD17176@ming.t460p>
 
-
-
-On 1/29/2018 9:42 PM, Sagi Grimberg wrote:
+On Mon, Jan 29, 2018@12:56:30PM -0800, James Bottomley wrote:
+> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
+> [...]
+> > 2. When to enable SCSI_MQ at default again?
 > 
->> Align with RDMA and PCI transports.
->>
->> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> 
-> Was this tested?
+> I'm not sure there's much to discuss ... I think the basic answer is as
+> soon as Christoph wants to try it again.
 
-No, I don't have the FC HW to test it.
-I hope someone from the FC guys can help us with this one.
-This patch was sent as proposal in V1..
+I guess Christoph still need to evaluate if there are existed issues or
+blockers before trying it again. And more input may be got from F2F
+discussion, IMHO.
+
+> 
+> > SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In
+> > V4.13-rc1, it is enabled at default, but later the patch is reverted
+> > in V4.13-rc7, and becomes disabled at default too.
+> > 
+> > Now both the original reported PM issue(actually SCSI quiesce) and
+> > the sequential IO performance issue have been addressed.
+> 
+> Is the blocker bug just not closed because no-one thought to do it:
+> 
+> https://bugzilla.kernel.org/show_bug.cgi?id=178381
+> 
+> (we have confirmed that this issue is now fixed with the original
+> reporter?)
+
+>From a developer view, this issue is fixed by the following commit:
+3a0a52997(block, scsi: Make SCSI quiesce and resume work reliably),
+and it is verified by kernel list reporter.
+
+> 
+> And did the Huawei guy (Jonathan Cameron) confirm his performance issue
+> was fixed (I don't think I saw email that he did)?
+
+Last time I talked with John Garry about the issue, and the merged .get_budget
+based patch improves much on the IO performance, but there is still a bit gap
+compared with legacy path. Seems a driver specific issue, remembered that removing
+a driver's lock can improve performance much.
+
+Garry, could you provide further update on this issue?
+
+Thanks,
+Ming
