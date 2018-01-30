@@ -1,52 +1,47 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 30 Jan 2018 09:24:09 +0800
+Date: Tue, 30 Jan 2018 09:27:57 +0800
 Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <1517259390.3969.41.camel@HansenPartnership.com>
+In-Reply-To: <20180129204031.GA5499@redhat.com>
 References: <20180129154455.GB17176@ming.t460p>
- <1517259390.3969.41.camel@HansenPartnership.com>
-Message-ID: <20180130012408.GD17176@ming.t460p>
+ <20180129204031.GA5499@redhat.com>
+Message-ID: <20180130012755.GE17176@ming.t460p>
 
-On Mon, Jan 29, 2018@12:56:30PM -0800, James Bottomley wrote:
-> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
-> [...]
+On Mon, Jan 29, 2018@03:40:31PM -0500, Mike Snitzer wrote:
+> On Mon, Jan 29 2018 at 10:46am -0500,
+> Ming Lei <ming.lei@redhat.com> wrote:
+>  
 > > 2. When to enable SCSI_MQ at default again?
-> 
-> I'm not sure there's much to discuss ... I think the basic answer is as
-> soon as Christoph wants to try it again.
-
-I guess Christoph still need to evaluate if there are existed issues or
-blockers before trying it again. And more input may be got from F2F
-discussion, IMHO.
-
-> 
-> > SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In
-> > V4.13-rc1, it is enabled at default, but later the patch is reverted
-> > in V4.13-rc7, and becomes disabled at default too.
 > > 
-> > Now both the original reported PM issue(actually SCSI quiesce) and
-> > the sequential IO performance issue have been addressed.
+> > SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In V4.13-rc1,
+> > it is enabled at default, but later the patch is reverted in V4.13-rc7, and
+> > becomes disabled at default too.
+> > 
+> > Now both the original reported PM issue(actually SCSI quiesce) and the
+> > sequential IO performance issue have been addressed. And MQ IO schedulers
+> > are ready too for traditional disks. Are there other issues to be addressed
+> > for enabling SCSI_MQ at default? When can we do that again?
+> > 
+> > Last time, the two issues were reported during V4.13 dev cycle just when it is
+> > enabled at default, that seems if SCSI_MQ isn't enabled at default, it wouldn't
+> > be exposed to run/tested completely & fully.  
+> > 
+> > So if we continue to disable it at default, maybe it can never be exposed to
+> > full test/production environment.
 > 
-> Is the blocker bug just not closed because no-one thought to do it:
+> I was going to propose revisiting this as well.
 > 
-> https://bugzilla.kernel.org/show_bug.cgi?id=178381
-> 
-> (we have confirmed that this issue is now fixed with the original
-> reporter?)
+> I'd really like to see all the old .request_fn block core code removed.
 
->From a developer view, this issue is fixed by the following commit:
-3a0a52997(block, scsi: Make SCSI quiesce and resume work reliably),
-and it is verified by kernel list reporter.
+Yeah, that should be a final goal, but may take a bit long.
 
 > 
-> And did the Huawei guy (Jonathan Cameron) confirm his performance issue
-> was fixed (I don't think I saw email that he did)?
+> But maybe we take a first step of enabling:
+> CONFIG_SCSI_MQ_DEFAULT=Y
+> CONFIG_DM_MQ_DEFAULT=Y
 
-Last time I talked with John Garry about the issue, and the merged .get_budget
-based patch improves much on the IO performance, but there is still a bit gap
-compared with legacy path. Seems a driver specific issue, remembered that removing
-a driver's lock can improve performance much.
-
-Garry, could you provide further update on this issue?
+Maybe you can remove legacy path from DM_RQ first, and take your
+original approach to allow DM/MQ over legacy underlying driver,
+seems we discussed this topic before, :-)
 
 Thanks,
 Ming
