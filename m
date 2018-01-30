@@ -1,57 +1,96 @@
-From: martin@lichtvoll.de (Martin Steigerwald)
-Date: Tue, 30 Jan 2018 09:33:18 +0100
-Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <20180130012408.GD17176@ming.t460p>
-References: <20180129154455.GB17176@ming.t460p>
- <1517259390.3969.41.camel@HansenPartnership.com>
- <20180130012408.GD17176@ming.t460p>
-Message-ID: <1831727.Vh41F2Boqi@merkaba>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Tue, 30 Jan 2018 17:28:58 +0800
+Subject: [PATCH 1/3] nvme: Sync queues on controller resets
+In-Reply-To: <20180129235949.26267-1-keith.busch@intel.com>
+References: <20180129235949.26267-1-keith.busch@intel.com>
+Message-ID: <9ae19844-da78-1421-482c-0a498c55b648@oracle.com>
 
-Ming Lei - 30.01.18, 02:24:
-> > > SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In
-> > > V4.13-rc1, it is enabled at default, but later the patch is reverted
-> > > in V4.13-rc7, and becomes disabled at default too.
-> > > 
-> > > Now both the original reported PM issue(actually SCSI quiesce) and
-> > > the sequential IO performance issue have been addressed.
-> > 
-> > Is the blocker bug just not closed because no-one thought to do it:
-> > 
-> > https://bugzilla.kernel.org/show_bug.cgi?id=178381
-> > 
-> > (we have confirmed that this issue is now fixed with the original
-> > reporter?)
+Hi Keith
+
+Thanks for your patch.
+That's really appreciated.
+
+On 01/30/2018 07:59 AM, Keith Busch wrote:
+> This patch has the nvme pci driver synchronize request queues to ensure
+> that starting up the controller is not racing with a previously running
+> timeout handler.
 > 
-> From a developer view, this issue is fixed by the following commit:
-> 3a0a52997(block, scsi: Make SCSI quiesce and resume work reliably),
-> and it is verified by kernel list reporter.
+> Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 15 ++++++++++++++-
+>  drivers/nvme/host/nvme.h |  1 +
+>  drivers/nvme/host/pci.c  |  1 +
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e8104871cbbf..ceb5d72d8c97 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3540,12 +3540,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>  	struct nvme_ns *ns;
+>  
+>  	mutex_lock(&ctrl->namespaces_mutex);
+> -	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+>  		blk_mq_unquiesce_queue(ns->queue);
+> +		blk_mq_kick_requeue_list(ns->queue);
+> +	}
+>  	mutex_unlock(&ctrl->namespaces_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_start_queues);
+>  
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ns *ns;
+> +
+> +	mutex_lock(&ctrl->namespaces_mutex);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +		blk_sync_queue(ns->queue);
+> +	mutex_unlock(&ctrl->namespaces_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
+> +
+>  int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+>  {
+>  	if (!ctrl->ops->reinit_request)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 8e4550fa08f8..e7786bc845fe 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -374,6 +374,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>  
+>  void nvme_stop_queues(struct nvme_ctrl *ctrl);
+>  void nvme_start_queues(struct nvme_ctrl *ctrl);
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl);
+>  void nvme_kill_queues(struct nvme_ctrl *ctrl);
+>  void nvme_unfreeze(struct nvme_ctrl *ctrl);
+>  void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6fe7af00a1f4..9e3d7b293509 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2286,6 +2286,7 @@ static void nvme_reset_work(struct work_struct *work)
+>  	 */
+>  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+>  		nvme_dev_disable(dev, false);
+> +	nvme_sync_queues(&dev->ctrl);
 
-I never seen any suspend / hibernate related issues with blk-mq + bfq since 
-then. Using heavily utilized BTRFS dual SSD RAID 1.
+There could be a circular pattern here. Please consider the following scenario:
 
-% egrep "MQ|BFQ" /boot/config-4.15.0-tp520-btrfstrim+
-CONFIG_POSIX_MQUEUE=y
-CONFIG_POSIX_MQUEUE_SYSCTL=y
-CONFIG_BLK_WBT_MQ=y
-CONFIG_BLK_MQ_PCI=y
-CONFIG_BLK_MQ_VIRTIO=y
-CONFIG_MQ_IOSCHED_DEADLINE=m
-CONFIG_MQ_IOSCHED_KYBER=m
-CONFIG_IOSCHED_BFQ=m
-CONFIG_BFQ_GROUP_IOSCHED=y
-CONFIG_NET_SCH_MQPRIO=m
-# CONFIG_SCSI_MQ_DEFAULT is not set
-# CONFIG_DM_MQ_DEFAULT is not set
-CONFIG_DM_CACHE_SMQ=m
+timeout_work context                    reset_work context
+nvme_timeout                            nvme_reset_work
+  -> nvme_dev_disable                     -> nvme_sync_queues // hold namespace_mutex
+    -> nvme_stop_queues                     -> blk_sync_queue
+      -> require namespaces_mutex               -> cancel_work_sync(&q->timeout_work)
 
-% cat /proc/cmdline 
-BOOT_IMAGE=/vmlinuz-4.15.0-tp520-btrfstrim+ root=UUID=[?] ro 
-rootflags=subvol=debian resume=/dev/mapper/sata-swap init=/bin/systemd 
-thinkpad_acpi.fan_control=1 systemd.restore_state=0 scsi_mod.use_blk_mq=1
+On the other hand, the blk_mq_kick_requeue_list() should be also added in nvme_kill_queues
+for the case of queue_count < 2
 
-% cat /sys/block/sda/queue/scheduler 
-[bfq] none
+Thanks
+Jianchao
 
-Thanks,
--- 
-Martin
+>  
+>  	/*
+>  	 * Introduce RECONNECTING state from nvme-fc/rdma transports to mark the
+> 
