@@ -1,146 +1,110 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 30 Jan 2018 10:54:15 -0800
-Subject: [PATCH 3/5] nvme-fc: use NVME_CTRL_CONNECTING state to mark init
- process
-In-Reply-To: <1517147887-15645-4-git-send-email-maxg@mellanox.com>
-References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
- <1517147887-15645-4-git-send-email-maxg@mellanox.com>
-Message-ID: <05dbf01f-da45-6619-fbc3-f6249f7239f9@broadcom.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Tue, 30 Jan 2018 14:33:23 -0500
+Subject: [PATCH v5] blk-mq: introduce BLK_STS_DEV_RESOURCE
+In-Reply-To: <43ac2314-c98d-bb76-0dfb-171d15cc5fd8@wdc.com>
+References: <20180130142459.52668-1-snitzer@redhat.com>
+ <43ac2314-c98d-bb76-0dfb-171d15cc5fd8@wdc.com>
+Message-ID: <20180130193323.GA15943@redhat.com>
 
-On 1/28/2018 5:58 AM, Max Gurtovoy wrote:
-> Align with RDMA and PCI transports.
->
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/host/fc.c | 16 ++++++++++------
->   1 file changed, 10 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index b679971..2992896 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
+On Tue, Jan 30 2018 at 12:52pm -0500,
+Bart Van Assche <bart.vanassche@wdc.com> wrote:
 
-The other patches in this set look ok, but with one caveat (5th patch) 
-I'll get to shortly.? I agree with the desired statemachine look as 
-well, with more comments on this below.
+> On 01/30/18 06:24, Mike Snitzer wrote:
+> >+		 *
+> >+		 * If driver returns BLK_STS_RESOURCE and SCHED_RESTART
+> >+		 * bit is set, run queue after a delay to avoid IO stalls
+> >+		 * that could otherwise occur if the queue is idle.
+> >  		 */
+> >-		if (!blk_mq_sched_needs_restart(hctx) ||
+> >+		needs_restart = blk_mq_sched_needs_restart(hctx);
+> >+		if (!needs_restart ||
+> >  		    (no_tag && list_empty_careful(&hctx->dispatch_wait.entry)))
+> >  			blk_mq_run_hw_queue(hctx, true);
+> >+		else if (needs_restart && (ret == BLK_STS_RESOURCE))
+> >+			blk_mq_delay_run_hw_queue(hctx, BLK_MQ_QUEUE_DELAY);
+> >  	}
+> 
+> If a request completes concurrently with execution of the above code
+> then the request completion will trigger a call of
+> blk_mq_sched_restart_hctx() and that call will clear the
+> BLK_MQ_S_SCHED_RESTART bit. If that bit is cleared before the above
+> code tests it then the above code will schedule an asynchronous call
+> of __blk_mq_run_hw_queue(). If the .queue_rq() call triggered by the
+> new queue run returns again BLK_STS_RESOURCE then the above code
+> will be executed again. In other words, a loop occurs. That loop
+> will repeat as long as the described race occurs. The current
+> (kernel v4.15) block layer behavior is simpler: only block drivers
+> call blk_mq_delay_run_hw_queue() and the block layer core never
+> calls that function. Hence that loop cannot occur with the v4.15
+> block layer core and block drivers. A motivation of why that loop is
+> preferred compared to the current behavior (no loop) is missing.
+> Does this mean that that loop is a needless complication of the
+> block layer core?
 
-This fc patch though - I disagree with. There was a reason I avoided the 
-"new" arguments that were in rdma and instead keyed off the the NEW 
-controller state. We were coded differently and adding them in raises 
-some conditions where they will not be set properly relative to how far 
-the controller is initialized.
+No it means the loop is an internal blk-mq concern.  And that drivers
+needn't worry about kicking the queue.  And it affords blk-mq latitude
+to change how it responds to BLK_STS_RESOURCE in the future (without
+needing to change every driver).
 
-In FC, when we had failures in the initial connect - the controller 
-state stayed in the NEW state for 3 retries of the initial controller 
-create. The 3 retries were immediate and driven from the create_ctrl 
-call.? It does bother me that fc did not go into the reconnect 
-delay/retry loop like we would once we had passed initial connect, but 
-if we do that, the controller state machine means we lose the NEW 
-condition that tracked how much the controller was initialized and would 
-miss some initial setup for the io queues as well as action on the 
-queues when tearing down the association that got partially built before 
-failing. It's actually the same situations you create with this patch - 
-the "new" arguments aren't set to a correct value relative to how much 
-the controller has initialized.
+But even v4.15 has a similar loop.  It just happens to extend into the
+.queue_rq() where the driver is completely blind to SCHED_RESTART.  And
+the driver may just repeatedly kick the queue after a delay (via
+blk_mq_delay_run_hw_queue).
 
-There's another effort going on as well.? Hannes has been pushing for 
-simplified udev/systemd scripts.? Right now, the scripts require systemd 
-as that call to create_cntrl can take a while - due to timeout on an io 
-transaction or due to retries.? If the initial create_ctrl request can 
-be relatively quick, we can get back to a simple udev script to 
-scan/connect.? The trick being: the nvme cli for connect-all, which 
-creates the discovery controller then connects to it to read discovery 
-log messages - needs to glean the instance number for the discovery 
-controller.? And to glean the number means create_ctrl needs to 
-succeed.?? Mixing this need, and the desire to use the same reconnect 
-delay/retry for initial connect - means I believe I have to formalize 
-the "allocation state" of a controller, with 2 implementation options: 
-a) a state flag tracking whether initial connect has been completed or 
-not (e.g. what the new flag should be set to); or b) deal with how we 
-always create an initial io tag set and allow the later association 
-under the CONNECT state resize it based on the new association and 
-resume it.
+This cycle should be a very rare occurrence regardless of which approach
+is taken (V5 vs 4.15).  The fact that you engineered your SRP initiator
+and target code to pathologically trigger this worst case (via
+target_can_queue) doesn't mean it is the fast path for a properly
+configured and functioning storage network.
 
-What I'd like to have you do is drop this patch and the 5th patch. The 
-5th patch removes the NEW->LIVE transition.? Leave that, so the FC can 
-continue to work as is without this 3rd patch.?? Then I can implement 
-the work above independently.? I can resubmit the 5th patch when FC no 
-longer needs it.
+> Sorry but I still prefer the v4.15 block layer approach because this
+> patch has in my view the following disadvantages:
+> - It involves a blk-mq API change. API changes are always risky and need
+>   some time to stabilize.
 
--- james
+The number of blk-mq API changes that have occurred since blk-mq was
+introduced is a very long list.  Seems contrived to make this the one
+that is breaking the camel's back.
 
-Note: as far as test the fc transport - that is what the fcloop driver 
-is for.
+> - The delay after which to rerun the queue is moved from block layer
+>   drivers into the block layer core. I think that's wrong because only
+>   the block driver authors can make a good choice for this constant.
 
+Unsubstantiated.  3ms (scsi-mq, nvmefc) vs 100ms (dm-mq mpath): which is
+better?  Pretty sure if the underlying storage network is 1) performant
+2) properly configured -- then a shorter delay is preferable.
 
+> - This patch makes block drivers harder to understand. Anyone who sees
+>   return BLK_STS_RESOURCE / return BLK_STS_DEV_RESOURCE for the first
+>   time will have to look up the meaning of these constants. An explicit
+>   blk_mq_delay_run_hw_queue() call is easier to understand.
 
+No it doesn't make blk-mq harder to understand.  But even if it did it
+actually acknowledges that there is existing blk-mq SCHED_RESTART
+heuristic for how to deal with the need for blk-mq to back-off in the
+face of BLK_STS_RESOURCE returns.  By just having each blk-mq driver
+blindly kick the queue you're actively ignoring, and defeating, that
+entire design element of blk-mq (SCHED_RESTART).
 
-> @@ -2704,7 +2704,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->    * on the link side, recreates the controller association.
->    */
->   static int
-> -nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
-> +nvme_fc_create_association(struct nvme_fc_ctrl *ctrl, bool new)
->   {
->   	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
->   	int ret;
-> @@ -2735,7 +2735,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->   	if (ret)
->   		goto out_delete_hw_queue;
->   
-> -	if (ctrl->ctrl.state != NVME_CTRL_NEW)
-> +	if (!new)
->   		blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
->   
->   	ret = nvmf_connect_admin_queue(&ctrl->ctrl);
-> @@ -2801,7 +2801,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->   	 */
->   
->   	if (ctrl->ctrl.queue_count > 1) {
-> -		if (ctrl->ctrl.state == NVME_CTRL_NEW)
-> +		if (new)
->   			ret = nvme_fc_create_io_queues(ctrl);
->   		else
->   			ret = nvme_fc_reinit_io_queues(ctrl);
-> @@ -3007,7 +3007,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->   	}
->   
->   	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
-> -		ret = nvme_fc_create_association(ctrl);
-> +		ret = nvme_fc_create_association(ctrl, false);
->   	else
->   		ret = -ENOTCONN;
->   
-> @@ -3042,7 +3042,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->   			container_of(to_delayed_work(work),
->   				struct nvme_fc_ctrl, connect_work);
->   
-> -	ret = nvme_fc_create_association(ctrl);
-> +	ret = nvme_fc_create_association(ctrl, false);
->   	if (ret)
->   		nvme_fc_reconnect_or_delete(ctrl, ret);
->   	else
-> @@ -3096,6 +3096,7 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->   	struct nvme_fc_ctrl *ctrl;
->   	unsigned long flags;
->   	int ret, idx, retry;
-> +	bool changed;
->   
->   	if (!(rport->remoteport.port_role &
->   	    (FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
-> @@ -3212,8 +3213,11 @@ static inline blk_status_t nvme_fc_is_ready(struct nvme_fc_queue *queue,
->   	 * request fails, retry the initial connection creation up to
->   	 * three times before giving up and declaring failure.
->   	 */
-> +	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING);
-> +	WARN_ON_ONCE(!changed);
-> +
->   	for (retry = 0; retry < 3; retry++) {
-> -		ret = nvme_fc_create_association(ctrl);
-> +		ret = nvme_fc_create_association(ctrl, true);
->   		if (!ret)
->   			break;
->   	}
+It is an instance where blk-mq can and does know better.  Acknowledging
+that fact is moving blk-mq in a better direction.
 
-note: the diff, with everything tagged as being in the routine 
-nvme_fc_is_ready() made the patch very odd to read
+> - This patch makes the blk-mq core harder to understand because of the
+>   loop mentioned above.
+
+You've said your peace.  But you've taken on this campaign to undermine
+this line of development with such passion that we're now in a place
+where Jens is shell-shocked by all the repeat campaigning and noise.
+
+Bart you keep saying the same things over and over.  Yet you cannot show
+the patch to actively be a problem with testing-based detail.
+
+Seems you'd rather refuse to even test it than open yourself up to the
+possibility that this concern of yours has been making a mountain out of
+a mole hill.
+
+> - This patch does not fix any bugs nor makes block drivers easier to
+>   read or to implement. So why is this patch considered useful?
+
+It enables blk-mq core to own the problem that individual drivers should
+have no business needing to worry about.  Period.
