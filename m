@@ -1,48 +1,43 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 30 Jan 2018 11:08:28 +0100
-Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk> (Jens Axboe's
- message of "Mon, 29 Jan 2018 14:00:11 -0700")
-References: <20180129154455.GB17176@ming.t460p>
- <1517259390.3969.41.camel@HansenPartnership.com>
- <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk>
-Message-ID: <mqdzi4vlkv7.fsf@linux-x5ow.site>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Tue, 30 Jan 2018 10:07:01 +0000
+Subject: [PATCH V2] nvmet: Change return code of discard command if not
+ supported
+Message-ID: <1517306821-9908-1-git-send-email-israelr@mellanox.com>
 
-[+Cc Mel]
-Jens Axboe <axboe at kernel.dk> writes:
-> On 1/29/18 1:56 PM, James Bottomley wrote:
->> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
->> [...]
->>> 2. When to enable SCSI_MQ at default again?
->> 
->> I'm not sure there's much to discuss ... I think the basic answer is as
->> soon as Christoph wants to try it again.
->
-> FWIW, internally I've been running various IO intensive workloads on
-> what is essentially 4.12 upstream with scsi-mq the default (with
-> mq-deadline as the scheduler) and comparing IO workloads with a
-> previous 4.6 kernel (without scsi-mq), and things are looking
-> great.
->
-> We're never going to iron out the last kinks with it being off
-> by default, I think we should attempt to flip the switch again
-> for 4.16.
+Execute discard command on block device that doesn't support it
+should return success.
+Returning internal error while using multi-path fails the path.
 
-The 4.12 sounds interesting. I remember Mel ran some test with 4.12 as
-we where considering to flip the config option for SLES and it showed
-several road blocks.
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+---
 
-I'm not sure whether he re-evaluated 4.13/4.14 on his grid though.
+Changes from v1:
+ - return success instead of invalid opcode error
 
-But I'm definitively interested in this discussion and can even possibly
-share some benchmark results we did in our FC Lab.
+---
+ drivers/nvme/target/io-cmd.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Byte,
-        Johannes
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 0a4372a..28bbdff 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -105,10 +105,13 @@ static void nvmet_execute_flush(struct nvmet_req *req)
+ static u16 nvmet_discard_range(struct nvmet_ns *ns,
+ 		struct nvme_dsm_range *range, struct bio **bio)
+ {
+-	if (__blkdev_issue_discard(ns->bdev,
++	int ret;
++
++	ret = __blkdev_issue_discard(ns->bdev,
+ 			le64_to_cpu(range->slba) << (ns->blksize_shift - 9),
+ 			le32_to_cpu(range->nlb) << (ns->blksize_shift - 9),
+-			GFP_KERNEL, 0, bio))
++			GFP_KERNEL, 0, bio);
++	if (ret && ret != -EOPNOTSUPP)
+ 		return NVME_SC_INTERNAL | NVME_SC_DNR;
+ 	return 0;
+ }
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
