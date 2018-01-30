@@ -1,11 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 30 Jan 2018 08:05:14 +0100
-Subject: [PATCH 2/3] nvme: Asynchronous driver commands API
-In-Reply-To: <20180129235949.26267-2-keith.busch@intel.com>
-References: <20180129235949.26267-1-keith.busch@intel.com>
- <20180129235949.26267-2-keith.busch@intel.com>
-Message-ID: <20180130070514.GA12196@lst.de>
+Date: Tue, 30 Jan 2018 08:05:19 +0100
+Subject: [PATCH] nvmet: Change error code of discard command if not
+ supported
+In-Reply-To: <0012e13c-a621-fdc3-f072-294641b00136@grimberg.me>
+References: <1517234450-16502-1-git-send-email-israelr@mellanox.com>
+ <0012e13c-a621-fdc3-f072-294641b00136@grimberg.me>
+Message-ID: <20180130070519.GB12196@lst.de>
 
-As pointed our by Roland we'll need to make sure req->cmd is allocated
-dynamically for async commands.  I suspect the best way to handle that
-is to turn it into an actual embedded structure instead of a pointer.
+On Mon, Jan 29, 2018@08:30:45PM +0200, Sagi Grimberg wrote:
+> Actually I don't think we are allowed to fail with this status. We claim
+> we support dsm regardless of the underlying backend device (because we
+> can expose different devices in the same subsystem), so we can't fail
+> a valid dsm command on invalid opcode. Either we keep the existing
+> behavior or we simply return success as dsm is a hint anyways...
+
+Yes, we should return success here.
