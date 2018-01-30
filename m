@@ -1,17 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 30 Jan 2018 08:05:19 +0100
-Subject: [PATCH] nvmet: Change error code of discard command if not
- supported
-In-Reply-To: <0012e13c-a621-fdc3-f072-294641b00136@grimberg.me>
-References: <1517234450-16502-1-git-send-email-israelr@mellanox.com>
- <0012e13c-a621-fdc3-f072-294641b00136@grimberg.me>
-Message-ID: <20180130070519.GB12196@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 30 Jan 2018 09:25:59 +0200
+Subject: [PATCH 3/5] nvme-fc: use NVME_CTRL_CONNECTING state to mark init
+ process
+In-Reply-To: <5a292701-2222-f1d5-0c03-edc776be487d@mellanox.com>
+References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
+ <1517147887-15645-4-git-send-email-maxg@mellanox.com>
+ <83fbd86f-2733-8e86-f686-f88b93ff3f06@grimberg.me>
+ <5a292701-2222-f1d5-0c03-edc776be487d@mellanox.com>
+Message-ID: <90de9b92-e296-17d6-9e11-e6010e830ff4@grimberg.me>
 
-On Mon, Jan 29, 2018@08:30:45PM +0200, Sagi Grimberg wrote:
-> Actually I don't think we are allowed to fail with this status. We claim
-> we support dsm regardless of the underlying backend device (because we
-> can expose different devices in the same subsystem), so we can't fail
-> a valid dsm command on invalid opcode. Either we keep the existing
-> behavior or we simply return success as dsm is a hint anyways...
 
-Yes, we should return success here.
+>> Was this tested?
+> 
+> No, I don't have the FC HW to test it.
+> I hope someone from the FC guys can help us with this one.
+> This patch was sent as proposal in V1..
+
+Then you need to mention that in the commit message.
