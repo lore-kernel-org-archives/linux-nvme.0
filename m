@@ -1,73 +1,59 @@
-From: john.garry@huawei.com (John Garry)
-Date: Tue, 30 Jan 2018 10:33:20 +0000
+From: mgorman@suse.com (Mel Gorman)
+Date: Tue, 30 Jan 2018 10:50:52 +0000
 Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <20180130012408.GD17176@ming.t460p>
+In-Reply-To: <mqdzi4vlkv7.fsf@linux-x5ow.site>
 References: <20180129154455.GB17176@ming.t460p>
  <1517259390.3969.41.camel@HansenPartnership.com>
- <20180130012408.GD17176@ming.t460p>
-Message-ID: <f2cf73ae-d645-6a04-5190-3d0cc91c4581@huawei.com>
+ <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk>
+ <mqdzi4vlkv7.fsf@linux-x5ow.site>
+Message-ID: <20180130105052.gtetsqx3xgsxog7n@novell.com>
 
-On 30/01/2018 01:24, Ming Lei wrote:
-> On Mon, Jan 29, 2018@12:56:30PM -0800, James Bottomley wrote:
->> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
->> [...]
->>> 2. When to enable SCSI_MQ at default again?
->>
->> I'm not sure there's much to discuss ... I think the basic answer is as
->> soon as Christoph wants to try it again.
->
-> I guess Christoph still need to evaluate if there are existed issues or
-> blockers before trying it again. And more input may be got from F2F
-> discussion, IMHO.
->
->>
->>> SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In
->>> V4.13-rc1, it is enabled at default, but later the patch is reverted
->>> in V4.13-rc7, and becomes disabled at default too.
->>>
->>> Now both the original reported PM issue(actually SCSI quiesce) and
->>> the sequential IO performance issue have been addressed.
->>
->> Is the blocker bug just not closed because no-one thought to do it:
->>
->> https://bugzilla.kernel.org/show_bug.cgi?id=178381
->>
->> (we have confirmed that this issue is now fixed with the original
->> reporter?)
->
->>From a developer view, this issue is fixed by the following commit:
-> 3a0a52997(block, scsi: Make SCSI quiesce and resume work reliably),
-> and it is verified by kernel list reporter.
->
->>
->> And did the Huawei guy (Jonathan Cameron) confirm his performance issue
->> was fixed (I don't think I saw email that he did)?
->
-> Last time I talked with John Garry about the issue, and the merged .get_budget
-> based patch improves much on the IO performance, but there is still a bit gap
-> compared with legacy path. Seems a driver specific issue, remembered that removing
-> a driver's lock can improve performance much.
->
-> Garry, could you provide further update on this issue?
+On Tue, Jan 30, 2018@11:08:28AM +0100, Johannes Thumshirn wrote:
+> [+Cc Mel]
+> Jens Axboe <axboe at kernel.dk> writes:
+> > On 1/29/18 1:56 PM, James Bottomley wrote:
+> >> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
+> >> [...]
+> >>> 2. When to enable SCSI_MQ at default again?
+> >> 
+> >> I'm not sure there's much to discuss ... I think the basic answer is as
+> >> soon as Christoph wants to try it again.
+> >
+> > FWIW, internally I've been running various IO intensive workloads on
+> > what is essentially 4.12 upstream with scsi-mq the default (with
+> > mq-deadline as the scheduler) and comparing IO workloads with a
+> > previous 4.6 kernel (without scsi-mq), and things are looking
+> > great.
+> >
+> > We're never going to iron out the last kinks with it being off
+> > by default, I think we should attempt to flip the switch again
+> > for 4.16.
+> 
+> The 4.12 sounds interesting. I remember Mel ran some test with 4.12 as
+> we where considering to flip the config option for SLES and it showed
+> several road blocks.
+> 
 
-Hi Ming,
+Mostly due to slow storage and BFQ where mq-deadline was not a universal
+win as an alternative default. I don't have current data and I archived
+what I had, but it was based on 4.13-rc7 at the time and BFQ has changed
+a lot since so it would need to be redone.
 
- From our testing with experimental changes to our driver to support 
-SCSI mq we were almost getting on par performance with legacy path. But 
-without these MQ was hitting performance (and I would not necessarily 
-say it was a driver issue).
+> I'm not sure whether he re-evaluated 4.13/4.14 on his grid though.
+> 
 
-We can retest from today's mainline and see where we are.
+No, it hasn't. Grid time for performance testing has been tight during
+the last few months to say the least.
 
-BTW, Have you got performance figures for many other single queue HBAs 
-with and without CONFIG_SCSI_MQ_DEFAULT=Y?
+> But I'm definitively interested in this discussion and can even possibly
+> share some benchmark results we did in our FC Lab.
+> 
 
-Thanks,
-John
+If you remind me, I may be able to re-execute the tests in a 4.16-rcX
+before LSF/MM so you have other data to work with.  Unfortunately, I'll
+not be able to make LSF/MM this time due to personal commitments that
+conflict and are unmovable.
 
->
-> Thanks,
-> Ming
->
-> .
->
+-- 
+Mel Gorman
+SUSE Labs
