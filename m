@@ -1,26 +1,48 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 30 Jan 2018 11:32:20 +0200
-Subject: [PATCH 3/5] nvme-fc: use NVME_CTRL_CONNECTING state to mark init
- process
-In-Reply-To: <90de9b92-e296-17d6-9e11-e6010e830ff4@grimberg.me>
-References: <1517147887-15645-1-git-send-email-maxg@mellanox.com>
- <1517147887-15645-4-git-send-email-maxg@mellanox.com>
- <83fbd86f-2733-8e86-f686-f88b93ff3f06@grimberg.me>
- <5a292701-2222-f1d5-0c03-edc776be487d@mellanox.com>
- <90de9b92-e296-17d6-9e11-e6010e830ff4@grimberg.me>
-Message-ID: <a6e76105-9023-ec3f-ed71-13bde1556494@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 30 Jan 2018 11:08:28 +0100
+Subject: [LSF/MM TOPIC] Two blk-mq related topics
+In-Reply-To: <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk> (Jens Axboe's
+ message of "Mon, 29 Jan 2018 14:00:11 -0700")
+References: <20180129154455.GB17176@ming.t460p>
+ <1517259390.3969.41.camel@HansenPartnership.com>
+ <fc833da8-f9de-d577-e1d3-c46d8c061d35@kernel.dk>
+Message-ID: <mqdzi4vlkv7.fsf@linux-x5ow.site>
 
+[+Cc Mel]
+Jens Axboe <axboe at kernel.dk> writes:
+> On 1/29/18 1:56 PM, James Bottomley wrote:
+>> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
+>> [...]
+>>> 2. When to enable SCSI_MQ at default again?
+>> 
+>> I'm not sure there's much to discuss ... I think the basic answer is as
+>> soon as Christoph wants to try it again.
+>
+> FWIW, internally I've been running various IO intensive workloads on
+> what is essentially 4.12 upstream with scsi-mq the default (with
+> mq-deadline as the scheduler) and comparing IO workloads with a
+> previous 4.6 kernel (without scsi-mq), and things are looking
+> great.
+>
+> We're never going to iron out the last kinks with it being off
+> by default, I think we should attempt to flip the switch again
+> for 4.16.
 
+The 4.12 sounds interesting. I remember Mel ran some test with 4.12 as
+we where considering to flip the config option for SLES and it showed
+several road blocks.
 
-On 1/30/2018 9:25 AM, Sagi Grimberg wrote:
-> 
->>> Was this tested?
->>
->> No, I don't have the FC HW to test it.
->> I hope someone from the FC guys can help us with this one.
->> This patch was sent as proposal in V1..
-> 
-> Then you need to mention that in the commit message.
+I'm not sure whether he re-evaluated 4.13/4.14 on his grid though.
 
-Sorry :)
-I've mentioned it in my proposal (V1), forgot to add it in V2.
+But I'm definitively interested in this discussion and can even possibly
+share some benchmark results we did in our FC Lab.
+
+Byte,
+        Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
