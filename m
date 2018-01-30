@@ -1,35 +1,73 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Tue, 30 Jan 2018 11:20:49 +0800
-Subject: [PATCH V4] blk-mq: introduce BLK_STS_DEV_RESOURCE
-In-Reply-To: <1517262713.2687.56.camel@wdc.com>
-References: <20180129203300.50595-1-snitzer@redhat.com>
- <1517260932.2687.42.camel@wdc.com>
- <20180129214446.GD5744@redhat.com> <1517262713.2687.56.camel@wdc.com>
-Message-ID: <CACVXFVPhwAoTLQ++tAPDKyycL9PLPs8h4oCCVfxEBZJp0ToKSg@mail.gmail.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Tue, 30 Jan 2018 11:41:07 +0800
+Subject: [PATCH] nvme-pci: use NOWAIT flag for nvme_set_host_mem
+In-Reply-To: <20180129201716.GB25515@localhost.localdomain>
+References: <1517195255-21832-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180129160145.GA25515@localhost.localdomain>
+ <1b7d3700-945f-9272-b6aa-d2ebeaf0cb1e@grimberg.me>
+ <20180129201716.GB25515@localhost.localdomain>
+Message-ID: <c3116e1b-481a-1b3f-b29c-7de95929ecb8@oracle.com>
 
-On Tue, Jan 30, 2018@5:51 AM, Bart Van Assche <Bart.VanAssche@wdc.com> wrote:
-> On Mon, 2018-01-29@16:44 -0500, Mike Snitzer wrote:
->> But regardless of which wins the race, the queue will have been run.
->> Which is all we care about right?
->
-> Running the queue is not sufficient. With this patch applied it can happen
-> that the block driver returns BLK_STS_DEV_RESOURCE, that the two or more
-> concurrent queue runs finish before sufficient device resources are available
-> to execute the request and that blk_mq_delay_run_hw_queue() does not get
-> called at all. If no other activity triggers a queue run, e.g. request
-> completion, this will result in a queue stall.
+Hi Keith and Sagi
 
-Please see document of BLK_STS_DEV_RESOURCE:
+Thanks for your kindly response. :)
 
-+ * BLK_STS_DEV_RESOURCE is returned from driver to block layer if device
-+ * related resource is unavailable, but driver can guarantee that queue
-+ * will be rerun in future once the resource is available (whereby
-+ * dispatching requests).
+On 01/30/2018 04:17 AM, Keith Busch wrote:
+> On Mon, Jan 29, 2018@09:55:41PM +0200, Sagi Grimberg wrote:
+>>> Thanks for the fix. It looks like we still have a problem, though.
+>>> Commands submitted with the "shutdown_lock" held need to be able to make
+>>> forward progress without relying on a completion, but this one could
+>>> block indefinitely.
+>>
+>> Can you explain to me why is the shutdown_lock needed to synchronize
+>> nvme_dev_disable? More concretely, how is nvme_dev_disable different
+>> from other places where we rely on the ctrl state to serialize stuff?
+>>
+>> The only reason I see would be to protect against completion-after-abort
+>> scenario but I think the block layer should protect against it (checks
+>> if the request timeout timer fired).
+> 
+> We can probably find a way to use the state machine for this. Disabling
+> the controller pre-dates the state machine, and the mutex is there to
+> protect against two actors shutting the controller down at the same
+> time, like a hot removal at the same time as a timeout handling reset.
+> 
 
-I have explained the SCSI's BLK_STS_DEV_RESOURCE conversion in
-another thread, let's know if you have further concern:
+Another point that confuses me is that whether nvme_set_host_mem is necessary
+in nvme_dev_disable ?
+As the comment:
+----
+		/*
+		 * If the controller is still alive tell it to stop using the
+		 * host memory buffer.  In theory the shutdown / reset should
+		 * make sure that it doesn't access the host memoery anymore,
+		 * but I'd rather be safe than sorry..
+		 */
+		if (dev->host_mem_descs)
+			nvme_set_host_mem(dev, 0);
+----
+It is to avoid accessing to host memory from controller. But the host memory is just
+freed when nvme_remove. It looks like we just need to do this in nvme_remove.
+For example:
+-----
+@@ -2553,6 +2545,14 @@ static void nvme_remove(struct pci_dev *pdev)
+        flush_work(&dev->ctrl.reset_work);
+        nvme_stop_ctrl(&dev->ctrl);
+        nvme_remove_namespaces(&dev->ctrl);
++       /*
++        * If the controller is still alive tell it to stop using the
++        * host memory buffer.  In theory the shutdown / reset should
++        * make sure that it doesn't access the host memoery anymore,
++        * but I'd rather be safe than sorry..
++        */
++       if (dev->host_mem_descs)
++               nvme_set_host_mem(dev, 0);
+        nvme_dev_disable(dev, true);
+        nvme_free_host_mem(dev);
+----
 
-https://marc.info/?l=linux-block&m=151727454815018&w=2
+If anything missed, please point out.
+That's really appreciated.
 
--- 
-Ming Lei
+Sincerely
+Jianchao
