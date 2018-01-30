@@ -1,32 +1,31 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 30 Jan 2018 15:12:12 -0500
-Subject: [PATCH v5] blk-mq: introduce BLK_STS_DEV_RESOURCE
-In-Reply-To: <1517341349.2589.35.camel@wdc.com>
-References: <20180130142459.52668-1-snitzer@redhat.com>
- <43ac2314-c98d-bb76-0dfb-171d15cc5fd8@wdc.com>
- <20180130193323.GA15943@redhat.com>
- <1517341349.2589.35.camel@wdc.com>
-Message-ID: <20180130201212.GA16284@redhat.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 30 Jan 2018 13:32:25 -0700
+Subject: WARNING: CPU: 2 PID: 207 at drivers/nvme/host/core.c:527
+ nvme_setup_cmd+0x3d3
+In-Reply-To: <20180130203011.GE27205@localhost.localdomain>
+References: <45f93661-da0d-94c5-1740-85242df8776e@kernel.dk>
+ <0872b361-157b-a876-20af-3d7a4ee7ff31@kernel.dk>
+ <20180130203011.GE27205@localhost.localdomain>
+Message-ID: <d09416a0-e9c8-a921-26f4-2b9da559da90@kernel.dk>
 
-On Tue, Jan 30 2018 at  2:42pm -0500,
-Bart Van Assche <Bart.VanAssche@wdc.com> wrote:
-
-> On Tue, 2018-01-30@14:33 -0500, Mike Snitzer wrote:
-> > On Tue, Jan 30 2018 at 12:52pm -0500,
-> > Bart Van Assche <bart.vanassche@wdc.com> wrote:
-> > 
-> > > - This patch does not fix any bugs nor makes block drivers easier to
-> > >   read or to implement. So why is this patch considered useful?
-> > 
-> > It enables blk-mq core to own the problem that individual drivers should
-> > have no business needing to worry about.  Period.
+On 1/30/18 1:30 PM, Keith Busch wrote:
+> On Tue, Jan 30, 2018@08:57:49AM -0700, Jens Axboe wrote:
+>>
+>> Looking at the disassembly, 'n' is 2 and 'segments' is 0xffff.
 > 
-> Thanks for having confirmed that this patch is an API-change only and does
-> not fix any bugs.
+> Is this still a problem if you don't use an IO scheduler? With deadline,
+> I'm not finding any path to bio_attempt_discard_merge which is where the
+> nr_phys_segments is supposed to get it set to 2. Not sure how it could
+> becmoe 0xffff, though.
 
-No, it is an API change that enables blk-mq drivers to make forward
-progress without compromising the potential benefits associated with
-blk-mq's SCHED_RESTART functionality.
+blk_mq_make_request() -> blk_mq_sched_bio_merge() -> __blk_mq_sched_bio_merge()
+	-> blk_mq_attempt_merge() -> bio_attempt_discard_merge()
 
-(If we're going to beat this horse to death it might as well be with
-precision)
+Doesn't matter what IO scheduler you use.
+
+I don't know if it triggers without a scheduler. I've been running this code
+continually on the laptop (always do), and haven't seen it before today.
+
+
+-- 
+Jens Axboe
