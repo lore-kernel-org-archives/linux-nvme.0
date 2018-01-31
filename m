@@ -1,37 +1,40 @@
-From: mhocko@kernel.org (Michal Hocko)
-Date: Wed, 31 Jan 2018 21:24:38 +0100
-Subject: [LSF/MM TOPIC] few MM topics
-In-Reply-To: <20180131192104.GD4841@magnolia>
-References: <20180124092649.GC21134@dhcp22.suse.cz>
- <20180131192104.GD4841@magnolia>
-Message-ID: <20180131202438.GA21609@dhcp22.suse.cz>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 31 Jan 2018 16:33:04 -0700
+Subject: WARNING: CPU: 2 PID: 207 at drivers/nvme/host/core.c:527
+ nvme_setup_cmd+0x3d3
+In-Reply-To: <0b7686b3-f716-49ba-c7c4-929d84905569@kernel.dk>
+References: <45f93661-da0d-94c5-1740-85242df8776e@kernel.dk>
+ <0872b361-157b-a876-20af-3d7a4ee7ff31@kernel.dk>
+ <8fd916ab-42d7-c654-5a01-8f1eb4be730e@oracle.com>
+ <0b7686b3-f716-49ba-c7c4-929d84905569@kernel.dk>
+Message-ID: <20180131233304.GE27735@localhost.localdomain>
 
-On Wed 31-01-18 11:21:04, Darrick J. Wong wrote:
-> On Wed, Jan 24, 2018@10:26:49AM +0100, Michal Hocko wrote:
-[...]
-> > - I would also love to talk to some FS people and convince them to move
-> >   away from GFP_NOFS in favor of the new scope API. I know this just
-> >   means to send patches but the existing code is quite complex and it
-> >   really requires somebody familiar with the specific FS to do that
-> >   work.
+On Wed, Jan 31, 2018@08:29:37AM -0700, Jens Axboe wrote:
 > 
-> Hm, are you talking about setting PF_MEMALLOC_NOFS instead of passing
-> *_NOFS to allocation functions and whatnot?
+> How about something like the below?
+> 
+> 
+> diff --git a/block/blk-merge.c b/block/blk-merge.c
+> index 8452fc7164cc..cee102fb060e 100644
+> --- a/block/blk-merge.c
+> +++ b/block/blk-merge.c
+> @@ -574,8 +574,13 @@ static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
+>  	    blk_rq_get_max_sectors(req, blk_rq_pos(req)))
+>  		return 0;
+>  
+> +	/*
+> +	 * For DISCARDs, the segment count isn't interesting since
+> +	 * the requests have no data attached.
+> +	 */
+>  	total_phys_segments = req->nr_phys_segments + next->nr_phys_segments;
+> -	if (blk_phys_contig_segment(q, req->biotail, next->bio)) {
+> +	if (total_phys_segments &&
+> +	    blk_phys_contig_segment(q, req->biotail, next->bio)) {
+>  		if (req->nr_phys_segments == 1)
+>  			req->bio->bi_seg_front_size = seg_size;
+>  		if (next->nr_phys_segments == 1)
 
-yes memalloc_nofs_{save,restore}
-
-> Right now XFS will set it
-> on any thread which has a transaction open, but that doesn't help for
-> fs operations that don't have transactions (e.g. reading metadata,
-> opening files).  I suppose we could just set the flag any time someone
-> stumbles into the fs code from userspace, though you're right that seems
-> daunting.
-
-I would really love to see the code to take the nofs scope
-(memalloc_nofs_save) at the point where the FS "critical" section starts
-(from the reclaim recursion POV). This would both document the context
-and also limit NOFS allocations to bare minumum.
-
--- 
-Michal Hocko
-SUSE Labs
+That'll keep it from going to 0xffff, but you'll still hit the warning and
+IO error. Even worse, this will corrupt memory: blk_rq_nr_discard_segments
+will return 1, and since you really had 2 segments, the nvme driver will
+overrun its array.
