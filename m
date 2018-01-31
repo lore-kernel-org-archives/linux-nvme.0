@@ -1,21 +1,30 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 31 Jan 2018 09:11:36 -0800
-Subject: [PATCH 3/3] nvme: delete NVME_CTRL_LIVE --> NVME_CTRL_CONNECTING
- transition
-In-Reply-To: <1517416286-31109-4-git-send-email-maxg@mellanox.com>
-References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
- <1517416286-31109-4-git-send-email-maxg@mellanox.com>
-Message-ID: <bb905705-7f96-a3e1-aa01-bd910a8a49fa@broadcom.com>
+From: sbauer@eng.utah.edu (Scotty Bauer)
+Date: Wed, 31 Jan 2018 11:43:33 -0700
+Subject: [LSF/MM TOPIC] KPTI effect on IO performance
+In-Reply-To: <20180131082331.GA25888@ming.t460p>
+References: <20180131082331.GA25888@ming.t460p>
+Message-ID: <d6729ac299e153de259cb8f8af0c888b@eng.utah.edu>
 
-On 1/31/2018 8:31 AM, Max Gurtovoy wrote:
-> There is no logical reason to move from live state to connecting
-> state. In case of initial connection establishment, the transition
-> should be NVME_CTRL_NEW --> NVME_CTRL_CONNECTING --> NVME_CTRL_LIVE.
-> In case of error recovery or reset, the transition should be
-> NVME_CTRL_LIVE --> NVME_CTRL_RESETTING --> NVME_CTRL_CONNECTING -->
-> NVME_CTRL_LIVE.
->
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+On 2018-01-31 01:23, Ming Lei wrote:
+> Hi All,
+> 
+> After KPTI is merged, there is extra load introduced to context switch
+> between user space and kernel space. It is observed on my laptop that 
+> one
+> syscall takes extra ~0.15us[1] compared with 'nopti'.
+> 
+> IO performance is affected too, it is observed that IOPS drops by 32% 
+> in
+> my test[2] on null_blk compared with 'nopti':
+> 
+> randread IOPS on latest linus tree:
+> -------------------------------------------------
+> | randread IOPS     | randread IOPS with 'nopti'|
+> ------------------------------------------------
+> | 928K              | 1372K                     |
+> ------------------------------------------------
+> 
+> 
 
-
-Reviewed-by: James Smart <james.smart at broadcom.com>
+Do you know if your CPU has PCID? It would be interesting to see these 
+tests on older CPUs or older kernels without PCID support.
