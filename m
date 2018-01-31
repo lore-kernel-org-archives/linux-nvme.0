@@ -1,17 +1,80 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 30 Jan 2018 13:30:11 -0700
-Subject: WARNING: CPU: 2 PID: 207 at drivers/nvme/host/core.c:527
- nvme_setup_cmd+0x3d3
-In-Reply-To: <0872b361-157b-a876-20af-3d7a4ee7ff31@kernel.dk>
-References: <45f93661-da0d-94c5-1740-85242df8776e@kernel.dk>
- <0872b361-157b-a876-20af-3d7a4ee7ff31@kernel.dk>
-Message-ID: <20180130203011.GE27205@localhost.localdomain>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 31 Jan 2018 10:14:51 +0800
+Subject: [dm-devel] [PATCH v5] blk-mq: introduce BLK_STS_DEV_RESOURCE
+In-Reply-To: <43ac2314-c98d-bb76-0dfb-171d15cc5fd8@wdc.com>
+References: <20180130142459.52668-1-snitzer@redhat.com>
+ <43ac2314-c98d-bb76-0dfb-171d15cc5fd8@wdc.com>
+Message-ID: <20180131021450.GD2618@ming.t460p>
 
-On Tue, Jan 30, 2018@08:57:49AM -0700, Jens Axboe wrote:
+On Tue, Jan 30, 2018@09:52:31AM -0800, Bart Van Assche wrote:
+> On 01/30/18 06:24, Mike Snitzer wrote:
+> > +		 *
+> > +		 * If driver returns BLK_STS_RESOURCE and SCHED_RESTART
+> > +		 * bit is set, run queue after a delay to avoid IO stalls
+> > +		 * that could otherwise occur if the queue is idle.
+> >   		 */
+> > -		if (!blk_mq_sched_needs_restart(hctx) ||
+> > +		needs_restart = blk_mq_sched_needs_restart(hctx);
+> > +		if (!needs_restart ||
+> >   		    (no_tag && list_empty_careful(&hctx->dispatch_wait.entry)))
+> >   			blk_mq_run_hw_queue(hctx, true);
+> > +		else if (needs_restart && (ret == BLK_STS_RESOURCE))
+> > +			blk_mq_delay_run_hw_queue(hctx, BLK_MQ_QUEUE_DELAY);
+> >   	}
 > 
-> Looking at the disassembly, 'n' is 2 and 'segments' is 0xffff.
+> If a request completes concurrently with execution of the above code then
+> the request completion will trigger a call of blk_mq_sched_restart_hctx()
+> and that call will clear the BLK_MQ_S_SCHED_RESTART bit. If that bit is
+> cleared before the above code tests it then the above code will schedule an
+> asynchronous call of __blk_mq_run_hw_queue(). If the .queue_rq() call
 
-Is this still a problem if you don't use an IO scheduler? With deadline,
-I'm not finding any path to bio_attempt_discard_merge which is where the
-nr_phys_segments is supposed to get it set to 2. Not sure how it could
-becmoe 0xffff, though.
+Right.
+
+> triggered by the new queue run returns again BLK_STS_RESOURCE then the above
+> code will be executed again. In other words, a loop occurs. That loop will
+
+This patch doesn't change anything about that. When BLK_STS_RESOURCE is
+returned, this request is added to hctx->dispatch, next time, before
+dispatching this request, SCHED_RESTART is set and the loop is cut.
+
+> repeat as long as the described race occurs. The current (kernel v4.15)
+> block layer behavior is simpler: only block drivers call
+> blk_mq_delay_run_hw_queue() and the block layer core never calls that
+> function. Hence that loop cannot occur with the v4.15 block layer core and
+
+That way isn't safe, I have explained to you in the following link:
+
+	https://marc.info/?l=dm-devel&m=151727454815018&w=2
+
+> block drivers. A motivation of why that loop is preferred compared to the
+> current behavior (no loop) is missing. Does this mean that that loop is a
+> needless complication of the block layer core?
+
+No such loop as I explained above.
+
+> 
+> Sorry but I still prefer the v4.15 block layer approach because this patch
+> has in my view the following disadvantages:
+> - It involves a blk-mq API change. API changes are always risky and need
+>   some time to stabilize.
+> - The delay after which to rerun the queue is moved from block layer
+>   drivers into the block layer core. I think that's wrong because only
+>   the block driver authors can make a good choice for this constant.
+> - This patch makes block drivers harder to understand. Anyone who sees
+>   return BLK_STS_RESOURCE / return BLK_STS_DEV_RESOURCE for the first
+>   time will have to look up the meaning of these constants. An explicit
+>   blk_mq_delay_run_hw_queue() call is easier to understand.
+> - This patch makes the blk-mq core harder to understand because of the
+>   loop mentioned above.
+> - This patch does not fix any bugs nor makes block drivers easier to
+>   read or to implement. So why is this patch considered useful?
+
+It does avoid the race I mentioned in the following link:
+
+	https://marc.info/?l=dm-devel&m=151727454815018&w=2
+
+More importantly, every driver need this change, if you have better idea
+to fix them all, please post a patch, then we can compare both.
+
+Thanks,
+Ming
