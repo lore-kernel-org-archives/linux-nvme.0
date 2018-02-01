@@ -1,18 +1,25 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Feb 2018 14:28:19 -0700
-Subject: [PATCHv2 2/2] block: Handle merging discards in IO schedulers
-In-Reply-To: <d2b2eb11-fb1c-91a9-604b-d2dddac88a45@kernel.dk>
-References: <20180201203158.24761-1-keith.busch@intel.com>
- <20180201203158.24761-3-keith.busch@intel.com>
- <d2b2eb11-fb1c-91a9-604b-d2dddac88a45@kernel.dk>
-Message-ID: <20180201212818.GE24417@localhost.localdomain>
+Date: Thu,  1 Feb 2018 14:41:15 -0700
+Subject: [PATCH] blk-mq-sched: Enable merging discard bio into request
+Message-ID: <20180201214115.24909-1-keith.busch@intel.com>
 
-On Thu, Feb 01, 2018@02:02:14PM -0700, Jens Axboe wrote:
-> On 2/1/18 1:31 PM, Keith Busch wrote:
-> > This adds support for merging discard requests in all IO schedulers.
-> 
-> As per my last email, some of these aren't correct. Only the
-> blk-mq-sched change is correct/useful, so we should just do that
-> separately.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-mq-sched.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Sorry, I got ahead of myself with this one.
+diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
+index 55c0a745b427..25c14c58385c 100644
+--- a/block/blk-mq-sched.c
++++ b/block/blk-mq-sched.c
+@@ -259,6 +259,8 @@ bool blk_mq_sched_try_merge(struct request_queue *q, struct bio *bio,
+ 		if (!*merged_request)
+ 			elv_merged_request(q, rq, ELEVATOR_FRONT_MERGE);
+ 		return true;
++	case ELEVATOR_DISCARD_MERGE:
++		return bio_attempt_discard_merge(q, rq, bio);
+ 	default:
+ 		return false;
+ 	}
+-- 
+2.14.3
