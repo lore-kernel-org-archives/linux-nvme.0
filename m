@@ -1,35 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 31 Jan 2018 17:01:58 -0700
-Subject: [PATCH] nvme: Fix discard buffer overrun
-Message-ID: <20180201000158.23012-1-keith.busch@intel.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 1 Feb 2018 10:35:21 +0800
+Subject: [LSF/MM TOPIC] KPTI effect on IO performance
+In-Reply-To: <d6729ac299e153de259cb8f8af0c888b@eng.utah.edu>
+References: <20180131082331.GA25888@ming.t460p>
+ <d6729ac299e153de259cb8f8af0c888b@eng.utah.edu>
+Message-ID: <20180201023520.GA23923@ming.t460p>
 
-This patch checks the discard range array bounds before setting it in
-case the driver gets a badly formed request.
+Hi Scotty,
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at kernel.dk>
----
- drivers/nvme/host/core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+On Wed, Jan 31, 2018@11:43:33AM -0700, Scotty Bauer wrote:
+> On 2018-01-31 01:23, Ming Lei wrote:
+> > Hi All,
+> > 
+> > After KPTI is merged, there is extra load introduced to context switch
+> > between user space and kernel space. It is observed on my laptop that
+> > one
+> > syscall takes extra ~0.15us[1] compared with 'nopti'.
+> > 
+> > IO performance is affected too, it is observed that IOPS drops by 32% in
+> > my test[2] on null_blk compared with 'nopti':
+> > 
+> > randread IOPS on latest linus tree:
+> > -------------------------------------------------
+> > | randread IOPS     | randread IOPS with 'nopti'|
+> > ------------------------------------------------
+> > | 928K              | 1372K                     |
+> > ------------------------------------------------
+> > 
+> > 
+> 
+> Do you know if your CPU has PCID? It would be interesting to see these tests
+> on older CPUs or older kernels without PCID support.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4bfb4ba6cd14..d02906a6dabe 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -518,9 +518,11 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 		u64 slba = nvme_block_nr(ns, bio->bi_iter.bi_sector);
- 		u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
- 
--		range[n].cattr = cpu_to_le32(0);
--		range[n].nlb = cpu_to_le32(nlb);
--		range[n].slba = cpu_to_le64(slba);
-+		if (n < segments) {
-+			range[n].cattr = cpu_to_le32(0);
-+			range[n].nlb = cpu_to_le32(nlb);
-+			range[n].slba = cpu_to_le64(slba);
-+		}
- 		n++;
- 	}
- 
--- 
-2.14.3
+My CPU has PCID, which can be retrieved via /proc/cpuinfo.
+
+And the above test is run on same kernel binary, and the result is just done
+between 'nopti' and no 'nopti' in kernel command line.
+
+Thanks,
+Ming
