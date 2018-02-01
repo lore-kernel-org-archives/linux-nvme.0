@@ -1,17 +1,44 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Feb 2018 08:05:34 -0700
-Subject: [PATCH] nvme: Fix discard buffer overrun
-In-Reply-To: <9d61fdbe-ff60-2cf7-0d57-0bbb7133473f@oracle.com>
-References: <20180201000158.23012-1-keith.busch@intel.com>
- <9d61fdbe-ff60-2cf7-0d57-0bbb7133473f@oracle.com>
-Message-ID: <20180201150533.GG27735@localhost.localdomain>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 1 Feb 2018 23:05:39 +0800
+Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
+In-Reply-To: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
+References: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
+Message-ID: <20180201150532.GA31930@ming.t460p>
 
-On Thu, Feb 01, 2018@10:55:30PM +0800, jianchao.wang wrote:
-> Hi Keith
+Hello Hannes,
+
+On Mon, Jan 29, 2018@10:08:43AM +0100, Hannes Reinecke wrote:
+> Hi all,
 > 
-> Since each discard bio merged into a request is counted as one segment,
-> why not let blk_rq_nr_discard_segments return numbers of bios directly.
+> here's a topic which came up on the SCSI ML (cf thread '[RFC 0/2]
+> mpt3sas/megaraid_sas: irq poll and load balancing of reply queue').
+> 
+> When doing I/O tests on a machine with more CPUs than MSIx vectors
+> provided by the HBA we can easily setup a scenario where one CPU is
+> submitting I/O and the other one is completing I/O. Which will result in
+> the latter CPU being stuck in the interrupt completion routine for
+> basically ever, resulting in the lockup detector kicking in.
 
-Right, I'm all for fixing the discard segment count. At the same time,
-I don't want to depend on it's correctness to not access out-of-bounds
-array indices.
+Today I am looking at one megaraid_sas related issue, and found
+pci_alloc_irq_vectors(PCI_IRQ_AFFINITY) is used in the driver, so looks
+each reply queue has been handled by more than one CPU if there are more
+CPUs than MSIx vectors in the system, which is done by generic irq affinity
+code, please see kernel/irq/affinity.c.
+
+Also IMO each reply queue may be treated as blk-mq's hw queue, then
+megaraid may benefit from blk-mq's MQ framework, but one annoying thing is
+that both legacy and blk-mq path need to be handled inside driver.
+
+> 
+> How should these situations be handled?
+> Should it be made the responsibility of the drivers, ensuring that the
+> interrupt completion routine is terminated after a certain time?
+> Should it be made the resposibility of the upper layers?
+> Should it be the responsibility of the interrupt mapping code?
+> Can/should interrupt polling be used in these situations?
+
+Yeah, I guess interrupt polling may improve these situations, especially
+KPTI introduces some extra cost in interrupt handling.
+
+Thanks,
+Ming
