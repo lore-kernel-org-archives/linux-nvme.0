@@ -1,20 +1,29 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 1 Feb 2018 08:27:33 -0700
-Subject: [PATCH] nvme: Fix discard buffer overrun
-In-Reply-To: <9d61fdbe-ff60-2cf7-0d57-0bbb7133473f@oracle.com>
-References: <20180201000158.23012-1-keith.busch@intel.com>
- <9d61fdbe-ff60-2cf7-0d57-0bbb7133473f@oracle.com>
-Message-ID: <1d659e2b-42a4-f453-c85b-5d58c6c01f40@kernel.dk>
+From: mhocko@kernel.org (Michal Hocko)
+Date: Thu, 1 Feb 2018 16:46:55 +0100
+Subject: [Lsf-pc] [LSF/MM TOPIC] few MM topics
+In-Reply-To: <20180131234126.oobqdp6ibcayduu3@destitution>
+References: <20180124092649.GC21134@dhcp22.suse.cz>
+ <20180131192104.GD4841@magnolia>
+ <20180131202438.GA21609@dhcp22.suse.cz>
+ <20180131234126.oobqdp6ibcayduu3@destitution>
+Message-ID: <20180201154655.GN21609@dhcp22.suse.cz>
 
-On 2/1/18 7:55 AM, jianchao.wang wrote:
-> Hi Keith
+On Thu 01-02-18 10:41:26, Dave Chinner wrote:
+> On Wed, Jan 31, 2018@09:24:38PM +0100, Michal Hocko wrote:
+[...]
+> > This would both document the context
+> > and also limit NOFS allocations to bare minumum.
 > 
-> Since each discard bio merged into a request is counted as one segment,
-> why not let blk_rq_nr_discard_segments return numbers of bios directly.
+> Yup, most of XFS already uses implicit GFP_NOFS allocation calls via
+> the transaction context process flag manipulation.
 
-That's a good idea, but for now this looks fine. Both this and the
-core block hole can be fixed, and then someone can hopefully work
-on making discards behave a bit more nicely after that.
+Yeah, xfs is in quite a good shape. There are still around 40+ KM_NOFS
+users. Are there any major obstacles to remove those? Or is this just
+"send patches" thing.
 
+Compare that to
+$ git grep GFP_NOFS -- fs/btrfs/ | wc -l
+272
 -- 
-Jens Axboe
+Michal Hocko
+SUSE Labs
