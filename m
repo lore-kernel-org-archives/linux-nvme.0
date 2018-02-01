@@ -1,30 +1,44 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 1 Feb 2018 14:45:44 -0700
-Subject: [PATCH] blk-mq-sched: Enable merging discard bio into request
-In-Reply-To: <20180201214115.24909-1-keith.busch@intel.com>
-References: <20180201214115.24909-1-keith.busch@intel.com>
-Message-ID: <9e92670b-2e60-c8fb-54f8-84c2959a3c8f@kernel.dk>
+From: bart.vanassche@wdc.com (Bart Van Assche)
+Date: Thu, 1 Feb 2018 13:51:49 -0800
+Subject: [LSF/MM TOPIC] KPTI effect on IO performance
+In-Reply-To: <20180131082331.GA25888@ming.t460p>
+References: <20180131082331.GA25888@ming.t460p>
+Message-ID: <7dc44387-a232-d610-2a18-b51b095ef9c4@wdc.com>
 
-On 2/1/18 2:41 PM, Keith Busch wrote:
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  block/blk-mq-sched.c | 2 ++
->  1 file changed, 2 insertions(+)
+On 01/31/18 00:23, Ming Lei wrote:
+> After KPTI is merged, there is extra load introduced to context switch
+> between user space and kernel space. It is observed on my laptop that one
+> syscall takes extra ~0.15us[1] compared with 'nopti'.
 > 
-> diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
-> index 55c0a745b427..25c14c58385c 100644
-> --- a/block/blk-mq-sched.c
-> +++ b/block/blk-mq-sched.c
-> @@ -259,6 +259,8 @@ bool blk_mq_sched_try_merge(struct request_queue *q, struct bio *bio,
->  		if (!*merged_request)
->  			elv_merged_request(q, rq, ELEVATOR_FRONT_MERGE);
->  		return true;
-> +	case ELEVATOR_DISCARD_MERGE:
-> +		return bio_attempt_discard_merge(q, rq, bio);
->  	default:
->  		return false;
+> IO performance is affected too, it is observed that IOPS drops by 32% in
+> my test[2] on null_blk compared with 'nopti':
+> 
+> randread IOPS on latest linus tree:
+> -------------------------------------------------
+> | randread IOPS     | randread IOPS with 'nopti'|	
+> ------------------------------------------------
+> | 928K              | 1372K                     |	
+> ------------------------------------------------
+> 
+> 
+> Two paths are affected, one is IO submission(read, write,... syscall),
+> another is the IO completion path in which interrupt may be triggered
+> from user space, and context switch is needed.
+> 
+> So is there something we can do for decreasing the effect on IO performance?
+> 
+> This effect may make Hannes's issue[3] worse, and maybe 'irq poll' should be
+> used more widely for all high performance IO device, even some optimization
+> should be considered for KPTI's effect.
 
-Thanks Keith, applied.
+For what kind of workload would you like to improve I/O performance? 
+Desktop-style workloads where the only third party code is the code that 
+runs in the webbrowser and in the e-mail client or datacenter workloads 
+where code from multiple customers runs on the same server? I'm asking 
+this because the per-task KPTI work seems very useful to me for 
+improving I/O performance for desktop-style workloads. I'm not sure 
+however whether that work will be as useful for datacenter workloads. 
+See also Willy Tarreau, [PATCH RFC 0/4] Per-task PTI activation 
+(https://lkml.org/lkml/2018/1/8/568).
 
--- 
-Jens Axboe
+Bart.
