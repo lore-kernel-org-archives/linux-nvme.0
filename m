@@ -1,29 +1,67 @@
-From: mhocko@kernel.org (Michal Hocko)
-Date: Thu, 1 Feb 2018 16:46:55 +0100
-Subject: [Lsf-pc] [LSF/MM TOPIC] few MM topics
-In-Reply-To: <20180131234126.oobqdp6ibcayduu3@destitution>
-References: <20180124092649.GC21134@dhcp22.suse.cz>
- <20180131192104.GD4841@magnolia>
- <20180131202438.GA21609@dhcp22.suse.cz>
- <20180131234126.oobqdp6ibcayduu3@destitution>
-Message-ID: <20180201154655.GN21609@dhcp22.suse.cz>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 1 Feb 2018 17:20:26 +0100
+Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
+In-Reply-To: <20180201150532.GA31930@ming.t460p>
+References: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
+ <20180201150532.GA31930@ming.t460p>
+Message-ID: <0f650f4b-aa7f-bf52-2ecb-582761b4937f@suse.de>
 
-On Thu 01-02-18 10:41:26, Dave Chinner wrote:
-> On Wed, Jan 31, 2018@09:24:38PM +0100, Michal Hocko wrote:
-[...]
-> > This would both document the context
-> > and also limit NOFS allocations to bare minumum.
+On 02/01/2018 04:05 PM, Ming Lei wrote:
+> Hello Hannes,
 > 
-> Yup, most of XFS already uses implicit GFP_NOFS allocation calls via
-> the transaction context process flag manipulation.
+> On Mon, Jan 29, 2018@10:08:43AM +0100, Hannes Reinecke wrote:
+>> Hi all,
+>>
+>> here's a topic which came up on the SCSI ML (cf thread '[RFC 0/2]
+>> mpt3sas/megaraid_sas: irq poll and load balancing of reply queue').
+>>
+>> When doing I/O tests on a machine with more CPUs than MSIx vectors
+>> provided by the HBA we can easily setup a scenario where one CPU is
+>> submitting I/O and the other one is completing I/O. Which will result in
+>> the latter CPU being stuck in the interrupt completion routine for
+>> basically ever, resulting in the lockup detector kicking in.
+> 
+> Today I am looking at one megaraid_sas related issue, and found
+> pci_alloc_irq_vectors(PCI_IRQ_AFFINITY) is used in the driver, so looks
+> each reply queue has been handled by more than one CPU if there are more
+> CPUs than MSIx vectors in the system, which is done by generic irq affinity
+> code, please see kernel/irq/affinity.c.
+> 
+> Also IMO each reply queue may be treated as blk-mq's hw queue, then
+> megaraid may benefit from blk-mq's MQ framework, but one annoying thing is
+> that both legacy and blk-mq path need to be handled inside driver.
+> 
+The megaraid driver is a really strange beast;, having layered two
+different interfaces (the 'legacy' MFI interface and that from from
+mpt3sas) on top of each other.
+I had been thinking of converting it to scsi-mq, too (as my mpt3sas
+patch finally went in), but I'm not sure if we can benefit from it as
+we're still be bound by the HBA-wide tag pool.
+It's on my todo list, albeit pretty far down :-)
 
-Yeah, xfs is in quite a good shape. There are still around 40+ KM_NOFS
-users. Are there any major obstacles to remove those? Or is this just
-"send patches" thing.
+>>
+>> How should these situations be handled?
+>> Should it be made the responsibility of the drivers, ensuring that the
+>> interrupt completion routine is terminated after a certain time?
+>> Should it be made the resposibility of the upper layers?
+>> Should it be the responsibility of the interrupt mapping code?
+>> Can/should interrupt polling be used in these situations?
+> 
+> Yeah, I guess interrupt polling may improve these situations, especially
+> KPTI introduces some extra cost in interrupt handling.
+> 
+The question is not so much if one should be doing irq polling, but
+rather if we can come up with some guidance or even infrastructure to
+make this happen automatically.
+Having to rely on individual drivers to get this right is probably not
+the best option.
 
-Compare that to
-$ git grep GFP_NOFS -- fs/btrfs/ | wc -l
-272
+Cheers,
+
+Hannes
 -- 
-Michal Hocko
-SUSE Labs
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
