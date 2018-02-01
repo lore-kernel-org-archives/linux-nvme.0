@@ -1,105 +1,41 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 31 Jan 2018 20:03:38 -0700
-Subject: WARNING: CPU: 2 PID: 207 at drivers/nvme/host/core.c:527
- nvme_setup_cmd+0x3d3
-In-Reply-To: <20180131233304.GE27735@localhost.localdomain>
-References: <45f93661-da0d-94c5-1740-85242df8776e@kernel.dk>
- <0872b361-157b-a876-20af-3d7a4ee7ff31@kernel.dk>
- <8fd916ab-42d7-c654-5a01-8f1eb4be730e@oracle.com>
- <0b7686b3-f716-49ba-c7c4-929d84905569@kernel.dk>
- <20180131233304.GE27735@localhost.localdomain>
-Message-ID: <78434914-2904-8be6-9451-914849fbac49@kernel.dk>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 1 Feb 2018 11:05:52 +0800
+Subject: [LSF/MM TOPIC] KPTI effect on IO performance
+In-Reply-To: <d6729ac299e153de259cb8f8af0c888b@eng.utah.edu>
+References: <20180131082331.GA25888@ming.t460p>
+ <d6729ac299e153de259cb8f8af0c888b@eng.utah.edu>
+Message-ID: <20180201030551.GE23923@ming.t460p>
 
-On 1/31/18 4:33 PM, Keith Busch wrote:
-> On Wed, Jan 31, 2018@08:29:37AM -0700, Jens Axboe wrote:
->>
->> How about something like the below?
->>
->>
->> diff --git a/block/blk-merge.c b/block/blk-merge.c
->> index 8452fc7164cc..cee102fb060e 100644
->> --- a/block/blk-merge.c
->> +++ b/block/blk-merge.c
->> @@ -574,8 +574,13 @@ static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
->>  	    blk_rq_get_max_sectors(req, blk_rq_pos(req)))
->>  		return 0;
->>  
->> +	/*
->> +	 * For DISCARDs, the segment count isn't interesting since
->> +	 * the requests have no data attached.
->> +	 */
->>  	total_phys_segments = req->nr_phys_segments + next->nr_phys_segments;
->> -	if (blk_phys_contig_segment(q, req->biotail, next->bio)) {
->> +	if (total_phys_segments &&
->> +	    blk_phys_contig_segment(q, req->biotail, next->bio)) {
->>  		if (req->nr_phys_segments == 1)
->>  			req->bio->bi_seg_front_size = seg_size;
->>  		if (next->nr_phys_segments == 1)
+On Wed, Jan 31, 2018@11:43:33AM -0700, Scotty Bauer wrote:
+> On 2018-01-31 01:23, Ming Lei wrote:
+> > Hi All,
+> > 
+> > After KPTI is merged, there is extra load introduced to context switch
+> > between user space and kernel space. It is observed on my laptop that
+> > one
+> > syscall takes extra ~0.15us[1] compared with 'nopti'.
+> > 
+> > IO performance is affected too, it is observed that IOPS drops by 32% in
+> > my test[2] on null_blk compared with 'nopti':
+> > 
+> > randread IOPS on latest linus tree:
+> > -------------------------------------------------
+> > | randread IOPS     | randread IOPS with 'nopti'|
+> > ------------------------------------------------
+> > | 928K              | 1372K                     |
+> > ------------------------------------------------
+> > 
+> > 
 > 
-> That'll keep it from going to 0xffff, but you'll still hit the warning and
-> IO error. Even worse, this will corrupt memory: blk_rq_nr_discard_segments
-> will return 1, and since you really had 2 segments, the nvme driver will
-> overrun its array.
+> Do you know if your CPU has PCID? It would be interesting to see these tests
+> on older CPUs or older kernels without PCID support.
 
-Yeah you are right, that patch was shit. How about the below? We only
-need to worry about segment size and number of segments if we are
-carrying data. req->biotail and next->bio must be the same type, so
-should be safe.
+BTW, I also saw test data in case of vCPU without PCID, and it is said the syscall
+time can be close to ~30X compared with nopti, and the test should be setup easily
+by adjust CPU model of Qemu.
 
+So in case of no PCID, KPTI effect on IO performance should be much bigger than the
+above data.
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 8452fc7164cc..cf9adc4c64b5 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -553,9 +553,7 @@ static bool req_no_special_merge(struct request *req)
- static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
- 				struct request *next)
- {
--	int total_phys_segments;
--	unsigned int seg_size =
--		req->biotail->bi_seg_back_size + next->bio->bi_seg_front_size;
-+	int total_phys_segments = 0;
- 
- 	/*
- 	 * First check if the either of the requests are re-queued
-@@ -574,17 +572,27 @@ static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
- 	    blk_rq_get_max_sectors(req, blk_rq_pos(req)))
- 		return 0;
- 
--	total_phys_segments = req->nr_phys_segments + next->nr_phys_segments;
--	if (blk_phys_contig_segment(q, req->biotail, next->bio)) {
--		if (req->nr_phys_segments == 1)
--			req->bio->bi_seg_front_size = seg_size;
--		if (next->nr_phys_segments == 1)
--			next->biotail->bi_seg_back_size = seg_size;
--		total_phys_segments--;
--	}
-+	/*
-+	 * If the requests aren't carrying any data payloads, we don't need
-+	 * to look at the segment count
-+	 */
-+	if (bio_has_data(next->bio)) {
-+		total_phys_segments = req->nr_phys_segments +
-+					next->nr_phys_segments;
-+		if (blk_phys_contig_segment(q, req->biotail, next->bio)) {
-+			unsigned int seg_size = req->biotail->bi_seg_back_size +
-+						next->bio->bi_seg_front_size;
-+
-+			if (req->nr_phys_segments == 1)
-+				req->bio->bi_seg_front_size = seg_size;
-+			if (next->nr_phys_segments == 1)
-+				next->biotail->bi_seg_back_size = seg_size;
-+			total_phys_segments--;
-+		}
- 
--	if (total_phys_segments > queue_max_segments(q))
--		return 0;
-+		if (total_phys_segments > queue_max_segments(q))
-+			return 0;
-+	}
- 
- 	if (blk_integrity_merge_rq(q, req, next) == false)
- 		return 0;
-
--- 
-Jens Axboe
+Thanks,
+Ming
