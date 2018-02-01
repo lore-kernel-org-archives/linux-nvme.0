@@ -1,43 +1,159 @@
-From: david@fromorbit.com (Dave Chinner)
-Date: Fri, 2 Feb 2018 09:47:38 +1100
-Subject: [Lsf-pc] [LSF/MM TOPIC] few MM topics
-In-Reply-To: <20180201154655.GN21609@dhcp22.suse.cz>
-References: <20180124092649.GC21134@dhcp22.suse.cz>
- <20180131192104.GD4841@magnolia>
- <20180131202438.GA21609@dhcp22.suse.cz>
- <20180131234126.oobqdp6ibcayduu3@destitution>
- <20180201154655.GN21609@dhcp22.suse.cz>
-Message-ID: <20180201224738.y3vsrh7ekdugm5ae@destitution>
+From: thomas.tai@oracle.com (Thomas Tai)
+Date: Thu,  1 Feb 2018 18:10:59 -0500
+Subject: [PATCH v3 2/2] Documentation: nvme: Documentation for nvme fault
+ injection
+In-Reply-To: <1517526659-3450-1-git-send-email-thomas.tai@oracle.com>
+References: <1517526659-3450-1-git-send-email-thomas.tai@oracle.com>
+Message-ID: <1517526659-3450-3-git-send-email-thomas.tai@oracle.com>
 
-On Thu, Feb 01, 2018@04:46:55PM +0100, Michal Hocko wrote:
-> On Thu 01-02-18 10:41:26, Dave Chinner wrote:
-> > On Wed, Jan 31, 2018@09:24:38PM +0100, Michal Hocko wrote:
-> [...]
-> > > This would both document the context
-> > > and also limit NOFS allocations to bare minumum.
-> > 
-> > Yup, most of XFS already uses implicit GFP_NOFS allocation calls via
-> > the transaction context process flag manipulation.
-> 
-> Yeah, xfs is in quite a good shape. There are still around 40+ KM_NOFS
-> users. Are there any major obstacles to remove those? Or is this just
-> "send patches" thing.
+Add examples to show how to use nvme fault injection.
 
-They need to be looked at on a case by case basis - many of
-them are the "shut up lockdep false positives" workarounds because
-the code is called from multiple memory reclaim contexts. In other
-cases they might actually be needed. If you send patches, it'll
-kinda force us to look at them and say yay/nay :P
+Signed-off-by: Thomas Tai <thomas.tai at oracle.com>
+Reviewed-by: Eric Saint-Etienne <eric.saint.etienne at oracle.com>
+Signed-off-by: Karl Volz <karl.volz at oracle.com>
+---
+ Documentation/fault-injection/fault-injection.txt  |   5 +
+ .../fault-injection/nvme-fault-injection.txt       | 116 +++++++++++++++++++++
+ 2 files changed, 121 insertions(+)
+ create mode 100644 Documentation/fault-injection/nvme-fault-injection.txt
 
-> Compare that to
-> $ git grep GFP_NOFS -- fs/btrfs/ | wc -l
-> 272
-
-Fair point. :P
-
-Cheers,
-
-Dave.
+diff --git a/Documentation/fault-injection/fault-injection.txt b/Documentation/fault-injection/fault-injection.txt
+index 918972b..db547c2 100644
+--- a/Documentation/fault-injection/fault-injection.txt
++++ b/Documentation/fault-injection/fault-injection.txt
+@@ -30,6 +30,11 @@ o fail_mmc_request
+   injects MMC data errors on devices permitted by setting
+   debugfs entries under /sys/kernel/debug/mmc0/fail_mmc_request
+ 
++o NVMe fault injection
++
++  inject NVMe NVME_SC_INVALID_OPCODE with no retry on devices permitted
++  by setting debugfs entries under /sys/kernel/debug/nvme*/fault_inject
++
+ Configure fault-injection capabilities behavior
+ -----------------------------------------------
+ 
+diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
+new file mode 100644
+index 0000000..e37b9c7
+--- /dev/null
++++ b/Documentation/fault-injection/nvme-fault-injection.txt
+@@ -0,0 +1,116 @@
++NVMe Fault Injection
++====================
++Linux's fault injection framework provides a systematic way to support
++error injection via debugfs in the /sys/kernel/debug directory. When
++enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
++injected into the nvme_end_request. Users can change the default status
++code and no retry flag via the debugfs. The list of Generic Command
++Status can be found in include/linux/nvme.h
++
++Following examples show how to inject an error into the nvme.
++
++First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
++recompile the kernel. After booting up the kernel, do the
++following.
++
++Example 1: Inject default status code with no retry
++---------------------------------------------------
++
++mount /dev/nvme0n1 /mnt
++echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
++echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
++cp a.file /mnt
++
++Expected Result:
++
++cp: cannot stat ?/mnt/a.file?: Input/output error
++
++Message from dmesg:
++
++FAULT_INJECTION: forcing a failure.
++name fault_inject, interval 1, probability 100, space 0, times 1
++CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
++Hardware name: innotek GmbH VirtualBox/VirtualBox,
++BIOS VirtualBox 12/01/2006
++Call Trace:
++  <IRQ>
++  dump_stack+0x5c/0x7d
++  should_fail+0x148/0x170
++  nvme_should_fail+0x2f/0x50 [nvme_core]
++  nvme_process_cq+0xe7/0x1d0 [nvme]
++  nvme_irq+0x1e/0x40 [nvme]
++  __handle_irq_event_percpu+0x3a/0x190
++  handle_irq_event_percpu+0x30/0x70
++  handle_irq_event+0x36/0x60
++  handle_fasteoi_irq+0x78/0x120
++  handle_irq+0xa7/0x130
++  ? tick_irq_enter+0xa8/0xc0
++  do_IRQ+0x43/0xc0
++  common_interrupt+0xa2/0xa2
++  </IRQ>
++RIP: 0010:native_safe_halt+0x2/0x10
++RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
++RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
++RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
++RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
++R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
++R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
++  ? __sched_text_end+0x4/0x4
++  default_idle+0x18/0xf0
++  do_idle+0x150/0x1d0
++  cpu_startup_entry+0x6f/0x80
++  start_kernel+0x4c4/0x4e4
++  ? set_init_arg+0x55/0x55
++  secondary_startup_64+0xa5/0xb0
++  print_req_error: I/O error, dev nvme0n1, sector 9240
++EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
++inode #2: comm cp: reading directory lblock 0
++
++Example 2: Inject default status code with retry
++------------------------------------------------
++
++mount /dev/nvme0n1 /mnt
++echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
++echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
++echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
++echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/no_retry
++
++cp a.file /mnt
++
++Expected Result:
++
++command success without error
++
++Message from dmesg:
++
++FAULT_INJECTION: forcing a failure.
++name fault_inject, interval 1, probability 100, space 0, times 1
++CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
++Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
++Call Trace:
++  <IRQ>
++  dump_stack+0x5c/0x7d
++  should_fail+0x148/0x170
++  nvme_should_fail+0x30/0x60 [nvme_core]
++  nvme_loop_queue_response+0x84/0x110 [nvme_loop]
++  nvmet_req_complete+0x11/0x40 [nvmet]
++  nvmet_bio_done+0x28/0x40 [nvmet]
++  blk_update_request+0xb0/0x310
++  blk_mq_end_request+0x18/0x60
++  flush_smp_call_function_queue+0x3d/0xf0
++  smp_call_function_single_interrupt+0x2c/0xc0
++  call_function_single_interrupt+0xa2/0xb0
++  </IRQ>
++RIP: 0010:native_safe_halt+0x2/0x10
++RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
++RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
++RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
++RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
++R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
++R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
++  ? __sched_text_end+0x4/0x4
++  default_idle+0x18/0xf0
++  do_idle+0x150/0x1d0
++  cpu_startup_entry+0x6f/0x80
++  start_secondary+0x187/0x1e0
++  secondary_startup_64+0xa5/0xb0
 -- 
-Dave Chinner
-david at fromorbit.com
+1.8.3.1
