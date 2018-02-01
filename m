@@ -1,96 +1,77 @@
-From: kashyap.desai@broadcom.com (Kashyap Desai)
-Date: Thu, 1 Feb 2018 22:29:22 +0530
-Subject: [LSF/MM TOPIC] irq affinity handling for high CPU count machines
-In-Reply-To: <0f650f4b-aa7f-bf52-2ecb-582761b4937f@suse.de>
-References: <45dc032d-a0ce-816c-d2c5-74c69433bd29@suse.de>
- <20180201150532.GA31930@ming.t460p>
- <0f650f4b-aa7f-bf52-2ecb-582761b4937f@suse.de>
-Message-ID: <a6bf37e1aa2c45ef725c4cc1a7f57af9@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 1 Feb 2018 11:01:20 -0700
+Subject: WARNING: CPU: 2 PID: 207 at drivers/nvme/host/core.c:527
+ nvme_setup_cmd+0x3d3
+In-Reply-To: <576ba7dc-78cf-b5d2-d1de-446d1f4b2732@kernel.dk>
+References: <45f93661-da0d-94c5-1740-85242df8776e@kernel.dk>
+ <0872b361-157b-a876-20af-3d7a4ee7ff31@kernel.dk>
+ <8fd916ab-42d7-c654-5a01-8f1eb4be730e@oracle.com>
+ <0b7686b3-f716-49ba-c7c4-929d84905569@kernel.dk>
+ <7459ffed-c63c-38a9-84f5-456c2a5c4fe0@oracle.com>
+ <0f6c248b-eb67-9b02-a4b9-0366d476e70d@kernel.dk>
+ <20180201045645.GF27735@localhost.localdomain>
+ <576ba7dc-78cf-b5d2-d1de-446d1f4b2732@kernel.dk>
+Message-ID: <20180201180120.GA24417@localhost.localdomain>
 
-> -----Original Message-----
-> From: Hannes Reinecke [mailto:hare at suse.de]
-> Sent: Thursday, February 1, 2018 9:50 PM
-> To: Ming Lei
-> Cc: lsf-pc at lists.linux-foundation.org; linux-scsi at vger.kernel.org; linux-
-> nvme at lists.infradead.org; Kashyap Desai
-> Subject: Re: [LSF/MM TOPIC] irq affinity handling for high CPU count
-> machines
->
-> On 02/01/2018 04:05 PM, Ming Lei wrote:
-> > Hello Hannes,
-> >
-> > On Mon, Jan 29, 2018@10:08:43AM +0100, Hannes Reinecke wrote:
-> >> Hi all,
-> >>
-> >> here's a topic which came up on the SCSI ML (cf thread '[RFC 0/2]
-> >> mpt3sas/megaraid_sas: irq poll and load balancing of reply queue').
-> >>
-> >> When doing I/O tests on a machine with more CPUs than MSIx vectors
-> >> provided by the HBA we can easily setup a scenario where one CPU is
-> >> submitting I/O and the other one is completing I/O. Which will result
-> >> in the latter CPU being stuck in the interrupt completion routine for
-> >> basically ever, resulting in the lockup detector kicking in.
-> >
-> > Today I am looking at one megaraid_sas related issue, and found
-> > pci_alloc_irq_vectors(PCI_IRQ_AFFINITY) is used in the driver, so
-> > looks each reply queue has been handled by more than one CPU if there
-> > are more CPUs than MSIx vectors in the system, which is done by
-> > generic irq affinity code, please see kernel/irq/affinity.c.
+On Thu, Feb 01, 2018@08:26:11AM -0700, Jens Axboe wrote:
+> On 1/31/18 9:56 PM, Keith Busch wrote:
+> 
+> > diff --git a/block/blk-merge.c b/block/blk-merge.c
+> > index 8452fc7164cc..01671e1373ff 100644
+> > --- a/block/blk-merge.c
+> > +++ b/block/blk-merge.c
+> > @@ -550,6 +550,28 @@ static bool req_no_special_merge(struct request *req)
+> >  	return !q->mq_ops && req->special;
+> >  }
+> >  
+> > +static bool req_attempt_discard_merge(struct request_queue *q, struct request *req,
+> > +		struct request *next)
+> > +{
+> > +	unsigned short segments = blk_rq_nr_discard_segments(req);
+> > +
+> > +	if (segments >= queue_max_discard_segments(q))
+> > +		goto no_merge;
+> > +	if (blk_rq_sectors(req) + bio_sectors(next->bio) >
+> > +	    blk_rq_get_max_sectors(req, blk_rq_pos(req)))
+> > +		goto no_merge;
+> > +
+> > +	req->biotail->bi_next = next->bio;
+> > +	req->biotail = next->biotail;
+> > +	req->nr_phys_segments = segments + blk_rq_nr_discard_segments(next);
+> > +	next->bio = NULL;
+> > +	return true;
+> > +
+> > +no_merge:
+> > +	req_set_nomerge(q, req);
+> > +	return false;
+> > +}
+> > +
+> >  static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
+> >  				struct request *next)
+> >  {
+> > @@ -679,6 +701,15 @@ static struct request *attempt_merge(struct request_queue *q,
+> >  	if (req->write_hint != next->write_hint)
+> >  		return NULL;
+> >  
+> > +	/*
+> > +	 * Discards are ... special.
+> > +	 */
+> > +	if (req_op(req) == REQ_OP_DISCARD) {
+> > +		if (req_attempt_discard_merge(q, req, next))
+> > +			return next;
+> > +		return NULL;
+> > +	}
+> > +
+> >  	/*
+> >  	 * If we are allowed to merge, then append bio list
+> >  	 * from next to rq and release next. merge_requests_fn
+> 
+> This looks fine to me, the bio-to-request merge path already looks correct.
+> Care to send a properly formatted patch?
 
-Yes. That is a problematic area. If CPU and MSI-x(reply queue) is 1:1
-mapped, we don't have any issue.
+Sending the patch now. It's a little different from the above so that it
+doesn't need to duplicate some of the merging accounting.
 
-> >
-> > Also IMO each reply queue may be treated as blk-mq's hw queue, then
-> > megaraid may benefit from blk-mq's MQ framework, but one annoying
-> > thing is that both legacy and blk-mq path need to be handled inside
-> > driver.
-
-Both MR and IT driver is (due to H/W design.) is using blk-mq frame work but
-it is really  a single h/w queue.
-IT and MR HBA has single submission queue and multiple reply queue.
-
-> >
-> The megaraid driver is a really strange beast;, having layered two
-> different
-> interfaces (the 'legacy' MFI interface and that from from
-> mpt3sas) on top of each other.
-> I had been thinking of converting it to scsi-mq, too (as my mpt3sas patch
-> finally went in), but I'm not sure if we can benefit from it as we're
-> still be
-> bound by the HBA-wide tag pool.
-> It's on my todo list, albeit pretty far down :-)
-
-Hannes, this is typically same in both MR (megaraid_sas) and IT (mpt3sas).
-Both the driver is using shared HBA-wide tag pool.
-Both MR and IT driver use request->tag to get command from free pool.
-
->
-> >>
-> >> How should these situations be handled?
-> >> Should it be made the responsibility of the drivers, ensuring that
-> >> the interrupt completion routine is terminated after a certain time?
-> >> Should it be made the resposibility of the upper layers?
-> >> Should it be the responsibility of the interrupt mapping code?
-> >> Can/should interrupt polling be used in these situations?
-> >
-> > Yeah, I guess interrupt polling may improve these situations,
-> > especially KPTI introduces some extra cost in interrupt handling.
-> >
-> The question is not so much if one should be doing irq polling, but rather
-> if we
-> can come up with some guidance or even infrastructure to make this happen
-> automatically.
-> Having to rely on individual drivers to get this right is probably not the
-> best
-> option.
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke		   Teamlead Storage & Networking
-> hare at suse.de			               +49 911 74053 688
-> SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-> GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton HRB 21284
-> (AG N?rnberg)
+Full disclosure, I have not found a way to trigger this merge. I'm just
+running 'fio' with trim, randtrim, and trimwrite on device with
+mq-deadline for the past hour, and haven't seen a merge happen yet.
