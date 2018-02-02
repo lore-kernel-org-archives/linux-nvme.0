@@ -1,32 +1,33 @@
-From: john@stoffel.org (John Stoffel)
-Date: Thu, 1 Feb 2018 19:26:34 -0500
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Fri, 2 Feb 2018 00:53:51 +0000
 Subject: [dm-devel] [PATCH V4] blk-mq: introduce BLK_STS_DEV_RESOURCE
-In-Reply-To: <1517262713.2687.56.camel@wdc.com>
+In-Reply-To: <23155.45114.317289.396546@quad.stoffel.home>
 References: <20180129203300.50595-1-snitzer@redhat.com>
- <1517260932.2687.42.camel@wdc.com>
- <20180129214446.GD5744@redhat.com>
+ <1517260932.2687.42.camel@wdc.com> <20180129214446.GD5744@redhat.com>
  <1517262713.2687.56.camel@wdc.com>
-Message-ID: <23155.45114.317289.396546@quad.stoffel.home>
+ <23155.45114.317289.396546@quad.stoffel.home>
+Message-ID: <1517532830.2746.43.camel@wdc.com>
 
->>>>> "Bart" == Bart Van Assche <Bart.VanAssche at wdc.com> writes:
+On Thu, 2018-02-01@19:26 -0500, John Stoffel wrote:
+> Doesn't this argue that you really want some sort of completions to be
+> run in this case instead?  Instead of busy looping or waiting for a
+> set amount of time, just fire off a callback to run once you have the
+> resources available, no?
 
-Bart> On Mon, 2018-01-29@16:44 -0500, Mike Snitzer wrote:
->> But regardless of which wins the race, the queue will have been run.
->> Which is all we care about right?
+Hello John,
 
-Bart> Running the queue is not sufficient. With this patch applied it can happen
-Bart> that the block driver returns BLK_STS_DEV_RESOURCE, that the two or more
-Bart> concurrent queue runs finish before sufficient device resources are available
-Bart> to execute the request and that blk_mq_delay_run_hw_queue() does not get
-Bart> called at all. If no other activity triggers a queue run, e.g. request
-Bart> completion, this will result in a queue stall.
+Rerunning the queue when the resource we ran out of is available again would
+be ideal. However, I'm not sure it is possible to implement this. If a driver
+performs memory allocation while executing a request and kmalloc() returns
+-ENOMEM then I don't know which mechanism should be used to trigger a queue
+rerun when sufficient memory is available again.
 
-Doesn't this argue that you really want some sort of completions to be
-run in this case instead?  Instead of busy looping or waiting for a
-set amount of time, just fire off a callback to run once you have the
-resources available, no?
+Another example is the SCSI subsystem. If a the .queuecommand() implementation
+of a SCSI LLD returns SCSI_MLQUEUE_*_BUSY because a certain HBA condition
+occurred and the HBA does not trigger an interrupt when that condition is
+cleared, how to figure out whether or not a request can be executed other than
+by retrying, which means rerunning the queue?
 
-I can't provide any code examples, I don't know the code base nearly
-well enough.
+Thanks,
 
-John
+Bart.
