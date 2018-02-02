@@ -1,52 +1,53 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Fri,  2 Feb 2018 15:00:46 +0800
-Subject: [PATCH 3/6] blk-mq: make blk_mq_rq_update_aborted_gstate a external
- interface
+Date: Fri,  2 Feb 2018 15:00:48 +0800
+Subject: [PATCH 5/6] nvme-pci: discard wait timeout when delete cq/sq
 In-Reply-To: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
 References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1517554849-7802-4-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1517554849-7802-6-git-send-email-jianchao.w.wang@oracle.com>
 
-No functional change, just make blk_mq_rq_update_aborted_gstate a
-external interface.
+Currently, nvme_disable_io_queues could be wakeup by both request
+completion and wait timeout path. This is unnecessary and could
+introduce race between nvme_dev_disable and request timeout path.
+When delete cq/sq command expires, the nvme_disable_io_queues will
+also be wakeup and return to nvme_dev_disable, then handle the
+outstanding requests. This will race with the request timeout path.
+
+To fix it, just use wait_for_completion instead of the timeout one.
+The request timeout path will wakeup it.
 
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- block/blk-mq.c         | 3 ++-
- include/linux/blk-mq.h | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 01f271d..a027ca2 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -581,7 +581,7 @@ static void hctx_lock(struct blk_mq_hw_ctx *hctx, int *srcu_idx)
- 		*srcu_idx = srcu_read_lock(hctx->srcu);
- }
- 
--static void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
-+void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5b192b0..a838713c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2048,7 +2048,6 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ static void nvme_disable_io_queues(struct nvme_dev *dev)
  {
- 	unsigned long flags;
+ 	int pass, queues = dev->online_queues - 1;
+-	unsigned long timeout;
+ 	u8 opcode = nvme_admin_delete_sq;
  
-@@ -597,6 +597,7 @@ static void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
- 	u64_stats_update_end(&rq->aborted_gstate_sync);
- 	local_irq_restore(flags);
- }
-+EXPORT_SYMBOL(blk_mq_rq_update_aborted_gstate);
+ 	for (pass = 0; pass < 2; pass++) {
+@@ -2056,15 +2055,12 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
  
- static u64 blk_mq_rq_aborted_gstate(struct request *rq)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 8efcf49..ad54024 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -257,6 +257,7 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
- void blk_mq_kick_requeue_list(struct request_queue *q);
- void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
- void blk_mq_complete_request(struct request *rq);
-+void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate);
+ 		reinit_completion(&dev->ioq_wait);
+  retry:
+-		timeout = ADMIN_TIMEOUT;
+ 		for (; i > 0; i--, sent++)
+ 			if (nvme_delete_queue(&dev->queues[i], opcode))
+ 				break;
  
- bool blk_mq_queue_stopped(struct request_queue *q);
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
+ 		while (sent--) {
+-			timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
+-			if (timeout == 0)
+-				return;
++			wait_for_completion(&dev->ioq_wait);
+ 			if (i)
+ 				goto retry;
+ 		}
 -- 
 2.7.4
