@@ -1,52 +1,93 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Fri,  2 Feb 2018 14:54:49 +0800
-Subject: [PATCH 3/6] blk-mq: make blk_mq_rq_update_aborted_gstate a external
- interface
-In-Reply-To: <1517554492-7680-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1517554492-7680-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1517554492-7680-4-git-send-email-jianchao.w.wang@oracle.com>
+Date: Fri,  2 Feb 2018 15:00:45 +0800
+Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown and
+ reset case
+In-Reply-To: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
 
-No functional change, just make blk_mq_rq_update_aborted_gstate a
-external interface.
+Currently, request queue will be frozen and quiesced for both reset
+and shutdown case. This will trigger ioq requests in RECONNECTING
+state which should be avoided to prepare for following patch.
+Just freeze request queue for shutdown case and drain all the resudual
+entered requests after controller has been shutdown.
 
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- block/blk-mq.c         | 3 ++-
- include/linux/blk-mq.h | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 36 ++++++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 16 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 01f271d..a027ca2 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -581,7 +581,7 @@ static void hctx_lock(struct blk_mq_hw_ctx *hctx, int *srcu_idx)
- 		*srcu_idx = srcu_read_lock(hctx->srcu);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 00cffed..a7fa397 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2172,21 +2172,23 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	if (pci_is_enabled(pdev)) {
+ 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+-		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+-		    dev->ctrl.state == NVME_CTRL_RESETTING)
+-			nvme_start_freeze(&dev->ctrl);
+ 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
+ 			pdev->error_state  != pci_channel_io_normal);
+ 	}
+ 
+-	/*
+-	 * Give the controller a chance to complete all entered requests if
+-	 * doing a safe shutdown.
+-	 */
+-	if (!dead) {
+-		if (shutdown)
++	/* Just freeze the queue for shutdown case */
++	if (shutdown) {
++		if (dev->ctrl.state == NVME_CTRL_LIVE ||
++			dev->ctrl.state == NVME_CTRL_RESETTING)
++			nvme_start_freeze(&dev->ctrl);
++		/*
++		 * Give the controller a chance to complete all
++		 * entered requests if doing a safe shutdown.
++		 */
++		if (!dead)
+ 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+ 	}
++
+ 	nvme_stop_queues(&dev->ctrl);
+ 
+ 	if (!dead) {
+@@ -2210,12 +2212,15 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
+ 
+ 	/*
+-	 * The driver will not be starting up queues again if shutting down so
+-	 * must flush all entered requests to their failed completion to avoid
+-	 * deadlocking blk-mq hot-cpu notifier.
++	 * For shutdown case, controller will not be setup again soon. If any
++	 * residual requests here, the controller must have go wrong. Drain and
++	 * fail all the residual entered IO requests.
+ 	 */
+-	if (shutdown)
++	if (shutdown) {
+ 		nvme_start_queues(&dev->ctrl);
++		nvme_wait_freeze(&dev->ctrl);
++		nvme_stop_queues(&dev->ctrl);
++	}
+ 	mutex_unlock(&dev->shutdown_lock);
  }
  
--static void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
-+void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
- {
- 	unsigned long flags;
+@@ -2349,12 +2354,11 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_remove_namespaces(&dev->ctrl);
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+-		nvme_start_queues(&dev->ctrl);
+-		nvme_wait_freeze(&dev->ctrl);
+ 		/* hit this only when allocate tagset fails */
+ 		if (nvme_dev_add(dev))
+ 			new_state = NVME_CTRL_ADMIN_ONLY;
+-		nvme_unfreeze(&dev->ctrl);
++		if (was_suspend)
++			nvme_unfreeze(&dev->ctrl);
+ 	}
  
-@@ -597,6 +597,7 @@ static void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
- 	u64_stats_update_end(&rq->aborted_gstate_sync);
- 	local_irq_restore(flags);
- }
-+EXPORT_SYMBOL(blk_mq_rq_update_aborted_gstate);
- 
- static u64 blk_mq_rq_aborted_gstate(struct request *rq)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 8efcf49..ad54024 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -257,6 +257,7 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
- void blk_mq_kick_requeue_list(struct request_queue *q);
- void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
- void blk_mq_complete_request(struct request *rq);
-+void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate);
- 
- bool blk_mq_queue_stopped(struct request_queue *q);
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
+ 	/*
 -- 
 2.7.4
