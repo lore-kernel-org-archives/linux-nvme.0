@@ -1,40 +1,53 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 1 Feb 2018 20:19:35 -0700
-Subject: [PATCH] nvme: Fix discard buffer overrun
-In-Reply-To: <20180201000158.23012-1-keith.busch@intel.com>
-References: <20180201000158.23012-1-keith.busch@intel.com>
-Message-ID: <5d8cc632-8185-ee33-925a-30c30de06d96@kernel.dk>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Fri,  2 Feb 2018 14:54:51 +0800
+Subject: [PATCH 5/6] nvme-pci: discard wait timeout when delete cq/sq
+In-Reply-To: <1517554492-7680-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1517554492-7680-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1517554492-7680-6-git-send-email-jianchao.w.wang@oracle.com>
 
-On 1/31/18 5:01 PM, Keith Busch wrote:
-> This patch checks the discard range array bounds before setting it in
-> case the driver gets a badly formed request.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> Cc: Jens Axboe <axboe at kernel.dk>
-> ---
->  drivers/nvme/host/core.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 4bfb4ba6cd14..d02906a6dabe 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -518,9 +518,11 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
->  		u64 slba = nvme_block_nr(ns, bio->bi_iter.bi_sector);
->  		u32 nlb = bio->bi_iter.bi_size >> ns->lba_shift;
->  
-> -		range[n].cattr = cpu_to_le32(0);
-> -		range[n].nlb = cpu_to_le32(nlb);
-> -		range[n].slba = cpu_to_le64(slba);
-> +		if (n < segments) {
-> +			range[n].cattr = cpu_to_le32(0);
-> +			range[n].nlb = cpu_to_le32(nlb);
-> +			range[n].slba = cpu_to_le64(slba);
-> +		}
->  		n++;
->  	}
+Currently, nvme_disable_io_queues could be wakeup by both request
+completion and wait timeout path. This is unnecessary and could
+introduce race between nvme_dev_disable and request timeout path.
+When delete cq/sq command expires, the nvme_disable_io_queues will
+also be wakeup and return to nvme_dev_disable, then handle the
+outstanding requests. This will race with the request timeout path.
 
-Reviewed-by: Jens Axboe <axboe at kernel.dk>
+To fix it, just use wait_for_completion instead of the timeout one.
+The request timeout path will wakeup it.
 
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/pci.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5b192b0..a838713c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2048,7 +2048,6 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ {
+ 	int pass, queues = dev->online_queues - 1;
+-	unsigned long timeout;
+ 	u8 opcode = nvme_admin_delete_sq;
+ 
+ 	for (pass = 0; pass < 2; pass++) {
+@@ -2056,15 +2055,12 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 
+ 		reinit_completion(&dev->ioq_wait);
+  retry:
+-		timeout = ADMIN_TIMEOUT;
+ 		for (; i > 0; i--, sent++)
+ 			if (nvme_delete_queue(&dev->queues[i], opcode))
+ 				break;
+ 
+ 		while (sent--) {
+-			timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
+-			if (timeout == 0)
+-				return;
++			wait_for_completion(&dev->ioq_wait);
+ 			if (i)
+ 				goto retry;
+ 		}
 -- 
-Jens Axboe
+2.7.4
