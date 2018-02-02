@@ -1,60 +1,15 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Fri, 2 Feb 2018 21:33:12 +0000
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 2 Feb 2018 14:38:29 -0700
 Subject: [PATCH] NVMe-CLI Fix command failures in regress script
-In-Reply-To: <20180202202930.GK24417@localhost.localdomain>
+In-Reply-To: <MWHPR04MB102561D215C063C6967513F4EAF90@MWHPR04MB1025.namprd04.prod.outlook.com>
 References: <20180202195021.8560-1-jeff.lien@wdc.com>
  <20180202202930.GK24417@localhost.localdomain>
-Message-ID: <MWHPR04MB102561D215C063C6967513F4EAF90@MWHPR04MB1025.namprd04.prod.outlook.com>
+ <MWHPR04MB102561D215C063C6967513F4EAF90@MWHPR04MB1025.namprd04.prod.outlook.com>
+Message-ID: <20180202213829.GL24417@localhost.localdomain>
 
-Keith, 
-Then should we remove the commands that require a namespace id (ie id-ns, flush, write, and read)?  
+On Fri, Feb 02, 2018@09:33:12PM +0000, Jeffrey Lien wrote:
+> Keith, 
+> Then should we remove the commands that require a namespace id (ie id-ns, flush, write, and read)?  
 
-
-Jeff Lien
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Friday, February 2, 2018 2:30 PM
-To: Jeffrey Lien
-Cc: linux-nvme at lists.infradead.org; David Darrington
-Subject: Re: [PATCH] NVMe-CLI Fix command failures in regress script
-
-On Fri, Feb 02, 2018@01:50:20PM -0600, Jeff Lien wrote:
-> Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
-> ---
->  regress | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/regress b/regress
-> index aa7820c..0278d1d 100755
-> --- a/regress
-> +++ b/regress
-> @@ -89,7 +89,7 @@ if $LIST ; then
->      run_test nvme list
->  fi
->  run_test nvme id-ctrl ${DEVICE}
-> -run_test nvme id-ns -raw-binary ${DEVICE}
-> +run_test nvme id-ns -n 1 -raw-binary ${DEVICE}
->  run_test nvme list-ns -n 1 ${DEVICE}
->  run_test nvme get-ns-id ${DEVICE}
->  run_test nvme get-log ${DEVICE}  --log-id=2 --log-len=512 @@ -98,13 
-> +98,13 @@ run_test nvme fw-log ${DEVICE} -b  run_test nvme smart-log 
-> ${DEVICE}  run_test nvme error-log ${DEVICE}  run_test nvme 
-> get-feature ${DEVICE} -f 7 -run_test nvme flush ${DEVICE}
-> +run_test nvme flush -n 1 ${DEVICE}
->  
->  if $WRITE ; then
->      run_test dd if=/dev/urandom of=${RAND_WFILE} bs=${RAND_SIZE} count=1
-> -    run_test nvme write ${DEVICE} --start-block=0 --block-count=0 --data-size=${RAND_SIZE} --data ${RAND_WFILE}
-> +    run_test nvme write ${DEVICE}n1 --start-block=0 --block-count=0 
-> + --data-size=${RAND_SIZE} --data ${RAND_WFILE}
->  fi
-> -run_test nvme read ${DEVICE} --start-block=0 --block-count=0 
-> --data-size=${RAND_SIZE} --data ${RAND_RFILE} --latency
-> +run_test nvme read ${DEVICE}n1 --start-block=0 --block-count=0 
-> +--data-size=${RAND_SIZE} --data ${RAND_RFILE} --latency
->  if $WRITE ; then
->      run_test diff ${RAND_RFILE} ${RAND_WFILE}
->      rm ${RAND_WFILE} > /dev/null
-
-This script is supposed to only run on an nvme block block device.
+If you provide a block device, nvme-cli will automatically figure out
+the nsid if you didn't provide one.
