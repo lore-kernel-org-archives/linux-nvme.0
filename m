@@ -1,30 +1,57 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 2 Feb 2018 11:31:04 -0700
-Subject: [PATCH 4/6] nvme-pci: break up nvme_timeout and nvme_dev_disable
-In-Reply-To: <1517554849-7802-5-git-send-email-jianchao.w.wang@oracle.com>
+Date: Fri, 2 Feb 2018 11:46:05 -0700
+Subject: [PATCH 1/6] nvme-pci: move clearing host mem behind stopping
+ queues
+In-Reply-To: <1517554849-7802-2-git-send-email-jianchao.w.wang@oracle.com>
 References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
- <1517554849-7802-5-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180202183103.GI24417@localhost.localdomain>
+ <1517554849-7802-2-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180202184605.GJ24417@localhost.localdomain>
 
-On Fri, Feb 02, 2018@03:00:47PM +0800, Jianchao Wang wrote:
-> Currently, the complicated relationship between nvme_dev_disable
-> and nvme_timeout has become a devil that will introduce many
-> circular pattern which may trigger deadlock or IO hang. Let's
-> enumerate the tangles between them:
->  - nvme_timeout has to invoke nvme_dev_disable to stop the
->    controller doing DMA access before free the request.
->  - nvme_dev_disable has to depend on nvme_timeout to complete
->    adminq requests to set HMB or delete sq/cq when the controller
->    has no response.
->  - nvme_dev_disable will race with nvme_timeout when cancels the
->    outstanding requests.
+On Fri, Feb 02, 2018@03:00:44PM +0800, Jianchao Wang wrote:
+> Move clearing host mem behind stopping queues. Prepare for
+> following patch which will grab all the outstanding requests.
+> 
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 
-Your patch is releasing a command back to the OS with the
-PCI controller bus master still enabled. This could lead to data or
-memory corruption.
+This one makes sense, though I would alter the change log to something
+like:
 
-In any case, it's not as complicated as you're making it out to
-be. It'd be easier to just enforce the exisiting rule that commands
-issued in the disabling path not depend on completions or timeout
-handling. All of commands issued in this path already do this except
-for HMB disabling. Let'sjust fix that command, right?
+  This patch quiecses new IO prior to disabling device HMB access.
+  A controller using HMB may be relying on it to efficiently complete
+  IO commands.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+
+> ---
+>  drivers/nvme/host/pci.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6fe7af0..00cffed 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2186,7 +2186,10 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  	if (!dead) {
+>  		if (shutdown)
+>  			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> +	}
+> +	nvme_stop_queues(&dev->ctrl);
+>  
+> +	if (!dead) {
+>  		/*
+>  		 * If the controller is still alive tell it to stop using the
+>  		 * host memory buffer.  In theory the shutdown / reset should
+> @@ -2195,11 +2198,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  		 */
+>  		if (dev->host_mem_descs)
+>  			nvme_set_host_mem(dev, 0);
+> -
+> -	}
+> -	nvme_stop_queues(&dev->ctrl);
+> -
+> -	if (!dead) {
+>  		nvme_disable_io_queues(dev);
+>  		nvme_disable_admin_queue(dev, shutdown);
+>  	}
+> -- 
+> 2.7.4
