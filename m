@@ -1,62 +1,39 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Fri,  2 Feb 2018 15:00:43 +0800
-Subject: [PATCH 0/6]nvme-pci: fixes on nvme_timeout and nvme_dev_disable
-Message-ID: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+From: alex.nlnnfn@gmail.com (Alex Nln)
+Date: Fri, 2 Feb 2018 00:10:28 -0800
+Subject: coalescing in polling mode in 4.9
+Message-ID: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
 
-Hi Christoph, Keith and Sagi
+Hello,
 
-Please consider and comment on the following patchset.
-That's really appreciated.
+Enabling interrupt coalescing in nvme device, kernel 4.9 
+significantly reduces performance when using polling mode.
+When I enable coalescing, IOPS drops from 100K to 35K and 
+latency jumps from 7 usec to 25 usec.
 
-There is a complicated relationship between nvme_timeout and nvme_dev_disable.
- - nvme_timeout has to invoke nvme_dev_disable to stop the
-   controller doing DMA access before free the request.
- - nvme_dev_disable has to depend on nvme_timeout to complete
-   adminq requests to set HMB or delete sq/cq when the controller
-   has no response.
- - nvme_dev_disable will race with nvme_timeout when cancels the
-   outstanding requests.
-We have found some issues introduced by them, please refer the following link
-
-http://lists.infradead.org/pipermail/linux-nvme/2018-January/015053.html 
-http://lists.infradead.org/pipermail/linux-nvme/2018-January/015276.html
-http://lists.infradead.org/pipermail/linux-nvme/2018-January/015328.html
-Even we cannot ensure there is no other issue.
-
-The best way to fix them is to break up the relationship between them.
-With this patch, we could avoid nvme_dev_disable to be invoked
-by nvme_timeout and eliminate the race between nvme_timeout and
-nvme_dev_disable on outstanding requests.
+Shouldn't we expect performance boost in polling mode when
+interrupt coalescing enabled? 
 
 
-There are 6 patches:
+Device is Intel DC P3600
+Coalescing enabled:  nvme set-feature /dev/nvme0 -f 8 -v 0x00ffff
+fio-2.16 file:
+[global]
+iodepth=1
+direct=1
+ioengine=pvsync2
+hipri
+group_reporting
+time_based
+blocksize=4k
+norandommap=1
 
-1st ~ 3th patches does some preparation for the 4th one.
-4th is to avoid nvme_dev_disable to be invoked by nvme_timeout, and implement
-the synchronization between them. More details, please refer to the comment of
-this patch.
-5th fixes a bug after 4th patch is introduced. It let nvme_delete_io_queues can
-only be wakeup by completion path.
-6th fixes a bug found when test, it is not related with 4th patch.
+[job1]
+rw=read
+filename=/dev/nvme0n1
+name=raw=sequential-read
+numjobs=1
+runtime=60
 
-This patchset was tested under debug patch for some days.
-And some bugfix have been done.
-The debug patch and other patches are available in following it branch:
-https://github.com/jianchwa/linux-blcok.git nvme_fixes_test
 
-Jianchao Wang (6)
-0001-nvme-pci-move-clearing-host-mem-behind-stopping-queu.patch
-0002-nvme-pci-fix-the-freeze-and-quiesce-for-shutdown-and.patch
-0003-blk-mq-make-blk_mq_rq_update_aborted_gstate-a-extern.patch
-0004-nvme-pci-break-up-nvme_timeout-and-nvme_dev_disable.patch
-0005-nvme-pci-discard-wait-timeout-when-delete-cq-sq.patch
-0006-nvme-pci-suspend-queues-based-on-online_queues.patch
-
-diff stat following:
- block/blk-mq.c          |   3 +-
- drivers/nvme/host/pci.c | 225 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------
- include/linux/blk-mq.h  |   1 +
- 3 files changed, 169 insertions(+), 60 deletions(-)
 
 Thanks
-Jianchao
