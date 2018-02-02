@@ -1,20 +1,32 @@
-From: thomas.tai@oracle.com (Thomas Tai)
-Date: Thu,  1 Feb 2018 18:10:57 -0500
-Subject: [PATCH v3 0/2] nvme: Add fault injection feature
-Message-ID: <1517526659-3450-1-git-send-email-thomas.tai@oracle.com>
+From: john@stoffel.org (John Stoffel)
+Date: Thu, 1 Feb 2018 19:26:34 -0500
+Subject: [dm-devel] [PATCH V4] blk-mq: introduce BLK_STS_DEV_RESOURCE
+In-Reply-To: <1517262713.2687.56.camel@wdc.com>
+References: <20180129203300.50595-1-snitzer@redhat.com>
+ <1517260932.2687.42.camel@wdc.com>
+ <20180129214446.GD5744@redhat.com>
+ <1517262713.2687.56.camel@wdc.com>
+Message-ID: <23155.45114.317289.396546@quad.stoffel.home>
 
-Linux's fault injection framework provides a systematic way to support
-error injection via debugfs in the /sys/kernel/debug directory. This
-patch uses the framework to add error injection to NVMe driver. 
+>>>>> "Bart" == Bart Van Assche <Bart.VanAssche at wdc.com> writes:
 
-Change log since last version:
-V2:
-- add user changable status and no_retry debugfs attribute
-- add document to show how to use nvme fault injection
+Bart> On Mon, 2018-01-29@16:44 -0500, Mike Snitzer wrote:
+>> But regardless of which wins the race, the queue will have been run.
+>> Which is all we care about right?
 
-V1:
-- move error injection point into nvme_end_request()
-- Add expected result in the commit log
+Bart> Running the queue is not sufficient. With this patch applied it can happen
+Bart> that the block driver returns BLK_STS_DEV_RESOURCE, that the two or more
+Bart> concurrent queue runs finish before sufficient device resources are available
+Bart> to execute the request and that blk_mq_delay_run_hw_queue() does not get
+Bart> called at all. If no other activity triggers a queue run, e.g. request
+Bart> completion, this will result in a queue stall.
 
-Thank you,
-Thomas
+Doesn't this argue that you really want some sort of completions to be
+run in this case instead?  Instead of busy looping or waiting for a
+set amount of time, just fire off a callback to run once you have the
+resources available, no?
+
+I can't provide any code examples, I don't know the code base nearly
+well enough.
+
+John
