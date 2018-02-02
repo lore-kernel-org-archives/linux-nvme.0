@@ -1,45 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 2 Feb 2018 13:29:31 -0700
-Subject: [PATCH] NVMe-CLI Fix command failures in regress script
-In-Reply-To: <20180202195021.8560-1-jeff.lien@wdc.com>
-References: <20180202195021.8560-1-jeff.lien@wdc.com>
-Message-ID: <20180202202930.GK24417@localhost.localdomain>
+From: jeff.lien@wdc.com (Jeff Lien)
+Date: Fri,  2 Feb 2018 15:10:58 -0600
+Subject: [PATCH] NVMe-CLI Fix fw_log Command json output
+Message-ID: <20180202211058.9592-1-jeff.lien@wdc.com>
 
-On Fri, Feb 02, 2018@01:50:20PM -0600, Jeff Lien wrote:
-> Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
-> ---
->  regress | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/regress b/regress
-> index aa7820c..0278d1d 100755
-> --- a/regress
-> +++ b/regress
-> @@ -89,7 +89,7 @@ if $LIST ; then
->      run_test nvme list
->  fi
->  run_test nvme id-ctrl ${DEVICE}
-> -run_test nvme id-ns -raw-binary ${DEVICE}
-> +run_test nvme id-ns -n 1 -raw-binary ${DEVICE}
->  run_test nvme list-ns -n 1 ${DEVICE}
->  run_test nvme get-ns-id ${DEVICE}
->  run_test nvme get-log ${DEVICE}  --log-id=2 --log-len=512
-> @@ -98,13 +98,13 @@ run_test nvme fw-log ${DEVICE} -b
->  run_test nvme smart-log ${DEVICE}
->  run_test nvme error-log ${DEVICE}
->  run_test nvme get-feature ${DEVICE} -f 7
-> -run_test nvme flush ${DEVICE}
-> +run_test nvme flush -n 1 ${DEVICE}
->  
->  if $WRITE ; then
->      run_test dd if=/dev/urandom of=${RAND_WFILE} bs=${RAND_SIZE} count=1
-> -    run_test nvme write ${DEVICE} --start-block=0 --block-count=0 --data-size=${RAND_SIZE} --data ${RAND_WFILE}
-> +    run_test nvme write ${DEVICE}n1 --start-block=0 --block-count=0 --data-size=${RAND_SIZE} --data ${RAND_WFILE}
->  fi
-> -run_test nvme read ${DEVICE} --start-block=0 --block-count=0 --data-size=${RAND_SIZE} --data ${RAND_RFILE} --latency
-> +run_test nvme read ${DEVICE}n1 --start-block=0 --block-count=0 --data-size=${RAND_SIZE} --data ${RAND_RFILE} --latency
->  if $WRITE ; then
->      run_test diff ${RAND_RFILE} ${RAND_WFILE}
->      rm ${RAND_WFILE} > /dev/null
+Currently, the json output for the fw_log command slot number
+is zero based while the normal output is one based.  This patch
+will change the json output to one based.  It will also only
+print the revisions for the valid slots.
 
-This script is supposed to only run on an nvme block block device.
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+---
+ nvme-print.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/nvme-print.c b/nvme-print.c
+index 1ca4b71..eaaf976 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -58,6 +58,7 @@ void d_raw(unsigned char *buf, unsigned len)
+ 	unsigned i;
+ 	for (i = 0; i < len; i++)
+ 		putchar(*(buf+i));
++	printf("\n");
+ }
+ 
+ static void format(char *formatter, size_t fmt_sz, char *tofmt, size_t tofmtsz)
+@@ -1928,10 +1929,12 @@ void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname)
+ 	json_object_add_value_int(fwsi, "Active Firmware Slot (afi)", fw_log->afi);
+ 
+ 	for (i = 0; i < 7; i++) {
+-		snprintf(fmt, sizeof(fmt), "Firmware Rev Slot %d", i);
+-		snprintf(str, sizeof(str), "%"PRIu64" (%s)", (uint64_t)fw_log->frs[i],
+-			 fw_to_string(fw_log->frs[i]));
+-		json_object_add_value_string(fwsi, fmt, str);
++		if (fw_log->frs[i]) {
++		 	snprintf(fmt, sizeof(fmt), "Firmware Rev Slot %d", i+1);
++		 	snprintf(str, sizeof(str), "%"PRIu64" (%s)", (uint64_t)fw_log->frs[i],
++		 		fw_to_string(fw_log->frs[i]));
++		 	json_object_add_value_string(fwsi, fmt, str);
++		 }
+ 	}
+ 	json_object_add_value_object(root, devname, fwsi);
+ 
+-- 
+2.14.2.746.g8fb8a94
