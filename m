@@ -1,27 +1,21 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 5 Feb 2018 08:02:53 -0700
-Subject: coalescing in polling mode in 4.9
-In-Reply-To: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
-References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
-Message-ID: <20180205150253.GN24417@localhost.localdomain>
+Date: Mon, 5 Feb 2018 08:13:14 -0700
+Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown
+ and reset case
+In-Reply-To: <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
+References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
+ <20180202182413.GH24417@localhost.localdomain>
+ <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
+Message-ID: <20180205151314.GP24417@localhost.localdomain>
 
-On Fri, Feb 02, 2018@12:10:28AM -0800, Alex Nln wrote:
-> Enabling interrupt coalescing in nvme device, kernel 4.9 
-> significantly reduces performance when using polling mode.
-> When I enable coalescing, IOPS drops from 100K to 35K and 
-> latency jumps from 7 usec to 25 usec.
-> 
-> Shouldn't we expect performance boost in polling mode when
-> interrupt coalescing enabled? 
-> 
-> 
-> Device is Intel DC P3600
+On Mon, Feb 05, 2018@10:26:03AM +0800, jianchao.wang wrote:
+> > Freezing is not just for shutdown. It's also used so
+> > blk_mq_update_nr_hw_queues will work if the queue count changes across
+> > resets.
+> blk_mq_update_nr_hw_queues will freeze the queue itself. Please refer to.
+> static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
 
-That's a pretty low latency for this device. Are you running reads to
-unmapped blocks?
-
-I've seen the phenomenom occur where higher coalescing settings worsens
-performance. That usually means the the polling thread exceeded its time:
-need_resched() returns true, so the tasks schedules out and relies on
-interrupts, which have been throttled. Maybe a hybrid polling would be
-better for this.
+Yes, but how many requests are you letting enter to their demise by
+freezing on the wrong side of the reset? We don't use the nuclear option
+out of convenience.
