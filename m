@@ -1,46 +1,41 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon,  5 Feb 2018 17:20:10 +0800
-Subject: [PATCH V2 1/6] nvme-pci: quiesce IO queues prior to disabling device
- HMB accesses
-In-Reply-To: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1517822415-11710-2-git-send-email-jianchao.w.wang@oracle.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 5 Feb 2018 13:23:57 +0200
+Subject: Regression: Connect-X5 doesn't connect with NVME-of
+In-Reply-To: <0d629a68-a1fa-7297-e371-5abbc2dd5fe7@grimberg.me>
+References: <66a5332c-01ee-7a39-8224-189fa52a7298@deltatee.com>
+ <e6cdfbe7-762c-c70c-be5f-397bdb08ee80@mellanox.com>
+ <0d629a68-a1fa-7297-e371-5abbc2dd5fe7@grimberg.me>
+Message-ID: <dbda15f0-f678-9fab-dffe-5e8d2ae24ae1@mellanox.com>
 
-Quiesce IO queues prior to disabling device HMB accesses. A controller
-using HMB may relay on it to efficiently complete IO commands.
+Hi Sagi/Logan,
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/pci.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+I've repro it with v4.14.1 (not happens on each connect).
+Sagi's proposal below fix the issue of the "Failed to write to 
+/dev/nvme-fabrics: Invalid cross-device link".
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6fe7af0..00cffed 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2186,7 +2186,10 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	if (!dead) {
- 		if (shutdown)
- 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+	}
-+	nvme_stop_queues(&dev->ctrl);
- 
-+	if (!dead) {
- 		/*
- 		 * If the controller is still alive tell it to stop using the
- 		 * host memory buffer.  In theory the shutdown / reset should
-@@ -2195,11 +2198,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		 */
- 		if (dev->host_mem_descs)
- 			nvme_set_host_mem(dev, 0);
--
--	}
--	nvme_stop_queues(&dev->ctrl);
--
--	if (!dead) {
- 		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
--- 
-2.7.4
+Sagi can you push (with my Tested-by: Max Gurtovoy <maxg at mellanox.com> 
+and Reviewed-by: Max Gurtovoy <maxg at mellanox.com>) it or I will ?
+
+The crush after the connection failure is fixed in my patches for NVMe 
+core state machine fixes that are under review in the list.
+
+
+> 
+> So I think this should make the problem go away:
+> -- 
+> diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
+> index a0610427e168..b82c4ae92411 100644
+> --- a/include/linux/mlx5/driver.h
+> +++ b/include/linux/mlx5/driver.h
+> @@ -1238,7 +1238,7 @@ mlx5_get_vector_affinity(struct mlx5_core_dev 
+> *dev, int vector)
+>  ??????? int eqn;
+>  ??????? int err;
+> 
+> -?????? err = mlx5_vector2eqn(dev, vector, &eqn, &irq);
+> +?????? err = mlx5_vector2eqn(dev, MLX5_EQ_VEC_COMP_BASE + vector, &eqn, 
+> &irq);
+>  ??????? if (err)
+>  ??????????????? return NULL;
+> -- 
+> 
