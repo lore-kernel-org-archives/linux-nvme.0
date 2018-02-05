@@ -1,37 +1,48 @@
-From: dledford@redhat.com (Doug Ledford)
-Date: Mon, 05 Feb 2018 10:57:20 -0500
-Subject: [PATCH] mlx5: fix mlx5_get_vector_affinity to start from
- completion vector 0
-In-Reply-To: <20180205142452.7630-1-sagi@grimberg.me>
-References: <20180205142452.7630-1-sagi@grimberg.me>
-Message-ID: <1517846240.3936.69.camel@redhat.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 5 Feb 2018 17:59:56 +0200
+Subject: Regression: Connect-X5 doesn't connect with NVME-of
+In-Reply-To: <1517845472.11655.3.camel@redhat.com>
+References: <66a5332c-01ee-7a39-8224-189fa52a7298@deltatee.com>
+ <e6cdfbe7-762c-c70c-be5f-397bdb08ee80@mellanox.com>
+ <0d629a68-a1fa-7297-e371-5abbc2dd5fe7@grimberg.me>
+ <dbda15f0-f678-9fab-dffe-5e8d2ae24ae1@mellanox.com>
+ <7941ee6c-bf13-093c-e5c2-9ed93889405d@grimberg.me>
+ <1517845472.11655.3.camel@redhat.com>
+Message-ID: <bcbc8826-994f-3b90-3bef-cdf659164b7b@mellanox.com>
 
-On Mon, 2018-02-05@16:24 +0200, Sagi Grimberg wrote:
-> The consumers of this routine expects the affinity map of of vector
-> index relative to the first completion vector. The upper layers are
-> not aware of internal/private completion vectors that mlx5 allocates
-> for its own usage.
+
+
+On 2/5/2018 5:44 PM, Laurence Oberman wrote:
+> On Mon, 2018-02-05@16:18 +0200, Sagi Grimberg wrote:
+>>> Hi Sagi/Logan,
+>>>
+>>> I've repro it with v4.14.1 (not happens on each connect).
+>>> Sagi's proposal below fix the issue of the "Failed to write to
+>>> /dev/nvme-fabrics: Invalid cross-device link".
+>>>
+>>> Sagi can you push (with my Tested-by: Max Gurtovoy <maxg at mellanox.c
+>>> om>
+>>> and Reviewed-by: Max Gurtovoy <maxg at mellanox.com>) it or I will ?
+>>
+>> Thanks, I'll send it.
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-rdma"
+>> in
+>> the body of a message to majordomo at vger.kernel.org
+>> More majordomo info at??http://vger.kernel.org/majordomo-info.html
 > 
-> Hence, return the affinity map of vector index relative to the first
-> completion vector.
+> This missed me because all my NVME is still using CX3 (mlx4)
+> I will move the NVME devices into the setup with mlx5 so next time I
+> will catch this sort of issue with the testing.
+> Currently the mlx5 is only testing ISER and SRP.
+
+Thanks Laurence,
+This is well appreciated :)
+
 > 
-> Fixes: 05e0cc84e00c ("net/mlx5: Fix get vector affinity helper function")
-> Reported-by: Logan Gunthorpe <logang at deltatee.com>
-> Tested-by: Max Gurtovoy <maxg at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> Cc: <stable at vger.kernel.org> # v4.15
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> Thanks
+> Laurence
+> 
 
-Thanks, applied.
-
--- 
-Doug Ledford <dledford at redhat.com>
-    GPG KeyID: B826A3330E572FDD
-    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: This is a digitally signed message part
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180205/45771bfc/attachment.sig>
+Cheers,
+Max
