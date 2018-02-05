@@ -1,21 +1,39 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Feb 2018 16:18:42 +0200
-Subject: Regression: Connect-X5 doesn't connect with NVME-of
-In-Reply-To: <dbda15f0-f678-9fab-dffe-5e8d2ae24ae1@mellanox.com>
-References: <66a5332c-01ee-7a39-8224-189fa52a7298@deltatee.com>
- <e6cdfbe7-762c-c70c-be5f-397bdb08ee80@mellanox.com>
- <0d629a68-a1fa-7297-e371-5abbc2dd5fe7@grimberg.me>
- <dbda15f0-f678-9fab-dffe-5e8d2ae24ae1@mellanox.com>
-Message-ID: <7941ee6c-bf13-093c-e5c2-9ed93889405d@grimberg.me>
+Date: Mon,  5 Feb 2018 16:24:52 +0200
+Subject: [PATCH] mlx5: fix mlx5_get_vector_affinity to start from completion
+ vector 0
+Message-ID: <20180205142452.7630-1-sagi@grimberg.me>
 
+The consumers of this routine expects the affinity map of of vector
+index relative to the first completion vector. The upper layers are
+not aware of internal/private completion vectors that mlx5 allocates
+for its own usage.
 
-> Hi Sagi/Logan,
-> 
-> I've repro it with v4.14.1 (not happens on each connect).
-> Sagi's proposal below fix the issue of the "Failed to write to 
-> /dev/nvme-fabrics: Invalid cross-device link".
-> 
-> Sagi can you push (with my Tested-by: Max Gurtovoy <maxg at mellanox.com> 
-> and Reviewed-by: Max Gurtovoy <maxg at mellanox.com>) it or I will ?
+Hence, return the affinity map of vector index relative to the first
+completion vector.
 
-Thanks, I'll send it.
+Fixes: 05e0cc84e00c ("net/mlx5: Fix get vector affinity helper function")
+Reported-by: Logan Gunthorpe <logang at deltatee.com>
+Tested-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Cc: <stable at vger.kernel.org> # v4.15
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ include/linux/mlx5/driver.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
+index a0610427e168..b82c4ae92411 100644
+--- a/include/linux/mlx5/driver.h
++++ b/include/linux/mlx5/driver.h
+@@ -1238,7 +1238,7 @@ mlx5_get_vector_affinity(struct mlx5_core_dev *dev, int vector)
+ 	int eqn;
+ 	int err;
+ 
+-	err = mlx5_vector2eqn(dev, vector, &eqn, &irq);
++	err = mlx5_vector2eqn(dev, MLX5_EQ_VEC_COMP_BASE + vector, &eqn, &irq);
+ 	if (err)
+ 		return NULL;
+ 
+-- 
+2.14.1
