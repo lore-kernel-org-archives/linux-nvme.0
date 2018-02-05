@@ -1,59 +1,37 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Mon, 5 Feb 2018 15:54:38 +0000
-Subject: [PATCH] NVMe-CLI Fix fw_log Command json output
-In-Reply-To: <20180202231858.GM24417@localhost.localdomain>
-References: <20180202211058.9592-1-jeff.lien@wdc.com>
- <20180202231858.GM24417@localhost.localdomain>
-Message-ID: <MWHPR04MB102504BBF49F2FFEF4F515EEEAFE0@MWHPR04MB1025.namprd04.prod.outlook.com>
+From: dledford@redhat.com (Doug Ledford)
+Date: Mon, 05 Feb 2018 10:57:20 -0500
+Subject: [PATCH] mlx5: fix mlx5_get_vector_affinity to start from
+ completion vector 0
+In-Reply-To: <20180205142452.7630-1-sagi@grimberg.me>
+References: <20180205142452.7630-1-sagi@grimberg.me>
+Message-ID: <1517846240.3936.69.camel@redhat.com>
 
-Ok, I'll remove the change to the binary output function.  
+On Mon, 2018-02-05@16:24 +0200, Sagi Grimberg wrote:
+> The consumers of this routine expects the affinity map of of vector
+> index relative to the first completion vector. The upper layers are
+> not aware of internal/private completion vectors that mlx5 allocates
+> for its own usage.
+> 
+> Hence, return the affinity map of vector index relative to the first
+> completion vector.
+> 
+> Fixes: 05e0cc84e00c ("net/mlx5: Fix get vector affinity helper function")
+> Reported-by: Logan Gunthorpe <logang at deltatee.com>
+> Tested-by: Max Gurtovoy <maxg at mellanox.com>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> Cc: <stable at vger.kernel.org> # v4.15
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
+Thanks, applied.
 
-Jeff Lien
-
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Keith Busch
-Sent: Friday, February 2, 2018 5:19 PM
-To: Jeffrey Lien
-Cc: David Darrington; linux-nvme at lists.infradead.org
-Subject: Re: [PATCH] NVMe-CLI Fix fw_log Command json output
-
-On Fri, Feb 02, 2018@03:10:58PM -0600, Jeff Lien wrote:
-> Currently, the json output for the fw_log command slot number is zero 
-> based while the normal output is one based.  This patch will change 
-> the json output to one based.  It will also only print the revisions 
-> for the valid slots.
-
-Totally fine with the json update. Not sure about the binary output, though. That mode is meant for piping structures to other programs and not sure how those will handle data beyond what they're expecting.
-
- 
-> @@ -58,6 +58,7 @@ void d_raw(unsigned char *buf, unsigned len)
->  	unsigned i;
->  	for (i = 0; i < len; i++)
->  		putchar(*(buf+i));
-> +	printf("\n");
->  }
->  
->  static void format(char *formatter, size_t fmt_sz, char *tofmt, 
-> size_t tofmtsz) @@ -1928,10 +1929,12 @@ void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname)
->  	json_object_add_value_int(fwsi, "Active Firmware Slot (afi)", 
-> fw_log->afi);
->  
->  	for (i = 0; i < 7; i++) {
-> -		snprintf(fmt, sizeof(fmt), "Firmware Rev Slot %d", i);
-> -		snprintf(str, sizeof(str), "%"PRIu64" (%s)", (uint64_t)fw_log->frs[i],
-> -			 fw_to_string(fw_log->frs[i]));
-> -		json_object_add_value_string(fwsi, fmt, str);
-> +		if (fw_log->frs[i]) {
-> +		 	snprintf(fmt, sizeof(fmt), "Firmware Rev Slot %d", i+1);
-> +		 	snprintf(str, sizeof(str), "%"PRIu64" (%s)", (uint64_t)fw_log->frs[i],
-> +		 		fw_to_string(fw_log->frs[i]));
-> +		 	json_object_add_value_string(fwsi, fmt, str);
-> +		 }
->  	}
->  	json_object_add_value_object(root, devname, fwsi);
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+-- 
+Doug Ledford <dledford at redhat.com>
+    GPG KeyID: B826A3330E572FDD
+    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: This is a digitally signed message part
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180205/45771bfc/attachment.sig>
