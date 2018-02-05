@@ -1,20 +1,31 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 5 Feb 2018 09:57:04 -0700
-Subject: [PATCH] NVMe-CLI Fix command failures in regress script
-In-Reply-To: <MWHPR04MB1025A39C17C55A89D61A6E58EAFE0@MWHPR04MB1025.namprd04.prod.outlook.com>
-References: <20180202195021.8560-1-jeff.lien@wdc.com>
- <20180202202930.GK24417@localhost.localdomain>
- <MWHPR04MB102561D215C063C6967513F4EAF90@MWHPR04MB1025.namprd04.prod.outlook.com>
- <20180202213829.GL24417@localhost.localdomain>
- <MWHPR04MB1025A39C17C55A89D61A6E58EAFE0@MWHPR04MB1025.namprd04.prod.outlook.com>
-Message-ID: <20180205165704.GA31110@localhost.localdomain>
+From: Golden_Miller83@protonmail.ch (Jordan Glover)
+Date: Mon, 05 Feb 2018 12:01:54 -0500
+Subject: Unsafe shutdowns on TOSHIBA THNSF5256GPUK NVME
+Message-ID: <7QlrLlBcNh77StPeNNrcSdPK0A-MIo4tyaJTCCnbjj35h29Z99Gk4vuEX2tdZKnSZQjnoUy4Gl7AHtwsXfGiUNp9fVQgdHHX60bd8VSlmOk=@protonmail.ch>
 
-On Mon, Feb 05, 2018@04:49:11PM +0000, Jeffrey Lien wrote:
-> Keith,
-> That doesn't seem to happen with our nvme device.  Below is what I get when I run the regress script as is.  Am I missing something on the invocation?
-> 
-> ./regress -d /dev/nvme0 -l -w
-                    ^^^^^
+Hello,
 
-That's a character device. You need to use a block device, like
-/dev/nvme0n1.
+I have problem with "unsafe shutdowns" on Lenovo laptop with TOSHIBA
+THNSF5256GPUK NVME disk. It happens every time I power-off my machine and I can
+hear characteristic "click" sound like with rotational disks. (maybe that's
+something else but I'm basing on info from S.M.A.R.T data not this).
+
+I looked around and saw that people report similar problems in different NVME
+disks[1][2], even across different OSes[3][4]. I also found some old patches
+witch tried to deal with this[5].
+
+I know that my disk was already put on $hitlist due to power saving issues[6].
+
+I tested this with linux kernels 4.14.x - 4.15. My BIOS and disk firmware are
+updated.
+
+Is there anything I could do to resolve this issue? Thx for any help.
+
+Jordan
+
+[1] https://bbs.archlinux.org/viewtopic.php?id=230723
+[2] https://bugs.alpinelinux.org/issues/5082
+[3]https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=211852
+[4] https://www.win-raid.com/t2041f38-SAMSUNG-PRO-NVMe-SSD-unsafe-shutdowns-NVMe-driver-W-x-unexpected-shutdown.html
+[5] http://lists.infradead.org/pipermail/linux-nvme/2014-March/000744.html
+[6] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/nvme/host/core.c#n1950
