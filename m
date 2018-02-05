@@ -1,21 +1,26 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 5 Feb 2018 08:13:14 -0700
-Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown
- and reset case
-In-Reply-To: <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
-References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
- <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
- <20180202182413.GH24417@localhost.localdomain>
- <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
-Message-ID: <20180205151314.GP24417@localhost.localdomain>
+From: dledford@redhat.com (Doug Ledford)
+Date: Mon, 05 Feb 2018 10:23:32 -0500
+Subject: [PATCH] mlx5: fix mlx5_get_vector_affinity to start from
+ completion vector 0
+In-Reply-To: <64670132-9662-9bbe-9979-fd02260a7fb3@grimberg.me>
+References: <20180205142452.7630-1-sagi@grimberg.me>
+ <64670132-9662-9bbe-9979-fd02260a7fb3@grimberg.me>
+Message-ID: <1517844212.3936.64.camel@redhat.com>
 
-On Mon, Feb 05, 2018@10:26:03AM +0800, jianchao.wang wrote:
-> > Freezing is not just for shutdown. It's also used so
-> > blk_mq_update_nr_hw_queues will work if the queue count changes across
-> > resets.
-> blk_mq_update_nr_hw_queues will freeze the queue itself. Please refer to.
-> static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+On Mon, 2018-02-05@16:28 +0200, Sagi Grimberg wrote:
+> Sorry, now my .gitaliases updated with Jason's correct email.
 
-Yes, but how many requests are you letting enter to their demise by
-freezing on the wrong side of the reset? We don't use the nuclear option
-out of convenience.
+Jason prefers jgg at ziepe.ca for his upstream work, so might need to
+update again ;-)
+
+-- 
+Doug Ledford <dledford at redhat.com>
+    GPG KeyID: B826A3330E572FDD
+    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: This is a digitally signed message part
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180205/b3e1d858/attachment.sig>
