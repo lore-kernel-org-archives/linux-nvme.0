@@ -1,49 +1,53 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 5 Feb 2018 10:16:22 -0700
-Subject: [PATCH] mlx5: fix mlx5_get_vector_affinity to start from
- completion vector 0
-In-Reply-To: <20180205142452.7630-1-sagi@grimberg.me>
-References: <20180205142452.7630-1-sagi@grimberg.me>
-Message-ID: <397fbb71-2a0f-4293-1aee-b9127350fb33@deltatee.com>
+From: sbauer@eng.utah.edu (Scotty Bauer)
+Date: Mon, 05 Feb 2018 11:44:46 -0700
+Subject: Unsafe shutdowns on TOSHIBA THNSF5256GPUK NVME
+In-Reply-To: <7QlrLlBcNh77StPeNNrcSdPK0A-MIo4tyaJTCCnbjj35h29Z99Gk4vuEX2tdZKnSZQjnoUy4Gl7AHtwsXfGiUNp9fVQgdHHX60bd8VSlmOk=@protonmail.ch>
+References: <7QlrLlBcNh77StPeNNrcSdPK0A-MIo4tyaJTCCnbjj35h29Z99Gk4vuEX2tdZKnSZQjnoUy4Gl7AHtwsXfGiUNp9fVQgdHHX60bd8VSlmOk=@protonmail.ch>
+Message-ID: <fd59dd68a60beb42d2aee9f40b6ab48c@eng.utah.edu>
 
-Thanks Sagi,
+add nvme_core.shutdown_timeout=20 to your kernel boot parameters.
 
-I can confirm this fixes our issue.
 
-Nice Catch!
 
-Logan
-
-On 05/02/18 07:24 AM, Sagi Grimberg wrote:
-> The consumers of this routine expects the affinity map of of vector
-> index relative to the first completion vector. The upper layers are
-> not aware of internal/private completion vectors that mlx5 allocates
-> for its own usage.
+On 2018-02-05 10:01, Jordan Glover wrote:
+> Hello,
 > 
-> Hence, return the affinity map of vector index relative to the first
-> completion vector.
+> I have problem with "unsafe shutdowns" on Lenovo laptop with TOSHIBA
+> THNSF5256GPUK NVME disk. It happens every time I power-off my machine 
+> and I can
+> hear characteristic "click" sound like with rotational disks. (maybe 
+> that's
+> something else but I'm basing on info from S.M.A.R.T data not this).
 > 
-> Fixes: 05e0cc84e00c ("net/mlx5: Fix get vector affinity helper function")
-> Reported-by: Logan Gunthorpe <logang at deltatee.com>
-> Tested-by: Max Gurtovoy <maxg at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> Cc: <stable at vger.kernel.org> # v4.15
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   include/linux/mlx5/driver.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> I looked around and saw that people report similar problems in 
+> different NVME
+> disks[1][2], even across different OSes[3][4]. I also found some old 
+> patches
+> witch tried to deal with this[5].
 > 
-> diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
-> index a0610427e168..b82c4ae92411 100644
-> --- a/include/linux/mlx5/driver.h
-> +++ b/include/linux/mlx5/driver.h
-> @@ -1238,7 +1238,7 @@ mlx5_get_vector_affinity(struct mlx5_core_dev *dev, int vector)
->   	int eqn;
->   	int err;
->   
-> -	err = mlx5_vector2eqn(dev, vector, &eqn, &irq);
-> +	err = mlx5_vector2eqn(dev, MLX5_EQ_VEC_COMP_BASE + vector, &eqn, &irq);
->   	if (err)
->   		return NULL;
->   
+> I know that my disk was already put on $hitlist due to power saving 
+> issues[6].
 > 
+> I tested this with linux kernels 4.14.x - 4.15. My BIOS and disk 
+> firmware are
+> updated.
+> 
+> Is there anything I could do to resolve this issue? Thx for any help.
+> 
+> Jordan
+> 
+> [1] https://bbs.archlinux.org/viewtopic.php?id=230723
+> [2] https://bugs.alpinelinux.org/issues/5082
+> [3]https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=211852
+> [4]
+> https://www.win-raid.com/t2041f38-SAMSUNG-PRO-NVMe-SSD-unsafe-shutdowns-NVMe-driver-W-x-unexpected-shutdown.html
+> [5] 
+> http://lists.infradead.org/pipermail/linux-nvme/2014-March/000744.html
+> [6]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/nvme/host/core.c#n1950
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
