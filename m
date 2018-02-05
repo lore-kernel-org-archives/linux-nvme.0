@@ -1,120 +1,52 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon,  5 Feb 2018 17:20:13 +0800
-Subject: [PATCH V2 4/6] nvme-pci: suspend queues based on online_queues
+Date: Mon,  5 Feb 2018 17:20:12 +0800
+Subject: [PATCH V2 3/6] blk-mq: make blk_mq_rq_update_aborted_gstate a
+ external interface
 In-Reply-To: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
 References: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1517822415-11710-5-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1517822415-11710-4-git-send-email-jianchao.w.wang@oracle.com>
 
-nvme cq irq is freed based on queue_count. When the sq/cq creation
-fails, irq will not be setup. free_irq will warn 'Try to free
-already-free irq'.
-
-To fix it, we only increase online_queues when adminq/sq/cq are
-created and associated irq is setup. Then suspend queues based
-on online_queues.
+No functional change, just make blk_mq_rq_update_aborted_gstate a
+external interface.
 
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/pci.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ block/blk-mq.c         | 3 ++-
+ include/linux/blk-mq.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a7fa397..117b837 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1315,9 +1315,6 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	nvmeq->cq_vector = -1;
- 	spin_unlock_irq(&nvmeq->q_lock);
- 
--	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
--		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
--
- 	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
- 
- 	return 0;
-@@ -1461,13 +1458,14 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 	nvme_init_queue(nvmeq, qid);
- 	result = queue_request_irq(nvmeq);
- 	if (result < 0)
--		goto release_sq;
-+		goto offline;
- 
- 	return result;
- 
-- release_sq:
-+offline:
-+	dev->online_queues--;
- 	adapter_delete_sq(dev, qid);
-- release_cq:
-+release_cq:
- 	adapter_delete_cq(dev, qid);
- 	return result;
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 01f271d..a027ca2 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -581,7 +581,7 @@ static void hctx_lock(struct blk_mq_hw_ctx *hctx, int *srcu_idx)
+ 		*srcu_idx = srcu_read_lock(hctx->srcu);
  }
-@@ -1607,6 +1605,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	result = queue_request_irq(nvmeq);
- 	if (result) {
- 		nvmeq->cq_vector = -1;
-+		dev->online_queues--;
- 		return result;
- 	}
  
-@@ -1954,6 +1953,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	result = queue_request_irq(adminq);
- 	if (result) {
- 		adminq->cq_vector = -1;
-+		dev->online_queues--;
- 		return result;
- 	}
- 	return nvme_create_io_queues(dev);
-@@ -2167,13 +2167,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	int i;
- 	bool dead = true;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	int onlines;
+-static void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
++void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
+ {
+ 	unsigned long flags;
  
- 	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+@@ -597,6 +597,7 @@ static void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate)
+ 	u64_stats_update_end(&rq->aborted_gstate_sync);
+ 	local_irq_restore(flags);
+ }
++EXPORT_SYMBOL(blk_mq_rq_update_aborted_gstate);
  
--		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
--			pdev->error_state  != pci_channel_io_normal);
-+		dead = !!((csts & NVME_CSTS_CFS) ||
-+				!(csts & NVME_CSTS_RDY) ||
-+				(pdev->error_state  != pci_channel_io_normal) ||
-+				(dev->online_queues == 0));
- 	}
+ static u64 blk_mq_rq_aborted_gstate(struct request *rq)
+ {
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 8efcf49..ad54024 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -257,6 +257,7 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
+ void blk_mq_kick_requeue_list(struct request_queue *q);
+ void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
+ void blk_mq_complete_request(struct request *rq);
++void blk_mq_rq_update_aborted_gstate(struct request *rq, u64 gstate);
  
- 	/* Just freeze the queue for shutdown case */
-@@ -2203,9 +2206,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
--	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
-+
-+	onlines = dev->online_queues;
-+	for (i = onlines - 1; i >= 0; i--)
- 		nvme_suspend_queue(&dev->queues[i]);
- 
-+	if (dev->ctrl.admin_q)
-+		blk_mq_quiesce_queue(dev->ctrl.admin_q);
-+
- 	nvme_pci_disable(dev);
- 
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
-@@ -2348,12 +2356,12 @@ static void nvme_reset_work(struct work_struct *work)
- 	 * Keep the controller around but remove all namespaces if we don't have
- 	 * any working I/O queue.
- 	 */
--	if (dev->online_queues < 2) {
-+	if (dev->online_queues == 1) {
- 		dev_warn(dev->ctrl.device, "IO queues not created\n");
- 		nvme_kill_queues(&dev->ctrl);
- 		nvme_remove_namespaces(&dev->ctrl);
- 		new_state = NVME_CTRL_ADMIN_ONLY;
--	} else {
-+	} else if (dev->online_queues > 1) {
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
+ bool blk_mq_queue_stopped(struct request_queue *q);
+ void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
 -- 
 2.7.4
