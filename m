@@ -1,122 +1,32 @@
-From: wenxiong@vmlinux.vnet.ibm.com (wenxiong@vmlinux.vnet.ibm.com)
-Date: Mon,  5 Feb 2018 15:49:40 -0600
-Subject: [PATCH]nvme-pci: Fixes EEH failure on ppc
-Message-ID: <1517867380-18790-1-git-send-email-wenxiong@vmlinux.vnet.ibm.com>
+From: sbates@raithlin.com (sbates@raithlin.com)
+Date: Mon,  5 Feb 2018 15:32:23 -0700
+Subject: [PATCH] nvme-pci: Fix incorrect use of CMB size to calculate q_depth
+Message-ID: <1517869943-3655-1-git-send-email-sbates@raithlin.com>
 
-From: Wen Xiong <wenxiong@linux.vnet.ibm.com>
+From: Stephen Bates <sbates@raithlin.com>
 
-With b2a0eb1a0ac72869c910a79d935a0b049ec78ad9(nvme-pci: Remove watchdog
-timer), EEH recovery stops working on ppc.
+We should not be using the CMB to determine the permissable q_depth
+when we don't plan to place any queues in the CMB. In the case of a
+small CMB or large numbers of queues this could lead to shallow queues
+when they don't need to be.
 
-After removing whatdog timer routine, when trigger EEH on ppc, we hit
-EEH in nvme_timeout(). We would like to check if pci channel is offline
-or not at the beginning of nvme_timeout(), if it is already offline,
-we don't need to do future nvme timeout process.
-
-With the patch, EEH recovery works successfuly on ppc.
-
-Signed-off-by: Wen Xiong <wenxiong at linux.vnet.ibm.com>
-
-[  232.585495] EEH: PHB#3 failure detected, location: N/A
-[  232.585545] CPU: 8 PID: 4873 Comm: kworker/8:1H Not tainted
-4.14.0-6.el7a.ppc64le #1
-[  232.585646] Workqueue: kblockd blk_mq_timeout_work
-[  232.585705] Call Trace:
-[  232.585743] [c000003f7a533940] [c000000000c3556c]
-dump_stack+0xb0/0xf4 (unreliable)
-[  232.585823] [c000003f7a533980] [c000000000043eb0]
-eeh_check_failure+0x290/0x630
-[  232.585924] [c000003f7a533a30] [c008000011063f30]
-nvme_timeout+0x1f0/0x410 [nvme]
-[  232.586038] [c000003f7a533b00] [c000000000637fc8]
-blk_mq_check_expired+0x118/0x1a0
-[  232.586134] [c000003f7a533b80] [c00000000063e65c]
-bt_for_each+0x11c/0x200
-[  232.586191] [c000003f7a533be0] [c00000000063f1f8]
-blk_mq_queue_tag_busy_iter+0x78/0x110
-[  232.586272] [c000003f7a533c30] [c0000000006367b8]
-blk_mq_timeout_work+0xa8/0x1c0
-[  232.586351] [c000003f7a533c80] [c00000000015d5ec]
-process_one_work+0x1bc/0x5f0
-[  232.586431] [c000003f7a533d20] [c00000000016060c]
-worker_thread+0xac/0x6b0
-[  232.586485] [c000003f7a533dc0] [c00000000016a528] kthread+0x168/0x1b0
-[  232.586539] [c000003f7a533e30] [c00000000000b4e8]
-ret_from_kernel_thread+0x5c/0x74
-[  232.586640] nvme nvme0: I/O 10 QID 0 timeout, reset controller
-[  232.586640] EEH: Detected error on PHB#3
-[  232.586642] EEH: This PCI device has failed 1 times in the last hour
-[  232.586642] EEH: Notify device drivers to shutdown
-[  232.586645] nvme nvme0: frozen state error detected, reset controller
-[  234.098667] EEH: Collect temporary log
-[  234.098694] PHB4 PHB#3 Diag-data (Version: 1)
-[  234.098728] brdgCtl:    00000002
-[  234.098748] RootSts:    00070020 00402000 c1010008 00100107 00000000
-[  234.098807] RootErrSts: 00000000 00000020 00000001
-[  234.098878] nFir:       0000800000000000 0030001c00000000
-0000800000000000
-[  234.098937] PhbSts:     0000001800000000 0000001800000000
-[  234.098990] Lem:        0000000100000100 0000000000000000
-0000000100000000
-[  234.099067] PhbErr:     000004a000000000 0000008000000000
-2148000098000240 a008400000000000
-[  234.099140] RxeMrgErr:  0000000000000001 0000000000000001
-0000000000000000 0000000000000000
-[  234.099250] PcieDlp:    0000000000000000 0000000000000000
-8000000000000000
-[  234.099326] RegbErr:    00d0000010000000 0000000010000000
-8800005800000000 0000000007011000
-[  234.099418] EEH: Reset without hotplug activity
-[  237.317675] nvme 0003:01:00.0: Refused to change power state,
-currently in D3
-[  237.317740] nvme 0003:01:00.0: Using 64-bit DMA iommu bypass
-[  237.317797] nvme nvme0: Removing after probe failure status: -19
-[  361.139047689,3] PHB#0003[0:3]: Escalating freeze to fence
-PESTA[0]=a440002a01000000
-[  237.617706] EEH: Notify device drivers the completion of reset
-[  237.617754] nvme nvme0: restart after slot reset
-[  237.617834] EEH: Notify device driver to resume
-[  238.777746] nvme0n1: detected capacity change from 24576000000 to 0
-[  238.777841] nvme0n2: detected capacity change from 24576000000 to 0
-[  238.777944] nvme0n3: detected capacity change from 24576000000 to 0
-[  238.778019] nvme0n4: detected capacity change from 24576000000 to 0
-[  238.778132] nvme0n5: detected capacity change from 24576000000 to 0
-[  238.778222] nvme0n6: detected capacity change from 24576000000 to 0
-[  238.778314] nvme0n7: detected capacity change from 24576000000 to 0
-[  238.778416] nvme0n8: detected capacity change from 24576000000 to 0
+Signed-off-by: Stephen Bates <sbates at raithlin.com>
 ---
- drivers/nvme/host/pci.c |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6fe7af0..4809f3d 100644
+index 0bc6a9e..0d099e9 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1153,12 +1153,6 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
- 	if (!(csts & NVME_CSTS_CFS) && !nssro)
- 		return false;
+@@ -1913,7 +1913,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	if (nr_io_queues == 0)
+ 		return 0;
  
--	/* If PCI error recovery process is happening, we cannot reset or
--	 * the recovery mechanism will surely fail.
--	 */
--	if (pci_channel_offline(to_pci_dev(dev->dev)))
--		return false;
--
- 	return true;
- }
- 
-@@ -1189,6 +1183,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	struct nvme_command cmd;
- 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
-+	/* If PCI error recovery process is happening, we cannot reset or
-+	 * the recovery mechanism will surely fail.
-+	 */
-+	if (pci_channel_offline(to_pci_dev(dev->dev)))
-+		return BLK_EH_HANDLED;
-+
- 	/*
- 	 * Reset immediately if the controller is failed
- 	 */
+-	if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
++	if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+ 		result = nvme_cmb_qdepth(dev, nr_io_queues,
+ 				sizeof(struct nvme_command));
+ 		if (result > 0)
 -- 
-1.7.1
+2.7.4
