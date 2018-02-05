@@ -1,44 +1,14 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Feb 2018 16:28:02 +0200
-Subject: [PATCH] mlx5: fix mlx5_get_vector_affinity to start from
- completion vector 0
-In-Reply-To: <20180205142452.7630-1-sagi@grimberg.me>
-References: <20180205142452.7630-1-sagi@grimberg.me>
-Message-ID: <64670132-9662-9bbe-9979-fd02260a7fb3@grimberg.me>
-
-Sorry, now my .gitaliases updated with Jason's correct email.
+Date: Mon, 5 Feb 2018 16:40:45 +0200
+Subject: coalescing in polling mode in 4.9
+In-Reply-To: <20180204161506.4e74225c809295c037fae83a@gmail.com>
+References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
+ <20180204161506.4e74225c809295c037fae83a@gmail.com>
+Message-ID: <26080be2-a218-a567-ac2c-0ec70ffd921f@grimberg.me>
 
 
-On 02/05/2018 04:24 PM, Sagi Grimberg wrote:
-> The consumers of this routine expects the affinity map of of vector
-> index relative to the first completion vector. The upper layers are
-> not aware of internal/private completion vectors that mlx5 allocates
-> for its own usage.
-> 
-> Hence, return the affinity map of vector index relative to the first
-> completion vector.
-> 
-> Fixes: 05e0cc84e00c ("net/mlx5: Fix get vector affinity helper function")
-> Reported-by: Logan Gunthorpe <logang at deltatee.com>
-> Tested-by: Max Gurtovoy <maxg at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> Cc: <stable at vger.kernel.org> # v4.15
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   include/linux/mlx5/driver.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
-> index a0610427e168..b82c4ae92411 100644
-> --- a/include/linux/mlx5/driver.h
-> +++ b/include/linux/mlx5/driver.h
-> @@ -1238,7 +1238,7 @@ mlx5_get_vector_affinity(struct mlx5_core_dev *dev, int vector)
->   	int eqn;
->   	int err;
->   
-> -	err = mlx5_vector2eqn(dev, vector, &eqn, &irq);
-> +	err = mlx5_vector2eqn(dev, MLX5_EQ_VEC_COMP_BASE + vector, &eqn, &irq);
->   	if (err)
->   		return NULL;
->   
-> 
+> Appreciate if someone could help me to understand why do we need interrupts
+> in polling mode, and performance drops when interrupts coalescing enabled.
+
+I didn't try with this device. I did try on p3700 in the past and this
+did not happen.
