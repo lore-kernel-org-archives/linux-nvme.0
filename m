@@ -1,9 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 6 Feb 2018 11:30:09 +0100
-Subject: [PATCH] nvmet: don't allow referral to match parent traddr+trsvcid
-In-Reply-To: <20180206094634.13126-1-sagi@grimberg.me>
-References: <20180206094634.13126-1-sagi@grimberg.me>
-Message-ID: <20180206103008.3b3m24p5oc6fmcze@linux-x5ow.site>
+Date: Tue, 6 Feb 2018 11:36:43 +0100
+Subject: [PATCH 2/3] nvmet: don't return "any" ip address in discovery
+ log page
+In-Reply-To: <20180206094432.12761-3-sagi@grimberg.me>
+References: <20180206094432.12761-1-sagi@grimberg.me>
+ <20180206094432.12761-3-sagi@grimberg.me>
+Message-ID: <20180206103643.qmdeqckmamjxjtbc@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
