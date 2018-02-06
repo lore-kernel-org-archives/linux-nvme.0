@@ -1,27 +1,34 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Tue, 6 Feb 2018 15:56:21 +0000
-Subject: [PATCH] nvme-pci: Fix incorrect use of CMB size to calculate
- q_depth
-In-Reply-To: <20180206150552.GD31110@localhost.localdomain>
-References: <1517869943-3655-1-git-send-email-sbates@raithlin.com>,
- <20180206150552.GD31110@localhost.localdomain>
-Message-ID: <6ECB1B8A-A08D-466D-BD04-297ED26738E8@raithlin.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 6 Feb 2018 09:29:04 -0700
+Subject: coalescing in polling mode in 4.9
+In-Reply-To: <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
+References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
+ <CGME20180205145924epcas3p2f8156043ec00b51c135ac62c1fa177d7@epcas3p2.samsung.com>
+ <20180205150253.GN24417@localhost.localdomain>
+ <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
+Message-ID: <20180206162903.GF31110@localhost.localdomain>
 
+On Mon, Feb 05, 2018@09:12:12PM +0530, Nitesh wrote:
+> diff --git a/fs/block_dev.c b/fs/block_dev.c
+> index 4a181fc..d2eeedf 100644
+> --- a/fs/block_dev.c
+> +++ b/fs/block_dev.c
+> @@ -236,9 +236,13 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct
+> iov_iter *iter,
+>                 set_current_state(TASK_UNINTERRUPTIBLE);
+>                 if (!READ_ONCE(bio.bi_private))
+>                         break;
+> -               if (!(iocb->ki_flags & IOCB_HIPRI) ||
+> -                   !blk_poll(bdev_get_queue(bdev), qc))
+> +               if (!(iocb->ki_flags & IOCB_HIPRI))
+>                         io_schedule();
+> +               else if (!blk_poll(bdev_get_queue(bdev), qc)) {
+> +                       if(need_resched())
+> +                               set_current_state(TASK_RUNNING);
+> +                       io_schedule();
+> +               }
+>         }
+>         __set_current_state(TASK_RUNNING);
 
-> On Feb 6, 2018,@8:02 AM, Keith Busch <keith.busch@intel.com> wrote:
-> 
->> On Mon, Feb 05, 2018@03:32:23PM -0700, sbates@raithlin.com wrote:
->> 
->> -    if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
->> +    if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
-> 
-> Is this a prep patch for something coming later? dev->cmb is already
-> NULL if use_cmb_sqes is false.
-
-Thanks Keith. 
-
-Not sure how I missed this. I was working on OOT patches to enable WDS and RDS in the CMB. I *thought* I?d confirmed this patch was applicable to upstream. Looks like I did not do that correctly. 
-
-Sorry for the churn. We can leave this patch out for now. Thanks for the prompt feedback everyone!
-
-Stephen 
+Yah, I think this looks good. Do you want to send this as a proper patch
+to linux-block mailing list for consideration?
