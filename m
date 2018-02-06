@@ -1,40 +1,27 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Tue, 6 Feb 2018 15:27:39 +0000
-Subject: [PATCH 1/3] net/utils: Introduce inet_addr_is_any
-In-Reply-To: <20180206094432.12761-2-sagi@grimberg.me>
-References: <20180206094432.12761-1-sagi@grimberg.me>
- <20180206094432.12761-2-sagi@grimberg.me>
-Message-ID: <1517930858.3934.15.camel@wdc.com>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Tue, 6 Feb 2018 15:56:21 +0000
+Subject: [PATCH] nvme-pci: Fix incorrect use of CMB size to calculate
+ q_depth
+In-Reply-To: <20180206150552.GD31110@localhost.localdomain>
+References: <1517869943-3655-1-git-send-email-sbates@raithlin.com>,
+ <20180206150552.GD31110@localhost.localdomain>
+Message-ID: <6ECB1B8A-A08D-466D-BD04-297ED26738E8@raithlin.com>
 
-On Tue, 2018-02-06@11:44 +0200, Sagi Grimberg wrote:
-> +bool inet_addr_is_any(struct sockaddr *addr)
-> +{
-> +	bool ret = false;
-> +
-> +	if (addr->sa_family == AF_INET6) {
-> +		struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)addr;
-> +		const struct sockaddr_in6 in6_any =
-> +			{ .sin6_addr = IN6ADDR_ANY_INIT };
-> +
-> +		if (!memcmp(in6->sin6_addr.s6_addr,
-> +			in6_any.sin6_addr.s6_addr, 16))
-> +			ret = true;
-> +	} else if (addr->sa_family == AF_INET) {
-> +		struct sockaddr_in *in = (struct sockaddr_in *)addr;
-> +
-> +		if (in->sin_addr.s_addr == htonl(INADDR_ANY))
-> +			ret = true;
-> +	}
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(inet_addr_is_any);
 
-Have you considered to eliminate the local variable 'ret' and to use multiple
-return statements? Additionally, should this function trigger a warning if a
-socket address is passed with an address family that is not supported by this
-function? Should the in6_any local variable be declared static?
+> On Feb 6, 2018,@8:02 AM, Keith Busch <keith.busch@intel.com> wrote:
+> 
+>> On Mon, Feb 05, 2018@03:32:23PM -0700, sbates@raithlin.com wrote:
+>> 
+>> -    if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+>> +    if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+> 
+> Is this a prep patch for something coming later? dev->cmb is already
+> NULL if use_cmb_sqes is false.
 
-Thanks,
+Thanks Keith. 
 
-Bart.
+Not sure how I missed this. I was working on OOT patches to enable WDS and RDS in the CMB. I *thought* I?d confirmed this patch was applicable to upstream. Looks like I did not do that correctly. 
+
+Sorry for the churn. We can leave this patch out for now. Thanks for the prompt feedback everyone!
+
+Stephen 
