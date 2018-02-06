@@ -1,50 +1,33 @@
-From: alex.nlnnfn@gmail.com (Alex Nln)
-Date: Mon, 5 Feb 2018 21:39:45 -0800
-Subject: coalescing in polling mode in 4.9
-In-Reply-To: <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
-References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
- <CGME20180205145924epcas3p2f8156043ec00b51c135ac62c1fa177d7@epcas3p2.samsung.com>
- <20180205150253.GN24417@localhost.localdomain>
- <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
-Message-ID: <20180205213945.303b3a69a7048d94cecac599@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue,  6 Feb 2018 11:44:29 +0200
+Subject: [PATCH 0/3] Commonise address any check
+Message-ID: <20180206094432.12761-1-sagi@grimberg.me>
 
-Hi Nitesh,
+Both iscsit and nvmet need to check the listening endpoint
+portal is not INADDR_ANY (or IN6ADDR_ANY_INIT) when replying
+to a discovery information query (iscsi sendtaragets or nvmet
+discovery log pages). If indeed the nvmet port or iscsit portal
+are listening on any address, they need to return the source
+address of the socket that carried the query itslef.
 
-On Mon, 05 Feb 2018 21:12:12 +0530
-Nitesh <nj.shetty@samsung.com> wrote:
+iscsit already does this while nvmet did not.
+instead of copying the inaddr_any check, place it in net-utils
+and call it from both (patches 1+3).
 
-> Hi Alex,
-> I got into similar problem not long ago. With coalescing enabled, some 
-> I/Os took very long. Every time need_reshed() returns true, 
-> io_schedule() makes task go to sleep as its state is previous set as 
-> non-interruptible.I handled this by setting task state as running, and 
-> release the cpu. Diff is attached below, you may give it a try.
-> 
+In addition, fix the behavior in nvmet (patch 2).
 
-I tested this patch on kernel 4.9 and it solves the problem.
-Thanks a lot
+Sagi Grimberg (3):
+  net/utils: Introduce inet_addr_is_any
+  nvmet: don't return "any" ip address in discovery log page
+  iscsi-target: use common inet_addr_is_any
 
+ drivers/nvme/target/discovery.c     | 30 +++++++++++++++++++++++++++---
+ drivers/nvme/target/nvmet.h         |  2 ++
+ drivers/nvme/target/rdma.c          | 18 ++++++++++++++++++
+ drivers/target/iscsi/iscsi_target.c | 28 ++--------------------------
+ include/linux/inet.h                |  1 +
+ net/core/utils.c                    | 23 +++++++++++++++++++++++
+ 6 files changed, 73 insertions(+), 29 deletions(-)
 
-> 
-> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> index 4a181fc..d2eeedf 100644
-> --- a/fs/block_dev.c
-> +++ b/fs/block_dev.c
-> @@ -236,9 +236,13 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, 
-> struct iov_iter *iter,
->                  set_current_state(TASK_UNINTERRUPTIBLE);
->                  if (!READ_ONCE(bio.bi_private))
->                          break;
-> -               if (!(iocb->ki_flags & IOCB_HIPRI) ||
-> -                   !blk_poll(bdev_get_queue(bdev), qc))
-> +               if (!(iocb->ki_flags & IOCB_HIPRI))
->                          io_schedule();
-> +               else if (!blk_poll(bdev_get_queue(bdev), qc)) {
-> +                       if(need_resched())
-> +                               set_current_state(TASK_RUNNING);
-> +                       io_schedule();
-> +               }
->          }
->          __set_current_state(TASK_RUNNING);
-> 
-> 
+-- 
+2.14.1
