@@ -1,28 +1,143 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue,  6 Feb 2018 06:48:28 -0800
-Subject: [PATCH 0/2] nvme-fc: io termination cleanup
-Message-ID: <20180206144830.968-1-jsmart2021@gmail.com>
+Date: Tue,  6 Feb 2018 06:48:30 -0800
+Subject: [PATCH 2/2] nvme_fc: cleanup io completion
+In-Reply-To: <20180206144830.968-1-jsmart2021@gmail.com>
+References: <20180206144830.968-1-jsmart2021@gmail.com>
+Message-ID: <20180206144830.968-3-jsmart2021@gmail.com>
 
-The patches address io termination issues in nvme-fc:
+There was some old cold that dealt with complete_rq being called
+prior to the lldd returning the io completion. This is garbage code.
+The complete_rq routine was being called after eh_timeouts were
+called and it was due to eh_timeouts not being handled properly.
+The timeouts were fixed in prior patches so that in general, a
+timeout will initiate an abort and the reset timer restarted as
+the abort operation will take care of completing things. Given the
+reset timer restarted, the erroneous complete_rq calls were eliminated.
 
-The first patch addresses a race condition on io termination vs
-reset/delete abort paths that allowed an io to complete yet the
-association termination counted it and is waiting for the completion.
+So remove the work that was synchronizing complete_rq with io
+completion.
 
-The second patch addresses cleanup of the code that was synchronizing
-io termination between the lldd done path and the blk-mq completion
-path. the completion path existed because, at the time, the eh_handler
-could return a successful return status, allowing the complete routine
-to be called, although the io was still active in the lldd. Since then
-the eh_handler has been corrected to reschedule the io timer after
-initiating the abort and this condition is no longer true.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 63 ++++++++++----------------------------------------
+ 1 file changed, 12 insertions(+), 51 deletions(-)
 
-James Smart (2):
-  nvme_fc: correct abort race condition on resets
-  nvme_fc: cleanup io completion
-
- drivers/nvme/host/fc.c | 143 ++++++++++---------------------------------------
- 1 file changed, 29 insertions(+), 114 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index a8437a7adea6..bd72e8e4dfb7 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -57,9 +57,7 @@ struct nvme_fc_queue {
+ 
+ enum nvme_fcop_flags {
+ 	FCOP_FLAGS_TERMIO	= (1 << 0),
+-	FCOP_FLAGS_RELEASED	= (1 << 1),
+-	FCOP_FLAGS_COMPLETE	= (1 << 2),
+-	FCOP_FLAGS_AEN		= (1 << 3),
++	FCOP_FLAGS_AEN		= (1 << 1),
+ };
+ 
+ struct nvmefc_ls_req_op {
+@@ -1472,7 +1470,6 @@ nvme_fc_xmt_disconnect_assoc(struct nvme_fc_ctrl *ctrl)
+ 
+ /* *********************** NVME Ctrl Routines **************************** */
+ 
+-static void __nvme_fc_final_op_cleanup(struct request *rq);
+ static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg);
+ 
+ static int
+@@ -1546,25 +1543,20 @@ nvme_fc_abort_aen_ops(struct nvme_fc_ctrl *ctrl)
+ 		__nvme_fc_abort_op(ctrl, aen_op);
+ }
+ 
+-static inline int
++static inline void
+ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
+ 		struct nvme_fc_fcp_op *op, int opstate)
+ {
+ 	unsigned long flags;
+-	bool complete_rq = false;
+ 
+-	spin_lock_irqsave(&ctrl->lock, flags);
+-	if (opstate == FCPOP_STATE_ABORTED && ctrl->flags & FCCTRL_TERMIO) {
+-		if (!--ctrl->iocnt)
+-			wake_up(&ctrl->ioabort_wait);
++	if (opstate == FCPOP_STATE_ABORTED) {
++		spin_lock_irqsave(&ctrl->lock, flags);
++		if (ctrl->flags & FCCTRL_TERMIO) {
++			if (!--ctrl->iocnt)
++				wake_up(&ctrl->ioabort_wait);
++		}
++		spin_unlock_irqrestore(&ctrl->lock, flags);
+ 	}
+-	if (op->flags & FCOP_FLAGS_RELEASED)
+-		complete_rq = true;
+-	else
+-		op->flags |= FCOP_FLAGS_COMPLETE;
+-	spin_unlock_irqrestore(&ctrl->lock, flags);
+-
+-	return complete_rq;
+ }
+ 
+ static void
+@@ -1706,10 +1698,8 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 	     ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
+ 		status |= cpu_to_le16(NVME_SC_DNR << 1);
+ 
+-	if (__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate))
+-		__nvme_fc_final_op_cleanup(rq);
+-	else
+-		nvme_end_request(rq, status, result);
++	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
++	nvme_end_request(rq, status, result);
+ 
+ check_error:
+ 	if (terminate_assoc)
+@@ -2402,45 +2392,16 @@ nvme_fc_submit_async_event(struct nvme_ctrl *arg)
+ }
+ 
+ static void
+-__nvme_fc_final_op_cleanup(struct request *rq)
++nvme_fc_complete_rq(struct request *rq)
+ {
+ 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_fc_ctrl *ctrl = op->ctrl;
+ 
+ 	atomic_set(&op->state, FCPOP_STATE_IDLE);
+-	op->flags &= ~(FCOP_FLAGS_RELEASED | FCOP_FLAGS_COMPLETE);
+ 
+ 	nvme_fc_unmap_data(ctrl, rq, op);
+ 	nvme_complete_rq(rq);
+ 	nvme_fc_ctrl_put(ctrl);
+-
+-}
+-
+-static void
+-nvme_fc_complete_rq(struct request *rq)
+-{
+-	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+-	struct nvme_fc_ctrl *ctrl = op->ctrl;
+-	unsigned long flags;
+-	bool completed = false;
+-
+-	/*
+-	 * the core layer, on controller resets after calling
+-	 * nvme_shutdown_ctrl(), calls complete_rq without our
+-	 * calling blk_mq_complete_request(), thus there may still
+-	 * be live i/o outstanding with the LLDD. Means transport has
+-	 * to track complete calls vs fcpio_done calls to know what
+-	 * path to take on completes and dones.
+-	 */
+-	spin_lock_irqsave(&ctrl->lock, flags);
+-	if (op->flags & FCOP_FLAGS_COMPLETE)
+-		completed = true;
+-	else
+-		op->flags |= FCOP_FLAGS_RELEASED;
+-	spin_unlock_irqrestore(&ctrl->lock, flags);
+-
+-	if (completed)
+-		__nvme_fc_final_op_cleanup(rq);
+ }
+ 
+ /*
 -- 
 2.13.1
