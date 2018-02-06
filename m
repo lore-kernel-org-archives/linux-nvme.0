@@ -1,34 +1,44 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 6 Feb 2018 09:46:36 +0800
-Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown and
- reset case
-In-Reply-To: <20180205151314.GP24417@localhost.localdomain>
-References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
- <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
- <20180202182413.GH24417@localhost.localdomain>
- <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
- <20180205151314.GP24417@localhost.localdomain>
-Message-ID: <d218f5f5-45f7-6036-00a5-48769101080f@oracle.com>
+From: alex.nlnnfn@gmail.com (Alex Nln)
+Date: Mon, 5 Feb 2018 19:55:26 -0800
+Subject: coalescing in polling mode in 4.9
+In-Reply-To: <20180205150253.GN24417@localhost.localdomain>
+References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
+ <20180205150253.GN24417@localhost.localdomain>
+Message-ID: <20180205195526.ecef69fbc4a9550f221134be@gmail.com>
 
-Hi Keith
+On Mon, 5 Feb 2018 08:02:53 -0700
+Keith Busch <keith.busch@intel.com> wrote:
 
-Thanks for your kindly response.
+> On Fri, Feb 02, 2018@12:10:28AM -0800, Alex Nln wrote:
+> > Enabling interrupt coalescing in nvme device, kernel 4.9 
+> > significantly reduces performance when using polling mode.
+> > When I enable coalescing, IOPS drops from 100K to 35K and 
+> > latency jumps from 7 usec to 25 usec.
+> > 
+> > Shouldn't we expect performance boost in polling mode when
+> > interrupt coalescing enabled? 
+> > 
+> > 
+> > Device is Intel DC P3600
+> 
+> That's a pretty low latency for this device. Are you running reads to
+> unmapped blocks?
 
-On 02/05/2018 11:13 PM, Keith Busch wrote:
->  but how many requests are you letting enter to their demise by
-> freezing on the wrong side of the reset?
+These are synchronous sequential reads, random reads' latency is higher.
 
-There are only two difference with this patch from the original one.
-1. Don't freeze the queue for the reset case. At the moment, the outstanding requests will be requeued back to blk-mq queues.
-   The new entered requests during reset will also stay in blk-mq queues. All this requests will not enter into nvme driver layer
-   due to quiescent request_queues. And they will be issued after the reset is completed successfully.
-2. Drain the request queue before nvme_dev_disable. This is nearly same with the previous rule which will also unquiesce the queue
-   and let the requests be able to be drained. The only difference is this patch will invoke wait_freeze in nvme_dev_disable instead
-   of nvme_reset_work.
+> 
+> I've seen the phenomenom occur where higher coalescing settings worsens
+> performance. That usually means the the polling thread exceeded its time:
+> need_resched() returns true, so the tasks schedules out and relies on
+> interrupts, which have been throttled. Maybe a hybrid polling would be
+> better for this.
+> 
 
-We don't sacrifice any request. This patch do the same thing with the previous one and make things clearer.
-:)
+It looks like the eventual call to need_resched() is a result of low performance.
+When I set coalescing to 0x00FFFF there are about 160 nvme interrupts/sec, 
+but ~35K IOPS, so clearly only a fractions of CQ entries are processed in 
+interrupt context, most of the CQ entries still processed by polling.
+Somehow device delays posting completion entries when coalescing is enabled.
+Is it possible?
 
-
-Thanks
-Jianchao
+Thanks for help
