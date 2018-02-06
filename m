@@ -1,212 +1,43 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue,  6 Feb 2018 06:48:29 -0800
-Subject: [PATCH 1/2] nvme_fc: correct abort race condition on resets
-In-Reply-To: <20180206144830.968-1-jsmart2021@gmail.com>
-References: <20180206144830.968-1-jsmart2021@gmail.com>
-Message-ID: <20180206144830.968-2-jsmart2021@gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 6 Feb 2018 17:01:13 +0200
+Subject: [PATCH v3 0/3] Fix host side state machine
+In-Reply-To: <9786ff4d-a95b-eb7e-9201-d23310f8182d@grimberg.me>
+References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
+ <9786ff4d-a95b-eb7e-9201-d23310f8182d@grimberg.me>
+Message-ID: <6d86443d-8c0c-a63c-ae92-963ea143dcfc@mellanox.com>
 
-During reset handling, there is live io completing while the reset
-is taking place. The reset path attempts to abort all outstanding io,
-counting the number of ios that were reset. It then waits for those
-ios to be reclaimed from the lldd before continuing.
 
-The transport's logic on io state and flag setting was poor, allowing
-ios to complete simultaneous to the abort request. The completed ios
-were counted, but as the completion had already occurred, the
-completion never reduced the count. As the count never zeros, the
-reset/delete never completes.
 
-Tighten it up by unconditionally changing the op state to completed
-when the io done handler is called.  The reset/abort path now changes
-the op state to aborted, but the abort only continues if the op
-state was live priviously. If complete, the abort is backed out.
-Thus proper counting of io aborts and their completions is working
-again.
+On 2/5/2018 4:46 PM, Sagi Grimberg wrote:
+> 
+>> Hi all,
+>> this series is rebased above nvme-4.16.
+>> Actually there is a still missing part in this tree (but I tested it on
+>> my own "stable" mixed kernel with this patch):
+>> "nvme-rdma: fix concurrent reset and reconnect" from Sagi.
+>>
+>> The first motivation for this series was fixing RDMA initiator that 
+>> crushes in
+>> case we fail during initial connect and start error recovery during 
+>> initial
+>> connection establishment.
+>> This patchset also renames NVME_CTRL_RECONNECTING to 
+>> NVME_CTRL_CONNECTING as
+>> this state doesn't represent only a reconnection flow but also used for
+>> initialization process.
+>>
+>> The tested transport for these patches was RDMA.
+>> It will be appriciated if someone can run this series with real FC HW 
+>> (to test
+>> patch #3).
+> 
+> The series looks fine to me.
+> 
+> I've picked it up, but I prefer to hear from Keith/Christoph before
+> adding it to the next pr round.
 
-Also removed the TERMIO state on the op as it's redundant with the
-op's aborted state.
+Me too :)
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 98 ++++++++++++++------------------------------------
- 1 file changed, 26 insertions(+), 72 deletions(-)
+Afterwards I'll prepare a fix to 4.15-stable.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 99bf51c7e513..a8437a7adea6 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1514,13 +1514,19 @@ nvme_fc_exit_request(struct blk_mq_tag_set *set, struct request *rq,
- static int
- __nvme_fc_abort_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_fcp_op *op)
- {
--	int state;
-+	unsigned long flags;
-+	int opstate;
-+
-+	spin_lock_irqsave(&ctrl->lock, flags);
-+	opstate = atomic_xchg(&op->state, FCPOP_STATE_ABORTED);
-+	if (opstate != FCPOP_STATE_ACTIVE)
-+		atomic_set(&op->state, opstate);
-+	else if (ctrl->flags & FCCTRL_TERMIO)
-+		ctrl->iocnt++;
-+	spin_unlock_irqrestore(&ctrl->lock, flags);
- 
--	state = atomic_xchg(&op->state, FCPOP_STATE_ABORTED);
--	if (state != FCPOP_STATE_ACTIVE) {
--		atomic_set(&op->state, state);
-+	if (opstate != FCPOP_STATE_ACTIVE)
- 		return -ECANCELED;
--	}
- 
- 	ctrl->lport->ops->fcp_abort(&ctrl->lport->localport,
- 					&ctrl->rport->remoteport,
-@@ -1534,52 +1540,23 @@ static void
- nvme_fc_abort_aen_ops(struct nvme_fc_ctrl *ctrl)
- {
- 	struct nvme_fc_fcp_op *aen_op = ctrl->aen_ops;
--	unsigned long flags;
--	int i, ret;
--
--	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++) {
--		if (atomic_read(&aen_op->state) != FCPOP_STATE_ACTIVE)
--			continue;
--
--		spin_lock_irqsave(&ctrl->lock, flags);
--		if (ctrl->flags & FCCTRL_TERMIO) {
--			ctrl->iocnt++;
--			aen_op->flags |= FCOP_FLAGS_TERMIO;
--		}
--		spin_unlock_irqrestore(&ctrl->lock, flags);
--
--		ret = __nvme_fc_abort_op(ctrl, aen_op);
--		if (ret) {
--			/*
--			 * if __nvme_fc_abort_op failed the io wasn't
--			 * active. Thus this call path is running in
--			 * parallel to the io complete. Treat as non-error.
--			 */
-+	int i;
- 
--			/* back out the flags/counters */
--			spin_lock_irqsave(&ctrl->lock, flags);
--			if (ctrl->flags & FCCTRL_TERMIO)
--				ctrl->iocnt--;
--			aen_op->flags &= ~FCOP_FLAGS_TERMIO;
--			spin_unlock_irqrestore(&ctrl->lock, flags);
--			return;
--		}
--	}
-+	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++)
-+		__nvme_fc_abort_op(ctrl, aen_op);
- }
- 
- static inline int
- __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
--		struct nvme_fc_fcp_op *op)
-+		struct nvme_fc_fcp_op *op, int opstate)
- {
- 	unsigned long flags;
- 	bool complete_rq = false;
- 
- 	spin_lock_irqsave(&ctrl->lock, flags);
--	if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
--		if (ctrl->flags & FCCTRL_TERMIO) {
--			if (!--ctrl->iocnt)
--				wake_up(&ctrl->ioabort_wait);
--		}
-+	if (opstate == FCPOP_STATE_ABORTED && ctrl->flags & FCCTRL_TERMIO) {
-+		if (!--ctrl->iocnt)
-+			wake_up(&ctrl->ioabort_wait);
- 	}
- 	if (op->flags & FCOP_FLAGS_RELEASED)
- 		complete_rq = true;
-@@ -1603,6 +1580,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 	__le16 status = cpu_to_le16(NVME_SC_SUCCESS << 1);
- 	union nvme_result result;
- 	bool terminate_assoc = true;
-+	int opstate;
- 
- 	/*
- 	 * WARNING:
-@@ -1641,11 +1619,12 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 	 * association to be terminated.
- 	 */
- 
-+	opstate = atomic_xchg(&op->state, FCPOP_STATE_COMPLETE);
-+
- 	fc_dma_sync_single_for_cpu(ctrl->lport->dev, op->fcp_req.rspdma,
- 				sizeof(op->rsp_iu), DMA_FROM_DEVICE);
- 
--	if (atomic_read(&op->state) == FCPOP_STATE_ABORTED ||
--			op->flags & FCOP_FLAGS_TERMIO)
-+	if (opstate == FCPOP_STATE_ABORTED)
- 		status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
- 	else if (freq->status)
- 		status = cpu_to_le16(NVME_SC_INTERNAL << 1);
-@@ -1710,7 +1689,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- done:
- 	if (op->flags & FCOP_FLAGS_AEN) {
- 		nvme_complete_async_event(&queue->ctrl->ctrl, status, &result);
--		__nvme_fc_fcpop_chk_teardowns(ctrl, op);
-+		__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
- 		atomic_set(&op->state, FCPOP_STATE_IDLE);
- 		op->flags = FCOP_FLAGS_AEN;	/* clear other flags */
- 		nvme_fc_ctrl_put(ctrl);
-@@ -1727,7 +1706,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 	     ctrl->ctrl.state == NVME_CTRL_RECONNECTING))
- 		status |= cpu_to_le16(NVME_SC_DNR << 1);
- 
--	if (__nvme_fc_fcpop_chk_teardowns(ctrl, op))
-+	if (__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate))
- 		__nvme_fc_final_op_cleanup(rq);
- 	else
- 		nvme_end_request(rq, status, result);
-@@ -2429,8 +2408,7 @@ __nvme_fc_final_op_cleanup(struct request *rq)
- 	struct nvme_fc_ctrl *ctrl = op->ctrl;
- 
- 	atomic_set(&op->state, FCPOP_STATE_IDLE);
--	op->flags &= ~(FCOP_FLAGS_TERMIO | FCOP_FLAGS_RELEASED |
--			FCOP_FLAGS_COMPLETE);
-+	op->flags &= ~(FCOP_FLAGS_RELEASED | FCOP_FLAGS_COMPLETE);
- 
- 	nvme_fc_unmap_data(ctrl, rq, op);
- 	nvme_complete_rq(rq);
-@@ -2484,35 +2462,11 @@ nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
- 	struct nvme_ctrl *nctrl = data;
- 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
- 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
--	unsigned long flags;
--	int status;
- 
- 	if (!blk_mq_request_started(req))
- 		return;
- 
--	spin_lock_irqsave(&ctrl->lock, flags);
--	if (ctrl->flags & FCCTRL_TERMIO) {
--		ctrl->iocnt++;
--		op->flags |= FCOP_FLAGS_TERMIO;
--	}
--	spin_unlock_irqrestore(&ctrl->lock, flags);
--
--	status = __nvme_fc_abort_op(ctrl, op);
--	if (status) {
--		/*
--		 * if __nvme_fc_abort_op failed the io wasn't
--		 * active. Thus this call path is running in
--		 * parallel to the io complete. Treat as non-error.
--		 */
--
--		/* back out the flags/counters */
--		spin_lock_irqsave(&ctrl->lock, flags);
--		if (ctrl->flags & FCCTRL_TERMIO)
--			ctrl->iocnt--;
--		op->flags &= ~FCOP_FLAGS_TERMIO;
--		spin_unlock_irqrestore(&ctrl->lock, flags);
--		return;
--	}
-+	__nvme_fc_abort_op(ctrl, op);
- }
- 
- 
--- 
-2.13.1
+-Max.
