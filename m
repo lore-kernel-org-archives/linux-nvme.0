@@ -1,43 +1,15 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 6 Feb 2018 17:01:13 +0200
-Subject: [PATCH v3 0/3] Fix host side state machine
-In-Reply-To: <9786ff4d-a95b-eb7e-9201-d23310f8182d@grimberg.me>
-References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
- <9786ff4d-a95b-eb7e-9201-d23310f8182d@grimberg.me>
-Message-ID: <6d86443d-8c0c-a63c-ae92-963ea143dcfc@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 6 Feb 2018 08:05:52 -0700
+Subject: [PATCH] nvme-pci: Fix incorrect use of CMB size to calculate
+ q_depth
+In-Reply-To: <1517869943-3655-1-git-send-email-sbates@raithlin.com>
+References: <1517869943-3655-1-git-send-email-sbates@raithlin.com>
+Message-ID: <20180206150552.GD31110@localhost.localdomain>
 
+On Mon, Feb 05, 2018@03:32:23PM -0700, sbates@raithlin.com wrote:
+>  
+> -	if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+> +	if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
 
-
-On 2/5/2018 4:46 PM, Sagi Grimberg wrote:
-> 
->> Hi all,
->> this series is rebased above nvme-4.16.
->> Actually there is a still missing part in this tree (but I tested it on
->> my own "stable" mixed kernel with this patch):
->> "nvme-rdma: fix concurrent reset and reconnect" from Sagi.
->>
->> The first motivation for this series was fixing RDMA initiator that 
->> crushes in
->> case we fail during initial connect and start error recovery during 
->> initial
->> connection establishment.
->> This patchset also renames NVME_CTRL_RECONNECTING to 
->> NVME_CTRL_CONNECTING as
->> this state doesn't represent only a reconnection flow but also used for
->> initialization process.
->>
->> The tested transport for these patches was RDMA.
->> It will be appriciated if someone can run this series with real FC HW 
->> (to test
->> patch #3).
-> 
-> The series looks fine to me.
-> 
-> I've picked it up, but I prefer to hear from Keith/Christoph before
-> adding it to the next pr round.
-
-Me too :)
-
-Afterwards I'll prepare a fix to 4.15-stable.
-
--Max.
+Is this a prep patch for something coming later? dev->cmb is already
+NULL if use_cmb_sqes is false.
