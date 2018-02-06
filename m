@@ -1,78 +1,93 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  6 Feb 2018 11:44:32 +0200
-Subject: [PATCH 3/3] iscsi-target: use common inet_addr_is_any
-In-Reply-To: <20180206094432.12761-1-sagi@grimberg.me>
-References: <20180206094432.12761-1-sagi@grimberg.me>
-Message-ID: <20180206094432.12761-4-sagi@grimberg.me>
+Date: Tue,  6 Feb 2018 11:46:34 +0200
+Subject: [PATCH] nvmet: don't allow referral to match parent traddr+trsvcid
+Message-ID: <20180206094634.13126-1-sagi@grimberg.me>
 
-Instead of open-coding it.
+No way this can work and most likely cause endless recursion
+for hosts that trying to discover referrals as well.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Cc: "Nicholas A. Bellinger" <nab at linux-iscsi.org>
-Cc: target-devel at vger.kernel.org
 ---
- drivers/target/iscsi/iscsi_target.c | 28 ++--------------------------
- 1 file changed, 2 insertions(+), 26 deletions(-)
+ drivers/nvme/target/configfs.c  | 13 ++++++++-----
+ drivers/nvme/target/discovery.c | 14 +++++++++++++-
+ drivers/nvme/target/nvmet.h     |  2 +-
+ 3 files changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/target/iscsi/iscsi_target.c b/drivers/target/iscsi/iscsi_target.c
-index 9eb10d34682c..8e223799347a 100644
---- a/drivers/target/iscsi/iscsi_target.c
-+++ b/drivers/target/iscsi/iscsi_target.c
-@@ -26,6 +26,7 @@
- #include <linux/delay.h>
- #include <linux/sched/signal.h>
- #include <asm/unaligned.h>
-+#include <linux/inet.h>
- #include <net/ipv6.h>
- #include <scsi/scsi_proto.h>
- #include <scsi/iscsi_proto.h>
-@@ -3291,30 +3292,6 @@ iscsit_send_task_mgt_rsp(struct iscsi_cmd *cmd, struct iscsi_conn *conn)
- 	return conn->conn_transport->iscsit_xmit_pdu(conn, cmd, NULL, NULL, 0);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 615a89c7cbc0..0edd37683f88 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -842,17 +842,20 @@ static ssize_t nvmet_referral_enable_store(struct config_item *item,
+ 	struct nvmet_port *port = to_nvmet_port(item);
+ 	bool enable;
+ 
+-	if (strtobool(page, &enable))
++	if (strtobool(page, &enable)) {
++		pr_err("Invalid value '%s' for enable\n", page);
+ 		goto inval;
++	}
+ 
+-	if (enable)
+-		nvmet_referral_enable(parent, port);
+-	else
++	if (enable) {
++		if (nvmet_referral_enable(parent, port))
++			goto inval;
++	} else {
+ 		nvmet_referral_disable(port);
++	}
+ 
+ 	return count;
+ inval:
+-	pr_err("Invalid value '%s' for enable\n", page);
+ 	return -EINVAL;
  }
  
--static bool iscsit_check_inaddr_any(struct iscsi_np *np)
--{
--	bool ret = false;
--
--	if (np->np_sockaddr.ss_family == AF_INET6) {
--		const struct sockaddr_in6 sin6 = {
--			.sin6_addr = IN6ADDR_ANY_INIT };
--		struct sockaddr_in6 *sock_in6 =
--			 (struct sockaddr_in6 *)&np->np_sockaddr;
--
--		if (!memcmp(sock_in6->sin6_addr.s6_addr,
--				sin6.sin6_addr.s6_addr, 16))
--			ret = true;
--	} else {
--		struct sockaddr_in * sock_in =
--			(struct sockaddr_in *)&np->np_sockaddr;
--
--		if (sock_in->sin_addr.s_addr == htonl(INADDR_ANY))
--			ret = true;
--	}
--
--	return ret;
--}
--
- #define SENDTARGETS_BUF_LIMIT 32768U
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index a72425d8bce0..85feb05de7e1 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -20,15 +20,27 @@ struct nvmet_subsys *nvmet_disc_subsys;
  
- static int
-@@ -3393,7 +3370,6 @@ iscsit_build_sendtargets_response(struct iscsi_cmd *cmd,
- 			list_for_each_entry(tpg_np, &tpg->tpg_gnp_list,
- 						tpg_np_list) {
- 				struct iscsi_np *np = tpg_np->tpg_np;
--				bool inaddr_any = iscsit_check_inaddr_any(np);
- 				struct sockaddr_storage *sockaddr;
+ u64 nvmet_genctr;
  
- 				if (np->np_network_transport != network_transport)
-@@ -3422,7 +3398,7 @@ iscsit_build_sendtargets_response(struct iscsi_cmd *cmd,
- 					}
- 				}
+-void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port)
++int nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port)
+ {
++	int ret = 0;
+ 	down_write(&nvmet_config_sem);
+ 	if (list_empty(&port->entry)) {
++		if (!memcmp(parent->disc_addr.traddr, port->disc_addr.traddr,
++			    NVMF_TRADDR_SIZE) &&
++		    !memcmp(parent->disc_addr.trsvcid, port->disc_addr.trsvcid,
++			    NVMF_TRSVCID_SIZE)) {
++			pr_err("referral with the same traddr (%s) and trsvcid (%s)\n",
++				parent->disc_addr.traddr, parent->disc_addr.trsvcid);
++			ret = -EINVAL;
++			goto out;
++		}
+ 		list_add_tail(&port->entry, &parent->referrals);
+ 		port->enabled = true;
+ 		nvmet_genctr++;
+ 	}
++out:
+ 	up_write(&nvmet_config_sem);
++	return ret;
+ }
  
--				if (inaddr_any)
-+				if (inet_addr_is_any((struct sockaddr *)&np->np_sockaddr))
- 					sockaddr = &conn->local_sockaddr;
- 				else
- 					sockaddr = &np->np_sockaddr;
+ void nvmet_referral_disable(struct nvmet_port *port)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index a6e191ff34ba..51a5ab99b85d 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -315,7 +315,7 @@ void nvmet_unregister_transport(struct nvmet_fabrics_ops *ops);
+ int nvmet_enable_port(struct nvmet_port *port);
+ void nvmet_disable_port(struct nvmet_port *port);
+ 
+-void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port);
++int nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port);
+ void nvmet_referral_disable(struct nvmet_port *port);
+ 
+ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
 -- 
 2.14.1
