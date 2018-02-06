@@ -1,22 +1,40 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 6 Feb 2018 16:25:43 +0100
-Subject: [PATCH 2/2] nvme_fc: cleanup io completion
-In-Reply-To: <20180206144830.968-3-jsmart2021@gmail.com>
-References: <20180206144830.968-1-jsmart2021@gmail.com>
- <20180206144830.968-3-jsmart2021@gmail.com>
-Message-ID: <20180206152543.3z3jhmtu5melkl4e@linux-x5ow.site>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 6 Feb 2018 15:27:39 +0000
+Subject: [PATCH 1/3] net/utils: Introduce inet_addr_is_any
+In-Reply-To: <20180206094432.12761-2-sagi@grimberg.me>
+References: <20180206094432.12761-1-sagi@grimberg.me>
+ <20180206094432.12761-2-sagi@grimberg.me>
+Message-ID: <1517930858.3934.15.camel@wdc.com>
 
-On Tue, Feb 06, 2018@06:48:30AM -0800, James Smart wrote:
-> There was some old cold that dealt with complete_rq being called
-                code? ^
+On Tue, 2018-02-06@11:44 +0200, Sagi Grimberg wrote:
+> +bool inet_addr_is_any(struct sockaddr *addr)
+> +{
+> +	bool ret = false;
+> +
+> +	if (addr->sa_family == AF_INET6) {
+> +		struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)addr;
+> +		const struct sockaddr_in6 in6_any =
+> +			{ .sin6_addr = IN6ADDR_ANY_INIT };
+> +
+> +		if (!memcmp(in6->sin6_addr.s6_addr,
+> +			in6_any.sin6_addr.s6_addr, 16))
+> +			ret = true;
+> +	} else if (addr->sa_family == AF_INET) {
+> +		struct sockaddr_in *in = (struct sockaddr_in *)addr;
+> +
+> +		if (in->sin_addr.s_addr == htonl(INADDR_ANY))
+> +			ret = true;
+> +	}
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(inet_addr_is_any);
 
-Otherwise,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Have you considered to eliminate the local variable 'ret' and to use multiple
+return statements? Additionally, should this function trigger a warning if a
+socket address is passed with an address family that is not supported by this
+function? Should the in6_any local variable be declared static?
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks,
+
+Bart.
