@@ -1,32 +1,34 @@
-From: sbates@raithlin.com (sbates@raithlin.com)
-Date: Mon,  5 Feb 2018 15:32:23 -0700
-Subject: [PATCH] nvme-pci: Fix incorrect use of CMB size to calculate q_depth
-Message-ID: <1517869943-3655-1-git-send-email-sbates@raithlin.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Tue, 6 Feb 2018 09:46:36 +0800
+Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown and
+ reset case
+In-Reply-To: <20180205151314.GP24417@localhost.localdomain>
+References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
+ <20180202182413.GH24417@localhost.localdomain>
+ <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
+ <20180205151314.GP24417@localhost.localdomain>
+Message-ID: <d218f5f5-45f7-6036-00a5-48769101080f@oracle.com>
 
-From: Stephen Bates <sbates@raithlin.com>
+Hi Keith
 
-We should not be using the CMB to determine the permissable q_depth
-when we don't plan to place any queues in the CMB. In the case of a
-small CMB or large numbers of queues this could lead to shallow queues
-when they don't need to be.
+Thanks for your kindly response.
 
-Signed-off-by: Stephen Bates <sbates at raithlin.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 02/05/2018 11:13 PM, Keith Busch wrote:
+>  but how many requests are you letting enter to their demise by
+> freezing on the wrong side of the reset?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0bc6a9e..0d099e9 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1913,7 +1913,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	if (nr_io_queues == 0)
- 		return 0;
- 
--	if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
-+	if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
- 		result = nvme_cmb_qdepth(dev, nr_io_queues,
- 				sizeof(struct nvme_command));
- 		if (result > 0)
--- 
-2.7.4
+There are only two difference with this patch from the original one.
+1. Don't freeze the queue for the reset case. At the moment, the outstanding requests will be requeued back to blk-mq queues.
+   The new entered requests during reset will also stay in blk-mq queues. All this requests will not enter into nvme driver layer
+   due to quiescent request_queues. And they will be issued after the reset is completed successfully.
+2. Drain the request queue before nvme_dev_disable. This is nearly same with the previous rule which will also unquiesce the queue
+   and let the requests be able to be drained. The only difference is this patch will invoke wait_freeze in nvme_dev_disable instead
+   of nvme_reset_work.
+
+We don't sacrifice any request. This patch do the same thing with the previous one and make things clearer.
+:)
+
+
+Thanks
+Jianchao
