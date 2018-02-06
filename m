@@ -1,44 +1,50 @@
 From: alex.nlnnfn@gmail.com (Alex Nln)
-Date: Mon, 5 Feb 2018 19:55:26 -0800
+Date: Mon, 5 Feb 2018 21:39:45 -0800
 Subject: coalescing in polling mode in 4.9
-In-Reply-To: <20180205150253.GN24417@localhost.localdomain>
+In-Reply-To: <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
 References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
+ <CGME20180205145924epcas3p2f8156043ec00b51c135ac62c1fa177d7@epcas3p2.samsung.com>
  <20180205150253.GN24417@localhost.localdomain>
-Message-ID: <20180205195526.ecef69fbc4a9550f221134be@gmail.com>
+ <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
+Message-ID: <20180205213945.303b3a69a7048d94cecac599@gmail.com>
 
-On Mon, 5 Feb 2018 08:02:53 -0700
-Keith Busch <keith.busch@intel.com> wrote:
+Hi Nitesh,
 
-> On Fri, Feb 02, 2018@12:10:28AM -0800, Alex Nln wrote:
-> > Enabling interrupt coalescing in nvme device, kernel 4.9 
-> > significantly reduces performance when using polling mode.
-> > When I enable coalescing, IOPS drops from 100K to 35K and 
-> > latency jumps from 7 usec to 25 usec.
-> > 
-> > Shouldn't we expect performance boost in polling mode when
-> > interrupt coalescing enabled? 
-> > 
-> > 
-> > Device is Intel DC P3600
-> 
-> That's a pretty low latency for this device. Are you running reads to
-> unmapped blocks?
+On Mon, 05 Feb 2018 21:12:12 +0530
+Nitesh <nj.shetty@samsung.com> wrote:
 
-These are synchronous sequential reads, random reads' latency is higher.
-
-> 
-> I've seen the phenomenom occur where higher coalescing settings worsens
-> performance. That usually means the the polling thread exceeded its time:
-> need_resched() returns true, so the tasks schedules out and relies on
-> interrupts, which have been throttled. Maybe a hybrid polling would be
-> better for this.
+> Hi Alex,
+> I got into similar problem not long ago. With coalescing enabled, some 
+> I/Os took very long. Every time need_reshed() returns true, 
+> io_schedule() makes task go to sleep as its state is previous set as 
+> non-interruptible.I handled this by setting task state as running, and 
+> release the cpu. Diff is attached below, you may give it a try.
 > 
 
-It looks like the eventual call to need_resched() is a result of low performance.
-When I set coalescing to 0x00FFFF there are about 160 nvme interrupts/sec, 
-but ~35K IOPS, so clearly only a fractions of CQ entries are processed in 
-interrupt context, most of the CQ entries still processed by polling.
-Somehow device delays posting completion entries when coalescing is enabled.
-Is it possible?
+I tested this patch on kernel 4.9 and it solves the problem.
+Thanks a lot
 
-Thanks for help
+
+> 
+> diff --git a/fs/block_dev.c b/fs/block_dev.c
+> index 4a181fc..d2eeedf 100644
+> --- a/fs/block_dev.c
+> +++ b/fs/block_dev.c
+> @@ -236,9 +236,13 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, 
+> struct iov_iter *iter,
+>                  set_current_state(TASK_UNINTERRUPTIBLE);
+>                  if (!READ_ONCE(bio.bi_private))
+>                          break;
+> -               if (!(iocb->ki_flags & IOCB_HIPRI) ||
+> -                   !blk_poll(bdev_get_queue(bdev), qc))
+> +               if (!(iocb->ki_flags & IOCB_HIPRI))
+>                          io_schedule();
+> +               else if (!blk_poll(bdev_get_queue(bdev), qc)) {
+> +                       if(need_resched())
+> +                               set_current_state(TASK_RUNNING);
+> +                       io_schedule();
+> +               }
+>          }
+>          __set_current_state(TASK_RUNNING);
+> 
+> 
