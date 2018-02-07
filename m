@@ -1,12 +1,12 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Wed, 7 Feb 2018 19:24:49 +0000
-Subject: [PATCH v2 1/3] net/utils: Introduce inet_addr_is_any
-In-Reply-To: <20180207130518.22803-2-sagi@grimberg.me>
+From: bart.vanassche@wdc.com (Bart Van Assche)
+Date: Wed, 7 Feb 2018 11:26:36 -0800
+Subject: [PATCH v2 3/3] iscsi-target: use common inet_addr_is_any
+In-Reply-To: <20180207130518.22803-4-sagi@grimberg.me>
 References: <20180207130518.22803-1-sagi@grimberg.me>
- <20180207130518.22803-2-sagi@grimberg.me>
-Message-ID: <1518031487.2870.58.camel@wdc.com>
+ <20180207130518.22803-4-sagi@grimberg.me>
+Message-ID: <698be7db-a975-d145-f530-f41c309e70c3@wdc.com>
 
-On Wed, 2018-02-07@15:05 +0200, Sagi Grimberg wrote:
-> Can be useful to check INET_ANY address for both ipv4/ipv6 addresses.
+On 02/07/18 05:05, Sagi Grimberg wrote:
+> Instead of open-coding it.
 
 Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
