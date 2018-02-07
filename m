@@ -1,38 +1,64 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  7 Feb 2018 15:05:15 +0200
-Subject: [PATCH v2 0/3] Commonise address any check
-Message-ID: <20180207130518.22803-1-sagi@grimberg.me>
+Date: Wed,  7 Feb 2018 15:05:16 +0200
+Subject: [PATCH v2 1/3] net/utils: Introduce inet_addr_is_any
+In-Reply-To: <20180207130518.22803-1-sagi@grimberg.me>
+References: <20180207130518.22803-1-sagi@grimberg.me>
+Message-ID: <20180207130518.22803-2-sagi@grimberg.me>
 
-Both iscsit and nvmet need to check the listening endpoint
-portal is not INADDR_ANY (or IN6ADDR_ANY_INIT) when replying
-to a discovery information query (iscsi sendtaragets or nvmet
-discovery log pages). If indeed the nvmet port or iscsit portal
-are listening on any address, they need to return the source
-address of the socket that carried the query itslef.
+Can be useful to check INET_ANY address for both ipv4/ipv6 addresses.
 
-iscsit already does this while nvmet did not.
-instead of copying the inaddr_any check, place it in net-utils
-and call it from both (patches 1+3).
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Cc: "David S. Miller" <davem at davemloft.net>
+Cc: netdev at vger.kernel.org
+---
+ include/linux/inet.h |  1 +
+ net/core/utils.c     | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
 
-In addition, fix the behavior in nvmet (patch 2).
-
-Changes from v1:
-- small alignment fix in inet_addr_is_any
-- warn if got unexpected address family
-- make in6_any static
-
-Sagi Grimberg (3):
-  net/utils: Introduce inet_addr_is_any
-  nvmet: don't return "any" ip address in discovery log page
-  iscsi-target: use common inet_addr_is_any
-
- drivers/nvme/target/discovery.c     | 30 +++++++++++++++++++++++++++---
- drivers/nvme/target/nvmet.h         |  2 ++
- drivers/nvme/target/rdma.c          | 18 ++++++++++++++++++
- drivers/target/iscsi/iscsi_target.c | 28 ++--------------------------
- include/linux/inet.h                |  1 +
- net/core/utils.c                    | 23 +++++++++++++++++++++++
- 6 files changed, 73 insertions(+), 29 deletions(-)
-
+diff --git a/include/linux/inet.h b/include/linux/inet.h
+index 636ebe87e6f8..97defc1139e9 100644
+--- a/include/linux/inet.h
++++ b/include/linux/inet.h
+@@ -59,5 +59,6 @@ extern int in6_pton(const char *src, int srclen, u8 *dst, int delim, const char
+ 
+ extern int inet_pton_with_scope(struct net *net, unsigned short af,
+ 		const char *src, const char *port, struct sockaddr_storage *addr);
++extern bool inet_addr_is_any(struct sockaddr *addr);
+ 
+ #endif	/* _LINUX_INET_H */
+diff --git a/net/core/utils.c b/net/core/utils.c
+index 93066bd0305a..6e331a7904e7 100644
+--- a/net/core/utils.c
++++ b/net/core/utils.c
+@@ -403,6 +403,29 @@ int inet_pton_with_scope(struct net *net, __kernel_sa_family_t af,
+ }
+ EXPORT_SYMBOL(inet_pton_with_scope);
+ 
++bool inet_addr_is_any(struct sockaddr *addr)
++{
++	if (addr->sa_family == AF_INET6) {
++		struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)addr;
++		static const struct sockaddr_in6 in6_any =
++			{ .sin6_addr = IN6ADDR_ANY_INIT };
++
++		if (!memcmp(in6->sin6_addr.s6_addr,
++			    in6_any.sin6_addr.s6_addr, 16))
++			return true;
++	} else if (addr->sa_family == AF_INET) {
++		struct sockaddr_in *in = (struct sockaddr_in *)addr;
++
++		if (in->sin_addr.s_addr == htonl(INADDR_ANY))
++			return true;
++	} else {
++		pr_warn("unexpected address family %u\n", addr->sa_family);
++	}
++
++	return false;
++}
++EXPORT_SYMBOL(inet_addr_is_any);
++
+ void inet_proto_csum_replace4(__sum16 *sum, struct sk_buff *skb,
+ 			      __be32 from, __be32 to, bool pseudohdr)
+ {
 -- 
 2.14.1
