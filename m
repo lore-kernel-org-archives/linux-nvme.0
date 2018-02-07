@@ -1,98 +1,38 @@
-From: john.garry@huawei.com (John Garry)
-Date: Wed, 7 Feb 2018 10:55:03 +0000
-Subject: [LSF/MM TOPIC] Two blk-mq related topics
-In-Reply-To: <f2cf73ae-d645-6a04-5190-3d0cc91c4581@huawei.com>
-References: <20180129154455.GB17176@ming.t460p>
- <1517259390.3969.41.camel@HansenPartnership.com>
- <20180130012408.GD17176@ming.t460p>
- <f2cf73ae-d645-6a04-5190-3d0cc91c4581@huawei.com>
-Message-ID: <712f97fe-633a-3e4c-8ae0-c8c1bbbb16c6@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed,  7 Feb 2018 15:05:15 +0200
+Subject: [PATCH v2 0/3] Commonise address any check
+Message-ID: <20180207130518.22803-1-sagi@grimberg.me>
 
-On 30/01/2018 10:33, John Garry wrote:
-> On 30/01/2018 01:24, Ming Lei wrote:
->> On Mon, Jan 29, 2018@12:56:30PM -0800, James Bottomley wrote:
->>> On Mon, 2018-01-29@23:46 +0800, Ming Lei wrote:
->>> [...]
->>>> 2. When to enable SCSI_MQ at default again?
->>>
->>> I'm not sure there's much to discuss ... I think the basic answer is as
->>> soon as Christoph wants to try it again.
->>
->> I guess Christoph still need to evaluate if there are existed issues or
->> blockers before trying it again. And more input may be got from F2F
->> discussion, IMHO.
->>
->>>
->>>> SCSI_MQ is enabled on V3.17 firstly, but disabled at default. In
->>>> V4.13-rc1, it is enabled at default, but later the patch is reverted
->>>> in V4.13-rc7, and becomes disabled at default too.
->>>>
->>>> Now both the original reported PM issue(actually SCSI quiesce) and
->>>> the sequential IO performance issue have been addressed.
->>>
->>> Is the blocker bug just not closed because no-one thought to do it:
->>>
->>> https://bugzilla.kernel.org/show_bug.cgi?id=178381
->>>
->>> (we have confirmed that this issue is now fixed with the original
->>> reporter?)
->>
->>> From a developer view, this issue is fixed by the following commit:
->> 3a0a52997(block, scsi: Make SCSI quiesce and resume work reliably),
->> and it is verified by kernel list reporter.
->>
->>>
->>> And did the Huawei guy (Jonathan Cameron) confirm his performance issue
->>> was fixed (I don't think I saw email that he did)?
->>
->> Last time I talked with John Garry about the issue, and the merged
->> .get_budget
->> based patch improves much on the IO performance, but there is still a
->> bit gap
->> compared with legacy path. Seems a driver specific issue, remembered
->> that removing
->> a driver's lock can improve performance much.
->>
->> Garry, could you provide further update on this issue?
->
-> Hi Ming,
->
-> From our testing with experimental changes to our driver to support SCSI
-> mq we were almost getting on par performance with legacy path. But
-> without these MQ was hitting performance (and I would not necessarily
-> say it was a driver issue).
->
-> We can retest from today's mainline and see where we are.
->
-> BTW, Have you got performance figures for many other single queue HBAs
-> with and without CONFIG_SCSI_MQ_DEFAULT=Y?
+Both iscsit and nvmet need to check the listening endpoint
+portal is not INADDR_ANY (or IN6ADDR_ANY_INIT) when replying
+to a discovery information query (iscsi sendtaragets or nvmet
+discovery log pages). If indeed the nvmet port or iscsit portal
+are listening on any address, they need to return the source
+address of the socket that carried the query itslef.
 
-We finally got around to retesting this (on hisi_sas controller). So the 
-results are generally ok, in that we are now not seeing such big 
-performance drops in our hardware for enabling SCSI MQ - in some 
-scenarios the performance is better. Generally fio rw mode is better.
+iscsit already does this while nvmet did not.
+instead of copying the inaddr_any check, place it in net-utils
+and call it from both (patches 1+3).
 
-Anyway, for what it's worth, it's a green light from us to set SCSI MQ 
-on by default.
+In addition, fix the behavior in nvmet (patch 2).
 
-John
+Changes from v1:
+- small alignment fix in inet_addr_is_any
+- warn if got unexpected address family
+- make in6_any static
 
->
-> Thanks,
-> John
->
->>
->> Thanks,
->> Ming
->>
->> .
->>
->
->
-> _______________________________________________
-> Linuxarm mailing list
-> Linuxarm at huawei.com
-> http://hulk.huawei.com/mailman/listinfo/linuxarm
->
-> .
->
+Sagi Grimberg (3):
+  net/utils: Introduce inet_addr_is_any
+  nvmet: don't return "any" ip address in discovery log page
+  iscsi-target: use common inet_addr_is_any
+
+ drivers/nvme/target/discovery.c     | 30 +++++++++++++++++++++++++++---
+ drivers/nvme/target/nvmet.h         |  2 ++
+ drivers/nvme/target/rdma.c          | 18 ++++++++++++++++++
+ drivers/target/iscsi/iscsi_target.c | 28 ++--------------------------
+ include/linux/inet.h                |  1 +
+ net/core/utils.c                    | 23 +++++++++++++++++++++++
+ 6 files changed, 73 insertions(+), 29 deletions(-)
+
+-- 
+2.14.1
