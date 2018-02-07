@@ -1,78 +1,48 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  7 Feb 2018 15:05:18 +0200
-Subject: [PATCH v2 3/3] iscsi-target: use common inet_addr_is_any
-In-Reply-To: <20180207130518.22803-1-sagi@grimberg.me>
-References: <20180207130518.22803-1-sagi@grimberg.me>
-Message-ID: <20180207130518.22803-4-sagi@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 7 Feb 2018 09:13:45 -0700
+Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown
+ and reset case
+In-Reply-To: <c5ae0bc0-260e-3a72-5c47-304c0b5034a6@oracle.com>
+References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
+ <20180202182413.GH24417@localhost.localdomain>
+ <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
+ <20180205151314.GP24417@localhost.localdomain>
+ <d218f5f5-45f7-6036-00a5-48769101080f@oracle.com>
+ <20180206151335.GE31110@localhost.localdomain>
+ <e1994613-3cb6-f82b-3296-0f4afdb16314@oracle.com>
+ <c5ae0bc0-260e-3a72-5c47-304c0b5034a6@oracle.com>
+Message-ID: <20180207161345.GB1337@localhost.localdomain>
 
-Instead of open-coding it.
+On Wed, Feb 07, 2018@10:13:51AM +0800, jianchao.wang wrote:
+> What's the difference ? Can you please point out.
+> I have shared my understanding below.
+> But actually, I don't get the point what's the difference you said.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Cc: "Nicholas A. Bellinger" <nab at linux-iscsi.org>
-Cc: target-devel at vger.kernel.org
----
- drivers/target/iscsi/iscsi_target.c | 28 ++--------------------------
- 1 file changed, 2 insertions(+), 26 deletions(-)
+It sounds like you have all the pieces. Just keep this in mind: we don't
+want to fail IO if we can prevent it.
 
-diff --git a/drivers/target/iscsi/iscsi_target.c b/drivers/target/iscsi/iscsi_target.c
-index 9eb10d34682c..8e223799347a 100644
---- a/drivers/target/iscsi/iscsi_target.c
-+++ b/drivers/target/iscsi/iscsi_target.c
-@@ -26,6 +26,7 @@
- #include <linux/delay.h>
- #include <linux/sched/signal.h>
- #include <asm/unaligned.h>
-+#include <linux/inet.h>
- #include <net/ipv6.h>
- #include <scsi/scsi_proto.h>
- #include <scsi/iscsi_proto.h>
-@@ -3291,30 +3292,6 @@ iscsit_send_task_mgt_rsp(struct iscsi_cmd *cmd, struct iscsi_conn *conn)
- 	return conn->conn_transport->iscsit_xmit_pdu(conn, cmd, NULL, NULL, 0);
- }
- 
--static bool iscsit_check_inaddr_any(struct iscsi_np *np)
--{
--	bool ret = false;
--
--	if (np->np_sockaddr.ss_family == AF_INET6) {
--		const struct sockaddr_in6 sin6 = {
--			.sin6_addr = IN6ADDR_ANY_INIT };
--		struct sockaddr_in6 *sock_in6 =
--			 (struct sockaddr_in6 *)&np->np_sockaddr;
--
--		if (!memcmp(sock_in6->sin6_addr.s6_addr,
--				sin6.sin6_addr.s6_addr, 16))
--			ret = true;
--	} else {
--		struct sockaddr_in * sock_in =
--			(struct sockaddr_in *)&np->np_sockaddr;
--
--		if (sock_in->sin_addr.s_addr == htonl(INADDR_ANY))
--			ret = true;
--	}
--
--	return ret;
--}
--
- #define SENDTARGETS_BUF_LIMIT 32768U
- 
- static int
-@@ -3393,7 +3370,6 @@ iscsit_build_sendtargets_response(struct iscsi_cmd *cmd,
- 			list_for_each_entry(tpg_np, &tpg->tpg_gnp_list,
- 						tpg_np_list) {
- 				struct iscsi_np *np = tpg_np->tpg_np;
--				bool inaddr_any = iscsit_check_inaddr_any(np);
- 				struct sockaddr_storage *sockaddr;
- 
- 				if (np->np_network_transport != network_transport)
-@@ -3422,7 +3398,7 @@ iscsit_build_sendtargets_response(struct iscsi_cmd *cmd,
- 					}
- 				}
- 
--				if (inaddr_any)
-+				if (inet_addr_is_any((struct sockaddr *)&np->np_sockaddr))
- 					sockaddr = &conn->local_sockaddr;
- 				else
- 					sockaddr = &np->np_sockaddr;
--- 
-2.14.1
+A request is allocated from an hctx pool of tags. Once the request is
+allocated, it is permently tied to that hctx because that's where its
+tag came from. If that hctx becomes invalid, the request has to be ended
+with an error, and we can't do anything about that[*].
+
+Prior to a reset, we currently halt new requests from being allocated by
+freezing the request queues. We unfreeze the queues after the new state
+of the hctx's is established. This way all IO requests that were gating
+on the unfreeze are guaranteed to enter into a valid context.
+
+You are proposing to skip freeze on a reset. New requests will then be
+allocated before we've established the hctx map. Any request allocated
+will have to be terminated in failure if the hctx is no longer valid
+once the reset completes.
+
+Yes, it's entirely possible today a request allocated prior to the reset
+may need to be terminated after the reset. There's nothing we can do
+about those except end them in failure, but we can prevent new ones from
+sharing the same fate. You are removing that prevention, and that's what
+I am complaining about.
+
+ * Future consideration: we recently obtained a way to "steal" bios that
+looks like it may be used to back out certain types of requests and let
+the bio create a new one.
