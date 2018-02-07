@@ -1,47 +1,108 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 7 Feb 2018 09:24:37 +0800
-Subject: [PATCH]nvme-pci: Fixes EEH failure on ppc
-In-Reply-To: <787e4960b62a03b3888c67e73d7e1ee2@linux.vnet.ibm.com>
-References: <1517867380-18790-1-git-send-email-wenxiong@vmlinux.vnet.ibm.com>
- <20180206163347.GG31110@localhost.localdomain>
- <787e4960b62a03b3888c67e73d7e1ee2@linux.vnet.ibm.com>
-Message-ID: <20180207012353.GD13470@ming.t460p>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Wed, 7 Feb 2018 10:03:49 +0800
+Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown and
+ reset case
+In-Reply-To: <20180206151335.GE31110@localhost.localdomain>
+References: <1517554849-7802-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1517554849-7802-3-git-send-email-jianchao.w.wang@oracle.com>
+ <20180202182413.GH24417@localhost.localdomain>
+ <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
+ <20180205151314.GP24417@localhost.localdomain>
+ <d218f5f5-45f7-6036-00a5-48769101080f@oracle.com>
+ <20180206151335.GE31110@localhost.localdomain>
+Message-ID: <e1994613-3cb6-f82b-3296-0f4afdb16314@oracle.com>
 
-On Tue, Feb 06, 2018@02:01:05PM -0600, wenxiong wrote:
-> On 2018-02-06 10:33, Keith Busch wrote:
-> > On Mon, Feb 05, 2018 at 03:49:40PM -0600, wenxiong at vmlinux.vnet.ibm.com
-> > wrote:
-> > > @@ -1189,6 +1183,12 @@ static enum blk_eh_timer_return
-> > > nvme_timeout(struct request *req, bool reserved)
-> > >  	struct nvme_command cmd;
-> > >  	u32 csts = readl(dev->bar + NVME_REG_CSTS);
-> > > 
-> > > +	/* If PCI error recovery process is happening, we cannot reset or
-> > > +	 * the recovery mechanism will surely fail.
-> > > +	 */
-> > > +	if (pci_channel_offline(to_pci_dev(dev->dev)))
-> > > +		return BLK_EH_HANDLED;
-> > > +
-> > 
-> > This patch will tell the block layer to complete the request and
-> > consider
-> > it a success, but it doesn't look like the command actually completed at
-> > all. You're going to get data corruption this way, right? Is returning
-> > BLK_EH_HANDLED immediately really the right thing to do here?
+Hi Keith
+
+Thanks for your time and kindly response on this.
+
+On 02/06/2018 11:13 PM, Keith Busch wrote:
+> On Tue, Feb 06, 2018@09:46:36AM +0800, jianchao.wang wrote:
+>> Hi Keith
+>>
+>> Thanks for your kindly response.
+>>
+>> On 02/05/2018 11:13 PM, Keith Busch wrote:
+>>>  but how many requests are you letting enter to their demise by
+>>> freezing on the wrong side of the reset?
+>>
+>> There are only two difference with this patch from the original one.
+>> 1. Don't freeze the queue for the reset case. At the moment, the outstanding requests will be requeued back to blk-mq queues.
+>>    The new entered requests during reset will also stay in blk-mq queues. All this requests will not enter into nvme driver layer
+>>    due to quiescent request_queues. And they will be issued after the reset is completed successfully.
+>> 2. Drain the request queue before nvme_dev_disable. This is nearly same with the previous rule which will also unquiesce the queue
+>>    and let the requests be able to be drained. The only difference is this patch will invoke wait_freeze in nvme_dev_disable instead
+>>    of nvme_reset_work.
+>>
+>> We don't sacrifice any request. This patch do the same thing with the previous one and make things clearer.
 > 
-> Hi Ming,
+> No, what you're proposing is quite different.
 > 
-> Can you help checking if it is ok if returning BLK_EH_HANDLEDED in this
-> case?
+> By "enter", I'm referring to blk_queue_enter. 
+When a request is allocated, it will hold a request_queue->q_usage_counter until it is freed.
+Please refer to 
+blk_mq_get_request -> blk_queue_enter_live
+blk_mq_free_request -> blk_exit_queue
 
-Hi Wenxiong,
+Regarding to 'request enters into an hctx', I cannot get the point.
+I think you should mean it enter into nvme driver layer.
 
-Looks Keith is correct, and this timed out request will be completed by
-block layer and NVMe driver if BLK_EH_HANDLED is returned, but this IO
-isn't completed actually, so either data loss(write) or read failure is
-caused.
+> Once a request enters
+> into an hctx, it can not be backed out to re-enter a new hctx if the
+> original one is invalidated.
 
-Maybe BLK_EH_RESET_TIMER is fine under this situation.
+I also cannot get the point here. We certainly will not issue a request which
+has been issued to other hctx.
+What this patch and also the original one does is that disable/shutdown controller, 
+cancel and requeue  or fail the outstanding requests.
 
-Thanks,
-Ming
+The requeue mechanism will ensure the requests to be inserted to the ctx where req->mq_ctx->cpu
+points to. 
+
+> 
+> Prior to a reset, all requests that have entered the queue are committed
+> to that hctx, 
+
+A request could be on 
+- blk-mq per-cpu ctx->rq_list, IO scheduler list\
+- hctx->dispatch list or
+- request_queue->requeue_list (will be inserted to 1st case again)
+
+When requests are issued, they will be dequeued from 1st or 2nd case and submitted to nvme driver layer.
+These requests are _outstanding_ ones.
+
+When the request queue is quiesced, the request will be stayed in  blk-mq per-cpu ctx->rq_list, IO scheduler list
+or hctx->dispatch list, and cannot be issued to driver layer any more.
+When the request queue is frozen, it will gate the bio out of generic_make_request, so new request cannot enter
+blk-mq layer any more, and certainly the nvme driver layer.
+
+For the reset case, the nvme controller will be back soon, we needn't freeze the queue, just quiescing is enough.
+The outstanding ones will be canceled and _requeued_ to request_queue->requeue_list, then they will be inserted into
+blk-mq layer again by requeue_work. When reset_work completes and start queues again, all the requests will be
+issued again. :)
+
+For the shutdown case, freezing and quiescing is safer. Also we will wait them to be completed if the controller is still
+alive. If dead, we need to fail them directly instead of requeue them, otherwise, IO hung will come up, because controller
+will be offline for some time.
+  
+
+and we can't do anything about that. The only thing we can
+> do is prevent new requests from entering until we're sure that hctx is
+> valid on the other side of the reset.
+> 
+yes, that's is what this patch does.
+
+Add some explaining about the 4th patch nvme-pci: break up nvme_timeout and nvme_dev_disable here.
+Also thanks for your time to look into this. That's really appreciated!
+
+The key point is blk_abort_request. It will force the request to be expired and then handle the request
+in timeout work context. It is safe to race with the irq completion path. This is the most important reason
+to use blk_abort_request. 
+We don't _complete_ the request or _rearm_ the time, but just set a CANCELED flag. So request will not be freed.
+Then these requests cannot be taken away by irq completion path and time out path is also be avoid (no outstanding requests any more).
+So we say 'all the outstanding requests are grabbed'. When we close the controller totally, we could complete
+these requests safely. This is the core idea of the 4th patch.
+
+Many thanks
+Jianchao
+ 
