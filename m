@@ -1,145 +1,78 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  7 Feb 2018 15:05:17 +0200
-Subject: [PATCH v2 2/3] nvmet: don't return "any" ip address in discovery log
- page
+Date: Wed,  7 Feb 2018 15:05:18 +0200
+Subject: [PATCH v2 3/3] iscsi-target: use common inet_addr_is_any
 In-Reply-To: <20180207130518.22803-1-sagi@grimberg.me>
 References: <20180207130518.22803-1-sagi@grimberg.me>
-Message-ID: <20180207130518.22803-3-sagi@grimberg.me>
+Message-ID: <20180207130518.22803-4-sagi@grimberg.me>
 
-Its perfectly valid to assign a nvmet port to listen on "any"
-IP address (traddr 0.0.0.0 for ipv4 address family) for IP based
-transport ports. However, we must not return this address in
-discovery log entries. Instead we need to return the address
-where the request was accepted on (req->port address).
+Instead of open-coding it.
 
-Since this is nvme transport specific, introduce an optional
-.disc_traddr interface that is designed to check that a
-port in question is bound to "any" IP address and if so, set
-the traddr from the port where the request came from.
-
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Cc: "Nicholas A. Bellinger" <nab at linux-iscsi.org>
+Cc: target-devel at vger.kernel.org
 ---
- drivers/nvme/target/discovery.c | 30 +++++++++++++++++++++++++++---
- drivers/nvme/target/nvmet.h     |  2 ++
- drivers/nvme/target/rdma.c      | 18 ++++++++++++++++++
- 3 files changed, 47 insertions(+), 3 deletions(-)
+ drivers/target/iscsi/iscsi_target.c | 28 ++--------------------------
+ 1 file changed, 2 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 8f3b57b4c97b..a72425d8bce0 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -43,7 +43,8 @@ void nvmet_referral_disable(struct nvmet_port *port)
+diff --git a/drivers/target/iscsi/iscsi_target.c b/drivers/target/iscsi/iscsi_target.c
+index 9eb10d34682c..8e223799347a 100644
+--- a/drivers/target/iscsi/iscsi_target.c
++++ b/drivers/target/iscsi/iscsi_target.c
+@@ -26,6 +26,7 @@
+ #include <linux/delay.h>
+ #include <linux/sched/signal.h>
+ #include <asm/unaligned.h>
++#include <linux/inet.h>
+ #include <net/ipv6.h>
+ #include <scsi/scsi_proto.h>
+ #include <scsi/iscsi_proto.h>
+@@ -3291,30 +3292,6 @@ iscsit_send_task_mgt_rsp(struct iscsi_cmd *cmd, struct iscsi_conn *conn)
+ 	return conn->conn_transport->iscsit_xmit_pdu(conn, cmd, NULL, NULL, 0);
  }
  
- static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
--		struct nvmet_port *port, char *subsys_nqn, u8 type, u32 numrec)
-+		struct nvmet_port *port, char *subsys_nqn, char *traddr,
-+		u8 type, u32 numrec)
- {
- 	struct nvmf_disc_rsp_page_entry *e = &hdr->entries[numrec];
+-static bool iscsit_check_inaddr_any(struct iscsi_np *np)
+-{
+-	bool ret = false;
+-
+-	if (np->np_sockaddr.ss_family == AF_INET6) {
+-		const struct sockaddr_in6 sin6 = {
+-			.sin6_addr = IN6ADDR_ANY_INIT };
+-		struct sockaddr_in6 *sock_in6 =
+-			 (struct sockaddr_in6 *)&np->np_sockaddr;
+-
+-		if (!memcmp(sock_in6->sin6_addr.s6_addr,
+-				sin6.sin6_addr.s6_addr, 16))
+-			ret = true;
+-	} else {
+-		struct sockaddr_in * sock_in =
+-			(struct sockaddr_in *)&np->np_sockaddr;
+-
+-		if (sock_in->sin_addr.s_addr == htonl(INADDR_ANY))
+-			ret = true;
+-	}
+-
+-	return ret;
+-}
+-
+ #define SENDTARGETS_BUF_LIMIT 32768U
  
-@@ -56,11 +57,30 @@ static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
- 	e->asqsz = cpu_to_le16(NVME_AQ_DEPTH);
- 	e->subtype = type;
- 	memcpy(e->trsvcid, port->disc_addr.trsvcid, NVMF_TRSVCID_SIZE);
--	memcpy(e->traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
-+	memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
- 	memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SIZE);
- 	memcpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
- }
+ static int
+@@ -3393,7 +3370,6 @@ iscsit_build_sendtargets_response(struct iscsi_cmd *cmd,
+ 			list_for_each_entry(tpg_np, &tpg->tpg_gnp_list,
+ 						tpg_np_list) {
+ 				struct iscsi_np *np = tpg_np->tpg_np;
+-				bool inaddr_any = iscsit_check_inaddr_any(np);
+ 				struct sockaddr_storage *sockaddr;
  
-+/*
-+ * nvmet_set_disc_traddr - set a correct discovery log entry traddr
-+ *
-+ * IP based transports (e.g RDMA) can listen on "any" ipv4/ipv6 addresses
-+ * (INADDR_ANY or IN6ADDR_ANY_INIT). The discovery log page traddr reply
-+ * must not contain that "any" IP address. If the transport implements
-+ * .disc_traddr, use it. this callback will set the discovery traddr
-+ * from the req->port address in case the port in question listens
-+ * "any" IP address.
-+ */
-+static void nvmet_set_disc_traddr(struct nvmet_req *req, struct nvmet_port *port,
-+		char *traddr)
-+{
-+	if (req->ops->disc_traddr)
-+		req->ops->disc_traddr(req, port, traddr);
-+	else
-+		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
-+}
-+
- static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
- {
- 	const int entry_size = sizeof(struct nvmf_disc_rsp_page_entry);
-@@ -90,8 +110,11 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
- 		if (!nvmet_host_allowed(req, p->subsys, ctrl->hostnqn))
- 			continue;
- 		if (residual_len >= entry_size) {
-+			char traddr[NVMF_TRADDR_SIZE];
-+
-+			nvmet_set_disc_traddr(req, req->port, traddr);
- 			nvmet_format_discovery_entry(hdr, req->port,
--					p->subsys->subsysnqn,
-+					p->subsys->subsysnqn, traddr,
- 					NVME_NQN_NVME, numrec);
- 			residual_len -= entry_size;
- 		}
-@@ -102,6 +125,7 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
- 		if (residual_len >= entry_size) {
- 			nvmet_format_discovery_entry(hdr, r,
- 					NVME_DISC_SUBSYS_NAME,
-+					r->disc_addr.traddr,
- 					NVME_NQN_DISC, numrec);
- 			residual_len -= entry_size;
- 		}
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 178fd9a1d128..a6e191ff34ba 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -215,6 +215,8 @@ struct nvmet_fabrics_ops {
- 	void (*remove_port)(struct nvmet_port *port);
- 	void (*delete_ctrl)(struct nvmet_ctrl *ctrl);
- 	int (*install_queue)(struct nvmet_sq *nvme_sq);
-+	void (*disc_traddr)(struct nvmet_req *req,
-+			struct nvmet_port *port, char *traddr);
- };
+ 				if (np->np_network_transport != network_transport)
+@@ -3422,7 +3398,7 @@ iscsit_build_sendtargets_response(struct iscsi_cmd *cmd,
+ 					}
+ 				}
  
- #define NVMET_MAX_INLINE_BIOVEC	8
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 978e169c11bf..d7831372e1f9 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1445,6 +1445,23 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
- 		rdma_destroy_id(cm_id);
- }
- 
-+static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
-+		struct nvmet_port *port, char *traddr)
-+{
-+	struct rdma_cm_id *cm_id = port->priv;
-+
-+	if (inet_addr_is_any((struct sockaddr *)&cm_id->route.addr.src_addr)) {
-+		struct nvmet_rdma_rsp *rsp =
-+			container_of(req, struct nvmet_rdma_rsp, req);
-+		struct rdma_cm_id *req_cm_id = rsp->queue->cm_id;
-+		struct sockaddr *addr = (void *)&req_cm_id->route.addr.src_addr;
-+
-+		sprintf(traddr, "%pISc", addr);
-+	} else {
-+		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
-+	}
-+}
-+
- static struct nvmet_fabrics_ops nvmet_rdma_ops = {
- 	.owner			= THIS_MODULE,
- 	.type			= NVMF_TRTYPE_RDMA,
-@@ -1455,6 +1472,7 @@ static struct nvmet_fabrics_ops nvmet_rdma_ops = {
- 	.remove_port		= nvmet_rdma_remove_port,
- 	.queue_response		= nvmet_rdma_queue_response,
- 	.delete_ctrl		= nvmet_rdma_delete_ctrl,
-+	.disc_traddr		= nvmet_rdma_disc_port_addr,
- };
- 
- static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+-				if (inaddr_any)
++				if (inet_addr_is_any((struct sockaddr *)&np->np_sockaddr))
+ 					sockaddr = &conn->local_sockaddr;
+ 				else
+ 					sockaddr = &np->np_sockaddr;
 -- 
 2.14.1
