@@ -1,26 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 8 Feb 2018 18:02:04 +0200
-Subject: [PATCH 2/2] nvme: Don't use a stack buffer for keep-alive command
-In-Reply-To: <20180208155943.GB4906@localhost.localdomain>
-References: <20180111213815.2107-1-roland@kernel.org>
- <76436c6a-5dee-b174-3b39-2735f8dc3a05@grimberg.me>
- <20180115084240.GA32313@lst.de> <20180208155943.GB4906@localhost.localdomain>
-Message-ID: <38ae419b-1c41-37e7-46a5-3156802f6744@grimberg.me>
+From: thomas.tai@oracle.com (Thomas Tai)
+Date: Thu, 8 Feb 2018 11:03:10 -0500
+Subject: [PATCH v3 2/2] Documentation: nvme: Documentation for nvme fault
+ injection
+In-Reply-To: <75fba2c9-3fb6-0cf8-fcf4-7738bd7c6147@grimberg.me>
+References: <1517526659-3450-1-git-send-email-thomas.tai@oracle.com>
+ <1517526659-3450-3-git-send-email-thomas.tai@oracle.com>
+ <75fba2c9-3fb6-0cf8-fcf4-7738bd7c6147@grimberg.me>
+Message-ID: <600bfddd-448c-bedd-ba6c-a3e925137ee8@oracle.com>
 
 
-> We needn't worry about the DNR case since driver allocated commands are
-> flagged "REQ_FAILFAST_DRIVER" and are never retried.
 
-Yea.
+On 2018-02-08 10:42 AM, Sagi Grimberg wrote:
+> 
+>> +o NVMe fault injection
+>> +
+>> +? inject NVMe NVME_SC_INVALID_OPCODE with no retry on devices permitted
+>> +? by setting debugfs entries under /sys/kernel/debug/nvme*/fault_inject
+>> +
+> 
+> Actually, can you update the documentation entry here?
 
-> Allocating the full 64-byte NVMe command for each request seems a bit
-> excessive.
+Yes Sagi. I will submit the documentation to the fault injection 
+maintainer. Thank you for your help.
 
-Why?
+Thomas
 
-> Since it only really applies to async driver commands, and
-> there are so few of those as it is, I'm okay with having special cases
-> for these as Roland suggests. Sound okay?
-
-I'm fine with fixing this locally, btw isn't this exact same stale sqe
-happen in pci's nvme_delete_queue?
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
