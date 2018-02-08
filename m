@@ -1,41 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 8 Feb 2018 18:19:32 +0200
-Subject: [PATCH 1/3] nvme: rename NVME_CTRL_RECONNECTING state to
- NVME_CTRL_CONNECTING
-In-Reply-To: <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
-References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
- <1517416286-31109-2-git-send-email-maxg@mellanox.com>
- <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
-Message-ID: <c896305c-90d0-e4aa-d861-ea9ad0076161@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 8 Feb 2018 09:26:05 -0700
+Subject: [PATCH 2/2] nvme: Don't use a stack buffer for keep-alive command
+In-Reply-To: <38ae419b-1c41-37e7-46a5-3156802f6744@grimberg.me>
+References: <20180111213815.2107-1-roland@kernel.org>
+ <76436c6a-5dee-b174-3b39-2735f8dc3a05@grimberg.me>
+ <20180115084240.GA32313@lst.de>
+ <20180208155943.GB4906@localhost.localdomain>
+ <38ae419b-1c41-37e7-46a5-3156802f6744@grimberg.me>
+Message-ID: <20180208162605.GB5039@localhost.localdomain>
 
+On Thu, Feb 08, 2018@06:02:04PM +0200, Sagi Grimberg wrote:
+> I'm fine with fixing this locally, btw isn't this exact same stale sqe
+> happen in pci's nvme_delete_queue?
 
-
-On 02/08/2018 05:28 PM, Sagi Grimberg wrote:
-> 
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 6c2fdfa..219c6a0 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -887,7 +887,7 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl 
->> *nctrl)
->> ? static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
->> ? {
->> ????? /* If we are resetting/deleting then do nothing */
->> -??? if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
->> +??? if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
->> ????????? WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
->> ????????????? ctrl->ctrl.state == NVME_CTRL_LIVE);
->> ????????? return;
->> @@ -978,7 +978,7 @@ static void nvme_rdma_error_recovery_work(struct 
->> work_struct *work)
->> ? static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
->> ? {
->> -??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
->> +??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
->> ????????? return;
->> ????? queue_work(nvme_wq, &ctrl->err_work);
->>
-> What is this based on? It does not apply on nvme-4.16.
-
-Max, I fixed it up locally in nvme-4.16-rc, please verify that its
-correct and passes your local tests.
+Yeah, this is the other case. Fortunately that never gets called on a
+quiesced admin queue, so we should be 'ok', but moving the command from
+the stack into struct nvme_queue would be the right thing to do.
