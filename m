@@ -1,28 +1,41 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Thu,  8 Feb 2018 22:30:25 +0900
-Subject: [PATCH] nvme-cli: make it use NVME_IDENTIFY_DATA_SIZE
-Message-ID: <1518096625-8560-1-git-send-email-minwoo.im.dev@gmail.com>
+Date: Thu,  8 Feb 2018 22:56:31 +0900
+Subject: [PATCH] nvme: use define instead of magic value for identify size
+Message-ID: <1518098191-27923-1-git-send-email-minwoo.im.dev@gmail.com>
 
-Update 0x1000 hard coding magic value to NVME_IDENTIFY_DATA_SIZE which
-was added in linux-nvme driver commit 0add5e8e588c.
+NVME_IDENTIFY_DATA_SIZE was added to linux/nvme.h by following commit.
+  commit 0add5e8e588c ("nvmet: use NVME_IDENTIFY_DATA_SIZE")
+
+Make it use NVME_IDENTIFY_DATA_SIZE define instead of magic value
+0x1000 in case of identify data size.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- nvme-ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index a6e1e01..9261e27 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -342,7 +342,7 @@ int nvme_identify(int fd, __u32 nsid, __u32 cdw10, void *data)
- 		.opcode		= nvme_admin_identify,
- 		.nsid		= nsid,
- 		.addr		= (__u64)(uintptr_t) data,
--		.data_len	= 0x1000,
-+		.data_len	= NVME_IDENTIFY_DATA_SIZE,
- 		.cdw10		= cdw10,
- 	};
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b3af8e9..01aa45f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -944,7 +944,8 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
+ 	c.identify.opcode = nvme_admin_identify;
+ 	c.identify.cns = NVME_ID_CNS_NS_ACTIVE_LIST;
+ 	c.identify.nsid = cpu_to_le32(nsid);
+-	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
++	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list,
++				    NVME_IDENTIFY_DATA_SIZE);
+ }
+ 
+ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+@@ -3100,7 +3101,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+ 	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
+ 	int ret = 0;
+ 
+-	ns_list = kzalloc(0x1000, GFP_KERNEL);
++	ns_list = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
+ 	if (!ns_list)
+ 		return -ENOMEM;
  
 -- 
 2.7.4
