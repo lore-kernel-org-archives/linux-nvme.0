@@ -1,33 +1,43 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Feb 2018 08:15:08 -0700
-Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown
- and reset case
-In-Reply-To: <958cae59-1a01-d60f-822b-cf81cfa31b8f@oracle.com>
-References: <20180202182413.GH24417@localhost.localdomain>
- <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
- <20180205151314.GP24417@localhost.localdomain>
- <d218f5f5-45f7-6036-00a5-48769101080f@oracle.com>
- <20180206151335.GE31110@localhost.localdomain>
- <e1994613-3cb6-f82b-3296-0f4afdb16314@oracle.com>
- <c5ae0bc0-260e-3a72-5c47-304c0b5034a6@oracle.com>
- <20180207161345.GB1337@localhost.localdomain>
- <1826ebc1-d419-23da-12d4-dd7b1b3fe598@oracle.com>
- <958cae59-1a01-d60f-822b-cf81cfa31b8f@oracle.com>
-Message-ID: <20180208151508.GA4797@localhost.localdomain>
+Date: Thu, 8 Feb 2018 08:27:30 -0700
+Subject: [PATCH] blk: optimization for classic polling
+In-Reply-To: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+References: <CGME20180208143655epcas1p444bf34705526b7839a5a135f82761aad@epcas1p4.samsung.com>
+ <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+Message-ID: <20180208152730.GA4906@localhost.localdomain>
 
-On Thu, Feb 08, 2018@10:17:00PM +0800, jianchao.wang wrote:
-> There is a dangerous scenario which caused by nvme_wait_freeze in nvme_reset_work.
-> please consider it.
+On Sun, May 30, 2083@09:51:06AM +0530, Nitesh Shetty wrote:
+> This removes the dependency on interrupts to wake up task. Set task
+> state as TASK_RUNNING, if need_resched() returns true,
+> while polling for IO completion.
+> Earlier, polling task used to sleep, relying on interrupt to wake it up.
+> This made some IO take very long when interrupt-coalescing is enabled in
+> NVMe.
 > 
-> nvme_reset_work
->   -> nvme_start_queues
->   -> nvme_wait_freeze
-> 
-> if the controller no response, we have to rely on the timeout path.
-> there are issues below:
-> nvme_dev_disable need to be invoked.
-> nvme_dev_disable will quiesce queues, cancel and requeue and outstanding requests.
-> nvme_reset_work will hang at nvme_wait_freeze
+> Reference:
+> http://lists.infradead.org/pipermail/linux-nvme/2018-February/015435.html
+> Signed-off-by: Nitesh Shetty <nj.shetty at samsung.com>
+> ---
+>  fs/block_dev.c | 16 ++++++++++++----
+>  fs/direct-io.c |  8 ++++++--
+>  fs/iomap.c     | 10 +++++++---
+>  3 files changed, 25 insertions(+), 9 deletions(-)
 
-We used to not requeue timed out commands, so that wasn't a problem
-before. Oh well, I'll take a look.
+I think it'd be simpler to have blk_poll set it back to running if
+need_resched is true rather than repeat this patter across all the
+callers:
+
+---
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index df93102e2149..40285fe1c8ad 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3164,6 +3164,7 @@ static bool __blk_mq_poll(struct blk_mq_hw_ctx *hctx, struct request *rq)
+ 		cpu_relax();
+ 	}
+ 
++	set_current_state(TASK_RUNNING);
+ 	return false;
+ }
+ 
+--
