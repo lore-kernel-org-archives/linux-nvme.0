@@ -1,26 +1,41 @@
-From: thomas.tai@oracle.com (Thomas Tai)
-Date: Thu, 8 Feb 2018 11:19:03 -0500
-Subject: [PATCH v3 2/2] Documentation: nvme: Documentation for nvme fault
- injection
-In-Reply-To: <2c1534d4-c2c8-3e38-59bb-170c7c3d205a@grimberg.me>
-References: <1517526659-3450-1-git-send-email-thomas.tai@oracle.com>
- <1517526659-3450-3-git-send-email-thomas.tai@oracle.com>
- <75fba2c9-3fb6-0cf8-fcf4-7738bd7c6147@grimberg.me>
- <600bfddd-448c-bedd-ba6c-a3e925137ee8@oracle.com>
- <cf7ed6dd-05b2-32fe-451a-e32f0ac810fa@grimberg.me>
- <483b49dc-a89c-cba7-3f63-9a29420e4b6c@oracle.com>
- <2c1534d4-c2c8-3e38-59bb-170c7c3d205a@grimberg.me>
-Message-ID: <af2a15b1-8887-77ec-98b7-abc9b630b47c@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 8 Feb 2018 18:19:32 +0200
+Subject: [PATCH 1/3] nvme: rename NVME_CTRL_RECONNECTING state to
+ NVME_CTRL_CONNECTING
+In-Reply-To: <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
+References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
+ <1517416286-31109-2-git-send-email-maxg@mellanox.com>
+ <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
+Message-ID: <c896305c-90d0-e4aa-d861-ea9ad0076161@grimberg.me>
 
-[ ... ]
->>> It's going to 4.17 (we have time), so I'd prefer to get it right once
->>> instead of having another fixup on top. Would it be possible to re-spin
->>> with the minor fix?
->>
->> Sure. Do you mean I should resend the patch set which include the 
->> fault injection maintainer in the email?
+
+
+On 02/08/2018 05:28 PM, Sagi Grimberg wrote:
 > 
-> No, just fix the documentation to say not only NVME_SC_INVALID_OPCODE 
-> can be injected (the entry in fault-injection.txt)
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index 6c2fdfa..219c6a0 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -887,7 +887,7 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl 
+>> *nctrl)
+>> ? static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+>> ? {
+>> ????? /* If we are resetting/deleting then do nothing */
+>> -??? if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
+>> +??? if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
+>> ????????? WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
+>> ????????????? ctrl->ctrl.state == NVME_CTRL_LIVE);
+>> ????????? return;
+>> @@ -978,7 +978,7 @@ static void nvme_rdma_error_recovery_work(struct 
+>> work_struct *work)
+>> ? static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+>> ? {
+>> -??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
+>> +??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+>> ????????? return;
+>> ????? queue_work(nvme_wq, &ctrl->err_work);
+>>
+> What is this based on? It does not apply on nvme-4.16.
 
-Oh yes. Sorry I missed that. will update the doc. Thank you.
+Max, I fixed it up locally in nvme-4.16-rc, please verify that its
+correct and passes your local tests.
