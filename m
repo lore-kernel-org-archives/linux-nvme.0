@@ -1,17 +1,39 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 9 Feb 2018 10:12:31 -0700
-Subject: [PATCH V2 0/6]nvme-pci: fixes on nvme_timeout and nvme_dev_disable
-In-Reply-To: <db5fe34b-3ffb-a658-d4d6-a1c619b2d590@oracle.com>
-References: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
- <073ce416-fd26-b41a-187d-1db9210c48b0@grimberg.me>
- <20180208175606.GD5039@localhost.localdomain>
- <db5fe34b-3ffb-a658-d4d6-a1c619b2d590@oracle.com>
-Message-ID: <20180209171231.GB6970@localhost.localdomain>
+Date: Fri,  9 Feb 2018 10:41:25 -0700
+Subject: [PATCH 1/3] nvme-pci: Fix timeouts in connecting state
+Message-ID: <20180209174127.7224-1-keith.busch@intel.com>
 
-On Fri, Feb 09, 2018@09:50:58AM +0800, jianchao.wang wrote:
-> 
-> if we set NVME_REQ_CANCELLED and return BLK_EH_HANDLED as the RESETTING case,
-> nvme_reset_work will hang forever, because no one could complete the entered requests.
+We need to halt the controller immediately if we haven't completed
+initialization as indicated by the new "connecting" state.
 
-Except it's no longer in the "RESETTING" case since you added the
-"CONNECTING" state, so that's already broken for other reasons...
+Fixes: ad70062cdb ("nvme-pci: introduce RECONNECTING state to mark initializing procedure")
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ab9c19525fa8..90e276c05f79 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1215,13 +1215,17 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	 * cancellation error. All outstanding requests are completed on
+ 	 * shutdown, so we return BLK_EH_HANDLED.
+ 	 */
+-	if (dev->ctrl.state == NVME_CTRL_RESETTING) {
++	switch (dev->ctrl.state) {
++	case NVME_CTRL_CONNECTING:
++	case NVME_CTRL_RESETTING:
+ 		dev_warn(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+ 			 req->tag, nvmeq->qid);
+ 		nvme_dev_disable(dev, false);
+ 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+ 		return BLK_EH_HANDLED;
++	default:
++		break;
+ 	}
+ 
+ 	/*
+-- 
+2.14.3
