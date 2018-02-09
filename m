@@ -1,46 +1,44 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 9 Feb 2018 09:50:58 +0800
-Subject: [PATCH V2 0/6]nvme-pci: fixes on nvme_timeout and nvme_dev_disable
-In-Reply-To: <20180208175606.GD5039@localhost.localdomain>
-References: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
- <073ce416-fd26-b41a-187d-1db9210c48b0@grimberg.me>
- <20180208175606.GD5039@localhost.localdomain>
-Message-ID: <db5fe34b-3ffb-a658-d4d6-a1c619b2d590@oracle.com>
+From: mb@lightnvm.io (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Fri,  9 Feb 2018 10:27:15 +0100
+Subject: [PATCH V2 0/4] lightnvm: base 2.0 implementation
+Message-ID: <20180209092719.10679-1-mb@lightnvm.io>
 
-Hi Keith and Sagi
+A couple of patches for 2.0 support for the lightnvm subsystem. They
+form the basis for integrating 2.0 support.
 
-Many thanks for your kindly response.
-That's really appreciated.
+For the rest of the support, Javier has code that implements report
+chunk and sets up the LBA format data structure. He also has a bunch
+of patches that brings pblk up to speed.
 
-On 02/09/2018 01:56 AM, Keith Busch wrote:
-> On Thu, Feb 08, 2018@05:56:49PM +0200, Sagi Grimberg wrote:
->> Given the discussion on this set, you plan to respin again
->> for 4.16?
-> 
-> With the exception of maybe patch 1, this needs more consideration than
-> I'd feel okay with for the 4.16 release.
-> 
-Currently, one of the block is the nvme_wait_freeze in nvme_reset_work.
-This cause some issues when I test this patchset yesterday.
-As I posted on the V1 patchset mail thread:
+The first two patches is preparation for the 2.0 work. The third patch
+implements the 2.0 data structures, the geometry command, and exposes
+the sysfs attributes that comes with the 2.0 specification. Note that
+the attributes between 1.2 and 2.0 are different, and it is expected
+that user-space shall use the version sysfs attribute to know which
+attributes will be available.
 
-if we set NVME_REQ_CANCELLED and return BLK_EH_HANDLED as the RESETTING case,
-nvme_reset_work will hang forever, because no one could complete the entered requests.
+The last patch implements support for using the nvme namespace logical
+block and metadata fields and sync it with the internal lightnvm
+identify structures.
 
-if we invoke nvme_reset_ctrl after modify the state machine to be able to change to RESETTING
-to RECONNECTING and queue reset_work, we still cannot move things forward, because the reset_work
-is being executed.
+Changes since v1:
 
-if we use nvme_wait_freeze_timeout in nvme_reset_work, unfreeze and return if expires. But the 
-timeout value is tricky..
+ - pr_err fix from Randy.
+ - Address type fix from Javier.
+ - Also CC the nvme mailing list.
 
+Matias Bj?rling (4):
+  lightnvm: make 1.2 data structures explicit
+  lightnvm: flatten nvm_id_group into nvm_id
+  lightnvm: add 2.0 geometry identification
+  nvme: lightnvm: add late setup of block size and metadata
 
-And actually, one of the possible solution to fix this cleanly is blk_set_preempt_only.
-It is a lightweight way to gate the new bios out of generic_make_request.
+ drivers/lightnvm/core.c      |  33 ++-
+ drivers/nvme/host/core.c     |   2 +
+ drivers/nvme/host/lightnvm.c | 508 ++++++++++++++++++++++++++++++++-----------
+ drivers/nvme/host/nvme.h     |   2 +
+ include/linux/lightnvm.h     |  64 +++---
+ 5 files changed, 428 insertions(+), 181 deletions(-)
 
-Looking forward your advice on this.
-And many thanks for your precious time on this.
-
-Sincerely
-Thanks
-Jianchao
+-- 
+2.11.0
