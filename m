@@ -1,162 +1,49 @@
-From: thomas.tai@oracle.com (Thomas Tai)
-Date: Thu,  8 Feb 2018 13:38:30 -0500
-Subject: [PATCH v4 2/2] Documentation: nvme: Documentation for nvme fault
- injection
-In-Reply-To: <1518115110-15930-1-git-send-email-thomas.tai@oracle.com>
-References: <1518115110-15930-1-git-send-email-thomas.tai@oracle.com>
-Message-ID: <1518115110-15930-3-git-send-email-thomas.tai@oracle.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Fri, 9 Feb 2018 09:41:59 +0800
+Subject: [PATCH 2/6] nvme-pci: fix the freeze and quiesce for shutdown and
+ reset case
+In-Reply-To: <20180208151508.GA4797@localhost.localdomain>
+References: <20180202182413.GH24417@localhost.localdomain>
+ <d93d115b-bdb1-24c0-71be-72f1b7563e5a@oracle.com>
+ <20180205151314.GP24417@localhost.localdomain>
+ <d218f5f5-45f7-6036-00a5-48769101080f@oracle.com>
+ <20180206151335.GE31110@localhost.localdomain>
+ <e1994613-3cb6-f82b-3296-0f4afdb16314@oracle.com>
+ <c5ae0bc0-260e-3a72-5c47-304c0b5034a6@oracle.com>
+ <20180207161345.GB1337@localhost.localdomain>
+ <1826ebc1-d419-23da-12d4-dd7b1b3fe598@oracle.com>
+ <958cae59-1a01-d60f-822b-cf81cfa31b8f@oracle.com>
+ <20180208151508.GA4797@localhost.localdomain>
+Message-ID: <bdbda3ee-dec3-a2d9-df3c-391cd46973e4@oracle.com>
 
-Add examples to show how to use nvme fault injection.
+Hi Keith
 
-Signed-off-by: Thomas Tai <thomas.tai at oracle.com>
-Reviewed-by: Eric Saint-Etienne <eric.saint.etienne at oracle.com>
-Signed-off-by: Karl Volz <karl.volz at oracle.com>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
----
- Documentation/fault-injection/fault-injection.txt  |   7 ++
- .../fault-injection/nvme-fault-injection.txt       | 116 +++++++++++++++++++++
- 2 files changed, 123 insertions(+)
- create mode 100644 Documentation/fault-injection/nvme-fault-injection.txt
+Thanks for your precious time and kindly response.
 
-diff --git a/Documentation/fault-injection/fault-injection.txt b/Documentation/fault-injection/fault-injection.txt
-index 918972b..d8bf868 100644
---- a/Documentation/fault-injection/fault-injection.txt
-+++ b/Documentation/fault-injection/fault-injection.txt
-@@ -30,6 +30,13 @@ o fail_mmc_request
-   injects MMC data errors on devices permitted by setting
-   debugfs entries under /sys/kernel/debug/mmc0/fail_mmc_request
- 
-+o NVMe fault injection
-+
-+  inject NVMe status code and retry flag on devices permitted by setting
-+  debugfs entries under /sys/kernel/debug/nvme*/fault_inject. The default
-+  status code is NVME_SC_INVALID_OPCODE with no retry. The status code and
-+  retry flag can be set via the debugfs.
-+
- Configure fault-injection capabilities behavior
- -----------------------------------------------
- 
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-new file mode 100644
-index 0000000..e37b9c7
---- /dev/null
-+++ b/Documentation/fault-injection/nvme-fault-injection.txt
-@@ -0,0 +1,116 @@
-+NVMe Fault Injection
-+====================
-+Linux's fault injection framework provides a systematic way to support
-+error injection via debugfs in the /sys/kernel/debug directory. When
-+enabled, the default NVME_SC_INVALID_OPCODE with no retry will be
-+injected into the nvme_end_request. Users can change the default status
-+code and no retry flag via the debugfs. The list of Generic Command
-+Status can be found in include/linux/nvme.h
-+
-+Following examples show how to inject an error into the nvme.
-+
-+First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
-+recompile the kernel. After booting up the kernel, do the
-+following.
-+
-+Example 1: Inject default status code with no retry
-+---------------------------------------------------
-+
-+mount /dev/nvme0n1 /mnt
-+echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+cp a.file /mnt
-+
-+Expected Result:
-+
-+cp: cannot stat ?/mnt/a.file?: Input/output error
-+
-+Message from dmesg:
-+
-+FAULT_INJECTION: forcing a failure.
-+name fault_inject, interval 1, probability 100, space 0, times 1
-+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 4.15.0-rc8+ #2
-+Hardware name: innotek GmbH VirtualBox/VirtualBox,
-+BIOS VirtualBox 12/01/2006
-+Call Trace:
-+  <IRQ>
-+  dump_stack+0x5c/0x7d
-+  should_fail+0x148/0x170
-+  nvme_should_fail+0x2f/0x50 [nvme_core]
-+  nvme_process_cq+0xe7/0x1d0 [nvme]
-+  nvme_irq+0x1e/0x40 [nvme]
-+  __handle_irq_event_percpu+0x3a/0x190
-+  handle_irq_event_percpu+0x30/0x70
-+  handle_irq_event+0x36/0x60
-+  handle_fasteoi_irq+0x78/0x120
-+  handle_irq+0xa7/0x130
-+  ? tick_irq_enter+0xa8/0xc0
-+  do_IRQ+0x43/0xc0
-+  common_interrupt+0xa2/0xa2
-+  </IRQ>
-+RIP: 0010:native_safe_halt+0x2/0x10
-+RSP: 0018:ffffffff82003e90 EFLAGS: 00000246 ORIG_RAX: ffffffffffffffdd
-+RAX: ffffffff817a10c0 RBX: ffffffff82012480 RCX: 0000000000000000
-+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+RBP: 0000000000000000 R08: 000000008e38ce64 R09: 0000000000000000
-+R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff82012480
-+R13: ffffffff82012480 R14: 0000000000000000 R15: 0000000000000000
-+  ? __sched_text_end+0x4/0x4
-+  default_idle+0x18/0xf0
-+  do_idle+0x150/0x1d0
-+  cpu_startup_entry+0x6f/0x80
-+  start_kernel+0x4c4/0x4e4
-+  ? set_init_arg+0x55/0x55
-+  secondary_startup_64+0xa5/0xb0
-+  print_req_error: I/O error, dev nvme0n1, sector 9240
-+EXT4-fs error (device nvme0n1): ext4_find_entry:1436:
-+inode #2: comm cp: reading directory lblock 0
-+
-+Example 2: Inject default status code with retry
-+------------------------------------------------
-+
-+mount /dev/nvme0n1 /mnt
-+echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
-+echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
-+echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
-+echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/no_retry
-+
-+cp a.file /mnt
-+
-+Expected Result:
-+
-+command success without error
-+
-+Message from dmesg:
-+
-+FAULT_INJECTION: forcing a failure.
-+name fault_inject, interval 1, probability 100, space 0, times 1
-+CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.15.0-rc8+ #4
-+Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-+Call Trace:
-+  <IRQ>
-+  dump_stack+0x5c/0x7d
-+  should_fail+0x148/0x170
-+  nvme_should_fail+0x30/0x60 [nvme_core]
-+  nvme_loop_queue_response+0x84/0x110 [nvme_loop]
-+  nvmet_req_complete+0x11/0x40 [nvmet]
-+  nvmet_bio_done+0x28/0x40 [nvmet]
-+  blk_update_request+0xb0/0x310
-+  blk_mq_end_request+0x18/0x60
-+  flush_smp_call_function_queue+0x3d/0xf0
-+  smp_call_function_single_interrupt+0x2c/0xc0
-+  call_function_single_interrupt+0xa2/0xb0
-+  </IRQ>
-+RIP: 0010:native_safe_halt+0x2/0x10
-+RSP: 0018:ffffc9000068bec0 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff04
-+RAX: ffffffff817a10c0 RBX: ffff88011a3c9680 RCX: 0000000000000000
-+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-+RBP: 0000000000000001 R08: 000000008e38c131 R09: 0000000000000000
-+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88011a3c9680
-+R13: ffff88011a3c9680 R14: 0000000000000000 R15: 0000000000000000
-+  ? __sched_text_end+0x4/0x4
-+  default_idle+0x18/0xf0
-+  do_idle+0x150/0x1d0
-+  cpu_startup_entry+0x6f/0x80
-+  start_secondary+0x187/0x1e0
-+  secondary_startup_64+0xa5/0xb0
--- 
-1.8.3.1
+On 02/08/2018 11:15 PM, Keith Busch wrote:
+> On Thu, Feb 08, 2018@10:17:00PM +0800, jianchao.wang wrote:
+>> There is a dangerous scenario which caused by nvme_wait_freeze in nvme_reset_work.
+>> please consider it.
+>>
+>> nvme_reset_work
+>>   -> nvme_start_queues
+>>   -> nvme_wait_freeze
+>>
+>> if the controller no response, we have to rely on the timeout path.
+>> there are issues below:
+>> nvme_dev_disable need to be invoked.
+>> nvme_dev_disable will quiesce queues, cancel and requeue and outstanding requests.
+>> nvme_reset_work will hang at nvme_wait_freeze
+> 
+> We used to not requeue timed out commands, so that wasn't a problem
+> before. Oh well, I'll take a look.
+> 
+Yes, we indeed don't requeue the timed out commands, but nvme_dev_disable will requeue the other
+outstanding requests and quiesce the request queues, this will block the nvme_reset_work->nvme_wati_freeze
+to move forward.
+
+As I shared in last email, can we use(or abuse?) blk_set_preempt_only to gate the new bios on generic_make_request ?
+Freezing queues is good, but wait_freeze in reset_work is a devil.
+
+Many thanks
+Jianchao
