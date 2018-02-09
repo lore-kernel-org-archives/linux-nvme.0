@@ -1,70 +1,66 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  9 Feb 2018 10:41:27 -0700
-Subject: [PATCH 3/3] nvme: Fail controller on timeouts during reset
-In-Reply-To: <20180209174127.7224-1-keith.busch@intel.com>
-References: <20180209174127.7224-1-keith.busch@intel.com>
-Message-ID: <20180209174127.7224-3-keith.busch@intel.com>
+Date: Fri,  9 Feb 2018 14:39:22 -0700
+Subject: [PATCH 4.4.y] nvme: Fix managing degraded controllers
+Message-ID: <20180209213922.12644-1-keith.busch@intel.com>
 
-We can't schedule a second controller reset if the controller fails while
-the driver is already attempting to start it. Synchronous admin commands
-are already handled appropriately since they are never retried and the
-completion status is read directly. Asynchronous IO commands, however,
-were previously undetected.
+commit 3e1e21c7bfcf upstream
 
-This patch fixes that by preventing retries on IO commands during
-controller connecting states, and directing the controller to a failed
-state after aborting the timed out commands. Without this patch, a
-controller that fails IO commands during start up would hang indefinitely.
+Upstream is a near rewrite of the async nvme probe that ultimately didn't
+even cleanly merge in 4.5. This patch is a much smaller change targeted
+to the regression introduced in 4.4.
 
-Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+If a controller is in a degraded mode that needs admin assistence to
+recover, we need to leave the controller running. We just want to disable
+namespace access without shuting the controller down.
+
+Fixes: 3cf519b5a8d4("nvme: merge nvme_dev_start, nvme_dev_resume and nvme_async_probe")
+
+Cc: <stable at vger.kernel.org> # 4.4.x
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 6 ++++--
- drivers/nvme/host/pci.c  | 6 +++++-
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a9bce23a991f..c0f4771d79a2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -240,13 +240,15 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
- 
- void nvme_cancel_request(struct request *req, void *data, bool reserved)
- {
-+	struct nvme_ctrl *ctrl = data;
- 	if (!blk_mq_request_started(req))
- 		return;
- 
--	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
--				"Cancelling I/O %d", req->tag);
-+	dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
- 
- 	nvme_req(req)->status = NVME_SC_ABORT_REQ;
-+	if (ctrl->state == NVME_CTRL_CONNECTING)
-+		nvme_req(req)->status |= NVME_SC_DNR;
- 	blk_mq_complete_request(req);
- 
- }
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7a2e4383c468..77929d35eae8 100644
+index d6ceb8b91cd6..1c8aedf21370 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1212,11 +1212,15 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	/*
- 	 * Shutdown immediately if controller times out while starting. The
- 	 * reset work will see the pci device disabled when it gets the forced
--	 * cancellation error. All outstanding requests are completed on
-+	 * cancellation error. The driver won't see the status if it is waiting
-+	 * on asynchronous comands, so we set the state to deleting to prevent
-+	 * it from progressing. All outstanding requests are completed on
- 	 * shutdown, so we return BLK_EH_HANDLED.
+@@ -2976,10 +2976,16 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 	mutex_unlock(&dev->shutdown_lock);
+ }
+ 
+-static void nvme_dev_remove(struct nvme_dev *dev)
++static void nvme_remove_namespaces(struct nvme_dev *dev)
+ {
+ 	struct nvme_ns *ns, *next;
+ 
++	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
++		nvme_ns_remove(ns);
++}
++
++static void nvme_dev_remove(struct nvme_dev *dev)
++{
+ 	if (nvme_io_incapable(dev)) {
+ 		/*
+ 		 * If the device is not capable of IO (surprise hot-removal,
+@@ -2989,8 +2995,7 @@ static void nvme_dev_remove(struct nvme_dev *dev)
+ 		 */
+ 		nvme_dev_shutdown(dev);
+ 	}
+-	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
+-		nvme_ns_remove(ns);
++	nvme_remove_namespaces(dev);
+ }
+ 
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+@@ -3174,7 +3179,7 @@ static void nvme_probe_work(struct work_struct *work)
  	 */
- 	switch (dev->ctrl.state) {
- 	case NVME_CTRL_CONNECTING:
-+		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-+		/* FALLTHRU */
- 	case NVME_CTRL_RESETTING:
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
+ 	if (dev->online_queues < 2) {
+ 		dev_warn(dev->dev, "IO queues not created\n");
+-		nvme_dev_remove(dev);
++		nvme_remove_namespaces(dev);
+ 	} else {
+ 		nvme_unfreeze_queues(dev);
+ 		nvme_dev_add(dev);
 -- 
-2.14.3
+2.13.6
