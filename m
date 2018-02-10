@@ -1,66 +1,97 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  9 Feb 2018 14:39:22 -0700
-Subject: [PATCH 4.4.y] nvme: Fix managing degraded controllers
-Message-ID: <20180209213922.12644-1-keith.busch@intel.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Sat, 10 Feb 2018 09:55:58 +0800
+Subject: [PATCH 2/3] nvme: Sync queues on controller resets
+In-Reply-To: <20180209174127.7224-2-keith.busch@intel.com>
+References: <20180209174127.7224-1-keith.busch@intel.com>
+ <20180209174127.7224-2-keith.busch@intel.com>
+Message-ID: <a16208e7-9b1a-1270-fd34-3bd743c07918@oracle.com>
 
-commit 3e1e21c7bfcf upstream
+Hi Keith
 
-Upstream is a near rewrite of the async nvme probe that ultimately didn't
-even cleanly merge in 4.5. This patch is a much smaller change targeted
-to the regression introduced in 4.4.
+Thanks for your time and patch for this.
 
-If a controller is in a degraded mode that needs admin assistence to
-recover, we need to leave the controller running. We just want to disable
-namespace access without shuting the controller down.
+However, as I shared last time, there is defect here. Please refer to.
 
-Fixes: 3cf519b5a8d4("nvme: merge nvme_dev_start, nvme_dev_resume and nvme_async_probe")
+There could be a circular pattern here. Please consider the following scenario:
 
-Cc: <stable at vger.kernel.org> # 4.4.x
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+timeout_work context                    reset_work context
+nvme_timeout                            nvme_reset_work
+  -> nvme_dev_disable                     -> nvme_sync_queues // hold namespace_mutex
+    -> nvme_stop_queues                     -> blk_sync_queue
+      -> require namespaces_mutex               -> cancel_work_sync(&q->timeout_work)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d6ceb8b91cd6..1c8aedf21370 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2976,10 +2976,16 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 	mutex_unlock(&dev->shutdown_lock);
- }
- 
--static void nvme_dev_remove(struct nvme_dev *dev)
-+static void nvme_remove_namespaces(struct nvme_dev *dev)
- {
- 	struct nvme_ns *ns, *next;
- 
-+	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
-+		nvme_ns_remove(ns);
-+}
-+
-+static void nvme_dev_remove(struct nvme_dev *dev)
-+{
- 	if (nvme_io_incapable(dev)) {
- 		/*
- 		 * If the device is not capable of IO (surprise hot-removal,
-@@ -2989,8 +2995,7 @@ static void nvme_dev_remove(struct nvme_dev *dev)
- 		 */
- 		nvme_dev_shutdown(dev);
- 	}
--	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
--		nvme_ns_remove(ns);
-+	nvme_remove_namespaces(dev);
- }
- 
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
-@@ -3174,7 +3179,7 @@ static void nvme_probe_work(struct work_struct *work)
- 	 */
- 	if (dev->online_queues < 2) {
- 		dev_warn(dev->dev, "IO queues not created\n");
--		nvme_dev_remove(dev);
-+		nvme_remove_namespaces(dev);
- 	} else {
- 		nvme_unfreeze_queues(dev);
- 		nvme_dev_add(dev);
--- 
-2.13.6
+On the other hand, the blk_mq_kick_requeue_list() should be also added in nvme_kill_queues
+for the case of queue_count < 2
+
+Thanks
+Jianchao
+
+On 02/10/2018 01:41 AM, Keith Busch wrote:
+> This patch has the nvme pci driver synchronize request queues to ensure
+> starting the controller is not racing with a previously running timeout
+> handler.
+> 
+> Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 15 ++++++++++++++-
+>  drivers/nvme/host/nvme.h |  1 +
+>  drivers/nvme/host/pci.c  |  1 +
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 2fd8688cfa47..a9bce23a991f 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3542,12 +3542,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>  	struct nvme_ns *ns;
+>  
+>  	mutex_lock(&ctrl->namespaces_mutex);
+> -	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+>  		blk_mq_unquiesce_queue(ns->queue);
+> +		blk_mq_kick_requeue_list(ns->queue);
+> +	}
+>  	mutex_unlock(&ctrl->namespaces_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_start_queues);
+>  
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ns *ns;
+> +
+> +	mutex_lock(&ctrl->namespaces_mutex);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +		blk_sync_queue(ns->queue);
+> +	mutex_unlock(&ctrl->namespaces_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
+> +
+>  int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+>  {
+>  	if (!ctrl->ops->reinit_request)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 27e31c00b306..466081e5f680 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -374,6 +374,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>  
+>  void nvme_stop_queues(struct nvme_ctrl *ctrl);
+>  void nvme_start_queues(struct nvme_ctrl *ctrl);
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl);
+>  void nvme_kill_queues(struct nvme_ctrl *ctrl);
+>  void nvme_unfreeze(struct nvme_ctrl *ctrl);
+>  void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 90e276c05f79..7a2e4383c468 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2290,6 +2290,7 @@ static void nvme_reset_work(struct work_struct *work)
+>  	 */
+>  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+>  		nvme_dev_disable(dev, false);
+> +	nvme_sync_queues(&dev->ctrl);
+>  
+>  	/*
+>  	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
+> 
