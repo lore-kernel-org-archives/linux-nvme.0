@@ -1,60 +1,96 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Sun, 11 Feb 2018 11:06:29 +0800
-Subject: [PATCH V2 0/6]nvme-pci: fixes on nvme_timeout and nvme_dev_disable
-In-Reply-To: <de6fd2ac-fc69-1b3b-c206-7abfce24ac70@oracle.com>
-References: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
- <073ce416-fd26-b41a-187d-1db9210c48b0@grimberg.me>
- <20180208175606.GD5039@localhost.localdomain>
- <db5fe34b-3ffb-a658-d4d6-a1c619b2d590@oracle.com>
- <20180209171231.GB6970@localhost.localdomain>
- <de6fd2ac-fc69-1b3b-c206-7abfce24ac70@oracle.com>
-Message-ID: <1872576f-8b5c-0f7f-3d7a-c769543ace87@oracle.com>
+Date: Sun, 11 Feb 2018 16:26:43 +0800
+Subject: [PATCH 3/3] nvme: Fail controller on timeouts during reset
+In-Reply-To: <20180209174127.7224-3-keith.busch@intel.com>
+References: <20180209174127.7224-1-keith.busch@intel.com>
+ <20180209174127.7224-3-keith.busch@intel.com>
+Message-ID: <75313a79-29da-3ea1-dd5b-c3d0d8c9069d@oracle.com>
+
+Hi Keith
+
+Thanks for your precious time and patch for this.
+
+On 02/10/2018 01:41 AM, Keith Busch wrote:
+> We can't schedule a second controller reset if the controller fails while
+> the driver is already attempting to start it. Synchronous admin commands
+> are already handled appropriately since they are never retried and the
+> completion status is read directly. Asynchronous IO commands, however,
+> were previously undetected.
+> 
+> This patch fixes that by preventing retries on IO commands during
+> controller connecting states, and directing the controller to a failed
+> state after aborting the timed out commands. Without this patch, a
+> controller that fails IO commands during start up would hang indefinitely.
+> 
+> Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 6 ++++--
+>  drivers/nvme/host/pci.c  | 6 +++++-
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index a9bce23a991f..c0f4771d79a2 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -240,13 +240,15 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
+>  
+>  void nvme_cancel_request(struct request *req, void *data, bool reserved)
+>  {
+> +	struct nvme_ctrl *ctrl = data;
+>  	if (!blk_mq_request_started(req))
+>  		return;
+>  
+> -	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+> -				"Cancelling I/O %d", req->tag);
+> +	dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
+>  
+>  	nvme_req(req)->status = NVME_SC_ABORT_REQ;
+> +	if (ctrl->state == NVME_CTRL_CONNECTING)
+> +		nvme_req(req)->status |= NVME_SC_DNR;
+>  	blk_mq_complete_request(req);
+>  
+>  }
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 7a2e4383c468..77929d35eae8 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1212,11 +1212,15 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  	/*
+>  	 * Shutdown immediately if controller times out while starting. The
+>  	 * reset work will see the pci device disabled when it gets the forced
+> -	 * cancellation error. All outstanding requests are completed on
+> +	 * cancellation error. The driver won't see the status if it is waiting
+> +	 * on asynchronous comands, so we set the state to deleting to prevent
+> +	 * it from progressing. All outstanding requests are completed on
+>  	 * shutdown, so we return BLK_EH_HANDLED.
+>  	 */
+>  	switch (dev->ctrl.state) {
+>  	case NVME_CTRL_CONNECTING:
+
+It seems that Max's commit (Fix host side state machine) have not been committed.
+So it should be RECONNECTING here.
+
+> +		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+> +		/* FALLTHRU */
+>  	case NVME_CTRL_RESETTING:
+>  		dev_warn(dev->ctrl.device,
+>  			 "I/O %d QID %d timeout, disable controller\n",
+> 
+Test this patch with my patchset nvme-pci: fixes on nvme_timeout and nvme_dev_disable and nvme: nvme: change namespaces_mutext to namespaces_rwsem
+Please refer to following branch
+https://github.com/jianchwa/linux-blcok.git nvme_fixes_V4_plus_rwsem
+The IO hang I met had gone.
+
+Following is the log
+[ 1111.361576] Intercept IO 65 state 4 (4 is RECONNECTING state)
+[ 1141.953043] print_req_error: I/O error, dev nvme0n1, sector 131936
+[ 1141.953325] nvme nvme0: failed to mark controller state 1
+[ 1141.953330] nvme nvme0: Removing after probe failure status: 0
+[ 1142.008154] nvme0n1: detected capacity change from 128035676160 to 0
+[ 1142.184162] nvme nvme0: failed to set APST feature (-19
 
 
 
-On 02/10/2018 10:32 AM, jianchao.wang wrote:
-> Hi Keith
-> 
-> Thanks for your kindly response here.
-> That's really appreciated.
-> 
-> On 02/10/2018 01:12 AM, Keith Busch wrote:
->> On Fri, Feb 09, 2018@09:50:58AM +0800, jianchao.wang wrote:
->>>
->>> if we set NVME_REQ_CANCELLED and return BLK_EH_HANDLED as the RESETTING case,
->>> nvme_reset_work will hang forever, because no one could complete the entered requests.
->>
->> Except it's no longer in the "RESETTING" case since you added the
->> "CONNECTING" state, so that's already broken for other reasons...
->>
-> 
-> Yes, but as your patch, we have to fail the IOs and even kill the controller.
-> In fact, up to nvme_wait_freeze in nvme_reset_work, the RECONNECTING state has been completed.
-> We even could say it is in LIVE state. Maybe we should recover the controller again instead
-> of fail the IOs and kill the controller.
-> 
-> On the other hand, can you share with me why we cannot use blk_set_preempt_only to replace
-> blk_freeze_queue ? we just want to gate the new bios out of generic_make_request and we 
-> needn't use the preempt requests.
-
-Looks like blk_freeze_queue in blk_mq_update_nr_hw_queues cannot be worked around.
-Still face IOs in nvme_reset_work. T_T
-
-> 
-> Looking forward your advice and directive.
-> 
-> Thanks
-> Jianchao
-> 
-> 
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=UqKQMB3A2ppfm2sN7PyisX0xTtXKsHlTBwjsS18qVx8&s=A2VMSm9IjQQXxM7foB6VUiRHLs-nIREF2_kMstwxlgw&e=
->>
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=cstI6JeNHGVX4OV1UdHdoemUr75aCUAjUrPe23Dhv8U&s=MYTmBPYS5tW4vC23iMEKINprtCxnRHe5AXrbST91XpY&e=
-> 
+Sincerely
+Jianchao
