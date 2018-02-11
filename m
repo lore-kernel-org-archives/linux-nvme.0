@@ -1,133 +1,34 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Sun, 11 Feb 2018 17:38:36 +0800
-Subject: [PATCH 5/9] nvme-pci: suspend queues based on online_queues
-In-Reply-To: <1518341920-1060-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1518341920-1060-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1518341920-1060-6-git-send-email-jianchao.w.wang@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 11 Feb 2018 11:53:06 +0200
+Subject: [PATCH 3/3] nvme: Fail controller on timeouts during reset
+In-Reply-To: <75313a79-29da-3ea1-dd5b-c3d0d8c9069d@oracle.com>
+References: <20180209174127.7224-1-keith.busch@intel.com>
+ <20180209174127.7224-3-keith.busch@intel.com>
+ <75313a79-29da-3ea1-dd5b-c3d0d8c9069d@oracle.com>
+Message-ID: <2f2b2f64-8ce4-89a7-20dd-5c29b3d4b4e7@grimberg.me>
 
-nvme cq irq is freed based on queue_count. When the sq/cq creation
-fails, irq will not be setup. free_irq will warn 'Try to free
-already-free irq'.
 
-To fix it, we only increase online_queues when adminq/sq/cq are
-created and associated irq is setup. Then suspend queues based
-on online_queues.
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index 7a2e4383c468..77929d35eae8 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -1212,11 +1212,15 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>>   	/*
+>>   	 * Shutdown immediately if controller times out while starting. The
+>>   	 * reset work will see the pci device disabled when it gets the forced
+>> -	 * cancellation error. All outstanding requests are completed on
+>> +	 * cancellation error. The driver won't see the status if it is waiting
+>> +	 * on asynchronous comands, so we set the state to deleting to prevent
+>> +	 * it from progressing. All outstanding requests are completed on
+>>   	 * shutdown, so we return BLK_EH_HANDLED.
+>>   	 */
+>>   	switch (dev->ctrl.state) {
+>>   	case NVME_CTRL_CONNECTING:
+> 
+> It seems that Max's commit (Fix host side state machine) have not been committed.
+> So it should be RECONNECTING here.
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/pci.c | 41 ++++++++++++++++++++++++++---------------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+Actually, they are already in nvme-4.16-rc.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 00cffed..c5c1365 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1315,9 +1315,6 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	nvmeq->cq_vector = -1;
- 	spin_unlock_irq(&nvmeq->q_lock);
- 
--	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
--		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
--
- 	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
- 
- 	return 0;
-@@ -1461,13 +1458,14 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 	nvme_init_queue(nvmeq, qid);
- 	result = queue_request_irq(nvmeq);
- 	if (result < 0)
--		goto release_sq;
-+		goto offline;
- 
- 	return result;
- 
-- release_sq:
-+offline:
-+	dev->online_queues--;
- 	adapter_delete_sq(dev, qid);
-- release_cq:
-+release_cq:
- 	adapter_delete_cq(dev, qid);
- 	return result;
- }
-@@ -1607,6 +1605,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	result = queue_request_irq(nvmeq);
- 	if (result) {
- 		nvmeq->cq_vector = -1;
-+		dev->online_queues--;
- 		return result;
- 	}
- 
-@@ -1954,6 +1953,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	result = queue_request_irq(adminq);
- 	if (result) {
- 		adminq->cq_vector = -1;
-+		dev->online_queues--;
- 		return result;
- 	}
- 	return nvme_create_io_queues(dev);
-@@ -2167,6 +2167,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	int i;
- 	bool dead = true;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	int onlines;
- 
- 	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(pdev)) {
-@@ -2175,8 +2176,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
- 		    dev->ctrl.state == NVME_CTRL_RESETTING)
- 			nvme_start_freeze(&dev->ctrl);
--		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
--			pdev->error_state  != pci_channel_io_normal);
-+
-+		dead = !!((csts & NVME_CSTS_CFS) ||
-+				!(csts & NVME_CSTS_RDY) ||
-+				(pdev->error_state  != pci_channel_io_normal) ||
-+				(dev->online_queues == 0));
- 	}
- 
- 	/*
-@@ -2201,9 +2205,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
--	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
-+
-+	onlines = dev->online_queues;
-+	for (i = onlines - 1; i >= 0; i--)
- 		nvme_suspend_queue(&dev->queues[i]);
- 
-+	if (dev->ctrl.admin_q)
-+		blk_mq_quiesce_queue(dev->ctrl.admin_q);
-+
- 	nvme_pci_disable(dev);
- 
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
-@@ -2339,16 +2348,18 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
--	/*
--	 * Keep the controller around but remove all namespaces if we don't have
--	 * any working I/O queue.
--	 */
--	if (dev->online_queues < 2) {
-+
-+	/* In case of online_queues is zero, it has gone to out */
-+	if (dev->online_queues == 1) {
-+		/*
-+		 * Keep the controller around but remove all namespaces if we
-+		 * don't have any working I/O queue.
-+		 */
- 		dev_warn(dev->ctrl.device, "IO queues not created\n");
- 		nvme_kill_queues(&dev->ctrl);
- 		nvme_remove_namespaces(&dev->ctrl);
- 		new_state = NVME_CTRL_ADMIN_ONLY;
--	} else {
-+	} else if (dev->online_queues > 1) {
- 		nvme_start_queues(&dev->ctrl);
- 		nvme_wait_freeze(&dev->ctrl);
- 		/* hit this only when allocate tagset fails */
--- 
-2.7.4
+I'd like to pick these up as well once they converge (even
+taking 1+3 would be a good start).
