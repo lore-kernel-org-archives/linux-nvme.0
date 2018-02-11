@@ -1,115 +1,114 @@
-From: alex.nlnnfn@gmail.com (Alex Nln)
-Date: Sat, 10 Feb 2018 13:08:17 -0800
-Subject: coalescing in polling mode in 4.9
-In-Reply-To: <41246a55-9ecc-72e1-c51e-f04195ca35ed@samsung.com>
-References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
- <CGME20180205145924epcas3p2f8156043ec00b51c135ac62c1fa177d7@epcas3p2.samsung.com>
- <20180205150253.GN24417@localhost.localdomain>
- <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
- <20180205213945.303b3a69a7048d94cecac599@gmail.com>
- <41246a55-9ecc-72e1-c51e-f04195ca35ed@samsung.com>
-Message-ID: <20180210130817.df352d4336ae0e80ae1755cb@gmail.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Sun, 11 Feb 2018 09:53:03 +0800
+Subject: [PATCH 2/3] nvme: Sync queues on controller resets
+In-Reply-To: <a16208e7-9b1a-1270-fd34-3bd743c07918@oracle.com>
+References: <20180209174127.7224-1-keith.busch@intel.com>
+ <20180209174127.7224-2-keith.busch@intel.com>
+ <a16208e7-9b1a-1270-fd34-3bd743c07918@oracle.com>
+Message-ID: <8a34b67a-1889-46d7-0658-b3834f22720f@oracle.com>
 
-Hi Nitesh,
+Hi Keith
 
-Yes, the benefits are clear, in terms of IOPS and latency. See below.
-
-coalescing   iops clat intr/s
-    0x0000 108710 8.65 108711
-    0xff01 113081 8.28  56541
-    0xff03 114955 8.14  28738
-    0xff07 116318 8.04  14539
-    0xff0f 116470 8.02   7279
-    0xff1f 116908 8.00   3653
-    0xff3f 116833 8.00   1825
-    0xff7f 116718 8.00    911
-    0xffff 116962 8.00    456
-
-It is quite strange model of IO processing: polling with interrupts. 
-Shouldn't these two be mutual exclusive? Why not to disable
-interrupts at all on a queue while polling?
-
-Thanks,
-Alex
-
-device Intel DC P3600, kernel 4.9.76 + Nitesh patch that fixes polling, fio 2.21:
-
-[global]
-iodepth=1
-direct=1
-ioengine=pvsync2
-hipri
-group_reporting
-time_based
-norandommap=1
-
-[job1]
-rw=read
-filename=/dev/nvme0n1
-name=raw=sequential-read
-numjobs=1
-runtime=60
-
-
-
-On Sat, 10 Feb 2018 04:07:08 +0530
-Nitesh Shetty <nj.shetty@samsung.com> wrote:
-
-> Hi Alex,
+On 02/10/2018 09:55 AM, jianchao.wang wrote:
+> Hi Keith
 > 
-> Did you observe any benefit in polling-performance i.e. with 
-> interrupt-coalescing vs without interrupt-coalescing. I'd appreciate if 
-> you could share the performance/latency data.
+> Thanks for your time and patch for this.
 > 
-> Thanks,
-> Nitesh
+> However, as I shared last time, there is defect here. Please refer to.
 > 
-> On Tuesday 06 February 2018 11:09 AM, Alex Nln wrote:
-> > Hi Nitesh,
-> > 
-> > On Mon, 05 Feb 2018 21:12:12 +0530
-> > Nitesh <nj.shetty@samsung.com> wrote:
-> > 
-> >> Hi Alex,
-> >> I got into similar problem not long ago. With coalescing enabled, some
-> >> I/Os took very long. Every time need_reshed() returns true,
-> >> io_schedule() makes task go to sleep as its state is previous set as
-> >> non-interruptible.I handled this by setting task state as running, and
-> >> release the cpu. Diff is attached below, you may give it a try.
-> >>
-> > 
-> > I tested this patch on kernel 4.9 and it solves the problem.
-> > Thanks a lot
-> > 
-> > 
-> >>
-> >> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> >> index 4a181fc..d2eeedf 100644
-> >> --- a/fs/block_dev.c
-> >> +++ b/fs/block_dev.c
-> >> @@ -236,9 +236,13 @@ __blkdev_direct_IO_simple(struct kiocb *iocb,
-> >> struct iov_iter *iter,
-> >>                   set_current_state(TASK_UNINTERRUPTIBLE);
-> >>                   if (!READ_ONCE(bio.bi_private))
-> >>                           break;
-> >> -               if (!(iocb->ki_flags & IOCB_HIPRI) ||
-> >> -                   !blk_poll(bdev_get_queue(bdev), qc))
-> >> +               if (!(iocb->ki_flags & IOCB_HIPRI))
-> >>                           io_schedule();
-> >> +               else if (!blk_poll(bdev_get_queue(bdev), qc)) {
-> >> +                       if(need_resched())
-> >> +                               set_current_state(TASK_RUNNING);
-> >> +                       io_schedule();
-> >> +               }
-> >>           }
-> >>           __set_current_state(TASK_RUNNING);
-> >>
-> >>
-> > 
-> > _______________________________________________
-> > Linux-nvme mailing list
-> > Linux-nvme at lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-nvme
-> > 
-> > 
-> > 
+> There could be a circular pattern here. Please consider the following scenario:
+> 
+> timeout_work context                    reset_work context
+> nvme_timeout                            nvme_reset_work
+>   -> nvme_dev_disable                     -> nvme_sync_queues // hold namespace_mutex
+>     -> nvme_stop_queues                     -> blk_sync_queue
+>       -> require namespaces_mutex               -> cancel_work_sync(&q->timeout_work)
+> 
+
+Looks like we could use rwsem to replace namespaces_mutex.
+
+Thanks
+Jianchao
+
+
+> On the other hand, the blk_mq_kick_requeue_list() should be also added in nvme_kill_queues
+> for the case of queue_count < 2
+> 
+> Thanks
+> Jianchao
+> 
+> On 02/10/2018 01:41 AM, Keith Busch wrote:
+>> This patch has the nvme pci driver synchronize request queues to ensure
+>> starting the controller is not racing with a previously running timeout
+>> handler.
+>>
+>> Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+>> Signed-off-by: Keith Busch <keith.busch at intel.com>
+>> ---
+>>  drivers/nvme/host/core.c | 15 ++++++++++++++-
+>>  drivers/nvme/host/nvme.h |  1 +
+>>  drivers/nvme/host/pci.c  |  1 +
+>>  3 files changed, 16 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 2fd8688cfa47..a9bce23a991f 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -3542,12 +3542,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>>  	struct nvme_ns *ns;
+>>  
+>>  	mutex_lock(&ctrl->namespaces_mutex);
+>> -	list_for_each_entry(ns, &ctrl->namespaces, list)
+>> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+>>  		blk_mq_unquiesce_queue(ns->queue);
+>> +		blk_mq_kick_requeue_list(ns->queue);
+>> +	}
+>>  	mutex_unlock(&ctrl->namespaces_mutex);
+>>  }
+>>  EXPORT_SYMBOL_GPL(nvme_start_queues);
+>>  
+>> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
+>> +{
+>> +	struct nvme_ns *ns;
+>> +
+>> +	mutex_lock(&ctrl->namespaces_mutex);
+>> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+>> +		blk_sync_queue(ns->queue);
+>> +	mutex_unlock(&ctrl->namespaces_mutex);
+>> +}
+>> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
+>> +
+>>  int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+>>  {
+>>  	if (!ctrl->ops->reinit_request)
+>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>> index 27e31c00b306..466081e5f680 100644
+>> --- a/drivers/nvme/host/nvme.h
+>> +++ b/drivers/nvme/host/nvme.h
+>> @@ -374,6 +374,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>>  
+>>  void nvme_stop_queues(struct nvme_ctrl *ctrl);
+>>  void nvme_start_queues(struct nvme_ctrl *ctrl);
+>> +void nvme_sync_queues(struct nvme_ctrl *ctrl);
+>>  void nvme_kill_queues(struct nvme_ctrl *ctrl);
+>>  void nvme_unfreeze(struct nvme_ctrl *ctrl);
+>>  void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index 90e276c05f79..7a2e4383c468 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -2290,6 +2290,7 @@ static void nvme_reset_work(struct work_struct *work)
+>>  	 */
+>>  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+>>  		nvme_dev_disable(dev, false);
+>> +	nvme_sync_queues(&dev->ctrl);
+>>  
+>>  	/*
+>>  	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
+>>
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=-ffcRNVB1ERVD0CZrnJUyZOFBETbuy0WHX7ksyM8Dcs&s=KWBywqLDbcong1rA6oK0dD_hff4FSr7Y86aUkY-gskE&e=
+> 
