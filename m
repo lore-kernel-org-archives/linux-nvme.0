@@ -1,17 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 11 Feb 2018 13:16:02 +0200
-Subject: [PATCH 2/9] nvme: fix the deadlock in nvme_update_formats
-In-Reply-To: <1518341920-1060-3-git-send-email-jianchao.w.wang@oracle.com>
+Date: Sun, 11 Feb 2018 13:17:56 +0200
+Subject: [PATCH 3/9] nvme: change namespaces_mutext to namespaces_rwsem
+In-Reply-To: <1518341920-1060-4-git-send-email-jianchao.w.wang@oracle.com>
 References: <1518341920-1060-1-git-send-email-jianchao.w.wang@oracle.com>
- <1518341920-1060-3-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <6cc12ce7-07ca-35ac-0bae-c6d875854504@grimberg.me>
+ <1518341920-1060-4-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <4170b29e-693c-9c61-1b3b-716af09e44d0@grimberg.me>
 
->   	mutex_lock(&ctrl->namespaces_mutex);
->   	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> -		if (ns->disk && nvme_revalidate_disk(ns->disk))
-> -			nvme_ns_remove(ns);
-> +		if (ns->disk && nvme_revalidate_disk(ns->disk)) {
-> +			list_del_init(&ns->list);
-> +			list_add_tail(&ns->list, &rm_list);
+> namespaces_mutext is used to synchronize the operations on ctrl
+> namespaces list. Most of the time, it is a read operation. It is
+> better to change it from mutex to rwsem.
+> 
+> On the other hand, the namespaces mutex could introduce circular
+> dependency easily.
 
-list_move_tail?
+On the other hand of what?
+
+Also, can you give an example of such?
