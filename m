@@ -1,53 +1,69 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Sun, 11 Feb 2018 17:38:40 +0800
-Subject: [PATCH 9/9] nvme-pci: discard wait timeout when delete cq/sq
+Date: Sun, 11 Feb 2018 17:38:32 +0800
+Subject: [PATCH 1/9] nvme: fix the dangerous reference of namespaces list
 In-Reply-To: <1518341920-1060-1-git-send-email-jianchao.w.wang@oracle.com>
 References: <1518341920-1060-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1518341920-1060-10-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1518341920-1060-2-git-send-email-jianchao.w.wang@oracle.com>
 
-Currently, nvme_disable_io_queues could be wakeup by both request
-completion and wait timeout path. This is unnecessary and could
-introduce race between nvme_dev_disable and request timeout path.
-When delete cq/sq command expires, the nvme_disable_io_queues will
-also be wakeup and return to nvme_dev_disable, then handle the
-outstanding requests. This will race with the request timeout path.
+nvme_remove_namespaces and nvme_remove_invalid_namespaces reference
+the ctrl->namespaces list w/o holding namespaces_mutext. It is ok
+to invoke nvme_ns_remove there, but what if there is others.
 
-To fix it, just use wait_for_completion instead of the timeout one.
-The request timeout path will wakeup it.
+To be safer, reference the ctrl->namespaces list under
+namespaces_mutext.
 
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/pci.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a0ff18e..28f077b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2058,7 +2058,6 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- static void nvme_disable_io_queues(struct nvme_dev *dev)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e810487..bc05bc4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3092,11 +3092,20 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					unsigned nsid)
  {
- 	int pass, queues = dev->online_queues - 1;
--	unsigned long timeout;
- 	u8 opcode = nvme_admin_delete_sq;
+ 	struct nvme_ns *ns, *next;
++	LIST_HEAD(rm_list);
  
- 	for (pass = 0; pass < 2; pass++) {
-@@ -2066,15 +2065,12 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
++	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+-		if (ns->head->ns_id > nsid)
+-			nvme_ns_remove(ns);
++		if (ns->head->ns_id > nsid) {
++			list_del_init(&ns->list);
++			list_add_tail(&ns->list, &rm_list);
++		}
+ 	}
++	mutex_unlock(&ctrl->namespaces_mutex);
++
++	list_for_each_entry_safe(ns, next, &rm_list, list)
++		nvme_ns_remove(ns);
++
+ }
  
- 		reinit_completion(&dev->ioq_wait);
-  retry:
--		timeout = ADMIN_TIMEOUT;
- 		for (; i > 0; i--, sent++)
- 			if (nvme_delete_queue(&dev->queues[i], opcode))
- 				break;
+ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+@@ -3196,6 +3205,7 @@ EXPORT_SYMBOL_GPL(nvme_queue_scan);
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns, *next;
++	LIST_HEAD(ns_list);
  
- 		while (sent--) {
--			timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
--			if (timeout == 0)
--				return;
-+			wait_for_completion(&dev->ioq_wait);
- 			if (i)
- 				goto retry;
- 		}
+ 	/*
+ 	 * The dead states indicates the controller was not gracefully
+@@ -3206,7 +3216,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	if (ctrl->state == NVME_CTRL_DEAD)
+ 		nvme_kill_queues(ctrl);
+ 
+-	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
++	mutex_lock(&ctrl->namespaces_mutex);
++	list_splice_init(&ctrl->namespaces, &ns_list);
++	mutex_unlock(&ctrl->namespaces_mutex);
++
++	list_for_each_entry_safe(ns, next, &ns_list, list)
+ 		nvme_ns_remove(ns);
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
 -- 
 2.7.4
