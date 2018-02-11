@@ -1,114 +1,60 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Sun, 11 Feb 2018 09:53:03 +0800
-Subject: [PATCH 2/3] nvme: Sync queues on controller resets
-In-Reply-To: <a16208e7-9b1a-1270-fd34-3bd743c07918@oracle.com>
-References: <20180209174127.7224-1-keith.busch@intel.com>
- <20180209174127.7224-2-keith.busch@intel.com>
- <a16208e7-9b1a-1270-fd34-3bd743c07918@oracle.com>
-Message-ID: <8a34b67a-1889-46d7-0658-b3834f22720f@oracle.com>
+Date: Sun, 11 Feb 2018 11:06:29 +0800
+Subject: [PATCH V2 0/6]nvme-pci: fixes on nvme_timeout and nvme_dev_disable
+In-Reply-To: <de6fd2ac-fc69-1b3b-c206-7abfce24ac70@oracle.com>
+References: <1517822415-11710-1-git-send-email-jianchao.w.wang@oracle.com>
+ <073ce416-fd26-b41a-187d-1db9210c48b0@grimberg.me>
+ <20180208175606.GD5039@localhost.localdomain>
+ <db5fe34b-3ffb-a658-d4d6-a1c619b2d590@oracle.com>
+ <20180209171231.GB6970@localhost.localdomain>
+ <de6fd2ac-fc69-1b3b-c206-7abfce24ac70@oracle.com>
+Message-ID: <1872576f-8b5c-0f7f-3d7a-c769543ace87@oracle.com>
 
-Hi Keith
 
-On 02/10/2018 09:55 AM, jianchao.wang wrote:
+
+On 02/10/2018 10:32 AM, jianchao.wang wrote:
 > Hi Keith
 > 
-> Thanks for your time and patch for this.
+> Thanks for your kindly response here.
+> That's really appreciated.
 > 
-> However, as I shared last time, there is defect here. Please refer to.
+> On 02/10/2018 01:12 AM, Keith Busch wrote:
+>> On Fri, Feb 09, 2018@09:50:58AM +0800, jianchao.wang wrote:
+>>>
+>>> if we set NVME_REQ_CANCELLED and return BLK_EH_HANDLED as the RESETTING case,
+>>> nvme_reset_work will hang forever, because no one could complete the entered requests.
+>>
+>> Except it's no longer in the "RESETTING" case since you added the
+>> "CONNECTING" state, so that's already broken for other reasons...
+>>
 > 
-> There could be a circular pattern here. Please consider the following scenario:
+> Yes, but as your patch, we have to fail the IOs and even kill the controller.
+> In fact, up to nvme_wait_freeze in nvme_reset_work, the RECONNECTING state has been completed.
+> We even could say it is in LIVE state. Maybe we should recover the controller again instead
+> of fail the IOs and kill the controller.
 > 
-> timeout_work context                    reset_work context
-> nvme_timeout                            nvme_reset_work
->   -> nvme_dev_disable                     -> nvme_sync_queues // hold namespace_mutex
->     -> nvme_stop_queues                     -> blk_sync_queue
->       -> require namespaces_mutex               -> cancel_work_sync(&q->timeout_work)
+> On the other hand, can you share with me why we cannot use blk_set_preempt_only to replace
+> blk_freeze_queue ? we just want to gate the new bios out of generic_make_request and we 
+> needn't use the preempt requests.
+
+Looks like blk_freeze_queue in blk_mq_update_nr_hw_queues cannot be worked around.
+Still face IOs in nvme_reset_work. T_T
+
 > 
-
-Looks like we could use rwsem to replace namespaces_mutex.
-
-Thanks
-Jianchao
-
-
-> On the other hand, the blk_mq_kick_requeue_list() should be also added in nvme_kill_queues
-> for the case of queue_count < 2
+> Looking forward your advice and directive.
 > 
 > Thanks
 > Jianchao
 > 
-> On 02/10/2018 01:41 AM, Keith Busch wrote:
->> This patch has the nvme pci driver synchronize request queues to ensure
->> starting the controller is not racing with a previously running timeout
->> handler.
->>
->> Reported-by: Jianchao Wang <jianchao.w.wang at oracle.com>
->> Signed-off-by: Keith Busch <keith.busch at intel.com>
->> ---
->>  drivers/nvme/host/core.c | 15 ++++++++++++++-
->>  drivers/nvme/host/nvme.h |  1 +
->>  drivers/nvme/host/pci.c  |  1 +
->>  3 files changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 2fd8688cfa47..a9bce23a991f 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -3542,12 +3542,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
->>  	struct nvme_ns *ns;
->>  
->>  	mutex_lock(&ctrl->namespaces_mutex);
->> -	list_for_each_entry(ns, &ctrl->namespaces, list)
->> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
->>  		blk_mq_unquiesce_queue(ns->queue);
->> +		blk_mq_kick_requeue_list(ns->queue);
->> +	}
->>  	mutex_unlock(&ctrl->namespaces_mutex);
->>  }
->>  EXPORT_SYMBOL_GPL(nvme_start_queues);
->>  
->> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
->> +{
->> +	struct nvme_ns *ns;
->> +
->> +	mutex_lock(&ctrl->namespaces_mutex);
->> +	list_for_each_entry(ns, &ctrl->namespaces, list)
->> +		blk_sync_queue(ns->queue);
->> +	mutex_unlock(&ctrl->namespaces_mutex);
->> +}
->> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
->> +
->>  int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
->>  {
->>  	if (!ctrl->ops->reinit_request)
->> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
->> index 27e31c00b306..466081e5f680 100644
->> --- a/drivers/nvme/host/nvme.h
->> +++ b/drivers/nvme/host/nvme.h
->> @@ -374,6 +374,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
->>  
->>  void nvme_stop_queues(struct nvme_ctrl *ctrl);
->>  void nvme_start_queues(struct nvme_ctrl *ctrl);
->> +void nvme_sync_queues(struct nvme_ctrl *ctrl);
->>  void nvme_kill_queues(struct nvme_ctrl *ctrl);
->>  void nvme_unfreeze(struct nvme_ctrl *ctrl);
->>  void nvme_wait_freeze(struct nvme_ctrl *ctrl);
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index 90e276c05f79..7a2e4383c468 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -2290,6 +2290,7 @@ static void nvme_reset_work(struct work_struct *work)
->>  	 */
->>  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
->>  		nvme_dev_disable(dev, false);
->> +	nvme_sync_queues(&dev->ctrl);
->>  
->>  	/*
->>  	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
+> 
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=UqKQMB3A2ppfm2sN7PyisX0xTtXKsHlTBwjsS18qVx8&s=A2VMSm9IjQQXxM7foB6VUiRHLs-nIREF2_kMstwxlgw&e=
 >>
 > 
 > _______________________________________________
 > Linux-nvme mailing list
 > Linux-nvme at lists.infradead.org
-> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=-ffcRNVB1ERVD0CZrnJUyZOFBETbuy0WHX7ksyM8Dcs&s=KWBywqLDbcong1rA6oK0dD_hff4FSr7Y86aUkY-gskE&e=
+> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=cstI6JeNHGVX4OV1UdHdoemUr75aCUAjUrPe23Dhv8U&s=MYTmBPYS5tW4vC23iMEKINprtCxnRHe5AXrbST91XpY&e=
 > 
