@@ -1,32 +1,28 @@
 From: thomas.tai@oracle.com (Thomas Tai)
-Date: Mon, 12 Feb 2018 11:46:48 -0500
-Subject: [PATCH v4 0/2] nvme: Add fault injection feature
-In-Reply-To: <afb37e41-ee51-f243-dbe9-a812ff00c791@grimberg.me>
-References: <1518115110-15930-1-git-send-email-thomas.tai@oracle.com>
- <afb37e41-ee51-f243-dbe9-a812ff00c791@grimberg.me>
-Message-ID: <d56d5db5-9b97-76dc-d9d9-b1639e026e0c@oracle.com>
+Date: Mon, 12 Feb 2018 11:47:25 -0500
+Subject: [PATCH] Documentation: nvme: Correct typo in nvme fault injection
+ example
+Message-ID: <1518454045-3825-1-git-send-email-thomas.tai@oracle.com>
 
+The debugfs entry for DNR should have been dont_retry.
 
+Signed-off-by: Thomas Tai <thomas.tai at oracle.com>
+---
+ Documentation/fault-injection/nvme-fault-injection.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 2018-02-11 05:09 AM, Sagi Grimberg wrote:
-> Thomas,
-> 
-> Applied to nvme-4.17 with a slight conflict. Please make sure
-> that its correct.
-
-Thanks Sagi. I retest with nvme-4.17, it works fine. I spotted a typo in 
-the document and will send out the correction. Would you kindly merge 
-the correction for me? I apologize for any inconvenience this may have 
-caused.
-
-Thank you,
-Thomas
-
-
-> 
-> thanks,
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
+index e37b9c7..8fbf3bf 100644
+--- a/Documentation/fault-injection/nvme-fault-injection.txt
++++ b/Documentation/fault-injection/nvme-fault-injection.txt
+@@ -73,7 +73,7 @@ mount /dev/nvme0n1 /mnt
+ echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
+ echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
+ echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
+-echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/no_retry
++echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
+ 
+ cp a.file /mnt
+ 
+-- 
+1.8.3.1
