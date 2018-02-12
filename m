@@ -1,40 +1,31 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 12 Feb 2018 08:28:25 -0800
-Subject: [PATCH 0/2] nvme-fc: io termination cleanup
-In-Reply-To: <a09e98ff-04d4-1cd9-3c6d-2a7c32e9f1b6@grimberg.me>
-References: <20180206144830.968-1-jsmart2021@gmail.com>
- <a09e98ff-04d4-1cd9-3c6d-2a7c32e9f1b6@grimberg.me>
-Message-ID: <d619aea1-d6fc-862a-b6b6-d35a1b6075d5@broadcom.com>
-
-Looks good.? I was more interested in the blk-mq resource busy addition 
-that was merged as well. it looks fine too, but I'll need to test it a bit.
-
-Thanks
-
--- james
+From: thomas.tai@oracle.com (Thomas Tai)
+Date: Mon, 12 Feb 2018 11:46:48 -0500
+Subject: [PATCH v4 0/2] nvme: Add fault injection feature
+In-Reply-To: <afb37e41-ee51-f243-dbe9-a812ff00c791@grimberg.me>
+References: <1518115110-15930-1-git-send-email-thomas.tai@oracle.com>
+ <afb37e41-ee51-f243-dbe9-a812ff00c791@grimberg.me>
+Message-ID: <d56d5db5-9b97-76dc-d9d9-b1639e026e0c@oracle.com>
 
 
-On 2/11/2018 12:48 AM, Sagi Grimberg wrote:
->
->> The patches address io termination issues in nvme-fc:
->>
->> The first patch addresses a race condition on io termination vs
->> reset/delete abort paths that allowed an io to complete yet the
->> association termination counted it and is waiting for the completion.
->>
->> The second patch addresses cleanup of the code that was synchronizing
->> io termination between the lldd done path and the blk-mq completion
->> path. the completion path existed because, at the time, the eh_handler
->> could return a successful return status, allowing the complete routine
->> to be called, although the io was still active in the lldd. Since then
->> the eh_handler has been corrected to reschedule the io timer after
->> initiating the abort and this condition is no longer true.
->
-> Hi James,
->
-> Picked up for 4.16-rc, had a slight conflict due to Max's ctrl state
-> change. Please verify its ok.
->
+
+On 2018-02-11 05:09 AM, Sagi Grimberg wrote:
+> Thomas,
+> 
+> Applied to nvme-4.17 with a slight conflict. Please make sure
+> that its correct.
+
+Thanks Sagi. I retest with nvme-4.17, it works fine. I spotted a typo in 
+the document and will send out the correction. Would you kindly merge 
+the correction for me? I apologize for any inconvenience this may have 
+caused.
+
+Thank you,
+Thomas
+
+
+> 
+> thanks,
+> 
 > _______________________________________________
 > Linux-nvme mailing list
 > Linux-nvme at lists.infradead.org
