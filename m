@@ -1,23 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 12 Feb 2018 07:53:46 -0700
-Subject: coalescing in polling mode in 4.9
-In-Reply-To: <20180210130817.df352d4336ae0e80ae1755cb@gmail.com>
-References: <20180202001028.fee27cf239e3e8a5ae6bd8a4@gmail.com>
- <CGME20180205145924epcas3p2f8156043ec00b51c135ac62c1fa177d7@epcas3p2.samsung.com>
- <20180205150253.GN24417@localhost.localdomain>
- <7d378937-1859-0007-12b3-ca1722d2a5c3@samsung.com>
- <20180205213945.303b3a69a7048d94cecac599@gmail.com>
- <41246a55-9ecc-72e1-c51e-f04195ca35ed@samsung.com>
- <20180210130817.df352d4336ae0e80ae1755cb@gmail.com>
-Message-ID: <20180212145346.GB16255@localhost.localdomain>
+From: bart.vanassche@wdc.com (Bart Van Assche)
+Date: Mon, 12 Feb 2018 07:50:50 -0800
+Subject: [PATCH] blk: optimization for classic polling
+In-Reply-To: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+References: <CGME20180208143655epcas1p444bf34705526b7839a5a135f82761aad@epcas1p4.samsung.com>
+ <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+Message-ID: <3efa5f64-27e8-1c2e-233e-5813c6c8493c@wdc.com>
 
-On Sat, Feb 10, 2018@01:08:17PM -0800, Alex Nln wrote:
-> It is quite strange model of IO processing: polling with interrupts. 
-> Shouldn't these two be mutual exclusive? Why not to disable
-> interrupts at all on a queue while polling?
+On 05/29/83 20:21, Nitesh Shetty wrote:
+> [ ... ]
 
-That's a valid point. There are some limitations preventing this at the
-moment. The nvme driver currently does not have a way to know the command
-it is submitting is intended to be polled, and if it did, we still need
-to determine a policy for creating special queue or queues that have
-interrupts disabled and how we register these with the block layer.
+Hello Nitesh,
+
+Can you check the clock of the system you used to send this e-mail? In 
+the header of your e-mail I found the following:
+
+Date: Sun, 30 May 2083 09:51:06 +0530
+
+Thanks,
+
+Bart.
