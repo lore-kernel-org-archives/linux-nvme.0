@@ -1,54 +1,46 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 12 Feb 2018 20:57:02 +0800
-Subject: [PATCH] nvme-pci: drain the entered requests after ctrl is shutdown
-Message-ID: <1518440222-652-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Mon, 12 Feb 2018 20:57:24 +0800
+Subject: [PATCH] nvme-pci: quiesce IO queues prior to disabling device HMB
+ accesses
+Message-ID: <1518440244-696-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Currently, we will unquiesce the queues after the controller is
-shutdown to avoid residual requests to be stuck. In fact, we can
-do it more cleanly, just wait freeze and drain the queue in
-nvme_dev_disable and finally leave the queues quiesced.
+Quiesce IO queues prior to disabling device HMB accesses. A controller
+using HMB may relay on it to efficiently complete IO commands.
 
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/pci.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4a7c420..6e5d2ca 100644
+index ab9c195..4a7c420 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2183,10 +2183,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	 * Give the controller a chance to complete all entered requests if
- 	 * doing a safe shutdown.
- 	 */
--	if (!dead) {
--		if (shutdown)
--			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
--	}
-+	if (!dead && shutdown)
-+		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
- 
- 	nvme_stop_queues(&dev->ctrl);
- 
-@@ -2211,12 +2209,15 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
- 
- 	/*
--	 * The driver will not be starting up queues again if shutting down so
--	 * must flush all entered requests to their failed completion to avoid
--	 * deadlocking blk-mq hot-cpu notifier.
-+	 * For shutdown case, controller will not be setup again soon. If any
-+	 * residual requests here, the controller must have go wrong. Drain and
-+	 * fail all the residual entered IO requests.
- 	 */
--	if (shutdown)
-+	if (shutdown) {
- 		nvme_start_queues(&dev->ctrl);
-+		nvme_wait_freeze(&dev->ctrl);
-+		nvme_stop_queues(&dev->ctrl);
+@@ -2186,7 +2186,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	if (!dead) {
+ 		if (shutdown)
+ 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
 +	}
- 	mutex_unlock(&dev->shutdown_lock);
- }
++
++	nvme_stop_queues(&dev->ctrl);
  
++	if (!dead) {
+ 		/*
+ 		 * If the controller is still alive tell it to stop using the
+ 		 * host memory buffer.  In theory the shutdown / reset should
+@@ -2195,11 +2199,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		 */
+ 		if (dev->host_mem_descs)
+ 			nvme_set_host_mem(dev, 0);
+-
+-	}
+-	nvme_stop_queues(&dev->ctrl);
+-
+-	if (!dead) {
+ 		nvme_disable_io_queues(dev);
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
 -- 
 2.7.4
