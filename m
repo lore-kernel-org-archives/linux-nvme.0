@@ -1,28 +1,16 @@
-From: thomas.tai@oracle.com (Thomas Tai)
-Date: Mon, 12 Feb 2018 11:47:25 -0500
-Subject: [PATCH] Documentation: nvme: Correct typo in nvme fault injection
- example
-Message-ID: <1518454045-3825-1-git-send-email-thomas.tai@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 12 Feb 2018 20:43:58 +0200
+Subject: [PATCH] nvme-pci: drain the entered requests after ctrl is
+ shutdown
+In-Reply-To: <1518440222-652-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1518440222-652-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <b466996e-b00a-e848-25a0-e6ba768a573f@grimberg.me>
 
-The debugfs entry for DNR should have been dont_retry.
 
-Signed-off-by: Thomas Tai <thomas.tai at oracle.com>
----
- Documentation/fault-injection/nvme-fault-injection.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Currently, we will unquiesce the queues after the controller is
+> shutdown to avoid residual requests to be stuck. In fact, we can
+> do it more cleanly, just wait freeze and drain the queue in
+> nvme_dev_disable and finally leave the queues quiesced.
 
-diff --git a/Documentation/fault-injection/nvme-fault-injection.txt b/Documentation/fault-injection/nvme-fault-injection.txt
-index e37b9c7..8fbf3bf 100644
---- a/Documentation/fault-injection/nvme-fault-injection.txt
-+++ b/Documentation/fault-injection/nvme-fault-injection.txt
-@@ -73,7 +73,7 @@ mount /dev/nvme0n1 /mnt
- echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/times
- echo 100 > /sys/kernel/debug/nvme0n1/fault_inject/probability
- echo 1 > /sys/kernel/debug/nvme0n1/fault_inject/status
--echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/no_retry
-+echo 0 > /sys/kernel/debug/nvme0n1/fault_inject/dont_retry
- 
- cp a.file /mnt
- 
--- 
-1.8.3.1
+Does this fix a bug? What is the benefit of leaving the queues
+quiesced in shutdown?
