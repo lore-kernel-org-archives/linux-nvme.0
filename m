@@ -1,47 +1,54 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 12 Feb 2018 20:54:45 +0800
-Subject: [PATCH 2/3] nvme: fix the deadlock in nvme_update_formats
-In-Reply-To: <1518440086-583-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1518440086-583-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1518440086-583-2-git-send-email-jianchao.w.wang@oracle.com>
+Date: Mon, 12 Feb 2018 20:57:02 +0800
+Subject: [PATCH] nvme-pci: drain the entered requests after ctrl is shutdown
+Message-ID: <1518440222-652-1-git-send-email-jianchao.w.wang@oracle.com>
 
-nvme_update_formats will invoke nvme_ns_remove under namespaces_mutext.
-The will cause deadlock because nvme_ns_remove will also require
-the namespaces_mutext. Fix it by getting the ns entries which should
-be removed under namespaces_mutext and invoke nvme_ns_remove out of
-namespaces_mutext.
+Currently, we will unquiesce the queues after the controller is
+shutdown to avoid residual requests to be stuck. In fact, we can
+do it more cleanly, just wait freeze and drain the queue in
+nvme_dev_disable and finally leave the queues quiesced.
 
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/core.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d05855b..a051c2f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1119,14 +1119,19 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4a7c420..6e5d2ca 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2183,10 +2183,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	 * Give the controller a chance to complete all entered requests if
+ 	 * doing a safe shutdown.
+ 	 */
+-	if (!dead) {
+-		if (shutdown)
+-			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+-	}
++	if (!dead && shutdown)
++		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
  
- static void nvme_update_formats(struct nvme_ctrl *ctrl)
- {
--	struct nvme_ns *ns;
-+	struct nvme_ns *ns, *next;
-+	LIST_HEAD(rm_list);
+ 	nvme_stop_queues(&dev->ctrl);
  
- 	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		if (ns->disk && nvme_revalidate_disk(ns->disk))
--			nvme_ns_remove(ns);
-+		if (ns->disk && nvme_revalidate_disk(ns->disk)) {
-+			list_move_tail(&ns->list, &rm_list);
-+		}
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
-+
-+	list_for_each_entry_safe(ns, next, &rm_list, list)
-+		nvme_ns_remove(ns);
+@@ -2211,12 +2209,15 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
+ 
+ 	/*
+-	 * The driver will not be starting up queues again if shutting down so
+-	 * must flush all entered requests to their failed completion to avoid
+-	 * deadlocking blk-mq hot-cpu notifier.
++	 * For shutdown case, controller will not be setup again soon. If any
++	 * residual requests here, the controller must have go wrong. Drain and
++	 * fail all the residual entered IO requests.
+ 	 */
+-	if (shutdown)
++	if (shutdown) {
+ 		nvme_start_queues(&dev->ctrl);
++		nvme_wait_freeze(&dev->ctrl);
++		nvme_stop_queues(&dev->ctrl);
++	}
+ 	mutex_unlock(&dev->shutdown_lock);
  }
  
- static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
 -- 
 2.7.4
