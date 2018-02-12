@@ -1,7 +1,7 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 12 Feb 2018 20:59:15 +0800
-Subject: [PATCH 5/8] nvme-pci: suspend queues based on online_queues
-Message-ID: <1518440355-801-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Mon, 12 Feb 2018 21:05:13 +0800
+Subject: [PATCH RESENT] nvme-pci: suspend queues based on online_queues
+Message-ID: <1518440713-1031-1-git-send-email-jianchao.w.wang@oracle.com>
 
 nvme cq irq is freed based on queue_count. When the sq/cq creation
 fails, irq will not be setup. free_irq will warn 'Try to free
@@ -17,10 +17,10 @@ Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
  1 file changed, 26 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0cba8d8..2106681 100644
+index 6e5d2ca..9b3cc2c 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1317,9 +1317,6 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+@@ -1315,9 +1315,6 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
  	nvmeq->cq_vector = -1;
  	spin_unlock_irq(&nvmeq->q_lock);
  
@@ -30,7 +30,7 @@ index 0cba8d8..2106681 100644
  	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
  
  	return 0;
-@@ -1463,13 +1460,14 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+@@ -1461,13 +1458,14 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
  	nvme_init_queue(nvmeq, qid);
  	result = queue_request_irq(nvmeq);
  	if (result < 0)
@@ -48,7 +48,7 @@ index 0cba8d8..2106681 100644
  	adapter_delete_cq(dev, qid);
  	return result;
  }
-@@ -1609,6 +1607,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+@@ -1607,6 +1605,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
  	result = queue_request_irq(nvmeq);
  	if (result) {
  		nvmeq->cq_vector = -1;
@@ -56,7 +56,7 @@ index 0cba8d8..2106681 100644
  		return result;
  	}
  
-@@ -1956,6 +1955,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+@@ -1954,6 +1953,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
  	result = queue_request_irq(adminq);
  	if (result) {
  		adminq->cq_vector = -1;
@@ -64,7 +64,7 @@ index 0cba8d8..2106681 100644
  		return result;
  	}
  	return nvme_create_io_queues(dev);
-@@ -2169,6 +2169,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+@@ -2167,6 +2167,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
  	int i;
  	bool dead = true;
  	struct pci_dev *pdev = to_pci_dev(dev->dev);
@@ -72,7 +72,7 @@ index 0cba8d8..2106681 100644
  
  	mutex_lock(&dev->shutdown_lock);
  	if (pci_is_enabled(pdev)) {
-@@ -2177,8 +2178,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+@@ -2175,8 +2176,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
  		if (dev->ctrl.state == NVME_CTRL_LIVE ||
  		    dev->ctrl.state == NVME_CTRL_RESETTING)
  			nvme_start_freeze(&dev->ctrl);
@@ -86,7 +86,7 @@ index 0cba8d8..2106681 100644
  	}
  
  	/*
-@@ -2204,9 +2208,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+@@ -2200,9 +2204,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
  		nvme_disable_io_queues(dev);
  		nvme_disable_admin_queue(dev, shutdown);
  	}
@@ -102,7 +102,7 @@ index 0cba8d8..2106681 100644
  	nvme_pci_disable(dev);
  
  	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
-@@ -2342,16 +2351,18 @@ static void nvme_reset_work(struct work_struct *work)
+@@ -2341,16 +2350,18 @@ static void nvme_reset_work(struct work_struct *work)
  	if (result)
  		goto out;
  
