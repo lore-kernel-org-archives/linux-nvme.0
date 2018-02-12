@@ -1,74 +1,23 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Mon, 12 Feb 2018 15:51:48 +0800
-Subject: [PATCH 8/9] nvme-pci: break up nvme_timeout and nvme_dev_disable
-In-Reply-To: <992179f4-becc-f0bf-867a-e49adbd756ee@oracle.com>
-References: <1518341920-1060-1-git-send-email-jianchao.w.wang@oracle.com>
- <1518341920-1060-9-git-send-email-jianchao.w.wang@oracle.com>
- <4f2268ba-6b6a-8273-594c-b63fdb7b6a96@grimberg.me>
- <992179f4-becc-f0bf-867a-e49adbd756ee@oracle.com>
-Message-ID: <b8748837-616e-7e92-bf58-38246ae8ca0f@oracle.com>
+Date: Mon, 12 Feb 2018 15:59:53 +0800
+Subject: [PATCH 3/3] nvme: Fail controller on timeouts during reset
+In-Reply-To: <2f2b2f64-8ce4-89a7-20dd-5c29b3d4b4e7@grimberg.me>
+References: <20180209174127.7224-1-keith.busch@intel.com>
+ <20180209174127.7224-3-keith.busch@intel.com>
+ <75313a79-29da-3ea1-dd5b-c3d0d8c9069d@oracle.com>
+ <2f2b2f64-8ce4-89a7-20dd-5c29b3d4b4e7@grimberg.me>
+Message-ID: <c6b18ec6-a0f2-c744-c84c-3540122ddb49@oracle.com>
 
 Hi Sagi
 
-Just make some supplement here.
-
-On 02/12/2018 10:16 AM, jianchao.wang wrote:
->> I think this is going in the wrong direction. Every state that is needed
->> to handle serialization should be done in core ctrl state. Moreover,
->> please try to avoid handling this locally in nvme-pci, place common
->> helpers in nvme-core and use them. I won't be surprised if fc would
->> need some of these.
->>
->> Also, can we try and not disable the controller from nvme_timeout?
-> In fact, that is what this patch what to do. For the previous outstanding requests,
-> this patch return BLK_EH_NOT_HANDLED and defer the work to nvme_dev_disable.
+On 02/11/2018 05:53 PM, Sagi Grimberg wrote:
+> Actually, they are already in nvme-4.16-rc.
 > 
->  I'm
->> not sure I understand why is this needed at all. What's wrong with
->> scheduling a controller reset/delete? Why is something like
->> nvme_pci_disable_ctrl_directly needed?
-> Keith used to point out to me that, we cannot complete and free a request
-> before we close the controller and pci master bus, otherwise, there will
-> be somethings wrong in DMA accessing, because when we complete a request, 
-> the associated DMA mapping will be freed.
-> 
-> For the previous outstanding requests, this patch could grab them with blk_abort_request
-> in nvme_dev_disable, and complete them after we disable/shutdown the controller.
-> 
-> But for the adminq requests in nvme_dev_disable and nvme_reset_work, we cannot do this.
-> We cannot schedule another reset_work->nvme_dev_disable to do that, because we are in it.
-> So I use this nvme_pci_disable_ctrl_directly which looks like very ugly, to disable the
-> controller and then we could complete the request with failure to move progress forward.
-> 
->> I'd like to see an effort to consolidate error handling paths rather
->> than enhancing the current skew...
-> Yes, absolutely. That is also what I expect. :)
-> 
-> This patch has two aspects:
-> 1. grab all the previous outstanding requests with blk_abort_request.
->    It is safe when race with the irq completion path. And then complete them
->    after we disable/shutdown the controller completely.
->    I think this part could be placed in nvme ctrl core.
+> I'd like to pick these up as well once they converge (even
+> taking 1+3 would be a good start).
 
-The 'grab' here is to avoid the timeout path to be triggered during nvme_dev_disable.
-This is important, because nvme_timeout may issue IOs on adminq or invoke nvme_pci_disable_ctrl_directly
-which could race with nvme_dev_disable.
-
-> 2. avoid nvme_timeout invoke nvme_dev_disable. this is the most tricky part.
-
-And also, this will introduce some dangerous scenarios. I have reported some of them before.
-
->    as I shared above, we have to _disable_ the controller _before_ we compete the adminq request
->    from the nvme_dev_disable and nvme_reset_work. Consequently, we cannot do as the
->    nvme_rdma_timeout, schedule a recovery work and then return. 
-
-Actually, the nvme_timeout have a similar pattern with nvme_rdma_timeout.
-When adminq/IOq request timeout, we can schedule reset_work for it. But if the requests from the reset_work
-procedure timeout, we cannot schedule reset_work any more. At the moment, we have to close the controller
-directly and fail the requests.
-
-Looking forward some advice on this.
-That's really appreciated.
+Please don't refer to my test result here.
+It is tested on my patchset, not the currently source code on your git tree.
 
 Thanks
 Jianchao
