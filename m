@@ -1,25 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 12 Feb 2018 20:37:14 +0200
-Subject: [PATCH 3/3] nvme: Fail controller on timeouts during reset
-In-Reply-To: <c6b18ec6-a0f2-c744-c84c-3540122ddb49@oracle.com>
-References: <20180209174127.7224-1-keith.busch@intel.com>
- <20180209174127.7224-3-keith.busch@intel.com>
- <75313a79-29da-3ea1-dd5b-c3d0d8c9069d@oracle.com>
- <2f2b2f64-8ce4-89a7-20dd-5c29b3d4b4e7@grimberg.me>
- <c6b18ec6-a0f2-c744-c84c-3540122ddb49@oracle.com>
-Message-ID: <14a17a6a-c626-8cb2-78a8-aa79249efb90@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 12 Feb 2018 12:15:19 -0700
+Subject: [PATCH] nvme-pci: drain the entered requests after ctrl is
+ shutdown
+In-Reply-To: <b466996e-b00a-e848-25a0-e6ba768a573f@grimberg.me>
+References: <1518440222-652-1-git-send-email-jianchao.w.wang@oracle.com>
+ <b466996e-b00a-e848-25a0-e6ba768a573f@grimberg.me>
+Message-ID: <20180212191519.GD16255@localhost.localdomain>
 
-
-> Hi Sagi
+On Mon, Feb 12, 2018@08:43:58PM +0200, Sagi Grimberg wrote:
 > 
-> On 02/11/2018 05:53 PM, Sagi Grimberg wrote:
->> Actually, they are already in nvme-4.16-rc.
->>
->> I'd like to pick these up as well once they converge (even
->> taking 1+3 would be a good start).
+> > Currently, we will unquiesce the queues after the controller is
+> > shutdown to avoid residual requests to be stuck. In fact, we can
+> > do it more cleanly, just wait freeze and drain the queue in
+> > nvme_dev_disable and finally leave the queues quiesced.
 > 
-> Please don't refer to my test result here.
-> It is tested on my patchset, not the currently source code on your git tree.
+> Does this fix a bug? What is the benefit of leaving the queues
+> quiesced in shutdown?
 
-OK, what I don't understand is what is your feedback on this patchset as
-I'd like to take it for 4.16-rc and I want a review for it
+This doesn't appear to fix anything. The things this patch does do are
+either unnecessary (quiece), or already done elsewhere (wait freeze).
