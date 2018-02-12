@@ -1,46 +1,64 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Mon, 12 Feb 2018 20:57:24 +0800
-Subject: [PATCH] nvme-pci: quiesce IO queues prior to disabling device HMB
- accesses
-Message-ID: <1518440244-696-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Mon, 12 Feb 2018 20:54:44 +0800
+Subject: [PATCH 1/3] nvme: fix the dangerous reference of namespaces list
+Message-ID: <1518440086-583-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Quiesce IO queues prior to disabling device HMB accesses. A controller
-using HMB may relay on it to efficiently complete IO commands.
+nvme_remove_namespaces and nvme_remove_invalid_namespaces reference
+the ctrl->namespaces list w/o holding namespaces_mutext. It is ok
+to invoke nvme_ns_remove there, but what if there is others.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+To be safer, reference the ctrl->namespaces list under
+namespaces_mutext.
+
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/pci.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ab9c195..4a7c420 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2186,7 +2186,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	if (!dead) {
- 		if (shutdown)
- 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+	}
-+
-+	nvme_stop_queues(&dev->ctrl);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2fd8688..d05855b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3094,11 +3094,18 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					unsigned nsid)
+ {
+ 	struct nvme_ns *ns, *next;
++	LIST_HEAD(rm_list);
  
-+	if (!dead) {
- 		/*
- 		 * If the controller is still alive tell it to stop using the
- 		 * host memory buffer.  In theory the shutdown / reset should
-@@ -2195,11 +2199,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		 */
- 		if (dev->host_mem_descs)
- 			nvme_set_host_mem(dev, 0);
--
--	}
--	nvme_stop_queues(&dev->ctrl);
--
--	if (!dead) {
- 		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
++	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+ 		if (ns->head->ns_id > nsid)
+-			nvme_ns_remove(ns);
++			list_move_tail(&ns->list, &rm_list);
  	}
++	mutex_unlock(&ctrl->namespaces_mutex);
++
++	list_for_each_entry_safe(ns, next, &rm_list, list)
++		nvme_ns_remove(ns);
++
+ }
+ 
+ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+@@ -3198,6 +3205,7 @@ EXPORT_SYMBOL_GPL(nvme_queue_scan);
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns, *next;
++	LIST_HEAD(ns_list);
+ 
+ 	/*
+ 	 * The dead states indicates the controller was not gracefully
+@@ -3208,7 +3216,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	if (ctrl->state == NVME_CTRL_DEAD)
+ 		nvme_kill_queues(ctrl);
+ 
+-	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
++	mutex_lock(&ctrl->namespaces_mutex);
++	list_splice_init(&ctrl->namespaces, &ns_list);
++	mutex_unlock(&ctrl->namespaces_mutex);
++
++	list_for_each_entry_safe(ns, next, &ns_list, list)
+ 		nvme_ns_remove(ns);
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
 -- 
 2.7.4
