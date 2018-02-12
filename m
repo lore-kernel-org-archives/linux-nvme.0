@@ -1,39 +1,19 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Mon, 12 Feb 2018 20:21:49 +0000
-Subject: [PATCH V2 4/4] nvme: lightnvm: add late setup of block size and
- metadata
-In-Reply-To: <20180209092719.10679-5-mb@lightnvm.io>
-References: <20180209092719.10679-1-mb@lightnvm.io>
- <20180209092719.10679-5-mb@lightnvm.io>
-Message-ID: <098A1343-A9FB-47BD-A4B5-6E77A1861A4B@cnexlabs.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 12 Feb 2018 13:25:19 -0700
+Subject: [PATCH 2/3] nvme: fix the deadlock in nvme_update_formats
+In-Reply-To: <20180212192009.GE16255@localhost.localdomain>
+References: <1518440086-583-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1518440086-583-2-git-send-email-jianchao.w.wang@oracle.com>
+ <16c23a0c-666c-802e-2b4e-c6a6da6f016b@grimberg.me>
+ <20180212192009.GE16255@localhost.localdomain>
+Message-ID: <20180212202519.GA20962@localhost.localdomain>
 
+Hi Sagi,
 
-> On 9 Feb 2018,@01.27, Matias Bj?rling <mb@lightnvm.io> wrote:
-> 
-> The nvme driver sets up the size of the nvme namespace in two steps.
-> First it initializes the device with standard logical block and
-> metadata sizes, and then sets the correct logical block and metadata
-> size. Due to the OCSSD 2.0 specification relies on the namespace to
-> expose these sizes for correct initialization, let it be updated
-> appropriately on the LightNVM side as well.
-> 
-> Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
-> ---
-> 
+This one is fixing a deadlock in namespace detach. It is still not a
+widely supported operation, but becoming more common. While the other two
+patches in this series look good for 4.17, I would really recommend this
+one for 4.16-rc, and add a Cc to linux-stable for 4.15 too. Sound okay?
 
-This late initialization breaks ligthnvm's core init since the sector
-size (csecs) is used on the first init part to set the logical block size.
-
-nvm_core_init -> blk_queue_logical_block_size(dev->q, dev_geo->c.csecs);
-
-We can do do a nvme_nvm_revalidate and set this on the revalidation path
-instead of simply updating the info as in nvme_nvm_update_nvm_info().
-
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180212/f59e90cc/attachment.sig>
+Thanks,
+Keith
