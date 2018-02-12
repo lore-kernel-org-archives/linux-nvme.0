@@ -1,27 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 12 Feb 2018 13:07:18 -0700
-Subject: [PATCH 2/2] nvme: Don't use a stack buffer for keep-alive command
-In-Reply-To: <05381de6-81ae-cdec-ad46-47d348492996@grimberg.me>
-References: <20180111213815.2107-1-roland@kernel.org>
- <76436c6a-5dee-b174-3b39-2735f8dc3a05@grimberg.me>
- <20180115084240.GA32313@lst.de>
- <20180208155943.GB4906@localhost.localdomain>
- <38ae419b-1c41-37e7-46a5-3156802f6744@grimberg.me>
- <20180208162605.GB5039@localhost.localdomain>
- <05381de6-81ae-cdec-ad46-47d348492996@grimberg.me>
-Message-ID: <20180212200718.GB16923@localhost.localdomain>
+From: javier@cnexlabs.com (Javier Gonzalez)
+Date: Mon, 12 Feb 2018 20:21:49 +0000
+Subject: [PATCH V2 4/4] nvme: lightnvm: add late setup of block size and
+ metadata
+In-Reply-To: <20180209092719.10679-5-mb@lightnvm.io>
+References: <20180209092719.10679-1-mb@lightnvm.io>
+ <20180209092719.10679-5-mb@lightnvm.io>
+Message-ID: <098A1343-A9FB-47BD-A4B5-6E77A1861A4B@cnexlabs.com>
 
-On Mon, Feb 12, 2018@09:39:52PM +0200, Sagi Grimberg wrote:
-> > > I'm fine with fixing this locally, btw isn't this exact same stale sqe
-> > > happen in pci's nvme_delete_queue?
-> > 
-> > Yeah, this is the other case. Fortunately that never gets called on a
-> > quiesced admin queue, so we should be 'ok', but moving the command from
-> > the stack into struct nvme_queue would be the right thing to do.
+
+> On 9 Feb 2018,@01.27, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
-> So are you fine with picking Roland's patch to 4.16-rc?
+> The nvme driver sets up the size of the nvme namespace in two steps.
+> First it initializes the device with standard logical block and
+> metadata sizes, and then sets the correct logical block and metadata
+> size. Due to the OCSSD 2.0 specification relies on the namespace to
+> expose these sizes for correct initialization, let it be updated
+> appropriately on the LightNVM side as well.
+> 
+> Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+> ---
+> 
 
-I am okay with it. If we need to change this interface in the long term,
-this is looks like an okay stop-gap until then.
- 
-> Christoph?
+This late initialization breaks ligthnvm's core init since the sector
+size (csecs) is used on the first init part to set the logical block size.
+
+nvm_core_init -> blk_queue_logical_block_size(dev->q, dev_geo->c.csecs);
+
+We can do do a nvme_nvm_revalidate and set this on the revalidation path
+instead of simply updating the info as in nvme_nvm_update_nvm_info().
+
+Javier
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180212/f59e90cc/attachment.sig>
