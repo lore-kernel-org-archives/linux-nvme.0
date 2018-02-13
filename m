@@ -1,41 +1,67 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 13 Feb 2018 20:01:08 +0200
-Subject: [PATCH 1/3] nvme: rename NVME_CTRL_RECONNECTING state to
- NVME_CTRL_CONNECTING
-In-Reply-To: <d6e78772-5345-3a03-b376-5656bfebe606@grimberg.me>
-References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
- <1517416286-31109-2-git-send-email-maxg@mellanox.com>
- <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
- <c896305c-90d0-e4aa-d861-ea9ad0076161@grimberg.me>
- <7a611bf2-8a70-1b11-0616-f79531a2cc3d@mellanox.com>
- <d6e78772-5345-3a03-b376-5656bfebe606@grimberg.me>
-Message-ID: <956a48a6-cec1-7c3a-8cbb-a8b8ae4e8cb7@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 13 Feb 2018 12:56:04 -0700
+Subject: [PATCH] nvme-pci: Remap CMB SQ entries on every controller reset
+Message-ID: <20180213195604.22601-1-keith.busch@intel.com>
 
+The controller memory buffer is remapped into a kernel address on each
+reset, but the driver was setting the submission queue base address
+only on the very first queue creation. The remapped address is likely to
+change after a reset, so accessing the old address will hit a kernel bug.
 
+This patch will set a CMB SQ base address each time the
+queue is created rather.
 
-On 2/13/2018 12:46 PM, Sagi Grimberg wrote:
->>> Max, I fixed it up locally in nvme-4.16-rc, please verify that its
->>> correct and passes your local tests.
->>
->> Sagi,
->> I guess you applied it after rebasing, I've mentioned that there was 
->> still 1 commit missing in nvme-4.16 (your reset fix).
-> 
-> Which one?
+Fixes: f63572dff1421 ("nvme: unmap CMB and remove sysfs file in reset path")
+Cc: Jon Derrick <jonathan.derrick at intel.com>
+Cc: <stable at vger.kernel.org> # 4.9+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-I guess this one caused the conflict:
-d5bf4b7f4 nvme-rdma: fix concurrent reset and reconnect
-> 
->> I'll run tests on nvme-4.16-rc and update soon.
-> 
-> Thanks
-
-
-During port toggle with traffic (using dm-multipath) I see some warnings 
-during ib_destroy_qp that say there are still mrs_used.
-and therefore also warning in ib_dealloc_pd that says refcount on pd is 
-not 0.
-
-I'll debug it tomorrow hopefully and update.
-
--Max.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6fe7af00a1f4..e0f5153cd6ca 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1364,18 +1364,14 @@ static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
+ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 				int qid, int depth)
+ {
+-	if (qid && dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+-		unsigned offset = (qid - 1) * roundup(SQ_SIZE(depth),
+-						      dev->ctrl.page_size);
+-		nvmeq->sq_dma_addr = dev->cmb_bus_addr + offset;
+-		nvmeq->sq_cmds_io = dev->cmb + offset;
+-	} else {
+-		nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
+-					&nvmeq->sq_dma_addr, GFP_KERNEL);
+-		if (!nvmeq->sq_cmds)
+-			return -ENOMEM;
+-	}
++	/* CMB SQEs will be mapped before creation */
++	if (qid && dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS))
++		return 0;
+ 
++	nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
++					    &nvmeq->sq_dma_addr, GFP_KERNEL);
++	if (!nvmeq->sq_cmds)
++		return -ENOMEM;
+ 	return 0;
+ }
+ 
+@@ -1449,6 +1445,13 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 	int result;
+ 
++	if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
++		unsigned offset = (qid - 1) * roundup(SQ_SIZE(nvmeq->q_depth),
++						      dev->ctrl.page_size);
++		nvmeq->sq_dma_addr = dev->cmb_bus_addr + offset;
++		nvmeq->sq_cmds_io = dev->cmb + offset;
++	}
++
+ 	nvmeq->cq_vector = qid - 1;
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
+ 	if (result < 0)
+-- 
+2.14.3
