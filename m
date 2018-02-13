@@ -1,40 +1,52 @@
-From: nj.shetty@samsung.com (Nitesh Shetty)
-Date: Wed, 14 Feb 2018 00:26:46 +0530
-Subject: [PATCH v2 RESENT] blk: optimization for classic polling
-In-Reply-To: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
-References: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
- <CGME20180213082701epcas1p4d92a86f127a0918fb9d62120bd121cb6@epcas1p4.samsung.com>
-Message-ID: <1518548206-4766-1-git-send-email-nj.shetty@samsung.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 13 Feb 2018 12:19:53 +0200
+Subject: [PATCH 1/3] nvme: rename NVME_CTRL_RECONNECTING state to
+ NVME_CTRL_CONNECTING
+In-Reply-To: <c896305c-90d0-e4aa-d861-ea9ad0076161@grimberg.me>
+References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
+ <1517416286-31109-2-git-send-email-maxg@mellanox.com>
+ <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
+ <c896305c-90d0-e4aa-d861-ea9ad0076161@grimberg.me>
+Message-ID: <7a611bf2-8a70-1b11-0616-f79531a2cc3d@mellanox.com>
 
-This removes the dependency on interrupts to wake up task. Set task
-state as TASK_RUNNING, if need_resched() returns true,
-while polling for IO completion.
-Earlier, polling task used to sleep, relying on interrupt to wake it up.
-This made some IO take very long when interrupt-coalescing is enabled in
-NVMe.
 
-Reference:
-http://lists.infradead.org/pipermail/linux-nvme/2018-February/015435.html
 
-Changes since v1:
-	-setting task state once in blk_poll, instead of multiple
-callers.
-Signed-off-by: Nitesh Shetty <nj.shetty at samsung.com>
----
- block/blk-mq.c | 1 +
- 1 file changed, 1 insertion(+)
+On 2/8/2018 6:19 PM, Sagi Grimberg wrote:
+> 
+> 
+> On 02/08/2018 05:28 PM, Sagi Grimberg wrote:
+>>
+>>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>>> index 6c2fdfa..219c6a0 100644
+>>> --- a/drivers/nvme/host/rdma.c
+>>> +++ b/drivers/nvme/host/rdma.c
+>>> @@ -887,7 +887,7 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl 
+>>> *nctrl)
+>>> ? static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+>>> ? {
+>>> ????? /* If we are resetting/deleting then do nothing */
+>>> -??? if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
+>>> +??? if (ctrl->ctrl.state != NVME_CTRL_CONNECTING) {
+>>> ????????? WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
+>>> ????????????? ctrl->ctrl.state == NVME_CTRL_LIVE);
+>>> ????????? return;
+>>> @@ -978,7 +978,7 @@ static void nvme_rdma_error_recovery_work(struct 
+>>> work_struct *work)
+>>> ? static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+>>> ? {
+>>> -??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING))
+>>> +??? if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+>>> ????????? return;
+>>> ????? queue_work(nvme_wq, &ctrl->err_work);
+>>>
+>> What is this based on? It does not apply on nvme-4.16.
+> 
+> Max, I fixed it up locally in nvme-4.16-rc, please verify that its
+> correct and passes your local tests.
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index df93102..40285fe 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -3164,6 +3164,7 @@ static bool __blk_mq_poll(struct blk_mq_hw_ctx *hctx, struct request *rq)
- 		cpu_relax();
- 	}
- 
-+	set_current_state(TASK_RUNNING);
- 	return false;
- }
- 
--- 
-2.7.4
+Sagi,
+I guess you applied it after rebasing, I've mentioned that there was 
+still 1 commit missing in nvme-4.16 (your reset fix).
+I'll run tests on nvme-4.16-rc and update soon.
+
+-Max.
