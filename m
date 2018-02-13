@@ -1,76 +1,45 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 13 Feb 2018 15:57:46 +0200
-Subject: [Suspected-Phishing][PATCH v2] nvme-rdma: fix sysfs invoked
- reset_ctrl error flow
-In-Reply-To: <20180117110114.14871-1-nitzanc@mellanox.com>
-References: <20180117110114.14871-1-nitzanc@mellanox.com>
-Message-ID: <82dc73db-0b8b-6c0e-f5e6-fc1fcd6aa48e@mellanox.com>
+From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Tue, 13 Feb 2018 15:06:00 +0100
+Subject: [PATCH 0/8] lightnvm: pblk: implement support for 2.0
+Message-ID: <1518530768-20956-1-git-send-email-javier@cnexlabs.com>
 
-Hi Sagi,
+This patchset implements support for 2.0 spec in pblk.
 
-pinging regarding this one...
-it might help in the "nvme reset" issue reported by Berck Nash.
+The first patch abstracts the geometry retrieved from the identify
+command and allows both specs to coexist under the same geometry
+description. From there on, we build the missing 2.0 support in lightnvm
+core: address format, address conversion and report chnk get log page.
+The last three patches implement the actual support for 2.0 in pblk.
 
+Note that we only port functionality for 2.0. Newer functionality
+enabled by 2.0 (e.g., wear-leveling) will be submitted in following
+patches.
 
-On 1/17/2018 1:01 PM, Nitzan Carmi wrote:
-> When reset_controller that is invoked by sysfs fails,
-> it enters an error flow which practically removes the
-> nvme ctrl entirely (similar to delete_ctrl flow). It
-> causes the system to hang, since a sysfs attribute cannot
-> be unregistered by one of its own methods.
-> 
-> This can be fixed by calling delete_ctrl as a work rather
-> than sequential code. In addition, it should give the ctrl
-> a chance to recover using reconnection mechanism (consistant
-> with FC reset_ctrl error flow). Also, while we're here, return
-> suitable errno in case the reset ended with non live ctrl.
-> 
-> Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
-> 
-> Changes from v1:
->   - Increment nr_reconnects when reset_ctrl has failed.
-> 
-> ---
->   drivers/nvme/host/core.c | 6 +++++-
->   drivers/nvme/host/rdma.c | 7 ++-----
->   2 files changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 839650e..58a6997 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -100,8 +100,12 @@ static int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
->   	int ret;
->   
->   	ret = nvme_reset_ctrl(ctrl);
-> -	if (!ret)
-> +	if (!ret) {
->   		flush_work(&ctrl->reset_work);
-> +		if (ctrl->state != NVME_CTRL_LIVE)
-> +			ret = -ENETRESET;
-> +	}
-> +
->   	return ret;
->   }
->   
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 2a0bba7..57d30e9 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1787,11 +1787,8 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
->   	return;
->   
->   out_fail:
-> -	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
-> -	nvme_remove_namespaces(&ctrl->ctrl);
-> -	nvme_rdma_shutdown_ctrl(ctrl, true);
-> -	nvme_uninit_ctrl(&ctrl->ctrl);
-> -	nvme_put_ctrl(&ctrl->ctrl);
-> +	++ctrl->ctrl.nr_reconnects;
-> +	nvme_rdma_reconnect_or_remove(ctrl);
->   }
->   
->   static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
-> 
+This patches apply on top of Matias' latest patches.
+
+Javier Gonz?lez (8):
+  lightnvm: exposed generic geometry to targets
+  lightnvm: show generic geometry in sysfs
+  lightnvm: add support for 2.0 address format
+  lightnvm: convert address based on spec. version
+  lightnvm: implement get log report chunk helpers
+  lightnvm: pblk: implement get log report chunk
+  lightnvm: pblk: refactor init/exit sequences
+  lightnvm: pblk: implement 2.0 support
+
+ drivers/lightnvm/core.c          | 171 ++++-----
+ drivers/lightnvm/pblk-core.c     | 134 +++++--
+ drivers/lightnvm/pblk-gc.c       |   2 +-
+ drivers/lightnvm/pblk-init.c     | 787 +++++++++++++++++++++++----------------
+ drivers/lightnvm/pblk-read.c     |   2 +-
+ drivers/lightnvm/pblk-recovery.c |  14 +-
+ drivers/lightnvm/pblk-rl.c       |   2 +-
+ drivers/lightnvm/pblk-sysfs.c    | 130 ++++++-
+ drivers/lightnvm/pblk-write.c    |   2 +-
+ drivers/lightnvm/pblk.h          | 253 +++++++++----
+ drivers/nvme/host/lightnvm.c     | 553 ++++++++++++++++++---------
+ include/linux/lightnvm.h         | 317 ++++++++++------
+ 12 files changed, 1553 insertions(+), 814 deletions(-)
+
+-- 
+2.7.4
