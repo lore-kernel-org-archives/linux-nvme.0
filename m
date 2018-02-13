@@ -1,21 +1,69 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 13 Feb 2018 09:12:18 -0700
-Subject: [PATCH v3] blk: optimization for classic polling
-In-Reply-To: <1518536892-2051-1-git-send-email-nj.shetty@samsung.com>
-References: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
- <CGME20180213154752epcas1p35e3c13d150d2108a06342781ec5e64d7@epcas1p3.samsung.com>
- <1518536892-2051-1-git-send-email-nj.shetty@samsung.com>
-Message-ID: <f797a075-4ef2-410f-4eda-fa70d426d58f@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 13 Feb 2018 09:19:37 -0700
+Subject: [PATCH 4.4.y] nvme: Fix managing degraded controllers
+In-Reply-To: <20180213155013.GE14300@kroah.com>
+References: <20180209213922.12644-1-keith.busch@intel.com>
+ <20180213155013.GE14300@kroah.com>
+Message-ID: <20180213161936.GE20962@localhost.localdomain>
 
-On 2/13/18 8:48 AM, Nitesh Shetty wrote:
-> This removes the dependency on interrupts to wake up task. Set task
-> state as TASK_RUNNING, if need_resched() returns true,
-> while polling for IO completion.
-> Earlier, polling task used to sleep, relying on interrupt to wake it up.
-> This made some IO take very long when interrupt-coalescing is enabled in
-> NVMe.
+commit 5bae7f73d378a986 upstream
 
-Thanks, applied.
+Upstream is a near rewrite of the async nvme probe that ultimately didn't
+even cleanly merge in 4.5. This patch is a much smaller change targeted
+to the regression introduced in 4.4.
 
+If a controller is in a degraded mode that needs admin assistence to
+recover, we need to leave the controller running. We just want to disable
+namespace access without shuting the controller down.
+
+Fixes: 3cf519b5a8d4("nvme: merge nvme_dev_start, nvme_dev_resume and nvme_async_probe")
+
+Cc: <stable at vger.kernel.org> # 4.4.x
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d6ceb8b91cd6..1c8aedf21370 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2976,10 +2976,16 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 	mutex_unlock(&dev->shutdown_lock);
+ }
+ 
+-static void nvme_dev_remove(struct nvme_dev *dev)
++static void nvme_remove_namespaces(struct nvme_dev *dev)
+ {
+ 	struct nvme_ns *ns, *next;
+ 
++	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
++		nvme_ns_remove(ns);
++}
++
++static void nvme_dev_remove(struct nvme_dev *dev)
++{
+ 	if (nvme_io_incapable(dev)) {
+ 		/*
+ 		 * If the device is not capable of IO (surprise hot-removal,
+@@ -2989,8 +2995,7 @@ static void nvme_dev_remove(struct nvme_dev *dev)
+ 		 */
+ 		nvme_dev_shutdown(dev);
+ 	}
+-	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
+-		nvme_ns_remove(ns);
++	nvme_remove_namespaces(dev);
+ }
+ 
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+@@ -3174,7 +3179,7 @@ static void nvme_probe_work(struct work_struct *work)
+ 	 */
+ 	if (dev->online_queues < 2) {
+ 		dev_warn(dev->dev, "IO queues not created\n");
+-		nvme_dev_remove(dev);
++		nvme_remove_namespaces(dev);
+ 	} else {
+ 		nvme_unfreeze_queues(dev);
+ 		nvme_dev_add(dev);
 -- 
-Jens Axboe
+2.13.6
