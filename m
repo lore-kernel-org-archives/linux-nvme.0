@@ -1,69 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 13 Feb 2018 09:19:37 -0700
-Subject: [PATCH 4.4.y] nvme: Fix managing degraded controllers
-In-Reply-To: <20180213155013.GE14300@kroah.com>
-References: <20180209213922.12644-1-keith.busch@intel.com>
- <20180213155013.GE14300@kroah.com>
-Message-ID: <20180213161936.GE20962@localhost.localdomain>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 13 Feb 2018 20:01:08 +0200
+Subject: [PATCH 1/3] nvme: rename NVME_CTRL_RECONNECTING state to
+ NVME_CTRL_CONNECTING
+In-Reply-To: <d6e78772-5345-3a03-b376-5656bfebe606@grimberg.me>
+References: <1517416286-31109-1-git-send-email-maxg@mellanox.com>
+ <1517416286-31109-2-git-send-email-maxg@mellanox.com>
+ <d8241724-ef3a-4946-4629-3598413ca836@grimberg.me>
+ <c896305c-90d0-e4aa-d861-ea9ad0076161@grimberg.me>
+ <7a611bf2-8a70-1b11-0616-f79531a2cc3d@mellanox.com>
+ <d6e78772-5345-3a03-b376-5656bfebe606@grimberg.me>
+Message-ID: <956a48a6-cec1-7c3a-8cbb-a8b8ae4e8cb7@mellanox.com>
 
-commit 5bae7f73d378a986 upstream
 
-Upstream is a near rewrite of the async nvme probe that ultimately didn't
-even cleanly merge in 4.5. This patch is a much smaller change targeted
-to the regression introduced in 4.4.
 
-If a controller is in a degraded mode that needs admin assistence to
-recover, we need to leave the controller running. We just want to disable
-namespace access without shuting the controller down.
+On 2/13/2018 12:46 PM, Sagi Grimberg wrote:
+>>> Max, I fixed it up locally in nvme-4.16-rc, please verify that its
+>>> correct and passes your local tests.
+>>
+>> Sagi,
+>> I guess you applied it after rebasing, I've mentioned that there was 
+>> still 1 commit missing in nvme-4.16 (your reset fix).
+> 
+> Which one?
 
-Fixes: 3cf519b5a8d4("nvme: merge nvme_dev_start, nvme_dev_resume and nvme_async_probe")
+I guess this one caused the conflict:
+d5bf4b7f4 nvme-rdma: fix concurrent reset and reconnect
+> 
+>> I'll run tests on nvme-4.16-rc and update soon.
+> 
+> Thanks
 
-Cc: <stable at vger.kernel.org> # 4.4.x
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d6ceb8b91cd6..1c8aedf21370 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2976,10 +2976,16 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 	mutex_unlock(&dev->shutdown_lock);
- }
- 
--static void nvme_dev_remove(struct nvme_dev *dev)
-+static void nvme_remove_namespaces(struct nvme_dev *dev)
- {
- 	struct nvme_ns *ns, *next;
- 
-+	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
-+		nvme_ns_remove(ns);
-+}
-+
-+static void nvme_dev_remove(struct nvme_dev *dev)
-+{
- 	if (nvme_io_incapable(dev)) {
- 		/*
- 		 * If the device is not capable of IO (surprise hot-removal,
-@@ -2989,8 +2995,7 @@ static void nvme_dev_remove(struct nvme_dev *dev)
- 		 */
- 		nvme_dev_shutdown(dev);
- 	}
--	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
--		nvme_ns_remove(ns);
-+	nvme_remove_namespaces(dev);
- }
- 
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
-@@ -3174,7 +3179,7 @@ static void nvme_probe_work(struct work_struct *work)
- 	 */
- 	if (dev->online_queues < 2) {
- 		dev_warn(dev->dev, "IO queues not created\n");
--		nvme_dev_remove(dev);
-+		nvme_remove_namespaces(dev);
- 	} else {
- 		nvme_unfreeze_queues(dev);
- 		nvme_dev_add(dev);
--- 
-2.13.6
+During port toggle with traffic (using dm-multipath) I see some warnings 
+during ib_destroy_qp that say there are still mrs_used.
+and therefore also warning in ib_dealloc_pd that says refcount on pd is 
+not 0.
+
+I'll debug it tomorrow hopefully and update.
+
+-Max.
