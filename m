@@ -1,21 +1,43 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 13 Feb 2018 07:47:28 -0700
-Subject: [PATCH 1/3] nvme-pci: Fix timeouts in connecting state
-In-Reply-To: <2a055b6d-15d5-1fb1-f7db-47023c2cf8d1@oracle.com>
-References: <20180209174127.7224-1-keith.busch@intel.com>
- <ec9b47c4-3c83-6f00-bf2d-8eae5484a649@oracle.com>
- <20180212141818.GA16255@localhost.localdomain>
- <58a6237f-53ab-c0bf-2739-08fc3a45cdd1@oracle.com>
- <2a055b6d-15d5-1fb1-f7db-47023c2cf8d1@oracle.com>
-Message-ID: <20180213144728.GC20962@localhost.localdomain>
+From: nj.shetty@samsung.com (Nitesh Shetty)
+Date: Tue, 13 Feb 2018 21:18:12 +0530
+Subject: [PATCH v3] blk: optimization for classic polling
+In-Reply-To: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+References: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+ <CGME20180213154752epcas1p35e3c13d150d2108a06342781ec5e64d7@epcas1p3.samsung.com>
+Message-ID: <1518536892-2051-1-git-send-email-nj.shetty@samsung.com>
 
-On Tue, Feb 13, 2018@10:33:03AM +0800, jianchao.wang wrote:
-> On 02/13/2018 10:21 AM, jianchao.wang wrote:
-> > This patch could not fix the issue totally, it will not work well with
-> > your 3rd patch
-> 
-> s/with/without
+This removes the dependency on interrupts to wake up task. Set task
+state as TASK_RUNNING, if need_resched() returns true,
+while polling for IO completion.
+Earlier, polling task used to sleep, relying on interrupt to wake it up.
+This made some IO take very long when interrupt-coalescing is enabled in
+NVMe.
 
-The first patch fixes a regression introduced in this merge window and
-gets us back to functionality we had before. The third patch fixes a
-theoretical issue that AFAIK has never actually happened in real life.
+Reference:
+http://lists.infradead.org/pipermail/linux-nvme/2018-February/015435.html
+
+Changes since v2->v3:
+	-using __set_current_state() instead of set_current_state()
+
+Changes since v1->v2:
+	-setting task state once in blk_poll, instead of multiple
+callers.
+Signed-off-by: Nitesh Shetty <nj.shetty at samsung.com>
+---
+ block/blk-mq.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index df93102..3574927 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3164,6 +3164,7 @@ static bool __blk_mq_poll(struct blk_mq_hw_ctx *hctx, struct request *rq)
+ 		cpu_relax();
+ 	}
+ 
++	__set_current_state(TASK_RUNNING);
+ 	return false;
+ }
+ 
+-- 
+2.7.4
