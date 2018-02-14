@@ -1,40 +1,31 @@
-From: wenxiong@linux.vnet.ibm.com (wenxiong)
-Date: Wed, 14 Feb 2018 10:40:01 -0600
-Subject: NVMe disks are not available with lsblk
-Message-ID: <24c11b7c42c0958f813aa396c6cd85c3@linux.vnet.ibm.com>
+From: thenzl@redhat.com (Tomas Henzl)
+Date: Wed, 14 Feb 2018 18:07:47 +0100
+Subject: [V1] mpt3sas: Do not use 32-bit atomic request descriptor for
+ Ventura controllers.
+In-Reply-To: <1518603397-3941-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+References: <1518603397-3941-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+Message-ID: <fcff8324-229c-7c24-432e-c303128be77e@redhat.com>
 
-Hi All,
+On 02/14/2018 11:16 AM, Suganath Prabu S wrote:
+> Problem Statement: Sending I/O through 32 bit descriptors to
+>  Ventura series of controller results in IO timeout on certain conditions.
+>
+> This error only occurs on systems with high I/O activity on
+> Ventura series controllers.
+>
+> Changes in this patch will prevent driver from using 32 bit descriptor
+> and use 64 bit Descriptors
+>
+> V1 Change set:
+> 1) In this patch removed callbacks as suggested by Hannes.
+>
+> Note:
+>  This patch Should be applied on top of
+> https://www.spinics.net/lists/linux-scsi/msg117405.html
+> "Adding MPI Endpoint device support" patches.
+>
+> Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
 
-Somehow with CONFIG_NVME_MULTIPATH enable(4.16.0-rc1), one of my NVME 
-device is not showed up with lsblk command.
+Reviewed-by: Tomas Henzl <thenzl at redhat.com>
 
-
-I am not familiar with CONFIG_NVME_MULTIPATH enable. I tried to enable 
-multipath in system but still not show up.
-
-For example,/dev/nvme1 device is showed up in nvme list but not with 
-lsblk.
-
-Anyone saw the similar issue? Any suggestion for debugging this issue?
-
-Thanks,
-Wendy
-# nvme list
-Node             SN                   Model                              
-       Namespace Usage                      Format           FW Rev
----------------- -------------------- 
----------------------------------------- --------- 
--------------------------- ---------------- --------
-/dev/nvme1n1     S3RVNA0J600164       PCIe3 1.6TB NVMe Flash Adapter II 
-x8     1         245.76  GB / 245.76  GB      4 KiB +  0 B   MN12MN12
-
-# lsblk
-NAME    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-sda       8:0    0    40G  0 disk
-??sda1    8:1    0     4M  0 part
-??sda2    8:2    0   500M  0 part
-??sda3    8:3    0    21G  0 part
-??sda4    8:4    0     4K  0 part
-??sda5    8:5    0     2G  0 part [SWAP]
-??sda6    8:6    0  12.6G  0 part /
-??sda7    8:7    0   3.9G  0 part /home
+Tomas
