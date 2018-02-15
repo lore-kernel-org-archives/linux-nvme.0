@@ -1,206 +1,310 @@
 From: mb@lightnvm.io (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Thu, 15 Feb 2018 14:11:59 +0100
-Subject: [PATCH v2 5/6] lightnvm: remove nvm_dev_ops->max_phys_sect
+Date: Thu, 15 Feb 2018 14:11:56 +0100
+Subject: [PATCH v2 2/6] lightnvm: flatten nvm_id_group into nvm_id
 In-Reply-To: <20180215131200.3354-1-mb@lightnvm.io>
 References: <20180215131200.3354-1-mb@lightnvm.io>
-Message-ID: <20180215131200.3354-6-mb@lightnvm.io>
+Message-ID: <20180215131200.3354-3-mb@lightnvm.io>
 
-The value of max_phys_sect is always static. Instead of
-defining it in the nvm_dev_ops structure, declare it as a global
-value.
+There are no groups in the 2.0 specification, make sure that the
+nvm_id structure is flattened before 2.0 data structures are added.
 
 Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
 ---
- drivers/lightnvm/core.c          | 28 +++++++---------------------
- drivers/lightnvm/pblk-init.c     |  9 ++++-----
- drivers/lightnvm/pblk-recovery.c |  8 ++------
- drivers/nvme/host/lightnvm.c     |  5 +----
- include/linux/lightnvm.h         |  5 ++---
- 5 files changed, 16 insertions(+), 39 deletions(-)
+ drivers/lightnvm/core.c      |  25 ++++++-----
+ drivers/nvme/host/lightnvm.c | 100 +++++++++++++++++++++----------------------
+ include/linux/lightnvm.h     |  53 +++++++++++------------
+ 3 files changed, 86 insertions(+), 92 deletions(-)
 
 diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-index 511c81c319ee..782f381e4d61 100644
+index dcc9e621e651..c72863b36439 100644
 --- a/drivers/lightnvm/core.c
 +++ b/drivers/lightnvm/core.c
-@@ -407,7 +407,8 @@ static int nvm_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
- 	tdisk->private_data = targetdata;
- 	tqueue->queuedata = targetdata;
- 
--	blk_queue_max_hw_sectors(tqueue, 8 * dev->ops->max_phys_sect);
-+	blk_queue_max_hw_sectors(tqueue,
-+			(dev->geo.sec_size >> 9) * NVM_MAX_VLBA);
- 
- 	set_capacity(tdisk, tt->capacity(targetdata));
- 	add_disk(tdisk);
-@@ -719,7 +720,7 @@ int nvm_set_tgt_bb_tbl(struct nvm_tgt_dev *tgt_dev, struct ppa_addr *ppas,
- 	struct nvm_rq rqd;
+@@ -851,33 +851,32 @@ EXPORT_SYMBOL(nvm_get_tgt_bb_tbl);
+ static int nvm_core_init(struct nvm_dev *dev)
+ {
+ 	struct nvm_id *id = &dev->identity;
+-	struct nvm_id_group *grp = &id->grp;
+ 	struct nvm_geo *geo = &dev->geo;
  	int ret;
  
--	if (nr_ppas > dev->ops->max_phys_sect) {
-+	if (nr_ppas > NVM_MAX_VLBA) {
- 		pr_err("nvm: unable to update all blocks atomically\n");
- 		return -EINVAL;
- 	}
-@@ -740,14 +741,6 @@ int nvm_set_tgt_bb_tbl(struct nvm_tgt_dev *tgt_dev, struct ppa_addr *ppas,
- }
- EXPORT_SYMBOL(nvm_set_tgt_bb_tbl);
+ 	memcpy(&geo->ppaf, &id->ppaf, sizeof(struct nvm_addr_format));
  
--int nvm_max_phys_sects(struct nvm_tgt_dev *tgt_dev)
--{
--	struct nvm_dev *dev = tgt_dev->parent;
--
--	return dev->ops->max_phys_sect;
--}
--EXPORT_SYMBOL(nvm_max_phys_sects);
--
- int nvm_submit_io(struct nvm_tgt_dev *tgt_dev, struct nvm_rq *rqd)
- {
- 	struct nvm_dev *dev = tgt_dev->parent;
-@@ -965,17 +958,10 @@ int nvm_register(struct nvm_dev *dev)
- 	if (!dev->q || !dev->ops)
- 		return -EINVAL;
- 
--	if (dev->ops->max_phys_sect > 256) {
--		pr_info("nvm: max sectors supported is 256.\n");
--		return -EINVAL;
--	}
--
--	if (dev->ops->max_phys_sect > 1) {
--		dev->dma_pool = dev->ops->create_dma_pool(dev, "ppalist");
--		if (!dev->dma_pool) {
--			pr_err("nvm: could not create dma pool\n");
--			return -ENOMEM;
--		}
-+	dev->dma_pool = dev->ops->create_dma_pool(dev, "ppalist");
-+	if (!dev->dma_pool) {
-+		pr_err("nvm: could not create dma pool\n");
-+		return -ENOMEM;
- 	}
- 
- 	ret = nvm_init(dev);
-diff --git a/drivers/lightnvm/pblk-init.c b/drivers/lightnvm/pblk-init.c
-index 86a94a7faa96..5261702e9ff7 100644
---- a/drivers/lightnvm/pblk-init.c
-+++ b/drivers/lightnvm/pblk-init.c
-@@ -260,8 +260,7 @@ static int pblk_core_init(struct pblk *pblk)
- 		return -ENOMEM;
- 
- 	/* Internal bios can be at most the sectors signaled by the device. */
--	pblk->page_bio_pool = mempool_create_page_pool(nvm_max_phys_sects(dev),
--									0);
-+	pblk->page_bio_pool = mempool_create_page_pool(NVM_MAX_VLBA, 0);
- 	if (!pblk->page_bio_pool)
- 		goto free_global_caches;
- 
-@@ -716,12 +715,12 @@ static int pblk_lines_init(struct pblk *pblk)
- 
- 	pblk->min_write_pgs = geo->sec_per_pl * (geo->sec_size / PAGE_SIZE);
- 	max_write_ppas = pblk->min_write_pgs * geo->all_luns;
--	pblk->max_write_pgs = (max_write_ppas < nvm_max_phys_sects(dev)) ?
--				max_write_ppas : nvm_max_phys_sects(dev);
-+	pblk->max_write_pgs = min_t(int, max_write_ppas, NVM_MAX_VLBA);
- 	pblk_set_sec_per_write(pblk, pblk->min_write_pgs);
- 
- 	if (pblk->max_write_pgs > PBLK_MAX_REQ_ADDRS) {
--		pr_err("pblk: cannot support device max_phys_sect\n");
-+		pr_err("pblk: vector list too big(%u > %u)\n",
-+				pblk->max_write_pgs, PBLK_MAX_REQ_ADDRS);
+-	if (grp->mtype != 0) {
++	if (id->mtype != 0) {
+ 		pr_err("nvm: memory type not supported\n");
  		return -EINVAL;
  	}
  
-diff --git a/drivers/lightnvm/pblk-recovery.c b/drivers/lightnvm/pblk-recovery.c
-index e75a1af2eebe..aaab9a5c17cc 100644
---- a/drivers/lightnvm/pblk-recovery.c
-+++ b/drivers/lightnvm/pblk-recovery.c
-@@ -21,17 +21,15 @@ void pblk_submit_rec(struct work_struct *work)
- 	struct pblk_rec_ctx *recovery =
- 			container_of(work, struct pblk_rec_ctx, ws_rec);
- 	struct pblk *pblk = recovery->pblk;
--	struct nvm_tgt_dev *dev = pblk->dev;
- 	struct nvm_rq *rqd = recovery->rqd;
- 	struct pblk_c_ctx *c_ctx = nvm_rq_to_pdu(rqd);
--	int max_secs = nvm_max_phys_sects(dev);
- 	struct bio *bio;
- 	unsigned int nr_rec_secs;
- 	unsigned int pgs_read;
- 	int ret;
+ 	/* Whole device values */
+-	geo->nr_chnls = grp->num_ch;
+-	geo->nr_luns = grp->num_lun;
++	geo->nr_chnls = id->num_ch;
++	geo->nr_luns = id->num_lun;
  
- 	nr_rec_secs = bitmap_weight((unsigned long int *)&rqd->ppa_status,
--								max_secs);
-+								NVM_MAX_VLBA);
+ 	/* Generic device geometry values */
+-	geo->ws_min = grp->ws_min;
+-	geo->ws_opt = grp->ws_opt;
+-	geo->ws_seq = grp->ws_seq;
+-	geo->ws_per_chk = grp->ws_per_chk;
+-	geo->nr_chks = grp->num_chk;
+-	geo->sec_size = grp->csecs;
+-	geo->oob_size = grp->sos;
+-	geo->mccap = grp->mccap;
++	geo->ws_min = id->ws_min;
++	geo->ws_opt = id->ws_opt;
++	geo->ws_seq = id->ws_seq;
++	geo->ws_per_chk = id->ws_per_chk;
++	geo->nr_chks = id->num_chk;
++	geo->sec_size = id->csecs;
++	geo->oob_size = id->sos;
++	geo->mccap = id->mccap;
+ 	geo->max_rq_size = dev->ops->max_phys_sect * geo->sec_size;
  
- 	bio = bio_alloc(GFP_KERNEL, nr_rec_secs);
+-	geo->sec_per_chk = grp->clba;
++	geo->sec_per_chk = id->clba;
+ 	geo->sec_per_lun = geo->sec_per_chk * geo->nr_chks;
+ 	geo->all_luns = geo->nr_luns * geo->nr_chnls;
  
-@@ -74,8 +72,6 @@ int pblk_recov_setup_rq(struct pblk *pblk, struct pblk_c_ctx *c_ctx,
- 			struct pblk_rec_ctx *recovery, u64 *comp_bits,
- 			unsigned int comp)
- {
--	struct nvm_tgt_dev *dev = pblk->dev;
--	int max_secs = nvm_max_phys_sects(dev);
- 	struct nvm_rq *rec_rqd;
- 	struct pblk_c_ctx *rec_ctx;
- 	int nr_entries = c_ctx->nr_valid + c_ctx->nr_padded;
-@@ -86,7 +82,7 @@ int pblk_recov_setup_rq(struct pblk *pblk, struct pblk_c_ctx *c_ctx,
- 	/* Copy completion bitmap, but exclude the first X completed entries */
- 	bitmap_shift_right((unsigned long int *)&rec_rqd->ppa_status,
- 				(unsigned long int *)comp_bits,
--				comp, max_secs);
-+				comp, NVM_MAX_VLBA);
- 
- 	/* Save the context for the entries that need to be re-written and
- 	 * update current context with the completed entries.
 diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 8b243af8a949..e38d835b15b5 100644
+index 60db3f1b59da..6412551ecc65 100644
 --- a/drivers/nvme/host/lightnvm.c
 +++ b/drivers/nvme/host/lightnvm.c
-@@ -612,8 +612,6 @@ static struct nvm_dev_ops nvme_nvm_dev_ops = {
- 	.destroy_dma_pool	= nvme_nvm_destroy_dma_pool,
- 	.dev_dma_alloc		= nvme_nvm_dev_dma_alloc,
- 	.dev_dma_free		= nvme_nvm_dev_dma_free,
--
--	.max_phys_sect		= 64,
- };
+@@ -203,57 +203,55 @@ static inline void _nvme_nvm_check_size(void)
+ static int init_grp(struct nvm_id *nvm_id, struct nvme_nvm_id12 *id12)
+ {
+ 	struct nvme_nvm_id12_grp *src;
+-	struct nvm_id_group *grp;
+ 	int sec_per_pg, sec_per_pl, pg_per_blk;
  
- static int nvme_nvm_submit_user_cmd(struct request_queue *q,
-@@ -932,8 +930,7 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+ 	if (id12->cgrps != 1)
+ 		return -EINVAL;
+ 
+ 	src = &id12->grp;
+-	grp = &nvm_id->grp;
+ 
+-	grp->mtype = src->mtype;
+-	grp->fmtype = src->fmtype;
++	nvm_id->mtype = src->mtype;
++	nvm_id->fmtype = src->fmtype;
+ 
+-	grp->num_ch = src->num_ch;
+-	grp->num_lun = src->num_lun;
++	nvm_id->num_ch = src->num_ch;
++	nvm_id->num_lun = src->num_lun;
+ 
+-	grp->num_chk = le16_to_cpu(src->num_chk);
+-	grp->csecs = le16_to_cpu(src->csecs);
+-	grp->sos = le16_to_cpu(src->sos);
++	nvm_id->num_chk = le16_to_cpu(src->num_chk);
++	nvm_id->csecs = le16_to_cpu(src->csecs);
++	nvm_id->sos = le16_to_cpu(src->sos);
+ 
+ 	pg_per_blk = le16_to_cpu(src->num_pg);
+-	sec_per_pg = le16_to_cpu(src->fpg_sz) / grp->csecs;
++	sec_per_pg = le16_to_cpu(src->fpg_sz) / nvm_id->csecs;
+ 	sec_per_pl = sec_per_pg * src->num_pln;
+-	grp->clba = sec_per_pl * pg_per_blk;
+-	grp->ws_per_chk = pg_per_blk;
++	nvm_id->clba = sec_per_pl * pg_per_blk;
++	nvm_id->ws_per_chk = pg_per_blk;
+ 
+-	grp->mpos = le32_to_cpu(src->mpos);
+-	grp->cpar = le16_to_cpu(src->cpar);
+-	grp->mccap = le32_to_cpu(src->mccap);
++	nvm_id->mpos = le32_to_cpu(src->mpos);
++	nvm_id->cpar = le16_to_cpu(src->cpar);
++	nvm_id->mccap = le32_to_cpu(src->mccap);
+ 
+-	grp->ws_opt = grp->ws_min = sec_per_pg;
+-	grp->ws_seq = NVM_IO_SNGL_ACCESS;
++	nvm_id->ws_opt = nvm_id->ws_min = sec_per_pg;
++	nvm_id->ws_seq = NVM_IO_SNGL_ACCESS;
+ 
+-	if (grp->mpos & 0x020202) {
+-		grp->ws_seq = NVM_IO_DUAL_ACCESS;
+-		grp->ws_opt <<= 1;
+-	} else if (grp->mpos & 0x040404) {
+-		grp->ws_seq = NVM_IO_QUAD_ACCESS;
+-		grp->ws_opt <<= 2;
++	if (nvm_id->mpos & 0x020202) {
++		nvm_id->ws_seq = NVM_IO_DUAL_ACCESS;
++		nvm_id->ws_opt <<= 1;
++	} else if (nvm_id->mpos & 0x040404) {
++		nvm_id->ws_seq = NVM_IO_QUAD_ACCESS;
++		nvm_id->ws_opt <<= 2;
+ 	}
+ 
+-	grp->trdt = le32_to_cpu(src->trdt);
+-	grp->trdm = le32_to_cpu(src->trdm);
+-	grp->tprt = le32_to_cpu(src->tprt);
+-	grp->tprm = le32_to_cpu(src->tprm);
+-	grp->tbet = le32_to_cpu(src->tbet);
+-	grp->tbem = le32_to_cpu(src->tbem);
++	nvm_id->trdt = le32_to_cpu(src->trdt);
++	nvm_id->trdm = le32_to_cpu(src->trdm);
++	nvm_id->tprt = le32_to_cpu(src->tprt);
++	nvm_id->tprm = le32_to_cpu(src->tprm);
++	nvm_id->tbet = le32_to_cpu(src->tbet);
++	nvm_id->tbem = le32_to_cpu(src->tbem);
+ 
+ 	/* 1.2 compatibility */
+-	grp->num_pln = src->num_pln;
+-	grp->num_pg = le16_to_cpu(src->num_pg);
+-	grp->fpg_sz = le16_to_cpu(src->fpg_sz);
++	nvm_id->num_pln = src->num_pln;
++	nvm_id->num_pg = le16_to_cpu(src->num_pg);
++	nvm_id->fpg_sz = le16_to_cpu(src->fpg_sz);
+ 
+ 	return 0;
+ }
+@@ -740,14 +738,12 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+ 	struct nvm_dev *ndev = ns->ndev;
+ 	struct nvm_id *id;
+-	struct nvm_id_group *grp;
+ 	struct attribute *attr;
+ 
+ 	if (!ndev)
+ 		return 0;
+ 
+ 	id = &ndev->identity;
+-	grp = &id->grp;
+ 	attr = &dattr->attr;
+ 
+ 	if (strcmp(attr->name, "version") == 0) {
+@@ -771,41 +767,41 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
+ 			id->ppaf.pg_offset, id->ppaf.pg_len,
+ 			id->ppaf.sect_offset, id->ppaf.sect_len);
+ 	} else if (strcmp(attr->name, "media_type") == 0) {	/* u8 */
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->mtype);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->mtype);
+ 	} else if (strcmp(attr->name, "flash_media_type") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->fmtype);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->fmtype);
+ 	} else if (strcmp(attr->name, "num_channels") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->num_ch);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->num_ch);
+ 	} else if (strcmp(attr->name, "num_luns") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->num_lun);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->num_lun);
+ 	} else if (strcmp(attr->name, "num_planes") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->num_pln);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->num_pln);
+ 	} else if (strcmp(attr->name, "num_blocks") == 0) {	/* u16 */
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->num_chk);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->num_chk);
+ 	} else if (strcmp(attr->name, "num_pages") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->num_pg);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->num_pg);
+ 	} else if (strcmp(attr->name, "page_size") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->fpg_sz);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->fpg_sz);
+ 	} else if (strcmp(attr->name, "hw_sector_size") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->csecs);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->csecs);
+ 	} else if (strcmp(attr->name, "oob_sector_size") == 0) {/* u32 */
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->sos);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->sos);
+ 	} else if (strcmp(attr->name, "read_typ") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->trdt);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->trdt);
+ 	} else if (strcmp(attr->name, "read_max") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->trdm);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->trdm);
+ 	} else if (strcmp(attr->name, "prog_typ") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->tprt);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->tprt);
+ 	} else if (strcmp(attr->name, "prog_max") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->tprm);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->tprm);
+ 	} else if (strcmp(attr->name, "erase_typ") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->tbet);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->tbet);
+ 	} else if (strcmp(attr->name, "erase_max") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "%u\n", grp->tbem);
++		return scnprintf(page, PAGE_SIZE, "%u\n", id->tbem);
+ 	} else if (strcmp(attr->name, "multiplane_modes") == 0) {
+-		return scnprintf(page, PAGE_SIZE, "0x%08x\n", grp->mpos);
++		return scnprintf(page, PAGE_SIZE, "0x%08x\n", id->mpos);
  	} else if (strcmp(attr->name, "media_capabilities") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "0x%08x\n", id->mccap);
+-		return scnprintf(page, PAGE_SIZE, "0x%08x\n", grp->mccap);
++		return scnprintf(page, PAGE_SIZE, "0x%08x\n", id->mccap);
  	} else if (strcmp(attr->name, "max_phys_secs") == 0) {
--		return scnprintf(page, PAGE_SIZE, "%u\n",
--				ndev->ops->max_phys_sect);
-+		return scnprintf(page, PAGE_SIZE, "%u\n", NVM_MAX_VLBA);
- 	} else {
- 		return scnprintf(page,
- 				 PAGE_SIZE,
+ 		return scnprintf(page, PAGE_SIZE, "%u\n",
+ 				ndev->ops->max_phys_sect);
 diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index 67b4fa8e4906..e55b10573c99 100644
+index 7f4b60abdf27..94b704a8d83d 100644
 --- a/include/linux/lightnvm.h
 +++ b/include/linux/lightnvm.h
-@@ -73,8 +73,6 @@ struct nvm_dev_ops {
- 	nvm_destroy_dma_pool_fn	*destroy_dma_pool;
- 	nvm_dev_dma_alloc_fn	*dev_dma_alloc;
- 	nvm_dev_dma_free_fn	*dev_dma_free;
--
--	unsigned int		max_phys_sect;
+@@ -154,9 +154,29 @@ struct nvm_id_lp_tbl {
+ 	struct nvm_id_lp_mlc mlc;
  };
  
- #ifdef CONFIG_NVM
-@@ -228,6 +226,8 @@ struct nvm_target {
- #define NVM_VERSION_MINOR 0
- #define NVM_VERSION_PATCH 0
- 
-+#define NVM_MAX_VLBA (64) /* max logical blocks in a vector command */
+-struct nvm_id_group {
+-	u8	mtype;
+-	u8	fmtype;
++struct nvm_addr_format {
++	u8	ch_offset;
++	u8	ch_len;
++	u8	lun_offset;
++	u8	lun_len;
++	u8	pln_offset;
++	u8	pln_len;
++	u8	blk_offset;
++	u8	blk_len;
++	u8	pg_offset;
++	u8	pg_len;
++	u8	sect_offset;
++	u8	sect_len;
++};
 +
- struct nvm_rq;
- typedef void (nvm_end_io_fn)(struct nvm_rq *);
++struct nvm_id {
++	u8	ver_id;
++	u8	vmnt;
++	u32	cap;
++	u32	dom;
++
++	struct	nvm_addr_format ppaf;
++
+ 	u8	num_ch;
+ 	u8	num_lun;
+ 	u16	num_chk;
+@@ -180,33 +200,12 @@ struct nvm_id_group {
+ 	u16	cpar;
  
-@@ -436,7 +436,6 @@ extern void nvm_unregister(struct nvm_dev *);
+ 	/* 1.2 compatibility */
++	u8	mtype;
++	u8	fmtype;
++
+ 	u8	num_pln;
+ 	u16	num_pg;
+ 	u16	fpg_sz;
+-};
+-
+-struct nvm_addr_format {
+-	u8	ch_offset;
+-	u8	ch_len;
+-	u8	lun_offset;
+-	u8	lun_len;
+-	u8	pln_offset;
+-	u8	pln_len;
+-	u8	blk_offset;
+-	u8	blk_len;
+-	u8	pg_offset;
+-	u8	pg_len;
+-	u8	sect_offset;
+-	u8	sect_len;
+-};
+-
+-struct nvm_id {
+-	u8	ver_id;
+-	u8	vmnt;
+-	u32	cap;
+-	u32	dom;
+-	struct nvm_addr_format ppaf;
+-	struct nvm_id_group grp;
+ } __packed;
  
- extern int nvm_set_tgt_bb_tbl(struct nvm_tgt_dev *, struct ppa_addr *,
- 			      int, int);
--extern int nvm_max_phys_sects(struct nvm_tgt_dev *);
- extern int nvm_submit_io(struct nvm_tgt_dev *, struct nvm_rq *);
- extern int nvm_submit_io_sync(struct nvm_tgt_dev *, struct nvm_rq *);
- extern void nvm_end_io(struct nvm_rq *);
+ struct nvm_target {
 -- 
 2.11.0
