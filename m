@@ -1,25 +1,34 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 14 Feb 2018 19:04:25 -0700
-Subject: [GIT PULL] nvme fixes for Linux 4.16
-In-Reply-To: <20180214235238.GK20962@localhost.localdomain>
-References: <20180214235238.GK20962@localhost.localdomain>
-Message-ID: <c4956847-8694-b104-6bf9-8d31aaa60dca@kernel.dk>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 15 Feb 2018 08:44:25 +0100
+Subject: NVMe disks are not available with lsblk
+In-Reply-To: <24c11b7c42c0958f813aa396c6cd85c3@linux.vnet.ibm.com>
+References: <24c11b7c42c0958f813aa396c6cd85c3@linux.vnet.ibm.com>
+Message-ID: <20180215074425.eiqgxjc5kci2u3zv@linux-x5ow.site>
 
-On 2/14/18 4:52 PM, Keith Busch wrote:
-> Hi Jens,
+On Wed, Feb 14, 2018@10:40:01AM -0600, wenxiong wrote:
+> Hi All,
 > 
-> After syncing with Christoph and Sagi, we feel this is a good time to
-> send our latest fixes across most of the nvme components for 4.16:
+> Somehow with CONFIG_NVME_MULTIPATH enable(4.16.0-rc1), one of my NVME device
+> is not showed up with lsblk command.
 > 
-> The following changes since commit a7877390614770965a6925dfed79cbd3eeeb61e0:
 > 
->   block, bfq: add requeue-request hook (2018-02-07 15:17:46 -0700)
+> I am not familiar with CONFIG_NVME_MULTIPATH enable. I tried to enable
+> multipath in system but still not show up.
 > 
-> are available in the git repository at:
+> For example,/dev/nvme1 device is showed up in nvme list but not with lsblk.
 > 
->   git://git.infradead.org/nvme.git nvme-4.16-rc
+> Anyone saw the similar issue? Any suggestion for debugging this issue?
 
-Pulled, thanks Keith.
+Can you chec if you have a this commit:
+https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/commit/?id=d51f05bfecb299a830897106460bf395be440c0a
+for util-linux?
 
+Byte,
+	Johannes
 -- 
-Jens Axboe
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
