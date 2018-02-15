@@ -1,69 +1,84 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Thu, 15 Feb 2018 23:24:56 +0800
-Subject: [PATCH] nvme-pci: do a PCI reset after S3 on Samsung 960
- EVO/PM961/SM961 + Razer Blade Stealth
-Message-ID: <20180215152456.21795-1-kai.heng.feng@canonical.com>
+From: Berck.Nash@wdc.com (Berck Nash)
+Date: Thu, 15 Feb 2018 17:24:04 +0000
+Subject: [PATCH v2] nvme-rdma: fix sysfs invoked reset_ctrl error flow
+Message-ID: <CO2PR04MB2198A5365844DD35F9D5BAA682F40@CO2PR04MB2198.namprd04.prod.outlook.com>
 
-Similar to commit 8427bbc22486 ("nvme-pci: disable APST on Samsung SSD
-960 EVO + ASUS PRIME B350M-A"), the NVMe drops off the PCIe bus after
-S3.
+I can confirm that this patch does improve things and now when an 
+identify controller fails, there's 10 second reconnecting delay and 
+reconnection is then successful.  But, several more reset attempts now 
+produce a WARNING in ib_core followed by an oops in mlx5_core.  This is 
+with a ConnectX 4.  dmesg attached.
 
-We managed to find that a PCI reset after resume can workaround the
-issue.
+This is with 4.15.1 with the 3 patches Max sent earlier plus this patch.
 
-If we have more reports for Samsung 960 EVO/PM961/SM961, we should make
-this quirk mandatory.
+Let me know what I can do to help,
+Berck Nash
 
-BugLink: https://bugs.launchpad.net/bugs/1746340
-Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
----
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 10 ++++++++++
- 2 files changed, 15 insertions(+)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 8e4550fa08f8..e970423b7944 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -83,6 +83,11 @@ enum nvme_quirks {
- 	 * Supports the LighNVM command set if indicated in vs[1].
- 	 */
- 	NVME_QUIRK_LIGHTNVM			= (1 << 6),
-+
-+	/*
-+	 * The controller needs to do a PCI reset after resume.
-+	 */
-+	NVME_QUIRK_PCI_RESET_RESUME		= (1 << 7),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6fe7af00a1f4..e96dc301a4e7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2084,6 +2084,9 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	int result = -ENOMEM;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
-+	if (dev->ctrl.quirks & NVME_QUIRK_PCI_RESET_RESUME)
-+		pci_reset_function(pdev);
-+
- 	if (pci_enable_device_mem(pdev))
- 		return result;
- 
-@@ -2455,6 +2458,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 		if (dmi_match(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC.") &&
- 		    dmi_match(DMI_BOARD_NAME, "PRIME B350M-A"))
- 			return NVME_QUIRK_NO_APST;
-+		/*
-+		 * Samsung SSD 960 EVO and SM961/PM961 drop off the PCIe bus
-+		 * after system suspend on Razer Blade Stealth.
-+		 */
-+		else if (dmi_match(DMI_SYS_VENDOR, "Razer") &&
-+			 dmi_match(DMI_PRODUCT_NAME, "Blade Stealth"))
-+			return NVME_QUIRK_PCI_RESET_RESUME;
- 	}
- 
- 	return 0;
--- 
-2.15.1
+On 1/17/2018 1:01 PM, Nitzan Carmi wrote:
+ > When reset_controller that is invoked by sysfs fails,
+ > it enters an error flow which practically removes the
+ > nvme ctrl entirely (similar to delete_ctrl flow). It
+ > causes the system to hang, since a sysfs attribute cannot
+ > be unregistered by one of its own methods.
+ >
+ > This can be fixed by calling delete_ctrl as a work rather
+ > than sequential code. In addition, it should give the ctrl
+ > a chance to recover using reconnection mechanism (consistant
+ > with FC reset_ctrl error flow). Also, while we're here, return
+ > suitable errno in case the reset ended with non live ctrl.
+ >
+ > Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+ > Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+ > ---
+ >
+ > Changes from v1:
+ >   - Increment nr_reconnects when reset_ctrl has failed.
+ >
+ > ---
+ >   drivers/nvme/host/core.c | 6 +++++-
+ >   drivers/nvme/host/rdma.c | 7 ++-----
+ >   2 files changed, 7 insertions(+), 6 deletions(-)
+ >
+ > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+ > index 839650e..58a6997 100644
+ > --- a/drivers/nvme/host/core.c
+ > +++ b/drivers/nvme/host/core.c
+ > @@ -100,8 +100,12 @@ static int nvme_reset_ctrl_sync(struct nvme_ctrl 
+*ctrl)
+ >   	int ret;
+ >
+ >   	ret = nvme_reset_ctrl(ctrl);
+ > -	if (!ret)
+ > +	if (!ret) {
+ >   		flush_work(&ctrl->reset_work);
+ > +		if (ctrl->state != NVME_CTRL_LIVE)
+ > +			ret = -ENETRESET;
+ > +	}
+ > +
+ >   	return ret;
+ >   }
+ >
+ > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+ > index 2a0bba7..57d30e9 100644
+ > --- a/drivers/nvme/host/rdma.c
+ > +++ b/drivers/nvme/host/rdma.c
+ > @@ -1787,11 +1787,8 @@ static void nvme_rdma_reset_ctrl_work(struct 
+work_struct *work)
+ >   	return;
+ >
+ >   out_fail:
+ > -	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
+ > -	nvme_remove_namespaces(&ctrl->ctrl);
+ > -	nvme_rdma_shutdown_ctrl(ctrl, true);
+ > -	nvme_uninit_ctrl(&ctrl->ctrl);
+ > -	nvme_put_ctrl(&ctrl->ctrl);
+ > +	++ctrl->ctrl.nr_reconnects;
+ > +	nvme_rdma_reconnect_or_remove(ctrl);
+ >   }
+ >
+ >   static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ >
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: 4.15.1+_with_reset_patch.txt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180215/68d9319c/attachment-0001.txt>
