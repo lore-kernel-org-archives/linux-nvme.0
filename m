@@ -1,33 +1,70 @@
-From: jpittman@redhat.com (John Pittman)
-Date: Thu, 15 Feb 2018 15:42:58 -0500
-Subject: [PATCH] nvme: Use __func__ macro in place of function name
-Message-ID: <1518727378-23194-1-git-send-email-jpittman@redhat.com>
+From: wenxiong@linux.vnet.ibm.com (wenxiong)
+Date: Thu, 15 Feb 2018 15:35:17 -0600
+Subject: NVMe disks are not available with lsblk
+In-Reply-To: <20180215074425.eiqgxjc5kci2u3zv@linux-x5ow.site>
+References: <24c11b7c42c0958f813aa396c6cd85c3@linux.vnet.ibm.com>
+ <20180215074425.eiqgxjc5kci2u3zv@linux-x5ow.site>
+Message-ID: <42015a1d2e21bea1bd38227ba3d555af@linux.vnet.ibm.com>
 
-Function nvme_keep_alive_end_io() refers to itself in in a call
-to dev_err().  It does so using the actual function name in the
-error message.  This should be replaced by a call to the __func__
-macro.  Using the macro will prevent future potential risk of
-the function name changing and failure to change the associated
-error message.  This issue was exposed by checkpatch.pl.
+On 2018-02-15 01:44, Johannes Thumshirn wrote:
+> On Wed, Feb 14, 2018@10:40:01AM -0600, wenxiong wrote:
+>> Hi All,
+>> 
+>> Somehow with CONFIG_NVME_MULTIPATH enable(4.16.0-rc1), one of my NVME 
+>> device
+>> is not showed up with lsblk command.
+>> 
+>> 
+>> I am not familiar with CONFIG_NVME_MULTIPATH enable. I tried to enable
+>> multipath in system but still not show up.
+>> 
+>> For example,/dev/nvme1 device is showed up in nvme list but not with 
+>> lsblk.
+>> 
+>> Anyone saw the similar issue? Any suggestion for debugging this issue?
+> 
+> Can you chec if you have a this commit:
+> https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/commit/?id=d51f05bfecb299a830897106460bf395be440c0a
+> for util-linux?
+> 
+> Byte,
+> 	Johannes
 
-Signed-off-by: John Pittman <jpittman at redhat.com>
----
- drivers/nvme/host/core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi John,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f431c32..95402a9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -784,8 +784,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 
- 	if (status) {
- 		dev_err(ctrl->device,
--			"failed nvme_keep_alive_end_io error=%d\n",
--				status);
-+			"failed %s error=%d\n", __func__, status);
- 		return;
- 	}
- 
--- 
-2.7.5
+Thanks! I will try it.
+
+I found an interesting thing today. I have two NVME devices(difference 
+vendors) in my system.
+
+With CONFIG_NVME_MULTIPATH enable(4.16-rc1),
+
+linux-r4t8:/sys/block # ls -l
+total 0
+lrwxrwxrwx 1 root root 0 Feb 15 10:22 nvme0n1 -> 
+../devices/pci001e:90/001e:90:00.0/nvme/nvme0/nvme0n1
+lrwxrwxrwx 1 root root 0 Feb 15 10:22 nvme1c33n1 -> 
+../devices/pci001c:70/001c:70:00.0/nvme/nvme1/nvme1c33n1
+lrwxrwxrwx 1 root root 0 Feb 15 10:22 nvme1n1 -> 
+../devices/virtual/nvme-subsystem/nvme-subsys1/nvme1n1
+lrwxrwxrwx 1 root root 0 Feb 15 10:22 sda -> 
+../devices/vio/30000003/host0/target0:0:1/0:0:1:0/block/sda
+
+/dev/nvme1n1 is not showed up in lsblk. We really didn't see nvme1n1 in 
+/sys/block but we saw nvme1c33n1. Probably I need to understand more 
+about NVME_MULTIPATH. who may have documentation for NVME_MULTIPATH?
+
+
+Without CONFIG_NVME_MULTIPATH disablb(4.16-rc1),
+
+linux-r4t8:/sys/block # ls -ltr
+total 0
+lrwxrwxrwx 1 root root 0 Feb 15 15:14 nvme1n1 -> 
+../devices/pci001c:70/001c:70:00.0/nvme/nvme1/nvme1n1
+lrwxrwxrwx 1 root root 0 Feb 15 15:14 sda -> 
+../devices/vio/30000003/host0/target0:0:1/0:0:1:0/block/sda
+lrwxrwxrwx 1 root root 0 Feb 15 15:14 nvme0n1 -> 
+../devices/pci001e:90/001e:90:00.0/nvme/nvme0/nvme0n1
+
+Thanks,
+Wendy
