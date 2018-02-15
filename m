@@ -1,97 +1,69 @@
-From: gregkh@linuxfoundation.org (gregkh@linuxfoundation.org)
-Date: Thu, 15 Feb 2018 15:38:27 +0100
-Subject: Patch "nvme: Fix managing degraded controllers" has been added to the
- 4.4-stable tree
-In-Reply-To: <20180213161936.GE20962@localhost.localdomain>
-Message-ID: <151870550717658@kroah.com>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Thu, 15 Feb 2018 23:24:56 +0800
+Subject: [PATCH] nvme-pci: do a PCI reset after S3 on Samsung 960
+ EVO/PM961/SM961 + Razer Blade Stealth
+Message-ID: <20180215152456.21795-1-kai.heng.feng@canonical.com>
 
+Similar to commit 8427bbc22486 ("nvme-pci: disable APST on Samsung SSD
+960 EVO + ASUS PRIME B350M-A"), the NVMe drops off the PCIe bus after
+S3.
 
-This is a note to let you know that I've just added the patch titled
+We managed to find that a PCI reset after resume can workaround the
+issue.
 
-    nvme: Fix managing degraded controllers
+If we have more reports for Samsung 960 EVO/PM961/SM961, we should make
+this quirk mandatory.
 
-to the 4.4-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     nvme-fix-managing-degraded-controllers.patch
-and it can be found in the queue-4.4 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable at vger.kernel.org> know about it.
-
-
->From keith.busch at intel.com  Thu Feb 15 15:28:13 2018
-From: Keith Busch <keith.busch@intel.com>
-Date: Tue, 13 Feb 2018 09:19:37 -0700
-Subject: nvme: Fix managing degraded controllers
-To: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Cc: Linux NVMe <linux-nvme at lists.infradead.org>, stable at vger.kernel.org
-Message-ID: <20180213161936.GE20962 at localhost.localdomain>
-Content-Disposition: inline
-
-From: Keith Busch <keith.busch@intel.com>
-
-commit 5bae7f73d378a986 upstream
-
-Upstream is a near rewrite of the async nvme probe that ultimately didn't
-even cleanly merge in 4.5. This patch is a much smaller change targeted
-to the regression introduced in 4.4.
-
-If a controller is in a degraded mode that needs admin assistence to
-recover, we need to leave the controller running. We just want to disable
-namespace access without shuting the controller down.
-
-Fixes: 3cf519b5a8d4("nvme: merge nvme_dev_start, nvme_dev_resume and nvme_async_probe")
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-
+BugLink: https://bugs.launchpad.net/bugs/1746340
+Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
 ---
- drivers/nvme/host/pci.c |   13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/nvme/host/nvme.h |  5 +++++
+ drivers/nvme/host/pci.c  | 10 ++++++++++
+ 2 files changed, 15 insertions(+)
 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 8e4550fa08f8..e970423b7944 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -83,6 +83,11 @@ enum nvme_quirks {
+ 	 * Supports the LighNVM command set if indicated in vs[1].
+ 	 */
+ 	NVME_QUIRK_LIGHTNVM			= (1 << 6),
++
++	/*
++	 * The controller needs to do a PCI reset after resume.
++	 */
++	NVME_QUIRK_PCI_RESET_RESUME		= (1 << 7),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6fe7af00a1f4..e96dc301a4e7 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2976,10 +2976,16 @@ static void nvme_dev_shutdown(struct nvm
- 	mutex_unlock(&dev->shutdown_lock);
- }
+@@ -2084,6 +2084,9 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	int result = -ENOMEM;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
  
--static void nvme_dev_remove(struct nvme_dev *dev)
-+static void nvme_remove_namespaces(struct nvme_dev *dev)
- {
- 	struct nvme_ns *ns, *next;
- 
-+	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
-+		nvme_ns_remove(ns);
-+}
++	if (dev->ctrl.quirks & NVME_QUIRK_PCI_RESET_RESUME)
++		pci_reset_function(pdev);
 +
-+static void nvme_dev_remove(struct nvme_dev *dev)
-+{
- 	if (nvme_io_incapable(dev)) {
- 		/*
- 		 * If the device is not capable of IO (surprise hot-removal,
-@@ -2989,8 +2995,7 @@ static void nvme_dev_remove(struct nvme_
- 		 */
- 		nvme_dev_shutdown(dev);
- 	}
--	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
--		nvme_ns_remove(ns);
-+	nvme_remove_namespaces(dev);
- }
+ 	if (pci_enable_device_mem(pdev))
+ 		return result;
  
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
-@@ -3174,7 +3179,7 @@ static void nvme_probe_work(struct work_
- 	 */
- 	if (dev->online_queues < 2) {
- 		dev_warn(dev->dev, "IO queues not created\n");
--		nvme_dev_remove(dev);
-+		nvme_remove_namespaces(dev);
- 	} else {
- 		nvme_unfreeze_queues(dev);
- 		nvme_dev_add(dev);
-
-
-Patches currently in stable-queue which might be from keith.busch at intel.com are
-
-queue-4.4/nvme-fix-managing-degraded-controllers.patch
+@@ -2455,6 +2458,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ 		if (dmi_match(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC.") &&
+ 		    dmi_match(DMI_BOARD_NAME, "PRIME B350M-A"))
+ 			return NVME_QUIRK_NO_APST;
++		/*
++		 * Samsung SSD 960 EVO and SM961/PM961 drop off the PCIe bus
++		 * after system suspend on Razer Blade Stealth.
++		 */
++		else if (dmi_match(DMI_SYS_VENDOR, "Razer") &&
++			 dmi_match(DMI_PRODUCT_NAME, "Blade Stealth"))
++			return NVME_QUIRK_PCI_RESET_RESUME;
+ 	}
+ 
+ 	return 0;
+-- 
+2.15.1
