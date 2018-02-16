@@ -1,70 +1,327 @@
-From: wenxiong@linux.vnet.ibm.com (wenxiong)
-Date: Thu, 15 Feb 2018 15:35:17 -0600
-Subject: NVMe disks are not available with lsblk
-In-Reply-To: <20180215074425.eiqgxjc5kci2u3zv@linux-x5ow.site>
-References: <24c11b7c42c0958f813aa396c6cd85c3@linux.vnet.ibm.com>
- <20180215074425.eiqgxjc5kci2u3zv@linux-x5ow.site>
-Message-ID: <42015a1d2e21bea1bd38227ba3d555af@linux.vnet.ibm.com>
+From: javier@cnexlabs.com (Javier Gonzalez)
+Date: Fri, 16 Feb 2018 06:35:12 +0000
+Subject: [PATCH 2/8] lightnvm: show generic geometry in sysfs
+In-Reply-To: <caa2634b-63bf-3a35-ed53-220aab2bd05a@lightnvm.io>
+References: <1518530768-20956-1-git-send-email-javier@cnexlabs.com>
+ <1518530768-20956-3-git-send-email-javier@cnexlabs.com>
+ <caa2634b-63bf-3a35-ed53-220aab2bd05a@lightnvm.io>
+Message-ID: <E53B65E9-3D1A-49BB-AA5D-F3D2C4032484@cnexlabs.com>
 
-On 2018-02-15 01:44, Johannes Thumshirn wrote:
-> On Wed, Feb 14, 2018@10:40:01AM -0600, wenxiong wrote:
->> Hi All,
->> 
->> Somehow with CONFIG_NVME_MULTIPATH enable(4.16.0-rc1), one of my NVME 
->> device
->> is not showed up with lsblk command.
->> 
->> 
->> I am not familiar with CONFIG_NVME_MULTIPATH enable. I tried to enable
->> multipath in system but still not show up.
->> 
->> For example,/dev/nvme1 device is showed up in nvme list but not with 
->> lsblk.
->> 
->> Anyone saw the similar issue? Any suggestion for debugging this issue?
+
+> On 15 Feb 2018,@02.20, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
-> Can you chec if you have a this commit:
-> https://git.kernel.org/pub/scm/utils/util-linux/util-linux.git/commit/?id=d51f05bfecb299a830897106460bf395be440c0a
-> for util-linux?
+> On 02/13/2018 03:06 PM, Javier Gonz?lez wrote:
+>> From: Javier Gonz?lez <javier at javigon.com>
+>> Apart from showing the geometry returned by the different identify
+>> commands, provide the generic geometry too, as this is the geometry that
+>> targets will use to describe the device.
+>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+>> ---
+>>  drivers/nvme/host/lightnvm.c | 146 ++++++++++++++++++++++++++++---------------
+>>  1 file changed, 97 insertions(+), 49 deletions(-)
+>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+>> index 97739e668602..7bc75182c723 100644
+>> --- a/drivers/nvme/host/lightnvm.c
+>> +++ b/drivers/nvme/host/lightnvm.c
+>> @@ -944,8 +944,27 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
+>>  		return scnprintf(page, PAGE_SIZE, "%u.%u\n",
+>>  						dev_geo->major_ver_id,
+>>  						dev_geo->minor_ver_id);
+>> -	} else if (strcmp(attr->name, "capabilities") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
+>> +	} else if (strcmp(attr->name, "clba") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.clba);
+>> +	} else if (strcmp(attr->name, "csecs") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.csecs);
+>> +	} else if (strcmp(attr->name, "sos") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.sos);
+>> +	} else if (strcmp(attr->name, "ws_min") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_min);
+>> +	} else if (strcmp(attr->name, "ws_opt") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_opt);
+>> +	} else if (strcmp(attr->name, "maxoc") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.maxoc);
+>> +	} else if (strcmp(attr->name, "maxocpu") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.maxocpu);
+>> +	} else if (strcmp(attr->name, "mw_cunits") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mw_cunits);
+>> +	} else if (strcmp(attr->name, "media_capabilities") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
+>> +	} else if (strcmp(attr->name, "max_phys_secs") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n",
+>> +				ndev->ops->max_phys_sect);
+>>  	} else if (strcmp(attr->name, "read_typ") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.trdt);
+>>  	} else if (strcmp(attr->name, "read_max") == 0) {
+>> @@ -984,19 +1003,8 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+>>    	attr = &dattr->attr;
+>>  -	if (strcmp(attr->name, "vendor_opcode") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.vmnt);
+>> -	} else if (strcmp(attr->name, "device_mode") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.dom);
+>> -	/* kept for compatibility */
+>> -	} else if (strcmp(attr->name, "media_manager") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%s\n", "gennvm");
+>> -	} else if (strcmp(attr->name, "ppa_format") == 0) {
+>> +	if (strcmp(attr->name, "ppa_format") == 0) {
+>>  		return nvm_dev_attr_show_ppaf((void *)&dev_geo->c.addrf, page);
+>> -	} else if (strcmp(attr->name, "media_type") == 0) {	/* u8 */
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mtype);
+>> -	} else if (strcmp(attr->name, "flash_media_type") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.fmtype);
+>>  	} else if (strcmp(attr->name, "num_channels") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->num_ch);
+>>  	} else if (strcmp(attr->name, "num_luns") == 0) {
+>> @@ -1011,8 +1019,6 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.fpg_sz);
+>>  	} else if (strcmp(attr->name, "hw_sector_size") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.csecs);
+>> -	} else if (strcmp(attr->name, "oob_sector_size") == 0) {/* u32 */
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.sos);
+>>  	} else if (strcmp(attr->name, "prog_typ") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tprt);
+>>  	} else if (strcmp(attr->name, "prog_max") == 0) {
+>> @@ -1021,13 +1027,21 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbet);
+>>  	} else if (strcmp(attr->name, "erase_max") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbem);
+>> +	} else if (strcmp(attr->name, "vendor_opcode") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.vmnt);
+>> +	} else if (strcmp(attr->name, "device_mode") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.dom);
+>> +	/* kept for compatibility */
+>> +	} else if (strcmp(attr->name, "media_manager") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%s\n", "gennvm");
+>> +	} else if (strcmp(attr->name, "capabilities") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
+>> +	} else if (strcmp(attr->name, "media_type") == 0) {	/* u8 */
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mtype);
+>> +	} else if (strcmp(attr->name, "flash_media_type") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.fmtype);
+>>  	} else if (strcmp(attr->name, "multiplane_modes") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mpos);
+>> -	} else if (strcmp(attr->name, "media_capabilities") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mccap);
+>> -	} else if (strcmp(attr->name, "max_phys_secs") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n",
+>> -				ndev->ops->max_phys_sect);
+>>  	} else {
+>>  		return scnprintf(page, PAGE_SIZE,
+>>  			"Unhandled attr(%s) in `nvm_dev_attr_show_12`\n",
+>> @@ -1035,6 +1049,17 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+>>  	}
+>>  }
+>>  +static ssize_t nvm_dev_attr_show_lbaf(struct nvm_addr_format *lbaf,
+>> +					 char *page)
+>> +{
+>> +	return scnprintf(page, PAGE_SIZE,
+>> +		"0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+>> +				lbaf->ch_offset, lbaf->ch_len,
+>> +				lbaf->lun_offset, lbaf->lun_len,
+>> +				lbaf->chk_offset, lbaf->chk_len,
+>> +				lbaf->sec_offset, lbaf->sec_len);
+>> +}
+>> +
+>>  static ssize_t nvm_dev_attr_show_20(struct device *dev,
+>>  		struct device_attribute *dattr, char *page)
+>>  {
+>> @@ -1048,20 +1073,14 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
+>>    	attr = &dattr->attr;
+>>  -	if (strcmp(attr->name, "groups") == 0) {
+>> +	if (strcmp(attr->name, "lba_format") == 0) {
+>> +		return nvm_dev_attr_show_lbaf((void *)&dev_geo->c.addrf, page);
+>> +	} else if (strcmp(attr->name, "groups") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->num_ch);
+>>  	} else if (strcmp(attr->name, "punits") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->num_lun);
+>>  	} else if (strcmp(attr->name, "chunks") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.num_chk);
+>> -	} else if (strcmp(attr->name, "clba") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.clba);
+>> -	} else if (strcmp(attr->name, "ws_min") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_min);
+>> -	} else if (strcmp(attr->name, "ws_opt") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_opt);
+>> -	} else if (strcmp(attr->name, "mw_cunits") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mw_cunits);
+>>  	} else if (strcmp(attr->name, "write_typ") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tprt);
+>>  	} else if (strcmp(attr->name, "write_max") == 0) {
+>> @@ -1086,7 +1105,19 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
+>>    /* general attributes */
+>>  static NVM_DEV_ATTR_RO(version);
+>> -static NVM_DEV_ATTR_RO(capabilities);
+>> +
+>> +static NVM_DEV_ATTR_RO(ws_min);
+>> +static NVM_DEV_ATTR_RO(ws_opt);
+>> +static NVM_DEV_ATTR_RO(mw_cunits);
+>> +static NVM_DEV_ATTR_RO(maxoc);
+>> +static NVM_DEV_ATTR_RO(maxocpu);
+>> +
+>> +static NVM_DEV_ATTR_RO(media_capabilities);
+>> +static NVM_DEV_ATTR_RO(max_phys_secs);
+>> +
+>> +static NVM_DEV_ATTR_RO(clba);
+>> +static NVM_DEV_ATTR_RO(csecs);
+>> +static NVM_DEV_ATTR_RO(sos);
+>>    static NVM_DEV_ATTR_RO(read_typ);
+>>  static NVM_DEV_ATTR_RO(read_max);
+>> @@ -1105,42 +1136,53 @@ static NVM_DEV_ATTR_12_RO(num_blocks);
+>>  static NVM_DEV_ATTR_12_RO(num_pages);
+>>  static NVM_DEV_ATTR_12_RO(page_size);
+>>  static NVM_DEV_ATTR_12_RO(hw_sector_size);
+>> -static NVM_DEV_ATTR_12_RO(oob_sector_size);
+>>  static NVM_DEV_ATTR_12_RO(prog_typ);
+>>  static NVM_DEV_ATTR_12_RO(prog_max);
+>>  static NVM_DEV_ATTR_12_RO(erase_typ);
+>>  static NVM_DEV_ATTR_12_RO(erase_max);
+>>  static NVM_DEV_ATTR_12_RO(multiplane_modes);
+>> -static NVM_DEV_ATTR_12_RO(media_capabilities);
+>> -static NVM_DEV_ATTR_12_RO(max_phys_secs);
+>> +static NVM_DEV_ATTR_12_RO(capabilities);
+>>    static struct attribute *nvm_dev_attrs_12[] = {
+>>  	&dev_attr_version.attr,
+>> -	&dev_attr_capabilities.attr,
+>> -
+>> -	&dev_attr_vendor_opcode.attr,
+>> -	&dev_attr_device_mode.attr,
+>> -	&dev_attr_media_manager.attr,
+>>  	&dev_attr_ppa_format.attr,
+>> -	&dev_attr_media_type.attr,
+>> -	&dev_attr_flash_media_type.attr,
+>> +
+>>  	&dev_attr_num_channels.attr,
+>>  	&dev_attr_num_luns.attr,
+>>  	&dev_attr_num_planes.attr,
+>>  	&dev_attr_num_blocks.attr,
+>>  	&dev_attr_num_pages.attr,
+>>  	&dev_attr_page_size.attr,
+>> +
+>>  	&dev_attr_hw_sector_size.attr,
+>> -	&dev_attr_oob_sector_size.attr,
+>> +
+>> +	&dev_attr_clba.attr,
+>> +	&dev_attr_csecs.attr,
+>> +	&dev_attr_sos.attr,
+>> +
+>> +	&dev_attr_ws_min.attr,
+>> +	&dev_attr_ws_opt.attr,
+>> +	&dev_attr_maxoc.attr,
+>> +	&dev_attr_maxocpu.attr,
+>> +	&dev_attr_mw_cunits.attr,
+>> +
+>> +	&dev_attr_media_capabilities.attr,
+>> +	&dev_attr_max_phys_secs.attr,
+>> +
 > 
-> Byte,
-> 	Johannes
+> This breaks user-space. The intention is for user-space to decide
+> based on version id. Then it can either retrieve the 1.2 or 2.0
+> attributes. The 2.0 attributes should not be available when a device
+> is 1.2.
+> 
 
-Hi John,
+Why does it break it? I'm only adding new entries.
 
-Thanks! I will try it.
+The objective is to expose the genneric geometry, since this is the
+structure that is passed on to the targets. Since some of the values are
+calculated, there is value on exposing this information, I believe.
 
-I found an interesting thing today. I have two NVME devices(difference 
-vendors) in my system.
+Another way of doing it, is adding the generic geometry at the target
+level, showing what base values it is getting, including the real number
+of channels/groups and luns/pus.
 
-With CONFIG_NVME_MULTIPATH enable(4.16-rc1),
-
-linux-r4t8:/sys/block # ls -l
-total 0
-lrwxrwxrwx 1 root root 0 Feb 15 10:22 nvme0n1 -> 
-../devices/pci001e:90/001e:90:00.0/nvme/nvme0/nvme0n1
-lrwxrwxrwx 1 root root 0 Feb 15 10:22 nvme1c33n1 -> 
-../devices/pci001c:70/001c:70:00.0/nvme/nvme1/nvme1c33n1
-lrwxrwxrwx 1 root root 0 Feb 15 10:22 nvme1n1 -> 
-../devices/virtual/nvme-subsystem/nvme-subsys1/nvme1n1
-lrwxrwxrwx 1 root root 0 Feb 15 10:22 sda -> 
-../devices/vio/30000003/host0/target0:0:1/0:0:1:0/block/sda
-
-/dev/nvme1n1 is not showed up in lsblk. We really didn't see nvme1n1 in 
-/sys/block but we saw nvme1c33n1. Probably I need to understand more 
-about NVME_MULTIPATH. who may have documentation for NVME_MULTIPATH?
+Would this be better in your opinion?
 
 
-Without CONFIG_NVME_MULTIPATH disablb(4.16-rc1),
+>>  	&dev_attr_read_typ.attr,
+>>  	&dev_attr_read_max.attr,
+>>  	&dev_attr_prog_typ.attr,
+>>  	&dev_attr_prog_max.attr,
+>>  	&dev_attr_erase_typ.attr,
+>>  	&dev_attr_erase_max.attr,
+>> +
+>> +	&dev_attr_vendor_opcode.attr,
+>> +	&dev_attr_device_mode.attr,
+>> +	&dev_attr_media_manager.attr,
+>> +	&dev_attr_capabilities.attr,
+>> +	&dev_attr_media_type.attr,
+>> +	&dev_attr_flash_media_type.attr,
+>>  	&dev_attr_multiplane_modes.attr,
+>> -	&dev_attr_media_capabilities.attr,
+>> -	&dev_attr_max_phys_secs.attr,
+>>    	NULL,
+>>  };
+>> @@ -1152,12 +1194,9 @@ static const struct attribute_group nvm_dev_attr_group_12 = {
+>>    /* 2.0 values */
+>>  static NVM_DEV_ATTR_20_RO(groups);
+>> +static NVM_DEV_ATTR_20_RO(lba_format);
+>>  static NVM_DEV_ATTR_20_RO(punits);
+>>  static NVM_DEV_ATTR_20_RO(chunks);
+>> -static NVM_DEV_ATTR_20_RO(clba);
+>> -static NVM_DEV_ATTR_20_RO(ws_min);
+>> -static NVM_DEV_ATTR_20_RO(ws_opt);
+>> -static NVM_DEV_ATTR_20_RO(mw_cunits);
+>>  static NVM_DEV_ATTR_20_RO(write_typ);
+>>  static NVM_DEV_ATTR_20_RO(write_max);
+>>  static NVM_DEV_ATTR_20_RO(reset_typ);
+>> @@ -1165,16 +1204,25 @@ static NVM_DEV_ATTR_20_RO(reset_max);
+>>    static struct attribute *nvm_dev_attrs_20[] = {
+>>  	&dev_attr_version.attr,
+>> -	&dev_attr_capabilities.attr,
+>> +	&dev_attr_lba_format.attr,
+>>    	&dev_attr_groups.attr,
+>>  	&dev_attr_punits.attr,
+>>  	&dev_attr_chunks.attr,
+>> +
+>>  	&dev_attr_clba.attr,
+>> +	&dev_attr_csecs.attr,
+>> +	&dev_attr_sos.attr,
+> 
+> csecs and sos are derived from the the generic block device data structures.
 
-linux-r4t8:/sys/block # ls -ltr
-total 0
-lrwxrwxrwx 1 root root 0 Feb 15 15:14 nvme1n1 -> 
-../devices/pci001c:70/001c:70:00.0/nvme/nvme1/nvme1n1
-lrwxrwxrwx 1 root root 0 Feb 15 15:14 sda -> 
-../devices/vio/30000003/host0/target0:0:1/0:0:1:0/block/sda
-lrwxrwxrwx 1 root root 0 Feb 15 15:14 nvme0n1 -> 
-../devices/pci001e:90/001e:90:00.0/nvme/nvme0/nvme0n1
+As mentioned above, it is to represent the generic geometry.
 
-Thanks,
-Wendy
+> 
+>> +
+>>  	&dev_attr_ws_min.attr,
+>>  	&dev_attr_ws_opt.attr,
+>> +	&dev_attr_maxoc.attr,
+>> +	&dev_attr_maxocpu.attr,
+> 
+> When the maxoc/maxocpu are in another patch, these changes can be included.
+
+ok.
+
+> 
+>>  	&dev_attr_mw_cunits.attr,
+>>  +	&dev_attr_media_capabilities.attr,
+> 
+> What is the meaning of media in this context? The 2.0 spec defines
+> vector copy and double resets in its capabilities, it does not have
+> media in mind.
+> 
+
+It refers to the mcap (vector copy and double resets for now, as you
+mention). I kept the name, name, but I can rename it if it is better...
+
+>> +	&dev_attr_max_phys_secs.attr,
+>> +
+> 
+> I kill max_phys_secs in another patch. It has been made redundant
+> after null_blk has been removed.
+
+I'll answer this on the patch - I have a questions here.
+
+>>  	&dev_attr_read_typ.attr,
+>>  	&dev_attr_read_max.attr,
+>>  	&dev_attr_write_typ.attr,
+
+Javier
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180216/b7a65545/attachment-0001.sig>
