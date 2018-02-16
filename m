@@ -1,327 +1,344 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Fri, 16 Feb 2018 06:35:12 +0000
-Subject: [PATCH 2/8] lightnvm: show generic geometry in sysfs
-In-Reply-To: <caa2634b-63bf-3a35-ed53-220aab2bd05a@lightnvm.io>
+From: jg@lightnvm.io (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Thu, 15 Feb 2018 22:38:56 -0800
+Subject: [PATCH 6/8] lightnvm: pblk: implement get log report chunk
+In-Reply-To: <0287b2a1-34b3-d069-04ef-79170def571f@lightnvm.io>
 References: <1518530768-20956-1-git-send-email-javier@cnexlabs.com>
- <1518530768-20956-3-git-send-email-javier@cnexlabs.com>
- <caa2634b-63bf-3a35-ed53-220aab2bd05a@lightnvm.io>
-Message-ID: <E53B65E9-3D1A-49BB-AA5D-F3D2C4032484@cnexlabs.com>
+ <1518530768-20956-7-git-send-email-javier@cnexlabs.com>
+ <0287b2a1-34b3-d069-04ef-79170def571f@lightnvm.io>
+Message-ID: <ADD0E58F-DBA5-4A53-9666-0B046F5DAE8E@lightnvm.io>
 
 
-> On 15 Feb 2018,@02.20, Matias Bj?rling <mb@lightnvm.io> wrote:
+> On 15 Feb 2018,@02.59, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
 > On 02/13/2018 03:06 PM, Javier Gonz?lez wrote:
 >> From: Javier Gonz?lez <javier at javigon.com>
->> Apart from showing the geometry returned by the different identify
->> commands, provide the generic geometry too, as this is the geometry that
->> targets will use to describe the device.
+>> In preparation of pblk supporting 2.0, implement the get log report
+>> chunk in pblk.
+>> This patch only replicates de bad block functionality as the rest of the
+>> metadata requires new pblk functionality (e.g., wear-index to implement
+>> wear-leveling). This functionality will come in future patches.
 >> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 >> ---
->>  drivers/nvme/host/lightnvm.c | 146 ++++++++++++++++++++++++++++---------------
->>  1 file changed, 97 insertions(+), 49 deletions(-)
->> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->> index 97739e668602..7bc75182c723 100644
->> --- a/drivers/nvme/host/lightnvm.c
->> +++ b/drivers/nvme/host/lightnvm.c
->> @@ -944,8 +944,27 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
->>  		return scnprintf(page, PAGE_SIZE, "%u.%u\n",
->>  						dev_geo->major_ver_id,
->>  						dev_geo->minor_ver_id);
->> -	} else if (strcmp(attr->name, "capabilities") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
->> +	} else if (strcmp(attr->name, "clba") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.clba);
->> +	} else if (strcmp(attr->name, "csecs") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.csecs);
->> +	} else if (strcmp(attr->name, "sos") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.sos);
->> +	} else if (strcmp(attr->name, "ws_min") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_min);
->> +	} else if (strcmp(attr->name, "ws_opt") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_opt);
->> +	} else if (strcmp(attr->name, "maxoc") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.maxoc);
->> +	} else if (strcmp(attr->name, "maxocpu") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.maxocpu);
->> +	} else if (strcmp(attr->name, "mw_cunits") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mw_cunits);
->> +	} else if (strcmp(attr->name, "media_capabilities") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
->> +	} else if (strcmp(attr->name, "max_phys_secs") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n",
->> +				ndev->ops->max_phys_sect);
->>  	} else if (strcmp(attr->name, "read_typ") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.trdt);
->>  	} else if (strcmp(attr->name, "read_max") == 0) {
->> @@ -984,19 +1003,8 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
->>    	attr = &dattr->attr;
->>  -	if (strcmp(attr->name, "vendor_opcode") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.vmnt);
->> -	} else if (strcmp(attr->name, "device_mode") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.dom);
->> -	/* kept for compatibility */
->> -	} else if (strcmp(attr->name, "media_manager") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%s\n", "gennvm");
->> -	} else if (strcmp(attr->name, "ppa_format") == 0) {
->> +	if (strcmp(attr->name, "ppa_format") == 0) {
->>  		return nvm_dev_attr_show_ppaf((void *)&dev_geo->c.addrf, page);
->> -	} else if (strcmp(attr->name, "media_type") == 0) {	/* u8 */
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mtype);
->> -	} else if (strcmp(attr->name, "flash_media_type") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.fmtype);
->>  	} else if (strcmp(attr->name, "num_channels") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->num_ch);
->>  	} else if (strcmp(attr->name, "num_luns") == 0) {
->> @@ -1011,8 +1019,6 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.fpg_sz);
->>  	} else if (strcmp(attr->name, "hw_sector_size") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.csecs);
->> -	} else if (strcmp(attr->name, "oob_sector_size") == 0) {/* u32 */
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.sos);
->>  	} else if (strcmp(attr->name, "prog_typ") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tprt);
->>  	} else if (strcmp(attr->name, "prog_max") == 0) {
->> @@ -1021,13 +1027,21 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbet);
->>  	} else if (strcmp(attr->name, "erase_max") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbem);
->> +	} else if (strcmp(attr->name, "vendor_opcode") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.vmnt);
->> +	} else if (strcmp(attr->name, "device_mode") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.dom);
->> +	/* kept for compatibility */
->> +	} else if (strcmp(attr->name, "media_manager") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%s\n", "gennvm");
->> +	} else if (strcmp(attr->name, "capabilities") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
->> +	} else if (strcmp(attr->name, "media_type") == 0) {	/* u8 */
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mtype);
->> +	} else if (strcmp(attr->name, "flash_media_type") == 0) {
->> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.fmtype);
->>  	} else if (strcmp(attr->name, "multiplane_modes") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mpos);
->> -	} else if (strcmp(attr->name, "media_capabilities") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mccap);
->> -	} else if (strcmp(attr->name, "max_phys_secs") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n",
->> -				ndev->ops->max_phys_sect);
->>  	} else {
->>  		return scnprintf(page, PAGE_SIZE,
->>  			"Unhandled attr(%s) in `nvm_dev_attr_show_12`\n",
->> @@ -1035,6 +1049,17 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
->>  	}
+>>  drivers/lightnvm/pblk-core.c  | 118 +++++++++++++++++++++++----
+>>  drivers/lightnvm/pblk-init.c  | 186 +++++++++++++++++++++++++++++++-----------
+>>  drivers/lightnvm/pblk-sysfs.c |  67 +++++++++++++++
+>>  drivers/lightnvm/pblk.h       |  20 +++++
+>>  4 files changed, 327 insertions(+), 64 deletions(-)
+>> diff --git a/drivers/lightnvm/pblk-core.c b/drivers/lightnvm/pblk-core.c
+>> index 519af8b9eab7..01b78ee5c0e0 100644
+>> --- a/drivers/lightnvm/pblk-core.c
+>> +++ b/drivers/lightnvm/pblk-core.c
+>> @@ -44,11 +44,12 @@ static void pblk_line_mark_bb(struct work_struct *work)
 >>  }
->>  +static ssize_t nvm_dev_attr_show_lbaf(struct nvm_addr_format *lbaf,
->> +					 char *page)
+>>    static void pblk_mark_bb(struct pblk *pblk, struct pblk_line *line,
+>> -			 struct ppa_addr *ppa)
+>> +			 struct ppa_addr ppa_addr)
+>>  {
+>>  	struct nvm_tgt_dev *dev = pblk->dev;
+>>  	struct nvm_geo *geo = &dev->geo;
+>> -	int pos = pblk_ppa_to_pos(geo, *ppa);
+>> +	struct ppa_addr *ppa;
+>> +	int pos = pblk_ppa_to_pos(geo, ppa_addr);
+>>    	pr_debug("pblk: erase failed: line:%d, pos:%d\n", line->id, pos);
+>>  	atomic_long_inc(&pblk->erase_failed);
+>> @@ -58,6 +59,15 @@ static void pblk_mark_bb(struct pblk *pblk, struct pblk_line *line,
+>>  		pr_err("pblk: attempted to erase bb: line:%d, pos:%d\n",
+>>  							line->id, pos);
+>>  +	/* Not necessary to mark bad blocks on 2.0 spec. */
+>> +	if (geo->c.version == NVM_OCSSD_SPEC_20)
+>> +		return;
+>> +
+>> +	ppa = kmalloc(sizeof(struct ppa_addr), GFP_ATOMIC);
+>> +	if (!ppa)
+>> +		return;
+>> +
+>> +	*ppa = ppa_addr;
+>>  	pblk_gen_run_ws(pblk, NULL, ppa, pblk_line_mark_bb,
+>>  						GFP_ATOMIC, pblk->bb_wq);
+>>  }
+>> @@ -69,16 +79,8 @@ static void __pblk_end_io_erase(struct pblk *pblk, struct nvm_rq *rqd)
+>>  	line = &pblk->lines[pblk_ppa_to_line(rqd->ppa_addr)];
+>>  	atomic_dec(&line->left_seblks);
+>>  -	if (rqd->error) {
+>> -		struct ppa_addr *ppa;
+>> -
+>> -		ppa = kmalloc(sizeof(struct ppa_addr), GFP_ATOMIC);
+>> -		if (!ppa)
+>> -			return;
+>> -
+>> -		*ppa = rqd->ppa_addr;
+>> -		pblk_mark_bb(pblk, line, ppa);
+>> -	}
+>> +	if (rqd->error)
+>> +		pblk_mark_bb(pblk, line, rqd->ppa_addr);
+>>    	atomic_dec(&pblk->inflight_io);
+>>  }
+>> @@ -92,6 +94,47 @@ static void pblk_end_io_erase(struct nvm_rq *rqd)
+>>  	mempool_free(rqd, pblk->e_rq_pool);
+>>  }
+>>  +/*
+>> + * Get information for all chunks from the device.
+>> + *
+>> + * The caller is responsible for freeing the returned structure
+>> + */
+>> +struct nvm_chunk_log_page *pblk_chunk_get_info(struct pblk *pblk)
 >> +{
->> +	return scnprintf(page, PAGE_SIZE,
->> +		"0x%02x%02x%02x%02x%02x%02x%02x%02x\n",
->> +				lbaf->ch_offset, lbaf->ch_len,
->> +				lbaf->lun_offset, lbaf->lun_len,
->> +				lbaf->chk_offset, lbaf->chk_len,
->> +				lbaf->sec_offset, lbaf->sec_len);
+>> +	struct nvm_tgt_dev *dev = pblk->dev;
+>> +	struct nvm_geo *geo = &dev->geo;
+>> +	struct nvm_chunk_log_page *log;
+>> +	unsigned long len;
+>> +	int ret;
+>> +
+>> +	len = geo->all_chunks * sizeof(*log);
+>> +	log = kzalloc(len, GFP_KERNEL);
+>> +	if (!log)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	ret = nvm_get_chunk_log_page(dev, log, 0, len);
+>> +	if (ret) {
+>> +		pr_err("pblk: could not get chunk log page (%d)\n", ret);
+>> +		kfree(log);
+>> +		return ERR_PTR(-EIO);
+>> +	}
+>> +
+>> +	return log;
 >> +}
 >> +
->>  static ssize_t nvm_dev_attr_show_20(struct device *dev,
->>  		struct device_attribute *dattr, char *page)
+>> +struct nvm_chunk_log_page *pblk_chunk_get_off(struct pblk *pblk,
+>> +					      struct nvm_chunk_log_page *lp,
+>> +					      struct ppa_addr ppa)
+>> +{
+>> +	struct nvm_tgt_dev *dev = pblk->dev;
+>> +	struct nvm_geo *geo = &dev->geo;
+>> +	int ch_off = ppa.m.ch * geo->c.num_chk * geo->num_lun;
+>> +	int lun_off = ppa.m.lun * geo->c.num_chk;
+>> +	int chk_off = ppa.m.chk;
+>> +
+>> +	return lp + ch_off + lun_off + chk_off;
+>> +}
+>> +
+>>  void __pblk_map_invalidate(struct pblk *pblk, struct pblk_line *line,
+>>  			   u64 paddr)
 >>  {
->> @@ -1048,20 +1073,14 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
->>    	attr = &dattr->attr;
->>  -	if (strcmp(attr->name, "groups") == 0) {
->> +	if (strcmp(attr->name, "lba_format") == 0) {
->> +		return nvm_dev_attr_show_lbaf((void *)&dev_geo->c.addrf, page);
->> +	} else if (strcmp(attr->name, "groups") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->num_ch);
->>  	} else if (strcmp(attr->name, "punits") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->num_lun);
->>  	} else if (strcmp(attr->name, "chunks") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.num_chk);
->> -	} else if (strcmp(attr->name, "clba") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.clba);
->> -	} else if (strcmp(attr->name, "ws_min") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_min);
->> -	} else if (strcmp(attr->name, "ws_opt") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_opt);
->> -	} else if (strcmp(attr->name, "mw_cunits") == 0) {
->> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mw_cunits);
->>  	} else if (strcmp(attr->name, "write_typ") == 0) {
->>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tprt);
->>  	} else if (strcmp(attr->name, "write_max") == 0) {
->> @@ -1086,7 +1105,19 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
->>    /* general attributes */
->>  static NVM_DEV_ATTR_RO(version);
->> -static NVM_DEV_ATTR_RO(capabilities);
+>> @@ -1094,10 +1137,38 @@ static int pblk_line_init_bb(struct pblk *pblk, struct pblk_line *line,
+>>  	return 1;
+>>  }
+>>  +static int pblk_prepare_new_line(struct pblk *pblk, struct pblk_line *line)
+>> +{
+>> +	struct pblk_line_meta *lm = &pblk->lm;
+>> +	struct nvm_tgt_dev *dev = pblk->dev;
+>> +	struct nvm_geo *geo = &dev->geo;
+>> +	int blk_to_erase = atomic_read(&line->blk_in_line);
+>> +	int i;
 >> +
->> +static NVM_DEV_ATTR_RO(ws_min);
->> +static NVM_DEV_ATTR_RO(ws_opt);
->> +static NVM_DEV_ATTR_RO(mw_cunits);
->> +static NVM_DEV_ATTR_RO(maxoc);
->> +static NVM_DEV_ATTR_RO(maxocpu);
+>> +	for (i = 0; i < lm->blk_per_line; i++) {
+>> +		int state = line->chks[i].state;
+>> +		struct pblk_lun *rlun = &pblk->luns[i];
 >> +
->> +static NVM_DEV_ATTR_RO(media_capabilities);
->> +static NVM_DEV_ATTR_RO(max_phys_secs);
+>> +		/* Free chunks should not be erased */
+>> +		if (state & NVM_CHK_ST_FREE) {
+>> +			set_bit(pblk_ppa_to_pos(geo, rlun->chunk_bppa),
+>> +					line->erase_bitmap);
+>> +			blk_to_erase--;
+>> +			line->chks[i].state = NVM_CHK_ST_HOST_USE;
+>> +		}
 >> +
->> +static NVM_DEV_ATTR_RO(clba);
->> +static NVM_DEV_ATTR_RO(csecs);
->> +static NVM_DEV_ATTR_RO(sos);
->>    static NVM_DEV_ATTR_RO(read_typ);
->>  static NVM_DEV_ATTR_RO(read_max);
->> @@ -1105,42 +1136,53 @@ static NVM_DEV_ATTR_12_RO(num_blocks);
->>  static NVM_DEV_ATTR_12_RO(num_pages);
->>  static NVM_DEV_ATTR_12_RO(page_size);
->>  static NVM_DEV_ATTR_12_RO(hw_sector_size);
->> -static NVM_DEV_ATTR_12_RO(oob_sector_size);
->>  static NVM_DEV_ATTR_12_RO(prog_typ);
->>  static NVM_DEV_ATTR_12_RO(prog_max);
->>  static NVM_DEV_ATTR_12_RO(erase_typ);
->>  static NVM_DEV_ATTR_12_RO(erase_max);
->>  static NVM_DEV_ATTR_12_RO(multiplane_modes);
->> -static NVM_DEV_ATTR_12_RO(media_capabilities);
->> -static NVM_DEV_ATTR_12_RO(max_phys_secs);
->> +static NVM_DEV_ATTR_12_RO(capabilities);
->>    static struct attribute *nvm_dev_attrs_12[] = {
->>  	&dev_attr_version.attr,
->> -	&dev_attr_capabilities.attr,
+>> +		WARN_ONCE(state & NVM_CHK_ST_OPEN,
+>> +				"pblk: open chunk in new line: %d\n",
+>> +				line->id);
+>> +	}
+>> +
+>> +	return blk_to_erase;
+>> +}
+>> +
+>>  static int pblk_line_prepare(struct pblk *pblk, struct pblk_line *line)
+>>  {
+>>  	struct pblk_line_meta *lm = &pblk->lm;
+>> -	int blk_in_line = atomic_read(&line->blk_in_line);
+>> +	int blk_to_erase;
+>>    	line->map_bitmap = kzalloc(lm->sec_bitmap_len, GFP_ATOMIC);
+>>  	if (!line->map_bitmap)
+>> @@ -1110,7 +1181,21 @@ static int pblk_line_prepare(struct pblk *pblk, struct pblk_line *line)
+>>  		return -ENOMEM;
+>>  	}
+>>  +	/* Bad blocks do not need to be erased */
+>> +	bitmap_copy(line->erase_bitmap, line->blk_bitmap, lm->blk_per_line);
+>> +
+>>  	spin_lock(&line->lock);
+>> +
+>> +	/* If we have not written to this line, we need to mark up free chunks
+>> +	 * as already erased
+>> +	 */
+>> +	if (line->state == PBLK_LINESTATE_NEW) {
+>> +		blk_to_erase = pblk_prepare_new_line(pblk, line);
+>> +		line->state = PBLK_LINESTATE_FREE;
+>> +	} else {
+>> +		blk_to_erase = atomic_read(&line->blk_in_line);
+>> +	}
+>> +
+>>  	if (line->state != PBLK_LINESTATE_FREE) {
+>>  		kfree(line->map_bitmap);
+>>  		kfree(line->invalid_bitmap);
+>> @@ -1122,15 +1207,12 @@ static int pblk_line_prepare(struct pblk *pblk, struct pblk_line *line)
+>>    	line->state = PBLK_LINESTATE_OPEN;
+>>  -	atomic_set(&line->left_eblks, blk_in_line);
+>> -	atomic_set(&line->left_seblks, blk_in_line);
+>> +	atomic_set(&line->left_eblks, blk_to_erase);
+>> +	atomic_set(&line->left_seblks, blk_to_erase);
+>>    	line->meta_distance = lm->meta_distance;
+>>  	spin_unlock(&line->lock);
+>>  -	/* Bad blocks do not need to be erased */
+>> -	bitmap_copy(line->erase_bitmap, line->blk_bitmap, lm->blk_per_line);
 >> -
->> -	&dev_attr_vendor_opcode.attr,
->> -	&dev_attr_device_mode.attr,
->> -	&dev_attr_media_manager.attr,
->>  	&dev_attr_ppa_format.attr,
->> -	&dev_attr_media_type.attr,
->> -	&dev_attr_flash_media_type.attr,
+>>  	kref_init(&line->ref);
+>>    	return 0;
+>> diff --git a/drivers/lightnvm/pblk-init.c b/drivers/lightnvm/pblk-init.c
+>> index 72b7902e5d1c..dfc68718e27e 100644
+>> --- a/drivers/lightnvm/pblk-init.c
+>> +++ b/drivers/lightnvm/pblk-init.c
+>> @@ -402,6 +402,7 @@ static void pblk_line_meta_free(struct pblk_line *line)
+>>  {
+>>  	kfree(line->blk_bitmap);
+>>  	kfree(line->erase_bitmap);
+>> +	kfree(line->chks);
+>>  }
+>>    static void pblk_lines_free(struct pblk *pblk)
+>> @@ -470,25 +471,15 @@ static void *pblk_bb_get_log(struct pblk *pblk)
+>>  	return log;
+>>  }
+>>  -static int pblk_bb_line(struct pblk *pblk, struct pblk_line *line,
+>> -			u8 *bb_log, int blk_per_line)
+>> +static void *pblk_chunk_get_log(struct pblk *pblk)
+>>  {
+>>  	struct nvm_tgt_dev *dev = pblk->dev;
+>>  	struct nvm_geo *geo = &dev->geo;
+>> -	int i, bb_cnt = 0;
+>>  -	for (i = 0; i < blk_per_line; i++) {
+>> -		struct pblk_lun *rlun = &pblk->luns[i];
+>> -		u8 *lun_bb_log = bb_log + i * blk_per_line;
+>> -
+>> -		if (lun_bb_log[line->id] == NVM_BLK_T_FREE)
+>> -			continue;
+>> -
+>> -		set_bit(pblk_ppa_to_pos(geo, rlun->bppa), line->blk_bitmap);
+>> -		bb_cnt++;
+>> -	}
+>> -
+>> -	return bb_cnt;
+>> +	if (geo->c.version == NVM_OCSSD_SPEC_12)
+>> +		return pblk_bb_get_log(pblk);
+>> +	else
+>> +		return pblk_chunk_get_info(pblk);
+>>  }
+>>    static int pblk_luns_init(struct pblk *pblk, struct ppa_addr *luns)
+>> @@ -517,6 +508,7 @@ static int pblk_luns_init(struct pblk *pblk, struct ppa_addr *luns)
+>>    		rlun = &pblk->luns[i];
+>>  		rlun->bppa = luns[lunid];
+>> +		rlun->chunk_bppa = luns[i];
+>>    		sema_init(&rlun->wr_sem, 1);
+>>  	}
+>> @@ -696,8 +688,125 @@ static int pblk_lines_alloc_metadata(struct pblk *pblk)
+>>  	return -ENOMEM;
+>>  }
+>>  -static int pblk_setup_line_meta(struct pblk *pblk, struct pblk_line *line,
+>> -				void *chunk_log, long *nr_bad_blks)
+>> +static int pblk_setup_line_meta_12(struct pblk *pblk, struct pblk_line *line,
+>> +				   void *chunk_log)
+>> +{
+>> +	struct nvm_tgt_dev *dev = pblk->dev;
+>> +	struct nvm_geo *geo = &dev->geo;
+>> +	struct pblk_line_meta *lm = &pblk->lm;
+>> +	int i, chk_per_lun, nr_bad_chks = 0;
 >> +
->>  	&dev_attr_num_channels.attr,
->>  	&dev_attr_num_luns.attr,
->>  	&dev_attr_num_planes.attr,
->>  	&dev_attr_num_blocks.attr,
->>  	&dev_attr_num_pages.attr,
->>  	&dev_attr_page_size.attr,
+>> +	chk_per_lun = geo->c.num_chk * geo->c.pln_mode;
 >> +
->>  	&dev_attr_hw_sector_size.attr,
->> -	&dev_attr_oob_sector_size.attr,
+>> +	for (i = 0; i < lm->blk_per_line; i++) {
+>> +		struct pblk_chunk *chunk = &line->chks[i];
+>> +		struct pblk_lun *rlun = &pblk->luns[i];
+>> +		u8 *lun_bb_log = chunk_log + i * chk_per_lun;
 >> +
->> +	&dev_attr_clba.attr,
->> +	&dev_attr_csecs.attr,
->> +	&dev_attr_sos.attr,
+>> +		/*
+>> +		 * In 1.2 spec. chunk state is not persisted by the device. Thus
+>> +		 * some of the values are reset each time pblk is instantiated.
+>> +		 */
+>> +		if (lun_bb_log[line->id] == NVM_BLK_T_FREE)
+>> +			chunk->state =  NVM_CHK_ST_HOST_USE;
+>> +		else
+>> +			chunk->state = NVM_CHK_ST_OFFLINE;
 >> +
->> +	&dev_attr_ws_min.attr,
->> +	&dev_attr_ws_opt.attr,
->> +	&dev_attr_maxoc.attr,
->> +	&dev_attr_maxocpu.attr,
->> +	&dev_attr_mw_cunits.attr,
+>> +		chunk->type = NVM_CHK_TP_W_SEQ;
+>> +		chunk->wi = 0;
+>> +		chunk->slba = -1;
+>> +		chunk->cnlb = geo->c.clba;
+>> +		chunk->wp = 0;
 >> +
->> +	&dev_attr_media_capabilities.attr,
->> +	&dev_attr_max_phys_secs.attr,
+>> +		if (!(chunk->state & NVM_CHK_ST_OFFLINE))
+>> +			continue;
+>> +
+>> +		set_bit(pblk_ppa_to_pos(geo, rlun->bppa), line->blk_bitmap);
+>> +		nr_bad_chks++;
+>> +	}
+>> +
+>> +	return nr_bad_chks;
+>> +}
+>> +
+>> +static int pblk_setup_line_meta_20(struct pblk *pblk, struct pblk_line *line,
+>> +				   struct nvm_chunk_log_page *log_page)
+>> +{
+>> +	struct nvm_tgt_dev *dev = pblk->dev;
+>> +	struct nvm_geo *geo = &dev->geo;
+>> +	struct pblk_line_meta *lm = &pblk->lm;
+>> +	int i, nr_bad_chks = 0;
+>> +
+>> +	for (i = 0; i < lm->blk_per_line; i++) {
+>> +		struct pblk_chunk *chunk = &line->chks[i];
+>> +		struct pblk_lun *rlun = &pblk->luns[i];
+>> +		struct nvm_chunk_log_page *chunk_log_page;
+>> +		struct ppa_addr ppa;
+>> +
+>> +		ppa = rlun->chunk_bppa;
+>> +		ppa.m.chk = line->id;
+>> +		chunk_log_page = pblk_chunk_get_off(pblk, log_page, ppa);
+>> +
+>> +		chunk->state = chunk_log_page->state;
+>> +		chunk->type = chunk_log_page->type;
+>> +		chunk->wi = chunk_log_page->wear_index;
+>> +		chunk->slba = le64_to_cpu(chunk_log_page->slba);
+>> +		chunk->cnlb = le64_to_cpu(chunk_log_page->cnlb);
+>> +		chunk->wp = le64_to_cpu(chunk_log_page->wp);
+>> +
+>> +		if (!(chunk->state & NVM_CHK_ST_OFFLINE))
+>> +			continue;
+>> +
+>> +		if (chunk->type & NVM_CHK_TP_SZ_SPEC) {
+>> +			WARN_ONCE(1, "pblk: custom-sized chunks unsupported\n");
+>> +			continue;
+>> +		}
+>> +
+>> +		set_bit(pblk_ppa_to_pos(geo, rlun->chunk_bppa),
+>> +							line->blk_bitmap);
+>> +		nr_bad_chks++;
+>> +	}
+>> +
+>> +	return nr_bad_chks;
+>> +}
 >> +
 > 
-> This breaks user-space. The intention is for user-space to decide
-> based on version id. Then it can either retrieve the 1.2 or 2.0
-> attributes. The 2.0 attributes should not be available when a device
-> is 1.2.
+> The device chunk to nvm_chunk logic belongs in the lightnvm core. A
+> target should preferably not handle the case between 1.2 and 2.0
+> interface.
 > 
 
-Why does it break it? I'm only adding new entries.
-
-The objective is to expose the genneric geometry, since this is the
-structure that is passed on to the targets. Since some of the values are
-calculated, there is value on exposing this information, I believe.
-
-Another way of doing it, is adding the generic geometry at the target
-level, showing what base values it is getting, including the real number
-of channels/groups and luns/pus.
-
-Would this be better in your opinion?
-
-
->>  	&dev_attr_read_typ.attr,
->>  	&dev_attr_read_max.attr,
->>  	&dev_attr_prog_typ.attr,
->>  	&dev_attr_prog_max.attr,
->>  	&dev_attr_erase_typ.attr,
->>  	&dev_attr_erase_max.attr,
->> +
->> +	&dev_attr_vendor_opcode.attr,
->> +	&dev_attr_device_mode.attr,
->> +	&dev_attr_media_manager.attr,
->> +	&dev_attr_capabilities.attr,
->> +	&dev_attr_media_type.attr,
->> +	&dev_attr_flash_media_type.attr,
->>  	&dev_attr_multiplane_modes.attr,
->> -	&dev_attr_media_capabilities.attr,
->> -	&dev_attr_max_phys_secs.attr,
->>    	NULL,
->>  };
->> @@ -1152,12 +1194,9 @@ static const struct attribute_group nvm_dev_attr_group_12 = {
->>    /* 2.0 values */
->>  static NVM_DEV_ATTR_20_RO(groups);
->> +static NVM_DEV_ATTR_20_RO(lba_format);
->>  static NVM_DEV_ATTR_20_RO(punits);
->>  static NVM_DEV_ATTR_20_RO(chunks);
->> -static NVM_DEV_ATTR_20_RO(clba);
->> -static NVM_DEV_ATTR_20_RO(ws_min);
->> -static NVM_DEV_ATTR_20_RO(ws_opt);
->> -static NVM_DEV_ATTR_20_RO(mw_cunits);
->>  static NVM_DEV_ATTR_20_RO(write_typ);
->>  static NVM_DEV_ATTR_20_RO(write_max);
->>  static NVM_DEV_ATTR_20_RO(reset_typ);
->> @@ -1165,16 +1204,25 @@ static NVM_DEV_ATTR_20_RO(reset_max);
->>    static struct attribute *nvm_dev_attrs_20[] = {
->>  	&dev_attr_version.attr,
->> -	&dev_attr_capabilities.attr,
->> +	&dev_attr_lba_format.attr,
->>    	&dev_attr_groups.attr,
->>  	&dev_attr_punits.attr,
->>  	&dev_attr_chunks.attr,
->> +
->>  	&dev_attr_clba.attr,
->> +	&dev_attr_csecs.attr,
->> +	&dev_attr_sos.attr,
-> 
-> csecs and sos are derived from the the generic block device data structures.
-
-As mentioned above, it is to represent the generic geometry.
-
-> 
->> +
->>  	&dev_attr_ws_min.attr,
->>  	&dev_attr_ws_opt.attr,
->> +	&dev_attr_maxoc.attr,
->> +	&dev_attr_maxocpu.attr,
-> 
-> When the maxoc/maxocpu are in another patch, these changes can be included.
-
-ok.
-
-> 
->>  	&dev_attr_mw_cunits.attr,
->>  +	&dev_attr_media_capabilities.attr,
-> 
-> What is the meaning of media in this context? The 2.0 spec defines
-> vector copy and double resets in its capabilities, it does not have
-> media in mind.
-> 
-
-It refers to the mcap (vector copy and double resets for now, as you
-mention). I kept the name, name, but I can rename it if it is better...
-
->> +	&dev_attr_max_phys_secs.attr,
->> +
-> 
-> I kill max_phys_secs in another patch. It has been made redundant
-> after null_blk has been removed.
-
-I'll answer this on the patch - I have a questions here.
-
->>  	&dev_attr_read_typ.attr,
->>  	&dev_attr_read_max.attr,
->>  	&dev_attr_write_typ.attr,
+I thought about this and it is cleaner, the problem is that the return
+values from these two interfaces are completely different. My other
+approach was asking only for report chunk and then create the log page
+format for 1.2 I can see this working good. I'll give it another spin.
 
 Javier
-
 -------------- next part --------------
 A non-text attachment was scrubbed...
 Name: signature.asc
 Type: application/pgp-signature
 Size: 833 bytes
 Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180216/b7a65545/attachment-0001.sig>
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180215/c79287b4/attachment.sig>
