@@ -1,23 +1,40 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 16 Feb 2018 09:42:08 -0800
-Subject: [PATCH] nvme-pci: quiesce IO queues prior to disabling device HMB
- accesses
-In-Reply-To: <22af82dd-0f20-f68b-2725-59b0da259e69@grimberg.me>
-References: <1518440244-696-1-git-send-email-jianchao.w.wang@oracle.com>
- <22af82dd-0f20-f68b-2725-59b0da259e69@grimberg.me>
-Message-ID: <60dcb8f0-7139-3c3e-1838-2347ce67dbcc@broadcom.com>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Sun, 18 Feb 2018 16:52:34 +0900
+Subject: nvme-pci: about page_size of DMA pool
+Message-ID: <2dfcc20c-a0c4-d01a-cde8-01662202cff8@gmail.com>
 
-On 2/12/2018 10:40 AM, Sagi Grimberg wrote:
-> Thanks, I picked this up for 4.17 (unless someone thinks
-> this is 4.16-rc material?)
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Hi All,
 
-Note: I really hope that we can eventually commonize all the 
-quiesce/unquiesce logic and points relative to controller state.? We 
-have just enough differences to be interesting.
+It seems that _PAGE_SIZE_ and _dev->ctrl.page_size_ might be different.
+For now, nvme_setup_prp_pools() attempts to create PRP page DMA pool
+with PAGE_SIZE instead of dev->ctrl.page_size.
 
--- james
+By the way, in nvme_pci_setup_prps(), PRP lists are built by
+dev->ctrl.page_size like following code.
+
+for (;;) {
+         if (i == page_size >> 3) {
+                  ^^^^^^^^^
+             __le64 *old_prp_list = prp_list;
+             prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+
+if dev->ctrl.page_size should be used as is, I guess DMA pool should be
+created in dev->ctrl.page_size (But at that time of
+nvme_setup_prp_pools(), dev->ctrl.page_size may not be set properly)
+somehow instead of PAGE_SIZE.
+
+Additionally, It seems that page_shift in nvme_enable_ctrl() is now
+hard-coded to 12 which means dev->ctrl.page_size will always be 4096,
+though.
+
+
+Q1. Should dev->prp_page_pool be created with dev->ctrl.page_size
+instead of PAGE_SIZE?
+
+Q2. Is there any special reason why page_shift in nvme_enable_ctrl()
+is hard-coded to 12, not PAGE_SHIFT?
+
+Always welcome directives and comments. :)
+
+Sincerely,
+Minwoo Im
