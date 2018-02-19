@@ -1,58 +1,39 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Mon, 19 Feb 2018 11:05:17 +0000
-Subject: [PATCH v2 5/6] lightnvm: remove nvm_dev_ops->max_phys_sect
-In-Reply-To: <899e5ed5-4bf7-666a-d756-d86420cf9c9e@lightnvm.io>
-References: <20180215131200.3354-1-mb@lightnvm.io>
- <20180215131200.3354-6-mb@lightnvm.io>
- <918E7340-05D7-4E2F-BC43-2B81D435C3C6@cnexlabs.com>
- <899e5ed5-4bf7-666a-d756-d86420cf9c9e@lightnvm.io>
-Message-ID: <CE52AA06-A417-4BD6-BCED-EB4035FC6906@cnexlabs.com>
+From: javigon.napster@gmail.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Mon, 19 Feb 2018 14:40:32 +0100
+Subject: [PATCH 2/8] lightnvm: show generic geometry in sysfs
+In-Reply-To: <dc558965-9c1f-26f1-9274-12a6f8057825@lightnvm.io>
+References: <1518530768-20956-1-git-send-email-javier@cnexlabs.com>
+ <1518530768-20956-3-git-send-email-javier@cnexlabs.com>
+ <caa2634b-63bf-3a35-ed53-220aab2bd05a@lightnvm.io>
+ <E53B65E9-3D1A-49BB-AA5D-F3D2C4032484@cnexlabs.com>
+ <dc558965-9c1f-26f1-9274-12a6f8057825@lightnvm.io>
+Message-ID: <F72BAE57-88B8-447B-B0D2-7EB6AE8105A2@gmail.com>
 
-> On 19 Feb 2018,@08.31, Matias Bj?rling <mb@lightnvm.io> wrote:
-> 
-> On 02/16/2018 07:48 AM, Javier Gonzalez wrote:
->>> On 15 Feb 2018,@05.11, Matias Bj?rling <mb@lightnvm.io> wrote:
+
+>>> This breaks user-space. The intention is for user-space to decide
+>>> based on version id. Then it can either retrieve the 1.2 or 2.0
+>>> attributes. The 2.0 attributes should not be available when a device
+>>> is 1.2.
 >>> 
->>> The value of max_phys_sect is always static. Instead of
->>> defining it in the nvm_dev_ops structure, declare it as a global
->>> value.
+>> Why does it break it? I'm only adding new entries.
+>> The objective is to expose the genneric geometry, since this is the
+>> structure that is passed on to the targets. Since some of the values are
+>> calculated, there is value on exposing this information, I believe.
+>> Another way of doing it, is adding the generic geometry at the target
+>> level, showing what base values it is getting, including the real number
+>> of channels/groups and luns/pus.
+>> Would this be better in your opinion?
+> 
+> No. It should be one set of attributes for 1.2 (keep the way it is today), and then separate 2.0 attributes. User-space should then identify either by either 1 or 2 in the version attribute.
+> 
+>>>> ...
+
+>>> csecs and sos are derived from the the generic block device data structures.
+>> As mentioned above, it is to represent the generic geometry.
+> 
+> They are not part of the 2.0 spec. The fields can be derived from elsewhere.
 >>> 
->>> Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
->>> ---
->>> drivers/lightnvm/core.c          | 28 +++++++---------------------
->>> drivers/lightnvm/pblk-init.c     |  9 ++++-----
->>> drivers/lightnvm/pblk-recovery.c |  8 ++------
->>> drivers/nvme/host/lightnvm.c     |  5 +----
->>> include/linux/lightnvm.h         |  5 ++---
->>> 5 files changed, 16 insertions(+), 39 deletions(-)
->> The patch looks good, but I have a question. If a target implements the
->> scalar interface, then it will not be limited to 64 lbas/ppas and it
->> will not make sense to split the bio base don this value. In fact, it
->> looks like in time, we will move to a scalar interface in the 2.0 path
->> to align with the zoned interface, so this value will be dependent on
->> whether the target is using the scalar or vector interface.
-> 
-> Both read/write and vector interface will coexist. I am only removing
-> what is hardwired into the specification.
-> 
-> The read/write interface has always been able issue more than 64 LBAs,
-> it is instead limited by what the hardware reports its max transfer
-> size to be.
-> 
 
-Exactly. I was thinking of a similar mechanism for the vector interface
-to simplify integration with the scalar interface and avoid having an
-if/else for what we now call max_phys_sect.
+Ok. Thanks for looking into it. 
 
-I guess we can wait and see what the code looks like when we adapt pblk.
-
-Reviewed-by: Javier Gonz?lez <javier at cnexlabs.com>
-
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180219/3e1e46fe/attachment-0001.sig>
+Javier. 
