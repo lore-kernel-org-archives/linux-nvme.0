@@ -1,50 +1,20 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 20 Feb 2018 09:06:04 -0700
-Subject: nvme-pci: about page_size of DMA pool
-In-Reply-To: <2dfcc20c-a0c4-d01a-cde8-01662202cff8@gmail.com>
-References: <2dfcc20c-a0c4-d01a-cde8-01662202cff8@gmail.com>
-Message-ID: <20180220160603.GB7076@localhost.localdomain>
+Date: Tue, 20 Feb 2018 09:27:37 -0700
+Subject: [PATCH] blk: optimization for classic polling
+In-Reply-To: <20180220132137.GG25314@hirez.programming.kicks-ass.net>
+References: <CGME20180208143655epcas1p444bf34705526b7839a5a135f82761aad@epcas1p4.samsung.com>
+ <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
+ <20180220132137.GG25314@hirez.programming.kicks-ass.net>
+Message-ID: <20180220162737.GC7076@localhost.localdomain>
 
-On Sun, Feb 18, 2018@04:52:34PM +0900, Minwoo Im wrote:
-> It seems that _PAGE_SIZE_ and _dev->ctrl.page_size_ might be different.
-> For now, nvme_setup_prp_pools() attempts to create PRP page DMA pool
-> with PAGE_SIZE instead of dev->ctrl.page_size.
->
-> By the way, in nvme_pci_setup_prps(), PRP lists are built by
-> dev->ctrl.page_size like following code.
-> 
-> for (;;) {
->         if (i == page_size >> 3) {
->                  ^^^^^^^^^
->             __le64 *old_prp_list = prp_list;
->             prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
-> 
-> if dev->ctrl.page_size should be used as is, I guess DMA pool should be
-> created in dev->ctrl.page_size (But at that time of
-> nvme_setup_prp_pools(), dev->ctrl.page_size may not be set properly)
-> somehow instead of PAGE_SIZE.
+On Tue, Feb 20, 2018@02:21:37PM +0100, Peter Zijlstra wrote:
+> Also, set_current_state(TASK_RUNNING) is dodgy (similarly in
+> __blk_mq_poll), why do you need that memory barrier?
 
-Good point, but as long as we know it's hard-coded to 4k, the order
-doesn't really matter.
+You're right. The subsequent revision that was committed removed the
+barrier. The commit is here:
 
-> Additionally, It seems that page_shift in nvme_enable_ctrl() is now
-> hard-coded to 12 which means dev->ctrl.page_size will always be 4096,
-> though.
-> 
-> 
-> Q1. Should dev->prp_page_pool be created with dev->ctrl.page_size
-> instead of PAGE_SIZE?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=67b4110f8c8d16e588d7730db8e8b01b32c1bd8b
 
-Yeah, the current method looks like it may potentially be over-allocating
-some memory for very large IO transfers. The size of the "large" pool
-ought to be the same as ctrl.page_size.
- 
-> 
-> Q2. Is there any special reason why page_shift in nvme_enable_ctrl()
-> is hard-coded to 12, not PAGE_SHIFT?
-
-Some CPU architectures have different alignment when comparing DMA mapped
-addresses with the virual address, so we have to go to the lowest common
-denominator. Previous discussion here:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2015-October/002893.html
+I hope the code at least looks more reasonable. The changelog isn't much
+different, though.
