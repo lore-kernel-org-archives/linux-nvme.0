@@ -1,50 +1,50 @@
-From: peterz@infradead.org (Peter Zijlstra)
-Date: Tue, 20 Feb 2018 14:21:37 +0100
-Subject: [PATCH] blk: optimization for classic polling
-In-Reply-To: <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
-References: <CGME20180208143655epcas1p444bf34705526b7839a5a135f82761aad@epcas1p4.samsung.com>
- <3578876466-3733-1-git-send-email-nj.shetty@samsung.com>
-Message-ID: <20180220132137.GG25314@hirez.programming.kicks-ass.net>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 20 Feb 2018 09:06:04 -0700
+Subject: nvme-pci: about page_size of DMA pool
+In-Reply-To: <2dfcc20c-a0c4-d01a-cde8-01662202cff8@gmail.com>
+References: <2dfcc20c-a0c4-d01a-cde8-01662202cff8@gmail.com>
+Message-ID: <20180220160603.GB7076@localhost.localdomain>
 
-On Sun, May 30, 2083@09:51:06AM +0530, Nitesh Shetty wrote:
-> This removes the dependency on interrupts to wake up task. Set task
-> state as TASK_RUNNING, if need_resched() returns true,
-> while polling for IO completion.
-> Earlier, polling task used to sleep, relying on interrupt to wake it up.
-> This made some IO take very long when interrupt-coalescing is enabled in
-> NVMe.
-
-This is a horrible Changelog.. it does not in fact explain why the patch
-works or is correct.
-
-Also, set_current_state(TASK_RUNNING) is dodgy (similarly in
-__blk_mq_poll), why do you need that memory barrier?
-
-
-> Signed-off-by: Nitesh Shetty <nj.shetty at samsung.com>
-> ---
->  fs/block_dev.c | 16 ++++++++++++----
->  fs/direct-io.c |  8 ++++++--
->  fs/iomap.c     | 10 +++++++---
->  3 files changed, 25 insertions(+), 9 deletions(-)
+On Sun, Feb 18, 2018@04:52:34PM +0900, Minwoo Im wrote:
+> It seems that _PAGE_SIZE_ and _dev->ctrl.page_size_ might be different.
+> For now, nvme_setup_prp_pools() attempts to create PRP page DMA pool
+> with PAGE_SIZE instead of dev->ctrl.page_size.
+>
+> By the way, in nvme_pci_setup_prps(), PRP lists are built by
+> dev->ctrl.page_size like following code.
 > 
-> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> index 4a181fc..a87d8b7 100644
-> --- a/fs/block_dev.c
-> +++ b/fs/block_dev.c
-> @@ -236,9 +236,13 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
->  		set_current_state(TASK_UNINTERRUPTIBLE);
->  		if (!READ_ONCE(bio.bi_private))
->  			break;
-> -		if (!(iocb->ki_flags & IOCB_HIPRI) ||
-> -		    !blk_poll(bdev_get_queue(bdev), qc))
-> +		if (!(iocb->ki_flags & IOCB_HIPRI))
->  			io_schedule();
-> +		else if (!blk_poll(bdev_get_queue(bdev), qc)) {
-> +			if (need_resched())
-> +				set_current_state(TASK_RUNNING);
-> +			io_schedule();
-> +		}
->  	}
->  	__set_current_state(TASK_RUNNING);
->  
+> for (;;) {
+>         if (i == page_size >> 3) {
+>                  ^^^^^^^^^
+>             __le64 *old_prp_list = prp_list;
+>             prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
+> 
+> if dev->ctrl.page_size should be used as is, I guess DMA pool should be
+> created in dev->ctrl.page_size (But at that time of
+> nvme_setup_prp_pools(), dev->ctrl.page_size may not be set properly)
+> somehow instead of PAGE_SIZE.
+
+Good point, but as long as we know it's hard-coded to 4k, the order
+doesn't really matter.
+
+> Additionally, It seems that page_shift in nvme_enable_ctrl() is now
+> hard-coded to 12 which means dev->ctrl.page_size will always be 4096,
+> though.
+> 
+> 
+> Q1. Should dev->prp_page_pool be created with dev->ctrl.page_size
+> instead of PAGE_SIZE?
+
+Yeah, the current method looks like it may potentially be over-allocating
+some memory for very large IO transfers. The size of the "large" pool
+ought to be the same as ctrl.page_size.
+ 
+> 
+> Q2. Is there any special reason why page_shift in nvme_enable_ctrl()
+> is hard-coded to 12, not PAGE_SHIFT?
+
+Some CPU architectures have different alignment when comparing DMA mapped
+addresses with the virual address, so we have to go to the lowest common
+denominator. Previous discussion here:
+
+  http://lists.infradead.org/pipermail/linux-nvme/2015-October/002893.html
