@@ -1,73 +1,67 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Wed, 21 Feb 2018 09:35:04 +0000
-Subject: [PATCH v2 0/6] lightnvm: base 2.0 implementation
-In-Reply-To: <20180215131200.3354-1-mb@lightnvm.io>
-References: <20180215131200.3354-1-mb@lightnvm.io>
-Message-ID: <A2E4F5B5-2545-48CC-9514-A5BCDF9A9D02@cnexlabs.com>
+From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Wed, 21 Feb 2018 10:26:44 +0100
+Subject: [PATCH 06/20] lightnvm: add shorten OCSSD version in geo
+In-Reply-To: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
+References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519205218-26994-7-git-send-email-javier@cnexlabs.com>
 
-> On 15 Feb 2018,@14.11, Matias Bj?rling <mb@lightnvm.io> wrote:
-> 
-> A couple of patches for 2.0 support for the lightnvm subsystem. They
-> form the foundation for the integration.
-> 
-> The first two patches is preparation for the 2.0 work. The third patch
-> implements the 2.0 data structures, the geometry command, and exposes
-> the sysfs attributes that comes with the 2.0 specification. Note that
-> the attributes between 1.2 and 2.0 are different, and it is expected
-> that user-space shall use the version sysfs attribute to know which
-> attributes will be available.
-> 
-> The next two patches removes max_phys_sect and max_rq_size, as they
-> not used.
-> 
-> The last patch implements support for using the nvme namespace logical
-> block and metadata fields and sync it with the internal lightnvm
-> identify structures.
-> 
-> Changes since v2:
-> 
-> - Removed blk_queue_block_size() setup in nvm_init and made sure
->   to only update csecs and sos in on the late setup path. No reason
->   to set it twice. From discussion with Javier.
-> - Added two extra patches, that removes max_phys_sect and
->   max_rq_size.
-> 
-> Changes since v1:
-> 
-> - pr_err fix from Randy.
-> - Address type fix from Javier.
-> - Also CC the nvme mailing list.
-> 
-> Matias Bj?rling (6):
->  lightnvm: make 1.2 data structures explicit
->  lightnvm: flatten nvm_id_group into nvm_id
->  lightnvm: add 2.0 geometry identification
->  lightnvm: remove max_rq_size
->  lightnvm: remove nvm_dev_ops->max_phys_sect
->  nvme: lightnvm: add late setup of block size and metadata
-> 
-> drivers/lightnvm/core.c          |  61 ++---
-> drivers/lightnvm/pblk-init.c     |   9 +-
-> drivers/lightnvm/pblk-recovery.c |   8 +-
-> drivers/nvme/host/core.c         |   2 +
-> drivers/nvme/host/lightnvm.c     | 513 ++++++++++++++++++++++++++++-----------
-> drivers/nvme/host/nvme.h         |   2 +
-> include/linux/lightnvm.h         |  71 +++---
-> 7 files changed, 442 insertions(+), 224 deletions(-)
-> 
-> --
-> 2.11.0
-> 
+Create a shorten version to use in the generic geometry.
 
-The patches look good. I tested them together with pblk's 2.0 support
-and all works as it should.
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+---
+ drivers/nvme/host/lightnvm.c | 6 ++++++
+ include/linux/lightnvm.h     | 8 ++++++++
+ 2 files changed, 14 insertions(+)
 
-Reviewed-by: Javier Gonz?lez <javier at cnexlabs.com>
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180221/ab00a287/attachment-0001.sig>
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index f22331e61cef..bd97672e0b4f 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -299,6 +299,9 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
+ 	dev_geo->major_ver_id = id->ver_id;
+ 	dev_geo->minor_ver_id = 2;
+ 
++	/* Set compacted version for upper layers */
++	dev_geo->c.version = NVM_OCSSD_SPEC_12;
++
+ 	dev_geo->num_ch = src->num_ch;
+ 	dev_geo->num_lun = src->num_lun;
+ 	dev_geo->all_luns = dev_geo->num_ch * dev_geo->num_lun;
+@@ -381,6 +384,9 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
+ 	dev_geo->major_ver_id = id->mjr;
+ 	dev_geo->minor_ver_id = id->mnr;
+ 
++	/* Set compacted version for upper layers */
++	dev_geo->c.version = NVM_OCSSD_SPEC_20;
++
+ 	if (!(dev_geo->major_ver_id == 2 && dev_geo->minor_ver_id == 0)) {
+ 		pr_err("nvm: OCSSD version not supported (v%d.%d)\n",
+ 				dev_geo->major_ver_id, dev_geo->minor_ver_id);
+diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+index 28d429e0a1c9..02f1fd617781 100644
+--- a/include/linux/lightnvm.h
++++ b/include/linux/lightnvm.h
+@@ -23,6 +23,11 @@ enum {
+ #define NVM_LUN_BITS (8)
+ #define NVM_CH_BITS  (7)
+ 
++enum {
++	NVM_OCSSD_SPEC_12 = 12,
++	NVM_OCSSD_SPEC_20 = 20,
++};
++
+ struct ppa_addr {
+ 	/* Generic structure for all addresses */
+ 	union {
+@@ -197,6 +202,9 @@ struct nvm_addr_format {
+ 
+ /* Device common geometry */
+ struct nvm_common_geo {
++	/* kernel short version */
++	u8	version;
++
+ 	/* chunk geometry */
+ 	u32	num_chk;	/* chunks per lun */
+ 	u32	clba;		/* sectors per chunk */
+-- 
+2.7.4
