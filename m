@@ -1,71 +1,113 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed, 21 Feb 2018 10:26:52 +0100
-Subject: [PATCH 14/20] lightnvm: make address conversions depend on generic
- device
+Date: Wed, 21 Feb 2018 10:26:47 +0100
+Subject: [PATCH 09/20] lightnvm: use generic identify structure
 In-Reply-To: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519205218-26994-15-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519205218-26994-10-git-send-email-javier@cnexlabs.com>
 
-On address conversions, use the generic device, instead of the target
-device. This allows to use conversions outside of the target's realm.
+Create a generic identify structure to collect the identify information
+before knowing the spec. version. This forces different version paths to
+cast the structure to their spec structure, thus making the code less
+error prone and more maintainable.
 
 Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 ---
- drivers/lightnvm/core.c  | 4 ++--
- include/linux/lightnvm.h | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/host/lightnvm.c | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-index baec963b2c96..59b62ca65596 100644
---- a/drivers/lightnvm/core.c
-+++ b/drivers/lightnvm/core.c
-@@ -588,7 +588,7 @@ static void nvm_ppa_tgt_to_dev(struct nvm_tgt_dev *tgt_dev,
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 9c1f8225c4e1..70dc4740f0d3 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -170,6 +170,12 @@ struct nvme_nvm_id12 {
+ 	__u8			resv2[2880];
+ } __packed;
  
- 	for (i = 0; i < nr_ppas; i++) {
- 		nvm_map_to_dev(tgt_dev, &ppa_list[i]);
--		ppa_list[i] = generic_to_dev_addr(tgt_dev, ppa_list[i]);
-+		ppa_list[i] = generic_to_dev_addr(tgt_dev->parent, ppa_list[i]);
- 	}
++/* Generic identification structure */
++struct nvme_nvm_id {
++	__u8			ver_id;
++	__u8			resv[4095];
++} __packed;
++
+ struct nvme_nvm_bb_tbl {
+ 	__u8	tblid[4];
+ 	__le16	verid;
+@@ -279,9 +285,10 @@ static void nvme_nvm_set_addr_12(struct nvm_addr_format_12 *dst,
+ 	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
  }
  
-@@ -598,7 +598,7 @@ static void nvm_ppa_dev_to_tgt(struct nvm_tgt_dev *tgt_dev,
- 	int i;
- 
- 	for (i = 0; i < nr_ppas; i++) {
--		ppa_list[i] = dev_to_generic_addr(tgt_dev, ppa_list[i]);
-+		ppa_list[i] = dev_to_generic_addr(tgt_dev->parent, ppa_list[i]);
- 		nvm_map_to_tgt(tgt_dev, &ppa_list[i]);
- 	}
- }
-diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index cd310bf06051..91340998f0c3 100644
---- a/include/linux/lightnvm.h
-+++ b/include/linux/lightnvm.h
-@@ -415,10 +415,10 @@ struct nvm_dev {
- 	struct list_head targets;
- };
- 
--static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
-+static inline struct ppa_addr generic_to_dev_addr(struct nvm_dev *dev,
- 						  struct ppa_addr r)
+-static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
++static int nvme_nvm_setup_12(struct nvme_nvm_id *gen_id,
+ 			     struct nvm_dev_geo *dev_geo)
  {
--	struct nvm_geo *geo = &tgt_dev->geo;
-+	struct nvm_dev_geo *geo = &dev->dev_geo;
- 	struct ppa_addr l;
++	struct nvme_nvm_id12 *id = (struct nvme_nvm_id12 *)gen_id;
+ 	struct nvme_nvm_id12_grp *src;
+ 	int sec_per_pg, sec_per_pl, pg_per_blk;
  
- 	if (geo->c.version == NVM_OCSSD_SPEC_12) {
-@@ -443,10 +443,10 @@ static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
- 	return l;
+@@ -380,9 +387,11 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
+ 	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
  }
  
--static inline struct ppa_addr dev_to_generic_addr(struct nvm_tgt_dev *tgt_dev,
-+static inline struct ppa_addr dev_to_generic_addr(struct nvm_dev *dev,
- 						  struct ppa_addr r)
+-static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
++static int nvme_nvm_setup_20(struct nvme_nvm_id *gen_id,
+ 			     struct nvm_dev_geo *dev_geo)
  {
--	struct nvm_geo *geo = &tgt_dev->geo;
-+	struct nvm_dev_geo *geo = &dev->dev_geo;
- 	struct ppa_addr l;
++	struct nvme_nvm_id20 *id = (struct nvme_nvm_id20 *)gen_id;
++
+ 	dev_geo->major_ver_id = id->mjr;
+ 	dev_geo->minor_ver_id = id->mnr;
  
- 	l.ppa = 0;
+@@ -427,19 +436,19 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
+ static int nvme_nvm_identity(struct nvm_dev *nvmdev)
+ {
+ 	struct nvme_ns *ns = nvmdev->q->queuedata;
+-	struct nvme_nvm_id12 *id;
++	struct nvme_nvm_id *nvme_nvm_id;
+ 	struct nvme_nvm_command c = {};
+ 	int ret;
+ 
+ 	c.identity.opcode = nvme_nvm_admin_identity;
+ 	c.identity.nsid = cpu_to_le32(ns->head->ns_id);
+ 
+-	id = kmalloc(sizeof(struct nvme_nvm_id12), GFP_KERNEL);
+-	if (!id)
++	nvme_nvm_id = kmalloc(sizeof(struct nvme_nvm_id), GFP_KERNEL);
++	if (!nvme_nvm_id)
+ 		return -ENOMEM;
+ 
+ 	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, (struct nvme_command *)&c,
+-				id, sizeof(struct nvme_nvm_id12));
++				nvme_nvm_id, sizeof(struct nvme_nvm_id));
+ 	if (ret) {
+ 		ret = -EIO;
+ 		goto out;
+@@ -449,22 +458,21 @@ static int nvme_nvm_identity(struct nvm_dev *nvmdev)
+ 	 * The 1.2 and 2.0 specifications share the first byte in their geometry
+ 	 * command to make it possible to know what version a device implements.
+ 	 */
+-	switch (id->ver_id) {
++	switch (nvme_nvm_id->ver_id) {
+ 	case 1:
+-		ret = nvme_nvm_setup_12(id, &nvmdev->dev_geo);
++		ret = nvme_nvm_setup_12(nvme_nvm_id, &nvmdev->dev_geo);
+ 		break;
+ 	case 2:
+-		ret = nvme_nvm_setup_20((struct nvme_nvm_id20 *)id,
+-							&nvmdev->dev_geo);
++		ret = nvme_nvm_setup_20(nvme_nvm_id, &nvmdev->dev_geo);
+ 		break;
+ 	default:
+ 		dev_err(ns->ctrl->device, "OCSSD revision not supported (%d)\n",
+-							id->ver_id);
++							nvme_nvm_id->ver_id);
+ 		ret = -EINVAL;
+ 	}
+ 
+ out:
+-	kfree(id);
++	kfree(nvme_nvm_id);
+ 	return ret;
+ }
+ 
 -- 
 2.7.4
