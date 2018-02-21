@@ -1,79 +1,242 @@
-From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed, 21 Feb 2018 10:26:38 +0100
-Subject: [PATCH V2 00/20] lightnvm: pblk: implement 2.0 support
-Message-ID: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
+From: mmoese@suse.de (Michael Moese)
+Date: Wed, 21 Feb 2018 14:00:02 +0100
+Subject: [PATCH V2 00/46] nvmftests: NVMe Over Fabrics Unit Test Framework
+In-Reply-To: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
+References: <1508895063-6280-1-git-send-email-ckulkarnilinux@gmail.com>
+Message-ID: <20180221130002.t4pl4762qjpecbn2@linux.suse.de>
 
-Changes since V1:
+Hi,
+I was able to play a bit with your testsuite, and I am currently
+working on integrating it into our automated tests.
 
-Apply Matias' feedback:
-  - Rebase on top of Matias' latest patches.
-  - Use nvme_get_log_ext to submit report chunk and export it.
-  - Re-write report chunk based on Matias' suggestions. Here, I
-    maintained the lba interface, but it was necessary to redo the
-    address formatting to match the chunk log page format. For pblk,
-    this means a double address transformation, but it enables the
-    standard path to use lbas, plus, this is not in the fast path.
-  - Fold address format together with address transformations.
-  - Split the generic geometry patch in different patches.
-  - Remove refactoring of ligthnvm's core sysfs.
+In general I am not sure if having all these tests in python is quite
+a good idea, as you pull in a huge list of dependencies. And most
+developers just use a kernel and an initrd to run a bunch of tests.
 
-Feedback not applied:
-  - Not letting pblk know about 1.2 and 2.0 bad block paths. Since the
-    interfaces for get/set bad block and report chunk are so different,
-    moving this logic to core adds assumptions on how the targets would
-    want to get the data back. A way of doing this is creating a logical
-    report chunk on the 1.2 path, but this would mean that values like
-    the wear-index are invalid, which requires the target knowledge. I'm
-    open to suggestions here.
+However, I think there should be less output, but a nice summary on
+passed/failed testcases. I would suggest taking a look at blktests.
 
-Also:
-  - Do some further renamings
-  - Create a generic address format to make it explicit where we share
-    1.2 and 2.0 fields to avoid address formatting in the fast path.
-  - Add new fields to sysfs to complete spec and show major/minor
-    versions (version and subversion to respect current interface).
+One other remark I found so far:
+In the two files tests/test_nvmf_create_host.py and 
+tests/test_nvmf_create_pci_target.py you wait for "Press enter..".
+using raw_input(), but this is a major annoyance when executing the 
+testsuite automated and unattended, so I would suggest removing those.
 
-Implement 2.0 support in pblk. This includes the address formatting and
-mapping paths, as well as the sysfs entries for them.
+Said that, I would like to contribute to your tests and help improve
+them. You should have received a pull request regarding my remarks
+above. 
 
-Javier
+Michael
 
-Javier Gonz?lez (20):
-  lightnvm: simplify geometry structure.
-  lightnvm: add controller capabilities to 2.0
-  lightnvm: fix capabilities for 2.0 sysfs
-  lightnvm: add minor version to generic geometry
-  lightnvm: rename number of channels and luns
-  lightnvm: add shorten OCSSD version in geo
-  lightnvm: rename sect_* to sec_*
-  lightnvm: complete geo structure with maxoc*
-  lightnvm: use generic identify structure
-  lightnvm: pblk: rename ppaf* to addrf*
-  lightnvm: pblk: check for supported version
-  lightnvm: complete 2.0 values in sysfs
-  lightnvm: add support for 2.0 address format
-  lightnvm: make address conversions depend on generic device
-  nvme: make nvme_get_log_ext available
-  lightnvm: implement get log report chunk helpers
-  lightnvm: define chunk states
-  lightnvm: pblk: implement get log report chunk
-  lightnvm: pblk: refactor init/exit sequences
-  lightnvm: pblk: implement 2.0 support
 
- drivers/lightnvm/core.c          | 205 +++++-----
- drivers/lightnvm/pblk-core.c     | 141 +++++--
- drivers/lightnvm/pblk-gc.c       |   2 +-
- drivers/lightnvm/pblk-init.c     | 787 +++++++++++++++++++++++----------------
- drivers/lightnvm/pblk-read.c     |   2 +-
- drivers/lightnvm/pblk-recovery.c |  14 +-
- drivers/lightnvm/pblk-rl.c       |   2 +-
- drivers/lightnvm/pblk-sysfs.c    | 130 ++++++-
- drivers/lightnvm/pblk-write.c    |   2 +-
- drivers/lightnvm/pblk.h          | 253 +++++++++----
- drivers/nvme/host/lightnvm.c     | 480 ++++++++++++++++--------
- drivers/nvme/host/nvme.h         |   3 +
- include/linux/lightnvm.h         | 338 +++++++++++------
- 13 files changed, 1546 insertions(+), 813 deletions(-)
+On Tue, Oct 24, 2017@06:30:17PM -0700, Chaitanya Kulkarni wrote:
+> From: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> 
+> Hi,
+> 
+> This contains second version of the NVMe Over Fabrics unit test framework (nvmftests).
+> 
+> Changes since V1:-
+>     1. Addition of new testcases to improve the coverage.
+>     2. Improved directory structure for code clarity.
+>     3. Libification of the common code.
+>     4. Support to use different block devices on the target side.
+>     5. Centralize test configuration management.
+>     6. Support to execute File System related operations on the host side.
+>     7. Adjust the code to incorporate the comments received for the
+>        first version.
+>     8. Support for setting different log levels for each component.
+>     9. Support for quick performance measurements.
+>     10. Class hierarchy documentation and sequence diagram.
+>     11. Improved workqueue management for host namesapce to
+>         run parallel commands.
+> 
+> It will be great if I can get some feedback, I'll be happy to incorporate
+> the comments and make it more usable.
+> 
+> Following is the code repository for current code:-
+>     https://github.com/ChaitanayaKulkarni/nvmftests/releases
+> 
+> For the purpose of review, this patch series is generated against
+> $KERN_SRC/tools/testing/selftests/.
+> 
+> Regards,
+> -Chaitanya
+> 
+> Chaitanya Kulkarni (46):
+>   nvmftests: add nvmftests README file
+>   nvmftests-utils: add utility class to define constants
+>   nvmftests-utils: add shell command package
+>   nvmftests-utils: add log package
+>   nvmftests-utils: add diskio package
+>   nvmftests-utils: add fs package
+>   nvmftests-utils: add misc package
+>   nvmftests: add utils package
+>   nvmftests-nvmf: add target config generator
+>   nvmftests-nvmf: add support for target ns
+>   nvmftests-nvmf: add support for target port
+>   nvmftests-nvmf: add support for target subsystem
+>   nvmftests-nvmf: add support for target
+>   nvmftests-nvmf: add target package
+>   nvmftests-nvmf: add support for host ns
+>   nvmftests-nvmf: add support for host subsystem
+>   nvmftests-nvmf: add support for host
+>   nvmftests-nvmf: add host package
+>   nvmftests-nvmf: add nvmf core package
+>   nvmftests-tests: add user config file
+>   nvmftests-tests: add support for test logger
+>   nvmftests-tests: add a parent class for tests
+>   nvmftests-tests: add a test for generic block device
+>   nvmftests-tests: add a test for ns-descs
+>   nvmftests-tests: add a test for create/delete host
+>   nvmftests-tests: add a test for NVMe PCIe target ns
+>   nvmftests-tests: add a test to create and delete target
+>   nvmftests-tests: add a test for controller rescan
+>   nvmftests-tests: add a test for controller reset
+>   nvmftests-tests: add a test for get-ns-id
+>   nvmftests-tests: add a test for identify controller
+>   nvmftests-tests: add a test for identify namespace
+>   nvmftests-tests: add a test for smart-log
+>   nvmftests-tests: add a test to run IOs with dd
+>   nvmftests-tests: add a test to run IOs parallely with dd
+>   nvmftests-tests: add a test to run mkfs and fio
+>   nvmftests-tests: add a test to enable/disable target ns
+>   nvmftests-tests: add a test to run IOs with dd randomly
+>   nvmftests-tests: add a test to scan host ctrls and ns
+>   nvmftests-tests: add a test to scan target subsys/ns
+>   nvmftests-tests: add a target template
+>   nvmftests-tests: add a host template
+>   nvmftests-tests: add a test to run traffic and disable ns
+>   nvmftests-tests: add a test to measure perf with fio
+>   nvmftests: add class documentation and sequence diagram
+>   nvmftests: add Makefile
+> 
+>  tools/testing/selftests/nvmftests/Makefile         |  63 +++
+>  tools/testing/selftests/nvmftests/README.md        | 177 +++++++
+>  tools/testing/selftests/nvmftests/doc/Makefile     |   7 +
+>  .../selftests/nvmftests/doc/sequence-diag/Makefile |   7 +
+>  .../nvmftests/doc/sequence-diag/nvmftests.plantuml |  98 ++++
+>  tools/testing/selftests/nvmftests/nvmf/__init__.py |  28 ++
+>  .../selftests/nvmftests/nvmf/host/__init__.py      |  23 +
+>  .../testing/selftests/nvmftests/nvmf/host/host.py  | 365 ++++++++++++++
+>  .../selftests/nvmftests/nvmf/host/host_ns.py       | 262 ++++++++++
+>  .../nvmftests/nvmf/host/host_subsystem.py          | 527 +++++++++++++++++++++
+>  .../selftests/nvmftests/nvmf/target/__init__.py    |  25 +
+>  .../selftests/nvmftests/nvmf/target/port.py        | 122 +++++
+>  .../selftests/nvmftests/nvmf/target/target.py      | 210 ++++++++
+>  .../nvmf/target/target_config_generator.py         | 222 +++++++++
+>  .../selftests/nvmftests/nvmf/target/target_ns.py   | 117 +++++
+>  .../nvmftests/nvmf/target/target_subsystem.py      | 140 ++++++
+>  .../nvmftests/tests/config/nvmftests.json          |  83 ++++
+>  .../testing/selftests/nvmftests/tests/nvmf_test.py | 204 ++++++++
+>  .../selftests/nvmftests/tests/nvmf_test_logger.py  |  50 ++
+>  .../nvmftests/tests/test_nvmf_create_gen_blk.py    |  71 +++
+>  .../nvmftests/tests/test_nvmf_create_host.py       |  71 +++
+>  .../nvmftests/tests/test_nvmf_create_pci_target.py |  70 +++
+>  .../nvmftests/tests/test_nvmf_create_target.py     |  62 +++
+>  .../nvmftests/tests/test_nvmf_ctrl_rescan.py       |  63 +++
+>  .../nvmftests/tests/test_nvmf_ctrl_reset.py        |  63 +++
+>  .../nvmftests/tests/test_nvmf_get_ns_id.py         |  63 +++
+>  .../nvmftests/tests/test_nvmf_host_template.py     |  62 +++
+>  .../selftests/nvmftests/tests/test_nvmf_id_ctrl.py |  63 +++
+>  .../selftests/nvmftests/tests/test_nvmf_id_ns.py   |  63 +++
+>  .../selftests/nvmftests/tests/test_nvmf_io.py      |  65 +++
+>  .../selftests/nvmftests/tests/test_nvmf_mkfs.py    |  65 +++
+>  .../nvmftests/tests/test_nvmf_ns_descs.py          |  63 +++
+>  .../nvmftests/tests/test_nvmf_ns_enable_disable.py |  83 ++++
+>  .../nvmftests/tests/test_nvmf_parallel_io.py       |  65 +++
+>  .../selftests/nvmftests/tests/test_nvmf_perf.py    |  63 +++
+>  .../nvmftests/tests/test_nvmf_random_io.py         |  65 +++
+>  .../nvmftests/tests/test_nvmf_run_host_traffic.py  | 111 +++++
+>  .../nvmftests/tests/test_nvmf_scan_host.py         |  76 +++
+>  .../nvmftests/tests/test_nvmf_scan_target.py       |  76 +++
+>  .../nvmftests/tests/test_nvmf_smart_log.py         |  63 +++
+>  .../nvmftests/tests/test_nvmf_target_template.py   |  64 +++
+>  .../testing/selftests/nvmftests/utils/__init__.py  |  32 ++
+>  .../selftests/nvmftests/utils/const/__init__.py    |  21 +
+>  .../selftests/nvmftests/utils/const/const.py       |  50 ++
+>  .../selftests/nvmftests/utils/diskio/__init__.py   |  21 +
+>  .../testing/selftests/nvmftests/utils/diskio/dd.py |  50 ++
+>  .../selftests/nvmftests/utils/diskio/fio.py        |  74 +++
+>  .../selftests/nvmftests/utils/fs/__init__.py       |  21 +
+>  .../testing/selftests/nvmftests/utils/fs/ext4fs.py | 108 +++++
+>  .../selftests/nvmftests/utils/fs/filesystem.py     | 122 +++++
+>  .../selftests/nvmftests/utils/log/__init__.py      |  20 +
+>  tools/testing/selftests/nvmftests/utils/log/log.py |  58 +++
+>  .../selftests/nvmftests/utils/misc/__init__.py     |  23 +
+>  .../nvmftests/utils/misc/generic_blk_dev.py        |  58 +++
+>  .../selftests/nvmftests/utils/misc/loopback.py     | 103 ++++
+>  .../selftests/nvmftests/utils/misc/nvme_pci.py     | 114 +++++
+>  .../selftests/nvmftests/utils/shell/__init__.py    |  20 +
+>  .../testing/selftests/nvmftests/utils/shell/cmd.py |  47 ++
+>  58 files changed, 5182 insertions(+)
+>  create mode 100644 tools/testing/selftests/nvmftests/Makefile
+>  create mode 100644 tools/testing/selftests/nvmftests/README.md
+>  create mode 100644 tools/testing/selftests/nvmftests/doc/Makefile
+>  create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/Makefile
+>  create mode 100644 tools/testing/selftests/nvmftests/doc/sequence-diag/nvmftests.plantuml
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_ns.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/host/host_subsystem.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/port.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_config_generator.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_ns.py
+>  create mode 100644 tools/testing/selftests/nvmftests/nvmf/target/target_subsystem.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/config/nvmftests.json
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/nvmf_test.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/nvmf_test_logger.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_gen_blk.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_host.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_pci_target.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_create_target.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_rescan.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ctrl_reset.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_get_ns_id.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_host_template.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_id_ctrl.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_id_ns.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_io.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_mkfs.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ns_descs.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_ns_enable_disable.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_parallel_io.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_perf.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_random_io.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_run_host_traffic.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_scan_host.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_scan_target.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_smart_log.py
+>  create mode 100644 tools/testing/selftests/nvmftests/tests/test_nvmf_target_template.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/const/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/const/const.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/diskio/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/diskio/dd.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/diskio/fio.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/fs/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/fs/ext4fs.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/fs/filesystem.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/log/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/log/log.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/misc/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/misc/generic_blk_dev.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/misc/loopback.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/misc/nvme_pci.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/shell/__init__.py
+>  create mode 100644 tools/testing/selftests/nvmftests/utils/shell/cmd.py
+> 
+> -- 
+> 1.8.3.1
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 
 -- 
-2.7.4
+SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton, HRB 21284 (AG N?rnberg)
