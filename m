@@ -1,45 +1,32 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed, 21 Feb 2018 10:26:55 +0100
-Subject: [PATCH 17/20] lightnvm: define chunk states
+Date: Wed, 21 Feb 2018 10:26:53 +0100
+Subject: [PATCH 15/20] nvme: make nvme_get_log_ext available
 In-Reply-To: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519205218-26994-18-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519205218-26994-16-git-send-email-javier@cnexlabs.com>
 
-Define chunk states as given in the 2.0 spec. Also, add an extra chunk
-state that signals that the chunk is in use by the host. This allows for
-the chunk metadata to be "owned" by a target when active, thus
-completing the chunk state machine from the host perspective and
-facilitating sanity checks. This state is transparent for the device.
+Make nvme_get_log_ext available outside of core.c.
 
-Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+This is in preparation for using it in lightnvm.c
+
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.>
 ---
- include/linux/lightnvm.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/nvme/host/nvme.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index bc43700c37ec..4dfb85d08ab5 100644
---- a/include/linux/lightnvm.h
-+++ b/include/linux/lightnvm.h
-@@ -297,6 +297,20 @@ struct nvm_dev_geo {
- 	struct nvm_common_geo c;
- };
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1ca08f4993ba..505f797f8c6c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -396,6 +396,9 @@ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
  
-+enum {
-+	/* Chunk states */
-+	NVM_CHK_ST_FREE =	1 << 0,
-+	NVM_CHK_ST_CLOSED =	1 << 1,
-+	NVM_CHK_ST_OPEN =	1 << 2,
-+	NVM_CHK_ST_OFFLINE =	1 << 3,
-+	NVM_CHK_ST_HOST_USE =	1 << 7,
++int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++		     u8 log_page, void *log, size_t size, size_t offset);
 +
-+	/* Chunk types */
-+	NVM_CHK_TP_W_SEQ =	1 << 0,
-+	NVM_CHK_TP_W_RAN =	1 << 1,
-+	NVM_CHK_TP_SZ_SPEC =	1 << 4,
-+};
-+
- /*
-  * Note: The structure size is linked to nvme_nvm_chk_meta such that the same
-  * buffer can be used when converting from little endian to cpu addressing.
+ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
 -- 
 2.7.4
