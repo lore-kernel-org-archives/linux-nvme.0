@@ -1,19 +1,18 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 22 Feb 2018 08:31:35 -0700
-Subject: [PATCH 1/3] nvme-fabrics: don't check for non-NULL module in
- nvmf_register_transport
-In-Reply-To: <20180222152410.19222-2-hch@lst.de>
+From: bart.vanassche@wdc.com (Bart Van Assche)
+Date: Thu, 22 Feb 2018 07:58:51 -0800
+Subject: [PATCH 2/3] nvme-rdma: use blk_rq_payload_bytes instead of
+ blk_rq_bytes
+In-Reply-To: <20180222152410.19222-3-hch@lst.de>
 References: <20180222152410.19222-1-hch@lst.de>
- <20180222152410.19222-2-hch@lst.de>
-Message-ID: <20180222153134.GF7076@localhost.localdomain>
+ <20180222152410.19222-3-hch@lst.de>
+Message-ID: <d3780f4a-c23f-ea8b-41fd-052fdbcd8743@wdc.com>
 
-On Thu, Feb 22, 2018@07:24:08AM -0800, Christoph Hellwig wrote:
-> THIS_MODULE evaluates to NULL when used from code built into the kernel,
-> thus breaking built-in transport modules.  Remove the bogus check.
-> 
-> Fixes: 0de5cd36 ("nvme-fabrics: protect against module unload during create_ctrl")
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+On 02/22/18 07:24, Christoph Hellwig wrote:
+> blk_rq_bytes does the wrong thing for special payloads like discards and
+> might cause the driver to not set up a SGL.
 
-Looks good.
+Should "Fixes:" and "Cc: stable" tags be added to this patch?
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Thanks,
+
+Bart.
