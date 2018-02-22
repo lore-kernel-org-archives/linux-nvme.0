@@ -1,51 +1,69 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Thu, 22 Feb 2018 00:53:59 +0000
-Subject: NVMeOF I/O errors
-Message-ID: <1519260838.4060.23.camel@wdc.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 22 Feb 2018 10:59:54 +0800
+Subject: how can one drain MQ request queue ?
+In-Reply-To: <a8d50fdf-1ed9-1f10-1ac9-4cbbf223cb8b@mellanox.com>
+References: <a8d50fdf-1ed9-1f10-1ac9-4cbbf223cb8b@mellanox.com>
+Message-ID: <20180222025943.GB1150@ming.t460p>
 
-Hello,
+Hi Max,
 
-If I try to run I/O after having connected the NVMeOF initiator to the NVMeOF
-target driver over the rdma_rxe driver then I/O errors appear:
+On Tue, Feb 20, 2018@11:56:07AM +0200, Max Gurtovoy wrote:
+> hi all,
+> is there a way to drain a blk-mq based request queue (similar to
+> blk_drain_queue for non MQ) ?
 
-# dd if=/dev/nvme0n1 of=/dev/null iflag=direct
-dd: error reading '/dev/nvme0n1': Input/output error
-52816+0 records in
-52816+0 records out
-27041792 bytes (27 MB, 26 MiB) copied, 39.9407 s, 677 kB/s
+Generally speaking, blk_mq_freeze_queue() should be fine to drain blk-mq
+based request queue, but it may not work well when the hardware is broken.
 
+> 
+> I try to fix the following situation:
+> Running DM-multipath over NVMEoF/RDMA block devices, toggling the switch
+> ports during traffic using fio and making sure the traffic never fails.
+> 
+> when the switch port goes down the initiator driver start an error recovery
 
-From the kernel log:
+What is the code you are referring to?
 
-nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma: added rxe0.
-nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma: nvmet_rdma_create_queue_ib: max_cqe= 511 max_sge= 32 sq_size = 257 cm_id= 000000009780ce6e
-nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established (9): status 0 id 000000006208c3e7
-nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: established (9): status 0 id 000000009780ce6e
-nvmet: adding queue 1 to ctrl 1.
-nvmet: adding queue 2 to ctrl 1.
-nvmet: adding queue 3 to ctrl 1.
-nvmet: adding queue 4 to ctrl 1.
-nvme nvme0: Successfully reconnected (1 attempts)
+> process
+> - blk_mq_quiesce_queue for each namespace request queue
 
-The configuration of the target is as follows:
+blk_mq_quiesce_queue() only guarantees that no requests can be dispatched to
+low level driver, and new requests still can be allocated, but can't be
+dispatched until the queue becomes unquiesced.
 
-# (cd /sys/kernel/config/nvmet/ && find -type f|xargs grep -aH .)       
-./ports/1/addr_trtype:rdma
-./ports/1/addr_trsvcid:7777
-./ports/1/addr_traddr:192.168.122.76
-./ports/1/addr_treq:not specified
-./ports/1/addr_adrfam:ipv4
-./subsystems/nvme-test/namespaces/1/enable:1
-./subsystems/nvme-test/namespaces/1/device_uuid:9059f87a-fa85-4e81-8da7-328163dabdf1
-./subsystems/nvme-test/namespaces/1/device_nguid:00000000-0000-0000-0000-000000000000
-./subsystems/nvme-test/namespaces/1/device_path:/dev/ram0
-./subsystems/nvme-test/attr_serial:fa1e888a1fcc1dd7
-./subsystems/nvme-test/attr_version:1.3
-./subsystems/nvme-test/attr_allow_any_host:1
+> - cancel all requests of the tagset using blk_mq_tagset_busy_iter
 
-This happens both with kernel versions v4.15.4 and v4.16-rc2. Has anyone seen
-something similar?
+Generally blk_mq_tagset_busy_iter() is used to cancel all in-flight
+requests, and it depends on implementation of the busy_tag_iter_fn, and
+timed-out request can't be covered by blk_mq_tagset_busy_iter().
+
+So blk_mq_tagset_busy_iter() is often used in error recovery path, such
+as nvme_dev_disable(), which is usually used in resetting PCIe NVMe controller.
+
+> - destroy the QPs/RDMA connections and MR pools
+> - blk_mq_unquiesce_queue for each namespace request queue
+> - reconnect to the target (after creating RDMA resources again)
+> 
+> During the QP destruction, I see a warning that not all the memory regions
+> were back to the mr_pool. For every request we get from the block layer
+> (well, almost every request) we get a MR from the MR pool.
+> So what I see is that, depends on the timing, some requests are
+> dispatched/completed after we blk_mq_unquiesce_queue and after we destroy
+> the QP and the MR pool. Probably these request were inserted during
+> quiescing,
+
+Yes.
+
+> and I want to flush/drain them before I destroy the QP.
+
+As mentioned above, you can't do that by blk_mq_quiesce_queue() &
+blk_mq_tagset_busy_iter().
+
+The PCIe NVMe driver takes two steps for the error recovery: nvme_dev_disable() &
+nvme_reset_work(), and you may consider the similar approach, but the in-flight
+requests won't be drained in this case because they can be requeued.
+
+Could you explain a bit what your exact problem is?
 
 Thanks,
-
-Bart.
+Ming
