@@ -1,119 +1,98 @@
-From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Thu, 22 Feb 2018 08:47:11 +0100
-Subject: [PATCH 09/20] lightnvm: use generic identify structure
-In-Reply-To: <1519205218-26994-10-git-send-email-javier@cnexlabs.com>
+From: javier@cnexlabs.com (Javier Gonzalez)
+Date: Thu, 22 Feb 2018 07:47:33 +0000
+Subject: [PATCH 03/20] lightnvm: fix capabilities for 2.0 sysfs
+In-Reply-To: <23b494fb-264d-a8ef-6172-5330d5a63bea@lightnvm.io>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
- <1519205218-26994-10-git-send-email-javier@cnexlabs.com>
-Message-ID: <6f76c204-847a-2f20-3070-06cb28a66555@lightnvm.io>
+ <1519205218-26994-4-git-send-email-javier@cnexlabs.com>
+ <23b494fb-264d-a8ef-6172-5330d5a63bea@lightnvm.io>
+Message-ID: <19BA9139-DB6D-4A9B-A0B4-72F38BE648E9@cnexlabs.com>
 
-On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
-> Create a generic identify structure to collect the identify information
-> before knowing the spec. version. This forces different version paths to
-> cast the structure to their spec structure, thus making the code less
-> error prone and more maintainable.
+> On 22 Feb 2018,@08.28, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
-> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
-> ---
->   drivers/nvme/host/lightnvm.c | 32 ++++++++++++++++++++------------
->   1 file changed, 20 insertions(+), 12 deletions(-)
+> On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
+>> Both 1.2 and 2.0 specs define a field for media and controller
+>> capabilities. Also, 1.2 defines a separate field dedicated to device
+>> capabilities.
+>> In 2.0 sysfs, this values have been mixed. Revert them to the right
+>> value.
+>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+>> ---
+>>  drivers/nvme/host/lightnvm.c | 18 +++++++++---------
+>>  1 file changed, 9 insertions(+), 9 deletions(-)
+>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+>> index 969bb874850c..598abba66f52 100644
+>> --- a/drivers/nvme/host/lightnvm.c
+>> +++ b/drivers/nvme/host/lightnvm.c
+>> @@ -914,8 +914,8 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
+>>    	if (strcmp(attr->name, "version") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->ver_id);
+>> -	} else if (strcmp(attr->name, "capabilities") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
+>> +	} else if (strcmp(attr->name, "media_capabilities") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
+>>  	} else if (strcmp(attr->name, "read_typ") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.trdt);
+>>  	} else if (strcmp(attr->name, "read_max") == 0) {
+>> @@ -993,8 +993,8 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbem);
+>>  	} else if (strcmp(attr->name, "multiplane_modes") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mpos);
+>> -	} else if (strcmp(attr->name, "media_capabilities") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mccap);
+>> +	} else if (strcmp(attr->name, "capabilities") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.cap);
+>>  	} else if (strcmp(attr->name, "max_phys_secs") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", NVM_MAX_VLBA);
+>>  	} else {
+>> @@ -1055,7 +1055,7 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
+>>    /* general attributes */
+>>  static NVM_DEV_ATTR_RO(version);
+>> -static NVM_DEV_ATTR_RO(capabilities);
+>> +static NVM_DEV_ATTR_RO(media_capabilities);
+>>    static NVM_DEV_ATTR_RO(read_typ);
+>>  static NVM_DEV_ATTR_RO(read_max);
+>> @@ -1080,12 +1080,12 @@ static NVM_DEV_ATTR_12_RO(prog_max);
+>>  static NVM_DEV_ATTR_12_RO(erase_typ);
+>>  static NVM_DEV_ATTR_12_RO(erase_max);
+>>  static NVM_DEV_ATTR_12_RO(multiplane_modes);
+>> -static NVM_DEV_ATTR_12_RO(media_capabilities);
+>> +static NVM_DEV_ATTR_12_RO(capabilities);
+>>  static NVM_DEV_ATTR_12_RO(max_phys_secs);
+>>    static struct attribute *nvm_dev_attrs_12[] = {
+>>  	&dev_attr_version.attr,
+>> -	&dev_attr_capabilities.attr,
+>> +	&dev_attr_media_capabilities.attr,
+>>    	&dev_attr_vendor_opcode.attr,
+>>  	&dev_attr_device_mode.attr,
+>> @@ -1108,7 +1108,7 @@ static struct attribute *nvm_dev_attrs_12[] = {
+>>  	&dev_attr_erase_typ.attr,
+>>  	&dev_attr_erase_max.attr,
+>>  	&dev_attr_multiplane_modes.attr,
+>> -	&dev_attr_media_capabilities.attr,
+>> +	&dev_attr_capabilities.attr,
+>>  	&dev_attr_max_phys_secs.attr,
+>>    	NULL,
+>> @@ -1134,7 +1134,7 @@ static NVM_DEV_ATTR_20_RO(reset_max);
+>>    static struct attribute *nvm_dev_attrs_20[] = {
+>>  	&dev_attr_version.attr,
+>> -	&dev_attr_capabilities.attr,
+>> +	&dev_attr_media_capabilities.attr,
+>>    	&dev_attr_groups.attr,
+>>  	&dev_attr_punits.attr,
 > 
-> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-> index 9c1f8225c4e1..70dc4740f0d3 100644
-> --- a/drivers/nvme/host/lightnvm.c
-> +++ b/drivers/nvme/host/lightnvm.c
-> @@ -170,6 +170,12 @@ struct nvme_nvm_id12 {
->   	__u8			resv2[2880];
->   } __packed;
->   
-> +/* Generic identification structure */
-> +struct nvme_nvm_id {
-> +	__u8			ver_id;
-> +	__u8			resv[4095];
-> +} __packed;
-> +
->   struct nvme_nvm_bb_tbl {
->   	__u8	tblid[4];
->   	__le16	verid;
-> @@ -279,9 +285,10 @@ static void nvme_nvm_set_addr_12(struct nvm_addr_format_12 *dst,
->   	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
->   }
->   
-> -static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
-> +static int nvme_nvm_setup_12(struct nvme_nvm_id *gen_id,
->   			     struct nvm_dev_geo *dev_geo)
->   {
-> +	struct nvme_nvm_id12 *id = (struct nvme_nvm_id12 *)gen_id;
->   	struct nvme_nvm_id12_grp *src;
->   	int sec_per_pg, sec_per_pl, pg_per_blk;
->   
-> @@ -380,9 +387,11 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
->   	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
->   }
->   
-> -static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
-> +static int nvme_nvm_setup_20(struct nvme_nvm_id *gen_id,
->   			     struct nvm_dev_geo *dev_geo)
->   {
-> +	struct nvme_nvm_id20 *id = (struct nvme_nvm_id20 *)gen_id;
-> +
->   	dev_geo->major_ver_id = id->mjr;
->   	dev_geo->minor_ver_id = id->mnr;
->   
-> @@ -427,19 +436,19 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->   static int nvme_nvm_identity(struct nvm_dev *nvmdev)
->   {
->   	struct nvme_ns *ns = nvmdev->q->queuedata;
-> -	struct nvme_nvm_id12 *id;
-> +	struct nvme_nvm_id *nvme_nvm_id;
->   	struct nvme_nvm_command c = {};
->   	int ret;
->   
->   	c.identity.opcode = nvme_nvm_admin_identity;
->   	c.identity.nsid = cpu_to_le32(ns->head->ns_id);
->   
-> -	id = kmalloc(sizeof(struct nvme_nvm_id12), GFP_KERNEL);
-> -	if (!id)
-> +	nvme_nvm_id = kmalloc(sizeof(struct nvme_nvm_id), GFP_KERNEL);
-> +	if (!nvme_nvm_id)
->   		return -ENOMEM;
->   
->   	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, (struct nvme_command *)&c,
-> -				id, sizeof(struct nvme_nvm_id12));
-> +				nvme_nvm_id, sizeof(struct nvme_nvm_id));
->   	if (ret) {
->   		ret = -EIO;
->   		goto out;
-> @@ -449,22 +458,21 @@ static int nvme_nvm_identity(struct nvm_dev *nvmdev)
->   	 * The 1.2 and 2.0 specifications share the first byte in their geometry
->   	 * command to make it possible to know what version a device implements.
->   	 */
-> -	switch (id->ver_id) {
-> +	switch (nvme_nvm_id->ver_id) {
->   	case 1:
-> -		ret = nvme_nvm_setup_12(id, &nvmdev->dev_geo);
-> +		ret = nvme_nvm_setup_12(nvme_nvm_id, &nvmdev->dev_geo);
->   		break;
->   	case 2:
-> -		ret = nvme_nvm_setup_20((struct nvme_nvm_id20 *)id,
-> -							&nvmdev->dev_geo);
-> +		ret = nvme_nvm_setup_20(nvme_nvm_id, &nvmdev->dev_geo);
->   		break;
->   	default:
->   		dev_err(ns->ctrl->device, "OCSSD revision not supported (%d)\n",
-> -							id->ver_id);
-> +							nvme_nvm_id->ver_id);
->   		ret = -EINVAL;
->   	}
->   
->   out:
-> -	kfree(id);
-> +	kfree(nvme_nvm_id);
->   	return ret;
->   }
->   
-> 
+> With the mccap changes, it should make sense to keep the capabilities
+> as is.
 
-Thanks for another way to represent it. I want to keep the original 
-path. If we are going that down road, then one should maybe look into 
-unifying the "three" data structures, and have the version as the base 
-property and the others in each their sub data structure.
+The change adds mccap, but sysfs points to cap, which is wrong. This
+patch is needed. Otherwise, we change the name of mccap to cap, which
+is _very_ confusing to people familiar to both specs. We can change
+the name of mccap to cap in a future spec revision.
+
+Javier
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180222/28c81c76/attachment.sig>
