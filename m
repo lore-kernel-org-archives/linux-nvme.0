@@ -1,18 +1,18 @@
-From: bart.vanassche@wdc.com (Bart Van Assche)
-Date: Thu, 22 Feb 2018 07:58:51 -0800
-Subject: [PATCH 2/3] nvme-rdma: use blk_rq_payload_bytes instead of
- blk_rq_bytes
-In-Reply-To: <20180222152410.19222-3-hch@lst.de>
-References: <20180222152410.19222-1-hch@lst.de>
- <20180222152410.19222-3-hch@lst.de>
-Message-ID: <d3780f4a-c23f-ea8b-41fd-052fdbcd8743@wdc.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 22 Feb 2018 17:59:16 +0200
+Subject: [PATCH 2/2] nvmet-rdma: don't flush system_wq by default during
+ remove_one
+In-Reply-To: <fc358d88-af74-7266-d913-bb05526d722e@grimberg.me>
+References: <1518716788-31362-1-git-send-email-maxg@mellanox.com>
+ <1518716788-31362-2-git-send-email-maxg@mellanox.com>
+ <fc358d88-af74-7266-d913-bb05526d722e@grimberg.me>
+Message-ID: <dca58b97-b181-457c-ca58-0b5c9d5ee946@mellanox.com>
 
-On 02/22/18 07:24, Christoph Hellwig wrote:
-> blk_rq_bytes does the wrong thing for special payloads like discards and
-> might cause the driver to not set up a SGL.
 
-Should "Fixes:" and "Cc: stable" tags be added to this patch?
 
-Thanks,
+On 2/22/2018 5:42 PM, Sagi Grimberg wrote:
+> Looks fine,
+> 
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Bart.
+Wait with these 2 patches, I've a newer version.
