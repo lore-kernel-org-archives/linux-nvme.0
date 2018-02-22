@@ -1,75 +1,104 @@
 From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Thu, 22 Feb 2018 10:03:30 +0000
-Subject: [PATCH 08/20] lightnvm: complete geo structure with maxoc*
-In-Reply-To: <9c8c1b50-0c8e-36cd-0f1d-a07753567f43@lightnvm.io>
+Date: Thu, 22 Feb 2018 10:25:47 +0000
+Subject: [PATCH 03/20] lightnvm: fix capabilities for 2.0 sysfs
+In-Reply-To: <616ad3c9-b10c-0439-2d63-5e9e25abce84@lightnvm.io>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
- <1519205218-26994-9-git-send-email-javier@cnexlabs.com>
- <5e2948ed-19a8-7bd5-6c50-df37a1454d16@lightnvm.io>
- <F70FB36A-967C-4B37-8037-C550249A0C3B@cnexlabs.com>
- <ec5d6c53-c3a1-7d66-9db7-407a519f0feb@lightnvm.io>
- <BA0987F5-AEA5-43BD-A065-3BF72E9A8676@cnexlabs.com>
- <9c8c1b50-0c8e-36cd-0f1d-a07753567f43@lightnvm.io>
-Message-ID: <6AB3CE71-8BC1-4D6E-A379-A7CFDF61B7FE@cnexlabs.com>
+ <1519205218-26994-4-git-send-email-javier@cnexlabs.com>
+ <23b494fb-264d-a8ef-6172-5330d5a63bea@lightnvm.io>
+ <19BA9139-DB6D-4A9B-A0B4-72F38BE648E9@cnexlabs.com>,
+ <616ad3c9-b10c-0439-2d63-5e9e25abce84@lightnvm.io>
+Message-ID: <A949EA48-27DF-4370-B213-3A4CE4E4F7D1@cnexlabs.com>
 
 
-Javier
 
-> On 22 Feb 2018,@11.00, Matias Bj?rling <mb@lightnvm.io> wrote:
+> On 22 Feb 2018,@10.39, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
-> On 02/22/2018 10:52 AM, Javier Gonzalez wrote:
->>> On 22 Feb 2018,@10.45, Matias Bj?rling <mb@lightnvm.io> wrote:
+> On 02/22/2018 08:47 AM, Javier Gonzalez wrote:
+>>> On 22 Feb 2018,@08.28, Matias Bj?rling <mb@lightnvm.io> wrote:
 >>> 
->>> On 02/22/2018 08:55 AM, Javier Gonzalez wrote:
->>>>> On 22 Feb 2018,@08.45, Matias Bj?rling <mb@lightnvm.io> wrote:
->>>>> 
->>>>> On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
->>>>>> Complete the generic geometry structure with the maxoc and maxocpu
->>>>>> felds, present in the 2.0 spec.
->>>>>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
->>>>>> ---
->>>>>>  drivers/nvme/host/lightnvm.c | 4 ++++
->>>>>>  include/linux/lightnvm.h     | 2 ++
->>>>>>  2 files changed, 6 insertions(+)
->>>>>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->>>>>> index cca32da05316..9c1f8225c4e1 100644
->>>>>> --- a/drivers/nvme/host/lightnvm.c
->>>>>> +++ b/drivers/nvme/host/lightnvm.c
->>>>>> @@ -318,6 +318,8 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
->>>>>>  	dev_geo->c.ws_min = sec_per_pg;
->>>>>>  	dev_geo->c.ws_opt = sec_per_pg;
->>>>>>  	dev_geo->c.mw_cunits = 8;		/* default to MLC safe values */
->>>>>> +	dev_geo->c.maxoc = dev_geo->all_luns;	/* default to 1 chunk per LUN */
->>>>>> +	dev_geo->c.maxocpu = 1;			/* default to 1 chunk per LUN */
->>>>> 
->>>>> One can't assume that it is 1 open chunk per lun. If you need this for specific hardware, make a quirk for it.
->>>> Which default you want for 1.2 if not specified then? I use 1 because it
->>>> has been the implicit default until now.
+>>>> On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
+>>>> Both 1.2 and 2.0 specs define a field for media and controller
+>>>> capabilities. Also, 1.2 defines a separate field dedicated to device
+>>>> capabilities.
+>>>> In 2.0 sysfs, this values have been mixed. Revert them to the right
+>>>> value.
+>>>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+>>>> ---
+>>>>  drivers/nvme/host/lightnvm.c | 18 +++++++++---------
+>>>>  1 file changed, 9 insertions(+), 9 deletions(-)
+>>>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+>>>> index 969bb874850c..598abba66f52 100644
+>>>> --- a/drivers/nvme/host/lightnvm.c
+>>>> +++ b/drivers/nvme/host/lightnvm.c
+>>>> @@ -914,8 +914,8 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
+>>>>        if (strcmp(attr->name, "version") == 0) {
+>>>>          return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->ver_id);
+>>>> -    } else if (strcmp(attr->name, "capabilities") == 0) {
+>>>> -        return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
+>>>> +    } else if (strcmp(attr->name, "media_capabilities") == 0) {
+>>>> +        return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
+>>>>      } else if (strcmp(attr->name, "read_typ") == 0) {
+>>>>          return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.trdt);
+>>>>      } else if (strcmp(attr->name, "read_max") == 0) {
+>>>> @@ -993,8 +993,8 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
+>>>>          return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbem);
+>>>>      } else if (strcmp(attr->name, "multiplane_modes") == 0) {
+>>>>          return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mpos);
+>>>> -    } else if (strcmp(attr->name, "media_capabilities") == 0) {
+>>>> -        return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mccap);
+>>>> +    } else if (strcmp(attr->name, "capabilities") == 0) {
+>>>> +        return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.cap);
+>>>>      } else if (strcmp(attr->name, "max_phys_secs") == 0) {
+>>>>          return scnprintf(page, PAGE_SIZE, "%u\n", NVM_MAX_VLBA);
+>>>>      } else {
+>>>> @@ -1055,7 +1055,7 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
+>>>>    /* general attributes */
+>>>>  static NVM_DEV_ATTR_RO(version);
+>>>> -static NVM_DEV_ATTR_RO(capabilities);
+>>>> +static NVM_DEV_ATTR_RO(media_capabilities);
+>>>>    static NVM_DEV_ATTR_RO(read_typ);
+>>>>  static NVM_DEV_ATTR_RO(read_max);
+>>>> @@ -1080,12 +1080,12 @@ static NVM_DEV_ATTR_12_RO(prog_max);
+>>>>  static NVM_DEV_ATTR_12_RO(erase_typ);
+>>>>  static NVM_DEV_ATTR_12_RO(erase_max);
+>>>>  static NVM_DEV_ATTR_12_RO(multiplane_modes);
+>>>> -static NVM_DEV_ATTR_12_RO(media_capabilities);
+>>>> +static NVM_DEV_ATTR_12_RO(capabilities);
+>>>>  static NVM_DEV_ATTR_12_RO(max_phys_secs);
+>>>>    static struct attribute *nvm_dev_attrs_12[] = {
+>>>>      &dev_attr_version.attr,
+>>>> -    &dev_attr_capabilities.attr,
+>>>> +    &dev_attr_media_capabilities.attr,
+>>>>        &dev_attr_vendor_opcode.attr,
+>>>>      &dev_attr_device_mode.attr,
+>>>> @@ -1108,7 +1108,7 @@ static struct attribute *nvm_dev_attrs_12[] = {
+>>>>      &dev_attr_erase_typ.attr,
+>>>>      &dev_attr_erase_max.attr,
+>>>>      &dev_attr_multiplane_modes.attr,
+>>>> -    &dev_attr_media_capabilities.attr,
+>>>> +    &dev_attr_capabilities.attr,
+>>>>      &dev_attr_max_phys_secs.attr,
+>>>>        NULL,
+>>>> @@ -1134,7 +1134,7 @@ static NVM_DEV_ATTR_20_RO(reset_max);
+>>>>    static struct attribute *nvm_dev_attrs_20[] = {
+>>>>      &dev_attr_version.attr,
+>>>> -    &dev_attr_capabilities.attr,
+>>>> +    &dev_attr_media_capabilities.attr,
+>>>>        &dev_attr_groups.attr,
+>>>>      &dev_attr_punits.attr,
 >>> 
->>> INT_MAX, since it then allows the maximum of open chunks. It cannot be assumed that other 1.2 devices is limited to a single open chunk.
->> So you want the default to be that all blocks on the device can be
->> opened at the same time. Interesting... I guess that such a SSD will
->> have a AA battery attached to it, but fine by me if that's how you want
->> it.
+>>> With the mccap changes, it should make sense to keep the capabilities
+>>> as is.
+>> The change adds mccap, but sysfs points to cap, which is wrong. This
+>> patch is needed. Otherwise, we change the name of mccap to cap, which
+>> is _very_ confusing to people familiar to both specs. We can change
+>> the name of mccap to cap in a future spec revision.
+>> Javier
 > 
-> I feel you're a bit sarcastic here. One may think of SLC and other memories that does one-shot programming. In that case no caching is needed, and therefore power-caps can be limited on the hardware.
+> Think of the sysfs capabilities as an abstract value that defines generic capabilities. It is not directly tied to either 1.2 or 2.0.
 
-Sure. Hope people move to 2.0 then for all >SLC memories out there,
-otherwise we'll see a lot of quirks coming in. Thought we wanted to be
-generic.
+I?m thinking about the user looking at sysfs and at the spec at the same time - I myself get confused when names don?t match. 
 
-> 
->> Assuming this, can we instead set it to the reported number of chunks,
->> since this is the hard limit anyway.
-> 
-> Works for me.
+Anyway, I?ll keep it the way it was and add a comment for clarification. Would that work for you?
 
-Cool. I'll add this to the next version.
-
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180222/c888845b/attachment.sig>
+Javier 
