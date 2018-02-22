@@ -1,133 +1,44 @@
 From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Thu, 22 Feb 2018 10:41:35 +0100
-Subject: [PATCH 09/20] lightnvm: use generic identify structure
-In-Reply-To: <1FE350B9-E8CD-43BC-8AE8-2593A6398D3F@lightnvm.io>
+Date: Thu, 22 Feb 2018 10:45:30 +0100
+Subject: [PATCH 08/20] lightnvm: complete geo structure with maxoc*
+In-Reply-To: <F70FB36A-967C-4B37-8037-C550249A0C3B@cnexlabs.com>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
- <1519205218-26994-10-git-send-email-javier@cnexlabs.com>
- <6f76c204-847a-2f20-3070-06cb28a66555@lightnvm.io>
- <1FE350B9-E8CD-43BC-8AE8-2593A6398D3F@lightnvm.io>
-Message-ID: <25780a53-504e-70c6-3ff4-d20c43e8e3b2@lightnvm.io>
+ <1519205218-26994-9-git-send-email-javier@cnexlabs.com>
+ <5e2948ed-19a8-7bd5-6c50-df37a1454d16@lightnvm.io>
+ <F70FB36A-967C-4B37-8037-C550249A0C3B@cnexlabs.com>
+Message-ID: <ec5d6c53-c3a1-7d66-9db7-407a519f0feb@lightnvm.io>
 
-On 02/22/2018 08:49 AM, Javier Gonz?lez wrote:
->> On 22 Feb 2018,@08.47, Matias Bj?rling <mb@lightnvm.io> wrote:
+On 02/22/2018 08:55 AM, Javier Gonzalez wrote:
+>> On 22 Feb 2018,@08.45, Matias Bj?rling <mb@lightnvm.io> wrote:
 >>
 >> On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
->>> Create a generic identify structure to collect the identify information
->>> before knowing the spec. version. This forces different version paths to
->>> cast the structure to their spec structure, thus making the code less
->>> error prone and more maintainable.
+>>> Complete the generic geometry structure with the maxoc and maxocpu
+>>> felds, present in the 2.0 spec.
 >>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 >>> ---
->>>   drivers/nvme/host/lightnvm.c | 32 ++++++++++++++++++++------------
->>>   1 file changed, 20 insertions(+), 12 deletions(-)
+>>>   drivers/nvme/host/lightnvm.c | 4 ++++
+>>>   include/linux/lightnvm.h     | 2 ++
+>>>   2 files changed, 6 insertions(+)
 >>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->>> index 9c1f8225c4e1..70dc4740f0d3 100644
+>>> index cca32da05316..9c1f8225c4e1 100644
 >>> --- a/drivers/nvme/host/lightnvm.c
 >>> +++ b/drivers/nvme/host/lightnvm.c
->>> @@ -170,6 +170,12 @@ struct nvme_nvm_id12 {
->>>   	__u8			resv2[2880];
->>>   } __packed;
->>>   +/* Generic identification structure */
->>> +struct nvme_nvm_id {
->>> +	__u8			ver_id;
->>> +	__u8			resv[4095];
->>> +} __packed;
->>> +
->>>   struct nvme_nvm_bb_tbl {
->>>   	__u8	tblid[4];
->>>   	__le16	verid;
->>> @@ -279,9 +285,10 @@ static void nvme_nvm_set_addr_12(struct nvm_addr_format_12 *dst,
->>>   	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
->>>   }
->>>   -static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
->>> +static int nvme_nvm_setup_12(struct nvme_nvm_id *gen_id,
->>>   			     struct nvm_dev_geo *dev_geo)
->>>   {
->>> +	struct nvme_nvm_id12 *id = (struct nvme_nvm_id12 *)gen_id;
->>>   	struct nvme_nvm_id12_grp *src;
->>>   	int sec_per_pg, sec_per_pl, pg_per_blk;
->>>   @@ -380,9 +387,11 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
->>>   	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
->>>   }
->>>   -static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->>> +static int nvme_nvm_setup_20(struct nvme_nvm_id *gen_id,
->>>   			     struct nvm_dev_geo *dev_geo)
->>>   {
->>> +	struct nvme_nvm_id20 *id = (struct nvme_nvm_id20 *)gen_id;
->>> +
->>>   	dev_geo->major_ver_id = id->mjr;
->>>   	dev_geo->minor_ver_id = id->mnr;
->>>   @@ -427,19 +436,19 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->>>   static int nvme_nvm_identity(struct nvm_dev *nvmdev)
->>>   {
->>>   	struct nvme_ns *ns = nvmdev->q->queuedata;
->>> -	struct nvme_nvm_id12 *id;
->>> +	struct nvme_nvm_id *nvme_nvm_id;
->>>   	struct nvme_nvm_command c = {};
->>>   	int ret;
->>>     	c.identity.opcode = nvme_nvm_admin_identity;
->>>   	c.identity.nsid = cpu_to_le32(ns->head->ns_id);
->>>   -	id = kmalloc(sizeof(struct nvme_nvm_id12), GFP_KERNEL);
->>> -	if (!id)
->>> +	nvme_nvm_id = kmalloc(sizeof(struct nvme_nvm_id), GFP_KERNEL);
->>> +	if (!nvme_nvm_id)
->>>   		return -ENOMEM;
->>>     	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, (struct nvme_command *)&c,
->>> -				id, sizeof(struct nvme_nvm_id12));
->>> +				nvme_nvm_id, sizeof(struct nvme_nvm_id));
->>>   	if (ret) {
->>>   		ret = -EIO;
->>>   		goto out;
->>> @@ -449,22 +458,21 @@ static int nvme_nvm_identity(struct nvm_dev *nvmdev)
->>>   	 * The 1.2 and 2.0 specifications share the first byte in their geometry
->>>   	 * command to make it possible to know what version a device implements.
->>>   	 */
->>> -	switch (id->ver_id) {
->>> +	switch (nvme_nvm_id->ver_id) {
->>>   	case 1:
->>> -		ret = nvme_nvm_setup_12(id, &nvmdev->dev_geo);
->>> +		ret = nvme_nvm_setup_12(nvme_nvm_id, &nvmdev->dev_geo);
->>>   		break;
->>>   	case 2:
->>> -		ret = nvme_nvm_setup_20((struct nvme_nvm_id20 *)id,
->>> -							&nvmdev->dev_geo);
->>> +		ret = nvme_nvm_setup_20(nvme_nvm_id, &nvmdev->dev_geo);
->>>   		break;
->>>   	default:
->>>   		dev_err(ns->ctrl->device, "OCSSD revision not supported (%d)\n",
->>> -							id->ver_id);
->>> +							nvme_nvm_id->ver_id);
->>>   		ret = -EINVAL;
->>>   	}
->>>     out:
->>> -	kfree(id);
->>> +	kfree(nvme_nvm_id);
->>>   	return ret;
->>>   }
->>>
+>>> @@ -318,6 +318,8 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
+>>>   	dev_geo->c.ws_min = sec_per_pg;
+>>>   	dev_geo->c.ws_opt = sec_per_pg;
+>>>   	dev_geo->c.mw_cunits = 8;		/* default to MLC safe values */
+>>> +	dev_geo->c.maxoc = dev_geo->all_luns;	/* default to 1 chunk per LUN */
+>>> +	dev_geo->c.maxocpu = 1;			/* default to 1 chunk per LUN */
 >>
->> Thanks for another way to represent it. I want to keep the original
->> path. If we are going that down road, then one should maybe look into
->> unifying the "three" data structures, and have the version as the base
->> property and the others in each their sub data structure.
+>> One can't assume that it is 1 open chunk per lun. If you need this for specific hardware, make a quirk for it.
+>>
 > 
-> That's what this structure aims to do, since the version is shared. But
-> you call if you want to cast unrelated structures back an forth. I'll
-> revert it...
+> Which default you want for 1.2 if not specified then? I use 1 because it
+> has been the implicit default until now.
+
+INT_MAX, since it then allows the maximum of open chunks. It cannot be 
+assumed that other 1.2 devices is limited to a single open chunk.
+
 > 
 > Javier
 > 
-
-In that case, the patch could look like
-
-struct nvm_id {
-	__u8 ver_id;
-
-	union {
-		struct v1 {};
-		struct v2 {};
-	};
-};
-
-I'm good with just having the single cast instead of putting each under 
-a v1/v2 variable or using nvm_id first, and then goto either v1 or v2.
