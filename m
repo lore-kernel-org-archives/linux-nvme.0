@@ -1,39 +1,12 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Feb 2018 07:24:10 -0800
-Subject: [PATCH 3/3] nvmet-loop: use blk_rq_payload_bytes for sgl selection
-In-Reply-To: <20180222152410.19222-1-hch@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 22 Feb 2018 17:34:24 +0200
+Subject: [PATCH 1/3] nvme-fabrics: don't check for non-NULL module in
+ nvmf_register_transport
+In-Reply-To: <20180222152410.19222-2-hch@lst.de>
 References: <20180222152410.19222-1-hch@lst.de>
-Message-ID: <20180222152410.19222-4-hch@lst.de>
+ <20180222152410.19222-2-hch@lst.de>
+Message-ID: <b79a47ca-0e90-e2cf-c3fd-cae9a952b9b7@grimberg.me>
 
-blk_rq_bytes does the wrong thing for special payloads like discards and
-might cause the driver to not set up a SGL.
+Sorry :)
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/loop.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 7991ec3a17db..861d1509b22b 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -184,7 +184,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		return BLK_STS_OK;
- 	}
- 
--	if (blk_rq_bytes(req)) {
-+	if (blk_rq_payload_bytes(req)) {
- 		iod->sg_table.sgl = iod->first_sgl;
- 		if (sg_alloc_table_chained(&iod->sg_table,
- 				blk_rq_nr_phys_segments(req),
-@@ -193,7 +193,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 		iod->req.sg = iod->sg_table.sgl;
- 		iod->req.sg_cnt = blk_rq_map_sg(req->q, req, iod->sg_table.sgl);
--		iod->req.transfer_len = blk_rq_bytes(req);
-+		iod->req.transfer_len = blk_rq_payload_bytes(req);
- 	}
- 
- 	blk_mq_start_request(req);
--- 
-2.14.2
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
