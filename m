@@ -1,104 +1,139 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Thu, 22 Feb 2018 10:25:47 +0000
-Subject: [PATCH 03/20] lightnvm: fix capabilities for 2.0 sysfs
-In-Reply-To: <616ad3c9-b10c-0439-2d63-5e9e25abce84@lightnvm.io>
-References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
- <1519205218-26994-4-git-send-email-javier@cnexlabs.com>
- <23b494fb-264d-a8ef-6172-5330d5a63bea@lightnvm.io>
- <19BA9139-DB6D-4A9B-A0B4-72F38BE648E9@cnexlabs.com>,
- <616ad3c9-b10c-0439-2d63-5e9e25abce84@lightnvm.io>
-Message-ID: <A949EA48-27DF-4370-B213-3A4CE4E4F7D1@cnexlabs.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 22 Feb 2018 12:56:05 +0200
+Subject: how can one drain MQ request queue ?
+In-Reply-To: <20180222025943.GB1150@ming.t460p>
+References: <a8d50fdf-1ed9-1f10-1ac9-4cbbf223cb8b@mellanox.com>
+ <20180222025943.GB1150@ming.t460p>
+Message-ID: <a18346ff-e323-dd38-bcd9-77b3dfebf7ef@mellanox.com>
 
 
 
-> On 22 Feb 2018,@10.39, Matias Bj?rling <mb@lightnvm.io> wrote:
+On 2/22/2018 4:59 AM, Ming Lei wrote:
+> Hi Max,
+
+Hi Ming,
+
 > 
-> On 02/22/2018 08:47 AM, Javier Gonzalez wrote:
->>> On 22 Feb 2018,@08.28, Matias Bj?rling <mb@lightnvm.io> wrote:
->>> 
->>>> On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
->>>> Both 1.2 and 2.0 specs define a field for media and controller
->>>> capabilities. Also, 1.2 defines a separate field dedicated to device
->>>> capabilities.
->>>> In 2.0 sysfs, this values have been mixed. Revert them to the right
->>>> value.
->>>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
->>>> ---
->>>>  drivers/nvme/host/lightnvm.c | 18 +++++++++---------
->>>>  1 file changed, 9 insertions(+), 9 deletions(-)
->>>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->>>> index 969bb874850c..598abba66f52 100644
->>>> --- a/drivers/nvme/host/lightnvm.c
->>>> +++ b/drivers/nvme/host/lightnvm.c
->>>> @@ -914,8 +914,8 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
->>>>        if (strcmp(attr->name, "version") == 0) {
->>>>          return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->ver_id);
->>>> -    } else if (strcmp(attr->name, "capabilities") == 0) {
->>>> -        return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
->>>> +    } else if (strcmp(attr->name, "media_capabilities") == 0) {
->>>> +        return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
->>>>      } else if (strcmp(attr->name, "read_typ") == 0) {
->>>>          return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.trdt);
->>>>      } else if (strcmp(attr->name, "read_max") == 0) {
->>>> @@ -993,8 +993,8 @@ static ssize_t nvm_dev_attr_show_12(struct device *dev,
->>>>          return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.tbem);
->>>>      } else if (strcmp(attr->name, "multiplane_modes") == 0) {
->>>>          return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mpos);
->>>> -    } else if (strcmp(attr->name, "media_capabilities") == 0) {
->>>> -        return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.mccap);
->>>> +    } else if (strcmp(attr->name, "capabilities") == 0) {
->>>> +        return scnprintf(page, PAGE_SIZE, "0x%08x\n", dev_geo->c.cap);
->>>>      } else if (strcmp(attr->name, "max_phys_secs") == 0) {
->>>>          return scnprintf(page, PAGE_SIZE, "%u\n", NVM_MAX_VLBA);
->>>>      } else {
->>>> @@ -1055,7 +1055,7 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
->>>>    /* general attributes */
->>>>  static NVM_DEV_ATTR_RO(version);
->>>> -static NVM_DEV_ATTR_RO(capabilities);
->>>> +static NVM_DEV_ATTR_RO(media_capabilities);
->>>>    static NVM_DEV_ATTR_RO(read_typ);
->>>>  static NVM_DEV_ATTR_RO(read_max);
->>>> @@ -1080,12 +1080,12 @@ static NVM_DEV_ATTR_12_RO(prog_max);
->>>>  static NVM_DEV_ATTR_12_RO(erase_typ);
->>>>  static NVM_DEV_ATTR_12_RO(erase_max);
->>>>  static NVM_DEV_ATTR_12_RO(multiplane_modes);
->>>> -static NVM_DEV_ATTR_12_RO(media_capabilities);
->>>> +static NVM_DEV_ATTR_12_RO(capabilities);
->>>>  static NVM_DEV_ATTR_12_RO(max_phys_secs);
->>>>    static struct attribute *nvm_dev_attrs_12[] = {
->>>>      &dev_attr_version.attr,
->>>> -    &dev_attr_capabilities.attr,
->>>> +    &dev_attr_media_capabilities.attr,
->>>>        &dev_attr_vendor_opcode.attr,
->>>>      &dev_attr_device_mode.attr,
->>>> @@ -1108,7 +1108,7 @@ static struct attribute *nvm_dev_attrs_12[] = {
->>>>      &dev_attr_erase_typ.attr,
->>>>      &dev_attr_erase_max.attr,
->>>>      &dev_attr_multiplane_modes.attr,
->>>> -    &dev_attr_media_capabilities.attr,
->>>> +    &dev_attr_capabilities.attr,
->>>>      &dev_attr_max_phys_secs.attr,
->>>>        NULL,
->>>> @@ -1134,7 +1134,7 @@ static NVM_DEV_ATTR_20_RO(reset_max);
->>>>    static struct attribute *nvm_dev_attrs_20[] = {
->>>>      &dev_attr_version.attr,
->>>> -    &dev_attr_capabilities.attr,
->>>> +    &dev_attr_media_capabilities.attr,
->>>>        &dev_attr_groups.attr,
->>>>      &dev_attr_punits.attr,
->>> 
->>> With the mccap changes, it should make sense to keep the capabilities
->>> as is.
->> The change adds mccap, but sysfs points to cap, which is wrong. This
->> patch is needed. Otherwise, we change the name of mccap to cap, which
->> is _very_ confusing to people familiar to both specs. We can change
->> the name of mccap to cap in a future spec revision.
->> Javier
+> On Tue, Feb 20, 2018@11:56:07AM +0200, Max Gurtovoy wrote:
+>> hi all,
+>> is there a way to drain a blk-mq based request queue (similar to
+>> blk_drain_queue for non MQ) ?
 > 
-> Think of the sysfs capabilities as an abstract value that defines generic capabilities. It is not directly tied to either 1.2 or 2.0.
+> Generally speaking, blk_mq_freeze_queue() should be fine to drain blk-mq
+> based request queue, but it may not work well when the hardware is broken.
 
-I?m thinking about the user looking at sysfs and at the spec at the same time - I myself get confused when names don?t match. 
+I tried that, but the path failover takes ~cmd_timeout seconds and this 
+is not good enough...
 
-Anyway, I?ll keep it the way it was and add a comment for clarification. Would that work for you?
+> 
+>>
+>> I try to fix the following situation:
+>> Running DM-multipath over NVMEoF/RDMA block devices, toggling the switch
+>> ports during traffic using fio and making sure the traffic never fails.
+>>
+>> when the switch port goes down the initiator driver start an error recovery
+> 
+> What is the code you are referring to?
 
-Javier 
+from nvme_rdma driver:
+
+static void nvme_rdma_error_recovery_work(struct work_struct *work)
+{
+         struct nvme_rdma_ctrl *ctrl = container_of(work,
+                         struct nvme_rdma_ctrl, err_work);
+
+         nvme_stop_keep_alive(&ctrl->ctrl);
+
+         if (ctrl->ctrl.queue_count > 1) {
+                 nvme_stop_queues(&ctrl->ctrl);
+                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
+                                         nvme_cancel_request, &ctrl->ctrl);
+                 nvme_rdma_destroy_io_queues(ctrl, false);
+         }
+
+         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+                                 nvme_cancel_request, &ctrl->ctrl);
+         nvme_rdma_destroy_admin_queue(ctrl, false);
+
+         /*
+          * queues are not a live anymore, so restart the queues to fail 
+fast
+          * new IO
+          */
+         blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+         nvme_start_queues(&ctrl->ctrl);
+
+         if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+                 /* state change failure should never happen */
+                 WARN_ON_ONCE(1);
+                 return;
+         }
+
+         nvme_rdma_reconnect_or_remove(ctrl);
+}
+
+
+> 
+>> process
+>> - blk_mq_quiesce_queue for each namespace request queue
+> 
+> blk_mq_quiesce_queue() only guarantees that no requests can be dispatched to
+> low level driver, and new requests still can be allocated, but can't be
+> dispatched until the queue becomes unquiesced.
+> 
+>> - cancel all requests of the tagset using blk_mq_tagset_busy_iter
+> 
+> Generally blk_mq_tagset_busy_iter() is used to cancel all in-flight
+> requests, and it depends on implementation of the busy_tag_iter_fn, and
+> timed-out request can't be covered by blk_mq_tagset_busy_iter().
+
+How can we deal with timed-out commands ?
+
+
+> 
+> So blk_mq_tagset_busy_iter() is often used in error recovery path, such
+> as nvme_dev_disable(), which is usually used in resetting PCIe NVMe controller.
+> 
+>> - destroy the QPs/RDMA connections and MR pools
+>> - blk_mq_unquiesce_queue for each namespace request queue
+>> - reconnect to the target (after creating RDMA resources again)
+>>
+>> During the QP destruction, I see a warning that not all the memory regions
+>> were back to the mr_pool. For every request we get from the block layer
+>> (well, almost every request) we get a MR from the MR pool.
+>> So what I see is that, depends on the timing, some requests are
+>> dispatched/completed after we blk_mq_unquiesce_queue and after we destroy
+>> the QP and the MR pool. Probably these request were inserted during
+>> quiescing,
+> 
+> Yes.
+
+maybe we need to update the nvmf_check_init_req to check that the ctrl 
+is in NVME_CTRL_LIVE state (otherwise return IOERR), but I need to think 
+about it and test it.
+
+> 
+>> and I want to flush/drain them before I destroy the QP.
+> 
+> As mentioned above, you can't do that by blk_mq_quiesce_queue() &
+> blk_mq_tagset_busy_iter().
+> 
+> The PCIe NVMe driver takes two steps for the error recovery: nvme_dev_disable() &
+> nvme_reset_work(), and you may consider the similar approach, but the in-flight
+> requests won't be drained in this case because they can be requeued.
+> 
+> Could you explain a bit what your exact problem is?
+
+The problem is that I assign an MR from QP mr_pool for each call to 
+nvme_rdma_queue_rq. During the error recovery I destroy the QP and the 
+mr_pool *but* some MR's are missing and not returned to the pool.
+
+
+> 
+> Thanks,
+> Ming
+> 
+
+Thanks,
+Max.
