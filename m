@@ -1,139 +1,190 @@
 From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Thu, 22 Feb 2018 08:34:57 +0100
-Subject: [PATCH 04/20] lightnvm: add minor version to generic geometry
-In-Reply-To: <1519205218-26994-5-git-send-email-javier@cnexlabs.com>
+Date: Thu, 22 Feb 2018 08:43:59 +0100
+Subject: [PATCH 07/20] lightnvm: rename sect_* to sec_*
+In-Reply-To: <1519205218-26994-8-git-send-email-javier@cnexlabs.com>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
- <1519205218-26994-5-git-send-email-javier@cnexlabs.com>
-Message-ID: <abd2b8f4-58b6-c97e-58e2-e271aae1f4a0@lightnvm.io>
+ <1519205218-26994-8-git-send-email-javier@cnexlabs.com>
+Message-ID: <7dc355a2-b3a2-28f3-a595-42822129f456@lightnvm.io>
 
 On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
-> Separate the version between major and minor on the generic geometry.
-> Also, add a "subversion" entry to sysfs to expose the minor version
-> without breaking user space.
+> Rename abbreviations for sector from sect_* to sec_* as most of the code
+> uses this format and it is confusing when using the different
+> structures.
 > 
 > Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 > ---
->   drivers/lightnvm/core.c      |  4 ++--
->   drivers/nvme/host/lightnvm.c | 25 ++++++++++++++++++++-----
->   include/linux/lightnvm.h     |  3 ++-
->   3 files changed, 24 insertions(+), 8 deletions(-)
+>   drivers/lightnvm/pblk-init.c  | 8 ++++----
+>   drivers/lightnvm/pblk-sysfs.c | 4 ++--
+>   drivers/lightnvm/pblk.h       | 8 ++++----
+>   drivers/nvme/host/lightnvm.c  | 8 ++++----
+>   include/linux/lightnvm.h      | 8 ++++----
+>   5 files changed, 18 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-> index 42596afdf64c..dc9ec6baff45 100644
-> --- a/drivers/lightnvm/core.c
-> +++ b/drivers/lightnvm/core.c
-> @@ -897,8 +897,8 @@ static int nvm_init(struct nvm_dev *dev)
->   		goto err;
+> diff --git a/drivers/lightnvm/pblk-init.c b/drivers/lightnvm/pblk-init.c
+> index 455fc63a9409..6bf51ef8f516 100644
+> --- a/drivers/lightnvm/pblk-init.c
+> +++ b/drivers/lightnvm/pblk-init.c
+> @@ -179,16 +179,16 @@ static int pblk_set_addrf_12(struct nvm_geo *geo,
+>   	dst->blk_len = src->blk_len;
+>   	dst->pg_len = src->pg_len;
+>   	dst->pln_len = src->pln_len;
+> -	dst->sect_len = src->sect_len;
+> +	dst->sec_len = src->sec_len;
+>   
+> -	dst->sect_offset = 0;
+> -	dst->pln_offset = dst->sect_len;
+> +	dst->sec_offset = 0;
+> +	dst->pln_offset = dst->sec_len;
+>   	dst->ch_offset = dst->pln_offset + dst->pln_len;
+>   	dst->lun_offset = dst->ch_offset + dst->ch_len;
+>   	dst->pg_offset = dst->lun_offset + dst->lun_len;
+>   	dst->blk_offset = dst->pg_offset + dst->pg_len;
+>   
+> -	dst->sec_mask = ((1ULL << dst->sect_len) - 1) << dst->sect_offset;
+> +	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
+>   	dst->pln_mask = ((1ULL << dst->pln_len) - 1) << dst->pln_offset;
+>   	dst->ch_mask = ((1ULL << dst->ch_len) - 1) << dst->ch_offset;
+>   	dst->lun_mask = ((1ULL << dst->lun_len) - 1) << dst->lun_offset;
+> diff --git a/drivers/lightnvm/pblk-sysfs.c b/drivers/lightnvm/pblk-sysfs.c
+> index 5eb21a279361..81288aa9162a 100644
+> --- a/drivers/lightnvm/pblk-sysfs.c
+> +++ b/drivers/lightnvm/pblk-sysfs.c
+> @@ -128,7 +128,7 @@ static ssize_t pblk_sysfs_ppaf(struct pblk *pblk, char *page)
+>   			ppaf->blk_offset, ppaf->blk_len,
+>   			ppaf->pg_offset, ppaf->pg_len,
+>   			ppaf->pln_offset, ppaf->pln_len,
+> -			ppaf->sect_offset, ppaf->sect_len);
+> +			ppaf->sec_offset, ppaf->sec_len);
+>   
+>   	sz += snprintf(page + sz, PAGE_SIZE - sz,
+>   		"device:ch:%d/%d,lun:%d/%d,blk:%d/%d,pg:%d/%d,pl:%d/%d,sec:%d/%d\n",
+> @@ -137,7 +137,7 @@ static ssize_t pblk_sysfs_ppaf(struct pblk *pblk, char *page)
+>   			geo_ppaf->blk_offset, geo_ppaf->blk_len,
+>   			geo_ppaf->pg_offset, geo_ppaf->pg_len,
+>   			geo_ppaf->pln_offset, geo_ppaf->pln_len,
+> -			geo_ppaf->sect_offset, geo_ppaf->sect_len);
+> +			geo_ppaf->sec_offset, geo_ppaf->sec_len);
+>   
+>   	return sz;
+>   }
+> diff --git a/drivers/lightnvm/pblk.h b/drivers/lightnvm/pblk.h
+> index 1f32284b0aec..4f7a365436f1 100644
+> --- a/drivers/lightnvm/pblk.h
+> +++ b/drivers/lightnvm/pblk.h
+> @@ -957,7 +957,7 @@ static inline struct ppa_addr addr_to_gen_ppa(struct pblk *pblk, u64 paddr,
+>   	ppa.g.lun = (paddr & ppaf->lun_mask) >> ppaf->lun_offset;
+>   	ppa.g.ch = (paddr & ppaf->ch_mask) >> ppaf->ch_offset;
+>   	ppa.g.pl = (paddr & ppaf->pln_mask) >> ppaf->pln_offset;
+> -	ppa.g.sec = (paddr & ppaf->sec_mask) >> ppaf->sect_offset;
+> +	ppa.g.sec = (paddr & ppaf->sec_mask) >> ppaf->sec_offset;
+>   
+>   	return ppa;
+>   }
+> @@ -973,7 +973,7 @@ static inline u64 pblk_dev_ppa_to_line_addr(struct pblk *pblk,
+>   	paddr |= (u64)p.g.lun << ppaf->lun_offset;
+>   	paddr |= (u64)p.g.pg << ppaf->pg_offset;
+>   	paddr |= (u64)p.g.pl << ppaf->pln_offset;
+> -	paddr |= (u64)p.g.sec << ppaf->sect_offset;
+> +	paddr |= (u64)p.g.sec << ppaf->sec_offset;
+>   
+>   	return paddr;
+>   }
+> @@ -998,7 +998,7 @@ static inline struct ppa_addr pblk_ppa32_to_ppa64(struct pblk *pblk, u32 ppa32)
+>   		ppa64.g.blk = (ppa32 & ppaf->blk_mask) >> ppaf->blk_offset;
+>   		ppa64.g.pg = (ppa32 & ppaf->pg_mask) >> ppaf->pg_offset;
+>   		ppa64.g.pl = (ppa32 & ppaf->pln_mask) >> ppaf->pln_offset;
+> -		ppa64.g.sec = (ppa32 & ppaf->sec_mask) >> ppaf->sect_offset;
+> +		ppa64.g.sec = (ppa32 & ppaf->sec_mask) >> ppaf->sec_offset;
 >   	}
 >   
-> -	pr_debug("nvm: ver:%u nvm_vendor:%x\n",
-> -				dev_geo->ver_id,
-> +	pr_debug("nvm: ver:%u.%u nvm_vendor:%x\n",
-> +				dev_geo->major_ver_id, dev_geo->minor_ver_id,
->   				dev_geo->c.vmnt);
+>   	return ppa64;
+> @@ -1022,7 +1022,7 @@ static inline u32 pblk_ppa64_to_ppa32(struct pblk *pblk, struct ppa_addr ppa64)
+>   		ppa32 |= ppa64.g.blk << ppaf->blk_offset;
+>   		ppa32 |= ppa64.g.pg << ppaf->pg_offset;
+>   		ppa32 |= ppa64.g.pl << ppaf->pln_offset;
+> -		ppa32 |= ppa64.g.sec << ppaf->sect_offset;
+> +		ppa32 |= ppa64.g.sec << ppaf->sec_offset;
+>   	}
 >   
->   	ret = nvm_core_init(dev);
+>   	return ppa32;
 > diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-> index 598abba66f52..71b4ac57a668 100644
+> index bd97672e0b4f..cca32da05316 100644
 > --- a/drivers/nvme/host/lightnvm.c
 > +++ b/drivers/nvme/host/lightnvm.c
-> @@ -296,7 +296,8 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
->   	}
+> @@ -262,21 +262,21 @@ static void nvme_nvm_set_addr_12(struct nvm_addr_format_12 *dst,
+>   	dst->blk_len = src->blk_len;
+>   	dst->pg_len = src->pg_len;
+>   	dst->pln_len = src->pln_len;
+> -	dst->sect_len = src->sec_len;
+> +	dst->sec_len = src->sec_len;
 >   
->   	/* 1.2 spec. only reports a single version id - unfold */
-> -	dev_geo->ver_id = id->ver_id;
-> +	dev_geo->major_ver_id = id->ver_id;
-> +	dev_geo->minor_ver_id = 2;
+>   	dst->ch_offset = src->ch_offset;
+>   	dst->lun_offset = src->lun_offset;
+>   	dst->blk_offset = src->blk_offset;
+>   	dst->pg_offset = src->pg_offset;
+>   	dst->pln_offset = src->pln_offset;
+> -	dst->sect_offset = src->sec_offset;
+> +	dst->sec_offset = src->sec_offset;
 >   
->   	dev_geo->nr_chnls = src->num_ch;
->   	dev_geo->nr_luns = src->num_lun;
-> @@ -377,7 +378,14 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
->   static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->   			     struct nvm_dev_geo *dev_geo)
->   {
-> -	dev_geo->ver_id = id->mjr;
-> +	dev_geo->major_ver_id = id->mjr;
-> +	dev_geo->minor_ver_id = id->mnr;
-> +
-> +	if (!(dev_geo->major_ver_id == 2 && dev_geo->minor_ver_id == 0)) {
-> +		pr_err("nvm: OCSSD version not supported (v%d.%d)\n",
-> +				dev_geo->major_ver_id, dev_geo->minor_ver_id);
-> +		return -EINVAL;
-> +	}
+>   	dst->ch_mask = ((1ULL << dst->ch_len) - 1) << dst->ch_offset;
+>   	dst->lun_mask = ((1ULL << dst->lun_len) - 1) << dst->lun_offset;
+>   	dst->blk_mask = ((1ULL << dst->blk_len) - 1) << dst->blk_offset;
+>   	dst->pg_mask = ((1ULL << dst->pg_len) - 1) << dst->pg_offset;
+>   	dst->pln_mask = ((1ULL << dst->pln_len) - 1) << dst->pln_offset;
+> -	dst->sec_mask = ((1ULL << dst->sect_len) - 1) << dst->sect_offset;
+> +	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
+>   }
 >   
->   	dev_geo->nr_chnls = le16_to_cpu(id->num_grp);
->   	dev_geo->nr_luns = le16_to_cpu(id->num_pu);
-> @@ -913,7 +921,11 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
->   	attr = &dattr->attr;
+>   static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
+> @@ -956,7 +956,7 @@ static ssize_t nvm_dev_attr_show_ppaf(struct nvm_addr_format_12 *ppaf,
+>   				ppaf->pln_offset, ppaf->pln_len,
+>   				ppaf->blk_offset, ppaf->blk_len,
+>   				ppaf->pg_offset, ppaf->pg_len,
+> -				ppaf->sect_offset, ppaf->sect_len);
+> +				ppaf->sec_offset, ppaf->sec_len);
+>   }
 >   
->   	if (strcmp(attr->name, "version") == 0) {
-> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->ver_id);
-> +		return scnprintf(page, PAGE_SIZE, "%u\n",
-> +						dev_geo->major_ver_id);
-> +	} else if (strcmp(attr->name, "subversion") == 0) {
-> +		return scnprintf(page, PAGE_SIZE, "%u\n",
-> +						dev_geo->minor_ver_id);
->   	} else if (strcmp(attr->name, "media_capabilities") == 0) {
->   		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
->   	} else if (strcmp(attr->name, "read_typ") == 0) {
-> @@ -1055,6 +1067,7 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
->   
->   /* general attributes */
->   static NVM_DEV_ATTR_RO(version);
-> +static NVM_DEV_ATTR_RO(subversion);
->   static NVM_DEV_ATTR_RO(media_capabilities);
->   
->   static NVM_DEV_ATTR_RO(read_typ);
-> @@ -1085,6 +1098,7 @@ static NVM_DEV_ATTR_12_RO(max_phys_secs);
->   
->   static struct attribute *nvm_dev_attrs_12[] = {
->   	&dev_attr_version.attr,
-> +	&dev_attr_subversion.attr,
->   	&dev_attr_media_capabilities.attr,
->   
->   	&dev_attr_vendor_opcode.attr,
-> @@ -1134,6 +1148,7 @@ static NVM_DEV_ATTR_20_RO(reset_max);
->   
->   static struct attribute *nvm_dev_attrs_20[] = {
->   	&dev_attr_version.attr,
-> +	&dev_attr_subversion.attr,
->   	&dev_attr_media_capabilities.attr,
->   
->   	&dev_attr_groups.attr,
-> @@ -1167,7 +1182,7 @@ int nvme_nvm_register_sysfs(struct nvme_ns *ns)
->   	if (!ndev)
->   		return -EINVAL;
->   
-> -	switch (dev_geo->ver_id) {
-> +	switch (dev_geo->major_ver_id) {
->   	case 1:
->   		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
->   					&nvm_dev_attr_group_12);
-> @@ -1184,7 +1199,7 @@ void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
->   	struct nvm_dev *ndev = ns->ndev;
->   	struct nvm_dev_geo *dev_geo = &ndev->dev_geo;
->   
-> -	switch (dev_geo->ver_id) {
-> +	switch (dev_geo->major_ver_id) {
->   	case 1:
->   		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
->   					&nvm_dev_attr_group_12);
+>   static ssize_t nvm_dev_attr_show_12(struct device *dev,
 > diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-> index 18e3751b1632..5af0b8837095 100644
+> index 02f1fd617781..ccc5faa63cb7 100644
 > --- a/include/linux/lightnvm.h
 > +++ b/include/linux/lightnvm.h
-> @@ -242,7 +242,8 @@ struct nvm_common_geo {
->   /* Device identified geometry */
->   struct nvm_dev_geo {
->   	/* device reported version */
-> -	u8	ver_id;
-> +	u8	major_ver_id;
-> +	u8	minor_ver_id;
+> @@ -163,14 +163,14 @@ struct nvm_addr_format_12 {
+>   	u8	blk_len;
+>   	u8	pg_len;
+>   	u8	pln_len;
+> -	u8	sect_len;
+> +	u8	sec_len;
 >   
->   	/* full device geometry */
->   	u16	nr_chnls;
+>   	u8	ch_offset;
+>   	u8	lun_offset;
+>   	u8	blk_offset;
+>   	u8	pg_offset;
+>   	u8	pln_offset;
+> -	u8	sect_offset;
+> +	u8	sec_offset;
+>   
+>   	u64	ch_mask;
+>   	u64	lun_mask;
+> @@ -399,7 +399,7 @@ static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
+>   	l.ppa |= ((u64)r.g.blk) << ppaf->blk_offset;
+>   	l.ppa |= ((u64)r.g.pg) << ppaf->pg_offset;
+>   	l.ppa |= ((u64)r.g.pl) << ppaf->pln_offset;
+> -	l.ppa |= ((u64)r.g.sec) << ppaf->sect_offset;
+> +	l.ppa |= ((u64)r.g.sec) << ppaf->sec_offset;
+>   
+>   	return l;
+>   }
+> @@ -419,7 +419,7 @@ static inline struct ppa_addr dev_to_generic_addr(struct nvm_tgt_dev *tgt_dev,
+>   	l.g.blk = (r.ppa & ppaf->blk_mask) >> ppaf->blk_offset;
+>   	l.g.pg = (r.ppa & ppaf->pg_mask) >> ppaf->pg_offset;
+>   	l.g.pl = (r.ppa & ppaf->pln_mask) >> ppaf->pln_offset;
+> -	l.g.sec = (r.ppa & ppaf->sec_mask) >> ppaf->sect_offset;
+> +	l.g.sec = (r.ppa & ppaf->sec_mask) >> ppaf->sec_offset;
+>   
+>   	return l;
+>   }
 > 
 
-Looks fairly good to me. Did you consider putting in the major and minor 
-version id into the version attribute? e.g., keep 1 as 1, and have 
-version 2 be exposed as 2.0?
+Looks good, I'll pick up when rebased. This could properly be part of 
+another patch set with cleanups, as it is not 2.0 specific.
