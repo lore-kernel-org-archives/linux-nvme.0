@@ -1,51 +1,51 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 21 Feb 2018 18:54:41 +0200
-Subject: [PATCH 2/2] nvmet-rdma: don't flush system_wq by default during
- remove_one
-In-Reply-To: <1518716788-31362-2-git-send-email-maxg@mellanox.com>
-References: <1518716788-31362-1-git-send-email-maxg@mellanox.com>
- <1518716788-31362-2-git-send-email-maxg@mellanox.com>
-Message-ID: <e5b6d083-f5cb-c42b-fdce-a15661ef5c8e@mellanox.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Thu, 22 Feb 2018 00:53:59 +0000
+Subject: NVMeOF I/O errors
+Message-ID: <1519260838.4060.23.camel@wdc.com>
 
-I'll send a V2 with a small for this one tomorrow :)
+Hello,
 
-On 2/15/2018 7:46 PM, Max Gurtovoy wrote:
-> The .remove_one function is called for any ib_device removal.
-> In case the removed device has no reference in our driver, there
-> is no need to flush the system work queue
-> 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/target/rdma.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 978e169..d44ccc5 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1460,6 +1460,7 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
->   static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
->   {
->   	struct nvmet_rdma_queue *queue, *tmp;
-> +	bool flush = false;
->   
->   	/* Device is being removed, delete all queues using this device */
->   	mutex_lock(&nvmet_rdma_queue_mutex);
-> @@ -1468,13 +1469,15 @@ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data
->   		if (queue->dev->device != ib_device)
->   			continue;
->   
-> +		flush = true;
->   		pr_info("Removing queue %d\n", queue->idx);
->   		list_del_init(&queue->queue_list);
->   		__nvmet_rdma_queue_disconnect(queue);
->   	}
->   	mutex_unlock(&nvmet_rdma_queue_mutex);
->   
-> -	flush_scheduled_work();
-> +	if (flush)
-> +		flush_scheduled_work();
->   }
->   
->   static struct ib_client nvmet_rdma_ib_client = {
-> 
+If I try to run I/O after having connected the NVMeOF initiator to the NVMeOF
+target driver over the rdma_rxe driver then I/O errors appear:
+
+# dd if=/dev/nvme0n1 of=/dev/null iflag=direct
+dd: error reading '/dev/nvme0n1': Input/output error
+52816+0 records in
+52816+0 records out
+27041792 bytes (27 MB, 26 MiB) copied, 39.9407 s, 677 kB/s
+
+
+From the kernel log:
+
+nvmet_rdma:nvmet_rdma_find_get_device: nvmet_rdma: added rxe0.
+nvmet_rdma:nvmet_rdma_create_queue_ib: nvmet_rdma: nvmet_rdma_create_queue_ib: max_cqe= 511 max_sge= 32 sq_size = 257 cm_id= 000000009780ce6e
+nvme_rdma:nvme_rdma_cm_handler: nvme nvme0: established (9): status 0 id 000000006208c3e7
+nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: established (9): status 0 id 000000009780ce6e
+nvmet: adding queue 1 to ctrl 1.
+nvmet: adding queue 2 to ctrl 1.
+nvmet: adding queue 3 to ctrl 1.
+nvmet: adding queue 4 to ctrl 1.
+nvme nvme0: Successfully reconnected (1 attempts)
+
+The configuration of the target is as follows:
+
+# (cd /sys/kernel/config/nvmet/ && find -type f|xargs grep -aH .)       
+./ports/1/addr_trtype:rdma
+./ports/1/addr_trsvcid:7777
+./ports/1/addr_traddr:192.168.122.76
+./ports/1/addr_treq:not specified
+./ports/1/addr_adrfam:ipv4
+./subsystems/nvme-test/namespaces/1/enable:1
+./subsystems/nvme-test/namespaces/1/device_uuid:9059f87a-fa85-4e81-8da7-328163dabdf1
+./subsystems/nvme-test/namespaces/1/device_nguid:00000000-0000-0000-0000-000000000000
+./subsystems/nvme-test/namespaces/1/device_path:/dev/ram0
+./subsystems/nvme-test/attr_serial:fa1e888a1fcc1dd7
+./subsystems/nvme-test/attr_version:1.3
+./subsystems/nvme-test/attr_allow_any_host:1
+
+This happens both with kernel versions v4.15.4 and v4.16-rc2. Has anyone seen
+something similar?
+
+Thanks,
+
+Bart.
