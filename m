@@ -1,19 +1,12 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 22 Feb 2018 16:39:02 +0100
-Subject: [PATCH 2/3] nvme-rdma: use blk_rq_payload_bytes instead of
- blk_rq_bytes
-In-Reply-To: <20180222152410.19222-3-hch@lst.de> (Christoph Hellwig's message
- of "Thu, 22 Feb 2018 07:24:09 -0800")
-References: <20180222152410.19222-1-hch@lst.de>
- <20180222152410.19222-3-hch@lst.de>
-Message-ID: <mqdzi41m3u1.fsf@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 22 Feb 2018 17:42:29 +0200
+Subject: [PATCH 2/2] nvmet-rdma: don't flush system_wq by default during
+ remove_one
+In-Reply-To: <1518716788-31362-2-git-send-email-maxg@mellanox.com>
+References: <1518716788-31362-1-git-send-email-maxg@mellanox.com>
+ <1518716788-31362-2-git-send-email-maxg@mellanox.com>
+Message-ID: <fc358d88-af74-7266-d913-bb05526d722e@grimberg.me>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Looks fine,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
