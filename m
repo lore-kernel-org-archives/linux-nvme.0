@@ -1,123 +1,135 @@
 From: jg@lightnvm.io (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Thu, 22 Feb 2018 08:49:51 +0100
-Subject: [PATCH 09/20] lightnvm: use generic identify structure
-In-Reply-To: <6f76c204-847a-2f20-3070-06cb28a66555@lightnvm.io>
+Date: Thu, 22 Feb 2018 08:53:54 +0100
+Subject: [PATCH 04/20] lightnvm: add minor version to generic geometry
+In-Reply-To: <abd2b8f4-58b6-c97e-58e2-e271aae1f4a0@lightnvm.io>
 References: <1519205218-26994-1-git-send-email-javier@cnexlabs.com>
- <1519205218-26994-10-git-send-email-javier@cnexlabs.com>
- <6f76c204-847a-2f20-3070-06cb28a66555@lightnvm.io>
-Message-ID: <1FE350B9-E8CD-43BC-8AE8-2593A6398D3F@lightnvm.io>
+ <1519205218-26994-5-git-send-email-javier@cnexlabs.com>
+ <abd2b8f4-58b6-c97e-58e2-e271aae1f4a0@lightnvm.io>
+Message-ID: <B3E32D7E-E531-4399-89C4-080B5A28E17D@lightnvm.io>
 
-> On 22 Feb 2018,@08.47, Matias Bj?rling <mb@lightnvm.io> wrote:
+> On 22 Feb 2018,@08.34, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
 > On 02/21/2018 10:26 AM, Javier Gonz?lez wrote:
->> Create a generic identify structure to collect the identify information
->> before knowing the spec. version. This forces different version paths to
->> cast the structure to their spec structure, thus making the code less
->> error prone and more maintainable.
+>> Separate the version between major and minor on the generic geometry.
+>> Also, add a "subversion" entry to sysfs to expose the minor version
+>> without breaking user space.
 >> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 >> ---
->>  drivers/nvme/host/lightnvm.c | 32 ++++++++++++++++++++------------
->>  1 file changed, 20 insertions(+), 12 deletions(-)
+>>  drivers/lightnvm/core.c      |  4 ++--
+>>  drivers/nvme/host/lightnvm.c | 25 ++++++++++++++++++++-----
+>>  include/linux/lightnvm.h     |  3 ++-
+>>  3 files changed, 24 insertions(+), 8 deletions(-)
+>> diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+>> index 42596afdf64c..dc9ec6baff45 100644
+>> --- a/drivers/lightnvm/core.c
+>> +++ b/drivers/lightnvm/core.c
+>> @@ -897,8 +897,8 @@ static int nvm_init(struct nvm_dev *dev)
+>>  		goto err;
+>>  	}
+>>  -	pr_debug("nvm: ver:%u nvm_vendor:%x\n",
+>> -				dev_geo->ver_id,
+>> +	pr_debug("nvm: ver:%u.%u nvm_vendor:%x\n",
+>> +				dev_geo->major_ver_id, dev_geo->minor_ver_id,
+>>  				dev_geo->c.vmnt);
+>>    	ret = nvm_core_init(dev);
 >> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->> index 9c1f8225c4e1..70dc4740f0d3 100644
+>> index 598abba66f52..71b4ac57a668 100644
 >> --- a/drivers/nvme/host/lightnvm.c
 >> +++ b/drivers/nvme/host/lightnvm.c
->> @@ -170,6 +170,12 @@ struct nvme_nvm_id12 {
->>  	__u8			resv2[2880];
->>  } __packed;
->>  +/* Generic identification structure */
->> +struct nvme_nvm_id {
->> +	__u8			ver_id;
->> +	__u8			resv[4095];
->> +} __packed;
->> +
->>  struct nvme_nvm_bb_tbl {
->>  	__u8	tblid[4];
->>  	__le16	verid;
->> @@ -279,9 +285,10 @@ static void nvme_nvm_set_addr_12(struct nvm_addr_format_12 *dst,
->>  	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
->>  }
->>  -static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
->> +static int nvme_nvm_setup_12(struct nvme_nvm_id *gen_id,
->>  			     struct nvm_dev_geo *dev_geo)
->>  {
->> +	struct nvme_nvm_id12 *id = (struct nvme_nvm_id12 *)gen_id;
->>  	struct nvme_nvm_id12_grp *src;
->>  	int sec_per_pg, sec_per_pl, pg_per_blk;
->>  @@ -380,9 +387,11 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
->>  	dst->sec_mask = ((1ULL << dst->sec_len) - 1) << dst->sec_offset;
->>  }
->>  -static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->> +static int nvme_nvm_setup_20(struct nvme_nvm_id *gen_id,
->>  			     struct nvm_dev_geo *dev_geo)
->>  {
->> +	struct nvme_nvm_id20 *id = (struct nvme_nvm_id20 *)gen_id;
->> +
->>  	dev_geo->major_ver_id = id->mjr;
->>  	dev_geo->minor_ver_id = id->mnr;
->>  @@ -427,19 +436,19 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->>  static int nvme_nvm_identity(struct nvm_dev *nvmdev)
->>  {
->>  	struct nvme_ns *ns = nvmdev->q->queuedata;
->> -	struct nvme_nvm_id12 *id;
->> +	struct nvme_nvm_id *nvme_nvm_id;
->>  	struct nvme_nvm_command c = {};
->>  	int ret;
->>    	c.identity.opcode = nvme_nvm_admin_identity;
->>  	c.identity.nsid = cpu_to_le32(ns->head->ns_id);
->>  -	id = kmalloc(sizeof(struct nvme_nvm_id12), GFP_KERNEL);
->> -	if (!id)
->> +	nvme_nvm_id = kmalloc(sizeof(struct nvme_nvm_id), GFP_KERNEL);
->> +	if (!nvme_nvm_id)
->>  		return -ENOMEM;
->>    	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, (struct nvme_command *)&c,
->> -				id, sizeof(struct nvme_nvm_id12));
->> +				nvme_nvm_id, sizeof(struct nvme_nvm_id));
->>  	if (ret) {
->>  		ret = -EIO;
->>  		goto out;
->> @@ -449,22 +458,21 @@ static int nvme_nvm_identity(struct nvm_dev *nvmdev)
->>  	 * The 1.2 and 2.0 specifications share the first byte in their geometry
->>  	 * command to make it possible to know what version a device implements.
->>  	 */
->> -	switch (id->ver_id) {
->> +	switch (nvme_nvm_id->ver_id) {
->>  	case 1:
->> -		ret = nvme_nvm_setup_12(id, &nvmdev->dev_geo);
->> +		ret = nvme_nvm_setup_12(nvme_nvm_id, &nvmdev->dev_geo);
->>  		break;
->>  	case 2:
->> -		ret = nvme_nvm_setup_20((struct nvme_nvm_id20 *)id,
->> -							&nvmdev->dev_geo);
->> +		ret = nvme_nvm_setup_20(nvme_nvm_id, &nvmdev->dev_geo);
->>  		break;
->>  	default:
->>  		dev_err(ns->ctrl->device, "OCSSD revision not supported (%d)\n",
->> -							id->ver_id);
->> +							nvme_nvm_id->ver_id);
->>  		ret = -EINVAL;
+>> @@ -296,7 +296,8 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
 >>  	}
->>    out:
->> -	kfree(id);
->> +	kfree(nvme_nvm_id);
->>  	return ret;
->>  }
->> 
+>>    	/* 1.2 spec. only reports a single version id - unfold */
+>> -	dev_geo->ver_id = id->ver_id;
+>> +	dev_geo->major_ver_id = id->ver_id;
+>> +	dev_geo->minor_ver_id = 2;
+>>    	dev_geo->nr_chnls = src->num_ch;
+>>  	dev_geo->nr_luns = src->num_lun;
+>> @@ -377,7 +378,14 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
+>>  static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
+>>  			     struct nvm_dev_geo *dev_geo)
+>>  {
+>> -	dev_geo->ver_id = id->mjr;
+>> +	dev_geo->major_ver_id = id->mjr;
+>> +	dev_geo->minor_ver_id = id->mnr;
+>> +
+>> +	if (!(dev_geo->major_ver_id == 2 && dev_geo->minor_ver_id == 0)) {
+>> +		pr_err("nvm: OCSSD version not supported (v%d.%d)\n",
+>> +				dev_geo->major_ver_id, dev_geo->minor_ver_id);
+>> +		return -EINVAL;
+>> +	}
+>>    	dev_geo->nr_chnls = le16_to_cpu(id->num_grp);
+>>  	dev_geo->nr_luns = le16_to_cpu(id->num_pu);
+>> @@ -913,7 +921,11 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
+>>  	attr = &dattr->attr;
+>>    	if (strcmp(attr->name, "version") == 0) {
+>> -		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->ver_id);
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n",
+>> +						dev_geo->major_ver_id);
+>> +	} else if (strcmp(attr->name, "subversion") == 0) {
+>> +		return scnprintf(page, PAGE_SIZE, "%u\n",
+>> +						dev_geo->minor_ver_id);
+>>  	} else if (strcmp(attr->name, "media_capabilities") == 0) {
+>>  		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mccap);
+>>  	} else if (strcmp(attr->name, "read_typ") == 0) {
+>> @@ -1055,6 +1067,7 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
+>>    /* general attributes */
+>>  static NVM_DEV_ATTR_RO(version);
+>> +static NVM_DEV_ATTR_RO(subversion);
+>>  static NVM_DEV_ATTR_RO(media_capabilities);
+>>    static NVM_DEV_ATTR_RO(read_typ);
+>> @@ -1085,6 +1098,7 @@ static NVM_DEV_ATTR_12_RO(max_phys_secs);
+>>    static struct attribute *nvm_dev_attrs_12[] = {
+>>  	&dev_attr_version.attr,
+>> +	&dev_attr_subversion.attr,
+>>  	&dev_attr_media_capabilities.attr,
+>>    	&dev_attr_vendor_opcode.attr,
+>> @@ -1134,6 +1148,7 @@ static NVM_DEV_ATTR_20_RO(reset_max);
+>>    static struct attribute *nvm_dev_attrs_20[] = {
+>>  	&dev_attr_version.attr,
+>> +	&dev_attr_subversion.attr,
+>>  	&dev_attr_media_capabilities.attr,
+>>    	&dev_attr_groups.attr,
+>> @@ -1167,7 +1182,7 @@ int nvme_nvm_register_sysfs(struct nvme_ns *ns)
+>>  	if (!ndev)
+>>  		return -EINVAL;
+>>  -	switch (dev_geo->ver_id) {
+>> +	switch (dev_geo->major_ver_id) {
+>>  	case 1:
+>>  		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+>>  					&nvm_dev_attr_group_12);
+>> @@ -1184,7 +1199,7 @@ void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
+>>  	struct nvm_dev *ndev = ns->ndev;
+>>  	struct nvm_dev_geo *dev_geo = &ndev->dev_geo;
+>>  -	switch (dev_geo->ver_id) {
+>> +	switch (dev_geo->major_ver_id) {
+>>  	case 1:
+>>  		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+>>  					&nvm_dev_attr_group_12);
+>> diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+>> index 18e3751b1632..5af0b8837095 100644
+>> --- a/include/linux/lightnvm.h
+>> +++ b/include/linux/lightnvm.h
+>> @@ -242,7 +242,8 @@ struct nvm_common_geo {
+>>  /* Device identified geometry */
+>>  struct nvm_dev_geo {
+>>  	/* device reported version */
+>> -	u8	ver_id;
+>> +	u8	major_ver_id;
+>> +	u8	minor_ver_id;
+>>    	/* full device geometry */
+>>  	u16	nr_chnls;
 > 
-> Thanks for another way to represent it. I want to keep the original
-> path. If we are going that down road, then one should maybe look into
-> unifying the "three" data structures, and have the version as the base
-> property and the others in each their sub data structure.
+> Looks fairly good to me. Did you consider putting in the major and
+> minor version id into the version attribute? e.g., keep 1 as 1, and
+> have version 2 be exposed as 2.0?
+> 
 
-That's what this structure aims to do, since the version is shared. But
-you call if you want to cast unrelated structures back an forth. I'll
-revert it...
+Yes, we can do that. I'll do the changes for the next version.
 
-Javier
 -------------- next part --------------
 A non-text attachment was scrubbed...
 Name: signature.asc
 Type: application/pgp-signature
 Size: 833 bytes
 Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180222/ef438cb5/attachment.sig>
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180222/49b4ec3f/attachment.sig>
