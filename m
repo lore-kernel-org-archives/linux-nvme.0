@@ -1,40 +1,39 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Feb 2018 07:24:09 -0800
-Subject: [PATCH 2/3] nvme-rdma: use blk_rq_payload_bytes instead of
- blk_rq_bytes
+Date: Thu, 22 Feb 2018 07:24:10 -0800
+Subject: [PATCH 3/3] nvmet-loop: use blk_rq_payload_bytes for sgl selection
 In-Reply-To: <20180222152410.19222-1-hch@lst.de>
 References: <20180222152410.19222-1-hch@lst.de>
-Message-ID: <20180222152410.19222-3-hch@lst.de>
+Message-ID: <20180222152410.19222-4-hch@lst.de>
 
 blk_rq_bytes does the wrong thing for special payloads like discards and
 might cause the driver to not set up a SGL.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/rdma.c | 4 ++--
+ drivers/nvme/target/loop.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 3a51ed50eff2..4d84a73ee12d 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1051,7 +1051,7 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
- 	struct nvme_rdma_device *dev = queue->device;
- 	struct ib_device *ibdev = dev->dev;
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 7991ec3a17db..861d1509b22b 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -184,7 +184,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		return BLK_STS_OK;
+ 	}
  
--	if (!blk_rq_bytes(rq))
-+	if (!blk_rq_payload_bytes(rq))
- 		return;
+-	if (blk_rq_bytes(req)) {
++	if (blk_rq_payload_bytes(req)) {
+ 		iod->sg_table.sgl = iod->first_sgl;
+ 		if (sg_alloc_table_chained(&iod->sg_table,
+ 				blk_rq_nr_phys_segments(req),
+@@ -193,7 +193,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
  
- 	if (req->mr) {
-@@ -1166,7 +1166,7 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 		iod->req.sg = iod->sg_table.sgl;
+ 		iod->req.sg_cnt = blk_rq_map_sg(req->q, req, iod->sg_table.sgl);
+-		iod->req.transfer_len = blk_rq_bytes(req);
++		iod->req.transfer_len = blk_rq_payload_bytes(req);
+ 	}
  
- 	c->common.flags |= NVME_CMD_SGL_METABUF;
- 
--	if (!blk_rq_bytes(rq))
-+	if (!blk_rq_payload_bytes(rq))
- 		return nvme_rdma_set_sg_null(c);
- 
- 	req->sg_table.sgl = req->first_sgl;
+ 	blk_mq_start_request(req);
 -- 
 2.14.2
