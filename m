@@ -1,17 +1,18 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 22 Feb 2018 08:32:10 -0700
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 22 Feb 2018 16:39:22 +0100
 Subject: [PATCH 3/3] nvmet-loop: use blk_rq_payload_bytes for sgl selection
-In-Reply-To: <20180222152410.19222-4-hch@lst.de>
+In-Reply-To: <20180222152410.19222-4-hch@lst.de> (Christoph Hellwig's message
+ of "Thu, 22 Feb 2018 07:24:10 -0800")
 References: <20180222152410.19222-1-hch@lst.de>
  <20180222152410.19222-4-hch@lst.de>
-Message-ID: <20180222153209.GH7076@localhost.localdomain>
+Message-ID: <mqdtvu9m3th.fsf@linux-x5ow.site>
 
-On Thu, Feb 22, 2018@07:24:10AM -0800, Christoph Hellwig wrote:
-> blk_rq_bytes does the wrong thing for special payloads like discards and
-> might cause the driver to not set up a SGL.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-
-Looks good.
-
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
