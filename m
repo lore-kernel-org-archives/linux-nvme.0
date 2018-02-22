@@ -1,18 +1,17 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 22 Feb 2018 17:59:16 +0200
-Subject: [PATCH 2/2] nvmet-rdma: don't flush system_wq by default during
- remove_one
-In-Reply-To: <fc358d88-af74-7266-d913-bb05526d722e@grimberg.me>
-References: <1518716788-31362-1-git-send-email-maxg@mellanox.com>
- <1518716788-31362-2-git-send-email-maxg@mellanox.com>
- <fc358d88-af74-7266-d913-bb05526d722e@grimberg.me>
-Message-ID: <dca58b97-b181-457c-ca58-0b5c9d5ee946@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 22 Feb 2018 08:32:10 -0700
+Subject: [PATCH 3/3] nvmet-loop: use blk_rq_payload_bytes for sgl selection
+In-Reply-To: <20180222152410.19222-4-hch@lst.de>
+References: <20180222152410.19222-1-hch@lst.de>
+ <20180222152410.19222-4-hch@lst.de>
+Message-ID: <20180222153209.GH7076@localhost.localdomain>
 
-
-
-On 2/22/2018 5:42 PM, Sagi Grimberg wrote:
-> Looks fine,
+On Thu, Feb 22, 2018@07:24:10AM -0800, Christoph Hellwig wrote:
+> blk_rq_bytes does the wrong thing for special payloads like discards and
+> might cause the driver to not set up a SGL.
 > 
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Wait with these 2 patches, I've a newer version.
+Looks good.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
