@@ -1,56 +1,237 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 22 Feb 2018 20:17:21 +0200
-Subject: [PATCH v2 1/2] nvmet-rdma: Don't flush system_wq by default during
- remove_one
-Message-ID: <1519323442-30819-1-git-send-email-maxg@mellanox.com>
+From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
+Date: Fri, 23 Feb 2018 15:45:45 +0530
+Subject: [PATCH 5/6] mpt3sas: Introduce function to clone mpi request.
+In-Reply-To: <2e101bb9-569d-328a-9674-59c4dc8da54b@redhat.com>
+References: <1516365462-14708-1-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <1516365462-14708-6-git-send-email-suganath-prabu.subramani@broadcom.com>
+ <2e101bb9-569d-328a-9674-59c4dc8da54b@redhat.com>
+Message-ID: <CA+RiK640DCFE+RvdRVXmSV6Cga3fsJvoxkHZpYVMruNZZQ2MWw@mail.gmail.com>
 
-The .remove_one function is called for any ib_device removal.
-In case the removed device has no reference in our driver, there
-is no need to flush the system work queue.
+Hi tomas,
+We have sent V1 version of patches on 7th of Feb. Please review.
 
-Reviewed-by: Israel Rukshin <israelr at mellanox.com>
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
+Thanks,
+Suganath Prabu S
 
-Changes from v1:
- - check for the ib_device in the device list
-
----
- drivers/nvme/target/rdma.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 978e169..2e87418 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1460,8 +1460,27 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
- static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- {
- 	struct nvmet_rdma_queue *queue, *tmp;
-+	struct nvmet_rdma_device *ndev;
-+	bool found = false;
- 
--	/* Device is being removed, delete all queues using this device */
-+	mutex_lock(&device_list_mutex);
-+	list_for_each_entry(ndev, &device_list, entry) {
-+		if (ndev->device == ib_device) {
-+			found = true;
-+			break;
-+		}
-+	}
-+	mutex_unlock(&device_list_mutex);
-+
-+	if (!found) {
-+		WARN_ON_ONCE(!list_empty(&nvmet_rdma_queue_list));
-+		return;
-+	}
-+
-+	/*
-+	 * IB Device that is used by nvmet controllers is being removed,
-+	 * delete all queues using this device.
-+	 */
- 	mutex_lock(&nvmet_rdma_queue_mutex);
- 	list_for_each_entry_safe(queue, tmp, &nvmet_rdma_queue_list,
- 				 queue_list) {
--- 
-1.8.3.1
+On Mon, Jan 22, 2018@8:08 PM, Tomas Henzl <thenzl@redhat.com> wrote:
+> On 01/19/2018 01:37 PM, Suganath Prabu S wrote:
+>> 1) Added function _base_clone_mpi_to_sys_mem to clone
+>> MPI request into system BAR0 mapped region.
+>>
+>> 2) Seperate out MPI Endpoint IO submissions to function
+>> _base_put_smid_mpi_ep_scsi_io.
+>>
+>> 3) MPI EP requests are submitted in two 32 bit MMIO writes.
+>> from _base_mpi_ep_writeq.
+>>
+>> Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
+>> ---
+>>  drivers/scsi/mpt3sas/mpt3sas_base.c | 131 +++++++++++++++++++++++++++++++++---
+>>  1 file changed, 123 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
+>> index 40a1806..0248058 100644
+>> --- a/drivers/scsi/mpt3sas/mpt3sas_base.c
+>> +++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
+>> @@ -126,6 +126,24 @@ module_param_call(mpt3sas_fwfault_debug, _scsih_set_fwfault_debug,
+>>       param_get_int, &mpt3sas_fwfault_debug, 0644);
+>>
+>>  /**
+>> + * _base_clone_mpi_to_sys_mem - Writes/copies MPI frames
+>> + *                           to system/BAR0 region.
+>> + *
+>> + * @dst_iomem: Pointer to the destinaltion location in BAR0 space.
+>> + * @src: Pointer to the Source data.
+>> + * @size: Size of data to be copied.
+>> + */
+>> +static void
+>> +_base_clone_mpi_to_sys_mem(void *dst_iomem, void *src, u32 size)
+>> +{
+>> +     int i;
+>> +     __le32 *src_virt_mem = (__le32 *)src;
+>> +
+>> +     for (i = 0; i < size/4; i++)
+>> +             writel(cpu_to_le32(src_virt_mem[i]), dst_iomem + (i * 4));
+>> +}
+>> +
+>> +/**
+>>   * _base_clone_to_sys_mem - Writes/copies data to system/BAR0 region
+>>   *
+>>   * @dst_iomem: Pointer to the destinaltion location in BAR0 space.
+>> @@ -3265,6 +3283,29 @@ mpt3sas_base_free_smid(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+>>  }
+>>
+>>  /**
+>> + * _base_mpi_ep_writeq - 32 bit write to MMIO
+>> + * @b: data payload
+>> + * @addr: address in MMIO space
+>> + * @writeq_lock: spin lock
+>> + *
+>> + * This special handling for MPI EP to take care of 32 bit
+>> + * environment where its not quarenteed to send the entire word
+>> + * in one transfer.
+>
+> Hi Suganath,
+> so is a single writeq possible ? There already is a _base_writeq function
+> which seems to be identical to _base_mpi_ep_writeq.
+> Also you may want to add a mmiowb() call.
+> tomash
+>
+>> + */
+>> +static inline void
+>> +_base_mpi_ep_writeq(__u64 b, volatile void __iomem *addr,
+>> +                                     spinlock_t *writeq_lock)
+>> +{
+>> +     unsigned long flags;
+>> +     __u64 data_out = cpu_to_le64(b);
+>> +
+>> +     spin_lock_irqsave(writeq_lock, flags);
+>> +     writel((u32)(data_out), addr);
+>> +     writel((u32)(data_out >> 32), (addr + 4));
+>> +     spin_unlock_irqrestore(writeq_lock, flags);
+>> +}
+>> +
+>> +/**
+>>   * _base_writeq - 64 bit write to MMIO
+>>   * @ioc: per adapter object
+>>   * @b: data payload
+>> @@ -3296,6 +3337,36 @@ _base_writeq(__u64 b, volatile void __iomem *addr, spinlock_t *writeq_lock)
+>>  #endif
+>>
+>>  /**
+>> + * _base_put_smid_mpi_ep_scsi_io - send SCSI_IO request to firmware
+>> + * @ioc: per adapter object
+>> + * @smid: system request message index
+>> + * @handle: device handle
+>> + *
+>> + * Return nothing.
+>> + */
+>> +static void
+>> +_base_put_smid_mpi_ep_scsi_io(struct MPT3SAS_ADAPTER *ioc, u16 smid, u16 handle)
+>> +{
+>> +     Mpi2RequestDescriptorUnion_t descriptor;
+>> +     u64 *request = (u64 *)&descriptor;
+>> +     void *mpi_req_iomem;
+>> +     __le32 *mfp = (__le32 *)mpt3sas_base_get_msg_frame(ioc, smid);
+>> +
+>> +     _clone_sg_entries(ioc, (void *) mfp, smid);
+>> +     mpi_req_iomem = (void *)ioc->chip +
+>> +                     MPI_FRAME_START_OFFSET + (smid * ioc->request_sz);
+>> +     _base_clone_mpi_to_sys_mem(mpi_req_iomem, (void *)mfp,
+>> +                                     ioc->request_sz);
+>> +     descriptor.SCSIIO.RequestFlags = MPI2_REQ_DESCRIPT_FLAGS_SCSI_IO;
+>> +     descriptor.SCSIIO.MSIxIndex =  _base_get_msix_index(ioc);
+>> +     descriptor.SCSIIO.SMID = cpu_to_le16(smid);
+>> +     descriptor.SCSIIO.DevHandle = cpu_to_le16(handle);
+>> +     descriptor.SCSIIO.LMID = 0;
+>> +     _base_mpi_ep_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
+>> +         &ioc->scsi_lookup_lock);
+>> +}
+>> +
+>> +/**
+>>   * _base_put_smid_scsi_io - send SCSI_IO request to firmware
+>>   * @ioc: per adapter object
+>>   * @smid: system request message index
+>> @@ -3356,7 +3427,23 @@ _base_put_smid_hi_priority(struct MPT3SAS_ADAPTER *ioc, u16 smid,
+>>       u16 msix_task)
+>>  {
+>>       Mpi2RequestDescriptorUnion_t descriptor;
+>> -     u64 *request = (u64 *)&descriptor;
+>> +     void *mpi_req_iomem;
+>> +     u64 *request;
+>> +
+>> +     if (ioc->is_mcpu_endpoint) {
+>> +             MPI2RequestHeader_t *request_hdr;
+>> +
+>> +             __le32 *mfp = (__le32 *)mpt3sas_base_get_msg_frame(ioc, smid);
+>> +
+>> +             request_hdr = (MPI2RequestHeader_t *)mfp;
+>> +             /* TBD 256 is offset within sys register. */
+>> +             mpi_req_iomem = (void *)ioc->chip + MPI_FRAME_START_OFFSET
+>> +                                     + (smid * ioc->request_sz);
+>> +             _base_clone_mpi_to_sys_mem(mpi_req_iomem, (void *)mfp,
+>> +                                                     ioc->request_sz);
+>> +     }
+>> +
+>> +     request = (u64 *)&descriptor;
+>>
+>>       descriptor.HighPriority.RequestFlags =
+>>           MPI2_REQ_DESCRIPT_FLAGS_HIGH_PRIORITY;
+>> @@ -3364,8 +3451,13 @@ _base_put_smid_hi_priority(struct MPT3SAS_ADAPTER *ioc, u16 smid,
+>>       descriptor.HighPriority.SMID = cpu_to_le16(smid);
+>>       descriptor.HighPriority.LMID = 0;
+>>       descriptor.HighPriority.Reserved1 = 0;
+>> -     _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
+>> -         &ioc->scsi_lookup_lock);
+>> +     if (ioc->is_mcpu_endpoint)
+>> +             _base_mpi_ep_writeq(*request,
+>> +                             &ioc->chip->RequestDescriptorPostLow,
+>> +                             &ioc->scsi_lookup_lock);
+>> +     else
+>> +             _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
+>> +                 &ioc->scsi_lookup_lock);
+>>  }
+>>
+>>  /**
+>> @@ -3403,15 +3495,35 @@ static void
+>>  _base_put_smid_default(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+>>  {
+>>       Mpi2RequestDescriptorUnion_t descriptor;
+>> -     u64 *request = (u64 *)&descriptor;
+>> +     void *mpi_req_iomem;
+>> +     u64 *request;
+>> +     MPI2RequestHeader_t *request_hdr;
+>>
+>> +     if (ioc->is_mcpu_endpoint) {
+>> +             __le32 *mfp = (__le32 *)mpt3sas_base_get_msg_frame(ioc, smid);
+>> +
+>> +             request_hdr = (MPI2RequestHeader_t *)mfp;
+>> +
+>> +             _clone_sg_entries(ioc, (void *) mfp, smid);
+>> +             /* TBD 256 is offset within sys register */
+>> +             mpi_req_iomem = (void *)ioc->chip +
+>> +                     MPI_FRAME_START_OFFSET + (smid * ioc->request_sz);
+>> +             _base_clone_mpi_to_sys_mem(mpi_req_iomem, (void *)mfp,
+>> +                                                     ioc->request_sz);
+>> +     }
+>> +     request = (u64 *)&descriptor;
+>>       descriptor.Default.RequestFlags = MPI2_REQ_DESCRIPT_FLAGS_DEFAULT_TYPE;
+>>       descriptor.Default.MSIxIndex =  _base_get_msix_index(ioc);
+>>       descriptor.Default.SMID = cpu_to_le16(smid);
+>>       descriptor.Default.LMID = 0;
+>>       descriptor.Default.DescriptorTypeDependent = 0;
+>> -     _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
+>> -         &ioc->scsi_lookup_lock);
+>> +     if (ioc->is_mcpu_endpoint)
+>> +             _base_mpi_ep_writeq(*request,
+>> +                             &ioc->chip->RequestDescriptorPostLow,
+>> +                             &ioc->scsi_lookup_lock);
+>> +     else
+>> +             _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
+>> +                             &ioc->scsi_lookup_lock);
+>>  }
+>>
+>>  /**
+>> @@ -3505,7 +3617,7 @@ _base_put_smid_nvme_encap_atomic(struct MPT3SAS_ADAPTER *ioc, u16 smid)
+>>
+>>  /**
+>>   * _base_put_smid_default - Default, primarily used for config pages
+>> - *                           use Atomic Request Descriptor
+>> + * use Atomic Request Descriptor
+>>   * @ioc: per adapter object
+>>   * @smid: system request message index
+>>   *
+>> @@ -6330,7 +6442,10 @@ mpt3sas_base_attach(struct MPT3SAS_ADAPTER *ioc)
+>>               ioc->put_smid_nvme_encap = &_base_put_smid_nvme_encap_atomic;
+>>       } else {
+>>               ioc->put_smid_default = &_base_put_smid_default;
+>> -             ioc->put_smid_scsi_io = &_base_put_smid_scsi_io;
+>> +             if (ioc->is_mcpu_endpoint)
+>> +                     ioc->put_smid_scsi_io = &_base_put_smid_mpi_ep_scsi_io;
+>> +             else
+>> +                     ioc->put_smid_scsi_io = &_base_put_smid_scsi_io;
+>>               ioc->put_smid_fast_path = &_base_put_smid_fast_path;
+>>               ioc->put_smid_hi_priority = &_base_put_smid_hi_priority;
+>>               ioc->put_smid_nvme_encap = &_base_put_smid_nvme_encap;
+>
+>
