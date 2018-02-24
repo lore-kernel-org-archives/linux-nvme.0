@@ -1,69 +1,53 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Sat, 24 Feb 2018 17:04:11 +0800
-Subject: [PATCH V2] nvme-pci: set cq_vector to -1 if io queue setup fails
-In-Reply-To: <1518693221-2430-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1518693221-2430-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <204f523b-b4dd-d0d4-a5c8-8f0a744eb54f@oracle.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sat, 24 Feb 2018 16:49:20 +0200
+Subject: v4.16-rc2 nvme_rdma ib_destroy_qp() warns about MRs
+In-Reply-To: <1519431811.2904.52.camel@wdc.com>
+References: <1519431811.2904.52.camel@wdc.com>
+Message-ID: <a331fbc9-4404-e1bc-e6cd-869895864392@mellanox.com>
 
-Hi Keith
 
-Can you take a review on this ?
 
-Thanks in advance
-Really appreciate
-Jianchao
+On 2/24/2018 2:23 AM, Bart Van Assche wrote:
+> Hello,
+> 
+> With the v4.16-rc2 nvme_rdma driver on top of the rdma_rxe driver the
+> following kernel warning appeared in the kernel log:
+> 
+> CPU: 3 PID: 152 Comm: kworker/u8:3 Not tainted 4.16.0-rc2-dbg+ #3
+> Workqueue: nvme-wq nvme_rdma_error_recovery_work [nvme_rdma]
+> RIP: 0010:ib_destroy_qp+0x177/0x1a0 [ib_core]
+> Call Trace:
+>   nvme_rdma_destroy_queue_ib+0x32/0x70 [nvme_rdma]
+>   nvme_rdma_free_queue+0x2e/0x90 [nvme_rdma]
+>   nvme_rdma_destroy_io_queues+0x5d/0xb0 [nvme_rdma]
+>   nvme_rdma_error_recovery_work+0x4c/0xb0 [nvme_rdma]
+>   process_one_work+0x20b/0x6a0
+>   worker_thread+0x35/0x380
+>   kthread+0x117/0x130
+>   ret_from_fork+0x24/0x30
+> 
+> Does this mean that the nvme_rdma driver calls ib_destroy_qp() before all MRs
+> associated with the QP have been destroyed?
 
-On 02/15/2018 07:13 PM, Jianchao Wang wrote:
-> nvme cq irq is freed based on queue_count. When the sq/cq creation
-> fails, irq will not be setup. free_irq will warn 'Try to free
-> already-free irq'.
+I guess it happens to you in some port toggling during IO (or some other 
+recovery scenario).
+The answer is yes, and I've started looking into it and started a thread:
+
+https://www.mail-archive.com/linux-block at vger.kernel.org/msg18559.html
+
+
+
 > 
-> To fix it, set the nvmeq->cq_vector to -1, then nvme_suspend_queue
-> will ignore it.
+> Thanks,
 > 
-> Change log:
-> V1 -> V2
->  - Follow Keith's suggestion, just set cq_vector to -1 if io queue setup
->    fails.
->  - Change patch name and comment
+> Bart.
 > 
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> ---
->  drivers/nvme/host/pci.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+
+Thanks,
+-Max.
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 4a7c420..f4528ef 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1452,7 +1452,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
->  	nvmeq->cq_vector = qid - 1;
->  	result = adapter_alloc_cq(dev, qid, nvmeq);
->  	if (result < 0)
-> -		return result;
-> +		goto clean_cq_vector;
->  
->  	result = adapter_alloc_sq(dev, qid, nvmeq);
->  	if (result < 0)
-> @@ -1461,14 +1461,17 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
->  	nvme_init_queue(nvmeq, qid);
->  	result = queue_request_irq(nvmeq);
->  	if (result < 0)
-> -		goto release_sq;
-> +		goto offline;
->  
->  	return result;
->  
-> - release_sq:
-> +offline:
-> +	dev->online_queues--;
->  	adapter_delete_sq(dev, qid);
-> - release_cq:
-> +release_cq:
->  	adapter_delete_cq(dev, qid);
-> +clean_cq_vector:
-> +	nvmeq->cq_vector = -1;
->  	return result;
->  }
->  
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C64b749f9d50d4cc8f0c808d57b1ce8a6%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636550286469377682&sdata=DGnEOBEX7Y3GyHByLA68wFb8nCtYVsX1kYtyoHgelTA%3D&reserved=0
 > 
