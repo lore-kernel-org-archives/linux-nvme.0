@@ -1,29 +1,69 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Sat, 24 Feb 2018 00:23:32 +0000
-Subject: v4.16-rc2 nvme_rdma ib_destroy_qp() warns about MRs
-Message-ID: <1519431811.2904.52.camel@wdc.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Sat, 24 Feb 2018 17:04:11 +0800
+Subject: [PATCH V2] nvme-pci: set cq_vector to -1 if io queue setup fails
+In-Reply-To: <1518693221-2430-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1518693221-2430-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <204f523b-b4dd-d0d4-a5c8-8f0a744eb54f@oracle.com>
 
-Hello,
+Hi Keith
 
-With the v4.16-rc2 nvme_rdma driver on top of the rdma_rxe driver the
-following kernel warning appeared in the kernel log:
+Can you take a review on this ?
 
-CPU: 3 PID: 152 Comm: kworker/u8:3 Not tainted 4.16.0-rc2-dbg+ #3
-Workqueue: nvme-wq nvme_rdma_error_recovery_work [nvme_rdma]
-RIP: 0010:ib_destroy_qp+0x177/0x1a0 [ib_core]
-Call Trace:
- nvme_rdma_destroy_queue_ib+0x32/0x70 [nvme_rdma]
- nvme_rdma_free_queue+0x2e/0x90 [nvme_rdma]
- nvme_rdma_destroy_io_queues+0x5d/0xb0 [nvme_rdma]
- nvme_rdma_error_recovery_work+0x4c/0xb0 [nvme_rdma]
- process_one_work+0x20b/0x6a0
- worker_thread+0x35/0x380
- kthread+0x117/0x130
- ret_from_fork+0x24/0x30
+Thanks in advance
+Really appreciate
+Jianchao
 
-Does this mean that the nvme_rdma driver calls ib_destroy_qp() before all MRs
-associated with the QP have been destroyed?
-
-Thanks,
-
-Bart.
+On 02/15/2018 07:13 PM, Jianchao Wang wrote:
+> nvme cq irq is freed based on queue_count. When the sq/cq creation
+> fails, irq will not be setup. free_irq will warn 'Try to free
+> already-free irq'.
+> 
+> To fix it, set the nvmeq->cq_vector to -1, then nvme_suspend_queue
+> will ignore it.
+> 
+> Change log:
+> V1 -> V2
+>  - Follow Keith's suggestion, just set cq_vector to -1 if io queue setup
+>    fails.
+>  - Change patch name and comment
+> 
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> ---
+>  drivers/nvme/host/pci.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 4a7c420..f4528ef 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1452,7 +1452,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+>  	nvmeq->cq_vector = qid - 1;
+>  	result = adapter_alloc_cq(dev, qid, nvmeq);
+>  	if (result < 0)
+> -		return result;
+> +		goto clean_cq_vector;
+>  
+>  	result = adapter_alloc_sq(dev, qid, nvmeq);
+>  	if (result < 0)
+> @@ -1461,14 +1461,17 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+>  	nvme_init_queue(nvmeq, qid);
+>  	result = queue_request_irq(nvmeq);
+>  	if (result < 0)
+> -		goto release_sq;
+> +		goto offline;
+>  
+>  	return result;
+>  
+> - release_sq:
+> +offline:
+> +	dev->online_queues--;
+>  	adapter_delete_sq(dev, qid);
+> - release_cq:
+> +release_cq:
+>  	adapter_delete_cq(dev, qid);
+> +clean_cq_vector:
+> +	nvmeq->cq_vector = -1;
+>  	return result;
+>  }
+>  
+> 
