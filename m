@@ -1,237 +1,362 @@
-From: suganath-prabu.subramani@broadcom.com (Suganath Prabu Subramani)
-Date: Fri, 23 Feb 2018 15:45:45 +0530
-Subject: [PATCH 5/6] mpt3sas: Introduce function to clone mpi request.
-In-Reply-To: <2e101bb9-569d-328a-9674-59c4dc8da54b@redhat.com>
-References: <1516365462-14708-1-git-send-email-suganath-prabu.subramani@broadcom.com>
- <1516365462-14708-6-git-send-email-suganath-prabu.subramani@broadcom.com>
- <2e101bb9-569d-328a-9674-59c4dc8da54b@redhat.com>
-Message-ID: <CA+RiK640DCFE+RvdRVXmSV6Cga3fsJvoxkHZpYVMruNZZQ2MWw@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 23 Feb 2018 17:05:47 -0700
+Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
+Message-ID: <20180224000547.7252-1-keith.busch@intel.com>
 
-Hi tomas,
-We have sent V1 version of patches on 7th of Feb. Please review.
+NVMe namespace formats allow the possibility for metadata as extended
+LBAs. These require the memory interleave block and metadata in a single
+virtually contiguous buffer.
 
-Thanks,
-Suganath Prabu S
+The Linux block layer, however, maintains metadata and data in separate
+buffers, which is unusable for NVMe drives using interleaved metadata
+formats.
 
-On Mon, Jan 22, 2018@8:08 PM, Tomas Henzl <thenzl@redhat.com> wrote:
-> On 01/19/2018 01:37 PM, Suganath Prabu S wrote:
->> 1) Added function _base_clone_mpi_to_sys_mem to clone
->> MPI request into system BAR0 mapped region.
->>
->> 2) Seperate out MPI Endpoint IO submissions to function
->> _base_put_smid_mpi_ep_scsi_io.
->>
->> 3) MPI EP requests are submitted in two 32 bit MMIO writes.
->> from _base_mpi_ep_writeq.
->>
->> Signed-off-by: Suganath Prabu S <suganath-prabu.subramani at broadcom.com>
->> ---
->>  drivers/scsi/mpt3sas/mpt3sas_base.c | 131 +++++++++++++++++++++++++++++++++---
->>  1 file changed, 123 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
->> index 40a1806..0248058 100644
->> --- a/drivers/scsi/mpt3sas/mpt3sas_base.c
->> +++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
->> @@ -126,6 +126,24 @@ module_param_call(mpt3sas_fwfault_debug, _scsih_set_fwfault_debug,
->>       param_get_int, &mpt3sas_fwfault_debug, 0644);
->>
->>  /**
->> + * _base_clone_mpi_to_sys_mem - Writes/copies MPI frames
->> + *                           to system/BAR0 region.
->> + *
->> + * @dst_iomem: Pointer to the destinaltion location in BAR0 space.
->> + * @src: Pointer to the Source data.
->> + * @size: Size of data to be copied.
->> + */
->> +static void
->> +_base_clone_mpi_to_sys_mem(void *dst_iomem, void *src, u32 size)
->> +{
->> +     int i;
->> +     __le32 *src_virt_mem = (__le32 *)src;
->> +
->> +     for (i = 0; i < size/4; i++)
->> +             writel(cpu_to_le32(src_virt_mem[i]), dst_iomem + (i * 4));
->> +}
->> +
->> +/**
->>   * _base_clone_to_sys_mem - Writes/copies data to system/BAR0 region
->>   *
->>   * @dst_iomem: Pointer to the destinaltion location in BAR0 space.
->> @@ -3265,6 +3283,29 @@ mpt3sas_base_free_smid(struct MPT3SAS_ADAPTER *ioc, u16 smid)
->>  }
->>
->>  /**
->> + * _base_mpi_ep_writeq - 32 bit write to MMIO
->> + * @b: data payload
->> + * @addr: address in MMIO space
->> + * @writeq_lock: spin lock
->> + *
->> + * This special handling for MPI EP to take care of 32 bit
->> + * environment where its not quarenteed to send the entire word
->> + * in one transfer.
->
-> Hi Suganath,
-> so is a single writeq possible ? There already is a _base_writeq function
-> which seems to be identical to _base_mpi_ep_writeq.
-> Also you may want to add a mmiowb() call.
-> tomash
->
->> + */
->> +static inline void
->> +_base_mpi_ep_writeq(__u64 b, volatile void __iomem *addr,
->> +                                     spinlock_t *writeq_lock)
->> +{
->> +     unsigned long flags;
->> +     __u64 data_out = cpu_to_le64(b);
->> +
->> +     spin_lock_irqsave(writeq_lock, flags);
->> +     writel((u32)(data_out), addr);
->> +     writel((u32)(data_out >> 32), (addr + 4));
->> +     spin_unlock_irqrestore(writeq_lock, flags);
->> +}
->> +
->> +/**
->>   * _base_writeq - 64 bit write to MMIO
->>   * @ioc: per adapter object
->>   * @b: data payload
->> @@ -3296,6 +3337,36 @@ _base_writeq(__u64 b, volatile void __iomem *addr, spinlock_t *writeq_lock)
->>  #endif
->>
->>  /**
->> + * _base_put_smid_mpi_ep_scsi_io - send SCSI_IO request to firmware
->> + * @ioc: per adapter object
->> + * @smid: system request message index
->> + * @handle: device handle
->> + *
->> + * Return nothing.
->> + */
->> +static void
->> +_base_put_smid_mpi_ep_scsi_io(struct MPT3SAS_ADAPTER *ioc, u16 smid, u16 handle)
->> +{
->> +     Mpi2RequestDescriptorUnion_t descriptor;
->> +     u64 *request = (u64 *)&descriptor;
->> +     void *mpi_req_iomem;
->> +     __le32 *mfp = (__le32 *)mpt3sas_base_get_msg_frame(ioc, smid);
->> +
->> +     _clone_sg_entries(ioc, (void *) mfp, smid);
->> +     mpi_req_iomem = (void *)ioc->chip +
->> +                     MPI_FRAME_START_OFFSET + (smid * ioc->request_sz);
->> +     _base_clone_mpi_to_sys_mem(mpi_req_iomem, (void *)mfp,
->> +                                     ioc->request_sz);
->> +     descriptor.SCSIIO.RequestFlags = MPI2_REQ_DESCRIPT_FLAGS_SCSI_IO;
->> +     descriptor.SCSIIO.MSIxIndex =  _base_get_msix_index(ioc);
->> +     descriptor.SCSIIO.SMID = cpu_to_le16(smid);
->> +     descriptor.SCSIIO.DevHandle = cpu_to_le16(handle);
->> +     descriptor.SCSIIO.LMID = 0;
->> +     _base_mpi_ep_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
->> +         &ioc->scsi_lookup_lock);
->> +}
->> +
->> +/**
->>   * _base_put_smid_scsi_io - send SCSI_IO request to firmware
->>   * @ioc: per adapter object
->>   * @smid: system request message index
->> @@ -3356,7 +3427,23 @@ _base_put_smid_hi_priority(struct MPT3SAS_ADAPTER *ioc, u16 smid,
->>       u16 msix_task)
->>  {
->>       Mpi2RequestDescriptorUnion_t descriptor;
->> -     u64 *request = (u64 *)&descriptor;
->> +     void *mpi_req_iomem;
->> +     u64 *request;
->> +
->> +     if (ioc->is_mcpu_endpoint) {
->> +             MPI2RequestHeader_t *request_hdr;
->> +
->> +             __le32 *mfp = (__le32 *)mpt3sas_base_get_msg_frame(ioc, smid);
->> +
->> +             request_hdr = (MPI2RequestHeader_t *)mfp;
->> +             /* TBD 256 is offset within sys register. */
->> +             mpi_req_iomem = (void *)ioc->chip + MPI_FRAME_START_OFFSET
->> +                                     + (smid * ioc->request_sz);
->> +             _base_clone_mpi_to_sys_mem(mpi_req_iomem, (void *)mfp,
->> +                                                     ioc->request_sz);
->> +     }
->> +
->> +     request = (u64 *)&descriptor;
->>
->>       descriptor.HighPriority.RequestFlags =
->>           MPI2_REQ_DESCRIPT_FLAGS_HIGH_PRIORITY;
->> @@ -3364,8 +3451,13 @@ _base_put_smid_hi_priority(struct MPT3SAS_ADAPTER *ioc, u16 smid,
->>       descriptor.HighPriority.SMID = cpu_to_le16(smid);
->>       descriptor.HighPriority.LMID = 0;
->>       descriptor.HighPriority.Reserved1 = 0;
->> -     _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
->> -         &ioc->scsi_lookup_lock);
->> +     if (ioc->is_mcpu_endpoint)
->> +             _base_mpi_ep_writeq(*request,
->> +                             &ioc->chip->RequestDescriptorPostLow,
->> +                             &ioc->scsi_lookup_lock);
->> +     else
->> +             _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
->> +                 &ioc->scsi_lookup_lock);
->>  }
->>
->>  /**
->> @@ -3403,15 +3495,35 @@ static void
->>  _base_put_smid_default(struct MPT3SAS_ADAPTER *ioc, u16 smid)
->>  {
->>       Mpi2RequestDescriptorUnion_t descriptor;
->> -     u64 *request = (u64 *)&descriptor;
->> +     void *mpi_req_iomem;
->> +     u64 *request;
->> +     MPI2RequestHeader_t *request_hdr;
->>
->> +     if (ioc->is_mcpu_endpoint) {
->> +             __le32 *mfp = (__le32 *)mpt3sas_base_get_msg_frame(ioc, smid);
->> +
->> +             request_hdr = (MPI2RequestHeader_t *)mfp;
->> +
->> +             _clone_sg_entries(ioc, (void *) mfp, smid);
->> +             /* TBD 256 is offset within sys register */
->> +             mpi_req_iomem = (void *)ioc->chip +
->> +                     MPI_FRAME_START_OFFSET + (smid * ioc->request_sz);
->> +             _base_clone_mpi_to_sys_mem(mpi_req_iomem, (void *)mfp,
->> +                                                     ioc->request_sz);
->> +     }
->> +     request = (u64 *)&descriptor;
->>       descriptor.Default.RequestFlags = MPI2_REQ_DESCRIPT_FLAGS_DEFAULT_TYPE;
->>       descriptor.Default.MSIxIndex =  _base_get_msix_index(ioc);
->>       descriptor.Default.SMID = cpu_to_le16(smid);
->>       descriptor.Default.LMID = 0;
->>       descriptor.Default.DescriptorTypeDependent = 0;
->> -     _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
->> -         &ioc->scsi_lookup_lock);
->> +     if (ioc->is_mcpu_endpoint)
->> +             _base_mpi_ep_writeq(*request,
->> +                             &ioc->chip->RequestDescriptorPostLow,
->> +                             &ioc->scsi_lookup_lock);
->> +     else
->> +             _base_writeq(*request, &ioc->chip->RequestDescriptorPostLow,
->> +                             &ioc->scsi_lookup_lock);
->>  }
->>
->>  /**
->> @@ -3505,7 +3617,7 @@ _base_put_smid_nvme_encap_atomic(struct MPT3SAS_ADAPTER *ioc, u16 smid)
->>
->>  /**
->>   * _base_put_smid_default - Default, primarily used for config pages
->> - *                           use Atomic Request Descriptor
->> + * use Atomic Request Descriptor
->>   * @ioc: per adapter object
->>   * @smid: system request message index
->>   *
->> @@ -6330,7 +6442,10 @@ mpt3sas_base_attach(struct MPT3SAS_ADAPTER *ioc)
->>               ioc->put_smid_nvme_encap = &_base_put_smid_nvme_encap_atomic;
->>       } else {
->>               ioc->put_smid_default = &_base_put_smid_default;
->> -             ioc->put_smid_scsi_io = &_base_put_smid_scsi_io;
->> +             if (ioc->is_mcpu_endpoint)
->> +                     ioc->put_smid_scsi_io = &_base_put_smid_mpi_ep_scsi_io;
->> +             else
->> +                     ioc->put_smid_scsi_io = &_base_put_smid_scsi_io;
->>               ioc->put_smid_fast_path = &_base_put_smid_fast_path;
->>               ioc->put_smid_hi_priority = &_base_put_smid_hi_priority;
->>               ioc->put_smid_nvme_encap = &_base_put_smid_nvme_encap;
->
->
+This patch will enable such formats by allocating a bounce buffer
+interleaving the block and metadata, copying the everythign into the
+buffer for writes, or from it for reads.
+
+I dislike this feature intensely. It is incredibly slow and enough memory
+overhead to make this not very useful for reclaim, but it's possible
+people will leave me alone if the Linux nvme driver accomodated this
+format.
+
+On the other hand, I get the impression some people requesting this
+may think their application will get to access the extended LBAs. The
+reality is the kernel owns the metadata, so I may just setting myself
+up to explain why "fdisk" still shows a 512b format instead of 520b...
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c |  13 +++-
+ drivers/nvme/host/nvme.h |   1 -
+ drivers/nvme/host/pci.c  | 170 +++++++++++++++++++++++++++++++++++++++++------
+ 3 files changed, 162 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0fe7ea35c221..b54c31eead57 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1414,11 +1414,20 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	blk_queue_physical_block_size(disk->queue, bs);
+ 	blk_queue_io_min(disk->queue, bs);
+ 
+-	if (ns->ms && !ns->ext &&
+-	    (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
++	if (ns->ms && (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+ 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
+ 	if (ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk))
+ 		capacity = 0;
++	else if (ns->ms && ns->ext && ns->ctrl->max_hw_sectors != UINT_MAX) {
++		/* Interleaved metadata counts toward MDTS */
++		unsigned sectors = ns->ctrl->max_hw_sectors >>
++					(ns->lba_shift - 9);
++		unsigned new_max = ns->ctrl->max_hw_sectors -
++					DIV_ROUND_UP(sectors * ns->ms, 512);
++
++		blk_queue_max_hw_sectors(disk->queue, new_max);
++	} else
++		blk_queue_max_hw_sectors(disk->queue, ns->ctrl->max_hw_sectors);
+ 	set_capacity(disk, capacity);
+ 
+ 	if (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0521e4707d1c..503a94ff6125 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -152,7 +152,6 @@ struct nvme_ctrl {
+ 
+ 	struct opal_dev *opal_dev;
+ 
+-	char name[12];
+ 	u16 cntlid;
+ 
+ 	u32 ctrl_config;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 73036d2fbbd5..3040b9a2a749 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -68,6 +68,11 @@ MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
+ struct nvme_dev;
+ struct nvme_queue;
+ 
++static void nvme_dif_remap(struct request *req,
++			void (*dif_swap)(u32 p, u32 v, struct t10_pi_tuple *pi));
++static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi);
++static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi);
++
+ static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ 
+@@ -176,8 +181,14 @@ struct nvme_queue {
+ struct nvme_iod {
+ 	struct nvme_request req;
+ 	struct nvme_queue *nvmeq;
+-	bool use_sgl;
+-	int aborted;
++	union {
++		unsigned int flags;
++		struct {
++			unsigned int use_sgl :1;
++			unsigned int aborted :1;
++			unsigned int remapped:1;
++		};
++	};
+ 	int npages;		/* In the PRP list. 0 means small pool in use */
+ 	int nents;		/* Used in scatterlist */
+ 	int length;		/* Of data, in bytes */
+@@ -445,7 +456,10 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
+ static void **nvme_pci_iod_list(struct request *req)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	return (void **)(iod->sg + blk_rq_nr_phys_segments(req));
++
++	if (!iod->remapped)
++		return (void **)(iod->sg + blk_rq_nr_phys_segments(req));
++	return (void **)(iod->sg + 1);
+ }
+ 
+ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
+@@ -468,14 +482,128 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req)
+ 	return true;
+ }
+ 
+-static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
++static void nvme_iod_unmap(struct nvme_iod *iod, struct request *rq,
++			struct nvme_dev *dev)
++{
++	struct nvme_ns *ns = rq->rq_disk->private_data;
++	struct bio_integrity_payload *bip;
++	struct bio_vec bvec;
++	struct bio *bio = rq->bio;
++	struct bvec_iter iter = bio->bi_iter;
++	void *mem, *meta, *tmp = sg_virt(iod->sg);
++
++	if (req_op(rq) == REQ_OP_READ) {
++		u32 i, nlb, ts, bs;
++
++		bs = 1 << ns->lba_shift;
++		ts = ns->disk->queue->integrity.tuple_size;
++		nlb = (blk_rq_bytes(rq) >> ns->lba_shift);
++
++		bip = bio_integrity(rq->bio);
++		if (!bip)
++			return;
++
++		meta = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
++		for (i = 0; i < nlb; i++) {
++			bvec = bio_iter_iovec(bio, iter);
++			bio_advance_iter(bio, &iter, bs);
++
++			mem = kmap_atomic(bvec.bv_page) + bvec.bv_offset;
++			memcpy(mem, tmp, bs);
++			kunmap_atomic(mem);
++			tmp += bs;
++
++			memcpy(meta + (i * ts), tmp, ts);
++			tmp += ts;
++		}
++		kunmap_atomic(meta);
++		nvme_dif_remap(rq, nvme_dif_complete);
++	}
++	kfree(sg_virt(iod->sg));
++}
++
++static blk_status_t nvme_iod_remap(struct nvme_iod *iod, struct request *rq,
++		struct nvme_ns *ns, struct nvme_dev *dev)
++{
++	struct bio_integrity_payload *bip;
++	struct bio_vec bvec;
++	struct bio *bio = rq->bio;
++	struct bvec_iter iter = bio->bi_iter;
++	void *mem, *meta, *tmp;
++	u32 i, nlb, ts, bs;
++
++	ts = ns->disk->queue->integrity.tuple_size;
++	nlb = (blk_rq_bytes(rq) >> ns->lba_shift);
++	bs = 1 << ns->lba_shift;
++
++	iod->length = blk_rq_bytes(rq) + ts * nlb;
++	if (!iod->length)
++		return BLK_STS_IOERR;
++
++	bip = bio_integrity(rq->bio);
++	if (!bip)
++		return BLK_STS_IOERR;
++
++	tmp = kmalloc(iod->length, GFP_KERNEL);
++	if (!tmp)
++		return BLK_STS_RESOURCE;
++
++	if (iod->length > NVME_INT_BYTES(dev)) {
++		iod->sg = kmalloc(nvme_pci_iod_alloc_size(dev, iod->length, 1, 0), GFP_ATOMIC);
++		if (!iod->sg) {
++			kfree(tmp);
++			return BLK_STS_RESOURCE;
++		}
++	} else {
++		iod->sg = iod->inline_sg;
++	}
++	iod->remapped = 1;
++	iod->npages = -1;
++	iod->nents = 1;
++
++	sg_init_table(iod->sg, 1);
++	sg_set_buf(iod->sg, tmp, iod->length);
++	sg_mark_end(iod->sg);
++
++	if (req_op(rq) == REQ_OP_READ)
++		return BLK_STS_OK;
++
++	nvme_dif_remap(rq, nvme_dif_prep);
++	meta = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
++	for (i = 0; i < nlb; i++) {
++		bvec = bio_iter_iovec(bio, iter);
++		bio_advance_iter(bio, &iter, bs);
++
++		mem = kmap_atomic(bvec.bv_page) + bvec.bv_offset;
++		memcpy(tmp, mem, bs);
++		kunmap_atomic(mem);
++		tmp += bs;
++
++		memcpy(tmp, meta + (i * ts), ts);
++		tmp += ts;
++	}
++	kunmap_atomic(meta);
++	return BLK_STS_OK;
++}
++
++static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev, struct nvme_ns *ns)
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(rq);
+ 	int nseg = blk_rq_nr_phys_segments(rq);
+ 	unsigned int size = blk_rq_payload_bytes(rq);
+ 
+-	iod->use_sgl = nvme_pci_use_sgls(dev, rq);
++	iod->flags = 0;
++	if (ns && ns->ext && blk_integrity_rq(rq)) {
++		switch (req_op(rq)) {
++		case REQ_OP_WRITE:
++		case REQ_OP_READ:
++			return nvme_iod_remap(iod, rq, ns, dev);
++		default:
++			break;
++		}
++	}
+ 
++	iod->use_sgl = nvme_pci_use_sgls(dev, rq);
+ 	if (nseg > NVME_INT_PAGES || size > NVME_INT_BYTES(dev)) {
+ 		size_t alloc_size = nvme_pci_iod_alloc_size(dev, size, nseg,
+ 				iod->use_sgl);
+@@ -487,7 +615,6 @@ static blk_status_t nvme_init_iod(struct request *rq, struct nvme_dev *dev)
+ 		iod->sg = iod->inline_sg;
+ 	}
+ 
+-	iod->aborted = 0;
+ 	iod->npages = -1;
+ 	iod->nents = 0;
+ 	iod->length = size;
+@@ -525,6 +652,8 @@ static void nvme_free_iod(struct nvme_dev *dev, struct request *req)
+ 		dma_addr = next_dma_addr;
+ 	}
+ 
++	if (iod->remapped)
++		nvme_iod_unmap(iod, req, dev);
+ 	if (iod->sg != iod->inline_sg)
+ 		kfree(iod->sg);
+ }
+@@ -615,7 +744,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ {
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	struct dma_pool *pool;
+-	int length = blk_rq_payload_bytes(req);
++	int length = iod->length;
+ 	struct scatterlist *sg = iod->sg;
+ 	int dma_len = sg_dma_len(sg);
+ 	u64 dma_addr = sg_dma_address(sg);
+@@ -626,6 +755,9 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
+ 	dma_addr_t prp_dma;
+ 	int nprps, i;
+ 
++	if (iod->remapped)
++		nvme_print_sgl(sg, iod->nents);
++
+ 	length -= (page_size - offset);
+ 	if (length <= 0) {
+ 		iod->first_dma = 0;
+@@ -791,12 +923,14 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 	enum dma_data_direction dma_dir = rq_data_dir(req) ?
+ 			DMA_TO_DEVICE : DMA_FROM_DEVICE;
+ 	blk_status_t ret = BLK_STS_IOERR;
+-	int nr_mapped;
++	int nr_mapped = 0;
+ 
+-	sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
+-	iod->nents = blk_rq_map_sg(q, req, iod->sg);
+-	if (!iod->nents)
+-		goto out;
++	if (!iod->remapped) {
++		sg_init_table(iod->sg, blk_rq_nr_phys_segments(req));
++		iod->nents = blk_rq_map_sg(q, req, iod->sg);
++		if (!iod->nents)
++			goto out;
++	}
+ 
+ 	ret = BLK_STS_RESOURCE;
+ 	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
+@@ -813,7 +947,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out_unmap;
+ 
+ 	ret = BLK_STS_IOERR;
+-	if (blk_integrity_rq(req)) {
++	if (blk_integrity_rq(req) && !iod->remapped) {
+ 		if (blk_rq_count_integrity_sg(q, req->bio) != 1)
+ 			goto out_unmap;
+ 
+@@ -826,10 +960,8 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 
+ 		if (!dma_map_sg(dev->dev, &iod->meta_sg, 1, dma_dir))
+ 			goto out_unmap;
+-	}
+-
+-	if (blk_integrity_rq(req))
+ 		cmnd->rw.metadata = cpu_to_le64(sg_dma_address(&iod->meta_sg));
++	}
+ 	return BLK_STS_OK;
+ 
+ out_unmap:
+@@ -846,7 +978,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ 
+ 	if (iod->nents) {
+ 		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
+-		if (blk_integrity_rq(req)) {
++		if (blk_integrity_rq(req) && !iod->remapped) {
+ 			if (req_op(req) == REQ_OP_READ)
+ 				nvme_dif_remap(req, nvme_dif_complete);
+ 			dma_unmap_sg(dev->dev, &iod->meta_sg, 1, dma_dir);
+@@ -867,6 +999,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_queue *nvmeq = hctx->driver_data;
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 	struct request *req = bd->rq;
++	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+ 	struct nvme_command cmnd;
+ 	blk_status_t ret;
+ 
+@@ -874,7 +1007,7 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = nvme_init_iod(req, dev);
++	ret = nvme_init_iod(req, dev, ns);
+ 	if (ret)
+ 		goto out_free_cmd;
+ 
+@@ -885,7 +1018,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	}
+ 
+ 	blk_mq_start_request(req);
+-
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	if (unlikely(nvmeq->cq_vector < 0)) {
+ 		ret = BLK_STS_IOERR;
+-- 
+2.14.3
