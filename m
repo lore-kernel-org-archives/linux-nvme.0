@@ -1,45 +1,99 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 25 Feb 2018 19:30:48 +0200
-Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
-In-Reply-To: <20180224000547.7252-1-keith.busch@intel.com>
-References: <20180224000547.7252-1-keith.busch@intel.com>
-Message-ID: <5662c6d9-0c87-6074-12b8-39db53ce3c7f@grimberg.me>
+Date: Sun, 25 Feb 2018 19:45:37 +0200
+Subject: nvme-rdma corrupts memory upon timeout
+In-Reply-To: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+Message-ID: <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
 
-Hi Keith,
 
-> NVMe namespace formats allow the possibility for metadata as extended
-> LBAs. These require the memory interleave block and metadata in a single
-> virtually contiguous buffer.
-> 
-> The Linux block layer, however, maintains metadata and data in separate
-> buffers, which is unusable for NVMe drives using interleaved metadata
-> formats.
+> Hey,
 
-That's not specific for NVMe, I vaguely recall we had this discussion
-for passthru scsi devices (in scsi target context) 5 years ago...
-It makes sense for FC (and few RDMA devices) that already get
-interleaved metadata from the wire to keep it as is instead of
-scattering it if the backend nvme device supports interleaved mode...
+Hi Alon, thanks for reporting!
 
-I would say that this support for this is something that belongs in the
-block layer. IIRC mkp also expressed interest in using preadv2/pwritev2
-to for user-space to use DIF with some accounting on the iovec so maybe
-we can add a flag for interleaved metadata.
+> Some additional information: we use a keepalive and reconnect timeout
+> of 1 second. ConnectX4 with OFED 4.1. I validated the code hasn't
+> changed in latest linux sources.
 
-> This patch will enable such formats by allocating a bounce buffer
-> interleaving the block and metadata, copying the everythign into the
-> buffer for writes, or from it for reads.
-> 
-> I dislike this feature intensely. It is incredibly slow and enough memory
-> overhead to make this not very useful for reclaim, but it's possible
-> people will leave me alone if the Linux nvme driver accomodated this
-> format.
+So we obviously cannot help you with OFED (or anything that is not
+upstream for that matter). This mailing list is designed to develop
+Linux upstream and does not have any control of any other code
+distribution.
 
-Not only that it will be non-useful, but probably unusable. Once upon of
-time iser did bounce buffering with large contiguous atomic allocations,
-it just doesn't work... especially with nvme large number of deep queues
-that can host commands of MDTS bytes each.
+For OFED issues the correct address for filing bug reports would be:
+http://bugs.openfabrics.org/
 
-If we end up keeping it private to nvme, the first comment I'd give you
-is to avoid high-order allocations, you'll see lots of bug reports
-otherwise...
+For Mellanox OFED I believe you probably already have a support
+channel...
+
+Now as to your issue,
+
+ > We're running nvmf over a large cluster using RDMA. Sometimes, there's
+ > some congestion that causes the nvme host driver to time out (we use a
+ > 4 second timeout).
+ > Even though the host (initiator) times out and returns with an error
+ > to userspace, we can see the buffer being written after the io
+ > returned. This can obviously cause serious crashes and corruptions.
+ > We suspect the same happens with writes but have yet to prove it.
+ >
+ > We think we can spot the root cause: 'nvme_rdma_error_recovery'
+ > handles the timeout in an asynchronous manner. It queues a task for
+ > reconnecting the nvme device. Until that task is executed by the
+ > worker thread the qp is open and a rdma write can get through. Does
+ > this make sense?
+
+Yes it does. The problem is that for I/O timeout kicking error recovery
+we don't make sure to either invalidate the rkey nor drain the rdma
+queue pair (either will do).
+
+Does this patch help?
+--
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 2ef761b5a26e..856ae9a7615a 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -956,15 +956,15 @@ static void nvme_rdma_error_recovery_work(struct 
+work_struct *work)
+
+         if (ctrl->ctrl.queue_count > 1) {
+                 nvme_stop_queues(&ctrl->ctrl);
++               nvme_rdma_destroy_io_queues(ctrl, false);
+                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
+                                         nvme_cancel_request, &ctrl->ctrl);
+-               nvme_rdma_destroy_io_queues(ctrl, false);
+         }
+
+         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++       nvme_rdma_destroy_admin_queue(ctrl, false);
+         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+                                 nvme_cancel_request, &ctrl->ctrl);
+-       nvme_rdma_destroy_admin_queue(ctrl, false);
+
+         /*
+          * queues are not a live anymore, so restart the queues to fail 
+fast
+@@ -1724,9 +1724,9 @@ static void nvme_rdma_shutdown_ctrl(struct 
+nvme_rdma_ctrl *ctrl, bool shutdown)
+
+         if (ctrl->ctrl.queue_count > 1) {
+                 nvme_stop_queues(&ctrl->ctrl);
++               nvme_rdma_destroy_io_queues(ctrl, shutdown);
+                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
+                                         nvme_cancel_request, &ctrl->ctrl);
+-               nvme_rdma_destroy_io_queues(ctrl, shutdown);
+         }
+
+         if (shutdown)
+@@ -1735,10 +1735,10 @@ static void nvme_rdma_shutdown_ctrl(struct 
+nvme_rdma_ctrl *ctrl, bool shutdown)
+                 nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
+
+         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++       nvme_rdma_destroy_admin_queue(ctrl, shutdown);
+         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+                                 nvme_cancel_request, &ctrl->ctrl);
+         blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+-       nvme_rdma_destroy_admin_queue(ctrl, shutdown);
+  }
+
+  static void nvme_rdma_delete_ctrl(struct nvme_ctrl *ctrl)
+--
