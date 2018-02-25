@@ -1,73 +1,97 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 25 Feb 2018 20:02:20 +0200
+Date: Sun, 25 Feb 2018 20:06:15 +0200
 Subject: v4.16-rc2 nvme_rdma ib_destroy_qp() warns about MRs
-In-Reply-To: <1519431811.2904.52.camel@wdc.com>
+In-Reply-To: <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
 References: <1519431811.2904.52.camel@wdc.com>
-Message-ID: <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
+ <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
+Message-ID: <ca148f27-1b59-02a2-fc76-ee3e9a7edeb3@grimberg.me>
 
 
-> Hello,
 
-Hi Bart,
-
-> With the v4.16-rc2 nvme_rdma driver on top of the rdma_rxe driver the
-> following kernel warning appeared in the kernel log:
+On 02/25/2018 08:02 PM, Sagi Grimberg wrote:
 > 
-> CPU: 3 PID: 152 Comm: kworker/u8:3 Not tainted 4.16.0-rc2-dbg+ #3
-> Workqueue: nvme-wq nvme_rdma_error_recovery_work [nvme_rdma]
-> RIP: 0010:ib_destroy_qp+0x177/0x1a0 [ib_core]
-> Call Trace:
->   nvme_rdma_destroy_queue_ib+0x32/0x70 [nvme_rdma]
->   nvme_rdma_free_queue+0x2e/0x90 [nvme_rdma]
->   nvme_rdma_destroy_io_queues+0x5d/0xb0 [nvme_rdma]
->   nvme_rdma_error_recovery_work+0x4c/0xb0 [nvme_rdma]
->   process_one_work+0x20b/0x6a0
->   worker_thread+0x35/0x380
->   kthread+0x117/0x130
->   ret_from_fork+0x24/0x30
+>> Hello,
+> 
+> Hi Bart,
+> 
+>> With the v4.16-rc2 nvme_rdma driver on top of the rdma_rxe driver the
+>> following kernel warning appeared in the kernel log:
+>>
+>> CPU: 3 PID: 152 Comm: kworker/u8:3 Not tainted 4.16.0-rc2-dbg+ #3
+>> Workqueue: nvme-wq nvme_rdma_error_recovery_work [nvme_rdma]
+>> RIP: 0010:ib_destroy_qp+0x177/0x1a0 [ib_core]
+>> Call Trace:
+>> ? nvme_rdma_destroy_queue_ib+0x32/0x70 [nvme_rdma]
+>> ? nvme_rdma_free_queue+0x2e/0x90 [nvme_rdma]
+>> ? nvme_rdma_destroy_io_queues+0x5d/0xb0 [nvme_rdma]
+>> ? nvme_rdma_error_recovery_work+0x4c/0xb0 [nvme_rdma]
+>> ? process_one_work+0x20b/0x6a0
+>> ? worker_thread+0x35/0x380
+>> ? kthread+0x117/0x130
+>> ? ret_from_fork+0x24/0x30
+> 
+> Thanks for reporting.
+> 
+>> Does this mean that the nvme_rdma driver calls ib_destroy_qp() before 
+>> all MRs
+>> associated with the QP have been destroyed?
+> 
+> That's the warning... But I'm having troubles understanding how can this
+> be a nvme-rdma issue. We only allocate in .queue_rq if we passed which
+> means that the queue has READY on, and before we destroy the qp only
+> after we:
+> 1. quiesced all the request queues
+> 2. cancel all started requests (which trigger nvme_rdma_complete_request
+> that returns the mr to the pool)
+> 
+> So the only way I see that we can get here, is if
+> blk_mq_complete_request does not call __blk_mq_complete_request.
+> 
+> This can happen when:
+> -- 
+>  ??????? /*
+>  ???????? * If @rq->aborted_gstate equals the current instance, timeout is
+>  ???????? * claiming @rq and we lost.? This is synchronized through
+>  ???????? * hctx_lock().? See blk_mq_timeout_work() for details.
+>  ???????? *
+>  ???????? * Completion path never blocks and we can directly use RCU here
+>  ???????? * instead of hctx_lock() which can be either RCU or SRCU.
+>  ???????? * However, that would complicate paths which want to synchronize
+>  ???????? * against us.? Let stay in sync with the issue path so that
+>  ???????? * hctx_lock() covers both issue and completion paths.
+>  ???????? */
+>  ??????? hctx_lock(hctx, &srcu_idx);
+>  ??????? if (blk_mq_rq_aborted_gstate(rq) != rq->gstate)
+>  ??????????????? __blk_mq_complete_request(rq);
+>  ??????? hctx_unlock(hctx, srcu_idx);
+> -- 
+> 
+> Does this mean that the block driver must not assume that .complete will
+> be called on a timed out request for sure?
+> 
+> Is this easy to reproduce Bart? Does this patch help?
+> -- 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 2ef761b5a26e..ffc9362a3a82 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1585,6 +1585,11 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+>  ???????????????? "I/O %d QID %d timeout, reset controller\n",
+>  ???????????????? rq->tag, nvme_rdma_queue_idx(req->queue));
+> 
+> +?????? if (req->mr) {
+> +?????????????? ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
+> +?????????????? req->mr = NULL;
+> +?????? }
+> +
+>  ??????? /* queue error recovery */
+>  ??????? nvme_rdma_error_recovery(req->queue->ctrl);
+> -- 
 
-Thanks for reporting.
-
-> Does this mean that the nvme_rdma driver calls ib_destroy_qp() before all MRs
-> associated with the QP have been destroyed?
-
-That's the warning... But I'm having troubles understanding how can this
-be a nvme-rdma issue. We only allocate in .queue_rq if we passed which
-means that the queue has READY on, and before we destroy the qp only
-after we:
-1. quiesced all the request queues
-2. cancel all started requests (which trigger nvme_rdma_complete_request
-that returns the mr to the pool)
-
-So the only way I see that we can get here, is if
-blk_mq_complete_request does not call __blk_mq_complete_request.
-
-This can happen when:
---
-         /*
-          * If @rq->aborted_gstate equals the current instance, timeout is
-          * claiming @rq and we lost.  This is synchronized through
-          * hctx_lock().  See blk_mq_timeout_work() for details.
-          *
-          * Completion path never blocks and we can directly use RCU here
-          * instead of hctx_lock() which can be either RCU or SRCU.
-          * However, that would complicate paths which want to synchronize
-          * against us.  Let stay in sync with the issue path so that
-          * hctx_lock() covers both issue and completion paths.
-          */
-         hctx_lock(hctx, &srcu_idx);
-         if (blk_mq_rq_aborted_gstate(rq) != rq->gstate)
-                 __blk_mq_complete_request(rq);
-         hctx_unlock(hctx, srcu_idx);
---
-
-Does this mean that the block driver must not assume that .complete will
-be called on a timed out request for sure?
-
-Is this easy to reproduce Bart? Does this patch help?
+Now with a patch that actually compiles :)
 --
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2ef761b5a26e..ffc9362a3a82 100644
+index 2ef761b5a26e..4c32518a6c81 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
 @@ -1585,6 +1585,11 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
@@ -75,7 +99,8 @@ index 2ef761b5a26e..ffc9362a3a82 100644
                   rq->tag, nvme_rdma_queue_idx(req->queue));
 
 +       if (req->mr) {
-+               ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
++               ib_mr_pool_put(req->queue->qp, 
+&req->queue->qp->rdma_mrs, req->mr);
 +               req->mr = NULL;
 +       }
 +
