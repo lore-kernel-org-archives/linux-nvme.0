@@ -1,27 +1,28 @@
-From: alon@vastdata.com (Alon Horev)
-Date: Sun, 25 Feb 2018 17:10:07 +0200
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Sun, 25 Feb 2018 16:18:52 +0000
 Subject: nvme-rdma corrupts memory upon timeout
-Message-ID: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+In-Reply-To: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+Message-ID: <1519575531.3291.6.camel@wdc.com>
 
-Hey,
+On Sun, 2018-02-25@17:10 +0200, Alon Horev wrote:
+> We think we can spot the root cause: 'nvme_rdma_error_recovery'
+> handles the timeout in an asynchronous manner. It queues a task for
+> reconnecting the nvme device. Until that task is executed by the
+> worker thread the qp is open and a rdma write can get through. Does
+> this make sense?
 
-We're running nvmf over a large cluster using RDMA. Sometimes, there's
-some congestion that causes the nvme host driver to time out (we use a
-4 second timeout).
-Even though the host (initiator) times out and returns with an error
-to userspace, we can see the buffer being written after the io
-returned. This can obviously cause serious crashes and corruptions.
-We suspect the same happens with writes but have yet to prove it.
+I think it's fine that error recovery happens asynchronously. Other drivers
+(e.g. ib_srp) also use this approach. However, it seems to me that
+nvme_rdma_error_recovery_work() does not wait until ongoing RDMA transfers
+have finished. I think that's something that needs to be addressed. Has it
+been considered to insert an ib_drain_qp() call in that function?
 
-We think we can spot the root cause: 'nvme_rdma_error_recovery'
-handles the timeout in an asynchronous manner. It queues a task for
-reconnecting the nvme device. Until that task is executed by the
-worker thread the qp is open and a rdma write can get through. Does
-this make sense?
+Another concern is that I think that there is a TOCTOU race in
+nvme_cancel_request(). Has it been considered to make that function call
+blk_abort_request() instead of blk_mq_request_started() +
+blk_mq_complete_request()?
 
-Some additional information: we use a keepalive and reconnect timeout
-of 1 second. ConnectX4 with OFED 4.1. I validated the code hasn't
-changed in latest linux sources.
+Thanks,
 
-Thanks, Alon Horev
-VastData
+Bart.
