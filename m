@@ -1,99 +1,84 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 25 Feb 2018 19:45:37 +0200
-Subject: nvme-rdma corrupts memory upon timeout
-In-Reply-To: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
-References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
-Message-ID: <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
+Date: Sun, 25 Feb 2018 20:02:20 +0200
+Subject: v4.16-rc2 nvme_rdma ib_destroy_qp() warns about MRs
+In-Reply-To: <1519431811.2904.52.camel@wdc.com>
+References: <1519431811.2904.52.camel@wdc.com>
+Message-ID: <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
 
 
-> Hey,
+> Hello,
 
-Hi Alon, thanks for reporting!
+Hi Bart,
 
-> Some additional information: we use a keepalive and reconnect timeout
-> of 1 second. ConnectX4 with OFED 4.1. I validated the code hasn't
-> changed in latest linux sources.
+> With the v4.16-rc2 nvme_rdma driver on top of the rdma_rxe driver the
+> following kernel warning appeared in the kernel log:
+> 
+> CPU: 3 PID: 152 Comm: kworker/u8:3 Not tainted 4.16.0-rc2-dbg+ #3
+> Workqueue: nvme-wq nvme_rdma_error_recovery_work [nvme_rdma]
+> RIP: 0010:ib_destroy_qp+0x177/0x1a0 [ib_core]
+> Call Trace:
+>   nvme_rdma_destroy_queue_ib+0x32/0x70 [nvme_rdma]
+>   nvme_rdma_free_queue+0x2e/0x90 [nvme_rdma]
+>   nvme_rdma_destroy_io_queues+0x5d/0xb0 [nvme_rdma]
+>   nvme_rdma_error_recovery_work+0x4c/0xb0 [nvme_rdma]
+>   process_one_work+0x20b/0x6a0
+>   worker_thread+0x35/0x380
+>   kthread+0x117/0x130
+>   ret_from_fork+0x24/0x30
 
-So we obviously cannot help you with OFED (or anything that is not
-upstream for that matter). This mailing list is designed to develop
-Linux upstream and does not have any control of any other code
-distribution.
+Thanks for reporting.
 
-For OFED issues the correct address for filing bug reports would be:
-http://bugs.openfabrics.org/
+> Does this mean that the nvme_rdma driver calls ib_destroy_qp() before all MRs
+> associated with the QP have been destroyed?
 
-For Mellanox OFED I believe you probably already have a support
-channel...
+That's the warning... But I'm having troubles understanding how can this
+be a nvme-rdma issue. We only allocate in .queue_rq if we passed which
+means that the queue has READY on, and before we destroy the qp only
+after we:
+1. quiesced all the request queues
+2. cancel all started requests (which trigger nvme_rdma_complete_request
+that returns the mr to the pool)
 
-Now as to your issue,
+So the only way I see that we can get here, is if
+blk_mq_complete_request does not call __blk_mq_complete_request.
 
- > We're running nvmf over a large cluster using RDMA. Sometimes, there's
- > some congestion that causes the nvme host driver to time out (we use a
- > 4 second timeout).
- > Even though the host (initiator) times out and returns with an error
- > to userspace, we can see the buffer being written after the io
- > returned. This can obviously cause serious crashes and corruptions.
- > We suspect the same happens with writes but have yet to prove it.
- >
- > We think we can spot the root cause: 'nvme_rdma_error_recovery'
- > handles the timeout in an asynchronous manner. It queues a task for
- > reconnecting the nvme device. Until that task is executed by the
- > worker thread the qp is open and a rdma write can get through. Does
- > this make sense?
+This can happen when:
+--
+         /*
+          * If @rq->aborted_gstate equals the current instance, timeout is
+          * claiming @rq and we lost.  This is synchronized through
+          * hctx_lock().  See blk_mq_timeout_work() for details.
+          *
+          * Completion path never blocks and we can directly use RCU here
+          * instead of hctx_lock() which can be either RCU or SRCU.
+          * However, that would complicate paths which want to synchronize
+          * against us.  Let stay in sync with the issue path so that
+          * hctx_lock() covers both issue and completion paths.
+          */
+         hctx_lock(hctx, &srcu_idx);
+         if (blk_mq_rq_aborted_gstate(rq) != rq->gstate)
+                 __blk_mq_complete_request(rq);
+         hctx_unlock(hctx, srcu_idx);
+--
 
-Yes it does. The problem is that for I/O timeout kicking error recovery
-we don't make sure to either invalidate the rkey nor drain the rdma
-queue pair (either will do).
+Does this mean that the block driver must not assume that .complete will
+be called on a timed out request for sure?
 
-Does this patch help?
+Is this easy to reproduce Bart? Does this patch help?
 --
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2ef761b5a26e..856ae9a7615a 100644
+index 2ef761b5a26e..ffc9362a3a82 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -956,15 +956,15 @@ static void nvme_rdma_error_recovery_work(struct 
-work_struct *work)
+@@ -1585,6 +1585,11 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+                  "I/O %d QID %d timeout, reset controller\n",
+                  rq->tag, nvme_rdma_queue_idx(req->queue));
 
-         if (ctrl->ctrl.queue_count > 1) {
-                 nvme_stop_queues(&ctrl->ctrl);
-+               nvme_rdma_destroy_io_queues(ctrl, false);
-                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
-                                         nvme_cancel_request, &ctrl->ctrl);
--               nvme_rdma_destroy_io_queues(ctrl, false);
-         }
-
-         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+       nvme_rdma_destroy_admin_queue(ctrl, false);
-         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
-                                 nvme_cancel_request, &ctrl->ctrl);
--       nvme_rdma_destroy_admin_queue(ctrl, false);
-
-         /*
-          * queues are not a live anymore, so restart the queues to fail 
-fast
-@@ -1724,9 +1724,9 @@ static void nvme_rdma_shutdown_ctrl(struct 
-nvme_rdma_ctrl *ctrl, bool shutdown)
-
-         if (ctrl->ctrl.queue_count > 1) {
-                 nvme_stop_queues(&ctrl->ctrl);
-+               nvme_rdma_destroy_io_queues(ctrl, shutdown);
-                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
-                                         nvme_cancel_request, &ctrl->ctrl);
--               nvme_rdma_destroy_io_queues(ctrl, shutdown);
-         }
-
-         if (shutdown)
-@@ -1735,10 +1735,10 @@ static void nvme_rdma_shutdown_ctrl(struct 
-nvme_rdma_ctrl *ctrl, bool shutdown)
-                 nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
-
-         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+       nvme_rdma_destroy_admin_queue(ctrl, shutdown);
-         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
-                                 nvme_cancel_request, &ctrl->ctrl);
-         blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
--       nvme_rdma_destroy_admin_queue(ctrl, shutdown);
-  }
-
-  static void nvme_rdma_delete_ctrl(struct nvme_ctrl *ctrl)
++       if (req->mr) {
++               ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
++               req->mr = NULL;
++       }
++
+         /* queue error recovery */
+         nvme_rdma_error_recovery(req->queue->ctrl);
 --
