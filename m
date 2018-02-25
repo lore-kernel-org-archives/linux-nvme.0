@@ -1,28 +1,45 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Sun, 25 Feb 2018 16:18:52 +0000
-Subject: nvme-rdma corrupts memory upon timeout
-In-Reply-To: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
-References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
-Message-ID: <1519575531.3291.6.camel@wdc.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 25 Feb 2018 19:30:48 +0200
+Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
+In-Reply-To: <20180224000547.7252-1-keith.busch@intel.com>
+References: <20180224000547.7252-1-keith.busch@intel.com>
+Message-ID: <5662c6d9-0c87-6074-12b8-39db53ce3c7f@grimberg.me>
 
-On Sun, 2018-02-25@17:10 +0200, Alon Horev wrote:
-> We think we can spot the root cause: 'nvme_rdma_error_recovery'
-> handles the timeout in an asynchronous manner. It queues a task for
-> reconnecting the nvme device. Until that task is executed by the
-> worker thread the qp is open and a rdma write can get through. Does
-> this make sense?
+Hi Keith,
 
-I think it's fine that error recovery happens asynchronously. Other drivers
-(e.g. ib_srp) also use this approach. However, it seems to me that
-nvme_rdma_error_recovery_work() does not wait until ongoing RDMA transfers
-have finished. I think that's something that needs to be addressed. Has it
-been considered to insert an ib_drain_qp() call in that function?
+> NVMe namespace formats allow the possibility for metadata as extended
+> LBAs. These require the memory interleave block and metadata in a single
+> virtually contiguous buffer.
+> 
+> The Linux block layer, however, maintains metadata and data in separate
+> buffers, which is unusable for NVMe drives using interleaved metadata
+> formats.
 
-Another concern is that I think that there is a TOCTOU race in
-nvme_cancel_request(). Has it been considered to make that function call
-blk_abort_request() instead of blk_mq_request_started() +
-blk_mq_complete_request()?
+That's not specific for NVMe, I vaguely recall we had this discussion
+for passthru scsi devices (in scsi target context) 5 years ago...
+It makes sense for FC (and few RDMA devices) that already get
+interleaved metadata from the wire to keep it as is instead of
+scattering it if the backend nvme device supports interleaved mode...
 
-Thanks,
+I would say that this support for this is something that belongs in the
+block layer. IIRC mkp also expressed interest in using preadv2/pwritev2
+to for user-space to use DIF with some accounting on the iovec so maybe
+we can add a flag for interleaved metadata.
 
-Bart.
+> This patch will enable such formats by allocating a bounce buffer
+> interleaving the block and metadata, copying the everythign into the
+> buffer for writes, or from it for reads.
+> 
+> I dislike this feature intensely. It is incredibly slow and enough memory
+> overhead to make this not very useful for reclaim, but it's possible
+> people will leave me alone if the Linux nvme driver accomodated this
+> format.
+
+Not only that it will be non-useful, but probably unusable. Once upon of
+time iser did bounce buffering with large contiguous atomic allocations,
+it just doesn't work... especially with nvme large number of deep queues
+that can host commands of MDTS bytes each.
+
+If we end up keeping it private to nvme, the first comment I'd give you
+is to avoid high-order allocations, you'll see lots of bug reports
+otherwise...
