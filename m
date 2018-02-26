@@ -1,36 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 26 Feb 2018 14:37:13 +0200
-Subject: nvme-rdma corrupts memory upon timeout
-In-Reply-To: <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
-References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
- <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
- <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
- <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
-Message-ID: <cefc1ef2-4ffb-5d6c-c047-d6233a189843@grimberg.me>
+Date: Mon, 26 Feb 2018 14:46:24 +0200
+Subject: v4.16-rc2 nvme_rdma ib_destroy_qp() warns about MRs
+In-Reply-To: <d3e62a90-4a0b-fee0-7c78-5bd6e4dbab52@mellanox.com>
+References: <1519431811.2904.52.camel@wdc.com>
+ <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
+ <ca148f27-1b59-02a2-fc76-ee3e9a7edeb3@grimberg.me>
+ <d3e62a90-4a0b-fee0-7c78-5bd6e4dbab52@mellanox.com>
+Message-ID: <fe539ebe-68df-0f4a-11c3-7ef7990b2345@grimberg.me>
 
+> hi Sagi,
 
-> This patch still returns to userspace after queuing work and may
-> result in corruption.
+Hi Max,
 
-That's probably that one request being timed out as we complete
-it earlier.
+> I tried this patch but it still doesn't fix the issue.
+> this is the same issue I reported and discussed with Ming:
+> https://www.mail-archive.com/linux-block at vger.kernel.org/msg18559.html
 
-Does this patch on top help?
---
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index e793b0899d4e..50bbf88b82f6 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1590,10 +1590,7 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
-         /* queue error recovery */
-         nvme_rdma_error_recovery(req->queue->ctrl);
+Didn't follow the thread, wasn't CC'd on it.
 
--       /* fail with DNR on cmd timeout */
--       nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
--
--       return BLK_EH_HANDLED;
-+       return BLK_EH_RESET_TIMER;
-  }
+> we must somehow drain the commands that were pushed between 
+> blk_mq_quiesce_queue to blk_mq_unquiesce_queue. The timeout expires 
+> after we destroy the QP and there are MR missing in the pool.
 
-  /*
---
+Its a bug if .queue_rq is being invoked when the queue is quiesced. Have
+you actually seen this happen? IFF this is really happening, we can stop
+the rdma queues before we iterate on started requests (see a patch I
+suggested to Alon). With this, even requests that sneak in when the
+queues are quiesced will fail on nvme_rdma_is_ready(). but as said,
+I'm surprised this is even happening.
