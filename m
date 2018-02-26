@@ -1,32 +1,36 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Mon, 26 Feb 2018 11:21:52 +0000
-Subject: [PATCH 1/1] nvme: implement log page low/high offset and dwords
-In-Reply-To: <20180213124916.28653-2-mb@lightnvm.io>
-References: <20180213124916.28653-1-mb@lightnvm.io>
- <20180213124916.28653-2-mb@lightnvm.io>
-Message-ID: <4189F394-D92A-412A-B81F-FE27E7D302BC@cnexlabs.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 26 Feb 2018 14:37:13 +0200
+Subject: nvme-rdma corrupts memory upon timeout
+In-Reply-To: <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
+References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+ <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
+ <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
+ <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
+Message-ID: <cefc1ef2-4ffb-5d6c-c047-d6233a189843@grimberg.me>
 
-> On 13 Feb 2018,@13.49, Matias Bj?rling <mb@lightnvm.io> wrote:
-> 
-> NVMe 1.2.1 extends the get log page interface to include 64 bit
-> offset and increases the number of dwords to 32 bits. Implement
-> for future use.
-> 
-> Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
-> ---
-> drivers/nvme/host/core.c | 36 ++++++++++++++++++++++++------------
-> 1 file changed, 24 insertions(+), 12 deletions(-)
-> 
-> 
 
-Looks good to me.
+> This patch still returns to userspace after queuing work and may
+> result in corruption.
 
-Reviewed-by: Javier Gonz?lez <javier at cnexlabs.com>
+That's probably that one request being timed out as we complete
+it earlier.
 
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180226/a93ae2e8/attachment.sig>
+Does this patch on top help?
+--
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index e793b0899d4e..50bbf88b82f6 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1590,10 +1590,7 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+         /* queue error recovery */
+         nvme_rdma_error_recovery(req->queue->ctrl);
+
+-       /* fail with DNR on cmd timeout */
+-       nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
+-
+-       return BLK_EH_HANDLED;
++       return BLK_EH_RESET_TIMER;
+  }
+
+  /*
+--
