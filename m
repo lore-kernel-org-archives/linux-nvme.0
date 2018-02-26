@@ -1,40 +1,109 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Mon, 26 Feb 2018 14:17:05 +0100
-Subject: [PATCH 06/19] lightnvm: pblk: check for supported version
-In-Reply-To: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
-References: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519651038-16845-7-git-send-email-javier@cnexlabs.com>
+Date: Mon, 26 Feb 2018 14:16:59 +0100
+Subject: [PATCH V3 00/19] lightnvm: pblk: implement 2.0 support
+Message-ID: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
 
-At this point, only 1.2 spec is supported, thus check for it. Also,
-since device-side L2P is only supported in the 1.2 spec, make sure to
-only check its value under 1.2.
+# Changes since V2:
 
-Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
----
- drivers/lightnvm/pblk-init.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Apply Matias' feedback:
+ - Remove generic nvm_id identify structure.
+ - Do not remap capabilities (cap) to media and controlled capabilities
+   (mccap). Instead, add a comment to prevent confusion when
+   crosschecking with 2.0 spec.
+ - Change maxoc and maxocpu defaults from 1 block to the max number of
+   blocks.
+ - Re-implement the generic geometry to use nvm_geo on both device and
+   targets. Maintain nvm_common_geo to make it easier to copy the common
+   part of the geometry (without having to overwrite target-specific
+   fields, which is ugly and error prone). Matias, if you still want to
+   get rid of this, we can do it.
+ - Re-order patches with renaming to make them more meaningful. These
+   belong to the series, since the name changes are motivated by 2.0
+   inclusions. The only exception would be 36d10bfd3234, but I hope it
+   is OK I include it here.
 
-diff --git a/drivers/lightnvm/pblk-init.c b/drivers/lightnvm/pblk-init.c
-index 95ecb0ec736b..6e0567971cf6 100644
---- a/drivers/lightnvm/pblk-init.c
-+++ b/drivers/lightnvm/pblk-init.c
-@@ -990,9 +990,15 @@ static void *pblk_init(struct nvm_tgt_dev *dev, struct gendisk *tdisk,
- 	struct pblk *pblk;
- 	int ret;
- 
--	if (dev->geo.c.dom & NVM_RSP_L2P) {
-+	if (geo->c.version != NVM_OCSSD_SPEC_12) {
-+		pr_err("pblk: OCSSD version not supported (%u)\n",
-+							geo->c.version);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	if (geo->c.version == NVM_OCSSD_SPEC_12 && geo->c.dom & NVM_RSP_L2P) {
- 		pr_err("pblk: host-side L2P table not supported. (%x)\n",
--							dev->geo.c.dom);
-+							geo->c.dom);
- 		return ERR_PTR(-EINVAL);
- 	}
- 
+Also,
+ - Eliminate a dependency between luns and lines in the init/exit
+   refactoring.
+ - Use the global address format when possible to avoid defaulting on
+   the 1.2 path. This will safe headaches if the address format changes
+   at some point.
+
+I took out the patch allowing to do bit shifts on non power-of-2 media
+formats on pblk's mapping since it requires touching many places that
+are not 2.0 related. I'll submit this separately.
+
+# Changes since V1:
+
+Apply Matias' feedback:
+ - Rebase on top of Matias' latest patches.
+ - Use nvme_get_log_ext to submit report chunk and export it.
+ - Re-write report chunk based on Matias' suggestions. Here, I
+   maintained the lba interface, but it was necessary to redo the
+   address formatting to match the chunk log page format. For pblk,
+   this means a double address transformation, but it enables the
+   standard path to use lbas, plus, this is not in the fast path.
+ - Fold address format together with address transformations.
+ - Split the generic geometry patch in different patches.
+ - Remove refactoring of ligthnvm's core sysfs.
+
+Feedback not applied:
+ - Not letting pblk know about 1.2 and 2.0 bad block paths.
+   Since the interfaces for get/set bad block and report chunk are so
+   different, moving this logic to core adds assumptions on how the
+   targets would want to get the data back. A way of doing this is
+   creating a logical report chunk on the 1.2 path, but this would
+   mean that values like the wear-index are invalid, which requires
+   the target knowledge. I'm open to suggestions here.
+
+Also:
+ - Do some further renamings
+ - Create a generic address format to make it explicit where we share
+   1.2 and 2.0 fields to avoid address formatting in the fast path.
+ - Add new fields to sysfs to complete spec and show major/minor
+   versions (version and subversion to respect current interface).
+
+Implement 2.0 support in pblk. This includes the address formatting and
+mapping paths, as well as the sysfs entries for them.
+
+Javier
+
+Javier Gonz?lez (19):
+  lightnvm: simplify geometry structure.
+  lightnvm: add controller capabilities to 2.0
+  lightnvm: add minor version to generic geometry
+  lightnvm: add shorten OCSSD version in geo
+  lightnvm: complete geo structure with maxoc*
+  lightnvm: pblk: check for supported version
+  lightnvm: complete 2.0 values in sysfs
+  lightnvm: rename number of channels and luns
+  lightnvm: rename sect_* to sec_*
+  lightnvm: add support for 2.0 address format
+  lightnvm: pblk: rename ppaf* to addrf*
+  lightnvn: pblk: use generic address format
+  lightnvm: make address conversions depend on generic device
+  nvme: make nvme_get_log_ext available
+  lightnvm: implement get log report chunk helpers
+  lightnvm: define chunk states
+  lightnvm: pblk: implement get log report chunk
+  lightnvm: pblk: refactor init/exit sequences
+  lightnvm: pblk: implement 2.0 support
+
+ drivers/lightnvm/core.c          | 199 +++++-----
+ drivers/lightnvm/pblk-core.c     | 151 +++++--
+ drivers/lightnvm/pblk-gc.c       |   2 +-
+ drivers/lightnvm/pblk-init.c     | 833 +++++++++++++++++++++++----------------
+ drivers/lightnvm/pblk-map.c      |   4 +-
+ drivers/lightnvm/pblk-read.c     |   2 +-
+ drivers/lightnvm/pblk-recovery.c |  14 +-
+ drivers/lightnvm/pblk-rl.c       |   2 +-
+ drivers/lightnvm/pblk-sysfs.c    | 134 ++++++-
+ drivers/lightnvm/pblk-write.c    |   2 +-
+ drivers/lightnvm/pblk.h          | 255 ++++++++----
+ drivers/nvme/host/lightnvm.c     | 458 ++++++++++++++-------
+ drivers/nvme/host/nvme.h         |   3 +
+ include/linux/lightnvm.h         | 338 ++++++++++------
+ 14 files changed, 1559 insertions(+), 838 deletions(-)
+
 -- 
 2.7.4
