@@ -1,49 +1,37 @@
 From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Mon, 26 Feb 2018 18:21:13 +0000
-Subject: [PATCH] lightnvm: pblk: remove unused variable
-In-Reply-To: <423c58a6-afde-5ebe-6199-78ff2661d8ac@lightnvm.io>
-References: <1519651129-17897-1-git-send-email-javier@cnexlabs.com>
- <423c58a6-afde-5ebe-6199-78ff2661d8ac@lightnvm.io>
-Message-ID: <829B1AB7-A09B-4CA8-BA71-70B354E5E612@cnexlabs.com>
+Date: Mon, 26 Feb 2018 18:21:30 +0000
+Subject: [PATCH V3 00/19] lightnvm: pblk: implement 2.0 support
+In-Reply-To: <93f1a727-55bf-ff7c-bc05-70cc9f5f9f27@lightnvm.io>
+References: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
+ <93f1a727-55bf-ff7c-bc05-70cc9f5f9f27@lightnvm.io>
+Message-ID: <87859168-A64E-4FF6-9F7E-174A903704D0@cnexlabs.com>
 
-
-> On 26 Feb 2018,@19.20, Matias Bj?rling <mb@lightnvm.io> wrote:
+> On 26 Feb 2018,@19.19, Matias Bj?rling <mb@lightnvm.io> wrote:
 > 
-> On 02/26/2018 02:18 PM, Javier Gonz?lez wrote:
->> Remove unused variable after a previous cleanup (a8112b631adb)
->> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
->> ---
->>  drivers/lightnvm/pblk-core.c | 3 ---
->>  1 file changed, 3 deletions(-)
->> diff --git a/drivers/lightnvm/pblk-core.c b/drivers/lightnvm/pblk-core.c
->> index ce6a7cfdba66..e6cb4317bb50 100644
->> --- a/drivers/lightnvm/pblk-core.c
->> +++ b/drivers/lightnvm/pblk-core.c
->> @@ -1071,7 +1071,6 @@ static int pblk_line_init_bb(struct pblk *pblk, struct pblk_line *line,
->>  	struct nvm_geo *geo = &dev->geo;
->>  	struct pblk_line_meta *lm = &pblk->lm;
->>  	struct pblk_line_mgmt *l_mg = &pblk->l_mg;
->> -	int nr_bb = 0;
->>  	u64 off;
->>  	int bit = -1;
->>  	int emeta_secs;
->> @@ -1087,8 +1086,6 @@ static int pblk_line_init_bb(struct pblk *pblk, struct pblk_line *line,
->>  		bitmap_or(line->map_bitmap, line->map_bitmap, l_mg->bb_aux,
->>  							lm->sec_per_line);
->>  		line->sec_in_line -= geo->c.clba;
->> -		if (bit >= lm->emeta_bb)
->> -			nr_bb++;
->>  	}
->>    	/* Mark smeta metadata sectors as bad sectors */
+> On 02/26/2018 02:16 PM, Javier Gonz?lez wrote:
+>> # Changes since V2:
+>> Apply Matias' feedback:
+>>  - Remove generic nvm_id identify structure.
+>>  - Do not remap capabilities (cap) to media and controlled capabilities
+>>    (mccap). Instead, add a comment to prevent confusion when
+>>    crosschecking with 2.0 spec.
+>>  - Change maxoc and maxocpu defaults from 1 block to the max number of
+>>    blocks.
+>>  - Re-implement the generic geometry to use nvm_geo on both device and
+>>    targets. Maintain nvm_common_geo to make it easier to copy the common
+>>    part of the geometry (without having to overwrite target-specific
+>>    fields, which is ugly and error prone). Matias, if you still want to
+>>    get rid of this, we can do it.
 > 
-> Should Fixes be added?
+> I do, the variables should go directly in nvm_geo. Thanks.
 
-It's not a bug as such, that's why I didn't add it. But be welcome to do
-so if you think it's better.
+Ok. Is the rest ok with you?
+
+Javier
 -------------- next part --------------
 A non-text attachment was scrubbed...
 Name: signature.asc
 Type: application/pgp-signature
 Size: 833 bytes
 Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180226/33c21c90/attachment-0001.sig>
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180226/f51415d6/attachment.sig>
