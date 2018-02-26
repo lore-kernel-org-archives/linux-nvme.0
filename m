@@ -1,113 +1,67 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Mon, 26 Feb 2018 14:17:02 +0100
-Subject: [PATCH 03/19] lightnvm: add minor version to generic geometry
+Date: Mon, 26 Feb 2018 14:17:03 +0100
+Subject: [PATCH 04/19] lightnvm: add shorten OCSSD version in geo
 In-Reply-To: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
 References: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519651038-16845-4-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519651038-16845-5-git-send-email-javier@cnexlabs.com>
 
-Separate the version between major and minor on the generic geometry and
-represent it through sysfs in the 2.0 path. The 1.2 path only shows the major
-version to preserve the existing user space interface.
+Create a shorten version to use in the generic geometry.
 
 Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 ---
- drivers/lightnvm/core.c      |  4 ++--
- drivers/nvme/host/lightnvm.c | 25 ++++++++++++++++++++-----
- include/linux/lightnvm.h     |  3 ++-
- 3 files changed, 24 insertions(+), 8 deletions(-)
+ drivers/nvme/host/lightnvm.c | 6 ++++++
+ include/linux/lightnvm.h     | 8 ++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-index 43e3d6bb5be6..96f4e62d383b 100644
---- a/drivers/lightnvm/core.c
-+++ b/drivers/lightnvm/core.c
-@@ -897,8 +897,8 @@ static int nvm_init(struct nvm_dev *dev)
- 		goto err;
- 	}
- 
--	pr_debug("nvm: ver:%u nvm_vendor:%x\n",
--				dev_geo->ver_id,
-+	pr_debug("nvm: ver:%u.%u nvm_vendor:%x\n",
-+				dev_geo->major_ver_id, dev_geo->minor_ver_id,
- 				dev_geo->c.vmnt);
- 
- 	ret = nvm_core_init(dev);
 diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 10392a664b50..8befb60eeacb 100644
+index 8befb60eeacb..a48950a37b8d 100644
 --- a/drivers/nvme/host/lightnvm.c
 +++ b/drivers/nvme/host/lightnvm.c
-@@ -295,7 +295,9 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
- 		return -EINVAL;
- 	}
+@@ -299,6 +299,9 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
+ 	dev_geo->major_ver_id = id->ver_id;
+ 	dev_geo->minor_ver_id = 2;
  
--	dev_geo->ver_id = id->ver_id;
-+	/* 1.2 spec. only reports a single version id - unfold */
-+	dev_geo->major_ver_id = id->ver_id;
-+	dev_geo->minor_ver_id = 2;
- 
++	/* Set compacted version for upper layers */
++	dev_geo->c.version = NVM_OCSSD_SPEC_12;
++
  	dev_geo->nr_chnls = src->num_ch;
  	dev_geo->nr_luns = src->num_lun;
-@@ -380,7 +382,14 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
- static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
- 			     struct nvm_geo *dev_geo)
- {
--	dev_geo->ver_id = id->mjr;
-+	dev_geo->major_ver_id = id->mjr;
-+	dev_geo->minor_ver_id = id->mnr;
+ 	dev_geo->all_luns = dev_geo->nr_chnls * dev_geo->nr_luns;
+@@ -385,6 +388,9 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
+ 	dev_geo->major_ver_id = id->mjr;
+ 	dev_geo->minor_ver_id = id->mnr;
+ 
++	/* Set compacted version for upper layers */
++	dev_geo->c.version = NVM_OCSSD_SPEC_20;
 +
-+	if (!(dev_geo->major_ver_id == 2 && dev_geo->minor_ver_id == 0)) {
-+		pr_err("nvm: OCSSD version not supported (v%d.%d)\n",
-+				dev_geo->major_ver_id, dev_geo->minor_ver_id);
-+		return -EINVAL;
-+	}
- 
- 	dev_geo->nr_chnls = le16_to_cpu(id->num_grp);
- 	dev_geo->nr_luns = le16_to_cpu(id->num_pu);
-@@ -920,7 +929,13 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
- 	attr = &dattr->attr;
- 
- 	if (strcmp(attr->name, "version") == 0) {
--		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->ver_id);
-+		if (dev_geo->major_ver_id == 1)
-+			return scnprintf(page, PAGE_SIZE, "%u\n",
-+						dev_geo->major_ver_id);
-+		else
-+			return scnprintf(page, PAGE_SIZE, "%u.%u\n",
-+						dev_geo->major_ver_id,
-+						dev_geo->minor_ver_id);
- 	} else if (strcmp(attr->name, "capabilities") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.cap);
- 	} else if (strcmp(attr->name, "read_typ") == 0) {
-@@ -1174,7 +1189,7 @@ int nvme_nvm_register_sysfs(struct nvme_ns *ns)
- 	if (!ndev)
- 		return -EINVAL;
- 
--	switch (dev_geo->ver_id) {
-+	switch (dev_geo->major_ver_id) {
- 	case 1:
- 		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
- 					&nvm_dev_attr_group_12);
-@@ -1191,7 +1206,7 @@ void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
- 	struct nvm_dev *ndev = ns->ndev;
- 	struct nvm_geo *dev_geo = &ndev->geo;
- 
--	switch (dev_geo->ver_id) {
-+	switch (dev_geo->major_ver_id) {
- 	case 1:
- 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
- 					&nvm_dev_attr_group_12);
+ 	if (!(dev_geo->major_ver_id == 2 && dev_geo->minor_ver_id == 0)) {
+ 		pr_err("nvm: OCSSD version not supported (v%d.%d)\n",
+ 				dev_geo->major_ver_id, dev_geo->minor_ver_id);
 diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index 42704c4ca9af..ccaf8a30202d 100644
+index ccaf8a30202d..57d00644a1c6 100644
 --- a/include/linux/lightnvm.h
 +++ b/include/linux/lightnvm.h
-@@ -309,7 +309,8 @@ struct nvm_common_geo {
- /* Instance geometry */
- struct nvm_geo {
- 	/* device reported version */
--	u8	ver_id;
-+	u8	major_ver_id;
-+	u8	minor_ver_id;
+@@ -23,6 +23,11 @@ enum {
+ #define NVM_LUN_BITS (8)
+ #define NVM_CH_BITS  (7)
  
- 	/* instance specific geometry */
- 	int nr_chnls;
++enum {
++	NVM_OCSSD_SPEC_12 = 12,
++	NVM_OCSSD_SPEC_20 = 20,
++};
++
+ struct ppa_addr {
+ 	/* Generic structure for all addresses */
+ 	union {
+@@ -262,6 +267,9 @@ enum {
+ 
+ /* Device common geometry */
+ struct nvm_common_geo {
++	/* kernel short version */
++	u8	version;
++
+ 	/* chunk geometry */
+ 	u32	num_chk;	/* chunks per lun */
+ 	u32	clba;		/* sectors per chunk */
 -- 
 2.7.4
