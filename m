@@ -1,19 +1,40 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 26 Feb 2018 14:02:30 +0100
-Subject: [PATCH v2 1/1] nvme: implement log page low/high offset and dwords
-In-Reply-To: <20180226125540.9513-2-mb@lightnvm.io> ("Matias =?utf-8?Q?Bj?=
- =?utf-8?Q?=C3=B8rling=22's?=
- message of "Mon, 26 Feb 2018 13:55:40 +0100")
-References: <20180226125540.9513-1-mb@lightnvm.io>
- <20180226125540.9513-2-mb@lightnvm.io>
-Message-ID: <mqdy3jfc3a1.fsf@linux-x5ow.site>
+From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Mon, 26 Feb 2018 14:17:05 +0100
+Subject: [PATCH 06/19] lightnvm: pblk: check for supported version
+In-Reply-To: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
+References: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519651038-16845-7-git-send-email-javier@cnexlabs.com>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+At this point, only 1.2 spec is supported, thus check for it. Also,
+since device-side L2P is only supported in the 1.2 spec, make sure to
+only check its value under 1.2.
+
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+---
+ drivers/lightnvm/pblk-init.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/lightnvm/pblk-init.c b/drivers/lightnvm/pblk-init.c
+index 95ecb0ec736b..6e0567971cf6 100644
+--- a/drivers/lightnvm/pblk-init.c
++++ b/drivers/lightnvm/pblk-init.c
+@@ -990,9 +990,15 @@ static void *pblk_init(struct nvm_tgt_dev *dev, struct gendisk *tdisk,
+ 	struct pblk *pblk;
+ 	int ret;
+ 
+-	if (dev->geo.c.dom & NVM_RSP_L2P) {
++	if (geo->c.version != NVM_OCSSD_SPEC_12) {
++		pr_err("pblk: OCSSD version not supported (%u)\n",
++							geo->c.version);
++		return ERR_PTR(-EINVAL);
++	}
++
++	if (geo->c.version == NVM_OCSSD_SPEC_12 && geo->c.dom & NVM_RSP_L2P) {
+ 		pr_err("pblk: host-side L2P table not supported. (%x)\n",
+-							dev->geo.c.dom);
++							geo->c.dom);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.7.4
