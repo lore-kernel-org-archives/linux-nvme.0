@@ -1,134 +1,102 @@
-From: alon@vastdata.com (Alon Horev)
-Date: Mon, 26 Feb 2018 09:53:50 +0200
-Subject: nvme-rdma corrupts memory upon timeout
-In-Reply-To: <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
-References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
- <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
- <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
-Message-ID: <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
+From: baegjae@gmail.com (baegjae@gmail.com)
+Date: Mon, 26 Feb 2018 17:51:23 +0900
+Subject: [PATCH] nvme-multipath: fix sysfs dangerously created links
+Message-ID: <20180226085123.26120-1-baegjae@gmail.com>
 
-This patch still returns to userspace after queuing work and may
-result in corruption. Maybe we can flush the work queue after a
-timeout?
-Just to put things in perspective, we have around 100 subsystems
-connected on a single host. This means the time frame between queuing
-and execution may be larger than usual.
+From: Baegjae Sung <baegjae@gmail.com>
 
-Thanks, Alon
+If multipathing is enabled, each NVMe subsystem creates a head
+namespace (e.g., nvme0n1) and multiple private namespaces
+(e.g., nvme0c0n1 and nvme0c1n1) in sysfs. When creating links for
+private namespaces, links of head namespace are used, so the
+namespace creation order must be followed (e.g., nvme0n1 ->
+nvme0c1n1). If the order is not followed, links of sysfs will be
+incomplete or kernel panic will occur.
 
-On Sun, Feb 25, 2018@8:14 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->
->> Does this patch help?
->> --
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 2ef761b5a26e..856ae9a7615a 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -956,15 +956,15 @@ static void nvme_rdma_error_recovery_work(struct
->> work_struct *work)
->>
->>          if (ctrl->ctrl.queue_count > 1) {
->>                  nvme_stop_queues(&ctrl->ctrl);
->> +               nvme_rdma_destroy_io_queues(ctrl, false);
->>                  blk_mq_tagset_busy_iter(&ctrl->tag_set,
->>                                          nvme_cancel_request,
->> &ctrl->ctrl);
->> -               nvme_rdma_destroy_io_queues(ctrl, false);
->>          }
->>
->>          blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->> +       nvme_rdma_destroy_admin_queue(ctrl, false);
->>          blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->>                                  nvme_cancel_request, &ctrl->ctrl);
->> -       nvme_rdma_destroy_admin_queue(ctrl, false);
->>
->>          /*
->>           * queues are not a live anymore, so restart the queues to fail
->> fast
->> @@ -1724,9 +1724,9 @@ static void nvme_rdma_shutdown_ctrl(struct
->> nvme_rdma_ctrl *ctrl, bool shutdown)
->>
->>          if (ctrl->ctrl.queue_count > 1) {
->>                  nvme_stop_queues(&ctrl->ctrl);
->> +               nvme_rdma_destroy_io_queues(ctrl, shutdown);
->>                  blk_mq_tagset_busy_iter(&ctrl->tag_set,
->>                                          nvme_cancel_request,
->> &ctrl->ctrl);
->> -               nvme_rdma_destroy_io_queues(ctrl, shutdown);
->>          }
->>
->>          if (shutdown)
->> @@ -1735,10 +1735,10 @@ static void nvme_rdma_shutdown_ctrl(struct
->> nvme_rdma_ctrl *ctrl, bool shutdown)
->>                  nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
->>
->>          blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
->> +       nvme_rdma_destroy_admin_queue(ctrl, shutdown);
->>          blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->>                                  nvme_cancel_request, &ctrl->ctrl);
->>          blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
->> -       nvme_rdma_destroy_admin_queue(ctrl, shutdown);
->>   }
->>
->>   static void nvme_rdma_delete_ctrl(struct nvme_ctrl *ctrl)
->> --
->
->
-> Or maybe this should do a better job:
-> --
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 4c32518a6c81..e45801fe78c1 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -956,12 +956,14 @@ static void nvme_rdma_error_recovery_work(struct
-> work_struct *work)
->
->         if (ctrl->ctrl.queue_count > 1) {
->                 nvme_stop_queues(&ctrl->ctrl);
-> +               nvme_rdma_stop_io_queues(ctrl);
->                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
->                                         nvme_cancel_request, &ctrl->ctrl);
->                 nvme_rdma_destroy_io_queues(ctrl, false);
->         }
->
->         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-> +       nvme_rdma_stop_queue(&ctrl->queues[0]);
->         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->                                 nvme_cancel_request, &ctrl->ctrl);
->         nvme_rdma_destroy_admin_queue(ctrl, false);
-> @@ -1729,9 +1731,12 @@ static void nvme_rdma_shutdown_ctrl(struct
-> nvme_rdma_ctrl *ctrl, bool shutdown)
->
->         if (ctrl->ctrl.queue_count > 1) {
->                 nvme_stop_queues(&ctrl->ctrl);
-> +               nvme_rdma_stop_io_queues(ctrl);
->                 blk_mq_tagset_busy_iter(&ctrl->tag_set,
->                                         nvme_cancel_request, &ctrl->ctrl);
->                 nvme_rdma_destroy_io_queues(ctrl, shutdown);
-> +               if (shutdown)
-> +                       nvme_start_queues(&ctrl->ctrl);
->         }
->
->         if (shutdown)
-> @@ -1740,10 +1745,11 @@ static void nvme_rdma_shutdown_ctrl(struct
-> nvme_rdma_ctrl *ctrl, bool shutdown)
->                 nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
->
->         blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-> +       nvme_rdma_stop_queue(&ctrl->queues[0]);
->         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->                                 nvme_cancel_request, &ctrl->ctrl);
-> -       blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
->         nvme_rdma_destroy_admin_queue(ctrl, shutdown);
-> +       blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
->
->  }
->
->  static void nvme_rdma_delete_ctrl(struct nvme_ctrl *ctrl)
-> --
+The kernel panic was:
+  kernel BUG at fs/sysfs/symlink.c:27!
+  Call Trace:
+    nvme_mpath_add_disk_links+0x5d/0x80 [nvme_core]
+    nvme_validate_ns+0x5c2/0x850 [nvme_core]
+    nvme_scan_work+0x1af/0x2d0 [nvme_core]
 
+Correct order
+Context A     Context B
+nvme0n1
+nvme0c0n1     nvme0c1n1
 
+Incorrect order
+Context A     Context B
+              nvme0c1n1
+nvme0n1
+nvme0c0n1
 
+The function of a head namespace creation is moved to maintain the
+correct order. We verified the code with or without multipathing
+using three vendors of dual-port NVMe SSDs.
+
+Signed-off-by: Baegjae Sung <baegjae at gmail.com>
+---
+ drivers/nvme/host/core.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0fe7ea35c221..28777b7352a5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2844,7 +2844,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ }
+ 
+ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+-		struct nvme_id_ns *id, bool *new)
++		struct nvme_id_ns *id)
+ {
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	bool is_shared = id->nmic & (1 << 0);
+@@ -2860,8 +2860,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 			ret = PTR_ERR(head);
+ 			goto out_unlock;
+ 		}
+-
+-		*new = true;
++		nvme_mpath_add_disk(head);
+ 	} else {
+ 		struct nvme_ns_ids ids;
+ 
+@@ -2873,8 +2872,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 			ret = -EINVAL;
+ 			goto out_unlock;
+ 		}
+-
+-		*new = false;
+ 	}
+ 
+ 	list_add_tail(&ns->siblings, &head->list);
+@@ -2945,7 +2942,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	struct nvme_id_ns *id;
+ 	char disk_name[DISK_NAME_LEN];
+ 	int node = dev_to_node(ctrl->dev), flags = GENHD_FL_EXT_DEVT;
+-	bool new = true;
+ 
+ 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+ 	if (!ns)
+@@ -2971,7 +2967,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	if (id->ncap == 0)
+ 		goto out_free_id;
+ 
+-	if (nvme_init_ns_head(ns, nsid, id, &new))
++	if (nvme_init_ns_head(ns, nsid, id))
+ 		goto out_free_id;
+ 	nvme_setup_streams_ns(ctrl, ns);
+ 	
+@@ -3037,8 +3033,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+ 			ns->disk->disk_name);
+ 
+-	if (new)
+-		nvme_mpath_add_disk(ns->head);
+ 	nvme_mpath_add_disk_links(ns);
+ 	return;
+  out_unlink_ns:
 -- 
-Alon Horev
-+972-524-517-627
+2.16.2
