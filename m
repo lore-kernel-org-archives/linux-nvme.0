@@ -1,38 +1,62 @@
 From: bart.vanassche@wdc.com (Bart Van Assche)
-Date: Mon, 26 Feb 2018 11:06:09 -0800
-Subject: v4.16-rc2 nvme_rdma ib_destroy_qp() warns about MRs
-In-Reply-To: <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
-References: <1519431811.2904.52.camel@wdc.com>
- <7b1527ec-8c2f-6bc6-37f8-56053882b328@grimberg.me>
-Message-ID: <c93f2454-c997-c7b9-5489-93b64ee510da@wdc.com>
+Date: Mon, 26 Feb 2018 14:20:09 -0800
+Subject: nvme-rdma corrupts memory upon timeout
+In-Reply-To: <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
+References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+ <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
+ <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
+Message-ID: <ef8b9261-acac-4473-2267-b53c6c247806@wdc.com>
 
-On 02/25/18 10:02, Sagi Grimberg wrote:
-> Is this easy to reproduce Bart?
-
-Yes, this behavior is 100% reproducible.
-
-> Does this patch help?
+On 02/25/18 10:14, Sagi Grimberg wrote:
+> Or maybe this should do a better job:
 > -- 
 > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 2ef761b5a26e..ffc9362a3a82 100644
+> index 4c32518a6c81..e45801fe78c1 100644
 > --- a/drivers/nvme/host/rdma.c
 > +++ b/drivers/nvme/host/rdma.c
-> @@ -1585,6 +1585,11 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
->  ???????????????? "I/O %d QID %d timeout, reset controller\n",
->  ???????????????? rq->tag, nvme_rdma_queue_idx(req->queue));
+> @@ -956,12 +956,14 @@ static void nvme_rdma_error_recovery_work(struct 
+> work_struct *work)
 > 
-> +?????? if (req->mr) {
-> +?????????????? ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, req->mr);
-> +?????????????? req->mr = NULL;
-> +?????? }
-> +
->  ??????? /* queue error recovery */
->  ??????? nvme_rdma_error_recovery(req->queue->ctrl);
+>  ??????? if (ctrl->ctrl.queue_count > 1) {
+>  ??????????????? nvme_stop_queues(&ctrl->ctrl);
+> +?????????????? nvme_rdma_stop_io_queues(ctrl);
+>  ??????????????? blk_mq_tagset_busy_iter(&ctrl->tag_set,
+>  ??????????????????????????????????????? nvme_cancel_request, &ctrl->ctrl);
+>  ??????????????? nvme_rdma_destroy_io_queues(ctrl, false);
+>  ??????? }
+> 
+>  ??????? blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
+> +?????? nvme_rdma_stop_queue(&ctrl->queues[0]);
+>  ??????? blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+>  ??????????????????????????????? nvme_cancel_request, &ctrl->ctrl);
 
 Hello Sagi,
 
-Has this patch perhaps been superseded by the BLK_EH_RESET_TIMER patch 
-that you sent to Alon?
+With this change applied, I think what nvme_rdma_error_recovery_work() 
+does for I/O and admin queues is as follows:
+- Call blk_mq_quiesce_queue() to wait concurrent .queue_rq() calls have
+   finished.
+- Call nvme_rdma_stop_io_queues() to change the QP state into "error"
+   and to wait until all RDMA completions have been processed.
+- Call blk_mq_tagset_busy_iter() to cancel any pending block layer
+   requests.
+- Call blk_mq_unfreeze_queue() to resume the request queues.
+- Call nvme_rdma_reconnect_or_remove().
+
+The above patch seems like an improvement to me but I don't think that 
+it fixes the race between nvme_cancel_request() and 
+nvme_rdma_queue_rq(). Has it been considered to modify 
+nvme_rdma_error_recovery_work() as follows:
+* Clear NVME_RDMA_Q_LIVE.
+* Change the RDMA QP state into "error".
+* Freeze and unfreeze the block layer request queue. The freeze will
+   wait until all pending requests have finished.
+* Call nvme_rdma_reconnect_or_remove().
+
+That last sequence has the following advantages:
+* Draining the RDMA QP explicitly is no longer necessary.
+* It fixes the race with nvme_cancel_request() by not calling
+   nvme_cancel_request().
 
 Thanks,
 
