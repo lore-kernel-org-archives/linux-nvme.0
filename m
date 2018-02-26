@@ -1,49 +1,105 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Mon, 26 Feb 2018 14:17:06 +0100
-Subject: [PATCH 07/19] lightnvm: complete 2.0 values in sysfs
+Date: Mon, 26 Feb 2018 14:17:12 +0100
+Subject: [PATCH 13/19] lightnvm: make address conversions depend on generic
+ device
 In-Reply-To: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
 References: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519651038-16845-8-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519651038-16845-14-git-send-email-javier@cnexlabs.com>
 
-Add missing geometry values to sysfs. Namely, maxoc and maxocpu.
+On address conversions, use the generic device, instead of the target
+device. This allows to use conversions outside of the target's realm.
 
 Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 ---
- drivers/nvme/host/lightnvm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/lightnvm/core.c  |  4 ++--
+ include/linux/lightnvm.h | 20 ++++++++++----------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index a8f35e8b7953..4ea553c91756 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -1066,6 +1066,10 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
- 		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_min);
- 	} else if (strcmp(attr->name, "ws_opt") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.ws_opt);
-+	} else if (strcmp(attr->name, "maxoc") == 0) {
-+		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.maxoc);
-+	} else if (strcmp(attr->name, "maxocpu") == 0) {
-+		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.maxocpu);
- 	} else if (strcmp(attr->name, "mw_cunits") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "%u\n", dev_geo->c.mw_cunits);
- 	} else if (strcmp(attr->name, "write_typ") == 0) {
-@@ -1163,6 +1167,8 @@ static NVM_DEV_ATTR_20_RO(chunks);
- static NVM_DEV_ATTR_20_RO(clba);
- static NVM_DEV_ATTR_20_RO(ws_min);
- static NVM_DEV_ATTR_20_RO(ws_opt);
-+static NVM_DEV_ATTR_20_RO(maxoc);
-+static NVM_DEV_ATTR_20_RO(maxocpu);
- static NVM_DEV_ATTR_20_RO(mw_cunits);
- static NVM_DEV_ATTR_20_RO(write_typ);
- static NVM_DEV_ATTR_20_RO(write_max);
-@@ -1179,6 +1185,8 @@ static struct attribute *nvm_dev_attrs_20[] = {
- 	&dev_attr_clba.attr,
- 	&dev_attr_ws_min.attr,
- 	&dev_attr_ws_opt.attr,
-+	&dev_attr_maxoc.attr,
-+	&dev_attr_maxocpu.attr,
- 	&dev_attr_mw_cunits.attr,
+diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+index 92ea6e39dd64..fae5e8c6fcd0 100644
+--- a/drivers/lightnvm/core.c
++++ b/drivers/lightnvm/core.c
+@@ -588,7 +588,7 @@ static void nvm_ppa_tgt_to_dev(struct nvm_tgt_dev *tgt_dev,
  
- 	&dev_attr_read_typ.attr,
+ 	for (i = 0; i < nr_ppas; i++) {
+ 		nvm_map_to_dev(tgt_dev, &ppa_list[i]);
+-		ppa_list[i] = generic_to_dev_addr(tgt_dev, ppa_list[i]);
++		ppa_list[i] = generic_to_dev_addr(tgt_dev->parent, ppa_list[i]);
+ 	}
+ }
+ 
+@@ -598,7 +598,7 @@ static void nvm_ppa_dev_to_tgt(struct nvm_tgt_dev *tgt_dev,
+ 	int i;
+ 
+ 	for (i = 0; i < nr_ppas; i++) {
+-		ppa_list[i] = dev_to_generic_addr(tgt_dev, ppa_list[i]);
++		ppa_list[i] = dev_to_generic_addr(tgt_dev->parent, ppa_list[i]);
+ 		nvm_map_to_tgt(tgt_dev, &ppa_list[i]);
+ 	}
+ }
+diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+index 8cda1125c34a..2b909592568a 100644
+--- a/include/linux/lightnvm.h
++++ b/include/linux/lightnvm.h
+@@ -405,15 +405,15 @@ struct nvm_dev {
+ 	struct list_head targets;
+ };
+ 
+-static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
++static inline struct ppa_addr generic_to_dev_addr(struct nvm_dev *dev,
+ 						  struct ppa_addr r)
+ {
+-	struct nvm_geo *geo = &tgt_dev->geo;
++	struct nvm_geo *dev_geo = &dev->geo;
+ 	struct ppa_addr l;
+ 
+-	if (geo->c.version == NVM_OCSSD_SPEC_12) {
++	if (dev_geo->c.version == NVM_OCSSD_SPEC_12) {
+ 		struct nvm_addr_format_12 *ppaf =
+-				(struct nvm_addr_format_12 *)&geo->c.addrf;
++				(struct nvm_addr_format_12 *)&dev_geo->c.addrf;
+ 
+ 		l.ppa = ((u64)r.g.ch) << ppaf->ch_offset;
+ 		l.ppa |= ((u64)r.g.lun) << ppaf->lun_offset;
+@@ -422,7 +422,7 @@ static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
+ 		l.ppa |= ((u64)r.g.pl) << ppaf->pln_offset;
+ 		l.ppa |= ((u64)r.g.sec) << ppaf->sec_offset;
+ 	} else {
+-		struct nvm_addr_format *lbaf = &geo->c.addrf;
++		struct nvm_addr_format *lbaf = &dev_geo->c.addrf;
+ 
+ 		l.ppa = ((u64)r.m.grp) << lbaf->ch_offset;
+ 		l.ppa |= ((u64)r.m.pu) << lbaf->lun_offset;
+@@ -433,17 +433,17 @@ static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
+ 	return l;
+ }
+ 
+-static inline struct ppa_addr dev_to_generic_addr(struct nvm_tgt_dev *tgt_dev,
++static inline struct ppa_addr dev_to_generic_addr(struct nvm_dev *dev,
+ 						  struct ppa_addr r)
+ {
+-	struct nvm_geo *geo = &tgt_dev->geo;
++	struct nvm_geo *dev_geo = &dev->geo;
+ 	struct ppa_addr l;
+ 
+ 	l.ppa = 0;
+ 
+-	if (geo->c.version == NVM_OCSSD_SPEC_12) {
++	if (dev_geo->c.version == NVM_OCSSD_SPEC_12) {
+ 		struct nvm_addr_format_12 *ppaf =
+-				(struct nvm_addr_format_12 *)&geo->c.addrf;
++				(struct nvm_addr_format_12 *)&dev_geo->c.addrf;
+ 
+ 		l.g.ch = (r.ppa & ppaf->ch_mask) >> ppaf->ch_offset;
+ 		l.g.lun = (r.ppa & ppaf->lun_mask) >> ppaf->lun_offset;
+@@ -452,7 +452,7 @@ static inline struct ppa_addr dev_to_generic_addr(struct nvm_tgt_dev *tgt_dev,
+ 		l.g.pl = (r.ppa & ppaf->pln_mask) >> ppaf->pln_offset;
+ 		l.g.sec = (r.ppa & ppaf->sec_mask) >> ppaf->sec_offset;
+ 	} else {
+-		struct nvm_addr_format *lbaf = &geo->c.addrf;
++		struct nvm_addr_format *lbaf = &dev_geo->c.addrf;
+ 
+ 		l.m.grp = (r.ppa & lbaf->ch_mask) >> lbaf->ch_offset;
+ 		l.m.pu = (r.ppa & lbaf->lun_mask) >> lbaf->lun_offset;
 -- 
 2.7.4
