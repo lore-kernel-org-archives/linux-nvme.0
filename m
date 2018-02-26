@@ -1,109 +1,65 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Mon, 26 Feb 2018 14:16:59 +0100
-Subject: [PATCH V3 00/19] lightnvm: pblk: implement 2.0 support
-Message-ID: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
+Date: Mon, 26 Feb 2018 14:17:01 +0100
+Subject: [PATCH 02/19] lightnvm: add controller capabilities to 2.0
+In-Reply-To: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
+References: <1519651038-16845-1-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519651038-16845-3-git-send-email-javier@cnexlabs.com>
 
-# Changes since V2:
+Assign missing mccap value on 2.0 path
 
-Apply Matias' feedback:
- - Remove generic nvm_id identify structure.
- - Do not remap capabilities (cap) to media and controlled capabilities
-   (mccap). Instead, add a comment to prevent confusion when
-   crosschecking with 2.0 spec.
- - Change maxoc and maxocpu defaults from 1 block to the max number of
-   blocks.
- - Re-implement the generic geometry to use nvm_geo on both device and
-   targets. Maintain nvm_common_geo to make it easier to copy the common
-   part of the geometry (without having to overwrite target-specific
-   fields, which is ugly and error prone). Matias, if you still want to
-   get rid of this, we can do it.
- - Re-order patches with renaming to make them more meaningful. These
-   belong to the series, since the name changes are motivated by 2.0
-   inclusions. The only exception would be 36d10bfd3234, but I hope it
-   is OK I include it here.
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+---
+ drivers/nvme/host/lightnvm.c | 4 +++-
+ include/linux/lightnvm.h     | 8 +++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-Also,
- - Eliminate a dependency between luns and lines in the init/exit
-   refactoring.
- - Use the global address format when possible to avoid defaulting on
-   the 1.2 path. This will safe headaches if the address format changes
-   at some point.
-
-I took out the patch allowing to do bit shifts on non power-of-2 media
-formats on pblk's mapping since it requires touching many places that
-are not 2.0 related. I'll submit this separately.
-
-# Changes since V1:
-
-Apply Matias' feedback:
- - Rebase on top of Matias' latest patches.
- - Use nvme_get_log_ext to submit report chunk and export it.
- - Re-write report chunk based on Matias' suggestions. Here, I
-   maintained the lba interface, but it was necessary to redo the
-   address formatting to match the chunk log page format. For pblk,
-   this means a double address transformation, but it enables the
-   standard path to use lbas, plus, this is not in the fast path.
- - Fold address format together with address transformations.
- - Split the generic geometry patch in different patches.
- - Remove refactoring of ligthnvm's core sysfs.
-
-Feedback not applied:
- - Not letting pblk know about 1.2 and 2.0 bad block paths.
-   Since the interfaces for get/set bad block and report chunk are so
-   different, moving this logic to core adds assumptions on how the
-   targets would want to get the data back. A way of doing this is
-   creating a logical report chunk on the 1.2 path, but this would
-   mean that values like the wear-index are invalid, which requires
-   the target knowledge. I'm open to suggestions here.
-
-Also:
- - Do some further renamings
- - Create a generic address format to make it explicit where we share
-   1.2 and 2.0 fields to avoid address formatting in the fast path.
- - Add new fields to sysfs to complete spec and show major/minor
-   versions (version and subversion to respect current interface).
-
-Implement 2.0 support in pblk. This includes the address formatting and
-mapping paths, as well as the sysfs entries for them.
-
-Javier
-
-Javier Gonz?lez (19):
-  lightnvm: simplify geometry structure.
-  lightnvm: add controller capabilities to 2.0
-  lightnvm: add minor version to generic geometry
-  lightnvm: add shorten OCSSD version in geo
-  lightnvm: complete geo structure with maxoc*
-  lightnvm: pblk: check for supported version
-  lightnvm: complete 2.0 values in sysfs
-  lightnvm: rename number of channels and luns
-  lightnvm: rename sect_* to sec_*
-  lightnvm: add support for 2.0 address format
-  lightnvm: pblk: rename ppaf* to addrf*
-  lightnvn: pblk: use generic address format
-  lightnvm: make address conversions depend on generic device
-  nvme: make nvme_get_log_ext available
-  lightnvm: implement get log report chunk helpers
-  lightnvm: define chunk states
-  lightnvm: pblk: implement get log report chunk
-  lightnvm: pblk: refactor init/exit sequences
-  lightnvm: pblk: implement 2.0 support
-
- drivers/lightnvm/core.c          | 199 +++++-----
- drivers/lightnvm/pblk-core.c     | 151 +++++--
- drivers/lightnvm/pblk-gc.c       |   2 +-
- drivers/lightnvm/pblk-init.c     | 833 +++++++++++++++++++++++----------------
- drivers/lightnvm/pblk-map.c      |   4 +-
- drivers/lightnvm/pblk-read.c     |   2 +-
- drivers/lightnvm/pblk-recovery.c |  14 +-
- drivers/lightnvm/pblk-rl.c       |   2 +-
- drivers/lightnvm/pblk-sysfs.c    | 134 ++++++-
- drivers/lightnvm/pblk-write.c    |   2 +-
- drivers/lightnvm/pblk.h          | 255 ++++++++----
- drivers/nvme/host/lightnvm.c     | 458 ++++++++++++++-------
- drivers/nvme/host/nvme.h         |   3 +
- include/linux/lightnvm.h         | 338 ++++++++++------
- 14 files changed, 1559 insertions(+), 838 deletions(-)
-
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 8f541331b1a9..10392a664b50 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -318,7 +318,7 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
+ 	dev_geo->c.ws_opt = sec_per_pg;
+ 	dev_geo->c.mw_cunits = 8;		/* default to MLC safe values */
+ 
+-	dev_geo->c.mccap = le32_to_cpu(src->mccap);
++	dev_geo->c.cap = le32_to_cpu(src->mccap);
+ 
+ 	dev_geo->c.trdt = le32_to_cpu(src->trdt);
+ 	dev_geo->c.trdm = le32_to_cpu(src->trdm);
+@@ -399,6 +399,8 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
+ 	dev_geo->c.ws_opt = le32_to_cpu(id->ws_opt);
+ 	dev_geo->c.mw_cunits = le32_to_cpu(id->mw_cunits);
+ 
++	dev_geo->c.cap = le32_to_cpu(id->mccap);
++
+ 	dev_geo->c.trdt = le32_to_cpu(id->trdt);
+ 	dev_geo->c.trdm = le32_to_cpu(id->trdm);
+ 	dev_geo->c.tprt = le32_to_cpu(id->twrt);
+diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+index 4537c0140386..42704c4ca9af 100644
+--- a/include/linux/lightnvm.h
++++ b/include/linux/lightnvm.h
+@@ -273,8 +273,10 @@ struct nvm_common_geo {
+ 	u32	ws_opt;		/* optimal write size */
+ 	u32	mw_cunits;	/* distance required for successful read */
+ 
+-	/* device capabilities */
+-	u32	mccap;
++	/* device capabilities. Note that this represents capabilities in 1.2
++	 * and media and controller capabilities in 2.0
++	 */
++	u32	cap;
+ 
+ 	/* device timings */
+ 	u32	trdt;		/* Avg. Tread (ns) */
+@@ -289,7 +291,7 @@ struct nvm_common_geo {
+ 
+ 	/* 1.2 compatibility */
+ 	u8	vmnt;
+-	u32	cap;
++	u32	mccap;
+ 	u32	dom;
+ 
+ 	u8	mtype;
 -- 
 2.7.4
