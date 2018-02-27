@@ -1,63 +1,122 @@
-From: bart.vanassche@wdc.com (Bart Van Assche)
-Date: Mon, 26 Feb 2018 14:20:09 -0800
-Subject: nvme-rdma corrupts memory upon timeout
-In-Reply-To: <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
-References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
- <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
- <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
-Message-ID: <ef8b9261-acac-4473-2267-b53c6c247806@wdc.com>
+From: baegjae@gmail.com (Baegjae Sung)
+Date: Tue, 27 Feb 2018 13:42:33 +0900
+Subject: [PATCH] nvme-multipath: fix sysfs dangerously created links
+In-Reply-To: <20180226162440.GB10832@localhost.localdomain>
+References: <20180226085123.26120-1-baegjae@gmail.com>
+ <20180226162440.GB10832@localhost.localdomain>
+Message-ID: <CAB2tqttsT7QQCehYz50TWrs5zG7n9wE4=Qc_brw5JqDKwjFvyQ@mail.gmail.com>
 
-On 02/25/18 10:14, Sagi Grimberg wrote:
-> Or maybe this should do a better job:
-> -- 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 4c32518a6c81..e45801fe78c1 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -956,12 +956,14 @@ static void nvme_rdma_error_recovery_work(struct 
-> work_struct *work)
-> 
->  ??????? if (ctrl->ctrl.queue_count > 1) {
->  ??????????????? nvme_stop_queues(&ctrl->ctrl);
-> +?????????????? nvme_rdma_stop_io_queues(ctrl);
->  ??????????????? blk_mq_tagset_busy_iter(&ctrl->tag_set,
->  ??????????????????????????????????????? nvme_cancel_request, &ctrl->ctrl);
->  ??????????????? nvme_rdma_destroy_io_queues(ctrl, false);
->  ??????? }
-> 
->  ??????? blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-> +?????? nvme_rdma_stop_queue(&ctrl->queues[0]);
->  ??????? blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
->  ??????????????????????????????? nvme_cancel_request, &ctrl->ctrl);
+2018-02-27 1:24 GMT+09:00 Keith Busch <keith.busch at intel.com>:
+> On Mon, Feb 26, 2018@05:51:23PM +0900, baegjae@gmail.com wrote:
+>> From: Baegjae Sung <baegjae at gmail.com>
+>>
+>> If multipathing is enabled, each NVMe subsystem creates a head
+>> namespace (e.g., nvme0n1) and multiple private namespaces
+>> (e.g., nvme0c0n1 and nvme0c1n1) in sysfs. When creating links for
+>> private namespaces, links of head namespace are used, so the
+>> namespace creation order must be followed (e.g., nvme0n1 ->
+>> nvme0c1n1). If the order is not followed, links of sysfs will be
+>> incomplete or kernel panic will occur.
+>>
+>> The kernel panic was:
+>>   kernel BUG at fs/sysfs/symlink.c:27!
+>>   Call Trace:
+>>     nvme_mpath_add_disk_links+0x5d/0x80 [nvme_core]
+>>     nvme_validate_ns+0x5c2/0x850 [nvme_core]
+>>     nvme_scan_work+0x1af/0x2d0 [nvme_core]
+>>
+>> Correct order
+>> Context A     Context B
+>> nvme0n1
+>> nvme0c0n1     nvme0c1n1
+>>
+>> Incorrect order
+>> Context A     Context B
+>>               nvme0c1n1
+>> nvme0n1
+>> nvme0c0n1
+>>
+>> The function of a head namespace creation is moved to maintain the
+>> correct order. We verified the code with or without multipathing
+>> using three vendors of dual-port NVMe SSDs.
+>>
+>> Signed-off-by: Baegjae Sung <baegjae at gmail.com>
+>
+> Thanks, I see what you mean on the potential ordering problem here.
+> Calling nvme_mpath_add_disk, though, before the 'head' has any namespace
+> paths available looks like you'll get a lot of 'no path available'
+> warnings during the bring-up. It should resolve itself shortly after,
+> but the warnings will be a bit alarming, right?
 
-Hello Sagi,
+Thanks for reply.
+I agree what you concern about temporary 'no path available' warnings.
+That was why nvme_mpath_add_disk and nvme_mpath_add_disk_links were
+coded together.
+I will send you a new patch that reflects your concerns.
 
-With this change applied, I think what nvme_rdma_error_recovery_work() 
-does for I/O and admin queues is as follows:
-- Call blk_mq_quiesce_queue() to wait concurrent .queue_rq() calls have
-   finished.
-- Call nvme_rdma_stop_io_queues() to change the QP state into "error"
-   and to wait until all RDMA completions have been processed.
-- Call blk_mq_tagset_busy_iter() to cancel any pending block layer
-   requests.
-- Call blk_mq_unfreeze_queue() to resume the request queues.
-- Call nvme_rdma_reconnect_or_remove().
-
-The above patch seems like an improvement to me but I don't think that 
-it fixes the race between nvme_cancel_request() and 
-nvme_rdma_queue_rq(). Has it been considered to modify 
-nvme_rdma_error_recovery_work() as follows:
-* Clear NVME_RDMA_Q_LIVE.
-* Change the RDMA QP state into "error".
-* Freeze and unfreeze the block layer request queue. The freeze will
-   wait until all pending requests have finished.
-* Call nvme_rdma_reconnect_or_remove().
-
-That last sequence has the following advantages:
-* Draining the RDMA QP explicitly is no longer necessary.
-* It fixes the race with nvme_cancel_request() by not calling
-   nvme_cancel_request().
-
-Thanks,
-
-Bart.
+>
+>> ---
+>>  drivers/nvme/host/core.c | 12 +++---------
+>>  1 file changed, 3 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 0fe7ea35c221..28777b7352a5 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -2844,7 +2844,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+>>  }
+>>
+>>  static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+>> -             struct nvme_id_ns *id, bool *new)
+>> +             struct nvme_id_ns *id)
+>>  {
+>>       struct nvme_ctrl *ctrl = ns->ctrl;
+>>       bool is_shared = id->nmic & (1 << 0);
+>> @@ -2860,8 +2860,7 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+>>                       ret = PTR_ERR(head);
+>>                       goto out_unlock;
+>>               }
+>> -
+>> -             *new = true;
+>> +             nvme_mpath_add_disk(head);
+>>       } else {
+>>               struct nvme_ns_ids ids;
+>>
+>> @@ -2873,8 +2872,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+>>                       ret = -EINVAL;
+>>                       goto out_unlock;
+>>               }
+>> -
+>> -             *new = false;
+>>       }
+>>
+>>       list_add_tail(&ns->siblings, &head->list);
+>> @@ -2945,7 +2942,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>>       struct nvme_id_ns *id;
+>>       char disk_name[DISK_NAME_LEN];
+>>       int node = dev_to_node(ctrl->dev), flags = GENHD_FL_EXT_DEVT;
+>> -     bool new = true;
+>>
+>>       ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
+>>       if (!ns)
+>> @@ -2971,7 +2967,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>>       if (id->ncap == 0)
+>>               goto out_free_id;
+>>
+>> -     if (nvme_init_ns_head(ns, nsid, id, &new))
+>> +     if (nvme_init_ns_head(ns, nsid, id))
+>>               goto out_free_id;
+>>       nvme_setup_streams_ns(ctrl, ns);
+>>
+>> @@ -3037,8 +3033,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>>               pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+>>                       ns->disk->disk_name);
+>>
+>> -     if (new)
+>> -             nvme_mpath_add_disk(ns->head);
+>>       nvme_mpath_add_disk_links(ns);
+>>       return;
+>>   out_unlink_ns:
+>> --
+>> 2.16.2
+>>
