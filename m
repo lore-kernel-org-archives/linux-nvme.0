@@ -1,58 +1,32 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 28 Feb 2018 10:53:31 +0800
-Subject: [PATCH] nvme-pci: assign separate irq vectors for adminq and ioq0
-In-Reply-To: <20180227151311.GD10832@localhost.localdomain>
-References: <1519721177-2099-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180227151311.GD10832@localhost.localdomain>
-Message-ID: <9252f0a1-f3e5-414b-db49-e8053dfa48a6@oracle.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 27 Feb 2018 22:46:32 -0500
+Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
+In-Reply-To: <5662c6d9-0c87-6074-12b8-39db53ce3c7f@grimberg.me> (Sagi
+ Grimberg's message of "Sun, 25 Feb 2018 19:30:48 +0200")
+References: <20180224000547.7252-1-keith.busch@intel.com>
+ <5662c6d9-0c87-6074-12b8-39db53ce3c7f@grimberg.me>
+Message-ID: <yq1371l4vzb.fsf@oracle.com>
 
-Hi Keith
 
-Thanks for your precious time to review this.
+Sagi,
 
-On 02/27/2018 11:13 PM, Keith Busch wrote:
-> On Tue, Feb 27, 2018@04:46:17PM +0800, Jianchao Wang wrote:
->> Currently, adminq and ioq0 share the same irq vector. This is
->> unfair for both amdinq and ioq0.
->>  - For adminq, its completion irq has to be bound on cpu0.
->>  - For ioq0, when the irq fires for io completion, the adminq irq
->>    action has to be checked also.
-> 
-> This change log could use some improvements. Why is it bad if admin
-> interrupts affinity is with cpu0?
+> It makes sense for FC (and few RDMA devices) that already get
+> interleaved metadata from the wire to keep it as is instead of
+> scattering it if the backend nvme device supports interleaved mode...
 
-adminq interrupts should be able to fire everywhere.
-do we have any reason to bound it on cpu0 ?
+Yeah, assuming that the PI doesn't have to get translated.
 
-> 
-> Are you able to measure _any_ performance difference on IO queue 1 vs IO
-> queue 2 that you can attribute to IO queue 1's sharing vector 0?
+> I would say that this support for this is something that belongs in
+> the block layer. IIRC mkp also expressed interest in using
+> preadv2/pwritev2 to for user-space to use DIF with some accounting on
+> the iovec
 
-Actually, I didn't get any performance improving on my own NVMe card.
-But it may be needed on some enterprise card, especially the media is persist memory.
-nvme_irq will be invoked twice when ioq0 irq fires, this will introduce another unnecessary DMA
-accessing on cq entry.
+Indeed.
 
->  
->> @@ -1945,11 +1947,11 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->>  	 * setting up the full range we need.
->>  	 */
->>  	pci_free_irq_vectors(pdev);
->> -	nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
->> -			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
->> -	if (nr_io_queues <= 0)
->> +	ret = pci_alloc_irq_vectors_affinity(pdev, 1, (nr_io_queues + 1),
->> +			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
->> +	if (ret <= 0)
->>  		return -EIO;
->> -	dev->max_qid = nr_io_queues;
->> +	dev->max_qid = ret - 1;
-> 
-> So controllers that have only legacy or single-message MSI don't get any
-> IO queues?
-> 
+> so maybe we can add a flag for interleaved metadata.
 
-Yes. At the moment, we have to share the only one irq vector.
+What would the use case be for this? Userspace target driver? I know
+lots of widgets that rely on interleaved but they are all using SPDK.
 
-Thanks for your directive. :)
-Jianchao
+-- 
+Martin K. Petersen	Oracle Linux Engineering
