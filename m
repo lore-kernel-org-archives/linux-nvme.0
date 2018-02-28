@@ -1,49 +1,50 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 28 Feb 2018 01:42:43 +0200
-Subject: [PATCH v2 1/1] nvmet: fix PSDT field check in command format
-In-Reply-To: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
-References: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
-Message-ID: <e75e4e47-4ffc-c93b-e472-9b813916afe2@mellanox.com>
+From: marc@merlins.org (Marc MERLIN)
+Date: Tue, 27 Feb 2018 18:22:37 -0800
+Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
+In-Reply-To: <20171214033633.4oncj3kcsvxv4kic@merlins.org>
+References: <20170313153319.fmy6ww72fjtx74xq@merlins.org>
+ <20170313143649.GC6994@localhost.localdomain>
+ <20170311022612.GB28220@merlins.org>
+ <20170215181435.36saagrln25im7ml@merlins.org>
+ <20171214033633.4oncj3kcsvxv4kic@merlins.org>
+Message-ID: <20180228022237.jaywgrmojhlcqs4e@merlins.org>
 
-ping :)
+On Wed, Dec 13, 2017@07:36:33PM -0800, Marc MERLIN wrote:
+> So, I was all happy and all with 4.11, and it still works fine.
+> S3 sleep just works, hibernate just works.
+> And then 4.12 came, and S3 sleep would not work reliably
+> 4.13 came, same thing
+> 4.14, again, same thing :(
+> 
+> Currently when I put the laptop to sleep, it sometimes, but just
+> sometimes, keeps the thinkpad light in a slow pulsing light as if it
+> were still in sleep mode, and just never wakes up.
+> 
+> Sadly, this is crappy to bisect since it's not reliably reproducible.
+> 
+> Before I go through that pain, are there any suggestions or ideas I
+> should try?
 
-On 1/24/2018 5:31 PM, Max Gurtovoy wrote:
-> PSDT field section according to NVM_Express-1.3:
-> "This field specifies whether PRPs or SGLs are used for any data
-> transfer associated with the command. PRPs shall be used for all
-> Admin commands for NVMe over PCIe. SGLs shall be used for all Admin
-> and I/O commands for NVMe over Fabrics. This field shall be set to
-> 01b for NVMe over Fabrics 1.0 implementations.
-> 
-> Suggested-by: Idan Burstein <idanb at mellanox.com>
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
-> 
-> Changes from v1:
->   - use tabs for comment indentation
-> 
-> ---
->   drivers/nvme/target/core.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 0bd7371..a78029e 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -520,9 +520,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
->   		goto fail;
->   	}
->   
-> -	/* either variant of SGLs is fine, as we don't support metadata */
-> -	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
-> -		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG)) {
-> +	/*
-> +	 * For fabrics, PSDT field shall describe metadata pointer (MPTR) that
-> +	 * contains an address of a single contiguous physical buffer that is
-> +	 * byte aligned.
-> +	 */
-> +	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF)) {
->   		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
->   		goto fail;
->   	}
-> 
+Well, this is kind of embarassing, but here's what happened.
+
+I got tired of my laptop locking up when recovering from S3 sleep
+(sometimes) with 4.12, and 100% of the time with 4.13 and above all the
+way to 4.15.
+So, I bought a 1TB Sata M2 drive to replace my NVME one.
+I spent time setting it up, and then... it failed just like with NVME.
+
+So, NVME was innocent.
+A lot of trial and error later, I found out that the iwlagn driver
+actually broke between 4.11 and 4.12/4.13 and causes hangs on S3 resume.
+Sigh..
+My suspend script now unloads the wireless driver before going to sleep,
+and all is well again.
+
+Sorry about the wrong report on NVME.
+
+Marc
+-- 
+"A mouse is a device used to point at the xterm you want to type in" - A.S.R.
+Microsoft is to operating systems ....
+                                      .... what McDonalds is to gourmet cooking
+Home page: http://marc.merlins.org/                       | PGP 7F55D5F27AAF9D08
