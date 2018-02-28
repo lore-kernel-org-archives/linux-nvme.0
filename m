@@ -1,109 +1,71 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed, 28 Feb 2018 16:49:32 +0100
-Subject: [PATCH 12/15] lightnvn: pblk: use generic address format
+Date: Wed, 28 Feb 2018 16:49:28 +0100
+Subject: [PATCH 08/15] lightnvm: make address conversions depend on generic
+ device
 In-Reply-To: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
 References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519832975-25432-13-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519832975-25432-9-git-send-email-javier@cnexlabs.com>
 
-Use the generic address format on common address manipulations.
+On address conversions, use the generic device, instead of the target
+device. This allows to use conversions outside of the target's realm.
 
 Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 ---
- drivers/lightnvm/pblk-core.c  | 10 +++++-----
- drivers/lightnvm/pblk-map.c   |  4 ++--
- drivers/lightnvm/pblk-sysfs.c |  4 ++--
- drivers/lightnvm/pblk.h       |  4 ++--
- 4 files changed, 11 insertions(+), 11 deletions(-)
+ drivers/lightnvm/core.c  | 4 ++--
+ include/linux/lightnvm.h | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/lightnvm/pblk-core.c b/drivers/lightnvm/pblk-core.c
-index 7d0bd33f11d9..2e10b18b61e3 100644
---- a/drivers/lightnvm/pblk-core.c
-+++ b/drivers/lightnvm/pblk-core.c
-@@ -885,7 +885,7 @@ int pblk_line_erase(struct pblk *pblk, struct pblk_line *line)
- 		}
+diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+index 36d76de22dfc..ed33e0b11788 100644
+--- a/drivers/lightnvm/core.c
++++ b/drivers/lightnvm/core.c
+@@ -581,7 +581,7 @@ static void nvm_ppa_tgt_to_dev(struct nvm_tgt_dev *tgt_dev,
  
- 		ppa = pblk->luns[bit].bppa; /* set ch and lun */
--		ppa.g.blk = line->id;
-+		ppa.a.blk = line->id;
- 
- 		atomic_dec(&line->left_eblks);
- 		WARN_ON(test_and_set_bit(bit, line->erase_bitmap));
-@@ -1686,8 +1686,8 @@ static void __pblk_down_page(struct pblk *pblk, struct ppa_addr *ppa_list,
- 	int i;
- 
- 	for (i = 1; i < nr_ppas; i++)
--		WARN_ON(ppa_list[0].g.lun != ppa_list[i].g.lun ||
--				ppa_list[0].g.ch != ppa_list[i].g.ch);
-+		WARN_ON(ppa_list[0].a.lun != ppa_list[i].a.lun ||
-+				ppa_list[0].a.ch != ppa_list[i].a.ch);
- #endif
- 
- 	ret = down_timeout(&rlun->wr_sem, msecs_to_jiffies(30000));
-@@ -1731,8 +1731,8 @@ void pblk_up_page(struct pblk *pblk, struct ppa_addr *ppa_list, int nr_ppas)
- 	int i;
- 
- 	for (i = 1; i < nr_ppas; i++)
--		WARN_ON(ppa_list[0].g.lun != ppa_list[i].g.lun ||
--				ppa_list[0].g.ch != ppa_list[i].g.ch);
-+		WARN_ON(ppa_list[0].a.lun != ppa_list[i].a.lun ||
-+				ppa_list[0].a.ch != ppa_list[i].a.ch);
- #endif
- 
- 	rlun = &pblk->luns[pos];
-diff --git a/drivers/lightnvm/pblk-map.c b/drivers/lightnvm/pblk-map.c
-index 04e08d76ea5f..20dbaa89c9df 100644
---- a/drivers/lightnvm/pblk-map.c
-+++ b/drivers/lightnvm/pblk-map.c
-@@ -127,7 +127,7 @@ void pblk_map_erase_rq(struct pblk *pblk, struct nvm_rq *rqd,
- 			atomic_dec(&e_line->left_eblks);
- 
- 			*erase_ppa = rqd->ppa_list[i];
--			erase_ppa->g.blk = e_line->id;
-+			erase_ppa->a.blk = e_line->id;
- 
- 			spin_unlock(&e_line->lock);
- 
-@@ -168,6 +168,6 @@ void pblk_map_erase_rq(struct pblk *pblk, struct nvm_rq *rqd,
- 		set_bit(bit, e_line->erase_bitmap);
- 		atomic_dec(&e_line->left_eblks);
- 		*erase_ppa = pblk->luns[bit].bppa; /* set ch and lun */
--		erase_ppa->g.blk = e_line->id;
-+		erase_ppa->a.blk = e_line->id;
+ 	for (i = 0; i < nr_ppas; i++) {
+ 		nvm_map_to_dev(tgt_dev, &ppa_list[i]);
+-		ppa_list[i] = generic_to_dev_addr(tgt_dev, ppa_list[i]);
++		ppa_list[i] = generic_to_dev_addr(tgt_dev->parent, ppa_list[i]);
  	}
  }
-diff --git a/drivers/lightnvm/pblk-sysfs.c b/drivers/lightnvm/pblk-sysfs.c
-index cbb5b6edb7bf..a643dc623731 100644
---- a/drivers/lightnvm/pblk-sysfs.c
-+++ b/drivers/lightnvm/pblk-sysfs.c
-@@ -39,8 +39,8 @@ static ssize_t pblk_sysfs_luns_show(struct pblk *pblk, char *page)
- 		sz += snprintf(page + sz, PAGE_SIZE - sz,
- 				"pblk: pos:%d, ch:%d, lun:%d - %d\n",
- 					i,
--					rlun->bppa.g.ch,
--					rlun->bppa.g.lun,
-+					rlun->bppa.a.ch,
-+					rlun->bppa.a.lun,
- 					active);
+ 
+@@ -591,7 +591,7 @@ static void nvm_ppa_dev_to_tgt(struct nvm_tgt_dev *tgt_dev,
+ 	int i;
+ 
+ 	for (i = 0; i < nr_ppas; i++) {
+-		ppa_list[i] = dev_to_generic_addr(tgt_dev, ppa_list[i]);
++		ppa_list[i] = dev_to_generic_addr(tgt_dev->parent, ppa_list[i]);
+ 		nvm_map_to_tgt(tgt_dev, &ppa_list[i]);
  	}
+ }
+diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+index 73110adf27ad..e878b95aeec4 100644
+--- a/include/linux/lightnvm.h
++++ b/include/linux/lightnvm.h
+@@ -399,10 +399,10 @@ struct nvm_dev {
+ 	struct list_head targets;
+ };
  
-diff --git a/drivers/lightnvm/pblk.h b/drivers/lightnvm/pblk.h
-index dd0089fe62b9..6ac64d9eb57e 100644
---- a/drivers/lightnvm/pblk.h
-+++ b/drivers/lightnvm/pblk.h
-@@ -936,12 +936,12 @@ static inline int pblk_pad_distance(struct pblk *pblk)
- 
- static inline int pblk_ppa_to_line(struct ppa_addr p)
+-static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
++static inline struct ppa_addr generic_to_dev_addr(struct nvm_dev *dev,
+ 						  struct ppa_addr r)
  {
--	return p.g.blk;
-+	return p.a.blk;
+-	struct nvm_geo *geo = &tgt_dev->geo;
++	struct nvm_geo *geo = &dev->geo;
+ 	struct ppa_addr l;
+ 
+ 	if (geo->version == NVM_OCSSD_SPEC_12) {
+@@ -427,10 +427,10 @@ static inline struct ppa_addr generic_to_dev_addr(struct nvm_tgt_dev *tgt_dev,
+ 	return l;
  }
  
- static inline int pblk_ppa_to_pos(struct nvm_geo *geo, struct ppa_addr p)
+-static inline struct ppa_addr dev_to_generic_addr(struct nvm_tgt_dev *tgt_dev,
++static inline struct ppa_addr dev_to_generic_addr(struct nvm_dev *dev,
+ 						  struct ppa_addr r)
  {
--	return p.g.lun * geo->num_ch + p.g.ch;
-+	return p.a.lun * geo->num_ch + p.a.ch;
- }
+-	struct nvm_geo *geo = &tgt_dev->geo;
++	struct nvm_geo *geo = &dev->geo;
+ 	struct ppa_addr l;
  
- static inline struct ppa_addr addr_to_gen_ppa(struct pblk *pblk, u64 paddr,
+ 	l.ppa = 0;
 -- 
 2.7.4
