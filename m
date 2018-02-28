@@ -1,131 +1,21 @@
-From: baegjae@gmail.com (Baegjae Sung)
-Date: Wed, 28 Feb 2018 16:06:04 +0900
-Subject: [PATCH v2] nvme-multipath: fix sysfs dangerously created links
-Message-ID: <20180228070604.25868-1-baegjae@gmail.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Wed, 28 Feb 2018 17:05:44 +0800
+Subject: Query about RQF_DONTPREP usage in nvme driver
+Message-ID: <814d7bf1-b458-4885-ab03-346dff912c82@oracle.com>
 
-If multipathing is enabled, each NVMe subsystem creates a head
-namespace (e.g., nvme0n1) and multiple private namespaces
-(e.g., nvme0c0n1 and nvme0c1n1) in sysfs. When creating links for
-private namespaces, links of head namespace are used, so the
-namespace creation order must be followed (e.g., nvme0n1 ->
-nvme0c1n1). If the order is not followed, links of sysfs will be
-incomplete or kernel panic will occur.
+Hi Keith
 
-The kernel panic was:
-  kernel BUG at fs/sysfs/symlink.c:27!
-  Call Trace:
-    nvme_mpath_add_disk_links+0x5d/0x80 [nvme_core]
-    nvme_validate_ns+0x5c2/0x850 [nvme_core]
-    nvme_scan_work+0x1af/0x2d0 [nvme_core]
+Sorry for bothering you. ;)
 
-Correct order
-Context A     Context B
-nvme0n1
-nvme0c0n1     nvme0c1n1
+In scsi, when requeue the request with RQF_DONTPREP, scsi core will not
+do the sglist mapping or some other driver specific data's allocation and initialization.
 
-Incorrect order
-Context A     Context B
-              nvme0c1n1
-nvme0n1
-nvme0c0n1
+However, in nvme_pci_complete_rq, it will invoke the nvme_unmap_data unconditionally,
+and when the request enters into nvme_queue_rq again, it just reserve some members of
+nvme_request and redo the whole command preparation again when RQF_DONTPREP is set.
+Even all the other transport have the same actions.
 
-The nvme_mpath_add_disk (for creating head namespace) is called
-just before the nvme_mpath_add_disk_links (for creating private
-namespaces). In nvme_mpath_add_disk, the first context acquires
-the lock of subsystem and creates a head namespace, and other
-contexts do nothing by checking GENHD_FL_UP of a head namespace
-after waiting to acquire the lock. We verified the code with or
-without multipathing using three vendors of dual-port NVMe SSDs.
+Do we have any specific consideration on this ?
 
-Signed-off-by: Baegjae Sung <baegjae at gmail.com>
----
- drivers/nvme/host/core.c      | 12 +++---------
- drivers/nvme/host/multipath.c | 15 ++++++++++-----
- 2 files changed, 13 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0fe7ea35c221..817e5e2766da 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2844,7 +2844,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- }
- 
- static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
--		struct nvme_id_ns *id, bool *new)
-+		struct nvme_id_ns *id)
- {
- 	struct nvme_ctrl *ctrl = ns->ctrl;
- 	bool is_shared = id->nmic & (1 << 0);
-@@ -2860,8 +2860,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
- 			ret = PTR_ERR(head);
- 			goto out_unlock;
- 		}
--
--		*new = true;
- 	} else {
- 		struct nvme_ns_ids ids;
- 
-@@ -2873,8 +2871,6 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
- 			ret = -EINVAL;
- 			goto out_unlock;
- 		}
--
--		*new = false;
- 	}
- 
- 	list_add_tail(&ns->siblings, &head->list);
-@@ -2945,7 +2941,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	struct nvme_id_ns *id;
- 	char disk_name[DISK_NAME_LEN];
- 	int node = dev_to_node(ctrl->dev), flags = GENHD_FL_EXT_DEVT;
--	bool new = true;
- 
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
-@@ -2971,7 +2966,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	if (id->ncap == 0)
- 		goto out_free_id;
- 
--	if (nvme_init_ns_head(ns, nsid, id, &new))
-+	if (nvme_init_ns_head(ns, nsid, id))
- 		goto out_free_id;
- 	nvme_setup_streams_ns(ctrl, ns);
- 	
-@@ -3037,8 +3032,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
- 			ns->disk->disk_name);
- 
--	if (new)
--		nvme_mpath_add_disk(ns->head);
-+	nvme_mpath_add_disk(ns->head);
- 	nvme_mpath_add_disk_links(ns);
- 	return;
-  out_unlink_ns:
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3b211d9e58b8..b7e5c6db4d92 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -198,11 +198,16 @@ void nvme_mpath_add_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	device_add_disk(&head->subsys->dev, head->disk);
--	if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
--			&nvme_ns_id_attr_group))
--		pr_warn("%s: failed to create sysfs group for identification\n",
--			head->disk->disk_name);
-+
-+	mutex_lock(&head->subsys->lock);
-+	if (!(head->disk->flags & GENHD_FL_UP)) {
-+		device_add_disk(&head->subsys->dev, head->disk);
-+		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
-+				&nvme_ns_id_attr_group))
-+			pr_warn("%s: failed to create sysfs group for identification\n",
-+				head->disk->disk_name);
-+	}
-+	mutex_unlock(&head->subsys->lock);
- }
- 
- void nvme_mpath_add_disk_links(struct nvme_ns *ns)
--- 
-2.16.2
+Thanks in advance
+Jiancaho 
