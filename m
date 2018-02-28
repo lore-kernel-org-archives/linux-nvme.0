@@ -1,20 +1,31 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 28 Feb 2018 12:23:20 -0700
-Subject: [GIT PULL] nvme fixes for 4.16-rc4
-In-Reply-To: <20180228191503.GI16002@localhost.localdomain>
-References: <20180228191503.GI16002@localhost.localdomain>
-Message-ID: <097f82d5-3bab-931b-680b-0362b027ed0b@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 28 Feb 2018 12:54:11 -0700
+Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
+In-Reply-To: <20180228163701.GA16363@lst.de>
+References: <20180224000547.7252-1-keith.busch@intel.com>
+ <yq17eqx4w64.fsf@oracle.com>
+ <20180228163510.GC16002@localhost.localdomain>
+ <20180228163701.GA16363@lst.de>
+Message-ID: <20180228195411.GJ16002@localhost.localdomain>
 
-On 2/28/18 12:15 PM, Keith Busch wrote:
-> The following changes since commit af27d9403f5b80685b79c88425086edccecaf711:
+On Wed, Feb 28, 2018@05:37:01PM +0100, Christoph Hellwig wrote:
+> On Wed, Feb 28, 2018@09:35:11AM -0700, Keith Busch wrote:
+> > Right, this RFC is just about enabling formats that don't subscribe to
+> > the DIX format. It turns out some people believe those extended LBAs
+> > are useful for something.
+> > 
+> > I still think this LBA format is not a good fit for this driver, but
+> > I'd like to not push people to use out-of-tree or user space drivers
+> > if there is a reasonable way to accommodate here. The driver's existing
+> > NVMe IO passthrough makes this format reachable already, but there is
+> > resistance to use the ioctl over more standard read/write paths.
 > 
->   mm: hide a #warning for COMPILE_TEST (2018-02-16 09:41:36 -0800)
+> For a good reason.  I think these formats are completely bogus for
+> something pretending to be a block device, and your patch just shows
+> how bogus they are.
 > 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git for-jens
+> What is the use case for this silly game?
 
-Pulled, thanks Keith.
-
--- 
-Jens Axboe
+Certainly not for DIF PI. At a high level, the use case is to store
+block data and its metadata atomically rather than write them separately.
+RAID journal software might be able to leverage a device like that.
