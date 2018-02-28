@@ -1,10 +1,9 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 28 Feb 2018 18:00:22 +0100
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 28 Feb 2018 10:11:04 -0700
 Subject: [PATCH v2 1/1] nvmet: fix PSDT field check in command format
-In-Reply-To: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
+In-Reply-To: <20180228170022.GA16848@lst.de>
 References: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20180228170022.GA16848@lst.de>
+ <20180228170022.GA16848@lst.de>
+Message-ID: <20180228171103.GE16002@localhost.localdomain>
 
-Looks fine,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Thanks, applied.
