@@ -1,63 +1,108 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 28 Feb 2018 23:42:21 +0800
-Subject: [PATCH] nvme-pci: assign separate irq vectors for adminq and ioq0
-In-Reply-To: <20180228152741.GA16002@localhost.localdomain>
-References: <1519721177-2099-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180227151311.GD10832@localhost.localdomain>
- <9252f0a1-f3e5-414b-db49-e8053dfa48a6@oracle.com>
- <20180228152741.GA16002@localhost.localdomain>
-Message-ID: <8066e06c-90f4-c21b-e36f-89f6e8ca28c5@oracle.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Wed, 28 Feb 2018 23:48:41 +0800
+Subject: [PATCH V2] nvme-pci: assign separate irq vectors for adminq and ioq0
+Message-ID: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Hi Keith
+Currently, adminq and ioq0 share the same irq vector. This is
+unfair for both amdinq and ioq0.
+ - For adminq, its completion irq has to be bound on cpu0. It
+   just has only one hw queue, it is unreasonable to do this.
+ - For ioq0, when the irq fires for io completion, the adminq irq
+   action on this irq vector will introduce an uncached access on
+   adminq cqe at least, even worse when adminq is busy.
 
-Thanks for your kindly response and directive
+To improve this, allocate separate irq vectors for adminq and
+ioq0, and not set irq affinity for adminq one. If just one irq
+vector, setup adminq + 1 ioq and let them share it. In addition
+add new helper interface nvme_ioq_vector to get ioq vector.
 
-On 02/28/2018 11:27 PM, Keith Busch wrote:
-> On Wed, Feb 28, 2018@10:53:31AM +0800, jianchao.wang wrote:
->> On 02/27/2018 11:13 PM, Keith Busch wrote:
->>> On Tue, Feb 27, 2018@04:46:17PM +0800, Jianchao Wang wrote:
->>>> Currently, adminq and ioq0 share the same irq vector. This is
->>>> unfair for both amdinq and ioq0.
->>>>  - For adminq, its completion irq has to be bound on cpu0.
->>>>  - For ioq0, when the irq fires for io completion, the adminq irq
->>>>    action has to be checked also.
->>>
->>> This change log could use some improvements. Why is it bad if admin
->>> interrupts affinity is with cpu0?
->>
->> adminq interrupts should be able to fire everywhere.
->> do we have any reason to bound it on cpu0 ?
-> 
-> Your patch will have the admin vector CPU affinity mask set to
-> 0xff..ff. The first set bit for an online CPU is the one the IRQ handler
-> will run on, so the admin queue will still only run on CPU 0.
+V1->V2
+ - add case to handle the scenario where there is only one irq
+   vector
+ - add nvme_ioq_vector to map ioq vector and qid
 
-hmmm...yes.
-When I test there is only one irq vector, I get following result:
- 124:          0          0     253541          0          0          0          0          0  IR-PCI-MSI 1048576-edge      nvme0q0, nvme0q1
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/pci.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
->  
->>> Are you able to measure _any_ performance difference on IO queue 1 vs IO
->>> queue 2 that you can attribute to IO queue 1's sharing vector 0?
->>
->> Actually, I didn't get any performance improving on my own NVMe card.
->> But it may be needed on some enterprise card, especially the media is persist memory.
->> nvme_irq will be invoked twice when ioq0 irq fires, this will introduce another unnecessary DMA
->> accessing on cq entry.
-> 
-> A CPU reading its own memory isn't a DMA. It's just a cheap memory read.
-
-Oh sorry, my bad, I mean it is operation on DMA address, it is uncached.
-nvme_irq
-  -> nvme_process_cq
-    -> nvme_read_cqe
-      -> nvme_cqe_valid
-
-static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
-		u16 phase)
-{
-	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
-}
-
-Sincerely
-Jianchao
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 73036d2..273b157 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -84,6 +84,7 @@ struct nvme_dev {
+ 	struct dma_pool *prp_small_pool;
+ 	unsigned online_queues;
+ 	unsigned max_qid;
++	unsigned int num_vecs;
+ 	int q_depth;
+ 	u32 db_stride;
+ 	void __iomem *bar;
+@@ -139,6 +140,17 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+ 	return container_of(ctrl, struct nvme_dev, ctrl);
+ }
+ 
++static inline unsigned int nvme_ioq_vector(struct nvme_dev *dev,
++		unsigned int qid)
++{
++	/*
++	 * If controller has only legacy or single-message MSI, there will
++	 * be only 1 irq vector. At the moment, we setup adminq + 1 ioq
++	 * and let them share irq vector.
++	 */
++	return (dev->num_vecs == 1) ? 0 : qid;
++}
++
+ /*
+  * An NVM Express queue.  Each device has at least two (one for admin
+  * commands and one for I/O commands).
+@@ -1456,7 +1468,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 		nvmeq->sq_cmds_io = dev->cmb + offset;
+ 	}
+ 
+-	nvmeq->cq_vector = qid - 1;
++	nvmeq->cq_vector = nvme_ioq_vector(dev, qid);
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
+ 	if (result < 0)
+ 		return result;
+@@ -1626,9 +1638,9 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 	int ret = 0;
+ 
+ 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
+-		/* vector == qid - 1, match nvme_create_queue */
+ 		if (nvme_alloc_queue(dev, i, dev->q_depth,
+-		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
++		     pci_irq_get_node(to_pci_dev(dev->dev),
++				 nvme_ioq_vector(dev, i)))) {
+ 			ret = -ENOMEM;
+ 			break;
+ 		}
+@@ -1909,6 +1921,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int result, nr_io_queues;
+ 	unsigned long size;
++	struct irq_affinity affd = {.pre_vectors = 1};
++	int ret;
+ 
+ 	nr_io_queues = num_present_cpus();
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+@@ -1945,12 +1959,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 * setting up the full range we need.
+ 	 */
+ 	pci_free_irq_vectors(pdev);
+-	nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
+-			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
+-	if (nr_io_queues <= 0)
++	ret = pci_alloc_irq_vectors_affinity(pdev, 1, (nr_io_queues + 1),
++			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
++	if (ret <= 0)
+ 		return -EIO;
+-	dev->max_qid = nr_io_queues;
+-
++	dev->num_vecs = ret;
++	dev->max_qid = (ret > 1) ? (ret - 1) : 1;
+ 	/*
+ 	 * Should investigate if there's a performance win from allocating
+ 	 * more queues than interrupt vectors; it might allow the submission
+-- 
+2.7.4
