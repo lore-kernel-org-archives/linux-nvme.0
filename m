@@ -1,38 +1,94 @@
-From: wenxiong@linux.vnet.ibm.com (wenxiong)
-Date: Wed, 28 Feb 2018 16:31:37 -0600
-Subject: [PATCH V3] nvme-pci: Fixes EEH failure on ppc
-In-Reply-To: <1518725110-25894-1-git-send-email-wenxiong@linux.vnet.ibm.com>
-References: <1518725110-25894-1-git-send-email-wenxiong@linux.vnet.ibm.com>
-Message-ID: <bf3a386a2b82dac84b681c14d5334632@linux.vnet.ibm.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 28 Feb 2018 14:49:11 -0800
+Subject: [PATCH] nvmet_fc: prevent new io rqsts in possible isr completions
+In-Reply-To: <20180228224911.15754-1-jsmart2021@gmail.com>
+References: <20180228224911.15754-1-jsmart2021@gmail.com>
+Message-ID: <20180228224911.15754-2-jsmart2021@gmail.com>
 
-On 2018-02-15 14:05, wenxiong@linux.vnet.ibm.com wrote:
-> From: Wen Xiong <wenxiong at linux.vnet.ibm.com>
-> 
-> With b2a0eb1a0ac72869c910a79d935a0b049ec78ad9(nvme-pci: Remove watchdog
-> timer), EEH recovery stops working on ppc.
-> 
-> After removing whatdog timer routine, when trigger EEH on ppc, we hit
-> EEH in nvme_timeout(). We would like to check if pci channel is offline
-> or not at the beginning of nvme_timeout(), if it is already offline,
-> we don't need to do future nvme timeout process.
-> 
-> Add mrmory barrier before calling pci_channel_offline().
-> 
-> With the patch, EEH recovery works successfuly on ppc.
-> 
-> Signed-off-by: Wen Xiong <wenxiong at linux.vnet.ibm.com>
+When a bio completion calls back into the transport for a
+back-end io device, the request completion path can free
+the transport io job structure allowing it to be reused for
+other operations. The transport has a defer_rcv queue which
+holds temporary cmd rcv ops while waitng for io job structures.
+when the job frees, if there's a cmd waiting, it is picked up
+and submitted for processing, which can call back out to the
+bio path if it's a read.  Unfortunately, what is unknown is the
+context of the original bio done call, and it may be in a state
+(softirq) that is not compatible with submitting the new bio in
+the same calling sequence. This is especially true when using
+scsi back-end devices as scsi is in softirq when it makes the
+done call.
 
-Hi Keith and All,
+Correct by scheduling the io to be started via workq rather
+than calling the start new io path inline to the original bio
+done path.
 
-We have the newer Linux distro releases came out recently, so I got more 
-reports for this issue.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/fc.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-Test teams have verified the patch in several distro kernel 
-version(v4.14, v4.15).
-
-
-If you have any question about the V3 patch I submitted two weeks, Let 
-me know.
-
-Thanks,
-Wendy
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 9b39a6cb1935..9f80f98d81d2 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -87,6 +87,7 @@ struct nvmet_fc_fcp_iod {
+ 	struct nvmet_req		req;
+ 	struct work_struct		work;
+ 	struct work_struct		done_work;
++	struct work_struct		defer_work;
+ 
+ 	struct nvmet_fc_tgtport		*tgtport;
+ 	struct nvmet_fc_tgt_queue	*queue;
+@@ -224,6 +225,7 @@ static DEFINE_IDA(nvmet_fc_tgtport_cnt);
+ static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
+ static void nvmet_fc_handle_fcp_rqst_work(struct work_struct *work);
+ static void nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work);
++static void nvmet_fc_fcp_rqst_op_defer_work(struct work_struct *work);
+ static void nvmet_fc_tgt_a_put(struct nvmet_fc_tgt_assoc *assoc);
+ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
+ static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
+@@ -429,6 +431,7 @@ nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+ 	for (i = 0; i < queue->sqsize; fod++, i++) {
+ 		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
+ 		INIT_WORK(&fod->done_work, nvmet_fc_fcp_rqst_op_done_work);
++		INIT_WORK(&fod->defer_work, nvmet_fc_fcp_rqst_op_defer_work);
+ 		fod->tgtport = tgtport;
+ 		fod->queue = queue;
+ 		fod->active = false;
+@@ -512,6 +515,17 @@ nvmet_fc_queue_fcp_req(struct nvmet_fc_tgtport *tgtport,
+ }
+ 
+ static void
++nvmet_fc_fcp_rqst_op_defer_work(struct work_struct *work)
++{
++	struct nvmet_fc_fcp_iod *fod =
++		container_of(work, struct nvmet_fc_fcp_iod, defer_work);
++
++	/* Submit deferred IO for processing */
++	nvmet_fc_queue_fcp_req(fod->tgtport, fod->queue, fod->fcpreq);
++
++}
++
++static void
+ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
+ 			struct nvmet_fc_fcp_iod *fod)
+ {
+@@ -568,13 +582,12 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
+ 	/* inform LLDD IO is now being processed */
+ 	tgtport->ops->defer_rcv(&tgtport->fc_target_port, fcpreq);
+ 
+-	/* Submit deferred IO for processing */
+-	nvmet_fc_queue_fcp_req(tgtport, queue, fcpreq);
+-
+ 	/*
+ 	 * Leave the queue lookup get reference taken when
+ 	 * fod was originally allocated.
+ 	 */
++
++	queue_work(queue->work_q, &fod->defer_work);
+ }
+ 
+ static int
+-- 
+2.13.1
