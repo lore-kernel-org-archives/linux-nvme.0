@@ -1,113 +1,128 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed, 28 Feb 2018 16:49:23 +0100
-Subject: [PATCH 03/15] lightnvm: add minor version to generic geometry
-In-Reply-To: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
-References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519832975-25432-4-git-send-email-javier@cnexlabs.com>
+Date: Wed, 28 Feb 2018 16:49:20 +0100
+Subject: [PATCH V4 00/15] lightnvm: pblk: implement 2.0 support
+Message-ID: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
 
-Separate the version between major and minor on the generic geometry and
-represent it through sysfs in the 2.0 path. The 1.2 path only shows the
-major version to preserve the existing user space interface.
+# Changes since V4
+ - Rebase on top of Matias' for-4.17/core
+ - Fix pblk's write buffer size when using mw_cuints
+ - Remove chunk information from pblk's sysfs. We intend to clean up
+   sysfs, as it is messy as it is now, and use trace points instead. So,
+   avoid an extra refactoring in the near future.
 
-Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
----
- drivers/lightnvm/core.c      |  4 ++--
- drivers/nvme/host/lightnvm.c | 25 ++++++++++++++++++++-----
- include/linux/lightnvm.h     |  3 ++-
- 3 files changed, 24 insertions(+), 8 deletions(-)
+>From Matias:
+ - Squash geometry patches
+ - Squash chunk support in lightnvm core
+ - Use core structure for chunk metadata
+ - Remove intermediate values for csecs and sos before disk
+   revalidation.
+ - Various renamings
 
-diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-index 9a417d9cdf0c..c4f72fbad2bf 100644
---- a/drivers/lightnvm/core.c
-+++ b/drivers/lightnvm/core.c
-@@ -890,8 +890,8 @@ static int nvm_init(struct nvm_dev *dev)
- 		goto err;
- 	}
- 
--	pr_debug("nvm: ver:%u nvm_vendor:%x\n",
--				geo->ver_id,
-+	pr_debug("nvm: ver:%u.%u nvm_vendor:%x\n",
-+				geo->major_ver_id, geo->minor_ver_id,
- 				geo->vmnt);
- 
- 	ret = nvm_core_init(dev);
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 5b2024ebac76..a600e70b6e6b 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -295,7 +295,9 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
- 		return -EINVAL;
- 	}
- 
--	geo->ver_id = id->ver_id;
-+	/* 1.2 spec. only reports a single version id - unfold */
-+	geo->major_ver_id = id->ver_id;
-+	geo->minor_ver_id = 2;
- 
- 	geo->nr_chnls = src->num_ch;
- 	geo->nr_luns = src->num_lun;
-@@ -380,7 +382,14 @@ static void nvme_nvm_set_addr_20(struct nvm_addr_format *dst,
- static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
- 			     struct nvm_geo *geo)
- {
--	geo->ver_id = id->mjr;
-+	geo->major_ver_id = id->mjr;
-+	geo->minor_ver_id = id->mnr;
-+
-+	if (!(geo->major_ver_id == 2 && geo->minor_ver_id == 0)) {
-+		pr_err("nvm: OCSSD version not supported (v%d.%d)\n",
-+				geo->major_ver_id, geo->minor_ver_id);
-+		return -EINVAL;
-+	}
- 
- 	geo->nr_chnls = le16_to_cpu(id->num_grp);
- 	geo->nr_luns = le16_to_cpu(id->num_pu);
-@@ -917,7 +926,13 @@ static ssize_t nvm_dev_attr_show(struct device *dev,
- 	attr = &dattr->attr;
- 
- 	if (strcmp(attr->name, "version") == 0) {
--		return scnprintf(page, PAGE_SIZE, "%u\n", geo->ver_id);
-+		if (geo->major_ver_id == 1)
-+			return scnprintf(page, PAGE_SIZE, "%u\n",
-+						geo->major_ver_id);
-+		else
-+			return scnprintf(page, PAGE_SIZE, "%u.%u\n",
-+						geo->major_ver_id,
-+						geo->minor_ver_id);
- 	} else if (strcmp(attr->name, "capabilities") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "%u\n", geo->cap);
- 	} else if (strcmp(attr->name, "read_typ") == 0) {
-@@ -1171,7 +1186,7 @@ int nvme_nvm_register_sysfs(struct nvme_ns *ns)
- 	if (!ndev)
- 		return -EINVAL;
- 
--	switch (geo->ver_id) {
-+	switch (geo->major_ver_id) {
- 	case 1:
- 		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
- 					&nvm_dev_attr_group_12);
-@@ -1188,7 +1203,7 @@ void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
- 	struct nvm_dev *ndev = ns->ndev;
- 	struct nvm_geo *geo = &ndev->geo;
- 
--	switch (geo->ver_id) {
-+	switch (geo->major_ver_id) {
- 	case 1:
- 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
- 					&nvm_dev_attr_group_12);
-diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index b9f0d2070de9..4b2ecbf45fd9 100644
---- a/include/linux/lightnvm.h
-+++ b/include/linux/lightnvm.h
-@@ -263,7 +263,8 @@ enum {
- /* Instance geometry */
- struct nvm_geo {
- 	/* device reported version */
--	u8	ver_id;
-+	u8	major_ver_id;
-+	u8	minor_ver_id;
- 
- 	/* instance specific geometry */
- 	int nr_chnls;
+# Changes since V3
+>From Matias:
+ - Remove nvm_common_geo
+ - Do appropriate renames when having a single geometry for device and
+     targets
+
+# Changes since V2:
+
+Apply Matias' feedback:
+ - Remove generic nvm_id identify structure.
+ - Do not remap capabilities (cap) to media and controlled capabilities
+   (mccap). Instead, add a comment to prevent confusion when
+   crosschecking with 2.0 spec.
+ - Change maxoc and maxocpu defaults from 1 block to the max number of
+   blocks.
+ - Re-implement the generic geometry to use nvm_geo on both device and
+   targets. Maintain nvm_common_geo to make it easier to copy the common
+   part of the geometry (without having to overwrite target-specific
+   fields, which is ugly and error prone). Matias, if you still want to
+   get rid of this, we can do it.
+ - Re-order patches with renaming to make them more meaningful. These
+   belong to the series, since the name changes are motivated by 2.0
+   inclusions. The only exception would be 36d10bfd3234, but I hope it
+   is OK I include it here.
+
+Also,
+ - Eliminate a dependency between luns and lines in the init/exit
+   refactoring.
+ - Use the global address format when possible to avoid defaulting on
+   the 1.2 path. This will safe headaches if the address format changes
+   at some point.
+
+I took out the patch allowing to do bit shifts on non power-of-2 media
+formats on pblk's mapping since it requires touching many places that
+are not 2.0 related. I'll submit this separately.
+
+# Changes since V1:
+
+Apply Matias' feedback:
+ - Rebase on top of Matias' latest patches.
+ - Use nvme_get_log_ext to submit report chunk and export it.
+ - Re-write report chunk based on Matias' suggestions. Here, I
+   maintained the lba interface, but it was necessary to redo the
+   address formatting to match the chunk log page format. For pblk,
+   this means a double address transformation, but it enables the
+   standard path to use lbas, plus, this is not in the fast path.
+ - Fold address format together with address transformations.
+ - Split the generic geometry patch in different patches.
+ - Remove refactoring of ligthnvm's core sysfs.
+
+Feedback not applied:
+ - Not letting pblk know about 1.2 and 2.0 bad block paths.
+   Since the interfaces for get/set bad block and report chunk are so
+   different, moving this logic to core adds assumptions on how the
+   targets would want to get the data back. A way of doing this is
+   creating a logical report chunk on the 1.2 path, but this would
+   mean that values like the wear-index are invalid, which requires
+   the target knowledge. I'm open to suggestions here.
+
+Also:
+ - Do some further renamings
+ - Create a generic address format to make it explicit where we share
+   1.2 and 2.0 fields to avoid address formatting in the fast path.
+ - Add new fields to sysfs to complete spec and show major/minor
+   versions (version and subversion to respect current interface).
+
+Implement 2.0 support in pblk. This includes the address formatting and
+mapping paths, as well as the sysfs entries for them.
+
+Javier
+
+
+Javier Gonz?lez (15):
+  lightnvm: simplify geometry structure.
+  lightnvm: add controller capabilities to 2.0
+  lightnvm: add minor version to generic geometry
+  lightnvm: add shorten OCSSD version in geo
+  lightnvm: complete geo structure with maxoc*
+  lightnvm: normalize geometry nomenclature
+  lightnvm: add support for 2.0 address format
+  lightnvm: make address conversions depend on generic device
+  lightnvm: implement get log report chunk helpers
+  lightnvm: pblk: check for supported version
+  lightnvm: pblk: rename ppaf* to addrf*
+  lightnvn: pblk: use generic address format
+  lightnvm: pblk: implement get log report chunk
+  lightnvm: pblk: refactor init/exit sequences
+  lightnvm: pblk: implement 2.0 support
+
+ drivers/lightnvm/core.c          | 178 ++++-----
+ drivers/lightnvm/pblk-core.c     | 169 ++++++--
+ drivers/lightnvm/pblk-gc.c       |   2 +-
+ drivers/lightnvm/pblk-init.c     | 838 +++++++++++++++++++++++----------------
+ drivers/lightnvm/pblk-map.c      |   4 +-
+ drivers/lightnvm/pblk-read.c     |   2 +-
+ drivers/lightnvm/pblk-recovery.c |  14 +-
+ drivers/lightnvm/pblk-rl.c       |   2 +-
+ drivers/lightnvm/pblk-sysfs.c    |  65 ++-
+ drivers/lightnvm/pblk-write.c    |   2 +-
+ drivers/lightnvm/pblk.h          | 242 +++++++----
+ drivers/nvme/host/core.c         |   6 +-
+ drivers/nvme/host/lightnvm.c     | 453 ++++++++++++++-------
+ drivers/nvme/host/nvme.h         |   3 +
+ include/linux/lightnvm.h         | 331 ++++++++++------
+ 15 files changed, 1479 insertions(+), 832 deletions(-)
+
 -- 
 2.7.4
