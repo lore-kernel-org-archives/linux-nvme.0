@@ -1,50 +1,58 @@
-From: marc@merlins.org (Marc MERLIN)
-Date: Tue, 27 Feb 2018 18:22:37 -0800
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <20171214033633.4oncj3kcsvxv4kic@merlins.org>
-References: <20170313153319.fmy6ww72fjtx74xq@merlins.org>
- <20170313143649.GC6994@localhost.localdomain>
- <20170311022612.GB28220@merlins.org>
- <20170215181435.36saagrln25im7ml@merlins.org>
- <20171214033633.4oncj3kcsvxv4kic@merlins.org>
-Message-ID: <20180228022237.jaywgrmojhlcqs4e@merlins.org>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Wed, 28 Feb 2018 10:53:31 +0800
+Subject: [PATCH] nvme-pci: assign separate irq vectors for adminq and ioq0
+In-Reply-To: <20180227151311.GD10832@localhost.localdomain>
+References: <1519721177-2099-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180227151311.GD10832@localhost.localdomain>
+Message-ID: <9252f0a1-f3e5-414b-db49-e8053dfa48a6@oracle.com>
 
-On Wed, Dec 13, 2017@07:36:33PM -0800, Marc MERLIN wrote:
-> So, I was all happy and all with 4.11, and it still works fine.
-> S3 sleep just works, hibernate just works.
-> And then 4.12 came, and S3 sleep would not work reliably
-> 4.13 came, same thing
-> 4.14, again, same thing :(
+Hi Keith
+
+Thanks for your precious time to review this.
+
+On 02/27/2018 11:13 PM, Keith Busch wrote:
+> On Tue, Feb 27, 2018@04:46:17PM +0800, Jianchao Wang wrote:
+>> Currently, adminq and ioq0 share the same irq vector. This is
+>> unfair for both amdinq and ioq0.
+>>  - For adminq, its completion irq has to be bound on cpu0.
+>>  - For ioq0, when the irq fires for io completion, the adminq irq
+>>    action has to be checked also.
 > 
-> Currently when I put the laptop to sleep, it sometimes, but just
-> sometimes, keeps the thinkpad light in a slow pulsing light as if it
-> were still in sleep mode, and just never wakes up.
+> This change log could use some improvements. Why is it bad if admin
+> interrupts affinity is with cpu0?
+
+adminq interrupts should be able to fire everywhere.
+do we have any reason to bound it on cpu0 ?
+
 > 
-> Sadly, this is crappy to bisect since it's not reliably reproducible.
+> Are you able to measure _any_ performance difference on IO queue 1 vs IO
+> queue 2 that you can attribute to IO queue 1's sharing vector 0?
+
+Actually, I didn't get any performance improving on my own NVMe card.
+But it may be needed on some enterprise card, especially the media is persist memory.
+nvme_irq will be invoked twice when ioq0 irq fires, this will introduce another unnecessary DMA
+accessing on cq entry.
+
+>  
+>> @@ -1945,11 +1947,11 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>>  	 * setting up the full range we need.
+>>  	 */
+>>  	pci_free_irq_vectors(pdev);
+>> -	nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
+>> -			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
+>> -	if (nr_io_queues <= 0)
+>> +	ret = pci_alloc_irq_vectors_affinity(pdev, 1, (nr_io_queues + 1),
+>> +			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
+>> +	if (ret <= 0)
+>>  		return -EIO;
+>> -	dev->max_qid = nr_io_queues;
+>> +	dev->max_qid = ret - 1;
 > 
-> Before I go through that pain, are there any suggestions or ideas I
-> should try?
+> So controllers that have only legacy or single-message MSI don't get any
+> IO queues?
+> 
 
-Well, this is kind of embarassing, but here's what happened.
+Yes. At the moment, we have to share the only one irq vector.
 
-I got tired of my laptop locking up when recovering from S3 sleep
-(sometimes) with 4.12, and 100% of the time with 4.13 and above all the
-way to 4.15.
-So, I bought a 1TB Sata M2 drive to replace my NVME one.
-I spent time setting it up, and then... it failed just like with NVME.
-
-So, NVME was innocent.
-A lot of trial and error later, I found out that the iwlagn driver
-actually broke between 4.11 and 4.12/4.13 and causes hangs on S3 resume.
-Sigh..
-My suspend script now unloads the wireless driver before going to sleep,
-and all is well again.
-
-Sorry about the wrong report on NVME.
-
-Marc
--- 
-"A mouse is a device used to point at the xterm you want to type in" - A.S.R.
-Microsoft is to operating systems ....
-                                      .... what McDonalds is to gourmet cooking
-Home page: http://marc.merlins.org/                       | PGP 7F55D5F27AAF9D08
+Thanks for your directive. :)
+Jianchao
