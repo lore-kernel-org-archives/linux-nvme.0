@@ -1,71 +1,147 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 28 Feb 2018 23:46:20 +0800
-Subject: [PATCH] nvme-pci: assign separate irq vectors for adminq and ioq0
-In-Reply-To: <8066e06c-90f4-c21b-e36f-89f6e8ca28c5@oracle.com>
-References: <1519721177-2099-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180227151311.GD10832@localhost.localdomain>
- <9252f0a1-f3e5-414b-db49-e8053dfa48a6@oracle.com>
- <20180228152741.GA16002@localhost.localdomain>
- <8066e06c-90f4-c21b-e36f-89f6e8ca28c5@oracle.com>
-Message-ID: <cc46058f-bb7a-e108-c6e9-621daddae577@oracle.com>
+From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Wed, 28 Feb 2018 16:49:31 +0100
+Subject: [PATCH 11/15] lightnvm: pblk: rename ppaf* to addrf*
+In-Reply-To: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
+References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519832975-25432-12-git-send-email-javier@cnexlabs.com>
 
+In preparation for 2.0 support in pblk, rename variables referring to
+the address format to addrf and reserve ppaf for the 1.2 path.
 
+Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+---
+ drivers/lightnvm/pblk-init.c  |  8 ++++----
+ drivers/lightnvm/pblk-sysfs.c |  4 ++--
+ drivers/lightnvm/pblk.h       | 16 ++++++++--------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-On 02/28/2018 11:42 PM, jianchao.wang wrote:
-> Hi Keith
-> 
-> Thanks for your kindly response and directive
-> 
-> On 02/28/2018 11:27 PM, Keith Busch wrote:
->> On Wed, Feb 28, 2018@10:53:31AM +0800, jianchao.wang wrote:
->>> On 02/27/2018 11:13 PM, Keith Busch wrote:
->>>> On Tue, Feb 27, 2018@04:46:17PM +0800, Jianchao Wang wrote:
->>>>> Currently, adminq and ioq0 share the same irq vector. This is
->>>>> unfair for both amdinq and ioq0.
->>>>>  - For adminq, its completion irq has to be bound on cpu0.
->>>>>  - For ioq0, when the irq fires for io completion, the adminq irq
->>>>>    action has to be checked also.
->>>>
->>>> This change log could use some improvements. Why is it bad if admin
->>>> interrupts affinity is with cpu0?
->>>
->>> adminq interrupts should be able to fire everywhere.
->>> do we have any reason to bound it on cpu0 ?
->>
->> Your patch will have the admin vector CPU affinity mask set to
->> 0xff..ff. The first set bit for an online CPU is the one the IRQ handler
->> will run on, so the admin queue will still only run on CPU 0.
-> 
-> hmmm...yes.
-> When I test there is only one irq vector, I get following result:
->  124:          0          0     253541          0          0          0          0          0  IR-PCI-MSI 1048576-edge      nvme0q0, nvme0q1
-> 
-
-the irqbalance may migrate the adminq irq away from cpu0.
-
->>  
->>>> Are you able to measure _any_ performance difference on IO queue 1 vs IO
->>>> queue 2 that you can attribute to IO queue 1's sharing vector 0?
->>>
->>> Actually, I didn't get any performance improving on my own NVMe card.
->>> But it may be needed on some enterprise card, especially the media is persist memory.
->>> nvme_irq will be invoked twice when ioq0 irq fires, this will introduce another unnecessary DMA
->>> accessing on cq entry.
->>
->> A CPU reading its own memory isn't a DMA. It's just a cheap memory read.
-> 
-> Oh sorry, my bad, I mean it is operation on DMA address, it is uncached.
-> nvme_irq
->   -> nvme_process_cq
->     -> nvme_read_cqe
->       -> nvme_cqe_valid
-> 
-> static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
-> 		u16 phase)
-> {
-> 	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
-> }
-> 
-> Sincerely
-> Jianchao
-> 
+diff --git a/drivers/lightnvm/pblk-init.c b/drivers/lightnvm/pblk-init.c
+index b67b5b11ae16..73b221c69cfd 100644
+--- a/drivers/lightnvm/pblk-init.c
++++ b/drivers/lightnvm/pblk-init.c
+@@ -80,7 +80,7 @@ static size_t pblk_trans_map_size(struct pblk *pblk)
+ {
+ 	int entry_size = 8;
+ 
+-	if (pblk->ppaf_bitsize < 32)
++	if (pblk->addrf_len < 32)
+ 		entry_size = 4;
+ 
+ 	return entry_size * pblk->rl.nr_secs;
+@@ -198,7 +198,7 @@ static int pblk_set_addrf_12(struct nvm_geo *geo,
+ 	return dst->blk_offset + src->blk_len;
+ }
+ 
+-static int pblk_set_ppaf(struct pblk *pblk)
++static int pblk_set_addrf(struct pblk *pblk)
+ {
+ 	struct nvm_tgt_dev *dev = pblk->dev;
+ 	struct nvm_geo *geo = &dev->geo;
+@@ -210,7 +210,7 @@ static int pblk_set_ppaf(struct pblk *pblk)
+ 		return -EINVAL;
+ 	}
+ 
+-	pblk->ppaf_bitsize = pblk_set_addrf_12(geo, (void *)&pblk->ppaf);
++	pblk->addrf_len = pblk_set_addrf_12(geo, (void *)&pblk->addrf);
+ 
+ 	return 0;
+ }
+@@ -319,7 +319,7 @@ static int pblk_core_init(struct pblk *pblk)
+ 	if (!pblk->r_end_wq)
+ 		goto free_bb_wq;
+ 
+-	if (pblk_set_ppaf(pblk))
++	if (pblk_set_addrf(pblk))
+ 		goto free_r_end_wq;
+ 
+ 	if (pblk_rwb_init(pblk))
+diff --git a/drivers/lightnvm/pblk-sysfs.c b/drivers/lightnvm/pblk-sysfs.c
+index 462a787893d5..cbb5b6edb7bf 100644
+--- a/drivers/lightnvm/pblk-sysfs.c
++++ b/drivers/lightnvm/pblk-sysfs.c
+@@ -117,12 +117,12 @@ static ssize_t pblk_sysfs_ppaf(struct pblk *pblk, char *page)
+ 	struct nvm_addr_format_12 *geo_ppaf;
+ 	ssize_t sz = 0;
+ 
+-	ppaf = (struct nvm_addr_format_12 *)&pblk->ppaf;
++	ppaf = (struct nvm_addr_format_12 *)&pblk->addrf;
+ 	geo_ppaf = (struct nvm_addr_format_12 *)&geo->addrf;
+ 
+ 	sz = snprintf(page, PAGE_SIZE,
+ 		"pblk:(s:%d)ch:%d/%d,lun:%d/%d,blk:%d/%d,pg:%d/%d,pl:%d/%d,sec:%d/%d\n",
+-			pblk->ppaf_bitsize,
++			pblk->addrf_len,
+ 			ppaf->ch_offset, ppaf->ch_len,
+ 			ppaf->lun_offset, ppaf->lun_len,
+ 			ppaf->blk_offset, ppaf->blk_len,
+diff --git a/drivers/lightnvm/pblk.h b/drivers/lightnvm/pblk.h
+index bae2cc758de8..dd0089fe62b9 100644
+--- a/drivers/lightnvm/pblk.h
++++ b/drivers/lightnvm/pblk.h
+@@ -570,8 +570,8 @@ struct pblk {
+ 	struct pblk_line_mgmt l_mg;		/* Line management */
+ 	struct pblk_line_meta lm;		/* Line metadata */
+ 
+-	struct nvm_addr_format ppaf;
+-	int ppaf_bitsize;
++	struct nvm_addr_format addrf;
++	int addrf_len;
+ 
+ 	struct pblk_rb rwb;
+ 
+@@ -948,7 +948,7 @@ static inline struct ppa_addr addr_to_gen_ppa(struct pblk *pblk, u64 paddr,
+ 					      u64 line_id)
+ {
+ 	struct nvm_addr_format_12 *ppaf =
+-				(struct nvm_addr_format_12 *)&pblk->ppaf;
++				(struct nvm_addr_format_12 *)&pblk->addrf;
+ 	struct ppa_addr ppa;
+ 
+ 	ppa.ppa = 0;
+@@ -966,7 +966,7 @@ static inline u64 pblk_dev_ppa_to_line_addr(struct pblk *pblk,
+ 							struct ppa_addr p)
+ {
+ 	struct nvm_addr_format_12 *ppaf =
+-				(struct nvm_addr_format_12 *)&pblk->ppaf;
++				(struct nvm_addr_format_12 *)&pblk->addrf;
+ 	u64 paddr;
+ 
+ 	paddr = (u64)p.g.ch << ppaf->ch_offset;
+@@ -991,7 +991,7 @@ static inline struct ppa_addr pblk_ppa32_to_ppa64(struct pblk *pblk, u32 ppa32)
+ 		ppa64.c.is_cached = 1;
+ 	} else {
+ 		struct nvm_addr_format_12 *ppaf =
+-				(struct nvm_addr_format_12 *)&pblk->ppaf;
++				(struct nvm_addr_format_12 *)&pblk->addrf;
+ 
+ 		ppa64.g.ch = (ppa32 & ppaf->ch_mask) >> ppaf->ch_offset;
+ 		ppa64.g.lun = (ppa32 & ppaf->lun_mask) >> ppaf->lun_offset;
+@@ -1015,7 +1015,7 @@ static inline u32 pblk_ppa64_to_ppa32(struct pblk *pblk, struct ppa_addr ppa64)
+ 		ppa32 |= 1U << 31;
+ 	} else {
+ 		struct nvm_addr_format_12 *ppaf =
+-				(struct nvm_addr_format_12 *)&pblk->ppaf;
++				(struct nvm_addr_format_12 *)&pblk->addrf;
+ 
+ 		ppa32 |= ppa64.g.ch << ppaf->ch_offset;
+ 		ppa32 |= ppa64.g.lun << ppaf->lun_offset;
+@@ -1033,7 +1033,7 @@ static inline struct ppa_addr pblk_trans_map_get(struct pblk *pblk,
+ {
+ 	struct ppa_addr ppa;
+ 
+-	if (pblk->ppaf_bitsize < 32) {
++	if (pblk->addrf_len < 32) {
+ 		u32 *map = (u32 *)pblk->trans_map;
+ 
+ 		ppa = pblk_ppa32_to_ppa64(pblk, map[lba]);
+@@ -1049,7 +1049,7 @@ static inline struct ppa_addr pblk_trans_map_get(struct pblk *pblk,
+ static inline void pblk_trans_map_set(struct pblk *pblk, sector_t lba,
+ 						struct ppa_addr ppa)
+ {
+-	if (pblk->ppaf_bitsize < 32) {
++	if (pblk->addrf_len < 32) {
+ 		u32 *map = (u32 *)pblk->trans_map;
+ 
+ 		map[lba] = pblk_ppa64_to_ppa32(pblk, ppa);
+-- 
+2.7.4
