@@ -1,78 +1,71 @@
-From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Wed, 28 Feb 2018 17:59:54 +0200
-Subject: [PATCH V2] nvme-pci: assign separate irq vectors for adminq and
- ioq0
-In-Reply-To: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <CAHp75Vet0gt0RW4eu+TCE8qBSk2ymMKkG5=SuM9ytzO3-6Y+Mg@mail.gmail.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Wed, 28 Feb 2018 23:46:20 +0800
+Subject: [PATCH] nvme-pci: assign separate irq vectors for adminq and ioq0
+In-Reply-To: <8066e06c-90f4-c21b-e36f-89f6e8ca28c5@oracle.com>
+References: <1519721177-2099-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180227151311.GD10832@localhost.localdomain>
+ <9252f0a1-f3e5-414b-db49-e8053dfa48a6@oracle.com>
+ <20180228152741.GA16002@localhost.localdomain>
+ <8066e06c-90f4-c21b-e36f-89f6e8ca28c5@oracle.com>
+Message-ID: <cc46058f-bb7a-e108-c6e9-621daddae577@oracle.com>
 
-On Wed, Feb 28, 2018 at 5:48 PM, Jianchao Wang
-<jianchao.w.wang@oracle.com> wrote:
-> Currently, adminq and ioq0 share the same irq vector. This is
-> unfair for both amdinq and ioq0.
->  - For adminq, its completion irq has to be bound on cpu0. It
->    just has only one hw queue, it is unreasonable to do this.
->  - For ioq0, when the irq fires for io completion, the adminq irq
->    action on this irq vector will introduce an uncached access on
->    adminq cqe at least, even worse when adminq is busy.
->
-> To improve this, allocate separate irq vectors for adminq and
-> ioq0, and not set irq affinity for adminq one. If just one irq
-> vector, setup adminq + 1 ioq and let them share it. In addition
-> add new helper interface nvme_ioq_vector to get ioq vector.
 
-> +static inline unsigned int nvme_ioq_vector(struct nvme_dev *dev,
-> +               unsigned int qid)
-> +{
-> +       /*
-> +        * If controller has only legacy or single-message MSI, there will
-> +        * be only 1 irq vector. At the moment, we setup adminq + 1 ioq
-> +        * and let them share irq vector.
-> +        */
-> +       return (dev->num_vecs == 1) ? 0 : qid;
 
-Redundant parens.
+On 02/28/2018 11:42 PM, jianchao.wang wrote:
+> Hi Keith
+> 
+> Thanks for your kindly response and directive
+> 
+> On 02/28/2018 11:27 PM, Keith Busch wrote:
+>> On Wed, Feb 28, 2018@10:53:31AM +0800, jianchao.wang wrote:
+>>> On 02/27/2018 11:13 PM, Keith Busch wrote:
+>>>> On Tue, Feb 27, 2018@04:46:17PM +0800, Jianchao Wang wrote:
+>>>>> Currently, adminq and ioq0 share the same irq vector. This is
+>>>>> unfair for both amdinq and ioq0.
+>>>>>  - For adminq, its completion irq has to be bound on cpu0.
+>>>>>  - For ioq0, when the irq fires for io completion, the adminq irq
+>>>>>    action has to be checked also.
+>>>>
+>>>> This change log could use some improvements. Why is it bad if admin
+>>>> interrupts affinity is with cpu0?
+>>>
+>>> adminq interrupts should be able to fire everywhere.
+>>> do we have any reason to bound it on cpu0 ?
+>>
+>> Your patch will have the admin vector CPU affinity mask set to
+>> 0xff..ff. The first set bit for an online CPU is the one the IRQ handler
+>> will run on, so the admin queue will still only run on CPU 0.
+> 
+> hmmm...yes.
+> When I test there is only one irq vector, I get following result:
+>  124:          0          0     253541          0          0          0          0          0  IR-PCI-MSI 1048576-edge      nvme0q0, nvme0q1
+> 
 
-> +}
+the irqbalance may migrate the adminq irq away from cpu0.
 
->
->         for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
-> -               /* vector == qid - 1, match nvme_create_queue */
-
->                 if (nvme_alloc_queue(dev, i, dev->q_depth,
-> -                    pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
-> +                    pci_irq_get_node(to_pci_dev(dev->dev),
-> +                                nvme_ioq_vector(dev, i)))) {
-
-Perhaps better to introduce a temporary variable to make it readable?
-
->                         ret = -ENOMEM;
->                         break;
->                 }
-
-> +       ret = pci_alloc_irq_vectors_affinity(pdev, 1, (nr_io_queues + 1),
-> +                       PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
-> +       if (ret <= 0)
->                 return -EIO;
-> -       dev->max_qid = nr_io_queues;
-> -
-> +       dev->num_vecs = ret;
-> +       dev->max_qid = (ret > 1) ? (ret - 1) : 1;
-
-I don not see how ret can possible be < 1 here.
-
-Thus, the logic looks like this:
-if ret >= 2 => return ret - 1; // Possible variants [1..ret - 1]
-if ret == 1 => return 1;
-
-So, for ret == 1 or ret == 2 we still use 1.
-
-Is it by design?
-
-Can it be written like
-
-dev->max_qid = max(ret - 1, 1);
-
--- 
-With Best Regards,
-Andy Shevchenko
+>>  
+>>>> Are you able to measure _any_ performance difference on IO queue 1 vs IO
+>>>> queue 2 that you can attribute to IO queue 1's sharing vector 0?
+>>>
+>>> Actually, I didn't get any performance improving on my own NVMe card.
+>>> But it may be needed on some enterprise card, especially the media is persist memory.
+>>> nvme_irq will be invoked twice when ioq0 irq fires, this will introduce another unnecessary DMA
+>>> accessing on cq entry.
+>>
+>> A CPU reading its own memory isn't a DMA. It's just a cheap memory read.
+> 
+> Oh sorry, my bad, I mean it is operation on DMA address, it is uncached.
+> nvme_irq
+>   -> nvme_process_cq
+>     -> nvme_read_cqe
+>       -> nvme_cqe_valid
+> 
+> static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
+> 		u16 phase)
+> {
+> 	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
+> }
+> 
+> Sincerely
+> Jianchao
+> 
