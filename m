@@ -1,87 +1,109 @@
 From: jg@lightnvm.io (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
-Date: Wed, 28 Feb 2018 16:49:25 +0100
-Subject: [PATCH 05/15] lightnvm: complete geo structure with maxoc*
+Date: Wed, 28 Feb 2018 16:49:32 +0100
+Subject: [PATCH 12/15] lightnvn: pblk: use generic address format
 In-Reply-To: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
 References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
-Message-ID: <1519832975-25432-6-git-send-email-javier@cnexlabs.com>
+Message-ID: <1519832975-25432-13-git-send-email-javier@cnexlabs.com>
 
-Complete the generic geometry structure with the maxoc and maxocpu
-felds, present in the 2.0 spec. Also, expose them through sysfs.
+Use the generic address format on common address manipulations.
 
 Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 ---
- drivers/nvme/host/lightnvm.c | 17 +++++++++++++++++
- include/linux/lightnvm.h     |  2 ++
- 2 files changed, 19 insertions(+)
+ drivers/lightnvm/pblk-core.c  | 10 +++++-----
+ drivers/lightnvm/pblk-map.c   |  4 ++--
+ drivers/lightnvm/pblk-sysfs.c |  4 ++--
+ drivers/lightnvm/pblk.h       |  4 ++--
+ 4 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 85f336a79cda..afb5f883f8c8 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -323,6 +323,13 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
- 	geo->ws_opt = sec_per_pg;
- 	geo->mw_cunits = geo->ws_opt << 3;	/* default to MLC safe values */
+diff --git a/drivers/lightnvm/pblk-core.c b/drivers/lightnvm/pblk-core.c
+index 7d0bd33f11d9..2e10b18b61e3 100644
+--- a/drivers/lightnvm/pblk-core.c
++++ b/drivers/lightnvm/pblk-core.c
+@@ -885,7 +885,7 @@ int pblk_line_erase(struct pblk *pblk, struct pblk_line *line)
+ 		}
  
-+	/* Do not impose values for maximum number of open blocks as it is
-+	 * unspecified in 1.2. Users of 1.2 must be aware of this and eventually
-+	 * specify these values through a quirk if restrictions apply.
-+	 */
-+	geo->maxoc = geo->all_luns * geo->nr_chks;
-+	geo->maxocpu = geo->nr_chks;
-+
- 	geo->cap = le32_to_cpu(src->mccap);
+ 		ppa = pblk->luns[bit].bppa; /* set ch and lun */
+-		ppa.g.blk = line->id;
++		ppa.a.blk = line->id;
  
- 	geo->trdt = le32_to_cpu(src->trdt);
-@@ -410,6 +417,8 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
- 	geo->ws_min = le32_to_cpu(id->ws_min);
- 	geo->ws_opt = le32_to_cpu(id->ws_opt);
- 	geo->mw_cunits = le32_to_cpu(id->mw_cunits);
-+	geo->maxoc = le32_to_cpu(id->maxoc);
-+	geo->maxocpu = le32_to_cpu(id->maxocpu);
+ 		atomic_dec(&line->left_eblks);
+ 		WARN_ON(test_and_set_bit(bit, line->erase_bitmap));
+@@ -1686,8 +1686,8 @@ static void __pblk_down_page(struct pblk *pblk, struct ppa_addr *ppa_list,
+ 	int i;
  
- 	geo->cap = le32_to_cpu(id->mccap);
+ 	for (i = 1; i < nr_ppas; i++)
+-		WARN_ON(ppa_list[0].g.lun != ppa_list[i].g.lun ||
+-				ppa_list[0].g.ch != ppa_list[i].g.ch);
++		WARN_ON(ppa_list[0].a.lun != ppa_list[i].a.lun ||
++				ppa_list[0].a.ch != ppa_list[i].a.ch);
+ #endif
  
-@@ -1054,6 +1063,10 @@ static ssize_t nvm_dev_attr_show_20(struct device *dev,
- 		return scnprintf(page, PAGE_SIZE, "%u\n", geo->ws_min);
- 	} else if (strcmp(attr->name, "ws_opt") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "%u\n", geo->ws_opt);
-+	} else if (strcmp(attr->name, "maxoc") == 0) {
-+		return scnprintf(page, PAGE_SIZE, "%u\n", geo->maxoc);
-+	} else if (strcmp(attr->name, "maxocpu") == 0) {
-+		return scnprintf(page, PAGE_SIZE, "%u\n", geo->maxocpu);
- 	} else if (strcmp(attr->name, "mw_cunits") == 0) {
- 		return scnprintf(page, PAGE_SIZE, "%u\n", geo->mw_cunits);
- 	} else if (strcmp(attr->name, "write_typ") == 0) {
-@@ -1151,6 +1164,8 @@ static NVM_DEV_ATTR_20_RO(chunks);
- static NVM_DEV_ATTR_20_RO(clba);
- static NVM_DEV_ATTR_20_RO(ws_min);
- static NVM_DEV_ATTR_20_RO(ws_opt);
-+static NVM_DEV_ATTR_20_RO(maxoc);
-+static NVM_DEV_ATTR_20_RO(maxocpu);
- static NVM_DEV_ATTR_20_RO(mw_cunits);
- static NVM_DEV_ATTR_20_RO(write_typ);
- static NVM_DEV_ATTR_20_RO(write_max);
-@@ -1167,6 +1182,8 @@ static struct attribute *nvm_dev_attrs_20[] = {
- 	&dev_attr_clba.attr,
- 	&dev_attr_ws_min.attr,
- 	&dev_attr_ws_opt.attr,
-+	&dev_attr_maxoc.attr,
-+	&dev_attr_maxocpu.attr,
- 	&dev_attr_mw_cunits.attr,
+ 	ret = down_timeout(&rlun->wr_sem, msecs_to_jiffies(30000));
+@@ -1731,8 +1731,8 @@ void pblk_up_page(struct pblk *pblk, struct ppa_addr *ppa_list, int nr_ppas)
+ 	int i;
  
- 	&dev_attr_read_typ.attr,
-diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index b8bc158a2472..2102b092c7eb 100644
---- a/include/linux/lightnvm.h
-+++ b/include/linux/lightnvm.h
-@@ -296,6 +296,8 @@ struct nvm_geo {
- 	u32	ws_min;		/* minimum write size */
- 	u32	ws_opt;		/* optimal write size */
- 	u32	mw_cunits;	/* distance required for successful read */
-+	u32	maxoc;		/* maximum open chunks */
-+	u32	maxocpu;	/* maximum open chunks per parallel unit */
+ 	for (i = 1; i < nr_ppas; i++)
+-		WARN_ON(ppa_list[0].g.lun != ppa_list[i].g.lun ||
+-				ppa_list[0].g.ch != ppa_list[i].g.ch);
++		WARN_ON(ppa_list[0].a.lun != ppa_list[i].a.lun ||
++				ppa_list[0].a.ch != ppa_list[i].a.ch);
+ #endif
  
- 	/* device capabilities. Note that this represents capabilities in 1.2
- 	 * and media and controller capabilities in 2.0
+ 	rlun = &pblk->luns[pos];
+diff --git a/drivers/lightnvm/pblk-map.c b/drivers/lightnvm/pblk-map.c
+index 04e08d76ea5f..20dbaa89c9df 100644
+--- a/drivers/lightnvm/pblk-map.c
++++ b/drivers/lightnvm/pblk-map.c
+@@ -127,7 +127,7 @@ void pblk_map_erase_rq(struct pblk *pblk, struct nvm_rq *rqd,
+ 			atomic_dec(&e_line->left_eblks);
+ 
+ 			*erase_ppa = rqd->ppa_list[i];
+-			erase_ppa->g.blk = e_line->id;
++			erase_ppa->a.blk = e_line->id;
+ 
+ 			spin_unlock(&e_line->lock);
+ 
+@@ -168,6 +168,6 @@ void pblk_map_erase_rq(struct pblk *pblk, struct nvm_rq *rqd,
+ 		set_bit(bit, e_line->erase_bitmap);
+ 		atomic_dec(&e_line->left_eblks);
+ 		*erase_ppa = pblk->luns[bit].bppa; /* set ch and lun */
+-		erase_ppa->g.blk = e_line->id;
++		erase_ppa->a.blk = e_line->id;
+ 	}
+ }
+diff --git a/drivers/lightnvm/pblk-sysfs.c b/drivers/lightnvm/pblk-sysfs.c
+index cbb5b6edb7bf..a643dc623731 100644
+--- a/drivers/lightnvm/pblk-sysfs.c
++++ b/drivers/lightnvm/pblk-sysfs.c
+@@ -39,8 +39,8 @@ static ssize_t pblk_sysfs_luns_show(struct pblk *pblk, char *page)
+ 		sz += snprintf(page + sz, PAGE_SIZE - sz,
+ 				"pblk: pos:%d, ch:%d, lun:%d - %d\n",
+ 					i,
+-					rlun->bppa.g.ch,
+-					rlun->bppa.g.lun,
++					rlun->bppa.a.ch,
++					rlun->bppa.a.lun,
+ 					active);
+ 	}
+ 
+diff --git a/drivers/lightnvm/pblk.h b/drivers/lightnvm/pblk.h
+index dd0089fe62b9..6ac64d9eb57e 100644
+--- a/drivers/lightnvm/pblk.h
++++ b/drivers/lightnvm/pblk.h
+@@ -936,12 +936,12 @@ static inline int pblk_pad_distance(struct pblk *pblk)
+ 
+ static inline int pblk_ppa_to_line(struct ppa_addr p)
+ {
+-	return p.g.blk;
++	return p.a.blk;
+ }
+ 
+ static inline int pblk_ppa_to_pos(struct nvm_geo *geo, struct ppa_addr p)
+ {
+-	return p.g.lun * geo->num_ch + p.g.ch;
++	return p.a.lun * geo->num_ch + p.a.ch;
+ }
+ 
+ static inline struct ppa_addr addr_to_gen_ppa(struct pblk *pblk, u64 paddr,
 -- 
 2.7.4
