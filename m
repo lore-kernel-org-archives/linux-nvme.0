@@ -1,31 +1,38 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 28 Feb 2018 12:54:11 -0700
-Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
-In-Reply-To: <20180228163701.GA16363@lst.de>
-References: <20180224000547.7252-1-keith.busch@intel.com>
- <yq17eqx4w64.fsf@oracle.com>
- <20180228163510.GC16002@localhost.localdomain>
- <20180228163701.GA16363@lst.de>
-Message-ID: <20180228195411.GJ16002@localhost.localdomain>
+From: wenxiong@linux.vnet.ibm.com (wenxiong)
+Date: Wed, 28 Feb 2018 16:31:37 -0600
+Subject: [PATCH V3] nvme-pci: Fixes EEH failure on ppc
+In-Reply-To: <1518725110-25894-1-git-send-email-wenxiong@linux.vnet.ibm.com>
+References: <1518725110-25894-1-git-send-email-wenxiong@linux.vnet.ibm.com>
+Message-ID: <bf3a386a2b82dac84b681c14d5334632@linux.vnet.ibm.com>
 
-On Wed, Feb 28, 2018@05:37:01PM +0100, Christoph Hellwig wrote:
-> On Wed, Feb 28, 2018@09:35:11AM -0700, Keith Busch wrote:
-> > Right, this RFC is just about enabling formats that don't subscribe to
-> > the DIX format. It turns out some people believe those extended LBAs
-> > are useful for something.
-> > 
-> > I still think this LBA format is not a good fit for this driver, but
-> > I'd like to not push people to use out-of-tree or user space drivers
-> > if there is a reasonable way to accommodate here. The driver's existing
-> > NVMe IO passthrough makes this format reachable already, but there is
-> > resistance to use the ioctl over more standard read/write paths.
+On 2018-02-15 14:05, wenxiong@linux.vnet.ibm.com wrote:
+> From: Wen Xiong <wenxiong at linux.vnet.ibm.com>
 > 
-> For a good reason.  I think these formats are completely bogus for
-> something pretending to be a block device, and your patch just shows
-> how bogus they are.
+> With b2a0eb1a0ac72869c910a79d935a0b049ec78ad9(nvme-pci: Remove watchdog
+> timer), EEH recovery stops working on ppc.
 > 
-> What is the use case for this silly game?
+> After removing whatdog timer routine, when trigger EEH on ppc, we hit
+> EEH in nvme_timeout(). We would like to check if pci channel is offline
+> or not at the beginning of nvme_timeout(), if it is already offline,
+> we don't need to do future nvme timeout process.
+> 
+> Add mrmory barrier before calling pci_channel_offline().
+> 
+> With the patch, EEH recovery works successfuly on ppc.
+> 
+> Signed-off-by: Wen Xiong <wenxiong at linux.vnet.ibm.com>
 
-Certainly not for DIF PI. At a high level, the use case is to store
-block data and its metadata atomically rather than write them separately.
-RAID journal software might be able to leverage a device like that.
+Hi Keith and All,
+
+We have the newer Linux distro releases came out recently, so I got more 
+reports for this issue.
+
+Test teams have verified the patch in several distro kernel 
+version(v4.14, v4.15).
+
+
+If you have any question about the V3 patch I submitted two weeks, Let 
+me know.
+
+Thanks,
+Wendy
