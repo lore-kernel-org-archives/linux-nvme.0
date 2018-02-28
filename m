@@ -1,24 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 28 Feb 2018 17:37:01 +0100
-Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
-In-Reply-To: <20180228163510.GC16002@localhost.localdomain>
-References: <20180224000547.7252-1-keith.busch@intel.com>
- <yq17eqx4w64.fsf@oracle.com> <20180228163510.GC16002@localhost.localdomain>
-Message-ID: <20180228163701.GA16363@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 28 Feb 2018 08:53:53 -0700
+Subject: [PATCH] nvme-pci: assign separate irq vectors for adminq and ioq0
+In-Reply-To: <cc46058f-bb7a-e108-c6e9-621daddae577@oracle.com>
+References: <1519721177-2099-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180227151311.GD10832@localhost.localdomain>
+ <9252f0a1-f3e5-414b-db49-e8053dfa48a6@oracle.com>
+ <20180228152741.GA16002@localhost.localdomain>
+ <8066e06c-90f4-c21b-e36f-89f6e8ca28c5@oracle.com>
+ <cc46058f-bb7a-e108-c6e9-621daddae577@oracle.com>
+Message-ID: <20180228155353.GB16002@localhost.localdomain>
 
-On Wed, Feb 28, 2018@09:35:11AM -0700, Keith Busch wrote:
-> Right, this RFC is just about enabling formats that don't subscribe to
-> the DIX format. It turns out some people believe those extended LBAs
-> are useful for something.
+On Wed, Feb 28, 2018@11:46:20PM +0800, jianchao.wang wrote:
 > 
-> I still think this LBA format is not a good fit for this driver, but
-> I'd like to not push people to use out-of-tree or user space drivers
-> if there is a reasonable way to accommodate here. The driver's existing
-> NVMe IO passthrough makes this format reachable already, but there is
-> resistance to use the ioctl over more standard read/write paths.
+> the irqbalance may migrate the adminq irq away from cpu0.
 
-For a good reason.  I think these formats are completely bogus for
-something pretending to be a block device, and your patch just shows
-how bogus they are.
-
-What is the use case for this silly game?
+No, irqbalance can't touch managed IRQs. See irq_can_set_affinity_usr().
