@@ -1,9 +1,9 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 28 Feb 2018 10:11:04 -0700
-Subject: [PATCH v2 1/1] nvmet: fix PSDT field check in command format
-In-Reply-To: <20180228170022.GA16848@lst.de>
-References: <1516807905-9497-1-git-send-email-maxg@mellanox.com>
- <20180228170022.GA16848@lst.de>
-Message-ID: <20180228171103.GE16002@localhost.localdomain>
+Date: Wed, 28 Feb 2018 10:11:22 -0700
+Subject: [PATCH v2] nvme-multipath: fix sysfs dangerously created links
+In-Reply-To: <20180228164541.GA16536@lst.de>
+References: <20180228070604.25868-1-baegjae@gmail.com>
+ <20180228164541.GA16536@lst.de>
+Message-ID: <20180228171121.GF16002@localhost.localdomain>
 
 Thanks, applied.
