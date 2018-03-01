@@ -1,34 +1,31 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 1 Mar 2018 12:10:12 -0700
-Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
+Date: Thu, 1 Mar 2018 12:13:10 -0700
+Subject: [PATCH v2 04/10] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-11-logang@deltatee.com>
- <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
- <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
- <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
-Message-ID: <7163af93-2f37-a8b6-986a-3cb2e62bee29@deltatee.com>
+ <20180228234006.21093-5-logang@deltatee.com>
+ <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <bab9fb8b-1449-4b87-94de-7da26a279331@deltatee.com>
 
 
-> Wouldn't it all be simpler if the p2p_dev resolution would be private
-> to the namespace?
+
+On 01/03/18 11:02 AM, Bjorn Helgaas wrote:
+>>   void pci_enable_acs(struct pci_dev *dev)
+>>   {
+>> +	if (pci_p2pdma_disable_acs(dev))
+>> +		return;
 > 
-> So is adding some all the namespaces in a subsystem must comply to
-> using p2p? Seems a little bit harsh if its not absolutely needed. Would
-> be nice to export a subsystems between two ports (on two HCAs, across
-> NUMA nodes) where the home node (primary path) would use p2p and
-> failover would use host memory...
+> This doesn't read naturally to me.  I do see that when
+> CONFIG_PCI_P2PDMA is not set, pci_p2pdma_disable_acs() does nothing
+> and returns 0, so we'll go ahead and try to enable ACS as before.
 > 
-> Can you help me understand why this is absolutely not feasible?
+> But I think it would be clearer to have an #ifdef CONFIG_PCI_P2PDMA
+> right here so it's more obvious that we only disable ACS when it's
+> selected.
 
-Yes, it would simplify things. However, as best as I can tell, when we 
-allocate memory we don't know what namespace it will be used for. If 
-there is a way, I could probably rework it so there's a P2P device per 
-namespace.
-
-Can you show me how we'd know the namespace to use in 
-nvmet_rdma_map_sgl_keyed()?
-
-Thanks,
+I could do this... however, I wrote it this way because I've read Linus 
+dislikes using #ifdef's inside function bodies and I personally agree 
+with that sentiment.
 
 Logan
