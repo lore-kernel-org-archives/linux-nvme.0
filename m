@@ -1,29 +1,51 @@
-From: jglisse@redhat.com (Jerome Glisse)
-Date: Thu, 1 Mar 2018 16:35:33 -0500
-Subject: [PATCH v2 04/10] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <EE1B4EB7-D3C0-4916-81CE-E647222D03E4@raithlin.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Thu, 1 Mar 2018 13:37:03 -0800
+Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <1519936477.4592.23.camel@au1.ibm.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-5-logang@deltatee.com>
- <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
- <0D05579B-789C-4A19-B3A2-C1A630BE31C0@raithlin.com>
- <20180301142155.5966c4c0@w520.home>
- <EE1B4EB7-D3C0-4916-81CE-E647222D03E4@raithlin.com>
-Message-ID: <20180301213533.GE6742@redhat.com>
+ <1519876489.4592.3.camel@kernel.crashing.org>
+ <1519876569.4592.4.camel@au1.ibm.com>
+ <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
+ <1519936477.4592.23.camel@au1.ibm.com>
+Message-ID: <CAPcyv4goHsYytq60ehJUori8Xq+Z0p8dV-8_oRALj244H4YtwQ@mail.gmail.com>
 
-On Thu, Mar 01, 2018@09:32:20PM +0000, Stephen  Bates wrote:
-> > your kernel provider needs to decide whether they favor device assignment or p2p
-> 
-> Thanks Alex! The hardware requirements for P2P (switch, high performance EPs) are such that we really only expect CONFIG_P2P_DMA to be enabled in specific instances and in those instances the users have made a decision to favor P2P over IOMMU isolation. Or they have setup their PCIe topology in a way that gives them IOMMU isolation where they want it and P2P where they want it.
-> 
-> 
+On Thu, Mar 1, 2018 at 12:34 PM, Benjamin Herrenschmidt
+<benh@au1.ibm.com> wrote:
+> On Thu, 2018-03-01@11:21 -0800, Dan Williams wrote:
+>> On Wed, Feb 28, 2018 at 7:56 PM, Benjamin Herrenschmidt
+>> <benh@au1.ibm.com> wrote:
+>> > On Thu, 2018-03-01@14:54 +1100, Benjamin Herrenschmidt wrote:
+>> > > On Wed, 2018-02-28@16:39 -0700, Logan Gunthorpe wrote:
+>> > > > Hi Everyone,
+>> > >
+>> > >
+>> > > So Oliver (CC) was having issues getting any of that to work for us.
+>> > >
+>> > > The problem is that acccording to him (I didn't double check the latest
+>> > > patches) you effectively hotplug the PCIe memory into the system when
+>> > > creating struct pages.
+>> > >
+>> > > This cannot possibly work for us. First we cannot map PCIe memory as
+>> > > cachable. (Note that doing so is a bad idea if you are behind a PLX
+>> > > switch anyway since you'd ahve to manage cache coherency in SW).
+>> >
+>> > Note: I think the above means it won't work behind a switch on x86
+>> > either, will it ?
+>>
+>> The devm_memremap_pages() infrastructure allows placing the memmap in
+>> "System-RAM" even if the hotplugged range is in PCI space. So, even if
+>> it is an issue on some configurations, it's just a simple adjustment
+>> to where the memmap is placed.
+>
+> But what happens with that PCI memory ? Is it effectively turned into
+> nromal memory (ie, usable for normal allocations, potentially used to
+> populate user pages etc...) or is it kept aside ?
+>
+> Also on ppc64, the physical addresses of PCIe make it so far appart
+> that there's no way we can map them into the linear mapping at the
+> normal offset of PAGE_OFFSET + (pfn << PAGE_SHIFT), so things like
+> page_address or virt_to_page cannot work as-is on PCIe addresses.
 
-Note that they are usecase for P2P where IOMMU isolation matter and
-the traffic through root complex isn't see as an issue. For instance
-for GPU the idea is that you want to allow the RDMA device to directly
-read or write from GPU memory to avoid having to migrate memory to
-system memory. This isn't so much for performance than for ease of
-use.
-
-Cheers,
-J?r?me
+Ah ok, I'd need to look at the details. I had been assuming that
+sparse-vmemmap could handle such a situation, but that could indeed be
+a broken assumption.
