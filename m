@@ -1,19 +1,21 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Thu, 1 Mar 2018 15:58:40 +0000
-Subject: [PATCH v2 08/10] nvme-pci: Add support for P2P memory in requests
-In-Reply-To: <c6639530-48ba-4655-c772-7d88a030e37e@grimberg.me>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-9-logang@deltatee.com>
- <c6639530-48ba-4655-c772-7d88a030e37e@grimberg.me>
-Message-ID: <1CE68E79-E5FD-4EE2-BD88-B3EE57E43ACE@raithlin.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 1 Mar 2018 09:10:42 -0700
+Subject: [PATCH V2] nvme-pci: assign separate irq vectors for adminq and
+ ioq0
+In-Reply-To: <20180301150329.GB6795@ming.t460p>
+References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180228164726.GB16536@lst.de> <20180301150329.GB6795@ming.t460p>
+Message-ID: <20180301161042.GA14799@localhost.localdomain>
 
-> Any plans adding the capability to nvme-rdma? Should be
-> straight-forward... In theory, the use-case would be rdma backend
-> fabric behind. Shouldn't be hard to test either...
+On Thu, Mar 01, 2018@11:03:30PM +0800, Ming Lei wrote:
+> If all CPUs for the 1st IRQ vector of admin queue are offline, then I
+> guess NVMe can't work any more.
 
-Nice idea Sagi. Yes we have been starting to look at that. Though again we would probably want to impose the "attached to the same PCIe switch" rule which might be less common to satisfy in initiator systems. 
+Yikes, with respect to admin commands, it appears you're right if your
+system allows offlining CPU0.
 
-Down the road I would also like to discuss the best way to use this P2P framework to facilitate copies between NVMe namespaces (on both PCIe and fabric attached namespaces) without having to expose the CMB up to user space. Wasn't something like that done in the SCSI world at some point Martin?
+> So looks it is a good idea to make admin queue's IRQ vector assigned as
+> non-managed IRQs.
 
-Stephen
-    
+It'd still be considered managed even if it's a 'pre_vector', though
+it would get the default mask with all possible CPUs.
