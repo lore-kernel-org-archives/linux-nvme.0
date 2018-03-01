@@ -1,19 +1,38 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Mar 2018 10:17:44 -0700
-Subject: [PATCH 5/5] nvme: pci: pass max vectors as num_possible_cpus()
- to pci_alloc_irq_vectors
-In-Reply-To: <20180301005220.GB29500@lst.de>
-References: <20180206121742.29336-1-ming.lei@redhat.com>
- <20180206121742.29336-6-ming.lei@redhat.com>
- <20180301005220.GB29500@lst.de>
-Message-ID: <20180301171744.GE14799@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 1 Mar 2018 10:16:24 -0700
+Subject: [PATCH v2 06/10] IB/core: Add optional PCI P2P flag to
+ rdma_rw_ctx_[init|destroy]()
+In-Reply-To: <72e90cc2-c05a-3ed8-42c7-e4d7a0d535d8@grimberg.me>
+References: <20180228234006.21093-1-logang@deltatee.com>
+ <20180228234006.21093-7-logang@deltatee.com>
+ <72e90cc2-c05a-3ed8-42c7-e4d7a0d535d8@grimberg.me>
+Message-ID: <3527faf1-3f3a-88d0-caa8-d94d75437d73@deltatee.com>
 
-On Thu, Mar 01, 2018@01:52:20AM +0100, Christoph Hellwig wrote:
-> Looks fine,
-> 
-> and we should pick this up for 4.16 independent of the rest, which
-> I might need a little more review time for.
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+Hey Sagi,
 
-Thanks, queued up for 4.16.
+Thanks for the review!
+
+
+On 01/03/18 03:32 AM, Sagi Grimberg wrote:
+>> ? int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 
+>> port_num,
+>> ????????? struct scatterlist *sg, u32 sg_cnt, u32 sg_offset,
+>> -??????? u64 remote_addr, u32 rkey, enum dma_data_direction dir)
+>> +??????? u64 remote_addr, u32 rkey, enum dma_data_direction dir,
+>> +??????? unsigned int flags)
+>> ? {
+>> ????? struct ib_device *dev = qp->pd->device;
+>> ????? int ret;
+>> -??? ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
+>> +??? if (flags & RDMA_RW_CTX_FLAG_PCI_P2PDMA)
+>> +??????? ret = pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
+>> +??? else
+>> +??????? ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
+>> +
+> 
+> Why not use is_pci_p2pdma_page(sg) instead of a flag? It would be so
+> much cleaner...
+
+Yes, that sounds like a good idea. We can make that change for v3.
+
+Logan
