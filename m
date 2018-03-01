@@ -1,11 +1,111 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Mar 2018 13:03:59 +0200
-Subject: [PATCH v2 09/10] nvme-pci: Add a quirk for a pseudo CMB
-In-Reply-To: <20180228234006.21093-10-logang@deltatee.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-10-logang@deltatee.com>
-Message-ID: <85896210-f963-7d0b-e60e-0cd903677c09@grimberg.me>
+From: jg@lightnvm.io (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Thu, 1 Mar 2018 12:05:24 +0100
+Subject: [PATCH 12/15] lightnvn: pblk: use generic address format
+In-Reply-To: <f1468f08-9412-0243-440a-b79615814b1e@lightnvm.io>
+References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
+ <1519832975-25432-13-git-send-email-javier@cnexlabs.com>
+ <f1468f08-9412-0243-440a-b79615814b1e@lightnvm.io>
+Message-ID: <670BB02F-9ADC-4685-9A6E-6CA5D2C0F5FB@lightnvm.io>
 
-Looks fine,
+> On 1 Mar 2018,@11.41, Matias Bj?rling <mb@lightnvm.io> wrote:
+> 
+> On 02/28/2018 04:49 PM, Javier Gonz?lez wrote:
+>> Use the generic address format on common address manipulations.
+>> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
+>> ---
+>>  drivers/lightnvm/pblk-core.c  | 10 +++++-----
+>>  drivers/lightnvm/pblk-map.c   |  4 ++--
+>>  drivers/lightnvm/pblk-sysfs.c |  4 ++--
+>>  drivers/lightnvm/pblk.h       |  4 ++--
+>>  4 files changed, 11 insertions(+), 11 deletions(-)
+>> diff --git a/drivers/lightnvm/pblk-core.c b/drivers/lightnvm/pblk-core.c
+>> index 7d0bd33f11d9..2e10b18b61e3 100644
+>> --- a/drivers/lightnvm/pblk-core.c
+>> +++ b/drivers/lightnvm/pblk-core.c
+>> @@ -885,7 +885,7 @@ int pblk_line_erase(struct pblk *pblk, struct pblk_line *line)
+>>  		}
+>>    		ppa = pblk->luns[bit].bppa; /* set ch and lun */
+>> -		ppa.g.blk = line->id;
+>> +		ppa.a.blk = line->id;
+>>    		atomic_dec(&line->left_eblks);
+>>  		WARN_ON(test_and_set_bit(bit, line->erase_bitmap));
+>> @@ -1686,8 +1686,8 @@ static void __pblk_down_page(struct pblk *pblk, struct ppa_addr *ppa_list,
+>>  	int i;
+>>    	for (i = 1; i < nr_ppas; i++)
+>> -		WARN_ON(ppa_list[0].g.lun != ppa_list[i].g.lun ||
+>> -				ppa_list[0].g.ch != ppa_list[i].g.ch);
+>> +		WARN_ON(ppa_list[0].a.lun != ppa_list[i].a.lun ||
+>> +				ppa_list[0].a.ch != ppa_list[i].a.ch);
+>>  #endif
+>>    	ret = down_timeout(&rlun->wr_sem, msecs_to_jiffies(30000));
+>> @@ -1731,8 +1731,8 @@ void pblk_up_page(struct pblk *pblk, struct ppa_addr *ppa_list, int nr_ppas)
+>>  	int i;
+>>    	for (i = 1; i < nr_ppas; i++)
+>> -		WARN_ON(ppa_list[0].g.lun != ppa_list[i].g.lun ||
+>> -				ppa_list[0].g.ch != ppa_list[i].g.ch);
+>> +		WARN_ON(ppa_list[0].a.lun != ppa_list[i].a.lun ||
+>> +				ppa_list[0].a.ch != ppa_list[i].a.ch);
+>>  #endif
+>>    	rlun = &pblk->luns[pos];
+>> diff --git a/drivers/lightnvm/pblk-map.c b/drivers/lightnvm/pblk-map.c
+>> index 04e08d76ea5f..20dbaa89c9df 100644
+>> --- a/drivers/lightnvm/pblk-map.c
+>> +++ b/drivers/lightnvm/pblk-map.c
+>> @@ -127,7 +127,7 @@ void pblk_map_erase_rq(struct pblk *pblk, struct nvm_rq *rqd,
+>>  			atomic_dec(&e_line->left_eblks);
+>>    			*erase_ppa = rqd->ppa_list[i];
+>> -			erase_ppa->g.blk = e_line->id;
+>> +			erase_ppa->a.blk = e_line->id;
+>>    			spin_unlock(&e_line->lock);
+>>  @@ -168,6 +168,6 @@ void pblk_map_erase_rq(struct pblk *pblk, struct nvm_rq *rqd,
+>>  		set_bit(bit, e_line->erase_bitmap);
+>>  		atomic_dec(&e_line->left_eblks);
+>>  		*erase_ppa = pblk->luns[bit].bppa; /* set ch and lun */
+>> -		erase_ppa->g.blk = e_line->id;
+>> +		erase_ppa->a.blk = e_line->id;
+>>  	}
+>>  }
+>> diff --git a/drivers/lightnvm/pblk-sysfs.c b/drivers/lightnvm/pblk-sysfs.c
+>> index cbb5b6edb7bf..a643dc623731 100644
+>> --- a/drivers/lightnvm/pblk-sysfs.c
+>> +++ b/drivers/lightnvm/pblk-sysfs.c
+>> @@ -39,8 +39,8 @@ static ssize_t pblk_sysfs_luns_show(struct pblk *pblk, char *page)
+>>  		sz += snprintf(page + sz, PAGE_SIZE - sz,
+>>  				"pblk: pos:%d, ch:%d, lun:%d - %d\n",
+>>  					i,
+>> -					rlun->bppa.g.ch,
+>> -					rlun->bppa.g.lun,
+>> +					rlun->bppa.a.ch,
+>> +					rlun->bppa.a.lun,
+>>  					active);
+>>  	}
+>>  diff --git a/drivers/lightnvm/pblk.h b/drivers/lightnvm/pblk.h
+>> index dd0089fe62b9..6ac64d9eb57e 100644
+>> --- a/drivers/lightnvm/pblk.h
+>> +++ b/drivers/lightnvm/pblk.h
+>> @@ -936,12 +936,12 @@ static inline int pblk_pad_distance(struct pblk *pblk)
+>>    static inline int pblk_ppa_to_line(struct ppa_addr p)
+>>  {
+>> -	return p.g.blk;
+>> +	return p.a.blk;
+>>  }
+>>    static inline int pblk_ppa_to_pos(struct nvm_geo *geo, struct ppa_addr p)
+>>  {
+>> -	return p.g.lun * geo->num_ch + p.g.ch;
+>> +	return p.a.lun * geo->num_ch + p.a.ch;
+>>  }
+>>    static inline struct ppa_addr addr_to_gen_ppa(struct pblk *pblk, u64 paddr,
+> 
+> Would it make sense to merge this with 7/15?
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Sure. I've tried to decouple pblk and lightnvm core patches, but they
+can go together. I'll merge in V5.
+
+Javier
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180301/46cff5dd/attachment-0001.sig>
