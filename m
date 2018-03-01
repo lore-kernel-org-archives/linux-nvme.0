@@ -1,66 +1,96 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Mar 2018 12:32:45 +0200
-Subject: [PATCH v2 06/10] IB/core: Add optional PCI P2P flag to
- rdma_rw_ctx_[init|destroy]()
-In-Reply-To: <20180228234006.21093-7-logang@deltatee.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-7-logang@deltatee.com>
-Message-ID: <72e90cc2-c05a-3ed8-42c7-e4d7a0d535d8@grimberg.me>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Thu, 1 Mar 2018 11:33:06 +0100
+Subject: [PATCH 02/15] lightnvm: add controller capabilities to 2.0
+In-Reply-To: <1519832975-25432-3-git-send-email-javier@cnexlabs.com>
+References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
+ <1519832975-25432-3-git-send-email-javier@cnexlabs.com>
+Message-ID: <e435dd71-a83d-1888-0e1b-cd1b62181e4c@lightnvm.io>
 
-
-
-On 03/01/2018 01:40 AM, Logan Gunthorpe wrote:
-> In order to use PCI P2P memory pci_p2pmem_[un]map_sg() functions must be
-> called to map the correct DMA address. To do this, we add a flags
-> variable and the RDMA_RW_CTX_FLAG_PCI_P2P flag. When the flag is
-> specified use the appropriate map function.
+On 02/28/2018 04:49 PM, Javier Gonz?lez wrote:
+> Assign missing mccap value on 2.0 path
 > 
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 > ---
->   drivers/infiniband/core/rw.c            | 21 +++++++++++++++++----
->   drivers/infiniband/ulp/isert/ib_isert.c |  5 +++--
->   drivers/infiniband/ulp/srpt/ib_srpt.c   |  7 ++++---
->   drivers/nvme/target/rdma.c              |  6 +++---
->   include/rdma/rw.h                       |  7 +++++--
->   net/sunrpc/xprtrdma/svc_rdma_rw.c       |  6 +++---
->   6 files changed, 35 insertions(+), 17 deletions(-)
+>   drivers/nvme/host/lightnvm.c | 4 +++-
+>   include/linux/lightnvm.h     | 8 +++++---
+>   2 files changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
-> index c8963e91f92a..775a9f8b15a6 100644
-> --- a/drivers/infiniband/core/rw.c
-> +++ b/drivers/infiniband/core/rw.c
-> @@ -12,6 +12,7 @@
->    */
->   #include <linux/moduleparam.h>
->   #include <linux/slab.h>
-> +#include <linux/pci-p2pdma.h>
->   #include <rdma/mr_pool.h>
->   #include <rdma/rw.h>
+> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+> index e276ace28c64..5b2024ebac76 100644
+> --- a/drivers/nvme/host/lightnvm.c
+> +++ b/drivers/nvme/host/lightnvm.c
+> @@ -318,7 +318,7 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
+>   	geo->ws_opt = sec_per_pg;
+>   	geo->mw_cunits = geo->ws_opt << 3;	/* default to MLC safe values */
 >   
-> @@ -269,18 +270,24 @@ static int rdma_rw_init_single_wr(struct rdma_rw_ctx *ctx, struct ib_qp *qp,
->    * @remote_addr:remote address to read/write (relative to @rkey)
->    * @rkey:	remote key to operate on
->    * @dir:	%DMA_TO_DEVICE for RDMA WRITE, %DMA_FROM_DEVICE for RDMA READ
-> + * @flags:      any of the RDMA_RW_CTX_FLAG_* flags
->    *
->    * Returns the number of WQEs that will be needed on the workqueue if
->    * successful, or a negative error code.
->    */
->   int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
->   		struct scatterlist *sg, u32 sg_cnt, u32 sg_offset,
-> -		u64 remote_addr, u32 rkey, enum dma_data_direction dir)
-> +		u64 remote_addr, u32 rkey, enum dma_data_direction dir,
-> +		unsigned int flags)
->   {
->   	struct ib_device *dev = qp->pd->device;
->   	int ret;
+> -	geo->mccap = le32_to_cpu(src->mccap);
+> +	geo->cap = le32_to_cpu(src->mccap);
 >   
-> -	ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
-> +	if (flags & RDMA_RW_CTX_FLAG_PCI_P2PDMA)
-> +		ret = pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
-> +	else
-> +		ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
+>   	geo->trdt = le32_to_cpu(src->trdt);
+>   	geo->trdm = le32_to_cpu(src->trdm);
+> @@ -396,6 +396,8 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
+>   	geo->ws_opt = le32_to_cpu(id->ws_opt);
+>   	geo->mw_cunits = le32_to_cpu(id->mw_cunits);
+>   
+> +	geo->cap = le32_to_cpu(id->mccap);
 > +
+>   	geo->trdt = le32_to_cpu(id->trdt);
+>   	geo->trdm = le32_to_cpu(id->trdm);
+>   	geo->tprt = le32_to_cpu(id->twrt);
+> diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+> index 16255fcd5250..b9f0d2070de9 100644
+> --- a/include/linux/lightnvm.h
+> +++ b/include/linux/lightnvm.h
+> @@ -288,8 +288,10 @@ struct nvm_geo {
+>   	u32	ws_opt;		/* optimal write size */
+>   	u32	mw_cunits;	/* distance required for successful read */
+>   
+> -	/* device capabilities */
+> -	u32	mccap;
+> +	/* device capabilities. Note that this represents capabilities in 1.2
+> +	 * and media and controller capabilities in 2.0
+> +	 */
+> +	u32	cap;
 
-Why not use is_pci_p2pdma_page(sg) instead of a flag? It would be so
-much cleaner...
+Here is a list of capabilities:
+
+1.2
+Bad block mgmt
+Hybrid command support
+
+2.0
+
+Vector copy
+Double reset
+
+The way I was thinking it would be implemented is to split the upper cap 
+bits to 2.0, and let the lower bits be reserved for 1.2.
+
+Such that one would define the following:
+
+enum {
+	NVM_CAP_BBM 	1 << 0;
+	NVM_CAP_HCS 	1 << 1;
+
+	NVM_CAP_VCPY 	1 << 16;
+	NVM_CAP_DRST	1 << 17;
+};
+
+That way, the assignment from 2.0 can easily be done with cap = 
+le32_to_cpu(id->mccap) << 16;
+
+and targets and other don't need to understand the difference between 
+1.2 and 2.0 format.
+>   
+>   	/* device timings */
+>   	u32	trdt;		/* Avg. Tread (ns) */
+> @@ -304,7 +306,7 @@ struct nvm_geo {
+>   
+>   	/* 1.2 compatibility */
+>   	u8	vmnt;
+> -	u32	cap;
+> +	u32	mccap;
+>   	u32	dom;
+>   
+>   	u8	mtype;
+> 
