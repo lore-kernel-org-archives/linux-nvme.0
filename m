@@ -1,79 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 29 Jun 2018 16:50:02 -0600
-Subject: [PATCHv4 3/4] nvme: add controller name to trace events
-In-Reply-To: <20180629225003.16567-1-keith.busch@intel.com>
-References: <20180629225003.16567-1-keith.busch@intel.com>
-Message-ID: <20180629225003.16567-4-keith.busch@intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 1 Mar 2018 11:12:01 +0200
+Subject: nvme-rdma corrupts memory upon timeout
+In-Reply-To: <cefc1ef2-4ffb-5d6c-c047-d6233a189843@grimberg.me>
+References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
+ <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
+ <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
+ <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
+ <cefc1ef2-4ffb-5d6c-c047-d6233a189843@grimberg.me>
+Message-ID: <ecc2b48a-f49f-9e2a-17a2-d68edf780b51@grimberg.me>
 
-This appends the controller instance to the nvme trace buffer to
-distinguish which controller is dispatching and completing a command.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/trace.h | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+>> This patch still returns to userspace after queuing work and may
+>> result in corruption.
+> 
+> That's probably that one request being timed out as we complete
+> it earlier.
+> 
+> Does this patch on top help?
+> -- 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index e793b0899d4e..50bbf88b82f6 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1590,10 +1590,7 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
+>  ??????? /* queue error recovery */
+>  ??????? nvme_rdma_error_recovery(req->queue->ctrl);
+> 
+> -?????? /* fail with DNR on cmd timeout */
+> -?????? nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
+> -
+> -?????? return BLK_EH_HANDLED;
+> +?????? return BLK_EH_RESET_TIMER;
+>  ?}
+> 
+>  ?/*
+> -- 
 
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 6f9ee5fe5e09..b171b54f4b0e 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -95,6 +95,7 @@ TRACE_EVENT(nvme_setup_cmd,
- 	    TP_PROTO(struct request *req, struct nvme_command *cmd),
- 	    TP_ARGS(req, cmd),
- 	    TP_STRUCT__entry(
-+		__field(int, ctrl_id)
- 		__field(int, qid)
- 		__field(u8, opcode)
- 		__field(u8, flags)
-@@ -105,6 +106,7 @@ TRACE_EVENT(nvme_setup_cmd,
- 	    ),
- 	    TP_fast_assign(
- 		__assign_nvme_qid(req, __entry->qid);
-+		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		__entry->opcode = cmd->common.opcode;
- 		__entry->flags = cmd->common.flags;
- 		__entry->cid = cmd->common.command_id;
-@@ -113,9 +115,9 @@ TRACE_EVENT(nvme_setup_cmd,
- 		memcpy(__entry->cdw10, cmd->common.cdw10,
- 		       sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk("qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->qid, __entry->cid, __entry->nsid,
--		      __entry->flags, __entry->metadata,
-+	    TP_printk("nvme%d: qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __entry->ctrl_id, __entry->qid, __entry->cid,
-+		      __entry->nsid, __entry->flags, __entry->metadata,
- 		      show_opcode_name(__entry->qid, __entry->opcode),
- 		      parse_nvme_cmd(__entry->qid, __entry->opcode, __entry->cdw10))
- );
-@@ -124,6 +126,7 @@ TRACE_EVENT(nvme_complete_rq,
- 	    TP_PROTO(struct request *req),
- 	    TP_ARGS(req),
- 	    TP_STRUCT__entry(
-+		__field(int, ctrl_id)
- 		__field(int, qid)
- 		__field(int, cid)
- 		__field(u64, result)
-@@ -133,15 +136,17 @@ TRACE_EVENT(nvme_complete_rq,
- 	    ),
- 	    TP_fast_assign(
- 		__assign_nvme_qid(req, __entry->qid);
-+		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		__entry->cid = req->tag;
- 		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
- 		__entry->retries = nvme_req(req)->retries;
- 		__entry->flags = nvme_req(req)->flags;
- 		__entry->status = nvme_req(req)->status;
- 	    ),
--	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
--		      __entry->qid, __entry->cid, __entry->result,
--		      __entry->retries, __entry->flags, __entry->status)
-+	    TP_printk("nvme%d: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __entry->ctrl_id,  __entry->qid, __entry->cid,
-+		      __entry->result, __entry->retries, __entry->flags,
-+		      __entry->status)
- 
- );
- 
--- 
-2.14.3
+Did this help?
