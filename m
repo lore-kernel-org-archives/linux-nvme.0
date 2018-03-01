@@ -1,59 +1,49 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Fri, 02 Mar 2018 09:34:18 +1100
-Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <CA+55aFy-oAiFJ3WDx4giR1enj65y-YJnZZhY6geFw0ygFyKXfQ@mail.gmail.com>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Thu, 1 Mar 2018 15:45:40 -0700
+Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
+In-Reply-To: <edaf476a-cfe9-0598-1aa5-14802a9a1477@deltatee.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <1519876489.4592.3.camel@kernel.crashing.org>
- <1519876569.4592.4.camel@au1.ibm.com>
- <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
- <1519936477.4592.23.camel@au1.ibm.com>
- <1519936815.4592.25.camel@au1.ibm.com> <20180301205315.GJ19007@ziepe.ca>
- <1519942012.4592.31.camel@au1.ibm.com>
- <CA+55aFy-oAiFJ3WDx4giR1enj65y-YJnZZhY6geFw0ygFyKXfQ@mail.gmail.com>
-Message-ID: <1519943658.4592.34.camel@kernel.crashing.org>
+ <20180228234006.21093-11-logang@deltatee.com>
+ <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
+ <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
+ <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
+ <20180301184249.GI19007@ziepe.ca>
+ <edaf476a-cfe9-0598-1aa5-14802a9a1477@deltatee.com>
+Message-ID: <20180301224540.GL19007@ziepe.ca>
 
-On Thu, 2018-03-01@14:31 -0800, Linus Torvalds wrote:
-> On Thu, Mar 1, 2018@2:06 PM, Benjamin Herrenschmidt <benh@au1.ibm.com> wrote:
-> > 
-> > Could be that x86 has the smarts to do the right thing, still trying to
-> > untangle the code :-)
+On Thu, Mar 01, 2018@12:27:03PM -0700, Logan Gunthorpe wrote:
 > 
-> Afaik, x86 will not cache PCI unless the system is misconfigured, and
-> even then it's more likely to just raise a machine check exception
-> than cache things.
 > 
-> The last-level cache is going to do fills and spills directly to the
-> memory controller, not to the PCIe side of things.
+> On 01/03/18 11:42 AM, Jason Gunthorpe wrote:
+> >On Thu, Mar 01, 2018@08:35:55PM +0200, Sagi Grimberg wrote:
+> >This is also why I don't entirely understand why this series has a
+> >generic allocator for p2p mem, it makes little sense to me.
 > 
-> (I guess you *can* do things differently, and I wouldn't be surprised
-> if some people inside Intel did try to do things differently with
-> trying nvram over PCIe, but in general I think the above is true)
+> >Why wouldn't the nmve driver just claim the entire CMB of its local
+> >device for its own use? Why involve p2p core code in this?
 > 
-> You won't find it in the kernel code either. It's in hardware with
-> firmware configuration of what addresses are mapped to the memory
-> controllers (and _how_ they are mapped) and which are not.
+> We'd prefer to have a generic way to get p2pmem instead of restricting
+> ourselves to only using CMBs. We did work in the past where the P2P memory
+> was part of an IB adapter and not the NVMe card. So this won't work if it's
+> an NVMe only interface.
 
-Ah thanks ! Thanks explains. We can fix that on ppc64 in our linear
-mapping code by checking the address vs. memblocks to chose the right
-page table attributes.
+It just seems like it it making it too complicated.
 
-So the main problem on our side is to figure out the problem of too big
-PFNs. I need to look at this with Aneesh, we might be able to make
-things fit with a bit of wrangling.
+In 99% of cases locality is important and you don't want to accidently
+use a buffer in a 3rd device that has no relation to the two doing the
+transfer just because it happened to be returned by the generic
+allocator.
 
-> You _might_ find it in the BIOS, assuming you understood the tables
-> and had the BIOS writer's guide to unravel the magic registers.
-> 
-> But you might not even find it there. Some of the memory unit timing
-> programming is done very early, and by code that Intel doesn't even
-> release to the BIOS writers except as a magic encrypted blob, afaik.
-> Some of the magic might even be in microcode.
-> 
-> The page table settings for cacheability are more like a hint, and
-> only _part_ of the whole picture. The memory type range registers are
-> another part. And magic low-level uarch, northbridge and memory unit
-> specific magic is yet another part.
-> 
-> So you can disable caching for memory, but I'm pretty sure you can't
-> enable caching for PCIe at least in the common case. At best you can
-> affect how the store buffer works for PCIe.
+I can appreciate you might have some special use case for that, but it
+absolutely should require special configuration and not just magically
+happen.
+
+You bring up IB adaptor memory - if we put that into the allocator
+then what is to stop the NMVe driver just using it instead of the CMB
+buffer? That would be totally wrong in almost all cases.
+
+Seems like a very subtle and hard to debug performance trap to leave
+for the users, and pretty much the only reason to use P2P is
+performance... So why have such a dangerous interface?
+
+Jason
