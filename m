@@ -1,96 +1,136 @@
 From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Thu, 1 Mar 2018 11:33:06 +0100
-Subject: [PATCH 02/15] lightnvm: add controller capabilities to 2.0
-In-Reply-To: <1519832975-25432-3-git-send-email-javier@cnexlabs.com>
+Date: Thu, 1 Mar 2018 11:40:21 +0100
+Subject: [PATCH 09/15] lightnvm: implement get log report chunk helpers
+In-Reply-To: <1519832975-25432-10-git-send-email-javier@cnexlabs.com>
 References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
- <1519832975-25432-3-git-send-email-javier@cnexlabs.com>
-Message-ID: <e435dd71-a83d-1888-0e1b-cd1b62181e4c@lightnvm.io>
+ <1519832975-25432-10-git-send-email-javier@cnexlabs.com>
+Message-ID: <4c82d581-d8bf-25fb-26ea-48b26e6de899@lightnvm.io>
 
 On 02/28/2018 04:49 PM, Javier Gonz?lez wrote:
-> Assign missing mccap value on 2.0 path
+> The 2.0 spec provides a report chunk log page that can be retrieved
+> using the stangard nvme get log page. This replaces the dedicated
+> get/put bad block table in 1.2.
+> 
+> This patch implements the helper functions to allow targets retrieve the
+> chunk metadata using get log page. It makes nvme_get_log_ext available
+> outside of nvme core so that we can use it form lightnvm.
 > 
 > Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
 > ---
->   drivers/nvme/host/lightnvm.c | 4 +++-
->   include/linux/lightnvm.h     | 8 +++++---
->   2 files changed, 8 insertions(+), 4 deletions(-)
+>   drivers/lightnvm/core.c      | 11 +++++++
+>   drivers/nvme/host/core.c     |  6 ++--
+>   drivers/nvme/host/lightnvm.c | 74 ++++++++++++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/nvme.h     |  3 ++
+>   include/linux/lightnvm.h     | 24 ++++++++++++++
+>   5 files changed, 115 insertions(+), 3 deletions(-)
 > 
+> diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+> index ed33e0b11788..4141871f460d 100644
+> --- a/drivers/lightnvm/core.c
+> +++ b/drivers/lightnvm/core.c
+> @@ -712,6 +712,17 @@ static void nvm_free_rqd_ppalist(struct nvm_tgt_dev *tgt_dev,
+>   	nvm_dev_dma_free(tgt_dev->parent, rqd->ppa_list, rqd->dma_ppa_list);
+>   }
+>   
+> +int nvm_get_chunk_meta(struct nvm_tgt_dev *tgt_dev, struct nvm_chk_meta *meta,
+> +		struct ppa_addr ppa, int nchks)
+> +{
+> +	struct nvm_dev *dev = tgt_dev->parent;
+> +
+> +	nvm_ppa_tgt_to_dev(tgt_dev, &ppa, 1);
+> +
+> +	return dev->ops->get_chk_meta(tgt_dev->parent, meta,
+> +						(sector_t)ppa.ppa, nchks);
+> +}
+> +EXPORT_SYMBOL(nvm_get_chunk_meta);
+>   
+>   int nvm_set_tgt_bb_tbl(struct nvm_tgt_dev *tgt_dev, struct ppa_addr *ppas,
+>   		       int nr_ppas, int type)
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 2e9e9f973a75..af642ce6ba69 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2127,9 +2127,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+>   	return ret;
+>   }
+>   
+> -static int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+> -			    u8 log_page, void *log,
+> -			    size_t size, size_t offset)
+> +int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+> +		     u8 log_page, void *log,
+> +		     size_t size, size_t offset)
+>   {
+>   	struct nvme_command c = { };
+>   	unsigned long dwlen = size / 4 - 1;
 > diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-> index e276ace28c64..5b2024ebac76 100644
+> index f7135659f918..a1796241040f 100644
 > --- a/drivers/nvme/host/lightnvm.c
 > +++ b/drivers/nvme/host/lightnvm.c
-> @@ -318,7 +318,7 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
->   	geo->ws_opt = sec_per_pg;
->   	geo->mw_cunits = geo->ws_opt << 3;	/* default to MLC safe values */
+> @@ -35,6 +35,10 @@ enum nvme_nvm_admin_opcode {
+>   	nvme_nvm_admin_set_bb_tbl	= 0xf1,
+>   };
 >   
-> -	geo->mccap = le32_to_cpu(src->mccap);
-> +	geo->cap = le32_to_cpu(src->mccap);
->   
->   	geo->trdt = le32_to_cpu(src->trdt);
->   	geo->trdm = le32_to_cpu(src->trdm);
-> @@ -396,6 +396,8 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->   	geo->ws_opt = le32_to_cpu(id->ws_opt);
->   	geo->mw_cunits = le32_to_cpu(id->mw_cunits);
->   
-> +	geo->cap = le32_to_cpu(id->mccap);
+> +enum nvme_nvm_log_page {
+> +	NVME_NVM_LOG_REPORT_CHUNK	= 0xca,
+> +};
 > +
->   	geo->trdt = le32_to_cpu(id->trdt);
->   	geo->trdm = le32_to_cpu(id->trdm);
->   	geo->tprt = le32_to_cpu(id->twrt);
-> diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-> index 16255fcd5250..b9f0d2070de9 100644
-> --- a/include/linux/lightnvm.h
-> +++ b/include/linux/lightnvm.h
-> @@ -288,8 +288,10 @@ struct nvm_geo {
->   	u32	ws_opt;		/* optimal write size */
->   	u32	mw_cunits;	/* distance required for successful read */
+>   struct nvme_nvm_ph_rw {
+>   	__u8			opcode;
+>   	__u8			flags;
+> @@ -236,6 +240,16 @@ struct nvme_nvm_id20 {
+>   	__u8			vs[1024];
+>   };
 >   
-> -	/* device capabilities */
-> -	u32	mccap;
-> +	/* device capabilities. Note that this represents capabilities in 1.2
-> +	 * and media and controller capabilities in 2.0
-> +	 */
-> +	u32	cap;
-
-Here is a list of capabilities:
-
-1.2
-Bad block mgmt
-Hybrid command support
-
-2.0
-
-Vector copy
-Double reset
-
-The way I was thinking it would be implemented is to split the upper cap 
-bits to 2.0, and let the lower bits be reserved for 1.2.
-
-Such that one would define the following:
-
-enum {
-	NVM_CAP_BBM 	1 << 0;
-	NVM_CAP_HCS 	1 << 1;
-
-	NVM_CAP_VCPY 	1 << 16;
-	NVM_CAP_DRST	1 << 17;
-};
-
-That way, the assignment from 2.0 can easily be done with cap = 
-le32_to_cpu(id->mccap) << 16;
-
-and targets and other don't need to understand the difference between 
-1.2 and 2.0 format.
+> +struct nvme_nvm_chk_meta {
+> +	__u8	state;
+> +	__u8	type;
+> +	__u8	wi;
+> +	__u8	rsvd[5];
+> +	__le64	slba;
+> +	__le64	cnlb;
+> +	__le64	wp;
+> +};
+> +
+>   /*
+>    * Check we didn't inadvertently grow the command struct
+>    */
+> @@ -252,6 +266,9 @@ static inline void _nvme_nvm_check_size(void)
+>   	BUILD_BUG_ON(sizeof(struct nvme_nvm_bb_tbl) != 64);
+>   	BUILD_BUG_ON(sizeof(struct nvme_nvm_id20_addrf) != 8);
+>   	BUILD_BUG_ON(sizeof(struct nvme_nvm_id20) != NVME_IDENTIFY_DATA_SIZE);
+> +	BUILD_BUG_ON(sizeof(struct nvme_nvm_chk_meta) != 32);
+> +	BUILD_BUG_ON(sizeof(struct nvme_nvm_chk_meta) !=
+> +						sizeof(struct nvm_chk_meta));
+>   }
 >   
->   	/* device timings */
->   	u32	trdt;		/* Avg. Tread (ns) */
-> @@ -304,7 +306,7 @@ struct nvm_geo {
+>   static void nvme_nvm_set_addr_12(struct nvm_addr_format_12 *dst,
+> @@ -555,6 +572,61 @@ static int nvme_nvm_set_bb_tbl(struct nvm_dev *nvmdev, struct ppa_addr *ppas,
+>   	return ret;
+>   }
 >   
->   	/* 1.2 compatibility */
->   	u8	vmnt;
-> -	u32	cap;
-> +	u32	mccap;
->   	u32	dom;
->   
->   	u8	mtype;
-> 
+> +/*
+> + * Expect the lba in device format
+> + */
+> +static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
+> +				 struct nvm_chk_meta *meta,
+> +				 sector_t slba, int nchks)
+> +{
+> +	struct nvm_geo *geo = &ndev->geo;
+> +	struct nvme_ns *ns = ndev->q->queuedata;
+> +	struct nvme_ctrl *ctrl = ns->ctrl;
+> +	struct nvme_nvm_chk_meta *dev_meta = (struct nvme_nvm_chk_meta *)meta;
+> +	struct ppa_addr ppa;
+> +	size_t left = nchks * sizeof(struct nvme_nvm_chk_meta);
+> +	size_t log_pos, offset, len;
+> +	int ret, i;
+> +
+> +	/* Normalize lba address space to obtain log offset */
+> +	ppa.ppa = slba;
+> +	ppa = dev_to_generic_addr(ndev, ppa);
+> +
+> +	log_pos = ppa.m.chk;
+> +	log_pos += ppa.m.pu * geo->num_chk;
+> +	log_pos += ppa.m.grp * geo->num_lun * geo->num_chk;
+
+Why is this done?
