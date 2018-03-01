@@ -1,33 +1,23 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 1 Mar 2018 11:21:13 -0800
-Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <1519876569.4592.4.camel@au1.ibm.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 1 Mar 2018 12:36:43 -0700
+Subject: [PATCH v2 03/10] PCI/P2PDMA: Add PCI p2pmem dma mappings to
+ adjust the bus offset
+In-Reply-To: <20180301174941.GG13722@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <1519876489.4592.3.camel@kernel.crashing.org>
- <1519876569.4592.4.camel@au1.ibm.com>
-Message-ID: <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
+ <20180228234006.21093-4-logang@deltatee.com>
+ <20180301174941.GG13722@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <731c648d-5af3-1d5c-7169-07df12b79a41@deltatee.com>
 
-On Wed, Feb 28, 2018 at 7:56 PM, Benjamin Herrenschmidt
-<benh@au1.ibm.com> wrote:
-> On Thu, 2018-03-01@14:54 +1100, Benjamin Herrenschmidt wrote:
->> On Wed, 2018-02-28@16:39 -0700, Logan Gunthorpe wrote:
->> > Hi Everyone,
->>
->>
->> So Oliver (CC) was having issues getting any of that to work for us.
->>
->> The problem is that acccording to him (I didn't double check the latest
->> patches) you effectively hotplug the PCIe memory into the system when
->> creating struct pages.
->>
->> This cannot possibly work for us. First we cannot map PCIe memory as
->> cachable. (Note that doing so is a bad idea if you are behind a PLX
->> switch anyway since you'd ahve to manage cache coherency in SW).
->
-> Note: I think the above means it won't work behind a switch on x86
-> either, will it ?
 
-The devm_memremap_pages() infrastructure allows placing the memmap in
-"System-RAM" even if the hotplugged range is in PCI space. So, even if
-it is an issue on some configurations, it's just a simple adjustment
-to where the memmap is placed.
+
+On 01/03/18 10:49 AM, Bjorn Helgaas wrote:
+>> +int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+>> +		      enum dma_data_direction dir)
+> 
+> Same question as before about why the mixture of "pci_*" interfaces
+> that take "struct device *" parameters.
+
+In this case, per the discussion in v1, it was felt the _map_sg() 
+function should take the same arguments as dma_map_sg().
+
+Logan
