@@ -1,11 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Mar 2018 13:08:24 +0200
-Subject: [PATCH v2 05/10] block: Introduce PCI P2P flags for request and
- request queue
-In-Reply-To: <20180228234006.21093-6-logang@deltatee.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-6-logang@deltatee.com>
-Message-ID: <2882003d-7689-7825-7651-e68ffadb9d41@grimberg.me>
+Date: Thu, 1 Mar 2018 13:33:00 +0200
+Subject: [PATCH v3 1/2] nvmet-rdma: Don't flush system_wq by default
+ during remove_one
+In-Reply-To: <1519816359-27483-1-git-send-email-maxg@mellanox.com>
+References: <1519816359-27483-1-git-send-email-maxg@mellanox.com>
+Message-ID: <75b12992-0b5a-3ba5-74de-f12e0a3427d0@grimberg.me>
 
 Looks fine,
 
