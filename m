@@ -1,52 +1,37 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Thu, 1 Mar 2018 11:42:49 -0700
-Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 1 Mar 2018 18:54:01 +0000
+Subject: [PATCH v2 04/10] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-11-logang@deltatee.com>
- <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
- <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
- <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
-Message-ID: <20180301184249.GI19007@ziepe.ca>
+ <20180228234006.21093-5-logang@deltatee.com>
+ <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <0D05579B-789C-4A19-B3A2-C1A630BE31C0@raithlin.com>
 
-On Thu, Mar 01, 2018@08:35:55PM +0200, Sagi Grimberg wrote:
-> 
-> >On 01/03/18 04:03 AM, Sagi Grimberg wrote:
-> >>Can you describe what would be the plan to have it when these devices
-> >>do come along? I'd say that p2p_dev needs to become a nvmet_ns reference
-> >>and not from nvmet_ctrl. Then, when cmb capable devices come along, the
-> >>ns can prefer to use its own cmb instead of locating a p2p_dev device?
-> >
-> >The patchset already supports CMB drives. That's essentially what patch 7
-> >is for. We change the nvme-pci driver to use the p2pmem code to register
-> >and manage the CMB memory. After that, it is simply available to the nvmet
-> >code. We have already been using this with a couple prototype CMB drives.
-> 
-> The comment was to your statement:
-> "Ideally, we'd want to use an NVME CMB buffer as p2p memory. This would
-> save an extra PCI transfer as the NVME card could just take the data
-> out of it's own memory. However, at this time, cards with CMB buffers
-> don't seem to be available."
-> 
-> Maybe its a left-over which confused me...
-> 
-> Anyways, my question still holds. If I rack several of these
-> nvme drives, ideally we would use _their_ cmbs for I/O that is
-> directed to these namespaces. This is why I was suggesting that
-> p2p_dev should live in nvmet_ns and not in nvmet_ctrl as a single
-> p2p_dev used by all namespaces.
+Thanks for the detailed review Bjorn!
 
-I agree, I don't think this series should target anything other than
-using p2p memory located in one of the devices expected to participate
-in the p2p trasnaction for a first pass..
+>>  
+>> +	  Enabling this option will also disable ACS on all ports behind
+>> +	  any PCIe switch. This effictively puts all devices behind any
+>> +	  switch into the same IOMMU group.
 
-locality is super important for p2p, so I don't think things should
-start out in a way that makes specifying the desired locality hard.
+>
+>  Does this really mean "all devices behind the same Root Port"?
 
-This is also why I don't entirely understand why this series has a
-generic allocator for p2p mem, it makes little sense to me.
+Not necessarily. You might have a cascade of switches (i.e switches below a switch) to achieve a very large fan-out (in an NVMe SSD array for example) and we will only disable ACS on the ports below the relevant switch.
 
-Why wouldn't the nmve driver just claim the entire CMB of its local
-device for its own use? Why involve p2p core code in this?
+> What does this mean in terms of device security?  I assume it means,
+> at least, that individual devices can't be assigned to separate VMs.
 
-Jason
+This was discussed during v1 [1]. Disabling ACS on all downstream ports of the switch means that all the EPs below it have to part of the same IOMMU grouping. However it was also agreed that as long as the ACS disable occurred at boot time (which is does in v2) then the virtualization layer will be aware of it and will perform the IOMMU group formation correctly.
+    
+> I don't mind admitting that this patch makes me pretty nervous, and I
+> don't have a clear idea of what the implications of this are, or how
+> to communicate those to end users.  "The same IOMMU group" is a pretty
+> abstract idea.
+    
+Alex gave a good overview of the implications in [1].
+
+Stephen 
+
+[1] https://marc.info/?l=linux-pci&m=151512320031739&w=2
