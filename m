@@ -1,34 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Mar 2018 11:22:52 +0200
-Subject: [RFC PATCH] nvme-pci: Bounce buffer for interleaved metadata
-In-Reply-To: <yq1371l4vzb.fsf@oracle.com>
-References: <20180224000547.7252-1-keith.busch@intel.com>
- <5662c6d9-0c87-6074-12b8-39db53ce3c7f@grimberg.me>
- <yq1371l4vzb.fsf@oracle.com>
-Message-ID: <1a85219a-330e-aece-c1cf-62812b916506@grimberg.me>
+Date: Thu, 1 Mar 2018 11:28:58 +0200
+Subject: [PATCH V2] nvme-pci: assign separate irq vectors for adminq and
+ ioq0
+In-Reply-To: <20180228164726.GB16536@lst.de>
+References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180228164726.GB16536@lst.de>
+Message-ID: <ddfc2ab4-1a51-c488-25e8-bc434edf8aba@grimberg.me>
 
-> Sagi,
-> 
->> It makes sense for FC (and few RDMA devices) that already get
->> interleaved metadata from the wire to keep it as is instead of
->> scattering it if the backend nvme device supports interleaved mode...
-> 
-> Yeah, assuming that the PI doesn't have to get translated.
 
- From what I am aware of, devices can translate the PI and even the block
-size and still keep it interleaved on the host memory layout. At least
-that was the case in the one implementation I was involved with.
+> Note that we originally allocates irqs this way, and Keith changed
+> it a while ago for good reasons.  So I'd really like to see good
+> reasons for moving away from this, and some heuristics to figure
+> out which way to use.  E.g. if the device supports more irqs than
+> I/O queues your scheme might always be fine.
 
->> I would say that this support for this is something that belongs in
->> the block layer. IIRC mkp also expressed interest in using
->> preadv2/pwritev2 to for user-space to use DIF with some accounting on
->> the iovec
-> 
-> Indeed.
-> 
->> so maybe we can add a flag for interleaved metadata.
-> 
-> What would the use case be for this? Userspace target driver? I know
-> lots of widgets that rely on interleaved but they are all using SPDK.
-
-Didn't came from me...
+I still don't understand what this buys us in practice. Seems redundant
+to allocate another vector without any (even marginal) difference.
