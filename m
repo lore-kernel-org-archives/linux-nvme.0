@@ -1,47 +1,29 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 1 Mar 2018 11:04:32 -0700
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 1 Mar 2018 18:09:58 +0000
 Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
 In-Reply-To: <1519876569.4592.4.camel@au1.ibm.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
  <1519876489.4592.3.camel@kernel.crashing.org>
  <1519876569.4592.4.camel@au1.ibm.com>
-Message-ID: <8e808448-fc01-5da0-51e7-1a6657d5a23a@deltatee.com>
+Message-ID: <B4151146-0490-40D4-BB0A-4FC9DE5841A4@raithlin.com>
 
-
-
-On 28/02/18 08:56 PM, Benjamin Herrenschmidt wrote:
-> On Thu, 2018-03-01@14:54 +1100, Benjamin Herrenschmidt wrote:
+>> So Oliver (CC) was having issues getting any of that to work for us.
+>> 
 >> The problem is that acccording to him (I didn't double check the latest
 >> patches) you effectively hotplug the PCIe memory into the system when
 >> creating struct pages.
->>
+>> 
 >> This cannot possibly work for us. First we cannot map PCIe memory as
 >> cachable. (Note that doing so is a bad idea if you are behind a PLX
 >> switch anyway since you'd ahve to manage cache coherency in SW).
-> 
-> Note: I think the above means it won't work behind a switch on x86
-> either, will it ?
+>   
+>   Note: I think the above means it won't work behind a switch on x86
+>   either, will it ?
+ 
+Ben 
 
-This works perfectly fine on x86 behind a switch and we've tested it on 
-multiple machines. We've never had an issue of running out of virtual 
-space despite our PCI bars typically being located with an offset of 
-56TB or more. The arch code on x86 also somehow figures out not to map 
-the memory as cachable so that's not an issue (though, at this point, 
-the CPU never accesses the memory so even if it were, it wouldn't affect 
-anything).
+We have done extensive testing of this series and its predecessors using PCIe switches from both Broadcom (PLX) and Microsemi. We have also done testing on x86_64, ARM64 and ppc64el based ARCH with varying degrees of success. The series as it currently stands only works on x86_64 but modified (hacky) versions have been made to work on ARM64. The x86_64 testing has been done on a range of (Intel) CPUs, servers, PCI EPs (including RDMA NICs from at least three vendors, NVMe SSDs from at least four vendors and P2P devices from four vendors) and PCI switches.
 
-We also had this working on ARM64 a while back but it required some out 
-of tree ZONE_DEVICE patches and some truly horrid hacks to it's arch 
-code to ioremap the memory into the page map.
+I do find it slightly offensive that you would question the series even working. I hope you are not suggesting we would submit this framework multiple times without having done testing on it....
 
-You didn't mention what architecture you were trying this on.
-
-It may make sense at this point to make this feature dependent on x86 
-until more work is done to make it properly portable. Something like 
-arch functions that allow adding IO memory pages to with a specific 
-cache setting. Though, if an arch has such restrictive limits on the map 
-size it would probably need to address that too somehow.
-
-Thanks,
-
-Logan
+Stephen
