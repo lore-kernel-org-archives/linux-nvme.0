@@ -1,31 +1,39 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Thu, 1 Mar 2018 23:00:51 +0000
-Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <20180301224540.GL19007@ziepe.ca>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 1 Mar 2018 16:06:47 -0700
+Subject: [PATCH v2 01/10] PCI/P2PDMA: Support peer to peer memory
+In-Reply-To: <20180301230032.GA74737@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-11-logang@deltatee.com>
- <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
- <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
- <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
- <20180301184249.GI19007@ziepe.ca>
- <edaf476a-cfe9-0598-1aa5-14802a9a1477@deltatee.com>
- <20180301224540.GL19007@ziepe.ca>
-Message-ID: <77591162-4CCD-446E-A27C-1CDB4996ACB7@raithlin.com>
+ <20180228234006.21093-2-logang@deltatee.com>
+ <20180301173752.GE13722@bhelgaas-glaptop.roam.corp.google.com>
+ <b81503c2-9f07-b5f6-df06-64d1fdc53386@deltatee.com>
+ <20180301230032.GA74737@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <b3121c36-4ef5-0d8e-e8ef-418b48de9589@deltatee.com>
 
->> We'd prefer to have a generic way to get p2pmem instead of restricting
->> ourselves to only using CMBs. We did work in the past where the P2P memory
- >> was part of an IB adapter and not the NVMe card. So this won't work if it's
-  >> an NVMe only interface.
-    
- > It just seems like it it making it too complicated.
 
-I disagree. Having a common allocator (instead of some separate allocator per driver) makes things simpler.
 
-> Seems like a very subtle and hard to debug performance trap to leave
-> for the users, and pretty much the only reason to use P2P is
-> performance... So why have such a dangerous interface?
+> I don't think this is correct.  A Root Port defines a hierarchy domain
+> (I'm looking at PCIe r4.0, sec 1.3.1).  The capability to route
+> peer-to-peer transactions *between* hierarchy domains is optional.  I
+> think this means a Root Complex is not required to route transactions
+> from one Root Port to another Root Port.
+> 
+> This doesn't say anything about routing between two different devices
+> below a Root Port.  Those would be in the same hierarchy domain and
+> should follow the conventional PCI routing rules.  Of course, since a
+> Root Port has one link that leads to one device, they would probably
+> be different functions of a single multi-function device, so I don't
+> know how practical it would be to test this.
 
-P2P is about offloading the memory and PCI subsystem of the host CPU and this is achieved no matter which p2p_dev is used.
+Yes, given that there's only one device below a root port it will either 
+be a switch or a multi-function device. In the multi-function device 
+case, I'm pretty sure the spec disallows routing-to-self so doing a P2P 
+transaction in that sense isn't going to work unless the device 
+specifically supports it and intercepts the traffic before it gets to 
+the port.
 
-Stephen
-    
+But, if we're talking about multi-function devices it should be able to 
+do everything within it's own driver so it's not exactly Peer-to-Peer. 
+Still, if someone has such hardware I think it's up to them to add 
+support for this odd situation.
+
+Logan
