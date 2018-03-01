@@ -1,39 +1,23 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 1 Mar 2018 16:06:47 -0700
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 1 Mar 2018 23:14:46 +0000
 Subject: [PATCH v2 01/10] PCI/P2PDMA: Support peer to peer memory
-In-Reply-To: <20180301230032.GA74737@bhelgaas-glaptop.roam.corp.google.com>
+In-Reply-To: <b3121c36-4ef5-0d8e-e8ef-418b48de9589@deltatee.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
  <20180228234006.21093-2-logang@deltatee.com>
  <20180301173752.GE13722@bhelgaas-glaptop.roam.corp.google.com>
  <b81503c2-9f07-b5f6-df06-64d1fdc53386@deltatee.com>
  <20180301230032.GA74737@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <b3121c36-4ef5-0d8e-e8ef-418b48de9589@deltatee.com>
+ <b3121c36-4ef5-0d8e-e8ef-418b48de9589@deltatee.com>
+Message-ID: <9B84B347-2CCF-4250-89ED-B29892E76597@raithlin.com>
 
+> I'm pretty sure the spec disallows routing-to-self so doing a P2P 
+> transaction in that sense isn't going to work unless the device 
+> specifically supports it and intercepts the traffic before it gets to 
+> the port.
 
-
-> I don't think this is correct.  A Root Port defines a hierarchy domain
-> (I'm looking at PCIe r4.0, sec 1.3.1).  The capability to route
-> peer-to-peer transactions *between* hierarchy domains is optional.  I
-> think this means a Root Complex is not required to route transactions
-> from one Root Port to another Root Port.
-> 
-> This doesn't say anything about routing between two different devices
-> below a Root Port.  Those would be in the same hierarchy domain and
-> should follow the conventional PCI routing rules.  Of course, since a
-> Root Port has one link that leads to one device, they would probably
-> be different functions of a single multi-function device, so I don't
-> know how practical it would be to test this.
-
-Yes, given that there's only one device below a root port it will either 
-be a switch or a multi-function device. In the multi-function device 
-case, I'm pretty sure the spec disallows routing-to-self so doing a P2P 
-transaction in that sense isn't going to work unless the device 
-specifically supports it and intercepts the traffic before it gets to 
-the port.
-
-But, if we're talking about multi-function devices it should be able to 
-do everything within it's own driver so it's not exactly Peer-to-Peer. 
-Still, if someone has such hardware I think it's up to them to add 
-support for this odd situation.
-
-Logan
+This is correct. Unless the device intercepts the TLP before it hits the root-port then this would be considered a "route to self" violation and an error event would occur. The same holds for the downstream port on a PCI switch (unless route-to-self violations are disabled which violates the spec but which I have seen done in certain applications).
+    
+Stephen
+    
+    
+    
