@@ -1,27 +1,20 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 1 Mar 2018 14:37:48 -0700
-Subject: [PATCH v2 04/10] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <20180301213533.GE6742@redhat.com>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 1 Mar 2018 21:37:00 +0000
+Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <20180301211036.GB6742@redhat.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-5-logang@deltatee.com>
- <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
- <0D05579B-789C-4A19-B3A2-C1A630BE31C0@raithlin.com>
- <20180301142155.5966c4c0@w520.home>
- <EE1B4EB7-D3C0-4916-81CE-E647222D03E4@raithlin.com>
- <20180301213533.GE6742@redhat.com>
-Message-ID: <0f33b4ec-6d1c-779a-c2cd-82d6ceb4991b@deltatee.com>
+ <1519876489.4592.3.camel@kernel.crashing.org>
+ <1519876569.4592.4.camel@au1.ibm.com>
+ <8e808448-fc01-5da0-51e7-1a6657d5a23a@deltatee.com>
+ <1519936195.4592.18.camel@au1.ibm.com> <20180301205548.GA6742@redhat.com>
+ <a512edf9-2d96-9229-fe60-e0ea60b3922b@deltatee.com>
+ <20180301211036.GB6742@redhat.com>
+Message-ID: <EA9224B2-3B12-4F31-9602-DEAF9869A242@raithlin.com>
 
+> The intention of HMM is to be useful for all device memory that wish
+> to have struct page for various reasons.
 
+Hi Jermone and thanks for your input! Understood. We have looked at HMM in the past and long term I definitely would like to consider how we can add P2P functionality to HMM for both DEVICE_PRIVATE and DEVICE_PUBLIC so we can pass addressable and non-addressable blocks of data between devices. However that is well beyond the intentions of this series ;-).
 
-On 01/03/18 02:35 PM, Jerome Glisse wrote:
-> Note that they are usecase for P2P where IOMMU isolation matter and
-> the traffic through root complex isn't see as an issue. 
-
-Well, we can worry about that once we have a solution to the problem of 
-knowing whether a root complex supports P2P at all. I'm not sure how 
-people are going to solve that one.
-
-For the time being, this work is for cards behind a switch only.
-
-Logan
+Stephen
+    
