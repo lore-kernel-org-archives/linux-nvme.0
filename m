@@ -1,50 +1,30 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 1 Mar 2018 13:55:59 -0700
+Date: Thu, 1 Mar 2018 13:57:21 -0700
 Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <1519936195.4592.18.camel@au1.ibm.com>
+In-Reply-To: <20180301205315.GJ19007@ziepe.ca>
 References: <20180228234006.21093-1-logang@deltatee.com>
  <1519876489.4592.3.camel@kernel.crashing.org>
  <1519876569.4592.4.camel@au1.ibm.com>
- <8e808448-fc01-5da0-51e7-1a6657d5a23a@deltatee.com>
- <1519936195.4592.18.camel@au1.ibm.com>
-Message-ID: <c3014722-c97a-bd23-9939-afd05f4f17e9@deltatee.com>
+ <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
+ <1519936477.4592.23.camel@au1.ibm.com> <1519936815.4592.25.camel@au1.ibm.com>
+ <20180301205315.GJ19007@ziepe.ca>
+Message-ID: <bfc3a780-4ca5-f52b-665f-7f13142a500f@deltatee.com>
 
 
 
-On 01/03/18 01:29 PM, Benjamin Herrenschmidt wrote:
-> Oliver can you look into this ? You sais the memory was effectively
-> hotplug'ed into the system when creating the struct pages. That would
-> mean to me that it's a) mapped (which for us is cachable, maybe x86 has
-> tricks to avoid that) and b) potentially used to populate userspace
-> pages (that will definitely be cachable). Unless there's something in
-> there you didn't see that prevents it.
+On 01/03/18 01:53 PM, Jason Gunthorpe wrote:
+> On Fri, Mar 02, 2018@07:40:15AM +1100, Benjamin Herrenschmidt wrote:
+>> Also we need to be able to hard block MEMREMAP_WB mappings of non-RAM
+>> on ppc64 (maybe via an arch hook as it might depend on the processor
+>> family). Server powerpc cannot do cachable accesses on IO memory
+>> (unless it's special OpenCAPI or nVlink, but not on PCIe).
+> 
+> I think you are right on this - even on x86 we must not create
+> cachable mappings of PCI BARs - there is no way that works the way
+> anyone would expect.
 
-Yes, we've been specifically prohibiting all cases where these pages get 
-passed to userspace. We don't want that. Although it works in limited 
-cases (ie x86), and we use it for some testing, there are dragons there.
-
->   - Our MMIO space is very far away from memory (high bits set in the
-> address) which causes problem with things like vmmemmap, page_address,
-> virt_to_page etc... Do you have similar issues on arm64 ?
-
-No similar issues on arm64. Any chance you could simply not map the PCI 
-bars that way? What's the point of that? It may simply mean ppc64 can't 
-be supported until either that changes or the kernel infrastructure gets 
-more sophisticated.
-
-> Logan, the only reason you need struct page's to begin with is for the
-> DMA API right ? Or am I missing something here ?
-
-It's not so much the DMA map API as it is the entire kernel 
-infrastructure. Scatter lists (which are universally used to setup DMA 
-requests) require pages and bios require pages, etc, etc. In fact, this 
-patch set, in its current form, routes around the DMA API entirely.
-
-Myself[1] and others have done prototype work to migrate away from 
-struct pages and to use pfn_t instead but this work doesn't seem to get 
-very far in the community.
+On x86, even if I try to make a cachable mapping of a PCI BAR it always 
+ends up being un-cached. The arch code in x86 always does the right 
+thing here.... Other arches, not so much.
 
 Logan
-
-
-[1] https://marc.info/?l=linux-kernel&m=149566222124326&w=2
