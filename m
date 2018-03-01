@@ -1,5 +1,5 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 1 Mar 2018 16:52:23 -0700
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 1 Mar 2018 23:53:16 +0000
 Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
 In-Reply-To: <20180301234930.GG14799@localhost.localdomain>
 References: <20180228234006.21093-1-logang@deltatee.com>
@@ -12,23 +12,12 @@ References: <20180228234006.21093-1-logang@deltatee.com>
  <20180301224540.GL19007@ziepe.ca>
  <77591162-4CCD-446E-A27C-1CDB4996ACB7@raithlin.com>
  <20180301234930.GG14799@localhost.localdomain>
-Message-ID: <34dc518d-b566-3e2a-8ad9-65d4f5d08a44@deltatee.com>
+Message-ID: <6B6A0FD9-14F5-4AF2-A74A-DAA562C34AB9@raithlin.com>
 
+> There's a meaningful difference between writing to an NVMe CMB vs PMR
 
+When the PMR spec becomes public we can discuss how best to integrate it into the P2P framework (if at all) ;-).
 
-On 01/03/18 04:49 PM, Keith Busch wrote:
-> On Thu, Mar 01, 2018@11:00:51PM +0000, Stephen  Bates wrote:
->>
->> P2P is about offloading the memory and PCI subsystem of the host CPU
->> and this is achieved no matter which p2p_dev is used.
-> 
-> Even within a device, memory attributes for its various regions may not be
-> the same. There's a meaningful difference between writing to an NVMe CMB
-> vs PMR, and a single device could have both. We don't want to lump these
-> all together without knowing which region you're allocating from, right?
+Stephen
 
-Yes, PMRs are a whole other beast. I have no idea what anyone is going 
-to actually do with those yet. But no one is proposing to publish them 
-as p2pmem with this code.
-
-Logan
+    
