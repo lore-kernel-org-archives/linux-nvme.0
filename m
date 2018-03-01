@@ -1,5 +1,5 @@
-From: benh@au1.ibm.com (Benjamin Herrenschmidt)
-Date: Fri, 02 Mar 2018 10:25:34 +1100
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Fri, 02 Mar 2018 10:26:07 +1100
 Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
 In-Reply-To: <595acefb-18fc-e650-e172-bae271263c4c@deltatee.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
@@ -12,10 +12,12 @@ References: <20180228234006.21093-1-logang@deltatee.com>
  <43ba615f-a6e1-9444-65e1-494169cb415d@deltatee.com>
  <1519945204.4592.45.camel@au1.ibm.com>
  <595acefb-18fc-e650-e172-bae271263c4c@deltatee.com>
-Message-ID: <1519946734.4592.48.camel@au1.ibm.com>
+Message-ID: <1519946767.4592.49.camel@kernel.crashing.org>
 
 On Thu, 2018-03-01@16:19 -0700, Logan Gunthorpe wrote:
-> 
+
+(Switching back to my non-IBM address ...)
+
 > On 01/03/18 04:00 PM, Benjamin Herrenschmidt wrote:
 > > We use only 52 in practice but yes.
 > > 
