@@ -1,50 +1,39 @@
-From: jglisse@redhat.com (Jerome Glisse)
-Date: Thu, 1 Mar 2018 16:25:42 -0500
-Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <8ed955f8-55c9-a2bd-1d58-90bf1dcfa055@deltatee.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 1 Mar 2018 14:26:57 -0700
+Subject: [PATCH v2 04/10] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180301142155.5966c4c0@w520.home>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <1519876489.4592.3.camel@kernel.crashing.org>
- <1519876569.4592.4.camel@au1.ibm.com>
- <8e808448-fc01-5da0-51e7-1a6657d5a23a@deltatee.com>
- <1519936195.4592.18.camel@au1.ibm.com>
- <20180301205548.GA6742@redhat.com>
- <a512edf9-2d96-9229-fe60-e0ea60b3922b@deltatee.com>
- <20180301211036.GB6742@redhat.com>
- <8ed955f8-55c9-a2bd-1d58-90bf1dcfa055@deltatee.com>
-Message-ID: <20180301212541.GD6742@redhat.com>
+ <20180228234006.21093-5-logang@deltatee.com>
+ <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
+ <0D05579B-789C-4A19-B3A2-C1A630BE31C0@raithlin.com>
+ <20180301142155.5966c4c0@w520.home>
+Message-ID: <8202ea69-f0ed-db10-a0d3-9fd470c1c441@deltatee.com>
 
-On Thu, Mar 01, 2018@02:15:01PM -0700, Logan Gunthorpe wrote:
-> 
-> 
-> On 01/03/18 02:10 PM, Jerome Glisse wrote:
-> > It seems people miss-understand HMM :( you do not have to use all of
-> > its features. If all you care about is having struct page then just
-> > use that for instance in your case only use those following 3 functions:
-> > 
-> > hmm_devmem_add() or hmm_devmem_add_resource() and hmm_devmem_remove()
-> > for cleanup.
-> 
-> To what benefit over just using devm_memremap_pages()? If I'm using the hmm
-> interface and disabling all the features, I don't see the point. We've also
-> cleaned up the devm_memremap_pages() interface to be more usefully generic
-> in such a way that I'd hope HMM starts using it too and gets rid of the code
-> duplication.
-> 
 
-The first HMM variant find a hole and do not require a resource as input
-parameter. Beside that internaly for PCIE device memory devm_memremap_pages()
-does not do the right thing last time i check it always create a linear
-mapping of the range ie HMM call add_pages() while devm_memremap_pages()
-call arch_add_memory()
 
-When i upstreamed HMM, Dan didn't want me to touch devm_memremap_pages()
-to match my need. I am more than happy to modify devm_memremap_pages() to
-also handle HMM needs.
+On 01/03/18 02:21 PM, Alex Williamson wrote:
+> This is still a pretty terrible solution though, your kernel provider
+> needs to decide whether they favor device assignment or p2p, because we
+> can't do both, unless there's a patch I haven't seen yet that allows
+> boot time rather than compile time configuration.  There are absolutely
+> supported device assignment cases of switches proving isolation between
+> devices allowing the downstream EPs to be used independently.  I think
+> this is a non-starter for distribution support without boot time or
+> dynamic configuration.  I could imagine dynamic configuration through
+> sysfs that might trigger a soft remove and rescan of the affected
+> devices in order to rebuild the IOMMU group.  The hard part might be
+> determining which points to allow that to guarantee correctness.  For
+> instance, upstream switch ports don't actually support ACS, but they'd
+> otherwise be an obvious concentration point to trigger a
+> reconfiguration.  Thanks,
 
-Note that the intention of HMM is to be a middle layer between low level
-infrastructure and device driver. Idea is that such impedance layer should
-make it easier down the road to change how thing are handled down below
-without having to touch many device driver.
+At this point, I don't expect this to be enabled in any distribution. 
+The use case is for custom hardware intended to do P2P which means they 
+can have a custom kernel with P2P enabled. The default for 
+CONFIG_PCI_P2P is 'no' and I expect it to stay that way for a long time.
 
-Cheers,
-J?r?me
+Another boot option which has to be set for this to work isn't something 
+we'd like to see.
+
+Logan
