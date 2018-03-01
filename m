@@ -1,33 +1,27 @@
-From: benh@au1.ibm.com (Benjamin Herrenschmidt)
-Date: Fri, 02 Mar 2018 09:06:52 +1100
-Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <20180301205315.GJ19007@ziepe.ca>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 1 Mar 2018 14:37:48 -0700
+Subject: [PATCH v2 04/10] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180301213533.GE6742@redhat.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
- <1519876489.4592.3.camel@kernel.crashing.org>
- <1519876569.4592.4.camel@au1.ibm.com>
- <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
- <1519936477.4592.23.camel@au1.ibm.com>
- <1519936815.4592.25.camel@au1.ibm.com> <20180301205315.GJ19007@ziepe.ca>
-Message-ID: <1519942012.4592.31.camel@au1.ibm.com>
+ <20180228234006.21093-5-logang@deltatee.com>
+ <20180301180257.GH13722@bhelgaas-glaptop.roam.corp.google.com>
+ <0D05579B-789C-4A19-B3A2-C1A630BE31C0@raithlin.com>
+ <20180301142155.5966c4c0@w520.home>
+ <EE1B4EB7-D3C0-4916-81CE-E647222D03E4@raithlin.com>
+ <20180301213533.GE6742@redhat.com>
+Message-ID: <0f33b4ec-6d1c-779a-c2cd-82d6ceb4991b@deltatee.com>
 
-On Thu, 2018-03-01@13:53 -0700, Jason Gunthorpe wrote:
-> On Fri, Mar 02, 2018@07:40:15AM +1100, Benjamin Herrenschmidt wrote:
-> > Also we need to be able to hard block MEMREMAP_WB mappings of non-RAM
-> > on ppc64 (maybe via an arch hook as it might depend on the processor
-> > family). Server powerpc cannot do cachable accesses on IO memory
-> > (unless it's special OpenCAPI or nVlink, but not on PCIe).
-> 
-> I think you are right on this - even on x86 we must not create
-> cachable mappings of PCI BARs - there is no way that works the way
-> anyone would expect.
-> 
-> I think this series doesn't have a problem here only because it never
-> touches the BAR pages with the CPU.
-> 
-> BAR memory should be mapped into the CPU as WC at best on all arches..
 
-Could be that x86 has the smarts to do the right thing, still trying to
-untangle the code :-)
 
-Cheers,
-Ben.
+On 01/03/18 02:35 PM, Jerome Glisse wrote:
+> Note that they are usecase for P2P where IOMMU isolation matter and
+> the traffic through root complex isn't see as an issue. 
+
+Well, we can worry about that once we have a solution to the problem of 
+knowing whether a root complex supports P2P at all. I'm not sure how 
+people are going to solve that one.
+
+For the time being, this work is for cards behind a switch only.
+
+Logan
