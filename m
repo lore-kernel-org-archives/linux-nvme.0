@@ -1,14 +1,21 @@
 From: benh@au1.ibm.com (Benjamin Herrenschmidt)
-Date: Fri, 02 Mar 2018 07:32:48 +1100
+Date: Fri, 02 Mar 2018 07:34:37 +1100
 Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <B4151146-0490-40D4-BB0A-4FC9DE5841A4@raithlin.com>
+In-Reply-To: <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
 References: <20180228234006.21093-1-logang@deltatee.com>
  <1519876489.4592.3.camel@kernel.crashing.org>
  <1519876569.4592.4.camel@au1.ibm.com>
- <B4151146-0490-40D4-BB0A-4FC9DE5841A4@raithlin.com>
-Message-ID: <1519936368.4592.21.camel@au1.ibm.com>
+ <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
+Message-ID: <1519936477.4592.23.camel@au1.ibm.com>
 
-On Thu, 2018-03-01@18:09 +0000, Stephen  Bates wrote:
+On Thu, 2018-03-01@11:21 -0800, Dan Williams wrote:
+> On Wed, Feb 28, 2018 at 7:56 PM, Benjamin Herrenschmidt
+> <benh@au1.ibm.com> wrote:
+> > On Thu, 2018-03-01@14:54 +1100, Benjamin Herrenschmidt wrote:
+> > > On Wed, 2018-02-28@16:39 -0700, Logan Gunthorpe wrote:
+> > > > Hi Everyone,
+> > > 
+> > > 
 > > > So Oliver (CC) was having issues getting any of that to work for us.
 > > > 
 > > > The problem is that acccording to him (I didn't double check the latest
@@ -19,37 +26,21 @@ On Thu, 2018-03-01@18:09 +0000, Stephen  Bates wrote:
 > > > cachable. (Note that doing so is a bad idea if you are behind a PLX
 > > > switch anyway since you'd ahve to manage cache coherency in SW).
 > > 
-> >   
-> >   Note: I think the above means it won't work behind a switch on x86
-> >   either, will it ?
+> > Note: I think the above means it won't work behind a switch on x86
+> > either, will it ?
 > 
->  
-> Ben 
-> 
-> We have done extensive testing of this series and its predecessors
-> using PCIe switches from both Broadcom (PLX) and Microsemi. We have
-> also done testing on x86_64, ARM64 and ppc64el based ARCH with
-> varying degrees of success. The series as it currently stands only
-> works on x86_64 but modified (hacky) versions have been made to work
-> on ARM64. The x86_64 testing has been done on a range of (Intel)
-> CPUs, servers, PCI EPs (including RDMA NICs from at least three
-> vendors, NVMe SSDs from at least four vendors and P2P devices from
-> four vendors) and PCI switches.
-> 
-> I do find it slightly offensive that you would question the series
-> even working. I hope you are not suggesting we would submit this
-> framework multiple times without having done testing on it....
+> The devm_memremap_pages() infrastructure allows placing the memmap in
+> "System-RAM" even if the hotplugged range is in PCI space. So, even if
+> it is an issue on some configurations, it's just a simple adjustment
+> to where the memmap is placed.
 
-No need to get personal on that. I did specify that this was based on
-some incomplete understanding of what's going on with that new hack
-used to create struct pages.
+But what happens with that PCI memory ? Is it effectively turned into
+nromal memory (ie, usable for normal allocations, potentially used to
+populate user pages etc...) or is it kept aside ?
 
-As it is, it cannot work on ppc64 however, in part because according to
-Oliver, we end up mapping things cachable, and in part, because of the
-address range issues.
-
-The latter issue might be fundamental to the approach and unfixable
-unless we have ways to use hooks for virt_to_page/page_address on these
-things.
+Also on ppc64, the physical addresses of PCIe make it so far appart
+that there's no way we can map them into the linear mapping at the
+normal offset of PAGE_OFFSET + (pfn << PAGE_SHIFT), so things like
+page_address or virt_to_page cannot work as-is on PCIe addresses.
 
 Ben.
