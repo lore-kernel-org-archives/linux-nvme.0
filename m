@@ -1,34 +1,42 @@
-From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Fri, 2 Mar 2018 09:34:42 -0800
-Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <CA+55aFztf2D4NwEkRxnJkD6kK62CWKxmERbALMGoMgFEGLEJZA@mail.gmail.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <1519876489.4592.3.camel@kernel.crashing.org>
- <1519876569.4592.4.camel@au1.ibm.com>
- <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
- <1519936477.4592.23.camel@au1.ibm.com> <1519936815.4592.25.camel@au1.ibm.com>
- <20180301205315.GJ19007@ziepe.ca> <1519942012.4592.31.camel@au1.ibm.com>
- <CA+55aFy-oAiFJ3WDx4giR1enj65y-YJnZZhY6geFw0ygFyKXfQ@mail.gmail.com>
- <1519943658.4592.34.camel@kernel.crashing.org>
- <1520010446.2693.19.camel@hpe.com>
- <CA+55aFztf2D4NwEkRxnJkD6kK62CWKxmERbALMGoMgFEGLEJZA@mail.gmail.com>
-Message-ID: <CA+55aFzc_d3EsWZbSWDY6MKRMXEcBpYAjB2h8DxZJTuvXf1DcQ@mail.gmail.com>
+From: roland@kernel.org (Roland Dreier)
+Date: Fri,  2 Mar 2018 09:45:01 -0800
+Subject: [PATCH] nvme-fabrics: Ignore nr_io_queues option for discovery
+ controllers
+Message-ID: <20180302174501.31228-1-roland@kernel.org>
 
-On Fri, Mar 2, 2018 at 8:57 AM, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> Like the page table caching entries, the memory type range registers
-> are really just "secondary information". They don't actually select
-> between PCIe and RAM, they just affect the behavior on top of that.
+From: Roland Dreier <roland@purestorage.com>
 
-Side note: historically the two may have been almost the same, since
-the CPU only had one single unified bus for "memory" (whether that was
-memory-mapped PCI or actual RAM). The steering was external.
+This removes a dependency on the order options are passed when creating
+a fabrics controller.  With the old code, if "nr_io_queues" appears before
+an "nqn" option specifying the discovery controller, then nr_io_queues
+is overridden with zero.  If "nr_io_queues" appears after specifying the
+discovery controller, then the nr_io_queues option is used to set the
+number of queues, and the driver attempts to establish IO connections
+to the discovery controller (which doesn't work).
 
-But even back then you had extended bits to specify things like how
-the 640k-1M region got remapped - which could depend on not just the
-address, but on whether you read or wrote to it.  The "lost" 384kB of
-RAM could either be remapped at a different address, or could be used
-for shadowing the (slow) ROM contents, or whatever.
+It seems better to ignore (and warn about) the "nr_io_queues" option
+if userspace has already asked to connect to the discovery controller.
 
-              Linus
+Signed-off-by: Roland Dreier <roland at purestorage.com>
+---
+ drivers/nvme/host/fabrics.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 5dd4ceefed8f..acb6ee90d026 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -650,6 +650,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -EINVAL;
+ 				goto out;
+ 			}
++			if (opts->discovery_nqn) {
++				pr_warn("Ignoring nr_io_queues value for discovery controller\n");
++				break;
++			}
++
+ 			opts->nr_io_queues = min_t(unsigned int,
+ 					num_online_cpus(), token);
+ 			break;
+-- 
+2.15.1
