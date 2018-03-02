@@ -1,89 +1,22 @@
-From: jg@lightnvm.io (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Fri, 2 Mar 2018 12:59:59 +0100
-Subject: [PATCH 02/15] lightnvm: add controller capabilities to 2.0
-In-Reply-To: <e435dd71-a83d-1888-0e1b-cd1b62181e4c@lightnvm.io>
-References: <1519832975-25432-1-git-send-email-javier@cnexlabs.com>
- <1519832975-25432-3-git-send-email-javier@cnexlabs.com>
- <e435dd71-a83d-1888-0e1b-cd1b62181e4c@lightnvm.io>
-Message-ID: <7965F260-45CD-47F4-8063-33F392295950@lightnvm.io>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 2 Mar 2018 07:53:22 -0800
+Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
+In-Reply-To: <6B6A0FD9-14F5-4AF2-A74A-DAA562C34AB9@raithlin.com>
+References: <20180228234006.21093-11-logang@deltatee.com>
+ <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
+ <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
+ <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
+ <20180301184249.GI19007@ziepe.ca>
+ <edaf476a-cfe9-0598-1aa5-14802a9a1477@deltatee.com>
+ <20180301224540.GL19007@ziepe.ca>
+ <77591162-4CCD-446E-A27C-1CDB4996ACB7@raithlin.com>
+ <20180301234930.GG14799@localhost.localdomain>
+ <6B6A0FD9-14F5-4AF2-A74A-DAA562C34AB9@raithlin.com>
+Message-ID: <20180302155322.GA5934@infradead.org>
 
-> On 1 Mar 2018,@11.33, Matias Bj?rling <mb@lightnvm.io> wrote:
+On Thu, Mar 01, 2018@11:53:16PM +0000, Stephen  Bates wrote:
+> > There's a meaningful difference between writing to an NVMe CMB vs PMR
 > 
-> On 02/28/2018 04:49 PM, Javier Gonz?lez wrote:
->> Assign missing mccap value on 2.0 path
->> Signed-off-by: Javier Gonz?lez <javier at cnexlabs.com>
->> ---
->>  drivers/nvme/host/lightnvm.c | 4 +++-
->>  include/linux/lightnvm.h     | 8 +++++---
->>  2 files changed, 8 insertions(+), 4 deletions(-)
->> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->> index e276ace28c64..5b2024ebac76 100644
->> --- a/drivers/nvme/host/lightnvm.c
->> +++ b/drivers/nvme/host/lightnvm.c
->> @@ -318,7 +318,7 @@ static int nvme_nvm_setup_12(struct nvme_nvm_id12 *id,
->>  	geo->ws_opt = sec_per_pg;
->>  	geo->mw_cunits = geo->ws_opt << 3;	/* default to MLC safe values */
->>  -	geo->mccap = le32_to_cpu(src->mccap);
->> +	geo->cap = le32_to_cpu(src->mccap);
->>    	geo->trdt = le32_to_cpu(src->trdt);
->>  	geo->trdm = le32_to_cpu(src->trdm);
->> @@ -396,6 +396,8 @@ static int nvme_nvm_setup_20(struct nvme_nvm_id20 *id,
->>  	geo->ws_opt = le32_to_cpu(id->ws_opt);
->>  	geo->mw_cunits = le32_to_cpu(id->mw_cunits);
->>  +	geo->cap = le32_to_cpu(id->mccap);
->> +
->>  	geo->trdt = le32_to_cpu(id->trdt);
->>  	geo->trdm = le32_to_cpu(id->trdm);
->>  	geo->tprt = le32_to_cpu(id->twrt);
->> diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
->> index 16255fcd5250..b9f0d2070de9 100644
->> --- a/include/linux/lightnvm.h
->> +++ b/include/linux/lightnvm.h
->> @@ -288,8 +288,10 @@ struct nvm_geo {
->>  	u32	ws_opt;		/* optimal write size */
->>  	u32	mw_cunits;	/* distance required for successful read */
->>  -	/* device capabilities */
->> -	u32	mccap;
->> +	/* device capabilities. Note that this represents capabilities in 1.2
->> +	 * and media and controller capabilities in 2.0
->> +	 */
->> +	u32	cap;
-> 
-> Here is a list of capabilities:
-> 
-> 1.2
-> Bad block mgmt
-> Hybrid command support
-> 
-> 2.0
-> 
-> Vector copy
-> Double reset
-> 
-> The way I was thinking it would be implemented is to split the upper cap bits to 2.0, and let the lower bits be reserved for 1.2.
-> 
-> Such that one would define the following:
-> 
-> enum {
-> 	NVM_CAP_BBM 	1 << 0;
-> 	NVM_CAP_HCS 	1 << 1;
-> 
-> 	NVM_CAP_VCPY 	1 << 16;
-> 	NVM_CAP_DRST	1 << 17;
-> };
-> 
-> That way, the assignment from 2.0 can easily be done with cap = le32_to_cpu(id->mccap) << 16;
-> 
-> and targets and other don't need to understand the difference between 1.2 and 2.0 format.
+> When the PMR spec becomes public we can discuss how best to integrate it into the P2P framework (if at all) ;-).
 
-I can see that you already have a way to do it in mind. I'll remove this
-patch and you can implement it later on.
-
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180302/5da768fe/attachment.sig>
+http://nvmexpress.org/wp-content/uploads/NVM-Express-1.3-Ratified-TPs.zip
