@@ -1,7 +1,7 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 2 Mar 2018 07:53:22 -0800
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Fri, 2 Mar 2018 09:18:42 -0700
 Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <6B6A0FD9-14F5-4AF2-A74A-DAA562C34AB9@raithlin.com>
+In-Reply-To: <CE2A5D93-E735-4414-8DC1-B308B74A1C5B@raithlin.com>
 References: <20180228234006.21093-11-logang@deltatee.com>
  <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
  <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
@@ -11,12 +11,36 @@ References: <20180228234006.21093-11-logang@deltatee.com>
  <20180301224540.GL19007@ziepe.ca>
  <77591162-4CCD-446E-A27C-1CDB4996ACB7@raithlin.com>
  <20180301234930.GG14799@localhost.localdomain>
- <6B6A0FD9-14F5-4AF2-A74A-DAA562C34AB9@raithlin.com>
-Message-ID: <20180302155322.GA5934@infradead.org>
+ <CE2A5D93-E735-4414-8DC1-B308B74A1C5B@raithlin.com>
+Message-ID: <20180302161842.GB14861@ziepe.ca>
 
-On Thu, Mar 01, 2018@11:53:16PM +0000, Stephen  Bates wrote:
-> > There's a meaningful difference between writing to an NVMe CMB vs PMR
+On Thu, Mar 01, 2018@11:57:43PM +0000, Stephen  Bates wrote:
+> > We don't want to lump these all together without knowing which region you're allocating from, right?
 > 
-> When the PMR spec becomes public we can discuss how best to integrate it into the P2P framework (if at all) ;-).
+> In all seriousness I do agree with you on these Keith in the long
+> term. We would consider adding property flags for the memory as it
+> is added to the p2p core and then the allocator could evolve to
+> intelligently dish it out. Attributes like endurance, latency and
+> special write commit requirements could all become attributes in
+> time. Perhaps one more reason for a central entity for p2p memory
+> allocation so this code does not end up having to go into many
+> different drivers?
 
-http://nvmexpress.org/wp-content/uploads/NVM-Express-1.3-Ratified-TPs.zip
+I fear we will find that every kind of P2P memory has special
+allocator requirements and dumping it all into one giant pool is not
+going to be helpful.
+
+This allocator is already seems not useful for the P2P target memory
+on a Mellanox NIC due to the way it has a special allocation flow
+(windowing) and special usage requirements..
+
+Nor can it be usefull for the doorbell memory in the NIC.
+
+Both of these are existing use cases for P2P with out of tree patches..
+
+The allocator seems to only be able to solve the CMB problem, and I
+think due to that it is better to put this allocator in the NVMe
+driver and not the core code.. At least until we find a 2nd user that
+needs the same allocation scheme...
+
+Jason
