@@ -1,42 +1,26 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Fri,  2 Mar 2018 09:45:01 -0800
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 2 Mar 2018 10:02:22 -0800
 Subject: [PATCH] nvme-fabrics: Ignore nr_io_queues option for discovery
  controllers
-Message-ID: <20180302174501.31228-1-roland@kernel.org>
+In-Reply-To: <20180302174501.31228-1-roland@kernel.org>
+References: <20180302174501.31228-1-roland@kernel.org>
+Message-ID: <fe33ec1c-1425-fd63-65bb-e583eb123b81@broadcom.com>
 
-From: Roland Dreier <roland@purestorage.com>
+On 3/2/2018 9:45 AM, Roland Dreier wrote:
+> @@ -650,6 +650,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   				ret = -EINVAL;
+>   				goto out;
+>   			}
+> +			if (opts->discovery_nqn) {
+> +				pr_warn("Ignoring nr_io_queues value for discovery controller\n");
+> +				break;
+> +			}
+> +
+>   			opts->nr_io_queues = min_t(unsigned int,
+>   					num_online_cpus(), token);
+>   			break;
 
-This removes a dependency on the order options are passed when creating
-a fabrics controller.  With the old code, if "nr_io_queues" appears before
-an "nqn" option specifying the discovery controller, then nr_io_queues
-is overridden with zero.  If "nr_io_queues" appears after specifying the
-discovery controller, then the nr_io_queues option is used to set the
-number of queues, and the driver attempts to establish IO connections
-to the discovery controller (which doesn't work).
+a pr_warn is a bit verbose. even a pr_warn is. I'd prefer no message at 
+all as it's normal for a discovery controller.
 
-It seems better to ignore (and warn about) the "nr_io_queues" option
-if userspace has already asked to connect to the discovery controller.
-
-Signed-off-by: Roland Dreier <roland at purestorage.com>
----
- drivers/nvme/host/fabrics.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 5dd4ceefed8f..acb6ee90d026 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -650,6 +650,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -EINVAL;
- 				goto out;
- 			}
-+			if (opts->discovery_nqn) {
-+				pr_warn("Ignoring nr_io_queues value for discovery controller\n");
-+				break;
-+			}
-+
- 			opts->nr_io_queues = min_t(unsigned int,
- 					num_online_cpus(), token);
- 			break;
--- 
-2.15.1
+-- james
