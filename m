@@ -1,49 +1,54 @@
-From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Fri, 2 Mar 2018 08:57:36 -0800
-Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <1520010446.2693.19.camel@hpe.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <1519876489.4592.3.camel@kernel.crashing.org>
- <1519876569.4592.4.camel@au1.ibm.com>
- <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
- <1519936477.4592.23.camel@au1.ibm.com> <1519936815.4592.25.camel@au1.ibm.com>
- <20180301205315.GJ19007@ziepe.ca> <1519942012.4592.31.camel@au1.ibm.com>
- <CA+55aFy-oAiFJ3WDx4giR1enj65y-YJnZZhY6geFw0ygFyKXfQ@mail.gmail.com>
- <1519943658.4592.34.camel@kernel.crashing.org>
- <1520010446.2693.19.camel@hpe.com>
-Message-ID: <CA+55aFztf2D4NwEkRxnJkD6kK62CWKxmERbALMGoMgFEGLEJZA@mail.gmail.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 2 Mar 2018 10:10:31 -0700
+Subject: [PATCH v2 10/10] nvmet: Optionally use PCI P2P memory
+In-Reply-To: <20180302161842.GB14861@ziepe.ca>
+References: <20180228234006.21093-11-logang@deltatee.com>
+ <749e3752-4349-0bdf-5243-3d510c2b26db@grimberg.me>
+ <40d69074-31a8-d06a-ade9-90de7712c553@deltatee.com>
+ <5649098f-b775-815b-8b9a-f34628873ff4@grimberg.me>
+ <20180301184249.GI19007@ziepe.ca>
+ <edaf476a-cfe9-0598-1aa5-14802a9a1477@deltatee.com>
+ <20180301224540.GL19007@ziepe.ca>
+ <77591162-4CCD-446E-A27C-1CDB4996ACB7@raithlin.com>
+ <20180301234930.GG14799@localhost.localdomain>
+ <CE2A5D93-E735-4414-8DC1-B308B74A1C5B@raithlin.com>
+ <20180302161842.GB14861@ziepe.ca>
+Message-ID: <a9e2eb46-50ff-e8c6-3b00-a297876c190b@deltatee.com>
 
-On Fri, Mar 2, 2018@8:22 AM, Kani, Toshi <toshi.kani@hpe.com> wrote:
->
-> FWIW, this thing is called MTRRs on x86, which are initialized by BIOS.
 
-No.
 
-Or rather, that's simply just another (small) part of it all - and an
-architected and documented one at that.
+On 02/03/18 09:18 AM, Jason Gunthorpe wrote:
 
-Like the page table caching entries, the memory type range registers
-are really just "secondary information". They don't actually select
-between PCIe and RAM, they just affect the behavior on top of that.
+> This allocator is already seems not useful for the P2P target memory
+> on a Mellanox NIC due to the way it has a special allocation flow
+> (windowing) and special usage requirements..
+> 
+> Nor can it be usefull for the doorbell memory in the NIC.
 
-The really nitty-gritty stuff is not architected, and generally not
-documented outside (possibly) the BIOS writer's guide that is not made
-public.
+No one says every P2P use has to use P2P memory. Doorbells are obviously 
+not P2P memory. But it's the p2mem interface that's important and the 
+interface absolutely does not belong in the NVMe driver. Once you have 
+the P2P memory interface you need an allocator behind it and the obvious 
+place is in the P2P code to handle the common case where you're just 
+mapping a BAR. We don't need to implement a genalloc in every driver 
+that has P2P memory attached with it. If some hardware wants to expose 
+memory that requires complicated allocation it's up to them to solve 
+that problem but that isn't enough justification, to me, to push common 
+code into every driver.
 
-Those magical registers contain details like how the DRAM is
-interleaved (if it is), what the timings are, where which memory
-controller handles which memory range, and what are goes to PCIe etc.
+> Both of these are existing use cases for P2P with out of tree patches..
 
-Basically all the actual *steering* information is very much hidden
-away from the kernel (and often from the BIOS too). The parts we see
-at a higher level are just tuning and tweaks.
+And we have out of tree code that uses the generic allocator part of 
+p2pmem.
 
-Note: the details differ _enormously_ between different chips. The
-setup can be very different, with things like Knights Landing having
-the external cache that can also act as local memory that isn't a
-cache but maps at a different physical address instead etc. That's the
-kind of steering I'm talking about - at a low level how physical
-addresses get mapped to different cache partitions, memory
-controllers, or to the IO system etc.
+> The allocator seems to only be able to solve the CMB problem, and I
+> think due to that it is better to put this allocator in the NVMe
+> driver and not the core code.. At least until we find a 2nd user that
+> needs the same allocation scheme...
 
-                  Linus
+See the first P2PMEM RFC. We used Chelsio's NIC instead of the CMB with 
+a very similar allocation scheme. We'd still be enabling that NIC in the 
+same way if we didn't run into hardware issues with it. A simple BAR 
+with memory behind it is always going to be the most common case.
+
+Logan
