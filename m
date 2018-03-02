@@ -1,26 +1,59 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 2 Mar 2018 10:02:22 -0800
-Subject: [PATCH] nvme-fabrics: Ignore nr_io_queues option for discovery
- controllers
-In-Reply-To: <20180302174501.31228-1-roland@kernel.org>
-References: <20180302174501.31228-1-roland@kernel.org>
-Message-ID: <fe33ec1c-1425-fd63-65bb-e583eb123b81@broadcom.com>
+From: toshi.kani@hpe.com (Kani, Toshi)
+Date: Fri, 2 Mar 2018 17:38:58 +0000
+Subject: [PATCH v2 00/10] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <CA+55aFztf2D4NwEkRxnJkD6kK62CWKxmERbALMGoMgFEGLEJZA@mail.gmail.com>
+References: <20180228234006.21093-1-logang@deltatee.com>
+ <1519876489.4592.3.camel@kernel.crashing.org>
+ <1519876569.4592.4.camel@au1.ibm.com>
+ <CAPcyv4h7mcFphv3j_vW-CGxXa2pjQgLqpBOLzHuTzAFzygai-Q@mail.gmail.com>
+ <1519936477.4592.23.camel@au1.ibm.com>
+ <1519936815.4592.25.camel@au1.ibm.com> <20180301205315.GJ19007@ziepe.ca>
+ <1519942012.4592.31.camel@au1.ibm.com>
+ <CA+55aFy-oAiFJ3WDx4giR1enj65y-YJnZZhY6geFw0ygFyKXfQ@mail.gmail.com>
+ <1519943658.4592.34.camel@kernel.crashing.org>
+ <1520010446.2693.19.camel@hpe.com>
+ <CA+55aFztf2D4NwEkRxnJkD6kK62CWKxmERbALMGoMgFEGLEJZA@mail.gmail.com>
+Message-ID: <1520015040.2693.38.camel@hpe.com>
 
-On 3/2/2018 9:45 AM, Roland Dreier wrote:
-> @@ -650,6 +650,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   				ret = -EINVAL;
->   				goto out;
->   			}
-> +			if (opts->discovery_nqn) {
-> +				pr_warn("Ignoring nr_io_queues value for discovery controller\n");
-> +				break;
-> +			}
-> +
->   			opts->nr_io_queues = min_t(unsigned int,
->   					num_online_cpus(), token);
->   			break;
+On Fri, 2018-03-02@08:57 -0800, Linus Torvalds wrote:
+> On Fri, Mar 2, 2018@8:22 AM, Kani, Toshi <toshi.kani@hpe.com> wrote:
+> > 
+> > FWIW, this thing is called MTRRs on x86, which are initialized by BIOS.
+> 
+> No.
+> 
+> Or rather, that's simply just another (small) part of it all - and an
+> architected and documented one at that.
+> 
+> Like the page table caching entries, the memory type range registers
+> are really just "secondary information". They don't actually select
+> between PCIe and RAM, they just affect the behavior on top of that.
+> 
+> The really nitty-gritty stuff is not architected, and generally not
+> documented outside (possibly) the BIOS writer's guide that is not made
+> public.
+> 
+> Those magical registers contain details like how the DRAM is
+> interleaved (if it is), what the timings are, where which memory
+> controller handles which memory range, and what are goes to PCIe etc.
+> 
+> Basically all the actual *steering* information is very much hidden
+> away from the kernel (and often from the BIOS too). The parts we see
+> at a higher level are just tuning and tweaks.
+> 
+> Note: the details differ _enormously_ between different chips. The
+> setup can be very different, with things like Knights Landing having
+> the external cache that can also act as local memory that isn't a
+> cache but maps at a different physical address instead etc. That's the
+> kind of steering I'm talking about - at a low level how physical
+> addresses get mapped to different cache partitions, memory
+> controllers, or to the IO system etc.
 
-a pr_warn is a bit verbose. even a pr_warn is. I'd prefer no message at 
-all as it's normal for a discovery controller.
+Right, MRC code is not documented publicly, and it is very much CPU
+dependent.  It programs address decoders and maps DRAMs to physical
+address as you described.  MTRRs have nothing to do with this memory
+controller setting.  That said, MTRRs specify CPU's memory access type,
+such as UC and WB.
 
--- james
+Thanks,
+-Toshi
