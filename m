@@ -1,35 +1,151 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 5 Mar 2018 11:09:52 -0700
-Subject: [PATCH v2 07/10] nvme-pci: Use PCI p2pmem subsystem to manage the
- CMB
-In-Reply-To: <f4f69d48-97b2-ebeb-6c97-83878ea4c419@codeaurora.org>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-8-logang@deltatee.com>
- <CAOSf1CEj1vmLLd27-642=XSnL9ODkpEC0qLHA2_W5_7rV5+4Pg@mail.gmail.com>
- <20180305160004.GA30975@localhost.localdomain>
- <3f56c76d-6a5c-7c2f-5442-c9209749b598@deltatee.com>
- <f4f69d48-97b2-ebeb-6c97-83878ea4c419@codeaurora.org>
-Message-ID: <645c0d69-8942-5eb5-99ae-04ae385a32fa@deltatee.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon,  5 Mar 2018 21:32:15 +0200
+Subject: [PATCH stable 4.14.y] nvme-rdma: don't suppress send completions
+Message-ID: <20180305193215.23008-1-sagi@grimberg.me>
 
+The entire completions suppress mechanism is currently broken because the
+HCA might retry a send operation (due to dropped ack) after the nvme
+transaction has completed.
 
+In order to handle this, we signal all send completions and introduce a
+separate done handler for async events as they will be handled differently
+(as they don't include in-capsule data by definition).
 
-On 05/03/18 11:02 AM, Sinan Kaya wrote:
-> writel has a barrier inside on ARM64.
-> 
-> https://elixir.bootlin.com/linux/latest/source/arch/arm64/include/asm/io.h#L143
+Cc: <stable at vger.kernel.org> # v4.14+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/rdma.c | 54 +++++++++++++-----------------------------------
+ 1 file changed, 14 insertions(+), 40 deletions(-)
 
-Yes, and no barrier inside memcpy_toio as it uses __raw_writes. This 
-should be sufficient as we are only accessing addresses that look like 
-memory and have no side effects (those enabling doorbell accesses may 
-need to worry about this though). Typically, what could happen, in this 
-case, is the CPU would issue writes to the BAR normally and the next 
-time it programmed the DMA engine it would flush everything via the 
-flush in writel.
-
-> Why do you need another barrier?
-
-We don't.
-
-Thanks,
-
-Logan
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 33d4431c2b4b..93a082e0bdd4 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -88,7 +88,6 @@ enum nvme_rdma_queue_flags {
+ 
+ struct nvme_rdma_queue {
+ 	struct nvme_rdma_qe	*rsp_ring;
+-	atomic_t		sig_count;
+ 	int			queue_size;
+ 	size_t			cmnd_capsule_len;
+ 	struct nvme_rdma_ctrl	*ctrl;
+@@ -521,7 +520,6 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		queue->cmnd_capsule_len = sizeof(struct nvme_command);
+ 
+ 	queue->queue_size = queue_size;
+-	atomic_set(&queue->sig_count, 0);
+ 
+ 	queue->cm_id = rdma_create_id(&init_net, nvme_rdma_cm_handler, queue,
+ 			RDMA_PS_TCP, IB_QPT_RC);
+@@ -1232,21 +1230,9 @@ static void nvme_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		nvme_end_request(rq, req->status, req->result);
+ }
+ 
+-/*
+- * We want to signal completion at least every queue depth/2.  This returns the
+- * largest power of two that is not above half of (queue size + 1) to optimize
+- * (avoid divisions).
+- */
+-static inline bool nvme_rdma_queue_sig_limit(struct nvme_rdma_queue *queue)
+-{
+-	int limit = 1 << ilog2((queue->queue_size + 1) / 2);
+-
+-	return (atomic_inc_return(&queue->sig_count) & (limit - 1)) == 0;
+-}
+-
+ static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
+ 		struct nvme_rdma_qe *qe, struct ib_sge *sge, u32 num_sge,
+-		struct ib_send_wr *first, bool flush)
++		struct ib_send_wr *first)
+ {
+ 	struct ib_send_wr wr, *bad_wr;
+ 	int ret;
+@@ -1255,31 +1241,12 @@ static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
+ 	sge->length = sizeof(struct nvme_command),
+ 	sge->lkey   = queue->device->pd->local_dma_lkey;
+ 
+-	qe->cqe.done = nvme_rdma_send_done;
+-
+ 	wr.next       = NULL;
+ 	wr.wr_cqe     = &qe->cqe;
+ 	wr.sg_list    = sge;
+ 	wr.num_sge    = num_sge;
+ 	wr.opcode     = IB_WR_SEND;
+-	wr.send_flags = 0;
+-
+-	/*
+-	 * Unsignalled send completions are another giant desaster in the
+-	 * IB Verbs spec:  If we don't regularly post signalled sends
+-	 * the send queue will fill up and only a QP reset will rescue us.
+-	 * Would have been way to obvious to handle this in hardware or
+-	 * at least the RDMA stack..
+-	 *
+-	 * Always signal the flushes. The magic request used for the flush
+-	 * sequencer is not allocated in our driver's tagset and it's
+-	 * triggered to be freed by blk_cleanup_queue(). So we need to
+-	 * always mark it as signaled to ensure that the "wr_cqe", which is
+-	 * embedded in request's payload, is not freed when __ib_process_cq()
+-	 * calls wr_cqe->done().
+-	 */
+-	if (nvme_rdma_queue_sig_limit(queue) || flush)
+-		wr.send_flags |= IB_SEND_SIGNALED;
++	wr.send_flags = IB_SEND_SIGNALED;
+ 
+ 	if (first)
+ 		first->next = &wr;
+@@ -1329,6 +1296,12 @@ static struct blk_mq_tags *nvme_rdma_tagset(struct nvme_rdma_queue *queue)
+ 	return queue->ctrl->tag_set.tags[queue_idx - 1];
+ }
+ 
++static void nvme_rdma_async_done(struct ib_cq *cq, struct ib_wc *wc)
++{
++	if (unlikely(wc->status != IB_WC_SUCCESS))
++		nvme_rdma_wr_error(cq, wc, "ASYNC");
++}
++
+ static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(arg);
+@@ -1350,10 +1323,12 @@ static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
+ 	cmd->common.flags |= NVME_CMD_SGL_METABUF;
+ 	nvme_rdma_set_sg_null(cmd);
+ 
++	sqe->cqe.done = nvme_rdma_async_done;
++
+ 	ib_dma_sync_single_for_device(dev, sqe->dma, sizeof(*cmd),
+ 			DMA_TO_DEVICE);
+ 
+-	ret = nvme_rdma_post_send(queue, sqe, &sge, 1, NULL, false);
++	ret = nvme_rdma_post_send(queue, sqe, &sge, 1, NULL);
+ 	WARN_ON_ONCE(ret);
+ }
+ 
+@@ -1639,7 +1614,6 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_rdma_qe *sqe = &req->sqe;
+ 	struct nvme_command *c = sqe->data;
+-	bool flush = false;
+ 	struct ib_device *dev;
+ 	blk_status_t ret;
+ 	int err;
+@@ -1668,13 +1642,13 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		goto err;
+ 	}
+ 
++	sqe->cqe.done = nvme_rdma_send_done;
++
+ 	ib_dma_sync_single_for_device(dev, sqe->dma,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 
+-	if (req_op(rq) == REQ_OP_FLUSH)
+-		flush = true;
+ 	err = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+-			req->mr->need_inval ? &req->reg_wr.wr : NULL, flush);
++			req->mr->need_inval ? &req->reg_wr.wr : NULL);
+ 	if (unlikely(err)) {
+ 		nvme_rdma_unmap_data(queue, rq);
+ 		goto err;
+-- 
+2.14.1
