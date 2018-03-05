@@ -1,15 +1,85 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Mon, 5 Mar 2018 11:54:43 -0800
-Subject: [PATCH] nvme-fabrics: Ignore nr_io_queues option for discovery
- controllers
-In-Reply-To: <18e1e109-0e3b-c686-8daf-d2f53ea3fc63@grimberg.me>
-References: <20180302174501.31228-1-roland@kernel.org>
- <fe33ec1c-1425-fd63-65bb-e583eb123b81@broadcom.com>
- <18e1e109-0e3b-c686-8daf-d2f53ea3fc63@grimberg.me>
-Message-ID: <CAG4TOxOcJeBCmNrPH1g5k7KC_aZE+7kR=MPhM9HaED+vf=td8g@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 5 Mar 2018 21:57:27 +0200
+Subject: [PATCH v2 07/10] nvme-pci: Use PCI p2pmem subsystem to manage the
+ CMB
+In-Reply-To: <20180305160004.GA30975@localhost.localdomain>
+References: <20180228234006.21093-1-logang@deltatee.com>
+ <20180228234006.21093-8-logang@deltatee.com>
+ <CAOSf1CEj1vmLLd27-642=XSnL9ODkpEC0qLHA2_W5_7rV5+4Pg@mail.gmail.com>
+ <20180305160004.GA30975@localhost.localdomain>
+Message-ID: <36c78987-006a-a97f-1d18-b0a08cbea9d4@grimberg.me>
 
-> Agreed, Roland can you respin with pr_debug?
 
-Sure, no problem.
+>>> -       if (nvmeq->sq_cmds_io)
+>>> -               memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
+>>> -       else
+>>> -               memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+>>> +       memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+>>
+>> Hmm, how safe is replacing memcpy_toio() with regular memcpy()? On PPC
+>> the _toio() variant enforces alignment, does the copy with 4 byte
+>> stores, and has a full barrier after the copy. In comparison our
+>> regular memcpy() does none of those things and may use unaligned and
+>> vector load/stores. For normal (cacheable) memory that is perfectly
+>> fine, but they can cause alignment faults when targeted at MMIO
+>> (cache-inhibited) memory.
+>>
+>> I think in this particular case it might be ok since we know SEQs are
+>> aligned to 64 byte boundaries and the copy is too small to use our
+>> vectorised memcpy(). I'll assume we don't need explicit ordering
+>> between writes of SEQs since the existing code doesn't seem to care
+>> unless the doorbell is being rung, so you're probably fine there too.
+>> That said, I still think this is a little bit sketchy and at the very
+>> least you should add a comment explaining what's going on when the CMB
+>> is being used. If someone more familiar with the NVMe driver could
+>> chime in I would appreciate it.
+> 
+> I may not be understanding the concern, but I'll give it a shot.
+> 
+> You're right, the start of any SQE is always 64-byte aligned, so that
+> should satisfy alignment requirements.
+> 
+> The order when writing multiple/successive SQEs in a submission queue
+> does matter, and this is currently serialized through the q_lock.
+> 
+> The order in which the bytes of a single SQE is written doesn't really
+> matter as long as the entire SQE is written into the CMB prior to writing
+> that SQ's doorbell register.
+> 
+> The doorbell register is written immediately after copying a command
+> entry into the submission queue (ignore "shadow buffer" features),
+> so the doorbells written to commands submitted is 1:1.
+> 
+> If a CMB SQE and DB order is not enforced with the memcpy, then we do
+> need a barrier after the SQE's memcpy and before the doorbell's writel.
 
- - R.
+Keith, while we're on this, regardless of cmb, is SQE memcopy and DB 
+update ordering always guaranteed?
+
+If you look at mlx4 (rdma device driver) that works exactly the same as
+nvme you will find:
+--
+                 qp->sq.head += nreq;
+
+                 /*
+                  * Make sure that descriptors are written before
+                  * doorbell record.
+                  */
+                 wmb();
+
+                 writel(qp->doorbell_qpn,
+                        to_mdev(ibqp->device)->uar_map + 
+MLX4_SEND_DOORBELL);
+
+                 /*
+                  * Make sure doorbells don't leak out of SQ spinlock
+                  * and reach the HCA out of order.
+                  */
+                 mmiowb();
+--
+
+That seems to explicitly make sure to place a barrier before updating
+the doorbell. So as I see it, either ordering is guaranteed and the
+above code is redundant, or nvme needs to do the same.
+
+Thoughts?
