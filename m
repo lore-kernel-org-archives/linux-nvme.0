@@ -1,85 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Mar 2018 21:57:27 +0200
-Subject: [PATCH v2 07/10] nvme-pci: Use PCI p2pmem subsystem to manage the
- CMB
-In-Reply-To: <20180305160004.GA30975@localhost.localdomain>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-8-logang@deltatee.com>
- <CAOSf1CEj1vmLLd27-642=XSnL9ODkpEC0qLHA2_W5_7rV5+4Pg@mail.gmail.com>
- <20180305160004.GA30975@localhost.localdomain>
-Message-ID: <36c78987-006a-a97f-1d18-b0a08cbea9d4@grimberg.me>
+From: roland@kernel.org (Roland Dreier)
+Date: Mon,  5 Mar 2018 11:59:53 -0800
+Subject: [PATCH v2] nvme-fabrics: Ignore nr_io_queues option for discovery
+ controllers
+Message-ID: <20180305195953.14428-1-roland@kernel.org>
 
+From: Roland Dreier <roland@purestorage.com>
 
->>> -       if (nvmeq->sq_cmds_io)
->>> -               memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
->>> -       else
->>> -               memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
->>> +       memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
->>
->> Hmm, how safe is replacing memcpy_toio() with regular memcpy()? On PPC
->> the _toio() variant enforces alignment, does the copy with 4 byte
->> stores, and has a full barrier after the copy. In comparison our
->> regular memcpy() does none of those things and may use unaligned and
->> vector load/stores. For normal (cacheable) memory that is perfectly
->> fine, but they can cause alignment faults when targeted at MMIO
->> (cache-inhibited) memory.
->>
->> I think in this particular case it might be ok since we know SEQs are
->> aligned to 64 byte boundaries and the copy is too small to use our
->> vectorised memcpy(). I'll assume we don't need explicit ordering
->> between writes of SEQs since the existing code doesn't seem to care
->> unless the doorbell is being rung, so you're probably fine there too.
->> That said, I still think this is a little bit sketchy and at the very
->> least you should add a comment explaining what's going on when the CMB
->> is being used. If someone more familiar with the NVMe driver could
->> chime in I would appreciate it.
-> 
-> I may not be understanding the concern, but I'll give it a shot.
-> 
-> You're right, the start of any SQE is always 64-byte aligned, so that
-> should satisfy alignment requirements.
-> 
-> The order when writing multiple/successive SQEs in a submission queue
-> does matter, and this is currently serialized through the q_lock.
-> 
-> The order in which the bytes of a single SQE is written doesn't really
-> matter as long as the entire SQE is written into the CMB prior to writing
-> that SQ's doorbell register.
-> 
-> The doorbell register is written immediately after copying a command
-> entry into the submission queue (ignore "shadow buffer" features),
-> so the doorbells written to commands submitted is 1:1.
-> 
-> If a CMB SQE and DB order is not enforced with the memcpy, then we do
-> need a barrier after the SQE's memcpy and before the doorbell's writel.
+This removes a dependency on the order options are passed when creating
+a fabrics controller.  With the old code, if "nr_io_queues" appears before
+an "nqn" option specifying the discovery controller, then nr_io_queues
+is overridden with zero.  If "nr_io_queues" appears after specifying the
+discovery controller, then the nr_io_queues option is used to set the
+number of queues, and the driver attempts to establish IO connections
+to the discovery controller (which doesn't work).
 
-Keith, while we're on this, regardless of cmb, is SQE memcopy and DB 
-update ordering always guaranteed?
+It seems better to ignore (and warn about) the "nr_io_queues" option
+if userspace has already asked to connect to the discovery controller.
 
-If you look at mlx4 (rdma device driver) that works exactly the same as
-nvme you will find:
---
-                 qp->sq.head += nreq;
+Signed-off-by: Roland Dreier <roland at purestorage.com>
+---
+ drivers/nvme/host/fabrics.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-                 /*
-                  * Make sure that descriptors are written before
-                  * doorbell record.
-                  */
-                 wmb();
-
-                 writel(qp->doorbell_qpn,
-                        to_mdev(ibqp->device)->uar_map + 
-MLX4_SEND_DOORBELL);
-
-                 /*
-                  * Make sure doorbells don't leak out of SQ spinlock
-                  * and reach the HCA out of order.
-                  */
-                 mmiowb();
---
-
-That seems to explicitly make sure to place a barrier before updating
-the doorbell. So as I see it, either ordering is guaranteed and the
-above code is redundant, or nvme needs to do the same.
-
-Thoughts?
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 5dd4ceefed8f..6ec6b13fa582 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -650,6 +650,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -EINVAL;
+ 				goto out;
+ 			}
++			if (opts->discovery_nqn) {
++				pr_debug("Ignoring nr_io_queues value for discovery controller\n");
++				break;
++			}
++
+ 			opts->nr_io_queues = min_t(unsigned int,
+ 					num_online_cpus(), token);
+ 			break;
+-- 
+2.15.1
