@@ -1,34 +1,47 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Mon, 5 Mar 2018 13:50:15 -0700
-Subject: [PATCH v2 07/10] nvme-pci: Use PCI p2pmem subsystem to manage
- the CMB
-In-Reply-To: <20180305204212.GD30975@localhost.localdomain>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-8-logang@deltatee.com>
- <CAOSf1CEj1vmLLd27-642=XSnL9ODkpEC0qLHA2_W5_7rV5+4Pg@mail.gmail.com>
- <20180305160004.GA30975@localhost.localdomain>
- <36c78987-006a-a97f-1d18-b0a08cbea9d4@grimberg.me>
- <20180305201053.GK11337@mellanox.com>
- <20180305204212.GD30975@localhost.localdomain>
-Message-ID: <20180305205015.GT11337@mellanox.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 5 Mar 2018 12:55:55 -0800
+Subject: [PATCH v2] nvme-fabrics: Ignore nr_io_queues option for discovery
+ controllers
+In-Reply-To: <20180305195953.14428-1-roland@kernel.org>
+References: <20180305195953.14428-1-roland@kernel.org>
+Message-ID: <d6f0f56d-b860-5f00-f8ac-a8e8686e8d30@broadcom.com>
 
-On Mon, Mar 05, 2018@01:42:12PM -0700, Keith Busch wrote:
-> On Mon, Mar 05, 2018@01:10:53PM -0700, Jason Gunthorpe wrote:
-> > So when reading the above mlx code, we see the first wmb() being used
-> > to ensure that CPU stores to cachable memory are visible to the DMA
-> > triggered by the doorbell ring.
-> 
-> IIUC, we don't need a similar barrier for NVMe to ensure memory is
-> visibile to DMA since the SQE memory is allocated DMA coherent when the
-> SQ is not within a CMB.
+On 3/5/2018 11:59 AM, Roland Dreier wrote:
+> From: Roland Dreier <roland at purestorage.com>
+>
+> This removes a dependency on the order options are passed when creating
+> a fabrics controller.  With the old code, if "nr_io_queues" appears before
+> an "nqn" option specifying the discovery controller, then nr_io_queues
+> is overridden with zero.  If "nr_io_queues" appears after specifying the
+> discovery controller, then the nr_io_queues option is used to set the
+> number of queues, and the driver attempts to establish IO connections
+> to the discovery controller (which doesn't work).
+>
+> It seems better to ignore (and warn about) the "nr_io_queues" option
+> if userspace has already asked to connect to the discovery controller.
+>
+> Signed-off-by: Roland Dreier <roland at purestorage.com>
+> ---
+>   drivers/nvme/host/fabrics.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 5dd4ceefed8f..6ec6b13fa582 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -650,6 +650,11 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+>   				ret = -EINVAL;
+>   				goto out;
+>   			}
+> +			if (opts->discovery_nqn) {
+> +				pr_debug("Ignoring nr_io_queues value for discovery controller\n");
+> +				break;
+> +			}
+> +
+>   			opts->nr_io_queues = min_t(unsigned int,
+>   					num_online_cpus(), token);
+>   			break;
 
-You still need it.
+Reviewed-by: James Smart <james.smart at broadcom.com>
 
-DMA coherent just means you don't need to call the DMA API after
-writing, it says nothing about CPU ordering.
-
-eg on x86 DMA coherent is just normal system memory, and you do need
-the SFENCE betweeen system memory stores and DMA triggering MMIO,
-apparently.
-
-Jason
+-- james
