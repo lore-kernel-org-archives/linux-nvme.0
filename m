@@ -1,50 +1,43 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 5 Mar 2018 18:14:02 -0700
-Subject: [PATCH v2 07/10] nvme-pci: Use PCI p2pmem subsystem to manage the
- CMB
-In-Reply-To: <CAOSf1CHvaz0QTCkptQwsdyPp6uvvHqtM51N0MfrO9RqYf9W0tg@mail.gmail.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-8-logang@deltatee.com>
- <CAOSf1CEj1vmLLd27-642=XSnL9ODkpEC0qLHA2_W5_7rV5+4Pg@mail.gmail.com>
- <20180305160004.GA30975@localhost.localdomain>
- <3f56c76d-6a5c-7c2f-5442-c9209749b598@deltatee.com>
- <CAOSf1CHvaz0QTCkptQwsdyPp6uvvHqtM51N0MfrO9RqYf9W0tg@mail.gmail.com>
-Message-ID: <416d8d27-200f-befb-1c30-14544fffcba0@deltatee.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon,  5 Mar 2018 20:55:24 -0800
+Subject: [PATCH] nvme_fc: minor fixes on sqsize
+Message-ID: <20180306045524.3474-1-jsmart2021@gmail.com>
 
+Corrected two outstanding issues in the transport around sqsize.
 
+The first is the Create Connection LS, which is to use a sqvalue
+which mirror what will be in the fabric connect, is sending count
+rather than count - 1.
 
-On 05/03/18 05:49 PM, Oliver wrote:
-> It's in arch/powerpc/kernel/io.c as _memcpy_toio() and it has two full barriers!
-> 
-> Awesome!
-> 
-> Our io.h indicates that our iomem accessors are designed to provide x86ish
-> strong ordering of accesses to MMIO space. The git log indicates
-> arch/powerpc/kernel/io.c has barely been touched in the last decade so
-> odds are most of that code was written in the elder days when people
-> were less aware of ordering issues. It might just be overly conservative
-> by today's standards, but maybe not (see below).
+The second is the hw queue for the admin queue. It's using the
+define that corresponds to the count - 1 value. It should be count.
 
-Yes, that seems overly conservative.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> (I'm not going to suggest ditching the lwsync trick. mpe is not going
-> to take that patch
-> without a really good reason)
-
-Well, that's pretty gross. Is this not exactly the situation mmiowb() is 
-meant to solve? See [1].
-
-Though, you're right in principle. Even if power was similar to other 
-systems in this way, it's still a risk that if these pages get passed 
-somewhere in the kernel that uses a spin lock like that without an 
-mmiowb() call, then it's going to have a bug. For now, the risk is 
-pretty low as we know exactly where all the p2pmem pages will be used 
-but if it gets into other places, all bets are off. I did do some work 
-trying to make a safe version of io-pages and also trying to change from 
-pages to pfn_t in large areas but neither approach seemed likely to get 
-any traction in the community, at least not in the near term.
-
-Logan
-
-[1] ACQUIRES VS I/O ACCESSES in 
-https://www.kernel.org/doc/Documentation/memory-barriers.txt
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 8cacaccac90d..fc00c609c695 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1323,7 +1323,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 				sizeof(struct fcnvme_lsdesc_cr_conn_cmd));
+ 	conn_rqst->connect_cmd.ersp_ratio = cpu_to_be16(ersp_ratio);
+ 	conn_rqst->connect_cmd.qid  = cpu_to_be16(queue->qnum);
+-	conn_rqst->connect_cmd.sqsize = cpu_to_be16(qsize);
++	conn_rqst->connect_cmd.sqsize = cpu_to_be16(qsize - 1);
+ 
+ 	lsop->queue = queue;
+ 	lsreq->rqstaddr = conn_rqst;
+@@ -2643,7 +2643,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	nvme_fc_init_queue(ctrl, 0);
+ 
+ 	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
+-				NVME_AQ_BLK_MQ_DEPTH);
++				NVME_AQ_BLK_MQ_DEPTH + 1);
+ 	if (ret)
+ 		goto out_free_queue;
+ 
+-- 
+2.13.1
