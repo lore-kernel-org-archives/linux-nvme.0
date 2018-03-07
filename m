@@ -1,21 +1,29 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Mar 2018 18:18:05 +0100
-Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries
- for hidden controllers"
-In-Reply-To: <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
-References: <20180307131358.20275-1-hch@lst.de>
- <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
- <20180307150344.GE30975@localhost.localdomain>
- <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
-Message-ID: <20180307171805.GA810@lst.de>
+From: gregkh@linuxfoundation.org (Greg KH)
+Date: Wed, 7 Mar 2018 09:27:21 -0800
+Subject: [PATCH stable 4.14.y] nvme-rdma: don't suppress send completions
+In-Reply-To: <20180305193215.23008-1-sagi@grimberg.me>
+References: <20180305193215.23008-1-sagi@grimberg.me>
+Message-ID: <20180307172721.GG7097@kroah.com>
 
-On Wed, Mar 07, 2018@03:56:36PM +0000, Sitsofe Wheeler wrote:
-> The problem is that it's the first of its kind in regard to virtual
-> slaves/devices and many of the consumers of block device sysfs simply
-> weren't ready for it to appear where it did. Perhaps if it had been a
-> different part of sysfs hierarchy and/or linked up a different way
-> (virtual-slaves/?) it would have been invisible to programs that
-> weren't ready to consume it...
+On Mon, Mar 05, 2018@09:32:15PM +0200, Sagi Grimberg wrote:
+> The entire completions suppress mechanism is currently broken because the
+> HCA might retry a send operation (due to dropped ack) after the nvme
+> transaction has completed.
+> 
+> In order to handle this, we signal all send completions and introduce a
+> separate done handler for async events as they will be handled differently
+> (as they don't include in-capsule data by definition).
+> 
+> Cc: <stable at vger.kernel.org> # v4.14+
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/rdma.c | 54 +++++++++++++-----------------------------------
+>  1 file changed, 14 insertions(+), 40 deletions(-)
 
-Yes, I think we should simply creates a paths/ directory.  Not sure
-there is much point in the backlink.
+What is the git commit id for this patch in Linus's tree?
+
+thanks,
+
+greg k-h
