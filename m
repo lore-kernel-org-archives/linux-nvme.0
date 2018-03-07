@@ -1,35 +1,23 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Wed, 7 Mar 2018 11:03:04 -0800
-Subject: [PATCH stable 4.14.y] nvme-rdma: don't suppress send completions
-In-Reply-To: <20180307174121.GB3766@localhost.localdomain>
-References: <20180305193215.23008-1-sagi@grimberg.me>
- <20180307172721.GG7097@kroah.com>
- <20180307174121.GB3766@localhost.localdomain>
-Message-ID: <20180307190303.GA18426@kroah.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 7 Mar 2018 13:37:41 -0700
+Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
+ hidden controllers"
+In-Reply-To: <CALjAwxgic8ACMRW_56W+BVnikUK+FzNmp-UMJ3qNYmxPZ3idsg@mail.gmail.com>
+References: <20180307131358.20275-1-hch@lst.de>
+ <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
+ <20180307150344.GE30975@localhost.localdomain>
+ <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
+ <20180307171805.GA810@lst.de>
+ <20180307173842.GA3766@localhost.localdomain>
+ <CALjAwxgic8ACMRW_56W+BVnikUK+FzNmp-UMJ3qNYmxPZ3idsg@mail.gmail.com>
+Message-ID: <20180307203741.GC3766@localhost.localdomain>
 
-On Wed, Mar 07, 2018@10:41:22AM -0700, Keith Busch wrote:
-> On Wed, Mar 07, 2018@09:27:21AM -0800, Greg KH wrote:
-> > On Mon, Mar 05, 2018@09:32:15PM +0200, Sagi Grimberg wrote:
-> > > The entire completions suppress mechanism is currently broken because the
-> > > HCA might retry a send operation (due to dropped ack) after the nvme
-> > > transaction has completed.
-> > > 
-> > > In order to handle this, we signal all send completions and introduce a
-> > > separate done handler for async events as they will be handled differently
-> > > (as they don't include in-capsule data by definition).
-> > > 
-> > > Cc: <stable at vger.kernel.org> # v4.14+
-> > > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> > > Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> > > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > > ---
-> > >  drivers/nvme/host/rdma.c | 54 +++++++++++++-----------------------------------
-> > >  1 file changed, 14 insertions(+), 40 deletions(-)
-> > 
-> > What is the git commit id for this patch in Linus's tree?
-> 
-> Commit b4b591c87f2b0f4ebaf3a68d4f13873b241aa584 upstream
+On Wed, Mar 07, 2018@05:47:34PM +0000, Sitsofe Wheeler wrote:
+> The only thing that concerns me is where do the stats live? Over in
+> https://github.com/axboe/fio/pull/526#issuecomment-369521772 we found
+> the main device doesn't record stats. Will that still be the case?
 
-thanks, now queued up.
-
-greg k-h
+The stats still live in the same place at
+/sys/block/nvmeXcYnZ/queue/stats. This patch just removes symlinks to the
+each path block device in the multipath block device's slave directory,
+so 'fio' won't see them at the moment.
