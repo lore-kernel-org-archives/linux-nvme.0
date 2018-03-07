@@ -1,27 +1,42 @@
-From: sitsofe@gmail.com (Sitsofe Wheeler)
-Date: Wed, 7 Mar 2018 17:47:34 +0000
-Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
- hidden controllers"
-In-Reply-To: <20180307173842.GA3766@localhost.localdomain>
-References: <20180307131358.20275-1-hch@lst.de>
- <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
- <20180307150344.GE30975@localhost.localdomain>
- <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
- <20180307171805.GA810@lst.de> <20180307173842.GA3766@localhost.localdomain>
-Message-ID: <CALjAwxgic8ACMRW_56W+BVnikUK+FzNmp-UMJ3qNYmxPZ3idsg@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed,  7 Mar 2018 19:56:26 +0200
+Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db record
+ update
+Message-ID: <20180307175626.15222-1-sagi@grimberg.me>
 
-On 7 March 2018@17:38, Keith Busch <keith.busch@intel.com> wrote:
-> On Wed, Mar 07, 2018@06:18:05PM +0100, Christoph Hellwig wrote:
->>
->> Yes, I think we should simply creates a paths/ directory.  Not sure
->> there is much point in the backlink.
->
-> That sounds good to me. For now, looks like we need the revert for the
-> current rc and stable; applied to nvme-4.16-rc5.
+A wmb() is always required before operations that trigger DMA
+(e.g. mmio write to a doorbell record). Not having it might result
+in write reordering causing the device to fetch partly updated
+submission queue entries.
 
-The only thing that concerns me is where do the stats live? Over in
-https://github.com/axboe/fio/pull/526#issuecomment-369521772 we found
-the main device doesn't record stats. Will that still be the case?
+Reported-by: Jason Gunthorpe <jgg at ziepe.ca>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Note that this is stable material, We could add stable
+tag when applying it to the nvme tree.
 
+ drivers/nvme/host/pci.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index db4dedb1cc8f..6c2dcef1ff91 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -437,8 +437,14 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
+ 	if (++tail == nvmeq->q_depth)
+ 		tail = 0;
+ 	if (nvme_dbbuf_update_and_check_event(tail, nvmeq->dbbuf_sq_db,
+-					      nvmeq->dbbuf_sq_ei))
++					      nvmeq->dbbuf_sq_ei)) {
++		/*
++		 * Make sure that descriptors are written before
++		 * doorbell record.
++		 */
++		wmb();
+ 		writel(tail, nvmeq->q_db);
++	}
+ 	nvmeq->sq_tail = tail;
+ }
+ 
 -- 
-Sitsofe | http://sucs.org/~sits/
+2.14.1
