@@ -1,29 +1,19 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 7 Mar 2018 10:41:22 -0700
-Subject: [PATCH stable 4.14.y] nvme-rdma: don't suppress send completions
-In-Reply-To: <20180307172721.GG7097@kroah.com>
-References: <20180305193215.23008-1-sagi@grimberg.me>
- <20180307172721.GG7097@kroah.com>
-Message-ID: <20180307174121.GB3766@localhost.localdomain>
+Date: Wed, 7 Mar 2018 10:38:43 -0700
+Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
+ hidden controllers"
+In-Reply-To: <20180307171805.GA810@lst.de>
+References: <20180307131358.20275-1-hch@lst.de>
+ <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
+ <20180307150344.GE30975@localhost.localdomain>
+ <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
+ <20180307171805.GA810@lst.de>
+Message-ID: <20180307173842.GA3766@localhost.localdomain>
 
-On Wed, Mar 07, 2018@09:27:21AM -0800, Greg KH wrote:
-> On Mon, Mar 05, 2018@09:32:15PM +0200, Sagi Grimberg wrote:
-> > The entire completions suppress mechanism is currently broken because the
-> > HCA might retry a send operation (due to dropped ack) after the nvme
-> > transaction has completed.
-> > 
-> > In order to handle this, we signal all send completions and introduce a
-> > separate done handler for async events as they will be handled differently
-> > (as they don't include in-capsule data by definition).
-> > 
-> > Cc: <stable at vger.kernel.org> # v4.14+
-> > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> > Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > ---
-> >  drivers/nvme/host/rdma.c | 54 +++++++++++++-----------------------------------
-> >  1 file changed, 14 insertions(+), 40 deletions(-)
+On Wed, Mar 07, 2018@06:18:05PM +0100, Christoph Hellwig wrote:
 > 
-> What is the git commit id for this patch in Linus's tree?
+> Yes, I think we should simply creates a paths/ directory.  Not sure
+> there is much point in the backlink.
 
-Commit b4b591c87f2b0f4ebaf3a68d4f13873b241aa584 upstream
+That sounds good to me. For now, looks like we need the revert for the
+current rc and stable; applied to nvme-4.16-rc5.
