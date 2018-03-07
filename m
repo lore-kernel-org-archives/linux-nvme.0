@@ -1,25 +1,19 @@
-From: sitsofe@gmail.com (Sitsofe Wheeler)
-Date: Wed, 7 Mar 2018 21:42:38 +0000
-Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
- hidden controllers"
-In-Reply-To: <20180307203741.GC3766@localhost.localdomain>
-References: <20180307131358.20275-1-hch@lst.de>
- <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
- <20180307150344.GE30975@localhost.localdomain>
- <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
- <20180307171805.GA810@lst.de> <20180307173842.GA3766@localhost.localdomain>
- <CALjAwxgic8ACMRW_56W+BVnikUK+FzNmp-UMJ3qNYmxPZ3idsg@mail.gmail.com>
- <20180307203741.GC3766@localhost.localdomain>
-Message-ID: <CALjAwxhgaG7wp-htvrHvJKY+1CDvS_=qT12FEqiAiGOvwfWiiw@mail.gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 7 Mar 2018 13:52:58 -0800
+Subject: [PATCH] nvme_fc: minor fixes on sqsize
+In-Reply-To: <20180307154640.GF30975@localhost.localdomain>
+References: <20180306045524.3474-1-jsmart2021@gmail.com>
+ <20180307154640.GF30975@localhost.localdomain>
+Message-ID: <37e33bac-cb87-beee-2401-aadd0c9afbb4@broadcom.com>
 
-On 7 March 2018@20:37, Keith Busch <keith.busch@intel.com> wrote:
->
-> The stats still live in the same place at
-> /sys/block/nvmeXcYnZ/queue/stats. This patch just removes symlinks to the
-> each path block device in the multipath block device's slave directory,
-> so 'fio' won't see them at the moment.
+On 3/7/2018 7:46 AM, Keith Busch wrote:
+> On Mon, Mar 05, 2018@08:55:24PM -0800, James Smart wrote:
+>>   	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
+>> -				NVME_AQ_BLK_MQ_DEPTH);
+>> +				NVME_AQ_BLK_MQ_DEPTH + 1);
+> A bit of a nit, but I think you'd prefer to use NVME_AQ_DEPTH here
+> instead of assuming the +1.
+NP.?? I'll address it. I need to rework the patch as I found another 
+area when we tune for controller limits that isn't right either.
 
-Fair enough - things can be reworked after if/when a replacement link lands.
-
--- 
-Sitsofe | http://sucs.org/~sits/
+-- james
