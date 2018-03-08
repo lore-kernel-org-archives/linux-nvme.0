@@ -1,32 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Mar 2018 08:51:47 -0700
-Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db
- record update
-In-Reply-To: <20180307175626.15222-1-sagi@grimberg.me>
-References: <20180307175626.15222-1-sagi@grimberg.me>
-Message-ID: <20180308155147.GD3766@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 8 Mar 2018 19:14:11 +0200
+Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
+ hidden controllers"
+In-Reply-To: <20180307171805.GA810@lst.de>
+References: <20180307131358.20275-1-hch@lst.de>
+ <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
+ <20180307150344.GE30975@localhost.localdomain>
+ <CALjAwxgLXdk1hhmtb3Dp2=U_o1E-MqObBxUroAj+sJU2uNHx4g@mail.gmail.com>
+ <20180307171805.GA810@lst.de>
+Message-ID: <92b3a173-7823-d96f-af43-7603ae9894af@grimberg.me>
 
-On Wed, Mar 07, 2018@07:56:26PM +0200, Sagi Grimberg wrote:
-> @@ -437,8 +437,14 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
->  	if (++tail == nvmeq->q_depth)
->  		tail = 0;
->  	if (nvme_dbbuf_update_and_check_event(tail, nvmeq->dbbuf_sq_db,
-> -					      nvmeq->dbbuf_sq_ei))
-> +					      nvmeq->dbbuf_sq_ei)) {
-> +		/*
-> +		 * Make sure that descriptors are written before
-> +		 * doorbell record.
-> +		 */
-> +		wmb();
->  		writel(tail, nvmeq->q_db);
-> +	}
->  	nvmeq->sq_tail = tail;
->  }
 
-If this really is necessary, we'd need this before updating the event
-shadow registers too.
+>> The problem is that it's the first of its kind in regard to virtual
+>> slaves/devices and many of the consumers of block device sysfs simply
+>> weren't ready for it to appear where it did. Perhaps if it had been a
+>> different part of sysfs hierarchy and/or linked up a different way
+>> (virtual-slaves/?) it would have been invisible to programs that
+>> weren't ready to consume it...
+> 
+> Yes, I think we should simply creates a paths/ directory.  Not sure
+> there is much point in the backlink.
 
-I'd like to understand this a bit more as we haven't done this in eight
-years and I can't recall any issues around this section. Have we just
-been fortunate that the problem this fixes is extraordinarily unlikely,
-or is something else implicitly ordering within this critical section?
+I'm good with this.
