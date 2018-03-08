@@ -1,140 +1,63 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 8 Mar 2018 20:21:46 +0200
-Subject: [PATCH V4 2/5] nvme: add helper interface to flush in-flight
- requests
-In-Reply-To: <1520489971-31174-3-git-send-email-jianchao.w.wang@oracle.com>
-References: <1520489971-31174-1-git-send-email-jianchao.w.wang@oracle.com>
- <1520489971-31174-3-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <931a03f8-9c8b-fec4-0f89-04321a906710@grimberg.me>
+From: jgg@ziepe.ca (Jason Gunthorpe)
+Date: Thu, 8 Mar 2018 11:36:23 -0700
+Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db
+ record update
+In-Reply-To: <c6a92092-f1f0-cf3c-3f34-fe5904d9718b@grimberg.me>
+References: <20180307175626.15222-1-sagi@grimberg.me>
+ <20180308155147.GD3766@localhost.localdomain>
+ <20180308172018.GA6785@ziepe.ca>
+ <c6a92092-f1f0-cf3c-3f34-fe5904d9718b@grimberg.me>
+Message-ID: <20180308183623.GE6785@ziepe.ca>
 
-
-
-On 03/08/2018 08:19 AM, Jianchao Wang wrote:
-> Currently, we use nvme_cancel_request to complete the request
-> forcedly. This has following defects:
->   - It is not safe to race with the normal completion path.
->     blk_mq_complete_request is ok to race with timeout path,
->     but not with itself.
->   - Cannot ensure all the requests have been handled. The timeout
->     path may grab some expired requests, blk_mq_complete_request
->     cannot touch them.
+On Thu, Mar 08, 2018@07:56:37PM +0200, Sagi Grimberg wrote:
 > 
-> add two helper interface to flush in-flight requests more safely.
-> - nvme_abort_requests_sync
-> use nvme_abort_req to timeout all the in-flight requests and wait
-> until timeout work and irq completion path completes. More details
-> please refer to the comment of this interface.
-> - nvme_flush_aborted_requests
-> complete the requests 'aborted' by nvme_abort_requests_sync. It will
-> be invoked after the controller is disabled/shutdown.
+> >>>@@ -437,8 +437,14 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
+> >>>  	if (++tail == nvmeq->q_depth)
+> >>>  		tail = 0;
+> >>>  	if (nvme_dbbuf_update_and_check_event(tail, nvmeq->dbbuf_sq_db,
+> >>>-					      nvmeq->dbbuf_sq_ei))
+> >>>+					      nvmeq->dbbuf_sq_ei)) {
+> >>>+		/*
+> >>>+		 * Make sure that descriptors are written before
+> >>>+		 * doorbell record.
+> >>>+		 */
+> >>>+		wmb();
+> >>>  		writel(tail, nvmeq->q_db);
+> >>>+	}
+> >>>  	nvmeq->sq_tail = tail;
+> >>>  }
+> >>
+> >>If this really is necessary, we'd need this before updating the event
+> >>shadow registers too.
+> >>
+> >>I'd like to understand this a bit more as we haven't done this in eight
+> >>years and I can't recall any issues around this section. Have we just
+> >>been fortunate that the problem this fixes is extraordinarily unlikely,
+> >>or is something else implicitly ordering within this critical section?
+> >
+> >Well, there is a wmb() already inside
+> >nvme_dbbuf_update_and_check_event so any failure would only
+> >be related to dbbuf_sq_db being wrong when tail is written to q_db.
 > 
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> ---
->   drivers/nvme/host/core.c | 96 ++++++++++++++++++++++++++++++++++++++++++++++++
->   drivers/nvme/host/nvme.h |  4 +-
->   2 files changed, 99 insertions(+), 1 deletion(-)
+> Right, we have that covered.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 7b8df47..e26759b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3567,6 +3567,102 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
->   }
->   EXPORT_SYMBOL_GPL(nvme_start_queues);
->   
-> +static void nvme_abort_req(struct request *req, void *data, bool reserved)
-> +{
-> +	if (!blk_mq_request_started(req))
-> +		return;
-> +
-> +	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-> +				"Abort I/O %d", req->tag);
-> +
-> +	/* The timeout path need identify this flag and return
-> +	 * BLK_EH_NOT_HANDLED, then the request will not be completed.
-> +	 * we will defer the completion after the controller is disabled or
-> +	 * shutdown.
-> +	 */
-> +	set_bit(NVME_REQ_ABORTED, &nvme_req(req)->flags);
-> +	blk_abort_request(req);
-> +}
-> +
-> +/*
-> + * This function will ensure all the in-flight requests on the
-> + * controller to be handled by timeout path or irq completion path.
-> + * It has to pair with nvme_flush_aborted_requests which will be
-> + * invoked after the controller has been disabled/shutdown and
-> + * complete the requests 'aborted' by nvme_abort_req.
-> + *
-> + * Note, the driver layer will not be quiescent before disable
-> + * controller, because the requests aborted by blk_abort_request
-> + * are still active and the irq will fire at any time, but it can
-> + * not enter into completion path, because the request has been
-> + * timed out.
-> + */
-> +void nvme_abort_requests_sync(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_ns *ns;
-> +
-> +	blk_mq_tagset_busy_iter(ctrl->tagset, nvme_abort_req, ctrl);
-> +	blk_mq_tagset_busy_iter(ctrl->admin_tagset, nvme_abort_req, ctrl);
-> +	/*
-> +	 * ensure the timeout_work is queued, thus needn't to sync
-> +	 * the timer
-> +	 */
-> +	kblockd_schedule_work(&ctrl->admin_q->timeout_work);
-> +
-> +	down_read(&ctrl->namespaces_rwsem);
-> +
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		kblockd_schedule_work(&ns->queue->timeout_work);
-> +
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		flush_work(&ns->queue->timeout_work);
-> +
-> +	up_read(&ctrl->namespaces_rwsem);
-> +	/* This will ensure all the nvme irq completion path have exited */
-> +	synchronize_sched();
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_abort_requests_sync);
-> +
-> +static void nvme_comp_req(struct request *req, void *data, bool reserved)
+> >Guessing that might be a basically undetectable situation, maybe some
+> >temporary higher latency or something?
+> 
+> If the SQE and DB update have been reordered,
 
-Not a very good name...
+But that can't happen, the SQE is written before
+nvme_dbbuf_update_and_check_event(), and that function does wmb.
 
-> +{
-> +	struct nvme_ctrl *ctrl = (struct nvme_ctrl *)data;
-> +
-> +	if (!test_bit(NVME_REQ_ABORTED, &nvme_req(req)->flags))
-> +		return;
-> +
-> +	WARN_ON(!blk_mq_request_started(req));
-> +
-> +	if (ctrl->tagset && ctrl->tagset->ops->complete) {
+The only reordering is related to this:
 
-What happens when this called on the admin tagset when the controller
-does not have an io tagset?
+		wmb();
 
-> +		clear_bit(NVME_REQ_ABORTED, &nvme_req(req)->flags);
-> +		/*
-> +		 * We set the status to NVME_SC_ABORT_REQ, then ioq request
-> +		 * will be requeued and adminq one will be failed.
-> +		 */
-> +		nvme_req(req)->status = NVME_SC_ABORT_REQ;
-> +		/*
-> +		 * For ioq request, blk_mq_requeue_request should be better
-> +		 * here. But the nvme code will still setup the cmd even if
-> +		 * the RQF_DONTPREP is set. We have to use .complete to free
-> +		 * the cmd and then requeue it.
+		old_value = *dbbuf_db;
+		*dbbuf_db = value;
+[..]
+	writel(tail, nvmeq->q_db);
 
-IMO, its better to fix nvme to not setup the command if RQF_DONTPREP is 
-on (other than the things it must setup).
+So q_db and dbbuf_db could be swapped at the worst.
 
-> +		 *
-> +		 * For adminq request, invoking .complete directly will miss
-> +		 * blk_mq_sched_completed_request, but this is ok because we
-> +		 * won't have io scheduler for adminq.
-> +		 */
-> +		ctrl->tagset->ops->complete(req);
-
-I don't think that directly calling .complete is a good idea...
+Jason
