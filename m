@@ -1,9 +1,10 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Mar 2018 10:43:50 -0700
-Subject: [PATCH v2] nvme_fc: rework sqsize handling
-In-Reply-To: <69560dd3-dc2b-91af-b551-4f2649585ee0@grimberg.me>
-References: <20180307235936.2830-1-jsmart2021@gmail.com>
- <69560dd3-dc2b-91af-b551-4f2649585ee0@grimberg.me>
-Message-ID: <20180308174350.GF3766@localhost.localdomain>
+Date: Thu, 8 Mar 2018 10:45:01 -0700
+Subject: [PATCH v2] nvme-fabrics: Ignore nr_io_queues option for
+ discovery controllers
+In-Reply-To: <20180308073754.GA15748@lst.de>
+References: <20180305195953.14428-1-roland@kernel.org>
+ <20180308073754.GA15748@lst.de>
+Message-ID: <20180308174500.GG3766@localhost.localdomain>
 
-Thanks, applied for 4.16-rc5.
+Thanks, applied.
