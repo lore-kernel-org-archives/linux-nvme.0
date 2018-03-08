@@ -1,22 +1,67 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Mar 2018 11:42:20 -0700
-Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db
- record update
-In-Reply-To: <20180308183623.GE6785@ziepe.ca>
-References: <20180307175626.15222-1-sagi@grimberg.me>
- <20180308155147.GD3766@localhost.localdomain>
- <20180308172018.GA6785@ziepe.ca>
- <c6a92092-f1f0-cf3c-3f34-fe5904d9718b@grimberg.me>
- <20180308183623.GE6785@ziepe.ca>
-Message-ID: <20180308184220.GA6163@localhost.localdomain>
+From: alexander.duyck@gmail.com (Alexander Duyck)
+Date: Thu, 08 Mar 2018 11:00:40 -0800
+Subject: [pci PATCH v4 0/4] Add support for unmanaged SR-IOV
+Message-ID: <20180308185507.5433.98830.stgit@localhost.localdomain>
 
-On Thu, Mar 08, 2018@11:36:23AM -0700, Jason Gunthorpe wrote:
-> On Thu, Mar 08, 2018@07:56:37PM +0200, Sagi Grimberg wrote:
-> > If the SQE and DB update have been reordered,
-> 
-> But that can't happen, the SQE is written before
-> nvme_dbbuf_update_and_check_event(), and that function does wmb.
+This series is meant to add support for SR-IOV on devices when the VFs are
+not managed by the kernel. Examples of recent patches attempting to do this
+include:
+virto - https://patchwork.kernel.org/patch/10241225/
+pci-stub - https://patchwork.kernel.org/patch/10109935/
+vfio - https://patchwork.kernel.org/patch/10103353/
+uio - https://patchwork.kernel.org/patch/9974031/
 
-I believe Sagi is talking about the typical controller that doesn't
-have shadow db registers (no real nvme device has those), which doesn't
-currently go through a path calling wmb().
+Since this is quickly blowing up into a multi-driver problem it is probably
+best to implement this solution as generically as possible.
+
+This series is an attempt to do that. What we do with this patch set is
+provide a generic framework to enable SR-IOV in the case that the PF driver
+doesn't support managing the VFs itself.
+
+I based my patch set originally on the patch by Mark Rustad but there isn't
+much left after going through and cleaning out the bits that were no longer
+needed, and after incorporating the feedback from David Miller. At this point
+the only items to be fully reused was his patch description which is now
+present in patch 3 of the set.
+
+This solution is limited in scope to just adding support for devices that
+provide no functionality for SR-IOV other than allocating the VFs by
+calling pci_enable_sriov. Previous sets had included patches for VFIO, but
+for now I am dropping that as the scope of that work is larger then I
+think I can take on at this time.
+
+v2: Reduced scope back to just virtio_pci and vfio-pci
+    Broke into 3 patch set from single patch
+    Changed autoprobe behavior to always set when num_vfs is set non-zero
+v3: Updated Documentation to clarify when sriov_unmanaged_autoprobe is used
+    Wrapped vfio_pci_sriov_configure to fix build errors w/o SR-IOV in kernel
+v4: Dropped vfio-pci patch
+    Added ena and nvme to drivers now using pci_sriov_configure_unmanaged
+    Dropped pci_disable_sriov call in virtio_pci to be consistent with ena
+
+Cc: Mark Rustad <mark.d.rustad at intel.com>
+Cc: Maximilian Heyne <mheyne at amazon.de>
+Cc: Liang-Min Wang <liang-min.wang at intel.com>
+Cc: David Woodhouse <dwmw at amazon.co.uk>
+
+---
+
+Alexander Duyck (4):
+      pci-iov: Add support for unmanaged SR-IOV
+      virtio_pci: Add support for unmanaged SR-IOV on virtio_pci devices
+      ena: Migrate over to "unmanaged SR-IOV" support
+      nvme: Migrate over to "unmanaged SR-IOV" support
+
+
+ Documentation/ABI/testing/sysfs-bus-pci      |   25 +++++++++++++++
+ drivers/net/ethernet/amazon/ena/ena_netdev.c |   30 ++-----------------
+ drivers/nvme/host/pci.c                      |   22 ++------------
+ drivers/pci/iov.c                            |   42 ++++++++++++++++++++++++++
+ drivers/pci/pci-driver.c                     |    2 +
+ drivers/pci/pci-sysfs.c                      |   29 ++++++++++++++++++
+ drivers/pci/pci.h                            |    4 ++
+ drivers/virtio/virtio_pci_common.c           |    3 ++
+ include/linux/pci.h                          |    1 +
+ 9 files changed, 110 insertions(+), 48 deletions(-)
+
+--
