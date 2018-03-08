@@ -1,52 +1,58 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Mar 2018 15:45:58 -0700
-Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
- hidden controllers"
-In-Reply-To: <20180307150344.GE30975@localhost.localdomain>
-References: <20180307131358.20275-1-hch@lst.de>
- <1c1332d4-1d92-af8f-974c-2eafcde741f2@suse.de>
- <20180307150344.GE30975@localhost.localdomain>
-Message-ID: <20180308224558.GA14765@localhost.localdomain>
+Date: Thu, 8 Mar 2018 16:10:36 -0700
+Subject: [GIT PULL] nvme fixes for 4.16-rc
+Message-ID: <20180308231036.GB14765@localhost.localdomain>
 
-On Wed, Mar 07, 2018@08:03:45AM -0700, Keith Busch wrote:
-> On Wed, Mar 07, 2018@02:40:39PM +0100, Hannes Reinecke wrote:
-> > How do we detect the topology now?
-> > Does nvme cli has the functionality?
-> 
-> Not in the way you'd probably like. It can provide all the information
-> you'd need to put it together, but it doesn't provide a convenient
-> method to get or visualize it. I'll add a note on the project to fix
-> that.
+Hi Jens,
 
-Actually, nvmecli already has something kind of close, thanks
-to Johannes! The 'list-subsys' command is most of the way there. It
-currently looks like this, and just needs to go one level deeper to
-append the namespaces to the output:
+A few late fixes for 4.16:
 
-# nvme list-subsys -o json
-{
-  "Subsystems" : [
-    {
-      "Name" : "nvme-subsys0",
-      "NQN" : "nqn.2014.08.org.nvmexpress:8086108ePHLE7200015N6P4B7335943:ICDPC5ED2ORA6.4T"
-    },
-    {
-      "Paths" : [
-        {
-          "Name" : "nvme0",
-          "Transport" : "pcie",
-          "Address" : "0000:03:00.0"
-        },
-        {
-          "Name" : "nvme1",
-          "Transport" : "pcie",
-          "Address" : "0000:04:00.0"
-        }
-      ]
-    }
-  ]
-}
+ * Reverting sysfs slave device links for native nvme multipathing.
+   The hidden disk attributes broke common user tools.
 
-While this should readily work for fabrics, I needed to add a new kernel
-driver patch to export the PCIe address for the above (patch staged
-for 4.17).
+ * A fix for a PPC pci error handling regression.
+
+ * Update pci interrupt count to consider the actual IRQ spread, fixing
+   potentially poor initial queue affinity.
+
+ * Off-by-one errors in nvme-fc queue sizes
+
+ * A fabrics discovery fix to be more tolerant with user tools.
+
+Please pull!
+
+The following changes since commit 468f098734ab095b72d8af26bcd4bcb2ed31a3be:
+
+  Merge branch 'for-jens' of git://git.infradead.org/nvme into for-linus (2018-02-28 12:18:58 -0700)
+
+are available in the Git repository at:
+
+  http://git.infradead.org/nvme.git/shortlog/refs/heads/nvme-4.16-rc5 
+
+for you to fetch changes up to d157e5343cb360a525e6b3e7924612a9a90df3b7:
+
+  nvme_fc: rework sqsize handling (2018-03-08 10:39:58 -0700)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      Revert "nvme: create 'slaves' and 'holders' entries for hidden controllers"
+
+James Smart (1):
+      nvme_fc: rework sqsize handling
+
+Ming Lei (1):
+      nvme: pci: pass max vectors as num_possible_cpus() to pci_alloc_irq_vectors
+
+Roland Dreier (1):
+      nvme-fabrics: Ignore nr_io_queues option for discovery controllers
+
+Wen Xiong (1):
+      nvme-pci: Fix EEH failure on ppc
+
+ drivers/nvme/host/core.c      |  2 --
+ drivers/nvme/host/fabrics.c   |  5 +++++
+ drivers/nvme/host/fc.c        | 27 +++++++++++++++++----------
+ drivers/nvme/host/multipath.c | 30 ------------------------------
+ drivers/nvme/host/nvme.h      |  8 --------
+ drivers/nvme/host/pci.c       | 15 ++++++++-------
+ 6 files changed, 30 insertions(+), 57 deletions(-)
