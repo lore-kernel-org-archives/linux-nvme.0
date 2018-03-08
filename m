@@ -1,48 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 8 Mar 2018 08:56:28 +0100
-Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db
- record update
-In-Reply-To: <20180307175626.15222-1-sagi@grimberg.me>
-References: <20180307175626.15222-1-sagi@grimberg.me>
-Message-ID: <20180308075628.GA16084@lst.de>
+Date: Thu, 8 Mar 2018 08:57:36 +0100
+Subject: [PATCH V4 1/5] nvme: do atomically bit operations on
+ nvme_request.flags
+In-Reply-To: <1520489971-31174-2-git-send-email-jianchao.w.wang@oracle.com>
+References: <1520489971-31174-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1520489971-31174-2-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180308075736.GB16084@lst.de>
 
-Yes, looks like we'd need this.
+On Thu, Mar 08, 2018@02:19:27PM +0800, Jianchao Wang wrote:
+> Do atomically bit operations on nvme_request.flags instead of
+> regular read/write, then we could add other flags and set/clear
+> them safely.
+> 
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 
-On Wed, Mar 07, 2018@07:56:26PM +0200, Sagi Grimberg wrote:
-> A wmb() is always required before operations that trigger DMA
-> (e.g. mmio write to a doorbell record). Not having it might result
-> in write reordering causing the device to fetch partly updated
-> submission queue entries.
-> 
-> Reported-by: Jason Gunthorpe <jgg at ziepe.ca>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> Note that this is stable material, We could add stable
-> tag when applying it to the nvme tree.
-> 
->  drivers/nvme/host/pci.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index db4dedb1cc8f..6c2dcef1ff91 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -437,8 +437,14 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
->  	if (++tail == nvmeq->q_depth)
->  		tail = 0;
->  	if (nvme_dbbuf_update_and_check_event(tail, nvmeq->dbbuf_sq_db,
-> -					      nvmeq->dbbuf_sq_ei))
-> +					      nvmeq->dbbuf_sq_ei)) {
-> +		/*
-> +		 * Make sure that descriptors are written before
-> +		 * doorbell record.
-> +		 */
-> +		wmb();
->  		writel(tail, nvmeq->q_db);
-> +	}
->  	nvmeq->sq_tail = tail;
->  }
->  
-> -- 
-> 2.14.1
----end quoted text---
+Looks good, assuming an actual need for this shows up in the next
+patches :)
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index e80fd74..02097e8 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -93,8 +93,8 @@ struct nvme_request {
+>  	struct nvme_command	*cmd;
+>  	union nvme_result	result;
+>  	u8			retries;
+> -	u8			flags;
+>  	u16			status;
+> +	unsigned long flags;
+
+Please align the field name like the others, though.
