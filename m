@@ -1,58 +1,43 @@
-From: alexander.duyck@gmail.com (Alexander Duyck)
-Date: Thu, 08 Mar 2018 11:04:06 -0800
-Subject: [pci PATCH v4 4/4] nvme: Migrate over to "unmanaged SR-IOV" support
-In-Reply-To: <20180308185507.5433.98830.stgit@localhost.localdomain>
-References: <20180308185507.5433.98830.stgit@localhost.localdomain>
-Message-ID: <20180308190401.5433.13861.stgit@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu,  8 Mar 2018 14:56:55 -0700
+Subject: [PATCH] nvme-pci: Add .get_address ctrl callback
+Message-ID: <20180308215655.6670-1-keith.busch@intel.com>
 
-From: Alexander Duyck <alexander.h.duyck@intel.com>
+The nvme-fabrics exports the controller address to sysfs, and we'd
+like to have parity with this feature for PCIe. This patch provides
+the appropiate callback and returns the controller address as the pci
+domain:bus:device.function.
 
-Instead of implementing our own version of a SR-IOV configuration stub in
-the nvme driver we can just reuse the existing
-pci_sriov_configure_unmanaged function.
-
-Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c |   22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
+ drivers/nvme/host/pci.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6fe7af00a1f4..2c753ccc1771 100644
+index b6f43b738f03..9a3057a03499 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2570,24 +2570,6 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_put_ctrl(&dev->ctrl);
+@@ -2416,6 +2416,13 @@ static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 	return 0;
  }
  
--static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
--{
--	int ret = 0;
--
--	if (numvfs == 0) {
--		if (pci_vfs_assigned(pdev)) {
--			dev_warn(&pdev->dev,
--				"Cannot disable SR-IOV VFs while assigned\n");
--			return -EPERM;
--		}
--		pci_disable_sriov(pdev);
--		return 0;
--	}
--
--	ret = pci_enable_sriov(pdev, numvfs);
--	return ret ? ret : numvfs;
--}
--
- #ifdef CONFIG_PM_SLEEP
- static int nvme_suspend(struct device *dev)
- {
-@@ -2706,7 +2688,9 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 	.driver		= {
- 		.pm	= &nvme_dev_pm_ops,
- 	},
--	.sriov_configure = nvme_pci_sriov_configure,
-+#ifdef CONFIG_PCI_IOV
-+	.sriov_configure = pci_sriov_configure_unmanaged,
-+#endif
- 	.err_handler	= &nvme_err_handler,
++static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
++{
++	struct pci_dev *pdev = to_pci_dev(to_nvme_dev(ctrl)->dev);
++
++	return snprintf(buf, size, "%s", dev_name(&pdev->dev));
++}
++
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.name			= "pcie",
+ 	.module			= THIS_MODULE,
+@@ -2425,6 +2432,7 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.reg_read64		= nvme_pci_reg_read64,
+ 	.free_ctrl		= nvme_pci_free_ctrl,
+ 	.submit_async_event	= nvme_pci_submit_async_event,
++	.get_address		= nvme_pci_get_address,
  };
  
+ static int nvme_dev_map(struct nvme_dev *dev)
+-- 
+2.14.3
