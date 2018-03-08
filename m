@@ -1,125 +1,66 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed,  7 Mar 2018 15:59:36 -0800
-Subject: [PATCH v2] nvme_fc: rework sqsize handling
-Message-ID: <20180307235936.2830-1-jsmart2021@gmail.com>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Thu,  8 Mar 2018 14:19:26 +0800
+Subject: PATCH V4 0/5 nvme-pci: fixes on nvme_timeout and nvme_dev_disable
+Message-ID: <1520489971-31174-1-git-send-email-jianchao.w.wang@oracle.com>
 
-Corrected four outstanding issues in the transport around sqsize.
+Firstly, really appreciate Keith and Sagi's precious advice on previous versions.
+And this is the version 4.
 
-1: Create Connection LS is sending the 1's-based sqsize, should be
-sending the 0's-based value.
+Some patches of the previous patchset have been submitted and the left is this patchset
+which has been refactored. Please consider it for 4.17.
 
-2: allocation of hw queue is using the 0's-base size. It should be
-using the 1's-based value.
+The target of this patchset is to avoid nvme_dev_disable to be invoked by nvme_timeout.
+As we know, nvme_dev_disable will issue commands on adminq, if the controller no response,
+it has to depend on timeout path. However, nvme_timeout will also need to invoke
+nvme_dev_disable. This will introduce dangerous circular dependence. Moreover,
+nvme_dev_disable is under the shutdown_lock, even when it go to sleep, this makes things
+worse.
 
-3: normalization of ctrl.sqsize by MQES is using MQES+1 (1's-based
-value). It should be MQES (0's-based value).
+The basic idea of this patchset is:
+ - When need to schedule reset_work, hand over expired requests to nvme_dev_disable. They
+   will be completed after the controller is disabled/shtudown.
 
-4: Missing clause to ensure queue_count not larger than ctrl->sqsize.
+ - When requests from nvme_dev_disable and nvme_reset_work expires, disable the controller
+   directly then the request could be completed to wakeup the waiter. 
 
-Corrected by:
-Clean up routines that pass queue size around. The queue size value is
-the actual count (1's-based) value and determined from ctrl->sqsize + 1.
+The 'disable the controller directly' here means that it doesn't send commands on adminq.
+A new interface is introduced for this, nvme_pci_disable_ctrl_directly. More details,
+please refer to the comment of the function.
 
-Routines that send 0's-based value adapt from queue size.
+Then nvme_timeout doesn't depends on nvme_dev_disable any more.
 
-Sset ctrl->sqsize properly for MQES.
+Because there is big difference from previous version, and some relatively independent patches
+have been submitted, so I just reserve the key part of previous version change log following.
 
-Added clause to nsure queue_count not larger than ctrl->sqsize + 1.
+Change V3->V4
+ - refactor the interfaces flushing in-flight requests and add them to nvme core.
+ - refactor the nvme_timeout to make it more clearly
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+Change V2->V3:
+ - discard the patch which unfreeze the queue after nvme_dev_disable
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index bb7e7851082a..590c5b99cae8 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1210,7 +1210,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
- 				sizeof(struct fcnvme_lsdesc_cr_assoc_cmd));
+Changes V1->V2:
+ - disable PCI controller bus master in nvme_pci_disable_ctrl_directly
+
+There are 5 patches:
+1st one is to change the operations on nvme_request->flags to atomic operations, then we could introduce
+another NVME_REQ_ABORTED next.
+2nd patch introduce two new interfaces to flush in-flight requests in nvme core.
+3rd patch is to avoid the nvme_dev_disable in nvme_timeout, it introduce new interface nvme_pci_disable_ctrl_directly
+and refactor the nvme_timeout
+4th~5th is to fix issues introduced after 3rd patch.
+
+Jianchao Wang (5)
+0001-nvme-do-atomically-bit-operations-on-nvme_request.fl.patch
+0002-nvme-add-helper-interface-to-flush-in-flight-request.patch
+0003-nvme-pci-avoid-nvme_dev_disable-to-be-invoked-in-nvm.patch
+0004-nvme-pci-discard-wait-timeout-when-delete-cq-sq.patch
+0005-nvme-pci-add-the-timeout-case-for-DELETEING-state.patch
+
+diff stat
+ drivers/nvme/host/core.c |  96 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |   4 +-
+ drivers/nvme/host/pci.c  | 224 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----------------------------------
  
- 	assoc_rqst->assoc_cmd.ersp_ratio = cpu_to_be16(ersp_ratio);
--	assoc_rqst->assoc_cmd.sqsize = cpu_to_be16(qsize);
-+	assoc_rqst->assoc_cmd.sqsize = cpu_to_be16(qsize - 1);
- 	/* Linux supports only Dynamic controllers */
- 	assoc_rqst->assoc_cmd.cntlid = cpu_to_be16(0xffff);
- 	uuid_copy(&assoc_rqst->assoc_cmd.hostid, &ctrl->ctrl.opts->host->id);
-@@ -1325,7 +1325,7 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 				sizeof(struct fcnvme_lsdesc_cr_conn_cmd));
- 	conn_rqst->connect_cmd.ersp_ratio = cpu_to_be16(ersp_ratio);
- 	conn_rqst->connect_cmd.qid  = cpu_to_be16(queue->qnum);
--	conn_rqst->connect_cmd.sqsize = cpu_to_be16(qsize);
-+	conn_rqst->connect_cmd.sqsize = cpu_to_be16(qsize - 1);
- 
- 	lsop->queue = queue;
- 	lsreq->rqstaddr = conn_rqst;
-@@ -2494,11 +2494,11 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
- 		goto out_free_tag_set;
- 	}
- 
--	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.opts->queue_size);
-+	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
- 	if (ret)
- 		goto out_cleanup_blk_queue;
- 
--	ret = nvme_fc_connect_io_queues(ctrl, ctrl->ctrl.opts->queue_size);
-+	ret = nvme_fc_connect_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
- 	if (ret)
- 		goto out_delete_hw_queues;
- 
-@@ -2545,11 +2545,11 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
- 	if (ret)
- 		goto out_free_io_queues;
- 
--	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.opts->queue_size);
-+	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
- 	if (ret)
- 		goto out_free_io_queues;
- 
--	ret = nvme_fc_connect_io_queues(ctrl, ctrl->ctrl.opts->queue_size);
-+	ret = nvme_fc_connect_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
- 	if (ret)
- 		goto out_delete_hw_queues;
- 
-@@ -2645,13 +2645,12 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	nvme_fc_init_queue(ctrl, 0);
- 
- 	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
--				NVME_AQ_BLK_MQ_DEPTH);
-+				NVME_AQ_DEPTH);
- 	if (ret)
- 		goto out_free_queue;
- 
- 	ret = nvme_fc_connect_admin_queue(ctrl, &ctrl->queues[0],
--				NVME_AQ_BLK_MQ_DEPTH,
--				(NVME_AQ_BLK_MQ_DEPTH / 4));
-+				NVME_AQ_DEPTH, (NVME_AQ_DEPTH / 4));
- 	if (ret)
- 		goto out_delete_hw_queue;
- 
-@@ -2679,7 +2678,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	}
- 
- 	ctrl->ctrl.sqsize =
--		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap) + 1, ctrl->ctrl.sqsize);
-+		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
- 
- 	ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
- 	if (ret)
-@@ -2712,6 +2711,14 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 		opts->queue_size = ctrl->ctrl.maxcmd;
- 	}
- 
-+	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
-+		/* warn if sqsize is lower than queue_size */
-+		dev_warn(ctrl->ctrl.device,
-+			"queue_size %zu > ctrl sqsize %u, clamping down\n",
-+			opts->queue_size, ctrl->ctrl.sqsize + 1);
-+		opts->queue_size = ctrl->ctrl.sqsize + 1;
-+	}
-+
- 	ret = nvme_fc_init_aen_ops(ctrl);
- 	if (ret)
- 		goto out_term_aen_ops;
--- 
-2.13.1
+ Thanks
+ Jianchao
