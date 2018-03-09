@@ -1,58 +1,74 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Mar 2018 16:10:36 -0700
-Subject: [GIT PULL] nvme fixes for 4.16-rc
-Message-ID: <20180308231036.GB14765@localhost.localdomain>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Fri, 9 Mar 2018 09:59:28 +0800
+Subject: [PATCH V4 2/5] nvme: add helper interface to flush in-flight
+ requests
+In-Reply-To: <931a03f8-9c8b-fec4-0f89-04321a906710@grimberg.me>
+References: <1520489971-31174-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1520489971-31174-3-git-send-email-jianchao.w.wang@oracle.com>
+ <931a03f8-9c8b-fec4-0f89-04321a906710@grimberg.me>
+Message-ID: <35c68f2a-8198-7db6-c381-420ac996802a@oracle.com>
 
-Hi Jens,
+Hi Sagi
 
-A few late fixes for 4.16:
+Thanks for your precious time for review and comment.
 
- * Reverting sysfs slave device links for native nvme multipathing.
-   The hidden disk attributes broke common user tools.
+On 03/09/2018 02:21 AM, Sagi Grimberg wrote:
 
- * A fix for a PPC pci error handling regression.
+>> +EXPORT_SYMBOL_GPL(nvme_abort_requests_sync);
+>> +
+>> +static void nvme_comp_req(struct request *req, void *data, bool reserved)
+> 
+> Not a very good name...
 
- * Update pci interrupt count to consider the actual IRQ spread, fixing
-   potentially poor initial queue affinity.
+Yes, indeed.
 
- * Off-by-one errors in nvme-fc queue sizes
+> 
+>> +{
+>> +??? struct nvme_ctrl *ctrl = (struct nvme_ctrl *)data;
+>> +
+>> +??? if (!test_bit(NVME_REQ_ABORTED, &nvme_req(req)->flags))
+>> +??????? return;
+>> +
+>> +??? WARN_ON(!blk_mq_request_started(req));
+>> +
+>> +??? if (ctrl->tagset && ctrl->tagset->ops->complete) {
+> 
+> What happens when this called on the admin tagset when the controller
+> does not have an io tagset?
 
- * A fabrics discovery fix to be more tolerant with user tools.
+Yes, nvme_ctrl.admin_tagset should be used here for adminq request.
 
-Please pull!
 
-The following changes since commit 468f098734ab095b72d8af26bcd4bcb2ed31a3be:
+> 
+>> +??????? clear_bit(NVME_REQ_ABORTED, &nvme_req(req)->flags);
+>> +??????? /*
+>> +???????? * We set the status to NVME_SC_ABORT_REQ, then ioq request
+>> +???????? * will be requeued and adminq one will be failed.
+>> +???????? */
+>> +??????? nvme_req(req)->status = NVME_SC_ABORT_REQ;
+>> +??????? /*
+>> +???????? * For ioq request, blk_mq_requeue_request should be better
+>> +???????? * here. But the nvme code will still setup the cmd even if
+>> +???????? * the RQF_DONTPREP is set. We have to use .complete to free
+>> +???????? * the cmd and then requeue it.
+> 
+> IMO, its better to fix nvme to not setup the command if RQF_DONTPREP is on (other than the things it must setup).
 
-  Merge branch 'for-jens' of git://git.infradead.org/nvme into for-linus (2018-02-28 12:18:58 -0700)
+Yes, I used to consider change that.
+But I'm not sure whether there is special consideration there.
+If you and Keith think it is ok that not setup command when RQF_DONTPREP is set, we could do that.
 
-are available in the Git repository at:
+> 
+>> +???????? *
+>> +???????? * For adminq request, invoking .complete directly will miss
+>> +???????? * blk_mq_sched_completed_request, but this is ok because we
+>> +???????? * won't have io scheduler for adminq.
+>> +???????? */
+>> +??????? ctrl->tagset->ops->complete(req);
+> 
+> I don't think that directly calling .complete is a good idea...
 
-  http://git.infradead.org/nvme.git/shortlog/refs/heads/nvme-4.16-rc5 
+Yes, indeed.
 
-for you to fetch changes up to d157e5343cb360a525e6b3e7924612a9a90df3b7:
-
-  nvme_fc: rework sqsize handling (2018-03-08 10:39:58 -0700)
-
-----------------------------------------------------------------
-Christoph Hellwig (1):
-      Revert "nvme: create 'slaves' and 'holders' entries for hidden controllers"
-
-James Smart (1):
-      nvme_fc: rework sqsize handling
-
-Ming Lei (1):
-      nvme: pci: pass max vectors as num_possible_cpus() to pci_alloc_irq_vectors
-
-Roland Dreier (1):
-      nvme-fabrics: Ignore nr_io_queues option for discovery controllers
-
-Wen Xiong (1):
-      nvme-pci: Fix EEH failure on ppc
-
- drivers/nvme/host/core.c      |  2 --
- drivers/nvme/host/fabrics.c   |  5 +++++
- drivers/nvme/host/fc.c        | 27 +++++++++++++++++----------
- drivers/nvme/host/multipath.c | 30 ------------------------------
- drivers/nvme/host/nvme.h      |  8 --------
- drivers/nvme/host/pci.c       | 15 ++++++++-------
- 6 files changed, 30 insertions(+), 57 deletions(-)
+Thanks a lot 
+Jianchao
