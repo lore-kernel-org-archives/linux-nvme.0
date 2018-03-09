@@ -1,40 +1,32 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 8 Mar 2018 19:14:10 -0700
-Subject: [GIT PULL] nvme fixes for 4.16-rc
-In-Reply-To: <20180308231036.GB14765@localhost.localdomain>
-References: <20180308231036.GB14765@localhost.localdomain>
-Message-ID: <cb2532e2-cde7-cdcc-6242-e83e78bd9cc2@kernel.dk>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Fri, 9 Mar 2018 05:08:36 +0000
+Subject: [PATCH v2 08/10] nvme-pci: Add support for P2P memory in requests
+In-Reply-To: <1CE68E79-E5FD-4EE2-BD88-B3EE57E43ACE@raithlin.com>
+References: <20180228234006.21093-1-logang@deltatee.com>
+ <20180228234006.21093-9-logang@deltatee.com>
+ <c6639530-48ba-4655-c772-7d88a030e37e@grimberg.me>
+ <1CE68E79-E5FD-4EE2-BD88-B3EE57E43ACE@raithlin.com>
+Message-ID: <1520572115.11647.3.camel@wdc.com>
 
-On 3/8/18 4:10 PM, Keith Busch wrote:
-> Hi Jens,
+On Thu, 2018-03-01@15:58 +0000, Stephen  Bates wrote:
+> > Any plans adding the capability to nvme-rdma? Should be
+> > straight-forward... In theory, the use-case would be rdma backend
+> > fabric behind. Shouldn't be hard to test either...
 > 
-> A few late fixes for 4.16:
+> Nice idea Sagi. Yes we have been starting to look at that. Though again we
+> would probably want to impose the "attached to the same PCIe switch" rule
+> which might be less common to satisfy in initiator systems. 
 > 
->  * Reverting sysfs slave device links for native nvme multipathing.
->    The hidden disk attributes broke common user tools.
-> 
->  * A fix for a PPC pci error handling regression.
-> 
->  * Update pci interrupt count to consider the actual IRQ spread, fixing
->    potentially poor initial queue affinity.
-> 
->  * Off-by-one errors in nvme-fc queue sizes
-> 
->  * A fabrics discovery fix to be more tolerant with user tools.
-> 
-> Please pull!
-> 
-> The following changes since commit 468f098734ab095b72d8af26bcd4bcb2ed31a3be:
-> 
->   Merge branch 'for-jens' of git://git.infradead.org/nvme into for-linus (2018-02-28 12:18:58 -0700)
-> 
-> are available in the Git repository at:
-> 
->   http://git.infradead.org/nvme.git/shortlog/refs/heads/nvme-4.16-rc5 
+> Down the road I would also like to discuss the best way to use this P2P
+> framework to facilitate copies between NVMe namespaces (on both PCIe and
+> fabric attached namespaces) without having to expose the CMB up to user
+> space. Wasn't something like that done in the SCSI world at some point
+> Martin?
 
-Your pull request is a bit malformed, but I pulled it in using:
+Are you perhaps referring to the following patch series: "Copy Offload"
+(https://www.spinics.net/lists/linux-scsi/msg74680.html /
+https://lwn.net/Articles/592094/)? I will contact Martin off-list and in
+case he wouldn't have the time myself to revive that patch series then I
+will free up some time to work on this.
 
-git://git.infradead.org/nvme nvme-4.16-rc5
-
--- 
-Jens Axboe
+Bart.
