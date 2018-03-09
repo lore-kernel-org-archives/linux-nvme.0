@@ -1,9 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 9 Mar 2018 09:21:12 +0100
-Subject: [PATCH] nvme-pci: Add .get_address ctrl callback
-In-Reply-To: <20180308215655.6670-1-keith.busch@intel.com>
-References: <20180308215655.6670-1-keith.busch@intel.com>
-Message-ID: <20180309082112.kjevd4izscvpq27j@linux-x5ow.site>
+Date: Fri, 9 Mar 2018 09:51:39 +0100
+Subject: [PATCH] Revert "nvme: create 'slaves' and 'holders' entries for
+ hidden controllers"
+In-Reply-To: <20180307131358.20275-1-hch@lst.de>
+References: <20180307131358.20275-1-hch@lst.de>
+Message-ID: <20180309085139.3mqbxqddtqgy4v45@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
