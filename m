@@ -1,32 +1,64 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Fri, 9 Mar 2018 05:08:36 +0000
-Subject: [PATCH v2 08/10] nvme-pci: Add support for P2P memory in requests
-In-Reply-To: <1CE68E79-E5FD-4EE2-BD88-B3EE57E43ACE@raithlin.com>
-References: <20180228234006.21093-1-logang@deltatee.com>
- <20180228234006.21093-9-logang@deltatee.com>
- <c6639530-48ba-4655-c772-7d88a030e37e@grimberg.me>
- <1CE68E79-E5FD-4EE2-BD88-B3EE57E43ACE@raithlin.com>
-Message-ID: <1520572115.11647.3.camel@wdc.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 9 Mar 2018 08:52:35 +0100
+Subject: NVMf initiator persistent across boots
+In-Reply-To: <3194fcec-aca1-06dc-5da8-e3fadad3ce25@mellanox.com>
+References: <20170830094553.GC3941@linux-x5ow.site>
+ <21e13bdf-d7a4-b47b-0885-855ba5ed995b@mellanox.com>
+ <b4a9ae60-c374-653d-0207-62d1ea36ae76@grimberg.me>
+ <67d0fb1b-bd3c-b17f-b0a6-3c2b748d74fb@mellanox.com>
+ <20180308083917.hddo3wqmlqmx6fes@linux-x5ow.site>
+ <bf33f7c7-8173-c98c-8a17-de0277e5f05c@mellanox.com>
+ <20180308101313.ozwedysig3amjoel@linux-x5ow.site>
+ <0385c9c1-dac3-e243-335d-af61ceb0c4fb@mellanox.com>
+ <20180308132656.yx2uiix4dcjzmp2a@linux-x5ow.site>
+ <3194fcec-aca1-06dc-5da8-e3fadad3ce25@mellanox.com>
+Message-ID: <20180309075235.5ouqlyd7pmslwvjg@linux-x5ow.site>
 
-On Thu, 2018-03-01@15:58 +0000, Stephen  Bates wrote:
-> > Any plans adding the capability to nvme-rdma? Should be
-> > straight-forward... In theory, the use-case would be rdma backend
-> > fabric behind. Shouldn't be hard to test either...
+On Thu, Mar 08, 2018@07:04:17PM +0200, Max Gurtovoy wrote:
+> diff --git a/fabrics.c b/fabrics.c
+> index 4bdaaf2..774d5dc 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -614,6 +614,14 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry
+> *e)
+>                 p += len;
+>         }
 > 
-> Nice idea Sagi. Yes we have been starting to look at that. Though again we
-> would probably want to impose the "attached to the same PCIe switch" rule
-> which might be less common to satisfy in initiator systems. 
+> +       if (cfg.host_traddr) {
+> +               len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+> +               if (len < 0)
+> +                       return -EINVAL;
+> +               p+= len;
+> +       }
+> +
+> +
+>         switch (e->trtype) {
+>         case NVMF_TRTYPE_LOOP: /* loop */
+>                 len = sprintf(p, ",transport=loop");
+> @@ -659,11 +667,6 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry
+> *e)
+>                                 return -EINVAL;
+>                         p += len;
 > 
-> Down the road I would also like to discuss the best way to use this P2P
-> framework to facilitate copies between NVMe namespaces (on both PCIe and
-> fabric attached namespaces) without having to expose the CMB up to user
-> space. Wasn't something like that done in the SCSI world at some point
-> Martin?
+> -                       len = sprintf(p, ",host_traddr=%s",
+> cfg.host_traddr);
+> -                       if (len < 0)
+> -                               return -EINVAL;
+> -                       p+= len;
+> -
+>                         len = sprintf(p, ",traddr=%.*s",
+>                                       space_strip_len(NVMF_TRADDR_SIZE,
+> e->traddr),
+>                                       e->traddr);
+> 
+> 
+> thoughts ?
 
-Are you perhaps referring to the following patch series: "Copy Offload"
-(https://www.spinics.net/lists/linux-scsi/msg74680.html /
-https://lwn.net/Articles/592094/)? I will contact Martin off-list and in
-case he wouldn't have the time myself to revive that patch series then I
-will free up some time to work on this.
-
-Bart.
+Looks good to me.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
