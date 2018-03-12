@@ -1,38 +1,27 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 12 Mar 2018 17:09:13 +0800
-Subject: [PATCH V2] nvme-pci: assign separate irq vectors for adminq and
- ioq0
-In-Reply-To: <20180309172445.GC14765@localhost.localdomain>
-References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180228164726.GB16536@lst.de> <20180301150329.GB6795@ming.t460p>
- <20180301161042.GA14799@localhost.localdomain>
- <20180308074220.GC15748@lst.de>
- <20180309172445.GC14765@localhost.localdomain>
-Message-ID: <20180312090827.GB23903@ming.t460p>
+From: alexander.duyck@gmail.com (Alexander Duyck)
+Date: Mon, 12 Mar 2018 09:01:54 -0700
+Subject: [pci PATCH v4 1/4] pci-iov: Add support for unmanaged SR-IOV
+In-Reply-To: <20180312075907.GA5342@lst.de>
+References: <20180308185507.5433.98830.stgit@localhost.localdomain>
+ <20180308190047.5433.77952.stgit@localhost.localdomain>
+ <20180311215909.16ed4bf1@t450s.home> <20180312075907.GA5342@lst.de>
+Message-ID: <CAKgT0UcJz7go-vRd88M6uo1mqbG9BfedkZmR0CXZ92m6KfRPzw@mail.gmail.com>
 
-On Fri, Mar 09, 2018@10:24:45AM -0700, Keith Busch wrote:
-> On Thu, Mar 08, 2018@08:42:20AM +0100, Christoph Hellwig wrote:
-> > 
-> > So I suspect we'll need to go with a patch like this, just with a way
-> > better changelog.
-> 
-> I have to agree this is required for that use case. I'll run some
-> quick tests and propose an alternate changelog.
-> 
-> Longer term, the current way we're including offline present cpus either
-> (a) has the driver allocate resources it can't use or (b) spreads the
-> ones it can use thinner than they need to be. Why don't we rerun the
-> irq spread under a hot cpu notifier for only online CPUs?
+On Mon, Mar 12, 2018@12:59 AM, Christoph Hellwig <hch@lst.de> wrote:
+> On Sun, Mar 11, 2018@09:59:09PM -0600, Alex Williamson wrote:
+>> I still struggle to understand why we need this "unmanaged"
+>> complication and how a user of the sysfs API is expected to have any
+>> idea whether a PF is managed or unmanaged and why they should care.
+>> Can't we just have a pci_simple_sriov_configure() helper and ignore
+>> this unmanaged business?  Thanks,
+>
+> Just a pci_simple_sriov_configure is exactly what I envisioned originally.
 
-4b855ad371 ("blk-mq: Create hctx for each present CPU") removes handling
-mapping change via hot cpu notifier. Not only code is cleaned up, but
-also fixes very complicated queue dependency issue:
+I can drop the "unmanaged" bits if that is what is wanted, but based
+on previous conversations I thought there was some concern about the
+kernel loading VFs when there was some foreign entity managing the VFs
+other than the kernel.
 
-- loop/dm-rq queue depends on underlying queue
-- for NVMe, IO queue depends on admin queue
+Thanks.
 
-If freezing queue can be avoided in CPU notifier, it should be fine to
-do that, otherwise it need to be avoided.
-
-Thanks,
-Ming
+- Alex
