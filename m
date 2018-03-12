@@ -1,56 +1,66 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 12 Mar 2018 09:32:22 -0700
-Subject: [PATCH] nvme_fc: io timeout should defer abort to ctrl reset
-Message-ID: <20180312163222.23043-1-jsmart2021@gmail.com>
+From: alexander.duyck@gmail.com (Alexander Duyck)
+Date: Mon, 12 Mar 2018 10:20:23 -0700
+Subject: [pci PATCH v5 0/4] Series short description
+Message-ID: <20180312171813.3487.94803.stgit@localhost.localdomain>
 
-The current nvme_fc code, when an io times out, will abort the io
-on the fc link, then call the error recovery routine to reset the
-controller. It is during the reset of the controller that the
-transport will wait for all ios to be aborted before sending a
-Disconnect LS to the target.
+This series is meant to add support for SR-IOV on devices when the VFs are
+not managed by the kernel. Examples of recent patches attempting to do this
+include:
+virto - https://patchwork.kernel.org/patch/10241225/
+pci-stub - https://patchwork.kernel.org/patch/10109935/
+vfio - https://patchwork.kernel.org/patch/10103353/
+uio - https://patchwork.kernel.org/patch/9974031/
 
-However, the reset routine only waits for the io which it generates
-the abort for to complete. Any io that was aborted just prior to the
-reset isn't in it's list to wait for. Thus the Disconnect is getting
-sent before the aborts have completed.
+Since this is quickly blowing up into a multi-driver problem it is probably
+best to implement this solution as generically as possible.
 
-Correct by removing the abort in the timeout handler. The reset will
-generate the abort. At that point the timeout handler can be simplified
-to request the reset (via the error handler) and restart the timeout
-timer.
+This series is an attempt to do that. What we do with this patch set is
+provide a generic framework to enable SR-IOV in the case that the PF driver
+doesn't support managing the VFs itself.
 
-Also fixes a small typo in a comment in the reset handler.
+I based my patch set originally on the patch by Mark Rustad but there isn't
+much left after going through and cleaning out the bits that were no longer
+needed, and after incorporating the feedback from David Miller. At this point
+the only items to be fully reused was his patch description which is now
+present in patch 3 of the set.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+This solution is limited in scope to just adding support for devices that
+provide no functionality for SR-IOV other than allocating the VFs by
+calling pci_enable_sriov. Previous sets had included patches for VFIO, but
+for now I am dropping that as the scope of that work is larger then I
+think I can take on at this time.
+
+v2: Reduced scope back to just virtio_pci and vfio-pci
+    Broke into 3 patch set from single patch
+    Changed autoprobe behavior to always set when num_vfs is set non-zero
+v3: Updated Documentation to clarify when sriov_unmanaged_autoprobe is used
+    Wrapped vfio_pci_sriov_configure to fix build errors w/o SR-IOV in kernel
+v4: Dropped vfio-pci patch
+    Added ena and nvme to drivers now using pci_sriov_configure_unmanaged
+    Dropped pci_disable_sriov call in virtio_pci to be consistent with ena
+v5: Dropped sriov_unmanaged_autoprobe and pci_sriov_conifgure_unmanaged
+    Added new patch that enables pci_sriov_configure_simple
+    Updated drivers to use pci_sriov_configure_simple
+
+Cc: Mark Rustad <mark.d.rustad at intel.com>
+Cc: Maximilian Heyne <mheyne at amazon.de>
+Cc: Liang-Min Wang <liang-min.wang at intel.com>
+Cc: David Woodhouse <dwmw at amazon.co.uk>
+
 ---
- drivers/nvme/host/fc.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 590c5b99cae8..b3ada7076801 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2080,20 +2080,10 @@ nvme_fc_timeout(struct request *rq, bool reserved)
- {
- 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
- 	struct nvme_fc_ctrl *ctrl = op->ctrl;
--	int ret;
--
--	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
--			atomic_read(&op->state) == FCPOP_STATE_ABORTED)
--		return BLK_EH_RESET_TIMER;
--
--	ret = __nvme_fc_abort_op(ctrl, op);
--	if (ret)
--		/* io wasn't active to abort */
--		return BLK_EH_NOT_HANDLED;
- 
- 	/*
- 	 * we can't individually ABTS an io without affecting the queue,
--	 * thus killing the queue, adn thus the association.
-+	 * thus killing the queue, and thus the association.
- 	 * So resolve by performing a controller reset, which will stop
- 	 * the host/io stack, terminate the association on the link,
- 	 * and recreate an association on the link.
--- 
-2.13.1
+Alexander Duyck (4):
+      pci: Add pci_sriov_configure_simple for PFs that don't manage VF resources
+      virtio_pci: Add support for unmanaged SR-IOV on virtio_pci devices
+      ena: Migrate over to unmanaged SR-IOV support
+      nvme: Migrate over to unmanaged SR-IOV support
+
+
+ drivers/net/ethernet/amazon/ena/ena_netdev.c |   30 ++----------------------
+ drivers/nvme/host/pci.c                      |   22 ++----------------
+ drivers/pci/iov.c                            |   32 ++++++++++++++++++++++++++
+ drivers/virtio/virtio_pci_common.c           |    3 ++
+ include/linux/pci.h                          |    1 +
+ 5 files changed, 42 insertions(+), 46 deletions(-)
+
+--
