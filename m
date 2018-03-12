@@ -1,149 +1,123 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Mon, 12 Mar 2018 11:16:48 -0700
-Subject: [PATCH 11/13] qla2xxx: Cleanup code to improve FC-NVMe error handling
+Date: Mon, 12 Mar 2018 11:16:45 -0700
+Subject: [PATCH 08/13] qla2xxx: Remove nvme_done_list
 In-Reply-To: <20180312181650.20704-1-himanshu.madhani@cavium.com>
 References: <20180312181650.20704-1-himanshu.madhani@cavium.com>
-Message-ID: <20180312181650.20704-12-himanshu.madhani@cavium.com>
+Message-ID: <20180312181650.20704-9-himanshu.madhani@cavium.com>
 
 From: Darren Trapp <darren.trapp@cavium.com>
 
 Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 ---
- drivers/scsi/qla2xxx/qla_isr.c  | 78 +++++++++++++++--------------------------
- drivers/scsi/qla2xxx/qla_nvme.c |  2 +-
- 2 files changed, 29 insertions(+), 51 deletions(-)
+ drivers/scsi/qla2xxx/qla_def.h  |  1 -
+ drivers/scsi/qla2xxx/qla_gbl.h  |  2 --
+ drivers/scsi/qla2xxx/qla_init.c |  1 -
+ drivers/scsi/qla2xxx/qla_mid.c  |  6 ------
+ drivers/scsi/qla2xxx/qla_nvme.c | 13 ++-----------
+ drivers/scsi/qla2xxx/qla_os.c   |  1 -
+ 6 files changed, 2 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index 07c98eb911fd..7cacdc3408fa 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -1838,31 +1838,23 @@ qla24xx_tm_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
- 	sp->done(sp, 0);
+diff --git a/drivers/scsi/qla2xxx/qla_def.h b/drivers/scsi/qla2xxx/qla_def.h
+index 944626cc84d9..576b72bef01d 100644
+--- a/drivers/scsi/qla2xxx/qla_def.h
++++ b/drivers/scsi/qla2xxx/qla_def.h
+@@ -3465,7 +3465,6 @@ struct qla_qpair {
+ 	struct work_struct q_work;
+ 	struct list_head qp_list_elem; /* vha->qp_list */
+ 	struct list_head hints_list;
+-	struct list_head nvme_done_list;
+ 	uint16_t cpuid;
+ 	struct qla_tgt_counters tgt_counters;
+ };
+diff --git a/drivers/scsi/qla2xxx/qla_gbl.h b/drivers/scsi/qla2xxx/qla_gbl.h
+index e9295398050c..19f44e12926b 100644
+--- a/drivers/scsi/qla2xxx/qla_gbl.h
++++ b/drivers/scsi/qla2xxx/qla_gbl.h
+@@ -896,6 +896,4 @@ void qlt_update_host_map(struct scsi_qla_host *, port_id_t);
+ void qlt_remove_target_resources(struct qla_hw_data *);
+ void qlt_clr_qp_table(struct scsi_qla_host *vha);
+ 
+-void qla_nvme_cmpl_io(struct srb_iocb *);
+-
+ #endif /* _QLA_GBL_H */
+diff --git a/drivers/scsi/qla2xxx/qla_init.c b/drivers/scsi/qla2xxx/qla_init.c
+index dec3e2cdaffa..0805483645d7 100644
+--- a/drivers/scsi/qla2xxx/qla_init.c
++++ b/drivers/scsi/qla2xxx/qla_init.c
+@@ -8408,7 +8408,6 @@ struct qla_qpair *qla2xxx_create_qpair(struct scsi_qla_host *vha, int qos,
+ 		qpair->vp_idx = vp_idx;
+ 		qpair->fw_started = ha->flags.fw_started;
+ 		INIT_LIST_HEAD(&qpair->hints_list);
+-		INIT_LIST_HEAD(&qpair->nvme_done_list);
+ 		qpair->chip_reset = ha->base_qpair->chip_reset;
+ 		qpair->enable_class_2 = ha->base_qpair->enable_class_2;
+ 		qpair->enable_explicit_conf =
+diff --git a/drivers/scsi/qla2xxx/qla_mid.c b/drivers/scsi/qla2xxx/qla_mid.c
+index e965b16f21e3..da85cd89639f 100644
+--- a/drivers/scsi/qla2xxx/qla_mid.c
++++ b/drivers/scsi/qla2xxx/qla_mid.c
+@@ -778,18 +778,12 @@ static void qla_do_work(struct work_struct *work)
+ 	struct qla_qpair *qpair = container_of(work, struct qla_qpair, q_work);
+ 	struct scsi_qla_host *vha;
+ 	struct qla_hw_data *ha = qpair->hw;
+-	struct srb_iocb	*nvme, *nxt_nvme;
+ 
+ 	spin_lock_irqsave(&qpair->qp_lock, flags);
+ 	vha = pci_get_drvdata(ha->pdev);
+ 	qla24xx_process_response_queue(vha, qpair->rsp);
+ 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
+ 
+-	list_for_each_entry_safe(nvme, nxt_nvme, &qpair->nvme_done_list,
+-		    u.nvme.entry) {
+-		list_del_init(&nvme->u.nvme.entry);
+-		qla_nvme_cmpl_io(nvme);
+-	}
  }
  
--static void
--qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
-+static void qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req,
-+    void *tsk, srb_t *sp)
- {
--	const char func[] = "NVME-IOCB";
- 	fc_port_t *fcport;
--	srb_t *sp;
- 	struct srb_iocb *iocb;
- 	struct sts_entry_24xx *sts = (struct sts_entry_24xx *)tsk;
- 	uint16_t        state_flags;
- 	struct nvmefc_fcp_req *fd;
- 	uint16_t        ret = 0;
--	struct srb_iocb *nvme;
--
--	sp = qla2x00_get_sp_from_handle(vha, func, req, tsk);
--	if (!sp)
--		return;
- 
- 	iocb = &sp->u.iocb_cmd;
- 	fcport = sp->fcport;
- 	iocb->u.nvme.comp_status = le16_to_cpu(sts->comp_status);
- 	state_flags  = le16_to_cpu(sts->state_flags);
- 	fd = iocb->u.nvme.desc;
--	nvme = &sp->u.iocb_cmd;
- 
--	if (unlikely(nvme->u.nvme.aen_op))
-+	if (unlikely(iocb->u.nvme.aen_op))
- 		atomic_dec(&sp->vha->hw->nvme_active_aen_cnt);
- 
- 	/*
-@@ -1896,45 +1888,30 @@ qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
- 	fd->transferred_length = fd->payload_length -
- 	    le32_to_cpu(sts->residual_len);
- 
--	/*
--	 * If transport error then Failure (HBA rejects request)
--	 * otherwise transport will handle.
--	 */
--	if (sts->entry_status) {
--		ql_log(ql_log_warn, fcport->vha, 0x5038,
--		    "NVME-%s error - hdl=%x entry-status(%x).\n",
--		    sp->name, sp->handle, sts->entry_status);
-+	switch (le16_to_cpu(sts->comp_status)) {
-+	case CS_COMPLETE:
-+		ret = QLA_SUCCESS;
-+		break;
-+	case CS_ABORTED:
-+	case CS_RESET:
-+	case CS_PORT_UNAVAILABLE:
-+	case CS_PORT_LOGGED_OUT:
-+	case CS_PORT_BUSY:
-+		ql_log(ql_log_warn, fcport->vha, 0x5060,
-+		    "NVME-%s ERR Handling - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
-+		    sp->name, sp->handle, sts->comp_status,
-+		    le32_to_cpu(sts->residual_len), sts->ox_id);
-+		fd->transferred_length = 0;
-+		iocb->u.nvme.rsp_pyld_len = 0;
-+		ret = QLA_ABORTED;
-+		break;
-+	default:
-+		ql_log(ql_log_warn, fcport->vha, 0x5060,
-+		    "NVME-%s error - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
-+		    sp->name, sp->handle, sts->comp_status,
-+		    le32_to_cpu(sts->residual_len), sts->ox_id);
- 		ret = QLA_FUNCTION_FAILED;
--	} else  {
--		switch (le16_to_cpu(sts->comp_status)) {
--			case CS_COMPLETE:
--				ret = QLA_SUCCESS;
--			break;
--
--			case CS_RESET:
--			case CS_PORT_UNAVAILABLE:
--				fcport->nvme_flag |= NVME_FLAG_RESETTING;
--				/* fall through */
--			case CS_ABORTED:
--			case CS_PORT_LOGGED_OUT:
--			case CS_PORT_BUSY:
--				ql_log(ql_log_warn, fcport->vha, 0x5060,
--				"NVME-%s ERR Handling - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
--				sp->name, sp->handle, sts->comp_status,
--				le32_to_cpu(sts->residual_len), sts->ox_id);
--				fd->transferred_length = 0;
--				iocb->u.nvme.rsp_pyld_len = 0;
--				ret = QLA_ABORTED;
--			break;
--
--			default:
--				ql_log(ql_log_warn, fcport->vha, 0x5060,
--				"NVME-%s error - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
--				sp->name, sp->handle, sts->comp_status,
--				le32_to_cpu(sts->residual_len), sts->ox_id);
--				ret = QLA_FUNCTION_FAILED;
--				break;
--		}
-+		break;
- 	}
- 	sp->done(sp, ret);
- }
-@@ -2462,7 +2439,8 @@ qla2x00_status_entry(scsi_qla_host_t *vha, struct rsp_que *rsp, void *pkt)
- 
- 	/* NVME completion. */
- 	if (sp->type == SRB_NVME_CMD) {
--		qla24xx_nvme_iocb_entry(vha, req, pkt);
-+		req->outstanding_cmds[handle] = NULL;
-+		qla24xx_nvme_iocb_entry(vha, req, pkt, sp);
- 		return;
- 	}
- 
+ /* create response queue */
 diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index 57275bc9fe14..c5a963c2c86e 100644
+index adeda6a4e4fd..8c05df30c083 100644
 --- a/drivers/scsi/qla2xxx/qla_nvme.c
 +++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -280,7 +280,7 @@ static void qla_nvme_poll(struct nvme_fc_local_port *lport, void *hw_queue_handl
- 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
+@@ -149,16 +149,6 @@ static void qla_nvme_sp_ls_done(void *ptr, int res)
+ 	qla2x00_rel_sp(sp);
  }
  
--static int qla2x00_start_nvme_mq(srb_t *sp)
-+static inline int qla2x00_start_nvme_mq(srb_t *sp)
+-void qla_nvme_cmpl_io(struct srb_iocb *nvme)
+-{
+-	srb_t *sp;
+-	struct nvmefc_fcp_req *fd = nvme->u.nvme.desc;
+-
+-	sp = container_of(nvme, srb_t, u.iocb_cmd);
+-	fd->done(fd);
+-	qla2xxx_rel_qpair_sp(sp->qpair, sp);
+-}
+-
+ static void qla_nvme_sp_done(void *ptr, int res)
  {
- 	unsigned long   flags;
- 	uint32_t        *clr_ptr;
+ 	srb_t *sp = ptr;
+@@ -177,7 +167,8 @@ static void qla_nvme_sp_done(void *ptr, int res)
+ 		fd->status = NVME_SC_INTERNAL;
+ 
+ 	fd->rcv_rsplen = nvme->u.nvme.rsp_pyld_len;
+-	list_add_tail(&nvme->u.nvme.entry, &sp->qpair->nvme_done_list);
++	fd->done(fd);
++	qla2xxx_rel_qpair_sp(sp->qpair, sp);
+ 
+ 	return;
+ }
+diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+index 5c5dcca4d1da..69b46c8b9dd2 100644
+--- a/drivers/scsi/qla2xxx/qla_os.c
++++ b/drivers/scsi/qla2xxx/qla_os.c
+@@ -397,7 +397,6 @@ static void qla_init_base_qpair(struct scsi_qla_host *vha, struct req_que *req,
+ 	ha->base_qpair->use_shadow_reg = IS_SHADOW_REG_CAPABLE(ha) ? 1 : 0;
+ 	ha->base_qpair->msix = &ha->msix_entries[QLA_MSIX_RSP_Q];
+ 	INIT_LIST_HEAD(&ha->base_qpair->hints_list);
+-	INIT_LIST_HEAD(&ha->base_qpair->nvme_done_list);
+ 	ha->base_qpair->enable_class_2 = ql2xenableclass2;
+ 	/* init qpair to this cpu. Will adjust at run time. */
+ 	qla_cpu_update(rsp->qpair, raw_smp_processor_id());
 -- 
 2.12.0
