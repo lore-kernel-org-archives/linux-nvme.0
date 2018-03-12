@@ -1,62 +1,27 @@
-From: alexander.duyck@gmail.com (Alexander Duyck)
-Date: Mon, 12 Mar 2018 10:23:43 -0700
-Subject: [pci PATCH v5 4/4] nvme: Migrate over to unmanaged SR-IOV support
-In-Reply-To: <20180312171813.3487.94803.stgit@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 12 Mar 2018 11:40:12 -0600
+Subject: [pci PATCH v5 1/4] pci: Add pci_sriov_configure_simple for PFs
+ that don't manage VF resources
+In-Reply-To: <20180312172031.3487.20651.stgit@localhost.localdomain>
 References: <20180312171813.3487.94803.stgit@localhost.localdomain>
-Message-ID: <20180312172337.3487.95817.stgit@localhost.localdomain>
+ <20180312172031.3487.20651.stgit@localhost.localdomain>
+Message-ID: <20180312174012.GE18494@localhost.localdomain>
 
-From: Alexander Duyck <alexander.h.duyck@intel.com>
+On Mon, Mar 12, 2018@10:21:29AM -0700, Alexander Duyck wrote:
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 024a1beda008..9cab9d0d51dc 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1953,6 +1953,7 @@ static inline void pci_mmcfg_late_init(void) { }
+>  int pci_vfs_assigned(struct pci_dev *dev);
+>  int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
+>  int pci_sriov_get_totalvfs(struct pci_dev *dev);
+> +int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
+>  resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
+>  void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
+>  #else
 
-Instead of implementing our own version of a SR-IOV configuration stub in
-the nvme driver we can just reuse the existing
-pci_sriov_configure_simple function.
-
-Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
----
-
-v5: Replaced call to pci_sriov_configure_unmanaged with
-        pci_sriov_configure_simple
-
- drivers/nvme/host/pci.c |   22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5933a5c732e8..3b582f9f8cac 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2580,24 +2580,6 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_put_ctrl(&dev->ctrl);
- }
- 
--static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
--{
--	int ret = 0;
--
--	if (numvfs == 0) {
--		if (pci_vfs_assigned(pdev)) {
--			dev_warn(&pdev->dev,
--				"Cannot disable SR-IOV VFs while assigned\n");
--			return -EPERM;
--		}
--		pci_disable_sriov(pdev);
--		return 0;
--	}
--
--	ret = pci_enable_sriov(pdev, numvfs);
--	return ret ? ret : numvfs;
--}
--
- #ifdef CONFIG_PM_SLEEP
- static int nvme_suspend(struct device *dev)
- {
-@@ -2716,7 +2698,9 @@ static void nvme_error_resume(struct pci_dev *pdev)
- 	.driver		= {
- 		.pm	= &nvme_dev_pm_ops,
- 	},
--	.sriov_configure = nvme_pci_sriov_configure,
-+#ifdef CONFIG_PCI_IOV
-+	.sriov_configure = pci_sriov_configure_simple,
-+#endif
- 	.err_handler	= &nvme_err_handler,
- };
- 
+I recommend stubbing 'pci_sriov_configure_simple' or defining it to
+NULL in the '#else' section here so you don't need to repeat the "#ifdef
+CONFIG_PCI_IOV" in each driver wishing to use this function. Otherwise
+looks fine to me.
