@@ -1,37 +1,58 @@
-From: alexander.duyck@gmail.com (Alexander Duyck)
-Date: Mon, 12 Mar 2018 11:09:34 -0700
-Subject: [pci PATCH v5 1/4] pci: Add pci_sriov_configure_simple for PFs
- that don't manage VF resources
-In-Reply-To: <20180312174012.GE18494@localhost.localdomain>
-References: <20180312171813.3487.94803.stgit@localhost.localdomain>
- <20180312172031.3487.20651.stgit@localhost.localdomain>
- <20180312174012.GE18494@localhost.localdomain>
-Message-ID: <CAKgT0UdWc=Sz-xgd4H3bTDt5d17=-PY8VPWz6A3mAciWV6=97w@mail.gmail.com>
+From: himanshu.madhani@cavium.com (Himanshu Madhani)
+Date: Mon, 12 Mar 2018 11:16:37 -0700
+Subject: [PATCH 00/13]  qla2xxx: Fixes for FC-NVMe
+Message-ID: <20180312181650.20704-1-himanshu.madhani@cavium.com>
 
-On Mon, Mar 12, 2018@10:40 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Mon, Mar 12, 2018@10:21:29AM -0700, Alexander Duyck wrote:
->> diff --git a/include/linux/pci.h b/include/linux/pci.h
->> index 024a1beda008..9cab9d0d51dc 100644
->> --- a/include/linux/pci.h
->> +++ b/include/linux/pci.h
->> @@ -1953,6 +1953,7 @@ static inline void pci_mmcfg_late_init(void) { }
->>  int pci_vfs_assigned(struct pci_dev *dev);
->>  int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
->>  int pci_sriov_get_totalvfs(struct pci_dev *dev);
->> +int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
->>  resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
->>  void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
->>  #else
->
-> I recommend stubbing 'pci_sriov_configure_simple' or defining it to
-> NULL in the '#else' section here so you don't need to repeat the "#ifdef
-> CONFIG_PCI_IOV" in each driver wishing to use this function. Otherwise
-> looks fine to me.
+Hi Martin,
 
-My concern with defining it as NULL is that somebody may end up
-calling it in the future directly and that may end up causing issues.
-One thought I have been debating is moving it to a different file. I
-am just not sure where the best place to put something like this would
-be. I could move this function to drivers/pci/pci.c if everyone is
-okay with it and then I could just strip the contents out by wrapping
-them in a #ifdef instead.
+This patch series addresses issue with FC-NVMe abort handling in the
+driver. Code has been cleaned up and devloss timeout support has been
+added in qla2xxx.
+
+Please apply this series to 4.17/scsi-queue at your earliest convenience.
+
+Hi Christoph, Sagi,
+
+Please review this series. I would however like this to be merged via
+Martin's SCSI tree.
+
+Thanks,
+Himanshu
+ 
+Darren Trapp (10):
+  qla2xxx: Set IIDMA and fcport state before qla_nvme_register_remote()
+  qla2xxx: Add changes for devloss timeout in driver
+  qla2xxx: Restore ZIO threshold setting
+  qla2xxx: Add FC-NVMe abort processing
+  qla2xxx: Fix n2n_ae flag to prevent dev_loss on PDB change
+  qla2xxx: Return busy if rport going away
+  qla2xxx: Remove nvme_done_list
+  qla2xxx: Fix retry for PRLI RJT with reason of BUSY
+  qla2xxx: Fix FC-NVMe IO abort during driver reset
+  qla2xxx: Cleanup code to improve FC-NVMe error handling
+
+Himanshu Madhani (2):
+  qla2xxx: Remove unneeded message and minor cleanup for FC-NVMe
+  qla2xxx: Update driver version to 10.00.00.06-k
+
+Quinn Tran (1):
+  qla2xxx: Fix Async GPN_FT for FCP and FC-NVMe scan
+
+ drivers/scsi/qla2xxx/qla_dbg.c     |   2 +-
+ drivers/scsi/qla2xxx/qla_def.h     |  12 +-
+ drivers/scsi/qla2xxx/qla_gbl.h     |   4 +-
+ drivers/scsi/qla2xxx/qla_gs.c      | 231 +++++++++++++++++++++++++++-------
+ drivers/scsi/qla2xxx/qla_init.c    |  35 ++++--
+ drivers/scsi/qla2xxx/qla_isr.c     |  78 +++++-------
+ drivers/scsi/qla2xxx/qla_mbx.c     |  10 +-
+ drivers/scsi/qla2xxx/qla_mid.c     |   6 -
+ drivers/scsi/qla2xxx/qla_nvme.c    | 245 +++++++++++++++++--------------------
+ drivers/scsi/qla2xxx/qla_nvme.h    |   9 +-
+ drivers/scsi/qla2xxx/qla_os.c      |  11 +-
+ drivers/scsi/qla2xxx/qla_target.c  |  13 +-
+ drivers/scsi/qla2xxx/qla_target.h  |   2 +-
+ drivers/scsi/qla2xxx/qla_version.h |   2 +-
+ 14 files changed, 395 insertions(+), 265 deletions(-)
+
+-- 
+2.12.0
