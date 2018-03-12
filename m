@@ -1,33 +1,103 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Mon, 12 Mar 2018 11:16:41 -0700
-Subject: [PATCH 04/13] qla2xxx: Restore ZIO threshold setting
+Date: Mon, 12 Mar 2018 11:16:42 -0700
+Subject: [PATCH 05/13] qla2xxx: Add FC-NVMe abort processing
 In-Reply-To: <20180312181650.20704-1-himanshu.madhani@cavium.com>
 References: <20180312181650.20704-1-himanshu.madhani@cavium.com>
-Message-ID: <20180312181650.20704-5-himanshu.madhani@cavium.com>
+Message-ID: <20180312181650.20704-6-himanshu.madhani@cavium.com>
 
 From: Darren Trapp <darren.trapp@cavium.com>
 
 Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 ---
- drivers/scsi/qla2xxx/qla_nvme.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/scsi/qla2xxx/qla_nvme.c | 36 ++++++++++++++++++------------------
+ drivers/scsi/qla2xxx/qla_nvme.h |  1 +
+ 2 files changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index a8e81fc14c44..5ee447680ddd 100644
+index 5ee447680ddd..951fbbab961f 100644
 --- a/drivers/scsi/qla2xxx/qla_nvme.c
 +++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -464,11 +464,6 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
- 	/* Set chip new ring index. */
- 	WRT_REG_DWORD(req->req_q_in, req->ring_index);
+@@ -181,24 +181,32 @@ static void qla_nvme_sp_done(void *ptr, int res)
+ 	return;
+ }
  
--	/* Manage unprocessed RIO/ZIO commands in response queue. */
--	if (vha->flags.process_response_queue &&
--	    rsp->ring_ptr->signature != RESPONSE_PROCESSED)
--		qla24xx_process_response_queue(vha, rsp);
+-static void qla_nvme_ls_abort(struct nvme_fc_local_port *lport,
+-    struct nvme_fc_remote_port *rport, struct nvmefc_ls_req *fd)
++static void qla_nvme_abort_work(struct work_struct *work)
+ {
+-	struct nvme_private *priv = fd->private;
+-	struct qla_nvme_rport *qla_rport = rport->private;
+-	fc_port_t *fcport = qla_rport->fcport;
++	struct nvme_private *priv =
++		container_of(work, struct nvme_private, abort_work);
+ 	srb_t *sp = priv->sp;
+-	int rval;
++	fc_port_t *fcport = sp->fcport;
+ 	struct qla_hw_data *ha = fcport->vha->hw;
++	int rval;
+ 
+ 	rval = ha->isp_ops->abort_command(sp);
+ 
+ 	ql_dbg(ql_dbg_io, fcport->vha, 0x212b,
+-	    "%s: %s LS command for sp=%p on fcport=%p rval=%x\n", __func__,
++	    "%s: %s command for sp=%p on fcport=%p rval=%x\n", __func__,
+ 	    (rval != QLA_SUCCESS) ? "Failed to abort" : "Aborted",
+ 	    sp, fcport, rval);
+ }
+ 
++static void qla_nvme_ls_abort(struct nvme_fc_local_port *lport,
++    struct nvme_fc_remote_port *rport, struct nvmefc_ls_req *fd)
++{
++	struct nvme_private *priv = fd->private;
++
++	INIT_WORK(&priv->abort_work, qla_nvme_abort_work);
++	schedule_work(&priv->abort_work);
++}
++
+ static void qla_nvme_ls_complete(struct work_struct *work)
+ {
+ 	struct nvme_private *priv =
+@@ -264,18 +272,9 @@ static void qla_nvme_fcp_abort(struct nvme_fc_local_port *lport,
+     struct nvmefc_fcp_req *fd)
+ {
+ 	struct nvme_private *priv = fd->private;
+-	srb_t *sp = priv->sp;
+-	int rval;
+-	struct qla_nvme_rport *qla_rport = rport->private;
+-	fc_port_t *fcport = qla_rport->fcport;
+-	struct qla_hw_data *ha = fcport->vha->hw;
 -
- queuing_error:
- 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
- 	return rval;
+-	rval = ha->isp_ops->abort_command(sp);
+ 
+-	ql_dbg(ql_dbg_io, fcport->vha, 0x2127,
+-	    "%s: %s command for sp=%p on fcport=%p rval=%x\n", __func__,
+-	    (rval != QLA_SUCCESS) ? "Failed to abort" : "Aborted",
+-	    sp, fcport, rval);
++	INIT_WORK(&priv->abort_work, qla_nvme_abort_work);
++	schedule_work(&priv->abort_work);
+ }
+ 
+ static void qla_nvme_poll(struct nvme_fc_local_port *lport, void *hw_queue_handle)
+@@ -650,6 +649,7 @@ void qla_nvme_delete(struct scsi_qla_host *vha)
+ 		ql_log(ql_log_info, fcport->vha, 0x2114, "%s: fcport=%p\n",
+ 		    __func__, fcport);
+ 
++		nvme_fc_set_remoteport_devloss(fcport->nvme_remote_port, 0);
+ 		init_completion(&fcport->nvme_del_done);
+ 		nvme_fc_unregister_remoteport(fcport->nvme_remote_port);
+ 		wait_for_completion(&fcport->nvme_del_done);
+diff --git a/drivers/scsi/qla2xxx/qla_nvme.h b/drivers/scsi/qla2xxx/qla_nvme.h
+index 7becfc1b3e69..8df379478269 100644
+--- a/drivers/scsi/qla2xxx/qla_nvme.h
++++ b/drivers/scsi/qla2xxx/qla_nvme.h
+@@ -31,6 +31,7 @@ struct nvme_private {
+ 	struct srb	*sp;
+ 	struct nvmefc_ls_req *fd;
+ 	struct work_struct ls_work;
++	struct work_struct abort_work;
+ 	int comp_status;
+ };
+ 
 -- 
 2.12.0
