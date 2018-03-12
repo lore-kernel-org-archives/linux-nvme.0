@@ -1,36 +1,56 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Mon, 12 Mar 2018 10:28:36 -0600
-Subject: [pci PATCH v4 1/4] pci-iov: Add support for unmanaged SR-IOV
-In-Reply-To: <CAKgT0UcJz7go-vRd88M6uo1mqbG9BfedkZmR0CXZ92m6KfRPzw@mail.gmail.com>
-References: <20180308185507.5433.98830.stgit@localhost.localdomain>
- <20180308190047.5433.77952.stgit@localhost.localdomain>
- <20180311215909.16ed4bf1@t450s.home> <20180312075907.GA5342@lst.de>
- <CAKgT0UcJz7go-vRd88M6uo1mqbG9BfedkZmR0CXZ92m6KfRPzw@mail.gmail.com>
-Message-ID: <20180312102836.6db05ef8@w520.home>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 12 Mar 2018 09:32:22 -0700
+Subject: [PATCH] nvme_fc: io timeout should defer abort to ctrl reset
+Message-ID: <20180312163222.23043-1-jsmart2021@gmail.com>
 
-On Mon, 12 Mar 2018 09:01:54 -0700
-Alexander Duyck <alexander.duyck@gmail.com> wrote:
+The current nvme_fc code, when an io times out, will abort the io
+on the fc link, then call the error recovery routine to reset the
+controller. It is during the reset of the controller that the
+transport will wait for all ios to be aborted before sending a
+Disconnect LS to the target.
 
-> On Mon, Mar 12, 2018@12:59 AM, Christoph Hellwig <hch@lst.de> wrote:
-> > On Sun, Mar 11, 2018 at 09:59:09PM -0600, Alex Williamson wrote:  
-> >> I still struggle to understand why we need this "unmanaged"
-> >> complication and how a user of the sysfs API is expected to have any
-> >> idea whether a PF is managed or unmanaged and why they should care.
-> >> Can't we just have a pci_simple_sriov_configure() helper and ignore
-> >> this unmanaged business?  Thanks,  
-> >
-> > Just a pci_simple_sriov_configure is exactly what I envisioned originally.  
-> 
-> I can drop the "unmanaged" bits if that is what is wanted, but based
-> on previous conversations I thought there was some concern about the
-> kernel loading VFs when there was some foreign entity managing the VFs
-> other than the kernel.
+However, the reset routine only waits for the io which it generates
+the abort for to complete. Any io that was aborted just prior to the
+reset isn't in it's list to wait for. Thus the Disconnect is getting
+sent before the aborts have completed.
 
-My concern has always been whether the PF driver is trusted and by
-dropping the vfio bits, the remaining drivers here are native, trusted,
-host drivers, so I don't see that we have any reason to consider the
-VFs as anything other than trusted as well.  It's VFs where the PF
-driver is untrusted, such as a userspace driver, which needs some kind
-of quarantine, imo.  Thanks,
+Correct by removing the abort in the timeout handler. The reset will
+generate the abort. At that point the timeout handler can be simplified
+to request the reset (via the error handler) and restart the timeout
+timer.
 
-Alex
+Also fixes a small typo in a comment in the reset handler.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 590c5b99cae8..b3ada7076801 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2080,20 +2080,10 @@ nvme_fc_timeout(struct request *rq, bool reserved)
+ {
+ 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_fc_ctrl *ctrl = op->ctrl;
+-	int ret;
+-
+-	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
+-			atomic_read(&op->state) == FCPOP_STATE_ABORTED)
+-		return BLK_EH_RESET_TIMER;
+-
+-	ret = __nvme_fc_abort_op(ctrl, op);
+-	if (ret)
+-		/* io wasn't active to abort */
+-		return BLK_EH_NOT_HANDLED;
+ 
+ 	/*
+ 	 * we can't individually ABTS an io without affecting the queue,
+-	 * thus killing the queue, adn thus the association.
++	 * thus killing the queue, and thus the association.
+ 	 * So resolve by performing a controller reset, which will stop
+ 	 * the host/io stack, terminate the association on the link,
+ 	 * and recreate an association on the link.
+-- 
+2.13.1
