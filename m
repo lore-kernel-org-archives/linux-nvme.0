@@ -1,29 +1,62 @@
-From: corbet@lwn.net (Jonathan Corbet)
-Date: Mon, 12 Mar 2018 13:41:14 -0600
-Subject: [PATCH v3 05/11] PCI/P2PDMA: Add P2P DMA driver writer's
- documentation
-In-Reply-To: <20180312193525.2855-6-logang@deltatee.com>
-References: <20180312193525.2855-1-logang@deltatee.com>
- <20180312193525.2855-6-logang@deltatee.com>
-Message-ID: <20180312134114.1e4b12f8@lwn.net>
+From: alexander.duyck@gmail.com (Alexander Duyck)
+Date: Mon, 12 Mar 2018 13:17:00 -0700
+Subject: [pci PATCH v5 1/4] pci: Add pci_sriov_configure_simple for PFs
+ that don't manage VF resources
+In-Reply-To: <20180312182321.GG18494@localhost.localdomain>
+References: <20180312171813.3487.94803.stgit@localhost.localdomain>
+ <20180312172031.3487.20651.stgit@localhost.localdomain>
+ <20180312174012.GE18494@localhost.localdomain>
+ <CAKgT0UdWc=Sz-xgd4H3bTDt5d17=-PY8VPWz6A3mAciWV6=97w@mail.gmail.com>
+ <20180312182321.GG18494@localhost.localdomain>
+Message-ID: <CAKgT0UfH+xXk__R_hEtFMsm7qkBG02hWC-S=8MgYkeeEx5zweA@mail.gmail.com>
 
-On Mon, 12 Mar 2018 13:35:19 -0600
-Logan Gunthorpe <logang@deltatee.com> wrote:
+On Mon, Mar 12, 2018@11:23 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Mon, Mar 12, 2018@11:09:34AM -0700, Alexander Duyck wrote:
+>> On Mon, Mar 12, 2018@10:40 AM, Keith Busch <keith.busch@intel.com> wrote:
+>> > On Mon, Mar 12, 2018@10:21:29AM -0700, Alexander Duyck wrote:
+>> >> diff --git a/include/linux/pci.h b/include/linux/pci.h
+>> >> index 024a1beda008..9cab9d0d51dc 100644
+>> >> --- a/include/linux/pci.h
+>> >> +++ b/include/linux/pci.h
+>> >> @@ -1953,6 +1953,7 @@ static inline void pci_mmcfg_late_init(void) { }
+>> >>  int pci_vfs_assigned(struct pci_dev *dev);
+>> >>  int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
+>> >>  int pci_sriov_get_totalvfs(struct pci_dev *dev);
+>> >> +int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
+>> >>  resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
+>> >>  void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
+>> >>  #else
+>> >
+>> > I recommend stubbing 'pci_sriov_configure_simple' or defining it to
+>> > NULL in the '#else' section here so you don't need to repeat the "#ifdef
+>> > CONFIG_PCI_IOV" in each driver wishing to use this function. Otherwise
+>> > looks fine to me.
+>>
+>> My concern with defining it as NULL is that somebody may end up
+>> calling it in the future directly and that may end up causing issues.
+>> One thought I have been debating is moving it to a different file. I
+>> am just not sure where the best place to put something like this would
+>> be. I could move this function to drivers/pci/pci.c if everyone is
+>> okay with it and then I could just strip the contents out by wrapping
+>> them in a #ifdef instead.
+>
+> Okay, instead of NULL, a stub implementation in the header file may
+> suffice when CONFIG_PCI_IOV is not defined:
+>
+> static inline int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn)
+> {
+>         return -ENOSYS;
+> }
+>
+> See pci_iov_virtfn_bus, pci_iov_virtfn_devfn, pci_iov_add_virtfn, or
+> pci_enable_sriov for other examples.
 
-> Add a restructured text file describing how to write drivers
-> with support for P2P DMA transactions. The document describes
-> how to use the APIs that were added in the previous few
-> commits.
-> 
-> Also adds an index for the PCI documentation tree even though this
-> is the only PCI document that has ben converted to restructured text
-> at this time.
+No, I am aware of those. The problem is they aren't accessed as
+function pointers. As such converting them to static inline functions
+is easy. As I am sure you are aware an "inline" function doesn't
+normally generate a function pointer.
 
-This all seems good, but...could we consider moving this documentation to
-driver-api/PCI as it's converted to RST?  That would keep it together with
-similar materials and bring a bit more coherence to Documentation/ as a
-whole.
-
-Thanks,
-
-jon
+Actually my original idea has been complicated further by the fact
+that I realized my code is accessing functions that are static in the
+iov.c file. I'll need to think about how to come up with a better
+solution for this.
