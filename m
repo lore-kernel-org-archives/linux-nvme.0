@@ -1,145 +1,71 @@
-From: alexander.duyck@gmail.com (Alexander Duyck)
-Date: Tue, 13 Mar 2018 14:31:36 -0700
-Subject: [pci PATCH v6 5/5] pci-pf-stub: Add PF driver stub for PFs that
- function only to enable VFs
-In-Reply-To: <20180313212508.3553.65326.stgit@localhost.localdomain>
-References: <20180313212508.3553.65326.stgit@localhost.localdomain>
-Message-ID: <20180313213054.3553.89366.stgit@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 13 Mar 2018 16:00:56 -0600
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+ <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+ <52cbbbc4-c488-f83f-8d02-14d455b4efd7@codeaurora.org>
+ <3e738f95-d73c-4182-2fa1-8664aafb1ab7@deltatee.com>
+ <703aa92c-0c1c-4852-5887-6f6e6ccde0fb@codeaurora.org>
+ <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
+ <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
+ <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
+ <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
+Message-ID: <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
 
-From: Alexander Duyck <alexander.h.duyck@intel.com>
 
-Add a new driver called "pci-pf-stub" to act as a "white-list" for PF
-devices that provide no other functionality other then acting as a means of
-allocating a set of VFs. For now I only have one example ID provided by
-Amazon in terms of devices that require this functionality. The general
-idea is that in the future we will see other devices added as vendors come
-up with devices where the PF is more or less just a lightweight shim used
-to allocate VFs.
 
-Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
----
+On 13/03/18 03:22 PM, Sinan Kaya wrote:
+> It sounds like you have very tight hardware expectations for this to work
+> at this moment. You also don't want to generalize this code for others and
+> address the shortcomings.
 
-v6: New driver to address concerns about Amazon devices left unsupported
+No, that's the way the community has pushed this work. Our original work
+was very general and we were told it was unacceptable to put the onus on
+the user and have things break if the hardware doesn't support it. I
+think that's a reasonable requirement. So the hardware use-cases were
+wittled down to the ones we can be confident about and support with
+reasonable changes to the kernel today.
 
- drivers/pci/Kconfig       |   12 +++++++++
- drivers/pci/Makefile      |    2 ++
- drivers/pci/pci-pf-stub.c |   60 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/pci_ids.h   |    2 ++
- 4 files changed, 76 insertions(+)
- create mode 100644 drivers/pci/pci-pf-stub.c
+> To get you going, you should limit this change to the switch products that you have
+> validated via white-listing PCI vendor/device ids. Please do not enable this feature
+> for all other PCI devices or by default.
 
-diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-index 34b56a8f8480..cdef2a2a9bc5 100644
---- a/drivers/pci/Kconfig
-+++ b/drivers/pci/Kconfig
-@@ -71,6 +71,18 @@ config PCI_STUB
- 
- 	  When in doubt, say N.
- 
-+config PCI_PF_STUB
-+	tristate "PCI PF Stub driver"
-+	depends on PCI
-+	depends on PCI_IOV
-+	help
-+	  Say Y or M here if you want to enable support for devices that
-+	  require SR-IOV support, while at the same time the PF itself is
-+	  not providing any actual services on the host itself such as
-+	  storage or networking.
-+
-+	  When in doubt, say N.
-+
- config XEN_PCIDEV_FRONTEND
-         tristate "Xen PCI Frontend"
-         depends on PCI && X86 && XEN
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index 941970936840..4e133d3df403 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -43,6 +43,8 @@ obj-$(CONFIG_PCI_SYSCALL) += syscall.o
- 
- obj-$(CONFIG_PCI_STUB) += pci-stub.o
- 
-+obj-$(CONFIG_PCI_PF_STUB) += pci-pf-stub.o
-+
- obj-$(CONFIG_PCI_ECAM) += ecam.o
- 
- obj-$(CONFIG_XEN_PCIDEV_FRONTEND) += xen-pcifront.o
-diff --git a/drivers/pci/pci-pf-stub.c b/drivers/pci/pci-pf-stub.c
-new file mode 100644
-index 000000000000..d218924d9bdb
---- /dev/null
-+++ b/drivers/pci/pci-pf-stub.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* pci-pf-stub - simple stub driver for PCI SR-IOV PF device
-+ *
-+ * This driver is meant to act as a "white-list" for devices that provde
-+ * SR-IOV functionality while at the same time not actually needing a
-+ * driver of their own.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+
-+/**
-+ * pci_pf_stub_white_list - White list of devices to bind pci-pf-stub onto
-+ *
-+ * This table provides the list of IDs this driver is supposed to bind
-+ * onto. You could think of this as a list of "quirked" devices where we
-+ * are adding support for SR-IOV here since there are no other drivers
-+ * that they would be running under.
-+ *
-+ * Layout of the table below is as follows:
-+ * { Vendor ID, Device ID,
-+ *   SubVendor ID, SubDevice ID,
-+ *   Class, Class Mask,
-+ *   private data (not used) }
-+ */
-+static const struct pci_device_id pci_pf_stub_white_list[] = {
-+	{ PCI_VDEVICE(AMAZON, 0x0053) },
-+	/* required last entry */
-+	{ 0 }
-+};
-+MODULE_DEVICE_TABLE(pci, pci_pf_stub_white_list);
-+
-+static int pci_pf_stub_probe(struct pci_dev *dev,
-+			     const struct pci_device_id *id)
-+{
-+	pci_info(dev, "claimed by pci-pf-stub\n");
-+	return 0;
-+}
-+
-+static struct pci_driver pf_stub_driver = {
-+	.name			= "pci-pf-stub",
-+	.id_table		= pci_pf_stub_white_list,
-+	.probe			= pci_pf_stub_probe,
-+	.sriov_configure	= pci_sriov_configure_simple,
-+};
-+
-+static int __init pci_pf_stub_init(void)
-+{
-+	return pci_register_driver(&pf_stub_driver);
-+}
-+
-+static void __exit pci_pf_stub_exit(void)
-+{
-+	pci_unregister_driver(&pf_stub_driver);
-+}
-+
-+module_init(pci_pf_stub_init);
-+module_exit(pci_pf_stub_exit);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index a6b30667a331..b10621896017 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2548,6 +2548,8 @@
- #define PCI_VENDOR_ID_CIRCUITCO		0x1cc8
- #define PCI_SUBSYSTEM_ID_CIRCUITCO_MINNOWBOARD	0x0001
- 
-+#define PCI_VENDOR_ID_AMAZON		0x1d0f
-+
- #define PCI_VENDOR_ID_TEKRAM		0x1de1
- #define PCI_DEVICE_ID_TEKRAM_DC290	0xdc29
- 
+This doesn't seem necessary. We know that all PCIe switches available
+today support P2P and we are highly confident that any switch that would
+ever be produced would support P2P. As long as devices are behind a
+switch you don't need any white listing. This is what the current patch
+set implements. If you want to start including root ports then you will
+need a white list (and solve all the other problems I mentioned earlier).
+
+> I think your code qualifies as a virus until this issue is resolved (so NAK). 
+
+That seems a bit hyperbolic... "a virus"??!... please keep things
+constructive.
+
+> You are delivering a general purpose P2P code with a lot of holes in it and
+> expecting people to jump through it.
+No, the code prevents users from screwing it up. It just requires a
+switch in the hardware which is hardly a high bar to jump through
+(provided you are putting some design thought into your hardware). And
+given it requires semi-custom hardware today, it's not something that
+needs to be on by default in any distributor kernel.
+
+> Turning security off by default is also not acceptable. Linux requires ACS support
+> even though you don't care about it for your particular application.
+
+That's not true. Linux does not require ACS support. In fact it's
+already off by default until you specifically turn on the IOMMU. (Which
+is not always the most obvious thing to enable.) And the only thing it
+really supports is enforcing isolation between VMs that are using
+different pieces of hardware in the system.
+
+> I'd hate ACS to be broken due to some operating system enabling your CONFIG option.
+
+ACS isn't "broken" by enabling the config option. It just makes the
+IOMMU groups and isolation less granular. (ie. devices behind a switch
+will be in the same group and not isolated from each-other).
+
+Logan
