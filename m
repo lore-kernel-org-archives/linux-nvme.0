@@ -1,26 +1,34 @@
 From: okaya@codeaurora.org (Sinan Kaya)
-Date: Mon, 12 Mar 2018 21:55:27 -0400
+Date: Mon, 12 Mar 2018 21:58:21 -0400
 Subject: [PATCH v3 08/11] nvme-pci: Use PCI p2pmem subsystem to manage the
  CMB
-In-Reply-To: <20180312193525.2855-9-logang@deltatee.com>
+In-Reply-To: <4b08ec0b-76f4-4b67-a38b-5a1940c4c40d@codeaurora.org>
 References: <20180312193525.2855-1-logang@deltatee.com>
  <20180312193525.2855-9-logang@deltatee.com>
-Message-ID: <4b08ec0b-76f4-4b67-a38b-5a1940c4c40d@codeaurora.org>
+ <4b08ec0b-76f4-4b67-a38b-5a1940c4c40d@codeaurora.org>
+Message-ID: <08950833-d199-fd2b-06f6-9e585c183b86@codeaurora.org>
 
-On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
-> -	if (nvmeq->sq_cmds_io)
+On 3/12/2018 9:55 PM, Sinan Kaya wrote:
+> On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+>> -	if (nvmeq->sq_cmds_io)
+> 
+> I think you should keep the code as it is for the case where
+> (!nvmeq->sq_cmds_is_io && nvmeq->sq_cmds_io)
 
-I think you should keep the code as it is for the case where
-(!nvmeq->sq_cmds_is_io && nvmeq->sq_cmds_io)
+Never mind. I misunderstood the code.
 
-You are changing the behavior for NVMe drives with CMB buffers.
-You can change the if statement here with the statement above.
 
-> -		memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
-> -	else
-> -		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> +	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
->  
+> 
+> You are changing the behavior for NVMe drives with CMB buffers.
+> You can change the if statement here with the statement above.
+> 
+>> -		memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
+>> -	else
+>> -		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+>> +	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+>>  
+> 
+> 
 
 
 -- 
