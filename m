@@ -1,29 +1,29 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 13 Mar 2018 09:47:26 +0800
-Subject: [PATCH V2] nvme-pci: assign separate irq vectors for adminq and
- ioq0
-In-Reply-To: <20180312185932.GH18494@localhost.localdomain>
-References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
- <CAHp75Vet0gt0RW4eu+TCE8qBSk2ymMKkG5=SuM9ytzO3-6Y+Mg@mail.gmail.com>
- <616adf0c-5023-0e66-cc59-504d52d76e44@oracle.com>
- <20180312185932.GH18494@localhost.localdomain>
-Message-ID: <77263447-ffdd-ebe4-9cf9-8f0b2d9b2503@oracle.com>
+From: okaya@codeaurora.org (Sinan Kaya)
+Date: Mon, 12 Mar 2018 21:55:27 -0400
+Subject: [PATCH v3 08/11] nvme-pci: Use PCI p2pmem subsystem to manage the
+ CMB
+In-Reply-To: <20180312193525.2855-9-logang@deltatee.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-9-logang@deltatee.com>
+Message-ID: <4b08ec0b-76f4-4b67-a38b-5a1940c4c40d@codeaurora.org>
 
-Hi Keith
+On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+> -	if (nvmeq->sq_cmds_io)
 
-Thanks for your precious time for testing and reviewing.
-I will send out V3 next.
+I think you should keep the code as it is for the case where
+(!nvmeq->sq_cmds_is_io && nvmeq->sq_cmds_io)
 
-Sincerely
-Jianchao
+You are changing the behavior for NVMe drives with CMB buffers.
+You can change the if statement here with the statement above.
 
-On 03/13/2018 02:59 AM, Keith Busch wrote:
-> Hi Jianchao,
-> 
-> The patch tests fine on all hardware I had. I'd like to queue this up
-> for the next 4.16-rc. Could you send a v3 with the cleanup changes Andy
-> suggested and a changelog aligned with Ming's insights?
-> 
-> Thanks,
-> Keith
-> 
+> -		memcpy_toio(&nvmeq->sq_cmds_io[tail], cmd, sizeof(*cmd));
+> -	else
+> -		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+> +	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+>  
+
+
+-- 
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
