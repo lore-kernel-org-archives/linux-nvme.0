@@ -1,34 +1,25 @@
-From: okaya@codeaurora.org (Sinan Kaya)
-Date: Mon, 12 Mar 2018 23:28:17 -0400
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180312193525.2855-2-logang@deltatee.com>
-References: <20180312193525.2855-1-logang@deltatee.com>
- <20180312193525.2855-2-logang@deltatee.com>
-Message-ID: <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 13 Mar 2018 08:44:05 +0100
+Subject: [pci PATCH v5 1/4] pci: Add pci_sriov_configure_simple for PFs
+ that don't manage VF resources
+In-Reply-To: <CAKgT0UfH+xXk__R_hEtFMsm7qkBG02hWC-S=8MgYkeeEx5zweA@mail.gmail.com>
+References: <20180312171813.3487.94803.stgit@localhost.localdomain>
+ <20180312172031.3487.20651.stgit@localhost.localdomain>
+ <20180312174012.GE18494@localhost.localdomain>
+ <CAKgT0UdWc=Sz-xgd4H3bTDt5d17=-PY8VPWz6A3mAciWV6=97w@mail.gmail.com>
+ <20180312182321.GG18494@localhost.localdomain>
+ <CAKgT0UfH+xXk__R_hEtFMsm7qkBG02hWC-S=8MgYkeeEx5zweA@mail.gmail.com>
+Message-ID: <20180313074405.GA32480@lst.de>
 
-On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
-> +int pci_p2pdma_add_client(struct list_head *head, struct device *dev)
+On Mon, Mar 12, 2018@01:17:00PM -0700, Alexander Duyck wrote:
+> No, I am aware of those. The problem is they aren't accessed as
+> function pointers. As such converting them to static inline functions
+> is easy. As I am sure you are aware an "inline" function doesn't
+> normally generate a function pointer.
 
-It feels like code tried to be a generic p2pdma provider first. Then got
-converted to PCI, yet all dev parameters are still struct device.
+I think Keith's original idea of defining them to NULL is right.  That
+takes care of all the current trivial assign to struct cases.
 
-Maybe, dev parameter should also be struct pci_dev so that you can get rid of
-all to_pci_dev() calls in this code including find_parent_pci_dev() function.
-
-Regarding the switch business, It is amazing how much trouble you went into
-limit this functionality into very specific hardware.
-
-I thought that we reached to an agreement that code would not impose
-any limits on what user wants.
-
-What happened to all the emails we exchanged?
-
-I understand you are coming from what you tested. Considering that you
-are singing up for providing a generic PCI functionality into the kernel,
-why don't you just blacklist the products that you had problems with and
-yet still allow other architectures to use your code with their root ports?
-
--- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+If someone wants to call these functions they'll still need the ifdef
+around the call as those won't otherwise compile, but they probably
+want the ifdef around the whole caller anyway.
