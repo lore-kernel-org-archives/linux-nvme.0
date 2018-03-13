@@ -1,40 +1,67 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 13 Mar 2018 09:48:07 -0700
-Subject: [PATCH] nvme_fc: fix ctrl create failures racing with workq items
-Message-ID: <20180313164807.8981-1-jsmart2021@gmail.com>
+From: okaya@codeaurora.org (Sinan Kaya)
+Date: Tue, 13 Mar 2018 13:49:41 -0400
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+ <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+Message-ID: <52cbbbc4-c488-f83f-8d02-14d455b4efd7@codeaurora.org>
 
-If there are errors during initial controller create, the transport
-will teardown the partially initialized controller struct and free
-the ctlr memory.  Trouble is - most of those errors can occur due
-to asynchronous events happening such io timeouts and subsystem
-connectivity failures. Those failures invoke async workq items to
-reset the controller and attempt reconnect.  Those may be in progress
-as the main thread frees the ctrl memory, resulting in NULL ptr oops.
+On 3/13/2018 12:43 PM, Logan Gunthorpe wrote:
+> 
+> 
+> On 12/03/18 09:28 PM, Sinan Kaya wrote:
+>> On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+>> Regarding the switch business, It is amazing how much trouble you went into
+>> limit this functionality into very specific hardware.
+>>
+>> I thought that we reached to an agreement that code would not impose
+>> any limits on what user wants.
+>>
+>> What happened to all the emails we exchanged?
+> 
+> It turns out that root ports that support P2P are far less common than anyone thought. So it will likely have to be a white list. Nobody else seems keen on allowing the user to enable this on hardware that doesn't work. The easiest solution is still limiting it to using a switch. From there, if someone wants to start creating a white-list then that's probably the way forward to support root ports.
 
-Prevent this from happening by having the main ctrl failure thread
-changing state to DELETING followed by synchronously cancelling any
-pending queued work item. The change of state will prevent the
-scheduling of resets or reconnect events.
+I thought only few root ports had problem. Thanks for clarifying that.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> 
+> And there's also the ACS problem which means if you want to use P2P on the root ports you'll have to disable ACS on the entire system. (Or preferably, the IOMMU groups need to get more sophisticated to allow for dynamic changes).
+> 
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b3ada7076801..eb378a5d452d 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3136,6 +3136,10 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	}
- 
- 	if (ret) {
-+		nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
-+		cancel_work_sync(&ctrl->ctrl.reset_work);
-+		cancel_delayed_work_sync(&ctrl->connect_work);
+Do you think you can keep a pointer to the parent bridge instead of querying it
+via get_upstream_bridge_port() here so that we can reuse your
+pci_p2pdma_disable_acs() in the future.
+
++int pci_p2pdma_disable_acs(struct pci_dev *pdev)
++{
++	struct pci_dev *up;
++	int pos;
++	u16 ctrl;
 +
- 		/* couldn't schedule retry - fail out */
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: Connect retry failed\n", ctrl->cnum);
++	up = get_upstream_bridge_port(pdev);
++	if (!up)
++		return 0;
+
+Some future device would only deal with pci_p2pdma_add_client(() for whitelisting
+instead of changing all of your code.
+
+We should at least limit the usage of get_upstream_bridge_port() family of functions
+to probe time only.
+
+> Additionally, once you allow for root ports you may find the IOMMU getting in the way.
+
+We can tell iommu to do one to one translation by passing iommu.passthrough=1 to kernel
+command line to have identical behavior to your switch case.
+
+> 
+> So there are great deal more issues to sort out if you don't restrict to devices behind switches.
+> 
+> Logan
+> 
+
+
 -- 
-2.13.1
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
