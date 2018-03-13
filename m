@@ -1,30 +1,22 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 13 Mar 2018 11:40:53 -0600
-Subject: [PATCH V3] nvme-pci: assign separate irq vectors for adminq and
- ioq1
-In-Reply-To: <20180313104452.GA8782@ming.t460p>
-References: <1520935088-1343-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180313104452.GA8782@ming.t460p>
-Message-ID: <20180313174052.GJ18494@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 13 Mar 2018 12:40:13 -0600
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+Message-ID: <a01a0ef4-3b0a-b169-2628-cb8fbe51867c@deltatee.com>
 
-On Tue, Mar 13, 2018@06:45:00PM +0800, Ming Lei wrote:
-> On Tue, Mar 13, 2018@05:58:08PM +0800, Jianchao Wang wrote:
-> > Currently, adminq and ioq1 share the same irq vector which is set
-> > affinity to cpu0. If a system allows cpu0 to be offlined, the adminq
-> > will not be able work any more.
-> > 
-> > To fix this, assign separate irq vectors for adminq and ioq1. Set
-> > .pre_vectors == 1 when allocate irq vectors, then assign the first
-> > one to adminq which will have affinity cpumask with all possible
-> > cpus. On the other hand, if controller has only legacy or single
-> > -message MSI, we will setup adminq and 1 ioq and let them share
-> > the only one irq vector.
-> > 
-> > Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> 
-> Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
-Thanks, applied with an updated changelog.
 
-Not being able to use the admin queue is a pretty big deal, so it's pushed
-to the next nvme 4.16-rc branch. This may even be good stable material.
+On 12/03/18 09:28 PM, Sinan Kaya wrote:
+> Maybe, dev parameter should also be struct pci_dev so that you can get rid of
+> all to_pci_dev() calls in this code including find_parent_pci_dev() function.
+
+No, this was mentioned in v2. find_parent_pci_dev is necessary because 
+the calling drivers aren't likely to have a bunch of struct pci_dev's 
+for all the devices they are working with lying around. It's a much 
+nicer from an API stand point to take struct devs and not worth it just 
+to have a PCI API only taking struct pci_devs.
+
+Logan
