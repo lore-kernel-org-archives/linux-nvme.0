@@ -1,37 +1,112 @@
-From: dwmw2@infradead.org (David Woodhouse)
-Date: Tue, 13 Mar 2018 09:14:16 +0000
-Subject: [pci PATCH v5 3/4] ena: Migrate over to unmanaged SR-IOV support
-In-Reply-To: <20180313085442.GA1537@lst.de>
-References: <20180312171813.3487.94803.stgit@localhost.localdomain>
- <20180312172309.3487.76690.stgit@localhost.localdomain>
- <1520928772.28745.53.camel@infradead.org> <20180313081628.GA618@lst.de>
- <1520930719.11412.2.camel@infradead.org> <20180313085442.GA1537@lst.de>
-Message-ID: <1520932456.11412.6.camel@infradead.org>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Tue, 13 Mar 2018 17:58:08 +0800
+Subject: [PATCH V3] nvme-pci: assign separate irq vectors for adminq and ioq1
+Message-ID: <1520935088-1343-1-git-send-email-jianchao.w.wang@oracle.com>
 
+Currently, adminq and ioq1 share the same irq vector which is set
+affinity to cpu0. If a system allows cpu0 to be offlined, the adminq
+will not be able work any more.
 
+To fix this, assign separate irq vectors for adminq and ioq1. Set
+.pre_vectors == 1 when allocate irq vectors, then assign the first
+one to adminq which will have affinity cpumask with all possible
+cpus. On the other hand, if controller has only legacy or single
+-message MSI, we will setup adminq and 1 ioq and let them share
+the only one irq vector.
 
-On Tue, 2018-03-13@09:54 +0100, Christoph Hellwig wrote:
-> On Tue, Mar 13, 2018@08:45:19AM +0000, David Woodhouse wrote:
-> Because binding to pci-stub means that you'd now enable the simple
-> SR-IOV for any device bound to PCI stub.??Which often might be the wrong
-> thing.
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+V2->V3
+ - change changelog based on Ming's insights
+ - some cleanup based on Andy's suggestions
 
-No, *using* it would be the wrong thing (bad root; no biscuit).
+V1->V2
+ - add case to handle the scenario where there is only one irq
+   vector
+ - add nvme_ioq_vector to map ioq vector and qid
 
-Except when the PF doesn't have SR-IOV capability anyway, in which case
-who cares.
+ drivers/nvme/host/pci.c | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
-Or when the PF does have SR-IOV capability and root has ensure that
-she's doing the right thing.
-
-I understand the arguments about disallowing root from doing bad
-things. Not that I agree with them. But simply changing to a
-*different* driver seems pointless.
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: smime.p7s
-Type: application/x-pkcs7-signature
-Size: 5213 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180313/090f5acf/attachment-0001.bin>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b6f43b7..47c33f4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -84,6 +84,7 @@ struct nvme_dev {
+ 	struct dma_pool *prp_small_pool;
+ 	unsigned online_queues;
+ 	unsigned max_qid;
++	unsigned int num_vecs;
+ 	int q_depth;
+ 	u32 db_stride;
+ 	void __iomem *bar;
+@@ -139,6 +140,17 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+ 	return container_of(ctrl, struct nvme_dev, ctrl);
+ }
+ 
++static inline unsigned int nvme_ioq_vector(struct nvme_dev *dev,
++		unsigned int qid)
++{
++	/*
++	 * If controller has only legacy or single-message MSI, there will
++	 * be only 1 irq vector. At the moment, we setup adminq + 1 ioq
++	 * and let them share irq vector.
++	 */
++	return (dev->num_vecs == 1) ? 0 : qid;
++}
++
+ /*
+  * An NVM Express queue.  Each device has at least two (one for admin
+  * commands and one for I/O commands).
+@@ -1457,7 +1469,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 		nvmeq->sq_cmds_io = dev->cmb + offset;
+ 	}
+ 
+-	nvmeq->cq_vector = qid - 1;
++	nvmeq->cq_vector = nvme_ioq_vector(dev, qid);
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
+ 	if (result < 0)
+ 		goto release_vector;
+@@ -1628,11 +1640,12 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ {
+ 	unsigned i, max;
+ 	int ret = 0;
++	int vec;
+ 
+ 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
+-		/* vector == qid - 1, match nvme_create_queue */
++		vec = nvme_ioq_vector(dev, i);
+ 		if (nvme_alloc_queue(dev, i, dev->q_depth,
+-		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
++		     pci_irq_get_node(to_pci_dev(dev->dev), vec))) {
+ 			ret = -ENOMEM;
+ 			break;
+ 		}
+@@ -1913,6 +1926,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int result, nr_io_queues;
+ 	unsigned long size;
++	struct irq_affinity affd = {.pre_vectors = 1};
++	int ret;
+ 
+ 	nr_io_queues = num_possible_cpus();
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+@@ -1949,11 +1964,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 * setting up the full range we need.
+ 	 */
+ 	pci_free_irq_vectors(pdev);
+-	nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
+-			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
+-	if (nr_io_queues <= 0)
++	ret = pci_alloc_irq_vectors_affinity(pdev, 1, (nr_io_queues + 1),
++			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
++	if (ret <= 0)
+ 		return -EIO;
+-	dev->max_qid = nr_io_queues;
++	dev->num_vecs = ret;
++	dev->max_qid = max(ret - 1, 1);
+ 
+ 	/*
+ 	 * Should investigate if there's a performance win from allocating
+-- 
+2.7.4
