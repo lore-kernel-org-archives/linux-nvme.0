@@ -1,37 +1,40 @@
-From: ddutile@redhat.com (Don Dutile)
-Date: Tue, 13 Mar 2018 12:17:34 -0400
-Subject: [pci PATCH v5 3/4] ena: Migrate over to unmanaged SR-IOV support
-In-Reply-To: <1520953463.20126.15.camel@infradead.org>
-References: <20180312171813.3487.94803.stgit@localhost.localdomain>
- <20180312172309.3487.76690.stgit@localhost.localdomain>
- <1520928772.28745.53.camel@infradead.org>
- <CAKgT0UdkUSsHQC7CpJQ0CT77AD8k7P-HeeomWXNJQ-Ek4dJRMQ@mail.gmail.com>
- <1520953463.20126.15.camel@infradead.org>
-Message-ID: <3d291517-fc7d-53ea-66b4-27137bdb14e5@redhat.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 13 Mar 2018 10:43:55 -0600
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+Message-ID: <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
 
-On 03/13/2018 11:04 AM, David Woodhouse wrote:
-> On Tue, 2018-03-13@07:51 -0700, Alexander Duyck wrote:
-> 
->> Actually the suggestion I had from Don Dutile was that we should be
->> looking at creating a pci-stub like driver specifically for those type
->> of devices, but without the ability to arbitrarily assign devices.
->> Basically we have to white-list it in one device at a time for those
->> kind of things.
-> 
-> It's still not clear what the point of that would be.
-> 
-A PF-stub to do device-assignment(-like) ops preserves the current security model,
-and allows one to add pci-quirks at a device-level as well -- when the usual ACS
-structs aren't properly added for a device, which happens quite frequently -- which
-retains that common workaround as well.
-Yet-another-method for VF assignment w/o even a simple PF driver stub
-created multiple failure cases/configs when we were hashing the multiple options
-a few weeks ago.
-It's just simpler to implement a PF stub w/VF enablement ... b/c it's simple...
 
->> If you have the device ID of the thing you wanted to have work with
->> pci-stub before I could look at putting together a quick driver and
->> adding it to this set.
+
+On 12/03/18 09:28 PM, Sinan Kaya wrote:
+> On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+> Regarding the switch business, It is amazing how much trouble you went into
+> limit this functionality into very specific hardware.
 > 
-> 1d0f:0053 would be an example.
+> I thought that we reached to an agreement that code would not impose
+> any limits on what user wants.
 > 
+> What happened to all the emails we exchanged?
+
+It turns out that root ports that support P2P are far less common than 
+anyone thought. So it will likely have to be a white list. Nobody else 
+seems keen on allowing the user to enable this on hardware that doesn't 
+work. The easiest solution is still limiting it to using a switch. From 
+there, if someone wants to start creating a white-list then that's 
+probably the way forward to support root ports.
+
+And there's also the ACS problem which means if you want to use P2P on 
+the root ports you'll have to disable ACS on the entire system. (Or 
+preferably, the IOMMU groups need to get more sophisticated to allow for 
+dynamic changes).
+
+Additionally, once you allow for root ports you may find the IOMMU 
+getting in the way.
+
+So there are great deal more issues to sort out if you don't restrict to 
+devices behind switches.
+
+Logan
