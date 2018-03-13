@@ -1,5 +1,5 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Tue, 13 Mar 2018 22:45:41 +0000
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 13 Mar 2018 16:48:55 -0600
 Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
 In-Reply-To: <016dc910-f96a-8a60-4bda-fa24eea98ea5@codeaurora.org>
 References: <20180312193525.2855-1-logang@deltatee.com>
@@ -15,41 +15,77 @@ References: <20180312193525.2855-1-logang@deltatee.com>
  <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
  <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
  <016dc910-f96a-8a60-4bda-fa24eea98ea5@codeaurora.org>
-Message-ID: <47F026DE-AFD0-4F63-8D39-375D3684C7B1@raithlin.com>
+Message-ID: <2b152932-2f44-408b-e3ed-b4608d95f82e@deltatee.com>
 
-Hi Sinan
 
->    If hardware doesn't support it, blacklisting should have been the right
->    path and I still think that you should remove all switch business from the code.
->    I did not hear enough justification for having a switch requirement
->    for P2P.
-  
-We disagree. As does the community based on feedback on previous version of this patch set.
-  
+
+On 13/03/18 04:29 PM, Sinan Kaya wrote:
+> If hardware doesn't support it, blacklisting should have been the right
+> path and I still think that you should remove all switch business from the code.
+> I did not hear enough justification for having a switch requirement
+> for P2P.
+
+I disagree.
+
 > You are also saying that root ports have issues not because of functionality but
 > because of performance. 
 
-I have seen both.  Some systems fail in entirety to route TLPs across route ports. Others do route but with poor performance. Having a requirement for a switch is therefore a reasonable and sensible minimum criteria for enabling p2p.
-    
-> If you know what is bad, create a list and keep adding it. You can't assume
-> universally that all root ports are broken/ have bad performance.
+No... performance can also be an issue but the main justification for
+this is that many root ports do not support P2P at all and can fail in
+different ways (usually just dropping the TLPs).
 
-I actually wanted to do a blacklist originally but that idea was not accepted by the community. 
-    
->    What if I come up with a very cheap/crappy switch (something like used in data
->    mining)?
-> What guarantees that P2P will work with this device? You are making an
-> assumption here that all switches have good performance.
+> What if I come up with a very cheap/crappy switch (something like used in data
+> mining)?
 
-A switch must support P2P or it is in violation of the PCIe specification.
-    
->    I have been doing my best to provide feedback. It feels like you are throwing
->    them over the wall to be honest.
+Good luck. That's not how hardware is designed. PCIe switches that have
+any hope to compete with the existing market will need features like
+NTB, non-transparent ports, etc... and that implies a certain symmetry
+(ie there isn't a special host port because there may be more than one
+and it may move around) which implies that packets will always be able
+to forward between each ports which implies P2P will work.
 
-I think one issue Sinan is that a lot of your ideas have been discussed in previous versions of the series. So you are asking us to make changes which, in some cases, we know are not acceptable to others in the community. The input is welcome but it flies in the face of other input we have received. 
+> I have been doing my best to provide feedback. It feels like you are throwing
+> them over the wall to be honest.
+> 
+> You keep implying "not my problem".
 
-However if other developers feel strongly about the blacklist/whitelist and switch criteria please speak up! ;-)
+Well, the fact of the matter is that extending this in all the ways
+people like you want face huge problems on all sides. These are not
+trivial issues and holding back work that works for our problem because
+it doesn't solve your problem is IMO just going to grind development in
+this area to a halt. We have to have something we can agree on which is
+safe to start building on. The building can't just emerge fully formed
+in one go.
 
-Stephen
+P2P proposal go back a long time and have never gotten anywhere because
+there are limitations and people want it to do things that are hard but
+don't want to contribute the work to solving those problems.
 
-    
+>> Well, if it's a problem for someone they'll have to solve it. We're
+>> targeting JBOFs that have no use for ACS / IOMMU groups at all.
+> 
+> IMO, you (not somebody) should address this one way or the other before this
+> series land in upstream.
+
+The real way to address this (as I've mentioned before) is with some way
+of doing ACS and iomem groups dynamically. But this is a huge project in
+itself and is never going to be part of the P2P patchset.
+
+> Another assumption: There are other architectures like ARM64 where IOMMU
+> is enabled by default even if you don't use VMs for security reasons.
+> IOMMU blocks stray transactions.
+
+True, but it doesn't change my point: ACS is not a requirement for Linux
+many many systems do not have it on at all or by default.
+
+> Didn't the ACS behavior change suddenly for no good reason when we enabled
+> your code even though I might not be using the P2P but I happen to have
+> a kernel with P2P config option?
+
+Well no, presumably you made a conscious choice to turn the config
+option on and build a custom kernel for your box. That doesn't seem very
+sudden and the reason is that the two concepts are very much at odds
+with each other: you can't have isolation and still have transactions
+between devices.
+
+Logan
