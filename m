@@ -1,67 +1,30 @@
-From: okaya@codeaurora.org (Sinan Kaya)
-Date: Tue, 13 Mar 2018 13:49:41 -0400
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
-References: <20180312193525.2855-1-logang@deltatee.com>
- <20180312193525.2855-2-logang@deltatee.com>
- <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
- <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
-Message-ID: <52cbbbc4-c488-f83f-8d02-14d455b4efd7@codeaurora.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 13 Mar 2018 11:40:53 -0600
+Subject: [PATCH V3] nvme-pci: assign separate irq vectors for adminq and
+ ioq1
+In-Reply-To: <20180313104452.GA8782@ming.t460p>
+References: <1520935088-1343-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180313104452.GA8782@ming.t460p>
+Message-ID: <20180313174052.GJ18494@localhost.localdomain>
 
-On 3/13/2018 12:43 PM, Logan Gunthorpe wrote:
+On Tue, Mar 13, 2018@06:45:00PM +0800, Ming Lei wrote:
+> On Tue, Mar 13, 2018@05:58:08PM +0800, Jianchao Wang wrote:
+> > Currently, adminq and ioq1 share the same irq vector which is set
+> > affinity to cpu0. If a system allows cpu0 to be offlined, the adminq
+> > will not be able work any more.
+> > 
+> > To fix this, assign separate irq vectors for adminq and ioq1. Set
+> > .pre_vectors == 1 when allocate irq vectors, then assign the first
+> > one to adminq which will have affinity cpumask with all possible
+> > cpus. On the other hand, if controller has only legacy or single
+> > -message MSI, we will setup adminq and 1 ioq and let them share
+> > the only one irq vector.
+> > 
+> > Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 > 
-> 
-> On 12/03/18 09:28 PM, Sinan Kaya wrote:
->> On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
->> Regarding the switch business, It is amazing how much trouble you went into
->> limit this functionality into very specific hardware.
->>
->> I thought that we reached to an agreement that code would not impose
->> any limits on what user wants.
->>
->> What happened to all the emails we exchanged?
-> 
-> It turns out that root ports that support P2P are far less common than anyone thought. So it will likely have to be a white list. Nobody else seems keen on allowing the user to enable this on hardware that doesn't work. The easiest solution is still limiting it to using a switch. From there, if someone wants to start creating a white-list then that's probably the way forward to support root ports.
+> Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
-I thought only few root ports had problem. Thanks for clarifying that.
+Thanks, applied with an updated changelog.
 
-> 
-> And there's also the ACS problem which means if you want to use P2P on the root ports you'll have to disable ACS on the entire system. (Or preferably, the IOMMU groups need to get more sophisticated to allow for dynamic changes).
-> 
-
-Do you think you can keep a pointer to the parent bridge instead of querying it
-via get_upstream_bridge_port() here so that we can reuse your
-pci_p2pdma_disable_acs() in the future.
-
-+int pci_p2pdma_disable_acs(struct pci_dev *pdev)
-+{
-+	struct pci_dev *up;
-+	int pos;
-+	u16 ctrl;
-+
-+	up = get_upstream_bridge_port(pdev);
-+	if (!up)
-+		return 0;
-
-Some future device would only deal with pci_p2pdma_add_client(() for whitelisting
-instead of changing all of your code.
-
-We should at least limit the usage of get_upstream_bridge_port() family of functions
-to probe time only.
-
-> Additionally, once you allow for root ports you may find the IOMMU getting in the way.
-
-We can tell iommu to do one to one translation by passing iommu.passthrough=1 to kernel
-command line to have identical behavior to your switch case.
-
-> 
-> So there are great deal more issues to sort out if you don't restrict to devices behind switches.
-> 
-> Logan
-> 
-
-
--- 
-Sinan Kaya
-Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
-Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
+Not being able to use the admin queue is a pretty big deal, so it's pushed
+to the next nvme 4.16-rc branch. This may even be good stable material.
