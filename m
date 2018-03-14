@@ -1,5 +1,5 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 14 Mar 2018 13:30:59 -0600
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Wed, 14 Mar 2018 19:34:53 +0000
 Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
 In-Reply-To: <CAPcyv4g-A6fqdTahxX=aONSCgp1eEvBb=ZVMzbZUWUDmqBbj7Q@mail.gmail.com>
 References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
@@ -15,19 +15,20 @@ References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
  <20180314185159.GD179719@bhelgaas-glaptop.roam.corp.google.com>
  <b75e83ad-bb83-1f8d-1751-0989cc2493f1@deltatee.com>
  <CAPcyv4g-A6fqdTahxX=aONSCgp1eEvBb=ZVMzbZUWUDmqBbj7Q@mail.gmail.com>
-Message-ID: <a9d7985d-09bb-2e23-c004-d14356a02830@deltatee.com>
+Message-ID: <AA646409-BB63-4757-A250-CE7118D4D3B8@raithlin.com>
 
-
-
-On 14/03/18 01:28 PM, Dan Williams wrote:
 > P2P over PCI/PCI-X is quite common in devices like raid controllers.
+
+Hi Dan 
+
+Do you mean between PCIe devices below the RAID controller? Isn't it pretty novel to be able to support PCIe EPs below a RAID controller (as opposed to SCSI based devices)?
+
 > It would be useful if those configurations were not left behind so
 > that Linux could feasibly deploy offload code to a controller in the
 > PCI domain.
+   
+Agreed. I think this would be great. Kind of like the XCOPY framework that was proposed a while back for SCSI devices [1] but updated to also include NVMe devices. That is definitely a use case we would like this framework to support.
 
-Thanks for the note. Neat. In the end nothing is getting left behind
-it's just work for someone to add support. Even if I wasn't already
-going to make the change I mentioned it all fits in the architecture and
-APIs quite easily.
-
-Logan
+Stephen
+ 
+[1] https://lwn.net/Articles/592094/
