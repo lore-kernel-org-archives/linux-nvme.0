@@ -1,89 +1,26 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Wed, 14 Mar 2018 10:22:45 +0000
-Subject: [PATCH 2/2] nvmet-rdma: Fix use after free in nvmet_rdma_cm_handler()
-In-Reply-To: <1521022965-19011-1-git-send-email-israelr@mellanox.com>
-References: <1521022965-19011-1-git-send-email-israelr@mellanox.com>
-Message-ID: <1521022965-19011-2-git-send-email-israelr@mellanox.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 14 Mar 2018 12:12:59 +0100
+Subject: [PATCH 01/13] qla2xxx: Remove unneeded message and minor cleanup
+ for FC-NVMe
+In-Reply-To: <20180312181650.20704-2-himanshu.madhani@cavium.com>
+References: <20180312181650.20704-1-himanshu.madhani@cavium.com>
+ <20180312181650.20704-2-himanshu.madhani@cavium.com>
+Message-ID: <03eb9742-96fb-6449-65f0-5a1b9aa2e366@suse.de>
 
-We free nvmet rdma queues while handling rdma_cm events.
-In order to avoid this we destroy the qp and the queue after destroying
-the cm_id which guarantees that all rdma_cm events are done.
+On 03/12/2018 07:16 PM, Himanshu Madhani wrote:
+> Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
+> ---
+>  drivers/scsi/qla2xxx/qla_nvme.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/rdma.c | 27 +++++++++++----------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+Cheers,
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 58332e1..210e4e3 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -913,8 +913,11 @@ static int nvmet_rdma_create_queue_ib(struct nvmet_rdma_queue *queue)
- 
- static void nvmet_rdma_destroy_queue_ib(struct nvmet_rdma_queue *queue)
- {
--	ib_drain_qp(queue->cm_id->qp);
--	rdma_destroy_qp(queue->cm_id);
-+	struct ib_qp *qp = queue->cm_id->qp;
-+
-+	ib_drain_qp(qp);
-+	rdma_destroy_id(queue->cm_id);
-+	ib_destroy_qp(qp);
- 	ib_free_cq(queue->cq);
- }
- 
-@@ -939,13 +942,10 @@ static void nvmet_rdma_release_queue_work(struct work_struct *w)
- {
- 	struct nvmet_rdma_queue *queue =
- 		container_of(w, struct nvmet_rdma_queue, release_work);
--	struct rdma_cm_id *cm_id = queue->cm_id;
- 	struct nvmet_rdma_device *dev = queue->dev;
- 
- 	nvmet_rdma_free_queue(queue);
- 
--	rdma_destroy_id(cm_id);
--
- 	kref_put(&dev->ref, nvmet_rdma_free_dev);
- }
- 
-@@ -1150,8 +1150,11 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 	}
- 
- 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
--	if (ret)
--		goto release_queue;
-+	if (ret) {
-+		schedule_work(&queue->release_work);
-+		/* Destroying rdma_cm id is not needed here */
-+		return 0;
-+	}
- 
- 	mutex_lock(&nvmet_rdma_queue_mutex);
- 	list_add_tail(&queue->queue_list, &nvmet_rdma_queue_list);
-@@ -1159,8 +1162,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 
- 	return 0;
- 
--release_queue:
--	nvmet_rdma_free_queue(queue);
- put_device:
- 	kref_put(&ndev->ref, nvmet_rdma_free_dev);
- 
-@@ -1318,13 +1319,7 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 	case RDMA_CM_EVENT_ADDR_CHANGE:
- 	case RDMA_CM_EVENT_DISCONNECTED:
- 	case RDMA_CM_EVENT_TIMEWAIT_EXIT:
--		/*
--		 * We might end up here when we already freed the qp
--		 * which means queue release sequence is in progress,
--		 * so don't get in the way...
--		 */
--		if (queue)
--			nvmet_rdma_queue_disconnect(queue);
-+		nvmet_rdma_queue_disconnect(queue);
- 		break;
- 	case RDMA_CM_EVENT_DEVICE_REMOVAL:
- 		ret = nvmet_rdma_device_removal(cm_id, queue);
+Hannes
 -- 
-1.8.3.1
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
