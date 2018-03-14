@@ -1,26 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 14 Mar 2018 12:33:24 +0100
-Subject: [PATCH 06/13] qla2xxx: Fix n2n_ae flag to prevent dev_loss on PDB
- change
-In-Reply-To: <20180312181650.20704-7-himanshu.madhani@cavium.com>
+Date: Wed, 14 Mar 2018 12:34:31 +0100
+Subject: [PATCH 07/13] qla2xxx: Return busy if rport going away
+In-Reply-To: <20180312181650.20704-8-himanshu.madhani@cavium.com>
 References: <20180312181650.20704-1-himanshu.madhani@cavium.com>
- <20180312181650.20704-7-himanshu.madhani@cavium.com>
-Message-ID: <4349b739-e622-7373-89cf-dcba3f07cc3d@suse.de>
+ <20180312181650.20704-8-himanshu.madhani@cavium.com>
+Message-ID: <e1c9dcce-db91-42e1-24b4-055fd946d7cf@suse.de>
 
 On 03/12/2018 07:16 PM, Himanshu Madhani wrote:
 > From: Darren Trapp <darren.trapp at cavium.com>
 > 
-Some more text would be nice; not everyone knows what n2n_ae or PDB is ...
-
+> This patch adds mechanism to retur EBUSY if rport is going away
+> to prevent exhausting FC-NVMe layer's retry counter.
+> 
 > Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 > Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 > ---
->  drivers/scsi/qla2xxx/qla_def.h | 2 --
->  drivers/scsi/qla2xxx/qla_isr.c | 3 ---
->  drivers/scsi/qla2xxx/qla_mbx.c | 3 +++
->  3 files changed, 3 insertions(+), 5 deletions(-)
+>  drivers/scsi/qla2xxx/qla_def.h  |  1 +
+>  drivers/scsi/qla2xxx/qla_isr.c  |  4 +++-
+>  drivers/scsi/qla2xxx/qla_nvme.c | 31 ++++++++++++++++++++-----------
+>  3 files changed, 24 insertions(+), 12 deletions(-)
 > 
-Otherwise:
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
