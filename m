@@ -1,42 +1,28 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 14 Mar 2018 12:13:24 +0100
-Subject: [PATCH 02/13] qla2xxx: Set IIDMA and fcport state before
- qla_nvme_register_remote()
-In-Reply-To: <20180312181650.20704-3-himanshu.madhani@cavium.com>
+Date: Wed, 14 Mar 2018 12:15:20 +0100
+Subject: [PATCH 03/13] qla2xxx: Add changes for devloss timeout in driver
+In-Reply-To: <20180312181650.20704-4-himanshu.madhani@cavium.com>
 References: <20180312181650.20704-1-himanshu.madhani@cavium.com>
- <20180312181650.20704-3-himanshu.madhani@cavium.com>
-Message-ID: <dac8e99c-a67a-3285-478b-3e6a3266bbd2@suse.de>
+ <20180312181650.20704-4-himanshu.madhani@cavium.com>
+Message-ID: <7f54e614-e46d-bf3b-e921-09638a56e11a@suse.de>
 
 On 03/12/2018 07:16 PM, Himanshu Madhani wrote:
 > From: Darren Trapp <darren.trapp at cavium.com>
 > 
+> Add support for error recovery within devloss timeout, now that
+> FC-NVMe transport support devloss timeout.
+> 
 > Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 > Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 > ---
->  drivers/scsi/qla2xxx/qla_init.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/scsi/qla2xxx/qla_init.c b/drivers/scsi/qla2xxx/qla_init.c
-> index cb182b102bfd..6caccc52376a 100644
-> --- a/drivers/scsi/qla2xxx/qla_init.c
-> +++ b/drivers/scsi/qla2xxx/qla_init.c
-> @@ -5110,13 +5110,14 @@ qla2x00_update_fcport(scsi_qla_host_t *vha, fc_port_t *fcport)
->  	fcport->deleted = 0;
->  	fcport->logout_on_delete = 1;
->  
-> +	qla2x00_set_fcport_state(fcport, FCS_ONLINE);
-> +	qla2x00_iidma_fcport(vha, fcport);
-> +
->  	if (fcport->fc4f_nvme) {
->  		qla_nvme_register_remote(vha, fcport);
->  		return;
->  	}
->  
-> -	qla2x00_set_fcport_state(fcport, FCS_ONLINE);
-> -	qla2x00_iidma_fcport(vha, fcport);
->  	qla24xx_update_fcport_fcp_prio(vha, fcport);
->  
->  reg_port:
+>  drivers/scsi/qla2xxx/qla_def.h    |   1 +
+>  drivers/scsi/qla2xxx/qla_init.c   |   8 +++
+>  drivers/scsi/qla2xxx/qla_isr.c    |   5 +-
+>  drivers/scsi/qla2xxx/qla_nvme.c   | 142 +++++++++++++++++---------------------
+>  drivers/scsi/qla2xxx/qla_nvme.h   |   6 +-
+>  drivers/scsi/qla2xxx/qla_target.c |  13 ++--
+>  drivers/scsi/qla2xxx/qla_target.h |   2 +-
+>  7 files changed, 87 insertions(+), 90 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
