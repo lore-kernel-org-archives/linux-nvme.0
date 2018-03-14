@@ -1,30 +1,47 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 14 Mar 2018 09:56:01 +0100
-Subject: [pci PATCH v6 5/5] pci-pf-stub: Add PF driver stub for PFs
- that function only to enable VFs
-In-Reply-To: <20180313213054.3553.89366.stgit@localhost.localdomain>
-References: <20180313212508.3553.65326.stgit@localhost.localdomain>
- <20180313213054.3553.89366.stgit@localhost.localdomain>
-Message-ID: <20180314085601.GD28796@lst.de>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Wed, 14 Mar 2018 10:22:44 +0000
+Subject: [PATCH 1/2] nvmet-rdma: Remove unused queue state
+Message-ID: <1521022965-19011-1-git-send-email-israelr@mellanox.com>
 
-> +
-> +/**
-> + * pci_pf_stub_white_list - White list of devices to bind pci-pf-stub onto
-> + *
-> + * This table provides the list of IDs this driver is supposed to bind
-> + * onto. You could think of this as a list of "quirked" devices where we
-> + * are adding support for SR-IOV here since there are no other drivers
-> + * that they would be running under.
-> + *
-> + * Layout of the table below is as follows:
-> + * { Vendor ID, Device ID,
-> + *   SubVendor ID, SubDevice ID,
-> + *   Class, Class Mask,
-> + *   private data (not used) }
-> + */
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/rdma.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-No need to document the PCI device table format in a random driver.
-
-Otherwise looks fine:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 978e169..58332e1 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -77,7 +77,6 @@ enum nvmet_rdma_queue_state {
+ 	NVMET_RDMA_Q_CONNECTING,
+ 	NVMET_RDMA_Q_LIVE,
+ 	NVMET_RDMA_Q_DISCONNECTING,
+-	NVMET_RDMA_IN_DEVICE_REMOVAL,
+ };
+ 
+ struct nvmet_rdma_queue {
+@@ -942,12 +941,10 @@ static void nvmet_rdma_release_queue_work(struct work_struct *w)
+ 		container_of(w, struct nvmet_rdma_queue, release_work);
+ 	struct rdma_cm_id *cm_id = queue->cm_id;
+ 	struct nvmet_rdma_device *dev = queue->dev;
+-	enum nvmet_rdma_queue_state state = queue->state;
+ 
+ 	nvmet_rdma_free_queue(queue);
+ 
+-	if (state != NVMET_RDMA_IN_DEVICE_REMOVAL)
+-		rdma_destroy_id(cm_id);
++	rdma_destroy_id(cm_id);
+ 
+ 	kref_put(&dev->ref, nvmet_rdma_free_dev);
+ }
+@@ -1209,7 +1206,6 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
+ 	case NVMET_RDMA_Q_CONNECTING:
+ 	case NVMET_RDMA_Q_LIVE:
+ 		queue->state = NVMET_RDMA_Q_DISCONNECTING;
+-	case NVMET_RDMA_IN_DEVICE_REMOVAL:
+ 		disconnect = true;
+ 		break;
+ 	case NVMET_RDMA_Q_DISCONNECTING:
+-- 
+1.8.3.1
