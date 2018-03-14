@@ -1,7 +1,7 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 14 Mar 2018 13:03:43 -0600
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 14 Mar 2018 12:28:04 -0700
 Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180314185159.GD179719@bhelgaas-glaptop.roam.corp.google.com>
+In-Reply-To: <b75e83ad-bb83-1f8d-1751-0989cc2493f1@deltatee.com>
 References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
  <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
  <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
@@ -13,29 +13,28 @@ References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
  <20180314025639.GA50067@bhelgaas-glaptop.roam.corp.google.com>
  <112493af-ccd0-455b-6600-b50764f7ab7e@deltatee.com>
  <20180314185159.GD179719@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <b75e83ad-bb83-1f8d-1751-0989cc2493f1@deltatee.com>
+ <b75e83ad-bb83-1f8d-1751-0989cc2493f1@deltatee.com>
+Message-ID: <CAPcyv4g-A6fqdTahxX=aONSCgp1eEvBb=ZVMzbZUWUDmqBbj7Q@mail.gmail.com>
 
+On Wed, Mar 14, 2018@12:03 PM, Logan Gunthorpe <logang@deltatee.com> wrote:
+>
+>
+> On 14/03/18 12:51 PM, Bjorn Helgaas wrote:
+>> You are focused on PCIe systems, and in those systems, most topologies
+>> do have an upstream switch, which means two upstream bridges.  I'm
+>> trying to remove that assumption because I don't think there's a
+>> requirement for it in the spec.  Enforcing this assumption complicates
+>> the code and makes it harder to understand because the reader says
+>> "huh, I know peer-to-peer DMA should work inside any PCI hierarchy*,
+>> so why do we need these two bridges?"
+>
+> Yes, as I've said, we focused on being behind a single PCIe Switch
+> because it's easier and vaguely safer (we *know* switches will work but
+> other types of topology we have to assume will work based on the spec).
+> Also, I have my doubts that anyone will ever have a use for this with
+> non-PCIe devices.
 
-
-On 14/03/18 12:51 PM, Bjorn Helgaas wrote:
-> You are focused on PCIe systems, and in those systems, most topologies
-> do have an upstream switch, which means two upstream bridges.  I'm
-> trying to remove that assumption because I don't think there's a
-> requirement for it in the spec.  Enforcing this assumption complicates
-> the code and makes it harder to understand because the reader says
-> "huh, I know peer-to-peer DMA should work inside any PCI hierarchy*,
-> so why do we need these two bridges?"
-
-Yes, as I've said, we focused on being behind a single PCIe Switch
-because it's easier and vaguely safer (we *know* switches will work but
-other types of topology we have to assume will work based on the spec).
-Also, I have my doubts that anyone will ever have a use for this with
-non-PCIe devices.
-
-A switch shows up as two or more virtual bridges (per the PCIe v4 Spec
-1.3.3) which explains the existing get_upstream_bridge_port() function.
-
-In any case, we'll look at generalizing this by looking for a common
-upstream port in the next revision of the patch set.
-
-Logan
+P2P over PCI/PCI-X is quite common in devices like raid controllers.
+It would be useful if those configurations were not left behind so
+that Linux could feasibly deploy offload code to a controller in the
+PCI domain.
