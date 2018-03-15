@@ -1,34 +1,63 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Wed, 14 Mar 2018 19:34:53 +0000
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <CAPcyv4g-A6fqdTahxX=aONSCgp1eEvBb=ZVMzbZUWUDmqBbj7Q@mail.gmail.com>
-References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
- <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
- <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
- <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
- <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
- <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
- <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
- <8de5d3dd-a78f-02d5-0eea-4365364143b6@deltatee.com>
- <20180314025639.GA50067@bhelgaas-glaptop.roam.corp.google.com>
- <112493af-ccd0-455b-6600-b50764f7ab7e@deltatee.com>
- <20180314185159.GD179719@bhelgaas-glaptop.roam.corp.google.com>
- <b75e83ad-bb83-1f8d-1751-0989cc2493f1@deltatee.com>
- <CAPcyv4g-A6fqdTahxX=aONSCgp1eEvBb=ZVMzbZUWUDmqBbj7Q@mail.gmail.com>
-Message-ID: <AA646409-BB63-4757-A250-CE7118D4D3B8@raithlin.com>
+From: himanshu.madhani@cavium.com (Himanshu Madhani)
+Date: Wed, 14 Mar 2018 20:34:51 -0700
+Subject: [PATCH v2 00/13] qla2xxx: Fixes for FC-NVMe
+Message-ID: <20180315033504.12628-1-himanshu.madhani@cavium.com>
 
-> P2P over PCI/PCI-X is quite common in devices like raid controllers.
+Hi Martin,
 
-Hi Dan 
+This patch series addresses issue with FC-NVMe abort handling in the
+driver. Code has been cleaned up and devloss timeout support has been
+added in qla2xxx.
 
-Do you mean between PCIe devices below the RAID controller? Isn't it pretty novel to be able to support PCIe EPs below a RAID controller (as opposed to SCSI based devices)?
+Please apply this series to 4.17/scsi-queue at your earliest convenience.
 
-> It would be useful if those configurations were not left behind so
-> that Linux could feasibly deploy offload code to a controller in the
-> PCI domain.
-   
-Agreed. I think this would be great. Kind of like the XCOPY framework that was proposed a while back for SCSI devices [1] but updated to also include NVMe devices. That is definitely a use case we would like this framework to support.
+Hi Christoph, Sagi, Johannes, James,
 
-Stephen
- 
-[1] https://lwn.net/Articles/592094/
+Please review this series. I would however like this to be merged via
+Martin's SCSI tree.
+
+Changes from v1-> v2
+- Added reviewed-by tags for Hannes.
+- Fixes build warning reported by kbuild robot
+
+Thanks,
+Himanshu 
+
+
+Darren Trapp (10):
+  qla2xxx: Set IIDMA and fcport state before qla_nvme_register_remote()
+  qla2xxx: Add changes for devloss timeout in driver
+  qla2xxx: Restore ZIO threshold setting
+  qla2xxx: Add FC-NVMe abort processing
+  qla2xxx: Fix n2n_ae flag to prevent dev_loss on PDB change
+  qla2xxx: Return busy if rport going away
+  qla2xxx: Remove nvme_done_list
+  qla2xxx: Fix retry for PRLI RJT with reason of BUSY
+  qla2xxx: Fix FC-NVMe IO abort during driver reset
+  qla2xxx: Cleanup code to improve FC-NVMe error handling
+
+Himanshu Madhani (2):
+  qla2xxx: Remove unneeded message and minor cleanup for FC-NVMe
+  qla2xxx: Update driver version to 10.00.00.06-k
+
+Quinn Tran (1):
+  qla2xxx: Fix Async GPN_FT for FCP and FC-NVMe scan
+
+ drivers/scsi/qla2xxx/qla_dbg.c     |   2 +-
+ drivers/scsi/qla2xxx/qla_def.h     |  12 +-
+ drivers/scsi/qla2xxx/qla_gbl.h     |   4 +-
+ drivers/scsi/qla2xxx/qla_gs.c      | 274 ++++++++++++++++++++++++++++---------
+ drivers/scsi/qla2xxx/qla_init.c    |  35 +++--
+ drivers/scsi/qla2xxx/qla_isr.c     |  78 ++++-------
+ drivers/scsi/qla2xxx/qla_mbx.c     |  10 +-
+ drivers/scsi/qla2xxx/qla_mid.c     |   6 -
+ drivers/scsi/qla2xxx/qla_nvme.c    | 245 +++++++++++++++------------------
+ drivers/scsi/qla2xxx/qla_nvme.h    |   9 +-
+ drivers/scsi/qla2xxx/qla_os.c      |  11 +-
+ drivers/scsi/qla2xxx/qla_target.c  |  13 +-
+ drivers/scsi/qla2xxx/qla_target.h  |   2 +-
+ drivers/scsi/qla2xxx/qla_version.h |   2 +-
+ 14 files changed, 416 insertions(+), 287 deletions(-)
+
+-- 
+2.12.0
