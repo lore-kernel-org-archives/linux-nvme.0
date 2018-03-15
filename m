@@ -1,11 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 15 Mar 2018 15:42:41 +0100
-Subject: [PATCH v2 09/13] qla2xxx: Fix retry for PRLI RJT with reason of
- BUSY
-In-Reply-To: <20180315033504.12628-10-himanshu.madhani@cavium.com>
+Date: Thu, 15 Mar 2018 15:43:02 +0100
+Subject: [PATCH v2 10/13] qla2xxx: Fix FC-NVMe IO abort during driver reset
+In-Reply-To: <20180315033504.12628-11-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
- <20180315033504.12628-10-himanshu.madhani@cavium.com>
-Message-ID: <20180315144241.g6mwjdix3xqslucu@linux-x5ow.site>
+ <20180315033504.12628-11-himanshu.madhani@cavium.com>
+Message-ID: <20180315144302.7dxbms7lbri7h7n2@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
