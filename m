@@ -1,157 +1,90 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Wed, 14 Mar 2018 20:35:02 -0700
-Subject: [PATCH v2 11/13] qla2xxx: Cleanup code to improve FC-NVMe error
- handling
+Date: Wed, 14 Mar 2018 20:35:00 -0700
+Subject: [PATCH v2 09/13] qla2xxx: Fix retry for PRLI RJT with reason of BUSY
 In-Reply-To: <20180315033504.12628-1-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
-Message-ID: <20180315033504.12628-12-himanshu.madhani@cavium.com>
+Message-ID: <20180315033504.12628-10-himanshu.madhani@cavium.com>
 
 From: Darren Trapp <darren.trapp@cavium.com>
-
-This patch cleans up ABTS handling for FC-NVMe by
-
-- Removing allocation of sp, instead pass the sp pointer for abort IOCB
-- Fix error handling from Transport failure
-- set outstanding_cmds array to NULL for nvme completion
 
 Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/scsi/qla2xxx/qla_isr.c  | 78 +++++++++++++++--------------------------
- drivers/scsi/qla2xxx/qla_nvme.c |  2 +-
- 2 files changed, 29 insertions(+), 51 deletions(-)
+ drivers/scsi/qla2xxx/qla_dbg.c  |  2 +-
+ drivers/scsi/qla2xxx/qla_init.c | 13 ++++++++++++-
+ drivers/scsi/qla2xxx/qla_mbx.c  |  7 +++++--
+ 3 files changed, 18 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
-index 07c98eb911fd..7cacdc3408fa 100644
---- a/drivers/scsi/qla2xxx/qla_isr.c
-+++ b/drivers/scsi/qla2xxx/qla_isr.c
-@@ -1838,31 +1838,23 @@ qla24xx_tm_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
- 	sp->done(sp, 0);
- }
+diff --git a/drivers/scsi/qla2xxx/qla_dbg.c b/drivers/scsi/qla2xxx/qla_dbg.c
+index 7e9d8f08b9d5..1abc8a9064b3 100644
+--- a/drivers/scsi/qla2xxx/qla_dbg.c
++++ b/drivers/scsi/qla2xxx/qla_dbg.c
+@@ -60,7 +60,7 @@
+  * |                              |                    | 0xb13c-0xb140  |
+  * |                              |                    | 0xb149		|
+  * | MultiQ                       |       0xc010       |		|
+- * | Misc                         |       0xd302       | 0xd031-0xd0ff	|
++ * | Misc                         |       0xd303       | 0xd031-0xd0ff	|
+  * |                              |                    | 0xd101-0xd1fe	|
+  * |                              |                    | 0xd214-0xd2fe	|
+  * | Target Mode		  |	  0xe081       |		|
+diff --git a/drivers/scsi/qla2xxx/qla_init.c b/drivers/scsi/qla2xxx/qla_init.c
+index 0805483645d7..5520477a66d9 100644
+--- a/drivers/scsi/qla2xxx/qla_init.c
++++ b/drivers/scsi/qla2xxx/qla_init.c
+@@ -875,7 +875,6 @@ qla24xx_async_prli(struct scsi_qla_host *vha, fc_port_t *fcport)
+ 		return rval;
  
--static void
--qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
-+static void qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req,
-+    void *tsk, srb_t *sp)
- {
--	const char func[] = "NVME-IOCB";
- 	fc_port_t *fcport;
--	srb_t *sp;
- 	struct srb_iocb *iocb;
- 	struct sts_entry_24xx *sts = (struct sts_entry_24xx *)tsk;
- 	uint16_t        state_flags;
- 	struct nvmefc_fcp_req *fd;
- 	uint16_t        ret = 0;
--	struct srb_iocb *nvme;
--
--	sp = qla2x00_get_sp_from_handle(vha, func, req, tsk);
--	if (!sp)
--		return;
+ 	if (fcport->fw_login_state == DSC_LS_PLOGI_PEND ||
+-	    fcport->fw_login_state == DSC_LS_PLOGI_COMP ||
+ 	    fcport->fw_login_state == DSC_LS_PRLI_PEND)
+ 		return rval;
  
- 	iocb = &sp->u.iocb_cmd;
- 	fcport = sp->fcport;
- 	iocb->u.nvme.comp_status = le16_to_cpu(sts->comp_status);
- 	state_flags  = le16_to_cpu(sts->state_flags);
- 	fd = iocb->u.nvme.desc;
--	nvme = &sp->u.iocb_cmd;
+@@ -1240,6 +1239,11 @@ int qla24xx_fcport_handle_login(struct scsi_qla_host *vha, fc_port_t *fcport)
+ 		qla2x00_post_async_adisc_work(vha, fcport, data);
+ 		break;
  
--	if (unlikely(nvme->u.nvme.aen_op))
-+	if (unlikely(iocb->u.nvme.aen_op))
- 		atomic_dec(&sp->vha->hw->nvme_active_aen_cnt);
- 
- 	/*
-@@ -1896,45 +1888,30 @@ qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
- 	fd->transferred_length = fd->payload_length -
- 	    le32_to_cpu(sts->residual_len);
- 
--	/*
--	 * If transport error then Failure (HBA rejects request)
--	 * otherwise transport will handle.
--	 */
--	if (sts->entry_status) {
--		ql_log(ql_log_warn, fcport->vha, 0x5038,
--		    "NVME-%s error - hdl=%x entry-status(%x).\n",
--		    sp->name, sp->handle, sts->entry_status);
-+	switch (le16_to_cpu(sts->comp_status)) {
-+	case CS_COMPLETE:
-+		ret = QLA_SUCCESS;
++	case DSC_LOGIN_PEND:
++		if (fcport->fw_login_state == DSC_LS_PLOGI_COMP)
++			qla24xx_post_prli_work(vha, fcport);
 +		break;
-+	case CS_ABORTED:
-+	case CS_RESET:
-+	case CS_PORT_UNAVAILABLE:
-+	case CS_PORT_LOGGED_OUT:
-+	case CS_PORT_BUSY:
-+		ql_log(ql_log_warn, fcport->vha, 0x5060,
-+		    "NVME-%s ERR Handling - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
-+		    sp->name, sp->handle, sts->comp_status,
-+		    le32_to_cpu(sts->residual_len), sts->ox_id);
-+		fd->transferred_length = 0;
-+		iocb->u.nvme.rsp_pyld_len = 0;
-+		ret = QLA_ABORTED;
-+		break;
-+	default:
-+		ql_log(ql_log_warn, fcport->vha, 0x5060,
-+		    "NVME-%s error - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
-+		    sp->name, sp->handle, sts->comp_status,
-+		    le32_to_cpu(sts->residual_len), sts->ox_id);
- 		ret = QLA_FUNCTION_FAILED;
--	} else  {
--		switch (le16_to_cpu(sts->comp_status)) {
--			case CS_COMPLETE:
--				ret = QLA_SUCCESS;
--			break;
--
--			case CS_RESET:
--			case CS_PORT_UNAVAILABLE:
--				fcport->nvme_flag |= NVME_FLAG_RESETTING;
--				/* fall through */
--			case CS_ABORTED:
--			case CS_PORT_LOGGED_OUT:
--			case CS_PORT_BUSY:
--				ql_log(ql_log_warn, fcport->vha, 0x5060,
--				"NVME-%s ERR Handling - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
--				sp->name, sp->handle, sts->comp_status,
--				le32_to_cpu(sts->residual_len), sts->ox_id);
--				fd->transferred_length = 0;
--				iocb->u.nvme.rsp_pyld_len = 0;
--				ret = QLA_ABORTED;
--			break;
--
--			default:
--				ql_log(ql_log_warn, fcport->vha, 0x5060,
--				"NVME-%s error - hdl=%x completion status(%x) resid=%x  ox_id=%x\n",
--				sp->name, sp->handle, sts->comp_status,
--				le32_to_cpu(sts->residual_len), sts->ox_id);
--				ret = QLA_FUNCTION_FAILED;
--				break;
--		}
-+		break;
++
+ 	default:
+ 		break;
  	}
- 	sp->done(sp, ret);
- }
-@@ -2462,7 +2439,8 @@ qla2x00_status_entry(scsi_qla_host_t *vha, struct rsp_que *rsp, void *pkt)
- 
- 	/* NVME completion. */
- 	if (sp->type == SRB_NVME_CMD) {
--		qla24xx_nvme_iocb_entry(vha, req, pkt);
-+		req->outstanding_cmds[handle] = NULL;
-+		qla24xx_nvme_iocb_entry(vha, req, pkt, sp);
- 		return;
+@@ -1643,6 +1647,13 @@ qla24xx_handle_prli_done_event(struct scsi_qla_host *vha, struct event_arg *ea)
+ 		qla24xx_post_gpdb_work(vha, ea->fcport, 0);
+ 		break;
+ 	default:
++		if ((ea->iop[0] == LSC_SCODE_ELS_REJECT) &&
++		    (ea->iop[1] == 0x50000)) {   /* reson 5=busy expl:0x0 */
++			set_bit(RELOGIN_NEEDED, &vha->dpc_flags);
++			ea->fcport->fw_login_state = DSC_LS_PLOGI_COMP;
++			break;
++		}
++
+ 		if (ea->fcport->n2n_flag) {
+ 			ql_dbg(ql_dbg_disc, vha, 0x2118,
+ 				"%s %d %8phC post fc4 prli\n",
+diff --git a/drivers/scsi/qla2xxx/qla_mbx.c b/drivers/scsi/qla2xxx/qla_mbx.c
+index 735079ba691c..c9a134ae0d2b 100644
+--- a/drivers/scsi/qla2xxx/qla_mbx.c
++++ b/drivers/scsi/qla2xxx/qla_mbx.c
+@@ -1025,9 +1025,12 @@ qla2x00_get_fw_version(scsi_qla_host_t *vha)
+ 		 * FW supports nvme and driver load parameter requested nvme.
+ 		 * BIT 26 of fw_attributes indicates NVMe support.
+ 		 */
+-		if ((ha->fw_attributes_h & 0x400) && ql2xnvmeenable)
++		if ((ha->fw_attributes_h & 0x400) && ql2xnvmeenable) {
+ 			vha->flags.nvme_enabled = 1;
+-
++			ql_log(ql_log_info, vha, 0xd302,
++			    "%s: FC-NVMe is Enabled (0x%x)\n",
++			     __func__, ha->fw_attributes_h);
++		}
  	}
  
-diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index 57275bc9fe14..c5a963c2c86e 100644
---- a/drivers/scsi/qla2xxx/qla_nvme.c
-+++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -280,7 +280,7 @@ static void qla_nvme_poll(struct nvme_fc_local_port *lport, void *hw_queue_handl
- 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
- }
- 
--static int qla2x00_start_nvme_mq(srb_t *sp)
-+static inline int qla2x00_start_nvme_mq(srb_t *sp)
- {
- 	unsigned long   flags;
- 	uint32_t        *clr_ptr;
+ 	if (IS_QLA27XX(ha)) {
 -- 
 2.12.0
