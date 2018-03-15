@@ -1,11 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 15 Mar 2018 15:41:04 +0100
-Subject: [PATCH v2 06/13] qla2xxx: Fix n2n_ae flag to prevent dev_loss on
- PDB change
-In-Reply-To: <20180315033504.12628-7-himanshu.madhani@cavium.com>
+Date: Thu, 15 Mar 2018 15:41:40 +0100
+Subject: [PATCH v2 07/13] qla2xxx: Return busy if rport going away
+In-Reply-To: <20180315033504.12628-8-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
- <20180315033504.12628-7-himanshu.madhani@cavium.com>
-Message-ID: <20180315144104.zoklwwnnskpudfda@linux-x5ow.site>
+ <20180315033504.12628-8-himanshu.madhani@cavium.com>
+Message-ID: <20180315144140.vfyypzc7sfd3uxlb@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
