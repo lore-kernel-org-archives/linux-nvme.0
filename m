@@ -1,84 +1,146 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Wed, 14 Mar 2018 20:35:01 -0700
-Subject: [PATCH v2 10/13] qla2xxx: Fix FC-NVMe IO abort during driver reset
+Date: Wed, 14 Mar 2018 20:34:58 -0700
+Subject: [PATCH v2 07/13] qla2xxx: Return busy if rport going away
 In-Reply-To: <20180315033504.12628-1-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
-Message-ID: <20180315033504.12628-11-himanshu.madhani@cavium.com>
+Message-ID: <20180315033504.12628-8-himanshu.madhani@cavium.com>
 
 From: Darren Trapp <darren.trapp@cavium.com>
+
+This patch adds mechanism to return EBUSY if rport is going away
+to prevent exhausting FC-NVMe layer's retry counter.
 
 Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/scsi/qla2xxx/qla_nvme.c | 17 ++++++++++++-----
- drivers/scsi/qla2xxx/qla_nvme.h |  2 +-
- drivers/scsi/qla2xxx/qla_os.c   |  2 +-
- 3 files changed, 14 insertions(+), 7 deletions(-)
+ drivers/scsi/qla2xxx/qla_def.h  |  1 +
+ drivers/scsi/qla2xxx/qla_isr.c  |  4 +++-
+ drivers/scsi/qla2xxx/qla_nvme.c | 31 ++++++++++++++++++++-----------
+ 3 files changed, 24 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/scsi/qla2xxx/qla_def.h b/drivers/scsi/qla2xxx/qla_def.h
+index 745e6414b496..944626cc84d9 100644
+--- a/drivers/scsi/qla2xxx/qla_def.h
++++ b/drivers/scsi/qla2xxx/qla_def.h
+@@ -2357,6 +2357,7 @@ typedef struct fc_port {
+ 	uint8_t nvme_flag;
+ #define NVME_FLAG_REGISTERED 4
+ #define NVME_FLAG_DELETING 2
++#define NVME_FLAG_RESETTING 1
+ 
+ 	struct fc_port *conflict;
+ 	unsigned char logout_completed;
+diff --git a/drivers/scsi/qla2xxx/qla_isr.c b/drivers/scsi/qla2xxx/qla_isr.c
+index d973d0b5d8c3..07c98eb911fd 100644
+--- a/drivers/scsi/qla2xxx/qla_isr.c
++++ b/drivers/scsi/qla2xxx/qla_isr.c
+@@ -1911,9 +1911,11 @@ qla24xx_nvme_iocb_entry(scsi_qla_host_t *vha, struct req_que *req, void *tsk)
+ 				ret = QLA_SUCCESS;
+ 			break;
+ 
+-			case CS_ABORTED:
+ 			case CS_RESET:
+ 			case CS_PORT_UNAVAILABLE:
++				fcport->nvme_flag |= NVME_FLAG_RESETTING;
++				/* fall through */
++			case CS_ABORTED:
+ 			case CS_PORT_LOGGED_OUT:
+ 			case CS_PORT_BUSY:
+ 				ql_log(ql_log_warn, fcport->vha, 0x5060,
 diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index 8c05df30c083..57275bc9fe14 100644
+index 951fbbab961f..adeda6a4e4fd 100644
 --- a/drivers/scsi/qla2xxx/qla_nvme.c
 +++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -489,6 +489,9 @@ static int qla_nvme_post_cmd(struct nvme_fc_local_port *lport,
+@@ -36,6 +36,7 @@ int qla_nvme_register_remote(struct scsi_qla_host *vha, struct fc_port *fcport)
+ 		return 0;
+ 
+ 	INIT_WORK(&fcport->nvme_del_work, qla_nvme_unregister_remote_port);
++	fcport->nvme_flag &= ~NVME_FLAG_RESETTING;
+ 
+ 	memset(&req, 0, sizeof(struct nvme_fc_port_info));
+ 	req.port_name = wwn_to_u64(fcport->port_name);
+@@ -193,9 +194,9 @@ static void qla_nvme_abort_work(struct work_struct *work)
+ 	rval = ha->isp_ops->abort_command(sp);
+ 
+ 	ql_dbg(ql_dbg_io, fcport->vha, 0x212b,
+-	    "%s: %s command for sp=%p on fcport=%p rval=%x\n", __func__,
+-	    (rval != QLA_SUCCESS) ? "Failed to abort" : "Aborted",
+-	    sp, fcport, rval);
++	    "%s: %s command for sp=%p, handle=%x on fcport=%p rval=%x\n",
++	    __func__, (rval != QLA_SUCCESS) ? "Failed to abort" : "Aborted",
++	    sp, sp->handle, fcport, rval);
+ }
+ 
+ static void qla_nvme_ls_abort(struct nvme_fc_local_port *lport,
+@@ -327,7 +328,7 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
+ 	}
+ 
+ 	if (index == req->num_outstanding_cmds) {
+-		rval = -1;
++		rval = -EBUSY;
+ 		goto queuing_error;
+ 	}
+ 	req_cnt = qla24xx_calc_iocbs(vha, tot_dsds);
+@@ -341,7 +342,7 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
+ 			req->cnt = req->length - (req->ring_index - cnt);
+ 
+ 		if (req->cnt < (req_cnt + 2)){
+-			rval = -1;
++			rval = -EBUSY;
+ 			goto queuing_error;
+ 		}
+ 	}
+@@ -476,14 +477,15 @@ static int qla_nvme_post_cmd(struct nvme_fc_local_port *lport,
+ 	fc_port_t *fcport;
+ 	struct srb_iocb *nvme;
+ 	struct scsi_qla_host *vha;
+-	int rval = QLA_FUNCTION_FAILED;
++	int rval = -ENODEV;
+ 	srb_t *sp;
+ 	struct qla_qpair *qpair = hw_queue_handle;
+ 	struct nvme_private *priv;
+ 	struct qla_nvme_rport *qla_rport = rport->private;
+ 
+-	if (!fd) {
+-		ql_log(ql_log_warn, NULL, 0x2134, "NO NVMe FCP request\n");
++	if (!fd || !qpair) {
++		ql_log(ql_log_warn, NULL, 0x2134,
++		    "NO NVMe request or Queue Handle\n");
+ 		return rval;
+ 	}
+ 
+@@ -495,13 +497,21 @@ static int qla_nvme_post_cmd(struct nvme_fc_local_port *lport,
+ 	}
  
  	vha = fcport->vha;
- 
-+	if (test_bit(ABORT_ISP_ACTIVE, &vha->dpc_flags))
-+		return rval;
+-	if (!qpair)
 +
- 	/*
- 	 * If we know the dev is going away while the transport is still sending
- 	 * IO's return busy back to stall the IO Q.  This happens when the
-@@ -597,14 +600,18 @@ static int qla_nvme_wait_on_command(srb_t *sp)
- 	return ret;
- }
++	/*
++	 * If we know the dev is going away while the transport is still sending
++	 * IO's return busy back to stall the IO Q.  This happens when the
++	 * link goes away and fw hasn't notified us yet, but IO's are being
++	 * returned. If the dev comes back quickly we won't exhaust the IO
++	 * retry count at the core.
++	 */
++	if (fcport->nvme_flag & NVME_FLAG_RESETTING)
+ 		return -EBUSY;
  
--void qla_nvme_abort(struct qla_hw_data *ha, struct srb *sp)
-+void qla_nvme_abort(struct qla_hw_data *ha, struct srb *sp, int res)
- {
- 	int rval;
+ 	/* Alloc SRB structure */
+ 	sp = qla2xxx_get_qpair_sp(qpair, fcport, GFP_ATOMIC);
+ 	if (!sp)
+-		return -EIO;
++		return -EBUSY;
  
--	rval = ha->isp_ops->abort_command(sp);
--	if (!rval && !qla_nvme_wait_on_command(sp))
--		ql_log(ql_log_warn, NULL, 0x2112,
--		    "nvme_wait_on_comand timed out waiting on sp=%p\n", sp);
-+	if (!test_bit(ABORT_ISP_ACTIVE, &sp->vha->dpc_flags)) {
-+		rval = ha->isp_ops->abort_command(sp);
-+		if (!rval && !qla_nvme_wait_on_command(sp))
-+			ql_log(ql_log_warn, NULL, 0x2112,
-+			    "timed out waiting on sp=%p\n", sp);
-+	} else {
-+		sp->done(sp, res);
-+	}
- }
+ 	atomic_set(&sp->ref_count, 1);
+ 	init_waitqueue_head(&sp->nvme_ls_waitq);
+@@ -519,7 +529,6 @@ static int qla_nvme_post_cmd(struct nvme_fc_local_port *lport,
+ 		    "qla2x00_start_nvme_mq failed = %d\n", rval);
+ 		atomic_dec(&sp->ref_count);
+ 		wake_up(&sp->nvme_ls_waitq);
+-		return -EIO;
+ 	}
  
- static void qla_nvme_unregister_remote_port(struct work_struct *work)
-diff --git a/drivers/scsi/qla2xxx/qla_nvme.h b/drivers/scsi/qla2xxx/qla_nvme.h
-index 8df379478269..816854ada654 100644
---- a/drivers/scsi/qla2xxx/qla_nvme.h
-+++ b/drivers/scsi/qla2xxx/qla_nvme.h
-@@ -145,7 +145,7 @@ struct pt_ls4_rx_unsol {
- void qla_nvme_register_hba(struct scsi_qla_host *);
- int  qla_nvme_register_remote(struct scsi_qla_host *, struct fc_port *);
- void qla_nvme_delete(struct scsi_qla_host *);
--void qla_nvme_abort(struct qla_hw_data *, struct srb *sp);
-+void qla_nvme_abort(struct qla_hw_data *, struct srb *sp, int res);
- void qla24xx_nvme_ls4_iocb(struct scsi_qla_host *, struct pt_ls4_request *,
-     struct req_que *);
- void qla24xx_async_gffid_sp_done(void *, int);
-diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
-index 69b46c8b9dd2..7fe265aca617 100644
---- a/drivers/scsi/qla2xxx/qla_os.c
-+++ b/drivers/scsi/qla2xxx/qla_os.c
-@@ -1743,7 +1743,7 @@ __qla2x00_abort_all_cmds(struct qla_qpair *qp, int res)
- 					sp_get(sp);
- 					spin_unlock_irqrestore(qp->qp_lock_ptr,
- 					    flags);
--					qla_nvme_abort(ha, sp);
-+					qla_nvme_abort(ha, sp, res);
- 					spin_lock_irqsave(qp->qp_lock_ptr,
- 					    flags);
- 				} else if (GET_CMD_SP(sp) &&
+ 	return rval;
 -- 
 2.12.0
