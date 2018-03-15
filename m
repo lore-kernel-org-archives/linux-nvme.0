@@ -1,10 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 15 Mar 2018 15:40:36 +0100
-Subject: [PATCH v2 05/13] qla2xxx: Add FC-NVMe abort processing
-In-Reply-To: <20180315033504.12628-6-himanshu.madhani@cavium.com>
+Date: Thu, 15 Mar 2018 15:41:04 +0100
+Subject: [PATCH v2 06/13] qla2xxx: Fix n2n_ae flag to prevent dev_loss on
+ PDB change
+In-Reply-To: <20180315033504.12628-7-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
- <20180315033504.12628-6-himanshu.madhani@cavium.com>
-Message-ID: <20180315144036.5sxpthyse5oa2atc@linux-x5ow.site>
+ <20180315033504.12628-7-himanshu.madhani@cavium.com>
+Message-ID: <20180315144104.zoklwwnnskpudfda@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
