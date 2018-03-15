@@ -1,140 +1,30 @@
-From: alexander.duyck@gmail.com (Alexander Duyck)
-Date: Thu, 15 Mar 2018 11:44:07 -0700
-Subject: [pci PATCH v7 5/5] pci-pf-stub: Add PF driver stub for PFs that
- function only to enable VFs
-In-Reply-To: <20180315183449.3102.64791.stgit@localhost.localdomain>
-References: <20180315183449.3102.64791.stgit@localhost.localdomain>
-Message-ID: <20180315184356.3102.71367.stgit@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 15 Mar 2018 14:29:31 -0600
+Subject: [PATCH] nvme_fc: io timeout should defer abort to ctrl reset
+In-Reply-To: <20180312163222.23043-1-jsmart2021@gmail.com>
+References: <20180312163222.23043-1-jsmart2021@gmail.com>
+Message-ID: <20180315202930.GD30695@localhost.localdomain>
 
-From: Alexander Duyck <alexander.h.duyck@intel.com>
+On Mon, Mar 12, 2018@09:32:22AM -0700, James Smart wrote:
+> The current nvme_fc code, when an io times out, will abort the io
+> on the fc link, then call the error recovery routine to reset the
+> controller. It is during the reset of the controller that the
+> transport will wait for all ios to be aborted before sending a
+> Disconnect LS to the target.
+> 
+> However, the reset routine only waits for the io which it generates
+> the abort for to complete. Any io that was aborted just prior to the
+> reset isn't in it's list to wait for. Thus the Disconnect is getting
+> sent before the aborts have completed.
+> 
+> Correct by removing the abort in the timeout handler. The reset will
+> generate the abort. At that point the timeout handler can be simplified
+> to request the reset (via the error handler) and restart the timeout
+> timer.
+> 
+> Also fixes a small typo in a comment in the reset handler.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
 
-Add a new driver called "pci-pf-stub" to act as a "white-list" for PF
-devices that provide no other functionality other then acting as a means of
-allocating a set of VFs. For now I only have one example ID provided by
-Amazon in terms of devices that require this functionality. The general
-idea is that in the future we will see other devices added as vendors come
-up with devices where the PF is more or less just a lightweight shim used
-to allocate VFs.
-
-Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
----
-
-v6: New driver to address concerns about Amazon devices left unsupported
-v7: Dropped pci_id table explanation from pci-pf-stub driver
-
- drivers/pci/Kconfig       |   12 ++++++++++
- drivers/pci/Makefile      |    2 ++
- drivers/pci/pci-pf-stub.c |   54 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/pci_ids.h   |    2 ++
- 4 files changed, 70 insertions(+)
- create mode 100644 drivers/pci/pci-pf-stub.c
-
-diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-index 34b56a8f8480..cdef2a2a9bc5 100644
---- a/drivers/pci/Kconfig
-+++ b/drivers/pci/Kconfig
-@@ -71,6 +71,18 @@ config PCI_STUB
- 
- 	  When in doubt, say N.
- 
-+config PCI_PF_STUB
-+	tristate "PCI PF Stub driver"
-+	depends on PCI
-+	depends on PCI_IOV
-+	help
-+	  Say Y or M here if you want to enable support for devices that
-+	  require SR-IOV support, while at the same time the PF itself is
-+	  not providing any actual services on the host itself such as
-+	  storage or networking.
-+
-+	  When in doubt, say N.
-+
- config XEN_PCIDEV_FRONTEND
-         tristate "Xen PCI Frontend"
-         depends on PCI && X86 && XEN
-diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
-index 941970936840..4e133d3df403 100644
---- a/drivers/pci/Makefile
-+++ b/drivers/pci/Makefile
-@@ -43,6 +43,8 @@ obj-$(CONFIG_PCI_SYSCALL) += syscall.o
- 
- obj-$(CONFIG_PCI_STUB) += pci-stub.o
- 
-+obj-$(CONFIG_PCI_PF_STUB) += pci-pf-stub.o
-+
- obj-$(CONFIG_PCI_ECAM) += ecam.o
- 
- obj-$(CONFIG_XEN_PCIDEV_FRONTEND) += xen-pcifront.o
-diff --git a/drivers/pci/pci-pf-stub.c b/drivers/pci/pci-pf-stub.c
-new file mode 100644
-index 000000000000..9d5fdf20d485
---- /dev/null
-+++ b/drivers/pci/pci-pf-stub.c
-@@ -0,0 +1,54 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* pci-pf-stub - simple stub driver for PCI SR-IOV PF device
-+ *
-+ * This driver is meant to act as a "white-list" for devices that provde
-+ * SR-IOV functionality while at the same time not actually needing a
-+ * driver of their own.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+
-+/**
-+ * pci_pf_stub_white_list - White list of devices to bind pci-pf-stub onto
-+ *
-+ * This table provides the list of IDs this driver is supposed to bind
-+ * onto. You could think of this as a list of "quirked" devices where we
-+ * are adding support for SR-IOV here since there are no other drivers
-+ * that they would be running under.
-+ */
-+static const struct pci_device_id pci_pf_stub_white_list[] = {
-+	{ PCI_VDEVICE(AMAZON, 0x0053) },
-+	/* required last entry */
-+	{ 0 }
-+};
-+MODULE_DEVICE_TABLE(pci, pci_pf_stub_white_list);
-+
-+static int pci_pf_stub_probe(struct pci_dev *dev,
-+			     const struct pci_device_id *id)
-+{
-+	pci_info(dev, "claimed by pci-pf-stub\n");
-+	return 0;
-+}
-+
-+static struct pci_driver pf_stub_driver = {
-+	.name			= "pci-pf-stub",
-+	.id_table		= pci_pf_stub_white_list,
-+	.probe			= pci_pf_stub_probe,
-+	.sriov_configure	= pci_sriov_configure_simple,
-+};
-+
-+static int __init pci_pf_stub_init(void)
-+{
-+	return pci_register_driver(&pf_stub_driver);
-+}
-+
-+static void __exit pci_pf_stub_exit(void)
-+{
-+	pci_unregister_driver(&pf_stub_driver);
-+}
-+
-+module_init(pci_pf_stub_init);
-+module_exit(pci_pf_stub_exit);
-+
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index a6b30667a331..b10621896017 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2548,6 +2548,8 @@
- #define PCI_VENDOR_ID_CIRCUITCO		0x1cc8
- #define PCI_SUBSYSTEM_ID_CIRCUITCO_MINNOWBOARD	0x0001
- 
-+#define PCI_VENDOR_ID_AMAZON		0x1d0f
-+
- #define PCI_VENDOR_ID_TEKRAM		0x1de1
- #define PCI_DEVICE_ID_TEKRAM_DC290	0xdc29
- 
+This sounds right to me despite being less familiar with the nvme-fc
+portion, and applied for 4.17.
