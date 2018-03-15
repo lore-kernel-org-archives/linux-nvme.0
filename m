@@ -1,24 +1,10 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 15 Mar 2018 14:30:08 -0600
-Subject: [PATCH] nvme_fc: fix ctrl create failures racing with workq items
-In-Reply-To: <20180313164807.8981-1-jsmart2021@gmail.com>
-References: <20180313164807.8981-1-jsmart2021@gmail.com>
-Message-ID: <20180315203007.GE30695@localhost.localdomain>
+Date: Thu, 15 Mar 2018 14:58:27 -0600
+Subject: [PATCH v3 1/2] nvmet-rdma: Don't flush system_wq by default
+ during remove_one
+In-Reply-To: <75b12992-0b5a-3ba5-74de-f12e0a3427d0@grimberg.me>
+References: <1519816359-27483-1-git-send-email-maxg@mellanox.com>
+ <75b12992-0b5a-3ba5-74de-f12e0a3427d0@grimberg.me>
+Message-ID: <20180315205826.GA720@localhost.localdomain>
 
-On Tue, Mar 13, 2018@09:48:07AM -0700, James Smart wrote:
-> If there are errors during initial controller create, the transport
-> will teardown the partially initialized controller struct and free
-> the ctlr memory.  Trouble is - most of those errors can occur due
-> to asynchronous events happening such io timeouts and subsystem
-> connectivity failures. Those failures invoke async workq items to
-> reset the controller and attempt reconnect.  Those may be in progress
-> as the main thread frees the ctrl memory, resulting in NULL ptr oops.
-> 
-> Prevent this from happening by having the main ctrl failure thread
-> changing state to DELETING followed by synchronously cancelling any
-> pending queued work item. The change of state will prevent the
-> scheduling of resets or reconnect events.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-
-Thanks, applied for 4.17.
+Thanks, series applied for 4.17 with Sagi's review.
