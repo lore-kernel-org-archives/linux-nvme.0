@@ -1,11 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 15 Mar 2018 15:35:52 +0100
-Subject: [PATCH v2 02/13] qla2xxx: Set IIDMA and fcport state before
- qla_nvme_register_remote()
-In-Reply-To: <20180315033504.12628-3-himanshu.madhani@cavium.com>
+Date: Thu, 15 Mar 2018 15:36:20 +0100
+Subject: [PATCH v2 03/13] qla2xxx: Add changes for devloss timeout in
+ driver
+In-Reply-To: <20180315033504.12628-4-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
- <20180315033504.12628-3-himanshu.madhani@cavium.com>
-Message-ID: <20180315143552.36d4nfhhmsfudfmv@linux-x5ow.site>
+ <20180315033504.12628-4-himanshu.madhani@cavium.com>
+Message-ID: <20180315143620.ihja7gwxgl3yighg@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
