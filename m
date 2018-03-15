@@ -1,15 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 15 Mar 2018 15:38:52 +0100
-Subject: [PATCH v2 04/13] qla2xxx: Restore ZIO threshold setting
-In-Reply-To: <20180315033504.12628-5-himanshu.madhani@cavium.com>
+Date: Thu, 15 Mar 2018 15:40:36 +0100
+Subject: [PATCH v2 05/13] qla2xxx: Add FC-NVMe abort processing
+In-Reply-To: <20180315033504.12628-6-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
- <20180315033504.12628-5-himanshu.madhani@cavium.com>
-Message-ID: <20180315143852.nkhhchpnf4mevpv3@linux-x5ow.site>
+ <20180315033504.12628-6-himanshu.madhani@cavium.com>
+Message-ID: <20180315144036.5sxpthyse5oa2atc@linux-x5ow.site>
 
-I'd really appreciate a more verbose changelog. No only on this patch,
-but in general. 
-
-Anyways,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
