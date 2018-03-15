@@ -1,8 +1,7 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 15 Mar 2018 00:00:27 -0400
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 14 Mar 2018 21:30:41 -0700
 Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <AA646409-BB63-4757-A250-CE7118D4D3B8@raithlin.com> (Stephen
- Bates's message of "Wed, 14 Mar 2018 19:34:53 +0000")
+In-Reply-To: <AA646409-BB63-4757-A250-CE7118D4D3B8@raithlin.com>
 References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
  <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
  <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
@@ -17,27 +16,15 @@ References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
  <b75e83ad-bb83-1f8d-1751-0989cc2493f1@deltatee.com>
  <CAPcyv4g-A6fqdTahxX=aONSCgp1eEvBb=ZVMzbZUWUDmqBbj7Q@mail.gmail.com>
  <AA646409-BB63-4757-A250-CE7118D4D3B8@raithlin.com>
-Message-ID: <yq1fu529eec.fsf@oracle.com>
+Message-ID: <CAPcyv4j4JOXYvf7e1x591oNPzk7b+pEDkzpFj3aBs+dXe5SqbQ@mail.gmail.com>
 
+On Wed, Mar 14, 2018@12:34 PM, Stephen  Bates <sbates@raithlin.com> wrote:
+>> P2P over PCI/PCI-X is quite common in devices like raid controllers.
+>
+> Hi Dan
+>
+> Do you mean between PCIe devices below the RAID controller? Isn't it pretty novel to be able to support PCIe EPs below a RAID controller (as opposed to SCSI based devices)?
 
-Stephen,
-
->> It would be useful if those configurations were not left behind so
->> that Linux could feasibly deploy offload code to a controller in the
->> PCI domain.
->    
-> Agreed. I think this would be great. Kind of like the XCOPY framework
-> that was proposed a while back for SCSI devices [1] but updated to also
-> include NVMe devices. That is definitely a use case we would like this
-> framework to support.
-
-I'm on my umpteenth rewrite of the block/SCSI offload code. It is not as
-protocol-agnostic as I would like in the block layer facing downwards.
-It has proven quite hard to reconcile token-based and EXTENDED COPY
-semantics along with the desire to support stacking. But from an
-application/filesystem perspective everything looks the same regardless
-of the intricacies of the device. Nothing is preventing us from
-supporting other protocols...
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+I'm thinking of the classic I/O offload card where there's an NTB to
+an internal PCI bus that has a storage controller and raid offload
+engines.
