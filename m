@@ -1,9 +1,9 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Wed, 14 Mar 2018 20:34:55 -0700
-Subject: [PATCH v2 04/13] qla2xxx: Restore ZIO threshold setting
+Date: Wed, 14 Mar 2018 20:35:01 -0700
+Subject: [PATCH v2 10/13] qla2xxx: Fix FC-NVMe IO abort during driver reset
 In-Reply-To: <20180315033504.12628-1-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
-Message-ID: <20180315033504.12628-5-himanshu.madhani@cavium.com>
+Message-ID: <20180315033504.12628-11-himanshu.madhani@cavium.com>
 
 From: Darren Trapp <darren.trapp@cavium.com>
 
@@ -11,24 +11,74 @@ Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/scsi/qla2xxx/qla_nvme.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/scsi/qla2xxx/qla_nvme.c | 17 ++++++++++++-----
+ drivers/scsi/qla2xxx/qla_nvme.h |  2 +-
+ drivers/scsi/qla2xxx/qla_os.c   |  2 +-
+ 3 files changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
-index a8e81fc14c44..5ee447680ddd 100644
+index 8c05df30c083..57275bc9fe14 100644
 --- a/drivers/scsi/qla2xxx/qla_nvme.c
 +++ b/drivers/scsi/qla2xxx/qla_nvme.c
-@@ -464,11 +464,6 @@ static int qla2x00_start_nvme_mq(srb_t *sp)
- 	/* Set chip new ring index. */
- 	WRT_REG_DWORD(req->req_q_in, req->ring_index);
+@@ -489,6 +489,9 @@ static int qla_nvme_post_cmd(struct nvme_fc_local_port *lport,
  
--	/* Manage unprocessed RIO/ZIO commands in response queue. */
--	if (vha->flags.process_response_queue &&
--	    rsp->ring_ptr->signature != RESPONSE_PROCESSED)
--		qla24xx_process_response_queue(vha, rsp);
--
- queuing_error:
- 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
- 	return rval;
+ 	vha = fcport->vha;
+ 
++	if (test_bit(ABORT_ISP_ACTIVE, &vha->dpc_flags))
++		return rval;
++
+ 	/*
+ 	 * If we know the dev is going away while the transport is still sending
+ 	 * IO's return busy back to stall the IO Q.  This happens when the
+@@ -597,14 +600,18 @@ static int qla_nvme_wait_on_command(srb_t *sp)
+ 	return ret;
+ }
+ 
+-void qla_nvme_abort(struct qla_hw_data *ha, struct srb *sp)
++void qla_nvme_abort(struct qla_hw_data *ha, struct srb *sp, int res)
+ {
+ 	int rval;
+ 
+-	rval = ha->isp_ops->abort_command(sp);
+-	if (!rval && !qla_nvme_wait_on_command(sp))
+-		ql_log(ql_log_warn, NULL, 0x2112,
+-		    "nvme_wait_on_comand timed out waiting on sp=%p\n", sp);
++	if (!test_bit(ABORT_ISP_ACTIVE, &sp->vha->dpc_flags)) {
++		rval = ha->isp_ops->abort_command(sp);
++		if (!rval && !qla_nvme_wait_on_command(sp))
++			ql_log(ql_log_warn, NULL, 0x2112,
++			    "timed out waiting on sp=%p\n", sp);
++	} else {
++		sp->done(sp, res);
++	}
+ }
+ 
+ static void qla_nvme_unregister_remote_port(struct work_struct *work)
+diff --git a/drivers/scsi/qla2xxx/qla_nvme.h b/drivers/scsi/qla2xxx/qla_nvme.h
+index 8df379478269..816854ada654 100644
+--- a/drivers/scsi/qla2xxx/qla_nvme.h
++++ b/drivers/scsi/qla2xxx/qla_nvme.h
+@@ -145,7 +145,7 @@ struct pt_ls4_rx_unsol {
+ void qla_nvme_register_hba(struct scsi_qla_host *);
+ int  qla_nvme_register_remote(struct scsi_qla_host *, struct fc_port *);
+ void qla_nvme_delete(struct scsi_qla_host *);
+-void qla_nvme_abort(struct qla_hw_data *, struct srb *sp);
++void qla_nvme_abort(struct qla_hw_data *, struct srb *sp, int res);
+ void qla24xx_nvme_ls4_iocb(struct scsi_qla_host *, struct pt_ls4_request *,
+     struct req_que *);
+ void qla24xx_async_gffid_sp_done(void *, int);
+diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+index 69b46c8b9dd2..7fe265aca617 100644
+--- a/drivers/scsi/qla2xxx/qla_os.c
++++ b/drivers/scsi/qla2xxx/qla_os.c
+@@ -1743,7 +1743,7 @@ __qla2x00_abort_all_cmds(struct qla_qpair *qp, int res)
+ 					sp_get(sp);
+ 					spin_unlock_irqrestore(qp->qp_lock_ptr,
+ 					    flags);
+-					qla_nvme_abort(ha, sp);
++					qla_nvme_abort(ha, sp, res);
+ 					spin_lock_irqsave(qp->qp_lock_ptr,
+ 					    flags);
+ 				} else if (GET_CMD_SP(sp) &&
 -- 
 2.12.0
