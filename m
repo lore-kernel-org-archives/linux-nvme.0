@@ -1,90 +1,123 @@
 From: himanshu.madhani@cavium.com (Himanshu Madhani)
-Date: Wed, 14 Mar 2018 20:35:00 -0700
-Subject: [PATCH v2 09/13] qla2xxx: Fix retry for PRLI RJT with reason of BUSY
+Date: Wed, 14 Mar 2018 20:34:59 -0700
+Subject: [PATCH v2 08/13] qla2xxx: Remove nvme_done_list
 In-Reply-To: <20180315033504.12628-1-himanshu.madhani@cavium.com>
 References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
-Message-ID: <20180315033504.12628-10-himanshu.madhani@cavium.com>
+Message-ID: <20180315033504.12628-9-himanshu.madhani@cavium.com>
 
 From: Darren Trapp <darren.trapp@cavium.com>
 
 Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
 Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/scsi/qla2xxx/qla_dbg.c  |  2 +-
- drivers/scsi/qla2xxx/qla_init.c | 13 ++++++++++++-
- drivers/scsi/qla2xxx/qla_mbx.c  |  7 +++++--
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ drivers/scsi/qla2xxx/qla_def.h  |  1 -
+ drivers/scsi/qla2xxx/qla_gbl.h  |  2 --
+ drivers/scsi/qla2xxx/qla_init.c |  1 -
+ drivers/scsi/qla2xxx/qla_mid.c  |  6 ------
+ drivers/scsi/qla2xxx/qla_nvme.c | 13 ++-----------
+ drivers/scsi/qla2xxx/qla_os.c   |  1 -
+ 6 files changed, 2 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/scsi/qla2xxx/qla_dbg.c b/drivers/scsi/qla2xxx/qla_dbg.c
-index 7e9d8f08b9d5..1abc8a9064b3 100644
---- a/drivers/scsi/qla2xxx/qla_dbg.c
-+++ b/drivers/scsi/qla2xxx/qla_dbg.c
-@@ -60,7 +60,7 @@
-  * |                              |                    | 0xb13c-0xb140  |
-  * |                              |                    | 0xb149		|
-  * | MultiQ                       |       0xc010       |		|
-- * | Misc                         |       0xd302       | 0xd031-0xd0ff	|
-+ * | Misc                         |       0xd303       | 0xd031-0xd0ff	|
-  * |                              |                    | 0xd101-0xd1fe	|
-  * |                              |                    | 0xd214-0xd2fe	|
-  * | Target Mode		  |	  0xe081       |		|
+diff --git a/drivers/scsi/qla2xxx/qla_def.h b/drivers/scsi/qla2xxx/qla_def.h
+index 944626cc84d9..576b72bef01d 100644
+--- a/drivers/scsi/qla2xxx/qla_def.h
++++ b/drivers/scsi/qla2xxx/qla_def.h
+@@ -3465,7 +3465,6 @@ struct qla_qpair {
+ 	struct work_struct q_work;
+ 	struct list_head qp_list_elem; /* vha->qp_list */
+ 	struct list_head hints_list;
+-	struct list_head nvme_done_list;
+ 	uint16_t cpuid;
+ 	struct qla_tgt_counters tgt_counters;
+ };
+diff --git a/drivers/scsi/qla2xxx/qla_gbl.h b/drivers/scsi/qla2xxx/qla_gbl.h
+index e9295398050c..19f44e12926b 100644
+--- a/drivers/scsi/qla2xxx/qla_gbl.h
++++ b/drivers/scsi/qla2xxx/qla_gbl.h
+@@ -896,6 +896,4 @@ void qlt_update_host_map(struct scsi_qla_host *, port_id_t);
+ void qlt_remove_target_resources(struct qla_hw_data *);
+ void qlt_clr_qp_table(struct scsi_qla_host *vha);
+ 
+-void qla_nvme_cmpl_io(struct srb_iocb *);
+-
+ #endif /* _QLA_GBL_H */
 diff --git a/drivers/scsi/qla2xxx/qla_init.c b/drivers/scsi/qla2xxx/qla_init.c
-index 0805483645d7..5520477a66d9 100644
+index dec3e2cdaffa..0805483645d7 100644
 --- a/drivers/scsi/qla2xxx/qla_init.c
 +++ b/drivers/scsi/qla2xxx/qla_init.c
-@@ -875,7 +875,6 @@ qla24xx_async_prli(struct scsi_qla_host *vha, fc_port_t *fcport)
- 		return rval;
+@@ -8408,7 +8408,6 @@ struct qla_qpair *qla2xxx_create_qpair(struct scsi_qla_host *vha, int qos,
+ 		qpair->vp_idx = vp_idx;
+ 		qpair->fw_started = ha->flags.fw_started;
+ 		INIT_LIST_HEAD(&qpair->hints_list);
+-		INIT_LIST_HEAD(&qpair->nvme_done_list);
+ 		qpair->chip_reset = ha->base_qpair->chip_reset;
+ 		qpair->enable_class_2 = ha->base_qpair->enable_class_2;
+ 		qpair->enable_explicit_conf =
+diff --git a/drivers/scsi/qla2xxx/qla_mid.c b/drivers/scsi/qla2xxx/qla_mid.c
+index e965b16f21e3..da85cd89639f 100644
+--- a/drivers/scsi/qla2xxx/qla_mid.c
++++ b/drivers/scsi/qla2xxx/qla_mid.c
+@@ -778,18 +778,12 @@ static void qla_do_work(struct work_struct *work)
+ 	struct qla_qpair *qpair = container_of(work, struct qla_qpair, q_work);
+ 	struct scsi_qla_host *vha;
+ 	struct qla_hw_data *ha = qpair->hw;
+-	struct srb_iocb	*nvme, *nxt_nvme;
  
- 	if (fcport->fw_login_state == DSC_LS_PLOGI_PEND ||
--	    fcport->fw_login_state == DSC_LS_PLOGI_COMP ||
- 	    fcport->fw_login_state == DSC_LS_PRLI_PEND)
- 		return rval;
+ 	spin_lock_irqsave(&qpair->qp_lock, flags);
+ 	vha = pci_get_drvdata(ha->pdev);
+ 	qla24xx_process_response_queue(vha, qpair->rsp);
+ 	spin_unlock_irqrestore(&qpair->qp_lock, flags);
  
-@@ -1240,6 +1239,11 @@ int qla24xx_fcport_handle_login(struct scsi_qla_host *vha, fc_port_t *fcport)
- 		qla2x00_post_async_adisc_work(vha, fcport, data);
- 		break;
+-	list_for_each_entry_safe(nvme, nxt_nvme, &qpair->nvme_done_list,
+-		    u.nvme.entry) {
+-		list_del_init(&nvme->u.nvme.entry);
+-		qla_nvme_cmpl_io(nvme);
+-	}
+ }
  
-+	case DSC_LOGIN_PEND:
-+		if (fcport->fw_login_state == DSC_LS_PLOGI_COMP)
-+			qla24xx_post_prli_work(vha, fcport);
-+		break;
-+
- 	default:
- 		break;
- 	}
-@@ -1643,6 +1647,13 @@ qla24xx_handle_prli_done_event(struct scsi_qla_host *vha, struct event_arg *ea)
- 		qla24xx_post_gpdb_work(vha, ea->fcport, 0);
- 		break;
- 	default:
-+		if ((ea->iop[0] == LSC_SCODE_ELS_REJECT) &&
-+		    (ea->iop[1] == 0x50000)) {   /* reson 5=busy expl:0x0 */
-+			set_bit(RELOGIN_NEEDED, &vha->dpc_flags);
-+			ea->fcport->fw_login_state = DSC_LS_PLOGI_COMP;
-+			break;
-+		}
-+
- 		if (ea->fcport->n2n_flag) {
- 			ql_dbg(ql_dbg_disc, vha, 0x2118,
- 				"%s %d %8phC post fc4 prli\n",
-diff --git a/drivers/scsi/qla2xxx/qla_mbx.c b/drivers/scsi/qla2xxx/qla_mbx.c
-index 735079ba691c..c9a134ae0d2b 100644
---- a/drivers/scsi/qla2xxx/qla_mbx.c
-+++ b/drivers/scsi/qla2xxx/qla_mbx.c
-@@ -1025,9 +1025,12 @@ qla2x00_get_fw_version(scsi_qla_host_t *vha)
- 		 * FW supports nvme and driver load parameter requested nvme.
- 		 * BIT 26 of fw_attributes indicates NVMe support.
- 		 */
--		if ((ha->fw_attributes_h & 0x400) && ql2xnvmeenable)
-+		if ((ha->fw_attributes_h & 0x400) && ql2xnvmeenable) {
- 			vha->flags.nvme_enabled = 1;
+ /* create response queue */
+diff --git a/drivers/scsi/qla2xxx/qla_nvme.c b/drivers/scsi/qla2xxx/qla_nvme.c
+index adeda6a4e4fd..8c05df30c083 100644
+--- a/drivers/scsi/qla2xxx/qla_nvme.c
++++ b/drivers/scsi/qla2xxx/qla_nvme.c
+@@ -149,16 +149,6 @@ static void qla_nvme_sp_ls_done(void *ptr, int res)
+ 	qla2x00_rel_sp(sp);
+ }
+ 
+-void qla_nvme_cmpl_io(struct srb_iocb *nvme)
+-{
+-	srb_t *sp;
+-	struct nvmefc_fcp_req *fd = nvme->u.nvme.desc;
 -
-+			ql_log(ql_log_info, vha, 0xd302,
-+			    "%s: FC-NVMe is Enabled (0x%x)\n",
-+			     __func__, ha->fw_attributes_h);
-+		}
- 	}
+-	sp = container_of(nvme, srb_t, u.iocb_cmd);
+-	fd->done(fd);
+-	qla2xxx_rel_qpair_sp(sp->qpair, sp);
+-}
+-
+ static void qla_nvme_sp_done(void *ptr, int res)
+ {
+ 	srb_t *sp = ptr;
+@@ -177,7 +167,8 @@ static void qla_nvme_sp_done(void *ptr, int res)
+ 		fd->status = NVME_SC_INTERNAL;
  
- 	if (IS_QLA27XX(ha)) {
+ 	fd->rcv_rsplen = nvme->u.nvme.rsp_pyld_len;
+-	list_add_tail(&nvme->u.nvme.entry, &sp->qpair->nvme_done_list);
++	fd->done(fd);
++	qla2xxx_rel_qpair_sp(sp->qpair, sp);
+ 
+ 	return;
+ }
+diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
+index 5c5dcca4d1da..69b46c8b9dd2 100644
+--- a/drivers/scsi/qla2xxx/qla_os.c
++++ b/drivers/scsi/qla2xxx/qla_os.c
+@@ -397,7 +397,6 @@ static void qla_init_base_qpair(struct scsi_qla_host *vha, struct req_que *req,
+ 	ha->base_qpair->use_shadow_reg = IS_SHADOW_REG_CAPABLE(ha) ? 1 : 0;
+ 	ha->base_qpair->msix = &ha->msix_entries[QLA_MSIX_RSP_Q];
+ 	INIT_LIST_HEAD(&ha->base_qpair->hints_list);
+-	INIT_LIST_HEAD(&ha->base_qpair->nvme_done_list);
+ 	ha->base_qpair->enable_class_2 = ql2xenableclass2;
+ 	/* init qpair to this cpu. Will adjust at run time. */
+ 	qla_cpu_update(rsp->qpair, raw_smp_processor_id());
 -- 
 2.12.0
