@@ -1,69 +1,30 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 16 Mar 2018 09:22:42 -0600
-Subject: [PATCH stable-4.15] nvme: fix subsystem multiple controllers support
- check
-Message-ID: <20180316152242.2862-1-keith.busch@intel.com>
+Date: Fri, 16 Mar 2018 10:01:10 -0600
+Subject: [GIT PULL] nvme fix for 4.16-rc6
+Message-ID: <20180316160110.GC720@localhost.localdomain>
 
-From: Israel Rukshin <israelr@mellanox.com>
+Hi Jens,
 
-Commit b837b28394fb76993c28bb242db7061ee0417da6 upstream.
+One last fix from Jianchao to address a troubling scenario Ming identified
+with offlining CPUs that could leave nvme controllers unusable. We can
+not allow that to occur, so we wish to include a new IRQ spread that
+prevents that situation.
 
-There is a problem when another module (e.g. nvmet) takes a reference on
-the nvme block device and the physical nvme drive is removed.  In that
-case nvme_free_ctrl() will not be called and the controller state will be
-"deleting" or "dead" unless nvmet module releases the block device.
-Later on, the same nvme drive probes back and nvme_init_subsystem() will
-be called and fail due to duplicate subnqn (if the nvme device doesn't
-support subsystem with multiple controllers). This will cause a probe
-failure.  This commit changes the check of multiple controllers support
-at nvme_init_subsystem() by not counting all the controllers at "dead" or
-"deleting" state (this is safe because controllers at this state will
-never be active again).
+The following changes since commit 0c8efd610b58cb23cefdfa12015799079aef94ae:
 
-Fixes: ab9e00cc72fa ("nvme: track subsystems")
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+  Linux 4.16-rc5 (2018-03-11 17:25:09 -0700)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3551fbd6fe41..935593032123 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2052,6 +2052,22 @@ static const struct attribute_group *nvme_subsys_attrs_groups[] = {
- 	NULL,
- };
- 
-+static int nvme_active_ctrls(struct nvme_subsystem *subsys)
-+{
-+	int count = 0;
-+	struct nvme_ctrl *ctrl;
-+
-+	mutex_lock(&subsys->lock);
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-+		if (ctrl->state != NVME_CTRL_DELETING &&
-+		    ctrl->state != NVME_CTRL_DEAD)
-+			count++;
-+	}
-+	mutex_unlock(&subsys->lock);
-+
-+	return count;
-+}
-+
- static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
- 	struct nvme_subsystem *subsys, *found;
-@@ -2090,7 +2106,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 		 * Verify that the subsystem actually supports multiple
- 		 * controllers, else bail out.
- 		 */
--		if (!(id->cmic & (1 << 1))) {
-+		if (nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
- 			dev_err(ctrl->device,
- 				"ignoring ctrl due to duplicate subnqn (%s).\n",
- 				found->subnqn);
--- 
-2.14.3
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.16-rc6
+
+for you to fetch changes up to 3aadd3b10f018f26c451f8a0feac7605c2deb0c7:
+
+  nvme-pci: assign separate irq vectors for adminq and ioq1 (2018-03-13 11:27:57 -0600)
+
+----------------------------------------------------------------
+Jianchao Wang (1):
+      nvme-pci: assign separate irq vectors for adminq and ioq1
+
+ drivers/nvme/host/pci.c | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
