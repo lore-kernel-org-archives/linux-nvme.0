@@ -1,11 +1,21 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 19 Mar 2018 11:08:46 +0100
-Subject: [PATCH 1/2] nvmet: Add fabrics ops to port
-In-Reply-To: <1521452867-13619-1-git-send-email-israelr@mellanox.com>
+Date: Mon, 19 Mar 2018 11:11:43 +0100
+Subject: [PATCH 2/2] nvmet: Add port transport active flag
+In-Reply-To: <1521452867-13619-2-git-send-email-israelr@mellanox.com>
 References: <1521452867-13619-1-git-send-email-israelr@mellanox.com>
-Message-ID: <20180319100846.ze7nalslurq6wn3x@linux-x5ow.site>
+ <1521452867-13619-2-git-send-email-israelr@mellanox.com>
+Message-ID: <20180319101143.lfsy2lksp3zl5lcr@linux-x5ow.site>
 
-Looks good,
+On Mon, Mar 19, 2018@09:47:47AM +0000, Israel Rukshin wrote:
+> tractive port flag means that nvmet transport is active and ready for
+> receiving requests from host.
+> It differ from enabled port state (port with subsystem symbolic link)
+differs^
+
+
+Also, this would need an accompanying nvmetcli change as well.
+
+Anyways,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
