@@ -1,21 +1,29 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 20 Mar 2018 09:48:02 +0100
-Subject: [PATCH] nvme: Skip checking heads without namespaces
-In-Reply-To: <20180319165350.9879-1-keith.busch@intel.com>
-References: <20180319165350.9879-1-keith.busch@intel.com>
-Message-ID: <20180320084802.GA16371@lst.de>
+From: sim@linux.vnet.ibm.com (Narasimhan V)
+Date: Tue, 20 Mar 2018 14:29:43 +0530
+Subject: nguid for nvme over fabrics
+Message-ID: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
 
-On Mon, Mar 19, 2018@10:53:50AM -0600, Keith Busch wrote:
-> If a task is holding a reference to a namespace on a removed controller,
-> the head will not be released. If the same controller is added again
-> later, its namespaces may not be successfully added. Instead, the user
-> will see kernel message "Duplicate IDs for nsid <X>".
-> 
-> This patch fixes that by skipping heads that don't have namespaces when
-> considering if a new namespace is safe to add.
+Hi,
 
-Delayed reference strike once again, sigh.
+I am trying nvme over fabrics, and found this: nguid is set to 0s by 
+default for all devices.
 
-Looks fine:
+So, nguid can be same (0s in this case) for multiple devices. Is this 
+valid ?
+Also, same nguid for multiple devices could be set, by the above 
+scenario.
+No errors/warnings from either the nvme initiator/target.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+ From spec, I see this:
+Namespace Globally Unique Identifier (NGUID): This field contains a 
+128-bit value that is
+globally  unique and assigned to  the  namespace  when  the  namespace  
+is  created.  This  field
+remains fixed throughout the life of the namespace and is preserved 
+across namespace and
+controller operations (e.g., controller reset,  namespace format, etc.).
+
+
+-- 
+Regards
+Narasimhan V
