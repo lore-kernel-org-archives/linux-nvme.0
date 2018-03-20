@@ -1,17 +1,22 @@
-From: muthucrazy90@gmail.com (muthu crazy)
-Date: Tue, 20 Mar 2018 09:51:58 +0530
-Subject: Nvme over fabrics controller reset issue
-Message-ID: <CADLzrv8jrv4SMYa9BOFOi4rkyBkfYQD5QJ64QVqyXrCnDddVKg@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 20 Mar 2018 08:22:55 +0100
+Subject: [PATCH] nvme-pci: Fix NULL ptr deref in EEH code
+In-Reply-To: <20180320002242.10416-1-mikey@neuling.org>
+References: <20180320002242.10416-1-mikey@neuling.org>
+Message-ID: <20180320072255.GA15059@lst.de>
 
-Hi All,
+On Tue, Mar 20, 2018@11:22:42AM +1100, Michael Neuling wrote:
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b6f43b738f..404b346e3c 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2626,6 +2626,9 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+>  {
+>  	struct nvme_dev *dev = pci_get_drvdata(pdev);
+>  
+> +	if (!dev)
+> +		return PCI_ERS_RESULT_NEED_RESET;
 
-I found a strange behaviour when I used NVMe Fabrics target.  From
-Host I sent a Set property command to make CC.EN=0. And then again I
-made CC.EN=1. I was expecting all the transport and nvme queus will be
-deleted. But didn't happen, rather queus are retained connection is
-still active.
-
- Isn't violation of NVMe spec. Is there any reason for implementing this way?
-
-Thanks and regards,
-Muthu
+This implies the method has been called before ->probe has been finished
+or after ->remove has been called.  That would be fundamentally racy
+and needs to be fixed in the PCI layer, not papered over in drivers.
