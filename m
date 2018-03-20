@@ -1,18 +1,17 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Mon, 19 Mar 2018 23:20:58 -0400
-Subject: [PATCH v2 00/13] qla2xxx: Fixes for FC-NVMe
-In-Reply-To: <20180315033504.12628-1-himanshu.madhani@cavium.com> (Himanshu
- Madhani's message of "Wed, 14 Mar 2018 20:34:51 -0700")
-References: <20180315033504.12628-1-himanshu.madhani@cavium.com>
-Message-ID: <yq1efkf1lgl.fsf@oracle.com>
+From: muthucrazy90@gmail.com (muthu crazy)
+Date: Tue, 20 Mar 2018 09:51:58 +0530
+Subject: Nvme over fabrics controller reset issue
+Message-ID: <CADLzrv8jrv4SMYa9BOFOi4rkyBkfYQD5QJ64QVqyXrCnDddVKg@mail.gmail.com>
 
+Hi All,
 
-Himanshu,
+I found a strange behaviour when I used NVMe Fabrics target.  From
+Host I sent a Set property command to make CC.EN=0. And then again I
+made CC.EN=1. I was expecting all the transport and nvme queus will be
+deleted. But didn't happen, rather queus are retained connection is
+still active.
 
-> Please apply this series to 4.17/scsi-queue at your earliest
-> convenience.
+ Isn't violation of NVMe spec. Is there any reason for implementing this way?
 
-Patch 12 does not apply to 4.17/scsi-queue. Please fix and resubmit.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Thanks and regards,
+Muthu
