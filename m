@@ -1,8 +1,9 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 20 Mar 2018 16:07:17 -0600
-Subject: [PATCH 1/2] nvmet: refactor configfs transport type handling
-In-Reply-To: <20180320194135.7615-1-hch@lst.de>
-References: <20180320194135.7615-1-hch@lst.de>
-Message-ID: <20180320220716.GA12909@localhost.localdomain>
+Date: Tue, 20 Mar 2018 16:11:32 -0600
+Subject: [PATCH 1/1] nvmet: move device_uuid configfs attr definition to
+ suitable place
+In-Reply-To: <1521548441-24490-1-git-send-email-maxg@mellanox.com>
+References: <1521548441-24490-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20180320221131.GB12909@localhost.localdomain>
 
-Both look good. Applied to nvme-4.17.
+Applied for nvme-4.17.
