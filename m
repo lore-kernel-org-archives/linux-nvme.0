@@ -1,29 +1,25 @@
-From: sim@linux.vnet.ibm.com (Narasimhan V)
-Date: Tue, 20 Mar 2018 14:29:43 +0530
-Subject: nguid for nvme over fabrics
-Message-ID: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
-
-Hi,
-
-I am trying nvme over fabrics, and found this: nguid is set to 0s by 
-default for all devices.
-
-So, nguid can be same (0s in this case) for multiple devices. Is this 
-valid ?
-Also, same nguid for multiple devices could be set, by the above 
-scenario.
-No errors/warnings from either the nvme initiator/target.
-
- From spec, I see this:
-Namespace Globally Unique Identifier (NGUID): This field contains a 
-128-bit value that is
-globally  unique and assigned to  the  namespace  when  the  namespace  
-is  created.  This  field
-remains fixed throughout the life of the namespace and is preserved 
-across namespace and
-controller operations (e.g., controller reset,  namespace format, etc.).
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 20 Mar 2018 12:45:47 +0200
+Subject: [PATCH 2/2] nvmet: Add port transport active flag
+In-Reply-To: <1521452867-13619-2-git-send-email-israelr@mellanox.com>
+References: <1521452867-13619-1-git-send-email-israelr@mellanox.com>
+ <1521452867-13619-2-git-send-email-israelr@mellanox.com>
+Message-ID: <e95daee3-691e-0d3f-b5da-2fca15c4d22a@grimberg.me>
 
 
--- 
-Regards
-Narasimhan V
+> tractive port flag means that nvmet transport is active and ready for
+> receiving requests from host.
+> It differ from enabled port state (port with subsystem symbolic link)
+> which doesn't guarantee this.
+> The tractive flag is necessary in case the physical ports become down
+> while nvmet ports are enabled.
+> In this case the port state remains enabled but tractive flag becomes false.
+> 
+> The tractive flag will help the administrator to monitor the port state
+> from transport point of view.
+> The commit also add the ability to activate the port by simply writing
+> to tractive at the configfs.
+> e.g.: echo 1 > config/nvmet/ports/1/tractive
+
+Why this is a write-able variable? this is a state. I would rename it
+to be trstate.
