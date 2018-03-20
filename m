@@ -1,117 +1,184 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 20 Mar 2018 20:41:34 +0100
-Subject: [PATCH 1/2] nvmet: refactor configfs transport type handling
-Message-ID: <20180320194135.7615-1-hch@lst.de>
-
-Have a common table of mappings from numerical transport ids to names, and
-zero the transport specific area in common code in nvmet_addr_trtype_store.
+Date: Tue, 20 Mar 2018 20:41:35 +0100
+Subject: [PATCH 2/2] nvmet: constify struct nvmet_fabrics_ops
+In-Reply-To: <20180320194135.7615-1-hch@lst.de>
+References: <20180320194135.7615-1-hch@lst.de>
+Message-ID: <20180320194135.7615-2-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/configfs.c | 61 ++++++++++++++++++++----------------------
- 1 file changed, 29 insertions(+), 32 deletions(-)
+ drivers/nvme/target/core.c  | 12 ++++++------
+ drivers/nvme/target/fc.c    |  4 ++--
+ drivers/nvme/target/loop.c  |  4 ++--
+ drivers/nvme/target/nvmet.h | 10 +++++-----
+ drivers/nvme/target/rdma.c  |  4 ++--
+ 5 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index e6b2d2af81b6..eacf196e6891 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -23,6 +23,15 @@
- static const struct config_item_type nvmet_host_type;
- static const struct config_item_type nvmet_subsys_type;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index a78029e4e5f4..e95424f172fd 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -18,7 +18,7 @@
  
-+static const struct nvmet_transport_name {
-+	u8		type;
-+	const char	*name;
-+} nvmet_transport_names[] = {
-+	{ NVMF_TRTYPE_RDMA,	"rdma" },
-+	{ NVMF_TRTYPE_FC,	"fc" },
-+	{ NVMF_TRTYPE_LOOP,	"loop" },
-+};
-+
+ #include "nvmet.h"
+ 
+-static struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
++static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+ static DEFINE_IDA(cntlid_ida);
+ 
  /*
-  * nvmet_port Generic ConfigFS definitions.
-  * Used in any place in the ConfigFS tree that refers to an address.
-@@ -208,43 +217,30 @@ CONFIGFS_ATTR(nvmet_, addr_trsvcid);
- static ssize_t nvmet_addr_trtype_show(struct config_item *item,
- 		char *page)
- {
--	switch (to_nvmet_port(item)->disc_addr.trtype) {
--	case NVMF_TRTYPE_RDMA:
--		return sprintf(page, "rdma\n");
--	case NVMF_TRTYPE_LOOP:
--		return sprintf(page, "loop\n");
--	case NVMF_TRTYPE_FC:
--		return sprintf(page, "fc\n");
--	default:
--		return sprintf(page, "\n");
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(nvmet_transport_names); i++) {
-+		if (port->disc_addr.trtype != nvmet_transport_names[i].type)
-+			continue;
-+		return sprintf(page, "%s\n", nvmet_transport_names[i].name);
- 	}
-+
-+	return sprintf(page, "\n");
+@@ -137,7 +137,7 @@ static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 	schedule_work(&ctrl->async_event_work);
  }
  
- static void nvmet_port_init_tsas_rdma(struct nvmet_port *port)
+-int nvmet_register_transport(struct nvmet_fabrics_ops *ops)
++int nvmet_register_transport(const struct nvmet_fabrics_ops *ops)
  {
--	port->disc_addr.trtype = NVMF_TRTYPE_RDMA;
--	memset(&port->disc_addr.tsas.rdma, 0, NVMF_TSAS_SIZE);
- 	port->disc_addr.tsas.rdma.qptype = NVMF_RDMA_QPTYPE_CONNECTED;
- 	port->disc_addr.tsas.rdma.prtype = NVMF_RDMA_PRTYPE_NOT_SPECIFIED;
- 	port->disc_addr.tsas.rdma.cms = NVMF_RDMA_CMS_RDMA_CM;
+ 	int ret = 0;
+ 
+@@ -152,7 +152,7 @@ int nvmet_register_transport(struct nvmet_fabrics_ops *ops)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_register_transport);
+ 
+-void nvmet_unregister_transport(struct nvmet_fabrics_ops *ops)
++void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops)
+ {
+ 	down_write(&nvmet_config_sem);
+ 	nvmet_transports[ops->type] = NULL;
+@@ -162,7 +162,7 @@ EXPORT_SYMBOL_GPL(nvmet_unregister_transport);
+ 
+ int nvmet_enable_port(struct nvmet_port *port)
+ {
+-	struct nvmet_fabrics_ops *ops;
++	const struct nvmet_fabrics_ops *ops;
+ 	int ret;
+ 
+ 	lockdep_assert_held(&nvmet_config_sem);
+@@ -195,7 +195,7 @@ int nvmet_enable_port(struct nvmet_port *port)
+ 
+ void nvmet_disable_port(struct nvmet_port *port)
+ {
+-	struct nvmet_fabrics_ops *ops;
++	const struct nvmet_fabrics_ops *ops;
+ 
+ 	lockdep_assert_held(&nvmet_config_sem);
+ 
+@@ -500,7 +500,7 @@ int nvmet_sq_init(struct nvmet_sq *sq)
+ EXPORT_SYMBOL_GPL(nvmet_sq_init);
+ 
+ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+-		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops)
++		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops)
+ {
+ 	u8 flags = req->cmd->common.flags;
+ 	u16 status;
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 9b39a6cb1935..aae3fedeb075 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1550,7 +1550,7 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
+ 
+ static void nvmet_fc_fcp_nvme_cmd_done(struct nvmet_req *nvme_req);
+ 
+-static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops;
++static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops;
+ 
+ static void
+ nvmet_fc_xmt_ls_rsp_done(struct nvmefc_tgt_ls_req *lsreq)
+@@ -2505,7 +2505,7 @@ nvmet_fc_remove_port(struct nvmet_port *port)
+ 	/* nothing to do */
  }
  
--static void nvmet_port_init_tsas_loop(struct nvmet_port *port)
--{
--	port->disc_addr.trtype = NVMF_TRTYPE_LOOP;
--	memset(&port->disc_addr.tsas, 0, NVMF_TSAS_SIZE);
--}
--
--static void nvmet_port_init_tsas_fc(struct nvmet_port *port)
--{
--	port->disc_addr.trtype = NVMF_TRTYPE_FC;
--	memset(&port->disc_addr.tsas, 0, NVMF_TSAS_SIZE);
--}
--
- static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 		const char *page, size_t count)
+-static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
++static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_FC,
+ 	.msdbd			= 1,
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 861d1509b22b..a350765d2d5c 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -71,7 +71,7 @@ static DEFINE_MUTEX(nvme_loop_ctrl_mutex);
+ static void nvme_loop_queue_response(struct nvmet_req *nvme_req);
+ static void nvme_loop_delete_ctrl(struct nvmet_ctrl *ctrl);
+ 
+-static struct nvmet_fabrics_ops nvme_loop_ops;
++static const struct nvmet_fabrics_ops nvme_loop_ops;
+ 
+ static inline int nvme_loop_queue_idx(struct nvme_loop_queue *queue)
  {
- 	struct nvmet_port *port = to_nvmet_port(item);
-+	int i;
- 
- 	if (port->enabled) {
- 		pr_err("Cannot modify address while enabled\n");
-@@ -252,17 +248,18 @@ static ssize_t nvmet_addr_trtype_store(struct config_item *item,
- 		return -EACCES;
- 	}
- 
--	if (sysfs_streq(page, "rdma")) {
--		nvmet_port_init_tsas_rdma(port);
--	} else if (sysfs_streq(page, "loop")) {
--		nvmet_port_init_tsas_loop(port);
--	} else if (sysfs_streq(page, "fc")) {
--		nvmet_port_init_tsas_fc(port);
--	} else {
--		pr_err("Invalid value '%s' for trtype\n", page);
--		return -EINVAL;
-+	for (i = 0; i < ARRAY_SIZE(nvmet_transport_names); i++) {
-+		if (sysfs_streq(page, nvmet_transport_names[i].name))
-+			goto found;
- 	}
- 
-+	pr_err("Invalid value '%s' for trtype\n", page);
-+	return -EINVAL;
-+found:
-+	memset(&port->disc_addr.tsas, 0, NVMF_TSAS_SIZE);
-+	port->disc_addr.trtype = nvmet_transport_names[i].type;
-+	if (port->disc_addr.trtype == NVMF_TRTYPE_RDMA)
-+		nvmet_port_init_tsas_rdma(port);
- 	return count;
+@@ -675,7 +675,7 @@ static void nvme_loop_remove_port(struct nvmet_port *port)
+ 		nvmet_loop_port = NULL;
  }
  
+-static struct nvmet_fabrics_ops nvme_loop_ops = {
++static const struct nvmet_fabrics_ops nvme_loop_ops = {
+ 	.owner		= THIS_MODULE,
+ 	.type		= NVMF_TRTYPE_LOOP,
+ 	.add_port	= nvme_loop_add_port,
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 417f6c0331cc..8aecef5f818b 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -130,7 +130,7 @@ struct nvmet_ctrl {
+ 	struct delayed_work	ka_work;
+ 	struct work_struct	fatal_err_work;
+ 
+-	struct nvmet_fabrics_ops *ops;
++	const struct nvmet_fabrics_ops *ops;
+ 
+ 	char			subsysnqn[NVMF_NQN_FIELD_LEN];
+ 	char			hostnqn[NVMF_NQN_FIELD_LEN];
+@@ -231,7 +231,7 @@ struct nvmet_req {
+ 	struct nvmet_port	*port;
+ 
+ 	void (*execute)(struct nvmet_req *req);
+-	struct nvmet_fabrics_ops *ops;
++	const struct nvmet_fabrics_ops *ops;
+ };
+ 
+ static inline void nvmet_set_status(struct nvmet_req *req, u16 status)
+@@ -267,7 +267,7 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req);
+ u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req);
+ 
+ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+-		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops);
++		struct nvmet_sq *sq, const struct nvmet_fabrics_ops *ops);
+ void nvmet_req_uninit(struct nvmet_req *req);
+ void nvmet_req_execute(struct nvmet_req *req);
+ void nvmet_req_complete(struct nvmet_req *req, u16 status);
+@@ -301,8 +301,8 @@ void nvmet_ns_disable(struct nvmet_ns *ns);
+ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid);
+ void nvmet_ns_free(struct nvmet_ns *ns);
+ 
+-int nvmet_register_transport(struct nvmet_fabrics_ops *ops);
+-void nvmet_unregister_transport(struct nvmet_fabrics_ops *ops);
++int nvmet_register_transport(const struct nvmet_fabrics_ops *ops);
++void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops);
+ 
+ int nvmet_enable_port(struct nvmet_port *port);
+ void nvmet_disable_port(struct nvmet_port *port);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 978e169c11bf..db27f2694a4e 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -137,7 +137,7 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc);
+ static void nvmet_rdma_qp_event(struct ib_event *event, void *priv);
+ static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
+ 
+-static struct nvmet_fabrics_ops nvmet_rdma_ops;
++static const struct nvmet_fabrics_ops nvmet_rdma_ops;
+ 
+ /* XXX: really should move to a generic header sooner or later.. */
+ static inline u32 get_unaligned_le24(const u8 *p)
+@@ -1445,7 +1445,7 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
+ 		rdma_destroy_id(cm_id);
+ }
+ 
+-static struct nvmet_fabrics_ops nvmet_rdma_ops = {
++static const struct nvmet_fabrics_ops nvmet_rdma_ops = {
+ 	.owner			= THIS_MODULE,
+ 	.type			= NVMF_TRTYPE_RDMA,
+ 	.sqe_inline_size	= NVMET_RDMA_INLINE_DATA_SIZE,
 -- 
 2.14.2
