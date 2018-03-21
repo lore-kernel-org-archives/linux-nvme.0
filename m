@@ -1,49 +1,90 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 21 Mar 2018 23:48:09 +0800
-Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
-In-Reply-To: <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
-References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
- <20180321115037.GA26083@ming.t460p>
- <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
-Message-ID: <20180321154807.GD22254@ming.t460p>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 21 Mar 2018 17:48:35 +0200
+Subject: [PATCH 1/1] nvme-rdma: Add IB event handling support
+Message-ID: <1521647315-10011-1-git-send-email-maxg@mellanox.com>
 
-On Wed, Mar 21, 2018@01:10:31PM +0100, Marta Rybczynska wrote:
-> > On Wed, Mar 21, 2018@12:00:49PM +0100, Marta Rybczynska wrote:
-> >> NVMe driver uses threads for the work at device reset, including enabling
-> >> the PCIe device. When multiple NVMe devices are initialized, their reset
-> >> works may be scheduled in parallel. Then pci_enable_device_mem can be
-> >> called in parallel on multiple cores.
-> >> 
-> >> This causes a loop of enabling of all upstream bridges in
-> >> pci_enable_bridge(). pci_enable_bridge() causes multiple operations
-> >> including __pci_set_master and architecture-specific functions that
-> >> call ones like and pci_enable_resources(). Both __pci_set_master()
-> >> and pci_enable_resources() read PCI_COMMAND field in the PCIe space
-> >> and change it. This is done as read/modify/write.
-> >> 
-> >> Imagine that the PCIe tree looks like:
-> >> A - B - switch -  C - D
-> >>                \- E - F
-> >> 
-> >> D and F are two NVMe disks and all devices from B are not enabled and bus
-> >> mastering is not set. If their reset work are scheduled in parallel the two
-> >> modifications of PCI_COMMAND may happen in parallel without locking and the
-> >> system may end up with the part of PCIe tree not enabled.
-> > 
-> > Then looks serialized reset should be used, and I did see the commit
-> > 79c48ccf2fe ("nvme-pci: serialize pci resets") fixes issue of 'failed
-> > to mark controller state' in reset stress test.
-> > 
-> > But that commit only covers case of PCI reset from sysfs attribute, and
-> > maybe other cases need to be dealt with in similar way too.
-> > 
-> 
-> It seems to me that the serialized reset works for multiple resets of the
-> same device, doesn't it? Our problem is linked to resets of different devices
-> that share the same PCIe tree.
+From: Nitzan Carmi <nitzanc@mellanox.com>
 
-Given reset shouldn't be a frequent action, it might be fine to serialize all
-reset from different devices.
+IB devices may invoke IB events that need a special treatment
+from the ib_client. For example, fatal event notification raised
+to registered clients due to an invalid port/device state after EEH.
+IB clients should be aware of this fatal event and not post any WR's
+to the device. Draining the QP, for example, is forbidden and will
+stuck forever waiting for the flushed work completions.
 
-Thanks,
-Ming
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 4d84a73..dc5af97 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -45,6 +45,7 @@
+ struct nvme_rdma_device {
+ 	struct ib_device	*dev;
+ 	struct ib_pd		*pd;
++	struct ib_event_handler	event_handler;
+ 	struct kref		ref;
+ 	struct list_head	entry;
+ };
+@@ -329,6 +330,7 @@ static void nvme_rdma_free_dev(struct kref *ref)
+ 	list_del(&ndev->entry);
+ 	mutex_unlock(&device_list_mutex);
+ 
++	ib_unregister_event_handler(&ndev->event_handler);
+ 	ib_dealloc_pd(ndev->pd);
+ 	kfree(ndev);
+ }
+@@ -343,6 +345,36 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 	return kref_get_unless_zero(&dev->ref);
+ }
+ 
++static void nvme_rdma_ib_event_handler(struct ib_event_handler *handler,
++				       struct ib_event *event)
++{
++	struct nvme_rdma_ctrl *ctrl;
++	int i;
++
++	pr_debug("async event %s (%d) on device %s port %d\n",
++		 ib_event_msg(event->event), event->event,
++		 event->device->name, event->element.port_num);
++
++	switch(event->event) {
++	case IB_EVENT_DEVICE_FATAL:
++		mutex_lock(&nvme_rdma_ctrl_mutex);
++		list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
++			if (ctrl->device->dev != event->device)
++				continue;
++
++			for (i = 0; i < ctrl->ctrl.queue_count; i++)
++				clear_bit(NVME_RDMA_Q_LIVE,
++					  &ctrl->queues[i].flags);
++			nvme_delete_ctrl(&ctrl->ctrl);
++		}
++		mutex_unlock(&nvme_rdma_ctrl_mutex);
++		break;
++	default:
++		pr_debug("Unsupported event (%d)\n", event->event);
++		break;
++	}
++}
++
+ static struct nvme_rdma_device *
+ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
+ {
+@@ -374,6 +406,10 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 		goto out_free_pd;
+ 	}
+ 
++	INIT_IB_EVENT_HANDLER(&ndev->event_handler, ndev->dev,
++	                      nvme_rdma_ib_event_handler);
++	ib_register_event_handler(&ndev->event_handler);
++
+ 	list_add(&ndev->entry, &device_list);
+ out_unlock:
+ 	mutex_unlock(&device_list_mutex);
+-- 
+1.8.3.1
