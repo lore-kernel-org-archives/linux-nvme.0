@@ -1,48 +1,40 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Wed, 21 Mar 2018 13:10:31 +0100 (CET)
-Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
-In-Reply-To: <20180321115037.GA26083@ming.t460p>
-References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
- <20180321115037.GA26083@ming.t460p>
-Message-ID: <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
+From: nitzanc@mellanox.com (Nitzan Carmi)
+Date: Wed, 21 Mar 2018 17:46:59 +0200
+Subject: [PATCH] nvmetcli: fix restore error printing mechanism
+Message-ID: <1521647219-31076-1-git-send-email-nitzanc@mellanox.com>
 
-> On Wed, Mar 21, 2018@12:00:49PM +0100, Marta Rybczynska wrote:
->> NVMe driver uses threads for the work at device reset, including enabling
->> the PCIe device. When multiple NVMe devices are initialized, their reset
->> works may be scheduled in parallel. Then pci_enable_device_mem can be
->> called in parallel on multiple cores.
->> 
->> This causes a loop of enabling of all upstream bridges in
->> pci_enable_bridge(). pci_enable_bridge() causes multiple operations
->> including __pci_set_master and architecture-specific functions that
->> call ones like and pci_enable_resources(). Both __pci_set_master()
->> and pci_enable_resources() read PCI_COMMAND field in the PCIe space
->> and change it. This is done as read/modify/write.
->> 
->> Imagine that the PCIe tree looks like:
->> A - B - switch -  C - D
->>                \- E - F
->> 
->> D and F are two NVMe disks and all devices from B are not enabled and bus
->> mastering is not set. If their reset work are scheduled in parallel the two
->> modifications of PCI_COMMAND may happen in parallel without locking and the
->> system may end up with the part of PCIe tree not enabled.
-> 
-> Then looks serialized reset should be used, and I did see the commit
-> 79c48ccf2fe ("nvme-pci: serialize pci resets") fixes issue of 'failed
-> to mark controller state' in reset stress test.
-> 
-> But that commit only covers case of PCI reset from sysfs attribute, and
-> maybe other cases need to be dealt with in similar way too.
-> 
+restore function ignores all errors, and "quitely"
+call exit(0). This patch add error prints prior
+to the exit() call.
 
-It seems to me that the serialized reset works for multiple resets of the
-same device, doesn't it? Our problem is linked to resets of different devices
-that share the same PCIe tree.
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ nvmetcli | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-You're right that the problem we face might also come with manual resets
-under certain conditions (I think that all devices in a subtree would need
-to be disabled).
-
-Thanks,
-Marta
+diff --git a/nvmetcli b/nvmetcli
+index 6b102a2..0c31046 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -591,15 +591,17 @@ def save(to_file):
+ 
+ 
+ def restore(from_file):
++    errors = []
++
+     try:
+         errors = nvme.Root().restore_from_file(from_file)
+     except IOError:
+         # Not an error if the restore file is not present
+         print("No saved config file at %s, ok, exiting" % from_file)
+-    sys.exit(0)
+ 
+     for error in errors:
+         print(error)
++    sys.exit(0)
+ 
+ 
+ def clear(unused):
+-- 
+1.8.3.1
