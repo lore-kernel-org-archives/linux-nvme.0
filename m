@@ -1,15 +1,11 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 20 Mar 2018 16:11:54 -0600
-Subject: [PATCH 1/2] nvme-rdma: Allow DELETING state change failure in
- error_recovery
-In-Reply-To: <ef6711a4-cfdb-d38a-0a81-e20dcb463e98@grimberg.me>
-References: <20180320110730.24070-1-nitzanc@mellanox.com>
- <ef6711a4-cfdb-d38a-0a81-e20dcb463e98@grimberg.me>
-Message-ID: <20180320221154.GC12909@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 21 Mar 2018 10:23:11 +0100
+Subject: [PATCH v3 09/11] nvme-pci: Add support for P2P memory in requests
+In-Reply-To: <20180312193525.2855-10-logang@deltatee.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-10-logang@deltatee.com>
+Message-ID: <20180321092311.GA7098@lst.de>
 
-On Tue, Mar 20, 2018@01:30:50PM +0200, Sagi Grimberg wrote:
-> Looks good,
-> 
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Looks good,
 
-Thanks, applied to nvme-4.17.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
