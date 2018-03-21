@@ -1,64 +1,96 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 21 Mar 2018 15:44:32 -0600
-Subject: [GIT PULL] nvme fix for 4.16-rc6
-In-Reply-To: <dc2798b4-5654-9fc3-444e-efbce5775ca4@kernel.dk>
-References: <20180316160110.GC720@localhost.localdomain>
- <e58b5357-6885-75dc-c027-9bea3cd6829d@kernel.dk>
- <20180316161655.GA13293@lst.de>
- <8734416c-cd14-8bfb-8e2c-6eab84e0ce5d@kernel.dk>
- <20180321205958.GH12909@localhost.localdomain>
- <dc2798b4-5654-9fc3-444e-efbce5775ca4@kernel.dk>
-Message-ID: <e8fecf76-08db-154b-fcfb-b15acbc7acac@kernel.dk>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Wed, 21 Mar 2018 16:53:08 -0500
+Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
+In-Reply-To: <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
+References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
+ <20180321115037.GA26083@ming.t460p>
+ <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
+ <20180321154807.GD22254@ming.t460p>
+ <20180321160238.GF12909@localhost.localdomain>
+ <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
+Message-ID: <20180321215308.GH38649@bhelgaas-glaptop.roam.corp.google.com>
 
-On 3/21/18 3:02 PM, Jens Axboe wrote:
-> On 3/21/18 2:59 PM, Keith Busch wrote:
->> On Fri, Mar 16, 2018@09:26:24AM -0700, Jens Axboe wrote:
->>> It's not that I dislike the patch (in fact it makes the code
->>> easier to read), but it's pretty late for something that isn't
->>> a regression in this series. I can queue it up for some testing,
->>> but it's then -rc7 time. I guess we can see how it goes and
->>> push the decision until start next week.
->>
->> Hi Jens,
->>
->> Do you need more time on this one or have you decided where you want
->> this fix to go? I'm planning to send the first nvme 4.17 pull request
->> this week, so just checking if I should include this one.
+[+cc Srinath]
+
+On Wed, Mar 21, 2018@05:10:56PM +0100, Marta Rybczynska wrote:
+> > On Wed, Mar 21, 2018@11:48:09PM +0800, Ming Lei wrote:
+> >> On Wed, Mar 21, 2018@01:10:31PM +0100, Marta Rybczynska wrote:
+> >> > > On Wed, Mar 21, 2018@12:00:49PM +0100, Marta Rybczynska wrote:
+> >> > >> NVMe driver uses threads for the work at device reset, including enabling
+> >> > >> the PCIe device. When multiple NVMe devices are initialized, their reset
+> >> > >> works may be scheduled in parallel. Then pci_enable_device_mem can be
+> >> > >> called in parallel on multiple cores.
+> >> > >> 
+> >> > >> This causes a loop of enabling of all upstream bridges in
+> >> > >> pci_enable_bridge(). pci_enable_bridge() causes multiple operations
+> >> > >> including __pci_set_master and architecture-specific functions that
+> >> > >> call ones like and pci_enable_resources(). Both __pci_set_master()
+> >> > >> and pci_enable_resources() read PCI_COMMAND field in the PCIe space
+> >> > >> and change it. This is done as read/modify/write.
+> >> > >> 
+> >> > >> Imagine that the PCIe tree looks like:
+> >> > >> A - B - switch -  C - D
+> >> > >>                \- E - F
+> >> > >> 
+> >> > >> D and F are two NVMe disks and all devices from B are not enabled and bus
+> >> > >> mastering is not set. If their reset work are scheduled in parallel the two
+> >> > >> modifications of PCI_COMMAND may happen in parallel without locking and the
+> >> > >> system may end up with the part of PCIe tree not enabled.
+> >> > > 
+> >> > > Then looks serialized reset should be used, and I did see the commit
+> >> > > 79c48ccf2fe ("nvme-pci: serialize pci resets") fixes issue of 'failed
+> >> > > to mark controller state' in reset stress test.
+> >> > > 
+> >> > > But that commit only covers case of PCI reset from sysfs attribute, and
+> >> > > maybe other cases need to be dealt with in similar way too.
+> >> > > 
+> >> > 
+> >> > It seems to me that the serialized reset works for multiple resets of the
+> >> > same device, doesn't it? Our problem is linked to resets of different devices
+> >> > that share the same PCIe tree.
+> >> 
+> >> Given reset shouldn't be a frequent action, it might be fine to serialize all
+> >> reset from different devices.
+> > 
+> > The driver was much simpler when we had serialized resets in line with
+> > probe, but that had a bigger problems with certain init systems when
+> > you put enough nvme devices in your server, making them unbootable.
+> > 
+> > Would it be okay to serialize just the pci_enable_device across all
+> > other tasks messing with the PCI topology?
+> > 
+> > ---
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index cef5ce851a92..e0a2f6c0f1cf 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -2094,8 +2094,11 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+> >	int result = -ENOMEM;
+> >	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> > 
+> > -	if (pci_enable_device_mem(pdev))
+> > -		return result;
+> > +	pci_lock_rescan_remove();
+> > +	result = pci_enable_device_mem(pdev);
+> > +	pci_unlock_rescan_remove();
+> > +	if (result)
+> > +		return -ENODEV;
+> > 
+> >	pci_set_master(pdev);
 > 
-> Let's ship it for 4.16.
+> The problem may happen also with other device doing its probe and
+> nvme running its workqueue (and we probably have seen it in practice
+> too). We were thinking about a lock in the pci generic code too,
+> that's why I've put the linux-pci@ list in copy.
 
-On 2nd though, let's not. While it worked fine on one box, my other
-test box (that has a bunch of drives) is not very happy:
+Yes, this is a generic problem in the PCI core.  We've tried to fix it
+in the past but haven't figured it out yet.
 
-[   30.241598] nvme nvme2: pci function 0000:0b:00.0                            
-[   30.247205] nvme nvme3: pci function 0000:81:00.0                            
-[   30.252684] nvme nvme4: pci function 0000:82:00.0                            
-[   30.258144] nvme nvme5: pci function 0000:83:00.0                            
-[   30.263606] nvme nvme6: pci function 0000:84:00.0                            
-[   30.360555] nvme nvme3: could not set timestamp (8194)                       
-[   30.481649] nvme nvme6: Shutdown timeout set to 8 seconds                    
-[   38.790949] nvme nvme4: Device not ready; aborting initialisation            
-[   38.797857] nvme nvme4: Removing after probe failure status: -19             
-[   60.708816] nvme nvme3: I/O 363 QID 8 timeout, completion polled             
-[   60.708820] nvme nvme6: I/O 781 QID 7 timeout, completion polled             
-[   68.068772] nvme nvme2: I/O 769 QID 28 timeout, completion polled            
-[   91.108626] nvme nvme6: I/O 781 QID 7 timeout, completion polled             
-[   98.660581] nvme nvme2: I/O 769 QID 28 timeout, completion polled            
-[  121.702691] nvme nvme6: I/O 100 QID 7 timeout, completion polled             
-[  128.998648] nvme nvme3: I/O 387 QID 4 timeout, completion polled             
-[  152.038523] nvme nvme6: I/O 781 QID 7 timeout, completion polled             
+See 40f11adc7cd9 ("PCI: Avoid race while enabling upstream bridges")
+and 0f50a49e3008 ("Revert "PCI: Avoid race while enabling upstream
+bridges"").
 
-This is just doing an fdisk -l after load. No interrupts triggering,
-looking at /proc/interrupts for the queues that timeout. The commands
-do complete eventually, but only because we poll the queue. Ignore
-the probe failure, that one is expected.
+It's not trivial, but if you figure out a good way to fix this, I'd be
+thrilled.
 
-So that's a pretty horrific failure, about half (or more) of the
-devices simply don't work. For something being pushed aggressively
-at -rc6 time, I'd say your testing is lacking.
-
-I'm going to drop it from my 4.16 queue, and don't queue it up for
-4.17 before we figure out what's going on here.
-
--- 
-Jens Axboe
+Bjorn
