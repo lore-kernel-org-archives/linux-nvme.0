@@ -1,14 +1,25 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 21 Mar 2018 14:54:01 -0600
-Subject: [PATCH] nvme: make nvme_get_log_ext non-static
-In-Reply-To: <20180321192707.17749-1-mb@lightnvm.io>
-References: <20180321192707.17749-1-mb@lightnvm.io>
-Message-ID: <20180321205400.GG12909@localhost.localdomain>
+Date: Wed, 21 Mar 2018 14:59:59 -0600
+Subject: [GIT PULL] nvme fix for 4.16-rc6
+In-Reply-To: <8734416c-cd14-8bfb-8e2c-6eab84e0ce5d@kernel.dk>
+References: <20180316160110.GC720@localhost.localdomain>
+ <e58b5357-6885-75dc-c027-9bea3cd6829d@kernel.dk>
+ <20180316161655.GA13293@lst.de>
+ <8734416c-cd14-8bfb-8e2c-6eab84e0ce5d@kernel.dk>
+Message-ID: <20180321205958.GH12909@localhost.localdomain>
 
-On Wed, Mar 21, 2018@08:27:07PM +0100, Matias Bj?rling wrote:
-> Enable the lightnvm integration to use the nvme_get_log_ext()
-> function.
-> 
-> Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+On Fri, Mar 16, 2018@09:26:24AM -0700, Jens Axboe wrote:
+> It's not that I dislike the patch (in fact it makes the code
+> easier to read), but it's pretty late for something that isn't
+> a regression in this series. I can queue it up for some testing,
+> but it's then -rc7 time. I guess we can see how it goes and
+> push the decision until start next week.
 
-Thanks, applied to nvme-4.17.
+Hi Jens,
+
+Do you need more time on this one or have you decided where you want
+this fix to go? I'm planning to send the first nvme 4.17 pull request
+this week, so just checking if I should include this one.
+
+Thanks,
+Keith
