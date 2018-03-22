@@ -1,28 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 22 Mar 2018 21:02:13 +0200
-Subject: nguid for nvme over fabrics
-In-Reply-To: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
-References: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
-Message-ID: <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
+Date: Thu, 22 Mar 2018 21:02:59 +0200
+Subject: [PATCH rfc 0/3] nvmet-rdma automatic port re-activation
+Message-ID: <20180322190303.10951-1-sagi@grimberg.me>
 
+When a RDMA device goes away we must destroy all it's associated
+RDMA resources. RDMa device resets also manifest as device removal
+events and a short while after they come back. We want to re-activate
+a port listener on this RDMA device when it comes back in to the system.
 
-> Hi,
-> 
-> I am trying nvme over fabrics, and found this: nguid is set to 0s by 
-> default for all devices.
-> 
-> So, nguid can be same (0s in this case) for multiple devices. Is this 
-> valid ?
-> Also, same nguid for multiple devices could be set, by the above scenario.
-> No errors/warnings from either the nvme initiator/target.
-> 
->  From spec, I see this:
-> Namespace Globally Unique Identifier (NGUID): This field contains a 
-> 128-bit value that is
-> globally? unique and assigned to? the? namespace? when? the? namespace 
-> is? created.? This? field
-> remains fixed throughout the life of the namespace and is preserved 
-> across namespace and
-> controller operations (e.g., controller reset,? namespace format, etc.).
+In order to make it happen, we save the RDMA device node_guid on a
+ULP listener representation (nvmet_rdma_port) and when a RDMA device
+comes into the system, we check if there is a listener port that needs
+to be re-activated.
 
-We generate a UUID (which can be overwritten by the user)
+In addition, reflect the port state to the sysadmin.
+
+Israel Rukshin (2):
+  nvmet: Add fabrics ops to port
+  nvmet: Add port transport active flag
+
+Sagi Grimberg (1):
+  nvmet-rdma: automatic listening port re-activation
+
+ drivers/nvme/target/configfs.c |  10 ++
+ drivers/nvme/target/core.c     |  17 ++-
+ drivers/nvme/target/nvmet.h    |   3 +
+ drivers/nvme/target/rdma.c     | 231 +++++++++++++++++++++++++----------------
+ 4 files changed, 169 insertions(+), 92 deletions(-)
+
+-- 
+2.14.1
