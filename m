@@ -1,7 +1,7 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 22 Mar 2018 16:02:25 -0600
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 22 Mar 2018 16:09:33 -0600
 Subject: [GIT PULL] nvme fix for 4.16-rc6
-In-Reply-To: <71eda309-fa4a-7641-9292-fcc6c77d44af@kernel.dk>
+In-Reply-To: <20180322220224.GL12909@localhost.localdomain>
 References: <20180316160110.GC720@localhost.localdomain>
  <e58b5357-6885-75dc-c027-9bea3cd6829d@kernel.dk>
  <20180316161655.GA13293@lst.de>
@@ -11,29 +11,44 @@ References: <20180316160110.GC720@localhost.localdomain>
  <e8fecf76-08db-154b-fcfb-b15acbc7acac@kernel.dk>
  <20180322210917.GK12909@localhost.localdomain>
  <71eda309-fa4a-7641-9292-fcc6c77d44af@kernel.dk>
-Message-ID: <20180322220224.GL12909@localhost.localdomain>
+ <20180322220224.GL12909@localhost.localdomain>
+Message-ID: <f8e6472d-3932-cacb-8bb0-e51028c14f0d@kernel.dk>
 
-On Thu, Mar 22, 2018@03:32:45PM -0600, Jens Axboe wrote:
-> There seems to be some mismatch. nvme6q7 is 244:
+On 3/22/18 4:02 PM, Keith Busch wrote:
+> On Thu, Mar 22, 2018@03:32:45PM -0600, Jens Axboe wrote:
+>> There seems to be some mismatch. nvme6q7 is 244:
+>>
+>> # cat /proc/irq/244/smp_affinity_list 
+>> 49,51,53,55,57,59,61,63
+>>
+>> and 243 is nvme6q6:
+>>
+>> # cat /proc/irq/243/smp_affinity_list 
+>> 17,19,21,23,41,43,45,47
+>>
+>> 244 has never triggered, if I do:
+>>
+>> # taskset -c 17 dd if=/dev/nvme6n1 of=/dev/null bs=4k iflag=direct count=1
+>>
+>> then look at interrupts, none of the nvme6 associated interrupts have
+>> triggered.
 > 
-> # cat /proc/irq/244/smp_affinity_list 
-> 49,51,53,55,57,59,61,63
+> Thanks, got it now: blk_mq_pci_map_queues() doesn't take pre_vectors into
+> account, nor is there a way for it to know even about them. Some queues,
+> then, get interrupt affinity assigned to "possible" CPUs that aren't
+> online.
 > 
-> and 243 is nvme6q6:
-> 
-> # cat /proc/irq/243/smp_affinity_list 
-> 17,19,21,23,41,43,45,47
-> 
-> 244 has never triggered, if I do:
-> 
-> # taskset -c 17 dd if=/dev/nvme6n1 of=/dev/null bs=4k iflag=direct count=1
-> 
-> then look at interrupts, none of the nvme6 associated interrupts have
-> triggered.
+> This approach will definitely need some more. Sorry for the trouble.
 
-Thanks, got it now: blk_mq_pci_map_queues() doesn't take pre_vectors into
-account, nor is there a way for it to know even about them. Some queues,
-then, get interrupt affinity assigned to "possible" CPUs that aren't
-online.
+That brings up the question I had in the initial reply - what sort of
+testing goes into patches, especially ones that are being pushed this
+late in the game? My setup can't be that esoteric that nothing else
+would hit this, since the issue is pretty generic.
 
-This approach will definitely need some more. Sorry for the trouble.
+This could have left nvme broken for tons of folks, potentially for
+a final release. I know who would've gotten yelled at for that.
+
+Improve your testing and quality control. This isn't good enough.
+
+-- 
+Jens Axboe
