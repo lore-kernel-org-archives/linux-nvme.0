@@ -1,40 +1,71 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 23 Mar 2018 15:59:14 -0600
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180323215046.GC210003@bhelgaas-glaptop.roam.corp.google.com>
-References: <3e738f95-d73c-4182-2fa1-8664aafb1ab7@deltatee.com>
- <703aa92c-0c1c-4852-5887-6f6e6ccde0fb@codeaurora.org>
- <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
- <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
- <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
- <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
- <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
- <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
- <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
- <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
- <20180323215046.GC210003@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <dc414fa5-1af9-0ba7-e12e-4cd9df313119@deltatee.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 23 Mar 2018 16:19:21 -0600
+Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
+Message-ID: <20180323221923.24545-1-keith.busch@intel.com>
 
+The PCI interrupt vectors intended to be associated with a queue may
+not start at 0. This patch adds an offset parameter so blk-mq may find
+the intended affinity mask. The default value is 0 so existing drivers
+that don't care about this parameter don't need to change.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-mq-pci.c         | 12 ++++++++++--
+ include/linux/blk-mq-pci.h |  2 ++
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-On 23/03/18 03:50 PM, Bjorn Helgaas wrote:
-> Popping way up the stack, my original point was that I'm trying to
-> remove restrictions on what devices can participate in peer-to-peer
-> DMA.  I think it's fairly clear that in conventional PCI, any devices
-> in the same PCI hierarchy, i.e., below the same host-to-PCI bridge,
-> should be able to DMA to each other.
-
-Yup, we are working on this.
-
-> The routing behavior of PCIe is supposed to be compatible with
-> conventional PCI, and I would argue that this effectively requires
-> multi-function PCIe devices to have the internal routing required to
-> avoid the route-to-self issue.
-
-That would be very nice but many devices do not support the internal
-route. We've had to work around this in the past and as I mentioned
-earlier that NVMe devices have a flag indicating support. However, if a
-device wants to be involved in P2P it must support it and we can exclude
-devices that don't support it by simply not enabling their drivers.
-
-Logan
+diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
+index 76944e3271bf..1040a7705c13 100644
+--- a/block/blk-mq-pci.c
++++ b/block/blk-mq-pci.c
+@@ -21,6 +21,7 @@
+  * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
+  * @set:	tagset to provide the mapping for
+  * @pdev:	PCI device associated with @set.
++ * @offset:	PCI irq starting vector offset
+  *
+  * This function assumes the PCI device @pdev has at least as many available
+  * interrupt vectors as @set has queues.  It will then query the vector
+@@ -28,13 +29,14 @@
+  * that maps a queue to the CPUs that have irq affinity for the corresponding
+  * vector.
+  */
+-int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
++int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
++			    int offset)
+ {
+ 	const struct cpumask *mask;
+ 	unsigned int queue, cpu;
+ 
+ 	for (queue = 0; queue < set->nr_hw_queues; queue++) {
+-		mask = pci_irq_get_affinity(pdev, queue);
++		mask = pci_irq_get_affinity(pdev, queue + offset);
+ 		if (!mask)
+ 			goto fallback;
+ 
+@@ -50,4 +52,10 @@ int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
+ 		set->mq_map[cpu] = 0;
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(__blk_mq_pci_map_queues);
++
++int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
++{
++	return __blk_mq_pci_map_queues(set, pdev, 0);
++}
+ EXPORT_SYMBOL_GPL(blk_mq_pci_map_queues);
+diff --git a/include/linux/blk-mq-pci.h b/include/linux/blk-mq-pci.h
+index 6338551e0fb9..5a92ecdbd78e 100644
+--- a/include/linux/blk-mq-pci.h
++++ b/include/linux/blk-mq-pci.h
+@@ -5,6 +5,8 @@
+ struct blk_mq_tag_set;
+ struct pci_dev;
+ 
++int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
++			    int offset);
+ int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev);
+ 
+ #endif /* _LINUX_BLK_MQ_PCI_H */
+-- 
+2.14.3
