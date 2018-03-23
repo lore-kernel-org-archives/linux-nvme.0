@@ -1,59 +1,87 @@
-From: srinath.mannam@broadcom.com (Srinath Mannam)
-Date: Fri, 23 Mar 2018 14:14:05 +0530
-Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
-In-Reply-To: <2116255963.5924726.1521790087788.JavaMail.zimbra@kalray.eu>
-References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
- <20180321115037.GA26083@ming.t460p>
- <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
- <20180321154807.GD22254@ming.t460p>
- <20180321160238.GF12909@localhost.localdomain>
- <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
- <20180321215308.GH38649@bhelgaas-glaptop.roam.corp.google.com>
- <2116255963.5924726.1521790087788.JavaMail.zimbra@kalray.eu>
-Message-ID: <0b37cdbe43a350e46057efa197ba471a@mail.gmail.com>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Fri, 23 Mar 2018 12:00:08 +0100
+Subject: [PATCH 4/4] nvme: lightnvm: add late setup of block size and
+ metadata
+In-Reply-To: <20180205121505.27563-5-mb@lightnvm.io>
+References: <20180205121505.27563-1-mb@lightnvm.io>
+ <20180205121505.27563-5-mb@lightnvm.io>
+Message-ID: <343f19d9-0428-f255-6ed0-519035eef46d@lightnvm.io>
 
-Hi Marta,
+On 02/05/2018 01:15 PM, Matias Bj?rling wrote:
+> The nvme driver sets up the size of the nvme namespace in two steps.
+> First it initializes the device with standard logical block and
+> metadata sizes, and then sets the correct logical block and metadata
+> size. Due to the OCSSD 2.0 specification relies on the namespace to
+> expose these sizes for correct initialization, let it be updated
+> appropriately on the LightNVM side as well.
+> 
+> Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+> ---
+>   drivers/nvme/host/core.c     | 2 ++
+>   drivers/nvme/host/lightnvm.c | 8 ++++++++
+>   drivers/nvme/host/nvme.h     | 2 ++
+>   3 files changed, 12 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f837d666cbd4..740ceb28067c 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1379,6 +1379,8 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+>   	if (ns->noiob)
+>   		nvme_set_chunk_size(ns);
+>   	nvme_update_disk_info(disk, ns, id);
+> +	if (ns->ndev)
+> +		nvme_nvm_update_nvm_info(ns);
+>   #ifdef CONFIG_NVME_MULTIPATH
+>   	if (ns->head->disk)
+>   		nvme_update_disk_info(ns->head->disk, ns, id);
+> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+> index a9c010655ccc..8d4301854811 100644
+> --- a/drivers/nvme/host/lightnvm.c
+> +++ b/drivers/nvme/host/lightnvm.c
+> @@ -814,6 +814,14 @@ int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd, unsigned long arg)
+>   	}
+>   }
+>   
+> +void nvme_nvm_update_nvm_info(struct nvme_ns *ns)
+> +{
+> +	struct nvm_dev *ndev = ns->ndev;
+> +
+> +	ndev->identity.csecs = ndev->geo.sec_size = 1 << ns->lba_shift;
+> +	ndev->identity.sos = ndev->geo.oob_size = ns->ms;
+> +}
+> +
+>   int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node)
+>   {
+>   	struct request_queue *q = ns->queue;
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index ea1aa5283e8e..1ca08f4993ba 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -451,12 +451,14 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+>   #endif /* CONFIG_NVME_MULTIPATH */
+>   
+>   #ifdef CONFIG_NVM
+> +void nvme_nvm_update_nvm_info(struct nvme_ns *ns);
+>   int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
+>   void nvme_nvm_unregister(struct nvme_ns *ns);
+>   int nvme_nvm_register_sysfs(struct nvme_ns *ns);
+>   void nvme_nvm_unregister_sysfs(struct nvme_ns *ns);
+>   int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd, unsigned long arg);
+>   #else
+> +static inline void nvme_nvm_update_nvm_info(struct nvme_ns *ns) {};
+>   static inline int nvme_nvm_register(struct nvme_ns *ns, char *disk_name,
+>   				    int node)
+>   {
+> 
 
-I could not get time to work on this.
-The present patch works for our platforms. so we continue with that.
-I will update new changes little later.
-If you have time, please try the same patch and let us know if any issue you
-see.
+Hi Keith,
 
-Regards,
-Srinath.
+When going through the patches for 4.17, I forgot to run this patch by 
+you. It is part of adding OCSSD2.0 support to the kernel, and slides in 
+between a large refactoring, and the 2.0 part. May I add your reviewed 
+by and let Jens pick it up after the nvme patches for 4.17 has gone up?
 
------Original Message-----
-From: Marta Rybczynska [mailto:mrybczyn@kalray.eu]
-Sent: Friday, March 23, 2018 12:58 PM
-To: Bjorn Helgaas <helgaas at kernel.org>
-Cc: Keith Busch <keith.busch at intel.com>; Ming Lei <ming.lei at redhat.com>;
-axboe at fb.com; hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org;
-linux-kernel at vger.kernel.org; bhelgaas at google.com;
-linux-pci at vger.kernel.org; Pierre-Yves Kerbrat <pkerbrat at kalray.eu>; Srinath
-Mannam <srinath.mannam at broadcom.com>
-Subject: Re: [RFC PATCH] nvme: avoid race-conditions when enabling devices
+Thanks!
 
-
-> On Wed, Mar 21, 2018@05:10:56PM +0100, Marta Rybczynska wrote:
->>
->> The problem may happen also with other device doing its probe and
->> nvme running its workqueue (and we probably have seen it in practice
->> too). We were thinking about a lock in the pci generic code too,
->> that's why I've put the linux-pci@ list in copy.
->
-> Yes, this is a generic problem in the PCI core.  We've tried to fix it
-> in the past but haven't figured it out yet.
->
-> See 40f11adc7cd9 ("PCI: Avoid race while enabling upstream bridges")
-> and 0f50a49e3008 ("Revert "PCI: Avoid race while enabling upstream
-> bridges"").
->
-> It's not trivial, but if you figure out a good way to fix this, I'd be
-> thrilled.
->
-
-Bjorn, Srinath, are you aware of anyone working on an updated fix for this
-one?
-
-Marta
+-Matias
