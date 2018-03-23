@@ -1,112 +1,53 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 23 Mar 2018 14:21:12 -0600
-Subject: [GIT PULL] nvme-4.17
-Message-ID: <20180323202111.GM12909@localhost.localdomain>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 23 Mar 2018 16:50:46 -0500
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
+References: <3e738f95-d73c-4182-2fa1-8664aafb1ab7@deltatee.com>
+ <703aa92c-0c1c-4852-5887-6f6e6ccde0fb@codeaurora.org>
+ <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
+ <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
+ <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
+ <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
+ <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
+ <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
+ <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
+ <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
+Message-ID: <20180323215046.GC210003@bhelgaas-glaptop.roam.corp.google.com>
 
-Hi Jens,
+On Thu, Mar 22, 2018@10:57:32PM +0000, Stephen  Bates wrote:
+> >  I've seen the response that peers directly below a Root Port could not
+> > DMA to each other through the Root Port because of the "route to self"
+> > issue, and I'm not disputing that.  
+> 
+> Bjorn 
+> 
+> You asked me for a reference to RTS in the PCIe specification. As
+> luck would have it I ended up in an Irish bar with Peter Onufryk
+> this week at OCP Summit. We discussed the topic. It is not
+> explicitly referred to as "Route to Self" and it's certainly not
+> explicit (or obvious) but r6.2.8.1 of the PCIe 4.0 specification
+> discusses error conditions for virtual PCI bridges. One of these
+> conditions (given in the very first bullet in that section) applies
+> to a request that is destined for the same port it came in on. When
+> this occurs the request must be terminated as a UR.
 
-This is the first nvme pull request for 4.17, mostly cleanups and bug
-fixes across the spectrum with a few minor new features.
+Thanks for that reference!
 
-There are two patches outside the nvme subsystem to support fabrics.
-I believe Sagi has the 'ok' to go through here, but I've Cc'ed those
-maintainers just in case.
+I suspect figure 10-3 in sec 10.1.1 might also be relevant, although
+it's buried in the ATS section.  It shows internal routing between
+functions of a multifunction device.  That suggests that the functions
+should be able to DMA to each other without those transactions ever
+appearing on the link.
 
-Otherwise there shouldn't be anything controversial here, and merges
-clean with linux-block/for-next.
+Popping way up the stack, my original point was that I'm trying to
+remove restrictions on what devices can participate in peer-to-peer
+DMA.  I think it's fairly clear that in conventional PCI, any devices
+in the same PCI hierarchy, i.e., below the same host-to-PCI bridge,
+should be able to DMA to each other.
 
-There is a trivial conflict merging Linus' upstream due to the late nvme
-patch 8a30ecc6e0 (Revert "nvme: create 'slaves' and 'holders'..."). For
-reference, a merge conflict resolution branch is here:
+The routing behavior of PCIe is supposed to be compatible with
+conventional PCI, and I would argue that this effectively requires
+multi-function PCIe devices to have the internal routing required to
+avoid the route-to-self issue.
 
-  git://git.infradead.org/nvme.git nvme-4.17-conflict-resolution
-
-The following changes since commit f168127a96c55844011e79344322ac317844803a:
-
-  Merge branch 'for-4.17/block' into for-next (2018-03-01 08:38:06 -0700)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.17
-
-for you to fetch changes up to 90f99ee371c665bb019efffa0e20afd15a37f661:
-
-  nvme: make nvme_get_log_ext non-static (2018-03-21 12:49:41 -0600)
-
-----------------------------------------------------------------
-Christoph Hellwig (2):
-      nvmet: refactor configfs transport type handling
-      nvmet: constify struct nvmet_fabrics_ops
-
-Israel Rukshin (2):
-      nvmet-rdma: Remove unused queue state
-      nvmet-rdma: Fix use after free in nvmet_rdma_cm_handler()
-
-James Smart (5):
-      nvme_fc: fix ctrl create failures racing with workq items
-      nvme_fc: io timeout should defer abort to ctrl reset
-      nvme_fc: fix abort race on teardown with lld reject
-      nvme_fc: on remoteport reuse, set new nport_id and role.
-      nvmet_fc: prevent new io rqsts in possible isr completions
-
-Jaros?aw Janik (1):
-      nvme-pci: disable APST for Samsung NVMe SSD 960 EVO + ASUS PRIME Z370-A
-
-Jianchao Wang (3):
-      nvme-pci: quiesce IO queues prior to disabling device HMB accesses
-      nvme: fix the dangerous reference of namespaces list
-      nvme: change namespaces_mutext to namespaces_rwsem
-
-Keith Busch (2):
-      nvme-pci: Add .get_address ctrl callback
-      nvme: Skip checking heads without namespaces
-
-Matias Bj?rling (2):
-      nvme: implement log page low/high offset and dwords
-      nvme: make nvme_get_log_ext non-static
-
-Max Gurtovoy (4):
-      nvme: centralize ctrl removal prints
-      nvmet-rdma: Don't flush system_wq by default during remove_one
-      nvme-rdma: Don't flush delete_wq by default during remove_one
-      nvmet: move device_uuid configfs attr definition to suitable place
-
-Minwoo Im (1):
-      nvme: use define instead of magic value for identify size
-
-Nitzan Carmi (2):
-      nvme-rdma: Allow DELETING state change failure in error_recovery
-      nvme: Add .stop_ctrl to nvme ctrl ops
-
-Sagi Grimberg (3):
-      net/utils: Introduce inet_addr_is_any
-      nvmet: don't return "any" ip address in discovery log page
-      iscsi-target: use common inet_addr_is_any
-
-Thomas Tai (2):
-      nvme: Add fault injection feature
-      Documentation: nvme: Documentation for nvme fault injection
-
- Documentation/fault-injection/fault-injection.txt  |   8 ++
- .../fault-injection/nvme-fault-injection.txt       | 116 ++++++++++++++++++++
- drivers/nvme/host/Makefile                         |   1 +
- drivers/nvme/host/core.c                           | 117 +++++++++++++--------
- drivers/nvme/host/fault_inject.c                   |  79 ++++++++++++++
- drivers/nvme/host/fc.c                             |  36 +++----
- drivers/nvme/host/multipath.c                      |   4 +-
- drivers/nvme/host/nvme.h                           |  33 +++++-
- drivers/nvme/host/pci.c                            |  24 +++--
- drivers/nvme/host/rdma.c                           |  34 ++++--
- drivers/nvme/target/configfs.c                     |  65 ++++++------
- drivers/nvme/target/core.c                         |  12 +--
- drivers/nvme/target/discovery.c                    |  30 +++++-
- drivers/nvme/target/fc.c                           |  23 +++-
- drivers/nvme/target/loop.c                         |   4 +-
- drivers/nvme/target/nvmet.h                        |  12 ++-
- drivers/nvme/target/rdma.c                         |  72 +++++++++----
- drivers/target/iscsi/iscsi_target.c                |  28 +----
- include/linux/inet.h                               |   1 +
- net/core/utils.c                                   |  23 ++++
- 20 files changed, 537 insertions(+), 185 deletions(-)
- create mode 100644 Documentation/fault-injection/nvme-fault-injection.txt
- create mode 100644 drivers/nvme/host/fault_inject.c
+Bjorn
