@@ -1,26 +1,36 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Thu, 22 Mar 2018 22:57:32 +0000
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
-References: <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
- <52cbbbc4-c488-f83f-8d02-14d455b4efd7@codeaurora.org>
- <3e738f95-d73c-4182-2fa1-8664aafb1ab7@deltatee.com>
- <703aa92c-0c1c-4852-5887-6f6e6ccde0fb@codeaurora.org>
- <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
- <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
- <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
- <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
- <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
- <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
- <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Fri, 23 Mar 2018 08:28:07 +0100 (CET)
+Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
+In-Reply-To: <20180321215308.GH38649@bhelgaas-glaptop.roam.corp.google.com>
+References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
+ <20180321115037.GA26083@ming.t460p>
+ <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
+ <20180321154807.GD22254@ming.t460p>
+ <20180321160238.GF12909@localhost.localdomain>
+ <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
+ <20180321215308.GH38649@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <2116255963.5924726.1521790087788.JavaMail.zimbra@kalray.eu>
 
->  I've seen the response that peers directly below a Root Port could not
-> DMA to each other through the Root Port because of the "route to self"
-> issue, and I'm not disputing that.  
 
-Bjorn 
+> On Wed, Mar 21, 2018@05:10:56PM +0100, Marta Rybczynska wrote:
+>> 
+>> The problem may happen also with other device doing its probe and
+>> nvme running its workqueue (and we probably have seen it in practice
+>> too). We were thinking about a lock in the pci generic code too,
+>> that's why I've put the linux-pci@ list in copy.
+> 
+> Yes, this is a generic problem in the PCI core.  We've tried to fix it
+> in the past but haven't figured it out yet.
+> 
+> See 40f11adc7cd9 ("PCI: Avoid race while enabling upstream bridges")
+> and 0f50a49e3008 ("Revert "PCI: Avoid race while enabling upstream
+> bridges"").
+> 
+> It's not trivial, but if you figure out a good way to fix this, I'd be
+> thrilled.
+> 
 
-You asked me for a reference to RTS in the PCIe specification. As luck would have it I ended up in an Irish bar with Peter Onufryk this week at OCP Summit. We discussed the topic. It is not explicitly referred to as "Route to Self" and it's certainly not explicit (or obvious) but r6.2.8.1 of the PCIe 4.0 specification discusses error conditions for virtual PCI bridges. One of these conditions (given in the very first bullet in that section) applies to a request that is destined for the same port it came in on. When this occurs the request must be terminated as a UR.
+Bjorn, Srinath, are you aware of anyone working on an updated fix
+for this one?
 
-Stephen
+Marta
