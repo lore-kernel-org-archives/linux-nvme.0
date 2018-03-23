@@ -1,36 +1,40 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Fri, 23 Mar 2018 08:28:07 +0100 (CET)
-Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
-In-Reply-To: <20180321215308.GH38649@bhelgaas-glaptop.roam.corp.google.com>
-References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
- <20180321115037.GA26083@ming.t460p>
- <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
- <20180321154807.GD22254@ming.t460p>
- <20180321160238.GF12909@localhost.localdomain>
- <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
- <20180321215308.GH38649@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <2116255963.5924726.1521790087788.JavaMail.zimbra@kalray.eu>
+From: sim@linux.vnet.ibm.com (Narasimhan V)
+Date: Fri, 23 Mar 2018 12:59:53 +0530
+Subject: nguid for nvme over fabrics
+In-Reply-To: <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
+References: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
+ <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
+Message-ID: <0832b33613cb166a1c3f46dd3c5d407d@linux.vnet.ibm.com>
 
-
-> On Wed, Mar 21, 2018@05:10:56PM +0100, Marta Rybczynska wrote:
+On 2018-03-23 00:32, Sagi Grimberg wrote:
+>> Hi,
 >> 
->> The problem may happen also with other device doing its probe and
->> nvme running its workqueue (and we probably have seen it in practice
->> too). We were thinking about a lock in the pci generic code too,
->> that's why I've put the linux-pci@ list in copy.
+>> I am trying nvme over fabrics, and found this: nguid is set to 0s by 
+>> default for all devices.
+>> 
+>> So, nguid can be same (0s in this case) for multiple devices. Is this 
+>> valid ?
+>> Also, same nguid for multiple devices could be set, by the above 
+>> scenario.
+>> No errors/warnings from either the nvme initiator/target.
+>> 
+>>  From spec, I see this:
+>> Namespace Globally Unique Identifier (NGUID): This field contains a 
+>> 128-bit value that is
+>> globally? unique and assigned to? the? namespace? when? the? 
+>> namespace is? created.? This? field
+>> remains fixed throughout the life of the namespace and is preserved 
+>> across namespace and
+>> controller operations (e.g., controller reset,? namespace format, 
+>> etc.).
 > 
-> Yes, this is a generic problem in the PCI core.  We've tried to fix it
-> in the past but haven't figured it out yet.
-> 
-> See 40f11adc7cd9 ("PCI: Avoid race while enabling upstream bridges")
-> and 0f50a49e3008 ("Revert "PCI: Avoid race while enabling upstream
-> bridges"").
-> 
-> It's not trivial, but if you figure out a good way to fix this, I'd be
-> thrilled.
-> 
+> We generate a UUID (which can be overwritten by the user)
 
-Bjorn, Srinath, are you aware of anyone working on an updated fix
-for this one?
+Shouldn't it be unique ?
+I have instances where for NVMef, multiple devices can have same nguids.
+Which component should be responsible to generate nguid in NVMef ?
 
-Marta
+
+-- 
+Regards
+Narasimhan V
