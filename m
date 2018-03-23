@@ -1,71 +1,53 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 23 Mar 2018 16:19:21 -0600
-Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
-Message-ID: <20180323221923.24545-1-keith.busch@intel.com>
+Date: Fri, 23 Mar 2018 16:19:22 -0600
+Subject: [PATCH 2/3] nvme-pci: Remove unused queue parameter
+In-Reply-To: <20180323221923.24545-1-keith.busch@intel.com>
+References: <20180323221923.24545-1-keith.busch@intel.com>
+Message-ID: <20180323221923.24545-2-keith.busch@intel.com>
 
-The PCI interrupt vectors intended to be associated with a queue may
-not start at 0. This patch adds an offset parameter so blk-mq may find
-the intended affinity mask. The default value is 0 so existing drivers
-that don't care about this parameter don't need to change.
+All nvme queue memory is allocated up front. We don't take the node
+into consideration when creating queues anymore, so removing the unused
+parameter.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq-pci.c         | 12 ++++++++++--
- include/linux/blk-mq-pci.h |  2 ++
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-index 76944e3271bf..1040a7705c13 100644
---- a/block/blk-mq-pci.c
-+++ b/block/blk-mq-pci.c
-@@ -21,6 +21,7 @@
-  * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
-  * @set:	tagset to provide the mapping for
-  * @pdev:	PCI device associated with @set.
-+ * @offset:	PCI irq starting vector offset
-  *
-  * This function assumes the PCI device @pdev has at least as many available
-  * interrupt vectors as @set has queues.  It will then query the vector
-@@ -28,13 +29,14 @@
-  * that maps a queue to the CPUs that have irq affinity for the corresponding
-  * vector.
-  */
--int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
-+int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
-+			    int offset)
- {
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
- 
- 	for (queue = 0; queue < set->nr_hw_queues; queue++) {
--		mask = pci_irq_get_affinity(pdev, queue);
-+		mask = pci_irq_get_affinity(pdev, queue + offset);
- 		if (!mask)
- 			goto fallback;
- 
-@@ -50,4 +52,10 @@ int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
- 		set->mq_map[cpu] = 0;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index cef5ce851a92..632166f7d8f2 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1379,8 +1379,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
  	return 0;
  }
-+EXPORT_SYMBOL_GPL(__blk_mq_pci_map_queues);
-+
-+int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
-+{
-+	return __blk_mq_pci_map_queues(set, pdev, 0);
-+}
- EXPORT_SYMBOL_GPL(blk_mq_pci_map_queues);
-diff --git a/include/linux/blk-mq-pci.h b/include/linux/blk-mq-pci.h
-index 6338551e0fb9..5a92ecdbd78e 100644
---- a/include/linux/blk-mq-pci.h
-+++ b/include/linux/blk-mq-pci.h
-@@ -5,6 +5,8 @@
- struct blk_mq_tag_set;
- struct pci_dev;
  
-+int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
-+			    int offset);
- int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev);
+-static int nvme_alloc_queue(struct nvme_dev *dev, int qid,
+-		int depth, int node)
++static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+ {
+ 	struct nvme_queue *nvmeq = &dev->queues[qid];
  
- #endif /* _LINUX_BLK_MQ_PCI_H */
+@@ -1595,8 +1594,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result < 0)
+ 		return result;
+ 
+-	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
+-			dev_to_node(dev->dev));
++	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
+ 	if (result)
+ 		return result;
+ 
+@@ -1629,9 +1627,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 	int ret = 0;
+ 
+ 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
+-		/* vector == qid - 1, match nvme_create_queue */
+-		if (nvme_alloc_queue(dev, i, dev->q_depth,
+-		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
++		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
+ 			ret = -ENOMEM;
+ 			break;
+ 		}
 -- 
 2.14.3
