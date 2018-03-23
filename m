@@ -1,40 +1,106 @@
-From: sim@linux.vnet.ibm.com (Narasimhan V)
-Date: Fri, 23 Mar 2018 12:59:53 +0530
-Subject: nguid for nvme over fabrics
-In-Reply-To: <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
-References: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
- <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
-Message-ID: <0832b33613cb166a1c3f46dd3c5d407d@linux.vnet.ibm.com>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Fri, 23 Mar 2018 08:44:27 +0100 (CET)
+Subject: [RFC PATCH] nvme: avoid race-conditions when enabling devices
+In-Reply-To: <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
+References: <744877924.5841545.1521630049567.JavaMail.zimbra@kalray.eu>
+ <20180321115037.GA26083@ming.t460p>
+ <464125757.5843583.1521634231341.JavaMail.zimbra@kalray.eu>
+ <20180321154807.GD22254@ming.t460p>
+ <20180321160238.GF12909@localhost.localdomain>
+ <1220434088.5871933.1521648656789.JavaMail.zimbra@kalray.eu>
+Message-ID: <1716948335.5924942.1521791067272.JavaMail.zimbra@kalray.eu>
 
-On 2018-03-23 00:32, Sagi Grimberg wrote:
->> Hi,
+
+
+----- Mail original -----
+> De: "Marta Rybczynska" <mrybczyn at kalray.eu>
+> ?: "Keith Busch" <keith.busch at intel.com>
+> Cc: "Ming Lei" <ming.lei at redhat.com>, axboe at fb.com, hch at lst.de, sagi at grimberg.me, linux-nvme at lists.infradead.org,
+> linux-kernel at vger.kernel.org, bhelgaas at google.com, linux-pci at vger.kernel.org, "Pierre-Yves Kerbrat"
+> <pkerbrat at kalray.eu>
+> Envoy?: Mercredi 21 Mars 2018 17:10:56
+> Objet: Re: [RFC PATCH] nvme: avoid race-conditions when enabling devices
+
+>> On Wed, Mar 21, 2018@11:48:09PM +0800, Ming Lei wrote:
+>>> On Wed, Mar 21, 2018@01:10:31PM +0100, Marta Rybczynska wrote:
+>>> > > On Wed, Mar 21, 2018@12:00:49PM +0100, Marta Rybczynska wrote:
+>>> > >> NVMe driver uses threads for the work at device reset, including enabling
+>>> > >> the PCIe device. When multiple NVMe devices are initialized, their reset
+>>> > >> works may be scheduled in parallel. Then pci_enable_device_mem can be
+>>> > >> called in parallel on multiple cores.
+>>> > >> 
+>>> > >> This causes a loop of enabling of all upstream bridges in
+>>> > >> pci_enable_bridge(). pci_enable_bridge() causes multiple operations
+>>> > >> including __pci_set_master and architecture-specific functions that
+>>> > >> call ones like and pci_enable_resources(). Both __pci_set_master()
+>>> > >> and pci_enable_resources() read PCI_COMMAND field in the PCIe space
+>>> > >> and change it. This is done as read/modify/write.
+>>> > >> 
+>>> > >> Imagine that the PCIe tree looks like:
+>>> > >> A - B - switch -  C - D
+>>> > >>                \- E - F
+>>> > >> 
+>>> > >> D and F are two NVMe disks and all devices from B are not enabled and bus
+>>> > >> mastering is not set. If their reset work are scheduled in parallel the two
+>>> > >> modifications of PCI_COMMAND may happen in parallel without locking and the
+>>> > >> system may end up with the part of PCIe tree not enabled.
+>>> > > 
+>>> > > Then looks serialized reset should be used, and I did see the commit
+>>> > > 79c48ccf2fe ("nvme-pci: serialize pci resets") fixes issue of 'failed
+>>> > > to mark controller state' in reset stress test.
+>>> > > 
+>>> > > But that commit only covers case of PCI reset from sysfs attribute, and
+>>> > > maybe other cases need to be dealt with in similar way too.
+>>> > > 
+>>> > 
+>>> > It seems to me that the serialized reset works for multiple resets of the
+>>> > same device, doesn't it? Our problem is linked to resets of different devices
+>>> > that share the same PCIe tree.
+>>> 
+>>> Given reset shouldn't be a frequent action, it might be fine to serialize all
+>>> reset from different devices.
 >> 
->> I am trying nvme over fabrics, and found this: nguid is set to 0s by 
->> default for all devices.
+>> The driver was much simpler when we had serialized resets in line with
+>> probe, but that had a bigger problems with certain init systems when
+>> you put enough nvme devices in your server, making them unbootable.
 >> 
->> So, nguid can be same (0s in this case) for multiple devices. Is this 
->> valid ?
->> Also, same nguid for multiple devices could be set, by the above 
->> scenario.
->> No errors/warnings from either the nvme initiator/target.
+>> Would it be okay to serialize just the pci_enable_device across all
+>> other tasks messing with the PCI topology?
 >> 
->>  From spec, I see this:
->> Namespace Globally Unique Identifier (NGUID): This field contains a 
->> 128-bit value that is
->> globally? unique and assigned to? the? namespace? when? the? 
->> namespace is? created.? This? field
->> remains fixed throughout the life of the namespace and is preserved 
->> across namespace and
->> controller operations (e.g., controller reset,? namespace format, 
->> etc.).
+>> ---
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index cef5ce851a92..e0a2f6c0f1cf 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -2094,8 +2094,11 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+>>	int result = -ENOMEM;
+>>	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>> 
+>> -	if (pci_enable_device_mem(pdev))
+>> -		return result;
+>> +	pci_lock_rescan_remove();
+>> +	result = pci_enable_device_mem(pdev);
+>> +	pci_unlock_rescan_remove();
+>> +	if (result)
+>> +		return -ENODEV;
+>> 
+>>	pci_set_master(pdev);
+>> 
 > 
-> We generate a UUID (which can be overwritten by the user)
+> The problem may happen also with other device doing its probe and nvme running
+> its
+> workqueue (and we probably have seen it in practice too). We were thinking about
+> a lock
+> in the pci generic code too, that's why I've put the linux-pci@ list in copy.
+> 
 
-Shouldn't it be unique ?
-I have instances where for NVMef, multiple devices can have same nguids.
-Which component should be responsible to generate nguid in NVMef ?
+Keith, it looks to me that this is going to fix the issue between two nvme driver
+instances at hotplug time. This is the one we didn't cover in the first patch.
 
+We can see the issue at driver load (so at boot) and the lock isn't taken by the
+generic non-rescan code. Other calls to pci_enable_device_mem aren't protected 
+neither (see Bjorns message).
 
--- 
-Regards
-Narasimhan V
+What do you think about applying both for now until we have a generic fix in pci?
+
+Marta
