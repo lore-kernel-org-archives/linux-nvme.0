@@ -1,106 +1,66 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 23 Mar 2018 16:19:23 -0600
-Subject: [PATCH 3/3] nvme-pci: Separate IO and admin queue IRQ vectors
-In-Reply-To: <20180323221923.24545-1-keith.busch@intel.com>
-References: <20180323221923.24545-1-keith.busch@intel.com>
-Message-ID: <20180323221923.24545-3-keith.busch@intel.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 23 Mar 2018 22:49:47 -0500
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <dc414fa5-1af9-0ba7-e12e-4cd9df313119@deltatee.com>
+References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
+ <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
+ <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
+ <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
+ <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
+ <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
+ <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
+ <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
+ <20180323215046.GC210003@bhelgaas-glaptop.roam.corp.google.com>
+ <dc414fa5-1af9-0ba7-e12e-4cd9df313119@deltatee.com>
+Message-ID: <20180324034947.GE210003@bhelgaas-glaptop.roam.corp.google.com>
 
-From: Jianchao Wang <jianchao.w.wang@oracle.com>
+On Fri, Mar 23, 2018@03:59:14PM -0600, Logan Gunthorpe wrote:
+> On 23/03/18 03:50 PM, Bjorn Helgaas wrote:
+> > Popping way up the stack, my original point was that I'm trying to
+> > remove restrictions on what devices can participate in
+> > peer-to-peer DMA.  I think it's fairly clear that in conventional
+> > PCI, any devices in the same PCI hierarchy, i.e., below the same
+> > host-to-PCI bridge, should be able to DMA to each other.
+> 
+> Yup, we are working on this.
+> 
+> > The routing behavior of PCIe is supposed to be compatible with
+> > conventional PCI, and I would argue that this effectively requires
+> > multi-function PCIe devices to have the internal routing required
+> > to avoid the route-to-self issue.
+> 
+> That would be very nice but many devices do not support the internal
+> route. We've had to work around this in the past and as I mentioned
+> earlier that NVMe devices have a flag indicating support. However,
+> if a device wants to be involved in P2P it must support it and we
+> can exclude devices that don't support it by simply not enabling
+> their drivers.
 
-The admin and first IO queues shared the first irq vector, which has an
-affinity mask including cpu0. If a system allows cpu0 to be offlined,
-the admin queue may not be usable if no other CPUs in the affinity mask
-are online. This is a problem since unlike IO queues, there is only
-one admin queue that always needs to be usable.
+Do you think these devices that don't support internal DMA between
+functions are within spec, or should we handle them as exceptions,
+e.g., via quirks?
 
-To fix, this patch allocates one pre_vector for the admin queue that
-is assigned all CPUs, so will always be accessible. The IO queues are
-assigned the remaining managed vectors.
+If NVMe defines a flag indicating peer-to-peer support, that would
+suggest to me that these devices are within spec.
 
-In case a controller has only one interrupt vector available, the admin
-and IO queues will share the pre_vector with all CPUs assigned.
+I looked up the CMBSZ register you mentioned (NVMe 1.3a, sec 3.1.12).
+You must be referring to the WDS, RDS, LISTS, CQS, and SQS bits.  If
+WDS is set, the controller supports having Write-related data and
+metadata in the Controller Memory Buffer.  That would mean the driver
+could put certain queues in controller memory instead of in host
+memory.  The controller could then read the queue from its own
+internal memory rather than issuing a PCIe transaction to read it from
+host memory.
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
-[changelog, code comments, merge, and blk-mq pci vector offset]
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 27 +++++++++++++++++++++------
- 1 file changed, 21 insertions(+), 6 deletions(-)
+That makes sense to me, but I don't see the connection to
+peer-to-peer.  There's no multi-function device in this picture, so
+it's not about internal DMA between functions.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 632166f7d8f2..7b31bc01df6c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -84,6 +84,7 @@ struct nvme_dev {
- 	struct dma_pool *prp_small_pool;
- 	unsigned online_queues;
- 	unsigned max_qid;
-+	unsigned int num_vecs;
- 	int q_depth;
- 	u32 db_stride;
- 	void __iomem *bar;
-@@ -139,6 +140,16 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
- 	return container_of(ctrl, struct nvme_dev, ctrl);
- }
- 
-+static inline unsigned int nvme_ioq_vector(struct nvme_dev *dev,
-+		unsigned int qid)
-+{
-+	/*
-+	 * A queue's vector matches the queue identifier unless the controller
-+	 * has only one vector available.
-+	 */
-+	return (dev->num_vecs == 1) ? 0 : qid;
-+}
-+
- /*
-  * An NVM Express queue.  Each device has at least two (one for admin
-  * commands and one for I/O commands).
-@@ -414,7 +425,8 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
- {
- 	struct nvme_dev *dev = set->driver_data;
- 
--	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev));
-+	return __blk_mq_pci_map_queues(set, to_pci_dev(dev->dev),
-+				       dev->num_vecs > 1);
- }
- 
- /**
-@@ -1455,7 +1467,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 		nvmeq->sq_cmds_io = dev->cmb + offset;
- 	}
- 
--	nvmeq->cq_vector = qid - 1;
-+	nvmeq->cq_vector = nvme_ioq_vector(dev, qid);
- 	result = adapter_alloc_cq(dev, qid, nvmeq);
- 	if (result < 0)
- 		goto release_vector;
-@@ -1908,6 +1920,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int result, nr_io_queues;
- 	unsigned long size;
-+	struct irq_affinity affd = {.pre_vectors = 1};
-+	int ret;
- 
- 	nr_io_queues = num_present_cpus();
- 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
-@@ -1944,11 +1958,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	 * setting up the full range we need.
- 	 */
- 	pci_free_irq_vectors(pdev);
--	nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
--			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
--	if (nr_io_queues <= 0)
-+	ret = pci_alloc_irq_vectors_affinity(pdev, 1, (nr_io_queues + 1),
-+			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
-+	if (ret <= 0)
- 		return -EIO;
--	dev->max_qid = nr_io_queues;
-+	dev->num_vecs = ret;
-+	dev->max_qid = max(ret - 1, 1);
- 
- 	/*
- 	 * Should investigate if there's a performance win from allocating
--- 
-2.14.3
+WDS, etc., tell us about capabilities of the controller.  If WDS is
+set, the CPU (or a peer PCIe device) can write things to controller
+memory.  If it is clear, neither the CPU nor a peer device can put
+things there.  So it doesn't seem to tell us anything about
+peer-to-peer specifically.  It looks like information needed by the
+NVMe driver, but not by the PCI core.
+
+Bjorn
