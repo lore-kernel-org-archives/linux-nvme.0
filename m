@@ -1,66 +1,58 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 23 Mar 2018 22:49:47 -0500
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <dc414fa5-1af9-0ba7-e12e-4cd9df313119@deltatee.com>
-References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
- <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
- <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
- <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
- <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
- <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
- <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
- <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
- <20180323215046.GC210003@bhelgaas-glaptop.roam.corp.google.com>
- <dc414fa5-1af9-0ba7-e12e-4cd9df313119@deltatee.com>
-Message-ID: <20180324034947.GE210003@bhelgaas-glaptop.roam.corp.google.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Sat, 24 Mar 2018 21:55:49 +0800
+Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
+In-Reply-To: <20180323221923.24545-1-keith.busch@intel.com>
+References: <20180323221923.24545-1-keith.busch@intel.com>
+Message-ID: <d818f023-01a5-0728-2cc9-7a0649b5df3c@oracle.com>
 
-On Fri, Mar 23, 2018@03:59:14PM -0600, Logan Gunthorpe wrote:
-> On 23/03/18 03:50 PM, Bjorn Helgaas wrote:
-> > Popping way up the stack, my original point was that I'm trying to
-> > remove restrictions on what devices can participate in
-> > peer-to-peer DMA.  I think it's fairly clear that in conventional
-> > PCI, any devices in the same PCI hierarchy, i.e., below the same
-> > host-to-PCI bridge, should be able to DMA to each other.
+Hi Keith
+
+Thanks for your time and patch for this.
+
+On 03/24/2018 06:19 AM, Keith Busch wrote:
+> The PCI interrupt vectors intended to be associated with a queue may
+> not start at 0. This patch adds an offset parameter so blk-mq may find
+> the intended affinity mask. The default value is 0 so existing drivers
+> that don't care about this parameter don't need to change.
 > 
-> Yup, we are working on this.
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  block/blk-mq-pci.c         | 12 ++++++++++--
+>  include/linux/blk-mq-pci.h |  2 ++
+>  2 files changed, 12 insertions(+), 2 deletions(-)
 > 
-> > The routing behavior of PCIe is supposed to be compatible with
-> > conventional PCI, and I would argue that this effectively requires
-> > multi-function PCIe devices to have the internal routing required
-> > to avoid the route-to-self issue.
-> 
-> That would be very nice but many devices do not support the internal
-> route. We've had to work around this in the past and as I mentioned
-> earlier that NVMe devices have a flag indicating support. However,
-> if a device wants to be involved in P2P it must support it and we
-> can exclude devices that don't support it by simply not enabling
-> their drivers.
+> diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
+> index 76944e3271bf..1040a7705c13 100644
+> --- a/block/blk-mq-pci.c
+> +++ b/block/blk-mq-pci.c
+> @@ -21,6 +21,7 @@
+>   * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
+>   * @set:	tagset to provide the mapping for
+>   * @pdev:	PCI device associated with @set.
+> + * @offset:	PCI irq starting vector offset
+>   *
+>   * This function assumes the PCI device @pdev has at least as many available
+>   * interrupt vectors as @set has queues.  It will then query the vector
+> @@ -28,13 +29,14 @@
+>   * that maps a queue to the CPUs that have irq affinity for the corresponding
+>   * vector.
+>   */
+> -int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
+> +int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
+> +			    int offset)
+>  {
+>  	const struct cpumask *mask;
+>  	unsigned int queue, cpu;
+>  
+>  	for (queue = 0; queue < set->nr_hw_queues; queue++) {
+> -		mask = pci_irq_get_affinity(pdev, queue);
+> +		mask = pci_irq_get_affinity(pdev, queue + offset);
+>  		if (!mask)
+>  			goto fallback;
+>  
 
-Do you think these devices that don't support internal DMA between
-functions are within spec, or should we handle them as exceptions,
-e.g., via quirks?
+Maybe we could provide a callback parameter for __blk_mq_pci_map_queues which
+give the mapping from hctx queue num to device-relative interrupt vector index.
 
-If NVMe defines a flag indicating peer-to-peer support, that would
-suggest to me that these devices are within spec.
-
-I looked up the CMBSZ register you mentioned (NVMe 1.3a, sec 3.1.12).
-You must be referring to the WDS, RDS, LISTS, CQS, and SQS bits.  If
-WDS is set, the controller supports having Write-related data and
-metadata in the Controller Memory Buffer.  That would mean the driver
-could put certain queues in controller memory instead of in host
-memory.  The controller could then read the queue from its own
-internal memory rather than issuing a PCIe transaction to read it from
-host memory.
-
-That makes sense to me, but I don't see the connection to
-peer-to-peer.  There's no multi-function device in this picture, so
-it's not about internal DMA between functions.
-
-WDS, etc., tell us about capabilities of the controller.  If WDS is
-set, the CPU (or a peer PCIe device) can write things to controller
-memory.  If it is clear, neither the CPU nor a peer device can put
-things there.  So it doesn't seem to tell us anything about
-peer-to-peer specifically.  It looks like information needed by the
-NVMe driver, but not by the PCI core.
-
-Bjorn
+Thanks
+Jianchao
