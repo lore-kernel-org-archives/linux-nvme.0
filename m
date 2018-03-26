@@ -1,32 +1,28 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Mon, 26 Mar 2018 09:01:18 -0500
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180326121138.00005e30@huawei.com>
-References: <20180312193525.2855-1-logang@deltatee.com>
- <20180312193525.2855-2-logang@deltatee.com>
- <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
- <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
- <20180326121138.00005e30@huawei.com>
-Message-ID: <20180326140118.GA221690@bhelgaas-glaptop.roam.corp.google.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 26 Mar 2018 08:48:09 -0600
+Subject: [PATCH 2/3] nvme-pci: Remove unused queue parameter
+In-Reply-To: <20180326014706.GC9828@ming.t460p>
+References: <20180323221923.24545-1-keith.busch@intel.com>
+ <20180323221923.24545-2-keith.busch@intel.com>
+ <20180326014706.GC9828@ming.t460p>
+Message-ID: <20180326144809.GN12909@localhost.localdomain>
 
-On Mon, Mar 26, 2018@12:11:38PM +0100, Jonathan Cameron wrote:
-> On Tue, 13 Mar 2018 10:43:55 -0600
-> Logan Gunthorpe <logang@deltatee.com> wrote:
-> > It turns out that root ports that support P2P are far less common than 
-> > anyone thought. So it will likely have to be a white list.
+On Mon, Mar 26, 2018@09:47:07AM +0800, Ming Lei wrote:
+> On Fri, Mar 23, 2018@04:19:22PM -0600, Keith Busch wrote:
+> > @@ -1629,9 +1627,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+> >  	int ret = 0;
+> >  
+> >  	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
+> > -		/* vector == qid - 1, match nvme_create_queue */
+> > -		if (nvme_alloc_queue(dev, i, dev->q_depth,
+> > -		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
+> > +		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
+> >  			ret = -ENOMEM;
+> >  			break;
+> >  		}
 > 
-> This came as a bit of a surprise to our PCIe architect.
-> 
-> His follow up was whether it was worth raising an ECR for the PCIe spec
-> to add a capability bit to allow this to be discovered.  This might
-> long term avoid the need to maintain the white list for new devices.
-> 
-> So is it worth having a long term solution for making this discoverable?
+> nvme_create_io_queues() is called after pci_alloc_irq_vectors() returns,
+> and the above pci_irq_get_node() should return the correct node info,
+> right?
 
-It was surprising to me that there's no architected way to discover
-this.  It seems like such an obvious thing that I guess I assumed the
-omission was intentional, i.e., maybe there's something that makes it
-impractical, but it would be worth at least asking somebody in the
-SIG.  It seems like for root ports in the same root complex, at least,
-there could be a bit somewhere in the root port or the RCRB (which
-Linux doesn't support yet).
+Right, the return is correct. It's just not being used anymore.
