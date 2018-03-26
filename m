@@ -1,124 +1,389 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 26 Mar 2018 11:39:37 +0800
-Subject: [PATCH] nvme-loop: fix kernel oops in case of unhandled command
-Message-ID: <20180326033937.7866-1-ming.lei@redhat.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 26 Mar 2018 10:01:09 +0300
+Subject: [PATCH rfc 1/3] nvmet-rdma: automatic listening port re-activation
+In-Reply-To: <20180322190303.10951-2-sagi@grimberg.me>
+References: <20180322190303.10951-1-sagi@grimberg.me>
+ <20180322190303.10951-2-sagi@grimberg.me>
+Message-ID: <2b3f168a-cf0c-f62d-ea37-42465c81c34d@mellanox.com>
 
-When nvmet_req_init() fails, __nvmet_req_complete() is called
-to handle the target request via .queue_response(), so
-nvme_loop_queue_response() shouldn't be called again for
-handling the failure.
 
-This patch fixes this case by the following way:
 
-- move blk_mq_start_request() before nvmet_req_init(), so
-nvme_loop_queue_response() may work well to complete this
-host request
+On 3/22/2018 9:03 PM, Sagi Grimberg wrote:
+> In case the device goes away (or resets) we get a device
+> removal event (or .remove ib_client callback). So what
+> we want is to destroy the listening cm_id and re-activate
+> (or enable) when the same device comes back. Hence we introduce
+> nvmet_rdma_port which stores the ib_device node guid, and when
+> a new device comes in to the system (ib_client .add callback) we
+> search for an existing listener port on this device and reconfigure
+> the listener cm_id.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/target/rdma.c | 223 +++++++++++++++++++++++++++------------------
+>   1 file changed, 136 insertions(+), 87 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> index d7831372e1f9..1b7f72925e9f 100644
+> --- a/drivers/nvme/target/rdma.c
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -119,6 +119,15 @@ struct nvmet_rdma_device {
+>   	struct list_head	entry;
+>   };
+>   
+> +struct nvmet_rdma_port {
+> +	struct nvmet_port	*nport;
+> +	struct sockaddr_storage addr;
+> +	struct rdma_cm_id	*cm_id;
+> +	__be64			node_guid;
+> +	struct list_head	entry;
+> +	struct delayed_work	enable_work;
+> +};
+> +
+>   static bool nvmet_rdma_use_srq;
+>   module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
+>   MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
+> @@ -130,6 +139,9 @@ static DEFINE_MUTEX(nvmet_rdma_queue_mutex);
+>   static LIST_HEAD(device_list);
+>   static DEFINE_MUTEX(device_list_mutex);
+>   
+> +static LIST_HEAD(port_list);
+> +static DEFINE_MUTEX(port_list_mutex);
+> +
+>   static bool nvmet_rdma_execute_command(struct nvmet_rdma_rsp *rsp);
+>   static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc);
+>   static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
+> @@ -1130,6 +1142,7 @@ static int nvmet_rdma_cm_accept(struct rdma_cm_id *cm_id,
+>   static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
+>   		struct rdma_cm_event *event)
+>   {
+> +	struct nvmet_rdma_port *port = cm_id->context;
+>   	struct nvmet_rdma_device *ndev;
+>   	struct nvmet_rdma_queue *queue;
+>   	int ret = -EINVAL;
+> @@ -1145,7 +1158,7 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
+>   		ret = -ENOMEM;
+>   		goto put_device;
+>   	}
+> -	queue->port = cm_id->context;
+> +	queue->port = port->nport;
+>   
+>   	if (queue->host_qid == 0) {
+>   		/* Let inflight controller teardown complete */
+> @@ -1252,53 +1265,6 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
+>   	schedule_work(&queue->release_work);
+>   }
+>   
+> -/**
+> - * nvme_rdma_device_removal() - Handle RDMA device removal
+> - * @cm_id:	rdma_cm id, used for nvmet port
+> - * @queue:      nvmet rdma queue (cm id qp_context)
+> - *
+> - * DEVICE_REMOVAL event notifies us that the RDMA device is about
+> - * to unplug. Note that this event can be generated on a normal
+> - * queue cm_id and/or a device bound listener cm_id (where in this
+> - * case queue will be null).
+> - *
+> - * We registered an ib_client to handle device removal for queues,
+> - * so we only need to handle the listening port cm_ids. In this case
+> - * we nullify the priv to prevent double cm_id destruction and destroying
+> - * the cm_id implicitely by returning a non-zero rc to the callout.
+> - */
+> -static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
+> -		struct nvmet_rdma_queue *queue)
+> -{
+> -	struct nvmet_port *port;
+> -
+> -	if (queue) {
+> -		/*
+> -		 * This is a queue cm_id. we have registered
+> -		 * an ib_client to handle queues removal
+> -		 * so don't interfear and just return.
+> -		 */
+> -		return 0;
+> -	}
+> -
+> -	port = cm_id->context;
+> -
+> -	/*
+> -	 * This is a listener cm_id. Make sure that
+> -	 * future remove_port won't invoke a double
+> -	 * cm_id destroy. use atomic xchg to make sure
+> -	 * we don't compete with remove_port.
+> -	 */
+> -	if (xchg(&port->priv, NULL) != cm_id)
+> -		return 0;
+> -
+> -	/*
+> -	 * We need to return 1 so that the core will destroy
+> -	 * it's own ID.  What a great API design..
+> -	 */
+> -	return 1;
+> -}
+> -
+>   static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
+>   		struct rdma_cm_event *event)
+>   {
+> @@ -1331,8 +1297,7 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
+>   			nvmet_rdma_queue_disconnect(queue);
+>   		break;
+>   	case RDMA_CM_EVENT_DEVICE_REMOVAL:
+> -		ret = nvmet_rdma_device_removal(cm_id, queue);
+> -		break;
+> +		break; /* handled by nvmet_rdma_remove_one */
+>   	case RDMA_CM_EVENT_REJECTED:
+>   		pr_debug("Connection rejected: %s\n",
+>   			 rdma_reject_msg(cm_id, event->status));
+> @@ -1368,34 +1333,12 @@ static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
+>   	mutex_unlock(&nvmet_rdma_queue_mutex);
+>   }
+>   
+> -static int nvmet_rdma_add_port(struct nvmet_port *port)
+> +static int nvmet_rdma_enable_port(struct nvmet_rdma_port *port)
+>   {
+> +	struct sockaddr *addr = (struct sockaddr *)&port->addr;
+>   	struct rdma_cm_id *cm_id;
+> -	struct sockaddr_storage addr = { };
+> -	__kernel_sa_family_t af;
+>   	int ret;
+>   
+> -	switch (port->disc_addr.adrfam) {
+> -	case NVMF_ADDR_FAMILY_IP4:
+> -		af = AF_INET;
+> -		break;
+> -	case NVMF_ADDR_FAMILY_IP6:
+> -		af = AF_INET6;
+> -		break;
+> -	default:
+> -		pr_err("address family %d not supported\n",
+> -				port->disc_addr.adrfam);
+> -		return -EINVAL;
+> -	}
+> -
+> -	ret = inet_pton_with_scope(&init_net, af, port->disc_addr.traddr,
+> -			port->disc_addr.trsvcid, &addr);
+> -	if (ret) {
+> -		pr_err("malformed ip/port passed: %s:%s\n",
+> -			port->disc_addr.traddr, port->disc_addr.trsvcid);
+> -		return ret;
+> -	}
+> -
+>   	cm_id = rdma_create_id(&init_net, nvmet_rdma_cm_handler, port,
+>   			RDMA_PS_TCP, IB_QPT_RC);
+>   	if (IS_ERR(cm_id)) {
+> @@ -1413,23 +1356,22 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
+>   		goto out_destroy_id;
+>   	}
+>   
+> -	ret = rdma_bind_addr(cm_id, (struct sockaddr *)&addr);
+> +	ret = rdma_bind_addr(cm_id, addr);
+>   	if (ret) {
+> -		pr_err("binding CM ID to %pISpcs failed (%d)\n",
+> -			(struct sockaddr *)&addr, ret);
+> +		pr_err("binding CM ID to %pISpcs failed (%d)\n", addr, ret);
+>   		goto out_destroy_id;
+>   	}
+>   
+>   	ret = rdma_listen(cm_id, 128);
+>   	if (ret) {
+> -		pr_err("listening to %pISpcs failed (%d)\n",
+> -			(struct sockaddr *)&addr, ret);
+> +		pr_err("listening to %pISpcs failed (%d)\n", addr, ret);
+>   		goto out_destroy_id;
+>   	}
+>   
+> -	pr_info("enabling port %d (%pISpcs)\n",
+> -		le16_to_cpu(port->disc_addr.portid), (struct sockaddr *)&addr);
+> -	port->priv = cm_id;
+> +	port->cm_id = cm_id;
+> +	if (cm_id->device)
 
-- don't call nvme_cleanup_cmd() which is done in nvme_loop_complete_rq()
+can device be NULL here ?
 
-- don't call nvme_loop_queue_response() which is done via
-.queue_response()
+> +		port->node_guid = cm_id->device->node_guid;
+> +
+>   	return 0;
+>   
+>   out_destroy_id:
+> @@ -1437,18 +1379,100 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
+>   	return ret;
+>   }
+>   
+> -static void nvmet_rdma_remove_port(struct nvmet_port *port)
+> +static void nvmet_rdma_enable_port_work(struct work_struct *w)
+> +{
+> +	struct nvmet_rdma_port *port = container_of(to_delayed_work(w),
+> +			struct nvmet_rdma_port, enable_work);
+> +	int ret;
+> +
+> +	ret = nvmet_rdma_enable_port(port);
+> +	if (ret)
+> +		schedule_delayed_work(&port->enable_work, HZ);
 
-The following oops is fixed by this patch:
+I think it's beter to schedule it after 5 seconds since we use the 
+system_wq and since it's a recovery process.
 
-[ 6510.011692] nvmet: unhandled cmd 6 on qid 0
-[ 6510.013110] BUG: unable to handle kernel NULL pointer dereference at 0000000000000008
-[ 6510.014114] IP: _raw_spin_lock_irqsave+0x2c/0x46
-[ 6510.014766] PGD 162f8d067 P4D 162f8d067 PUD 15d990067 PMD 0
-[ 6510.015770] Oops: 0002 [#1] PREEMPT SMP NOPTI
-[ 6510.016554] Dumping ftrace buffer:
-[ 6510.016763] systemd-journald[208]: Compressed data object 708 -> 468 using XZ
-[ 6510.017114]    (ftrace buffer empty)
-[ 6510.017115] Modules linked in: nvme_loop nvme_rdma nvme_fabrics nvmet_rdma nvmet ib_srpt tcm_loop ebtable_filter ebtables iscsi_target_mod ip6table_filter ip6_tables target_core_file target_core_iblock target_core_pscsi target_core_mod xt_CHECKSUM iptable_mangle ipt_MASQUERADE nf_nat_masquerade_ipv4 iptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack libcrc32c bridge fuse stp llc iptable_filter ip_tables raid1 sd_mod sg ahci libahci sdhci_pci cqhci crc32c_intel sdhci lpc_ich libata mmc_core mfd_core shpchp nvme nvme_core virtio_scsi binfmt_misc qemu_fw_cfg dm_mod ib_iser rdma_cm iw_cm usb_storage ib_cm ib_core iscsi_tcp libiscsi_tcp libiscsi scsi_transport_iscsi null_blk configs
-[ 6510.027685] CPU: 0 PID: 2165 Comm: nvme Tainted: G        W        4.16.0-rc4+ #365
-[ 6510.028867] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.9.3-1.fc25 04/01/2014
-[ 6510.030602] RIP: 0010:_raw_spin_lock_irqsave+0x2c/0x46
-[ 6510.031516] RSP: 0018:ffffc90001c77aa0 EFLAGS: 00010046
-[ 6510.032481] RAX: 0000000000000000 RBX: 0000000000000008 RCX: ffff88017b800000
-[ 6510.033652] RDX: 0000000000000001 RSI: 0000000000000001 RDI: 0000000000000001
-[ 6510.034861] RBP: 0000000000000246 R08: 00000000000003e8 R09: 0000000000000001
-[ 6510.036207] R10: ffff88015e0d61c0 R11: ffffffff826f1ba8 R12: 0000000000000000
-[ 6510.037715] R13: ffff880279975000 R14: ffff8801726e5c78 R15: ffffe8fefb846240
-[ 6510.039232] FS:  00007f729f5ec780(0000) GS:ffff88017b800000(0000) knlGS:0000000000000000
-[ 6510.041278] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 6510.042465] CR2: 0000000000000008 CR3: 0000000171646001 CR4: 00000000003606f0
-[ 6510.043736] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[ 6510.044992] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[ 6510.046250] Call Trace:
-[ 6510.046824]  complete+0x18/0x49
-[ 6510.047551]  __blk_mq_complete_request+0x139/0x158
-[ 6510.048497]  blk_mq_complete_request+0x63/0x8b
-[ 6510.049383]  nvme_loop_queue_rq+0x12c/0x1ed [nvme_loop]
-[ 6510.050480]  blk_mq_dispatch_rq_list+0x2e4/0x491
-[ 6510.052160]  blk_mq_sched_dispatch_requests+0x156/0x178
-[ 6510.053487]  __blk_mq_run_hw_queue+0xa4/0xcc
-[ 6510.054472]  __blk_mq_delay_run_hw_queue+0x6a/0xe5
-[ 6510.055483]  blk_mq_run_hw_queue+0x9a/0xd2
-[ 6510.056295]  blk_mq_sched_insert_request+0xc4/0x138
-[ 6510.057206]  blk_execute_rq+0x4b/0x93
-[ 6510.057963]  nvme_submit_user_cmd+0x1e8/0x27e [nvme_core]
-[ 6510.058840]  nvme_user_cmd+0x1b8/0x2ce [nvme_core]
-[ 6510.059646]  ? _raw_spin_unlock+0x16/0x27
-[ 6510.060509]  ? do_anonymous_page+0x3bf/0x470
-[ 6510.061394]  nvme_dev_ioctl+0x5b/0x150 [nvme_core]
-[ 6510.062264]  vfs_ioctl+0x1b/0x28
-[ 6510.062923]  do_vfs_ioctl+0x4bc/0x542
-[ 6510.063747]  ? __do_page_fault+0x458/0x509
-[ 6510.064645]  SyS_ioctl+0x3e/0x5a
-[ 6510.065539]  do_syscall_64+0x97/0x158
-[ 6510.066365]  entry_SYSCALL_64_after_hwframe+0x3d/0xa2
-[ 6510.067472] RIP: 0033:0x7f729ef0a687
-[ 6510.068411] RSP: 002b:00007ffdd4aaade8 EFLAGS: 00000206 ORIG_RAX: 0000000000000010
-[ 6510.070284] RAX: ffffffffffffffda RBX: 00007ffdd4aaadf0 RCX: 00007f729ef0a687
-[ 6510.071405] RDX: 00007ffdd4aaadf0 RSI: 00000000c0484e41 RDI: 0000000000000003
-[ 6510.072306] RBP: 0000000000000000 R08: 0000000000000001 R09: 00007ffdd4aaae40
-[ 6510.073287] R10: 000000000000053f R11: 0000000000000206 R12: 000000000063ea40
-[ 6510.074254] R13: 00007ffdd4aaf8e5 R14: 000000000063ea40 R15: 00007ffdd4aaf2e0
-[ 6510.075305] Code: 1f 44 00 00 55 53 48 89 fb 9c 58 0f 1f 44 00 00 48 89 c5 fa 66 0f 1f 44 00 00 bf 01 00 00 00 e8 0d ff a6 ff 31 c0 ba 01 00 00 00 <f0> 0f b1 13 85 c0 74 0c 89 c6 48 89 df e8 e4 37 a9 ff 66 90 48
-[ 6510.078069] RIP: _raw_spin_lock_irqsave+0x2c/0x46 RSP: ffffc90001c77aa0
-[ 6510.079044] CR2: 0000000000000008
-[ 6510.079721] ---[ end trace f8c1251f997256fd ]---
-[ 6510.080567] Kernel panic - not syncing: Fatal exception
-[ 6510.081549] Dumping ftrace buffer:
-[ 6510.082161]    (ftrace buffer empty)
-[ 6510.082812] Kernel Offset: disabled
-[ 6510.083550] ---[ end Kernel panic - not syncing: Fatal exception
+> +}
+> +
+> +static int nvmet_rdma_add_port(struct nvmet_port *nport)
+> +{
+> +	struct nvmet_rdma_port *port;
+> +	__kernel_sa_family_t af;
+> +	int ret;
+> +
+> +	port = kzalloc(sizeof(*port), GFP_KERNEL);
+> +	if (!port)
+> +		return -ENOMEM;
+> +
+> +	switch (nport->disc_addr.adrfam) {
+> +	case NVMF_ADDR_FAMILY_IP4:
+> +		af = AF_INET;
+> +		break;
+> +	case NVMF_ADDR_FAMILY_IP6:
+> +		af = AF_INET6;
+> +		break;
+> +	default:
+> +		pr_err("address family %d not supported\n",
+> +				nport->disc_addr.adrfam);
+> +		ret = -EINVAL;
+> +		goto out_free_port;
+> +	}
+> +
+> +	ret = inet_pton_with_scope(&init_net, af, nport->disc_addr.traddr,
+> +			nport->disc_addr.trsvcid, &port->addr);
+> +	if (ret) {
+> +		pr_err("malformed ip/port passed: %s:%s\n",
+> +			nport->disc_addr.traddr, nport->disc_addr.trsvcid);
+> +		goto out_free_port;
+> +	}
+> +
+> +	ret = nvmet_rdma_enable_port(port);
+> +	if(ret)
+> +		goto out_free_port;
+> +
+> +	pr_info("enabling port %d (%pISpcs)\n",
+> +		le16_to_cpu(nport->disc_addr.portid),
+> +		(struct sockaddr *)&port->addr);
+> +
+> +	nport->priv = port;
+> +	port->nport = nport;
+> +	INIT_DELAYED_WORK(&port->enable_work, nvmet_rdma_enable_port_work);
+> +
+> +	mutex_lock(&port_list_mutex);
+> +	list_add_tail(&port->entry, &port_list);
+> +	mutex_unlock(&port_list_mutex);
+> +
+> +	return 0;
+> +
+> +out_free_port:
+> +	kfree(port);
+> +	return ret;
+> +}
+> +
+> +static void nvmet_rdma_disable_port(struct nvmet_rdma_port *port)
+>   {
+> -	struct rdma_cm_id *cm_id = xchg(&port->priv, NULL);
+> +	struct rdma_cm_id *cm_id = port->cm_id;
+>   
+> +	port->cm_id = NULL;
+>   	if (cm_id)
+>   		rdma_destroy_id(cm_id);
+>   }
+>   
+> +static void nvmet_rdma_remove_port(struct nvmet_port *nport)
+> +{
+> +	struct nvmet_rdma_port *port = nport->priv;
+> +
+> +	mutex_lock(&port_list_mutex);
+> +	list_del(&port->entry);
+> +	mutex_unlock(&port_list_mutex);
+> +
+> +	cancel_delayed_work_sync(&port->enable_work);
+> +
+> +	nvmet_rdma_disable_port(port);
+> +	kfree(port);
+> +}
+> +
+>   static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+> -		struct nvmet_port *port, char *traddr)
+> +		struct nvmet_port *nport, char *traddr)
+>   {
+> -	struct rdma_cm_id *cm_id = port->priv;
+> +	struct nvmet_rdma_port *port = nport->priv;
+> +	struct rdma_cm_id *cm_id = port->cm_id;
+>   
+>   	if (inet_addr_is_any((struct sockaddr *)&cm_id->route.addr.src_addr)) {
+>   		struct nvmet_rdma_rsp *rsp =
+> @@ -1458,7 +1482,7 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
+>   
+>   		sprintf(traddr, "%pISc", addr);
+>   	} else {
+> -		memcpy(traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
+> +		memcpy(traddr, nport->disc_addr.traddr, NVMF_TRADDR_SIZE);
+>   	}
+>   }
+>   
+> @@ -1475,9 +1499,24 @@ static struct nvmet_fabrics_ops nvmet_rdma_ops = {
+>   	.disc_traddr		= nvmet_rdma_disc_port_addr,
+>   };
+>   
+> +static void nvmet_rdma_add_one(struct ib_device *ib_device)
+> +{
+> +	struct nvmet_rdma_port *port, *n;
+> +
+> +	mutex_lock(&port_list_mutex);
+> +	list_for_each_entry_safe(port, n, &port_list, entry) {
+> +		if (port->node_guid != ib_device->node_guid)
+> +			continue;
+> +
+> +		schedule_delayed_work(&port->enable_work, HZ);
+> +	}
+> +	mutex_unlock(&port_list_mutex);
+> +}
+> +
+>   static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+>   {
+>   	struct nvmet_rdma_queue *queue, *tmp;
+> +	struct nvmet_rdma_port *port, *n;
+>   
+>   	/* Device is being removed, delete all queues using this device */
+>   	mutex_lock(&nvmet_rdma_queue_mutex);
+> @@ -1492,11 +1531,21 @@ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data
+>   	}
+>   	mutex_unlock(&nvmet_rdma_queue_mutex);
+>   
+> +	mutex_lock(&port_list_mutex);
+> +	list_for_each_entry_safe(port, n, &port_list, entry) {
+> +		if (port->node_guid != ib_device->node_guid)
+> +			continue;
+> +
+> +		nvmet_rdma_disable_port(port);
+> +	}
+> +	mutex_unlock(&port_list_mutex);
+> +
 
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/target/loop.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+I'm not sure it's rebased, but please check my "nvmet-rdma: Don't flush 
+system_wq by default during remove_one"
+We need to add a condition here:
+if (found)
+	flush_scheduled_work();
+and remove it from above.
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 861d1509b22b..76150d87e4f8 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -174,15 +174,12 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (ret)
- 		return ret;
- 
-+	blk_mq_start_request(req);
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 	iod->req.port = nvmet_loop_port;
- 	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvme_loop_ops)) {
--		nvme_cleanup_cmd(req);
--		blk_mq_start_request(req);
--		nvme_loop_queue_response(&iod->req);
-+			&queue->nvme_sq, &nvme_loop_ops))
- 		return BLK_STS_OK;
--	}
- 
- 	if (blk_rq_payload_bytes(req)) {
- 		iod->sg_table.sgl = iod->first_sgl;
-@@ -196,8 +193,6 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		iod->req.transfer_len = blk_rq_payload_bytes(req);
- 	}
- 
--	blk_mq_start_request(req);
--
- 	schedule_work(&iod->work);
- 	return BLK_STS_OK;
- }
--- 
-2.9.5
+
+>   	flush_scheduled_work();
+>   }
+>   
+>   static struct ib_client nvmet_rdma_ib_client = {
+>   	.name   = "nvmet_rdma",
+> +	.add = nvmet_rdma_add_one,
+>   	.remove = nvmet_rdma_remove_one
+>   };
+>   
+> 
+
+We've started testing this and looks good with the above changes. We'll 
+increase the scale today.
+Last issue we saw is some tabs/spaces mixture.
+
+Cheers,
+Max.
