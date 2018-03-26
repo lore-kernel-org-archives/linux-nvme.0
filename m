@@ -1,15 +1,58 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 26 Mar 2018 13:33:21 -0600
-Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
-In-Reply-To: <d818f023-01a5-0728-2cc9-7a0649b5df3c@oracle.com>
-References: <20180323221923.24545-1-keith.busch@intel.com>
- <d818f023-01a5-0728-2cc9-7a0649b5df3c@oracle.com>
-Message-ID: <20180326193320.GA30867@localhost.localdomain>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Mon, 26 Mar 2018 13:35:02 -0600
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <6ead7f19-c0e5-5584-2518-1e1889a007e4@deltatee.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+ <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+ <20180326121138.00005e30@huawei.com>
+ <20180326164129.GF15530@mellanox.com>
+ <6ead7f19-c0e5-5584-2518-1e1889a007e4@deltatee.com>
+Message-ID: <20180326193502.GI15530@mellanox.com>
 
-On Sat, Mar 24, 2018@09:55:49PM +0800, jianchao.wang wrote:
-> Maybe we could provide a callback parameter for __blk_mq_pci_map_queues which
-> give the mapping from hctx queue num to device-relative interrupt vector index.
+On Mon, Mar 26, 2018@11:30:38AM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 26/03/18 10:41 AM, Jason Gunthorpe wrote:
+> > On Mon, Mar 26, 2018@12:11:38PM +0100, Jonathan Cameron wrote:
+> >> On Tue, 13 Mar 2018 10:43:55 -0600
+> >> Logan Gunthorpe <logang@deltatee.com> wrote:
+> >>
+> >>> On 12/03/18 09:28 PM, Sinan Kaya wrote:
+> >>>> On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+> >>>> Regarding the switch business, It is amazing how much trouble you went into
+> >>>> limit this functionality into very specific hardware.
+> >>>>
+> >>>> I thought that we reached to an agreement that code would not impose
+> >>>> any limits on what user wants.
+> >>>>
+> >>>> What happened to all the emails we exchanged?  
+> >>>
+> >>> It turns out that root ports that support P2P are far less common than 
+> >>> anyone thought. So it will likely have to be a white list.
+> >>
+> >> This came as a bit of a surprise to our PCIe architect.
+> > 
+> > I don't think it is a hardware problem.
+> 
+> The latest and greatest Power9 CPUs still explicitly do not support
+> this.
 
-If a driver's mapping is so complicated as to require a special per-hctx
-callback, it'd be just as easy to implement the mapping in that driver's
-blk_mq_ops' 'map_queues' directly.
+I think this is another case of the HW can do it but the SW support is
+missing. IOMMU configuration and maybe firmware too, for instance.
+
+If I recall I saw a presentation that Coral was expected to use P2P
+between the network and GPU.
+
+> And, if I recall correctly, the ARM64 device we played with did
+> not either -- but I suspect that will differ depending on vendor.
+
+Wouldn't surprise me at all to see broken implementations in
+ARM64.. But even there it needs IOMMU enablement to work at all if I
+recall.
+
+Bascially, this is probably not a HW problem that needs a HW bit, but
+a OS/firmware problem to do all the enablement..
+
+Jason
