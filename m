@@ -1,82 +1,46 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 26 Mar 2018 09:50:38 +0800
-Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
-In-Reply-To: <20180323221923.24545-1-keith.busch@intel.com>
-References: <20180323221923.24545-1-keith.busch@intel.com>
-Message-ID: <20180326015038.GD9828@ming.t460p>
+From: ckulkarnilinux@gmail.com (chaitany kulkarni)
+Date: Sun, 25 Mar 2018 19:15:01 -0700
+Subject: [PATCH 2/2] nvmet: make the error message more generic
+In-Reply-To: <20180324203201.27087-2-chaitanya.kulkarni@wdc.com>
+References: <20180324203201.27087-1-chaitanya.kulkarni@wdc.com>
+ <20180324203201.27087-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <CAK0tqikLo-udQw8JLTsQYqzo6HGVJ=Z1E4fumYO-cFyG3SJG=Q@mail.gmail.com>
 
-On Fri, Mar 23, 2018@04:19:21PM -0600, Keith Busch wrote:
-> The PCI interrupt vectors intended to be associated with a queue may
-> not start at 0. This patch adds an offset parameter so blk-mq may find
-> the intended affinity mask. The default value is 0 so existing drivers
-> that don't care about this parameter don't need to change.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+Oops, missing sign-off will resend this patch.
+
+On Sat, Mar 24, 2018 at 1:32 PM, Chaitanya Kulkarni
+<chaitanya.kulkarni@wdc.com> wrote:
+> nvmet_check_ctrl_status() is called from admin-cmd.c along
+> with io-cmd.c, make the error message more generic.
 > ---
->  block/blk-mq-pci.c         | 12 ++++++++++--
->  include/linux/blk-mq-pci.h |  2 ++
->  2 files changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-> index 76944e3271bf..1040a7705c13 100644
-> --- a/block/blk-mq-pci.c
-> +++ b/block/blk-mq-pci.c
-> @@ -21,6 +21,7 @@
->   * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
->   * @set:	tagset to provide the mapping for
->   * @pdev:	PCI device associated with @set.
-> + * @offset:	PCI irq starting vector offset
->   *
->   * This function assumes the PCI device @pdev has at least as many available
->   * interrupt vectors as @set has queues.  It will then query the vector
-> @@ -28,13 +29,14 @@
->   * that maps a queue to the CPUs that have irq affinity for the corresponding
->   * vector.
->   */
-> -int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
-> +int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
-> +			    int offset)
+>  drivers/nvme/target/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index a78029e..841e55a 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -710,13 +710,13 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn, const char *hostnqn, u16 cntlid,
+>  u16 nvmet_check_ctrl_status(struct nvmet_req *req, struct nvme_command *cmd)
 >  {
->  	const struct cpumask *mask;
->  	unsigned int queue, cpu;
->  
->  	for (queue = 0; queue < set->nr_hw_queues; queue++) {
-> -		mask = pci_irq_get_affinity(pdev, queue);
-> +		mask = pci_irq_get_affinity(pdev, queue + offset);
->  		if (!mask)
->  			goto fallback;
->  
-> @@ -50,4 +52,10 @@ int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
->  		set->mq_map[cpu] = 0;
->  	return 0;
->  }
-> +EXPORT_SYMBOL_GPL(__blk_mq_pci_map_queues);
-> +
-> +int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
-> +{
-> +	return __blk_mq_pci_map_queues(set, pdev, 0);
-> +}
->  EXPORT_SYMBOL_GPL(blk_mq_pci_map_queues);
-> diff --git a/include/linux/blk-mq-pci.h b/include/linux/blk-mq-pci.h
-> index 6338551e0fb9..5a92ecdbd78e 100644
-> --- a/include/linux/blk-mq-pci.h
-> +++ b/include/linux/blk-mq-pci.h
-> @@ -5,6 +5,8 @@
->  struct blk_mq_tag_set;
->  struct pci_dev;
->  
-> +int __blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
-> +			    int offset);
->  int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev);
->  
->  #endif /* _LINUX_BLK_MQ_PCI_H */
-> -- 
-> 2.14.3
-> 
-
-Given no many callers of blk_mq_pci_map_queues(), I suggest to add the
-parameter of 'offset' to this API directly, then people may keep the 
-'.pre_vectors' stuff in mind, and avoid to misuse it.
-
-Thanks,
-Ming
+>         if (unlikely(!(req->sq->ctrl->cc & NVME_CC_ENABLE))) {
+> -               pr_err("got io cmd %d while CC.EN == 0 on qid = %d\n",
+> +               pr_err("got cmd %d while CC.EN == 0 on qid = %d\n",
+>                        cmd->common.opcode, req->sq->qid);
+>                 return NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
+>         }
+>
+>         if (unlikely(!(req->sq->ctrl->csts & NVME_CSTS_RDY))) {
+> -               pr_err("got io cmd %d while CSTS.RDY == 0 on qid = %d\n",
+> +               pr_err("got cmd %d while CSTS.RDY == 0 on qid = %d\n",
+>                        cmd->common.opcode, req->sq->qid);
+>                 req->ns = NULL;
+>                 return NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
+> --
+> 2.9.5
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
