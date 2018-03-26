@@ -1,43 +1,32 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 26 Mar 2018 08:54:07 -0600
-Subject: [GIT PULL] nvme-4.17
-In-Reply-To: <20180323202111.GM12909@localhost.localdomain>
-References: <20180323202111.GM12909@localhost.localdomain>
-Message-ID: <f8c4ad9d-0737-1a2e-87a1-49091f1d4649@kernel.dk>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 26 Mar 2018 09:43:17 -0600
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <121026DC-40C7-4F4E-BE27-BDA652BDEB6A@raithlin.com>
+References: <a0af83f8-2cbc-862b-6f8b-231991527cfc@deltatee.com>
+ <3ea80992-a0fc-08f2-d93d-ae0ec4e3f4ce@codeaurora.org>
+ <4eb6850c-df1b-fd44-3ee0-d43a50270b53@deltatee.com>
+ <757fca36-dee4-e070-669e-f2788bd78e41@codeaurora.org>
+ <4f761f55-4e9a-dccb-d12f-c59d2cd689db@deltatee.com>
+ <BB94077B-7EB3-49C4-862D-BF77D0A692CC@raithlin.com>
+ <20180313230850.GA45763@bhelgaas-glaptop.roam.corp.google.com>
+ <C90AA66C-FFC6-4CCA-B959-7BBECA65509C@raithlin.com>
+ <20180323215046.GC210003@bhelgaas-glaptop.roam.corp.google.com>
+ <dc414fa5-1af9-0ba7-e12e-4cd9df313119@deltatee.com>
+ <20180324034947.GE210003@bhelgaas-glaptop.roam.corp.google.com>
+ <121026DC-40C7-4F4E-BE27-BDA652BDEB6A@raithlin.com>
+Message-ID: <3a25744b-daa1-84e3-fbdc-5db2e81d0540@deltatee.com>
 
-On 3/23/18 2:21 PM, Keith Busch wrote:
-> Hi Jens,
-> 
-> This is the first nvme pull request for 4.17, mostly cleanups and bug
-> fixes across the spectrum with a few minor new features.
-> 
-> There are two patches outside the nvme subsystem to support fabrics.
-> I believe Sagi has the 'ok' to go through here, but I've Cc'ed those
-> maintainers just in case.
-> 
-> Otherwise there shouldn't be anything controversial here, and merges
-> clean with linux-block/for-next.
-> 
-> There is a trivial conflict merging Linus' upstream due to the late nvme
-> patch 8a30ecc6e0 (Revert "nvme: create 'slaves' and 'holders'..."). For
-> reference, a merge conflict resolution branch is here:
-> 
->   git://git.infradead.org/nvme.git nvme-4.17-conflict-resolution
-> 
-> The following changes since commit f168127a96c55844011e79344322ac317844803a:
-> 
->   Merge branch 'for-4.17/block' into for-next (2018-03-01 08:38:06 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.17
 
-Keith, this is against for-next. Pull requests should be against
-for-4.17/block, for-next only exists for Stephen's next tree and is
-the former merged with master, in case there are merge issues. Or when
-I have multiple branches, it'll be all of them merged with master.
 
-I'm just going to hand-apply these.
+On 24/03/18 09:28 AM, Stephen  Bates wrote:
+> 1. There is no requirement for a single function to support internal DMAs but in the case of NVMe we do have a protocol specific way for a NVMe function to indicate it supports via the CMB BAR. Other protocols may also have such methods but I am not aware of them at this time.
+> 
+> 2. For multi-function end-points I think it is a requirement that DMAs *between* functions are supported via an internal path but this can be over-ridden by ACS when supported in the EP.
+> 
+> 3. For multi-function end-points there is no requirement to support internal DMA within each individual function (i.e. a la point 1 but extended to each function in a MF device). 
 
--- 
-Jens Axboe
+Yeah, that make sense. I wasn't making a huge distinction between single
+and multi-function devices because from an implementation point of view
+it's not that different.
+
+Logan
