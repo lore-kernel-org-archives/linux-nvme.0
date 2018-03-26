@@ -1,49 +1,54 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 26 Mar 2018 10:40:15 +0200
-Subject: [PATCH] nvme: unexport nvme_start_keep_alive
-Message-ID: <20180326084015.9269-1-jthumshirn@suse.de>
+From: Jonathan.Cameron@huawei.com (Jonathan Cameron)
+Date: Mon, 26 Mar 2018 12:11:38 +0100
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+ <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+Message-ID: <20180326121138.00005e30@huawei.com>
 
-nvme_start_keep_alive() isn't used outside core.c so unexport it and
-make it static.
+On Tue, 13 Mar 2018 10:43:55 -0600
+Logan Gunthorpe <logang@deltatee.com> wrote:
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/core.c | 3 +--
- drivers/nvme/host/nvme.h | 1 -
- 2 files changed, 1 insertion(+), 3 deletions(-)
+> On 12/03/18 09:28 PM, Sinan Kaya wrote:
+> > On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+> > Regarding the switch business, It is amazing how much trouble you went into
+> > limit this functionality into very specific hardware.
+> > 
+> > I thought that we reached to an agreement that code would not impose
+> > any limits on what user wants.
+> > 
+> > What happened to all the emails we exchanged?  
+> 
+> It turns out that root ports that support P2P are far less common than 
+> anyone thought. So it will likely have to be a white list.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7aeca5db7916..884061c7ebee 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -828,7 +828,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
- 	}
- }
- 
--void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
-+static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
- {
- 	if (unlikely(ctrl->kato == 0))
- 		return;
-@@ -838,7 +838,6 @@ void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
- 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
- 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
- }
--EXPORT_SYMBOL_GPL(nvme_start_keep_alive);
- 
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d733b14ede9d..7915d6d3fc3f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -394,7 +394,6 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		unsigned timeout, int qid, int at_head,
- 		blk_mq_req_flags_t flags);
- int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
--void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
- void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
- int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
--- 
-2.16.2
+This came as a bit of a surprise to our PCIe architect.
+
+His follow up was whether it was worth raising an ECR for the PCIe spec
+to add a capability bit to allow this to be discovered.  This might
+long term avoid the need to maintain the white list for new devices.
+
+So is it worth having a long term solution for making this discoverable?
+
+Jonathan
+
+> Nobody else 
+> seems keen on allowing the user to enable this on hardware that doesn't 
+> work. The easiest solution is still limiting it to using a switch. From 
+> there, if someone wants to start creating a white-list then that's 
+> probably the way forward to support root ports.
+> 
+> And there's also the ACS problem which means if you want to use P2P on 
+> the root ports you'll have to disable ACS on the entire system. (Or 
+> preferably, the IOMMU groups need to get more sophisticated to allow for 
+> dynamic changes).
+> 
+> Additionally, once you allow for root ports you may find the IOMMU 
+> getting in the way.
+> 
+> So there are great deal more issues to sort out if you don't restrict to 
+> devices behind switches.
+> 
+> Logan
