@@ -1,52 +1,52 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Mon, 26 Mar 2018 10:41:29 -0600
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 26 Mar 2018 11:30:38 -0600
 Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180326121138.00005e30@huawei.com>
+In-Reply-To: <20180326164129.GF15530@mellanox.com>
 References: <20180312193525.2855-1-logang@deltatee.com>
  <20180312193525.2855-2-logang@deltatee.com>
  <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
  <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
- <20180326121138.00005e30@huawei.com>
-Message-ID: <20180326164129.GF15530@mellanox.com>
+ <20180326121138.00005e30@huawei.com> <20180326164129.GF15530@mellanox.com>
+Message-ID: <6ead7f19-c0e5-5584-2518-1e1889a007e4@deltatee.com>
 
-On Mon, Mar 26, 2018@12:11:38PM +0100, Jonathan Cameron wrote:
-> On Tue, 13 Mar 2018 10:43:55 -0600
-> Logan Gunthorpe <logang@deltatee.com> wrote:
+
+
+On 26/03/18 10:41 AM, Jason Gunthorpe wrote:
+> On Mon, Mar 26, 2018@12:11:38PM +0100, Jonathan Cameron wrote:
+>> On Tue, 13 Mar 2018 10:43:55 -0600
+>> Logan Gunthorpe <logang@deltatee.com> wrote:
+>>
+>>> On 12/03/18 09:28 PM, Sinan Kaya wrote:
+>>>> On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
+>>>> Regarding the switch business, It is amazing how much trouble you went into
+>>>> limit this functionality into very specific hardware.
+>>>>
+>>>> I thought that we reached to an agreement that code would not impose
+>>>> any limits on what user wants.
+>>>>
+>>>> What happened to all the emails we exchanged?  
+>>>
+>>> It turns out that root ports that support P2P are far less common than 
+>>> anyone thought. So it will likely have to be a white list.
+>>
+>> This came as a bit of a surprise to our PCIe architect.
 > 
-> > On 12/03/18 09:28 PM, Sinan Kaya wrote:
-> > > On 3/12/2018 3:35 PM, Logan Gunthorpe wrote:
-> > > Regarding the switch business, It is amazing how much trouble you went into
-> > > limit this functionality into very specific hardware.
-> > > 
-> > > I thought that we reached to an agreement that code would not impose
-> > > any limits on what user wants.
-> > > 
-> > > What happened to all the emails we exchanged?  
-> > 
-> > It turns out that root ports that support P2P are far less common than 
-> > anyone thought. So it will likely have to be a white list.
-> 
-> This came as a bit of a surprise to our PCIe architect.
+> I don't think it is a hardware problem.
 
-I don't think it is a hardware problem.
+The latest and greatest Power9 CPUs still explicitly do not support
+this. And, if I recall correctly, the ARM64 device we played with did
+not either -- but I suspect that will differ depending on vendor.
 
-I know Mellanox and Nvidia have been doing p2p on Intel root complexes
-for something like 5-6 years now.. I don't have the details, but it
-does seem to work.
+The latest Intel devices of course do support it, but go back 3-4 years
+or so and the performance is pretty much unusable (at least for the
+purposes of what this patchset implements). Even older CPUs did not
+support it.
 
-I have heard some chips give poor performance..
+We haven't done any testing on AMD devices but I assume they are similar
+to Intel.
 
-Also AMD GPU SLI uses P2P these days, so this isn't exactly a niche
-feature in Intel/AMD land.
+In any case, even if every CPU manufactured today supported it well,
+there are still older devices out there without support that we need to
+ensure are handled properly.
 
-I think the main issue here is that there is some BIOS involvement to
-set things up properly. Eg in GPU land motherboards certify for
-'crossfire' support.
-
-> His follow up was whether it was worth raising an ECR for the PCIe spec
-> to add a capability bit to allow this to be discovered.  This might
-> long term avoid the need to maintain the white list for new devices.
-
-If it is primarily a BIOS issue then it should be an ACPI thing, right?
-
-Jason
+Logan
