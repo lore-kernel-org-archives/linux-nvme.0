@@ -1,28 +1,43 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 26 Mar 2018 08:48:09 -0600
-Subject: [PATCH 2/3] nvme-pci: Remove unused queue parameter
-In-Reply-To: <20180326014706.GC9828@ming.t460p>
-References: <20180323221923.24545-1-keith.busch@intel.com>
- <20180323221923.24545-2-keith.busch@intel.com>
- <20180326014706.GC9828@ming.t460p>
-Message-ID: <20180326144809.GN12909@localhost.localdomain>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 26 Mar 2018 08:54:07 -0600
+Subject: [GIT PULL] nvme-4.17
+In-Reply-To: <20180323202111.GM12909@localhost.localdomain>
+References: <20180323202111.GM12909@localhost.localdomain>
+Message-ID: <f8c4ad9d-0737-1a2e-87a1-49091f1d4649@kernel.dk>
 
-On Mon, Mar 26, 2018@09:47:07AM +0800, Ming Lei wrote:
-> On Fri, Mar 23, 2018@04:19:22PM -0600, Keith Busch wrote:
-> > @@ -1629,9 +1627,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
-> >  	int ret = 0;
-> >  
-> >  	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
-> > -		/* vector == qid - 1, match nvme_create_queue */
-> > -		if (nvme_alloc_queue(dev, i, dev->q_depth,
-> > -		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
-> > +		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
-> >  			ret = -ENOMEM;
-> >  			break;
-> >  		}
+On 3/23/18 2:21 PM, Keith Busch wrote:
+> Hi Jens,
 > 
-> nvme_create_io_queues() is called after pci_alloc_irq_vectors() returns,
-> and the above pci_irq_get_node() should return the correct node info,
-> right?
+> This is the first nvme pull request for 4.17, mostly cleanups and bug
+> fixes across the spectrum with a few minor new features.
+> 
+> There are two patches outside the nvme subsystem to support fabrics.
+> I believe Sagi has the 'ok' to go through here, but I've Cc'ed those
+> maintainers just in case.
+> 
+> Otherwise there shouldn't be anything controversial here, and merges
+> clean with linux-block/for-next.
+> 
+> There is a trivial conflict merging Linus' upstream due to the late nvme
+> patch 8a30ecc6e0 (Revert "nvme: create 'slaves' and 'holders'..."). For
+> reference, a merge conflict resolution branch is here:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.17-conflict-resolution
+> 
+> The following changes since commit f168127a96c55844011e79344322ac317844803a:
+> 
+>   Merge branch 'for-4.17/block' into for-next (2018-03-01 08:38:06 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.17
 
-Right, the return is correct. It's just not being used anymore.
+Keith, this is against for-next. Pull requests should be against
+for-4.17/block, for-next only exists for Stephen's next tree and is
+the former merged with master, in case there are merge issues. Or when
+I have multiple branches, it'll be all of them merged with master.
+
+I'm just going to hand-apply these.
+
+-- 
+Jens Axboe
