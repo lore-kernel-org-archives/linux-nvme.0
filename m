@@ -1,58 +1,100 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 27 Mar 2018 09:39:07 -0600
-Subject: [PATCH 2/3] nvme-pci: Remove unused queue parameter
+Date: Tue, 27 Mar 2018 09:39:08 -0600
+Subject: [PATCH 3/3] nvme-pci: Separate IO and admin queue IRQ vectors
 In-Reply-To: <20180327153908.3732-1-keith.busch@intel.com>
 References: <20180327153908.3732-1-keith.busch@intel.com>
-Message-ID: <20180327153908.3732-2-keith.busch@intel.com>
+Message-ID: <20180327153908.3732-3-keith.busch@intel.com>
 
-All the queue memory is allocated up front. We don't take the node
-into consideration when creating queues anymore, so removing the unused
-parameter.
+The admin and first IO queues shared the first irq vector, which has an
+affinity mask including cpu0. If a system allows cpu0 to be offlined,
+the admin queue may not be usable if no other CPUs in the affinity mask
+are online. This is a problem since unlike IO queues, there is only
+one admin queue that always needs to be usable.
 
+To fix, this patch allocates one pre_vector for the admin queue that
+is assigned all CPUs, so will always be accessible. The IO queues are
+assigned the remaining managed vectors.
+
+In case a controller has only one interrupt vector available, the admin
+and IO queues will share the pre_vector with all CPUs assigned.
+
+Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
+Cc: Ming Lei <ming.lei at redhat.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
 v1 -> v2:
 
-   Added review.
+  Update to use new blk-mq API.
 
- drivers/nvme/host/pci.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+  Removed unnecessary braces, inline functions, and temp variables.
+
+  Amended author (this has evolved significantly from the original).
+
+ drivers/nvme/host/pci.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e3b9efca0571..cc47fbe32ea5 100644
+index cc47fbe32ea5..50c8eaf51d92 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1379,8 +1379,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 	return 0;
+@@ -84,6 +84,7 @@ struct nvme_dev {
+ 	struct dma_pool *prp_small_pool;
+ 	unsigned online_queues;
+ 	unsigned max_qid;
++	unsigned int num_vecs;
+ 	int q_depth;
+ 	u32 db_stride;
+ 	void __iomem *bar;
+@@ -414,7 +415,8 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ {
+ 	struct nvme_dev *dev = set->driver_data;
+ 
+-	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev), 0);
++	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev),
++				     dev->num_vecs > 1);
  }
  
--static int nvme_alloc_queue(struct nvme_dev *dev, int qid,
--		int depth, int node)
-+static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
- {
- 	struct nvme_queue *nvmeq = &dev->queues[qid];
+ /**
+@@ -1455,7 +1457,11 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 		nvmeq->sq_cmds_io = dev->cmb + offset;
+ 	}
  
-@@ -1595,8 +1594,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+-	nvmeq->cq_vector = qid - 1;
++	/*
++	 * A queue's vector matches the queue identifier unless the controller
++	 * has only one vector available.
++	 */
++	nvmeq->cq_vector = dev->num_vecs == 1 ? 0 : qid;
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
  	if (result < 0)
- 		return result;
+ 		goto release_vector;
+@@ -1909,6 +1915,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	int result, nr_io_queues;
+ 	unsigned long size;
  
--	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
--			dev_to_node(dev->dev));
-+	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
- 	if (result)
- 		return result;
++	struct irq_affinity affd = {
++		.pre_vectors = 1
++	};
++
+ 	nr_io_queues = num_present_cpus();
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+ 	if (result < 0)
+@@ -1944,11 +1954,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 * setting up the full range we need.
+ 	 */
+ 	pci_free_irq_vectors(pdev);
+-	nr_io_queues = pci_alloc_irq_vectors(pdev, 1, nr_io_queues,
+-			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY);
+-	if (nr_io_queues <= 0)
++	result = pci_alloc_irq_vectors_affinity(pdev, 1, nr_io_queues + 1,
++			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
++	if (result <= 0)
+ 		return -EIO;
+-	dev->max_qid = nr_io_queues;
++	dev->num_vecs = result;
++	dev->max_qid = max(result - 1, 1);
  
-@@ -1629,9 +1627,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 	int ret = 0;
- 
- 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
--		/* vector == qid - 1, match nvme_create_queue */
--		if (nvme_alloc_queue(dev, i, dev->q_depth,
--		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
-+		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
- 			ret = -ENOMEM;
- 			break;
- 		}
+ 	/*
+ 	 * Should investigate if there's a performance win from allocating
 -- 
 2.14.3
