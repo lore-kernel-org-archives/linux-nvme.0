@@ -1,110 +1,58 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 27 Mar 2018 09:39:06 -0600
-Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
-Message-ID: <20180327153908.3732-1-keith.busch@intel.com>
+Date: Tue, 27 Mar 2018 09:39:07 -0600
+Subject: [PATCH 2/3] nvme-pci: Remove unused queue parameter
+In-Reply-To: <20180327153908.3732-1-keith.busch@intel.com>
+References: <20180327153908.3732-1-keith.busch@intel.com>
+Message-ID: <20180327153908.3732-2-keith.busch@intel.com>
 
-The PCI interrupt vectors intended to be associated with a queue may
-not start at 0; a driver may allocate pre_vectors for special use. This
-patch adds an offset parameter so blk-mq may find the intended affinity
-mask and updates all drivers using this API accordingly.
+All the queue memory is allocated up front. We don't take the node
+into consideration when creating queues anymore, so removing the unused
+parameter.
 
-Cc: Don Brace <don.brace at microsemi.com>
-Cc: <qla2xxx-upstream at qlogic.com>
-Cc: <linux-scsi at vger.kernel.org>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
 v1 -> v2:
 
-  Update blk-mq API directly instead of chaining a default parameter to
-  a new API, and update all drivers accordingly.
+   Added review.
 
- block/blk-mq-pci.c                    | 6 ++++--
- drivers/nvme/host/pci.c               | 2 +-
- drivers/scsi/qla2xxx/qla_os.c         | 2 +-
- drivers/scsi/smartpqi/smartpqi_init.c | 2 +-
- include/linux/blk-mq-pci.h            | 3 ++-
- 5 files changed, 9 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-index 76944e3271bf..e233996bb76f 100644
---- a/block/blk-mq-pci.c
-+++ b/block/blk-mq-pci.c
-@@ -21,6 +21,7 @@
-  * blk_mq_pci_map_queues - provide a default queue mapping for PCI device
-  * @set:	tagset to provide the mapping for
-  * @pdev:	PCI device associated with @set.
-+ * @offset:	Offset to use for the pci irq vector
-  *
-  * This function assumes the PCI device @pdev has at least as many available
-  * interrupt vectors as @set has queues.  It will then query the vector
-@@ -28,13 +29,14 @@
-  * that maps a queue to the CPUs that have irq affinity for the corresponding
-  * vector.
-  */
--int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev)
-+int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
-+			    int offset)
- {
- 	const struct cpumask *mask;
- 	unsigned int queue, cpu;
- 
- 	for (queue = 0; queue < set->nr_hw_queues; queue++) {
--		mask = pci_irq_get_affinity(pdev, queue);
-+		mask = pci_irq_get_affinity(pdev, queue + offset);
- 		if (!mask)
- 			goto fallback;
- 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index cef5ce851a92..e3b9efca0571 100644
+index e3b9efca0571..cc47fbe32ea5 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -414,7 +414,7 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+@@ -1379,8 +1379,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 	return 0;
+ }
+ 
+-static int nvme_alloc_queue(struct nvme_dev *dev, int qid,
+-		int depth, int node)
++static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
  {
- 	struct nvme_dev *dev = set->driver_data;
+ 	struct nvme_queue *nvmeq = &dev->queues[qid];
  
--	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev));
-+	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev), 0);
- }
+@@ -1595,8 +1594,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result < 0)
+ 		return result;
  
- /**
-diff --git a/drivers/scsi/qla2xxx/qla_os.c b/drivers/scsi/qla2xxx/qla_os.c
-index 12ee6e02d146..2c705f3dd265 100644
---- a/drivers/scsi/qla2xxx/qla_os.c
-+++ b/drivers/scsi/qla2xxx/qla_os.c
-@@ -6805,7 +6805,7 @@ static int qla2xxx_map_queues(struct Scsi_Host *shost)
- 	if (USER_CTRL_IRQ(vha->hw))
- 		rc = blk_mq_map_queues(&shost->tag_set);
- 	else
--		rc = blk_mq_pci_map_queues(&shost->tag_set, vha->hw->pdev);
-+		rc = blk_mq_pci_map_queues(&shost->tag_set, vha->hw->pdev, 0);
- 	return rc;
- }
+-	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
+-			dev_to_node(dev->dev));
++	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
+ 	if (result)
+ 		return result;
  
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index b2880c7709e6..10c94011c8a8 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -5348,7 +5348,7 @@ static int pqi_map_queues(struct Scsi_Host *shost)
- {
- 	struct pqi_ctrl_info *ctrl_info = shost_to_hba(shost);
+@@ -1629,9 +1627,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 	int ret = 0;
  
--	return blk_mq_pci_map_queues(&shost->tag_set, ctrl_info->pci_dev);
-+	return blk_mq_pci_map_queues(&shost->tag_set, ctrl_info->pci_dev, 0);
- }
- 
- static int pqi_getpciinfo_ioctl(struct pqi_ctrl_info *ctrl_info,
-diff --git a/include/linux/blk-mq-pci.h b/include/linux/blk-mq-pci.h
-index 6338551e0fb9..9f4c17f0d2d8 100644
---- a/include/linux/blk-mq-pci.h
-+++ b/include/linux/blk-mq-pci.h
-@@ -5,6 +5,7 @@
- struct blk_mq_tag_set;
- struct pci_dev;
- 
--int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev);
-+int blk_mq_pci_map_queues(struct blk_mq_tag_set *set, struct pci_dev *pdev,
-+			  int offset);
- 
- #endif /* _LINUX_BLK_MQ_PCI_H */
+ 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
+-		/* vector == qid - 1, match nvme_create_queue */
+-		if (nvme_alloc_queue(dev, i, dev->q_depth,
+-		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
++		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
+ 			ret = -ENOMEM;
+ 			break;
+ 		}
 -- 
 2.14.3
