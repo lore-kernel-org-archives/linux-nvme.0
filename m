@@ -1,75 +1,54 @@
-From: nitzanc@mellanox.com (Nitzan Carmi)
-Date: Tue, 27 Mar 2018 11:34:00 +0300
-Subject: [PATCH 4/3 rfc nvmetcli] nvmetcli: expose nvmet port status and
- state
-In-Reply-To: <20180322190303.10951-5-sagi@grimberg.me>
-References: <20180322190303.10951-5-sagi@grimberg.me>
-Message-ID: <1522139640-1961-1-git-send-email-nitzanc@mellanox.com>
+From: Jonathan.Cameron@huawei.com (Jonathan Cameron)
+Date: Tue, 27 Mar 2018 09:47:01 +0100
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <c717eb06-1e83-f0f3-4d6c-15531aa808e0@deltatee.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+ <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+ <20180326121138.00005e30@huawei.com>
+ <20180326140118.GA221690@bhelgaas-glaptop.roam.corp.google.com>
+ <c717eb06-1e83-f0f3-4d6c-15531aa808e0@deltatee.com>
+Message-ID: <20180327094701.0000300d@huawei.com>
 
-Hi Sagi,
+On Mon, 26 Mar 2018 09:46:24 -0600
+Logan Gunthorpe <logang@deltatee.com> wrote:
 
-Please see my suggestion below, for a minor improvement to your
-nvmetcli patch, which makes the built-in "status" UI function
-available for the port (like in namespaces).
+> On 26/03/18 08:01 AM, Bjorn Helgaas wrote:
+> > On Mon, Mar 26, 2018 at 12:11:38PM +0100, Jonathan Cameron wrote:  
+> >> On Tue, 13 Mar 2018 10:43:55 -0600
+> >> Logan Gunthorpe <logang at deltatee.com> wrote:  
+> >>> It turns out that root ports that support P2P are far less common than 
+> >>> anyone thought. So it will likely have to be a white list.  
+> >>
+> >> This came as a bit of a surprise to our PCIe architect.
+> >>
+> >> His follow up was whether it was worth raising an ECR for the PCIe spec
+> >> to add a capability bit to allow this to be discovered.  This might
+> >> long term avoid the need to maintain the white list for new devices.
+> >>
+> >> So is it worth having a long term solution for making this discoverable?  
+> > 
+> > It was surprising to me that there's no architected way to discover
+> > this.  It seems like such an obvious thing that I guess I assumed the
+> > omission was intentional, i.e., maybe there's something that makes it
+> > impractical, but it would be worth at least asking somebody in the
+> > SIG.  It seems like for root ports in the same root complex, at least,
+> > there could be a bit somewhere in the root port or the RCRB (which
+> > Linux doesn't support yet).  
+> 
+> Yes, I agree. It would be a good long term solution to have this bit in
+> the spec. That would avoid us needing to create a white list for new
+> hardware. However, I expect it would be years before we can rely on it
+> so someone may yet implement that white list.
+> 
+> Logan
 
-Besides, I think the terminology of "status"/"state" might be confusing.
-Don't you think it is better to stay with "trstate"/"tractive" namings?
+I'll see if I can get our PCI SIG people to follow this through and see if
+it is just an omission or as Bjorn suggested, there is some reason we
+aren't thinking of that makes it hard.
 
-Nitzan.
+Agreed that it is a somewhat tangential question to what to do with current
+hardware, but let's get the ball rolling if possible.
 
----
- nvmet/nvme.py |  5 +++++
- nvmetcli      | 15 +++++++--------
- 2 files changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index c245a42..dc28b31 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -625,6 +625,11 @@ class Port(CFSNode):
-     subsystems = property(_list_subsystems,
-                           doc="Get the list of Subsystem for this Port.")
- 
-+    def _is_active(self):
-+        return bool(int(self.get_attr("addr", "tractive")))
-+
-+    active = property(_is_active, doc="Physical state of the port")
-+
-     def add_subsystem(self, nqn):
-         '''
-         Enable access to the Subsystem identified by I{nqn} through this Port.
-diff --git a/nvmetcli b/nvmetcli
-index 1a7cf67..46e34b2 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -380,6 +380,11 @@ class UIPortNode(UINode):
-         UIPortSubsystemsNode(self)
-         UIReferralsNode(self)
- 
-+    def status(self):
-+        status = "enabled" if self.cfnode.subsystems else "disabled"
-+        state = "up" if self.cfnode.active else "down"
-+        return "status=%s, state=%s" % (status, state)
-+
-     def summary(self):
-         info = []
-         info.append("trtype=" + self.cfnode.get_attr("addr", "trtype"))
-@@ -387,14 +392,8 @@ class UIPortNode(UINode):
-         trsvcid = self.cfnode.get_attr("addr", "trsvcid")
-         if trsvcid != "none":
-             info.append("trsvcid=%s" % trsvcid)
--        enabled = not (not self.cfnode.subsystems and not list(self.cfnode.referrals))
--        info.append("status=" + ("enabled" if enabled else "disabled"))
--        if not enabled:
--            ret = 0
--        else:
--            active = not (not int(self.cfnode.get_attr("addr", "tractive")))
--            info.append("state=" + ("up" if active else "down"))
--            ret = True if active else False
-+        info.append(self.status())
-+        ret = self.cfnode.active
-         return (", ".join(info), ret)
- 
- class UIPortSubsystemsNode(UINode):
--- 
-1.8.3.1
+Jonathan
