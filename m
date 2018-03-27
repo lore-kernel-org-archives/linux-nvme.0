@@ -1,7 +1,7 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 27 Mar 2018 15:25:19 -0700
-Subject: [PATCH] nvme: expand nvmf_check_if_ready checks
-Message-ID: <20180327222519.19488-1-jsmart2021@gmail.com>
+Date: Tue, 27 Mar 2018 16:07:24 -0700
+Subject: [PATCH v2] nvme: expand nvmf_check_if_ready checks
+Message-ID: <20180327230724.25843-1-jsmart2021@gmail.com>
 
 The nvmf_check_if_ready() checks that were added are very simplistic.
 As such, the routine allows a lot of cases to fail ios during windows
@@ -20,18 +20,22 @@ so marked. Otherwise, the io will be queued and wait for the controller
 state to resolve.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
+
 ---
- drivers/nvme/host/fabrics.h | 84 +++++++++++++++++++++++++++++++++------------
+v2:
+  needed to set nvme status when rejecting io
+---
+ drivers/nvme/host/fabrics.h | 86 +++++++++++++++++++++++++++++++++------------
  drivers/nvme/host/fc.c      | 12 ++-----
  drivers/nvme/host/rdma.c    | 14 ++------
  drivers/nvme/target/loop.c  | 11 ++----
- 4 files changed, 69 insertions(+), 52 deletions(-)
+ 4 files changed, 71 insertions(+), 52 deletions(-)
 
 diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index a3145d90c1d2..7cb8a0f3dfa0 100644
+index a3145d90c1d2..e8dfc00b28b6 100644
 --- a/drivers/nvme/host/fabrics.h
 +++ b/drivers/nvme/host/fabrics.h
-@@ -158,35 +158,75 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts);
+@@ -158,35 +158,77 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts);
  int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
  bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
  
@@ -54,7 +58,7 @@ index a3145d90c1d2..7cb8a0f3dfa0 100644
 +
 +	switch (ctrl->state) {
 +	case NVME_CTRL_DELETING:
-+		return BLK_STS_IOERR;
++		goto reject_io;
 +
 +	case NVME_CTRL_NEW:
 +	case NVME_CTRL_CONNECTING:
@@ -122,10 +126,12 @@ index a3145d90c1d2..7cb8a0f3dfa0 100644
 +	 * marked for failfast or nvme multipath is immediately failed.
 +	 * Note: nvme cli/ioctl commands are marked for failfast.
 +	 */
-+	if (blk_noretry_request(rq) || rq->cmd_flags & REQ_NVME_MPATH)
-+		return BLK_STS_IOERR;
++	if (!blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
++		return BLK_STS_RESOURCE;
 +
-+	return BLK_STS_RESOURCE;
++reject_io:
++	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
++	return BLK_STS_IOERR;
  }
  
  #endif /* _NVME_FABRICS_H */
