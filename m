@@ -1,54 +1,46 @@
-From: Jonathan.Cameron@huawei.com (Jonathan Cameron)
-Date: Tue, 27 Mar 2018 09:47:01 +0100
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <c717eb06-1e83-f0f3-4d6c-15531aa808e0@deltatee.com>
-References: <20180312193525.2855-1-logang@deltatee.com>
- <20180312193525.2855-2-logang@deltatee.com>
- <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
- <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
- <20180326121138.00005e30@huawei.com>
- <20180326140118.GA221690@bhelgaas-glaptop.roam.corp.google.com>
- <c717eb06-1e83-f0f3-4d6c-15531aa808e0@deltatee.com>
-Message-ID: <20180327094701.0000300d@huawei.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 27 Mar 2018 11:28:48 +0200
+Subject: [PATCH] nvme: don't send keep-alives to the discovery controller
+Message-ID: <20180327092848.10404-1-jthumshirn@suse.de>
 
-On Mon, 26 Mar 2018 09:46:24 -0600
-Logan Gunthorpe <logang@deltatee.com> wrote:
+NVMe over Fabrics 1.0 Section 5.2 "Discovery Controller Properties and
+Command Support" Figure 31 "Discovery Controller ? Admin Commands"
+explicitly listst all commands but "Get Log Page" and "Identify" as
+reserved, but NetApp report the Linux host is sending Keep Alive
+commands to the discovery controller, which is a violation of the
+Spec.
 
-> On 26/03/18 08:01 AM, Bjorn Helgaas wrote:
-> > On Mon, Mar 26, 2018 at 12:11:38PM +0100, Jonathan Cameron wrote:  
-> >> On Tue, 13 Mar 2018 10:43:55 -0600
-> >> Logan Gunthorpe <logang at deltatee.com> wrote:  
-> >>> It turns out that root ports that support P2P are far less common than 
-> >>> anyone thought. So it will likely have to be a white list.  
-> >>
-> >> This came as a bit of a surprise to our PCIe architect.
-> >>
-> >> His follow up was whether it was worth raising an ECR for the PCIe spec
-> >> to add a capability bit to allow this to be discovered.  This might
-> >> long term avoid the need to maintain the white list for new devices.
-> >>
-> >> So is it worth having a long term solution for making this discoverable?  
-> > 
-> > It was surprising to me that there's no architected way to discover
-> > this.  It seems like such an obvious thing that I guess I assumed the
-> > omission was intentional, i.e., maybe there's something that makes it
-> > impractical, but it would be worth at least asking somebody in the
-> > SIG.  It seems like for root ports in the same root complex, at least,
-> > there could be a bit somewhere in the root port or the RCRB (which
-> > Linux doesn't support yet).  
-> 
-> Yes, I agree. It would be a good long term solution to have this bit in
-> the spec. That would avoid us needing to create a white list for new
-> hardware. However, I expect it would be years before we can rely on it
-> so someone may yet implement that white list.
-> 
-> Logan
+We're already checking for discovery controllers when configuring the
+keep alive timeout but when creating a discovery controller we're not
+hard wiring the keep alive timeout to 0 and thus remain on
+NVME_DEFAULT_KATO for the discovery controller.
 
-I'll see if I can get our PCI SIG people to follow this through and see if
-it is just an omission or as Bjorn suggested, there is some reason we
-aren't thinking of that makes it hard.
+This can be easily remproduced when issuing a direct connect to the
+discovery susbsystem using:
+'nvme connect [...] --nqn=nqn.2014-08.org.nvmexpress.discovery'
 
-Agreed that it is a somewhat tangential question to what to do with current
-hardware, but let's get the ball rolling if possible.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Fixes: 07bfcd09a288 ("nvme-fabrics: add a generic NVMe over Fabrics library")
+Reported-by: Martin George <marting at netapp.com>
+---
+ drivers/nvme/host/fabrics.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Jonathan
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 8f0f34d06d46..3583f9492a45 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -608,8 +608,10 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			opts->discovery_nqn =
+ 				!(strcmp(opts->subsysnqn,
+ 					 NVME_DISC_SUBSYS_NAME));
+-			if (opts->discovery_nqn)
++			if (opts->discovery_nqn) {
++				opts->kato = 0;
+ 				opts->nr_io_queues = 0;
++			}
+ 			break;
+ 		case NVMF_OPT_TRADDR:
+ 			p = match_strdup(args);
+-- 
+2.12.3
