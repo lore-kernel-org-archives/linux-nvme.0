@@ -1,19 +1,96 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 28 Mar 2018 01:27:08 -0700
-Subject: nguid for nvme over fabrics
-In-Reply-To: <0832b33613cb166a1c3f46dd3c5d407d@linux.vnet.ibm.com>
-References: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
- <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
- <0832b33613cb166a1c3f46dd3c5d407d@linux.vnet.ibm.com>
-Message-ID: <20180328082708.GA31409@infradead.org>
+Date: Wed, 28 Mar 2018 01:28:25 -0700
+Subject: [PATCH 4/4] nvme: lightnvm: add late setup of block size and
+ metadata
+In-Reply-To: <343f19d9-0428-f255-6ed0-519035eef46d@lightnvm.io>
+References: <20180205121505.27563-1-mb@lightnvm.io>
+ <20180205121505.27563-5-mb@lightnvm.io>
+ <343f19d9-0428-f255-6ed0-519035eef46d@lightnvm.io>
+Message-ID: <20180328082825.GB31409@infradead.org>
 
-On Fri, Mar 23, 2018@12:59:53PM +0530, Narasimhan V wrote:
-> Shouldn't it be unique ?
-> I have instances where for NVMef, multiple devices can have same nguids.
-> Which component should be responsible to generate nguid in NVMef ?
+I really don't want more lightnvm cruft in the core.  We'll need
+a proper abstraction.c
 
-You must only usea nguid if you have a ieee id, and then it is your
-responsibility to hand out ids based on that.
-
-Which means that you generally should not set a nguid unless you
-are building an appliance and really know what you are doing.
+On Fri, Mar 23, 2018@12:00:08PM +0100, Matias Bj?rling wrote:
+> On 02/05/2018 01:15 PM, Matias Bj?rling wrote:
+> > The nvme driver sets up the size of the nvme namespace in two steps.
+> > First it initializes the device with standard logical block and
+> > metadata sizes, and then sets the correct logical block and metadata
+> > size. Due to the OCSSD 2.0 specification relies on the namespace to
+> > expose these sizes for correct initialization, let it be updated
+> > appropriately on the LightNVM side as well.
+> > 
+> > Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+> > ---
+> >   drivers/nvme/host/core.c     | 2 ++
+> >   drivers/nvme/host/lightnvm.c | 8 ++++++++
+> >   drivers/nvme/host/nvme.h     | 2 ++
+> >   3 files changed, 12 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index f837d666cbd4..740ceb28067c 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -1379,6 +1379,8 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+> >   	if (ns->noiob)
+> >   		nvme_set_chunk_size(ns);
+> >   	nvme_update_disk_info(disk, ns, id);
+> > +	if (ns->ndev)
+> > +		nvme_nvm_update_nvm_info(ns);
+> >   #ifdef CONFIG_NVME_MULTIPATH
+> >   	if (ns->head->disk)
+> >   		nvme_update_disk_info(ns->head->disk, ns, id);
+> > diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+> > index a9c010655ccc..8d4301854811 100644
+> > --- a/drivers/nvme/host/lightnvm.c
+> > +++ b/drivers/nvme/host/lightnvm.c
+> > @@ -814,6 +814,14 @@ int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd, unsigned long arg)
+> >   	}
+> >   }
+> > +void nvme_nvm_update_nvm_info(struct nvme_ns *ns)
+> > +{
+> > +	struct nvm_dev *ndev = ns->ndev;
+> > +
+> > +	ndev->identity.csecs = ndev->geo.sec_size = 1 << ns->lba_shift;
+> > +	ndev->identity.sos = ndev->geo.oob_size = ns->ms;
+> > +}
+> > +
+> >   int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node)
+> >   {
+> >   	struct request_queue *q = ns->queue;
+> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> > index ea1aa5283e8e..1ca08f4993ba 100644
+> > --- a/drivers/nvme/host/nvme.h
+> > +++ b/drivers/nvme/host/nvme.h
+> > @@ -451,12 +451,14 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+> >   #endif /* CONFIG_NVME_MULTIPATH */
+> >   #ifdef CONFIG_NVM
+> > +void nvme_nvm_update_nvm_info(struct nvme_ns *ns);
+> >   int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
+> >   void nvme_nvm_unregister(struct nvme_ns *ns);
+> >   int nvme_nvm_register_sysfs(struct nvme_ns *ns);
+> >   void nvme_nvm_unregister_sysfs(struct nvme_ns *ns);
+> >   int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd, unsigned long arg);
+> >   #else
+> > +static inline void nvme_nvm_update_nvm_info(struct nvme_ns *ns) {};
+> >   static inline int nvme_nvm_register(struct nvme_ns *ns, char *disk_name,
+> >   				    int node)
+> >   {
+> > 
+> 
+> Hi Keith,
+> 
+> When going through the patches for 4.17, I forgot to run this patch by you.
+> It is part of adding OCSSD2.0 support to the kernel, and slides in between a
+> large refactoring, and the 2.0 part. May I add your reviewed by and let Jens
+> pick it up after the nvme patches for 4.17 has gone up?
+> 
+> Thanks!
+> 
+> -Matias
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
