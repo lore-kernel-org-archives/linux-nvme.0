@@ -1,9 +1,9 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 28 Mar 2018 09:06:36 -0600
-Subject: [PATCH] nvme: target: fix buffer overflow
-In-Reply-To: <20180328145904.GA7174@lst.de>
-References: <20180328135522.2345359-1-arnd@arndb.de>
- <20180328145904.GA7174@lst.de>
-Message-ID: <20180328150635.GD13039@localhost.localdomain>
+Date: Wed, 28 Mar 2018 09:07:21 -0600
+Subject: [PATCH] nvme-loop: fix kernel oops in case of unhandled command
+In-Reply-To: <20180328080813.GD20373@lst.de>
+References: <20180326033937.7866-1-ming.lei@redhat.com>
+ <20180328080813.GD20373@lst.de>
+Message-ID: <20180328150721.GE13039@localhost.localdomain>
 
-Thanks, applied.
+Thanks, appied (with trimmed log as suggested).
