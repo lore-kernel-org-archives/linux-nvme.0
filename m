@@ -1,17 +1,23 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 27 Mar 2018 21:24:32 -0600
-Subject: [PATCH 1/3] blk-mq: Allow PCI vector offset for mapping queues
-In-Reply-To: <20180327153908.3732-1-keith.busch@intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 28 Mar 2018 09:32:14 +0200
+Subject: [PATCH 3/3] nvme-pci: Separate IO and admin queue IRQ vectors
+In-Reply-To: <20180327153908.3732-3-keith.busch@intel.com>
 References: <20180327153908.3732-1-keith.busch@intel.com>
-Message-ID: <973b51a9-d340-3c9e-bec0-12db96002d9b@kernel.dk>
+ <20180327153908.3732-3-keith.busch@intel.com>
+Message-ID: <20180328073214.GA18726@lst.de>
 
-On 3/27/18 9:39 AM, Keith Busch wrote:
-> The PCI interrupt vectors intended to be associated with a queue may
-> not start at 0; a driver may allocate pre_vectors for special use. This
-> patch adds an offset parameter so blk-mq may find the intended affinity
-> mask and updates all drivers using this API accordingly.
+On Tue, Mar 27, 2018@09:39:08AM -0600, Keith Busch wrote:
+> -	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev), 0);
+> +	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev),
+> +				     dev->num_vecs > 1);
 
-Looks good to me, I'll queue it up for 4.17.
+Can you turn this into:
 
--- 
-Jens Axboe
+-	return blk_mq_pci_map_queues(set, to_pci_dev(dev->dev), 0);
+			     dev->num_vecs > 1 ? 1 /* admin queue */ : 0);
+
+no functional change, but much easier to understand.
+
+Except for that the whole series looks good:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
