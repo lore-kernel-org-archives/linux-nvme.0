@@ -1,35 +1,51 @@
 From: mark.d.rustad@intel.com (Rustad, Mark D)
-Date: Wed, 28 Mar 2018 21:30:29 +0000
-Subject: [virtio-dev] [pci PATCH v7 1/5] pci: Add
- pci_sriov_configure_simple for PFs that don't manage VF resources
-In-Reply-To: <20180315184055.3102.2435.stgit@localhost.localdomain>
+Date: Wed, 28 Mar 2018 21:31:40 +0000
+Subject: [pci PATCH v7 2/5] virtio_pci: Add support for unmanaged SR-IOV
+ on virtio_pci devices
+In-Reply-To: <20180315184132.3102.90947.stgit@localhost.localdomain>
 References: <20180315183449.3102.64791.stgit@localhost.localdomain>
- <20180315184055.3102.2435.stgit@localhost.localdomain>
-Message-ID: <C573B44F-097F-45D2-AB4C-B8BCCBCC2C4F@intel.com>
+ <20180315184132.3102.90947.stgit@localhost.localdomain>
+Message-ID: <52734805-4A20-41C0-A46A-A8AFF8D79A72@intel.com>
 
-On Mar 15, 2018,@11:41 AM, Alexander Duyck <alexander.duyck@gmail.com> wrote:
+On Mar 15, 2018,@11:42 AM, Alexander Duyck <alexander.duyck@gmail.com> wrote:
 
 > From: Alexander Duyck <alexander.h.duyck at intel.com>
 > 
-> This patch adds a common configuration function called
-> pci_sriov_configure_simple that will allow for managing VFs on devices
-> where the PF is not capable of managing VF resources.
+> Hardware-realized virtio_pci devices can implement SR-IOV, so this
+> patch enables its use. The device in question is an upcoming Intel
+> NIC that implements both a virtio_net PF and virtio_net VFs. These
+> are hardware realizations of what has been up to now been a software
+> interface.
 > 
+> The device in question has the following 4-part PCI IDs:
+> 
+> PF: vendor: 1af4 device: 1041 subvendor: 8086 subdevice: 15fe
+> VF: vendor: 1af4 device: 1041 subvendor: 8086 subdevice: 05fe
+> 
+> The patch currently needs no check for device ID, because the callback
+> will never be made for devices that do not assert the capability or
+> when run on a platform incapable of SR-IOV.
+> 
+> One reason for this patch is because the hardware requires the
+> vendor ID of a VF to be the same as the vendor ID of the PF that
+> created it. So it seemed logical to simply have a fully-functioning
+> virtio_net PF create the VFs. This patch makes that possible.
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Mark Rustad <mark.d.rustad at intel.com>
 > Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
 > ---
 > 
-> v5: New patch replacing pci_sriov_configure_unmanaged with
->       pci_sriov_configure_simple
->     Dropped bits related to autoprobe changes
-> v6: Defined pci_sriov_configure_simple as NULL if IOV is disabled
-> v7: Updated pci_sriov_configure_simple to drop need for err value
->     Fixed comment explaining why pci_sriov_configure_simple is NULL
+> v4: Dropped call to pci_disable_sriov in virtio_pci_remove function
+> v5: Replaced call to pci_sriov_configure_unmanaged with
+>         pci_sriov_configure_simple
+> v6: Dropped "#ifdef" checks for IOV wrapping sriov_configure definition
+> v7: No code change, added Reviewed-by
 > 
->  drivers/pci/iov.c   |   31 +++++++++++++++++++++++++++++++
->  include/linux/pci.h |    3 +++
->  2 files changed, 34 insertions(+)
+>  drivers/virtio/virtio_pci_common.c |    1 +
+>  1 file changed, 1 insertion(+)
 
-Tested with the device identified in patch #2.
+Tested with the identified device.
 
 Tested-by: Mark Rustad <mark.d.rustad at intel.com>
 
@@ -41,4 +57,4 @@ Name: signature.asc
 Type: application/pgp-signature
 Size: 873 bytes
 Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180328/2014b39a/attachment.sig>
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180328/3b039aae/attachment.sig>
