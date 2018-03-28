@@ -1,51 +1,44 @@
-From: mr.nuke.me@gmail.com (Alex G.)
-Date: Wed, 28 Mar 2018 16:02:01 -0500
-Subject: [PATCH] nvme-pci: Skip queue deletion if there are no queues
-In-Reply-To: <20180328202240.GK13039@localhost.localdomain>
-References: <20180328180419.16129-1-keith.busch@intel.com>
- <e872954fedc943c08ef11451679d5a2c@AUSX13MPS305.AMER.DELL.COM>
- <d5c52e3e-977d-7f44-bd7d-4ec5b82d39c1@gmail.com>
- <20180328202240.GK13039@localhost.localdomain>
-Message-ID: <a799ef7c-22af-24c2-8c14-bc5d0672bdeb@gmail.com>
+From: mark.d.rustad@intel.com (Rustad, Mark D)
+Date: Wed, 28 Mar 2018 21:30:29 +0000
+Subject: [virtio-dev] [pci PATCH v7 1/5] pci: Add
+ pci_sriov_configure_simple for PFs that don't manage VF resources
+In-Reply-To: <20180315184055.3102.2435.stgit@localhost.localdomain>
+References: <20180315183449.3102.64791.stgit@localhost.localdomain>
+ <20180315184055.3102.2435.stgit@localhost.localdomain>
+Message-ID: <C573B44F-097F-45D2-AB4C-B8BCCBCC2C4F@intel.com>
 
-On 03/28/2018 03:22 PM, Keith Busch wrote:
-> On Wed, Mar 28, 2018@03:13:37PM -0500, Alex G. wrote:
->> Which branch am I supposed to be using to test this? It doesn't apply to
->> mainline.
+On Mar 15, 2018,@11:41 AM, Alexander Duyck <alexander.duyck@gmail.com> wrote:
+
+> From: Alexander Duyck <alexander.h.duyck at intel.com>
 > 
-> This is targeted to the 4.17 staging trees (sorry, this doesn't seem to
-> be a good 4.16 candidate this late in the game). This should apply on
-> linux-block for-4.17/block here:
+> This patch adds a common configuration function called
+> pci_sriov_configure_simple that will allow for managing VFs on devices
+> where the PF is not capable of managing VF resources.
 > 
->   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/log/?h=for-4.17/block
-
-Then I should probably test with that.
-Tested-by: Alex Gagniuc <Alex_Gagniuc at Dellteam.com>
-
-So I see the check is really meant to protect dereferencing
-&dev->queues[0] in nvme_disable_admin_queue(). My previous comment is
-still valid then. Successfully tested this approach as well.
-
-Thanks for the quick turn-around.
-
-Alex
-
-> 
-> A 4.16 port would would like this:
-> 
+> Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
 > ---
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index b6f43b738f03..2459067d208b 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2194,7 +2194,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->  	 * Give the controller a chance to complete all entered requests if
->  	 * doing a safe shutdown.
->  	 */
-> -	if (!dead) {
-> +	if (!dead && dev->ctrl.queue_count > 0) {
->  		if (shutdown)
->  			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
->  
-> --
 > 
+> v5: New patch replacing pci_sriov_configure_unmanaged with
+>       pci_sriov_configure_simple
+>     Dropped bits related to autoprobe changes
+> v6: Defined pci_sriov_configure_simple as NULL if IOV is disabled
+> v7: Updated pci_sriov_configure_simple to drop need for err value
+>     Fixed comment explaining why pci_sriov_configure_simple is NULL
+> 
+>  drivers/pci/iov.c   |   31 +++++++++++++++++++++++++++++++
+>  include/linux/pci.h |    3 +++
+>  2 files changed, 34 insertions(+)
+
+Tested with the device identified in patch #2.
+
+Tested-by: Mark Rustad <mark.d.rustad at intel.com>
+
+--
+Mark Rustad, Networking Division, Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 873 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180328/2014b39a/attachment.sig>
