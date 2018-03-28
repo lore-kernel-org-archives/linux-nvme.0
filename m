@@ -1,16 +1,12 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 28 Mar 2018 10:07:06 +0200
-Subject: [PATCH] nvme: unexport nvme_start_keep_alive
-In-Reply-To: <20180326084015.9269-1-jthumshirn@suse.de>
-References: <20180326084015.9269-1-jthumshirn@suse.de>
-Message-ID: <20180328080706.GC20373@lst.de>
+Date: Wed, 28 Mar 2018 10:08:13 +0200
+Subject: [PATCH] nvme-loop: fix kernel oops in case of unhandled command
+In-Reply-To: <20180326033937.7866-1-ming.lei@redhat.com>
+References: <20180326033937.7866-1-ming.lei@redhat.com>
+Message-ID: <20180328080813.GD20373@lst.de>
 
-On Mon, Mar 26, 2018@10:40:15AM +0200, Johannes Thumshirn wrote:
-> nvme_start_keep_alive() isn't used outside core.c so unexport it and
-> make it static.
-> 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-
-Looks good:
+The patch looks good:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+Buy can you trim the long but not very useful trace from the commit log?
