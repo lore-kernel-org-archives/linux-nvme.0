@@ -1,148 +1,50 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 29 Mar 2018 09:52:12 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 29 Mar 2018 11:02:10 -0600
 Subject: [PATCH 4/4] nvmet-fc: Use new SGL alloc/free helper for requests
-In-Reply-To: <20180329160721.4691-5-logang@deltatee.com>
+In-Reply-To: <15f4d135-7600-02b3-f50f-ed8deddd7b98@broadcom.com>
 References: <20180329160721.4691-1-logang@deltatee.com>
  <20180329160721.4691-5-logang@deltatee.com>
-Message-ID: <15f4d135-7600-02b3-f50f-ed8deddd7b98@broadcom.com>
-
-overall - I'm a little concerned about the replacement.
-
-I know the code depends on the null/zero checks in 
-nvmet_fc_free_tgt_pgs() as there are paths that can call them twice.? 
-Your replacement in that routine is fine, but you've fully removed any 
-initialization to zero or setting to zero on free. Given the structure 
-containing the req structure is reused, I'd rather that that code was 
-left in some way... or that nvmet_req_free_sgl() or 
-nvmet_fc_free_tgt_pgs() was updated to set req->sg to null and (not sure 
-necessary if req->sg is null) set req->sg_cnt to 0.
-
-also - sg_cnt isn't referenced as there is an assumption that: transfer 
-length meant there would be (transfer length / PAGESIZE + 1 if partial 
-page) pages allocated and sg_cnt would always equal that page cnt? thus 
-the fcpreq->sgXXX setting behavior in nvmet_fc_transfer_fcp_data().?? Is 
-that no longer valid ??? I may not have watched closely enough when the 
-sgl_alloc() common routine was introduced as it may have invalidated 
-these assumptions that were true before.
-
--- james
+ <15f4d135-7600-02b3-f50f-ed8deddd7b98@broadcom.com>
+Message-ID: <bd62c2e6-558c-e314-177f-c95cf842c741@deltatee.com>
 
 
-On 3/29/2018 9:07 AM, Logan Gunthorpe wrote:
-> Use the new helpers introduced earlier to allocate the SGLs for
-> the request.
->
-> To do this, we drop the appearantly redundant data_sg and data_sg_cnt
-> members as they are identical to the existing req.sg and req.sg_cnt.
->
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-> Cc: James Smart <james.smart at broadcom.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/target/fc.c | 38 +++++++++++---------------------------
->   1 file changed, 11 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index 9f2f8ab83158..00135ff7d1c2 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -74,8 +74,6 @@ struct nvmet_fc_fcp_iod {
->   	struct nvme_fc_cmd_iu		cmdiubuf;
->   	struct nvme_fc_ersp_iu		rspiubuf;
->   	dma_addr_t			rspdma;
-> -	struct scatterlist		*data_sg;
-> -	int				data_sg_cnt;
->   	u32				offset;
->   	enum nvmet_fcp_datadir		io_dir;
->   	bool				active;
-> @@ -1696,43 +1694,34 @@ EXPORT_SYMBOL_GPL(nvmet_fc_rcv_ls_req);
->   static int
->   nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
->   {
-> -	struct scatterlist *sg;
-> -	unsigned int nent;
->   	int ret;
->   
-> -	sg = sgl_alloc(fod->req.transfer_len, GFP_KERNEL, &nent);
-> -	if (!sg)
-> -		goto out;
-> +	ret = nvmet_req_alloc_sgl(&fod->req, &fod->queue->nvme_sq);
-> +	if (ret < 0)
-> +		return NVME_SC_INTERNAL;
->   
-> -	fod->data_sg = sg;
-> -	fod->data_sg_cnt = nent;
-> -	ret = fc_dma_map_sg(fod->tgtport->dev, sg, nent,
-> +	ret = fc_dma_map_sg(fod->tgtport->dev, fod->req.sg, fod->req.sg_cnt,
->   			    ((fod->io_dir == NVMET_FCP_WRITE) ?
->   				    DMA_FROM_DEVICE : DMA_TO_DEVICE));
->   			    /* note: write from initiator perspective */
->   	if (!ret)
-> -		goto out;
-> +		return NVME_SC_INTERNAL;
->   
->   	return 0;
-> -
-> -out:
-> -	return NVME_SC_INTERNAL;
->   }
->   
->   static void
->   nvmet_fc_free_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
->   {
-> -	if (!fod->data_sg || !fod->data_sg_cnt)
-> +	if (!fod->req.sg || !fod->req.sg_cnt)
->   		return;
->   
-> -	fc_dma_unmap_sg(fod->tgtport->dev, fod->data_sg, fod->data_sg_cnt,
-> +	fc_dma_unmap_sg(fod->tgtport->dev, fod->req.sg, fod->req.sg_cnt,
->   				((fod->io_dir == NVMET_FCP_WRITE) ?
->   					DMA_FROM_DEVICE : DMA_TO_DEVICE));
-> -	sgl_free(fod->data_sg);
-> -	fod->data_sg = NULL;
-> -	fod->data_sg_cnt = 0;
-> -}
->   
-> +	nvmet_req_free_sgl(&fod->req);
-> +}handl
->   
->   static bool
->   queue_90percent_full(struct nvmet_fc_tgt_queue *q, u32 sqhd)
-> @@ -1871,7 +1860,7 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
->   	fcpreq->fcp_error = 0;
->   	fcpreq->rsplen = 0;
->   
-> -	fcpreq->sg = &fod->data_sg[fod->offset / PAGE_SIZE];
-> +	fcpreq->sg = &fod->req.sg[fod->offset / PAGE_SIZE];
->   	fcpreq->sg_cnt = DIV_ROUND_UP(tlen, PAGE_SIZE);
->   
->   	/*
-> @@ -2083,7 +2072,7 @@ __nvmet_fc_fcp_nvme_cmd_done(struct nvmet_fc_tgtport *tgtport,
->   		 * There may be a status where data still was intended to
->   		 * be moved
->   		 */
-> -		if ((fod->io_dir == NVMET_FCP_READ) && (fod->data_sg_cnt)) {
-> +		if ((fod->io_dir == NVMET_FCP_READ) && (fod->req.sg_cnt)) {
->   			/* push the data over before sending rsp */
->   			nvmet_fc_transfer_fcp_data(tgtport, fod,
->   						NVMET_FCOP_READDATA);
-> @@ -2153,9 +2142,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
->   	/* clear any response payload */
->   	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
->   
-> -	fod->data_sg = NULL;
-> -	fod->data_sg_cnt = 0;
-> -
->   	ret = nvmet_req_init(&fod->req,
->   				&fod->queue->nvme_cq,
->   				&fod->queue->nvme_sq,
-> @@ -2178,8 +2164,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
->   			return;
->   		}
->   	}
-> -	fod->req.sg = fod->data_sg;
-> -	fod->req.sg_cnt = fod->data_sg_cnt;
->   	fod->offset = 0;
->   
->   	if (fod->io_dir == NVMET_FCP_WRITE) {
+
+On 29/03/18 10:52 AM, James Smart wrote:
+> overall - I'm a little concerned about the replacement.
+> 
+> I know the code depends on the null/zero checks in 
+> nvmet_fc_free_tgt_pgs() as there are paths that can call them twice.? 
+> Your replacement in that routine is fine, but you've fully removed any 
+> initialization to zero or setting to zero on free. Given the structure 
+> containing the req structure is reused, I'd rather that that code was 
+> left in some way... or that nvmet_req_free_sgl() or 
+> nvmet_fc_free_tgt_pgs() was updated to set req->sg to null and (not sure 
+> necessary if req->sg is null) set req->sg_cnt to 0.
+
+Ok, I can ensure we zero and NULL those in nvmet_req_free_sgl().
+
+> also - sg_cnt isn't referenced as there is an assumption that: transfer 
+> length meant there would be (transfer length / PAGESIZE + 1 if partial 
+> page) pages allocated and sg_cnt would always equal that page cnt? thus 
+> the fcpreq->sgXXX setting behavior in nvmet_fc_transfer_fcp_data().?? Is 
+> that no longer valid ??? I may not have watched closely enough when the 
+> sgl_alloc() common routine was introduced as it may have invalidated 
+> these assumptions that were true before.
+
+Per the bug in the previous patch, I don't think that was ever a valid
+assumption. It doesn't have anything to do with the sgl_alloc change
+either. The dma_map interface is allowed to merge SGLs and that's why it
+can return fewer nents than it was passed. I'm not sure how many or
+which DMA ops actually do this which is why it hasn't actually
+manifested itself as a bug; but it is part of how the interface is
+specified to work.
+
+I think we need to store the sg_map_cnt separately and use it instead of
+the calculation based on the transfer length. But this is really a fix
+that should be rolled in with the previous patch. If you can point me to
+where this needs to change I can update my patch, or if you want to fix
+it yourself go ahead.
+
+Thanks,
+
+Logan
