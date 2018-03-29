@@ -1,72 +1,69 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 29 Mar 2018 10:07:20 -0600
-Subject: [PATCH 3/4] nvmet-fc: Don't use the count returned by the dma_map_sg
- call
+Date: Thu, 29 Mar 2018 10:07:18 -0600
+Subject: [PATCH 1/4] nvmet: Introduce helper functions to allocate and free
+ request SGLs
 In-Reply-To: <20180329160721.4691-1-logang@deltatee.com>
 References: <20180329160721.4691-1-logang@deltatee.com>
-Message-ID: <20180329160721.4691-4-logang@deltatee.com>
+Message-ID: <20180329160721.4691-2-logang@deltatee.com>
 
-When allocating an SGL, the fibre channel target uses the number
-of entities mapped as the number of entities in a given scatter
-gather list. This is incorrect.
+Add helpers to allocate and free the SGL in a struct nvmet_req:
 
-The DMA-API-HOWTO document gives this note:
+int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq)
+void nvmet_req_free_sgl(struct nvmet_req *req)
 
-   The 'nents' argument to the dma_unmap_sg call must be
-   the _same_ one you passed into the dma_map_sg call,
-   it should _NOT_ be the 'count' value _returned_ from the
-   dma_map_sg call.
-
-The fc code only stores the count value returned form the dma_map_sg()
-call and uses that value in the call to dma_unmap_sg().
-
-The dma_map_sg() call will return a lower count than nents when multiple
-SG entries were merged into one. This implies that there will be fewer
-DMA address and length entries but the original number of page entries
-in the SGL. So if this occurs, when the SGL reaches nvmet_execute_rw(),
-a bio would be created with fewer than the total number of entries.
-
-As odd as it sounds, and as far as I can tell, the number of SG entries
-mapped does not appear to be used anywhere in the fc driver and therefore
-there's no current need to store it.
+This will be expanded in a future patch to implement peer-to-peer
+memory and should be common with all target drivers. The presently
+unused sq argument in the alloc function will be necessary to
+decide whether to use peer-to-peer memory and obtain the correct
+provider to allocate the memory.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Cc: James Smart <james.smart at broadcom.com>
 Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
-Fixes: c53432030d8642 ("nvme-fabrics: Add target support for FC transport")
 ---
- drivers/nvme/target/fc.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/nvme/target/core.c  | 16 ++++++++++++++++
+ drivers/nvme/target/nvmet.h |  2 ++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 9b39a6cb1935..9f2f8ab83158 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1698,6 +1698,7 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index a78029e4e5f4..3770fb812657 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -575,6 +575,22 @@ void nvmet_req_execute(struct nvmet_req *req)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_req_execute);
+ 
++int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq)
++{
++	req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
++	if (!req->sg)
++		return -ENOMEM;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvmet_req_alloc_sgl);
++
++void nvmet_req_free_sgl(struct nvmet_req *req)
++{
++	sgl_free(req->sg);
++}
++EXPORT_SYMBOL_GPL(nvmet_req_free_sgl);
++
+ static inline bool nvmet_cc_en(u32 cc)
  {
- 	struct scatterlist *sg;
- 	unsigned int nent;
-+	int ret;
+ 	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 417f6c0331cc..6f74cb2b7e37 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -271,6 +271,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ void nvmet_req_uninit(struct nvmet_req *req);
+ void nvmet_req_execute(struct nvmet_req *req);
+ void nvmet_req_complete(struct nvmet_req *req, u16 status);
++int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq);
++void nvmet_req_free_sgl(struct nvmet_req *req);
  
- 	sg = sgl_alloc(fod->req.transfer_len, GFP_KERNEL, &nent);
- 	if (!sg)
-@@ -1705,10 +1706,12 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
- 
- 	fod->data_sg = sg;
- 	fod->data_sg_cnt = nent;
--	fod->data_sg_cnt = fc_dma_map_sg(fod->tgtport->dev, sg, nent,
--				((fod->io_dir == NVMET_FCP_WRITE) ?
--					DMA_FROM_DEVICE : DMA_TO_DEVICE));
--				/* note: write from initiator perspective */
-+	ret = fc_dma_map_sg(fod->tgtport->dev, sg, nent,
-+			    ((fod->io_dir == NVMET_FCP_WRITE) ?
-+				    DMA_FROM_DEVICE : DMA_TO_DEVICE));
-+			    /* note: write from initiator perspective */
-+	if (!ret)
-+		goto out;
- 
- 	return 0;
- 
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+ 		u16 size);
 -- 
 2.11.0
