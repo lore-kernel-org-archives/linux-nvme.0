@@ -1,22 +1,31 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 29 Mar 2018 09:34:29 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 29 Mar 2018 10:38:45 -0600
 Subject: [PATCH 3/4] nvmet-fc: Don't use the count returned by the
  dma_map_sg call
-In-Reply-To: <5ba62675-39b4-6409-5628-c59d8ae048de@deltatee.com>
+In-Reply-To: <a60ddb463159bcc287998ecfafdc2753973a4828.camel@wdc.com>
 References: <20180329160721.4691-1-logang@deltatee.com>
  <20180329160721.4691-4-logang@deltatee.com>
- <03cb3610-8ec7-9dc4-9e0a-82f4c30de578@broadcom.com>
- <5ba62675-39b4-6409-5628-c59d8ae048de@deltatee.com>
-Message-ID: <5a5ab779-c949-8caa-abff-88063e885cd5@broadcom.com>
+ <a60ddb463159bcc287998ecfafdc2753973a4828.camel@wdc.com>
+Message-ID: <ec0f4fb3-33be-4343-0ee5-8fcb646e3345@deltatee.com>
 
-On 3/29/2018 9:30 AM, Logan Gunthorpe wrote:
-> Can you elaborate? The 'data_sg_cnt' member was in 'struct
-> nvmet_fc_fcp_iod' which is declared in fc.c so it doesn't seem sane for
-> lower driver to access it... In fact the next patch in the series
-> removes it completely.
->
-> Logan
 
-actually, I do think it's ok. about to post review on the next patch
 
--- james
+On 29/03/18 10:14 AM, Bart Van Assche wrote:
+> On Thu, 2018-03-29@10:07 -0600, Logan Gunthorpe wrote:
+>> +	ret = fc_dma_map_sg(fod->tgtport->dev, sg, nent,
+>> +			    ((fod->io_dir == NVMET_FCP_WRITE) ?
+>> +				    DMA_FROM_DEVICE : DMA_TO_DEVICE));
+>> +			    /* note: write from initiator perspective */
+> 
+> If you have to repost this patch please remove the four superfluous parentheses.
+
+Oh, actually, I made this change in patch 4 of this series for the next
+time I post it. This allowed me to cleanup both the map and unmap
+instances in the same patch.
+
+Also, if the maintainer wants to pick up patch 3 as a bug fix I can
+carry the rest in the P2PDMA series.
+
+Thanks,
+
+Logan
