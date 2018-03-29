@@ -1,64 +1,42 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 29 Mar 2018 16:07:39 +0300
-Subject: nvme-rdma corrupts memory upon timeout
-In-Reply-To: <ecc2b48a-f49f-9e2a-17a2-d68edf780b51@grimberg.me>
-References: <CAF9HSintgS0U2X=E=_uJnU4y95HDcCUnyCKBDF_tNaDcY9pucg@mail.gmail.com>
- <65c6d928-dd82-70b6-79a7-481dc629c3db@grimberg.me>
- <9569a169-76cb-cd49-e31a-f33978fe2025@grimberg.me>
- <CAF9HSin0W-PcsK-ADENviGeydirrhjyTVnWpnjBpZCeZWaJ0ng@mail.gmail.com>
- <cefc1ef2-4ffb-5d6c-c047-d6233a189843@grimberg.me>
- <ecc2b48a-f49f-9e2a-17a2-d68edf780b51@grimberg.me>
-Message-ID: <f60b9676-e999-5303-14d8-e5f059bac59e@mellanox.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 29 Mar 2018 10:07:17 -0600
+Subject: [PATCH 0/4] SGL alloc and free helper functions for requests
+Message-ID: <20180329160721.4691-1-logang@deltatee.com>
+
+Hey,
+
+These patches are going to be part of the P2PDMA patchset I'm working
+on. The change was suggested by Christoph. I just wanted to get the NVMe
+community's initial feedback on them seperate from our main patchset.
+
+That is, except for patch 0003 which I'm pretty sure is a valid bug fix
+but it needs review.
+
+I also can not test the fibre channel changes as I do not have hardware
+so I'd also appreciate it if someone can test it out.
+
+If you need more context the commit which modifies these to support
+P2P is [1]. This will likely be posted as the next version of the P2PDMA
+patchset in the next cycle.
+
+Thanks,
+
+Logan
 
 
+[1] https://github.com/sbates130272/linux-p2pmem/commit/4e57ff23d5ccc4687ac8eb567df1d4d15bf50254
 
-On 3/1/2018 11:12 AM, Sagi Grimberg wrote:
-> 
->>> This patch still returns to userspace after queuing work and may
->>> result in corruption.
->>
->> That's probably that one request being timed out as we complete
->> it earlier.
->>
->> Does this patch on top help?
->> -- 
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index e793b0899d4e..50bbf88b82f6 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -1590,10 +1590,7 @@ nvme_rdma_timeout(struct request *rq, bool 
->> reserved)
->> ???????? /* queue error recovery */
->> ???????? nvme_rdma_error_recovery(req->queue->ctrl);
->>
->> -?????? /* fail with DNR on cmd timeout */
->> -?????? nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
->> -
->> -?????? return BLK_EH_HANDLED;
->> +?????? return BLK_EH_RESET_TIMER;
->> ??}
->>
->> ??/*
->> -- 
-> 
-> Did this help?
+Logan Gunthorpe (4):
+  nvmet: Introduce helper functions to allocate and free request SGLs
+  nvmet-rdma: Use new SGL alloc/free helper for requests
+  nvmet-fc: Don't use the count returned by the dma_map_sg call
+  nvmet-fc: Use new SGL alloc/free helper for requests
 
-it helped in our setup. Can we push this ?
-regarding the stopping/draining the qp before the calling the 
-blk_mq_tagset_busy_iter, it seems right to me also since we want to stop 
-getting completions from the HCA before we cancel all the inflight requests.
+ drivers/nvme/target/core.c  | 16 ++++++++++++++++
+ drivers/nvme/target/fc.c    | 45 ++++++++++++++++-----------------------------
+ drivers/nvme/target/nvmet.h |  2 ++
+ drivers/nvme/target/rdma.c  | 20 ++++++++++++--------
+ 4 files changed, 46 insertions(+), 37 deletions(-)
 
-We are completing the request from various contexts and can get NULL 
-dereference nvme_rdma_process_nvme_rsp (in req->mr).
-We added a debug prints to see if the rq is inflight during 
-nvme_rdma_process_nvme_rsp and it was't (other context "complete" the 
-request already).
-
--Max.
-
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7Cd9e8d94af2a948c67a7108d57f549415%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636554923592413828&sdata=%2BbaaFQTsG8TU9NUSfr6adRhrk3VTMBfHHjr9hM%2BxdfE%3D&reserved=0 
-> 
+--
+2.11.0
