@@ -1,60 +1,42 @@
-From: mark.d.rustad@intel.com (Rustad, Mark D)
-Date: Wed, 28 Mar 2018 21:31:40 +0000
-Subject: [pci PATCH v7 2/5] virtio_pci: Add support for unmanaged SR-IOV
- on virtio_pci devices
-In-Reply-To: <20180315184132.3102.90947.stgit@localhost.localdomain>
-References: <20180315183449.3102.64791.stgit@localhost.localdomain>
- <20180315184132.3102.90947.stgit@localhost.localdomain>
-Message-ID: <52734805-4A20-41C0-A46A-A8AFF8D79A72@intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 29 Mar 2018 10:56:21 +0200
+Subject: [PATCH] nvme-multipath: implement active-active round-robin
+ path selector
+In-Reply-To: <20180328194741.GJ13039@localhost.localdomain>
+References: <20180327043851.6640-1-baegjae@gmail.com>
+ <20180328080646.GB20373@lst.de>
+ <20180328194741.GJ13039@localhost.localdomain>
+Message-ID: <20180329085621.GB22215@lst.de>
 
-On Mar 15, 2018,@11:42 AM, Alexander Duyck <alexander.duyck@gmail.com> wrote:
+On Wed, Mar 28, 2018@01:47:41PM -0600, Keith Busch wrote:
+> single host (single path from two hosts seems more common). If that's a
+> thing, we should get some numa awareness. I couldn't find your prototype,
+> though. I had one stashed locally from a while back and hope it resembles
+> what you had in mind:
 
-> From: Alexander Duyck <alexander.h.duyck at intel.com>
-> 
-> Hardware-realized virtio_pci devices can implement SR-IOV, so this
-> patch enables its use. The device in question is an upcoming Intel
-> NIC that implements both a virtio_net PF and virtio_net VFs. These
-> are hardware realizations of what has been up to now been a software
-> interface.
-> 
-> The device in question has the following 4-part PCI IDs:
-> 
-> PF: vendor: 1af4 device: 1041 subvendor: 8086 subdevice: 15fe
-> VF: vendor: 1af4 device: 1041 subvendor: 8086 subdevice: 05fe
-> 
-> The patch currently needs no check for device ID, because the callback
-> will never be made for devices that do not assert the capability or
-> when run on a platform incapable of SR-IOV.
-> 
-> One reason for this patch is because the hardware requires the
-> vendor ID of a VF to be the same as the vendor ID of the PF that
-> created it. So it seemed logical to simply have a fully-functioning
-> virtio_net PF create the VFs. This patch makes that possible.
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Signed-off-by: Mark Rustad <mark.d.rustad at intel.com>
-> Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+Mine was way older before the current data structures.  Back then I
+used ->map_queues hacks that I'm glad I never posted :)
+
 > ---
+> struct nvme_ns *nvme_find_path_numa(struct nvme_ns_head *head)
+> {
+>         int distance, current = INT_MAX, node = cpu_to_node(smp_processor_id());
+>         struct nvme_ns *ns, *path = NULL;
 > 
-> v4: Dropped call to pci_disable_sriov in virtio_pci_remove function
-> v5: Replaced call to pci_sriov_configure_unmanaged with
->         pci_sriov_configure_simple
-> v6: Dropped "#ifdef" checks for IOV wrapping sriov_configure definition
-> v7: No code change, added Reviewed-by
+>         list_for_each_entry_rcu(ns, &head->list, siblings) {
+>                 if (ns->ctrl->state != NVME_CTRL_LIVE)
+>                         continue;
+>                 if (ns->disk->node_id == node)
+>                         return ns;
 > 
->  drivers/virtio/virtio_pci_common.c |    1 +
->  1 file changed, 1 insertion(+)
+>                 distance = node_distance(node, ns->disk->node_id);
+>                 if (distance < current) {
+>                         current = distance;
+>                         path = ns;
+>                 }
+>         }
+>         return path;
 
-Tested with the identified device.
-
-Tested-by: Mark Rustad <mark.d.rustad at intel.com>
-
---
-Mark Rustad, Networking Division, Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 873 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180328/3b039aae/attachment.sig>
+This is roughly what I'd do now.  The other important change would
+be to have a per-node cache of the current path so that we don't do
+it in the hot path.
