@@ -1,41 +1,52 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 30 Mar 2018 12:13:28 -0600
-Subject: [RFC PATCH 8/8] nvmet: add configfs interface for target passthru
-In-Reply-To: <20180330065747.20962-9-chaitanya.kulkarni@wdc.com>
+Date: Fri, 30 Mar 2018 12:50:45 -0600
+Subject: [RFC PATCH 4/8] nvmet: use const values for id-ctrl
+In-Reply-To: <20180330065747.20962-5-chaitanya.kulkarni@wdc.com>
 References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
- <20180330065747.20962-9-chaitanya.kulkarni@wdc.com>
-Message-ID: <be832a05-3906-7087-30ed-f20784128272@deltatee.com>
+ <20180330065747.20962-5-chaitanya.kulkarni@wdc.com>
+Message-ID: <06ee48f5-822c-4fe1-78ca-f8fd22af5d87@deltatee.com>
 
 
 
 On 30/03/18 12:57 AM, Chaitanya Kulkarni wrote:
-> This patch adds configfs interface for target passthru
-> ctrl management.
+> This patch adds constant values which are used in
+> target identify ctrl.
 > 
-> The new directory "pt" under nvmet configfs is added to
-> configure passthru ctrl (pt-ctrl). Once all the fields
-> for the pt-ctrl are set user can enable the pt-ctrl through
-> configfs.
+> These values will be used in implementing
+> target passthru identify ctrl to mask the passthru
+> ctrl values with the default target ctrl values.
 > 
-> The new directory pt is parallel to the subsystem and has similar
-> attributes as default subsystem, each passthru ctrl is represented
-> as one subsystem. Since we allow ctrl passthru we don't export or
-> allow user to access the passthru namespace(s) in the configfs.
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>  drivers/nvme/target/admin-cmd.c | 6 +++---
+>  drivers/nvme/target/nvmet.h     | 4 ++++
+>  2 files changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 90dcdc40ac71..6b3d20b32187 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -210,7 +210,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+>  	 * comands.  But we don't do anything useful for abort either, so
+>  	 * no point in allowing more abort commands than the spec requires.
+>  	 */
+> -	id->acl = 3;
+> +	id->acl = NVMET_ID_CTRL_ACL;
+>  
+>  	id->aerl = NVMET_ASYNC_EVENTS - 1;
+>  
+> @@ -223,8 +223,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+>  	/* We support keep-alive timeout in granularity of seconds */
+>  	id->kas = cpu_to_le16(NVMET_KAS);
+>  
+> -	id->sqes = (0x6 << 4) | 0x6;
+> -	id->cqes = (0x4 << 4) | 0x4;
+> +	id->sqes = NVMET_ID_CTRL_SQES;
+> +	id->cqes = NVMET_ID_CTRL_CQES;
 
-I *really* dislike this interface. Not only is the "pt" directory
-confusing to the user, it's nearly identical to what a subsystem is. So
-as developers, if we want to add a config option to a subsystem we also
-have to add it to the equivalent pt. I've already seen one patch set
-that would be mutually exclusive to this only because of the
-configuration mess.
-
-I'd much rather see either a couple new attributes in the existing
-subsystem or some mechanism such that if you create a namespace that
-points to a controller (eg /dev/nvme1) it takes it as though you're
-trying to pass through the whole NVMe device. (The code would need to
-ensure that a passthrough subsystem configured this way could only have
-exactly one namespace.) I think that would be a lot more intuitive than
-a directory label "pt" and prevents all the duplication of what a
-subsystem is.
+Hmm, I don't know... maybe see what others think but this doesn't feel
+right to me. Perhaps a helper function to set the common elements wtih
+nvmet_id_ctrl_init_fabircs_fields() of the id struct would be more
+appropriate.
 
 Logan
