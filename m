@@ -1,214 +1,61 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Fri, 30 Mar 2018 02:57:47 -0400
-Subject: [RFC PATCH 8/8] nvmet: add configfs interface for target passthru
+Date: Fri, 30 Mar 2018 02:57:43 -0400
+Subject: [RFC PATCH 4/8] nvmet: use const values for id-ctrl
 In-Reply-To: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
 References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180330065747.20962-9-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180330065747.20962-5-chaitanya.kulkarni@wdc.com>
 
-This patch adds configfs interface for target passthru
-ctrl management.
+This patch adds constant values which are used in
+target identify ctrl.
 
-The new directory "pt" under nvmet configfs is added to
-configure passthru ctrl (pt-ctrl). Once all the fields
-for the pt-ctrl are set user can enable the pt-ctrl through
-configfs.
-
-The new directory pt is parallel to the subsystem and has similar
-attributes as default subsystem, each passthru ctrl is represented
-as one subsystem. Since we allow ctrl passthru we don't export or
-allow user to access the passthru namespace(s) in the configfs.
-
-The new attribute "attr_ctrl_path" expects nvme ctrl path,
-e.g. "/dev/nvmeX".
+These values will be used in implementing
+target passthru identify ctrl to mask the passthru
+ctrl values with the default target ctrl values.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/configfs.c | 145 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 144 insertions(+), 1 deletion(-)
+ drivers/nvme/target/admin-cmd.c | 6 +++---
+ drivers/nvme/target/nvmet.h     | 4 ++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index e6b2d2af81b6..fba968086442 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -21,6 +21,7 @@
- #include "nvmet.h"
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 90dcdc40ac71..6b3d20b32187 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -210,7 +210,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	 * comands.  But we don't do anything useful for abort either, so
+ 	 * no point in allowing more abort commands than the spec requires.
+ 	 */
+-	id->acl = 3;
++	id->acl = NVMET_ID_CTRL_ACL;
  
- static const struct config_item_type nvmet_host_type;
-+static const struct config_item_type nvmet_pt_type;
- static const struct config_item_type nvmet_subsys_type;
+ 	id->aerl = NVMET_ASYNC_EVENTS - 1;
  
- /*
-@@ -477,7 +478,8 @@ static int nvmet_port_subsys_allow_link(struct config_item *parent,
- 	struct nvmet_subsys_link *link, *p;
- 	int ret;
+@@ -223,8 +223,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	/* We support keep-alive timeout in granularity of seconds */
+ 	id->kas = cpu_to_le16(NVMET_KAS);
  
--	if (target->ci_type != &nvmet_subsys_type) {
-+	if (!(target->ci_type == &nvmet_subsys_type ||
-+				target->ci_type == &nvmet_pt_type)) {
- 		pr_err("can only link subsystems into the subsystems dir.!\n");
- 		return -EINVAL;
- 	}
-@@ -772,6 +774,141 @@ static const struct config_item_type nvmet_subsystems_type = {
- 	.ct_owner		= THIS_MODULE,
- };
+-	id->sqes = (0x6 << 4) | 0x6;
+-	id->cqes = (0x4 << 4) | 0x4;
++	id->sqes = NVMET_ID_CTRL_SQES;
++	id->cqes = NVMET_ID_CTRL_CQES;
  
+ 	/* no enforcement soft-limit for maxcmd - pick arbitrary high value */
+ 	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 584f1bcc5e79..35c7bec641bf 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -325,6 +325,10 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+ #define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
+ #define NVMET_KAS		10
+ #define NVMET_DISC_KATO		120
++#define NVMET_ID_CTRL_SQES     ((0x6 << 4) | 0x6)
++#define NVMET_ID_CTRL_CQES     ((0x4 << 4) | 0x4)
++#define NVMET_ID_CTRL_ACL      3
 +
-+/*
-+ * Passthru attributes and operations.
-+ */
-+static ssize_t nvmet_pt_attr_ctrl_path_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%s\n", subsys->pt_ctrl_path);
-+}
-+
-+static ssize_t nvmet_pt_attr_ctrl_path_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	int ret = -ENOMEM;
-+
-+	mutex_lock(&subsys->lock);
-+	kfree(subsys->pt_ctrl_path);
-+
-+	subsys->pt_ctrl_path = kstrdup(page, GFP_KERNEL);
-+	if (!subsys->pt_ctrl_path)
-+		goto out_unlock;
-+
-+	mutex_unlock(&subsys->lock);
-+
-+	return count;
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+
-+}
-+CONFIGFS_ATTR(nvmet_pt_, attr_ctrl_path);
-+
-+static ssize_t nvmet_pt_attr_enable_show(struct config_item *item, char *page)
-+{
-+	return sprintf(page, "%d\n", to_subsys(item)->pt_ctrl ? 1 : 0);
-+}
-+
-+static ssize_t nvmet_pt_attr_enable_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	bool enable;
-+	int ret = 0;
-+
-+	if (subsys->pt_ctrl_path == NULL) {
-+		pr_err("passthru ctrl path is not initialized.\n");
-+		return -EINVAL;
-+	}
-+
-+	if (strtobool(page, &enable))
-+		return -EINVAL;
-+
-+	if (enable)
-+		ret = nvmet_pt_ctrl_enable(subsys);
-+	else
-+		nvmet_pt_ctrl_disable(subsys);
-+
-+	return ret ? ret : count;
-+}
-+CONFIGFS_ATTR(nvmet_pt_, attr_enable);
-+
-+static struct configfs_attribute *nvmet_pt_attrs[] = {
-+	&nvmet_pt_attr_attr_ctrl_path,
-+	&nvmet_pt_attr_attr_enable,
-+	&nvmet_subsys_attr_attr_allow_any_host,
-+	&nvmet_subsys_attr_attr_version,
-+	&nvmet_subsys_attr_attr_serial,
-+	NULL,
-+};
-+
-+/*
-+ * Passthru structures & folder operation functions below
-+ */
-+static void nvmet_pt_release(struct config_item *item)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	nvmet_subsys_del_ctrls(subsys);
-+	/*
-+	 * Since we are the only one to manage the pt ctrl,
-+	 * disable the pt ctrl in case user did not disable
-+	 * the ctrl attribute prior to removing the passthru subsystem.
-+	 */
-+
-+	nvmet_pt_ctrl_disable(subsys);
-+
-+	nvmet_subsys_put(subsys);
-+}
-+
-+static struct configfs_item_operations nvmet_pt_item_ops = {
-+	.release		= nvmet_pt_release,
-+};
-+
-+static const struct config_item_type nvmet_pt_type = {
-+	.ct_item_ops		= &nvmet_pt_item_ops,
-+	.ct_attrs		= nvmet_pt_attrs,
-+	.ct_owner		= THIS_MODULE,
-+};
-+
-+static struct config_group *nvmet_pt_make(struct config_group *group,
-+		const char *name)
-+{
-+	struct nvmet_subsys *subsys;
-+
-+	if (sysfs_streq(name, NVME_DISC_SUBSYS_NAME)) {
-+		pr_err("can't create discovery subsystem through configfs\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
-+	if (!subsys)
-+		return ERR_PTR(-ENOMEM);
-+
-+	config_group_init_type_name(&subsys->group, name, &nvmet_pt_type);
-+
-+	config_group_init_type_name(&subsys->allowed_hosts_group,
-+			"allowed_hosts", &nvmet_allowed_hosts_type);
-+	configfs_add_default_group(&subsys->allowed_hosts_group,
-+			&subsys->group);
-+
-+	return &subsys->group;
-+}
-+
-+static struct configfs_group_operations nvmet_pts_group_ops = {
-+	.make_group		= nvmet_pt_make,
-+};
-+
-+static struct config_item_type nvmet_pts_type = {
-+	.ct_group_ops		= &nvmet_pts_group_ops,
-+	.ct_owner		= THIS_MODULE,
-+};
-+
- static ssize_t nvmet_referral_enable_show(struct config_item *item,
- 		char *page)
- {
-@@ -927,6 +1064,7 @@ static const struct config_item_type nvmet_ports_type = {
- };
  
- static struct config_group nvmet_subsystems_group;
-+static struct config_group nvmet_pts_group;
- static struct config_group nvmet_ports_group;
- 
- static void nvmet_host_release(struct config_item *item)
-@@ -990,6 +1128,11 @@ int __init nvmet_init_configfs(void)
- 	config_group_init(&nvmet_configfs_subsystem.su_group);
- 	mutex_init(&nvmet_configfs_subsystem.su_mutex);
- 
-+	config_group_init_type_name(&nvmet_pts_group,
-+			"pt", &nvmet_pts_type);
-+	configfs_add_default_group(&nvmet_pts_group,
-+			&nvmet_configfs_subsystem.su_group);
-+
- 	config_group_init_type_name(&nvmet_subsystems_group,
- 			"subsystems", &nvmet_subsystems_type);
- 	configfs_add_default_group(&nvmet_subsystems_group,
+ int __init nvmet_init_configfs(void);
+ void __exit nvmet_exit_configfs(void);
 -- 
 2.14.1
