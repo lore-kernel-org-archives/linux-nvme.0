@@ -1,52 +1,35 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 30 Mar 2018 12:50:45 -0600
-Subject: [RFC PATCH 4/8] nvmet: use const values for id-ctrl
-In-Reply-To: <20180330065747.20962-5-chaitanya.kulkarni@wdc.com>
-References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
- <20180330065747.20962-5-chaitanya.kulkarni@wdc.com>
-Message-ID: <06ee48f5-822c-4fe1-78ca-f8fd22af5d87@deltatee.com>
+From: rosattig@linux.vnet.ibm.com (Rodrigo R. Galvao)
+Date: Fri, 30 Mar 2018 18:18:50 -0300
+Subject: [PATCH] nvmet: fix nvmet_execute_write_zeroes function
+Message-ID: <1522444730-2060-1-git-send-email-rosattig@linux.vnet.ibm.com>
 
+When trying to issue write_zeroes command against TARGET the nr_sector is
+being incremented by 1, which ends up hitting the following condition at
+__blkdev_issue_zeroout:
 
+     if ((sector | nr_sects) & bs_mask)
+                return -EINVAL;
 
-On 30/03/18 12:57 AM, Chaitanya Kulkarni wrote:
-> This patch adds constant values which are used in
-> target identify ctrl.
-> 
-> These values will be used in implementing
-> target passthru identify ctrl to mask the passthru
-> ctrl values with the default target ctrl values.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
->  drivers/nvme/target/admin-cmd.c | 6 +++---
->  drivers/nvme/target/nvmet.h     | 4 ++++
->  2 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 90dcdc40ac71..6b3d20b32187 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -210,7 +210,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
->  	 * comands.  But we don't do anything useful for abort either, so
->  	 * no point in allowing more abort commands than the spec requires.
->  	 */
-> -	id->acl = 3;
-> +	id->acl = NVMET_ID_CTRL_ACL;
->  
->  	id->aerl = NVMET_ASYNC_EVENTS - 1;
->  
-> @@ -223,8 +223,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
->  	/* We support keep-alive timeout in granularity of seconds */
->  	id->kas = cpu_to_le16(NVMET_KAS);
->  
-> -	id->sqes = (0x6 << 4) | 0x6;
-> -	id->cqes = (0x4 << 4) | 0x4;
-> +	id->sqes = NVMET_ID_CTRL_SQES;
-> +	id->cqes = NVMET_ID_CTRL_CQES;
+Causing the command to always fail. Removing the increment makes the
+command to work properly.
 
-Hmm, I don't know... maybe see what others think but this doesn't feel
-right to me. Perhaps a helper function to set the common elements wtih
-nvmet_id_ctrl_init_fabircs_fields() of the id struct would be more
-appropriate.
+Signed-off-by: Rodrigo R. Galvao <rosattig at linux.vnet.ibm.com>
+---
+ drivers/nvme/target/io-cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Logan
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 28bbdff..8d72686 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -174,7 +174,7 @@ static void nvmet_execute_write_zeroes(struct nvmet_req *req)
+ 	sector = le64_to_cpu(write_zeroes->slba) <<
+ 		(req->ns->blksize_shift - 9);
+ 	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length)) <<
+-		(req->ns->blksize_shift - 9)) + 1;
++		(req->ns->blksize_shift - 9));
+ 
+ 	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+ 				GFP_KERNEL, &bio, 0))
+-- 
+2.7.4
