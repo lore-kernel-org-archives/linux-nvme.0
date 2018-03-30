@@ -1,39 +1,37 @@
-From: sim@linux.vnet.ibm.com (Narasimhan V)
-Date: Fri, 30 Mar 2018 22:16:51 +0530
-Subject: nguid for nvme over fabrics
-In-Reply-To: <20180328082708.GA31409@infradead.org>
-References: <410a2655c6f5e4ed9e1c2af36b72f3ee@linux.vnet.ibm.com>
- <4ab62a0f-5cee-cf62-33b3-f4097d34cf72@grimberg.me>
- <0832b33613cb166a1c3f46dd3c5d407d@linux.vnet.ibm.com>
- <20180328082708.GA31409@infradead.org>
-Message-ID: <a4f728e9ce2ca0905c641614d1330a1f@linux.vnet.ibm.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 30 Mar 2018 11:46:35 -0600
+Subject: [RFC PATCH 0/8] nvmet: implement target passthru commands support
+In-Reply-To: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
+References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <4b512e2c-95ac-98ee-9bf2-2deef3a6737f@deltatee.com>
 
-On 2018-03-28 13:57, Christoph Hellwig wrote:
-> On Fri, Mar 23, 2018@12:59:53PM +0530, Narasimhan V wrote:
->> Shouldn't it be unique ?
->> I have instances where for NVMef, multiple devices can have same 
->> nguids.
->> Which component should be responsible to generate nguid in NVMef ?
+Hi Chaitanya,
+
+I'm very much in favor of the concept of this patchset but I think it
+still needs some work. I'll post some notes on the following patches
+shortly.
+
+On 30/03/18 12:57 AM, Chaitanya Kulkarni wrote:
+> This patchset implements NVMeOF target passthrough commands support.
 > 
-> You must only usea nguid if you have a ieee id, and then it is your
-> responsibility to hand out ids based on that.
-
-Thnaks Chris,
-I get it now.
-
+> In current implementation on the target side, NVMe command is mapped on the
+> block layer request which allows the target to use generic block device.
 > 
-> Which means that you generally should not set a nguid unless you
-> are building an appliance and really know what you are doing.
-> 
+> With the help of passthrough interface, it can now identify the NVMe controller
+> and allow the host to issue NVMe commands along with the VUCs on the
+> target side. For example with this feature, depending on the target controller
+> support host can issue namespace management commands,
+> Vendor unique commands etc.
 
-For my confirmation, if we are setting duplicate nguids, it is user's
-responsibility, and system does not give any warning / error ?
+I'm already aware of what this patchset is trying to accomplish but I
+find this description confusing and hard to understand. I think you need
+to say something along the lines of:
 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+"This patchset aims to enable passing through entire physical NVMe drive
+through an NVMe over fabrics interface. This implies that all
+namespaces on the target drive are passed through to the initiator
+one-to-one and all admin commands from the initiator are forwarded back
+to the target drive. This allows for exposing Vender Unique Commands
+(VUCs) over the NVMe-OF interface."
 
--- 
-Regards
-Narasimhan V
+Logan
