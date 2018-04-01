@@ -1,42 +1,34 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Sat, 30 Sep 2017 21:37:38 +0200
-Subject: [PATCH 8/9] nvme: implement multipath access to nvme subsystems
-In-Reply-To: <20170928155315.GK8463@localhost.localdomain> (Keith Busch's
- message of "Thu, 28 Sep 2017 09:53:16 -0600")
-References: <20170925134031.10548-1-hch@lst.de>
- <20170925134031.10548-9-hch@lst.de>
- <20170928155315.GK8463@localhost.localdomain>
-Message-ID: <mqdk20ghta5.fsf@linux-x5ow.site>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Sun,  1 Apr 2018 15:19:53 +0000
+Subject: [PATCH 1/2] nvme-rdma: Fix race between queue timeout and error
+ recovery
+Message-ID: <1522595994-21092-1-git-send-email-israelr@mellanox.com>
 
+When returning BLK_EH_HANDLED from nvme_rdma_timeout() the block layer
+complete the request.
+Error recovery may also complete the request when aborting the requests.
 
-[+Cc Hannes ]
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Keith Busch <keith.busch at intel.com> writes:
-
-> On Mon, Sep 25, 2017@03:40:30PM +0200, Christoph Hellwig wrote:
->> The new block devices nodes for multipath access will show up as
->> 
->> 	/dev/nvm-subXnZ
->
-> Just thinking ahead ... Once this goes in, someone will want to boot their
-> OS from a multipath target. It was a pain getting installers to recognize
-> /dev/nvmeXnY as an install destination. I'm not sure if installers have
-> gotten any better in the last 5 years about recognizing new block names.
-
-We discussed (Hannes, Christoph and me) this as well offline this week
-and it should eithr be possible with some udev magic (fake a
-/dev/mapper/WWID symlink) or a shim device-mapper target that prevents
-dm-mpath from attaching to the underlying block devices and creates a
-real /dev/mapper/WWID device node (Christoph especially dislikes
-this). None of them are pretty, but probably all we can do so far.
-
-Byte,
-        Johannes
-
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 758537e..c1abfc8 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1595,10 +1595,7 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
+ 	/* queue error recovery */
+ 	nvme_rdma_error_recovery(req->queue->ctrl);
+ 
+-	/* fail with DNR on cmd timeout */
+-	nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
+-
+-	return BLK_EH_HANDLED;
++	return BLK_EH_RESET_TIMER;
+ }
+ 
+ /*
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
