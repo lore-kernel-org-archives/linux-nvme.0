@@ -1,37 +1,28 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon,  2 Apr 2018 15:46:45 +0300
-Subject: [PATCH 1/1] nvme: check return value of init_srcu_struct function
-Message-ID: <1522673205-18575-1-git-send-email-maxg@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 2 Apr 2018 07:47:40 -0600
+Subject: [PATCH] nvmet: fix nvmet_execute_write_zeroes function
+In-Reply-To: <1522444730-2060-1-git-send-email-rosattig@linux.vnet.ibm.com>
+References: <1522444730-2060-1-git-send-email-rosattig@linux.vnet.ibm.com>
+Message-ID: <20180402134740.GB28945@localhost.localdomain>
 
-Also add error flow in case srcu initialization function fails.
+On Fri, Mar 30, 2018@06:18:50PM -0300, Rodrigo R. Galvao wrote:
+>  	sector = le64_to_cpu(write_zeroes->slba) <<
+>  		(req->ns->blksize_shift - 9);
+>  	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length)) <<
+> -		(req->ns->blksize_shift - 9)) + 1;
+> +		(req->ns->blksize_shift - 9));
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+I see what's wrong here. The +1 needs to be on the native format prior
+to converting to 512b, so the fix needs to be:
+
 ---
- drivers/nvme/host/core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 666e509..38b450e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2830,7 +2830,9 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 		goto out_free_head;
- 	head->instance = ret;
- 	INIT_LIST_HEAD(&head->list);
--	init_srcu_struct(&head->srcu);
-+	ret = init_srcu_struct(&head->srcu);
-+	if (ret)
-+		goto out_ida_remove;
- 	head->subsys = ctrl->subsys;
- 	head->ns_id = nsid;
- 	kref_init(&head->ref);
-@@ -2852,6 +2854,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 	return head;
- out_cleanup_srcu:
- 	cleanup_srcu_struct(&head->srcu);
-+out_ida_remove:
- 	ida_simple_remove(&ctrl->subsys->ns_ida, head->instance);
- out_free_head:
- 	kfree(head);
--- 
-1.8.3.1
+ 	sector = le64_to_cpu(write_zeroes->slba) <<
+ 		(req->ns->blksize_shift - 9);
+-	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length)) <<
+-		(req->ns->blksize_shift - 9)) + 1;
++	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length + 1)) <<
++		(req->ns->blksize_shift - 9));
+ 
+ 	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+ 				GFP_KERNEL, &bio, 0))
+--
