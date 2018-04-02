@@ -1,73 +1,37 @@
-From: nitzanc@mellanox.com (Nitzan Carmi)
-Date: Mon,  2 Apr 2018 12:37:27 +0000
-Subject: [PATCH] nvme: fix flush dependency in delete controller flow
-Message-ID: <20180402123727.3961-1-nitzanc@mellanox.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon,  2 Apr 2018 15:46:45 +0300
+Subject: [PATCH 1/1] nvme: check return value of init_srcu_struct function
+Message-ID: <1522673205-18575-1-git-send-email-maxg@mellanox.com>
 
-nvme_delete_ctrl queues a work on a MEM_RECLAIM queue
-(nvme_delete_wq), which eventually calls cleanup_srcu_struct,
-which in turn flushes a delayed work from an !MEM_RECLAIM
-queue. This is unsafe as we might trigger deadlocks under
-severe memory pressure.
+Also add error flow in case srcu initialization function fails.
 
-Fix this by moving the cleanups to a seperate work over
-the safe !MEM_RECLAIM system_wq.
-
-Fixes: ed754e5dee ("nvme: track shared namespaces")
-Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/core.c | 12 ++++++++++--
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 75f3e4c..7fc5d9d 100644
+index 666e509..38b450e 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -362,6 +362,14 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- }
- EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
- 
-+static void nvme_free_ns_head_work(struct work_struct *work) {
-+	struct nvme_ns_head *head =
-+		container_of(work, struct nvme_ns_head, free_work);
-+
-+	cleanup_srcu_struct(&head->srcu);
-+	kfree(head);
-+}
-+
- static void nvme_free_ns_head(struct kref *ref)
- {
- 	struct nvme_ns_head *head =
-@@ -370,8 +378,7 @@ static void nvme_free_ns_head(struct kref *ref)
- 	nvme_mpath_remove_disk(head);
- 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
- 	list_del_init(&head->entry);
--	cleanup_srcu_struct(&head->srcu);
--	kfree(head);
-+	queue_work(system_wq, &head->free_work);
- }
- 
- static void nvme_put_ns_head(struct nvme_ns_head *head)
-@@ -3099,6 +3106,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+@@ -2830,7 +2830,9 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
  		goto out_free_head;
  	head->instance = ret;
  	INIT_LIST_HEAD(&head->list);
-+	INIT_WORK(&head->free_work, nvme_free_ns_head_work);
- 	init_srcu_struct(&head->srcu);
+-	init_srcu_struct(&head->srcu);
++	ret = init_srcu_struct(&head->srcu);
++	if (ret)
++		goto out_ida_remove;
  	head->subsys = ctrl->subsys;
  	head->ns_id = nsid;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 178aced..f443608 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -270,6 +270,7 @@ struct nvme_ns_head {
- 	spinlock_t		requeue_lock;
- 	struct work_struct	requeue_work;
- #endif
-+	struct work_struct	free_work;
- 	struct list_head	list;
- 	struct srcu_struct      srcu;
- 	struct nvme_subsystem	*subsys;
+ 	kref_init(&head->ref);
+@@ -2852,6 +2854,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	return head;
+ out_cleanup_srcu:
+ 	cleanup_srcu_struct(&head->srcu);
++out_ida_remove:
+ 	ida_simple_remove(&ctrl->subsys->ns_ida, head->instance);
+ out_free_head:
+ 	kfree(head);
 -- 
-1.8.2.3
+1.8.3.1
