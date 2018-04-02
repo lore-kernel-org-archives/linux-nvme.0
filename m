@@ -1,45 +1,73 @@
-From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Mon, 2 Apr 2018 01:03:21 -0700
-Subject: [PATCH] nvmet: fix nvmet_execute_write_zeroes function
-In-Reply-To: <93622938-f532-b8ac-2bca-fe40ed759e71@linux.vnet.ibm.com>
-References: <1522444730-2060-1-git-send-email-rosattig@linux.vnet.ibm.com>
- <20180330212439.GA28945@localhost.localdomain>
- <93622938-f532-b8ac-2bca-fe40ed759e71@linux.vnet.ibm.com>
-Message-ID: <CAK0tqikdyFoZGuRnh3_YXKtrY9NqEZVv5AysL+xGKpvGJ762fA@mail.gmail.com>
+From: nitzanc@mellanox.com (Nitzan Carmi)
+Date: Mon,  2 Apr 2018 12:37:27 +0000
+Subject: [PATCH] nvme: fix flush dependency in delete controller flow
+Message-ID: <20180402123727.3961-1-nitzanc@mellanox.com>
 
-Please give me a couple of days, I'll look into this.
+nvme_delete_ctrl queues a work on a MEM_RECLAIM queue
+(nvme_delete_wq), which eventually calls cleanup_srcu_struct,
+which in turn flushes a delayed work from an !MEM_RECLAIM
+queue. This is unsafe as we might trigger deadlocks under
+severe memory pressure.
 
-On Fri, Mar 30, 2018 at 2:48 PM, Rodrigo Rosatti Galv?o
-<rosattig@linux.vnet.ibm.com> wrote:
->
->> Doesn't that mean your host is using this command wrong? The NLB is a
->> 0's based value, we're supposed to +1 to get the correct block count.
->
->
-> Keith, I tested passing different values to the c (number of blocks) and s
-> (64-bit LBA of first block to access) parameters, and it was failing. When I
-> removed the +1, the command worked fine.
->
-> I used a simple script to validate this:
->
-> for s in {0..20}
->     do
->             for c in {0..20}
->             do
->                     nvme write-zeroes /dev/nvme0 -n 10 -s $s -c $c
->             done
->     done
->
->
-> Is there some other way to test it?
->
-> --
-> Rodrigo R. Galv?o
-> Intern - Linux Technology Center - IBM
->
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Fix this by moving the cleanups to a seperate work over
+the safe !MEM_RECLAIM system_wq.
+
+Fixes: ed754e5dee ("nvme: track shared namespaces")
+Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/core.c | 12 ++++++++++--
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 75f3e4c..7fc5d9d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -362,6 +362,14 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ }
+ EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
+ 
++static void nvme_free_ns_head_work(struct work_struct *work) {
++	struct nvme_ns_head *head =
++		container_of(work, struct nvme_ns_head, free_work);
++
++	cleanup_srcu_struct(&head->srcu);
++	kfree(head);
++}
++
+ static void nvme_free_ns_head(struct kref *ref)
+ {
+ 	struct nvme_ns_head *head =
+@@ -370,8 +378,7 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	nvme_mpath_remove_disk(head);
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	list_del_init(&head->entry);
+-	cleanup_srcu_struct(&head->srcu);
+-	kfree(head);
++	queue_work(system_wq, &head->free_work);
+ }
+ 
+ static void nvme_put_ns_head(struct nvme_ns_head *head)
+@@ -3099,6 +3106,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 		goto out_free_head;
+ 	head->instance = ret;
+ 	INIT_LIST_HEAD(&head->list);
++	INIT_WORK(&head->free_work, nvme_free_ns_head_work);
+ 	init_srcu_struct(&head->srcu);
+ 	head->subsys = ctrl->subsys;
+ 	head->ns_id = nsid;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 178aced..f443608 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -270,6 +270,7 @@ struct nvme_ns_head {
+ 	spinlock_t		requeue_lock;
+ 	struct work_struct	requeue_work;
+ #endif
++	struct work_struct	free_work;
+ 	struct list_head	list;
+ 	struct srcu_struct      srcu;
+ 	struct nvme_subsystem	*subsys;
+-- 
+1.8.2.3
