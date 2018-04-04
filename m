@@ -1,48 +1,64 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 4 Apr 2018 16:22:12 +0300
-Subject: BUG at IP: blk_mq_get_request+0x23e/0x390 on 4.16.0-rc7
-In-Reply-To: <10632862.17524551.1522402353418.JavaMail.zimbra@redhat.com>
-References: <10632862.17524551.1522402353418.JavaMail.zimbra@redhat.com>
-Message-ID: <682acdbe-7624-14d6-36e0-e2dd4c6b771f@grimberg.me>
+Date: Wed, 4 Apr 2018 16:42:08 +0300
+Subject: [PATCH v3] nvme: expand nvmf_check_if_ready checks
+In-Reply-To: <20180328202102.9267-1-jsmart2021@gmail.com>
+References: <20180328202102.9267-1-jsmart2021@gmail.com>
+Message-ID: <a8d6de5d-5487-8f60-50af-eecb7b885aae@grimberg.me>
 
 
 
-On 03/30/2018 12:32 PM, Yi Zhang wrote:
-> Hello
-> I got this kernel BUG on 4.16.0-rc7, here is the reproducer and log, let me know if you need more info, thanks.
+On 03/28/2018 11:21 PM, James Smart wrote:
+> The nvmf_check_if_ready() checks that were added are very simplistic.
+> As such, the routine allows a lot of cases to fail ios during windows
+> of reset or re-connection. In cases where there are not multi-path
+> options present, the error goes back to the callee - the filesystem
+> or application. Not good.
 > 
-> Reproducer:
-> 1. setup target
-> #nvmetcli restore /etc/rdma.json
-> 2. connect target on host
-> #nvme connect-all -t rdma -a $IP -s 4420during my NVMeoF RDMA testing
-> 3. do fio background on host
-> #fio -filename=/dev/nvme0n1 -iodepth=1 -thread -rw=randwrite -ioengine=psync -bssplit=5k/10:9k/10:13k/10:17k/10:21k/10:25k/10:29k/10:33k/10:37k/10:41k/10 -bs_unaligned -runtime=180 -size=-group_reporting -name=mytest -numjobs=60 &
-> 4. offline cpu on host
-> #echo 0 > /sys/devices/system/cpu/cpu1/online
-> #echo 0 > /sys/devices/system/cpu/cpu2/online
-> #echo 0 > /sys/devices/system/cpu/cpu3/online
-> 5. clear target
-> #nvmetcli clear
-> 6. restore target
-> #nvmetcli restore /etc/rdma.json
-> 7. check console log on host
+> The common routine was rewritten and calling syntax slightly expanded
+> so that per-transport is_ready routines don't need to be present.
+> The transports now call the routine directly. The routine is now a
+> fabrics routine rather than an inline function.
+> 
+> The routine now looks at controller state to decide the action to
+> take. Some states mandate io failure. Others define the condition where
+> a command can be accepted.  When the decision is unclear, a generic
+> queue-or-reject check is made to look for failfast or multipath ios and
+> only fails the io if it is so marked. Otherwise, the io will be queued
+> and wait for the controller state to resolve.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> 
+> ---
+> v2:
+>    needed to set nvme status when rejecting io
+> v3:
+>    renamed qlive to queue_live and connectivity to is_connected
+>    converted from inline routine to fabrics exported routine.
+> ---
+>   drivers/nvme/host/fabrics.c | 76 +++++++++++++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/fabrics.h | 33 ++------------------
+>   drivers/nvme/host/fc.c      | 12 ++-----
+>   drivers/nvme/host/rdma.c    | 14 ++-------
+>   drivers/nvme/target/loop.c  | 11 ++-----
+>   5 files changed, 85 insertions(+), 61 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index a1c58e35075e..73ac41f93ae0 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -536,6 +536,82 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
+>   	return NULL;
+>   }
+>   
+> +blk_status_t nvmf_check_if_ready(struct nvme_ctrl *ctrl, struct request *rq,
+> +		bool queue_live, bool is_connected)
+> +{
+> +	struct nvme_command *cmd = nvme_req(rq)->cmd;
+> +
+> +	if (ctrl->state == NVME_CTRL_LIVE && is_connected)
+> +		return BLK_STS_OK;
 
-Hi Yi,
+Nit: would be nice to have a likely statement here as its the hot
+path. Other than that, looks good,
 
-Does this happen with this applied?
---
-diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
-index 996167f1de18..b89da55e8aaa 100644
---- a/block/blk-mq-rdma.c
-+++ b/block/blk-mq-rdma.c
-@@ -35,6 +35,8 @@ int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
-         const struct cpumask *mask;
-         unsigned int queue, cpu;
-
-+       goto fallback;
-+
-         for (queue = 0; queue < set->nr_hw_queues; queue++) {
-                 mask = ib_get_vector_affinity(dev, first_vec + queue);
-                 if (!mask)
---
+Reviewed-by: Sagi Grimberg <sagi at grmberg.me>
