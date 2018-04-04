@@ -1,46 +1,48 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 4 Apr 2018 16:08:09 +0300
-Subject: [PATCH rfc 3/3] nvmet: Add port transport active flag
-In-Reply-To: <658c0e8d-cdc7-ab48-e4ad-c5ebdcbcbb11@mellanox.com>
-References: <20180322190303.10951-1-sagi@grimberg.me>
- <20180322190303.10951-4-sagi@grimberg.me>
- <658c0e8d-cdc7-ab48-e4ad-c5ebdcbcbb11@mellanox.com>
-Message-ID: <27bebeb1-75d7-9984-7b7b-e1389923a09a@grimberg.me>
+Date: Wed, 4 Apr 2018 16:22:12 +0300
+Subject: BUG at IP: blk_mq_get_request+0x23e/0x390 on 4.16.0-rc7
+In-Reply-To: <10632862.17524551.1522402353418.JavaMail.zimbra@redhat.com>
+References: <10632862.17524551.1522402353418.JavaMail.zimbra@redhat.com>
+Message-ID: <682acdbe-7624-14d6-36e0-e2dd4c6b771f@grimberg.me>
 
 
-> On 3/22/2018 9:03 PM, Sagi Grimberg wrote:
->> From: Israel Rukshin <israelr at mellanox.com>
->>
->> trstate port flag means that nvmet transport is active and ready for
+
+On 03/30/2018 12:32 PM, Yi Zhang wrote:
+> Hello
+> I got this kernel BUG on 4.16.0-rc7, here is the reproducer and log, let me know if you need more info, thanks.
 > 
-> *tractive
-> 
-> this is the configfs attribute name.
+> Reproducer:
+> 1. setup target
+> #nvmetcli restore /etc/rdma.json
+> 2. connect target on host
+> #nvme connect-all -t rdma -a $IP -s 4420during my NVMeoF RDMA testing
+> 3. do fio background on host
+> #fio -filename=/dev/nvme0n1 -iodepth=1 -thread -rw=randwrite -ioengine=psync -bssplit=5k/10:9k/10:13k/10:17k/10:21k/10:25k/10:29k/10:33k/10:37k/10:41k/10 -bs_unaligned -runtime=180 -size=-group_reporting -name=mytest -numjobs=60 &
+> 4. offline cpu on host
+> #echo 0 > /sys/devices/system/cpu/cpu1/online
+> #echo 0 > /sys/devices/system/cpu/cpu2/online
+> #echo 0 > /sys/devices/system/cpu/cpu3/online
+> 5. clear target
+> #nvmetcli clear
+> 6. restore target
+> #nvmetcli restore /etc/rdma.json
+> 7. check console log on host
 
-We should change it to trstate then...
+Hi Yi,
 
->> diff --git a/drivers/nvme/target/configfs.c 
->> b/drivers/nvme/target/configfs.c
->> index e6b2d2af81b6..460eeb0c5801 100644
->> --- a/drivers/nvme/target/configfs.c
->> +++ b/drivers/nvme/target/configfs.c
->> @@ -268,6 +268,15 @@ static ssize_t nvmet_addr_trtype_store(struct 
->> config_item *item,
->> ? CONFIGFS_ATTR(nvmet_, addr_trtype);
->> +static ssize_t nvmet_addr_tractive_show(struct config_item *item, 
->> char *page)
->> +{
->> +??? struct nvmet_port *port = to_nvmet_port(item);
->> +
->> +??? return sprintf(page, "%d\n", nvmet_is_port_active(port));
->> +}
->> +
->> +CONFIGFS_ATTR_RO(nvmet_, addr_tractive);
->> +
-> 
-> addr_ prefix is needed for nvmetcli. Since this is a RO attribute, I'm 
-> not sure we need this prefix. I guess It will be saved in the config 
-> file (nvmetcli save) with no reason. And "nvmetcli restore" will try to 
-> echo 1 in to a RO attribute.
+Does this happen with this applied?
+--
+diff --git a/block/blk-mq-rdma.c b/block/blk-mq-rdma.c
+index 996167f1de18..b89da55e8aaa 100644
+--- a/block/blk-mq-rdma.c
++++ b/block/blk-mq-rdma.c
+@@ -35,6 +35,8 @@ int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
+         const struct cpumask *mask;
+         unsigned int queue, cpu;
 
-Agreed.
++       goto fallback;
++
+         for (queue = 0; queue < set->nr_hw_queues; queue++) {
+                 mask = ib_get_vector_affinity(dev, first_vec + queue);
+                 if (!mask)
+--
