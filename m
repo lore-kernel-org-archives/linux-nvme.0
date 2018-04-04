@@ -1,10 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 4 Apr 2018 15:45:13 +0300
-Subject: [PATCH 3/4] nvmet-fc: Don't use the count returned by the
- dma_map_sg call
-In-Reply-To: <20180329160721.4691-4-logang@deltatee.com>
-References: <20180329160721.4691-1-logang@deltatee.com>
- <20180329160721.4691-4-logang@deltatee.com>
-Message-ID: <301f1426-4a49-5ffa-447b-690ba7ac2116@grimberg.me>
+Date: Wed, 4 Apr 2018 16:00:52 +0300
+Subject: [PATCH] nvme-pci: Skip queue deletion if there are no queues
+In-Reply-To: <20180328180419.16129-1-keith.busch@intel.com>
+References: <20180328180419.16129-1-keith.busch@intel.com>
+Message-ID: <19047c44-e534-40d9-c9af-3a7279f2bb2d@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
