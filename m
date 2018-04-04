@@ -1,8 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 4 Apr 2018 16:00:52 +0300
-Subject: [PATCH] nvme-pci: Skip queue deletion if there are no queues
-In-Reply-To: <20180328180419.16129-1-keith.busch@intel.com>
-References: <20180328180419.16129-1-keith.busch@intel.com>
-Message-ID: <19047c44-e534-40d9-c9af-3a7279f2bb2d@grimberg.me>
+Date: Wed, 4 Apr 2018 16:02:38 +0300
+Subject: [PATCH 1/1] nvme-rdma: Add IB event handling support
+In-Reply-To: <1521647315-10011-1-git-send-email-maxg@mellanox.com>
+References: <1521647315-10011-1-git-send-email-maxg@mellanox.com>
+Message-ID: <351db80c-ed94-3b92-fc68-97f1873d8a1d@grimberg.me>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+> IB devices may invoke IB events that need a special treatment
+> from the ib_client. For example, fatal event notification raised
+> to registered clients due to an invalid port/device state after EEH.
+> IB clients should be aware of this fatal event and not post any WR's
+> to the device. Draining the QP, for example, is forbidden and will
+> stuck forever waiting for the flushed work completions.
+
+Where can we find a documentation to what should and should not
+work in this event?
