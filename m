@@ -1,79 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 4 Apr 2018 14:59:37 +0300
-Subject: [RFC PATCH 2/8] nvme-core: export existing ctrl and ns interfaces
-In-Reply-To: <20180330065747.20962-3-chaitanya.kulkarni@wdc.com>
-References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
- <20180330065747.20962-3-chaitanya.kulkarni@wdc.com>
-Message-ID: <02e99d9a-7c33-c853-d2b4-c68fce493eac@grimberg.me>
+Date: Wed, 4 Apr 2018 15:32:07 +0300
+Subject: [PATCH 1/2] nvme-rdma: Fix race between queue timeout and error
+ recovery
+In-Reply-To: <1522595994-21092-1-git-send-email-israelr@mellanox.com>
+References: <1522595994-21092-1-git-send-email-israelr@mellanox.com>
+Message-ID: <80bf504c-52b2-cafe-3bad-59476120e072@grimberg.me>
 
 
-
-On 03/30/2018 09:57 AM, Chaitanya Kulkarni wrote:
-> We export existing nvme ctrl and ns management APIs so that
-> target passthru code can manage the nvme ctrl.
+> When returning BLK_EH_HANDLED from nvme_rdma_timeout() the block layer
+> complete the request.
+> Error recovery may also complete the request when aborting the requests.
 > 
-> This is a preparation patch for implementing NVMe Over Fabric
-> target passthru feature.
+> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>   drivers/nvme/host/rdma.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 758537e..c1abfc8 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1595,10 +1595,7 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
+>   	/* queue error recovery */
+>   	nvme_rdma_error_recovery(req->queue->ctrl);
+>   
+> -	/* fail with DNR on cmd timeout */
+> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ | NVME_SC_DNR;
+> -
+> -	return BLK_EH_HANDLED;
+> +	return BLK_EH_RESET_TIMER;
+>   }
 
-I'd only export only the passthru portion of nvme_user_cmd and use
-that.
-
-Something like the (untested):
---
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 383c4d0bc5ff..fce6b090a3a0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1162,22 +1162,14 @@ static void nvme_passthru_end(struct nvme_ctrl 
-*ctrl, u32 effects)
-                 nvme_queue_scan(ctrl);
-  }
-
--static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--                       struct nvme_passthru_cmd __user *ucmd)
-+int nvme_execute_passtru_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-+               struct nvme_passthru_cmd *cmd)
-  {
--       struct nvme_passthru_cmd cmd;
-         struct nvme_command c;
-         unsigned timeout = 0;
-         u32 effects;
-         int status;
-
--       if (!capable(CAP_SYS_ADMIN))
--               return -EACCES;
--       if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
--               return -EFAULT;
--       if (cmd.flags)
--               return -EINVAL;
--
-         memset(&c, 0, sizeof(c));
-         c.common.opcode = cmd.opcode;
-         c.common.flags = cmd.flags;
-@@ -1201,6 +1193,24 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, 
-struct nvme_ns *ns,
-                         0, &cmd.result, timeout);
-         nvme_passthru_end(ctrl, effects);
-
-+       return status;
-+}
-+EXPORT_SYMBOL_GPL(nvme_execute_passtru_cmd);
-+
-+static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-+                       struct nvme_passthru_cmd __user *ucmd)
-+{
-+       struct nvme_passthru_cmd cmd;
-+       int status;
-+
-+       if (!capable(CAP_SYS_ADMIN))
-+               return -EACCES;
-+       if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-+               return -EFAULT;
-+       if (cmd.flags)
-+               return -EINVAL;
-+
-+       status = nvme_execute_passtru_cmd(ctrl, ns, cmd);
-         if (status >= 0) {
-                 if (put_user(cmd.result, &ucmd->result))
-                         return -EFAULT;
---
+These look awfully familiar...
