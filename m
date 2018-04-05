@@ -1,44 +1,42 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 5 Apr 2018 21:55:12 +0200
-Subject: [PATCH] nvme: fix flush dependency in delete controller flow
-In-Reply-To: <20180405160852.GA11416@linux.vnet.ibm.com>
-References: <20180402123727.3961-1-nitzanc@mellanox.com>
- <20180405085438.GC2286@lst.de> <20180405131426.GL3948@linux.vnet.ibm.com>
- <20180405160852.GA11416@linux.vnet.ibm.com>
-Message-ID: <20180405195512.GA12678@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 5 Apr 2018 15:38:47 -0600
+Subject: IRQ/nvme_pci_complete_rq: NULL pointer dereference yet again
+In-Reply-To: <5d6d1a8c-6490-4046-0fba-da0a0df3d00c@gmail.com>
+References: <5d6d1a8c-6490-4046-0fba-da0a0df3d00c@gmail.com>
+Message-ID: <20180405213847.GG10098@localhost.localdomain>
 
-On Thu, Apr 05, 2018@09:08:52AM -0700, Paul E. McKenney wrote:
-> > But if this SRCU use case doesn't ever invoke call_srcu(), I
-> > -think- that shouldn't need to do the flush_delayed_work() calls in
-> > cleanup_srcu_struct().  I think.  It is a bit early out here, so I don't
-> > trust myself on this one just now, and need to take another look when
-> > fully awake.
-> > 
-> > But in the meantime, is it really the case that this SRCU use case never
-> > ever invokes call_srcu()?
-
-We never use call_srcu().
-
-> And I can do a bit better than this.  I could provide something like a
-> cleanup_srcu_struct_quiesced() that would avoid blocking if the caller had
-> quiesced it.  Here, to quiesce is to make sure that any synchronize_srcu()
-> or synchronize_srcu_expedited() calls have returned before the call to
-> cleanup_srcu_struct_quiesced(), and that any callbacks from call_srcu()
-> have completed.  Of course, srcu_barrier() could be used to wait for
-> the callbacks from earlier call_srcu().
+On Thu, Apr 05, 2018@03:51:38PM -0500, Alex G. wrote:
+> Hi Keith,
 > 
-> Would something like this help?
+> The NULL pointer dereference strikes yet again, but in a different
+> place. I think you'll love this one, as we can get it with native AER.
+> I'm not sure what to make of it, or why we get an invalid opcode with
+> the package, but the error is consistently tied to nvme.
 
-Yes.  Note that blocking isn't even the problem, just the flush_work.
-But not blocking at all would be fine of course.
+Interesting indeed.
 
-The pattern in nvme is that we have a struct nvme_ns_head, which has a
-list of struct nvme_ns structures hanging off it.  We use SRCU to protect
-lookups in said list.  We call synchronize_srcu after removing a nvme_ns
-from the list in struct nvme_ns_head and nowhere else.  A struct
-nvme_ns_head is freed (and we thus call cleanup_srcu_struct) once the
-reference count on it hits zero, which can only happen after the last
-nvme_ns has been removed from the list.
+Invaild opcode is a BUG_ON triggering a kernel panic when it evaluates
+to true:
 
-I suspect this might be a common patter in other parts of the kernel as
-well.
+  [  938.971059] kernel BUG at mm/slub.c:296!
+
+Which is this:
+
+  static inline void set_freepointer(struct kmem_cache *s, void *object, void *fp)
+  {
+	unsigned long freeptr_addr = (unsigned long)object + s->offset;
+
+  #ifdef CONFIG_SLAB_FREELIST_HARDENED
+	BUG_ON(object == fp); /* naive detection of double free or corruption */
+  #endif
+
+	*(void **)freeptr_addr = freelist_ptr(s, fp, freeptr_addr);
+  }
+
+So the code thinks it's found memory corruption. Maybe it has.
+
+At least one odd thing is the repeated "controller is down; will reset"
+messages. This should come into play only if an IO timeout occurs, and
+observing the message should mean the driver aborted and completed all
+outstanding IO. There shouldn't be any more IO to timeout after that,
+so not sure how we're repeatedly entering the timeout handler.
