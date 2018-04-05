@@ -1,42 +1,102 @@
-From: echang@sk.com (Eric H. Chang)
-Date: Thu, 5 Apr 2018 10:11:59 +0000
-Subject: [PATCH] nvme-multipath: implement active-active round-robin	path
- selector
-In-Reply-To: <20180404143027.GE4485@localhost.localdomain>
-References: <20180327043851.6640-1-baegjae@gmail.com>
- <20180328080646.GB20373@lst.de>
- <20180328194741.GJ13039@localhost.localdomain>
- <CAB2tqtvZ6zQ60jca7W4uKka2LfavsW=oKhTx9Gv0sXR7-SBUVg@mail.gmail.com>
- <20180330070651.GA17095@lst.de>
- <e22676055aca4e8d936b7479d6301d85@skt-tnetpmx2.SKT.AD>
- <20180404143027.GE4485@localhost.localdomain>
-Message-ID: <4b5f3f8681b843a59572737874a775c4@skt-tnetpmx2.SKT.AD>
+From: paulmck@linux.vnet.ibm.com (Paul E. McKenney)
+Date: Thu, 5 Apr 2018 06:14:26 -0700
+Subject: [PATCH] nvme: fix flush dependency in delete controller flow
+In-Reply-To: <20180405085438.GC2286@lst.de>
+References: <20180402123727.3961-1-nitzanc@mellanox.com>
+ <20180405085438.GC2286@lst.de>
+Message-ID: <20180405131426.GL3948@linux.vnet.ibm.com>
 
-> While your experiment is setup to benefit from round-robin, my only concern is it has odd performance in a real world scenario with IO threads executing in different nodes. Christoph's proposal will naturally utilize both paths >optimally there, where round-robin will saturate node interlinks.
->
->Not that I'm against having the choice; your setup probably does represent real use. But if we're going to have multiple choice, user documentation on nvme path selectors will be useful here.
+On Thu, Apr 05, 2018@10:54:38AM +0200, Christoph Hellwig wrote:
+> On Mon, Apr 02, 2018@12:37:27PM +0000, Nitzan Carmi wrote:
+> > nvme_delete_ctrl queues a work on a MEM_RECLAIM queue
+> > (nvme_delete_wq), which eventually calls cleanup_srcu_struct,
+> > which in turn flushes a delayed work from an !MEM_RECLAIM
+> > queue. This is unsafe as we might trigger deadlocks under
+> > severe memory pressure.
+> > 
+> > Fix this by moving the cleanups to a seperate work over
+> > the safe !MEM_RECLAIM system_wq.
+> 
+> This seems like an odd workaround.  It seems like not allowing
+> cleanup_srcu_struct from mem reclaim wqs is a really odd API
+> issue.
+> 
+> Paul, anything we can do there?
 
+Looks like the culprit is the need to do flush_delayed_work() from
+within cleanup_srcu_struct().  If I don't do that, then the tail
+end of a grace period, for example, due to a recent call_srcu(),
+would find itself operating on the freelist.
 
-Apologies for the confusion. 
-My understanding is that your concern is about efficient CPU-node utilization on NUMA. 
-If we come down a bit to the PCIe-retimer with multiple ports (or RDMA NICs with multiple ports) level, our concern is there. 
+But if this SRCU use case doesn't ever invoke call_srcu(), I
+-think- that shouldn't need to do the flush_delayed_work() calls in
+cleanup_srcu_struct().  I think.  It is a bit early out here, so I don't
+trust myself on this one just now, and need to take another look when
+fully awake.
 
+But in the meantime, is it really the case that this SRCU use case never
+ever invokes call_srcu()?
 
-<Host structure with dual retimers>
-CPU node A ------------------- CPU node B 
-  |                                    |
-PCIe retimer A                     PCIe retimer B
-  |                                    |
-Port A | Port B                    Port A | Port B
+						Thanx, Paul
 
-
-<Host structure with a single retimer>
-CPU node A ------------------- CPU node B 
-  |                                
-PCIe retimer A                  
-  |                                
-Port A | Port B                 
-
-
-In any structure above, we'd like to make all available ports efficiently utilized to maximize the performance and this case could also apply to the hosts which are using NVMeOF enabled storages. For NVMeoF setup, the PCIe retimer would be replaced by RDMA NICs though. So, we'd like to discuss the acceptable implementation for the multi-path on multi-ports of the PCIe retimers or R-NICs as well. Since your concern on unbalanced IO threads execution on multi-nodes is valid too,  when your proposal on NUMA and our proposal(or any other's proposal) on multi-ports are combined, it could be most effective solution, I believe. 
-In our setup, the system architecture under all ports are symmetrical, round-robin approach still make sense, but if there's any other better consideration, it'd be good to discuss. 
+> > Fixes: ed754e5dee ("nvme: track shared namespaces")
+> > Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+> > Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> > ---
+> >  drivers/nvme/host/core.c | 12 ++++++++++--
+> >  drivers/nvme/host/nvme.h |  1 +
+> >  2 files changed, 11 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 75f3e4c..7fc5d9d 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -362,6 +362,14 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+> >  }
+> >  EXPORT_SYMBOL_GPL(nvme_change_ctrl_state);
+> >  
+> > +static void nvme_free_ns_head_work(struct work_struct *work) {
+> > +	struct nvme_ns_head *head =
+> > +		container_of(work, struct nvme_ns_head, free_work);
+> > +
+> > +	cleanup_srcu_struct(&head->srcu);
+> > +	kfree(head);
+> > +}
+> > +
+> >  static void nvme_free_ns_head(struct kref *ref)
+> >  {
+> >  	struct nvme_ns_head *head =
+> > @@ -370,8 +378,7 @@ static void nvme_free_ns_head(struct kref *ref)
+> >  	nvme_mpath_remove_disk(head);
+> >  	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+> >  	list_del_init(&head->entry);
+> > -	cleanup_srcu_struct(&head->srcu);
+> > -	kfree(head);
+> > +	queue_work(system_wq, &head->free_work);
+> >  }
+> >  
+> >  static void nvme_put_ns_head(struct nvme_ns_head *head)
+> > @@ -3099,6 +3106,7 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+> >  		goto out_free_head;
+> >  	head->instance = ret;
+> >  	INIT_LIST_HEAD(&head->list);
+> > +	INIT_WORK(&head->free_work, nvme_free_ns_head_work);
+> >  	init_srcu_struct(&head->srcu);
+> >  	head->subsys = ctrl->subsys;
+> >  	head->ns_id = nsid;
+> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> > index 178aced..f443608 100644
+> > --- a/drivers/nvme/host/nvme.h
+> > +++ b/drivers/nvme/host/nvme.h
+> > @@ -270,6 +270,7 @@ struct nvme_ns_head {
+> >  	spinlock_t		requeue_lock;
+> >  	struct work_struct	requeue_work;
+> >  #endif
+> > +	struct work_struct	free_work;
+> >  	struct list_head	list;
+> >  	struct srcu_struct      srcu;
+> >  	struct nvme_subsystem	*subsys;
+> > -- 
+> > 1.8.2.3
+> ---end quoted text---
+> 
