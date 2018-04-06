@@ -1,28 +1,178 @@
-From: mr.nuke.me@gmail.com (Alex G.)
-Date: Fri, 6 Apr 2018 10:46:11 -0500
-Subject: IRQ/nvme_pci_complete_rq: NULL pointer dereference yet again
-In-Reply-To: <20180406153236.GK10098@localhost.localdomain>
-References: <5d6d1a8c-6490-4046-0fba-da0a0df3d00c@gmail.com>
- <20180405213847.GG10098@localhost.localdomain>
- <20180405212205.33dqwqck2co25a3x@sbauer-Z170X-UD5>
- <719ea777-e57d-511e-52c5-cf83027d1fd0@gmail.com>
- <20180405224138.GH10098@localhost.localdomain>
- <20180405224830.GI10098@localhost.localdomain>
- <20180405230515.GJ10098@localhost.localdomain>
- <75edea4e-b961-82a1-3612-fc682a248819@gmail.com>
- <d9497570-5e5e-cc4d-2c63-ff273a48725a@gmail.com>
- <20180406153236.GK10098@localhost.localdomain>
-Message-ID: <43f32a5a-b147-3620-154c-e3bb839c5aba@gmail.com>
+From: paulmck@linux.vnet.ibm.com (Paul E. McKenney)
+Date: Fri, 6 Apr 2018 09:30:38 -0700
+Subject: [PATCH] nvme: fix flush dependency in delete controller flow
+In-Reply-To: <20180406061920.GA20628@lst.de>
+References: <20180402123727.3961-1-nitzanc@mellanox.com>
+ <20180405085438.GC2286@lst.de>
+ <20180405131426.GL3948@linux.vnet.ibm.com>
+ <20180405160852.GA11416@linux.vnet.ibm.com>
+ <20180405195512.GA12678@lst.de>
+ <20180406001811.GQ3948@linux.vnet.ibm.com>
+ <20180406061920.GA20628@lst.de>
+Message-ID: <20180406163038.GU3948@linux.vnet.ibm.com>
 
-On 04/06/2018 10:32 AM, Keith Busch wrote:
-> On Thu, Apr 05, 2018@06:44:21PM -0500, Alex G. wrote:
->> Actually, it crashed very fast [1]
+On Fri, Apr 06, 2018@08:19:20AM +0200, Christoph Hellwig wrote:
+> On Thu, Apr 05, 2018@05:18:11PM -0700, Paul E. McKenney wrote:
+> > OK, how does the following (untested) patch look?
 > 
-> Could you possibly do an experiment for this? Does this happen if you're
-> not using MD RAID and disable NVME_MULTIPATH?
+> Looks sensible to me.  Nitzan, can you test it with the obvious nvme
+> conversion to cleanup_srcu_struct_quiesced?
 
-I can, though the whole point of the lvm mirror is to cause IO to the
-drive after hot-insert. Without that IO, there's a much smaller window
-to get PCIe errors on SURPRISE!!! removal.
+And it did pass light rcutorture testing overnight, so here is hoping!  ;-)
 
-Alex
+							Thanx, Paul
+
+> > ------------------------------------------------------------------------
+> > 
+> > diff --git a/include/linux/srcu.h b/include/linux/srcu.h
+> > index 33c1c698df09..91494d7e8e41 100644
+> > --- a/include/linux/srcu.h
+> > +++ b/include/linux/srcu.h
+> > @@ -69,11 +69,45 @@ struct srcu_struct { };
+> >  
+> >  void call_srcu(struct srcu_struct *sp, struct rcu_head *head,
+> >  		void (*func)(struct rcu_head *head));
+> > -void cleanup_srcu_struct(struct srcu_struct *sp);
+> > +void _cleanup_srcu_struct(struct srcu_struct *sp, bool quiesced);
+> >  int __srcu_read_lock(struct srcu_struct *sp) __acquires(sp);
+> >  void __srcu_read_unlock(struct srcu_struct *sp, int idx) __releases(sp);
+> >  void synchronize_srcu(struct srcu_struct *sp);
+> >  
+> > +/**
+> > + * cleanup_srcu_struct - deconstruct a sleep-RCU structure
+> > + * @sp: structure to clean up.
+> > + *
+> > + * Must invoke this after you are finished using a given srcu_struct that
+> > + * was initialized via init_srcu_struct(), else you leak memory.
+> > + */
+> > +static inline void cleanup_srcu_struct(struct srcu_struct *sp)
+> > +{
+> > +	_cleanup_srcu_struct(sp, false);
+> > +}
+> > +
+> > +/**
+> > + * cleanup_srcu_struct_quiesced - deconstruct a quiesced sleep-RCU structure
+> > + * @sp: structure to clean up.
+> > + *
+> > + * Must invoke this after you are finished using a given srcu_struct that
+> > + * was initialized via init_srcu_struct(), else you leak memory.  Also,
+> > + * all grace-period processing must have completed.
+> > + *
+> > + * "Completed" means that the last synchronize_srcu() and
+> > + * synchronize_srcu_expedited() calls must have returned before the call
+> > + * to cleanup_srcu_struct_quiesced().  It also means that the callback
+> > + * from the last call_srcu() must have been invoked before the call to
+> > + * cleanup_srcu_struct_quiesced(), but you can use srcu_barrier() to help
+> > + * with this last.  Violating these rules will get you a WARN_ON() splat
+> > + * (with high probability, anyway), and will also cause the srcu_struct
+> > + * to be leaked.
+> > + */
+> > +static inline void cleanup_srcu_struct_quiesced(struct srcu_struct *sp)
+> > +{
+> > +	_cleanup_srcu_struct(sp, true);
+> > +}
+> > +
+> >  #ifdef CONFIG_DEBUG_LOCK_ALLOC
+> >  
+> >  /**
+> > diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
+> > index 680c96d8c00f..f0e1d44459f8 100644
+> > --- a/kernel/rcu/rcutorture.c
+> > +++ b/kernel/rcu/rcutorture.c
+> > @@ -593,7 +593,12 @@ static void srcu_torture_init(void)
+> >  
+> >  static void srcu_torture_cleanup(void)
+> >  {
+> > -	cleanup_srcu_struct(&srcu_ctld);
+> > +	static DEFINE_TORTURE_RANDOM(rand);
+> > +
+> > +	if (torture_random(&rand) & 0x800)
+> > +		cleanup_srcu_struct(&srcu_ctld);
+> > +	else
+> > +		cleanup_srcu_struct_quiesced(&srcu_ctld);
+> >  	srcu_ctlp = &srcu_ctl; /* In case of a later rcutorture run. */
+> >  }
+> >  
+> > diff --git a/kernel/rcu/srcutiny.c b/kernel/rcu/srcutiny.c
+> > index 76ac5f50b2c7..622792abe41a 100644
+> > --- a/kernel/rcu/srcutiny.c
+> > +++ b/kernel/rcu/srcutiny.c
+> > @@ -86,16 +86,19 @@ EXPORT_SYMBOL_GPL(init_srcu_struct);
+> >   * Must invoke this after you are finished using a given srcu_struct that
+> >   * was initialized via init_srcu_struct(), else you leak memory.
+> >   */
+> > -void cleanup_srcu_struct(struct srcu_struct *sp)
+> > +void _cleanup_srcu_struct(struct srcu_struct *sp, bool quiesced)
+> >  {
+> >  	WARN_ON(sp->srcu_lock_nesting[0] || sp->srcu_lock_nesting[1]);
+> > -	flush_work(&sp->srcu_work);
+> > +	if (quiesced)
+> > +		WARN_ON(work_pending(&sp->srcu_work));
+> > +	else
+> > +		flush_work(&sp->srcu_work);
+> >  	WARN_ON(sp->srcu_gp_running);
+> >  	WARN_ON(sp->srcu_gp_waiting);
+> >  	WARN_ON(sp->srcu_cb_head);
+> >  	WARN_ON(&sp->srcu_cb_head != sp->srcu_cb_tail);
+> >  }
+> > -EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
+> > +EXPORT_SYMBOL_GPL(_cleanup_srcu_struct);
+> >  
+> >  /*
+> >   * Removes the count for the old reader from the appropriate element of
+> > diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> > index fb560fca9ef4..b4123d7a2cec 100644
+> > --- a/kernel/rcu/srcutree.c
+> > +++ b/kernel/rcu/srcutree.c
+> > @@ -366,24 +366,28 @@ static unsigned long srcu_get_delay(struct srcu_struct *sp)
+> >  	return SRCU_INTERVAL;
+> >  }
+> >  
+> > -/**
+> > - * cleanup_srcu_struct - deconstruct a sleep-RCU structure
+> > - * @sp: structure to clean up.
+> > - *
+> > - * Must invoke this after you are finished using a given srcu_struct that
+> > - * was initialized via init_srcu_struct(), else you leak memory.
+> > - */
+> > -void cleanup_srcu_struct(struct srcu_struct *sp)
+> > +/* Helper for cleanup_srcu_struct() and cleanup_srcu_struct_quiesced(). */
+> > +void _cleanup_srcu_struct(struct srcu_struct *sp, bool quiesced)
+> >  {
+> >  	int cpu;
+> >  
+> >  	if (WARN_ON(!srcu_get_delay(sp)))
+> > -		return; /* Leakage unless caller handles error. */
+> > +		return; /* Just leak it! */
+> >  	if (WARN_ON(srcu_readers_active(sp)))
+> > -		return; /* Leakage unless caller handles error. */
+> > -	flush_delayed_work(&sp->work);
+> > +		return; /* Just leak it! */
+> > +	if (quiesced) {
+> > +		if (WARN_ON(delayed_work_pending(&sp->work)))
+> > +			return; /* Just leak it! */
+> > +	} else {
+> > +		flush_delayed_work(&sp->work);
+> > +	}
+> >  	for_each_possible_cpu(cpu)
+> > -		flush_delayed_work(&per_cpu_ptr(sp->sda, cpu)->work);
+> > +		if (quiesced) {
+> > +			if (WARN_ON(delayed_work_pending(&per_cpu_ptr(sp->sda, cpu)->work)))
+> > +				return; /* Just leak it! */
+> > +		} else {
+> > +			flush_delayed_work(&per_cpu_ptr(sp->sda, cpu)->work);
+> > +		}
+> >  	if (WARN_ON(rcu_seq_state(READ_ONCE(sp->srcu_gp_seq)) != SRCU_STATE_IDLE) ||
+> >  	    WARN_ON(srcu_readers_active(sp))) {
+> >  		pr_info("%s: Active srcu_struct %p state: %d\n", __func__, sp, rcu_seq_state(READ_ONCE(sp->srcu_gp_seq)));
+> > @@ -392,7 +396,7 @@ void cleanup_srcu_struct(struct srcu_struct *sp)
+> >  	free_percpu(sp->sda);
+> >  	sp->sda = NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
+> > +EXPORT_SYMBOL_GPL(_cleanup_srcu_struct);
+> >  
+> >  /*
+> >   * Counts the new reader in the appropriate per-CPU element of the
+> ---end quoted text---
+> 
