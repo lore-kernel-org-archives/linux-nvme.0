@@ -1,24 +1,81 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 8 Apr 2018 14:04:22 +0300
-Subject: [PATCH 1/2] nvme-rdma: Fix race between queue timeout and error
- recovery
-In-Reply-To: <20180405085527.GD2286@lst.de>
-References: <1522595994-21092-1-git-send-email-israelr@mellanox.com>
- <20180405085527.GD2286@lst.de>
-Message-ID: <58e5c294-a716-26bf-9099-c9e9d5cf204c@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sun, 8 Apr 2018 19:04:22 +0800
+Subject: BUG at IP: blk_mq_get_request+0x23e/0x390 on 4.16.0-rc7
+In-Reply-To: <343d151b-c953-c5d6-0ce6-f08c390ae8aa@grimberg.me>
+References: <10632862.17524551.1522402353418.JavaMail.zimbra@redhat.com>
+ <682acdbe-7624-14d6-36e0-e2dd4c6b771f@grimberg.me>
+ <256ebbe9-d932-a826-977b-5a5cb8483755@redhat.com>
+ <ebdf8c7f-ae42-a08f-0d79-d2d4f17ec117@grimberg.me>
+ <20180408104433.GB29020@ming.t460p>
+ <20180408104801.GC29020@ming.t460p>
+ <343d151b-c953-c5d6-0ce6-f08c390ae8aa@grimberg.me>
+Message-ID: <20180408110417.GA19252@ming.t460p>
+
+On Sun, Apr 08, 2018@01:58:49PM +0300, Sagi Grimberg wrote:
+> 
+> > > > > Hi Sagi
+> > > > > 
+> > > > > Still can reproduce this issue with the change:
+> > > > 
+> > > > Thanks for validating Yi,
+> > > > 
+> > > > Would it be possible to test the following:
+> > > > --
+> > > > diff --git a/block/blk-mq.c b/block/blk-mq.c
+> > > > index 75336848f7a7..81ced3096433 100644
+> > > > --- a/block/blk-mq.c
+> > > > +++ b/block/blk-mq.c
+> > > > @@ -444,6 +444,10 @@ struct request *blk_mq_alloc_request_hctx(struct
+> > > > request_queue *q,
+> > > >                  return ERR_PTR(-EXDEV);
+> > > >          }
+> > > >          cpu = cpumask_first_and(alloc_data.hctx->cpumask, cpu_online_mask);
+> > > > +       if (cpu >= nr_cpu_ids) {
+> > > > +               pr_warn("no online cpu for hctx %d\n", hctx_idx);
+> > > > +               cpu = cpumask_first(alloc_data.hctx->cpumask);
+> > > > +       }
+> > > >          alloc_data.ctx = __blk_mq_get_ctx(q, cpu);
+> > > > 
+> > > >          rq = blk_mq_get_request(q, NULL, op, &alloc_data);
+> > > > --
+> > > > ...
+> > > > 
+> > > > 
+> > > > > [? 153.384977] BUG: unable to handle kernel paging request at
+> > > > > 00003a9ed053bd48
+> > > > > [? 153.393197] IP: blk_mq_get_request+0x23e/0x390
+> > > > 
+> > > > Also would it be possible to provide gdb output of:
+> > > > 
+> > > > l *(blk_mq_get_request+0x23e)
+> > > 
+> > > nvmf_connect_io_queue() is used in this way by asking blk-mq to allocate
+> > > request from one specific hw queue, but there may not be all online CPUs
+> > > mapped to this hw queue.
+> 
+> Yes, this is what I suspect..
+> 
+> > And the following patchset may fail this kind of allocation and avoid
+> > the kernel oops.
+> > 
+> > 	https://marc.info/?l=linux-block&m=152318091025252&w=2
+> 
+> Thanks Ming,
+> 
+> But I don't want to fail the allocation, nvmf_connect_io_queue simply
+> needs a tag to issue the connect request, I much rather to take this
+> tag from an online cpu than failing it... We use this because we reserve
+
+The failure is only triggered when there isn't any online CPU mapped to
+this hctx, so do you want to wait for CPUs for this hctx becoming online?
+
+Or I may understand you wrong, :-)
+
+> a tag per-queue for this, but in this case, I'd rather block until the
+> inflight tag complete than failing the connect.
+
+No, there can't be any inflight request for this hctx.
 
 
-> Please send an introduction cover letter explaining what issue you've
-> triggered and your overall design.
-
-The commit log is actually wrong... We don't complete the request in two
-places, the issue is that we need to make sure to unmap user buffer
-before completing the request in case of a timeout. I sent this patch
-to a bug report on the list and this is what it is designed to do.
-
-Given that we already simply schedule error recovery, we will fail it
-there, after we drain the queue pair, so the choice is to reset the
-timer for it in the timeout callout.
-
-We could alternatively invalidate the rkey in the timeout callout, but
-that won't work with the unsafe rkey mode.
+Thanks,
+Ming
