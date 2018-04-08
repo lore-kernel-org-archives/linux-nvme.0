@@ -1,32 +1,87 @@
 From: israelr@mellanox.com (Israel Rukshin)
-Date: Sun, 8 Apr 2018 17:07:49 +0300
-Subject: [PATCH 1/2] nvme-rdma: Fix race between queue timeout and error
- recovery
-In-Reply-To: <58e5c294-a716-26bf-9099-c9e9d5cf204c@grimberg.me>
-References: <1522595994-21092-1-git-send-email-israelr@mellanox.com>
- <20180405085527.GD2286@lst.de>
- <58e5c294-a716-26bf-9099-c9e9d5cf204c@grimberg.me>
-Message-ID: <343bdf4f-a1b2-9b59-4652-ce917da2b4dd@mellanox.com>
+Date: Sun,  8 Apr 2018 14:08:39 +0000
+Subject: [PATCH 2/2 V2] nvme-rdma: Fix race at error recovery
+In-Reply-To: <1523196519-23268-1-git-send-email-israelr@mellanox.com>
+References: <1523196519-23268-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1523196519-23268-3-git-send-email-israelr@mellanox.com>
 
-On 4/8/2018 2:04 PM, Sagi Grimberg wrote:
->
->> Please send an introduction cover letter explaining what issue you've
->> triggered and your overall design.
->
-> The commit log is actually wrong... We don't complete the request in two
-> places, the issue is that we need to make sure to unmap user buffer
+We need to stop rdma queues before canceling the requests.
+With this approach we avoid the race between error recovery work
+and rdma completions.
+The commit fix a NULL deref of a request MR at nvme_rdma_process_nvme_rsp().
 
-We have two bugs here that those paths fix.
-What you said is one of them.
-The second one is what I said here.
-I will show the call traces I have got in my V2.
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> before completing the request in case of a timeout. I sent this patch
-> to a bug report on the list and this is what it is designed to do.
->
-> Given that we already simply schedule error recovery, we will fail it
-> there, after we drain the queue pair, so the choice is to reset the
-> timer for it in the timeout callout.
->
-> We could alternatively invalidate the rkey in the timeout callout, but
-> that won't work with the unsafe rkey mode.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c1abfc8..56fccac 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -734,7 +734,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+@@ -817,7 +816,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_io_queues(ctrl);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.connect_q);
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+@@ -947,6 +945,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 	return;
+ 
+ destroy_admin:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	nvme_rdma_destroy_admin_queue(ctrl, false);
+ requeue:
+ 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+@@ -963,12 +962,14 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, false);
+ 	}
+ 
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 	nvme_rdma_destroy_admin_queue(ctrl, false);
+@@ -1725,6 +1726,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, shutdown);
+@@ -1736,6 +1738,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ 		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
+ 
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+@@ -2001,6 +2004,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	return &ctrl->ctrl;
+ 
+ out_remove_admin_queue:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	nvme_rdma_destroy_admin_queue(ctrl, true);
+ out_kfree_queues:
+ 	kfree(ctrl->queues);
+-- 
+1.8.3.1
