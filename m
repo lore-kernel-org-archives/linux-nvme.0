@@ -1,80 +1,43 @@
-From: paulmck@linux.vnet.ibm.com (Paul E. McKenney)
-Date: Mon, 9 Apr 2018 11:22:13 -0700
-Subject: [PATCH] nvme: avoid flush dependency in delete controller flow
-In-Reply-To: <c43ce416-244d-808d-bbf9-5e6b28674eb0@mellanox.com>
-References: <20180409065007.GA7760@lst.de>
- <1523285426-26526-1-git-send-email-nitzanc@mellanox.com>
- <20180409164808.GK3948@linux.vnet.ibm.com>
- <c43ce416-244d-808d-bbf9-5e6b28674eb0@mellanox.com>
-Message-ID: <20180409182213.GO3948@linux.vnet.ibm.com>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Mon, 9 Apr 2018 13:23:54 -0500
+Subject: IRQ/nvme_pci_complete_rq: NULL pointer dereference yet again
+In-Reply-To: <20180406220058.GN10098@localhost.localdomain>
+References: <20180405224830.GI10098@localhost.localdomain>
+ <20180405230515.GJ10098@localhost.localdomain>
+ <75edea4e-b961-82a1-3612-fc682a248819@gmail.com>
+ <d9497570-5e5e-cc4d-2c63-ff273a48725a@gmail.com>
+ <20180406153236.GK10098@localhost.localdomain>
+ <94d77cb7-759f-595a-2264-37305dfa96c4@gmail.com>
+ <20180406171622.aso3h6ydpmcdizl3@sbauer-Z170X-UD5>
+ <93003ab7-f4a0-7e5d-f107-277df20f5566@gmail.com>
+ <20180406180445.GL10098@localhost.localdomain>
+ <e1218a86-2183-91c9-5a0a-a1c331b5b5f3@gmail.com>
+ <20180406220058.GN10098@localhost.localdomain>
+Message-ID: <64cb047e-aa2b-2693-643a-6dac6eba2487@gmail.com>
 
-On Mon, Apr 09, 2018@07:58:48PM +0300, Max Gurtovoy wrote:
-> 
-> 
-> On 4/9/2018 7:48 PM, Paul E. McKenney wrote:
-> >On Mon, Apr 09, 2018@05:50:26PM +0300, Nitzan Carmi wrote:
-> >>nvme_delete_ctrl queues a work on a MEM_RECLAIM queue
-> >>(nvme_delete_wq), which eventually calls cleanup_srcu_struct,
-> >>which in turn flushes a delayed work from an !MEM_RECLAIM
-> >>queue. This is unsafe as we might trigger deadlocks under
-> >>severe memory pressure.
-> >>
-> >>Since we don't ever invoke call_srcu(), it is safe
-> >>to use the _quiesced() version of srcu cleanup, and
-> >>avoid that flush dependency.
-> >>
-> >>Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-> >
-> >Very good, thank you!
-> >
-> >I queued this with a few edits to the commit log (please see below),
-> >so please let me know if I messed anything up.
-> >
-> >Given that it only happens under high memory pressure, I am assuming
-> >that sending this up the v4.18 merge window (not this one, but the next
-> >one) will work.  Please let me know if this is more urgent than that.
-> >(If it is not more urgent, I would like to allow the extra time for
-> >people to get used to yet another addition to the SRCU API.)
-> 
-> I guess we can wait to v4.18 but not sure we actually need to wait
-> that long, Christoph ?
+On 04/06/2018 05:00 PM, Keith Busch wrote:
+(snip)
+> ---
+> diff --git a/drivers/pci/pcie/aer/aerdrv_core.c b/drivers/pci/pcie/aer/aerdrv_core.c
+> index a4bfea52e7d4..16ecbcd76373 100644
+> --- a/drivers/pci/pcie/aer/aerdrv_core.c
+> +++ b/drivers/pci/pcie/aer/aerdrv_core.c
+> @@ -805,8 +805,10 @@ void aer_isr(struct work_struct *work)
+>  	struct pcie_device *p_device = rpc->rpd;
+>  	struct aer_err_source uninitialized_var(e_src);
+>  
+> +	pci_lock_rescan_remove();
+>  	mutex_lock(&rpc->rpc_mutex);
+>  	while (get_e_source(rpc, &e_src))
+>  		aer_isr_one_error(p_device, &e_src);
+>  	mutex_unlock(&rpc->rpc_mutex);
+> +	pci_unlock_rescan_remove();
+>  }
+> --
 
-Or to look at it another way, do these two patches need to go to -stable,
-and if so, how far back?
+With this patch, I'm not seeing issues without LVM mirrors, but as soon
+as I enable the mirror, we get the
+ * use-after-free in swiotlb_unmap_sg_attrs
+ * double-free or invalid-free in nvme_pci_complete_rq
 
-> >------------------------------------------------------------------------
-> >
-> >commit 6fde861519fc6e4be50c130272be556ef5656324
-> >Author: Nitzan Carmi <nitzanc at mellanox.com>
-> >Date:   Mon Apr 9 17:50:26 2018 +0300
-> >
-> >     nvme: Avoid flush dependency in delete controller flow
-> >     The nvme_delete_ctrl() function queues a work item on a MEM_RECLAIM
-> >     queue (nvme_delete_wq), which eventually calls cleanup_srcu_struct(),
-> >     which in turn flushes a delayed work from an !MEM_RECLAIM queue. This
-> >     is unsafe as we might trigger deadlocks under severe memory pressure.
-> >     Since we don't ever invoke call_srcu(), it is safe to use the shiny new
-> >     _quiesced() version of srcu cleanup, thus avoiding that flush dependency.
-> >     This commit makes that change.
-> >     Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
-> >     Signed-off-by: Paul E. McKenney <paulmck at linux.vnet.ibm.com>
-> >
-> >diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> >index 7aeca5db7916..40008d06c365 100644
-> >--- a/drivers/nvme/host/core.c
-> >+++ b/drivers/nvme/host/core.c
-> >@@ -351,7 +351,7 @@ static void nvme_free_ns_head(struct kref *ref)
-> >  	nvme_mpath_remove_disk(head);
-> >  	ida_simple_remove(&head->subsys->ns_ida, head->instance);
-> >  	list_del_init(&head->entry);
-> >-	cleanup_srcu_struct(&head->srcu);
-> >+	cleanup_srcu_struct_quiesced(&head->srcu);
-> >  	kfree(head);
-> >  }
-> 
-> Looks good, thanks Nitzan and Paul.
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-
-Added your Reviewed-by, thank you!
-
-							Thanx, Paul
+Alex
