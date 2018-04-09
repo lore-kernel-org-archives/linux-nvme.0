@@ -1,199 +1,65 @@
 From: paulmck@linux.vnet.ibm.com (Paul E. McKenney)
-Date: Mon, 9 Apr 2018 09:30:05 -0700
-Subject: [PATCH] nvme: fix flush dependency in delete controller flow
-In-Reply-To: <adef82fc-485d-f6a1-4fe1-5a7414940fe5@mellanox.com>
-References: <20180405085438.GC2286@lst.de>
- <20180405131426.GL3948@linux.vnet.ibm.com>
- <20180405160852.GA11416@linux.vnet.ibm.com>
- <20180405195512.GA12678@lst.de>
- <20180406001811.GQ3948@linux.vnet.ibm.com>
- <20180406061920.GA20628@lst.de>
- <20180406163038.GU3948@linux.vnet.ibm.com>
- <bdb69d1a-07fc-683c-4f3f-a80b830109e4@mellanox.com>
- <20180408164803.GQ3948@linux.vnet.ibm.com>
- <adef82fc-485d-f6a1-4fe1-5a7414940fe5@mellanox.com>
-Message-ID: <20180409163005.GJ3948@linux.vnet.ibm.com>
+Date: Mon, 9 Apr 2018 09:48:08 -0700
+Subject: [PATCH] nvme: avoid flush dependency in delete controller flow
+In-Reply-To: <1523285426-26526-1-git-send-email-nitzanc@mellanox.com>
+References: <20180409065007.GA7760@lst.de>
+ <1523285426-26526-1-git-send-email-nitzanc@mellanox.com>
+Message-ID: <20180409164808.GK3948@linux.vnet.ibm.com>
 
-On Mon, Apr 09, 2018@09:39:01AM +0300, Nitzan Carmi wrote:
-> I'll be honored :-).
+On Mon, Apr 09, 2018@05:50:26PM +0300, Nitzan Carmi wrote:
+> nvme_delete_ctrl queues a work on a MEM_RECLAIM queue
+> (nvme_delete_wq), which eventually calls cleanup_srcu_struct,
+> which in turn flushes a delayed work from an !MEM_RECLAIM
+> queue. This is unsafe as we might trigger deadlocks under
+> severe memory pressure.
 > 
-> Tested-by: Nitzan Carmi <nitzanc at mellanox.com>
-
-Applied, and thank you very much for the testing!
-
-							Thanx, Paul
-
-> On 08/04/2018 19:48, Paul E. McKenney wrote:
-> >On Sun, Apr 08, 2018@10:20:10AM +0300, Nitzan Carmi wrote:
-> >>Yes, The patch works very well.
-> >>It seems to solve the problem (with the conversion to
-> >>cleanup_srcu_struct_quiesced in nvme), and definitely better
-> >>than my original WA.
-> >
-> >May I have your Tested-by?
-> >
-> >							Thanx, Paul
-> >
-> >>Thanks!
-> >>
-> >>On 06/04/2018 19:30, Paul E. McKenney wrote:
-> >>>On Fri, Apr 06, 2018@08:19:20AM +0200, Christoph Hellwig wrote:
-> >>>>On Thu, Apr 05, 2018@05:18:11PM -0700, Paul E. McKenney wrote:
-> >>>>>OK, how does the following (untested) patch look?
-> >>>>
-> >>>>Looks sensible to me.  Nitzan, can you test it with the obvious nvme
-> >>>>conversion to cleanup_srcu_struct_quiesced?
-> >>>
-> >>>And it did pass light rcutorture testing overnight, so here is hoping!  ;-)
-> >>>
-> >>>							Thanx, Paul
-> >>>
-> >>>>>------------------------------------------------------------------------
-> >>>>>
-> >>>>>diff --git a/include/linux/srcu.h b/include/linux/srcu.h
-> >>>>>index 33c1c698df09..91494d7e8e41 100644
-> >>>>>--- a/include/linux/srcu.h
-> >>>>>+++ b/include/linux/srcu.h
-> >>>>>@@ -69,11 +69,45 @@ struct srcu_struct { };
-> >>>>>  void call_srcu(struct srcu_struct *sp, struct rcu_head *head,
-> >>>>>  		void (*func)(struct rcu_head *head));
-> >>>>>-void cleanup_srcu_struct(struct srcu_struct *sp);
-> >>>>>+void _cleanup_srcu_struct(struct srcu_struct *sp, bool quiesced);
-> >>>>>  int __srcu_read_lock(struct srcu_struct *sp) __acquires(sp);
-> >>>>>  void __srcu_read_unlock(struct srcu_struct *sp, int idx) __releases(sp);
-> >>>>>  void synchronize_srcu(struct srcu_struct *sp);
-> >>>>>+/**
-> >>>>>+ * cleanup_srcu_struct - deconstruct a sleep-RCU structure
-> >>>>>+ * @sp: structure to clean up.
-> >>>>>+ *
-> >>>>>+ * Must invoke this after you are finished using a given srcu_struct that
-> >>>>>+ * was initialized via init_srcu_struct(), else you leak memory.
-> >>>>>+ */
-> >>>>>+static inline void cleanup_srcu_struct(struct srcu_struct *sp)
-> >>>>>+{
-> >>>>>+	_cleanup_srcu_struct(sp, false);
-> >>>>>+}
-> >>>>>+
-> >>>>>+/**
-> >>>>>+ * cleanup_srcu_struct_quiesced - deconstruct a quiesced sleep-RCU structure
-> >>>>>+ * @sp: structure to clean up.
-> >>>>>+ *
-> >>>>>+ * Must invoke this after you are finished using a given srcu_struct that
-> >>>>>+ * was initialized via init_srcu_struct(), else you leak memory.  Also,
-> >>>>>+ * all grace-period processing must have completed.
-> >>>>>+ *
-> >>>>>+ * "Completed" means that the last synchronize_srcu() and
-> >>>>>+ * synchronize_srcu_expedited() calls must have returned before the call
-> >>>>>+ * to cleanup_srcu_struct_quiesced().  It also means that the callback
-> >>>>>+ * from the last call_srcu() must have been invoked before the call to
-> >>>>>+ * cleanup_srcu_struct_quiesced(), but you can use srcu_barrier() to help
-> >>>>>+ * with this last.  Violating these rules will get you a WARN_ON() splat
-> >>>>>+ * (with high probability, anyway), and will also cause the srcu_struct
-> >>>>>+ * to be leaked.
-> >>>>>+ */
-> >>>>>+static inline void cleanup_srcu_struct_quiesced(struct srcu_struct *sp)
-> >>>>>+{
-> >>>>>+	_cleanup_srcu_struct(sp, true);
-> >>>>>+}
-> >>>>>+
-> >>>>>  #ifdef CONFIG_DEBUG_LOCK_ALLOC
-> >>>>>  /**
-> >>>>>diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
-> >>>>>index 680c96d8c00f..f0e1d44459f8 100644
-> >>>>>--- a/kernel/rcu/rcutorture.c
-> >>>>>+++ b/kernel/rcu/rcutorture.c
-> >>>>>@@ -593,7 +593,12 @@ static void srcu_torture_init(void)
-> >>>>>  static void srcu_torture_cleanup(void)
-> >>>>>  {
-> >>>>>-	cleanup_srcu_struct(&srcu_ctld);
-> >>>>>+	static DEFINE_TORTURE_RANDOM(rand);
-> >>>>>+
-> >>>>>+	if (torture_random(&rand) & 0x800)
-> >>>>>+		cleanup_srcu_struct(&srcu_ctld);
-> >>>>>+	else
-> >>>>>+		cleanup_srcu_struct_quiesced(&srcu_ctld);
-> >>>>>  	srcu_ctlp = &srcu_ctl; /* In case of a later rcutorture run. */
-> >>>>>  }
-> >>>>>diff --git a/kernel/rcu/srcutiny.c b/kernel/rcu/srcutiny.c
-> >>>>>index 76ac5f50b2c7..622792abe41a 100644
-> >>>>>--- a/kernel/rcu/srcutiny.c
-> >>>>>+++ b/kernel/rcu/srcutiny.c
-> >>>>>@@ -86,16 +86,19 @@ EXPORT_SYMBOL_GPL(init_srcu_struct);
-> >>>>>   * Must invoke this after you are finished using a given srcu_struct that
-> >>>>>   * was initialized via init_srcu_struct(), else you leak memory.
-> >>>>>   */
-> >>>>>-void cleanup_srcu_struct(struct srcu_struct *sp)
-> >>>>>+void _cleanup_srcu_struct(struct srcu_struct *sp, bool quiesced)
-> >>>>>  {
-> >>>>>  	WARN_ON(sp->srcu_lock_nesting[0] || sp->srcu_lock_nesting[1]);
-> >>>>>-	flush_work(&sp->srcu_work);
-> >>>>>+	if (quiesced)
-> >>>>>+		WARN_ON(work_pending(&sp->srcu_work));
-> >>>>>+	else
-> >>>>>+		flush_work(&sp->srcu_work);
-> >>>>>  	WARN_ON(sp->srcu_gp_running);
-> >>>>>  	WARN_ON(sp->srcu_gp_waiting);
-> >>>>>  	WARN_ON(sp->srcu_cb_head);
-> >>>>>  	WARN_ON(&sp->srcu_cb_head != sp->srcu_cb_tail);
-> >>>>>  }
-> >>>>>-EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
-> >>>>>+EXPORT_SYMBOL_GPL(_cleanup_srcu_struct);
-> >>>>>  /*
-> >>>>>   * Removes the count for the old reader from the appropriate element of
-> >>>>>diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-> >>>>>index fb560fca9ef4..b4123d7a2cec 100644
-> >>>>>--- a/kernel/rcu/srcutree.c
-> >>>>>+++ b/kernel/rcu/srcutree.c
-> >>>>>@@ -366,24 +366,28 @@ static unsigned long srcu_get_delay(struct srcu_struct *sp)
-> >>>>>  	return SRCU_INTERVAL;
-> >>>>>  }
-> >>>>>-/**
-> >>>>>- * cleanup_srcu_struct - deconstruct a sleep-RCU structure
-> >>>>>- * @sp: structure to clean up.
-> >>>>>- *
-> >>>>>- * Must invoke this after you are finished using a given srcu_struct that
-> >>>>>- * was initialized via init_srcu_struct(), else you leak memory.
-> >>>>>- */
-> >>>>>-void cleanup_srcu_struct(struct srcu_struct *sp)
-> >>>>>+/* Helper for cleanup_srcu_struct() and cleanup_srcu_struct_quiesced(). */
-> >>>>>+void _cleanup_srcu_struct(struct srcu_struct *sp, bool quiesced)
-> >>>>>  {
-> >>>>>  	int cpu;
-> >>>>>  	if (WARN_ON(!srcu_get_delay(sp)))
-> >>>>>-		return; /* Leakage unless caller handles error. */
-> >>>>>+		return; /* Just leak it! */
-> >>>>>  	if (WARN_ON(srcu_readers_active(sp)))
-> >>>>>-		return; /* Leakage unless caller handles error. */
-> >>>>>-	flush_delayed_work(&sp->work);
-> >>>>>+		return; /* Just leak it! */
-> >>>>>+	if (quiesced) {
-> >>>>>+		if (WARN_ON(delayed_work_pending(&sp->work)))
-> >>>>>+			return; /* Just leak it! */
-> >>>>>+	} else {
-> >>>>>+		flush_delayed_work(&sp->work);
-> >>>>>+	}
-> >>>>>  	for_each_possible_cpu(cpu)
-> >>>>>-		flush_delayed_work(&per_cpu_ptr(sp->sda, cpu)->work);
-> >>>>>+		if (quiesced) {
-> >>>>>+			if (WARN_ON(delayed_work_pending(&per_cpu_ptr(sp->sda, cpu)->work)))
-> >>>>>+				return; /* Just leak it! */
-> >>>>>+		} else {
-> >>>>>+			flush_delayed_work(&per_cpu_ptr(sp->sda, cpu)->work);
-> >>>>>+		}
-> >>>>>  	if (WARN_ON(rcu_seq_state(READ_ONCE(sp->srcu_gp_seq)) != SRCU_STATE_IDLE) ||
-> >>>>>  	    WARN_ON(srcu_readers_active(sp))) {
-> >>>>>  		pr_info("%s: Active srcu_struct %p state: %d\n", __func__, sp, rcu_seq_state(READ_ONCE(sp->srcu_gp_seq)));
-> >>>>>@@ -392,7 +396,7 @@ void cleanup_srcu_struct(struct srcu_struct *sp)
-> >>>>>  	free_percpu(sp->sda);
-> >>>>>  	sp->sda = NULL;
-> >>>>>  }
-> >>>>>-EXPORT_SYMBOL_GPL(cleanup_srcu_struct);
-> >>>>>+EXPORT_SYMBOL_GPL(_cleanup_srcu_struct);
-> >>>>>  /*
-> >>>>>   * Counts the new reader in the appropriate per-CPU element of the
-> >>>>---end quoted text---
-> >>>>
-> >>>
-> >>
-> >
+> Since we don't ever invoke call_srcu(), it is safe
+> to use the _quiesced() version of srcu cleanup, and
+> avoid that flush dependency.
 > 
+> Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+
+Very good, thank you!
+
+I queued this with a few edits to the commit log (please see below),
+so please let me know if I messed anything up.
+
+Given that it only happens under high memory pressure, I am assuming
+that sending this up the v4.18 merge window (not this one, but the next
+one) will work.  Please let me know if this is more urgent than that.
+(If it is not more urgent, I would like to allow the extra time for
+people to get used to yet another addition to the SRCU API.)
+
+------------------------------------------------------------------------
+
+commit 6fde861519fc6e4be50c130272be556ef5656324
+Author: Nitzan Carmi <nitzanc at mellanox.com>
+Date:   Mon Apr 9 17:50:26 2018 +0300
+
+    nvme: Avoid flush dependency in delete controller flow
+    
+    The nvme_delete_ctrl() function queues a work item on a MEM_RECLAIM
+    queue (nvme_delete_wq), which eventually calls cleanup_srcu_struct(),
+    which in turn flushes a delayed work from an !MEM_RECLAIM queue. This
+    is unsafe as we might trigger deadlocks under severe memory pressure.
+    
+    Since we don't ever invoke call_srcu(), it is safe to use the shiny new
+    _quiesced() version of srcu cleanup, thus avoiding that flush dependency.
+    This commit makes that change.
+    
+    Signed-off-by: Nitzan Carmi <nitzanc at mellanox.com>
+    Signed-off-by: Paul E. McKenney <paulmck at linux.vnet.ibm.com>
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7aeca5db7916..40008d06c365 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -351,7 +351,7 @@ static void nvme_free_ns_head(struct kref *ref)
+ 	nvme_mpath_remove_disk(head);
+ 	ida_simple_remove(&head->subsys->ns_ida, head->instance);
+ 	list_del_init(&head->entry);
+-	cleanup_srcu_struct(&head->srcu);
++	cleanup_srcu_struct_quiesced(&head->srcu);
+ 	kfree(head);
+ }
+ 
