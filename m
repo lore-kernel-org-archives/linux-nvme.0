@@ -1,37 +1,13 @@
 From: mr.nuke.me@gmail.com (Alex G.)
-Date: Tue, 10 Apr 2018 09:19:13 -0500
-Subject: IRQ/nvme_pci_complete_rq: NULL pointer dereference yet again
-In-Reply-To: <20180409194713.GA6283@localhost.localdomain>
-References: <20180406153236.GK10098@localhost.localdomain>
- <94d77cb7-759f-595a-2264-37305dfa96c4@gmail.com>
- <20180406171622.aso3h6ydpmcdizl3@sbauer-Z170X-UD5>
- <93003ab7-f4a0-7e5d-f107-277df20f5566@gmail.com>
- <20180406180445.GL10098@localhost.localdomain>
- <e1218a86-2183-91c9-5a0a-a1c331b5b5f3@gmail.com>
- <20180406220058.GN10098@localhost.localdomain>
- <64cb047e-aa2b-2693-643a-6dac6eba2487@gmail.com>
- <20180409191109.GP10098@localhost.localdomain>
- <d174522d-60d6-1039-8364-85046db0dba8@gmail.com>
- <20180409194713.GA6283@localhost.localdomain>
-Message-ID: <686d97b2-1a15-d6a9-110c-a17fb9e1ab1b@gmail.com>
+Date: Tue, 10 Apr 2018 10:37:08 -0500
+Subject: [PATCH] blk-mq: Fix recently introduced races in the timeout
+ handling code
+Message-ID: <696b572b-c1b9-e192-ee2c-78b522019266@gmail.com>
 
+I've observed a very nasty NULL pointer dereference with NVME drives on
+hot-unplug [1]. While I haven't gone in the details of this change, it
+does fix the NULL dereference I've been seeing.
 
-On 04/09/2018 02:47 PM, Keith Busch wrote:
-> On Mon, Apr 09, 2018@02:36:30PM -0500, Alex G. wrote:
->> Although I remember a time when I could run these sort of tests without
->> panic(), I don't have a solid base from which I can bisect things.
->> Especially since we've added a few fixes lately that won't be in any base.
->>
->> I'll try a couple of branches, but don't hold your breath.
-> 
-> This may be a regression. Your panic is triggered through the timeout
-> path, which appears to have had recent modifications that are included
-> in your kernel. There's at least one issue in this area:
-> 
->   https://marc.info/?l=linux-block&m=152325124306821&w=2
+Alex
 
-This change appears to fix the NULL dereference.
-
-> I haven't looked into it enough to know if it's related to this issue,
-> though.
-> 
+[1] http://lists.infradead.org/pipermail/linux-nvme/2018-April/016623.html
