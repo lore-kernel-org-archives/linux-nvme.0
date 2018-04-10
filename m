@@ -1,47 +1,53 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 10 Apr 2018 20:18:07 +0300
-Subject: [PATCH v1 3/5] nvme-rdma: add keep-alive mechanism as admin_q property
+Date: Tue, 10 Apr 2018 20:18:05 +0300
+Subject: [PATCH v1 1/5] Revert "nvme: unexport nvme_start_keep_alive"
 In-Reply-To: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
 References: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1523380689-17151-4-git-send-email-maxg@mellanox.com>
+Message-ID: <1523380689-17151-2-git-send-email-maxg@mellanox.com>
 
-Activate/deactivate it during admin queue creation/destruction
-and remove association to nvme ctrl.
+This reverts commit c8799eee39e7523e5e0be10f8950b11cb66085bd.
+
+nvme_start_keep_alive() will be used by the transport drivers
+to fix keep-alive synchronization between NVMe-oF target/host.
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/rdma.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 3 ++-
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 758537e..cf65183 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -734,6 +734,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 38b450e..6211066 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -826,7 +826,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ 	}
+ }
+ 
+-static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
++void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
  {
-+	nvme_stop_keep_alive(&ctrl->ctrl);
- 	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
-@@ -801,6 +802,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (error)
- 		goto out_cleanup_queue;
+ 	if (unlikely(ctrl->kato == 0))
+ 		return;
+@@ -836,6 +836,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+ 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ }
++EXPORT_SYMBOL_GPL(nvme_start_keep_alive);
  
-+	nvme_start_keep_alive(&ctrl->ctrl);
-+
- 	return 0;
- 
- out_cleanup_queue:
-@@ -959,8 +962,6 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 	struct nvme_rdma_ctrl *ctrl = container_of(work,
- 			struct nvme_rdma_ctrl, err_work);
- 
--	nvme_stop_keep_alive(&ctrl->ctrl);
--
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ced5b3d..0ecd30a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -422,6 +422,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		unsigned timeout, int qid, int at_head,
+ 		blk_mq_req_flags_t flags);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
++void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
 -- 
 1.8.3.1
