@@ -1,29 +1,52 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 11 Apr 2018 14:48:12 -0600
-Subject: [PATCH] nvme: Use admin command effects for admin commands
-Message-ID: <20180411204812.19131-1-keith.busch@intel.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 11 Apr 2018 17:46:11 -0400
+Subject: 'modprobe nvme_core multipath=N' crashes in face of multipath
+ fabric
+In-Reply-To: <20180411175824.GE9238@localhost.localdomain>
+References: <20180410204953.GA17979@redhat.com>
+ <20180411134530.GC9238@localhost.localdomain>
+ <20180411141720.GB22124@redhat.com>
+ <20180411175824.GE9238@localhost.localdomain>
+Message-ID: <20180411214611.GA24088@redhat.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-This was correct in the first few versions of this patch, and goofed up
-on the last one somehow. Didn't notice until I tested a drive with the
-capability today.
+On Wed, Apr 11 2018 at  1:58pm -0400,
+Keith Busch <keith.busch@intel.com> wrote:
 
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Wed, Apr 11, 2018@10:17:21AM -0400, Mike Snitzer wrote:
+> > On Wed, Apr 11 2018 at  9:45am -0400,
+> > Keith Busch <keith.busch@intel.com> wrote:
+> > 
+> > > On Tue, Apr 10, 2018@04:49:53PM -0400, Mike Snitzer wrote:
+> > > > This isn't new since the 4.17 merge or anything, I first noticed this
+> > > > issue existed while using a 4.16-rc4 kernel.
+> > > > 
+> > > > modprobe nvme_core multipath=N
+> > > 
+> > > Thanks for the notice.
+> > > 
+> > > There is definitely a bug here when CONFIG_NVME_MULTIPATH=y but nvme_core
+> > > multipath is disabled in the presence of shared namespaces. I think we'd
+> > > need each namespace to get a different "head" out of the subsystem in
+> > > this case, but it may take a moment for me to detangle this.
+> > 
+> > No problem, it certainly isn't something I could tackle any quicker ;)
+> > 
+> > Thanks for looking to resolve this though.
+> 
+> It doesn't look like we'll be able to allocate new namespace 'heads'
+> here without complicating this even more.
+> 
+> The below should fix the naming collision by getting new instances for
+> each namespace that attaches to a head. I'm not sure this is much better,
+> but maybe Christoph will have a better suggestion.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b70f02bafac6..6ed91ae7f740 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1102,7 +1102,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	}
- 
- 	if (ctrl->effects)
--		effects = le32_to_cpu(ctrl->effects->iocs[opcode]);
-+		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
- 	else
- 		effects = nvme_known_admin_effects(opcode);
- 
--- 
-2.14.3
+This patch fixed the issue for me.  Verified that modprobe nvme_core
+multipath=N and multipath=Y works with the mptest case I shared in my
+original report.
+
+If you do go with this patch, please feel free to add:
+
+Tested-by: Mike Snitzer <snitzer at redhat.com>
+
+Thanks,
+Mike
