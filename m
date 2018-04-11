@@ -1,28 +1,99 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 11 Apr 2018 10:17:21 -0400
-Subject: 'modprobe nvme_core multipath=N' crashes in face of multipath
- fabric
-In-Reply-To: <20180411134530.GC9238@localhost.localdomain>
-References: <20180410204953.GA17979@redhat.com>
- <20180411134530.GC9238@localhost.localdomain>
-Message-ID: <20180411141720.GB22124@redhat.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 11 Apr 2018 17:40:20 +0300
+Subject: [PATCH v1 0/5] Fix keep-alive mechanism for fabrics
+In-Reply-To: <1c36f016-5b58-038f-8938-cd9deb15a205@grimberg.me>
+References: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
+ <512640d9-9e1d-5e52-d7be-5d8203381023@grimberg.me>
+ <c9ba5346-667c-7e6e-6b79-22f3152dfc50@mellanox.com>
+ <1c36f016-5b58-038f-8938-cd9deb15a205@grimberg.me>
+Message-ID: <ed15449d-8991-2bcd-a381-54727eaef241@mellanox.com>
 
-On Wed, Apr 11 2018 at  9:45am -0400,
-Keith Busch <keith.busch@intel.com> wrote:
 
-> On Tue, Apr 10, 2018@04:49:53PM -0400, Mike Snitzer wrote:
-> > This isn't new since the 4.17 merge or anything, I first noticed this
-> > issue existed while using a 4.16-rc4 kernel.
-> > 
-> > modprobe nvme_core multipath=N
+
+On 4/11/2018 5:07 PM, Sagi Grimberg wrote:
 > 
-> Thanks for the notice.
+>>> I don't understand what you mean by a "property of the admin queue",
+>>> there is no such definition in the spec. In any event, the keep alive
+>>> mechanism was defined to detect host/controller health on a periodic
+>>> basis.
+>>>
+>>> The spec clearly states that the host needs to send keep alive at
+>>> a faster rate than the Keep alive timeout accounting things such
+>>> as transport roundtrip times, transport delays, keep alive timer
+>>> granularity and so on.
+>>>
+>>> To me, this is a clear case where your use-case requires a larger
+>>> keep alive timeout. I'm not sure why sprinkling the keep alive execution
+>>> around solve/help anything. To me this looks completely redundant
+>>> (sorry).
+>>
+>> I think that starting keep-alive timer at the target side after admin 
+>> connect and starting keep-alive timer at the host side after all 
+>> io-queues connect is wrong.
+>> In my solution I start keep-alive mechanism in the host side also 
+>> after admin connect (exactly as the target side).
 > 
-> There is definitely a bug here when CONFIG_NVME_MULTIPATH=y but nvme_core
-> multipath is disabled in the presence of shared namespaces. I think we'd
-> need each namespace to get a different "head" out of the subsystem in
-> this case, but it may take a moment for me to detangle this.
+> That does not guarantee anything either. as you were simply able to
+> minimize the effect.
+> 
+> An alternative patch would also be able to minimize the effect:
+> -- 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e1b708ee6783..a84198b1e0d8 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -847,7 +847,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl 
+> *ctrl)
+>  ??????? INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
+>  ??????? memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+>  ??????? ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+> -?????? schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+> +?????? schedule_delayed_work(&ctrl->ka_work, 0);
+>  ?}
+> 
+>  ?void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+> -- 
+> 
+> This way the first keep alive will execute immediately the first time
+> and not kato after...
 
-No problem, it certainly isn't something I could tackle any quicker ;)
+This is a good patch, and I can add it to the series.
+I still don't see why not be symetric and based on the transport that 
+will be able to send a KA patcket fast enough. For systems that have 
+68/72/128 cores, IO queues connection (that include buffers allocation) 
+to hundreds of subsystems can take a while and until we have a TBKA (and 
+also after), KA should be started as soon as admin queue is connected.
+In both sides (not only the target side). The GRACE is ok, but needed 
+for the overlapping the delay and lack of syncronization between timers, 
+Not on logic.
 
-Thanks for looking to resolve this though.
+> 
+>> In this way I'll make sure the "health" is ok during the io-queues 
+>> connection establishment (establisment of 4000-5000 IO queues can take 
+>> long time and we hope sending a KA packet will not take more than 15 
+>> seconds no matter what :) ).
+> 
+> No you won't. nvme_start_keep_alive will execute a keep alive kato after
+> it was started. and why do you need to detect the health during
+> connection establishment? queue creation will fail if health is lost.
+> 
+>> Why to have inconsistant implementation ?
+>> Increasing the timeout is not a solution (maybe can WA some 
+>> scenarios). Also TBKA comes to solve different problem.
+> 
+> No, it came to solve a false positive of heart-bit lost as a result of
+> keep alive starvation, which is exactly what this scenario is.
+> 
+>>> As a side note, Note that this should be solved by "Traffic Based Keep
+>>> Alive" TP which is approaching ratification. This is yet another example
+>>> showing that Having keep alive timer firing regardless of command
+>>> execution is hurtful.
+>>
+>> TBKA will work as nop-in/out in iSCSI AKAIK. But again, it will no 
+>> solve the issue I described above.
+> 
+> Yes it will, fabrics connect is a traffic indication and will reset the
+> keep alive timer.
+
+Very good. But it will reset a KA timer that is not even started (in the 
+initiator) ?
