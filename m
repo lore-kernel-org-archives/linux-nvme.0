@@ -1,36 +1,26 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 11 Apr 2018 19:17:13 +0300
-Subject: [PATCH rfc 0/3] nvmet-rdma automatic port re-activation
-In-Reply-To: <20180322190303.10951-1-sagi@grimberg.me>
-References: <20180322190303.10951-1-sagi@grimberg.me>
-Message-ID: <053ca9f3-2237-e270-82cd-d99d123bde1c@mellanox.com>
+Date: Wed, 11 Apr 2018 19:23:26 +0300
+Subject: [PATCH 1/1] nvme-rdma: Add IB event handling support
+In-Reply-To: <351db80c-ed94-3b92-fc68-97f1873d8a1d@grimberg.me>
+References: <1521647315-10011-1-git-send-email-maxg@mellanox.com>
+ <351db80c-ed94-3b92-fc68-97f1873d8a1d@grimberg.me>
+Message-ID: <be067eff-d337-0f75-c472-97417b9c9c5d@mellanox.com>
 
-Hi Sagi,
-Can we add it to the v4.17 cycle with the small fixes/updates needed ?
 
-On 3/22/2018 9:02 PM, Sagi Grimberg wrote:
-> When a RDMA device goes away we must destroy all it's associated
-> RDMA resources. RDMa device resets also manifest as device removal
-> events and a short while after they come back. We want to re-activate
-> a port listener on this RDMA device when it comes back in to the system.
+
+On 4/4/2018 4:02 PM, Sagi Grimberg wrote:
 > 
-> In order to make it happen, we save the RDMA device node_guid on a
-> ULP listener representation (nvmet_rdma_port) and when a RDMA device
-> comes into the system, we check if there is a listener port that needs
-> to be re-activated.
+>> IB devices may invoke IB events that need a special treatment
+>> from the ib_client. For example, fatal event notification raised
+>> to registered clients due to an invalid port/device state after EEH.
+>> IB clients should be aware of this fatal event and not post any WR's
+>> to the device. Draining the QP, for example, is forbidden and will
+>> stuck forever waiting for the flushed work completions.
 > 
-> In addition, reflect the port state to the sysadmin.
-> 
-> Israel Rukshin (2):
->    nvmet: Add fabrics ops to port
->    nvmet: Add port transport active flag
-> 
-> Sagi Grimberg (1):
->    nvmet-rdma: automatic listening port re-activation
-> 
->   drivers/nvme/target/configfs.c |  10 ++
->   drivers/nvme/target/core.c     |  17 ++-
->   drivers/nvme/target/nvmet.h    |   3 +
->   drivers/nvme/target/rdma.c     | 231 +++++++++++++++++++++++++----------------
->   4 files changed, 169 insertions(+), 92 deletions(-)
-> 
+> Where can we find a documentation to what should and should not
+> work in this event?
+
+I'll probably abandon this commit since there should be low level 
+mechanism that needs to be aware of attempts to post WR to a device in a 
+fatal error and generate a "fake" completions.
+I'll update if this patch is needed.
