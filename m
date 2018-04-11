@@ -1,99 +1,99 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 11 Apr 2018 17:40:20 +0300
-Subject: [PATCH v1 0/5] Fix keep-alive mechanism for fabrics
-In-Reply-To: <1c36f016-5b58-038f-8938-cd9deb15a205@grimberg.me>
-References: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
- <512640d9-9e1d-5e52-d7be-5d8203381023@grimberg.me>
- <c9ba5346-667c-7e6e-6b79-22f3152dfc50@mellanox.com>
- <1c36f016-5b58-038f-8938-cd9deb15a205@grimberg.me>
-Message-ID: <ed15449d-8991-2bcd-a381-54727eaef241@mellanox.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Wed, 11 Apr 2018 16:07:04 +0000
+Subject: [PATCH 2/2 v3] nvme-rdma: Fix command completion race at error
+ recovery
+In-Reply-To: <1523462824-25643-1-git-send-email-israelr@mellanox.com>
+References: <1523462824-25643-1-git-send-email-israelr@mellanox.com>
+Message-ID: <1523462824-25643-3-git-send-email-israelr@mellanox.com>
 
+The race is between completing the request at error recovery work
+and rdma completions.
+If we cancel the request before getting the good rdma completion
+we get a NULL deref of the request MR at nvme_rdma_process_nvme_rsp().
 
+When Canceling the request we return its mr to the mr pool (set mr to NULL)
+and also unmap its data.
+Canceling the requests while the rdma queues are active is not safe.
+Because rdma queues are active and we get good rdma completions
+that can use the mr pointer which may be NULL.
+Completing the request too soon may lead also to performing DMA to/from
+user buffers which might have been already unmapped.
 
-On 4/11/2018 5:07 PM, Sagi Grimberg wrote:
-> 
->>> I don't understand what you mean by a "property of the admin queue",
->>> there is no such definition in the spec. In any event, the keep alive
->>> mechanism was defined to detect host/controller health on a periodic
->>> basis.
->>>
->>> The spec clearly states that the host needs to send keep alive at
->>> a faster rate than the Keep alive timeout accounting things such
->>> as transport roundtrip times, transport delays, keep alive timer
->>> granularity and so on.
->>>
->>> To me, this is a clear case where your use-case requires a larger
->>> keep alive timeout. I'm not sure why sprinkling the keep alive execution
->>> around solve/help anything. To me this looks completely redundant
->>> (sorry).
->>
->> I think that starting keep-alive timer at the target side after admin 
->> connect and starting keep-alive timer at the host side after all 
->> io-queues connect is wrong.
->> In my solution I start keep-alive mechanism in the host side also 
->> after admin connect (exactly as the target side).
-> 
-> That does not guarantee anything either. as you were simply able to
-> minimize the effect.
-> 
-> An alternative patch would also be able to minimize the effect:
-> -- 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index e1b708ee6783..a84198b1e0d8 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -847,7 +847,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl 
-> *ctrl)
->  ??????? INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
->  ??????? memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
->  ??????? ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
-> -?????? schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-> +?????? schedule_delayed_work(&ctrl->ka_work, 0);
->  ?}
-> 
->  ?void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
-> -- 
-> 
-> This way the first keep alive will execute immediately the first time
-> and not kato after...
+The commit fixes the race by draining the QP before
+starting the abort commands mechanism.
 
-This is a good patch, and I can add it to the series.
-I still don't see why not be symetric and based on the transport that 
-will be able to send a KA patcket fast enough. For systems that have 
-68/72/128 cores, IO queues connection (that include buffers allocation) 
-to hundreds of subsystems can take a while and until we have a TBKA (and 
-also after), KA should be started as soon as admin queue is connected.
-In both sides (not only the target side). The GRACE is ok, but needed 
-for the overlapping the delay and lack of syncronization between timers, 
-Not on logic.
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-> 
->> In this way I'll make sure the "health" is ok during the io-queues 
->> connection establishment (establisment of 4000-5000 IO queues can take 
->> long time and we hope sending a KA packet will not take more than 15 
->> seconds no matter what :) ).
-> 
-> No you won't. nvme_start_keep_alive will execute a keep alive kato after
-> it was started. and why do you need to detect the health during
-> connection establishment? queue creation will fail if health is lost.
-> 
->> Why to have inconsistant implementation ?
->> Increasing the timeout is not a solution (maybe can WA some 
->> scenarios). Also TBKA comes to solve different problem.
-> 
-> No, it came to solve a false positive of heart-bit lost as a result of
-> keep alive starvation, which is exactly what this scenario is.
-> 
->>> As a side note, Note that this should be solved by "Traffic Based Keep
->>> Alive" TP which is approaching ratification. This is yet another example
->>> showing that Having keep alive timer firing regardless of command
->>> execution is hurtful.
->>
->> TBKA will work as nop-in/out in iSCSI AKAIK. But again, it will no 
->> solve the issue I described above.
-> 
-> Yes it will, fabrics connect is a traffic indication and will reset the
-> keep alive timer.
-
-Very good. But it will reset a KA timer that is not even started (in the 
-initiator) ?
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c1abfc8..56fccac 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -734,7 +734,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+@@ -817,7 +816,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_io_queues(ctrl);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.connect_q);
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+@@ -947,6 +945,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 	return;
+ 
+ destroy_admin:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	nvme_rdma_destroy_admin_queue(ctrl, false);
+ requeue:
+ 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+@@ -963,12 +962,14 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, false);
+ 	}
+ 
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 	nvme_rdma_destroy_admin_queue(ctrl, false);
+@@ -1725,6 +1726,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, shutdown);
+@@ -1736,6 +1738,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ 		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
+ 
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+@@ -2001,6 +2004,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	return &ctrl->ctrl;
+ 
+ out_remove_admin_queue:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	nvme_rdma_destroy_admin_queue(ctrl, true);
+ out_kfree_queues:
+ 	kfree(ctrl->queues);
+-- 
+1.8.3.1
