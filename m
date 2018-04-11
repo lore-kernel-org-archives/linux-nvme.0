@@ -1,67 +1,64 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 10 Apr 2018 16:49:53 -0400
-Subject: 'modprobe nvme_core multipath=N' crashes in face of multipath fabric
-Message-ID: <20180410204953.GA17979@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 11 Apr 2018 16:04:52 +0300
+Subject: [PATCH v1 0/5] Fix keep-alive mechanism for fabrics
+In-Reply-To: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
+References: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
+Message-ID: <512640d9-9e1d-5e52-d7be-5d8203381023@grimberg.me>
 
-This isn't new since the 4.17 merge or anything, I first noticed this
-issue existed while using a 4.16-rc4 kernel.
 
-modprobe nvme_core multipath=N
+> Hi all,
+> I've been debugging the KA mechanism lately and found a lack of
+> coordination between the target and host implementations.
+> 
+> Johannes,
+> Sorry for reverting your commit - I'll use nvme_start_keep_alive
+> for my fix.
+> 
+> I've noticed that there is no clear definition in the NVMe spec
+> regarding the keep-alive mechanism association. IMO, it should be
+> a property of the admin queue and should be triggered as soon as
+> the admin queue configured successfuly.
+> 
+> Idan/Christoph/Sagi,
+> Any thoughts on that proposal ?
 
-Using mptest's nvme_4port_create.sh
+I don't understand what you mean by a "property of the admin queue",
+there is no such definition in the spec. In any event, the keep alive
+mechanism was defined to detect host/controller health on a periodic
+basis.
 
-git clone git://github.com/snitm/mptest.git
-cd mptest/lib/unittests
-perl -pi -e 's|/dev/pmem0|/dev/some_test_device|' nvme_4port_create.sh
-./nvme_4port_create.sh
+The spec clearly states that the host needs to send keep alive at
+a faster rate than the Keep alive timeout accounting things such
+as transport roundtrip times, transport delays, keep alive timer
+granularity and so on.
 
-[ 2309.845915] nvmet: adding nsid 1 to subsystem mptestnqn
-[ 2310.019820] nvmet: creating controller 1 for subsystem mptestnqn for NQN nqn.2014-08.org.nvmexpress:uuid:71a69a69-edb9-4d51-8cbf-1c29778534ab.
-[ 2310.034201] nvme nvme1: NVME-FC{0}: new ctrl: NQN "mptestnqn"
-[ 2310.041705] nvmet: creating controller 2 for subsystem mptestnqn for NQN nqn.2014-08.org.nvmexpress:uuid:71a69a69-edb9-4d51-8cbf-1c29778534ab.
-[ 2310.056005] nvme nvme2: NVME-FC{1}: new ctrl: NQN "mptestnqn"
-[ 2310.056314] sysfs: cannot create duplicate filename '/class/block/nvme1n1'
-[ 2310.063386] nvmet: creating controller 3 for subsystem mptestnqn for NQN nqn.2014-08.org.nvmexpress:uuid:71a69a69-edb9-4d51-8cbf-1c29778534ab.
-[ 2310.068637] CPU: 3 PID: 1791 Comm: kworker/u497:1 Not tainted 4.16.0.snitm+ #13
-[ 2310.088705] Hardware name: Supermicro SYS-1029P-WTR/X11DDW-L, BIOS 2.0a 12/06/2017
-[ 2310.096274] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-[ 2310.101669] Call Trace:
-[ 2310.104129]  dump_stack+0x5a/0x73
-[ 2310.107444]  sysfs_warn_dup+0x58/0x70
-[ 2310.111109]  sysfs_do_create_link_sd.isra.2+0xa3/0xb0
-[ 2310.116162]  device_add+0x2ac/0x5f0
-[ 2310.119658]  __device_add_disk+0x19c/0x4a0
-[ 2310.123754]  nvme_validate_ns+0x4d2/0x860 [nvme_core]
-[ 2310.128807]  ? wake_up_q+0x70/0x70
-[ 2310.132214]  nvme_scan_work+0x211/0x2d0 [nvme_core]
-[ 2310.137095]  process_one_work+0x158/0x360
-[ 2310.141103]  worker_thread+0x47/0x3e0
-[ 2310.144772]  kthread+0xf8/0x130
-[ 2310.147917]  ? max_active_store+0x80/0x80
-[ 2310.151929]  ? kthread_bind+0x10/0x10
-[ 2310.155595]  ? do_syscall_64+0x74/0x1a0
-[ 2310.159435]  ? SyS_exit_group+0x10/0x10
-[ 2310.163273]  ret_from_fork+0x35/0x40
-[ 2310.166872] nvme nvme3: NVME-FC{2}: new ctrl: NQN "mptestnqn"
-[ 2310.166875] ------------[ cut here ]------------
-[ 2310.167189] sysfs: cannot create duplicate filename '/class/block/nvme1n1'
-[ 2310.167190] CPU: 3 PID: 8111 Comm: kworker/u497:3 Not tainted 4.16.0.snitm+ #13
-[ 2310.167191] Hardware name: Supermicro SYS-1029P-WTR/X11DDW-L, BIOS 2.0a 12/06/2017
-[ 2310.167194] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-[ 2310.167194] Call Trace:
-[ 2310.167196]  dump_stack+0x5a/0x73
-[ 2310.167198]  sysfs_warn_dup+0x58/0x70
-[ 2310.167199]  sysfs_do_create_link_sd.isra.2+0xa3/0xb0
-[ 2310.167200]  device_add+0x2ac/0x5f0
-[ 2310.167202]  __device_add_disk+0x19c/0x4a0
-[ 2310.167205]  nvme_validate_ns+0x4d2/0x860 [nvme_core]
-[ 2310.167206]  ? wake_up_q+0x70/0x70
-[ 2310.167208]  nvme_scan_work+0x211/0x2d0 [nvme_core]
-[ 2310.167210]  process_one_work+0x158/0x360
-[ 2310.167211]  worker_thread+0x47/0x3e0
-[ 2310.167212]  kthread+0xf8/0x130
-[ 2310.167213]  ? max_active_store+0x80/0x80
-[ 2310.167214]  ? kthread_bind+0x10/0x10
-[ 2310.167215]  ret_from_fork+0x35/0x40
-[ 2310.167225] ------------[ cut here ]------------
-[ 2310.167226] kernel BUG at fs/sysfs/group.c:111!
+To me, this is a clear case where your use-case requires a larger
+keep alive timeout. I'm not sure why sprinkling the keep alive execution
+around solve/help anything. To me this looks completely redundant
+(sorry).
+
+We could theoretically make NVME_KATO_GRACE configurable, but I
+seriously doubt its useful at all...
+
+As a side note, Note that this should be solved by "Traffic Based Keep
+Alive" TP which is approaching ratification. This is yet another example
+showing that Having keep alive timer firing regardless of command
+execution is hurtful.
+
+> This patchset was tested using RDMA transport only:
+> I've created 20 subsystems, 5 namespaces per subsystem and exposed
+> all through 8 portals (total 160 ctrl's created) on 1 target.
+> I used 1 initiator (host) and connected successfuly.
+> Later on I've destroyed the target and caused a reconnection flow
+> in the initiator side.
+> Ater ~30-50 seconds, I've configured the target again but the initiator
+> couldn't reconnect to it (after many retries).
+> The reason for this was that the keep-alive timer expired at the target
+> side, caused ctrl fatal error and the io-queue connect failed to find
+> the ctrl. This loop never converged.
+> 
+> With the patches below, the test passed successfully after 1/2
+> reconnection attempts.
+
+Hence my comment above. As I said, I think you should either increase
+the keep alive timeout for this use-case, or wait for TBKAS to ratify.
