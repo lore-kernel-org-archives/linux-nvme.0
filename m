@@ -1,33 +1,55 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 09:16:08 -0600
-Subject: [PATCH 06/13] nvme-pci: Skip queue deletion if there are no queues
+Date: Thu, 12 Apr 2018 09:16:09 -0600
+Subject: [PATCH 07/13] nvme-pci: Remove unused queue parameter
 In-Reply-To: <20180412151615.5176-1-keith.busch@intel.com>
 References: <20180412151615.5176-1-keith.busch@intel.com>
-Message-ID: <20180412151615.5176-7-keith.busch@intel.com>
+Message-ID: <20180412151615.5176-8-keith.busch@intel.com>
 
-User reported controller always retains CSTS.RDY to 1, which fails
-controller disabling when resetting the controller. This is also before
-the admin queue is allocated, and trying to disable an unallocated queue
-results in a NULL dereference.
+All the queue memory is allocated up front. We don't take the node
+into consideration when creating queues anymore, so removing the unused
+parameter.
 
-Reported-by: Alex Gagniuc <Alex_Gagniuc at Dellteam.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 295fbec1e5f2..22403aa7dc60 100644
+index 22403aa7dc60..0b3b4d9fd423 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2201,7 +2201,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+@@ -1380,8 +1380,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 	return 0;
+ }
  
- 	nvme_stop_queues(&dev->ctrl);
+-static int nvme_alloc_queue(struct nvme_dev *dev, int qid,
+-		int depth, int node)
++static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+ {
+ 	struct nvme_queue *nvmeq = &dev->queues[qid];
  
--	if (!dead) {
-+	if (!dead && dev->ctrl.queue_count > 0) {
- 		/*
- 		 * If the controller is still alive tell it to stop using the
- 		 * host memory buffer.  In theory the shutdown / reset should
+@@ -1596,8 +1595,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result < 0)
+ 		return result;
+ 
+-	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
+-			dev_to_node(dev->dev));
++	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
+ 	if (result)
+ 		return result;
+ 
+@@ -1630,9 +1628,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 	int ret = 0;
+ 
+ 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
+-		/* vector == qid - 1, match nvme_create_queue */
+-		if (nvme_alloc_queue(dev, i, dev->q_depth,
+-		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
++		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
+ 			ret = -ENOMEM;
+ 			break;
+ 		}
 -- 
 2.14.3
