@@ -1,55 +1,47 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 09:16:09 -0600
-Subject: [PATCH 07/13] nvme-pci: Remove unused queue parameter
+Date: Thu, 12 Apr 2018 09:16:07 -0600
+Subject: [PATCH 05/13] nvme: target: fix buffer overflow
 In-Reply-To: <20180412151615.5176-1-keith.busch@intel.com>
 References: <20180412151615.5176-1-keith.busch@intel.com>
-Message-ID: <20180412151615.5176-8-keith.busch@intel.com>
+Message-ID: <20180412151615.5176-6-keith.busch@intel.com>
 
-All the queue memory is allocated up front. We don't take the node
-into consideration when creating queues anymore, so removing the unused
-parameter.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+nvmet_execute_get_disc_log_page() passes a fixed-length string into
+nvmet_format_discovery_entry(), which then does a longer memcpy() on
+it, as pointed out by gcc-8:
+
+In function 'nvmet_format_discovery_entry',
+    inlined from 'nvmet_execute_get_disc_log_page' at drivers/nvme/target/discovery.c:126:4:
+drivers/nvme/target/discovery.c:62:2: error: 'memcpy' forming offset [38, 223] is out of the bounds [0, 37] [-Werror=array-bounds]
+  memcpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
+
+Using strncpy() will make this well-defined, filling the rest of the
+buffer with zeroes, under the assumption that the input is either
+a NUL-terminated string, or a byte sequence containing no zeroes.
+If the input is a string that is longer than NVMF_NQN_SIZE, we
+continue to have no NUL-termination in the output.
+
+Fixes: a07b4970f464 ("nvmet: add a generic NVMe target")
+Signed-off-by: Arnd Bergmann <arnd at arndb.de>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/nvme/target/discovery.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 22403aa7dc60..0b3b4d9fd423 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1380,8 +1380,7 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 	return 0;
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index a72425d8bce0..231e04e0a496 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -59,7 +59,7 @@ static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
+ 	memcpy(e->trsvcid, port->disc_addr.trsvcid, NVMF_TRSVCID_SIZE);
+ 	memcpy(e->traddr, traddr, NVMF_TRADDR_SIZE);
+ 	memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SIZE);
+-	memcpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
++	strncpy(e->subnqn, subsys_nqn, NVMF_NQN_SIZE);
  }
  
--static int nvme_alloc_queue(struct nvme_dev *dev, int qid,
--		int depth, int node)
-+static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
- {
- 	struct nvme_queue *nvmeq = &dev->queues[qid];
- 
-@@ -1596,8 +1595,7 @@ static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
- 	if (result < 0)
- 		return result;
- 
--	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH,
--			dev_to_node(dev->dev));
-+	result = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
- 	if (result)
- 		return result;
- 
-@@ -1630,9 +1628,7 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 	int ret = 0;
- 
- 	for (i = dev->ctrl.queue_count; i <= dev->max_qid; i++) {
--		/* vector == qid - 1, match nvme_create_queue */
--		if (nvme_alloc_queue(dev, i, dev->q_depth,
--		     pci_irq_get_node(to_pci_dev(dev->dev), i - 1))) {
-+		if (nvme_alloc_queue(dev, i, dev->q_depth)) {
- 			ret = -ENOMEM;
- 			break;
- 		}
+ /*
 -- 
 2.14.3
