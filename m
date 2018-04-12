@@ -1,11 +1,61 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 08:18:02 -0600
-Subject: [PATCH v5] nvme: expand nvmf_check_if_ready checks
-In-Reply-To: <13dbea4d-0637-fe0a-0f23-8a591255e7ff@grimberg.me>
-References: <20180412001314.5003-1-jsmart2021@gmail.com>
- <13dbea4d-0637-fe0a-0f23-8a591255e7ff@grimberg.me>
-Message-ID: <20180412141801.GA4810@localhost.localdomain>
+Date: Thu, 12 Apr 2018 08:55:26 -0600
+Subject: [GIT PULL] nvme-4.17 round 2
+Message-ID: <20180412145526.GC4810@localhost.localdomain>
 
-Applied, thanks.
+The following changes since commit f23f5bece686a76598335141a091934f7eb0998c:
 
-Next 4.17 pull request coming shortly.
+  blk-mq: Allow PCI vector offset for mapping queues (2018-03-27 21:25:36 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.17-2
+
+for you to fetch changes up to 1d3528abf41ae3a0ee22f23f294033e000d3ecd1:
+
+  nvme: expand nvmf_check_if_ready checks (2018-04-12 07:12:09 -0600)
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      nvme: target: fix buffer overflow
+
+Daniel Verkamp (1):
+      nvmet: fix space padding in serial number
+
+James Smart (1):
+      nvme: expand nvmf_check_if_ready checks
+
+Johannes Thumshirn (2):
+      nvme: unexport nvme_start_keep_alive
+      nvme: don't send keep-alives to the discovery controller
+
+Keith Busch (4):
+      nvme-pci: Skip queue deletion if there are no queues
+      nvme-pci: Remove unused queue parameter
+      nvme-pci: Separate IO and admin queue IRQ vectors
+      nvme: Use admin command effects for admin commands
+
+Matias Bj?rling (1):
+      nvme: enforce 64bit offset for nvme_get_log_ext fn
+
+Max Gurtovoy (1):
+      nvme: check return value of init_srcu_struct function
+
+Ming Lei (1):
+      nvme-loop: fix kernel oops in case of unhandled command
+
+Rodrigo R. Galvao (1):
+      nvmet: Fix nvmet_execute_write_zeroes sector count
+
+ drivers/nvme/host/core.c        | 33 ++++++++++------
+ drivers/nvme/host/fabrics.c     | 83 ++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/fabrics.h     | 33 +---------------
+ drivers/nvme/host/fc.c          | 12 ++----
+ drivers/nvme/host/nvme.h        |  4 +-
+ drivers/nvme/host/pci.c         | 35 ++++++++++-------
+ drivers/nvme/host/rdma.c        | 14 +------
+ drivers/nvme/target/admin-cmd.c |  1 +
+ drivers/nvme/target/discovery.c |  2 +-
+ drivers/nvme/target/io-cmd.c    |  4 +-
+ drivers/nvme/target/loop.c      | 20 ++--------
+ 11 files changed, 141 insertions(+), 100 deletions(-)
