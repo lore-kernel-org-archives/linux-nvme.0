@@ -1,39 +1,38 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 12 Apr 2018 07:39:56 +0200
-Subject: [PATCH] nvme: Use admin command effects for admin commands
-In-Reply-To: <20180411204812.19131-1-keith.busch@intel.com>
-References: <20180411204812.19131-1-keith.busch@intel.com>
-Message-ID: <20180412053956.GA30003@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 12 Apr 2018 11:06:52 +0300
+Subject: [PATCH v1 0/3] nvmet-rdma automatic port re-activation
+Message-ID: <20180412080656.1691-1-sagi@grimberg.me>
 
-On Wed, Apr 11, 2018@02:48:12PM -0600, Keith Busch wrote:
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
-> This was correct in the first few versions of this patch, and goofed up
-> on the last one somehow. Didn't notice until I tested a drive with the
-> capability today.
-> 
->  drivers/nvme/host/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+When a RDMA device goes away we must destroy all it's associated
+RDMA resources. RDMa device resets also manifest as device removal
+events and a short while after they come back. We want to re-activate
+a port listener on this RDMA device when it comes back in to the system.
 
-Looks good!
+In order to make it happen, we save the RDMA device node_guid on a
+ULP listener representation (nvmet_rdma_port) and when a RDMA device
+comes into the system, we check if there is a listener port that needs
+to be re-activated.
 
-Btw, time to send another nvme update to Jens?
+In addition, reflect the port state to the sysadmin nicely with a patch
+to nvmetcli.
 
->
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index b70f02bafac6..6ed91ae7f740 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1102,7 +1102,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
->  	}
->  
->  	if (ctrl->effects)
-> -		effects = le32_to_cpu(ctrl->effects->iocs[opcode]);
-> +		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
->  	else
->  		effects = nvme_known_admin_effects(opcode);
->  
-> -- 
-> 2.14.3
----end quoted text---
+Changes from v0 (rfc):
+- renamed tractive to trstate
+- trstate configfs file without addr_ prefix to prevent json serialization on it
+- nvmet_rdma_port_enable_work self requeue delay was increased to 5 seconds
+
+Israel Rukshin (2):
+  nvmet: Add fabrics ops to port
+  nvmet: Add port transport state flag
+
+Sagi Grimberg (1):
+  nvmet-rdma: automatic listening port re-activation
+
+ drivers/nvme/target/configfs.c |  11 ++
+ drivers/nvme/target/core.c     |  17 ++-
+ drivers/nvme/target/nvmet.h    |   3 +
+ drivers/nvme/target/rdma.c     | 237 ++++++++++++++++++++++++++---------------
+ 4 files changed, 175 insertions(+), 93 deletions(-)
+
+-- 
+2.14.1
