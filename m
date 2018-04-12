@@ -1,53 +1,61 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 09:16:02 -0600
-Subject: [PATCH 00/13] nvme 4.17 patch series
-Message-ID: <20180412151615.5176-1-keith.busch@intel.com>
+Date: Thu, 12 Apr 2018 09:16:03 -0600
+Subject: [PATCH 01/13] nvme: enforce 64bit offset for nvme_get_log_ext fn
+In-Reply-To: <20180412151615.5176-1-keith.busch@intel.com>
+References: <20180412151615.5176-1-keith.busch@intel.com>
+Message-ID: <20180412151615.5176-2-keith.busch@intel.com>
 
-This series merges cleanly with linux-block/for-linus.
+From: Matias Bj?rling <mb@lightnvm.io>
 
-Arnd Bergmann (1):
-  nvme: target: fix buffer overflow
+Compiling on 32 bits system produces a warning for the shift width
+when shifting 32 bit integer with 64bit integer.
 
-Daniel Verkamp (1):
-  nvmet: fix space padding in serial number
+Make sure that offset always is 64bit, and use macros for retrieving
+lower and upper bits of the offset.
 
-James Smart (1):
-  nvme: expand nvmf_check_if_ready checks
+Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 6 +++---
+ drivers/nvme/host/nvme.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-Johannes Thumshirn (2):
-  nvme: unexport nvme_start_keep_alive
-  nvme: don't send keep-alives to the discovery controller
-
-Keith Busch (4):
-  nvme-pci: Skip queue deletion if there are no queues
-  nvme-pci: Remove unused queue parameter
-  nvme-pci: Separate IO and admin queue IRQ vectors
-  nvme: Use admin command effects for admin commands
-
-Matias Bj?rling (1):
-  nvme: enforce 64bit offset for nvme_get_log_ext fn
-
-Max Gurtovoy (1):
-  nvme: check return value of init_srcu_struct function
-
-Ming Lei (1):
-  nvme-loop: fix kernel oops in case of unhandled command
-
-Rodrigo R. Galvao (1):
-  nvmet: Fix nvmet_execute_write_zeroes sector count
-
- drivers/nvme/host/core.c        | 33 ++++++++++------
- drivers/nvme/host/fabrics.c     | 83 ++++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/fabrics.h     | 33 +---------------
- drivers/nvme/host/fc.c          | 12 ++----
- drivers/nvme/host/nvme.h        |  4 +-
- drivers/nvme/host/pci.c         | 35 ++++++++++-------
- drivers/nvme/host/rdma.c        | 14 +------
- drivers/nvme/target/admin-cmd.c |  1 +
- drivers/nvme/target/discovery.c |  2 +-
- drivers/nvme/target/io-cmd.c    |  4 +-
- drivers/nvme/target/loop.c      | 20 ++--------
- 11 files changed, 141 insertions(+), 100 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 197a6ba9700f..1bdd010a0cf5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2220,7 +2220,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ 
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		     u8 log_page, void *log,
+-		     size_t size, size_t offset)
++		     size_t size, u64 offset)
+ {
+ 	struct nvme_command c = { };
+ 	unsigned long dwlen = size / 4 - 1;
+@@ -2235,8 +2235,8 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	c.get_log_page.lid = log_page;
+ 	c.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1));
+ 	c.get_log_page.numdu = cpu_to_le16(dwlen >> 16);
+-	c.get_log_page.lpol = cpu_to_le32(offset & ((1ULL << 32) - 1));
+-	c.get_log_page.lpou = cpu_to_le32(offset >> 32ULL);
++	c.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset));
++	c.get_log_page.lpou = cpu_to_le32(upper_32_bits(offset));
+ 
+ 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index cf93690b3ffc..09d47b1937ff 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -430,7 +430,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ 
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		u8 log_page, void *log, size_t size, size_t offset);
++		u8 log_page, void *log, size_t size, u64 offset);
+ 
+ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
 -- 
 2.14.3
