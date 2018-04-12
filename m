@@ -1,66 +1,55 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 09:16:04 -0600
-Subject: [PATCH 02/13] nvme-loop: fix kernel oops in case of unhandled command
+Date: Thu, 12 Apr 2018 09:16:05 -0600
+Subject: [PATCH 03/13] nvme: unexport nvme_start_keep_alive
 In-Reply-To: <20180412151615.5176-1-keith.busch@intel.com>
 References: <20180412151615.5176-1-keith.busch@intel.com>
-Message-ID: <20180412151615.5176-3-keith.busch@intel.com>
+Message-ID: <20180412151615.5176-4-keith.busch@intel.com>
 
-From: Ming Lei <ming.lei@redhat.com>
+From: Johannes Thumshirn <jthumshirn@suse.de>
 
-When nvmet_req_init() fails, __nvmet_req_complete() is called
-to handle the target request via .queue_response(), so
-nvme_loop_queue_response() shouldn't be called again for
-handling the failure.
+nvme_start_keep_alive() isn't used outside core.c so unexport it and
+make it static.
 
-This patch fixes this case by the following way:
-
-- move blk_mq_start_request() before nvmet_req_init(), so
-nvme_loop_queue_response() may work well to complete this
-host request
-
-- don't call nvme_cleanup_cmd() which is done in nvme_loop_complete_rq()
-
-- don't call nvme_loop_queue_response() which is done via
-.queue_response()
-
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-[trimmed changelog]
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/target/loop.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 3 +--
+ drivers/nvme/host/nvme.h | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index a350765d2d5c..b9d5b69d8548 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -174,15 +174,12 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (ret)
- 		return ret;
- 
-+	blk_mq_start_request(req);
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 	iod->req.port = nvmet_loop_port;
- 	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvme_loop_ops)) {
--		nvme_cleanup_cmd(req);
--		blk_mq_start_request(req);
--		nvme_loop_queue_response(&iod->req);
-+			&queue->nvme_sq, &nvme_loop_ops))
- 		return BLK_STS_OK;
--	}
- 
- 	if (blk_rq_payload_bytes(req)) {
- 		iod->sg_table.sgl = iod->first_sgl;
-@@ -196,8 +193,6 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		iod->req.transfer_len = blk_rq_payload_bytes(req);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1bdd010a0cf5..695e52ae22fd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -826,7 +826,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
  	}
- 
--	blk_mq_start_request(req);
--
- 	schedule_work(&iod->work);
- 	return BLK_STS_OK;
  }
+ 
+-void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
++static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ {
+ 	if (unlikely(ctrl->kato == 0))
+ 		return;
+@@ -836,7 +836,6 @@ void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+ 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ }
+-EXPORT_SYMBOL_GPL(nvme_start_keep_alive);
+ 
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 09d47b1937ff..08c4cff79cde 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -422,7 +422,6 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		unsigned timeout, int qid, int at_head,
+ 		blk_mq_req_flags_t flags);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+-void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
 -- 
 2.14.3
