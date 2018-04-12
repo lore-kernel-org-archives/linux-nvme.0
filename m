@@ -1,16 +1,11 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 12 Apr 2018 15:34:46 +0300
-Subject: [PATCH 4/3 v1 nvmetcli] nvmetcli: expose nvmet port status and
- state
-In-Reply-To: <4a97d73a-20f1-2a22-9fb5-589faebb8f65@mellanox.com>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Thu, 12 Apr 2018 16:08:53 +0300
+Subject: [PATCH v1 1/3] nvmet-rdma: automatic listening port re-activation
+In-Reply-To: <20180412080656.1691-2-sagi@grimberg.me>
 References: <20180412080656.1691-1-sagi@grimberg.me>
- <20180412080656.1691-5-sagi@grimberg.me>
- <4a97d73a-20f1-2a22-9fb5-589faebb8f65@mellanox.com>
-Message-ID: <f89cd973-0eb0-6ab1-7ab9-5e0a1882682d@grimberg.me>
+ <20180412080656.1691-2-sagi@grimberg.me>
+Message-ID: <348e9958-1ef9-f101-377d-47416f5da21f@mellanox.com>
 
+Looks good,
 
-> get_trstate is supposed to be available only for port nodes,
-> so I think it is better to put it under class Port (which
-> inherits from class CFSNode), rather than from class CFSNode itself.
-
-You are absolutely correct, thanks!
+Reviewed-by: Israel Rukshin <israelr at mellanox.com>
