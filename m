@@ -1,27 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 09:16:14 -0600
-Subject: [PATCH 12/13] nvme: Use admin command effects for admin commands
-In-Reply-To: <20180412151615.5176-1-keith.busch@intel.com>
-References: <20180412151615.5176-1-keith.busch@intel.com>
-Message-ID: <20180412151615.5176-13-keith.busch@intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 12 Apr 2018 18:17:38 +0300
+Subject: [PATCH v1 0/5] Fix keep-alive mechanism for fabrics
+In-Reply-To: <ee210857-fc8c-cf1a-eca1-32f58e8cab2e@mellanox.com>
+References: <1523380689-17151-1-git-send-email-maxg@mellanox.com>
+ <512640d9-9e1d-5e52-d7be-5d8203381023@grimberg.me>
+ <c9ba5346-667c-7e6e-6b79-22f3152dfc50@mellanox.com>
+ <1c36f016-5b58-038f-8938-cd9deb15a205@grimberg.me>
+ <ed15449d-8991-2bcd-a381-54727eaef241@mellanox.com>
+ <3ee4b1a9-0b00-f7df-5198-a9f893e5a6af@broadcom.com>
+ <ad4fc7df-f53c-0c38-dd12-eb235056a0d8@grimberg.me>
+ <ee210857-fc8c-cf1a-eca1-32f58e8cab2e@mellanox.com>
+Message-ID: <ae1e1064-5c62-3ceb-dd4d-ff14e911df5c@grimberg.me>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b09940c556d0..aac3c1d2b2a2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1102,7 +1102,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	}
- 
- 	if (ctrl->effects)
--		effects = le32_to_cpu(ctrl->effects->iocs[opcode]);
-+		effects = le32_to_cpu(ctrl->effects->acs[opcode]);
- 	else
- 		effects = nvme_known_admin_effects(opcode);
- 
--- 
-2.14.3
+>> This together with moving the keep alive timer start in nvme_enable_ctrl
+>> should be enough and not propagating the handle to every transport
+>> driver, we have enough of that already.
+> 
+> Great, this is what I wanted to do in the first place but I was 
+> concerned about stopping the keep-alive in nvme_disable_ctrl.
+> Are you sending a new series or I will ?
+
+I can send it. Given that its your report and your intention in the
+first place, can I place you as the author of these?
