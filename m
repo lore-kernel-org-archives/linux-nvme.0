@@ -1,61 +1,66 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 09:16:03 -0600
-Subject: [PATCH 01/13] nvme: enforce 64bit offset for nvme_get_log_ext fn
+Date: Thu, 12 Apr 2018 09:16:04 -0600
+Subject: [PATCH 02/13] nvme-loop: fix kernel oops in case of unhandled command
 In-Reply-To: <20180412151615.5176-1-keith.busch@intel.com>
 References: <20180412151615.5176-1-keith.busch@intel.com>
-Message-ID: <20180412151615.5176-2-keith.busch@intel.com>
+Message-ID: <20180412151615.5176-3-keith.busch@intel.com>
 
-From: Matias Bj?rling <mb@lightnvm.io>
+From: Ming Lei <ming.lei@redhat.com>
 
-Compiling on 32 bits system produces a warning for the shift width
-when shifting 32 bit integer with 64bit integer.
+When nvmet_req_init() fails, __nvmet_req_complete() is called
+to handle the target request via .queue_response(), so
+nvme_loop_queue_response() shouldn't be called again for
+handling the failure.
 
-Make sure that offset always is 64bit, and use macros for retrieving
-lower and upper bits of the offset.
+This patch fixes this case by the following way:
 
-Signed-off-by: Matias Bj?rling <mb at lightnvm.io>
+- move blk_mq_start_request() before nvmet_req_init(), so
+nvme_loop_queue_response() may work well to complete this
+host request
+
+- don't call nvme_cleanup_cmd() which is done in nvme_loop_complete_rq()
+
+- don't call nvme_loop_queue_response() which is done via
+.queue_response()
+
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+[trimmed changelog]
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 6 +++---
- drivers/nvme/host/nvme.h | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/target/loop.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 197a6ba9700f..1bdd010a0cf5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2220,7 +2220,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index a350765d2d5c..b9d5b69d8548 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -174,15 +174,12 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (ret)
+ 		return ret;
  
- int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		     u8 log_page, void *log,
--		     size_t size, size_t offset)
-+		     size_t size, u64 offset)
- {
- 	struct nvme_command c = { };
- 	unsigned long dwlen = size / 4 - 1;
-@@ -2235,8 +2235,8 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	c.get_log_page.lid = log_page;
- 	c.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1));
- 	c.get_log_page.numdu = cpu_to_le16(dwlen >> 16);
--	c.get_log_page.lpol = cpu_to_le32(offset & ((1ULL << 32) - 1));
--	c.get_log_page.lpou = cpu_to_le32(offset >> 32ULL);
-+	c.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset));
-+	c.get_log_page.lpou = cpu_to_le32(upper_32_bits(offset));
++	blk_mq_start_request(req);
+ 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
+ 	iod->req.port = nvmet_loop_port;
+ 	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
+-			&queue->nvme_sq, &nvme_loop_ops)) {
+-		nvme_cleanup_cmd(req);
+-		blk_mq_start_request(req);
+-		nvme_loop_queue_response(&iod->req);
++			&queue->nvme_sq, &nvme_loop_ops))
+ 		return BLK_STS_OK;
+-	}
  
- 	return nvme_submit_sync_cmd(ctrl->admin_q, &c, log, size);
+ 	if (blk_rq_payload_bytes(req)) {
+ 		iod->sg_table.sgl = iod->first_sgl;
+@@ -196,8 +193,6 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		iod->req.transfer_len = blk_rq_payload_bytes(req);
+ 	}
+ 
+-	blk_mq_start_request(req);
+-
+ 	schedule_work(&iod->work);
+ 	return BLK_STS_OK;
  }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index cf93690b3ffc..09d47b1937ff 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -430,7 +430,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
- 
- int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--		u8 log_page, void *log, size_t size, size_t offset);
-+		u8 log_page, void *log, size_t size, u64 offset);
- 
- extern const struct attribute_group nvme_ns_id_attr_group;
- extern const struct block_device_operations nvme_ns_head_ops;
 -- 
 2.14.3
