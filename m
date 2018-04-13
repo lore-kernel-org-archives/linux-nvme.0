@@ -1,34 +1,49 @@
-From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Fri, 13 Apr 2018 19:55:55 +0200
+From: javier@cnexlabs.com (Javier Gonzalez)
+Date: Fri, 13 Apr 2018 18:01:48 +0000
 Subject: [PATCH] nvme: allow lightnvm to have visibility over AER events
-In-Reply-To: <20180413165801.GF6424@localhost.localdomain>
+In-Reply-To: <20180413152721.4cd2dxrxu4fd6dzs@sbauer-Z170X-UD5>
 References: <1523619780-10882-1-git-send-email-javier@cnexlabs.com>
  <1523619780-10882-2-git-send-email-javier@cnexlabs.com>
- <20180413165801.GF6424@localhost.localdomain>
-Message-ID: <28761F08-1AB9-41FD-BFE2-BBC9779432DA@javigon.com>
+ <20180413152721.4cd2dxrxu4fd6dzs@sbauer-Z170X-UD5>
+Message-ID: <8C42EBC3-ECDE-4A64-AFD1-36DF34692763@cnexlabs.com>
 
-> On 13 Apr 2018,@18.58, Keith Busch <keith.busch@intel.com> wrote:
-> 
-> Hi Javier,
-> 
-> We currently do have some logic in the core to say which events are
-> sent to user space for handling and others that are handled internally.
-> There's currently just two events with kernel specifc handling:
-> namespace inventory change, and firmware activation.
-> 
-> The example in your patch looks like one of the scenarios envisioned
-> to be handled by a udev rule. Is that not going to work for you here?
-> 
-> If you do have an event that needs special handling, I think you'd want
-> to filter that out of the user space notification and invoke the kernel
-> callback specific to it your event.
-
-Can I plug a udev rule to an in-kernel driver? A concrete example of the
-events we will handle is pblk having to remap data from a chunk that is
-becoming unreliable.
-
+> On 13 Apr 2018,@17.27, Scott Bauer <scott.bauer@intel.com> wrote:
 > 
 > On Fri, Apr 13, 2018@01:43:00PM +0200, Javier Gonz?lez wrote:
+>> ---
+>> drivers/nvme/host/core.c     | 37 +++++++++++++++++++++----
+>> drivers/nvme/host/lightnvm.c | 65 ++++++++++++++++++++++++++++++++++++++++++++
+>> drivers/nvme/host/nvme.h     |  3 ++
+>> include/linux/lightnvm.h     | 24 ++++++++++++++++
+>> include/linux/nvme.h         |  1 +
+>> 5 files changed, 125 insertions(+), 5 deletions(-)
+>> 
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index f81e3b323366..e08cd59e6049 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -3263,15 +3263,31 @@ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+>> 	kfree(envp[0]);
+>> }
+>> 
+>> -static void nvme_async_event_work(struct work_struct *work)
+>> +static void nvme_async_event(struct nvme_ctrl *ctrl)
+>> {
+>> -	struct nvme_ctrl *ctrl =
+>> -		container_of(work, struct nvme_ctrl, async_event_work);
+>> -
+>> 	nvme_aen_uevent(ctrl);
+>> 	ctrl->ops->submit_async_event(ctrl);
+>> }
+>> 
+>> +static void nvme_async_event_work(struct work_struct *work)
+>> +{
+>> +	struct nvme_ctrl *ctrl =
+>> +		container_of(work, struct nvme_ctrl, async_event_work);
+>> +
+>> +	nvme_async_event(ctrl);
+>> +}
+>> +
 >> +static void nvme_aer_handle_work(struct work_struct *work)
 >> +{
 >> +	struct nvme_ctrl *ctrl =
@@ -37,58 +52,36 @@ becoming unreliable.
 >> +	if (ctrl->aen_result & NVME_AER_NOTICE_LNVM_CHUNK)
 >> +		nvme_nvm_aer_handle(ctrl);
 > 
-> This 'if' will evaluate to true for _any_ VS AEN result, so this doesn't
-> look like the right criteria for an LNVM specific.
-
-See the next comment.
-
+> Just throwing ideas out:
+> Does it make sense to have the lnvm core register an "aer callback" into the
+> core driver? Then instead of calling the nvm_aer_handle directly we'd do like:
 > 
->> +	nvme_async_event(ctrl);
->> +}
->> +
->> static bool nvme_ctrl_pp_status(struct nvme_ctrl *ctrl)
->> {
->> 
->> @@ -3362,7 +3378,16 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
->> 	default:
->> 		dev_warn(ctrl->device, "async event result %08x\n", result);
->> 	}
->> -	queue_work(nvme_wq, &ctrl->async_event_work);
->> +
->> +	/* TODO: Create a flag signaling the events that require kernel handling
->> +	 * to make this treatment generic
->> +	 */
->> +	if (result & NVME_AER_NOTICE_LNVM_CHUNK) {
->> +		ctrl->aen_result = result;
->> +		queue_work(nvme_wq, &ctrl->aer_handle_work);
+> int res = 0;
+> if (child_driver->handle_aer)
+>   res = child_driver->handle_aer();
 > 
-> If this event needs special kernel handling, you should filter it out
-> in the switch statement above this code and directly invoke the special
-> callback.
-
-My thought with this is that a driver having to manage the event will
-need to send the get log page command, thus it will need a workque or
-similar; dealing with such logic in the driver makes it easier to
-maintain I think. Then at the nvme_aer_handle_work() level, we would
-filter out the events to the specific drivers.
-
+> if (!res)
+>     /* normal nvme driver handle */
 > 
-> I'm a bit concerned about special handling on a vendor specific code,
-> though. That could easily collide with another vendor's that has an
-> entirely different meaning.
+> 
+> If we do it this way if Fabrics, or what ever comes
+> in the future could register aer handlers as well and we wouldn't have to constantly
+> update this function.
 
-Of course. None of the specific bits will be upstreamed until they
-become standarized. As I answer to Christoph, at this point I want to
-start building the foundation.
+If we can agree that having a similar logic to this workqueue is a good
+way of allowing the nvme driver to enable in-kernel AER handlers, then
+the structure you mention would be a good way to handle the same event
+by different registered drivers.
 
-Thanks!
+At this point though, there is no other in-kernel users (that I can
+see), who are interested in managing AER events. Maybe they start popping
+out soon.
+
 Javier
-
-
 -------------- next part --------------
 A non-text attachment was scrubbed...
 Name: signature.asc
 Type: application/pgp-signature
 Size: 833 bytes
 Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180413/5a5013aa/attachment.sig>
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180413/25dbc185/attachment-0001.sig>
