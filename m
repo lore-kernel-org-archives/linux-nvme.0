@@ -1,87 +1,60 @@
-From: javier@cnexlabs.com (Javier Gonzalez)
-Date: Fri, 13 Apr 2018 18:01:48 +0000
-Subject: [PATCH] nvme: allow lightnvm to have visibility over AER events
-In-Reply-To: <20180413152721.4cd2dxrxu4fd6dzs@sbauer-Z170X-UD5>
-References: <1523619780-10882-1-git-send-email-javier@cnexlabs.com>
- <1523619780-10882-2-git-send-email-javier@cnexlabs.com>
- <20180413152721.4cd2dxrxu4fd6dzs@sbauer-Z170X-UD5>
-Message-ID: <8C42EBC3-ECDE-4A64-AFD1-36DF34692763@cnexlabs.com>
+From: lduncan@suse.com (Lee Duncan)
+Date: Fri, 13 Apr 2018 11:56:29 -0700
+Subject: [PATCH] Support python3 dictionary access.
+Message-ID: <20180413185629.18592-1-lduncan@suse.com>
 
-> On 13 Apr 2018,@17.27, Scott Bauer <scott.bauer@intel.com> wrote:
-> 
-> On Fri, Apr 13, 2018@01:43:00PM +0200, Javier Gonz?lez wrote:
->> ---
->> drivers/nvme/host/core.c     | 37 +++++++++++++++++++++----
->> drivers/nvme/host/lightnvm.c | 65 ++++++++++++++++++++++++++++++++++++++++++++
->> drivers/nvme/host/nvme.h     |  3 ++
->> include/linux/lightnvm.h     | 24 ++++++++++++++++
->> include/linux/nvme.h         |  1 +
->> 5 files changed, 125 insertions(+), 5 deletions(-)
->> 
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index f81e3b323366..e08cd59e6049 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -3263,15 +3263,31 @@ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
->> 	kfree(envp[0]);
->> }
->> 
->> -static void nvme_async_event_work(struct work_struct *work)
->> +static void nvme_async_event(struct nvme_ctrl *ctrl)
->> {
->> -	struct nvme_ctrl *ctrl =
->> -		container_of(work, struct nvme_ctrl, async_event_work);
->> -
->> 	nvme_aen_uevent(ctrl);
->> 	ctrl->ops->submit_async_event(ctrl);
->> }
->> 
->> +static void nvme_async_event_work(struct work_struct *work)
->> +{
->> +	struct nvme_ctrl *ctrl =
->> +		container_of(work, struct nvme_ctrl, async_event_work);
->> +
->> +	nvme_async_event(ctrl);
->> +}
->> +
->> +static void nvme_aer_handle_work(struct work_struct *work)
->> +{
->> +	struct nvme_ctrl *ctrl =
->> +		container_of(work, struct nvme_ctrl, aer_handle_work);
->> +
->> +	if (ctrl->aen_result & NVME_AER_NOTICE_LNVM_CHUNK)
->> +		nvme_nvm_aer_handle(ctrl);
-> 
-> Just throwing ideas out:
-> Does it make sense to have the lnvm core register an "aer callback" into the
-> core driver? Then instead of calling the nvm_aer_handle directly we'd do like:
-> 
-> int res = 0;
-> if (child_driver->handle_aer)
->   res = child_driver->handle_aer();
-> 
-> if (!res)
->     /* normal nvme driver handle */
-> 
-> 
-> If we do it this way if Fabrics, or what ever comes
-> in the future could register aer handlers as well and we wouldn't have to constantly
-> update this function.
+Support python2 and python3 dictionary
+access by using the 'python-six' module's
+iteritems() function.
 
-If we can agree that having a similar logic to this workqueue is a good
-way of allowing the nvme driver to enable in-kernel AER handlers, then
-the structure you mention would be a good way to handle the same event
-by different registered drivers.
+Also, add info to the README about supporting
+both Python2 and Python3.
 
-At this point though, there is no other in-kernel users (that I can
-see), who are interested in managing AER events. Maybe they start popping
-out soon.
+Signed-off-by: Lee Duncan <lduncan at suse.com>
+---
+ README        | 8 +++++---
+ nvmet/nvme.py | 3 ++-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180413/25dbc185/attachment-0001.sig>
+diff --git a/README b/README
+index cd4bd7838637..920a4ad40d91 100644
+--- a/README
++++ b/README
+@@ -14,9 +14,11 @@ using setup.py.
+ 
+ Common Package Dependencies and Problems
+ -----------------------------------------
+-nvmetcli uses the 'python-six' and 'pyparsing' packages
+-(running nvmetcli without these packages may produce
+-hard-to-decipher errors).
++Both python2 and python3 are supported via use of the
++'python-six' package. 
++
++nvmetcli uses the 'pyparsing' package -- running nvmetcli
++without this package may produce hard-to-decipher errors.
+ 
+ Usage
+ -----
+diff --git a/nvmet/nvme.py b/nvmet/nvme.py
+index c245a4240dd9..8253ea9264b7 100644
+--- a/nvmet/nvme.py
++++ b/nvmet/nvme.py
+@@ -23,6 +23,7 @@ import stat
+ import uuid
+ import json
+ from glob import iglob as glob
++from six import iteritems
+ 
+ DEFAULT_SAVE_FILE = '/etc/nvmet/config.json'
+ 
+@@ -219,7 +220,7 @@ class CFSNode(object):
+ 
+     def _setup_attrs(self, attr_dict, err_func):
+         for group in self.attr_groups:
+-            for name, value in attr_dict.get(group, {}).iteritems():
++            for name, value in iteritems(attr_dict.get(group, {})):
+                 try:
+                     self.set_attr(group, name, value)
+                 except CFSError as e:
+-- 
+2.13.6
