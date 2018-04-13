@@ -1,60 +1,26 @@
-From: lduncan@suse.com (Lee Duncan)
-Date: Fri, 13 Apr 2018 11:56:29 -0700
-Subject: [PATCH] Support python3 dictionary access.
-Message-ID: <20180413185629.18592-1-lduncan@suse.com>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Fri, 13 Apr 2018 21:50:52 +0000
+Subject: [RFC PATCH 8/8] nvmet: add configfs interface for target passthru
+In-Reply-To: <12238d4c-c01d-9590-2357-dbeabff23dfc@deltatee.com>
+References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
+ <20180330065747.20962-9-chaitanya.kulkarni@wdc.com>
+ <be832a05-3906-7087-30ed-f20784128272@deltatee.com>
+ <20180413173004.GC23674@lst.de>
+ <12238d4c-c01d-9590-2357-dbeabff23dfc@deltatee.com>
+Message-ID: <E0D61051-1A69-4379-B683-4EC0B2498C4E@raithlin.com>
 
-Support python2 and python3 dictionary
-access by using the 'python-six' module's
-iteritems() function.
+> Yes. It only really requires one field (the path to the nvme char
+> device) and making it exclusive to namespaces doesn't seem that
+> unintuitive. 
 
-Also, add info to the README about supporting
-both Python2 and Python3.
+I have to agree. Creating a whole new tree for passthru seems a lot less intuitive than adding a single passthru field to the subsystem tree.
 
-Signed-off-by: Lee Duncan <lduncan at suse.com>
----
- README        | 8 +++++---
- nvmet/nvme.py | 3 ++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
+> (compared to a whole new top level directory named 'pt'). 
 
-diff --git a/README b/README
-index cd4bd7838637..920a4ad40d91 100644
---- a/README
-+++ b/README
-@@ -14,9 +14,11 @@ using setup.py.
- 
- Common Package Dependencies and Problems
- -----------------------------------------
--nvmetcli uses the 'python-six' and 'pyparsing' packages
--(running nvmetcli without these packages may produce
--hard-to-decipher errors).
-+Both python2 and python3 are supported via use of the
-+'python-six' package. 
-+
-+nvmetcli uses the 'pyparsing' package -- running nvmetcli
-+without this package may produce hard-to-decipher errors.
- 
- Usage
- -----
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index c245a4240dd9..8253ea9264b7 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -23,6 +23,7 @@ import stat
- import uuid
- import json
- from glob import iglob as glob
-+from six import iteritems
- 
- DEFAULT_SAVE_FILE = '/etc/nvmet/config.json'
- 
-@@ -219,7 +220,7 @@ class CFSNode(object):
- 
-     def _setup_attrs(self, attr_dict, err_func):
-         for group in self.attr_groups:
--            for name, value in attr_dict.get(group, {}).iteritems():
-+            for name, value in iteritems(attr_dict.get(group, {})):
-                 try:
-                     self.set_attr(group, name, value)
-                 except CFSError as e:
--- 
-2.13.6
+Pretty please can we call it passthru? pt is totally incompressible to the casual reader...
+
+BTW we did test this series on one of our x86_64 target setups and it did a great job passing our vendor specific admin commands through to the NVMe namespaces.
+
+Tested-By: Stephen Bates <sbates at raithlin.com>
+
+Stephen
