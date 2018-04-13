@@ -1,31 +1,38 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Apr 2018 16:28:37 -0600
-Subject: 'modprobe nvme_core multipath=N' crashes in face of multipath
- fabric
-In-Reply-To: <4b142a06-ff6a-0e68-2043-0ed2886b8d50@grimberg.me>
-References: <20180410204953.GA17979@redhat.com>
- <20180411134530.GC9238@localhost.localdomain>
- <20180411141720.GB22124@redhat.com>
- <20180411175824.GE9238@localhost.localdomain>
- <20180411214611.GA24088@redhat.com>
- <4b142a06-ff6a-0e68-2043-0ed2886b8d50@grimberg.me>
-Message-ID: <20180412222837.GE6424@localhost.localdomain>
+From: javier@javigon.com (=?UTF-8?q?Javier=20Gonz=C3=A1lez?=)
+Date: Fri, 13 Apr 2018 13:42:59 +0200
+Subject: [RFC PATCH] nvme: allow to handle AER events by kernel drivers
+Message-ID: <1523619780-10882-1-git-send-email-javier@cnexlabs.com>
 
-On Thu, Apr 12, 2018@11:12:12AM +0300, Sagi Grimberg wrote:
-> On 04/12/2018 12:46 AM, Mike Snitzer wrote:
-> > This patch fixed the issue for me.  Verified that modprobe nvme_core
-> > multipath=N and multipath=Y works with the mptest case I shared in my
-> > original report.
-> > 
-> > If you do go with this patch, please feel free to add:
-> > 
-> > Tested-by: Mike Snitzer <snitzer at redhat.com>
-> 
-> This looks good to me too, you can add my
-> 
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+In the current AER path, the kernel just picks up the event and re-sends
+the async event command to allow the device to report a new event.
+Sending the get log page to manage the event itself and clear the device
+flag is left to user space for what I can see.
 
-I'm going to have to make one minor change here since this will still
-break if you've a multi-path subsystem with multiple namespaces. I'll
-just need to move the IDA up to the subsystem level instead of on the
-subsystem heads, but otherwise much the same.
+In OCSSD we require some of these events to be handled by LightNVM
+targets, thus we need to pull the AER event up the stack in a meaningful
+way. The main challenge as I see it is moving the event in a clean way
+to the right driver.
+
+This patch is a sketch on how to do this, very much work in progress. If
+we could add a bit to the result carried into nvme_result to signal
+which events are handled by the kernel, this would be much cleaner. From
+here on, drivers could register for specific events and then handled
+them accordingly.
+
+Feedback at this early stage is very much appreciated.
+
+Thanks!
+Javier
+
+Javier Gonz?lez (1):
+  nvme: allow lightnvm to have visibility over AER events
+
+ drivers/nvme/host/core.c     | 37 +++++++++++++++++++++----
+ drivers/nvme/host/lightnvm.c | 65 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h     |  3 ++
+ include/linux/lightnvm.h     | 24 ++++++++++++++++
+ include/linux/nvme.h         |  1 +
+ 5 files changed, 125 insertions(+), 5 deletions(-)
+
+-- 
+2.7.4
