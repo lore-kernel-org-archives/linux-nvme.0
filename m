@@ -1,31 +1,58 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 13 Apr 2018 19:30:04 +0200
-Subject: [RFC PATCH 8/8] nvmet: add configfs interface for target passthru
-In-Reply-To: <be832a05-3906-7087-30ed-f20784128272@deltatee.com>
+Date: Fri, 13 Apr 2018 19:35:37 +0200
+Subject: [RFC PATCH 0/8] nvmet: implement target passthru commands support
+In-Reply-To: <e089febc-577f-354d-dceb-0410d9115e1f@grimberg.me>
 References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
- <20180330065747.20962-9-chaitanya.kulkarni@wdc.com>
- <be832a05-3906-7087-30ed-f20784128272@deltatee.com>
-Message-ID: <20180413173004.GC23674@lst.de>
+ <e089febc-577f-354d-dceb-0410d9115e1f@grimberg.me>
+Message-ID: <20180413173537.GD23674@lst.de>
 
-On Fri, Mar 30, 2018@12:13:28PM -0600, Logan Gunthorpe wrote:
-> I *really* dislike this interface. Not only is the "pt" directory
-> confusing to the user, it's nearly identical to what a subsystem is. So
-> as developers, if we want to add a config option to a subsystem we also
-> have to add it to the equivalent pt. I've already seen one patch set
-> that would be mutually exclusive to this only because of the
-> configuration mess.
-> 
-> I'd much rather see either a couple new attributes in the existing
-> subsystem
+On Wed, Apr 04, 2018@02:44:11PM +0300, Sagi Grimberg wrote:
+> So for normal IO commands, I would simply move the bio construction loop
+> to shared code and call it from either the normal nvmet_execute_* or
+> nvmet_execute_passthru_io_cmd. I still don't understand what that buys
+> us... I guess one benefit would be to utilize ranged (merged) discards
+> instead of executing them range by range...
 
-Maybe.  But how would you design it?  Have a passthrough filed under
-the subsystem that you can echo a controller name to?  And then make
-the exclusive vs creating namespaces?
+What are "normal" I/O commands?  There can be vendor defined I/O
+commands that can do all kinds of weird things the block layer can't
+do.  Hell, there are plenty of NVMe defined I/O commands that map to
+nothing the block layer could deal with.
 
-> or some mechanism such that if you create a namespace that
-> points to a controller (eg /dev/nvme1) it takes it as though you're
-> trying to pass through the whole NVMe device. (The code would need to
-> ensure that a passthrough subsystem configured this way could only have
-> exactly one namespace.)
+We'll need an implementation that can deal with anything thrown at
+it, and Chaitanya has written that (turns out that part looks fairly
+trivial, it's all the setup around it that is a bit of a mess).
 
-Ugg.  Hell no!  Way too much magic.
+> For admin commands I would do something different though, why not simply
+> exporting __nvme_passthru_cmd (portion of nvme_user_cmd) and simply call
+> that with a bit of tweaks to the host memory layout. That would
+> eliminate the re-code in nvmet_execute_admin_cmd() Thoughts?
+
+Why?  Not really much simpler, probably much slower due to the synchronous
+nature, and it also requires reshuffling the on the wire format of the
+SQe into another form just to unpack it again.
+
+> We need code to exclude more than a single access to the same passthru
+> controller (or subsystem in fact). Otherwise we might be exposing the
+> user to lots of troubles...
+
+Only to the same controller I think, and then only allow one fabrics
+controller to be created for it.
+
+> Its also odd that a namespace is given a passthru access to a
+> controller. Maybe we need to add a configfs interface for passthru
+> subsystems? (under subsystems/ we have passthru file that takes the
+> controller name or subsystem id or something)
+>
+> Then automatically all the namespaces of that controller will be exposed
+> via the subsystem
+
+Sounds reasonable. 
+
+> So namespace management needs a mechanism to add the new namespace via
+> the fabrics target. This would require adding an event client mechanism
+> to nvme that will create that namespace in nvmet before issuing the
+> AEN.
+
+Yeah, for now we should simply disallow it.  Unfortunatelt it turns out
+the whole NVMe architecture isn't really well suitable for any kind of
+tunneling.
