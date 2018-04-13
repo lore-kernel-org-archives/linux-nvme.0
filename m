@@ -1,26 +1,25 @@
 From: sbates@raithlin.com (Stephen  Bates)
-Date: Fri, 13 Apr 2018 21:50:52 +0000
-Subject: [RFC PATCH 8/8] nvmet: add configfs interface for target passthru
-In-Reply-To: <12238d4c-c01d-9590-2357-dbeabff23dfc@deltatee.com>
-References: <20180330065747.20962-1-chaitanya.kulkarni@wdc.com>
- <20180330065747.20962-9-chaitanya.kulkarni@wdc.com>
- <be832a05-3906-7087-30ed-f20784128272@deltatee.com>
- <20180413173004.GC23674@lst.de>
- <12238d4c-c01d-9590-2357-dbeabff23dfc@deltatee.com>
-Message-ID: <E0D61051-1A69-4379-B683-4EC0B2498C4E@raithlin.com>
+Date: Fri, 13 Apr 2018 21:56:06 +0000
+Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <20180327094701.0000300d@huawei.com>
+References: <20180312193525.2855-1-logang@deltatee.com>
+ <20180312193525.2855-2-logang@deltatee.com>
+ <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
+ <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
+ <20180326121138.00005e30@huawei.com>
+ <20180326140118.GA221690@bhelgaas-glaptop.roam.corp.google.com>
+ <c717eb06-1e83-f0f3-4d6c-15531aa808e0@deltatee.com>
+ <20180327094701.0000300d@huawei.com>
+Message-ID: <178FD8FA-53BA-49DA-807F-F8736157F179@raithlin.com>
 
-> Yes. It only really requires one field (the path to the nvme char
-> device) and making it exclusive to namespaces doesn't seem that
-> unintuitive. 
+ 
+>  I'll see if I can get our PCI SIG people to follow this through 
 
-I have to agree. Creating a whole new tree for passthru seems a lot less intuitive than adding a single passthru field to the subsystem tree.
+Hi Jonathan
 
-> (compared to a whole new top level directory named 'pt'). 
+Can you let me know if this moves forward within PCI-SIG? I would like to track it. I can see this being doable between Root Ports that reside in the same Root Complex but might become more challenging to standardize for RPs that reside in different RCs in the same (potentially multi-socket) system. I know in the past we have seem MemWr TLPS cross the QPI bus in Intel systems but I am sure that is not something that would work in all systems and must fall outside the remit of PCI-SIG ;-).
 
-Pretty please can we call it passthru? pt is totally incompressible to the casual reader...
-
-BTW we did test this series on one of our x86_64 target setups and it did a great job passing our vendor specific admin commands through to the NVMe namespaces.
-
-Tested-By: Stephen Bates <sbates at raithlin.com>
+I agree such a capability bit would be very useful but it's going to be quite some time before we can rely on hardware being available that supports it.
 
 Stephen
+    
