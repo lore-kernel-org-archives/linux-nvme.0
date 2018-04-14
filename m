@@ -1,25 +1,68 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Fri, 13 Apr 2018 21:56:06 +0000
-Subject: [PATCH v3 01/11] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180327094701.0000300d@huawei.com>
-References: <20180312193525.2855-1-logang@deltatee.com>
- <20180312193525.2855-2-logang@deltatee.com>
- <59fd2f5d-177f-334a-a9c4-0f8a6ec7c303@codeaurora.org>
- <24d8e5c2-065d-8bde-3f5d-7f158be9c578@deltatee.com>
- <20180326121138.00005e30@huawei.com>
- <20180326140118.GA221690@bhelgaas-glaptop.roam.corp.google.com>
- <c717eb06-1e83-f0f3-4d6c-15531aa808e0@deltatee.com>
- <20180327094701.0000300d@huawei.com>
-Message-ID: <178FD8FA-53BA-49DA-807F-F8736157F179@raithlin.com>
+From: cgxu519@gmx.com (Chengguang Xu)
+Date: Sat, 14 Apr 2018 20:06:19 +0800
+Subject: [PATCH] nvme: fix potential memory leak in option parsing
+Message-ID: <1523707579-31583-1-git-send-email-cgxu519@gmx.com>
 
- 
->  I'll see if I can get our PCI SIG people to follow this through 
+When specifying same string type option several times,
+current option parsing may cause memory leak. Hence,
+call kfree for previous one in this case.
 
-Hi Jonathan
+Signed-off-by: Chengguang Xu <cgxu519 at gmx.com>
+---
+ drivers/nvme/host/fabrics.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Can you let me know if this moves forward within PCI-SIG? I would like to track it. I can see this being doable between Root Ports that reside in the same Root Complex but might become more challenging to standardize for RPs that reside in different RCs in the same (potentially multi-socket) system. I know in the past we have seem MemWr TLPS cross the QPI bus in Intel systems but I am sure that is not something that would work in all systems and must fall outside the remit of PCI-SIG ;-).
-
-I agree such a capability bit would be very useful but it's going to be quite some time before we can rely on hardware being available that supports it.
-
-Stephen
-    
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 124c458..7ae732a 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -668,6 +668,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -ENOMEM;
+ 				goto out;
+ 			}
++			kfree(opts->transport);
+ 			opts->transport = p;
+ 			break;
+ 		case NVMF_OPT_NQN:
+@@ -676,6 +677,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -ENOMEM;
+ 				goto out;
+ 			}
++			kfree(opts->subsysnqn);
+ 			opts->subsysnqn = p;
+ 			nqnlen = strlen(opts->subsysnqn);
+ 			if (nqnlen >= NVMF_NQN_SIZE) {
+@@ -698,6 +700,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -ENOMEM;
+ 				goto out;
+ 			}
++			kfree(opts->traddr);
+ 			opts->traddr = p;
+ 			break;
+ 		case NVMF_OPT_TRSVCID:
+@@ -706,6 +709,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -ENOMEM;
+ 				goto out;
+ 			}
++			kfree(opts->trsvcid);
+ 			opts->trsvcid = p;
+ 			break;
+ 		case NVMF_OPT_QUEUE_SIZE:
+@@ -792,6 +796,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -EINVAL;
+ 				goto out;
+ 			}
++			nvmf_host_put(opts->host);
+ 			opts->host = nvmf_host_add(p);
+ 			kfree(p);
+ 			if (!opts->host) {
+@@ -817,6 +822,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 				ret = -ENOMEM;
+ 				goto out;
+ 			}
++			kfree(opts->host_traddr);
+ 			opts->host_traddr = p;
+ 			break;
+ 		case NVMF_OPT_HOST_ID:
+-- 
+1.8.3.1
