@@ -1,68 +1,33 @@
-From: cgxu519@gmx.com (Chengguang Xu)
-Date: Sat, 14 Apr 2018 20:06:19 +0800
-Subject: [PATCH] nvme: fix potential memory leak in option parsing
-Message-ID: <1523707579-31583-1-git-send-email-cgxu519@gmx.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 15 Apr 2018 11:47:40 +0300
+Subject: [PATCH 1/2] nvmet: reset keep alive timer in controller enable
+Message-ID: <20180415084741.4235-1-sagi@grimberg.me>
 
-When specifying same string type option several times,
-current option parsing may cause memory leak. Hence,
-call kfree for previous one in this case.
+From: Max Gurtuvoy <maxg@mellanox.com>
 
-Signed-off-by: Chengguang Xu <cgxu519 at gmx.com>
+Controllers that are not yet enabled should not really
+enforce keep alive timeout, but we still want to track
+a timeout and cleanup in case a host died before it enabled
+us. Hence, simply reset the keep alive timer when the controller
+is enabled.
+
+Suggested-by: Max Gurtuvoy <maxg at mellanox.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fabrics.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/nvme/target/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 124c458..7ae732a 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -668,6 +668,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
-+			kfree(opts->transport);
- 			opts->transport = p;
- 			break;
- 		case NVMF_OPT_NQN:
-@@ -676,6 +677,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
-+			kfree(opts->subsysnqn);
- 			opts->subsysnqn = p;
- 			nqnlen = strlen(opts->subsysnqn);
- 			if (nqnlen >= NVMF_NQN_SIZE) {
-@@ -698,6 +700,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
-+			kfree(opts->traddr);
- 			opts->traddr = p;
- 			break;
- 		case NVMF_OPT_TRSVCID:
-@@ -706,6 +709,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
-+			kfree(opts->trsvcid);
- 			opts->trsvcid = p;
- 			break;
- 		case NVMF_OPT_QUEUE_SIZE:
-@@ -792,6 +796,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -EINVAL;
- 				goto out;
- 			}
-+			nvmf_host_put(opts->host);
- 			opts->host = nvmf_host_add(p);
- 			kfree(p);
- 			if (!opts->host) {
-@@ -817,6 +822,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 				ret = -ENOMEM;
- 				goto out;
- 			}
-+			kfree(opts->host_traddr);
- 			opts->host_traddr = p;
- 			break;
- 		case NVMF_OPT_HOST_ID:
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index fe151d672241..a81bf4d5e60c 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -643,6 +643,7 @@ static void nvmet_start_ctrl(struct nvmet_ctrl *ctrl)
+ 	}
+ 
+ 	ctrl->csts = NVME_CSTS_RDY;
++	mod_delayed_work(system_wq, &ctrl->ka_work, ctrl->kato * HZ);
+ }
+ 
+ static void nvmet_clear_ctrl(struct nvmet_ctrl *ctrl)
 -- 
-1.8.3.1
+2.14.1
