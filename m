@@ -1,17 +1,24 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 15 Apr 2018 13:17:58 +0300
-Subject: [PATCH 2/2] nvme: start keep alive timer when enabling the
- controller
-In-Reply-To: <fe43038e-001c-7468-be66-3df96d9d95e0@mellanox.com>
-References: <20180415084741.4235-1-sagi@grimberg.me>
- <20180415084741.4235-2-sagi@grimberg.me>
- <fe43038e-001c-7468-be66-3df96d9d95e0@mellanox.com>
-Message-ID: <9529fb23-ba35-0f41-7eda-2439612e1cd6@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 15 Apr 2018 16:50:58 +0300
+Subject: [PATCH 2/2 v3] nvme-rdma: Fix command completion race at error
+ recovery
+In-Reply-To: <20180412133730.GB5791@lst.de>
+References: <1523462824-25643-1-git-send-email-israelr@mellanox.com>
+ <1523462824-25643-3-git-send-email-israelr@mellanox.com>
+ <20180412133730.GB5791@lst.de>
+Message-ID: <cba7bf85-464d-adfe-55d1-75bede49e36c@mellanox.com>
 
-> Christoph suggested to add the keep-alive stop to the disable/shutdown 
-> (I guess we need to add it to both, right ?) and in the target side to 
-> start expecting also once ctrl is enabled and stop when disabled.
 
-I don't necessarily think we need to. Also, its better to do this sooner
-rather than later (stop_ctrl happens before disable/shutdown) and also,
-disable/shutdown might not even execute if the transport is not connected.
+
+On 4/12/2018 4:37 PM, Christoph Hellwig wrote:
+> We really need to keep this code in sync with the various transports,
+> chances are any race you see in RDMA will happen elsewhere as well.
+> 
+
+I saw that the pci driver calls nvme_pci_disable so it will not get any 
+interrupts/completion from the drive. so the nvme_cancel_request loop is 
+safe.
+Regarding FC we need James here.
+
+If you're talking about pushing it to common code in the core layer, 
+then I guess it's a good idea with/without this patchset.
