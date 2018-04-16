@@ -1,60 +1,13 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 16 Apr 2018 09:45:13 -0700
-Subject: [PATCH 2/2] nvme: start keep alive timer when enabling the
- controller
-In-Reply-To: <20180415084741.4235-2-sagi@grimberg.me>
-References: <20180415084741.4235-1-sagi@grimberg.me>
- <20180415084741.4235-2-sagi@grimberg.me>
-Message-ID: <5d1409bb-1f76-432f-6e0b-d36a616c2682@broadcom.com>
+From: joseph.r.gruher@intel.com (Gruher, Joseph R)
+Date: Mon, 16 Apr 2018 20:52:43 +0000
+Subject: Disable Native NVMe Multipath Support
+Message-ID: <DE927C68B458BE418D582EC97927A9287FEB6848@ORSMSX113.amr.corp.intel.com>
 
-On 4/15/2018 1:47 AM, Sagi Grimberg wrote:
-> From: Max Gurtuvoy <maxg at mellanox.com>
->
-> We start the keep alive timer after all the I/O queues were
-> created, this might be too late as the controller might have
-> start its keep alive timer when it was enabled. Hence, start
-> it right after controller enable was completed.
->
-> We stop the keep alive in nvme_stop_ctrl as its before the
-> disable/shutdown and its independent of the transport connectivity.
->
-> Suggested-by: Max Gurtuvoy <maxg at mellanox.com>
-> Suggested-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/core.c | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index e1b708ee6783..4b5c3f7addeb 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1739,7 +1739,14 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
->   	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
->   	if (ret)
->   		return ret;
-> -	return nvme_wait_ready(ctrl, cap, true);
-> +
-> +	ret = nvme_wait_ready(ctrl, cap, true);
-> +	if (ret)
-> +		return ret;
-> +
-> +	nvme_start_keep_alive(ctrl);
-> +
-> +	return 0;
->   }
->   EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
->   
-> @@ -3393,9 +3400,6 @@ EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
->   
->   void nvme_start_ctrl(struct nvme_ctrl *ctrl)
->   {
-> -	if (ctrl->kato)
-> -		nvme_start_keep_alive(ctrl);
-> -
->   	if (ctrl->queue_count > 1) {
->   		nvme_queue_scan(ctrl);
->   		queue_work(nvme_wq, &ctrl->async_event_work);
+Hi everyone-
 
+I'm doing some testing with the native NVMe multipath support in an NVMeoF environment.  In Ubuntu with kernel 4.15.15 it seems to be enabled by default and "just works" without taking any steps to set it up.  If I connect the same namespace from my target to my initiator using two different network paths it results in a single namespace on the initiator.  Then I can fail either network path and still run IO to the namespace.
 
-Signed-off-by:? James Smart <james.smart at broadcom.com>
+I'd like to now set up dm-multipath for comparison.  It looks like I'll need to disable the native NVMe multipath support to do this, otherwise I can't connect the same namespace via two paths and have it show up on the initiator as two separate namespaces for dm-multipath to use.  Is there an quick and easy way to do disable the native NVMe multipath support, or is rebuilding the kernel with CONFIG_NVME_MULTIPATH=N the only option?
+
+Thanks,
+Joe
