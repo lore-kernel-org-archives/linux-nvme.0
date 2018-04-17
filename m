@@ -1,40 +1,76 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 17 Apr 2018 16:52:55 -0400
-Subject: Disable Native NVMe Multipath Support
-In-Reply-To: <DE927C68B458BE418D582EC97927A9287FEB6848@ORSMSX113.amr.corp.intel.com>
-References: <DE927C68B458BE418D582EC97927A9287FEB6848@ORSMSX113.amr.corp.intel.com>
-Message-ID: <20180417205255.GB29501@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 17 Apr 2018 16:03:44 -0600
+Subject: [PATCH] nvme: Fix disk names when not using nvme multipath
+Message-ID: <20180417220344.14698-1-keith.busch@intel.com>
 
-On Mon, Apr 16 2018 at  4:52pm -0400,
-Gruher, Joseph R <joseph.r.gruher@intel.com> wrote:
+When CONFIG_NVME_MULTIPATH is set, but we're not using nvme to multipath,
+namespaces with multiple paths were not creating unique names due to
+reusing the same instance number from the namespace's head.
 
-> Hi everyone-
-> 
-> I'm doing some testing with the native NVMe multipath support in an
-> NVMeoF environment.  In Ubuntu with kernel 4.15.15 it seems to be
-> enabled by default and "just works" without taking any steps to set it
-> up.  If I connect the same namespace from my target to my initiator
-> using two different network paths it results in a single namespace on
-> the initiator.  Then I can fail either network path and still run IO
-> to the namespace.
-> 
-> I'd like to now set up dm-multipath for comparison.  It looks like
-> I'll need to disable the native NVMe multipath support to do this,
-> otherwise I can't connect the same namespace via two paths and have it
-> show up on the initiator as two separate namespaces for dm-multipath
-> to use.  Is there an quick and easy way to do disable the native NVMe
-> multipath support, or is rebuilding the kernel with
-> CONFIG_NVME_MULTIPATH=N the only option?
+This patch fixes that by allocating a unique instance for each namespace.
 
-Current upstream kernel needs to be rebuilt with CONFIG_NVME_MULTIPATH=N
+Reported-by: Mike Snitzer <snitzer at redhat.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+This is slightly different (and simpler) than the test-version from last
+week, and will work no matter how many "heads" a subsystem has.
 
-AFAIK Keith Busch is working on a patch to fix crashes when multiple
-namespaces are created with an nvme_core that is compiled for multipath
-but disabled at module load, e.g.: modprobe nvme_core multipath=N (or
-nvme_core.multipath=N on kernel commandline)
 
-See:
-http://lists.infradead.org/pipermail/linux-nvme/2018-April/016765.html
+ drivers/nvme/host/core.c | 8 +++++++-
+ drivers/nvme/host/nvme.h | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-FYI, when testing DM multipath ontop of NVMe you should use
-dm-multipath's table argument: queue_mode=bio
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 127a9cbf3314..3dcb0ebe9575 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -366,6 +366,7 @@ static void nvme_free_ns(struct kref *kref)
+ 		nvme_nvm_unregister(ns);
+ 
+ 	put_disk(ns->disk);
++	ida_simple_remove(&ns->head->subsys->ns_ida, ns->instance);
+ 	nvme_put_ns_head(ns->head);
+ 	nvme_put_ctrl(ns->ctrl);
+ 	kfree(ns);
+@@ -2905,6 +2906,10 @@ static int nvme_init_ns_head(struct nvme_ns *ns, unsigned nsid,
+ 	list_add_tail(&ns->siblings, &head->list);
+ 	ns->head = head;
+ 
++	ns->instance = ida_simple_get(&head->subsys->ns_ida, 1, 0, GFP_KERNEL);
++	if (ns->instance < 0)
++		ret = ns->instance;
++
+ out_unlock:
+ 	mutex_unlock(&ctrl->subsys->lock);
+ 	return ret;
+@@ -3013,7 +3018,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		flags = GENHD_FL_HIDDEN;
+ 	} else {
+ 		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
+-				ns->head->instance);
++				ns->instance);
+ 	}
+ #else
+ 	/*
+@@ -3068,6 +3073,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	mutex_lock(&ctrl->subsys->lock);
+ 	list_del_rcu(&ns->siblings);
+ 	mutex_unlock(&ctrl->subsys->lock);
++	ida_simple_remove(&ns->head->subsys->ns_ida, ns->instance);
+  out_free_id:
+ 	kfree(id);
+  out_free_queue:
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 061fecfd44f5..334dd5311955 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -283,6 +283,7 @@ struct nvme_ns {
+ 	struct kref kref;
+ 	struct nvme_ns_head *head;
+ 
++	int instance;
+ 	int lba_shift;
+ 	u16 ms;
+ 	u16 sgs;
+-- 
+2.14.3
