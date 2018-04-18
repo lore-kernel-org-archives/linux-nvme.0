@@ -1,40 +1,38 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 18 Apr 2018 09:27:23 +0200
-Subject: [PATCH] nvme: make NVME_SC_UNWRITTEN_BLOCK a thin-provisioned error
-Message-ID: <20180418072723.25874-1-hare@suse.de>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Wed, 18 Apr 2018 15:32:47 +0800
+Subject: [PATCH] nvme: fix the suspicious RCU usage warning in
+ nvme_mpath_clear_current_path
+Message-ID: <1524036767-3701-1-git-send-email-jianchao.w.wang@oracle.com>
 
-According to the spec NVME_SC_UNWRITTEN_BLOCK signals
-'an attempt to read from an LBA range containing a deallocated
-or unwritten logical block'.
-So this is not so much about the medium being faulty, but
-rather should be classified as a thin-provisioning error
-and should be mapped onto ENOSPC.
+With lockdep enabled, when trigger nvme_remove, suspicious RCU
+usage warning will be printed out.
+Fix it with adding srcu_read_lock/unlock in it.
 
-Reported-by: Martin George <martin.george at netapp.com>
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/nvme.h | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 197a6ba9700f..0462b7e281f4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -179,6 +179,7 @@ static blk_status_t nvme_error_status(struct request *req)
- 	case NVME_SC_SUCCESS:
- 		return BLK_STS_OK;
- 	case NVME_SC_CAP_EXCEEDED:
-+	case NVME_SC_UNWRITTEN_BLOCK:
- 		return BLK_STS_NOSPC;
- 	case NVME_SC_LBA_RANGE:
- 		return BLK_STS_TARGET;
-@@ -190,7 +191,6 @@ static blk_status_t nvme_error_status(struct request *req)
- 		return BLK_STS_NOTSUPP;
- 	case NVME_SC_WRITE_FAULT:
- 	case NVME_SC_READ_ERROR:
--	case NVME_SC_UNWRITTEN_BLOCK:
- 	case NVME_SC_ACCESS_DENIED:
- 	case NVME_SC_READ_ONLY:
- 	case NVME_SC_COMPARE_FAILED:
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 061fecf..d326c23 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -446,9 +446,14 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
+ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ {
+ 	struct nvme_ns_head *head = ns->head;
++	int srcu_idx;
+ 
+-	if (head && ns == srcu_dereference(head->current_path, &head->srcu))
+-		rcu_assign_pointer(head->current_path, NULL);
++	if (head) {
++		srcu_idx = srcu_read_lock(&head->srcu);
++		if (ns == srcu_dereference(head->current_path, &head->srcu))
++			rcu_assign_pointer(head->current_path, NULL);
++		srcu_read_unlock(&head->srcu, srcu_idx);
++	}
+ }
+ struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
+ 
 -- 
-2.16.2
+2.7.4
