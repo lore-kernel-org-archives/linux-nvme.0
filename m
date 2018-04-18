@@ -1,51 +1,46 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 14:59:52 -0400
-Subject: [PATCH 01/20] nvmet: add block device guard for smart-log
+Date: Wed, 18 Apr 2018 14:59:54 -0400
+Subject: [PATCH 03/20] nvmet: add structure members for file I/O
 In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
 References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180418190011.3973-4-chaitanya.kulkarni@wdc.com>
 
-Only use block device backed namespaces to compute target
-side smart log. This is a preparation patch for implementing
+This patch adds new members to perform I/O operations on the
 file backed namespaces.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/nvme/target/nvmet.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 90dcdc40ac71..602995f7a1b3 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -45,6 +45,10 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 		return NVME_SC_INVALID_NS;
- 	}
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 417f6c0331cc..acc61ca97198 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -26,6 +26,7 @@
+ #include <linux/configfs.h>
+ #include <linux/rcupdate.h>
+ #include <linux/blkdev.h>
++#include <linux/fs.h>
  
-+	/* for file backed ns just return */
-+	if (!ns->bdev)
-+		goto out;
-+
- 	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
- 	data_units_read = part_stat_read(ns->bdev->bd_part, sectors[READ]);
- 	host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
-@@ -54,6 +58,7 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
- 	put_unaligned_le64(host_writes, &slog->host_writes[0]);
- 	put_unaligned_le64(data_units_written, &slog->data_units_written[0]);
-+out:
- 	nvmet_put_namespace(ns);
- 
- 	return NVME_SC_SUCCESS;
-@@ -71,6 +76,9 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 
- 	rcu_read_lock();
- 	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
-+		/* for file backed ns just return */
-+		if (!ns->bdev)
-+			continue;
- 		host_reads += part_stat_read(ns->bdev->bd_part, ios[READ]);
- 		data_units_read +=
- 			part_stat_read(ns->bdev->bd_part, sectors[READ]);
+ #define NVMET_ASYNC_EVENTS		4
+ #define NVMET_ERROR_LOG_SLOTS		128
+@@ -43,6 +44,7 @@ struct nvmet_ns {
+ 	struct list_head	dev_link;
+ 	struct percpu_ref	ref;
+ 	struct block_device	*bdev;
++	struct file		*filp;
+ 	u32			nsid;
+ 	u32			blksize_shift;
+ 	loff_t			size;
+@@ -222,6 +224,8 @@ struct nvmet_req {
+ 	struct scatterlist	*sg;
+ 	struct bio		inline_bio;
+ 	struct bio_vec		inline_bvec[NVMET_MAX_INLINE_BIOVEC];
++	struct kiocb            iocb;
++	struct bio_vec          *bvec;
+ 	int			sg_cnt;
+ 	/* data length as parsed from the command: */
+ 	size_t			data_len;
 -- 
 2.14.1
