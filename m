@@ -1,73 +1,125 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 15:00:00 -0400
-Subject: [PATCH 09/20] nvmet: use workqueue for sync I/O
+Date: Wed, 18 Apr 2018 15:00:01 -0400
+Subject: [PATCH 10/20] nvmet: isolate id ctrl/ns field initialization
 In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
 References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-10-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180418190011.3973-11-chaitanya.kulkarni@wdc.com>
 
-This patch allows NVMe read/write command to use sync or direct
-I/O flags as it is configured from the configfs.
+This is a preparation patch to implement the ns-mgmt commands
+for file-backed namespaces.
 
-Here when ns->sync is set we use workqueue to execute
-synchronous I/O operation in different thread context than
-the submission thread.
+We isolate the identify-ctrl and identify-ns default fields
+initialization code into helper functions.
+
+File-backed namespaces can use this code and override
+the necessary members of the respective data structures.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/io-cmd.c | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 64 ++++++++++++++++++++++++-----------------
+ 1 file changed, 38 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
-index 7791a63e38ab..6d355b2dac56 100644
---- a/drivers/nvme/target/io-cmd.c
-+++ b/drivers/nvme/target/io-cmd.c
-@@ -108,7 +108,7 @@ static void nvmet_execute_rw_file(struct nvmet_req *req)
- 	struct sg_mapping_iter miter;
- 	loff_t pos;
- 	ssize_t len = 0, ret;
--	int ki_flags = IOCB_DIRECT;
-+	int ki_flags = req->ns->sync ? IOCB_SYNC : IOCB_DIRECT;
- 	int bv_cnt = 0, rw = READ;
- 
- 	if (req->cmd->rw.opcode == nvme_cmd_write) {
-@@ -155,6 +155,20 @@ static void nvmet_execute_rw_file(struct nvmet_req *req)
- 	nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 602995f7a1b3..97fea3f1d3e4 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -169,19 +169,11 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
  }
  
-+static void nvmet_sync_work_file(struct work_struct *work)
-+{
-+	struct nvmet_req *req;
-+
-+	req = container_of(work, struct nvmet_req, sync_work);
-+
-+	nvmet_execute_rw_file(req);
-+}
-+
-+static void nvmet_execute_rw_sync_file(struct nvmet_req *req)
-+{
-+	queue_work(req->ns->file_wq, &req->sync_work);
-+}
-+
- static void nvmet_execute_flush(struct nvmet_req *req)
+-static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
++static void nvmet_identify_ctrl_init(struct nvmet_ctrl *ctrl,
++		struct nvme_id_ctrl *id)
  {
- 	struct bio *bio = &req->inline_bio;
-@@ -333,9 +347,14 @@ u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- 	switch (cmd->common.opcode) {
- 	case nvme_cmd_read:
- 	case nvme_cmd_write:
--		if (req->ns->filp)
--			req->execute = nvmet_execute_rw_file;
--		else
-+		if (req->ns->filp) {
-+			if (req->ns->sync) {
-+				req->execute = nvmet_execute_rw_sync_file;
-+				INIT_WORK(&req->sync_work,
-+						nvmet_sync_work_file);
-+			} else
-+				req->execute = nvmet_execute_rw_file;
-+		} else
- 			req->execute = nvmet_execute_rw;
- 		req->data_len = nvmet_rw_len(req);
- 		return 0;
+-	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+-	struct nvme_id_ctrl *id;
+-	u16 status = 0;
+ 	const char model[] = "Linux";
+ 
+-	id = kzalloc(sizeof(*id), GFP_KERNEL);
+-	if (!id) {
+-		status = NVME_SC_INTERNAL;
+-		goto out;
+-	}
+-
+ 	/* XXX: figure out how to assign real vendors IDs. */
+ 	id->vid = 0;
+ 	id->ssvid = 0;
+@@ -274,32 +266,31 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->psd[0].max_power = cpu_to_le16(0x9c4);
+ 	id->psd[0].entry_lat = cpu_to_le32(0x10);
+ 	id->psd[0].exit_lat = cpu_to_le32(0x4);
+-
+-	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+-
+-	kfree(id);
+-out:
+-	nvmet_req_complete(req, status);
+ }
+ 
+-static void nvmet_execute_identify_ns(struct nvmet_req *req)
++static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ {
+-	struct nvmet_ns *ns;
+-	struct nvme_id_ns *id;
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	struct nvme_id_ctrl *id;
+ 	u16 status = 0;
+ 
+-	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
+-	if (!ns) {
+-		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+-		goto out;
+-	}
+-
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+ 	if (!id) {
+ 		status = NVME_SC_INTERNAL;
+-		goto out_put_ns;
++		goto out;
+ 	}
+ 
++	nvmet_identify_ctrl_init(ctrl, id);
++
++	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
++
++	kfree(id);
++out:
++	nvmet_req_complete(req, status);
++}
++
++static void nvmet_identify_ns_init(struct nvmet_ns *ns, struct nvme_id_ns *id)
++{
+ 	/*
+ 	 * nuse = ncap = nsze isn't always true, but we have no way to find
+ 	 * that out from the underlying device.
+@@ -323,6 +314,27 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	memcpy(&id->nguid, &ns->nguid, sizeof(uuid_le));
+ 
+ 	id->lbaf[0].ds = ns->blksize_shift;
++}
++
++static void nvmet_execute_identify_ns(struct nvmet_req *req)
++{
++	struct nvmet_ns *ns;
++	struct nvme_id_ns *id;
++	u16 status = 0;
++
++	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
++	if (!ns) {
++		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
++		goto out;
++	}
++
++	id = kzalloc(sizeof(*id), GFP_KERNEL);
++	if (!id) {
++		status = NVME_SC_INTERNAL;
++		goto out_put_ns;
++	}
++
++	nvmet_identify_ns_init(ns, id);
+ 
+ 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+ 
 -- 
 2.14.1
