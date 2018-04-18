@@ -1,60 +1,71 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 14:59:58 -0400
-Subject: [PATCH 07/20] nvmet: add sync I/O configfs attr for ns
+Date: Wed, 18 Apr 2018 14:59:59 -0400
+Subject: [PATCH 08/20] nvmet: configure file backed ns for sync IO
 In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
 References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-8-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180418190011.3973-9-chaitanya.kulkarni@wdc.com>
 
-This patch adds a configfs attribute to the ns to optionally
-switch the mode between O_SYNC and O_DIRECT.
+This patch allows file backed namespaces to use newly
+introduced configfs attribute sync, when sync is set
+we open the file with O_SYNC and use the work queue
+to execute the NVMe read/write commands.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/configfs.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/nvme/target/core.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index e6b2d2af81b6..bc95be1276c6 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -406,11 +406,38 @@ static ssize_t nvmet_ns_enable_store(struct config_item *item,
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b7c51a5629bf..4d25038ed05c 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -305,9 +305,10 @@ int nvmet_vfs_stat(const char *filename, struct kstat *stat)
+ static int nvmet_ns_enable_file(struct nvmet_ns *ns)
+ {
+ 	int ret;
+-	int flags = O_RDWR | O_LARGEFILE | O_DIRECT;
++	int flags = O_RDWR | O_LARGEFILE;
+ 	struct kstat stat;
  
- CONFIGFS_ATTR(nvmet_ns_, enable);
++	flags |= ns->sync ? O_SYNC : O_DIRECT;
+ 	ns->filp = filp_open(ns->device_path, flags, 0);
+ 	if (!ns->filp || IS_ERR(ns->filp)) {
+ 		pr_err("failed to open file %s: (%ld)\n",
+@@ -323,6 +324,15 @@ static int nvmet_ns_enable_file(struct nvmet_ns *ns)
+ 	ns->size = stat.size;
+ 	ns->blksize_shift = ns->filp->f_inode->i_blkbits;
  
-+static ssize_t nvmet_ns_sync_show(struct config_item *item, char *page)
-+{
-+	return sprintf(page, "%d\n", to_nvmet_ns(item)->sync);
-+}
++	if (ns->sync) {
++		ns->file_wq = alloc_workqueue("nvmet-file",
++				WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
 +
-+static ssize_t nvmet_ns_sync_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_ns *ns = to_nvmet_ns(item);
-+	bool sync;
-+	int ret = 0;
-+
-+	if (strtobool(page, &sync))
-+		return -EINVAL;
-+
-+	if (ns->filp && ns->sync != sync) {
-+		nvmet_ns_disable(ns);
-+		ns->sync = sync;
-+		ret = nvmet_ns_enable(ns);
++		if (!ns->file_wq) {
++			ret = -1;
++			goto err;
++		}
 +	}
-+
-+	return ret ? ret : count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_ns_, sync);
-+
- static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	&nvmet_ns_attr_device_path,
- 	&nvmet_ns_attr_device_nguid,
- 	&nvmet_ns_attr_device_uuid,
- 	&nvmet_ns_attr_enable,
-+	&nvmet_ns_attr_sync,
- 	NULL,
- };
+ 	return ret;
+ err:
+ 	filp_close(ns->filp, NULL);
+@@ -352,6 +362,11 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+ 		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
+ 		ns->bdev = NULL;
+ 	} else if (ns->filp) {
++		if (ns->sync) {
++			flush_workqueue(ns->file_wq);
++			destroy_workqueue(ns->file_wq);
++			ns->file_wq = NULL;
++		}
+ 		filp_close(ns->filp, NULL);
+ 		ns->filp = NULL;
+ 	} else
+@@ -470,6 +485,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	ns->nsid = nsid;
+ 	ns->subsys = subsys;
+ 	uuid_gen(&ns->uuid);
++	ns->sync = false;
  
+ 	return ns;
+ }
 -- 
 2.14.1
