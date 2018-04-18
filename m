@@ -1,43 +1,60 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 14:59:57 -0400
-Subject: [PATCH 06/20] nvmet: add new members for sync file I/O
+Date: Wed, 18 Apr 2018 14:59:58 -0400
+Subject: [PATCH 07/20] nvmet: add sync I/O configfs attr for ns
 In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
 References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-7-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180418190011.3973-8-chaitanya.kulkarni@wdc.com>
 
-This patch adds new structure members to implement O_SYNC
-IO mode for file-backed ns. The user can optionally choose
-to switch between O_SYNC and O_DIRECT with the configfs parameter
-which we add in the next patch.
+This patch adds a configfs attribute to the ns to optionally
+switch the mode between O_SYNC and O_DIRECT.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/nvmet.h | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/target/configfs.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 21825b4a222a..96aa5fc72467 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -53,9 +53,11 @@ struct nvmet_ns {
- 	uuid_t			uuid;
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index e6b2d2af81b6..bc95be1276c6 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -406,11 +406,38 @@ static ssize_t nvmet_ns_enable_store(struct config_item *item,
  
- 	bool			enabled;
-+	bool			sync;
- 	struct nvmet_subsys	*subsys;
- 	const char		*device_path;
+ CONFIGFS_ATTR(nvmet_ns_, enable);
  
-+	struct workqueue_struct *file_wq;
- 	struct config_group	device_group;
- 	struct config_group	group;
++static ssize_t nvmet_ns_sync_show(struct config_item *item, char *page)
++{
++	return sprintf(page, "%d\n", to_nvmet_ns(item)->sync);
++}
++
++static ssize_t nvmet_ns_sync_store(struct config_item *item,
++		const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	bool sync;
++	int ret = 0;
++
++	if (strtobool(page, &sync))
++		return -EINVAL;
++
++	if (ns->filp && ns->sync != sync) {
++		nvmet_ns_disable(ns);
++		ns->sync = sync;
++		ret = nvmet_ns_enable(ns);
++	}
++
++	return ret ? ret : count;
++}
++
++CONFIGFS_ATTR(nvmet_ns_, sync);
++
+ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_device_path,
+ 	&nvmet_ns_attr_device_nguid,
+ 	&nvmet_ns_attr_device_uuid,
+ 	&nvmet_ns_attr_enable,
++	&nvmet_ns_attr_sync,
+ 	NULL,
+ };
  
-@@ -233,6 +235,7 @@ struct nvmet_req {
- 	/* data length as parsed from the SGL descriptor: */
- 	size_t			transfer_len;
- 
-+	struct work_struct	sync_work; /* file backed ns */
- 	struct nvmet_port	*port;
- 
- 	void (*execute)(struct nvmet_req *req);
 -- 
 2.14.1
