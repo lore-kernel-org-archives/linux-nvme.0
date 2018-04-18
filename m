@@ -1,16 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 18 Apr 2018 12:19:13 +0200
-Subject: [PATCH] nvme: fix the suspicious RCU usage warning in
- nvme_mpath_clear_current_path
-In-Reply-To: <1524036767-3701-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1524036767-3701-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180418101913.GB15833@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 18 Apr 2018 03:22:23 -0700
+Subject: [PATCH 1/1] RDMA over Fibre Channel
+In-Reply-To: <20180418094240.26371-1-muneendra.kumar@broadcom.com>
+References: <20180418094240.26371-1-muneendra.kumar@broadcom.com>
+Message-ID: <20180418102223.GA27364@infradead.org>
 
-On Wed, Apr 18, 2018@03:32:47PM +0800, Jianchao Wang wrote:
-> With lockdep enabled, when trigger nvme_remove, suspicious RCU
-> usage warning will be printed out.
-> Fix it with adding srcu_read_lock/unlock in it.
+On Wed, Apr 18, 2018@02:42:40AM -0700, muneendra.kumar@broadcom.com wrote:
+> Eventhough it is inspired from the Soft RoCE driver, the underlying
+> transport layer is FC-NVMe (short for 'NVMe over fibre channel').
+> The request, response and completion state machines in the driver
+> have been heavily modified to adapt to the Exchange based Data
+> transfer mechanism of Fibre channel.
 
-Looks fine,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+That sounds like a bad joke.  Please stop abusing the NVMe code for this
+otherwise reasonable idea.  You should be able to layer this over plain
+FCP just fine.
