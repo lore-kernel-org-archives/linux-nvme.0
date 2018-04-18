@@ -1,132 +1,67 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 Apr 2018 10:09:42 -0600
-Subject: [PATCH] nvme: Fix disk names when not using nvme multipath
-In-Reply-To: <20180418153445.GA8513@lst.de>
-References: <20180417220344.14698-1-keith.busch@intel.com>
- <20180418064412.GB11757@lst.de>
- <20180418132657.GJ11513@localhost.localdomain>
- <20180418150429.GA7862@lst.de>
- <20180418153410.GM11513@localhost.localdomain>
- <20180418153445.GA8513@lst.de>
-Message-ID: <20180418160942.GN11513@localhost.localdomain>
+From: anand.sundaram@broadcom.com (Anand Nataraja Sundaram)
+Date: Wed, 18 Apr 2018 22:23:45 +0530
+Subject: [PATCH 1/1] RDMA over Fibre Channel
+In-Reply-To: <20180418131831.GA23425@infradead.org>
+References: <20180418094240.26371-1-muneendra.kumar@broadcom.com>
+ <20180418102223.GA27364@infradead.org>
+ <86f66430d0c577792b663226189d31a1@mail.gmail.com>
+ <20180418131831.GA23425@infradead.org>
+Message-ID: <67be5e134d10be260f78589d488b1c40@mail.gmail.com>
 
-On Wed, Apr 18, 2018@05:34:45PM +0200, Christoph Hellwig wrote:
-> True.  We should do that anyway.  I'll turn this into a real series
-> with a few more final touches tomorrow.
+Hi Christoph,
 
-I started this before I saw your message:
+Just wanted to understand more on your concerns on the mods done to Linux
+NVMe.
 
----
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 127a9cbf3314..a3771c5729f5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2998,31 +2998,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	if (nvme_init_ns_head(ns, nsid, id))
- 		goto out_free_id;
- 	nvme_setup_streams_ns(ctrl, ns);
--	
--#ifdef CONFIG_NVME_MULTIPATH
--	/*
--	 * If multipathing is enabled we need to always use the subsystem
--	 * instance number for numbering our devices to avoid conflicts
--	 * between subsystems that have multiple controllers and thus use
--	 * the multipath-aware subsystem node and those that have a single
--	 * controller and use the controller node directly.
--	 */
--	if (ns->head->disk) {
--		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
--				ctrl->cntlid, ns->head->instance);
--		flags = GENHD_FL_HIDDEN;
--	} else {
--		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
--				ns->head->instance);
--	}
--#else
--	/*
--	 * But without the multipath code enabled, multiple controller per
--	 * subsystems are visible as devices and thus we cannot use the
--	 * subsystem instance.
--	 */
--	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
--#endif
-+	nvme_set_disk_name(disk_name, ns, ctrl, &flags);
- 
- 	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
- 		if (nvme_nvm_register(ns, disk_name, node)) {
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 956e0b8e9c4d..977539d0bb53 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -15,10 +15,32 @@
- #include "nvme.h"
- 
- static bool multipath = true;
--module_param(multipath, bool, 0644);
-+module_param(multipath, bool, 0444);
- MODULE_PARM_DESC(multipath,
- 	"turn on native support for multiple controllers per subsystem");
- 
-+/*
-+ * If multipathing is enabled we need to always use the subsystem instance
-+ * number for numbering our devices to avoid conflicts between subsystems that
-+ * have multiple controllers and thus use the multipath-aware subsystem node
-+ * and those that have a single controller and use the controller node
-+ * directly.
-+ */
-+void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-+			struct nvme_ctrl *ctrl, int *flags)
-+{
-+	if (!multipath) {
-+		nvme_simple_disk_name(disk_name, ns, ctrl);
-+	} else if (ns->head->disk) {
-+		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
-+				ctrl->cntlid, ns->head->instance);
-+		*flags = GENHD_FL_HIDDEN;
-+	} else {
-+		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
-+				ns->head->instance);
-+	}
-+}
-+
- void nvme_failover_req(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 061fecfd44f5..2d4a139b00f1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -435,7 +435,19 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- extern const struct attribute_group nvme_ns_id_attr_group;
- extern const struct block_device_operations nvme_ns_head_ops;
- 
-+/*
-+ * Without the multipath code enabled, multiple controller per subsystems are
-+ * visible as devices and thus we cannot use the subsystem instance.
-+ */
-+static inline void nvme_simple_disk_name(char *disk_name, struct nvme_ns *ns,
-+				         struct nvme_ctrl *ctrl)
-+{
-+	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
-+}
-+
- #ifdef CONFIG_NVME_MULTIPATH
-+void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-+			struct nvme_ctrl *ctrl, int *flags);
- void nvme_failover_req(struct request *req);
- bool nvme_req_needs_failover(struct request *req, blk_status_t error);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
-@@ -461,6 +473,12 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
- }
- 
- #else
-+static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-+				      struct nvme_ctrl *ctrl, int *flags)
-+{
-+	nvme_simple_disk_name(disk_name, ns, ctrl);
-+}
-+
- static inline void nvme_failover_req(struct request *req)
- {
- }
---
+The whole work was to tunnel IB protocol over existing NVMe protocol.  To
+do this we first made sure NVMe stack (host, target) is able to send block
+traffic and non-block (object based ) traffic. To do this, no changes were
+required in the NVMe protocol itself. Only the target stack needed some
+modifications to vector
+  (a) NVMe block traffic to backend NVMe Namespace block driver
+  (b) non-block  IB protocol traffic to RFC transport layer
+
+The NVMe changes are restricted to below:
+drivers/nvme/target/fc.c                        |   94 +-
+drivers/nvme/target/io-cmd.c                    |   44 +-
+include/linux/nvme-fc-driver.h                  |    6 +
+
+Of the above only the io-cmd.c  is generic target component. The rest are
+contained under FC stack.
+
+Finally I respect your decision.  The above intent is to demonstrate
+existing NVMe protocol can support both block and non-block workloads. If
+this requires working with NVMe core working group, kindly let us know how
+to accomplish this.
+
+Thanks,
+-anand
+
+
+-----Original Message-----
+From: Christoph Hellwig [mailto:hch@infradead.org]
+Sent: Wednesday, April 18, 2018 6:49 PM
+To: Muneendra Kumar M <muneendra.kumar at broadcom.com>
+Cc: Christoph Hellwig <hch at infradead.org>; linux-rdma at vger.kernel.org;
+Amit Kumar Tyagi <amit.tyagi at broadcom.com>; Anand Nataraja Sundaram
+<anand.sundaram at broadcom.com>; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH 1/1] RDMA over Fibre Channel
+
+On Wed, Apr 18, 2018@05:17:25PM +0530, Muneendra Kumar M wrote:
+> Although we concur with the idea of RDMA directly over Fibre channel,
+> the actual implementation addressing the above reasons requires
+> standardization and coordination with FC HBA vendors and other SAN
+> ecosystem players. This effort is ongoing within our organization
+(Brocade
+> at Broadcom).   However, there is a business case for the current soft
+> RDMA implementation for FC, i.e. RDMA over FC-NVMe, as it provides
+> existing Fibre channel customers a way to utilize existing FC network
+> to transport RDMA workloads as well.  While doing this we are making
+> sure NVMe block traffic also can happen on the same FC network.
+
+There might be a business case for you, but with my Linux NVMe
+(co-)maintainer hat on I'll have to tell you that this abuse of the Linux
+nvme code is a complete no-go.
+
+And even if it wasn't we'd still require the protocol be ratified by the
+NVMe technical working group first.
