@@ -1,109 +1,156 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 14:59:53 -0400
-Subject: [PATCH 02/20] nvmet: add a wrapper for ns handlers
-In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-3-chaitanya.kulkarni@wdc.com>
+Date: Wed, 18 Apr 2018 14:59:51 -0400
+Subject: [PATCH 00/19] nvmet: add support for file backed namespaces
+Message-ID: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
 
-This patch isolates the code for block device open and close.
-This is a preparation patch for implementation of the
-file backed namespaces.
+Hi,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/core.c | 54 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 37 insertions(+), 17 deletions(-)
+This patch series implements the file backed namespaces
+support for the NVMeOF target.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index a78029e4e5f4..5f032dc7077f 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -271,6 +271,37 @@ void nvmet_put_namespace(struct nvmet_ns *ns)
- 	percpu_ref_put(&ns->ref);
- }
- 
-+static int nvmet_ns_enable_blk(struct nvmet_ns *ns)
-+{
-+	int blk_flags = FMODE_READ | FMODE_WRITE;
-+
-+	ns->bdev = blkdev_get_by_path(ns->device_path, blk_flags, NULL);
-+	if (IS_ERR(ns->bdev)) {
-+		pr_err("failed to open block device %s: (%ld)\n",
-+				ns->device_path, PTR_ERR(ns->bdev));
-+		ns->bdev = NULL;
-+		return -1;
-+	}
-+	ns->size = i_size_read(ns->bdev->bd_inode);
-+	ns->blksize_shift =
-+		blksize_bits(bdev_logical_block_size(ns->bdev));
-+
-+	return 0;
-+}
-+
-+static int nvmet_ns_dev_enable(struct nvmet_ns *ns)
-+{
-+	return nvmet_ns_enable_blk(ns);
-+}
-+
-+static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
-+{
-+	if (ns->bdev) {
-+		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
-+		ns->bdev = NULL;
-+	}
-+}
-+
- int nvmet_ns_enable(struct nvmet_ns *ns)
- {
- 	struct nvmet_subsys *subsys = ns->subsys;
-@@ -281,23 +312,14 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 	if (ns->enabled)
- 		goto out_unlock;
- 
--	ns->bdev = blkdev_get_by_path(ns->device_path, FMODE_READ | FMODE_WRITE,
--			NULL);
--	if (IS_ERR(ns->bdev)) {
--		pr_err("failed to open block device %s: (%ld)\n",
--		       ns->device_path, PTR_ERR(ns->bdev));
--		ret = PTR_ERR(ns->bdev);
--		ns->bdev = NULL;
-+	ret = nvmet_ns_dev_enable(ns);
-+	if (ret)
- 		goto out_unlock;
--	}
--
--	ns->size = i_size_read(ns->bdev->bd_inode);
--	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
- 
- 	ret = percpu_ref_init(&ns->ref, nvmet_destroy_namespace,
- 				0, GFP_KERNEL);
- 	if (ret)
--		goto out_blkdev_put;
-+		goto out_dev_put;
- 
- 	if (ns->nsid > subsys->max_nsid)
- 		subsys->max_nsid = ns->nsid;
-@@ -328,9 +350,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- out_unlock:
- 	mutex_unlock(&subsys->lock);
- 	return ret;
--out_blkdev_put:
--	blkdev_put(ns->bdev, FMODE_WRITE|FMODE_READ);
--	ns->bdev = NULL;
-+out_dev_put:
-+	nvmet_ns_dev_disable(ns);
- 	goto out_unlock;
- }
- 
-@@ -366,8 +387,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
- 		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE, 0, 0);
- 
--	if (ns->bdev)
--		blkdev_put(ns->bdev, FMODE_WRITE|FMODE_READ);
-+	nvmet_ns_dev_disable(ns);
- out_unlock:
- 	mutex_unlock(&subsys->lock);
- }
--- 
+In current implementation NVMeOF supports block
+device backed namespaces on the target side.
+With this implementation regular file(s) can be used to
+initialize the namespace(s). This approach provides host more
+control to create and manage namespaces on target side without
+using configfs interface but using tools such as nvme-cli on the
+host side.
+
+Structure of the path-series:-
+
+This patch series is divided into two parts. The first
+part (0001-0009 patches) implements the file backed
+namespaces with existing target side configfs namespace
+creation model. In the second part of the series
+we implement the code for host side NVMe Namespace
+management commands such as nvme-create-ns/nvme-delete-ns.
+
+Example:-
+
+Following example demonstrates how to configure
+newly introduced file backed subsystem to create file backed ns:-
+
+1. Target side configuration:-
+
+1.1 Create a subsystem under newly introduced direcotry "fs"
+# mkdir /sys/kernel/config/nvmet/fs/file
+1.2 Initialize the mount_path attributes where all the backend
+    files are created
+# echo -n "/mnt/nvme0n1/" > /sys/kernel/config/nvmet/fs/file/attr_mount_path
+1.3 Create and initialize the port
+# mkdir /sys/kernel/config/nvmet/ports/1/
+# echo -n "loop" > /sys/kernel/config/nvmet/ports/1/addr_trtype
+# echo -n 1 > /sys/kernel/config/nvmet/fs/file/attr_allow_any_host
+# ln -s /sys/kernel/config/nvmet/fs/file /sys/kernel/config/nvmet/ports/1/subsystems/
+1.4 Following is the example of the configfs structure after initialization:-
+
+	/sys/kernel/config/nvmet/
+		|-- fs
+		|   |-- file
+		|       |-- allowed_hosts
+		|       |-- attr_allow_any_host
+		|       |-- attr_mount_path
+		|       |-- attr_serial
+		|       |-- attr_version
+		|-- hosts
+		|-- ports
+		|   |-- 1
+		|       |-- addr_adrfam
+		|       |-- addr_traddr
+		|       |-- addr_treq
+		|       |-- addr_trsvcid
+		|       |-- addr_trtype
+		|       |-- referrals
+		|       |-- subsystems
+		|           |-- file -> ../../../../nvmet/fs/file
+		|-- subsystems
+
+Note :- We format NVMe SSD with XFS file system to initialize the "mount_path".
+
+2. Host side configuration:-
+
+2.1 Connect to the file backed subsystem
+# echo  "transport=loop,nqn=file" > /dev/nvme-fabrics
+2.2 Create and list ns on the host:-
+# nvme create-ns /dev/nvme1 --nsze=204800000 --ncap=204800000 --flbas=9
+create-ns: Success, created nsid:1
+2.3 Delete Namespace
+# nvme delete-ns /dev/nvme1 -n 1
+
+3. Performance Numbers:-
+
+We collect the performance numbers by configuring the target side
+in different modes where target port is configured in "nvme_loop" mode:-
+
+1. Use NVMe PCIe SSD as a block device (default Block device mode).
+2. Use File backed NS with O_DIRECT.
+3. USe File backed NS with O_SYNC.
+
+I ran simple random read fio, following is the performance comparison:-
+
+				Bandwidth (MB/s)
+
+Iteration 	Block	|	File O_DIRECT	|	File O_SYNC
+	1.	2383	|		2655	|		3115
+	2.	2380	|		2775	|		3145
+	3.	2500	|		2838	|		3176
+
+
+				IOPS (k)
+
+Iteration 	Block	|	File O_DIRECT	|	File O_SYNC
+	1.	610	|		680	|		797
+	2.	609	|		710	|		805
+	3.	640	|		726	|		813
+
+
+				Average Latency (usec)
+
+Iteration 	Block	|	File O_DIRECT	|	File O_SYNC
+	1.	155	|		139	|		119
+	2.	155	|		133	|		118
+	3.	148	|		130	|		116
+
+For the first review, I kept the code isolated, I'll aggregate
+some of the patches in next version.
+
+For simplicity right now backend file naming is associated with
+ctrl-id, for the next version we can get rid of the ctrl-id
+dependency, use subsys-nqn to create directory hierarchy
+under the "mount_path". With that change, it will be easier to implement
+the persistent subsystem structure for file backed subsystem(s)
+along with dynamic controller creation as long as the file system is
+preserved and "mount_path" is intact.
+
+Chaitanya Kulkarni (20):
+  nvmet: add block device guard for smart-log
+  nvmet: add a wrapper for ns handlers
+  nvmet: add structure members for file I/O
+  nvmet: initialize file handle and req fields
+  nvmet: add NVMe I/O command handlers for file
+  nvmet: add new members for sync file I/O
+  nvmet: add sync I/O configfs attr for ns
+  nvmet: configure file backed ns for sync IO
+  nvmet: use workqueue for sync I/O
+  nvmet: isolate id ctrl/ns field initialization
+  nvmet: introduce new members for ns-mgmt
+  nvmet: add a configfs entry for subsys mount path
+  nvmet: initialize new ns and subsys members
+  nvmet: add and restructure ns mgmt helpers
+  fs: export kern_path_locked() to reuse the code
+  nvmet: add ns-mgmt command handlers
+  nvmet: override identify for file backed ns
+  nvmet: allow host to configure sync vs direct IO
+  nvmet: add check for ctrl processing paused status
+  nvmet: use processing paused state for VWC
+
+ drivers/nvme/target/admin-cmd.c | 423 +++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/target/configfs.c  | 105 +++++++++-
+ drivers/nvme/target/core.c      | 168 ++++++++++++++--
+ drivers/nvme/target/io-cmd.c    | 165 +++++++++++++++-
+ drivers/nvme/target/nvmet.h     |  21 ++
+ fs/namei.c                      |   1 +
+ 6 files changed, 838 insertions(+), 45 deletions(-)
+
+--
 2.14.1
