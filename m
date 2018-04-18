@@ -1,40 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 Apr 2018 07:26:58 -0600
-Subject: [PATCH] nvme: Fix disk names when not using nvme multipath
-In-Reply-To: <20180418064412.GB11757@lst.de>
-References: <20180417220344.14698-1-keith.busch@intel.com>
- <20180418064412.GB11757@lst.de>
-Message-ID: <20180418132657.GJ11513@localhost.localdomain>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Wed, 18 Apr 2018 13:39:11 +0000
+Subject: [PATCH 1/1] RDMA over Fibre Channel
+In-Reply-To: <86f66430d0c577792b663226189d31a1@mail.gmail.com>
+References: <20180418094240.26371-1-muneendra.kumar@broadcom.com>
+ <20180418102223.GA27364@infradead.org>
+ <86f66430d0c577792b663226189d31a1@mail.gmail.com>
+Message-ID: <5fd3da7b3182eeb1b7416c9192202adecc7383e3.camel@wdc.com>
 
-On Wed, Apr 18, 2018@08:44:12AM +0200, Christoph Hellwig wrote:
-> On Tue, Apr 17, 2018@04:03:44PM -0600, Keith Busch wrote:
-> > When CONFIG_NVME_MULTIPATH is set, but we're not using nvme to multipath,
-> > namespaces with multiple paths were not creating unique names due to
-> > reusing the same instance number from the namespace's head.
-> 
-> Hmm.  They should still differ in the controller instance, though.
-> 
-> Shouldn't we need something like this instead (untested):
-> 
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 197a6ba9700f..bfd67bc71455 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3001,10 +3001,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->  		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
->  				ctrl->cntlid, ns->head->instance);
->  		flags = GENHD_FL_HIDDEN;
-> -	} else {
-> -		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
-> -				ns->head->instance);
-> -	}
-> +	} else
->  #else
->  	/*
->  	 * But without the multipath code enabled, multiple controller per
+On Wed, 2018-04-18@17:17 +0530, Muneendra Kumar M wrote:
+> Although we concur with the idea of RDMA directly over Fibre channel, the
+> actual implementation addressing the above reasons requires
+> standardization and coordination with FC HBA vendors and other SAN
+> ecosystem players. This effort is ongoing within our organization (Brocade
+> at Broadcom).
 
-No-can-do. If we did that with nvme-multipath, we could find NMIC
-namespaces using the susbystem instance for the disk name, and non-NMIC
-using the controller instance: we'll have a different set of name
-conflicts to deal with.
+What makes you think that a new standardization effort would have to be
+launched to make RDMA over FC possible? RDMA over FC was standardized a long
+time ago and is called "FC-VI". Why aren't you using that standard? A quote
+from the FC-VI document:
+
+Table 1 ? VI and FC-VI functions
+................................
+VI function                   FC-VI equivalent
+VI Message                    Exchange
+Request/Response primitives   Sequence
+VI Connect/Disconnect request Unsolicited control IU
+VI Connect response           Solicited control IU
+VI Send Data                  Solicited data IU
+VI Send Response              Command status IU
+VI RDMA Write Request         Solicited data IU
+VI RDMA Write Response        Command status IU
+VI RDMA Read Request          Unsolicited command IU
+VI RDMA Read Response         Solicited data IU
+
+See also ANSI/INCITS 357:2002, "Fibre Channel Virtual Interface Architecture
+Mapping Protocol (FC-VI)", NCITS Project 1332-D, July 2000.
+
+Bart.
