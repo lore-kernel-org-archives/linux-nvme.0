@@ -1,67 +1,109 @@
-From: anand.sundaram@broadcom.com (Anand Nataraja Sundaram)
-Date: Wed, 18 Apr 2018 22:23:45 +0530
-Subject: [PATCH 1/1] RDMA over Fibre Channel
-In-Reply-To: <20180418131831.GA23425@infradead.org>
-References: <20180418094240.26371-1-muneendra.kumar@broadcom.com>
- <20180418102223.GA27364@infradead.org>
- <86f66430d0c577792b663226189d31a1@mail.gmail.com>
- <20180418131831.GA23425@infradead.org>
-Message-ID: <67be5e134d10be260f78589d488b1c40@mail.gmail.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 18 Apr 2018 14:59:53 -0400
+Subject: [PATCH 02/20] nvmet: add a wrapper for ns handlers
+In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
+References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180418190011.3973-3-chaitanya.kulkarni@wdc.com>
 
-Hi Christoph,
+This patch isolates the code for block device open and close.
+This is a preparation patch for implementation of the
+file backed namespaces.
 
-Just wanted to understand more on your concerns on the mods done to Linux
-NVMe.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/core.c | 54 +++++++++++++++++++++++++++++++---------------
+ 1 file changed, 37 insertions(+), 17 deletions(-)
 
-The whole work was to tunnel IB protocol over existing NVMe protocol.  To
-do this we first made sure NVMe stack (host, target) is able to send block
-traffic and non-block (object based ) traffic. To do this, no changes were
-required in the NVMe protocol itself. Only the target stack needed some
-modifications to vector
-  (a) NVMe block traffic to backend NVMe Namespace block driver
-  (b) non-block  IB protocol traffic to RFC transport layer
-
-The NVMe changes are restricted to below:
-drivers/nvme/target/fc.c                        |   94 +-
-drivers/nvme/target/io-cmd.c                    |   44 +-
-include/linux/nvme-fc-driver.h                  |    6 +
-
-Of the above only the io-cmd.c  is generic target component. The rest are
-contained under FC stack.
-
-Finally I respect your decision.  The above intent is to demonstrate
-existing NVMe protocol can support both block and non-block workloads. If
-this requires working with NVMe core working group, kindly let us know how
-to accomplish this.
-
-Thanks,
--anand
-
-
------Original Message-----
-From: Christoph Hellwig [mailto:hch@infradead.org]
-Sent: Wednesday, April 18, 2018 6:49 PM
-To: Muneendra Kumar M <muneendra.kumar at broadcom.com>
-Cc: Christoph Hellwig <hch at infradead.org>; linux-rdma at vger.kernel.org;
-Amit Kumar Tyagi <amit.tyagi at broadcom.com>; Anand Nataraja Sundaram
-<anand.sundaram at broadcom.com>; linux-nvme at lists.infradead.org
-Subject: Re: [PATCH 1/1] RDMA over Fibre Channel
-
-On Wed, Apr 18, 2018@05:17:25PM +0530, Muneendra Kumar M wrote:
-> Although we concur with the idea of RDMA directly over Fibre channel,
-> the actual implementation addressing the above reasons requires
-> standardization and coordination with FC HBA vendors and other SAN
-> ecosystem players. This effort is ongoing within our organization
-(Brocade
-> at Broadcom).   However, there is a business case for the current soft
-> RDMA implementation for FC, i.e. RDMA over FC-NVMe, as it provides
-> existing Fibre channel customers a way to utilize existing FC network
-> to transport RDMA workloads as well.  While doing this we are making
-> sure NVMe block traffic also can happen on the same FC network.
-
-There might be a business case for you, but with my Linux NVMe
-(co-)maintainer hat on I'll have to tell you that this abuse of the Linux
-nvme code is a complete no-go.
-
-And even if it wasn't we'd still require the protocol be ratified by the
-NVMe technical working group first.
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index a78029e4e5f4..5f032dc7077f 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -271,6 +271,37 @@ void nvmet_put_namespace(struct nvmet_ns *ns)
+ 	percpu_ref_put(&ns->ref);
+ }
+ 
++static int nvmet_ns_enable_blk(struct nvmet_ns *ns)
++{
++	int blk_flags = FMODE_READ | FMODE_WRITE;
++
++	ns->bdev = blkdev_get_by_path(ns->device_path, blk_flags, NULL);
++	if (IS_ERR(ns->bdev)) {
++		pr_err("failed to open block device %s: (%ld)\n",
++				ns->device_path, PTR_ERR(ns->bdev));
++		ns->bdev = NULL;
++		return -1;
++	}
++	ns->size = i_size_read(ns->bdev->bd_inode);
++	ns->blksize_shift =
++		blksize_bits(bdev_logical_block_size(ns->bdev));
++
++	return 0;
++}
++
++static int nvmet_ns_dev_enable(struct nvmet_ns *ns)
++{
++	return nvmet_ns_enable_blk(ns);
++}
++
++static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
++{
++	if (ns->bdev) {
++		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
++		ns->bdev = NULL;
++	}
++}
++
+ int nvmet_ns_enable(struct nvmet_ns *ns)
+ {
+ 	struct nvmet_subsys *subsys = ns->subsys;
+@@ -281,23 +312,14 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	if (ns->enabled)
+ 		goto out_unlock;
+ 
+-	ns->bdev = blkdev_get_by_path(ns->device_path, FMODE_READ | FMODE_WRITE,
+-			NULL);
+-	if (IS_ERR(ns->bdev)) {
+-		pr_err("failed to open block device %s: (%ld)\n",
+-		       ns->device_path, PTR_ERR(ns->bdev));
+-		ret = PTR_ERR(ns->bdev);
+-		ns->bdev = NULL;
++	ret = nvmet_ns_dev_enable(ns);
++	if (ret)
+ 		goto out_unlock;
+-	}
+-
+-	ns->size = i_size_read(ns->bdev->bd_inode);
+-	ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
+ 
+ 	ret = percpu_ref_init(&ns->ref, nvmet_destroy_namespace,
+ 				0, GFP_KERNEL);
+ 	if (ret)
+-		goto out_blkdev_put;
++		goto out_dev_put;
+ 
+ 	if (ns->nsid > subsys->max_nsid)
+ 		subsys->max_nsid = ns->nsid;
+@@ -328,9 +350,8 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ 	return ret;
+-out_blkdev_put:
+-	blkdev_put(ns->bdev, FMODE_WRITE|FMODE_READ);
+-	ns->bdev = NULL;
++out_dev_put:
++	nvmet_ns_dev_disable(ns);
+ 	goto out_unlock;
+ }
+ 
+@@ -366,8 +387,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+ 		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE, 0, 0);
+ 
+-	if (ns->bdev)
+-		blkdev_put(ns->bdev, FMODE_WRITE|FMODE_READ);
++	nvmet_ns_dev_disable(ns);
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ }
+-- 
+2.14.1
