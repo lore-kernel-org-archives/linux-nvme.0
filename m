@@ -1,21 +1,16 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 18 Apr 2018 12:18:35 +0200
-Subject: [PATCH] nvme: make NVME_SC_UNWRITTEN_BLOCK a thin-provisioned
- error
-In-Reply-To: <20180418072723.25874-1-hare@suse.de>
-References: <20180418072723.25874-1-hare@suse.de>
-Message-ID: <20180418101835.GA15833@lst.de>
+Date: Wed, 18 Apr 2018 12:19:13 +0200
+Subject: [PATCH] nvme: fix the suspicious RCU usage warning in
+ nvme_mpath_clear_current_path
+In-Reply-To: <1524036767-3701-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1524036767-3701-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180418101913.GB15833@lst.de>
 
-On Wed, Apr 18, 2018@09:27:23AM +0200, Hannes Reinecke wrote:
-> According to the spec NVME_SC_UNWRITTEN_BLOCK signals
-> 'an attempt to read from an LBA range containing a deallocated
-> or unwritten logical block'.
-> So this is not so much about the medium being faulty, but
-> rather should be classified as a thin-provisioning error
-> and should be mapped onto ENOSPC.
+On Wed, Apr 18, 2018@03:32:47PM +0800, Jianchao Wang wrote:
+> With lockdep enabled, when trigger nvme_remove, suspicious RCU
+> usage warning will be printed out.
+> Fix it with adding srcu_read_lock/unlock in it.
 
-Use up your available space for the commit log, please :)
+Looks fine,
 
-Otherwise this looks fine, although we are unlikely to ever hit it
-given that Linux never sets the DULBE bit, and setting that bit
-would break all the partition table and fs probing we have.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
