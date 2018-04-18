@@ -1,71 +1,73 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 14:59:59 -0400
-Subject: [PATCH 08/20] nvmet: configure file backed ns for sync IO
+Date: Wed, 18 Apr 2018 15:00:00 -0400
+Subject: [PATCH 09/20] nvmet: use workqueue for sync I/O
 In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
 References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-9-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180418190011.3973-10-chaitanya.kulkarni@wdc.com>
 
-This patch allows file backed namespaces to use newly
-introduced configfs attribute sync, when sync is set
-we open the file with O_SYNC and use the work queue
-to execute the NVMe read/write commands.
+This patch allows NVMe read/write command to use sync or direct
+I/O flags as it is configured from the configfs.
+
+Here when ns->sync is set we use workqueue to execute
+synchronous I/O operation in different thread context than
+the submission thread.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/core.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ drivers/nvme/target/io-cmd.c | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b7c51a5629bf..4d25038ed05c 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -305,9 +305,10 @@ int nvmet_vfs_stat(const char *filename, struct kstat *stat)
- static int nvmet_ns_enable_file(struct nvmet_ns *ns)
- {
- 	int ret;
--	int flags = O_RDWR | O_LARGEFILE | O_DIRECT;
-+	int flags = O_RDWR | O_LARGEFILE;
- 	struct kstat stat;
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 7791a63e38ab..6d355b2dac56 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -108,7 +108,7 @@ static void nvmet_execute_rw_file(struct nvmet_req *req)
+ 	struct sg_mapping_iter miter;
+ 	loff_t pos;
+ 	ssize_t len = 0, ret;
+-	int ki_flags = IOCB_DIRECT;
++	int ki_flags = req->ns->sync ? IOCB_SYNC : IOCB_DIRECT;
+ 	int bv_cnt = 0, rw = READ;
  
-+	flags |= ns->sync ? O_SYNC : O_DIRECT;
- 	ns->filp = filp_open(ns->device_path, flags, 0);
- 	if (!ns->filp || IS_ERR(ns->filp)) {
- 		pr_err("failed to open file %s: (%ld)\n",
-@@ -323,6 +324,15 @@ static int nvmet_ns_enable_file(struct nvmet_ns *ns)
- 	ns->size = stat.size;
- 	ns->blksize_shift = ns->filp->f_inode->i_blkbits;
- 
-+	if (ns->sync) {
-+		ns->file_wq = alloc_workqueue("nvmet-file",
-+				WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
-+
-+		if (!ns->file_wq) {
-+			ret = -1;
-+			goto err;
-+		}
-+	}
- 	return ret;
- err:
- 	filp_close(ns->filp, NULL);
-@@ -352,6 +362,11 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
- 		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
- 		ns->bdev = NULL;
- 	} else if (ns->filp) {
-+		if (ns->sync) {
-+			flush_workqueue(ns->file_wq);
-+			destroy_workqueue(ns->file_wq);
-+			ns->file_wq = NULL;
-+		}
- 		filp_close(ns->filp, NULL);
- 		ns->filp = NULL;
- 	} else
-@@ -470,6 +485,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
- 	ns->nsid = nsid;
- 	ns->subsys = subsys;
- 	uuid_gen(&ns->uuid);
-+	ns->sync = false;
- 
- 	return ns;
+ 	if (req->cmd->rw.opcode == nvme_cmd_write) {
+@@ -155,6 +155,20 @@ static void nvmet_execute_rw_file(struct nvmet_req *req)
+ 	nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
  }
+ 
++static void nvmet_sync_work_file(struct work_struct *work)
++{
++	struct nvmet_req *req;
++
++	req = container_of(work, struct nvmet_req, sync_work);
++
++	nvmet_execute_rw_file(req);
++}
++
++static void nvmet_execute_rw_sync_file(struct nvmet_req *req)
++{
++	queue_work(req->ns->file_wq, &req->sync_work);
++}
++
+ static void nvmet_execute_flush(struct nvmet_req *req)
+ {
+ 	struct bio *bio = &req->inline_bio;
+@@ -333,9 +347,14 @@ u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+ 	switch (cmd->common.opcode) {
+ 	case nvme_cmd_read:
+ 	case nvme_cmd_write:
+-		if (req->ns->filp)
+-			req->execute = nvmet_execute_rw_file;
+-		else
++		if (req->ns->filp) {
++			if (req->ns->sync) {
++				req->execute = nvmet_execute_rw_sync_file;
++				INIT_WORK(&req->sync_work,
++						nvmet_sync_work_file);
++			} else
++				req->execute = nvmet_execute_rw_file;
++		} else
+ 			req->execute = nvmet_execute_rw;
+ 		req->data_len = nvmet_rw_len(req);
+ 		return 0;
 -- 
 2.14.1
