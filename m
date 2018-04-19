@@ -1,43 +1,39 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 18 Apr 2018 15:00:11 -0400
-Subject: [PATCH 20/20] nvmet: use processing paused state for VWC
-In-Reply-To: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180418190011.3973-21-chaitanya.kulkarni@wdc.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Thu, 19 Apr 2018 09:51:16 +0800
+Subject: PATCH V4 0/5 nvme-pci: fixes on nvme_timeout and nvme_dev_disable
+In-Reply-To: <20180418154032.GA22533@ming.t460p>
+References: <1520489971-31174-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180417151700.GC16286@ming.t460p>
+ <a6e1de6d-6086-d467-d9ce-641bcd07b983@oracle.com>
+ <20180418154032.GA22533@ming.t460p>
+Message-ID: <2b985ef5-223f-6a11-45b4-e570c8a93bb3@oracle.com>
 
-We use the ctrl processing paused state when switching between
-O_SYNC and O_DIRECT.
+Hi Ming
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/admin-cmd.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Thanks for your kindly response.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index b119a31eb6f9..f1d4005f92b0 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -842,6 +842,11 @@ static void nvmet_set_features_vwc_file(struct nvmet_req *req)
- 	struct nvmet_ns *ns;
- 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
- 
-+	if (nvmet_ctrl_processing_pause(req->sq->ctrl) == false) {
-+		status = NVME_SC_INTERNAL | NVME_SC_DNR;
-+		goto out;
-+	}
-+
- 	if (subsys->vwc != le32_to_cpu(req->cmd->features.dword11)) {
- 		subsys->vwc = le32_to_cpu(req->cmd->features.dword11);
- 		mutex_lock(&subsys->lock);
-@@ -860,6 +865,9 @@ static void nvmet_set_features_vwc_file(struct nvmet_req *req)
- 		mutex_unlock(&subsys->lock);
- 	}
- 
-+	if (nvmet_ctrl_processing_resume(req->sq->ctrl) == false)
-+		status = NVME_SC_INTERNAL | NVME_SC_DNR;
-+out:
- 	nvmet_req_complete(req, status);
- }
- 
--- 
-2.14.1
+On 04/18/2018 11:40 PM, Ming Lei wrote:
+>> Regarding to this patchset, it is mainly to fix the dependency between
+>> nvme_timeout and nvme_dev_disable, as your can see:
+>> nvme_timeout will invoke nvme_dev_disable, and nvme_dev_disable have to
+>> depend on nvme_timeout when controller no response.
+> Do you mean nvme_disable_io_queues()? If yes, this one has been handled
+> by wait_for_completion_io_timeout() already, and looks the block timeout
+> can be disabled simply. Or are there others?
+> 
+Here is one possible scenario currently
+
+nvme_dev_disable // hold shutdown_lock             nvme_timeout
+  -> nvme_set_host_mem                               -> nvme_dev_disable
+    -> nvme_submit_sync_cmd                            -> try to require shutdown_lock 
+      -> __nvme_submit_sync_cmd
+        -> blk_execute_rq
+          //if sysctl_hung_task_timeout_secs == 0
+          -> wait_for_completion_io
+And maybe nvme_dev_disable need to issue other commands in the future.
+
+Even if we could fix these kind of issues as nvme_disable_io_queues, 
+it is still a risk I think.
+
+Thanks
+Jianchao
