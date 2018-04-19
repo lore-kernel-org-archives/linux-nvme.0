@@ -1,58 +1,30 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Thu, 19 Apr 2018 16:29:13 +0800
-Subject: [PATCH] nvme: unquiesce the queue before cleaup it
-Message-ID: <1524126553-16290-1-git-send-email-jianchao.w.wang@oracle.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 19 Apr 2018 10:50:01 +0200
+Subject: [PATCH] nvme: Fix disk names when not using nvme multipath
+In-Reply-To: <20180418160942.GN11513@localhost.localdomain>
+References: <20180417220344.14698-1-keith.busch@intel.com>
+ <20180418064412.GB11757@lst.de>
+ <20180418132657.GJ11513@localhost.localdomain> <20180418150429.GA7862@lst.de>
+ <20180418153410.GM11513@localhost.localdomain> <20180418153445.GA8513@lst.de>
+ <20180418160942.GN11513@localhost.localdomain>
+Message-ID: <20180419085001.GA22593@lst.de>
 
-There is race between nvme_remove and nvme_reset_work that can
-lead to io hang.
+On Wed, Apr 18, 2018@10:09:42AM -0600, Keith Busch wrote:
+> On Wed, Apr 18, 2018@05:34:45PM +0200, Christoph Hellwig wrote:
+> > True.  We should do that anyway.  I'll turn this into a real series
+> > with a few more final touches tomorrow.
+> 
+> I started this before I saw your message:
 
-nvme_remove                    nvme_reset_work
--> change state to DELETING
-                               -> fail to change state to LIVE
-                               -> nvme_remove_dead_ctrl
-                                 -> nvme_dev_disable
-                                   -> quiesce request_queue
-                                 -> queue remove_work
--> cancel_work_sync reset_work
--> nvme_remove_namespaces
-  -> splice ctrl->namespaces
-                               nvme_remove_dead_ctrl_work
-                               -> nvme_kill_queues
-  -> nvme_ns_remove               do nothing
-    -> blk_cleanup_queue
-      -> blk_freeze_queue
-Finally, the request_queue is quiesced state when wait freeze,
-we will get io hang here.
+Even better :)
 
-To fix it, unquiesce the request_queue directly before nvme_ns_remove.
-We have spliced the ctrl->namespaces, so nobody could access them
-and quiesce the queue any more.
+>  static bool multipath = true;
+> -module_param(multipath, bool, 0644);
+> +module_param(multipath, bool, 0444);
+>  MODULE_PARM_DESC(multipath,
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/core.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+I think this part should be split into a separate patch as it's already
+unsafe.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9df4f71..0e95082 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3249,8 +3249,15 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- 	list_splice_init(&ctrl->namespaces, &ns_list);
- 	up_write(&ctrl->namespaces_rwsem);
- 
--	list_for_each_entry_safe(ns, next, &ns_list, list)
-+	/*
-+	 * After splice the namespaces list from the ctrl->namespaces,
-+	 * nobody could get them anymore, let's unquiesce the request_queue
-+	 * forcibly to avoid io hang.
-+	 */
-+	list_for_each_entry_safe(ns, next, &ns_list, list) {
-+		blk_mq_unquiesce_queue(ns->queue);
- 		nvme_ns_remove(ns);
-+	}
- }
- EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
- 
--- 
-2.7.4
+Otherwise this looks ok to me, but I wonder if the helper is really
+worth the effort.
