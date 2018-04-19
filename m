@@ -1,30 +1,40 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 19 Apr 2018 10:50:01 +0200
-Subject: [PATCH] nvme: Fix disk names when not using nvme multipath
-In-Reply-To: <20180418160942.GN11513@localhost.localdomain>
-References: <20180417220344.14698-1-keith.busch@intel.com>
- <20180418064412.GB11757@lst.de>
- <20180418132657.GJ11513@localhost.localdomain> <20180418150429.GA7862@lst.de>
- <20180418153410.GM11513@localhost.localdomain> <20180418153445.GA8513@lst.de>
- <20180418160942.GN11513@localhost.localdomain>
-Message-ID: <20180419085001.GA22593@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 19 Apr 2018 02:39:46 -0700
+Subject: [PATCH 1/1] RDMA over Fibre Channel
+In-Reply-To: <67be5e134d10be260f78589d488b1c40@mail.gmail.com>
+References: <20180418094240.26371-1-muneendra.kumar@broadcom.com>
+ <20180418102223.GA27364@infradead.org>
+ <86f66430d0c577792b663226189d31a1@mail.gmail.com>
+ <20180418131831.GA23425@infradead.org>
+ <67be5e134d10be260f78589d488b1c40@mail.gmail.com>
+Message-ID: <20180419093946.GA7181@infradead.org>
 
-On Wed, Apr 18, 2018@10:09:42AM -0600, Keith Busch wrote:
-> On Wed, Apr 18, 2018@05:34:45PM +0200, Christoph Hellwig wrote:
-> > True.  We should do that anyway.  I'll turn this into a real series
-> > with a few more final touches tomorrow.
+On Wed, Apr 18, 2018@10:23:45PM +0530, Anand Nataraja Sundaram wrote:
+> Just wanted to understand more on your concerns on the mods done to Linux
+> NVMe.
 > 
-> I started this before I saw your message:
+> The whole work was to tunnel IB protocol over existing NVMe protocol.  To
+> do this we first made sure NVMe stack (host, target) is able to send block
+> traffic and non-block (object based ) traffic. To do this, no changes were
+> required in the NVMe protocol itself. Only the target stack needed some
+> modifications to vector
+>   (a) NVMe block traffic to backend NVMe Namespace block driver
+>   (b) non-block  IB protocol traffic to RFC transport layer
+> 
+> The NVMe changes are restricted to below:
+> drivers/nvme/target/fc.c                        |   94 +-
+> drivers/nvme/target/io-cmd.c                    |   44 +-
+> include/linux/nvme-fc-driver.h                  |    6 +
 
-Even better :)
+You forgot the larger chunks of Linux NVMe code you copied while
+stripping the copyrights and incorrectly relicensing it to a BSD-like
+license.
 
->  static bool multipath = true;
-> -module_param(multipath, bool, 0644);
-> +module_param(multipath, bool, 0444);
->  MODULE_PARM_DESC(multipath,
-
-I think this part should be split into a separate patch as it's already
-unsafe.
-
-Otherwise this looks ok to me, but I wonder if the helper is really
-worth the effort.
+The point is that IFF you really want to do RDMA over NVMe you need to
+defined a new NVMe I/O command set for it and get it standardized.  If
+that is done we could do a proper upper level protocol interface for it,
+instead of just hacking it into the protocol and code through the
+backdoor.  But as said before there is no upside of using NVMe, I can
+see the interest in layering on top of FCP to reuse existing hardware
+accelerations, similar to how NVMe layers on top of FCP for that reason,
+but there isn't really any value in throwing in another NVMe layer.
