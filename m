@@ -1,49 +1,58 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 19 Apr 2018 10:27:41 +0800
-Subject: PATCH V4 0/5 nvme-pci: fixes on nvme_timeout and nvme_dev_disable
-In-Reply-To: <2b985ef5-223f-6a11-45b4-e570c8a93bb3@oracle.com>
-References: <1520489971-31174-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180417151700.GC16286@ming.t460p>
- <a6e1de6d-6086-d467-d9ce-641bcd07b983@oracle.com>
- <20180418154032.GA22533@ming.t460p>
- <2b985ef5-223f-6a11-45b4-e570c8a93bb3@oracle.com>
-Message-ID: <20180419022735.GC5495@ming.t460p>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Thu, 19 Apr 2018 16:29:13 +0800
+Subject: [PATCH] nvme: unquiesce the queue before cleaup it
+Message-ID: <1524126553-16290-1-git-send-email-jianchao.w.wang@oracle.com>
 
-On Thu, Apr 19, 2018@09:51:16AM +0800, jianchao.wang wrote:
-> Hi Ming
-> 
-> Thanks for your kindly response.
-> 
-> On 04/18/2018 11:40 PM, Ming Lei wrote:
-> >> Regarding to this patchset, it is mainly to fix the dependency between
-> >> nvme_timeout and nvme_dev_disable, as your can see:
-> >> nvme_timeout will invoke nvme_dev_disable, and nvme_dev_disable have to
-> >> depend on nvme_timeout when controller no response.
-> > Do you mean nvme_disable_io_queues()? If yes, this one has been handled
-> > by wait_for_completion_io_timeout() already, and looks the block timeout
-> > can be disabled simply. Or are there others?
-> > 
-> Here is one possible scenario currently
-> 
-> nvme_dev_disable // hold shutdown_lock             nvme_timeout
->   -> nvme_set_host_mem                               -> nvme_dev_disable
->     -> nvme_submit_sync_cmd                            -> try to require shutdown_lock 
->       -> __nvme_submit_sync_cmd
->         -> blk_execute_rq
->           //if sysctl_hung_task_timeout_secs == 0
->           -> wait_for_completion_io
-> And maybe nvme_dev_disable need to issue other commands in the future.
+There is race between nvme_remove and nvme_reset_work that can
+lead to io hang.
 
-OK, thanks for sharing this one, for now I think it might need to be
-handled by wait_for_completion_io_timeout() for working around this issue.
+nvme_remove                    nvme_reset_work
+-> change state to DELETING
+                               -> fail to change state to LIVE
+                               -> nvme_remove_dead_ctrl
+                                 -> nvme_dev_disable
+                                   -> quiesce request_queue
+                                 -> queue remove_work
+-> cancel_work_sync reset_work
+-> nvme_remove_namespaces
+  -> splice ctrl->namespaces
+                               nvme_remove_dead_ctrl_work
+                               -> nvme_kill_queues
+  -> nvme_ns_remove               do nothing
+    -> blk_cleanup_queue
+      -> blk_freeze_queue
+Finally, the request_queue is quiesced state when wait freeze,
+we will get io hang here.
 
-> 
-> Even if we could fix these kind of issues as nvme_disable_io_queues, 
-> it is still a risk I think.
+To fix it, unquiesce the request_queue directly before nvme_ns_remove.
+We have spliced the ctrl->namespaces, so nobody could access them
+and quiesce the queue any more.
 
-Yeah, I can't agree more, that is why I think the nvme time/eh code should
-be refactored, and solve the current issues in a more clean/maintainable
-way.
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/core.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df4f71..0e95082 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3249,8 +3249,15 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ 	list_splice_init(&ctrl->namespaces, &ns_list);
+ 	up_write(&ctrl->namespaces_rwsem);
+ 
+-	list_for_each_entry_safe(ns, next, &ns_list, list)
++	/*
++	 * After splice the namespaces list from the ctrl->namespaces,
++	 * nobody could get them anymore, let's unquiesce the request_queue
++	 * forcibly to avoid io hang.
++	 */
++	list_for_each_entry_safe(ns, next, &ns_list, list) {
++		blk_mq_unquiesce_queue(ns->queue);
+ 		nvme_ns_remove(ns);
++	}
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+ 
+-- 
+2.7.4
