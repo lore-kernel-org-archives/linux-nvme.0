@@ -1,104 +1,87 @@
-From: mst@redhat.com (Michael S. Tsirkin)
-Date: Fri, 20 Apr 2018 19:14:51 +0300
-Subject: [virtio-dev] [pci PATCH v7 2/5] virtio_pci: Add support for
- unmanaged SR-IOV on virtio_pci devices
-In-Reply-To: <CAKgT0UeWzK=_8m9hhWfaKyYB02WXDsuCkgowS4hgQ9GkLMcAMA@mail.gmail.com>
-References: <20180316183042-mutt-send-email-mst@kernel.org>
- <CAKgT0UfgZ2gAdiAbCe4MTOr3o9cqq1q-mykCQsw68p2F-QEC8g@mail.gmail.com>
- <20180403161151-mutt-send-email-mst@kernel.org>
- <CAKgT0UfeSmG=xsd6sTkg4cOMnZ0QiqtCRDt4PynpF3d6nvvFCA@mail.gmail.com>
- <20180403212503-mutt-send-email-mst@kernel.org>
- <CAKgT0Ude79FYrK4qA0OKRJ1NackyqPi-hZ8Zh3WSdLDFxoOosQ@mail.gmail.com>
- <20180420030640-mutt-send-email-mst@kernel.org>
- <CAKgT0Ucpw9D1u8MYoEX5KOij6sxs-5O9gPFTmOVq=Dgt=HUJ=g@mail.gmail.com>
- <20180420180839-mutt-send-email-mst@kernel.org>
- <CAKgT0UeWzK=_8m9hhWfaKyYB02WXDsuCkgowS4hgQ9GkLMcAMA@mail.gmail.com>
-Message-ID: <20180420191055-mutt-send-email-mst@kernel.org>
+From: alexander.h.duyck@intel.com (Alexander Duyck)
+Date: Fri, 20 Apr 2018 12:28:36 -0400
+Subject: [pci PATCH v8 1/4] pci: Add pci_sriov_configure_simple for PFs that
+ don't manage VF resources
+In-Reply-To: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
+References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
+Message-ID: <20180420162814.46077.11939.stgit@ahduyck-green-test.jf.intel.com>
 
-On Fri, Apr 20, 2018@09:08:51AM -0700, Alexander Duyck wrote:
-> On Fri, Apr 20, 2018@8:28 AM, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > On Fri, Apr 20, 2018@07:56:14AM -0700, Alexander Duyck wrote:
-> >> > I think for virtio it should include the feature bit, yes.
-> >> > Adding feature bit is very easy - post a patch to the virtio TC mailing
-> >> > list, wait about a week to give people time to respond (two weeks if it
-> >> > is around holidays and such).
-> >>
-> >> The problem is we are talking about hardware/FPGA, not software.
-> >> Adding a feature bit means going back and updating RTL. The software
-> >> side of things is easy, re-validating things after a hardware/FPGA
-> >> change not so much.
-> >>
-> >> If this is a hard requirement I may just drop the virtio patch, push
-> >> what I have, and leave it to Mark/Dan to deal with the necessary RTL
-> >> and code changes needed to support Virtio as I don't expect the
-> >> turnaround to be as easy as just a patch.
-> >>
-> >> Thanks.
-> >>
-> >> - Alex
-> >
-> > Let's focus on virtio in this thread.
-> 
-> That is kind of what I was thinking, and why I was thinking it might
-> make sense to make the virtio specific changes a separate patch set. I
-> could get the PCI bits taken care of in the meantime since they effect
-> genetic PCI, NVMe, and the Amazon ENA interfaces.
-> 
-> > Involving the virtio TC in host/guest interface changes is a
-> > hard requirement. It's just too easy to create conflicts otherwise.
-> >
-> > So you guys should have just sent the proposal to the TC when you
-> > were doing your RTL and you would have been in the clear.
-> 
-> Agreed. I believe I brought this up when I was originally asked to
-> look into the coding for this.
-> 
-> > Generally adding a feature bit with any extension is a good idea:
-> > this way you merely reserve a feature bit for your feature through
-> > the TC and are more or less sure of forward and backward compatibility.
-> > It's incredibly easy.
-> 
-> Agreed, though in this case I am not sure it makes sense since this
-> isn't necessarily something that is a Virtio feature itself. It is
-> just a side effect of the fact that they are adding SR-IOV support to
-> a device that happens to emulate Virtio NET and apparently their PF
-> has to be identical to the VF other than the PCIe extended config
-> space.
+This patch adds a common configuration function called
+pci_sriov_configure_simple that will allow for managing VFs on devices
+where the PF is not capable of managing VF resources.
 
-I got that. My point is not everyone implementing SR-IOV will
-want to do it like this. Others might want to have VFs
-be different from PFs somehow. Feature bits ensure forward
-not just backward compatibility.
+Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+Tested-by: Mark Rustad <mark.d.rustad at intel.com>
+---
 
+v5: New patch replacing pci_sriov_configure_unmanaged with
+      pci_sriov_configure_simple
+    Dropped bits related to autoprobe changes
+v6: Defined pci_sriov_configure_simple as NULL if IOV is disabled
+v7: Updated pci_sriov_configure_simple to drop need for err value
+    Fixed comment explaining why pci_sriov_configure_simple is NULL
 
-> > But maybe it's not needed here.  I am not making the decisions myself.
-> > Not too late: post to the TC list and let's see what the response is.
-> > Without a feature bit you are making a change affecting all future
-> > implementations without exception so the bar is a bit higher: you need
-> > to actually post a spec text proposal not just a patch showing how to
-> > use the feature, and TC needs to vote on it. Voting takes a week,
-> > review a week or two depending on change complexity.
-> >
-> > Hope this helps,
-> >
-> > --
-> > MST
-> 
-> I think I will leave this for Dan and Mark to handle since I am still
-> not all that familiar with the hardware in use here. Once a decision
-> has been made him and Mark could look at pushing either the one line
-> patch or something more complex involving a feature flag.
-> 
-> Thanks.
-> 
-> Alex
+ drivers/pci/iov.c   |   31 +++++++++++++++++++++++++++++++
+ include/linux/pci.h |    3 +++
+ 2 files changed, 34 insertions(+)
 
-As long as the TC is involved.
-
-I know it's a bit of a strange thing to block it at the driver level,
-the issue is with the device, but it's literally the only handle I have
-to prevent people from doing out of spec hacks then pushing it all on us
-to maintain.
-
--- 
-MST
+diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
+index 677924a..3e0a7fd 100644
+--- a/drivers/pci/iov.c
++++ b/drivers/pci/iov.c
+@@ -807,3 +807,34 @@ int pci_sriov_get_totalvfs(struct pci_dev *dev)
+ 	return dev->sriov->total_VFs;
+ }
+ EXPORT_SYMBOL_GPL(pci_sriov_get_totalvfs);
++
++/**
++ * pci_sriov_configure_simple - helper to configure unmanaged SR-IOV
++ * @dev: the PCI device
++ * @nr_virtfn: number of virtual functions to enable, 0 to disable
++ *
++ * Used to provide generic enable/disable SR-IOV option for devices
++ * that do not manage the VFs generated by their driver. Return value
++ * is negative on error, or number of VFs allocated on success.
++ */
++int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn)
++{
++	might_sleep();
++
++	if (!dev->is_physfn)
++		return -ENODEV;
++
++	if (pci_vfs_assigned(dev)) {
++		pci_warn(dev,
++			 "Cannot modify SR-IOV while VFs are assigned\n");
++		return -EPERM;
++	}
++
++	if (!nr_virtfn) {
++		sriov_disable(dev);
++		return 0;
++	}
++
++	return sriov_enable(dev, nr_virtfn) ? : nr_virtfn;
++}
++EXPORT_SYMBOL_GPL(pci_sriov_configure_simple);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index ae42289..7d36e39 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1955,6 +1955,7 @@ static inline void pci_mmcfg_late_init(void) { }
+ int pci_vfs_assigned(struct pci_dev *dev);
+ int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
+ int pci_sriov_get_totalvfs(struct pci_dev *dev);
++int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
+ resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
+ void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
+ #else
+@@ -1982,6 +1983,8 @@ static inline int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs)
+ { return 0; }
+ static inline int pci_sriov_get_totalvfs(struct pci_dev *dev)
+ { return 0; }
++/* this is expected to be used as a function pointer, just define as NULL */
++#define pci_sriov_configure_simple NULL
+ static inline resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
+ { return 0; }
+ static inline void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe) { }
