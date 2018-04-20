@@ -1,91 +1,38 @@
-From: rdunlap@infradead.org (Randy Dunlap)
-Date: Fri, 20 Apr 2018 10:23:56 -0700
-Subject: [pci PATCH v8 0/4] Add support for unmanaged SR-IOV
-In-Reply-To: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
-References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
-Message-ID: <5fc62d10-790f-2356-c2f6-fd49f542dd3c@infradead.org>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Fri, 20 Apr 2018 22:07:49 +0300
+Subject: [PATCH 1/2] IB/mlx5: posting klm/mtt list inline in the send
+ queue for reg_wr
+In-Reply-To: <1524189891.11756.12.camel@redhat.com>
+References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
+ <1509295101-14081-2-git-send-email-idanb@mellanox.com>
+ <CAL1RGDXbUXcrRyEtHWpBmWpbbCB6nuQVfWC1bi+4K_yp3pB0LQ@mail.gmail.com>
+ <1524189891.11756.12.camel@redhat.com>
+Message-ID: <9a3fb6ea-151a-117b-182a-6c14c393b898@mellanox.com>
 
-On 04/20/18 09:28, Alexander Duyck wrote:
-> This series is meant to add support for SR-IOV on devices when the VFs are
-> not managed by the kernel. Examples of recent patches attempting to do this
-> include:
-> virto - https://patchwork.kernel.org/patch/10241225/
-> pci-stub - https://patchwork.kernel.org/patch/10109935/
-> vfio - https://patchwork.kernel.org/patch/10103353/
-> uio - https://patchwork.kernel.org/patch/9974031/
+Thanks Roland.
+Our team was actually running the patch again using ConnectX-4 and 
+ConnectX-5 last week succesfully with NVMe-oF/RDMA. We'll push it throw 
+Jason's PR with all the great results published.
 
-Hi,
+-Max.
 
-Somewhere in this patch series it would be nice to tell us what the heck
-a "PF" is.  :)
-
-Thanks.
-
-> Since this is quickly blowing up into a multi-driver problem it is probably
-> best to implement this solution as generically as possible.
+On 4/20/2018 5:04 AM, Doug Ledford wrote:
+> On Thu, 2018-04-19@14:11 -0700, roland wrote:
+>>> The fetch of the MTT/KLM list becomes the bottleneck in
+>>> number of IO operation could be done by NVMe over Fabrics
+>>> host driver on a single adapter as shown below.
+>>>
+>>> This patch is adding the support for inline registration
+>>> work request upon MTT/KLM list of size <=64B.
+>>
+>> It looks like this patch never made it upstream, and I don't see any
+>> discussion or reason why it might have been dropped.
+>>
+>> This still seems like a good idea - should we respin it against the latest tree?
 > 
-> This series is an attempt to do that. What we do with this patch set is
-> provide a generic framework to enable SR-IOV in the case that the PF driver
-> doesn't support managing the VFs itself.
+> If you want it included, then you'll have to respin it if for no other
+> reason than the fact that it isn't readily available in patchworks and
+> that's what we're using to track/grab patches now a days.  I supposed I
+> could go hunting for it, but that's a good way to grab an out of date
+> patch and make a mistake by accident...
 > 
-> I based my patch set originally on the patch by Mark Rustad but there isn't
-> much left after going through and cleaning out the bits that were no longer
-> needed, and after incorporating the feedback from David Miller. At this point
-> the only items to be fully reused was his patch description which is now
-> present in patch 3 of the set.
-> 
-> This solution is limited in scope to just adding support for devices that
-> provide no functionality for SR-IOV other than allocating the VFs by
-> calling pci_enable_sriov. Previous sets had included patches for VFIO, but
-> for now I am dropping that as the scope of that work is larger then I
-> think I can take on at this time.
-> 
-> v2: Reduced scope back to just virtio_pci and vfio-pci
->     Broke into 3 patch set from single patch
->     Changed autoprobe behavior to always set when num_vfs is set non-zero
-> v3: Updated Documentation to clarify when sriov_unmanaged_autoprobe is used
->     Wrapped vfio_pci_sriov_configure to fix build errors w/o SR-IOV in kernel
-> v4: Dropped vfio-pci patch
->     Added ena and nvme to drivers now using pci_sriov_configure_unmanaged
->     Dropped pci_disable_sriov call in virtio_pci to be consistent with ena
-> v5: Dropped sriov_unmanaged_autoprobe and pci_sriov_conifgure_unmanaged
->     Added new patch that enables pci_sriov_configure_simple
->     Updated drivers to use pci_sriov_configure_simple
-> v6: Defined pci_sriov_configure_simple as NULL when SR-IOV is not enabled
->     Updated drivers to drop "#ifdef" checks for IOV
->     Added pci-pf-stub as place for PF-only drivers to add support
-> v7: Dropped pci_id table explanation from pci-pf-stub driver
->     Updated pci_sriov_configure_simple to drop need for err value
->     Fixed comment explaining why pci_sriov_configure_simple is NULL
-> v8: Dropped virtio from the set, support to be added later after TC approval
-> 
-> Cc: Mark Rustad <mark.d.rustad at intel.com>
-> Cc: Maximilian Heyne <mheyne at amazon.de>
-> Cc: Liang-Min Wang <liang-min.wang at intel.com>
-> Cc: David Woodhouse <dwmw at amazon.co.uk>
-> 
-> ---
-> 
-> Alexander Duyck (4):
->       pci: Add pci_sriov_configure_simple for PFs that don't manage VF resources
->       ena: Migrate over to unmanaged SR-IOV support
->       nvme: Migrate over to unmanaged SR-IOV support
->       pci-pf-stub: Add PF driver stub for PFs that function only to enable VFs
-> 
-> 
->  drivers/net/ethernet/amazon/ena/ena_netdev.c |   28 -------------
->  drivers/nvme/host/pci.c                      |   20 ----------
->  drivers/pci/Kconfig                          |   12 ++++++
->  drivers/pci/Makefile                         |    2 +
->  drivers/pci/iov.c                            |   31 +++++++++++++++
->  drivers/pci/pci-pf-stub.c                    |   54 ++++++++++++++++++++++++++
->  include/linux/pci.h                          |    3 +
->  include/linux/pci_ids.h                      |    2 +
->  8 files changed, 106 insertions(+), 46 deletions(-)
->  create mode 100644 drivers/pci/pci-pf-stub.c
-> 
-> --
-> 
-
--- 
-~Randy
