@@ -1,47 +1,49 @@
-From: dledford@redhat.com (Doug Ledford)
-Date: Thu, 19 Apr 2018 22:48:34 -0400
-Subject: [PATCH v1 0/3] nvmet-rdma automatic port re-activation
-In-Reply-To: <0f781a93-2cbf-8d60-2028-4581912bf07a@grimberg.me>
-References: <20180412080656.1691-1-sagi@grimberg.me>
- <20180413170010.GA23178@lst.de>
- <0f781a93-2cbf-8d60-2028-4581912bf07a@grimberg.me>
-Message-ID: <1524192514.11756.26.camel@redhat.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 20 Apr 2018 07:43:01 +0200
+Subject: [PATCH] nvme: fc: provide a descriptive error
+In-Reply-To: <20180419174342.27307-1-jthumshirn@suse.de>
+References: <20180419174342.27307-1-jthumshirn@suse.de>
+Message-ID: <500112aa-ea97-2428-ac39-854329a52e93@suse.de>
 
-On Sun, 2018-04-15@11:53 +0300, Sagi Grimberg wrote:
-> > > When a RDMA device goes away we must destroy all it's associated
-> > > RDMA resources. RDMa device resets also manifest as device removal
-> > > events and a short while after they come back. We want to re-activate
-> > > a port listener on this RDMA device when it comes back in to the system.
-> > 
-> > I really detest this series.  It just shows how messed up the whole
-> > IB core interaction is.  The right way to fix this is to stop treating
-> > a IB device reset as a device removal, and give it a different event.
-> > 
-> > And also make sure we have a single unified event system instead of
-> > three separate ones.
+On 04/19/2018 07:43 PM, Johannes Thumshirn wrote:
+> Provide a descriptive error in case an lport to rport association
+> isn't found when creating the FC-NVME controller.
 > 
-> I've raised this claim before, but got resistance from Doug:
-> https://www.spinics.net/lists/linux-rdma/msg59815.html
+> Currently it's very hard to debug the reason for a failed connect
+> attempt without a look at the source.
+> 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> 
+> ---
+> This actually happened to Hannes and me because of a typo in a
+> customer demo today, so yes things like this happen until we have a
+> proper way to do auto-connect.
+> ---
+>  drivers/nvme/host/fc.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 6cb26bcf6ec0..8b66879b4ebf 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3284,6 +3284,8 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+>  	}
+>  	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+>  
+> +	pr_warn("%s: %s - %s combination not found\n",
+> +		__func__, opts->traddr, opts->host_traddr);
+>  	return ERR_PTR(-ENOENT);
+>  }
+>  
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-I'm not the sole maintainer any more.  If you want to appeal to Jason's
-better sensibilities in an attempt to get someone on your side and make
-a difference, I won't take offense.
+Cheers,
 
-> At that point, in the lack of change in the RDMA interface, this
-> is pretty much what we can do to support device resets...
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
+Hannes
 -- 
-Doug Ledford <dledford at redhat.com>
-    GPG KeyID: B826A3330E572FDD
-    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: This is a digitally signed message part
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180419/cfab87ee/attachment.sig>
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
