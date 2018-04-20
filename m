@@ -1,95 +1,145 @@
 From: gvrose8192@gmail.com (Gregory Rose)
-Date: Fri, 20 Apr 2018 15:06:24 -0700
-Subject: [pci PATCH v8 1/4] pci: Add pci_sriov_configure_simple for PFs
- that don't manage VF resources
-In-Reply-To: <20180420162814.46077.11939.stgit@ahduyck-green-test.jf.intel.com>
+Date: Fri, 20 Apr 2018 15:08:46 -0700
+Subject: [pci PATCH v8 4/4] pci-pf-stub: Add PF driver stub for PFs that
+ function only to enable VFs
+In-Reply-To: <20180420163109.46077.60334.stgit@ahduyck-green-test.jf.intel.com>
 References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
- <20180420162814.46077.11939.stgit@ahduyck-green-test.jf.intel.com>
-Message-ID: <2f23908d-13c6-55c8-217f-d8be5bd450c5@gmail.com>
+ <20180420163109.46077.60334.stgit@ahduyck-green-test.jf.intel.com>
+Message-ID: <33785f68-d445-f49b-5668-3195cfa32159@gmail.com>
 
-
-On 4/20/2018 9:28 AM, Alexander Duyck wrote:
-> This patch adds a common configuration function called
-> pci_sriov_configure_simple that will allow for managing VFs on devices
-> where the PF is not capable of managing VF resources.
+On 4/20/2018 9:31 AM, Alexander Duyck wrote:
+> Add a new driver called "pci-pf-stub" to act as a "white-list" for PF
+> devices that provide no other functionality other then acting as a means of
+> allocating a set of VFs. For now I only have one example ID provided by
+> Amazon in terms of devices that require this functionality. The general
+> idea is that in the future we will see other devices added as vendors come
+> up with devices where the PF is more or less just a lightweight shim used
+> to allocate VFs.
 >
 > Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
-> Tested-by: Mark Rustad <mark.d.rustad at intel.com>
 > ---
 >
-> v5: New patch replacing pci_sriov_configure_unmanaged with
->        pci_sriov_configure_simple
->      Dropped bits related to autoprobe changes
-> v6: Defined pci_sriov_configure_simple as NULL if IOV is disabled
-> v7: Updated pci_sriov_configure_simple to drop need for err value
->      Fixed comment explaining why pci_sriov_configure_simple is NULL
+> v6: New driver to address concerns about Amazon devices left unsupported
+> v7: Dropped pci_id table explanation from pci-pf-stub driver
 >
->   drivers/pci/iov.c   |   31 +++++++++++++++++++++++++++++++
->   include/linux/pci.h |    3 +++
->   2 files changed, 34 insertions(+)
+>   drivers/pci/Kconfig       |   12 ++++++++++
+>   drivers/pci/Makefile      |    2 ++
+>   drivers/pci/pci-pf-stub.c |   54 +++++++++++++++++++++++++++++++++++++++++++++
+>   include/linux/pci_ids.h   |    2 ++
+>   4 files changed, 70 insertions(+)
+>   create mode 100644 drivers/pci/pci-pf-stub.c
 >
-> diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-> index 677924a..3e0a7fd 100644
-> --- a/drivers/pci/iov.c
-> +++ b/drivers/pci/iov.c
-> @@ -807,3 +807,34 @@ int pci_sriov_get_totalvfs(struct pci_dev *dev)
->   	return dev->sriov->total_VFs;
->   }
->   EXPORT_SYMBOL_GPL(pci_sriov_get_totalvfs);
+> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index 34b56a8..cdef2a2 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -71,6 +71,18 @@ config PCI_STUB
+>   
+>   	  When in doubt, say N.
+>   
+> +config PCI_PF_STUB
+> +	tristate "PCI PF Stub driver"
+> +	depends on PCI
+> +	depends on PCI_IOV
+> +	help
+> +	  Say Y or M here if you want to enable support for devices that
+> +	  require SR-IOV support, while at the same time the PF itself is
+> +	  not providing any actual services on the host itself such as
+> +	  storage or networking.
+> +
+> +	  When in doubt, say N.
+> +
+>   config XEN_PCIDEV_FRONTEND
+>           tristate "Xen PCI Frontend"
+>           depends on PCI && X86 && XEN
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 9419709..4e133d3 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -43,6 +43,8 @@ obj-$(CONFIG_PCI_SYSCALL) += syscall.o
+>   
+>   obj-$(CONFIG_PCI_STUB) += pci-stub.o
+>   
+> +obj-$(CONFIG_PCI_PF_STUB) += pci-pf-stub.o
+> +
+>   obj-$(CONFIG_PCI_ECAM) += ecam.o
+>   
+>   obj-$(CONFIG_XEN_PCIDEV_FRONTEND) += xen-pcifront.o
+> diff --git a/drivers/pci/pci-pf-stub.c b/drivers/pci/pci-pf-stub.c
+> new file mode 100644
+> index 0000000..9d5fdf2
+> --- /dev/null
+> +++ b/drivers/pci/pci-pf-stub.c
+> @@ -0,0 +1,54 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* pci-pf-stub - simple stub driver for PCI SR-IOV PF device
+> + *
+> + * This driver is meant to act as a "white-list" for devices that provde
+> + * SR-IOV functionality while at the same time not actually needing a
+> + * driver of their own.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
 > +
 > +/**
-> + * pci_sriov_configure_simple - helper to configure unmanaged SR-IOV
-> + * @dev: the PCI device
-> + * @nr_virtfn: number of virtual functions to enable, 0 to disable
+> + * pci_pf_stub_white_list - White list of devices to bind pci-pf-stub onto
 > + *
-> + * Used to provide generic enable/disable SR-IOV option for devices
-> + * that do not manage the VFs generated by their driver. Return value
-> + * is negative on error, or number of VFs allocated on success.
+> + * This table provides the list of IDs this driver is supposed to bind
+> + * onto. You could think of this as a list of "quirked" devices where we
+> + * are adding support for SR-IOV here since there are no other drivers
+> + * that they would be running under.
 > + */
-> +int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn)
+> +static const struct pci_device_id pci_pf_stub_white_list[] = {
+> +	{ PCI_VDEVICE(AMAZON, 0x0053) },
+> +	/* required last entry */
+> +	{ 0 }
+> +};
+> +MODULE_DEVICE_TABLE(pci, pci_pf_stub_white_list);
+> +
+> +static int pci_pf_stub_probe(struct pci_dev *dev,
+> +			     const struct pci_device_id *id)
 > +{
-> +	might_sleep();
-> +
-> +	if (!dev->is_physfn)
-> +		return -ENODEV;
-> +
-> +	if (pci_vfs_assigned(dev)) {
-> +		pci_warn(dev,
-> +			 "Cannot modify SR-IOV while VFs are assigned\n");
-> +		return -EPERM;
-> +	}
-> +
-> +	if (!nr_virtfn) {
-> +		sriov_disable(dev);
-> +		return 0;
-> +	}
-> +
-> +	return sriov_enable(dev, nr_virtfn) ? : nr_virtfn;
+> +	pci_info(dev, "claimed by pci-pf-stub\n");
+> +	return 0;
 > +}
-> +EXPORT_SYMBOL_GPL(pci_sriov_configure_simple);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index ae42289..7d36e39 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1955,6 +1955,7 @@ static inline void pci_mmcfg_late_init(void) { }
->   int pci_vfs_assigned(struct pci_dev *dev);
->   int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
->   int pci_sriov_get_totalvfs(struct pci_dev *dev);
-> +int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
->   resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
->   void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
->   #else
-> @@ -1982,6 +1983,8 @@ static inline int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs)
->   { return 0; }
->   static inline int pci_sriov_get_totalvfs(struct pci_dev *dev)
->   { return 0; }
-> +/* this is expected to be used as a function pointer, just define as NULL */
-> +#define pci_sriov_configure_simple NULL
->   static inline resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
->   { return 0; }
->   static inline void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe) { }
+> +
+> +static struct pci_driver pf_stub_driver = {
+> +	.name			= "pci-pf-stub",
+> +	.id_table		= pci_pf_stub_white_list,
+> +	.probe			= pci_pf_stub_probe,
+> +	.sriov_configure	= pci_sriov_configure_simple,
+> +};
+> +
+> +static int __init pci_pf_stub_init(void)
+> +{
+> +	return pci_register_driver(&pf_stub_driver);
+> +}
+> +
+> +static void __exit pci_pf_stub_exit(void)
+> +{
+> +	pci_unregister_driver(&pf_stub_driver);
+> +}
+> +
+> +module_init(pci_pf_stub_init);
+> +module_exit(pci_pf_stub_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+> index a637a7d..62dab14 100644
+> --- a/include/linux/pci_ids.h
+> +++ b/include/linux/pci_ids.h
+> @@ -2549,6 +2549,8 @@
+>   #define PCI_VENDOR_ID_CIRCUITCO		0x1cc8
+>   #define PCI_SUBSYSTEM_ID_CIRCUITCO_MINNOWBOARD	0x0001
+>   
+> +#define PCI_VENDOR_ID_AMAZON		0x1d0f
+> +
+>   #define PCI_VENDOR_ID_TEKRAM		0x1de1
+>   #define PCI_DEVICE_ID_TEKRAM_DC290	0xdc29
+>   
 >
 
-Thanks Alex!
+LGTM
 
 Reviewed-by: Greg Rose <gvrose8192 at gmail.com>
