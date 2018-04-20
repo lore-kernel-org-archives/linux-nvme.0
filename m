@@ -1,31 +1,38 @@
 From: dledford@redhat.com (Doug Ledford)
-Date: Thu, 19 Apr 2018 22:04:51 -0400
-Subject: [PATCH 1/2] IB/mlx5: posting klm/mtt list inline in the send
- queue for reg_wr
-In-Reply-To: <CAL1RGDXbUXcrRyEtHWpBmWpbbCB6nuQVfWC1bi+4K_yp3pB0LQ@mail.gmail.com>
-References: <1509295101-14081-1-git-send-email-idanb@mellanox.com>
- <1509295101-14081-2-git-send-email-idanb@mellanox.com>
- <CAL1RGDXbUXcrRyEtHWpBmWpbbCB6nuQVfWC1bi+4K_yp3pB0LQ@mail.gmail.com>
-Message-ID: <1524189891.11756.12.camel@redhat.com>
+Date: Thu, 19 Apr 2018 22:48:34 -0400
+Subject: [PATCH v1 0/3] nvmet-rdma automatic port re-activation
+In-Reply-To: <0f781a93-2cbf-8d60-2028-4581912bf07a@grimberg.me>
+References: <20180412080656.1691-1-sagi@grimberg.me>
+ <20180413170010.GA23178@lst.de>
+ <0f781a93-2cbf-8d60-2028-4581912bf07a@grimberg.me>
+Message-ID: <1524192514.11756.26.camel@redhat.com>
 
-On Thu, 2018-04-19@14:11 -0700, roland wrote:
-> > The fetch of the MTT/KLM list becomes the bottleneck in
-> > number of IO operation could be done by NVMe over Fabrics
-> > host driver on a single adapter as shown below.
+On Sun, 2018-04-15@11:53 +0300, Sagi Grimberg wrote:
+> > > When a RDMA device goes away we must destroy all it's associated
+> > > RDMA resources. RDMa device resets also manifest as device removal
+> > > events and a short while after they come back. We want to re-activate
+> > > a port listener on this RDMA device when it comes back in to the system.
 > > 
-> > This patch is adding the support for inline registration
-> > work request upon MTT/KLM list of size <=64B.
+> > I really detest this series.  It just shows how messed up the whole
+> > IB core interaction is.  The right way to fix this is to stop treating
+> > a IB device reset as a device removal, and give it a different event.
+> > 
+> > And also make sure we have a single unified event system instead of
+> > three separate ones.
 > 
-> It looks like this patch never made it upstream, and I don't see any
-> discussion or reason why it might have been dropped.
-> 
-> This still seems like a good idea - should we respin it against the latest tree?
+> I've raised this claim before, but got resistance from Doug:
+> https://www.spinics.net/lists/linux-rdma/msg59815.html
 
-If you want it included, then you'll have to respin it if for no other
-reason than the fact that it isn't readily available in patchworks and
-that's what we're using to track/grab patches now a days.  I supposed I
-could go hunting for it, but that's a good way to grab an out of date
-patch and make a mistake by accident...
+I'm not the sole maintainer any more.  If you want to appeal to Jason's
+better sensibilities in an attempt to get someone on your side and make
+a difference, I won't take offense.
+
+> At that point, in the lack of change in the RDMA interface, this
+> is pretty much what we can do to support device resets...
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
 -- 
 Doug Ledford <dledford at redhat.com>
@@ -37,4 +44,4 @@ Name: signature.asc
 Type: application/pgp-signature
 Size: 833 bytes
 Desc: This is a digitally signed message part
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180419/05204a93/attachment.sig>
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180419/cfab87ee/attachment.sig>
