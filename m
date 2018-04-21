@@ -1,73 +1,28 @@
-From: gvrose8192@gmail.com (Gregory Rose)
-Date: Fri, 20 Apr 2018 15:10:15 -0700
-Subject: [pci PATCH v8 2/4] ena: Migrate over to unmanaged SR-IOV support
-In-Reply-To: <20180420162841.46077.17967.stgit@ahduyck-green-test.jf.intel.com>
-References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
- <20180420162841.46077.17967.stgit@ahduyck-green-test.jf.intel.com>
-Message-ID: <411245b6-fb34-0494-aa5d-1ed5bc69a18c@gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 21 Apr 2018 09:05:16 +0200
+Subject: [virtio-dev] [pci PATCH v7 2/5] virtio_pci: Add support for
+ unmanaged SR-IOV on virtio_pci devices
+In-Reply-To: <20180420180839-mutt-send-email-mst@kernel.org>
+References: <20180315184132.3102.90947.stgit@localhost.localdomain>
+ <20180316183042-mutt-send-email-mst@kernel.org>
+ <CAKgT0UfgZ2gAdiAbCe4MTOr3o9cqq1q-mykCQsw68p2F-QEC8g@mail.gmail.com>
+ <20180403161151-mutt-send-email-mst@kernel.org>
+ <CAKgT0UfeSmG=xsd6sTkg4cOMnZ0QiqtCRDt4PynpF3d6nvvFCA@mail.gmail.com>
+ <20180403212503-mutt-send-email-mst@kernel.org>
+ <CAKgT0Ude79FYrK4qA0OKRJ1NackyqPi-hZ8Zh3WSdLDFxoOosQ@mail.gmail.com>
+ <20180420030640-mutt-send-email-mst@kernel.org>
+ <CAKgT0Ucpw9D1u8MYoEX5KOij6sxs-5O9gPFTmOVq=Dgt=HUJ=g@mail.gmail.com>
+ <20180420180839-mutt-send-email-mst@kernel.org>
+Message-ID: <20180421070516.GA24431@lst.de>
 
-On 4/20/2018 9:30 AM, Alexander Duyck wrote:
-> Instead of implementing our own version of a SR-IOV configuration stub in
-> the ena driver we can just reuse the existing
-> pci_sriov_configure_simple function.
->
-> Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
-> ---
->
-> v5: Replaced call to pci_sriov_configure_unmanaged with
->          pci_sriov_configure_simple
-> v6: Dropped "#ifdef" checks for IOV wrapping sriov_configure definition
-> v7: No change
->
->   drivers/net/ethernet/amazon/ena/ena_netdev.c |   28 +-------------------------
->   1 file changed, 1 insertion(+), 27 deletions(-)
->
-> diff --git a/drivers/net/ethernet/amazon/ena/ena_netdev.c b/drivers/net/ethernet/amazon/ena/ena_netdev.c
-> index a822e70..f2af87d 100644
-> --- a/drivers/net/ethernet/amazon/ena/ena_netdev.c
-> +++ b/drivers/net/ethernet/amazon/ena/ena_netdev.c
-> @@ -3386,32 +3386,6 @@ static int ena_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   }
->   
->   /*****************************************************************************/
-> -static int ena_sriov_configure(struct pci_dev *dev, int numvfs)
-> -{
-> -	int rc;
-> -
-> -	if (numvfs > 0) {
-> -		rc = pci_enable_sriov(dev, numvfs);
-> -		if (rc != 0) {
-> -			dev_err(&dev->dev,
-> -				"pci_enable_sriov failed to enable: %d vfs with the error: %d\n",
-> -				numvfs, rc);
-> -			return rc;
-> -		}
-> -
-> -		return numvfs;
-> -	}
-> -
-> -	if (numvfs == 0) {
-> -		pci_disable_sriov(dev);
-> -		return 0;
-> -	}
-> -
-> -	return -EINVAL;
-> -}
-> -
-> -/*****************************************************************************/
-> -/*****************************************************************************/
->   
->   /* ena_remove - Device Removal Routine
->    * @pdev: PCI device information struct
-> @@ -3526,7 +3500,7 @@ static int ena_resume(struct pci_dev *pdev)
->   	.suspend    = ena_suspend,
->   	.resume     = ena_resume,
->   #endif
-> -	.sriov_configure = ena_sriov_configure,
-> +	.sriov_configure = pci_sriov_configure_simple,
->   };
->   
->   static int __init ena_init(void)
->
+On Fri, Apr 20, 2018@06:28:50PM +0300, Michael S. Tsirkin wrote:
+> But maybe it's not needed here.  I am not making the decisions myself.
+> Not too late: post to the TC list and let's see what the response is.
+> Without a feature bit you are making a change affecting all future
+> implementations without exception so the bar is a bit higher: you need
+> to actually post a spec text proposal not just a patch showing how to
+> use the feature, and TC needs to vote on it. Voting takes a week,
+> review a week or two depending on change complexity.
 
-Reviewed-by: Greg Rose <gvrose8192 at gmail.com>
+Also IFF the hardware already is out we can quirk it in the PCI ID
+table to manually set the feature in the driver as a workaround.
