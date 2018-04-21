@@ -1,28 +1,12 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 21 Apr 2018 09:05:16 +0200
-Subject: [virtio-dev] [pci PATCH v7 2/5] virtio_pci: Add support for
- unmanaged SR-IOV on virtio_pci devices
-In-Reply-To: <20180420180839-mutt-send-email-mst@kernel.org>
-References: <20180315184132.3102.90947.stgit@localhost.localdomain>
- <20180316183042-mutt-send-email-mst@kernel.org>
- <CAKgT0UfgZ2gAdiAbCe4MTOr3o9cqq1q-mykCQsw68p2F-QEC8g@mail.gmail.com>
- <20180403161151-mutt-send-email-mst@kernel.org>
- <CAKgT0UfeSmG=xsd6sTkg4cOMnZ0QiqtCRDt4PynpF3d6nvvFCA@mail.gmail.com>
- <20180403212503-mutt-send-email-mst@kernel.org>
- <CAKgT0Ude79FYrK4qA0OKRJ1NackyqPi-hZ8Zh3WSdLDFxoOosQ@mail.gmail.com>
- <20180420030640-mutt-send-email-mst@kernel.org>
- <CAKgT0Ucpw9D1u8MYoEX5KOij6sxs-5O9gPFTmOVq=Dgt=HUJ=g@mail.gmail.com>
- <20180420180839-mutt-send-email-mst@kernel.org>
-Message-ID: <20180421070516.GA24431@lst.de>
+Date: Sat, 21 Apr 2018 09:05:40 +0200
+Subject: [pci PATCH v8 1/4] pci: Add pci_sriov_configure_simple for PFs
+ that don't manage VF resources
+In-Reply-To: <20180420162814.46077.11939.stgit@ahduyck-green-test.jf.intel.com>
+References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
+ <20180420162814.46077.11939.stgit@ahduyck-green-test.jf.intel.com>
+Message-ID: <20180421070540.GB24431@lst.de>
 
-On Fri, Apr 20, 2018@06:28:50PM +0300, Michael S. Tsirkin wrote:
-> But maybe it's not needed here.  I am not making the decisions myself.
-> Not too late: post to the TC list and let's see what the response is.
-> Without a feature bit you are making a change affecting all future
-> implementations without exception so the bar is a bit higher: you need
-> to actually post a spec text proposal not just a patch showing how to
-> use the feature, and TC needs to vote on it. Voting takes a week,
-> review a week or two depending on change complexity.
+Looks good,
 
-Also IFF the hardware already is out we can quirk it in the PCI ID
-table to manually set the feature in the driver as a workaround.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
