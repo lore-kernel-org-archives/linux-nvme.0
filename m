@@ -1,48 +1,55 @@
-From: rjw@rjwysocki.net (Rafael J. Wysocki)
-Date: Mon, 23 Apr 2018 09:56:46 +0200
-Subject: [PATCH v1 0/2] PCI/ASPM: Tighten up ASPM L1.2 and LTR usage
-In-Reply-To: <152417080402.76853.4258398181136860884.stgit@bhelgaas-glaptop.roam.corp.google.com>
-References: <152417080402.76853.4258398181136860884.stgit@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <7042555.G8Gd07mvkX@aspire.rjw.lan>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 23 Apr 2018 13:08:19 +0300
+Subject: [PATCH 2/2] nvme: start keep alive timer when enabling the
+ controller
+In-Reply-To: <20180417152407.GB25823@lst.de>
+References: <20180415084741.4235-1-sagi@grimberg.me>
+ <20180415084741.4235-2-sagi@grimberg.me>
+ <fe43038e-001c-7468-be66-3df96d9d95e0@mellanox.com>
+ <9529fb23-ba35-0f41-7eda-2439612e1cd6@grimberg.me>
+ <20180417152407.GB25823@lst.de>
+Message-ID: <99c20baf-a871-faf0-4073-9958f959dfe6@mellanox.com>
 
-On Thursday, April 19, 2018 11:05:19 PM CEST Bjorn Helgaas wrote:
-> The ASPM L1.2 substate depends on LTR information.  Per the PCI
-> Firmware spec, the OS is supposed to negotiate with the platform for
-> control of the LTR feature, but previously we didn't do that.
-> 
-> In addition, we must not enable LTR in an endpoint unless the Root
-> Complex and all intermediate switches also support LTR.  We already
-> took care of that in pci_configure_ltr(), but we didn't ensure that
-> LTR was enabled before allowing ASPM L1.2 to be enabled.
-> 
-> These patches fix both of these issues.  Or rather, they *should* fix
-> them.  I don't have hardware to test them, so any help with testing
-> would be appreciated.
-> 
-> I think the most likely issue would be a platform where the hardware
-> supports LTR and the ASPM L1.2 substate, but the BIOS doesn't support
-> LTR in _OSC.  In that case, we previously could have enabled ASPM L1.2
-> (though it probably wouldn't work correctly), and after these patches,
-> we should not enable ASPM L1.2.
-> 
-> You can look for issues by comparing dmesg and "lspci -vv" output
-> before and after these patches.
-> 
-> It would also be interesting to collect an acpidump from platforms
-> that support LTR, even if there's no endpoint that supports ASPM L1.2.
-> The acpidump should show that _OSC supports LTR.
-> 
-> I included some NVMe folks because these were motivated by Srinath's
-> recent report of LTR and ASPM issues with a Samsung NVMe SSD
-> Controller SM961/PM961 device, so this is sort of FYI in case you see
-> similar issues or are in a position to test these.
-> 
-> ---
-> 
-> Bjorn Helgaas (2):
->       PCI/ASPM: Disable ASPM L1.2 Substate if we don't have LTR
->       PCI/ACPI: Request LTR control from platform before using it
+Hi Sagi/Christoph,
 
-For both:
+On 4/17/2018 6:24 PM, Christoph Hellwig wrote:
+> On Sun, Apr 15, 2018@01:17:58PM +0300, Sagi Grimberg wrote:
+>>> Christoph suggested to add the keep-alive stop to the disable/shutdown (I
+>>> guess we need to add it to both, right ?) and in the target side to start
+>>> expecting also once ctrl is enabled and stop when disabled.
+>>
+>> I don't necessarily think we need to. Also, its better to do this sooner
+>> rather than later (stop_ctrl happens before disable/shutdown) and also,
+>> disable/shutdown might not even execute if the transport is not connected.
+> 
+> I was suggesting to do it in disable as that is the point at which
+> we can't send one for sure.  But yes, I suspect stop_ctrl is even
+> better due to the reasons Sagi stated.  Sorry for the confusion.
+> 
 
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki at intel.com>
+Actually after running more tests in our lab we found out that it must 
+be symmetric (similar to my V1 that started the discussion).
+For example a situation that we have many subsystems per portal.
+This will create many controllers and QPs (in RDMA transport).
+If we unload nvme_rdma module we'll call for each ctrl:
+nvme_delete_ctrl
+     queue nvme_delete_ctrl_work
+         nvme_stop_ctrl
+             nvme_stop_keep_alive
+
+
+in this situation we'll stop the keep_alive mechanism at the initiator
+before starting the IO queues destruction, that may take a while during 
+high load. In this situation the KA timer can expire in the target side 
+and this will follow ctrl destruction (QPs are freed...).
+Let's continue in the initiator side:
+we'll try to call nvme_shutdown_ctrl that reg_write32/reg_read32 from 
+the ctrl that was already destroyed in the target side. This may cause 
+the __nvme_submit_sync_cmd to stuck forever... (may stuck if we return 
+BLK_EH_RESET_TIMER in nvme_rdma_timeout callback, as was proposed in 
+IsraelR patchset that is disscussed in the mailing list and on hold now).
+
+So I suggest we re-think about the KA fix and make the start/stop keep 
+alive as symmetric as possible, even if we'll need to update RDMA/FC code...
+
+-Max.
