@@ -1,132 +1,71 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 23 Apr 2018 17:30:35 -0600
-Subject: [PATCH v4 03/14] PCI/P2PDMA: Add PCI p2pmem dma mappings to adjust
- the bus offset
+Date: Mon, 23 Apr 2018 17:30:44 -0600
+Subject: [PATCH v4 12/14] nvmet: Introduce helper functions to allocate and
+ free request SGLs
 In-Reply-To: <20180423233046.21476-1-logang@deltatee.com>
 References: <20180423233046.21476-1-logang@deltatee.com>
-Message-ID: <20180423233046.21476-4-logang@deltatee.com>
+Message-ID: <20180423233046.21476-13-logang@deltatee.com>
 
-The DMA address used when mapping PCI P2P memory must be the PCI bus
-address. Thus, introduce pci_p2pmem_[un]map_sg() to map the correct
-addresses when using P2P memory.
+Add helpers to allocate and free the SGL in a struct nvmet_req:
 
-For this, we assume that an SGL passed to these functions contain all
-P2P memory or no P2P memory.
+int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq)
+void nvmet_req_free_sgl(struct nvmet_req *req)
+
+This will be expanded in a future patch to implement peer-to-peer
+memory DMAs and should be common with all target drivers. The presently
+unused 'sq' argument in the alloc function will be necessary to
+decide whether to use peer-to-peer memory and obtain the correct
+provider to allocate the memory.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/pci/p2pdma.c       | 51 ++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/memremap.h   |  1 +
- include/linux/pci-p2pdma.h | 13 ++++++++++++
- 3 files changed, 65 insertions(+)
+ drivers/nvme/target/core.c  | 18 ++++++++++++++++++
+ drivers/nvme/target/nvmet.h |  2 ++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 4daad6374869..ed9dce8552a2 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -190,6 +190,8 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
- 	pgmap->res.flags = pci_resource_flags(pdev, bar);
- 	pgmap->ref = &pdev->p2pdma->devmap_ref;
- 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
-+	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
-+		pci_resource_start(pdev, bar);
- 
- 	addr = devm_memremap_pages(&pdev->dev, pgmap);
- 	if (IS_ERR(addr)) {
-@@ -746,3 +748,52 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- 	pdev->p2pdma->p2pmem_published = publish;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index e95424f172fd..75d44bc3e8d3 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -575,6 +575,24 @@ void nvmet_req_execute(struct nvmet_req *req)
  }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-+
-+/**
-+ * pci_p2pdma_map_sg - map a PCI peer-to-peer sg for DMA
-+ * @dev: device doing the DMA request
-+ * @sg: scatter list to map
-+ * @nents: elements in the scatterlist
-+ * @dir: DMA direction
-+ *
-+ * Returns the number of SG entries mapped
-+ */
-+int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
-+		      enum dma_data_direction dir)
-+{
-+	struct dev_pagemap *pgmap;
-+	struct scatterlist *s;
-+	phys_addr_t paddr;
-+	int i;
-+
-+	/*
-+	 * p2pdma mappings are not compatible with devices that use
-+	 * dma_virt_ops.
-+	 */
-+	if (IS_ENABLED(CONFIG_DMA_VIRT_OPS) && dev->dma_ops == &dma_virt_ops)
-+		return 0;
-+
-+	for_each_sg(sg, s, nents, i) {
-+		pgmap = sg_page(s)->pgmap;
-+		paddr = sg_phys(s);
-+
-+		s->dma_address = paddr - pgmap->pci_p2pdma_bus_offset;
-+		sg_dma_len(s) = s->length;
-+	}
-+
-+	return nents;
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
-+
-+/**
-+ * pci_p2pdma_unmap_sg - unmap a PCI peer-to-peer sg for DMA
-+ * @dev: device doing the DMA request
-+ * @sg: scatter list to map
-+ * @nents: elements in the scatterlist
-+ * @dir: DMA direction
-+ */
-+void pci_p2pdma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
-+			 enum dma_data_direction dir)
-+{
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_unmap_sg);
-diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-index 9e907c338a44..1660f64ce96f 100644
---- a/include/linux/memremap.h
-+++ b/include/linux/memremap.h
-@@ -125,6 +125,7 @@ struct dev_pagemap {
- 	struct device *dev;
- 	void *data;
- 	enum memory_type type;
-+	u64 pci_p2pdma_bus_offset;
- };
+ EXPORT_SYMBOL_GPL(nvmet_req_execute);
  
- #ifdef CONFIG_ZONE_DEVICE
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index 80e931cb1235..0cde88341eeb 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -35,6 +35,10 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
-+int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
-+		      enum dma_data_direction dir);
-+void pci_p2pdma_unmap_sg(struct device *dev, struct scatterlist *sg, int nents,
-+			 enum dma_data_direction dir);
- #else /* CONFIG_PCI_P2PDMA */
- static inline int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar,
- 		size_t size, u64 offset)
-@@ -96,5 +100,14 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
-+static inline int pci_p2pdma_map_sg(struct device *dev,
-+	struct scatterlist *sg, int nents, enum dma_data_direction dir)
++int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq)
 +{
++	req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
++	if (!req->sg)
++		return -ENOMEM;
++
 +	return 0;
 +}
-+static inline void pci_p2pdma_unmap_sg(struct device *dev,
-+	struct scatterlist *sg, int nents, enum dma_data_direction dir)
++EXPORT_SYMBOL_GPL(nvmet_req_alloc_sgl);
++
++void nvmet_req_free_sgl(struct nvmet_req *req)
 +{
++	sgl_free(req->sg);
++	req->sg = NULL;
++	req->sg_cnt = 0;
 +}
- #endif /* CONFIG_PCI_P2PDMA */
- #endif /* _LINUX_PCI_P2P_H */
++EXPORT_SYMBOL_GPL(nvmet_req_free_sgl);
++
+ static inline bool nvmet_cc_en(u32 cc)
+ {
+ 	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 15fd84ab21f8..10b162615a5e 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -273,6 +273,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ void nvmet_req_uninit(struct nvmet_req *req);
+ void nvmet_req_execute(struct nvmet_req *req);
+ void nvmet_req_complete(struct nvmet_req *req, u16 status);
++int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq);
++void nvmet_req_free_sgl(struct nvmet_req *req);
+ 
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+ 		u16 size);
 -- 
 2.11.0
