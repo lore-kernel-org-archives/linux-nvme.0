@@ -1,76 +1,85 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 24 Apr 2018 19:22:15 +0200
-Subject: [PATCH 04/20] nvmet: initialize file handle and req fields
-In-Reply-To: <20180418190011.3973-5-chaitanya.kulkarni@wdc.com>
+Date: Tue, 24 Apr 2018 19:29:25 +0200
+Subject: [PATCH 05/20] nvmet: add NVMe I/O command handlers for file
+In-Reply-To: <20180418190011.3973-6-chaitanya.kulkarni@wdc.com>
 References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
- <20180418190011.3973-5-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180424172215.GB30391@lst.de>
+ <20180418190011.3973-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180424172925.GC30391@lst.de>
 
-> +static int nvmet_ns_enable_file(struct nvmet_ns *ns)
+> +#define NR_BVEC(req)	(req->data_len / PAGE_SIZE)
+
+Don't we need to round up here instead of rounding down for
+transfers that aren't a multiple of PAGE_SIZE?
+
+Also given that there is a single user only it might make more sense
+to just open code it.
+
+> +static void nvmet_file_io_complete(struct kiocb *iocb, long ret, long ret2)
 > +{
-> +	int ret;
-> +	int flags = O_RDWR | O_LARGEFILE | O_DIRECT;
-> +	struct kstat stat;
+> +	struct nvmet_req *req = container_of(iocb, struct nvmet_req, iocb);
 > +
-> +	ns->filp = filp_open(ns->device_path, flags, 0);
-> +	if (!ns->filp || IS_ERR(ns->filp)) {
-> +		pr_err("failed to open file %s: (%ld)\n",
-> +				ns->device_path, PTR_ERR(ns->bdev));
-> +		ns->filp = NULL;
-> +		return -1;
-> +	}
+> +	kfree(req->bvec);
+> +	req->bvec = NULL;
+
+There should be no need to set req->bvec to NULL there.
+
+> +static void nvmet_execute_rw_file(struct nvmet_req *req)
+> +{
+> +	struct iov_iter iter;
+> +	struct sg_mapping_iter miter;
+> +	loff_t pos;
+> +	ssize_t len = 0, ret;
+> +	int ki_flags = IOCB_DIRECT;
+> +	int bv_cnt = 0, rw = READ;
+
+Maybe do a simple bool is_write instead of using the nasty
+legacy READ/WRITE defines?
+
+> +	req->bvec = kmalloc_array(NR_BVEC(req), sizeof(struct bio_vec),
+> +			GFP_KERNEL);
+> +	if (!req->bvec)
+> +		goto out;
+
+Any chance to reuse the inline_bvec for small requests?
+
 > +
-> +	ret = nvmet_vfs_stat(ns->device_path, &stat);
-> +	if (ret)
-> +		goto err;
+> +	sg_miter_start(&miter, req->sg, req->sg_cnt, SG_MITER_FROM_SG);
+> +	while (sg_miter_next(&miter)) {
+> +		req->bvec[bv_cnt].bv_page = miter.page;
+> +		req->bvec[bv_cnt].bv_offset = miter.__offset;
 
-Just call vfs_getattr on file->f_path instead of this nvmet_vfs_stat
-helper that isn't really needed.
+>From scatterlist.h:
 
-> +	ns->blksize_shift = ns->filp->f_inode->i_blkbits;
+	/* these are internal states, keep away */
+	unsigned int            __offset;       /* offset within page */
 
-Pleae use file_inode() to get an inode from the file instead of the
-direct reference to accomodate overlayfs and other stackable file
-systems.
+But given that the nvmet code allocated the scatterlist we already know
+each element is only a page long at maximum.  So a simple for_each_sg
+loop as for the block backend will probably do it.
 
+> +	pos = le64_to_cpu(req->cmd->rw.slba) * (1 << (req->ns->blksize_shift));
+
+The block backend does:
+
+	sector = le64_to_cpu(req->cmd->rw.slba);
+        sector <<= (req->ns->blksize_shift - 9);
+
+which should be more efficient as it avoids the multiplication.
+
+> +	if (rw == WRITE)
+> +		ret = call_write_iter(req->ns->filp, &req->iocb, &iter);
+> +	else
+> +		ret = call_read_iter(req->ns->filp, &req->iocb, &iter);
+
+Please call the read_iter/write_iter methods directly.
+
+> +static void nvmet_execute_flush_file(struct nvmet_req *req)
+> +{
+> +	int ret = vfs_fsync(req->ns->filp, 1);
 > +
-> +	return ret;
-> +err:
-> +	filp_close(ns->filp, NULL);
+> +	nvmet_req_complete(req, ret);
+> +}
 
-This should be a fput instead.
-
->  static int nvmet_ns_dev_enable(struct nvmet_ns *ns)
->  {
-> -	return nvmet_ns_enable_blk(ns);
-> +	int ret = 0;
-> +	int ret1 = 0;
-> +
-> +	ret = nvmet_ns_enable_blk(ns);
-> +	if (ret)
-> +		ret1 = nvmet_ns_enable_file(ns);
-> +
-> +	if (ret && ret1)
-> +		return -1;
-
-I don't think there is any good reason to keep the blk open return
-value, e.g. this could simpl be:
-
-	ret = nvmet_ns_enable_blk(ns);
-	if (ret)
-		ret = nvmet_ns_enable_file(ns);
-
-The file open return value is probably more useful in general.
-
->  }
->  
->  static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
-> @@ -299,7 +351,11 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
->  	if (ns->bdev) {
->  		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
->  		ns->bdev = NULL;
-> -	}
-> +	} else if (ns->filp) {
-> +		filp_close(ns->filp, NULL);
-
-fput again.
+This will work ok but block the caller frontend thread for possibly
+a long time.  Offloading this to a simple schedule_work might be
+beneficial.
