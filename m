@@ -1,25 +1,41 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 24 Apr 2018 10:12:49 -0600
-Subject: [PATCH blktests 1/3] nvme: fix counting available ports
-Message-ID: <20180424161251.6502-1-jthumshirn@suse.de>
+Date: Tue, 24 Apr 2018 10:12:50 -0600
+Subject: [PATCH blktests 2/3] nvme: add uuid parameter to
+ _create_nvmet_subsystem
+In-Reply-To: <20180424161251.6502-1-jthumshirn@suse.de>
+References: <20180424161251.6502-1-jthumshirn@suse.de>
+Message-ID: <20180424161251.6502-2-jthumshirn@suse.de>
+
+Add an optional UUID parameter to _create_nvmet_subsystem().
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- common/nvme | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ common/nvme | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/common/nvme b/common/nvme
-index 400f66690f52..506612f27297 100644
+index 506612f27297..c54b1eb8cee2 100644
 --- a/common/nvme
 +++ b/common/nvme
-@@ -29,7 +29,7 @@ _create_nvmet_port() {
- 	local trtype="$1"
+@@ -46,13 +46,19 @@ _remove_nvmet_port() {
+ _create_nvmet_subsystem() {
+ 	local nvmet_subsystem="$1"
+ 	local blkdev="$2"
++	local uuid="00000000-0000-0000-0000-000000000000"
  	local nvmet_cfs="/sys/kernel/config/nvmet/"
+ 	local cfs_path="${nvmet_cfs}/subsystems/${nvmet_subsystem}"
  
--	local port=$(($(ls "${nvmet_cfs}" | wc -l) + 1))
-+	local port=$(($(ls "${nvmet_cfs}/ports" | wc -l) + 1))
++	if [[ $# -eq 3 ]]; then
++	    uuid="$3"
++	fi
++
+ 	mkdir -p "${cfs_path}"
+ 	echo 1 > "${cfs_path}/attr_allow_any_host"
+ 	mkdir "${cfs_path}/namespaces/1"
+ 	printf "%s" "$blkdev" > "${cfs_path}/namespaces/1/device_path"
++	printf "%s" "$uuid" > "${cfs_path}/namespaces/1/device_uuid"
+ 	printf 1 > "${cfs_path}/namespaces/1/enable"
+ }
  
- 	mkdir "${nvmet_cfs}/ports/${port}"
- 	echo "${trtype}" > "${nvmet_cfs}/ports/${port}/addr_trtype"
 -- 
 2.16.3
