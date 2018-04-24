@@ -1,41 +1,110 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 24 Apr 2018 10:12:50 -0600
-Subject: [PATCH blktests 2/3] nvme: add uuid parameter to
- _create_nvmet_subsystem
+Date: Tue, 24 Apr 2018 10:12:51 -0600
+Subject: [PATCH blktests 3/3] nvme: add a regression test for UUID ns
+ descriptops
 In-Reply-To: <20180424161251.6502-1-jthumshirn@suse.de>
 References: <20180424161251.6502-1-jthumshirn@suse.de>
-Message-ID: <20180424161251.6502-2-jthumshirn@suse.de>
+Message-ID: <20180424161251.6502-3-jthumshirn@suse.de>
 
-Add an optional UUID parameter to _create_nvmet_subsystem().
+Add a regression test for NVMe 1.3's UUID Namespace Descriptors.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- common/nvme | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/nvme/004     | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/004.out |  4 +++
+ 2 files changed, 78 insertions(+)
+ create mode 100755 tests/nvme/004
+ create mode 100644 tests/nvme/004.out
 
-diff --git a/common/nvme b/common/nvme
-index 506612f27297..c54b1eb8cee2 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -46,13 +46,19 @@ _remove_nvmet_port() {
- _create_nvmet_subsystem() {
- 	local nvmet_subsystem="$1"
- 	local blkdev="$2"
-+	local uuid="00000000-0000-0000-0000-000000000000"
- 	local nvmet_cfs="/sys/kernel/config/nvmet/"
- 	local cfs_path="${nvmet_cfs}/subsystems/${nvmet_subsystem}"
- 
-+	if [[ $# -eq 3 ]]; then
-+	    uuid="$3"
-+	fi
+diff --git a/tests/nvme/004 b/tests/nvme/004
+new file mode 100755
+index 000000000000..cc1c3fd41b25
+--- /dev/null
++++ b/tests/nvme/004
+@@ -0,0 +1,74 @@
++#!/bin/bash
++#
++# Regression test for commits d934f9848a77 ("nvme: provide UUID value to
++# userspace") and 6484f5d16f9d ("nvme: also provide a UUID in the WWID sysfs
++# attribute")
++#
++# Copyright (C) 2018 Johannes Thumshirn
++#
++# This program is free software: you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation, either version 3 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 +
- 	mkdir -p "${cfs_path}"
- 	echo 1 > "${cfs_path}/attr_allow_any_host"
- 	mkdir "${cfs_path}/namespaces/1"
- 	printf "%s" "$blkdev" > "${cfs_path}/namespaces/1/device_path"
-+	printf "%s" "$uuid" > "${cfs_path}/namespaces/1/device_uuid"
- 	printf 1 > "${cfs_path}/namespaces/1/enable"
- }
- 
++# TODO: fill in a very brief description of what this test does. The
++# description should complete the sentence "This test will...". For example,
++# "run a mixed read/write workload" would be a good description.
++DESCRIPTION="Test nvme and nvmet UUID NS descriptors"
++
++QUICK=1
++
++requires() {
++	_have_program nvme && _have_module nvme-loop && _have_module loop \
++	    && _have_configfs
++}
++
++_find_nvme_loop_dev() {
++	for dev in /sys/block/nvme*; do
++		dev="$(basename $dev)"
++		transport="$(cat /sys/block/${dev}/device/transport)"
++		if [[ "$transport" == "loop" ]]; then
++			echo "$dev"
++		fi
++	done
++}
++
++test() {
++	echo "Running ${TEST_NAME}"
++
++	modprobe nvmet
++	modprobe nvme-loop
++
++	local port
++	port="$(_create_nvmet_port "loop")"
++
++	truncate -s 1G "$TMPDIR/img"
++
++	local loop_dev
++	loop_dev="$(losetup -f --show "$TMPDIR/img")"
++
++	_create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
++	_add_nvmet_subsys_to_port "${port}" "blktests-subsystem-1"
++
++	nvme connect -t loop -n blktests-subsystem-1
++
++	local nvmedev="$(_find_nvme_loop_dev)"
++	cat /sys/block/${nvmedev}/uuid
++	cat /sys/block/${nvmedev}/wwid
++
++	_remove_nvmet_subsystem_from_port "${port}" "blktests-subsystem-1"
++	_remove_nvmet_subsystem "blktests-subsystem-1"
++	_remove_nvmet_port "${port}"
++	losetup -d "$loop_dev"
++	rm "$TMPDIR/img"
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/004.out b/tests/nvme/004.out
+new file mode 100644
+index 000000000000..53f911ecf329
+--- /dev/null
++++ b/tests/nvme/004.out
+@@ -0,0 +1,4 @@
++Running nvme/004
++91fdba0d-f87b-4c25-b80f-db7be1418b9e
++uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
++Test complete
 -- 
 2.16.3
