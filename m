@@ -1,16 +1,121 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 24 Apr 2018 19:41:02 +0200
-Subject: [PATCH 08/20] nvmet: configure file backed ns for sync IO
-In-Reply-To: <20180418190011.3973-9-chaitanya.kulkarni@wdc.com>
-References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
- <20180418190011.3973-9-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180424174102.GA30909@lst.de>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 24 Apr 2018 16:51:50 -0500
+Subject: [pci PATCH v8 0/4] Add support for unmanaged SR-IOV
+In-Reply-To: <CAKgT0Ufcq6aQW5zPzBUePO4R_BCa2B_aZ8U2=meOQeOvshZ=Mw@mail.gmail.com>
+References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
+ <20180421203437.GW28657@bhelgaas-glaptop.roam.corp.google.com>
+ <CAKgT0Ufcq6aQW5zPzBUePO4R_BCa2B_aZ8U2=meOQeOvshZ=Mw@mail.gmail.com>
+Message-ID: <20180424215150.GB72698@bhelgaas-glaptop.roam.corp.google.com>
 
-On Wed, Apr 18, 2018@02:59:59PM -0400, Chaitanya Kulkarni wrote:
-> This patch allows file backed namespaces to use newly
-> introduced configfs attribute sync, when sync is set
-> we open the file with O_SYNC and use the work queue
-> to execute the NVMe read/write commands.
+On Sat, Apr 21, 2018@05:22:27PM -0700, Alexander Duyck wrote:
+> On Sat, Apr 21, 2018@1:34 PM, Bjorn Helgaas <helgaas@kernel.org> wrote:
 
-So this adds support for buffered I/O.  But why do you force
-O_SYNC on everyone who uses buffered I/O?
+> > For example, I'm not sure what you mean by "devices where the PF is
+> > not capable of managing VF resources."
+> >
+> > It *sounds* like you're saying the hardware works differently on some
+> > devices, but I don't think that's what you mean.  I think you're
+> > saying something about which drivers are used for the PF and the VF.
+> 
+> That is sort of what I am saying.
+> 
+> So for example with ixgbe there is functionality which is controlled
+> in the MMIO space of the PF that affects the functionality of the VFs
+> that are generated on the device. The PF has to rearrange the
+> resources such as queues and interrupts on the device before it can
+> enable SR-IOV, and it could alter those later to limit what the VF is
+> capable of doing.
+> 
+> The model I am dealing with via this patch set has a PF that is not
+> much different than the VFs other than the fact that it has some
+> extended configuration space bits in place for SR-IOV, ARI, ACS, and
+> whatever other bits are needed in order to support spawning isolated
+> VFs.
+
+OK, thanks for the explanation, I think I understand what's going on
+now, correct me if I'm mistaken.  I added a hint about "PF" for Randy,
+too.
+
+These are on pci/virtualization for v4.18.
+
+
+commit 8effc395c209
+Author: Alexander Duyck <alexander.h.duyck at intel.com>
+Date:   Sat Apr 21 15:23:09 2018 -0500
+
+    PCI/IOV: Add pci_sriov_configure_simple()
+    
+    SR-IOV (Single Root I/O Virtualization) is an optional PCIe capability (see
+    PCIe r4.0, sec 9).  A PCIe Function with the SR-IOV capability is referred
+    to as a PF (Physical Function).  If SR-IOV is enabled on the PF, several
+    VFs (Virtual Functions) may be created.  The VFs can be individually
+    assigned to virtual machines, which allows them to share a single hardware
+    device while being isolated from each other.
+    
+    Some SR-IOV devices have resources such as queues and interrupts that must
+    be set up in the PF before enabling the VFs, so they require a PF driver to
+    do that.
+    
+    Other SR-IOV devices don't require any PF setup before enabling VFs.  Add a
+    pci_sriov_configure_simple() interface so PF drivers for such devices can
+    use it without repeating the VF-enabling code.
+    
+    Tested-by: Mark Rustad <mark.d.rustad at intel.com>
+    Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+    [bhelgaas: changelog, comment]
+    Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+    Reviewed-by: Greg Rose <gvrose8192 at gmail.com>
+    Reviewed-by: Christoph Hellwig <hch at lst.de>:wq
+
+commit a8ccf8a66663
+Author: Alexander Duyck <alexander.h.duyck at intel.com>
+Date:   Tue Apr 24 16:47:16 2018 -0500
+
+    PCI/IOV: Add pci-pf-stub driver for PFs that only enable VFs
+    
+    Some SR-IOV PF devices provide no functionality other than acting as a
+    means of enabling VFs.  For these devices, we want to enable the VFs and
+    assign them to guest virtual machines, but there's no need to have a driver
+    for the PF itself.
+    
+    Add a new pci-pf-stub driver to claim those PF devices and provide the
+    generic VF enable functionality.  An administrator can use the sysfs
+    "sriov_numvfs" file to enable VFs, then assign them to guests.
+    
+    For now I only have one example ID provided by Amazon in terms of devices
+    that require this functionality.  The general idea is that in the future we
+    will see other devices added as vendors come up with devices where the PF
+    is more or less just a lightweight shim used to allocate VFs.
+    
+    Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+    [bhelgaas: changelog]
+    Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+    Reviewed-by: Greg Rose <gvrose8192 at gmail.com>
+    Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+commit 115ddc491922
+Author: Alexander Duyck <alexander.h.duyck at intel.com>
+Date:   Tue Apr 24 16:47:22 2018 -0500
+
+    net: ena: Use pci_sriov_configure_simple() to enable VFs
+    
+    Instead of implementing our own version of a SR-IOV configuration stub in
+    the ena driver, use the existing pci_sriov_configure_simple() function.
+    
+    Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+    Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+    Reviewed-by: Greg Rose <gvrose8192 at gmail.com>
+    Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+commit 74d986abc20b
+Author: Alexander Duyck <alexander.h.duyck at intel.com>
+Date:   Tue Apr 24 16:47:27 2018 -0500
+
+    nvme-pci: Use pci_sriov_configure_simple() to enable VFs
+    
+    Instead of implementing our own version of a SR-IOV configuration stub in
+    the nvme driver, use the existing pci_sriov_configure_simple() function.
+    
+    Signed-off-by: Alexander Duyck <alexander.h.duyck at intel.com>
+    Signed-off-by: Bjorn Helgaas <bhelgaas at google.com>
+    Reviewed-by: Christoph Hellwig <hch at lst.de>
