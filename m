@@ -1,57 +1,72 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 Apr 2018 17:14:15 -0600
-Subject: [PATCH] fix failure when root filesystem is on nvme
-In-Reply-To: <alpine.LRH.2.02.1804241743050.19786@file01.intranet.prod.int.rdu2.redhat.com>
-References: <alpine.LRH.2.02.1804210942070.11467@file01.intranet.prod.int.rdu2.redhat.com>
- <20180421191608.GC19048@localhost.localdomain>
- <alpine.LRH.2.02.1804241743050.19786@file01.intranet.prod.int.rdu2.redhat.com>
-Message-ID: <20180424231415.GA31318@localhost.localdomain>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Wed, 25 Apr 2018 08:30:36 -0700
+Subject: [PATCH blktests 3/3] nvme: add a regression test for UUID ns
+ descriptops
+In-Reply-To: <20180424161251.6502-3-jthumshirn@suse.de>
+References: <20180424161251.6502-1-jthumshirn@suse.de>
+ <20180424161251.6502-3-jthumshirn@suse.de>
+Message-ID: <20180425153036.GA30070@vader>
 
-On Tue, Apr 24, 2018@06:18:54PM -0400, Mikulas Patocka wrote:
+On Tue, Apr 24, 2018@10:12:51AM -0600, Johannes Thumshirn wrote:
+> Add a regression test for NVMe 1.3's UUID Namespace Descriptors.
 > 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+Thanks, Johannes, applied. A couple of comments below for future
+reference.
+
+> ---
+>  tests/nvme/004     | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/004.out |  4 +++
+>  2 files changed, 78 insertions(+)
+>  create mode 100755 tests/nvme/004
+>  create mode 100644 tests/nvme/004.out
 > 
-> On Sat, 21 Apr 2018, Keith Busch wrote:
-> 
-> > On Sat, Apr 21, 2018@09:59:48AM -0400, Mikulas Patocka wrote:
-> >
-> > > There's a bug in the nvme block device driver that causes failure when we 
-> > > have no initramfs and the root filesystem is directly on nvme. The driver 
-> > > spawns a work item nvme_reset_work() in the nvme_wq workqueue, but doesn't 
-> > > wait for it. The result is that the kernel attempts to mount the root 
-> > > filesystem before nvme_reset_work() finishes and it panics because it 
-> > > can't find the root device.
-> > > 
-> > > It can be fixed with this simple patch (perhaps you can come up with a 
-> > > better patch that uses the asynchronous probing infrastructure?)
-> > 
-> > We probe asynchronously to fix other issues.
-> > 
-> > First is that boot takes way
-> > too long if you have a lot of devices when probing all of them serially,
-> > and then certain init systems kill the probe task after a certain time,
-> > breaking boot for those.
-> > 
-> > Is there something we can do for your setup to have the kernel wait for
-> > the root partition to be available instead of givinig up after pci probe?
-> 
-> Are different PCI NVME devices probed concurrently by the PCI API? (I 
-> can't try, I have just one) 
+> diff --git a/tests/nvme/004 b/tests/nvme/004
+> new file mode 100755
+> index 000000000000..cc1c3fd41b25
+> --- /dev/null
+> +++ b/tests/nvme/004
+> @@ -0,0 +1,74 @@
+> +#!/bin/bash
+> +#
+> +# Regression test for commits d934f9848a77 ("nvme: provide UUID value to
+> +# userspace") and 6484f5d16f9d ("nvme: also provide a UUID in the WWID sysfs
+> +# attribute")
+> +#
+> +# Copyright (C) 2018 Johannes Thumshirn
+> +#
+> +# This program is free software: you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation, either version 3 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +
+> +# TODO: fill in a very brief description of what this test does. The
+> +# description should complete the sentence "This test will...". For example,
+> +# "run a mixed read/write workload" would be a good description.
 
-It does not.
+The TODO comment was leftover here, I removed it.
 
-> If yes, then the patch that I posted should be 
-> OK, because it wouldn't break this concurrency.
+> +DESCRIPTION="Test nvme and nvmet UUID NS descriptors"
+> +
+> +QUICK=1
+> +
+> +requires() {
+> +	_have_program nvme && _have_module nvme-loop && _have_module loop \
+> +	    && _have_configfs
+> +}
+> +
+> +_find_nvme_loop_dev() {
+> +	for dev in /sys/block/nvme*; do
+> +		dev="$(basename $dev)"
 
-But you're waiting for the wrong work queue: the driver's reset_work
-won't get your root filesystem. That is handled in the scan_work.
-
-> If not, then you need to make sure that wait_for_device_probe() waits for 
-> the NVME probe to finish. The kernel calls wait_for_device_probe() just 
-> before it attempts to mount the root filesystem. I don't know which of the 
-> kernel frameworks would be best suited to accomplish that. Perhaps the 
-> simplest solution would be to increment probe_count in nvme_probe and 
-> decrement it when the probe work item finishes - but it is not exported 
-> and you'd need to create helper functions in drivers/base/dd.c to do that.
-
-Will have to look into it, but I think an async_domain is going to be the
-right way to go and shouldn't require any changes outside nvme.
+There's some missing quoting around "$dev" here. There's also some more
+missing quoting, `make shellcheck` will catch this sort of thing.
