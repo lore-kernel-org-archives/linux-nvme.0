@@ -1,17 +1,11 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 25 Apr 2018 11:56:29 -0600
-Subject: [PATCH nvme-cli] fabrics: add option to supply
- keep-alive-timeout for connect-all
-In-Reply-To: <20180425174923.9387-1-jthumshirn@suse.de>
-References: <20180425174923.9387-1-jthumshirn@suse.de>
-Message-ID: <20180425175629.GA454@localhost.localdomain>
+From: joseph.r.gruher@intel.com (Gruher, Joseph R)
+Date: Wed, 25 Apr 2018 19:43:05 +0000
+Subject: NVMeoF Authentication
+Message-ID: <DE927C68B458BE418D582EC97927A9287FEC86DA@ORSMSX113.amr.corp.intel.com>
 
-On Wed, Apr 25, 2018@11:49:23AM -0600, Johannes Thumshirn wrote:
-> Currently we can't supply a keep-alive-timeout when doing a nvme
-> connect-all, but we can supply it when doing nvme connect.
-> 
-> Bring connect-all in line with connect.
-> 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Hi folks-
 
-Applied, thanks!
+Does the Linux kernel NVMeoF initiator and target implementation support the Authentication Send and Authentication Receive commands from the NVMeoF spec for NVMe in-band authentication?? If not, is there any plan to implement?? Or is some other authentication method (beyond access control list) available?
+
+Thanks,
+Joe
