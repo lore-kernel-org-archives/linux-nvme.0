@@ -1,41 +1,54 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Wed, 25 Apr 2018 08:58:39 -0700
-Subject: [PATCH blktests 3/3] nvme: add a regression test for UUID ns
- descriptops
-In-Reply-To: <20180425155211.o4bwaryvo3lo6l4i@linux-x5ow.site>
-References: <20180424161251.6502-1-jthumshirn@suse.de>
- <20180424161251.6502-3-jthumshirn@suse.de>
- <20180425153036.GA30070@vader>
- <20180425155211.o4bwaryvo3lo6l4i@linux-x5ow.site>
-Message-ID: <20180425155839.GC30070@vader>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 25 Apr 2018 11:49:23 -0600
+Subject: [PATCH nvme-cli] fabrics: add option to supply keep-alive-timeout for
+ connect-all
+Message-ID: <20180425174923.9387-1-jthumshirn@suse.de>
 
-On Wed, Apr 25, 2018@09:52:12AM -0600, Johannes Thumshirn wrote:
-> On Wed, Apr 25, 2018@08:30:36AM -0700, Omar Sandoval wrote:
-> [...]
-> > The TODO comment was leftover here, I removed it.
-> 
-> Oops sorry.
+Currently we can't supply a keep-alive-timeout when doing a nvme
+connect-all, but we can supply it when doing nvme connect.
 
-I should probably rename it `make check` and have it check for leftover
-TODO comments as well.
+Bring connect-all in line with connect.
 
-> > > +DESCRIPTION="Test nvme and nvmet UUID NS descriptors"
-> > > +
-> > > +QUICK=1
-> > > +
-> > > +requires() {
-> > > +	_have_program nvme && _have_module nvme-loop && _have_module loop \
-> > > +	    && _have_configfs
-> > > +}
-> > > +
-> > > +_find_nvme_loop_dev() {
-> > > +	for dev in /sys/block/nvme*; do
-> > > +		dev="$(basename $dev)"
-> > 
-> > There's some missing quoting around "$dev" here. There's also some more
-> > missing quoting, `make shellcheck` will catch this sort of thing.
-> 
-> Thanks, I'll try to not forget running shellcheck. Maybe we should set
-> up travis on github to catch this?
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ Documentation/nvme-connect-all.txt | 5 +++++
+ fabrics.c                          | 1 +
+ 2 files changed, 6 insertions(+)
 
-Good idea. I need to clean up some other errors that have snuck in.
+diff --git a/Documentation/nvme-connect-all.txt b/Documentation/nvme-connect-all.txt
+index 03adac56f9aa..217268f97559 100644
+--- a/Documentation/nvme-connect-all.txt
++++ b/Documentation/nvme-connect-all.txt
+@@ -14,6 +14,7 @@ SYNOPSIS
+ 		[--trsvcid=<trsvcid>      | -s <trsvcid>]
+ 		[--host-traddr=<traddr>   | -w <traddr>]
+ 		[--hostnqn=<hostnqn>      | -q <hostnqn>]
++		[--keep-alive-tmo=<#>     | -k <#>]
+ 		[--raw=<filename>         | -r <filename>]
+ 
+ DESCRIPTION
+@@ -86,6 +87,10 @@ OPTIONS
+ 	Overrides the default number of elements in the I/O queues created
+ 	by the driver.
+ 
++-k <#>::
++--keep-alive-tmo=<#>::
++	Overrides the default keep alive timeout (in seconds).
++
+ EXAMPLES
+ --------
+ * Connect to all records returned by the Discover Controller with IP4 address
+diff --git a/fabrics.c b/fabrics.c
+index 62bd3be1636d..7e9d56c61c45 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -821,6 +821,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"queue-size",  'Q', "LIST", CFG_STRING, &cfg.queue_size,  required_argument, "number of io queue elements to use (default 128)" },
+ 		{"nr-io-queues",'i', "LIST", CFG_STRING, &cfg.nr_io_queues,required_argument, "number of io queues to use (default is core count)" },
+ 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
++		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{NULL},
+ 	};
+ 
+-- 
+2.16.3
