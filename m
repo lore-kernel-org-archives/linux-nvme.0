@@ -1,124 +1,172 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Apr 2018 15:49:56 -0600
-Subject: [PATCH 2/2] nvme/multipath: Fix multipath disabled naming collisions
-In-Reply-To: <20180426214956.3377-1-keith.busch@intel.com>
-References: <20180426214956.3377-1-keith.busch@intel.com>
-Message-ID: <20180426214956.3377-3-keith.busch@intel.com>
+Date: Thu, 26 Apr 2018 16:52:24 -0600
+Subject: [PATCHv2] Add surprise removal block test
+Message-ID: <20180426225224.3601-1-keith.busch@intel.com>
 
-When CONFIG_NVME_MULTIPATH is set, but we're not using nvme to multipath,
-namespaces with multiple paths were not creating unique names due to
-reusing the same instance number from the namespace's head.
+This test is for PCI devices in a surprise remove capable slot and tests
+how well the drivers and kernel handle losing the link to that device.
 
-This patch fixes this by falling back to the non-multipath naming method
-when the parameter disabled using multipath.
+The test finds the PCI Express Capability register of the pci slot a block
+device is in, then at offset 0x10 (the Link Control Register) writes a 1
+to bit 4 (Link Disable). This occurs unbeknownst to any of the drivers,
+just like a surprise removal. Drivers will find out about this through
+the pcie hotplug handler, at which point it's too late to communicate
+with the device, therfore testing how well we cope with the condition.
 
-Reported-by: Mike Snitzer <snitzer at redhat.com>
+The link is reenabled at the end of the test.
+
+Note, this is currently incompatible with NVMe Subsystems when
+CONFIG_NVME_MULTIPATH since the /dev/nvme*n* names don't have a pci
+parent in sysfs.
+
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c      | 26 +-------------------------
- drivers/nvme/host/multipath.c | 22 ++++++++++++++++++++++
- drivers/nvme/host/nvme.h      | 12 ++++++++++++
- 3 files changed, 35 insertions(+), 25 deletions(-)
+v1 -> v2:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 127a9cbf3314..a3771c5729f5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2998,31 +2998,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	if (nvme_init_ns_head(ns, nsid, id))
- 		goto out_free_id;
- 	nvme_setup_streams_ns(ctrl, ns);
--	
--#ifdef CONFIG_NVME_MULTIPATH
--	/*
--	 * If multipathing is enabled we need to always use the subsystem
--	 * instance number for numbering our devices to avoid conflicts
--	 * between subsystems that have multiple controllers and thus use
--	 * the multipath-aware subsystem node and those that have a single
--	 * controller and use the controller node directly.
--	 */
--	if (ns->head->disk) {
--		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
--				ctrl->cntlid, ns->head->instance);
--		flags = GENHD_FL_HIDDEN;
--	} else {
--		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
--				ns->head->instance);
--	}
--#else
--	/*
--	 * But without the multipath code enabled, multiple controller per
--	 * subsystems are visible as devices and thus we cannot use the
--	 * subsystem instance.
--	 */
--	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
--#endif
-+	nvme_set_disk_name(disk_name, ns, ctrl, &flags);
- 
- 	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
- 		if (nvme_nvm_register(ns, disk_name, node)) {
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 3ded009e7631..d7b664ae5923 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -19,6 +19,28 @@ module_param(multipath, bool, 0444);
- MODULE_PARM_DESC(multipath,
- 	"turn on native support for multiple controllers per subsystem");
- 
-+/*
-+ * If multipathing is enabled we need to always use the subsystem instance
-+ * number for numbering our devices to avoid conflicts between subsystems that
-+ * have multiple controllers and thus use the multipath-aware subsystem node
-+ * and those that have a single controller and use the controller node
-+ * directly.
-+ */
-+void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-+			struct nvme_ctrl *ctrl, int *flags)
-+{
-+	if (!multipath) {
-+		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
-+	} else if (ns->head->disk) {
-+		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
-+				ctrl->cntlid, ns->head->instance);
-+		*flags = GENHD_FL_HIDDEN;
-+	} else {
-+		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
-+				ns->head->instance);
-+	}
-+}
-+
- void nvme_failover_req(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 061fecfd44f5..7ded7a51c430 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -436,6 +436,8 @@ extern const struct attribute_group nvme_ns_id_attr_group;
- extern const struct block_device_operations nvme_ns_head_ops;
- 
- #ifdef CONFIG_NVME_MULTIPATH
-+void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-+			struct nvme_ctrl *ctrl, int *flags);
- void nvme_failover_req(struct request *req);
- bool nvme_req_needs_failover(struct request *req, blk_status_t error);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
-@@ -461,6 +463,16 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+  Incorporated feedback from Omar and Johannes
+
+  Included the 016.out file
+
+  Updated 'fio' parameters so we ignore the errors that will inevitably
+  occur with this test so they don't muck with the output.
+
+Just an example of what to expect in a dmesg on a capable platform:
+
+ [ 77.850030] run blktests block/016 at 2018-04-26 15:40:19
+ [ 82.890360] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Link Down
+ [ 82.911102] nvme2n1: detected capacity change from 400088457216 to 0
+ [ 82.911117] print_req_error: 67 callbacks suppressed
+ [ 82.911120] print_req_error: I/O error, dev nvme2n1, sector 12481728
+ [ 82.911156] print_req_error: I/O error, dev nvme2n1, sector 315938512
+ [ 82.911163] print_req_error: I/O error, dev nvme2n1, sector 86586144
+ [ 82.911171] print_req_error: I/O error, dev nvme2n1, sector 297252456
+ [ 82.911175] print_req_error: I/O error, dev nvme2n1, sector 266779224
+ [ 82.911179] print_req_error: I/O error, dev nvme2n1, sector 57643584
+ [ 82.911182] print_req_error: I/O error, dev nvme2n1, sector 561615936
+ [ 82.911187] print_req_error: I/O error, dev nvme2n1, sector 199511192
+ [ 82.911191] print_req_error: I/O error, dev nvme2n1, sector 613858480
+ [ 82.911194] print_req_error: I/O error, dev nvme2n1, sector 2027136
+ [ 87.918781] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Card not present
+ [ 87.937184] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Card present
+ [ 87.952707] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Link Up
+ [ 88.064187] pci 0000:5e:00.0: [8086:0953] type 00 class 0x010802
+ [ 88.064216] pci 0000:5e:00.0: reg 0x10: [mem 0x00000000-0x00003fff 64bit]
+ [ 88.064242] pci 0000:5e:00.0: reg 0x30: [mem 0x00000000-0x0000ffff pref]
+ [ 88.064251] pci 0000:5e:00.0: enabling Extended Tags
+ [ 88.064491] pci 0000:5e:00.0: BAR 6: assigned [mem 0xb8800000-0xb880ffff pref]
+ [ 88.064495] pci 0000:5e:00.0: BAR 0: assigned [mem 0xb8810000-0xb8813fff 64bit]
+ [ 88.064506] pcieport 0000:5d:00.0: PCI bridge to [bus 5e]
+ [ 88.064510] pcieport 0000:5d:00.0:   bridge window [io 0x8000-0x8fff]
+ [ 88.064515] pcieport 0000:5d:00.0:   bridge window [mem 0xb8800000-0xb89fffff]
+ [ 88.064519] pcieport 0000:5d:00.0:   bridge window [mem 0x38c001000000-0x38c002ffffff 64bit pref]
+ [ 88.064987] nvme nvme2: pci function 0000:5e:00.0
+ [ 88.065060] nvme 0000:5e:00.0: enabling device (0100 -> 0102)
+
+
+ common/rc           | 19 +++++++++++++++++++
+ tests/block/016     | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/block/016.out |  2 ++
+ 3 files changed, 75 insertions(+)
+ create mode 100755 tests/block/016
+ create mode 100644 tests/block/016.out
+
+diff --git a/common/rc b/common/rc
+index 1bd0374..8115b66 100644
+--- a/common/rc
++++ b/common/rc
+@@ -171,6 +171,25 @@ _get_pci_dev_from_blkdev() {
+ 		tail -1
  }
  
- #else
-+/*
-+ * Without the multipath code enabled, multiple controller per subsystems are
-+ * visible as devices and thus we cannot use the subsystem instance.
-+ */
-+static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
-+				      struct nvme_ctrl *ctrl, int *flags)
-+{
-+	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
++_get_pci_parent_from_blkdev() {
++	readlink -f "$TEST_DEV_SYSFS/device" | \
++		grep -Eo '[0-9a-f]{4,5}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-9a-f]' | \
++		tail -2 | head -1
 +}
 +
- static inline void nvme_failover_req(struct request *req)
- {
- }
++_test_dev_in_hotplug_slot() {
++	local parent
++	parent="$(_get_pci_parent_from_blkdev)"
++
++	local slt_cap
++	slt_cap="$(setpci -s "${parent}" CAP_EXP+14.w)"
++	if [ $((0x${slt_cap} & 0x20)) -eq 0 ]; then
++		SKIP_REASON="$TEST_DEV is not in a hot pluggable slot"
++		return 1
++	fi
++	return 0
++}
++
+ # Older versions of xfs_io use pwrite64 and such, so the error messages won't
+ # match current versions of xfs_io. See c52086226bc6 ("filter: xfs_io output
+ # has dropped "64" from error messages") in xfstests.
+diff --git a/tests/block/016 b/tests/block/016
+new file mode 100755
+index 0000000..0d54238
+--- /dev/null
++++ b/tests/block/016
+@@ -0,0 +1,54 @@
++#!/bin/bash
++#
++# Do disable PCI device while doing I/O to it
++#
++# Copyright (C) 2018 Keith Busch <keith.busch at intel.com>
++#
++# This program is free software: you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation, either version 3 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++DESCRIPTION="break PCI link device while doing I/O"
++TIMED=1
++
++requires() {
++	_have_fio && _have_program setpci
++}
++
++device_requires() {
++	_test_dev_is_pci && _test_dev_in_hotplug_slot
++}
++
++test_device() {
++	echo "Running ${TEST_NAME}"
++
++	local parent
++	local TIMEOUT
++
++	parent="$(_get_pci_parent_from_blkdev)"
++
++	# start fio job
++	TIMEOUT=10
++	_run_fio_rand_io --filename="$TEST_DEV" --time_based \
++		--continue_on_error=io 2> /dev/null &
++	sleep 5
++
++	# masks  the slot's link disable bit to 'on'
++	setpci -s "${parent}" CAP_EXP+10.w=10:10
++	sleep 5
++
++	# masks the slot's link disable bit back to 'off'
++	setpci -s "${parent}" CAP_EXP+10.w=00:10
++	sleep 5
++
++	echo "Test complete"
++}
+diff --git a/tests/block/016.out b/tests/block/016.out
+new file mode 100644
+index 0000000..e851e8e
+--- /dev/null
++++ b/tests/block/016.out
+@@ -0,0 +1,2 @@
++Running block/016
++Test complete
 -- 
 2.14.3
