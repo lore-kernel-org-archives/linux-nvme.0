@@ -1,30 +1,41 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 26 Apr 2018 14:21:36 -0600
-Subject: [PATCH] nvme: change order of qid and cmdid in completion trace
-In-Reply-To: <3e927f7f-fa84-1792-b80e-bf5679e71bcf@kernel.dk>
-References: <20180426194926.18767-1-jthumshirn@suse.de>
- <3e927f7f-fa84-1792-b80e-bf5679e71bcf@kernel.dk>
-Message-ID: <20180426202136.owimd773x5p5upxn@linux-x5ow.site>
+Date: Thu, 26 Apr 2018 14:25:15 -0600
+Subject: [PATCH v2] nvme: change order of qid and cmdid in completion trace
+Message-ID: <20180426202515.20206-1-jthumshirn@suse.de>
 
-On Thu, Apr 26, 2018@02:01:59PM -0600, Jens Axboe wrote:
-> On 4/26/18 1:49 PM, Johannes Thumshirn wrote:
-> > Keith reported that command submission and command completion
-> > tracepoints have the order of the cmdid and qid fileds swapped.
-> > 
-> > While it isn't easily possible to change the command submission
-> > tracepoint, as there is a regression test parsing it in blktests we
-> > can swap the command completion tracepoint to have the fileds aligned.
-> 
-> It also makes more sense to have qid before cmdid.
-> 
-> Also, fileds -> fields, in two spots.
+Keith reported that command submission and command completion
+tracepoints have the order of the cmdid and qid fields swapped.
 
-Args. Thanks
+While it isn't easily possible to change the command submission
+tracepoint, as there is a regression test parsing it in blktests we
+can swap the command completion tracepoint to have the fields aligned.
 
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reported-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Jens Axboe <axboe at kernel.dk>
+
+---
+* Changes to v1:
+- Changed two typos Jens spotted
+- Add Jens' R-b
+---
+ drivers/nvme/host/trace.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index ea91fccd1bc0..01390f0e1671 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -148,8 +148,8 @@ TRACE_EVENT(nvme_complete_rq,
+ 		    __entry->flags = nvme_req(req)->flags;
+ 		    __entry->status = nvme_req(req)->status;
+ 	    ),
+-	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
+-		      __entry->cid, __entry->qid, __entry->result,
++	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __entry->qid, __entry->cid, __entry->result,
+ 		      __entry->retries, __entry->flags, __entry->status)
+ 
+ );
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.16.3
