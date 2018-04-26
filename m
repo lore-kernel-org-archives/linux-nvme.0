@@ -1,32 +1,124 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Apr 2018 15:49:55 -0600
-Subject: [PATCH 1/2] nvme/multipath: Disable runtime writable enabling
- parameter
+Date: Thu, 26 Apr 2018 15:49:56 -0600
+Subject: [PATCH 2/2] nvme/multipath: Fix multipath disabled naming collisions
 In-Reply-To: <20180426214956.3377-1-keith.busch@intel.com>
 References: <20180426214956.3377-1-keith.busch@intel.com>
-Message-ID: <20180426214956.3377-2-keith.busch@intel.com>
+Message-ID: <20180426214956.3377-3-keith.busch@intel.com>
 
-We can't allow the user to change multipath settings at runtime, as this
-will create naming conflicts due to the different naming schemes used
-for each mode.
+When CONFIG_NVME_MULTIPATH is set, but we're not using nvme to multipath,
+namespaces with multiple paths were not creating unique names due to
+reusing the same instance number from the namespace's head.
 
+This patch fixes this by falling back to the non-multipath naming method
+when the parameter disabled using multipath.
+
+Reported-by: Mike Snitzer <snitzer at redhat.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c      | 26 +-------------------------
+ drivers/nvme/host/multipath.c | 22 ++++++++++++++++++++++
+ drivers/nvme/host/nvme.h      | 12 ++++++++++++
+ 3 files changed, 35 insertions(+), 25 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 127a9cbf3314..a3771c5729f5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2998,31 +2998,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	if (nvme_init_ns_head(ns, nsid, id))
+ 		goto out_free_id;
+ 	nvme_setup_streams_ns(ctrl, ns);
+-	
+-#ifdef CONFIG_NVME_MULTIPATH
+-	/*
+-	 * If multipathing is enabled we need to always use the subsystem
+-	 * instance number for numbering our devices to avoid conflicts
+-	 * between subsystems that have multiple controllers and thus use
+-	 * the multipath-aware subsystem node and those that have a single
+-	 * controller and use the controller node directly.
+-	 */
+-	if (ns->head->disk) {
+-		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
+-				ctrl->cntlid, ns->head->instance);
+-		flags = GENHD_FL_HIDDEN;
+-	} else {
+-		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
+-				ns->head->instance);
+-	}
+-#else
+-	/*
+-	 * But without the multipath code enabled, multiple controller per
+-	 * subsystems are visible as devices and thus we cannot use the
+-	 * subsystem instance.
+-	 */
+-	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
+-#endif
++	nvme_set_disk_name(disk_name, ns, ctrl, &flags);
+ 
+ 	if ((ctrl->quirks & NVME_QUIRK_LIGHTNVM) && id->vs[0] == 0x1) {
+ 		if (nvme_nvm_register(ns, disk_name, node)) {
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 956e0b8e9c4d..3ded009e7631 100644
+index 3ded009e7631..d7b664ae5923 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -15,7 +15,7 @@
- #include "nvme.h"
- 
- static bool multipath = true;
--module_param(multipath, bool, 0644);
-+module_param(multipath, bool, 0444);
+@@ -19,6 +19,28 @@ module_param(multipath, bool, 0444);
  MODULE_PARM_DESC(multipath,
  	"turn on native support for multiple controllers per subsystem");
  
++/*
++ * If multipathing is enabled we need to always use the subsystem instance
++ * number for numbering our devices to avoid conflicts between subsystems that
++ * have multiple controllers and thus use the multipath-aware subsystem node
++ * and those that have a single controller and use the controller node
++ * directly.
++ */
++void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
++			struct nvme_ctrl *ctrl, int *flags)
++{
++	if (!multipath) {
++		sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
++	} else if (ns->head->disk) {
++		sprintf(disk_name, "nvme%dc%dn%d", ctrl->subsys->instance,
++				ctrl->cntlid, ns->head->instance);
++		*flags = GENHD_FL_HIDDEN;
++	} else {
++		sprintf(disk_name, "nvme%dn%d", ctrl->subsys->instance,
++				ns->head->instance);
++	}
++}
++
+ void nvme_failover_req(struct request *req)
+ {
+ 	struct nvme_ns *ns = req->q->queuedata;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 061fecfd44f5..7ded7a51c430 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -436,6 +436,8 @@ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
++void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
++			struct nvme_ctrl *ctrl, int *flags);
+ void nvme_failover_req(struct request *req);
+ bool nvme_req_needs_failover(struct request *req, blk_status_t error);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+@@ -461,6 +463,16 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ }
+ 
+ #else
++/*
++ * Without the multipath code enabled, multiple controller per subsystems are
++ * visible as devices and thus we cannot use the subsystem instance.
++ */
++static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
++				      struct nvme_ctrl *ctrl, int *flags)
++{
++	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->head->instance);
++}
++
+ static inline void nvme_failover_req(struct request *req)
+ {
+ }
 -- 
 2.14.3
