@@ -1,34 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Apr 2018 10:24:43 -0600
-Subject: [PATCH 2/2] nvme: pci: guarantee EH can make progress
-In-Reply-To: <20180426123956.26039-3-ming.lei@redhat.com>
-References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-3-ming.lei@redhat.com>
-Message-ID: <20180426162442.GB2624@localhost.localdomain>
+From: ckulkarnilinux@gmail.com (chaitany kulkarni)
+Date: Thu, 26 Apr 2018 09:53:12 -0700
+Subject: [PATCH 00/19] nvmet: add support for file backed namespaces
+In-Reply-To: <20180424173336.GA30777@lst.de>
+References: <20180418190011.3973-1-chaitanya.kulkarni@wdc.com>
+ <20180424173336.GA30777@lst.de>
+Message-ID: <CAK0tqi=Q1khb-duvAPCpKNTUbzHufsDvJ6vAQKptkW4WEMbGVQ@mail.gmail.com>
 
-On Thu, Apr 26, 2018@08:39:56PM +0800, Ming Lei wrote:
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 5d05a04f8e72..1e058deb4718 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1265,6 +1265,20 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  	struct nvme_command cmd;
->  	u32 csts = readl(dev->bar + NVME_REG_CSTS);
->  
-> +	/*
-> +	 * If error recovery is in-progress and this request needn't to
-> +	 * be retried, return BLK_EH_HANDLED immediately, so that error
-> +	 * handler kthread can always make progress since we still need
-> +	 * to send FAILFAST request to admin queue for handling error.
-> +	 */
-> +	spin_lock(&dev->eh_lock);
-> +	if (dev->eh_in_recovery && blk_noretry_request(req)) {
-> +		spin_unlock(&dev->eh_lock);
-> +		nvme_req(req)->status |= NVME_SC_DNR;
-> +		return BLK_EH_HANDLED;
-> +	}
-> +	spin_unlock(&dev->eh_lock);
+Thanks for the review comments.
 
-This doesn't really look safe. Even if a command times out, the
-controller still owns that command, and calling it done while pci bus
-master enable is still set can cause memory corruption.
+I'll send the O_DIRECT single patch first with your review comments
+incorporated.
+
+On Tue, Apr 24, 2018@10:33 AM, Christoph Hellwig <hch@lst.de> wrote:
+> Hi Chaitanya,
+>
+> I've been through the patches that implement the simple O_DIRECT
+> file support.  I think all these can in fact be merged into a single
+> patch and would be easier to review.  Can you resend just that merged
+> patch for the next respin?  I think we want to review the buffered
+> I/O support and the namespace management support as incremental series
+> on top of that to keep things a little smaller and easier to review.
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
