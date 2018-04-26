@@ -1,18 +1,20 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Apr 2018 14:41:04 -0600
-Subject: [PATCH v2] nvme: change order of qid and cmdid in completion trace
-In-Reply-To: <20180426202515.20206-1-jthumshirn@suse.de>
-References: <20180426202515.20206-1-jthumshirn@suse.de>
-Message-ID: <20180426204104.GA3094@localhost.localdomain>
+Date: Thu, 26 Apr 2018 15:49:54 -0600
+Subject: [PATCH 0/2] nvme multipath naming fixes
+Message-ID: <20180426214956.3377-1-keith.busch@intel.com>
 
-On Thu, Apr 26, 2018@02:25:15PM -0600, Johannes Thumshirn wrote:
-> Keith reported that command submission and command completion
-> tracepoints have the order of the cmdid and qid fields swapped.
-> 
-> While it isn't easily possible to change the command submission
-> tracepoint, as there is a regression test parsing it in blktests we
-> can swap the command completion tracepoint to have the fields aligned.
+This is the update to the mpath naming conclict as discussed in thread:
 
-It's the little things that matter. :)
+http://lists.infradead.org/pipermail/linux-nvme/2018-April/016820.html
 
-Thanks, applied to nvme-4.18.
+Keith Busch (2):
+  nvme/multipath: Disable runtime writable enabling parameter
+  nvme/multipath: Fix multipath disabled naming collisions
+
+ drivers/nvme/host/core.c      | 26 +-------------------------
+ drivers/nvme/host/multipath.c | 24 +++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      | 12 ++++++++++++
+ 3 files changed, 36 insertions(+), 26 deletions(-)
+
+-- 
+2.14.3
