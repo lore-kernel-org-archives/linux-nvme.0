@@ -1,30 +1,15 @@
-From: gthelen@google.com (Greg Thelen)
-Date: Wed, 25 Apr 2018 15:33:22 -0700
-Subject: [PATCH 2/5] nvmet-rdma: depend on INFINIBAND_ADDR_TRANS
-Message-ID: <20180425223322.206799-1-gthelen@google.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 25 Apr 2018 22:33:10 -0700
+Subject: NVMeoF Authentication
+In-Reply-To: <DE927C68B458BE418D582EC97927A9287FEC86DA@ORSMSX113.amr.corp.intel.com>
+References: <DE927C68B458BE418D582EC97927A9287FEC86DA@ORSMSX113.amr.corp.intel.com>
+Message-ID: <20180426053310.GA10842@infradead.org>
 
-NVME_TARGET_RDMA code depends on INFINIBAND_ADDR_TRANS provided symbols.
-So declare the kconfig dependency.  This is necessary to allow for
-enabling INFINIBAND without INFINIBAND_ADDR_TRANS.
+On Wed, Apr 25, 2018@07:43:05PM +0000, Gruher, Joseph R wrote:
+> Hi folks-
+> 
+> Does the Linux kernel NVMeoF initiator and target implementation support the Authentication Send and Authentication Receive commands from the NVMeoF spec for NVMe in-band authentication?? If not, is there any plan to implement?? Or is some other authentication method (beyond access control list) available?
 
-Signed-off-by: Greg Thelen <gthelen at google.com>
-Cc: Tarick Bedeir <tarick at google.com>
----
- drivers/nvme/target/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 5f4f8b16685f..3c7b61ddb0d1 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -27,7 +27,7 @@ config NVME_TARGET_LOOP
- 
- config NVME_TARGET_RDMA
- 	tristate "NVMe over Fabrics RDMA target support"
--	depends on INFINIBAND
-+	depends on INFINIBAND && INFINIBAND_ADDR_TRANS
- 	depends on NVME_TARGET
- 	select SGL_ALLOC
- 	help
--- 
-2.17.0.441.gb46fe60e1d-goog
+Just the hostnqn lists.  There currently isn't even any authentification
+mechanism specified in NVMe, but a TP to propose one is going to be
+posted to the technical working group soon.
