@@ -1,84 +1,15 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 27 Apr 2018 22:57:13 +0800
-Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
-In-Reply-To: <325688af-3ae2-49db-3a59-ef3903adcdf6@oracle.com>
-References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-2-ming.lei@redhat.com>
- <b8dd2c24-a011-7e66-feca-502b0a6b10c0@oracle.com>
- <20180426155722.GA3597@ming.t460p>
- <325688af-3ae2-49db-3a59-ef3903adcdf6@oracle.com>
-Message-ID: <20180427145708.GA2767@ming.t460p>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 27 Apr 2018 09:48:47 -0600
+Subject: [PATCH 1/2] nvme/multipath: Disable runtime writable enabling
+ parameter
+In-Reply-To: <20180427052040.GB9698@lst.de>
+References: <20180426214956.3377-1-keith.busch@intel.com>
+ <20180426214956.3377-2-keith.busch@intel.com>
+ <20180427052040.GB9698@lst.de>
+Message-ID: <20180427154847.GA5073@localhost.localdomain>
 
-On Fri, Apr 27, 2018@09:37:06AM +0800, jianchao.wang wrote:
-> 
-> 
-> On 04/26/2018 11:57 PM, Ming Lei wrote:
-> > Hi Jianchao,
-> > 
-> > On Thu, Apr 26, 2018@11:07:56PM +0800, jianchao.wang wrote:
-> >> Hi Ming
-> >>
-> >> Thanks for your wonderful solution. :)
-> >>
-> >> On 04/26/2018 08:39 PM, Ming Lei wrote:
-> >>> +/*
-> >>> + * This one is called after queues are quiesced, and no in-fligh timeout
-> >>> + * and nvme interrupt handling.
-> >>> + */
-> >>> +static void nvme_pci_cancel_request(struct request *req, void *data,
-> >>> +		bool reserved)
-> >>> +{
-> >>> +	/* make sure timed-out requests are covered too */
-> >>> +	if (req->rq_flags & RQF_MQ_TIMEOUT_EXPIRED) {
-> >>> +		req->aborted_gstate = 0;
-> >>> +		req->rq_flags &= ~RQF_MQ_TIMEOUT_EXPIRED;
-> >>> +	}
-> >>> +
-> >>> +	nvme_cancel_request(req, data, reserved);
-> >>> +}
-> >>> +
-> >>>  static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
-> >>>  {
-> >>>  	int i;
-> >>> @@ -2223,10 +2316,17 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
-> >>>  	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
-> >>>  		nvme_suspend_queue(&dev->queues[i]);
-> >>>  
-> >>> +	/*
-> >>> +	 * safe to sync timeout after queues are quiesced, then all
-> >>> +	 * requests(include the time-out ones) will be canceled.
-> >>> +	 */
-> >>> +	nvme_sync_queues(&dev->ctrl);
-> >>> +	blk_sync_queue(dev->ctrl.admin_q);
-> >>> +
-> >> Looks like blk_sync_queue cannot drain all the timeout work.
-> >>
-> >> blk_sync_queue
-> >>   -> del_timer_sync          
-> >>                           blk_mq_timeout_work
-> >>                             -> mod_timer
-> >>   -> cancel_work_sync
-> >> the timeout work may come back again.
-> >> we may need to force all the in-flight requests to be timed out with blk_abort_request
-> >>
-> > 
-> > blk_abort_request() seems over-kill, we could avoid this race simply by
-> > returning EH_NOT_HANDLED if the controller is in-recovery.
-> return EH_NOT_HANDLED maybe not enough.
-> please consider the following scenario.
-> 
->                                       nvme_error_handler
->                                         -> nvme_dev_disable
->                                           -> blk_sync_queue
-> //timeout comes again due to the
-> //scenario above
+Applied both to nvme-4.17-rc3.
 
-I may not understand your point, once blk_sync_queue() returns, the
-timer itself is deactivated, meantime the synced .nvme_timeout() only
-returns EH_NOT_HANDLED before the deactivation.
-
-That means this timer won't be expired any more, so could you explain
-a bit why timeout can come again after blk_sync_queue() returns.
-
-Thanks,
-Ming
+Just FYI, I plan to send a pull request by end of today. I know there's
+other pathches that may be 4.17 material still under review, and that
+may need to wait for the next round.
