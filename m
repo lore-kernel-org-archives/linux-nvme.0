@@ -1,178 +1,98 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Thu, 26 Apr 2018 16:29:10 -0700
-Subject: [PATCHv2] Add surprise removal block test
-In-Reply-To: <20180426225224.3601-1-keith.busch@intel.com>
-References: <20180426225224.3601-1-keith.busch@intel.com>
-Message-ID: <20180426232910.GA20826@vader>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Fri, 27 Apr 2018 09:37:06 +0800
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <20180426155722.GA3597@ming.t460p>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <b8dd2c24-a011-7e66-feca-502b0a6b10c0@oracle.com>
+ <20180426155722.GA3597@ming.t460p>
+Message-ID: <325688af-3ae2-49db-3a59-ef3903adcdf6@oracle.com>
 
-On Thu, Apr 26, 2018@04:52:24PM -0600, Keith Busch wrote:
-> This test is for PCI devices in a surprise remove capable slot and tests
-> how well the drivers and kernel handle losing the link to that device.
-> 
-> The test finds the PCI Express Capability register of the pci slot a block
-> device is in, then at offset 0x10 (the Link Control Register) writes a 1
-> to bit 4 (Link Disable). This occurs unbeknownst to any of the drivers,
-> just like a surprise removal. Drivers will find out about this through
-> the pcie hotplug handler, at which point it's too late to communicate
-> with the device, therfore testing how well we cope with the condition.
-> 
-> The link is reenabled at the end of the test.
-> 
-> Note, this is currently incompatible with NVMe Subsystems when
-> CONFIG_NVME_MULTIPATH since the /dev/nvme*n* names don't have a pci
-> parent in sysfs.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Awesome, thanks! Applied with a couple of minor changes mentioned below.
 
-> ---
-> v1 -> v2:
+On 04/26/2018 11:57 PM, Ming Lei wrote:
+> Hi Jianchao,
 > 
->   Incorporated feedback from Omar and Johannes
+> On Thu, Apr 26, 2018@11:07:56PM +0800, jianchao.wang wrote:
+>> Hi Ming
+>>
+>> Thanks for your wonderful solution. :)
+>>
+>> On 04/26/2018 08:39 PM, Ming Lei wrote:
+>>> +/*
+>>> + * This one is called after queues are quiesced, and no in-fligh timeout
+>>> + * and nvme interrupt handling.
+>>> + */
+>>> +static void nvme_pci_cancel_request(struct request *req, void *data,
+>>> +		bool reserved)
+>>> +{
+>>> +	/* make sure timed-out requests are covered too */
+>>> +	if (req->rq_flags & RQF_MQ_TIMEOUT_EXPIRED) {
+>>> +		req->aborted_gstate = 0;
+>>> +		req->rq_flags &= ~RQF_MQ_TIMEOUT_EXPIRED;
+>>> +	}
+>>> +
+>>> +	nvme_cancel_request(req, data, reserved);
+>>> +}
+>>> +
+>>>  static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>>>  {
+>>>  	int i;
+>>> @@ -2223,10 +2316,17 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>>>  	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
+>>>  		nvme_suspend_queue(&dev->queues[i]);
+>>>  
+>>> +	/*
+>>> +	 * safe to sync timeout after queues are quiesced, then all
+>>> +	 * requests(include the time-out ones) will be canceled.
+>>> +	 */
+>>> +	nvme_sync_queues(&dev->ctrl);
+>>> +	blk_sync_queue(dev->ctrl.admin_q);
+>>> +
+>> Looks like blk_sync_queue cannot drain all the timeout work.
+>>
+>> blk_sync_queue
+>>   -> del_timer_sync          
+>>                           blk_mq_timeout_work
+>>                             -> mod_timer
+>>   -> cancel_work_sync
+>> the timeout work may come back again.
+>> we may need to force all the in-flight requests to be timed out with blk_abort_request
+>>
 > 
->   Included the 016.out file
-> 
->   Updated 'fio' parameters so we ignore the errors that will inevitably
->   occur with this test so they don't muck with the output.
-> 
-> Just an example of what to expect in a dmesg on a capable platform:
-> 
->  [ 77.850030] run blktests block/016 at 2018-04-26 15:40:19
->  [ 82.890360] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Link Down
->  [ 82.911102] nvme2n1: detected capacity change from 400088457216 to 0
->  [ 82.911117] print_req_error: 67 callbacks suppressed
->  [ 82.911120] print_req_error: I/O error, dev nvme2n1, sector 12481728
->  [ 82.911156] print_req_error: I/O error, dev nvme2n1, sector 315938512
->  [ 82.911163] print_req_error: I/O error, dev nvme2n1, sector 86586144
->  [ 82.911171] print_req_error: I/O error, dev nvme2n1, sector 297252456
->  [ 82.911175] print_req_error: I/O error, dev nvme2n1, sector 266779224
->  [ 82.911179] print_req_error: I/O error, dev nvme2n1, sector 57643584
->  [ 82.911182] print_req_error: I/O error, dev nvme2n1, sector 561615936
->  [ 82.911187] print_req_error: I/O error, dev nvme2n1, sector 199511192
->  [ 82.911191] print_req_error: I/O error, dev nvme2n1, sector 613858480
->  [ 82.911194] print_req_error: I/O error, dev nvme2n1, sector 2027136
->  [ 87.918781] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Card not present
->  [ 87.937184] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Card present
->  [ 87.952707] pciehp 0000:5d:00.0:pcie004: Slot(0-3): Link Up
->  [ 88.064187] pci 0000:5e:00.0: [8086:0953] type 00 class 0x010802
->  [ 88.064216] pci 0000:5e:00.0: reg 0x10: [mem 0x00000000-0x00003fff 64bit]
->  [ 88.064242] pci 0000:5e:00.0: reg 0x30: [mem 0x00000000-0x0000ffff pref]
->  [ 88.064251] pci 0000:5e:00.0: enabling Extended Tags
->  [ 88.064491] pci 0000:5e:00.0: BAR 6: assigned [mem 0xb8800000-0xb880ffff pref]
->  [ 88.064495] pci 0000:5e:00.0: BAR 0: assigned [mem 0xb8810000-0xb8813fff 64bit]
->  [ 88.064506] pcieport 0000:5d:00.0: PCI bridge to [bus 5e]
->  [ 88.064510] pcieport 0000:5d:00.0:   bridge window [io 0x8000-0x8fff]
->  [ 88.064515] pcieport 0000:5d:00.0:   bridge window [mem 0xb8800000-0xb89fffff]
->  [ 88.064519] pcieport 0000:5d:00.0:   bridge window [mem 0x38c001000000-0x38c002ffffff 64bit pref]
->  [ 88.064987] nvme nvme2: pci function 0000:5e:00.0
->  [ 88.065060] nvme 0000:5e:00.0: enabling device (0100 -> 0102)
-> 
-> 
->  common/rc           | 19 +++++++++++++++++++
->  tests/block/016     | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  tests/block/016.out |  2 ++
->  3 files changed, 75 insertions(+)
->  create mode 100755 tests/block/016
->  create mode 100644 tests/block/016.out
-> 
-> diff --git a/common/rc b/common/rc
-> index 1bd0374..8115b66 100644
-> --- a/common/rc
-> +++ b/common/rc
-> @@ -171,6 +171,25 @@ _get_pci_dev_from_blkdev() {
->  		tail -1
->  }
->  
-> +_get_pci_parent_from_blkdev() {
-> +	readlink -f "$TEST_DEV_SYSFS/device" | \
-> +		grep -Eo '[0-9a-f]{4,5}:[0-9a-f]{2}:[0-9a-f]{2}\.[0-9a-f]' | \
-> +		tail -2 | head -1
-> +}
-> +
-> +_test_dev_in_hotplug_slot() {
-> +	local parent
-> +	parent="$(_get_pci_parent_from_blkdev)"
-> +
-> +	local slt_cap
-> +	slt_cap="$(setpci -s "${parent}" CAP_EXP+14.w)"
-> +	if [ $((0x${slt_cap} & 0x20)) -eq 0 ]; then
+> blk_abort_request() seems over-kill, we could avoid this race simply by
+> returning EH_NOT_HANDLED if the controller is in-recovery.
+return EH_NOT_HANDLED maybe not enough.
+please consider the following scenario.
 
-I changed this to the bash-style [[ ]] tests. I can't get shellcheck to
-warn about this, so I'll see if I can hack something together that does.
+                                      nvme_error_handler
+                                        -> nvme_dev_disable
+                                          -> blk_sync_queue
+//timeout comes again due to the
+//scenario above
+blk_mq_timeout_work                    
+  -> blk_mq_check_expired               
+    -> set aborted_gstate
+                                          -> nvme_pci_cancel_request
+                                            -> RQF_MQ_TIMEOUT_EXPIRED has not been set
+                                            -> nvme_cancel_request
+                                              -> blk_mq_complete_request
+                                                -> do nothing
+  -> blk_mq_ternimate_expired
+    -> blk_mq_rq_timed_out
+      -> set RQF_MQ_TIMEOUT_EXPIRED
+      -> .timeout return BLK_EH_NOT_HANDLED
 
-> +		SKIP_REASON="$TEST_DEV is not in a hot pluggable slot"
-> +		return 1
-> +	fi
-> +	return 0
-> +}
-> +
->  # Older versions of xfs_io use pwrite64 and such, so the error messages won't
->  # match current versions of xfs_io. See c52086226bc6 ("filter: xfs_io output
->  # has dropped "64" from error messages") in xfstests.
-> diff --git a/tests/block/016 b/tests/block/016
-> new file mode 100755
-> index 0000000..0d54238
-> --- /dev/null
-> +++ b/tests/block/016
-> @@ -0,0 +1,54 @@
-> +#!/bin/bash
-> +#
-> +# Do disable PCI device while doing I/O to it
-> +#
-> +# Copyright (C) 2018 Keith Busch <keith.busch at intel.com>
-> +#
-> +# This program is free software: you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation, either version 3 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +
-> +DESCRIPTION="break PCI link device while doing I/O"
-> +TIMED=1
-> +
-> +requires() {
-> +	_have_fio && _have_program setpci
-> +}
-> +
-> +device_requires() {
-> +	_test_dev_is_pci && _test_dev_in_hotplug_slot
-> +}
-> +
-> +test_device() {
-> +	echo "Running ${TEST_NAME}"
-> +
-> +	local parent
-> +	local TIMEOUT
-> +
-> +	parent="$(_get_pci_parent_from_blkdev)"
-> +
-> +	# start fio job
-> +	TIMEOUT=10
-> +	_run_fio_rand_io --filename="$TEST_DEV" --time_based \
-> +		--continue_on_error=io 2> /dev/null &
-> +	sleep 5
-> +
-> +	# masks  the slot's link disable bit to 'on'
-> +	setpci -s "${parent}" CAP_EXP+10.w=10:10
-> +	sleep 5
-> +
-> +	# masks the slot's link disable bit back to 'off'
-> +	setpci -s "${parent}" CAP_EXP+10.w=00:10
-> +	sleep 5
+Then the timeout request is leaked.
 
-I added a `wait` here to make sure fio is done/doesn't hang.
-
-> +	echo "Test complete"
-> +}
-
-As a separate patch, I'm gonna make _run_fio handle --runtime if it's
-explicitly given so we can use that instead of having to override
-TIMEOUT.
+> 
+>>>  	nvme_pci_disable(dev);
+>>
+>> the interrupt will not come, but there maybe running one.
+>> a synchronize_sched() here ?
+> 
+> We may cover this case by moving nvme_suspend_queue() before
+> nvme_stop_queues().
+> 
+> Both two are very good catch, thanks!
+> 
