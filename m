@@ -1,58 +1,50 @@
-From: antlists@youngman.org.uk (Wols Lists)
-Date: Fri, 27 Apr 2018 23:11:23 +0100
+From: gpiccoli@canonical.com (Guilherme G. Piccoli)
+Date: Fri, 27 Apr 2018 19:54:58 -0300
 Subject: Should a raid-0 array immediately stop if a component disk is
  removed?
-In-Reply-To: <301f2a37-81ea-938b-3bd1-947f716c0f63@canonical.com>
+In-Reply-To: <5AE3A00B.6050801@youngman.org.uk>
 References: <301f2a37-81ea-938b-3bd1-947f716c0f63@canonical.com>
-Message-ID: <5AE3A00B.6050801@youngman.org.uk>
+ <5AE3A00B.6050801@youngman.org.uk>
+Message-ID: <600c8404-4eb1-4b53-836d-590b0c5f873c@canonical.com>
 
-On 27/04/18 22:49, Guilherme G. Piccoli wrote:
-> Hello, we've noticed an interesting behavior when using a raid-0 md
-> array. Suppose we have a 2-disk raid-0 array that has a mount point
-> set - in our tests, we've used ext4 filesystem. If we remove one of
-> the component disks via sysfs[0], userspace is notified, but mdadm tool
-> fails to stop the array[1] (it cannot open the array device node with
-> O_EXCL flag, hence it fails to issue the STOP_ARRAY ioctl). Even if we
-> circumvent the mdadm O_EXCL open, md driver will fail to execute the
-> ioctl given the array is mounted.
+Thanks for your quick reply Anthony!
+Inline comments below:
 
-Sounds like you're not using mdadm to remove the disk. So why do you
-expect mdadm to stop the array immediately? It doesn't know anything is
-wrong until it trips over the missing disk.
-> 
-> As a result, the array keeps mounted and we can even read/write from
-> it, although it's possible to observe filesystem errors on dmesg[2].
-> Eventually, after some _minutes_, the filesystem gets remounted as
-> read-only.
 
-Is your array linear or striped? If it's striped, I would expect it to
-fall over in a heap very quickly. If it's linear, it depends whether you
-remove drive 0 or drive 1. If you remove drive 0, it will fall over very
-quickly. If you remove drive 1, the fuller your array the quicker it
-will fall over (if your array isn't very full, drive 1 may well not be
-used in which case the array might not fall over at all!)
-> 
-> During this weird window in which the array had a component disk removed
-> but is still mounted/active (and accepting read/writes), we tried to
-> perform reads and writes and sync command, which "succeed" (meaning the
-> commands themselves didn't fail, although the errors were observed in
-> dmesg). When "dd" was executed with "oflag=direct", the writes failed
-> immediately. This was observed with both nvme and scsi disks composing
-> the raid-0 array.
-> 
-> We've started to pursue a solution to this, which seems to be an odd
-> behavior. But worth to check in the CC'ed lists if perhaps this is "by
-> design" or if it was already discussed in the past (maybe an idea was
-> proposed). Tests were executed with v4.17-rc2 and upstream mdadm tool.
+On 27/04/2018 19:11, Wols Lists wrote:
+> On 27/04/18 22:49, Guilherme G. Piccoli wrote:
+> [...]
+> Sounds like you're not using mdadm to remove the disk. So why do you
+> expect mdadm to stop the array immediately? It doesn't know anything is
+> wrong until it trips over the missing disk.
 
-Note that raid-0 is NOT redundant. Standard advice is "if a drive fails,
-expect to lose your data". So the fact that your array limps on should
-be the pleasant surprise, not that it blows up in ways you didn't expect.
-> 
-> Thanks in advance,
-> 
-> 
-> Guilherme
+In fact, mdadm is aware something is wrong - it tries to stop the array,
+running "mdadm -If <array-component-just-removed>", but it fails because
+the mount point prevents it to stop the array.
+And the question lies exactly in this point: should it be (successfully)
+stopped? I think it should, since we can continue writing on disks
+causing data corruption.
 
-Cheers,
-Wol
+
+> [...]
+> Is your array linear or striped? If it's striped, I would expect it to
+> fall over in a heap very quickly. If it's linear, it depends whether you
+
+It's stripped. I was able to keep writing for some time (minutes).
+
+
+> [...] 
+> Note that raid-0 is NOT redundant. Standard advice is "if a drive fails,
+> expect to lose your data". So the fact that your array limps on should
+> be the pleasant surprise, not that it blows up in ways you didn't expect.
+
+OK, I understand that. But imagine the following scenario: a regular
+user gets for some reason a component disk removed, and they don't look
+the logs before (or after) writes - the user can write stuff thinking
+everything is fine, and that data is corrupted. I'd expect userspace
+writes to fail as soon as possible in case one of raid-0 components is gone.
+
+Thanks,
+
+
+Guilherme
