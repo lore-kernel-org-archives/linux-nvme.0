@@ -1,50 +1,44 @@
-From: gpiccoli@canonical.com (Guilherme G. Piccoli)
-Date: Fri, 27 Apr 2018 19:54:58 -0300
-Subject: Should a raid-0 array immediately stop if a component disk is
- removed?
-In-Reply-To: <5AE3A00B.6050801@youngman.org.uk>
-References: <301f2a37-81ea-938b-3bd1-947f716c0f63@canonical.com>
- <5AE3A00B.6050801@youngman.org.uk>
-Message-ID: <600c8404-4eb1-4b53-836d-590b0c5f873c@canonical.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sat, 28 Apr 2018 11:28:54 +0800
+Subject: [PATCH 2/2] nvme: pci: guarantee EH can make progress
+In-Reply-To: <20180426162442.GB2624@localhost.localdomain>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-3-ming.lei@redhat.com>
+ <20180426162442.GB2624@localhost.localdomain>
+Message-ID: <20180428032848.GA5657@ming.t460p>
 
-Thanks for your quick reply Anthony!
-Inline comments below:
+On Thu, Apr 26, 2018@10:24:43AM -0600, Keith Busch wrote:
+> On Thu, Apr 26, 2018@08:39:56PM +0800, Ming Lei wrote:
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index 5d05a04f8e72..1e058deb4718 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -1265,6 +1265,20 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> >  	struct nvme_command cmd;
+> >  	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> >  
+> > +	/*
+> > +	 * If error recovery is in-progress and this request needn't to
+> > +	 * be retried, return BLK_EH_HANDLED immediately, so that error
+> > +	 * handler kthread can always make progress since we still need
+> > +	 * to send FAILFAST request to admin queue for handling error.
+> > +	 */
+> > +	spin_lock(&dev->eh_lock);
+> > +	if (dev->eh_in_recovery && blk_noretry_request(req)) {
+> > +		spin_unlock(&dev->eh_lock);
+> > +		nvme_req(req)->status |= NVME_SC_DNR;
+> > +		return BLK_EH_HANDLED;
+> > +	}
+> > +	spin_unlock(&dev->eh_lock);
+> 
+> This doesn't really look safe. Even if a command times out, the
+> controller still owns that command, and calling it done while pci bus
+> master enable is still set can cause memory corruption.
 
+OK, that is one point I missed.
 
-On 27/04/2018 19:11, Wols Lists wrote:
-> On 27/04/18 22:49, Guilherme G. Piccoli wrote:
-> [...]
-> Sounds like you're not using mdadm to remove the disk. So why do you
-> expect mdadm to stop the array immediately? It doesn't know anything is
-> wrong until it trips over the missing disk.
-
-In fact, mdadm is aware something is wrong - it tries to stop the array,
-running "mdadm -If <array-component-just-removed>", but it fails because
-the mount point prevents it to stop the array.
-And the question lies exactly in this point: should it be (successfully)
-stopped? I think it should, since we can continue writing on disks
-causing data corruption.
-
-
-> [...]
-> Is your array linear or striped? If it's striped, I would expect it to
-> fall over in a heap very quickly. If it's linear, it depends whether you
-
-It's stripped. I was able to keep writing for some time (minutes).
-
-
-> [...] 
-> Note that raid-0 is NOT redundant. Standard advice is "if a drive fails,
-> expect to lose your data". So the fact that your array limps on should
-> be the pleasant surprise, not that it blows up in ways you didn't expect.
-
-OK, I understand that. But imagine the following scenario: a regular
-user gets for some reason a component disk removed, and they don't look
-the logs before (or after) writes - the user can write stuff thinking
-everything is fine, and that data is corrupted. I'd expect userspace
-writes to fail as soon as possible in case one of raid-0 components is gone.
+This issue can be handled by sending 'set host mem' in async way in
+nvme_dev_disable() path, just like nvme_disable_io_queues().
 
 Thanks,
-
-
-Guilherme
+Ming
