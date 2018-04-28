@@ -1,44 +1,138 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 28 Apr 2018 11:28:54 +0800
-Subject: [PATCH 2/2] nvme: pci: guarantee EH can make progress
-In-Reply-To: <20180426162442.GB2624@localhost.localdomain>
+Date: Sat, 28 Apr 2018 11:50:17 +0800
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <20180427175157.GB5073@localhost.localdomain>
 References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-3-ming.lei@redhat.com>
- <20180426162442.GB2624@localhost.localdomain>
-Message-ID: <20180428032848.GA5657@ming.t460p>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <20180427175157.GB5073@localhost.localdomain>
+Message-ID: <20180428035015.GB5657@ming.t460p>
 
-On Thu, Apr 26, 2018@10:24:43AM -0600, Keith Busch wrote:
-> On Thu, Apr 26, 2018@08:39:56PM +0800, Ming Lei wrote:
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index 5d05a04f8e72..1e058deb4718 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -1265,6 +1265,20 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-> >  	struct nvme_command cmd;
-> >  	u32 csts = readl(dev->bar + NVME_REG_CSTS);
-> >  
-> > +	/*
-> > +	 * If error recovery is in-progress and this request needn't to
-> > +	 * be retried, return BLK_EH_HANDLED immediately, so that error
-> > +	 * handler kthread can always make progress since we still need
-> > +	 * to send FAILFAST request to admin queue for handling error.
-> > +	 */
-> > +	spin_lock(&dev->eh_lock);
-> > +	if (dev->eh_in_recovery && blk_noretry_request(req)) {
-> > +		spin_unlock(&dev->eh_lock);
-> > +		nvme_req(req)->status |= NVME_SC_DNR;
-> > +		return BLK_EH_HANDLED;
+On Fri, Apr 27, 2018@11:51:57AM -0600, Keith Busch wrote:
+> On Thu, Apr 26, 2018@08:39:55PM +0800, Ming Lei wrote:
+> > +/*
+> > + * This one is called after queues are quiesced, and no in-fligh timeout
+> > + * and nvme interrupt handling.
+> > + */
+> > +static void nvme_pci_cancel_request(struct request *req, void *data,
+> > +		bool reserved)
+> > +{
+> > +	/* make sure timed-out requests are covered too */
+> > +	if (req->rq_flags & RQF_MQ_TIMEOUT_EXPIRED) {
+> > +		req->aborted_gstate = 0;
+> > +		req->rq_flags &= ~RQF_MQ_TIMEOUT_EXPIRED;
 > > +	}
-> > +	spin_unlock(&dev->eh_lock);
+> > +
+> > +	nvme_cancel_request(req, data, reserved);
+> > +}
 > 
-> This doesn't really look safe. Even if a command times out, the
-> controller still owns that command, and calling it done while pci bus
-> master enable is still set can cause memory corruption.
+> I don't know about this. I feel like blk-mq owns these flags and LLD's
+> shouldn't require such knowledge of their implementation details.
 
-OK, that is one point I missed.
+If driver returns BLK_EH_NOT_HANDLED from .timeout(), the driver may
+need to deal with this flag.
 
-This issue can be handled by sending 'set host mem' in async way in
-nvme_dev_disable() path, just like nvme_disable_io_queues().
+But it won't be necessary to use this flag here, and it can be done by
+clearing 'req->aborted_gstate' always.
+
+> 
+> I understand how the problems are happening a bit better now. It used
+> to be that blk-mq would lock an expired command one at a time, so when
+> we had a batch of IO timeouts, the driver was able to complete all of
+> them inside a single IO timeout handler.
+> 
+> That's not the case anymore, so the driver is called for every IO
+> timeout even though if it reaped all the commands at once.
+
+Actually there isn't the case before, even for legacy path, one .timeout()
+handles one request only.
+
+> 
+> IMO, the block layer should allow the driver to complete all timed out
+> IOs at once rather than go through ->timeout() for each of them and
+> without knowing about the request state details. Much of the problems
+> would go away in that case.
+
+That need to change every driver, looks not easy to do, also not sure
+if other drivers need this way.
+
+> 
+> But I think much of this can be fixed by just syncing the queues in the
+> probe work, and may be a more reasonable bug-fix for 4.17 rather than
+> rewrite the entire timeout handler. What do you think of this patch? It's
+> an update of one I posted a few months ago, but uses Jianchao's safe
+> namespace list locking.
+> 
+> ---
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index a3771c5729f5..198b4469c3e2 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3562,12 +3562,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>  	struct nvme_ns *ns;
+>  
+>  	down_read(&ctrl->namespaces_rwsem);
+> -	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+>  		blk_mq_unquiesce_queue(ns->queue);
+> +		blk_mq_kick_requeue_list(ns->queue);
+> +	}
+>  	up_read(&ctrl->namespaces_rwsem);
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_start_queues);
+>  
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ns *ns;
+> +
+> +	down_read(&ctrl->namespaces_rwsem);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +		blk_sync_queue(ns->queue);
+> +	up_read(&ctrl->namespaces_rwsem);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
+> +
+>  int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+>  {
+>  	if (!ctrl->ops->reinit_request)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 7ded7a51c430..e62273198725 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -402,6 +402,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+>  void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>  		union nvme_result *res);
+>  
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl);
+>  void nvme_stop_queues(struct nvme_ctrl *ctrl);
+>  void nvme_start_queues(struct nvme_ctrl *ctrl);
+>  void nvme_kill_queues(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index fbc71fac6f1e..a2f3ad105620 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2303,6 +2303,7 @@ static void nvme_reset_work(struct work_struct *work)
+>  	 */
+>  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+>  		nvme_dev_disable(dev, false);
+> +	nvme_sync_queues(&dev->ctrl);
+
+This sync may be raced with one timed-out request, which may be handled
+as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
+work reliably. 
+
+There are more issues except for the above one if disabling controller
+and resetting it are run in different context:
+
+1) inside resetting, nvme_dev_disable() may be called, but this way
+may cause double completion on the previous timed-out request.
+
+2) the timed-out request can't be covered by nvme_dev_disable(), and
+this way is too tricky and easy to cause trouble.
+
+IMO, it is much easier to avoid the above issues by handling controller
+recover in one single thread. I will address all your comments and post
+V3 for review.
+
 
 Thanks,
 Ming
