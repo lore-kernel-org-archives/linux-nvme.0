@@ -1,60 +1,130 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Sat, 28 Apr 2018 17:11:18 +0800
-Subject: [PATCH] nvme/pci: Use async_schedule for initial reset work
-In-Reply-To: <20180427211708.5604-1-keith.busch@intel.com>
-References: <20180427211708.5604-1-keith.busch@intel.com>
-Message-ID: <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Sat, 28 Apr 2018 07:35:14 -0600
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <20180428035015.GB5657@ming.t460p>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <20180427175157.GB5073@localhost.localdomain>
+ <20180428035015.GB5657@ming.t460p>
+Message-ID: <20180428133514.GB5938@localhost.localdomain>
 
-On Sat, Apr 28, 2018@5:17 AM, Keith Busch <keith.busch@intel.com> wrote:
-> This patch schedules the initial controller reset in an async_domain so
-> that it can be synchronized from wait_for_device_probe(). This way the
-> kernel waits for the first nvme controller initialization to complete
-> for all devices before proceeding with the boot sequence, which may have
-> nvme dependencies.
->
-> Reported-by: Mikulas Patocka <mpatocka at redhat.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/pci.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index a2f3ad105620..9e04c7aba946 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -13,6 +13,7 @@
->   */
->
->  #include <linux/aer.h>
-> +#include <linux/async.h>
->  #include <linux/blkdev.h>
->  #include <linux/blk-mq.h>
->  #include <linux/blk-mq-pci.h>
-> @@ -2489,6 +2490,12 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
->         return 0;
->  }
->
-> +static void nvme_async_probe(void *data, async_cookie_t cookie)
-> +{
-> +       struct nvme_dev *dev = data;
-> +       nvme_reset_ctrl_sync(&dev->ctrl);
-> +}
-> +
->  static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  {
->         int node, result = -ENOMEM;
-> @@ -2533,7 +2540,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->
->         dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
->
-> -       nvme_reset_ctrl(&dev->ctrl);
-> +       async_schedule(nvme_async_probe, dev);
->
->         return 0;
+On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
+> > I understand how the problems are happening a bit better now. It used
+> > to be that blk-mq would lock an expired command one at a time, so when
+> > we had a batch of IO timeouts, the driver was able to complete all of
+> > them inside a single IO timeout handler.
+> > 
+> > That's not the case anymore, so the driver is called for every IO
+> > timeout even though if it reaped all the commands at once.
+> 
+> Actually there isn't the case before, even for legacy path, one .timeout()
+> handles one request only.
 
-Looks fine,
+That's not quite what I was talking about.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+Before, only the command that was about to be sent to the driver's
+.timeout() was marked completed. The driver could (and did) compete
+other timed out commands in a single .timeout(), and the tag would
+clear, so we could hanlde all timeouts in a single .timeout().
 
--- 
-Ming Lei
+Now, blk-mq marks all timed out commands as aborted prior to calling
+the driver's .timeout(). If the driver completes any of those commands,
+the tag does not clear, so the driver's .timeout() just gets to be called
+again for commands it already reaped.
+
+
+
+> > IMO, the block layer should allow the driver to complete all timed out
+> > IOs at once rather than go through ->timeout() for each of them and
+> > without knowing about the request state details. Much of the problems
+> > would go away in that case.
+> 
+> That need to change every driver, looks not easy to do, also not sure
+> if other drivers need this way.
+> 
+> > 
+> > But I think much of this can be fixed by just syncing the queues in the
+> > probe work, and may be a more reasonable bug-fix for 4.17 rather than
+> > rewrite the entire timeout handler. What do you think of this patch? It's
+> > an update of one I posted a few months ago, but uses Jianchao's safe
+> > namespace list locking.
+> > 
+> > ---
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index a3771c5729f5..198b4469c3e2 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -3562,12 +3562,25 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+> >  	struct nvme_ns *ns;
+> >  
+> >  	down_read(&ctrl->namespaces_rwsem);
+> > -	list_for_each_entry(ns, &ctrl->namespaces, list)
+> > +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> >  		blk_mq_unquiesce_queue(ns->queue);
+> > +		blk_mq_kick_requeue_list(ns->queue);
+> > +	}
+> >  	up_read(&ctrl->namespaces_rwsem);
+> >  }
+> >  EXPORT_SYMBOL_GPL(nvme_start_queues);
+> >  
+> > +void nvme_sync_queues(struct nvme_ctrl *ctrl)
+> > +{
+> > +	struct nvme_ns *ns;
+> > +
+> > +	down_read(&ctrl->namespaces_rwsem);
+> > +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> > +		blk_sync_queue(ns->queue);
+> > +	up_read(&ctrl->namespaces_rwsem);
+> > +}
+> > +EXPORT_SYMBOL_GPL(nvme_sync_queues);
+> > +
+> >  int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+> >  {
+> >  	if (!ctrl->ops->reinit_request)
+> > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> > index 7ded7a51c430..e62273198725 100644
+> > --- a/drivers/nvme/host/nvme.h
+> > +++ b/drivers/nvme/host/nvme.h
+> > @@ -402,6 +402,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+> >  void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+> >  		union nvme_result *res);
+> >  
+> > +void nvme_sync_queues(struct nvme_ctrl *ctrl);
+> >  void nvme_stop_queues(struct nvme_ctrl *ctrl);
+> >  void nvme_start_queues(struct nvme_ctrl *ctrl);
+> >  void nvme_kill_queues(struct nvme_ctrl *ctrl);
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index fbc71fac6f1e..a2f3ad105620 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -2303,6 +2303,7 @@ static void nvme_reset_work(struct work_struct *work)
+> >  	 */
+> >  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+> >  		nvme_dev_disable(dev, false);
+> > +	nvme_sync_queues(&dev->ctrl);
+> 
+> This sync may be raced with one timed-out request, which may be handled
+> as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
+> work reliably. 
+> 
+> There are more issues except for the above one if disabling controller
+> and resetting it are run in different context:
+> 
+> 1) inside resetting, nvme_dev_disable() may be called, but this way
+> may cause double completion on the previous timed-out request.
+> 
+> 2) the timed-out request can't be covered by nvme_dev_disable(), and
+> this way is too tricky and easy to cause trouble.
+> 
+> IMO, it is much easier to avoid the above issues by handling controller
+> recover in one single thread. I will address all your comments and post
+> V3 for review.
+> 
+> 
+> Thanks,
+> Ming
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
