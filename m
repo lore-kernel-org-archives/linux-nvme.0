@@ -1,66 +1,73 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Sun, 29 Apr 2018 10:21:21 +0800
-Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
-In-Reply-To: <CACVXFVO5anknwHUdPpHVBMvirh93UDS__qVrJvw7R_ThY+yjGA@mail.gmail.com>
-References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-2-ming.lei@redhat.com>
- <b8dd2c24-a011-7e66-feca-502b0a6b10c0@oracle.com>
- <20180426155722.GA3597@ming.t460p>
- <325688af-3ae2-49db-3a59-ef3903adcdf6@oracle.com>
- <20180427145708.GA2767@ming.t460p>
- <18b7ab23-f0d6-6765-021a-28c225f8a990@oracle.com>
- <CACVXFVPwV7cAChndWXxg8A2onJu5Ngr9fpKVvLjNwMqDPM9yJg@mail.gmail.com>
- <CACVXFVPZV2+3XcWUD0fkxf=oRx7bBhU=J=hnhaEURgZvBUC4xA@mail.gmail.com>
- <CACVXFVO5anknwHUdPpHVBMvirh93UDS__qVrJvw7R_ThY+yjGA@mail.gmail.com>
-Message-ID: <22dfe86b-8981-cc66-4a5b-216aa26dd003@oracle.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 29 Apr 2018 15:11:00 +0300
+Subject: [Suspected-Phishing]Re: [PATCH 2/2] nvme: start keep alive timer
+ when enabling the controller
+In-Reply-To: <99c20baf-a871-faf0-4073-9958f959dfe6@mellanox.com>
+References: <20180415084741.4235-1-sagi@grimberg.me>
+ <20180415084741.4235-2-sagi@grimberg.me>
+ <fe43038e-001c-7468-be66-3df96d9d95e0@mellanox.com>
+ <9529fb23-ba35-0f41-7eda-2439612e1cd6@grimberg.me>
+ <20180417152407.GB25823@lst.de>
+ <99c20baf-a871-faf0-4073-9958f959dfe6@mellanox.com>
+Message-ID: <fa0ff7fc-1dc8-4eb5-4428-8b39220e76c3@mellanox.com>
 
-Hi ming
 
-On 04/29/2018 09:36 AM, Ming Lei wrote:
-> On Sun, Apr 29, 2018@6:27 AM, Ming Lei <tom.leiming@gmail.com> wrote:
->> On Sun, Apr 29, 2018@5:57 AM, Ming Lei <tom.leiming@gmail.com> wrote:
->>> On Sat, Apr 28, 2018 at 10:00 PM, jianchao.wang
->>> <jianchao.w.wang@oracle.com> wrote:
->>>> Hi ming
->>>>
->>>> On 04/27/2018 10:57 PM, Ming Lei wrote:
->>>>> I may not understand your point, once blk_sync_queue() returns, the
->>>>> timer itself is deactivated, meantime the synced .nvme_timeout() only
->>>>> returns EH_NOT_HANDLED before the deactivation.
->>>>>
->>>>> That means this timer won't be expired any more, so could you explain
->>>>> a bit why timeout can come again after blk_sync_queue() returns
->>>>
->>>> Please consider the following case:
->>>>
->>>> blk_sync_queue
->>>>   -> del_timer_sync
->>>>                           blk_mq_timeout_work
->>>>                             -> blk_mq_check_expired // return the timeout value
->>>>                             -> blk_mq_terninate_expired
->>>>                               -> .timeout //return EH_NOT_HANDLED
->>>>                             -> mod_timer // setup the timer again based on the result of blk_mq_check_expired
->>>>   -> cancel_work_sync
->>>> So after the blk_sync_queue, the timer may come back again, then the timeout work.
+
+On 4/23/2018 1:08 PM, Max Gurtovoy wrote:
+> Hi Sagi/Christoph,
+> 
+> On 4/17/2018 6:24 PM, Christoph Hellwig wrote:
+>> On Sun, Apr 15, 2018@01:17:58PM +0300, Sagi Grimberg wrote:
+>>>> Christoph suggested to add the keep-alive stop to the 
+>>>> disable/shutdown (I
+>>>> guess we need to add it to both, right ?) and in the target side to 
+>>>> start
+>>>> expecting also once ctrl is enabled and stop when disabled.
 >>>
->>> OK, I was trying to avoid to use blk_abort_request(), but looks we
->>> may have to depend on it or similar way.
->>>
->>> BTW, that means blk_sync_queue() has been broken, even though the uses
->>> in blk_cleanup_queue().
->>>
->>> Another approach is to introduce one perpcu_ref of
->>> 'q->timeout_usage_counter' for
->>> syncing timeout, seems a bit over-kill too, but simpler in both theory
->>> and implement.
+>>> I don't necessarily think we need to. Also, its better to do this sooner
+>>> rather than later (stop_ctrl happens before disable/shutdown) and also,
+>>> disable/shutdown might not even execute if the transport is not 
+>>> connected.
 >>
->> Or one timout_mutex is enough.
+>> I was suggesting to do it in disable as that is the point at which
+>> we can't send one for sure.? But yes, I suspect stop_ctrl is even
+>> better due to the reasons Sagi stated.? Sorry for the confusion.
+>>
 > 
-> Turns out it is SRCU.
+> Actually after running more tests in our lab we found out that it must 
+> be symmetric (similar to my V1 that started the discussion).
+> For example a situation that we have many subsystems per portal.
+> This will create many controllers and QPs (in RDMA transport).
+> If we unload nvme_rdma module we'll call for each ctrl:
+> nvme_delete_ctrl
+>  ??? queue nvme_delete_ctrl_work
+>  ??????? nvme_stop_ctrl
+>  ??????????? nvme_stop_keep_alive
 > 
-after split the timeout path into timer and workqueue two parts, if we don't drain the in-flight requests, the request_queue->timeout and the timeout work look like an issue of 'chicken and egg'.
-how about introduce a flag to disable triggering of timeout work ?
+> 
+> in this situation we'll stop the keep_alive mechanism at the initiator
+> before starting the IO queues destruction, that may take a while during 
+> high load. In this situation the KA timer can expire in the target side 
+> and this will follow ctrl destruction (QPs are freed...).
+> Let's continue in the initiator side:
+> we'll try to call nvme_shutdown_ctrl that reg_write32/reg_read32 from 
+> the ctrl that was already destroyed in the target side. This may cause 
+> the __nvme_submit_sync_cmd to stuck forever... (may stuck if we return 
+> BLK_EH_RESET_TIMER in nvme_rdma_timeout callback, as was proposed in 
+> IsraelR patchset that is disscussed in the mailing list and on hold now).
 
+Seems like James commit "nvme: expand nvmf_check_if_ready checks" 
+elimenates this command to stuck since it fails during queue_rq now..
 
-Thanks
-Jianchao
+> 
+> So I suggest we re-think about the KA fix and make the start/stop keep 
+> alive as symmetric as possible, even if we'll need to update RDMA/FC 
+> code...
+> 
+> -Max.
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C20861682aa09445a86f908d5a9024756%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636600749628505218&sdata=K5g4rTCnadeCWSMBkrURad7iWxPb%2F05IhFfDz6FWGg0%3D&reserved=0 
+> 
