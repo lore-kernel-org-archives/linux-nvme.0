@@ -1,360 +1,476 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sun, 29 Apr 2018 23:41:52 +0800
-Subject: [PATCH V2 5/5] nvme: pci: simplify timeout handling
-In-Reply-To: <20180429154152.16656-1-ming.lei@redhat.com>
-References: <20180429154152.16656-1-ming.lei@redhat.com>
-Message-ID: <20180429154152.16656-6-ming.lei@redhat.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 29 Apr 2018 18:47:22 +0300
+Subject: [PATCH] nvme: unquiesce the queue before cleaup it
+In-Reply-To: <9b6c9563-957e-0819-ab2a-c89dda39a8d6@oracle.com>
+References: <1524126553-16290-1-git-send-email-jianchao.w.wang@oracle.com>
+ <df008d75-1f5c-ba00-ac61-e537a608901e@oracle.com>
+ <1d51898e-cb3b-1178-c0b6-0716acbb9564@mellanox.com>
+ <4ef5f9f2-b61d-89a0-f619-d15c40587f03@oracle.com>
+ <09a72ec6-117c-e31f-5aa6-546e74c3c20b@mellanox.com>
+ <74ea389f-499f-5162-b9c0-14d02e273455@oracle.com>
+ <7bc27059-578e-0694-654f-c1390b47cb70@oracle.com>
+ <fe5da0ad-2a02-3266-e854-21867534f9b5@mellanox.com>
+ <c295204a-04e8-c93f-11fd-034a198dc3aa@oracle.com>
+ <9b6c9563-957e-0819-ab2a-c89dda39a8d6@oracle.com>
+Message-ID: <5c2b476f-19ae-613c-aa0c-9001a706f54c@mellanox.com>
 
-When one req is timed out, now nvme_timeout() handles it by the
-following way:
 
-	nvme_dev_disable(dev, false);
-	nvme_reset_ctrl(&dev->ctrl);
-	return BLK_EH_HANDLED.
 
-which may introduces the following issues:
+On 4/28/2018 6:38 PM, jianchao.wang wrote:
+> Hi Max
+> 
+> On 04/27/2018 04:51 PM, jianchao.wang wrote:
+>> Hi Max
+>>
+>> On 04/26/2018 06:23 PM, Max Gurtovoy wrote:
+>>> Hi Jianchao,
+>>> I actually tried this scenario with real HW and was able to repro the hang.
+>>> Unfortunatly, after applying your patch I got NULL deref:
+>>> BUG: unable to handle kernel NULL pointer dereference at 0000000000000014
+>>> WARNING: CPU: 5 PID: 0 at block/blk-mq.c:526 __blk_mq_complete_request+0x154/0x160
+>>>
+>>
+>> Could you please share the whole backtrace here ?
+> 
+> I have reproduced the WARNING in __blk_mq_complete_request.
+> 
+> [107612.367131] RIP: 0010:__blk_mq_complete_request+0x2aa/0x2e0
+> [107612.367133] RSP: 0018:ffff88036e627b68 EFLAGS: 00010202
+> [107612.367137] RAX: 0000000000000002 RBX: ffff88034708a440 RCX: ffffffff9452df6c
+> [107612.367140] RDX: dffffc0000000000 RSI: dffffc0000000000 RDI: ffff88034708a540
+> [107612.367142] RBP: 1ffff1006dcc4f73 R08: ffffed007901472f R09: ffffed007901472f
+> [107612.367144] R10: 0000000000000001 R11: ffffed007901472e R12: ffffe8ffffdc8940
+> [107612.367146] R13: ffff88034708a540 R14: ffff8803c51c33c0 R15: ffff88032d091ea0
+> [107612.367149] FS:  0000000000000000(0000) GS:ffff8803c8080000(0000) knlGS:0000000000000000
+> [107612.367151] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [107612.367153] CR2: 00000000018ee000 CR3: 00000003c1e13001 CR4: 00000000003606e0
+> [107612.367155] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> [107612.367157] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> [107612.367159] Call Trace:
+> [107612.367166]  blk_mq_complete_request+0x10a/0x140
+> [107612.367170]  ? hctx_lock+0xe0/0xe0
+> [107612.367176]  ? __wait_rcu_gp+0x1b6/0x210
+> [107612.367184]  ? nvme_start_ctrl+0x190/0x190
+> [107612.367188]  bt_tags_iter+0x87/0xa0
+> [107612.367194]  blk_mq_tagset_busy_iter+0x1da/0x3e0
+> [107612.367201]  ? nvme_start_ctrl+0x190/0x190
+> [107612.367206]  ? __blk_mq_get_tag+0x140/0x140
+> [107612.367210]  ? nvme_start_ctrl+0x190/0x190
+> [107612.367221]  nvme_rdma_shutdown_ctrl+0x50/0xe0 [nvme_rdma]
+> [107612.367228]  nvme_rdma_reset_ctrl_work+0x2c/0xd0 [nvme_rdma]
+> [107612.367233]  process_one_work+0x3ca/0xaa0
+> [107612.367243]  ? pwq_dec_nr_in_flight+0x110/0x110
+> [107612.367246]  ? worker_thread+0x19d/0x6c0
+> [107612.367257]  worker_thread+0x4e2/0x6c0
+> [107612.367283]  kthread+0x18d/0x1e0
+> [107612.367286]  ? rescuer_thread+0x740/0x740
+> [107612.367289]  ? kthread_delayed_work_timer_fn+0xe0/0xe0
+> [107612.367293]  ? kthread_delayed_work_timer_fn+0xe0/0xe0
+> [107612.367296]  ret_from_fork+0x24/0x30
+> 
+> in my test, there is _no_ timeout, but just reset controller
+> 
+> The state of the request is COMPLETE.
+> 
+> This is a race reset work and normal rmda completion path.
+> nvme_rdma_reset_ctrl_work
+>    -> nvme_rdma_shutdown_ctrl
+>      -> nvme_cancel_request
+>        -> blk_mq_complete_request
+> we don't stop the rdma completion path to be triggered before we invoke nvme_cancel_request.
 
-1) the following timeout on other reqs may call nvme_dev_disable()
-again, which may quiesce queue again when resetting is in-progress,
-then finally nothing can move on.
+We fixed that in this way (on hold since the block layer fix is not yet 
+pushed):
 
-2) when timeout is triggered in reset work function, nvme_wait_freeze()
-may wait forever because now controller can't be recovered at all
+  drivers/nvme/host/rdma.c | 8 ++++++--
+  1 file changed, 6 insertions(+), 2 deletions(-)
 
-This patch fixes the issues by:
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c1abfc8..56fccac 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -734,7 +734,6 @@ static struct blk_mq_tag_set 
+*nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+  static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+  		bool remove)
+  {
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
+  	if (remove) {
+  		blk_cleanup_queue(ctrl->ctrl.admin_q);
+  		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+@@ -817,7 +816,6 @@ static int nvme_rdma_configure_admin_queue(struct 
+nvme_rdma_ctrl *ctrl,
+  static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+  		bool remove)
+  {
+-	nvme_rdma_stop_io_queues(ctrl);
+  	if (remove) {
+  		blk_cleanup_queue(ctrl->ctrl.connect_q);
+  		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+@@ -947,6 +945,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+work_struct *work)
+  	return;
 
-1) handle timeout event in one EH thread, and wakeup this thread if
-controller recovery is needed
+  destroy_admin:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+  	nvme_rdma_destroy_admin_queue(ctrl, false);
+  requeue:
+  	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+@@ -963,12 +962,14 @@ static void nvme_rdma_error_recovery_work(struct 
+work_struct *work)
 
-2) Inside the EH handler, timeout work is drained by nvme_unquiesce_timeout()
-before canceling in-flight requrests, so all requests can be canceled or
-completed by either EH or block timeout handler.
+  	if (ctrl->ctrl.queue_count > 1) {
+  		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+  		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+  					nvme_cancel_request, &ctrl->ctrl);
+  		nvme_rdma_destroy_io_queues(ctrl, false);
+  	}
 
-3) Moves the draining IO and unfreezing queues into one post_eh work context,
-so controller can be recovered always.
+  	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+  	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+  				nvme_cancel_request, &ctrl->ctrl);
+  	nvme_rdma_destroy_admin_queue(ctrl, false);
+@@ -1725,6 +1726,7 @@ static void nvme_rdma_shutdown_ctrl(struct 
+nvme_rdma_ctrl *ctrl, bool shutdown)
+  {
+  	if (ctrl->ctrl.queue_count > 1) {
+  		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+  		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+  					nvme_cancel_request, &ctrl->ctrl);
+  		nvme_rdma_destroy_io_queues(ctrl, shutdown);
+@@ -1736,6 +1738,7 @@ static void nvme_rdma_shutdown_ctrl(struct 
+nvme_rdma_ctrl *ctrl, bool shutdown)
+  		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
 
-This patch fixes reports from the horible test of block/011.
+  	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+  	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+  				nvme_cancel_request, &ctrl->ctrl);
+  	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+@@ -2001,6 +2004,7 @@ static struct nvme_ctrl 
+*nvme_rdma_create_ctrl(struct device *dev,
+  	return &ctrl->ctrl;
 
-Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: linux-nvme at lists.infradead.org
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c |  22 ++++++++
- drivers/nvme/host/nvme.h |   3 +
- drivers/nvme/host/pci.c  | 140 +++++++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 155 insertions(+), 10 deletions(-)
+  out_remove_admin_queue:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+  	nvme_rdma_destroy_admin_queue(ctrl, true);
+  out_kfree_queues:
+  	kfree(ctrl->queues);
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f9028873298e..664a268accd1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3582,6 +3582,28 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_start_freeze);
- 
-+void nvme_unquiesce_timeout(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_unquiesce_timeout(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_unquiesce_timeout);
-+
-+void nvme_quiesce_timeout(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_quiesce_timeout(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_quiesce_timeout);
-+
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a19b7f04ac24..956ee19ff403 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -19,6 +19,7 @@
- #include <linux/pci.h>
- #include <linux/kref.h>
- #include <linux/blk-mq.h>
-+#include <linux/blkdev.h>
- #include <linux/lightnvm.h>
- #include <linux/sed-opal.h>
- #include <linux/fault-inject.h>
-@@ -405,6 +406,8 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res);
- 
-+void nvme_unquiesce_timeout(struct nvme_ctrl *ctrl);
-+void nvme_quiesce_timeout(struct nvme_ctrl *ctrl);
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8172ee584130..86c14d9051ff 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -29,6 +29,7 @@
- #include <linux/types.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/sed-opal.h>
-+#include <linux/kthread.h>
- 
- #include "nvme.h"
- 
-@@ -112,6 +113,11 @@ struct nvme_dev {
- 	dma_addr_t host_mem_descs_dma;
- 	struct nvme_host_mem_buf_desc *host_mem_descs;
- 	void **host_mem_desc_bufs;
-+
-+	spinlock_t	  eh_lock;
-+	bool		eh_in_recovery;
-+	struct task_struct    *ehandler;
-+	struct work_struct post_eh_work;
- };
- 
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
-@@ -1176,6 +1182,100 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
- 			 csts, result);
- }
- 
-+static void nvme_eh_schedule(struct nvme_dev *dev)
-+{
-+	spin_lock(&dev->eh_lock);
-+	if (!dev->eh_in_recovery) {
-+		dev->eh_in_recovery = true;
-+		wake_up_process(dev->ehandler);
-+	}
-+	spin_unlock(&dev->eh_lock);
-+}
-+
-+static void nvme_eh_done(struct nvme_dev *dev)
-+{
-+	spin_lock(&dev->eh_lock);
-+	if (dev->eh_in_recovery)
-+		dev->eh_in_recovery = false;
-+	spin_unlock(&dev->eh_lock);
-+}
-+
-+static int nvme_error_handler(void *data)
-+{
-+	struct nvme_dev *dev = data;
-+
-+	while (true) {
-+		/*
-+		 * The sequence in kthread_stop() sets the stop flag first
-+		 * then wakes the process.  To avoid missed wakeups, the task
-+		 * should always be in a non running state before the stop
-+		 * flag is checked
-+		 */
-+		set_current_state(TASK_INTERRUPTIBLE);
-+		if (kthread_should_stop())
-+			break;
-+
-+		spin_lock(&dev->eh_lock);
-+		if (!dev->eh_in_recovery) {
-+			spin_unlock(&dev->eh_lock);
-+			schedule();
-+			continue;
-+		}
-+		spin_unlock(&dev->eh_lock);
-+
-+		__set_current_state(TASK_RUNNING);
-+
-+		dev_info(dev->ctrl.device, "start eh recovery\n");
-+
-+		/* freeze queues before recovery */
-+		nvme_start_freeze(&dev->ctrl);
-+
-+		nvme_dev_disable(dev, false);
-+
-+		/*
-+		 * reset won't wait for IO completion any more, so it
-+		 * is safe to reset controller in sync way
-+		 */
-+		nvme_reset_ctrl_sync(&dev->ctrl);
-+
-+		dev_info(dev->ctrl.device, "eh recovery done\n");
-+
-+		/*
-+		 * drain IO & unfreeze queues in another context because
-+		 * these IOs may trigger timeout again
-+		 */
-+		queue_work(nvme_reset_wq, &dev->post_eh_work);
-+	}
-+	__set_current_state(TASK_RUNNING);
-+	dev->ehandler = NULL;
-+
-+	return 0;
-+}
-+
-+static void nvme_post_eh_work(struct work_struct *work)
-+{
-+	struct nvme_dev *dev =
-+		container_of(work, struct nvme_dev, post_eh_work);
-+
-+	nvme_wait_freeze(&dev->ctrl);
-+	nvme_unfreeze(&dev->ctrl);
-+}
-+
-+static int nvme_eh_init(struct nvme_dev *dev)
-+{
-+	spin_lock_init(&dev->eh_lock);
-+	INIT_WORK(&dev->post_eh_work, nvme_post_eh_work);
-+
-+	dev->ehandler = kthread_run(nvme_error_handler, dev,
-+			"nvme_eh_%d", dev->ctrl.instance);
-+	if (IS_ERR(dev->ehandler)) {
-+		dev_err(dev->ctrl.device, "error handler thread failed to spawn, error = %ld\n",
-+			PTR_ERR(dev->ehandler));
-+		return PTR_ERR(dev->ehandler);
-+	}
-+	return 0;
-+}
-+
- static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-@@ -1197,8 +1297,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	 */
- 	if (nvme_should_reset(dev, csts)) {
- 		nvme_warn_reset(dev, csts);
--		nvme_dev_disable(dev, false);
--		nvme_reset_ctrl(&dev->ctrl);
-+		nvme_eh_schedule(dev);
- 		return BLK_EH_HANDLED;
- 	}
- 
-@@ -1224,8 +1323,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, false);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-+		nvme_eh_schedule(dev);
- 		return BLK_EH_HANDLED;
- 	default:
- 		break;
-@@ -1240,14 +1339,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, false);
--		nvme_reset_ctrl(&dev->ctrl);
--
- 		/*
- 		 * Mark the request as handled, since the inline shutdown
- 		 * forces all outstanding requests to complete.
- 		 */
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-+		nvme_eh_schedule(dev);
- 		return BLK_EH_HANDLED;
- 	}
- 
-@@ -2246,8 +2343,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	if (pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
--		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--		    dev->ctrl.state == NVME_CTRL_RESETTING) {
-+		if (shutdown && (dev->ctrl.state == NVME_CTRL_LIVE ||
-+		    dev->ctrl.state == NVME_CTRL_RESETTING)) {
- 			nvme_start_freeze(&dev->ctrl);
- 			frozen = true;
- 		}
-@@ -2281,11 +2378,23 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
- 		nvme_suspend_queue(&dev->queues[i]);
- 
-+	/* safe to sync timeout after queues are quiesced */
-+	nvme_quiesce_timeout(&dev->ctrl);
-+	blk_quiesce_timeout(dev->ctrl.admin_q);
-+
- 	nvme_pci_disable(dev);
- 
-+	/*
-+	 * Both timeout and interrupt handler have been drained, and all
-+	 * in-flight requests will be canceled now.
-+	 */
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
- 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
- 
-+	/* all requests are canceled now, so enable timeout now */
-+	nvme_unquiesce_timeout(&dev->ctrl);
-+	blk_unquiesce_timeout(dev->ctrl.admin_q);
-+
- 	/*
- 	 * The driver will not be starting up queues again if shutting down so
- 	 * must flush all entered requests to their failed completion to avoid
-@@ -2416,9 +2525,14 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
-+	nvme_eh_done(dev);
-+
- 	/*
- 	 * Keep the controller around but remove all namespaces if we don't have
- 	 * any working I/O queue.
-+	 *
-+	 * Now we won't wait for IO completion here any more, and sync reset
-+	 * can be used safely anywhere.
- 	 */
- 	if (dev->online_queues < 2) {
- 		dev_warn(dev->ctrl.device, "IO queues not created\n");
-@@ -2427,11 +2541,9 @@ static void nvme_reset_work(struct work_struct *work)
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
--		nvme_wait_freeze(&dev->ctrl);
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
--		nvme_unfreeze(&dev->ctrl);
- 	}
- 
- 	/*
-@@ -2449,6 +2561,7 @@ static void nvme_reset_work(struct work_struct *work)
- 
-  out:
- 	nvme_remove_dead_ctrl(dev, result);
-+	nvme_eh_done(dev);
- }
- 
- static void nvme_remove_dead_ctrl_work(struct work_struct *work)
-@@ -2590,10 +2703,15 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
- 
-+	if (nvme_eh_init(dev))
-+		goto uninit_ctrl;
-+
- 	nvme_reset_ctrl(&dev->ctrl);
- 
- 	return 0;
- 
-+ uninit_ctrl:
-+	nvme_uninit_ctrl(&dev->ctrl);
-  release_pools:
- 	nvme_release_prp_pools(dev);
-  unmap:
-@@ -2647,6 +2765,8 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
-+	if (dev->ehandler)
-+		kthread_stop(dev->ehandler);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
--- 
-2.9.5
+
+
+> 
+> I think it is related to a change introduced by the new blk-mq timeout implementation.
+> before it, the blk_mq_complete_request use blk_mark_rq_complete to sync with timeout path.
+> obviously, this make blk_mq_complete_request be able to sync with itself.
+> the blk_mq_complete_request from reset work and rdma completion path could dance with each other well.
+> 
+> however, after this new mechanism is introduced, blk_mq_complete_request cannot sync with itself anymore.
+> so we indeed have a risk that complete request twice when we reset the controller forcibly in rdma driver.
+> 
+> Thanks
+> Jianchao
+> 
+> 
+>>
+>> Thanks
+>> Jianchao
+>>
+>>> I guess it's the same issue the IsraelR/Bart/Ming are trying to fix in the block layer regarding completing requests.
+>>> I'll add IsraelR proposed fix to nvme-rdma that is currently on hold and see what happens.
+>>> Nontheless, I don't like the situation that the reset and delete flows can run concurrently.
+>>>
+>>> -Max.
+>>>
+>>> On 4/26/2018 11:27 AM, jianchao.wang wrote:
+>>>> Hi Max
+>>>>
+>>>> I did a similar test on nvme-rdma, the underlying fabric is soft-RoCE.
+>>>> A io loop, reset controller loop? and a delete/create controller loop.
+>>>> And found io hang below:
+>>>>
+>>>> [? 230.884590] WARNING: CPU: 0 PID: 150 at /home/will/u04/source_code/linux-stable/drivers/nvme/host/rdma.c:1755 nvme_rdma_reset_ctrl_work+0x3d/0xb0 [nvme_rdma]
+>>>> [? 230.884689] CPU: 0 PID: 150 Comm: kworker/u16:3 Not tainted 4.17.0-rc1+ #16
+>>>> [? 230.884690] Hardware name: LENOVO 10MLS0E339/3106, BIOS M1AKT22A 06/27/2017
+>>>> [? 230.884693] Workqueue: nvme-reset-wq nvme_rdma_reset_ctrl_work [nvme_rdma]
+>>>> [? 230.884696] RIP: 0010:nvme_rdma_reset_ctrl_work+0x3d/0xb0 [nvme_rdma]
+>>>> [? 230.884697] RSP: 0018:ffffa9e30255be40 EFLAGS: 00010246
+>>>> [? 230.884699] RAX: 0000000000000000 RBX: ffff9633b64c2000 RCX: 0000000000000000
+>>>> [? 230.884700] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffffffff9ac05516
+>>>> [? 230.884701] RBP: ffff9633b64c23b8 R08: 0000000000000001 R09: 0000000000000000
+>>>> [? 230.884702] R10: 0000000000000000 R11: 0000000000000000 R12: ffff9633b64c2970
+>>>> [? 230.884703] R13: 0000000000000000 R14: 0ffff96340ffcc80 R15: ffff9634102af9c0
+>>>> [? 230.884705] FS:? 0000000000000000(0000) GS:ffff963422c00000(0000) knlGS:0000000000000000
+>>>> [? 230.884706] CS:? 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>> [? 230.884707] CR2: 0000000001ce9ca4 CR3: 000000038040f005 CR4: 00000000003606f0
+>>>> [? 230.884708] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+>>>> [? 230.884709] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+>>>> [? 230.884710] Call Trace:
+>>>> [? 230.884717]? process_one_work+0x1c0/0x680
+>>>> [? 230.884722]? worker_thread+0x22b/0x430
+>>>> [? 230.884728]? kthread+0x100/0x140
+>>>> [? 230.884730]? ? rescuer_thread+0x370/0x370
+>>>> [? 230.884731]? ? kthread_delayed_work_timer_fn+0x80/0x80
+>>>> [? 230.884736]? ret_from_fork+0x24/0x30
+>>>> [? 230.884744] Code: ff 48 8d ab b8 03 00 00 48 89 ef e8 1e 25 d7 d9 31 f6 48 89 df e8 44 f9 ff ff be 04 00 00 00 48 89 ef e8 b7 13 d7 d9 84 c0 75 07 <0f> 0b 5b 5d 41 5c c3 31 f6 48 89 df e8 b2 fa ff ff 85 c0 75 39
+>>>> [? 230.884799] irq event stamp: 88150
+>>>> [? 230.884802] hardirqs last? enabled at (88149): [<ffffffff9ac05529>] _raw_spin_unlock_irqrestore+0x59/0x70
+>>>> [? 230.884803] hardirqs last disabled at (88150): [<ffffffff9ae0116c>] error_entry+0x6c/0xc0
+>>>> [? 230.884805] softirqs last? enabled at (87998): [<ffffffff9aa603a0>] sk_common_release+0x60/0xd0
+>>>> [? 230.884807] softirqs last disabled at (87996): [<ffffffff9aa60375>] sk_common_release+0x35/0xd0
+>>>> [? 230.884808] ---[ end trace c03fac253b80d77d ]---
+>>>> [? 277.472094] INFO: task kworker/u16:0:6 blocked for more than 30 seconds.
+>>>> [? 277.473482]?????? Tainted: G??????? W???????? 4.17.0-rc1+ #16
+>>>> [? 277.474825] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>>>> [? 277.476293] kworker/u16:0?? D??? 0???? 6????? 2 0x80000000
+>>>> [? 277.476317] Workqueue: nvme-delete-wq nvme_delete_ctrl_work
+>>>> [? 277.476335] Call Trace:
+>>>> [? 277.476365]? ? __schedule+0x3de/0xac0
+>>>> [? 277.476393]? schedule+0x3c/0x90
+>>>> [? 277.476405]? blk_mq_freeze_queue_wait+0x44/0x90
+>>>> [? 277.476419]? ? wait_woken+0x90/0x90
+>>>> [? 277.476437]? blk_cleanup_queue+0xe1/0x280
+>>>> [? 277.476453]? nvme_ns_remove+0x1c8/0x260
+>>>> [? 277.476475]? nvme_remove_namespaces+0x7f/0xa0
+>>>> [? 277.476495]? nvme_delete_ctrl_work+0x4b/0x80
+>>>> [? 277.476508]? process_one_work+0x1c0/0x680
+>>>> [? 277.476535]? worker_thread+0x22b/0x430
+>>>> [? 277.476562]? kthread+0x100/0x140
+>>>> [? 277.476572]? ? rescuer_thread+0x370/0x370
+>>>> [? 277.476579]? ? kthread_delayed_work_timer_fn+0x80/0x80
+>>>> [? 277.476598]? ret_from_fork+0x24/0x30
+>>>>
+>>>> 00000000ea33345b {.op=READ, .cmd_flags=23, .rq_flags=MQ_INFLIGHT|IO_STAT, .state=idle, .tag=19, .internal_tag=-1}
+>>>> 0000000071218c5a {.op=READ, .cmd_flags=23, .rq_flags=MQ_INFLIGHT|IO_STAT, .state=idle, .tag=45, .internal_tag=-1}
+>>>> root at will-ThinkCentre-M910s:/sys/kernel/debug/block/nvme1c1n1# cat state
+>>>> DYING|BYPASS|NOMERGES|SAME_COMP|NONROT|IO_STAT|DISCARD|NOXMERGES|INIT_DONE|NO_SG_MERGE|POLL|WC|FUA|STATS|QUIESCED
+>>>>
+>>>> This is due to a race following:
+>>>>
+>>>> nvme_delete_ctrl??????????????????? nvme_rdma_reset_ctrl_work
+>>>>  ?? -> change state to DELETING
+>>>>  ?? -> queue delete_work
+>>>>  ?????????????????????????????????????? -> nvme_rdma_shutdown_ctrl
+>>>>  ???????????????????????????????????????? -> nvme_stop_queues
+>>>>  ?????????????????????????????????????????? -> blk_mq_quiesce_queue
+>>>>  ???????????????? ?????????????????????????????????????? -> change to LIVE state fails
+>>>>  ???????????????????????????????????????? -> return
+>>>> nvme_delete_ctrl_work
+>>>>  ?? -> nvme_remove_namespaces
+>>>>  ???? -> nvme_ns_remove
+>>>>  ?????? -> blk_cleanup_queue
+>>>>  ???????? -> blk_freeze_queue
+>>>>
+>>>> This patch could also fix this issue.
+>>>>
+>>>> Thanks
+>>>> Jianchao
+>>>>
+>>>> On 04/22/2018 11:00 PM, jianchao.wang wrote:
+>>>>> Hi Max
+>>>>>
+>>>>> That's really appreciated!
+>>>>> Here is my test script.
+>>>>>
+>>>>> loop_reset_controller.sh
+>>>>> #!/bin/bash
+>>>>> while true
+>>>>> do
+>>>>>  ????echo 1 > /sys/block/nvme0n1/device/reset_controller
+>>>>>  ????sleep 1
+>>>>> done
+>>>>>
+>>>>> loop_unbind_driver.sh
+>>>>> #!/bin/bash
+>>>>> while true
+>>>>> do
+>>>>>  ????echo "0000:02:00.0" > /sys/bus/pci/drivers/nvme/unbind
+>>>>>  ????sleep 2
+>>>>>  ????echo "0000:02:00.0" > /sys/bus/pci/drivers/nvme/bind
+>>>>>  ????sleep 2
+>>>>> done
+>>>>>
+>>>>> loop_io.sh
+>>>>> #!/bin/bash
+>>>>>
+>>>>> file="/dev/nvme0n1"
+>>>>> echo $file
+>>>>> while true;
+>>>>> do
+>>>>>  ????if [ -e $file ];then
+>>>>>  ??????? fio fio_job_rand_read.ini
+>>>>>  ????else
+>>>>>  ??????? echo "Not found"
+>>>>>  ??????? sleep 1
+>>>>>  ????fi
+>>>>> done
+>>>>>
+>>>>> The fio jobs is as below:
+>>>>> size=512m
+>>>>> rw=randread
+>>>>> bs=4k
+>>>>> ioengine=libaio
+>>>>> iodepth=64
+>>>>> direct=1
+>>>>> numjobs=16
+>>>>> filename=/dev/nvme0n1
+>>>>> group_reporting
+>>>>>
+>>>>> I started in sequence, loop_io.sh, loop_reset_controller.sh, loop_unbind_driver.sh.
+>>>>> And if lucky, I will get io hang in 3 minutes. ;)
+>>>>> Such as:
+>>>>>
+>>>>> [? 142.858074] nvme nvme0: pci function 0000:02:00.0
+>>>>> [? 144.972256] nvme nvme0: failed to mark controller state 1
+>>>>> [? 144.972289] nvme nvme0: Removing after probe failure status: 0
+>>>>> [? 185.312344] INFO: task bash:1673 blocked for more than 30 seconds.
+>>>>> [? 185.312889]?????? Not tainted 4.17.0-rc1+ #6
+>>>>> [? 185.312950] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>>>>> [? 185.313049] bash??????????? D??? 0? 1673?? 1629 0x00000080
+>>>>> [? 185.313061] Call Trace:
+>>>>> [? 185.313083]? ? __schedule+0x3de/0xac0
+>>>>> [? 185.313103]? schedule+0x3c/0x90
+>>>>> [? 185.313111]? blk_mq_freeze_queue_wait+0x44/0x90
+>>>>> [? 185.313123]? ? wait_woken+0x90/0x90
+>>>>> [? 185.313133]? blk_cleanup_queue+0xe1/0x280
+>>>>> [? 185.313145]? nvme_ns_remove+0x1c8/0x260
+>>>>> [? 185.313159]? nvme_remove_namespaces+0x7f/0xa0
+>>>>> [? 185.313170]? nvme_remove+0x6c/0x130
+>>>>> [? 185.313181]? pci_device_remove+0x36/0xb0
+>>>>> [? 185.313193]? device_release_driver_internal+0x160/0x230
+>>>>> [? 185.313205]? unbind_store+0xfe/0x150
+>>>>> [? 185.313219]? kernfs_fop_write+0x114/0x190
+>>>>> [? 185.313234]? __vfs_write+0x23/0x150
+>>>>> [? 185.313246]? ? rcu_read_lock_sched_held+0x3f/0x70
+>>>>> [? 185.313252]? ? preempt_count_sub+0x92/0xd0
+>>>>> [? 185.313259]? ? __sb_start_write+0xf8/0x200
+>>>>> [? 185.313271]? vfs_write+0xc5/0x1c0
+>>>>> [? 185.313284]? ksys_write+0x45/0xa0
+>>>>> [? 185.313298]? do_syscall_64+0x5a/0x1a0
+>>>>> [? 185.313308]? entry_SYSCALL_64_after_hwframe+0x49/0xbe
+>>>>>
+>>>>> And get following information in block debugfs:
+>>>>> root at will-ThinkCentre-M910s:/sys/kernel/debug/block/nvme0n1# cat hctx6/cpu6/rq_list
+>>>>> 000000001192d19b {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=69, .internal_tag=-1}
+>>>>> 00000000c33c8a5b {.op=READ, .cmd_flags=, .rq_flags=IO_STAT, .state=idle, .tag=78, .internal_tag=-1}
+>>>>> root at will-ThinkCentre-M910s:/sys/kernel/debug/block/nvme0n1# cat state
+>>>>> DYING|BYPASS|NOMERGES|SAME_COMP|NONROT|IO_STAT|DISCARD|NOXMERGES|INIT_DONE|NO_SG_MERGE|POLL|WC|FUA|STATS|QUIESCED
+>>>>>
+>>>>> We can see there were reqs on ctx rq_list and the request_queue is QUIESCED.
+>>>>>
+>>>>> Thanks again !!
+>>>>> Jianchao
+>>>>>
+>>>>> On 04/22/2018 10:48 PM, Max Gurtovoy wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 4/22/2018 5:25 PM, jianchao.wang wrote:
+>>>>>>> Hi Max
+>>>>>>>
+>>>>>>> No, I only tested it on PCIe one.
+>>>>>>> And sorry for that I didn't state that.
+>>>>>>
+>>>>>> Please send your exact test steps and we'll run it using RDMA transport.
+>>>>>> I also want to run a mini regression on this one since it may effect other flows.
+>>>>>>
+>>>>>>>
+>>>>>>> Thanks
+>>>>>>> Jianchao
+>>>>>>>
+>>>>>>> On 04/22/2018 10:18 PM, Max Gurtovoy wrote:
+>>>>>>>> Hi Jianchao,
+>>>>>>>> Since this patch is in the core, have you tested it using some fabrics drives too ? RDMA/FC ?
+>>>>>>>>
+>>>>>>>> thanks,
+>>>>>>>> Max.
+>>>>>>>>
+>>>>>>>> On 4/22/2018 4:32 PM, jianchao.wang wrote:
+>>>>>>>>> Hi keith
+>>>>>>>>>
+>>>>>>>>> Would you please take a look at this patch.
+>>>>>>>>>
+>>>>>>>>> This issue could be reproduced easily with a driver bind/unbind loop,
+>>>>>>>>> a reset loop and a IO loop at the same time.
+>>>>>>>>>
+>>>>>>>>> Thanks
+>>>>>>>>> Jianchao
+>>>>>>>>>
+>>>>>>>>> On 04/19/2018 04:29 PM, Jianchao Wang wrote:
+>>>>>>>>>> There is race between nvme_remove and nvme_reset_work that can
+>>>>>>>>>> lead to io hang.
+>>>>>>>>>>
+>>>>>>>>>> nvme_remove??????????????????? nvme_reset_work
+>>>>>>>>>> -> change state to DELETING
+>>>>>>>>>>  ????????????????????????????????? -> fail to change state to LIVE
+>>>>>>>>>>  ????????????????????????????????? -> nvme_remove_dead_ctrl
+>>>>>>>>>>  ??????????????????????????????????? -> nvme_dev_disable
+>>>>>>>>>>  ????????????????????????????????????? -> quiesce request_queue
+>>>>>>>>>>  ??????????????????????????????????? -> queue remove_work
+>>>>>>>>>> -> cancel_work_sync reset_work
+>>>>>>>>>> -> nvme_remove_namespaces
+>>>>>>>>>>  ???? -> splice ctrl->namespaces
+>>>>>>>>>>  ????????????????????????????????? nvme_remove_dead_ctrl_work
+>>>>>>>>>>  ????????????????????????????????? -> nvme_kill_queues
+>>>>>>>>>>  ???? -> nvme_ns_remove?????????????? do nothing
+>>>>>>>>>>  ?????? -> blk_cleanup_queue
+>>>>>>>>>>  ???????? -> blk_freeze_queue
+>>>>>>>>>> Finally, the request_queue is quiesced state when wait freeze,
+>>>>>>>>>> we will get io hang here.
+>>>>>>>>>>
+>>>>>>>>>> To fix it, unquiesce the request_queue directly before nvme_ns_remove.
+>>>>>>>>>> We have spliced the ctrl->namespaces, so nobody could access them
+>>>>>>>>>> and quiesce the queue any more.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+>>>>>>>>>> ---
+>>>>>>>>>>  ??? drivers/nvme/host/core.c | 9 ++++++++-
+>>>>>>>>>>  ??? 1 file changed, 8 insertions(+), 1 deletion(-)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>>>>>>>>>> index 9df4f71..0e95082 100644
+>>>>>>>>>> --- a/drivers/nvme/host/core.c
+>>>>>>>>>> +++ b/drivers/nvme/host/core.c
+>>>>>>>>>> @@ -3249,8 +3249,15 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>>>>>>>>>>  ??????? list_splice_init(&ctrl->namespaces, &ns_list);
+>>>>>>>>>>  ??????? up_write(&ctrl->namespaces_rwsem);
+>>>>>>>>>>  ??? -??? list_for_each_entry_safe(ns, next, &ns_list, list)
+>>>>>>>>>> +??? /*
+>>>>>>>>>> +???? * After splice the namespaces list from the ctrl->namespaces,
+>>>>>>>>>> +???? * nobody could get them anymore, let's unquiesce the request_queue
+>>>>>>>>>> +???? * forcibly to avoid io hang.
+>>>>>>>>>> +???? */
+>>>>>>>>>> +??? list_for_each_entry_safe(ns, next, &ns_list, list) {
+>>>>>>>>>> +??????? blk_mq_unquiesce_queue(ns->queue);
+>>>>>>>>>>  ??????????? nvme_ns_remove(ns);
+>>>>>>>>>> +??? }
+>>>>>>>>>>  ??? }
+>>>>>>>>>>  ??? EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+>>>>>>>>>>     
+>>>>>>>>>
+>>>>>>>>> _______________________________________________
+>>>>>>>>> Linux-nvme mailing list
+>>>>>>>>> Linux-nvme at lists.infradead.org
+>>>>>>>>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=eQ9q70WFDS-d0s-KndBw8MOJvcBM6wuuKUNklqTC3h8&s=oBasfz9JoJw4yQF4EaWcNfKChZ1HMCkfHVZqyjvYVHQ&e=
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> _______________________________________________
+>>>>>>>> Linux-nvme mailing list
+>>>>>>>> Linux-nvme at lists.infradead.org
+>>>>>>>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=eQ9q70WFDS-d0s-KndBw8MOJvcBM6wuuKUNklqTC3h8&s=oBasfz9JoJw4yQF4EaWcNfKChZ1HMCkfHVZqyjvYVHQ&e=
+>>>>>>>>
+>>>>>
+>>>>> _______________________________________________
+>>>>> Linux-nvme mailing list
+>>>>> Linux-nvme at lists.infradead.org
+>>>>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwIGaQ&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=ivKrSi6co_9l91-czj52P2ABAPyKOwv9GrD3UeCbhio&s=2U00IBVk4CVt0Q-jiZX3sEWEEA2IleOjPU_PD38Fgvg&e=
+>>>>>
+>>>
+>>
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwIGaQ&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=SGZpECIOlIjMScsyTFhGuTB5fZTrhZS6gNLbeUUecmU&s=a0HxxV_1N2g59zBdAaehBUEmIG1pZGxzZKQOby6Hn8k&e=
+>>
