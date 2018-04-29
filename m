@@ -1,7 +1,7 @@
 From: tom.leiming@gmail.com (Ming Lei)
-Date: Sun, 29 Apr 2018 06:27:33 +0800
+Date: Sun, 29 Apr 2018 09:36:43 +0800
 Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
-In-Reply-To: <CACVXFVPwV7cAChndWXxg8A2onJu5Ngr9fpKVvLjNwMqDPM9yJg@mail.gmail.com>
+In-Reply-To: <CACVXFVPZV2+3XcWUD0fkxf=oRx7bBhU=J=hnhaEURgZvBUC4xA@mail.gmail.com>
 References: <20180426123956.26039-1-ming.lei@redhat.com>
  <20180426123956.26039-2-ming.lei@redhat.com>
  <b8dd2c24-a011-7e66-feca-502b0a6b10c0@oracle.com>
@@ -10,46 +10,49 @@ References: <20180426123956.26039-1-ming.lei@redhat.com>
  <20180427145708.GA2767@ming.t460p>
  <18b7ab23-f0d6-6765-021a-28c225f8a990@oracle.com>
  <CACVXFVPwV7cAChndWXxg8A2onJu5Ngr9fpKVvLjNwMqDPM9yJg@mail.gmail.com>
-Message-ID: <CACVXFVPZV2+3XcWUD0fkxf=oRx7bBhU=J=hnhaEURgZvBUC4xA@mail.gmail.com>
+ <CACVXFVPZV2+3XcWUD0fkxf=oRx7bBhU=J=hnhaEURgZvBUC4xA@mail.gmail.com>
+Message-ID: <CACVXFVO5anknwHUdPpHVBMvirh93UDS__qVrJvw7R_ThY+yjGA@mail.gmail.com>
 
-On Sun, Apr 29, 2018@5:57 AM, Ming Lei <tom.leiming@gmail.com> wrote:
-> On Sat, Apr 28, 2018 at 10:00 PM, jianchao.wang
-> <jianchao.w.wang@oracle.com> wrote:
->> Hi ming
->>
->> On 04/27/2018 10:57 PM, Ming Lei wrote:
->>> I may not understand your point, once blk_sync_queue() returns, the
->>> timer itself is deactivated, meantime the synced .nvme_timeout() only
->>> returns EH_NOT_HANDLED before the deactivation.
+On Sun, Apr 29, 2018@6:27 AM, Ming Lei <tom.leiming@gmail.com> wrote:
+> On Sun, Apr 29, 2018@5:57 AM, Ming Lei <tom.leiming@gmail.com> wrote:
+>> On Sat, Apr 28, 2018 at 10:00 PM, jianchao.wang
+>> <jianchao.w.wang@oracle.com> wrote:
+>>> Hi ming
 >>>
->>> That means this timer won't be expired any more, so could you explain
->>> a bit why timeout can come again after blk_sync_queue() returns
+>>> On 04/27/2018 10:57 PM, Ming Lei wrote:
+>>>> I may not understand your point, once blk_sync_queue() returns, the
+>>>> timer itself is deactivated, meantime the synced .nvme_timeout() only
+>>>> returns EH_NOT_HANDLED before the deactivation.
+>>>>
+>>>> That means this timer won't be expired any more, so could you explain
+>>>> a bit why timeout can come again after blk_sync_queue() returns
+>>>
+>>> Please consider the following case:
+>>>
+>>> blk_sync_queue
+>>>   -> del_timer_sync
+>>>                           blk_mq_timeout_work
+>>>                             -> blk_mq_check_expired // return the timeout value
+>>>                             -> blk_mq_terninate_expired
+>>>                               -> .timeout //return EH_NOT_HANDLED
+>>>                             -> mod_timer // setup the timer again based on the result of blk_mq_check_expired
+>>>   -> cancel_work_sync
+>>> So after the blk_sync_queue, the timer may come back again, then the timeout work.
 >>
->> Please consider the following case:
+>> OK, I was trying to avoid to use blk_abort_request(), but looks we
+>> may have to depend on it or similar way.
 >>
->> blk_sync_queue
->>   -> del_timer_sync
->>                           blk_mq_timeout_work
->>                             -> blk_mq_check_expired // return the timeout value
->>                             -> blk_mq_terninate_expired
->>                               -> .timeout //return EH_NOT_HANDLED
->>                             -> mod_timer // setup the timer again based on the result of blk_mq_check_expired
->>   -> cancel_work_sync
->> So after the blk_sync_queue, the timer may come back again, then the timeout work.
+>> BTW, that means blk_sync_queue() has been broken, even though the uses
+>> in blk_cleanup_queue().
+>>
+>> Another approach is to introduce one perpcu_ref of
+>> 'q->timeout_usage_counter' for
+>> syncing timeout, seems a bit over-kill too, but simpler in both theory
+>> and implement.
 >
-> OK, I was trying to avoid to use blk_abort_request(), but looks we
-> may have to depend on it or similar way.
->
-> BTW, that means blk_sync_queue() has been broken, even though the uses
-> in blk_cleanup_queue().
->
-> Another approach is to introduce one perpcu_ref of
-> 'q->timeout_usage_counter' for
-> syncing timeout, seems a bit over-kill too, but simpler in both theory
-> and implement.
+> Or one timout_mutex is enough.
 
-Or one timout_mutex is enough.
+Turns out it is SRCU.
 
-
-Thanks,
+-- 
 Ming Lei
