@@ -1,14 +1,22 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sun, 29 Apr 2018 23:41:49 +0800
-Subject: [PATCH V2 2/5] nvme: pci: cover timeout for admin commands running in
- EH
+Date: Sun, 29 Apr 2018 23:41:51 +0800
+Subject: [PATCH V2 4/5] nvme: fix race between freeze queues and unfreeze
+ queues
 In-Reply-To: <20180429154152.16656-1-ming.lei@redhat.com>
 References: <20180429154152.16656-1-ming.lei@redhat.com>
-Message-ID: <20180429154152.16656-3-ming.lei@redhat.com>
+Message-ID: <20180429154152.16656-5-ming.lei@redhat.com>
 
-When admin commands are used in EH for recovering controller, we have to
-cover their timeout and can't depend on block's timeout since deadlock may
-be caused when these commands are timed-out by block layer again.
+nvme_dev_disable() and resetting controller are required for recovering
+controller, but the two are run from different contexts.
+
+nvme_start_freeze() is run from nvme_dev_disable(), and nvme_unfreeze()
+is run from resetting context. Unfortunatley timeout may be triggered
+when draining IO from resetting controller, so nvme_start_freeze() may
+be run several times.
+
+This patch fixes the race between nvme_start_freeze() and
+nvme_unfreeze() by introducing flags of 'queues_freezed' and the lock
+of 'freeze_mutex'.
 
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
@@ -16,115 +24,77 @@ Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: linux-nvme at lists.infradead.org
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/pci.c | 77 ++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 66 insertions(+), 11 deletions(-)
+ drivers/nvme/host/core.c | 29 +++++++++++++++++++++--------
+ drivers/nvme/host/nvme.h |  3 +++
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index fbc71fac6f1e..0e6cd605164a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1733,21 +1733,28 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
- 	}
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df4f71e58ca..f9028873298e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3447,6 +3447,9 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+ 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
  
--static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
-+static void nvme_init_set_host_mem_cmd(struct nvme_dev *dev,
-+		struct nvme_command *c, u32 bits)
++	ctrl->queues_freezed = false;
++	mutex_init(&ctrl->freeze_mutex);
++
+ 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0)
+ 		goto out;
+@@ -3526,10 +3529,15 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
  {
- 	u64 dma_addr = dev->host_mem_descs_dma;
-+
-+	memset(c, 0, sizeof(*c));
-+	c->features.opcode	= nvme_admin_set_features;
-+	c->features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
-+	c->features.dword11	= cpu_to_le32(bits);
-+	c->features.dword12	= cpu_to_le32(dev->host_mem_size >>
-+					      ilog2(dev->ctrl.page_size));
-+	c->features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
-+	c->features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
-+	c->features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
-+}
-+
-+static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
-+{
- 	struct nvme_command c;
- 	int ret;
+ 	struct nvme_ns *ns;
  
--	memset(&c, 0, sizeof(c));
--	c.features.opcode	= nvme_admin_set_features;
--	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
--	c.features.dword11	= cpu_to_le32(bits);
--	c.features.dword12	= cpu_to_le32(dev->host_mem_size >>
--					      ilog2(dev->ctrl.page_size));
--	c.features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
--	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
--	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
-+	nvme_init_set_host_mem_cmd(dev, &c, bits);
- 
- 	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
- 	if (ret) {
-@@ -1758,6 +1765,54 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
- 	return ret;
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_unfreeze_queue(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	mutex_lock(&ctrl->freeze_mutex);
++	if (ctrl->queues_freezed) {
++		down_read(&ctrl->namespaces_rwsem);
++		list_for_each_entry(ns, &ctrl->namespaces, list)
++			blk_mq_unfreeze_queue(ns->queue);
++		up_read(&ctrl->namespaces_rwsem);
++		ctrl->queues_freezed = false;
++	}
++	mutex_unlock(&ctrl->freeze_mutex);
  }
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
  
-+static void nvme_set_host_mem_end_io(struct request *rq, blk_status_t sts)
-+{
-+	struct completion *waiting = rq->end_io_data;
-+
-+	rq->end_io_data = NULL;
-+
-+	/*
-+	 * complete last, if this is a stack request the process (and thus
-+	 * the rq pointer) could be invalid right after this complete()
-+	 */
-+	complete(waiting);
-+}
-+
-+/*
-+ * This function can be used inside timeout handler, when the block layer
-+ * timeout may not work, so this function has to cover the timeout by itself.
-+ */
-+static int nvme_set_host_mem_timeout(struct nvme_dev *dev, u32 bits)
-+{
-+	DECLARE_COMPLETION_ONSTACK(wait);
-+	struct nvme_command c;
-+	struct request_queue *q = dev->ctrl.admin_q;
-+	struct request *req;
-+	int ret;
-+
-+	nvme_init_set_host_mem_cmd(dev, &c, bits);
-+
-+	req = nvme_alloc_request(q, &c, 0, NVME_QID_ANY);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	req->timeout = ADMIN_TIMEOUT;
-+	req->end_io_data = &wait;
-+
-+	blk_execute_rq_nowait(q, NULL, req, false,
-+			nvme_set_host_mem_end_io);
-+	wait_for_completion_io_timeout(&wait, ADMIN_TIMEOUT);
-+
-+	if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
-+		ret = -EINTR;
-+	else
-+		ret = nvme_req(req)->status;
-+
-+	blk_mq_free_request(req);
-+
-+	return ret;
-+}
-+
- static void nvme_free_host_mem(struct nvme_dev *dev)
+@@ -3562,10 +3570,15 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
  {
- 	int i;
-@@ -2216,7 +2271,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		 * but I'd rather be safe than sorry..
- 		 */
- 		if (dev->host_mem_descs)
--			nvme_set_host_mem(dev, 0);
-+			nvme_set_host_mem_timeout(dev, 0);
- 		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
+ 	struct nvme_ns *ns;
+ 
+-	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_freeze_queue_start(ns->queue);
+-	up_read(&ctrl->namespaces_rwsem);
++	mutex_lock(&ctrl->freeze_mutex);
++	if (!ctrl->queues_freezed) {
++		down_read(&ctrl->namespaces_rwsem);
++		list_for_each_entry(ns, &ctrl->namespaces, list)
++			blk_freeze_queue_start(ns->queue);
++		up_read(&ctrl->namespaces_rwsem);
++		ctrl->queues_freezed = true;
++	}
++	mutex_unlock(&ctrl->freeze_mutex);
+ }
+ EXPORT_SYMBOL_GPL(nvme_start_freeze);
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 061fecfd44f5..a19b7f04ac24 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -149,6 +149,9 @@ struct nvme_ctrl {
+ 	struct work_struct reset_work;
+ 	struct work_struct delete_work;
+ 
++	bool queues_freezed;
++	struct mutex freeze_mutex;
++
+ 	struct nvme_subsystem *subsys;
+ 	struct list_head subsys_entry;
+ 
 -- 
 2.9.5
