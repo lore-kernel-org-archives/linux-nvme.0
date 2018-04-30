@@ -1,21 +1,69 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 30 Apr 2018 13:45:33 -0600
-Subject: [PATCH] nvme/pci: Use async_schedule for initial reset work
-In-Reply-To: <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
-References: <20180427211708.5604-1-keith.busch@intel.com>
- <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
-Message-ID: <20180430194533.GC5938@localhost.localdomain>
+Date: Mon, 30 Apr 2018 13:52:17 -0600
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <CACVXFVMfvLLt7h58W-ifJKbC-s_1oDhCJEx4AqD6wJ+w2AjnYg@mail.gmail.com>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <20180427175157.GB5073@localhost.localdomain>
+ <20180428035015.GB5657@ming.t460p>
+ <20180428133514.GB5938@localhost.localdomain>
+ <CACVXFVMfvLLt7h58W-ifJKbC-s_1oDhCJEx4AqD6wJ+w2AjnYg@mail.gmail.com>
+Message-ID: <20180430195217.GD5938@localhost.localdomain>
 
-On Sat, Apr 28, 2018@05:11:18PM +0800, Ming Lei wrote:
-> Looks fine,
+On Sun, Apr 29, 2018@05:39:52AM +0800, Ming Lei wrote:
+> On Sat, Apr 28, 2018 at 9:35 PM, Keith Busch
+> <keith.busch@linux.intel.com> wrote:
+> > On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
+> >> > I understand how the problems are happening a bit better now. It used
+> >> > to be that blk-mq would lock an expired command one at a time, so when
+> >> > we had a batch of IO timeouts, the driver was able to complete all of
+> >> > them inside a single IO timeout handler.
+> >> >
+> >> > That's not the case anymore, so the driver is called for every IO
+> >> > timeout even though if it reaped all the commands at once.
+> >>
+> >> Actually there isn't the case before, even for legacy path, one .timeout()
+> >> handles one request only.
+> >
+> > That's not quite what I was talking about.
+> >
+> > Before, only the command that was about to be sent to the driver's
+> > .timeout() was marked completed. The driver could (and did) compete
+> > other timed out commands in a single .timeout(), and the tag would
+> > clear, so we could hanlde all timeouts in a single .timeout().
+> >
+> > Now, blk-mq marks all timed out commands as aborted prior to calling
+> > the driver's .timeout(). If the driver completes any of those commands,
+> > the tag does not clear, so the driver's .timeout() just gets to be called
+> > again for commands it already reaped.
 > 
-> Reviewed-by: Ming Lei <ming.lei at redhat.com>
+> That won't happen because new timeout model will mark aborted on timed-out
+> request first, then run synchronize_rcu() before making these requests
+> really expired, and now rcu lock is held in normal completion
+> handler(blk_mq_complete_request).
+> 
+> Yes, Bart is working towards that way, but there is still the same race
+> between timeout handler(nvme_dev_disable()) and reset_work(), and nothing
+> changes wrt. the timeout model:
 
-Thanks, Ming.
+Yeah, the driver makes sure there are no possible outstanding commands at
+the end of nvme_dev_disable. This should mean there's no timeout handler
+running because there's no possible commands for that handler. But that's
+not really the case anymore, so we had been inadvertently depending on
+that behavior.
 
-Mikulas, would you be able to test this and confirm it works for you?
-This appears successful in my testing, but want to hear from the source
-if possible.
+> - reset may take a while to complete because of nvme_wait_freeze(), and
+> timeout can happen during resetting, then reset may hang forever. Even
+> without nvme_wait_freeze(), it is possible for timeout to happen during
+> reset work too in theory.
+>
+> Actually for non-shutdown, it isn't necessary to freeze queue at all, and it
+> is enough to just quiesce queues to make hardware happy for recovery,
+> that has been part of my V2 patchset.
 
-Thanks,
-Keith
+When we freeze, we prevent IOs from entering contexts that may not be
+valid on the other side of the reset. It's not very common for the
+context count to change, but it can happen.
+
+Anyway, will take a look at your series and catch up on the notes from
+you and Jianchao.
