@@ -1,55 +1,112 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Mon, 30 Apr 2018 16:02:56 -0500
-Subject: [PATCH v1 0/2] PCI/ASPM: Tighten up ASPM L1.2 and LTR usage
-In-Reply-To: <152417080402.76853.4258398181136860884.stgit@bhelgaas-glaptop.roam.corp.google.com>
-References: <152417080402.76853.4258398181136860884.stgit@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <20180430210256.GE95643@bhelgaas-glaptop.roam.corp.google.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 30 Apr 2018 15:46:58 -0700
+Subject: [PATCH v2] nvme-cli: Add ioctl retry support for "connect-all"
+Message-ID: <20180430224658.6537-1-jsmart2021@gmail.com>
 
-On Thu, Apr 19, 2018@04:05:19PM -0500, Bjorn Helgaas wrote:
-> The ASPM L1.2 substate depends on LTR information.  Per the PCI
-> Firmware spec, the OS is supposed to negotiate with the platform for
-> control of the LTR feature, but previously we didn't do that.
-> 
-> In addition, we must not enable LTR in an endpoint unless the Root
-> Complex and all intermediate switches also support LTR.  We already
-> took care of that in pci_configure_ltr(), but we didn't ensure that
-> LTR was enabled before allowing ASPM L1.2 to be enabled.
-> 
-> These patches fix both of these issues.  Or rather, they *should* fix
-> them.  I don't have hardware to test them, so any help with testing
-> would be appreciated.
-> 
-> I think the most likely issue would be a platform where the hardware
-> supports LTR and the ASPM L1.2 substate, but the BIOS doesn't support
-> LTR in _OSC.  In that case, we previously could have enabled ASPM L1.2
-> (though it probably wouldn't work correctly), and after these patches,
-> we should not enable ASPM L1.2.
-> 
-> You can look for issues by comparing dmesg and "lspci -vv" output
-> before and after these patches.
-> 
-> It would also be interesting to collect an acpidump from platforms
-> that support LTR, even if there's no endpoint that supports ASPM L1.2.
-> The acpidump should show that _OSC supports LTR.
-> 
-> I included some NVMe folks because these were motivated by Srinath's
-> recent report of LTR and ASPM issues with a Samsung NVMe SSD
-> Controller SM961/PM961 device, so this is sort of FYI in case you see
-> similar issues or are in a position to test these.
-> 
-> ---
-> 
-> Bjorn Helgaas (2):
->       PCI/ASPM: Disable ASPM L1.2 Substate if we don't have LTR
->       PCI/ACPI: Request LTR control from platform before using it
-> 
-> 
->  drivers/acpi/pci_root.c |    7 +++++++
->  drivers/pci/pcie/aspm.c |    9 +++++++++
->  drivers/pci/probe.c     |    5 +++++
->  include/linux/acpi.h    |    3 ++-
->  include/linux/pci.h     |    1 +
->  5 files changed, 24 insertions(+), 1 deletion(-)
+Currently, if an ioctl command to a controller fails, the routines
+within nvme-cli don't do retries and just fail.  In the case of
+operations such as "connect-all" which depend on the ioctl to read
+the discovery log to give it the list of controller to then "connect"
+to, this failure can be catastrophic as there's no guarantee that the
+event/admin action that performed the connect-all will be re-triggered,
+resulting in a loss of connectivity to storage subsystems.
 
-Applied to pci/aspm for v4.18 with Rafael's reviewed-by and Srinath's
-tested-by (on first patch).
+As to why the ioctl may have failed in the first place: if the
+controller is in the middle of a reset or reconnect due to
+an error or temporary loss of connectivity (which can happen even
+on a discovery controller), ioctl commands will fail rather than
+suspend for the full duration of the controller state change
+(say to live or delete), which could be a minute or more.
+
+This patch makes the following changes:
+- Implement an ioctl wrapper that does retries. The ioctl will only
+  retry if the failure status was EAGAIN.
+- Create an admin passthru wrapper that uses the ioctl wrapper with
+  retry
+= Modify the ioctl that reads the discovery log to use the new
+  admin passthru wrapper that performs retries when reading the
+  discovery log, and uses the normal admin passthru (no retries)
+  for all other log types.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+
+---
+v2: rather than all ioctls having a retry counter, reduce to simply
+  the code flow for connect-all
+---
+ nvme-ioctl.c | 26 +++++++++++++++++++++++++-
+ nvme-ioctl.h |  8 ++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index e8ba935..37d1bce 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -21,6 +21,20 @@
+ 
+ #include "nvme-ioctl.h"
+ 
++static int nvme_do_ioctl(int fd, int rqst, void *cmd, int maxretry)
++{
++	int ret = 0, retry;
++
++	for (retry = 0 ; retry <= maxretry; retry++) {
++		ret = ioctl(fd, rqst, cmd);
++		if (ret != -1 || errno != EAGAIN)
++			break;
++
++		usleep(IOCTL_DELAY);
++	}
++	return ret;
++}
++
+ static int nvme_verify_chr(int fd)
+ {
+ 	static struct stat nvme_stat;
+@@ -94,6 +108,12 @@ static int nvme_submit_admin_passthru(int fd, struct nvme_passthru_cmd *cmd)
+ 	return ioctl(fd, NVME_IOCTL_ADMIN_CMD, cmd);
+ }
+ 
++static int nvme_submit_admin_passthru_retry(int fd,
++			struct nvme_passthru_cmd *cmd, int maxretry)
++{
++	return nvme_do_ioctl(fd, NVME_IOCTL_ADMIN_CMD, cmd, maxretry);
++}
++
+ static int nvme_submit_io_passthru(int fd, struct nvme_passthru_cmd *cmd)
+ {
+ 	return ioctl(fd, NVME_IOCTL_IO_CMD, cmd);
+@@ -401,7 +421,11 @@ int nvme_get_log13(int fd, __u32 nsid, __u8 log_id, __u8 lsp, __u64 lpo,
+ 	cmd.cdw12 = lpo;
+ 	cmd.cdw13 = (lpo >> 32);
+ 
+-	return nvme_submit_admin_passthru(fd, &cmd);
++	if (log_id == NVME_LOG_DISC)
++		return nvme_submit_admin_passthru_retry(fd, &cmd,
++				DISCOVERY_RETRIES);
++	else
++		return nvme_submit_admin_passthru(fd, &cmd);
+ 
+ }
+ 
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index 9bf5459..36f1661 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -6,6 +6,14 @@
+ #include "linux/nvme_ioctl.h"
+ #include "nvme.h"
+ 
++/* rate of ioctl retries */
++#define IOCTL_TIMESPERSEC	4
++/* delay between retries. Units in us */
++#define IOCTL_DELAY		(1000000 / IOCTL_TIMESPERSEC)	/* 250ms */
++
++#define NO_RETRIES		0
++#define DISCOVERY_RETRIES	(IOCTL_TIMESPERSEC * 60)	/* 60s */
++
+ int nvme_get_nsid(int fd);
+ 
+ /* Generic passthrough */
+-- 
+2.13.1
