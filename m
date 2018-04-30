@@ -1,69 +1,55 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 30 Apr 2018 13:52:17 -0600
-Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
-In-Reply-To: <CACVXFVMfvLLt7h58W-ifJKbC-s_1oDhCJEx4AqD6wJ+w2AjnYg@mail.gmail.com>
-References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-2-ming.lei@redhat.com>
- <20180427175157.GB5073@localhost.localdomain>
- <20180428035015.GB5657@ming.t460p>
- <20180428133514.GB5938@localhost.localdomain>
- <CACVXFVMfvLLt7h58W-ifJKbC-s_1oDhCJEx4AqD6wJ+w2AjnYg@mail.gmail.com>
-Message-ID: <20180430195217.GD5938@localhost.localdomain>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 30 Apr 2018 16:02:56 -0500
+Subject: [PATCH v1 0/2] PCI/ASPM: Tighten up ASPM L1.2 and LTR usage
+In-Reply-To: <152417080402.76853.4258398181136860884.stgit@bhelgaas-glaptop.roam.corp.google.com>
+References: <152417080402.76853.4258398181136860884.stgit@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <20180430210256.GE95643@bhelgaas-glaptop.roam.corp.google.com>
 
-On Sun, Apr 29, 2018@05:39:52AM +0800, Ming Lei wrote:
-> On Sat, Apr 28, 2018 at 9:35 PM, Keith Busch
-> <keith.busch@linux.intel.com> wrote:
-> > On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
-> >> > I understand how the problems are happening a bit better now. It used
-> >> > to be that blk-mq would lock an expired command one at a time, so when
-> >> > we had a batch of IO timeouts, the driver was able to complete all of
-> >> > them inside a single IO timeout handler.
-> >> >
-> >> > That's not the case anymore, so the driver is called for every IO
-> >> > timeout even though if it reaped all the commands at once.
-> >>
-> >> Actually there isn't the case before, even for legacy path, one .timeout()
-> >> handles one request only.
-> >
-> > That's not quite what I was talking about.
-> >
-> > Before, only the command that was about to be sent to the driver's
-> > .timeout() was marked completed. The driver could (and did) compete
-> > other timed out commands in a single .timeout(), and the tag would
-> > clear, so we could hanlde all timeouts in a single .timeout().
-> >
-> > Now, blk-mq marks all timed out commands as aborted prior to calling
-> > the driver's .timeout(). If the driver completes any of those commands,
-> > the tag does not clear, so the driver's .timeout() just gets to be called
-> > again for commands it already reaped.
+On Thu, Apr 19, 2018@04:05:19PM -0500, Bjorn Helgaas wrote:
+> The ASPM L1.2 substate depends on LTR information.  Per the PCI
+> Firmware spec, the OS is supposed to negotiate with the platform for
+> control of the LTR feature, but previously we didn't do that.
 > 
-> That won't happen because new timeout model will mark aborted on timed-out
-> request first, then run synchronize_rcu() before making these requests
-> really expired, and now rcu lock is held in normal completion
-> handler(blk_mq_complete_request).
+> In addition, we must not enable LTR in an endpoint unless the Root
+> Complex and all intermediate switches also support LTR.  We already
+> took care of that in pci_configure_ltr(), but we didn't ensure that
+> LTR was enabled before allowing ASPM L1.2 to be enabled.
 > 
-> Yes, Bart is working towards that way, but there is still the same race
-> between timeout handler(nvme_dev_disable()) and reset_work(), and nothing
-> changes wrt. the timeout model:
+> These patches fix both of these issues.  Or rather, they *should* fix
+> them.  I don't have hardware to test them, so any help with testing
+> would be appreciated.
+> 
+> I think the most likely issue would be a platform where the hardware
+> supports LTR and the ASPM L1.2 substate, but the BIOS doesn't support
+> LTR in _OSC.  In that case, we previously could have enabled ASPM L1.2
+> (though it probably wouldn't work correctly), and after these patches,
+> we should not enable ASPM L1.2.
+> 
+> You can look for issues by comparing dmesg and "lspci -vv" output
+> before and after these patches.
+> 
+> It would also be interesting to collect an acpidump from platforms
+> that support LTR, even if there's no endpoint that supports ASPM L1.2.
+> The acpidump should show that _OSC supports LTR.
+> 
+> I included some NVMe folks because these were motivated by Srinath's
+> recent report of LTR and ASPM issues with a Samsung NVMe SSD
+> Controller SM961/PM961 device, so this is sort of FYI in case you see
+> similar issues or are in a position to test these.
+> 
+> ---
+> 
+> Bjorn Helgaas (2):
+>       PCI/ASPM: Disable ASPM L1.2 Substate if we don't have LTR
+>       PCI/ACPI: Request LTR control from platform before using it
+> 
+> 
+>  drivers/acpi/pci_root.c |    7 +++++++
+>  drivers/pci/pcie/aspm.c |    9 +++++++++
+>  drivers/pci/probe.c     |    5 +++++
+>  include/linux/acpi.h    |    3 ++-
+>  include/linux/pci.h     |    1 +
+>  5 files changed, 24 insertions(+), 1 deletion(-)
 
-Yeah, the driver makes sure there are no possible outstanding commands at
-the end of nvme_dev_disable. This should mean there's no timeout handler
-running because there's no possible commands for that handler. But that's
-not really the case anymore, so we had been inadvertently depending on
-that behavior.
-
-> - reset may take a while to complete because of nvme_wait_freeze(), and
-> timeout can happen during resetting, then reset may hang forever. Even
-> without nvme_wait_freeze(), it is possible for timeout to happen during
-> reset work too in theory.
->
-> Actually for non-shutdown, it isn't necessary to freeze queue at all, and it
-> is enough to just quiesce queues to make hardware happy for recovery,
-> that has been part of my V2 patchset.
-
-When we freeze, we prevent IOs from entering contexts that may not be
-valid on the other side of the reset. It's not very common for the
-context count to change, but it can happen.
-
-Anyway, will take a look at your series and catch up on the notes from
-you and Jianchao.
+Applied to pci/aspm for v4.18 with Rafael's reviewed-by and Srinath's
+tested-by (on first patch).
