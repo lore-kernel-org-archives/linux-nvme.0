@@ -1,29 +1,21 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 30 Apr 2018 09:45:36 -0700
-Subject: [PATCH] nvme-cli: Add ioctl retry support for connect-all
-In-Reply-To: <20180427213942.GC5073@localhost.localdomain>
-References: <20180427172901.3479-1-jsmart2021@gmail.com>
- <20180427213942.GC5073@localhost.localdomain>
-Message-ID: <b8d9a47f-1aaa-524e-a7dd-f8003403e21b@broadcom.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 30 Apr 2018 13:45:33 -0600
+Subject: [PATCH] nvme/pci: Use async_schedule for initial reset work
+In-Reply-To: <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
+References: <20180427211708.5604-1-keith.busch@intel.com>
+ <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
+Message-ID: <20180430194533.GC5938@localhost.localdomain>
 
-OK. I still believe we'll keep adding it in, but I'm good with a reduced 
-patch.
+On Sat, Apr 28, 2018@05:11:18PM +0800, Ming Lei wrote:
+> Looks fine,
+> 
+> Reviewed-by: Ming Lei <ming.lei at redhat.com>
 
--- james
+Thanks, Ming.
 
+Mikulas, would you be able to test this and confirm it works for you?
+This appears successful in my testing, but want to hear from the source
+if possible.
 
-On 4/27/2018 2:39 PM, Keith Busch wrote:
-> On Fri, Apr 27, 2018@10:29:01AM -0700, James Smart wrote:
->>   /* Generic passthrough */
->> -int nvme_submit_passthru(int fd, int ioctl_cmd, struct nvme_passthru_cmd *cmd);
->> +int nvme_submit_passthru(int fd, int ioctl_cmd, struct nvme_passthru_cmd *cmd,
->> +		int maxretry);
-> Hi James,
->
-> Since the far majority of the callers don't care for retries, let's
-> leave this API alone and create a new one that takes the retries. The
-> old API can call the new one with the default value of NO_RETRIES, and
-> that should simplify this patch significantly.
->
-> Thanks,
-> Keith
+Thanks,
+Keith
