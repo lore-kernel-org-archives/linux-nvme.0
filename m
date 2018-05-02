@@ -1,88 +1,86 @@
-From: mpatocka@redhat.com (Mikulas Patocka)
-Date: Tue, 1 May 2018 19:33:10 -0400 (EDT)
-Subject: [PATCH] nvme/pci: Use async_schedule for initial reset work
-In-Reply-To: <20180430194533.GC5938@localhost.localdomain>
-References: <20180427211708.5604-1-keith.busch@intel.com>
- <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
- <20180430194533.GC5938@localhost.localdomain>
-Message-ID: <alpine.LRH.2.02.1805011928470.17838@file01.intranet.prod.int.rdu2.redhat.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Wed, 2 May 2018 10:23:20 +0800
+Subject: [PATCH V2 5/5] nvme: pci: simplify timeout handling
+In-Reply-To: <20180429154152.16656-6-ming.lei@redhat.com>
+References: <20180429154152.16656-1-ming.lei@redhat.com>
+ <20180429154152.16656-6-ming.lei@redhat.com>
+Message-ID: <655b9d93-b4fc-b78b-1ea1-1c34d5c0535e@oracle.com>
+
+Hi Ming
+
+On 04/29/2018 11:41 PM, Ming Lei wrote:
+> +
+>  static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  {
+>  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> @@ -1197,8 +1297,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  	 */
+>  	if (nvme_should_reset(dev, csts)) {
+>  		nvme_warn_reset(dev, csts);
+> -		nvme_dev_disable(dev, false);
+> -		nvme_reset_ctrl(&dev->ctrl);
+> +		nvme_eh_schedule(dev);
+>  		return BLK_EH_HANDLED;
+>  	}
+>  
+> @@ -1224,8 +1323,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  		dev_warn(dev->ctrl.device,
+>  			 "I/O %d QID %d timeout, disable controller\n",
+>  			 req->tag, nvmeq->qid);
+> -		nvme_dev_disable(dev, false);
+>  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+> +		nvme_eh_schedule(dev);
+>  		return BLK_EH_HANDLED;
+>  	default:
+>  		break;
+> @@ -1240,14 +1339,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  		dev_warn(dev->ctrl.device,
+>  			 "I/O %d QID %d timeout, reset controller\n",
+>  			 req->tag, nvmeq->qid);
+> -		nvme_dev_disable(dev, false);
+> -		nvme_reset_ctrl(&dev->ctrl);
+> -
+>  		/*
+>  		 * Mark the request as handled, since the inline shutdown
+>  		 * forces all outstanding requests to complete.
+>  		 */
+>  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+> +		nvme_eh_schedule(dev);
+>  		return BLK_EH_HANDLED;
+>  	}
+>  
+> @@ -2246,8 +2343,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  	if (pci_is_enabled(pdev)) {
+>  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+>  
+> -		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+> -		    dev->ctrl.state == NVME_CTRL_RESETTING) {
+> +		if (shutdown && (dev->ctrl.state == NVME_CTRL_LIVE ||
+> +		    dev->ctrl.state == NVME_CTRL_RESETTING)) {
+>  			nvme_start_freeze(&dev->ctrl);
+>  			frozen = true;
+>  		}
+> @@ -2281,11 +2378,23 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
+>  		nvme_suspend_queue(&dev->queues[i]);
+>  
+> +	/* safe to sync timeout after queues are quiesced */
+> +	nvme_quiesce_timeout(&dev->ctrl);
+> +	blk_quiesce_timeout(dev->ctrl.admin_q);
+> +
+>  	nvme_pci_disable(dev);
+>  
+> +	/*
+> +	 * Both timeout and interrupt handler have been drained, and all
+> +	 * in-flight requests will be canceled now.
+> +	 */
+>  	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
+>  	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
 
 
+We need to return BLK_EH_RESET_TIMER in nvme_timeout then:
+1. defer the completion. we can't unmap the io request before close the controller totally, so not BLK_EH_HANDLED.
+2. nvme_cancel_request could complete it. blk_mq_complete_request is invoked by nvme_cancel_request, so not BLK_EH_NOT_HANDLED.
 
-On Mon, 30 Apr 2018, Keith Busch wrote:
-
-> On Sat, Apr 28, 2018@05:11:18PM +0800, Ming Lei wrote:
-> > Looks fine,
-> > 
-> > Reviewed-by: Ming Lei <ming.lei at redhat.com>
-> 
-> Thanks, Ming.
-> 
-> Mikulas, would you be able to test this and confirm it works for you?
-> This appears successful in my testing, but want to hear from the source
-> if possible.
-> 
-> Thanks,
-> Keith
-
-The patch is not correct - scan_work is still called from a workqueue and 
-if it's too slow, the nvme device is not found when mounting root.
-
-You can add msleep(10000) at the beginning of nvme_scan_work to test for 
-the race condition on your system.
-
-Here I submit the corrected patch - I added 
-flush_work(&dev->ctrl.scan_work) to nvme_async_probe
-
-Mikulas
-
-
-
-This patch schedules the initial controller reset in an async_domain so
-that it can be synchronized from wait_for_device_probe(). This way the
-kernel waits for the first nvme controller initialization to complete
-for all devices before proceeding with the boot sequence, which may have
-nvme dependencies.
-
-Reported-by: Mikulas Patocka <mpatocka at redhat.com>
-Tested-by: Mikulas Patocka <mpatocka at redhat.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c |   10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-Index: linux-4.16.6/drivers/nvme/host/pci.c
-===================================================================
---- linux-4.16.6.orig/drivers/nvme/host/pci.c	2018-05-02 01:18:01.000000000 +0200
-+++ linux-4.16.6/drivers/nvme/host/pci.c	2018-05-02 01:18:01.000000000 +0200
-@@ -13,6 +13,7 @@
-  */
- 
- #include <linux/aer.h>
-+#include <linux/async.h>
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
- #include <linux/blk-mq-pci.h>
-@@ -2471,6 +2472,13 @@ static unsigned long check_vendor_combin
- 	return 0;
- }
- 
-+static void nvme_async_probe(void *data, async_cookie_t cookie)
-+{
-+	struct nvme_dev *dev = data;
-+	nvme_reset_ctrl_sync(&dev->ctrl);
-+	flush_work(&dev->ctrl.scan_work);
-+}
-+
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	int node, result = -ENOMEM;
-@@ -2515,7 +2523,7 @@ static int nvme_probe(struct pci_dev *pd
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
- 
--	nvme_reset_ctrl(&dev->ctrl);
-+	async_schedule(nvme_async_probe, dev);
- 
- 	return 0;
- 
+Thanks
+Jianchao
