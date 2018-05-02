@@ -1,79 +1,82 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 2 May 2018 11:05:17 -0600
-Subject: [PATCH] nvme: configure discard at init time
-In-Reply-To: <20180502165408.GJ5938@localhost.localdomain>
-References: <b3e2875b-f58a-f49c-1ded-a8c362b026ca@kernel.dk>
- <20180502163258.GI5938@localhost.localdomain>
- <42987d9b-7e55-940c-79a3-c0454358d342@kernel.dk>
- <20180502165408.GJ5938@localhost.localdomain>
-Message-ID: <fc28981a-0a09-b4c9-cb36-1b8e227a0f11@kernel.dk>
+Date: Wed, 2 May 2018 11:06:54 -0600
+Subject: [PATCH v2] nvme: only reconfigure discard if necessary
+Message-ID: <c926d596-b193-c592-3767-4d903ccb742d@kernel.dk>
 
-On 5/2/18 10:54 AM, Keith Busch wrote:
-> On Wed, May 02, 2018@10:41:03AM -0600, Jens Axboe wrote:
->> If we add discard through a firmware upgrade, we should also handle
->> the case where we lose discard through a firmware upgrade/downgrade.
->> Not that any of them are likely to ever happen, but...
->>
->> How about this? Also handles the case where streams values are updated.
-> 
-> Good call. You also have it updating granularity when a format changes
-> the logical block size, so that's also a good thing.
-> 
-> One minor issue below:
->  
->> -static void nvme_config_discard(struct nvme_ctrl *ctrl,
->> -		unsigned stream_alignment, struct request_queue *queue)
->> +static void nvme_config_discard(struct nvme_ns *ns)
->>  {
->> +	struct nvme_ctrl *ctrl = ns->ctrl;
->> +	struct request_queue *queue = ns->queue;
->>  	u32 size = queue_logical_block_size(queue);
->>  
->> -	if (stream_alignment)
->> -		size *= stream_alignment;
->> +	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
->> +		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
->> +		return;
->> +	}
->> +
->> +	if (ctrl->nr_streams && ns->sws && ns->sgs)
->> +		size *= ns->sws * ns->sgs;
->>  
->>  	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
->>  			NVME_DSM_MAX_RANGES);
->> @@ -1361,6 +1367,10 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl,
->>  	queue->limits.discard_alignment = 0;
->>  	queue->limits.discard_granularity = size;
->>  
->> +	/* If discard is already enabled, don't reset queue limits */
->> +	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
->> +		return;
->> +
->>  	blk_queue_max_discard_sectors(queue, UINT_MAX);
->>  	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
->>  	blk_queue_flag_set(QUEUE_FLAG_DISCARD, queue);
->> @@ -1407,10 +1417,6 @@ static void nvme_update_disk_info(struct gendisk *disk,
->>  {
->>  	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
->>  	unsigned short bs = 1 << ns->lba_shift;
->> -	unsigned stream_alignment = 0;
->> -
->> -	if (ns->ctrl->nr_streams && ns->sws && ns->sgs)
->> -		stream_alignment = ns->sws * ns->sgs;
->>  
->>  	blk_mq_freeze_queue(disk->queue);
->>  	blk_integrity_unregister(disk);
->> @@ -1427,7 +1433,7 @@ static void nvme_update_disk_info(struct gendisk *disk,
->>  	set_capacity(disk, capacity);
->>  
->>  	if (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM)
->> -		nvme_config_discard(ns->ctrl, stream_alignment, disk->queue);
->> +		nvme_config_discard(ns);
-> 
-> Since nvme_config_discard now handles disabling the queue limit, we need
-> to call this unconditionally regardless of the ONCS_DSM
+Currently nvme reconfigures discard for every disk revalidation. This
+is problematic because any O_WRONLY or O_RDWR open will trigger a
+partition scan through udev/systemd, and we will reconfigure discard.
+This blows away any user settings, like discard_max_bytes.
 
-Oh yeah, I forgot making that change. I'll send out a proper version.
+Only re-configure the user settable settings if we need to.
+
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+
+---
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df4f71e58ca..25981b30a25d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1347,13 +1347,19 @@ static void nvme_set_chunk_size(struct nvme_ns *ns)
+ 	blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(chunk_size));
+ }
+ 
+-static void nvme_config_discard(struct nvme_ctrl *ctrl,
+-		unsigned stream_alignment, struct request_queue *queue)
++static void nvme_config_discard(struct nvme_ns *ns)
+ {
++	struct nvme_ctrl *ctrl = ns->ctrl;
++	struct request_queue *queue = ns->queue;
+ 	u32 size = queue_logical_block_size(queue);
+ 
+-	if (stream_alignment)
+-		size *= stream_alignment;
++	if (!(ctrl->oncs & NVME_CTRL_ONCS_DSM)) {
++		blk_queue_flag_clear(QUEUE_FLAG_DISCARD, queue);
++		return;
++	}
++
++	if (ctrl->nr_streams && ns->sws && ns->sgs)
++		size *= ns->sws * ns->sgs;
+ 
+ 	BUILD_BUG_ON(PAGE_SIZE / sizeof(struct nvme_dsm_range) <
+ 			NVME_DSM_MAX_RANGES);
+@@ -1361,6 +1367,10 @@ static void nvme_config_discard(struct nvme_ctrl *ctrl,
+ 	queue->limits.discard_alignment = 0;
+ 	queue->limits.discard_granularity = size;
+ 
++	/* If discard is already enabled, don't reset queue limits */
++	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
++		return;
++
+ 	blk_queue_max_discard_sectors(queue, UINT_MAX);
+ 	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
+ 	blk_queue_flag_set(QUEUE_FLAG_DISCARD, queue);
+@@ -1407,10 +1417,6 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ {
+ 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+ 	unsigned short bs = 1 << ns->lba_shift;
+-	unsigned stream_alignment = 0;
+-
+-	if (ns->ctrl->nr_streams && ns->sws && ns->sgs)
+-		stream_alignment = ns->sws * ns->sgs;
+ 
+ 	blk_mq_freeze_queue(disk->queue);
+ 	blk_integrity_unregister(disk);
+@@ -1424,10 +1430,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 		nvme_init_integrity(disk, ns->ms, ns->pi_type);
+ 	if (ns->ms && !nvme_ns_has_pi(ns) && !blk_get_integrity(disk))
+ 		capacity = 0;
+-	set_capacity(disk, capacity);
+ 
+-	if (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM)
+-		nvme_config_discard(ns->ctrl, stream_alignment, disk->queue);
++	set_capacity(disk, capacity);
++	nvme_config_discard(ns);
+ 	blk_mq_unfreeze_queue(disk->queue);
+ }
+ 
 
 -- 
 Jens Axboe
