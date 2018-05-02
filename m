@@ -1,29 +1,13 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 2 May 2018 11:23:19 -0600
-Subject: [PATCH v2] nvme: only reconfigure discard if necessary
-In-Reply-To: <c926d596-b193-c592-3767-4d903ccb742d@kernel.dk>
-References: <c926d596-b193-c592-3767-4d903ccb742d@kernel.dk>
-Message-ID: <20180502172319.GK5938@localhost.localdomain>
+From: CW-Joel.Dedrick@taec.toshiba.com (CW-Joel Dedrick)
+Date: Wed, 2 May 2018 22:23:56 +0000
+Subject: Redundant connections vs. state-free initiator provisioning
+Message-ID: <F59A32945E11144584BEC2C480B2819A974202B4@EXMAIL1.taec.toshiba.com>
 
-On Wed, May 02, 2018@11:06:54AM -0600, Jens Axboe wrote:
-> Currently nvme reconfigures discard for every disk revalidation. This
-> is problematic because any O_WRONLY or O_RDWR open will trigger a
-> partition scan through udev/systemd, and we will reconfigure discard.
-> This blows away any user settings, like discard_max_bytes.
-> 
-> Only re-configure the user settable settings if we need to.
-> 
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Could someone explain the use-case for establishing multiple connections between the same Host and Subsystem (via the same port.)?
 
-Thanks, applied to nvme-4.18 with a minor modification removing the
-redundant QUEUE_FLAG_DISCARD flag set:
-  
-> +	/* If discard is already enabled, don't reset queue limits */
-> +	if (blk_queue_flag_test_and_set(QUEUE_FLAG_DISCARD, queue))
-> +		return;
-> +
->  	blk_queue_max_discard_sectors(queue, UINT_MAX);
->  	blk_queue_max_discard_segments(queue, NVME_DSM_MAX_RANGES);
->  	blk_queue_flag_set(QUEUE_FLAG_DISCARD, queue);
+This behavior conflicts with what would otherwise be a very clean & centralized way to provision large numbers of initiators, (which could all be identically configured but provisioned differently).  This could be done by implementing a discovery controller/target that selectively exposes only the resources for which each initiator has permissions.  Each initiator could just issue "connect all" and would get the appropriate logical block devices.
 
--  	blk_queue_flag_set(QUEUE_FLAG_DISCARD, queue);
+But, if multiple "connect all" commands result in multiple, redundant sets of block devices (as now), this would be too fragile to use.  I also understand from past threads on this topic that this behavior is different from FC, FWIW.
+
+Thanks,
+JHD
