@@ -1,102 +1,73 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 2 May 2018 11:33:43 +0800
-Subject: [PATCH V2 1/5] block: introduce blk_quiesce_timeout() and
- blk_unquiesce_timeout()
-In-Reply-To: <93c4190f-178a-a3b4-5203-bd8c6a0eaef2@oracle.com>
-References: <20180429154152.16656-1-ming.lei@redhat.com>
- <20180429154152.16656-2-ming.lei@redhat.com>
- <93c4190f-178a-a3b4-5203-bd8c6a0eaef2@oracle.com>
-Message-ID: <20180502033342.GD22363@ming.t460p>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed,  2 May 2018 00:48:40 -0400
+Subject: [PATCH] nvme-cli: allow block device for delete-ns
+Message-ID: <20180502044840.28801-1-chaitanya.kulkarni@wdc.com>
 
-On Wed, May 02, 2018@10:23:35AM +0800, jianchao.wang wrote:
-> Hi ming
-> 
-> On 04/29/2018 11:41 PM, Ming Lei wrote:
-> >  
-> > +static void __blk_unquiesce_timeout(struct request_queue *q)
-> > +{
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(q->queue_lock, flags);
-> > +	q->timeout_off = false;
-> > +	spin_unlock_irqrestore(q->queue_lock, flags);
-> > +}
-> > +
-> > +void blk_unquiesce_timeout(struct request_queue *q)
-> > +{
-> > +	__blk_unquiesce_timeout(q);
-> > +	mod_timer(&q->timeout, jiffies + q->rq_timeout);
-> > +}
-> > +EXPORT_SYMBOL(blk_unquiesce_timeout);
-> > +
-> > +void blk_quiesce_timeout(struct request_queue *q)
-> > +{
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(q->queue_lock, flags);
-> > +	q->timeout_off = true;
-> > +	spin_unlock_irqrestore(q->queue_lock, flags);
-> > +
-> > +	del_timer_sync(&q->timeout);
-> > +	cancel_work_sync(&q->timeout_work);
-> > +}
-> > +EXPORT_SYMBOL(blk_quiesce_timeout);
-> > +
-> >  /**
-> >   * blk_sync_queue - cancel any pending callbacks on a queue
-> >   * @q: the queue
-> > @@ -408,8 +437,7 @@ EXPORT_SYMBOL(blk_stop_queue);
-> >   */
-> >  void blk_sync_queue(struct request_queue *q)
-> >  {
-> > -	del_timer_sync(&q->timeout);
-> > -	cancel_work_sync(&q->timeout_work);
-> > +	blk_quiesce_timeout(q);
-> >  
-> >  	if (q->mq_ops) {
-> >  		struct blk_mq_hw_ctx *hctx;
-> > @@ -421,6 +449,8 @@ void blk_sync_queue(struct request_queue *q)
-> >  	} else {
-> >  		cancel_delayed_work_sync(&q->delay_work);
-> >  	}
-> > +
-> > +	__blk_unquiesce_timeout(q);
-> >  }
-> >  EXPORT_SYMBOL(blk_sync_queue);
-> >  
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index 0dc9e341c2a7..890dd3b3e3e1 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -901,6 +901,15 @@ static void blk_mq_timeout_work(struct work_struct *work)
-> >  	};
-> >  	struct blk_mq_hw_ctx *hctx;
-> >  	int i;
-> > +	bool timeout_off;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(q->queue_lock, flags);
-> > +	timeout_off = q->timeout_off;
-> > +	spin_unlock_irqrestore(q->queue_lock, flags);
-> > +
-> > +	if (timeout_off)
-> > +		return;
-> 
-> Looks like there is still race as following:
-> 
-> blk_quiesce_timeout                          blk_mq_timeout_work
->                                                -> timeout_off = q->timeout_off; //still a false
->   -> q->timeout_off = true;
->   -> del_timer_sync(&q->timeout);
->                                                -> mod_timer
->   -> cancel_work_sync(&q->timeout_work);
+This patch allows block device to be used for the
+NVMe delete-ns command while keeping the -n options
+as it is.
 
-No, there isn't such race, the 'mod_timer' doesn't make a difference
-because 'q->timeout_off' will be visible in new work func after
-cancel_work_sync() returns. So even the timer is expired, work func
-still returns immediately.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ nvme.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
-That means del_timer_sync() isn't absolutely necessary too.
-
-Thanks,
-Ming
+diff --git a/nvme.c b/nvme.c
+index 4b62daf..f0a1474 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -853,6 +853,18 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 	return err;
+ }
+ 
++static int get_nsid(int fd)
++{
++	int nsid = nvme_get_nsid(fd);
++
++	if (nsid <= 0) {
++		fprintf(stderr,
++			"%s: failed to return namespace id\n",
++			devicename);
++	}
++	return nsid;
++}
++
+ static int delete_ns(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+ 	const char *desc = "Delete the given namespace by "\
+@@ -881,7 +893,13 @@ static int delete_ns(int argc, char **argv, struct command *cmd, struct plugin *
+ 	if (fd < 0)
+ 		return fd;
+ 
+-	if (!cfg.namespace_id) {
++	if (S_ISBLK(nvme_stat.st_mode)) {
++		cfg.namespace_id = get_nsid(fd);
++		if (cfg.namespace_id == 0) {
++			err = EINVAL;
++			goto close_fd;
++		}
++	} else if (!cfg.namespace_id) {
+ 		fprintf(stderr, "%s: namespace-id parameter required\n",
+ 						cmd->name);
+ 		err = EINVAL;
+@@ -1526,18 +1544,6 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
+ 	return 0;
+ }
+ 
+-static int get_nsid(int fd)
+-{
+-	int nsid = nvme_get_nsid(fd);
+-
+-	if (nsid <= 0) {
+-		fprintf(stderr,
+-			"%s: failed to return namespace id\n",
+-			devicename);
+-	}
+-	return nsid;
+-}
+-
+ int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
+ {
+ 	const char *desc = "Send an Identify Controller command to "\
+-- 
+2.14.1
