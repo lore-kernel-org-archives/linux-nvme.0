@@ -1,86 +1,127 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 2 May 2018 10:23:20 +0800
-Subject: [PATCH V2 5/5] nvme: pci: simplify timeout handling
-In-Reply-To: <20180429154152.16656-6-ming.lei@redhat.com>
+Date: Wed, 2 May 2018 10:23:35 +0800
+Subject: [PATCH V2 1/5] block: introduce blk_quiesce_timeout() and
+ blk_unquiesce_timeout()
+In-Reply-To: <20180429154152.16656-2-ming.lei@redhat.com>
 References: <20180429154152.16656-1-ming.lei@redhat.com>
- <20180429154152.16656-6-ming.lei@redhat.com>
-Message-ID: <655b9d93-b4fc-b78b-1ea1-1c34d5c0535e@oracle.com>
+ <20180429154152.16656-2-ming.lei@redhat.com>
+Message-ID: <93c4190f-178a-a3b4-5203-bd8c6a0eaef2@oracle.com>
 
-Hi Ming
+Hi ming
 
 On 04/29/2018 11:41 PM, Ming Lei wrote:
+>  
+> +static void __blk_unquiesce_timeout(struct request_queue *q)
+> +{
+> +	unsigned long flags;
 > +
->  static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> +	spin_lock_irqsave(q->queue_lock, flags);
+> +	q->timeout_off = false;
+> +	spin_unlock_irqrestore(q->queue_lock, flags);
+> +}
+> +
+> +void blk_unquiesce_timeout(struct request_queue *q)
+> +{
+> +	__blk_unquiesce_timeout(q);
+> +	mod_timer(&q->timeout, jiffies + q->rq_timeout);
+> +}
+> +EXPORT_SYMBOL(blk_unquiesce_timeout);
+> +
+> +void blk_quiesce_timeout(struct request_queue *q)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(q->queue_lock, flags);
+> +	q->timeout_off = true;
+> +	spin_unlock_irqrestore(q->queue_lock, flags);
+> +
+> +	del_timer_sync(&q->timeout);
+> +	cancel_work_sync(&q->timeout_work);
+> +}
+> +EXPORT_SYMBOL(blk_quiesce_timeout);
+> +
+>  /**
+>   * blk_sync_queue - cancel any pending callbacks on a queue
+>   * @q: the queue
+> @@ -408,8 +437,7 @@ EXPORT_SYMBOL(blk_stop_queue);
+>   */
+>  void blk_sync_queue(struct request_queue *q)
 >  {
->  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> @@ -1197,8 +1297,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  	 */
->  	if (nvme_should_reset(dev, csts)) {
->  		nvme_warn_reset(dev, csts);
-> -		nvme_dev_disable(dev, false);
-> -		nvme_reset_ctrl(&dev->ctrl);
-> +		nvme_eh_schedule(dev);
->  		return BLK_EH_HANDLED;
+> -	del_timer_sync(&q->timeout);
+> -	cancel_work_sync(&q->timeout_work);
+> +	blk_quiesce_timeout(q);
+>  
+>  	if (q->mq_ops) {
+>  		struct blk_mq_hw_ctx *hctx;
+> @@ -421,6 +449,8 @@ void blk_sync_queue(struct request_queue *q)
+>  	} else {
+>  		cancel_delayed_work_sync(&q->delay_work);
 >  	}
->  
-> @@ -1224,8 +1323,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  		dev_warn(dev->ctrl.device,
->  			 "I/O %d QID %d timeout, disable controller\n",
->  			 req->tag, nvmeq->qid);
-> -		nvme_dev_disable(dev, false);
->  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> +		nvme_eh_schedule(dev);
->  		return BLK_EH_HANDLED;
->  	default:
->  		break;
-> @@ -1240,14 +1339,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
->  		dev_warn(dev->ctrl.device,
->  			 "I/O %d QID %d timeout, reset controller\n",
->  			 req->tag, nvmeq->qid);
-> -		nvme_dev_disable(dev, false);
-> -		nvme_reset_ctrl(&dev->ctrl);
-> -
->  		/*
->  		 * Mark the request as handled, since the inline shutdown
->  		 * forces all outstanding requests to complete.
->  		 */
->  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
-> +		nvme_eh_schedule(dev);
->  		return BLK_EH_HANDLED;
->  	}
->  
-> @@ -2246,8 +2343,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->  	if (pci_is_enabled(pdev)) {
->  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
->  
-> -		if (dev->ctrl.state == NVME_CTRL_LIVE ||
-> -		    dev->ctrl.state == NVME_CTRL_RESETTING) {
-> +		if (shutdown && (dev->ctrl.state == NVME_CTRL_LIVE ||
-> +		    dev->ctrl.state == NVME_CTRL_RESETTING)) {
->  			nvme_start_freeze(&dev->ctrl);
->  			frozen = true;
->  		}
-> @@ -2281,11 +2378,23 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->  	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
->  		nvme_suspend_queue(&dev->queues[i]);
->  
-> +	/* safe to sync timeout after queues are quiesced */
-> +	nvme_quiesce_timeout(&dev->ctrl);
-> +	blk_quiesce_timeout(dev->ctrl.admin_q);
 > +
->  	nvme_pci_disable(dev);
+> +	__blk_unquiesce_timeout(q);
+>  }
+>  EXPORT_SYMBOL(blk_sync_queue);
 >  
-> +	/*
-> +	 * Both timeout and interrupt handler have been drained, and all
-> +	 * in-flight requests will be canceled now.
-> +	 */
->  	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
->  	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 0dc9e341c2a7..890dd3b3e3e1 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -901,6 +901,15 @@ static void blk_mq_timeout_work(struct work_struct *work)
+>  	};
+>  	struct blk_mq_hw_ctx *hctx;
+>  	int i;
+> +	bool timeout_off;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(q->queue_lock, flags);
+> +	timeout_off = q->timeout_off;
+> +	spin_unlock_irqrestore(q->queue_lock, flags);
+> +
+> +	if (timeout_off)
+> +		return;
+
+Looks like there is still race as following:
+
+blk_quiesce_timeout                          blk_mq_timeout_work
+                                               -> timeout_off = q->timeout_off; //still a false
+  -> q->timeout_off = true;
+  -> del_timer_sync(&q->timeout);
+                                               -> mod_timer
+  -> cancel_work_sync(&q->timeout_work);
 
 
-We need to return BLK_EH_RESET_TIMER in nvme_timeout then:
-1. defer the completion. we can't unmap the io request before close the controller totally, so not BLK_EH_HANDLED.
-2. nvme_cancel_request could complete it. blk_mq_complete_request is invoked by nvme_cancel_request, so not BLK_EH_NOT_HANDLED.
+How about this:
+
+Introduce a new request queue flag QUEUE_FLAG_TIMEOUT_QUIESCED
+
+void blk_quiesce_queue_timeout(struct request_queue *q)
+{
+	unsigned long flags;
+
+	spin_lock_irqsave(q->queue_lock, flags);
+	queue_flag_set(QUEUE_FLAG_TIMEOUT_QUIESCED, q);
+	spin_unlock_irqrestore(q->queue_lock, flags);
+
+	synchronize_rcu_bh();
+	cancel_work_sync(&q->timeout_work);
+	/*
+	 * The timeout work will not be invoked anymore.
+	 */
+	del_timer_sync(&q->timeout);
+}
+
+ void blk_set_queue_dying(struct request_queue *q)
+ {
+ 	spin_lock_irq(q->queue_lock);
+@@ -867,6 +905,9 @@ static void blk_rq_timed_out_timer(struct timer_list *t)
+ {
+ 	struct request_queue *q = from_timer(q, t, timeout);
+ 
++	if (blk_queue_timeout_quiesced(q))
++		return;
+
+ 	kblockd_schedule_work(&q->timeout_work);
+ }
 
 Thanks
 Jianchao
