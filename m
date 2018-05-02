@@ -1,73 +1,99 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed,  2 May 2018 00:48:40 -0400
-Subject: [PATCH] nvme-cli: allow block device for delete-ns
-Message-ID: <20180502044840.28801-1-chaitanya.kulkarni@wdc.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 2 May 2018 12:54:24 +0800
+Subject: [PATCH V2 5/5] nvme: pci: simplify timeout handling
+In-Reply-To: <655b9d93-b4fc-b78b-1ea1-1c34d5c0535e@oracle.com>
+References: <20180429154152.16656-1-ming.lei@redhat.com>
+ <20180429154152.16656-6-ming.lei@redhat.com>
+ <655b9d93-b4fc-b78b-1ea1-1c34d5c0535e@oracle.com>
+Message-ID: <20180502045423.GE22363@ming.t460p>
 
-This patch allows block device to be used for the
-NVMe delete-ns command while keeping the -n options
-as it is.
+On Wed, May 02, 2018@10:23:20AM +0800, jianchao.wang wrote:
+> Hi Ming
+> 
+> On 04/29/2018 11:41 PM, Ming Lei wrote:
+> > +
+> >  static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> >  {
+> >  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> > @@ -1197,8 +1297,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> >  	 */
+> >  	if (nvme_should_reset(dev, csts)) {
+> >  		nvme_warn_reset(dev, csts);
+> > -		nvme_dev_disable(dev, false);
+> > -		nvme_reset_ctrl(&dev->ctrl);
+> > +		nvme_eh_schedule(dev);
+> >  		return BLK_EH_HANDLED;
+> >  	}
+> >  
+> > @@ -1224,8 +1323,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> >  		dev_warn(dev->ctrl.device,
+> >  			 "I/O %d QID %d timeout, disable controller\n",
+> >  			 req->tag, nvmeq->qid);
+> > -		nvme_dev_disable(dev, false);
+> >  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+> > +		nvme_eh_schedule(dev);
+> >  		return BLK_EH_HANDLED;
+> >  	default:
+> >  		break;
+> > @@ -1240,14 +1339,12 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+> >  		dev_warn(dev->ctrl.device,
+> >  			 "I/O %d QID %d timeout, reset controller\n",
+> >  			 req->tag, nvmeq->qid);
+> > -		nvme_dev_disable(dev, false);
+> > -		nvme_reset_ctrl(&dev->ctrl);
+> > -
+> >  		/*
+> >  		 * Mark the request as handled, since the inline shutdown
+> >  		 * forces all outstanding requests to complete.
+> >  		 */
+> >  		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
+> > +		nvme_eh_schedule(dev);
+> >  		return BLK_EH_HANDLED;
+> >  	}
+> >  
+> > @@ -2246,8 +2343,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+> >  	if (pci_is_enabled(pdev)) {
+> >  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> >  
+> > -		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+> > -		    dev->ctrl.state == NVME_CTRL_RESETTING) {
+> > +		if (shutdown && (dev->ctrl.state == NVME_CTRL_LIVE ||
+> > +		    dev->ctrl.state == NVME_CTRL_RESETTING)) {
+> >  			nvme_start_freeze(&dev->ctrl);
+> >  			frozen = true;
+> >  		}
+> > @@ -2281,11 +2378,23 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+> >  	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
+> >  		nvme_suspend_queue(&dev->queues[i]);
+> >  
+> > +	/* safe to sync timeout after queues are quiesced */
+> > +	nvme_quiesce_timeout(&dev->ctrl);
+> > +	blk_quiesce_timeout(dev->ctrl.admin_q);
+> > +
+> >  	nvme_pci_disable(dev);
+> >  
+> > +	/*
+> > +	 * Both timeout and interrupt handler have been drained, and all
+> > +	 * in-flight requests will be canceled now.
+> > +	 */
+> >  	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
+> >  	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
+> 
+> 
+> We need to return BLK_EH_RESET_TIMER in nvme_timeout then:
+> 1. defer the completion. we can't unmap the io request before close the controller totally, so not BLK_EH_HANDLED.
+> 2. nvme_cancel_request could complete it. blk_mq_complete_request is invoked by nvme_cancel_request, so not BLK_EH_NOT_HANDLED.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- nvme.c | 32 +++++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+We don't need to change return value of .timeout() any more after
+calling nvme_quiesce_timeout():
 
-diff --git a/nvme.c b/nvme.c
-index 4b62daf..f0a1474 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -853,6 +853,18 @@ static int list_ns(int argc, char **argv, struct command *cmd, struct plugin *pl
- 	return err;
- }
- 
-+static int get_nsid(int fd)
-+{
-+	int nsid = nvme_get_nsid(fd);
-+
-+	if (nsid <= 0) {
-+		fprintf(stderr,
-+			"%s: failed to return namespace id\n",
-+			devicename);
-+	}
-+	return nsid;
-+}
-+
- static int delete_ns(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
- 	const char *desc = "Delete the given namespace by "\
-@@ -881,7 +893,13 @@ static int delete_ns(int argc, char **argv, struct command *cmd, struct plugin *
- 	if (fd < 0)
- 		return fd;
- 
--	if (!cfg.namespace_id) {
-+	if (S_ISBLK(nvme_stat.st_mode)) {
-+		cfg.namespace_id = get_nsid(fd);
-+		if (cfg.namespace_id == 0) {
-+			err = EINVAL;
-+			goto close_fd;
-+		}
-+	} else if (!cfg.namespace_id) {
- 		fprintf(stderr, "%s: namespace-id parameter required\n",
- 						cmd->name);
- 		err = EINVAL;
-@@ -1526,18 +1544,6 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
- 	return 0;
- }
- 
--static int get_nsid(int fd)
--{
--	int nsid = nvme_get_nsid(fd);
--
--	if (nsid <= 0) {
--		fprintf(stderr,
--			"%s: failed to return namespace id\n",
--			devicename);
--	}
--	return nsid;
--}
--
- int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
- {
- 	const char *desc = "Send an Identify Controller command to "\
--- 
-2.14.1
+Thanks the single EH kthread, once nvme_quiesce_timeout() returns, all
+timed-out requests have been handled already. Some of them may be completed,
+and others may be handled as RESET_TIMER, but none of them are handled as
+NOT_HANDLED because nvme_timeout() won't return that value.
+
+So the following blk_mq_tagset_busy_iter(nvme_cancel_request) can handle
+all in-flight requests because timeout is drained and quiesced.
+
+Thanks,
+Ming
