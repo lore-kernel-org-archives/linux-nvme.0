@@ -1,36 +1,24 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Wed, 2 May 2018 13:12:57 +0800
-Subject: [PATCH V2 5/5] nvme: pci: simplify timeout handling
-In-Reply-To: <20180502045423.GE22363@ming.t460p>
+Date: Wed, 2 May 2018 13:16:46 +0800
+Subject: [PATCH V2 1/5] block: introduce blk_quiesce_timeout() and
+ blk_unquiesce_timeout()
+In-Reply-To: <20180502033342.GD22363@ming.t460p>
 References: <20180429154152.16656-1-ming.lei@redhat.com>
- <20180429154152.16656-6-ming.lei@redhat.com>
- <655b9d93-b4fc-b78b-1ea1-1c34d5c0535e@oracle.com>
- <20180502045423.GE22363@ming.t460p>
-Message-ID: <eee63159-aae9-1936-008d-024dce13a69b@oracle.com>
+ <20180429154152.16656-2-ming.lei@redhat.com>
+ <93c4190f-178a-a3b4-5203-bd8c6a0eaef2@oracle.com>
+ <20180502033342.GD22363@ming.t460p>
+Message-ID: <81dd6a4b-c27c-d39e-cccf-68a0ff3d1711@oracle.com>
 
 Hi Ming
 
-On 05/02/2018 12:54 PM, Ming Lei wrote:
->> We need to return BLK_EH_RESET_TIMER in nvme_timeout then:
->> 1. defer the completion. we can't unmap the io request before close the controller totally, so not BLK_EH_HANDLED.
->> 2. nvme_cancel_request could complete it. blk_mq_complete_request is invoked by nvme_cancel_request, so not BLK_EH_NOT_HANDLED.
-> We don't need to change return value of .timeout() any more after
-> calling nvme_quiesce_timeout():
-> 
-> Thanks the single EH kthread, once nvme_quiesce_timeout() returns, all
-> timed-out requests have been handled already. Some of them may be completed,
-> and others may be handled as RESET_TIMER, but none of them are handled as
-> NOT_HANDLED because nvme_timeout() won't return that value.
-> 
-> So the following blk_mq_tagset_busy_iter(nvme_cancel_request) can handle
-> all in-flight requests because timeout is drained and quiesced.
+On 05/02/2018 11:33 AM, Ming Lei wrote:
+> No, there isn't such race, the 'mod_timer' doesn't make a difference
+> because 'q->timeout_off' will be visible in new work func after
+> cancel_work_sync() returns. So even the timer is expired, work func
+> still returns immediately.
 
-The key point here is we cannot unmap the io requests before we close the controller directly.
-The nvme controller may still hold the command after we complete and unmap the io request in nvme_timeout.
-This will cause memory corruption.
-
-So we cannot just schedule the eh recovery kthread then return BLK_EH_HANDLED.
-We need to deffer the completion of timeout requests until the controller has been closed totally in nvme_dev_disable.
+Yes, you are right.
+even if timer is setup , but the timeout work will return.
 
 Thanks
 Jianchao
