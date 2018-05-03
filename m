@@ -1,41 +1,32 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu,  3 May 2018 17:00:35 +0200
-Subject: [PATCH] nvmet: switch loopback target state to connecting when
- resetting
-Message-ID: <20180503150035.13918-1-jthumshirn@suse.de>
+Date: Thu,  3 May 2018 17:00:53 +0200
+Subject: [PATCH blktests 2/3] nvme: fix counting the target port
+In-Reply-To: <20180503150054.14022-1-jthumshirn@suse.de>
+References: <20180503150054.14022-1-jthumshirn@suse.de>
+Message-ID: <20180503150054.14022-2-jthumshirn@suse.de>
 
-After commit bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
-resetting of the loopback nvme target failed as we forgot to switch
-it's state to NVME_CTRL_CONNECTING before we reconnect the admin
-queues. Therefore the checks in nvmf_check_if_ready() choose to go to
-the reject_io case and thus we couldn't sent out an identify
-controller command to reconnect.
-
-Change the controller state to NVME_CTRL_CONNECTING after tearing down
-the old connection and before re-establishing the connection.
-
-Fixes: bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/target/loop.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ common/nvme | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 31fdfba556a8..27a8561c0cb9 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -469,6 +469,12 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 	nvme_stop_ctrl(&ctrl->ctrl);
- 	nvme_loop_shutdown_ctrl(ctrl);
+diff --git a/common/nvme b/common/nvme
+index c4a44065cd9f..3e20eeaa5744 100644
+--- a/common/nvme
++++ b/common/nvme
+@@ -27,11 +27,11 @@ _test_dev_is_nvme() {
  
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
-+		/* state change failure should never happen */
-+		WARN_ON_ONCE(1);
-+		return;
-+	}
-+
- 	ret = nvme_loop_configure_admin_queue(ctrl);
- 	if (ret)
- 		goto out_disable;
+ _create_nvmet_port() {
+ 	local trtype="$1"
+-	local nvmet_cfs="/sys/kernel/config/nvmet/"
++	local nvmet_cfs="/sys/kernel/config/nvmet"
+ 
+ 	local port
+ 	for ((port = 0; ; port++)); do
+-		if [[ ! -e "${nvmet_cfs}/${port}" ]]; then
++		if [[ ! -e "${nvmet_cfs}/ports/${port}" ]]; then
+ 			break
+ 		fi
+ 	done
 -- 
 2.16.3
