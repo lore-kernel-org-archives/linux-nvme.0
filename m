@@ -1,214 +1,73 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed,  2 May 2018 21:00:49 -0400
-Subject: [PATCH V2 6/6] nvmet: add configfs interface for target passthru
+Date: Wed,  2 May 2018 21:00:47 -0400
+Subject: [PATCH V2 4/6] nvmet: add global subsystem list
 In-Reply-To: <20180503010049.3010-1-chaitanya.kulkarni@wdc.com>
 References: <20180503010049.3010-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180503010049.3010-7-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180503010049.3010-5-chaitanya.kulkarni@wdc.com>
 
-This patch adds configfs interface for target passthru
-ctrl management.
+This adds a new structure member for nvmet_subsys and global
+list of the subsystems.
+We use this global list to maintain currently connected,
+not connected, linked and not linked subsystem on the lists.
 
-The new directory "pt" under nvmet configfs is added to
-configure passthru ctrl (pt-ctrl). Once all the fields
-for the pt-ctrl are set user can enable the pt-ctrl through
-configfs.
-
-The new directory pt is parallel to the subsystem and has similar
-attributes as default subsystem, each passthru ctrl is represented
-as one subsystem. Since we allow ctrl passthru we don't export or
-allow user to access the passthru namespace(s) in the configfs.
-
-The new attribute "attr_ctrl_path" expects nvme ctrl path,
-e.g. "/dev/nvmeX".
+This is a preparation patch for implementing the NVMeOF target
+passthru code.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/configfs.c | 145 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 144 insertions(+), 1 deletion(-)
+ drivers/nvme/target/core.c  | 12 ++++++++++++
+ drivers/nvme/target/nvmet.h |  2 ++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index ad9ff27..4b42be6 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -21,6 +21,7 @@
- #include "nvmet.h"
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 2cb1970..5c1c7bf 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -21,6 +21,9 @@
+ static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+ static DEFINE_IDA(cntlid_ida);
  
- static const struct config_item_type nvmet_host_type;
-+static const struct config_item_type nvmet_pt_type;
- static const struct config_item_type nvmet_subsys_type;
++static LIST_HEAD(nvmet_subsystems);
++DEFINE_MUTEX(nvmet_subsystems_lock);
++
+ /*
+  * This read/write semaphore is used to synchronize access to configuration
+  * information on a target system that will result in discovery log page
+@@ -999,6 +1002,11 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+ 	INIT_LIST_HEAD(&subsys->namespaces);
+ 	INIT_LIST_HEAD(&subsys->ctrls);
+ 	INIT_LIST_HEAD(&subsys->hosts);
++	INIT_LIST_HEAD(&subsys->entry);
++
++	mutex_lock(&nvmet_subsystems_lock);
++	list_add_tail(&subsys->entry, &nvmet_subsystems);
++	mutex_unlock(&nvmet_subsystems_lock);
  
- static const struct nvmet_transport_name {
-@@ -474,7 +475,8 @@ static int nvmet_port_subsys_allow_link(struct config_item *parent,
- 	struct nvmet_subsys_link *link, *p;
- 	int ret;
+ 	return subsys;
+ }
+@@ -1010,6 +1018,10 @@ static void nvmet_subsys_free(struct kref *ref)
  
--	if (target->ci_type != &nvmet_subsys_type) {
-+	if (!(target->ci_type == &nvmet_subsys_type ||
-+				target->ci_type == &nvmet_pt_type)) {
- 		pr_err("can only link subsystems into the subsystems dir.!\n");
- 		return -EINVAL;
- 	}
-@@ -769,6 +771,141 @@ static const struct config_item_type nvmet_subsystems_type = {
- 	.ct_owner		= THIS_MODULE,
+ 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
+ 
++	mutex_lock(&nvmet_subsystems_lock);
++	list_del(&subsys->entry);
++	mutex_unlock(&nvmet_subsystems_lock);
++
+ 	kfree(subsys->subsysnqn);
+ 	kfree(subsys);
+ }
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 096a132..a0e2b25 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -160,6 +160,8 @@ struct nvmet_subsys {
+ 
+ 	struct config_group	namespaces_group;
+ 	struct config_group	allowed_hosts_group;
++
++	struct list_head	entry;
  };
  
-+
-+/*
-+ * Passthru attributes and operations.
-+ */
-+static ssize_t nvmet_pt_attr_ctrl_path_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%s\n", subsys->pt_ctrl_path);
-+}
-+
-+static ssize_t nvmet_pt_attr_ctrl_path_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	int ret = -ENOMEM;
-+
-+	mutex_lock(&subsys->lock);
-+	kfree(subsys->pt_ctrl_path);
-+
-+	subsys->pt_ctrl_path = kstrdup(page, GFP_KERNEL);
-+	if (!subsys->pt_ctrl_path)
-+		goto out_unlock;
-+
-+	mutex_unlock(&subsys->lock);
-+
-+	return count;
-+out_unlock:
-+	mutex_unlock(&subsys->lock);
-+	return ret;
-+
-+}
-+CONFIGFS_ATTR(nvmet_pt_, attr_ctrl_path);
-+
-+static ssize_t nvmet_pt_attr_enable_show(struct config_item *item, char *page)
-+{
-+	return sprintf(page, "%d\n", to_subsys(item)->pt_ctrl ? 1 : 0);
-+}
-+
-+static ssize_t nvmet_pt_attr_enable_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	bool enable;
-+	int ret = 0;
-+
-+	if (subsys->pt_ctrl_path == NULL) {
-+		pr_err("passthru ctrl path is not initialized.\n");
-+		return -EINVAL;
-+	}
-+
-+	if (strtobool(page, &enable))
-+		return -EINVAL;
-+
-+	if (enable)
-+		ret = nvmet_pt_ctrl_enable(subsys);
-+	else
-+		nvmet_pt_ctrl_disable(subsys);
-+
-+	return ret ? ret : count;
-+}
-+CONFIGFS_ATTR(nvmet_pt_, attr_enable);
-+
-+static struct configfs_attribute *nvmet_pt_attrs[] = {
-+	&nvmet_pt_attr_attr_ctrl_path,
-+	&nvmet_pt_attr_attr_enable,
-+	&nvmet_subsys_attr_attr_allow_any_host,
-+	&nvmet_subsys_attr_attr_version,
-+	&nvmet_subsys_attr_attr_serial,
-+	NULL,
-+};
-+
-+/*
-+ * Passthru structures & folder operation functions below
-+ */
-+static void nvmet_pt_release(struct config_item *item)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	nvmet_subsys_del_ctrls(subsys);
-+	/*
-+	 * Since we are the only one to manage the pt ctrl,
-+	 * disable the pt ctrl in case user did not disable
-+	 * the ctrl attribute prior to removing the passthru subsystem.
-+	 */
-+
-+	nvmet_pt_ctrl_disable(subsys);
-+
-+	nvmet_subsys_put(subsys);
-+}
-+
-+static struct configfs_item_operations nvmet_pt_item_ops = {
-+	.release		= nvmet_pt_release,
-+};
-+
-+static const struct config_item_type nvmet_pt_type = {
-+	.ct_item_ops		= &nvmet_pt_item_ops,
-+	.ct_attrs		= nvmet_pt_attrs,
-+	.ct_owner		= THIS_MODULE,
-+};
-+
-+static struct config_group *nvmet_pt_make(struct config_group *group,
-+		const char *name)
-+{
-+	struct nvmet_subsys *subsys;
-+
-+	if (sysfs_streq(name, NVME_DISC_SUBSYS_NAME)) {
-+		pr_err("can't create discovery subsystem through configfs\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	subsys = nvmet_subsys_alloc(name, NVME_NQN_NVME);
-+	if (!subsys)
-+		return ERR_PTR(-ENOMEM);
-+
-+	config_group_init_type_name(&subsys->group, name, &nvmet_pt_type);
-+
-+	config_group_init_type_name(&subsys->allowed_hosts_group,
-+			"allowed_hosts", &nvmet_allowed_hosts_type);
-+	configfs_add_default_group(&subsys->allowed_hosts_group,
-+			&subsys->group);
-+
-+	return &subsys->group;
-+}
-+
-+static struct configfs_group_operations nvmet_pts_group_ops = {
-+	.make_group		= nvmet_pt_make,
-+};
-+
-+static struct config_item_type nvmet_pts_type = {
-+	.ct_group_ops		= &nvmet_pts_group_ops,
-+	.ct_owner		= THIS_MODULE,
-+};
-+
- static ssize_t nvmet_referral_enable_show(struct config_item *item,
- 		char *page)
- {
-@@ -924,6 +1061,7 @@ static const struct config_item_type nvmet_ports_type = {
- };
- 
- static struct config_group nvmet_subsystems_group;
-+static struct config_group nvmet_pts_group;
- static struct config_group nvmet_ports_group;
- 
- static void nvmet_host_release(struct config_item *item)
-@@ -987,6 +1125,11 @@ int __init nvmet_init_configfs(void)
- 	config_group_init(&nvmet_configfs_subsystem.su_group);
- 	mutex_init(&nvmet_configfs_subsystem.su_mutex);
- 
-+	config_group_init_type_name(&nvmet_pts_group,
-+			"passthru", &nvmet_pts_type);
-+	configfs_add_default_group(&nvmet_pts_group,
-+			&nvmet_configfs_subsystem.su_group);
-+
- 	config_group_init_type_name(&nvmet_subsystems_group,
- 			"subsystems", &nvmet_subsystems_type);
- 	configfs_add_default_group(&nvmet_subsystems_group,
+ static inline struct nvmet_subsys *to_subsys(struct config_item *item)
 -- 
 2.9.5
