@@ -1,188 +1,34 @@
-From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Thu, 3 May 2018 12:03:15 -0700
-Subject: [PATCH blktests 3/3] nvme: add test for resetting the loopback
- controller
-In-Reply-To: <20180503150054.14022-3-jthumshirn@suse.de>
-References: <20180503150054.14022-1-jthumshirn@suse.de>
- <20180503150054.14022-3-jthumshirn@suse.de>
-Message-ID: <CAK0tqikbAzX79tPuoTmB-n=3+8=9ExN43k1jTsqY0E-47TN2UA@mail.gmail.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 3 May 2018 14:15:08 -0600
+Subject: [PATCH] nvme/pci: Use async_schedule for initial reset work
+In-Reply-To: <alpine.LRH.2.02.1805021717430.2705@file01.intranet.prod.int.rdu2.redhat.com>
+References: <20180427211708.5604-1-keith.busch@intel.com>
+ <CACVXFVNXmzMC9N+EabeXs4-XZLCRSOVdpd901wfojBL_s2YFRQ@mail.gmail.com>
+ <20180430194533.GC5938@localhost.localdomain>
+ <alpine.LRH.2.02.1805011928470.17838@file01.intranet.prod.int.rdu2.redhat.com>
+ <20180502152953.GH5938@localhost.localdomain>
+ <alpine.LRH.2.02.1805021717430.2705@file01.intranet.prod.int.rdu2.redhat.com>
+Message-ID: <20180503201507.GO5938@localhost.localdomain>
 
-Hi Johannes,
+On Thu, May 03, 2018@10:55:09AM -0400, Mikulas Patocka wrote:
+> I think there is still one more bug:
+> 
+> If nvme_probe is called, it schedules the asynchronous work using 
+> async_schedule - now suppose that the pci system calls the "remove", 
+> "shutdown" or "suspend" method - this method will race with 
+> nvme_async_probe running in the async domain - that will cause 
+> misbehavior.
+> 
+> Or - does the PCI subsystem flush the async queues before calling these 
+> methods? I'm not sure, but it doesn't seem so.
+> 
+> I think, you need to save the cookie returned by async_schedule and wait 
+> for this cookie with async_synchronize_cookie in the other methods.
 
-Thanks for submitting the test.
+I think we're fine as-is without syncing the cookie. 
 
-I was wondering if we can move the generic setup and clean up
-functionality to the helpers for reference:-
+The remove path should be fine since we already sync with the necessary
+work queues.
 
-+pre()
-+{
-+      # Clean up all stale modules
-+       modprobe -r nvme-loop
-+       modprobe -r nvme-core
-+       modprobe -r nvmet
-+
-}
-
-+post()
-+{
-+       modprobe -r nvme-loop
-+       modprobe -r nvme-core
-+       modprobe -r nvmet
-+
-+}
-
-+test() {
-+       echo "Running ${TEST_NAME}"
-+
-+       pre
-+
-+       modprobe nvme-core multipath=1
-+       modprobe nvmet
-+       modprobe nvme-loop
-+
-+       local port
-+       port=$(_create_nvmet_port "loop")
-+
-+       truncate -s 1G "$TMPDIR/img"
-+
-+       local loop_dev
-+       loop_dev="$(losetup -f --show "$TMPDIR/img")"
-+
-+       _create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" \
-+               "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-+       _add_nvmet_subsys_to_port "${port}" "blktests-subsystem-1"
-+
-+       nvme connect -t loop -n blktests-subsystem-1
-+
-+       local nvmedev
-+       nvmedev="$(_find_nvme_loop_dev)"
-+
-+       udevadm settle
-+
-+       echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
-+
-+       nvme disconnect -d "${nvmedev}"
-+       _remove_nvmet_subsystem_from_port "${port}" "blktests-subsystem-1"
-+       _remove_nvmet_port "${port}"
-+
-+       _remove_nvmet_subsystem "blktests-subsystem-1"
-+       losetup -d "$loop_dev"
-+       rm "$TMPDIR/img"
-+
-+       post
-+
-+       echo "Test complete"
-+}
-
-In this way, we can move generic pre and post to the nvme/lib so that
-all other tests can also use that?
-
-
-On Thu, May 3, 2018@8:00 AM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  tests/nvme/005     | 77 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/005.out |  2 ++
->  2 files changed, 79 insertions(+)
->  create mode 100755 tests/nvme/005
->  create mode 100644 tests/nvme/005.out
->
-> diff --git a/tests/nvme/005 b/tests/nvme/005
-> new file mode 100755
-> index 000000000000..77f843fed692
-> --- /dev/null
-> +++ b/tests/nvme/005
-> @@ -0,0 +1,77 @@
-> +#!/bin/bash
-> +#
-> +# Regression test for patch "nvmet: switch loopback target state to connecting
-> +# when resetting"
-> +#
-> +# Copyright (C) 2018 Johannes Thumshirn
-> +#
-> +# This program is free software: you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation, either version 3 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +
-> +DESCRIPTION="reset local loopback target"
-> +
-> +QUICK=1
-> +
-> +requires() {
-> +       _have_module nvme-loop && _have_module nvmet && _have_module loop && \
-> +               _have_configfs && _have_module nvme-core && \
-> +               _have_module_param nvme-core multipath
-> +}
-> +
-> +test() {
-> +       echo "Running ${TEST_NAME}"
-> +
-> +       # Clean up all stale modules
-> +       modprobe -r nvme-loop
-> +       modprobe -r nvme-core
-> +       modprobe -r nvmet
-> +
-> +       modprobe nvme-core multipath=1
-> +       modprobe nvmet
-> +       modprobe nvme-loop
-> +
-> +       local port
-> +       port=$(_create_nvmet_port "loop")
-> +
-> +       truncate -s 1G "$TMPDIR/img"
-> +
-> +       local loop_dev
-> +       loop_dev="$(losetup -f --show "$TMPDIR/img")"
-> +
-> +       _create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" \
-> +               "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-> +       _add_nvmet_subsys_to_port "${port}" "blktests-subsystem-1"
-> +
-> +       nvme connect -t loop -n blktests-subsystem-1
-> +
-> +       local nvmedev
-> +       nvmedev="$(_find_nvme_loop_dev)"
-> +
-> +       udevadm settle
-> +
-> +       echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
-> +
-> +       nvme disconnect -d "${nvmedev}"
-> +       _remove_nvmet_subsystem_from_port "${port}" "blktests-subsystem-1"
-> +       _remove_nvmet_port "${port}"
-> +
-> +       _remove_nvmet_subsystem "blktests-subsystem-1"
-> +       losetup -d "$loop_dev"
-> +       rm "$TMPDIR/img"
-> +
-> +       modprobe -r nvme-loop
-> +       modprobe -r nvme-core
-> +       modprobe -r nvmet
-> +
-> +       echo "Test complete"
-> +}
-> diff --git a/tests/nvme/005.out b/tests/nvme/005.out
-> new file mode 100644
-> index 000000000000..6146a7b8b1a7
-> --- /dev/null
-> +++ b/tests/nvme/005.out
-> @@ -0,0 +1,2 @@
-> +Running nvme/005
-> +Test complete
-> --
-> 2.16.3
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+The shutdown, suspend and reset paths will just cause the initial reset
+work to end early, the same result as what previously would happen.
