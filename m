@@ -1,46 +1,122 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed,  2 May 2018 21:00:43 -0400
-Subject: [PATCH V2 0/6] nvmet: implement target passthru commands support
-Message-ID: <20180503010049.3010-1-chaitanya.kulkarni@wdc.com>
+Date: Wed,  2 May 2018 21:00:44 -0400
+Subject: [PATCH V2 1/6] nvme-core: add new interfaces
+In-Reply-To: <20180503010049.3010-1-chaitanya.kulkarni@wdc.com>
+References: <20180503010049.3010-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180503010049.3010-2-chaitanya.kulkarni@wdc.com>
 
-This patchset aims to enable passing through entire physical NVMe drive
-through an NVMe over fabrics interface. This implies that all 
-namespaces on the target drive are passed through to the initiator
-one-to-one and all admin commands from the initiator are forwarded back
-to the target drive. This allows for exposing Vender Unique Commands
-(VUCs) over the NVMe-OF interface.
+The new interface nvme_get_ctrl_by_path() allows to
+search the nvme ctrl by its pathname. On success, it increments
+the refcount of the ctrl and associated subsystem.
+The caller needs to decrement the ctrl and
+subsystem refcount by calling nvme_put_ctrl_by_path() once the
+work is done.
 
-Changes since V1:-
-1. Update the new nvme core controller find API naming and
-   changed the string comparison of the ctrl.
-2. Get rid of the newly added #defines for target ctrl values.
-3. Use the newly added structure members in the same patch where
-   they are used. Aggregate the passthru command handling support
-   and integration with nvmet-core into one patch. 
-4. Introduce global NVMe Target subsystem list for connected and
-   not connected subsystems on the target side.
-5. Add check when configuring the target ns and target
-   passthru ctrl to allow only one target controller to be created
-   for one passthru subsystem.
-6. Use the passthru ctrl cntlid when creating the target controller.
+This is a preparation patch for implementing NVMe Over Fabric
+target passthru feature.
 
-Chaitanya Kulkarni (6):
-  nvme-core: add new interfaces
-  nvme-core: export existing ctrl and ns interfaces
-  nvmet: export nvmet_add_async_event api
-  nvmet: add global subsystem list
-  nvmet: add and integrate passthru code with core
-  nvmet: add configfs interface for target passthru
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/host/core.c | 65 ++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  3 +++
+ 2 files changed, 68 insertions(+)
 
- drivers/nvme/host/core.c           |  80 +++++++-
- drivers/nvme/host/nvme.h           |  10 +
- drivers/nvme/target/Makefile       |   2 +-
- drivers/nvme/target/configfs.c     | 145 +++++++++++++-
- drivers/nvme/target/core.c         | 203 ++++++++++++++++++-
- drivers/nvme/target/nvmet.h        |  18 ++
- drivers/nvme/target/passthru-cmd.c | 398 +++++++++++++++++++++++++++++++++++++
- 7 files changed, 838 insertions(+), 18 deletions(-)
- create mode 100644 drivers/nvme/target/passthru-cmd.c
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df4f71..ebc75c5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -100,6 +100,64 @@ static struct class *nvme_subsys_class;
+ static void nvme_ns_remove(struct nvme_ns *ns);
+ static int nvme_revalidate_disk(struct gendisk *disk);
+ 
++static int nvme_get_subsystem(struct nvme_subsystem *subsys);
++static void nvme_put_subsystem(struct nvme_subsystem *subsys);
++
++int nvme_get_ctrl_by_path(char *path, struct nvme_ctrl **ctrl)
++{
++	int ret = -ENODEV;
++	char *cdev = strrchr(path, '/');
++	struct nvme_ctrl *ictrl = NULL;
++	struct nvme_subsystem *isubsys = NULL;
++
++	if (!cdev) {
++		*ctrl = NULL;
++		return ret;
++	}
++	cdev++;
++
++	mutex_lock(&nvme_subsystems_lock);
++	list_for_each_entry(isubsys, &nvme_subsystems, entry) {
++		if (!nvme_get_subsystem(isubsys)) {
++			pr_info("failed to get the subsystem for ctrl %s\n",
++					path);
++			goto out;
++		}
++		mutex_unlock(&nvme_subsystems_lock);
++
++		list_for_each_entry(ictrl, &isubsys->ctrls, subsys_entry) {
++			spin_lock(&ictrl->lock);
++			nvme_get_ctrl(ictrl);
++			if (strcmp(cdev, kobject_name(&ictrl->device->kobj))
++					== 0) {
++				*ctrl = ictrl;
++				if (try_module_get(ictrl->ops->module)) {
++					spin_unlock(&ictrl->lock);
++					mutex_lock(&nvme_subsystems_lock);
++					ret = 0;
++					goto out;
++				}
++			}
++			nvme_put_ctrl(ictrl);
++			spin_unlock(&ictrl->lock);
++		}
++		mutex_lock(&nvme_subsystems_lock);
++		nvme_put_subsystem(isubsys);
++	}
++out:
++	mutex_unlock(&nvme_subsystems_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvme_get_ctrl_by_path);
++
++void nvme_put_ctrl_by_path(struct nvme_ctrl *ctrl)
++{
++	nvme_put_ctrl(ctrl);
++	module_put(ctrl->ops->module);
++	nvme_put_subsystem(ctrl->subsys);
++}
++EXPORT_SYMBOL_GPL(nvme_put_ctrl_by_path);
++
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+@@ -2031,6 +2089,13 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+ 	memset(subsys->subnqn + off, 0, sizeof(subsys->subnqn) - off);
+ }
+ 
++static int nvme_get_subsystem(struct nvme_subsystem *subsys)
++{
++	lockdep_assert_held(&nvme_subsystems_lock);
++
++	return kref_get_unless_zero(&subsys->ref);
++}
++
+ static void __nvme_release_subsystem(struct nvme_subsystem *subsys)
+ {
+ 	ida_simple_remove(&nvme_subsystems_ida, subsys->instance);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 061fecf..ee609d2 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -432,6 +432,9 @@ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		u8 log_page, void *log, size_t size, u64 offset);
+ 
++int nvme_get_ctrl_by_path(char *name, struct nvme_ctrl **ctrl);
++void nvme_put_ctrl_by_path(struct nvme_ctrl *ctrl);
++
+ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
 -- 
 2.9.5
