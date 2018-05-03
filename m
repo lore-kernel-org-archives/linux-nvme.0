@@ -1,65 +1,93 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 3 May 2018 09:59:54 -0600
+From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
+Date: Thu, 3 May 2018 19:29:11 +0200
 Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
+In-Reply-To: <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
 References: <20180423233046.21476-1-logang@deltatee.com>
  <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
  <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
  <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
-Message-ID: <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
+ <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
+Message-ID: <38d866cf-f7b4-7118-d737-5a5dcd9f3784@amd.com>
 
+Am 03.05.2018 um 17:59 schrieb Logan Gunthorpe:
+> On 03/05/18 03:05 AM, Christian K?nig wrote:
+>> Second question is how to you want to handle things when device are not
+>> behind the same root port (which is perfectly possible in the cases I
+>> deal with)?
+> I think we need to implement a whitelist. If both root ports are in the
+> white list and are on the same bus then we return a larger distance
+> instead of -1.
 
+Sounds good.
 
-On 03/05/18 03:05 AM, Christian K?nig wrote:
-> Ok, I'm still missing the big picture here. First question is what is 
-> the P2PDMA provider?
+>> Third question why multiple clients? That feels a bit like you are
+>> pushing something special to your use case into the common PCI
+>> subsystem. Something which usually isn't a good idea.
+> No, I think this will be pretty standard. In the simple general case you
+> are going to have one provider and at least two clients (one which
+> writes the memory and one which reads it). However, one client is
+> likely, but not necessarily, the same as the provider.
 
-Well there's some pretty good documentation in the patchset for this,
-but in short, a provider is a device that provides some kind of P2P
-resource (ie. BAR memory, or perhaps a doorbell register -- only memory
-is supported at this time).
+Ok, that is the point where I'm stuck. Why do we need that in one 
+function call in the PCIe subsystem?
 
-> Second question is how to you want to handle things when device are not 
-> behind the same root port (which is perfectly possible in the cases I 
-> deal with)?
+The problem at least with GPUs is that we seriously don't have that 
+information here, cause the PCI subsystem might not be aware of all the 
+interconnections.
 
-I think we need to implement a whitelist. If both root ports are in the
-white list and are on the same bus then we return a larger distance
-instead of -1.
+For example it isn't uncommon to put multiple GPUs on one board. To the 
+PCI subsystem that looks like separate devices, but in reality all GPUs 
+are interconnected and can access each others memory directly without 
+going over the PCIe bus.
 
-> Third question why multiple clients? That feels a bit like you are 
-> pushing something special to your use case into the common PCI 
-> subsystem. Something which usually isn't a good idea.
+I seriously don't want to model that in the PCI subsystem, but rather 
+the driver. That's why it feels like a mistake to me to push all that 
+into the PCI function.
 
-No, I think this will be pretty standard. In the simple general case you
-are going to have one provider and at least two clients (one which
-writes the memory and one which reads it). However, one client is
-likely, but not necessarily, the same as the provider.
+> In the NVMeof case, we might have N clients: 1 RDMA device and N-1 block
+> devices. The code doesn't care which device provides the memory as it
+> could be the RDMA device or one/all of the block devices (or, in theory,
+> a completely separate device with P2P-able memory). However, it does
+> require that all devices involved are accessible per
+> pci_p2pdma_distance() or it won't use P2P transactions.
+>
+> I could also imagine other use cases: ie. an RDMA NIC sends data to a
+> GPU for processing and then sends the data to an NVMe device for storage
+> (or vice-versa). In this case we have 3 clients and one provider.
 
-In the NVMeof case, we might have N clients: 1 RDMA device and N-1 block
-devices. The code doesn't care which device provides the memory as it
-could be the RDMA device or one/all of the block devices (or, in theory,
-a completely separate device with P2P-able memory). However, it does
-require that all devices involved are accessible per
-pci_p2pdma_distance() or it won't use P2P transactions.
+Why can't we model that as two separate transactions?
 
-I could also imagine other use cases: ie. an RDMA NIC sends data to a
-GPU for processing and then sends the data to an NVMe device for storage
-(or vice-versa). In this case we have 3 clients and one provider.
+E.g. one from the RDMA NIC to the GPU memory. And another one from the 
+GPU memory to the NVMe device.
 
-> As far as I can see we need a function which return the distance between 
-> a initiator and target device. This function then returns -1 if the 
-> transaction can't be made and a positive value otherwise.
+That would also match how I get this information from userspace.
 
-If you need to make a simpler convenience function for your use case I'm
-not against it.
+>> As far as I can see we need a function which return the distance between
+>> a initiator and target device. This function then returns -1 if the
+>> transaction can't be made and a positive value otherwise.
+> If you need to make a simpler convenience function for your use case I'm
+> not against it.
 
-> We also need to give the direction of the transaction and have a 
-> whitelist root complex PCI-IDs which can handle P2P transactions from 
-> different ports for a certain DMA direction.
+Yeah, same for me. If Bjorn is ok with that specialized NVM functions 
+that I'm fine with that as well.
 
-Yes. In the NVMeof case we need all devices to be able to DMA in both
-directions so we did not need the DMA direction. But I can see this
-being useful once we add the whitelist.
+I think it would just be more convenient when we can come up with 
+functions which can handle all use cases, cause there still seems to be 
+a lot of similarities.
 
-Logan
+>
+>> We also need to give the direction of the transaction and have a
+>> whitelist root complex PCI-IDs which can handle P2P transactions from
+>> different ports for a certain DMA direction.
+> Yes. In the NVMeof case we need all devices to be able to DMA in both
+> directions so we did not need the DMA direction. But I can see this
+> being useful once we add the whitelist.
+
+Ok, I agree that can be added later on. For simplicity let's assume for 
+now we always to bidirectional transfers.
+
+Thanks for the explanation,
+Christian.
+
+>
+> Logan
