@@ -1,57 +1,188 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 3 May 2018 12:43:21 -0600
-Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <38d866cf-f7b4-7118-d737-5a5dcd9f3784@amd.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
- <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
- <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
- <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
- <38d866cf-f7b4-7118-d737-5a5dcd9f3784@amd.com>
-Message-ID: <2d59aa02-f2fa-bd88-1b6c-923117a6ad28@deltatee.com>
+From: ckulkarnilinux@gmail.com (chaitany kulkarni)
+Date: Thu, 3 May 2018 12:03:15 -0700
+Subject: [PATCH blktests 3/3] nvme: add test for resetting the loopback
+ controller
+In-Reply-To: <20180503150054.14022-3-jthumshirn@suse.de>
+References: <20180503150054.14022-1-jthumshirn@suse.de>
+ <20180503150054.14022-3-jthumshirn@suse.de>
+Message-ID: <CAK0tqikbAzX79tPuoTmB-n=3+8=9ExN43k1jTsqY0E-47TN2UA@mail.gmail.com>
+
+Hi Johannes,
+
+Thanks for submitting the test.
+
+I was wondering if we can move the generic setup and clean up
+functionality to the helpers for reference:-
+
++pre()
++{
++      # Clean up all stale modules
++       modprobe -r nvme-loop
++       modprobe -r nvme-core
++       modprobe -r nvmet
++
+}
+
++post()
++{
++       modprobe -r nvme-loop
++       modprobe -r nvme-core
++       modprobe -r nvmet
++
++}
+
++test() {
++       echo "Running ${TEST_NAME}"
++
++       pre
++
++       modprobe nvme-core multipath=1
++       modprobe nvmet
++       modprobe nvme-loop
++
++       local port
++       port=$(_create_nvmet_port "loop")
++
++       truncate -s 1G "$TMPDIR/img"
++
++       local loop_dev
++       loop_dev="$(losetup -f --show "$TMPDIR/img")"
++
++       _create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" \
++               "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
++       _add_nvmet_subsys_to_port "${port}" "blktests-subsystem-1"
++
++       nvme connect -t loop -n blktests-subsystem-1
++
++       local nvmedev
++       nvmedev="$(_find_nvme_loop_dev)"
++
++       udevadm settle
++
++       echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
++
++       nvme disconnect -d "${nvmedev}"
++       _remove_nvmet_subsystem_from_port "${port}" "blktests-subsystem-1"
++       _remove_nvmet_port "${port}"
++
++       _remove_nvmet_subsystem "blktests-subsystem-1"
++       losetup -d "$loop_dev"
++       rm "$TMPDIR/img"
++
++       post
++
++       echo "Test complete"
++}
+
+In this way, we can move generic pre and post to the nvme/lib so that
+all other tests can also use that?
 
 
-
-On 03/05/18 11:29 AM, Christian K?nig wrote:
-> Ok, that is the point where I'm stuck. Why do we need that in one 
-> function call in the PCIe subsystem?
-> 
-> The problem at least with GPUs is that we seriously don't have that 
-> information here, cause the PCI subsystem might not be aware of all the 
-> interconnections.
-> 
-> For example it isn't uncommon to put multiple GPUs on one board. To the 
-> PCI subsystem that looks like separate devices, but in reality all GPUs 
-> are interconnected and can access each others memory directly without 
-> going over the PCIe bus.
-> 
-> I seriously don't want to model that in the PCI subsystem, but rather 
-> the driver. That's why it feels like a mistake to me to push all that 
-> into the PCI function.
-
-Huh? I'm lost. If you have a bunch of PCI devices you can send them as a
-list to this API, if you want. If the driver is _sure_ they are all the
-same, you only have to send one. In your terminology, you'd just have to
-call the interface with:
-
-pci_p2pdma_distance(target, [initiator, target])
-
-> Why can't we model that as two separate transactions?
-
-You could, but this is more convenient for users of the API that need to
-deal with multiple devices (and manage devices that may be added or
-removed at any time).
-
-> Yeah, same for me. If Bjorn is ok with that specialized NVM functions 
-> that I'm fine with that as well.
-> 
-> I think it would just be more convenient when we can come up with 
-> functions which can handle all use cases, cause there still seems to be 
-> a lot of similarities.
-
-The way it's implemented is more general and can handle all use cases.
-You are arguing for a function that can handle your case (albeit with a
-bit more fuss) but can't handle mine and is therefore less general.
-Calling my interface specialized is wrong.
-
-Logan
+On Thu, May 3, 2018@8:00 AM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  tests/nvme/005     | 77 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/005.out |  2 ++
+>  2 files changed, 79 insertions(+)
+>  create mode 100755 tests/nvme/005
+>  create mode 100644 tests/nvme/005.out
+>
+> diff --git a/tests/nvme/005 b/tests/nvme/005
+> new file mode 100755
+> index 000000000000..77f843fed692
+> --- /dev/null
+> +++ b/tests/nvme/005
+> @@ -0,0 +1,77 @@
+> +#!/bin/bash
+> +#
+> +# Regression test for patch "nvmet: switch loopback target state to connecting
+> +# when resetting"
+> +#
+> +# Copyright (C) 2018 Johannes Thumshirn
+> +#
+> +# This program is free software: you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation, either version 3 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +
+> +DESCRIPTION="reset local loopback target"
+> +
+> +QUICK=1
+> +
+> +requires() {
+> +       _have_module nvme-loop && _have_module nvmet && _have_module loop && \
+> +               _have_configfs && _have_module nvme-core && \
+> +               _have_module_param nvme-core multipath
+> +}
+> +
+> +test() {
+> +       echo "Running ${TEST_NAME}"
+> +
+> +       # Clean up all stale modules
+> +       modprobe -r nvme-loop
+> +       modprobe -r nvme-core
+> +       modprobe -r nvmet
+> +
+> +       modprobe nvme-core multipath=1
+> +       modprobe nvmet
+> +       modprobe nvme-loop
+> +
+> +       local port
+> +       port=$(_create_nvmet_port "loop")
+> +
+> +       truncate -s 1G "$TMPDIR/img"
+> +
+> +       local loop_dev
+> +       loop_dev="$(losetup -f --show "$TMPDIR/img")"
+> +
+> +       _create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev}" \
+> +               "91fdba0d-f87b-4c25-b80f-db7be1418b9e"
+> +       _add_nvmet_subsys_to_port "${port}" "blktests-subsystem-1"
+> +
+> +       nvme connect -t loop -n blktests-subsystem-1
+> +
+> +       local nvmedev
+> +       nvmedev="$(_find_nvme_loop_dev)"
+> +
+> +       udevadm settle
+> +
+> +       echo 1 > "/sys/class/nvme/${nvmedev}/reset_controller"
+> +
+> +       nvme disconnect -d "${nvmedev}"
+> +       _remove_nvmet_subsystem_from_port "${port}" "blktests-subsystem-1"
+> +       _remove_nvmet_port "${port}"
+> +
+> +       _remove_nvmet_subsystem "blktests-subsystem-1"
+> +       losetup -d "$loop_dev"
+> +       rm "$TMPDIR/img"
+> +
+> +       modprobe -r nvme-loop
+> +       modprobe -r nvme-core
+> +       modprobe -r nvmet
+> +
+> +       echo "Test complete"
+> +}
+> diff --git a/tests/nvme/005.out b/tests/nvme/005.out
+> new file mode 100644
+> index 000000000000..6146a7b8b1a7
+> --- /dev/null
+> +++ b/tests/nvme/005.out
+> @@ -0,0 +1,2 @@
+> +Running nvme/005
+> +Test complete
+> --
+> 2.16.3
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
