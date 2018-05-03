@@ -1,35 +1,46 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 3 May 2018 09:29:48 -0600
-Subject: [GIT PULL] nvme fixes for 4.17
-Message-ID: <20180503152948.GM5938@localhost.localdomain>
+Date: Thu, 3 May 2018 09:31:42 -0600
+Subject: [PATCH] nvmet: switch loopback target state to connecting when
+ resetting
+In-Reply-To: <20180503150035.13918-1-jthumshirn@suse.de>
+References: <20180503150035.13918-1-jthumshirn@suse.de>
+Message-ID: <20180503153142.GN5938@localhost.localdomain>
 
-The following changes since commit bf0ddaba65ddbb2715af97041da8e7a45b2d8628:
+On Thu, May 03, 2018@05:00:35PM +0200, Johannes Thumshirn wrote:
+> After commit bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
+> resetting of the loopback nvme target failed as we forgot to switch
+> it's state to NVME_CTRL_CONNECTING before we reconnect the admin
+> queues. Therefore the checks in nvmf_check_if_ready() choose to go to
+> the reject_io case and thus we couldn't sent out an identify
+> controller command to reconnect.
+> 
+> Change the controller state to NVME_CTRL_CONNECTING after tearing down
+> the old connection and before re-establishing the connection.
+> 
+> Fixes: bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  drivers/nvme/target/loop.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index 31fdfba556a8..27a8561c0cb9 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -469,6 +469,12 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+>  	nvme_stop_ctrl(&ctrl->ctrl);
+>  	nvme_loop_shutdown_ctrl(ctrl);
+>  
+> +	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+> +		/* state change failure should never happen */
+> +		WARN_ON_ONCE(1);
+> +		return;
+> +	}
+> +
+>  	ret = nvme_loop_configure_admin_queue(ctrl);
+>  	if (ret)
+>  		goto out_disable;
+> -- 
+> 2.16.3
 
-  blk-mq: fix sysfs inflight counter (2018-04-26 09:02:01 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.17-rc3
-
-for you to fetch changes up to eb395977b73dce7af0eaa29412b3f6e13b87811d:
-
-  nvmet: switch loopback target state to connecting when resetting (2018-05-03 08:11:38 -0600)
-
-----------------------------------------------------------------
-Chengguang Xu (1):
-      nvme: fix potential memory leak in option parsing
-
-Johannes Thumshirn (1):
-      nvmet: switch loopback target state to connecting when resetting
-
-Keith Busch (3):
-      nvme: Set integrity flag for user passthrough commands
-      nvme/multipath: Disable runtime writable enabling parameter
-      nvme/multipath: Fix multipath disabled naming collisions
-
- drivers/nvme/host/core.c      | 27 ++-------------------------
- drivers/nvme/host/fabrics.c   |  6 ++++++
- drivers/nvme/host/multipath.c | 24 +++++++++++++++++++++++-
- drivers/nvme/host/nvme.h      | 12 ++++++++++++
- drivers/nvme/target/loop.c    |  6 ++++++
- 5 files changed, 49 insertions(+), 26 deletions(-)
+Thanks, applied to the 4.17 nvme branch.
