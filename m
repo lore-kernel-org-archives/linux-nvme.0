@@ -1,48 +1,47 @@
-From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
-Date: Thu, 3 May 2018 11:05:21 +0200
-Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
- <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
-Message-ID: <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Thu, 3 May 2018 17:14:30 +0800
+Subject: [PATCH V3 7/8] nvme: pci: recover controller reliably
+In-Reply-To: <20180503031716.31446-8-ming.lei@redhat.com>
+References: <20180503031716.31446-1-ming.lei@redhat.com>
+ <20180503031716.31446-8-ming.lei@redhat.com>
+Message-ID: <32819b0a-acc8-fa76-5e58-8e75e2bc081b@oracle.com>
 
-Am 02.05.2018 um 17:56 schrieb Logan Gunthorpe:
-> Hi Christian,
->
-> On 5/2/2018 5:51 AM, Christian K?nig wrote:
->> it would be rather nice to have if you could separate out the 
->> functions to detect if peer2peer is possible between two devices.
->
-> This would essentially be pci_p2pdma_distance() in the existing 
-> patchset. It returns the sum of the distance between a list of clients 
-> and a P2PDMA provider. It returns -1 if peer2peer is not possible 
-> between the devices (presently this means they are not behind the same 
-> root port).
+Hi ming
 
-Ok, I'm still missing the big picture here. First question is what is 
-the P2PDMA provider?
+On 05/03/2018 11:17 AM, Ming Lei wrote:
+>  static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+> @@ -1199,7 +1204,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  	if (nvme_should_reset(dev, csts)) {
+>  		nvme_warn_reset(dev, csts);
+>  		nvme_dev_disable(dev, false, true);
+> -		nvme_reset_ctrl(&dev->ctrl);
+> +		nvme_eh_reset(dev);
+>  		return BLK_EH_HANDLED;
+>  	}
+>  
+> @@ -1242,7 +1247,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  			 "I/O %d QID %d timeout, reset controller\n",
+>  			 req->tag, nvmeq->qid);
+>  		nvme_dev_disable(dev, false, true);
+> -		nvme_reset_ctrl(&dev->ctrl);
+> +		nvme_eh_reset(dev);
 
-Second question is how to you want to handle things when device are not 
-behind the same root port (which is perfectly possible in the cases I 
-deal with)?
+w/o the 8th patch, invoke nvme_eh_reset in nvme_timeout is dangerous.
+nvme_pre_reset_dev will send a lot of admin io when initialize the controller.
+if this admin ios timeout, the nvme_timeout cannot handle this because the timeout work is sleeping
+to wait admin ios.
 
-Third question why multiple clients? That feels a bit like you are 
-pushing something special to your use case into the common PCI 
-subsystem. Something which usually isn't a good idea.
+In addition, even if we take the nvme_wait_freeze out of nvme_eh_reset and put it into another context,
+but the ctrl state is still CONNECTING, the nvme_eh_reset cannot move forward.
 
+Actually, I used to report this issue to Keith. I met io hung when the controller die in
+nvme_reset_work -> nvme_wait_freeze. As you know, the nvme_reset_work cannot be scheduled because it is waiting.
+Here is Keith's commit for this:
+http://lists.infradead.org/pipermail/linux-nvme/2018-February/015603.html
 
-
-As far as I can see we need a function which return the distance between 
-a initiator and target device. This function then returns -1 if the 
-transaction can't be made and a positive value otherwise.
-
-We also need to give the direction of the transaction and have a 
-whitelist root complex PCI-IDs which can handle P2P transactions from 
-different ports for a certain DMA direction.
+Thanks
+Jianchao
 
 
-Christian.
 
->
-> Logan
+ 
