@@ -1,26 +1,21 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu,  3 May 2018 11:17:15 +0800
-Subject: [PATCH V3 7/8] nvme: pci: recover controller reliably
+Date: Thu,  3 May 2018 11:17:14 +0800
+Subject: [PATCH V3 6/8] nvme: pci: split controller resetting into two parts
 In-Reply-To: <20180503031716.31446-1-ming.lei@redhat.com>
 References: <20180503031716.31446-1-ming.lei@redhat.com>
-Message-ID: <20180503031716.31446-8-ming.lei@redhat.com>
+Message-ID: <20180503031716.31446-7-ming.lei@redhat.com>
 
-During draining IO in resetting controller, error still may happen
-and timeout can be triggered, the current implementation can't recover
-controller any more for this situation, this patch fixes the issue
-by the following approach:
+This patch splits controller resetting into the following two parts:
 
-- introduces eh_reset_work, and moves draining IO and updating controller
-state into this work function.
+1) the real resetting part
 
-- resets controller just after nvme_dev_disable(), then schedule
-eh_reset_work for draining IO & updating controller state
+2) the 2nd part for draining IO and updating controller state
 
-- introduce reset lock to sync between the above two parts
+The patch prepares for supporting reliable controller recovery, for
+example, IO timeout still may be triggered when running the above part 2,
+so we still have to recover hardware under this situation.
 
-- move nvme_start_queues() into the part for resetting controller,
-so that timeout even won't quiesce queue any more during draining
-IO
+No functional change.
 
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
@@ -29,148 +24,73 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/pci.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 58 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 16d7507bfd79..64bbccdb5091 100644
+index ef80e064a62c..16d7507bfd79 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -71,6 +71,7 @@ struct nvme_queue;
- static void nvme_process_cq(struct nvme_queue *nvmeq);
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
- 		freeze_queue);
-+static int nvme_eh_reset(struct nvme_dev *dev);
+@@ -2361,16 +2361,10 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 		nvme_put_ctrl(&dev->ctrl);
+ }
  
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-@@ -113,6 +114,10 @@ struct nvme_dev {
- 	dma_addr_t host_mem_descs_dma;
- 	struct nvme_host_mem_buf_desc *host_mem_descs;
- 	void **host_mem_desc_bufs;
-+
-+	/* reset for timeout */
-+	struct mutex reset_lock;
-+	struct work_struct eh_reset_work;
- };
+-static void nvme_reset_work(struct work_struct *work)
++static int nvme_pre_reset_dev(struct nvme_dev *dev)
+ {
+-	struct nvme_dev *dev =
+-		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+ 	int result = -ENODEV;
+-	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+-
+-	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+-		goto out;
  
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
-@@ -1199,7 +1204,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	if (nvme_should_reset(dev, csts)) {
- 		nvme_warn_reset(dev, csts);
- 		nvme_dev_disable(dev, false, true);
--		nvme_reset_ctrl(&dev->ctrl);
-+		nvme_eh_reset(dev);
- 		return BLK_EH_HANDLED;
- 	}
- 
-@@ -1242,7 +1247,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
- 		nvme_dev_disable(dev, false, true);
--		nvme_reset_ctrl(&dev->ctrl);
-+		nvme_eh_reset(dev);
- 
- 		/*
- 		 * Mark the request as handled, since the inline shutdown
-@@ -2424,6 +2429,10 @@ static int nvme_pre_reset_dev(struct nvme_dev *dev)
+ 	/*
+ 	 * If we're called to reset a live controller first shut it down before
+@@ -2430,8 +2424,13 @@ static void nvme_reset_work(struct work_struct *work)
  	}
  
  	result = nvme_setup_io_queues(dev);
-+	if (result)
-+		goto out;
+-	if (result)
+-		goto out;
++ out:
++	return result;
++}
 +
-+	nvme_start_queues(&dev->ctrl);
-  out:
- 	return result;
- }
-@@ -2432,6 +2441,7 @@ static void nvme_post_reset_dev(struct nvme_dev *dev)
- {
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
++static void nvme_post_reset_dev(struct nvme_dev *dev)
++{
++	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
  
-+	mutex_lock(&dev->reset_lock);
  	/*
  	 * Keep the controller around but remove all namespaces if we don't have
- 	 * any working I/O queue.
-@@ -2442,8 +2452,12 @@ static void nvme_post_reset_dev(struct nvme_dev *dev)
- 		nvme_remove_namespaces(&dev->ctrl);
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
--		nvme_start_queues(&dev->ctrl);
-+		mutex_unlock(&dev->reset_lock);
-+
-+		/* error may happen during draining IO again */
- 		nvme_wait_freeze(&dev->ctrl);
-+
-+		mutex_lock(&dev->reset_lock);
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
-@@ -2461,10 +2475,12 @@ static void nvme_post_reset_dev(struct nvme_dev *dev)
- 	}
- 
- 	nvme_start_ctrl(&dev->ctrl);
-+	mutex_unlock(&dev->reset_lock);
+@@ -2465,7 +2464,25 @@ static void nvme_reset_work(struct work_struct *work)
  	return;
  
   out:
- 	nvme_remove_dead_ctrl(dev, 0);
-+	mutex_unlock(&dev->reset_lock);
- }
- 
- static void nvme_reset_work(struct work_struct *work)
-@@ -2485,6 +2501,43 @@ static void nvme_reset_work(struct work_struct *work)
- 	nvme_post_reset_dev(dev);
- }
- 
-+static void nvme_eh_reset_work(struct work_struct *work)
-+{
-+	struct nvme_dev *dev =
-+		container_of(work, struct nvme_dev, eh_reset_work);
-+
-+	nvme_post_reset_dev(dev);
+-	nvme_remove_dead_ctrl(dev, result);
++	nvme_remove_dead_ctrl(dev, 0);
 +}
 +
-+static int nvme_eh_reset(struct nvme_dev *dev)
++static void nvme_reset_work(struct work_struct *work)
 +{
-+	int ret = -EBUSY;
++	struct nvme_dev *dev =
++		container_of(work, struct nvme_dev, ctrl.reset_work);
++	int ret;
 +
-+	mutex_lock(&dev->reset_lock);
-+	if (dev->ctrl.state != NVME_CTRL_RESETTING &&
-+	    dev->ctrl.state != NVME_CTRL_CONNECTING) {
-+	    if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
-+		goto exit;
-+	}
++	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
++		return;
 +
 +	ret = nvme_pre_reset_dev(dev);
 +	if (ret) {
-+		dev_warn(dev->ctrl.device,
-+			"failed to pre-reset controller: %d\n", ret);
 +		nvme_remove_dead_ctrl(dev, ret);
-+		goto exit;
++		return;
 +	}
 +
-+	mutex_unlock(&dev->reset_lock);
-+
-+	queue_work(nvme_reset_wq, &dev->eh_reset_work);
-+
-+	return 0;
-+ exit:
-+	mutex_unlock(&dev->reset_lock);
-+	return ret;
-+}
-+
- static void nvme_remove_dead_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
-@@ -2606,6 +2659,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result)
- 		goto put_pci;
++	nvme_post_reset_dev(dev);
+ }
  
-+	mutex_init(&dev->reset_lock);
-+	INIT_WORK(&dev->eh_reset_work, nvme_eh_reset_work);
- 	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
- 	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
- 	mutex_init(&dev->shutdown_lock);
+ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
 -- 
 2.9.5
