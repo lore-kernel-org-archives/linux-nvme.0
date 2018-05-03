@@ -1,22 +1,26 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu,  3 May 2018 11:17:13 +0800
-Subject: [PATCH V3 5/8] nvme: fix race between freeze queues and unfreeze
- queues
+Date: Thu,  3 May 2018 11:17:15 +0800
+Subject: [PATCH V3 7/8] nvme: pci: recover controller reliably
 In-Reply-To: <20180503031716.31446-1-ming.lei@redhat.com>
 References: <20180503031716.31446-1-ming.lei@redhat.com>
-Message-ID: <20180503031716.31446-6-ming.lei@redhat.com>
+Message-ID: <20180503031716.31446-8-ming.lei@redhat.com>
 
-nvme_dev_disable() and resetting controller are required for recovering
-controller, but the two are run from different contexts.
+During draining IO in resetting controller, error still may happen
+and timeout can be triggered, the current implementation can't recover
+controller any more for this situation, this patch fixes the issue
+by the following approach:
 
-nvme_start_freeze() is run from nvme_dev_disable(), and nvme_unfreeze()
-is run from resetting context. Unfortunatley timeout may be triggered
-when draining IO from resetting controller, so nvme_start_freeze() may
-be run several times.
+- introduces eh_reset_work, and moves draining IO and updating controller
+state into this work function.
 
-This patch fixes the race between nvme_start_freeze() and
-nvme_unfreeze() by introducing flags of 'queues_freezed' and the lock
-of 'freeze_mutex'.
+- resets controller just after nvme_dev_disable(), then schedule
+eh_reset_work for draining IO & updating controller state
+
+- introduce reset lock to sync between the above two parts
+
+- move nvme_start_queues() into the part for resetting controller,
+so that timeout even won't quiesce queue any more during draining
+IO
 
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
@@ -25,77 +29,148 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/core.c | 29 +++++++++++++++++++++--------
- drivers/nvme/host/nvme.h |  3 +++
- 2 files changed, 24 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 58 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9df4f71e58ca..f9028873298e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3447,6 +3447,9 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
- 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 16d7507bfd79..64bbccdb5091 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -71,6 +71,7 @@ struct nvme_queue;
+ static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
+ 		freeze_queue);
++static int nvme_eh_reset(struct nvme_dev *dev);
  
-+	ctrl->queues_freezed = false;
-+	mutex_init(&ctrl->freeze_mutex);
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+@@ -113,6 +114,10 @@ struct nvme_dev {
+ 	dma_addr_t host_mem_descs_dma;
+ 	struct nvme_host_mem_buf_desc *host_mem_descs;
+ 	void **host_mem_desc_bufs;
 +
- 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
- 	if (ret < 0)
- 		goto out;
-@@ -3526,10 +3529,15 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
++	/* reset for timeout */
++	struct mutex reset_lock;
++	struct work_struct eh_reset_work;
+ };
  
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_unfreeze_queue(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	mutex_lock(&ctrl->freeze_mutex);
-+	if (ctrl->queues_freezed) {
-+		down_read(&ctrl->namespaces_rwsem);
-+		list_for_each_entry(ns, &ctrl->namespaces, list)
-+			blk_mq_unfreeze_queue(ns->queue);
-+		up_read(&ctrl->namespaces_rwsem);
-+		ctrl->queues_freezed = false;
-+	}
-+	mutex_unlock(&ctrl->freeze_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_unfreeze);
+ static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
+@@ -1199,7 +1204,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	if (nvme_should_reset(dev, csts)) {
+ 		nvme_warn_reset(dev, csts);
+ 		nvme_dev_disable(dev, false, true);
+-		nvme_reset_ctrl(&dev->ctrl);
++		nvme_eh_reset(dev);
+ 		return BLK_EH_HANDLED;
+ 	}
  
-@@ -3562,10 +3570,15 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
+@@ -1242,7 +1247,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
+ 		nvme_dev_disable(dev, false, true);
+-		nvme_reset_ctrl(&dev->ctrl);
++		nvme_eh_reset(dev);
  
--	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_freeze_queue_start(ns->queue);
--	up_read(&ctrl->namespaces_rwsem);
-+	mutex_lock(&ctrl->freeze_mutex);
-+	if (!ctrl->queues_freezed) {
-+		down_read(&ctrl->namespaces_rwsem);
-+		list_for_each_entry(ns, &ctrl->namespaces, list)
-+			blk_freeze_queue_start(ns->queue);
-+		up_read(&ctrl->namespaces_rwsem);
-+		ctrl->queues_freezed = true;
-+	}
-+	mutex_unlock(&ctrl->freeze_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_start_freeze);
+ 		/*
+ 		 * Mark the request as handled, since the inline shutdown
+@@ -2424,6 +2429,10 @@ static int nvme_pre_reset_dev(struct nvme_dev *dev)
+ 	}
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 061fecfd44f5..a19b7f04ac24 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -149,6 +149,9 @@ struct nvme_ctrl {
- 	struct work_struct reset_work;
- 	struct work_struct delete_work;
- 
-+	bool queues_freezed;
-+	struct mutex freeze_mutex;
+ 	result = nvme_setup_io_queues(dev);
++	if (result)
++		goto out;
 +
- 	struct nvme_subsystem *subsys;
- 	struct list_head subsys_entry;
++	nvme_start_queues(&dev->ctrl);
+  out:
+ 	return result;
+ }
+@@ -2432,6 +2441,7 @@ static void nvme_post_reset_dev(struct nvme_dev *dev)
+ {
+ 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
  
++	mutex_lock(&dev->reset_lock);
+ 	/*
+ 	 * Keep the controller around but remove all namespaces if we don't have
+ 	 * any working I/O queue.
+@@ -2442,8 +2452,12 @@ static void nvme_post_reset_dev(struct nvme_dev *dev)
+ 		nvme_remove_namespaces(&dev->ctrl);
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+-		nvme_start_queues(&dev->ctrl);
++		mutex_unlock(&dev->reset_lock);
++
++		/* error may happen during draining IO again */
+ 		nvme_wait_freeze(&dev->ctrl);
++
++		mutex_lock(&dev->reset_lock);
+ 		/* hit this only when allocate tagset fails */
+ 		if (nvme_dev_add(dev))
+ 			new_state = NVME_CTRL_ADMIN_ONLY;
+@@ -2461,10 +2475,12 @@ static void nvme_post_reset_dev(struct nvme_dev *dev)
+ 	}
+ 
+ 	nvme_start_ctrl(&dev->ctrl);
++	mutex_unlock(&dev->reset_lock);
+ 	return;
+ 
+  out:
+ 	nvme_remove_dead_ctrl(dev, 0);
++	mutex_unlock(&dev->reset_lock);
+ }
+ 
+ static void nvme_reset_work(struct work_struct *work)
+@@ -2485,6 +2501,43 @@ static void nvme_reset_work(struct work_struct *work)
+ 	nvme_post_reset_dev(dev);
+ }
+ 
++static void nvme_eh_reset_work(struct work_struct *work)
++{
++	struct nvme_dev *dev =
++		container_of(work, struct nvme_dev, eh_reset_work);
++
++	nvme_post_reset_dev(dev);
++}
++
++static int nvme_eh_reset(struct nvme_dev *dev)
++{
++	int ret = -EBUSY;
++
++	mutex_lock(&dev->reset_lock);
++	if (dev->ctrl.state != NVME_CTRL_RESETTING &&
++	    dev->ctrl.state != NVME_CTRL_CONNECTING) {
++	    if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
++		goto exit;
++	}
++
++	ret = nvme_pre_reset_dev(dev);
++	if (ret) {
++		dev_warn(dev->ctrl.device,
++			"failed to pre-reset controller: %d\n", ret);
++		nvme_remove_dead_ctrl(dev, ret);
++		goto exit;
++	}
++
++	mutex_unlock(&dev->reset_lock);
++
++	queue_work(nvme_reset_wq, &dev->eh_reset_work);
++
++	return 0;
++ exit:
++	mutex_unlock(&dev->reset_lock);
++	return ret;
++}
++
+ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
+@@ -2606,6 +2659,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto put_pci;
+ 
++	mutex_init(&dev->reset_lock);
++	INIT_WORK(&dev->eh_reset_work, nvme_eh_reset_work);
+ 	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
+ 	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
+ 	mutex_init(&dev->shutdown_lock);
 -- 
 2.9.5
