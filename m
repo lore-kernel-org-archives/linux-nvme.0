@@ -1,333 +1,48 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu,  3 May 2018 11:17:16 +0800
-Subject: [PATCH V3 8/8] nvme: pci: simplify timeout handling
-In-Reply-To: <20180503031716.31446-1-ming.lei@redhat.com>
-References: <20180503031716.31446-1-ming.lei@redhat.com>
-Message-ID: <20180503031716.31446-9-ming.lei@redhat.com>
+From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
+Date: Thu, 3 May 2018 11:05:21 +0200
+Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
+References: <20180423233046.21476-1-logang@deltatee.com>
+ <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
+ <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
+Message-ID: <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
 
-When one req is timed out, now nvme_timeout() handles it by the
-following way:
+Am 02.05.2018 um 17:56 schrieb Logan Gunthorpe:
+> Hi Christian,
+>
+> On 5/2/2018 5:51 AM, Christian K?nig wrote:
+>> it would be rather nice to have if you could separate out the 
+>> functions to detect if peer2peer is possible between two devices.
+>
+> This would essentially be pci_p2pdma_distance() in the existing 
+> patchset. It returns the sum of the distance between a list of clients 
+> and a P2PDMA provider. It returns -1 if peer2peer is not possible 
+> between the devices (presently this means they are not behind the same 
+> root port).
 
-	nvme_dev_disable(dev, false);
-	nvme_reset_ctrl(&dev->ctrl);
-	return BLK_EH_HANDLED.
+Ok, I'm still missing the big picture here. First question is what is 
+the P2PDMA provider?
 
-And block's timeout handler is per-request-queue, that means each
-namespace's error handling has to shutdown & reset the whole controller.
+Second question is how to you want to handle things when device are not 
+behind the same root port (which is perfectly possible in the cases I 
+deal with)?
 
-This patch moves the error handler into one per-controller kthread:
+Third question why multiple clients? That feels a bit like you are 
+pushing something special to your use case into the common PCI 
+subsystem. Something which usually isn't a good idea.
 
-- Move timeout handling into one EH thread, and wakeup this thread for
-handling timedout event.
-- Returns BLK_EH_RESET_TIMER for timed-out request so that this request is
-handled in EH thread after controller is shutdown, and memory corrupt
-issue won't be worried
-- Inside the EH handler, timeout work is drained before canceling in-flight
-requrests, so all requests can canceled(completed) by EH handler.
 
-With this approach, we don't need to worry about all kinds of race any
-more, and the model is much simpler than current concurrent timeout
-model.
 
-Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: linux-nvme at lists.infradead.org
-Cc: Laurence Oberman <loberman at redhat.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c |  22 ++++++++
- drivers/nvme/host/nvme.h |   3 ++
- drivers/nvme/host/pci.c  | 133 ++++++++++++++++++++++++++++++++++++++++++-----
- 3 files changed, 145 insertions(+), 13 deletions(-)
+As far as I can see we need a function which return the distance between 
+a initiator and target device. This function then returns -1 if the 
+transaction can't be made and a positive value otherwise.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f9028873298e..664a268accd1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3582,6 +3582,28 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_start_freeze);
- 
-+void nvme_unquiesce_timeout(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_unquiesce_timeout(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_unquiesce_timeout);
-+
-+void nvme_quiesce_timeout(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_quiesce_timeout(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_quiesce_timeout);
-+
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a19b7f04ac24..956ee19ff403 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -19,6 +19,7 @@
- #include <linux/pci.h>
- #include <linux/kref.h>
- #include <linux/blk-mq.h>
-+#include <linux/blkdev.h>
- #include <linux/lightnvm.h>
- #include <linux/sed-opal.h>
- #include <linux/fault-inject.h>
-@@ -405,6 +406,8 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res);
- 
-+void nvme_unquiesce_timeout(struct nvme_ctrl *ctrl);
-+void nvme_quiesce_timeout(struct nvme_ctrl *ctrl);
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 64bbccdb5091..0bdb523645d2 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -29,6 +29,7 @@
- #include <linux/types.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/sed-opal.h>
-+#include <linux/kthread.h>
- 
- #include "nvme.h"
- 
-@@ -118,6 +119,10 @@ struct nvme_dev {
- 	/* reset for timeout */
- 	struct mutex reset_lock;
- 	struct work_struct eh_reset_work;
-+
-+	spinlock_t	  eh_lock;
-+	bool		eh_in_recovery;
-+	struct task_struct    *ehandler;
- };
- 
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
-@@ -1182,6 +1187,87 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
- 			 csts, result);
- }
- 
-+static void nvme_eh_schedule(struct nvme_dev *dev, struct request *rq)
-+{
-+	/*
-+	 * mark timeout as quiesce for avoiding the timed-out request to
-+	 * be timed out again
-+	 */
-+	blk_mark_timeout_quiesce(rq->q, true);
-+
-+	spin_lock(&dev->eh_lock);
-+	if (!dev->eh_in_recovery) {
-+		dev->eh_in_recovery = true;
-+		wake_up_process(dev->ehandler);
-+	}
-+	spin_unlock(&dev->eh_lock);
-+}
-+
-+static void nvme_eh_done(struct nvme_dev *dev)
-+{
-+	spin_lock(&dev->eh_lock);
-+	if (dev->eh_in_recovery)
-+		dev->eh_in_recovery = false;
-+	spin_unlock(&dev->eh_lock);
-+}
-+
-+static int nvme_error_handler(void *data)
-+{
-+	struct nvme_dev *dev = data;
-+
-+	while (true) {
-+		/*
-+		 * The sequence in kthread_stop() sets the stop flag first
-+		 * then wakes the process.  To avoid missed wakeups, the task
-+		 * should always be in a non running state before the stop
-+		 * flag is checked
-+		 */
-+		set_current_state(TASK_INTERRUPTIBLE);
-+		if (kthread_should_stop())
-+			break;
-+
-+		spin_lock(&dev->eh_lock);
-+		if (!dev->eh_in_recovery) {
-+			spin_unlock(&dev->eh_lock);
-+			schedule();
-+			continue;
-+		}
-+		spin_unlock(&dev->eh_lock);
-+
-+		__set_current_state(TASK_RUNNING);
-+
-+		dev_info(dev->ctrl.device, "start eh recovery\n");
-+		nvme_dev_disable(dev, false, true);
-+
-+		nvme_eh_reset(dev);
-+
-+		dev_info(dev->ctrl.device, "eh recovery done\n");
-+	}
-+	__set_current_state(TASK_RUNNING);
-+	dev->ehandler = NULL;
-+
-+	return 0;
-+}
-+
-+static int nvme_eh_init(struct nvme_dev *dev)
-+{
-+	spin_lock_init(&dev->eh_lock);
-+
-+	dev->ehandler = kthread_run(nvme_error_handler, dev,
-+			"nvme_eh_%d", dev->ctrl.instance);
-+	if (IS_ERR(dev->ehandler)) {
-+		dev_err(dev->ctrl.device, "error handler thread failed to spawn, error = %ld\n",
-+			PTR_ERR(dev->ehandler));
-+		return PTR_ERR(dev->ehandler);
-+	}
-+	return 0;
-+}
-+
-+/*
-+ * Controller will be shutdown in EH thread, return BLK_EH_RESET_TIMER
-+ * after nvme_eh_schedule() so the timed-out request can be completed
-+ * after controller is shutdown, then memory corruption can be avoided
-+ */
- static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-@@ -1203,9 +1289,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	 */
- 	if (nvme_should_reset(dev, csts)) {
- 		nvme_warn_reset(dev, csts);
--		nvme_dev_disable(dev, false, true);
--		nvme_eh_reset(dev);
--		return BLK_EH_HANDLED;
-+		nvme_eh_schedule(dev, req);
-+		return BLK_EH_RESET_TIMER;
- 	}
- 
- 	/*
-@@ -1221,8 +1306,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	/*
- 	 * Shutdown immediately if controller times out while starting. The
- 	 * reset work will see the pci device disabled when it gets the forced
--	 * cancellation error. All outstanding requests are completed on
--	 * shutdown, so we return BLK_EH_HANDLED.
-+	 * cancellation error. All outstanding requests(include the timed-out
-+	 * one) are completed on shutdown, so we return BLK_EH_RESET_TIMER for
-+	 * avoiding to complete it by block layer.
- 	 */
- 	switch (dev->ctrl.state) {
- 	case NVME_CTRL_CONNECTING:
-@@ -1230,9 +1316,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, false, false);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
--		return BLK_EH_HANDLED;
-+		nvme_eh_schedule(dev, req);
-+		return BLK_EH_RESET_TIMER;
- 	default:
- 		break;
- 	}
-@@ -1246,15 +1332,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, false, true);
--		nvme_eh_reset(dev);
--
- 		/*
--		 * Mark the request as handled, since the inline shutdown
-+		 * Mark the request as RESET_TIMER for avoiding to complete
-+		 * this one by block layer, since the inline shutdown
- 		 * forces all outstanding requests to complete.
- 		 */
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
--		return BLK_EH_HANDLED;
-+		nvme_eh_schedule(dev, req);
-+		return BLK_EH_RESET_TIMER;
- 	}
- 
- 	if (atomic_dec_return(&dev->ctrl.abort_limit) < 0) {
-@@ -2303,11 +2388,25 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
- 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
- 		nvme_suspend_queue(&dev->queues[i]);
- 
-+	/*
-+	 * safe to sync timeout after queues are quiesced, then all
-+	 * requests(include the time-out ones) will be canceled.
-+	 */
-+	nvme_quiesce_timeout(&dev->ctrl);
-+	blk_quiesce_timeout(dev->ctrl.admin_q);
-+
- 	nvme_pci_disable(dev);
- 
-+	/*
-+	 * Both timeout and interrupt handler have been drained, and all
-+	 * in-flight requests will be canceled now.
-+	 */
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
- 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
- 
-+	/* all requests are canceled now, so enable timeout now */
-+	nvme_unquiesce_timeout(&dev->ctrl);
-+	blk_unquiesce_timeout(dev->ctrl.admin_q);
- 	/*
- 	 * The driver will not be starting up queues again if shutting down so
- 	 * must flush all entered requests to their failed completion to avoid
-@@ -2527,13 +2626,14 @@ static int nvme_eh_reset(struct nvme_dev *dev)
- 		nvme_remove_dead_ctrl(dev, ret);
- 		goto exit;
- 	}
--
-+	nvme_eh_done(dev);
- 	mutex_unlock(&dev->reset_lock);
- 
- 	queue_work(nvme_reset_wq, &dev->eh_reset_work);
- 
- 	return 0;
-  exit:
-+	nvme_eh_done(dev);
- 	mutex_unlock(&dev->reset_lock);
- 	return ret;
- }
-@@ -2679,10 +2779,15 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
- 
-+	if (nvme_eh_init(dev))
-+		goto uninit_ctrl;
-+
- 	nvme_reset_ctrl(&dev->ctrl);
- 
- 	return 0;
- 
-+ uninit_ctrl:
-+	nvme_uninit_ctrl(&dev->ctrl);
-  release_pools:
- 	nvme_release_prp_pools(dev);
-  unmap:
-@@ -2736,6 +2841,8 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_dev_disable(dev, true, false);
-+	if (dev->ehandler)
-+		kthread_stop(dev->ehandler);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
--- 
-2.9.5
+We also need to give the direction of the transaction and have a 
+whitelist root complex PCI-IDs which can handle P2P transactions from 
+different ports for a certain DMA direction.
+
+
+Christian.
+
+>
+> Logan
