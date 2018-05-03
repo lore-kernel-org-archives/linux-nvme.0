@@ -1,65 +1,65 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Thu, 3 May 2018 23:46:56 +0800
-Subject: [PATCH V3 7/8] nvme: pci: recover controller reliably
-In-Reply-To: <20180503100824.GA5078@ming.t460p>
-References: <20180503031716.31446-1-ming.lei@redhat.com>
- <20180503031716.31446-8-ming.lei@redhat.com>
- <32819b0a-acc8-fa76-5e58-8e75e2bc081b@oracle.com>
- <20180503100824.GA5078@ming.t460p>
-Message-ID: <ea98b607-9c8f-3b18-8314-cdcfd8bc5e96@oracle.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 3 May 2018 09:59:54 -0600
+Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
+References: <20180423233046.21476-1-logang@deltatee.com>
+ <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
+ <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
+ <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
+Message-ID: <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
 
-Hi Ming
 
-Thanks for your kindly response.
 
-On 05/03/2018 06:08 PM, Ming Lei wrote:
-> nvme_eh_reset() can move on, if controller state is either CONNECTING or
-> RESETTING, nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING) won't
-> be called in nvme_eh_reset(), and nvme_pre_reset_dev() will be called
-> directly, then follows scheduling of the eh_reset_work.
+On 03/05/18 03:05 AM, Christian K?nig wrote:
+> Ok, I'm still missing the big picture here. First question is what is 
+> the P2PDMA provider?
 
-We have to consider another context, nvme_reset_work.
-There are two contexts that will invoke nvme_pre_reset_dev.
-nvme_eh_reset could invoke nvme_pre_reset_dev even if the state is RESETTING or CONNECTING.
+Well there's some pretty good documentation in the patchset for this,
+but in short, a provider is a device that provides some kind of P2P
+resource (ie. BAR memory, or perhaps a doorbell register -- only memory
+is supported at this time).
 
-nvme_error_handler                nvme_reset_ctrl
-                                    -> change state to RESETTING
-                                    -> queue reset work
-                                  nvme_reset_work          
-  -> nvme_dev_disable                                     
-  -> nvme_eh_reset
-    -> nvme_pre_reset_dev          -> nvme_pre_reset_dev
-      -> change state to CONNECTING   -> change state fails
-                                   -> nvme_remove_dead_ctrl
-There seems to be other race scenarios between them.
+> Second question is how to you want to handle things when device are not 
+> behind the same root port (which is perfectly possible in the cases I 
+> deal with)?
 
-Just invoke nvme_dev_disable in nvme_error_handler context and hand over the other things
-to nvme_reset_work as the v2 patch series seems clearer.
-The primary target of nvme_error_handler is to drain IOs and disable controller.
-reset_work could take over the left things of the recovery work
+I think we need to implement a whitelist. If both root ports are in the
+white list and are on the same bus then we return a larger distance
+instead of -1.
 
-IMO, modify the nvme_reset_ctrl_sync in nvme_error_handler to nvme_reset_ctrl should be ok.
-If the admin ios in reset_work timeout, the nvme_error_handler could also provide help to complete them.
+> Third question why multiple clients? That feels a bit like you are 
+> pushing something special to your use case into the common PCI 
+> subsystem. Something which usually isn't a good idea.
 
-> There are actually two issues here, both are covered in this patchset:
-> 
-> 1) when nvme_wait_freeze() is for draining IO, controller error may
-> happen again, this patch can shutdown & reset controller again to
-> recover it.
->
+No, I think this will be pretty standard. In the simple general case you
+are going to have one provider and at least two clients (one which
+writes the memory and one which reads it). However, one client is
+likely, but not necessarily, the same as the provider.
 
-We could split the nvme_reset_work into two contexts instead of introduce another nvme_eh_reset.
-Otherwise, the code looks really complicated.
-In addition, this fix for this issue could be deferred after your great EH kthread solution is submitted.
+In the NVMeof case, we might have N clients: 1 RDMA device and N-1 block
+devices. The code doesn't care which device provides the memory as it
+could be the RDMA device or one/all of the block devices (or, in theory,
+a completely separate device with P2P-able memory). However, it does
+require that all devices involved are accessible per
+pci_p2pdma_distance() or it won't use P2P transactions.
 
-Thanks
-Jianchao
+I could also imagine other use cases: ie. an RDMA NIC sends data to a
+GPU for processing and then sends the data to an NVMe device for storage
+(or vice-versa). In this case we have 3 clients and one provider.
 
-> 2) there is also another issue: queues may not be put into freeze state
-> in nvme_dev_disable(), then nvme_wait_freeze() will wait forever. This
-> issue is addressed by 4th patch.
-> 
-> Both two can be observed in blktests block/011 and verified by this patches.
-> 
-> Thanks for your great review, please let me know if there are other
-> issues.
+> As far as I can see we need a function which return the distance between 
+> a initiator and target device. This function then returns -1 if the 
+> transaction can't be made and a positive value otherwise.
+
+If you need to make a simpler convenience function for your use case I'm
+not against it.
+
+> We also need to give the direction of the transaction and have a 
+> whitelist root complex PCI-IDs which can handle P2P transactions from 
+> different ports for a certain DMA direction.
+
+Yes. In the NVMeof case we need all devices to be able to DMA in both
+directions so we did not need the DMA direction. But I can see this
+being useful once we add the whitelist.
+
+Logan
