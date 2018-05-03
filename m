@@ -1,25 +1,14 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu,  3 May 2018 11:17:09 +0800
-Subject: [PATCH V3 1/8] block: introduce blk_quiesce_timeout() and
- blk_unquiesce_timeout()
+Date: Thu,  3 May 2018 11:17:11 +0800
+Subject: [PATCH V3 3/8] nvme: pci: only wait freezing if queue is frozen
 In-Reply-To: <20180503031716.31446-1-ming.lei@redhat.com>
 References: <20180503031716.31446-1-ming.lei@redhat.com>
-Message-ID: <20180503031716.31446-2-ming.lei@redhat.com>
+Message-ID: <20180503031716.31446-4-ming.lei@redhat.com>
 
-Turns out the current way can't drain timout completely because mod_timer()
-can be triggered in the work func, which can be just run inside the synced
-timeout work:
+In nvme_dev_disable() called during shutting down controler,
+nvme_wait_freeze_timeout() may be done on the controller not
+frozen yet, so add the check for avoiding the case.
 
-        del_timer_sync(&q->timeout);
-        cancel_work_sync(&q->timeout_work);
-
-This patch introduces one flag of 'timeout_off' for fixing this issue, turns
-out this simple way does work.
-
-Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
-draining timeout, which is needed by NVMe.
-
-Cc: Bart Van Assche <bart.vanassche at wdc.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
@@ -27,129 +16,40 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-core.c       | 21 +++++++++++++++++++--
- block/blk-mq.c         |  9 +++++++++
- block/blk-timeout.c    |  5 ++++-
- include/linux/blkdev.h | 13 +++++++++++++
- 4 files changed, 45 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 85909b431eb0..c277f1023703 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -392,6 +392,22 @@ void blk_stop_queue(struct request_queue *q)
- }
- EXPORT_SYMBOL(blk_stop_queue);
- 
-+void blk_unquiesce_timeout(struct request_queue *q)
-+{
-+	blk_mark_timeout_quiesce(q, false);
-+	mod_timer(&q->timeout, jiffies + q->rq_timeout);
-+}
-+EXPORT_SYMBOL(blk_unquiesce_timeout);
-+
-+void blk_quiesce_timeout(struct request_queue *q)
-+{
-+	blk_mark_timeout_quiesce(q, true);
-+
-+	del_timer_sync(&q->timeout);
-+	cancel_work_sync(&q->timeout_work);
-+}
-+EXPORT_SYMBOL(blk_quiesce_timeout);
-+
- /**
-  * blk_sync_queue - cancel any pending callbacks on a queue
-  * @q: the queue
-@@ -412,8 +428,7 @@ EXPORT_SYMBOL(blk_stop_queue);
-  */
- void blk_sync_queue(struct request_queue *q)
- {
--	del_timer_sync(&q->timeout);
--	cancel_work_sync(&q->timeout_work);
-+	blk_quiesce_timeout(q);
- 
- 	if (q->mq_ops) {
- 		struct blk_mq_hw_ctx *hctx;
-@@ -425,6 +440,8 @@ void blk_sync_queue(struct request_queue *q)
- 	} else {
- 		cancel_delayed_work_sync(&q->delay_work);
- 	}
-+
-+	blk_mark_timeout_quiesce(q, false);
- }
- EXPORT_SYMBOL(blk_sync_queue);
- 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index c3621453ad87..d0a5dc29c8ef 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -901,6 +901,15 @@ static void blk_mq_timeout_work(struct work_struct *work)
- 	};
- 	struct blk_mq_hw_ctx *hctx;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0e6cd605164a..8172ee584130 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2240,14 +2240,17 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
  	int i;
-+	bool timeout_off;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(q->queue_lock, flags);
-+	timeout_off = q->timeout_off;
-+	spin_unlock_irqrestore(q->queue_lock, flags);
-+
-+	if (timeout_off)
-+		return;
+ 	bool dead = true;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	bool frozen = false;
  
- 	/* A deadlock might occur if a request is stuck requiring a
- 	 * timeout at the same time a queue freeze is waiting
-diff --git a/block/blk-timeout.c b/block/blk-timeout.c
-index 652d4d4d3e97..ffd0b609091e 100644
---- a/block/blk-timeout.c
-+++ b/block/blk-timeout.c
-@@ -136,12 +136,15 @@ void blk_timeout_work(struct work_struct *work)
+ 	mutex_lock(&dev->shutdown_lock);
+ 	if (pci_is_enabled(pdev)) {
+ 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
  
- 	spin_lock_irqsave(q->queue_lock, flags);
- 
-+	if (q->timeout_off)
-+		goto exit;
-+
- 	list_for_each_entry_safe(rq, tmp, &q->timeout_list, timeout_list)
- 		blk_rq_check_expired(rq, &next, &next_set);
- 
- 	if (next_set)
- 		mod_timer(&q->timeout, round_jiffies_up(next));
--
-+exit:
- 	spin_unlock_irqrestore(q->queue_lock, flags);
- }
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 5c4eee043191..a2cc4aaecf50 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -584,6 +584,7 @@ struct request_queue {
- 	struct timer_list	timeout;
- 	struct work_struct	timeout_work;
- 	struct list_head	timeout_list;
-+	bool			timeout_off;
- 
- 	struct list_head	icq_list;
- #ifdef CONFIG_BLK_CGROUP
-@@ -1017,6 +1018,18 @@ extern void blk_execute_rq(struct request_queue *, struct gendisk *,
- extern void blk_execute_rq_nowait(struct request_queue *, struct gendisk *,
- 				  struct request *, int, rq_end_io_fn *);
- 
-+static inline void blk_mark_timeout_quiesce(struct request_queue *q, bool quiesce)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(q->queue_lock, flags);
-+	q->timeout_off = quiesce;
-+	spin_unlock_irqrestore(q->queue_lock, flags);
-+}
-+
-+extern void blk_quiesce_timeout(struct request_queue *q);
-+extern void blk_unquiesce_timeout(struct request_queue *q);
-+
- int blk_status_to_errno(blk_status_t status);
- blk_status_t errno_to_blk_status(int errno);
+ 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+-		    dev->ctrl.state == NVME_CTRL_RESETTING)
++		    dev->ctrl.state == NVME_CTRL_RESETTING) {
+ 			nvme_start_freeze(&dev->ctrl);
++			frozen = true;
++		}
+ 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
+ 			pdev->error_state  != pci_channel_io_normal);
+ 	}
+@@ -2257,7 +2260,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	 * doing a safe shutdown.
+ 	 */
+ 	if (!dead) {
+-		if (shutdown)
++		if (shutdown && frozen)
+ 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+ 	}
  
 -- 
 2.9.5
