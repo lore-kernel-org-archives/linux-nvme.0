@@ -1,54 +1,54 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 4 May 2018 09:34:53 +0200
-Subject: [PATCH blktests 3/3] nvme: add test for resetting the loopback
- controller
-In-Reply-To: <CAK0tqikbAzX79tPuoTmB-n=3+8=9ExN43k1jTsqY0E-47TN2UA@mail.gmail.com>
-References: <20180503150054.14022-1-jthumshirn@suse.de>
- <20180503150054.14022-3-jthumshirn@suse.de>
- <CAK0tqikbAzX79tPuoTmB-n=3+8=9ExN43k1jTsqY0E-47TN2UA@mail.gmail.com>
-Message-ID: <20180504073453.ebpnkpvkydmbkso6@linux-x5ow.site>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Fri,  4 May 2018 16:02:18 +0800
+Subject: [PATCH] nvme-rdma: fix double free in nvme_rdma_free_queue
+Message-ID: <1525420938-9492-1-git-send-email-jianchao.w.wang@oracle.com>
 
-On Thu, May 03, 2018@12:03:15PM -0700, chaitany kulkarni wrote:
-> Hi Johannes,
-> 
-> Thanks for submitting the test.
-> 
-> I was wondering if we can move the generic setup and clean up
-> functionality to the helpers for reference:-
-> 
-> +pre()
-> +{
-> +      # Clean up all stale modules
-> +       modprobe -r nvme-loop
-> +       modprobe -r nvme-core
-> +       modprobe -r nvmet
-> +
-> }
-> 
-> +post()
-> +{
-> +       modprobe -r nvme-loop
-> +       modprobe -r nvme-core
-> +       modprobe -r nvmet
-> +
-> +}
+BUG: KASAN: double-free or invalid-free in nvme_rdma_free_queue+0xf6/0x110 [nvme_rdma]
+Workqueue: nvme-reset-wq nvme_rdma_reset_ctrl_work [nvme_rdma]
+Call Trace:
+ dump_stack+0x91/0xeb
+ print_address_description+0x6b/0x290
+ kasan_report_invalid_free+0x55/0x80
+ __kasan_slab_free+0x176/0x190
+ kfree+0xeb/0x310
+ nvme_rdma_free_queue+0xf6/0x110 [nvme_rdma]
+ nvme_rdma_configure_admin_queue+0x1a3/0x4d0 [nvme_rdma]
+ nvme_rdma_reset_ctrl_work+0x4e/0xd0 [nvme_rdma]
+ process_one_work+0x3ca/0xaa0
+ worker_thread+0x4e2/0x6c0
+ kthread+0x18d/0x1e0
+ ret_from_fork+0x24/0x30
 
-I was thinking of the same as well but then I'd rather love "generic"
-pre()/post() callbacks which the framework calles and not the actual
-test case (just like requires() et al).
+The double free is on ctrl->async_event_sqe.
+If nvme_rdma_start_queue in nvme_rdma_configure_admin_queue fails,
+nvme_rdma_free_queue will be invoked. However, at the moment, the
+ctrl->async_event_sqe has not been allocated and it has been freed
+in
+nvme_rdma_reset_ctrl_work
+  -> nvme_rdma_shutdown_ctrl
+    ->nvme_rdma_destroy_admin_queue
+      -> nvme_rdma_free_queue
 
-You can't really make the content's of pre()/post() generically enough
-for all tests of a category unfortunately so I think placing them into
-common/ won't work (i.e. for the next test I have in the pipeline I
-need nvme-fcloop not nvme-loop, and so on).
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/rdma.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Let me think a bit more about it.
-
-    Johannes
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index a0ead1d..fd965d0 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -168,8 +168,11 @@ static inline size_t nvme_rdma_inline_data_size(struct nvme_rdma_queue *queue)
+ static void nvme_rdma_free_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
+ 		size_t capsule_size, enum dma_data_direction dir)
+ {
++	if (!qe->data)
++		return;
+ 	ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
+ 	kfree(qe->data);
++	qe->data = NULL;
+ }
+ 
+ static int nvme_rdma_alloc_qe(struct ib_device *ibdev, struct nvme_rdma_qe *qe,
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.7.4
