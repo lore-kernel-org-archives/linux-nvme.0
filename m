@@ -1,136 +1,80 @@
 From: Steve.Schremmer@netapp.com (Schremmer, Steven)
-Date: Fri, 4 May 2018 21:12:47 +0000
-Subject: [PATCH 2/5] nvme: Add ANA base definitions
-In-Reply-To: <20180504112845.38820-3-hare@suse.de>
+Date: Fri, 4 May 2018 22:11:12 +0000
+Subject: [PATCH 5/5] nvme: ANA base support
+In-Reply-To: <20180504112845.38820-6-hare@suse.de>
 References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-3-hare@suse.de>
-Message-ID: <SN6PR06MB3984D0C4057DF1224BBA86E68C860@SN6PR06MB3984.namprd06.prod.outlook.com>
+ <20180504112845.38820-6-hare@suse.de>
+Message-ID: <SN6PR06MB3984921468FB9721423BD0ED8C860@SN6PR06MB3984.namprd06.prod.outlook.com>
 
-> @@ -242,7 +242,11 @@ struct nvme_id_ctrl {
->  	__le32			sanicap;
->  	__le32			hmminds;
->  	__le16			hmmaxd;
-> -	__u8			rsvd338[174];
-reserved bytes 338 to 341
-
-> +	__u8			anatt;
-> +	__u8			anacap;
-> +	__le32			anagrpmax;
-> +	__le32			nanagrpid;
-> +	__u8			rsvd338[164];
-rsvd352[160]
-
->  	__u8			sqes;
->  	__u8			cqes;
->  	__le16			maxcmd;
-> @@ -258,7 +262,8 @@ struct nvme_id_ctrl {
->  	__le16			acwu;
->  	__u8			rsvd534[2];
->  	__le32			sgls;
-> -	__u8			rsvd540[228];
-> +	__le32			mnn;
-mnan
-
-> +	__u8			rsvd540[224];
-rsvd544[224]
-
->  	char			subnqn[256];
->  	__u8			rsvd1024[768];
->  	__le32			ioccsz;
-> @@ -312,7 +317,8 @@ struct nvme_id_ns {
->  	__le16			nabspf;
->  	__le16			noiob;
->  	__u8			nvmcap[16];
-> -	__u8			rsvd64[40];
-> +	__u8			rsvd64[36];
-rsvd64[28]
-
-> +	__le32			anagrpid;
-rsvd96[8]
-
->  	__u8			nguid[16];
->  	__u8			eui64[8];
->  	struct nvme_lbaf	lbaf[16];
-> @@ -440,6 +446,7 @@ enum {
->  	NVME_AER_VS			= 7,
->  	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
->  	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
-> +	NVME_AER_NOTICE_ANA_CHANGE	= 0x0302,
->  };
+>  int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+>  {
+> @@ -1488,6 +1489,9 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+>  		goto out;
+>  	}
 > 
->  struct nvme_lba_range_type {
-> @@ -748,11 +755,17 @@ enum {
->  	NVME_LOG_SMART		= 0x02,
->  	NVME_LOG_FW_SLOT	= 0x03,
->  	NVME_LOG_CMD_EFFECTS	= 0x05,
-> +	NVME_LOG_ANA		= 0x0c,
->  	NVME_LOG_DISC		= 0x70,
->  	NVME_LOG_RESERVATION	= 0x80,
->  	NVME_FWACT_REPL		= (0 << 3),
->  	NVME_FWACT_REPL_ACTV	= (1 << 3),
->  	NVME_FWACT_ACTV		= (2 << 3),
-> +	NVME_ANA_STATE_OPTIMIZED = 0x01,
-> +	NVME_ANA_STATE_NONOPTIMIZED = 0x02,
-> +	NVME_ANA_STATE_INACCESSIBLE = 0x03,
-> +	NVME_ANA_STATE_PERSISTENT_LOSS = 0x04,
-> +	NVME_ANA_STATE_CHANGE_STATE = 0x05,
-_CHANGE_STATE should have value of 0x0F
-
->  };
-> 
->  struct nvme_identify {
-> @@ -917,6 +930,23 @@ struct nvmf_common_command {
->  	__u8	ts[24];
->  };
-> 
-> +/* Asymmetric Namespace Access log page entry */
-> +struct nvmf_ana_group_descriptor {
-> +	__le32 groupid;
-> +	__le32 nsid_num;
-> +	__le64 chgcnt;
-> +	__u8 ana_state;
-> +	__u8 resv1[7];
-> +	__le32 nsid[0];
-> +};
+> +	if (ctrl->subsys->cmic & (1 << 3))
+> +		nvme_get_ana_log(ctrl, ns);
 > +
-> +struct nvmf_ana_rsp_page_header {
-> +	__le64 chgcnt;
-> +	__le16 grpid_num;
-grpdesc_num?
+If __nvme_revalidate_disk() would save the groupid from the Identify Namespace data,
+then finding the ANA state in the log page could be done more quickly.
 
-> +	__le16 resv[3];
-> +	struct nvmf_ana_group_descriptor desc[0];
-> +};
+>  	__nvme_revalidate_disk(disk, id);
+>  	nvme_report_ns_ids(ctrl, ns->head->ns_id, id, &ids);
+>  	if (!nvme_ns_ids_equal(&ns->head->ids, &ids)) {
+> @@ -2276,6 +2280,61 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+>  	return ret;
+>  }
+> 
+> +static void nvme_get_ana_log(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+> +{
+> +	int i, j;
+> +	struct nvmf_ana_rsp_page_header *ana_log;
+> +	size_t ana_log_size = 4096;
 > +
->  /*
->   * The legal cntlid range a NVMe Target will provide.
->   * Note that cntlid of value 0 is considered illegal in the fabrics world.
-> @@ -1135,6 +1165,8 @@ enum {
->  	NVME_SC_NS_NOT_ATTACHED		= 0x11a,
->  	NVME_SC_THIN_PROV_NOT_SUPP	= 0x11b,
->  	NVME_SC_CTRL_LIST_INVALID	= 0x11c,
-> +	NVME_SC_GRP_ID_INVALID		= 0x123,
-> +	NVME_SC_ANA_ATTACH_FAILED	= 0x124,
-I think GRP_ID_INVALID should be 0x124 and _ANA_ATTACH_FAILED is 0x125.
+> +	ana_log = kzalloc(ana_log_size, GFP_KERNEL);
+> +	if (!ana_log)
+> +		return;
+> +
+> +	if (nvme_get_log(ctrl, NVME_LOG_ANA, ana_log, ana_log_size))
+> +		dev_warn(ctrl->device,
+> +			 "Get ANA log error\n");
+> +	for (i = 0; i < ana_log->grpid_num; i++) {
+> +		struct nvmf_ana_group_descriptor *desc =
+> +			&ana_log->desc[i];
+> +		for (j = 0; j < desc->nsid_num; j++) {
+> +			if (desc->nsid[j] == ns->head->ns_id) {
+> +				ns->ana_state = desc->ana_state;
+> +				ns->ana_group = desc->groupid;
+Maybe jump out of the for loops here?
 
+> @@ -3370,6 +3485,10 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+>  	case NVME_AER_NOTICE_FW_ACT_STARTING:
+>  		queue_work(nvme_wq, &ctrl->fw_act_work);
+>  		break;
+> +	case NVME_AER_NOTICE_ANA_CHANGE:
+> +		dev_info(ctrl->device, "ANA state change\n");
+> +		queue_work(nvme_wq, &ctrl->ana_change_work);
+> +		break;
+I think eventually we'll need a way for the AER work to potentially force a call to
+__nvme_find_path() to choose a better current_path based on the updated ANA states.
+
+> @@ -56,8 +56,18 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head)
+>  {
+>  	struct nvme_ns *ns;
 > 
->  	/*
->  	 * I/O Command Set Specific - NVM commands:
-> @@ -1168,6 +1200,15 @@ enum {
->  	NVME_SC_ACCESS_DENIED		= 0x286,
->  	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
-> 
-> +	/* Path-related Errors */
-> +	NVME_SC_INTERNAL_PATH_ERROR	= 0x300,
-> +	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
-> +	NVME_SC_ANA_INACCESSIBLE	= 0x302,
-> +	NVME_SC_ANA_TRANSITION		= 0x303,
-> +	NVME_SC_CTRL_PATHING_ERROR	= 0x360,
-> +	NVME_SC_HOST_PATHING_ERROR	= 0x370,
-> +	NVME_SC_HOST_ABORTED		= 0x371,
-> +
->  	NVME_SC_DNR			= 0x4000,
->  };
-> 
-> --
-> 2.12.3
+> +	/* First round: select from all ANA optimized paths */
+>  	list_for_each_entry_rcu(ns, &head->list, siblings) {
+> -		if (ns->ctrl->state == NVME_CTRL_LIVE) {
+> +		if (ns->ctrl->state == NVME_CTRL_LIVE &&
+> +		    ns->ana_state == NVME_ANA_STATE_OPTIMIZED) {
+> +			rcu_assign_pointer(head->current_path, ns);
+> +			return ns;
+> +		}
+> +	}
+> +	/* Second round: select from all ANA non-optimized paths */
+> +	list_for_each_entry_rcu(ns, &head->list, siblings) {
+> +		if (ns->ctrl->state == NVME_CTRL_LIVE &&
+> +		    ns->ana_state == NVME_ANA_STATE_NONOPTIMIZED) {
+>  			rcu_assign_pointer(head->current_path, ns);
+>  			return ns;
+>  		}
