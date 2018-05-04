@@ -1,65 +1,34 @@
-From: Frederick.Knight@netapp.com (Knight, Frederick)
-Date: Fri, 4 May 2018 17:21:28 +0000
-Subject: [PATCH 2/5] nvme: Add ANA base definitions
-In-Reply-To: <FED93B0B-94E0-41B2-A790-60C665287037@netapp.com>
-References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-3-hare@suse.de>
- <20180504161736.GQ5938@localhost.localdomain>
- <FED93B0B-94E0-41B2-A790-60C665287037@netapp.com>
-Message-ID: <DM6PR06MB3833B3E66923072985A34B91F1860@DM6PR06MB3833.namprd06.prod.outlook.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 4 May 2018 14:05:56 -0600
+Subject: BLKZEROOUT ioctl and WriteZero opcode
+In-Reply-To: <CAPrnrPDEdOFKxuZNQo_BhY8Nf2MfcB=DgbzDEDV7JHx5_+-gnQ@mail.gmail.com>
+References: <CAPrnrPDEdOFKxuZNQo_BhY8Nf2MfcB=DgbzDEDV7JHx5_+-gnQ@mail.gmail.com>
+Message-ID: <20180504200556.GA20686@localhost.localdomain>
 
-And here are several of the other fields around about that same area:
+On Thu, May 03, 2018@06:15:54PM +0300, ???? ?? ??? wrote:
+> There is an ioctl command BLKZEROOUT that accepts range (lba + number
+> of block to zero)
+> 
+> Suppose:
+> Block device is an nvme device (e.g. /dev/nvme0nX)
+> Device does support the WriteZeroes opcode.
+> 
+> If so, does the kernel make use of the WriteZeroes opcode in the
+> implementation of BLKZEROOUT ?
+> Same question for BLKDISCARD.
 
-...
-47:46 - NOIOB
-63:48 - NVMCAP
-91:64 - Reserved
-95:92 - ANAGRPID
-98:96 - Reserved
-99       - NSATTR
-101:100 - NVMSETID
-103:102 - ENDGID
-119:104 - NGUID
-...
+The NVMe driver supports BLKDISACRD if the device supports the DSM
+command.
 
-	Fred
+The NVMe driver at the moment doesn't support the NVME Writes Zeroes
+command. We had it briefly, but apparently broke Linus' machine; never
+did figure out why. Relevent link:
 
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cdb98c2698b4af287925abcba4d77d92af82a0c3
 
------Original Message-----
-From: Meneghini, John 
-Sent: Friday, May 04, 2018 1:04 PM
-To: Keith Busch <keith.busch at linux.intel.com>; Hannes Reinecke <hare at suse.de>
-Cc: Christoph Hellwig <hch at lst.de>; Jens Axboe <axboe at kernel.dk>; Hannes Reinecke <hare at suse.com>; Sagi Grimberg <sagi at grimberg.me>; linux-nvme at lists.infradead.org; Johannes Thumshirn <jth at kernel.org>; Knight, Frederick <Frederick.Knight at netapp.com>; Meneghini, John <John.Meneghini at netapp.com>
-Subject: Re: [PATCH 2/5] nvme: Add ANA base definitions
+For devices that claim discard determinisitcally returns 0's on reads,
+the driver will map the user BLKZEROOUT request to the DSM command
+rather than NVMe Write Zeroes.
 
-Agreed: 
-
-95:92 - ANAGRPID
-103:96 - Reserved
-
-Note that this was changed at the last minute.  There are some older drafts of the NVM_TP_4004 out there.  You want to be sure to use the ratified version from:
-
-http://nvmexpress.org/resources/specifications/
-
-NVM Express 1.3 Ratified TPs
-
-/John
-
-?On 5/4/18, 12:16 PM, "Keith Busch" <keith.busch@linux.intel.com> wrote:
-
-    On Fri, May 04, 2018@01:28:42PM +0200, Hannes Reinecke wrote:
-    > @@ -312,7 +317,8 @@ struct nvme_id_ns {
-    >  	__le16			nabspf;
-    >  	__le16			noiob;
-    >  	__u8			nvmcap[16];
-    > -	__u8			rsvd64[40];
-    > +	__u8			rsvd64[36];
-    > +	__le32			anagrpid;
-    >  	__u8			nguid[16];
-    >  	__u8			eui64[8];
-    >  	struct nvme_lbaf	lbaf[16];
-    
-    Is this the right place for the new field? Your patch has the group ID
-    at byte 100. TP4004 has the ANA Group Identifier starting at byte 92,
-    followed by 8 reserved bytes, then the NGUID.
-    
+For testing NVMe Write Zeroes, the nvme passthrough ioctl may still
+be used.
