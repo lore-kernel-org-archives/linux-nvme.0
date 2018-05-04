@@ -1,94 +1,436 @@
-From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
-Date: Fri, 4 May 2018 16:27:35 +0200
-Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <2d59aa02-f2fa-bd88-1b6c-923117a6ad28@deltatee.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
- <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
- <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
- <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
- <38d866cf-f7b4-7118-d737-5a5dcd9f3784@amd.com>
- <2d59aa02-f2fa-bd88-1b6c-923117a6ad28@deltatee.com>
-Message-ID: <17e7bc28-f499-c7f7-f91a-9f6778de5fd3@amd.com>
+From: jeff.lien@wdc.com (Jeff Lien)
+Date: Fri,  4 May 2018 10:20:08 -0500
+Subject: [PATCH] NVMe-CLI Add tests for fw-log, id-ctrl and id-ns commands.
+Message-ID: <20180504152008.1253-1-jeff.lien@wdc.com>
 
-Am 03.05.2018 um 20:43 schrieb Logan Gunthorpe:
->
-> On 03/05/18 11:29 AM, Christian K?nig wrote:
->> Ok, that is the point where I'm stuck. Why do we need that in one
->> function call in the PCIe subsystem?
->>
->> The problem at least with GPUs is that we seriously don't have that
->> information here, cause the PCI subsystem might not be aware of all the
->> interconnections.
->>
->> For example it isn't uncommon to put multiple GPUs on one board. To the
->> PCI subsystem that looks like separate devices, but in reality all GPUs
->> are interconnected and can access each others memory directly without
->> going over the PCIe bus.
->>
->> I seriously don't want to model that in the PCI subsystem, but rather
->> the driver. That's why it feels like a mistake to me to push all that
->> into the PCI function.
-> Huh? I'm lost. If you have a bunch of PCI devices you can send them as a
-> list to this API, if you want. If the driver is _sure_ they are all the
-> same, you only have to send one. In your terminology, you'd just have to
-> call the interface with:
->
-> pci_p2pdma_distance(target, [initiator, target])
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+---
+ tests/nvme_fw_log_test.py  | 130 ++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme_id_ctrl_test.py | 137 +++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme_id_ns_test.py   | 134 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 401 insertions(+)
+ create mode 100644 tests/nvme_fw_log_test.py
+ create mode 100644 tests/nvme_id_ctrl_test.py
+ create mode 100644 tests/nvme_id_ns_test.py
 
-Ok, I expected that something like that would do it.
-
-So just to confirm: When I have a bunch of GPUs which could be the 
-initiator I only need to do "pci_p2pdma_distance(target, [first GPU, 
-target]);" and not "pci_p2pdma_distance(target, [first GPU, second GPU, 
-third GPU, forth...., target])" ?
-
->> Why can't we model that as two separate transactions?
-> You could, but this is more convenient for users of the API that need to
-> deal with multiple devices (and manage devices that may be added or
-> removed at any time).
-
-Are you sure that this is more convenient? At least on first glance it 
-feels overly complicated.
-
-I mean what's the difference between the two approaches?
-
- ??? sum = pci_p2pdma_distance(target, [A, B, C, target]);
-
-and
-
- ??? sum = pci_p2pdma_distance(target, A);
- ??? sum += pci_p2pdma_distance(target, B);
- ??? sum += pci_p2pdma_distance(target, C);
-
->> Yeah, same for me. If Bjorn is ok with that specialized NVM functions
->> that I'm fine with that as well.
->>
->> I think it would just be more convenient when we can come up with
->> functions which can handle all use cases, cause there still seems to be
->> a lot of similarities.
-> The way it's implemented is more general and can handle all use cases.
-> You are arguing for a function that can handle your case (albeit with a
-> bit more fuss) but can't handle mine and is therefore less general.
-> Calling my interface specialized is wrong.
-
-Well at the end of the day you only need to convince Bjorn of the 
-interface, so I'm perfectly fine with it as long as it serves my use 
-case as well :)
-
-But I still would like to understand your intention, cause that really 
-helps not to accidentally break something in the long term.
-
-Now when I take a look at the pure PCI hardware level, what I have is a 
-transaction between an initiator and a target, and not multiple devices 
-in one operation.
-
-I mean you must have a very good reason that you now want to deal with 
-multiple devices in the software layer, but neither from the code nor 
-from your explanation that reason becomes obvious to me.
-
-Thanks,
-Christian.
-
->
-> Logan
+diff --git a/tests/nvme_fw_log_test.py b/tests/nvme_fw_log_test.py
+new file mode 100644
+index 0000000..40b2685
+--- /dev/null
++++ b/tests/nvme_fw_log_test.py
+@@ -0,0 +1,130 @@
++# Copyright (c) 2015-2016 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Madhusudhana S.J <madhusudhana.sj at wdc.com>
++#
++"""
++NVMe nvme-fw-log  Testcase:-
++
++    1. Send NVMe Firmware log page request, returns result and log
++    2. Retrieves the NVMe Firmware log page from an NVMe device and report format to normal, json, or binary
++    3. Retrieve the firmware log for the specified device in either decoded format(default) or binary
++"""
++
++import subprocess
++from nose.tools import assert_equal
++from nvme_test import TestNVMe
++import time
++
++class TestNVMe_fw_log(TestNVMe):
++
++	"""
++	Represents Firmware log testcase.
++
++        - Attributes:
++                     - nvme-fw-log : list of Firmware log page request actions.     
++	"""
++	def __init__(self):
++         	""" Pre Section for TestNVMe_fw_log mandatory Actions """
++		TestNVMe.__init__(self)
++        	self.setup_log_dir(self.__class__.__name__)
++        	self.fw_log_action_list = ["--raw-binary", "-b"]
++        	self.fw_log_outtput_format_list = ["normal", "json","binary"]
++	
++	def __del__(self):
++		""" Post Section for TestNVMe_fw_log mandatory Actions
++
++            	     Call super class's destructor.
++		"""
++		TestNVMe.__del__(self)
++ 
++	def get_fw_log(self):
++        	""" Wrapper for NVMe fw_log  command
++                - Args:
++                       - fw-log: NVMe character device to be used to check the fw-log page.
++                - Returns: None
++        	"""
++        	get_fw_log_cmd = "nvme fw-log /dev/nvme0"
++		print "nvme fw-log command :",get_fw_log_cmd, "\n"
++		proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
++		fw_log_output = proc.communicate()[0]
++		print "command_output : "
++		print fw_log_output, "\n"
++        	assert_equal(proc.wait(), 0)
++ 
++	def get_mandetory_fw_log_action(self,fw_log_action):
++			""" Wrapper for NVMe fw-log  command 
++				- Args: NVMe character device ex: /dev/nvme0
++				- nvme-fw-log : list of Firmware log page request actions.
++				- Returns: None
++			"""
++			print "fw_log_action value:", fw_log_action
++			if str(fw_log_action) in ["-b","--raw-binary"]:
++				get_fw_log_cmd = "nvme fw-log /dev/nvme0" + " " +  fw_log_action + " | hexdump -C"
++				print "get_fw_log_cmd with binary :",get_fw_log_cmd,"\n"
++				proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
++				fw_log_output = proc.communicate()[0]
++				print "command_output : "
++				print fw_log_output, "\n"
++				assert_equal(proc.wait(), 0)
++			else:
++				get_fw_log_cmd = "nvme fw-log /dev/nvme0" 
++				print "command executing to retrive fw log :",get_fw_log_cmd
++               			proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
++                		fw_log_output = proc.communicate()[0]
++				print "command_output : "
++				print fw_log_output, "\n"
++                        assert_equal(proc.wait(), 0)
++	def get_mandetory_fw_log_outputformat(self,fw_log_outputformat):
++                        """ Wrapper for NVMe FW-LOG command
++                                - Args:
++                                - fw_log_action : output format  to be used with fw-log command.
++                                - Returns: None
++                        """
++                        print "fw_log_outputformat Type:", fw_log_outputformat
++                        if str(fw_log_outputformat) == "binary":
++                                get_fw_log_cmd = "nvme fw-log /dev/nvme0 " + " --output-format=binary | hexdump -C"
++                                print "get_fw_log command with output format:",get_fw_log_cmd
++				print "\n"
++                                proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
++                                fw_log_output = proc.communicate()[0]
++                                print "command_output : "
++                                print fw_log_output, "\n"
++                                assert_equal(proc.wait(), 0)
++                        else:
++                                get_fw_log_cmd = "nvme fw-log /dev/nvme0 " + " --output-format=" + fw_log_outputformat
++                                print "command executing to get fw_log of the given NVMe device :",get_fw_log_cmd
++                                proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
++                                fw_log_output = proc.communicate()[0]
++                                print "command_output : "
++                                print fw_log_output, "\n"
++                                assert_equal(proc.wait(), 0)
++
++	def test_fw_log_actions(self):
++        		""" Testcase main """ 
++			print "calling main function ..!"
++			self.get_fw_log()
++       			for fw_log_action in self.fw_log_action_list:
++				if str(fw_log_action) in ["-b", "--raw-binary"]:
++					self.get_mandetory_fw_log_action(fw_log_action)
++				else:
++					self.get_mandetory_fw_log_action(fw_log_action)
++			for fw_log_outputformat in self.fw_log_outtput_format_list:
++				if str(fw_log_outputformat) == "binary":
++					self.get_mandetory_fw_log_outputformat(fw_log_outputformat)
++				else:
++					self.get_mandetory_fw_log_outputformat(fw_log_outputformat)
+diff --git a/tests/nvme_id_ctrl_test.py b/tests/nvme_id_ctrl_test.py
+new file mode 100644
+index 0000000..b6b0d89
+--- /dev/null
++++ b/tests/nvme_id_ctrl_test.py
+@@ -0,0 +1,137 @@
++# Copyright (c) 2015-2016 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Madhusudhana S.J <madhusudhana.sj at wdc.com>
++#
++"""
++NVMe Identify Controller Testcase:-
++
++    1. Send NVMe Identify Controller, return result and structure
++    2. Send an Identify Controller command to the given device and report information about the specified controller 
++       in human-readable or binary format. 
++       May also return vendor-specific controller attributes in hex-dump if requested.
++
++"""
++
++import subprocess
++from nose.tools import assert_equal
++from nvme_test import TestNVMe
++import time
++
++class TestNVMeIdentifyIdctrlActions(TestNVMe):
++
++	"""
++	Represent Identify Controller testcase.
++
++        - Attributes:
++                     - Identify Controller : list of Identify Controller actions.     
++	"""
++	def __init__(self):
++         	""" Pre Section for Identify Controller mandatory Actions """
++		TestNVMe.__init__(self)
++        	self.setup_log_dir(self.__class__.__name__)
++        	self.identifycontroller__action_list = ["--human-readable","--raw-binary","--vendor-specific","-b"]
++        	self.identifycontroller__outtput_format_list = ["normal", "json","binary"]
++	
++	def __del__(self):
++		""" Post Section for TestNVMeIdentify Controller mandatory Actions
++
++            	     Call super class's destructor.
++		"""
++		TestNVMe.__del__(self)
++ 
++	def get_identifycontroller(self):
++        	""" Wrapper for NVMe Identify Controller command
++                - Args:
++                       - Identify Controller : sends an identify controller command to device and  
++                         provides the result and returned structure
++                - Returns: None
++        	"""
++        	get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" 
++		print "Identify Controller command:",get_identifycontroller_cmd, "\n"
++		proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
++		identifycontroller_output = proc.communicate()[0]
++		print "command_output : "
++		print identifycontroller_output, "\n"
++        	assert_equal(proc.wait(), 0)
++ 
++	def get_mandetory_identifycontroller_action(self,identifycontroller_action):
++			""" Wrapper for NVMe Identify Controller  command 
++				- Args:
++				- identifycontroller_action : action id to be used with identifycontroller_action  command.
++				- Returns: None
++			"""
++			print "identifycontroller_action value:", identifycontroller_action
++			if str(identifycontroller_action) in ["-b","--raw-binary"]:
++				get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" + \
++                                                             " " + identifycontroller_action + " | hexdump -C"
++				print "get_identifycontroller_cmd with binary :",get_identifycontroller_cmd,"\n"
++				proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
++				identifycontroller_output = proc.communicate()[0]
++				print "command_output : "
++				print identifycontroller_output, "\n"
++				assert_equal(proc.wait(), 0)
++			else:
++				get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" \
++				                            + " " + identifycontroller_action 
++				print "command executing to get id_ctrl of the given device :",get_identifycontroller_cmd
++               			proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
++                		identifycontroller_output = proc.communicate()[0]
++				print "command_output : "
++				print identifycontroller_output, "\n"
++                		assert_equal(proc.wait(), 0)
++	def get_mandetory_identifycontroller_outputformat(self,identifycontroller_outputformat):
++                        """ Wrapper for NVMe Identify Controller command
++                                - Args:
++                                - identifycontroller_action : output format  to be used with identifycontroller  command.
++                                - Returns: None
++                        """
++                        print "identifycontroller_outputformat Type:", identifycontroller_outputformat
++                        if str(identifycontroller_outputformat) == "binary":
++                                get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" + \
++                                                             " --output-format=binary | hexdump -C"
++                                print "get_identifycontroller_cmd with binary output format:",get_identifycontroller_cmd
++				print "\n"
++                                proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
++                                identifycontroller_output = proc.communicate()[0]
++                                print "command_output : "
++                                print identifycontroller_output, "\n"
++                                assert_equal(proc.wait(), 0)
++                        else:
++                                get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" \
++                                                             + " --output-format=" + identifycontroller_outputformat
++                                print "command executing to get id_ctrl of the given device :",get_identifycontroller_cmd
++                                proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
++                                identifycontroller_output = proc.communicate()[0]
++                                print "command_output : "
++                                print identifycontroller_output, "\n"
++                                assert_equal(proc.wait(), 0)
++
++	def test_get_identify_controller_actions(self):
++        		""" Testcase main """ 
++			print "calling main function ..!"
++			self.get_identifycontroller()
++       			for identifycontroller_action in self.identifycontroller__action_list:
++				if str(identifycontroller_action) in ["-b", "--raw-binary"]:
++					self.get_mandetory_identifycontroller_action(identifycontroller_action)
++				else:
++					self.get_mandetory_identifycontroller_action(identifycontroller_action)
++			for identifycontroller_outputformat in self.identifycontroller__outtput_format_list:
++				if str(identifycontroller_outputformat) == "binary":
++					self.get_mandetory_identifycontroller_outputformat(identifycontroller_outputformat)
++				else:
++					self.get_mandetory_identifycontroller_outputformat(identifycontroller_outputformat)
+diff --git a/tests/nvme_id_ns_test.py b/tests/nvme_id_ns_test.py
+new file mode 100644
+index 0000000..1b8e70c
+--- /dev/null
++++ b/tests/nvme_id_ns_test.py
+@@ -0,0 +1,134 @@
++# Copyright (c) 2015-2016 Western Digital Corporation or its affiliates.
++#
++# This program is free software; you can redistribute it and/or
++# modify it under the terms of the GNU General Public License
++# as published by the Free Software Foundation; either version 2
++# of the License, or (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
++# MA  02110-1301, USA.
++#
++#   Author: Madhusudhana S.J <madhusudhana.sj at wdc.com>
++#
++"""
++NVMe Identify Namespace  Testcase:-
++
++    1. Send an Identify Namespace command to the given device.
++    2. Specified namespace in either human-readable,--vendor-specific or binary format.
++    3. Specified namespace in --output-format  -o in normal|json|binary
++"""
++
++import subprocess
++from nose.tools import assert_equal
++from nvme_test import TestNVMe
++import time
++
++class TestNVMeIdentifyNamespaceActions(TestNVMe):
++
++	"""
++	Represents Identify Namespace testcase.
++
++        - Attributes:
++                     - Identify Namespace : list of Identify Namespace actions.     
++	"""
++	def __init__(self):
++         	""" Pre Section for TestNVMeIdentify Namespace mandatory Actions """
++		TestNVMe.__init__(self)
++        	self.setup_log_dir(self.__class__.__name__)
++        	self.identifynamespace__action_list = ["--human-readable","--raw-binary","--vendor-specific","-b"]
++        	self.identifynamespace__outtput_format_list = ["normal", "json","binary"]
++	
++	def __del__(self):
++		""" Post Section for TestNVMeIdentify Namespace mandatory Actions
++
++            	     Call super class's destructor.
++		"""
++		TestNVMe.__del__(self)
++ 
++	def get_identifynamespace(self):
++        	""" Wrapper for NVMe Identify Namespace command
++                - Args:
++                       - Identify Namespace : Namespace id to be used to check the Identify Namespace.
++                - Returns: None
++        	"""
++        	get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" + str(self.default_nsid) 
++		print "Identify Namespace command:",get_identifynamespace_cmd, "\n"
++		proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++		identifynamespace_output = proc.communicate()[0]
++		print "command_output : "
++		print identifynamespace_output, "\n"
++        	assert_equal(proc.wait(), 0)
++ 
++	def get_mandetory_identifynamespace_action(self,identifynamespace_action):
++			""" Wrapper for NVMe Identify Namespace  command 
++				- Args:
++				- identifynamespace_action : action id to be used with identifynamespace_action  command.
++				- Returns: None
++			"""
++			print "identifynamespace_action value:", identifynamespace_action
++			if str(identifynamespace_action) in ["-b","--raw-binary"]:
++				get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++                                + str(self.default_nsid) + " " + identifynamespace_action + " | hexdump -C"
++				print "get_identifynamespace_cmd with --binary :",get_identifynamespace_cmd,"\n"
++				proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++				identifynamespace_output = proc.communicate()[0]
++				print "command_output : "
++				print identifynamespace_output, "\n"
++				assert_equal(proc.wait(), 0)
++			else:
++				get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++				+ str(self.default_nsid) + " " + identifynamespace_action 
++				print "command executing to get id_ns of the given namespace :",get_identifynamespace_cmd
++               			proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++                		identifynamespace_output = proc.communicate()[0]
++				print "command_output : "
++				print identifynamespace_output, "\n"
++                		assert_equal(proc.wait(), 0)
++	def get_mandetory_identifynamespace_outputformat(self,identifynamespace_outputformat):
++                        """ Wrapper for NVMe Identify Namespace command
++                                - Args:
++                                - identifynamespace_action : output format  to be used with identifynamespace  command.
++                                - Returns: None
++                        """
++                        print "identifynamespace_outputformat Type:", identifynamespace_outputformat
++                        if str(identifynamespace_outputformat) == "binary":
++                                get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++                                + str(self.default_nsid) + " --output-format=binary | hexdump -C"
++                                print "get_identifynamespace_cmd with binary output format:",get_identifynamespace_cmd
++				print "\n"
++                                proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++                                identifynamespace_output = proc.communicate()[0]
++                                print "command_output : "
++                                print identifynamespace_output, "\n"
++                                assert_equal(proc.wait(), 0)
++                        else:
++                                get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++                                + str(self.default_nsid) + " --output-format=" + identifynamespace_outputformat
++                                print "command executing to get id_ns of the given namespace :",get_identifynamespace_cmd
++                                proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++                                identifynamespace_output = proc.communicate()[0]
++                                print "command_output : "
++                                print identifynamespace_output, "\n"
++                                assert_equal(proc.wait(), 0)
++
++	def test_get_identify_namespace_actions(self):
++        		""" Testcase main """ 
++			print "calling main function ..!"
++			self.get_identifynamespace()
++       			for identifynamespace_action in self.identifynamespace__action_list:
++				if str(identifynamespace_action) in ["-b", "--raw-binary"]:
++					self.get_mandetory_identifynamespace_action(identifynamespace_action)
++				else:
++					self.get_mandetory_identifynamespace_action(identifynamespace_action)
++			for identifynamespace_outputformat in self.identifynamespace__outtput_format_list:
++				if str(identifynamespace_outputformat) == "binary":
++					self.get_mandetory_identifynamespace_outputformat(identifynamespace_outputformat)
++				else:
++					self.get_mandetory_identifynamespace_outputformat(identifynamespace_outputformat)
+-- 
+2.14.2.746.g8fb8a94
