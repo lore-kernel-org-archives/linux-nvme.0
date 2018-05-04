@@ -1,23 +1,54 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 4 May 2018 14:21:57 +0800
-Subject: [PATCH V3 7/8] nvme: pci: recover controller reliably
-In-Reply-To: <2e6e88f9-089a-2809-0c2b-4e96ba1199e9@oracle.com>
-References: <20180503031716.31446-1-ming.lei@redhat.com>
- <20180503031716.31446-8-ming.lei@redhat.com>
- <32819b0a-acc8-fa76-5e58-8e75e2bc081b@oracle.com>
- <20180503100824.GA5078@ming.t460p>
- <ea98b607-9c8f-3b18-8314-cdcfd8bc5e96@oracle.com>
- <20180504042451.GA20791@ming.t460p>
- <2e6e88f9-089a-2809-0c2b-4e96ba1199e9@oracle.com>
-Message-ID: <ee550e2f-d8c2-1633-3e49-9d4e201d080b@oracle.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 4 May 2018 09:34:53 +0200
+Subject: [PATCH blktests 3/3] nvme: add test for resetting the loopback
+ controller
+In-Reply-To: <CAK0tqikbAzX79tPuoTmB-n=3+8=9ExN43k1jTsqY0E-47TN2UA@mail.gmail.com>
+References: <20180503150054.14022-1-jthumshirn@suse.de>
+ <20180503150054.14022-3-jthumshirn@suse.de>
+ <CAK0tqikbAzX79tPuoTmB-n=3+8=9ExN43k1jTsqY0E-47TN2UA@mail.gmail.com>
+Message-ID: <20180504073453.ebpnkpvkydmbkso6@linux-x5ow.site>
 
-Oh sorry.
+On Thu, May 03, 2018@12:03:15PM -0700, chaitany kulkarni wrote:
+> Hi Johannes,
+> 
+> Thanks for submitting the test.
+> 
+> I was wondering if we can move the generic setup and clean up
+> functionality to the helpers for reference:-
+> 
+> +pre()
+> +{
+> +      # Clean up all stale modules
+> +       modprobe -r nvme-loop
+> +       modprobe -r nvme-core
+> +       modprobe -r nvmet
+> +
+> }
+> 
+> +post()
+> +{
+> +       modprobe -r nvme-loop
+> +       modprobe -r nvme-core
+> +       modprobe -r nvmet
+> +
+> +}
 
-On 05/04/2018 02:10 PM, jianchao.wang wrote:
-> nvme_error_handler should invoke nvme_reset_ctrl instead of introducing another interface.
-> Then it is more convenient to ensure that there will be only one resetting instance running.
+I was thinking of the same as well but then I'd rather love "generic"
+pre()/post() callbacks which the framework calles and not the actual
+test case (just like requires() et al).
 
-ctrl state is still in RESETTING state, nvme_reset_ctrl cannot work.
+You can't really make the content's of pre()/post() generically enough
+for all tests of a category unfortunately so I think placing them into
+common/ won't work (i.e. for the next test I have in the pipeline I
+need nvme-fcloop not nvme-loop, and so on).
 
-Thanks
-Jianchao
+Let me think a bit more about it.
+
+    Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
