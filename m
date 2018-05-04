@@ -1,39 +1,23 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 4 May 2018 09:52:26 -0600
-Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <17e7bc28-f499-c7f7-f91a-9f6778de5fd3@amd.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <b8acf835-df94-9967-2327-8f0e39d88511@amd.com>
- <805645c1-ea40-2e57-88eb-5dd34e579b2e@deltatee.com>
- <3e4e0126-f444-8d88-6793-b5eb97c61f76@amd.com>
- <ce2e5351-f32a-bd80-1c77-b7fc38842175@deltatee.com>
- <38d866cf-f7b4-7118-d737-5a5dcd9f3784@amd.com>
- <2d59aa02-f2fa-bd88-1b6c-923117a6ad28@deltatee.com>
- <17e7bc28-f499-c7f7-f91a-9f6778de5fd3@amd.com>
-Message-ID: <aa542739-17c1-870d-bac8-1d53eb32ff70@deltatee.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 4 May 2018 10:17:36 -0600
+Subject: [PATCH 2/5] nvme: Add ANA base definitions
+In-Reply-To: <20180504112845.38820-3-hare@suse.de>
+References: <20180504112845.38820-1-hare@suse.de>
+ <20180504112845.38820-3-hare@suse.de>
+Message-ID: <20180504161736.GQ5938@localhost.localdomain>
 
+On Fri, May 04, 2018@01:28:42PM +0200, Hannes Reinecke wrote:
+> @@ -312,7 +317,8 @@ struct nvme_id_ns {
+>  	__le16			nabspf;
+>  	__le16			noiob;
+>  	__u8			nvmcap[16];
+> -	__u8			rsvd64[40];
+> +	__u8			rsvd64[36];
+> +	__le32			anagrpid;
+>  	__u8			nguid[16];
+>  	__u8			eui64[8];
+>  	struct nvme_lbaf	lbaf[16];
 
-
-On 04/05/18 08:27 AM, Christian K?nig wrote:
-> Are you sure that this is more convenient? At least on first glance it 
-> feels overly complicated.
-> 
-> I mean what's the difference between the two approaches?
-> 
->  ??? sum = pci_p2pdma_distance(target, [A, B, C, target]);
-> 
-> and
-> 
->  ??? sum = pci_p2pdma_distance(target, A);
->  ??? sum += pci_p2pdma_distance(target, B);
->  ??? sum += pci_p2pdma_distance(target, C);
-
-Well, it's more for consistency with the pci_p2pdma_find() which has to
-take a list of devices to find a resource which matches all of them.
-(You can't use multiple calls in that case because all the devices in
-the list might not have the same set of compatible providers.) That way
-we can use the same list to check the distance (when the user specifies
-a device) as we do to find a compatible device (when the user wants to
-automatically find one.
-
-Logan
+Is this the right place for the new field? Your patch has the group ID
+at byte 100. TP4004 has the ANA Group Identifier starting at byte 92,
+followed by 8 reserved bytes, then the NGUID.
