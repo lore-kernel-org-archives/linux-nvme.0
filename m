@@ -1,9 +1,9 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 4 May 2018 11:18:29 +0200
-Subject: [PATCH] nvme-rdma: fix double free in nvme_rdma_free_queue
-In-Reply-To: <1525420938-9492-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1525420938-9492-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180504091829.jqldlc3q6qr6hivv@linux-x5ow.site>
+Date: Fri, 4 May 2018 11:19:06 +0200
+Subject: [PATCH] nvme-rdma: clear NVME_RDMA_Q_LIVE before free the queue
+In-Reply-To: <1525420958-9537-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1525420958-9537-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180504091906.2yfowtcbmwyaoekl@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
