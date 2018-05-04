@@ -1,16 +1,35 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 4 May 2018 11:19:06 +0200
-Subject: [PATCH] nvme-rdma: clear NVME_RDMA_Q_LIVE before free the queue
-In-Reply-To: <1525420958-9537-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1525420958-9537-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180504091906.2yfowtcbmwyaoekl@linux-x5ow.site>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri,  4 May 2018 13:28:40 +0200
+Subject: [RFC PATCH 0/5] nvme: ANA support
+Message-ID: <20180504112845.38820-1-hare@suse.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Hi all,
+
+here's a prototype implementation for ANA support in nvme.
+The implementation itself is pretty straightforward; only the ANA group
+linking for NVMe target required some fiddling.
+
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (5):
+  nvmet: EUI64 support
+  nvme: Add ANA base definitions
+  nvmet: Add ANA base support
+  block: BLK_STS_NEXUS is a path failure
+  nvme: ANA base support
+
+ drivers/nvme/host/core.c        | 122 ++++++++++++++-
+ drivers/nvme/host/multipath.c   |  12 +-
+ drivers/nvme/host/nvme.h        |   3 +
+ drivers/nvme/target/admin-cmd.c |  75 ++++++++-
+ drivers/nvme/target/configfs.c  | 328 ++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c      |  78 +++++++++-
+ drivers/nvme/target/discovery.c |  16 ++
+ drivers/nvme/target/io-cmd.c    |  10 ++
+ drivers/nvme/target/nvmet.h     |  46 ++++++
+ include/linux/blk_types.h       |   1 -
+ include/linux/nvme.h            |  47 +++++-
+ 11 files changed, 723 insertions(+), 15 deletions(-)
+
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.12.3
