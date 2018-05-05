@@ -1,66 +1,155 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sat,  5 May 2018 21:58:58 +0800
-Subject: [PATCH V4 0/7] nvme: pci: fix & improve timeout handling
-Message-ID: <20180505135905.18815-1-ming.lei@redhat.com>
+Date: Sat,  5 May 2018 21:58:59 +0800
+Subject: [PATCH V4 1/7] block: introduce blk_quiesce_timeout() and
+ blk_unquiesce_timeout()
+In-Reply-To: <20180505135905.18815-1-ming.lei@redhat.com>
+References: <20180505135905.18815-1-ming.lei@redhat.com>
+Message-ID: <20180505135905.18815-2-ming.lei@redhat.com>
 
-Hi,
+Turns out the current way can't drain timout completely because mod_timer()
+can be triggered in the work func, which can be just run inside the synced
+timeout work:
 
-The 1st patch introduces blk_quiesce_timeout() and blk_unquiesce_timeout()
-for NVMe, meantime fixes blk_sync_queue().
+        del_timer_sync(&q->timeout);
+        cancel_work_sync(&q->timeout_work);
 
-The 2nd patch covers timeout for admin commands for recovering controller
-for avoiding possible deadlock.
+This patch introduces one flag of 'timeout_off' for fixing this issue, turns
+out this simple way does work.
 
-The 3rd and 4th patches avoid to wait_freeze on queues which aren't frozen.
+Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
+draining timeout, which is needed by NVMe.
 
-The last 4 patches fixes several races wrt. NVMe timeout handler, and
-finally can make blktests block/011 passed. Meantime the NVMe PCI timeout
-mecanism become much more rebost than before.
-
-gitweb:
-	https://github.com/ming1/linux/commits/v4.17-rc-nvme-timeout.V4
-
-V4:
-	- fixe nvme_init_set_host_mem_cmd()
-	- use nested EH model, and run both nvme_dev_disable() and
-	resetting in one same context
-
-V3:
-	- fix one new race related freezing in patch 4, nvme_reset_work()
-	may hang forever without this patch
-	- rewrite the last 3 patches, and avoid to break nvme_reset_ctrl*()
-
-V2:
-	- fix draining timeout work, so no need to change return value from
-	.timeout()
-	- fix race between nvme_start_freeze() and nvme_unfreeze()
-	- cover timeout for admin commands running in EH
-
-Ming Lei (7):
-  block: introduce blk_quiesce_timeout() and blk_unquiesce_timeout()
-  nvme: pci: cover timeout for admin commands running in EH
-  nvme: pci: only wait freezing if queue is frozen
-  nvme: pci: freeze queue in nvme_dev_disable() in case of error
-    recovery
-  nvme: core: introduce 'reset_lock' for sync reset state and reset
-    activities
-  nvme: pci: prepare for supporting error recovery from resetting
-    context
-  nvme: pci: support nested EH
-
- block/blk-core.c         |  21 +++-
- block/blk-mq.c           |   9 ++
- block/blk-timeout.c      |   5 +-
- drivers/nvme/host/core.c |  46 ++++++-
- drivers/nvme/host/nvme.h |   5 +
- drivers/nvme/host/pci.c  | 304 ++++++++++++++++++++++++++++++++++++++++-------
- include/linux/blkdev.h   |  13 ++
- 7 files changed, 356 insertions(+), 47 deletions(-)
-
+Cc: Bart Van Assche <bart.vanassche at wdc.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ block/blk-core.c       | 21 +++++++++++++++++++--
+ block/blk-mq.c         |  9 +++++++++
+ block/blk-timeout.c    |  5 ++++-
+ include/linux/blkdev.h | 13 +++++++++++++
+ 4 files changed, 45 insertions(+), 3 deletions(-)
+
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 85909b431eb0..c277f1023703 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -392,6 +392,22 @@ void blk_stop_queue(struct request_queue *q)
+ }
+ EXPORT_SYMBOL(blk_stop_queue);
+ 
++void blk_unquiesce_timeout(struct request_queue *q)
++{
++	blk_mark_timeout_quiesce(q, false);
++	mod_timer(&q->timeout, jiffies + q->rq_timeout);
++}
++EXPORT_SYMBOL(blk_unquiesce_timeout);
++
++void blk_quiesce_timeout(struct request_queue *q)
++{
++	blk_mark_timeout_quiesce(q, true);
++
++	del_timer_sync(&q->timeout);
++	cancel_work_sync(&q->timeout_work);
++}
++EXPORT_SYMBOL(blk_quiesce_timeout);
++
+ /**
+  * blk_sync_queue - cancel any pending callbacks on a queue
+  * @q: the queue
+@@ -412,8 +428,7 @@ EXPORT_SYMBOL(blk_stop_queue);
+  */
+ void blk_sync_queue(struct request_queue *q)
+ {
+-	del_timer_sync(&q->timeout);
+-	cancel_work_sync(&q->timeout_work);
++	blk_quiesce_timeout(q);
+ 
+ 	if (q->mq_ops) {
+ 		struct blk_mq_hw_ctx *hctx;
+@@ -425,6 +440,8 @@ void blk_sync_queue(struct request_queue *q)
+ 	} else {
+ 		cancel_delayed_work_sync(&q->delay_work);
+ 	}
++
++	blk_mark_timeout_quiesce(q, false);
+ }
+ EXPORT_SYMBOL(blk_sync_queue);
+ 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index c3621453ad87..d0a5dc29c8ef 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -901,6 +901,15 @@ static void blk_mq_timeout_work(struct work_struct *work)
+ 	};
+ 	struct blk_mq_hw_ctx *hctx;
+ 	int i;
++	bool timeout_off;
++	unsigned long flags;
++
++	spin_lock_irqsave(q->queue_lock, flags);
++	timeout_off = q->timeout_off;
++	spin_unlock_irqrestore(q->queue_lock, flags);
++
++	if (timeout_off)
++		return;
+ 
+ 	/* A deadlock might occur if a request is stuck requiring a
+ 	 * timeout at the same time a queue freeze is waiting
+diff --git a/block/blk-timeout.c b/block/blk-timeout.c
+index 652d4d4d3e97..ffd0b609091e 100644
+--- a/block/blk-timeout.c
++++ b/block/blk-timeout.c
+@@ -136,12 +136,15 @@ void blk_timeout_work(struct work_struct *work)
+ 
+ 	spin_lock_irqsave(q->queue_lock, flags);
+ 
++	if (q->timeout_off)
++		goto exit;
++
+ 	list_for_each_entry_safe(rq, tmp, &q->timeout_list, timeout_list)
+ 		blk_rq_check_expired(rq, &next, &next_set);
+ 
+ 	if (next_set)
+ 		mod_timer(&q->timeout, round_jiffies_up(next));
+-
++exit:
+ 	spin_unlock_irqrestore(q->queue_lock, flags);
+ }
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 5c4eee043191..a2cc4aaecf50 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -584,6 +584,7 @@ struct request_queue {
+ 	struct timer_list	timeout;
+ 	struct work_struct	timeout_work;
+ 	struct list_head	timeout_list;
++	bool			timeout_off;
+ 
+ 	struct list_head	icq_list;
+ #ifdef CONFIG_BLK_CGROUP
+@@ -1017,6 +1018,18 @@ extern void blk_execute_rq(struct request_queue *, struct gendisk *,
+ extern void blk_execute_rq_nowait(struct request_queue *, struct gendisk *,
+ 				  struct request *, int, rq_end_io_fn *);
+ 
++static inline void blk_mark_timeout_quiesce(struct request_queue *q, bool quiesce)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(q->queue_lock, flags);
++	q->timeout_off = quiesce;
++	spin_unlock_irqrestore(q->queue_lock, flags);
++}
++
++extern void blk_quiesce_timeout(struct request_queue *q);
++extern void blk_unquiesce_timeout(struct request_queue *q);
++
+ int blk_status_to_errno(blk_status_t status);
+ blk_status_t errno_to_blk_status(int errno);
+ 
 -- 
 2.9.5
