@@ -1,13 +1,15 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sat,  5 May 2018 21:59:01 +0800
-Subject: [PATCH V4 3/7] nvme: pci: only wait freezing if queue is frozen
+Date: Sat,  5 May 2018 21:59:03 +0800
+Subject: [PATCH V4 5/7] nvme: core: introduce 'reset_lock' for sync reset
+ state and reset activities
 In-Reply-To: <20180505135905.18815-1-ming.lei@redhat.com>
 References: <20180505135905.18815-1-ming.lei@redhat.com>
-Message-ID: <20180505135905.18815-4-ming.lei@redhat.com>
+Message-ID: <20180505135905.18815-6-ming.lei@redhat.com>
 
-In nvme_dev_disable() called during shutting down controler,
-nvme_wait_freeze_timeout() may be done on the controller not
-frozen yet, so add the check for avoiding the case.
+NVMe PCI may start a new reset context to run nested reset for recovering
+from reset context, and we may not change the rule of state machine until
+other kinds of NVMe controller support that, so use the 'reset_lock' to sync
+the state change here.
 
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
@@ -16,40 +18,65 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/pci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 20 +++++++++++++++++---
+ drivers/nvme/host/nvme.h |  3 +++
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ff09b1c760ea..57bd7bebd1e5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2244,14 +2244,17 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	int i;
- 	bool dead = true;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	bool frozen = false;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9df4f71e58ca..3aaee4dbf58e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -100,13 +100,25 @@ static struct class *nvme_subsys_class;
+ static void nvme_ns_remove(struct nvme_ns *ns);
+ static int nvme_revalidate_disk(struct gendisk *disk);
  
- 	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
++/*
++ * NVMe PCI may support nested reset for recovering from reset context,
++ * and we may not change the rule of state machine until other kinds of
++ * NVMe controller support that, so use the 'reset_lock' to sync the
++ * state change here.
++ */
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+ {
++	int ret = -EBUSY;
++
++	mutex_lock(&ctrl->reset_lock);
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+-		return -EBUSY;
++		goto fail;
+ 	if (!queue_work(nvme_reset_wq, &ctrl->reset_work))
+-		return -EBUSY;
+-	return 0;
++		goto fail;
++	ret = 0;
++ fail:
++	mutex_unlock(&ctrl->reset_lock);
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_reset_ctrl);
  
- 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--		    dev->ctrl.state == NVME_CTRL_RESETTING)
-+		    dev->ctrl.state == NVME_CTRL_RESETTING) {
- 			nvme_start_freeze(&dev->ctrl);
-+			frozen = true;
-+		}
- 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
- 			pdev->error_state  != pci_channel_io_normal);
- 	}
-@@ -2261,7 +2264,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	 * doing a safe shutdown.
- 	 */
- 	if (!dead) {
--		if (shutdown)
-+		if (shutdown && frozen)
- 			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
- 	}
+@@ -3447,6 +3459,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+ 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+ 
++	mutex_init(&ctrl->reset_lock);
++
+ 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0)
+ 		goto out;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 061fecfd44f5..99f55c6f69f8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -146,6 +146,9 @@ struct nvme_ctrl {
+ 	struct device ctrl_device;
+ 	struct device *device;	/* char device */
+ 	struct cdev cdev;
++
++	/* sync reset state update and related reset activities */
++	struct mutex reset_lock;
+ 	struct work_struct reset_work;
+ 	struct work_struct delete_work;
  
 -- 
 2.9.5
