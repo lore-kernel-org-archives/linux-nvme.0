@@ -1,44 +1,50 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Sat, 5 May 2018 08:16:37 +0800
-Subject: [PATCH V3 7/8] nvme: pci: recover controller reliably
-In-Reply-To: <b7c597c0-7c0e-4a16-8f7c-ff3a6d6d17a6@oracle.com>
-References: <20180503031716.31446-1-ming.lei@redhat.com>
- <20180503031716.31446-8-ming.lei@redhat.com>
- <32819b0a-acc8-fa76-5e58-8e75e2bc081b@oracle.com>
- <20180503100824.GA5078@ming.t460p>
- <ea98b607-9c8f-3b18-8314-cdcfd8bc5e96@oracle.com>
- <20180504042451.GA20791@ming.t460p>
- <2e6e88f9-089a-2809-0c2b-4e96ba1199e9@oracle.com>
- <20180504080223.GB20791@ming.t460p>
- <b7c597c0-7c0e-4a16-8f7c-ff3a6d6d17a6@oracle.com>
-Message-ID: <CACVXFVMVkfu-Lu2PKStmryWZYqekWQu8=5JT=iQrecPEYpRo5w@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Sat, 5 May 2018 15:17:32 +0200
+Subject: [PATCH 2/5] nvme: Add ANA base definitions
+In-Reply-To: <FED93B0B-94E0-41B2-A790-60C665287037@netapp.com>
+References: <20180504112845.38820-1-hare@suse.de>
+ <20180504112845.38820-3-hare@suse.de>
+ <20180504161736.GQ5938@localhost.localdomain>
+ <FED93B0B-94E0-41B2-A790-60C665287037@netapp.com>
+Message-ID: <1b122782-3b1c-0ccd-fd3c-40270337090f@suse.de>
 
-On Fri, May 4, 2018 at 4:28 PM, jianchao.wang
-<jianchao.w.wang@oracle.com> wrote:
-> Hi ming
->
-> On 05/04/2018 04:02 PM, Ming Lei wrote:
->>> nvme_error_handler should invoke nvme_reset_ctrl instead of introducing another interface.
->>> Then it is more convenient to ensure that there will be only one resetting instance running.
->>>
->> But as you mentioned above, reset_work has to be splitted into two
->> contexts for handling IO timeout during wait_freeze in reset_work,
->> so single instance of nvme_reset_ctrl() may not work well.
->
-> I mean the EH kthread and the reset_work which both could reset the ctrl instead of
-> the pre and post rest context.
->
-> Honestly, I suspect a bit that whether it is worthy to try to recover from [1].
-> The Eh kthread solution could make things easier, but the codes for recovery from [1] has
-> made code really complicated. It is more difficult to unify the nvme-pci, rdma and fc.
+On 05/04/2018 07:03 PM,  Meneghini, John  wrote:
+> Agreed:
+> 
+> 95:92 - ANAGRPID
+> 103:96 - Reserved
+> 
+> Note that this was changed at the last minute.  There are some older drafts of the NVM_TP_4004 out there.  You want to be sure to use the ratified version from:
+> 
+> http://nvmexpress.org/resources/specifications/
+> 
+> NVM Express 1.3 Ratified TPs
+> 
+> /John
+> 
+> ?On 5/4/18, 12:16 PM, "Keith Busch" <keith.busch@linux.intel.com> wrote:
+> 
+>      On Fri, May 04, 2018@01:28:42PM +0200, Hannes Reinecke wrote:
+>      > @@ -312,7 +317,8 @@ struct nvme_id_ns {
+>      >  	__le16			nabspf;
+>      >  	__le16			noiob;
+>      >  	__u8			nvmcap[16];
+>      > -	__u8			rsvd64[40];
+>      > +	__u8			rsvd64[36];
+>      > +	__le32			anagrpid;
+>      >  	__u8			nguid[16];
+>      >  	__u8			eui64[8];
+>      >  	struct nvme_lbaf	lbaf[16];
+>      
+>      Is this the right place for the new field? Your patch has the group ID
+>      at byte 100. TP4004 has the ANA Group Identifier starting at byte 92,
+>      followed by 8 reserved bytes, then the NGUID.
+>      
+> 
+Ah. Hence. Must've looked at an older copy then.
 
-Another choice may be nested EH, which should be easier to implement:
+Will be fixing it up.
 
-- run the whole recovery procedures(shutdown & reset) in one single context
-- and start a new context to handle new timeout during last recovery in the
-same way
+Cheers,
 
-The two approaches is just like sync IO vs AIO.
-
-Thanks,
-Ming Lei
+Hannes
