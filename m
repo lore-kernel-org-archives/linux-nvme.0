@@ -1,23 +1,54 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 7 May 2018 17:34:53 -0600
-Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <20180507232346.GI161390@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <20180507232346.GI161390@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <dc207a94-35a6-6182-1331-154ece9ac00d@deltatee.com>
+From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
+Date: Mon, 7 May 2018 23:57:40 +0000
+Subject: AER: Malformed TLP recovery deadlock with NVMe drives
+References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
+ <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
+ <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
+ <9fc90040d5712282ea223807ace39312@codeaurora.org>
+ <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
+ <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
+Message-ID: <3d4991bc2948430d910a16da36c90b91@ausx13mps321.AMER.DELL.COM>
 
-
-> How do you envison merging this?  There's a big chunk in drivers/pci, but
-> really no opportunity for conflicts there, and there's significant stuff in
-> block and nvme that I don't really want to merge.
+On 5/7/2018 5:46 PM, okaya@codeaurora.org wrote:
+[snip]
+>> If it were easy, somebody would have patched it by now ;)
 > 
-> If Alex is OK with the ACS situation, I can ack the PCI parts and you could
-> merge it elsewhere?
+> Can you file a bugzilla CC me, keith and bjorn and attach all of your
+> logs?
 
-Honestly, I don't know. I guess with your ACK on the PCI parts, the vast
-balance is NVMe stuff so we could look at merging it through that tree.
-The block patch and IB patch are pretty small.
+Sure. Which bugzilla?
 
-Thanks,
 
-Logan
+> Let's debug this there.
+
+Debugging over email not fun enough?
+
+Alex
+
+
+>>> With this patch, you shouldn't
+>>> see link down and up interrupts during reset but i do see them in the
+>>> log.
+>>
+>> You will see the messages from the link up/down events regardless if
+>> any
+>> action is actually taken.
+>>
+>>> Can you also share a fail case log with this patch and a diff of your
+>>> hacks so that we know where prints are coming from.
+>>
+>> Of course. Example of failing case [3], and is identical to the fail
+>> log
+>> without any patches. Although prints have the function name, the diff
+>> is
+>> in [4].
+>>
+>> Alex
+>>
+>> [3] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1509.log
+>> [4] http://gtech.myftp.org/~mrnuke/nvme_logs/print_hacks.patch
+>>
+>>
+>>>> [2] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1429.log
+>>>>>> [1] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1308.log
+> 
