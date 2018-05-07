@@ -1,36 +1,17 @@
-From: bharatku@xilinx.com (Bharat Kumar Gogada)
-Date: Mon, 7 May 2018 06:57:54 +0000
-Subject: NVMe Poll CQ on timeout
-In-Reply-To: <BLUPR0201MB1505A10C31E4E3A3BDF7BDBAA58E0@BLUPR0201MB1505.namprd02.prod.outlook.com>
-References: <BLUPR0201MB1505A10C31E4E3A3BDF7BDBAA58E0@BLUPR0201MB1505.namprd02.prod.outlook.com>
-Message-ID: <BLUPR0201MB1505FC0425F87A1A8E6E50DAA59B0@BLUPR0201MB1505.namprd02.prod.outlook.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 7 May 2018 09:17:12 +0200
+Subject: [PATCH 1/5] nvmet: EUI64 support
+In-Reply-To: <20180504112845.38820-2-hare@suse.de>
+References: <20180504112845.38820-1-hare@suse.de>
+ <20180504112845.38820-2-hare@suse.de>
+Message-ID: <20180507071712.bim7iewevfrdcwgw@linux-x5ow.site>
 
-Hi,
-
-Does anyone have any inputs ?
-
-Regards,
-Bharat
-
-> Hi,
-> 
-> We are testing NVMe cards on ARM64 platform, the card uses legacy
-> interrupts.
-> Intermittently we are hitting following case in drivers/nvme/host/pci.c
->        /*
->          * Did we miss an interrupt?
->          */
->         if (__nvme_poll(nvmeq, req->tag)) {
->                 dev_warn(dev->ctrl.device,
->                          "I/O %d QID %d timeout, completion polled\n",
->                          req->tag, nvmeq->qid);
->                 return BLK_EH_HANDLED;
->         }
-> 
-> Can anyone tell when does nvme_timeout gets invoked ?
-> What does "Did we miss an interrupt mean" ? Does it mean host missing to
-> service a interrupt raised by EP card ?
-> 
-> Regards,
-> Bharat
-> 
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
