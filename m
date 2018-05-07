@@ -1,22 +1,9 @@
-From: malakar.atul5070@gmail.com (Atul Malakar)
-Date: Mon, 7 May 2018 20:50:53 +0530
-Subject: Need help to understand error messages from nvmet_rdma_send_done
-Message-ID: <CABhaTPzPaTkvQg-v9OgmPSGuWucwBeyNJsjvy4weR7nL_kX2PA@mail.gmail.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 7 May 2018 09:29:42 -0600
+Subject: [PATCH] nvme: fix use-after-free in nvme_free_ns_head
+In-Reply-To: <20180507122653.GB27843@lst.de>
+References: <1525420917-9448-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180507122653.GB27843@lst.de>
+Message-ID: <20180507152942.GD20686@localhost.localdomain>
 
-Hi All,
-
-We are developing a windows application to connect and send I/Os to
-Linux RDMA target in kernel 4.16.3.
-
-When we are sending 128KB read commands using 8 threads with 4
-outstanding I/Os each, in the "nvmet_rdma_send_done" routine the
-wc->status has value "IB_WC_WR_FLUSH_ERR" and "IB_WC_RETRY_EXC_ERR".
-
-Most of the cases it is "IB_WC_WR_FLUSH_ERR" and in some cases it is
-"IB_WC_RETRY_EXC_ERR". We have no idea which module and for what
-reason these values are set.
-
-Can anybody let us know from where these error is coming?
-
-Thanks,
-Atul
+Thank you, applied for the next nvme 4.17-rc.
