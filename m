@@ -1,22 +1,73 @@
-From: jeff.lien@wdc.com (Jeff Lien)
-Date: Mon,  7 May 2018 16:50:34 -0500
-Subject: [NVMe-CLI] New tests commit log 
-Message-ID: <20180507215034.27966-1-jeff.lien@wdc.com>
+From: okaya@codeaurora.org (okaya@codeaurora.org)
+Date: Mon, 07 May 2018 23:45:57 +0100
+Subject: AER: Malformed TLP recovery deadlock with NVMe drives
+In-Reply-To: <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
+References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
+ <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
+ <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
+ <9fc90040d5712282ea223807ace39312@codeaurora.org>
+ <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
+Message-ID: <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
 
-commit b436fe43d750df5fa6fe5344d9d427441bc89ea3 (HEAD -> master)
-Author: Jeff Lien <jeff.lien at wdc.com>
-Date:   Mon May 7 16:35:36 2018 -0500
+On 2018-05-07 21:58, Alex G. wrote:
+> On 05/07/2018 03:30 PM, okaya@codeaurora.org wrote:
+>> On 2018-05-07 21:16, Alex G. wrote:
+>>> On 05/07/2018 01:46 PM, okaya@codeaurora.org wrote:
+>>>> On 2018-05-07 19:36, Alex G. wrote:
+>>>>> Hi! Me again!
+>>>>> 
+>>>>> I'm seeing what appears to be a deadlock in the AER recovery path. 
+>>>>> It
+>>>>> seems that the device_lock() call in report_slot_reset() never 
+>>>>> returns.
+>>>>> How we get there is interesting:
+>>>> 
+>>>> Can you give this patch a try?
+>>>> 
+>>> Oh! Patches so soon? Yay!
+>>> 
+>>>> https://patchwork.kernel.org/patch/10351515/
+>>> 
+>>> Thank you! I tried a few runs. there was one run where we didn't lock
+>>> up, but the other runs all went like before.
+>>> 
+>>> For comparison, the run that didn't deadlock looked like [2].
+>>> 
+>> 
+>> 
+>> Sounds like there are multiple problems.
+> 
+> If it were easy, somebody would have patched it by now ;)
 
-    [NVMe-CLI] Add nvme id-ns command test
+Can you file a bugzilla CC me, keith and bjorn and attach all of your 
+logs?
 
-commit ba746ee566264044e6683e9f1ea1717e50486cf9
-Author: Jeff Lien <jeff.lien at wdc.com>
-Date:   Mon May 7 16:33:49 2018 -0500
+Let's debug this there.
 
-    [NVMe-CLI] Add nvme id-ctrl command test
 
-commit 05456b862ec8111a4f5902cd29eac40b3ba036a3
-Author: Jeff Lien <jeff.lien at wdc.com>
-Date:   Mon May 7 16:31:56 2018 -0500
-
-    [NVMe-CLI] Add nvme fw-log commmand test
+> 
+>> With this patch, you shouldn't
+>> see link down and up interrupts during reset but i do see them in the 
+>> log.
+> 
+> You will see the messages from the link up/down events regardless if 
+> any
+> action is actually taken.
+> 
+>> Can you also share a fail case log with this patch and a diff of your
+>> hacks so that we know where prints are coming from.
+> 
+> Of course. Example of failing case [3], and is identical to the fail 
+> log
+> without any patches. Although prints have the function name, the diff 
+> is
+> in [4].
+> 
+> Alex
+> 
+> [3] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1509.log
+> [4] http://gtech.myftp.org/~mrnuke/nvme_logs/print_hacks.patch
+> 
+> 
+>>> [2] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1429.log
+>>>>> [1] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1308.log
