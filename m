@@ -1,44 +1,36 @@
-From: guanjx09@163.com (Guan Junxiong)
-Date: Sun, 6 May 2018 11:23:05 +0800
-Subject: [PATCH 5/5] nvme: ANA base support
-In-Reply-To: <20180504112845.38820-6-hare@suse.de>
-References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-6-hare@suse.de>
-Message-ID: <d7222294-1fb6-2253-4b07-0f95c4794615@163.com>
+From: bharatku@xilinx.com (Bharat Kumar Gogada)
+Date: Mon, 7 May 2018 06:57:54 +0000
+Subject: NVMe Poll CQ on timeout
+In-Reply-To: <BLUPR0201MB1505A10C31E4E3A3BDF7BDBAA58E0@BLUPR0201MB1505.namprd02.prod.outlook.com>
+References: <BLUPR0201MB1505A10C31E4E3A3BDF7BDBAA58E0@BLUPR0201MB1505.namprd02.prod.outlook.com>
+Message-ID: <BLUPR0201MB1505FC0425F87A1A8E6E50DAA59B0@BLUPR0201MB1505.namprd02.prod.outlook.com>
 
+Hi,
 
+Does anyone have any inputs ?
 
-On Friday, May 04, 2018 07:28 PM, Hannes Reinecke wrote:
-> +static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
-> +		char *buf)
-> +{
-> +	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-> +
-> +	switch (ns->ana_state & 0x0f) {
-> +	case NVME_ANA_STATE_OPTIMIZED:
-> +		return sprintf(buf, "optimized\n");
-> +	case NVME_ANA_STATE_NONOPTIMIZED:
-> +		return sprintf(buf, "non-optimized\n");
-> +	case NVME_ANA_STATE_INACCESSIBLE:
-> +		return sprintf(buf, "inaccessible\n");
-> +	case NVME_ANA_STATE_PERSISTENT_LOSS:
-> +		return sprintf(buf, "persistent-loss\n");
-> +	case NVME_ANA_STATE_CHANGE_STATE:
-> +		return sprintf(buf, "change-state\n");
-> +	default:
-> +		return sprintf(buf, "<reserved>\n");
-> +	}
-> +}
-> +static DEVICE_ATTR_RO(ana_state);
-> +
-> +static ssize_t ana_group_show(struct device *dev, struct device_attribute *attr,
-> +		char *buf)
-> +{
-> +	struct nvme_ns *ns = dev_to_disk(dev)->private_data;
+Regards,
+Bharat
 
-Nick:   dev_to_disk(dev)->private_data  -->  nvme_get_ns_from_dev(dev);
-
-
-Except this, IMO, it looks good.
-
-Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
+> Hi,
+> 
+> We are testing NVMe cards on ARM64 platform, the card uses legacy
+> interrupts.
+> Intermittently we are hitting following case in drivers/nvme/host/pci.c
+>        /*
+>          * Did we miss an interrupt?
+>          */
+>         if (__nvme_poll(nvmeq, req->tag)) {
+>                 dev_warn(dev->ctrl.device,
+>                          "I/O %d QID %d timeout, completion polled\n",
+>                          req->tag, nvmeq->qid);
+>                 return BLK_EH_HANDLED;
+>         }
+> 
+> Can anyone tell when does nvme_timeout gets invoked ?
+> What does "Did we miss an interrupt mean" ? Does it mean host missing to
+> service a interrupt raised by EP card ?
+> 
+> Regards,
+> Bharat
+> 
