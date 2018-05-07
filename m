@@ -1,73 +1,40 @@
-From: okaya@codeaurora.org (okaya@codeaurora.org)
-Date: Mon, 07 May 2018 23:45:57 +0100
-Subject: AER: Malformed TLP recovery deadlock with NVMe drives
-In-Reply-To: <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
-References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
- <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
- <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
- <9fc90040d5712282ea223807ace39312@codeaurora.org>
- <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
-Message-ID: <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon,  7 May 2018 15:55:58 -0700
+Subject: [PATCH] nvme: block ioctls if controller not in a live state
+Message-ID: <20180507225558.5009-1-jsmart2021@gmail.com>
 
-On 2018-05-07 21:58, Alex G. wrote:
-> On 05/07/2018 03:30 PM, okaya@codeaurora.org wrote:
->> On 2018-05-07 21:16, Alex G. wrote:
->>> On 05/07/2018 01:46 PM, okaya@codeaurora.org wrote:
->>>> On 2018-05-07 19:36, Alex G. wrote:
->>>>> Hi! Me again!
->>>>> 
->>>>> I'm seeing what appears to be a deadlock in the AER recovery path. 
->>>>> It
->>>>> seems that the device_lock() call in report_slot_reset() never 
->>>>> returns.
->>>>> How we get there is interesting:
->>>> 
->>>> Can you give this patch a try?
->>>> 
->>> Oh! Patches so soon? Yay!
->>> 
->>>> https://patchwork.kernel.org/patch/10351515/
->>> 
->>> Thank you! I tried a few runs. there was one run where we didn't lock
->>> up, but the other runs all went like before.
->>> 
->>> For comparison, the run that didn't deadlock looked like [2].
->>> 
->> 
->> 
->> Sounds like there are multiple problems.
-> 
-> If it were easy, somebody would have patched it by now ;)
+Rather than allow ioctl-based admin cmds to get intermixed on the admin
+queue with commands being used to initialize a controller or io commands
+to go to a controller in reconnect thus possibly hanging, reject them
+if the controller isn't in the LIVE state. Reject with an -EAGAIN status
+so that the app knows it could retry.
 
-Can you file a bugzilla CC me, keith and bjorn and attach all of your 
-logs?
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Let's debug this there.
-
-
-> 
->> With this patch, you shouldn't
->> see link down and up interrupts during reset but i do see them in the 
->> log.
-> 
-> You will see the messages from the link up/down events regardless if 
-> any
-> action is actually taken.
-> 
->> Can you also share a fail case log with this patch and a diff of your
->> hacks so that we know where prints are coming from.
-> 
-> Of course. Example of failing case [3], and is identical to the fail 
-> log
-> without any patches. Although prints have the function name, the diff 
-> is
-> in [4].
-> 
-> Alex
-> 
-> [3] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1509.log
-> [4] http://gtech.myftp.org/~mrnuke/nvme_logs/print_hacks.patch
-> 
-> 
->>> [2] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1429.log
->>>>> [1] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1308.log
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a3771c5729f5..cfa03b68d2b8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1041,6 +1041,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 		return -EFAULT;
+ 	if (io.flags)
+ 		return -EINVAL;
++	if (ns->ctrl->state != NVME_CTRL_LIVE)
++		return -EAGAIN;
+ 
+ 	switch (io.opcode) {
+ 	case nvme_cmd_write:
+@@ -1174,6 +1176,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		return -EFAULT;
+ 	if (cmd.flags)
+ 		return -EINVAL;
++	if (ctrl->state != NVME_CTRL_LIVE)
++		return -EAGAIN;
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+-- 
+2.13.1
