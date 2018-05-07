@@ -1,52 +1,52 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 7 May 2018 09:21:35 +0200
-Subject: [PATCH 5/5] nvme: ANA base support
-In-Reply-To: <20180504112845.38820-6-hare@suse.de>
-References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-6-hare@suse.de>
-Message-ID: <20180507072135.mys4whntstzowyux@linux-x5ow.site>
+From: bdeyal@gmail.com (Eyal BenDavid)
+Date: Mon, 7 May 2018 15:17:56 +0300
+Subject: BLKZEROOUT ioctl and WriteZero opcode
+In-Reply-To: <20180504200556.GA20686@localhost.localdomain>
+References: <CAPrnrPDEdOFKxuZNQo_BhY8Nf2MfcB=DgbzDEDV7JHx5_+-gnQ@mail.gmail.com>
+ <20180504200556.GA20686@localhost.localdomain>
+Message-ID: <CAPrnrPA9nSSghkHnSRKdxE=+qBEZZ3Rg1c3KcxZhpEwh19EYNQ@mail.gmail.com>
 
-On Fri, May 04, 2018@01:28:45PM +0200, Hannes Reinecke wrote:
-> Add ANA support to the nvme host. If ANA is supported the state
-> and the group id are displayed in new sysfs attributes 'ana_state' and
-> 'ana_group'.
-> 
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->  drivers/nvme/host/core.c      | 123 +++++++++++++++++++++++++++++++++++++++++-
->  drivers/nvme/host/multipath.c |  12 ++++-
->  drivers/nvme/host/nvme.h      |   3 ++
->  3 files changed, 136 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 62262fac7a5d..14dff8e96899 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -99,6 +99,7 @@ static struct class *nvme_subsys_class;
->  
->  static void nvme_ns_remove(struct nvme_ns *ns);
->  static int nvme_revalidate_disk(struct gendisk *disk);
-> +static void nvme_get_ana_log(struct nvme_ctrl *ctrl, struct nvme_ns *ns);
->  
->  int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
->  {
-> @@ -1488,6 +1489,9 @@ static int nvme_revalidate_disk(struct gendisk *disk)
->  		goto out;
->  	}
->  
-> +	if (ctrl->subsys->cmic & (1 << 3))
-> +		nvme_get_ana_log(ctrl, ns);
-> +
+Thanks Keith,
 
-Can you move nvme_get_ana_log(), et al above nvme_reset_ctrl() so we
-don't need the forward declaration?
+So:
+BLKZEROOUT is not implemented by NVME passthru + Write Zeroes (for now).
+BLKZEROOUT Is implemented by DSM provided the device guarantees 0's
+are returned after "Unmap"
+In order to to zero out a range, NVMe passthru with Write Zeroes
+opcode must be used.
 
-      Johannes
+Is it correct?
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks,
+Eyal
+
+
+On Fri, May 4, 2018 at 11:05 PM, Keith Busch
+<keith.busch@linux.intel.com> wrote:
+> On Thu, May 03, 2018@06:15:54PM +0300, ???? ?? ??? wrote:
+>> There is an ioctl command BLKZEROOUT that accepts range (lba + number
+>> of block to zero)
+>>
+>> Suppose:
+>> Block device is an nvme device (e.g. /dev/nvme0nX)
+>> Device does support the WriteZeroes opcode.
+>>
+>> If so, does the kernel make use of the WriteZeroes opcode in the
+>> implementation of BLKZEROOUT ?
+>> Same question for BLKDISCARD.
+>
+> The NVMe driver supports BLKDISACRD if the device supports the DSM
+> command.
+>
+> The NVMe driver at the moment doesn't support the NVME Writes Zeroes
+> command. We had it briefly, but apparently broke Linus' machine; never
+> did figure out why. Relevent link:
+>
+>   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cdb98c2698b4af287925abcba4d77d92af82a0c3
+>
+> For devices that claim discard determinisitcally returns 0's on reads,
+> the driver will map the user BLKZEROOUT request to the DSM command
+> rather than NVMe Write Zeroes.
+>
+> For testing NVMe Write Zeroes, the nvme passthrough ioctl may still
+> be used.
