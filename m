@@ -1,63 +1,22 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 7 May 2018 09:12:47 -0600
-Subject: PCIe unsupported request with Intel 760p
-In-Reply-To: <20180507134354.GF18116@bombadil.infradead.org>
-References: <CAKDfzeD5_AV=YtWqTPr=40vvW4oMFAs4gJs_r42PJWcb815zyQ@mail.gmail.com>
- <20180507123035.GA20097@gmail.com>
- <20180507134354.GF18116@bombadil.infradead.org>
-Message-ID: <20180507151246.GB20686@localhost.localdomain>
+Date: Mon, 7 May 2018 09:14:42 -0600
+Subject: BLKZEROOUT ioctl and WriteZero opcode
+In-Reply-To: <CAPrnrPA9nSSghkHnSRKdxE=+qBEZZ3Rg1c3KcxZhpEwh19EYNQ@mail.gmail.com>
+References: <CAPrnrPDEdOFKxuZNQo_BhY8Nf2MfcB=DgbzDEDV7JHx5_+-gnQ@mail.gmail.com>
+ <20180504200556.GA20686@localhost.localdomain>
+ <CAPrnrPA9nSSghkHnSRKdxE=+qBEZZ3Rg1c3KcxZhpEwh19EYNQ@mail.gmail.com>
+Message-ID: <20180507151442.GC20686@localhost.localdomain>
 
-On Mon, May 07, 2018@06:43:54AM -0700, Matthew Wilcox wrote:
-> On Mon, May 07, 2018@08:30:35AM -0400, Aron Griffis wrote:
-> > I'm getting this error continuously with an Intel 760p on 4.16.5 (Fedora 28)
-> > 
-> > pcieport 0000:00:1d.0: AER: Uncorrected (Non-Fatal) error received: id=00e8
-> > pcieport 0000:00:1d.0: PCIe Bus Error: severity=Uncorrected (Non-Fatal), type=Transaction Layer, id=00e8(Requester ID)
-> > pcieport 0000:00:1d.0:   device [8086:a298] error status/mask=00100000/00010000
-> > pcieport 0000:00:1d.0:    [20] Unsupported Request    (First)
-> > pcieport 0000:00:1d.0:   TLP Header: 34000000 70000010 00000000 88468846
-> > pcieport 0000:00:1d.0: broadcast error_detected message
-> > pcieport 0000:00:1d.0: broadcast mmio_enabled message
-> > pcieport 0000:00:1d.0: broadcast resume message
-> > pcieport 0000:00:1d.0: AER: Device recovery successful
-> > 
-> > Willy graciously decoded this for me to a "Latency Tolerance Reporting
-> > Message," and suggested I send email to this list to check whether it's a
-> > problem with the device or driver.
+On Mon, May 07, 2018@03:17:56PM +0300, Eyal BenDavid wrote:
+> Thanks Keith,
 > 
-> Decoding this further, the Requester ID is 70:00.0 (ie the NVMe device is
-> sending the LTR message) so the Root Port is the one saying "Unsupported
-> Request".  Which is fair enough, because ...
+> So:
+> BLKZEROOUT is not implemented by NVME passthru + Write Zeroes (for now).
+> BLKZEROOUT Is implemented by DSM provided the device guarantees 0's
+> are returned after "Unmap"
+> In order to to zero out a range, NVMe passthru with Write Zeroes
+> opcode must be used.
 > 
-> > 00:1d.0 PCI bridge: Intel Corporation 200 Series PCH PCI Express Root Port #9 (rev f0) (prog-if 00 [Normal decode])
-> > 	Bus: primary=00, secondary=70, subordinate=70, sec-latency=0
-> > 		DevCap2: Completion Timeout: Range ABC, TimeoutDis+, LTR-, OBFF Not Supported ARIFwd+
-> > 			 AtomicOpsCap: Routing- 32bit- 64bit- 128bitCAS-
-> > 		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR-, OBFF Disabled ARIFwd-
-> > 			 AtomicOpsCtl: ReqEn- EgressBlck-
-> 
-> the Root Port doesn't know what LTR is.
-> 
-> > 70:00.0 Non-Volatile memory controller: Intel Corporation Device f1a6 (rev 03) (prog-if 02 [NVM Express])
-> > 	Capabilities: [70] Express (v2) Endpoint, MSI 00
-> > 		DevCap2: Completion Timeout: Range ABCD, TimeoutDis+, LTR+, OBFF Not Supported
-> > 			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-> > 		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR-, OBFF Disabled
-> > 			 AtomicOpsCtl: ReqEn-
-> 
-> The device *does* know what LTR is, but it's supposed to be disabled.
-> 
-> Is there more recent firmware for this device?
+> Is it correct?
 
-Hi Willy,
-
-Thank you for the detailed analysis. :)
-
-I'm not familiar with this device, but I'll check internally to see if
-this a later firmware release address this.
-
-Aron,
-Could you let me know the firmware revision you're currently running?
-
-Thanks,
-Keith
+Yes, that is correct.
