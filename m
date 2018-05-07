@@ -1,99 +1,54 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon,  7 May 2018 16:04:17 -0400
-Subject: [PATCH] blktests: use global configfs variable
-Message-ID: <20180507200417.3036-1-chaitanya.kulkarni@wdc.com>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Mon, 7 May 2018 15:16:02 -0500
+Subject: AER: Malformed TLP recovery deadlock with NVMe drives
+In-Reply-To: <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
+References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
+ <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
+Message-ID: <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
 
-This patch introduces a global variable to hold the
-configfs nvmet path. Now we don't need repetitive
-local variables to hold the path and testcases
-can use the newly introduced variable if needed.
+On 05/07/2018 01:46 PM, okaya@codeaurora.org wrote:
+> On 2018-05-07 19:36, Alex G. wrote:
+>> Hi! Me again!
+>>
+>> I'm seeing what appears to be a deadlock in the AER recovery path. It
+>> seems that the device_lock() call in report_slot_reset() never returns.
+>> How we get there is interesting:
+> 
+> Can you give this patch a try?
+> 
+Oh! Patches so soon? Yay!
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- common/nvme | 27 +++++++++++----------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+> https://patchwork.kernel.org/patch/10351515/
 
-diff --git a/common/nvme b/common/nvme
-index c6718f0..797e6db 100644
---- a/common/nvme
-+++ b/common/nvme
-@@ -17,6 +17,8 @@
- # You should have received a copy of the GNU General Public License
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
-+NVMET_CFS="/sys/kernel/config/nvmet/"
-+
- _test_dev_is_nvme() {
- 	if ! readlink -f "$TEST_DEV_SYSFS/device" | grep -q nvme; then
- 		SKIP_REASON="$TEST_DEV is not a NVMe device"
-@@ -27,33 +29,29 @@ _test_dev_is_nvme() {
- 
- _create_nvmet_port() {
- 	local trtype="$1"
--	local nvmet_cfs="/sys/kernel/config/nvmet/"
--
- 	local port
- 	for ((port = 0; ; port++)); do
--		if [[ ! -e "${nvmet_cfs}/${port}" ]]; then
-+		if [[ ! -e "${NVMET_CFG}/${port}" ]]; then
- 			break
- 		fi
- 	done
- 
--	mkdir "${nvmet_cfs}/ports/${port}"
--	echo "${trtype}" > "${nvmet_cfs}/ports/${port}/addr_trtype"
-+	mkdir "${NVMET_CFG}/ports/${port}"
-+	echo "${trtype}" > "${NVMET_CFG}/ports/${port}/addr_trtype"
- 
- 	echo "${port}"
- }
- 
- _remove_nvmet_port() {
- 	local port="$1"
--	local nvmet_cfs="/sys/kernel/config/nvmet/"
--	rmdir "${nvmet_cfs}/ports/${port}"
-+	rmdir "${NVMET_CFG}/ports/${port}"
- }
- 
- _create_nvmet_subsystem() {
- 	local nvmet_subsystem="$1"
- 	local blkdev="$2"
- 	local uuid="00000000-0000-0000-0000-000000000000"
--	local nvmet_cfs="/sys/kernel/config/nvmet/"
--	local cfs_path="${nvmet_cfs}/subsystems/${nvmet_subsystem}"
-+	local cfs_path="${NVMET_CFG}/subsystems/${nvmet_subsystem}"
- 
- 	if [[ $# -eq 3 ]]; then
- 		uuid="$3"
-@@ -69,8 +67,7 @@ _create_nvmet_subsystem() {
- 
- _remove_nvmet_subsystem() {
- 	local nvmet_subsystem="$1"
--	local nvmet_cfs="/sys/kernel/config/nvmet/"
--	local cfs_path="${nvmet_cfs}/subsystems/${nvmet_subsystem}"
-+	local cfs_path="${NVMET_CFG}/subsystems/${nvmet_subsystem}"
- 
- 	echo 0 > "${cfs_path}/namespaces/1/enable"
- 	rmdir "${cfs_path}/namespaces/1/"
-@@ -80,16 +77,14 @@ _remove_nvmet_subsystem() {
- _add_nvmet_subsys_to_port() {
- 	local port="$1"
- 	local nvmet_subsystem="$2"
--	local nvmet_cfs="/sys/kernel/config/nvmet/"
- 
--	ln -s "${nvmet_cfs}/subsystems/${nvmet_subsystem}" \
--		"${nvmet_cfs}/ports/${port}/subsystems/${nvmet_subsystem}"
-+	ln -s "${NVMET_CFG}/subsystems/${nvmet_subsystem}" \
-+		"${NVMET_CFG}/ports/${port}/subsystems/${nvmet_subsystem}"
- }
- 
- _remove_nvmet_subsystem_from_port() {
- 	local port="$1"
- 	local nvmet_subsystem="$2"
--	local nvmet_cfs="/sys/kernel/config/nvmet/"
- 
--	rm "${nvmet_cfs}/ports/${port}/subsystems/${nvmet_subsystem}"
-+	rm "${NVMET_CFG}/ports/${port}/subsystems/${nvmet_subsystem}"
- }
--- 
-2.9.5
+Thank you! I tried a few runs. there was one run where we didn't lock
+up, but the other runs all went like before.
+
+For comparison, the run that didn't deadlock looked like [2].
+
+Alex
+
+[2] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1429.log
+
+>> Injection of the error happens by changing the maximum payload size to
+>> 128 bytes from 256. This is on the switch upstream port.
+>> When there's IO to the drive, switch sees a malformed TLP. Switch
+>> reports error, AER handles it.
+>> More IO goes, another error is triggered, and this time the root port
+>> reports it. AER recovery hits the NVMe drive behind the affetced
+>> upstream port and deadlocks.
+>>
+>> I've added some printks in the AER handler to see which lock dies, and I
+>> have a fairly succinct log[1], also pasted below. It appears somebody is
+>> already holding the lock to the PCI device behind the sick upstream
+>> port, and never releases it.
+>>
+>>
+>> I'm not sure how to track down other users of the lock, and I"m hoping
+>> somebody may have a brighter idea.
+>>
+>> Alex
+>>
+>>
+>> [1] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1308.log
+>>
+``
