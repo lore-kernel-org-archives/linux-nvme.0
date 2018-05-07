@@ -1,26 +1,27 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 7 May 2018 10:08:53 -0600
-Subject: PCIe unsupported request with Intel 760p
-In-Reply-To: <20180507155759.GA13397@gmail.com>
-References: <CAKDfzeD5_AV=YtWqTPr=40vvW4oMFAs4gJs_r42PJWcb815zyQ@mail.gmail.com>
- <20180507123035.GA20097@gmail.com>
- <20180507134354.GF18116@bombadil.infradead.org>
- <20180507151246.GB20686@localhost.localdomain>
- <20180507155759.GA13397@gmail.com>
-Message-ID: <20180507160853.GF20686@localhost.localdomain>
+From: bdeyal@gmail.com (Eyal BenDavid)
+Date: Mon, 7 May 2018 19:14:49 +0300
+Subject: BLKZEROOUT ioctl and WriteZero opcode
+In-Reply-To: <20180507151442.GC20686@localhost.localdomain>
+References: <CAPrnrPDEdOFKxuZNQo_BhY8Nf2MfcB=DgbzDEDV7JHx5_+-gnQ@mail.gmail.com>
+ <20180504200556.GA20686@localhost.localdomain>
+ <CAPrnrPA9nSSghkHnSRKdxE=+qBEZZ3Rg1c3KcxZhpEwh19EYNQ@mail.gmail.com>
+ <20180507151442.GC20686@localhost.localdomain>
+Message-ID: <CAPrnrPAmX_CMZEkmZeq0KVgQWCy20DbXQiTbDKGbvSPY0UUcVw@mail.gmail.com>
 
-On Mon, May 07, 2018@11:57:59AM -0400, Aron Griffis wrote:
-> Keith Busch wrote:  [Mon May 07 2018, 11:12:47AM EDT]
-> > Aron,
-> > Could you let me know the firmware revision you're currently running?
-> 
-> Hi Keith, is this what you need?
-> 
-> $ sudo nvme list
-> Node             SN                   Model                                    Namespace Usage                      Format           FW Rev
-> ---------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
-> /dev/nvme0n1     BTHH807007N4512D     INTEL SSDPEKKW512G8                      1         512.11  GB / 512.11  GB    512   B +  0 B   001C
+Thanks!
 
-Thank you, that's what I needed. That appears to be the latest released
-firmware for this device. I'll let you know as soon as I find more
-information.
+
+On Mon, May 7, 2018@6:14 PM, Keith Busch <keith.busch@linux.intel.com> wrote:
+> On Mon, May 07, 2018@03:17:56PM +0300, Eyal BenDavid wrote:
+>> Thanks Keith,
+>>
+>> So:
+>> BLKZEROOUT is not implemented by NVME passthru + Write Zeroes (for now).
+>> BLKZEROOUT Is implemented by DSM provided the device guarantees 0's
+>> are returned after "Unmap"
+>> In order to to zero out a range, NVMe passthru with Write Zeroes
+>> opcode must be used.
+>>
+>> Is it correct?
+>
+> Yes, that is correct.
