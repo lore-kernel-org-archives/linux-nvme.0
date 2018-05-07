@@ -1,27 +1,42 @@
-From: bdeyal@gmail.com (Eyal BenDavid)
-Date: Mon, 7 May 2018 19:14:49 +0300
-Subject: BLKZEROOUT ioctl and WriteZero opcode
-In-Reply-To: <20180507151442.GC20686@localhost.localdomain>
-References: <CAPrnrPDEdOFKxuZNQo_BhY8Nf2MfcB=DgbzDEDV7JHx5_+-gnQ@mail.gmail.com>
- <20180504200556.GA20686@localhost.localdomain>
- <CAPrnrPA9nSSghkHnSRKdxE=+qBEZZ3Rg1c3KcxZhpEwh19EYNQ@mail.gmail.com>
- <20180507151442.GC20686@localhost.localdomain>
-Message-ID: <CAPrnrPAmX_CMZEkmZeq0KVgQWCy20DbXQiTbDKGbvSPY0UUcVw@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon,  7 May 2018 10:43:22 -0600
+Subject: [PATCH nvme-4.18] nvme/pci: Hold controller reference during async
+ probe
+Message-ID: <20180507164322.28571-1-keith.busch@intel.com>
 
-Thanks!
+It is possible the driver's remove may have freed the controller if
+the remove callback is invoked prior to the async_schedule starting
+the reset_work. This patch fixes that by holding a reference on the
+controller.
 
+Reported-by: Mikulas Patocka <mpatocka at redhat.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Mon, May 7, 2018@6:14 PM, Keith Busch <keith.busch@linux.intel.com> wrote:
-> On Mon, May 07, 2018@03:17:56PM +0300, Eyal BenDavid wrote:
->> Thanks Keith,
->>
->> So:
->> BLKZEROOUT is not implemented by NVME passthru + Write Zeroes (for now).
->> BLKZEROOUT Is implemented by DSM provided the device guarantees 0's
->> are returned after "Unmap"
->> In order to to zero out a range, NVMe passthru with Write Zeroes
->> opcode must be used.
->>
->> Is it correct?
->
-> Yes, that is correct.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index dcd1be005eef..7acecdf25621 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2492,8 +2492,10 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
+ static void nvme_async_probe(void *data, async_cookie_t cookie)
+ {
+ 	struct nvme_dev *dev = data;
++
+ 	nvme_reset_ctrl_sync(&dev->ctrl);
+ 	flush_work(&dev->ctrl.scan_work);
++	nvme_put_ctrl(&dev->ctrl);
+ }
+ 
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+@@ -2540,6 +2542,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+ 
++	nvme_get_ctrl(&dev->ctrl);
+ 	async_schedule(nvme_async_probe, dev);
+ 
+ 	return 0;
+-- 
+2.14.3
