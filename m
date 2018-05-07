@@ -1,20 +1,20 @@
 From: jeff.lien@wdc.com (Jeff Lien)
-Date: Mon,  7 May 2018 16:40:59 -0500
-Subject: [PATCH 2/3] [NVMe-CLI] Add nvme id-ctrl command test
-Message-ID: <20180507214059.27636-1-jeff.lien@wdc.com>
+Date: Mon,  7 May 2018 16:41:22 -0500
+Subject: [PATCH 3/3] [NVMe-CLI] Add nvme id-ns command test
+Message-ID: <20180507214122.27684-1-jeff.lien@wdc.com>
 
 Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
 ---
- tests/nvme_id_ctrl_test.py | 137 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 137 insertions(+)
- create mode 100644 tests/nvme_id_ctrl_test.py
+ tests/nvme_id_ns_test.py | 134 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 134 insertions(+)
+ create mode 100644 tests/nvme_id_ns_test.py
 
-diff --git a/tests/nvme_id_ctrl_test.py b/tests/nvme_id_ctrl_test.py
+diff --git a/tests/nvme_id_ns_test.py b/tests/nvme_id_ns_test.py
 new file mode 100644
-index 0000000..b6b0d89
+index 0000000..1b8e70c
 --- /dev/null
-+++ b/tests/nvme_id_ctrl_test.py
-@@ -0,0 +1,137 @@
++++ b/tests/nvme_id_ns_test.py
+@@ -0,0 +1,134 @@
 +# Copyright (c) 2015-2016 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -35,13 +35,11 @@ index 0000000..b6b0d89
 +#   Author: Madhusudhana S.J <madhusudhana.sj at wdc.com>
 +#
 +"""
-+NVMe Identify Controller Testcase:-
++NVMe Identify Namespace  Testcase:-
 +
-+    1. Send NVMe Identify Controller, return result and structure
-+    2. Send an Identify Controller command to the given device and report information about the specified controller 
-+       in human-readable or binary format. 
-+       May also return vendor-specific controller attributes in hex-dump if requested.
-+
++    1. Send an Identify Namespace command to the given device.
++    2. Specified namespace in either human-readable,--vendor-specific or binary format.
++    3. Specified namespace in --output-format  -o in normal|json|binary
 +"""
 +
 +import subprocess
@@ -49,108 +47,107 @@ index 0000000..b6b0d89
 +from nvme_test import TestNVMe
 +import time
 +
-+class TestNVMeIdentifyIdctrlActions(TestNVMe):
++class TestNVMeIdentifyNamespaceActions(TestNVMe):
 +
 +	"""
-+	Represent Identify Controller testcase.
++	Represents Identify Namespace testcase.
 +
 +        - Attributes:
-+                     - Identify Controller : list of Identify Controller actions.     
++                     - Identify Namespace : list of Identify Namespace actions.     
 +	"""
 +	def __init__(self):
-+         	""" Pre Section for Identify Controller mandatory Actions """
++         	""" Pre Section for TestNVMeIdentify Namespace mandatory Actions """
 +		TestNVMe.__init__(self)
 +        	self.setup_log_dir(self.__class__.__name__)
-+        	self.identifycontroller__action_list = ["--human-readable","--raw-binary","--vendor-specific","-b"]
-+        	self.identifycontroller__outtput_format_list = ["normal", "json","binary"]
++        	self.identifynamespace__action_list = ["--human-readable","--raw-binary","--vendor-specific","-b"]
++        	self.identifynamespace__outtput_format_list = ["normal", "json","binary"]
 +	
 +	def __del__(self):
-+		""" Post Section for TestNVMeIdentify Controller mandatory Actions
++		""" Post Section for TestNVMeIdentify Namespace mandatory Actions
 +
 +            	     Call super class's destructor.
 +		"""
 +		TestNVMe.__del__(self)
 + 
-+	def get_identifycontroller(self):
-+        	""" Wrapper for NVMe Identify Controller command
++	def get_identifynamespace(self):
++        	""" Wrapper for NVMe Identify Namespace command
 +                - Args:
-+                       - Identify Controller : sends an identify controller command to device and  
-+                         provides the result and returned structure
++                       - Identify Namespace : Namespace id to be used to check the Identify Namespace.
 +                - Returns: None
 +        	"""
-+        	get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" 
-+		print "Identify Controller command:",get_identifycontroller_cmd, "\n"
-+		proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
-+		identifycontroller_output = proc.communicate()[0]
++        	get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" + str(self.default_nsid) 
++		print "Identify Namespace command:",get_identifynamespace_cmd, "\n"
++		proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++		identifynamespace_output = proc.communicate()[0]
 +		print "command_output : "
-+		print identifycontroller_output, "\n"
++		print identifynamespace_output, "\n"
 +        	assert_equal(proc.wait(), 0)
 + 
-+	def get_mandetory_identifycontroller_action(self,identifycontroller_action):
-+			""" Wrapper for NVMe Identify Controller  command 
++	def get_mandetory_identifynamespace_action(self,identifynamespace_action):
++			""" Wrapper for NVMe Identify Namespace  command 
 +				- Args:
-+				- identifycontroller_action : action id to be used with identifycontroller_action  command.
++				- identifynamespace_action : action id to be used with identifynamespace_action  command.
 +				- Returns: None
 +			"""
-+			print "identifycontroller_action value:", identifycontroller_action
-+			if str(identifycontroller_action) in ["-b","--raw-binary"]:
-+				get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" + \
-+                                                             " " + identifycontroller_action + " | hexdump -C"
-+				print "get_identifycontroller_cmd with binary :",get_identifycontroller_cmd,"\n"
-+				proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
-+				identifycontroller_output = proc.communicate()[0]
++			print "identifynamespace_action value:", identifynamespace_action
++			if str(identifynamespace_action) in ["-b","--raw-binary"]:
++				get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++                                + str(self.default_nsid) + " " + identifynamespace_action + " | hexdump -C"
++				print "get_identifynamespace_cmd with --binary :",get_identifynamespace_cmd,"\n"
++				proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++				identifynamespace_output = proc.communicate()[0]
 +				print "command_output : "
-+				print identifycontroller_output, "\n"
++				print identifynamespace_output, "\n"
 +				assert_equal(proc.wait(), 0)
 +			else:
-+				get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" \
-+				                            + " " + identifycontroller_action 
-+				print "command executing to get id_ctrl of the given device :",get_identifycontroller_cmd
-+               			proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
-+                		identifycontroller_output = proc.communicate()[0]
++				get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++				+ str(self.default_nsid) + " " + identifynamespace_action 
++				print "command executing to get id_ns of the given namespace :",get_identifynamespace_cmd
++               			proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++                		identifynamespace_output = proc.communicate()[0]
 +				print "command_output : "
-+				print identifycontroller_output, "\n"
++				print identifynamespace_output, "\n"
 +                		assert_equal(proc.wait(), 0)
-+	def get_mandetory_identifycontroller_outputformat(self,identifycontroller_outputformat):
-+                        """ Wrapper for NVMe Identify Controller command
++	def get_mandetory_identifynamespace_outputformat(self,identifynamespace_outputformat):
++                        """ Wrapper for NVMe Identify Namespace command
 +                                - Args:
-+                                - identifycontroller_action : output format  to be used with identifycontroller  command.
++                                - identifynamespace_action : output format  to be used with identifynamespace  command.
 +                                - Returns: None
 +                        """
-+                        print "identifycontroller_outputformat Type:", identifycontroller_outputformat
-+                        if str(identifycontroller_outputformat) == "binary":
-+                                get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" + \
-+                                                             " --output-format=binary | hexdump -C"
-+                                print "get_identifycontroller_cmd with binary output format:",get_identifycontroller_cmd
++                        print "identifynamespace_outputformat Type:", identifynamespace_outputformat
++                        if str(identifynamespace_outputformat) == "binary":
++                                get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++                                + str(self.default_nsid) + " --output-format=binary | hexdump -C"
++                                print "get_identifynamespace_cmd with binary output format:",get_identifynamespace_cmd
 +				print "\n"
-+                                proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
-+                                identifycontroller_output = proc.communicate()[0]
++                                proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++                                identifynamespace_output = proc.communicate()[0]
 +                                print "command_output : "
-+                                print identifycontroller_output, "\n"
++                                print identifynamespace_output, "\n"
 +                                assert_equal(proc.wait(), 0)
 +                        else:
-+                                get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" \
-+                                                             + " --output-format=" + identifycontroller_outputformat
-+                                print "command executing to get id_ctrl of the given device :",get_identifycontroller_cmd
-+                                proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
-+                                identifycontroller_output = proc.communicate()[0]
++                                get_identifynamespace_cmd = "nvme id-ns /dev/nvme0 --namespace-id=" \
++                                + str(self.default_nsid) + " --output-format=" + identifynamespace_outputformat
++                                print "command executing to get id_ns of the given namespace :",get_identifynamespace_cmd
++                                proc = subprocess.Popen(get_identifynamespace_cmd,shell=True,stdout=subprocess.PIPE)
++                                identifynamespace_output = proc.communicate()[0]
 +                                print "command_output : "
-+                                print identifycontroller_output, "\n"
++                                print identifynamespace_output, "\n"
 +                                assert_equal(proc.wait(), 0)
 +
-+	def test_get_identify_controller_actions(self):
++	def test_get_identify_namespace_actions(self):
 +        		""" Testcase main """ 
 +			print "calling main function ..!"
-+			self.get_identifycontroller()
-+       			for identifycontroller_action in self.identifycontroller__action_list:
-+				if str(identifycontroller_action) in ["-b", "--raw-binary"]:
-+					self.get_mandetory_identifycontroller_action(identifycontroller_action)
++			self.get_identifynamespace()
++       			for identifynamespace_action in self.identifynamespace__action_list:
++				if str(identifynamespace_action) in ["-b", "--raw-binary"]:
++					self.get_mandetory_identifynamespace_action(identifynamespace_action)
 +				else:
-+					self.get_mandetory_identifycontroller_action(identifycontroller_action)
-+			for identifycontroller_outputformat in self.identifycontroller__outtput_format_list:
-+				if str(identifycontroller_outputformat) == "binary":
-+					self.get_mandetory_identifycontroller_outputformat(identifycontroller_outputformat)
++					self.get_mandetory_identifynamespace_action(identifynamespace_action)
++			for identifynamespace_outputformat in self.identifynamespace__outtput_format_list:
++				if str(identifynamespace_outputformat) == "binary":
++					self.get_mandetory_identifynamespace_outputformat(identifynamespace_outputformat)
 +				else:
-+					self.get_mandetory_identifycontroller_outputformat(identifycontroller_outputformat)
++					self.get_mandetory_identifynamespace_outputformat(identifynamespace_outputformat)
 -- 
 2.14.2.746.g8fb8a94
