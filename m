@@ -1,7 +1,7 @@
-From: mr.nuke.me@gmail.com (Alex G.)
-Date: Tue, 8 May 2018 12:32:28 -0500
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 8 May 2018 13:01:35 -0500
 Subject: AER: Malformed TLP recovery deadlock with NVMe drives
-In-Reply-To: <20180508165849.GC9529@bhelgaas-glaptop.roam.corp.google.com>
+In-Reply-To: <bb358683-79fc-0590-eb93-70f4c3c922da@gmail.com>
 References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
  <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
  <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
@@ -11,34 +11,21 @@ References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
  <3d4991bc2948430d910a16da36c90b91@ausx13mps321.AMER.DELL.COM>
  <1fdfaaa47ad782ee864f24c5a75a355a@codeaurora.org>
  <20180508165849.GC9529@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <bb358683-79fc-0590-eb93-70f4c3c922da@gmail.com>
+ <bb358683-79fc-0590-eb93-70f4c3c922da@gmail.com>
+Message-ID: <20180508180135.GM161390@bhelgaas-glaptop.roam.corp.google.com>
 
-On 05/08/2018 11:58 AM, Bjorn Helgaas wrote:
-(snip)
-> https://bugzilla.kernel.org/show_bug.cgi?id=199657
+On Tue, May 08, 2018@12:32:28PM -0500, Alex G. wrote:
+> On 05/08/2018 11:58 AM, Bjorn Helgaas wrote:
+> > (looks like maybe colorizing escape sequences?).
 > 
-> Thanks for the bugzilla.  Can you add the "lspci -vv"
-> and also the specifics about how you inject the error
+> You mean the ANSI escape sequences. wget and cat in a color terminal.
+> You will get so used to this, you will love it so much, you won't ever
+> again want to open a a web page.
 
-Done
+Hey, you're right!  If I download it and look at it with "less", it *is*
+pretty!  It'd be cool if Chrome would do that.  Maybe.
 
+I'm really glad you're looking at this stuff and raising issues.  I'm not
+at all confident in the correctness or robustness of this code.
 
-> I don't know how you collected the dmesg logs
-
-I hired scribes.
-
-
-> (looks like maybe colorizing escape sequences?).
-
-You mean the ANSI escape sequences. wget and cat in a color terminal.
-You will get so used to this, you will love it so much, you won't ever
-again want to open a a web page.
-
-
-> always think it's nice to have the plain ASCII
-
-dmesg without color information is like driving a car without a steering
-wheel. You better have a very straight road and go very slow, or you'll
-crash into something.
-
-Alex
+Bjorn
