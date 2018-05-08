@@ -1,37 +1,32 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 8 May 2018 17:28:46 +0200
-Subject: [PATCH 6/7] nvme_fc: fix nulling of queue data on reconnect
-In-Reply-To: <51c8214b-0ce5-c8c0-f7be-156750baadbc@broadcom.com>
-References: <20180508001214.8951-1-jsmart2021@gmail.com>
- <20180508001214.8951-7-jsmart2021@gmail.com>
- <20180508080513.41014470@pentland.suse.de>
- <51c8214b-0ce5-c8c0-f7be-156750baadbc@broadcom.com>
-Message-ID: <059cabb0-6f78-a65e-bd75-1f857259a4c8@suse.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 8 May 2018 09:30:38 -0600
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <20180428035015.GB5657@ming.t460p>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <20180427175157.GB5073@localhost.localdomain>
+ <20180428035015.GB5657@ming.t460p>
+Message-ID: <20180508153038.GA30842@localhost.localdomain>
 
-On 05/08/2018 05:12 PM, James Smart wrote:
-> 
-> On 5/7/2018 11:05 PM, Hannes Reinecke wrote:
->> On Mon,? 7 May 2018 17:12:13 -0700
->> "James Smart" <jsmart2021@gmail.com> wrote:
->>
->>> @@ -1879,6 +1879,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
->>> ?????? */
->>> ????? queue->connection_id = 0;
->>> +??? atomic_set(&queue->csn, 1);
->>> ? }
->> Huh? What is that doing here?
->> Doesn't seem to be related to the remaining patchset.
->> Or am I missing something here?
-> 
-> The init_queue calls would normally "init" the structure and set the csn 
-> back to 1, but it also cleared too much other state as well. Thus they 
-> were removed. The "free" routine remains, so this CSN setting is a 
-> "reinit'ing" of the structure - just like zeroing the connection id.
-> 
-Thanks for the clarification.
+On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
+> This sync may be raced with one timed-out request, which may be handled
+> as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
+> work reliably. 
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+Ming,
 
-Cheers,
+As proposed, that scenario is impossible to encounter. Resetting the
+controller inline with the timeout reaps all the commands, and then
+sets the controller state to RESETTING. While blk-mq may not allow the
+driver to complete those requests, having the driver sync with the queues
+will hold the controller in the reset state until blk-mq is done with
+its timeout work; therefore, it is impossible for the NVMe driver to
+return "BLK_EH_RESET_TIMER", and all commands will be completed through
+nvme_timeout's BLK_EH_HANDLED exactly as desired.
 
-Hannes
+Could you please recheck my suggestion? The alternatives proposed are
+far too risky for a 4.17 consideration, and I'm hoping we can stabilize
+this behavior in the current release if possible.
+
+Thanks,
+Keith
