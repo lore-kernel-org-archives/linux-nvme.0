@@ -1,54 +1,74 @@
-From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
-Date: Mon, 7 May 2018 23:57:40 +0000
-Subject: AER: Malformed TLP recovery deadlock with NVMe drives
-References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
- <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
- <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
- <9fc90040d5712282ea223807ace39312@codeaurora.org>
- <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
- <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
-Message-ID: <3d4991bc2948430d910a16da36c90b91@ausx13mps321.AMER.DELL.COM>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon,  7 May 2018 17:12:07 -0700
+Subject: [PATCH 0/7] nvme_fc: asynchronous controller create and simple
+ discovery
+Message-ID: <20180508001214.8951-1-jsmart2021@gmail.com>
 
-On 5/7/2018 5:46 PM, okaya@codeaurora.org wrote:
-[snip]
->> If it were easy, somebody would have patched it by now ;)
-> 
-> Can you file a bugzilla CC me, keith and bjorn and attach all of your
-> logs?
+This patch set modifies the fc transport such that create_ctrl results
+in the OS's controller creation only and does not initially connect
+to the device on the wire inline to the create_ctrl call. Instead, the
+initial connect immediately schedules the background reconnect thread
+to perform the initial association connect. The patchset also contains
+several other cleanups found while implementing the asynchronous
+connect testing.
 
-Sure. Which bugzilla?
+There are two main reasons why asynchronous controller create is done:
+1) It simplifies error handling and retries. The initial controller
+   connect attempts can be disrupted or by errors as easily as after
+   the controller is initially created. As the code currently stands
+   there has to be special retry logic and prohibitions around state
+   changes if errors occur during the initial connect (which the code
+   today does not have). With this patch set, initial connections use
+   the same path as a reconnect, and any error handling uses the same
+   paths as if the errors occurred post initial connect.
+2) As the create_ctrl() call is now very fast, simplistic udev rules
+   can be used for auto-connect rather than involving systemd to work
+   around long initial connect times, especially if errors in initial
+   connect occur.
+
+However, several hurdles in the common infrastructure need to be changed
+in order to make this work. The initial controller creation expects the
+controller to be fully connected and live on the wire before it returns
+back to the cli.  This gave a lot of time for the udev event to be
+generated and serviced to create the corresponding /dev file.  The cli
+now has to be prepared that it may access the /dev file before the event
+had been serviced.  There is also a check in the fabrics layer to validate
+the controller subnqn is what the connect request asked for. With this
+patch set, FC will return before the initial connect is complete thus
+the controller field being checked is not yet set.  There is no reason
+that it wouldn't be as the request will be what the fabric connect
+requests are based off, so this checking of the nqn should be removed.
+Additionally, operations such as connect-all may occur while there is
+a connectivity disturbance with the discovery controller, thus the
+discovery log read may fail. To circumvent the side effects of giving
+up and not connecting, the cli needs to retry the discovery log reads.
+
+Therefore, this patch set is dependent on the following modifications
+that have been made to the cli:
+  nvme-cli: Wait for device file if not present after successful add_ctrl
+     github repo commit id: bb2d87d7f386
+  nvme-cli: Add ioctl retry support for "connect-all"
+     github repo commit id: d8f949c21e9d
 
 
-> Let's debug this there.
-
-Debugging over email not fun enough?
-
-Alex
+As the patchset now allows simplistic udev scripting, this patchset also
+adds the change to the transport to regenerate udev discovery events in
+case the system missed the events earlier (such as boot scenarios).
 
 
->>> With this patch, you shouldn't
->>> see link down and up interrupts during reset but i do see them in the
->>> log.
->>
->> You will see the messages from the link up/down events regardless if
->> any
->> action is actually taken.
->>
->>> Can you also share a fail case log with this patch and a diff of your
->>> hacks so that we know where prints are coming from.
->>
->> Of course. Example of failing case [3], and is identical to the fail
->> log
->> without any patches. Although prints have the function name, the diff
->> is
->> in [4].
->>
->> Alex
->>
->> [3] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1509.log
->> [4] http://gtech.myftp.org/~mrnuke/nvme_logs/print_hacks.patch
->>
->>
->>>> [2] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1429.log
->>>>>> [1] http://gtech.myftp.org/~mrnuke/nvme_logs/log-20180507-1308.log
-> 
+
+James Smart (7):
+  nvme: remove unnecessary controller subnqn validation
+  nvme_fc: remove setting DNR on exception conditions
+  nvme_fc: retry failures to set io queue count
+  nvme_fc: remove reinit_request routine
+  nvme_fc: change controllers first connect to use reconnect path
+  nvme_fc: fix nulling of queue data on reconnect
+  nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
+
+ drivers/nvme/host/fabrics.c |  10 --
+ drivers/nvme/host/fc.c      | 271 ++++++++++++++++++++++++++------------------
+ 2 files changed, 163 insertions(+), 118 deletions(-)
+
+-- 
+2.13.1
