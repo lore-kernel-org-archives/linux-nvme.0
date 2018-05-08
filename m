@@ -1,8 +1,8 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Tue, 8 May 2018 16:32:06 -0600
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all
- devices behind switches
-In-Reply-To: <20905682-9440-7d4b-0260-99d3dc794c3d@deltatee.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Tue, 8 May 2018 16:00:33 -0700
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180508163206.7d3bf383@w520.home>
 References: <20180423233046.21476-1-logang@deltatee.com>
  <20180423233046.21476-5-logang@deltatee.com>
  <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
@@ -20,47 +20,58 @@ References: <20180423233046.21476-1-logang@deltatee.com>
  <354F7407-0DC7-470C-B9AA-74FDF9C46B08@raithlin.com>
  <20180508160336.0935ddde@w520.home>
  <20905682-9440-7d4b-0260-99d3dc794c3d@deltatee.com>
-Message-ID: <20180508163206.7d3bf383@w520.home>
+ <20180508163206.7d3bf383@w520.home>
+Message-ID: <CAPcyv4i1ksiu1pExF=EE21P2Wz1a9LaDaG247oG_WSbYgcR93g@mail.gmail.com>
 
-On Tue, 8 May 2018 16:10:19 -0600
-Logan Gunthorpe <logang@deltatee.com> wrote:
+On Tue, May 8, 2018 at 3:32 PM, Alex Williamson
+<alex.williamson@redhat.com> wrote:
+> On Tue, 8 May 2018 16:10:19 -0600
+> Logan Gunthorpe <logang@deltatee.com> wrote:
+>
+>> On 08/05/18 04:03 PM, Alex Williamson wrote:
+>> > If IOMMU grouping implies device assignment (because nobody else uses
+>> > it to the same extent as device assignment) then the build-time option
+>> > falls to pieces, we need a single kernel that can do both.  I think we
+>> > need to get more clever about allowing the user to specify exactly at
+>> > which points in the topology they want to disable isolation.  Thanks,
+>>
+>>
+>> Yeah, so based on the discussion I'm leaning toward just having a
+>> command line option that takes a list of BDFs and disables ACS for them.
+>> (Essentially as Dan has suggested.) This avoids the shotgun.
+>>
+>> Then, the pci_p2pdma_distance command needs to check that ACS is
+>> disabled for all bridges between the two devices. If this is not the
+>> case, it returns -1. Future work can check if the EP has ATS support, in
+>> which case it has to check for the ACS direct translated bit.
+>>
+>> A user then needs to either disable the IOMMU and/or add the command
+>> line option to disable ACS for the specific downstream ports in the PCI
+>> hierarchy. This means the IOMMU groups will be less granular but
+>> presumably the person adding the command line argument understands this.
+>>
+>> We may also want to do some work so that there's informative dmesgs on
+>> which BDFs need to be specified on the command line so it's not so
+>> difficult for the user to figure out.
+>
+> I'd advise caution with a user supplied BDF approach, we have no
+> guaranteed persistence for a device's PCI address.  Adding a device
+> might renumber the buses, replacing a device with one that consumes
+> more/less bus numbers can renumber the buses, motherboard firmware
+> updates could renumber the buses, pci=assign-buses can renumber the
+> buses, etc.  This is why the VT-d spec makes use of device paths when
+> describing PCI hierarchies, firmware can't know what bus number will be
+> assigned to a device, but it does know the base bus number and the path
+> of devfns needed to get to it.  I don't know how we come up with an
+> option that's easy enough for a user to understand, but reasonably
+> robust against hardware changes.  Thanks,
 
-> On 08/05/18 04:03 PM, Alex Williamson wrote:
-> > If IOMMU grouping implies device assignment (because nobody else uses
-> > it to the same extent as device assignment) then the build-time option
-> > falls to pieces, we need a single kernel that can do both.  I think we
-> > need to get more clever about allowing the user to specify exactly at
-> > which points in the topology they want to disable isolation.  Thanks,  
-> 
-> 
-> Yeah, so based on the discussion I'm leaning toward just having a
-> command line option that takes a list of BDFs and disables ACS for them.
-> (Essentially as Dan has suggested.) This avoids the shotgun.
-> 
-> Then, the pci_p2pdma_distance command needs to check that ACS is
-> disabled for all bridges between the two devices. If this is not the
-> case, it returns -1. Future work can check if the EP has ATS support, in
-> which case it has to check for the ACS direct translated bit.
-> 
-> A user then needs to either disable the IOMMU and/or add the command
-> line option to disable ACS for the specific downstream ports in the PCI
-> hierarchy. This means the IOMMU groups will be less granular but
-> presumably the person adding the command line argument understands this.
-> 
-> We may also want to do some work so that there's informative dmesgs on
-> which BDFs need to be specified on the command line so it's not so
-> difficult for the user to figure out.
-
-I'd advise caution with a user supplied BDF approach, we have no
-guaranteed persistence for a device's PCI address.  Adding a device
-might renumber the buses, replacing a device with one that consumes
-more/less bus numbers can renumber the buses, motherboard firmware
-updates could renumber the buses, pci=assign-buses can renumber the
-buses, etc.  This is why the VT-d spec makes use of device paths when
-describing PCI hierarchies, firmware can't know what bus number will be
-assigned to a device, but it does know the base bus number and the path
-of devfns needed to get to it.  I don't know how we come up with an
-option that's easy enough for a user to understand, but reasonably
-robust against hardware changes.  Thanks,
-
-Alex
+True, but at the same time this feature is for "users with custom
+hardware designed for purpose", I assume they would be willing to take
+on the bus renumbering risk. It's already the case that
+/sys/bus/pci/drivers/<x>/bind takes BDF, which is why it seemed to
+make a similar interface for the command line. Ideally we could later
+get something into ACPI or other platform firmware to arrange for
+bridges to disable ACS by default if we see p2p becoming a
+common-off-the-shelf feature. I.e. a BIOS switch to enable p2p in a
+given PCI-E sub-domain.
