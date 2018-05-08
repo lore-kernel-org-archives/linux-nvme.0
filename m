@@ -1,63 +1,45 @@
-From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
-Date: Tue, 8 May 2018 18:50:25 +0200
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <20180423233046.21476-5-logang@deltatee.com>
- <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
- <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
- <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
-Message-ID: <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Tue, 8 May 2018 11:58:49 -0500
+Subject: AER: Malformed TLP recovery deadlock with NVMe drives
+In-Reply-To: <1fdfaaa47ad782ee864f24c5a75a355a@codeaurora.org>
+References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
+ <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
+ <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
+ <9fc90040d5712282ea223807ace39312@codeaurora.org>
+ <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
+ <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
+ <3d4991bc2948430d910a16da36c90b91@ausx13mps321.AMER.DELL.COM>
+ <1fdfaaa47ad782ee864f24c5a75a355a@codeaurora.org>
+Message-ID: <20180508165849.GC9529@bhelgaas-glaptop.roam.corp.google.com>
 
-Am 08.05.2018 um 18:27 schrieb Logan Gunthorpe:
->
-> On 08/05/18 01:17 AM, Christian K?nig wrote:
->> AMD APUs mandatory need the ACS flag set for the GPU integrated in the
->> CPU when IOMMU is enabled or otherwise you will break SVM.
-> Well, given that the current set only disables ACS bits on bridges
-> (previous versions were only on switches) this shouldn't be an issue for
-> integrated devices. We do not disable ACS flags globally.
+On Tue, May 08, 2018@01:21:38AM +0100, okaya@codeaurora.org wrote:
+> On 2018-05-08 00:57, Alex_Gagniuc@Dellteam.com wrote:
+> > On 5/7/2018 5:46 PM, okaya@codeaurora.org wrote:
+> > [snip]
+> > > > If it were easy, somebody would have patched it by now ;)
+> > > 
+> > > Can you file a bugzilla CC me, keith and bjorn and attach all of your
+> > > logs?
+> > 
+> > Sure. Which bugzilla?
+> > 
+> 
+> https://bugzilla.kernel.org
+> 
+> Drivers -> pci
 
-Ok, that is at least a step in the right direction. But I think we 
-seriously need to test that for side effects.
+https://bugzilla.kernel.org/show_bug.cgi?id=199657
 
->
->> And what exactly is the problem here? I'm currently testing P2P with
->> GPUs in different IOMMU domains and at least with AMD IOMMUs that works
->> perfectly fine.
-> In addition to Stephen's comments, seeing we've established a general
-> need to avoid the root complex (until we have a whitelist at least) we
-> must have ACS disabled along the path between the devices. Otherwise,
-> all TLPs will go through the root complex and if there is no support it
-> will fail.
+Thanks for the bugzilla.  Can you add the "lspci -vv" output (the
+"lspci -tvnn" output doesn't have the details about individual
+devices) and also the specifics about how you inject the error (I
+assume you're using setpci to update MPS, but it would help others
+reproduce it to see the exact command and the lspci output so they can
+adjust to their local topology).
 
-Well I'm not an expert on this, but if I'm not completely mistaken that 
-is not correct.
-
-E.g. transactions are initially send to the root complex for 
-translation, that's for sure. But at least for AMD GPUs the root complex 
-answers with the translated address which is then cached in the device.
-
-So further transactions for the same address range then go directly to 
-the destination.
-
-What you don't want is device isolation, cause in this case the root 
-complex handles the transaction themselves. IIRC there where also 
-something like "force_isolation" and "nobypass" parameters for the IOMMU 
-to control that behavior.
-
-It's already late here, but going to dig up the documentation for that 
-tomorrow and/or contact a hardware engineer involved in the ACS spec.
-
-Regards,
-Christian.
-
->
-> If the consensus is we want a command line option, then so be it. But
-> we'll have to deny pretty much all P2P transactions unless the user
-> correctly disables ACS along the path using the command line option and
-> this is really annoying for users of this functionality to understand
-> how to do that correctly.
->
-> Logan
+I don't know how you collected the dmesg logs, but they have a bunch
+of gunk in them (looks like maybe colorizing escape sequences?).  I
+always think it's nice to have the plain ASCII complete log from
+beginning of boot, e.g., from "dmesg" command or similar.  But I
+probably won't have time to look at them myself, and maybe what's
+there is enough.
