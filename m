@@ -1,33 +1,47 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Tue, 8 May 2018 14:44:43 +0000
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <CAPcyv4g+5N_n03J-VhmJfrr60Sqk95ZapLKBkwSsGvV4nQ+ZRw@mail.gmail.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <20180423233046.21476-5-logang@deltatee.com>
- <CAPcyv4g+5N_n03J-VhmJfrr60Sqk95ZapLKBkwSsGvV4nQ+ZRw@mail.gmail.com>
-Message-ID: <64C231F5-DE36-415F-B308-3A423B0BBACB@raithlin.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Tue, 8 May 2018 09:09:33 -0600
+Subject: [PATCH V4 0/7] nvme: pci: fix & improve timeout handling
+In-Reply-To: <1525564282.4007.3.camel@redhat.com>
+References: <20180505135905.18815-1-ming.lei@redhat.com>
+ <1525561893.3082.1.camel@redhat.com>
+ <1525563110.4007.1.camel@redhat.com>
+ <1525564282.4007.3.camel@redhat.com>
+Message-ID: <20180508150933.GA30736@localhost.localdomain>
 
-Hi Dan
+On Sat, May 05, 2018@07:51:22PM -0400, Laurence Oberman wrote:
+> 3rd and 4th attempts slightly better, but clearly not dependable
+> 
+> [root at segstorage1 blktests]# ./check block/011
+> block/011 => nvme0n1 (disable PCI device while doing I/O)????[failed]
+> ????runtime????...??81.188s
+> ????--- tests/block/011.out	2018-05-05 18:01:14.268414752 -0400
+> ????+++ results/nvme0n1/block/011.out.bad	2018-05-05
+> 19:44:48.848568687 -0400
+> ????@@ -1,2 +1,3 @@
+> ?????Running block/011
+> ????+tests/block/011: line 47: echo: write error: Input/output error
+> ?????Test complete
+> 
+> This one passed 
+> [root at segstorage1 blktests]# ./check block/011
+> block/011 => nvme0n1 (disable PCI device while doing I/O)????[passed]
+> ????runtime??81.188s??...??43.400s
+> 
+> I will capture a vmcore next time it panics and give some information
+> after analyzing the core
 
->    It seems unwieldy that this is a compile time option and not a runtime
->    option. Can't we have a kernel command line option to opt-in to this
->    behavior rather than require a wholly separate kernel image?
-  
-I think because of the security implications associated with p2pdma and ACS we wanted to make it very clear people were choosing one (p2pdma) or the other (IOMMU groupings and isolation). However personally I would prefer including the option of a run-time kernel parameter too. In fact a few months ago I proposed a small patch that did just that [1]. It never really went anywhere but if people were open to the idea we could look at adding it to the series.
-  
-> Why is this text added in a follow on patch and not the patch that
->  introduced the config option?
+We definitely should never panic, but I am not sure this blktest can be
+reliable on IO errors: the test is disabling memory space enabling and
+bus master without the driver's knowledge, and it does this repeatedly
+in a tight loop. If the test happens to disable the device while the
+driver is trying to recover from the previous iteration, the recovery
+will surely fail, so I think IO errors may possibly be expected.
 
-Because the ACS section was added later in the series and this information is associated with that additional functionality.
-    
-> I'm also wondering if that command line option can take a 'bus device
-> function' address of a switch to limit the scope of where ACS is
-> disabled.
+As far as I can tell, the only way you'll actually get it to succeed is
+if the test's subsequent "enable" happen's to hit in conjuction with the
+driver's reset pci_enable_device_mem(), such that the pci_dev's enable_cnt
+is > 1, which prevents the disabling for the remainder of the test's
+looping.
 
-By this you mean the address for either a RP, DSP, USP or MF EP below which we disable ACS? We could do that but I don't think it avoids the issue of changes in IOMMU groupings as devices are added/removed. It simply changes the problem from affecting and entire PCI domain to a sub-set of the domain. We can already handle this by doing p2pdma on one RP and normal IOMMU isolation on the other RPs in the system.
-
-Stephen
-
-[1] https://marc.info/?l=linux-doc&m=150907188310838&w=2
-    
+I still think this is a very good test, but we might be able to make it
+more deterministic on what actually happens to the pci device.
