@@ -1,91 +1,44 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Tue, 8 May 2018 10:57:59 -0600
-Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
-In-Reply-To: <20180507232346.GI161390@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <20180507232346.GI161390@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <20180508105759.7dbaa8fe@w520.home>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Tue, 8 May 2018 12:32:28 -0500
+Subject: AER: Malformed TLP recovery deadlock with NVMe drives
+In-Reply-To: <20180508165849.GC9529@bhelgaas-glaptop.roam.corp.google.com>
+References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
+ <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
+ <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
+ <9fc90040d5712282ea223807ace39312@codeaurora.org>
+ <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
+ <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
+ <3d4991bc2948430d910a16da36c90b91@ausx13mps321.AMER.DELL.COM>
+ <1fdfaaa47ad782ee864f24c5a75a355a@codeaurora.org>
+ <20180508165849.GC9529@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <bb358683-79fc-0590-eb93-70f4c3c922da@gmail.com>
 
-On Mon, 7 May 2018 18:23:46 -0500
-Bjorn Helgaas <helgaas@kernel.org> wrote:
+On 05/08/2018 11:58 AM, Bjorn Helgaas wrote:
+(snip)
+> https://bugzilla.kernel.org/show_bug.cgi?id=199657
+> 
+> Thanks for the bugzilla.  Can you add the "lspci -vv"
+> and also the specifics about how you inject the error
 
-> On Mon, Apr 23, 2018@05:30:32PM -0600, Logan Gunthorpe wrote:
-> > Hi Everyone,
-> > 
-> > Here's v4 of our series to introduce P2P based copy offload to NVMe
-> > fabrics. This version has been rebased onto v4.17-rc2. A git repo
-> > is here:
-> > 
-> > https://github.com/sbates130272/linux-p2pmem pci-p2p-v4
-> > ...  
-> 
-> > Logan Gunthorpe (14):
-> >   PCI/P2PDMA: Support peer-to-peer memory
-> >   PCI/P2PDMA: Add sysfs group to display p2pmem stats
-> >   PCI/P2PDMA: Add PCI p2pmem dma mappings to adjust the bus offset
-> >   PCI/P2PDMA: Clear ACS P2P flags for all devices behind switches
-> >   docs-rst: Add a new directory for PCI documentation
-> >   PCI/P2PDMA: Add P2P DMA driver writer's documentation
-> >   block: Introduce PCI P2P flags for request and request queue
-> >   IB/core: Ensure we map P2P memory correctly in
-> >     rdma_rw_ctx_[init|destroy]()
-> >   nvme-pci: Use PCI p2pmem subsystem to manage the CMB
-> >   nvme-pci: Add support for P2P memory in requests
-> >   nvme-pci: Add a quirk for a pseudo CMB
-> >   nvmet: Introduce helper functions to allocate and free request SGLs
-> >   nvmet-rdma: Use new SGL alloc/free helper for requests
-> >   nvmet: Optionally use PCI P2P memory
-> > 
-> >  Documentation/ABI/testing/sysfs-bus-pci    |  25 +
-> >  Documentation/PCI/index.rst                |  14 +
-> >  Documentation/driver-api/index.rst         |   2 +-
-> >  Documentation/driver-api/pci/index.rst     |  20 +
-> >  Documentation/driver-api/pci/p2pdma.rst    | 166 ++++++
-> >  Documentation/driver-api/{ => pci}/pci.rst |   0
-> >  Documentation/index.rst                    |   3 +-
-> >  block/blk-core.c                           |   3 +
-> >  drivers/infiniband/core/rw.c               |  13 +-
-> >  drivers/nvme/host/core.c                   |   4 +
-> >  drivers/nvme/host/nvme.h                   |   8 +
-> >  drivers/nvme/host/pci.c                    | 118 +++--
-> >  drivers/nvme/target/configfs.c             |  67 +++
-> >  drivers/nvme/target/core.c                 | 143 ++++-
-> >  drivers/nvme/target/io-cmd.c               |   3 +
-> >  drivers/nvme/target/nvmet.h                |  15 +
-> >  drivers/nvme/target/rdma.c                 |  22 +-
-> >  drivers/pci/Kconfig                        |  26 +
-> >  drivers/pci/Makefile                       |   1 +
-> >  drivers/pci/p2pdma.c                       | 814 +++++++++++++++++++++++++++++
-> >  drivers/pci/pci.c                          |   6 +
-> >  include/linux/blk_types.h                  |  18 +-
-> >  include/linux/blkdev.h                     |   3 +
-> >  include/linux/memremap.h                   |  19 +
-> >  include/linux/pci-p2pdma.h                 | 118 +++++
-> >  include/linux/pci.h                        |   4 +
-> >  26 files changed, 1579 insertions(+), 56 deletions(-)
-> >  create mode 100644 Documentation/PCI/index.rst
-> >  create mode 100644 Documentation/driver-api/pci/index.rst
-> >  create mode 100644 Documentation/driver-api/pci/p2pdma.rst
-> >  rename Documentation/driver-api/{ => pci}/pci.rst (100%)
-> >  create mode 100644 drivers/pci/p2pdma.c
-> >  create mode 100644 include/linux/pci-p2pdma.h  
-> 
-> How do you envison merging this?  There's a big chunk in drivers/pci, but
-> really no opportunity for conflicts there, and there's significant stuff in
-> block and nvme that I don't really want to merge.
-> 
-> If Alex is OK with the ACS situation, I can ack the PCI parts and you could
-> merge it elsewhere?
+Done
 
-AIUI from previously questioning this, the change is hidden behind a
-build-time config option and only custom kernels or distros optimized
-for this sort of support would enable that build option.  I'm more than
-a little dubious though that we're not going to have a wave of distros
-enabling this only to get user complaints that they can no longer make
-effective use of their devices for assignment due to the resulting span
-of the IOMMU groups, nor is there any sort of compromise, configure
-the kernel for p2p or device assignment, not both.  Is this really such
-a unique feature that distro users aren't going to be asking for both
-features?  Thanks,
+
+> I don't know how you collected the dmesg logs
+
+I hired scribes.
+
+
+> (looks like maybe colorizing escape sequences?).
+
+You mean the ANSI escape sequences. wget and cat in a color terminal.
+You will get so used to this, you will love it so much, you won't ever
+again want to open a a web page.
+
+
+> always think it's nice to have the plain ASCII
+
+dmesg without color information is like driving a car without a steering
+wheel. You better have a very straight road and go very slow, or you'll
+crash into something.
 
 Alex
