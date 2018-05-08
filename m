@@ -1,48 +1,72 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon,  7 May 2018 17:12:08 -0700
-Subject: [PATCH 1/7] nvme: remove unnecessary controller subnqn validation
+Date: Mon,  7 May 2018 17:12:10 -0700
+Subject: [PATCH 3/7] nvme_fc: retry failures to set io queue count
 In-Reply-To: <20180508001214.8951-1-jsmart2021@gmail.com>
 References: <20180508001214.8951-1-jsmart2021@gmail.com>
-Message-ID: <20180508001214.8951-2-jsmart2021@gmail.com>
+Message-ID: <20180508001214.8951-4-jsmart2021@gmail.com>
 
-After creating the nvme controller, nvmf_create_ctrl() validates
-the newly created subsysnqn vs the one specified by the options.
+During the creation of a new controller association, it's possible for
+errors and link connectivity issues to cause nvme_set_queue_count() to
+have its SET_FEATURES command fail with a positive non-zero code. The
+routine doesn't treat this as a hard error, instead setting the io queue
+count to zero and returning success.  This has the result of the
+transport setting the io queue count to 0, making the storage controller
+inoperable. The message "...Could not set queue count..." is seen.
 
-In general, this is an unnecessary check as the Connect message
-should implicitly ensure this value matches.
-
-With the change to the FC transport to do an asynchronous connect
-for the first association create, the transport will return to
-nvmf_create_ctrl() before that first association has been established,
-thus the subnqn will not yet be set.
-
-Remove the unnecessary validation.
+Revise the fc transport to detect when it asked for io queues but got
+back a result of 0 io queues. In such a case, fail the re-connection
+attempt and fall into the retry loop.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fabrics.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/nvme/host/fc.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 7ae732a77fe8..6fdf499d16b4 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -983,16 +983,6 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		goto out_module_put;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 7e64fe69c945..69299bda7cb2 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2414,16 +2414,17 @@ static int
+ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+-	unsigned int nr_io_queues;
++	unsigned int nr_io_queues, numq;
+ 	int ret;
+ 
+ 	nr_io_queues = min(min(opts->nr_io_queues, num_online_cpus()),
+ 				ctrl->lport->ops->max_hw_queues);
++	numq = nr_io_queues;
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+-	if (ret) {
++	if (ret || (numq && !nr_io_queues)) {
+ 		dev_info(ctrl->ctrl.device,
+ 			"set_queue_count failed: %d\n", ret);
+-		return ret;
++		return ret ? ret : -ENOTCONN;
  	}
  
--	if (strcmp(ctrl->subsys->subnqn, opts->subsysnqn)) {
--		dev_warn(ctrl->device,
--			"controller returned incorrect NQN: \"%s\".\n",
--			ctrl->subsys->subnqn);
--		module_put(ops->module);
--		up_read(&nvmf_transports_rwsem);
--		nvme_delete_ctrl_sync(ctrl);
--		return ERR_PTR(-EINVAL);
--	}
--
- 	module_put(ops->module);
- 	up_read(&nvmf_transports_rwsem);
- 	return ctrl;
+ 	ctrl->ctrl.queue_count = nr_io_queues + 1;
+@@ -2486,16 +2487,17 @@ static int
+ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+-	unsigned int nr_io_queues;
++	unsigned int nr_io_queues, numq;
+ 	int ret;
+ 
+ 	nr_io_queues = min(min(opts->nr_io_queues, num_online_cpus()),
+ 				ctrl->lport->ops->max_hw_queues);
++	numq = nr_io_queues;
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+-	if (ret) {
++	if (ret || (numq && !nr_io_queues)) {
+ 		dev_info(ctrl->ctrl.device,
+ 			"set_queue_count failed: %d\n", ret);
+-		return ret;
++		return ret ? ret : -ENOTCONN;
+ 	}
+ 
+ 	ctrl->ctrl.queue_count = nr_io_queues + 1;
 -- 
 2.13.1
