@@ -1,28 +1,27 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 8 May 2018 13:13:40 -0600
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+Date: Tue, 8 May 2018 13:14:53 -0600
+Subject: [PATCH v4 00/14] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <20180508105759.7dbaa8fe@w520.home>
 References: <20180423233046.21476-1-logang@deltatee.com>
- <20180423233046.21476-5-logang@deltatee.com>
- <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
- <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
- <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
- <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
-Message-ID: <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
+ <20180507232346.GI161390@bhelgaas-glaptop.roam.corp.google.com>
+ <20180508105759.7dbaa8fe@w520.home>
+Message-ID: <7d06df03-18ee-97c7-595e-0b25c43a6f3d@deltatee.com>
 
 
 
-On 08/05/18 10:50 AM, Christian K?nig wrote:
-> E.g. transactions are initially send to the root complex for 
-> translation, that's for sure. But at least for AMD GPUs the root complex 
-> answers with the translated address which is then cached in the device.
-> 
-> So further transactions for the same address range then go directly to 
-> the destination.
+On 08/05/18 10:57 AM, Alex Williamson wrote:
+> AIUI from previously questioning this, the change is hidden behind a
+> build-time config option and only custom kernels or distros optimized
+> for this sort of support would enable that build option.  I'm more than
+> a little dubious though that we're not going to have a wave of distros
+> enabling this only to get user complaints that they can no longer make
+> effective use of their devices for assignment due to the resulting span
+> of the IOMMU groups, nor is there any sort of compromise, configure
+> the kernel for p2p or device assignment, not both.  Is this really such
+> a unique feature that distro users aren't going to be asking for both
+> features?  Thanks,
 
-Sounds like you are referring to Address Translation Services (ATS).
-This is quite separate from ACS and, to my knowledge, isn't widely
-supported by switch hardware.
+I think it is. But it sounds like the majority want this to be a command
+line option. So we will look at doing that for v5.
 
 Logan
