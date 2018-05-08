@@ -1,47 +1,31 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 8 May 2018 09:09:33 -0600
-Subject: [PATCH V4 0/7] nvme: pci: fix & improve timeout handling
-In-Reply-To: <1525564282.4007.3.camel@redhat.com>
-References: <20180505135905.18815-1-ming.lei@redhat.com>
- <1525561893.3082.1.camel@redhat.com>
- <1525563110.4007.1.camel@redhat.com>
- <1525564282.4007.3.camel@redhat.com>
-Message-ID: <20180508150933.GA30736@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 8 May 2018 08:12:04 -0700
+Subject: [PATCH 6/7] nvme_fc: fix nulling of queue data on reconnect
+In-Reply-To: <20180508080513.41014470@pentland.suse.de>
+References: <20180508001214.8951-1-jsmart2021@gmail.com>
+ <20180508001214.8951-7-jsmart2021@gmail.com>
+ <20180508080513.41014470@pentland.suse.de>
+Message-ID: <51c8214b-0ce5-c8c0-f7be-156750baadbc@broadcom.com>
 
-On Sat, May 05, 2018@07:51:22PM -0400, Laurence Oberman wrote:
-> 3rd and 4th attempts slightly better, but clearly not dependable
-> 
-> [root at segstorage1 blktests]# ./check block/011
-> block/011 => nvme0n1 (disable PCI device while doing I/O)????[failed]
-> ????runtime????...??81.188s
-> ????--- tests/block/011.out	2018-05-05 18:01:14.268414752 -0400
-> ????+++ results/nvme0n1/block/011.out.bad	2018-05-05
-> 19:44:48.848568687 -0400
-> ????@@ -1,2 +1,3 @@
-> ?????Running block/011
-> ????+tests/block/011: line 47: echo: write error: Input/output error
-> ?????Test complete
-> 
-> This one passed 
-> [root at segstorage1 blktests]# ./check block/011
-> block/011 => nvme0n1 (disable PCI device while doing I/O)????[passed]
-> ????runtime??81.188s??...??43.400s
-> 
-> I will capture a vmcore next time it panics and give some information
-> after analyzing the core
 
-We definitely should never panic, but I am not sure this blktest can be
-reliable on IO errors: the test is disabling memory space enabling and
-bus master without the driver's knowledge, and it does this repeatedly
-in a tight loop. If the test happens to disable the device while the
-driver is trying to recover from the previous iteration, the recovery
-will surely fail, so I think IO errors may possibly be expected.
+On 5/7/2018 11:05 PM, Hannes Reinecke wrote:
+> On Mon,  7 May 2018 17:12:13 -0700
+> "James Smart" <jsmart2021@gmail.com> wrote:
+>
+>> @@ -1879,6 +1879,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+>>   	 */
+>>   
+>>   	queue->connection_id = 0;
+>> +	atomic_set(&queue->csn, 1);
+>>   }
+>>   
+> Huh? What is that doing here?
+> Doesn't seem to be related to the remaining patchset.
+> Or am I missing something here?
 
-As far as I can tell, the only way you'll actually get it to succeed is
-if the test's subsequent "enable" happen's to hit in conjuction with the
-driver's reset pci_enable_device_mem(), such that the pci_dev's enable_cnt
-is > 1, which prevents the disabling for the remainder of the test's
-looping.
+The init_queue calls would normally "init" the structure and set the csn 
+back to 1, but it also cleared too much other state as well. Thus they 
+were removed. The "free" routine remains, so this CSN setting is a 
+"reinit'ing" of the structure - just like zeroing the connection id.
 
-I still think this is a very good test, but we might be able to make it
-more deterministic on what actually happens to the pci device.
+-- james
