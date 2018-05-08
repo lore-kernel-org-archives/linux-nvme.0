@@ -1,46 +1,40 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 8 May 2018 16:31:54 +0800
-Subject: [PATCH] nvme-rdma: fix double free in nvme_rdma_free_queue
-In-Reply-To: <20180507122736.GC27843@lst.de>
-References: <1525420938-9492-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180507122736.GC27843@lst.de>
-Message-ID: <65152af5-9dc1-d6fb-6790-6055535f8048@oracle.com>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Tue, 8 May 2018 14:25:10 +0000
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
+References: <20180423233046.21476-1-logang@deltatee.com>
+ <20180423233046.21476-5-logang@deltatee.com>
+ <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
+ <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
+Message-ID: <479F2F93-903B-4A8A-8989-A4BD0E5E1471@raithlin.com>
 
-Hi Christoph
+    
+Hi Christian
 
-On 05/07/2018 08:27 PM, Christoph Hellwig wrote:
-> On Fri, May 04, 2018@04:02:18PM +0800, Jianchao Wang wrote:
->> BUG: KASAN: double-free or invalid-free in nvme_rdma_free_queue+0xf6/0x110 [nvme_rdma]
->> Workqueue: nvme-reset-wq nvme_rdma_reset_ctrl_work [nvme_rdma]
->> Call Trace:
->>  dump_stack+0x91/0xeb
->>  print_address_description+0x6b/0x290
->>  kasan_report_invalid_free+0x55/0x80
->>  __kasan_slab_free+0x176/0x190
->>  kfree+0xeb/0x310
->>  nvme_rdma_free_queue+0xf6/0x110 [nvme_rdma]
->>  nvme_rdma_configure_admin_queue+0x1a3/0x4d0 [nvme_rdma]
->>  nvme_rdma_reset_ctrl_work+0x4e/0xd0 [nvme_rdma]
->>  process_one_work+0x3ca/0xaa0
->>  worker_thread+0x4e2/0x6c0
->>  kthread+0x18d/0x1e0
->>  ret_from_fork+0x24/0x30
->>
->> The double free is on ctrl->async_event_sqe.
->> If nvme_rdma_start_queue in nvme_rdma_configure_admin_queue fails,
->> nvme_rdma_free_queue will be invoked. However, at the moment, the
->> ctrl->async_event_sqe has not been allocated and it has been freed
->> in
->> nvme_rdma_reset_ctrl_work
->>   -> nvme_rdma_shutdown_ctrl
->>     ->nvme_rdma_destroy_admin_queue
->>       -> nvme_rdma_free_queue
->>
->> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> 
-> Can you handle this in the caller instead, maybe including a comment?
-> 
-Yes, that will be clearer.
-Thanks for your suggestion.
+> AMD APUs mandatory need the ACS flag set for the GPU integrated in the 
+> CPU when IOMMU is enabled or otherwise you will break SVM.
 
-Jianchao
+OK but in this case aren't you losing (many of) the benefits of P2P since all DMAs will now get routed up to the IOMMU before being passed down to the destination PCIe EP?
+
+> Similar problems arise when you do this for dedicated GPU, but we 
+> haven't upstreamed the support for this yet.
+
+Hmm, as above. With ACS enabled on all downstream ports any P2P enabled DMA will be routed to the IOMMU which removes a lot of the benefit. 
+    
+> So that is a clear NAK from my side for the approach.
+
+Do you have an alternative? This is the approach we arrived it after a reasonably lengthy discussion on the mailing lists. Alex, are you still comfortable with this approach?
+    
+> And what exactly is the problem here?
+ 
+We had a pretty lengthy discussion on this topic on one of the previous revisions. The issue is that currently there is no mechanism in the IOMMU code to inform VMs if IOMMU groupings change. Since p2pdma can dynamically change its topology (due to PCI hotplug) we had to be cognizant of the fact that ACS settings could change. Since there is no way to currently handle changing ACS settings and hence IOMMU groupings the consensus was to simply disable ACS on all ports in a p2pdma domain. This effectively makes all the devices in the p2pdma domain part of the same IOMMU grouping. The plan will be to address this in time and add a mechanism for IOMMU grouping changes and notification to VMs but that's not part of this series. Note you are still allowed to have ACS functioning on other PCI domains so if you do not a plurality of IOMMU groupings you can still achieve it (but you can't do p2pdma across IOMMU groupings, which is safe).
+
+> I'm currently testing P2P with  GPUs in different IOMMU domains and at least with AMD IOMMUs that works perfectly fine.
+
+Yup that should work though again I have to ask are you disabling ACS on the ports between the two peer devices to get the p2p benefit? If not you are not getting all the performance benefit (due to IOMMU routing), if you are then there are obviously security implications between those IOMMU domains if they are assigned to different VMs. And now the issue is if new devices are added and the p2p topology needed to change there would be no way to inform the VMs of any IOMMU group change. 
+
+Cheers
+
+Stephen
+    
