@@ -1,103 +1,89 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 8 May 2018 08:03:57 +0200
-Subject: [PATCH 5/7] nvme_fc: change controllers first connect to use
- reconnect path
-In-Reply-To: <20180508001214.8951-6-jsmart2021@gmail.com>
+Date: Tue, 8 May 2018 08:05:13 +0200
+Subject: [PATCH 6/7] nvme_fc: fix nulling of queue data on reconnect
+In-Reply-To: <20180508001214.8951-7-jsmart2021@gmail.com>
 References: <20180508001214.8951-1-jsmart2021@gmail.com>
- <20180508001214.8951-6-jsmart2021@gmail.com>
-Message-ID: <20180508080357.64c96380@pentland.suse.de>
+ <20180508001214.8951-7-jsmart2021@gmail.com>
+Message-ID: <20180508080513.41014470@pentland.suse.de>
 
-On Mon,  7 May 2018 17:12:12 -0700
+On Mon,  7 May 2018 17:12:13 -0700
 "James Smart" <jsmart2021@gmail.com> wrote:
 
-> Current code follows the framework that has been in the transports
-> from the beginning where initial link-side controller connect occurs
-> as part of "creating the controller". Thus that first connect fully
-> talks to the controller and obtains values that can then be used in
-> for blk-mq setup, etc. It also means that everything about the
-> controller is fully know before the "create controller" call returns.
+> The reconnect path is calling the init routines to clear a queue
+> structure. But the queue structure has state that perhaps needs
+> to persist as long as the controller is live.
 > 
-> This has several weaknesses:
-> - The initial create_ctrl call made by the cli will block for a long
->   time as wire transactions are performed synchronously. This delay
->   becomes longer if errors occur or connectivity is lost and retries
->   need to be performed.
-> - Code wise, it means there is a separate connect path for initial
->   controller connect vs the (same) steps used in the reconnect path.
-> - And as there's separate paths, it means there's separate error
->   handling and retry logic. It also plays havoc with the NEW state
->   (should transition out of it after successful initial connect) vs
->   the RESETTING and CONNECTING (reconnect) states that want to be
->   transitioned to on error.
-> - As there's separate paths, to recover from errors and disruptions,
->   it requires separate recovery/retry paths as well and can severely
->   convolute the controller state.
-> - Given the duration of the initial create_ctrl() call, automation
->   of dynamic discovery can't use simplistic udev rules. Instead,
->   more convoluted use of systemd is required.
-> 
-> This patch reworks the fc transport to use the same connect paths
-> for the initial connection as it uses for reconnect. This makes a
-> single path for error recovery and handling. Given that the initial
-> connect becomes asynchronous on a background work thread, the
-> create_ctrl() now returns very quickly, allowing the simplified
-> auto-connnect scripting.
-> 
-> This patch:
-> - Removes the driving of the initial connect and replaces it with
->   a state transition to CONNECTING and initiating the reconnect
->   thread. A dummy state transition of RESETTING had to be traversed
->   as a direct transtion of NEW->CONNECTING is not allowed. Given
->   that the controller is "new", the RESETTING transition is a simple
->   no-op. Once in the reconnecting thread, the normal behaviors of
->   ctrl_loss_tmo (max_retries * connect_delay) and dev_loss_tmo will
->   apply before the controller is torn down.
-> - Only if the state transitions couldn't be traversed and the
->   reconnect thread not scheduled, will the controller be torn down
->   while in create_ctrl.
-> - The prior code used the controller state of NEW to indicate
->   whether request queues had been initialized or not. For the admin
->   queue, the request queue is always created, so there's no need to
->   check a state. For IO queues, change to tracking whether a
-> successful io request queue create has occurred (e.g. 1st successful
-> connect).
-> - The initial controller id is initialized to the dynamic controller
->   id used in the initial connect message. It will be overwritten by
->   the real controller id once the controller is connected on the wire.
-> 
-> Note: this patch is dependent on these changes that have been
-> added to the nvme-cli utility:
-> - nvme-cli: Wait for device file if not present after successful
-> add_ctrl
-> - nvme-cli: Add ioctl retry support for "connect-all"
-> 
-> With this patch, a simplistic udev rule such as one of the following
-> options below, may now be used to support auto connectivity:
-> 
-> option A:
->    ACTION=="change", SUBSYSTEM=="fc", ENV{FC_EVENT}=="nvmediscovery",
-> \ ENV{NVMEFC_HOST_TRADDR}=="*", ENV{NVMEFC_TRADDR}=="*", \
-> 	RUN+="/usr/sbin/nvme connect-all --transport=fc
-> --host-traddr=$env{NVMEFC_HOST_TRADDR} --traddr=$env{NVMEFC_TRADDR}"
-> 
-> option B:
->    SUBSYSTEM!="fc", GOTO="nvme_autoconnect_end"
->    ACTION!="change", GOTO="nvme_autoconnect_end"
->    ENV{FC_EVENT}!="nvmediscovery", GOTO="nvme_autoconnect_end"
->    ENV{NVMEFC_HOST_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
->    ENV{NVMEFC_TRADDR}!="?*", GOTO="nvme_autoconnect_end"
->    RUN+="/usr/sbin/nvme connect-all -t fc
-> --host-traddr=$env{NVMEFC_HOST_TRADDR} -a $env{NVMEFC_TRADDR}"
-> LABEL="nvme_autoconnect_end"
+> Remove the nvme_fc_init_queue() calls on reconnect.
+> The nvme_fc_free_queue() calls will clear state bits and reset
+> any relevant queue state for a new connection.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/nvme/host/fc.c | 102
-> ++++++++++++++++++++++--------------------------- 1 file changed, 45
-> insertions(+), 57 deletions(-)
+>  drivers/nvme/host/fc.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 > 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 7b9fb2e5afee..3cab280cf5f7 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1879,6 +1879,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+>  	 */
+>  
+>  	queue->connection_id = 0;
+> +	atomic_set(&queue->csn, 1);
+>  }
+>  
+Huh? What is that doing here?
+Doesn't seem to be related to the remaining patchset.
+Or am I missing something here?
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+>  static void
+> @@ -2472,7 +2473,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl
+> *ctrl) }
+>  
+>  static int
+> -nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+> +nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+>  {
+>  	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+>  	unsigned int nr_io_queues, numq;
+> @@ -2493,8 +2494,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl
+> *ctrl) if (ctrl->ctrl.queue_count == 1)
+>  		return 0;
+>  
+> -	nvme_fc_init_io_queues(ctrl);
+> -
+>  	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize +
+> 1); if (ret)
+>  		goto out_free_io_queues;
+> @@ -2592,8 +2591,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl
+> *ctrl)
+>  	 * Create the admin queue
+>  	 */
+>  
+> -	nvme_fc_init_queue(ctrl, 0);
+> -
+>  	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
+>  				NVME_AQ_DEPTH);
+>  	if (ret)
+> @@ -2680,7 +2677,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl
+> *ctrl) if (!ctrl->ioq_live)
+>  			ret = nvme_fc_create_io_queues(ctrl);
+>  		else
+> -			ret = nvme_fc_reinit_io_queues(ctrl);
+> +			ret = nvme_fc_recreate_io_queues(ctrl);
+>  		if (ret)
+>  			goto out_term_aen_ops;
+>  	}
+> @@ -3028,6 +3025,8 @@ nvme_fc_init_ctrl(struct device *dev, struct
+> nvmf_ctrl_options *opts, if (!ctrl->queues)
+>  		goto out_free_ida;
+>  
+> +	nvme_fc_init_queue(ctrl, 0);
+> +
+>  	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
+>  	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
+>  	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
 
 Cheers,
 
