@@ -1,30 +1,75 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 8 May 2018 10:24:33 -0600
-Subject: [PATCH v2] nvme: add quirk to force medium priority for SQ
- creation
-In-Reply-To: <20180508162226.GA31027@localhost.localdomain>
-References: <879357dd-937c-4496-84af-f804877562eb@kernel.dk>
- <20180508162226.GA31027@localhost.localdomain>
-Message-ID: <b56cff21-0720-25d9-e599-bb9bd321dda0@kernel.dk>
+Date: Tue, 8 May 2018 10:25:15 -0600
+Subject: [PATCH v3] nvme: add quirk to force medium priority for SQ creation
+Message-ID: <672a97be-7fbf-b21e-9f75-2c18e64ccf8f@kernel.dk>
 
-On 5/8/18 10:22 AM, Keith Busch wrote:
-> On Tue, May 08, 2018@09:54:20AM -0600, Jens Axboe wrote:
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -1097,6 +1097,14 @@ static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
->>  	int flags = NVME_QUEUE_PHYS_CONTIG;
->>  
->>  	/*
->> +	 * Some drives have a bug that auto-enables WRRU if MEDIUM isn't
->> +	 * set. Since URGENT priority is zeroes, it makes all queues
->> +	 * URGENT.
->> +	 */
->> +	if (ctrl->quirks & NVME_QUIRK_MEDIUM_PRIO_SQ)
->> +		flags |= NVME_SQ_PRIO_MEDIUM;
-> 
-> 'ctrl' is undeclared in this function; must be 'dev->ctrl.quirks'.
+Some P3100 drives have a bug where they think WRRU (weighted round
+robin) is always enabled, even though the host doesn't set it. Since
+they think it's enabled, they also look at the submission queue
+creation priority. We used to set that to MEDIUM by default,
+but that was removed in commit 81c1cd98351b. This causes various
+issues on that drive. Add a quick to still set MEDIUM priority
+for that controller.
 
-Gah, that's a lot of typos in a simple patch... Sending out v3.
+Fixes: 81c1cd98351b ("nvme/pci: Don't set reserved SQ create flags")
+Cc: stable at vger.kernel.org
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+
+---
+
+v3: Remember to include ctrl...
+v2: Too quick a forward port, forgot to bump the quirk bit entry.
+
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7ded7a51c430..17d2f7cf3fed 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -84,6 +84,11 @@ enum nvme_quirks {
+ 	 * Supports the LighNVM command set if indicated in vs[1].
+ 	 */
+ 	NVME_QUIRK_LIGHTNVM			= (1 << 6),
++
++	/*
++	 * Set MEDIUM priority on SQ creation
++	 */
++	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fbc71fac6f1e..17a0190bd88f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1093,10 +1093,19 @@ static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
+ static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
+ 						struct nvme_queue *nvmeq)
+ {
++	struct nvme_ctrl *ctrl = &dev->ctrl;
+ 	struct nvme_command c;
+ 	int flags = NVME_QUEUE_PHYS_CONTIG;
+ 
+ 	/*
++	 * Some drives have a bug that auto-enables WRRU if MEDIUM isn't
++	 * set. Since URGENT priority is zeroes, it makes all queues
++	 * URGENT.
++	 */
++	if (ctrl->quirks & NVME_QUIRK_MEDIUM_PRIO_SQ)
++		flags |= NVME_SQ_PRIO_MEDIUM;
++
++	/*
+ 	 * Note: we (ab)use the fact that the prp fields survive if no data
+ 	 * is attached to the request.
+ 	 */
+@@ -2701,7 +2710,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DEALLOCATE_ZEROES, },
+ 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+-		.driver_data = NVME_QUIRK_NO_DEEPEST_PS },
++		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
++				NVME_QUIRK_MEDIUM_PRIO_SQ },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
 
 -- 
 Jens Axboe
