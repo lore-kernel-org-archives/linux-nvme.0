@@ -1,31 +1,28 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 8 May 2018 13:01:35 -0500
-Subject: AER: Malformed TLP recovery deadlock with NVMe drives
-In-Reply-To: <bb358683-79fc-0590-eb93-70f4c3c922da@gmail.com>
-References: <8cf4e563-5f84-f8bd-88a6-8369cdf07b29@gmail.com>
- <7afd280ad80a73b39e6c9b9a9e29abcc@codeaurora.org>
- <5c97a7c2-cb53-4740-fda0-50ba92288c5c@gmail.com>
- <9fc90040d5712282ea223807ace39312@codeaurora.org>
- <1125ddf8-f342-3f8f-90ee-0aa94287360c@gmail.com>
- <16bdb0febb842ad0980db9214c8076c5@codeaurora.org>
- <3d4991bc2948430d910a16da36c90b91@ausx13mps321.AMER.DELL.COM>
- <1fdfaaa47ad782ee864f24c5a75a355a@codeaurora.org>
- <20180508165849.GC9529@bhelgaas-glaptop.roam.corp.google.com>
- <bb358683-79fc-0590-eb93-70f4c3c922da@gmail.com>
-Message-ID: <20180508180135.GM161390@bhelgaas-glaptop.roam.corp.google.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 8 May 2018 13:13:40 -0600
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+References: <20180423233046.21476-1-logang@deltatee.com>
+ <20180423233046.21476-5-logang@deltatee.com>
+ <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
+ <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
+ <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
+ <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+Message-ID: <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
 
-On Tue, May 08, 2018@12:32:28PM -0500, Alex G. wrote:
-> On 05/08/2018 11:58 AM, Bjorn Helgaas wrote:
-> > (looks like maybe colorizing escape sequences?).
+
+
+On 08/05/18 10:50 AM, Christian K?nig wrote:
+> E.g. transactions are initially send to the root complex for 
+> translation, that's for sure. But at least for AMD GPUs the root complex 
+> answers with the translated address which is then cached in the device.
 > 
-> You mean the ANSI escape sequences. wget and cat in a color terminal.
-> You will get so used to this, you will love it so much, you won't ever
-> again want to open a a web page.
+> So further transactions for the same address range then go directly to 
+> the destination.
 
-Hey, you're right!  If I download it and look at it with "less", it *is*
-pretty!  It'd be cool if Chrome would do that.  Maybe.
+Sounds like you are referring to Address Translation Services (ATS).
+This is quite separate from ACS and, to my knowledge, isn't widely
+supported by switch hardware.
 
-I'm really glad you're looking at this stuff and raising issues.  I'm not
-at all confident in the correctness or robustness of this code.
-
-Bjorn
+Logan
