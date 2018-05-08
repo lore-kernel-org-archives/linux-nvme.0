@@ -1,32 +1,65 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 May 2018 09:30:38 -0600
-Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
-In-Reply-To: <20180428035015.GB5657@ming.t460p>
-References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-2-ming.lei@redhat.com>
- <20180427175157.GB5073@localhost.localdomain>
- <20180428035015.GB5657@ming.t460p>
-Message-ID: <20180508153038.GA30842@localhost.localdomain>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 8 May 2018 09:53:34 -0600
+Subject: [PATCH] nvme: add quirk to force medium priority for SQ creation
+Message-ID: <798f836f-6d1a-916b-8de0-8577482fc53b@kernel.dk>
 
-On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
-> This sync may be raced with one timed-out request, which may be handled
-> as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
-> work reliably. 
+Some P3100 drives have a bug where they think WRRU (weighted round
+robin) is always enabled, even though the host doesn't set it. Since
+they think it's enabled, they also look at the submission queue
+creation priority. We used to set that to MEDIUM by default,
+but that was removed in commit 81c1cd98351b. This causes various
+issues on that drive. Add a quick to still set MEDIUM priority
+for that controller.
 
-Ming,
+Fixes: 81c1cd98351b ("nvme/pci: Don't set reserved SQ create flags")
+Cc: stable at vger.kernel.org
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
 
-As proposed, that scenario is impossible to encounter. Resetting the
-controller inline with the timeout reaps all the commands, and then
-sets the controller state to RESETTING. While blk-mq may not allow the
-driver to complete those requests, having the driver sync with the queues
-will hold the controller in the reset state until blk-mq is done with
-its timeout work; therefore, it is impossible for the NVMe driver to
-return "BLK_EH_RESET_TIMER", and all commands will be completed through
-nvme_timeout's BLK_EH_HANDLED exactly as desired.
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7ded7a51c430..1201b7359fa6 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -84,6 +84,11 @@ enum nvme_quirks {
+ 	 * Supports the LighNVM command set if indicated in vs[1].
+ 	 */
+ 	NVME_QUIRK_LIGHTNVM			= (1 << 6),
++
++	/*
++	 * Set MEDIUM priority on SQ creation
++	 */
++	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 6),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fbc71fac6f1e..985e313fdf6c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1097,6 +1097,14 @@ static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
+ 	int flags = NVME_QUEUE_PHYS_CONTIG;
+ 
+ 	/*
++	 * Some drives have a bug that auto-enables WRRU if MEDIUM isn't
++	 * set. Since URGENT priority is zeroes, it makes all queues
++	 * URGENT.
++	 */
++	if (ctrl->quirks & NVME_QUIRK_MEDIUM_PRIO_SQ)
++		flags |= NVME_SQ_PRIO_MEDIUM;
++
++	/*
+ 	 * Note: we (ab)use the fact that the prp fields survive if no data
+ 	 * is attached to the request.
+ 	 */
+@@ -2701,7 +2709,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DEALLOCATE_ZEROES, },
+ 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+-		.driver_data = NVME_QUIRK_NO_DEEPEST_PS },
++		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
++				NVME_QUIRK_MEDIUM_PRIO_SQ },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
 
-Could you please recheck my suggestion? The alternatives proposed are
-far too risky for a 4.17 consideration, and I'm hoping we can stabilize
-this behavior in the current release if possible.
-
-Thanks,
-Keith
+-- 
+Jens Axboe
