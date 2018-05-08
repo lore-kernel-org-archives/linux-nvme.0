@@ -1,40 +1,65 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon,  7 May 2018 17:12:09 -0700
-Subject: [PATCH 2/7] nvme_fc: remove setting DNR on exception conditions
+Date: Mon,  7 May 2018 17:12:11 -0700
+Subject: [PATCH 4/7] nvme_fc: remove reinit_request routine
 In-Reply-To: <20180508001214.8951-1-jsmart2021@gmail.com>
 References: <20180508001214.8951-1-jsmart2021@gmail.com>
-Message-ID: <20180508001214.8951-3-jsmart2021@gmail.com>
+Message-ID: <20180508001214.8951-5-jsmart2021@gmail.com>
 
-Current code will set DNR if the controller is deleting or there is
-an error during controller init. None of this is necessary.
+The reinit_request routine is not necessary. Remove support for the
+op callback.
 
-remove the code that sets DNR
+As all that nvme_reinit_tagset() does is itterate and call the
+reinit routine, it too has no purpose. Remove the call.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/nvme/host/fc.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 6cb26bcf6ec0..7e64fe69c945 100644
+index 69299bda7cb2..d6842ed50097 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -1686,16 +1686,6 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 		goto check_error;
- 	}
+@@ -1470,21 +1470,6 @@ nvme_fc_xmt_disconnect_assoc(struct nvme_fc_ctrl *ctrl)
  
--	/*
--	 * Force failures of commands if we're killing the controller
--	 * or have an error on a command used to create an new association
--	 */
--	if (status &&
--	    (blk_queue_dying(rq->q) ||
--	     ctrl->ctrl.state == NVME_CTRL_NEW ||
--	     ctrl->ctrl.state == NVME_CTRL_CONNECTING))
--		status |= cpu_to_le16(NVME_SC_DNR << 1);
+ static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg);
+ 
+-static int
+-nvme_fc_reinit_request(void *data, struct request *rq)
+-{
+-	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+-	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
 -
- 	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
- 	nvme_end_request(rq, status, result);
+-	memset(cmdiu, 0, sizeof(*cmdiu));
+-	cmdiu->scsi_id = NVME_CMD_SCSI_ID;
+-	cmdiu->fc_id = NVME_CMD_FC_ID;
+-	cmdiu->iu_len = cpu_to_be16(sizeof(*cmdiu) / sizeof(u32));
+-	memset(&op->rsp_iu, 0, sizeof(op->rsp_iu));
+-
+-	return 0;
+-}
+-
+ static void
+ __nvme_fc_exit_request(struct nvme_fc_ctrl *ctrl,
+ 		struct nvme_fc_fcp_op *op)
+@@ -2507,10 +2492,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
  
+ 	nvme_fc_init_io_queues(ctrl);
+ 
+-	ret = nvme_reinit_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+-	if (ret)
+-		goto out_free_io_queues;
+-
+ 	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
+ 	if (ret)
+ 		goto out_free_io_queues;
+@@ -2922,7 +2903,6 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+ 	.submit_async_event	= nvme_fc_submit_async_event,
+ 	.delete_ctrl		= nvme_fc_delete_ctrl,
+ 	.get_address		= nvmf_get_address,
+-	.reinit_request		= nvme_fc_reinit_request,
+ };
+ 
+ static void
 -- 
 2.13.1
