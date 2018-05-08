@@ -1,7 +1,7 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 8 May 2018 09:53:34 -0600
-Subject: [PATCH] nvme: add quirk to force medium priority for SQ creation
-Message-ID: <798f836f-6d1a-916b-8de0-8577482fc53b@kernel.dk>
+Date: Tue, 8 May 2018 09:54:20 -0600
+Subject: [PATCH v2] nvme: add quirk to force medium priority for SQ creation
+Message-ID: <879357dd-937c-4496-84af-f804877562eb@kernel.dk>
 
 Some P3100 drives have a bug where they think WRRU (weighted round
 robin) is always enabled, even though the host doesn't set it. Since
@@ -15,6 +15,10 @@ Fixes: 81c1cd98351b ("nvme/pci: Don't set reserved SQ create flags")
 Cc: stable at vger.kernel.org
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 
+---
+
+v2: Too quick a forward port, forgot to bump the quirk bit entry.
+
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
 index 7ded7a51c430..1201b7359fa6 100644
 --- a/drivers/nvme/host/nvme.h
@@ -27,7 +31,7 @@ index 7ded7a51c430..1201b7359fa6 100644
 +	/*
 +	 * Set MEDIUM priority on SQ creation
 +	 */
-+	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 6),
++	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
  };
  
  /*
