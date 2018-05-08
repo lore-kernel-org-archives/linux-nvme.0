@@ -1,89 +1,51 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 8 May 2018 08:05:13 +0200
-Subject: [PATCH 6/7] nvme_fc: fix nulling of queue data on reconnect
-In-Reply-To: <20180508001214.8951-7-jsmart2021@gmail.com>
+Date: Tue, 8 May 2018 08:06:38 +0200
+Subject: [PATCH 7/7] nvme_fc: add 'nvme_discovery' sysfs attribute to fc
+ transport device
+In-Reply-To: <20180508001214.8951-8-jsmart2021@gmail.com>
 References: <20180508001214.8951-1-jsmart2021@gmail.com>
- <20180508001214.8951-7-jsmart2021@gmail.com>
-Message-ID: <20180508080513.41014470@pentland.suse.de>
+ <20180508001214.8951-8-jsmart2021@gmail.com>
+Message-ID: <20180508080638.3ea8d439@pentland.suse.de>
 
-On Mon,  7 May 2018 17:12:13 -0700
+On Mon,  7 May 2018 17:12:14 -0700
 "James Smart" <jsmart2021@gmail.com> wrote:
 
-> The reconnect path is calling the init routines to clear a queue
-> structure. But the queue structure has state that perhaps needs
-> to persist as long as the controller is live.
+> The fc transport device should allow for a rediscovery, as userspace
+> might have lost the events. Example is udev events not handled during
+> system startup.
 > 
-> Remove the nvme_fc_init_queue() calls on reconnect.
-> The nvme_fc_free_queue() calls will clear state bits and reset
-> any relevant queue state for a new connection.
+> This patch add a sysfs entry 'nvme_discovery' on the fc class to
+> have it replay all udev discovery events for all local port/remote
+> port address pairs.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
->  drivers/nvme/host/fc.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+> CC: Hannes Reinecke <hare at suse.com>
+> Cc: Ewan Milne <emilne at redhat.com>
+> Cc: Johannes Thumshirn <jthumshirn at suse.com>
 > 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 7b9fb2e5afee..3cab280cf5f7 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1879,6 +1879,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
->  	 */
->  
->  	queue->connection_id = 0;
-> +	atomic_set(&queue->csn, 1);
->  }
->  
-Huh? What is that doing here?
-Doesn't seem to be related to the remaining patchset.
-Or am I missing something here?
-
->  static void
-> @@ -2472,7 +2473,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl
-> *ctrl) }
->  
->  static int
-> -nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
-> +nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
->  {
->  	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
->  	unsigned int nr_io_queues, numq;
-> @@ -2493,8 +2494,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl
-> *ctrl) if (ctrl->ctrl.queue_count == 1)
->  		return 0;
->  
-> -	nvme_fc_init_io_queues(ctrl);
-> -
->  	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize +
-> 1); if (ret)
->  		goto out_free_io_queues;
-> @@ -2592,8 +2591,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl
-> *ctrl)
->  	 * Create the admin queue
->  	 */
->  
-> -	nvme_fc_init_queue(ctrl, 0);
-> -
->  	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
->  				NVME_AQ_DEPTH);
->  	if (ret)
-> @@ -2680,7 +2677,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl
-> *ctrl) if (!ctrl->ioq_live)
->  			ret = nvme_fc_create_io_queues(ctrl);
->  		else
-> -			ret = nvme_fc_reinit_io_queues(ctrl);
-> +			ret = nvme_fc_recreate_io_queues(ctrl);
->  		if (ret)
->  			goto out_term_aen_ops;
->  	}
-> @@ -3028,6 +3025,8 @@ nvme_fc_init_ctrl(struct device *dev, struct
-> nvmf_ctrl_options *opts, if (!ctrl->queues)
->  		goto out_free_ida;
->  
-> +	nvme_fc_init_queue(ctrl, 0);
-> +
->  	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
->  	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
->  	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+> ---
+> This is actually v4 - based on Hannes' v3 of the same patch:
+> [PATCHv3] nvme/fc: add 'discovery' sysfs attribute to fc transport
+> device
+> http://lists.infradead.org/pipermail/linux-nvme/2017-December/014334.html
+> 
+> However, refcounting in v3 was still messed up when an rport_get()
+> fails. Modified the patch to add the unwind routine to correct it.
+> 
+> Also renamed the "discovery" attribute to "nvme_discovery" so that
+> there will not be collisions if/when we move to a shared fc transport
+> and have scsi there as well.
+> 
+> Note: this patch alone doesn't allow the simple udev script.  The
+> patches for the fc transport to move initial connect to use the
+> asychronous reconnect path is what allows the simple udev script.
+> This patch simply allows to catch up with connectivity if the udev
+> events weren't handled. ---
+>  drivers/nvme/host/fc.c | 114
+> +++++++++++++++++++++++++++++++++++++++++++++---- 1 file changed, 105
+> insertions(+), 9 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
