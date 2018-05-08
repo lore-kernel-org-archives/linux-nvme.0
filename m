@@ -1,74 +1,48 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon,  7 May 2018 17:12:07 -0700
-Subject: [PATCH 0/7] nvme_fc: asynchronous controller create and simple
- discovery
-Message-ID: <20180508001214.8951-1-jsmart2021@gmail.com>
+Date: Mon,  7 May 2018 17:12:08 -0700
+Subject: [PATCH 1/7] nvme: remove unnecessary controller subnqn validation
+In-Reply-To: <20180508001214.8951-1-jsmart2021@gmail.com>
+References: <20180508001214.8951-1-jsmart2021@gmail.com>
+Message-ID: <20180508001214.8951-2-jsmart2021@gmail.com>
 
-This patch set modifies the fc transport such that create_ctrl results
-in the OS's controller creation only and does not initially connect
-to the device on the wire inline to the create_ctrl call. Instead, the
-initial connect immediately schedules the background reconnect thread
-to perform the initial association connect. The patchset also contains
-several other cleanups found while implementing the asynchronous
-connect testing.
+After creating the nvme controller, nvmf_create_ctrl() validates
+the newly created subsysnqn vs the one specified by the options.
 
-There are two main reasons why asynchronous controller create is done:
-1) It simplifies error handling and retries. The initial controller
-   connect attempts can be disrupted or by errors as easily as after
-   the controller is initially created. As the code currently stands
-   there has to be special retry logic and prohibitions around state
-   changes if errors occur during the initial connect (which the code
-   today does not have). With this patch set, initial connections use
-   the same path as a reconnect, and any error handling uses the same
-   paths as if the errors occurred post initial connect.
-2) As the create_ctrl() call is now very fast, simplistic udev rules
-   can be used for auto-connect rather than involving systemd to work
-   around long initial connect times, especially if errors in initial
-   connect occur.
+In general, this is an unnecessary check as the Connect message
+should implicitly ensure this value matches.
 
-However, several hurdles in the common infrastructure need to be changed
-in order to make this work. The initial controller creation expects the
-controller to be fully connected and live on the wire before it returns
-back to the cli.  This gave a lot of time for the udev event to be
-generated and serviced to create the corresponding /dev file.  The cli
-now has to be prepared that it may access the /dev file before the event
-had been serviced.  There is also a check in the fabrics layer to validate
-the controller subnqn is what the connect request asked for. With this
-patch set, FC will return before the initial connect is complete thus
-the controller field being checked is not yet set.  There is no reason
-that it wouldn't be as the request will be what the fabric connect
-requests are based off, so this checking of the nqn should be removed.
-Additionally, operations such as connect-all may occur while there is
-a connectivity disturbance with the discovery controller, thus the
-discovery log read may fail. To circumvent the side effects of giving
-up and not connecting, the cli needs to retry the discovery log reads.
+With the change to the FC transport to do an asynchronous connect
+for the first association create, the transport will return to
+nvmf_create_ctrl() before that first association has been established,
+thus the subnqn will not yet be set.
 
-Therefore, this patch set is dependent on the following modifications
-that have been made to the cli:
-  nvme-cli: Wait for device file if not present after successful add_ctrl
-     github repo commit id: bb2d87d7f386
-  nvme-cli: Add ioctl retry support for "connect-all"
-     github repo commit id: d8f949c21e9d
+Remove the unnecessary validation.
 
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fabrics.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-As the patchset now allows simplistic udev scripting, this patchset also
-adds the change to the transport to regenerate udev discovery events in
-case the system missed the events earlier (such as boot scenarios).
-
-
-
-James Smart (7):
-  nvme: remove unnecessary controller subnqn validation
-  nvme_fc: remove setting DNR on exception conditions
-  nvme_fc: retry failures to set io queue count
-  nvme_fc: remove reinit_request routine
-  nvme_fc: change controllers first connect to use reconnect path
-  nvme_fc: fix nulling of queue data on reconnect
-  nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
-
- drivers/nvme/host/fabrics.c |  10 --
- drivers/nvme/host/fc.c      | 271 ++++++++++++++++++++++++++------------------
- 2 files changed, 163 insertions(+), 118 deletions(-)
-
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 7ae732a77fe8..6fdf499d16b4 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -983,16 +983,6 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 		goto out_module_put;
+ 	}
+ 
+-	if (strcmp(ctrl->subsys->subnqn, opts->subsysnqn)) {
+-		dev_warn(ctrl->device,
+-			"controller returned incorrect NQN: \"%s\".\n",
+-			ctrl->subsys->subnqn);
+-		module_put(ops->module);
+-		up_read(&nvmf_transports_rwsem);
+-		nvme_delete_ctrl_sync(ctrl);
+-		return ERR_PTR(-EINVAL);
+-	}
+-
+ 	module_put(ops->module);
+ 	up_read(&nvmf_transports_rwsem);
+ 	return ctrl;
 -- 
 2.13.1
