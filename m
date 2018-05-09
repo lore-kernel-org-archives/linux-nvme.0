@@ -1,61 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 9 May 2018 18:06:46 +0300
-Subject: [PATCH] nvme-rdma: clear NVME_RDMA_Q_LIVE before free the queue
-In-Reply-To: <1525420958-9537-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1525420958-9537-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <7096b02a-956a-6765-7839-227c154d8336@grimberg.me>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Wed, 9 May 2018 15:41:44 +0000
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+References: <20180423233046.21476-5-logang@deltatee.com>
+ <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
+ <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
+ <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
+ <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+ <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
+ <20180508133407.57a46902@w520.home>
+ <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
+ <20180508141331.7cd737cb@w520.home>
+ <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
+ <20180508205005.GC15608@redhat.com>
+ <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
+ <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+Message-ID: <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
 
+Christian
 
+>    Interesting point, give me a moment to check that. That finally makes 
+>    all the hardware I have standing around here valuable :)
+    
+Yes. At the very least it provides an initial standards based path for P2P DMAs across RPs which is something we have discussed on this list in the past as being desirable.
 
-On 05/04/2018 11:02 AM, Jianchao Wang wrote:
-> When nvme_init_identify in nvme_rdma_configure_admin_queue fails,
-> the ctrl->queues[0] is freed but the NVME_RDMA_Q_LIVE is still set.
-> If nvme_rdma_stop_queue is invoked, we will incur use-after-free
-> which will cause memory corruption.
->   BUG: KASAN: use-after-free in rdma_disconnect+0x1f/0xe0 [rdma_cm]
->   Read of size 8 at addr ffff8801dc3969c0 by task kworker/u16:3/9304
-> 
->   CPU: 3 PID: 9304 Comm: kworker/u16:3 Kdump: loaded Tainted: G        W         4.17.0-rc3+ #20
->   Workqueue: nvme-delete-wq nvme_delete_ctrl_work
->   Call Trace:
->    dump_stack+0x91/0xeb
->    print_address_description+0x6b/0x290
->    kasan_report+0x261/0x360
->    rdma_disconnect+0x1f/0xe0 [rdma_cm]
->    nvme_rdma_stop_queue+0x25/0x40 [nvme_rdma]
->    nvme_rdma_shutdown_ctrl+0xf3/0x150 [nvme_rdma]
->    nvme_delete_ctrl_work+0x98/0xe0
->    process_one_work+0x3ca/0xaa0
->    worker_thread+0x4e2/0x6c0
->    kthread+0x18d/0x1e0
->    ret_from_fork+0x24/0x30
-> 
-> To fix it, clear the NVME_RDMA_Q_LIVE before free the ctrl->queues[0].
-> The queue will be freed, so it certainly is not LIVE any more.
-> 
-> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
-> ---
->   drivers/nvme/host/rdma.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index fd965d0..ffbfe82 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -812,6 +812,11 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
->   	if (new)
->   		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
->   out_free_queue:
-> +	/*
-> +	 * The queue will be freed, so it is not LIVE any more.
-> +	 * This could avoid use-after-free in nvme_rdma_stop_queue.
-> +	 */
-> +	clear_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
->   	nvme_rdma_free_queue(&ctrl->queues[0]);
->   	return error;
->   }
-> 
+BTW I am trying to understand how an ATS capable EP function determines when to perform an ATS Translation Request (ATS TR). Is there an upstream example of the driver for your APU that uses ATS? If so, can you provide a pointer to it. Do you provide some type of entry in the submission queues for commands going to the APU to indicate if the address associated with a specific command should be translated using ATS or not? Or do you simply enable ATS and then all addresses passed to your APU that miss the local cache result in a ATS TR?
 
-The correct fix would be to add a tag for stop_queue and call
-nvme_rdma_stop_queue() in all the failure cases after
-nvme_rdma_start_queue.
+Your feedback would be useful and I initiate discussions within the NVMe community on where we might go with ATS...
+
+Thanks
+
+Stephen
