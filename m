@@ -1,46 +1,76 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Wed, 09 May 2018 15:03:18 -0400
-Subject: [PATCH 5/5] nvme: ANA base support
-In-Reply-To: <20180504112845.38820-6-hare@suse.de>
-References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-6-hare@suse.de>
-Message-ID: <1525892598.30724.276.camel@localhost.localdomain>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 9 May 2018 14:28:03 -0500
+Subject: [PATCH RFC 1/2] nvme-rdma: Support 8K inline
+In-Reply-To: <VI1PR0502MB3008DEBA0C8DBC99E829D1B6D1990@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+References: <cover.1525880285.git.swise@opengridcomputing.com>
+ <1609e345042f2801f92e8831e8c83b688fad07eb.1525880285.git.swise@opengridcomputing.com>
+ <VI1PR0502MB3008DEBA0C8DBC99E829D1B6D1990@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Message-ID: <3c5ec87b-0bb0-1347-de8d-9362585967b4@opengridcomputing.com>
 
-On Fri, 2018-05-04@13:28 +0200, Hannes Reinecke wrote:
-> Add ANA support to the nvme host. If ANA is supported the state
-> and the group id are displayed in new sysfs attributes 'ana_state' and
-> 'ana_group'.
-> 
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->  drivers/nvme/host/core.c      | 123 +++++++++++++++++++++++++++++++++++++++++-
->  drivers/nvme/host/multipath.c |  12 ++++-
->  drivers/nvme/host/nvme.h      |   3 ++
->  3 files changed, 136 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-...
-> +static void nvme_ana_change_work(struct work_struct *work)
-> +{
-> +	struct nvme_ctrl *ctrl = container_of(work,
-> +				struct nvme_ctrl, ana_change_work);
-> +
-> +	if (ctrl->state != NVME_CTRL_LIVE)
-> +		return;
-> +
-> +	down_read(&ctrl->namespaces_rwsem);
-> +	nvme_get_full_ana_log(ctrl);
-> +	up_read(&ctrl->namespaces_rwsem);
-> +}
-> +
 
-Do we really want to be holding the semaphore while performing the
-command to get the log page, particularly in a fabric environment?
-Or would it be sufficient to hold it after the log page is fetched
-and we are iterating over the ctrl->namespaces list in
-nvme_get_full_ana_log()?
 
-(BTW, nvme_get_full_ana_log() has the same issue w/error returned
-from nvme_get_log() as nvme_get_ana_log()).
+On 5/9/2018 11:55 AM, Parav Pandit wrote:
+> Hi Steve,
+>
+>> -----Original Message-----
+>> From: linux-rdma-owner at vger.kernel.org [mailto:linux-rdma-
+>> owner at vger.kernel.org] On Behalf Of Steve Wise
+>> Sent: Wednesday, May 09, 2018 9:31 AM
+>> To: axboe at fb.com; hch at lst.de; keith.busch at intel.com; sagi at grimberg.me;
+>> linux-nvme at lists.infradead.org
+>> Cc: linux-rdma at vger.kernel.org
+>> Subject: [PATCH RFC 1/2] nvme-rdma: Support 8K inline
+>>
+>> Allow up to 2 pages of inline for NVMF WRITE operations.  This reduces latency
+>> for 8K WRITEs by removing the need to issue a READ WR for IB, or a
+>> REG_MR+READ WR chain for iWarp.
+>>
+>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>> ---
+>>  drivers/nvme/host/rdma.c | 21 +++++++++++++++------
+>>  1 file changed, 15 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c index
+>> 1eb4438..9b8af98 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -40,7 +40,7 @@
+>>
+>>  #define NVME_RDMA_MAX_SEGMENTS		256
+>>
+>> -#define NVME_RDMA_MAX_INLINE_SEGMENTS	1
+>> +#define NVME_RDMA_MAX_INLINE_SEGMENTS	2
+>>
+> I wrote this patch back in Feb 2017 but didn't spend time on V2 to address comments from Sagi, Christoph.
+> http://lists.infradead.org/pipermail/linux-nvme/2017-February/008057.html
+> Thanks for taking this forward.
+> This is helpful for certain db workload who have 8K typical data size too.
 
--Ewan
+Hey Parav,
+
+I thought I'd remembered something similar previously. :)? Let me see if
+I can address the previous comments, going forward.? They are:
+
+- why just 1 or 2 pages vs more?
+- dynamic allocation of nvme-rdma resources based on the target's
+advertised ioccsz.
+
+And I see you posted the nvmet-rdma patch here, which allows up to 16KB
+inline:
+
+http://lists.infradead.org/pipermail/linux-nvme/2017-February/008064.html
+
+And I think the comments needing resolution are:
+
+- make it a configfs option
+- adjust the qp depth some if the inline depth is bigger to try and keep
+the overall memory footprint reasonable
+- avoid high-order allocations - maybe per-core SRQ could be helpful
+
+So the question is, do we have agreement on the way forward?? Sagi and
+Christoph, I appreciate any feedback on this.? I'd like to get this
+featured merged.??
+
+Thanks,
+
+Steve.
