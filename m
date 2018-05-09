@@ -1,35 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 9 May 2018 09:52:53 +0200
-Subject: [PATCH 1/5] nvmet: EUI64 support
-In-Reply-To: <20180509094529.2fb1cffe@pentland.suse.de>
-References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-2-hare@suse.de> <20180509070858.GA20363@lst.de>
- <20180509094529.2fb1cffe@pentland.suse.de>
-Message-ID: <20180509075253.GA21148@lst.de>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Wed, 9 May 2018 12:35:56 +0000
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180508180157.7c7b393f@w520.home>
+References: <20180423233046.21476-1-logang@deltatee.com>
+ <20180423233046.21476-5-logang@deltatee.com>
+ <CAPcyv4g+5N_n03J-VhmJfrr60Sqk95ZapLKBkwSsGvV4nQ+ZRw@mail.gmail.com>
+ <64C231F5-DE36-415F-B308-3A423B0BBACB@raithlin.com>
+ <15433946-f7f5-f610-4e80-380fb59920e5@redhat.com>
+ <3C9FB262-A93C-4C8F-B1E0-85C6D6F78BC2@raithlin.com>
+ <c5f30ced-7bbf-9420-db1a-72519fc78b3a@redhat.com>
+ <20180508180157.7c7b393f@w520.home>
+Message-ID: <B5BFCF39-6BB4-4E45-B805-C8FCC8B79EF3@raithlin.com>
 
-On Wed, May 09, 2018@09:45:29AM +0200, Hannes Reinecke wrote:
-> On Wed, 9 May 2018 09:08:58 +0200
-> "Christoph Hellwig" <hch@lst.de> wrote:
-> 
-> > On Fri, May 04, 2018@01:28:41PM +0200, Hannes Reinecke wrote:
-> > > Allow the setting of an IEEE Extended Unique Identifier (EUI64) for
-> > > each namespace. As the OUI is per subsystem ensure that the OUI
-> > > part of the EUI64 value (ie the top 3 bytes) are matching for each
-> > > namespace.  
-> > 
-> > I don't think we should support the EUI64 value.  It doesn't have
-> > a lot of uniqueness, and it requires and IEEE OID to be properly
-> > implemented.  Please use the UUID identifier always, unless you
-> > actually doe havean IEEE OID and really want to use it, in which case
-> > you should use the NGUID.
-> > 
-> 
-> It's not so much about usability, it's about choice.
-> Some users might want to set an EUI64; companies (like ours) have
-> a valid OUI, so generating an EUI64 is pretty simple.
-> 
-> And the patch itself is pretty simple, so where's the harm?
+Hi Alex and Don
 
-Please always use the NGUID then.  Using a 64-bit unique
-identifier is a bad idea.  And even when using NGUIDs you have to
-be extremely careful to make sure they are never reused.
+>    Correct, the VM has no concept of the host's IOMMU groups, only the
+>   hypervisor knows about the groups, 
+
+But as I understand it these groups are usually passed through to VMs on a pre-group basis by the hypervisor? So IOMMU group 1 might be passed to VM A and IOMMU group 2 passed to VM B. So I agree the VM is not aware of IOMMU groupings but it is impacted by them in the sense that if the groupings change the PCI topology presented to the VM needs to change too.
+
+Stephen
