@@ -1,41 +1,41 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Wed, 09 May 2018 11:43:19 -0400
-Subject: [PATCH 1/5] nvmet: EUI64 support
-In-Reply-To: <20180504112845.38820-2-hare@suse.de>
-References: <20180504112845.38820-1-hare@suse.de>
- <20180504112845.38820-2-hare@suse.de>
-Message-ID: <1525880599.30724.265.camel@localhost.localdomain>
+From: ddutile@redhat.com (Don Dutile)
+Date: Wed, 9 May 2018 11:47:31 -0400
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180508180157.7c7b393f@w520.home>
+References: <20180423233046.21476-1-logang@deltatee.com>
+ <20180423233046.21476-5-logang@deltatee.com>
+ <CAPcyv4g+5N_n03J-VhmJfrr60Sqk95ZapLKBkwSsGvV4nQ+ZRw@mail.gmail.com>
+ <64C231F5-DE36-415F-B308-3A423B0BBACB@raithlin.com>
+ <15433946-f7f5-f610-4e80-380fb59920e5@redhat.com>
+ <3C9FB262-A93C-4C8F-B1E0-85C6D6F78BC2@raithlin.com>
+ <c5f30ced-7bbf-9420-db1a-72519fc78b3a@redhat.com>
+ <20180508180157.7c7b393f@w520.home>
+Message-ID: <f0d25e16-1201-1fc5-334f-4205abc95500@redhat.com>
 
-On Fri, 2018-05-04@13:28 +0200, Hannes Reinecke wrote:
-> Allow the setting of an IEEE Extended Unique Identifier (EUI64) for
-> each namespace. As the OUI is per subsystem ensure that the OUI
-> part of the EUI64 value (ie the top 3 bytes) are matching for each
-> namespace.
+On 05/08/2018 08:01 PM, Alex Williamson wrote:
+> On Tue, 8 May 2018 19:06:17 -0400
+> Don Dutile <ddutile@redhat.com> wrote:
+>> On 05/08/2018 05:27 PM, Stephen  Bates wrote:
+>>> As I understand it VMs need to know because VFIO passes IOMMU
+>>> grouping up into the VMs. So if a IOMMU grouping changes the VM's
+>>> view of its PCIe topology changes. I think we even have to be
+>>> cognizant of the fact the OS running on the VM may not even support
+>>> hot-plug of PCI devices.
+>> Alex:
+>> Really? IOMMU groups are created by the kernel, so don't know how
+>> they would be passed into the VMs, unless indirectly via  PCI(e)
+>> layout. At best, twiddling w/ACS enablement (emulation) would cause
+>> VMs to see different IOMMU groups, but again, VMs are not the
+>> security point/level, the host/HV's are.
 > 
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->  drivers/nvme/target/admin-cmd.c |  6 ++---
->  drivers/nvme/target/configfs.c  | 58 +++++++++++++++++++++++++++++++++++++++++
->  drivers/nvme/target/nvmet.h     |  2 ++
->  3 files changed, 62 insertions(+), 4 deletions(-)
+> Correct, the VM has no concept of the host's IOMMU groups, only the
+> hypervisor knows about the groups, but really only to the extent of
+> which device belongs to which group and whether the group is viable.
+> Any runtime change to grouping though would require DMA mapping
+> updates, which I don't see how we can reasonably do with drivers,
+> vfio-pci or native host drivers, bound to the affected devices.  Thanks,
 > 
-...
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index ad9ff27234b5..3dc2b2ae56e5 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -378,6 +378,49 @@ static ssize_t nvmet_ns_device_nguid_store(struct config_item *item,
->  
->  CONFIGFS_ATTR(nvmet_ns_, device_nguid);
->  
-> +static ssize_t nvmet_ns_device_eui64_show(struct config_item *item, char *page)
-> +{
-> +	return sprintf(page, "%llx\n",
-> +		       (unsigned long long)&to_nvmet_ns(item)->eui64);
-> +}
-
-Notwithstanding Christoph's comment, patch 3/5 changes the above line
-again to remove the "&", so you should do that here in the first place
-if you keep it.
-
--Ewan
+> Alex
+> 
+A change in iommu groups would/could require a device remove/add cycle to get an updated DMA-mapping (yet-another-overused-term: iommu 'domain').
