@@ -1,51 +1,27 @@
-From: jglisse@redhat.com (Jerome Glisse)
-Date: Wed, 9 May 2018 12:07:23 -0400
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
-References: <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
- <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
- <20180508133407.57a46902@w520.home>
- <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
- <20180508141331.7cd737cb@w520.home>
- <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
-Message-ID: <20180509160722.GB4140@redhat.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 9 May 2018 09:29:13 -0700
+Subject: [PATCH] nvme: block ioctls if controller not in a live state
+In-Reply-To: <20180509051156.GB28673@infradead.org>
+References: <20180507225558.5009-1-jsmart2021@gmail.com>
+ <20180509051156.GB28673@infradead.org>
+Message-ID: <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
 
-On Wed, May 09, 2018@03:41:44PM +0000, Stephen  Bates wrote:
-> Christian
-> 
-> >    Interesting point, give me a moment to check that. That finally makes 
-> >    all the hardware I have standing around here valuable :)
->     
-> Yes. At the very least it provides an initial standards based path
-> for P2P DMAs across RPs which is something we have discussed on this
-> list in the past as being desirable.
-> 
-> BTW I am trying to understand how an ATS capable EP function determines
-> when to perform an ATS Translation Request (ATS TR). Is there an
-> upstream example of the driver for your APU that uses ATS? If so, can
-> you provide a pointer to it. Do you provide some type of entry in the
-> submission queues for commands going to the APU to indicate if the
-> address associated with a specific command should be translated using
-> ATS or not? Or do you simply enable ATS and then all addresses passed
-> to your APU that miss the local cache result in a ATS TR?
 
-On GPU ATS is always tie to a PASID. You do not do the former without
-the latter (AFAICT this is not doable, maybe through some JTAG but not
-in normal operation).
 
-GPU are like CPU, so you have GPU threads that run against an address
-space. This address space use a page table (very much like the CPU page
-table). Now inside that page table you can point GPU virtual address
-to use GPU memory or use system memory. Those system memory entry can
-also be mark as ATS against a given PASID.
+On 5/8/2018 10:11 PM, Christoph Hellwig wrote:
+> On Mon, May 07, 2018@03:55:58PM -0700, James Smart wrote:
+>> Rather than allow ioctl-based admin cmds to get intermixed on the admin
+>> queue with commands being used to initialize a controller or io commands
+>> to go to a controller in reconnect thus possibly hanging, reject them
+>> if the controller isn't in the LIVE state. Reject with an -EAGAIN status
+>> so that the app knows it could retry.
+> -EAGAIN implies that you can poll for the fd to be ready, so I think
+> this is the wrong error code here.
 
-On some GPU you define a window of GPU virtual address that goes through
-PASID & ATS (so access in that window do not go through the page table
-but directly through PASID & ATS).
+That is the exact intent.? I do want the app to trigger off -EAGAIN in 
+those two states and try again after a delay./? Perhaps I should change 
+from !LIVE to NEW || RESETTING || CONNECTING to be more explicit.? I 
+assumed !LIVE was sufficient as the other states should transition to 
+LIVE or the delete path is taken which would remove the fd all together.
 
-J?r?me
+-- james
