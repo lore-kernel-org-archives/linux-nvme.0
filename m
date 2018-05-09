@@ -1,16 +1,20 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 8 May 2018 22:11:56 -0700
-Subject: [PATCH] nvme: block ioctls if controller not in a live state
-In-Reply-To: <20180507225558.5009-1-jsmart2021@gmail.com>
-References: <20180507225558.5009-1-jsmart2021@gmail.com>
-Message-ID: <20180509051156.GB28673@infradead.org>
+Date: Tue, 8 May 2018 22:12:17 -0700
+Subject: [PATCH nvme-4.18] nvme/pci: Hold controller reference during
+ async probe
+In-Reply-To: <20180507164322.28571-1-keith.busch@intel.com>
+References: <20180507164322.28571-1-keith.busch@intel.com>
+Message-ID: <20180509051217.GC28673@infradead.org>
 
-On Mon, May 07, 2018@03:55:58PM -0700, James Smart wrote:
-> Rather than allow ioctl-based admin cmds to get intermixed on the admin
-> queue with commands being used to initialize a controller or io commands
-> to go to a controller in reconnect thus possibly hanging, reject them
-> if the controller isn't in the LIVE state. Reject with an -EAGAIN status
-> so that the app knows it could retry.
+On Mon, May 07, 2018@10:43:22AM -0600, Keith Busch wrote:
+> It is possible the driver's remove may have freed the controller if
+> the remove callback is invoked prior to the async_schedule starting
+> the reset_work. This patch fixes that by holding a reference on the
+> controller.
+> 
+> Reported-by: Mikulas Patocka <mpatocka at redhat.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
--EAGAIN implies that you can poll for the fd to be ready, so I think
-this is the wrong error code here.
+Looks fine,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
