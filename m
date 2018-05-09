@@ -1,14 +1,30 @@
-From: andrew.maier@eideticom.com (Andrew Maier)
-Date: Wed, 9 May 2018 15:51:41 +0000
-Subject: [PATCH V2 0/6] nvmet: implement target passthru commands support -
- tested with v4.17.0-rc3
-Message-ID: <MWHPR19MB1103337056508160316150DE93990@MWHPR19MB1103.namprd19.prod.outlook.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 9 May 2018 08:38:05 -0700
+Subject: [PATCH RFC 0/2] 8K Inline Support
+Message-ID: <cover.1525880285.git.swise@opengridcomputing.com>
 
-Hi,
+For small nvmf write IO over the rdma transport, it is advantagous to
+make use of inline mode to avoid the latency of the target issuing an
+rdma read to fetch the data.  Currently inline is used for <= 4K writes.
+8K, though, requires the rdma read.  For iWARP transports additional
+latency is incurred because the target mr of the read must be registered
+with remote write access.  By allowing 2 pages worth of inline payload,
+I see a reduction in 8K nvmf write latency of anywhere from 2-7 usecs
+depending on the RDMA transport..
 
-I tested Chaitanya?s patches with tag v4.17.0-rc3 in our lab setup and they are working.  I like the new interface approach with having attr_ctrl_path as ?/dev/nvme0? (for example) instead of the ?nvme0? from V1 of the patches as it matches the normal subsystem method now.
+Is this a worthwhile change?  I think it is.  Please comment!
 
-Regards,
-Andrew Maier
-Software Engineer
-Eideticom.com
+Thanks,
+
+Steve
+
+Steve Wise (2):
+  nvme-rdma: Support 8K inline
+  nvmet-rdma: Support 8K inline
+
+ drivers/nvme/host/rdma.c   | 21 +++++++++++++++------
+ drivers/nvme/target/rdma.c |  4 ++--
+ 2 files changed, 17 insertions(+), 8 deletions(-)
+
+-- 
+1.8.3.1
