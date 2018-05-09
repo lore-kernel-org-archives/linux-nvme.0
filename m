@@ -1,49 +1,257 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Wed, 9 May 2018 08:44:45 -0600
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all
- devices behind switches
-In-Reply-To: <B5BFCF39-6BB4-4E45-B805-C8FCC8B79EF3@raithlin.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <20180423233046.21476-5-logang@deltatee.com>
- <CAPcyv4g+5N_n03J-VhmJfrr60Sqk95ZapLKBkwSsGvV4nQ+ZRw@mail.gmail.com>
- <64C231F5-DE36-415F-B308-3A423B0BBACB@raithlin.com>
- <15433946-f7f5-f610-4e80-380fb59920e5@redhat.com>
- <3C9FB262-A93C-4C8F-B1E0-85C6D6F78BC2@raithlin.com>
- <c5f30ced-7bbf-9420-db1a-72519fc78b3a@redhat.com>
- <20180508180157.7c7b393f@w520.home>
- <B5BFCF39-6BB4-4E45-B805-C8FCC8B79EF3@raithlin.com>
-Message-ID: <20180509084445.626d2732@w520.home>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 9 May 2018 17:53:06 +0300
+Subject: [PATCH V3] nvmet: add simple file backed ns support
+In-Reply-To: <20180508053829.406-1-chaitanya.kulkarni@wdc.com>
+References: <20180508053829.406-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <5ed5899b-e0be-aa94-ea5f-6f8220bf38db@grimberg.me>
 
-On Wed, 9 May 2018 12:35:56 +0000
-"Stephen  Bates" <sbates@raithlin.com> wrote:
+Chaitanya, this looks good. couple of comments below
 
-> Hi Alex and Don
+> This patch adds simple file backed namespace support for
+> NVMeOF target.
 > 
-> >    Correct, the VM has no concept of the host's IOMMU groups, only
-> > the hypervisor knows about the groups,   
+> In current implementation NVMeOF supports block
+> device backed namespaces on the target side.
+> With this implementation regular file(s) can be used to
+> initialize the namespace(s) via target side configfs
+> interface.
 > 
-> But as I understand it these groups are usually passed through to VMs
-> on a pre-group basis by the hypervisor? So IOMMU group 1 might be
-> passed to VM A and IOMMU group 2 passed to VM B. So I agree the VM is
-> not aware of IOMMU groupings but it is impacted by them in the sense
-> that if the groupings change the PCI topology presented to the VM
-> needs to change too.
+> For admin smart log command on the target side, we only use
+> block device backed namespaces to compute target
+> side smart log.
+> 
+> We isolate the code for each ns handle type
+> (file/block device) and add wrapper routines to manipulate
+> the respective ns handle types.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-Hypervisors don't currently expose any topology based on the grouping,
-the only case where such a concept even makes sense is when a vIOMMU is
-present as devices within the same group cannot have separate address
-spaces.  Our options for exposing such information is also limited, our
-only real option would seem to be placing devices within the same group
-together on a conventional PCI bus to denote the address space
-granularity.  Currently we strongly recommend singleton groups for this
-case and leave any additional configuration constraints to the admin.
+...
 
-The case you note of a group passed to VM A and another passed to VM B
-is exactly an example of why any sort of dynamic routing change needs to
-have the groups fully released, such as via hot-unplug.  For instance,
-a routing change at a shared node above groups 1 & 2 could result in
-the merging of these groups and there is absolutely no way to handle
-that with portions of the group being owned by two separate VMs after
-the merge.  Thanks,
+> +static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+> +{
+> +	if (ns->bdev) {
+> +		blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
+> +		ns->bdev = NULL;
+> +	} else if (ns->file) {
+> +		fput(ns->file);
+> +		ns->file = NULL;
+> +	} else
+> +		pr_err("invalid ns handle\n");
 
-Alex
+WARN_ON_ONCE()
+
+> @@ -513,6 +574,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+>   	req->transfer_len = 0;
+>   	req->rsp->status = 0;
+>   	req->ns = NULL;
+> +	req->bvec = NULL;
+> +	memset(&req->iocb, 0, sizeof(req->iocb));
+
+Can we clear this just for file IO?
+
+> +static void nvmet_execute_rw_file(struct nvmet_req *req)
+> +{
+> +	loff_t pos;
+> +	ssize_t len = 0, ret;
+> +	int bv_cnt = 0;
+> +	struct iov_iter iter;
+> +	struct sg_page_iter sg_pg_iter;
+> +	int rw = req->cmd->rw.opcode == nvme_cmd_write ? WRITE : READ;
+> +	u32 nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
+
+Not a must, but some people (including me) prefer an upside-down 
+christmas tree arrangement.
+
+> +
+> +	req->bvec = req->inline_bvec;
+> +	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC) {
+> +		req->bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
+> +				GFP_KERNEL);
+
+bvec_alloc()?
+
+> +		if (!req->bvec)
+> +			goto out;
+> +	}
+> +
+> +	for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
+> +		req->bvec[bv_cnt].bv_page = sg_page_iter_page(&sg_pg_iter);
+> +		req->bvec[bv_cnt].bv_offset = sg_pg_iter.sg->offset;
+> +		req->bvec[bv_cnt].bv_len = PAGE_SIZE - sg_pg_iter.sg->offset;
+> +		len += req->bvec[bv_cnt].bv_len;
+> +		bv_cnt++;
+> +	}
+> +
+> +	if (len != req->data_len)
+> +		goto free;
+> +
+> +	iov_iter_bvec(&iter, ITER_BVEC | rw, req->bvec, bv_cnt, len);
+> +	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
+> +	req->iocb.ki_pos = pos;
+> +	req->iocb.ki_filp = req->ns->file;
+> +	req->iocb.ki_flags = IOCB_DIRECT;
+> +	req->iocb.ki_complete = nvmet_file_io_complete;
+> +
+> +	if (req->cmd->rw.opcode == nvme_cmd_write) {
+> +		if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
+> +			req->iocb.ki_flags |= IOCB_DSYNC;
+> +		ret = req->ns->file->f_op->write_iter(&req->iocb, &iter);
+
+call_write_iter()?
+
+> +	} else
+> +		ret = req->ns->file->f_op->read_iter(&req->iocb, &iter);
+
+call_read_iter()?
+
+> +
+> +	if (ret != -EIOCBQUEUED)
+> +		nvmet_file_io_complete(&req->iocb, ret, 0);
+> +	return;
+> +free:
+> +	kfree(req->bvec);
+> +out:
+> +	nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
+> +}
+> +
+>   static void nvmet_execute_flush(struct nvmet_req *req)
+>   {
+>   	struct bio *bio = &req->inline_bio;
+> @@ -102,6 +166,23 @@ static void nvmet_execute_flush(struct nvmet_req *req)
+>   	submit_bio(bio);
+>   }
+>   
+> +static void nvmet_flush_work_file(struct work_struct *work)
+> +{
+> +	int ret;
+> +	struct nvmet_req *req;
+> +
+> +	req = container_of(work, struct nvmet_req, flush_work);
+> +
+> +	ret = vfs_fsync(req->ns->file, 1);
+> +
+> +	nvmet_req_complete(req, ret);
+
+We need nvme status code here.
+
+> +}
+> +
+> +static void nvmet_execute_flush_file(struct nvmet_req *req)
+> +{
+> +	schedule_work(&req->flush_work);
+> +}
+> +
+>   static u16 nvmet_discard_range(struct nvmet_ns *ns,
+>   		struct nvme_dsm_range *range, struct bio **bio)
+>   {
+> @@ -163,6 +244,43 @@ static void nvmet_execute_dsm(struct nvmet_req *req)
+>   	}
+>   }
+>   
+> +static void nvmet_execute_discard_file(struct nvmet_req *req)
+> +{
+> +	struct nvme_dsm_range range;
+> +	int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+> +	loff_t offset;
+> +	loff_t len;
+> +	int i, ret;
+> +
+> +	for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
+> +		if (nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+> +					sizeof(range)))
+> +			break;
+> +		offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
+> +		len = le32_to_cpu(range.nlb) << req->ns->blksize_shift;
+> +		ret = vfs_fallocate(req->ns->file, mode, offset, len);
+> +		if (ret)
+> +			break;
+> +	}
+> +
+> +	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+> +}
+> +
+> +static void nvmet_execute_dsm_file(struct nvmet_req *req)
+> +{
+> +	switch (le32_to_cpu(req->cmd->dsm.attributes)) {
+> +	case NVME_DSMGMT_AD:
+> +		nvmet_execute_discard_file(req);
+> +		return;
+> +	case NVME_DSMGMT_IDR:
+> +	case NVME_DSMGMT_IDW:
+> +	default:
+> +		/* Not supported yet */
+> +		nvmet_req_complete(req, 0);
+> +		return;
+> +	}
+> +}
+> +
+>   static void nvmet_execute_write_zeroes(struct nvmet_req *req)
+>   {
+>   	struct nvme_write_zeroes_cmd *write_zeroes = &req->cmd->write_zeroes;
+> @@ -189,6 +307,22 @@ static void nvmet_execute_write_zeroes(struct nvmet_req *req)
+>   	}
+>   }
+>   
+> +static void nvmet_execute_write_zeroes_file(struct nvmet_req *req)
+> +{
+> +	struct nvme_write_zeroes_cmd *write_zeroes = &req->cmd->write_zeroes;
+> +	loff_t offset;
+> +	loff_t len;
+> +	int mode = FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE;
+> +	int ret;
+> +
+> +	offset = le64_to_cpu(write_zeroes->slba) << req->ns->blksize_shift;
+> +	len = (((sector_t)le32_to_cpu(write_zeroes->length) + 1) <<
+> +			req->ns->blksize_shift);
+> +
+> +	ret = vfs_fallocate(req->ns->file, mode, offset, len);
+> +	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+> +}
+> +
+
+ALl the above should be async I think..
+
+>   u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>   {
+>   	struct nvme_command *cmd = req->cmd;
+> @@ -207,20 +341,33 @@ u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>   	switch (cmd->common.opcode) {
+>   	case nvme_cmd_read:
+>   	case nvme_cmd_write:
+> -		req->execute = nvmet_execute_rw;
+> +		if (req->ns->file)
+> +			req->execute = nvmet_execute_rw_file;
+> +		else
+> +			req->execute = nvmet_execute_rw;
+>   		req->data_len = nvmet_rw_len(req);
+>   		return 0;
+>   	case nvme_cmd_flush:
+> -		req->execute = nvmet_execute_flush;
+> +		if (req->ns->file) {
+> +			req->execute = nvmet_execute_flush_file;
+> +			INIT_WORK(&req->flush_work, nvmet_flush_work_file);
+> +		} else
+> +			req->execute = nvmet_execute_flush;
+>   		req->data_len = 0;
+>   		return 0;
+>   	case nvme_cmd_dsm:
+> -		req->execute = nvmet_execute_dsm;
+> +		if (req->ns->file)
+> +			req->execute = nvmet_execute_dsm_file;
+> +		else
+> +			req->execute = nvmet_execute_dsm;
+>   		req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
+>   			sizeof(struct nvme_dsm_range);
+>   		return 0;
+>   	case nvme_cmd_write_zeroes:
+> -		req->execute = nvmet_execute_write_zeroes;
+> +		if (req->ns->file)
+> +			req->execute = nvmet_execute_write_zeroes_file;
+> +		else
+> +			req->execute = nvmet_execute_write_zeroes;
+>   		return 0;
+>   	default:
+>   		pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
+
+I support separating parse too.
