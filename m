@@ -1,27 +1,42 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 9 May 2018 09:29:13 -0700
-Subject: [PATCH] nvme: block ioctls if controller not in a live state
-In-Reply-To: <20180509051156.GB28673@infradead.org>
-References: <20180507225558.5009-1-jsmart2021@gmail.com>
- <20180509051156.GB28673@infradead.org>
-Message-ID: <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 9 May 2018 10:45:16 -0600
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+References: <20180423233046.21476-5-logang@deltatee.com>
+ <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
+ <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
+ <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
+ <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+ <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
+ <20180508133407.57a46902@w520.home>
+ <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
+ <20180508141331.7cd737cb@w520.home>
+ <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
+ <20180508205005.GC15608@redhat.com>
+ <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
+ <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+Message-ID: <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
 
 
 
-On 5/8/2018 10:11 PM, Christoph Hellwig wrote:
-> On Mon, May 07, 2018@03:55:58PM -0700, James Smart wrote:
->> Rather than allow ioctl-based admin cmds to get intermixed on the admin
->> queue with commands being used to initialize a controller or io commands
->> to go to a controller in reconnect thus possibly hanging, reject them
->> if the controller isn't in the LIVE state. Reject with an -EAGAIN status
->> so that the app knows it could retry.
-> -EAGAIN implies that you can poll for the fd to be ready, so I think
-> this is the wrong error code here.
+On 09/05/18 07:40 AM, Christian K?nig wrote:
+> The key takeaway is that when any device has ATS enabled you can't 
+> disable ACS without breaking it (even if you unplug and replug it).
 
-That is the exact intent.? I do want the app to trigger off -EAGAIN in 
-those two states and try again after a delay./? Perhaps I should change 
-from !LIVE to NEW || RESETTING || CONNECTING to be more explicit.? I 
-assumed !LIVE was sufficient as the other states should transition to 
-LIVE or the delete path is taken which would remove the fd all together.
+I don't follow how you came to this conclusion...
+ The ACS bits we'd be turning off are the ones that force TLPs addressed
+at a peer to go to the RC. However, ATS translation packets will be
+addressed to an untranslated address which a switch will not identify as
+a peer address so it should send upstream regardless the state of the
+ACS Req/Comp redirect bits.
 
--- james
+Once the translation comes back, the ATS endpoint should send the TLP to
+the peer address with the AT packet type and it will be directed to the
+peer provided the Direct Translated bit is set (or the redirect bits are
+unset).
+
+I can't see how turning off the Req/Comp redirect bits could break
+anything except for the isolation they provide.
+
+Logan
