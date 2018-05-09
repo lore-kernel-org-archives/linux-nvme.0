@@ -1,30 +1,79 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Wed, 9 May 2018 16:30:32 +0000
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <20180509160722.GB4140@redhat.com>
-References: <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
- <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
- <20180508133407.57a46902@w520.home>
- <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
- <20180508141331.7cd737cb@w520.home>
- <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
- <20180509160722.GB4140@redhat.com>
-Message-ID: <366A8132-B88A-40F7-BDE3-DA542E45FC0C@raithlin.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 9 May 2018 07:31:00 -0700
+Subject: [PATCH RFC 1/2] nvme-rdma: Support 8K inline
+In-Reply-To: <cover.1525880285.git.swise@opengridcomputing.com>
+References: <cover.1525880285.git.swise@opengridcomputing.com>
+Message-ID: <1609e345042f2801f92e8831e8c83b688fad07eb.1525880285.git.swise@opengridcomputing.com>
 
-Hi Jerome
+Allow up to 2 pages of inline for NVMF WRITE operations.  This reduces
+latency for 8K WRITEs by removing the need to issue a READ WR for IB,
+or a REG_MR+READ WR chain for iWarp.
 
-> Now inside that page table you can point GPU virtual address
-> to use GPU memory or use system memory. Those system memory entry can
-> also be mark as ATS against a given PASID.
-    
-Thanks. This all makes sense. 
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/nvme/host/rdma.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-But do you have examples of this in a kernel driver (if so can you point me too it) or is this all done via user-space? Based on my grepping of the kernel code I see zero EP drivers using in-kernel ATS functionality right now...
-
-Stephen
-    
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 1eb4438..9b8af98 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -40,7 +40,7 @@
+ 
+ #define NVME_RDMA_MAX_SEGMENTS		256
+ 
+-#define NVME_RDMA_MAX_INLINE_SEGMENTS	1
++#define NVME_RDMA_MAX_INLINE_SEGMENTS	2
+ 
+ struct nvme_rdma_device {
+ 	struct ib_device	*dev;
+@@ -1086,19 +1086,28 @@ static int nvme_rdma_set_sg_null(struct nvme_command *c)
+ }
+ 
+ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+-		struct nvme_rdma_request *req, struct nvme_command *c)
++		struct nvme_rdma_request *req, int count,
++		struct nvme_command *c)
+ {
+ 	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++	u32 len;
+ 
+ 	req->sge[1].addr = sg_dma_address(req->sg_table.sgl);
+ 	req->sge[1].length = sg_dma_len(req->sg_table.sgl);
+ 	req->sge[1].lkey = queue->device->pd->local_dma_lkey;
++	len = req->sge[1].length;
++	if (count == 2) {
++		req->sge[2].addr = sg_dma_address(req->sg_table.sgl+1);
++		req->sge[2].length = sg_dma_len(req->sg_table.sgl+1);
++		req->sge[2].lkey = queue->device->pd->local_dma_lkey;
++		len += req->sge[2].length;
++	}
+ 
+ 	sg->addr = cpu_to_le64(queue->ctrl->ctrl.icdoff);
+-	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
++	sg->length = cpu_to_le32(len);
+ 	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+ 
+-	req->num_sge++;
++	req->num_sge += count;
+ 	return 0;
+ }
+ 
+@@ -1191,13 +1200,13 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 		return -EIO;
+ 	}
+ 
+-	if (count == 1) {
++	if (count <= 2) {
+ 		if (rq_data_dir(rq) == WRITE && nvme_rdma_queue_idx(queue) &&
+ 		    blk_rq_payload_bytes(rq) <=
+ 				nvme_rdma_inline_data_size(queue))
+ 			return nvme_rdma_map_sg_inline(queue, req, c);
+ 
+-		if (dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY)
++		if (count == 1 && dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY)
+ 			return nvme_rdma_map_sg_single(queue, req, c);
+ 	}
+ 
+-- 
+1.8.3.1
