@@ -1,37 +1,14 @@
-From: alex.williamson@redhat.com (Alex Williamson)
-Date: Tue, 8 May 2018 18:01:57 -0600
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all
- devices behind switches
-In-Reply-To: <c5f30ced-7bbf-9420-db1a-72519fc78b3a@redhat.com>
-References: <20180423233046.21476-1-logang@deltatee.com>
- <20180423233046.21476-5-logang@deltatee.com>
- <CAPcyv4g+5N_n03J-VhmJfrr60Sqk95ZapLKBkwSsGvV4nQ+ZRw@mail.gmail.com>
- <64C231F5-DE36-415F-B308-3A423B0BBACB@raithlin.com>
- <15433946-f7f5-f610-4e80-380fb59920e5@redhat.com>
- <3C9FB262-A93C-4C8F-B1E0-85C6D6F78BC2@raithlin.com>
- <c5f30ced-7bbf-9420-db1a-72519fc78b3a@redhat.com>
-Message-ID: <20180508180157.7c7b393f@w520.home>
+From: andrew.maier@eideticom.com (Andrew Maier)
+Date: Wed, 9 May 2018 00:12:52 +0000
+Subject: [PATCH V2 0/6] nvmet: implement target passthru commands support -
+ tested with v4.17.0-rc3
+Message-ID: <BN6PR19MB10921DECF8FB253ADA6DB1FC93990@BN6PR19MB1092.namprd19.prod.outlook.com>
 
-On Tue, 8 May 2018 19:06:17 -0400
-Don Dutile <ddutile@redhat.com> wrote:
-> On 05/08/2018 05:27 PM, Stephen  Bates wrote:
-> > As I understand it VMs need to know because VFIO passes IOMMU
-> > grouping up into the VMs. So if a IOMMU grouping changes the VM's
-> > view of its PCIe topology changes. I think we even have to be
-> > cognizant of the fact the OS running on the VM may not even support
-> > hot-plug of PCI devices.  
-> Alex:
-> Really? IOMMU groups are created by the kernel, so don't know how
-> they would be passed into the VMs, unless indirectly via  PCI(e)
-> layout. At best, twiddling w/ACS enablement (emulation) would cause
-> VMs to see different IOMMU groups, but again, VMs are not the
-> security point/level, the host/HV's are.
+Hi,
 
-Correct, the VM has no concept of the host's IOMMU groups, only the
-hypervisor knows about the groups, but really only to the extent of
-which device belongs to which group and whether the group is viable.
-Any runtime change to grouping though would require DMA mapping
-updates, which I don't see how we can reasonably do with drivers,
-vfio-pci or native host drivers, bound to the affected devices.  Thanks,
+I tested Chaitanya's patches with tag v4.17.0-rc3 in our lab setup and they are working.  I like the new interface approach with having attr_ctrl_path as "/dev/nvme0" (for example) instead of the "nvme0" from V1 of the patches as it matches the normal subsystem method now.
 
-Alex
+Regards,
+Andrew Maier
+Software Engineer
+Eideticom.com
