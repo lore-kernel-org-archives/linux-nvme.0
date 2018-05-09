@@ -1,34 +1,41 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Wed, 9 May 2018 15:41:44 +0000
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
-References: <20180423233046.21476-5-logang@deltatee.com>
- <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
- <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
- <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
- <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
- <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
- <20180508133407.57a46902@w520.home>
- <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
- <20180508141331.7cd737cb@w520.home>
- <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
-Message-ID: <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Wed, 09 May 2018 11:43:19 -0400
+Subject: [PATCH 1/5] nvmet: EUI64 support
+In-Reply-To: <20180504112845.38820-2-hare@suse.de>
+References: <20180504112845.38820-1-hare@suse.de>
+ <20180504112845.38820-2-hare@suse.de>
+Message-ID: <1525880599.30724.265.camel@localhost.localdomain>
 
-Christian
+On Fri, 2018-05-04@13:28 +0200, Hannes Reinecke wrote:
+> Allow the setting of an IEEE Extended Unique Identifier (EUI64) for
+> each namespace. As the OUI is per subsystem ensure that the OUI
+> part of the EUI64 value (ie the top 3 bytes) are matching for each
+> namespace.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>  drivers/nvme/target/admin-cmd.c |  6 ++---
+>  drivers/nvme/target/configfs.c  | 58 +++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/target/nvmet.h     |  2 ++
+>  3 files changed, 62 insertions(+), 4 deletions(-)
+> 
+...
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index ad9ff27234b5..3dc2b2ae56e5 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -378,6 +378,49 @@ static ssize_t nvmet_ns_device_nguid_store(struct config_item *item,
+>  
+>  CONFIGFS_ATTR(nvmet_ns_, device_nguid);
+>  
+> +static ssize_t nvmet_ns_device_eui64_show(struct config_item *item, char *page)
+> +{
+> +	return sprintf(page, "%llx\n",
+> +		       (unsigned long long)&to_nvmet_ns(item)->eui64);
+> +}
 
->    Interesting point, give me a moment to check that. That finally makes 
->    all the hardware I have standing around here valuable :)
-    
-Yes. At the very least it provides an initial standards based path for P2P DMAs across RPs which is something we have discussed on this list in the past as being desirable.
+Notwithstanding Christoph's comment, patch 3/5 changes the above line
+again to remove the "&", so you should do that here in the first place
+if you keep it.
 
-BTW I am trying to understand how an ATS capable EP function determines when to perform an ATS Translation Request (ATS TR). Is there an upstream example of the driver for your APU that uses ATS? If so, can you provide a pointer to it. Do you provide some type of entry in the submission queues for commands going to the APU to indicate if the address associated with a specific command should be translated using ATS or not? Or do you simply enable ATS and then all addresses passed to your APU that miss the local cache result in a ATS TR?
-
-Your feedback would be useful and I initiate discussions within the NVMe community on where we might go with ATS...
-
-Thanks
-
-Stephen
+-Ewan
