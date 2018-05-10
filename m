@@ -1,69 +1,43 @@
-From: mr.nuke.me@gmail.com (Alex G.)
-Date: Thu, 10 May 2018 13:56:56 -0500
-Subject: [PATCH] nvme/pci: Sync controller reset for AER slot_reset
-In-Reply-To: <20180510160113.4432-1-keith.busch@intel.com>
-References: <20180510160113.4432-1-keith.busch@intel.com>
-Message-ID: <93d528ce-043a-5118-02b3-986d151b37cf@gmail.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 10 May 2018 12:59:47 -0600
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <B525870A-B25E-46BB-B501-DAA39F1741DC@raithlin.com>
+References: <20180508133407.57a46902@w520.home>
+ <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
+ <20180508141331.7cd737cb@w520.home>
+ <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
+ <20180508205005.GC15608@redhat.com>
+ <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
+ <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+ <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
+ <2fc61d29-9eb4-d168-a3e5-955c36e5d821@amd.com>
+ <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
+ <20180510144137.GA3652@redhat.com>
+ <B525870A-B25E-46BB-B501-DAA39F1741DC@raithlin.com>
+Message-ID: <3e2269ca-126e-ec13-5133-6591c45ccbf4@deltatee.com>
 
 
 
-On 05/10/2018 11:01 AM, Keith Busch wrote:
-> AER handling expects a successful return from slot_reset means the
-> driver made the device functional again. The nvme driver had been using
-> an asynchronous reset to recover the device, so the device
-> may still be initializing after control is returned to the
-> AER handler. This creates problems for subsequent event handling,
-> causing the initializion to fail.
+On 10/05/18 12:41 PM, Stephen  Bates wrote:
+> Hi Jerome
 > 
-> This patch fixes that by syncing the controller reset before returning
-> to the AER driver, and reporting the true state of the reset.
+>>    Note on GPU we do would not rely on ATS for peer to peer. Some part
+>>    of the GPU (DMA engines) do not necessarily support ATS. Yet those
+>>    are the part likely to be use in peer to peer.
 > 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=199657
-> Reported-by: Alex Gagniuc <mr.nuke.me at gmail.com>
-
-Tested-by: Alex Gagniuc <mr.nuke.me at gmail.com>
-
-Sponsored-by: DellEMC
-You know I had to add that plug somewhere :p
-
-> Cc: Sinan Kaya <okaya at codeaurora.org>
-> Cc: Bjorn Helgaas <bhelgaas at google.com>
-> Cc: <stable at vger.kernel.org>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/pci.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
+> OK this is good to know. I agree the DMA engine is probably one of the GPU components most applicable to p2pdma.
+>     
+>>    We (ake GPU people aka the good guys ;)) do no want to do peer to peer
+>>    for performance reasons ie we do not care having our transaction going
+>>    to the root complex and back down the destination. At least in use case
+>>    i am working on this is fine.
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index b542dce45927..2e221796257a 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2681,8 +2681,15 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
->  
->  	dev_info(dev->ctrl.device, "restart after slot reset\n");
->  	pci_restore_state(pdev);
-> -	nvme_reset_ctrl(&dev->ctrl);
-> -	return PCI_ERS_RESULT_RECOVERED;
-> +	nvme_reset_ctrl_sync(&dev->ctrl);
+> If the GPU people are the good guys does that make the NVMe people the bad guys ;-). If so, what are the RDMA people??? Again good to know.
 
-This does wonders when nvme_reset_ctrl_sync() returns in a timely
-manner. I was also able to get the nvme drive in a state where
-nvme_reset_ctrl_sync() does not return. Then we end up with the device
-lock in report_slot_reset, which, as you may imagine, is not a great thing.
+The NVMe people are the Nice Neighbors, the RDMA people are the
+Righteous Romantics and the PCI people are the Pleasant Protagonists...
 
-I think this step is a move in the better direction, but we still have
-problems.
+Obviously.
 
-Alex
-
-> +	switch (dev->ctrl.state) {
-> +	case NVME_CTRL_LIVE:
-> +	case NVME_CTRL_ADMIN_ONLY:
-> +		return PCI_ERS_RESULT_RECOVERED;
-> +	default:
-> +		return PCI_ERS_RESULT_DISCONNECT;
-> +	}
->  }
->  
->  static void nvme_error_resume(struct pci_dev *pdev)
-> 
+Logan
