@@ -1,5 +1,5 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 11 May 2018 05:50:07 +0800
+Date: Fri, 11 May 2018 05:53:22 +0800
 Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
 In-Reply-To: <20180510214441.GD4787@localhost.localdomain>
 References: <20180426123956.26039-2-ming.lei@redhat.com>
@@ -12,7 +12,7 @@ References: <20180426123956.26039-2-ming.lei@redhat.com>
  <20180510211829.GC4787@localhost.localdomain>
  <20180510212444.GC3515@ming.t460p>
  <20180510214441.GD4787@localhost.localdomain>
-Message-ID: <20180510215006.GD3515@ming.t460p>
+Message-ID: <20180510215321.GE3515@ming.t460p>
 
 On Thu, May 10, 2018@03:44:41PM -0600, Keith Busch wrote:
 > On Fri, May 11, 2018@05:24:46AM +0800, Ming Lei wrote:
@@ -34,18 +34,11 @@ On Thu, May 10, 2018@03:44:41PM -0600, Keith Busch wrote:
 > I sync the queues at the beginning because it ensures there is not
 > a single in flight request for the entire controller (all namespaces
 > plus admin queue) before transitioning to the connecting state.
-
-But it can't avoid the race I mentioned, since nvme_dev_disable() can
-happen again during resetting.
-
 > 
 > If a command times out during connecting state, we go to the dead state.
 
-That is too risky, since the IO during resetting isn't much different
-with IOs submitted from other IO paths.
-
-For example, in case of blktests block/011, controller shouldn't have
-been put into dead, and this patchset(V4 & V5) can cover this case well.
+Actually, it is hang forever in blk_mq_freeze_queue_wait() from
+nvme_reset_dev(), not a dead state of controller.
 
 Thanks,
 Ming
