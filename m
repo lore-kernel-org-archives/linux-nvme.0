@@ -1,33 +1,47 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 9 May 2018 16:20:19 -0700
-Subject: [PATCH] nvme: block ioctls if controller not in a live state
-In-Reply-To: <20180508071556.455kfgioocke47ju@linux-x5ow.site>
-References: <20180507225558.5009-1-jsmart2021@gmail.com>
- <20180508071556.455kfgioocke47ju@linux-x5ow.site>
-Message-ID: <71188ad3-d815-d24f-2af7-11036806d847@gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 10 May 2018 10:09:27 +0800
+Subject: [PATCH V4 0/7] nvme: pci: fix & improve timeout handling
+In-Reply-To: <b913ff71-23b3-69e7-b9cc-3c48cb5d9d36@oracle.com>
+References: <20180505135905.18815-1-ming.lei@redhat.com>
+ <b913ff71-23b3-69e7-b9cc-3c48cb5d9d36@oracle.com>
+Message-ID: <20180510020926.GC9327@ming.t460p>
 
-On 5/8/2018 12:15 AM, Johannes Thumshirn wrote:
-> On Mon, May 07, 2018@03:55:58PM -0700, James Smart wrote:
->> Rather than allow ioctl-based admin cmds to get intermixed on the admin
->> queue with commands being used to initialize a controller or io commands
->> to go to a controller in reconnect thus possibly hanging, reject them
->> if the controller isn't in the LIVE state. Reject with an -EAGAIN status
->> so that the app knows it could retry.
+On Wed, May 09, 2018@01:46:09PM +0800, jianchao.wang wrote:
+> Hi ming
 > 
-> Shouldn't the nvmf_check_if_read() calls in the transport drivers'
-> ->queue_rq() callouts handle this?
+> I did some tests on my local.
 > 
+> [  598.828578] nvme nvme0: I/O 51 QID 4 timeout, disable controller
+> 
+> This should be a timeout on nvme_reset_dev->nvme_wait_freeze.
+> 
+> [  598.828743] nvme nvme0: EH 1: before shutdown
+> [  599.013586] nvme nvme0: EH 1: after shutdown
+> [  599.137197] nvme nvme0: EH 1: after recovery
+> 
+> The EH 1 have mark the state to LIVE
+> 
+> [  599.137241] nvme nvme0: failed to mark controller state 1
+> 
+> So the EH 0 failed to mark state to LIVE
+> The card was removed.
+> This should not be expected by nested EH.
 
+Right.
 
-yes - but if things reach that layer, the return status for the ioctl 
-can be quite different.  (if I read things right) The core routines are 
-coded so that if there's a hard error, a -Exxx status will be returned. 
-Otherwise, it returns the nvme_req(req)->status value (assumed positive 
-big value). Which means, if the if_ready checks reject it, it'll go back 
-with an NVME_SC_ABORT_REQ status. Which means the cli gets a convoluted 
-error response. For the cases where it would be blocked by controller 
-state, I want an -EAGAIN status so that the app knows it can retry and 
-it should succeed sometime in the future.  Any other status - the app 
-gives up and accepts the status value.
+> 
+> [  599.137322] nvme nvme0: Removing after probe failure status: 0
+> [  599.326539] nvme nvme0: EH 0: after recovery
+> [  599.326760] nvme0n1: detected capacity change from 128035676160 to 0
+> [  599.457208] nvme nvme0: failed to set APST feature (-19)
+> 
+> nvme_reset_dev should identify whether it is nested.
 
--- james
+The above should be caused by race between updating controller state,
+hope I can find some time in this week to investigate it further.
+
+Also maybe we can change to remove controller until nested EH has
+been tried enough times.
+
+Thanks,
+Ming
