@@ -1,108 +1,35 @@
-From: jglisse@redhat.com (Jerome Glisse)
-Date: Thu, 10 May 2018 10:59:46 -0400
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <73b6a454-bf84-1640-0b5e-137d03c0ad8c@amd.com>
-References: <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
- <20180509160722.GB4140@redhat.com>
- <366A8132-B88A-40F7-BDE3-DA542E45FC0C@raithlin.com>
- <20180509174952.GC4140@redhat.com>
- <405531AE-8315-4A4F-9B0C-8DBE49BFCAB4@raithlin.com>
- <73b6a454-bf84-1640-0b5e-137d03c0ad8c@amd.com>
-Message-ID: <20180510145946.GB3652@redhat.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Thu, 10 May 2018 15:01:04 +0000
+Subject: [PATCH V4 1/7] block: introduce blk_quiesce_timeout() and
+ blk_unquiesce_timeout()
+In-Reply-To: <20180505135905.18815-2-ming.lei@redhat.com>
+References: <20180505135905.18815-1-ming.lei@redhat.com>
+ <20180505135905.18815-2-ming.lei@redhat.com>
+Message-ID: <4cf98f8d3d763ab3decb5f4bfaee6a4394de5caf.camel@wdc.com>
 
-On Thu, May 10, 2018@04:29:44PM +0200, Christian K?nig wrote:
-> Am 10.05.2018 um 16:20 schrieb Stephen Bates:
-> > Hi Jerome
-> > 
-> > > As it is tie to PASID this is done using IOMMU so looks for caller
-> > > of amd_iommu_bind_pasid() or intel_svm_bind_mm() in GPU the existing
-> > >   user is the AMD GPU driver see:
-> > Ah thanks. This cleared things up for me. A quick search shows there are still no users of intel_svm_bind_mm() but I see the AMD version used in that GPU driver.
+On Sat, 2018-05-05@21:58 +0800, Ming Lei wrote:
+> Turns out the current way can't drain timout completely because mod_timer()
+> can be triggered in the work func, which can be just run inside the synced
+> timeout work:
 > 
-> Just FYI: There is also another effort ongoing to give both the AMD, Intel
-> as well as ARM IOMMUs a common interface so that drivers can use whatever
-> the platform offers fro SVM support.
+>         del_timer_sync(&q->timeout);
+>         cancel_work_sync(&q->timeout_work);
 > 
-> > One thing I could not grok from the code how the GPU driver indicates which DMA events require ATS translations and which do not. I am assuming the driver implements someway of indicating that and its not just a global ON or OFF for all DMAs? The reason I ask is that I looking at if NVMe was to support ATS what would need to be added in the NVMe spec above and beyond what we have in PCI ATS to support efficient use of ATS (for example would we need a flag in the submission queue entries to indicate a particular IO's SGL/PRP should undergo ATS).
+> This patch introduces one flag of 'timeout_off' for fixing this issue, turns
+> out this simple way does work.
 > 
-> Oh, well that is complicated at best.
-> 
-> On very old hardware it wasn't a window, but instead you had to use special
-> commands in your shader which indicated that you want to use an ATS
-> transaction instead of a normal PCIe transaction for your read/write/atomic.
-> 
-> As Jerome explained on most hardware we have a window inside the internal
-> GPU address space which when accessed issues a ATS transaction with a
-> configurable PASID.
-> 
-> But on very newer hardware that window became a bit in the GPUVM page
-> tables, so in theory we now can control it on a 4K granularity basis for the
-> internal 48bit GPU address space.
-> 
+> Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
+> draining timeout, which is needed by NVMe.
 
-To complete this a 50 lines primer on GPU:
+Hello Ming,
 
-GPUVA - GPU virtual address
-GPUPA - GPU physical address
+The description of the above patch does not motivate sufficiently why you think
+that this change is necessary. As you know it is already possible to wait until
+timeout handling has finished by calling blk_mq_freeze_queue() +
+blk_mq_unfreeze_queue(). An explanation is needed of why you think that calling
+blk_mq_freeze_queue() + blk_mq_unfreeze_queue() is not sufficient and why you
+chose the solution implemented in this patch.
 
-GPU run programs very much like CPU program expect a program will have
-many thousands of threads running concurrently. There is a hierarchy of
-groups for a given program ie threads are grouped together, the lowest
-hierarchy level have a group size in <= 64 threads on most GPUs.
+Thanks,
 
-Those programs (call shader for graphic program think OpenGL, Vulkan
-or compute for GPGPU think OpenCL CUDA) are submited by the userspace
-against a given address space. In the "old" days (couple years back
-when dinausor were still roaming the earth) this address space was
-specific to the GPU and each user space program could create multiple
-GPU address space. All the memory operation done by the program was
-against this address space. Hence all PCIE transactions are spawn from
-a program + address space.
-
-GPU use page table + window aperture (the window aperture is going away
-so you can focus on page table). To translate GPU virtual address into
-a physical address. The physical address can point to GPU local memory
-or to system memory or to another PCIE device memory (ie some PCIE BAR).
-
-So all PCIE transaction are spawn through this process of GPUVA to GPUPA
-then GPUPA is handled by the GPU mmu unit that either spawn a PCIE
-transaction for non local GPUPA or access local memory otherwise.
-
-
-So per say the kernel driver does not configure which transaction is
-using ATS or peer to peer. Userspace program create a GPU virtual address
-space and bind object into it. This object can be system memory or some
-other PCIE device memory in which case we would to do a peer to peer.
-
-
-So you won't find any logic in the kernel. What you find is creating
-virtual address space and binding object.
-
-
-Above i talk about the old days, nowadays we want the GPU virtual address
-space to be exactly the same as the CPU virtual address space as the
-process which initiate the GPU program is using. This is where we use the
-PASID and ATS. So here userspace create a special "GPU context" that says
-that the GPU virtual address space will be the same as the program that
-create the GPU context. A process ID is then allocated and the mm_struct
-is bind to this process ID in the IOMMU driver. Then all program executed
-on the GPU use the process ID to identify the address space against which
-they are running.
-
-
-All of the above i did not talk about DMA engine which are on the "side"
-of the GPU to copy memory around. GPU have multiple DMA engines with
-different capabilities, some of those DMA engine use the same GPU address
-space as describe above, other use directly GPUPA.
-
-
-Hopes this helps understanding the big picture. I over simplify thing and
-devils is in the details.
-
-Cheers,
-J?r?me
+Bart.
