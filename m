@@ -1,27 +1,69 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Thu, 10 May 2018 18:44:25 +0000
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <20180510145946.GB3652@redhat.com>
-References: <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <1775CC56-4651-422F-953A-18E024D3717C@raithlin.com>
- <20180509160722.GB4140@redhat.com>
- <366A8132-B88A-40F7-BDE3-DA542E45FC0C@raithlin.com>
- <20180509174952.GC4140@redhat.com>
- <405531AE-8315-4A4F-9B0C-8DBE49BFCAB4@raithlin.com>
- <73b6a454-bf84-1640-0b5e-137d03c0ad8c@amd.com>
- <20180510145946.GB3652@redhat.com>
-Message-ID: <0E894398-041D-4FA6-966F-BB37866A9AF2@raithlin.com>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Thu, 10 May 2018 13:56:56 -0500
+Subject: [PATCH] nvme/pci: Sync controller reset for AER slot_reset
+In-Reply-To: <20180510160113.4432-1-keith.busch@intel.com>
+References: <20180510160113.4432-1-keith.busch@intel.com>
+Message-ID: <93d528ce-043a-5118-02b3-986d151b37cf@gmail.com>
 
-Hi Jerome
 
->    Hopes this helps understanding the big picture. I over simplify thing and
->    devils is in the details.
-    
-This was a great primer thanks for putting it together. An LWN.net article perhaps ;-)??
 
-Stephen
-    
+On 05/10/2018 11:01 AM, Keith Busch wrote:
+> AER handling expects a successful return from slot_reset means the
+> driver made the device functional again. The nvme driver had been using
+> an asynchronous reset to recover the device, so the device
+> may still be initializing after control is returned to the
+> AER handler. This creates problems for subsequent event handling,
+> causing the initializion to fail.
+> 
+> This patch fixes that by syncing the controller reset before returning
+> to the AER driver, and reporting the true state of the reset.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=199657
+> Reported-by: Alex Gagniuc <mr.nuke.me at gmail.com>
+
+Tested-by: Alex Gagniuc <mr.nuke.me at gmail.com>
+
+Sponsored-by: DellEMC
+You know I had to add that plug somewhere :p
+
+> Cc: Sinan Kaya <okaya at codeaurora.org>
+> Cc: Bjorn Helgaas <bhelgaas at google.com>
+> Cc: <stable at vger.kernel.org>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b542dce45927..2e221796257a 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2681,8 +2681,15 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
+>  
+>  	dev_info(dev->ctrl.device, "restart after slot reset\n");
+>  	pci_restore_state(pdev);
+> -	nvme_reset_ctrl(&dev->ctrl);
+> -	return PCI_ERS_RESULT_RECOVERED;
+> +	nvme_reset_ctrl_sync(&dev->ctrl);
+
+This does wonders when nvme_reset_ctrl_sync() returns in a timely
+manner. I was also able to get the nvme drive in a state where
+nvme_reset_ctrl_sync() does not return. Then we end up with the device
+lock in report_slot_reset, which, as you may imagine, is not a great thing.
+
+I think this step is a move in the better direction, but we still have
+problems.
+
+Alex
+
+> +	switch (dev->ctrl.state) {
+> +	case NVME_CTRL_LIVE:
+> +	case NVME_CTRL_ADMIN_ONLY:
+> +		return PCI_ERS_RESULT_RECOVERED;
+> +	default:
+> +		return PCI_ERS_RESULT_DISCONNECT;
+> +	}
+>  }
+>  
+>  static void nvme_error_resume(struct pci_dev *pdev)
+> 
