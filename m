@@ -1,7 +1,7 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 10 May 2018 12:59:47 -0600
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
+From: alex.williamson@redhat.com (Alex Williamson)
+Date: Thu, 10 May 2018 13:10:15 -0600
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all
+ devices behind switches
 In-Reply-To: <B525870A-B25E-46BB-B501-DAA39F1741DC@raithlin.com>
 References: <20180508133407.57a46902@w520.home>
  <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
@@ -15,29 +15,30 @@ References: <20180508133407.57a46902@w520.home>
  <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
  <20180510144137.GA3652@redhat.com>
  <B525870A-B25E-46BB-B501-DAA39F1741DC@raithlin.com>
-Message-ID: <3e2269ca-126e-ec13-5133-6591c45ccbf4@deltatee.com>
+Message-ID: <20180510131015.4ad59477@w520.home>
 
-
-
-On 10/05/18 12:41 PM, Stephen  Bates wrote:
-> Hi Jerome
+On Thu, 10 May 2018 18:41:09 +0000
+"Stephen  Bates" <sbates at raithlin.com> wrote:    
+> >    Reasons is that GPU are giving up on PCIe (see all specialize link like
+> >    NVlink that are popping up in GPU space). So for fast GPU inter-connect
+> >    we have this new links.   
 > 
->>    Note on GPU we do would not rely on ATS for peer to peer. Some part
->>    of the GPU (DMA engines) do not necessarily support ATS. Yet those
->>    are the part likely to be use in peer to peer.
-> 
-> OK this is good to know. I agree the DMA engine is probably one of the GPU components most applicable to p2pdma.
->     
->>    We (ake GPU people aka the good guys ;)) do no want to do peer to peer
->>    for performance reasons ie we do not care having our transaction going
->>    to the root complex and back down the destination. At least in use case
->>    i am working on this is fine.
-> 
-> If the GPU people are the good guys does that make the NVMe people the bad guys ;-). If so, what are the RDMA people??? Again good to know.
+> I look forward to Nvidia open-licensing NVLink to anyone who wants to use it ;-).
 
-The NVMe people are the Nice Neighbors, the RDMA people are the
-Righteous Romantics and the PCI people are the Pleasant Protagonists...
+No doubt, the marketing for it is quick to point out the mesh topology
+of NVLink, but I haven't seen any technical documents that describe the
+isolation capabilities or IOMMU interaction.  Whether this is included
+or an afterthought, I have no idea.
 
-Obviously.
+> >    Also the IOMMU isolation do matter a lot to us. Think someone using this
+> >    peer to peer to gain control of a server in the cloud.  
 
-Logan
+
+From that perspective, do we have any idea what NVLink means for
+topology and IOMMU provided isolation and translation?  I've seen a
+device assignment user report that seems to suggest it might pretend to
+be PCIe compatible, but the assigned GPU ultimately doesn't work
+correctly in a VM, so perhaps the software compatibility is only so
+deep. Thanks,
+
+Alex
