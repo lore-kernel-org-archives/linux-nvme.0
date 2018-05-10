@@ -1,70 +1,45 @@
-From: jglisse@redhat.com (Jerome Glisse)
-Date: Thu, 10 May 2018 15:24:54 -0400
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <20180510131015.4ad59477@w520.home>
-References: <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
- <2fc61d29-9eb4-d168-a3e5-955c36e5d821@amd.com>
- <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
- <20180510144137.GA3652@redhat.com>
- <B525870A-B25E-46BB-B501-DAA39F1741DC@raithlin.com>
- <20180510131015.4ad59477@w520.home>
-Message-ID: <20180510192454.GC3652@redhat.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Fri, 11 May 2018 04:52:11 +0800
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <20180508153038.GA30842@localhost.localdomain>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <20180427175157.GB5073@localhost.localdomain>
+ <20180428035015.GB5657@ming.t460p>
+ <20180508153038.GA30842@localhost.localdomain>
+Message-ID: <CACVXFVO+CuYghN3wHyHV2cskPr2pqaKKyQqQC5Xze4vCvpb+jg@mail.gmail.com>
 
-On Thu, May 10, 2018@01:10:15PM -0600, Alex Williamson wrote:
-> On Thu, 10 May 2018 18:41:09 +0000
-> "Stephen  Bates" <sbates at raithlin.com> wrote:    
-> > >    Reasons is that GPU are giving up on PCIe (see all specialize link like
-> > >    NVlink that are popping up in GPU space). So for fast GPU inter-connect
-> > >    we have this new links.   
-> > 
-> > I look forward to Nvidia open-licensing NVLink to anyone who wants to use it ;-).
-> 
-> No doubt, the marketing for it is quick to point out the mesh topology
-> of NVLink, but I haven't seen any technical documents that describe the
-> isolation capabilities or IOMMU interaction.  Whether this is included
-> or an afterthought, I have no idea.
+Hi Keith,
 
-AFAIK there is no IOMMU on NVLink between devices, walking a page table and
-being able to sustain 80GB/s or 160GB/s is hard to achieve :) I think idea
-behind those interconnect is that devices in the mesh are inherently secure
-ie each single device is suppose to make sure that no one can abuse it.
+On Tue, May 8, 2018@11:30 PM, Keith Busch <keith.busch@intel.com> wrote:
+> On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
+>> This sync may be raced with one timed-out request, which may be handled
+>> as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
+>> work reliably.
+>
+> Ming,
+>
+> As proposed, that scenario is impossible to encounter. Resetting the
+> controller inline with the timeout reaps all the commands, and then
+> sets the controller state to RESETTING. While blk-mq may not allow the
+> driver to complete those requests, having the driver sync with the queues
+> will hold the controller in the reset state until blk-mq is done with
+> its timeout work; therefore, it is impossible for the NVMe driver to
+> return "BLK_EH_RESET_TIMER", and all commands will be completed through
+> nvme_timeout's BLK_EH_HANDLED exactly as desired.
 
-GPU with their virtual address space and contextualize program executions
-unit are suppose to be secure (a specter like bug might be lurking on those
-but i doubt it).
+That isn't true for multiple namespace case,  each request queue has its
+own timeout work, and all these timeout work can be triggered concurrently.
 
-So for those interconnect you program physical address directly in the page
-table of the devices and those physical address are un-translated from hard-
-ware perspective.
+>
+> Could you please recheck my suggestion? The alternatives proposed are
+> far too risky for a 4.17 consideration, and I'm hoping we can stabilize
+> this behavior in the current release if possible.
 
-Note that the kernel driver that do the actual GPU page table programming
-can do sanity check on value it is setting. So checks can also happens at
-setup time. But after that assumption is hardware is secure and no one can
-abuse it AFAICT.
+Bart's rework on timeout won't cover the case of multiple namespace, so
+we have to sync timeout inside driver.
 
-> 
-> > >    Also the IOMMU isolation do matter a lot to us. Think someone using this
-> > >    peer to peer to gain control of a server in the cloud.  
-> 
-> From that perspective, do we have any idea what NVLink means for
-> topology and IOMMU provided isolation and translation?  I've seen a
-> device assignment user report that seems to suggest it might pretend to
-> be PCIe compatible, but the assigned GPU ultimately doesn't work
-> correctly in a VM, so perhaps the software compatibility is only so
-> deep. Thanks,
+The approach taken in my V4 has been simpler, could you take a look at it?
 
-Note that each single GPU (in configurations i am aware of) also have a
-PCIE link with the CPU/main memory. So from that point of view they very
-much behave like a regular PCIE devices. It is just that each GPUs in
-the mesh can access each other memory through high bandwidth interconnect.
-
-I am not sure how much is public beyond that, i will ask NVidia to try to
-have someone chime in this thread and shed light on this, if possible.
-
-Cheers,
-J?r?me
+Thanks,
+Ming Lei
