@@ -1,39 +1,70 @@
-From: mr.nuke.me@gmail.com (Alex G.)
-Date: Thu, 10 May 2018 14:20:34 -0500
-Subject: [PATCH] nvme/pci: Sync controller reset for AER slot_reset
-In-Reply-To: <20180510191417.GA4787@localhost.localdomain>
-References: <20180510160113.4432-1-keith.busch@intel.com>
- <93d528ce-043a-5118-02b3-986d151b37cf@gmail.com>
- <20180510191417.GA4787@localhost.localdomain>
-Message-ID: <4934e3b2-4c74-16a8-8530-d05430cf4aee@gmail.com>
+From: jglisse@redhat.com (Jerome Glisse)
+Date: Thu, 10 May 2018 15:24:54 -0400
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <20180510131015.4ad59477@w520.home>
+References: <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
+ <20180508205005.GC15608@redhat.com>
+ <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
+ <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+ <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
+ <2fc61d29-9eb4-d168-a3e5-955c36e5d821@amd.com>
+ <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
+ <20180510144137.GA3652@redhat.com>
+ <B525870A-B25E-46BB-B501-DAA39F1741DC@raithlin.com>
+ <20180510131015.4ad59477@w520.home>
+Message-ID: <20180510192454.GC3652@redhat.com>
 
-
-
-On 05/10/2018 02:14 PM, Keith Busch wrote:
-> On Thu, May 10, 2018@01:56:56PM -0500, Alex G. wrote:
->>> @@ -2681,8 +2681,15 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
->>>  
->>>  	dev_info(dev->ctrl.device, "restart after slot reset\n");
->>>  	pci_restore_state(pdev);
->>> -	nvme_reset_ctrl(&dev->ctrl);
->>> -	return PCI_ERS_RESULT_RECOVERED;
->>> +	nvme_reset_ctrl_sync(&dev->ctrl);
->>
->> This does wonders when nvme_reset_ctrl_sync() returns in a timely
->> manner. I was also able to get the nvme drive in a state where
->> nvme_reset_ctrl_sync() does not return. Then we end up with the device
->> lock in report_slot_reset, which, as you may imagine, is not a great thing.
+On Thu, May 10, 2018@01:10:15PM -0600, Alex Williamson wrote:
+> On Thu, 10 May 2018 18:41:09 +0000
+> "Stephen  Bates" <sbates at raithlin.com> wrote:    
+> > >    Reasons is that GPU are giving up on PCIe (see all specialize link like
+> > >    NVlink that are popping up in GPU space). So for fast GPU inter-connect
+> > >    we have this new links.   
+> > 
+> > I look forward to Nvidia open-licensing NVLink to anyone who wants to use it ;-).
 > 
-> It never returns? That shouldn't happen. There are cases where it may take
-> a very long time, depending on what the controller reports in CAP.TO. The
-> only other case it may stall is if the controller never responds to the
-> initialization admin commands, but that should delay by 60 seconds under
-> default parameters.
+> No doubt, the marketing for it is quick to point out the mesh topology
+> of NVLink, but I haven't seen any technical documents that describe the
+> isolation capabilities or IOMMU interaction.  Whether this is included
+> or an afterthought, I have no idea.
 
-Took 28 minutes before I gave up and rebooted the machine. Maybe I
-should have waited 30.
-Even 60 seconds seems like a terribly long time to wait in AER. Simple
-stuff like block IO and 'nvme list' hangs in kernel space this entire
-time. I can raise a separate issue once I find a reliable way to repro.
+AFAIK there is no IOMMU on NVLink between devices, walking a page table and
+being able to sustain 80GB/s or 160GB/s is hard to achieve :) I think idea
+behind those interconnect is that devices in the mesh are inherently secure
+ie each single device is suppose to make sure that no one can abuse it.
 
-Alex
+GPU with their virtual address space and contextualize program executions
+unit are suppose to be secure (a specter like bug might be lurking on those
+but i doubt it).
+
+So for those interconnect you program physical address directly in the page
+table of the devices and those physical address are un-translated from hard-
+ware perspective.
+
+Note that the kernel driver that do the actual GPU page table programming
+can do sanity check on value it is setting. So checks can also happens at
+setup time. But after that assumption is hardware is secure and no one can
+abuse it AFAICT.
+
+> 
+> > >    Also the IOMMU isolation do matter a lot to us. Think someone using this
+> > >    peer to peer to gain control of a server in the cloud.  
+> 
+> From that perspective, do we have any idea what NVLink means for
+> topology and IOMMU provided isolation and translation?  I've seen a
+> device assignment user report that seems to suggest it might pretend to
+> be PCIe compatible, but the assigned GPU ultimately doesn't work
+> correctly in a VM, so perhaps the software compatibility is only so
+> deep. Thanks,
+
+Note that each single GPU (in configurations i am aware of) also have a
+PCIE link with the CPU/main memory. So from that point of view they very
+much behave like a regular PCIE devices. It is just that each GPUs in
+the mesh can access each other memory through high bandwidth interconnect.
+
+I am not sure how much is public beyond that, i will ask NVidia to try to
+have someone chime in this thread and shed light on this, if possible.
+
+Cheers,
+J?r?me
