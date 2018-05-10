@@ -1,45 +1,51 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Fri, 11 May 2018 04:52:11 +0800
-Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
-In-Reply-To: <20180508153038.GA30842@localhost.localdomain>
-References: <20180426123956.26039-1-ming.lei@redhat.com>
- <20180426123956.26039-2-ming.lei@redhat.com>
- <20180427175157.GB5073@localhost.localdomain>
- <20180428035015.GB5657@ming.t460p>
- <20180508153038.GA30842@localhost.localdomain>
-Message-ID: <CACVXFVO+CuYghN3wHyHV2cskPr2pqaKKyQqQC5Xze4vCvpb+jg@mail.gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Fri, 11 May 2018 04:53:37 +0800
+Subject: [PATCH V4 6/7] nvme: pci: prepare for supporting error recovery
+ from resetting context
+In-Reply-To: <031c9974-1ef5-2924-1928-254d8cfdbb71@broadcom.com>
+References: <20180505135905.18815-1-ming.lei@redhat.com>
+ <20180505135905.18815-7-ming.lei@redhat.com>
+ <031c9974-1ef5-2924-1928-254d8cfdbb71@broadcom.com>
+Message-ID: <20180510205330.GA3515@ming.t460p>
 
-Hi Keith,
+On Mon, May 07, 2018@08:04:18AM -0700, James Smart wrote:
+> 
+> 
+> On 5/5/2018 6:59 AM, Ming Lei wrote:
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -2365,14 +2365,14 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+> >   		nvme_put_ctrl(&dev->ctrl);
+> >   }
+> > -static void nvme_reset_work(struct work_struct *work)
+> > +static void nvme_reset_dev(struct nvme_dev *dev)
+> >   {
+> > -	struct nvme_dev *dev =
+> > -		container_of(work, struct nvme_dev, ctrl.reset_work);
+> >   	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+> >   	int result = -ENODEV;
+> >   	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
+> > +	mutex_lock(&dev->ctrl.reset_lock);
+> > +
+> >   	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+> >   		goto out;
+> 
+> I believe the reset_lock is unnecessary (patch 5) as it should be covered by
+> the transition of the state to RESETTING which is done under lock.
+> 
+> Thus the error is:
+> instead of:
+> ???? if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+> ???? ??? goto out;
+> 
+> it should be:
+> ???? if (dev->ctrl.state != NVME_CTRL_RESETTING))
+> ???? ??? return;
+> 
 
-On Tue, May 8, 2018@11:30 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
->> This sync may be raced with one timed-out request, which may be handled
->> as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
->> work reliably.
->
-> Ming,
->
-> As proposed, that scenario is impossible to encounter. Resetting the
-> controller inline with the timeout reaps all the commands, and then
-> sets the controller state to RESETTING. While blk-mq may not allow the
-> driver to complete those requests, having the driver sync with the queues
-> will hold the controller in the reset state until blk-mq is done with
-> its timeout work; therefore, it is impossible for the NVMe driver to
-> return "BLK_EH_RESET_TIMER", and all commands will be completed through
-> nvme_timeout's BLK_EH_HANDLED exactly as desired.
+Right, I have dropped this patch in V5(not posted yet):
 
-That isn't true for multiple namespace case,  each request queue has its
-own timeout work, and all these timeout work can be triggered concurrently.
-
->
-> Could you please recheck my suggestion? The alternatives proposed are
-> far too risky for a 4.17 consideration, and I'm hoping we can stabilize
-> this behavior in the current release if possible.
-
-Bart's rework on timeout won't cover the case of multiple namespace, so
-we have to sync timeout inside driver.
-
-The approach taken in my V4 has been simpler, could you take a look at it?
+https://github.com/ming1/linux/commits/v4.17-rc-nvme-timeout.V5
 
 Thanks,
-Ming Lei
+Ming
