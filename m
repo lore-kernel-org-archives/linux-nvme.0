@@ -1,239 +1,297 @@
 From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Wed, 9 May 2018 20:51:09 -0700
+Date: Wed, 9 May 2018 20:59:39 -0700
 Subject: [PATCH V3] nvmet: add simple file backed ns support
-In-Reply-To: <20180509055356.GA18926@lst.de>
+In-Reply-To: <5ed5899b-e0be-aa94-ea5f-6f8220bf38db@grimberg.me>
 References: <20180508053829.406-1-chaitanya.kulkarni@wdc.com>
- <20180509055356.GA18926@lst.de>
-Message-ID: <CAK0tqin9EEvjxGJhdh-UeK1AH_b3-dJSS42XpZJzpC7hnTKRGQ@mail.gmail.com>
+ <5ed5899b-e0be-aa94-ea5f-6f8220bf38db@grimberg.me>
+Message-ID: <CAK0tqimM8W5DHfg=UbvHdTKCNsM3cqqqDZYMnLkVK=EC06Qv-A@mail.gmail.com>
 
-Thanks for the comments Christoph, I'll update and send the latest version.
+Thanks for the comments Sagi, I'll update and send the patch, for
+"call_[write|read]_iter()",
+I removed it in this version since it was one of the review comment on V1.
 
-Just one question when is a good time to introduce handle type and
-abstract the handle specific
-data structure ?
+Also for bvec_alloc() we have to maintain the mempool_t, can we not
+add more members
+when we can get away with kmalloc_array()?
 
-On Tue, May 8, 2018@10:53 PM, Christoph Hellwig <hch@lst.de> wrote:
-> Hi Chaitanya,
+Do you see any performance advantage/difference when using
+bvec_alloc() vs kmalloc_array()?
+
+
+On Wed, May 9, 2018@7:53 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
+> Chaitanya, this looks good. couple of comments below
 >
-> this looks great.  A couple mostly cosmetic comments below:
->
->> +     /* for file backed ns just return */
->> +     if (!ns->bdev)
->> +             goto out;
+>> This patch adds simple file backed namespace support for
+>> NVMeOF target.
 >>
->> @@ -71,6 +77,9 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
+>> In current implementation NVMeOF supports block
+>> device backed namespaces on the target side.
+>> With this implementation regular file(s) can be used to
+>> initialize the namespace(s) via target side configfs
+>> interface.
 >>
->>       rcu_read_lock();
->>       list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
->> +             /* for file backed ns just return */
+>> For admin smart log command on the target side, we only use
+>> block device backed namespaces to compute target
+>> side smart log.
+>>
+>> We isolate the code for each ns handle type
+>> (file/block device) and add wrapper routines to manipulate
+>> the respective ns handle types.
+>>
+>> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 >
-> Maybe expand the comment a bit that we don't have the data and this
-> is the best we can do?
 >
->> +static int nvmet_ns_enable_blk(struct nvmet_ns *ns)
+> ...
 >
-> s/blk/blkdev/
->
+>> +static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
 >> +{
->> +     int blk_flags = FMODE_READ | FMODE_WRITE;
->> +
->> +     ns->bdev = blkdev_get_by_path(ns->device_path, blk_flags, NULL);
+>> +       if (ns->bdev) {
+>> +               blkdev_put(ns->bdev, FMODE_WRITE | FMODE_READ);
+>> +               ns->bdev = NULL;
+>> +       } else if (ns->file) {
+>> +               fput(ns->file);
+>> +               ns->file = NULL;
+>> +       } else
+>> +               pr_err("invalid ns handle\n");
 >
-> I'd say just kill the blk_flags variable and pass the flags directly
-> to blkdev_get_by_path.
 >
->> +     if (IS_ERR(ns->bdev)) {
->> +             pr_err("failed to open block device %s: (%ld)\n",
->> +                             ns->device_path, PTR_ERR(ns->bdev));
+> WARN_ON_ONCE()
 >
-> This is going to be printed everytime we open a file, isn't it?
-> Maybe skip the error print for the error code we get in the case
-> where the path actually is a file.
+>> @@ -513,6 +574,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct
+>> nvmet_cq *cq,
+>>         req->transfer_len = 0;
+>>         req->rsp->status = 0;
+>>         req->ns = NULL;
+>> +       req->bvec = NULL;
+>> +       memset(&req->iocb, 0, sizeof(req->iocb));
 >
->> +             ns->bdev = NULL;
->> +             return -1;
 >
-> This should be
+> Can we clear this just for file IO?
 >
->                 return PTR_ERR(ns->bdev);
->
->> +     }
->> +     ns->size = i_size_read(ns->bdev->bd_inode);
->> +     ns->blksize_shift =
->> +             blksize_bits(bdev_logical_block_size(ns->bdev));
->
-> This fits into a single line:
->
->         ns->blksize_shift = blksize_bits(bdev_logical_block_size(ns->bdev));
->
->> +static int nvmet_ns_enable_file(struct nvmet_ns *ns)
+>> +static void nvmet_execute_rw_file(struct nvmet_req *req)
 >> +{
->> +     int ret;
->> +     int flags = O_RDWR | O_LARGEFILE | O_DIRECT;
->> +     struct kstat stat;
+>> +       loff_t pos;
+>> +       ssize_t len = 0, ret;
+>> +       int bv_cnt = 0;
+>> +       struct iov_iter iter;
+>> +       struct sg_page_iter sg_pg_iter;
+>> +       int rw = req->cmd->rw.opcode == nvme_cmd_write ? WRITE : READ;
+>> +       u32 nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
+>
+>
+> Not a must, but some people (including me) prefer an upside-down christmas
+> tree arrangement.
+>
 >> +
->> +     ns->file = filp_open(ns->device_path, flags, 0);
+>> +       req->bvec = req->inline_bvec;
+>> +       if (nr_bvec > NVMET_MAX_INLINE_BIOVEC) {
+>> +               req->bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
+>> +                               GFP_KERNEL);
 >
-> No need for the flags argument either.
 >
->> +     if (!ns->file || IS_ERR(ns->file)) {
+> bvec_alloc()?
 >
-> filp_open never returns NULL, so you just need the IS_ERR check.
 >
->> +             pr_err("failed to open file %s: (%ld)\n",
->> +                             ns->device_path, PTR_ERR(ns->bdev));
->> +             ns->file = NULL;
->> +             return -1;
->
-> This should be:
->                 return PTR_ERR(ns->bdev);
->
->> +     }
+>> +               if (!req->bvec)
+>> +                       goto out;
+>> +       }
 >> +
->> +     ret = vfs_getattr(&ns->file->f_path,
->> +                     &stat, STATX_INO, AT_STATX_SYNC_AS_STAT);
->
-> I think we want AT_STATX_FORCE_SYNC here, and STATX_INO is the wrong
-> value to ask for (but no one really looks at ir yet, so for now it
-> happens to work just fine).
->
-> So this should be:
->
->         ret = vfs_getattr(&ns->file->f_path, &stat, STATX_SIZE,
->                         AT_STATX_FORCE_SYNC);
->
->> +     if (ret)
->> +             goto err;
+>> +       for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
+>> +               req->bvec[bv_cnt].bv_page =
+>> sg_page_iter_page(&sg_pg_iter);
+>> +               req->bvec[bv_cnt].bv_offset = sg_pg_iter.sg->offset;
+>> +               req->bvec[bv_cnt].bv_len = PAGE_SIZE -
+>> sg_pg_iter.sg->offset;
+>> +               len += req->bvec[bv_cnt].bv_len;
+>> +               bv_cnt++;
+>> +       }
 >> +
->> +     ns->size = stat.size;
->> +     ns->blksize_shift = file_inode(ns->file)->i_blkbits;
+>> +       if (len != req->data_len)
+>> +               goto free;
 >> +
->> +     return ret;
->> +err:
->> +     fput(ns->file);
->> +     ns->size = ns->blksize_shift = 0;
->
-> Please use a separate line for each assignment.
->
->> +     ns->file = NULL;
+>> +       iov_iter_bvec(&iter, ITER_BVEC | rw, req->bvec, bv_cnt, len);
+>> +       pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
+>> +       req->iocb.ki_pos = pos;
+>> +       req->iocb.ki_filp = req->ns->file;
+>> +       req->iocb.ki_flags = IOCB_DIRECT;
+>> +       req->iocb.ki_complete = nvmet_file_io_complete;
 >> +
->> +     return ret;
+>> +       if (req->cmd->rw.opcode == nvme_cmd_write) {
+>> +               if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
+>> +                       req->iocb.ki_flags |= IOCB_DSYNC;
+>> +               ret = req->ns->file->f_op->write_iter(&req->iocb, &iter);
 >
-> No need for the blank line here.
 >
->> +static int nvmet_ns_dev_enable(struct nvmet_ns *ns)
->> +{
->> +     int ret = 0;
+> call_write_iter()?
+>
+>> +       } else
+>> +               ret = req->ns->file->f_op->read_iter(&req->iocb, &iter);
+>
+>
+> call_read_iter()?
+>
 >> +
->> +     ret = nvmet_ns_enable_blk(ns);
->> +     if (ret)
->> +             ret = nvmet_ns_enable_file(ns);
->> +
->> +     return ret;
->
-> Same here.  Also I suspect this function can be removed and the two
-> calls just be done in the only caller.
->
->> +static void nvmet_flush_work_file(struct work_struct *work)
->> +{
->> +     int ret;
->> +     struct nvmet_req *req;
->> +
->> +     req = container_of(work, struct nvmet_req, flush_work);
->
-> Maybe:
->
->         struct nvmet_req *req = container_of(work, struct nvmet_req, work);
->         int ret;
->
->
->> +static void nvmet_execute_discard_file(struct nvmet_req *req)
->> +{
->> +     struct nvme_dsm_range range;
->> +     int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
->> +     loff_t offset;
->> +     loff_t len;
->> +     int i, ret;
->> +
->> +     for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
->> +             if (nvmet_copy_from_sgl(req, i * sizeof(range), &range,
->> +                                     sizeof(range)))
->> +                     break;
->> +             offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
->> +             len = le32_to_cpu(range.nlb) << req->ns->blksize_shift;
->> +             ret = vfs_fallocate(req->ns->file, mode, offset, len);
->> +             if (ret)
->> +                     break;
->> +     }
->> +
->> +     nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+>> +       if (ret != -EIOCBQUEUED)
+>> +               nvmet_file_io_complete(&req->iocb, ret, 0);
+>> +       return;
+>> +free:
+>> +       kfree(req->bvec);
+>> +out:
+>> +       nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
 >> +}
+>> +
+>>   static void nvmet_execute_flush(struct nvmet_req *req)
+>>   {
+>>         struct bio *bio = &req->inline_bio;
+>> @@ -102,6 +166,23 @@ static void nvmet_execute_flush(struct nvmet_req
+>> *req)
+>>         submit_bio(bio);
+>>   }
+>>   +static void nvmet_flush_work_file(struct work_struct *work)
+>> +{
+>> +       int ret;
+>> +       struct nvmet_req *req;
+>> +
+>> +       req = container_of(work, struct nvmet_req, flush_work);
+>> +
+>> +       ret = vfs_fsync(req->ns->file, 1);
+>> +
+>> +       nvmet_req_complete(req, ret);
 >
-> Discard and write zeroes should probably also be exectured using the
-> work struct as they will usually block.
 >
->>  u16 nvmet_parse_io_cmd(struct nvmet_req *req)
->>  {
->>       struct nvme_command *cmd = req->cmd;
+> We need nvme status code here.
+>
+>
+>> +}
+>> +
+>> +static void nvmet_execute_flush_file(struct nvmet_req *req)
+>> +{
+>> +       schedule_work(&req->flush_work);
+>> +}
+>> +
+>>   static u16 nvmet_discard_range(struct nvmet_ns *ns,
+>>                 struct nvme_dsm_range *range, struct bio **bio)
+>>   {
+>> @@ -163,6 +244,43 @@ static void nvmet_execute_dsm(struct nvmet_req *req)
+>>         }
+>>   }
+>>   +static void nvmet_execute_discard_file(struct nvmet_req *req)
+>> +{
+>> +       struct nvme_dsm_range range;
+>> +       int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+>> +       loff_t offset;
+>> +       loff_t len;
+>> +       int i, ret;
+>> +
+>> +       for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
+>> +               if (nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+>> +                                       sizeof(range)))
+>> +                       break;
+>> +               offset = le64_to_cpu(range.slba) <<
+>> req->ns->blksize_shift;
+>> +               len = le32_to_cpu(range.nlb) << req->ns->blksize_shift;
+>> +               ret = vfs_fallocate(req->ns->file, mode, offset, len);
+>> +               if (ret)
+>> +                       break;
+>> +       }
+>> +
+>> +       nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR :
+>> 0);
+>> +}
+>> +
+>> +static void nvmet_execute_dsm_file(struct nvmet_req *req)
+>> +{
+>> +       switch (le32_to_cpu(req->cmd->dsm.attributes)) {
+>> +       case NVME_DSMGMT_AD:
+>> +               nvmet_execute_discard_file(req);
+>> +               return;
+>> +       case NVME_DSMGMT_IDR:
+>> +       case NVME_DSMGMT_IDW:
+>> +       default:
+>> +               /* Not supported yet */
+>> +               nvmet_req_complete(req, 0);
+>> +               return;
+>> +       }
+>> +}
+>> +
+>>   static void nvmet_execute_write_zeroes(struct nvmet_req *req)
+>>   {
+>>         struct nvme_write_zeroes_cmd *write_zeroes =
+>> &req->cmd->write_zeroes;
+>> @@ -189,6 +307,22 @@ static void nvmet_execute_write_zeroes(struct
+>> nvmet_req *req)
+>>         }
+>>   }
+>>   +static void nvmet_execute_write_zeroes_file(struct nvmet_req *req)
+>> +{
+>> +       struct nvme_write_zeroes_cmd *write_zeroes =
+>> &req->cmd->write_zeroes;
+>> +       loff_t offset;
+>> +       loff_t len;
+>> +       int mode = FALLOC_FL_ZERO_RANGE | FALLOC_FL_KEEP_SIZE;
+>> +       int ret;
+>> +
+>> +       offset = le64_to_cpu(write_zeroes->slba) <<
+>> req->ns->blksize_shift;
+>> +       len = (((sector_t)le32_to_cpu(write_zeroes->length) + 1) <<
+>> +                       req->ns->blksize_shift);
+>> +
+>> +       ret = vfs_fallocate(req->ns->file, mode, offset, len);
+>> +       nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR :
+>> 0);
+>> +}
+>> +
+>
+>
+> ALl the above should be async I think..
+>
+>
+>>   u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>>   {
+>>         struct nvme_command *cmd = req->cmd;
 >> @@ -207,20 +341,33 @@ u16 nvmet_parse_io_cmd(struct nvmet_req *req)
->>       switch (cmd->common.opcode) {
->>       case nvme_cmd_read:
->>       case nvme_cmd_write:
->> -             req->execute = nvmet_execute_rw;
->> +             if (req->ns->file)
->> +                     req->execute = nvmet_execute_rw_file;
->> +             else
->> +                     req->execute = nvmet_execute_rw;
->>               req->data_len = nvmet_rw_len(req);
+>>         switch (cmd->common.opcode) {
+>>         case nvme_cmd_read:
+>>         case nvme_cmd_write:
+>> -               req->execute = nvmet_execute_rw;
+>> +               if (req->ns->file)
+>> +                       req->execute = nvmet_execute_rw_file;
+>> +               else
+>> +                       req->execute = nvmet_execute_rw;
+>>                 req->data_len = nvmet_rw_len(req);
+>>                 return 0;
+>>         case nvme_cmd_flush:
+>> -               req->execute = nvmet_execute_flush;
+>> +               if (req->ns->file) {
+>> +                       req->execute = nvmet_execute_flush_file;
+>> +                       INIT_WORK(&req->flush_work,
+>> nvmet_flush_work_file);
+>> +               } else
+>> +                       req->execute = nvmet_execute_flush;
+>>                 req->data_len = 0;
+>>                 return 0;
+>>         case nvme_cmd_dsm:
+>> -               req->execute = nvmet_execute_dsm;
+>> +               if (req->ns->file)
+>> +                       req->execute = nvmet_execute_dsm_file;
+>> +               else
+>> +                       req->execute = nvmet_execute_dsm;
+>>                 req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
+>>                         sizeof(struct nvme_dsm_range);
+>>                 return 0;
+>>         case nvme_cmd_write_zeroes:
+>> -               req->execute = nvmet_execute_write_zeroes;
+>> +               if (req->ns->file)
+>> +                       req->execute = nvmet_execute_write_zeroes_file;
+>> +               else
+>> +                       req->execute = nvmet_execute_write_zeroes;
+>>                 return 0;
+>>         default:
+>>                 pr_err("unhandled cmd %d on qid %d\n", cmd->common.opcode,
 >
-> Maybe it would be cleaner to have separate parse_block_io_cmd/
-> parse_file_io_cmd helpers? (I'm not entirely sure, use your own
-> judgement)
 >
->> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
->> index 15fd84a..60f399f 100644
->> --- a/drivers/nvme/target/nvmet.h
->> +++ b/drivers/nvme/target/nvmet.h
->> @@ -26,6 +26,8 @@
->>  #include <linux/configfs.h>
->>  #include <linux/rcupdate.h>
->>  #include <linux/blkdev.h>
->> +#include <linux/file.h>
->> +#include <linux/falloc.h>
+> I support separating parse too.
 >
-> We shouldn't really need these in nvmet.h, only in io-cmd.c, with
-> possible an empty forward declaration for struct file here.
->
->> @@ -224,6 +227,8 @@ struct nvmet_req {
->>       struct scatterlist      *sg;
->>       struct bio              inline_bio;
->>       struct bio_vec          inline_bvec[NVMET_MAX_INLINE_BIOVEC];
->> +     struct kiocb            iocb;
->> +     struct bio_vec          *bvec;
->>       int                     sg_cnt;
->>       /* data length as parsed from the command: */
->>       size_t                  data_len;
->> @@ -234,6 +239,7 @@ struct nvmet_req {
->>
->>       void (*execute)(struct nvmet_req *req);
->>       const struct nvmet_fabrics_ops *ops;
->> +     struct work_struct      flush_work;
->
-> I think we want a union between the block and file fields to
-> not bloat the structure, e.g.
->
->         union {
->                 struct {
->                         struct bio      inline_bio;
->                 } b;
->                 struct {
->                         struct kiocb    iocb;
->                         struct bio_vec  *bvev;
->                         struct work_struct work;
->                 } f;
->         };
->
-> plus auditing for other files only used in one path.
 >
 > _______________________________________________
 > Linux-nvme mailing list
