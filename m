@@ -1,35 +1,28 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Thu, 10 May 2018 15:01:04 +0000
-Subject: [PATCH V4 1/7] block: introduce blk_quiesce_timeout() and
- blk_unquiesce_timeout()
-In-Reply-To: <20180505135905.18815-2-ming.lei@redhat.com>
-References: <20180505135905.18815-1-ming.lei@redhat.com>
- <20180505135905.18815-2-ming.lei@redhat.com>
-Message-ID: <4cf98f8d3d763ab3decb5f4bfaee6a4394de5caf.camel@wdc.com>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Thu, 10 May 2018 10:06:42 -0500
+Subject: Deprecating NVME_IOCTL_SUBSYS_RESET
+Message-ID: <866e6766-3a3f-8d14-8475-481e839502ad@gmail.com>
 
-On Sat, 2018-05-05@21:58 +0800, Ming Lei wrote:
-> Turns out the current way can't drain timout completely because mod_timer()
-> can be triggered in the work func, which can be just run inside the synced
-> timeout work:
-> 
->         del_timer_sync(&q->timeout);
->         cancel_work_sync(&q->timeout_work);
-> 
-> This patch introduces one flag of 'timeout_off' for fixing this issue, turns
-> out this simple way does work.
-> 
-> Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
-> draining timeout, which is needed by NVMe.
+Hi,
 
-Hello Ming,
+I've been getting reports that nvme subsystem resets end up taking down 
+the entire machine. That's very easy to do with PCIe drives, since a 
+NSSR also brings down the PCIe link. Any in-flight posted requests can 
+generate unsupported request errors, and non-posted requests can 
+generate completion timeouts, or Fatal MCEs on some PCIe root ports.
 
-The description of the above patch does not motivate sufficiently why you think
-that this change is necessary. As you know it is already possible to wait until
-timeout handling has finished by calling blk_mq_freeze_queue() +
-blk_mq_unfreeze_queue(). An explanation is needed of why you think that calling
-blk_mq_freeze_queue() + blk_mq_unfreeze_queue() is not sufficient and why you
-chose the solution implemented in this patch.
+In a perfect world, PCIe errors would be handled by their respective 
+layers, and we wouldn't need to care. Unfortunately, PCIe error handling 
+is still an ill conceived idea and afterthought. What concerns me is the 
+potential of NSSR to propagate outside of nvme. I suspect other fabrics 
+have much better error handling, but I wouldn't be surprised to see 
+similar failures.
 
-Thanks,
+There are ways to harden the IOCTL by quiescing all IO before issuing 
+the actual reset. Such safeguards are implemented everywhere else in the 
+driver. Is NVME_IOCTL_SUBSYS_RESET used in the real-world? I think it's 
+too big of an attack surface, and we're better off with -EOPNOTSUPP.
 
-Bart.
+I don't see any benefit in keeping it around. Thpughts?
+
+Alex
