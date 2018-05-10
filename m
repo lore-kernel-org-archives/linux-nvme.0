@@ -1,125 +1,33 @@
-From: mr.nuke.me@gmail.com (Alexandru Gagniuc)
-Date: Thu, 10 May 2018 11:46:33 -0500
-Subject: [PATCH] nvme-pci: Avoid use of goto in nvme_reset_work()
-Message-ID: <20180510164645.19559-1-mr.nuke.me@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 10 May 2018 10:52:04 -0600
+Subject: Deprecating NVME_IOCTL_SUBSYS_RESET
+In-Reply-To: <74d5123de0b94d38b08ed85678d2ac91@ausx13mps321.AMER.DELL.COM>
+References: <866e6766-3a3f-8d14-8475-481e839502ad@gmail.com>
+ <20180510161308.GA4477@localhost.localdomain>
+ <74d5123de0b94d38b08ed85678d2ac91@ausx13mps321.AMER.DELL.COM>
+Message-ID: <20180510165203.GC4477@localhost.localdomain>
 
-This patch started as a challenge from Keith relating to code
-structuring with goto vs return. I think the final result improves
-readability on two counts:
-First, it clarifies the separation between work struct and nvme_dev.
-Second, it makes it clearer what error is being passed on:
-'return -ENODEV' vs 'goto out', where 'result' happens to be -ENODEV
+On Thu, May 10, 2018@04:18:06PM +0000, Alex_Gagniuc@Dellteam.com wrote:
+> 
+> According to (my reading of) the NVMe spec, an NSSR and PCIe link reset 
+> should be equivalent.
 
-CC: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Alexandru Gagniuc <mr.nuke.me at gmail.com>
----
- drivers/nvme/host/pci.c | 42 ++++++++++++++++++++++++------------------
- 1 file changed, 24 insertions(+), 18 deletions(-)
+That can't possibly be the case. A PCIe link reset affects a single
+device on that PCIe link, but a NSSR resets ALL controllers in the
+subsystem, some of which may be on different links.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index fbc71fac6f1e..bac7d30a10a7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2286,16 +2286,14 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
- 		nvme_put_ctrl(&dev->ctrl);
- }
+The NSSR does indeed lead to a PCIe link reset, but there's a lot more
+to it that that.
  
--static void nvme_reset_work(struct work_struct *work)
-+static int do_nvme_reset_work(struct nvme_dev *dev)
- {
--	struct nvme_dev *dev =
--		container_of(work, struct nvme_dev, ctrl.reset_work);
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	int result = -ENODEV;
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
- 
- 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
--		goto out;
-+		return -ENODEV;
- 
- 	/*
- 	 * If we're called to reset a live controller first shut it down before
-@@ -2310,30 +2308,30 @@ static void nvme_reset_work(struct work_struct *work)
- 	 */
- 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_CONNECTING)) {
- 		dev_warn(dev->ctrl.device,
--			"failed to mark controller CONNECTING\n");
--		goto out;
-+			 "failed to mark controller CONNECTING\n");
-+		return -ENODEV;
- 	}
- 
- 	result = nvme_pci_enable(dev);
- 	if (result)
--		goto out;
-+		return result;
- 
- 	result = nvme_pci_configure_admin_queue(dev);
- 	if (result)
--		goto out;
-+		return result;
- 
- 	result = nvme_alloc_admin_tags(dev);
- 	if (result)
--		goto out;
-+		return result;
- 
- 	result = nvme_init_identify(&dev->ctrl);
- 	if (result)
--		goto out;
-+		return result;
- 
- 	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) {
- 		if (!dev->ctrl.opal_dev)
- 			dev->ctrl.opal_dev =
--				init_opal_dev(&dev->ctrl, &nvme_sec_submit);
-+			init_opal_dev(&dev->ctrl, &nvme_sec_submit);
- 		else if (was_suspend)
- 			opal_unlock_from_suspend(dev->ctrl.opal_dev);
- 	} else {
-@@ -2351,12 +2349,12 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (dev->ctrl.hmpre) {
- 		result = nvme_setup_host_mem(dev);
- 		if (result < 0)
--			goto out;
-+			return result;
- 	}
- 
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
--		goto out;
-+		return result;
- 
- 	/*
- 	 * Keep the controller around but remove all namespaces if we don't have
-@@ -2382,15 +2380,23 @@ static void nvme_reset_work(struct work_struct *work)
- 	 */
- 	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
- 		dev_warn(dev->ctrl.device,
--			"failed to mark controller state %d\n", new_state);
--		goto out;
-+			 "failed to mark controller state %d\n", new_state);
-+		return 0;
- 	}
- 
- 	nvme_start_ctrl(&dev->ctrl);
--	return;
-+	return 0;
-+
-+}
-+static void nvme_reset_work(struct work_struct *work)
-+{
-+	struct nvme_dev *dev =
-+		container_of(work, struct nvme_dev, ctrl.reset_work);
-+	int result;
- 
-- out:
--	nvme_remove_dead_ctrl(dev, result);
-+	result = do_nvme_reset_work(dev);
-+	if (result < 0)
-+		nvme_remove_dead_ctrl(dev, result);
- }
- 
- static void nvme_remove_dead_ctrl_work(struct work_struct *work)
--- 
-2.14.3
+> > That said, I have heard enough cases where this reset method is not
+> > successful, so there's some work to do here. Most failures seem to be
+> > around the handling of the rapid link down-up sequence, and success
+> > seems very dependent on the platform and the device used.
+> 
+> There is also the controller reset, which seems less intrusive, though I 
+> haven't looked into it. Can that be used instead of the subsystem reset 
+> for those cases where a subsystem reset is allegedly needed?
+
+According to the spec (section 5.11 Firmware Commit), a device may to
+require a subsystem reset in order to complete a firmware upgrade. No
+other type of reset will do the trick.
