@@ -1,40 +1,38 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 11 May 2018 05:00:49 +0800
-Subject: [PATCH V4 1/7] block: introduce blk_quiesce_timeout() and
- blk_unquiesce_timeout()
-In-Reply-To: <4cf98f8d3d763ab3decb5f4bfaee6a4394de5caf.camel@wdc.com>
-References: <20180505135905.18815-1-ming.lei@redhat.com>
- <20180505135905.18815-2-ming.lei@redhat.com>
- <4cf98f8d3d763ab3decb5f4bfaee6a4394de5caf.camel@wdc.com>
-Message-ID: <20180510210048.GB3515@ming.t460p>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 10 May 2018 15:05:49 -0600
+Subject: [PATCH 1/2] nvme: pci: simplify timeout handling
+In-Reply-To: <CACVXFVO+CuYghN3wHyHV2cskPr2pqaKKyQqQC5Xze4vCvpb+jg@mail.gmail.com>
+References: <20180426123956.26039-1-ming.lei@redhat.com>
+ <20180426123956.26039-2-ming.lei@redhat.com>
+ <20180427175157.GB5073@localhost.localdomain>
+ <20180428035015.GB5657@ming.t460p>
+ <20180508153038.GA30842@localhost.localdomain>
+ <CACVXFVO+CuYghN3wHyHV2cskPr2pqaKKyQqQC5Xze4vCvpb+jg@mail.gmail.com>
+Message-ID: <20180510210548.GB4787@localhost.localdomain>
 
-On Thu, May 10, 2018@03:01:04PM +0000, Bart Van Assche wrote:
-> On Sat, 2018-05-05@21:58 +0800, Ming Lei wrote:
-> > Turns out the current way can't drain timout completely because mod_timer()
-> > can be triggered in the work func, which can be just run inside the synced
-> > timeout work:
-> > 
-> >         del_timer_sync(&q->timeout);
-> >         cancel_work_sync(&q->timeout_work);
-> > 
-> > This patch introduces one flag of 'timeout_off' for fixing this issue, turns
-> > out this simple way does work.
-> > 
-> > Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
-> > draining timeout, which is needed by NVMe.
+On Fri, May 11, 2018@04:52:11AM +0800, Ming Lei wrote:
+> Hi Keith,
 > 
-> Hello Ming,
+> On Tue, May 8, 2018@11:30 PM, Keith Busch <keith.busch@intel.com> wrote:
+> > On Sat, Apr 28, 2018@11:50:17AM +0800, Ming Lei wrote:
+> >> This sync may be raced with one timed-out request, which may be handled
+> >> as BLK_EH_HANDLED or BLK_EH_RESET_TIMER, so the above sync queues can't
+> >> work reliably.
+> >
+> > Ming,
+> >
+> > As proposed, that scenario is impossible to encounter. Resetting the
+> > controller inline with the timeout reaps all the commands, and then
+> > sets the controller state to RESETTING. While blk-mq may not allow the
+> > driver to complete those requests, having the driver sync with the queues
+> > will hold the controller in the reset state until blk-mq is done with
+> > its timeout work; therefore, it is impossible for the NVMe driver to
+> > return "BLK_EH_RESET_TIMER", and all commands will be completed through
+> > nvme_timeout's BLK_EH_HANDLED exactly as desired.
 > 
-> The description of the above patch does not motivate sufficiently why you think
-> that this change is necessary. As you know it is already possible to wait until
-> timeout handling has finished by calling blk_mq_freeze_queue() +
-> blk_mq_unfreeze_queue(). An explanation is needed of why you think that calling
+> That isn't true for multiple namespace case,  each request queue has its
+> own timeout work, and all these timeout work can be triggered concurrently.
 
-blk_mq_freeze_queue() +  blk_mq_unfreeze_queue() can't work, you have to
-call blk_mq_freeze_queue_wait() between the two, but blk_mq_freeze_queue_wait
-is a big trouble for NVMe, and can't be used inside nvme_dev_disable().
-
-You can find the usage in the last patch of this series.
-
-Thanks,
-Ming
+The controller state is most certainly not per queue/namespace. It's
+global to the controller. Once the reset is triggered, nvme_timeout can
+only return EH_HANDLED.
