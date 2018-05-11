@@ -1,28 +1,62 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 11 May 2018 11:02:53 -0600
-Subject: [PATCH v3] nvme: add quirk to force medium priority for SQ
- creation
-In-Reply-To: <20180508163539.GB31027@localhost.localdomain>
-References: <672a97be-7fbf-b21e-9f75-2c18e64ccf8f@kernel.dk>
- <20180508163539.GB31027@localhost.localdomain>
-Message-ID: <20180511170252.GA7344@localhost.localdomain>
+Date: Fri, 11 May 2018 11:26:11 -0600
+Subject: Another NVMe failure, this time with AER info
+In-Reply-To: <20180511165752.GG190385@bhelgaas-glaptop.roam.corp.google.com>
+References: <CAObL_7G5k7XNqXqDZASChiQd1mt+AJPAdNKz-DE+xQawhUy6ZA@mail.gmail.com>
+ <20180511165752.GG190385@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <20180511172610.GB7344@localhost.localdomain>
 
-On Tue, May 08, 2018@10:35:39AM -0600, Keith Busch wrote:
-> On Tue, May 08, 2018@10:25:15AM -0600, Jens Axboe wrote:
-> > Some P3100 drives have a bug where they think WRRU (weighted round
-> > robin) is always enabled, even though the host doesn't set it. Since
-> > they think it's enabled, they also look at the submission queue
-> > creation priority. We used to set that to MEDIUM by default,
-> > but that was removed in commit 81c1cd98351b. This causes various
-> > issues on that drive. Add a quick to still set MEDIUM priority
-> > for that controller.
-> > 
-> > Fixes: 81c1cd98351b ("nvme/pci: Don't set reserved SQ create flags")
-> > Cc: stable at vger.kernel.org
-> > Signed-off-by: Jens Axboe <axboe at kernel.dk>
+On Fri, May 11, 2018@11:57:52AM -0500, Bjorn Helgaas wrote:
+> We reported several corrected errors before the nvme timeout:
 > 
-> Thanks, applied to nvme-4.18.
+>   [12750.281158] nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
+>   [12750.297594] nvme nvme0: I/O 455 QID 2 timeout, disable controller
+>   [12750.305196] nvme 0000:01:00.0: enabling device (0000 -> 0002)
+>   [12750.305465] nvme nvme0: Removing after probe failure status: -19
+>   [12750.313188] nvme nvme0: I/O 456 QID 2 timeout, disable controller
+>   [12750.329152] nvme nvme0: I/O 457 QID 2 timeout, disable controller
+> 
+> The corrected errors are supposedly recovered in hardware without
+> software intervention, and AER logs them for informational purposes.
+> 
+> But it seems very likely that these corrected errors are related to
+> the nvme timeout: the first corrected errors were logged at
+> 12720.894411, nvme_io_timeout defaults to 30 seconds, and the nvme
+> timeout was at 12750.281158.
 
-Actually, any concern if I apply for the next 4.17-rc instead? I know
-this breakage isn't all that recent, but there seems to be heightened
-visibility on getting this work-around to users.
+The nvme_timeout handling is broken at the moment, but I'm not sure any
+of the fixes being considered will help here if we're really getting
+MMIO errors (that's what it looks like).
+ 
+> I don't have any good ideas.  As a shot in the dark, you could try
+> running these commands before doing a suspend:
+> 
+>   # setpci -s01:00.0 0x98.W
+>   # setpci -s00:1c.0 0x68.W
+>   # setpci -s01:00.0 0x198.L
+>   # setpci -s00:1c.0 0x208.L
+> 
+>   # setpci -s01:00.0 0x198.L=0x00000000
+>   # setpci -s01:00.0 0x98.W=0x0000
+>   # setpci -s00:1c.0 0x208.L=0x00000000
+>   # setpci -s00:1c.0 0x68.W=0x0000
+> 
+>   # lspci -vv -s00:1c.0
+>   # lspci -vv -s01:00.0
+> 
+> The idea is to turn off ASPM L1.2 and LTR, just because that's new and
+> we've had issues with it before.  If you try this, please collect the
+> output of the commands above in addition to the dmesg log, in case my
+> math is bad.
+
+I trust you know the offsets here, but it's hard to tell what this
+is doing with hard-coded addresses. Just to be safe and for clarity,
+I recommend the 'CAP_*+<offset>' with a mask.
+
+For example, disabling ASPM L1.2 can look like:
+
+ # setpci -s <B:D.f> CAP_PM+8.l=0:4
+
+And disabling LTR:
+
+ # setpci -s <B:D.f> CAP_EXP+28.w=0:400
