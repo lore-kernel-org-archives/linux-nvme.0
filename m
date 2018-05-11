@@ -1,53 +1,81 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 11 May 2018 16:55:11 -0600
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <YTXPR0101MB2045DC0248A9B125CA276969AA9F0@YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM>
-References: <20180423233046.21476-5-logang@deltatee.com>
- <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
- <20180508133407.57a46902@w520.home>
- <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
- <20180508141331.7cd737cb@w520.home>
- <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
- <2fc61d29-9eb4-d168-a3e5-955c36e5d821@amd.com>
- <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
- <f0101988-cf82-7ffb-2aca-d3b8d2f4b504@deltatee.com>
- <868B49CE-4F0E-4A48-BE78-12149F85F1A4@raithlin.com>
- <8113cba8-62b9-1801-7a77-f82be223b183@deltatee.com>
- <cf2b92c9-7c5b-f19c-b5b1-2f2d435296d1@amd.com>
- <53fa38ce-40dd-6bc1-9b83-c6ccf228b755@deltatee.com>
- <A50EA568-81E7-4AD7-8C1B-1029FEA92F49@raithlin.com>
- <YTXPR0101MB2045DC0248A9B125CA276969AA9F0@YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM>
-Message-ID: <fe1e1d66-9764-768a-a2da-73845d319b4e@deltatee.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri, 11 May 2018 16:22:29 -0700
+Subject: [PATCH v2] nvme: continue keep alive on error
+Message-ID: <20180511232229.18929-1-jsmart2021@gmail.com>
 
-On 5/11/2018 4:24 PM, Stephen  Bates wrote:
-> All
-> 
->>  ?Alex (or anyone else) can you point to where IOVA addresses are generated?
-> 
-> A case of RTFM perhaps (though a pointer to the code would still be appreciated).
-> 
-> https://www.kernel.org/doc/Documentation/Intel-IOMMU.txt
-> 
-> Some exceptions to IOVA
-> -----------------------
-> Interrupt ranges are not address translated, (0xfee00000 - 0xfeefffff).
-> The same is true for peer to peer transactions. Hence we reserve the
-> address from PCI MMIO ranges so they are not allocated for IOVA addresses.
+Currently, if the keep_alive command failed, an error message is
+generated and keep alive is stopped. This guarantees the target will
+eventually not see a keep_alive in a KATO window and fail.
 
-Hmm, except I'm not sure how to interpret that. It sounds like there 
-can't be an IOVA address that overlaps with the PCI MMIO range which is 
-good and what I'd expect.
+The keep_alive command may complete in error in cases where the
+transport or lldd are temporarily out of resources. As such, the
+command should be retried rather than letting the controller die.
 
-But for peer to peer they say they don't translate the address which 
-implies to me that the intention is for a peer to peer address to not be 
-mapped in the same way using the dma_map interface (of course though if 
-you were using ATS you'd want this for sure). Unless the existing 
-dma_map command's notice a PCI MMIO address and handle them differently, 
-but I don't see how.
+If the command completes in error, retry another one after a short
+delay. Track whether keep alive has had an error to reduce printing
+the error message to the first failure only.
 
-Logan
+Signed-off-by: James Smart <james.smart at broadcom.com>
+
+---
+v2: add ka_error so that info print isn't 4 times a second for
+  a repeating error.
+---
+ drivers/nvme/host/core.c | 17 +++++++++++------
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7a39ce8d9d5e..6eb36fdf91be 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -791,17 +791,21 @@ static int nvme_submit_user_cmd(struct request_queue *q,
+ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ {
+ 	struct nvme_ctrl *ctrl = rq->end_io_data;
++	unsigned long delay = ctrl->kato * HZ;
+ 
+ 	blk_mq_free_request(rq);
+ 
+ 	if (status) {
+-		dev_err(ctrl->device,
+-			"failed nvme_keep_alive_end_io error=%d\n",
+-				status);
+-		return;
+-	}
++		if (!ctrl->ka_error)
++			dev_info(ctrl->device,
++				"failed nvme_keep_alive_end_io error=%d, "
++				"retrying\n", status);
++		ctrl->ka_error = true;
++		delay = (HZ / 4);	/* 250ms */
++	} else
++		ctrl->ka_error = false;
+ 
+-	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++	schedule_delayed_work(&ctrl->ka_work, delay);
+ }
+ 
+ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+@@ -839,6 +843,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	if (unlikely(ctrl->kato == 0))
+ 		return;
+ 
++	ctrl->ka_error = false;
+ 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7ded7a51c430..af65cc540776 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -178,6 +178,7 @@ struct nvme_ctrl {
+ 	u32 aen_result;
+ 	unsigned int shutdown_timeout;
+ 	unsigned int kato;
++	bool ka_error;
+ 	bool subsystem;
+ 	unsigned long quirks;
+ 	struct nvme_id_power_state psd[32];
+-- 
+2.13.1
