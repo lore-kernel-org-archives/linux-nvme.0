@@ -1,17 +1,15 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 11 May 2018 20:29:31 +0800
-Subject: [PATCH V5 7/9] nvme: pci: don't unfreeze queue until controller state
- updating succeeds
+Date: Fri, 11 May 2018 20:29:32 +0800
+Subject: [PATCH V5 8/9] nvme: core: introduce nvme_force_change_ctrl_state()
 In-Reply-To: <20180511122933.27155-1-ming.lei@redhat.com>
 References: <20180511122933.27155-1-ming.lei@redhat.com>
-Message-ID: <20180511122933.27155-8-ming.lei@redhat.com>
+Message-ID: <20180511122933.27155-9-ming.lei@redhat.com>
 
-If it fails to update controller state into LIVE or ADMIN_ONLY, the
-controller will be removed, so not necessary to unfreeze queue any
-more.
+When controller is being reset, timeout still may be triggered,
+for handling this situation, the contoller state has to be
+changed to NVME_CTRL_RESETTING first.
 
-This way will make the following patch easier to not leak the
-freeze couner.
+So introduce nvme_force_change_ctrl_state() for this purpose.
 
 Cc: James Smart <james.smart at broadcom.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
@@ -21,39 +19,66 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/pci.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 33 +++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  2 ++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d880356feee2..b79c7f016489 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2370,6 +2370,7 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	int result = -ENODEV;
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
-+	bool unfreeze_queue = false;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index adb1743e87f7..af053309c610 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -254,6 +254,39 @@ void nvme_cancel_request(struct request *req, void *data, bool reserved)
+ }
+ EXPORT_SYMBOL_GPL(nvme_cancel_request);
  
- 	lockdep_assert_held(&dev->ctrl.reset_lock);
- 
-@@ -2456,7 +2457,7 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
--		nvme_unfreeze(&dev->ctrl);
-+		unfreeze_queue = true;
- 	}
- 
- 	result = -ENODEV;
-@@ -2471,6 +2472,9 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 	}
- 
- 	nvme_start_ctrl(&dev->ctrl);
++/* should only be used by EH for handling error during reset */
++void nvme_force_change_ctrl_state(struct nvme_ctrl *ctrl,
++		enum nvme_ctrl_state new_state)
++{
++	enum nvme_ctrl_state old_state;
++	unsigned long flags;
++	bool warn = true;
 +
-+	if (unfreeze_queue)
-+		nvme_unfreeze(&dev->ctrl);
- 	return 0;
- 
-  out:
++	spin_lock_irqsave(&ctrl->lock, flags);
++	old_state = ctrl->state;
++	switch (new_state) {
++	case NVME_CTRL_RESETTING:
++		switch (old_state) {
++		case NVME_CTRL_LIVE:
++		case NVME_CTRL_ADMIN_ONLY:
++		case NVME_CTRL_RESETTING:
++		case NVME_CTRL_CONNECTING:
++			warn = false;
++			break;
++		default:
++			break;
++		}
++	default:
++		break;
++	}
++	if (warn)
++		WARN(1, "Make sure you want to change to %d from %d\n",
++				new_state, old_state);
++	ctrl->state = new_state;
++	spin_unlock_irqrestore(&ctrl->lock, flags);
++}
++EXPORT_SYMBOL_GPL(nvme_force_change_ctrl_state);
++
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 021f7147f779..2a68df197c71 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -385,6 +385,8 @@ void nvme_complete_rq(struct request *req);
+ void nvme_cancel_request(struct request *req, void *data, bool reserved);
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state);
++void nvme_force_change_ctrl_state(struct nvme_ctrl *ctrl,
++		enum nvme_ctrl_state new_state);
+ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.9.5
