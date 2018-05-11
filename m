@@ -1,13 +1,25 @@
 From: Sriram.Popuri@netapp.com (Popuri, Sriram)
-Date: Fri, 11 May 2018 08:22:19 +0000
+Date: Fri, 11 May 2018 08:36:18 +0000
 Subject: [PATCH 5/5] nvme: ANA base support
-In-Reply-To: <20180511095025.55f1bfc8@pentland.suse.de>
+In-Reply-To: <BN7PR06MB4033848E5802B8C1DB59573F929F0@BN7PR06MB4033.namprd06.prod.outlook.com>
 References: <20180504112845.38820-1-hare@suse.de>
  <20180504112845.38820-6-hare@suse.de>
  <1525892598.30724.276.camel@localhost.localdomain>
  <CAGYjvj0Mk0MFAfUEApOOyQ9Prm3CvGcZH14PJzDQT2+Qc+w81w@mail.gmail.com>
  <20180511095025.55f1bfc8@pentland.suse.de>
-Message-ID: <BN7PR06MB4033848E5802B8C1DB59573F929F0@BN7PR06MB4033.namprd06.prod.outlook.com>
+ <BN7PR06MB4033848E5802B8C1DB59573F929F0@BN7PR06MB4033.namprd06.prod.outlook.com>
+Message-ID: <BN7PR06MB4033F43ADC37F7428092EA5A929F0@BN7PR06MB4033.namprd06.prod.outlook.com>
+
+Small corrections inline.
+
+Regards,
+~Sriram
+-----Original Message-----
+From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> On Behalf Of Popuri, Sriram
+Sent: Friday, May 11, 2018 1:52 PM
+To: Hannes Reinecke <hare at suse.de>; Sriram Popuri <sgpopuri at gmail.com>
+Cc: Knight, Frederick <Frederick.Knight at netapp.com>; linux-nvme at lists.infradead.org; emilne at redhat.com; Meneghini, John <John.Meneghini at netapp.com>
+Subject: RE: [PATCH 5/5] nvme: ANA base support
 
 My comments inline with tag "[Sriram]".
 
@@ -15,7 +27,7 @@ Regards,
 ~Sriram
 
 -----Original Message-----
-From: Hannes Reinecke <hare@suse.de> 
+From: Hannes Reinecke <hare@suse.de>
 Sent: Friday, May 11, 2018 1:20 PM
 To: Sriram Popuri <sgpopuri at gmail.com>
 Cc: emilne at redhat.com; linux-nvme at lists.infradead.org; Popuri, Sriram <Sriram.Popuri at netapp.com>; Knight, Frederick <Frederick.Knight at netapp.com>; Meneghini, John <John.Meneghini at netapp.com>
@@ -52,11 +64,9 @@ Note: Clearing the RGO bit to ?0? and setting either the LPOL field or the LPOU 
 
 Which I would interpret that we _have_ to use a buffer of the correct size to retrieve the entire information.
 
-[Sriram] That?s precisely the reason I suggested MDTS. Target would only give you back the size in MDTS and you can't read beyond MDTS since the spec doesn't allow you to read at some offset.
+[Sriram] That?s precisely the reason I suggested MDTS. Target would only give you back at max the size in MDTS and you can't read beyond MDTS if the log size is larger since the spec doesn't allow you to read at some offset. So the targets have to restrict the config to be able to adjust the log page within MDTS (bad, but that?s how it is today).
 
 Curiously, we should be able to use the LPOL and LPOU setting when the RGO bit is set, ie when we're just enumerating ANA groups.
-
-[Sriram] I second that and I did suggest this to Fred sometime back.
 
 A quick calculation there reveals that the max size for the ANA log page with the RGO bit set is about 2M (65535 descriptors * 32 bytes per descriptor + 16 byte header), which probably is a bit unwieldy to use directly.
 
@@ -70,6 +80,12 @@ Fred: if you ever plan for a revisited ANA spec, _please_ change this.
 Make the currently reserved field in the ANA log page header a max nsid count (ie store the maximum number of NSIDs per ANA group here).
 With that we have a max length of the ANA log page, and would have to retrieve the log page only twice, not three times.
 
+[Sriram] I second that and I did suggest this to Fred sometime back.
+
 Cheers,
 
 Hannes
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
