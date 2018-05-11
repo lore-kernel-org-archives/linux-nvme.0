@@ -1,92 +1,156 @@
-From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
-Date: Fri, 11 May 2018 10:52:49 +0200
-Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
- behind switches
-In-Reply-To: <8113cba8-62b9-1801-7a77-f82be223b183@deltatee.com>
-References: <20180423233046.21476-5-logang@deltatee.com>
- <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
- <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
- <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
- <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
- <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
- <20180508133407.57a46902@w520.home>
- <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
- <20180508141331.7cd737cb@w520.home>
- <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
- <20180508205005.GC15608@redhat.com>
- <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
- <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
- <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
- <2fc61d29-9eb4-d168-a3e5-955c36e5d821@amd.com>
- <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
- <f0101988-cf82-7ffb-2aca-d3b8d2f4b504@deltatee.com>
- <868B49CE-4F0E-4A48-BE78-12149F85F1A4@raithlin.com>
- <8113cba8-62b9-1801-7a77-f82be223b183@deltatee.com>
-Message-ID: <cf2b92c9-7c5b-f19c-b5b1-2f2d435296d1@amd.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Fri, 11 May 2018 20:29:25 +0800
+Subject: [PATCH V5 1/9] block: introduce blk_quiesce_timeout() and
+ blk_unquiesce_timeout()
+In-Reply-To: <20180511122933.27155-1-ming.lei@redhat.com>
+References: <20180511122933.27155-1-ming.lei@redhat.com>
+Message-ID: <20180511122933.27155-2-ming.lei@redhat.com>
 
-Am 10.05.2018 um 19:15 schrieb Logan Gunthorpe:
->
-> On 10/05/18 11:11 AM, Stephen  Bates wrote:
->>> Not to me. In the p2pdma code we specifically program DMA engines with
->>> the PCI bus address.
->> Ah yes of course. Brain fart on my part. We are not programming the P2PDMA initiator with an IOVA but with the PCI bus address...
+Turns out the current way can't drain timout completely because mod_timer()
+can be triggered in the work func, which can be just run inside the synced
+timeout work:
 
-By disabling the ACS bits on the intermediate bridges you turn their 
-address routing from IOVA addresses (which are to be resolved by the 
-root complex) back to PCI bus addresses (which are resolved locally in 
-the bridge).
+        del_timer_sync(&q->timeout);
+        cancel_work_sync(&q->timeout_work);
 
-This only works when the IOVA and the PCI bus addresses never overlap. 
-I'm not sure how the IOVA allocation works but I don't think we 
-guarantee that on Linux.
+This patch introduces one flag of 'timeout_off' for fixing this issue, turns
+out this simple way does work.
 
->>
->>> So regardless of whether we are using the IOMMU or
->>> not, the packets will be forwarded directly to the peer. If the ACS
->>>   Redir bits are on they will be forced back to the RC by the switch and
->>>   the transaction will fail. If we clear the ACS bits, the TLPs will go
->>>   where we want and everything will work (but we lose the isolation of ACS).
->> Agreed.
+Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
+draining timeout, which is needed by NVMe.
 
-If we really want to enable P2P without ATS and IOMMU enabled I think we 
-should probably approach it like this:
+Cc: James Smart <james.smart at broadcom.com>
+Cc: Bart Van Assche <bart.vanassche at wdc.com>
+Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: linux-nvme at lists.infradead.org
+Cc: Laurence Oberman <loberman at redhat.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ block/blk-core.c       | 21 +++++++++++++++++++--
+ block/blk-mq.c         |  9 +++++++++
+ block/blk-timeout.c    |  5 ++++-
+ include/linux/blkdev.h | 13 +++++++++++++
+ 4 files changed, 45 insertions(+), 3 deletions(-)
 
-a) Make double sure that IOVA in an IOMMU group never overlap with PCI 
-BARs in that group.
-
-b) Add configuration options to put a whole PCI branch of devices (e.g. 
-a bridge) into a single IOMMU group.
-
-c) Add a configuration option to disable the ACS bit on bridges in the 
-same IOMMU group.
-
-
-I agree that we have a rather special case here, but I still find that 
-approach rather brave and would vote for disabling P2P without ATS when 
-IOMMU is enabled.
-
-
-BTW: I can't say anything about other implementations, but at least for 
-the AMD-IOMMU the transaction won't fail when it is send to the root 
-complex.
-
-Instead the root complex would send it to the correct device. I already 
-tested that on an AMD Ryzen with IOMMU enabled and P2P between two GPUs 
-(but could be that this only works because of ATS).
-
-Regards,
-Christian.
-
->>>     For EPs that support ATS, we should (but don't necessarily have to)
->>>     program them with the IOVA address so they can go through the
->>>     translation process which will allow P2P without disabling the ACS Redir
->>>     bits -- provided the ACS direct translation bit is set. (And btw, if it
->>>     is, then we lose the benefit of ACS protecting against malicious EPs).
->>>     But, per above, the ATS transaction should involve only the IOVA address
->>>     so the ACS bits not being set should not break ATS.
->>      
->> Well we would still have to clear some ACS bits but now we can clear only for translated addresses.
-> We don't have to clear the ACS Redir bits as we did in the first case.
-> We just have to make sure the ACS Direct Translated bit is set.
->
-> Logan
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 85909b431eb0..c277f1023703 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -392,6 +392,22 @@ void blk_stop_queue(struct request_queue *q)
+ }
+ EXPORT_SYMBOL(blk_stop_queue);
+ 
++void blk_unquiesce_timeout(struct request_queue *q)
++{
++	blk_mark_timeout_quiesce(q, false);
++	mod_timer(&q->timeout, jiffies + q->rq_timeout);
++}
++EXPORT_SYMBOL(blk_unquiesce_timeout);
++
++void blk_quiesce_timeout(struct request_queue *q)
++{
++	blk_mark_timeout_quiesce(q, true);
++
++	del_timer_sync(&q->timeout);
++	cancel_work_sync(&q->timeout_work);
++}
++EXPORT_SYMBOL(blk_quiesce_timeout);
++
+ /**
+  * blk_sync_queue - cancel any pending callbacks on a queue
+  * @q: the queue
+@@ -412,8 +428,7 @@ EXPORT_SYMBOL(blk_stop_queue);
+  */
+ void blk_sync_queue(struct request_queue *q)
+ {
+-	del_timer_sync(&q->timeout);
+-	cancel_work_sync(&q->timeout_work);
++	blk_quiesce_timeout(q);
+ 
+ 	if (q->mq_ops) {
+ 		struct blk_mq_hw_ctx *hctx;
+@@ -425,6 +440,8 @@ void blk_sync_queue(struct request_queue *q)
+ 	} else {
+ 		cancel_delayed_work_sync(&q->delay_work);
+ 	}
++
++	blk_mark_timeout_quiesce(q, false);
+ }
+ EXPORT_SYMBOL(blk_sync_queue);
+ 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9ce9cac16c3f..173f1723e48f 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -917,6 +917,15 @@ static void blk_mq_timeout_work(struct work_struct *work)
+ 	};
+ 	struct blk_mq_hw_ctx *hctx;
+ 	int i;
++	bool timeout_off;
++	unsigned long flags;
++
++	spin_lock_irqsave(q->queue_lock, flags);
++	timeout_off = q->timeout_off;
++	spin_unlock_irqrestore(q->queue_lock, flags);
++
++	if (timeout_off)
++		return;
+ 
+ 	/* A deadlock might occur if a request is stuck requiring a
+ 	 * timeout at the same time a queue freeze is waiting
+diff --git a/block/blk-timeout.c b/block/blk-timeout.c
+index 652d4d4d3e97..ffd0b609091e 100644
+--- a/block/blk-timeout.c
++++ b/block/blk-timeout.c
+@@ -136,12 +136,15 @@ void blk_timeout_work(struct work_struct *work)
+ 
+ 	spin_lock_irqsave(q->queue_lock, flags);
+ 
++	if (q->timeout_off)
++		goto exit;
++
+ 	list_for_each_entry_safe(rq, tmp, &q->timeout_list, timeout_list)
+ 		blk_rq_check_expired(rq, &next, &next_set);
+ 
+ 	if (next_set)
+ 		mod_timer(&q->timeout, round_jiffies_up(next));
+-
++exit:
+ 	spin_unlock_irqrestore(q->queue_lock, flags);
+ }
+ 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 5c4eee043191..a2cc4aaecf50 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -584,6 +584,7 @@ struct request_queue {
+ 	struct timer_list	timeout;
+ 	struct work_struct	timeout_work;
+ 	struct list_head	timeout_list;
++	bool			timeout_off;
+ 
+ 	struct list_head	icq_list;
+ #ifdef CONFIG_BLK_CGROUP
+@@ -1017,6 +1018,18 @@ extern void blk_execute_rq(struct request_queue *, struct gendisk *,
+ extern void blk_execute_rq_nowait(struct request_queue *, struct gendisk *,
+ 				  struct request *, int, rq_end_io_fn *);
+ 
++static inline void blk_mark_timeout_quiesce(struct request_queue *q, bool quiesce)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(q->queue_lock, flags);
++	q->timeout_off = quiesce;
++	spin_unlock_irqrestore(q->queue_lock, flags);
++}
++
++extern void blk_quiesce_timeout(struct request_queue *q);
++extern void blk_unquiesce_timeout(struct request_queue *q);
++
+ int blk_status_to_errno(blk_status_t status);
+ blk_status_t errno_to_blk_status(int errno);
+ 
+-- 
+2.9.5
