@@ -1,50 +1,68 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 11 May 2018 14:02:57 -0600
-Subject: PCIe unsupported request with Intel 760p
-In-Reply-To: <20180511193923.GJ190385@bhelgaas-glaptop.roam.corp.google.com>
-References: <CAKDfzeD5_AV=YtWqTPr=40vvW4oMFAs4gJs_r42PJWcb815zyQ@mail.gmail.com>
- <20180507123035.GA20097@gmail.com>
- <20180507134354.GF18116@bombadil.infradead.org>
- <20180507151246.GB20686@localhost.localdomain>
- <20180511193923.GJ190385@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <20180511200256.GA7772@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri, 11 May 2018 13:19:03 -0700
+Subject: [PATCH 3/7] nvme_fc: retry failures to set io queue count
+In-Reply-To: <20180508080041.62af2693@pentland.suse.de>
+References: <20180508001214.8951-1-jsmart2021@gmail.com>
+ <20180508001214.8951-4-jsmart2021@gmail.com>
+ <20180508080041.62af2693@pentland.suse.de>
+Message-ID: <481a6feb-1a3b-72b4-29a7-310d3525e21c@gmail.com>
 
-On Fri, May 11, 2018@02:39:23PM -0500, Bjorn Helgaas wrote:
-> Any update on this?  I'm pretty concerned about this issue because it
-> *looks* like we're not doing anything that should cause this problem,
-> and I don't know what we *could* do to avoid it.
-
-The only update I have at the moment is that the sighting has been
-opened and assigned to the development team. I'm afraid I do not have an
-ETA on when we will get a response, much less a fix.
- 
-> The theory is that the Intel 760p NVMe is sending LTR messages even
-> though it's configured to *not* send them.  It happens that Aron's
-> system has a root port that doesn't support LTR, and it complains when
-> it sees the messages.
+On 5/7/2018 11:00 PM, Hannes Reinecke wrote:
+> On Mon,  7 May 2018 17:12:10 -0700
+> "James Smart" <jsmart2021@gmail.com> wrote:
 > 
-> Anybody who has the Intel 760p NVMe should be able to reproduce this.
-> If the root port leading to the NVMe doesn't support LTR (its DevCap2
-> would say "LTR-"), the same problem should occur.
+>> During the creation of a new controller association, it's possible for
+>> errors and link connectivity issues to cause nvme_set_queue_count() to
+>> have its SET_FEATURES command fail with a positive non-zero code. The
+>> routine doesn't treat this as a hard error, instead setting the io
+>> queue count to zero and returning success.  This has the result of the
+>> transport setting the io queue count to 0, making the storage
+>> controller inoperable. The message "...Could not set queue count..."
+>> is seen.
+>>
+>> Revise the fc transport to detect when it asked for io queues but got
+>> back a result of 0 io queues. In such a case, fail the re-connection
+>> attempt and fall into the retry loop.
+>>
+>> Signed-off-by: James Smart <james.smart at broadcom.com>
+>> ---
+>>   drivers/nvme/host/fc.c | 14 ++++++++------
+>>   1 file changed, 8 insertions(+), 6 deletions(-)
+>>
+> The usual problem when having _two_ return values.
+> Can't have nvme_set_queue_count() return the number of queues or a
+> negative number on failure?
+> Then the check would be much simplified.
 > 
-> If your root port *does* support LTR, you might be able to force this
-> to happen by booting with "pcie_aspm=off" and then running this
-> command where "bb:dd.f" is the bus/domain/function of the root port:
+> Cheers,
 > 
->   # setpci -sbb:dd.f CAP_EXP+0x28.W=0:0x400
+> Hannes
 > 
-> But I tried this on a root port leading to a different (non-NVMe)
-> device with LTR enabled, and I didn't see any AER complaints about
-> unexpected LTR messages, so maybe there's something I'm missing.
 
-Hm, do you know if you were able to get the end device to transmit
-an LTR while the root port had the capability disabled? Just a quick
-glance through the spec suggests it should transmit one if you toggle
-the capability off/on.
+the routine that nvme_set_queue_count() uses to perform the SET_FEATURES 
+command to set the queue count returns either a negative error (linux 
+error code), 0 for success, or a positive error (nvme command status 
+value).   The nvme_set_queue_count() routine, in the case where it is a 
+positive error - converts it to logging a message, setting io count to
+zero, and returning success. In the case where it was a negative error,
+nvme_set_queue_count() returns the negative error. Success sets the io 
+count and returns zero.
 
-If the capability is disabled in the root/downstream port, and it
-recieves an LTR, it should be treated as an Unsupported Request error.
-That should trigger an AER if it's not masked and enabled to report it.
+In looking through history, it appears the desired to not fault 
+controller connect if the SET_FEATURES command failed due to a nvme 
+status was to allow the (degraded) controller to come up and at least 
+offer the adminq for maintenance.
 
-If everything is set up to make the error happen, but you're not seeing
-one, it sounds like maybe the message is just getting discarded.
+Obviously, my patch is reverting that "maintenance" path. This is a 
+little more complex than desired as its not clear whether the nvme 
+status was from a real device completion or one that was stamped by the 
+transport as it recovered from a transport error or connectivity error 
+(NVME_SC_ABORT_REQ  or NVME_SC_INTERNAL). Former is when you would want 
+to continue, latter you want to fail. It appears the other transports 
+stamp only NVME_SC_ABORT_REQ.
+
+I'm going to repost with nvme_set_queue_count() returning failure 
+(positive nvme result) if one of those two codes are returned. Any other 
+status will keep the existing behavior.
+
+-- james
