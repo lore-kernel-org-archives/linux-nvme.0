@@ -1,21 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 11 May 2018 08:38:24 +0200
-Subject: [PATCH] nvme/pci: Sync controller reset for AER slot_reset
-In-Reply-To: <20180510160113.4432-1-keith.busch@intel.com>
-References: <20180510160113.4432-1-keith.busch@intel.com>
-Message-ID: <20180511063824.GB8368@lst.de>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Fri, 11 May 2018 02:38:15 -0400
+Subject: [PATCH] nvmet-loop: use nr_phys_segments when map rq to sgl
+Message-ID: <20180511063815.14911-1-chaitanya.kulkarni@wdc.com>
 
-On Thu, May 10, 2018@10:01:13AM -0600, Keith Busch wrote:
-> AER handling expects a successful return from slot_reset means the
-> driver made the device functional again. The nvme driver had been using
-> an asynchronous reset to recover the device, so the device
-> may still be initializing after control is returned to the
-> AER handler. This creates problems for subsequent event handling,
-> causing the initializion to fail.
-> 
-> This patch fixes that by syncing the controller reset before returning
-> to the AER driver, and reporting the true state of the reset.
+This patch replaces blk_rq_payload_bytes() with
+blk_rq_nr_phys_segments(). For the payloadless requests like
+write-zeroes it will trigger BUD_ON() at
+sg_alloc_table_chained() since blk_rq_nr_phys_segments()
+will evaluate to 0 due to nature of the request.
 
-Looks good,
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/loop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 27a8561c0cb9..4284cefe6d32 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -174,7 +174,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			&queue->nvme_sq, &nvme_loop_ops))
+ 		return BLK_STS_OK;
+ 
+-	if (blk_rq_payload_bytes(req)) {
++	if (blk_rq_nr_phys_segments(req)) {
+ 		iod->sg_table.sgl = iod->first_sgl;
+ 		if (sg_alloc_table_chained(&iod->sg_table,
+ 				blk_rq_nr_phys_segments(req),
+-- 
+2.14.1
