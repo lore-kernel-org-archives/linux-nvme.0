@@ -1,467 +1,80 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 11 May 2018 20:29:33 +0800
-Subject: [PATCH V5 9/9] nvme: pci: support nested EH
-In-Reply-To: <20180511122933.27155-1-ming.lei@redhat.com>
-References: <20180511122933.27155-1-ming.lei@redhat.com>
-Message-ID: <20180511122933.27155-10-ming.lei@redhat.com>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Fri, 11 May 2018 09:18:53 -0500
+Subject: [PATCH] nvme/pci: Sync controller reset for AER slot_reset
+In-Reply-To: <4934e3b2-4c74-16a8-8530-d05430cf4aee@gmail.com>
+References: <20180510160113.4432-1-keith.busch@intel.com>
+ <93d528ce-043a-5118-02b3-986d151b37cf@gmail.com>
+ <20180510191417.GA4787@localhost.localdomain>
+ <4934e3b2-4c74-16a8-8530-d05430cf4aee@gmail.com>
+Message-ID: <906bbf2e-8f95-0959-90b2-5fd11aad0521@gmail.com>
 
-When one req is timed out, now nvme_timeout() handles it by the
-following way:
 
-	nvme_dev_disable(dev, false);
-	nvme_reset_ctrl(&dev->ctrl);
-	return BLK_EH_HANDLED.
 
-There are several issues about the above approach:
+On 05/10/2018 02:20 PM, Alex G. wrote:
+> 
+> 
+> On 05/10/2018 02:14 PM, Keith Busch wrote:
+>> On Thu, May 10, 2018@01:56:56PM -0500, Alex G. wrote:
+>>>> @@ -2681,8 +2681,15 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
+>>>>   
+>>>>   	dev_info(dev->ctrl.device, "restart after slot reset\n");
+>>>>   	pci_restore_state(pdev);
+>>>> -	nvme_reset_ctrl(&dev->ctrl);
+>>>> -	return PCI_ERS_RESULT_RECOVERED;
+>>>> +	nvme_reset_ctrl_sync(&dev->ctrl);
+>>>
+>>> This does wonders when nvme_reset_ctrl_sync() returns in a timely
+>>> manner. I was also able to get the nvme drive in a state where
+>>> nvme_reset_ctrl_sync() does not return. Then we end up with the device
+>>> lock in report_slot_reset, which, as you may imagine, is not a great thing.
+>>
+>> It never returns? That shouldn't happen. There are cases where it may take
+>> a very long time, depending on what the controller reports in CAP.TO. The
+>> only other case it may stall is if the controller never responds to the
+>> initialization admin commands, but that should delay by 60 seconds under
+>> default parameters.
+> 
+> Took 28 minutes before I gave up and rebooted the machine. Maybe I
+> should have waited 30.
+> Even 60 seconds seems like a terribly long time to wait in AER. Simple
+> stuff like block IO and 'nvme list' hangs in kernel space this entire
+> time. I can raise a separate issue once I find a reliable way to repro.
 
-1) IO may fail during resetting
+I've been playing some more with this. With recovery from a malformed 
+TLP resulting from a bad MPS value in the switch upstream port we are 
+likely to not return in a timely manner (a few minutes to infinity). 
+This happens with less than 100% consistency. I am in a state of 
+disbelief, since this makes little sense to me.
+Log excerpt below.
+Do you think it's a separate issue, or related?
 
-Admin IO timeout may be triggered in nvme_reset_dev() when error happens.
-Normal IO timeout may be triggered too during nvme_wait_freeze() in reset
-path. When the two kinds of timeout happen, the current reset mechanism
-can't work any more.
+Alex
 
-2) race between nvme_start_freeze and nvme_wait_freeze() & nvme_unfreeze()
-
-- nvme_dev_disable() and resetting controller are required for recovering
-controller, but the two are run from different contexts. nvme_start_freeze()
-is call from nvme_dev_disable() which is run timeout work context, and
-nvme_unfreeze() is run from reset work context. Unfortunatley timeout may be
-triggered during resetting controller, so nvme_start_freeze() may be run
-several times.
-
-- Also two reset work may run one by one, this may cause hang in
-nvme_wait_freeze() forever too.
-
-3) all namespace's EH require to shutdown & reset the controller
-
-block's timeout handler is per-request-queue, that means each
-namespace's error handling may shutdown & reset the whole controller,
-then the shutdown from one namespace may quiese queues when resetting
-from another namespace is in-progress.
-
-This patch fixes the above issues by using nested EH:
-
-1) run controller shutdown(nvme_dev_disable()) and resetting(nvme_reset_dev)
-from one same EH context, so the above race 2) can be fixed easily.
-
-2) always start a new context for handling EH, and cancel all in-flight
-requests(include the timed-out ones) in nvme_dev_disable() by quiescing
-timeout event before shutdown controller.
-
-3) limit the max number of nested EH, when the limit is reached, removes
-the controller and fails all in-flight request.
-
-With this approach, blktest block/011 can be passed.
-
-Cc: James Smart <james.smart at broadcom.com>
-Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: linux-nvme at lists.infradead.org
-Cc: Laurence Oberman <loberman at redhat.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c |  22 +++++
- drivers/nvme/host/nvme.h |   2 +
- drivers/nvme/host/pci.c  | 243 +++++++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 247 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index af053309c610..1dec353388be 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3581,6 +3581,28 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_start_freeze);
- 
-+void nvme_unquiesce_timeout(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_unquiesce_timeout(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_unquiesce_timeout);
-+
-+void nvme_quiesce_timeout(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_quiesce_timeout(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_quiesce_timeout);
-+
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2a68df197c71..934cf98925f3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -407,6 +407,8 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res);
- 
-+void nvme_unquiesce_timeout(struct nvme_ctrl *ctrl);
-+void nvme_quiesce_timeout(struct nvme_ctrl *ctrl);
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b79c7f016489..4366c21e59b2 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -71,6 +71,7 @@ struct nvme_queue;
- static void nvme_process_cq(struct nvme_queue *nvmeq);
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
- 		freeze_queue);
-+static int nvme_reset_dev(struct nvme_dev *dev);
- 
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-@@ -113,6 +114,23 @@ struct nvme_dev {
- 	dma_addr_t host_mem_descs_dma;
- 	struct nvme_host_mem_buf_desc *host_mem_descs;
- 	void **host_mem_desc_bufs;
-+
-+	/* EH handler */
-+	spinlock_t	eh_lock;
-+	bool		ctrl_shutdown_started;
-+	bool		ctrl_failed;
-+	unsigned int	nested_eh;
-+	struct work_struct fail_ctrl_work;
-+	wait_queue_head_t	eh_wq;
-+	struct list_head	eh_head;
-+};
-+
-+#define  NVME_MAX_NESTED_EH	32
-+struct nvme_eh_work {
-+	struct work_struct	work;
-+	struct nvme_dev		*dev;
-+	int			seq;
-+	struct list_head	list;
- };
- 
- static int io_queue_depth_set(const char *val, const struct kernel_param *kp)
-@@ -1177,6 +1195,176 @@ static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
- 			 csts, result);
- }
- 
-+static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
-+{
-+	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
-+
-+	nvme_get_ctrl(&dev->ctrl);
-+	nvme_dev_disable(dev, false, false);
-+	if (!queue_work(nvme_wq, &dev->remove_work))
-+		nvme_put_ctrl(&dev->ctrl);
-+}
-+
-+static void nvme_eh_fail_ctrl_work(struct work_struct *work)
-+{
-+	struct nvme_dev *dev =
-+		container_of(work, struct nvme_dev, fail_ctrl_work);
-+
-+	dev_info(dev->ctrl.device, "EH: fail controller\n");
-+	nvme_remove_dead_ctrl(dev, 0);
-+}
-+
-+static void nvme_eh_mark_ctrl_shutdown(struct nvme_dev *dev)
-+{
-+	spin_lock(&dev->eh_lock);
-+	dev->ctrl_shutdown_started = false;
-+	spin_unlock(&dev->eh_lock);
-+}
-+
-+static void nvme_eh_sched_fail_ctrl(struct nvme_dev *dev)
-+{
-+	INIT_WORK(&dev->fail_ctrl_work, nvme_eh_fail_ctrl_work);
-+	queue_work(nvme_reset_wq, &dev->fail_ctrl_work);
-+}
-+
-+/* either controller is updated to LIVE or will be removed */
-+static bool nvme_eh_reset_done(struct nvme_dev *dev)
-+{
-+	return dev->ctrl.state == NVME_CTRL_LIVE || dev->ctrl_failed;
-+}
-+
-+static void nvme_eh_done(struct nvme_eh_work *eh_work, int result)
-+{
-+	struct nvme_dev *dev = eh_work->dev;
-+	bool top_eh;
-+
-+	spin_lock(&dev->eh_lock);
-+	top_eh = list_is_last(&eh_work->list, &dev->eh_head);
-+	dev->nested_eh--;
-+
-+	/* Fail controller if the top EH can't recover it */
-+	if (!result)
-+		wake_up_all(&dev->eh_wq);
-+	else if (top_eh) {
-+		dev->ctrl_failed = true;
-+		nvme_eh_sched_fail_ctrl(dev);
-+		wake_up_all(&dev->eh_wq);
-+	}
-+
-+	list_del(&eh_work->list);
-+	spin_unlock(&dev->eh_lock);
-+
-+	dev_info(dev->ctrl.device, "EH %d: state %d, eh_done %d, top eh %d\n",
-+			eh_work->seq, dev->ctrl.state, result, top_eh);
-+	wait_event(dev->eh_wq, nvme_eh_reset_done(dev));
-+
-+	/*
-+	 * After controller is recovered in upper EH finally, we have to
-+	 * unfreeze queues if reset failed in this EH, otherwise blk-mq
-+	 * queues' freeze counter may be leaked.
-+	 *
-+	 * nvme_unfreeze() can only be called after controller state is
-+	 * updated to LIVE.
-+	 */
-+	if (result && (dev->ctrl.state == NVME_CTRL_LIVE))
-+		nvme_unfreeze(&dev->ctrl);
-+}
-+
-+static void nvme_eh_work(struct work_struct *work)
-+{
-+	struct nvme_eh_work *eh_work =
-+		container_of(work, struct nvme_eh_work, work);
-+	struct nvme_dev *dev = eh_work->dev;
-+	int result = -ENODEV;
-+	bool top_eh;
-+
-+	dev_info(dev->ctrl.device, "EH %d: before shutdown\n",
-+			eh_work->seq);
-+	nvme_dev_disable(dev, false, true);
-+
-+	/* allow new EH to be created */
-+	nvme_eh_mark_ctrl_shutdown(dev);
-+
-+	/*
-+	 * nvme_dev_disable cancels all in-flight requests, and wont't
-+	 * cause timout at all, so I am always the top EH now, but it
-+	 * becomes not true after 'reset_lock' is held, so have to check
-+	 * if I am still the top EH, and force to update to NVME_CTRL_RESETTING
-+	 * if yes.
-+	 */
-+	mutex_lock(&dev->ctrl.reset_lock);
-+	spin_lock(&dev->eh_lock);
-+
-+	/* allow top EH to preempt other inner EH */
-+	top_eh = list_is_last(&eh_work->list, &dev->eh_head);
-+	dev_info(dev->ctrl.device, "EH %d: after shutdown, top eh: %d\n",
-+			eh_work->seq, top_eh);
-+	if (!top_eh) {
-+		if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING)) {
-+			spin_unlock(&dev->eh_lock);
-+			goto done;
-+		}
-+	} else {
-+		nvme_force_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING);
-+		result = 0;
-+	}
-+
-+	spin_unlock(&dev->eh_lock);
-+	result = nvme_reset_dev(dev);
-+done:
-+	mutex_unlock(&dev->ctrl.reset_lock);
-+	nvme_eh_done(eh_work, result);
-+	dev_info(dev->ctrl.device, "EH %d: after recovery %d\n",
-+			eh_work->seq, result);
-+
-+	kfree(eh_work);
-+}
-+
-+static void nvme_eh_schedule(struct nvme_dev *dev)
-+{
-+	bool need_sched = false;
-+	bool fail_ctrl = false;
-+	struct nvme_eh_work *eh_work;
-+	int seq;
-+
-+	spin_lock(&dev->eh_lock);
-+	if (!dev->ctrl_shutdown_started) {
-+		need_sched = true;
-+		seq = dev->nested_eh;
-+		if (++dev->nested_eh >= NVME_MAX_NESTED_EH) {
-+			if (!dev->ctrl_failed)
-+				dev->ctrl_failed = fail_ctrl = true;
-+			else
-+				need_sched = false;
-+		} else
-+			dev->ctrl_shutdown_started = true;
-+	}
-+	spin_unlock(&dev->eh_lock);
-+
-+	if (!need_sched)
-+		return;
-+
-+	if (fail_ctrl) {
-+ fail_ctrl:
-+		nvme_eh_sched_fail_ctrl(dev);
-+		return;
-+	}
-+
-+	eh_work = kzalloc(sizeof(*eh_work), GFP_NOIO);
-+	if (!eh_work)
-+		goto fail_ctrl;
-+
-+	eh_work->dev = dev;
-+	eh_work->seq = seq;
-+
-+	spin_lock(&dev->eh_lock);
-+	list_add_tail(&eh_work->list, &dev->eh_head);
-+	spin_unlock(&dev->eh_lock);
-+
-+	INIT_WORK(&eh_work->work, nvme_eh_work);
-+	queue_work(nvme_reset_wq, &eh_work->work);
-+}
-+
- static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-@@ -1198,9 +1386,8 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	 */
- 	if (nvme_should_reset(dev, csts)) {
- 		nvme_warn_reset(dev, csts);
--		nvme_dev_disable(dev, false, true);
--		nvme_reset_ctrl(&dev->ctrl);
--		return BLK_EH_HANDLED;
-+		nvme_eh_schedule(dev);
-+		return BLK_EH_RESET_TIMER;
- 	}
- 
- 	/*
-@@ -1225,9 +1412,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, disable controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, false, false);
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
--		return BLK_EH_HANDLED;
-+		nvme_eh_schedule(dev);
-+		return BLK_EH_RESET_TIMER;
- 	default:
- 		break;
- 	}
-@@ -1241,15 +1428,13 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		dev_warn(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
--		nvme_dev_disable(dev, false, true);
--		nvme_reset_ctrl(&dev->ctrl);
--
- 		/*
- 		 * Mark the request as handled, since the inline shutdown
- 		 * forces all outstanding requests to complete.
- 		 */
- 		nvme_req(req)->flags |= NVME_REQ_CANCELLED;
--		return BLK_EH_HANDLED;
-+		nvme_eh_schedule(dev);
-+		return BLK_EH_RESET_TIMER;
- 	}
- 
- 	if (atomic_dec_return(&dev->ctrl.abort_limit) < 0) {
-@@ -2301,12 +2486,26 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
- 	}
- 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
- 		nvme_suspend_queue(&dev->queues[i]);
-+	/*
-+	 * safe to sync timeout after queues are quiesced, then all
-+	 * requests(include the time-out ones) will be canceled.
-+	 */
-+	nvme_quiesce_timeout(&dev->ctrl);
-+	blk_quiesce_timeout(dev->ctrl.admin_q);
- 
- 	nvme_pci_disable(dev);
- 
-+	/*
-+	 * Both timeout and interrupt handler have been drained, and all
-+	 * in-flight requests will be canceled now.
-+	 */
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
- 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
- 
-+	/* all requests have been canceled now, so enable timeout now */
-+	nvme_unquiesce_timeout(&dev->ctrl);
-+	blk_unquiesce_timeout(dev->ctrl.admin_q);
-+
- 	/*
- 	 * The driver will not be starting up queues again if shutting down so
- 	 * must flush all entered requests to their failed completion to avoid
-@@ -2355,16 +2554,6 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- 	kfree(dev);
- }
- 
--static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
--{
--	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
--
--	nvme_get_ctrl(&dev->ctrl);
--	nvme_dev_disable(dev, false, false);
--	if (!queue_work(nvme_wq, &dev->remove_work))
--		nvme_put_ctrl(&dev->ctrl);
--}
--
- static int nvme_reset_dev(struct nvme_dev *dev)
- {
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
-@@ -2374,7 +2563,7 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 
- 	lockdep_assert_held(&dev->ctrl.reset_lock);
- 
--	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
-+	if (dev->ctrl.state != NVME_CTRL_RESETTING)
- 		goto out;
- 
- 	/*
-@@ -2460,6 +2649,10 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 		unfreeze_queue = true;
- 	}
- 
-+	/* controller state may have been updated already by inner EH */
-+	if (dev->ctrl.state == new_state)
-+		goto reset_done;
-+
- 	result = -ENODEV;
- 	/*
- 	 * If only admin queue live, keep it to do further investigation or
-@@ -2473,6 +2666,7 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 
- 	nvme_start_ctrl(&dev->ctrl);
- 
-+ reset_done:
- 	if (unfreeze_queue)
- 		nvme_unfreeze(&dev->ctrl);
- 	return 0;
-@@ -2589,6 +2783,13 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 	return 0;
- }
- 
-+static void nvme_eh_init(struct nvme_dev *dev)
-+{
-+	spin_lock_init(&dev->eh_lock);
-+	init_waitqueue_head(&dev->eh_wq);
-+	INIT_LIST_HEAD(&dev->eh_head);
-+}
-+
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	int node, result = -ENOMEM;
-@@ -2633,6 +2834,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
- 
-+	nvme_eh_init(dev);
-+
- 	nvme_reset_ctrl(&dev->ctrl);
- 
- 	return 0;
--- 
-2.9.5
+[   16.828656] IPv6: ADDRCONF(NETDEV_CHANGE): eno1: link becomes ready
+[ 1605.101288] megaraid_sas 0000:86:00.0: invalid short VPD tag 00 at 
+offset 1
+[ 1621.514702] pcieport 0000:ae:00.0: AER: Multiple Uncorrected (Fatal) 
+error received: id=b020
+[ 1621.696135] pcieport 0000:b0:04.0: PCIe Bus Error: 
+severity=Uncorrected (Fatal), type=Transaction Layer, id=b020(Receiver ID)
+[ 1621.707429] pcieport 0000:b0:04.0:   device [10b5:9733] error 
+status/mask=00440000/01a10000
+[ 1621.715780] pcieport 0000:b0:04.0:    [18] Malformed TLP          (First)
+[ 1621.722568] pcieport 0000:b0:04.0:    [22] Uncorrectable Internal Error
+[ 1621.729192] pcieport 0000:b0:04.0:   TLP Header: 60000040 b10000ff 
+00000004 4f4bb000
+[ 1621.736942] pcieport 0000:b0:04.0: broadcast error_detected message
+[ 1621.736945] nvme 0000:b1:00.0: HACK: report_error_detected: Preparing 
+to lock
+[ 1621.736946] nvme 0000:b1:00.0: HACK: report_error_detected: locked 
+and ready
+[ 1621.736948] nvme nvme2: frozen state error detected, reset controller
+[ 1625.649049] INFO: NMI handler (ghes_notify_nmi) took too long to run: 
+175.406 msecs
+[ 1634.244302] nvme 0000:b1:00.0: HACK: report_error_detected: Unlocked 
+and DONE
+[ 1635.290798] pcieport 0000:b0:04.0: downstream link has been reset
+[ 1635.290804] pcieport 0000:b0:04.0: broadcast slot_reset message
+[ 1635.290811] nvme 0000:b1:00.0: HACK: report_slot_reset: Preparing to lock
+[ 1635.290815] nvme 0000:b1:00.0: HACK: report_slot_reset: locked and ready
+[ 1635.290823] nvme nvme2: restart after slot reset
