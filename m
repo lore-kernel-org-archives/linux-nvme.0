@@ -1,8 +1,8 @@
 From: sbates@raithlin.com (Stephen  Bates)
-Date: Fri, 11 May 2018 21:50:03 +0000
+Date: Fri, 11 May 2018 22:24:59 +0000
 Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
  behind switches
-In-Reply-To: <53fa38ce-40dd-6bc1-9b83-c6ccf228b755@deltatee.com>
+In-Reply-To: <A50EA568-81E7-4AD7-8C1B-1029FEA92F49@raithlin.com>
 References: <20180423233046.21476-5-logang@deltatee.com>
  <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
  <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
@@ -23,22 +23,24 @@ References: <20180423233046.21476-5-logang@deltatee.com>
  <868B49CE-4F0E-4A48-BE78-12149F85F1A4@raithlin.com>
  <8113cba8-62b9-1801-7a77-f82be223b183@deltatee.com>
  <cf2b92c9-7c5b-f19c-b5b1-2f2d435296d1@amd.com>
- <53fa38ce-40dd-6bc1-9b83-c6ccf228b755@deltatee.com>
-Message-ID: <A50EA568-81E7-4AD7-8C1B-1029FEA92F49@raithlin.com>
+ <53fa38ce-40dd-6bc1-9b83-c6ccf228b755@deltatee.com>,
+ <A50EA568-81E7-4AD7-8C1B-1029FEA92F49@raithlin.com>
+Message-ID: <YTXPR0101MB2045DC0248A9B125CA276969AA9F0@YTXPR0101MB2045.CANPRD01.PROD.OUTLOOK.COM>
 
->    I find this hard to believe. There's always the possibility that some 
->    part of the system doesn't support ACS so if the PCI bus addresses and 
->    IOVA overlap there's a good chance that P2P and ATS won't work at all on 
->    some hardware.
+All
 
-I tend to agree but this comes down to how IOVA addresses are generated in the kernel. Alex (or anyone else) can you point to where IOVA addresses are generated? As Logan stated earlier, p2pdma bypasses this and programs the PCI bus address directly but other IO going to the same PCI EP may flow through the IOMMU and be programmed with IOVA rather than PCI bus addresses.
-    
-> I prefer 
->    the option to disable the ACS bit on boot and let the existing code put 
->    the devices into their own IOMMU group (as it should already do to 
->    support hardware that doesn't have ACS support).
-    
-+1
+>?Alex (or anyone else) can you point to where IOVA addresses are generated?
+
+A case of RTFM perhaps (though a pointer to the code would still be appreciated).
+
+https://www.kernel.org/doc/Documentation/Intel-IOMMU.txt
+
+Some exceptions to IOVA
+-----------------------
+Interrupt ranges are not address translated, (0xfee00000 - 0xfeefffff).
+The same is true for peer to peer transactions. Hence we reserve the
+address from PCI MMIO ranges so they are not allocated for IOVA addresses.
+
+Cheers
 
 Stephen
-    
