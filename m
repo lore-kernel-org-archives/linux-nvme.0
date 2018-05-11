@@ -1,101 +1,71 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 11 May 2018 09:00:40 +0200
-Subject: [PATCH V4] nvmet: add simple file backed ns support
-In-Reply-To: <20180510214508.4563-1-chaitanya.kulkarni@wdc.com>
-References: <20180510214508.4563-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180511070040.GA8633@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 11 May 2018 09:50:25 +0200
+Subject: [PATCH 5/5] nvme: ANA base support
+In-Reply-To: <CAGYjvj0Mk0MFAfUEApOOyQ9Prm3CvGcZH14PJzDQT2+Qc+w81w@mail.gmail.com>
+References: <20180504112845.38820-1-hare@suse.de>
+ <20180504112845.38820-6-hare@suse.de>
+ <1525892598.30724.276.camel@localhost.localdomain>
+ <CAGYjvj0Mk0MFAfUEApOOyQ9Prm3CvGcZH14PJzDQT2+Qc+w81w@mail.gmail.com>
+Message-ID: <20180511095025.55f1bfc8@pentland.suse.de>
 
-On Thu, May 10, 2018@05:45:08PM -0400, Chaitanya Kulkarni wrote:
-> This patch adds simple file backed namespace support for
-> NVMeOF target.
+On Thu, 10 May 2018 13:58:05 +0530
+Sriram Popuri <sgpopuri@gmail.com> wrote:
+
+> Hi,
 > 
-> In current implementation NVMeOF supports block
-> device backed namespaces on the target side.
-> With this implementation regular file(s) can be used to
-> initialize the namespace(s) via target side configfs
-> interface.
+>   I work for NetApp and leading efforts to add ANA support for our
+> NVMe/FC target. So me and my team are excited with this patch.So
+> thanks for working on this!
+> We had some spec comments, but John M, Fred K and others have already
+> raised it. We have few more comments looking at the overall solution.
+> Please consider addressing the following:
 > 
-> For admin smart log command on the target side, we only use
-> block device backed namespaces to compute target
-> side smart log.
 > 
-> We isolate the code for each ns handle type
-> (file/block device) and add wrapper routines to manipulate
-> the respective ns handle types.
+>    1. Ana log size
+> 
+> +             size_t ana_log_size = 4096;
+> 
+> This is hard coded. Don?t you expect to have a larger log page? Looks
+> like the number of ANA groups will be restricted to around 113
+> assuming one namespace identifier per ana group.
+> 
+> Can we have a larger ana_log_size? Maybe it should be MDTS?
+> 
+After revisiting the ANA Base protocol this indeed is a good question.
+The spec explicitly has:
 
-Please use up to 75 characters per line for your changelog.
+If the RGO bit is cleared to ?0? in Command Dword 10, then the LPOL
+field in Command Dword 12 and the LPOU field in Command Dword 13 of the
+Get Log Page command should be cleared to zero.
+Note: Clearing the RGO bit to ?0? and setting either the LPOL field or
+the LPOU field to a non-zero value may return a log page that the host
+is unable to parse.
 
-> diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
-> index cd23441..a5f787b 100644
-> --- a/drivers/nvme/target/io-cmd.c
-> +++ b/drivers/nvme/target/io-cmd.c
+Which I would interpret that we _have_ to use a buffer of the correct
+size to retrieve the entire information.
 
-Btw, I think now that the file code doesn't really reuse any
-block code maybe it is a better idea to have a separate io-cmd-file.c
-file after all.  I had initially envisioned the file code reusing
-the bio for the bvec allocation, but without that there is basically no
-code sharing left.
+Curiously, we should be able to use the LPOL and LPOU setting when the
+RGO bit is set, ie when we're just enumerating ANA groups.
 
-> +static void nvmet_execute_rw_file(struct nvmet_req *req)
-> +{
-> +	int rw = req->cmd->rw.opcode == nvme_cmd_write ? WRITE : READ;
-> +	u32 nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
-> +	struct sg_page_iter sg_pg_iter;
-> +	struct bio_vec *bvec;
-> +	struct iov_iter iter;
-> +	struct kiocb *iocb;
-> +	ssize_t len = 0, ret;
-> +	int bv_cnt = 0;
-> +	loff_t pos;
-> +
-> +	bvec = req->inline_bvec;
-> +	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC) {
-> +		bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
-> +				GFP_KERNEL);
+A quick calculation there reveals that the max size for the ANA log
+page with the RGO bit set is about 2M (65535 descriptors * 32
+bytes per descriptor + 16 byte header), which probably is a bit unwieldy
+to use directly.
 
-So we still don't have the mempool or anything guaranteeing forward
-progress here.
+So this makes it a bit awkward to handle; we first have to get the ANA
+log with the RGO bit set and a default size, then (possibly) re-issue
+the ANA log with the RGO bit set and the correct size, then calculate
+the actual size of the ANA log, and _then_ retrieve the full ANA log.
 
-> +u16 nvmet_parse_io_cmd_file(struct nvmet_req *req)
-> +{
-> +	struct nvme_command *cmd = req->cmd;
-> +
-> +	switch (cmd->common.opcode) {
-> +	case nvme_cmd_read:
-> +	case nvme_cmd_write:
-> +		req->handle.f.bvec = NULL;
-> +		memset(&req->handle.f.iocb, 0, sizeof(req->handle.f.iocb));
-> +		req->execute = nvmet_execute_rw_file;
-> +		req->data_len = nvmet_rw_len(req);
-> +		return 0;
-> +	case nvme_cmd_flush:
-> +		req->execute = nvmet_execute_flush_file;
-> +		INIT_WORK(&req->handle.f.io_work, nvmet_flush_work_file);
-> +		req->data_len = 0;
-> +		return 0;
-> +	case nvme_cmd_dsm:
-> +		INIT_WORK(&req->handle.f.io_work, nvmet_dsm_work_file);
-> +		req->execute = nvmet_execute_dsm_file;
-> +		req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
-> +			sizeof(struct nvme_dsm_range);
-> +		return 0;
-> +	case nvme_cmd_write_zeroes:
-> +		INIT_WORK(&req->handle.f.io_work, nvmet_write_zeroes_work_file);
-> +		req->execute = nvmet_execute_write_zeroes_file;
-> +		req->data_len = 0;
-> +		return 0;
+My, you don't really believe in making things easy for the
+programmer ...
 
-I'd be tempted to keep the INIT_WORK and memset calls in the actual
-handlers and leave this as a pure dispatcher just setting the execute
-callbacl and the data_len.
+Fred: if you ever plan for a revisited ANA spec, _please_ change this.
+Make the currently reserved field in the ANA log page header a max nsid
+count (ie store the maximum number of NSIDs per ANA group here).
+With that we have a max length of the ANA log page, and would have to
+retrieve the log page only twice, not three times.
 
-> @@ -222,8 +239,8 @@ struct nvmet_req {
->  	struct nvmet_cq		*cq;
->  	struct nvmet_ns		*ns;
->  	struct scatterlist	*sg;
-> -	struct bio		inline_bio;
->  	struct bio_vec		inline_bvec[NVMET_MAX_INLINE_BIOVEC];
-> +	union  ns_handle	handle;
+Cheers,
 
-Can you just make this an anonymous union so that identifiers stay
-short and crispy?
+Hannes
