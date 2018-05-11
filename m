@@ -1,34 +1,44 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 11 May 2018 15:16:13 -0600
-Subject: [GIT PULL] nvme fixes for 4.17-rc5
-In-Reply-To: <20180511211352.GD7772@localhost.localdomain>
-References: <20180511211352.GD7772@localhost.localdomain>
-Message-ID: <88e91ea7-ad63-d248-3b19-99c1da69e7dc@kernel.dk>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Fri, 11 May 2018 21:50:03 +0000
+Subject: [PATCH v4 04/14] PCI/P2PDMA: Clear ACS P2P flags for all devices
+ behind switches
+In-Reply-To: <53fa38ce-40dd-6bc1-9b83-c6ccf228b755@deltatee.com>
+References: <20180423233046.21476-5-logang@deltatee.com>
+ <20180507231306.GG161390@bhelgaas-glaptop.roam.corp.google.com>
+ <e58e8d27-42a5-ca69-3b68-c409a2922cd1@amd.com>
+ <0b4183ef-e720-204b-9e85-b9eaf7a4136a@deltatee.com>
+ <a943a92d-15cd-fb2d-21c3-5e5cfccd9eff@amd.com>
+ <3584a6ac-95c7-5d23-1859-aee30605776e@deltatee.com>
+ <20180508133407.57a46902@w520.home>
+ <5fc9b1c1-9208-06cc-0ec5-1f54c2520494@deltatee.com>
+ <20180508141331.7cd737cb@w520.home>
+ <d70cf286-f7b7-99a5-1042-022506298fed@deltatee.com>
+ <20180508205005.GC15608@redhat.com>
+ <7FFB9603-DF9F-4441-82E9-46037CB6C0DE@raithlin.com>
+ <a1a36f88-fbfb-b5ee-6dcb-5c5bb96132dd@amd.com>
+ <4e0d0b96-ab02-2662-adf3-fa956efd294c@deltatee.com>
+ <2fc61d29-9eb4-d168-a3e5-955c36e5d821@amd.com>
+ <94C8FE12-7FC3-48BD-9DCA-E6A427E71810@raithlin.com>
+ <f0101988-cf82-7ffb-2aca-d3b8d2f4b504@deltatee.com>
+ <868B49CE-4F0E-4A48-BE78-12149F85F1A4@raithlin.com>
+ <8113cba8-62b9-1801-7a77-f82be223b183@deltatee.com>
+ <cf2b92c9-7c5b-f19c-b5b1-2f2d435296d1@amd.com>
+ <53fa38ce-40dd-6bc1-9b83-c6ccf228b755@deltatee.com>
+Message-ID: <A50EA568-81E7-4AD7-8C1B-1029FEA92F49@raithlin.com>
 
-On 5/11/18 3:13 PM, Keith Busch wrote:
-> The following changes since commit 75bc37fefc4471e718ba8e651aa74673d4e0a9eb:
-> 
->   Linux 4.17-rc4 (2018-05-06 16:57:38 -1000)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.17-rc5
-> 
-> for you to fetch changes up to 9abd68ef454c824bfd18629033367b4382b5f390:
-> 
->   nvme: add quirk to force medium priority for SQ creation (2018-05-11 13:37:14 -0600)
-> 
-> ----------------------------------------------------------------
-> Charles Machalow (1):
->       nvme: Fix sync controller reset return
-> 
-> Jens Axboe (1):
->       nvme: add quirk to force medium priority for SQ creation
-> 
-> Jianchao Wang (1):
->       nvme: fix use-after-free in nvme_free_ns_head
+>    I find this hard to believe. There's always the possibility that some 
+>    part of the system doesn't support ACS so if the PCI bus addresses and 
+>    IOVA overlap there's a good chance that P2P and ATS won't work at all on 
+>    some hardware.
 
-Thanks Keith, pulled.
+I tend to agree but this comes down to how IOVA addresses are generated in the kernel. Alex (or anyone else) can you point to where IOVA addresses are generated? As Logan stated earlier, p2pdma bypasses this and programs the PCI bus address directly but other IO going to the same PCI EP may flow through the IOMMU and be programmed with IOVA rather than PCI bus addresses.
+    
+> I prefer 
+>    the option to disable the ACS bit on boot and let the existing code put 
+>    the devices into their own IOMMU group (as it should already do to 
+>    support hardware that doesn't have ACS support).
+    
++1
 
--- 
-Jens Axboe
+Stephen
+    
