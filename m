@@ -1,67 +1,14 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 11 May 2018 20:29:24 +0800
-Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
-Message-ID: <20180511122933.27155-1-ming.lei@redhat.com>
+Date: Fri, 11 May 2018 20:29:26 +0800
+Subject: [PATCH V5 2/9] nvme: pci: cover timeout for admin commands running in
+ EH
+In-Reply-To: <20180511122933.27155-1-ming.lei@redhat.com>
+References: <20180511122933.27155-1-ming.lei@redhat.com>
+Message-ID: <20180511122933.27155-3-ming.lei@redhat.com>
 
-Hi,
-
-The 1st patch introduces blk_quiesce_timeout() and blk_unquiesce_timeout()
-for NVMe, meantime fixes blk_sync_queue().
-
-The 2nd patch covers timeout for admin commands for recovering controller
-for avoiding possible deadlock.
-
-The 3rd and 4th patches avoid to wait_freeze on queues which aren't frozen.
-
-The last 5 patches fixes several races wrt. NVMe timeout handler, and
-finally can make blktests block/011 passed. Meantime the NVMe PCI timeout
-mecanism become much more rebost than before.
-
-gitweb:
-	https://github.com/ming1/linux/commits/v4.17-rc-nvme-timeout.V5
-
-V5:
-	- avoid to remove controller in case of reset failure in inner EHs
-	- make sure that nvme_unfreeze and nvme_start_freeze are paired
-
-V4:
-	- fixe nvme_init_set_host_mem_cmd()
-	- use nested EH model, and run both nvme_dev_disable() and
-	resetting in one same context
-
-V3:
-	- fix one new race related freezing in patch 4, nvme_reset_work()
-	may hang forever without this patch
-	- rewrite the last 3 patches, and avoid to break nvme_reset_ctrl*()
-
-V2:
-	- fix draining timeout work, so no need to change return value from
-	.timeout()
-	- fix race between nvme_start_freeze() and nvme_unfreeze()
-	- cover timeout for admin commands running in EH
-
-Ming Lei (9):
-  block: introduce blk_quiesce_timeout() and blk_unquiesce_timeout()
-  nvme: pci: cover timeout for admin commands running in EH
-  nvme: pci: only wait freezing if queue is frozen
-  nvme: pci: freeze queue in nvme_dev_disable() in case of error
-    recovery
-  nvme: pci: prepare for supporting error recovery from resetting
-    context
-  nvme: pci: move error handling out of nvme_reset_dev()
-  nvme: pci: don't unfreeze queue until controller state updating
-    succeeds
-  nvme: core: introduce nvme_force_change_ctrl_state()
-  nvme: pci: support nested EH
-
- block/blk-core.c         |  21 ++-
- block/blk-mq.c           |   9 ++
- block/blk-timeout.c      |   5 +-
- drivers/nvme/host/core.c |  57 +++++++
- drivers/nvme/host/nvme.h |   7 +
- drivers/nvme/host/pci.c  | 402 +++++++++++++++++++++++++++++++++++++++++------
- include/linux/blkdev.h   |  13 ++
- 7 files changed, 462 insertions(+), 52 deletions(-)
+When admin commands are used in EH for recovering controller, we have to
+cover their timeout and can't depend on block's timeout since deadlock may
+be caused when these commands are timed-out by block layer again.
 
 Cc: James Smart <james.smart at broadcom.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
@@ -69,5 +16,121 @@ Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ drivers/nvme/host/pci.c | 81 ++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 70 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index fbc71fac6f1e..ff09b1c760ea 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1733,21 +1733,28 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
+ 	}
+ }
+ 
+-static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
++static void nvme_init_set_host_mem_cmd(struct nvme_dev *dev,
++		struct nvme_command *c, u32 bits)
+ {
+ 	u64 dma_addr = dev->host_mem_descs_dma;
++
++	memset(c, 0, sizeof(*c));
++	c->features.opcode	= nvme_admin_set_features;
++	c->features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
++	c->features.dword11	= cpu_to_le32(bits);
++	c->features.dword12	= cpu_to_le32(dev->host_mem_size >>
++					      ilog2(dev->ctrl.page_size));
++	c->features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
++	c->features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
++	c->features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
++}
++
++static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
++{
+ 	struct nvme_command c;
+ 	int ret;
+ 
+-	memset(&c, 0, sizeof(c));
+-	c.features.opcode	= nvme_admin_set_features;
+-	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
+-	c.features.dword11	= cpu_to_le32(bits);
+-	c.features.dword12	= cpu_to_le32(dev->host_mem_size >>
+-					      ilog2(dev->ctrl.page_size));
+-	c.features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
+-	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+-	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
++	nvme_init_set_host_mem_cmd(dev, &c, bits);
+ 
+ 	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
+ 	if (ret) {
+@@ -1758,6 +1765,58 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 	return ret;
+ }
+ 
++static void nvme_set_host_mem_end_io(struct request *rq, blk_status_t sts)
++{
++	struct completion *waiting = rq->end_io_data;
++
++	rq->end_io_data = NULL;
++
++	/*
++	 * complete last, if this is a stack request the process (and thus
++	 * the rq pointer) could be invalid right after this complete()
++	 */
++	complete(waiting);
++}
++
++/*
++ * This function can only be used inside nvme_dev_disable() when timeout
++ * may not work, then this function has to cover the timeout by itself.
++ *
++ * When wait_for_completion_io_timeout() returns 0 and timeout happens,
++ * this request will be completed after controller is shutdown.
++ */
++static int nvme_set_host_mem_timeout(struct nvme_dev *dev, u32 bits)
++{
++	DECLARE_COMPLETION_ONSTACK(wait);
++	struct nvme_command c;
++	struct request_queue *q = dev->ctrl.admin_q;
++	struct request *req;
++	int ret;
++
++	nvme_init_set_host_mem_cmd(dev, &c, bits);
++
++	req = nvme_alloc_request(q, &c, 0, NVME_QID_ANY);
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	req->timeout = ADMIN_TIMEOUT;
++	req->end_io_data = &wait;
++
++	blk_execute_rq_nowait(q, NULL, req, false,
++			nvme_set_host_mem_end_io);
++	ret = wait_for_completion_io_timeout(&wait, ADMIN_TIMEOUT);
++	if (ret > 0) {
++		if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
++			ret = -EINTR;
++		else
++			ret = nvme_req(req)->status;
++		blk_mq_free_request(req);
++	} else
++		ret = -EINTR;
++
++	return ret;
++}
++
+ static void nvme_free_host_mem(struct nvme_dev *dev)
+ {
+ 	int i;
+@@ -2216,7 +2275,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		 * but I'd rather be safe than sorry..
+ 		 */
+ 		if (dev->host_mem_descs)
+-			nvme_set_host_mem(dev, 0);
++			nvme_set_host_mem_timeout(dev, 0);
+ 		nvme_disable_io_queues(dev);
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
 -- 
 2.9.5
