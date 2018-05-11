@@ -1,128 +1,30 @@
-From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Fri, 11 May 2018 10:50:06 -0700
-Subject: [PATCH V4] nvmet: add simple file backed ns support
-In-Reply-To: <20180511070040.GA8633@lst.de>
-References: <20180510214508.4563-1-chaitanya.kulkarni@wdc.com>
- <20180511070040.GA8633@lst.de>
-Message-ID: <CAK0tqinRJzSU=1ZvnHE3ntcwMHsHcEODNYZQRR+kJfijeM52KQ@mail.gmail.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 11 May 2018 12:55:38 -0500
+Subject: Another NVMe failure, this time with AER info
+In-Reply-To: <20180511174241.GC7344@localhost.localdomain>
+References: <CAObL_7G5k7XNqXqDZASChiQd1mt+AJPAdNKz-DE+xQawhUy6ZA@mail.gmail.com>
+ <20180511165752.GG190385@bhelgaas-glaptop.roam.corp.google.com>
+ <20180511172610.GB7344@localhost.localdomain>
+ <20180511174241.GC7344@localhost.localdomain>
+Message-ID: <20180511175538.GH190385@bhelgaas-glaptop.roam.corp.google.com>
 
-On Fri, May 11, 2018@12:00 AM, Christoph Hellwig <hch@lst.de> wrote:
-> On Thu, May 10, 2018@05:45:08PM -0400, Chaitanya Kulkarni wrote:
->> This patch adds simple file backed namespace support for
->> NVMeOF target.
->>
->> In current implementation NVMeOF supports block
->> device backed namespaces on the target side.
->> With this implementation regular file(s) can be used to
->> initialize the namespace(s) via target side configfs
->> interface.
->>
->> For admin smart log command on the target side, we only use
->> block device backed namespaces to compute target
->> side smart log.
->>
->> We isolate the code for each ns handle type
->> (file/block device) and add wrapper routines to manipulate
->> the respective ns handle types.
->
-> Please use up to 75 characters per line for your changelog.
+On Fri, May 11, 2018@11:42:42AM -0600, Keith Busch wrote:
+> On Fri, May 11, 2018@11:26:11AM -0600, Keith Busch wrote:
+> > I trust you know the offsets here, but it's hard to tell what this
+> > is doing with hard-coded addresses. Just to be safe and for clarity,
+> > I recommend the 'CAP_*+<offset>' with a mask.
+> > 
+> > For example, disabling ASPM L1.2 can look like:
+> > 
+> >  # setpci -s <B:D.f> CAP_PM+8.l=0:4
+> 
+> My mistake above: CAP_PM is a different capability, not the intended
+> one. It looks like setpci doesn't even have a convenient symbol for the
+> L1 PM extended capability, so the hard-coded offsets are the only way
+> for this setting. Sorry about the mistake.
 
-Okay, checkpatch.pl didn't complain, I'll keep in mind.
+No problem, would be a nice janitor job to add more of those symbolic
+offsets to setpci.  I recently added more cap ID decoding to lspci, but
+didn't think about updating these things for setpci.
 
->
->> diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
->> index cd23441..a5f787b 100644
->> --- a/drivers/nvme/target/io-cmd.c
->> +++ b/drivers/nvme/target/io-cmd.c
->
-> Btw, I think now that the file code doesn't really reuse any
-> block code maybe it is a better idea to have a separate io-cmd-file.c
-> file after all.  I had initially envisioned the file code reusing
-> the bio for the bvec allocation, but without that there is basically no
-> code sharing left.
->
-
-Sounds good.
-
->> +static void nvmet_execute_rw_file(struct nvmet_req *req)
->> +{
->> +     int rw = req->cmd->rw.opcode == nvme_cmd_write ? WRITE : READ;
->> +     u32 nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
->> +     struct sg_page_iter sg_pg_iter;
->> +     struct bio_vec *bvec;
->> +     struct iov_iter iter;
->> +     struct kiocb *iocb;
->> +     ssize_t len = 0, ret;
->> +     int bv_cnt = 0;
->> +     loff_t pos;
->> +
->> +     bvec = req->inline_bvec;
->> +     if (nr_bvec > NVMET_MAX_INLINE_BIOVEC) {
->> +             bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
->> +                             GFP_KERNEL);
->
-> So we still don't have the mempool or anything guaranteeing forward
-> progress here.
->
-
-I was actually debating if we can export bvec_alloc instead of
-allocating bios given that for the file read/write interface which we are using
-here is actually based on the bvec and allocation function is
-available with global
-mempool as per the earlier suggestion.
-
->> +u16 nvmet_parse_io_cmd_file(struct nvmet_req *req)
->> +{
->> +     struct nvme_command *cmd = req->cmd;
->> +
->> +     switch (cmd->common.opcode) {
->> +     case nvme_cmd_read:
->> +     case nvme_cmd_write:
->> +             req->handle.f.bvec = NULL;
->> +             memset(&req->handle.f.iocb, 0, sizeof(req->handle.f.iocb));
->> +             req->execute = nvmet_execute_rw_file;
->> +             req->data_len = nvmet_rw_len(req);
->> +             return 0;
->> +     case nvme_cmd_flush:
->> +             req->execute = nvmet_execute_flush_file;
->> +             INIT_WORK(&req->handle.f.io_work, nvmet_flush_work_file);
->> +             req->data_len = 0;
->> +             return 0;
->> +     case nvme_cmd_dsm:
->> +             INIT_WORK(&req->handle.f.io_work, nvmet_dsm_work_file);
->> +             req->execute = nvmet_execute_dsm_file;
->> +             req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
->> +                     sizeof(struct nvme_dsm_range);
->> +             return 0;
->> +     case nvme_cmd_write_zeroes:
->> +             INIT_WORK(&req->handle.f.io_work, nvmet_write_zeroes_work_file);
->> +             req->execute = nvmet_execute_write_zeroes_file;
->> +             req->data_len = 0;
->> +             return 0;
->
-> I'd be tempted to keep the INIT_WORK and memset calls in the actual
-> handlers and leave this as a pure dispatcher just setting the execute
-> callbacl and the data_len.
->
-
-Sounds, good.
-
->> @@ -222,8 +239,8 @@ struct nvmet_req {
->>       struct nvmet_cq         *cq;
->>       struct nvmet_ns         *ns;
->>       struct scatterlist      *sg;
->> -     struct bio              inline_bio;
->>       struct bio_vec          inline_bvec[NVMET_MAX_INLINE_BIOVEC];
->> +     union  ns_handle        handle;
->
-> Can you just make this an anonymous union so that identifiers stay
-> short and crispy?
->
-
-I was not able to find a way to use container_of with anonymous unions
-so kept the code without anonymous unions for now.
-
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Using the symbols would definitely make this easier and better!
