@@ -1,224 +1,60 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 11 May 2018 17:50:28 -0700
-Subject: [PATCH v2 7/7] nvme_fc: add 'nvme_discovery' sysfs attribute to fc
- transport device
-In-Reply-To: <20180512005028.29661-1-jsmart2021@gmail.com>
-References: <20180512005028.29661-1-jsmart2021@gmail.com>
-Message-ID: <20180512005028.29661-8-jsmart2021@gmail.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Sat, 12 May 2018 10:38:05 +0800
+Subject: Another NVMe failure, this time with AER info
+In-Reply-To: <20180511165752.GG190385@bhelgaas-glaptop.roam.corp.google.com>
+References: <CAObL_7G5k7XNqXqDZASChiQd1mt+AJPAdNKz-DE+xQawhUy6ZA@mail.gmail.com>
+ <20180511165752.GG190385@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <CACVXFVOieYJ3EJDNydoWWX91n7o8RT7UXvTfo0ExEPLsit9mxg@mail.gmail.com>
 
-The fc transport device should allow for a rediscovery, as userspace
-might have lost the events. Example is udev events not handled during
-system startup.
+On Sat, May 12, 2018@12:57 AM, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> Andrew wrote:
+>> A friend of mine has a brand new LG laptop that has intermittent NVMe
+>> failures.  They mostly happen during a suspend/resume cycle
+>> (apparently during suspend, not resume).  Unlike the earlier
+>> Dell/Samsung issue, the NVMe device isn't completely gone -- MMIO
+>> reads fail, but PCI configuration space is apparently still there:
+>
+>> nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
+>
+>> and it comes with a nice AER dump:
+>
+>> [12720.894411] pcieport 0000:00:1c.0: AER: Multiple Corrected error received: id=00e0
+>> [12720.909747] pcieport 0000:00:1c.0: PCIe Bus Error: severity=Corrected, type=Physical Layer, id=00e0(Transmitter ID)
+>> [12720.909751] pcieport 0000:00:1c.0:   device [8086:9d14] error status/mask=00001001/00002000
+>> [12720.909754] pcieport 0000:00:1c.0:    [ 0] Receiver Error         (First)
+>> [12720.909756] pcieport 0000:00:1c.0:    [12] Replay Timer Timeout
+>
+> I opened this bugzilla and attached the dmesg and lspci -vv output to
+> it: https://bugzilla.kernel.org/show_bug.cgi?id=199695
+>
+> The root port at 00:1c.0 leads to the NVMe device at 01:00.0 (this is
+> nvme0):
+>
+>   00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Root Port #5 (rev f1) (prog-if 00 [Normal decode])
+>         Bus: primary=00, secondary=01, subordinate=01, sec-latency=0
+>   01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM961/PM961 (prog-if 02 [NVM Express])
+>         Subsystem: Samsung Electronics Co Ltd Device a801
+>
+> We reported several corrected errors before the nvme timeout:
+>
+>   [12750.281158] nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
+>   [12750.297594] nvme nvme0: I/O 455 QID 2 timeout, disable controller
+>   [12750.305196] nvme 0000:01:00.0: enabling device (0000 -> 0002)
+>   [12750.305465] nvme nvme0: Removing after probe failure status: -19
+>   [12750.313188] nvme nvme0: I/O 456 QID 2 timeout, disable controller
+>   [12750.329152] nvme nvme0: I/O 457 QID 2 timeout, disable controller
+>
+> The corrected errors are supposedly recovered in hardware without
+> software intervention, and AER logs them for informational purposes.
+>
+> But it seems very likely that these corrected errors are related to
+> the nvme timeout: the first corrected errors were logged at
+> 12720.894411, nvme_io_timeout defaults to 30 seconds, and the nvme
+> timeout was at 12750.281158.
 
-This patch add a sysfs entry 'nvme_discovery' on the fc class to
-have it replay all udev discovery events for all local port/remote
-port address pairs.
+The following patchset might help this issue:
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Cc: Ewan Milne <emilne at redhat.com>
-Cc: Johannes Thumshirn <jthumshirn at suse.com>
+https://marc.info/?l=linux-block&m=152604179903505&w=2
 
----
-This is actually v4 - based on Hannes' v3 of the same patch:
-[PATCHv3] nvme/fc: add 'discovery' sysfs attribute to fc transport device
-http://lists.infradead.org/pipermail/linux-nvme/2017-December/014334.html
-
-However, refcounting in v3 was still messed up when an rport_get() fails.
-Modified the patch to add the unwind routine to correct it.
-
-Also renamed the "discovery" attribute to "nvme_discovery" so that there
-will not be collisions if/when we move to a shared fc transport and have
-scsi there as well.
-
-Note: this patch alone doesn't allow the simple udev script.  The patches
-for the fc transport to move initial connect to use the asychronous
-reconnect path is what allows the simple udev script. This patch simply
-allows to catch up with connectivity if the udev events weren't handled.
----
- drivers/nvme/host/fc.c | 114 +++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 105 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 72bf01d5435a..ec68dd8821bf 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -122,6 +122,7 @@ struct nvme_fc_rport {
- 	struct list_head		endp_list; /* for lport->endp_list */
- 	struct list_head		ctrl_list;
- 	struct list_head		ls_req_list;
-+	struct list_head		disc_list;
- 	struct device			*dev;	/* physical device for dma */
- 	struct nvme_fc_lport		*lport;
- 	spinlock_t			lock;
-@@ -210,7 +211,6 @@ static DEFINE_IDA(nvme_fc_ctrl_cnt);
-  * These items are short-term. They will eventually be moved into
-  * a generic FC class. See comments in module init.
-  */
--static struct class *fc_class;
- static struct device *fc_udev_device;
- 
- 
-@@ -507,6 +507,7 @@ nvme_fc_free_rport(struct kref *ref)
- 	list_del(&rport->endp_list);
- 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
- 
-+	WARN_ON(!list_empty(&rport->disc_list));
- 	ida_simple_remove(&lport->endp_cnt, rport->remoteport.port_num);
- 
- 	kfree(rport);
-@@ -694,6 +695,7 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	INIT_LIST_HEAD(&newrec->endp_list);
- 	INIT_LIST_HEAD(&newrec->ctrl_list);
- 	INIT_LIST_HEAD(&newrec->ls_req_list);
-+	INIT_LIST_HEAD(&newrec->disc_list);
- 	kref_init(&newrec->ref);
- 	atomic_set(&newrec->act_ctrl_cnt, 0);
- 	spin_lock_init(&newrec->lock);
-@@ -3253,6 +3255,100 @@ static struct nvmf_transport_ops nvme_fc_transport = {
- 	.create_ctrl	= nvme_fc_create_ctrl,
- };
- 
-+static void nvme_fc_discovery_unwind(struct list_head *lheadp)
-+{
-+	unsigned long flags;
-+	struct nvme_fc_lport *lport;
-+	struct nvme_fc_rport *rport, *tmp_rport;
-+
-+	list_for_each_entry_safe(rport, tmp_rport,
-+				 lheadp, disc_list) {
-+		spin_lock_irqsave(&nvme_fc_lock, flags);
-+		list_del_init(&rport->disc_list);
-+		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+		lport = rport->lport;
-+		/* signal discovery. Won't hurt if it repeats */
-+		nvme_fc_signal_discovery_scan(lport, rport);
-+		nvme_fc_rport_put(rport);
-+		nvme_fc_lport_put(lport);
-+	}
-+}
-+
-+/* Arbitrary successive failures max. With lots of subsystems could be high */
-+#define DISCOVERY_MAX_FAIL	20
-+
-+static ssize_t nvme_fc_nvme_discovery_store(struct device *dev,
-+				       struct device_attribute *attr,
-+				       const char *buf, size_t count)
-+{
-+	unsigned long flags;
-+	LIST_HEAD(nvme_fc_disc_list);
-+	struct nvme_fc_lport *lport;
-+	struct nvme_fc_rport *rport, *tmp_rport;
-+	int failcnt = 0;
-+
-+restart:
-+	spin_lock_irqsave(&nvme_fc_lock, flags);
-+	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
-+		list_for_each_entry(rport, &lport->endp_list, endp_list) {
-+			if (!nvme_fc_lport_get(lport))
-+				continue;
-+			if (!nvme_fc_rport_get(rport)) {
-+				/*
-+				 * This is a temporary condition, so upon
-+				 * restart this node will be gone from the
-+				 * list.
-+				 */
-+				spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+				nvme_fc_lport_put(lport);
-+				nvme_fc_discovery_unwind(&nvme_fc_disc_list);
-+				if (failcnt++ < DISCOVERY_MAX_FAIL)
-+					goto restart;
-+				pr_err("nvme_discovery: too many reference "
-+				       "failures\n");
-+				return 0;
-+			}
-+			if (list_empty(&rport->disc_list))
-+				list_add_tail(&rport->disc_list,
-+					      &nvme_fc_disc_list);
-+		}
-+	}
-+	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+
-+	list_for_each_entry_safe(rport, tmp_rport,
-+				 &nvme_fc_disc_list, disc_list) {
-+		spin_lock_irqsave(&nvme_fc_lock, flags);
-+		list_del_init(&rport->disc_list);
-+		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-+		lport = rport->lport;
-+		nvme_fc_signal_discovery_scan(lport, rport);
-+		nvme_fc_rport_put(rport);
-+		nvme_fc_lport_put(lport);
-+	}
-+	return count;
-+}
-+static DEVICE_ATTR(nvme_discovery, 0200, NULL, nvme_fc_nvme_discovery_store);
-+
-+static struct attribute *nvme_fc_attrs[] = {
-+	&dev_attr_nvme_discovery.attr,
-+	NULL
-+};
-+
-+static struct attribute_group nvme_fc_attr_group = {
-+	.attrs = nvme_fc_attrs,
-+};
-+
-+static const struct attribute_group *nvme_fc_attr_groups[] = {
-+	&nvme_fc_attr_group,
-+	NULL
-+};
-+
-+static struct class fc_class = {
-+	.name = "fc",
-+	.dev_groups = nvme_fc_attr_groups,
-+	.owner = THIS_MODULE,
-+};
-+
- static int __init nvme_fc_init_module(void)
- {
- 	int ret;
-@@ -3271,16 +3367,16 @@ static int __init nvme_fc_init_module(void)
- 	 * put in place, this code will move to a more generic
- 	 * location for the class.
- 	 */
--	fc_class = class_create(THIS_MODULE, "fc");
--	if (IS_ERR(fc_class)) {
-+	ret = class_register(&fc_class);
-+	if (ret) {
- 		pr_err("couldn't register class fc\n");
--		return PTR_ERR(fc_class);
-+		return ret;
- 	}
- 
- 	/*
- 	 * Create a device for the FC-centric udev events
- 	 */
--	fc_udev_device = device_create(fc_class, NULL, MKDEV(0, 0), NULL,
-+	fc_udev_device = device_create(&fc_class, NULL, MKDEV(0, 0), NULL,
- 				"fc_udev_device");
- 	if (IS_ERR(fc_udev_device)) {
- 		pr_err("couldn't create fc_udev device!\n");
-@@ -3295,9 +3391,9 @@ static int __init nvme_fc_init_module(void)
- 	return 0;
- 
- out_destroy_device:
--	device_destroy(fc_class, MKDEV(0, 0));
-+	device_destroy(&fc_class, MKDEV(0, 0));
- out_destroy_class:
--	class_destroy(fc_class);
-+	class_unregister(&fc_class);
- 	return ret;
- }
- 
-@@ -3312,8 +3408,8 @@ static void __exit nvme_fc_exit_module(void)
- 	ida_destroy(&nvme_fc_local_port_cnt);
- 	ida_destroy(&nvme_fc_ctrl_cnt);
- 
--	device_destroy(fc_class, MKDEV(0, 0));
--	class_destroy(fc_class);
-+	device_destroy(&fc_class, MKDEV(0, 0));
-+	class_unregister(&fc_class);
- }
- 
- module_init(nvme_fc_init_module);
--- 
-2.13.1
+--
+Ming Lei
