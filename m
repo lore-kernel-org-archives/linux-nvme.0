@@ -1,65 +1,85 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Sat, 12 May 2018 17:27:01 +0800
-Subject: [PATCH] nvme/pci: Sync controller reset for AER slot_reset
-In-Reply-To: <93d528ce-043a-5118-02b3-986d151b37cf@gmail.com>
-References: <20180510160113.4432-1-keith.busch@intel.com>
- <93d528ce-043a-5118-02b3-986d151b37cf@gmail.com>
-Message-ID: <CACVXFVMCbcNQi2S0FvoTGUEFpKtfCFciJrxFSirC1gNB7jHQBQ@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 12 May 2018 15:31:23 +0200
+Subject: [PATCH 5/5] nvme: ANA base support
+In-Reply-To: <20180504112845.38820-6-hare@suse.de>
+References: <20180504112845.38820-1-hare@suse.de>
+ <20180504112845.38820-6-hare@suse.de>
+Message-ID: <20180512133123.GA10849@lst.de>
 
-On Fri, May 11, 2018@2:56 AM, Alex G. <mr.nuke.me@gmail.com> wrote:
->
->
-> On 05/10/2018 11:01 AM, Keith Busch wrote:
->> AER handling expects a successful return from slot_reset means the
->> driver made the device functional again. The nvme driver had been using
->> an asynchronous reset to recover the device, so the device
->> may still be initializing after control is returned to the
->> AER handler. This creates problems for subsequent event handling,
->> causing the initializion to fail.
->>
->> This patch fixes that by syncing the controller reset before returning
->> to the AER driver, and reporting the true state of the reset.
->>
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=199657
->> Reported-by: Alex Gagniuc <mr.nuke.me at gmail.com>
->
-> Tested-by: Alex Gagniuc <mr.nuke.me at gmail.com>
->
-> Sponsored-by: DellEMC
-> You know I had to add that plug somewhere :p
->
->> Cc: Sinan Kaya <okaya at codeaurora.org>
->> Cc: Bjorn Helgaas <bhelgaas at google.com>
->> Cc: <stable at vger.kernel.org>
->> Signed-off-by: Keith Busch <keith.busch at intel.com>
->> ---
->>  drivers/nvme/host/pci.c | 11 +++++++++--
->>  1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index b542dce45927..2e221796257a 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -2681,8 +2681,15 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
->>
->>       dev_info(dev->ctrl.device, "restart after slot reset\n");
->>       pci_restore_state(pdev);
->> -     nvme_reset_ctrl(&dev->ctrl);
->> -     return PCI_ERS_RESULT_RECOVERED;
->> +     nvme_reset_ctrl_sync(&dev->ctrl);
->
-> This does wonders when nvme_reset_ctrl_sync() returns in a timely
-> manner. I was also able to get the nvme drive in a state where
-> nvme_reset_ctrl_sync() does not return. Then we end up with the device
-> lock in report_slot_reset, which, as you may imagine, is not a great thing.
->
-> I think this step is a move in the better direction, but we still have
-> problems.
+> +static void nvme_get_ana_log(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
 
-If IOs from nvme_reset_work() times out, nvme_reset_ctrl_sync()
-may never return, but not sure if that is your case.
+Passing a ns to the function reading the ANA log doesn't make any
+sense.  The ANA log page is global to the controller, so we should
+only read it when rescanning the controller, or when the AER
+triggers.
 
-You may find where it hangs via 'ps -ax | grep D' and cat /proc/$PID/stack.
+> +static void nvme_get_full_ana_log(struct nvme_ctrl *ctrl)
+> +{
+> +	int i, j;
+> +	struct nvme_ns *ns;
+> +	struct nvmf_ana_rsp_page_header *ana_log;
+> +	size_t ana_log_size = 4096;
 
--- 
-Ming Lei
+This needs to be size based on the MNAN and NANAGRPID fields.
+
+> +
+> +	ana_log = kzalloc(ana_log_size, GFP_KERNEL);
+> +	if (!ana_log)
+> +		return;
+
+Please preallocate a per-controller buffer at controller scanning
+time for this.  By the time path changes hit we might be under
+sever memory pressure and want things to just work.
+
+> +
+> +	if (nvme_get_log(ctrl, NVME_LOG_ANA, ana_log, ana_log_size))
+> +		dev_warn(ctrl->device,
+> +			 "Get ANA log error\n");
+
+I think we need some sane error handling here.
+
+> +	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> +		for (i = 0; i < ana_log->grpid_num; i++) {
+> +			struct nvmf_ana_group_descriptor *desc =
+> +				&ana_log->desc[i];
+> +			for (j = 0; j < desc->nsid_num; j++) {
+> +				if (desc->nsid[j] == ns->head->ns_id) {
+> +					ns->ana_state = desc->ana_state;
+> +					ns->ana_group = desc->groupid;
+
+What protects us from concurrent updates?  You only hold the
+shared semaphore in the caller (which probably should move into
+the function to start with).
+
+> +	if ((a == &dev_attr_ana_state.attr) ||
+> +	    (a == &dev_attr_ana_group.attr)) {
+
+No need for the inner braces.
+
+> +	/* First round: select from all ANA optimized paths */
+>  	list_for_each_entry_rcu(ns, &head->list, siblings) {
+> -		if (ns->ctrl->state == NVME_CTRL_LIVE) {
+> +		if (ns->ctrl->state == NVME_CTRL_LIVE &&
+> +		    ns->ana_state == NVME_ANA_STATE_OPTIMIZED) {
+> +			rcu_assign_pointer(head->current_path, ns);
+> +			return ns;
+> +		}
+> +	}
+> +	/* Second round: select from all ANA non-optimized paths */
+> +	list_for_each_entry_rcu(ns, &head->list, siblings) {
+> +		if (ns->ctrl->state == NVME_CTRL_LIVE &&
+> +		    ns->ana_state == NVME_ANA_STATE_NONOPTIMIZED) {
+>  			rcu_assign_pointer(head->current_path, ns);
+>  			return ns;
+
+Based on the last setences in section 8.18.3.3 of the ANA spec
+we should also do a last restort attempt at inaccseesible paths.
+
+Also I think we should just pass the state to __nvme_find_path and
+retry in the caller to avoid code duplication.
+
+Note that this code seems to miss any handling of the transitioning
+state and the error codes related to it, and also doesn't work around
+the nasty bit in the spec that allows inaccesible states to report
+incorrect capacity, which we'll need to work around by stealing that
+data from other namespaces.
