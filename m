@@ -1,81 +1,121 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 11 May 2018 16:22:29 -0700
-Subject: [PATCH v2] nvme: continue keep alive on error
-Message-ID: <20180511232229.18929-1-jsmart2021@gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sat, 12 May 2018 08:21:22 +0800
+Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
+In-Reply-To: <20180511205028.GB7772@localhost.localdomain>
+References: <20180511122933.27155-1-ming.lei@redhat.com>
+ <20180511205028.GB7772@localhost.localdomain>
+Message-ID: <20180512002110.GA23631@ming.t460p>
 
-Currently, if the keep_alive command failed, an error message is
-generated and keep alive is stopped. This guarantees the target will
-eventually not see a keep_alive in a KATO window and fail.
+Hi Keith,
 
-The keep_alive command may complete in error in cases where the
-transport or lldd are temporarily out of resources. As such, the
-command should be retried rather than letting the controller die.
+On Fri, May 11, 2018@02:50:28PM -0600, Keith Busch wrote:
+> On Fri, May 11, 2018@08:29:24PM +0800, Ming Lei wrote:
+> > Hi,
+> > 
+> > The 1st patch introduces blk_quiesce_timeout() and blk_unquiesce_timeout()
+> > for NVMe, meantime fixes blk_sync_queue().
+> > 
+> > The 2nd patch covers timeout for admin commands for recovering controller
+> > for avoiding possible deadlock.
+> > 
+> > The 3rd and 4th patches avoid to wait_freeze on queues which aren't frozen.
+> > 
+> > The last 5 patches fixes several races wrt. NVMe timeout handler, and
+> > finally can make blktests block/011 passed. Meantime the NVMe PCI timeout
+> > mecanism become much more rebost than before.
+> > 
+> > gitweb:
+> > 	https://github.com/ming1/linux/commits/v4.17-rc-nvme-timeout.V5
+> 
+> Hi Ming,
+> 
+> First test with simulated broken links is unsuccessful. I'm getting
+> stuck here:
+> 
+> [<0>] blk_mq_freeze_queue_wait+0x46/0xb0
+> [<0>] blk_cleanup_queue+0x78/0x170
+> [<0>] nvme_ns_remove+0x137/0x1a0 [nvme_core]
+> [<0>] nvme_remove_namespaces+0x86/0xc0 [nvme_core]
+> [<0>] nvme_remove+0x6b/0x130 [nvme]
+> [<0>] pci_device_remove+0x36/0xb0
+> [<0>] device_release_driver_internal+0x157/0x220
+> [<0>] nvme_remove_dead_ctrl_work+0x29/0x40 [nvme]
+> [<0>] process_one_work+0x170/0x350
+> [<0>] worker_thread+0x2e/0x380
+> [<0>] kthread+0x111/0x130
+> [<0>] ret_from_fork+0x1f/0x30
+> 
+> 
+> Here's the last parts of the kernel logs capturing the failure:
+> 
+> [  760.679105] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679116] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679120] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679124] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679127] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679131] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679135] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679138] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679141] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679144] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679148] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679151] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679155] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679158] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679161] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679164] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679169] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679172] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679176] nvme nvme1: EH 0: before shutdown
+> [  760.679177] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679181] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679185] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679189] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679192] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679196] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679199] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679202] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679240] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679243] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.679246] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> 
+> ( above repeats a few more hundred times )
+> 
+> [  760.679960] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> [  760.701468] nvme nvme1: EH 0: after shutdown, top eh: 1
+> [  760.727099] pci_raw_set_power_state: 62 callbacks suppressed
+> [  760.727103] nvme 0000:86:00.0: Refused to change power state, currently in D3
 
-If the command completes in error, retry another one after a short
-delay. Track whether keep alive has had an error to reduce printing
-the error message to the first failure only.
+EH may not cover this kind of failure, so it fails in the 1st try.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+> [  760.727483] nvme nvme1: EH 0: state 4, eh_done -19, top eh 1
+> [  760.727485] nvme nvme1: EH 0: after recovery -19
+> [  760.727488] nvme nvme1: EH: fail controller
 
----
-v2: add ka_error so that info print isn't 4 times a second for
-  a repeating error.
----
- drivers/nvme/host/core.c | 17 +++++++++++------
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 12 insertions(+), 6 deletions(-)
+The above issue(hang in nvme_remove()) is still an old issue, which
+is because queues are kept as quiesce during remove, so could you
+please test the following change?
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7a39ce8d9d5e..6eb36fdf91be 100644
+index 1dec353388be..c78e5a0cde06 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -791,17 +791,21 @@ static int nvme_submit_user_cmd(struct request_queue *q,
- static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- {
- 	struct nvme_ctrl *ctrl = rq->end_io_data;
-+	unsigned long delay = ctrl->kato * HZ;
- 
- 	blk_mq_free_request(rq);
- 
- 	if (status) {
--		dev_err(ctrl->device,
--			"failed nvme_keep_alive_end_io error=%d\n",
--				status);
--		return;
--	}
-+		if (!ctrl->ka_error)
-+			dev_info(ctrl->device,
-+				"failed nvme_keep_alive_end_io error=%d, "
-+				"retrying\n", status);
-+		ctrl->ka_error = true;
-+		delay = (HZ / 4);	/* 250ms */
-+	} else
-+		ctrl->ka_error = false;
- 
--	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+	schedule_delayed_work(&ctrl->ka_work, delay);
- }
- 
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
-@@ -839,6 +843,7 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
- 	if (unlikely(ctrl->kato == 0))
- 		return;
- 
-+	ctrl->ka_error = false;
- 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
- }
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 7ded7a51c430..af65cc540776 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -178,6 +178,7 @@ struct nvme_ctrl {
- 	u32 aen_result;
- 	unsigned int shutdown_timeout;
- 	unsigned int kato;
-+	bool ka_error;
- 	bool subsystem;
- 	unsigned long quirks;
- 	struct nvme_id_power_state psd[32];
--- 
-2.13.1
+@@ -3254,6 +3254,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+         */
+        if (ctrl->state == NVME_CTRL_DEAD)
+                nvme_kill_queues(ctrl);
++       else {
++               if (ctrl->admin_q)
++                       blk_mq_unquiesce_queue(ctrl->admin_q);
++               nvme_start_queues(ctrl);
++       }
+
+        down_write(&ctrl->namespaces_rwsem);
+        list_splice_init(&ctrl->namespaces, &ns_list);
+
+BTW, in my environment, it is hard to trigger this failure, so not see
+this issue, but I did verify the nested EH which can recover from error
+in reset.
+
+Thanks,
+Ming
