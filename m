@@ -1,49 +1,41 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 11 May 2018 17:50:22 -0700
-Subject: [PATCH v2 1/7] nvme: remove unnecessary controller subnqn validation
+Date: Fri, 11 May 2018 17:50:24 -0700
+Subject: [PATCH v2 3/7] nvme_fc: remove setting DNR on exception conditions
 In-Reply-To: <20180512005028.29661-1-jsmart2021@gmail.com>
 References: <20180512005028.29661-1-jsmart2021@gmail.com>
-Message-ID: <20180512005028.29661-2-jsmart2021@gmail.com>
+Message-ID: <20180512005028.29661-4-jsmart2021@gmail.com>
 
-After creating the nvme controller, nvmf_create_ctrl() validates
-the newly created subsysnqn vs the one specified by the options.
+Current code will set DNR if the controller is deleting or there is
+an error during controller init. None of this is necessary.
 
-In general, this is an unnecessary check as the Connect message
-should implicitly ensure this value matches.
-
-With the change to the FC transport to do an asynchronous connect
-for the first association create, the transport will return to
-nvmf_create_ctrl() before that first association has been established,
-thus the subnqn will not yet be set.
-
-Remove the unnecessary validation.
+remove the code that sets DNR
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/fabrics.c | 10 ----------
+ drivers/nvme/host/fc.c | 10 ----------
  1 file changed, 10 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 7ae732a77fe8..6fdf499d16b4 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -983,16 +983,6 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		goto out_module_put;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 6cb26bcf6ec0..7e64fe69c945 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1686,16 +1686,6 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 		goto check_error;
  	}
  
--	if (strcmp(ctrl->subsys->subnqn, opts->subsysnqn)) {
--		dev_warn(ctrl->device,
--			"controller returned incorrect NQN: \"%s\".\n",
--			ctrl->subsys->subnqn);
--		module_put(ops->module);
--		up_read(&nvmf_transports_rwsem);
--		nvme_delete_ctrl_sync(ctrl);
--		return ERR_PTR(-EINVAL);
--	}
+-	/*
+-	 * Force failures of commands if we're killing the controller
+-	 * or have an error on a command used to create an new association
+-	 */
+-	if (status &&
+-	    (blk_queue_dying(rq->q) ||
+-	     ctrl->ctrl.state == NVME_CTRL_NEW ||
+-	     ctrl->ctrl.state == NVME_CTRL_CONNECTING))
+-		status |= cpu_to_le16(NVME_SC_DNR << 1);
 -
- 	module_put(ops->module);
- 	up_read(&nvmf_transports_rwsem);
- 	return ctrl;
+ 	__nvme_fc_fcpop_chk_teardowns(ctrl, op, opstate);
+ 	nvme_end_request(rq, status, result);
+ 
 -- 
 2.13.1
