@@ -1,121 +1,80 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 12 May 2018 08:21:22 +0800
-Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
-In-Reply-To: <20180511205028.GB7772@localhost.localdomain>
-References: <20180511122933.27155-1-ming.lei@redhat.com>
- <20180511205028.GB7772@localhost.localdomain>
-Message-ID: <20180512002110.GA23631@ming.t460p>
+From: jsmart2021@gmail.com (James Smart)
+Date: Fri, 11 May 2018 17:50:21 -0700
+Subject: [PATCH v2 0/7] nvme_fc: asynchronous controller create and simple
+ discovery
+Message-ID: <20180512005028.29661-1-jsmart2021@gmail.com>
 
-Hi Keith,
+This patch set modifies the fc transport such that create_ctrl results
+in the OS's controller creation only and does not initially connect
+to the device on the wire inline to the create_ctrl call. Instead, the
+initial connect immediately schedules the background reconnect thread
+to perform the initial association connect. The patchset also contains
+several other cleanups found while implementing the asynchronous
+connect testing.
 
-On Fri, May 11, 2018@02:50:28PM -0600, Keith Busch wrote:
-> On Fri, May 11, 2018@08:29:24PM +0800, Ming Lei wrote:
-> > Hi,
-> > 
-> > The 1st patch introduces blk_quiesce_timeout() and blk_unquiesce_timeout()
-> > for NVMe, meantime fixes blk_sync_queue().
-> > 
-> > The 2nd patch covers timeout for admin commands for recovering controller
-> > for avoiding possible deadlock.
-> > 
-> > The 3rd and 4th patches avoid to wait_freeze on queues which aren't frozen.
-> > 
-> > The last 5 patches fixes several races wrt. NVMe timeout handler, and
-> > finally can make blktests block/011 passed. Meantime the NVMe PCI timeout
-> > mecanism become much more rebost than before.
-> > 
-> > gitweb:
-> > 	https://github.com/ming1/linux/commits/v4.17-rc-nvme-timeout.V5
-> 
-> Hi Ming,
-> 
-> First test with simulated broken links is unsuccessful. I'm getting
-> stuck here:
-> 
-> [<0>] blk_mq_freeze_queue_wait+0x46/0xb0
-> [<0>] blk_cleanup_queue+0x78/0x170
-> [<0>] nvme_ns_remove+0x137/0x1a0 [nvme_core]
-> [<0>] nvme_remove_namespaces+0x86/0xc0 [nvme_core]
-> [<0>] nvme_remove+0x6b/0x130 [nvme]
-> [<0>] pci_device_remove+0x36/0xb0
-> [<0>] device_release_driver_internal+0x157/0x220
-> [<0>] nvme_remove_dead_ctrl_work+0x29/0x40 [nvme]
-> [<0>] process_one_work+0x170/0x350
-> [<0>] worker_thread+0x2e/0x380
-> [<0>] kthread+0x111/0x130
-> [<0>] ret_from_fork+0x1f/0x30
-> 
-> 
-> Here's the last parts of the kernel logs capturing the failure:
-> 
-> [  760.679105] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679116] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679120] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679124] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679127] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679131] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679135] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679138] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679141] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679144] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679148] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679151] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679155] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679158] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679161] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679164] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679169] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679172] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679176] nvme nvme1: EH 0: before shutdown
-> [  760.679177] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679181] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679185] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679189] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679192] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679196] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679199] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679202] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679240] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679243] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.679246] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> 
-> ( above repeats a few more hundred times )
-> 
-> [  760.679960] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> [  760.701468] nvme nvme1: EH 0: after shutdown, top eh: 1
-> [  760.727099] pci_raw_set_power_state: 62 callbacks suppressed
-> [  760.727103] nvme 0000:86:00.0: Refused to change power state, currently in D3
+There are two main reasons why asynchronous controller create is done:
+1) It simplifies error handling and retries. The initial controller
+   connect attempts can be disrupted or by errors as easily as after
+   the controller is initially created. As the code currently stands
+   there has to be special retry logic and prohibitions around state
+   changes if errors occur during the initial connect (which the code
+   today does not have). With this patch set, initial connections use
+   the same path as a reconnect, and any error handling uses the same
+   paths as if the errors occurred post initial connect.
+2) As the create_ctrl() call is now very fast, simplistic udev rules
+   can be used for auto-connect rather than involving systemd to work
+   around long initial connect times, especially if errors in initial
+   connect occur.
 
-EH may not cover this kind of failure, so it fails in the 1st try.
+However, several hurdles in the common infrastructure need to be changed
+in order to make this work. The initial controller creation expects the
+controller to be fully connected and live on the wire before it returns
+back to the cli.  This gave a lot of time for the udev event to be
+generated and serviced to create the corresponding /dev file.  The cli
+now has to be prepared that it may access the /dev file before the event
+had been serviced.  There is also a check in the fabrics layer to validate
+the controller subnqn is what the connect request asked for. With this
+patch set, FC will return before the initial connect is complete thus
+the controller field being checked is not yet set.  There is no reason
+that it wouldn't be as the request will be what the fabric connect
+requests are based off, so this checking of the nqn should be removed.
+Additionally, operations such as connect-all may occur while there is
+a connectivity disturbance with the discovery controller, thus the
+discovery log read may fail. To circumvent the side effects of giving
+up and not connecting, the cli needs to retry the discovery log reads.
 
-> [  760.727483] nvme nvme1: EH 0: state 4, eh_done -19, top eh 1
-> [  760.727485] nvme nvme1: EH 0: after recovery -19
-> [  760.727488] nvme nvme1: EH: fail controller
+Therefore, this patch set is dependent on the following modifications
+that have been made to the cli:
+  nvme-cli: Wait for device file if not present after successful add_ctrl
+     github repo commit id: bb2d87d7f386
+  nvme-cli: Add ioctl retry support for "connect-all"
+     github repo commit id: d8f949c21e9d
 
-The above issue(hang in nvme_remove()) is still an old issue, which
-is because queues are kept as quiesce during remove, so could you
-please test the following change?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1dec353388be..c78e5a0cde06 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3254,6 +3254,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-         */
-        if (ctrl->state == NVME_CTRL_DEAD)
-                nvme_kill_queues(ctrl);
-+       else {
-+               if (ctrl->admin_q)
-+                       blk_mq_unquiesce_queue(ctrl->admin_q);
-+               nvme_start_queues(ctrl);
-+       }
+As the patchset now allows simplistic udev scripting, this patchset also
+adds the change to the transport to regenerate udev discovery events in
+case the system missed the events earlier (such as boot scenarios).
 
-        down_write(&ctrl->namespaces_rwsem);
-        list_splice_init(&ctrl->namespaces, &ns_list);
+v2:
+  added Reviewed-by's
+  Reworked 2nd patch to change nvme_set_queue_count() behavior rather
+    than add additional validation in the fc transport.
 
-BTW, in my environment, it is hard to trigger this failure, so not see
-this issue, but I did verify the nested EH which can recover from error
-in reset.
 
-Thanks,
-Ming
+James Smart (7):
+  nvme: remove unnecessary controller subnqn validation
+  nvme: revise nvme_set_queue_count to return error on some nvme status
+    codes
+  nvme_fc: remove setting DNR on exception conditions
+  nvme_fc: remove reinit_request routine
+  nvme_fc: change controllers first connect to use reconnect path
+  nvme_fc: fix nulling of queue data on reconnect
+  nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
+
+ drivers/nvme/host/core.c    |   3 +-
+ drivers/nvme/host/fabrics.c |  10 --
+ drivers/nvme/host/fc.c      | 257 ++++++++++++++++++++++++++------------------
+ 3 files changed, 157 insertions(+), 113 deletions(-)
+
+-- 
+2.13.1
