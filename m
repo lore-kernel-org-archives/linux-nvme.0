@@ -1,44 +1,36 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 14 May 2018 13:16:11 +0300
-Subject: [PATCH RFC 2/2] nvmet-rdma: Support 8K inline
-In-Reply-To: <d6a3324a813a3ac4a1b43bf82e91794f335c24a7.1525880285.git.swise@opengridcomputing.com>
-References: <cover.1525880285.git.swise@opengridcomputing.com>
- <d6a3324a813a3ac4a1b43bf82e91794f335c24a7.1525880285.git.swise@opengridcomputing.com>
-Message-ID: <66d7c50e-3f11-cab5-7ff6-a15bb5a56a07@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 14 May 2018 13:40:42 +0200
+Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
+Message-ID: <20180514114042.12082-1-jthumshirn@suse.de>
 
-Thanks Steve for running this.
-Me and Parav kinda put this task aside...
+The config file is bash and it gets sourced, so all bash magic is
+doable in there as well. Document it so others don't have to
+re-discover this gem as well.
 
-On 5/9/2018 5:34 PM, Steve Wise wrote:
-> Allow up to 2 pages of inline for NVMF WRITE operations.  This reduces
-> latency for 8K WRITEs by removing the need to issue a READ WR for IB,
-> or a REG_MR+READ WR chain for iWarp.
-> 
-> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
-> ---
->   drivers/nvme/target/rdma.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 52e0c5d..9e3f08a 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -33,9 +33,9 @@
->   #include "nvmet.h"
->   
->   /*
-> - * We allow up to a page of inline data to go with the SQE
-> + * We allow up to 2 pages of inline data to go with the SQE
->    */
-> -#define NVMET_RDMA_INLINE_DATA_SIZE	PAGE_SIZE
-> +#define NVMET_RDMA_INLINE_DATA_SIZE    (PAGE_SIZE << 1)
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ Documentation/running-tests.md | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Sometimes 8K != (PAGE_SIZE << 1).
-do we realy want to have this in PPC systems, for example, that 
-PAGE_SIZE == 64K ?
-We might want to re-think on changing this to SZ_4K.
-
->   
->   struct nvmet_rdma_cmd {
->   	struct ib_sge		sge[2];
-> 
+diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
+index a479d5e94c5e..b477c0679683 100644
+--- a/Documentation/running-tests.md
++++ b/Documentation/running-tests.md
+@@ -66,3 +66,15 @@ command line option.
+ QUICK_RUN=1
+ TIMEOUT=30
+ ```
++
++### Pre-test setups
++
++Some tests, may need special prerequisites, like configfs being
++mounted for NVMe over Fabrics tests. You can add your custom bash
++scriptlets to `config` to get this done, e.g.:
++
++```sh
++if ! test $(grep -q configfs /proc/mounts) ; then
++        mount -t configfs none /sys/kernel/config
++fi
++```
+-- 
+2.16.3
