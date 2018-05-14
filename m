@@ -1,64 +1,76 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 14 May 2018 13:33:06 -0500
-Subject: [PATCH RFC 1/2] nvme-rdma: Support 8K inline
-In-Reply-To: <20180511064828.GC8368@lst.de>
-References: <cover.1525880285.git.swise@opengridcomputing.com>
- <1609e345042f2801f92e8831e8c83b688fad07eb.1525880285.git.swise@opengridcomputing.com>
- <20180511064828.GC8368@lst.de>
-Message-ID: <33f015bb-f370-0fec-3ff3-aee07de1dbcf@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 14 May 2018 14:02:37 -0600
+Subject: [PATCH blktests] nvme: Add command timeout injection test
+Message-ID: <20180514200237.15135-1-keith.busch@intel.com>
 
+This test will run a background IO process and inject an admin command
+with a very short timeout that is all but guaranteed to expire without
+a completion: the async event request.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ tests/nvme/005     | 42 ++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/005.out |  3 +++
+ 2 files changed, 45 insertions(+)
+ create mode 100755 tests/nvme/005
+ create mode 100644 tests/nvme/005.out
 
-On 5/11/2018 1:48 AM, Christoph Hellwig wrote:
->> -#define NVME_RDMA_MAX_INLINE_SEGMENTS	1
->> +#define NVME_RDMA_MAX_INLINE_SEGMENTS	2
-> Given how little space we use for just the sge array maybe we
-> want to bump this to 4 once we need to deal with multiple entries?
-
-Agreed.
-
->>  static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
->> -		struct nvme_rdma_request *req, struct nvme_command *c)
->> +		struct nvme_rdma_request *req, int count,
->> +		struct nvme_command *c)
-> Just gut feeling, but I'd pass the count argument last.
-
-Yea ok.
-
->>  	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
->> +	u32 len;
->>  
->>  	req->sge[1].addr = sg_dma_address(req->sg_table.sgl);
->>  	req->sge[1].length = sg_dma_len(req->sg_table.sgl);
->>  	req->sge[1].lkey = queue->device->pd->local_dma_lkey;
->> +	len = req->sge[1].length;
->> +	if (count == 2) {
->> +		req->sge[2].addr = sg_dma_address(req->sg_table.sgl+1);
->> +		req->sge[2].length = sg_dma_len(req->sg_table.sgl+1);
->> +		req->sge[2].lkey = queue->device->pd->local_dma_lkey;
->> +		len += req->sge[2].length;
->> +	}
-> I think this should be turned into a for loop, e.g.
-
-Yes, And I think in the previous incarnation of this patch series, Sagi
-suggested an iterator pointer vs sge[blah].
-
-> 	u32 len, i;
->
-> 	for (i = 0; i < count; i++) {
-> 		req->sge[1 + i].addr = sg_dma_address(&req->sg_table.sgl[i]);
-> 		req->sge[1 + i].length = sg_dma_len(&req->sg_table.sgl[i]);
-> 		req->sge[1 + i].lkey = queue->device->pd->local_dma_lkey;
-> 		req->num_sge++;
-> 		len += req->sge[i + 1].length;
-> 	}
-> 		
->> -	if (count == 1) {
->> +	if (count <= 2) {
-> This should be NVME_RDMA_MAX_INLINE_SEGMENTS.
-
-Yup.
-
-Thanks for reviewing!
-
-Steve.
+diff --git a/tests/nvme/005 b/tests/nvme/005
+new file mode 100755
+index 0000000..3fe9cbe
+--- /dev/null
++++ b/tests/nvme/005
+@@ -0,0 +1,42 @@
++#!/bin/bash
++#
++# Regression test for timeout handling.
++#
++# Copyright (C) 2018 Keith Busch
++#
++# This program is free software: you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation, either version 3 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++DESCRIPTION="test nvme admin command timeout handling with in-flight io"
++
++QUICK=1
++
++requires() {
++	_have_program nvme
++}
++
++test_device() {
++	echo "Running ${TEST_NAME}"
++
++	# start fio job
++	_run_fio_rand_io --filename="${TEST_DEV}" --time_based --runtime=20 &
++
++	sleep 5
++
++	# send nvme admin command 'async event request', which  will surely time out
++	nvme admin-passthru ${TEST_DEV} -o 0xc --timeout=1
++
++	wait
++
++	echo "Test complete"
++}
+diff --git a/tests/nvme/005.out b/tests/nvme/005.out
+new file mode 100644
+index 0000000..f4ff837
+--- /dev/null
++++ b/tests/nvme/005.out
+@@ -0,0 +1,3 @@
++Running nvme/005
++passthru: Interrupted system call
++Test complete
+-- 
+2.14.3
