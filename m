@@ -1,51 +1,59 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 14 May 2018 08:08:12 -0700
-Subject: [PATCH v2 2/7] nvme: revise nvme_set_queue_count to return error
- on some nvme status codes
-In-Reply-To: <20180512133453.GB14317@infradead.org>
-References: <20180512005028.29661-1-jsmart2021@gmail.com>
- <20180512005028.29661-3-jsmart2021@gmail.com>
- <20180512133453.GB14317@infradead.org>
-Message-ID: <9a65c024-1a33-ff97-f5fe-38f147eb082c@broadcom.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 14 May 2018 09:18:21 -0600
+Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
+In-Reply-To: <20180512002110.GA23631@ming.t460p>
+References: <20180511122933.27155-1-ming.lei@redhat.com>
+ <20180511205028.GB7772@localhost.localdomain>
+ <20180512002110.GA23631@ming.t460p>
+Message-ID: <20180514151821.GE7772@localhost.localdomain>
 
-On 5/12/2018 6:34 AM, Christoph Hellwig wrote:
-> On Fri, May 11, 2018@05:50:23PM -0700, James Smart wrote:
->> The status codes that transports may generate are NVME_SC_ABORT_REQ and
->> NVME_SC_INTERNAL. In those cases, return a positive error value with the
->> value being the status code.
-> No, your transport should not come up with fake nvme errors, sorry.
->
-> And we need this code to ignore errors to bring up various
-> PCIe controller in degraded conditions.
+Hi Ming,
 
-It's not making up fake errors, per say. All transports, when they 
-terminate io for an association that fails, kick them back with at least 
-the aborted status. FC does have the internal value as well for 
-transport-specific errors.? What is happening here - the controller 
-initialization starts, but then connectivity is lost before it can 
-complete. In this case, it occurred right as the SET_PROPERTY for io 
-queues was outstanding.?? I wish the core code wasn't so expectant on 
-the happy path, as even if we get past this error, it's very chatty on 
-errors and can scare an admin even when the issues are fully recoverable.
+On Sat, May 12, 2018@08:21:22AM +0800, Ming Lei wrote:
+> > [  760.679960] nvme nvme1: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> > [  760.701468] nvme nvme1: EH 0: after shutdown, top eh: 1
+> > [  760.727099] pci_raw_set_power_state: 62 callbacks suppressed
+> > [  760.727103] nvme 0000:86:00.0: Refused to change power state, currently in D3
+> 
+> EH may not cover this kind of failure, so it fails in the 1st try.
 
-Looking closer at the issue, there are two concerns:
-a) the setting of the io queue count to zero persists in future 
-connection attempts;
-b) if the transport intercepts and kills the io, and the controller 
-continues to come live in the os, is there any way the transport won't 
-kill the association and retry ??? because otherwise, it is stuck in a 
-"bogus" degraded mode.
+Indeed, the test is simulating a permanently broken link, so recovery is
+not expected. A success in this case is just completing driver
+unbinding.
+ 
+> > [  760.727483] nvme nvme1: EH 0: state 4, eh_done -19, top eh 1
+> > [  760.727485] nvme nvme1: EH 0: after recovery -19
+> > [  760.727488] nvme nvme1: EH: fail controller
+> 
+> The above issue(hang in nvme_remove()) is still an old issue, which
+> is because queues are kept as quiesce during remove, so could you
+> please test the following change?
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1dec353388be..c78e5a0cde06 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3254,6 +3254,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+>          */
+>         if (ctrl->state == NVME_CTRL_DEAD)
+>                 nvme_kill_queues(ctrl);
+> +       else {
+> +               if (ctrl->admin_q)
+> +                       blk_mq_unquiesce_queue(ctrl->admin_q);
+> +               nvme_start_queues(ctrl);
+> +       }
+> 
+>         down_write(&ctrl->namespaces_rwsem);
+>         list_splice_init(&ctrl->namespaces, &ns_list);
 
-for (a): the transport recalculates the io queue count on each new 
-association attempt and ignores previous values. Except that it is used 
-to size the hw_queues on the io request queue when it's initially 
-created.? I assume the blk_mq_update_nr_hw_queues() call is sufficient 
-to resize it on the next association.
+The above won't actually do anything here since the broken link puts the
+controller in the DEAD state, so we've killed the queues which also
+unquiesces them.
 
-for (b): I can't come up with a scenario where the transport would not 
-be taking the association down due to the error that generated the 
-failure on the command.
+> BTW, in my environment, it is hard to trigger this failure, so not see
+> this issue, but I did verify the nested EH which can recover from error
+> in reset.
 
-As such, I guess I can pull this patch and drop it. It's not necessary.
-
--- james
+It's actually pretty easy to trigger this one. I just modify block/019 to
+remove the check for a hotplug slot then run it on a block device that's
+not hot-pluggable.
