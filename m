@@ -1,25 +1,19 @@
-From: hare@suse.com (Hannes Reinecke)
-Date: Mon, 14 May 2018 10:09:49 +0200
-Subject: dusted off ANA code
-In-Reply-To: <20180514075646.28823-1-hch@lst.de>
-References: <20180514075646.28823-1-hch@lst.de>
-Message-ID: <20180514100949.2646b149@pentland.suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 14 May 2018 14:44:14 +0200
+Subject: [PATCH] nvme: fix KASAN warning when parsing host nqn
+In-Reply-To: <20180514122312.62068-1-hare@suse.de>
+References: <20180514122312.62068-1-hare@suse.de>
+Message-ID: <20180514124414.GA25689@lst.de>
 
-On Mon, 14 May 2018 09:56:35 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+On Mon, May 14, 2018@02:23:12PM +0200, Hannes Reinecke wrote:
+> -	host = kmalloc(sizeof(*host), GFP_KERNEL);
+> +	host = kzalloc(sizeof(*host), GFP_KERNEL);
+>  	if (!host)
+>  		goto out_unlock;
+>  
+>  	kref_init(&host->ref);
+> -	memcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
+> +	memcpy(host->nqn, hostnqn, strlen(hostnqn));
 
-> As we had some ANA discussion I spent some hours over the weekend to
-> dust off my old ANA code.  It is mostly feature complete except for
-> the lack of change state handling on the host, but only very lightly
-> tested in this form.  It also lacks proper changelogs and testing..
-> 
-Thanks for this.
-
-I'll be working on integrating both codestreams and send a combined
-patchset for review.
-
-Unless you want to do it yourself ...
-
-Cheers,
-
-Hannes
+That pattern is called strcpy :)  And we better use strlcpy here,
+just in case.
