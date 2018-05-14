@@ -1,39 +1,52 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 14 May 2018 07:53:18 -0700
-Subject: [PATCH] nvme: block ioctls if controller not in a live state
-In-Reply-To: <2b21ba25-e581-45a7-95ae-8b3f2fe6dcf8@broadcom.com>
-References: <20180507225558.5009-1-jsmart2021@gmail.com>
- <20180509051156.GB28673@infradead.org>
- <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
- <20180514141734.GA26302@infradead.org>
- <2b21ba25-e581-45a7-95ae-8b3f2fe6dcf8@broadcom.com>
-Message-ID: <20180514145318.GA24711@infradead.org>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 14 May 2018 09:58:32 -0500
+Subject: [PATCH RFC 2/2] nvmet-rdma: Support 8K inline
+In-Reply-To: <66d7c50e-3f11-cab5-7ff6-a15bb5a56a07@mellanox.com>
+References: <cover.1525880285.git.swise@opengridcomputing.com>
+ <d6a3324a813a3ac4a1b43bf82e91794f335c24a7.1525880285.git.swise@opengridcomputing.com>
+ <66d7c50e-3f11-cab5-7ff6-a15bb5a56a07@mellanox.com>
+Message-ID: <14fa274a-12d2-cfbe-9853-f678391a075c@opengridcomputing.com>
 
-On Mon, May 14, 2018@07:47:46AM -0700, James Smart wrote:
-> 
-> 
-> On 5/14/2018 7:17 AM, Christoph Hellwig wrote:
-> > On Wed, May 09, 2018@09:29:13AM -0700, James Smart wrote:
-> > > That is the exact intent.? I do want the app to trigger off -EAGAIN in those
-> > > two states and try again after a delay./? Perhaps I should change from !LIVE
-> > > to NEW || RESETTING || CONNECTING to be more explicit.? I assumed !LIVE was
-> > > sufficient as the other states should transition to LIVE or the delete path
-> > > is taken which would remove the fd all together.
-> > The problem is that userspace reasonably expects to be able to call
-> > poll/select when used on a character device and it gets -EAGAIN.
-> 
-> What's stopping us from adding poll support to the dev node ?
 
-A volunteer to write the code.
 
-> 
-> > 
-> > Maybe the right solution here is to just do a wait_event_interruptible to
-> > wait for the controller being live.
-> 
-> That's doable. I don't like hanging the app up for what could be 60s or so
-> though (controller loss timeout).
+On 5/14/2018 5:16 AM, Max Gurtovoy wrote:
+> Thanks Steve for running this.
+> Me and Parav kinda put this task aside...
+>
 
-Then you need to poll.  We should only do that if opened with O_NONBLOCK
-and otherwise wait for the event, similar to the pattern used in a lot
-of character devices.
+Hey Max,
+
+> On 5/9/2018 5:34 PM, Steve Wise wrote:
+>> Allow up to 2 pages of inline for NVMF WRITE operations.? This reduces
+>> latency for 8K WRITEs by removing the need to issue a READ WR for IB,
+>> or a REG_MR+READ WR chain for iWarp.
+>>
+>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>> ---
+>> ? drivers/nvme/target/rdma.c | 4 ++--
+>> ? 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>> index 52e0c5d..9e3f08a 100644
+>> --- a/drivers/nvme/target/rdma.c
+>> +++ b/drivers/nvme/target/rdma.c
+>> @@ -33,9 +33,9 @@
+>> ? #include "nvmet.h"
+>> ? ? /*
+>> - * We allow up to a page of inline data to go with the SQE
+>> + * We allow up to 2 pages of inline data to go with the SQE
+>> ?? */
+>> -#define NVMET_RDMA_INLINE_DATA_SIZE??? PAGE_SIZE
+>> +#define NVMET_RDMA_INLINE_DATA_SIZE??? (PAGE_SIZE << 1)
+>
+> Sometimes 8K != (PAGE_SIZE << 1).
+> do we realy want to have this in PPC systems, for example, that
+> PAGE_SIZE == 64K ?
+> We might want to re-think on changing this to SZ_4K.
+>
+
+Yes, I agree.
+
+Thanks,
+
+Steve.
