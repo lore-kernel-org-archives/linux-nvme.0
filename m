@@ -1,93 +1,118 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 14 May 2018 09:56:36 +0200
-Subject: [PATCH 01/11] nvme.h: untangle AEN notice definitions
+Date: Mon, 14 May 2018 09:56:37 +0200
+Subject: [PATCH 02/11] nvme.h: add ANA definitions
 In-Reply-To: <20180514075646.28823-1-hch@lst.de>
 References: <20180514075646.28823-1-hch@lst.de>
-Message-ID: <20180514075646.28823-2-hch@lst.de>
+Message-ID: <20180514075646.28823-3-hch@lst.de>
 
-Stop including the event type in the definitions for the notice type.
+Add various defintions from NVMe 1.3 TP 4004.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 30 ++++++++++++++++++------------
- include/linux/nvme.h     |  8 ++++++--
- 2 files changed, 24 insertions(+), 14 deletions(-)
+ include/linux/nvme.h | 49 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 46 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a3771c5729f5..0308d5ac7bde 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3316,6 +3316,21 @@ static void nvme_fw_act_work(struct work_struct *work)
- 	nvme_get_fw_slot_info(ctrl);
- }
- 
-+static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
-+{
-+	switch ((result & 0xff00) >> 8) {
-+	case NVME_AER_NOTICE_NS_CHANGED:
-+		dev_info(ctrl->device, "rescanning\n");
-+		nvme_queue_scan(ctrl);
-+		break;
-+	case NVME_AER_NOTICE_FW_ACT_STARTING:
-+		queue_work(nvme_wq, &ctrl->fw_act_work);
-+		break;
-+	default:
-+		dev_warn(ctrl->device, "async event result %08x\n", result);
-+	}
-+}
-+
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res)
- {
-@@ -3325,6 +3340,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		return;
- 
- 	switch (result & 0x7) {
-+	case NVME_AER_NOTICE:
-+		nvme_handle_aen_notice(ctrl, result);
-+		break;
- 	case NVME_AER_ERROR:
- 	case NVME_AER_SMART:
- 	case NVME_AER_CSS:
-@@ -3334,18 +3352,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 	default:
- 		break;
- 	}
--
--	switch (result & 0xff07) {
--	case NVME_AER_NOTICE_NS_CHANGED:
--		dev_info(ctrl->device, "rescanning\n");
--		nvme_queue_scan(ctrl);
--		break;
--	case NVME_AER_NOTICE_FW_ACT_STARTING:
--		queue_work(nvme_wq, &ctrl->fw_act_work);
--		break;
--	default:
--		dev_warn(ctrl->device, "async event result %08x\n", result);
--	}
- 	queue_work(nvme_wq, &ctrl->async_event_work);
- }
- EXPORT_SYMBOL_GPL(nvme_complete_async_event);
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 4112e2bd747f..c37103a4ad38 100644
+index c37103a4ad38..3aa9996fcb3b 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -436,10 +436,14 @@ enum {
- enum {
- 	NVME_AER_ERROR			= 0,
- 	NVME_AER_SMART			= 1,
-+	NVME_AER_NOTICE			= 2,
- 	NVME_AER_CSS			= 6,
- 	NVME_AER_VS			= 7,
--	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
--	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
+@@ -242,7 +242,12 @@ struct nvme_id_ctrl {
+ 	__le32			sanicap;
+ 	__le32			hmminds;
+ 	__le16			hmmaxd;
+-	__u8			rsvd338[174];
++	__u8			rsvd338[4];
++	__u8			anatt;
++	__u8			anacap;
++	__le32			anagrpmax;
++	__le32			nanagrpid;
++	__u8			rsvd352[160];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
+@@ -258,7 +263,8 @@ struct nvme_id_ctrl {
+ 	__le16			acwu;
+ 	__u8			rsvd534[2];
+ 	__le32			sgls;
+-	__u8			rsvd540[228];
++	__le32			mnan;
++	__u8			rsvd544[224];
+ 	char			subnqn[256];
+ 	__u8			rsvd1024[768];
+ 	__le32			ioccsz;
+@@ -312,7 +318,9 @@ struct nvme_id_ns {
+ 	__le16			nabspf;
+ 	__le16			noiob;
+ 	__u8			nvmcap[16];
+-	__u8			rsvd64[40];
++	__u8			rsvd64[28];
++	__le32			anagrpid;
++	__u8			rsvd96[8];
+ 	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
+@@ -425,6 +433,32 @@ struct nvme_effects_log {
+ 	__u8   resv[2048];
+ };
+ 
++enum nvme_ana_state {
++	NVME_ANA_OPTIMIZED		= 0x01,
++	NVME_ANA_NONOPTIMIZED		= 0x02,
++	NVME_ANA_INACCESSIBLE		= 0x03,
++	NVME_ANA_PERSISTENT_LOSS	= 0x04,
++	NVME_ANA_CHANGE			= 0x05,
 +};
 +
-+enum {
-+	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
-+	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
++struct nvme_ana_group_desc {
++	__le32	grpid;
++	__le32	nnsids;
++	__le64	chgcnt;
++	__u8	state;
++	__u8	rsvd17[7];
++	__le32	nsids[];
++};
++
++/* flag for the log specific field of the ANA log */
++#define NVME_ANA_LOG_RGO	(1 << 0)
++
++struct nvme_ana_rsp_hdr {
++	__le64	chgcnt;
++	__le16	ngrps;
++	__le16	rsvd10[3];
++};
++
+ enum {
+ 	NVME_SMART_CRIT_SPARE		= 1 << 0,
+ 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
+@@ -444,6 +478,7 @@ enum {
+ enum {
+ 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
+ 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
++	NVME_AER_NOTICE_ANA		= 0x03,
  };
  
  struct nvme_lba_range_type {
+@@ -752,6 +787,7 @@ enum {
+ 	NVME_LOG_SMART		= 0x02,
+ 	NVME_LOG_FW_SLOT	= 0x03,
+ 	NVME_LOG_CMD_EFFECTS	= 0x05,
++	NVME_LOG_ANA		= 0x0c,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
+ 	NVME_FWACT_REPL		= (0 << 3),
+@@ -1172,6 +1208,13 @@ enum {
+ 	NVME_SC_ACCESS_DENIED		= 0x286,
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
++	/*
++	 * Path-related Errors:
++	 */
++	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
++	NVME_SC_ANA_INACCESSIBLE	= 0x302,
++	NVME_SC_ANA_TRANSITION		= 0x303,
++
+ 	NVME_SC_DNR			= 0x4000,
+ };
+ 
 -- 
 2.17.0
