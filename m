@@ -1,23 +1,88 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 14 May 2018 08:48:05 -0700
-Subject: [PATCH] nvme: block ioctls if controller not in a live state
-In-Reply-To: <20180514152308.GF7772@localhost.localdomain>
-References: <20180507225558.5009-1-jsmart2021@gmail.com>
- <20180514152308.GF7772@localhost.localdomain>
-Message-ID: <7f15fa07-3a67-4f95-78e9-307fee0b4a13@gmail.com>
+From: paulmck@linux.vnet.ibm.com (Paul E. McKenney)
+Date: Mon, 14 May 2018 09:08:21 -0700
+Subject: [PATCH] nvme: fix lockdep warning in nvme_mpath_clear_current_path
+In-Reply-To: <20180514135622.3fks4w7c6joqxbqp@linux-x5ow.site>
+References: <20180514121312.13624-1-jthumshirn@suse.de>
+ <20180514124230.GA654@infradead.org>
+ <20180514125725.uobtf2nf4corisea@linux-x5ow.site>
+ <20180514133849.GV26088@linux.vnet.ibm.com>
+ <20180514135622.3fks4w7c6joqxbqp@linux-x5ow.site>
+Message-ID: <20180514160821.GW26088@linux.vnet.ibm.com>
 
-On 5/14/2018 8:23 AM, Keith Busch wrote:
-> On Mon, May 07, 2018@03:55:58PM -0700, James Smart wrote:
->> Rather than allow ioctl-based admin cmds to get intermixed on the admin
->> queue with commands being used to initialize a controller or io commands
->> to go to a controller in reconnect thus possibly hanging, reject them
->> if the controller isn't in the LIVE state. Reject with an -EAGAIN status
->> so that the app knows it could retry.
+On Mon, May 14, 2018@03:56:22PM +0200, Johannes Thumshirn wrote:
+> On Mon, May 14, 2018@06:38:49AM -0700, Paul E. McKenney wrote:
+> > On Mon, May 14, 2018@02:57:25PM +0200, Johannes Thumshirn wrote:
+> > > On Mon, May 14, 2018@05:42:30AM -0700, Christoph Hellwig wrote:
+> > > > >  extern unsigned int nvme_io_timeout;
+> > > > >  #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+> > > > > @@ -454,7 +455,9 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+> > > > >  {
+> > > > >  	struct nvme_ns_head *head = ns->head;
+> > > > >  
+> > > > > -	if (head && ns == srcu_dereference(head->current_path, &head->srcu))
+> > > > > +	if (head &&
+> > > > > +	    ns == rcu_dereference_protected(head->current_path,
+> > > > > +				lockdep_is_held(&ns->ctrl->subsys->lock)))
+> > > > >  		rcu_assign_pointer(head->current_path, NULL);
+> > > > >  }
+> > > > >  struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
+> > > > 
+> > > > We don't really dereference it at all in fact, but just check the
+> > > > pointers for equality.  I wonder if there is a better way to do this,
+> > > > as my ANA patches add a caller without the lock (and withou SRU
+> > > > protection either now that I think of it) - for a pure pointer compare
+> > > > we really should not need any sort of protection.
+> > > 
+> > > Uff maybe, but are you sure a comparison of two pointer is always
+> > > atomic (on all architectures)?
+> > > 
+> > > Paul, can you shed some light on us mere mortal, whether the above
+> > > rcu_dereference_protected() is needed or if a simple ns ==
+> > > head->current_path is sufficient.
+> > 
+> > One approach is the following:
+> > 
+> > static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+> > {
+> > 	struct nvme_ns_head *head = ns->head;
+> >  
+> > 	if (head && ns == rcu_access_pointer(head->current_path))
+> > 		rcu_assign_pointer(head->current_path, NULL);
+> > }
 > 
-> The admin ioctl is fine to use in ADMIN_ONLY state as well.
+> Yes that's what I have now as well, and it tests fine.
+
+Very good!  If it turns out to be useful, you can of course directly
+use lockdep_assert_held() to verify that the lock is held.
+
+							Thanx, Paul
+
+> > Without the rcu_access_pointer(), sparse (and thus the 0-day test robot)
+> > will complain that you are accessing an RCU-protected pointer without
+> > using RCU.  However, rcu_access_pointer() won't ever give any lockdep
+> > splats about there being no RCU read-side critical section.
+> > 
+> > You might still want rcu_dereference_protected() because it will yell
+> > at you if the lock is not held.  Yes, the comparison will still be valid
+> > without the lock (at least at the exact moment when the load occurred),
+> > but the rcu_assign_pointer() might be a bit problematic if that lock is
+> > not held, right?
+> > 
+> > But it is your guys' code, so I must defer to you for the intent.
+> > 
+> > 							Thanx, Paul
+> > 
+> > 
+> > _______________________________________________
+> > Linux-nvme mailing list
+> > Linux-nvme at lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-nvme
 > 
-
-Yep, I would need to take that state into account. For now, looks like 
-I'll be adding poll support and reposting.
-
--- james
+> -- 
+> Johannes Thumshirn                                          Storage
+> jthumshirn at suse.de                                +49 911 74053 689
+> SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+> GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+> HRB 21284 (AG N?rnberg)
+> Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> 
