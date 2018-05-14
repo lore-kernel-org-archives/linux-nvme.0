@@ -1,73 +1,16 @@
 From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 14 May 2018 13:02:52 -0700
-Subject: [PATCH blktests 1/3] nvme: move _find_nvme_loop_dev to common code
-In-Reply-To: <20180503150054.14022-1-jthumshirn@suse.de>
-References: <20180503150054.14022-1-jthumshirn@suse.de>
-Message-ID: <20180514200252.GA13417@vader>
+Date: Mon, 14 May 2018 13:07:31 -0700
+Subject: [PATCH] blktests: use global configfs variable
+In-Reply-To: <20180508054532.13712-1-chaitanya.kulkarni@wdc.com>
+References: <20180508054532.13712-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180514200731.GB13417@vader>
 
-On Thu, May 03, 2018@05:00:52PM +0200, Johannes Thumshirn wrote:
-> _find_nvme_loop_dev is quite useful for all nvme test, so move it over
-> to common code.
+On Tue, May 08, 2018@01:45:32AM -0400, Chaitanya Kulkarni wrote:
+> This patch introduces a global variable to hold the
+> configfs nvmet path. Now we don't need repetitive
+> local variables to hold the path and testcases
+> can use the newly introduced variable if needed.
 > 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  common/nvme    | 10 ++++++++++
->  tests/nvme/004 | 14 ++------------
->  2 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/common/nvme b/common/nvme
-> index c6718f04811b..c4a44065cd9f 100644
-> --- a/common/nvme
-> +++ b/common/nvme
-> @@ -93,3 +93,13 @@ _remove_nvmet_subsystem_from_port() {
->  
->  	rm "${nvmet_cfs}/ports/${port}/subsystems/${nvmet_subsystem}"
->  }
-> +
-> +_find_nvme_loop_dev() {
-> +	for dev in /sys/class/nvme/nvme*; do
-> +		dev="$(basename "$dev")"
-> +		transport="$(cat "/sys/class/nvme/${dev}/transport")"
-> +		if [[ "$transport" == "loop" ]]; then
-> +			echo "$dev"
-> +		fi
-> +	done
-> +}
-> diff --git a/tests/nvme/004 b/tests/nvme/004
-> index 65bcd40d86d1..2f970b366d41 100755
-> --- a/tests/nvme/004
-> +++ b/tests/nvme/004
-> @@ -27,16 +27,6 @@ requires() {
->  		_have_configfs
->  }
->  
-> -_find_nvme_loop_dev() {
-> -	for dev in /sys/block/nvme*; do
-> -		dev="$(basename "$dev")"
-> -		transport="$(cat "/sys/block/${dev}/device/transport")"
-> -		if [[ "$transport" == "loop" ]]; then
-> -			echo "$dev"
-> -		fi
-> -	done
-> -}
-> -
->  test() {
->  	echo "Running ${TEST_NAME}"
->  
-> @@ -59,8 +49,8 @@ test() {
->  
->  	local nvmedev
->  	nvmedev="$(_find_nvme_loop_dev)"
-> -	cat "/sys/block/${nvmedev}/uuid"
-> -	cat "/sys/block/${nvmedev}/wwid"
-> +	cat "/sys/block/${nvmedev}n1/uuid"
-> +	cat "/sys/block/${nvmedev}n1/wwid"
->  
->  	_remove_nvmet_subsystem_from_port "${port}" "blktests-subsystem-1"
->  	_remove_nvmet_subsystem "blktests-subsystem-1"
-> -- 
-> 2.16.3
-> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-Thanks, Johannes, applied. I split patch 1 into two, though; one fixing
-the test, and one just moving the function.
+Thanks, Chaitanya, that's a good cleanup. Applied.
