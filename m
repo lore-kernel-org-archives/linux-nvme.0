@@ -1,31 +1,406 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 14 May 2018 09:56:39 +0200
-Subject: [PATCH 04/11] nvme: always failover on path or transport errors
+Date: Mon, 14 May 2018 09:56:40 +0200
+Subject: [PATCH 05/11] nvme: add ANA support
 In-Reply-To: <20180514075646.28823-1-hch@lst.de>
 References: <20180514075646.28823-1-hch@lst.de>
-Message-ID: <20180514075646.28823-5-hch@lst.de>
-
-NVMe 1.3 TP 4028 introduced a new status code type 3h for
-"Path Related Status".  We should always retry on another path for this
-class of errors, without even trying to decode them.
+Message-ID: <20180514075646.28823-6-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/multipath.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/core.c      |  28 +++++
+ drivers/nvme/host/multipath.c | 189 +++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |  27 +++++
+ 3 files changed, 239 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index d7b664ae5923..b5a00853fbe2 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -59,6 +59,8 @@ bool nvme_req_needs_failover(struct request *req, blk_status_t error)
- {
- 	if (!(req->cmd_flags & REQ_NVME_MPATH))
- 		return false;
-+	if (nvme_req(req)->status & 0x300)
-+		return true;
- 	return blk_path_error(error);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b4d55d2455ad..4c33daefd9e9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1443,6 +1443,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	ns->lba_shift = id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ds;
+ 	if (ns->lba_shift == 0)
+ 		ns->lba_shift = 9;
++	ns->anagrpid = le32_to_cpu(id->anagrpid);
+ 	ns->noiob = le16_to_cpu(id->noiob);
+ 	ns->ext = ns->ms && (id->flbas & NVME_NS_FLBAS_META_EXT);
+ 	ns->ms = le16_to_cpu(id->lbaf[id->flbas & NVME_NS_FLBAS_LBA_MASK].ms);
+@@ -2355,6 +2356,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	nvme_set_queue_limits(ctrl, ctrl->admin_q);
+ 	ctrl->sgls = le32_to_cpu(id->sgls);
+ 	ctrl->kas = le16_to_cpu(id->kas);
++	ctrl->max_namespaces = le32_to_cpu(id->mnan);
++	ctrl->anacap = id->anacap;
++	ctrl->nanagrpid = le32_to_cpu(id->nanagrpid);
++	ctrl->anagrpmax = le32_to_cpu(id->anagrpmax);
+ 
+ 	if (id->rtd3e) {
+ 		/* us -> s */
+@@ -2433,6 +2438,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ret = nvme_configure_ana(ctrl);
++	if (ret < 0)
++		return ret;
++
+ 	ctrl->identified = true;
+ 
+ 	return 0;
+@@ -2634,6 +2643,10 @@ static struct attribute *nvme_ns_id_attrs[] = {
+ 	&dev_attr_nguid.attr,
+ 	&dev_attr_eui.attr,
+ 	&dev_attr_nsid.attr,
++#ifdef CONFIG_NVME_MULTIPATH
++	&dev_attr_ana_grpid.attr,
++	&dev_attr_ana_state.attr,
++#endif
+ 	NULL,
+ };
+ 
+@@ -2656,6 +2669,14 @@ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 		if (!memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
+ 			return 0;
+ 	}
++#ifdef CONFIG_NVME_MULTIPATH
++	if (a == &dev_attr_ana_grpid.attr || a == &dev_attr_ana_state.attr) {
++		if (dev_to_disk(dev)->fops != &nvme_fops) /* per-path attr */
++			return 0;
++		if (!nvme_ctrl_has_ana(nvme_get_ns_from_dev(dev)->ctrl))
++			return 0;
++	}
++#endif
+ 	return a->mode;
  }
  
+@@ -3326,6 +3347,11 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
+ 		queue_work(nvme_wq, &ctrl->fw_act_work);
+ 		break;
++	case NVME_AER_NOTICE_ANA:
++		if (WARN_ON_ONCE(!ctrl->ana_log_buf))
++			break;
++		queue_work(nvme_wq, &ctrl->ana_work);
++		break;
+ 	default:
+ 		dev_warn(ctrl->device, "async event result %08x\n", result);
+ 	}
+@@ -3361,6 +3387,7 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+ 	nvme_stop_keep_alive(ctrl);
+ 	flush_work(&ctrl->async_event_work);
+ 	flush_work(&ctrl->scan_work);
++	cancel_work_sync(&ctrl->ana_work);
+ 	cancel_work_sync(&ctrl->fw_act_work);
+ 	if (ctrl->ops->stop_ctrl)
+ 		ctrl->ops->stop_ctrl(ctrl);
+@@ -3394,6 +3421,7 @@ static void nvme_free_ctrl(struct device *dev)
+ 
+ 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
+ 	kfree(ctrl->effects);
++	nvme_deconfigure_ana(ctrl);
+ 
+ 	if (subsys) {
+ 		mutex_lock(&subsys->lock);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index b5a00853fbe2..4f096e9a65b1 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -51,7 +51,29 @@ void nvme_failover_req(struct request *req)
+ 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
+ 	blk_mq_end_request(req, 0);
+ 
+-	nvme_reset_ctrl(ns->ctrl);
++	/*
++	 * Reset the controller for any non-ANA error as we don't know what
++	 * caused the error:
++	 */
++	switch (nvme_req(req)->status & 0x7ff) {
++	case NVME_SC_ANA_TRANSITION:
++		 // XXX: kick of a transition timer
++	case NVME_SC_ANA_PERSISTENT_LOSS:
++	case NVME_SC_ANA_INACCESSIBLE:
++		/*
++		 * We could try to update the ANA group state here instead of
++		 * waiting for the AER and log page read.  But concurrency would
++		 * be nasy.
++		 */
++		nvme_mpath_clear_current_path(ns);
++		if (ns->head->disk)
++			kblockd_schedule_work(&ns->head->requeue_work);
++		break;
++	default:
++		nvme_reset_ctrl(ns->ctrl);
++		break;
++	}
++
+ 	kblockd_schedule_work(&ns->head->requeue_work);
+ }
+ 
+@@ -76,12 +98,32 @@ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
+ 	up_read(&ctrl->namespaces_rwsem);
+ }
+ 
+-static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head)
++static inline enum nvme_ana_state nvme_ns_ana_state(struct nvme_ns *ns)
++{
++	if (!nvme_ctrl_has_ana(ns->ctrl))
++		return NVME_ANA_OPTIMIZED;
++	if (WARN_ON_ONCE(ns->anagrpid > ns->ctrl->anagrpmax))
++		return 0;
++	return ns->ctrl->ana_state[ns->anagrpid];
++}
++
++static const char *nvme_ana_state_names[] = {
++	[0]				= "invalid state",
++	[NVME_ANA_OPTIMIZED]		= "optimized",
++	[NVME_ANA_NONOPTIMIZED]		= "non-optimized",
++	[NVME_ANA_INACCESSIBLE]		= "inaccessible",
++	[NVME_ANA_PERSISTENT_LOSS]	= "persistent-loss",
++	[NVME_ANA_CHANGE]		= "change",
++};
++
++static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head,
++		u8 ana_state)
+ {
+ 	struct nvme_ns *ns;
+ 
+ 	list_for_each_entry_rcu(ns, &head->list, siblings) {
+-		if (ns->ctrl->state == NVME_CTRL_LIVE) {
++		if (ns->ctrl->state == NVME_CTRL_LIVE &&
++		    nvme_ns_ana_state(ns) == ana_state) {
+ 			rcu_assign_pointer(head->current_path, ns);
+ 			return ns;
+ 		}
+@@ -94,8 +136,14 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
+ {
+ 	struct nvme_ns *ns = srcu_dereference(head->current_path, &head->srcu);
+ 
+-	if (unlikely(!ns || ns->ctrl->state != NVME_CTRL_LIVE))
+-		ns = __nvme_find_path(head);
++	if (likely(ns && ns->ctrl->state == NVME_CTRL_LIVE &&
++			nvme_ns_ana_state(ns) == NVME_ANA_OPTIMIZED))
++		return ns;
++
++	ns = __nvme_find_path(head, NVME_ANA_OPTIMIZED);
++	if (!ns)
++		ns = __nvme_find_path(head, NVME_ANA_NONOPTIMIZED);
++	/* XXX: try an inaccessible path as last resort per 8.18.3.3 */
+ 	return ns;
+ }
+ 
+@@ -248,3 +296,134 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ 	blk_cleanup_queue(head->disk->queue);
+ 	put_disk(head->disk);
+ }
++
++static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
++{
++	void *base = ctrl->ana_log_buf;
++	size_t offset = sizeof(struct nvme_ana_rsp_hdr);
++	int error, i;
++
++	/*
++	 * If anagrpid never changes we don't need to process the namespace
++	 * lists.
++	 */
++	if (ctrl->anacap & (1 << 7))
++		groups_only = true;
++
++	error = nvme_get_log_ext(ctrl, NULL, NVME_LOG_ANA,
++			groups_only ? NVME_ANA_LOG_RGO : 0,
++			ctrl->ana_log_buf, ctrl->ana_log_size, 0);
++	if (error) {
++		dev_warn(ctrl->device, "Failed to get ANA log: %d\n", error);
++		return error;
++	}
++
++	for (i = 0; i < le16_to_cpu(ctrl->ana_log_buf->ngrps); i++) {
++		struct nvme_ana_group_desc *desc = base + offset;
++		u32 grpid = le32_to_cpu(desc->grpid);
++		u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
++		size_t nsid_buf_size = nr_nsids * sizeof(__le32);
++		struct nvme_ns *ns;
++
++		if (WARN_ON_ONCE(grpid == 0))
++			return -EINVAL;
++		if (WARN_ON_ONCE(grpid > ctrl->anagrpmax))
++			return -EINVAL;
++		if (WARN_ON_ONCE(desc->state == 0))
++			return -EINVAL;
++		if (WARN_ON_ONCE(desc->state > NVME_ANA_CHANGE))
++			return -EINVAL;
++
++		dev_info(ctrl->device, "ANA group %d: %s.\n",
++				grpid, nvme_ana_state_names[desc->state]);
++		ctrl->ana_state[grpid] = desc->state;
++		offset += sizeof(*desc);
++		if (!nr_nsids)
++			continue;
++
++		if (WARN_ON_ONCE(groups_only))
++			return -EINVAL;
++		if (WARN_ON_ONCE(offset > ctrl->ana_log_size - nsid_buf_size))
++			return -EINVAL;
++
++		down_write(&ctrl->namespaces_rwsem);
++		list_for_each_entry(ns, &ctrl->namespaces, list) {
++			u32 nsid = le32_to_cpu(desc->nsids[n]);
++
++			if (ns->head->ns_id != nsid)
++				continue;
++			ns->anagrpid = grpid;
++			if (++n == nr_nsids)
++				break;
++		}
++		up_write(&ctrl->namespaces_rwsem);
++		WARN_ON_ONCE(n < nr_nsids);
++
++		offset += nsid_buf_size;
++		if (WARN_ON_ONCE(offset > ctrl->ana_log_size - sizeof(*desc)))
++			return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void nvme_ana_work(struct work_struct *work)
++{
++	struct nvme_ctrl *ctrl = container_of(work, struct nvme_ctrl, ana_work);
++
++	nvme_process_ana_log(ctrl, false);
++	nvme_kick_requeue_lists(ctrl);
++}
++
++int nvme_configure_ana(struct nvme_ctrl *ctrl)
++{
++	int error;
++
++	if (!nvme_ctrl_has_ana(ctrl))
++		return 0;
++
++	INIT_WORK(&ctrl->ana_work, nvme_ana_work);
++	ctrl->ana_state = kcalloc(ctrl->anagrpmax, sizeof(*ctrl->ana_state),
++			GFP_KERNEL);
++	if (!ctrl->ana_state)
++		return -ENOMEM;
++
++	ctrl->ana_log_size = sizeof(struct nvme_ana_rsp_hdr) +
++		ctrl->nanagrpid * sizeof(struct nvme_ana_group_desc) +
++		ctrl->max_namespaces * sizeof(__le32);
++	ctrl->ana_log_buf = kmalloc(ctrl->ana_log_size, GFP_KERNEL);
++	if (!ctrl->ana_log_buf)
++		goto out_free_ana_state;
++
++	error = nvme_process_ana_log(ctrl, true);
++	if (error)
++		goto out_free_ana_log_buf;
++	return 0;
++out_free_ana_log_buf:
++	kfree(ctrl->ana_log_buf);
++out_free_ana_state:
++	return -ENOMEM;
++}
++
++void nvme_deconfigure_ana(struct nvme_ctrl *ctrl)
++{
++	kfree(ctrl->ana_log_buf);
++	kfree(ctrl->ana_state);
++}
++
++static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	return sprintf(buf, "%d\n", nvme_get_ns_from_dev(dev)->anagrpid);
++}
++DEVICE_ATTR_RO(ana_grpid);
++
++static ssize_t ana_state_show(struct device *dev, struct device_attribute *attr,
++		char *buf)
++{
++	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
++	enum nvme_ana_state state = nvme_ns_ana_state(ns);
++
++	return sprintf(buf, "%s\n", nvme_ana_state_names[state]);
++}
++DEVICE_ATTR_RO(ana_state);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0e48ad5eb159..84c6445a0f53 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -168,6 +168,7 @@ struct nvme_ctrl {
+ 	u16 oacs;
+ 	u16 nssa;
+ 	u16 nr_streams;
++	u32 max_namespaces;
+ 	atomic_t abort_limit;
+ 	u8 vwc;
+ 	u32 vs;
+@@ -188,6 +189,15 @@ struct nvme_ctrl {
+ 	struct nvme_command ka_cmd;
+ 	struct work_struct fw_act_work;
+ 
++	/* asymmetric namespace access: */
++	u8 anacap;
++	u32 anagrpmax;
++	u32 nanagrpid;
++	enum nvme_ana_state *ana_state;
++	size_t ana_log_size;
++	struct nvme_ana_rsp_hdr *ana_log_buf;
++	struct work_struct ana_work;
++
+ 	/* Power saving configuration */
+ 	u64 ps_max_latency_us;
+ 	bool apst_enabled;
+@@ -293,6 +303,7 @@ struct nvme_ns {
+ #define NVME_NS_REMOVING 0
+ #define NVME_NS_DEAD     1
+ 	u16 noiob;
++	u32 anagrpid;
+ 
+ #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
+ 	struct nvme_fault_inject fault_inject;
+@@ -435,6 +446,11 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
++static inline bool nvme_ctrl_has_ana(struct nvme_ctrl *ctrl)
++{
++	return ctrl->subsys->cmic & (1 << 3);
++}
++
+ #ifdef CONFIG_NVME_MULTIPATH
+ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ 			struct nvme_ctrl *ctrl, int *flags);
+@@ -444,6 +460,8 @@ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+ void nvme_mpath_add_disk(struct nvme_ns_head *head);
+ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
++int nvme_configure_ana(struct nvme_ctrl *ctrl);
++void nvme_deconfigure_ana(struct nvme_ctrl *ctrl);
+ 
+ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ {
+@@ -462,6 +480,9 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ 		kblockd_schedule_work(&head->requeue_work);
+ }
+ 
++extern struct device_attribute dev_attr_ana_grpid;
++extern struct device_attribute dev_attr_ana_state;
++
+ #else
+ /*
+  * Without the multipath code enabled, multiple controller per subsystems are
+@@ -501,6 +522,12 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ {
+ }
++static inline int nvme_configure_ana(struct nvme_ctrl *ctrl)
++{
++}
++static inline void nvme_deconfigure_ana(struct nvme_ctrl *ctrl)
++{
++}
+ #endif /* CONFIG_NVME_MULTIPATH */
+ 
+ #ifdef CONFIG_NVM
 -- 
 2.17.0
