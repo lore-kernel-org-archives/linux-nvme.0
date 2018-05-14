@@ -1,34 +1,25 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 14 May 2018 14:23:12 +0200
-Subject: [PATCH] nvme: fix KASAN warning when parsing host nqn
-Message-ID: <20180514122312.62068-1-hare@suse.de>
+From: hare@suse.com (Hannes Reinecke)
+Date: Mon, 14 May 2018 10:09:49 +0200
+Subject: dusted off ANA code
+In-Reply-To: <20180514075646.28823-1-hch@lst.de>
+References: <20180514075646.28823-1-hch@lst.de>
+Message-ID: <20180514100949.2646b149@pentland.suse.de>
 
-The host nqn is actually smaller than the space reserved for it,
-so we should only copy the allocated data to keep KASAN happy.
+On Mon, 14 May 2018 09:56:35 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/fabrics.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> As we had some ANA discussion I spent some hours over the weekend to
+> dust off my old ANA code.  It is mostly feature complete except for
+> the lack of change state handling on the host, but only very lightly
+> tested in this form.  It also lacks proper changelogs and testing..
+> 
+Thanks for this.
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 124c458806df..dec7d4629f38 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -52,12 +52,12 @@ static struct nvmf_host *nvmf_host_add(const char *hostnqn)
- 		goto out_unlock;
- 	}
- 
--	host = kmalloc(sizeof(*host), GFP_KERNEL);
-+	host = kzalloc(sizeof(*host), GFP_KERNEL);
- 	if (!host)
- 		goto out_unlock;
- 
- 	kref_init(&host->ref);
--	memcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
-+	memcpy(host->nqn, hostnqn, strlen(hostnqn));
- 
- 	list_add_tail(&host->list, &nvmf_hosts);
- out_unlock:
--- 
-2.12.3
+I'll be working on integrating both codestreams and send a combined
+patchset for review.
+
+Unless you want to do it yourself ...
+
+Cheers,
+
+Hannes
