@@ -1,106 +1,68 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 15 May 2018 20:56:41 +0800
-Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
-In-Reply-To: <d97b375f-9b47-6b95-bd5b-8166dae93676@oracle.com>
-References: <20180511122933.27155-1-ming.lei@redhat.com>
- <776f21e1-dc19-1b77-9ba4-44f0b8366625@oracle.com>
- <20180514093850.GA807@ming.t460p>
- <008cb38d-aa91-6ab7-64d9-417d6c53a1eb@oracle.com>
- <20180514122211.GB807@ming.t460p>
- <20180515003332.GB21743@ming.t460p>
- <d97b375f-9b47-6b95-bd5b-8166dae93676@oracle.com>
-Message-ID: <20180515125640.GC13679@ming.t460p>
+From: bharatku@xilinx.com (Bharat Kumar Gogada)
+Date: Tue, 15 May 2018 13:58:32 +0000
+Subject: NVMe Poll CQ on timeout
+In-Reply-To: <20180507160211.GE20686@localhost.localdomain>
+References: <BLUPR0201MB1505A10C31E4E3A3BDF7BDBAA58E0@BLUPR0201MB1505.namprd02.prod.outlook.com>
+ <BLUPR0201MB1505FC0425F87A1A8E6E50DAA59B0@BLUPR0201MB1505.namprd02.prod.outlook.com>
+ <20180507160211.GE20686@localhost.localdomain>
+Message-ID: <BLUPR0201MB15052CE08EF4230487E8DEC8A5930@BLUPR0201MB1505.namprd02.prod.outlook.com>
 
-On Tue, May 15, 2018@05:56:14PM +0800, jianchao.wang wrote:
-> Hi ming
+> I recall we did observe issues like this when legacy interrupts were used, so
+> the driver does try to use MSI/MSIx if possible.
 > 
-> On 05/15/2018 08:33 AM, Ming Lei wrote:
-> > We still have to quiesce admin queue before canceling request, so looks
-> > the following patch is better, so please ignore the above patch and try
-> > the following one and see if your hang can be addressed:
-> > 
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index f509d37b2fb8..c2adc76472a8 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -1741,8 +1741,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
-> >  			dev->ctrl.admin_q = NULL;
-> >  			return -ENODEV;
-> >  		}
-> > -	} else
-> > -		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-> > +	}
-> >  
-> >  	return 0;
-> >  }
-> > @@ -2520,6 +2519,12 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
-> >  	 */
-> >  	if (shutdown)
-> >  		nvme_start_queues(&dev->ctrl);
-> > +
-> > +	/*
-> > +	 * Avoid to suck reset because timeout may happen during reset and
-> > +	 * reset may hang forever if admin queue is kept as quiesced
-> > +	 */
-> > +	blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-> >  	mutex_unlock(&dev->shutdown_lock);
-> >  }
+> The nvme_timeout() is called from the block layer when the driver didn't
+> provide a completion within the timeout (default is 30 seconds for IO,
+> 60 seconds for admin).
 > 
-> w/ patch above and patch below, both the warning and io hung issue didn't reproduce till now.
+> This message you're seeing means the device did indeed post a completion
+> queue entry for the timed out command, but the driver believes it was never
+> notified via interrupt to check the completion queue.
 > 
-
-That is great to see another issue which can be covered now, :-)
-
+> This means either one of two things happened: the interrupt was raised prior
+> to the completion queue entry being written, or the interrupt was never
+> raised in the first place.
 > 
-> @@ -1450,6 +1648,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
->  {
->         struct nvme_dev *dev = nvmeq->dev;
->         int result;
-> +       int cq_vector;
->  
->         if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
->                 unsigned offset = (qid - 1) * roundup(SQ_SIZE(nvmeq->q_depth),
-> @@ -1462,15 +1661,16 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
->          * A queue's vector matches the queue identifier unless the controller
->          * has only one vector available.
->          */
-> -       nvmeq->cq_vector = dev->num_vecs == 1 ? 0 : qid;
-> -       result = adapter_alloc_cq(dev, qid, nvmeq);
-> +       cq_vector = dev->num_vecs == 1 ? 0 : qid;
-> +       result = adapter_alloc_cq(dev, qid, nvmeq, cq_vector);
->         if (result < 0)
-> -               goto release_vector;
-> +               goto out;
->  
->         result = adapter_alloc_sq(dev, qid, nvmeq);
->         if (result < 0)
->                 goto release_cq;
-> -
-> +       
-> +       nvmeq->cq_vector = cq_vector;
->         nvme_init_queue(nvmeq, qid);
->         result = queue_request_irq(nvmeq);
->         if (result < 0)
-> @@ -1479,12 +1679,12 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
->         return result;
->  
->   release_sq:
-> +       nvmeq->cq_vector = -1;
->         dev->online_queues--;
->         adapter_delete_sq(dev, qid);
->   release_cq:
->         adapter_delete_cq(dev, qid);
-> - release_vector:
-> -       nvmeq->cq_vector = -1;
-> + out:
->         return result;
->  }
+> It might be possible to determine which if you can read the values from
+> /proc/irq/<irq#>/spurious and see if the "last_unhandled" aligns with the
+> expected completion time.
 > 
+Thanks keith. We are seeing the condition for transactions greater than 256 KB.
+We did try increase IO timeout to 60sec but we still see issue. 
 
-Looks a nice fix on nvme_create_queue(), but seems the change on 
-adapter_alloc_cq() is missed in above patch.
+We do see spurious interrupts as following:
+count 53224
+unhandled 15890
+last_unhandled 4294917520 ms
 
-Could you prepare a formal one so that I may integrate it to V6?
+If there are spurious interrupts, isn't the EP handler called more times 
+and this might help EP driver to process pending completions. (Because as per the code in 4.14 EP
+driver isn't checking any interrupt status register, it starts processing completion queues immediately
+in interrupt handler)
 
-Thanks,
-Ming
+If we have spurious why do we still see completion polled ?
+
+Regards,
+Bharat
+
+
+> > > Hi,
+> > >
+> > > We are testing NVMe cards on ARM64 platform, the card uses legacy
+> > > interrupts.
+> > > Intermittently we are hitting following case in drivers/nvme/host/pci.c
+> > >        /*
+> > >          * Did we miss an interrupt?
+> > >          */
+> > >         if (__nvme_poll(nvmeq, req->tag)) {
+> > >                 dev_warn(dev->ctrl.device,
+> > >                          "I/O %d QID %d timeout, completion polled\n",
+> > >                          req->tag, nvmeq->qid);
+> > >                 return BLK_EH_HANDLED;
+> > >         }
+> > >
+> > > Can anyone tell when does nvme_timeout gets invoked ?
+> > > What does "Did we miss an interrupt mean" ? Does it mean host
+> > > missing to service a interrupt raised by EP card ?
+> > >
+> > > Regards,
+> > > Bharat
