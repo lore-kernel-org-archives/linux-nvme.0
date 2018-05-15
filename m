@@ -1,94 +1,53 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 15 May 2018 17:56:14 +0800
-Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
-In-Reply-To: <20180515003332.GB21743@ming.t460p>
+Date: Tue, 15 May 2018 18:02:13 +0800
+Subject: [PATCH V5 9/9] nvme: pci: support nested EH
+In-Reply-To: <20180511122933.27155-10-ming.lei@redhat.com>
 References: <20180511122933.27155-1-ming.lei@redhat.com>
- <776f21e1-dc19-1b77-9ba4-44f0b8366625@oracle.com>
- <20180514093850.GA807@ming.t460p>
- <008cb38d-aa91-6ab7-64d9-417d6c53a1eb@oracle.com>
- <20180514122211.GB807@ming.t460p> <20180515003332.GB21743@ming.t460p>
-Message-ID: <d97b375f-9b47-6b95-bd5b-8166dae93676@oracle.com>
+ <20180511122933.27155-10-ming.lei@redhat.com>
+Message-ID: <a2580133-f65c-b301-f1b0-672af97f2feb@oracle.com>
 
 Hi ming
 
-On 05/15/2018 08:33 AM, Ming Lei wrote:
-> We still have to quiesce admin queue before canceling request, so looks
-> the following patch is better, so please ignore the above patch and try
-> the following one and see if your hang can be addressed:
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index f509d37b2fb8..c2adc76472a8 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1741,8 +1741,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
->  			dev->ctrl.admin_q = NULL;
->  			return -ENODEV;
->  		}
-> -	} else
-> -		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
-> +	}
->  
->  	return 0;
->  }
-> @@ -2520,6 +2519,12 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
->  	 */
->  	if (shutdown)
->  		nvme_start_queues(&dev->ctrl);
+On 05/11/2018 08:29 PM, Ming Lei wrote:
+> +static void nvme_eh_done(struct nvme_eh_work *eh_work, int result)
+> +{
+> +	struct nvme_dev *dev = eh_work->dev;
+> +	bool top_eh;
 > +
-> +	/*
-> +	 * Avoid to suck reset because timeout may happen during reset and
-> +	 * reset may hang forever if admin queue is kept as quiesced
-> +	 */
-> +	blk_mq_unquiesce_queue(dev->ctrl.admin_q);
->  	mutex_unlock(&dev->shutdown_lock);
->  }
+> +	spin_lock(&dev->eh_lock);
+> +	top_eh = list_is_last(&eh_work->list, &dev->eh_head);
+> +	dev->nested_eh--;
+> +
+> +	/* Fail controller if the top EH can't recover it */
+> +	if (!result)
+> +		wake_up_all(&dev->eh_wq);
+> +	else if (top_eh) {
+> +		dev->ctrl_failed = true;
+> +		nvme_eh_sched_fail_ctrl(dev);
+> +		wake_up_all(&dev->eh_wq);
+> +	}
+> +
+> +	list_del(&eh_work->list);
+> +	spin_unlock(&dev->eh_lock);
+> +
+> +	dev_info(dev->ctrl.device, "EH %d: state %d, eh_done %d, top eh %d\n",
+> +			eh_work->seq, dev->ctrl.state, result, top_eh);
+> +	wait_event(dev->eh_wq, nvme_eh_reset_done(dev));
 
-w/ patch above and patch below, both the warning and io hung issue didn't reproduce till now.
+decrease the nested_eh before it exits, another new EH will have confusing seq number.
+please refer to following log:
+[ 1342.961869] nvme nvme0: Abort status: 0x0
+[ 1342.961878] nvme nvme0: Abort status: 0x0
+[ 1343.148341] nvme nvme0: EH 0: after shutdown, top eh: 1
+[ 1403.828484] nvme nvme0: I/O 21 QID 0 timeout, disable controller
+[ 1403.828603] nvme nvme0: EH 1: before shutdown
+... waring logs are ignored here 
+[ 1403.984731] nvme nvme0: EH 0: state 4, eh_done -4, top eh 0  // EH0 go to wait
+[ 1403.984786] nvme nvme0: EH 1: after shutdown, top eh: 1
+[ 1464.856290] nvme nvme0: I/O 22 QID 0 timeout, disable controller  // timeout again in EH 1
+[ 1464.856411] nvme nvme0: EH 1: before shutdown // a new EH has a 1 seq number
 
-
-@@ -1450,6 +1648,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- {
-        struct nvme_dev *dev = nvmeq->dev;
-        int result;
-+       int cq_vector;
- 
-        if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
-                unsigned offset = (qid - 1) * roundup(SQ_SIZE(nvmeq->q_depth),
-@@ -1462,15 +1661,16 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
-         * A queue's vector matches the queue identifier unless the controller
-         * has only one vector available.
-         */
--       nvmeq->cq_vector = dev->num_vecs == 1 ? 0 : qid;
--       result = adapter_alloc_cq(dev, qid, nvmeq);
-+       cq_vector = dev->num_vecs == 1 ? 0 : qid;
-+       result = adapter_alloc_cq(dev, qid, nvmeq, cq_vector);
-        if (result < 0)
--               goto release_vector;
-+               goto out;
- 
-        result = adapter_alloc_sq(dev, qid, nvmeq);
-        if (result < 0)
-                goto release_cq;
--
-+       
-+       nvmeq->cq_vector = cq_vector;
-        nvme_init_queue(nvmeq, qid);
-        result = queue_request_irq(nvmeq);
-        if (result < 0)
-@@ -1479,12 +1679,12 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
-        return result;
- 
-  release_sq:
-+       nvmeq->cq_vector = -1;
-        dev->online_queues--;
-        adapter_delete_sq(dev, qid);
-  release_cq:
-        adapter_delete_cq(dev, qid);
-- release_vector:
--       nvmeq->cq_vector = -1;
-+ out:
-        return result;
- }
+Is it expected that the new EH has seq number 1 instead of 2 ?
 
 Thanks
 Jianchao
