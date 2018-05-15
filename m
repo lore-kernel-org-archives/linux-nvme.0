@@ -1,32 +1,41 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 15 May 2018 09:23:15 -0600
-Subject: Question about stream number
-In-Reply-To: <4feb7a21-14b1-be61-a88e-8c7841fae96c@huawei.com>
-References: <672a97be-7fbf-b21e-9f75-2c18e64ccf8f@kernel.dk>
- <20180508163539.GB31027@localhost.localdomain>
- <20180511170252.GA7344@localhost.localdomain>
- <5617cb00-dff4-8316-af05-e72d6c7f6304@kernel.dk>
- <4feb7a21-14b1-be61-a88e-8c7841fae96c@huawei.com>
-Message-ID: <4932a012-1150-f97b-920a-c3618e08aee3@kernel.dk>
+From: jeff.lien@wdc.com (Jeff Lien)
+Date: Tue, 15 May 2018 14:53:17 -0500
+Subject: [PATCH] NVMe-CLI Fix id-ns fpi field when Human Readable option
+ selected.
+Message-ID: <20180515195317.23003-1-jeff.lien@wdc.com>
 
-On 5/15/18 6:46 AM, dingxiang wrote:
-> Hi?Jens
->      In current NVMe driver, the stream number is set to 4:
-> 
->         /ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);/
-> 
->    Why the number is 4 rather than /ctrl->nssa? /
+Currently when fpi = 0, the Format Progress Indicator Remaining is
+100% and should be 0%.  This patch fixes that condition.
 
-Because we only expose 4 different streams through the fcntl() get/set
-rw hint API.
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+---
+ nvme-print.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
->    There is no limit in nvme spec 1.3, can I change it  if I need ?
-
-There is a limit, but it's much higher :-)
-
-There's nothing preventing you from changing it. But it would have to be
-from an in-kernel user right now, since we don't have a way of passing
-in more than 4 separate streams from userspace as it stands.
-
+diff --git a/nvme-print.c b/nvme-print.c
+index d63f58d..7b65a09 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -569,11 +569,17 @@ static void show_nvme_id_ns_fpi(__u8 fpi)
+ {
+ 	__u8 fpis = (fpi & 0x80) >> 7;
+ 	__u8 fpii = fpi & 0x7F;
++	__u8 remaining;
+ 	printf("  [7:7] : %#x\tFormat Progress Indicator %sSupported\n",
+ 		fpis, fpis ? "" : "Not ");
+-	if (fpis || (!fpis && fpii))
+-	printf("  [6:0] : %#x\tFormat Progress Indicator (Remaining %d%%)\n",
+-		fpii, 100 - fpii);
++	if (fpis || (!fpis && fpii)) {
++		if (fpii)
++			remaining = 100 - fpii;
++		else
++			remaining = 0;
++		printf("  [6:0] : %#x\tFormat Progress Indicator (Remaining %d%%)\n",
++				fpii, remaining);
++	}
+ 	printf("\n");
+ }
+ 
 -- 
-Jens Axboe
+2.14.2.746.g8fb8a94
