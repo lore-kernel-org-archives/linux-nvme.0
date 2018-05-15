@@ -1,41 +1,34 @@
-From: jeff.lien@wdc.com (Jeff Lien)
-Date: Tue, 15 May 2018 14:53:17 -0500
-Subject: [PATCH] NVMe-CLI Fix id-ns fpi field when Human Readable option
- selected.
-Message-ID: <20180515195317.23003-1-jeff.lien@wdc.com>
+From: joseph.r.gruher@intel.com (Gruher, Joseph R)
+Date: Tue, 15 May 2018 20:28:52 +0000
+Subject: Cannot Connect NVMeoF At Certain NR_IO_Queues Values
+In-Reply-To: <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
+References: <DE927C68B458BE418D582EC97927A9287FF26F91@ORSMSX113.amr.corp.intel.com>
+ <743c4b33-2bf8-7c76-95af-62043c2aaeeb@mellanox.com>
+ <DE927C68B458BE418D582EC97927A9287FF27624@ORSMSX113.amr.corp.intel.com>
+ <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
+Message-ID: <DE927C68B458BE418D582EC97927A9287FF290AF@ORSMSX113.amr.corp.intel.com>
 
-Currently when fpi = 0, the Format Progress Indicator Remaining is
-100% and should be 0%.  This patch fixes that condition.
 
-Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
----
- nvme-print.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+> >> Meanwhile I can suggest a fast workaround for you if needed (or other
+> >> solutions as well):
+> >> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> >> index
+> >> 0f840ec..dd92cb9 100644
+> >> --- a/drivers/nvme/host/rdma.c
+> >> +++ b/drivers/nvme/host/rdma.c
+> >> @@ -2236,7 +2236,7 @@ static int nvme_rdma_map_queues(struct
+> >> blk_mq_tag_set *set)
+> >>           .init_hctx      = nvme_rdma_init_hctx,
+> >>           .poll           = nvme_rdma_poll,
+> >>           .timeout        = nvme_rdma_timeout,
+> >> -       .map_queues     = nvme_rdma_map_queues,
+> >>    };
+> >
+> > Thanks, I'll give this a shot.
+> >
+> 
+> Great.
 
-diff --git a/nvme-print.c b/nvme-print.c
-index d63f58d..7b65a09 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -569,11 +569,17 @@ static void show_nvme_id_ns_fpi(__u8 fpi)
- {
- 	__u8 fpis = (fpi & 0x80) >> 7;
- 	__u8 fpii = fpi & 0x7F;
-+	__u8 remaining;
- 	printf("  [7:7] : %#x\tFormat Progress Indicator %sSupported\n",
- 		fpis, fpis ? "" : "Not ");
--	if (fpis || (!fpis && fpii))
--	printf("  [6:0] : %#x\tFormat Progress Indicator (Remaining %d%%)\n",
--		fpii, 100 - fpii);
-+	if (fpis || (!fpis && fpii)) {
-+		if (fpii)
-+			remaining = 100 - fpii;
-+		else
-+			remaining = 0;
-+		printf("  [6:0] : %#x\tFormat Progress Indicator (Remaining %d%%)\n",
-+				fpii, remaining);
-+	}
- 	printf("\n");
- }
- 
--- 
-2.14.2.746.g8fb8a94
+Max, I'm not having much luck rebuilding with this code change, to be honest building the kernel from source is not something I'm used to doing.  You mentioned other workarounds may exist, are there any that don't involve rebuilding from the kernel source?
+
+Thanks!
