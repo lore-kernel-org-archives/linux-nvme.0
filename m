@@ -1,39 +1,32 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 15 May 2018 17:04:06 +0300
-Subject: Cannot Connect NVMeoF At Certain NR_IO_Queues Values
-In-Reply-To: <DE927C68B458BE418D582EC97927A9287FF27624@ORSMSX113.amr.corp.intel.com>
-References: <DE927C68B458BE418D582EC97927A9287FF26F91@ORSMSX113.amr.corp.intel.com>
- <743c4b33-2bf8-7c76-95af-62043c2aaeeb@mellanox.com>
- <DE927C68B458BE418D582EC97927A9287FF27624@ORSMSX113.amr.corp.intel.com>
-Message-ID: <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 15 May 2018 09:23:15 -0600
+Subject: Question about stream number
+In-Reply-To: <4feb7a21-14b1-be61-a88e-8c7841fae96c@huawei.com>
+References: <672a97be-7fbf-b21e-9f75-2c18e64ccf8f@kernel.dk>
+ <20180508163539.GB31027@localhost.localdomain>
+ <20180511170252.GA7344@localhost.localdomain>
+ <5617cb00-dff4-8316-af05-e72d6c7f6304@kernel.dk>
+ <4feb7a21-14b1-be61-a88e-8c7841fae96c@huawei.com>
+Message-ID: <4932a012-1150-f97b-920a-c3618e08aee3@kernel.dk>
 
-
-
-On 5/15/2018 2:09 AM, Gruher, Joseph R wrote:
->> IMO this issue was fixed in mlx5_core function mlx5_get_vector_affinity.
->> It was a long discussion regarding this fix and it will be fixed again in 4.17. After
->> the final fix, it should go to stable kernel as well.
+On 5/15/18 6:46 AM, dingxiang wrote:
+> Hi?Jens
+>      In current NVMe driver, the stream number is set to 4:
 > 
-> Thanks Max.  So current 4.17-rc5 has a fix now?  Or fix is not in yet?
-
-The latest fix is not there. SaeedM should push it this week.
-
+>         /ctrl->nr_streams = min_t(unsigned, ctrl->nssa, BLK_MAX_WRITE_HINTS - 1);/
 > 
->> Meanwhile I can suggest a fast workaround for you if needed (or other
->> solutions as well):
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c index
->> 0f840ec..dd92cb9 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -2236,7 +2236,7 @@ static int nvme_rdma_map_queues(struct
->> blk_mq_tag_set *set)
->>           .init_hctx      = nvme_rdma_init_hctx,
->>           .poll           = nvme_rdma_poll,
->>           .timeout        = nvme_rdma_timeout,
->> -       .map_queues     = nvme_rdma_map_queues,
->>    };
-> 
-> Thanks, I'll give this a shot.
-> 
+>    Why the number is 4 rather than /ctrl->nssa? /
 
-Great.
+Because we only expose 4 different streams through the fcntl() get/set
+rw hint API.
+
+>    There is no limit in nvme spec 1.3, can I change it  if I need ?
+
+There is a limit, but it's much higher :-)
+
+There's nothing preventing you from changing it. But it would have to be
+from an in-kernel user right now, since we don't have a way of passing
+in more than 4 separate streams from userspace as it stands.
+
+-- 
+Jens Axboe
