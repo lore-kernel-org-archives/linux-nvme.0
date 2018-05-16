@@ -1,17 +1,15 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 16 May 2018 12:03:11 +0800
-Subject: [PATCH V6 09/11] nvme: pci: don't unfreeze queue until controller
- state updating succeeds
+Date: Wed, 16 May 2018 12:03:10 +0800
+Subject: [PATCH V6 08/11] nvme: pci: move error handling out of
+ nvme_reset_dev()
 In-Reply-To: <20180516040313.13596-1-ming.lei@redhat.com>
 References: <20180516040313.13596-1-ming.lei@redhat.com>
-Message-ID: <20180516040313.13596-10-ming.lei@redhat.com>
+Message-ID: <20180516040313.13596-9-ming.lei@redhat.com>
 
-If it fails to update controller state into LIVE or ADMIN_ONLY, the
-controller will be removed, so not necessary to unfreeze queue any
-more.
+Once nested EH is introduced, we may not need to handle error
+in the inner EH, so move error handling out of nvme_reset_dev().
 
-This way will make the following patch easier to not leak the
-freeze couner.
+Meantime return the reset result to caller.
 
 Cc: James Smart <james.smart at broadcom.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
@@ -21,39 +19,55 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/pci.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 634fd7f17950..4236d79e3643 100644
+index 50bd1818deb5..634fd7f17950 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2396,6 +2396,7 @@ static int nvme_reset_dev(struct nvme_dev *dev)
+@@ -2391,7 +2391,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 		nvme_put_ctrl(&dev->ctrl);
+ }
+ 
+-static void nvme_reset_dev(struct nvme_dev *dev)
++static int nvme_reset_dev(struct nvme_dev *dev)
+ {
  	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
  	int result = -ENODEV;
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
-+	bool unfreeze_queue = false;
- 
- 	lockdep_assert_held(&dev->ctrl.reset_lock);
- 
-@@ -2482,7 +2483,7 @@ static int nvme_reset_dev(struct nvme_dev *dev)
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
--		nvme_unfreeze(&dev->ctrl);
-+		unfreeze_queue = true;
+@@ -2485,6 +2485,7 @@ static void nvme_reset_dev(struct nvme_dev *dev)
+ 		nvme_unfreeze(&dev->ctrl);
  	}
  
- 	result = -ENODEV;
-@@ -2497,6 +2498,9 @@ static int nvme_reset_dev(struct nvme_dev *dev)
++	result = -ENODEV;
+ 	/*
+ 	 * If only admin queue live, keep it to do further investigation or
+ 	 * recovery.
+@@ -2496,19 +2497,22 @@ static void nvme_reset_dev(struct nvme_dev *dev)
  	}
  
  	nvme_start_ctrl(&dev->ctrl);
-+
-+	if (unfreeze_queue)
-+		nvme_unfreeze(&dev->ctrl);
- 	return 0;
+-	return;
++	return 0;
  
   out:
+-	nvme_remove_dead_ctrl(dev, result);
++	return result;
+ }
+ 
+ static void nvme_reset_work(struct work_struct *work)
+ {
+ 	struct nvme_dev *dev =
+ 		container_of(work, struct nvme_dev, ctrl.reset_work);
++	int result;
+ 
+ 	mutex_lock(&dev->ctrl.reset_lock);
+-	nvme_reset_dev(dev);
++	result = nvme_reset_dev(dev);
++	if (result)
++		nvme_remove_dead_ctrl(dev, result);
+ 	mutex_unlock(&dev->ctrl.reset_lock);
+ }
+ 
 -- 
 2.9.5
