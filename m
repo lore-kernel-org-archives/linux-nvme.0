@@ -1,17 +1,17 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 16 May 2018 12:03:06 +0800
-Subject: [PATCH V6 04/11] nvme: pci: set nvmeq->cq_vector after alloc cq/sq
+Date: Wed, 16 May 2018 12:03:09 +0800
+Subject: [PATCH V6 07/11] nvme: pci: prepare for supporting error recovery
+ from resetting context
 In-Reply-To: <20180516040313.13596-1-ming.lei@redhat.com>
 References: <20180516040313.13596-1-ming.lei@redhat.com>
-Message-ID: <20180516040313.13596-5-ming.lei@redhat.com>
+Message-ID: <20180516040313.13596-8-ming.lei@redhat.com>
 
-From: "jianchao.wang" <jianchao.w.wang@oracle.com>
+Either the admin or normal IO in reset context may be timed out because
+controller error happens. When this timeout happens, we may have to
+start controller recovery again.
 
-Currently nvmeq->cq_vector is set before alloc cq/sq. If the alloc
-cq/sq command timeout, nvme_suspend_queue will invoke free_irq
-for the nvmeq because the cq_vector is valid, this will cause warning
-'Trying to free already-free IRQ xxx'. set nvmeq->cq_vector after
-alloc cq/sq successes to fix this.
+This patch introduces 'reset_lock' and holds this lock when running reset,
+so that we may support nested reset in the following patches.
 
 Cc: James Smart <james.smart at broadcom.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
@@ -20,83 +20,89 @@ Cc: Sagi Grimberg <sagi at grimberg.me>
 Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- drivers/nvme/host/pci.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ drivers/nvme/host/core.c |  2 ++
+ drivers/nvme/host/nvme.h |  3 +++
+ drivers/nvme/host/pci.c  | 20 +++++++++++++++++---
+ 3 files changed, 22 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 99b857e5a7a9..3b0cf2fd3f53 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3430,6 +3430,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+ 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+ 
++	mutex_init(&ctrl->reset_lock);
++
+ 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0)
+ 		goto out;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 17d2f7cf3fed..b00a56412bab 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -151,6 +151,9 @@ struct nvme_ctrl {
+ 	struct device ctrl_device;
+ 	struct device *device;	/* char device */
+ 	struct cdev cdev;
++
++	/* sync reset activities */
++	struct mutex reset_lock;
+ 	struct work_struct reset_work;
+ 	struct work_struct delete_work;
+ 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9e28d7118232..e94a103ead1e 100644
+index 365d1a5ee1eb..50bd1818deb5 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1070,7 +1070,7 @@ static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
+@@ -2391,14 +2391,14 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 		nvme_put_ctrl(&dev->ctrl);
  }
  
- static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
--						struct nvme_queue *nvmeq)
-+						struct nvme_queue *nvmeq, int cq_vector)
+-static void nvme_reset_work(struct work_struct *work)
++static void nvme_reset_dev(struct nvme_dev *dev)
  {
- 	struct nvme_command c;
- 	int flags = NVME_QUEUE_PHYS_CONTIG | NVME_CQ_IRQ_ENABLED;
-@@ -1085,7 +1085,7 @@ static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
- 	c.create_cq.cqid = cpu_to_le16(qid);
- 	c.create_cq.qsize = cpu_to_le16(nvmeq->q_depth - 1);
- 	c.create_cq.cq_flags = cpu_to_le16(flags);
--	c.create_cq.irq_vector = cpu_to_le16(nvmeq->cq_vector);
-+	c.create_cq.irq_vector = cpu_to_le16(cq_vector);
+-	struct nvme_dev *dev =
+-		container_of(work, struct nvme_dev, ctrl.reset_work);
+ 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+ 	int result = -ENODEV;
+ 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
  
- 	return nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
++	lockdep_assert_held(&dev->ctrl.reset_lock);
++
+ 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+ 		goto out;
+ 
+@@ -2474,7 +2474,11 @@ static void nvme_reset_work(struct work_struct *work)
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+ 		nvme_start_queues(&dev->ctrl);
++		mutex_unlock(&dev->ctrl.reset_lock);
++
+ 		nvme_wait_freeze(&dev->ctrl);
++
++		mutex_lock(&dev->ctrl.reset_lock);
+ 		/* hit this only when allocate tagset fails */
+ 		if (nvme_dev_add(dev))
+ 			new_state = NVME_CTRL_ADMIN_ONLY;
+@@ -2498,6 +2502,16 @@ static void nvme_reset_work(struct work_struct *work)
+ 	nvme_remove_dead_ctrl(dev, result);
  }
-@@ -1459,6 +1459,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 
++static void nvme_reset_work(struct work_struct *work)
++{
++	struct nvme_dev *dev =
++		container_of(work, struct nvme_dev, ctrl.reset_work);
++
++	mutex_lock(&dev->ctrl.reset_lock);
++	nvme_reset_dev(dev);
++	mutex_unlock(&dev->ctrl.reset_lock);
++}
++
+ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
  {
- 	struct nvme_dev *dev = nvmeq->dev;
- 	int result;
-+	int cq_vector;
- 
- 	if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
- 		unsigned offset = (qid - 1) * roundup(SQ_SIZE(nvmeq->q_depth),
-@@ -1471,15 +1472,21 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 	 * A queue's vector matches the queue identifier unless the controller
- 	 * has only one vector available.
- 	 */
--	nvmeq->cq_vector = dev->num_vecs == 1 ? 0 : qid;
--	result = adapter_alloc_cq(dev, qid, nvmeq);
-+	cq_vector = dev->num_vecs == 1 ? 0 : qid;
-+	result = adapter_alloc_cq(dev, qid, nvmeq, cq_vector);
- 	if (result < 0)
--		goto release_vector;
-+		goto out;
- 
- 	result = adapter_alloc_sq(dev, qid, nvmeq);
- 	if (result < 0)
- 		goto release_cq;
- 
-+	/*
-+	 * set cq_vector after alloc cq/sq, otherwise, if alloc cq/sq command
-+	 * timeout, nvme_suspend_queue will invoke free_irq for it and cause warning
-+	 * 'Trying to free already-free IRQ xxx'
-+	 */
-+	nvmeq->cq_vector = cq_vector;
- 	nvme_init_queue(nvmeq, qid);
- 	result = queue_request_irq(nvmeq);
- 	if (result < 0)
-@@ -1487,13 +1494,13 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 
- 	return result;
- 
-- release_sq:
-+release_sq:
-+	nvmeq->cq_vector = -1;
- 	dev->online_queues--;
- 	adapter_delete_sq(dev, qid);
-- release_cq:
-+release_cq:
- 	adapter_delete_cq(dev, qid);
-- release_vector:
--	nvmeq->cq_vector = -1;
-+out:
- 	return result;
- }
- 
+ 	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
 -- 
 2.9.5
