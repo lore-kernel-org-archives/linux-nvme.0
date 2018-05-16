@@ -1,43 +1,82 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 16 May 2018 00:25:10 +0300
-Subject: Cannot Connect NVMeoF At Certain NR_IO_Queues Values
-In-Reply-To: <DE927C68B458BE418D582EC97927A9287FF290AF@ORSMSX113.amr.corp.intel.com>
-References: <DE927C68B458BE418D582EC97927A9287FF26F91@ORSMSX113.amr.corp.intel.com>
- <743c4b33-2bf8-7c76-95af-62043c2aaeeb@mellanox.com>
- <DE927C68B458BE418D582EC97927A9287FF27624@ORSMSX113.amr.corp.intel.com>
- <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
- <DE927C68B458BE418D582EC97927A9287FF290AF@ORSMSX113.amr.corp.intel.com>
-Message-ID: <7b5843e9-8b58-ee47-ffd1-e7158ba17fce@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 16 May 2018 10:04:21 +0800
+Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
+In-Reply-To: <d97b375f-9b47-6b95-bd5b-8166dae93676@oracle.com>
+References: <20180511122933.27155-1-ming.lei@redhat.com>
+ <776f21e1-dc19-1b77-9ba4-44f0b8366625@oracle.com>
+ <20180514093850.GA807@ming.t460p>
+ <008cb38d-aa91-6ab7-64d9-417d6c53a1eb@oracle.com>
+ <20180514122211.GB807@ming.t460p>
+ <20180515003332.GB21743@ming.t460p>
+ <d97b375f-9b47-6b95-bd5b-8166dae93676@oracle.com>
+Message-ID: <20180516020420.GB17412@ming.t460p>
 
-
-
-On 5/15/2018 11:28 PM, Gruher, Joseph R wrote:
+On Tue, May 15, 2018@05:56:14PM +0800, jianchao.wang wrote:
+> Hi ming
 > 
->>>> Meanwhile I can suggest a fast workaround for you if needed (or other
->>>> solutions as well):
->>>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->>>> index
->>>> 0f840ec..dd92cb9 100644
->>>> --- a/drivers/nvme/host/rdma.c
->>>> +++ b/drivers/nvme/host/rdma.c
->>>> @@ -2236,7 +2236,7 @@ static int nvme_rdma_map_queues(struct
->>>> blk_mq_tag_set *set)
->>>>            .init_hctx      = nvme_rdma_init_hctx,
->>>>            .poll           = nvme_rdma_poll,
->>>>            .timeout        = nvme_rdma_timeout,
->>>> -       .map_queues     = nvme_rdma_map_queues,
->>>>     };
->>>
->>> Thanks, I'll give this a shot.
->>>
->>
->> Great.
+> On 05/15/2018 08:33 AM, Ming Lei wrote:
+> > We still have to quiesce admin queue before canceling request, so looks
+> > the following patch is better, so please ignore the above patch and try
+> > the following one and see if your hang can be addressed:
+> > 
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index f509d37b2fb8..c2adc76472a8 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -1741,8 +1741,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+> >  			dev->ctrl.admin_q = NULL;
+> >  			return -ENODEV;
+> >  		}
+> > -	} else
+> > -		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+> > +	}
+> >  
+> >  	return 0;
+> >  }
+> > @@ -2520,6 +2519,12 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown, bool
+> >  	 */
+> >  	if (shutdown)
+> >  		nvme_start_queues(&dev->ctrl);
+> > +
+> > +	/*
+> > +	 * Avoid to suck reset because timeout may happen during reset and
+> > +	 * reset may hang forever if admin queue is kept as quiesced
+> > +	 */
+> > +	blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+> >  	mutex_unlock(&dev->shutdown_lock);
+> >  }
 > 
-> Max, I'm not having much luck rebuilding with this code change, to be honest building the kernel from source is not something I'm used to doing.  You mentioned other workarounds may exist, are there any that don't involve rebuilding from the kernel source?
+> w/ patch above and patch below, both the warning and io hung issue didn't reproduce till now.
+> 
+> 
+> @@ -1450,6 +1648,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+>  {
+>         struct nvme_dev *dev = nvmeq->dev;
+>         int result;
+> +       int cq_vector;
+>  
+>         if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+>                 unsigned offset = (qid - 1) * roundup(SQ_SIZE(nvmeq->q_depth),
+> @@ -1462,15 +1661,16 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+>          * A queue's vector matches the queue identifier unless the controller
+>          * has only one vector available.
+>          */
+> -       nvmeq->cq_vector = dev->num_vecs == 1 ? 0 : qid;
+> -       result = adapter_alloc_cq(dev, qid, nvmeq);
+> +       cq_vector = dev->num_vecs == 1 ? 0 : qid;
+> +       result = adapter_alloc_cq(dev, qid, nvmeq, cq_vector);
+>         if (result < 0)
+> -               goto release_vector;
+> +               goto out;
 
-other WA is to install MLNX_OFED package.
-if this option is good for you so please send me an email.
+Think of this issue further, the above change will cause adapter_alloc_cq()
+failed immediately because nvmeq->cq_vector isn't set before submitting this
+admin IO.
 
-> 
-> Thanks!
-> 
+So could you check if only the patch("unquiesce admin queue after shutdown
+controller") can fix your IO hang issue?
+
+BTW, the warning from genirq can be left alone, that is another issue.
+
+Thanks,
+Ming
