@@ -1,51 +1,41 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 16 May 2018 15:40:12 +0300
-Subject: [PATCH v1 3/3] nvmet: Add port transport state flag
-In-Reply-To: <20180417152815.GE25823@lst.de>
-References: <20180412080656.1691-1-sagi@grimberg.me>
- <20180412080656.1691-4-sagi@grimberg.me> <20180413171421.GA23432@lst.de>
- <5f7a6f5e-cddc-0612-ab29-0b2a34a0dd76@grimberg.me>
- <20180417152815.GE25823@lst.de>
-Message-ID: <5959e3db-6145-25ba-8d73-bc410e75b7a2@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 16 May 2018 08:12:42 -0600
+Subject: [PATCH V6 11/11] nvme: pci: support nested EH
+In-Reply-To: <20180516040313.13596-12-ming.lei@redhat.com>
+References: <20180516040313.13596-1-ming.lei@redhat.com>
+ <20180516040313.13596-12-ming.lei@redhat.com>
+Message-ID: <20180516141242.GA20119@localhost.localdomain>
 
+Hi Ming,
 
+I'm sorry, but I am frankly not on board with introducing yet
+another work-queue into this driver for handling this situation. The
+fact you missed syncing with this queue in the surprise remove case,
+introducing various use-after-free conditions, just demonstrates exactly
+how over-complicated this approach is. That, and the forced controller
+state transtions is yet another way surprise removal will break as its
+depending on the state machine to prevent certain transitions.
 
-On 4/17/2018 6:28 PM, Christoph Hellwig wrote:
-> On Sun, Apr 15, 2018@11:54:59AM +0300, Sagi Grimberg wrote:
->>
->>
->>>> +{
->>>> +	struct nvmet_port *port = to_nvmet_port(item);
->>>> +
->>>> +	return sprintf(page, "%s\n",
->>>> +		nvmet_is_port_active(port) ? "up" : "down");
->>>> +}
->>>> +
->>>> +CONFIGFS_ATTR_RO(nvmet_, trstate);
->>>> +
->>>>    /*
->>>>     * Namespace structures & file operation functions below
->>>>     */
->>>> @@ -870,6 +880,7 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
->>>>    	&nvmet_attr_addr_traddr,
->>>>    	&nvmet_attr_addr_trsvcid,
->>>>    	&nvmet_attr_addr_trtype,
->>>> +	&nvmet_attr_trstate,
->>>
->>> Please don't create attributes without a group ever.  Just create a
->>> different group which isn't serialized, e.g. state as the group name
->>> and then transport as the attribute name inside it, or something similar.
->>
->> We already have ns enable which is not within a group. How is that
->> different?
-> 
-> enable is a magic trigger that we can't handle automatically when
-> restoring the state in nvmetcli.  trstate is a read-only field that
-> make sense to show with generic code.
-> 
+The driver is already in a work queue context when it becomes aware of
+corrective action being necessary. Seriously, simply syncing these in the
+reset convers nearly all conditions you're concered with, most of which
+will be obviated if Bart's blk-mq timeout rework is added. The only case
+that isn't covered is if IO stops when renumbering the hardware contexts
+(unlikely as that is), and that's easily fixable just moving that into
+the scan_work.
 
-Sagi,
-are you going to send another version for this one with the above changes ?
-If so, a fix should be made also in nvmetcli...
+As far as blktests block/011 is concerned, I think this needs to be
+rethought considering what it's actually showing us. The fact the
+pci driver provides such an easy way to not only muck with PCI config
+register *and* internal kernel structures out from under a driver that's
+bound to it is insane.  If PCI really wants to provide this sysfs entry,
+it really ought to notify bound drivers that this is occuring, similar
+to the 'reset' sysfs.
 
--Max.
+Anyway, there is merit to some of your earlier patches. In particular,
+specifically patches 2, 4, and 5.  On the timing out the host memory
+releasing (patch 2), I would just rather see this as a generic API,
+though:
+
+  http://lists.infradead.org/pipermail/linux-nvme/2018-January/015313.html
+  http://lists.infradead.org/pipermail/linux-nvme/2018-January/015314.html
