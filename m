@@ -1,26 +1,16 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 16 May 2018 12:03:03 +0800
-Subject: [PATCH V6 01/11] block: introduce blk_quiesce_timeout() and
- blk_unquiesce_timeout()
+Date: Wed, 16 May 2018 12:03:04 +0800
+Subject: [PATCH V6 02/11] nvme: pci: cover timeout for admin commands running
+ in EH
 In-Reply-To: <20180516040313.13596-1-ming.lei@redhat.com>
 References: <20180516040313.13596-1-ming.lei@redhat.com>
-Message-ID: <20180516040313.13596-2-ming.lei@redhat.com>
+Message-ID: <20180516040313.13596-3-ming.lei@redhat.com>
 
-Turns out the current way can't drain timout completely because mod_timer()
-can be triggered in the work func, which can be just run inside the synced
-timeout work:
-
-        del_timer_sync(&q->timeout);
-        cancel_work_sync(&q->timeout_work);
-
-This patch introduces one flag of 'timeout_off' for fixing this issue, turns
-out this simple way does work.
-
-Also blk_quiesce_timeout() and blk_unquiesce_timeout() are introduced for
-draining timeout, which is needed by NVMe.
+When admin commands are used in EH for recovering controller, we have to
+cover their timeout and can't depend on block's timeout since deadlock may
+be caused when these commands are timed-out by block layer again.
 
 Cc: James Smart <james.smart at broadcom.com>
-Cc: Bart Van Assche <bart.vanassche at wdc.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
 Cc: Christoph Hellwig <hch at lst.de>
 Cc: Sagi Grimberg <sagi at grimberg.me>
@@ -28,129 +18,119 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-core.c       | 21 +++++++++++++++++++--
- block/blk-mq.c         |  9 +++++++++
- block/blk-timeout.c    |  5 ++++-
- include/linux/blkdev.h | 13 +++++++++++++
- 4 files changed, 45 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 81 ++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 70 insertions(+), 11 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 85909b431eb0..c277f1023703 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -392,6 +392,22 @@ void blk_stop_queue(struct request_queue *q)
- }
- EXPORT_SYMBOL(blk_stop_queue);
- 
-+void blk_unquiesce_timeout(struct request_queue *q)
-+{
-+	blk_mark_timeout_quiesce(q, false);
-+	mod_timer(&q->timeout, jiffies + q->rq_timeout);
-+}
-+EXPORT_SYMBOL(blk_unquiesce_timeout);
-+
-+void blk_quiesce_timeout(struct request_queue *q)
-+{
-+	blk_mark_timeout_quiesce(q, true);
-+
-+	del_timer_sync(&q->timeout);
-+	cancel_work_sync(&q->timeout_work);
-+}
-+EXPORT_SYMBOL(blk_quiesce_timeout);
-+
- /**
-  * blk_sync_queue - cancel any pending callbacks on a queue
-  * @q: the queue
-@@ -412,8 +428,7 @@ EXPORT_SYMBOL(blk_stop_queue);
-  */
- void blk_sync_queue(struct request_queue *q)
- {
--	del_timer_sync(&q->timeout);
--	cancel_work_sync(&q->timeout_work);
-+	blk_quiesce_timeout(q);
- 
- 	if (q->mq_ops) {
- 		struct blk_mq_hw_ctx *hctx;
-@@ -425,6 +440,8 @@ void blk_sync_queue(struct request_queue *q)
- 	} else {
- 		cancel_delayed_work_sync(&q->delay_work);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 17a0190bd88f..b60f727b844c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1742,21 +1742,28 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
  	}
-+
-+	blk_mark_timeout_quiesce(q, false);
- }
- EXPORT_SYMBOL(blk_sync_queue);
- 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 9ce9cac16c3f..173f1723e48f 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -917,6 +917,15 @@ static void blk_mq_timeout_work(struct work_struct *work)
- 	};
- 	struct blk_mq_hw_ctx *hctx;
- 	int i;
-+	bool timeout_off;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(q->queue_lock, flags);
-+	timeout_off = q->timeout_off;
-+	spin_unlock_irqrestore(q->queue_lock, flags);
-+
-+	if (timeout_off)
-+		return;
- 
- 	/* A deadlock might occur if a request is stuck requiring a
- 	 * timeout at the same time a queue freeze is waiting
-diff --git a/block/blk-timeout.c b/block/blk-timeout.c
-index 652d4d4d3e97..ffd0b609091e 100644
---- a/block/blk-timeout.c
-+++ b/block/blk-timeout.c
-@@ -136,12 +136,15 @@ void blk_timeout_work(struct work_struct *work)
- 
- 	spin_lock_irqsave(q->queue_lock, flags);
- 
-+	if (q->timeout_off)
-+		goto exit;
-+
- 	list_for_each_entry_safe(rq, tmp, &q->timeout_list, timeout_list)
- 		blk_rq_check_expired(rq, &next, &next_set);
- 
- 	if (next_set)
- 		mod_timer(&q->timeout, round_jiffies_up(next));
--
-+exit:
- 	spin_unlock_irqrestore(q->queue_lock, flags);
  }
  
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 5c4eee043191..a2cc4aaecf50 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -584,6 +584,7 @@ struct request_queue {
- 	struct timer_list	timeout;
- 	struct work_struct	timeout_work;
- 	struct list_head	timeout_list;
-+	bool			timeout_off;
- 
- 	struct list_head	icq_list;
- #ifdef CONFIG_BLK_CGROUP
-@@ -1017,6 +1018,18 @@ extern void blk_execute_rq(struct request_queue *, struct gendisk *,
- extern void blk_execute_rq_nowait(struct request_queue *, struct gendisk *,
- 				  struct request *, int, rq_end_io_fn *);
- 
-+static inline void blk_mark_timeout_quiesce(struct request_queue *q, bool quiesce)
-+{
-+	unsigned long flags;
+-static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
++static void nvme_init_set_host_mem_cmd(struct nvme_dev *dev,
++		struct nvme_command *c, u32 bits)
+ {
+ 	u64 dma_addr = dev->host_mem_descs_dma;
 +
-+	spin_lock_irqsave(q->queue_lock, flags);
-+	q->timeout_off = quiesce;
-+	spin_unlock_irqrestore(q->queue_lock, flags);
++	memset(c, 0, sizeof(*c));
++	c->features.opcode	= nvme_admin_set_features;
++	c->features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
++	c->features.dword11	= cpu_to_le32(bits);
++	c->features.dword12	= cpu_to_le32(dev->host_mem_size >>
++					      ilog2(dev->ctrl.page_size));
++	c->features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
++	c->features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
++	c->features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
 +}
 +
-+extern void blk_quiesce_timeout(struct request_queue *q);
-+extern void blk_unquiesce_timeout(struct request_queue *q);
-+
- int blk_status_to_errno(blk_status_t status);
- blk_status_t errno_to_blk_status(int errno);
++static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
++{
+ 	struct nvme_command c;
+ 	int ret;
  
+-	memset(&c, 0, sizeof(c));
+-	c.features.opcode	= nvme_admin_set_features;
+-	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
+-	c.features.dword11	= cpu_to_le32(bits);
+-	c.features.dword12	= cpu_to_le32(dev->host_mem_size >>
+-					      ilog2(dev->ctrl.page_size));
+-	c.features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
+-	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+-	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
++	nvme_init_set_host_mem_cmd(dev, &c, bits);
+ 
+ 	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
+ 	if (ret) {
+@@ -1767,6 +1774,58 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 	return ret;
+ }
+ 
++static void nvme_set_host_mem_end_io(struct request *rq, blk_status_t sts)
++{
++	struct completion *waiting = rq->end_io_data;
++
++	rq->end_io_data = NULL;
++	blk_mq_free_request(rq);
++
++	/*
++	 * complete last, if this is a stack request the process (and thus
++	 * the rq pointer) could be invalid right after this complete()
++	 */
++	complete(waiting);
++}
++
++/*
++ * This function can only be used inside nvme_dev_disable() when timeout
++ * may not work, then this function has to cover the timeout by itself.
++ *
++ * When wait_for_completion_io_timeout() returns 0 and timeout happens,
++ * this request will be completed after controller is shutdown.
++ */
++static int nvme_set_host_mem_timeout(struct nvme_dev *dev, u32 bits)
++{
++	DECLARE_COMPLETION_ONSTACK(wait);
++	struct nvme_command c;
++	struct request_queue *q = dev->ctrl.admin_q;
++	struct request *req;
++	int ret;
++
++	nvme_init_set_host_mem_cmd(dev, &c, bits);
++
++	req = nvme_alloc_request(q, &c, 0, NVME_QID_ANY);
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	req->timeout = ADMIN_TIMEOUT;
++	req->end_io_data = &wait;
++
++	blk_execute_rq_nowait(q, NULL, req, false,
++			nvme_set_host_mem_end_io);
++	ret = wait_for_completion_io_timeout(&wait, ADMIN_TIMEOUT);
++	if (ret > 0) {
++		if (nvme_req(req)->flags & NVME_REQ_CANCELLED)
++			ret = -EINTR;
++		else
++			ret = nvme_req(req)->status;
++	} else
++		ret = -EINTR;
++
++	return ret;
++}
++
+ static void nvme_free_host_mem(struct nvme_dev *dev)
+ {
+ 	int i;
+@@ -2225,7 +2284,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		 * but I'd rather be safe than sorry..
+ 		 */
+ 		if (dev->host_mem_descs)
+-			nvme_set_host_mem(dev, 0);
++			nvme_set_host_mem_timeout(dev, 0);
+ 		nvme_disable_io_queues(dev);
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
 -- 
 2.9.5
