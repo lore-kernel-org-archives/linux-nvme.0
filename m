@@ -1,27 +1,71 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 16 May 2018 15:27:57 -0600
-Subject: nvme: batch completions and do them outside of the queue lock
-In-Reply-To: <528cf765-16ae-5499-8843-9a62b4fd8326@kernel.dk>
-References: <528cf765-16ae-5499-8843-9a62b4fd8326@kernel.dk>
-Message-ID: <20180516212757.GD20223@localhost.localdomain>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 16 May 2018 14:18:44 -0700
+Subject: [PATCH RFC v2 0/2] NVMF/RDMA 8K Inline Support
+Message-ID: <cover.1526505524.git.swise@opengridcomputing.com>
 
-On Wed, May 16, 2018@02:37:40PM -0600, Jens Axboe wrote:
-> This patch splits up the reaping of completion entries, and the
-> block side completion. The advantage of this is two-fold:
-> 
-> 1) We can batch completions, this patch pulls them off in units
->    of 8, but that number is fairly arbitrary. I wanted it to be
->    big enough to hold most use cases, but not big enough to be
->    a stack burden.
-> 
-> 2) We complete the block side of things outside of the queue lock.
+For small nvmf write IO over the rdma transport, it is advantagous to
+make use of inline mode to avoid the latency of the target issuing an
+rdma read to fetch the data.  Currently inline is used for <= 4K writes.
+8K, though, requires the rdma read.  For iWARP transports additional
+latency is incurred because the target mr of the read must be registered
+with remote write access.  By allowing 2 pages worth of inline payload,
+I see a reduction in 8K nvmf write latency of anywhere from 2-7 usecs
+depending on the RDMA transport..
 
-Interesting idea. Since you bring this up, I think there may be more
-optimizations on top of this concept. I'll stare at this a bit before
-applying, or may have a follow-up proposal later.
- 
-> Note that this kills the ->cqe_seen as well. I haven't been able
-> to trigger any ill effects of this. If we do race with polling
-> every so often, it should be rare enough NOT to trigger any issues.
+This series is a respin of a series floated last year by Parav and Max [1].
+I'm continuing it now and trying to address the comments from their
+submission.
 
-We'll know who to blame if spurious interrupt messages are seen. :)
+A few of the comments have been addressed:
+
+- nvme-rdma: Support up to 4 segments of inline data.
+
+- nvme-rdma: Cap the number of inline segments to not exceed device limitations.
+
+- nvmet-rdma: Make the inline data size configurable in nvmet-rdma via configfs.
+
+Other issues I haven't addressed:
+
+- nvme-rdma: make the sge array for inline segments dynamic based on the
+target's advertised inline_data_size.  Since we're limiting the max count
+to 4, I'm not sure this is worth the complexity of allocating the sge array
+vs just embedding the max.
+
+- nvmet-rdma: concern about high order page allocations.  Is 4 pages
+too high?  One possibility is that, if the device max_sge allows, use
+a few more sges.  IE 16K could be 2 8K sges, or 4 4K.  This probably makes
+passing the inline data to bio more complex.  I haven't looked into this
+yet.
+
+- nvmet-rdma: reduce the qp depth if the inline size greatly increases
+the memory footprint.  I'm not sure how to do this in a reasonable mannor.
+Since the inline data size is now configurable, do we still need this?
+
+- nvmet-rdma: make the qp depth configurable so the admin can reduce it
+manually to lower the memory footprint.
+
+Please comment!
+
+Thanks,
+
+Steve.
+
+[1] Original submissions:
+http://lists.infradead.org/pipermail/linux-nvme/2017-February/008057.html
+http://lists.infradead.org/pipermail/linux-nvme/2017-February/008059.html
+
+
+Steve Wise (2):
+  nvme-rdma: support up to 4 segments of inline data
+  nvmet-rdma: support 16K inline data
+
+ drivers/nvme/host/rdma.c        | 34 +++++++++++++++++++++++-----------
+ drivers/nvme/target/admin-cmd.c |  4 ++--
+ drivers/nvme/target/configfs.c  | 34 ++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/discovery.c |  2 +-
+ drivers/nvme/target/nvmet.h     |  4 +++-
+ drivers/nvme/target/rdma.c      | 41 +++++++++++++++++++++++++++++------------
+ 6 files changed, 92 insertions(+), 27 deletions(-)
+
+-- 
+1.8.3.1
