@@ -1,25 +1,34 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 16 May 2018 09:18:26 -0600
-Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
-In-Reply-To: <20180516043127.GD17412@ming.t460p>
-References: <20180511122933.27155-1-ming.lei@redhat.com>
- <20180511205028.GB7772@localhost.localdomain>
- <20180512002110.GA23631@ming.t460p>
- <20180514151821.GE7772@localhost.localdomain>
- <20180514234701.GA21743@ming.t460p>
- <20180515003335.GB15199@localhost.localdomain>
- <20180516043127.GD17412@ming.t460p>
-Message-ID: <20180516151826.GB20223@localhost.localdomain>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 16 May 2018 13:58:08 -0600
+Subject: [PATCH] nvme: remove cq check after submission
+Message-ID: <b88f65b5-5fa6-45a7-48ff-77a114c31160@kernel.dk>
 
-On Wed, May 16, 2018@12:31:28PM +0800, Ming Lei wrote:
-> Hi Keith,
-> 
-> This issue may probably be fixed by Jianchao's patch of 'nvme: pci: set nvmeq->cq_vector
-> after alloc cq/sq'[1] and my another patch of 'nvme: pci: unquiesce admin
-> queue after controller is shutdown'[2], and both two have been included in the
-> posted V6.
+We always check the completion queue after submitting, but in my testing
+this isn't a win even on DRAM/xpoint devices. In some cases it's
+actually worse. Kill it.
 
-No, it's definitely not related to that patch. The link is down in this
-test, I can assure you we're bailing out long before we ever even try to
-create an IO queue. The failing condition is detected by nvme_pci_enable's
-check for all 1's completions at the very beginning.
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 17a0190bd88f..79bbfadcb7b9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -68,7 +68,6 @@ MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
+ struct nvme_dev;
+ struct nvme_queue;
+ 
+-static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ 
+ /*
+@@ -895,7 +894,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		goto out_cleanup_iod;
+ 	}
+ 	__nvme_submit_cmd(nvmeq, &cmnd);
+-	nvme_process_cq(nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 	return BLK_STS_OK;
+ out_cleanup_iod:
+
+-- 
+Jens Axboe
