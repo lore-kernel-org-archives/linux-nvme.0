@@ -1,17 +1,15 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 16 May 2018 12:03:09 +0800
-Subject: [PATCH V6 07/11] nvme: pci: prepare for supporting error recovery
- from resetting context
+Date: Wed, 16 May 2018 12:03:12 +0800
+Subject: [PATCH V6 10/11] nvme: core: introduce nvme_force_change_ctrl_state()
 In-Reply-To: <20180516040313.13596-1-ming.lei@redhat.com>
 References: <20180516040313.13596-1-ming.lei@redhat.com>
-Message-ID: <20180516040313.13596-8-ming.lei@redhat.com>
+Message-ID: <20180516040313.13596-11-ming.lei@redhat.com>
 
-Either the admin or normal IO in reset context may be timed out because
-controller error happens. When this timeout happens, we may have to
-start controller recovery again.
+When controller is being reset, timeout still may be triggered,
+for handling this situation, the contoller state has to be
+changed to NVME_CTRL_RESETTING first.
 
-This patch introduces 'reset_lock' and holds this lock when running reset,
-so that we may support nested reset in the following patches.
+So introduce nvme_force_change_ctrl_state() for this purpose.
 
 Cc: James Smart <james.smart at broadcom.com>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
@@ -21,88 +19,66 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Laurence Oberman <loberman at redhat.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/core.c |  2 ++
- drivers/nvme/host/nvme.h |  3 +++
- drivers/nvme/host/pci.c  | 20 +++++++++++++++++---
- 3 files changed, 22 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 33 +++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  2 ++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 99b857e5a7a9..3b0cf2fd3f53 100644
+index 3b0cf2fd3f53..9e51c3e1f534 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -3430,6 +3430,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
- 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+@@ -256,6 +256,39 @@ void nvme_cancel_request(struct request *req, void *data, bool reserved)
+ }
+ EXPORT_SYMBOL_GPL(nvme_cancel_request);
  
-+	mutex_init(&ctrl->reset_lock);
++/* should only be used by EH for handling error during reset */
++void nvme_force_change_ctrl_state(struct nvme_ctrl *ctrl,
++		enum nvme_ctrl_state new_state)
++{
++	enum nvme_ctrl_state old_state;
++	unsigned long flags;
++	bool warn = true;
 +
- 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
- 	if (ret < 0)
- 		goto out;
++	spin_lock_irqsave(&ctrl->lock, flags);
++	old_state = ctrl->state;
++	switch (new_state) {
++	case NVME_CTRL_RESETTING:
++		switch (old_state) {
++		case NVME_CTRL_LIVE:
++		case NVME_CTRL_ADMIN_ONLY:
++		case NVME_CTRL_RESETTING:
++		case NVME_CTRL_CONNECTING:
++			warn = false;
++			break;
++		default:
++			break;
++		}
++	default:
++		break;
++	}
++	if (warn)
++		WARN(1, "Make sure you want to change to %d from %d\n",
++				new_state, old_state);
++	ctrl->state = new_state;
++	spin_unlock_irqrestore(&ctrl->lock, flags);
++}
++EXPORT_SYMBOL_GPL(nvme_force_change_ctrl_state);
++
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state)
+ {
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 17d2f7cf3fed..b00a56412bab 100644
+index b00a56412bab..715239226f4c 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -151,6 +151,9 @@ struct nvme_ctrl {
- 	struct device ctrl_device;
- 	struct device *device;	/* char device */
- 	struct cdev cdev;
-+
-+	/* sync reset activities */
-+	struct mutex reset_lock;
- 	struct work_struct reset_work;
- 	struct work_struct delete_work;
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 365d1a5ee1eb..50bd1818deb5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2391,14 +2391,14 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
- 		nvme_put_ctrl(&dev->ctrl);
- }
- 
--static void nvme_reset_work(struct work_struct *work)
-+static void nvme_reset_dev(struct nvme_dev *dev)
- {
--	struct nvme_dev *dev =
--		container_of(work, struct nvme_dev, ctrl.reset_work);
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	int result = -ENODEV;
- 	enum nvme_ctrl_state new_state = NVME_CTRL_LIVE;
- 
-+	lockdep_assert_held(&dev->ctrl.reset_lock);
-+
- 	if (WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
- 		goto out;
- 
-@@ -2474,7 +2474,11 @@ static void nvme_reset_work(struct work_struct *work)
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
-+		mutex_unlock(&dev->ctrl.reset_lock);
-+
- 		nvme_wait_freeze(&dev->ctrl);
-+
-+		mutex_lock(&dev->ctrl.reset_lock);
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
-@@ -2498,6 +2502,16 @@ static void nvme_reset_work(struct work_struct *work)
- 	nvme_remove_dead_ctrl(dev, result);
- }
- 
-+static void nvme_reset_work(struct work_struct *work)
-+{
-+	struct nvme_dev *dev =
-+		container_of(work, struct nvme_dev, ctrl.reset_work);
-+
-+	mutex_lock(&dev->ctrl.reset_lock);
-+	nvme_reset_dev(dev);
-+	mutex_unlock(&dev->ctrl.reset_lock);
-+}
-+
- static void nvme_remove_dead_ctrl_work(struct work_struct *work)
- {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
+@@ -390,6 +390,8 @@ void nvme_complete_rq(struct request *req);
+ void nvme_cancel_request(struct request *req, void *data, bool reserved);
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state);
++void nvme_force_change_ctrl_state(struct nvme_ctrl *ctrl,
++		enum nvme_ctrl_state new_state);
+ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.9.5
