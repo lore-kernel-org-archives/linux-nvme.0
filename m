@@ -1,73 +1,77 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 16 May 2018 12:31:28 +0800
-Subject: [PATCH V5 0/9] nvme: pci: fix & improve timeout handling
-In-Reply-To: <20180515003335.GB15199@localhost.localdomain>
-References: <20180511122933.27155-1-ming.lei@redhat.com>
- <20180511205028.GB7772@localhost.localdomain>
- <20180512002110.GA23631@ming.t460p>
- <20180514151821.GE7772@localhost.localdomain>
- <20180514234701.GA21743@ming.t460p>
- <20180515003335.GB15199@localhost.localdomain>
-Message-ID: <20180516043127.GD17412@ming.t460p>
+From: pickup112@gmail.com (=?UTF-8?B?5p2O5pil?=)
+Date: Wed, 16 May 2018 13:57:33 +0800
+Subject: can not load more than 51 nvme rdma device
+Message-ID: <CAGpjB9J2F3VhGnPe+uXSmuu-H0dTfbQT+5fOem4j_vsBcwGfwQ@mail.gmail.com>
 
-On Mon, May 14, 2018@06:33:35PM -0600, Keith Busch wrote:
-> On Tue, May 15, 2018@07:47:07AM +0800, Ming Lei wrote:
-> > > > > [  760.727485] nvme nvme1: EH 0: after recovery -19
-> > > > > [  760.727488] nvme nvme1: EH: fail controller
-> > > > 
-> > > > The above issue(hang in nvme_remove()) is still an old issue, which
-> > > > is because queues are kept as quiesce during remove, so could you
-> > > > please test the following change?
-> > > > 
-> > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > > index 1dec353388be..c78e5a0cde06 100644
-> > > > --- a/drivers/nvme/host/core.c
-> > > > +++ b/drivers/nvme/host/core.c
-> > > > @@ -3254,6 +3254,11 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-> > > >          */
-> > > >         if (ctrl->state == NVME_CTRL_DEAD)
-> > > >                 nvme_kill_queues(ctrl);
-> > > > +       else {
-> > > > +               if (ctrl->admin_q)
-> > > > +                       blk_mq_unquiesce_queue(ctrl->admin_q);
-> > > > +               nvme_start_queues(ctrl);
-> > > > +       }
-> > > > 
-> > > >         down_write(&ctrl->namespaces_rwsem);
-> > > >         list_splice_init(&ctrl->namespaces, &ns_list);
-> > > 
-> > > The above won't actually do anything here since the broken link puts the
-> > > controller in the DEAD state, so we've killed the queues which also
-> > > unquiesces them.
-> > 
-> > I suggest you to double check if the controller is set as DEAD
-> > in nvme_remove() since there won't be any log dumped when this happen.
-> 
-> Yes, it's dead. pci_device_is_present returns false when the link is
-> broken.
-> 
-> Also, the logs showed the capacity was set to 0, which only happens when
-> we kill the namespace queues, which supposedly restarts the queues too.
->  
-> > If controller is set as DEAD and queues are killed, and all IO should
-> > have been dispatched to driver and nvme_queueu_rq() will fail them all,
-> > then there isn't any reason to see the hang in your stack trace log.
-> 
-> Right, that's the idea. It just doesn't appear to be working here.
+Hi:
 
-Hi Keith,
+I encountered a problem of nvme-rdma on mellanox network card.
+Thanks in advance for your help.
 
-This issue may probably be fixed by Jianchao's patch of 'nvme: pci: set nvmeq->cq_vector
-after alloc cq/sq'[1] and my another patch of 'nvme: pci: unquiesce admin
-queue after controller is shutdown'[2], and both two have been included in the
-posted V6.
 
-[1] https://marc.info/?l=linux-block&m=152644346006002&w=2 
-[2] https://marc.info/?l=linux-block&m=152644344805995&w=2
+# Problem Description
 
-So please retest V6 and see if this issue can be addressed, if not,
-could you share the debugfs log, then we might see where is wrong
-from the log?
+## Steps to Reproduce
+* Two nodes (nodeA, nodeB) are linked through the mellanox 56Gb
+connectX-3 network card.
+* nodeA outputs 100 disks through 100 subsystems via nvmet-rdma, one disk
+per subsystem.
+* Load the disk with "nvme connect" on nodeB. When it is loaded into
+the 51st disk, it will complain ```Failed to write to
+/dev/nvme-fabrics: Cannot allocate memory```. The disk load command is as
+follows, using 10 queues to load the disk:
 
-Thanks,
-Ming
+```
+nvme connect -t rdma -a 172.16.128.51 -s 4421 -n s01.4421.01
+--nr-io-queues=10 -k 1 -l 6000 -c 1 -q woqu
+```
+
+* If you load the disk with 1 queue at this time, it can be loaded
+successfully without error.
+
+* Additional Information: This problem does not occur when we load
+with a 100GbE network adapter.
+
+
+## log information
+* When the nodeB is normally loaded, the /var/log/message information is as
+follows:
+
+```
+May 8 19:10:37 qdata-lite52-dev kernel: nvme nvme47: creating 10 I/O queues.
+May 8 19:10:37 qdata-lite52-dev kernel: nvme nvme47: new ctrl: NQN
+"s01.4421.48", addr 172.16.128.51:4421
+```
+
+
+* Warning message when loading the 50th disk
+```
+May 8 15:26:55 qdata-lite52-dev kernel: nvme nvme50: creating 10 I/O queues.
+May 8 15:26:55 qdata-lite52-dev kernel: blk-mq: reduced tag depth (128 ->
+16)
+May 8 15:26:55 qdata-lite52-dev kernel: nvme nvme50: new ctrl: NQN
+"s01.4421.45", addr 172.16.128.51:4421
+```
+
+
+* Error will be reported when loading the 51st disk
+```
+May 8 15:26:55 qdata-lite52-dev kernel: blk-mq: reduced tag depth (31 -> 15)
+May 8 15:26:55 qdata-lite52-dev kernel: nvme nvme51: creating 10 I/O queues.
+May 8 15:26:55 qdata-lite52-dev kernel: blk-mq: failed to allocate request
+map
+```
+
+
+## environment
+
+* OS?rhel 7.4
+* network card?56Gb ConnectX-3
+```
+44:00.0 Network controller: Mellanox Technologies MT27500 Family
+[ConnectX-3]
+```
+
+
+-- 
+pickup.li
