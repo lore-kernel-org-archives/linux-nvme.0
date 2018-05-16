@@ -1,287 +1,111 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 16 May 2018 12:58:02 -0700
-Subject: [PATCH RFC v2 2/2] nvmet-rdma: support 16K inline data
+Date: Wed, 16 May 2018 12:57:55 -0700
+Subject: [PATCH RFC v2 1/2] nvme-rdma: support up to 4 segments of inline data
 In-Reply-To: <cover.1526505524.git.swise@opengridcomputing.com>
 References: <cover.1526505524.git.swise@opengridcomputing.com>
-Message-ID: <e3c4d8a638b989aef554646d235aa45d633d9565.1526505524.git.swise@opengridcomputing.com>
+Message-ID: <3429ca12785509f37877904a236772b7e6b8e0df.1526505524.git.swise@opengridcomputing.com>
 
-Add a new configfs port attribute, called inline_data_size, to
-allow configuring the size of inline data for a given port.
-The maximum size allowed is still enforced by nvmet-rdma with
-NVMET_RDMA_MAX_INLINE_DATA_SIZE, which is increased to max(16KB,
-PAGE_SIZE).  And the default size, if not specified via configfs,
-is still PAGE_SIZE.  This preserves the existing behavior, but allows
-larger inline sizes.
+Allow up to 4 segments of inline data for NVMF WRITE operations. This
+reduces latency for small WRITEs by removing the need for the target to
+issue a READ WR for IB, or a REG_MR + READ WR chain for iWarp.
+
+Also cap the inline segments used based on the limitations of the
+device.
 
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/nvme/target/admin-cmd.c |  4 ++--
- drivers/nvme/target/configfs.c  | 34 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/discovery.c |  2 +-
- drivers/nvme/target/nvmet.h     |  4 +++-
- drivers/nvme/target/rdma.c      | 41 +++++++++++++++++++++++++++++------------
- 5 files changed, 69 insertions(+), 16 deletions(-)
+ drivers/nvme/host/rdma.c | 34 +++++++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 5e0e9fc..a9e3223 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -247,14 +247,14 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->sgls = cpu_to_le32(1 << 0);	/* we always support SGLs */
- 	if (ctrl->ops->has_keyed_sgls)
- 		id->sgls |= cpu_to_le32(1 << 2);
--	if (ctrl->ops->sqe_inline_size)
-+	if (req->port->inline_data_size)
- 		id->sgls |= cpu_to_le32(1 << 20);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 1eb4438..9ae261d 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -40,13 +40,14 @@
  
- 	strcpy(id->subnqn, ctrl->subsys->subsysnqn);
+ #define NVME_RDMA_MAX_SEGMENTS		256
  
- 	/* Max command capsule size is sqe + single page of in-capsule data */
- 	id->ioccsz = cpu_to_le32((sizeof(struct nvme_command) +
--				  ctrl->ops->sqe_inline_size) / 16);
-+				  req->port->inline_data_size) / 16);
- 	/* Max response capsule size is cqe */
- 	id->iorcsz = cpu_to_le32(sizeof(struct nvme_completion) / 16);
+-#define NVME_RDMA_MAX_INLINE_SEGMENTS	1
++#define NVME_RDMA_MAX_INLINE_SEGMENTS	4
  
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index ad9ff27..968bdcb 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -214,6 +214,38 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
- 
- CONFIGFS_ATTR(nvmet_, addr_trsvcid);
- 
-+static ssize_t nvmet_inline_data_size_show(struct config_item *item,
-+		char *page)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%u\n",
-+			port->inline_data_size);
-+}
-+
-+static ssize_t nvmet_inline_data_size_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	unsigned int size;
-+	int ret;
-+
-+	if (port->enabled) {
-+		pr_err("Cannot modify inline_data_size enabled\n");
-+		pr_err("Disable the port before modifying\n");
-+		return -EACCES;
-+	}
-+	ret = kstrtouint((const char *)page, 0, &size);
-+	if (ret) {
-+		pr_err("Invalid value '%s' for inline_data_size\n", page);
-+		return -EINVAL;
-+	}
-+	port->inline_data_size = size;
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_, inline_data_size);
-+
- static ssize_t nvmet_addr_trtype_show(struct config_item *item,
- 		char *page)
- {
-@@ -870,6 +902,7 @@ static void nvmet_port_release(struct config_item *item)
- 	&nvmet_attr_addr_traddr,
- 	&nvmet_attr_addr_trsvcid,
- 	&nvmet_attr_addr_trtype,
-+	&nvmet_attr_inline_data_size,
- 	NULL,
- };
- 
-@@ -899,6 +932,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 	INIT_LIST_HEAD(&port->entry);
- 	INIT_LIST_HEAD(&port->subsystems);
- 	INIT_LIST_HEAD(&port->referrals);
-+	port->inline_data_size = NVMET_DEFAULT_INLINE_DATA_SIZE;
- 
- 	port->disc_addr.portid = cpu_to_le16(portid);
- 	config_group_init_type_name(&port->group, name, &nvmet_port_type);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 231e04e..fc2e675 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -171,7 +171,7 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
- 	id->sgls = cpu_to_le32(1 << 0);	/* we always support SGLs */
- 	if (ctrl->ops->has_keyed_sgls)
- 		id->sgls |= cpu_to_le32(1 << 2);
--	if (ctrl->ops->sqe_inline_size)
-+	if (req->port->inline_data_size)
- 		id->sgls |= cpu_to_le32(1 << 20);
- 
- 	strcpy(id->subnqn, ctrl->subsys->subsysnqn);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 15fd84a..5be528f 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -79,6 +79,8 @@ struct nvmet_sq {
- 	struct completion	confirm_done;
- };
- 
-+#define NVMET_DEFAULT_INLINE_DATA_SIZE	-1
-+
- /**
-  * struct nvmet_port -	Common structure to keep port
-  *				information for the target.
-@@ -98,6 +100,7 @@ struct nvmet_port {
- 	struct list_head		referrals;
- 	void				*priv;
- 	bool				enabled;
-+	int				inline_data_size;
- };
- 
- static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
-@@ -202,7 +205,6 @@ struct nvmet_subsys_link {
- struct nvmet_fabrics_ops {
- 	struct module *owner;
- 	unsigned int type;
--	unsigned int sqe_inline_size;
- 	unsigned int msdbd;
- 	bool has_keyed_sgls : 1;
- 	void (*queue_response)(struct nvmet_req *req);
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 52e0c5d..4fe4a2d 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -33,9 +33,10 @@
- #include "nvmet.h"
- 
- /*
-- * We allow up to a page of inline data to go with the SQE
-+ * We allow at least 1 page, and up to 16KB of inline data to go with the SQE
-  */
--#define NVMET_RDMA_INLINE_DATA_SIZE	PAGE_SIZE
-+#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
-+#define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
- 
- struct nvmet_rdma_cmd {
- 	struct ib_sge		sge[2];
-@@ -116,6 +117,7 @@ struct nvmet_rdma_device {
- 	size_t			srq_size;
+ struct nvme_rdma_device {
+ 	struct ib_device	*dev;
+ 	struct ib_pd		*pd;
  	struct kref		ref;
  	struct list_head	entry;
-+	int			inline_data_size;
++	unsigned int		num_inline_segments;
  };
  
- static bool nvmet_rdma_use_srq;
-@@ -187,6 +189,8 @@ static inline bool nvmet_rdma_need_data_out(struct nvmet_rdma_rsp *rsp)
- static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
- 			struct nvmet_rdma_cmd *c, bool admin)
+ struct nvme_rdma_qe {
+@@ -249,7 +250,7 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+ 	/* +1 for drain */
+ 	init_attr.cap.max_recv_wr = queue->queue_size + 1;
+ 	init_attr.cap.max_recv_sge = 1;
+-	init_attr.cap.max_send_sge = 1 + NVME_RDMA_MAX_INLINE_SEGMENTS;
++	init_attr.cap.max_send_sge = 1 + dev->num_inline_segments;
+ 	init_attr.sq_sig_type = IB_SIGNAL_REQ_WR;
+ 	init_attr.qp_type = IB_QPT_RC;
+ 	init_attr.send_cq = queue->ib_cq;
+@@ -374,6 +375,9 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 		goto out_free_pd;
+ 	}
+ 
++	ndev->num_inline_segments = min(NVME_RDMA_MAX_INLINE_SEGMENTS,
++					ndev->dev->attrs.max_sge - 1);
++	pr_debug("num_inline_segments = %u\n", ndev->num_inline_segments);
+ 	list_add(&ndev->entry, &device_list);
+ out_unlock:
+ 	mutex_unlock(&device_list_mutex);
+@@ -1086,19 +1090,27 @@ static int nvme_rdma_set_sg_null(struct nvme_command *c)
+ }
+ 
+ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+-		struct nvme_rdma_request *req, struct nvme_command *c)
++		struct nvme_rdma_request *req, struct nvme_command *c,
++		int count)
  {
-+	unsigned int inline_data_size = ndev->inline_data_size;
-+
- 	/* NVMe command / RDMA RECV */
- 	c->nvme_cmd = kmalloc(sizeof(*c->nvme_cmd), GFP_KERNEL);
- 	if (!c->nvme_cmd)
-@@ -202,15 +206,15 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
+ 	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++	struct scatterlist *sgl = req->sg_table.sgl;
++	struct ib_sge *sge = &req->sge[1];
++	u32 len = 0;
++	int i;
  
- 	if (!admin) {
- 		c->inline_page = alloc_pages(GFP_KERNEL,
--				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
-+				get_order(inline_data_size));
- 		if (!c->inline_page)
- 			goto out_unmap_cmd;
- 		c->sge[1].addr = ib_dma_map_page(ndev->device,
--				c->inline_page, 0, NVMET_RDMA_INLINE_DATA_SIZE,
-+				c->inline_page, 0, inline_data_size,
- 				DMA_FROM_DEVICE);
- 		if (ib_dma_mapping_error(ndev->device, c->sge[1].addr))
- 			goto out_free_inline_page;
--		c->sge[1].length = NVMET_RDMA_INLINE_DATA_SIZE;
-+		c->sge[1].length = inline_data_size;
- 		c->sge[1].lkey = ndev->pd->local_dma_lkey;
- 	}
- 
-@@ -225,7 +229,7 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
- out_free_inline_page:
- 	if (!admin) {
- 		__free_pages(c->inline_page,
--				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
-+				get_order(inline_data_size));
- 	}
- out_unmap_cmd:
- 	ib_dma_unmap_single(ndev->device, c->sge[0].addr,
-@@ -240,11 +244,13 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
- static void nvmet_rdma_free_cmd(struct nvmet_rdma_device *ndev,
- 		struct nvmet_rdma_cmd *c, bool admin)
- {
-+	unsigned int inline_data_size = ndev->inline_data_size;
-+
- 	if (!admin) {
- 		ib_dma_unmap_page(ndev->device, c->sge[1].addr,
--				NVMET_RDMA_INLINE_DATA_SIZE, DMA_FROM_DEVICE);
-+				inline_data_size, DMA_FROM_DEVICE);
- 		__free_pages(c->inline_page,
--				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
-+				get_order(inline_data_size));
- 	}
- 	ib_dma_unmap_single(ndev->device, c->sge[0].addr,
- 				sizeof(*c->nvme_cmd), DMA_FROM_DEVICE);
-@@ -544,7 +550,7 @@ static u16 nvmet_rdma_map_sgl_inline(struct nvmet_rdma_rsp *rsp)
- 	if (!nvme_is_write(rsp->req.cmd))
- 		return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 
--	if (off + len > NVMET_RDMA_INLINE_DATA_SIZE) {
-+	if (off + len > rsp->queue->dev->inline_data_size) {
- 		pr_err("invalid inline data offset!\n");
- 		return NVME_SC_SGL_INVALID_OFFSET | NVME_SC_DNR;
- 	}
-@@ -793,6 +799,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
- static struct nvmet_rdma_device *
- nvmet_rdma_find_get_device(struct rdma_cm_id *cm_id)
- {
-+	struct nvmet_port *port = cm_id->context;
- 	struct nvmet_rdma_device *ndev;
- 	int ret;
- 
-@@ -807,6 +814,7 @@ static void nvmet_rdma_free_dev(struct kref *ref)
- 	if (!ndev)
- 		goto out_err;
- 
-+	ndev->inline_data_size = port->inline_data_size;
- 	ndev->device = cm_id->device;
- 	kref_init(&ndev->ref);
- 
-@@ -1379,6 +1387,15 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
- 		return -EINVAL;
- 	}
- 
-+	if (port->inline_data_size == NVMET_DEFAULT_INLINE_DATA_SIZE) {
-+		port->inline_data_size = NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE;
-+	} else if (port->inline_data_size > NVMET_RDMA_MAX_INLINE_DATA_SIZE) {
-+		pr_err("invalid inline_data_size %d (max supported is %u)\n",
-+			port->inline_data_size,
-+			NVMET_RDMA_MAX_INLINE_DATA_SIZE);
-+		return -EINVAL;
+-	req->sge[1].addr = sg_dma_address(req->sg_table.sgl);
+-	req->sge[1].length = sg_dma_len(req->sg_table.sgl);
+-	req->sge[1].lkey = queue->device->pd->local_dma_lkey;
++	for (i = 0; i < count; i++, sgl++, sge++) {
++		sge->addr = sg_dma_address(sgl);
++		sge->length = sg_dma_len(sgl);
++		sge->lkey = queue->device->pd->local_dma_lkey;
++		len += sge->length;
 +	}
-+
- 	ret = inet_pton_with_scope(&init_net, af, port->disc_addr.traddr,
- 			port->disc_addr.trsvcid, &addr);
- 	if (ret) {
-@@ -1418,8 +1435,9 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
- 		goto out_destroy_id;
+ 
+ 	sg->addr = cpu_to_le64(queue->ctrl->ctrl.icdoff);
+-	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
++	sg->length = cpu_to_le32(len);
+ 	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+ 
+-	req->num_sge++;
++	req->num_sge += count;
+ 	return 0;
+ }
+ 
+@@ -1191,13 +1203,13 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 		return -EIO;
  	}
  
--	pr_info("enabling port %d (%pISpcs)\n",
--		le16_to_cpu(port->disc_addr.portid), (struct sockaddr *)&addr);
-+	pr_info("enabling port %d (%pISpcs) inline_data_size %d\n",
-+		le16_to_cpu(port->disc_addr.portid), (struct sockaddr *)&addr,
-+		port->inline_data_size);
- 	port->priv = cm_id;
- 	return 0;
+-	if (count == 1) {
++	if (count <= dev->num_inline_segments) {
+ 		if (rq_data_dir(rq) == WRITE && nvme_rdma_queue_idx(queue) &&
+ 		    blk_rq_payload_bytes(rq) <=
+ 				nvme_rdma_inline_data_size(queue))
+-			return nvme_rdma_map_sg_inline(queue, req, c);
++			return nvme_rdma_map_sg_inline(queue, req, c, count);
  
-@@ -1456,7 +1474,6 @@ static void nvmet_rdma_disc_port_addr(struct nvmet_req *req,
- static const struct nvmet_fabrics_ops nvmet_rdma_ops = {
- 	.owner			= THIS_MODULE,
- 	.type			= NVMF_TRTYPE_RDMA,
--	.sqe_inline_size	= NVMET_RDMA_INLINE_DATA_SIZE,
- 	.msdbd			= 1,
- 	.has_keyed_sgls		= 1,
- 	.add_port		= nvmet_rdma_add_port,
+-		if (dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY)
++		if (count == 1 && dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY)
+ 			return nvme_rdma_map_sg_single(queue, req, c);
+ 	}
+ 
 -- 
 1.8.3.1
