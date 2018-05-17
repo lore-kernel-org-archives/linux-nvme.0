@@ -1,44 +1,44 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 May 2018 10:41:29 +0200
-Subject: [PATCH V6 11/11] nvme: pci: support nested EH
-In-Reply-To: <20180517022030.GB21959@localhost.localdomain>
-References: <20180516040313.13596-1-ming.lei@redhat.com>
- <20180516040313.13596-12-ming.lei@redhat.com>
- <20180516141242.GA20119@localhost.localdomain>
- <20180516231058.GB28727@ming.t460p>
- <20180517022030.GB21959@localhost.localdomain>
-Message-ID: <20180517084129.GA26570@lst.de>
+From: bharatku@xilinx.com (Bharat Kumar Gogada)
+Date: Thu, 17 May 2018 11:15:59 +0000
+Subject: INTMS/INTMC not being used in NVME interrupt handling
+In-Reply-To: <20180516144240.GA20223@localhost.localdomain>
+References: <BLUPR0201MB1505371050ED798BE025132BA5920@BLUPR0201MB1505.namprd02.prod.outlook.com>
+ <20180516144240.GA20223@localhost.localdomain>
+Message-ID: <BLUPR0201MB1505BF5E68D05F25A53D3B96A5910@BLUPR0201MB1505.namprd02.prod.outlook.com>
 
-On Wed, May 16, 2018@08:20:31PM -0600, Keith Busch wrote:
-> On Thu, May 17, 2018@07:10:59AM +0800, Ming Lei wrote:
-> > All simulation in block/011 may happen in reality.
+> > Hi,
+> >
+> > As per NVME specification:
+> > 7.5.1.1 Host Software Interrupt Handling It is recommended that host
+> > software utilize the Interrupt Mask Set and Interrupt Mask Clear
+> > (INTMS/INTMC) registers to efficiently handle interrupts when configured
+> to use pin based or MSI messages.
+> >
+> > In kernel 4.14, drivers/nvme/host/pci.c function nvme_isr doesn't  use
+> > these registers.
+> >
+> > Any reason why these registers are not used in nvme interrupt handler ?
 > 
-> If this test actually simulates reality, then the following one line
-> patch (plus explanation for why) would be a real "fix" as this is very
-> successful in passing block/011. :)
+> I think you've answered your own question: we process completions in the
+> interrupt context. The interrupt is already masked at the CPU level in this
+> context, so there should be no reason to mask them at the device level.
 > 
-> ---
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 1faa32cd07da..dcc5746304c4 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2118,6 +2118,12 @@ static int nvme_pci_enable(struct nvme_dev *dev)
->  
->  	if (pci_enable_device_mem(pdev))
->  		return result;
-> +	/*
-> +	 * blktests block/011 disables the device without the driver knowing.
-> +	 * We'll just enable the device twice to get the enable_cnt > 1
-> +	 * so that the test's disabling does absolutely nothing.
-> +	 */
-> +	pci_enable_device_mem(pdev);
+> > Why NVMe driver is not using any bottom half and processing all
+> > completion queues in interrupt handler ?
+> 
+> Performance.
+Thanks keith. 
+Currently driver isn't setting any Coalesce count.  
+So the NVMe card will raise interrupt for every single completion queue ?
 
-Heh.  But yes, this test and the PCI "enable" interface in sysfs look
-horribly wrong. pci_disable_device/pci_enable_device aren't something we
-can just do underneath the driver.  Even if injecting the lowlevel
-config space manipulations done by it might be useful and a good test
-the Linux state ones are just killing the driver.
+For legacy interrupt for each CQ 
+CQ-> ASSERT_INTA-> DOORBELL-> DEASSERT_INTA is this flow correct ?
 
-The enable attribute appears to have been added by Arjan for the
-Xorg driver.  I think if we have a driver bound to the device we
-should not allow it.
+Is the following flow valid
+CQ1->ASSERT_INTA->CQ2/CQ3->Doorbell->DEASSERT_INTA ?
+
+When using legacy interrupts, if CQ1 is sent followed by ASSERT_INTA, can the EP send 
+another CQ2,CQ3.. before DEASSERT_INTA of CQ1 is generated?
+
+Regards,
+Bharat
