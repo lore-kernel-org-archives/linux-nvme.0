@@ -1,21 +1,44 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 17 May 2018 00:51:33 -0700
-Subject: nvme: batch completions and do them outside of the queue lock
-In-Reply-To: <20180516223538.GE20223@localhost.localdomain>
-References: <528cf765-16ae-5499-8843-9a62b4fd8326@kernel.dk>
- <20180516212757.GD20223@localhost.localdomain>
- <20180516223538.GE20223@localhost.localdomain>
-Message-ID: <20180517075133.GB24736@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 17 May 2018 10:41:29 +0200
+Subject: [PATCH V6 11/11] nvme: pci: support nested EH
+In-Reply-To: <20180517022030.GB21959@localhost.localdomain>
+References: <20180516040313.13596-1-ming.lei@redhat.com>
+ <20180516040313.13596-12-ming.lei@redhat.com>
+ <20180516141242.GA20119@localhost.localdomain>
+ <20180516231058.GB28727@ming.t460p>
+ <20180517022030.GB21959@localhost.localdomain>
+Message-ID: <20180517084129.GA26570@lst.de>
 
-On Wed, May 16, 2018@04:35:38PM -0600, Keith Busch wrote:
-> While I'm not seeing a difference, I assume you are. I tried adding on
-> to this proposal by batching *all* completions without using the stack,
-> exploiting the fact we never wrap the queue so it can be accessed
-> lockless after moving the cq_head.
+On Wed, May 16, 2018@08:20:31PM -0600, Keith Busch wrote:
+> On Thu, May 17, 2018@07:10:59AM +0800, Ming Lei wrote:
+> > All simulation in block/011 may happen in reality.
+> 
+> If this test actually simulates reality, then the following one line
+> patch (plus explanation for why) would be a real "fix" as this is very
+> successful in passing block/011. :)
+> 
+> ---
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 1faa32cd07da..dcc5746304c4 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2118,6 +2118,12 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+>  
+>  	if (pci_enable_device_mem(pdev))
+>  		return result;
+> +	/*
+> +	 * blktests block/011 disables the device without the driver knowing.
+> +	 * We'll just enable the device twice to get the enable_cnt > 1
+> +	 * so that the test's disabling does absolutely nothing.
+> +	 */
+> +	pci_enable_device_mem(pdev);
 
-But we do wrap around, in nvme_read_cqe don't we?  From a quick look
-we probably are save because we size our SQs and CQs to the number
-of outstanding command, and thus the device won't be able to reuse
-the slots until we complete and reuse the command ids.  But that isn't
-exactly obvious from the code, so I think we really need some good
-comments in the code.
+Heh.  But yes, this test and the PCI "enable" interface in sysfs look
+horribly wrong. pci_disable_device/pci_enable_device aren't something we
+can just do underneath the driver.  Even if injecting the lowlevel
+config space manipulations done by it might be useful and a good test
+the Linux state ones are just killing the driver.
+
+The enable attribute appears to have been added by Arjan for the
+Xorg driver.  I think if we have a driver bound to the device we
+should not allow it.
