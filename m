@@ -1,64 +1,42 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 May 2018 18:31:47 +0200
-Subject: [PATCH 2/7] nvme-pci: simplify nvme_cqe_valid
+Date: Thu, 17 May 2018 18:31:48 +0200
+Subject: [PATCH 3/7] nvme-pci: remove cq check after submission
 In-Reply-To: <20180517163152.23155-1-hch@lst.de>
 References: <20180517163152.23155-1-hch@lst.de>
-Message-ID: <20180517163152.23155-3-hch@lst.de>
+Message-ID: <20180517163152.23155-4-hch@lst.de>
 
-We always look at the current CQ head and phase, so don't pass these
-as separate arguments, and rename the function to nvme_cqe_pending.
+From: Jens Axboe <axboe@kernel.dk>
 
-Also micro-optimize by byte swapping the constant 1 instead of the status.
+We always check the completion queue after submitting, but in my testing
+this isn't a win even on DRAM/xpoint devices. In some cases it's
+actually worse. Kill it.
 
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b58aebb347a0..4b8c3420ace6 100644
+index 4b8c3420ace6..16eacae3b69d 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -915,10 +915,10 @@ static void nvme_pci_complete_rq(struct request *req)
- }
+@@ -69,7 +69,6 @@ MODULE_PARM_DESC(io_queue_depth, "set io queue depth, should >= 2");
+ struct nvme_dev;
+ struct nvme_queue;
  
- /* We read the CQE phase first to check if the rest of the entry is valid */
--static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
--		u16 phase)
-+static inline bool nvme_cqe_pending(struct nvme_queue *nvmeq)
- {
--	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
-+	return ((nvmeq->cqes[nvmeq->cq_head].status) & cpu_to_le16(1)) ==
-+			nvmeq->cq_phase;
- }
+-static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
  
- static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
-@@ -965,7 +965,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
- static inline bool nvme_read_cqe(struct nvme_queue *nvmeq,
- 		struct nvme_completion *cqe)
- {
--	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase)) {
-+	if (nvme_cqe_pending(nvmeq)) {
- 		*cqe = nvmeq->cqes[nvmeq->cq_head];
- 
- 		if (++nvmeq->cq_head == nvmeq->q_depth) {
-@@ -1006,7 +1006,7 @@ static irqreturn_t nvme_irq(int irq, void *data)
- static irqreturn_t nvme_irq_check(int irq, void *data)
- {
- 	struct nvme_queue *nvmeq = data;
--	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
-+	if (nvme_cqe_pending(nvmeq))
- 		return IRQ_WAKE_THREAD;
- 	return IRQ_NONE;
- }
-@@ -1016,7 +1016,7 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
- 	struct nvme_completion cqe;
- 	int found = 0, consumed = 0;
- 
--	if (!nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
-+	if (!nvme_cqe_pending(nvmeq))
- 		return 0;
- 
- 	spin_lock_irq(&nvmeq->q_lock);
+ /*
+@@ -896,7 +895,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		goto out_cleanup_iod;
+ 	}
+ 	__nvme_submit_cmd(nvmeq, &cmnd);
+-	nvme_process_cq(nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 	return BLK_STS_OK;
+ out_cleanup_iod:
 -- 
 2.17.0
