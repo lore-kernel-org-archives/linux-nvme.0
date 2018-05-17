@@ -1,23 +1,68 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 16 May 2018 23:50:49 -0700
-Subject: [PATCH] nvme: remove cq check after submission
-In-Reply-To: <20180516212010.GC20223@localhost.localdomain>
-References: <b88f65b5-5fa6-45a7-48ff-77a114c31160@kernel.dk>
- <20180516212010.GC20223@localhost.localdomain>
-Message-ID: <20180517065049.GA30079@infradead.org>
+From: pickup112@gmail.com (=?UTF-8?B?5p2O5pil?=)
+Date: Thu, 17 May 2018 15:15:32 +0800
+Subject: can not load more than 51 nvme rdma device
+In-Reply-To: <47711850-d805-d5b3-2b7b-ed9acbee514a@mellanox.com>
+References: <CAGpjB9J2F3VhGnPe+uXSmuu-H0dTfbQT+5fOem4j_vsBcwGfwQ@mail.gmail.com>
+ <47711850-d805-d5b3-2b7b-ed9acbee514a@mellanox.com>
+Message-ID: <CAGpjB9JN-L0F=iYRzuSLKyz+0kAwUL=qn4Xp7hLsEO2RSUtSfw@mail.gmail.com>
 
-On Wed, May 16, 2018@03:20:10PM -0600, Keith Busch wrote:
-> On Wed, May 16, 2018@01:58:08PM -0600, Jens Axboe wrote:
-> > We always check the completion queue after submitting, but in my testing
-> > this isn't a win even on DRAM/xpoint devices. In some cases it's
-> > actually worse. Kill it.
-> 
-> Right, this was on my todo list. Agreed it's not helping anything.
-> Applied to nvme-4.18.
+Thanks for you help.
 
-While I agree in general didn't we have a case where this caused a
-regression last time it came up?  Not that I'd complain if it goes
-away..
 
-But more importantly we could split q_lock into a sq_lock and cq_lock
-now, which might bring real benefits.
+> Any reason for this type of 1:1 configuration ?
+> Can you expose all 100 disks using 1 subsystem or 10 disks per subsystem ?
+> Do you understand the difference in resource allocation between both
+cases ?
+
+Our actual production environment will use IB switches for interconnect in
+a cluster. And in the actual production environment, we may also have
+hundreds of disks output to the same node.
+After we found this problem with io_queue, we recreated the problem in a
+test environment with two nodes directly connected.
+We know the difference you mentioned, but in the actual production
+environment, we do have more than 51 targets loaded. So want to understand
+thoroughly why this restriction occurs and whether there is a way to get
+around this limitation
+
+
+> try to use --queue-size=16 in your conect command.
+> You don't realy need so many resources (10 io queues with 128 queue-size
+> each) to saturate 56Gb wire.
+
+How can we turn the size of nr-io-queues or queue-size. Is there a best
+practice for our scenario?
+Increase or decrease the queue-size/nr-io-queues will impact what?
+so if nr-io-queues * queue-size * nvme_connect_number> max_mr, we will meet
+the error.
+
+> This is because you try to allocate more MRs that the maximum support of
+> the device.
+> In NVNe/RDMA We create "queue-size" number of MRs per each created IO
+queue.
+
+How can we know the maximum MRs  support by the device?
+Do you mean that MR refers to Memory Region?
+
+> The max_mr for this adapter is much bigger.
+> If the above solutions are not enough, then we can dig-in more to low
+> level drivers...
+
+According to what you said above, max_mr is just the hardware attribute,
+not related to Linux, nvme, rdma, is't it?
+
+Whether max_mr is the attribute of a network card or a port on a network
+card? according to my test on this side, after a port of a network card
+reports an error on the dual port network card, another port can continue
+to load a new target.
+
+Can you suggest any information or document  which introduce relationship
+between queue-size, nr_io_queues and MRs.
+
+
+
+
+
+
+
+-- 
+pickup.lichun ??
