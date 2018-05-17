@@ -1,209 +1,162 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 May 2018 18:31:50 +0200
-Subject: [PATCH 5/7] nvme-pci: handle completions outside of the queue lock
+Date: Thu, 17 May 2018 18:31:51 +0200
+Subject: [PATCH 6/7] nvme-pci: split the nvme queue lock into submission and
+ completion locks
 In-Reply-To: <20180517163152.23155-1-hch@lst.de>
 References: <20180517163152.23155-1-hch@lst.de>
-Message-ID: <20180517163152.23155-6-hch@lst.de>
+Message-ID: <20180517163152.23155-7-hch@lst.de>
 
-Split the completion of events into a two part process:
+This is now feasible. We protect the submission queue ring with
+->sq_lock, and the completion side with ->cq_lock.
 
-1) Reap the events inside the queue lock
-2) Complete the events outside the queue lock
-
-Since we never wrap the queue, we can access it locklessly after we've
-updated the completion queue head. This patch started off with batching
-events on the stack, but with this trick we don't have to. Keith Busch
-<keith.busch at intel.com> came up with that idea.
-
-Note that this kills the ->cqe_seen as well. I haven't been able to
-trigger any ill effects of this. If we do race with polling every so
-often, it should be rare enough NOT to trigger any issues.
-
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-[hch: refactored, restored poll early exit optimization]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 87 +++++++++++++++++++++--------------------
- 1 file changed, 45 insertions(+), 42 deletions(-)
+ drivers/nvme/host/pci.c | 44 +++++++++++++++++++++--------------------
+ 1 file changed, 23 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 258f097fddbc..246882bdef54 100644
+index 246882bdef54..49c783801fd4 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -161,7 +161,6 @@ struct nvme_queue {
- 	u16 cq_head;
- 	u16 qid;
- 	u8 cq_phase;
--	u8 cqe_seen;
- 	u32 *dbbuf_sq_db;
- 	u32 *dbbuf_cq_db;
- 	u32 *dbbuf_sq_ei;
-@@ -932,9 +931,9 @@ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
- 	}
- }
+@@ -147,9 +147,10 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+ struct nvme_queue {
+ 	struct device *q_dmadev;
+ 	struct nvme_dev *dev;
+-	spinlock_t q_lock;
++	spinlock_t sq_lock;
+ 	struct nvme_command *sq_cmds;
+ 	struct nvme_command __iomem *sq_cmds_io;
++	spinlock_t cq_lock ____cacheline_aligned_in_smp;
+ 	volatile struct nvme_completion *cqes;
+ 	struct blk_mq_tags **tags;
+ 	dma_addr_t sq_dma_addr;
+@@ -894,9 +895,9 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
  
--static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
--		struct nvme_completion *cqe)
-+static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- {
-+	volatile struct nvme_completion *cqe = &nvmeq->cqes[idx];
- 	struct request *req;
+ 	blk_mq_start_request(req);
  
- 	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
-@@ -957,50 +956,58 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
- 		return;
- 	}
- 
--	nvmeq->cqe_seen = 1;
- 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
- 	nvme_end_request(req, cqe->status, cqe->result);
- }
- 
--static inline bool nvme_read_cqe(struct nvme_queue *nvmeq,
--		struct nvme_completion *cqe)
-+static void nvme_complete_cqes(struct nvme_queue *nvmeq, u16 start, u16 end)
- {
--	if (nvme_cqe_pending(nvmeq)) {
--		*cqe = nvmeq->cqes[nvmeq->cq_head];
-+	while (start != end) {
-+		nvme_handle_cqe(nvmeq, start);
-+		if (++start == nvmeq->q_depth)
-+			start = 0;
-+	}
-+}
- 
--		if (++nvmeq->cq_head == nvmeq->q_depth) {
--			nvmeq->cq_head = 0;
--			nvmeq->cq_phase = !nvmeq->cq_phase;
--		}
--		return true;
-+static inline void nvme_update_cq_head(struct nvme_queue *nvmeq)
-+{
-+	if (++nvmeq->cq_head == nvmeq->q_depth) {
-+		nvmeq->cq_head = 0;
-+		nvmeq->cq_phase = !nvmeq->cq_phase;
- 	}
--	return false;
- }
- 
--static void nvme_process_cq(struct nvme_queue *nvmeq)
-+static inline bool nvme_process_cq(struct nvme_queue *nvmeq, u16 *start,
-+		u16 *end, int tag)
- {
--	struct nvme_completion cqe;
--	int consumed = 0;
-+	bool found = false;
- 
--	while (nvme_read_cqe(nvmeq, &cqe)) {
--		nvme_handle_cqe(nvmeq, &cqe);
--		consumed++;
-+	*start = nvmeq->cq_head;
-+	while (!found && nvme_cqe_pending(nvmeq)) {
-+		if (nvmeq->cqes[nvmeq->cq_head].command_id == tag)
-+			found = true;
-+		nvme_update_cq_head(nvmeq);
- 	}
-+	*end = nvmeq->cq_head;
- 
--	if (consumed)
-+	if (*start != *end)
- 		nvme_ring_cq_doorbell(nvmeq);
-+	return found;
- }
- 
- static irqreturn_t nvme_irq(int irq, void *data)
- {
--	irqreturn_t result;
+-	spin_lock_irq(&nvmeq->q_lock);
++	spin_lock_irq(&nvmeq->sq_lock);
+ 	__nvme_submit_cmd(nvmeq, &cmnd);
+-	spin_unlock_irq(&nvmeq->q_lock);
++	spin_unlock_irq(&nvmeq->sq_lock);
+ 	return BLK_STS_OK;
+ out_cleanup_iod:
+ 	nvme_free_iod(dev, req);
+@@ -1000,9 +1001,9 @@ static irqreturn_t nvme_irq(int irq, void *data)
  	struct nvme_queue *nvmeq = data;
-+	u16 start, end;
-+
- 	spin_lock(&nvmeq->q_lock);
--	nvme_process_cq(nvmeq);
--	result = nvmeq->cqe_seen ? IRQ_HANDLED : IRQ_NONE;
--	nvmeq->cqe_seen = 0;
-+	nvme_process_cq(nvmeq, &start, &end, -1);
- 	spin_unlock(&nvmeq->q_lock);
--	return result;
-+
-+	if (start == end)
-+		return IRQ_NONE;
-+	nvme_complete_cqes(nvmeq, start, end);
-+	return IRQ_HANDLED;
- }
+ 	u16 start, end;
  
- static irqreturn_t nvme_irq_check(int irq, void *data)
-@@ -1013,27 +1020,17 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+-	spin_lock(&nvmeq->q_lock);
++	spin_lock(&nvmeq->cq_lock);
+ 	nvme_process_cq(nvmeq, &start, &end, -1);
+-	spin_unlock(&nvmeq->q_lock);
++	spin_unlock(&nvmeq->cq_lock);
  
- static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
- {
--	struct nvme_completion cqe;
--	int found = 0, consumed = 0;
-+	u16 start, end;
-+	bool found;
- 
+ 	if (start == end)
+ 		return IRQ_NONE;
+@@ -1026,9 +1027,9 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
  	if (!nvme_cqe_pending(nvmeq))
  		return 0;
  
- 	spin_lock_irq(&nvmeq->q_lock);
--	while (nvme_read_cqe(nvmeq, &cqe)) {
--		nvme_handle_cqe(nvmeq, &cqe);
--		consumed++;
--
--		if (tag == cqe.command_id) {
--			found = 1;
--			break;
--		}
--       }
--
--	if (consumed)
--		nvme_ring_cq_doorbell(nvmeq);
-+	found = nvme_process_cq(nvmeq, &start, &end, tag);
- 	spin_unlock_irq(&nvmeq->q_lock);
+-	spin_lock_irq(&nvmeq->q_lock);
++	spin_lock_irq(&nvmeq->cq_lock);
+ 	found = nvme_process_cq(nvmeq, &start, &end, tag);
+-	spin_unlock_irq(&nvmeq->q_lock);
++	spin_unlock_irq(&nvmeq->cq_lock);
  
-+	nvme_complete_cqes(nvmeq, start, end);
+ 	nvme_complete_cqes(nvmeq, start, end);
  	return found;
+@@ -1051,9 +1052,9 @@ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
+ 	c.common.opcode = nvme_admin_async_event;
+ 	c.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
+ 
+-	spin_lock_irq(&nvmeq->q_lock);
++	spin_lock_irq(&nvmeq->sq_lock);
+ 	__nvme_submit_cmd(nvmeq, &c);
+-	spin_unlock_irq(&nvmeq->q_lock);
++	spin_unlock_irq(&nvmeq->sq_lock);
  }
  
-@@ -1340,6 +1337,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+ static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
+@@ -1310,15 +1311,15 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
  {
- 	struct nvme_queue *nvmeq = &dev->queues[0];
-+	u16 start, end;
+ 	int vector;
  
- 	if (shutdown)
- 		nvme_shutdown_ctrl(&dev->ctrl);
-@@ -1347,8 +1345,10 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+-	spin_lock_irq(&nvmeq->q_lock);
++	spin_lock_irq(&nvmeq->cq_lock);
+ 	if (nvmeq->cq_vector == -1) {
+-		spin_unlock_irq(&nvmeq->q_lock);
++		spin_unlock_irq(&nvmeq->cq_lock);
+ 		return 1;
+ 	}
+ 	vector = nvmeq->cq_vector;
+ 	nvmeq->dev->online_queues--;
+ 	nvmeq->cq_vector = -1;
+-	spin_unlock_irq(&nvmeq->q_lock);
++	spin_unlock_irq(&nvmeq->cq_lock);
+ 
+ 	/*
+ 	 * Ensure that nvme_queue_rq() sees it ->cq_vector == -1 without
+@@ -1344,9 +1345,9 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+ 	else
  		nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
  
- 	spin_lock_irq(&nvmeq->q_lock);
--	nvme_process_cq(nvmeq);
-+	nvme_process_cq(nvmeq, &start, &end, -1);
- 	spin_unlock_irq(&nvmeq->q_lock);
-+
-+	nvme_complete_cqes(nvmeq, start, end);
+-	spin_lock_irq(&nvmeq->q_lock);
++	spin_lock_irq(&nvmeq->cq_lock);
+ 	nvme_process_cq(nvmeq, &start, &end, -1);
+-	spin_unlock_irq(&nvmeq->q_lock);
++	spin_unlock_irq(&nvmeq->cq_lock);
+ 
+ 	nvme_complete_cqes(nvmeq, start, end);
+ }
+@@ -1406,7 +1407,8 @@ static int nvme_alloc_queue(struct nvme_dev *dev, int qid, int depth)
+ 
+ 	nvmeq->q_dmadev = dev->dev;
+ 	nvmeq->dev = dev;
+-	spin_lock_init(&nvmeq->q_lock);
++	spin_lock_init(&nvmeq->sq_lock);
++	spin_lock_init(&nvmeq->cq_lock);
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+ 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
+@@ -1442,7 +1444,7 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ {
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 
+-	spin_lock_irq(&nvmeq->q_lock);
++	spin_lock_irq(&nvmeq->cq_lock);
+ 	nvmeq->sq_tail = 0;
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+@@ -1450,7 +1452,7 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ 	memset((void *)nvmeq->cqes, 0, CQ_SIZE(nvmeq->q_depth));
+ 	nvme_dbbuf_init(dev, nvmeq, qid);
+ 	dev->online_queues++;
+-	spin_unlock_irq(&nvmeq->q_lock);
++	spin_unlock_irq(&nvmeq->cq_lock);
  }
  
- static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
-@@ -1995,6 +1995,7 @@ static void nvme_del_queue_end(struct request *req, blk_status_t error)
- static void nvme_del_cq_end(struct request *req, blk_status_t error)
- {
- 	struct nvme_queue *nvmeq = req->end_io_data;
-+	u16 start, end;
- 
- 	if (!error) {
+ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+@@ -2001,14 +2003,14 @@ static void nvme_del_cq_end(struct request *req, blk_status_t error)
  		unsigned long flags;
-@@ -2006,8 +2007,10 @@ static void nvme_del_cq_end(struct request *req, blk_status_t error)
- 		 */
- 		spin_lock_irqsave_nested(&nvmeq->q_lock, flags,
- 					SINGLE_DEPTH_NESTING);
--		nvme_process_cq(nvmeq);
-+		nvme_process_cq(nvmeq, &start, &end, -1);
- 		spin_unlock_irqrestore(&nvmeq->q_lock, flags);
-+
-+		nvme_complete_cqes(nvmeq, start, end);
- 	}
  
- 	nvme_del_queue_end(req, error);
+ 		/*
+-		 * We might be called with the AQ q_lock held
+-		 * and the I/O queue q_lock should always
++		 * We might be called with the AQ cq_lock held
++		 * and the I/O queue cq_lock should always
+ 		 * nest inside the AQ one.
+ 		 */
+-		spin_lock_irqsave_nested(&nvmeq->q_lock, flags,
++		spin_lock_irqsave_nested(&nvmeq->cq_lock, flags,
+ 					SINGLE_DEPTH_NESTING);
+ 		nvme_process_cq(nvmeq, &start, &end, -1);
+-		spin_unlock_irqrestore(&nvmeq->q_lock, flags);
++		spin_unlock_irqrestore(&nvmeq->cq_lock, flags);
+ 
+ 		nvme_complete_cqes(nvmeq, start, end);
+ 	}
 -- 
 2.17.0
