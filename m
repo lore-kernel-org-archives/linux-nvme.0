@@ -1,36 +1,53 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 17 May 2018 11:08:11 -0600
-Subject: RFC: handle completions outside the queue lock and split the
- queue lock
-In-Reply-To: <20180517170544.GF23555@localhost.localdomain>
-References: <20180517163152.23155-1-hch@lst.de>
- <20180517165546.GE23555@localhost.localdomain> <20180517170045.GA4945@lst.de>
- <20180517170544.GF23555@localhost.localdomain>
-Message-ID: <a8e14f05-f757-a1d8-f83b-826a49a46171@kernel.dk>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 17 May 2018 12:04:44 -0600
+Subject: INTMS/INTMC not being used in NVME interrupt handling
+In-Reply-To: <BLUPR0201MB1505BF5E68D05F25A53D3B96A5910@BLUPR0201MB1505.namprd02.prod.outlook.com>
+References: <BLUPR0201MB1505371050ED798BE025132BA5920@BLUPR0201MB1505.namprd02.prod.outlook.com>
+ <20180516144240.GA20223@localhost.localdomain>
+ <BLUPR0201MB1505BF5E68D05F25A53D3B96A5910@BLUPR0201MB1505.namprd02.prod.outlook.com>
+Message-ID: <20180517180444.GG23555@localhost.localdomain>
 
-On 5/17/18 11:05 AM, Keith Busch wrote:
-> On Thu, May 17, 2018@07:00:45PM +0200, Christoph Hellwig wrote:
->> On Thu, May 17, 2018@10:55:46AM -0600, Keith Busch wrote:
->>> On Thu, May 17, 2018@06:31:45PM +0200, Christoph Hellwig wrote:
->>>> Mostly the previous work from Jens, just with random cleanups from me
->>>> thrown in.  Based on nvme/nvme-4.18 minus the two top-most commits,
->>>> very lightly tested.
->>>
->>> Looking good. I can force push a rebase removing the current top-two
->>> commits. Sound okay?
->>
->> Yes, let's do that for now, and let pending series settle for another
->> day or two.
+On Thu, May 17, 2018@11:15:59AM +0000, Bharat Kumar Gogada wrote:
+> > > Hi,
+> > >
+> > > As per NVME specification:
+> > > 7.5.1.1 Host Software Interrupt Handling It is recommended that host
+> > > software utilize the Interrupt Mask Set and Interrupt Mask Clear
+> > > (INTMS/INTMC) registers to efficiently handle interrupts when configured
+> > to use pin based or MSI messages.
+> > >
+> > > In kernel 4.14, drivers/nvme/host/pci.c function nvme_isr doesn't  use
+> > > these registers.
+> > >
+> > > Any reason why these registers are not used in nvme interrupt handler ?
+> > 
+> > I think you've answered your own question: we process completions in the
+> > interrupt context. The interrupt is already masked at the CPU level in this
+> > context, so there should be no reason to mask them at the device level.
+> > 
+> > > Why NVMe driver is not using any bottom half and processing all
+> > > completion queues in interrupt handler ?
+> > 
+> > Performance.
+> Thanks keith. 
+> Currently driver isn't setting any Coalesce count.  
+> So the NVMe card will raise interrupt for every single completion queue ?
 > 
-> Done. That's enough excitement for one day. :)
+> For legacy interrupt for each CQ 
+> CQ-> ASSERT_INTA-> DOORBELL-> DEASSERT_INTA is this flow correct ?
 
-Bah, where's your sense of adventure!
+Mostly, yes. There could be a case where the controller wouldn't
+deassert INTx if there are more completes past the CQ head doorbell write.
 
-FWIW, I'm testing this series, committed here:
+> Is the following flow valid
+> CQ1->ASSERT_INTA->CQ2/CQ3->Doorbell->DEASSERT_INTA ?
+> 
+> When using legacy interrupts, if CQ1 is sent followed by ASSERT_INTA, can the EP send 
+> another CQ2,CQ3.. before DEASSERT_INTA of CQ1 is generated?
 
-http://git.kernel.dk/cgit/linux-block/log/?h=nvme-4.18
+I assume you are saying CQ entry 1, CQ entry 2, etc ...
 
-I'll report back end-of-day when the full cycle is done.
-
--- 
-Jens Axboe
+The end point may continue posting those completion queue entries while
+the interrupt is asserted. It should not deassert the interrupt until
+the host acknowledges all outstanding completions with a CQ doorbell
+write.
