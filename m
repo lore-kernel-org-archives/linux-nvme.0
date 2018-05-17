@@ -1,45 +1,83 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 17 May 2018 16:23:45 +0200
-Subject: [PATCH V6 11/11] nvme: pci: support nested EH
-In-Reply-To: <20180517142051.GB22063@localhost.localdomain>
-References: <20180516040313.13596-1-ming.lei@redhat.com>
- <20180516040313.13596-12-ming.lei@redhat.com>
- <20180516141242.GA20119@localhost.localdomain>
- <20180516231058.GB28727@ming.t460p>
- <20180517022030.GB21959@localhost.localdomain>
- <20180517084129.GA26570@lst.de>
- <20180517142051.GB22063@localhost.localdomain>
-Message-ID: <20180517142345.t6bnyfne7ndgrxkg@linux-x5ow.site>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 17 May 2018 09:24:57 -0500
+Subject: [PATCH RFC v2 2/2] nvmet-rdma: support 16K inline data
+In-Reply-To: <20180517115203.GB30345@lst.de>
+References: <cover.1526505524.git.swise@opengridcomputing.com>
+ <e3c4d8a638b989aef554646d235aa45d633d9565.1526505524.git.swise@opengridcomputing.com>
+ <20180517115203.GB30345@lst.de>
+Message-ID: <76914471-8d8a-cdec-e952-24b1e9a5ed72@opengridcomputing.com>
 
-On Thu, May 17, 2018@08:20:51AM -0600, Keith Busch wrote:
-> > Heh.  But yes, this test and the PCI "enable" interface in sysfs look
-> > horribly wrong. pci_disable_device/pci_enable_device aren't something we
-> > can just do underneath the driver.  Even if injecting the lowlevel
-> > config space manipulations done by it might be useful and a good test
-> > the Linux state ones are just killing the driver.
-> 
-> Yes, I'm totally fine with injecting errors into the config space, but
-> for goodness sakes, don't fuck with the internal kernel structures out
-> from under drivers using them.
-> 
-> My suggestion is to use 'setpci' to disable the device if you want to
-> inject this scenario. That way you get the desired broken device
-> scenario you want to test, but struct pci_dev hasn't been altered.
->  
-> > The enable attribute appears to have been added by Arjan for the
-> > Xorg driver.  I think if we have a driver bound to the device we
-> > should not allow it.
-> 
-> Agreed. Alternatively possibly call the driver's reset_preparei/done
-> callbacks.
 
-Exactly, but as long as we can issue the reset via sysfs the test-case
-is still valid.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+On 5/17/2018 6:52 AM, Christoph Hellwig wrote:
+>> +static ssize_t nvmet_inline_data_size_show(struct config_item *item,
+>> +		char *page)
+>> +{
+>> +	struct nvmet_port *port = to_nvmet_port(item);
+>> +
+>> +	return snprintf(page, PAGE_SIZE, "%u\n",
+>> +			port->inline_data_size);
+> Please fir the whole sprintf statement onto a single line.
+
+sure
+
+>> +}
+>> +
+>> +static ssize_t nvmet_inline_data_size_store(struct config_item *item,
+>> +		const char *page, size_t count)
+>> +{
+>> +	struct nvmet_port *port = to_nvmet_port(item);
+>> +	unsigned int size;
+>> +	int ret;
+>> +
+>> +	if (port->enabled) {
+>> +		pr_err("Cannot modify inline_data_size enabled\n");
+>> +		pr_err("Disable the port before modifying\n");
+>> +		return -EACCES;
+>> +	}
+>> +	ret = kstrtouint((const char *)page, 0, &size);
+> This cast looks bogus.
+>
+> Also inline_data_size shoul be and u32 as that is closest to what
+> is on the wire, and you thus should use kstrtou32 and pass the
+> inline_data_size straight to kstrtou32 instead of bouncing it through
+> a local variable.
+
+I made it an int so it could be initialized to -1 indicating it is not
+set by the config.? This allows the rdma transport to use its default
+value if the config does not specify any value.? I did this so the admin
+could totally disable inline by specifying 0.?? So I needed a value that
+indicates "unspecified".
+
+
+>> +CONFIGFS_ATTR(nvmet_, inline_data_size);
+> The characters before the first _ in the name are used as a group
+> by nvmetcli.  So I think this should get a param_ or so prefix
+> before the inline_data_size.  Also currently this attribute only
+> makes sense for rdma, so I think we still need a flag in
+> nvmet_fabrics_ops that enables/disables this attribute.
+
+Ah, so setting it in a port that isn't the rdma transport will cause a
+failure.? That makes sense.
+
+> Last but not least please also send a nvmetcli patch to support
+> this new attribute.
+
+Will do.
+
+>> +#define NVMET_DEFAULT_INLINE_DATA_SIZE	-1
+> 0 makes much more sense as the default, and then we don't even need
+> a name for it.
+
+I wanted the user to be able to disable inline by setting it to 0.? Is
+that not needed?? Maybe by adding back the nvmet_fabrics_ops field will
+alleviate this issue.? Perhaps a default_inline_size field that rdma
+sets to PAGE_SIZE.? Then configfs can default it to that.?
+
+>> +#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
+>> +#define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
+> So for 64k pages the minimum is bigger than the maximum? :)
+
+For 64k pages, the default is 64K and the max is 64K.
+
+Steve.
