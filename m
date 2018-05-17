@@ -1,66 +1,64 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 May 2018 18:31:49 +0200
-Subject: [PATCH 4/7] nvme-pci: move ->cq_vector == -1 check outside of ->q_lock
+Date: Thu, 17 May 2018 18:31:47 +0200
+Subject: [PATCH 2/7] nvme-pci: simplify nvme_cqe_valid
 In-Reply-To: <20180517163152.23155-1-hch@lst.de>
 References: <20180517163152.23155-1-hch@lst.de>
-Message-ID: <20180517163152.23155-5-hch@lst.de>
+Message-ID: <20180517163152.23155-3-hch@lst.de>
 
-From: Jens Axboe <axboe@kernel.dk>
+We always look at the current CQ head and phase, so don't pass these
+as separate arguments, and rename the function to nvme_cqe_pending.
 
-We only clear it dynamically in nvme_suspend_queue(). When we do, ensure
-to do a full flush so that any nvme_queue_rq() invocation will see it.
+Also micro-optimize by byte swapping the constant 1 instead of the status.
 
-Ideally we'd kill this check completely, but we're using it to flush
-requests on a dying queue.
-
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/nvme/host/pci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 16eacae3b69d..258f097fddbc 100644
+index b58aebb347a0..4b8c3420ace6 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -872,6 +872,13 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	struct nvme_command cmnd;
- 	blk_status_t ret;
+@@ -915,10 +915,10 @@ static void nvme_pci_complete_rq(struct request *req)
+ }
  
-+	/*
-+	 * We should not need to do this, but we're still using this to
-+	 * ensure we can drain requests on a dying queue.
-+	 */
-+	if (unlikely(nvmeq->cq_vector < 0))
-+		return BLK_STS_IOERR;
-+
- 	ret = nvme_setup_cmd(ns, req, &cmnd);
- 	if (ret)
- 		return ret;
-@@ -889,11 +896,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	blk_mq_start_request(req);
+ /* We read the CQE phase first to check if the rest of the entry is valid */
+-static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
+-		u16 phase)
++static inline bool nvme_cqe_pending(struct nvme_queue *nvmeq)
+ {
+-	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
++	return ((nvmeq->cqes[nvmeq->cq_head].status) & cpu_to_le16(1)) ==
++			nvmeq->cq_phase;
+ }
+ 
+ static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
+@@ -965,7 +965,7 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
+ static inline bool nvme_read_cqe(struct nvme_queue *nvmeq,
+ 		struct nvme_completion *cqe)
+ {
+-	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase)) {
++	if (nvme_cqe_pending(nvmeq)) {
+ 		*cqe = nvmeq->cqes[nvmeq->cq_head];
+ 
+ 		if (++nvmeq->cq_head == nvmeq->q_depth) {
+@@ -1006,7 +1006,7 @@ static irqreturn_t nvme_irq(int irq, void *data)
+ static irqreturn_t nvme_irq_check(int irq, void *data)
+ {
+ 	struct nvme_queue *nvmeq = data;
+-	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
++	if (nvme_cqe_pending(nvmeq))
+ 		return IRQ_WAKE_THREAD;
+ 	return IRQ_NONE;
+ }
+@@ -1016,7 +1016,7 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+ 	struct nvme_completion cqe;
+ 	int found = 0, consumed = 0;
+ 
+-	if (!nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
++	if (!nvme_cqe_pending(nvmeq))
+ 		return 0;
  
  	spin_lock_irq(&nvmeq->q_lock);
--	if (unlikely(nvmeq->cq_vector < 0)) {
--		ret = BLK_STS_IOERR;
--		spin_unlock_irq(&nvmeq->q_lock);
--		goto out_cleanup_iod;
--	}
- 	__nvme_submit_cmd(nvmeq, &cmnd);
- 	spin_unlock_irq(&nvmeq->q_lock);
- 	return BLK_STS_OK;
-@@ -1321,6 +1323,12 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	nvmeq->cq_vector = -1;
- 	spin_unlock_irq(&nvmeq->q_lock);
- 
-+	/*
-+	 * Ensure that nvme_queue_rq() sees it ->cq_vector == -1 without
-+	 * having to grab the lock.
-+	 */
-+	mb();
-+
- 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
- 		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
- 
 -- 
 2.17.0
