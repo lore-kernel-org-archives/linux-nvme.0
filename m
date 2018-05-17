@@ -1,45 +1,66 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 May 2018 18:31:46 +0200
-Subject: [PATCH 1/7] nvme: mark the result argument to
- nvme_complete_async_event volatile
+Date: Thu, 17 May 2018 18:31:49 +0200
+Subject: [PATCH 4/7] nvme-pci: move ->cq_vector == -1 check outside of ->q_lock
 In-Reply-To: <20180517163152.23155-1-hch@lst.de>
 References: <20180517163152.23155-1-hch@lst.de>
-Message-ID: <20180517163152.23155-2-hch@lst.de>
+Message-ID: <20180517163152.23155-5-hch@lst.de>
 
-We'll need that in the PCIe driver soon as we'll read it straight off the
-CQ.
+From: Jens Axboe <axboe@kernel.dk>
 
+We only clear it dynamically in nvme_suspend_queue(). When we do, ensure
+to do a full flush so that any nvme_queue_rq() invocation will see it.
+
+Ideally we'd kill this check completely, but we're using it to flush
+requests on a dying queue.
+
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 2 +-
- drivers/nvme/host/nvme.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 62262fac7a5d..b070c659391f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3344,7 +3344,7 @@ static void nvme_fw_act_work(struct work_struct *work)
- }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 16eacae3b69d..258f097fddbc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -872,6 +872,13 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_command cmnd;
+ 	blk_status_t ret;
  
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
--		union nvme_result *res)
-+		volatile union nvme_result *res)
- {
- 	u32 result = le32_to_cpu(res->u32);
++	/*
++	 * We should not need to do this, but we're still using this to
++	 * ensure we can drain requests on a dying queue.
++	 */
++	if (unlikely(nvmeq->cq_vector < 0))
++		return BLK_STS_IOERR;
++
+ 	ret = nvme_setup_cmd(ns, req, &cmnd);
+ 	if (ret)
+ 		return ret;
+@@ -889,11 +896,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	blk_mq_start_request(req);
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 061fecfd44f5..7a872b0d53a7 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -400,7 +400,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- 		bool send);
+ 	spin_lock_irq(&nvmeq->q_lock);
+-	if (unlikely(nvmeq->cq_vector < 0)) {
+-		ret = BLK_STS_IOERR;
+-		spin_unlock_irq(&nvmeq->q_lock);
+-		goto out_cleanup_iod;
+-	}
+ 	__nvme_submit_cmd(nvmeq, &cmnd);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 	return BLK_STS_OK;
+@@ -1321,6 +1323,12 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ 	nvmeq->cq_vector = -1;
+ 	spin_unlock_irq(&nvmeq->q_lock);
  
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
--		union nvme_result *res);
-+		volatile union nvme_result *res);
++	/*
++	 * Ensure that nvme_queue_rq() sees it ->cq_vector == -1 without
++	 * having to grab the lock.
++	 */
++	mb();
++
+ 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
+ 		blk_mq_quiesce_queue(nvmeq->dev->ctrl.admin_q);
  
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
 -- 
 2.17.0
