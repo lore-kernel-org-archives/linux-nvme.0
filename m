@@ -1,23 +1,24 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Thu, 17 May 2018 22:50:13 +0800
-Subject: [PATCH V2] nvme-rdma: fix double free in nvme_rdma_free_queue
-In-Reply-To: <c32eef8a-ae1e-ce7e-ee39-eee60192e517@mellanox.com>
-References: <1525945328-1908-1-git-send-email-jianchao.w.wang@oracle.com>
- <c32eef8a-ae1e-ce7e-ee39-eee60192e517@mellanox.com>
-Message-ID: <fcfa5a80-83db-c5bf-a46d-c53629a3c9db@oracle.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 17 May 2018 09:03:52 -0600
+Subject: [PATCH] nvme: handle completions outside of the queue lock
+In-Reply-To: <20180517074732.GA24736@infradead.org>
+References: <da619fe4-a9ea-57e9-a731-e59a9043970e@kernel.dk>
+ <20180517034750.GA22063@localhost.localdomain>
+ <20180517071651.GC30079@infradead.org>
+ <20180517074732.GA24736@infradead.org>
+Message-ID: <20180517150351.GD22063@localhost.localdomain>
 
-Hi Max
+On Thu, May 17, 2018@12:47:32AM -0700, Christoph Hellwig wrote:
+>  static irqreturn_t nvme_irq_check(int irq, void *data)
+> @@ -1039,7 +1024,14 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+>  	nvme_process_cq(nvmeq, &start, &end);
+>  	spin_unlock_irq(&nvmeq->q_lock);
+>  
+> -	return nvme_complete_cqes(nvmeq, start, end, tag);
+> +	while (start != end) {
+> +		if (nvme_handle_cqe(nvmeq, start, tag))
+> +			return 1;
 
-Thanks for kindly review and suggestion for this.
-
-On 05/16/2018 08:18 PM, Max Gurtovoy wrote:
-> I don't know exactly what Christoph meant but IMO the best place to allocate it is in nvme_rdma_alloc_queue just before calling
-> 
-> "set_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags);"
-> 
-> then you will never get to double free since we clear the NVME_RDMA_Q_ALLOCATED bit in the beginning of nvme_rdma_free_queue.
-
-Yes, I will investigate the whether there is some special reason for async_event_sqe is not allocated in nvme_rdma_alloc_queue next.
-
-Thanks
-Jianchao
+We can't return early from here anymore since the new interface moved
+the CQ head. No one else is going to get to see those completions, so
+the first caller owns completing everything up to the end that it claimed.
