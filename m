@@ -1,24 +1,16 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 17 May 2018 09:03:52 -0600
-Subject: [PATCH] nvme: handle completions outside of the queue lock
-In-Reply-To: <20180517074732.GA24736@infradead.org>
-References: <da619fe4-a9ea-57e9-a731-e59a9043970e@kernel.dk>
- <20180517034750.GA22063@localhost.localdomain>
- <20180517071651.GC30079@infradead.org>
- <20180517074732.GA24736@infradead.org>
-Message-ID: <20180517150351.GD22063@localhost.localdomain>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 17 May 2018 09:02:14 -0600
+Subject: [PATCHSET 0/3] Split queue lock into submission/completion locks
+Message-ID: <1526569337-3489-1-git-send-email-axboe@kernel.dk>
 
-On Thu, May 17, 2018@12:47:32AM -0700, Christoph Hellwig wrote:
->  static irqreturn_t nvme_irq_check(int irq, void *data)
-> @@ -1039,7 +1024,14 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
->  	nvme_process_cq(nvmeq, &start, &end);
->  	spin_unlock_irq(&nvmeq->q_lock);
->  
-> -	return nvme_complete_cqes(nvmeq, start, end, tag);
-> +	while (start != end) {
-> +		if (nvme_handle_cqe(nvmeq, start, tag))
-> +			return 1;
+This series is on top of the previous work from yesterday, including
+Christophs patch. It splits nvmeq->q_lock into two locks:
 
-We can't return early from here anymore since the new interface moved
-the CQ head. No one else is going to get to see those completions, so
-the first caller owns completing everything up to the end that it claimed.
+1) ->sq_lock, that protects the submission side of things
+2) ->cq_lock, that protects the completion side
+
+This also means that we can drop the IRQ safe nature of the submission
+side locking.
+
+ drivers/nvme/host/pci.c | 41 +++++++++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 22 deletions(-)
