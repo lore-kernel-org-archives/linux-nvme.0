@@ -1,65 +1,67 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 May 2018 13:52:04 +0200
-Subject: [PATCH RFC v2 2/2] nvmet-rdma: support 16K inline data
-In-Reply-To: <e3c4d8a638b989aef554646d235aa45d633d9565.1526505524.git.swise@opengridcomputing.com>
-References: <cover.1526505524.git.swise@opengridcomputing.com>
- <e3c4d8a638b989aef554646d235aa45d633d9565.1526505524.git.swise@opengridcomputing.com>
-Message-ID: <20180517115203.GB30345@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 17 May 2018 13:52:50 +0200
+Subject: [PATCH v3] nvme: fix lockdep warning in nvme_mpath_clear_current_path
+Message-ID: <20180517115250.10027-1-jthumshirn@suse.de>
 
-> +static ssize_t nvmet_inline_data_size_show(struct config_item *item,
-> +		char *page)
-> +{
-> +	struct nvmet_port *port = to_nvmet_port(item);
-> +
-> +	return snprintf(page, PAGE_SIZE, "%u\n",
-> +			port->inline_data_size);
+When running blktest's nvme/005 with a lockdep enabled kernel the test
+case fails due to the following lockdep splat in dmesg:
 
-Please fir the whole sprintf statement onto a single line.
+ =============================
+ WARNING: suspicious RCU usage
+ 4.17.0-rc5 #881 Not tainted
+ -----------------------------
+ drivers/nvme/host/nvme.h:457 suspicious rcu_dereference_check() usage!
 
-> +}
-> +
-> +static ssize_t nvmet_inline_data_size_store(struct config_item *item,
-> +		const char *page, size_t count)
-> +{
-> +	struct nvmet_port *port = to_nvmet_port(item);
-> +	unsigned int size;
-> +	int ret;
-> +
-> +	if (port->enabled) {
-> +		pr_err("Cannot modify inline_data_size enabled\n");
-> +		pr_err("Disable the port before modifying\n");
-> +		return -EACCES;
-> +	}
-> +	ret = kstrtouint((const char *)page, 0, &size);
+ other info that might help us debug this:
 
-This cast looks bogus.
+ rcu_scheduler_active = 2, debug_locks = 1
+ 3 locks held by kworker/u32:5/1102:
+  #0:         (ptrval) ((wq_completion)"nvme-wq"){+.+.}, at: process_one_work+0x152/0x5c0
+  #1:         (ptrval) ((work_completion)(&ctrl->scan_work)){+.+.}, at: process_one_work+0x152/0x5c0
+  #2:         (ptrval) (&subsys->lock#2){+.+.}, at: nvme_ns_remove+0x43/0x1c0 [nvme_core]
 
-Also inline_data_size shoul be and u32 as that is closest to what
-is on the wire, and you thus should use kstrtou32 and pass the
-inline_data_size straight to kstrtou32 instead of bouncing it through
-a local variable.
+The only caller of nvme_mpath_clear_current_path() is nvme_ns_remove()
+which holds the subsys lock so it's likely a false positive, but when
+using rcu_access_pointer(), we're telling rcu and lockdep that we're
+only after the pointer falue.
 
-> +CONFIGFS_ATTR(nvmet_, inline_data_size);
+Fixes: 32acab3181c7 ("nvme: implement multipath access to nvme subsystems")
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Suggested-by: Paul E. McKenney <paulmck at linux.vnet.ibm.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-The characters before the first _ in the name are used as a group
-by nvmetcli.  So I think this should get a param_ or so prefix
-before the inline_data_size.  Also currently this attribute only
-makes sense for rdma, so I think we still need a flag in
-nvmet_fabrics_ops that enables/disables this attribute.
+---
+Changes to v2:
+- Added Christoph's R-b
+- Removed most of the lockdep splat from commit log
 
-Last but not least please also send a nvmetcli patch to support
-this new attribute.
+Changes to v1:
+- Change rcu_dereference_protected() to rc_access_pointer() (Paul)
 
-> +#define NVMET_DEFAULT_INLINE_DATA_SIZE	-1
+---
+ drivers/nvme/host/nvme.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-0 makes much more sense as the default, and then we don't even need
-a name for it.
-
-> +#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
-> +#define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
-
-So for 64k pages the minimum is bigger than the maximum? :)
-
-> +	int			inline_data_size;
-
-u32
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 17d2f7cf3fed..af2bb6bc984d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -22,6 +22,7 @@
+ #include <linux/lightnvm.h>
+ #include <linux/sed-opal.h>
+ #include <linux/fault-inject.h>
++#include <linux/rcupdate.h>
+ 
+ extern unsigned int nvme_io_timeout;
+ #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+@@ -454,7 +455,7 @@ static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
+ {
+ 	struct nvme_ns_head *head = ns->head;
+ 
+-	if (head && ns == srcu_dereference(head->current_path, &head->srcu))
++	if (head && ns == rcu_access_pointer(head->current_path))
+ 		rcu_assign_pointer(head->current_path, NULL);
+ }
+ struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
+-- 
+2.16.3
