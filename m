@@ -1,74 +1,29 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 19 May 2018 06:32:11 +0800
-Subject: [PATCH 1/6] nvme: Sync request queues on reset
-In-Reply-To: <20180518163823.27820-1-keith.busch@intel.com>
-References: <20180518163823.27820-1-keith.busch@intel.com>
-Message-ID: <20180518223210.GB18334@ming.t460p>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 18 May 2018 16:46:07 -0600
+Subject: [PATCH 5/7] nvme-pci: handle completions outside of the queue lock
+In-Reply-To: <20180518214857.GC31490@localhost.localdomain>
+References: <1526655155-4006-1-git-send-email-axboe@kernel.dk>
+ <1526655155-4006-6-git-send-email-axboe@kernel.dk>
+ <20180518210630.GD27795@localhost.localdomain>
+ <93585ba6-32a3-d8aa-ad5c-ee22be3e8e8e@kernel.dk>
+ <968c010b-7129-fdb2-44aa-03d76d8746e8@kernel.dk>
+ <20180518212849.GB31490@localhost.localdomain>
+ <266ee916-b86a-c499-20ff-98cf716059b5@kernel.dk>
+ <20180518214857.GC31490@localhost.localdomain>
+Message-ID: <69e5d4a3-9751-c2dd-d17e-10485c8f09bb@kernel.dk>
 
-On Fri, May 18, 2018@10:38:18AM -0600, Keith Busch wrote:
-> This patch fixes races that occur with simultaneous controller
-> resets by synchronizing request queues prior to initializing the
-> controller. Withouth this, a thread may attempt disabling a controller
-> at the same time as we're trying to enable it.
+On 5/18/18 3:48 PM, Keith Busch wrote:
+> On Fri, May 18, 2018@03:31:47PM -0600, Jens Axboe wrote:
+>> Alright, folded into that patch. This impacts the two patches after
+>> this one too, updated versions all attached. Or find them here:
+>>
+>> http://git.kernel.dk/cgit/linux-block/log/?h=nvme-4.18
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/core.c | 21 +++++++++++++++++++--
->  drivers/nvme/host/nvme.h |  1 +
->  drivers/nvme/host/pci.c  |  1 +
->  3 files changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 99b857e5a7a9..1de68b56b318 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -3471,6 +3471,12 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
->  }
->  EXPORT_SYMBOL_GPL(nvme_init_ctrl);
->  
-> +static void nvme_start_queue(struct nvme_ns *ns)
-> +{
-> +	blk_mq_unquiesce_queue(ns->queue);
-> +	blk_mq_kick_requeue_list(ns->queue);
-> +}
-> +
->  /**
->   * nvme_kill_queues(): Ends all namespace queues
->   * @ctrl: the dead controller that needs to end
-> @@ -3499,7 +3505,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
->  		blk_set_queue_dying(ns->queue);
->  
->  		/* Forcibly unquiesce queues to avoid blocking dispatch */
-> -		blk_mq_unquiesce_queue(ns->queue);
-> +		nvme_start_queue(ns);
->  	}
->  	up_read(&ctrl->namespaces_rwsem);
->  }
-> @@ -3569,11 +3575,22 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
->  
->  	down_read(&ctrl->namespaces_rwsem);
->  	list_for_each_entry(ns, &ctrl->namespaces, list)
-> -		blk_mq_unquiesce_queue(ns->queue);
-> +		nvme_start_queue(ns);
->  	up_read(&ctrl->namespaces_rwsem);
->  }
->  EXPORT_SYMBOL_GPL(nvme_start_queues);
->  
-> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_ns *ns;
-> +
-> +	down_read(&ctrl->namespaces_rwsem);
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
-> +		blk_sync_queue(ns->queue);
-> +	up_read(&ctrl->namespaces_rwsem);
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
+> Cool, everything looks in order here. I've staged in my local repo and
+> ready to push, but playing it safe this time for the weekend to see if
+> Christoph or anyone else has concerns.
 
-This way can't sync timeout reliably, since timeout events can
-come from two NS at the same time, and one may be handled as
-RESET_TIMER, and another one can be handled as EH_HANDLED.
+Sounds good, thanks Keith.
 
-
-Thanks,
-Ming
+-- 
+Jens Axboe
