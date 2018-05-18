@@ -1,47 +1,28 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 18 May 2018 08:52:35 -0600
-Subject: [PATCH 7/7] nvme-pci: drop IRQ disabling on submission queue lock
-In-Reply-To: <1526655155-4006-1-git-send-email-axboe@kernel.dk>
-References: <1526655155-4006-1-git-send-email-axboe@kernel.dk>
-Message-ID: <1526655155-4006-8-git-send-email-axboe@kernel.dk>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 18 May 2018 10:28:04 -0600
+Subject: [PATCH V6 11/11] nvme: pci: support nested EH
+In-Reply-To: <20180517142345.t6bnyfne7ndgrxkg@linux-x5ow.site>
+References: <20180516040313.13596-1-ming.lei@redhat.com>
+ <20180516040313.13596-12-ming.lei@redhat.com>
+ <20180516141242.GA20119@localhost.localdomain>
+ <20180516231058.GB28727@ming.t460p>
+ <20180517022030.GB21959@localhost.localdomain>
+ <20180517084129.GA26570@lst.de>
+ <20180517142051.GB22063@localhost.localdomain>
+ <20180517142345.t6bnyfne7ndgrxkg@linux-x5ow.site>
+Message-ID: <20180518162804.GA27795@localhost.localdomain>
 
-Since we aren't sharing the lock for completions now, we don't
-have to make it IRQ safe.
+On Thu, May 17, 2018@04:23:45PM +0200, Johannes Thumshirn wrote:
+> > Agreed. Alternatively possibly call the driver's reset_preparei/done
+> > callbacks.
+> 
+> Exactly, but as long as we can issue the reset via sysfs the test-case
+> is still valid.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/pci.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+I disagree the test case is valid. The test writes '0' to the
+pci-sysfs 'enable', but the driver also disables the pci device as part
+of resetting, which is a perfectly reasonable thing for a driver to do.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1d64761e66f8..06d1a5cd619e 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -894,9 +894,9 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	blk_mq_start_request(req);
- 
--	spin_lock_irq(&nvmeq->sq_lock);
-+	spin_lock(&nvmeq->sq_lock);
- 	__nvme_submit_cmd(nvmeq, &cmnd);
--	spin_unlock_irq(&nvmeq->sq_lock);
-+	spin_unlock(&nvmeq->sq_lock);
- 	return BLK_STS_OK;
- out_cleanup_iod:
- 	nvme_free_iod(dev, req);
-@@ -1051,9 +1051,9 @@ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl)
- 	c.common.opcode = nvme_admin_async_event;
- 	c.common.command_id = NVME_AQ_BLK_MQ_DEPTH;
- 
--	spin_lock_irq(&nvmeq->sq_lock);
-+	spin_lock(&nvmeq->sq_lock);
- 	__nvme_submit_cmd(nvmeq, &c);
--	spin_unlock_irq(&nvmeq->sq_lock);
-+	spin_unlock(&nvmeq->sq_lock);
- }
- 
- static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
--- 
-2.7.4
+If the timing of the test's loop happens to write '0' right after the
+driver disabled the device that it owns, a 'write error' on that sysfs
+write occurs, and blktests then incorrectly claims the test failed.
