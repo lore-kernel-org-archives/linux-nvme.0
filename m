@@ -1,21 +1,47 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 18 May 2018 11:23:35 -0600
-Subject: [PATCH] PCI/sysfs: do not allow enabling/disabling a device with
- a driver
-In-Reply-To: <20180518165624.13993-1-hch@lst.de>
-References: <20180518165624.13993-1-hch@lst.de>
-Message-ID: <20180518172335.GB27795@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 18 May 2018 11:42:47 -0600
+Subject: [PATCH blktests] Fix block/011 to not use sysfs for device disabling
+Message-ID: <20180518174247.31098-1-keith.busch@intel.com>
 
-On Fri, May 18, 2018@06:56:24PM +0200, Christoph Hellwig wrote:
-> Manpulating the enable_cnt behind the back of the driver will wreck
-> complete havok with the kernel state, so disallow it.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+The PCI sysfs interface may not be a dependable method for toggling the
+PCI device state to trigger the timeouts. This patch goes directly to
+the config space to make device failure occur.
 
-Nice, looks like you beat me to it, and used device locking that I
-missed.
+The success of this test is still senstive to timing, as it may disable
+IO memory when a driver is trying to bring it online. This can look like
+a permanent device failure from the driver's perspective.
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ tests/block/011 | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Bjorn,
-Please disregard https://marc.info/?l=linux-pci&m=152666267830742&w=2
+diff --git a/tests/block/011 b/tests/block/011
+index 62e89f7..2fc0ffb 100755
+--- a/tests/block/011
++++ b/tests/block/011
+@@ -21,7 +21,7 @@ DESCRIPTION="disable PCI device while doing I/O"
+ TIMED=1
+ 
+ requires() {
+-	_have_fio
++	_have_fio && _have_program setpci
+ }
+ 
+ device_requires() {
+@@ -43,10 +43,11 @@ test_device() {
+ 	_run_fio_rand_io --filename="$TEST_DEV" --size="$size" \
+ 			--ignore_error=EIO,ENXIO,ENODEV &
+ 
++	# toggle PCI Command Register's Memory and Bus Master enabling
+ 	while kill -0 $! 2>/dev/null; do
+-		echo 0 > "/sys/bus/pci/devices/${pdev}/enable"
++		setpci -s "${pdev}" 4.w=0:6
+ 		sleep .2
+-		echo 1 > "/sys/bus/pci/devices/${pdev}/enable"
++		setpci -s "${pdev}" 4.w=6:6
+ 		sleep .2
+ 	done
+ 
+-- 
+2.14.3
