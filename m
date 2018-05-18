@@ -1,105 +1,43 @@
-From: pickup112@gmail.com (=?UTF-8?B?5p2O5pil?=)
-Date: Fri, 18 May 2018 15:19:22 +0800
-Subject: can not load more than 51 nvme rdma device
-In-Reply-To: <CAGpjB9++ehsb91nE+An2vg6n4E0HWxomA2zOTuwH4-yn=tD2Vg@mail.gmail.com>
-References: <CAGpjB9J2F3VhGnPe+uXSmuu-H0dTfbQT+5fOem4j_vsBcwGfwQ@mail.gmail.com>
- <47711850-d805-d5b3-2b7b-ed9acbee514a@mellanox.com>
- <CAGpjB9JN-L0F=iYRzuSLKyz+0kAwUL=qn4Xp7hLsEO2RSUtSfw@mail.gmail.com>
- <CAGpjB9++ehsb91nE+An2vg6n4E0HWxomA2zOTuwH4-yn=tD2Vg@mail.gmail.com>
-Message-ID: <CAGpjB9LU9S09OnXvPfqKb7tERtR29pONEPC-CehtM-upAGevHg@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 18 May 2018 11:06:33 +0200
+Subject: [PATCH V5] nvmet: add simple file backed ns support
+In-Reply-To: <BN6PR04MB1203154BDE61CFAD7ED095D986910@BN6PR04MB1203.namprd04.prod.outlook.com>
+References: <20180517124714.GA31470@lst.de>
+ <BN6PR04MB1203154BDE61CFAD7ED095D986910@BN6PR04MB1203.namprd04.prod.outlook.com>
+Message-ID: <20180518090633.GD24436@lst.de>
 
-I have found a way to get the max_nr
-```
-$ibv_devinfo -v |grep max_mr
-         max_mr_size:                    0xffffffffffffffff
-         max_mr:                         524272
-```
+> > +???? ns->cachep = kmem_cache_create("nvmet-fs",
+> 
+> what about nvmet-bvec as the name?
+> 
+> [CK] Also, while we are at it should I change the name of the?
+> following functions?currently present?in the io-cmd.c and add
+> suffix "bdev" ?
 
-According to what you said:
-In NVNe/RDMA We create "queue-size" number of MRs per each created IO queue
+Sounds good to me.  And please use bdev everywhere instead of blk
+or blkdev.
 
-524272 / 128 / 10 = 409.6 we should nvme connect 409 target, isn't it?
-?? <pickup112 at gmail.com> ?2018?5?17??? ??3:50???
+> 
+> 1.?nvmet_execute_write_zeroes
+> 2. nvmet_execute_dsm
+> 3. nvmet_execute_discard
+> 4. nvmet_discard_range
+> 5 .nvmet_discard_range
+> 6. nvmet_execute_rw
 
-> another question?
-> And how can we get how many MRs left in the Infiniband CA.
-> ?? <pickup112 at gmail.com> ?2018?5?17??? ??3:15???
+nvmet_bdev_*
 
-> > Thanks for you help.
+> [CK] Here we only issue sync I/O when nr_bvec > NVMET_MAX_MEMPOOL_BVEC, when
+> nr_bvec <=?NVMET_MAX_MEMPOOL_BVEC and we still allocate from mempool which
+> will result in?async I/O. We have to make this allocation info (mempool vs kmalloc_arrat)
+> accessible in the?callback function by?adding a new member to the struct nvmet_req
+> anonymous union.
 
+Sounds good.
 
-> > > Any reason for this type of 1:1 configuration ?
-> > > Can you expose all 100 disks using 1 subsystem or 10 disks per
-> subsystem ?
-> > > Do you understand the difference in resource allocation between both
-> > cases ?
+> Instead of adding a new member, since we are under memory pressure here can
+> we set is_sync unconditionally when we allocate from the mempool and force sync I/O?
 
-> > Our actual production environment will use IB switches for interconnect
-in
-> > a cluster. And in the actual production environment, we may also have
-> > hundreds of disks output to the same node.
-> > After we found this problem with io_queue, we recreated the problem in a
-> > test environment with two nodes directly connected.
-> > We know the difference you mentioned, but in the actual production
-> > environment, we do have more than 51 targets loaded. So want to
-understand
-> > thoroughly why this restriction occurs and whether there is a way to get
-> > around this limitation
-
-
-> > > try to use --queue-size=16 in your conect command.
-> > > You don't realy need so many resources (10 io queues with 128
-queue-size
-> > > each) to saturate 56Gb wire.
-
-> > How can we turn the size of nr-io-queues or queue-size. Is there a best
-> > practice for our scenario?
-> > Increase or decrease the queue-size/nr-io-queues will impact what?
-> > so if nr-io-queues * queue-size * nvme_connect_number> max_mr, we will
-> meet
-> > the error.
-
-> > > This is because you try to allocate more MRs that the maximum support
-of
-> > > the device.
-> > > In NVNe/RDMA We create "queue-size" number of MRs per each created IO
-> > queue.
-
-> > How can we know the maximum MRs  support by the device?
-> > Do you mean that MR refers to Memory Region?
-
-> > > The max_mr for this adapter is much bigger.
-> > > If the above solutions are not enough, then we can dig-in more to low
-> > > level drivers...
-
-> > According to what you said above, max_mr is just the hardware attribute,
-> > not related to Linux, nvme, rdma, is't it?
-
-> > Whether max_mr is the attribute of a network card or a port on a network
-> > card? according to my test on this side, after a port of a network card
-> > reports an error on the dual port network card, another port can
-continue
-> > to load a new target.
-
-> > Can you suggest any information or document  which introduce
-relationship
-> > between queue-size, nr_io_queues and MRs.
-
-
-
-
-
-
-
-> > --
-> > pickup.lichun ??
-
-
-
-> --
-> pickup.lichun ??
-
-
-
--- 
-pickup.lichun ??
+I don't think that makes sense.  A lot of I/Os under memory pressure
+are probably small, and there is no need to slow them down for no good
+reason.
