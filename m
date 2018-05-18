@@ -1,29 +1,115 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 18 May 2018 16:46:07 -0600
-Subject: [PATCH 5/7] nvme-pci: handle completions outside of the queue lock
-In-Reply-To: <20180518214857.GC31490@localhost.localdomain>
-References: <1526655155-4006-1-git-send-email-axboe@kernel.dk>
- <1526655155-4006-6-git-send-email-axboe@kernel.dk>
- <20180518210630.GD27795@localhost.localdomain>
- <93585ba6-32a3-d8aa-ad5c-ee22be3e8e8e@kernel.dk>
- <968c010b-7129-fdb2-44aa-03d76d8746e8@kernel.dk>
- <20180518212849.GB31490@localhost.localdomain>
- <266ee916-b86a-c499-20ff-98cf716059b5@kernel.dk>
- <20180518214857.GC31490@localhost.localdomain>
-Message-ID: <69e5d4a3-9751-c2dd-d17e-10485c8f09bb@kernel.dk>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Sat, 19 May 2018 07:03:58 +0800
+Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
+In-Reply-To: <20180518163823.27820-3-keith.busch@intel.com>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+ <20180518163823.27820-3-keith.busch@intel.com>
+Message-ID: <20180518230357.GC18334@ming.t460p>
 
-On 5/18/18 3:48 PM, Keith Busch wrote:
-> On Fri, May 18, 2018@03:31:47PM -0600, Jens Axboe wrote:
->> Alright, folded into that patch. This impacts the two patches after
->> this one too, updated versions all attached. Or find them here:
->>
->> http://git.kernel.dk/cgit/linux-block/log/?h=nvme-4.18
+On Fri, May 18, 2018@10:38:20AM -0600, Keith Busch wrote:
+> IO may be retryable, so don't wait for them in the reset path. These
+> commands may trigger a reset if that IO expires without a completion,
+> placing it on the requeue list. Waiting for these would then deadlock
+> the reset handler.
 > 
-> Cool, everything looks in order here. I've staged in my local repo and
-> ready to push, but playing it safe this time for the weekend to see if
-> Christoph or anyone else has concerns.
+> To fix the theoretical deadlock, this patch unblocks IO submission from
+> the reset_work as before, but moves the waiting to the IO safe scan_work
+> so that the reset_work may proceed to completion. Since the unfreezing
+> happens in the controller LIVE state, the nvme device has to track if
+> the queues were frozen now to prevent incorrect freeze depths.
+> 
+> This patch is also renaming the function 'nvme_dev_add' to a
+> more appropriate name that describes what it's actually doing:
+> nvme_alloc_io_tags.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c |  3 +++
+>  drivers/nvme/host/nvme.h |  1 +
+>  drivers/nvme/host/pci.c  | 46 +++++++++++++++++++++++++++++++++-------------
+>  3 files changed, 37 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 1de68b56b318..34d7731f1419 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -214,6 +214,7 @@ static inline bool nvme_req_needs_retry(struct request *req)
+>  	if (blk_noretry_request(req))
+>  		return false;
+>  	if (nvme_req(req)->status & NVME_SC_DNR)
+> +
+>  		return false;
+>  	if (nvme_req(req)->retries >= nvme_max_retries)
+>  		return false;
+> @@ -3177,6 +3178,8 @@ static void nvme_scan_work(struct work_struct *work)
+>  	struct nvme_id_ctrl *id;
+>  	unsigned nn;
+>  
+> +	if (ctrl->ops->update_hw_ctx)
+> +		ctrl->ops->update_hw_ctx(ctrl);
+>  	if (ctrl->state != NVME_CTRL_LIVE)
+>  		return;
+>  
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index c15c2ee7f61a..230c5424b197 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -320,6 +320,7 @@ struct nvme_ctrl_ops {
+>  	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+>  	int (*reinit_request)(void *data, struct request *rq);
+>  	void (*stop_ctrl)(struct nvme_ctrl *ctrl);
+> +	void (*update_hw_ctx)(struct nvme_ctrl *ctrl);
+>  };
+>  
+>  #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 2bd9d84f58d0..6a7cbc631d92 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -99,6 +99,7 @@ struct nvme_dev {
+>  	u32 cmbloc;
+>  	struct nvme_ctrl ctrl;
+>  	struct completion ioq_wait;
+> +	bool queues_froze;
+>  
+>  	/* shadow doorbell buffer support: */
+>  	u32 *dbbuf_dbs;
+> @@ -2065,10 +2066,33 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+>  	}
+>  }
+>  
+> +static void nvme_pci_update_hw_ctx(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_dev *dev = to_nvme_dev(ctrl);
+> +	bool unfreeze;
+> +
+> +	mutex_lock(&dev->shutdown_lock);
+> +	unfreeze = dev->queues_froze;
+> +	mutex_unlock(&dev->shutdown_lock);
 
-Sounds good, thanks Keith.
+What if nvme_dev_disable() just sets the .queues_froze flag and
+userspace sends a RESCAN command at the same time?
 
--- 
-Jens Axboe
+> +
+> +	if (unfreeze)
+> +		nvme_wait_freeze(&dev->ctrl);
+> +
+
+timeout may comes just before&during blk_mq_update_nr_hw_queues() or
+the above nvme_wait_freeze(), then both two may hang forever.
+
+> +	blk_mq_update_nr_hw_queues(ctrl->tagset, dev->online_queues - 1);
+> +	nvme_free_queues(dev, dev->online_queues);
+> +
+> +	if (unfreeze)
+> +		nvme_unfreeze(&dev->ctrl);
+> +
+> +	mutex_lock(&dev->shutdown_lock);
+> +	dev->queues_froze = false;
+> +	mutex_unlock(&dev->shutdown_lock);
+
+If the running scan work is triggered via user-space, the above code
+may clear the .queues_froze flag wrong.
+
+Thanks,
+Ming
