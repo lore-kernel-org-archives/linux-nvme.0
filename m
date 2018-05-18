@@ -1,29 +1,33 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 May 2018 10:38:21 -0600
-Subject: [PATCH 4/6] nvme: Allow reset from CONNECTING state
+Date: Fri, 18 May 2018 10:38:23 -0600
+Subject: [PATCH 6/6] nvme-pci: Rate limit the nvme timeout warnings
 In-Reply-To: <20180518163823.27820-1-keith.busch@intel.com>
 References: <20180518163823.27820-1-keith.busch@intel.com>
-Message-ID: <20180518163823.27820-4-keith.busch@intel.com>
+Message-ID: <20180518163823.27820-6-keith.busch@intel.com>
 
-A failed connection may be retryable. This patch allows the connecting
-state to initiate a reset so that it may try to connect again.
+The block layer's timeout handling currently refuses to let the driver
+complete commands outside the timeout callback once blk-mq decides they've
+expired. If a device breaks, this could potentially create many thousands
+of timed out commands. There's nothing of value to be gleaned from
+observing each of those messages, so this patch adds a ratelimit on them.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 34d7731f1419..bccc92206fba 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -293,6 +293,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_ADMIN_ONLY:
-+		case NVME_CTRL_CONNECTING:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ddfeb186d129..e4b91c246e36 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1251,7 +1251,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+  	 * returned to the driver, or if this is the admin queue.
+ 	 */
+ 	if (!nvmeq->qid || iod->aborted) {
+-		dev_warn(dev->ctrl.device,
++		dev_warn_ratelimited(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
+ 		nvme_dev_disable(dev, false);
 -- 
 2.14.3
