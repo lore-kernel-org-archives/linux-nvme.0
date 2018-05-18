@@ -1,93 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 May 2018 10:38:18 -0600
-Subject: [PATCH 1/6] nvme: Sync request queues on reset
-Message-ID: <20180518163823.27820-1-keith.busch@intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Fri, 18 May 2018 11:36:22 -0500
+Subject: [PATCH RFC v2 2/2] nvmet-rdma: support 16K inline data
+In-Reply-To: <20180518090852.GE24436@lst.de>
+References: <cover.1526505524.git.swise@opengridcomputing.com>
+ <e3c4d8a638b989aef554646d235aa45d633d9565.1526505524.git.swise@opengridcomputing.com>
+ <20180517115203.GB30345@lst.de>
+ <76914471-8d8a-cdec-e952-24b1e9a5ed72@opengridcomputing.com>
+ <20180518090852.GE24436@lst.de>
+Message-ID: <017801d3eec6$5b70c9d0$12525d70$@opengridcomputing.com>
 
-This patch fixes races that occur with simultaneous controller
-resets by synchronizing request queues prior to initializing the
-controller. Withouth this, a thread may attempt disabling a controller
-at the same time as we're trying to enable it.
+> 
+> On Thu, May 17, 2018@09:24:57AM -0500, Steve Wise wrote:
+> > >> +	ret = kstrtouint((const char *)page, 0, &size);
+> > > This cast looks bogus.
+> > >
+> > > Also inline_data_size shoul be and u32 as that is closest to what
+> > > is on the wire, and you thus should use kstrtou32 and pass the
+> > > inline_data_size straight to kstrtou32 instead of bouncing it through
+> > > a local variable.
+> >
+> > I made it an int so it could be initialized to -1 indicating it is not
+> > set by the config.? This allows the rdma transport to use its default
+> > value if the config does not specify any value.? I did this so the admin
+> > could totally disable inline by specifying 0.?? So I needed a value that
+> > indicates "unspecified".
+> 
+> Ok, make sense.  So lets keep that behavior, and let every negative
+> value mean default so that we don't need another error check here.
+> Rest of the comments above still stands.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 21 +++++++++++++++++++--
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  1 +
- 3 files changed, 21 insertions(+), 2 deletions(-)
+Agreed.  
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 99b857e5a7a9..1de68b56b318 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3471,6 +3471,12 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- }
- EXPORT_SYMBOL_GPL(nvme_init_ctrl);
- 
-+static void nvme_start_queue(struct nvme_ns *ns)
-+{
-+	blk_mq_unquiesce_queue(ns->queue);
-+	blk_mq_kick_requeue_list(ns->queue);
-+}
-+
- /**
-  * nvme_kill_queues(): Ends all namespace queues
-  * @ctrl: the dead controller that needs to end
-@@ -3499,7 +3505,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		blk_set_queue_dying(ns->queue);
- 
- 		/* Forcibly unquiesce queues to avoid blocking dispatch */
--		blk_mq_unquiesce_queue(ns->queue);
-+		nvme_start_queue(ns);
- 	}
- 	up_read(&ctrl->namespaces_rwsem);
- }
-@@ -3569,11 +3575,22 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
- 
- 	down_read(&ctrl->namespaces_rwsem);
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_unquiesce_queue(ns->queue);
-+		nvme_start_queue(ns);
- 	up_read(&ctrl->namespaces_rwsem);
- }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
- 
-+void nvme_sync_queues(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_sync_queue(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_sync_queues);
-+
- int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
- {
- 	if (!ctrl->ops->reinit_request)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 17d2f7cf3fed..c15c2ee7f61a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -407,6 +407,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res);
- 
-+void nvme_sync_queues(struct nvme_ctrl *ctrl);
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 17a0190bd88f..8da63402d474 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2312,6 +2312,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	 */
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
-+	nvme_sync_queues(&dev->ctrl);
- 
- 	/*
- 	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
--- 
-2.14.3
+Looking at nvmet_rdma_alloc_cmd(), I think I'll also need to fix rdma.c to
+support no inline data usage.
+
+Thanks!
+
+Steve.
