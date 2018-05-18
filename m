@@ -1,43 +1,42 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 18 May 2018 18:56:24 +0200
-Subject: [PATCH] PCI/sysfs: do not allow enabling/disabling a device with a
- driver
-Message-ID: <20180518165624.13993-1-hch@lst.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 18 May 2018 10:58:46 -0600
+Subject: [PATCH V6 11/11] nvme: pci: support nested EH
+In-Reply-To: <20180518135751.GI23555@localhost.localdomain>
+References: <20180516040313.13596-1-ming.lei@redhat.com>
+ <20180516040313.13596-12-ming.lei@redhat.com>
+ <20180516141242.GA20119@localhost.localdomain>
+ <20180516231058.GB28727@ming.t460p>
+ <20180517022030.GB21959@localhost.localdomain>
+ <20180518001958.GA2742@ming.t460p>
+ <20180518135751.GI23555@localhost.localdomain>
+Message-ID: <05640a87-b0bd-3ebb-7ff6-58645f658d88@kernel.dk>
 
-Manpulating the enable_cnt behind the back of the driver will wreck
-complete havok with the kernel state, so disallow it.
+On 5/18/18 7:57 AM, Keith Busch wrote:
+> On Fri, May 18, 2018@08:20:05AM +0800, Ming Lei wrote:
+>> What I think block/011 is helpful is that it can trigger IO timeout
+>> during reset, which can be triggered in reality too.
+> 
+> As I mentioned earlier, there is nothing wrong with the spirit of
+> the test. What's wrong with it is the misguided implemention.
+> 
+> Do you underestand why it ever passes? The success happens when the
+> enabling part of the loop happens to coincide with the driver's enabling,
+> creating the pci_dev->enable_cnt > 1, making subsequent disable parts
+> of the loop do absolutely nothing; the exact same as the one-liner
+> (non-serious) patch I sent to defeat the test.
+> 
+> A better way to induce the timeout is:
+> 
+>   # setpci -s <B:D.f> 4.w=0:6
+> 
+> This will halt the device without messing with the kernel structures,
+> just like how a real device failure would occur.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/pci/pci-sysfs.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Let's just improve/fix the test case. Sounds like the 'enable' sysfs
+attribute should never have been exported, and hence the test should
+never have used it. blktests is not the source of truth, necessarily,
+and it would be silly to work around cases in the kernel if it's a
+clear case of "doctor it hurts when I shoot myself in the foot".
 
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 366d93af051d..788a200fb2dc 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -288,13 +288,16 @@ static ssize_t enable_store(struct device *dev, struct device_attribute *attr,
- 	if (!capable(CAP_SYS_ADMIN))
- 		return -EPERM;
- 
--	if (!val) {
--		if (pci_is_enabled(pdev))
--			pci_disable_device(pdev);
--		else
--			result = -EIO;
--	} else
-+	device_lock(dev);
-+	if (dev->driver)
-+		result = -EBUSY;
-+	else if (val)
- 		result = pci_enable_device(pdev);
-+	else if (pci_is_enabled(pdev))
-+		pci_disable_device(pdev);
-+	else
-+		result = -EIO;
-+	device_unlock(dev);
- 
- 	return result < 0 ? result : count;
- }
 -- 
-2.17.0
+Jens Axboe
