@@ -1,33 +1,43 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 May 2018 10:38:23 -0600
-Subject: [PATCH 6/6] nvme-pci: Rate limit the nvme timeout warnings
-In-Reply-To: <20180518163823.27820-1-keith.busch@intel.com>
-References: <20180518163823.27820-1-keith.busch@intel.com>
-Message-ID: <20180518163823.27820-6-keith.busch@intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 18 May 2018 18:56:24 +0200
+Subject: [PATCH] PCI/sysfs: do not allow enabling/disabling a device with a
+ driver
+Message-ID: <20180518165624.13993-1-hch@lst.de>
 
-The block layer's timeout handling currently refuses to let the driver
-complete commands outside the timeout callback once blk-mq decides they've
-expired. If a device breaks, this could potentially create many thousands
-of timed out commands. There's nothing of value to be gleaned from
-observing each of those messages, so this patch adds a ratelimit on them.
+Manpulating the enable_cnt behind the back of the driver will wreck
+complete havok with the kernel state, so disallow it.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/pci-sysfs.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ddfeb186d129..e4b91c246e36 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1251,7 +1251,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-  	 * returned to the driver, or if this is the admin queue.
- 	 */
- 	if (!nvmeq->qid || iod->aborted) {
--		dev_warn(dev->ctrl.device,
-+		dev_warn_ratelimited(dev->ctrl.device,
- 			 "I/O %d QID %d timeout, reset controller\n",
- 			 req->tag, nvmeq->qid);
- 		nvme_dev_disable(dev, false);
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 366d93af051d..788a200fb2dc 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -288,13 +288,16 @@ static ssize_t enable_store(struct device *dev, struct device_attribute *attr,
+ 	if (!capable(CAP_SYS_ADMIN))
+ 		return -EPERM;
+ 
+-	if (!val) {
+-		if (pci_is_enabled(pdev))
+-			pci_disable_device(pdev);
+-		else
+-			result = -EIO;
+-	} else
++	device_lock(dev);
++	if (dev->driver)
++		result = -EBUSY;
++	else if (val)
+ 		result = pci_enable_device(pdev);
++	else if (pci_is_enabled(pdev))
++		pci_disable_device(pdev);
++	else
++		result = -EIO;
++	device_unlock(dev);
+ 
+ 	return result < 0 ? result : count;
+ }
 -- 
-2.14.3
+2.17.0
