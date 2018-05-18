@@ -1,86 +1,71 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 May 2018 10:38:22 -0600
-Subject: [PATCH 5/6] nvme-pci: Attempt reset retry for IO failures
+Date: Fri, 18 May 2018 10:38:19 -0600
+Subject: [PATCH 2/6] nvme-pci: Fix queue freeze criteria on reset
 In-Reply-To: <20180518163823.27820-1-keith.busch@intel.com>
 References: <20180518163823.27820-1-keith.busch@intel.com>
-Message-ID: <20180518163823.27820-5-keith.busch@intel.com>
+Message-ID: <20180518163823.27820-2-keith.busch@intel.com>
 
-If the reset failed due to a non-fatal error, this patch will attempt
-to reset the controller again, with a maximum of 4 attempts.
+The driver had been relying on the pci_dev to maintain the state of
+the pci device to know when starting a freeze would be appropriate. The
+blktests block/011 however shows us that users may alter the state of
+pci_dev out from under drivers and break the criteria we had been using.
 
-Since the failed reset case has changed purpose, this patch provides a
-more appropriate name and warning message for the reset failure.
+This patch uses the private nvme controller struct to track the
+enabling/disabling state. Since we're relying on that now, the reset will
+unconditionally disable the device on reset. This is necessary anyway
+on a controller failure reset, and was already being done in the reset
+during admin bring up, and is not harmful to do a second time.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6a7cbc631d92..ddfeb186d129 100644
+index 8da63402d474..2bd9d84f58d0 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -37,6 +37,8 @@
+@@ -2196,24 +2196,22 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
  
- #define SGES_PER_PAGE	(PAGE_SIZE / sizeof(struct nvme_sgl_desc))
+ 	mutex_lock(&dev->shutdown_lock);
+-	if (pci_is_enabled(pdev)) {
++	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE &&
++	    (dev->ctrl.state == NVME_CTRL_LIVE ||
++	     dev->ctrl.state == NVME_CTRL_RESETTING)) {
+ 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
  
-+#define MAX_RESET_FAILURES 4
-+
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
- 
-@@ -101,6 +103,8 @@ struct nvme_dev {
- 	struct completion ioq_wait;
- 	bool queues_froze;
- 
-+	int reset_failures;
-+
- 	/* shadow doorbell buffer support: */
- 	u32 *dbbuf_dbs;
- 	dma_addr_t dbbuf_dbs_dma_addr;
-@@ -2307,9 +2311,23 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- 	kfree(dev);
- }
- 
--static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
-+static void nvme_reset_failure(struct nvme_dev *dev, int status)
- {
--	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
-+	dev->reset_failures++;
-+	dev_warn(dev->ctrl.device, "Reset failure status: %d, failures:%d\n",
-+		status, dev->reset_failures);
-+
-+	/* IO and Interrupted Call may indicate a retryable error */
-+	switch (status) {
-+	case -EIO:
-+	case -EINTR:
-+		if (dev->reset_failures < MAX_RESET_FAILURES &&
-+		    !nvme_reset_ctrl(&dev->ctrl))
-+			return;
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	nvme_get_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, false);
-@@ -2410,14 +2428,16 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
- 		dev_warn(dev->ctrl.device,
- 			"failed to mark controller state %d\n", new_state);
-+		result = -ENODEV;
- 		goto out;
+-		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+-		    dev->ctrl.state == NVME_CTRL_RESETTING)
+-			nvme_start_freeze(&dev->ctrl);
++		nvme_start_freeze(&dev->ctrl);
+ 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
+-			pdev->error_state  != pci_channel_io_normal);
++			pci_channel_offline(pdev) || !pci_is_enabled(pdev));
  	}
  
-+	dev->reset_failures = 0;
- 	nvme_start_ctrl(&dev->ctrl);
- 	return;
+ 	/*
+ 	 * Give the controller a chance to complete all entered requests if
+ 	 * doing a safe shutdown.
+ 	 */
+-	if (!dead) {
+-		if (shutdown)
+-			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+-	}
++	if (!dead && shutdown)
++		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
  
-  out:
--	nvme_remove_dead_ctrl(dev, result);
-+	nvme_reset_failure(dev, result);
- }
+ 	nvme_stop_queues(&dev->ctrl);
  
- static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+@@ -2227,8 +2225,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		if (dev->host_mem_descs)
+ 			nvme_set_host_mem(dev, 0);
+ 		nvme_disable_io_queues(dev);
+-		nvme_disable_admin_queue(dev, shutdown);
+ 	}
++	nvme_disable_admin_queue(dev, shutdown);
+ 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
+ 		nvme_suspend_queue(&dev->queues[i]);
+ 
 -- 
 2.14.3
