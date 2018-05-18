@@ -1,43 +1,49 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 18 May 2018 11:06:33 +0200
-Subject: [PATCH V5] nvmet: add simple file backed ns support
-In-Reply-To: <BN6PR04MB1203154BDE61CFAD7ED095D986910@BN6PR04MB1203.namprd04.prod.outlook.com>
-References: <20180517124714.GA31470@lst.de>
- <BN6PR04MB1203154BDE61CFAD7ED095D986910@BN6PR04MB1203.namprd04.prod.outlook.com>
-Message-ID: <20180518090633.GD24436@lst.de>
+Date: Fri, 18 May 2018 11:08:52 +0200
+Subject: [PATCH RFC v2 2/2] nvmet-rdma: support 16K inline data
+In-Reply-To: <76914471-8d8a-cdec-e952-24b1e9a5ed72@opengridcomputing.com>
+References: <cover.1526505524.git.swise@opengridcomputing.com>
+ <e3c4d8a638b989aef554646d235aa45d633d9565.1526505524.git.swise@opengridcomputing.com>
+ <20180517115203.GB30345@lst.de>
+ <76914471-8d8a-cdec-e952-24b1e9a5ed72@opengridcomputing.com>
+Message-ID: <20180518090852.GE24436@lst.de>
 
-> > +???? ns->cachep = kmem_cache_create("nvmet-fs",
+On Thu, May 17, 2018@09:24:57AM -0500, Steve Wise wrote:
+> >> +	ret = kstrtouint((const char *)page, 0, &size);
+> > This cast looks bogus.
+> >
+> > Also inline_data_size shoul be and u32 as that is closest to what
+> > is on the wire, and you thus should use kstrtou32 and pass the
+> > inline_data_size straight to kstrtou32 instead of bouncing it through
+> > a local variable.
 > 
-> what about nvmet-bvec as the name?
+> I made it an int so it could be initialized to -1 indicating it is not
+> set by the config.? This allows the rdma transport to use its default
+> value if the config does not specify any value.? I did this so the admin
+> could totally disable inline by specifying 0.?? So I needed a value that
+> indicates "unspecified".
+
+Ok, make sense.  So lets keep that behavior, and let every negative
+value mean default so that we don't need another error check here.
+Rest of the comments above still stands.
+
+> >> +#define NVMET_DEFAULT_INLINE_DATA_SIZE	-1
+> > 0 makes much more sense as the default, and then we don't even need
+> > a name for it.
 > 
-> [CK] Also, while we are at it should I change the name of the?
-> following functions?currently present?in the io-cmd.c and add
-> suffix "bdev" ?
+> I wanted the user to be able to disable inline by setting it to 0.? Is
+> that not needed?? Maybe by adding back the nvmet_fabrics_ops field will
+> alleviate this issue.? Perhaps a default_inline_size field that rdma
+> sets to PAGE_SIZE.? Then configfs can default it to that.?
 
-Sounds good to me.  And please use bdev everywhere instead of blk
-or blkdev.
+As said above I think we can keep the negative means default, I'd
+still use the plain -1 instead of a define there.
 
 > 
-> 1.?nvmet_execute_write_zeroes
-> 2. nvmet_execute_dsm
-> 3. nvmet_execute_discard
-> 4. nvmet_discard_range
-> 5 .nvmet_discard_range
-> 6. nvmet_execute_rw
+> >> +#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
+> >> +#define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int, SZ_16K, PAGE_SIZE)
+> > So for 64k pages the minimum is bigger than the maximum? :)
+> 
+> For 64k pages, the default is 64K and the max is 64K.
 
-nvmet_bdev_*
-
-> [CK] Here we only issue sync I/O when nr_bvec > NVMET_MAX_MEMPOOL_BVEC, when
-> nr_bvec <=?NVMET_MAX_MEMPOOL_BVEC and we still allocate from mempool which
-> will result in?async I/O. We have to make this allocation info (mempool vs kmalloc_arrat)
-> accessible in the?callback function by?adding a new member to the struct nvmet_req
-> anonymous union.
-
-Sounds good.
-
-> Instead of adding a new member, since we are under memory pressure here can
-> we set is_sync unconditionally when we allocate from the mempool and force sync I/O?
-
-I don't think that makes sense.  A lot of I/Os under memory pressure
-are probably small, and there is no need to slow them down for no good
-reason.
+Indeed, sorry.
