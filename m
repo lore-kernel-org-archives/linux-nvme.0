@@ -1,19 +1,19 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 18 May 2018 17:44:08 -0600
-Subject: [PATCH 1/6] nvme: Sync request queues on reset
-In-Reply-To: <20180518223210.GB18334@ming.t460p>
-References: <20180518163823.27820-1-keith.busch@intel.com>
- <20180518223210.GB18334@ming.t460p>
-Message-ID: <20180518234408.GA31749@localhost.localdomain>
+Date: Fri, 18 May 2018 17:45:00 -0600
+Subject: [PATCH V6 11/11] nvme: pci: support nested EH
+In-Reply-To: <20180518222622.GA18334@ming.t460p>
+References: <20180516040313.13596-1-ming.lei@redhat.com>
+ <20180516040313.13596-12-ming.lei@redhat.com>
+ <20180516141242.GA20119@localhost.localdomain>
+ <20180516231058.GB28727@ming.t460p>
+ <20180517022030.GB21959@localhost.localdomain>
+ <20180518001958.GA2742@ming.t460p>
+ <20180518135751.GI23555@localhost.localdomain>
+ <20180518222622.GA18334@ming.t460p>
+Message-ID: <20180518234500.GB31749@localhost.localdomain>
 
-On Sat, May 19, 2018@06:32:11AM +0800, Ming Lei wrote:
-> This way can't sync timeout reliably, since timeout events can
-> come from two NS at the same time, and one may be handled as
-> RESET_TIMER, and another one can be handled as EH_HANDLED.
+On Sat, May 19, 2018@06:26:28AM +0800, Ming Lei wrote:
+> So could we please face to the real issue instead of working around
+> test case?
 
-You keep saying that, but the controller state is global to the
-controller. It doesn't matter which namespace request_queue started the
-reset: every namespaces request queue sees the RESETTING controller state
-from the point the syncing occurs, and they don't return RESET_TIMER,
-and on top of that, the reset reclaims every single IO command no matter
-what namespace request_queue initiated the reset.
+Yes, that's why I want you to stop referencing the broken test.
