@@ -1,57 +1,105 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 18 May 2018 09:01:48 +0800
-Subject: [PATCH V6 11/11] nvme: pci: support nested EH
-In-Reply-To: <20180518001958.GA2742@ming.t460p>
-References: <20180516040313.13596-1-ming.lei@redhat.com>
- <20180516040313.13596-12-ming.lei@redhat.com>
- <20180516141242.GA20119@localhost.localdomain>
- <20180516231058.GB28727@ming.t460p>
- <20180517022030.GB21959@localhost.localdomain>
- <20180518001958.GA2742@ming.t460p>
-Message-ID: <20180518010147.GB2742@ming.t460p>
+From: pickup112@gmail.com (=?UTF-8?B?5p2O5pil?=)
+Date: Fri, 18 May 2018 15:19:22 +0800
+Subject: can not load more than 51 nvme rdma device
+In-Reply-To: <CAGpjB9++ehsb91nE+An2vg6n4E0HWxomA2zOTuwH4-yn=tD2Vg@mail.gmail.com>
+References: <CAGpjB9J2F3VhGnPe+uXSmuu-H0dTfbQT+5fOem4j_vsBcwGfwQ@mail.gmail.com>
+ <47711850-d805-d5b3-2b7b-ed9acbee514a@mellanox.com>
+ <CAGpjB9JN-L0F=iYRzuSLKyz+0kAwUL=qn4Xp7hLsEO2RSUtSfw@mail.gmail.com>
+ <CAGpjB9++ehsb91nE+An2vg6n4E0HWxomA2zOTuwH4-yn=tD2Vg@mail.gmail.com>
+Message-ID: <CAGpjB9LU9S09OnXvPfqKb7tERtR29pONEPC-CehtM-upAGevHg@mail.gmail.com>
 
-On Fri, May 18, 2018@08:19:58AM +0800, Ming Lei wrote:
-> On Wed, May 16, 2018@08:20:31PM -0600, Keith Busch wrote:
-> > Hi Ming,
-> > 
-> > I'm developing the answers in code the issues you raised. It will just
-> > take a moment to complete flushing those out. In the meantime just want
-> > to point out why I think block/011 isn't a real test.
-> > 
-> > On Thu, May 17, 2018@07:10:59AM +0800, Ming Lei wrote:
-> > > All simulation in block/011 may happen in reality.
-> > 
-> > If this test actually simulates reality, then the following one line
-> > patch (plus explanation for why) would be a real "fix" as this is very
-> > successful in passing block/011. :)
-> > 
-> > ---
-> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > index 1faa32cd07da..dcc5746304c4 100644
-> > --- a/drivers/nvme/host/pci.c
-> > +++ b/drivers/nvme/host/pci.c
-> > @@ -2118,6 +2118,12 @@ static int nvme_pci_enable(struct nvme_dev *dev)
-> >  
-> >  	if (pci_enable_device_mem(pdev))
-> >  		return result;
-> > +	/*
-> > +	 * blktests block/011 disables the device without the driver knowing.
-> > +	 * We'll just enable the device twice to get the enable_cnt > 1
-> > +	 * so that the test's disabling does absolutely nothing.
-> > +	 */
-> > +	pci_enable_device_mem(pdev);
-> 
-> What I think block/011 is helpful is that it can trigger IO timeout
-> during reset, which can be triggered in reality too.
-> 
-> That is one big problem of NVMe driver, IMO.
-> 
-> And this patch does fix this issue, together other timeout related
-> races.
+I have found a way to get the max_nr
+```
+$ibv_devinfo -v |grep max_mr
+         max_mr_size:                    0xffffffffffffffff
+         max_mr:                         524272
+```
 
-BTW, the above patch may not be enough to 'fix' this NVMe issue, I guess
-you may have to figure out another one to remove fault-injection, or at
-least disable io-timeout-fail on NVMe.
+According to what you said:
+In NVNe/RDMA We create "queue-size" number of MRs per each created IO queue
 
-Thanks,
-Ming
+524272 / 128 / 10 = 409.6 we should nvme connect 409 target, isn't it?
+?? <pickup112 at gmail.com> ?2018?5?17??? ??3:50???
+
+> another question?
+> And how can we get how many MRs left in the Infiniband CA.
+> ?? <pickup112 at gmail.com> ?2018?5?17??? ??3:15???
+
+> > Thanks for you help.
+
+
+> > > Any reason for this type of 1:1 configuration ?
+> > > Can you expose all 100 disks using 1 subsystem or 10 disks per
+> subsystem ?
+> > > Do you understand the difference in resource allocation between both
+> > cases ?
+
+> > Our actual production environment will use IB switches for interconnect
+in
+> > a cluster. And in the actual production environment, we may also have
+> > hundreds of disks output to the same node.
+> > After we found this problem with io_queue, we recreated the problem in a
+> > test environment with two nodes directly connected.
+> > We know the difference you mentioned, but in the actual production
+> > environment, we do have more than 51 targets loaded. So want to
+understand
+> > thoroughly why this restriction occurs and whether there is a way to get
+> > around this limitation
+
+
+> > > try to use --queue-size=16 in your conect command.
+> > > You don't realy need so many resources (10 io queues with 128
+queue-size
+> > > each) to saturate 56Gb wire.
+
+> > How can we turn the size of nr-io-queues or queue-size. Is there a best
+> > practice for our scenario?
+> > Increase or decrease the queue-size/nr-io-queues will impact what?
+> > so if nr-io-queues * queue-size * nvme_connect_number> max_mr, we will
+> meet
+> > the error.
+
+> > > This is because you try to allocate more MRs that the maximum support
+of
+> > > the device.
+> > > In NVNe/RDMA We create "queue-size" number of MRs per each created IO
+> > queue.
+
+> > How can we know the maximum MRs  support by the device?
+> > Do you mean that MR refers to Memory Region?
+
+> > > The max_mr for this adapter is much bigger.
+> > > If the above solutions are not enough, then we can dig-in more to low
+> > > level drivers...
+
+> > According to what you said above, max_mr is just the hardware attribute,
+> > not related to Linux, nvme, rdma, is't it?
+
+> > Whether max_mr is the attribute of a network card or a port on a network
+> > card? according to my test on this side, after a port of a network card
+> > reports an error on the dual port network card, another port can
+continue
+> > to load a new target.
+
+> > Can you suggest any information or document  which introduce
+relationship
+> > between queue-size, nr_io_queues and MRs.
+
+
+
+
+
+
+
+> > --
+> > pickup.lichun ??
+
+
+
+> --
+> pickup.lichun ??
+
+
+
+-- 
+pickup.lichun ??
