@@ -1,47 +1,74 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 19 May 2018 06:26:28 +0800
-Subject: [PATCH V6 11/11] nvme: pci: support nested EH
-In-Reply-To: <20180518135751.GI23555@localhost.localdomain>
-References: <20180516040313.13596-1-ming.lei@redhat.com>
- <20180516040313.13596-12-ming.lei@redhat.com>
- <20180516141242.GA20119@localhost.localdomain>
- <20180516231058.GB28727@ming.t460p>
- <20180517022030.GB21959@localhost.localdomain>
- <20180518001958.GA2742@ming.t460p>
- <20180518135751.GI23555@localhost.localdomain>
-Message-ID: <20180518222622.GA18334@ming.t460p>
+Date: Sat, 19 May 2018 06:32:11 +0800
+Subject: [PATCH 1/6] nvme: Sync request queues on reset
+In-Reply-To: <20180518163823.27820-1-keith.busch@intel.com>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+Message-ID: <20180518223210.GB18334@ming.t460p>
 
-On Fri, May 18, 2018@07:57:51AM -0600, Keith Busch wrote:
-> On Fri, May 18, 2018@08:20:05AM +0800, Ming Lei wrote:
-> > What I think block/011 is helpful is that it can trigger IO timeout
-> > during reset, which can be triggered in reality too.
+On Fri, May 18, 2018@10:38:18AM -0600, Keith Busch wrote:
+> This patch fixes races that occur with simultaneous controller
+> resets by synchronizing request queues prior to initializing the
+> controller. Withouth this, a thread may attempt disabling a controller
+> at the same time as we're trying to enable it.
 > 
-> As I mentioned earlier, there is nothing wrong with the spirit of
-> the test. What's wrong with it is the misguided implemention.
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 21 +++++++++++++++++++--
+>  drivers/nvme/host/nvme.h |  1 +
+>  drivers/nvme/host/pci.c  |  1 +
+>  3 files changed, 21 insertions(+), 2 deletions(-)
 > 
-> Do you underestand why it ever passes? The success happens when the
-> enabling part of the loop happens to coincide with the driver's enabling,
-> creating the pci_dev->enable_cnt > 1, making subsequent disable parts
-> of the loop do absolutely nothing; the exact same as the one-liner
-> (non-serious) patch I sent to defeat the test.
-> 
-> A better way to induce the timeout is:
-> 
->   # setpci -s <B:D.f> 4.w=0:6
-> 
-> This will halt the device without messing with the kernel structures,
-> just like how a real device failure would occur.
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 99b857e5a7a9..1de68b56b318 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3471,6 +3471,12 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_init_ctrl);
+>  
+> +static void nvme_start_queue(struct nvme_ns *ns)
+> +{
+> +	blk_mq_unquiesce_queue(ns->queue);
+> +	blk_mq_kick_requeue_list(ns->queue);
+> +}
+> +
+>  /**
+>   * nvme_kill_queues(): Ends all namespace queues
+>   * @ctrl: the dead controller that needs to end
+> @@ -3499,7 +3505,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>  		blk_set_queue_dying(ns->queue);
+>  
+>  		/* Forcibly unquiesce queues to avoid blocking dispatch */
+> -		blk_mq_unquiesce_queue(ns->queue);
+> +		nvme_start_queue(ns);
+>  	}
+>  	up_read(&ctrl->namespaces_rwsem);
+>  }
+> @@ -3569,11 +3575,22 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>  
+>  	down_read(&ctrl->namespaces_rwsem);
+>  	list_for_each_entry(ns, &ctrl->namespaces, list)
+> -		blk_mq_unquiesce_queue(ns->queue);
+> +		nvme_start_queue(ns);
+>  	up_read(&ctrl->namespaces_rwsem);
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_start_queues);
+>  
+> +void nvme_sync_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ns *ns;
+> +
+> +	down_read(&ctrl->namespaces_rwsem);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +		blk_sync_queue(ns->queue);
+> +	up_read(&ctrl->namespaces_rwsem);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_sync_queues);
 
-Frankly speaking, I don't care how the test-case is implemented at all.
+This way can't sync timeout reliably, since timeout events can
+come from two NS at the same time, and one may be handled as
+RESET_TIMER, and another one can be handled as EH_HANDLED.
 
-The big problem is that NVMe driver can't handle IO time-out during
-reset context, and finally either the controller becomes DEAD or reset
-context hangs forever, and everything can't move on.
-
-The issue can be reproduced easier via io-timeout-fail fault injection.
-
-So could we please face to the real issue instead of working around
-test case?
 
 Thanks,
 Ming
