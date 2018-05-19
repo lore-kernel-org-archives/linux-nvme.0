@@ -1,31 +1,29 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 19 May 2018 07:51:29 +0800
-Subject: [PATCH V6 11/11] nvme: pci: support nested EH
-In-Reply-To: <20180518234500.GB31749@localhost.localdomain>
-References: <20180516040313.13596-1-ming.lei@redhat.com>
- <20180516040313.13596-12-ming.lei@redhat.com>
- <20180516141242.GA20119@localhost.localdomain>
- <20180516231058.GB28727@ming.t460p>
- <20180517022030.GB21959@localhost.localdomain>
- <20180518001958.GA2742@ming.t460p>
- <20180518135751.GI23555@localhost.localdomain>
- <20180518222622.GA18334@ming.t460p>
- <20180518234500.GB31749@localhost.localdomain>
-Message-ID: <20180518235128.GA19799@ming.t460p>
+Date: Sat, 19 May 2018 08:01:42 +0800
+Subject: [PATCH 1/6] nvme: Sync request queues on reset
+In-Reply-To: <20180518234408.GA31749@localhost.localdomain>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+ <20180518223210.GB18334@ming.t460p>
+ <20180518234408.GA31749@localhost.localdomain>
+Message-ID: <20180519000141.GB19799@ming.t460p>
 
-On Fri, May 18, 2018@05:45:00PM -0600, Keith Busch wrote:
-> On Sat, May 19, 2018@06:26:28AM +0800, Ming Lei wrote:
-> > So could we please face to the real issue instead of working around
-> > test case?
+On Fri, May 18, 2018@05:44:08PM -0600, Keith Busch wrote:
+> On Sat, May 19, 2018@06:32:11AM +0800, Ming Lei wrote:
+> > This way can't sync timeout reliably, since timeout events can
+> > come from two NS at the same time, and one may be handled as
+> > RESET_TIMER, and another one can be handled as EH_HANDLED.
 > 
-> Yes, that's why I want you to stop referencing the broken test.
+> You keep saying that, but the controller state is global to the
+> controller. It doesn't matter which namespace request_queue started the
+> reset: every namespaces request queue sees the RESETTING controller state
 
-Unfortunately I don't care if it is broken or not, and I think
-the test case is great because it can expose the real problem.
-That is its value!
+When timeouts come, the global state of RESETTING may not be updated
+yet, so all the timeouts may not observe the state.
 
-The reason why I referenced this test is that everyone can reproduce
-this real issue easily, that is it.
+Please see my previous explanation:
+
+https://marc.info/?l=linux-block&m=152600464317808&w=2
+
 
 Thanks,
 Ming
