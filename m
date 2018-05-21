@@ -1,33 +1,31 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 21 May 2018 17:11:30 -0600
-Subject: [RFC PATCH 2/3] blk-mq: Fix timeout and state order
-In-Reply-To: <20180521231131.6685-1-keith.busch@intel.com>
-References: <20180521231131.6685-1-keith.busch@intel.com>
-Message-ID: <20180521231131.6685-3-keith.busch@intel.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 21 May 2018 16:27:42 -0700
+Subject: [PATCH] nvmet-fc: increase LS buffer count per fc port
+Message-ID: <20180521232742.10813-1-jsmart2021@gmail.com>
 
-The block layer had been setting the state to in-flight prior to updating
-the timer. This is the wrong order since the timeout handler could observe
-the in-flight state with the older timeout, believing the request had
-expired when in fact it is just getting started.
+Todays limit on concurrent LS's is very small - 4 buffers. With large
+subsystem counts or large numbers of initiators connecting, the limit
+may be exceeded.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Raise the LS buffer count to 256.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- block/blk-mq.c | 2 +-
+ drivers/nvme/target/fc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 8b370ed75605..66e5c768803f 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -713,8 +713,8 @@ void blk_mq_start_request(struct request *rq)
- 	preempt_disable();
- 	write_seqcount_begin(&rq->gstate_seq);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 33ee8d3145f8..408279cb6f2c 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -31,7 +31,7 @@
+ /* *************************** Data Structures/Defines ****************** */
  
--	blk_mq_rq_update_state(rq, MQ_RQ_IN_FLIGHT);
- 	blk_add_timer(rq);
-+	blk_mq_rq_update_state(rq, MQ_RQ_IN_FLIGHT);
  
- 	write_seqcount_end(&rq->gstate_seq);
- 	preempt_enable();
+-#define NVMET_LS_CTX_COUNT		4
++#define NVMET_LS_CTX_COUNT		256
+ 
+ /* for this implementation, assume small single frame rqst/rsp */
+ #define NVME_FC_MAX_LS_BUFFER_SIZE		2048
 -- 
-2.14.3
+2.13.1
