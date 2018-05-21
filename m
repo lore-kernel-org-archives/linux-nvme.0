@@ -1,21 +1,42 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 21 May 2018 10:25:17 -0600
-Subject: [PATCH 1/6] nvme: Sync request queues on reset
-In-Reply-To: <20180521160830.GA19858@ming.t460p>
-References: <20180518163823.27820-1-keith.busch@intel.com>
- <20180518223210.GB18334@ming.t460p>
- <20180518234408.GA31749@localhost.localdomain>
- <20180519000141.GB19799@ming.t460p>
- <20180521140413.GA5528@localhost.localdomain>
- <20180521152536.GB19099@ming.t460p>
- <20180521155909.GK5528@localhost.localdomain>
- <20180521160830.GA19858@ming.t460p>
-Message-ID: <20180521162517.GN5528@localhost.localdomain>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 21 May 2018 11:29:04 -0700
+Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
+In-Reply-To: <20180514114042.12082-1-jthumshirn@suse.de>
+References: <20180514114042.12082-1-jthumshirn@suse.de>
+Message-ID: <20180521182904.GA14774@vader>
 
-On Tue, May 22, 2018@12:08:37AM +0800, Ming Lei wrote:
-> Please take a look at blk_mq_complete_request(). Even with Bart's
-> change, the request still won't be completed by driver. The request can
-> only be completed by either driver or blk-mq, not both.
+On Mon, May 14, 2018@01:40:42PM +0200, Johannes Thumshirn wrote:
+> The config file is bash and it gets sourced, so all bash magic is
+> doable in there as well. Document it so others don't have to
+> re-discover this gem as well.
 
-So you're saying blk-mq can't complete a request the driver returned to
-blk-mq to complete. And that's the nvme driver's problem to fix?
+I'm supportive of this...
+
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  Documentation/running-tests.md | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
+> index a479d5e94c5e..b477c0679683 100644
+> --- a/Documentation/running-tests.md
+> +++ b/Documentation/running-tests.md
+> @@ -66,3 +66,15 @@ command line option.
+>  QUICK_RUN=1
+>  TIMEOUT=30
+>  ```
+> +
+> +### Pre-test setups
+> +
+> +Some tests, may need special prerequisites, like configfs being
+> +mounted for NVMe over Fabrics tests. You can add your custom bash
+> +scriptlets to `config` to get this done, e.g.:
+> +
+> +```sh
+> +if ! test $(grep -q configfs /proc/mounts) ; then
+> +        mount -t configfs none /sys/kernel/config
+> +fi
+> +```
+
+But I'm curious about this specific example. Is this not mounted for you
+automatically? I'm guessing systemd does it for me on my setup.
