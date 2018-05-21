@@ -1,26 +1,32 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 21 May 2018 08:43:04 -0600
-Subject: [PATCH 5/7] nvme-pci: handle completions outside of the queue lock
-In-Reply-To: <20180521144000.GF5528@localhost.localdomain>
-References: <20180518210630.GD27795@localhost.localdomain>
- <93585ba6-32a3-d8aa-ad5c-ee22be3e8e8e@kernel.dk>
- <968c010b-7129-fdb2-44aa-03d76d8746e8@kernel.dk>
- <20180518212849.GB31490@localhost.localdomain>
- <266ee916-b86a-c499-20ff-98cf716059b5@kernel.dk>
- <20180518214857.GC31490@localhost.localdomain>
- <6ca20e7c-0a0a-6dc4-e2d4-012b63a7ad0d@kernel.dk>
- <20180521142305.GD5528@localhost.localdomain>
- <eb85e457-7f90-fce4-9d1b-bd3471f6b396@kernel.dk>
- <20180521144000.GF5528@localhost.localdomain>
-Message-ID: <20180521144304.GG5528@localhost.localdomain>
+Date: Mon, 21 May 2018 09:03:31 -0600
+Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
+In-Reply-To: <20180521145850.GA19099@ming.t460p>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+ <20180518163823.27820-3-keith.busch@intel.com>
+ <20180518230357.GC18334@ming.t460p>
+ <20180521142219.GC5528@localhost.localdomain>
+ <20180521145850.GA19099@ming.t460p>
+Message-ID: <20180521150331.GI5528@localhost.localdomain>
 
-(resending; experiencing some growing pains after switching to a new
-email address)
+On Mon, May 21, 2018@10:58:51PM +0800, Ming Lei wrote:
+> On Mon, May 21, 2018@08:22:19AM -0600, Keith Busch wrote:
+> > On Sat, May 19, 2018@07:03:58AM +0800, Ming Lei wrote:
+> > > On Fri, May 18, 2018@10:38:20AM -0600, Keith Busch wrote:
+> > > > +
+> > > > +	if (unfreeze)
+> > > > +		nvme_wait_freeze(&dev->ctrl);
+> > > > +
+> > > 
+> > > timeout may comes just before&during blk_mq_update_nr_hw_queues() or
+> > > the above nvme_wait_freeze(), then both two may hang forever.
+> > 
+> > Why would it hang forever? The scan_work doesn't stop a timeout from
+> > triggering a reset to reclaim requests necessary to complete a freeze.
+> 
+> nvme_dev_disable() will quiesce queues, then nvme_wait_freeze() or
+> blk_mq_update_nr_hw_queues() may hang forever.
 
-On Mon, May 21, 2018@08:40:00AM -0600, Keith Busch wrote:
-> > Fixes: 5cb525c8315f ("nvme-pci: handle completions outside of the queue lock")
-> > Reported-by: Keith Busch <keith.busch at intel.com>
-> > Signed-off-by: Jens Axboe <axboe at kernel.dk>
- 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Tested-by: Keith Busch <keith.busch at intel.com>
+nvme_dev_disable is just the first part of the timeout sequence. You
+have to follow it through to the reset_work that either restarts or
+kills the queues.
