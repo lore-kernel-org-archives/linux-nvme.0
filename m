@@ -1,21 +1,21 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 21 May 2018 08:23:06 -0600
-Subject: [PATCH 5/7] nvme-pci: handle completions outside of the queue lock
-In-Reply-To: <6ca20e7c-0a0a-6dc4-e2d4-012b63a7ad0d@kernel.dk>
-References: <1526655155-4006-1-git-send-email-axboe@kernel.dk>
- <1526655155-4006-6-git-send-email-axboe@kernel.dk>
- <20180518210630.GD27795@localhost.localdomain>
- <93585ba6-32a3-d8aa-ad5c-ee22be3e8e8e@kernel.dk>
- <968c010b-7129-fdb2-44aa-03d76d8746e8@kernel.dk>
- <20180518212849.GB31490@localhost.localdomain>
- <266ee916-b86a-c499-20ff-98cf716059b5@kernel.dk>
- <20180518214857.GC31490@localhost.localdomain>
- <6ca20e7c-0a0a-6dc4-e2d4-012b63a7ad0d@kernel.dk>
-Message-ID: <20180521142305.GD5528@localhost.localdomain>
+Date: Mon, 21 May 2018 08:22:19 -0600
+Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
+In-Reply-To: <20180518230357.GC18334@ming.t460p>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+ <20180518163823.27820-3-keith.busch@intel.com>
+ <20180518230357.GC18334@ming.t460p>
+Message-ID: <20180521142219.GC5528@localhost.localdomain>
 
-On Mon, May 21, 2018@08:18:05AM -0600, Jens Axboe wrote:
-> Shall we get it pushed? Might also not be a bad idea to do an early
-> pull for linux-block as well, with two weeks until the merge window
-> opens, for greater exposure.
+On Sat, May 19, 2018@07:03:58AM +0800, Ming Lei wrote:
+> On Fri, May 18, 2018@10:38:20AM -0600, Keith Busch wrote:
+> > +
+> > +	if (unfreeze)
+> > +		nvme_wait_freeze(&dev->ctrl);
+> > +
+> 
+> timeout may comes just before&during blk_mq_update_nr_hw_queues() or
+> the above nvme_wait_freeze(), then both two may hang forever.
 
-Sounds good, series pushed to nvme-4.18.
+Why would it hang forever? The scan_work doesn't stop a timeout from
+triggering a reset to reclaim requests necessary to complete a freeze.
