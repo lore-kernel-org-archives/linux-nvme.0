@@ -1,53 +1,35 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 21 May 2018 08:04:13 -0600
-Subject: [PATCH 1/6] nvme: Sync request queues on reset
-In-Reply-To: <20180519000141.GB19799@ming.t460p>
-References: <20180518163823.27820-1-keith.busch@intel.com>
- <20180518223210.GB18334@ming.t460p>
- <20180518234408.GA31749@localhost.localdomain>
- <20180519000141.GB19799@ming.t460p>
-Message-ID: <20180521140413.GA5528@localhost.localdomain>
+Date: Mon, 21 May 2018 08:08:21 -0600
+Subject: [PATCH blktests] Fix block/011 to not use sysfs for device
+ disabling
+In-Reply-To: <1352065975.3088816.1526884676038.JavaMail.zimbra@redhat.com>
+References: <20180518174247.31098-1-keith.busch@intel.com>
+ <1352065975.3088816.1526884676038.JavaMail.zimbra@redhat.com>
+Message-ID: <20180521140821.GB5528@localhost.localdomain>
 
-On Sat, May 19, 2018@08:01:42AM +0800, Ming Lei wrote:
-> > You keep saying that, but the controller state is global to the
-> > controller. It doesn't matter which namespace request_queue started the
-> > reset: every namespaces request queue sees the RESETTING controller state
+On Mon, May 21, 2018@02:37:56AM -0400, Yi Zhang wrote:
+> Hi Keith
+> I tried this patch on my R730 Server, but it lead to system hang after setpci, could you help check it, thanks.
 > 
-> When timeouts come, the global state of RESETTING may not be updated
-> yet, so all the timeouts may not observe the state.
+> Console log:
+> storageqe-62 login: 
+> Kernel 4.17.0-rc5 on an x86_64
+> 
+> storageqe-62 login: [ 1058.118258] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 3
+> [ 1058.118261] {1}[Hardware Error]: event severity: fatal
+> [ 1058.118262] {1}[Hardware Error]:  Error 0, type: fatal
+> [ 1058.118265] {1}[Hardware Error]:   section_type: PCIe error
+> [ 1058.118266] {1}[Hardware Error]:   port_type: 0, PCIe end point
+> [ 1058.118267] {1}[Hardware Error]:   version: 1.16
+> [ 1058.118269] {1}[Hardware Error]:   command: 0x0400, status: 0x0010
+> [ 1058.118270] {1}[Hardware Error]:   device_id: 0000:85:00.0
+> [ 1058.118271] {1}[Hardware Error]:   slot: 0
+> [ 1058.118271] {1}[Hardware Error]:   secondary_bus: 0x00
+> [ 1058.118273] {1}[Hardware Error]:   vendor_id: 0x144d, device_id: 0xa821
+> [ 1058.118274] {1}[Hardware Error]:   class_code: 020801
+> [ 1058.118275] Kernel panic - not syncing: Fatal hardware error!
+> [ 1058.118301] Kernel Offset: 0x14800000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
 
-Even prior to the RESETING state, every single command, no matter
-which namespace or request_queue it came on, is reclaimed by the driver.
-There *should* be no requests to timeout after nvme_dev_disable is called
-because the nvme driver returned control of all requests in the tagset
-to blk-mq.
-
-In any case, if blk-mq decides it won't complete those requests, we
-can just swap the order in the reset_work: sync first, uncondintionally
-disable. Does the following snippet look more okay?
-
----
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 17a0190bd88f..42af077ee07a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2307,11 +2307,14 @@ static void nvme_reset_work(struct work_struct *work)
- 		goto out;
- 
- 	/*
--	 * If we're called to reset a live controller first shut it down before
--	 * moving on.
-+	 * Ensure there are no timeout work in progress prior to forcefully
-+	 * disabling the queue. There is no harm in disabling the device even
-+	 * when it was already disabled, as this will forcefully reclaim any
-+	 * IOs that are stuck due to blk-mq's timeout handling that prevents
-+	 * timed out requests from completing.
- 	 */
--	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
--		nvme_dev_disable(dev, false);
-+	nvme_sync_queues(&dev->ctrl);
-+	nvme_dev_disable(dev, false);
- 
- 	/*
- 	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
---
+Thanks for the notice. The test may be going to far with the config
+registers it's touching. Let me see if we just do the BME bit as Ming
+suggested fixes this.
