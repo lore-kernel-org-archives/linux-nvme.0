@@ -1,84 +1,53 @@
-From: yi.zhang@redhat.com (Yi Zhang)
-Date: Mon, 21 May 2018 02:37:56 -0400 (EDT)
-Subject: [PATCH blktests] Fix block/011 to not use sysfs for device
- disabling
-In-Reply-To: <20180518174247.31098-1-keith.busch@intel.com>
-References: <20180518174247.31098-1-keith.busch@intel.com>
-Message-ID: <1352065975.3088816.1526884676038.JavaMail.zimbra@redhat.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 21 May 2018 08:04:13 -0600
+Subject: [PATCH 1/6] nvme: Sync request queues on reset
+In-Reply-To: <20180519000141.GB19799@ming.t460p>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+ <20180518223210.GB18334@ming.t460p>
+ <20180518234408.GA31749@localhost.localdomain>
+ <20180519000141.GB19799@ming.t460p>
+Message-ID: <20180521140413.GA5528@localhost.localdomain>
 
-Hi Keith
-I tried this patch on my R730 Server, but it lead to system hang after setpci, could you help check it, thanks.
+On Sat, May 19, 2018@08:01:42AM +0800, Ming Lei wrote:
+> > You keep saying that, but the controller state is global to the
+> > controller. It doesn't matter which namespace request_queue started the
+> > reset: every namespaces request queue sees the RESETTING controller state
+> 
+> When timeouts come, the global state of RESETTING may not be updated
+> yet, so all the timeouts may not observe the state.
 
-Console log:
-storageqe-62 login: 
-Kernel 4.17.0-rc5 on an x86_64
+Even prior to the RESETING state, every single command, no matter
+which namespace or request_queue it came on, is reclaimed by the driver.
+There *should* be no requests to timeout after nvme_dev_disable is called
+because the nvme driver returned control of all requests in the tagset
+to blk-mq.
 
-storageqe-62 login: [ 1058.118258] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 3
-[ 1058.118261] {1}[Hardware Error]: event severity: fatal
-[ 1058.118262] {1}[Hardware Error]:  Error 0, type: fatal
-[ 1058.118265] {1}[Hardware Error]:   section_type: PCIe error
-[ 1058.118266] {1}[Hardware Error]:   port_type: 0, PCIe end point
-[ 1058.118267] {1}[Hardware Error]:   version: 1.16
-[ 1058.118269] {1}[Hardware Error]:   command: 0x0400, status: 0x0010
-[ 1058.118270] {1}[Hardware Error]:   device_id: 0000:85:00.0
-[ 1058.118271] {1}[Hardware Error]:   slot: 0
-[ 1058.118271] {1}[Hardware Error]:   secondary_bus: 0x00
-[ 1058.118273] {1}[Hardware Error]:   vendor_id: 0x144d, device_id: 0xa821
-[ 1058.118274] {1}[Hardware Error]:   class_code: 020801
-[ 1058.118275] Kernel panic - not syncing: Fatal hardware error!
-[ 1058.118301] Kernel Offset: 0x14800000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+In any case, if blk-mq decides it won't complete those requests, we
+can just swap the order in the reset_work: sync first, uncondintionally
+disable. Does the following snippet look more okay?
 
-
-Best Regards,
-  Yi Zhang
-
-
------ Original Message -----
-From: "Keith Busch" <keith.busch@intel.com>
-To: "Omar Sandoval" <osandov at osandov.com>, linux-block at vger.kernel.org, linux-nvme at lists.infradead.org
-Cc: "Johannes Thumshirn" <jthumshirn at suse.de>, "Christoph Hellwig" <hch at lst.de>, "Jens Axboe" <axboe at kernel.dk>, "Ming Lei" <ming.lei at redhat.com>, "Keith Busch" <keith.busch at intel.com>
-Sent: Saturday, May 19, 2018 1:42:47 AM
-Subject: [PATCH blktests] Fix block/011 to not use sysfs for device disabling
-
-The PCI sysfs interface may not be a dependable method for toggling the
-PCI device state to trigger the timeouts. This patch goes directly to
-the config space to make device failure occur.
-
-The success of this test is still senstive to timing, as it may disable
-IO memory when a driver is trying to bring it online. This can look like
-a permanent device failure from the driver's perspective.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- tests/block/011 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/tests/block/011 b/tests/block/011
-index 62e89f7..2fc0ffb 100755
---- a/tests/block/011
-+++ b/tests/block/011
-@@ -21,7 +21,7 @@ DESCRIPTION="disable PCI device while doing I/O"
- TIMED=1
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 17a0190bd88f..42af077ee07a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2307,11 +2307,14 @@ static void nvme_reset_work(struct work_struct *work)
+ 		goto out;
  
- requires() {
--	_have_fio
-+	_have_fio && _have_program setpci
- }
+ 	/*
+-	 * If we're called to reset a live controller first shut it down before
+-	 * moving on.
++	 * Ensure there are no timeout work in progress prior to forcefully
++	 * disabling the queue. There is no harm in disabling the device even
++	 * when it was already disabled, as this will forcefully reclaim any
++	 * IOs that are stuck due to blk-mq's timeout handling that prevents
++	 * timed out requests from completing.
+ 	 */
+-	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+-		nvme_dev_disable(dev, false);
++	nvme_sync_queues(&dev->ctrl);
++	nvme_dev_disable(dev, false);
  
- device_requires() {
-@@ -43,10 +43,11 @@ test_device() {
- 	_run_fio_rand_io --filename="$TEST_DEV" --size="$size" \
- 			--ignore_error=EIO,ENXIO,ENODEV &
- 
-+	# toggle PCI Command Register's Memory and Bus Master enabling
- 	while kill -0 $! 2>/dev/null; do
--		echo 0 > "/sys/bus/pci/devices/${pdev}/enable"
-+		setpci -s "${pdev}" 4.w=0:6
- 		sleep .2
--		echo 1 > "/sys/bus/pci/devices/${pdev}/enable"
-+		setpci -s "${pdev}" 4.w=6:6
- 		sleep .2
- 	done
- 
--- 
-2.14.3
+ 	/*
+ 	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
+--
