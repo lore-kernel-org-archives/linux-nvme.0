@@ -1,42 +1,40 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 21 May 2018 11:29:04 -0700
-Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
-In-Reply-To: <20180514114042.12082-1-jthumshirn@suse.de>
-References: <20180514114042.12082-1-jthumshirn@suse.de>
-Message-ID: <20180521182904.GA14774@vader>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 21 May 2018 17:11:28 -0600
+Subject: [RFC PATCH 0/3] blk-mq: Timeout rework
+Message-ID: <20180521231131.6685-1-keith.busch@intel.com>
 
-On Mon, May 14, 2018@01:40:42PM +0200, Johannes Thumshirn wrote:
-> The config file is bash and it gets sourced, so all bash magic is
-> doable in there as well. Document it so others don't have to
-> re-discover this gem as well.
+The current blk-mq code potentially locks requests out of completion by
+the thousands, making drivers jump through hoops to handle them. This
+patch set allows drivers to complete their requests whenever they're
+completed without requiring drivers know anything about the timeout code
+with minimal syncronization.
 
-I'm supportive of this...
+Other proposals under current consideration still have moments that
+prevent a driver from progressing a request to the completed state.
 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  Documentation/running-tests.md | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/running-tests.md b/Documentation/running-tests.md
-> index a479d5e94c5e..b477c0679683 100644
-> --- a/Documentation/running-tests.md
-> +++ b/Documentation/running-tests.md
-> @@ -66,3 +66,15 @@ command line option.
->  QUICK_RUN=1
->  TIMEOUT=30
->  ```
-> +
-> +### Pre-test setups
-> +
-> +Some tests, may need special prerequisites, like configfs being
-> +mounted for NVMe over Fabrics tests. You can add your custom bash
-> +scriptlets to `config` to get this done, e.g.:
-> +
-> +```sh
-> +if ! test $(grep -q configfs /proc/mounts) ; then
-> +        mount -t configfs none /sys/kernel/config
-> +fi
-> +```
+The timeout is ultimatley made safe by reference counting the request
+when timeout handling claims the request. By holding the reference count,
+we don't need to do any tricks to prevent a driver from completing the
+request out from under the timeout handler, allowing the actual state
+to be changed inline with the true state, and drivers don't need to be
+aware any of this is happening.
 
-But I'm curious about this specific example. Is this not mounted for you
-automatically? I'm guessing systemd does it for me on my setup.
+In order to make the overhead as minimal as possible, the request's
+reference is taken only when it appears that actual timeout handling
+needs to be done.
+
+Keith Busch (3):
+  blk-mq: Reference count request usage
+  blk-mq: Fix timeout and state order
+  blk-mq: Remove generation seqeunce
+
+ block/blk-core.c       |   6 -
+ block/blk-mq-debugfs.c |   1 -
+ block/blk-mq.c         | 291 +++++++++++++------------------------------------
+ block/blk-mq.h         |  20 +---
+ block/blk-timeout.c    |   1 -
+ include/linux/blkdev.h |  26 +----
+ 6 files changed, 83 insertions(+), 262 deletions(-)
+
+-- 
+2.14.3
