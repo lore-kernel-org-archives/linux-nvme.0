@@ -1,21 +1,27 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 12:56:36 +0200
-Subject: [PATCHv2 04/11] nvmet: Add AEN configuration support
-In-Reply-To: <20180522100158.GB11894@lst.de>
-References: <20180522091004.39620-1-hare@suse.de>
- <20180522091004.39620-5-hare@suse.de> <20180522100158.GB11894@lst.de>
-Message-ID: <5d172f33-ee57-746c-f0d1-ce183a80d7be@suse.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Tue, 22 May 2018 08:03:38 -0600
+Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
+In-Reply-To: <20180522014626.GA20430@ming.t460p>
+References: <20180518163823.27820-3-keith.busch@intel.com>
+ <20180518230357.GC18334@ming.t460p>
+ <20180521142219.GC5528@localhost.localdomain>
+ <20180521145850.GA19099@ming.t460p>
+ <20180521150331.GI5528@localhost.localdomain>
+ <20180521153425.GC19099@ming.t460p>
+ <20180521154433.GJ5528@localhost.localdomain>
+ <20180521160452.GD19099@ming.t460p>
+ <20180521162354.GM5528@localhost.localdomain>
+ <20180522014626.GA20430@ming.t460p>
+Message-ID: <20180522140337.GO5528@localhost.localdomain>
 
-On 05/22/2018 12:01 PM, Christoph Hellwig wrote:
->> +	case NVME_FEAT_ASYNC_EVENT:
->> +		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
->> +		req->sq->ctrl->aen_cfg = val32 & NVME_AEN_CFG_NS_ATTR;
+On Tue, May 22, 2018@09:46:32AM +0800, Ming Lei wrote:
+> It isn't a good practice to rely on timing for avoiding race, IMO.
+
+Sure thing, and it's easy enough to avoid this one.
+ 
+> OK, please fix other issues mentioned in the following comment together,
+> then I will review further and see if it can work well.
 > 
-> This needs a validity check, and either be under a lock or very
-> carefully accessed using WRITE_ONCE/READ_ONCE.
->
-Okay; a controller lock would be good here. Let's see what we have.
+> https://marc.info/?l=linux-block&m=152668465710591&w=2
 
-Cheers,
-
-Hannes
+Will do, v2 coming up by end of today.
