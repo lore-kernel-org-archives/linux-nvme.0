@@ -1,85 +1,95 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 11:09:57 +0200
-Subject: [PATCHv2 04/11] nvmet: Add AEN configuration support
+Date: Tue, 22 May 2018 11:09:54 +0200
+Subject: [PATCHv2 01/11] nvme.h: untangle AEN notice definitions
 In-Reply-To: <20180522091004.39620-1-hare@suse.de>
 References: <20180522091004.39620-1-hare@suse.de>
-Message-ID: <20180522091004.39620-5-hare@suse.de>
+Message-ID: <20180522091004.39620-2-hare@suse.de>
 
-From: Hannes Reinecke <hare@suse.com>
+From: Christoph Hellwig <hch@lst.de>
 
-AEN configuration via the 'Get Features' and 'Set Features' admin
-command is mandatory, so we should be implemeting handling for it.
+Stop including the event type in the definitions for the notice type.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/admin-cmd.c | 8 +++++++-
- drivers/nvme/target/core.c      | 6 ++++--
- drivers/nvme/target/nvmet.h     | 1 +
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 30 ++++++++++++++++++------------
+ include/linux/nvme.h     |  8 ++++++--
+ 2 files changed, 24 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 5e0e9fcc0d4d..58df0e5b3f5a 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -447,6 +447,11 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
- 		nvmet_set_result(req, req->sq->ctrl->kato);
- 		break;
-+	case NVME_FEAT_ASYNC_EVENT:
-+		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
-+		req->sq->ctrl->aen_cfg = val32 & NVME_AEN_CFG_NS_ATTR;
-+		nvmet_set_result(req, req->sq->ctrl->aen_cfg);
-+		break;
- 	case NVME_FEAT_HOST_ID:
- 		status = NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
- 		break;
-@@ -485,9 +490,10 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
- 		break;
- 	case NVME_FEAT_WRITE_ATOMIC:
- 		break;
-+#endif
- 	case NVME_FEAT_ASYNC_EVENT:
-+		nvmet_set_result(req, req->sq->ctrl->aen_cfg);
- 		break;
--#endif
- 	case NVME_FEAT_VOLATILE_WC:
- 		nvmet_set_result(req, 1);
- 		break;
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 505d4267b8f1..a8fc05b1aff8 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -146,8 +146,9 @@ static void nvmet_send_ns_changed_event(struct nvmet_subsys *subsys)
- 	struct nvmet_ctrl *ctrl;
- 
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
--		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
--				NVME_AER_NOTICE_NS_CHANGED, 0);
-+		if (ctrl->aen_cfg & NVME_AEN_CFG_NS_ATTR)
-+			nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
-+					      NVME_AER_NOTICE_NS_CHANGED, 0);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 79d49f16d991..fd71daa92d6a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3343,6 +3343,21 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	nvme_get_fw_slot_info(ctrl);
  }
  
- int nvmet_register_transport(const struct nvmet_fabrics_ops *ops)
-@@ -816,6 +817,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
++static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
++{
++	switch ((result & 0xff00) >> 8) {
++	case NVME_AER_NOTICE_NS_CHANGED:
++		dev_info(ctrl->device, "rescanning\n");
++		nvme_queue_scan(ctrl);
++		break;
++	case NVME_AER_NOTICE_FW_ACT_STARTING:
++		queue_work(nvme_wq, &ctrl->fw_act_work);
++		break;
++	default:
++		dev_warn(ctrl->device, "async event result %08x\n", result);
++	}
++}
++
+ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res)
+ {
+@@ -3352,6 +3367,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		return;
  
- 	kref_init(&ctrl->ref);
- 	ctrl->subsys = subsys;
-+	ctrl->aen_cfg = NVME_AEN_CFG_NS_ATTR;
+ 	switch (result & 0x7) {
++	case NVME_AER_NOTICE:
++		nvme_handle_aen_notice(ctrl, result);
++		break;
+ 	case NVME_AER_ERROR:
+ 	case NVME_AER_SMART:
+ 	case NVME_AER_CSS:
+@@ -3361,18 +3379,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 	default:
+ 		break;
+ 	}
+-
+-	switch (result & 0xff07) {
+-	case NVME_AER_NOTICE_NS_CHANGED:
+-		dev_info(ctrl->device, "rescanning\n");
+-		nvme_queue_scan(ctrl);
+-		break;
+-	case NVME_AER_NOTICE_FW_ACT_STARTING:
+-		queue_work(nvme_wq, &ctrl->fw_act_work);
+-		break;
+-	default:
+-		dev_warn(ctrl->device, "async event result %08x\n", result);
+-	}
+ 	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 4112e2bd747f..c37103a4ad38 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -436,10 +436,14 @@ enum {
+ enum {
+ 	NVME_AER_ERROR			= 0,
+ 	NVME_AER_SMART			= 1,
++	NVME_AER_NOTICE			= 2,
+ 	NVME_AER_CSS			= 6,
+ 	NVME_AER_VS			= 7,
+-	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
+-	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
++};
++
++enum {
++	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
++	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
+ };
  
- 	ctrl->cqs = kcalloc(subsys->max_qid + 1,
- 			sizeof(struct nvmet_cq *),
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 15fd84ab21f8..3fd6686ad906 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -120,6 +120,7 @@ struct nvmet_ctrl {
- 	u16			cntlid;
- 	u32			kato;
- 
-+	u32			aen_cfg;
- 	struct nvmet_req	*async_event_cmds[NVMET_ASYNC_EVENTS];
- 	unsigned int		nr_async_event_cmds;
- 	struct list_head	async_events;
+ struct nvme_lba_range_type {
 -- 
 2.12.3
