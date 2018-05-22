@@ -1,46 +1,37 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 22 May 2018 09:30:24 +0200
-Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
-In-Reply-To: <20180521182904.GA14774@vader>
-References: <20180514114042.12082-1-jthumshirn@suse.de>
- <20180521182904.GA14774@vader>
-Message-ID: <20180522073024.axmhji5nel7kx4tm@linux-x5ow.site>
+Date: Tue, 22 May 2018 09:35:39 +0200
+Subject: [PATCH V6 11/11] nvme: pci: support nested EH
+In-Reply-To: <20180518162804.GA27795@localhost.localdomain>
+References: <20180516040313.13596-1-ming.lei@redhat.com>
+ <20180516040313.13596-12-ming.lei@redhat.com>
+ <20180516141242.GA20119@localhost.localdomain>
+ <20180516231058.GB28727@ming.t460p>
+ <20180517022030.GB21959@localhost.localdomain>
+ <20180517084129.GA26570@lst.de>
+ <20180517142051.GB22063@localhost.localdomain>
+ <20180517142345.t6bnyfne7ndgrxkg@linux-x5ow.site>
+ <20180518162804.GA27795@localhost.localdomain>
+Message-ID: <20180522073539.ygl4ibokbohnjxlj@linux-x5ow.site>
 
-On Mon, May 21, 2018@11:29:04AM -0700, Omar Sandoval wrote:
-> But I'm curious about this specific example. Is this not mounted for you
-> automatically? I'm guessing systemd does it for me on my setup.
+On Fri, May 18, 2018@10:28:04AM -0600, Keith Busch wrote:
+> On Thu, May 17, 2018@04:23:45PM +0200, Johannes Thumshirn wrote:
+> > > Agreed. Alternatively possibly call the driver's reset_preparei/done
+> > > callbacks.
+> > 
+> > Exactly, but as long as we can issue the reset via sysfs the test-case
+> > is still valid.
+> 
+> I disagree the test case is valid. The test writes '0' to the
+> pci-sysfs 'enable', but the driver also disables the pci device as part
+> of resetting, which is a perfectly reasonable thing for a driver to do.
+> 
+> If the timing of the test's loop happens to write '0' right after the
+> driver disabled the device that it owns, a 'write error' on that sysfs
+> write occurs, and blktests then incorrectly claims the test failed.
 
-No my setup is kind of special. I don't want to mess with all the
-user-space so all I do is:
+Hmm, ok that's a valid point. But seeing you have sent a patch for
+blktests anyways I think it's gone now.
 
-dracut --no-compress --kver `make kernelrelease` --kmoddir mods/ \
-       --no-hostonly --no-hostonly-cmdline --modules "bash base" \
-       --tmpdir `pwd`/myinitrd --force myinitrd/initrd \
-       --add-drivers "loop nvme nvme-loop nvmet" \
-       --install "lsblk find sort parted getopt fio tput column date \
-       		 dirname mktemp ps diff awk timeout time losetup \
-		 truncate wc grep stat basename cut blktrace sg_inq \
-		 realpath findmnt vi dd sed rm rmdir nvme" \
-		 --include "$HOME/src/blktests" "/blktests
-
-qemu-kvm -m 4096 -smp 4 -nographic -serial mon:stdio -kernel \
-	 arch/x86/boot/bzImage -initrd myinitrd/initrd \
-	 -append "console=ttyS0 debug"
-
-I have the above in a shell wrapper as I simply can't remember it, or
-I just use rapido [1] which a co-worker of mine started for this job.
-
-As minimal as possible. I try to get my rebuild - boot - test cycles
-short.
-
-With my current config I have a bootup time in qemu below half a
-second on a reasonable machine in my lab and just below one second
-on my laptop.
-
-[1] https://github.com/rapido-linux/rapido
-
-Byte,
-	Johannes
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
