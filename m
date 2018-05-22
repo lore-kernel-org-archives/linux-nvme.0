@@ -1,25 +1,57 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 22 May 2018 08:06:53 -0600
-Subject: [RFC PATCH 0/3] blk-mq: Timeout rework
-In-Reply-To: <9ca27e059fbd12a976e1e2f1ee1aa5c8ca579ad0.camel@wdc.com>
+Date: Tue, 22 May 2018 08:15:07 -0600
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <e7a287827b4c00151bb7714deca7ea6453177504.camel@wdc.com>
 References: <20180521231131.6685-1-keith.busch@intel.com>
- <9ca27e059fbd12a976e1e2f1ee1aa5c8ca579ad0.camel@wdc.com>
-Message-ID: <20180522140653.GP5528@localhost.localdomain>
+ <20180521231131.6685-4-keith.busch@intel.com>
+ <e7a287827b4c00151bb7714deca7ea6453177504.camel@wdc.com>
+Message-ID: <20180522141507.GQ5528@localhost.localdomain>
 
-On Mon, May 21, 2018@11:29:21PM +0000, Bart Van Assche wrote:
-> Can you explain why the NVMe driver needs reference counting of requests but
-> no other block driver needs this? Additionally, why is it that for all block
-> drivers except NVMe the current block layer API is sufficient
-> (blk_get_request()/blk_execute_rq()/blk_mq_start_request()/
-> blk_mq_complete_request()/blk_mq_end_request())?
+On Mon, May 21, 2018@11:29:06PM +0000, Bart Van Assche wrote:
+> On Mon, 2018-05-21@17:11 -0600, Keith Busch wrote:
+> >  	switch (ret) {
+> >  	case BLK_EH_HANDLED:
+> > -		__blk_mq_complete_request(req);
+> > -		break;
+> > -	case BLK_EH_RESET_TIMER:
+> >  		/*
+> > -		 * As nothing prevents from completion happening while
+> > -		 * ->aborted_gstate is set, this may lead to ignored
+> > -		 * completions and further spurious timeouts.
+> > +		 * If the request is still in flight, the driver is requesting
+> > +		 * blk-mq complete it.
+> >  		 */
+> > -		blk_mq_rq_update_aborted_gstate(req, 0);
+> > +		if (blk_mq_rq_state(req) == MQ_RQ_IN_FLIGHT)
+> > +			__blk_mq_complete_request(req);
+> > +		break;
+> > +	case BLK_EH_RESET_TIMER:
+> >  		blk_add_timer(req);
+> >  		break;
+> >  	case BLK_EH_NOT_HANDLED:
+> > @@ -880,64 +782,64 @@ static void blk_mq_rq_timed_out(struct request *req, bool reserved)
+> >  	}
+> >  }
+> 
+> I think the above changes can lead to concurrent calls of
+> __blk_mq_complete_request() from the regular completion path and the timeout
+> path. That's wrong: the __blk_mq_complete_request() caller should guarantee
+> that no concurrent calls from another context to that function can occur.
 
 Hi Bart,
 
-I'm pretty sure NVMe isn't the only driver where a call to
-blk_mq_complete_request silently fails to transition the request to
-COMPLETE, forcing unnecessary error handling. This patch isn't so
-much about NVMe as it is about removing that silent exception from the
-block API.
+This shouldn't be introducing any new concorrent calls to
+__blk_mq_complete_request if they don't already exist. The timeout work
+calls it only if the driver's timeout returns BLK_EH_HANDLED, which means
+the driver is claiming the command is now done, but the driver didn't call
+blk_mq_complete_request as indicated by the request's IN_FLIGHT state.
+
+In order to get a second call to __blk_mq_complete_request(), then,
+the driver would have to end up calling blk_mq_complete_request()
+in another context. But there's nothing stopping that from happening
+today, and would be bad if any driver actually did that: the request
+may have been re-allocated and issued as a new command, and calling
+blk_mq_complete_request() the second time introduces data corruption.
 
 Thanks,
 Keith
