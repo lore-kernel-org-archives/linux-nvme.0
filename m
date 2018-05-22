@@ -1,33 +1,32 @@
 From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Tue, 22 May 2018 16:29:07 +0000
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180522141507.GQ5528@localhost.localdomain>
+Date: Tue, 22 May 2018 16:30:41 +0000
+Subject: [RFC PATCH 0/3] blk-mq: Timeout rework
+In-Reply-To: <20180522140653.GP5528@localhost.localdomain>
 References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
- <e7a287827b4c00151bb7714deca7ea6453177504.camel@wdc.com>
- <20180522141507.GQ5528@localhost.localdomain>
-Message-ID: <d73bd0b081dbf2156e7b20df4f85e1db38785b0b.camel@wdc.com>
+ <9ca27e059fbd12a976e1e2f1ee1aa5c8ca579ad0.camel@wdc.com>
+ <20180522140653.GP5528@localhost.localdomain>
+Message-ID: <56564c0694eb3a21dfdcfbc6c3053774f026d371.camel@wdc.com>
 
-On Tue, 2018-05-22@08:15 -0600, Keith Busch wrote:
-> This shouldn't be introducing any new concorrent calls to
-> __blk_mq_complete_request if they don't already exist. The timeout work
-> calls it only if the driver's timeout returns BLK_EH_HANDLED, which means
-> the driver is claiming the command is now done, but the driver didn't call
-> blk_mq_complete_request as indicated by the request's IN_FLIGHT state.
+On Tue, 2018-05-22@08:06 -0600, Keith Busch wrote:
+> On Mon, May 21, 2018@11:29:21PM +0000, Bart Van Assche wrote:
+> > Can you explain why the NVMe driver needs reference counting of requests but
+> > no other block driver needs this? Additionally, why is it that for all block
+> > drivers except NVMe the current block layer API is sufficient
+> > (blk_get_request()/blk_execute_rq()/blk_mq_start_request()/
+> > blk_mq_complete_request()/blk_mq_end_request())?
 > 
-> In order to get a second call to __blk_mq_complete_request(), then,
-> the driver would have to end up calling blk_mq_complete_request()
-> in another context. But there's nothing stopping that from happening
-> today, and would be bad if any driver actually did that: the request
-> may have been re-allocated and issued as a new command, and calling
-> blk_mq_complete_request() the second time introduces data corruption.
+> I'm pretty sure NVMe isn't the only driver where a call to
+> blk_mq_complete_request silently fails to transition the request to
+> COMPLETE, forcing unnecessary error handling. This patch isn't so
+> much about NVMe as it is about removing that silent exception from the
+> block API.
 
 Hello Keith,
 
-Please have another look at the current code that handles request timeouts
-and completions. The current implementation guarantees that no double
-completions can occur but your patch removes essential aspects of that
-implementation.
+Please have a look at v13 of the timeout handling rework patch that I posted.
+That patch should not introduce any new race conditions and should also handle
+the scenario fine in which blk_mq_complete_request() is called while the NVMe
+timeout handling function is in progress.
 
 Thanks,
 
