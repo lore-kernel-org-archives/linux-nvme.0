@@ -1,91 +1,92 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 11:09:55 +0200
-Subject: [PATCHv2 02/11] nvme: submit AEN event configuration on startup
+Date: Tue, 22 May 2018 11:09:59 +0200
+Subject: [PATCHv2 06/11] nvme: add support for the log specific field
 In-Reply-To: <20180522091004.39620-1-hare@suse.de>
 References: <20180522091004.39620-1-hare@suse.de>
-Message-ID: <20180522091004.39620-3-hare@suse.de>
+Message-ID: <20180522091004.39620-7-hare@suse.de>
 
-We should register for AEN events; some law-abiding targets might
-not be sending us AENs otherwise.
+From: Christoph Hellwig <hch@lst.de>
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+NVMe 1.3 added a new log specific field to the get log page CQ
+defintion.  Add the field and support passing it to nvme_get_log_ext.
+
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 19 +++++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- include/linux/nvme.h     |  5 +++++
- 3 files changed, 25 insertions(+)
+ drivers/nvme/host/core.c     | 6 +++---
+ drivers/nvme/host/lightnvm.c | 2 +-
+ drivers/nvme/host/nvme.h     | 2 +-
+ include/linux/nvme.h         | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fd71daa92d6a..ae1ebc2c88b3 100644
+index ae1ebc2c88b3..b4408e1e677f 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1029,6 +1029,22 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+@@ -2245,8 +2245,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
  }
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
  
-+void nvme_enable_aen(struct nvme_ctrl *ctrl)
-+{
-+	u32 aen_cfg = NVME_SMART_CRIT_SPARE | NVME_SMART_CRIT_TEMPERATURE |
-+		NVME_SMART_CRIT_RELIABILITY | NVME_SMART_CRIT_MEDIA |
-+		NVME_SMART_CRIT_VOLATILE_MEMORY;
-+	u32 result;
-+	int status;
-+
-+	aen_cfg |= ctrl->aen_cfg;
-+	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
-+				   aen_cfg, NULL, 0, &result);
-+	if (status)
-+		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
-+			 aen_cfg);
-+}
-+
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		     u8 log_page, void *log,
+-		     size_t size, u64 offset)
++		u8 log_page, u8 lsp, void *log, size_t size, u64 offset)
  {
- 	struct nvme_user_io io;
-@@ -2345,6 +2361,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	struct nvme_command c = { };
+ 	unsigned long dwlen = size / 4 - 1;
+@@ -2259,6 +2258,7 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		c.get_log_page.nsid = cpu_to_le32(NVME_NSID_ALL);
  
- 	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->oncs = le16_to_cpup(&id->oncs);
-+	ctrl->aen_cfg = le32_to_cpu(id->oaes) &
-+		(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT);
- 	atomic_set(&ctrl->abort_limit, id->acl + 1);
- 	ctrl->vwc = id->vwc;
- 	ctrl->cntlid = le16_to_cpup(&id->cntlid);
-@@ -3401,6 +3419,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+ 	c.get_log_page.lid = log_page;
++	c.get_log_page.lsp = lsp;
+ 	c.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1));
+ 	c.get_log_page.numdu = cpu_to_le16(dwlen >> 16);
+ 	c.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset));
+@@ -2270,7 +2270,7 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log,
+ 			size_t size)
+ {
+-	return nvme_get_log_ext(ctrl, NULL, log_page, log, size, 0);
++	return nvme_get_log_ext(ctrl, NULL, log_page, 0, log, size, 0);
+ }
  
- 	if (ctrl->queue_count > 1) {
- 		nvme_queue_scan(ctrl);
-+		nvme_enable_aen(ctrl);
- 		queue_work(nvme_wq, &ctrl->async_event_work);
- 		nvme_start_queues(ctrl);
- 	}
+ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 41279da799ed..216c6b0a9554 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -598,7 +598,7 @@ static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
+ 	while (left) {
+ 		len = min_t(unsigned int, left, ctrl->max_hw_sectors << 9);
+ 
+-		ret = nvme_get_log_ext(ctrl, ns, NVME_NVM_LOG_REPORT_CHUNK,
++		ret = nvme_get_log_ext(ctrl, ns, NVME_NVM_LOG_REPORT_CHUNK, 0,
+ 				dev_meta, len, offset);
+ 		if (ret) {
+ 			dev_err(ctrl->device, "Get REPORT CHUNK log error\n");
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2701c36552bf..3ec9b3e37616 100644
+index 3ec9b3e37616..3f9a4f8aa310 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -176,6 +176,7 @@ struct nvme_ctrl {
- 	u16 kas;
- 	u8 npss;
- 	u8 apsta;
-+	u32 aen_cfg;
- 	u32 aen_result;
- 	unsigned int shutdown_timeout;
- 	unsigned int kato;
+@@ -432,7 +432,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ 
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		u8 log_page, void *log, size_t size, u64 offset);
++		u8 log_page, u8 lsp, void *log, size_t size, u64 offset);
+ 
+ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c37103a4ad38..21457fc25acd 100644
+index 03d6494bb028..2169e188973f 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -446,6 +446,11 @@ enum {
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
- };
- 
-+enum {
-+	NVME_AEN_CFG_NS_ATTR		= 1 << 8,
-+	NVME_AEN_CFG_FW_ACT		= 1 << 9,
-+};
-+
- struct nvme_lba_range_type {
- 	__u8			type;
- 	__u8			attributes;
+@@ -914,7 +914,7 @@ struct nvme_get_log_page_command {
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+ 	__u8			lid;
+-	__u8			rsvd10;
++	__u8			lsp; /* upper 4 bits reserved */
+ 	__le16			numdl;
+ 	__le16			numdu;
+ 	__u16			rsvd11;
 -- 
 2.12.3
