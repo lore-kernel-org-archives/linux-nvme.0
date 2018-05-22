@@ -1,126 +1,154 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 11:09:58 +0200
-Subject: [PATCHv2 05/11] nvme.h: add ANA definitions
+Date: Tue, 22 May 2018 11:10:03 +0200
+Subject: [PATCHv2 10/11] nvmet: split log page implementation
 In-Reply-To: <20180522091004.39620-1-hare@suse.de>
 References: <20180522091004.39620-1-hare@suse.de>
-Message-ID: <20180522091004.39620-6-hare@suse.de>
+Message-ID: <20180522091004.39620-11-hare@suse.de>
 
 From: Christoph Hellwig <hch@lst.de>
 
-Add various defintions from NVMe 1.3 TP 4004.
+Remove the common code to allocate a buffer and copy it into the SGL.
+Instead the two no-op implementations just zero the SGL directly, and
+the smart log allocates a buffer on its own.  This prepares for the
+more elaborate ANA log page.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/nvme.h | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 47 insertions(+), 3 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 101 +++++++++++++++-------------------------
+ 1 file changed, 37 insertions(+), 64 deletions(-)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 21457fc25acd..03d6494bb028 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -242,7 +242,12 @@ struct nvme_id_ctrl {
- 	__le32			sanicap;
- 	__le32			hmminds;
- 	__le16			hmmaxd;
--	__u8			rsvd338[174];
-+	__u8			rsvd338[4];
-+	__u8			anatt;
-+	__u8			anacap;
-+	__le32			anagrpmax;
-+	__le32			nanagrpid;
-+	__u8			rsvd352[160];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__le16			maxcmd;
-@@ -258,7 +263,8 @@ struct nvme_id_ctrl {
- 	__le16			acwu;
- 	__u8			rsvd534[2];
- 	__le32			sgls;
--	__u8			rsvd540[228];
-+	__le32			mnan;
-+	__u8			rsvd544[224];
- 	char			subnqn[256];
- 	__u8			rsvd1024[768];
- 	__le32			ioccsz;
-@@ -312,7 +318,9 @@ struct nvme_id_ns {
- 	__le16			nabspf;
- 	__le16			noiob;
- 	__u8			nvmcap[16];
--	__u8			rsvd64[40];
-+	__u8			rsvd64[28];
-+	__le32			anagrpid;
-+	__u8			rsvd96[8];
- 	__u8			nguid[16];
- 	__u8			eui64[8];
- 	struct nvme_lbaf	lbaf[16];
-@@ -425,6 +433,32 @@ struct nvme_effects_log {
- 	__u8   resv[2048];
- };
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 58df0e5b3f5a..8becc7df47b7 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -32,6 +32,11 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+ 	return len;
+ }
  
-+enum nvme_ana_state {
-+	NVME_ANA_OPTIMIZED		= 0x01,
-+	NVME_ANA_NONOPTIMIZED		= 0x02,
-+	NVME_ANA_INACCESSIBLE		= 0x03,
-+	NVME_ANA_PERSISTENT_LOSS	= 0x04,
-+	NVME_ANA_CHANGE			= 0x0f,
-+};
++static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
++{
++	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->data_len));
++}
 +
-+struct nvme_ana_group_desc {
-+	__le32	grpid;
-+	__le32	nnsids;
-+	__le64	chgcnt;
-+	__u8	state;
-+	__u8	rsvd17[7];
-+	__le32	nsids[];
-+};
-+
-+/* flag for the log specific field of the ANA log */
-+#define NVME_ANA_LOG_RGO	(1 << 0)
-+
-+struct nvme_ana_rsp_hdr {
-+	__le64	chgcnt;
-+	__le16	ngrps;
-+	__le16	rsvd10[3];
-+};
-+
- enum {
- 	NVME_SMART_CRIT_SPARE		= 1 << 0,
- 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
-@@ -444,11 +478,13 @@ enum {
- enum {
- 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
-+	NVME_AER_NOTICE_ANA		= 0x03,
- };
+ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+ 		struct nvme_smart_log *slog)
+ {
+@@ -89,74 +94,26 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
+ 	return NVME_SC_SUCCESS;
+ }
  
- enum {
- 	NVME_AEN_CFG_NS_ATTR		= 1 << 8,
- 	NVME_AEN_CFG_FW_ACT		= 1 << 9,
-+	NVME_AEN_CFG_ANA_CHANGE		= 1 << 11,
- };
+-static u16 nvmet_get_smart_log(struct nvmet_req *req,
+-		struct nvme_smart_log *slog)
++static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
+ {
+-	u16 status;
++	struct nvme_smart_log *log;
++	u16 status = NVME_SC_INTERNAL;
  
- struct nvme_lba_range_type {
-@@ -757,6 +793,7 @@ enum {
- 	NVME_LOG_SMART		= 0x02,
- 	NVME_LOG_FW_SLOT	= 0x03,
- 	NVME_LOG_CMD_EFFECTS	= 0x05,
-+	NVME_LOG_ANA		= 0x0c,
- 	NVME_LOG_DISC		= 0x70,
- 	NVME_LOG_RESERVATION	= 0x80,
- 	NVME_FWACT_REPL		= (0 << 3),
-@@ -1177,6 +1214,13 @@ enum {
- 	NVME_SC_ACCESS_DENIED		= 0x286,
- 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+-	WARN_ON(req == NULL || slog == NULL);
+-	if (req->cmd->get_log_page.nsid == cpu_to_le32(NVME_NSID_ALL))
+-		status = nvmet_get_smart_log_all(req, slog);
+-	else
+-		status = nvmet_get_smart_log_nsid(req, slog);
+-	return status;
+-}
+-
+-static void nvmet_execute_get_log_page(struct nvmet_req *req)
+-{
+-	struct nvme_smart_log *smart_log;
+-	size_t data_len = nvmet_get_log_page_len(req->cmd);
+-	void *buf;
+-	u16 status = 0;
+-
+-	buf = kzalloc(data_len, GFP_KERNEL);
+-	if (!buf) {
+-		status = NVME_SC_INTERNAL;
++	if (req->data_len != sizeof(*log))
+ 		goto out;
+-	}
  
-+	/*
-+	 * Path-related Errors:
-+	 */
-+	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
-+	NVME_SC_ANA_INACCESSIBLE	= 0x302,
-+	NVME_SC_ANA_TRANSITION		= 0x303,
-+
- 	NVME_SC_DNR			= 0x4000,
- };
+-	switch (req->cmd->get_log_page.lid) {
+-	case NVME_LOG_ERROR:
+-		/*
+-		 * We currently never set the More bit in the status field,
+-		 * so all error log entries are invalid and can be zeroed out.
+-		 * This is called a minum viable implementation (TM) of this
+-		 * mandatory log page.
+-		 */
+-		break;
+-	case NVME_LOG_SMART:
+-		/*
+-		 * XXX: fill out actual smart log
+-		 *
+-		 * We might have a hard time coming up with useful values for
+-		 * many of the fields, and even when we have useful data
+-		 * available (e.g. units or commands read/written) those aren't
+-		 * persistent over power loss.
+-		 */
+-		if (data_len != sizeof(*smart_log)) {
+-			status = NVME_SC_INTERNAL;
+-			goto err;
+-		}
+-		smart_log = buf;
+-		status = nvmet_get_smart_log(req, smart_log);
+-		if (status)
+-			goto err;
+-		break;
+-	case NVME_LOG_FW_SLOT:
+-		/*
+-		 * We only support a single firmware slot which always is
+-		 * active, so we can zero out the whole firmware slot log and
+-		 * still claim to fully implement this mandatory log page.
+-		 */
+-		break;
+-	default:
+-		BUG();
+-	}
++	log = kzalloc(sizeof(*log), GFP_KERNEL);
++	if (!log)
++		goto out;
  
+-	status = nvmet_copy_to_sgl(req, 0, buf, data_len);
++	if (req->cmd->get_log_page.nsid == cpu_to_le32(NVME_NSID_ALL))
++		status = nvmet_get_smart_log_all(req, log);
++	else
++		status = nvmet_get_smart_log_nsid(req, log);
++	if (status)
++		goto out;
+ 
+-err:
+-	kfree(buf);
++	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
+ out:
+ 	nvmet_req_complete(req, status);
+ }
+@@ -566,9 +523,25 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 
+ 		switch (cmd->get_log_page.lid) {
+ 		case NVME_LOG_ERROR:
+-		case NVME_LOG_SMART:
++			/*
++			 * We currently never set the More bit in the status
++			 * field, so all error log entries are invalid and can
++			 * be zeroed out.  This is called a minum viable
++			 * implementation (TM) of this mandatory log page.
++			 */
++			req->execute = nvmet_execute_get_log_page_noop;
++			return 0;
+ 		case NVME_LOG_FW_SLOT:
+-			req->execute = nvmet_execute_get_log_page;
++			/*
++			 * We only support a single firmware slot which always
++			 * is active, so we can zero out the whole firmware slot
++			 * log and still claim to fully implement this mandatory
++			 * log page.
++			 */
++			req->execute = nvmet_execute_get_log_page_noop;
++			return 0;
++		case NVME_LOG_SMART:
++			req->execute = nvmet_execute_get_log_page_smart;
+ 			return 0;
+ 		}
+ 		break;
 -- 
 2.12.3
