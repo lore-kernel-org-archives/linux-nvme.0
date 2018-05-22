@@ -1,49 +1,21 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Tue, 22 May 2018 23:23:08 +0800
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180522151757.GB8295@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 22 May 2018 17:19:37 +0200
+Subject: [RFC PATCH 1/3] blk-mq: Reference count request usage
+In-Reply-To: <20180521231131.6685-2-keith.busch@intel.com>
 References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
- <20180522024910.GD20430@ming.t460p>
- <20180522142030.GR5528@localhost.localdomain>
- <CACVXFVNT5qiamN0ydXzNYDWE0szi2fTsAAmyG9Q884LEqUhSdQ@mail.gmail.com>
- <20180522144636.GS5528@localhost.localdomain>
- <CACVXFVNWK-r6FrsNOmmETZXf9MLPQUNR3Nmf_hmDgaOUivpbYQ@mail.gmail.com>
- <20180522150119.GA8295@localhost.localdomain>
- <CACVXFVO5sujPWiAJJgA6E=Exmb1c8FTyN-7+YEvNQ+0c_Psh8w@mail.gmail.com>
- <20180522151757.GB8295@localhost.localdomain>
-Message-ID: <CACVXFVP3a3-TW15Z9x5HAGaJaxmv2k0XcwtJCoQAR38e_NShMQ@mail.gmail.com>
+ <20180521231131.6685-2-keith.busch@intel.com>
+Message-ID: <20180522151937.GA18664@lst.de>
 
-On Tue, May 22, 2018 at 11:17 PM, Keith Busch
-<keith.busch@linux.intel.com> wrote:
-> On Tue, May 22, 2018@11:07:07PM +0800, Ming Lei wrote:
->> > At approximately the same time, you're saying the driver that returned
->> > EH_HANDLED may then call blk_mq_complete_request() in reference to the
->> > *old* request that it returned EH_HANDLED for, incorrectly completing
->>
->> Because this request has been completed above by blk-mq timeout,
->> then this old request won't be completed any more via blk_mq_complete_request()
->> either from normal path or what ever, such as cancel.
->
->> > the new request before it is done. That will inevitably lead to data
->> > corruption. Is that happening today in any driver?
->>
->> No such issue since current blk-mq makes sure one req is only completed
->> once, but your patch changes to depend on driver to make sure that.
->
-> The blk-mq timeout complete makes the request available for allocation
-> as a new command, at which point blk_mq_complete_request can be called
-> again. If a driver is somehow relying on blk-mq to prevent a double
-> completion for a previously completed request context, they're already
-> in a lot of trouble.
+On Mon, May 21, 2018@05:11:29PM -0600, Keith Busch wrote:
+> This patch adds a struct kref to struct request so that request users
+> can be sure they're operating on the same request without it changing
+> while they're processing it. The request's tag won't be released for
+> reuse until the last user is done with it.
 
-Yes, previously there is the atomic flag of REQ_ATOM_COMPLETE for
-covering the atomic completion, and recently Tejun changes to aborted
-state with generation counter, but both provides sort of atomic completion.
+Can you please use a raw refcount_t instead of the kref?  That avoids
+a possible indirect call in the fast path, which have become really
+painful with the spectre mitigrations, and also is easier to follow
+to start with.
 
-So even though it is much simplified by using request refcount, the atomic
-completion should be provided by blk-mq, or drivers have to be audited
-to avoid double completion.
-
-Thanks,
-Ming Lei
+I also think this should be merged into patch 3, as it isn't very
+useful on its own.
