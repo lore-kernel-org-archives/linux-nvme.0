@@ -1,63 +1,34 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 22 May 2018 09:46:32 +0800
-Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
-In-Reply-To: <20180521162354.GM5528@localhost.localdomain>
+Date: Tue, 22 May 2018 09:56:32 +0800
+Subject: [PATCH 1/6] nvme: Sync request queues on reset
+In-Reply-To: <20180521162517.GN5528@localhost.localdomain>
 References: <20180518163823.27820-1-keith.busch@intel.com>
- <20180518163823.27820-3-keith.busch@intel.com>
- <20180518230357.GC18334@ming.t460p>
- <20180521142219.GC5528@localhost.localdomain>
- <20180521145850.GA19099@ming.t460p>
- <20180521150331.GI5528@localhost.localdomain>
- <20180521153425.GC19099@ming.t460p>
- <20180521154433.GJ5528@localhost.localdomain>
- <20180521160452.GD19099@ming.t460p>
- <20180521162354.GM5528@localhost.localdomain>
-Message-ID: <20180522014626.GA20430@ming.t460p>
+ <20180518223210.GB18334@ming.t460p>
+ <20180518234408.GA31749@localhost.localdomain>
+ <20180519000141.GB19799@ming.t460p>
+ <20180521140413.GA5528@localhost.localdomain>
+ <20180521152536.GB19099@ming.t460p>
+ <20180521155909.GK5528@localhost.localdomain>
+ <20180521160830.GA19858@ming.t460p>
+ <20180521162517.GN5528@localhost.localdomain>
+Message-ID: <20180522015631.GA20604@ming.t460p>
 
-On Mon, May 21, 2018@10:23:55AM -0600, Keith Busch wrote:
-> On Tue, May 22, 2018@12:04:53AM +0800, Ming Lei wrote:
-> > On Mon, May 21, 2018@09:44:33AM -0600, Keith Busch wrote:
-> > > On Mon, May 21, 2018@11:34:27PM +0800, Ming Lei wrote:
-> > > > nvme_dev_disable() quiesces queues first before killing queues.
-> > > > 
-> > > > If queues are quiesced during or before nvme_wait_freeze() is run
-> > > > from the 2nd part of reset, the 2nd part can't move on, and IO hang
-> > > > is caused. Finally no reset can be scheduled at all.
-> > > 
-> > > But this patch moves nvme_wait_freeze outside the reset path, so I'm
-> > > afraid I'm unable to follow how you've concluded the wait freeze is
-> > > somehow part of the reset.
-> > 
-> > For example:
-> > 
-> > 1) the 1st timeout event:
-> > 
-> > - nvme_dev_disable()
-> > - reset
-> > - scan_work
-> > 
-> > 2) the 2nd timeout event:
-> > 
-> > nvme_dev_disable() may come just after nvme_start_queues() in
-> > the above reset of the 1st timeout. And nvme_timeout() won't
-> > schedule a new reset since the controller state is NVME_CTRL_CONNECTING.
+On Mon, May 21, 2018@10:25:17AM -0600, Keith Busch wrote:
+> On Tue, May 22, 2018@12:08:37AM +0800, Ming Lei wrote:
+> > Please take a look at blk_mq_complete_request(). Even with Bart's
+> > change, the request still won't be completed by driver. The request can
+> > only be completed by either driver or blk-mq, not both.
 > 
-> Let me get this straight -- you're saying nvme_start_queues is going
-> to somehow immediately trigger timeout work? I can't see how that could
+> So you're saying blk-mq can't complete a request the driver returned to
+> blk-mq to complete. And that's the nvme driver's problem to fix?
 
-It may be difficult to trigger in reality, but won't be impossible
-since the timeout value can be adjusted via module parameter, and any
-schedule delay can be introduced in one busy system.
+For avoiding use-after-free, one request can only be completed by
+one path, either by timeout path or normal completion(irq or cancel)
+from driver.
 
-It isn't a good practice to rely on timing for avoiding race, IMO.
-
-> possibly happen in real life, but we can just remove it and use the existing
-> nvme_start_ctrl to handle that in the LIVE state.
-
-OK, please fix other issues mentioned in the following comment together,
-then I will review further and see if it can work well.
-
-https://marc.info/?l=linux-block&m=152668465710591&w=2
+So before handling this req's timeout, this request has to be
+marked as completed by blk-mq timeout code already, then nvme_cancel_request()
+can't cover this timed-out request.
 
 Thanks,
 Ming
