@@ -1,49 +1,126 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 11:10:02 +0200
-Subject: [PATCHv2 09/11] nvmet: add a new nvmet_zero_sgl helper
+Date: Tue, 22 May 2018 11:09:58 +0200
+Subject: [PATCHv2 05/11] nvme.h: add ANA definitions
 In-Reply-To: <20180522091004.39620-1-hare@suse.de>
 References: <20180522091004.39620-1-hare@suse.de>
-Message-ID: <20180522091004.39620-10-hare@suse.de>
+Message-ID: <20180522091004.39620-6-hare@suse.de>
 
 From: Christoph Hellwig <hch@lst.de>
 
-Zeroes the SGL in the payload.
+Add various defintions from NVMe 1.3 TP 4004.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/core.c  | 7 +++++++
- drivers/nvme/target/nvmet.h | 1 +
- 2 files changed, 8 insertions(+)
+ include/linux/nvme.h | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 47 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index a8fc05b1aff8..3b9e9eccc950 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -57,6 +57,13 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf, size_t len)
- 	return 0;
- }
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 21457fc25acd..03d6494bb028 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -242,7 +242,12 @@ struct nvme_id_ctrl {
+ 	__le32			sanicap;
+ 	__le32			hmminds;
+ 	__le16			hmmaxd;
+-	__u8			rsvd338[174];
++	__u8			rsvd338[4];
++	__u8			anatt;
++	__u8			anacap;
++	__le32			anagrpmax;
++	__le32			nanagrpid;
++	__u8			rsvd352[160];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
+@@ -258,7 +263,8 @@ struct nvme_id_ctrl {
+ 	__le16			acwu;
+ 	__u8			rsvd534[2];
+ 	__le32			sgls;
+-	__u8			rsvd540[228];
++	__le32			mnan;
++	__u8			rsvd544[224];
+ 	char			subnqn[256];
+ 	__u8			rsvd1024[768];
+ 	__le32			ioccsz;
+@@ -312,7 +318,9 @@ struct nvme_id_ns {
+ 	__le16			nabspf;
+ 	__le16			noiob;
+ 	__u8			nvmcap[16];
+-	__u8			rsvd64[40];
++	__u8			rsvd64[28];
++	__le32			anagrpid;
++	__u8			rsvd96[8];
+ 	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
+@@ -425,6 +433,32 @@ struct nvme_effects_log {
+ 	__u8   resv[2048];
+ };
  
-+u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
-+{
-+	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len)
-+		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
-+	return 0;
-+}
++enum nvme_ana_state {
++	NVME_ANA_OPTIMIZED		= 0x01,
++	NVME_ANA_NONOPTIMIZED		= 0x02,
++	NVME_ANA_INACCESSIBLE		= 0x03,
++	NVME_ANA_PERSISTENT_LOSS	= 0x04,
++	NVME_ANA_CHANGE			= 0x0f,
++};
 +
- static unsigned int nvmet_max_nsid(struct nvmet_subsys *subsys)
- {
- 	struct nvmet_ns *ns;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 3fd6686ad906..f5f7c1398173 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -317,6 +317,7 @@ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
- 		size_t len);
- u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- 		size_t len);
-+u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
++struct nvme_ana_group_desc {
++	__le32	grpid;
++	__le32	nnsids;
++	__le64	chgcnt;
++	__u8	state;
++	__u8	rsvd17[7];
++	__le32	nsids[];
++};
++
++/* flag for the log specific field of the ANA log */
++#define NVME_ANA_LOG_RGO	(1 << 0)
++
++struct nvme_ana_rsp_hdr {
++	__le64	chgcnt;
++	__le16	ngrps;
++	__le16	rsvd10[3];
++};
++
+ enum {
+ 	NVME_SMART_CRIT_SPARE		= 1 << 0,
+ 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
+@@ -444,11 +478,13 @@ enum {
+ enum {
+ 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
+ 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
++	NVME_AER_NOTICE_ANA		= 0x03,
+ };
  
- u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+ enum {
+ 	NVME_AEN_CFG_NS_ATTR		= 1 << 8,
+ 	NVME_AEN_CFG_FW_ACT		= 1 << 9,
++	NVME_AEN_CFG_ANA_CHANGE		= 1 << 11,
+ };
+ 
+ struct nvme_lba_range_type {
+@@ -757,6 +793,7 @@ enum {
+ 	NVME_LOG_SMART		= 0x02,
+ 	NVME_LOG_FW_SLOT	= 0x03,
+ 	NVME_LOG_CMD_EFFECTS	= 0x05,
++	NVME_LOG_ANA		= 0x0c,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
+ 	NVME_FWACT_REPL		= (0 << 3),
+@@ -1177,6 +1214,13 @@ enum {
+ 	NVME_SC_ACCESS_DENIED		= 0x286,
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
++	/*
++	 * Path-related Errors:
++	 */
++	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
++	NVME_SC_ANA_INACCESSIBLE	= 0x302,
++	NVME_SC_ANA_TRANSITION		= 0x303,
++
+ 	NVME_SC_DNR			= 0x4000,
+ };
  
 -- 
 2.12.3
