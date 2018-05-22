@@ -1,34 +1,88 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 22 May 2018 09:56:32 +0800
-Subject: [PATCH 1/6] nvme: Sync request queues on reset
-In-Reply-To: <20180521162517.GN5528@localhost.localdomain>
-References: <20180518163823.27820-1-keith.busch@intel.com>
- <20180518223210.GB18334@ming.t460p>
- <20180518234408.GA31749@localhost.localdomain>
- <20180519000141.GB19799@ming.t460p>
- <20180521140413.GA5528@localhost.localdomain>
- <20180521152536.GB19099@ming.t460p>
- <20180521155909.GK5528@localhost.localdomain>
- <20180521160830.GA19858@ming.t460p>
- <20180521162517.GN5528@localhost.localdomain>
-Message-ID: <20180522015631.GA20604@ming.t460p>
+Date: Tue, 22 May 2018 10:27:11 +0800
+Subject: [RFC PATCH 1/3] blk-mq: Reference count request usage
+In-Reply-To: <20180521231131.6685-2-keith.busch@intel.com>
+References: <20180521231131.6685-1-keith.busch@intel.com>
+ <20180521231131.6685-2-keith.busch@intel.com>
+Message-ID: <20180522022710.GB20430@ming.t460p>
 
-On Mon, May 21, 2018@10:25:17AM -0600, Keith Busch wrote:
-> On Tue, May 22, 2018@12:08:37AM +0800, Ming Lei wrote:
-> > Please take a look at blk_mq_complete_request(). Even with Bart's
-> > change, the request still won't be completed by driver. The request can
-> > only be completed by either driver or blk-mq, not both.
+On Mon, May 21, 2018@05:11:29PM -0600, Keith Busch wrote:
+> This patch adds a struct kref to struct request so that request users
+> can be sure they're operating on the same request without it changing
+> while they're processing it. The request's tag won't be released for
+> reuse until the last user is done with it.
 > 
-> So you're saying blk-mq can't complete a request the driver returned to
-> blk-mq to complete. And that's the nvme driver's problem to fix?
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  block/blk-mq.c         | 30 +++++++++++++++++++++++-------
+>  include/linux/blkdev.h |  2 ++
+>  2 files changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 4cbfd784e837..8b370ed75605 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -332,6 +332,7 @@ static struct request *blk_mq_rq_ctx_init(struct blk_mq_alloc_data *data,
+>  #endif
+>  
+>  	data->ctx->rq_dispatched[op_is_sync(op)]++;
+> +	kref_init(&rq->ref);
+>  	return rq;
+>  }
+>  
+> @@ -465,13 +466,33 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+>  }
+>  EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
+>  
+> +static void blk_mq_exit_request(struct kref *ref)
+> +{
+> +	struct request *rq = container_of(ref, struct request, ref);
+> +	struct request_queue *q = rq->q;
+> +	struct blk_mq_ctx *ctx = rq->mq_ctx;
+> +	struct blk_mq_hw_ctx *hctx = blk_mq_map_queue(q, ctx->cpu);
+> +	const int sched_tag = rq->internal_tag;
+> +
+> +	if (rq->tag != -1)
+> +		blk_mq_put_tag(hctx, hctx->tags, ctx, rq->tag);
+> +	if (sched_tag != -1)
+> +		blk_mq_put_tag(hctx, hctx->sched_tags, ctx, sched_tag);
+> +	blk_mq_sched_restart(hctx);
+> +	blk_queue_exit(q);
+> +}
+> +
+> +static void blk_mq_put_request(struct request *rq)
+> +{
+> +       kref_put(&rq->ref, blk_mq_exit_request);
+> +}
+> +
+>  void blk_mq_free_request(struct request *rq)
+>  {
+>  	struct request_queue *q = rq->q;
+>  	struct elevator_queue *e = q->elevator;
+>  	struct blk_mq_ctx *ctx = rq->mq_ctx;
+>  	struct blk_mq_hw_ctx *hctx = blk_mq_map_queue(q, ctx->cpu);
+> -	const int sched_tag = rq->internal_tag;
+>  
+>  	if (rq->rq_flags & RQF_ELVPRIV) {
+>  		if (e && e->type->ops.mq.finish_request)
+> @@ -495,12 +516,7 @@ void blk_mq_free_request(struct request *rq)
+>  		blk_put_rl(blk_rq_rl(rq));
+>  
+>  	blk_mq_rq_update_state(rq, MQ_RQ_IDLE);
+> -	if (rq->tag != -1)
+> -		blk_mq_put_tag(hctx, hctx->tags, ctx, rq->tag);
+> -	if (sched_tag != -1)
+> -		blk_mq_put_tag(hctx, hctx->sched_tags, ctx, sched_tag);
+> -	blk_mq_sched_restart(hctx);
+> -	blk_queue_exit(q);
+> +	blk_mq_put_request(rq);
 
-For avoiding use-after-free, one request can only be completed by
-one path, either by timeout path or normal completion(irq or cancel)
-from driver.
+Both the above line(atomic_try_cmpxchg_release is implied) and kref_init()
+in blk_mq_rq_ctx_init() are run from fast path, and may introduce some cost,
+you may have to run some benchmark to show if there is effect.
 
-So before handling this req's timeout, this request has to be
-marked as completed by blk-mq timeout code already, then nvme_cancel_request()
-can't cover this timed-out request.
+Also given the cost isn't free, could you describe a bit in comment log
+what we can get with the cost?
 
 Thanks,
 Ming
