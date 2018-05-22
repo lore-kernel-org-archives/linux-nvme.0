@@ -1,95 +1,49 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 11:09:54 +0200
-Subject: [PATCHv2 01/11] nvme.h: untangle AEN notice definitions
+Date: Tue, 22 May 2018 11:10:02 +0200
+Subject: [PATCHv2 09/11] nvmet: add a new nvmet_zero_sgl helper
 In-Reply-To: <20180522091004.39620-1-hare@suse.de>
 References: <20180522091004.39620-1-hare@suse.de>
-Message-ID: <20180522091004.39620-2-hare@suse.de>
+Message-ID: <20180522091004.39620-10-hare@suse.de>
 
 From: Christoph Hellwig <hch@lst.de>
 
-Stop including the event type in the definitions for the notice type.
+Zeroes the SGL in the payload.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 30 ++++++++++++++++++------------
- include/linux/nvme.h     |  8 ++++++--
- 2 files changed, 24 insertions(+), 14 deletions(-)
+ drivers/nvme/target/core.c  | 7 +++++++
+ drivers/nvme/target/nvmet.h | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 79d49f16d991..fd71daa92d6a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3343,6 +3343,21 @@ static void nvme_fw_act_work(struct work_struct *work)
- 	nvme_get_fw_slot_info(ctrl);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index a8fc05b1aff8..3b9e9eccc950 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -57,6 +57,13 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf, size_t len)
+ 	return 0;
  }
  
-+static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
++u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
 +{
-+	switch ((result & 0xff00) >> 8) {
-+	case NVME_AER_NOTICE_NS_CHANGED:
-+		dev_info(ctrl->device, "rescanning\n");
-+		nvme_queue_scan(ctrl);
-+		break;
-+	case NVME_AER_NOTICE_FW_ACT_STARTING:
-+		queue_work(nvme_wq, &ctrl->fw_act_work);
-+		break;
-+	default:
-+		dev_warn(ctrl->device, "async event result %08x\n", result);
-+	}
++	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len)
++		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
++	return 0;
 +}
 +
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		union nvme_result *res)
+ static unsigned int nvmet_max_nsid(struct nvmet_subsys *subsys)
  {
-@@ -3352,6 +3367,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		return;
+ 	struct nvmet_ns *ns;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 3fd6686ad906..f5f7c1398173 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -317,6 +317,7 @@ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
+ 		size_t len);
+ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ 		size_t len);
++u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
  
- 	switch (result & 0x7) {
-+	case NVME_AER_NOTICE:
-+		nvme_handle_aen_notice(ctrl, result);
-+		break;
- 	case NVME_AER_ERROR:
- 	case NVME_AER_SMART:
- 	case NVME_AER_CSS:
-@@ -3361,18 +3379,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 	default:
- 		break;
- 	}
--
--	switch (result & 0xff07) {
--	case NVME_AER_NOTICE_NS_CHANGED:
--		dev_info(ctrl->device, "rescanning\n");
--		nvme_queue_scan(ctrl);
--		break;
--	case NVME_AER_NOTICE_FW_ACT_STARTING:
--		queue_work(nvme_wq, &ctrl->fw_act_work);
--		break;
--	default:
--		dev_warn(ctrl->device, "async event result %08x\n", result);
--	}
- 	queue_work(nvme_wq, &ctrl->async_event_work);
- }
- EXPORT_SYMBOL_GPL(nvme_complete_async_event);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 4112e2bd747f..c37103a4ad38 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -436,10 +436,14 @@ enum {
- enum {
- 	NVME_AER_ERROR			= 0,
- 	NVME_AER_SMART			= 1,
-+	NVME_AER_NOTICE			= 2,
- 	NVME_AER_CSS			= 6,
- 	NVME_AER_VS			= 7,
--	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
--	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
-+};
-+
-+enum {
-+	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
-+	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
- };
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
  
- struct nvme_lba_range_type {
 -- 
 2.12.3
