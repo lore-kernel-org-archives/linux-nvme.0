@@ -1,19 +1,35 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 22 May 2018 10:44:04 -0600
-Subject: [RFC PATCH 0/3] blk-mq: Timeout rework
-In-Reply-To: <56564c0694eb3a21dfdcfbc6c3053774f026d371.camel@wdc.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 22 May 2018 16:48:01 +0000
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <20180522163403.GA8388@localhost.localdomain>
 References: <20180521231131.6685-1-keith.busch@intel.com>
- <9ca27e059fbd12a976e1e2f1ee1aa5c8ca579ad0.camel@wdc.com>
- <20180522140653.GP5528@localhost.localdomain>
- <56564c0694eb3a21dfdcfbc6c3053774f026d371.camel@wdc.com>
-Message-ID: <20180522164403.GB8388@localhost.localdomain>
+ <20180521231131.6685-4-keith.busch@intel.com>
+ <e7a287827b4c00151bb7714deca7ea6453177504.camel@wdc.com>
+ <20180522141507.GQ5528@localhost.localdomain>
+ <d73bd0b081dbf2156e7b20df4f85e1db38785b0b.camel@wdc.com>
+ <20180522163403.GA8388@localhost.localdomain>
+Message-ID: <9ddccf3d36f114b1e358f88bf360db87fd9d8246.camel@wdc.com>
 
-On Tue, May 22, 2018@04:30:41PM +0000, Bart Van Assche wrote:
+On Tue, 2018-05-22@10:34 -0600, Keith Busch wrote:
+> On Tue, May 22, 2018@04:29:07PM +0000, Bart Van Assche wrote:
+> > Please have another look at the current code that handles request timeouts
+> > and completions. The current implementation guarantees that no double
+> > completions can occur but your patch removes essential aspects of that
+> > implementation.
 > 
-> Please have a look at v13 of the timeout handling rework patch that I posted.
-> That patch should not introduce any new race conditions and should also handle
-> the scenario fine in which blk_mq_complete_request() is called while the NVMe
-> timeout handling function is in progress.
+> How does the current implementation guarantee a double completion doesn't
+> happen when the request is allocated for a new command?
 
-Thanks for the notice. That sounds very interesting and will be happy
-take a look.
+Hello Keith,
+
+If a request is completes and is reused after the timeout handler has set
+aborted_gstate and before blk_mq_terminate_expired() is called then the latter
+function will skip the request because restarting a request causes the
+generation number in rq->gstate to be incremented. From blk_mq_rq_update_state():
+
+	if (state == MQ_RQ_IN_FLIGHT) {
+		WARN_ON_ONCE((old_val & MQ_RQ_STATE_MASK) != MQ_RQ_IDLE);
+		new_val += MQ_RQ_GEN_INC;
+	}
+
+Bart.
