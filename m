@@ -1,47 +1,33 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 22 May 2018 16:03:24 -0600
-Subject: [PATCHv2 0/8] nvme timeout fixes v2
-Message-ID: <20180522220332.9244-1-keith.busch@intel.com>
+Date: Tue, 22 May 2018 16:03:30 -0600
+Subject: [PATCHv2 6/8] nvme-pci: Rate limit the nvme timeout warnings
+In-Reply-To: <20180522220332.9244-1-keith.busch@intel.com>
+References: <20180522220332.9244-1-keith.busch@intel.com>
+Message-ID: <20180522220332.9244-7-keith.busch@intel.com>
 
-While some substantial changes to the blk-mq's timeout handling are
-under consideration, the following should be compatible with existing
-implementation, and current proposals for the future.
+The block layer's timeout handling currently doesn't let the driver
+complete commands outside the timeout callback once blk-mq decides they've
+expired. If a device breaks, this could potentially create many thousands
+of timed out commands. There's nothing of value to be gleaned from
+observing each of those messages, so this patch adds a ratelimit on them.
 
-v1 -> v2:
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Reverse the sync/disable sequence on nvme reset in case a request was
-  prevented from completing in the timeout work, then unconditionally
-  disable the device to reclaim any remaining outstanding tags.
-
-  Ensure we're not incorrectly clearing the new queue freeze flag.
-
-  Do not start IO queues within the CONNECTING state. The queues will be
-  started after entering the LIVE state.
-
-  Fixed the ratelimit to the intended print.
-
-  A new fix for a very unlikely race where an IO was blocked from
-  completing prior to a reset, timing out yet again in CONNECTING state.
-
-  A fix for a failed controller recovery that could leave queues quiesced
-  when trying to unbind the driver.
-
-  Whitespace fixes
-
-Keith Busch (8):
-  nvme: Sync request queues on reset
-  nvme-pci: Fix queue freeze criteria on reset
-  nvme: Move all IO out of controller reset
-  nvme: Allow reset from CONNECTING state
-  nvme-pci: Attempt reset retry for IO failures
-  nvme-pci: Rate limit the nvme timeout warnings
-  nvme-pci: End IO requests immediately in CONNECTING state
-  nvme-pci: Ensure queues are not quiesced on dead controller
-
- drivers/nvme/host/core.c |  24 +++++++++-
- drivers/nvme/host/nvme.h |   2 +
- drivers/nvme/host/pci.c  | 117 +++++++++++++++++++++++++++++++++--------------
- 3 files changed, 106 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index dfaf22ff6328..d6576934476a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1235,7 +1235,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	switch (dev->ctrl.state) {
+ 	case NVME_CTRL_CONNECTING:
+ 	case NVME_CTRL_RESETTING:
+-		dev_warn(dev->ctrl.device,
++		dev_warn_ratelimited(dev->ctrl.device,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+ 			 req->tag, nvmeq->qid);
+ 		nvme_dev_disable(dev, false);
 -- 
 2.14.3
