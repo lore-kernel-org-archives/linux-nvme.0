@@ -1,27 +1,25 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 22 May 2018 08:03:38 -0600
-Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
-In-Reply-To: <20180522014626.GA20430@ming.t460p>
-References: <20180518163823.27820-3-keith.busch@intel.com>
- <20180518230357.GC18334@ming.t460p>
- <20180521142219.GC5528@localhost.localdomain>
- <20180521145850.GA19099@ming.t460p>
- <20180521150331.GI5528@localhost.localdomain>
- <20180521153425.GC19099@ming.t460p>
- <20180521154433.GJ5528@localhost.localdomain>
- <20180521160452.GD19099@ming.t460p>
- <20180521162354.GM5528@localhost.localdomain>
- <20180522014626.GA20430@ming.t460p>
-Message-ID: <20180522140337.GO5528@localhost.localdomain>
+Date: Tue, 22 May 2018 08:06:53 -0600
+Subject: [RFC PATCH 0/3] blk-mq: Timeout rework
+In-Reply-To: <9ca27e059fbd12a976e1e2f1ee1aa5c8ca579ad0.camel@wdc.com>
+References: <20180521231131.6685-1-keith.busch@intel.com>
+ <9ca27e059fbd12a976e1e2f1ee1aa5c8ca579ad0.camel@wdc.com>
+Message-ID: <20180522140653.GP5528@localhost.localdomain>
 
-On Tue, May 22, 2018@09:46:32AM +0800, Ming Lei wrote:
-> It isn't a good practice to rely on timing for avoiding race, IMO.
+On Mon, May 21, 2018@11:29:21PM +0000, Bart Van Assche wrote:
+> Can you explain why the NVMe driver needs reference counting of requests but
+> no other block driver needs this? Additionally, why is it that for all block
+> drivers except NVMe the current block layer API is sufficient
+> (blk_get_request()/blk_execute_rq()/blk_mq_start_request()/
+> blk_mq_complete_request()/blk_mq_end_request())?
 
-Sure thing, and it's easy enough to avoid this one.
- 
-> OK, please fix other issues mentioned in the following comment together,
-> then I will review further and see if it can work well.
-> 
-> https://marc.info/?l=linux-block&m=152668465710591&w=2
+Hi Bart,
 
-Will do, v2 coming up by end of today.
+I'm pretty sure NVMe isn't the only driver where a call to
+blk_mq_complete_request silently fails to transition the request to
+COMPLETE, forcing unnecessary error handling. This patch isn't so
+much about NVMe as it is about removing that silent exception from the
+block API.
+
+Thanks,
+Keith
