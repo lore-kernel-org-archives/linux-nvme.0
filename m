@@ -1,58 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 22 May 2018 18:17:04 +0200
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180521231131.6685-4-keith.busch@intel.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 22 May 2018 16:27:55 +0000
+Subject: [RFC PATCH 2/3] blk-mq: Fix timeout and state order
+In-Reply-To: <20180522152437.GB18664@lst.de>
 References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
-Message-ID: <20180522161704.GA20000@lst.de>
+ <20180521231131.6685-3-keith.busch@intel.com>
+ <20180522152437.GB18664@lst.de>
+Message-ID: <3d14e88b2bb22ac929d2aa007b4ad9eaee6def56.camel@wdc.com>
 
-Hi Keith,
+On Tue, 2018-05-22@17:24 +0200, Christoph Hellwig wrote:
+> On Mon, May 21, 2018@05:11:30PM -0600, Keith Busch wrote:
+> > The block layer had been setting the state to in-flight prior to updating
+> > the timer. This is the wrong order since the timeout handler could observe
+> > the in-flight state with the older timeout, believing the request had
+> > expired when in fact it is just getting started.
+> > 
+> > Signed-off-by: Keith Busch <keith.busch at intel.com>
+> 
+> The way I understood Barts comments to my comments on his patch we
+> actually need the two updates to be atomic.  I haven't had much time
+> to follow up, but I'd like to hear Barts opinion.  Either way we
+> clearly need to document our assumptions here in comments.
 
-I like this series a lot.  One comment that is probably close
-to the big discussion in the thread:
+After we discussed request state updating I have been thinking further about
+this. I think now that it is safe to update the request deadline first because
+the timeout code ignores requests anyway that have another state than
+MQ_RQ_IN_FLIGHT. Additionally, it is unlikely that the request timer will fire
+before the request state has been updated. And if that would happen the request
+timeout will be handled the next time request timeouts are examined.
 
->  	switch (ret) {
->  	case BLK_EH_HANDLED:
->  		/*
-> +		 * If the request is still in flight, the driver is requesting
-> +		 * blk-mq complete it.
->  		 */
-> +		if (blk_mq_rq_state(req) == MQ_RQ_IN_FLIGHT)
-> +			__blk_mq_complete_request(req);
-> +		break;
-
-The state check here really irked me, and from the thread it seems like
-I'm not the only one.  At least for the NVMe case I think it is perfectly
-safe, although I agree I'd rather audit what other drivers do carefully.
-
-That being said I think BLK_EH_HANDLED seems like a fundamentally broken
-idea, and I'd actually prefer to get rid of it over adding things like
-the MQ_RQ_IN_FLIGHT check above.
-
-E.g. if we look at the cases where nvme-pci returns it:
-
- - if we did call nvme_dev_disable, we already canceled all requests,
-   so we might as well just return BLK_EH_NOT_HANDLED
- - the poll for completion case already completed the command,
-   so we should return BLK_EH_NOT_HANDLED
-
-So I think we need to fix up nvme and if needed any other driver
-to return the right value and then assert that the request is
-still in in-flight status for the BLK_EH_HANDLED case.
-
-> @@ -124,16 +119,7 @@ static inline int blk_mq_rq_state(struct request *rq)
->  static inline void blk_mq_rq_update_state(struct request *rq,
->  					  enum mq_rq_state state)
->  {
-> +	WRITE_ONCE(rq->state, state);
->  }
-
-I think this helper can go away now.  But we should have a comment
-near the state field documenting the concurrency implications.
-
-
-
-> +	u64 state;
-
-This should probably be a mq_rq_state instead.  Which means it needs
-to be moved to blkdev.h, but that should be ok.
+Bart.
