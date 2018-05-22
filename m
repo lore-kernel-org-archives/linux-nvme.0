@@ -1,92 +1,85 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 22 May 2018 11:09:59 +0200
-Subject: [PATCHv2 06/11] nvme: add support for the log specific field
+Date: Tue, 22 May 2018 11:09:57 +0200
+Subject: [PATCHv2 04/11] nvmet: Add AEN configuration support
 In-Reply-To: <20180522091004.39620-1-hare@suse.de>
 References: <20180522091004.39620-1-hare@suse.de>
-Message-ID: <20180522091004.39620-7-hare@suse.de>
+Message-ID: <20180522091004.39620-5-hare@suse.de>
 
-From: Christoph Hellwig <hch@lst.de>
+From: Hannes Reinecke <hare@suse.com>
 
-NVMe 1.3 added a new log specific field to the get log page CQ
-defintion.  Add the field and support passing it to nvme_get_log_ext.
+AEN configuration via the 'Get Features' and 'Set Features' admin
+command is mandatory, so we should be implemeting handling for it.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c     | 6 +++---
- drivers/nvme/host/lightnvm.c | 2 +-
- drivers/nvme/host/nvme.h     | 2 +-
- include/linux/nvme.h         | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 8 +++++++-
+ drivers/nvme/target/core.c      | 6 ++++--
+ drivers/nvme/target/nvmet.h     | 1 +
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ae1ebc2c88b3..b4408e1e677f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2245,8 +2245,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 5e0e9fcc0d4d..58df0e5b3f5a 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -447,6 +447,11 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
+ 		nvmet_set_result(req, req->sq->ctrl->kato);
+ 		break;
++	case NVME_FEAT_ASYNC_EVENT:
++		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
++		req->sq->ctrl->aen_cfg = val32 & NVME_AEN_CFG_NS_ATTR;
++		nvmet_set_result(req, req->sq->ctrl->aen_cfg);
++		break;
+ 	case NVME_FEAT_HOST_ID:
+ 		status = NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
+ 		break;
+@@ -485,9 +490,10 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 		break;
+ 	case NVME_FEAT_WRITE_ATOMIC:
+ 		break;
++#endif
+ 	case NVME_FEAT_ASYNC_EVENT:
++		nvmet_set_result(req, req->sq->ctrl->aen_cfg);
+ 		break;
+-#endif
+ 	case NVME_FEAT_VOLATILE_WC:
+ 		nvmet_set_result(req, 1);
+ 		break;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 505d4267b8f1..a8fc05b1aff8 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -146,8 +146,9 @@ static void nvmet_send_ns_changed_event(struct nvmet_subsys *subsys)
+ 	struct nvmet_ctrl *ctrl;
+ 
+ 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+-		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
+-				NVME_AER_NOTICE_NS_CHANGED, 0);
++		if (ctrl->aen_cfg & NVME_AEN_CFG_NS_ATTR)
++			nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
++					      NVME_AER_NOTICE_NS_CHANGED, 0);
  }
  
- int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--		     u8 log_page, void *log,
--		     size_t size, u64 offset)
-+		u8 log_page, u8 lsp, void *log, size_t size, u64 offset)
- {
- 	struct nvme_command c = { };
- 	unsigned long dwlen = size / 4 - 1;
-@@ -2259,6 +2258,7 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		c.get_log_page.nsid = cpu_to_le32(NVME_NSID_ALL);
+ int nvmet_register_transport(const struct nvmet_fabrics_ops *ops)
+@@ -816,6 +817,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
  
- 	c.get_log_page.lid = log_page;
-+	c.get_log_page.lsp = lsp;
- 	c.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1));
- 	c.get_log_page.numdu = cpu_to_le16(dwlen >> 16);
- 	c.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset));
-@@ -2270,7 +2270,7 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log,
- 			size_t size)
- {
--	return nvme_get_log_ext(ctrl, NULL, log_page, log, size, 0);
-+	return nvme_get_log_ext(ctrl, NULL, log_page, 0, log, size, 0);
- }
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
++	ctrl->aen_cfg = NVME_AEN_CFG_NS_ATTR;
  
- static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 41279da799ed..216c6b0a9554 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -598,7 +598,7 @@ static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
- 	while (left) {
- 		len = min_t(unsigned int, left, ctrl->max_hw_sectors << 9);
+ 	ctrl->cqs = kcalloc(subsys->max_qid + 1,
+ 			sizeof(struct nvmet_cq *),
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 15fd84ab21f8..3fd6686ad906 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -120,6 +120,7 @@ struct nvmet_ctrl {
+ 	u16			cntlid;
+ 	u32			kato;
  
--		ret = nvme_get_log_ext(ctrl, ns, NVME_NVM_LOG_REPORT_CHUNK,
-+		ret = nvme_get_log_ext(ctrl, ns, NVME_NVM_LOG_REPORT_CHUNK, 0,
- 				dev_meta, len, offset);
- 		if (ret) {
- 			dev_err(ctrl->device, "Get REPORT CHUNK log error\n");
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3ec9b3e37616..3f9a4f8aa310 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -432,7 +432,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
- int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
- 
- int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
--		u8 log_page, void *log, size_t size, u64 offset);
-+		u8 log_page, u8 lsp, void *log, size_t size, u64 offset);
- 
- extern const struct attribute_group nvme_ns_id_attr_group;
- extern const struct block_device_operations nvme_ns_head_ops;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 03d6494bb028..2169e188973f 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -914,7 +914,7 @@ struct nvme_get_log_page_command {
- 	__u64			rsvd2[2];
- 	union nvme_data_ptr	dptr;
- 	__u8			lid;
--	__u8			rsvd10;
-+	__u8			lsp; /* upper 4 bits reserved */
- 	__le16			numdl;
- 	__le16			numdu;
- 	__u16			rsvd11;
++	u32			aen_cfg;
+ 	struct nvmet_req	*async_event_cmds[NVMET_ASYNC_EVENTS];
+ 	unsigned int		nr_async_event_cmds;
+ 	struct list_head	async_events;
 -- 
 2.12.3
