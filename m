@@ -1,155 +1,50 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 22 May 2018 09:34:20 +0200
-Subject: [PATCH V6] nvmet: add simple file backed ns support
-In-Reply-To: <20180519073536.9712-1-chaitanya.kulkarni@wdc.com>
-References: <20180519073536.9712-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180522073420.GA8655@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 22 May 2018 09:30:24 +0200
+Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
+In-Reply-To: <20180521182904.GA14774@vader>
+References: <20180514114042.12082-1-jthumshirn@suse.de>
+ <20180521182904.GA14774@vader>
+Message-ID: <20180522073024.axmhji5nel7kx4tm@linux-x5ow.site>
 
-Hi Chaitanya,
+On Mon, May 21, 2018@11:29:04AM -0700, Omar Sandoval wrote:
+> But I'm curious about this specific example. Is this not mounted for you
+> automatically? I'm guessing systemd does it for me on my setup.
 
-this looks great!
+No my setup is kind of special. I don't want to mess with all the
+user-space so all I do is:
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+dracut --no-compress --kver `make kernelrelease` --kmoddir mods/ \
+       --no-hostonly --no-hostonly-cmdline --modules "bash base" \
+       --tmpdir `pwd`/myinitrd --force myinitrd/initrd \
+       --add-drivers "loop nvme nvme-loop nvmet" \
+       --install "lsblk find sort parted getopt fio tput column date \
+       		 dirname mktemp ps diff awk timeout time losetup \
+		 truncate wc grep stat basename cut blktrace sg_inq \
+		 realpath findmnt vi dd sed rm rmdir nvme" \
+		 --include "$HOME/src/blktests" "/blktests
 
-Just a few cosmetic fixups for a minor resend, and one thing that
-I think is a minor bug at the end:
+qemu-kvm -m 4096 -smp 4 -nographic -serial mon:stdio -kernel \
+	 arch/x86/boot/bzImage -initrd myinitrd/initrd \
+	 -append "console=ttyS0 debug"
 
-> -nvmet-y		+= core.o configfs.o admin-cmd.o io-cmd.o fabrics-cmd.o \
-> -			discovery.o
-> +nvmet-y		+= core.o configfs.o admin-cmd.o io-cmd-bdev.o fabrics-cmd.o \
+I have the above in a shell wrapper as I simply can't remember it, or
+I just use rapido [1] which a co-worker of mine started for this job.
 
-Please keep the length of the line under 80 chars for the makefile as
-well.
+As minimal as possible. I try to get my rebuild - boot - test cycles
+short.
 
-> +	/* fallback under memory pressure */
-> +
-> +	req->f.mpool_alloc = false;
+With my current config I have a bootup time in qemu below half a
+second on a reasonable machine in my lab and just below one second
+on my laptop.
 
-I'd remove the empty line above to keep the comment closer to the code
-described by it.
+[1] https://github.com/rapido-linux/rapido
 
-> +		if (is_sync && (nr_bvec - 1 == 0 ||
-> +					bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
-
-I usually try to align line breaks to boundaries of the logical operations
-to make the statement easier to read, e.g.:
-
-		if (is_sync &&
-		    ((nr_bvec - 1 == 0 || bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
-
-> +	if (likely(!is_sync)) {
-> +		req->f.iocb.ki_complete = nvmet_file_io_done;
-> +		nvmet_file_submit_bvec(req, pos, bv_cnt, map_len);
-> +	} else if (req->f.mpool_alloc) {
-> +		mempool_free(req->f.bvec, req->ns->bvec_pool);
-> +		nvmet_req_complete(req,
-> +				ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
-> +	}
-
-Don't we need to do the completion and freeing here also for the
-non-mempool case?  What do you think about this patch that just
-uses the completion handler for the sync case as well and cleans
-up this function a bit:
-
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 3bc98b518bd4..9805bbfa0d86 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -66,14 +66,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
- 	return ret;
- }
- 
--static size_t nvmet_file_init_bvec(struct bio_vec *bv,
--		struct sg_page_iter *iter)
-+static void nvmet_file_init_bvec(struct bio_vec *bv, struct sg_page_iter *iter)
- {
- 	bv->bv_page = sg_page_iter_page(iter);
- 	bv->bv_offset = iter->sg->offset;
- 	bv->bv_len = PAGE_SIZE - iter->sg->offset;
--
--	return bv->bv_len;
- }
- 
- static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
-@@ -130,9 +127,8 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 	struct sg_page_iter sg_pg_iter;
- 	unsigned long bv_cnt = 0;
- 	bool is_sync = false;
--	size_t map_len = 0;
--	size_t len = 0;
--	ssize_t ret;
-+	size_t len = 0, total_len = 0;
-+	ssize_t ret = 0;
- 	loff_t pos;
- 
- 	if (!req->sg_cnt || !nr_bvec) {
-@@ -147,7 +143,6 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 		req->f.bvec = req->inline_bvec;
- 
- 	/* fallback under memory pressure */
--
- 	req->f.mpool_alloc = false;
- 	if (unlikely(!req->f.bvec)) {
- 		req->f.bvec = mempool_alloc(req->ns->bvec_pool, GFP_KERNEL);
-@@ -160,19 +155,18 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 
- 	memset(&req->f.iocb, 0, sizeof(struct kiocb));
- 	for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
--		map_len += nvmet_file_init_bvec(&req->f.bvec[bv_cnt],
--				&sg_pg_iter);
-+		nvmet_file_init_bvec(&req->f.bvec[bv_cnt], &sg_pg_iter);
- 		len += req->f.bvec[bv_cnt].bv_len;
-+		total_len += req->f.bvec[bv_cnt].bv_len;
- 		bv_cnt++;
- 
--		WARN_ON((nr_bvec - 1) < 0);
-+		WARN_ON_ONCE(nr_bvec - 1 < 0);
- 
--		if (is_sync && (nr_bvec - 1 == 0 ||
--					bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
-+		if (unlikely(is_sync) &&
-+		    (nr_bvec - 1 == 0 || bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
- 			ret = nvmet_file_submit_bvec(req, pos, bv_cnt, len);
- 			if (ret < 0)
--				goto err;
--
-+				goto out;
- 			pos += len;
- 			bv_cnt = 0;
- 			len = 0;
-@@ -180,27 +174,15 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 		nr_bvec--;
- 	}
- 
--	if (map_len != req->data_len)
--		goto err;
--
--	if (likely(!is_sync)) {
--		req->f.iocb.ki_complete = nvmet_file_io_done;
--		nvmet_file_submit_bvec(req, pos, bv_cnt, map_len);
--	} else if (req->f.mpool_alloc) {
--		mempool_free(req->f.bvec, req->ns->bvec_pool);
--		nvmet_req_complete(req,
--				ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
--	}
--	return;
--err:
--	if (req->f.bvec != req->inline_bvec) {
--		if (req->f.mpool_alloc == false)
--			kfree(req->f.bvec);
--		else
--			mempool_free(req->f.bvec, req->ns->bvec_pool);
-+	if (WARN_ON_ONCE(total_len != req->data_len))
-+		ret = -EIO;
-+out:
-+	if (unlikely(is_sync || ret)) {
-+		nvmet_file_io_done(&req->f.iocb, ret, 0);
-+		return;
- 	}
--
--	nvmet_req_complete(req, NVME_SC_INTERNAL | NVME_SC_DNR);
-+	req->f.iocb.ki_complete = nvmet_file_io_done;
-+	nvmet_file_submit_bvec(req, pos, bv_cnt, total_len);
- }
- 
- static void nvmet_file_flush_work(struct work_struct *w)
+Byte,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
