@@ -1,63 +1,63 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Mon, 21 May 2018 23:29:06 +0000
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180521231131.6685-4-keith.busch@intel.com>
-References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
-Message-ID: <e7a287827b4c00151bb7714deca7ea6453177504.camel@wdc.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 22 May 2018 09:46:32 +0800
+Subject: [PATCH 3/6] nvme: Move all IO out of controller reset
+In-Reply-To: <20180521162354.GM5528@localhost.localdomain>
+References: <20180518163823.27820-1-keith.busch@intel.com>
+ <20180518163823.27820-3-keith.busch@intel.com>
+ <20180518230357.GC18334@ming.t460p>
+ <20180521142219.GC5528@localhost.localdomain>
+ <20180521145850.GA19099@ming.t460p>
+ <20180521150331.GI5528@localhost.localdomain>
+ <20180521153425.GC19099@ming.t460p>
+ <20180521154433.GJ5528@localhost.localdomain>
+ <20180521160452.GD19099@ming.t460p>
+ <20180521162354.GM5528@localhost.localdomain>
+Message-ID: <20180522014626.GA20430@ming.t460p>
 
-On Mon, 2018-05-21@17:11 -0600, Keith Busch wrote:
-> @@ -650,27 +600,10 @@ static u64 blk_mq_rq_aborted_gstate(struct request *rq)
->  void blk_mq_complete_request(struct request *rq)
->  {
->  	struct request_queue *q = rq->q;
-> -	struct blk_mq_hw_ctx *hctx = blk_mq_map_queue(q, rq->mq_ctx->cpu);
-> -	int srcu_idx;
->  
->  	if (unlikely(blk_should_fake_timeout(q)))
->  		return;
-> -	[ ... ]
-> +	__blk_mq_complete_request(rq);
->  }
->  EXPORT_SYMBOL(blk_mq_complete_request);
-> [ ... ]
->  static void blk_mq_rq_timed_out(struct request *req, bool reserved)
->  {
->  	const struct blk_mq_ops *ops = req->q->mq_ops;
->  	enum blk_eh_timer_return ret = BLK_EH_RESET_TIMER;
->  
-> -	req->rq_flags |= RQF_MQ_TIMEOUT_EXPIRED;
-> -
->  	if (ops->timeout)
->  		ret = ops->timeout(req, reserved);
->  
->  	switch (ret) {
->  	case BLK_EH_HANDLED:
-> -		__blk_mq_complete_request(req);
-> -		break;
-> -	case BLK_EH_RESET_TIMER:
->  		/*
-> -		 * As nothing prevents from completion happening while
-> -		 * ->aborted_gstate is set, this may lead to ignored
-> -		 * completions and further spurious timeouts.
-> +		 * If the request is still in flight, the driver is requesting
-> +		 * blk-mq complete it.
->  		 */
-> -		blk_mq_rq_update_aborted_gstate(req, 0);
-> +		if (blk_mq_rq_state(req) == MQ_RQ_IN_FLIGHT)
-> +			__blk_mq_complete_request(req);
-> +		break;
-> +	case BLK_EH_RESET_TIMER:
->  		blk_add_timer(req);
->  		break;
->  	case BLK_EH_NOT_HANDLED:
-> @@ -880,64 +782,64 @@ static void blk_mq_rq_timed_out(struct request *req, bool reserved)
->  	}
->  }
+On Mon, May 21, 2018@10:23:55AM -0600, Keith Busch wrote:
+> On Tue, May 22, 2018@12:04:53AM +0800, Ming Lei wrote:
+> > On Mon, May 21, 2018@09:44:33AM -0600, Keith Busch wrote:
+> > > On Mon, May 21, 2018@11:34:27PM +0800, Ming Lei wrote:
+> > > > nvme_dev_disable() quiesces queues first before killing queues.
+> > > > 
+> > > > If queues are quiesced during or before nvme_wait_freeze() is run
+> > > > from the 2nd part of reset, the 2nd part can't move on, and IO hang
+> > > > is caused. Finally no reset can be scheduled at all.
+> > > 
+> > > But this patch moves nvme_wait_freeze outside the reset path, so I'm
+> > > afraid I'm unable to follow how you've concluded the wait freeze is
+> > > somehow part of the reset.
+> > 
+> > For example:
+> > 
+> > 1) the 1st timeout event:
+> > 
+> > - nvme_dev_disable()
+> > - reset
+> > - scan_work
+> > 
+> > 2) the 2nd timeout event:
+> > 
+> > nvme_dev_disable() may come just after nvme_start_queues() in
+> > the above reset of the 1st timeout. And nvme_timeout() won't
+> > schedule a new reset since the controller state is NVME_CTRL_CONNECTING.
+> 
+> Let me get this straight -- you're saying nvme_start_queues is going
+> to somehow immediately trigger timeout work? I can't see how that could
 
-I think the above changes can lead to concurrent calls of
-__blk_mq_complete_request() from the regular completion path and the timeout
-path. That's wrong: the __blk_mq_complete_request() caller should guarantee
-that no concurrent calls from another context to that function can occur.
+It may be difficult to trigger in reality, but won't be impossible
+since the timeout value can be adjusted via module parameter, and any
+schedule delay can be introduced in one busy system.
 
-Bart.
+It isn't a good practice to rely on timing for avoiding race, IMO.
+
+> possibly happen in real life, but we can just remove it and use the existing
+> nvme_start_ctrl to handle that in the LIVE state.
+
+OK, please fix other issues mentioned in the following comment together,
+then I will review further and see if it can work well.
+
+https://marc.info/?l=linux-block&m=152668465710591&w=2
+
+Thanks,
+Ming
