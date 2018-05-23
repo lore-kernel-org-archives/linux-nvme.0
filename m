@@ -1,33 +1,27 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 23 May 2018 07:12:00 +0000
-Subject: [PATCH V7] nvmet: add simple file backed ns support
-In-Reply-To: <20180523061003.GA13940@lst.de>
-References: <20180523043439.12846-1-chaitanya.kulkarni@wdc.com>,
- <20180523061003.GA13940@lst.de>
-Message-ID: <BN6PR04MB1203759A015A9D1FED5AAC4B866B0@BN6PR04MB1203.namprd04.prod.outlook.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 23 May 2018 09:23:58 +0200
+Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
+In-Reply-To: <20180523001530.GJ9536@vader>
+References: <20180514114042.12082-1-jthumshirn@suse.de>
+ <20180521182904.GA14774@vader>
+ <20180522073024.axmhji5nel7kx4tm@linux-x5ow.site>
+ <20180523001530.GJ9536@vader>
+Message-ID: <20180523072358.ypb7lhgo72r4hxpw@linux-x5ow.site>
 
-[CK] It really looked weird?when I aligned it to the start, I guess I need to get used to it. BTW, I have got the caching patch ready, I'll send shortly.
+On Tue, May 22, 2018@05:15:30PM -0700, Omar Sandoval wrote:
+> Cool setup :) I have my own fanciness [1] which lets met boot straight
+> into a test kernel without packaging it up in any way.
+> 
+> Anyways, I added some documentation based on yours. Thanks!
+> 
+> 1: https://github.com/osandov/osandov-linux#vm-setup
 
-
-From: Christoph Hellwig <hch@lst.de>
-Sent: Tuesday, May 22, 2018 11:10:03 PM
-To: Chaitanya Kulkarni
-Cc: linux-nvme at lists.infradead.org; hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; Damien Le Moal
-Subject: Re: [PATCH V7] nvmet: add simple file backed ns support
-? 
- 
-> +???????????? if (unlikely(is_sync) &&
-> +???????????????????? (nr_bvec - 1 == 0 || bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
-
-Nitpick (can be fixed when applying):? Either align to the condition
-or by two tabs, not by one tab as the code inside the block.? E.g. in this
-case I'd do:
-
-??????????????? if (unlikely(is_sync) &&
-??????????????????? (nr_bvec - 1 == 0 || bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
-
-
-Otherwise looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-    
+Cool thanks for sharing.
+     Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
