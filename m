@@ -1,39 +1,26 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 23 May 2018 15:19:43 +0200
-Subject: [PATCHv2 08/11] nvme: add ANA support
-In-Reply-To: <BN7PR06MB4033432F1B35CFF325D6502E926B0@BN7PR06MB4033.namprd06.prod.outlook.com>
-References: <20180522091004.39620-1-hare@suse.de>
- <20180522091004.39620-9-hare@suse.de>
- <BN7PR06MB4033432F1B35CFF325D6502E926B0@BN7PR06MB4033.namprd06.prod.outlook.com>
-Message-ID: <392582fa-f000-5cb8-4df2-62ff671cf036@suse.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 23 May 2018 08:35:40 -0600
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <20180523003446.GC31196@ming.t460p>
+References: <20180521231131.6685-1-keith.busch@intel.com>
+ <20180521231131.6685-4-keith.busch@intel.com>
+ <20180522161704.GA20000@lst.de> <20180523003446.GC31196@ming.t460p>
+Message-ID: <20180523143539.GA10882@localhost.localdomain>
 
-On 05/23/2018 01:52 PM, Popuri, Sriram wrote:
-> Thanks for addressing our comments. Overall looks good and have few comments as below:
+On Wed, May 23, 2018@08:34:48AM +0800, Ming Lei wrote:
+> Let's consider the normal NVMe timeout code path:
 > 
-> 1) I guess it should be bit 6 not bit 7.
-> - if (ctrl->anacap & (1 << 7))
-> +if (ctrl->anacap & (1 << 6))
-Ah. Correct.
-Will be fixing it up.
-
-> 2) If you resubmit because ana_xfer_size is restricted by mdts, you need to get nvme_ana_rsp_hdr
-> at last and revalidate chgcnt. Otherwise the log you read might be corrupt.
-Indeed. This whole mdts stuff is pretty raw, so I'm not surprised that 
-we're getting errors here.
-Maybe it's worthwhile moving it into the generic function; let's see.
-
-> 3) NVME_SC_ANA_TRANSITION used instead of NVME_ANA_CHANGE in nvme_process_ana_log (two places)
-
-Did I? That would've been wrong indeed. Will be fixing it up.
-
-> 4) Can you add info level debug for ANA state changes so its helpful for debugging.
+> 1) one request is timed out;
 > 
-Thought about it myself (and actually did so during development), but 
-then decided against it as the entire nvme stack is pretty silent.
-Probably I'll make it a conditional logging entry here.
+> 2) controller is shutdown, this timed-out request is requeued from
+> nvme_cancel_request(), but can't dispatch because queues are quiesced
+> 
+> 3) reset is done from another context, and this request is dispatched
+> again, and completed exactly before returning EH_HANDLED to blk-mq, but
+> its state isn't updated to COMPLETE yet.
+> 
+> 4) then double completions are done from both normal completion and timeout
+> path.
 
-Thanks for the review.
-
-Cheers,
-
-Hannes
+We're definitely fixing this, but I must admit that's an impressive
+cognitive traversal across 5 thread contexts to arrive at that race. :)
