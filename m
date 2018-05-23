@@ -1,26 +1,37 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 23 May 2018 08:35:40 -0600
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180523003446.GC31196@ming.t460p>
-References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
- <20180522161704.GA20000@lst.de> <20180523003446.GC31196@ming.t460p>
-Message-ID: <20180523143539.GA10882@localhost.localdomain>
+From: brnkv.i1@gmail.com (Ivan Bornyakov)
+Date: Wed, 23 May 2018 17:56:11 +0300
+Subject: [PATCH] nvme: host: core: fix precedence of ternary operator
+Message-ID: <20180523145611.10297-1-brnkv.i1@gmail.com>
 
-On Wed, May 23, 2018@08:34:48AM +0800, Ming Lei wrote:
-> Let's consider the normal NVMe timeout code path:
-> 
-> 1) one request is timed out;
-> 
-> 2) controller is shutdown, this timed-out request is requeued from
-> nvme_cancel_request(), but can't dispatch because queues are quiesced
-> 
-> 3) reset is done from another context, and this request is dispatched
-> again, and completed exactly before returning EH_HANDLED to blk-mq, but
-> its state isn't updated to COMPLETE yet.
-> 
-> 4) then double completions are done from both normal completion and timeout
-> path.
+Ternary operator have lower precedence then bitwise or, so 'cdw10' was
+calculated wrong.
 
-We're definitely fixing this, but I must admit that's an impressive
-cognitive traversal across 5 thread contexts to arrive at that race. :)
+Signed-off-by: Ivan Bornyakov <brnkv.i1 at gmail.com>
+---
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index b070c659391f..1eba9b0cb9dc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1577,7 +1577,7 @@ static int nvme_pr_reserve(struct block_device *bdev, u64 key,
+ static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
+ 		enum pr_type type, bool abort)
+ {
+-	u32 cdw10 = nvme_pr_type(type) << 8 | abort ? 2 : 1;
++	u32 cdw10 = nvme_pr_type(type) << 8 | (abort ? 2 : 1);
+ 	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
+ }
+ 
+@@ -1589,7 +1589,7 @@ static int nvme_pr_clear(struct block_device *bdev, u64 key)
+ 
+ static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
+ {
+-	u32 cdw10 = nvme_pr_type(type) << 8 | key ? 1 << 3 : 0;
++	u32 cdw10 = nvme_pr_type(type) << 8 | (key ? 1 << 3 : 0);
+ 	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
+ }
+ 
+-- 
+2.16.1
