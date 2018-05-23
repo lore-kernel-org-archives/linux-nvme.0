@@ -1,52 +1,47 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Tue, 22 May 2018 17:15:30 -0700
-Subject: [PATCH blktests] Documentation: document prerequisite scriptlets
-In-Reply-To: <20180522073024.axmhji5nel7kx4tm@linux-x5ow.site>
-References: <20180514114042.12082-1-jthumshirn@suse.de>
- <20180521182904.GA14774@vader>
- <20180522073024.axmhji5nel7kx4tm@linux-x5ow.site>
-Message-ID: <20180523001530.GJ9536@vader>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 23 May 2018 08:34:48 +0800
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <20180522161704.GA20000@lst.de>
+References: <20180521231131.6685-1-keith.busch@intel.com>
+ <20180521231131.6685-4-keith.busch@intel.com>
+ <20180522161704.GA20000@lst.de>
+Message-ID: <20180523003446.GC31196@ming.t460p>
 
-On Tue, May 22, 2018@09:30:24AM +0200, Johannes Thumshirn wrote:
-> On Mon, May 21, 2018@11:29:04AM -0700, Omar Sandoval wrote:
-> > But I'm curious about this specific example. Is this not mounted for you
-> > automatically? I'm guessing systemd does it for me on my setup.
+On Tue, May 22, 2018@06:17:04PM +0200, Christoph Hellwig wrote:
+> Hi Keith,
 > 
-> No my setup is kind of special. I don't want to mess with all the
-> user-space so all I do is:
+> I like this series a lot.  One comment that is probably close
+> to the big discussion in the thread:
 > 
-> dracut --no-compress --kver `make kernelrelease` --kmoddir mods/ \
->        --no-hostonly --no-hostonly-cmdline --modules "bash base" \
->        --tmpdir `pwd`/myinitrd --force myinitrd/initrd \
->        --add-drivers "loop nvme nvme-loop nvmet" \
->        --install "lsblk find sort parted getopt fio tput column date \
->        		 dirname mktemp ps diff awk timeout time losetup \
-> 		 truncate wc grep stat basename cut blktrace sg_inq \
-> 		 realpath findmnt vi dd sed rm rmdir nvme" \
-> 		 --include "$HOME/src/blktests" "/blktests
+> >  	switch (ret) {
+> >  	case BLK_EH_HANDLED:
+> >  		/*
+> > +		 * If the request is still in flight, the driver is requesting
+> > +		 * blk-mq complete it.
+> >  		 */
+> > +		if (blk_mq_rq_state(req) == MQ_RQ_IN_FLIGHT)
+> > +			__blk_mq_complete_request(req);
+> > +		break;
 > 
-> qemu-kvm -m 4096 -smp 4 -nographic -serial mon:stdio -kernel \
-> 	 arch/x86/boot/bzImage -initrd myinitrd/initrd \
-> 	 -append "console=ttyS0 debug"
-> 
-> I have the above in a shell wrapper as I simply can't remember it, or
-> I just use rapido [1] which a co-worker of mine started for this job.
-> 
-> As minimal as possible. I try to get my rebuild - boot - test cycles
-> short.
-> 
-> With my current config I have a bootup time in qemu below half a
-> second on a reasonable machine in my lab and just below one second
-> on my laptop.
-> 
-> [1] https://github.com/rapido-linux/rapido
-> 
-> Byte,
-> 	Johannes
+> The state check here really irked me, and from the thread it seems like
+> I'm not the only one.  At least for the NVMe case I think it is perfectly
+> safe, although I agree I'd rather audit what other drivers do carefully.
 
-Cool setup :) I have my own fanciness [1] which lets met boot straight
-into a test kernel without packaging it up in any way.
+Let's consider the normal NVMe timeout code path:
 
-Anyways, I added some documentation based on yours. Thanks!
+1) one request is timed out;
 
-1: https://github.com/osandov/osandov-linux#vm-setup
+2) controller is shutdown, this timed-out request is requeued from
+nvme_cancel_request(), but can't dispatch because queues are quiesced
+
+3) reset is done from another context, and this request is dispatched
+again, and completed exactly before returning EH_HANDLED to blk-mq, but
+its state isn't updated to COMPLETE yet.
+
+4) then double completions are done from both normal completion and timeout
+path.
+
+Seems same issue exists on poll path.
+
+Thanks,
+Ming
