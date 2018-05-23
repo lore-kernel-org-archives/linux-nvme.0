@@ -1,16 +1,15 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 23 May 2018 16:54:20 +0200
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 23 May 2018 09:08:31 -0600
 Subject: [PATCH v3] nvme: fix lockdep warning in
  nvme_mpath_clear_current_path
-In-Reply-To: <20180517115250.10027-1-jthumshirn@suse.de>
+In-Reply-To: <20180523145420.5ly2r4xjq2u25vv2@linux-x5ow.site>
 References: <20180517115250.10027-1-jthumshirn@suse.de>
-Message-ID: <20180523145420.5ly2r4xjq2u25vv2@linux-x5ow.site>
+ <20180523145420.5ly2r4xjq2u25vv2@linux-x5ow.site>
+Message-ID: <20180523150831.GA11037@localhost.localdomain>
 
-Keith, Sagi, Christoph ping?
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks for the ping. I started a new branch, nvme-4.18-2, based off of
+Jens' for-next with this being the first new commit.
+
+I'm certain we're still missing a lot of reviewed commits. I'll try to
+go through the mail history and apply by the end of the week, but any
+friendly reminders would not be unappreciated. :)
