@@ -1,44 +1,51 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 24 May 2018 16:18:15 +0200
-Subject: [PATCH 1/3] nvme: centralize discovery controller defaults
-In-Reply-To: <20180524141817.127576-1-hare@suse.de>
-References: <20180524141817.127576-1-hare@suse.de>
-Message-ID: <20180524141817.127576-2-hare@suse.de>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Thu, 24 May 2018 23:04:29 +0800
+Subject: [PATCHv2 0/8] nvme timeout fixes v2
+In-Reply-To: <20180524135757.GI11037@localhost.localdomain>
+References: <20180522220332.9244-1-keith.busch@intel.com>
+ <20180523030057.GF31196@ming.t460p>
+ <20180523161614.GE11037@localhost.localdomain>
+ <20180524032257.GB15354@ming.t460p>
+ <20180524135757.GI11037@localhost.localdomain>
+Message-ID: <CACVXFVOgKq78d97jw6cGc5=kZmEjW-DcEKYuicPUmm007OSPkA@mail.gmail.com>
 
-When connecting to the discovery controller we have certain defaults
-to observe, so centralize them to avoid inconsistencies due to argument
-ordering.
+On Thu, May 24, 2018 at 9:57 PM, Keith Busch
+<keith.busch@linux.intel.com> wrote:
+> On Thu, May 24, 2018@11:23:07AM +0800, Ming Lei wrote:
+>> On Wed, May 23, 2018@10:16:14AM -0600, Keith Busch wrote:
+>> > On Wed, May 23, 2018@11:00:59AM +0800, Ming Lei wrote:
+>> > > Looks V2 still may trigger IO hang warning:
+>> >
+>> > Anything in particular that triggered this?
+>>
+>> I am running the modified block 011:
+>>
+>> diff --git a/tests/block/011 b/tests/block/011
+>> index 62e89f758ef1..5f71f8b9aca0 100755
+>> --- a/tests/block/011
+>> +++ b/tests/block/011
+>> @@ -44,10 +44,10 @@ test_device() {
+>>                         --ignore_error=EIO,ENXIO,ENODEV &
+>>
+>>         while kill -0 $! 2>/dev/null; do
+>> -               echo 0 > "/sys/bus/pci/devices/${pdev}/enable"
+>> -               sleep .2
+>> -               echo 1 > "/sys/bus/pci/devices/${pdev}/enable"
+>> -               sleep .2
+>> +               setpci -s "${pdev}" 4.w=00:04
+>> +               sleep .01
+>> +               setpci -s "${pdev}" 4.w=04:04
+>> +               sleep .01
+>
+> Okay, fair enough. Easy enuogh to fix.
+>
+> Just a reality check here, what is your expectation for this test? Any
+> driver should just give up on device truly behaving this way should.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/fabrics.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+No IO hang, no oops, and either pass or fail should be fine.
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 13c5d3155c41..d25aa4322d16 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -698,10 +698,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			opts->discovery_nqn =
- 				!(strcmp(opts->subsysnqn,
- 					 NVME_DISC_SUBSYS_NAME));
--			if (opts->discovery_nqn) {
--				opts->kato = 0;
--				opts->nr_io_queues = 0;
--			}
- 			break;
- 		case NVMF_OPT_TRADDR:
- 			p = match_strdup(args);
-@@ -856,6 +852,10 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		}
- 	}
- 
-+	if (opts->discovery_nqn) {
-+		opts->kato = 0;
-+		opts->nr_io_queues = 0;
-+	}
- 	if (ctrl_loss_tmo < 0)
- 		opts->max_reconnects = -1;
- 	else
--- 
-2.12.3
+Do you think this is reasonable?
+
+
+Thanks,
+Ming Lei
