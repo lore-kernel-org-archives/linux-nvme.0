@@ -1,16 +1,14 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 24 May 2018 09:19:22 +0200
-Subject: [PATCH] blktests: nvme add ns add and remove routines
-In-Reply-To: <20180524034314.8801-1-chaitanya.kulkarni@wdc.com>
-References: <20180524034314.8801-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180524071922.rugv7tcnvr5s6gfl@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 24 May 2018 10:04:15 +0200
+Subject: [PATCH] nvmet: allow file backed ns to use cache
+In-Reply-To: <20180523220016.6500-1-chaitanya.kulkarni@wdc.com>
+References: <20180523220016.6500-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180524080415.GB11149@lst.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+I think this is mixing up two different issues - not using O_DIRECT
+vs using O_SYNC.  The first seems to useful to deal with things
+like VDI setup, the latter doesn't really seem useful at all.
+
+Note that for buffered I/O the kernel doesn't support asynch I/O,
+so we really want to offload to a workqueue, except for posisbly
+trying a RWF_NOWAIT attempt for reads first.
