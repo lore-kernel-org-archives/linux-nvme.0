@@ -1,53 +1,34 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 24 May 2018 13:31:50 -0700
-Subject: [PATCH 1/3] nvme: centralize discovery controller defaults
-In-Reply-To: <20180524141817.127576-2-hare@suse.de>
-References: <20180524141817.127576-1-hare@suse.de>
- <20180524141817.127576-2-hare@suse.de>
-Message-ID: <2a929722-06ec-ab32-77a5-7849920db95b@broadcom.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 24 May 2018 14:34:51 -0600
+Subject: [PATCHv3 0/9] nvme timeout fixes, v3
+Message-ID: <20180524203500.14081-1-keith.busch@intel.com>
 
+v2 -> v3:
 
+The main difference is getting rid of the bad idea that we could do
+a CONNECTING -> RESETTING transtion that breaks the state machine, so
+that patch is dropped. The series maintains the concept of retrying a
+reset when an init admin command times out. It just does so in the same
+context instead of requeueing itself.
 
-On 5/24/2018 7:18 AM, Hannes Reinecke wrote:
-> When connecting to the discovery controller we have certain defaults
-> to observe, so centralize them to avoid inconsistencies due to argument
-> ordering.
->
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/fabrics.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 13c5d3155c41..d25aa4322d16 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -698,10 +698,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   			opts->discovery_nqn =
->   				!(strcmp(opts->subsysnqn,
->   					 NVME_DISC_SUBSYS_NAME));
-> -			if (opts->discovery_nqn) {
-> -				opts->kato = 0;
-> -				opts->nr_io_queues = 0;
-> -			}
->   			break;
->   		case NVMF_OPT_TRADDR:
->   			p = match_strdup(args);
-> @@ -856,6 +852,10 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
->   		}
->   	}
->   
-> +	if (opts->discovery_nqn) {
-> +		opts->kato = 0;
-> +		opts->nr_io_queues = 0;
-> +	}
->   	if (ctrl_loss_tmo < 0)
->   		opts->max_reconnects = -1;
->   	else
+This series also includes two additional patches to handle other unlikely
+errors on queue initialization and HMB teardown.
 
-looks fine
+Keith Busch (9):
+  nvme: Sync request queues on reset
+  nvme-pci: Fix queue freeze criteria on reset
+  nvme: Move all IO out of controller reset
+  nvme-pci: Rate limit the nvme timeout warnings
+  nvme-pci: End IO requests immediately in CONNECTING state
+  nvme-pci: Unquiesce dead controller queues
+  nvme-pci: Attempt reset retry for IO failures
+  nvme-pci: Queue creation error handling
+  nvme-pci: Don't wait for HMB completion on shutdown
 
--- james
+ drivers/nvme/host/core.c |  23 ++++++-
+ drivers/nvme/host/nvme.h |   2 +
+ drivers/nvme/host/pci.c  | 173 ++++++++++++++++++++++++++++++++++-------------
+ 3 files changed, 150 insertions(+), 48 deletions(-)
 
-
-Reviewed-by: James Smart? <james.smart at broadcom.com>
+-- 
+2.14.3
