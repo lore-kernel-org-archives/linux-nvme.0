@@ -1,51 +1,23 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Thu, 24 May 2018 23:04:29 +0800
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 24 May 2018 09:16:34 -0600
 Subject: [PATCHv2 0/8] nvme timeout fixes v2
-In-Reply-To: <20180524135757.GI11037@localhost.localdomain>
+In-Reply-To: <CACVXFVOgKq78d97jw6cGc5=kZmEjW-DcEKYuicPUmm007OSPkA@mail.gmail.com>
 References: <20180522220332.9244-1-keith.busch@intel.com>
  <20180523030057.GF31196@ming.t460p>
  <20180523161614.GE11037@localhost.localdomain>
  <20180524032257.GB15354@ming.t460p>
  <20180524135757.GI11037@localhost.localdomain>
-Message-ID: <CACVXFVOgKq78d97jw6cGc5=kZmEjW-DcEKYuicPUmm007OSPkA@mail.gmail.com>
+ <CACVXFVOgKq78d97jw6cGc5=kZmEjW-DcEKYuicPUmm007OSPkA@mail.gmail.com>
+Message-ID: <20180524151634.GJ11037@localhost.localdomain>
 
-On Thu, May 24, 2018 at 9:57 PM, Keith Busch
-<keith.busch@linux.intel.com> wrote:
-> On Thu, May 24, 2018@11:23:07AM +0800, Ming Lei wrote:
->> On Wed, May 23, 2018@10:16:14AM -0600, Keith Busch wrote:
->> > On Wed, May 23, 2018@11:00:59AM +0800, Ming Lei wrote:
->> > > Looks V2 still may trigger IO hang warning:
->> >
->> > Anything in particular that triggered this?
->>
->> I am running the modified block 011:
->>
->> diff --git a/tests/block/011 b/tests/block/011
->> index 62e89f758ef1..5f71f8b9aca0 100755
->> --- a/tests/block/011
->> +++ b/tests/block/011
->> @@ -44,10 +44,10 @@ test_device() {
->>                         --ignore_error=EIO,ENXIO,ENODEV &
->>
->>         while kill -0 $! 2>/dev/null; do
->> -               echo 0 > "/sys/bus/pci/devices/${pdev}/enable"
->> -               sleep .2
->> -               echo 1 > "/sys/bus/pci/devices/${pdev}/enable"
->> -               sleep .2
->> +               setpci -s "${pdev}" 4.w=00:04
->> +               sleep .01
->> +               setpci -s "${pdev}" 4.w=04:04
->> +               sleep .01
->
-> Okay, fair enough. Easy enuogh to fix.
->
-> Just a reality check here, what is your expectation for this test? Any
-> driver should just give up on device truly behaving this way should.
+On Thu, May 24, 2018@11:04:29PM +0800, Ming Lei wrote:
+> > Okay, fair enough. Easy enuogh to fix.
+> >
+> > Just a reality check here, what is your expectation for this test? Any
+> > driver should just give up on device truly behaving this way should.
+> 
+> No IO hang, no oops, and either pass or fail should be fine.
+> 
+> Do you think this is reasonable?
 
-No IO hang, no oops, and either pass or fail should be fine.
-
-Do you think this is reasonable?
-
-
-Thanks,
-Ming Lei
+Great, that is definitely reasonable.
