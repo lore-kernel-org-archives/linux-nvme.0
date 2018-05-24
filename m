@@ -1,82 +1,100 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 24 May 2018 14:34:53 -0600
-Subject: [PATCHv3 2/9] nvme-pci: Fix queue freeze criteria on reset
+Date: Thu, 24 May 2018 14:35:00 -0600
+Subject: [PATCHv3 9/9] nvme-pci: Don't wait for HMB completion on shutdown
 In-Reply-To: <20180524203500.14081-1-keith.busch@intel.com>
 References: <20180524203500.14081-1-keith.busch@intel.com>
-Message-ID: <20180524203500.14081-3-keith.busch@intel.com>
+Message-ID: <20180524203500.14081-10-keith.busch@intel.com>
 
-The driver had been relying on the pci_dev to maintain the state of
-the pci device to know when starting a freeze would be appropriate. The
-blktests block/011 however shows us that users may alter the state of
-pci_dev out from under drivers and break the criteria we had been using.
 
-This patch uses the private nvme controller struct to track the
-enabling/disabling state. Since we're relying on that now, the reset
-will unconditionally disable the admin queue on reset. This was already
-being done anyway during admin bring up, and there is no harm to do a
-second time. Disable the controller just ensures the controller enable
-fields are toggled appropriately, so this patch moves that outside the
-'dead' controller condition.
+An nvme controller reset can't depend on the timeout handling to
+complete timed out commands since we're already trying to disable the
+controller. The HMB disabling is the only command in this path that was
+not handling its own timeout, so this patch fixes that by putting a time
+limit on how long it will wait for completion.
 
+Based-on-patch-by: Ming Lei <ming.lei at redhat.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ drivers/nvme/host/pci.c | 37 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9da28e10d942..bc2e377e029d 100644
+index e12b4ee91254..83fc5bfe20e8 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2206,39 +2206,38 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+@@ -1764,9 +1764,25 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
+ 	}
+ }
  
- 	mutex_lock(&dev->shutdown_lock);
--	if (pci_is_enabled(pdev)) {
-+	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE &&
-+	    (dev->ctrl.state == NVME_CTRL_LIVE ||
-+	     dev->ctrl.state == NVME_CTRL_RESETTING)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+-static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
++static void nvme_set_host_mem_end_io(struct request *rq, blk_status_t sts)
++{
++	struct completion *wait = rq->end_io_data;
++
++	rq->end_io_data = NULL;
++	blk_mq_free_request(rq);
++	complete(wait);
++}
++
++/*
++ * Use 'wait' when sending this command in a context can't complete blocks the
++ * reset handler, as required for device shutdown.
++ */
++static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits,
++			     struct completion *wait)
+ {
+ 	u64 dma_addr = dev->host_mem_descs_dma;
++	struct request_queue *q = dev->ctrl.admin_q;
++	struct request *req;
+ 	struct nvme_command c;
+ 	int ret;
  
--		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--		    dev->ctrl.state == NVME_CTRL_RESETTING)
--			nvme_start_freeze(&dev->ctrl);
-+		nvme_start_freeze(&dev->ctrl);
- 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
--			pdev->error_state  != pci_channel_io_normal);
-+			pci_channel_offline(pdev) || !pci_is_enabled(pdev));
+@@ -1780,7 +1796,19 @@ static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
+ 	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
+ 	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
+ 
+-	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
++	if (!wait) {
++		ret = nvme_submit_sync_cmd(q, &c, NULL, 0);
++	} else {
++		req = nvme_alloc_request(q, &c, 0, NVME_QID_ANY);
++		if (IS_ERR(req))
++			return PTR_ERR(req);
++		req->timeout = ADMIN_TIMEOUT;
++		req->end_io_data = wait;
++		blk_execute_rq_nowait(q, NULL, req, false,
++				      nvme_set_host_mem_end_io);
++		ret = wait_for_completion_io_timeout(wait, ADMIN_TIMEOUT);
++	}
++
+ 	if (ret) {
+ 		dev_warn(dev->ctrl.device,
+ 			 "failed to set host mem (err %d, flags %#x).\n",
+@@ -1934,7 +1962,7 @@ static int nvme_setup_host_mem(struct nvme_dev *dev)
+ 			dev->host_mem_size >> ilog2(SZ_1M));
  	}
  
- 	/*
- 	 * Give the controller a chance to complete all entered requests if
- 	 * doing a safe shutdown.
- 	 */
--	if (!dead) {
--		if (shutdown)
--			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
--	}
-+	if (!dead && shutdown)
-+		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+-	ret = nvme_set_host_mem(dev, enable_bits);
++	ret = nvme_set_host_mem(dev, enable_bits, NULL);
+ 	if (ret)
+ 		nvme_free_host_mem(dev);
+ 	return ret;
+@@ -2235,6 +2263,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	int i;
+ 	bool dead = true;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
++	DECLARE_COMPLETION_ONSTACK(hmb_wait);
  
- 	nvme_stop_queues(&dev->ctrl);
- 
--	if (!dead && dev->ctrl.queue_count > 0) {
-+	if (!dead) {
- 		/*
- 		 * If the controller is still alive tell it to stop using the
--		 * host memory buffer.  In theory the shutdown / reset should
-+		 * host memory buffer. In theory the shutdown / reset should
- 		 * make sure that it doesn't access the host memoery anymore,
+ 	mutex_lock(&dev->shutdown_lock);
+ 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE &&
+@@ -2267,7 +2296,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
  		 * but I'd rather be safe than sorry..
  		 */
  		if (dev->host_mem_descs)
- 			nvme_set_host_mem(dev, 0);
+-			nvme_set_host_mem(dev, 0);
++			nvme_set_host_mem(dev, 0, &hmb_wait);
  		nvme_disable_io_queues(dev);
--		nvme_disable_admin_queue(dev, shutdown);
  	}
-+	if (dev->ctrl.queue_count > 0)
-+		nvme_disable_admin_queue(dev, shutdown);
- 	for (i = dev->ctrl.queue_count - 1; i >= 0; i--)
- 		nvme_suspend_queue(&dev->queues[i]);
- 
+ 	if (dev->ctrl.queue_count > 0)
 -- 
 2.14.3
