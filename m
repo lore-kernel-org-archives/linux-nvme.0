@@ -1,52 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 24 May 2018 16:16:04 -0600
-Subject: [PATCH] nvme-pci: Fix AER reset handling
-Message-ID: <20180524221604.14423-1-keith.busch@intel.com>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Fri, 25 May 2018 11:10:39 +0800
+Subject: [PATCHv3 9/9] nvme-pci: Don't wait for HMB completion on shutdown
+In-Reply-To: <20180524211539.GM11037@localhost.localdomain>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-10-keith.busch@intel.com>
+ <20180524204506.GA29048@lst.de>
+ <20180524211539.GM11037@localhost.localdomain>
+Message-ID: <3452269f-a1bb-cfe6-635b-6b69a46862c1@oracle.com>
 
-The nvme timeout handling doesn't do anything if the pci channel is
-offline, which is the case when recovering from PCI error event, so it
-was a bad idea to sync the controller reset in this state. This patch
-flushes the reset work in the error_resume callback instead when the
-channel is back to online. This keeps AER handling serialized and
-can recover from timeouts.
+Hi Keith
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=199757
-Fixes: cc1d5e749a2e ("nvme/pci: Sync controller reset for AER slot_reset")
-Reported-by: Alex Gagniuc <mr.nuke.me at gmail.com>
-Tested-by: Alex Gagniuc <mr.nuke.me at gmail.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+On 05/25/2018 05:15 AM, Keith Busch wrote:
+>> Also if we really need to reset the controller submitting any command
+>> just doesn't seem very helpful.  We might as well just skip trying
+>> to disable the HMB, as the controller needs to come up in a clean
+>> state anyway.
+> That's also fine with me.
+> 
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 62684dda40a8..4f63309e0fe8 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2750,19 +2750,15 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
- 
- 	dev_info(dev->ctrl.device, "restart after slot reset\n");
- 	pci_restore_state(pdev);
--	nvme_reset_ctrl_sync(&dev->ctrl);
--
--	switch (dev->ctrl.state) {
--	case NVME_CTRL_LIVE:
--	case NVME_CTRL_ADMIN_ONLY:
--		return PCI_ERS_RESULT_RECOVERED;
--	default:
--		return PCI_ERS_RESULT_DISCONNECT;
--	}
-+	nvme_reset_ctrl(&dev->ctrl);
-+	return PCI_ERS_RESULT_RECOVERED;
- }
- 
- static void nvme_error_resume(struct pci_dev *pdev)
- {
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+	
-+	flush_work(&dev->ctrl.reset_work);
- 	pci_cleanup_aer_uncorrect_error_status(pdev);
- }
- 
--- 
-2.14.3
+Does it mean just need to disable the controller with transiting CC.EN ?1? to ?0?
+without sending any admin commands including deleting cq/sq ?
+The specification indeed says that
+when Controller Reset (CC.EN transitions from ?1? to ?0
+ - The controller stops processing any outstanding Admin or I/O commands.
+ - All I/O Submission Queues are deleted.
+ - All I/O Completion Queues are deleted.
+ - The controller is brought to an Idle state. When this is complete, CSTS.RDY is cleared to ?0?.
+ - The Admin Queue registers (AQA, ASQ, or ACQ) are not reset as part of a controller reset. All
+other controller registers defined in section 3 and internal controller state are reset.
+
+Then for the timeout case at least, for LIVE state, nvme_timeout could hand over all the things to
+reset_work and return BLK_EH_RESET_TIMER, when reset_work is ongoing, just  disable the controller
+with setting CC.EN and disable the related pci things and return BLK_EH_HANDLED to complete the
+admin commands to wake up the reset_work. (certainly with your patch to move update_hw_nr to scan_work)
+nvme_timeout doesn't need to invoke nvme_dev_disable any more and life will be simpler :).
+
+Thanks
+jianchao
