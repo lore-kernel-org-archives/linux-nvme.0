@@ -1,41 +1,28 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 25 May 2018 11:05:24 +0200
-Subject: [PATCH] nvme: re-enable clean shutdown
-Message-ID: <20180525090524.58845-1-hare@suse.de>
+Date: Fri, 25 May 2018 11:06:27 +0200
+Subject: [PATCH] nvme: fixup memory leak in nvme_init_identify()
+Message-ID: <20180525090627.58927-1-hare@suse.de>
 
-Commit bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
-masked out all commands during shutdown, causing the nvme core
-to never send the shutdown command to the target.
-With this patch clean shutdown is re-enabled.
+If nvme_get_effects_log() failed the 'id' buffer from the previous
+nvme_identify_ctrl() call will never be freed.
 
-Fixes: bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
-Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/fabrics.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 1c27f862dc45..13c5d3155c41 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -546,6 +546,17 @@ blk_status_t nvmf_check_if_ready(struct nvme_ctrl *ctrl, struct request *rq,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 62262fac7a5d..79d49f16d991 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2314,7 +2314,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (id->lpa & NVME_CTRL_LPA_CMD_EFFECTS_LOG) {
+ 		ret = nvme_get_effects_log(ctrl);
+ 		if (ret < 0)
+-			return ret;
++			goto out_free;
+ 	}
  
- 	switch (ctrl->state) {
- 	case NVME_CTRL_DELETING:
-+		if (!is_connected)
-+			goto reject_or_queue_io;
-+		/*
-+		 * We need to send shutdown commands to the
-+		 * target when deleting the controller.
-+		 */
-+		if (cmd->common.opcode == nvme_fabrics_command &&
-+		    (cmd->fabrics.fctype == nvme_fabrics_type_property_get ||
-+		     cmd->fabrics.fctype == nvme_fabrics_type_property_set))
-+			return BLK_STS_OK;
-+
- 		goto reject_io;
- 
- 	case NVME_CTRL_NEW:
+ 	if (!ctrl->identified) {
 -- 
 2.12.3
