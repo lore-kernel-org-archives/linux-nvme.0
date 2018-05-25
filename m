@@ -1,34 +1,41 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 25 May 2018 09:09:24 -0600
-Subject: [PATCHv3 9/9] nvme-pci: Don't wait for HMB completion on shutdown
-In-Reply-To: <3452269f-a1bb-cfe6-635b-6b69a46862c1@oracle.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 25 May 2018 08:56:51 -0700
+Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
+In-Reply-To: <20180525143253.GA26539@lst.de>
 References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-10-keith.busch@intel.com>
- <20180524204506.GA29048@lst.de>
- <20180524211539.GM11037@localhost.localdomain>
- <3452269f-a1bb-cfe6-635b-6b69a46862c1@oracle.com>
-Message-ID: <20180525150923.GS11037@localhost.localdomain>
+ <20180524203500.14081-2-keith.busch@intel.com>
+ <20180525124209.GD23463@lst.de>
+ <20180525142233.GN11037@localhost.localdomain>
+ <20180525143253.GA26539@lst.de>
+Message-ID: <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
 
-On Fri, May 25, 2018@11:10:39AM +0800, jianchao.wang wrote:
-> Does it mean just need to disable the controller with transiting CC.EN ?1? to ?0?
-> without sending any admin commands including deleting cq/sq ?
-> The specification indeed says that
-> when Controller Reset (CC.EN transitions from ?1? to ?0
->  - The controller stops processing any outstanding Admin or I/O commands.
->  - All I/O Submission Queues are deleted.
->  - All I/O Completion Queues are deleted.
->  - The controller is brought to an Idle state. When this is complete, CSTS.RDY is cleared to ?0?.
->  - The Admin Queue registers (AQA, ASQ, or ACQ) are not reset as part of a controller reset. All
-> other controller registers defined in section 3 and internal controller state are reset.
 
-Yeah, that's true. I'd still like to preserve the orderly shutdown as
-recommended per spec, but maybe we don't need a single function to handle
-both orderly and error cases.
 
-> Then for the timeout case at least, for LIVE state, nvme_timeout could hand over all the things to
-> reset_work and return BLK_EH_RESET_TIMER, when reset_work is ongoing, just  disable the controller
-> with setting CC.EN and disable the related pci things and return BLK_EH_HANDLED to complete the
-> admin commands to wake up the reset_work. (certainly with your patch to move update_hw_nr to scan_work)
-> nvme_timeout doesn't need to invoke nvme_dev_disable any more and life will be simpler :).
+On 5/25/2018 7:32 AM, Christoph Hellwig wrote:
+> On Fri, May 25, 2018@08:22:34AM -0600, Keith Busch wrote:
+>> On Fri, May 25, 2018@02:42:09PM +0200, Christoph Hellwig wrote:
+>>> On Thu, May 24, 2018@02:34:52PM -0600, Keith Busch wrote:
+>>>> This patch fixes races that occur with simultaneous controller
+>>>> resets
+>>> Wait..  How do we end up with simultaneous controller resets?  We
+>>> not only have the NVME_CTRL_RESETTING resetting state, but also
+>>> execute all resets from ctrl->reset_work, so they are implicitly
+>>> single threaded.
+>> Right, the bring up is single threaded, but the NVMe Controller Level
+>> Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
+>> just working with the way blk-mq's timeout handler claims requests
+>> and prevents the driver from completing them. The reset_work operates
+>> under the assumption that there are no outstanding commands after
+>> nvme_dev_disable, so this patch just ensures that's the case.
+> Ok, so we are talking about simultaneous nvme_dev_disable calls, which
+> makes more sense.
+>
+> That being said I really like the idea that Jianchao floated about
+> always returning BLK_EH_RESET_TIMER and just letting the reset work
+> do the work.  I hope it actually works and doesn't have hidden
+> pitfalls..
+>
 
-I'll need to think about this a little more. I do like simpler. :)
+I came to this same conclusion and this is how FC works.
+
+-- james
