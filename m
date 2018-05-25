@@ -1,75 +1,34 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Fri, 25 May 2018 10:50:56 -0400
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180525141211.GA25971@lst.de>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <20180525141211.GA25971@lst.de>
-Message-ID: <20180525145056.GD9591@redhat.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 25 May 2018 09:09:24 -0600
+Subject: [PATCHv3 9/9] nvme-pci: Don't wait for HMB completion on shutdown
+In-Reply-To: <3452269f-a1bb-cfe6-635b-6b69a46862c1@oracle.com>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-10-keith.busch@intel.com>
+ <20180524204506.GA29048@lst.de>
+ <20180524211539.GM11037@localhost.localdomain>
+ <3452269f-a1bb-cfe6-635b-6b69a46862c1@oracle.com>
+Message-ID: <20180525150923.GS11037@localhost.localdomain>
 
-On Fri, May 25 2018 at 10:12am -0400,
-Christoph Hellwig <hch@lst.de> wrote:
+On Fri, May 25, 2018@11:10:39AM +0800, jianchao.wang wrote:
+> Does it mean just need to disable the controller with transiting CC.EN ?1? to ?0?
+> without sending any admin commands including deleting cq/sq ?
+> The specification indeed says that
+> when Controller Reset (CC.EN transitions from ?1? to ?0
+>  - The controller stops processing any outstanding Admin or I/O commands.
+>  - All I/O Submission Queues are deleted.
+>  - All I/O Completion Queues are deleted.
+>  - The controller is brought to an Idle state. When this is complete, CSTS.RDY is cleared to ?0?.
+>  - The Admin Queue registers (AQA, ASQ, or ACQ) are not reset as part of a controller reset. All
+> other controller registers defined in section 3 and internal controller state are reset.
 
-> On Fri, May 25, 2018@09:58:13AM -0400, Mike Snitzer wrote:
-> > We all basically knew this would be your position.  But at this year's
-> > LSF we pretty quickly reached consensus that we do in fact need this.
-> > Except for yourself, Sagi and afaik Martin George: all on the cc were in
-> > attendance and agreed.
-> 
-> And I very mich disagree, and you'd bette come up with a good reason
-> to overide me as the author and maintainer of this code.
+Yeah, that's true. I'd still like to preserve the orderly shutdown as
+recommended per spec, but maybe we don't need a single function to handle
+both orderly and error cases.
 
-I hope you don't truly think this is me vs you.
+> Then for the timeout case at least, for LIVE state, nvme_timeout could hand over all the things to
+> reset_work and return BLK_EH_RESET_TIMER, when reset_work is ongoing, just  disable the controller
+> with setting CC.EN and disable the related pci things and return BLK_EH_HANDLED to complete the
+> admin commands to wake up the reset_work. (certainly with your patch to move update_hw_nr to scan_work)
+> nvme_timeout doesn't need to invoke nvme_dev_disable any more and life will be simpler :).
 
-Some of the reasons are:
-1) we need flexibility during the transition to native NVMe multipath
-2) we need to support existing customers' dm-multipath storage networks
-3) asking users to use an entirely new infrastructure that conflicts
-   with their dm-multipath expertise and established norms is a hard
-   sell.  Especially for environments that have a mix of traditional
-   multipath (FC, iSCSI, whatever) and NVMe over fabrics.
-4) Layered products (both vendor provided and user developed) have been
-   trained to fully support and monitor dm-multipath; they have no
-   understanding of native NVMe multipath
-
-> > And since then we've exchanged mails to refine and test Johannes'
-> > implementation.
-> 
-> Since when was acting behind the scenes a good argument for anything?
-
-I mentioned our continued private collaboration to establish that this
-wasn't a momentary weakness by anyone at LSF.  It has had a lot of soak
-time in our heads.
-
-We did it privately because we needed a concrete proposal that works for
-our needs.  Rather than getting shot down over some shortcoming in an
-RFC-style submission.
- 
-> > Hopefully this clarifies things, thanks.
-> 
-> It doesn't.
-> 
-> The whole point we have native multipath in nvme is because dm-multipath
-> is the wrong architecture (and has been, long predating you, nothing
-> personal).  And I don't want to be stuck additional decades with this
-> in nvme.  We allowed a global opt-in to ease the three people in the
-> world with existing setups to keep using that, but I also said I
-> won't go any step further.  And I stand to that.
-
-Thing is you really don't get to dictate that to the industry.  Sorry.
-
-Reality is this ability to switch "native" vs "other" gives us the
-options I've been talking about absolutely needing since the start of
-this NVMe multipathing debate.
-
-Your fighting against it for so long has prevented progress on NVMe
-multipath in general.  Taking this change will increase native NVMe
-multipath deployment.  Otherwise we're just going to have to disable
-native multipath entirely for the time being.  That does users a
-disservice because I completely agree that there _will_ be setups where
-native NVMe multipath really does offer a huge win.  But those setups
-could easily be deployed on the same hosts as another variant of NVMe
-that really does want the use of the legacy DM multipath stack (possibly
-even just for reason 4 above).
-
-Mike
+I'll need to think about this a little more. I do like simpler. :)
