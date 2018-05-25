@@ -1,20 +1,30 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 25 May 2018 08:25:37 -0600
-Subject: [PATCHv3 7/9] nvme-pci: Attempt reset retry for IO failures
-In-Reply-To: <20180525130423.GI23463@lst.de>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-8-keith.busch@intel.com>
- <20180525130423.GI23463@lst.de>
-Message-ID: <20180525142537.GO11037@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 25 May 2018 16:30:58 +0200
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180525142217.zedv7hz6ov6s45qk@linux-x5ow.site>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de>
+ <20180525142217.zedv7hz6ov6s45qk@linux-x5ow.site>
+Message-ID: <20180525143058.GA26391@lst.de>
 
-On Fri, May 25, 2018@03:04:23PM +0200, Christoph Hellwig wrote:
-> On Thu, May 24, 2018@02:34:58PM -0600, Keith Busch wrote:
-> > If the reset failed due to a non-fatal error, this patch will attempt
-> > to reset the controller again, with a maximum of 4 attempts.
-> 
-> What kind of non-fatal errors do you see that this tries to handle?
+On Fri, May 25, 2018@04:22:17PM +0200, Johannes Thumshirn wrote:
+> But Mike's and Hannes' arguments where reasonable as well, we do not
+> know if there are any existing setups we might break leading to
+> support calls, which we have to deal with. Personally I don't believe
+> there are lot's of existing nvme multipath setups out there, but who
+> am I to judge.
 
-Like how a non-fatal uncorrectable error can trigger a reset. If we
-happen to be executing an initialization admin command, it returns
--EINTR. The driver would normally just unbind from the controller if
-any admin command fails, but retrying may succeed.
+I don't think existing setups are very likely, but they absolutely
+are a valid reason to support the legacy mode.  That is why we support
+the legacy mode using the multipath module option.  Once you move
+to a per-subsystem switch you don't support legacy setups, you
+create a maze of new setups that we need to keep compatibility
+support for forever.
+
+> So can we find a middle ground to this? Or we'll have the
+> all-or-nothing situation we have in scsi-mq now again. How about
+> tieing the switch to a config option which is off per default?
+
+The middle ground is the module option.  It provides 100% backwards
+compatibility if used, but more importantly doesn't create hairy
+runtime ABIs that we will have to support forever.
