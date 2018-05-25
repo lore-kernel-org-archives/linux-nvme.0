@@ -1,8 +1,11 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 25 May 2018 10:47:04 +0200
-Subject: [PATCH V7] nvmet: add simple file backed ns support
-In-Reply-To: <20180523043439.12846-1-chaitanya.kulkarni@wdc.com>
-References: <20180523043439.12846-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180525084704.GA14073@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 25 May 2018 10:52:59 +0200
+Subject: [PATCH V3] nvme-rdma: stop queue first before free it in
+ config admin queue
+In-Reply-To: <1527125258-15825-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1527125258-15825-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180525085259.GA19376@lst.de>
 
-Thanks, applied to nvme-4.18-2.
+Thanks,
+
+applied to nvme-4.18.
