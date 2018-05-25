@@ -1,45 +1,24 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 25 May 2018 10:24:39 -0600
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 25 May 2018 11:04:47 -0700
 Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
-In-Reply-To: <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
+In-Reply-To: <20180525162439.GT11037@localhost.localdomain>
 References: <20180524203500.14081-1-keith.busch@intel.com>
  <20180524203500.14081-2-keith.busch@intel.com>
  <20180525124209.GD23463@lst.de>
  <20180525142233.GN11037@localhost.localdomain>
  <20180525143253.GA26539@lst.de>
  <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
-Message-ID: <20180525162439.GT11037@localhost.localdomain>
+ <20180525162439.GT11037@localhost.localdomain>
+Message-ID: <7f88c98a-652f-4a82-0f0b-feb36fe46bb0@broadcom.com>
 
-On Fri, May 25, 2018@08:56:51AM -0700, James Smart wrote:
-> 
-> 
-> On 5/25/2018 7:32 AM, Christoph Hellwig wrote:
-> > On Fri, May 25, 2018@08:22:34AM -0600, Keith Busch wrote:
-> > > On Fri, May 25, 2018@02:42:09PM +0200, Christoph Hellwig wrote:
-> > > > On Thu, May 24, 2018@02:34:52PM -0600, Keith Busch wrote:
-> > > > > This patch fixes races that occur with simultaneous controller
-> > > > > resets
-> > > > Wait..  How do we end up with simultaneous controller resets?  We
-> > > > not only have the NVME_CTRL_RESETTING resetting state, but also
-> > > > execute all resets from ctrl->reset_work, so they are implicitly
-> > > > single threaded.
-> > > Right, the bring up is single threaded, but the NVMe Controller Level
-> > > Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
-> > > just working with the way blk-mq's timeout handler claims requests
-> > > and prevents the driver from completing them. The reset_work operates
-> > > under the assumption that there are no outstanding commands after
-> > > nvme_dev_disable, so this patch just ensures that's the case.
-> > Ok, so we are talking about simultaneous nvme_dev_disable calls, which
-> > makes more sense.
-> > 
-> > That being said I really like the idea that Jianchao floated about
-> > always returning BLK_EH_RESET_TIMER and just letting the reset work
-> > do the work.  I hope it actually works and doesn't have hidden
-> > pitfalls..
-> > 
-> 
-> I came to this same conclusion and this is how FC works.
 
-At least in the current blk-mq timeout handling, returning RESET_TIMER
-presents other challenges for the reset handler: the timer may have
-reclaimed the request that reset_work is trying to complete.
+
+On 5/25/2018 9:24 AM, Keith Busch wrote:
+>
+> At least in the current blk-mq timeout handling, returning RESET_TIMER
+> presents other challenges for the reset handler: the timer may have
+> reclaimed the request that reset_work is trying to complete.
+
+why would that be true if BLK_EH_RESET_TIMER was returned ?
+
+-- james
