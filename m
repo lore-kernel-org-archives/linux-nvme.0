@@ -1,13 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 25 May 2018 15:04:23 +0200
-Subject: [PATCHv3 7/9] nvme-pci: Attempt reset retry for IO failures
-In-Reply-To: <20180524203500.14081-8-keith.busch@intel.com>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-8-keith.busch@intel.com>
-Message-ID: <20180525130423.GI23463@lst.de>
+Date: Fri, 25 May 2018 15:05:35 +0200
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180525125322.15398-1-jthumshirn@suse.de>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+Message-ID: <20180525130535.GA24239@lst.de>
 
-On Thu, May 24, 2018@02:34:58PM -0600, Keith Busch wrote:
-> If the reset failed due to a non-fatal error, this patch will attempt
-> to reset the controller again, with a maximum of 4 attempts.
+On Fri, May 25, 2018@02:53:19PM +0200, Johannes Thumshirn wrote:
+> Hi,
+> 
+> This patch series aims to provide a more fine grained control over
+> nvme's native multipathing, by allowing it to be switched on and off
+> on a per-subsystem basis instead of a big global switch.
 
-What kind of non-fatal errors do you see that this tries to handle?
+No.  The only reason we even allowed to turn multipathing off is
+because you complained about installer issues.  The path forward
+clearly is native multipathing and there will be no additional support
+for the use cases of not using it.
