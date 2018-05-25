@@ -1,32 +1,25 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 25 May 2018 16:12:11 +0200
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180525135813.GB9591@redhat.com>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
-Message-ID: <20180525141211.GA25971@lst.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 25 May 2018 08:22:34 -0600
+Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
+In-Reply-To: <20180525124209.GD23463@lst.de>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-2-keith.busch@intel.com>
+ <20180525124209.GD23463@lst.de>
+Message-ID: <20180525142233.GN11037@localhost.localdomain>
 
-On Fri, May 25, 2018@09:58:13AM -0400, Mike Snitzer wrote:
-> We all basically knew this would be your position.  But at this year's
-> LSF we pretty quickly reached consensus that we do in fact need this.
-> Except for yourself, Sagi and afaik Martin George: all on the cc were in
-> attendance and agreed.
+On Fri, May 25, 2018@02:42:09PM +0200, Christoph Hellwig wrote:
+> On Thu, May 24, 2018@02:34:52PM -0600, Keith Busch wrote:
+> > This patch fixes races that occur with simultaneous controller
+> > resets
+> 
+> Wait..  How do we end up with simultaneous controller resets?  We
+> not only have the NVME_CTRL_RESETTING resetting state, but also
+> execute all resets from ctrl->reset_work, so they are implicitly
+> single threaded.
 
-And I very mich disagree, and you'd bette come up with a good reason
-to overide me as the author and maintainer of this code.
-
-> And since then we've exchanged mails to refine and test Johannes'
-> implementation.
-
-Since when was acting behind the scenes a good argument for anything?
-
-> Hopefully this clarifies things, thanks.
-
-It doesn't.
-
-The whole point we have native multipath in nvme is because dm-multipath
-is the wrong architecture (and has been, long predating you, nothing
-personal).  And I don't want to be stuck additional decades with this
-in nvme.  We allowed a global opt-in to ease the three people in the
-world with existing setups to keep using that, but I also said I
-won't go any step further.  And I stand to that.
+Right, the bring up is single threaded, but the NVMe Controller Level
+Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
+just working with the way blk-mq's timeout handler claims requests
+and prevents the driver from completing them. The reset_work operates
+under the assumption that there are no outstanding commands after
+nvme_dev_disable, so this patch just ensures that's the case.
