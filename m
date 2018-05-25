@@ -1,19 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 25 May 2018 15:01:16 +0200
-Subject: [PATCHv3 4/9] nvme-pci: Rate limit the nvme timeout warnings
-In-Reply-To: <20180524203500.14081-5-keith.busch@intel.com>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-5-keith.busch@intel.com>
-Message-ID: <20180525130116.GG23463@lst.de>
+Date: Fri, 25 May 2018 15:24:37 +0200
+Subject: [PATCHv2 07/11] nvme: always failover on path or transport errors
+In-Reply-To: <20180522091004.39620-8-hare@suse.de>
+References: <20180522091004.39620-1-hare@suse.de>
+ <20180522091004.39620-8-hare@suse.de>
+Message-ID: <20180525132437.GA24601@lst.de>
 
-On Thu, May 24, 2018@02:34:55PM -0600, Keith Busch wrote:
-> The block layer's timeout handling currently prevents drivers from
-> completing commands outside the timeout callback once blk-mq decides
-> they've expired. If a device breaks, this could potentially create many
-> thousands of timed out commands. There's nothing of value to be gleaned
-> from observing each of those messages, so this patch adds a rate limit
-> on them.
+On Tue, May 22, 2018@11:10:00AM +0200, Hannes Reinecke wrote:
+>  	if (!(req->cmd_flags & REQ_NVME_MPATH))
+>  		return false;
+> +	if (nvme_req(req)->status & 0x300)
+> +		return true;
 
-Looks good,
+As I love to correct everyone including myself:
+This actually needs to be
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+	if ((nvme_req(req)->status & 0x700) == 0x300)
+
+to accomodate for future new SCT values.
