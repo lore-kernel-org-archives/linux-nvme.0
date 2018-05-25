@@ -1,35 +1,74 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 25 May 2018 16:32:53 +0200
-Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
-In-Reply-To: <20180525142233.GN11037@localhost.localdomain>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-2-keith.busch@intel.com>
- <20180525124209.GD23463@lst.de>
- <20180525142233.GN11037@localhost.localdomain>
-Message-ID: <20180525143253.GA26539@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 25 May 2018 16:32:41 +0200
+Subject: [PATCHv2 08/11] nvme: add ANA support
+In-Reply-To: <20180525132840.GB24601@lst.de>
+References: <20180522091004.39620-1-hare@suse.de>
+ <20180522091004.39620-9-hare@suse.de>
+ <20180525132840.GB24601@lst.de>
+Message-ID: <20180525163241.164fd83f@pentland.suse.de>
 
-On Fri, May 25, 2018@08:22:34AM -0600, Keith Busch wrote:
-> On Fri, May 25, 2018@02:42:09PM +0200, Christoph Hellwig wrote:
-> > On Thu, May 24, 2018@02:34:52PM -0600, Keith Busch wrote:
-> > > This patch fixes races that occur with simultaneous controller
-> > > resets
+On Fri, 25 May 2018 15:28:40 +0200
+Christoph Hellwig <hch@lst.de> wrote:
+
+> On Tue, May 22, 2018@11:10:01AM +0200, Hannes Reinecke wrote:
+> > From: Christoph Hellwig <hch at lst.de>
 > > 
-> > Wait..  How do we end up with simultaneous controller resets?  We
-> > not only have the NVME_CTRL_RESETTING resetting state, but also
-> > execute all resets from ctrl->reset_work, so they are implicitly
-> > single threaded.
+> > Adding sypport for Asymmetric Namespace Access (ANA)
+> > 
+> > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> > Signed-off-by: Hannes Reinecke <hare at suse.com>  
 > 
-> Right, the bring up is single threaded, but the NVMe Controller Level
-> Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
-> just working with the way blk-mq's timeout handler claims requests
-> and prevents the driver from completing them. The reset_work operates
-> under the assumption that there are no outstanding commands after
-> nvme_dev_disable, so this patch just ensures that's the case.
+> I just did a quick diff, and this really doesn't look like my
+> old code.  Quick difference I spotted:
+> 
+>  - lots of code in core.c instead of multipath.c, where it should
+>    be
+>  - adds a per-ns ana_state value, including all the crap to main
+>    it instead of the simple per-controller state table
+>  - fucks of the sysfs attributes to also who on the multipath
+>    node, where they can't work, and probably even corrupt
+>    memory
+>  - adds a get_log_page call per namespace, which is completely
+>    counter to the ANA design to not have craptons of roundtrip
+> 
+> And probably a few more things I didn't notice due to all the code
+> moves.
+> 
+Okay, will be moving back to storing the ana state in the
+per-controller buffer.
 
-Ok, so we are talking about simultaneous nvme_dev_disable calls, which
-makes more sense.
+> > ---
+> >  drivers/nvme/host/core.c      | 335
+> > +++++++++++++++++++++++++++++++++++++++---
+> > drivers/nvme/host/multipath.c |  41 +++++-
+> > drivers/nvme/host/nvme.h      |  17 +++ 3 files changed, 366
+> > insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index b4408e1e677f..0d8167c68dff 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -68,6 +68,10 @@ static bool streams;
+> >  module_param(streams, bool, 0644);
+> >  MODULE_PARM_DESC(streams, "turn on support for Streams write
+> > directives"); 
+> > +static unsigned long ana_log_delay = 500;
+> > +module_param(ana_log_delay, ulong, 0644);
+> > +MODULE_PARM_DESC(ana_log_delay, "Delay in msecs before retrieving
+> > ANA log");  
+> 
+> Why?  There really is no point in delaying reading the state
+> information and just messing things up.
 
-That being said I really like the idea that Jianchao floated about
-always returning BLK_EH_RESET_TIMER and just letting the reset work
-do the work.  I hope it actually works and doesn't have hidden
-pitfalls..
+This delay will be used if we fail to get the ANA log page; in that
+case we _should_ be retrying it.
+The amount of retries need to be capped (hence ana_log_retries), and we
+shouldn't retry immediately to give the target (and possibly lower
+layers) a chance to recover (that's what ana_log_delay is for).
+
+If you don't like having them as module parameters, fine, I can make
+them as #define or something.
+
+Cheers,
+
+Hannes
