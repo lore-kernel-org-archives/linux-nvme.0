@@ -1,30 +1,35 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 25 May 2018 16:30:58 +0200
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180525142217.zedv7hz6ov6s45qk@linux-x5ow.site>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de>
- <20180525142217.zedv7hz6ov6s45qk@linux-x5ow.site>
-Message-ID: <20180525143058.GA26391@lst.de>
+Date: Fri, 25 May 2018 16:32:53 +0200
+Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
+In-Reply-To: <20180525142233.GN11037@localhost.localdomain>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-2-keith.busch@intel.com>
+ <20180525124209.GD23463@lst.de>
+ <20180525142233.GN11037@localhost.localdomain>
+Message-ID: <20180525143253.GA26539@lst.de>
 
-On Fri, May 25, 2018@04:22:17PM +0200, Johannes Thumshirn wrote:
-> But Mike's and Hannes' arguments where reasonable as well, we do not
-> know if there are any existing setups we might break leading to
-> support calls, which we have to deal with. Personally I don't believe
-> there are lot's of existing nvme multipath setups out there, but who
-> am I to judge.
+On Fri, May 25, 2018@08:22:34AM -0600, Keith Busch wrote:
+> On Fri, May 25, 2018@02:42:09PM +0200, Christoph Hellwig wrote:
+> > On Thu, May 24, 2018@02:34:52PM -0600, Keith Busch wrote:
+> > > This patch fixes races that occur with simultaneous controller
+> > > resets
+> > 
+> > Wait..  How do we end up with simultaneous controller resets?  We
+> > not only have the NVME_CTRL_RESETTING resetting state, but also
+> > execute all resets from ctrl->reset_work, so they are implicitly
+> > single threaded.
+> 
+> Right, the bring up is single threaded, but the NVMe Controller Level
+> Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
+> just working with the way blk-mq's timeout handler claims requests
+> and prevents the driver from completing them. The reset_work operates
+> under the assumption that there are no outstanding commands after
+> nvme_dev_disable, so this patch just ensures that's the case.
 
-I don't think existing setups are very likely, but they absolutely
-are a valid reason to support the legacy mode.  That is why we support
-the legacy mode using the multipath module option.  Once you move
-to a per-subsystem switch you don't support legacy setups, you
-create a maze of new setups that we need to keep compatibility
-support for forever.
+Ok, so we are talking about simultaneous nvme_dev_disable calls, which
+makes more sense.
 
-> So can we find a middle ground to this? Or we'll have the
-> all-or-nothing situation we have in scsi-mq now again. How about
-> tieing the switch to a config option which is off per default?
-
-The middle ground is the module option.  It provides 100% backwards
-compatibility if used, but more importantly doesn't create hairy
-runtime ABIs that we will have to support forever.
+That being said I really like the idea that Jianchao floated about
+always returning BLK_EH_RESET_TIMER and just letting the reset work
+do the work.  I hope it actually works and doesn't have hidden
+pitfalls..
