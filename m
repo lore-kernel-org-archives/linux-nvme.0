@@ -1,74 +1,117 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 25 May 2018 16:32:41 +0200
-Subject: [PATCHv2 08/11] nvme: add ANA support
-In-Reply-To: <20180525132840.GB24601@lst.de>
-References: <20180522091004.39620-1-hare@suse.de>
- <20180522091004.39620-9-hare@suse.de>
- <20180525132840.GB24601@lst.de>
-Message-ID: <20180525163241.164fd83f@pentland.suse.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 25 May 2018 08:41:25 -0600
+Subject: [PATCHv3 3/9] nvme: Move all IO out of controller reset
+In-Reply-To: <20180525130057.GF23463@lst.de>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-4-keith.busch@intel.com>
+ <20180525130057.GF23463@lst.de>
+Message-ID: <20180525144125.GP11037@localhost.localdomain>
 
-On Fri, 25 May 2018 15:28:40 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+On Fri, May 25, 2018@03:00:57PM +0200, Christoph Hellwig wrote:
+> On Thu, May 24, 2018@02:34:54PM -0600, Keith Busch wrote:
+> > IO may be retryable, so don't wait for them in the reset path.
+> 
+> Can't parse this.
+> 
+> 
+> > These
+> > commands may trigger a reset if that IO expires without a completion,
+> 
+> What are "these commands"?
 
-> On Tue, May 22, 2018@11:10:01AM +0200, Hannes Reinecke wrote:
-> > From: Christoph Hellwig <hch at lst.de>
+Sorry, I'm referring to the failed requests that were requeued after
+a controller disabling. We've been dispatching them from reset_work and
+just hoping they don't time out.
+ 
+> > placing it on the requeue list, so waiting for these would deadlock the
+> > reset handler.
 > > 
-> > Adding sypport for Asymmetric Namespace Access (ANA)
-> > 
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > Signed-off-by: Hannes Reinecke <hare at suse.com>  
+> > To fix the theoretical deadlock, this patch unblocks IO submission from
 > 
-> I just did a quick diff, and this really doesn't look like my
-> old code.  Quick difference I spotted:
+> How did you find it if it is theoretical?
+
+Variants of the blktests block/011 can trigger this. I've neven seen it
+in real life, but its not too much of a leap to imagine it can happen.
+ 
+> > This patch is also renaming the function 'nvme_dev_add' to a
+> > more appropriate name that describes what it's actually doing:
+> > nvme_alloc_io_tags.
 > 
->  - lots of code in core.c instead of multipath.c, where it should
->    be
->  - adds a per-ns ana_state value, including all the crap to main
->    it instead of the simple per-controller state table
->  - fucks of the sysfs attributes to also who on the multipath
->    node, where they can't work, and probably even corrupt
->    memory
->  - adds a get_log_page call per namespace, which is completely
->    counter to the ANA design to not have craptons of roundtrip
+> Can you split this out into a separate patch?
+
+Sure thing.
+ 
+> > @@ -3175,6 +3175,8 @@ static void nvme_scan_work(struct work_struct *work)
+> >  	struct nvme_id_ctrl *id;
+> >  	unsigned nn;
+> >  
+> > +	if (ctrl->ops->update_hw_ctx)
+> > +		ctrl->ops->update_hw_ctx(ctrl);
 > 
-> And probably a few more things I didn't notice due to all the code
-> moves.
+> nvme_scan_work gets kicked from all kinds of places including
+> ioctls and AERs. I don't think the code you added below should
+> be called from all of them.
+
+True, most of the time nothing happens on this call. I'm trying to not
+require another work_struct, and scan_work provides a safe context for
+what this needs to accomplish, but I can try to find another way.
+
+> > +static void nvme_pci_update_hw_ctx(struct nvme_ctrl *ctrl)
+> > +{
+> > +	struct nvme_dev *dev = to_nvme_dev(ctrl);
+> > +	bool unfreeze;
+> > +
+> > +	mutex_lock(&dev->shutdown_lock);
+> > +	unfreeze = dev->queues_froze;
+> > +	mutex_unlock(&dev->shutdown_lock);
 > 
-Okay, will be moving back to storing the ana state in the
-per-controller buffer.
-
-> > ---
-> >  drivers/nvme/host/core.c      | 335
-> > +++++++++++++++++++++++++++++++++++++++---
-> > drivers/nvme/host/multipath.c |  41 +++++-
-> > drivers/nvme/host/nvme.h      |  17 +++ 3 files changed, 366
-> > insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index b4408e1e677f..0d8167c68dff 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -68,6 +68,10 @@ static bool streams;
-> >  module_param(streams, bool, 0644);
-> >  MODULE_PARM_DESC(streams, "turn on support for Streams write
-> > directives"); 
-> > +static unsigned long ana_log_delay = 500;
-> > +module_param(ana_log_delay, ulong, 0644);
-> > +MODULE_PARM_DESC(ana_log_delay, "Delay in msecs before retrieving
-> > ANA log");  
+> No need to take a mutex here is you sample as single <= register
+> sized value.
 > 
-> Why?  There really is no point in delaying reading the state
-> information and just messing things up.
+> > +	if (!unfreeze)
+> > +		return;
+> 
+> But this whole scheme stinks to me.  For one we are adding more ad-hoc
+> state outside the state machine, second it all seems very "ad-hoc".
+> 
+> > +
+> > +	nvme_wait_freeze(&dev->ctrl);
+> > +	blk_mq_update_nr_hw_queues(ctrl->tagset, dev->online_queues - 1);
+> > +	nvme_free_queues(dev, dev->online_queues);
+> > +	nvme_unfreeze(&dev->ctrl);
+> > +
+> > +	mutex_lock(&dev->shutdown_lock);
+> > +	dev->queues_froze = false;
+> > +	mutex_unlock(&dev->shutdown_lock);
+> 
+> Same here.  Simple READ_ONCE/WRITE_ONCE will give you the right
+> memory barriers with no need for the lock.
 
-This delay will be used if we fail to get the ANA log page; in that
-case we _should_ be retrying it.
-The amount of retries need to be capped (hence ana_log_retries), and we
-shouldn't retry immediately to give the target (and possibly lower
-layers) a chance to recover (that's what ana_log_delay is for).
+Good point.
+ 
+> Also except for the nvme_free_queues this all is generic code,
+> so I think we want this in the core.
 
-If you don't like having them as module parameters, fine, I can make
-them as #define or something.
+That can be arranged.
 
-Cheers,
+> And I wonder where this would fit better than the scan work, but I
+> can't think of anything else but an entirely new work_struct, which
+> isn't all that great either.
 
-Hannes
+Yeah, I was trying to avoid introducing yet another work_struct here.
+
+> > @@ -2211,7 +2228,10 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+> >  	     dev->ctrl.state == NVME_CTRL_RESETTING)) {
+> >  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> >  
+> > -		nvme_start_freeze(&dev->ctrl);
+> > +		if (!dev->queues_froze)	{
+> > +			nvme_start_freeze(&dev->ctrl);
+> > +			dev->queues_froze = true;
+> > +		}
+> 
+> And this sounds like another indicator for a new FROZEN state.  Once
+> the ctrl already is frozen we really shouldn't even end up in here
+> anymore.
+
+I'll have to think about this idea.
