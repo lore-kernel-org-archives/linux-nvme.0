@@ -1,39 +1,50 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Fri, 25 May 2018 11:10:39 +0800
-Subject: [PATCHv3 9/9] nvme-pci: Don't wait for HMB completion on shutdown
-In-Reply-To: <20180524211539.GM11037@localhost.localdomain>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-10-keith.busch@intel.com>
- <20180524204506.GA29048@lst.de>
- <20180524211539.GM11037@localhost.localdomain>
-Message-ID: <3452269f-a1bb-cfe6-635b-6b69a46862c1@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 25 May 2018 08:43:06 +0200
+Subject: [PATCH 2/3] nvme: avoid reconnection for the discovery controller
+In-Reply-To: <4a3d1fbb-ba38-9488-ab38-9ae85ec18922@broadcom.com>
+References: <20180524141817.127576-1-hare@suse.de>
+ <20180524141817.127576-3-hare@suse.de>
+ <4a3d1fbb-ba38-9488-ab38-9ae85ec18922@broadcom.com>
+Message-ID: <9f06192d-28b6-c1af-417f-29bebef670fa@suse.de>
 
-Hi Keith
-
-On 05/25/2018 05:15 AM, Keith Busch wrote:
->> Also if we really need to reset the controller submitting any command
->> just doesn't seem very helpful.  We might as well just skip trying
->> to disable the HMB, as the controller needs to come up in a clean
->> state anyway.
-> That's also fine with me.
+On 05/24/2018 10:30 PM, James Smart wrote:
 > 
+> 
+> On 5/24/2018 7:18 AM, Hannes Reinecke wrote:
+>> If the connection to the discovery controller fails for whatever
+>> reason we should not attempt to reconnect; rather the user should
+>> retry the discovery altogether.
+>>
+>> Signed-off-by: Hannes Reinecke <hare at suse.com>
+>> ---
+>> ? drivers/nvme/host/fabrics.c | 3 +++
+>> ? 1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>> index d25aa4322d16..997d8677ab44 100644
+>> --- a/drivers/nvme/host/fabrics.c
+>> +++ b/drivers/nvme/host/fabrics.c
+>> @@ -474,6 +474,9 @@ EXPORT_SYMBOL_GPL(nvmf_connect_io_queue);
+>> ? bool nvmf_should_reconnect(struct nvme_ctrl *ctrl)
+>> ? {
+>> +??? if (ctrl->opts->discovery_nqn)
+>> +??????? return false;
+>> +
+>> ????? if (ctrl->opts->max_reconnects != -1 &&
+>> ????????? ctrl->nr_reconnects < ctrl->opts->max_reconnects)
+>> ????????? return true;
+> 
+> um no.? It should follow the same reconnect policies as anything other 
+> controller.?? There is no guarantee the event that triggered the 
+> discovery controller will do so again. Not all discovery controller 
+> connects are manually initiated by an admin.?? So failing the reconnect 
+> may mean you will never reconnect with the subsystems described by the 
+> discovery controller.
+> 
+Ah. Fair enough.
+So we should be limiting the number of reconnects only when triggered by 
+the admin. Should be doable; I'll be looking into it.
 
-Does it mean just need to disable the controller with transiting CC.EN ?1? to ?0?
-without sending any admin commands including deleting cq/sq ?
-The specification indeed says that
-when Controller Reset (CC.EN transitions from ?1? to ?0
- - The controller stops processing any outstanding Admin or I/O commands.
- - All I/O Submission Queues are deleted.
- - All I/O Completion Queues are deleted.
- - The controller is brought to an Idle state. When this is complete, CSTS.RDY is cleared to ?0?.
- - The Admin Queue registers (AQA, ASQ, or ACQ) are not reset as part of a controller reset. All
-other controller registers defined in section 3 and internal controller state are reset.
+Cheers,
 
-Then for the timeout case at least, for LIVE state, nvme_timeout could hand over all the things to
-reset_work and return BLK_EH_RESET_TIMER, when reset_work is ongoing, just  disable the controller
-with setting CC.EN and disable the related pci things and return BLK_EH_HANDLED to complete the
-admin commands to wake up the reset_work. (certainly with your patch to move update_hw_nr to scan_work)
-nvme_timeout doesn't need to invoke nvme_dev_disable any more and life will be simpler :).
-
-Thanks
-jianchao
+Hannes
