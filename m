@@ -1,50 +1,45 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 25 May 2018 08:53:36 -0700
-Subject: [PATCH] nvme: re-enable clean shutdown
-In-Reply-To: <20180525090524.58845-1-hare@suse.de>
-References: <20180525090524.58845-1-hare@suse.de>
-Message-ID: <78db23fc-6bf6-68b5-a298-6a44b0ece5ca@broadcom.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 25 May 2018 10:24:39 -0600
+Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
+In-Reply-To: <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-2-keith.busch@intel.com>
+ <20180525124209.GD23463@lst.de>
+ <20180525142233.GN11037@localhost.localdomain>
+ <20180525143253.GA26539@lst.de>
+ <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
+Message-ID: <20180525162439.GT11037@localhost.localdomain>
 
+On Fri, May 25, 2018@08:56:51AM -0700, James Smart wrote:
+> 
+> 
+> On 5/25/2018 7:32 AM, Christoph Hellwig wrote:
+> > On Fri, May 25, 2018@08:22:34AM -0600, Keith Busch wrote:
+> > > On Fri, May 25, 2018@02:42:09PM +0200, Christoph Hellwig wrote:
+> > > > On Thu, May 24, 2018@02:34:52PM -0600, Keith Busch wrote:
+> > > > > This patch fixes races that occur with simultaneous controller
+> > > > > resets
+> > > > Wait..  How do we end up with simultaneous controller resets?  We
+> > > > not only have the NVME_CTRL_RESETTING resetting state, but also
+> > > > execute all resets from ctrl->reset_work, so they are implicitly
+> > > > single threaded.
+> > > Right, the bring up is single threaded, but the NVMe Controller Level
+> > > Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
+> > > just working with the way blk-mq's timeout handler claims requests
+> > > and prevents the driver from completing them. The reset_work operates
+> > > under the assumption that there are no outstanding commands after
+> > > nvme_dev_disable, so this patch just ensures that's the case.
+> > Ok, so we are talking about simultaneous nvme_dev_disable calls, which
+> > makes more sense.
+> > 
+> > That being said I really like the idea that Jianchao floated about
+> > always returning BLK_EH_RESET_TIMER and just letting the reset work
+> > do the work.  I hope it actually works and doesn't have hidden
+> > pitfalls..
+> > 
+> 
+> I came to this same conclusion and this is how FC works.
 
-
-On 5/25/2018 2:05 AM, Hannes Reinecke wrote:
-> Commit bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
-> masked out all commands during shutdown, causing the nvme core
-> to never send the shutdown command to the target.
-> With this patch clean shutdown is re-enabled.
->
-> Fixes: bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
-> Cc: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->   drivers/nvme/host/fabrics.c | 11 +++++++++++
->   1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 1c27f862dc45..13c5d3155c41 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -546,6 +546,17 @@ blk_status_t nvmf_check_if_ready(struct nvme_ctrl *ctrl, struct request *rq,
->   
->   	switch (ctrl->state) {
->   	case NVME_CTRL_DELETING:
-> +		if (!is_connected)
-> +			goto reject_or_queue_io;
-> +		/*
-> +		 * We need to send shutdown commands to the
-> +		 * target when deleting the controller.
-> +		 */
-> +		if (cmd->common.opcode == nvme_fabrics_command &&
-> +		    (cmd->fabrics.fctype == nvme_fabrics_type_property_get ||
-> +		     cmd->fabrics.fctype == nvme_fabrics_type_property_set))
-> +			return BLK_STS_OK;
-> +
->   		goto reject_io;
->   
->   	case NVME_CTRL_NEW:
-
-yep. sounds good.
-
--- james
-
-Reviewed-by:? James Smart? <james.smart at broadcom.com>
+At least in the current blk-mq timeout handling, returning RESET_TIMER
+presents other challenges for the reset handler: the timer may have
+reclaimed the request that reset_work is trying to complete.
