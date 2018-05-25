@@ -1,23 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 25 May 2018 01:53:13 -0700
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 25 May 2018 11:04:03 +0200
 Subject: [PATCH] nvme: fix KASAN warning when parsing host nqn
-In-Reply-To: <20180514124414.GA25689@lst.de>
-References: <20180514122312.62068-1-hare@suse.de>
- <20180514124414.GA25689@lst.de>
-Message-ID: <20180525085313.GA10951@infradead.org>
+Message-ID: <20180525090403.58723-1-hare@suse.de>
 
-On Mon, May 14, 2018@02:44:14PM +0200, Christoph Hellwig wrote:
-> On Mon, May 14, 2018@02:23:12PM +0200, Hannes Reinecke wrote:
-> > -	host = kmalloc(sizeof(*host), GFP_KERNEL);
-> > +	host = kzalloc(sizeof(*host), GFP_KERNEL);
-> >  	if (!host)
-> >  		goto out_unlock;
-> >  
-> >  	kref_init(&host->ref);
-> > -	memcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
-> > +	memcpy(host->nqn, hostnqn, strlen(hostnqn));
-> 
-> That pattern is called strcpy :)  And we better use strlcpy here,
-> just in case.
+The host nqn actually is smaller than the space reserved for it,
+so we should be using strlcpy to keep KASAN happy.
 
-Can you resend a fixed up version?
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/fabrics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index a5c8ebf24eaa..9961eabb0321 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -57,7 +57,7 @@ static struct nvmf_host *nvmf_host_add(const char *hostnqn)
+ 		goto out_unlock;
+ 
+ 	kref_init(&host->ref);
+-	memcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
++	strlcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
+ 
+ 	list_add_tail(&host->list, &nvmf_hosts);
+ out_unlock:
+-- 
+2.12.3
