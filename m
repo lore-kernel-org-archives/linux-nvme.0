@@ -1,25 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 25 May 2018 14:43:58 +0200
-Subject: [PATCHv3 2/9] nvme-pci: Fix queue freeze criteria on reset
-In-Reply-To: <20180524203500.14081-3-keith.busch@intel.com>
+Date: Fri, 25 May 2018 14:31:55 +0200
+Subject: [PATCHv3 5/9] nvme-pci: End IO requests in CONNECTING state
+In-Reply-To: <20180524210313.GL11037@localhost.localdomain>
 References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-3-keith.busch@intel.com>
-Message-ID: <20180525124358.GE23463@lst.de>
+ <20180524203500.14081-6-keith.busch@intel.com>
+ <20180524204722.GB29048@lst.de>
+ <20180524210313.GL11037@localhost.localdomain>
+Message-ID: <20180525123154.GA23463@lst.de>
 
-> +	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE &&
+On Thu, May 24, 2018@03:03:13PM -0600, Keith Busch wrote:
+> > How can we hit this case?  This just looks a lot like papering
+> > over the real issue..
+> 
+> It'll most likley never really happen. The conditions are a pretty obscure
+> timeout handling cases mixed with other errors that could theoretically
+> hit it, requiring two or more namespaces.
+> 
+> The real fix, IMO, is wahat the blk-mq timeout enhancements are working
+> toward, so I've no problem dropping this patch.
 
-Please throw in a pair of parentheses here.
-
-> +	    (dev->ctrl.state == NVME_CTRL_LIVE ||
-> +	     dev->ctrl.state == NVME_CTRL_RESETTING)) {
->  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
->  
-> -		if (dev->ctrl.state == NVME_CTRL_LIVE ||
-> -		    dev->ctrl.state == NVME_CTRL_RESETTING)
-> -			nvme_start_freeze(&dev->ctrl);
-> +		nvme_start_freeze(&dev->ctrl);
-
-should we same csts after starting the freeze as that might take some
-time?
-
-Otherwise this looks fine to me.
+Ok, lets fix the real issue then.
