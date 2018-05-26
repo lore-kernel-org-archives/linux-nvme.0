@@ -1,38 +1,22 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 25 May 2018 17:20:10 -0600
-Subject: PCIe unsupported request with Intel 760p
-In-Reply-To: <20180507123035.GA20097@gmail.com>
-References: <CAKDfzeD5_AV=YtWqTPr=40vvW4oMFAs4gJs_r42PJWcb815zyQ@mail.gmail.com>
- <20180507123035.GA20097@gmail.com>
-Message-ID: <20180525232009.GV11037@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 26 May 2018 12:27:21 +0200
+Subject: nvme/nvmet AEN and log page fixups
+Message-ID: <20180526102735.31404-1-hch@lst.de>
 
-On Mon, May 07, 2018@08:30:35AM -0400, Aron Griffis wrote:
-> (Reposting to fix line wrapping, and cc'ing linux-pci at Bjorn's request.)
-> 
-> I'm getting this error continuously with an Intel 760p on 4.16.5 (Fedora 28)
-> 
-> pcieport 0000:00:1d.0: AER: Uncorrected (Non-Fatal) error received: id=00e8
-> pcieport 0000:00:1d.0: PCIe Bus Error: severity=Uncorrected (Non-Fatal), type=Transaction Layer, id=00e8(Requester ID)
-> pcieport 0000:00:1d.0:   device [8086:a298] error status/mask=00100000/00010000
-> pcieport 0000:00:1d.0:    [20] Unsupported Request    (First)
-> pcieport 0000:00:1d.0:   TLP Header: 34000000 70000010 00000000 88468846
-> pcieport 0000:00:1d.0: broadcast error_detected message
-> pcieport 0000:00:1d.0: broadcast mmio_enabled message
-> pcieport 0000:00:1d.0: broadcast resume message
-> pcieport 0000:00:1d.0: AER: Device recovery successful
-> 
-> Willy graciously decoded this for me to a "Latency Tolerance Reporting
-> Message," and suggested I send email to this list to check whether it's a
-> problem with the device or driver.
-> 
-> lspci and full dmesg follow. Please let me know if something else would be
-> helpful.
+Hi all,
 
-I have some information back from the development team to share. They
-believe this may be a hardware errata and are investigating a firmware
-side fix.
+this series started as prep work for ANA, but has grown a lot.
 
-In the meantime, they think there may be other ways to work around this,
-if these are acceptable. Specifically, disabling any non-operational
-link states may make this go away, and adding kernel parameter
-"pcie_aspm=off" should achieve that.
+The idea is to make the AEN handling in the target closer to what
+the standard says, and implement the changed namespaces list log page,
+which is required to clear the namespace attribute notice event.
+
+One the host side this just makes sure we actually have the events
+we handle enabled using Set Features, and it fixes the handling of
+the namespace attribute notice event so that it actually does get
+cleared by issuing the log page.
+
+Last but not last two block cleanups are thrown in so that we don't
+print a pointless message when we delete a namespaces, and also
+unexport the function printing said message as it should only be
+called from the core code.
