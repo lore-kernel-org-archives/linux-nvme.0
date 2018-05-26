@@ -1,76 +1,66 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 26 May 2018 12:27:32 +0200
-Subject: [PATCH 11/14] nvme: submit AEN event configuration on startup
+Date: Sat, 26 May 2018 12:27:33 +0200
+Subject: [PATCH 12/14] nvme: mark nvme_queue_scan static
 In-Reply-To: <20180526102735.31404-1-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
-Message-ID: <20180526102735.31404-12-hch@lst.de>
+Message-ID: <20180526102735.31404-13-hch@lst.de>
 
-From: Hannes Reinecke <hare@suse.de>
+And move it toward the top of the file to avoid a forward declaration.
 
-We should register for AEN events; some law-abiding targets might
-not be sending us AENs otherwise.
-
-Signed-off-by: Hannes Reinecke <hare at suse.com>
-[hch: slight cleanups]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 17 +++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 18 insertions(+)
+ drivers/nvme/host/core.c | 19 +++++++++----------
+ drivers/nvme/host/nvme.h |  1 -
+ 2 files changed, 9 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 86cb78653155..c0bc76d98194 100644
+index c0bc76d98194..06cd04dcffbc 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1030,6 +1030,21 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- }
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
+@@ -100,6 +100,15 @@ static struct class *nvme_subsys_class;
+ static void nvme_ns_remove(struct nvme_ns *ns);
+ static int nvme_revalidate_disk(struct gendisk *disk);
  
-+#define NVME_AEN_SUPPORTED \
-+	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT)
-+
-+static void nvme_enable_aen(struct nvme_ctrl *ctrl)
++static void nvme_queue_scan(struct nvme_ctrl *ctrl)
 +{
-+	u32 result;
-+	int status;
-+
-+	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
-+			ctrl->oaes & NVME_AEN_SUPPORTED, NULL, 0, &result);
-+	if (status)
-+		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
-+			 ctrl->oaes & NVME_AEN_SUPPORTED);
++	/*
++	 * Only new queue scan work when admin and IO queues are both alive
++	 */
++	if (ctrl->state == NVME_CTRL_LIVE)
++		queue_work(nvme_wq, &ctrl->scan_work);
 +}
 +
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
  {
- 	struct nvme_user_io io;
-@@ -2347,6 +2362,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
+@@ -3214,16 +3223,6 @@ static void nvme_scan_work(struct work_struct *work)
+ 	kfree(id);
+ }
  
- 	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->oncs = le16_to_cpup(&id->oncs);
-+	ctrl->oaes = le32_to_cpu(id->oaes);
- 	atomic_set(&ctrl->abort_limit, id->acl + 1);
- 	ctrl->vwc = id->vwc;
- 	ctrl->cntlid = le16_to_cpup(&id->cntlid);
-@@ -3379,6 +3395,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 
- 	if (ctrl->queue_count > 1) {
- 		nvme_queue_scan(ctrl);
-+		nvme_enable_aen(ctrl);
- 		queue_work(nvme_wq, &ctrl->async_event_work);
- 		nvme_start_queues(ctrl);
- 	}
+-void nvme_queue_scan(struct nvme_ctrl *ctrl)
+-{
+-	/*
+-	 * Only new queue scan work when admin and IO queues are both alive
+-	 */
+-	if (ctrl->state == NVME_CTRL_LIVE)
+-		queue_work(nvme_wq, &ctrl->scan_work);
+-}
+-EXPORT_SYMBOL_GPL(nvme_queue_scan);
+-
+ /*
+  * This function iterates the namespace list unlocked to allow recovery from
+  * controller failure. It is up to the caller to ensure the namespace list is
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ec6e4acc4d48..dcf9e9592c1a 100644
+index dcf9e9592c1a..11681278fdf6 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -176,6 +176,7 @@ struct nvme_ctrl {
- 	u16 kas;
- 	u8 npss;
- 	u8 apsta;
-+	u32 oaes;
- 	u32 aen_result;
- 	unsigned int shutdown_timeout;
- 	unsigned int kato;
+@@ -395,7 +395,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_put_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_init_identify(struct nvme_ctrl *ctrl);
+ 
+-void nvme_queue_scan(struct nvme_ctrl *ctrl);
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
+ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
 -- 
 2.17.0
