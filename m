@@ -1,33 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 26 May 2018 14:21:37 +0200
-Subject: [PATCH 13/14] nvme: use the changed namespaces list log to
- clear ns data changed AENs
-In-Reply-To: <BN7PR06MB403359D8914D0A17425C037E92680@BN7PR06MB4033.namprd06.prod.outlook.com>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-14-hch@lst.de>
- <BN7PR06MB403359D8914D0A17425C037E92680@BN7PR06MB4033.namprd06.prod.outlook.com>
-Message-ID: <20180526122137.GA21257@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Sat, 26 May 2018 14:34:59 +0200
+Subject: [PATCH] nvme-loop: add support for multiple ports
+In-Reply-To: <20180526121125.25996-1-hch@lst.de>
+References: <20180526121125.25996-1-hch@lst.de>
+Message-ID: <20180526123459.kf43agzr32bn673x@linux-x5ow.site>
 
-On Sat, May 26, 2018@12:05:02PM +0000, Popuri, Sriram wrote:
-> Reading the spec it looks like ns log is alternate approach:
-> 
-> "Namespace Attribute Changed: The Identify Namespace data structure for one or more namespaces, as well as the Namespace List returned when the Identify command is issued with the CNS field set to 02h, have changed. Host software may use this event as an indication that it should read the Identify Namespace data structures for each namespace to determine what has changed.
-> 
-> Alternatively, host software may request the Changed Namespace List (Log Identifier 04h) to determine which namespaces in this controller have changed Identify Namespace information since the last time the log page was read."
-> 
-> My question is: Does the target needs to implement log page 04h as this is an optional log page and the text above suggests its used in alternate way?
+On Sat, May 26, 2018@02:11:25PM +0200, Christoph Hellwig wrote:
+> This is useful at least for multipath testing.
+Awesome, thanks
 
-Section 5.2 clearly states that each AER comes with a log page to
-clear it, and the above does not contain any language to explicitly
-override it. So my reading of the spec is that to clear the event you need
-to read the log page, but to find out what has changed you might issue
-Identify commands instead.
-
-> If target is not required to implement, then I guess your change should still work because if log page 04h fails, it fails back to rescan. Correct?
-
-Independ of what the spec actually requires, the code tries to robust
-as possible and falls back to doing the manual scan.
-
-> I think you can optimize this by checking the "Log Page Identifier" field in your result and accordingly setting EVENT_NS_CHANGED. I assume target would clear this if log page 04h is not supported.
-
-We can try that, but I'm not sure what it is going to buy us.
+I'll give it a shot on monday.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
