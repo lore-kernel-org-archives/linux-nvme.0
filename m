@@ -1,19 +1,19 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Sat, 26 May 2018 14:34:59 +0200
-Subject: [PATCH] nvme-loop: add support for multiple ports
-In-Reply-To: <20180526121125.25996-1-hch@lst.de>
-References: <20180526121125.25996-1-hch@lst.de>
-Message-ID: <20180526123459.kf43agzr32bn673x@linux-x5ow.site>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sat, 26 May 2018 06:54:18 -0600
+Subject: [PATCH] nvme-pci: simplify __nvme_submit_cmd
+In-Reply-To: <20180526114555.8881-1-hch@lst.de>
+References: <20180526114555.8881-1-hch@lst.de>
+Message-ID: <c830723e-ee63-12a0-a794-3946293d5fb0@kernel.dk>
 
-On Sat, May 26, 2018@02:11:25PM +0200, Christoph Hellwig wrote:
-> This is useful at least for multipath testing.
-Awesome, thanks
+On 5/26/18 5:45 AM, Christoph Hellwig wrote:
+> With recent CQ handling improvements we can now move the locking into
+> __nvme_submit_cmd.  Also remove the local tail variable to make the code
+> more obvious, remove the __ prefix in the name, and fix the comments
+> describing the function.
 
-I'll give it a shot on monday.
+Looks good to me.
+
+Reviewed-by: Jens Axboe <axboe at kernel.dk>
+
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Jens Axboe
