@@ -1,29 +1,96 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 26 May 2018 12:27:22 +0200
-Subject: [PATCH 01/14] block: unexport check_disk_size_change
+Date: Sat, 26 May 2018 12:27:23 +0200
+Subject: [PATCH 02/14] block: don't print a message when the device went away
 In-Reply-To: <20180526102735.31404-1-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
-Message-ID: <20180526102735.31404-2-hch@lst.de>
+Message-ID: <20180526102735.31404-3-hch@lst.de>
 
-Only used in block_dev.c and the partitions code, and it should remain
-that way..
+The information about a size change in this case just creates confusion.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- fs/block_dev.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/partition-generic.c |  4 ++--
+ fs/block_dev.c            | 14 +++++++++-----
+ include/linux/fs.h        |  2 +-
+ 3 files changed, 12 insertions(+), 8 deletions(-)
 
+diff --git a/block/partition-generic.c b/block/partition-generic.c
+index db57cced9b98..9fe4816a1289 100644
+--- a/block/partition-generic.c
++++ b/block/partition-generic.c
+@@ -518,7 +518,7 @@ int rescan_partitions(struct gendisk *disk, struct block_device *bdev)
+ 
+ 	if (disk->fops->revalidate_disk)
+ 		disk->fops->revalidate_disk(disk);
+-	check_disk_size_change(disk, bdev);
++	check_disk_size_change(disk, bdev, true);
+ 	bdev->bd_invalidated = 0;
+ 	if (!get_capacity(disk) || !(state = check_partition(disk, bdev)))
+ 		return 0;
+@@ -643,7 +643,7 @@ int invalidate_partitions(struct gendisk *disk, struct block_device *bdev)
+ 		return res;
+ 
+ 	set_capacity(disk, 0);
+-	check_disk_size_change(disk, bdev);
++	check_disk_size_change(disk, bdev, false);
+ 	bdev->bd_invalidated = 0;
+ 	/* tell userspace that the media / partition table may have changed */
+ 	kobject_uevent(&disk_to_dev(disk)->kobj, KOBJ_CHANGE);
 diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 7ec920e27065..771ddfa29dc9 100644
+index 771ddfa29dc9..81c57c14fae8 100644
 --- a/fs/block_dev.c
 +++ b/fs/block_dev.c
-@@ -1342,7 +1342,6 @@ void check_disk_size_change(struct gendisk *disk, struct block_device *bdev)
- 			flush_disk(bdev, false);
- 	}
- }
--EXPORT_SYMBOL(check_disk_size_change);
+@@ -1322,21 +1322,25 @@ static void flush_disk(struct block_device *bdev, bool kill_dirty)
+  * check_disk_size_change - checks for disk size change and adjusts bdev size.
+  * @disk: struct gendisk to check
+  * @bdev: struct bdev to adjust.
++ * @verbose: if %true log a message about a size change if there is any
+  *
+  * This routine checks to see if the bdev size does not match the disk size
+  * and adjusts it if it differs. When shrinking the bdev size, its all caches
+  * are freed.
+  */
+-void check_disk_size_change(struct gendisk *disk, struct block_device *bdev)
++void check_disk_size_change(struct gendisk *disk, struct block_device *bdev,
++		bool verbose)
+ {
+ 	loff_t disk_size, bdev_size;
  
- /**
-  * revalidate_disk - wrapper for lower-level driver's revalidate_disk call-back
+ 	disk_size = (loff_t)get_capacity(disk) << 9;
+ 	bdev_size = i_size_read(bdev->bd_inode);
+ 	if (disk_size != bdev_size) {
+-		printk(KERN_INFO
+-		       "%s: detected capacity change from %lld to %lld\n",
+-		       disk->disk_name, bdev_size, disk_size);
++		if (verbose) {
++			printk(KERN_INFO
++			       "%s: detected capacity change from %lld to %lld\n",
++			       disk->disk_name, bdev_size, disk_size);
++		}
+ 		i_size_write(bdev->bd_inode, disk_size);
+ 		if (bdev_size > disk_size)
+ 			flush_disk(bdev, false);
+@@ -1363,7 +1367,7 @@ int revalidate_disk(struct gendisk *disk)
+ 		return ret;
+ 
+ 	mutex_lock(&bdev->bd_mutex);
+-	check_disk_size_change(disk, bdev);
++	check_disk_size_change(disk, bdev, ret == 0);
+ 	bdev->bd_invalidated = 0;
+ 	mutex_unlock(&bdev->bd_mutex);
+ 	bdput(bdev);
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 760d8da1b6c7..d8d4831af9ff 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2570,7 +2570,7 @@ extern bool is_bad_inode(struct inode *);
+ 
+ #ifdef CONFIG_BLOCK
+ extern void check_disk_size_change(struct gendisk *disk,
+-				   struct block_device *bdev);
++		struct block_device *bdev, bool verbose);
+ extern int revalidate_disk(struct gendisk *);
+ extern int check_disk_change(struct block_device *);
+ extern int __invalidate_device(struct block_device *, bool);
 -- 
 2.17.0
