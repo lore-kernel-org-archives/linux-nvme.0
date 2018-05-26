@@ -1,47 +1,151 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 26 May 2018 12:27:27 +0200
-Subject: [PATCH 06/14] nvmet: add a new nvmet_zero_sgl helper
+Date: Sat, 26 May 2018 12:27:28 +0200
+Subject: [PATCH 07/14] nvmet: split log page implementation
 In-Reply-To: <20180526102735.31404-1-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
-Message-ID: <20180526102735.31404-7-hch@lst.de>
+Message-ID: <20180526102735.31404-8-hch@lst.de>
 
-Zeroes the SGL in the payload.
+Remove the common code to allocate a buffer and copy it into the SGL.
+Instead the two no-op implementations just zero the SGL directly, and
+the smart log allocates a buffer on its own.  This prepares for the
+more elaborate ANA log page.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/core.c  | 7 +++++++
- drivers/nvme/target/nvmet.h | 1 +
- 2 files changed, 8 insertions(+)
+ drivers/nvme/target/admin-cmd.c | 99 ++++++++++++---------------------
+ 1 file changed, 36 insertions(+), 63 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 800aaf96ddcd..55c4bc693aa2 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -57,6 +57,13 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf, size_t len)
- 	return 0;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index b2ba95b2eef7..e96bb02c4f2c 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -32,6 +32,11 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+ 	return len;
  }
  
-+u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len)
++static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
 +{
-+	if (sg_zero_buffer(req->sg, req->sg_cnt, len, off) != len)
-+		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
-+	return 0;
++	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->data_len));
 +}
 +
- static unsigned int nvmet_max_nsid(struct nvmet_subsys *subsys)
+ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+ 		struct nvme_smart_log *slog)
  {
- 	struct nvmet_ns *ns;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 2d09afcfe505..a4e14eb15d4e 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -330,6 +330,7 @@ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
- 		size_t len);
- u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- 		size_t len);
-+u16 nvmet_zero_sgl(struct nvmet_req *req, off_t off, size_t len);
+@@ -97,74 +102,26 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
+ 	return NVME_SC_SUCCESS;
+ }
  
- u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+-static u16 nvmet_get_smart_log(struct nvmet_req *req,
+-		struct nvme_smart_log *slog)
+-{
+-	u16 status;
+-
+-	WARN_ON(req == NULL || slog == NULL);
+-	if (req->cmd->get_log_page.nsid == cpu_to_le32(NVME_NSID_ALL))
+-		status = nvmet_get_smart_log_all(req, slog);
+-	else
+-		status = nvmet_get_smart_log_nsid(req, slog);
+-	return status;
+-}
+-
+-static void nvmet_execute_get_log_page(struct nvmet_req *req)
++static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
+ {
+-	struct nvme_smart_log *smart_log;
+-	size_t data_len = nvmet_get_log_page_len(req->cmd);
+-	void *buf;
+-	u16 status = 0;
++	struct nvme_smart_log *log;
++	u16 status = NVME_SC_INTERNAL;
  
+-	buf = kzalloc(data_len, GFP_KERNEL);
+-	if (!buf) {
+-		status = NVME_SC_INTERNAL;
++	if (req->data_len != sizeof(*log))
+ 		goto out;
+-	}
+ 
+-	switch (req->cmd->get_log_page.lid) {
+-	case NVME_LOG_ERROR:
+-		/*
+-		 * We currently never set the More bit in the status field,
+-		 * so all error log entries are invalid and can be zeroed out.
+-		 * This is called a minum viable implementation (TM) of this
+-		 * mandatory log page.
+-		 */
+-		break;
+-	case NVME_LOG_SMART:
+-		/*
+-		 * XXX: fill out actual smart log
+-		 *
+-		 * We might have a hard time coming up with useful values for
+-		 * many of the fields, and even when we have useful data
+-		 * available (e.g. units or commands read/written) those aren't
+-		 * persistent over power loss.
+-		 */
+-		if (data_len != sizeof(*smart_log)) {
+-			status = NVME_SC_INTERNAL;
+-			goto err;
+-		}
+-		smart_log = buf;
+-		status = nvmet_get_smart_log(req, smart_log);
+-		if (status)
+-			goto err;
+-		break;
+-	case NVME_LOG_FW_SLOT:
+-		/*
+-		 * We only support a single firmware slot which always is
+-		 * active, so we can zero out the whole firmware slot log and
+-		 * still claim to fully implement this mandatory log page.
+-		 */
+-		break;
+-	default:
+-		BUG();
+-	}
++	log = kzalloc(sizeof(*log), GFP_KERNEL);
++	if (!log)
++		goto out;
+ 
+-	status = nvmet_copy_to_sgl(req, 0, buf, data_len);
++	if (req->cmd->get_log_page.nsid == cpu_to_le32(NVME_NSID_ALL))
++		status = nvmet_get_smart_log_all(req, log);
++	else
++		status = nvmet_get_smart_log_nsid(req, log);
++	if (status)
++		goto out;
+ 
+-err:
+-	kfree(buf);
++	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
+ out:
+ 	nvmet_req_complete(req, status);
+ }
+@@ -566,9 +523,25 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 
+ 		switch (cmd->get_log_page.lid) {
+ 		case NVME_LOG_ERROR:
++			/*
++			 * We currently never set the More bit in the status
++			 * field, so all error log entries are invalid and can
++			 * be zeroed out.  This is called a minum viable
++			 * implementation (TM) of this mandatory log page.
++			 */
++			req->execute = nvmet_execute_get_log_page_noop;
++			return 0;
+ 		case NVME_LOG_SMART:
++			req->execute = nvmet_execute_get_log_page_smart;
++			return 0;
+ 		case NVME_LOG_FW_SLOT:
+-			req->execute = nvmet_execute_get_log_page;
++			/*
++			 * We only support a single firmware slot which always
++			 * is active, so we can zero out the whole firmware slot
++			 * log and still claim to fully implement this mandatory
++			 * log page.
++			 */
++			req->execute = nvmet_execute_get_log_page_noop;
+ 			return 0;
+ 		}
+ 		break;
 -- 
 2.17.0
