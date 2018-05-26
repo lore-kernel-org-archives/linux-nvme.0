@@ -1,151 +1,182 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 26 May 2018 12:27:28 +0200
-Subject: [PATCH 07/14] nvmet: split log page implementation
+Date: Sat, 26 May 2018 12:27:29 +0200
+Subject: [PATCH 08/14] nvmet: implement the changed namespaces log
 In-Reply-To: <20180526102735.31404-1-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
-Message-ID: <20180526102735.31404-8-hch@lst.de>
+Message-ID: <20180526102735.31404-9-hch@lst.de>
 
-Remove the common code to allocate a buffer and copy it into the SGL.
-Instead the two no-op implementations just zero the SGL directly, and
-the smart log allocates a buffer on its own.  This prepares for the
-more elaborate ANA log page.
+Just keep a per-controller buffer of changed namespaces and copy it out
+in the get log page implementation.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/admin-cmd.c | 99 ++++++++++++---------------------
- 1 file changed, 36 insertions(+), 63 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 23 +++++++++++++++++
+ drivers/nvme/target/core.c      | 44 ++++++++++++++++++++++++++-------
+ drivers/nvme/target/nvmet.h     |  3 +++
+ 3 files changed, 61 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index b2ba95b2eef7..e96bb02c4f2c 100644
+index e96bb02c4f2c..82d521f60a43 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -32,6 +32,11 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
- 	return len;
- }
- 
-+static void nvmet_execute_get_log_page_noop(struct nvmet_req *req)
-+{
-+	nvmet_req_complete(req, nvmet_zero_sgl(req, 0, req->data_len));
-+}
-+
- static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
- 		struct nvme_smart_log *slog)
- {
-@@ -97,74 +102,26 @@ static u16 nvmet_get_smart_log_all(struct nvmet_req *req,
- 	return NVME_SC_SUCCESS;
- }
- 
--static u16 nvmet_get_smart_log(struct nvmet_req *req,
--		struct nvme_smart_log *slog)
--{
--	u16 status;
--
--	WARN_ON(req == NULL || slog == NULL);
--	if (req->cmd->get_log_page.nsid == cpu_to_le32(NVME_NSID_ALL))
--		status = nvmet_get_smart_log_all(req, slog);
--	else
--		status = nvmet_get_smart_log_nsid(req, slog);
--	return status;
--}
--
--static void nvmet_execute_get_log_page(struct nvmet_req *req)
-+static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
- {
--	struct nvme_smart_log *smart_log;
--	size_t data_len = nvmet_get_log_page_len(req->cmd);
--	void *buf;
--	u16 status = 0;
-+	struct nvme_smart_log *log;
-+	u16 status = NVME_SC_INTERNAL;
- 
--	buf = kzalloc(data_len, GFP_KERNEL);
--	if (!buf) {
--		status = NVME_SC_INTERNAL;
-+	if (req->data_len != sizeof(*log))
- 		goto out;
--	}
- 
--	switch (req->cmd->get_log_page.lid) {
--	case NVME_LOG_ERROR:
--		/*
--		 * We currently never set the More bit in the status field,
--		 * so all error log entries are invalid and can be zeroed out.
--		 * This is called a minum viable implementation (TM) of this
--		 * mandatory log page.
--		 */
--		break;
--	case NVME_LOG_SMART:
--		/*
--		 * XXX: fill out actual smart log
--		 *
--		 * We might have a hard time coming up with useful values for
--		 * many of the fields, and even when we have useful data
--		 * available (e.g. units or commands read/written) those aren't
--		 * persistent over power loss.
--		 */
--		if (data_len != sizeof(*smart_log)) {
--			status = NVME_SC_INTERNAL;
--			goto err;
--		}
--		smart_log = buf;
--		status = nvmet_get_smart_log(req, smart_log);
--		if (status)
--			goto err;
--		break;
--	case NVME_LOG_FW_SLOT:
--		/*
--		 * We only support a single firmware slot which always is
--		 * active, so we can zero out the whole firmware slot log and
--		 * still claim to fully implement this mandatory log page.
--		 */
--		break;
--	default:
--		BUG();
--	}
-+	log = kzalloc(sizeof(*log), GFP_KERNEL);
-+	if (!log)
-+		goto out;
- 
--	status = nvmet_copy_to_sgl(req, 0, buf, data_len);
-+	if (req->cmd->get_log_page.nsid == cpu_to_le32(NVME_NSID_ALL))
-+		status = nvmet_get_smart_log_all(req, log);
-+	else
-+		status = nvmet_get_smart_log_nsid(req, log);
-+	if (status)
-+		goto out;
- 
--err:
--	kfree(buf);
-+	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
- out:
+@@ -126,6 +126,26 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
  	nvmet_req_complete(req, status);
  }
-@@ -566,9 +523,25 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
  
- 		switch (cmd->get_log_page.lid) {
- 		case NVME_LOG_ERROR:
-+			/*
-+			 * We currently never set the More bit in the status
-+			 * field, so all error log entries are invalid and can
-+			 * be zeroed out.  This is called a minum viable
-+			 * implementation (TM) of this mandatory log page.
-+			 */
-+			req->execute = nvmet_execute_get_log_page_noop;
-+			return 0;
- 		case NVME_LOG_SMART:
-+			req->execute = nvmet_execute_get_log_page_smart;
-+			return 0;
- 		case NVME_LOG_FW_SLOT:
--			req->execute = nvmet_execute_get_log_page;
-+			/*
-+			 * We only support a single firmware slot which always
-+			 * is active, so we can zero out the whole firmware slot
-+			 * log and still claim to fully implement this mandatory
-+			 * log page.
-+			 */
-+			req->execute = nvmet_execute_get_log_page_noop;
++static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
++{
++	struct nvmet_ctrl *ctrl = req->sq->ctrl;
++	u16 status = NVME_SC_INTERNAL;
++	size_t len;
++
++	if (req->data_len != NVME_MAX_CHANGED_NAMESPACES * sizeof(__le32))
++		goto out;
++
++	mutex_lock(&ctrl->lock);
++	len = ctrl->nr_changed_ns * sizeof(__le32);
++	status = nvmet_copy_to_sgl(req, 0, ctrl->changed_ns_list, len);
++	if (!status)
++		status = nvmet_zero_sgl(req, len, req->data_len - len);
++	ctrl->nr_changed_ns = 0;
++	mutex_unlock(&ctrl->lock);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+@@ -543,6 +563,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 			 */
+ 			req->execute = nvmet_execute_get_log_page_noop;
  			return 0;
++		case NVME_LOG_CHANGED_NS:
++			req->execute = nvmet_execute_get_log_changed_ns;
++			return 0;
  		}
  		break;
+ 	case nvme_admin_identify:
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 55c4bc693aa2..424ad41af980 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -144,6 +144,30 @@ static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 	schedule_work(&ctrl->async_event_work);
+ }
+ 
++static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, u32 nsid)
++{
++	mutex_lock(&ctrl->lock);
++	if (ctrl->nr_changed_ns < NVME_MAX_CHANGED_NAMESPACES) {
++		ctrl->changed_ns_list[ctrl->nr_changed_ns++] =
++			cpu_to_le32(nsid);
++	} else if (ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES) {
++		ctrl->changed_ns_list[0] = cpu_to_le32(0xffffffff);
++	}
++	mutex_unlock(&ctrl->lock);
++}
++
++static void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid)
++{
++	struct nvmet_ctrl *ctrl;
++
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		nvmet_add_to_changed_ns_log(ctrl, nsid);
++		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
++				NVME_AER_NOTICE_NS_CHANGED,
++				NVME_LOG_CHANGED_NS);
++	}
++}
++
+ int nvmet_register_transport(const struct nvmet_fabrics_ops *ops)
+ {
+ 	int ret = 0;
+@@ -287,7 +311,6 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+ int nvmet_ns_enable(struct nvmet_ns *ns)
+ {
+ 	struct nvmet_subsys *subsys = ns->subsys;
+-	struct nvmet_ctrl *ctrl;
+ 	int ret = 0;
+ 
+ 	mutex_lock(&subsys->lock);
+@@ -326,9 +349,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 		list_add_tail_rcu(&ns->dev_link, &old->dev_link);
+ 	}
+ 
+-	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+-		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE, 0, 0);
+-
++	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
+ 	ret = 0;
+ out_unlock:
+@@ -342,7 +363,6 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ void nvmet_ns_disable(struct nvmet_ns *ns)
+ {
+ 	struct nvmet_subsys *subsys = ns->subsys;
+-	struct nvmet_ctrl *ctrl;
+ 
+ 	mutex_lock(&subsys->lock);
+ 	if (!ns->enabled)
+@@ -368,9 +388,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 	percpu_ref_exit(&ns->ref);
+ 
+ 	mutex_lock(&subsys->lock);
+-	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+-		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE, 0, 0);
+-
++	nvmet_ns_changed(subsys, ns->nsid);
+ 	nvmet_ns_dev_disable(ns);
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+@@ -832,11 +850,16 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
+ 
++	ctrl->changed_ns_list = kmalloc_array(NVME_MAX_CHANGED_NAMESPACES,
++			sizeof(__le32), GFP_KERNEL);
++	if (!ctrl->changed_ns_list)
++		goto out_free_ctrl;
++
+ 	ctrl->cqs = kcalloc(subsys->max_qid + 1,
+ 			sizeof(struct nvmet_cq *),
+ 			GFP_KERNEL);
+ 	if (!ctrl->cqs)
+-		goto out_free_ctrl;
++		goto out_free_changed_ns_list;
+ 
+ 	ctrl->sqs = kcalloc(subsys->max_qid + 1,
+ 			sizeof(struct nvmet_sq *),
+@@ -894,6 +917,8 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	kfree(ctrl->sqs);
+ out_free_cqs:
+ 	kfree(ctrl->cqs);
++out_free_changed_ns_list:
++	kfree(ctrl->changed_ns_list);
+ out_free_ctrl:
+ 	kfree(ctrl);
+ out_put_subsystem:
+@@ -920,6 +945,7 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 
+ 	kfree(ctrl->sqs);
+ 	kfree(ctrl->cqs);
++	kfree(ctrl->changed_ns_list);
+ 	kfree(ctrl);
+ 
+ 	nvmet_subsys_put(subsys);
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index a4e14eb15d4e..bcd88b5c9d99 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -135,6 +135,9 @@ struct nvmet_ctrl {
+ 
+ 	const struct nvmet_fabrics_ops *ops;
+ 
++	__le32			*changed_ns_list;
++	u32			nr_changed_ns;
++
+ 	char			subsysnqn[NVMF_NQN_FIELD_LEN];
+ 	char			hostnqn[NVMF_NQN_FIELD_LEN];
+ };
 -- 
 2.17.0
