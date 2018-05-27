@@ -1,67 +1,50 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 27 May 2018 18:50:05 +0300
-Subject: [RFC PATCH 00/17] T10-PI support for NVMeoF/RDMA host
-Message-ID: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+Date: Sun, 27 May 2018 18:50:08 +0300
+Subject: [PATCH 03/17] IB/iser: use T10-PI check mask definitions from core
+ layer
+In-Reply-To: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1527436222-15494-4-git-send-email-maxg@mellanox.com>
 
-Hello Sagi, Christoph, Keith, Jason and Co
+No reason to re-define protection information check in ib_iser driver.
+Use check masks from RDMA core driver.
 
-This patchset adds T10-PI support for NVMeoF/RDMA host side, using signature
-verbs API. This set starts with a few preparation commits to the RDMA/core
-layer + a bug fix in iSER target ref_tag check mask. It continues with a few
-fixes in the NVMe core layer and enablement of metadata support over fabrics.
-The patchset ends with preparation patches in the RDMA transport that include
-minor functionality changes.
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/infiniband/ulp/iser/iscsi_iser.h  | 4 ----
+ drivers/infiniband/ulp/iser/iser_memory.c | 4 ++--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-The code was tested using Mellanox's ConnectX-4/ConnectX-5 HCA in the initiator
-side vs. Mellanox offloaded target implementation using ConnectX-5 adapter (Currently
-not upstream, but can be found in MLNX_OFED-4.1 and above packages).
-
-This series applies on top of kernel 4.17-rc3 tag cleanly.
-
-Currently, T10 support for the target side is in it's initial plans for implementation
-but I decided to get some feadback first and push it incrementaly.
-
-Most of the first patches can be pushed without waiting for final version of the later patches
-in the series.
-
-My next steps are:
- - run a nightly regression test suite to check that old functionality works properly
- - run performance benchmark with/without T10-PI
- - compare the results of the non T10-PI runs to previous results
- - run long IO run (using tools like ezFio/fio)
- - test the code using HCA's that don't support T10-PI offload (such as ConnectX-3)
-
-Meanwhile, I would be happy to hear a feadback on this series :)
-(also it will be great if someone can run it in his testing environments).
-
-Max Gurtovoy (17):
-  IB/isert: fix T10-pi check mask setting
-  RDMA/core: introduce check masks for T10-PI offload
-  IB/iser: use T10-PI check mask definitions from core layer
-  IB/isert: use T10-PI check mask definitions from core layer
-  nvme: Fix extended data LBA supported setting
-  nvme: Add WARN in case fabrics ctrl was set with wrong metadata caps
-  nvme: introduce max_integrity_segments ctrl attribute
-  nvme: limit integrity segments to be <= data segments
-  nvme: reduce the metadata size in case the ctrl doesn't support it
-  nvme: export nvme_ns_has_pi function
-  nvme-rdma: Introduce cqe for local invalidation
-  nvme-rdma: Introduce nvme_rdma_set_keyed_sgl helper func
-  nvme-rdma: introduce nvme_rdma_sgl structure
-  nvme-rdma: refactor cmd mapping/unmapping mechanism
-  nvme-rdma: Add helper function for preparing sg list to RDMA operation
-  nvme-rdma: Introduce nvme_rdma_first_wr helper function
-  nvme-rdma: Add T10-PI support
-
- drivers/infiniband/ulp/iser/iscsi_iser.h  |   4 -
- drivers/infiniband/ulp/iser/iser_memory.c |   4 +-
- drivers/infiniband/ulp/isert/ib_isert.c   |   6 +-
- drivers/nvme/host/core.c                  |  41 +-
- drivers/nvme/host/nvme.h                  |   2 +
- drivers/nvme/host/pci.c                   |   6 +
- drivers/nvme/host/rdma.c                  | 761 +++++++++++++++++++++++++-----
- include/rdma/ib_verbs.h                   |  13 +
- 8 files changed, 701 insertions(+), 136 deletions(-)
-
+diff --git a/drivers/infiniband/ulp/iser/iscsi_iser.h b/drivers/infiniband/ulp/iser/iscsi_iser.h
+index c1ae4ae..e13765d 100644
+--- a/drivers/infiniband/ulp/iser/iscsi_iser.h
++++ b/drivers/infiniband/ulp/iser/iscsi_iser.h
+@@ -383,10 +383,6 @@ struct iser_device {
+ 	bool                         remote_inv_sup;
+ };
+ 
+-#define ISER_CHECK_GUARD	0xc0
+-#define ISER_CHECK_REFTAG	0x0f
+-#define ISER_CHECK_APPTAG	0x30
+-
+ /**
+  * struct iser_reg_resources - Fast registration recources
+  *
+diff --git a/drivers/infiniband/ulp/iser/iser_memory.c b/drivers/infiniband/ulp/iser/iser_memory.c
+index 322209d..ca844a9 100644
+--- a/drivers/infiniband/ulp/iser/iser_memory.c
++++ b/drivers/infiniband/ulp/iser/iser_memory.c
+@@ -362,9 +362,9 @@ void iser_unreg_mem_fastreg(struct iscsi_iser_task *iser_task,
+ {
+ 	*mask = 0;
+ 	if (sc->prot_flags & SCSI_PROT_REF_CHECK)
+-		*mask |= ISER_CHECK_REFTAG;
++		*mask |= IB_SIG_CHECK_REFTAG;
+ 	if (sc->prot_flags & SCSI_PROT_GUARD_CHECK)
+-		*mask |= ISER_CHECK_GUARD;
++		*mask |= IB_SIG_CHECK_GUARD;
+ }
+ 
+ static inline void
 -- 
 1.8.3.1
