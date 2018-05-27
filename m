@@ -1,88 +1,158 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 27 May 2018 18:50:17 +0300
-Subject: [PATCH 12/17] nvme-rdma: Introduce nvme_rdma_set_keyed_sgl helper func
-In-Reply-To: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1527436222-15494-13-git-send-email-maxg@mellanox.com>
+From: ckulkarnilinux@gmail.com (chaitany kulkarni)
+Date: Sun, 27 May 2018 15:49:23 -0500
+Subject: [PATCH] nvme-loop: add support for multiple ports
+In-Reply-To: <20180526121125.25996-1-hch@lst.de>
+References: <20180526121125.25996-1-hch@lst.de>
+Message-ID: <CAK0tqim+wxwJ+KA+j5pmeitx+oPrfoEgBLA4n5QAHQi=+yOaKw@mail.gmail.com>
 
-This function will be used to avoid code duplication while
-setting keyed sgl fields.
+On Sat, May 26, 2018@7:11 AM, Christoph Hellwig <hch@lst.de> wrote:
+> This is useful at least for multipath testing.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/target/loop.c  | 47 +++++++++++++++++++++++--------------
+>  drivers/nvme/target/nvmet.h |  2 +-
+>  2 files changed, 30 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index 4284cefe6d32..d8a170749a45 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -45,6 +45,7 @@ struct nvme_loop_ctrl {
+>         struct nvme_ctrl        ctrl;
+>
+>         struct nvmet_ctrl       *target_ctrl;
+> +       struct nvmet_port       *port;
+>  };
+>
+>  static inline struct nvme_loop_ctrl *to_loop_ctrl(struct nvme_ctrl *ctrl)
+> @@ -63,7 +64,8 @@ struct nvme_loop_queue {
+>         unsigned long           flags;
+>  };
+>
+> -static struct nvmet_port *nvmet_loop_port;
+> +static LIST_HEAD(nvme_loop_ports);
+> +static DEFINE_MUTEX(nvme_loop_ports_mutex);
+>
+>  static LIST_HEAD(nvme_loop_ctrl_list);
+>  static DEFINE_MUTEX(nvme_loop_ctrl_mutex);
+> @@ -169,7 +171,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+>
+>         blk_mq_start_request(req);
+>         iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
+> -       iod->req.port = nvmet_loop_port;
+> +       iod->req.port = queue->ctrl->port;
+>         if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
+>                         &queue->nvme_sq, &nvme_loop_ops))
+>                 return BLK_STS_OK;
+> @@ -517,6 +519,7 @@ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
+>         .free_ctrl              = nvme_loop_free_ctrl,
+>         .submit_async_event     = nvme_loop_submit_async_event,
+>         .delete_ctrl            = nvme_loop_delete_ctrl_host,
+> +       .get_address            = nvmf_get_address,
+>  };
+>
+>  static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+> @@ -565,6 +568,22 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+>         return ret;
+>  }
+>
+> +static struct nvmet_port *nvme_loop_find_port(struct nvme_ctrl *ctrl)
+> +{
+> +       struct nvmet_port *p, *found = NULL;
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/rdma.c | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+[CK] Can we add a new line here to get rid of the checkpatch.pl warning?
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index a240800..b96cf88 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1074,14 +1074,23 @@ static void nvme_rdma_unmap_data(struct nvme_rdma_queue *queue,
- 	sg_free_table_chained(&req->sg_table, true);
- }
- 
--static int nvme_rdma_set_sg_null(struct nvme_command *c)
-+static void nvme_rdma_set_keyed_sgl(u64 addr, u64 length, u32 key,
-+		struct nvme_command *c, bool invalidate)
- {
- 	struct nvme_keyed_sgl_desc *sg = &c->common.dptr.ksgl;
- 
--	sg->addr = 0;
--	put_unaligned_le24(0, sg->length);
--	put_unaligned_le32(0, sg->key);
-+	sg->addr = cpu_to_le64(addr);
-+	put_unaligned_le24(length, sg->length);
-+	put_unaligned_le32(key, sg->key);
- 	sg->type = NVME_KEY_SGL_FMT_DATA_DESC << 4;
-+	if (invalidate)
-+		sg->type |= NVME_SGL_FMT_INVALIDATE;
-+}
-+
-+static int nvme_rdma_set_sg_null(struct nvme_command *c)
-+{
-+	nvme_rdma_set_keyed_sgl(0, 0, 0, c, false);
-+
- 	return 0;
- }
- 
-@@ -1105,12 +1114,11 @@ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
- static int nvme_rdma_map_sg_single(struct nvme_rdma_queue *queue,
- 		struct nvme_rdma_request *req, struct nvme_command *c)
- {
--	struct nvme_keyed_sgl_desc *sg = &c->common.dptr.ksgl;
-+	nvme_rdma_set_keyed_sgl(sg_dma_address(req->sg_table.sgl),
-+				sg_dma_len(req->sg_table.sgl),
-+				queue->device->pd->unsafe_global_rkey,
-+				c, false);
- 
--	sg->addr = cpu_to_le64(sg_dma_address(req->sg_table.sgl));
--	put_unaligned_le24(sg_dma_len(req->sg_table.sgl), sg->length);
--	put_unaligned_le32(queue->device->pd->unsafe_global_rkey, sg->key);
--	sg->type = NVME_KEY_SGL_FMT_DATA_DESC << 4;
- 	return 0;
- }
- 
-@@ -1118,7 +1126,6 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
- 		struct nvme_rdma_request *req, struct nvme_command *c,
- 		int count)
- {
--	struct nvme_keyed_sgl_desc *sg = &c->common.dptr.ksgl;
- 	int nr;
- 
- 	req->mr = ib_mr_pool_get(queue->qp, &queue->qp->rdma_mrs);
-@@ -1152,11 +1159,8 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
- 			     IB_ACCESS_REMOTE_READ |
- 			     IB_ACCESS_REMOTE_WRITE;
- 
--	sg->addr = cpu_to_le64(req->mr->iova);
--	put_unaligned_le24(req->mr->length, sg->length);
--	put_unaligned_le32(req->mr->rkey, sg->key);
--	sg->type = (NVME_KEY_SGL_FMT_DATA_DESC << 4) |
--			NVME_SGL_FMT_INVALIDATE;
-+	nvme_rdma_set_keyed_sgl(req->mr->iova, req->mr->length, req->mr->rkey,
-+				c, true);
- 
- 	return 0;
- }
--- 
-1.8.3.1
+------------------------------------------------------------------------
+#57: FILE: drivers/nvme/target/loop.c:574:
++ struct nvmet_port *p, *found = NULL;
++ mutex_lock(&nvme_loop_ports_mutex);
+------------------------------------------------------------------------
+
+> +       mutex_lock(&nvme_loop_ports_mutex);
+> +       list_for_each_entry(p, &nvme_loop_ports, entry) {
+> +               /* if no transport address is specified use the first port */
+> +               if ((ctrl->opts->mask & NVMF_OPT_TRADDR) &&
+> +                   strcmp(ctrl->opts->traddr, p->disc_addr.traddr))
+> +                       continue;
+> +               found = p;
+> +               break;
+> +       }
+> +       mutex_unlock(&nvme_loop_ports_mutex);
+> +       return found;
+> +}
+> +
+>  static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+>                 struct nvmf_ctrl_options *opts)
+>  {
+> @@ -589,6 +608,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+>
+>         ctrl->ctrl.sqsize = opts->queue_size - 1;
+>         ctrl->ctrl.kato = opts->kato;
+> +       ctrl->port = nvme_loop_find_port(&ctrl->ctrl);
+>
+>         ctrl->queues = kcalloc(opts->nr_io_queues + 1, sizeof(*ctrl->queues),
+>                         GFP_KERNEL);
+> @@ -646,27 +666,17 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+>
+>  static int nvme_loop_add_port(struct nvmet_port *port)
+>  {
+> -       /*
+> -        * XXX: disalow adding more than one port so
+> -        * there is no connection rejections when a
+> -        * a subsystem is assigned to a port for which
+> -        * loop doesn't have a pointer.
+> -        * This scenario would be possible if we allowed
+> -        * more than one port to be added and a subsystem
+> -        * was assigned to a port other than nvmet_loop_port.
+> -        */
+> -
+> -       if (nvmet_loop_port)
+> -               return -EPERM;
+> -
+> -       nvmet_loop_port = port;
+> +       mutex_lock(&nvme_loop_ports_mutex);
+> +       list_add_tail(&port->entry, &nvme_loop_ports);
+> +       mutex_unlock(&nvme_loop_ports_mutex);
+>         return 0;
+>  }
+>
+>  static void nvme_loop_remove_port(struct nvmet_port *port)
+>  {
+> -       if (port == nvmet_loop_port)
+> -               nvmet_loop_port = NULL;
+> +       mutex_lock(&nvme_loop_ports_mutex);
+> +       list_del_init(&port->entry);
+> +       mutex_unlock(&nvme_loop_ports_mutex);
+>  }
+>
+>  static const struct nvmet_fabrics_ops nvme_loop_ops = {
+> @@ -682,6 +692,7 @@ static struct nvmf_transport_ops nvme_loop_transport = {
+>         .name           = "loop",
+>         .module         = THIS_MODULE,
+>         .create_ctrl    = nvme_loop_create_ctrl,
+> +       .allowed_opts   = NVMF_OPT_TRADDR,
+>  };
+>
+>  static int __init nvme_loop_init_module(void)
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index e63ab3c0c655..87c05a56c2a0 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -87,7 +87,7 @@ struct nvmet_sq {
+>  /**
+>   * struct nvmet_port - Common structure to keep port
+>   *                             information for the target.
+> - * @entry:             List head for holding a list of these elements.
+> + * @entry:             Entry into referrals or transport list.
+>   * @disc_addr:         Address information is stored in a format defined
+>   *                             for a discovery log page entry.
+>   * @group:             ConfigFS group for this element's folder.
+> --
+> 2.17.0
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
