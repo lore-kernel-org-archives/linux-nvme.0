@@ -1,82 +1,105 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 27 May 2018 18:50:16 +0300
-Subject: [PATCH 11/17] nvme-rdma: Introduce cqe for local invalidation
+Date: Sun, 27 May 2018 18:50:20 +0300
+Subject: [PATCH 15/17] nvme-rdma: Add helper function for preparing sg list to
+ RDMA operation
 In-Reply-To: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
 References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1527436222-15494-12-git-send-email-maxg@mellanox.com>
+Message-ID: <1527436222-15494-16-git-send-email-maxg@mellanox.com>
 
-Using the same cqe object for registration and invalidation completions
-is not safe. Separate them to use 2 cqe objects. Also pass the rkey and
-the cqe as arguments for local invalidation function, as a preparation
-for invalidating sig_mr keys.
+In orter to prepare a scatterlist for an RDMA the following actions should
+be accomplished:
+- Set a memory region (MR) to a dma mapped SG list.
+- Set an appropriate work request (WR) for MR registration.
+- Set an appropriate callbacks for MR registration and invalidation completions.
+
+This helper also will be used for preparing protected sg list for T10-PI.
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/rdma.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/nvme/host/rdma.c | 53 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 35 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 1eb4438..a240800 100644
+index a54de37..f1d9759 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -68,6 +68,7 @@ struct nvme_rdma_request {
- 	int			nents;
- 	struct ib_reg_wr	reg_wr;
- 	struct ib_cqe		reg_cqe;
-+	struct ib_cqe		inv_cqe;
- 	struct nvme_rdma_queue  *queue;
- 	struct sg_table		sg_table;
- 	struct scatterlist	first_sgl[];
-@@ -1020,7 +1021,7 @@ static void nvme_rdma_memreg_done(struct ib_cq *cq, struct ib_wc *wc)
- static void nvme_rdma_inv_rkey_done(struct ib_cq *cq, struct ib_wc *wc)
- {
- 	struct nvme_rdma_request *req =
--		container_of(wc->wr_cqe, struct nvme_rdma_request, reg_cqe);
-+		container_of(wc->wr_cqe, struct nvme_rdma_request, inv_cqe);
- 	struct request *rq = blk_mq_rq_from_pdu(req);
- 
- 	if (unlikely(wc->status != IB_WC_SUCCESS)) {
-@@ -1033,8 +1034,8 @@ static void nvme_rdma_inv_rkey_done(struct ib_cq *cq, struct ib_wc *wc)
- 
+@@ -1134,14 +1134,16 @@ static int nvme_rdma_map_sg_single(struct nvme_rdma_queue *queue,
+ 	return 0;
  }
  
--static int nvme_rdma_inv_rkey(struct nvme_rdma_queue *queue,
--		struct nvme_rdma_request *req)
-+static int nvme_rdma_inv_rkey(struct nvme_rdma_queue *queue, u32 rkey,
-+		struct ib_cqe *cqe)
+-static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
+-		struct nvme_rdma_request *req, struct nvme_command *c,
+-		int count)
++static int nvme_rdma_map_mr_sg(struct nvme_rdma_queue *queue,
++			       struct list_head *mr_pool,
++			       struct nvme_rdma_sgl *sgl, int nents)
  {
- 	struct ib_send_wr *bad_wr;
- 	struct ib_send_wr wr = {
-@@ -1042,11 +1043,10 @@ static int nvme_rdma_inv_rkey(struct nvme_rdma_queue *queue,
- 		.next		    = NULL,
- 		.num_sge	    = 0,
- 		.send_flags	    = IB_SEND_SIGNALED,
--		.ex.invalidate_rkey = req->mr->rkey,
-+		.ex.invalidate_rkey = rkey,
- 	};
+-	struct nvme_rdma_sgl *sgl = &req->data_sgl;
++	struct scatterlist *sg = sgl->sg_table.sgl;
++	struct ib_reg_wr *reg_wr = &sgl->reg_wr;
++	struct ib_cqe *reg_cqe = &sgl->reg_cqe;
+ 	int nr;
  
--	req->reg_cqe.done = nvme_rdma_inv_rkey_done;
--	wr.wr_cqe = &req->reg_cqe;
-+	wr.wr_cqe = cqe;
+-	sgl->mr = ib_mr_pool_get(queue->qp, &queue->qp->rdma_mrs);
++	sgl->mr = ib_mr_pool_get(queue->qp, mr_pool);
+ 	if (WARN_ON_ONCE(!sgl->mr))
+ 		return -EAGAIN;
  
- 	return ib_post_send(queue->qp, &wr, &bad_wr);
- }
-@@ -1141,6 +1141,7 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
- 	ib_update_fast_reg_key(req->mr, ib_inc_rkey(req->mr->rkey));
+@@ -1149,9 +1151,9 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
+ 	 * Align the MR to a 4K page size to match the ctrl page size and
+ 	 * the block virtual boundary.
+ 	 */
+-	nr = ib_map_mr_sg(sgl->mr, sgl->sg_table.sgl, count, NULL, SZ_4K);
+-	if (unlikely(nr < count)) {
+-		ib_mr_pool_put(queue->qp, &queue->qp->rdma_mrs, sgl->mr);
++	nr = ib_map_mr_sg(sgl->mr, sg, nents, NULL, SZ_4K);
++	if (unlikely(nr < nents)) {
++		ib_mr_pool_put(queue->qp, mr_pool, sgl->mr);
+ 		sgl->mr = NULL;
+ 		if (nr < 0)
+ 			return nr;
+@@ -1160,17 +1162,32 @@ static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
  
- 	req->reg_cqe.done = nvme_rdma_memreg_done;
-+	req->inv_cqe.done = nvme_rdma_inv_rkey_done;
- 	memset(&req->reg_wr, 0, sizeof(req->reg_wr));
- 	req->reg_wr.wr.opcode = IB_WR_REG_MR;
- 	req->reg_wr.wr.wr_cqe = &req->reg_cqe;
-@@ -1348,7 +1349,7 @@ static int nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
- 			nvme_rdma_error_recovery(queue->ctrl);
- 		}
- 	} else if (req->mr) {
--		ret = nvme_rdma_inv_rkey(queue, req);
-+		ret = nvme_rdma_inv_rkey(queue, req->mr->rkey, &req->inv_cqe);
- 		if (unlikely(ret < 0)) {
- 			dev_err(queue->ctrl->ctrl.device,
- 				"Queueing INV WR for rkey %#x failed (%d)\n",
+ 	ib_update_fast_reg_key(sgl->mr, ib_inc_rkey(sgl->mr->rkey));
+ 
+-	sgl->reg_cqe.done = nvme_rdma_memreg_done;
++	reg_cqe->done = nvme_rdma_memreg_done;
++	memset(reg_wr, 0, sizeof(*reg_wr));
++	reg_wr->wr.opcode = IB_WR_REG_MR;
++	reg_wr->wr.wr_cqe = reg_cqe;
++	reg_wr->wr.num_sge = 0;
++	reg_wr->mr = sgl->mr;
++	reg_wr->key = sgl->mr->rkey;
++	reg_wr->access = IB_ACCESS_LOCAL_WRITE |
++			 IB_ACCESS_REMOTE_READ |
++			 IB_ACCESS_REMOTE_WRITE;
++
++	return 0;
++}
++
++static int nvme_rdma_map_sg_fr(struct nvme_rdma_queue *queue,
++		struct nvme_rdma_request *req, struct nvme_command *c,
++		int nents)
++{
++	struct nvme_rdma_sgl *sgl = &req->data_sgl;
++	int ret;
++
++	ret = nvme_rdma_map_mr_sg(queue, &queue->qp->rdma_mrs, sgl, nents);
++	if (unlikely(ret))
++		return -EAGAIN;
++
+ 	sgl->inv_cqe.done = nvme_rdma_inv_rkey_done;
+-	memset(&sgl->reg_wr, 0, sizeof(sgl->reg_wr));
+-	sgl->reg_wr.wr.opcode = IB_WR_REG_MR;
+-	sgl->reg_wr.wr.wr_cqe = &sgl->reg_cqe;
+-	sgl->reg_wr.wr.num_sge = 0;
+-	sgl->reg_wr.mr = sgl->mr;
+-	sgl->reg_wr.key = sgl->mr->rkey;
+-	sgl->reg_wr.access = IB_ACCESS_LOCAL_WRITE |
+-			     IB_ACCESS_REMOTE_READ |
+-			     IB_ACCESS_REMOTE_WRITE;
+ 
+ 	nvme_rdma_set_keyed_sgl(sgl->mr->iova, sgl->mr->length, sgl->mr->rkey,
+ 				c, true);
 -- 
 1.8.3.1
