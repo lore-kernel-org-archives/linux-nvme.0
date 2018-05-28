@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 08:57:03 +0200
-Subject: [PATCH 12/14] nvme: mark nvme_queue_scan static
-In-Reply-To: <20180526102735.31404-13-hch@lst.de>
+Date: Mon, 28 May 2018 09:00:42 +0200
+Subject: [PATCH 14/14] nvme: limit warnings from nvme_identify_ns
+In-Reply-To: <20180526102735.31404-15-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-13-hch@lst.de>
-Message-ID: <20180528065703.7gxmopdgdeoafmtp@linux-x5ow.site>
+ <20180526102735.31404-15-hch@lst.de>
+Message-ID: <20180528070042.xcxyk5aaqqz4hquu@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
