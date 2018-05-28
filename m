@@ -1,18 +1,17 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 08:34:46 +0200
-Subject: [PATCH 02/14] block: don't print a message when the device went
- away
-In-Reply-To: <20180526102735.31404-3-hch@lst.de>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-3-hch@lst.de>
-Message-ID: <20180528063445.jfb4hc5lsspxhotb@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 28 May 2018 09:20:39 +0200
+Subject: [PATCH] nvme: re-enable clean shutdown
+In-Reply-To: <78db23fc-6bf6-68b5-a298-6a44b0ece5ca@broadcom.com>
+References: <20180525090524.58845-1-hare@suse.de>
+ <78db23fc-6bf6-68b5-a298-6a44b0ece5ca@broadcom.com>
+Message-ID: <20180528072039.GA5618@lst.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+On Fri, May 25, 2018@08:53:36AM -0700, James Smart wrote:
+> yep. sounds good.
+>
+> -- james
+>
+> Reviewed-by:? James Smart? <james.smart at broadcom.com>
+
+Can you run this through your fc tet rig to make sure nothing breaks?
+I'd rather get a little more testing on hairy code like this.
