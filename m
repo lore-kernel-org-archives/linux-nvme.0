@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 08:54:44 +0200
-Subject: [PATCH 09/14] nvmet: Add AEN configuration support
-In-Reply-To: <20180526102735.31404-10-hch@lst.de>
+Date: Mon, 28 May 2018 08:56:34 +0200
+Subject: [PATCH 11/14] nvme: submit AEN event configuration on startup
+In-Reply-To: <20180526102735.31404-12-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-10-hch@lst.de>
-Message-ID: <20180528065444.d5nxb5b3riliebys@linux-x5ow.site>
+ <20180526102735.31404-12-hch@lst.de>
+Message-ID: <20180528065634.fqavjju4qn2qf7ng@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
