@@ -1,13 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 09:00:42 +0200
-Subject: [PATCH 14/14] nvme: limit warnings from nvme_identify_ns
-In-Reply-To: <20180526102735.31404-15-hch@lst.de>
+Date: Mon, 28 May 2018 08:36:56 +0200
+Subject: [PATCH 06/14] nvmet: add a new nvmet_zero_sgl helper
+In-Reply-To: <20180526102735.31404-7-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-15-hch@lst.de>
-Message-ID: <20180528070042.xcxyk5aaqqz4hquu@linux-x5ow.site>
+ <20180526102735.31404-7-hch@lst.de>
+Message-ID: <20180528063656.i4adgrkbqmrtzaeh@linux-x5ow.site>
 
-Looks good,
+Don't we already have this? Or is it a re-send? It looks so awefully familiar to me...
+
+Anyways,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
