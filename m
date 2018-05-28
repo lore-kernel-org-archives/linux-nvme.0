@@ -1,14 +1,16 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 May 2018 09:22:44 +0200
-Subject: [PATCH 05/17] nvme: Fix extended data LBA supported setting
-In-Reply-To: <1527436222-15494-6-git-send-email-maxg@mellanox.com>
+Date: Mon, 28 May 2018 09:22:25 +0200
+Subject: [PATCH 04/17] IB/isert: use T10-PI check mask definitions from
+ core layer
+In-Reply-To: <1527436222-15494-5-git-send-email-maxg@mellanox.com>
 References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-6-git-send-email-maxg@mellanox.com>
-Message-ID: <20180528072244.GF5618@lst.de>
+ <1527436222-15494-5-git-send-email-maxg@mellanox.com>
+Message-ID: <20180528072225.GE5618@lst.de>
 
-On Sun, May 27, 2018@06:50:10PM +0300, Max Gurtovoy wrote:
-> This value depands on the metadata support value.
-> 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+On Sun, May 27, 2018@06:50:09PM +0300, Max Gurtovoy wrote:
+> No reason to use hard-coded protection information checks in ib_isert driver.
+> Use check masks from RDMA core driver.
 
-Looks fine, I'll pull this into the nvme tree ASAP.
+Looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
