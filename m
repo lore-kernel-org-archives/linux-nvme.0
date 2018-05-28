@@ -1,20 +1,44 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 May 2018 09:21:30 +0200
-Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
-In-Reply-To: <1527436222-15494-2-git-send-email-maxg@mellanox.com>
+Date: Mon, 28 May 2018 09:21:55 +0200
+Subject: [PATCH 02/17] RDMA/core: introduce check masks for T10-PI offload
+In-Reply-To: <1527436222-15494-3-git-send-email-maxg@mellanox.com>
 References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-2-git-send-email-maxg@mellanox.com>
-Message-ID: <20180528072130.GB5618@lst.de>
+ <1527436222-15494-3-git-send-email-maxg@mellanox.com>
+Message-ID: <20180528072155.GC5618@lst.de>
 
-On Sun, May 27, 2018@06:50:06PM +0300, Max Gurtovoy wrote:
-> A copy/paste bug (probably) caused setting of an app_tag check mask
-> in case where a ref_tag check was needed.
+On Sun, May 27, 2018@06:50:07PM +0300, Max Gurtovoy wrote:
+> T10-PI offload capability is currently supported in iSER protocol only,
+> and the definition of the HCA protection information checks are missing
+> from the core layer. Add those definition to avoid code duplication in
+> other drivers (such iSER target and NVMeoF).
 > 
-> Fixes: 38a2d0d429f1 ("IB/isert: convert to the generic RDMA READ/WRITE API")
-> Fixes: 9e961ae73c2c ("IB/isert: Support T10-PI protected transactions")
-> Cc: stable at vger.kernel.org
 > Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>  include/rdma/ib_verbs.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+> index 9fc8a82..bdb1bbc 100644
+> --- a/include/rdma/ib_verbs.h
+> +++ b/include/rdma/ib_verbs.h
+> @@ -861,6 +861,19 @@ enum ib_sig_err_type {
+>  };
+>  
+>  /**
+> + * Signature check masks (8 bytes in total) according to the T10-PI standard:
+> + *  -------- -------- ------------
+> + * | GUARD  | APPTAG |   REFTAG   |
+> + * |  2B    |  2B    |    4B      |
+> + *  -------- -------- ------------
+> + */
+> +enum {
+> +	IB_SIG_CHECK_GUARD = 0xc0,
+> +	IB_SIG_CHECK_APPTAG = 0x30,
+> +	IB_SIG_CHECK_REFTAG = 0x0f,
+> +};
 
-Looks good, and should probably got into the scsi tree ASAP.
+Maybe align the equal signs using tabs?
 
-Btw, please don't cc stable@ for the whole series.
+Otherwise looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
