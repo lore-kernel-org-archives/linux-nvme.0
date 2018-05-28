@@ -1,16 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 08:36:56 +0200
-Subject: [PATCH 06/14] nvmet: add a new nvmet_zero_sgl helper
-In-Reply-To: <20180526102735.31404-7-hch@lst.de>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-7-hch@lst.de>
-Message-ID: <20180528063656.i4adgrkbqmrtzaeh@linux-x5ow.site>
+Date: Mon, 28 May 2018 16:30:06 +0200
+Subject: [PATCH] nvme-loop: add support for multiple ports
+In-Reply-To: <20180526121125.25996-1-hch@lst.de>
+References: <20180526121125.25996-1-hch@lst.de>
+Message-ID: <20180528143006.hwgaqkpnd6ugkgiv@linux-x5ow.site>
 
-Don't we already have this? Or is it a re-send? It looks so awefully familiar to me...
-
-Anyways,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
