@@ -1,17 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 May 2018 09:20:39 +0200
-Subject: [PATCH] nvme: re-enable clean shutdown
-In-Reply-To: <78db23fc-6bf6-68b5-a298-6a44b0ece5ca@broadcom.com>
-References: <20180525090524.58845-1-hare@suse.de>
- <78db23fc-6bf6-68b5-a298-6a44b0ece5ca@broadcom.com>
-Message-ID: <20180528072039.GA5618@lst.de>
+Date: Mon, 28 May 2018 09:21:30 +0200
+Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
+In-Reply-To: <1527436222-15494-2-git-send-email-maxg@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-2-git-send-email-maxg@mellanox.com>
+Message-ID: <20180528072130.GB5618@lst.de>
 
-On Fri, May 25, 2018@08:53:36AM -0700, James Smart wrote:
-> yep. sounds good.
->
-> -- james
->
-> Reviewed-by:? James Smart? <james.smart at broadcom.com>
+On Sun, May 27, 2018@06:50:06PM +0300, Max Gurtovoy wrote:
+> A copy/paste bug (probably) caused setting of an app_tag check mask
+> in case where a ref_tag check was needed.
+> 
+> Fixes: 38a2d0d429f1 ("IB/isert: convert to the generic RDMA READ/WRITE API")
+> Fixes: 9e961ae73c2c ("IB/isert: Support T10-PI protected transactions")
+> Cc: stable at vger.kernel.org
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 
-Can you run this through your fc tet rig to make sure nothing breaks?
-I'd rather get a little more testing on hairy code like this.
+Looks good, and should probably got into the scsi tree ASAP.
+
+Btw, please don't cc stable@ for the whole series.
