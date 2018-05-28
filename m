@@ -1,16 +1,18 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 28 May 2018 08:00:15 +0200
-Subject: [PATCH] nvme-loop: add support for multiple ports
-In-Reply-To: <CAK0tqim+wxwJ+KA+j5pmeitx+oPrfoEgBLA4n5QAHQi=+yOaKw@mail.gmail.com>
-References: <20180526121125.25996-1-hch@lst.de>
- <CAK0tqim+wxwJ+KA+j5pmeitx+oPrfoEgBLA4n5QAHQi=+yOaKw@mail.gmail.com>
-Message-ID: <20180528060015.GA3575@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 28 May 2018 08:34:46 +0200
+Subject: [PATCH 02/14] block: don't print a message when the device went
+ away
+In-Reply-To: <20180526102735.31404-3-hch@lst.de>
+References: <20180526102735.31404-1-hch@lst.de>
+ <20180526102735.31404-3-hch@lst.de>
+Message-ID: <20180528063445.jfb4hc5lsspxhotb@linux-x5ow.site>
 
-
-> > +static struct nvmet_port *nvme_loop_find_port(struct nvme_ctrl *ctrl)
-> > +{
-> > +       struct nvmet_port *p, *found = NULL;
-> 
-> [CK] Can we add a new line here to get rid of the checkpatch.pl warning?
-
-Sure..
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
