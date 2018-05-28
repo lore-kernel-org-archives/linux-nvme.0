@@ -1,17 +1,23 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 08:35:40 +0200
-Subject: [PATCH 04/14] nvme.h: add the changed namespace list log
-In-Reply-To: <20180526102735.31404-5-hch@lst.de>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-5-hch@lst.de>
-Message-ID: <20180528063540.y3bsd2uzeifnfiux@linux-x5ow.site>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Mon, 28 May 2018 10:33:24 -0600
+Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
+In-Reply-To: <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-2-git-send-email-maxg@mellanox.com>
+ <20180528072130.GB5618@lst.de>
+ <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
+ <20180528120359.GA13368@lst.de>
+ <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
+Message-ID: <20180528163324.GF17491@mellanox.com>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+On Mon, May 28, 2018@03:04:38PM +0300, Max Gurtovoy wrote:
+> Hi Martin/Jason,
+> 
+> can you please coordinate on taking this fix through your PR (RDMA or SCSi)
+> ?
+
+Martin, I see no problem for you to take it. Let me know if you prefer
+we do it through RDMA.
+
+Thanks,
+Jason
