@@ -1,13 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 28 May 2018 08:35:57 +0200
-Subject: [PATCH 05/14] nvme.h: add AER configuration symbols
-In-Reply-To: <20180526102735.31404-6-hch@lst.de>
+Date: Mon, 28 May 2018 08:53:42 +0200
+Subject: [PATCH 08/14] nvmet: implement the changed namespaces log
+In-Reply-To: <20180526102735.31404-9-hch@lst.de>
 References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-6-hch@lst.de>
-Message-ID: <20180528063557.qgcmkczklwufqx3n@linux-x5ow.site>
+ <20180526102735.31404-9-hch@lst.de>
+Message-ID: <20180528065342.hi74ewwbvkoqsj6x@linux-x5ow.site>
 
-Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+As a side note, what happens if more than 1024 Namespaces are changed
+(apart from setting the 1st element to 0xffffffff and zeroing out the
+rest)?
+
+The Spec is pretty silent in this regard.
+
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
