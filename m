@@ -1,24 +1,28 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 28 May 2018 15:41:02 +0300
-Subject: [PATCH 10/17] nvme: export nvme_ns_has_pi function
-In-Reply-To: <20180528072544.GI5618@lst.de>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-11-git-send-email-maxg@mellanox.com>
- <20180528072544.GI5618@lst.de>
-Message-ID: <e2c29e4b-4676-6d48-37f0-eaf97b47c8ed@mellanox.com>
+Date: Mon, 28 May 2018 16:12:16 +0300
+Subject: [PATCH] nvme-pci: simplify __nvme_submit_cmd
+In-Reply-To: <20180526114555.8881-1-hch@lst.de>
+References: <20180526114555.8881-1-hch@lst.de>
+Message-ID: <a41da633-a8ab-9f24-d455-058ae93be311@mellanox.com>
 
 
 
-On 5/28/2018 10:25 AM, Christoph Hellwig wrote:
->> -static inline bool nvme_ns_has_pi(struct nvme_ns *ns)
->> +bool nvme_ns_has_pi(struct nvme_ns *ns)
->>   {
->>   	return ns->pi_type && ns->ms == sizeof(struct t10_pi_tuple);
->>   }
->> +EXPORT_SYMBOL_GPL(nvme_ns_has_pi);
+On 5/26/2018 2:45 PM, Christoph Hellwig wrote:
+> With recent CQ handling improvements we can now move the locking into
+> __nvme_submit_cmd.  Also remove the local tail variable to make the code
+> more obvious, remove the __ prefix in the name, and fix the comments
+> describing the function.
 > 
-> Just make this an inline in nvme.h
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   drivers/nvme/host/pci.c | 37 ++++++++++++++-----------------------
+>   1 file changed, 14 insertions(+), 23 deletions(-)
 > 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 79b48052ea11..3fe41b2594a1 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
 
-Sure, I'll do it in V2.
-Thanks.
+Looks good,
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
