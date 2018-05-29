@@ -1,41 +1,29 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 29 May 2018 12:14:31 +0200
-Subject: [PATCH 10/10] nvmet: set 'nuse' and 'nsze' to zero for inaccessible
- paths
+Date: Tue, 29 May 2018 12:14:25 +0200
+Subject: [PATCH 04/10] nvme: clear current path on ANA state change
 In-Reply-To: <20180529101431.62271-1-hare@suse.de>
 References: <20180529101431.62271-1-hare@suse.de>
-Message-ID: <20180529101431.62271-11-hare@suse.de>
+Message-ID: <20180529101431.62271-5-hare@suse.de>
 
-According to the ANA base specification the 'nuse' and 'nsze' values
-can be set to '0' for 'inaccessible' or 'persistent-loss' path states.
+Whenever ANA state changes the path selection needs to be retriggered,
+so we should be clearing the current path here.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/target/admin-cmd.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/nvme/host/multipath.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 99592c7b8bc7..0ae25478e3eb 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -371,6 +371,18 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 	id->ncap = id->nuse = id->nsze =
- 		cpu_to_le64(ns->size >> ns->blksize_shift);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index a5f43d164b19..a520582811f8 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -44,6 +44,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ static void nvme_update_ana_state(struct nvme_ns *ns, enum nvme_ana_state state)
+ {
+ 	WRITE_ONCE(ns->ctrl->ana_state[ns->anagrpid], state);
++	nvme_mpath_clear_current_path(ns);
+ }
  
-+	if (ns->anagrpid) {
-+		enum nvme_ana_state ana_state =
-+			req->port->ana_state[ns->anagrpid];
-+
-+		/*
-+		 * nuse and nsze should be zero for inaccessible or
-+		 * persistent loss ANA state.
-+		 */
-+		if ((ana_state == NVME_ANA_INACCESSIBLE) ||
-+		    (ana_state == NVME_ANA_PERSISTENT_LOSS))
-+			id->nuse = id->nsze = 0;
-+	}
- 	/*
- 	 * We just provide a single LBA format that matches what the
- 	 * underlying device reports.
+ void nvme_failover_req(struct request *req)
 -- 
 2.12.3
