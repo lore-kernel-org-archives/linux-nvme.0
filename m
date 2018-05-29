@@ -1,22 +1,59 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 29 May 2018 12:59:21 -0600
-Subject: [GIT PULL] nvme updates for 4.18
-In-Reply-To: <20180529185440.GA31083@infradead.org>
-References: <20180529185440.GA31083@infradead.org>
-Message-ID: <0df932fd-8d67-a149-c455-64291e20ccd3@kernel.dk>
+From: michael.j.ruhl@intel.com (Ruhl, Michael J)
+Date: Tue, 29 May 2018 20:23:09 +0000
+Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+ support
+In-Reply-To: <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+ <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
+Message-ID: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
 
-On 5/29/18 12:54 PM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> here is the current batch of nvme updates for 4.18, we have a few more
-> patches in the queue, but I'd like to get this pile into your tree
-> and linux-next ASAP.
-> 
-> The biggest item is support for file-backed namespaces in the NVMe target
-> from Chaitanya, in addition to that we mostly small fixes from all the
-> usual suspects.
+>-----Original Message-----
+>From: linux-rdma-owner at vger.kernel.org [mailto:linux-rdma-
+>owner at vger.kernel.org] On Behalf Of Steve Wise
+>Sent: Tuesday, May 29, 2018 2:26 PM
+>To: axboe at kernel.dk; hch at lst.de; Busch, Keith <keith.busch at intel.com>;
+>sagi at grimberg.me; linux-nvme at lists.infradead.org
+>Cc: parav at mellanox.com; maxg at mellanox.com; linux-rdma at vger.kernel.org
+>Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+>support
+>
+>The code was checking bit 20 instead of bit 2.  Also fixed
+>the log entry.
+>
+>Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>---
+> drivers/nvme/host/rdma.c | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>index 1eb4438..f11faa8 100644
+>--- a/drivers/nvme/host/rdma.c
+>+++ b/drivers/nvme/host/rdma.c
+>@@ -1949,8 +1949,8 @@ static struct nvme_ctrl
+>*nvme_rdma_create_ctrl(struct device *dev,
+> 	}
+>
+> 	/* sanity check keyed sgls */
+>-	if (!(ctrl->ctrl.sgls & (1 << 20))) {
+>-		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
+>support\n");
+>+	if (!(ctrl->ctrl.sgls & (1 << 2))) {
+>+		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
+>supported!\n");
 
-Pulled, thanks.
+I can see that the 2 and 20 are defined for specific things.  Since they are
+used in several places (in the next 2 patches), is there any chance these
+could be defined bits?
 
--- 
-Jens Axboe
+Mike
+
+> 		ret = -EINVAL;
+> 		goto out_remove_admin_queue;
+> 	}
+>--
+>1.8.3.1
+>
+>--
+>To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+>the body of a message to majordomo at vger.kernel.org
+>More majordomo info at  http://vger.kernel.org/majordomo-info.html
