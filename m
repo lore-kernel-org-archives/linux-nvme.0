@@ -1,18 +1,39 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 May 2018 19:29:36 +0200
-Subject: [PATCH 09/14] nvmet: Add AEN configuration support
-In-Reply-To: <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2557@FMSMSX103.amr.corp.intel.com>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-10-hch@lst.de>
- <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2557@FMSMSX103.amr.corp.intel.com>
-Message-ID: <20180529172936.GA1235@lst.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 29 May 2018 12:33:56 -0500
+Subject: Question on inline support
+Message-ID: <5276f947-0ccf-5d0e-53bc-724f65c1c837@opengridcomputing.com>
 
-On Tue, May 29, 2018@05:15:34PM +0000, Verkamp, Daniel wrote:
-> This looks overly restrictive - a host sending a Set Features with e.g. the health critical warning bits set in CDW11 will get a failure.  As far as I can tell, this isn't allowed by the spec;  Set Features - Asynchronous Event Configuration and the health log page have been mandatory since NVMe 1.0, and presumably support for the corresponding health log page related AER bits is also mandatory (these were the only bits available in NVMe 1.0).
+Hey guys,
 
-Agreed so far.
+While testing the nvme rdma target with inline_data_size=0 for my patch
+series [1], I found that the nvme host side rejected the queue
+connections with this error:
 
-> I think it should be fine to just allow the user to set any (valid) combination of bits here, while still only triggering the NS Changed notification.
+"nvme nvme0: Mandatory keyed sgls are not support"
 
-Disagreeing here.  Catching completely bogus bits that the hosts sets
-is important.
+Due to this code in nvme/host/rdma.c:
+
+?????? /* sanity check keyed sgls */
+?????? if (!(ctrl->ctrl.sgls & (1 << 20))) {
+?????????????? dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
+support\n");
+?????????????? ret = -EINVAL;
+?????????????? goto out_remove_admin_queue;
+?????? }
+
+Because the target side only sets bit 20 if inline_data_size is > 0, in
+nvme/target/admin_cmd.c:
+
+??????? if (ctrl->ops->sqe_inline_size)
+??????????????? id->sgls |= cpu_to_le32(1 << 20);
+
+
+I think the host-side code can be removed, yes?? I don't see why it
+shouldn't be supported.? In fact, I removed it and things appear to work
+just fine when I disable inline on the target.
+
+Thanks,
+
+Steve.
+
+[1] http://lists.infradead.org/pipermail/linux-nvme/2018-May/017554.html
