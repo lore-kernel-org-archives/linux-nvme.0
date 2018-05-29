@@ -1,29 +1,51 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 29 May 2018 15:47:37 +0300
-Subject: [PATCH 05/17] nvme: Fix extended data LBA supported setting
-In-Reply-To: <20180528072244.GF5618@lst.de>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-6-git-send-email-maxg@mellanox.com>
- <20180528072244.GF5618@lst.de>
-Message-ID: <fb6528ea-cb9e-fb26-d0b4-4b3693bfe109@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 29 May 2018 14:57:13 +0200
+Subject: [PATCH 10/10] nvmet: set 'nuse' and 'nsze' to zero for
+ inaccessible paths
+In-Reply-To: <20180529101431.62271-11-hare@suse.de>
+References: <20180529101431.62271-1-hare@suse.de>
+ <20180529101431.62271-11-hare@suse.de>
+Message-ID: <20180529125713.GJ7376@lst.de>
 
+On Tue, May 29, 2018@12:14:31PM +0200, Hannes Reinecke wrote:
+> According to the ANA base specification the 'nuse' and 'nsze' values
+> can be set to '0' for 'inaccessible' or 'persistent-loss' path states.
 
+No.  It applies to NUSE and NVMCAP.  We don't report NVMCAP, so we
+only need this tweak for NUSE.
 
-On 5/28/2018 10:22 AM, Christoph Hellwig wrote:
-> On Sun, May 27, 2018@06:50:10PM +0300, Max Gurtovoy wrote:
->> This value depands on the metadata support value.
->>
->> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> 
-> Looks fine, I'll pull this into the nvme tree ASAP.
-> 
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -371,6 +371,18 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>  	id->ncap = id->nuse = id->nsze =
+>  		cpu_to_le64(ns->size >> ns->blksize_shift);
+>  
+> +	if (ns->anagrpid) {
+> +		enum nvme_ana_state ana_state =
+> +			req->port->ana_state[ns->anagrpid];
+> +
+> +		/*
+> +		 * nuse and nsze should be zero for inaccessible or
+> +		 * persistent loss ANA state.
+> +		 */
+> +		if ((ana_state == NVME_ANA_INACCESSIBLE) ||
+> +		    (ana_state == NVME_ANA_PERSISTENT_LOSS))
 
-great.
-BTW, we can use it for stable kernel as well IMO.
-I get NMI and many ref tag errors while configuring my nvme drive with 
-extended LBA format and running local fio test. It shouldn't init the 
-integrity (by calling blk_integrity_register) in this case at all since 
-the driver support only pointer mode metadata. The right behavior in 
-this case is to set the PRACT bit (and it's done in nvme_setup_rw).
+Please remove the inner braces.
 
--Max.
+We don't need the anagrpid check, because we a) always set it to
+a non-zero value, and b) would not be able to have a non-optimized
+state anyway.
+
+So just something like:
+
+	id->ncap = id->nsze = cpu_to_le64(ns->size >> ns->blksize_shift);
+
+	switch (req->port->ana_state[ns->anagrpid]) {
+	case NVME_ANA_INACCESSIBLE:
+	case NVME_ANA_PERSISTENT_LOSS:
+		break;
+	default:
+		id->nuse = id->nsze;
+		break;
+	}
