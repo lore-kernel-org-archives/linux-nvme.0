@@ -1,16 +1,51 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 May 2018 19:45:17 +0200
-Subject: [PATCH 09/14] nvmet: Add AEN configuration support
-In-Reply-To: <A5F28D4A728A7E41839CDC5C3B5A01E8B74D35C6@FMSMSX103.amr.corp.intel.com>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-10-hch@lst.de>
- <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2557@FMSMSX103.amr.corp.intel.com>
- <20180529172936.GA1235@lst.de>
- <A5F28D4A728A7E41839CDC5C3B5A01E8B74D35C6@FMSMSX103.amr.corp.intel.com>
-Message-ID: <20180529174517.GB1637@lst.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 29 May 2018 12:48:53 -0500
+Subject: Question on inline support
+In-Reply-To: <20180529174442.GA1637@lst.de>
+References: <5276f947-0ccf-5d0e-53bc-724f65c1c837@opengridcomputing.com>
+ <20180529174442.GA1637@lst.de>
+Message-ID: <72e73b2e-4e3d-a39e-8514-a0a506a5b409@opengridcomputing.com>
 
-On Tue, May 29, 2018@05:35:12PM +0000, Verkamp, Daniel wrote:
-> Sorry, I should have been clearer - I agree with your position here.  Only bits that are valid should be allowed, so for example it is fine to fail commands that set reserved bits, or optional bits that have a mechanism to indicate they are not supported, like Telemetry (which has an associated bit in Identify controller data - LPA).  My note above was really just about the health warning bits, which by my reading are not optional.
 
-Yes, I think your reading is right and we should not fail those bits.
-I'll fix it for the next version.
+
+On 5/29/2018 12:44 PM, hch@lst.de wrote:
+> On Tue, May 29, 2018@12:33:56PM -0500, Steve Wise wrote:
+>> Hey guys,
+>>
+>> While testing the nvme rdma target with inline_data_size=0 for my patch
+>> series [1], I found that the nvme host side rejected the queue
+>> connections with this error:
+>>
+>> "nvme nvme0: Mandatory keyed sgls are not support"
+>>
+>> Due to this code in nvme/host/rdma.c:
+>>
+>> ?????? /* sanity check keyed sgls */
+>> ?????? if (!(ctrl->ctrl.sgls & (1 << 20))) {
+>> ?????????????? dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
+>> support\n");
+>> ?????????????? ret = -EINVAL;
+>> ?????????????? goto out_remove_admin_queue;
+>> ?????? }
+> Keyed SGLs are bit 2, so the above should check for bit 2 as well.
+
+Ah.? I'll fix that.
+
+> We should still check for bit 20 if inline data is supported, though.
+>
+
+Why, exactly?? Use of inline data is determined by the target's
+advertised ioccsz, and handled in nvme/host/rdma.c:
+
+static inline size_t nvme_rdma_inline_data_size(struct nvme_rdma_queue
+*queue)
+{
+??????? return queue->cmnd_capsule_len - sizeof(struct nvme_command);
+}
+
+Are you saying that the host should support a target that doesn't set
+bit 20, yet advertises an ioccsz that could support inline??
+
+Thanks,
+
+Steve.
