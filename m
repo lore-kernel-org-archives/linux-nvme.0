@@ -1,32 +1,50 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 29 May 2018 12:56:00 -0600
-Subject: [GIT PULL] nvme one-liner fix for 4.17
-In-Reply-To: <20180529185148.GA30983@infradead.org>
-References: <20180529185148.GA30983@infradead.org>
-Message-ID: <abb5d799-8889-711c-2dce-7d021648e57b@kernel.dk>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Tue, 29 May 2018 13:23:29 -0600
+Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
+In-Reply-To: <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-2-git-send-email-maxg@mellanox.com>
+ <20180528072130.GB5618@lst.de>
+ <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
+ <20180528120359.GA13368@lst.de>
+ <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
+ <20180528163324.GF17491@mellanox.com> <yq1o9gz2mi1.fsf@oracle.com>
+ <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
+Message-ID: <20180529192329.GJ18442@mellanox.com>
 
-On 5/29/18 12:51 PM, Christoph Hellwig wrote:
-> Hi Jens,
+On Tue, May 29, 2018@03:08:21PM +0300, Max Gurtovoy wrote:
 > 
-> below is a one-liner fix from Max that unbreaks T10-DIF support, which
-> got broken in 4.15.
 > 
-> The following changes since commit eedffa28c9b00ca2dcb4d541b5a530f4c917052d:
+> On 5/29/2018 6:01 AM, Martin K. Petersen wrote:
+> >
+> >Jason,
+> >
+> >>I see no problem for you to take it. Let me know if you prefer we do
+> >>it through RDMA.
+> >
+> >Applied to 4.17/scsi-fixes. Thanks!
+> >
 > 
->   loop: clear wb_err in bd_inode when detaching backing file (2018-05-21 12:36:03 -0600)
+> Thanks Martin.
 > 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.17
-> 
-> for you to fetch changes up to c97f414c54a255f4f05a50a2625efaeee406e134:
-> 
->   nvme: fix extended data LBA supported setting (2018-05-29 20:29:16 +0200)
-> 
-> ----------------------------------------------------------------
-> Max Gurtovoy (1):
->       nvme: fix extended data LBA supported setting
+> Jason,
+> how do you suggest to proceed with patches 2/3/4 that were reviewed by
+> Christoph ?
 
-Pulled, thanks.
--- 
-Jens Axboe
+If you want RDMA to take any patches send them to
+linux-rdma at vger.kernel.org, updated to include the tags that Christoph
+included.. Otherwise they are not in the RDMA patchworks.
+
+> we must wait until Martin PR for sure...
+
+Hmm, maybe we should have sent this patch through rdma in that
+case.. The merge window is soon anyhow so it doesn't really matter
+this time - but you need to think about what tree patches need to go
+to when building your patch plan, don't just send a large unstructured
+series like this and expect the maintainers to figure out all the
+dependencies!
+
+So, send the patches you want to the rdma list around rc1
+
+Thanks,
+Jason
