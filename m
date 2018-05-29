@@ -1,36 +1,32 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 29 May 2018 15:04:14 +0200
-Subject: [PATCH 08/10] nvmet: Set nanagrpid correctly
-In-Reply-To: <20180529125151.GH7376@lst.de>
+Date: Tue, 29 May 2018 15:06:35 +0200
+Subject: [PATCH 09/10] nvmet: Set mnan correctly
+In-Reply-To: <20180529125249.GI7376@lst.de>
 References: <20180529101431.62271-1-hare@suse.de>
- <20180529101431.62271-9-hare@suse.de>
- <20180529125151.GH7376@lst.de>
-Message-ID: <20180529150414.44a1cb7e@pentland.suse.de>
+ <20180529101431.62271-10-hare@suse.de>
+ <20180529125249.GI7376@lst.de>
+Message-ID: <20180529150635.7af65b52@pentland.suse.de>
 
-On Tue, 29 May 2018 14:51:51 +0200
+On Tue, 29 May 2018 14:52:49 +0200
 Christoph Hellwig <hch@lst.de> wrote:
 
-> On Tue, May 29, 2018@12:14:29PM +0200, Hannes Reinecke wrote:
-> > We should be returning the actual number of namespaces for
-> > nanagrpid.  
+> On Tue, May 29, 2018@12:14:30PM +0200, Hannes Reinecke wrote:
+> >  	id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
+> > -	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
+> > +	id->mnan = cpu_to_le32(ctrl->subsys->nr_namespaces);  
 > 
-> "This field indicates the number
-> of ANA groups supported by this controller."
+> "Maximum Number of Allocated Namespaces (MNAN): This field indicates
+> the maximum number of allocated namespaces."
 > 
-> Nothing indicates this field is dynamic, especially as dynamic values
-> in Identify are very rare and avoided.
+> maximum != current
+> 
 
-Yes, but it also doesn't _forbid_ us to set it to the value which is
-currently active.
+What exactly is the difference between 'allocated' and 'current'
+namespaces in the context of nvmet?
 
-Plus we already have dynamic fields in the identify output; the
-'mnan' field is specifically for the number of allocated namespaces.
-And I can easily create new namespaces while a controller is attached.
-
-I do agree that we don't have a good method of signalling any
-configuration change to the attached controllers; maybe we should be
-dropping the connection and for the attached hosts to do a reset.
-But this should be a separate discussion.
+It's not that we have _allocated_ all possible namespace. And the mnan
+field was specifically designed to give a hint to the host on how many
+namespaces are expected to be available to it.
 
 Cheers,
 
