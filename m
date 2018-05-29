@@ -1,27 +1,61 @@
-From: nick.desaulniers@gmail.com (Nick Desaulniers)
-Date: Mon, 28 May 2018 23:49:18 -0700
-Subject: [PATCH] nvme: prefer strlcpy to strncpy
-Message-ID: <1527576558-26817-1-git-send-email-nick.desaulniers@gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 29 May 2018 09:18:55 +0200
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180529030236.GA28895@redhat.com>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <20180525141211.GA25971@lst.de> <20180525145056.GD9591@redhat.com>
+ <yq1muwj45sg.fsf@oracle.com> <20180529030236.GA28895@redhat.com>
+Message-ID: <20180529091855.27e6042b@pentland.suse.de>
 
-Fixes a stringop-truncation warning from gcc-8.
+On Mon, 28 May 2018 23:02:36 -0400
+Mike Snitzer <snitzer@redhat.com> wrote:
 
-Signed-off-by: Nick Desaulniers <nick.desaulniers at gmail.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Mon, May 28 2018 at  9:19pm -0400,
+> Martin K. Petersen <martin.petersen@oracle.com> wrote:
+> 
+> > 
+> > Mike,
+> > 
+> > I understand and appreciate your position but I still don't think
+> > the arguments for enabling DM multipath are sufficiently
+> > compelling. The whole point of ANA is for things to be plug and
+> > play without any admin intervention whatsoever.
+> > 
+> > I also think we're getting ahead of ourselves a bit. The assumption
+> > seems to be that NVMe ANA devices are going to be broken--or that
+> > they will require the same amount of tweaking as SCSI devices--and
+> > therefore DM multipath support is inevitable. However, I'm not sure
+> > that will be the case.
+> >   
+> > > Thing is you really don't get to dictate that to the industry.
+> > > Sorry.  
+> > 
+> > We are in the fortunate position of being able to influence how the
+> > spec is written. It's a great opportunity to fix the mistakes of
+> > the past in SCSI. And to encourage the industry to ship products
+> > that don't need the current level of manual configuration and
+> > complex management.
+> > 
+> > So I am in favor of Johannes' patches *if* we get to the point
+> > where a Plan B is needed. But I am not entirely convinced that's
+> > the case just yet. Let's see some more ANA devices first. And once
+> > we do, we are also in a position where we can put some pressure on
+> > the vendors to either amend the specification or fix their
+> > implementations to work with ANA.  
+> 
+> ANA really isn't a motivating factor for whether or not to apply this
+> patch.  So no, I don't have any interest in waiting to apply it.
+> 
+Correct. That patch is _not_ to work around any perceived incompability
+on the OS side.
+The patch is primarily to give _admins_ a choice.
+Some installations like hosting providers etc are running quite complex
+scenarios, most of which are highly automated.
+So for those there is a real benefit to be able to use dm-multipathing
+for NVMe; they are totally fine with having a performance impact if
+they can avoid to rewrite their infrastructure.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 99b857e..b823ecb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2017,7 +2017,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
- 
- 	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
- 	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
--		strncpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
-+		strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
- 		return;
- 	}
- 
--- 
-2.7.4
+Cheers,
+
+Hannes
