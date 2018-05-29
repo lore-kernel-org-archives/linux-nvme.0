@@ -1,36 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 May 2018 19:24:58 +0200
-Subject: [PATCH 08/14] nvmet: implement the changed namespaces log
-In-Reply-To: <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2527@FMSMSX103.amr.corp.intel.com>
+Date: Tue, 29 May 2018 19:29:36 +0200
+Subject: [PATCH 09/14] nvmet: Add AEN configuration support
+In-Reply-To: <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2557@FMSMSX103.amr.corp.intel.com>
 References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-9-hch@lst.de>
- <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2527@FMSMSX103.amr.corp.intel.com>
-Message-ID: <20180529172458.GB1022@lst.de>
+ <20180526102735.31404-10-hch@lst.de>
+ <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2557@FMSMSX103.amr.corp.intel.com>
+Message-ID: <20180529172936.GA1235@lst.de>
 
-On Tue, May 29, 2018@04:59:05PM +0000, Verkamp, Daniel wrote:
-> > +	} else if (ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES) {
-> > +		ctrl->changed_ns_list[0] = cpu_to_le32(0xffffffff);
-> > +	}
-> 
-> Unless I'm missing it happening somewhere else, the list-full case that sets element 0 to 0xffffffff should also explicitly zero out the rest of the list to satisfy the "remainder of the list shall be zero-filled" wording in the spec, since the other changed_ns_list entries will be filled with non-zero NSIDs when we get here.
+On Tue, May 29, 2018@05:15:34PM +0000, Verkamp, Daniel wrote:
+> This looks overly restrictive - a host sending a Set Features with e.g. the health critical warning bits set in CDW11 will get a failure.  As far as I can tell, this isn't allowed by the spec;  Set Features - Asynchronous Event Configuration and the health log page have been mandatory since NVMe 1.0, and presumably support for the corresponding health log page related AER bits is also mandatory (these were the only bits available in NVMe 1.0).
 
-True.  We actually zero out unused elements already, but that doesn't
-catch the ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES special
-case.  This relative patch should fix it:
+Agreed so far.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index d7b6293e830b..7b69c348d608 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -136,7 +136,10 @@ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
- 		goto out;
- 
- 	mutex_lock(&ctrl->lock);
--	len = ctrl->nr_changed_ns * sizeof(__le32);
-+	if (ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES)
-+		len = sizeof(__le32);
-+	else
-+		len = ctrl->nr_changed_ns * sizeof(__le32);
- 	status = nvmet_copy_to_sgl(req, 0, ctrl->changed_ns_list, len);
- 	if (!status)
- 		status = nvmet_zero_sgl(req, len, req->data_len - len);
+> I think it should be fine to just allow the user to set any (valid) combination of bits here, while still only triggering the NS Changed notification.
+
+Disagreeing here.  Catching completely bogus bits that the hosts sets
+is important.
