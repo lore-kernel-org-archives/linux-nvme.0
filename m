@@ -1,59 +1,48 @@
-From: michael.j.ruhl@intel.com (Ruhl, Michael J)
-Date: Tue, 29 May 2018 20:23:09 +0000
-Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
- support
-In-Reply-To: <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
-References: <cover.1527618402.git.swise@opengridcomputing.com>
- <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
+From: daniel.verkamp@intel.com (Daniel Verkamp)
+Date: Tue, 29 May 2018 13:44:49 -0700
+Subject: [PATCH 08/14] nvmet: implement the changed namespaces log
+In-Reply-To: <20180529172458.GB1022@lst.de>
+References: <20180526102735.31404-1-hch@lst.de>
+ <20180526102735.31404-9-hch@lst.de>
+ <A5F28D4A728A7E41839CDC5C3B5A01E8B74D2527@FMSMSX103.amr.corp.intel.com>
+ <20180529172458.GB1022@lst.de>
+Message-ID: <d8a81244-c6dc-5f25-6cb9-3e727b481a7b@intel.com>
 
->-----Original Message-----
->From: linux-rdma-owner at vger.kernel.org [mailto:linux-rdma-
->owner at vger.kernel.org] On Behalf Of Steve Wise
->Sent: Tuesday, May 29, 2018 2:26 PM
->To: axboe at kernel.dk; hch at lst.de; Busch, Keith <keith.busch at intel.com>;
->sagi at grimberg.me; linux-nvme at lists.infradead.org
->Cc: parav at mellanox.com; maxg at mellanox.com; linux-rdma at vger.kernel.org
->Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
->support
->
->The code was checking bit 20 instead of bit 2.  Also fixed
->the log entry.
->
->Signed-off-by: Steve Wise <swise at opengridcomputing.com>
->---
-> drivers/nvme/host/rdma.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->index 1eb4438..f11faa8 100644
->--- a/drivers/nvme/host/rdma.c
->+++ b/drivers/nvme/host/rdma.c
->@@ -1949,8 +1949,8 @@ static struct nvme_ctrl
->*nvme_rdma_create_ctrl(struct device *dev,
-> 	}
->
-> 	/* sanity check keyed sgls */
->-	if (!(ctrl->ctrl.sgls & (1 << 20))) {
->-		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
->support\n");
->+	if (!(ctrl->ctrl.sgls & (1 << 2))) {
->+		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
->supported!\n");
+On 05/29/2018 10:24 AM, Christoph Hellwig wrote:
+> On Tue, May 29, 2018@04:59:05PM +0000, Verkamp, Daniel wrote:
+>>> +	} else if (ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES) {
+>>> +		ctrl->changed_ns_list[0] = cpu_to_le32(0xffffffff);
+>>> +	}
+>>
+>> Unless I'm missing it happening somewhere else, the list-full case that sets element 0 to 0xffffffff should also explicitly zero out the rest of the list to satisfy the "remainder of the list shall be zero-filled" wording in the spec, since the other changed_ns_list entries will be filled with non-zero NSIDs when we get here.
+> 
+> True.  We actually zero out unused elements already, but that doesn't
+> catch the ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES special
+> case.  This relative patch should fix it:
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index d7b6293e830b..7b69c348d608 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -136,7 +136,10 @@ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
+>  		goto out;
+>  
+>  	mutex_lock(&ctrl->lock);
+> -	len = ctrl->nr_changed_ns * sizeof(__le32);
+> +	if (ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES)
+> +		len = sizeof(__le32);
+> +	else
+> +		len = ctrl->nr_changed_ns * sizeof(__le32);
+>  	status = nvmet_copy_to_sgl(req, 0, ctrl->changed_ns_list, len);
+>  	if (!status)
+>  		status = nvmet_zero_sgl(req, len, req->data_len - len);
+> 
 
-I can see that the 2 and 20 are defined for specific things.  Since they are
-used in several places (in the next 2 patches), is there any chance these
-could be defined bits?
+I'm not sure that's quite right; if nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES but we haven't overflowed (in other words, the list has exactly NVME_MAX_CHANGED_NAMESPACES NSIDs), this will still only copy over the first entry.
 
-Mike
+I think it needs a:
+	&& ctrlr->changed_ns_list[0] == cpu_to_le32(0xffffffff)
+in the NVME_MAX_CHANGED_NAMESPACES condition to make it fully correct.
 
-> 		ret = -EINVAL;
-> 		goto out_remove_admin_queue;
-> 	}
->--
->1.8.3.1
->
->--
->To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
->the body of a message to majordomo at vger.kernel.org
->More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Thanks,
+-- Daniel
