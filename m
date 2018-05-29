@@ -1,70 +1,41 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 29 May 2018 12:14:29 +0200
-Subject: [PATCH 08/10] nvmet: Set nanagrpid correctly
+Date: Tue, 29 May 2018 12:14:31 +0200
+Subject: [PATCH 10/10] nvmet: set 'nuse' and 'nsze' to zero for inaccessible
+ paths
 In-Reply-To: <20180529101431.62271-1-hare@suse.de>
 References: <20180529101431.62271-1-hare@suse.de>
-Message-ID: <20180529101431.62271-9-hare@suse.de>
+Message-ID: <20180529101431.62271-11-hare@suse.de>
 
-We should be returning the actual number of namespaces for nanagrpid.
+According to the ANA base specification the 'nuse' and 'nsze' values
+can be set to '0' for 'inaccessible' or 'persistent-loss' path states.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/target/admin-cmd.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index f2eedb13482a..a9d05eb03117 100644
+index 99592c7b8bc7..0ae25478e3eb 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -217,6 +217,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	struct nvme_id_ctrl *id;
- 	u16 status = 0;
- 	const char model[] = "Linux";
-+	u32 grpid;
-+	u16 ngrps = 0;
+@@ -371,6 +371,18 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	id->ncap = id->nuse = id->nsze =
+ 		cpu_to_le64(ns->size >> ns->blksize_shift);
  
- 	id = kzalloc(sizeof(*id), GFP_KERNEL);
- 	if (!id) {
-@@ -242,8 +244,26 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	 * the safest is to leave it as zeroes.
- 	 */
- 
--	/* we support multiple ports, multiples hosts and ANA: */
--	id->cmic = (1 << 0) | (1 << 1) | (1 << 3);
-+	/* we support multiple ports and multiple hosts: */
-+	id->cmic = (1 << 0) | (1 << 1);
++	if (ns->anagrpid) {
++		enum nvme_ana_state ana_state =
++			req->port->ana_state[ns->anagrpid];
 +
-+	/* ANA Support */
-+	down_read(&nvmet_ana_sem);
-+	for (grpid = 1; grpid <= NVMET_MAX_ANAGRPS; grpid++) {
-+		if (nvmet_ana_group_enabled[grpid])
-+			ngrps++;
++		/*
++		 * nuse and nsze should be zero for inaccessible or
++		 * persistent loss ANA state.
++		 */
++		if ((ana_state == NVME_ANA_INACCESSIBLE) ||
++		    (ana_state == NVME_ANA_PERSISTENT_LOSS))
++			id->nuse = id->nsze = 0;
 +	}
-+	up_read(&nvmet_ana_sem);
-+
-+	if (ngrps) {
-+		id->cmic |= (1 << 3);
-+		/* All ANA states are supported */
-+		id->anacap = (1 << 0) | (1 << 1) | (1 << 2) | \
-+			(1 << 3) | (1 << 4);
-+		id->anatt = ctrl->subsys->anatt;
-+		id->anagrpmax = cpu_to_le32(NVMET_MAX_ANAGRPS);
-+		id->nanagrpid = cpu_to_le32(ngrps);
-+	}
- 
- 	/* no limit on data transfer sizes for now */
- 	id->mdts = 0;
-@@ -311,11 +331,6 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 
- 	id->msdbd = ctrl->ops->msdbd;
- 
--	id->anacap = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4);
--	id->anatt = ctrl->subsys->anatt;
--	id->anagrpmax = cpu_to_le32(NVMET_MAX_ANAGRPS);
--	id->nanagrpid = cpu_to_le32(NVMET_MAX_ANAGRPS);
--
  	/*
- 	 * Meh, we don't really support any power state.  Fake up the same
- 	 * values that qemu does.
+ 	 * We just provide a single LBA format that matches what the
+ 	 * underlying device reports.
 -- 
 2.12.3
