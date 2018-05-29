@@ -1,61 +1,31 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 29 May 2018 09:18:55 +0200
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 29 May 2018 09:22:40 +0200
 Subject: [PATCH 0/3] Provide more fine grained control over multipathing
 In-Reply-To: <20180529030236.GA28895@redhat.com>
 References: <20180525125322.15398-1-jthumshirn@suse.de>
  <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
  <20180525141211.GA25971@lst.de> <20180525145056.GD9591@redhat.com>
  <yq1muwj45sg.fsf@oracle.com> <20180529030236.GA28895@redhat.com>
-Message-ID: <20180529091855.27e6042b@pentland.suse.de>
+Message-ID: <20180529072240.np5c62akbr7jqelr@linux-x5ow.site>
 
-On Mon, 28 May 2018 23:02:36 -0400
-Mike Snitzer <snitzer@redhat.com> wrote:
+On Mon, May 28, 2018@11:02:36PM -0400, Mike Snitzer wrote:
+> No, what both Red Hat and SUSE are saying is: cool let's have a go at
+> "Plan A" but, in parallel, what harm is there in allowing "Plan B" (dm
+> multipath) to be conditionally enabled to coexist with native NVMe
+> multipath?
 
-> On Mon, May 28 2018 at  9:19pm -0400,
-> Martin K. Petersen <martin.petersen@oracle.com> wrote:
-> 
-> > 
-> > Mike,
-> > 
-> > I understand and appreciate your position but I still don't think
-> > the arguments for enabling DM multipath are sufficiently
-> > compelling. The whole point of ANA is for things to be plug and
-> > play without any admin intervention whatsoever.
-> > 
-> > I also think we're getting ahead of ourselves a bit. The assumption
-> > seems to be that NVMe ANA devices are going to be broken--or that
-> > they will require the same amount of tweaking as SCSI devices--and
-> > therefore DM multipath support is inevitable. However, I'm not sure
-> > that will be the case.
-> >   
-> > > Thing is you really don't get to dictate that to the industry.
-> > > Sorry.  
-> > 
-> > We are in the fortunate position of being able to influence how the
-> > spec is written. It's a great opportunity to fix the mistakes of
-> > the past in SCSI. And to encourage the industry to ship products
-> > that don't need the current level of manual configuration and
-> > complex management.
-> > 
-> > So I am in favor of Johannes' patches *if* we get to the point
-> > where a Plan B is needed. But I am not entirely convinced that's
-> > the case just yet. Let's see some more ANA devices first. And once
-> > we do, we are also in a position where we can put some pressure on
-> > the vendors to either amend the specification or fix their
-> > implementations to work with ANA.  
-> 
-> ANA really isn't a motivating factor for whether or not to apply this
-> patch.  So no, I don't have any interest in waiting to apply it.
-> 
-Correct. That patch is _not_ to work around any perceived incompability
-on the OS side.
-The patch is primarily to give _admins_ a choice.
-Some installations like hosting providers etc are running quite complex
-scenarios, most of which are highly automated.
-So for those there is a real benefit to be able to use dm-multipathing
-for NVMe; they are totally fine with having a performance impact if
-they can avoid to rewrite their infrastructure.
+For a "Plan B" we can still use the global knob that's already in
+place (even if this reminds me so much about scsi-mq which at least we
+haven't turned on in fear of performance regressions).
 
-Cheers,
+Let's drop the discussion here, I don't think it leads to something
+else than flamewars.
 
-Hannes
+     Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
