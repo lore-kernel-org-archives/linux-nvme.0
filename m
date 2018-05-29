@@ -1,34 +1,17 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 29 May 2018 15:08:21 +0300
-Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
-In-Reply-To: <yq1o9gz2mi1.fsf@oracle.com>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-2-git-send-email-maxg@mellanox.com>
- <20180528072130.GB5618@lst.de>
- <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
- <20180528120359.GA13368@lst.de>
- <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
- <20180528163324.GF17491@mellanox.com> <yq1o9gz2mi1.fsf@oracle.com>
-Message-ID: <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 29 May 2018 14:16:21 +0200
+Subject: [PATCH 01/10] nvme: add missing kfree() in nvme_configure_ana()
+In-Reply-To: <20180529101431.62271-2-hare@suse.de>
+References: <20180529101431.62271-1-hare@suse.de>
+ <20180529101431.62271-2-hare@suse.de>
+Message-ID: <20180529121621.5ldaxhx4alx7qtd3@linux-x5ow.site>
 
-
-
-On 5/29/2018 6:01 AM, Martin K. Petersen wrote:
-> 
-> Jason,
-> 
->> I see no problem for you to take it. Let me know if you prefer we do
->> it through RDMA.
-> 
-> Applied to 4.17/scsi-fixes. Thanks!
-> 
-
-Thanks Martin.
-
-Jason,
-how do you suggest to proceed with patches 2/3/4 that were reviewed by 
-Christoph ?
-
-we must wait until Martin PR for sure...
-
--Max.
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
