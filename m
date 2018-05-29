@@ -1,40 +1,76 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 29 May 2018 14:22:12 +0200
-Subject: [PATCH 04/10] nvme: clear current path on ANA state change
-In-Reply-To: <20180529101431.62271-5-hare@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 29 May 2018 14:47:29 +0200
+Subject: [PATCH 02/10] nvme: ANA transition timeout handling
+In-Reply-To: <20180529101431.62271-3-hare@suse.de>
 References: <20180529101431.62271-1-hare@suse.de>
- <20180529101431.62271-5-hare@suse.de>
-Message-ID: <20180529122212.rd74wmr42nysxii2@linux-x5ow.site>
+ <20180529101431.62271-3-hare@suse.de>
+Message-ID: <20180529124729.GC7376@lst.de>
 
-On Tue, May 29, 2018@12:14:25PM +0200, Hannes Reinecke wrote:
-> Whenever ANA state changes the path selection needs to be retriggered,
-> so we should be clearing the current path here.
-> 
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->  drivers/nvme/host/multipath.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> +	if (ns->anagrpid != le32_to_cpu(id->anagrpid)) {
+> +		dev_warn(ctrl->device, "nsid %d ANA group id changed\n",
+> +			 ns->head->ns_id);
+> +		queue_delayed_work(nvme_wq, &ctrl->ana_work, 0);
+> +	}
+
+No need to queue any work if an anagrpid changed.  We'll automatically
+index into the right group once it has changed.
+
 > diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-> index a5f43d164b19..a520582811f8 100644
+> index 1a8791340862..2fcaf50d84e2 100644
 > --- a/drivers/nvme/host/multipath.c
 > +++ b/drivers/nvme/host/multipath.c
-> @@ -44,6 +44,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
->  static void nvme_update_ana_state(struct nvme_ns *ns, enum nvme_ana_state state)
->  {
->  	WRITE_ONCE(ns->ctrl->ana_state[ns->anagrpid], state);
-> +	nvme_mpath_clear_current_path(ns);
+> @@ -69,6 +69,8 @@ void nvme_failover_req(struct request *req)
+>  		 * entirely trivial..
+>  		 */
+>  		nvme_update_ana_state(ns, NVME_ANA_CHANGE);
+> +		queue_delayed_work(nvme_wq, &ns->ctrl->ana_work,
+> +				   ns->ctrl->anatt * HZ);
 
-Don't we need the subsys lock when calling
-nvme_mpath_clear_current_path()? At least that's how I interpreted
-Paul here:
-http://lists.infradead.org/pipermail/linux-nvme/2018-May/017484.html
+This doesn't make much sense.  Once we get the ana transitioning
+status we should either retry the command up to ANATT or try another
+path.  There is no point in scheduling a read of the log page after
+ANATT, as we'll already get an AEN when that log page is ready.
 
+> @@ -323,7 +325,7 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+>  			ctrl->ana_log_buf, ctrl->ana_log_size, 0);
+>  	if (error) {
+>  		dev_warn(ctrl->device, "Failed to get ANA log: %d\n", error);
+> -		return error;
+> +		return -EIO;
+>  	}
+>  
+>  	for (i = 0; i < le16_to_cpu(ctrl->ana_log_buf->ngrps); i++) {
+> @@ -345,6 +347,8 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+>  		dev_info(ctrl->device, "ANA group %d: %s.\n",
+>  				grpid, nvme_ana_state_names[desc->state]);
+>  		WRITE_ONCE(ctrl->ana_state[grpid], desc->state);
+> +		if (desc->state == NVME_ANA_CHANGE)
+> +			error = -EAGAIN;
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Huh?  Why would be stop processing our log when we see a change state?
+This looks extremely dubious to me, and does not match the changelog
+either.
+
+> +	if (!ctrl->ana_log_buf)
+> +		return;
+
+How would the log buf disappear?  Even if it does please does this
+in a separate, documented patch.
+
+> +	if (ctrl->state != NVME_CTRL_LIVE)
+> +		return;
+
+This looks sensible, but it should probably also check for ADMIN_LIVE
+for completeness, and be a seprate, properly documented patch.
+
+> +		/*
+> +		 * In case of an I/O error just add a small delay to not hit
+> +		 * the target too hard
+> +		 */
+> +		if (ret == -EIO)
+> +			log_delay = msecs_to_jiffies(NVME_ANA_LOG_DELAY);
+> +		queue_delayed_work(nvme_wq, &ctrl->ana_work, log_delay);
+
+What is the rationale for this I/O error handling?  In NVMe over
+Fabrics transport errors tear down the association, so I really
+don't see why we should handle errors here.
