@@ -1,23 +1,40 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 29 May 2018 15:38:54 +0200
-Subject: [PATCH 08/10] nvmet: Set nanagrpid correctly
-In-Reply-To: <20180529150414.44a1cb7e@pentland.suse.de>
+Date: Tue, 29 May 2018 15:47:57 +0200
+Subject: [PATCH 02/10] nvme: ANA transition timeout handling
+In-Reply-To: <20180529153441.6eeff725@pentland.suse.de>
 References: <20180529101431.62271-1-hare@suse.de>
- <20180529101431.62271-9-hare@suse.de> <20180529125151.GH7376@lst.de>
- <20180529150414.44a1cb7e@pentland.suse.de>
-Message-ID: <20180529133854.GA8916@lst.de>
+ <20180529101431.62271-3-hare@suse.de> <20180529124729.GC7376@lst.de>
+ <20180529153441.6eeff725@pentland.suse.de>
+Message-ID: <20180529134757.GA9038@lst.de>
 
-On Tue, May 29, 2018@03:04:14PM +0200, Hannes Reinecke wrote:
-> Yes, but it also doesn't _forbid_ us to set it to the value which is
-> currently active.
+On Tue, May 29, 2018@03:34:41PM +0200, Hannes Reinecke wrote:
+> In an ideal world, yes.
+> But what happens if we don't?
 
-It doesn't.  The maximum naming however forbids you to ever add
-one that is higher than the current max one if you did that,
-severly limiting the amount of dynamic changes.
+Then the whole ANA scheme doesn't work.
 
+> We don't stop processing. We just record the error so that we can
+> retrigger the ANA log page scan.
+
+But showing a change state is in no way an error.
+
+> The idea of the patch is to start off a delayed workqueue function to
+> ensure we're catching ANA transition timeout errors.
 > 
-> Plus we already have dynamic fields in the identify output; the
-> 'mnan' field is specifically for the number of allocated namespaces.
-> And I can easily create new namespaces while a controller is attached.
+> The workqueue function will be cancelled if we get an AEN, but gives it
+> another go at reading the ANA log if the transition timeout expires.
 
-mnan is static as well.
+But a delayed work on it's own isn't going to work.  For each group
+we need to record when it did transition to the change state, and then
+check for ANATT expiry vs that particular value.  And we really don't
+need to queue reading a log page for that.  We need to do this algorithm:
+
+ 1) when transitioning any group to change state set a timer to fire
+   at now + ANATT
+ 2) when transitioning away from change state cancel the timer
+ 3) when the timer fires reset the controller as it is toast
+
+Given that nvme_reset_ctrl is irq save it might be easiest to actually
+use real Linux timers for that.  It sounds like a waste to have an
+array of those for each group, but opencoding time expiration like
+in the blk-mq eh code just seems like an invitation for subtle bugs.
