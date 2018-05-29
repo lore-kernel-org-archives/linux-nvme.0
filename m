@@ -1,50 +1,32 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Tue, 29 May 2018 13:23:29 -0600
-Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
-In-Reply-To: <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-2-git-send-email-maxg@mellanox.com>
- <20180528072130.GB5618@lst.de>
- <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
- <20180528120359.GA13368@lst.de>
- <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
- <20180528163324.GF17491@mellanox.com> <yq1o9gz2mi1.fsf@oracle.com>
- <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
-Message-ID: <20180529192329.GJ18442@mellanox.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 29 May 2018 11:25:44 -0700
+Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl support
+In-Reply-To: <cover.1527618402.git.swise@opengridcomputing.com>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+Message-ID: <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
 
-On Tue, May 29, 2018@03:08:21PM +0300, Max Gurtovoy wrote:
-> 
-> 
-> On 5/29/2018 6:01 AM, Martin K. Petersen wrote:
-> >
-> >Jason,
-> >
-> >>I see no problem for you to take it. Let me know if you prefer we do
-> >>it through RDMA.
-> >
-> >Applied to 4.17/scsi-fixes. Thanks!
-> >
-> 
-> Thanks Martin.
-> 
-> Jason,
-> how do you suggest to proceed with patches 2/3/4 that were reviewed by
-> Christoph ?
+The code was checking bit 20 instead of bit 2.  Also fixed
+the log entry.
 
-If you want RDMA to take any patches send them to
-linux-rdma at vger.kernel.org, updated to include the tags that Christoph
-included.. Otherwise they are not in the RDMA patchworks.
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/nvme/host/rdma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> we must wait until Martin PR for sure...
-
-Hmm, maybe we should have sent this patch through rdma in that
-case.. The merge window is soon anyhow so it doesn't really matter
-this time - but you need to think about what tree patches need to go
-to when building your patch plan, don't just send a large unstructured
-series like this and expect the maintainers to figure out all the
-dependencies!
-
-So, send the patches you want to the rdma list around rc1
-
-Thanks,
-Jason
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 1eb4438..f11faa8 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1949,8 +1949,8 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	}
+ 
+ 	/* sanity check keyed sgls */
+-	if (!(ctrl->ctrl.sgls & (1 << 20))) {
+-		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not support\n");
++	if (!(ctrl->ctrl.sgls & (1 << 2))) {
++		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not supported!\n");
+ 		ret = -EINVAL;
+ 		goto out_remove_admin_queue;
+ 	}
+-- 
+1.8.3.1
