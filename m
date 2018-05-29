@@ -1,43 +1,33 @@
-From: dmilburn@redhat.com (David Milburn)
-Date: Tue, 29 May 2018 15:42:34 -0500
-Subject: [PATCH] nvme: report subsystem-reset not supported by controller.
-Message-ID: <1527626554-101086-1-git-send-email-dmilburn@redhat.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 29 May 2018 18:11:18 -0400
+Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
+In-Reply-To: <20180529192329.GJ18442@mellanox.com> (Jason Gunthorpe's message
+ of "Tue, 29 May 2018 13:23:29 -0600")
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-2-git-send-email-maxg@mellanox.com>
+ <20180528072130.GB5618@lst.de>
+ <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
+ <20180528120359.GA13368@lst.de>
+ <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
+ <20180528163324.GF17491@mellanox.com> <yq1o9gz2mi1.fsf@oracle.com>
+ <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
+ <20180529192329.GJ18442@mellanox.com>
+Message-ID: <yq1a7si15a1.fsf@oracle.com>
 
-Add a little more description for "nvme subsystem-reset"
-failures, currently driver reports "Inappropriate ioctl
-for device".
 
-$ nvme subsystem-reset /dev/nvme0
-Subsystem-reset: Inappropriate ioctl for device
+Jason,
 
-With this change report not permitted on controller's that
-do not support NVM Subsystem Reset.
+>> we must wait until Martin PR for sure...
+>
+> Hmm, maybe we should have sent this patch through rdma in that
+> case.. The merge window is soon anyhow so it doesn't really matter
+> this time - but you need to think about what tree patches need to go
+> to when building your patch plan, don't just send a large unstructured
+> series like this and expect the maintainers to figure out all the
+> dependencies!
 
-$ nvme subsystem-reset /dev/nvme0
-Subsystem-reset: Operation not permitted
+I am also happy to just drop the patch from scsi-fixes and you can
+funnel everything through RDMA. Doesn't matter to me.
 
-<dmesg>
-[   88.261923] nvme nvme0: NVM Subsystem Reset not supported.
----
- drivers/nvme/host/nvme.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 17d2f7c..319fc39 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -343,8 +343,10 @@ static inline bool nvme_ctrl_ready(struct nvme_ctrl *ctrl)
- 
- static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
- {
--	if (!ctrl->subsystem)
--		return -ENOTTY;
-+	if (!ctrl->subsystem) {
-+		dev_err(ctrl->device, "NVM Subsystem Reset not supported.\n");
-+		return -EPERM;
-+	}
- 	return ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 0x4E564D65);
- }
- 
 -- 
-1.8.3.1
+Martin K. Petersen	Oracle Linux Engineering
