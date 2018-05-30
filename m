@@ -1,131 +1,35 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 08:11:16 +0200
-Subject: [PATCH] nvme-fabrics: allow internal passthrough command on deleting
- controllers
-Message-ID: <20180530061116.23610-1-hch@lst.de>
+From: yi.zhang@redhat.com (Yi Zhang)
+Date: Wed, 30 May 2018 03:26:54 -0400 (EDT)
+Subject: blktests block/019 lead system hang
+In-Reply-To: <838678680.4693215.1527664726174.JavaMail.zimbra@redhat.com>
+Message-ID: <1858098161.4693883.1527665214701.JavaMail.zimbra@redhat.com>
 
-Without this we can't cleanly shut down.
+Hi Keith
+I found blktest block/019 also can lead my NVMe server hang with 4.17.0-rc7, let me know if you need more info, thanks. 
 
-Based on analysis an an earlier patch from Hannes Reinecke.
+Server: Dell R730xd
+NVMe SSD: 85:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller 172X (rev 01)
 
-Fixes: bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
-Reported-by: Hannes Reinecke <hare at suse.de>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: James Smart <james.smart at broadcom.com>
----
+Console log:
+Kernel 4.17.0-rc7 on an x86_64
 
-Note: Pending full testing on FC by James..
+storageqe-62 login: [ 6043.121834] run blktests block/019 at 2018-05-30 03:16:34
+[ 6049.108476] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 3
+[ 6049.108478] {1}[Hardware Error]: event severity: fatal
+[ 6049.108479] {1}[Hardware Error]:  Error 0, type: fatal
+[ 6049.108481] {1}[Hardware Error]:   section_type: PCIe error
+[ 6049.108482] {1}[Hardware Error]:   port_type: 6, downstream switch port
+[ 6049.108483] {1}[Hardware Error]:   version: 1.16
+[ 6049.108484] {1}[Hardware Error]:   command: 0x0407, status: 0x0010
+[ 6049.108485] {1}[Hardware Error]:   device_id: 0000:83:05.0
+[ 6049.108486] {1}[Hardware Error]:   slot: 0
+[ 6049.108487] {1}[Hardware Error]:   secondary_bus: 0x85
+[ 6049.108488] {1}[Hardware Error]:   vendor_id: 0x10b5, device_id: 0x8734
+[ 6049.108489] {1}[Hardware Error]:   class_code: 000406
+[ 6049.108489] {1}[Hardware Error]:   bridge: secondary_status: 0x0000, control: 0x0003
+[ 6049.108491] Kernel panic - not syncing: Fatal hardware error!
+[ 6049.108514] Kernel Offset: 0x25800000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
 
 
- drivers/nvme/host/fabrics.c | 79 +++++++++++++++----------------------
- 1 file changed, 31 insertions(+), 48 deletions(-)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index aa318136460e..5f5f7067c41d 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -545,71 +545,54 @@ blk_status_t nvmf_check_if_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 		return BLK_STS_OK;
- 
- 	switch (ctrl->state) {
--	case NVME_CTRL_DELETING:
--		goto reject_io;
--
- 	case NVME_CTRL_NEW:
- 	case NVME_CTRL_CONNECTING:
-+	case NVME_CTRL_DELETING:
-+		/*
-+		 * This is the case of starting a new or deleting an association
-+		 * but connectivity was lost before it was fully created or torn
-+		 * down. We need to error the commands used to initialize the
-+		 * controller so the reconnect can go into a retry attempt.  The
-+		 * commands should all be marked REQ_FAILFAST_DRIVER, which will
-+		 * hit the reject path below. Anything else will be queued while
-+		 * the state settles.
-+		 */
- 		if (!is_connected)
--			/*
--			 * This is the case of starting a new
--			 * association but connectivity was lost
--			 * before it was fully created. We need to
--			 * error the commands used to initialize the
--			 * controller so the reconnect can go into a
--			 * retry attempt. The commands should all be
--			 * marked REQ_FAILFAST_DRIVER, which will hit
--			 * the reject path below. Anything else will
--			 * be queued while the state settles.
--			 */
--			goto reject_or_queue_io;
--
--		if ((queue_live &&
--		     !(nvme_req(rq)->flags & NVME_REQ_USERCMD)) ||
--		    (!queue_live && blk_rq_is_passthrough(rq) &&
--		     cmd->common.opcode == nvme_fabrics_command &&
--		     cmd->fabrics.fctype == nvme_fabrics_type_connect))
--			/*
--			 * If queue is live, allow only commands that
--			 * are internally generated pass through. These
--			 * are commands on the admin queue to initialize
--			 * the controller. This will reject any ioctl
--			 * admin cmds received while initializing.
--			 *
--			 * If the queue is not live, allow only a
--			 * connect command. This will reject any ioctl
--			 * admin cmd as well as initialization commands
--			 * if the controller reverted the queue to non-live.
--			 */
-+			break;
-+
-+		/*
-+		 * If queue is live, allow only commands that are internally
-+		 * generated pass through.  These are commands on the admin
-+		 * queue to initialize the controller. This will reject any
-+		 * ioctl admin cmds received while initializing.
-+		 */
-+		if (queue_live && !(nvme_req(rq)->flags & NVME_REQ_USERCMD))
- 			return BLK_STS_OK;
- 
- 		/*
--		 * fall-thru to the reject_or_queue_io clause
-+		 * If the queue is not live, allow only a connect command.  This
-+		 * will reject any ioctl admin cmd as well as initialization
-+		 * commands if the controller reverted the queue to non-live.
- 		 */
-+		if (!queue_live && blk_rq_is_passthrough(rq) &&
-+		     cmd->common.opcode == nvme_fabrics_command &&
-+		     cmd->fabrics.fctype == nvme_fabrics_type_connect)
-+			return BLK_STS_OK;
- 		break;
--
--	/* these cases fall-thru
--	 * case NVME_CTRL_LIVE:
--	 * case NVME_CTRL_RESETTING:
--	 */
- 	default:
- 		break;
- 	}
- 
--reject_or_queue_io:
- 	/*
--	 * Any other new io is something we're not in a state to send
--	 * to the device. Default action is to busy it and retry it
--	 * after the controller state is recovered. However, anything
--	 * marked for failfast or nvme multipath is immediately failed.
--	 * Note: commands used to initialize the controller will be
--	 *  marked for failfast.
-+	 * Any other new io is something we're not in a state to send to the
-+	 * device.  Default action is to busy it and retry it after the
-+	 * controller state is recovered. However, anything marked for failfast
-+	 * or nvme multipath is immediately failed.  Note: commands used to
-+	 * initialize the controller will be marked for failfast.
- 	 * Note: nvme cli/ioctl commands are marked for failfast.
- 	 */
- 	if (!blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
--
--reject_io:
- 	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
- 	return BLK_STS_IOERR;
- }
--- 
-2.17.0
+Best Regards,
+  Yi Zhang
