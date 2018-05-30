@@ -1,34 +1,43 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 18:46:00 +0200
-Subject: [PATCH 12/12] nvme: limit warnings from nvme_identify_ns
-In-Reply-To: <20180530164600.26856-1-hch@lst.de>
-References: <20180530164600.26856-1-hch@lst.de>
-Message-ID: <20180530164600.26856-13-hch@lst.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 30 May 2018 11:46:33 -0500
+Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
+In-Reply-To: <01000163b1bd094e-8a191404-8725-40c0-9af5-c4b69f324a1d-000000@email.amazonses.com>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+ <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
+ <01000163b1bd094e-8a191404-8725-40c0-9af5-c4b69f324a1d-000000@email.amazonses.com>
+Message-ID: <b73350c8-8596-70ec-082a-e8fdf1e68d04@opengridcomputing.com>
 
-When rescanning namespaces after an AEN we will issue Identify Namespace
-comands to namespaces that have gone away, so don't warn for this specific
-case.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 5/30/2018 10:49 AM, Christopher Lameter wrote:
+> On Tue, 29 May 2018, Steve Wise wrote:
+>
+>> @@ -200,17 +204,17 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
+>>  	c->sge[0].length = sizeof(*c->nvme_cmd);
+>>  	c->sge[0].lkey = ndev->pd->local_dma_lkey;
+>>
+>> -	if (!admin) {
+>> +	if (!admin && inline_data_size) {
+>>  		c->inline_page = alloc_pages(GFP_KERNEL,
+>> -				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
+>> +				get_order(inline_data_size));
+> Now we do higher order allocations here. This means that the allocation
+> can fail if system memory is highly fragmented. And the allocations can no
+> longer be satisfied from the per cpu caches. So allocation performance
+> will drop.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1ae77428a1a5..7ad3cfc9d4e1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -984,7 +984,9 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
- 
- 	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
- 	if (error) {
--		dev_warn(ctrl->device, "Identify namespace failed\n");
-+		/* don't warn on a namespace that has gone away */
-+		if (error < 0 || ((error & ~NVME_SC_DNR) != NVME_SC_INVALID_NS))
-+			dev_warn(ctrl->device, "Identify namespace failed\n");
- 		kfree(id);
- 		return NULL;
- 	}
--- 
-2.17.0
+Yes.
+
+>>  		if (!c->inline_page)
+>>  			goto out_unmap_cmd;
+> Maybe think about some sort of fallback to vmalloc or so if this
+> alloc fails?
+
+The memory needs to be physically contiguous and will be mapped for DMA,
+so vmalloc() won't work.?
+
+I could complicate the design and allocate a scatter gather table for
+this memory, and then register it into a single RDMA MR.?? That would
+allow allocating non-contiguous pages.? But is that complication worth
+it here?
+
+Steve.
