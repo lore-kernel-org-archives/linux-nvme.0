@@ -1,43 +1,116 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 30 May 2018 11:46:33 -0500
-Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
-In-Reply-To: <01000163b1bd094e-8a191404-8725-40c0-9af5-c4b69f324a1d-000000@email.amazonses.com>
-References: <cover.1527618402.git.swise@opengridcomputing.com>
- <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
- <01000163b1bd094e-8a191404-8725-40c0-9af5-c4b69f324a1d-000000@email.amazonses.com>
-Message-ID: <b73350c8-8596-70ec-082a-e8fdf1e68d04@opengridcomputing.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 30 May 2018 18:51:00 +0200
+Subject: [PATCH] blk-mq: only iterate over inflight requests in
+ blk_mq_tagset_busy_iter
+Message-ID: <20180530165100.31186-1-hch@lst.de>
 
+We already check for started commands in all callbacks, but we should
+also protect against already completed commands.  Do this by taking
+the checks to common code.
 
-On 5/30/2018 10:49 AM, Christopher Lameter wrote:
-> On Tue, 29 May 2018, Steve Wise wrote:
->
->> @@ -200,17 +204,17 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
->>  	c->sge[0].length = sizeof(*c->nvme_cmd);
->>  	c->sge[0].lkey = ndev->pd->local_dma_lkey;
->>
->> -	if (!admin) {
->> +	if (!admin && inline_data_size) {
->>  		c->inline_page = alloc_pages(GFP_KERNEL,
->> -				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
->> +				get_order(inline_data_size));
-> Now we do higher order allocations here. This means that the allocation
-> can fail if system memory is highly fragmented. And the allocations can no
-> longer be satisfied from the per cpu caches. So allocation performance
-> will drop.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ block/blk-mq-tag.c                |  2 +-
+ drivers/block/mtip32xx/mtip32xx.c | 12 ++----------
+ drivers/block/nbd.c               |  5 +----
+ drivers/nvme/host/core.c          |  3 ---
+ drivers/nvme/host/fc.c            |  3 ---
+ 5 files changed, 4 insertions(+), 21 deletions(-)
 
-Yes.
-
->>  		if (!c->inline_page)
->>  			goto out_unmap_cmd;
-> Maybe think about some sort of fallback to vmalloc or so if this
-> alloc fails?
-
-The memory needs to be physically contiguous and will be mapped for DMA,
-so vmalloc() won't work.?
-
-I could complicate the design and allocate a scatter gather table for
-this memory, and then register it into a single RDMA MR.?? That would
-allow allocating non-contiguous pages.? But is that complication worth
-it here?
-
-Steve.
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index a4e58fc28a06..70356a2a11ab 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -271,7 +271,7 @@ static bool bt_tags_iter(struct sbitmap *bitmap, unsigned int bitnr, void *data)
+ 	 * test and set the bit before assining ->rqs[].
+ 	 */
+ 	rq = tags->rqs[bitnr];
+-	if (rq)
++	if (rq && blk_mq_rq_state(rq) == MQ_RQ_IN_FLIGHT)
+ 		iter_data->fn(rq, iter_data->data, reserved);
+ 
+ 	return true;
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 95657b814543..c73626decb46 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -2725,15 +2725,11 @@ static void mtip_softirq_done_fn(struct request *rq)
+ 	blk_mq_end_request(rq, cmd->status);
+ }
+ 
+-static void mtip_abort_cmd(struct request *req, void *data,
+-							bool reserved)
++static void mtip_abort_cmd(struct request *req, void *data, bool reserved)
+ {
+ 	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(req);
+ 	struct driver_data *dd = data;
+ 
+-	if (!blk_mq_request_started(req))
+-		return;
+-
+ 	dbg_printk(MTIP_DRV_NAME " Aborting request, tag = %d\n", req->tag);
+ 
+ 	clear_bit(req->tag, dd->port->cmds_to_issue);
+@@ -2741,14 +2737,10 @@ static void mtip_abort_cmd(struct request *req, void *data,
+ 	mtip_softirq_done_fn(req);
+ }
+ 
+-static void mtip_queue_cmd(struct request *req, void *data,
+-							bool reserved)
++static void mtip_queue_cmd(struct request *req, void *data, bool reserved)
+ {
+ 	struct driver_data *dd = data;
+ 
+-	if (!blk_mq_request_started(req))
+-		return;
+-
+ 	set_bit(req->tag, dd->port->cmds_to_issue);
+ 	blk_abort_request(req);
+ }
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 8860b24098bc..17d1d97d491e 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -666,11 +666,8 @@ static void recv_work(struct work_struct *work)
+ 
+ static void nbd_clear_req(struct request *req, void *data, bool reserved)
+ {
+-	struct nbd_cmd *cmd;
++	struct nbd_cmd *cmd = blk_mq_rq_to_pdu(req);
+ 
+-	if (!blk_mq_request_started(req))
+-		return;
+-	cmd = blk_mq_rq_to_pdu(req);
+ 	cmd->status = BLK_STS_IOERR;
+ 	blk_mq_complete_request(req);
+ }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7ad3cfc9d4e1..1744d8dcadfd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -251,9 +251,6 @@ EXPORT_SYMBOL_GPL(nvme_complete_rq);
+ 
+ void nvme_cancel_request(struct request *req, void *data, bool reserved)
+ {
+-	if (!blk_mq_request_started(req))
+-		return;
+-
+ 	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+ 				"Cancelling I/O %d", req->tag);
+ 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index ac35a80f5532..0bad65803271 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2393,9 +2393,6 @@ nvme_fc_terminate_exchange(struct request *req, void *data, bool reserved)
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(req);
+ 
+-	if (!blk_mq_request_started(req))
+-		return;
+-
+ 	__nvme_fc_abort_op(ctrl, op);
+ }
+ 
+-- 
+2.17.0
