@@ -1,30 +1,94 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 18:45:48 +0200
-Subject: nvme/nvmet AEN and log page fixups v2
-Message-ID: <20180530164600.26856-1-hch@lst.de>
+Date: Wed, 30 May 2018 18:45:49 +0200
+Subject: [PATCH 01/12] nvme.h: untangle AEN notice definitions
+In-Reply-To: <20180530164600.26856-1-hch@lst.de>
+References: <20180530164600.26856-1-hch@lst.de>
+Message-ID: <20180530164600.26856-2-hch@lst.de>
 
-Hi all,
+Stop including the event type in the definitions for the notice type.
 
-this series started as prep work for ANA, but has grown a lot.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/core.c | 30 ++++++++++++++++++------------
+ include/linux/nvme.h     |  8 ++++++--
+ 2 files changed, 24 insertions(+), 14 deletions(-)
 
-The idea is to make the AEN handling in the target closer to what
-the standard says, and implement the changed namespaces list log page,
-which is required to clear the namespace attribute notice event.
-
-One the host side this just makes sure we actually have the events
-we handle enabled using Set Features, and it fixes the handling of
-the namespace attribute notice event so that it actually does get
-cleared by issuing the log page.
-
-Last but not last two block cleanups are thrown in so that we don't
-print a pointless message when we delete a namespaces, and also
-unexport the function printing said message as it should only be
-called from the core code.
-
-Changes from v1:
- - don't copy garbage when more then 1024 namespaces changed
- - filter out duplicates in the changed namespace list log page
- - use the proper define for the supported events to initialize
-   OAES
- - add the nvmet_aen_disabled helper from the ANA series
- - allow the mandatory smart AENs in Set Features
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2c4cf65641a6..86cb78653155 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3321,6 +3321,21 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 	nvme_get_fw_slot_info(ctrl);
+ }
+ 
++static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
++{
++	switch ((result & 0xff00) >> 8) {
++	case NVME_AER_NOTICE_NS_CHANGED:
++		dev_info(ctrl->device, "rescanning\n");
++		nvme_queue_scan(ctrl);
++		break;
++	case NVME_AER_NOTICE_FW_ACT_STARTING:
++		queue_work(nvme_wq, &ctrl->fw_act_work);
++		break;
++	default:
++		dev_warn(ctrl->device, "async event result %08x\n", result);
++	}
++}
++
+ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		volatile union nvme_result *res)
+ {
+@@ -3330,6 +3345,9 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		return;
+ 
+ 	switch (result & 0x7) {
++	case NVME_AER_NOTICE:
++		nvme_handle_aen_notice(ctrl, result);
++		break;
+ 	case NVME_AER_ERROR:
+ 	case NVME_AER_SMART:
+ 	case NVME_AER_CSS:
+@@ -3339,18 +3357,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 	default:
+ 		break;
+ 	}
+-
+-	switch (result & 0xff07) {
+-	case NVME_AER_NOTICE_NS_CHANGED:
+-		dev_info(ctrl->device, "rescanning\n");
+-		nvme_queue_scan(ctrl);
+-		break;
+-	case NVME_AER_NOTICE_FW_ACT_STARTING:
+-		queue_work(nvme_wq, &ctrl->fw_act_work);
+-		break;
+-	default:
+-		dev_warn(ctrl->device, "async event result %08x\n", result);
+-	}
+ 	queue_work(nvme_wq, &ctrl->async_event_work);
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 4112e2bd747f..c37103a4ad38 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -436,10 +436,14 @@ enum {
+ enum {
+ 	NVME_AER_ERROR			= 0,
+ 	NVME_AER_SMART			= 1,
++	NVME_AER_NOTICE			= 2,
+ 	NVME_AER_CSS			= 6,
+ 	NVME_AER_VS			= 7,
+-	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
+-	NVME_AER_NOTICE_FW_ACT_STARTING = 0x0102,
++};
++
++enum {
++	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
++	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
+ };
+ 
+ struct nvme_lba_range_type {
+-- 
+2.17.0
