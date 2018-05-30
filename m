@@ -1,17 +1,19 @@
-From: nick.desaulniers@gmail.com (Nick Desaulniers)
-Date: Tue, 29 May 2018 19:02:29 -0700
-Subject: [PATCH] nvme: prefer strlcpy to strncpy
-In-Reply-To: <20180529081117.GA1416@lst.de>
-References: <1527576558-26817-1-git-send-email-nick.desaulniers@gmail.com>
- <20180529081117.GA1416@lst.de>
-Message-ID: <CAH7mPvgC7WE-JFUk3aV4_Cex9vm9PO9wRa7gM8-=YdUp5uOv4Q@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 30 May 2018 08:06:13 +0200
+Subject: [PATCHv3 4/9] nvme-pci: Rate limit the nvme timeout warnings
+In-Reply-To: <20180524203500.14081-5-keith.busch@intel.com>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-5-keith.busch@intel.com>
+Message-ID: <20180530060613.GA22380@infradead.org>
 
-On Tue, May 29, 2018@1:11 AM, Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, May 28, 2018@11:49:18PM -0700, Nick Desaulniers wrote:
->> Fixes a stringop-truncation warning from gcc-8.
->
-> What would that warning be?  Maybe it actually is genuinly useful,
-> and switching to strlcpy just papers over it..
+On Thu, May 24, 2018@02:34:55PM -0600, Keith Busch wrote:
+> The block layer's timeout handling currently prevents drivers from
+> completing commands outside the timeout callback once blk-mq decides
+> they've expired. If a device breaks, this could potentially create many
+> thousands of timed out commands. There's nothing of value to be gleaned
+> from observing each of those messages, so this patch adds a rate limit
+> on them.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Eric also pointed out to me that strlcpy will not initialize the rest
-of dest with zeros if size is less than the length of src.
+I've picked this for the nvme-4.18 tree.
