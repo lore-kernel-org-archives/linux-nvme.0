@@ -1,10 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 00:21:40 +0300
-Subject: [PATCH 01/12] nvme.h: untangle AEN notice definitions
-In-Reply-To: <20180530164600.26856-2-hch@lst.de>
+Date: Thu, 31 May 2018 00:22:00 +0300
+Subject: [PATCH 02/12] nvme.h: add the changed namespace list log
+In-Reply-To: <20180530164600.26856-3-hch@lst.de>
 References: <20180530164600.26856-1-hch@lst.de>
- <20180530164600.26856-2-hch@lst.de>
-Message-ID: <de28a4d2-d5f8-c0ce-ee6f-19df117e3146@grimberg.me>
+ <20180530164600.26856-3-hch@lst.de>
+Message-ID: <adbea5ba-2240-6867-0ab2-9383a92b21a9@grimberg.me>
 
 Looks good,
 
