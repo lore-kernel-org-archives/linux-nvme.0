@@ -1,39 +1,45 @@
 From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Wed, 30 May 2018 09:24:36 -0600
-Subject: [PATCH 04/17] IB/isert: use T10-PI check mask definitions from
- core layer
-In-Reply-To: <20180530120801.GA1817@lst.de>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-5-git-send-email-maxg@mellanox.com>
- <20180528072225.GE5618@lst.de>
- <b8fa242d-c2d5-79fe-cab2-1c73adadbc4b@mellanox.com>
- <20180530120801.GA1817@lst.de>
-Message-ID: <20180530152436.GB30764@mellanox.com>
+Date: Wed, 30 May 2018 09:30:36 -0600
+Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
+In-Reply-To: <6e9b09a2-6b17-c128-fad1-198db6059a62@mellanox.com>
+References: <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
+ <20180528120359.GA13368@lst.de>
+ <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
+ <20180528163324.GF17491@mellanox.com> <yq1o9gz2mi1.fsf@oracle.com>
+ <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
+ <20180529192329.GJ18442@mellanox.com> <yq1a7si15a1.fsf@oracle.com>
+ <20180529221943.GR18442@mellanox.com>
+ <6e9b09a2-6b17-c128-fad1-198db6059a62@mellanox.com>
+Message-ID: <20180530153036.GD30764@mellanox.com>
 
-On Wed, May 30, 2018@02:08:01PM +0200, Christoph Hellwig wrote:
-> On Wed, May 30, 2018@01:48:13PM +0300, Max Gurtovoy wrote:
-> > -       sig_attrs->check_mask =
-> > -              (se_cmd->prot_checks & TARGET_DIF_CHECK_GUARD  ? 0xc0 : 0) |
-> > -              (se_cmd->prot_checks & TARGET_DIF_CHECK_APPTAG ? 0x30 : 0) |
-> > -              (se_cmd->prot_checks & TARGET_DIF_CHECK_REFTAG ? 0x0f : 0);
-> > +       if (se_cmd->prot_checks & TARGET_DIF_CHECK_GUARD)
-> > +               sig_attrs->check_mask |= IB_SIG_CHECK_GUARD;
-> > +       if (se_cmd->prot_checks & TARGET_DIF_CHECK_APPTAG)
-> > +               sig_attrs->check_mask |= IB_SIG_CHECK_APPTAG;
-> > +       if (se_cmd->prot_checks & TARGET_DIF_CHECK_REFTAG)
-> > +               sig_attrs->check_mask |= IB_SIG_CHECK_REFTAG;
-> > +
-> >         return 0;
-> >  }
-> >
-> >
-> >
-> > I can reduce the instructions since we don't need to do a bitwise "or" with 
-> > 0 (check mask is set to 0 in the start of the function).
+On Wed, May 30, 2018@11:07:17AM +0300, Max Gurtovoy wrote:
 > 
-> And it looks much cleaner to start with..
+> 
+> On 5/30/2018 1:19 AM, Jason Gunthorpe wrote:
+> >On Tue, May 29, 2018@06:11:18PM -0400, Martin K. Petersen wrote:
+> >>
+> >>Jason,
+> >>
+> >>>>we must wait until Martin PR for sure...
+> >>>
+> >>>Hmm, maybe we should have sent this patch through rdma in that
+> >>>case.. The merge window is soon anyhow so it doesn't really matter
+> >>>this time - but you need to think about what tree patches need to go
+> >>>to when building your patch plan, don't just send a large unstructured
+> >>>series like this and expect the maintainers to figure out all the
+> >>>dependencies!
+> >>
+> >>I am also happy to just drop the patch from scsi-fixes and you can
+> >>funnel everything through RDMA. Doesn't matter to me.
+> >
+> >Sure, if you can still do that.. Max can you send me all four patches
+> >tomorrow and I'll route them through rdma.
+> 
+> Yes sure. I'm sorry for the ping-pong, I've tried to cover this in the cover
+> letter but I guess I should've mentioned specifically what patches goes
+> through which tree.
 
-I also prefer this version to the use of the ternary operator..
+Just in general don't send such a jumble of patches for multiple
+maintainers under one cover letter. It is error prone to sort it out.
 
-Thanks,
 Jason
