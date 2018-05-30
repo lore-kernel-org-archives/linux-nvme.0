@@ -1,132 +1,62 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 30 May 2018 15:20:49 +0200
-Subject: [PATCH] nvme: trace: add disk name to tracepoints
-Message-ID: <20180530132049.5890-1-jthumshirn@suse.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 30 May 2018 09:39:11 -0500
+Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+ support
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+ <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
+ <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
+Message-ID: <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
 
-Add disk name to tracepoints so we can better destinguish between
-individual disks in the trace output.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/core.c  |  4 ++--
- drivers/nvme/host/trace.h | 32 ++++++++++++++++++++------------
- 2 files changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 99b857e5a7a9..eb112ff2bede 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -647,9 +647,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 
- 	cmd->common.command_id = req->tag;
- 	if (ns)
--		trace_nvme_setup_nvm_cmd(req->q->id, cmd);
-+		trace_nvme_setup_nvm_cmd(ns->disk->disk_name, req->q->id, cmd);
- 	else
--		trace_nvme_setup_admin_cmd(cmd);
-+		trace_nvme_setup_admin_cmd(ns->disk->disk_name, cmd);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_setup_cmd);
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index ea91fccd1bc0..3d3f91b933db 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -76,9 +76,10 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
- 	nvme_trace_parse_nvm_cmd(p, opcode, cdw10)
- 
- TRACE_EVENT(nvme_setup_admin_cmd,
--	    TP_PROTO(struct nvme_command *cmd),
--	    TP_ARGS(cmd),
-+	    TP_PROTO(char *disk_name, struct nvme_command *cmd),
-+	    TP_ARGS(disk_name, cmd),
- 	    TP_STRUCT__entry(
-+		    __string(name, disk_name)
- 		    __field(u8, opcode)
- 		    __field(u8, flags)
- 		    __field(u16, cid)
-@@ -86,6 +87,7 @@ TRACE_EVENT(nvme_setup_admin_cmd,
- 		    __array(u8, cdw10, 24)
- 	    ),
- 	    TP_fast_assign(
-+		    __assign_str(name, disk_name);
- 		    __entry->opcode = cmd->common.opcode;
- 		    __entry->flags = cmd->common.flags;
- 		    __entry->cid = cmd->common.command_id;
-@@ -93,17 +95,19 @@ TRACE_EVENT(nvme_setup_admin_cmd,
- 		    memcpy(__entry->cdw10, cmd->common.cdw10,
- 			   sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk(" cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->cid, __entry->flags, __entry->metadata,
-+	    TP_printk("%s: cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __get_str(name), __entry->cid, __entry->flags,
-+		      __entry->metadata,
- 		      show_admin_opcode_name(__entry->opcode),
- 		      __parse_nvme_admin_cmd(__entry->opcode, __entry->cdw10))
- );
- 
- 
- TRACE_EVENT(nvme_setup_nvm_cmd,
--	    TP_PROTO(int qid, struct nvme_command *cmd),
--	    TP_ARGS(qid, cmd),
-+	    TP_PROTO(char *disk_name, int qid, struct nvme_command *cmd),
-+	    TP_ARGS(disk_name, qid, cmd),
- 	    TP_STRUCT__entry(
-+		    __string(name, disk_name)
- 		    __field(int, qid)
- 		    __field(u8, opcode)
- 		    __field(u8, flags)
-@@ -113,6 +117,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		    __array(u8, cdw10, 24)
- 	    ),
- 	    TP_fast_assign(
-+		    __assign_str(name, disk_name);
- 		    __entry->qid = qid;
- 		    __entry->opcode = cmd->common.opcode;
- 		    __entry->flags = cmd->common.flags;
-@@ -122,9 +127,9 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		    memcpy(__entry->cdw10, cmd->common.cdw10,
- 			   sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->qid, __entry->nsid, __entry->cid,
--		      __entry->flags, __entry->metadata,
-+	    TP_printk("%s: qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __get_str(name), __entry->qid, __entry->nsid,
-+		      __entry->cid, __entry->flags, __entry->metadata,
- 		      show_opcode_name(__entry->opcode),
- 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
- );
-@@ -133,6 +138,7 @@ TRACE_EVENT(nvme_complete_rq,
- 	    TP_PROTO(struct request *req),
- 	    TP_ARGS(req),
- 	    TP_STRUCT__entry(
-+		    __string(name, req->rq_disk->disk_name)
- 		    __field(int, qid)
- 		    __field(int, cid)
- 		    __field(u64, result)
-@@ -141,6 +147,7 @@ TRACE_EVENT(nvme_complete_rq,
- 		    __field(u16, status)
- 	    ),
- 	    TP_fast_assign(
-+		    __assign_str(name, req->rq_disk->disk_name);
- 		    __entry->qid = req->q->id;
- 		    __entry->cid = req->tag;
- 		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
-@@ -148,9 +155,10 @@ TRACE_EVENT(nvme_complete_rq,
- 		    __entry->flags = nvme_req(req)->flags;
- 		    __entry->status = nvme_req(req)->status;
- 	    ),
--	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
--		      __entry->cid, __entry->qid, __entry->result,
--		      __entry->retries, __entry->flags, __entry->status)
-+	    TP_printk("%s: cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __get_str(name), __entry->cid, __entry->qid,
-+		      __entry->result, __entry->retries, __entry->flags,
-+		      __entry->status)
- 
- );
- 
--- 
-2.16.3
+On 5/29/2018 3:23 PM, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: linux-rdma-owner at vger.kernel.org [mailto:linux-rdma-
+>> owner at vger.kernel.org] On Behalf Of Steve Wise
+>> Sent: Tuesday, May 29, 2018 2:26 PM
+>> To: axboe at kernel.dk; hch at lst.de; Busch, Keith <keith.busch at intel.com>;
+>> sagi at grimberg.me; linux-nvme at lists.infradead.org
+>> Cc: parav at mellanox.com; maxg at mellanox.com; linux-rdma at vger.kernel.org
+>> Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+>> support
+>>
+>> The code was checking bit 20 instead of bit 2.  Also fixed
+>> the log entry.
+>>
+>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>> ---
+>> drivers/nvme/host/rdma.c | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index 1eb4438..f11faa8 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -1949,8 +1949,8 @@ static struct nvme_ctrl
+>> *nvme_rdma_create_ctrl(struct device *dev,
+>> 	}
+>>
+>> 	/* sanity check keyed sgls */
+>> -	if (!(ctrl->ctrl.sgls & (1 << 20))) {
+>> -		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
+>> support\n");
+>> +	if (!(ctrl->ctrl.sgls & (1 << 2))) {
+>> +		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not
+>> supported!\n");
+> I can see that the 2 and 20 are defined for specific things.  Since they are
+> used in several places (in the next 2 patches), is there any chance these
+> could be defined bits?
+>
+> Mike
+>
+
+That seems reasonable.? I would think these defines could also be shared
+across the host and target.? Perhaps include/linux/nvme.h?? I see both
+nvme/host/nvme.h and nvme/target/nvmet.h include linux/nvme.h.? So they
+could go there.?
+
+Christoph, what do you think?? It seems like these are either nvme
+protocol bits or nvme/f protocol bits...
+
+Steve.
