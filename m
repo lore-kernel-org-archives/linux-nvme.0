@@ -1,39 +1,74 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 30 May 2018 18:44:02 -0400
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
-Message-ID: <20180530224402.GA7303@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 31 May 2018 02:05:08 +0300
+Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
+In-Reply-To: <1527436222-15494-18-git-send-email-maxg@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-18-git-send-email-maxg@mellanox.com>
+Message-ID: <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
 
-On Wed, May 30 2018 at  5:20pm -0400,
-Sagi Grimberg <sagi@grimberg.me> wrote:
- 
-> Moreover, I also wanted to point out that fabrics array vendors are
-> building products that rely on standard nvme multipathing (and probably
-> multipathing over dispersed namespaces as well), and keeping a knob that
-> will keep nvme users with dm-multipath will probably not help them
-> educate their customers as well... So there is another angle to this.
+Max,
 
-Noticed I didn't respond directly to this aspect.  As I explained in
-various replies to this thread: The users/admins would be the ones who
-would decide to use dm-multipath.  It wouldn't be something that'd be
-imposed by default.  If anything, the all-or-nothing
-nvme_core.multipath=N would pose a much more serious concern for these
-array vendors that do have designs to specifically leverage native NVMe
-multipath.  Because if users were to get into the habit of setting that
-on the kernel commandline they'd literally _never_ be able to leverage
-native NVMe multipathing.
+> For capable HCAs (e.g. ConnectX-4/ConnectX-5) this will allow end-to-end
+> protection information passthrough and validation for NVMe over RDMA transport.
+> Similar to iSER, T10-PI offload support was implemented over RDMA signature
+> verbs API and is enabled via module parameter. In the future we might want
+> to add support per controller.
 
-We can also add multipath.conf docs (man page, etc) that caution admins
-to consult their array vendors about whether using dm-multipath is to be
-avoided, etc.
+In NVMe we like to call inherited features differently, in nvme its
+metadata and not T10-PI :)
 
-Again, this is opt-in, so on a upstream Linux kernel level the default
-of enabling native NVMe multipath stands (provided CONFIG_NVME_MULTIPATH
-is configured).  Not seeing why there is so much angst and concern about
-offering this flexibility via opt-in but I'm also glad we're having this
-discussion to have our eyes wide open.
+Thanks for doing this btw!
 
-Mike
+Looking at the code, I realize that the rdma core API can improve
+significantly. I think we can actually achieve a much better
+abstraction of the HW implementation details. This would be a good
+chance to clean it all up.
+
+What I'm thinking of is we should have a single MR that
+describes everything (data, metadata, signature parameters) instead
+of exposing the use of multiple MRs via the API.
+
+Here's how I think we can do it (and correct me where I'm wrong)
+1. modify ib_alloc_mr to accept another parameter of max_meta_sg
+which will tell the driver to allocate more "internal" mrs or entries
+for a signature enabled MR (driver that does not support would fail if
+its set or non-signature MR was requested).
+
+2. introduce ib_map_mr_sg_sig that will accept both data and meta sgls
+and will prepare the internal MR mappings.
+
+3. have ib_sig_handover_wr perform whatever needed to do the job.
+Which is posting the reg_mr for the "internal" mr(s).
+
+Note that IIRC the Mellanox device can register with disabling the
+device checking the MR was invalidated so it wouldn't need to be
+locally invalidated (note that this is an internal MR that is private
+to the driver with local access rights so no harm in not invalidating it).
+
+4. Move ib_sig_attrs into a signature enabled ib_mr (dynamically
+allocated).
+
+5. Given that we now have two block consumers of this, add a better
+abstraction helpers that take struct request and blk_integrity and
+fill out the ib_sig_attrs accordingly...
+
+Side note, the signature enabled MR can have only a single "internal"
+mr because the strided format in the mlx5 signature segment is perfectly
+capable of accepting two strides in a single lkey.
+
+So consider a signature stride that takes two sgls:
+data: {d1, d2, d3, d4}
+meta: {m1, m2, m3, m4}
+
+So the internal MR will look like:
+
+            data start  meta start
+            |           |
+            -------------------------
+            |d1|d2|d3|d4|m1|m2|m3|m4|
+            -------------------------
+
+and the sig_mr stride block would be same lkey but different
+offsets in it (offset 0 and offset d1+d2+d3+d4)
+
+Thoughts?
