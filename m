@@ -1,45 +1,30 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Wed, 30 May 2018 09:30:36 -0600
-Subject: [PATCH 01/17] IB/isert: fix T10-pi check mask setting
-In-Reply-To: <6e9b09a2-6b17-c128-fad1-198db6059a62@mellanox.com>
-References: <452bfcde-ee3c-a4e5-e2d0-43114099590a@mellanox.com>
- <20180528120359.GA13368@lst.de>
- <99191c8c-b03e-f40d-ffd9-a73e01d0ae2a@mellanox.com>
- <20180528163324.GF17491@mellanox.com> <yq1o9gz2mi1.fsf@oracle.com>
- <6c7335c1-1d59-f764-be46-9aab46eb8458@mellanox.com>
- <20180529192329.GJ18442@mellanox.com> <yq1a7si15a1.fsf@oracle.com>
- <20180529221943.GR18442@mellanox.com>
- <6e9b09a2-6b17-c128-fad1-198db6059a62@mellanox.com>
-Message-ID: <20180530153036.GD30764@mellanox.com>
+From: cl@linux.com (Christopher Lameter)
+Date: Wed, 30 May 2018 15:49:06 +0000
+Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
+In-Reply-To: <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+ <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
+Message-ID: <01000163b1bd094e-8a191404-8725-40c0-9af5-c4b69f324a1d-000000@email.amazonses.com>
 
-On Wed, May 30, 2018@11:07:17AM +0300, Max Gurtovoy wrote:
-> 
-> 
-> On 5/30/2018 1:19 AM, Jason Gunthorpe wrote:
-> >On Tue, May 29, 2018@06:11:18PM -0400, Martin K. Petersen wrote:
-> >>
-> >>Jason,
-> >>
-> >>>>we must wait until Martin PR for sure...
-> >>>
-> >>>Hmm, maybe we should have sent this patch through rdma in that
-> >>>case.. The merge window is soon anyhow so it doesn't really matter
-> >>>this time - but you need to think about what tree patches need to go
-> >>>to when building your patch plan, don't just send a large unstructured
-> >>>series like this and expect the maintainers to figure out all the
-> >>>dependencies!
-> >>
-> >>I am also happy to just drop the patch from scsi-fixes and you can
-> >>funnel everything through RDMA. Doesn't matter to me.
-> >
-> >Sure, if you can still do that.. Max can you send me all four patches
-> >tomorrow and I'll route them through rdma.
-> 
-> Yes sure. I'm sorry for the ping-pong, I've tried to cover this in the cover
-> letter but I guess I should've mentioned specifically what patches goes
-> through which tree.
+On Tue, 29 May 2018, Steve Wise wrote:
 
-Just in general don't send such a jumble of patches for multiple
-maintainers under one cover letter. It is error prone to sort it out.
+> @@ -200,17 +204,17 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
+>  	c->sge[0].length = sizeof(*c->nvme_cmd);
+>  	c->sge[0].lkey = ndev->pd->local_dma_lkey;
+>
+> -	if (!admin) {
+> +	if (!admin && inline_data_size) {
+>  		c->inline_page = alloc_pages(GFP_KERNEL,
+> -				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
+> +				get_order(inline_data_size));
 
-Jason
+Now we do higher order allocations here. This means that the allocation
+can fail if system memory is highly fragmented. And the allocations can no
+longer be satisfied from the per cpu caches. So allocation performance
+will drop.
+
+>  		if (!c->inline_page)
+>  			goto out_unmap_cmd;
+
+Maybe think about some sort of fallback to vmalloc or so if this
+alloc fails?
