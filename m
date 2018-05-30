@@ -1,113 +1,33 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 02:18:23 +0300
-Subject: [PATCH] nvmet: filter newlines from user input
-Message-ID: <20180530231823.1883-1-sagi@grimberg.me>
+Date: Thu, 31 May 2018 02:24:53 +0300
+Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
+In-Reply-To: <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-2-keith.busch@intel.com>
+ <20180525124209.GD23463@lst.de>
+ <20180525142233.GN11037@localhost.localdomain>
+ <20180525143253.GA26539@lst.de>
+ <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
+Message-ID: <e86bf817-8a25-8235-d981-ad146307c585@grimberg.me>
 
-don't consume the annoying newlines in traddr, trsvcid and
-device_path as they appear when reading configfs or worse in
-discovery log pages. Add minimal processing to make sure they
-are gone.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/configfs.c | 34 ++++++++++++++++++++++++++++------
- drivers/nvme/target/nvmet.h    |  2 +-
- 2 files changed, 29 insertions(+), 7 deletions(-)
+>>> Right, the bring up is single threaded, but the NVMe Controller Level
+>>> Reset (CC.EN 1 -> 0) can happen through a timeout. This patch is really
+>>> just working with the way blk-mq's timeout handler claims requests
+>>> and prevents the driver from completing them. The reset_work operates
+>>> under the assumption that there are no outstanding commands after
+>>> nvme_dev_disable, so this patch just ensures that's the case.
+>> Ok, so we are talking about simultaneous nvme_dev_disable calls, which
+>> makes more sense.
+>>
+>> That being said I really like the idea that Jianchao floated about
+>> always returning BLK_EH_RESET_TIMER and just letting the reset work
+>> do the work.? I hope it actually works and doesn't have hidden
+>> pitfalls..
+>>
+> 
+> I came to this same conclusion and this is how FC works.
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index fd93c6a122d5..fe65c36557fa 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -126,6 +126,8 @@ static ssize_t nvmet_addr_traddr_store(struct config_item *item,
- 		const char *page, size_t count)
- {
- 	struct nvmet_port *port = to_nvmet_port(item);
-+	char *s, *o, *traddr;
-+	int ret;
- 
- 	if (count > NVMF_TRADDR_SIZE) {
- 		pr_err("Invalid value '%s' for traddr\n", page);
-@@ -137,8 +139,16 @@ static ssize_t nvmet_addr_traddr_store(struct config_item *item,
- 		pr_err("Disable the address before modifying\n");
- 		return -EACCES;
- 	}
--	return snprintf(port->disc_addr.traddr,
--			sizeof(port->disc_addr.traddr), "%s", page);
-+
-+	o = s = kstrdup(page, GFP_KERNEL);
-+	if (!o)
-+		return -ENOMEM;
-+
-+	traddr = strsep(&s, "\n");
-+	ret = snprintf(port->disc_addr.traddr,
-+			sizeof(port->disc_addr.traddr), "%s", traddr);
-+	kfree(o);
-+	return count;
- }
- 
- CONFIGFS_ATTR(nvmet_, addr_traddr);
-@@ -213,6 +223,8 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
- 		const char *page, size_t count)
- {
- 	struct nvmet_port *port = to_nvmet_port(item);
-+	char *s, *o, *trsvcid;
-+	int ret;
- 
- 	if (count > NVMF_TRSVCID_SIZE) {
- 		pr_err("Invalid value '%s' for trsvcid\n", page);
-@@ -223,8 +235,16 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
- 		pr_err("Disable the address before modifying\n");
- 		return -EACCES;
- 	}
--	return snprintf(port->disc_addr.trsvcid,
--			sizeof(port->disc_addr.trsvcid), "%s", page);
-+
-+	o = s = kstrdup(page, GFP_KERNEL);
-+	if (!o)
-+		return -ENOMEM;
-+
-+	trsvcid = strsep(&s, "\n");
-+	ret = snprintf(port->disc_addr.trsvcid,
-+			sizeof(port->disc_addr.trsvcid), "%s", trsvcid);
-+	kfree(o);
-+	return count;
- }
- 
- CONFIGFS_ATTR(nvmet_, addr_trsvcid);
-@@ -303,6 +323,7 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
- {
- 	struct nvmet_ns *ns = to_nvmet_ns(item);
- 	struct nvmet_subsys *subsys = ns->subsys;
-+	char *s, *o;
- 	int ret;
- 
- 	mutex_lock(&subsys->lock);
-@@ -313,10 +334,11 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
- 	kfree(ns->device_path);
- 
- 	ret = -ENOMEM;
--	ns->device_path = kstrdup(page, GFP_KERNEL);
--	if (!ns->device_path)
-+	o = s = kstrdup(page, GFP_KERNEL);
-+	if (!o)
- 		goto out_unlock;
- 
-+	ns->device_path = strsep(&s, "\n");
- 	mutex_unlock(&subsys->lock);
- 	return count;
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 9424f82951af..48d9a3349fd5 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -52,7 +52,7 @@ struct nvmet_ns {
- 
- 	bool			enabled;
- 	struct nvmet_subsys	*subsys;
--	const char		*device_path;
-+	char			*device_path;
- 
- 	struct config_group	device_group;
- 	struct config_group	group;
--- 
-2.14.1
+and rdma saw a patch for it but was differed to when the block layer
+complete/timeout races were resolved.. Perhaps we should
+resurrect that.
