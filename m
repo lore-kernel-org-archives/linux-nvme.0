@@ -1,85 +1,76 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 30 May 2018 15:59:42 -0400
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 31 May 2018 00:20:03 +0300
 Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
-References: <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <20180525141211.GA25971@lst.de> <20180525145056.GD9591@redhat.com>
- <yq1muwj45sg.fsf@oracle.com> <20180529030236.GA28895@redhat.com>
- <20180529072240.np5c62akbr7jqelr@linux-x5ow.site>
- <20180529080952.GA1369@lst.de> <20180529232718.GA1730@redhat.com>
- <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
-Message-ID: <20180530195942.GC6568@redhat.com>
+In-Reply-To: <20180525135813.GB9591@redhat.com>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+Message-ID: <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
 
-On Wed, May 30 2018 at  3:05pm -0400,
-Jens Axboe <axboe@kernel.dk> wrote:
+Hi Folks,
 
-> On 5/29/18 5:27 PM, Mike Snitzer wrote:
-> > On Tue, May 29 2018 at  4:09am -0400,
-> > Christoph Hellwig <hch@lst.de> wrote:
-> > 
-> >> On Tue, May 29, 2018@09:22:40AM +0200, Johannes Thumshirn wrote:
-> >>> For a "Plan B" we can still use the global knob that's already in
-> >>> place (even if this reminds me so much about scsi-mq which at least we
-> >>> haven't turned on in fear of performance regressions).
-> >>>
-> >>> Let's drop the discussion here, I don't think it leads to something
-> >>> else than flamewars.
-> >>
-> >> If our plan A doesn't work we can go back to these patches.  For now
-> >> I'd rather have everyone spend their time on making Plan A work then
-> >> preparing for contingencies.  Nothing prevents anyone from using these
-> >> patches already out there if they really want to, but I'd recommend
-> >> people are very careful about doing so as you'll lock yourself into
-> >> a long-term maintainance burden.
-> > 
-> > Restating (for others): this patchset really isn't about contingencies.
-> > It is about choice.
-> > 
-> > Since we're at an impasse, in the hopes of soliciting definitive
-> > feedback from Jens and Linus, I'm going to attempt to reset the
-> > discussion for their entry.
-> > 
-> > In summary, we have a classic example of a maintainer stalemate here:
-> > 1) Christoph, as NVMe co-maintainer, doesn't want to allow native NVMe
-> >    multipath to actively coexist with dm-multipath's NVMe support on the
-> >    same host.
-> > 2) I, as DM maintainer, would like to offer this flexibility to users --
-> >    by giving them opt-in choice to continue using existing dm-multipath
-> >    with NVMe. (also, both Red Hat and SUSE would like to offer this).
-> > 
-> > There is no technical reason why they cannot coexist.  Hence this simple
-> > patchset that was originally offered by Johannes Thumshirn with
-> > contributions from myself.
+I'm sorry to chime in super late on this, but a lot has been
+going on for me lately which got me off the grid.
+
+So I'll try to provide my input hopefully without starting any more
+flames..
+
+>>> This patch series aims to provide a more fine grained control over
+>>> nvme's native multipathing, by allowing it to be switched on and off
+>>> on a per-subsystem basis instead of a big global switch.
+>>
+>> No.  The only reason we even allowed to turn multipathing off is
+>> because you complained about installer issues.  The path forward
+>> clearly is native multipathing and there will be no additional support
+>> for the use cases of not using it.
 > 
-> Here's what I think - flag days tend to suck. They may be more convenient
-> for developers, but they inflict pain on users. Sometimes they prevent
-> them from moving forward, since updates are now gated on external
-> dependencies. Moving forward with a new architecture is great, but
-> proper care has to be given to existing users of multipath, regardless
-> of how few they may be.
+> We all basically knew this would be your position.  But at this year's
+> LSF we pretty quickly reached consensus that we do in fact need this.
+> Except for yourself, Sagi and afaik Martin George: all on the cc were in
+> attendance and agreed.
 
-As I mentioned at the end of my summary (and in my first reply to this
-0th header): it is on the "other" multipath toolchain to deal with
-switching from "native" to "other" (by writing to 'mpath_personality').
-For dm-multipath, it is multipathd that would trigger the switch from
-"native" to "other" iff user opts-in by configuring multipath.conf to
-own a particular NVMe subsystem's multipathing.
+Correction, I wasn't able to attend LSF this year (unfortunately).
 
-So users very likely won't ever have a need to write to
-'mpath_personality'.  And as such, they'll just default to using
-"native" NVMe multipath.
+> And since then we've exchanged mails to refine and test Johannes'
+> implementation.
+> 
+> You've isolated yourself on this issue.  Please just accept that we all
+> have a pretty solid command of what is needed to properly provide
+> commercial support for NVMe multipath.
+> 
+> The ability to switch between "native" and "other" multipath absolutely
+> does _not_ imply anything about the winning disposition of native vs
+> other.  It is purely about providing commercial flexibility to use
+> whatever solution makes sense for a given environment.  The default _is_
+> native NVMe multipath.  It is on userspace solutions for "other"
+> multipath (e.g. multipathd) to allow user's to whitelist an NVMe
+> subsystem to be switched to "other".
+> 
+> Hopefully this clarifies things, thanks.
 
-> This patchset seems pretty clean and minimalist. Realistically, I'm
-> guessing that SUSE and RH will ship it regardless of upstream status.
+Mike, I understand what you're saying, but I also agree with hch on
+the simple fact that this is a burden on linux nvme (although less 
+passionate about it than hch).
 
-TBD really.  We are keen to enable CONFIG_NVME_MULTIPATH to allow users
-to use native (as the default!).  But we won't be able to do that unless
-we have this patchset.  Because we really do _need_ to give our users
-the option of continuing to use dm-multipath.
+Beyond that, this is going to get much worse when we support "dispersed
+namespaces" which is a submitted TPAR in the NVMe TWG. "dispersed
+namespaces" makes NVMe namespaces share-able over different subsystems
+so changing the personality on a per-subsystem basis is just asking for
+trouble.
 
-And as the Red Hat employee who would have to port it to each kernel (as
-long as there is a need): _please_ don't make me do that.
+Moreover, I also wanted to point out that fabrics array vendors are
+building products that rely on standard nvme multipathing (and probably
+multipathing over dispersed namespaces as well), and keeping a knob that
+will keep nvme users with dm-multipath will probably not help them
+educate their customers as well... So there is another angle to this.
 
-PLEASE! ;)
+Don't get me wrong, I do support your cause, and I think nvme should try
+to help, I just think that subsystem granularity is not the correct
+approach going forward.
 
-Mike
+As I said, I've been off the grid, can you remind me why global knob is
+not sufficient?
+
+This might sound stupid to you, but can't users that desperately must
+keep using dm-multipath (for its mature toolset or what-not) just stack 
+it on multipath nvme device? (I might be completely off on this so
+feel free to correct my ignorance).
