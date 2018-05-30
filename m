@@ -1,103 +1,132 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 14:54:52 +0200
-Subject: [PATCH] nvme: avoid hang on inaccessible paths
-In-Reply-To: <20180530143020.50a299b8@pentland.suse.de>
-References: <20180530111637.22223-1-hare@suse.de>
- <20180530121241.GA1850@lst.de> <20180530143020.50a299b8@pentland.suse.de>
-Message-ID: <20180530125452.GA2763@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 30 May 2018 15:20:49 +0200
+Subject: [PATCH] nvme: trace: add disk name to tracepoints
+Message-ID: <20180530132049.5890-1-jthumshirn@suse.de>
 
-On Wed, May 30, 2018@02:30:20PM +0200, Hannes Reinecke wrote:
-> > Now it might make sense to have a (configurable) timeout to give
-> > up in all those case, and if my vague memory serves me right you
-> > actually volunteered to implement that a while ago.
-> > 
-> The problem is that this particular code path is triggered for the
-> revalidate_disk() case; when opting for requeue (as the original code
-> did) the system will hang during revalidate_disk(), via
-
-So we add the first path, which in inaccessible.  So yes, the I/O
-should block for now (that is until we have a timeout for that)
-
-> As this blocks the nvmf_dev_mutex we don't have any chance to connect
-> the other, optimized path.
-
-And I guess this where the real issue starts.  We should not do block
-I/O under nvmf_dev_mutex.
-
-James has some work on asynchronous connects pending for FC, so I guess
-we could look into generalizing that and always exectute the real connect
-work in a different thread.
-
-Or we could move create_ctrl outside the lock, which Johannes had
-patch for a few days ago, although that didn't work as-is.  I'll attach
-my completely untested attempt at that below.
-
-> I had been thinking of implementing that particular handling from the
-> ANA spec, but that would mean we're adding an ANA TT delay for each
-> inaccessible path, which with the current defaults would mean booting
-> is delayed by 10 seconds per inaccessible path.
-
-No.  We should only retry on an inaccessible or change path if we
-don't have an optimized or non-optimized path available.
-
----
->From bf729292705351639aa1eac1bde2e1afc25f11b7 Mon Sep 17 00:00:00 2001
-From: Johannes Thumshirn <jthumshirn@suse.de>
-Date: Wed, 30 May 2018 14:46:39 +0200
-Subject: nvme: don't hold nvmf_transports_rwsem for more than transport
- lookups
-
-Only take nvmf_transports_rwsem when doing a lookup of registered
-transports, so that a blocking ->create_ctrl doesn't prevent other
-actions on /dev/nvme-fabrics.
+Add disk name to tracepoints so we can better destinguish between
+individual disks in the trace output.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-[hch: increased lock hold time a bit to be safe, added a comment
- and updated the changelog]
-Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/fabrics.c | 3 ++-
- drivers/nvme/host/fabrics.h | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c  |  4 ++--
+ drivers/nvme/host/trace.h | 32 ++++++++++++++++++++------------
+ 2 files changed, 22 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index aa318136460e..5f9618a2fd3d 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -969,6 +969,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		ret = -EBUSY;
- 		goto out_unlock;
- 	}
-+	up_read(&nvmf_transports_rwsem);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 99b857e5a7a9..eb112ff2bede 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -647,9 +647,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
  
- 	ret = nvmf_check_required_opts(opts, ops->required_opts);
- 	if (ret)
-@@ -985,11 +986,11 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 	}
+ 	cmd->common.command_id = req->tag;
+ 	if (ns)
+-		trace_nvme_setup_nvm_cmd(req->q->id, cmd);
++		trace_nvme_setup_nvm_cmd(ns->disk->disk_name, req->q->id, cmd);
+ 	else
+-		trace_nvme_setup_admin_cmd(cmd);
++		trace_nvme_setup_admin_cmd(ns->disk->disk_name, cmd);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_setup_cmd);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index ea91fccd1bc0..3d3f91b933db 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -76,9 +76,10 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
+ 	nvme_trace_parse_nvm_cmd(p, opcode, cdw10)
  
- 	module_put(ops->module);
--	up_read(&nvmf_transports_rwsem);
- 	return ctrl;
+ TRACE_EVENT(nvme_setup_admin_cmd,
+-	    TP_PROTO(struct nvme_command *cmd),
+-	    TP_ARGS(cmd),
++	    TP_PROTO(char *disk_name, struct nvme_command *cmd),
++	    TP_ARGS(disk_name, cmd),
+ 	    TP_STRUCT__entry(
++		    __string(name, disk_name)
+ 		    __field(u8, opcode)
+ 		    __field(u8, flags)
+ 		    __field(u16, cid)
+@@ -86,6 +87,7 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 		    __array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
++		    __assign_str(name, disk_name);
+ 		    __entry->opcode = cmd->common.opcode;
+ 		    __entry->flags = cmd->common.flags;
+ 		    __entry->cid = cmd->common.command_id;
+@@ -93,17 +95,19 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 		    memcpy(__entry->cdw10, cmd->common.cdw10,
+ 			   sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk(" cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->cid, __entry->flags, __entry->metadata,
++	    TP_printk("%s: cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __get_str(name), __entry->cid, __entry->flags,
++		      __entry->metadata,
+ 		      show_admin_opcode_name(__entry->opcode),
+ 		      __parse_nvme_admin_cmd(__entry->opcode, __entry->cdw10))
+ );
  
- out_module_put:
- 	module_put(ops->module);
-+	goto out_free_opts;
- out_unlock:
- 	up_read(&nvmf_transports_rwsem);
- out_free_opts:
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index ef46c915b7b5..d778f14bff20 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -124,6 +124,9 @@ struct nvmf_ctrl_options {
-  *	1. At minimum, 'required_opts' and 'allowed_opts' should
-  *	   be set to the same enum parsing options defined earlier.
-  *	2. create_ctrl() must be defined (even if it does nothing)
-+ *	3. struct nvmf_transport_ops must be statically allocated in the
-+ *	   modules .bss section so that a pure module_get on @module
-+ *	   prevents the memory from beeing freed.
-  */
- struct nvmf_transport_ops {
- 	struct list_head	entry;
+ 
+ TRACE_EVENT(nvme_setup_nvm_cmd,
+-	    TP_PROTO(int qid, struct nvme_command *cmd),
+-	    TP_ARGS(qid, cmd),
++	    TP_PROTO(char *disk_name, int qid, struct nvme_command *cmd),
++	    TP_ARGS(disk_name, qid, cmd),
+ 	    TP_STRUCT__entry(
++		    __string(name, disk_name)
+ 		    __field(int, qid)
+ 		    __field(u8, opcode)
+ 		    __field(u8, flags)
+@@ -113,6 +117,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		    __array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
++		    __assign_str(name, disk_name);
+ 		    __entry->qid = qid;
+ 		    __entry->opcode = cmd->common.opcode;
+ 		    __entry->flags = cmd->common.flags;
+@@ -122,9 +127,9 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		    memcpy(__entry->cdw10, cmd->common.cdw10,
+ 			   sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->qid, __entry->nsid, __entry->cid,
+-		      __entry->flags, __entry->metadata,
++	    TP_printk("%s: qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __get_str(name), __entry->qid, __entry->nsid,
++		      __entry->cid, __entry->flags, __entry->metadata,
+ 		      show_opcode_name(__entry->opcode),
+ 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
+ );
+@@ -133,6 +138,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 	    TP_PROTO(struct request *req),
+ 	    TP_ARGS(req),
+ 	    TP_STRUCT__entry(
++		    __string(name, req->rq_disk->disk_name)
+ 		    __field(int, qid)
+ 		    __field(int, cid)
+ 		    __field(u64, result)
+@@ -141,6 +147,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 		    __field(u16, status)
+ 	    ),
+ 	    TP_fast_assign(
++		    __assign_str(name, req->rq_disk->disk_name);
+ 		    __entry->qid = req->q->id;
+ 		    __entry->cid = req->tag;
+ 		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+@@ -148,9 +155,10 @@ TRACE_EVENT(nvme_complete_rq,
+ 		    __entry->flags = nvme_req(req)->flags;
+ 		    __entry->status = nvme_req(req)->status;
+ 	    ),
+-	    TP_printk("cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
+-		      __entry->cid, __entry->qid, __entry->result,
+-		      __entry->retries, __entry->flags, __entry->status)
++	    TP_printk("%s: cmdid=%u, qid=%d, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __get_str(name), __entry->cid, __entry->qid,
++		      __entry->result, __entry->retries, __entry->flags,
++		      __entry->status)
+ 
+ );
+ 
 -- 
-2.17.0
+2.16.3
