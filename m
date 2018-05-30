@@ -1,46 +1,36 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 30 May 2018 13:16:37 +0200
-Subject: [PATCH] nvme: avoid hang on inaccessible paths
-Message-ID: <20180530111637.22223-1-hare@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 30 May 2018 14:08:01 +0200
+Subject: [PATCH 04/17] IB/isert: use T10-PI check mask definitions from
+ core layer
+In-Reply-To: <b8fa242d-c2d5-79fe-cab2-1c73adadbc4b@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-5-git-send-email-maxg@mellanox.com>
+ <20180528072225.GE5618@lst.de>
+ <b8fa242d-c2d5-79fe-cab2-1c73adadbc4b@mellanox.com>
+Message-ID: <20180530120801.GA1817@lst.de>
 
-If all discovered paths are inaccessible we need to terminate the I/O,
-otherwise we'll have in revalidate_disk() and the connect call will
-never succeed.
+On Wed, May 30, 2018@01:48:13PM +0300, Max Gurtovoy wrote:
+> -       sig_attrs->check_mask =
+> -              (se_cmd->prot_checks & TARGET_DIF_CHECK_GUARD  ? 0xc0 : 0) |
+> -              (se_cmd->prot_checks & TARGET_DIF_CHECK_APPTAG ? 0x30 : 0) |
+> -              (se_cmd->prot_checks & TARGET_DIF_CHECK_REFTAG ? 0x0f : 0);
+> +       if (se_cmd->prot_checks & TARGET_DIF_CHECK_GUARD)
+> +               sig_attrs->check_mask |= IB_SIG_CHECK_GUARD;
+> +       if (se_cmd->prot_checks & TARGET_DIF_CHECK_APPTAG)
+> +               sig_attrs->check_mask |= IB_SIG_CHECK_APPTAG;
+> +       if (se_cmd->prot_checks & TARGET_DIF_CHECK_REFTAG)
+> +               sig_attrs->check_mask |= IB_SIG_CHECK_REFTAG;
+> +
+>         return 0;
+>  }
+>
+>
+>
+> I can reduce the instructions since we don't need to do a bitwise "or" with 
+> 0 (check mask is set to 0 in the start of the function).
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+And it looks much cleaner to start with..
+>
+> Let me know if I can add your "Reviewed-by" for this.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 74bb5b737879..fa3a4efe288e 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -150,7 +150,8 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- 	ns = __nvme_find_path(head, NVME_ANA_OPTIMIZED);
- 	if (!ns)
- 		ns = __nvme_find_path(head, NVME_ANA_NONOPTIMIZED);
--	/* XXX: try an inaccessible path as last resort per 8.18.3.3 */
-+	if (!ns)
-+		ns = __nvme_find_path(head, NVME_ANA_INACCESSIBLE);
- 	return ns;
- }
- 
-@@ -165,10 +166,14 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
- 
- 	srcu_idx = srcu_read_lock(&head->srcu);
- 	ns = nvme_find_path(head);
--	if (likely(ns)) {
-+	if (likely(ns && nvme_ns_ana_state(ns) != NVME_ANA_INACCESSIBLE)) {
- 		bio->bi_disk = ns->disk;
- 		bio->bi_opf |= REQ_NVME_MPATH;
- 		ret = direct_make_request(bio);
-+	} else if (ns) {
-+		bio->bi_status = BLK_STS_TRANSPORT;
-+		bio_set_flag(bio, BIO_QUIET);
-+		bio_endio(bio);
- 	} else if (!list_empty_careful(&head->list)) {
- 		dev_warn_ratelimited(dev, "no path available - requeuing I/O\n");
- 
--- 
-2.12.3
+Please keep it.
