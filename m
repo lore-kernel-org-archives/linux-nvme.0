@@ -1,30 +1,67 @@
-From: cl@linux.com (Christopher Lameter)
-Date: Wed, 30 May 2018 15:49:06 +0000
-Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
-In-Reply-To: <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
-References: <cover.1527618402.git.swise@opengridcomputing.com>
- <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
-Message-ID: <01000163b1bd094e-8a191404-8725-40c0-9af5-c4b69f324a1d-000000@email.amazonses.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 30 May 2018 18:45:25 +0200
+Subject: [PATCH] nvmet: return all zeroed buffer when we can't find an active
+ namespace
+Message-ID: <20180530164525.26749-1-hch@lst.de>
 
-On Tue, 29 May 2018, Steve Wise wrote:
+Quote from Figure 106 in NVMe 1.3a:
 
-> @@ -200,17 +204,17 @@ static int nvmet_rdma_alloc_cmd(struct nvmet_rdma_device *ndev,
->  	c->sge[0].length = sizeof(*c->nvme_cmd);
->  	c->sge[0].lkey = ndev->pd->local_dma_lkey;
->
-> -	if (!admin) {
-> +	if (!admin && inline_data_size) {
->  		c->inline_page = alloc_pages(GFP_KERNEL,
-> -				get_order(NVMET_RDMA_INLINE_DATA_SIZE));
-> +				get_order(inline_data_size));
+  The Identify Namespace data structure is returned to the host for the
+  namespace specified in the Namespace Identifier (CDW1.NSID) field if it
+  is an active NSID. If the specified namespace is not an active NSID,
+  then the controller returns a zero filled data structure.
 
-Now we do higher order allocations here. This means that the allocation
-can fail if system memory is highly fragmented. And the allocations can no
-longer be satisfied from the per cpu caches. So allocation performance
-will drop.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/target/admin-cmd.c | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
->  		if (!c->inline_page)
->  			goto out_unmap_cmd;
-
-Maybe think about some sort of fallback to vmalloc or so if this
-alloc fails?
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index b2ba95b2eef7..7f906e4ccc96 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -288,9 +288,8 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	struct nvmet_ns *ns;
+ 	struct nvme_id_ns *id;
+ 	u16 status = 0;
+-
+-	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
+-	if (!ns) {
++	
++	if (le32_to_cpu(req->cmd->identify.nsid) == NVME_NSID_ALL) {
+ 		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
+ 		goto out;
+ 	}
+@@ -298,7 +297,15 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+ 	if (!id) {
+ 		status = NVME_SC_INTERNAL;
+-		goto out_put_ns;
++		goto out;
++	}
++
++	/* return an all zeroed buffer if we can't find an active namespace */
++	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
++	if (!ns) {
++		printk("nsid %d not found\n",
++			le32_to_cpu(req->cmd->identify.nsid));
++		goto done;
+ 	}
+ 
+ 	/*
+@@ -325,11 +332,10 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 
+ 	id->lbaf[0].ds = ns->blksize_shift;
+ 
++	nvmet_put_namespace(ns);
++done:
+ 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+-
+ 	kfree(id);
+-out_put_ns:
+-	nvmet_put_namespace(ns);
+ out:
+ 	nvmet_req_complete(req, status);
+ }
+-- 
+2.17.0
