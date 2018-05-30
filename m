@@ -1,29 +1,56 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 02:25:54 +0300
-Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
-In-Reply-To: <20180525183050.GU11037@localhost.localdomain>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-2-keith.busch@intel.com>
- <20180525124209.GD23463@lst.de>
- <20180525142233.GN11037@localhost.localdomain>
- <20180525143253.GA26539@lst.de>
- <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
- <20180525162439.GT11037@localhost.localdomain>
- <7f88c98a-652f-4a82-0f0b-feb36fe46bb0@broadcom.com>
- <20180525183050.GU11037@localhost.localdomain>
-Message-ID: <a43e1dda-d2a7-4e82-527b-76314eb714fc@grimberg.me>
+Date: Thu, 31 May 2018 02:34:33 +0300
+Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db
+ record update
+In-Reply-To: <c6a92092-f1f0-cf3c-3f34-fe5904d9718b@grimberg.me>
+References: <20180307175626.15222-1-sagi@grimberg.me>
+ <20180308155147.GD3766@localhost.localdomain>
+ <20180308172018.GA6785@ziepe.ca>
+ <c6a92092-f1f0-cf3c-3f34-fe5904d9718b@grimberg.me>
+Message-ID: <84ebcf65-d1a2-2ee5-d4d7-b96d61ed3c16@grimberg.me>
 
+resurrecting this one...
 
->>> At least in the current blk-mq timeout handling, returning RESET_TIMER
->>> presents other challenges for the reset handler: the timer may have
->>> reclaimed the request that reset_work is trying to complete.
->>
->> why would that be true if BLK_EH_RESET_TIMER was returned ?
+Can anyone say why this is _not_ needed?
+
+On 03/08/2018 07:56 PM, Sagi Grimberg wrote:
 > 
-> That return rearms the timer for triggering timeout handling, and
-> when that timeout handling triggers, your reset work won't be able to
-> complete the request. You're basically relying on the timer being high
-> enough that your reset work beats the timer to the completion. That may
-> be sufficient in practice most of the time.
-
-Why? the timeout handler would reset the timer yet again.
+>>>> @@ -437,8 +437,14 @@ static void __nvme_submit_cmd(struct nvme_queue 
+>>>> *nvmeq,
+>>>> ????? if (++tail == nvmeq->q_depth)
+>>>> ????????? tail = 0;
+>>>> ????? if (nvme_dbbuf_update_and_check_event(tail, nvmeq->dbbuf_sq_db,
+>>>> -????????????????????????? nvmeq->dbbuf_sq_ei))
+>>>> +????????????????????????? nvmeq->dbbuf_sq_ei)) {
+>>>> +??????? /*
+>>>> +???????? * Make sure that descriptors are written before
+>>>> +???????? * doorbell record.
+>>>> +???????? */
+>>>> +??????? wmb();
+>>>> ????????? writel(tail, nvmeq->q_db);
+>>>> +??? }
+>>>> ????? nvmeq->sq_tail = tail;
+>>>> ? }
+>>>
+>>> If this really is necessary, we'd need this before updating the event
+>>> shadow registers too.
+>>>
+>>> I'd like to understand this a bit more as we haven't done this in eight
+>>> years and I can't recall any issues around this section. Have we just
+>>> been fortunate that the problem this fixes is extraordinarily unlikely,
+>>> or is something else implicitly ordering within this critical section?
+>>
+>> Well, there is a wmb() already inside
+>> nvme_dbbuf_update_and_check_event so any failure would only
+>> be related to dbbuf_sq_db being wrong when tail is written to q_db.
+> 
+> Right, we have that covered.
+> 
+>> Guessing that might be a basically undetectable situation, maybe some
+>> temporary higher latency or something?
+> 
+> If the SQE and DB update have been reordered, and the device was able
+> to fetch the old copy of the SQE, it would be either silent data
+> corruption or dma access to unmapped memory or unexpected behavior (if
+> the SQE wasn't initialized). I just think its a *very* rare race that
+> can happen...
