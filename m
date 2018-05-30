@@ -1,76 +1,77 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 18:45:56 +0200
-Subject: [PATCH 08/12] nvmet: mask pending AERs
+Date: Wed, 30 May 2018 18:45:57 +0200
+Subject: [PATCH 09/12] nvme: submit AEN event configuration on startup
 In-Reply-To: <20180530164600.26856-1-hch@lst.de>
 References: <20180530164600.26856-1-hch@lst.de>
-Message-ID: <20180530164600.26856-9-hch@lst.de>
+Message-ID: <20180530164600.26856-10-hch@lst.de>
 
-Per section 5.2 of the NVMe 1.3 spec:
+From: Hannes Reinecke <hare@suse.de>
 
-  "When the controller posts a completion queue entry for an outstanding
-  Asynchronous Event Request command and thus reports an asynchronous
-  event, subsequent events of that event type are automatically masked by
-  the controller until the host clears that event. An event is cleared by
-  reading the log page associated with that event using the Get Log Page
-  command (see section 5.14)."
+We should register for AEN events; some law-abiding targets might
+not be sending us AENs otherwise.
 
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+[hch: slight cleanups]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/target/admin-cmd.c | 1 +
- drivers/nvme/target/core.c      | 9 ++++++++-
- drivers/nvme/target/nvmet.h     | 1 +
- 3 files changed, 10 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 17 +++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 4e269a8c8dbe..abf191ee00af 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -144,6 +144,7 @@ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
- 	if (!status)
- 		status = nvmet_zero_sgl(req, len, req->data_len - len);
- 	ctrl->nr_changed_ns = 0;
-+	clear_bit(NVME_AEN_CFG_NS_ATTR, &ctrl->aen_masked);
- 	mutex_unlock(&ctrl->lock);
- out:
- 	nvmet_req_complete(req, status);
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b2da65aec8b7..8e6432b1abed 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -144,6 +144,13 @@ static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 	schedule_work(&ctrl->async_event_work);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 86cb78653155..c0bc76d98194 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1030,6 +1030,21 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
  }
+ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
  
-+static bool nvmet_aen_disabled(struct nvmet_ctrl *ctrl, u32 aen)
++#define NVME_AEN_SUPPORTED \
++	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT)
++
++static void nvme_enable_aen(struct nvme_ctrl *ctrl)
 +{
-+	if (!(READ_ONCE(ctrl->aen_enabled) & aen))
-+		return true;
-+	return test_and_set_bit(aen, &ctrl->aen_masked);
++	u32 result;
++	int status;
++
++	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
++			ctrl->oaes & NVME_AEN_SUPPORTED, NULL, 0, &result);
++	if (status)
++		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
++			 ctrl->oaes & NVME_AEN_SUPPORTED);
 +}
 +
- static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
+ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
  {
- 	mutex_lock(&ctrl->lock);
-@@ -168,7 +175,7 @@ static void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid)
+ 	struct nvme_user_io io;
+@@ -2347,6 +2362,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
  
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
- 		nvmet_add_to_changed_ns_log(ctrl, cpu_to_le32(nsid));
--		if (!(READ_ONCE(ctrl->aen_enabled) & NVME_AEN_CFG_NS_ATTR))
-+		if (nvmet_aen_disabled(ctrl, NVME_AEN_CFG_NS_ATTR))
- 			continue;
- 		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
- 				NVME_AER_NOTICE_NS_CHANGED,
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index f4d16d9b3582..480dfe10fad9 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -139,6 +139,7 @@ struct nvmet_ctrl {
- 	u32			kato;
+ 	ctrl->oacs = le16_to_cpu(id->oacs);
+ 	ctrl->oncs = le16_to_cpup(&id->oncs);
++	ctrl->oaes = le32_to_cpu(id->oaes);
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
+ 	ctrl->cntlid = le16_to_cpup(&id->cntlid);
+@@ -3379,6 +3395,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
  
- 	u32			aen_enabled;
-+	unsigned long		aen_masked;
- 	struct nvmet_req	*async_event_cmds[NVMET_ASYNC_EVENTS];
- 	unsigned int		nr_async_event_cmds;
- 	struct list_head	async_events;
+ 	if (ctrl->queue_count > 1) {
+ 		nvme_queue_scan(ctrl);
++		nvme_enable_aen(ctrl);
+ 		queue_work(nvme_wq, &ctrl->async_event_work);
+ 		nvme_start_queues(ctrl);
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ec6e4acc4d48..dcf9e9592c1a 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -176,6 +176,7 @@ struct nvme_ctrl {
+ 	u16 kas;
+ 	u8 npss;
+ 	u8 apsta;
++	u32 oaes;
+ 	u32 aen_result;
+ 	unsigned int shutdown_timeout;
+ 	unsigned int kato;
 -- 
 2.17.0
