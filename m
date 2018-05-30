@@ -1,45 +1,62 @@
-From: daniel.verkamp@intel.com (Daniel Verkamp)
-Date: Wed, 30 May 2018 10:33:49 -0700
-Subject: [PATCH 06/12] nvmet: implement the changed namespaces log
-In-Reply-To: <20180530164600.26856-7-hch@lst.de>
-References: <20180530164600.26856-1-hch@lst.de>
- <20180530164600.26856-7-hch@lst.de>
-Message-ID: <0c4cc53d-1c28-0bf5-d454-df6c9ef9335b@intel.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 30 May 2018 13:05:46 -0600
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180529232718.GA1730@redhat.com>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <20180525141211.GA25971@lst.de> <20180525145056.GD9591@redhat.com>
+ <yq1muwj45sg.fsf@oracle.com> <20180529030236.GA28895@redhat.com>
+ <20180529072240.np5c62akbr7jqelr@linux-x5ow.site>
+ <20180529080952.GA1369@lst.de> <20180529232718.GA1730@redhat.com>
+Message-ID: <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
 
-On 05/30/2018 09:45 AM, Christoph Hellwig wrote:
-> Just keep a per-controller buffer of changed namespaces and copy it out
-> in the get log page implementation.
+On 5/29/18 5:27 PM, Mike Snitzer wrote:
+> On Tue, May 29 2018 at  4:09am -0400,
+> Christoph Hellwig <hch@lst.de> wrote:
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
-[...]
-> +static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
-> +{
-> +	mutex_lock(&ctrl->lock);
-> +	if (ctrl->nr_changed_ns < NVME_MAX_CHANGED_NAMESPACES) {
+>> On Tue, May 29, 2018@09:22:40AM +0200, Johannes Thumshirn wrote:
+>>> For a "Plan B" we can still use the global knob that's already in
+>>> place (even if this reminds me so much about scsi-mq which at least we
+>>> haven't turned on in fear of performance regressions).
+>>>
+>>> Let's drop the discussion here, I don't think it leads to something
+>>> else than flamewars.
+>>
+>> If our plan A doesn't work we can go back to these patches.  For now
+>> I'd rather have everyone spend their time on making Plan A work then
+>> preparing for contingencies.  Nothing prevents anyone from using these
+>> patches already out there if they really want to, but I'd recommend
+>> people are very careful about doing so as you'll lock yourself into
+>> a long-term maintainance burden.
+> 
+> Restating (for others): this patchset really isn't about contingencies.
+> It is about choice.
+> 
+> Since we're at an impasse, in the hopes of soliciting definitive
+> feedback from Jens and Linus, I'm going to attempt to reset the
+> discussion for their entry.
+> 
+> In summary, we have a classic example of a maintainer stalemate here:
+> 1) Christoph, as NVMe co-maintainer, doesn't want to allow native NVMe
+>    multipath to actively coexist with dm-multipath's NVMe support on the
+>    same host.
+> 2) I, as DM maintainer, would like to offer this flexibility to users --
+>    by giving them opt-in choice to continue using existing dm-multipath
+>    with NVMe. (also, both Red Hat and SUSE would like to offer this).
+> 
+> There is no technical reason why they cannot coexist.  Hence this simple
+> patchset that was originally offered by Johannes Thumshirn with
+> contributions from myself.
 
-Minor nitpick here: if ctrlr->nr_changed_ns is exactly
-NVME_MAX_CHANGED_NAMESPACES and the new nsid is already in the list,
-this will skip down to the 0xffffffff case below, even though it could
-have just left the list as-is.
+Here's what I think - flag days tend to suck. They may be more convenient
+for developers, but they inflict pain on users. Sometimes they prevent
+them from moving forward, since updates are now gated on external
+dependencies. Moving forward with a new architecture is great, but
+proper care has to be given to existing users of multipath, regardless
+of how few they may be.
 
-I don't know if this is a problem in practice; reporting 0xffffffff is
-probably always safe, since the host will presumably treat that as
-"rescan everything".
+This patchset seems pretty clean and minimalist. Realistically, I'm
+guessing that SUSE and RH will ship it regardless of upstream status.
 
-> +		u32 i;
-> +
-> +		for (i = 0; i < ctrl->nr_changed_ns; i++)
-> +			if (ctrl->changed_ns_list[i] == nsid)
-> +				goto out_unlock;
-> +		ctrl->changed_ns_list[ctrl->nr_changed_ns++] = nsid;
-> +	} else if (ctrl->nr_changed_ns == NVME_MAX_CHANGED_NAMESPACES) {
-> +		ctrl->changed_ns_list[0] = cpu_to_le32(0xffffffff);
-> +		ctrl->nr_changed_ns = U32_MAX;
-> +	}
-> +out_unlock:
-> +	mutex_unlock(&ctrl->lock);
-> +}
-
-Thanks,
--- Daniel
+-- 
+Jens Axboe
