@@ -1,67 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 18:45:58 +0200
-Subject: [PATCH 10/12] nvme: mark nvme_queue_scan static
+Date: Wed, 30 May 2018 18:46:00 +0200
+Subject: [PATCH 12/12] nvme: limit warnings from nvme_identify_ns
 In-Reply-To: <20180530164600.26856-1-hch@lst.de>
 References: <20180530164600.26856-1-hch@lst.de>
-Message-ID: <20180530164600.26856-11-hch@lst.de>
+Message-ID: <20180530164600.26856-13-hch@lst.de>
 
-And move it toward the top of the file to avoid a forward declaration.
+When rescanning namespaces after an AEN we will issue Identify Namespace
+comands to namespaces that have gone away, so don't warn for this specific
+case.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 19 +++++++++----------
- drivers/nvme/host/nvme.h |  1 -
- 2 files changed, 9 insertions(+), 11 deletions(-)
+ drivers/nvme/host/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c0bc76d98194..06cd04dcffbc 100644
+index 1ae77428a1a5..7ad3cfc9d4e1 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -100,6 +100,15 @@ static struct class *nvme_subsys_class;
- static void nvme_ns_remove(struct nvme_ns *ns);
- static int nvme_revalidate_disk(struct gendisk *disk);
+@@ -984,7 +984,9 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
  
-+static void nvme_queue_scan(struct nvme_ctrl *ctrl)
-+{
-+	/*
-+	 * Only new queue scan work when admin and IO queues are both alive
-+	 */
-+	if (ctrl->state == NVME_CTRL_LIVE)
-+		queue_work(nvme_wq, &ctrl->scan_work);
-+}
-+
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
- {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-@@ -3214,16 +3223,6 @@ static void nvme_scan_work(struct work_struct *work)
- 	kfree(id);
- }
- 
--void nvme_queue_scan(struct nvme_ctrl *ctrl)
--{
--	/*
--	 * Only new queue scan work when admin and IO queues are both alive
--	 */
--	if (ctrl->state == NVME_CTRL_LIVE)
--		queue_work(nvme_wq, &ctrl->scan_work);
--}
--EXPORT_SYMBOL_GPL(nvme_queue_scan);
--
- /*
-  * This function iterates the namespace list unlocked to allow recovery from
-  * controller failure. It is up to the caller to ensure the namespace list is
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index dcf9e9592c1a..11681278fdf6 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -395,7 +395,6 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
- void nvme_put_ctrl(struct nvme_ctrl *ctrl);
- int nvme_init_identify(struct nvme_ctrl *ctrl);
- 
--void nvme_queue_scan(struct nvme_ctrl *ctrl);
- void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
- 
- int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ 	error = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
+ 	if (error) {
+-		dev_warn(ctrl->device, "Identify namespace failed\n");
++		/* don't warn on a namespace that has gone away */
++		if (error < 0 || ((error & ~NVME_SC_DNR) != NVME_SC_INVALID_NS))
++			dev_warn(ctrl->device, "Identify namespace failed\n");
+ 		kfree(id);
+ 		return NULL;
+ 	}
 -- 
 2.17.0
