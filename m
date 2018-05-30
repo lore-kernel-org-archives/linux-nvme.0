@@ -1,77 +1,122 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 30 May 2018 18:45:57 +0200
-Subject: [PATCH 09/12] nvme: submit AEN event configuration on startup
+Date: Wed, 30 May 2018 18:45:59 +0200
+Subject: [PATCH 11/12] nvme: use the changed namespaces list log to clear ns
+ data changed AENs
 In-Reply-To: <20180530164600.26856-1-hch@lst.de>
 References: <20180530164600.26856-1-hch@lst.de>
-Message-ID: <20180530164600.26856-10-hch@lst.de>
+Message-ID: <20180530164600.26856-12-hch@lst.de>
 
-From: Hannes Reinecke <hare@suse.de>
+Per section 5.2 we need to issue the corresponding log page to clear an
+AEN, so for a namespace data changed AEN we need to read the changed
+namespace list log.  And once we read that log anyway we might as well
+use it to optimize the rescan.
 
-We should register for AEN events; some law-abiding targets might
-not be sending us AENs otherwise.
-
-Signed-off-by: Hannes Reinecke <hare at suse.com>
-[hch: slight cleanups]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 17 +++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 18 insertions(+)
+ drivers/nvme/host/core.c | 51 ++++++++++++++++++++++++++++++++++++----
+ drivers/nvme/host/nvme.h |  2 ++
+ 2 files changed, 49 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 86cb78653155..c0bc76d98194 100644
+index 06cd04dcffbc..1ae77428a1a5 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1030,6 +1030,21 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+@@ -3194,6 +3194,42 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
+ 	nvme_remove_invalid_namespaces(ctrl, nn);
  }
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
  
-+#define NVME_AEN_SUPPORTED \
-+	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT)
-+
-+static void nvme_enable_aen(struct nvme_ctrl *ctrl)
++static bool nvme_scan_changed_ns_log(struct nvme_ctrl *ctrl)
 +{
-+	u32 result;
-+	int status;
++	size_t log_size = NVME_MAX_CHANGED_NAMESPACES * sizeof(__le32);
++	__le32 *log;
++	int error, i;
++	bool ret = false;
 +
-+	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
-+			ctrl->oaes & NVME_AEN_SUPPORTED, NULL, 0, &result);
-+	if (status)
-+		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
-+			 ctrl->oaes & NVME_AEN_SUPPORTED);
++	log = kzalloc(log_size, GFP_KERNEL);
++	if (!log)
++		return false;
++
++	error = nvme_get_log(ctrl, NVME_LOG_CHANGED_NS, log, log_size);
++	if (error) {
++		dev_warn(ctrl->device,
++			"reading changed ns log failed: %d\n", error);
++		goto out_free_log;
++	}
++
++	if (log[0] == cpu_to_le32(0xffffffff))
++		goto out_free_log;
++
++	for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
++		u32 nsid = le32_to_cpu(log[i]);
++
++		if (nsid == 0)
++			break;
++		dev_info(ctrl->device, "rescanning namespace %d.\n", nsid);
++		nvme_validate_ns(ctrl, nsid);
++	}
++	ret = true;
++
++out_free_log:
++	kfree(log);
++	return ret;
 +}
 +
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ static void nvme_scan_work(struct work_struct *work)
  {
- 	struct nvme_user_io io;
-@@ -2347,6 +2362,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	struct nvme_ctrl *ctrl =
+@@ -3206,6 +3242,12 @@ static void nvme_scan_work(struct work_struct *work)
  
- 	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->oncs = le16_to_cpup(&id->oncs);
-+	ctrl->oaes = le32_to_cpu(id->oaes);
- 	atomic_set(&ctrl->abort_limit, id->acl + 1);
- 	ctrl->vwc = id->vwc;
- 	ctrl->cntlid = le16_to_cpup(&id->cntlid);
-@@ -3379,6 +3395,7 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+ 	WARN_ON_ONCE(!ctrl->tagset);
  
- 	if (ctrl->queue_count > 1) {
- 		nvme_queue_scan(ctrl);
-+		nvme_enable_aen(ctrl);
- 		queue_work(nvme_wq, &ctrl->async_event_work);
- 		nvme_start_queues(ctrl);
++	if (test_and_clear_bit(EVENT_NS_CHANGED, &ctrl->events)) {
++		if (nvme_scan_changed_ns_log(ctrl))
++			goto out_sort_namespaces;
++		dev_info(ctrl->device, "rescanning namespaces.\n");
++	}
++
+ 	if (nvme_identify_ctrl(ctrl, &id))
+ 		return;
+ 
+@@ -3213,14 +3255,15 @@ static void nvme_scan_work(struct work_struct *work)
+ 	if (ctrl->vs >= NVME_VS(1, 1, 0) &&
+ 	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
+ 		if (!nvme_scan_ns_list(ctrl, nn))
+-			goto done;
++			goto out_free_id;
  	}
+ 	nvme_scan_ns_sequential(ctrl, nn);
+- done:
++out_free_id:
++	kfree(id);
++out_sort_namespaces:
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
+ 	up_write(&ctrl->namespaces_rwsem);
+-	kfree(id);
+ }
+ 
+ /*
+@@ -3340,7 +3383,7 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ {
+ 	switch ((result & 0xff00) >> 8) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+-		dev_info(ctrl->device, "rescanning\n");
++		set_bit(EVENT_NS_CHANGED, &ctrl->events);
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ec6e4acc4d48..dcf9e9592c1a 100644
+index 11681278fdf6..07e8bfe705c6 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -176,6 +176,7 @@ struct nvme_ctrl {
- 	u16 kas;
- 	u8 npss;
- 	u8 apsta;
-+	u32 oaes;
- 	u32 aen_result;
- 	unsigned int shutdown_timeout;
- 	unsigned int kato;
+@@ -189,6 +189,8 @@ struct nvme_ctrl {
+ 	struct delayed_work ka_work;
+ 	struct nvme_command ka_cmd;
+ 	struct work_struct fw_act_work;
++#define EVENT_NS_CHANGED		(1 << 0)
++	unsigned long events;
+ 
+ 	/* Power saving configuration */
+ 	u64 ps_max_latency_us;
 -- 
 2.17.0
