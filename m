@@ -1,18 +1,28 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 12:26:56 +0300
-Subject: [PATCH 3/5] nvme: call nvmf_create_ctrl before checking for
- duplicate assignment
-In-Reply-To: <20180515075221.4ppaxdvbosy36ltk@linux-x5ow.site>
+Date: Thu, 31 May 2018 12:31:29 +0300
+Subject: [PATCH 4/5] nvmet: use atomic allocations when allocating fc
+ requests
+In-Reply-To: <20180515074043.22843-5-jthumshirn@suse.de>
 References: <20180515074043.22843-1-jthumshirn@suse.de>
- <20180515074043.22843-4-jthumshirn@suse.de> <20180515075055.GB23659@lst.de>
- <20180515075221.4ppaxdvbosy36ltk@linux-x5ow.site>
-Message-ID: <1b2cdac6-4dbd-261b-0ae9-b9768f972f0d@grimberg.me>
+ <20180515074043.22843-5-jthumshirn@suse.de>
+Message-ID: <3c91cf45-aa85-e1a5-6d25-5654131626dd@grimberg.me>
 
 
->> In general it seems like fc loop needs to offload any I/O to a workqueue
->> just like nvme-loop does, but even then I can't see how that is going to
->> cause an issue in this area.
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 34712def81b1..d2209c60f95f 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -509,7 +509,7 @@ fcloop_fcp_req(struct nvme_fc_local_port *localport,
+>   	if (!rport->targetport)
+>   		return -ECONNREFUSED;
+>   
+> -	tfcp_req = kzalloc(sizeof(*tfcp_req), GFP_KERNEL);
+> +	tfcp_req = kzalloc(sizeof(*tfcp_req), GFP_ATOMIC);
+
+Question, why isn't tfcp_req embedded in fcpreq? don't they have
+the same lifetime?
+
+>   	if (!tfcp_req)
+>   		return -ENOMEM;
+>   
 > 
-> Hmm I'll be looking into it.
-
-FWIW, I agree it should do that as well.
