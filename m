@@ -1,27 +1,20 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 13:27:02 +0300
-Subject: [PATCHv2 11/11] nvmet: ANA support
-In-Reply-To: <20180525133455.GA24759@lst.de>
-References: <20180522091004.39620-1-hare@suse.de>
- <20180522091004.39620-12-hare@suse.de> <20180522100552.GC11894@lst.de>
- <c7e3cbcc-e372-8162-0d84-1fced2ccc3c2@suse.de>
- <20180525133455.GA24759@lst.de>
-Message-ID: <c33aa33f-8559-e0b0-cfe7-719c34385aee@grimberg.me>
+Date: Thu, 31 May 2018 13:30:55 +0300
+Subject: [PATCH 00/10] nvme: ANA fixups
+In-Reply-To: <20180529101431.62271-1-hare@suse.de>
+References: <20180529101431.62271-1-hare@suse.de>
+Message-ID: <66966018-09a4-d8e7-86a5-8a8e2052bae5@grimberg.me>
 
 
->> Primarily this is designed to be a testbed for the various ANA
->> configurations.
+> Hi Christoph,
 > 
-> Well, hat isn't really what we need in mainline.
-> 
->> Plus ANA support can be disabled, too :-)
-> 
-> Great.  That should be worth about 20 lines if we really need it,
-> not 370 lines of additional code over the initial 315.  And not
-> require iterating the list of all ANA groups in the ANA fast path.
-> And so on.
+> here's a set of patches and updates for the ANA support, both host and target.
+> It's mainly small issues I've found during testing.
+> Patches are relative to your nvme-ana branch.
 
-Hey Hannes, Christoph,
+Hannes, This is hard to review. Not sure what branch this is exactly
+nor what this is incremental to?
 
-I'm trying to catch up, and reviewed this set. Didn't see a v2 for this
-but only "NVMe ANA fixups".. is this supposed to be v2?
+> As usual, comments and reviews are welcome.
+
+:(
