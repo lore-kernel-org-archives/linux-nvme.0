@@ -1,12 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 31 May 2018 18:47:59 +0200
-Subject: [PATCH] nvme: trace: add disk name to tracepoints
-In-Reply-To: <20180530132049.5890-1-jthumshirn@suse.de>
-References: <20180530132049.5890-1-jthumshirn@suse.de>
-Message-ID: <20180531164759.GA31353@lst.de>
+Date: Thu, 31 May 2018 18:48:48 +0200
+Subject: [PATCH -next] nvmet: fix a typo in nvmet_file_ns_enable()
+In-Reply-To: <1527731758-142629-1-git-send-email-weiyongjun1@huawei.com>
+References: <1527731758-142629-1-git-send-email-weiyongjun1@huawei.com>
+Message-ID: <20180531164848.GB31353@lst.de>
 
-On Wed, May 30, 2018@03:20:49PM +0200, Johannes Thumshirn wrote:
-> Add disk name to tracepoints so we can better destinguish between
-> individual disks in the trace output.
+Thanks,
 
-Doesn't apply to the nvme-4.18 branch, please resend.
+applied to nvme-4.18.
