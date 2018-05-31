@@ -1,24 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 12:24:51 +0300
-Subject: [PATCH 2/5] nvme: don't hold nvmf_transports_rwsem for more than
- transport lookups
-In-Reply-To: <20180515074826.GA23659@lst.de>
+Date: Thu, 31 May 2018 12:26:56 +0300
+Subject: [PATCH 3/5] nvme: call nvmf_create_ctrl before checking for
+ duplicate assignment
+In-Reply-To: <20180515075221.4ppaxdvbosy36ltk@linux-x5ow.site>
 References: <20180515074043.22843-1-jthumshirn@suse.de>
- <20180515074043.22843-3-jthumshirn@suse.de> <20180515074826.GA23659@lst.de>
-Message-ID: <8577e467-ad74-d9bd-8f49-3ace18fc1126@grimberg.me>
+ <20180515074043.22843-4-jthumshirn@suse.de> <20180515075055.GB23659@lst.de>
+ <20180515075221.4ppaxdvbosy36ltk@linux-x5ow.site>
+Message-ID: <1b2cdac6-4dbd-261b-0ae9-b9768f972f0d@grimberg.me>
 
 
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 7ae732a77fe8..febf82639b40 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -957,16 +957,17 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
->>   
->>   	down_read(&nvmf_transports_rwsem);
->>   	ops = nvmf_lookup_transport(opts);
->> +	up_read(&nvmf_transports_rwsem);
+>> In general it seems like fc loop needs to offload any I/O to a workqueue
+>> just like nvme-loop does, but even then I can't see how that is going to
+>> cause an issue in this area.
 > 
-> And what protects us from the transport getting unregister right here
-> from anothet thread waiting to acquire nvmf_transports_rwsem?
+> Hmm I'll be looking into it.
 
-I think having the module_get inside as well would protect against it.
+FWIW, I agree it should do that as well.
