@@ -1,48 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 31 May 2018 18:33:11 +0200
+Date: Thu, 31 May 2018 18:34:40 +0200
 Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180530220206.GA7037@redhat.com>
+In-Reply-To: <20180531123738.GA10552@redhat.com>
 References: <20180525125322.15398-1-jthumshirn@suse.de>
  <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
  <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
  <20180530220206.GA7037@redhat.com>
-Message-ID: <20180531163311.GA30954@lst.de>
+ <f084e3bc-77af-4268-c882-7b0737e45f3b@grimberg.me>
+ <20180531123738.GA10552@redhat.com>
+Message-ID: <20180531163440.GB30954@lst.de>
 
-On Wed, May 30, 2018@06:02:06PM -0400, Mike Snitzer wrote:
-> Because once nvme_core.multipath=N is set: native NVMe multipath is then
-> not accessible from the same host.  The goal of this patchset is to give
-> users choice.  But not limit them to _only_ using dm-multipath if they
-> just have some legacy needs.
+On Thu, May 31, 2018@08:37:39AM -0400, Mike Snitzer wrote:
+> I saw your reply to the 1/3 patch.. I do agree it is broken for not
+> checking if any handles are active.  But that is easily fixed no?
 
-Choise by itself really isn't an argument.  We need a really good
-use case for all the complexity, and so far none has been presented.
-
-> Tough to be convincing with hypotheticals but I could imagine a very
-> obvious usecase for native NVMe multipathing be PCI-based embedded NVMe
-> "fabrics" (especially if/when the numa-based path selector lands).  But
-> the same host with PCI NVMe could be connected to a FC network that has
-> historically always been managed via dm-multipath.. but say that
-> FC-based infrastructure gets updated to use NVMe (to leverage a wider
-> NVMe investment, whatever?) -- but maybe admins would still prefer to
-> use dm-multipath for the NVMe over FC.
-
-That is a lot of maybes.  If they prefer the good old way on FC then
-can easily stay with SCSI, or for that matter use the global switch
-off.
-
-> > This might sound stupid to you, but can't users that desperately must
-> > keep using dm-multipath (for its mature toolset or what-not) just
-> > stack it on multipath nvme device? (I might be completely off on
-> > this so feel free to correct my ignorance).
-> 
-> We could certainly pursue adding multipath-tools support for native NVMe
-> multipathing.  Not opposed to it (even if just reporting topology and
-> state).  But given the extensive lengths NVMe multipath goes to hide
-> devices we'd need some way to piercing through the opaque nvme device
-> that native NVMe multipath exposes.  But that really is a tangent
-> relative to this patchset.  Since that kind of visibility would also
-> benefit the nvme cli... otherwise how are users to even be able to trust
-> but verify native NVMe multipathing did what it expected it to?
-
-Just look at the nvme-cli output or sysfs.  It's all been there since
-the code was merged to mainline.
+Doing a switch at runtime simply is a really bad idea.  If for some
+reason we end up with a good per-controller switch it would have
+to be something set at probe time, and to get it on a controller
+you'd need to reset it first.
