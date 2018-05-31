@@ -1,27 +1,35 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 31 May 2018 18:36:03 +0200
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <f084e3bc-77af-4268-c882-7b0737e45f3b@grimberg.me>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
- <20180530220206.GA7037@redhat.com>
- <f084e3bc-77af-4268-c882-7b0737e45f3b@grimberg.me>
-Message-ID: <20180531163603.GC30954@lst.de>
+From: daniel.verkamp@intel.com (Daniel Verkamp)
+Date: Thu, 31 May 2018 09:36:58 -0700
+Subject: [PATCH 06/12] nvmet: implement the changed namespaces log
+In-Reply-To: <20180531162514.GA30839@lst.de>
+References: <20180530164600.26856-1-hch@lst.de>
+ <20180530164600.26856-7-hch@lst.de>
+ <0c4cc53d-1c28-0bf5-d454-df6c9ef9335b@intel.com>
+ <20180531162514.GA30839@lst.de>
+Message-ID: <9d27c145-b5b8-efe0-1308-c962be4add80@intel.com>
 
-On Thu, May 31, 2018@11:37:20AM +0300, Sagi Grimberg wrote:
->> the same host with PCI NVMe could be connected to a FC network that has
->> historically always been managed via dm-multipath.. but say that
->> FC-based infrastructure gets updated to use NVMe (to leverage a wider
->> NVMe investment, whatever?) -- but maybe admins would still prefer to
->> use dm-multipath for the NVMe over FC.
->
-> You are referring to an array exposing media via nvmf and scsi
-> simultaneously? I'm not sure that there is a clean definition of
-> how that is supposed to work (ANA/ALUA, reservations, etc..)
+On 05/31/2018 09:25 AM, Christoph Hellwig wrote:
+> On Wed, May 30, 2018@10:33:49AM -0700, Daniel Verkamp wrote:
+>> Minor nitpick here: if ctrlr->nr_changed_ns is exactly
+>> NVME_MAX_CHANGED_NAMESPACES and the new nsid is already in the list,
+>> this will skip down to the 0xffffffff case below, even though it could
+>> have just left the list as-is.
+>>
+>> I don't know if this is a problem in practice; reporting 0xffffffff is
+>> probably always safe, since the host will presumably treat that as
+>> "rescan everything".
+> 
+> It probably doesn't matter, but it turns doing this propely actually
+> looks cleaner as well:
+> 
+> ---
+> From d4baf4068220a90ecf67309d01ece5d0aadd952e Mon Sep 17 00:00:00 2001
+> From: Christoph Hellwig <hch at lst.de>
+> Date: Fri, 25 May 2018 17:16:09 +0200
+> Subject: nvmet: implement the changed namespaces log
 
-It seems like this isn't what Mike wanted, but I actually got some
-requests for limited support for that to do a storage live migration
-from a SCSI array to NVMe.  I think it is really sketchy, but if
-doable if you are careful enough.  It would use dm-multipath, possibly
-even on top of nvme multipathing if we have multiple nvme paths.
+Agreed, this version looks good to me:
+Reviewed-by: Daniel Verkamp <daniel.verkamp at intel.com>
+
+Thanks,
+-- Daniel
