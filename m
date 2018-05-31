@@ -1,27 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 10:53:22 +0300
-Subject: [PATCH rfc] nvme-pci: make sure to flush sqe writes before db
- record update
-In-Reply-To: <20180531054739.GA30923@lst.de>
-References: <20180307175626.15222-1-sagi@grimberg.me>
- <20180308155147.GD3766@localhost.localdomain>
- <20180308172018.GA6785@ziepe.ca>
- <c6a92092-f1f0-cf3c-3f34-fe5904d9718b@grimberg.me>
- <84ebcf65-d1a2-2ee5-d4d7-b96d61ed3c16@grimberg.me>
- <20180531054739.GA30923@lst.de>
-Message-ID: <92139db3-c1c0-b542-42a9-2383da866254@grimberg.me>
+Date: Thu, 31 May 2018 11:17:52 +0300
+Subject: [PATCH 1/3] nvme: provide a way to disable nvme mpath per
+ subsystem
+In-Reply-To: <20180525125322.15398-2-jthumshirn@suse.de>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525125322.15398-2-jthumshirn@suse.de>
+Message-ID: <795f42a6-a6c3-e42d-3215-71b36fb7a0d4@grimberg.me>
 
 
->> resurrecting this one...
->>
->> Can anyone say why this is _not_ needed?
-> 
->  From Documentation/memory-barriers.txt in linux-next, where this was
-> discussed once more not too log ago:
-> 
->    Note that, when using writel(), a prior wmb() is not needed to guarantee
->    that the cache coherent memory writes have completed before writing to
->    the MMIO region.
+> @@ -246,3 +246,27 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+>   	blk_cleanup_queue(head->disk->queue);
+>   	put_disk(head->disk);
+>   }
+> +
+> +int nvme_mpath_change_personality(struct nvme_subsystem *subsys)
+> +{
+> +	struct nvme_ctrl *ctrl;
+> +	int ret = 0;
+> +
+> +restart:
+> +	mutex_lock(&subsys->lock);
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		if (!list_empty(&ctrl->namespaces)) {
+> +			mutex_unlock(&subsys->lock);
+> +			nvme_remove_namespaces(ctrl);
 
-Thanks for clarifying, didn't know it was being discussed. I assume a
-bunch of other drivers need to clean it up now...
+This looks completely broken. Any of these namespaces can have an
+active handle on it.
