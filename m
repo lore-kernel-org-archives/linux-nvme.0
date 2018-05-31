@@ -1,25 +1,48 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 31 May 2018 18:26:20 +0200
-Subject: [PATCH 00/10] nvme: ANA fixups
-In-Reply-To: <66966018-09a4-d8e7-86a5-8a8e2052bae5@grimberg.me>
-References: <20180529101431.62271-1-hare@suse.de>
- <66966018-09a4-d8e7-86a5-8a8e2052bae5@grimberg.me>
-Message-ID: <20180531162620.GB30839@lst.de>
+Date: Thu, 31 May 2018 18:33:11 +0200
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180530220206.GA7037@redhat.com>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+ <20180530220206.GA7037@redhat.com>
+Message-ID: <20180531163311.GA30954@lst.de>
 
-On Thu, May 31, 2018@01:30:55PM +0300, Sagi Grimberg wrote:
->
->> Hi Christoph,
->>
->> here's a set of patches and updates for the ANA support, both host and target.
->> It's mainly small issues I've found during testing.
->> Patches are relative to your nvme-ana branch.
->
-> Hannes, This is hard to review. Not sure what branch this is exactly
-> nor what this is incremental to?
+On Wed, May 30, 2018@06:02:06PM -0400, Mike Snitzer wrote:
+> Because once nvme_core.multipath=N is set: native NVMe multipath is then
+> not accessible from the same host.  The goal of this patchset is to give
+> users choice.  But not limit them to _only_ using dm-multipath if they
+> just have some legacy needs.
 
-Sorry we had a bit of an offlist conversation.  Here is the current
-code:
+Choise by itself really isn't an argument.  We need a really good
+use case for all the complexity, and so far none has been presented.
 
-	http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
+> Tough to be convincing with hypotheticals but I could imagine a very
+> obvious usecase for native NVMe multipathing be PCI-based embedded NVMe
+> "fabrics" (especially if/when the numa-based path selector lands).  But
+> the same host with PCI NVMe could be connected to a FC network that has
+> historically always been managed via dm-multipath.. but say that
+> FC-based infrastructure gets updated to use NVMe (to leverage a wider
+> NVMe investment, whatever?) -- but maybe admins would still prefer to
+> use dm-multipath for the NVMe over FC.
 
-I'm going to repost it once I'll get a little time.
+That is a lot of maybes.  If they prefer the good old way on FC then
+can easily stay with SCSI, or for that matter use the global switch
+off.
+
+> > This might sound stupid to you, but can't users that desperately must
+> > keep using dm-multipath (for its mature toolset or what-not) just
+> > stack it on multipath nvme device? (I might be completely off on
+> > this so feel free to correct my ignorance).
+> 
+> We could certainly pursue adding multipath-tools support for native NVMe
+> multipathing.  Not opposed to it (even if just reporting topology and
+> state).  But given the extensive lengths NVMe multipath goes to hide
+> devices we'd need some way to piercing through the opaque nvme device
+> that native NVMe multipath exposes.  But that really is a tangent
+> relative to this patchset.  Since that kind of visibility would also
+> benefit the nvme cli... otherwise how are users to even be able to trust
+> but verify native NVMe multipathing did what it expected it to?
+
+Just look at the nvme-cli output or sysfs.  It's all been there since
+the code was merged to mainline.
