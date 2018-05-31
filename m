@@ -1,97 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 31 May 2018 11:37:20 +0300
+Date: Thu, 31 May 2018 11:51:31 +0300
 Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180530220206.GA7037@redhat.com>
+In-Reply-To: <20180530224402.GA7303@redhat.com>
 References: <20180525125322.15398-1-jthumshirn@suse.de>
  <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
  <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
- <20180530220206.GA7037@redhat.com>
-Message-ID: <f084e3bc-77af-4268-c882-7b0737e45f3b@grimberg.me>
+ <20180530224402.GA7303@redhat.com>
+Message-ID: <cab4ef4a-df7a-60c8-1f40-7a130aa3b15a@grimberg.me>
 
 
-> Wouldn't expect you guys to nurture this 'mpath_personality' knob.  SO
-> when features like "dispersed namespaces" land a negative check would
-> need to be added in the code to prevent switching from "native".
+>> Moreover, I also wanted to point out that fabrics array vendors are
+>> building products that rely on standard nvme multipathing (and probably
+>> multipathing over dispersed namespaces as well), and keeping a knob that
+>> will keep nvme users with dm-multipath will probably not help them
+>> educate their customers as well... So there is another angle to this.
 > 
-> And once something like "dispersed namespaces" lands we'd then have to
-> see about a more sophisticated switch that operates at a different
-> granularity.  Could also be that switching one subsystem that is part of
-> "dispersed namespaces" would then cascade to all other associated
-> subsystems?  Not that dissimilar from the 3rd patch in this series that
-> allows a 'device' switch to be done in terms of the subsystem.
-
-Which I think is broken by allowing to change this personality on the
-fly.
-
+> Noticed I didn't respond directly to this aspect.  As I explained in
+> various replies to this thread: The users/admins would be the ones who
+> would decide to use dm-multipath.  It wouldn't be something that'd be
+> imposed by default.  If anything, the all-or-nothing
+> nvme_core.multipath=N would pose a much more serious concern for these
+> array vendors that do have designs to specifically leverage native NVMe
+> multipath.  Because if users were to get into the habit of setting that
+> on the kernel commandline they'd literally _never_ be able to leverage
+> native NVMe multipathing.
 > 
-> Anyway, I don't know the end from the beginning on something you just
-> told me about ;)  But we're all in this together.  And can take it as it
-> comes.
-
-I agree but this will be exposed to user-space and we will need to live
-with it for a long long time...
-
-> I'm merely trying to bridge the gap from old dm-multipath while
-> native NVMe multipath gets its legs.
+> We can also add multipath.conf docs (man page, etc) that caution admins
+> to consult their array vendors about whether using dm-multipath is to be
+> avoided, etc.
 > 
-> In time I really do have aspirations to contribute more to NVMe
-> multipathing.  I think Christoph's NVMe multipath implementation of
-> bio-based device ontop on NVMe core's blk-mq device(s) is very clever
-> and effective (blk_steal_bios() hack and all).
+> Again, this is opt-in, so on a upstream Linux kernel level the default
+> of enabling native NVMe multipath stands (provided CONFIG_NVME_MULTIPATH
+> is configured).  Not seeing why there is so much angst and concern about
+> offering this flexibility via opt-in but I'm also glad we're having this
+> discussion to have our eyes wide open.
 
-That's great.
+I think that the concern is valid and should not be dismissed. And
+at times flexibility is a real source of pain, both to users and
+developers.
 
->> Don't get me wrong, I do support your cause, and I think nvme should try
->> to help, I just think that subsystem granularity is not the correct
->> approach going forward.
-> 
-> I understand there will be limits to this 'mpath_personality' knob's
-> utility and it'll need to evolve over time.  But the burden of making
-> more advanced NVMe multipath features accessible outside of native NVMe
-> isn't intended to be on any of the NVMe maintainers (other than maybe
-> remembering to disallow the switch where it makes sense in the future).
-
-I would expect that any "advanced multipath features" would be properly
-brought up with the NVMe TWG as a ratified standard and find its way
-to nvme. So I don't think this particularly is a valid argument.
-
->> As I said, I've been off the grid, can you remind me why global knob is
->> not sufficient?
-> 
-> Because once nvme_core.multipath=N is set: native NVMe multipath is then
-> not accessible from the same host.  The goal of this patchset is to give
-> users choice.  But not limit them to _only_ using dm-multipath if they
-> just have some legacy needs.
-> 
-> Tough to be convincing with hypotheticals but I could imagine a very
-> obvious usecase for native NVMe multipathing be PCI-based embedded NVMe
-> "fabrics" (especially if/when the numa-based path selector lands).  But
-> the same host with PCI NVMe could be connected to a FC network that has
-> historically always been managed via dm-multipath.. but say that
-> FC-based infrastructure gets updated to use NVMe (to leverage a wider
-> NVMe investment, whatever?) -- but maybe admins would still prefer to
-> use dm-multipath for the NVMe over FC.
-
-You are referring to an array exposing media via nvmf and scsi
-simultaneously? I'm not sure that there is a clean definition of
-how that is supposed to work (ANA/ALUA, reservations, etc..)
-
->> This might sound stupid to you, but can't users that desperately must
->> keep using dm-multipath (for its mature toolset or what-not) just
->> stack it on multipath nvme device? (I might be completely off on
->> this so feel free to correct my ignorance).
-> 
-> We could certainly pursue adding multipath-tools support for native NVMe
-> multipathing.  Not opposed to it (even if just reporting topology and
-> state).  But given the extensive lengths NVMe multipath goes to hide
-> devices we'd need some way to piercing through the opaque nvme device
-> that native NVMe multipath exposes.  But that really is a tangent
-> relative to this patchset.  Since that kind of visibility would also
-> benefit the nvme cli... otherwise how are users to even be able to trust
-> but verify native NVMe multipathing did what it expected it to?
-
-Can you explain what is missing for multipath-tools to resolve topology?
-
-nvme list-subsys is doing just that, doesn't it? It lists subsys-ctrl
-topology but that is sort of the important information as controllers
-are the real paths.
+The choice is there, no one is forbidden to use multipath. I'm just
+still not sure exactly why the subsystem granularity is an absolute
+must other than a volume exposed as a nvmf namespace and scsi lun (how
+would dm-multipath detect this is the same device btw?)
