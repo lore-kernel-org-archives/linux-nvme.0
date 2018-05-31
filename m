@@ -1,29 +1,39 @@
 From: dmilburn@redhat.com (David Milburn)
-Date: Thu, 31 May 2018 13:48:57 -0500
-Subject: [PATCH] nvme: report subsystem-reset not supported by controller.
-In-Reply-To: <20180531162213.GA30654@lst.de>
-References: <1527626554-101086-1-git-send-email-dmilburn@redhat.com>
- <20180531162213.GA30654@lst.de>
-Message-ID: <bcbf147d-9561-1aac-f935-7986c1e7ce42@redhat.com>
+Date: Thu, 31 May 2018 14:07:47 -0500
+Subject: [PATCH] nvme-cli: report subsystem-reset not supported by controller
+Message-ID: <1527793667-14356-1-git-send-email-dmilburn@redhat.com>
 
-Hi,
+Add a little more description for "nvme subsystem-reset"
+failures, currently driver reports "Inappropriate ioctl
+for device".
 
-On 05/31/2018 11:22 AM, Christoph Hellwig wrote:
-> On Tue, May 29, 2018@03:42:34PM -0500, David Milburn wrote:
->> Add a little more description for "nvme subsystem-reset"
->> failures, currently driver reports "Inappropriate ioctl
->> for device".
-> 
-> A warning sounds nice, but why can't we add it in nvme-cli?
+$ nvme subsystem-reset /dev/nvme0
+Subsystem-reset: Inappropriate ioctl for device
 
-Ok, will do.
+With this change report controller doesn't support
+NVM Subsystem Reset.
 
-Thanks,
-David
+$ nvme subsystem-reset /dev/nvme0
+Subsystem-reset: NVM Subsystem Reset not supported.
+---
+ nvme.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
+diff --git a/nvme.c b/nvme.c
+index a065e5d..2798e4b 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -2154,7 +2154,10 @@ static int subsystem_reset(int argc, char **argv, struct command *cmd, struct pl
+ 	err = nvme_subsystem_reset(fd);
+ 	if (err < 0) {
+ 		close(fd);
+-		perror("Subsystem-reset");
++		if (errno == ENOTTY)
++			fprintf(stderr, "Subsystem-reset: NVM Subsystem Reset not supported.\n");
++		else
++			perror("Subsystem-reset");
+ 		return errno;
+ 	}
+ 
+-- 
+1.8.3.1
