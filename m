@@ -1,64 +1,44 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 1 Jun 2018 14:50:45 +0200
-Subject: [GIT PULL] nvme updates for 4.18
-Message-ID: <20180601125045.GA27290@infradead.org>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Fri, 1 Jun 2018 08:08:54 -0500
+Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+ support
+In-Reply-To: <20180531172554.GA32068@lst.de>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+ <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
+ <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
+ <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
+ <8da47cd4-44d5-2229-ef82-26d165dfc245@opengridcomputing.com>
+ <c180e592-a11c-de09-d094-3ab569289fab@grimberg.me>
+ <20180531170201.GB31715@lst.de>
+ <ecfee4dc-763b-d331-32e3-802fc07339cc@opengridcomputing.com>
+ <20180531172554.GA32068@lst.de>
+Message-ID: <000601d3f9a9$b18ea060$14abe120$@opengridcomputing.com>
 
-Hi Jens,
 
-below is another set of NVMe updates for 4.18.  Besides the usual bug fixes
-this includes more feature completness in terms of AEN and log page handling
-on the target.
 
-The following changes since commit 5de815a7eedfacf593817ef34634eaa9b75a1482:
+> -----Original Message-----
+> From: Linux-nvme <linux-nvme-bounces at lists.infradead.org> On Behalf Of
+> hch at lst.de
+> Sent: Thursday, May 31, 2018 12:26 PM
+> To: Steve Wise <swise at opengridcomputing.com>
+> Cc: axboe at kernel.dk; Sagi Grimberg <sagi at grimberg.me>; linux-
+> rdma at vger.kernel.org; linux-nvme at lists.infradead.org; Busch, Keith
+> <keith.busch at intel.com>; Ruhl, Michael J <michael.j.ruhl at intel.com>;
+> maxg at mellanox.com; hch at lst.de; parav at mellanox.com
+> Subject: Re: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed
+sgl
+> support
+> 
+> On Thu, May 31, 2018@12:17:07PM -0500, Steve Wise wrote:
+> > Ok then, I will leave them as bit numbers...
+> 
+> Btw, modulo the debug printk 1 & 2 look fine to me and I'd like to
+> pull them in.  Sagi, are you ok with the patches?
+> 
 
-  block: remove parent device reference from struct bsg_class_device (2018-05-29 13:00:25 -0600)
+If you do, I'll drop them from my series and repost the target side soon
+with the changes to only allocate single pages.
 
-are available in the Git repository at:
+Thanks
 
-  git://git.infradead.org/nvme.git nvme-4.18
-
-for you to fetch changes up to 30d90964e7b80a0723921e8b464c5ceda7297a7b:
-
-  nvme: use the changed namespaces list log to clear ns data changed AENs (2018-06-01 14:37:35 +0200)
-
-----------------------------------------------------------------
-Christoph Hellwig (12):
-      nvme-pci: simplify __nvme_submit_cmd
-      nvme-loop: add support for multiple ports
-      nvme-fabrics: allow internal passthrough command on deleting controllers
-      nvme.h: untangle AEN notice definitions
-      nvme.h: add the changed namespace list log
-      nvmet: add a new nvmet_zero_sgl helper
-      nvmet: split log page implementation
-      nvmet: implement the changed namespaces log
-      nvmet: add AEN configuration support
-      nvmet: mask pending AENs
-      nvme: mark nvme_queue_scan static
-      nvme: use the changed namespaces list log to clear ns data changed AENs
-
-Hannes Reinecke (2):
-      nvme.h: add AEN configuration symbols
-      nvme: submit AEN event configuration on startup
-
-James Smart (1):
-      nvme: allow duplicate controller if prior controller being deleted
-
-Keith Busch (1):
-      nvme-pci: Rate limit the nvme timeout warnings
-
-Wei Yongjun (2):
-      nvmet: fix a typo in nvmet_file_ns_enable()
-      nvmet: fix error return code in nvmet_file_ns_enable()
-
- drivers/nvme/host/core.c          | 115 +++++++++++++++++++++++++-------
- drivers/nvme/host/fabrics.c       |  79 +++++++++-------------
- drivers/nvme/host/fabrics.h       |   4 +-
- drivers/nvme/host/nvme.h          |   4 +-
- drivers/nvme/host/pci.c           |  39 +++++------
- drivers/nvme/target/admin-cmd.c   | 133 +++++++++++++++++++++-----------------
- drivers/nvme/target/core.c        |  73 ++++++++++++++++++---
- drivers/nvme/target/io-cmd-file.c |  10 ++-
- drivers/nvme/target/loop.c        |  48 ++++++++------
- drivers/nvme/target/nvmet.h       |  23 ++++++-
- include/linux/nvme.h              |  16 ++++-
- 11 files changed, 351 insertions(+), 193 deletions(-)
+Steve
