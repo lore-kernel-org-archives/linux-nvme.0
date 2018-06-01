@@ -1,44 +1,26 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 1 Jun 2018 08:08:54 -0500
-Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
- support
-In-Reply-To: <20180531172554.GA32068@lst.de>
-References: <cover.1527618402.git.swise@opengridcomputing.com>
- <fb738c0b251da31747451906630cfd09a5135c7b.1527618402.git.swise@opengridcomputing.com>
- <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
- <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
- <8da47cd4-44d5-2229-ef82-26d165dfc245@opengridcomputing.com>
- <c180e592-a11c-de09-d094-3ab569289fab@grimberg.me>
- <20180531170201.GB31715@lst.de>
- <ecfee4dc-763b-d331-32e3-802fc07339cc@opengridcomputing.com>
- <20180531172554.GA32068@lst.de>
-Message-ID: <000601d3f9a9$b18ea060$14abe120$@opengridcomputing.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 1 Jun 2018 07:45:43 -0600
+Subject: [GIT PULL] nvme updates for 4.18
+In-Reply-To: <20180601125045.GA27290@infradead.org>
+References: <20180601125045.GA27290@infradead.org>
+Message-ID: <db0908f9-f746-1664-27f1-79e9580f9936@kernel.dk>
 
-
-
-> -----Original Message-----
-> From: Linux-nvme <linux-nvme-bounces at lists.infradead.org> On Behalf Of
-> hch at lst.de
-> Sent: Thursday, May 31, 2018 12:26 PM
-> To: Steve Wise <swise at opengridcomputing.com>
-> Cc: axboe at kernel.dk; Sagi Grimberg <sagi at grimberg.me>; linux-
-> rdma at vger.kernel.org; linux-nvme at lists.infradead.org; Busch, Keith
-> <keith.busch at intel.com>; Ruhl, Michael J <michael.j.ruhl at intel.com>;
-> maxg at mellanox.com; hch at lst.de; parav at mellanox.com
-> Subject: Re: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed
-sgl
-> support
+On 6/1/18 6:50 AM, Christoph Hellwig wrote:
+> Hi Jens,
 > 
-> On Thu, May 31, 2018@12:17:07PM -0500, Steve Wise wrote:
-> > Ok then, I will leave them as bit numbers...
+> below is another set of NVMe updates for 4.18.  Besides the usual bug fixes
+> this includes more feature completness in terms of AEN and log page handling
+> on the target.
 > 
-> Btw, modulo the debug printk 1 & 2 look fine to me and I'd like to
-> pull them in.  Sagi, are you ok with the patches?
+> The following changes since commit 5de815a7eedfacf593817ef34634eaa9b75a1482:
 > 
+>   block: remove parent device reference from struct bsg_class_device (2018-05-29 13:00:25 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.18
 
-If you do, I'll drop them from my series and repost the target side soon
-with the changes to only allocate single pages.
+Pulled, thanks.
 
-Thanks
-
-Steve
+-- 
+Jens Axboe
