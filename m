@@ -1,36 +1,64 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  1 Jun 2018 09:11:19 +0200
-Subject: draft ANA support v2
-Message-ID: <20180601071128.7630-1-hch@lst.de>
+Date: Fri,  1 Jun 2018 09:11:20 +0200
+Subject: [PATCH 1/9] nvme: don't hold nvmf_transports_rwsem for more than
+ transport lookups
+In-Reply-To: <20180601071128.7630-1-hch@lst.de>
+References: <20180601071128.7630-1-hch@lst.de>
+Message-ID: <20180601071128.7630-2-hch@lst.de>
 
-Next repost of the ANA support with a lot of changes.
+From: Johannes Thumshirn <jthumshirn@suse.de>
 
-The big TODO list item for the kernel code is support for transition
-timeouts, and handling of last resort retries on change or inaccssible
-paths.
+Only take nvmf_transports_rwsem when doing a lookup of registered
+transports, so that a blocking ->create_ctrl doesn't prevent other
+actions on /dev/nvme-fabrics.
 
-Besides that we still need nvme-cli and nvmetcli support as well as
-an automated test suite.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+[hch: increased lock hold time a bit to be safe, added a comment
+ and updated the changelog]
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/fabrics.c | 3 ++-
+ drivers/nvme/host/fabrics.h | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-A git tree is available at:
-
-    git://git.infradead.org/users/hch/block.git nvme-ana
-
-Gitweb:
-
-    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
-
-Changes since v1:
- - fix the check for SCT = 3
- - fix the check for immutable ANAGRPID
- - disable ANA if the ANA log can't be transferred in a single chunk
- - enable the ANA AEN explicitly
- - don't zero buffers that don't get copied to the SGL
- - use READ_ONCE/WRITE_ONCE for the ana_state fields
- - update ANA state on completion with an ANA status code
- - improve commit logs
- - add proper AEN enable and masking conditionals
- - fix the numeric value for the change state
- - fixed a memory leak (Hannes Reinecke)
- - fix reporting of NUSE (based on a patch from Hannes Reinecke)
- - make ANATT configurable
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 5f5f7067c41d..fa32c1216409 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -952,6 +952,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 		ret = -EBUSY;
+ 		goto out_unlock;
+ 	}
++	up_read(&nvmf_transports_rwsem);
+ 
+ 	ret = nvmf_check_required_opts(opts, ops->required_opts);
+ 	if (ret)
+@@ -968,11 +969,11 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 	}
+ 
+ 	module_put(ops->module);
+-	up_read(&nvmf_transports_rwsem);
+ 	return ctrl;
+ 
+ out_module_put:
+ 	module_put(ops->module);
++	goto out_free_opts;
+ out_unlock:
+ 	up_read(&nvmf_transports_rwsem);
+ out_free_opts:
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 0cf0460a5c92..7491a0bbf711 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -124,6 +124,9 @@ struct nvmf_ctrl_options {
+  *	1. At minimum, 'required_opts' and 'allowed_opts' should
+  *	   be set to the same enum parsing options defined earlier.
+  *	2. create_ctrl() must be defined (even if it does nothing)
++ *	3. struct nvmf_transport_ops must be statically allocated in the
++ *	   modules .bss section so that a pure module_get on @module
++ *	   prevents the memory from beeing freed.
+  */
+ struct nvmf_transport_ops {
+ 	struct list_head	entry;
+-- 
+2.17.0
