@@ -1,124 +1,90 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  1 Jun 2018 09:11:21 +0200
-Subject: [PATCH 2/9] nvme.h: add ANA definitions
+Date: Fri,  1 Jun 2018 09:11:22 +0200
+Subject: [PATCH 3/9] nvme: add support for the log specific field
 In-Reply-To: <20180601071128.7630-1-hch@lst.de>
 References: <20180601071128.7630-1-hch@lst.de>
-Message-ID: <20180601071128.7630-3-hch@lst.de>
+Message-ID: <20180601071128.7630-4-hch@lst.de>
 
-Add various defintions from NVMe 1.3 TP 4004.
+NVMe 1.3 added a new log specific field to the get log page CQ
+defintion.  Add the field and support passing it to nvme_get_log_ext.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/nvme.h | 50 +++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 47 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c     | 6 +++---
+ drivers/nvme/host/lightnvm.c | 2 +-
+ drivers/nvme/host/nvme.h     | 2 +-
+ include/linux/nvme.h         | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7ad3cfc9d4e1..d67d29e4c5ff 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2257,8 +2257,7 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
+ }
+ 
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		     u8 log_page, void *log,
+-		     size_t size, u64 offset)
++		u8 log_page, u8 lsp, void *log, size_t size, u64 offset)
+ {
+ 	struct nvme_command c = { };
+ 	unsigned long dwlen = size / 4 - 1;
+@@ -2271,6 +2270,7 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		c.get_log_page.nsid = cpu_to_le32(NVME_NSID_ALL);
+ 
+ 	c.get_log_page.lid = log_page;
++	c.get_log_page.lsp = lsp;
+ 	c.get_log_page.numdl = cpu_to_le16(dwlen & ((1 << 16) - 1));
+ 	c.get_log_page.numdu = cpu_to_le16(dwlen >> 16);
+ 	c.get_log_page.lpol = cpu_to_le32(lower_32_bits(offset));
+@@ -2282,7 +2282,7 @@ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ static int nvme_get_log(struct nvme_ctrl *ctrl, u8 log_page, void *log,
+ 			size_t size)
+ {
+-	return nvme_get_log_ext(ctrl, NULL, log_page, log, size, 0);
++	return nvme_get_log_ext(ctrl, NULL, log_page, 0, log, size, 0);
+ }
+ 
+ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 41279da799ed..216c6b0a9554 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -598,7 +598,7 @@ static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
+ 	while (left) {
+ 		len = min_t(unsigned int, left, ctrl->max_hw_sectors << 9);
+ 
+-		ret = nvme_get_log_ext(ctrl, ns, NVME_NVM_LOG_REPORT_CHUNK,
++		ret = nvme_get_log_ext(ctrl, ns, NVME_NVM_LOG_REPORT_CHUNK, 0,
+ 				dev_meta, len, offset);
+ 		if (ret) {
+ 			dev_err(ctrl->device, "Get REPORT CHUNK log error\n");
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 07e8bfe705c6..a9695b8645aa 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -433,7 +433,7 @@ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ 
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+-		u8 log_page, void *log, size_t size, u64 offset);
++		u8 log_page, u8 lsp, void *log, size_t size, u64 offset);
+ 
+ extern const struct attribute_group nvme_ns_id_attr_group;
+ extern const struct block_device_operations nvme_ns_head_ops;
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 2950ce957656..601837bcb790 100644
+index 601837bcb790..fdff3c37bdd9 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -242,7 +242,12 @@ struct nvme_id_ctrl {
- 	__le32			sanicap;
- 	__le32			hmminds;
- 	__le16			hmmaxd;
--	__u8			rsvd338[174];
-+	__u8			rsvd338[4];
-+	__u8			anatt;
-+	__u8			anacap;
-+	__le32			anagrpmax;
-+	__le32			nanagrpid;
-+	__u8			rsvd352[160];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__le16			maxcmd;
-@@ -258,7 +263,8 @@ struct nvme_id_ctrl {
- 	__le16			acwu;
- 	__u8			rsvd534[2];
- 	__le32			sgls;
--	__u8			rsvd540[228];
-+	__le32			mnan;
-+	__u8			rsvd544[224];
- 	char			subnqn[256];
- 	__u8			rsvd1024[768];
- 	__le32			ioccsz;
-@@ -312,7 +318,9 @@ struct nvme_id_ns {
- 	__le16			nabspf;
- 	__le16			noiob;
- 	__u8			nvmcap[16];
--	__u8			rsvd64[40];
-+	__u8			rsvd64[28];
-+	__le32			anagrpid;
-+	__u8			rsvd96[8];
- 	__u8			nguid[16];
- 	__u8			eui64[8];
- 	struct nvme_lbaf	lbaf[16];
-@@ -425,6 +433,32 @@ struct nvme_effects_log {
- 	__u8   resv[2048];
- };
- 
-+enum nvme_ana_state {
-+	NVME_ANA_OPTIMIZED		= 0x01,
-+	NVME_ANA_NONOPTIMIZED		= 0x02,
-+	NVME_ANA_INACCESSIBLE		= 0x03,
-+	NVME_ANA_PERSISTENT_LOSS	= 0x04,
-+	NVME_ANA_CHANGE			= 0x0f,
-+};
-+
-+struct nvme_ana_group_desc {
-+	__le32	grpid;
-+	__le32	nnsids;
-+	__le64	chgcnt;
-+	__u8	state;
-+	__u8	rsvd17[7];
-+	__le32	nsids[];
-+};
-+
-+/* flag for the log specific field of the ANA log */
-+#define NVME_ANA_LOG_RGO	(1 << 0)
-+
-+struct nvme_ana_rsp_hdr {
-+	__le64	chgcnt;
-+	__le16	ngrps;
-+	__le16	rsvd10[3];
-+};
-+
- enum {
- 	NVME_SMART_CRIT_SPARE		= 1 << 0,
- 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
-@@ -444,11 +478,13 @@ enum {
- enum {
- 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
- 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
-+	NVME_AER_NOTICE_ANA		= 0x03,
- };
- 
- enum {
- 	NVME_AEN_CFG_NS_ATTR		= 1 << 8,
- 	NVME_AEN_CFG_FW_ACT		= 1 << 9,
-+	NVME_AEN_CFG_ANA_CHANGE		= 1 << 11,
- };
- 
- struct nvme_lba_range_type {
-@@ -758,6 +794,7 @@ enum {
- 	NVME_LOG_FW_SLOT	= 0x03,
- 	NVME_LOG_CHANGED_NS	= 0x04,
- 	NVME_LOG_CMD_EFFECTS	= 0x05,
-+	NVME_LOG_ANA		= 0x0c,
- 	NVME_LOG_DISC		= 0x70,
- 	NVME_LOG_RESERVATION	= 0x80,
- 	NVME_FWACT_REPL		= (0 << 3),
-@@ -1180,6 +1217,13 @@ enum {
- 	NVME_SC_ACCESS_DENIED		= 0x286,
- 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
- 
-+	/*
-+	 * Path-related Errors:
-+	 */
-+	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
-+	NVME_SC_ANA_INACCESSIBLE	= 0x302,
-+	NVME_SC_ANA_TRANSITION		= 0x303,
-+
- 	NVME_SC_DNR			= 0x4000,
- };
- 
+@@ -917,7 +917,7 @@ struct nvme_get_log_page_command {
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+ 	__u8			lid;
+-	__u8			rsvd10;
++	__u8			lsp; /* upper 4 bits reserved */
+ 	__le16			numdl;
+ 	__le16			numdu;
+ 	__u16			rsvd11;
 -- 
 2.17.0
