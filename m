@@ -1,64 +1,124 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  1 Jun 2018 09:11:20 +0200
-Subject: [PATCH 1/9] nvme: don't hold nvmf_transports_rwsem for more than
- transport lookups
+Date: Fri,  1 Jun 2018 09:11:21 +0200
+Subject: [PATCH 2/9] nvme.h: add ANA definitions
 In-Reply-To: <20180601071128.7630-1-hch@lst.de>
 References: <20180601071128.7630-1-hch@lst.de>
-Message-ID: <20180601071128.7630-2-hch@lst.de>
+Message-ID: <20180601071128.7630-3-hch@lst.de>
 
-From: Johannes Thumshirn <jthumshirn@suse.de>
+Add various defintions from NVMe 1.3 TP 4004.
 
-Only take nvmf_transports_rwsem when doing a lookup of registered
-transports, so that a blocking ->create_ctrl doesn't prevent other
-actions on /dev/nvme-fabrics.
-
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-[hch: increased lock hold time a bit to be safe, added a comment
- and updated the changelog]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/fabrics.c | 3 ++-
- drivers/nvme/host/fabrics.h | 3 +++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ include/linux/nvme.h | 50 +++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 47 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 5f5f7067c41d..fa32c1216409 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -952,6 +952,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		ret = -EBUSY;
- 		goto out_unlock;
- 	}
-+	up_read(&nvmf_transports_rwsem);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 2950ce957656..601837bcb790 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -242,7 +242,12 @@ struct nvme_id_ctrl {
+ 	__le32			sanicap;
+ 	__le32			hmminds;
+ 	__le16			hmmaxd;
+-	__u8			rsvd338[174];
++	__u8			rsvd338[4];
++	__u8			anatt;
++	__u8			anacap;
++	__le32			anagrpmax;
++	__le32			nanagrpid;
++	__u8			rsvd352[160];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
+@@ -258,7 +263,8 @@ struct nvme_id_ctrl {
+ 	__le16			acwu;
+ 	__u8			rsvd534[2];
+ 	__le32			sgls;
+-	__u8			rsvd540[228];
++	__le32			mnan;
++	__u8			rsvd544[224];
+ 	char			subnqn[256];
+ 	__u8			rsvd1024[768];
+ 	__le32			ioccsz;
+@@ -312,7 +318,9 @@ struct nvme_id_ns {
+ 	__le16			nabspf;
+ 	__le16			noiob;
+ 	__u8			nvmcap[16];
+-	__u8			rsvd64[40];
++	__u8			rsvd64[28];
++	__le32			anagrpid;
++	__u8			rsvd96[8];
+ 	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
+@@ -425,6 +433,32 @@ struct nvme_effects_log {
+ 	__u8   resv[2048];
+ };
  
- 	ret = nvmf_check_required_opts(opts, ops->required_opts);
- 	if (ret)
-@@ -968,11 +969,11 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 	}
++enum nvme_ana_state {
++	NVME_ANA_OPTIMIZED		= 0x01,
++	NVME_ANA_NONOPTIMIZED		= 0x02,
++	NVME_ANA_INACCESSIBLE		= 0x03,
++	NVME_ANA_PERSISTENT_LOSS	= 0x04,
++	NVME_ANA_CHANGE			= 0x0f,
++};
++
++struct nvme_ana_group_desc {
++	__le32	grpid;
++	__le32	nnsids;
++	__le64	chgcnt;
++	__u8	state;
++	__u8	rsvd17[7];
++	__le32	nsids[];
++};
++
++/* flag for the log specific field of the ANA log */
++#define NVME_ANA_LOG_RGO	(1 << 0)
++
++struct nvme_ana_rsp_hdr {
++	__le64	chgcnt;
++	__le16	ngrps;
++	__le16	rsvd10[3];
++};
++
+ enum {
+ 	NVME_SMART_CRIT_SPARE		= 1 << 0,
+ 	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
+@@ -444,11 +478,13 @@ enum {
+ enum {
+ 	NVME_AER_NOTICE_NS_CHANGED	= 0x00,
+ 	NVME_AER_NOTICE_FW_ACT_STARTING = 0x01,
++	NVME_AER_NOTICE_ANA		= 0x03,
+ };
  
- 	module_put(ops->module);
--	up_read(&nvmf_transports_rwsem);
- 	return ctrl;
+ enum {
+ 	NVME_AEN_CFG_NS_ATTR		= 1 << 8,
+ 	NVME_AEN_CFG_FW_ACT		= 1 << 9,
++	NVME_AEN_CFG_ANA_CHANGE		= 1 << 11,
+ };
  
- out_module_put:
- 	module_put(ops->module);
-+	goto out_free_opts;
- out_unlock:
- 	up_read(&nvmf_transports_rwsem);
- out_free_opts:
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 0cf0460a5c92..7491a0bbf711 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -124,6 +124,9 @@ struct nvmf_ctrl_options {
-  *	1. At minimum, 'required_opts' and 'allowed_opts' should
-  *	   be set to the same enum parsing options defined earlier.
-  *	2. create_ctrl() must be defined (even if it does nothing)
-+ *	3. struct nvmf_transport_ops must be statically allocated in the
-+ *	   modules .bss section so that a pure module_get on @module
-+ *	   prevents the memory from beeing freed.
-  */
- struct nvmf_transport_ops {
- 	struct list_head	entry;
+ struct nvme_lba_range_type {
+@@ -758,6 +794,7 @@ enum {
+ 	NVME_LOG_FW_SLOT	= 0x03,
+ 	NVME_LOG_CHANGED_NS	= 0x04,
+ 	NVME_LOG_CMD_EFFECTS	= 0x05,
++	NVME_LOG_ANA		= 0x0c,
+ 	NVME_LOG_DISC		= 0x70,
+ 	NVME_LOG_RESERVATION	= 0x80,
+ 	NVME_FWACT_REPL		= (0 << 3),
+@@ -1180,6 +1217,13 @@ enum {
+ 	NVME_SC_ACCESS_DENIED		= 0x286,
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
++	/*
++	 * Path-related Errors:
++	 */
++	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
++	NVME_SC_ANA_INACCESSIBLE	= 0x302,
++	NVME_SC_ANA_TRANSITION		= 0x303,
++
+ 	NVME_SC_DNR			= 0x4000,
+ };
+ 
 -- 
 2.17.0
