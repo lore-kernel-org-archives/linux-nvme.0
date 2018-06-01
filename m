@@ -1,109 +1,64 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  1 Jun 2018 09:11:28 +0200
-Subject: [PATCH 9/9] nvmet: make ANATT configurable
-In-Reply-To: <20180601071128.7630-1-hch@lst.de>
-References: <20180601071128.7630-1-hch@lst.de>
-Message-ID: <20180601071128.7630-10-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 1 Jun 2018 14:50:45 +0200
+Subject: [GIT PULL] nvme updates for 4.18
+Message-ID: <20180601125045.GA27290@infradead.org>
 
-From: Hannes Reinecke <hare@suse.de>
+Hi Jens,
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/admin-cmd.c |  2 +-
- drivers/nvme/target/configfs.c  | 29 +++++++++++++++++++++++++++++
- drivers/nvme/target/core.c      |  1 +
- drivers/nvme/target/nvmet.h     |  2 ++
- 4 files changed, 33 insertions(+), 1 deletion(-)
+below is another set of NVMe updates for 4.18.  Besides the usual bug fixes
+this includes more feature completness in terms of AEN and log page handling
+on the target.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 128b7e773a8b..04c3dd513bcf 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -315,7 +315,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	id->msdbd = ctrl->ops->msdbd;
- 
- 	id->anacap = (1 << 0) | (1 << 1) | (1 << 2) | (1 << 3) | (1 << 4);
--	id->anatt = 10; /* random value */
-+	id->anatt = ctrl->subsys->anatt;
- 	id->anagrpmax = cpu_to_le32(NVMET_MAX_ANAGRPS);
- 	id->nanagrpid = cpu_to_le32(NVMET_MAX_ANAGRPS);
- 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index ddc3fa9fd92f..706b42b7935e 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -738,10 +738,39 @@ static ssize_t nvmet_subsys_attr_serial_store(struct config_item *item,
- }
- CONFIGFS_ATTR(nvmet_subsys_, attr_serial);
- 
-+static ssize_t nvmet_subsys_attr_anatt_show(struct config_item *item,
-+					    char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	return snprintf(page, PAGE_SIZE, "%d\n", subsys->anatt);
-+}
-+
-+static ssize_t nvmet_subsys_attr_anatt_store(struct config_item *item,
-+					     const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	int ret;
-+	u8 ana_tt;
-+
-+	ret = kstrtou8(page, 0, &ana_tt);
-+	if (ret)
-+		return ret;
-+	if (ana_tt == 0)
-+		return -EINVAL;
-+
-+	down_write(&nvmet_config_sem);
-+	subsys->anatt = ana_tt;
-+	up_write(&nvmet_config_sem);
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, attr_anatt);
-+
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
- 	&nvmet_subsys_attr_attr_version,
- 	&nvmet_subsys_attr_attr_serial,
-+	&nvmet_subsys_attr_attr_anatt,
- 	NULL,
- };
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b38c129642f3..cebc57876889 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1115,6 +1115,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 		return NULL;
- 	}
- 	subsys->type = type;
-+	subsys->anatt = NVMET_DEFAULT_ANATT;
- 	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
- 			GFP_KERNEL);
- 	if (!subsys->subsysnqn) {
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 74ba9c3e90e5..ba4aca31aa60 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -178,6 +178,7 @@ struct nvmet_subsys {
- 	struct list_head	namespaces;
- 	unsigned int		nr_namespaces;
- 	unsigned int		max_nsid;
-+	u8			anatt;
- 
- 	struct list_head	ctrls;
- 
-@@ -398,6 +399,7 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
-  */
- #define NVMET_MAX_ANAGRPS	128
- #define NVMET_DEFAULT_ANA_GRPID	1
-+#define NVMET_DEFAULT_ANATT	10
- 
- #define NVMET_KAS		10
- #define NVMET_DISC_KATO		120
--- 
-2.17.0
+The following changes since commit 5de815a7eedfacf593817ef34634eaa9b75a1482:
+
+  block: remove parent device reference from struct bsg_class_device (2018-05-29 13:00:25 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.18
+
+for you to fetch changes up to 30d90964e7b80a0723921e8b464c5ceda7297a7b:
+
+  nvme: use the changed namespaces list log to clear ns data changed AENs (2018-06-01 14:37:35 +0200)
+
+----------------------------------------------------------------
+Christoph Hellwig (12):
+      nvme-pci: simplify __nvme_submit_cmd
+      nvme-loop: add support for multiple ports
+      nvme-fabrics: allow internal passthrough command on deleting controllers
+      nvme.h: untangle AEN notice definitions
+      nvme.h: add the changed namespace list log
+      nvmet: add a new nvmet_zero_sgl helper
+      nvmet: split log page implementation
+      nvmet: implement the changed namespaces log
+      nvmet: add AEN configuration support
+      nvmet: mask pending AENs
+      nvme: mark nvme_queue_scan static
+      nvme: use the changed namespaces list log to clear ns data changed AENs
+
+Hannes Reinecke (2):
+      nvme.h: add AEN configuration symbols
+      nvme: submit AEN event configuration on startup
+
+James Smart (1):
+      nvme: allow duplicate controller if prior controller being deleted
+
+Keith Busch (1):
+      nvme-pci: Rate limit the nvme timeout warnings
+
+Wei Yongjun (2):
+      nvmet: fix a typo in nvmet_file_ns_enable()
+      nvmet: fix error return code in nvmet_file_ns_enable()
+
+ drivers/nvme/host/core.c          | 115 +++++++++++++++++++++++++-------
+ drivers/nvme/host/fabrics.c       |  79 +++++++++-------------
+ drivers/nvme/host/fabrics.h       |   4 +-
+ drivers/nvme/host/nvme.h          |   4 +-
+ drivers/nvme/host/pci.c           |  39 +++++------
+ drivers/nvme/target/admin-cmd.c   | 133 +++++++++++++++++++++-----------------
+ drivers/nvme/target/core.c        |  73 ++++++++++++++++++---
+ drivers/nvme/target/io-cmd-file.c |  10 ++-
+ drivers/nvme/target/loop.c        |  48 ++++++++------
+ drivers/nvme/target/nvmet.h       |  23 ++++++-
+ include/linux/nvme.h              |  16 ++++-
+ 11 files changed, 351 insertions(+), 193 deletions(-)
