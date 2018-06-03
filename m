@@ -1,55 +1,60 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 3 Jun 2018 14:00:37 +0300
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180601042441.GB14244@redhat.com>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
- <20180530220206.GA7037@redhat.com> <20180531163311.GA30954@lst.de>
- <20180531181757.GB11848@redhat.com> <yq17enjut3q.fsf@oracle.com>
- <20180601042441.GB14244@redhat.com>
-Message-ID: <0a0d4ff8-fe06-5869-cd18-a8c99b5e86f6@grimberg.me>
+Date: Sun, 3 Jun 2018 14:30:53 +0300
+Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
+In-Reply-To: <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-18-git-send-email-maxg@mellanox.com>
+ <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
+ <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
+Message-ID: <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
 
 
-> I'm aware that most everything in multipath.conf is SCSI/FC specific.
-> That isn't the point.  dm-multipath and multipathd are an existing
-> framework for managing multipath storage.
+> Sagi,
 > 
-> It could be made to work with NVMe.  But yes it would not be easy.
-> Especially not with the native NVMe multipath crew being so damn
-> hostile.
+> our architecture team have presented MR features and improvments during 
+> OFA 2018, and there are some similar ideas to your idea below. We need 
+> to thing and plan how to progress here.
 
-The resistance is not a hostile act. Please try and keep the
-discussion technical.
+I have not attended the OFA workshop.
 
->> But I don't think the burden of allowing multipathd/DM to inject
->> themselves into the path transition state machine has any benefit
->> whatsoever to the user. It's only complicating things and therefore we'd
->> be doing people a disservice rather than a favor.
-> 
-> This notion that only native NVMe multipath can be successful is utter
-> bullshit.  And the mere fact that I've gotten such a reaction from a
-> select few speaks to some serious control issues.
-> 
-> Imagine if XFS developers just one day imposed that it is the _only_
-> filesystem that can be used on persistent memory.
-> 
-> Just please dial it back.. seriously tiresome.
+> Your suggestion looks reasonable 
+> but in my opinion it should be divided to 2 phases (otherwise it will be 
+> hard to push it in the near future):
+> 1. use 1 MR to map data + metadata
+> 2. use 1 MR to describe data, metadata and signature params.
 
-Mike, you make a fair point on multipath tools being more mature
-compared to NVMe multipathing. But this is not the discussion at all (at
-least not from my perspective). There was not a single use-case that
-gave a clear-cut justification for a per-subsystem personality switch
-(other than some far fetched imaginary scenarios). This is not unusual
-for the kernel community not to accept things with little to no use,
-especially when it involves exposing a userspace ABI.
+Actually I think that given that we have only a single user and a single
+provider we are in an ideal position to avoid the hassle of phasing this
+cleanup. I think the proposed change for adding PI support is more
+intrusive than it should be due to the API we came up with at the time
+(mostly my fault probably).
 
-As for now, all I see is a disclaimer saying that it'd need to be
-nurtured over time as the NVMe spec evolves.
+> Oren,
+> Can you share the vision for the MR layout and how it can fit to the T10 
+> solution for ULPs ? Also pros/cons about the internal MR/s implemetation ?
 
-Can you (or others) please try and articulate why a "fine grained"
-multipathing is an absolute must? At the moment, I just don't
-understand.
+Without knowing the end-goal in mind, I'd suggest to make the API
+very specific to PI and have all the generic stuff inside the provider
+driver. Looking back, I think it was a mistake to try and reflect a
+generic interface for adding block metadata for consumers that only use
+PI (and will probably never do anything else).
 
-Also, I get your point that exposing state/stats information to
-userspace is needed. That's a fair comment.
+What I'd think we should aim for as an interface is something like:
+
+1. mr = ib_alloc_mr(pd, IB_MR_TYPE_PI, max_data_sg, max_meta_sg)
+
+2. count = ib_mr_map_sg_pi(mr, data_sg, data_sg_cnt, data_sg_offset,
+                             meta_sg, meta_sg_cnt, meta_sg_offset,
+                             page_size)
+
+3. ret = ib_mr_setup_pi(struct ib_mr *mr, struct blk_integrity *bi)
+    *although this might not be able to converge scsi and nvme in one
+     shot so we might have each ulp do its own thing here..
+
+4. ret = ib_post_send(qp, pi_wr)
+    where ib_pi_wr looks exactly like ib_reg_wr but has the opcode
+    dissection for the provider to do all internal stuff.
+
+5. ret = ib_check_pi_status(mr)
+
+Try to hide all the multiple mr madness...
