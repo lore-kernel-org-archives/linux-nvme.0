@@ -1,96 +1,55 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 3 Jun 2018 11:51:43 +0300
-Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
-In-Reply-To: <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-18-git-send-email-maxg@mellanox.com>
- <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
-Message-ID: <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 3 Jun 2018 14:00:37 +0300
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180601042441.GB14244@redhat.com>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+ <20180530220206.GA7037@redhat.com> <20180531163311.GA30954@lst.de>
+ <20180531181757.GB11848@redhat.com> <yq17enjut3q.fsf@oracle.com>
+ <20180601042441.GB14244@redhat.com>
+Message-ID: <0a0d4ff8-fe06-5869-cd18-a8c99b5e86f6@grimberg.me>
 
-Sagi,
 
-our architecture team have presented MR features and improvments during 
-OFA 2018, and there are some similar ideas to your idea below. We need 
-to thing and plan how to progress here. Your suggestion looks reasonable 
-but in my opinion it should be divided to 2 phases (otherwise it will be 
-hard to push it in the near future):
-1. use 1 MR to map data + metadata
-2. use 1 MR to describe data, metadata and signature params.
+> I'm aware that most everything in multipath.conf is SCSI/FC specific.
+> That isn't the point.  dm-multipath and multipathd are an existing
+> framework for managing multipath storage.
+> 
+> It could be made to work with NVMe.  But yes it would not be easy.
+> Especially not with the native NVMe multipath crew being so damn
+> hostile.
 
-Oren,
-Can you share the vision for the MR layout and how it can fit to the T10 
-solution for ULPs ? Also pros/cons about the internal MR/s implemetation ?
+The resistance is not a hostile act. Please try and keep the
+discussion technical.
 
-On 5/31/2018 2:05 AM, Sagi Grimberg wrote:
-> Max,
+>> But I don't think the burden of allowing multipathd/DM to inject
+>> themselves into the path transition state machine has any benefit
+>> whatsoever to the user. It's only complicating things and therefore we'd
+>> be doing people a disservice rather than a favor.
 > 
->> For capable HCAs (e.g. ConnectX-4/ConnectX-5) this will allow end-to-end
->> protection information passthrough and validation for NVMe over RDMA 
->> transport.
->> Similar to iSER, T10-PI offload support was implemented over RDMA 
->> signature
->> verbs API and is enabled via module parameter. In the future we might 
->> want
->> to add support per controller.
+> This notion that only native NVMe multipath can be successful is utter
+> bullshit.  And the mere fact that I've gotten such a reaction from a
+> select few speaks to some serious control issues.
 > 
-> In NVMe we like to call inherited features differently, in nvme its
-> metadata and not T10-PI :)
+> Imagine if XFS developers just one day imposed that it is the _only_
+> filesystem that can be used on persistent memory.
 > 
-> Thanks for doing this btw!
+> Just please dial it back.. seriously tiresome.
 
-NP :)
+Mike, you make a fair point on multipath tools being more mature
+compared to NVMe multipathing. But this is not the discussion at all (at
+least not from my perspective). There was not a single use-case that
+gave a clear-cut justification for a per-subsystem personality switch
+(other than some far fetched imaginary scenarios). This is not unusual
+for the kernel community not to accept things with little to no use,
+especially when it involves exposing a userspace ABI.
 
-> 
-> Looking at the code, I realize that the rdma core API can improve
-> significantly. I think we can actually achieve a much better
-> abstraction of the HW implementation details. This would be a good
-> chance to clean it all up.
-> 
-> What I'm thinking of is we should have a single MR that
-> describes everything (data, metadata, signature parameters) instead
-> of exposing the use of multiple MRs via the API.
-> 
-> Here's how I think we can do it (and correct me where I'm wrong)
-> 1. modify ib_alloc_mr to accept another parameter of max_meta_sg
-> which will tell the driver to allocate more "internal" mrs or entries
-> for a signature enabled MR (driver that does not support would fail if
-> its set or non-signature MR was requested).
-> 
-> 2. introduce ib_map_mr_sg_sig that will accept both data and meta sgls
-> and will prepare the internal MR mappings.
-> 
-> 3. have ib_sig_handover_wr perform whatever needed to do the job.
-> Which is posting the reg_mr for the "internal" mr(s).
-> 
-> Note that IIRC the Mellanox device can register with disabling the
-> device checking the MR was invalidated so it wouldn't need to be
-> locally invalidated (note that this is an internal MR that is private
-> to the driver with local access rights so no harm in not invalidating it).
-> 
-> 4. Move ib_sig_attrs into a signature enabled ib_mr (dynamically
-> allocated).
-> 
-> 5. Given that we now have two block consumers of this, add a better
-> abstraction helpers that take struct request and blk_integrity and
-> fill out the ib_sig_attrs accordingly...
-> 
-> Side note, the signature enabled MR can have only a single "internal"
-> mr because the strided format in the mlx5 signature segment is perfectly
-> capable of accepting two strides in a single lkey.
-> 
-> So consider a signature stride that takes two sgls:
-> data: {d1, d2, d3, d4}
-> meta: {m1, m2, m3, m4}
-> 
-> So the internal MR will look like:
-> 
->  ?????????? data start? meta start
->  ?????????? |?????????? |
->  ?????????? -------------------------
->  ?????????? |d1|d2|d3|d4|m1|m2|m3|m4|
->  ?????????? -------------------------
-> 
-> and the sig_mr stride block would be same lkey but different
-> offsets in it (offset 0 and offset d1+d2+d3+d4)
-> 
-> Thoughts?
+As for now, all I see is a disclaimer saying that it'd need to be
+nurtured over time as the NVMe spec evolves.
+
+Can you (or others) please try and articulate why a "fine grained"
+multipathing is an absolute must? At the moment, I just don't
+understand.
+
+Also, I get your point that exposing state/stats information to
+userspace is needed. That's a fair comment.
