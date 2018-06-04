@@ -1,21 +1,41 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Jun 2018 14:59:18 +0200
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180604071829.tq7wmx4bvk4uzubd@linux-x5ow.site>
-References: <20180525141211.GA25971@lst.de> <20180525145056.GD9591@redhat.com>
- <yq1muwj45sg.fsf@oracle.com> <20180529030236.GA28895@redhat.com>
- <20180529072240.np5c62akbr7jqelr@linux-x5ow.site>
- <20180529080952.GA1369@lst.de> <20180529232718.GA1730@redhat.com>
- <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
- <20180604081921.3cedecbc@pentland.suse.de>
- <20180604071829.tq7wmx4bvk4uzubd@linux-x5ow.site>
-Message-ID: <20180604125918.GC30945@lst.de>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 4 Jun 2018 08:31:35 -0400
+Subject: [PATCH 5/9] nvme: add ANA support
+In-Reply-To: <20180604115103.0c116078@pentland.suse.de>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-6-hch@lst.de>
+ <20180604083658.55a9bc10@pentland.suse.de>
+ <20180604070357.GA21329@lst.de>
+ <20180604115103.0c116078@pentland.suse.de>
+Message-ID: <20180604123134.GA6547@redhat.com>
 
-On Mon, Jun 04, 2018@09:18:29AM +0200, Johannes Thumshirn wrote:
-> What we really should do is, try to give multipath-tools a 'nvme
-> list-subsys' like view of nvme native multipathing (and I think Martin
-> W. has already been looking into this a while ago).
+On Mon, Jun 04 2018 at  5:51P -0400,
+Hannes Reinecke <hare@suse.de> wrote:
 
-Which has been merged into multipath-tools a while ago:
+> On Mon, 4 Jun 2018 09:03:57 +0200
+> Christoph Hellwig <hch@lst.de> wrote:
+> 
+> > On Mon, Jun 04, 2018@08:36:58AM +0200, Hannes Reinecke wrote:
+> > > This suffers from the 'nvme connect' stall if the first detected
+> > > namespace is inaccessible.  
+> > 
+> > Yes.  This isn't really different from any other NVMe target that
+> > constantly returns errors when you connect.
+> > 
+> > If we want to do this properly we need some block level (e.g. gendisk)
+> > state that a given device is ready for I/O.  And then don't scan
+> > partition tables if it isn't, and instead do the scan once it becomes
+> > life.  In other words: this is something that should be handled
+> > mostly at the block level.
+> 
+> Okay; that was one option I figured out, but didn't want to mess with
+> gendisk unless explicitly requested.
+> I'll be looking into it.
 
-https://git.opensvc.com/gitweb.cgi?p=multipath-tools/.git;a=commit;h=86553b57b6bd55e0355ac27ae100cce6cc42bee3
+Pretty sure this will bring about potentially trying discussion with
+udev folks.  The same kinds of requirements have been around in lvm for
+a while (and by lvm I mean it brokers udev readiness while it is
+activating particular dm targets whose sub devices shouldn't be scanned
+yet or at all).
+
+Mike
