@@ -1,75 +1,27 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 4 Jun 2018 08:19:21 +0200
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <20180525141211.GA25971@lst.de> <20180525145056.GD9591@redhat.com>
- <yq1muwj45sg.fsf@oracle.com> <20180529030236.GA28895@redhat.com>
- <20180529072240.np5c62akbr7jqelr@linux-x5ow.site>
- <20180529080952.GA1369@lst.de> <20180529232718.GA1730@redhat.com>
- <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
-Message-ID: <20180604081921.3cedecbc@pentland.suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 4 Jun 2018 08:29:23 +0200
+Subject: [PATCH 4/9] nvme: always failover on path or transport errors
+In-Reply-To: <20180601152711.GA98855@redhat.com>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-5-hch@lst.de> <20180601152711.GA98855@redhat.com>
+Message-ID: <20180604062923.GA20662@lst.de>
 
-On Wed, 30 May 2018 13:05:46 -0600
-Jens Axboe <axboe@kernel.dk> wrote:
-
-> On 5/29/18 5:27 PM, Mike Snitzer wrote:
-> > On Tue, May 29 2018 at  4:09am -0400,
-> > Christoph Hellwig <hch@lst.de> wrote:
-> >   
-> >> On Tue, May 29, 2018 at 09:22:40AM +0200, Johannes Thumshirn
-> >> wrote:  
-> >>> For a "Plan B" we can still use the global knob that's already in
-> >>> place (even if this reminds me so much about scsi-mq which at
-> >>> least we haven't turned on in fear of performance regressions).
-> >>>
-> >>> Let's drop the discussion here, I don't think it leads to
-> >>> something else than flamewars.  
-> >>
-> >> If our plan A doesn't work we can go back to these patches.  For
-> >> now I'd rather have everyone spend their time on making Plan A
-> >> work then preparing for contingencies.  Nothing prevents anyone
-> >> from using these patches already out there if they really want to,
-> >> but I'd recommend people are very careful about doing so as you'll
-> >> lock yourself into a long-term maintainance burden.  
-> > 
-> > Restating (for others): this patchset really isn't about
-> > contingencies. It is about choice.
-> > 
-> > Since we're at an impasse, in the hopes of soliciting definitive
-> > feedback from Jens and Linus, I'm going to attempt to reset the
-> > discussion for their entry.
-> > 
-> > In summary, we have a classic example of a maintainer stalemate
-> > here: 1) Christoph, as NVMe co-maintainer, doesn't want to allow
-> > native NVMe multipath to actively coexist with dm-multipath's NVMe
-> > support on the same host.
-> > 2) I, as DM maintainer, would like to offer this flexibility to
-> > users -- by giving them opt-in choice to continue using existing
-> > dm-multipath with NVMe. (also, both Red Hat and SUSE would like to
-> > offer this).
-> > 
-> > There is no technical reason why they cannot coexist.  Hence this
-> > simple patchset that was originally offered by Johannes Thumshirn
-> > with contributions from myself.  
+On Fri, Jun 01, 2018@11:27:11AM -0400, Mike Snitzer wrote:
+> > @@ -59,6 +59,9 @@ bool nvme_req_needs_failover(struct request *req, blk_status_t error)
+> >  {
+> >  	if (!(req->cmd_flags & REQ_NVME_MPATH))
+> >  		return false;
+> > +	/* always failover for path related errors */
+> > +	if ((nvme_req(req)->status & 0x700) == 0x300)
+> > +		return true;
+> >  	return blk_path_error(error);
+> >  }
 > 
-> Here's what I think - flag days tend to suck. They may be more
-> convenient for developers, but they inflict pain on users. Sometimes
-> they prevent them from moving forward, since updates are now gated on
-> external dependencies. Moving forward with a new architecture is
-> great, but proper care has to be given to existing users of
-> multipath, regardless of how few they may be.
-> 
-> This patchset seems pretty clean and minimalist. Realistically, I'm
-> guessing that SUSE and RH will ship it regardless of upstream status.
-> 
+> Shouldn't this go into nvme_error_status(), with a new NVME_SC if
+> needed, so that blk_path_error() just works?
 
-Without it we're having a choice of disappointing (paying) customers or
-disappointing the upstream community.
+NVME_SC values are defined in the NVMe spec.  The check is intended
+as a catchall for multiple of theses values, as we've defined a whole
+extensible class for path errors.
 
-Guess.
-
-Cheers,
-
-Hannes
+But we could probably add a BLK_STS_PATH and I'll map it to that.
