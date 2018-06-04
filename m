@@ -1,59 +1,37 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 4 Jun 2018 15:37:38 +0200
-Subject: [PATCH 5/9] nvme: add ANA support
-In-Reply-To: <20180604123134.GA6547@redhat.com>
-References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-6-hch@lst.de>
- <20180604083658.55a9bc10@pentland.suse.de>
- <20180604070357.GA21329@lst.de>
- <20180604115103.0c116078@pentland.suse.de>
- <20180604123134.GA6547@redhat.com>
-Message-ID: <20180604153738.3df0058b@pentland.suse.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 4 Jun 2018 16:52:10 +0300
+Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+ support
+In-Reply-To: <20180604121136.GB29545@lst.de>
+References: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
+ <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
+ <8da47cd4-44d5-2229-ef82-26d165dfc245@opengridcomputing.com>
+ <c180e592-a11c-de09-d094-3ab569289fab@grimberg.me>
+ <20180531170201.GB31715@lst.de>
+ <ecfee4dc-763b-d331-32e3-802fc07339cc@opengridcomputing.com>
+ <20180531172554.GA32068@lst.de>
+ <702f1949-02eb-07e4-f101-58c32929b29d@grimberg.me>
+ <010001d3fb68$99d01d80$cd705880$@opengridcomputing.com>
+ <55bd8f56-5261-4f2e-d5a7-5bc50970deb3@grimberg.me>
+ <20180604121136.GB29545@lst.de>
+Message-ID: <05438bc4-61a0-e4ca-a00d-d918c20a0dcc@mellanox.com>
 
-On Mon, 4 Jun 2018 08:31:35 -0400
-Mike Snitzer <snitzer@redhat.com> wrote:
 
-> On Mon, Jun 04 2018 at  5:51P -0400,
-> Hannes Reinecke <hare@suse.de> wrote:
+
+On 6/4/2018 3:11 PM, Christoph Hellwig wrote:
+> On Mon, Jun 04, 2018@03:01:43PM +0300, Sagi Grimberg wrote:
+>>
+>>> He's referring to patch 1 and 2, which are the host side.  No page allocations.
+>>
+>> I'm good with 1 & 2,
+>>
+>> Christoph, you can add my
+>>
+>> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 > 
-> > On Mon, 4 Jun 2018 09:03:57 +0200
-> > Christoph Hellwig <hch@lst.de> wrote:
-> >   
-> > > On Mon, Jun 04, 2018 at 08:36:58AM +0200, Hannes Reinecke wrote:  
-> > > > This suffers from the 'nvme connect' stall if the first detected
-> > > > namespace is inaccessible.    
-> > > 
-> > > Yes.  This isn't really different from any other NVMe target that
-> > > constantly returns errors when you connect.
-> > > 
-> > > If we want to do this properly we need some block level (e.g.
-> > > gendisk) state that a given device is ready for I/O.  And then
-> > > don't scan partition tables if it isn't, and instead do the scan
-> > > once it becomes life.  In other words: this is something that
-> > > should be handled mostly at the block level.  
-> > 
-> > Okay; that was one option I figured out, but didn't want to mess
-> > with gendisk unless explicitly requested.
-> > I'll be looking into it.  
+> We've missed the merge window now, so we can just wait for a proper
+> resend from Steve I think.
 > 
-> Pretty sure this will bring about potentially trying discussion with
-> udev folks.  The same kinds of requirements have been around in lvm
-> for a while (and by lvm I mean it brokers udev readiness while it is
-> activating particular dm targets whose sub devices shouldn't be
-> scanned yet or at all).
-> 
-One _can_ work around that issue by setting the GENHD_FL_NO_PART_SCAN
-flag correctly; that will avoid the hang as the partitions are never
-scanned.
-Tricky bit is to unset that flag and kick off revalidation whenever a
-new path is connected.
 
-That will get us over the initial hurdle (ie 'nvme connect' will
-succeed), but we'll potentially ending up with hanging udev processes
-trying to call 'blkid' on those devices.
-
-But that's a different story.
-
-Cheers,
-
-Hannes
+There are still issue that I'm trying to help Steve with their debug so 
+let's wait with the merge until we figure them out.
