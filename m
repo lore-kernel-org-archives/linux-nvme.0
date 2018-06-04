@@ -1,29 +1,29 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Jun 2018 14:11:06 +0200
-Subject: [PATCH 9/9] nvmet: make ANATT configurable
-In-Reply-To: <20180604122102.4bfcd154@pentland.suse.de>
-References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-10-hch@lst.de>
- <20180604122102.4bfcd154@pentland.suse.de>
-Message-ID: <20180604121106.GA29545@lst.de>
+Date: Mon, 4 Jun 2018 14:11:36 +0200
+Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
+ support
+In-Reply-To: <55bd8f56-5261-4f2e-d5a7-5bc50970deb3@grimberg.me>
+References: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
+ <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
+ <8da47cd4-44d5-2229-ef82-26d165dfc245@opengridcomputing.com>
+ <c180e592-a11c-de09-d094-3ab569289fab@grimberg.me>
+ <20180531170201.GB31715@lst.de>
+ <ecfee4dc-763b-d331-32e3-802fc07339cc@opengridcomputing.com>
+ <20180531172554.GA32068@lst.de>
+ <702f1949-02eb-07e4-f101-58c32929b29d@grimberg.me>
+ <010001d3fb68$99d01d80$cd705880$@opengridcomputing.com>
+ <55bd8f56-5261-4f2e-d5a7-5bc50970deb3@grimberg.me>
+Message-ID: <20180604121136.GB29545@lst.de>
 
-On Mon, Jun 04, 2018@12:21:02PM +0200, Hannes Reinecke wrote:
-> _Actually_ I would like to retract this patch.
-> 
-> I've been working on implementing ANA TT on the target, and found this
-> particular implementation unworkable.
-> 
-> The problem is that with the current implementation the ANA state is
-> pretty much tied to the _port_, which might be shared across several
-> subsystems. Consequently any state change might affect namespaces
-> on several subsystems, too.
-> 
-> But if the anatt value is tied to the subsystem we'd need to have
-> different timers/workqueue items per port and subsystem/namespace, which
-> doesn't really scale. Plus we're not giving anything away by making the
-> anatt per port, not per subsys.
+On Mon, Jun 04, 2018@03:01:43PM +0300, Sagi Grimberg wrote:
+>
+>> He's referring to patch 1 and 2, which are the host side.  No page allocations.
+>
+> I'm good with 1 & 2,
+>
+> Christoph, you can add my
+>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Well.  In the end the ANATT is a property of whatever cluster manager
-is used to manage the backend connections.  Neither subsystem nor port
-really map to that perfectly.  In fact we probably just want to set
-it globally.
+We've missed the merge window now, so we can just wait for a proper
+resend from Steve I think.
