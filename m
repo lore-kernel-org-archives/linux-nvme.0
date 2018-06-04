@@ -1,137 +1,30 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon,  4 Jun 2018 09:56:12 +0200
-Subject: [PATCH v2] nvme: trace: add disk name to tracepoints
-Message-ID: <20180604075612.7277-1-jthumshirn@suse.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 4 Jun 2018 11:48:14 +0200
+Subject: [PATCH 8/9] nvmet: support configuring additional ANA groups
+In-Reply-To: <20180604065339.GA21183@lst.de>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-9-hch@lst.de>
+ <20180604084250.302284cf@pentland.suse.de>
+ <20180604065339.GA21183@lst.de>
+Message-ID: <20180604114814.5213858b@pentland.suse.de>
 
-Add disk name to tracepoints so we can better destinguish between
-individual disks in the trace output.
+On Mon, 4 Jun 2018 08:53:39 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> On Mon, Jun 04, 2018@08:42:50AM +0200, Hannes Reinecke wrote:
+> > I'm not particularly keen of having the default ANA group _not_
+> > being present in configfs, but that can be fixed with a later
+> > patch.  
+> 
+> Yes, I came to the conclusion that having it visible and even being
+> able to change state might be useful.  We just need to careful to
+> not allow removing it, but I think the SCSI target code has some
+> precedence for that.
 
----
-Changes to v1:
-* Rebase onto nvme-4.18
----
- drivers/nvme/host/core.c  |  4 ++--
- drivers/nvme/host/trace.h | 32 ++++++++++++++++++++------------
- 2 files changed, 22 insertions(+), 14 deletions(-)
+No worries, I have a patch for that.
+I'm currently rebasing my patchset (including ANATT support) and will
+be posting it once testing has completed.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1ae77428a1a5..d943578c56eb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -653,9 +653,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 
- 	cmd->common.command_id = req->tag;
- 	if (ns)
--		trace_nvme_setup_nvm_cmd(req->q->id, cmd);
-+		trace_nvme_setup_nvm_cmd(ns->disk->disk_name, req->q->id, cmd);
- 	else
--		trace_nvme_setup_admin_cmd(cmd);
-+		trace_nvme_setup_admin_cmd(ns->disk->disk_name, cmd);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_setup_cmd);
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 01390f0e1671..b5d73e21eb6f 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -76,9 +76,10 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
- 	nvme_trace_parse_nvm_cmd(p, opcode, cdw10)
- 
- TRACE_EVENT(nvme_setup_admin_cmd,
--	    TP_PROTO(struct nvme_command *cmd),
--	    TP_ARGS(cmd),
-+	    TP_PROTO(char *disk_name, struct nvme_command *cmd),
-+	    TP_ARGS(disk_name, cmd),
- 	    TP_STRUCT__entry(
-+		    __string(name, disk_name)
- 		    __field(u8, opcode)
- 		    __field(u8, flags)
- 		    __field(u16, cid)
-@@ -86,6 +87,7 @@ TRACE_EVENT(nvme_setup_admin_cmd,
- 		    __array(u8, cdw10, 24)
- 	    ),
- 	    TP_fast_assign(
-+		    __assign_str(name, disk_name);
- 		    __entry->opcode = cmd->common.opcode;
- 		    __entry->flags = cmd->common.flags;
- 		    __entry->cid = cmd->common.command_id;
-@@ -93,17 +95,19 @@ TRACE_EVENT(nvme_setup_admin_cmd,
- 		    memcpy(__entry->cdw10, cmd->common.cdw10,
- 			   sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk(" cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->cid, __entry->flags, __entry->metadata,
-+	    TP_printk("%s: cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __get_str(name), __entry->cid, __entry->flags,
-+		      __entry->metadata,
- 		      show_admin_opcode_name(__entry->opcode),
- 		      __parse_nvme_admin_cmd(__entry->opcode, __entry->cdw10))
- );
- 
- 
- TRACE_EVENT(nvme_setup_nvm_cmd,
--	    TP_PROTO(int qid, struct nvme_command *cmd),
--	    TP_ARGS(qid, cmd),
-+	    TP_PROTO(char *disk_name, int qid, struct nvme_command *cmd),
-+	    TP_ARGS(disk_name, qid, cmd),
- 	    TP_STRUCT__entry(
-+		    __string(name, disk_name)
- 		    __field(int, qid)
- 		    __field(u8, opcode)
- 		    __field(u8, flags)
-@@ -113,6 +117,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		    __array(u8, cdw10, 24)
- 	    ),
- 	    TP_fast_assign(
-+		    __assign_str(name, disk_name);
- 		    __entry->qid = qid;
- 		    __entry->opcode = cmd->common.opcode;
- 		    __entry->flags = cmd->common.flags;
-@@ -122,9 +127,9 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		    memcpy(__entry->cdw10, cmd->common.cdw10,
- 			   sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->qid, __entry->nsid, __entry->cid,
--		      __entry->flags, __entry->metadata,
-+	    TP_printk("%s: qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __get_str(name), __entry->qid, __entry->nsid,
-+		      __entry->cid, __entry->flags, __entry->metadata,
- 		      show_opcode_name(__entry->opcode),
- 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
- );
-@@ -133,6 +138,7 @@ TRACE_EVENT(nvme_complete_rq,
- 	    TP_PROTO(struct request *req),
- 	    TP_ARGS(req),
- 	    TP_STRUCT__entry(
-+		    __string(name, req->rq_disk->disk_name)
- 		    __field(int, qid)
- 		    __field(int, cid)
- 		    __field(u64, result)
-@@ -141,6 +147,7 @@ TRACE_EVENT(nvme_complete_rq,
- 		    __field(u16, status)
- 	    ),
- 	    TP_fast_assign(
-+		    __assign_str(name, req->rq_disk->disk_name);
- 		    __entry->qid = req->q->id;
- 		    __entry->cid = req->tag;
- 		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
-@@ -148,9 +155,10 @@ TRACE_EVENT(nvme_complete_rq,
- 		    __entry->flags = nvme_req(req)->flags;
- 		    __entry->status = nvme_req(req)->status;
- 	    ),
--	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
--		      __entry->qid, __entry->cid, __entry->result,
--		      __entry->retries, __entry->flags, __entry->status)
-+	    TP_printk("%s: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __get_str(name), __entry->qid, __entry->cid,
-+		      __entry->result, __entry->retries, __entry->flags,
-+		      __entry->status)
- 
- );
- 
--- 
-2.16.3
+Cheers,
+
+Hannes
