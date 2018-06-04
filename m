@@ -1,23 +1,22 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 4 Jun 2018 08:17:06 +0200
-Subject: [PATCH 12/12] nvme: limit warnings from nvme_identify_ns
-In-Reply-To: <20180530164600.26856-13-hch@lst.de>
+Date: Mon, 4 Jun 2018 08:14:10 +0200
+Subject: [PATCH 04/12] nvmet: add a new nvmet_zero_sgl helper
+In-Reply-To: <20180530164600.26856-5-hch@lst.de>
 References: <20180530164600.26856-1-hch@lst.de>
- <20180530164600.26856-13-hch@lst.de>
-Message-ID: <20180604081706.7be35b3e@pentland.suse.de>
+ <20180530164600.26856-5-hch@lst.de>
+Message-ID: <20180604081410.0ad79325@pentland.suse.de>
 
-On Wed, 30 May 2018 18:46:00 +0200
+On Wed, 30 May 2018 18:45:52 +0200
 Christoph Hellwig <hch@lst.de> wrote:
 
-> When rescanning namespaces after an AEN we will issue Identify
-> Namespace comands to namespaces that have gone away, so don't warn
-> for this specific case.
+> Zeroes the SGL in the payload.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/host/core.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/nvme/target/core.c  | 7 +++++++
+>  drivers/nvme/target/nvmet.h | 1 +
+>  2 files changed, 8 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
