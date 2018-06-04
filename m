@@ -1,31 +1,32 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 4 Jun 2018 08:24:55 +0200
-Subject: [PATCH] nvme: avoid hang on inaccessible paths
-In-Reply-To: <35d5d780-b1c2-d176-639b-b41106e3e980@grimberg.me>
-References: <20180530111637.22223-1-hare@suse.de>
- <20180530121241.GA1850@lst.de>
- <20180530143020.50a299b8@pentland.suse.de>
- <20180530125452.GA2763@lst.de>
- <35d5d780-b1c2-d176-639b-b41106e3e980@grimberg.me>
-Message-ID: <20180604082455.6369788d@pentland.suse.de>
+Date: Mon, 4 Jun 2018 08:30:18 +0200
+Subject: [PATCH 1/9] nvme: don't hold nvmf_transports_rwsem for more
+ than transport lookups
+In-Reply-To: <20180601071128.7630-2-hch@lst.de>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-2-hch@lst.de>
+Message-ID: <20180604083018.3ba53612@pentland.suse.de>
 
-On Thu, 31 May 2018 02:10:35 +0300
-Sagi Grimberg <sagi@grimberg.me> wrote:
+On Fri,  1 Jun 2018 09:11:20 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
-> > And I guess this where the real issue starts.  We should not do
-> > block I/O under nvmf_dev_mutex.
-> > 
-> > James has some work on asynchronous connects pending for FC, so I
-> > guess we could look into generalizing that and always exectute the
-> > real connect work in a different thread.  
+> From: Johannes Thumshirn <jthumshirn at suse.de>
 > 
-> I still need to ramp up on the ANA patches, but I'd prefer moving
-> create_ctrl outside of nvmf_dev_mutex instead of having it async.
+> Only take nvmf_transports_rwsem when doing a lookup of registered
+> transports, so that a blocking ->create_ctrl doesn't prevent other
+> actions on /dev/nvme-fabrics.
+> 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> [hch: increased lock hold time a bit to be safe, added a comment
+>  and updated the changelog]
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/fabrics.c | 3 ++-
+>  drivers/nvme/host/fabrics.h | 3 +++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
 
-We'd need the async patches still, as they provide a way on how we can
-call nvme-cli directly from within udev rules.
-Without those patches nvme-cli might get stuck (as this issue neatly
-proves) and would block udev from processing events.
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
