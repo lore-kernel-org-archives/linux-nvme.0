@@ -1,35 +1,37 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 4 Jun 2018 07:17:36 -0500
-Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed
- sgl	support
-In-Reply-To: <20180604121136.GB29545@lst.de>
-References: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
- <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
- <8da47cd4-44d5-2229-ef82-26d165dfc245@opengridcomputing.com>
- <c180e592-a11c-de09-d094-3ab569289fab@grimberg.me>
- <20180531170201.GB31715@lst.de>
- <ecfee4dc-763b-d331-32e3-802fc07339cc@opengridcomputing.com>
- <20180531172554.GA32068@lst.de>
- <702f1949-02eb-07e4-f101-58c32929b29d@grimberg.me>
- <010001d3fb68$99d01d80$cd705880$@opengridcomputing.com>
- <55bd8f56-5261-4f2e-d5a7-5bc50970deb3@grimberg.me>
- <20180604121136.GB29545@lst.de>
-Message-ID: <00df01d3fbfe$06ac81b0$14058510$@opengridcomputing.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 4 Jun 2018 15:17:43 +0300
+Subject: [PATCH] nvme: avoid hang on inaccessible paths
+In-Reply-To: <20180604063753.GA20811@lst.de>
+References: <20180530111637.22223-1-hare@suse.de>
+ <20180530121241.GA1850@lst.de> <20180530143020.50a299b8@pentland.suse.de>
+ <20180530125452.GA2763@lst.de>
+ <35d5d780-b1c2-d176-639b-b41106e3e980@grimberg.me>
+ <20180604082455.6369788d@pentland.suse.de> <20180604063753.GA20811@lst.de>
+Message-ID: <db93e436-8f3b-352b-7395-f8eb7cf2e198@grimberg.me>
 
-> On Mon, Jun 04, 2018@03:01:43PM +0300, Sagi Grimberg wrote:
-> >
-> >> He's referring to patch 1 and 2, which are the host side.  No page
-> allocations.
-> >
-> > I'm good with 1 & 2,
-> >
-> > Christoph, you can add my
-> >
-> > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+
+>> We'd need the async patches still, as they provide a way on how we can
+>> call nvme-cli directly from within udev rules.
+>> Without those patches nvme-cli might get stuck (as this issue neatly
+>> proves) and would block udev from processing events.
 > 
-> We've missed the merge window now, so we can just wait for a proper
-> resend from Steve I think.
+> So just run nvme-cli in the background from udev.  Or if udev really
+> is too stupid for that have an option to fork and run in the background
+> in nvme-cli itself..
 
-Ok I'll be sending a new version soon.
+ From udev man:
 
-Steve.
+RUN{type}
+
+...
+        This can only be used for very short-running foreground tasks.
+        Running an event process for a long period of time may block all
+        further events for this or a dependent device.
+
+        Starting daemons or other long running processes is not appropriate
+        for udev; the forked processes, detached or not, will be
+        unconditionally killed after the event handling has finished.
+
+One way around this is to disown the command from udev shell
+(e.g. $cmd & disown)
