@@ -1,21 +1,23 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 4 Jun 2018 08:30:44 +0200
-Subject: [PATCH 2/9] nvme.h: add ANA definitions
-In-Reply-To: <20180601071128.7630-3-hch@lst.de>
-References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-3-hch@lst.de>
-Message-ID: <20180604083044.40ae36a5@pentland.suse.de>
+Date: Mon, 4 Jun 2018 08:17:06 +0200
+Subject: [PATCH 12/12] nvme: limit warnings from nvme_identify_ns
+In-Reply-To: <20180530164600.26856-13-hch@lst.de>
+References: <20180530164600.26856-1-hch@lst.de>
+ <20180530164600.26856-13-hch@lst.de>
+Message-ID: <20180604081706.7be35b3e@pentland.suse.de>
 
-On Fri,  1 Jun 2018 09:11:21 +0200
+On Wed, 30 May 2018 18:46:00 +0200
 Christoph Hellwig <hch@lst.de> wrote:
 
-> Add various defintions from NVMe 1.3 TP 4004.
+> When rescanning namespaces after an AEN we will issue Identify
+> Namespace comands to namespaces that have gone away, so don't warn
+> for this specific case.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  include/linux/nvme.h | 50
-> +++++++++++++++++++++++++++++++++++++++++--- 1 file changed, 47
-> insertions(+), 3 deletions(-)
+>  drivers/nvme/host/core.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
