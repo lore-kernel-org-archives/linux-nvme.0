@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 4 Jun 2018 13:58:34 +0200
-Subject: [PATCH 2/9] nvme.h: add ANA definitions
-In-Reply-To: <20180601071128.7630-3-hch@lst.de>
+Date: Mon, 4 Jun 2018 13:59:22 +0200
+Subject: [PATCH 3/9] nvme: add support for the log specific field
+In-Reply-To: <20180601071128.7630-4-hch@lst.de>
 References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-3-hch@lst.de>
-Message-ID: <20180604115834.5x4j7iv7kprdctbw@linux-x5ow.site>
+ <20180601071128.7630-4-hch@lst.de>
+Message-ID: <20180604115922.lwzv6rdhlzdi6yfo@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
