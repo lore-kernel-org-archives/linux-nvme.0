@@ -1,27 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Jun 2018 08:29:23 +0200
-Subject: [PATCH 4/9] nvme: always failover on path or transport errors
-In-Reply-To: <20180601152711.GA98855@redhat.com>
-References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-5-hch@lst.de> <20180601152711.GA98855@redhat.com>
-Message-ID: <20180604062923.GA20662@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 4 Jun 2018 08:24:55 +0200
+Subject: [PATCH] nvme: avoid hang on inaccessible paths
+In-Reply-To: <35d5d780-b1c2-d176-639b-b41106e3e980@grimberg.me>
+References: <20180530111637.22223-1-hare@suse.de>
+ <20180530121241.GA1850@lst.de>
+ <20180530143020.50a299b8@pentland.suse.de>
+ <20180530125452.GA2763@lst.de>
+ <35d5d780-b1c2-d176-639b-b41106e3e980@grimberg.me>
+Message-ID: <20180604082455.6369788d@pentland.suse.de>
 
-On Fri, Jun 01, 2018@11:27:11AM -0400, Mike Snitzer wrote:
-> > @@ -59,6 +59,9 @@ bool nvme_req_needs_failover(struct request *req, blk_status_t error)
-> >  {
-> >  	if (!(req->cmd_flags & REQ_NVME_MPATH))
-> >  		return false;
-> > +	/* always failover for path related errors */
-> > +	if ((nvme_req(req)->status & 0x700) == 0x300)
-> > +		return true;
-> >  	return blk_path_error(error);
-> >  }
+On Thu, 31 May 2018 02:10:35 +0300
+Sagi Grimberg <sagi@grimberg.me> wrote:
+
+> > And I guess this where the real issue starts.  We should not do
+> > block I/O under nvmf_dev_mutex.
+> > 
+> > James has some work on asynchronous connects pending for FC, so I
+> > guess we could look into generalizing that and always exectute the
+> > real connect work in a different thread.  
 > 
-> Shouldn't this go into nvme_error_status(), with a new NVME_SC if
-> needed, so that blk_path_error() just works?
+> I still need to ramp up on the ANA patches, but I'd prefer moving
+> create_ctrl outside of nvmf_dev_mutex instead of having it async.
 
-NVME_SC values are defined in the NVMe spec.  The check is intended
-as a catchall for multiple of theses values, as we've defined a whole
-extensible class for path errors.
+We'd need the async patches still, as they provide a way on how we can
+call nvme-cli directly from within udev rules.
+Without those patches nvme-cli might get stuck (as this issue neatly
+proves) and would block udev from processing events.
 
-But we could probably add a BLK_STS_PATH and I'll map it to that.
+Cheers,
+
+Hannes
