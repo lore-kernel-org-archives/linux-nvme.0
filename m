@@ -1,65 +1,33 @@
-From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Mon, 4 Jun 2018 15:49:16 -0600
-Subject: [PATCH v2 2/8] nvmet-rdma: wrap raw kref_get/put() with
- corresponding helpers
-In-Reply-To: <20180604123003.24748-3-roman.penyaev@profitbricks.com>
-References: <20180604123003.24748-1-roman.penyaev@profitbricks.com>
- <20180604123003.24748-3-roman.penyaev@profitbricks.com>
-Message-ID: <20180604214916.GC24926@ziepe.ca>
+From: roland@purestorage.com (Roland Dreier)
+Date: Mon, 4 Jun 2018 14:58:49 -0700
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+Message-ID: <CAL1RGDV0eT4juuMwHWkjqc2oTsk-CHRJ0A90veXxLsVZYa5esQ@mail.gmail.com>
 
-On Mon, Jun 04, 2018@02:29:57PM +0200, Roman Pen wrote:
-> This is just a preparation patch: put kref_put() and kref_get_unless_zero()
-> inside helpers with more suitable names.
-> 
-> Signed-off-by: Roman Pen <roman.penyaev at profitbricks.de>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Steve Wise <swise at opengridcomputing.com>
-> Cc: Bart Van Assche <bart.vanassche at sandisk.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> Cc: Doug Ledford <dledford at redhat.com>
-> Cc: linux-nvme at lists.infradead.org
->  drivers/nvme/target/rdma.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 52e0c5d579a7..4304b8d8d027 100644
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -775,7 +775,7 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->  	return ret;
->  }
->  
-> -static void nvmet_rdma_free_dev(struct kref *ref)
-> +static void nvmet_rdma_free_device(struct kref *ref)
->  {
->  	struct nvmet_rdma_device *ndev =
->  		container_of(ref, struct nvmet_rdma_device, ref);
-> @@ -790,6 +790,16 @@ static void nvmet_rdma_free_dev(struct kref *ref)
->  	kfree(ndev);
->  }
->  
-> +static int nvmet_rdma_dev_put(struct nvmet_rdma_device *dev)
-> +{
-> +	return kref_put(&dev->ref, nvmet_rdma_free_device);
-> +}
-> +
-> +static int nvmet_rdma_dev_get(struct nvmet_rdma_device *dev)
-> +{
-> +	return kref_get_unless_zero(&dev->ref);
-> +}
+> Moreover, I also wanted to point out that fabrics array vendors are
+> building products that rely on standard nvme multipathing (and probably
+> multipathing over dispersed namespaces as well), and keeping a knob that
+> will keep nvme users with dm-multipath will probably not help them
+> educate their customers as well... So there is another angle to this.
 
-Don't wrap get_unless_zero with something called get..
+As a vendor who is building an NVMe-oF storage array, I can say that
+clarity around how Linux wants to handle NVMe multipath would
+definitely be appreciated.  It would be great if we could all converge
+around the upstream native driver but right now it doesn't look
+adequate - having only a single active path is not the best way to use
+a multi-controller storage system.  Unfortunately it looks like we're
+headed to a world where people have to write separate "best practices"
+documents to cover RHEL, SLES and other vendors.
 
-unless_zero should only be used in special situations where something tricky
-is going on.. In this case it looks like it is because a
-nvmet_rdma_device can continue to reside in the device_list() even after
-being fully 'put'..
+We plan to implement all the fancy NVMe standards like ANA, but it
+seems that there is still a requirement to let the host side choose
+policies about how to use paths (round-robin vs least queue depth for
+example).  Even in the modern SCSI world with VPD pages and ALUA,
+there are still knobs that are needed.  Maybe NVMe will be different
+and we can find defaults that work in all cases but I have to admit
+I'm skeptical...
 
-Which does pose a question to this whole series, what have you done to
-ensure the client data access isn't racing with the removal of the
-device/client?
-
-We might want to adjust the core code to make this a little saner, eg
-maybe the client_data should have an option that manages a kref'd
-memory blob internally with proper locking or something..
-
-Jason
+ - R.
