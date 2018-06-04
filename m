@@ -1,39 +1,137 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 4 Jun 2018 09:18:29 +0200
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <20180604081921.3cedecbc@pentland.suse.de>
-References: <20180525135813.GB9591@redhat.com> <20180525141211.GA25971@lst.de>
- <20180525145056.GD9591@redhat.com> <yq1muwj45sg.fsf@oracle.com>
- <20180529030236.GA28895@redhat.com>
- <20180529072240.np5c62akbr7jqelr@linux-x5ow.site>
- <20180529080952.GA1369@lst.de> <20180529232718.GA1730@redhat.com>
- <f4951571-d37d-73cd-1d6c-0ca84647d5ac@kernel.dk>
- <20180604081921.3cedecbc@pentland.suse.de>
-Message-ID: <20180604071829.tq7wmx4bvk4uzubd@linux-x5ow.site>
+Date: Mon,  4 Jun 2018 09:56:12 +0200
+Subject: [PATCH v2] nvme: trace: add disk name to tracepoints
+Message-ID: <20180604075612.7277-1-jthumshirn@suse.de>
 
-On Mon, Jun 04, 2018@08:19:21AM +0200, Hannes Reinecke wrote:
-> Without it we're having a choice of disappointing (paying) customers or
-> disappointing the upstream community.
+Add disk name to tracepoints so we can better destinguish between
+individual disks in the trace output.
 
-I personally think (regardless of the fact, that I wrote the patch
-under discussion), using the module parameter is sufficient for these
-kind of customers. For me it's an either/or kind of setting (either
-native or dm-mpath).
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Downstream distributions could still carry a small patch flipping the
-default to off if they want to maintain backwards compatibility with
-existing dm-mpath setups (which for NVMe I doubt there are many!).
+---
+Changes to v1:
+* Rebase onto nvme-4.18
+---
+ drivers/nvme/host/core.c  |  4 ++--
+ drivers/nvme/host/trace.h | 32 ++++++++++++++++++++------------
+ 2 files changed, 22 insertions(+), 14 deletions(-)
 
-What we really should do is, try to give multipath-tools a 'nvme
-list-subsys' like view of nvme native multipathing (and I think Martin
-W. has already been looking into this a while ago).
-
-
-   Johannes
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1ae77428a1a5..d943578c56eb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -653,9 +653,9 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 
+ 	cmd->common.command_id = req->tag;
+ 	if (ns)
+-		trace_nvme_setup_nvm_cmd(req->q->id, cmd);
++		trace_nvme_setup_nvm_cmd(ns->disk->disk_name, req->q->id, cmd);
+ 	else
+-		trace_nvme_setup_admin_cmd(cmd);
++		trace_nvme_setup_admin_cmd(ns->disk->disk_name, cmd);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_setup_cmd);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 01390f0e1671..b5d73e21eb6f 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -76,9 +76,10 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
+ 	nvme_trace_parse_nvm_cmd(p, opcode, cdw10)
+ 
+ TRACE_EVENT(nvme_setup_admin_cmd,
+-	    TP_PROTO(struct nvme_command *cmd),
+-	    TP_ARGS(cmd),
++	    TP_PROTO(char *disk_name, struct nvme_command *cmd),
++	    TP_ARGS(disk_name, cmd),
+ 	    TP_STRUCT__entry(
++		    __string(name, disk_name)
+ 		    __field(u8, opcode)
+ 		    __field(u8, flags)
+ 		    __field(u16, cid)
+@@ -86,6 +87,7 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 		    __array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
++		    __assign_str(name, disk_name);
+ 		    __entry->opcode = cmd->common.opcode;
+ 		    __entry->flags = cmd->common.flags;
+ 		    __entry->cid = cmd->common.command_id;
+@@ -93,17 +95,19 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 		    memcpy(__entry->cdw10, cmd->common.cdw10,
+ 			   sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk(" cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->cid, __entry->flags, __entry->metadata,
++	    TP_printk("%s: cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __get_str(name), __entry->cid, __entry->flags,
++		      __entry->metadata,
+ 		      show_admin_opcode_name(__entry->opcode),
+ 		      __parse_nvme_admin_cmd(__entry->opcode, __entry->cdw10))
+ );
+ 
+ 
+ TRACE_EVENT(nvme_setup_nvm_cmd,
+-	    TP_PROTO(int qid, struct nvme_command *cmd),
+-	    TP_ARGS(qid, cmd),
++	    TP_PROTO(char *disk_name, int qid, struct nvme_command *cmd),
++	    TP_ARGS(disk_name, qid, cmd),
+ 	    TP_STRUCT__entry(
++		    __string(name, disk_name)
+ 		    __field(int, qid)
+ 		    __field(u8, opcode)
+ 		    __field(u8, flags)
+@@ -113,6 +117,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		    __array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
++		    __assign_str(name, disk_name);
+ 		    __entry->qid = qid;
+ 		    __entry->opcode = cmd->common.opcode;
+ 		    __entry->flags = cmd->common.flags;
+@@ -122,9 +127,9 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		    memcpy(__entry->cdw10, cmd->common.cdw10,
+ 			   sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->qid, __entry->nsid, __entry->cid,
+-		      __entry->flags, __entry->metadata,
++	    TP_printk("%s: qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __get_str(name), __entry->qid, __entry->nsid,
++		      __entry->cid, __entry->flags, __entry->metadata,
+ 		      show_opcode_name(__entry->opcode),
+ 		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
+ );
+@@ -133,6 +138,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 	    TP_PROTO(struct request *req),
+ 	    TP_ARGS(req),
+ 	    TP_STRUCT__entry(
++		    __string(name, req->rq_disk->disk_name)
+ 		    __field(int, qid)
+ 		    __field(int, cid)
+ 		    __field(u64, result)
+@@ -141,6 +147,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 		    __field(u16, status)
+ 	    ),
+ 	    TP_fast_assign(
++		    __assign_str(name, req->rq_disk->disk_name);
+ 		    __entry->qid = req->q->id;
+ 		    __entry->cid = req->tag;
+ 		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+@@ -148,9 +155,10 @@ TRACE_EVENT(nvme_complete_rq,
+ 		    __entry->flags = nvme_req(req)->flags;
+ 		    __entry->status = nvme_req(req)->status;
+ 	    ),
+-	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
+-		      __entry->qid, __entry->cid, __entry->result,
+-		      __entry->retries, __entry->flags, __entry->status)
++	    TP_printk("%s: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __get_str(name), __entry->qid, __entry->cid,
++		      __entry->result, __entry->retries, __entry->flags,
++		      __entry->status)
+ 
+ );
+ 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.16.3
