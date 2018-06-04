@@ -1,33 +1,20 @@
-From: roland@purestorage.com (Roland Dreier)
-Date: Mon, 4 Jun 2018 14:58:49 -0700
-Subject: [PATCH 0/3] Provide more fine grained control over multipathing
-In-Reply-To: <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
-References: <20180525125322.15398-1-jthumshirn@suse.de>
- <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
- <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
-Message-ID: <CAL1RGDV0eT4juuMwHWkjqc2oTsk-CHRJ0A90veXxLsVZYa5esQ@mail.gmail.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 4 Jun 2018 16:46:54 -0600
+Subject: [PATCHv3 7/9] nvme-pci: Attempt reset retry for IO failures
+In-Reply-To: <d81b6cb4-ba05-df56-3b21-e79e9a1a6fc9@grimberg.me>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <20180524203500.14081-8-keith.busch@intel.com>
+ <d81b6cb4-ba05-df56-3b21-e79e9a1a6fc9@grimberg.me>
+Message-ID: <20180604224654.GA8782@localhost.localdomain>
 
-> Moreover, I also wanted to point out that fabrics array vendors are
-> building products that rely on standard nvme multipathing (and probably
-> multipathing over dispersed namespaces as well), and keeping a knob that
-> will keep nvme users with dm-multipath will probably not help them
-> educate their customers as well... So there is another angle to this.
+On Thu, May 31, 2018@02:40:26AM +0300, Sagi Grimberg wrote:
+> > If the reset failed due to a non-fatal error, this patch will attempt
+> > to reset the controller again, with a maximum of 4 attempts.
+> 
+> curious, where did 4 came from?
 
-As a vendor who is building an NVMe-oF storage array, I can say that
-clarity around how Linux wants to handle NVMe multipath would
-definitely be appreciated.  It would be great if we could all converge
-around the upstream native driver but right now it doesn't look
-adequate - having only a single active path is not the best way to use
-a multi-controller storage system.  Unfortunately it looks like we're
-headed to a world where people have to write separate "best practices"
-documents to cover RHEL, SLES and other vendors.
-
-We plan to implement all the fancy NVMe standards like ANA, but it
-seems that there is still a requirement to let the host side choose
-policies about how to use paths (round-robin vs least queue depth for
-example).  Even in the modern SCSI world with VPD pages and ALUA,
-there are still knobs that are needed.  Maybe NVMe will be different
-and we can find defaults that work in all cases but I have to admit
-I'm skeptical...
-
- - R.
+It was a pretty arbitrary choice based on what passed a modified blktests
+block/011. I don't really like having test code deciding how a driver
+should behave, so I'm okay with either changing the retry counts,
+or just dropping this patch to have the driver unbind on init errors
+instead of retrying.
