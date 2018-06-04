@@ -1,37 +1,40 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 4 Jun 2018 15:17:43 +0300
-Subject: [PATCH] nvme: avoid hang on inaccessible paths
-In-Reply-To: <20180604063753.GA20811@lst.de>
-References: <20180530111637.22223-1-hare@suse.de>
- <20180530121241.GA1850@lst.de> <20180530143020.50a299b8@pentland.suse.de>
- <20180530125452.GA2763@lst.de>
- <35d5d780-b1c2-d176-639b-b41106e3e980@grimberg.me>
- <20180604082455.6369788d@pentland.suse.de> <20180604063753.GA20811@lst.de>
-Message-ID: <db93e436-8f3b-352b-7395-f8eb7cf2e198@grimberg.me>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 4 Jun 2018 08:23:50 -0400
+Subject: [PATCH 4/9] nvme: always failover on path or transport errors
+In-Reply-To: <20180604062923.GA20662@lst.de>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-5-hch@lst.de>
+ <20180601152711.GA98855@redhat.com> <20180604062923.GA20662@lst.de>
+Message-ID: <20180604122350.GA6478@redhat.com>
 
+On Mon, Jun 04 2018 at  2:29P -0400,
+Christoph Hellwig <hch@lst.de> wrote:
 
-
->> We'd need the async patches still, as they provide a way on how we can
->> call nvme-cli directly from within udev rules.
->> Without those patches nvme-cli might get stuck (as this issue neatly
->> proves) and would block udev from processing events.
+> On Fri, Jun 01, 2018@11:27:11AM -0400, Mike Snitzer wrote:
+> > > @@ -59,6 +59,9 @@ bool nvme_req_needs_failover(struct request *req, blk_status_t error)
+> > >  {
+> > >  	if (!(req->cmd_flags & REQ_NVME_MPATH))
+> > >  		return false;
+> > > +	/* always failover for path related errors */
+> > > +	if ((nvme_req(req)->status & 0x700) == 0x300)
+> > > +		return true;
+> > >  	return blk_path_error(error);
+> > >  }
+> > 
+> > Shouldn't this go into nvme_error_status(), with a new NVME_SC if
+> > needed, so that blk_path_error() just works?
 > 
-> So just run nvme-cli in the background from udev.  Or if udev really
-> is too stupid for that have an option to fork and run in the background
-> in nvme-cli itself..
+> NVME_SC values are defined in the NVMe spec.  The check is intended
+> as a catchall for multiple of theses values, as we've defined a whole
+> extensible class for path errors.
 
- From udev man:
+Yes, so adding NVME_SC_ANA_INACCESSIBLE, NVME_SC_ANA_PERSISTENT_LOSS,
+and NVME_SC_ANA_TRANSITION to nvme_error_status().
+ 
+> But we could probably add a BLK_STS_PATH and I'll map it to that.
 
-RUN{type}
+And mapping them to BLK_STS_PATH and updating blk_path_error().
+Sounds good.
 
-...
-        This can only be used for very short-running foreground tasks.
-        Running an event process for a long period of time may block all
-        further events for this or a dependent device.
-
-        Starting daemons or other long running processes is not appropriate
-        for udev; the forked processes, detached or not, will be
-        unconditionally killed after the event handling has finished.
-
-One way around this is to disown the command from udev shell
-(e.g. $cmd & disown)
+Thanks,
+Mike
