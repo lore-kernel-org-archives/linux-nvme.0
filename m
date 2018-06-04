@@ -1,15 +1,15 @@
 From: jgg@ziepe.ca (Jason Gunthorpe)
-Date: Mon, 4 Jun 2018 15:38:34 -0600
-Subject: [PATCH v2 1/8] nvme-rdma: use ib_client API to wrap ib_device
-In-Reply-To: <20180604123003.24748-2-roman.penyaev@profitbricks.com>
+Date: Mon, 4 Jun 2018 15:49:16 -0600
+Subject: [PATCH v2 2/8] nvmet-rdma: wrap raw kref_get/put() with
+ corresponding helpers
+In-Reply-To: <20180604123003.24748-3-roman.penyaev@profitbricks.com>
 References: <20180604123003.24748-1-roman.penyaev@profitbricks.com>
- <20180604123003.24748-2-roman.penyaev@profitbricks.com>
-Message-ID: <20180604213834.GB24926@ziepe.ca>
+ <20180604123003.24748-3-roman.penyaev@profitbricks.com>
+Message-ID: <20180604214916.GC24926@ziepe.ca>
 
-On Mon, Jun 04, 2018@02:29:56PM +0200, Roman Pen wrote:
-> ib_client API provides a way to wrap an ib_device with a specific ULP
-> structure.  Using that API local lists and mutexes can be completely
-> avoided and allocation/removal paths become a bit cleaner.
+On Mon, Jun 04, 2018@02:29:57PM +0200, Roman Pen wrote:
+> This is just a preparation patch: put kref_put() and kref_get_unless_zero()
+> inside helpers with more suitable names.
 > 
 > Signed-off-by: Roman Pen <roman.penyaev at profitbricks.de>
 > Cc: Christoph Hellwig <hch at lst.de>
@@ -18,69 +18,48 @@ On Mon, Jun 04, 2018@02:29:56PM +0200, Roman Pen wrote:
 > Cc: Sagi Grimberg <sagi at grimberg.me>
 > Cc: Doug Ledford <dledford at redhat.com>
 > Cc: linux-nvme at lists.infradead.org
->  drivers/nvme/host/rdma.c | 82 ++++++++++++++++++++++--------------------------
->  1 file changed, 38 insertions(+), 44 deletions(-)
+>  drivers/nvme/target/rdma.c | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 1eb4438a8763..dd79250c9df4 100644
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -46,7 +46,6 @@ struct nvme_rdma_device {
->  	struct ib_device	*dev;
->  	struct ib_pd		*pd;
->  	struct kref		ref;
-> -	struct list_head	entry;
->  };
->  
->  struct nvme_rdma_qe {
-> @@ -124,9 +123,7 @@ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
->  	return container_of(ctrl, struct nvme_rdma_ctrl, ctrl);
+> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> index 52e0c5d579a7..4304b8d8d027 100644
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -775,7 +775,7 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+>  	return ret;
 >  }
 >  
-> -static LIST_HEAD(device_list);
-> -static DEFINE_MUTEX(device_list_mutex);
-> -
-> +static struct ib_client nvme_rdma_ib_client;
->  static LIST_HEAD(nvme_rdma_ctrl_list);
->  static DEFINE_MUTEX(nvme_rdma_ctrl_mutex);
->  
-> @@ -325,17 +322,14 @@ static void nvme_rdma_free_dev(struct kref *ref)
->  	struct nvme_rdma_device *ndev =
->  		container_of(ref, struct nvme_rdma_device, ref);
->  
-> -	mutex_lock(&device_list_mutex);
-> -	list_del(&ndev->entry);
-> -	mutex_unlock(&device_list_mutex);
-> -
-> +	ib_set_client_data(ndev->dev, &nvme_rdma_ib_client, NULL);
->  	ib_dealloc_pd(ndev->pd);
+> -static void nvmet_rdma_free_dev(struct kref *ref)
+> +static void nvmet_rdma_free_device(struct kref *ref)
+>  {
+>  	struct nvmet_rdma_device *ndev =
+>  		container_of(ref, struct nvmet_rdma_device, ref);
+> @@ -790,6 +790,16 @@ static void nvmet_rdma_free_dev(struct kref *ref)
 >  	kfree(ndev);
 >  }
 >  
-> -static void nvme_rdma_dev_put(struct nvme_rdma_device *dev)
-> +static int nvme_rdma_dev_put(struct nvme_rdma_device *dev)
->  {
-> -	kref_put(&dev->ref, nvme_rdma_free_dev);
-> +	return kref_put(&dev->ref, nvme_rdma_free_dev);
->  }
->  
->  static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
-> @@ -348,43 +342,42 @@ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
->  {
->  	struct nvme_rdma_device *ndev;
->  
-> -	mutex_lock(&device_list_mutex);
-> -	list_for_each_entry(ndev, &device_list, entry) {
-> -		if (ndev->dev->node_guid == cm_id->device->node_guid &&
-> -		    nvme_rdma_dev_get(ndev))
-> -			goto out_unlock;
-> +	ndev = ib_get_client_data(cm_id->device, &nvme_rdma_ib_client);
-> +	if (ndev && WARN_ON(!nvme_rdma_dev_get(ndev)))
-> +		ndev = NULL;
+> +static int nvmet_rdma_dev_put(struct nvmet_rdma_device *dev)
+> +{
+> +	return kref_put(&dev->ref, nvmet_rdma_free_device);
+> +}
+> +
+> +static int nvmet_rdma_dev_get(struct nvmet_rdma_device *dev)
+> +{
+> +	return kref_get_unless_zero(&dev->ref);
+> +}
 
-I think this is a much better idea to use the client data than
-maintaining an internal list - this is what client data was for..
+Don't wrap get_unless_zero with something called get..
 
-But I wonder if the allocation of the client data should be deferred
-until the ulp actually needs to use the device?
+unless_zero should only be used in special situations where something tricky
+is going on.. In this case it looks like it is because a
+nvmet_rdma_device can continue to reside in the device_list() even after
+being fully 'put'..
+
+Which does pose a question to this whole series, what have you done to
+ensure the client data access isn't racing with the removal of the
+device/client?
+
+We might want to adjust the core code to make this a little saner, eg
+maybe the client_data should have an option that manages a kref'd
+memory blob internally with proper locking or something..
 
 Jason
