@@ -1,12 +1,18 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 4 Jun 2018 13:59:22 +0200
-Subject: [PATCH 3/9] nvme: add support for the log specific field
-In-Reply-To: <20180601071128.7630-4-hch@lst.de>
+Date: Mon, 4 Jun 2018 14:01:06 +0200
+Subject: [PATCH 4/9] nvme: always failover on path or transport errors
+In-Reply-To: <20180604062923.GA20662@lst.de>
 References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-4-hch@lst.de>
-Message-ID: <20180604115922.lwzv6rdhlzdi6yfo@linux-x5ow.site>
+ <20180601071128.7630-5-hch@lst.de>
+ <20180601152711.GA98855@redhat.com> <20180604062923.GA20662@lst.de>
+Message-ID: <20180604120106.ij3vkv4evcmf354d@linux-x5ow.site>
 
-Looks good,
+On Mon, Jun 04, 2018@08:29:23AM +0200, Christoph Hellwig wrote:
+> But we could probably add a BLK_STS_PATH and I'll map it to that.
+
+Sound like a good idea to me.
+
+Anyways,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
