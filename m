@@ -1,50 +1,26 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun,  3 Jun 2018 15:01:26 -0400
-Subject: [PATCH] blktests: nvme/00[2 | 3 | 4] add module cleanup
-Message-ID: <20180603190126.26338-1-chaitanya.kulkarni@wdc.com>
+From: ckulkarnilinux@gmail.com (chaitany kulkarni)
+Date: Sun, 3 Jun 2018 20:58:18 -0700
+Subject: [PATCH] blktests: nvme add ns add and remove routines
+In-Reply-To: <20180524071922.rugv7tcnvr5s6gfl@linux-x5ow.site>
+References: <20180524034314.8801-1-chaitanya.kulkarni@wdc.com>
+ <20180524071922.rugv7tcnvr5s6gfl@linux-x5ow.site>
+Message-ID: <CAK0tqimpi4ax5ga9Wt7oN+KVOer0htkA6iOd4MfkNRcxawJLCA@mail.gmail.com>
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- tests/nvme/002 | 2 ++
- tests/nvme/003 | 2 ++
- tests/nvme/004 | 2 ++
- 3 files changed, 6 insertions(+)
+Please drop this, I've made some more modifications along with new
+test cases, I'll send everything in a new series.
 
-diff --git a/tests/nvme/002 b/tests/nvme/002
-index 45e1ab7..786505e 100755
---- a/tests/nvme/002
-+++ b/tests/nvme/002
-@@ -53,5 +53,7 @@ test() {
- 
- 	_remove_nvmet_port "${port}"
- 
-+	modprobe -r nvme-loop
-+	modprobe -r nvmet
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/003 b/tests/nvme/003
-index 5639804..9634130 100755
---- a/tests/nvme/003
-+++ b/tests/nvme/003
-@@ -59,5 +59,7 @@ test() {
- 	_remove_nvmet_subsystem "blktests-subsystem-1"
- 	_remove_nvmet_port "${port}"
- 
-+	modprobe -r nvme-loop
-+	modprobe -r nvmet
- 	echo "Test complete"
- }
-diff --git a/tests/nvme/004 b/tests/nvme/004
-index 2f970b3..ad268e2 100755
---- a/tests/nvme/004
-+++ b/tests/nvme/004
-@@ -58,5 +58,7 @@ test() {
- 	losetup -d "$loop_dev"
- 	rm "$TMPDIR/img"
- 
-+	modprobe -r nvme-loop
-+	modprobe -r nvmet
- 	echo "Test complete"
- }
--- 
-2.9.5
+On Thu, May 24, 2018@12:19 AM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
+> Looks good,
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> --
+> Johannes Thumshirn                                          Storage
+> jthumshirn at suse.de                                +49 911 74053 689
+> SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+> GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+> HRB 21284 (AG N?rnberg)
+> Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
