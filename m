@@ -1,57 +1,19 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 4 Jun 2018 09:45:52 -0500
-Subject: [PATCH v3 1/3] nvme-rdma: correctly check for target keyed sgl
- support
-In-Reply-To: <50c23c95-7458-fc9b-b569-0e28b637cee7@mellanox.com>
-References: <14063C7AD467DE4B82DEDB5C278E8663B38EE822@FMSMSX108.amr.corp.intel.com>
- <3acbea43-d777-88a5-0059-10275655d545@opengridcomputing.com>
- <8da47cd4-44d5-2229-ef82-26d165dfc245@opengridcomputing.com>
- <c180e592-a11c-de09-d094-3ab569289fab@grimberg.me>
- <20180531170201.GB31715@lst.de>
- <ecfee4dc-763b-d331-32e3-802fc07339cc@opengridcomputing.com>
- <20180531172554.GA32068@lst.de>
- <702f1949-02eb-07e4-f101-58c32929b29d@grimberg.me>
- <010001d3fb68$99d01d80$cd705880$@opengridcomputing.com>
- <55bd8f56-5261-4f2e-d5a7-5bc50970deb3@grimberg.me>
- <20180604121136.GB29545@lst.de>
- <05438bc4-61a0-e4ca-a00d-d918c20a0dcc@mellanox.com>
- <019101d3fc0f$4d32a4f0$e797eed0$@opengridcomputing.com>
- <1d549a4d-c5ea-0bd2-1acd-66a627812eda@mellanox.com>
- <019501d3fc10$b8e3ced0$2aab6c70$@opengridcomputing.com>
- <50c23c95-7458-fc9b-b569-0e28b637cee7@mellanox.com>
-Message-ID: <019901d3fc12$bc84d870$358e8950$@opengridcomputing.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 4 Jun 2018 13:38:56 -0600
+Subject: [PATCH blktests] Fix block/011 to not use sysfs for device
+ disabling
+In-Reply-To: <20180529195428.GE23487@vader>
+References: <20180518174247.31098-1-keith.busch@intel.com>
+ <1352065975.3088816.1526884676038.JavaMail.zimbra@redhat.com>
+ <20180521140821.GB5528@localhost.localdomain>
+ <20180529195428.GE23487@vader>
+Message-ID: <20180604193856.GA8205@localhost.localdomain>
 
+On Tue, May 29, 2018@12:54:28PM -0700, Omar Sandoval wrote:
+> What's the plan for this test? Do you have a v2 coming?
 
-> >> you should add to your new code:
-> >>
-> >> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> >> index 2b6dc19..5828bf2 100644
-> >> --- a/drivers/nvme/target/rdma.c
-> >> +++ b/drivers/nvme/target/rdma.c
-> >> @@ -964,7 +965,7 @@ static int nvmet_rdma_create_queue_ib(struct
-> >> nvmet_rdma_queue *queue)
-> >>           } else {
-> >>                   /* +1 for drain */
-> >>                   qp_attr.cap.max_recv_wr = 1 + queue->recv_queue_size;
-> >> -               qp_attr.cap.max_recv_sge = 2;
-> >> +               qp_attr.cap.max_recv_sge = 1 + ndev->inline_page_count;
-> >>           }
-> >>
-> >>           ret = rdma_create_qp(queue->cm_id, ndev->pd, &qp_attr);
-> >>
-> >
-> > Yes.  Good catch.
-> >
-> >>
-> >>
-> >> I currently see some timeout in the initiator also with 4k inline but
-it
-> >> works good with old initiator.
-> >>
-> >
-> > This is with my github repo?
-> 
-> The initiator is from V3 here.
-> Is there a difference in the initiator code ?
+Sorry for the delay. I've been out on holiday, but I'm catching up
+quickly and will send a v2 shortly.
 
-Just removing a pr_debug().
+Thanks,
+Keith
