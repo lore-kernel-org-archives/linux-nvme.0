@@ -1,20 +1,57 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 4 Jun 2018 16:46:54 -0600
-Subject: [PATCHv3 7/9] nvme-pci: Attempt reset retry for IO failures
-In-Reply-To: <d81b6cb4-ba05-df56-3b21-e79e9a1a6fc9@grimberg.me>
-References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-8-keith.busch@intel.com>
- <d81b6cb4-ba05-df56-3b21-e79e9a1a6fc9@grimberg.me>
-Message-ID: <20180604224654.GA8782@localhost.localdomain>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 4 Jun 2018 17:16:59 -0700
+Subject: [PATCH] blktests: nvme/00[2 | 3 | 4] add module cleanup
+In-Reply-To: <20180603190126.26338-1-chaitanya.kulkarni@wdc.com>
+References: <20180603190126.26338-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180605001659.GB16585@vader>
 
-On Thu, May 31, 2018@02:40:26AM +0300, Sagi Grimberg wrote:
-> > If the reset failed due to a non-fatal error, this patch will attempt
-> > to reset the controller again, with a maximum of 4 attempts.
+On Sun, Jun 03, 2018@03:01:26PM -0400, Chaitanya Kulkarni wrote:
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+
+Thanks, Chaitanya, applied.
+
+> ---
+>  tests/nvme/002 | 2 ++
+>  tests/nvme/003 | 2 ++
+>  tests/nvme/004 | 2 ++
+>  3 files changed, 6 insertions(+)
 > 
-> curious, where did 4 came from?
-
-It was a pretty arbitrary choice based on what passed a modified blktests
-block/011. I don't really like having test code deciding how a driver
-should behave, so I'm okay with either changing the retry counts,
-or just dropping this patch to have the driver unbind on init errors
-instead of retrying.
+> diff --git a/tests/nvme/002 b/tests/nvme/002
+> index 45e1ab7..786505e 100755
+> --- a/tests/nvme/002
+> +++ b/tests/nvme/002
+> @@ -53,5 +53,7 @@ test() {
+>  
+>  	_remove_nvmet_port "${port}"
+>  
+> +	modprobe -r nvme-loop
+> +	modprobe -r nvmet
+>  	echo "Test complete"
+>  }
+> diff --git a/tests/nvme/003 b/tests/nvme/003
+> index 5639804..9634130 100755
+> --- a/tests/nvme/003
+> +++ b/tests/nvme/003
+> @@ -59,5 +59,7 @@ test() {
+>  	_remove_nvmet_subsystem "blktests-subsystem-1"
+>  	_remove_nvmet_port "${port}"
+>  
+> +	modprobe -r nvme-loop
+> +	modprobe -r nvmet
+>  	echo "Test complete"
+>  }
+> diff --git a/tests/nvme/004 b/tests/nvme/004
+> index 2f970b3..ad268e2 100755
+> --- a/tests/nvme/004
+> +++ b/tests/nvme/004
+> @@ -58,5 +58,7 @@ test() {
+>  	losetup -d "$loop_dev"
+>  	rm "$TMPDIR/img"
+>  
+> +	modprobe -r nvme-loop
+> +	modprobe -r nvmet
+>  	echo "Test complete"
+>  }
+> -- 
+> 2.9.5
+> 
