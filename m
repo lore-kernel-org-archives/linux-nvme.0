@@ -1,125 +1,24 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 5 Jun 2018 09:28:40 -0500
-Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
-In-Reply-To: <7e25837c-47df-d2dd-9a01-b63dbb6a986f@mellanox.com>
-References: <cover.1527618402.git.swise@opengridcomputing.com>
- <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
- <ff362b8e-c223-2d81-b355-80397745bd2a@mellanox.com>
- <00fe01d3fb68$4b5e2cf0$e21a86d0$@opengridcomputing.com>
- <7fc24496-9eec-3282-1c26-3cb05773ffd1@mellanox.com>
- <018f01d3fc0e$f3648830$da2d9890$@opengridcomputing.com>
- <7e25837c-47df-d2dd-9a01-b63dbb6a986f@mellanox.com>
-Message-ID: <1abe323c-f376-a4b8-9c8c-4a30302ade53@opengridcomputing.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Tue, 5 Jun 2018 08:37:40 -0600
+Subject: [PATCH 13/14] nvme: use the changed namespaces list log to clear
+ ns data changed AENs
+In-Reply-To: <20180605044733.GA29448@lst.de>
+References: <20180526102735.31404-1-hch@lst.de>
+ <20180526102735.31404-14-hch@lst.de>
+ <20180604195908.GC8205@localhost.localdomain>
+ <20180605044733.GA29448@lst.de>
+Message-ID: <20180605143740.GA10501@localhost.localdomain>
 
+On Tue, Jun 05, 2018@06:47:33AM +0200, Christoph Hellwig wrote:
+> But let's assume we don't want to use the list due to this concern:
+> we'd still have to read the log page, as per the NVMe spec the only
+> think clearing a pending AEN is reading the associated log page.
+> We'd then need to still do the full scan using identify.  Is this what
+> we want?  If you think this is important for reliability we could
+> just ignore the log page.
 
+That sounds good. Let's have the driver read the log page to re-arm
+the event as you've done, but don't rely on the contents for namespace
+enumeration.
 
-On 6/5/2018 3:52 AM, Max Gurtovoy wrote:
->
->
-> On 6/4/2018 5:18 PM, Steve Wise wrote:
->>
->>
->>> -----Original Message-----
->>> From: Max Gurtovoy <maxg at mellanox.com>
->>> Sent: Monday, June 4, 2018 8:58 AM
->>> To: Steve Wise <swise at opengridcomputing.com>; axboe at kernel.dk;
->>> hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; linux-
->>> nvme at lists.infradead.org
->>> Cc: parav at mellanox.com; linux-rdma at vger.kernel.org
->>> Subject: Re: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
->>>
->>>
->>>
->>> On 6/3/2018 9:25 PM, Steve Wise wrote:
->>>>
->>>>
->>>>> -----Original Message-----
->>>>> From: Max Gurtovoy <maxg at mellanox.com>
->>>>> Sent: Sunday, June 3, 2018 3:40 AM
->>>>> To: Steve Wise <swise at opengridcomputing.com>; axboe at kernel.dk;
->>>>> hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; linux-
->>>>> nvme at lists.infradead.org
->>>>> Cc: parav at mellanox.com; linux-rdma at vger.kernel.org
->>>>> Subject: Re: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
->>>>>
->>>>>
->>>>>
->>>>> On 5/29/2018 9:25 PM, Steve Wise wrote:
->>>>>> Add a new configfs port attribute, called inline_data_size,
->>>>>> to allow configuring the size of inline data for a given port.
->>>>>> The maximum size allowed is still enforced by nvmet-rdma with
->>>>>> NVMET_RDMA_MAX_INLINE_DATA_SIZE, which is increased to
->>> max(16KB,
->>>>>> PAGE_SIZE).? And the default size, if not specified via configfs,
->>>>>> is still PAGE_SIZE.? This preserves the existing behavior, but
->>>>>> allows
->>>>>> larger inline sizes.
->>>>>>
->>>>>> Also support a configuration where inline_data_size is 0, which
->> disables
->>>>>> using inline data.
->>>>>>
->>>>>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
->>>>>> ---
->>>>>> ??? drivers/nvme/target/admin-cmd.c |? 4 ++--
->>>>>> ??? drivers/nvme/target/configfs.c? | 31
->>>>>> ++++++++++++++++++++++++++++
->>>>>> ??? drivers/nvme/target/core.c????? |? 4 ++++
->>>>>> ??? drivers/nvme/target/discovery.c |? 2 +-
->>>>>> ??? drivers/nvme/target/nvmet.h???? |? 2 +-
->>>>>> ??? drivers/nvme/target/rdma.c????? | 45
->>>>>> ++++++++++++++++++++++++++++-
->>> ----
->>>>> --------
->>>>>> ??? 6 files changed, 70 insertions(+), 18 deletions(-)
->>>>>
->>>>> snip..
->>>>>
->>>>>>
->>>>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->>>>>> index 52e0c5d..2f0b08e 100644
->>>>>> --- a/drivers/nvme/target/rdma.c
->>>>>> +++ b/drivers/nvme/target/rdma.c
->>>>>> @@ -33,9 +33,10 @@
->>>>>> ??? #include "nvmet.h"
->>>>>>
->>>>>> ??? /*
->>>>>> - * We allow up to a page of inline data to go with the SQE
->>>>>> + * We allow at least 1 page, and up to 16KB of inline data to go
->>>>>> with
->>>> the
->>>>> SQE
->>>>>> ???? */
->>>>>> -#define NVMET_RDMA_INLINE_DATA_SIZE??? PAGE_SIZE
->>>>>> +#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE??? PAGE_SIZE
->>>>>> +#define NVMET_RDMA_MAX_INLINE_DATA_SIZE??????? max_t(int,
->>>>> SZ_16K, PAGE_SIZE)
->>>>>
->>>>> why not use SZ_16K ? why we need to mention the PAGE_SIZE ?
->>>>>
->>>>
->>>> The idea is to allow at least 1 page.? So for, say, a 64K page system,
->> we'll
->>>> allow 64K since we're allocating a page minimum for the buffer.
->>>
->>> IMO you want to support upto 16K inline data and not upto 64k (also in
->>> PowerPC system)...
->>
->> Why?
->>
->
-> Ok we can use PAGE_SIZE from resource and perf perspective, but please
-> change the subject since it is confusing. I guess the subject can be
-> similar to the one you used in the initiator.
->
-> I think we should consider clamping to NVMET_RDMA_MAX_INLINE_DATA_SIZE
-> in case port->inline_data_size > NVMET_RDMA_MAX_INLINE_DATA_SIZE
-> instead of failing the operation (and add an info print).
->
-
-This sounds reasonable.? In my yet-to-be sent new version of this, I
-have similar logic if the rdma device doesn't have enough sge entries to
-support the configured size.? In that case, the inline data size is
-clamped to the max that can be supported by the device.
-
-Steve.
+The rest of your series looks good to me.
