@@ -1,57 +1,24 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 4 Jun 2018 17:16:59 -0700
-Subject: [PATCH] blktests: nvme/00[2 | 3 | 4] add module cleanup
-In-Reply-To: <20180603190126.26338-1-chaitanya.kulkarni@wdc.com>
-References: <20180603190126.26338-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180605001659.GB16585@vader>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 5 Jun 2018 06:42:23 +0200
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <CAL1RGDV0eT4juuMwHWkjqc2oTsk-CHRJ0A90veXxLsVZYa5esQ@mail.gmail.com>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+ <CAL1RGDV0eT4juuMwHWkjqc2oTsk-CHRJ0A90veXxLsVZYa5esQ@mail.gmail.com>
+Message-ID: <20180605044222.GA29384@lst.de>
 
-On Sun, Jun 03, 2018@03:01:26PM -0400, Chaitanya Kulkarni wrote:
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+On Mon, Jun 04, 2018@02:58:49PM -0700, Roland Dreier wrote:
+> We plan to implement all the fancy NVMe standards like ANA, but it
+> seems that there is still a requirement to let the host side choose
+> policies about how to use paths (round-robin vs least queue depth for
+> example).  Even in the modern SCSI world with VPD pages and ALUA,
+> there are still knobs that are needed.  Maybe NVMe will be different
+> and we can find defaults that work in all cases but I have to admit
+> I'm skeptical...
 
-Thanks, Chaitanya, applied.
-
-> ---
->  tests/nvme/002 | 2 ++
->  tests/nvme/003 | 2 ++
->  tests/nvme/004 | 2 ++
->  3 files changed, 6 insertions(+)
-> 
-> diff --git a/tests/nvme/002 b/tests/nvme/002
-> index 45e1ab7..786505e 100755
-> --- a/tests/nvme/002
-> +++ b/tests/nvme/002
-> @@ -53,5 +53,7 @@ test() {
->  
->  	_remove_nvmet_port "${port}"
->  
-> +	modprobe -r nvme-loop
-> +	modprobe -r nvmet
->  	echo "Test complete"
->  }
-> diff --git a/tests/nvme/003 b/tests/nvme/003
-> index 5639804..9634130 100755
-> --- a/tests/nvme/003
-> +++ b/tests/nvme/003
-> @@ -59,5 +59,7 @@ test() {
->  	_remove_nvmet_subsystem "blktests-subsystem-1"
->  	_remove_nvmet_port "${port}"
->  
-> +	modprobe -r nvme-loop
-> +	modprobe -r nvmet
->  	echo "Test complete"
->  }
-> diff --git a/tests/nvme/004 b/tests/nvme/004
-> index 2f970b3..ad268e2 100755
-> --- a/tests/nvme/004
-> +++ b/tests/nvme/004
-> @@ -58,5 +58,7 @@ test() {
->  	losetup -d "$loop_dev"
->  	rm "$TMPDIR/img"
->  
-> +	modprobe -r nvme-loop
-> +	modprobe -r nvmet
->  	echo "Test complete"
->  }
-> -- 
-> 2.9.5
-> 
+The sensible thing to do in nvme is to use different paths for
+different queues.  That is e.g. in the RDMA case use the HCA closer
+to a given CPU by default.  We might allow to override this for
+cases where the is a good reason, but what I really don't want is
+configurability for configurabilities sake.
