@@ -1,17 +1,14 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 5 Jun 2018 16:42:47 +0200
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Tue, 5 Jun 2018 09:02:36 -0600
 Subject: [PATCH 0/2] Documentation: add asciidoctor support
-In-Reply-To: <s5h8t7tpa7k.wl-tiwai@suse.de>
+In-Reply-To: <20180605144247.pthzor4yrzhk2pq6@linux-x5ow.site>
 References: <20180412110238.30717-1-tiwai@suse.de>
  <s5h8t7tpa7k.wl-tiwai@suse.de>
-Message-ID: <20180605144247.pthzor4yrzhk2pq6@linux-x5ow.site>
+ <20180605144247.pthzor4yrzhk2pq6@linux-x5ow.site>
+Message-ID: <20180605150236.GA16899@localhost.localdomain>
 
-For the series,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+On Tue, Jun 05, 2018@04:42:47PM +0200, Johannes Thumshirn wrote:
+> For the series,
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+Applied, thanks (and sorry for the delay).
