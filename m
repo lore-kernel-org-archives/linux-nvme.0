@@ -1,52 +1,103 @@
-From: oren.duer@gmail.com (Oren Duer)
-Date: Tue, 5 Jun 2018 09:35:29 +0300
-Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
-In-Reply-To: <fac46518-d14c-5856-8b99-f14203f53639@grimberg.me>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-18-git-send-email-maxg@mellanox.com>
- <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
- <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
- <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
- <CADZhsQppPdtrJ+wRQV-V8n9RmxFgv39aPdu5TwDMtTTbD4iT1A@mail.gmail.com>
- <fac46518-d14c-5856-8b99-f14203f53639@grimberg.me>
-Message-ID: <CADZhsQpZe3PFBYdD07HvzHfF4TZf5ALH_iamfkEmH9bMQ0d9qQ@mail.gmail.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 5 Jun 2018 11:24:11 +0300
+Subject: [PATCH v2 1/8] nvme-rdma: use ib_client API to wrap ib_device
+In-Reply-To: <20180604213834.GB24926@ziepe.ca>
+References: <20180604123003.24748-1-roman.penyaev@profitbricks.com>
+ <20180604123003.24748-2-roman.penyaev@profitbricks.com>
+ <20180604213834.GB24926@ziepe.ca>
+Message-ID: <338eb01d-77dc-a433-8912-30db6e5bcafb@mellanox.com>
 
-On Sun, Jun 3, 2018@7:30 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
-> Hey Oren,
->
->> We started pushing a new approach to all that cool MR registration stuff.
->> Presented in last OFA conf:
+
+
+On 6/5/2018 12:38 AM, Jason Gunthorpe wrote:
+> On Mon, Jun 04, 2018@02:29:56PM +0200, Roman Pen wrote:
+>> ib_client API provides a way to wrap an ib_device with a specific ULP
+>> structure.  Using that API local lists and mutexes can be completely
+>> avoided and allocation/removal paths become a bit cleaner.
 >>
->> https://www.openfabrics.org/images/2018workshop/presentations/301_TOved_NonContiguousMemoryRegistration.pdf
+>> Signed-off-by: Roman Pen <roman.penyaev at profitbricks.de>
+>> Cc: Christoph Hellwig <hch at lst.de>
+>> Cc: Steve Wise <swise at opengridcomputing.com>
+>> Cc: Bart Van Assche <bart.vanassche at sandisk.com>
+>> Cc: Sagi Grimberg <sagi at grimberg.me>
+>> Cc: Doug Ledford <dledford at redhat.com>
+>> Cc: linux-nvme at lists.infradead.org
+>>   drivers/nvme/host/rdma.c | 82 ++++++++++++++++++++++--------------------------
+>>   1 file changed, 38 insertions(+), 44 deletions(-)
 >>
->> The basic idea is aligned with your proposal: allocating an MR,
->> setting a memory layout to it using a variety
->> of ibv_mr_set_layout_*() calls, and then posting a WR.
->
->
-> Hmm, in my mind, overloading the interface to be generic was counter
-> productive specifically for PI. I know that there are bunch of
-> operations to do on an MR, but I think that each of them is better off
-> with its own clean and simple API that gives the user the minimum stuff
-> it needs to understand or perform in order to get the task done.
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index 1eb4438a8763..dd79250c9df4 100644
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -46,7 +46,6 @@ struct nvme_rdma_device {
+>>   	struct ib_device	*dev;
+>>   	struct ib_pd		*pd;
+>>   	struct kref		ref;
+>> -	struct list_head	entry;
+>>   };
+>>   
+>>   struct nvme_rdma_qe {
+>> @@ -124,9 +123,7 @@ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
+>>   	return container_of(ctrl, struct nvme_rdma_ctrl, ctrl);
+>>   }
+>>   
+>> -static LIST_HEAD(device_list);
+>> -static DEFINE_MUTEX(device_list_mutex);
+>> -
+>> +static struct ib_client nvme_rdma_ib_client;
+>>   static LIST_HEAD(nvme_rdma_ctrl_list);
+>>   static DEFINE_MUTEX(nvme_rdma_ctrl_mutex);
+>>   
+>> @@ -325,17 +322,14 @@ static void nvme_rdma_free_dev(struct kref *ref)
+>>   	struct nvme_rdma_device *ndev =
+>>   		container_of(ref, struct nvme_rdma_device, ref);
+>>   
+>> -	mutex_lock(&device_list_mutex);
+>> -	list_del(&ndev->entry);
+>> -	mutex_unlock(&device_list_mutex);
+>> -
+>> +	ib_set_client_data(ndev->dev, &nvme_rdma_ib_client, NULL);
+>>   	ib_dealloc_pd(ndev->pd);
+>>   	kfree(ndev);
+>>   }
+>>   
+>> -static void nvme_rdma_dev_put(struct nvme_rdma_device *dev)
+>> +static int nvme_rdma_dev_put(struct nvme_rdma_device *dev)
+>>   {
+>> -	kref_put(&dev->ref, nvme_rdma_free_dev);
+>> +	return kref_put(&dev->ref, nvme_rdma_free_dev);
+>>   }
+>>   
+>>   static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+>> @@ -348,43 +342,42 @@ nvme_rdma_find_get_device(struct rdma_cm_id *cm_id)
+>>   {
+>>   	struct nvme_rdma_device *ndev;
+>>   
+>> -	mutex_lock(&device_list_mutex);
+>> -	list_for_each_entry(ndev, &device_list, entry) {
+>> -		if (ndev->dev->node_guid == cm_id->device->node_guid &&
+>> -		    nvme_rdma_dev_get(ndev))
+>> -			goto out_unlock;
+>> +	ndev = ib_get_client_data(cm_id->device, &nvme_rdma_ib_client);
+>> +	if (ndev && WARN_ON(!nvme_rdma_dev_get(ndev)))
+>> +		ndev = NULL;
+> 
+> I think this is a much better idea to use the client data than
+> maintaining an internal list - this is what client data was for..
+> 
+> But I wonder if the allocation of the client data should be deferred
+> until the ulp actually needs to use the device?
 
-You can say the opposite too... When you see different use cases converge
-into one elegant API then you know you've done something right.
-I think this is one of those cases. DIF and other signatures, simple layouts,
-indirections, complex n-dim matrix layouts are all attributes assigned to
-memory, and apply when this memory is accessed.
+I agree with Jason here. You will create ndev for every ib_device and 
+this is redundant.
 
-> Note that my comments are mostly directed to the MR hierarchy that PI
-> is presenting to the consumer. I think we are much better off with
-> hiding it down in the providers such that the ULP will see yet another
-> type of a memory region that can do PI.
+Also, any reason you use likely/unlikely statements not in the fast path ?
 
-We'll look into that. Basically I don't mind the API of
-set_mr_layout_signature()
-to take (data_sgl, dif_sgl) instead of (data_sge, dif_sge). Just need to make
-sure we can hide in provider the pre-allocation of all the "hidden" mkeys for
-that case. We don't want ulp to experience hickups due to internal key
-allocations and management...
+Max
 
--- 
-Oren
+> 
+> Jason
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
