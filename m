@@ -1,34 +1,52 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 5 Jun 2018 06:47:33 +0200
-Subject: [PATCH 13/14] nvme: use the changed namespaces list log to
- clear ns data changed AENs
-In-Reply-To: <20180604195908.GC8205@localhost.localdomain>
-References: <20180526102735.31404-1-hch@lst.de>
- <20180526102735.31404-14-hch@lst.de>
- <20180604195908.GC8205@localhost.localdomain>
-Message-ID: <20180605044733.GA29448@lst.de>
+From: oren.duer@gmail.com (Oren Duer)
+Date: Tue, 5 Jun 2018 09:35:29 +0300
+Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
+In-Reply-To: <fac46518-d14c-5856-8b99-f14203f53639@grimberg.me>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-18-git-send-email-maxg@mellanox.com>
+ <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
+ <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
+ <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
+ <CADZhsQppPdtrJ+wRQV-V8n9RmxFgv39aPdu5TwDMtTTbD4iT1A@mail.gmail.com>
+ <fac46518-d14c-5856-8b99-f14203f53639@grimberg.me>
+Message-ID: <CADZhsQpZe3PFBYdD07HvzHfF4TZf5ALH_iamfkEmH9bMQ0d9qQ@mail.gmail.com>
 
-On Mon, Jun 04, 2018@01:59:09PM -0600, Keith Busch wrote:
-> > Per section 5.2 we need to issue the corresponding log page to clear an
-> > AEN, so for a namespace data changed AEN we need to read the changed
-> > namespace list log.  And once we read that log anyway we might as well
-> > use it to optimize the rescan.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> 
-> I'm a little concerned about this. Userspace might be reading the same
-> log page. Since the contents of the page may change each time its read,
-> it's possible the driver will see only a subset of changed namespaces
-> at the point it gets to read the log page, missing a chance to
-> revalidate others.
+On Sun, Jun 3, 2018@7:30 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
+> Hey Oren,
+>
+>> We started pushing a new approach to all that cool MR registration stuff.
+>> Presented in last OFA conf:
+>>
+>> https://www.openfabrics.org/images/2018workshop/presentations/301_TOved_NonContiguousMemoryRegistration.pdf
+>>
+>> The basic idea is aligned with your proposal: allocating an MR,
+>> setting a memory layout to it using a variety
+>> of ibv_mr_set_layout_*() calls, and then posting a WR.
+>
+>
+> Hmm, in my mind, overloading the interface to be generic was counter
+> productive specifically for PI. I know that there are bunch of
+> operations to do on an MR, but I think that each of them is better off
+> with its own clean and simple API that gives the user the minimum stuff
+> it needs to understand or perform in order to get the task done.
 
-I agree with the concern, but I don't think it really is uniqueue here.
-We allow userspace to send all kind sof harmful commands, even queue
-for queue creation and deletion.
+You can say the opposite too... When you see different use cases converge
+into one elegant API then you know you've done something right.
+I think this is one of those cases. DIF and other signatures, simple layouts,
+indirections, complex n-dim matrix layouts are all attributes assigned to
+memory, and apply when this memory is accessed.
 
-But let's assume we don't want to use the list due to this concern:
-we'd still have to read the log page, as per the NVMe spec the only
-think clearing a pending AEN is reading the associated log page.
-We'd then need to still do the full scan using identify.  Is this what
-we want?  If you think this is important for reliability we could
-just ignore the log page.
+> Note that my comments are mostly directed to the MR hierarchy that PI
+> is presenting to the consumer. I think we are much better off with
+> hiding it down in the providers such that the ULP will see yet another
+> type of a memory region that can do PI.
+
+We'll look into that. Basically I don't mind the API of
+set_mr_layout_signature()
+to take (data_sgl, dif_sgl) instead of (data_sge, dif_sge). Just need to make
+sure we can hide in provider the pre-allocation of all the "hidden" mkeys for
+that case. We don't want ulp to experience hickups due to internal key
+allocations and management...
+
+-- 
+Oren
