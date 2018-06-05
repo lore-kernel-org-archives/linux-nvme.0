@@ -1,36 +1,80 @@
 From: roman.penyaev@profitbricks.com (Roman Penyaev)
-Date: Tue, 5 Jun 2018 12:19:46 +0200
+Date: Tue, 5 Jun 2018 12:19:36 +0200
 Subject: [PATCH v2 2/8] nvmet-rdma: wrap raw kref_get/put() with
  corresponding helpers
-In-Reply-To: <20180605044347.GA29420@lst.de>
+In-Reply-To: <20180604214916.GC24926@ziepe.ca>
 References: <20180604123003.24748-1-roman.penyaev@profitbricks.com>
  <20180604123003.24748-3-roman.penyaev@profitbricks.com>
- <20180604214916.GC24926@ziepe.ca> <20180605044347.GA29420@lst.de>
-Message-ID: <CAJrWOzDiw=wiNrrjccm6p_Z4x6=SVGBzv927LDr7CR2DRCo50w@mail.gmail.com>
+ <20180604214916.GC24926@ziepe.ca>
+Message-ID: <CAJrWOzBbQgJUK6qFenxwDK4YkPJA2B-NKpO=WyrWrgXuAohOgw@mail.gmail.com>
 
-On Tue, Jun 5, 2018@6:43 AM, Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, Jun 04, 2018@03:49:16PM -0600, Jason Gunthorpe wrote:
->> > +{
->> > +   return kref_put(&dev->ref, nvmet_rdma_free_device);
->> > +}
->> > +
->> > +static int nvmet_rdma_dev_get(struct nvmet_rdma_device *dev)
->> > +{
->> > +   return kref_get_unless_zero(&dev->ref);
->> > +}
+On Mon, Jun 4, 2018@11:49 PM, Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> On Mon, Jun 04, 2018@02:29:57PM +0200, Roman Pen wrote:
+>> This is just a preparation patch: put kref_put() and kref_get_unless_zero()
+>> inside helpers with more suitable names.
 >>
->> Don't wrap get_unless_zero with something called get..
+>> Signed-off-by: Roman Pen <roman.penyaev at profitbricks.de>
+>> Cc: Christoph Hellwig <hch at lst.de>
+>> Cc: Steve Wise <swise at opengridcomputing.com>
+>> Cc: Bart Van Assche <bart.vanassche at sandisk.com>
+>> Cc: Sagi Grimberg <sagi at grimberg.me>
+>> Cc: Doug Ledford <dledford at redhat.com>
+>> Cc: linux-nvme at lists.infradead.org
+>>  drivers/nvme/target/rdma.c | 19 ++++++++++++++-----
+>>  1 file changed, 14 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>> index 52e0c5d579a7..4304b8d8d027 100644
+>> +++ b/drivers/nvme/target/rdma.c
+>> @@ -775,7 +775,7 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
+>>       return ret;
+>>  }
+>>
+>> -static void nvmet_rdma_free_dev(struct kref *ref)
+>> +static void nvmet_rdma_free_device(struct kref *ref)
+>>  {
+>>       struct nvmet_rdma_device *ndev =
+>>               container_of(ref, struct nvmet_rdma_device, ref);
+>> @@ -790,6 +790,16 @@ static void nvmet_rdma_free_dev(struct kref *ref)
+>>       kfree(ndev);
+>>  }
+>>
+>> +static int nvmet_rdma_dev_put(struct nvmet_rdma_device *dev)
+>> +{
+>> +     return kref_put(&dev->ref, nvmet_rdma_free_device);
+>> +}
+>> +
+>> +static int nvmet_rdma_dev_get(struct nvmet_rdma_device *dev)
+>> +{
+>> +     return kref_get_unless_zero(&dev->ref);
+>> +}
 >
-> Agreed.  And I hate all these wrappers.  Either we use kref_*
-> or we use wrappers and plain refcount_* ops, not both.
+> Don't wrap get_unless_zero with something called get..
+>
+> unless_zero should only be used in special situations where something tricky
+> is going on.. In this case it looks like it is because a
+> nvmet_rdma_device can continue to reside in the device_list() even after
+> being fully 'put'..
+>
+> Which does pose a question to this whole series, what have you done to
+> ensure the client data access isn't racing with the removal of the
+> device/client?
 
-What I did not mention in the commit message is that this is
-done only to unify the code with host/rdma.c, which has
-exactly the same wrappers.  Since I am touching both sides
-(host and target) this code difference annoys.
+It races, but nvmet_rdma_remove_one() has guarantees that all queued
+release works will finish, so no users of ndev are left at the point
+when flush_scheduled_work() returns control:
 
-You think better to remove wrappers from nvme host or just
-leave everything as is?
+        static void
+        nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+        {
+                ...
+                flush_workqueue(nvme_delete_wq);
+
+                /*
+                 * Here at this point no users of ndev are left
+                 */
+
+        }
 
 --
 Roman
