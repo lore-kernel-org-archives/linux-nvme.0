@@ -1,33 +1,25 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 5 Jun 2018 10:25:02 -0600
-Subject: [PATCHv3 1/9] nvme: Sync request queues on reset
-In-Reply-To: <a43e1dda-d2a7-4e82-527b-76314eb714fc@grimberg.me>
+Date: Tue, 5 Jun 2018 10:28:16 -0600
+Subject: [PATCHv3 8/9] nvme-pci: Queue creation error handling
+In-Reply-To: <20180525123549.GB23463@lst.de>
 References: <20180524203500.14081-1-keith.busch@intel.com>
- <20180524203500.14081-2-keith.busch@intel.com>
- <20180525124209.GD23463@lst.de>
- <20180525142233.GN11037@localhost.localdomain>
- <20180525143253.GA26539@lst.de>
- <96a98ecf-9b35-1f4f-da20-3729d7a2de68@broadcom.com>
- <20180525162439.GT11037@localhost.localdomain>
- <7f88c98a-652f-4a82-0f0b-feb36fe46bb0@broadcom.com>
- <20180525183050.GU11037@localhost.localdomain>
- <a43e1dda-d2a7-4e82-527b-76314eb714fc@grimberg.me>
-Message-ID: <20180605162502.GA17057@localhost.localdomain>
+ <20180524203500.14081-9-keith.busch@intel.com>
+ <20180525123549.GB23463@lst.de>
+Message-ID: <20180605162816.GB17057@localhost.localdomain>
 
-On Thu, May 31, 2018@02:25:54AM +0300, Sagi Grimberg wrote:
-> > > > At least in the current blk-mq timeout handling, returning RESET_TIMER
-> > > > presents other challenges for the reset handler: the timer may have
-> > > > reclaimed the request that reset_work is trying to complete.
-> > > 
-> > > why would that be true if BLK_EH_RESET_TIMER was returned ?
+On Fri, May 25, 2018@02:35:49PM +0200, Christoph Hellwig wrote:
+> On Thu, May 24, 2018@02:34:59PM -0600, Keith Busch wrote:
+> > This patch sets the nvmeq's cq_vector only after the cq was successfully
+> > created. This way a device reset doesn't mistakenly believe that the
+> > vector is allocated. In case a reset does occur during queue creation,
+> > this patch will return status immediately instead of trying to unwind
+> > the created queues since the device won't be able to delete queues anyway.
 > > 
-> > That return rearms the timer for triggering timeout handling, and
-> > when that timeout handling triggers, your reset work won't be able to
-> > complete the request. You're basically relying on the timer being high
-> > enough that your reset work beats the timer to the completion. That may
-> > be sufficient in practice most of the time.
+> > This patch will also handle device reported failures correctly. These
+> > errors are reported as positive nvme status codes, which were previously
+> > not handled at all.
 > 
-> Why? the timeout handler would reset the timer yet again.
+> I applied the original patch this morning with some minor fixup.  Can
+> you send a relative patch to the nvme-4.18-2 tree?
 
-Right, the timeout hanlder resets the timer on a request the driver believes
-it already completed.
+Sounds good, working on that now.
