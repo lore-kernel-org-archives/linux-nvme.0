@@ -1,111 +1,89 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 5 Jun 2018 11:52:18 +0300
-Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
-In-Reply-To: <018f01d3fc0e$f3648830$da2d9890$@opengridcomputing.com>
-References: <cover.1527618402.git.swise@opengridcomputing.com>
- <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
- <ff362b8e-c223-2d81-b355-80397745bd2a@mellanox.com>
- <00fe01d3fb68$4b5e2cf0$e21a86d0$@opengridcomputing.com>
- <7fc24496-9eec-3282-1c26-3cb05773ffd1@mellanox.com>
- <018f01d3fc0e$f3648830$da2d9890$@opengridcomputing.com>
-Message-ID: <7e25837c-47df-d2dd-9a01-b63dbb6a986f@mellanox.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Tue, 5 Jun 2018 16:56:39 +0800
+Subject: [BUG REPORT] reset_controller stress operation lead to kernel
+ NULL pointer
+In-Reply-To: <1952603032.5635954.1528044389779.JavaMail.zimbra@redhat.com>
+References: <174598543.5605323.1527938722046.JavaMail.zimbra@redhat.com>
+ <59cee541-f34e-8586-d9c6-f52baf4710be@grimberg.me>
+ <825ff884-26d5-e05a-3375-e1a644722ad6@mellanox.com>
+ <1952603032.5635954.1528044389779.JavaMail.zimbra@redhat.com>
+Message-ID: <CACVXFVM4JAYd79EPMBNg_0NcMg+y2_6s+UcDBgt_8GsEXb-vWA@mail.gmail.com>
+
+On Mon, Jun 4, 2018@12:46 AM, Yi Zhang <yi.zhang@redhat.com> wrote:
+> Hi Max/Sagi
+>
+> Thanks for looking this issue.
+> I just tried Isreal and Sagi's patch, the kernel NULL pointer cannot be reproduced any more.
+> But the reset operation always hang with less than 100 times, then I found IO hang on Host side and "keep-alive timer expired" observed on target[2].
+> I also found some other error log during my test[1].
+>
+> [1]
+> [  245.229779] nvme nvme0: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+> [  245.238728] nvme nvme0: Property Set error: 7, offset 0x14
+>
+> [2]
+> Target:
+> [  647.523888] nvmet: creating controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:58282b02-64ae-4155-bad5-e37183e148e9.
+> --snip--
+> [  715.975355] nvmet: creating controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:58282b02-64ae-4155-bad5-e37183e148e9.
+> [  731.214264] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
+> [  731.222435] nvmet: ctrl 1 fatal error occurred!
+>
+> Host:
+> [  245.219461] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.1.92:4420
+> [  245.229779] nvme nvme0: Removing ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery"
+> [  245.238728] nvme nvme0: Property Set error: 7, offset 0x14
+> [  245.302714] nvme nvme0: creating 40 I/O queues.
+> [  246.011104] nvme nvme0: new ctrl: NQN "testnqn", addr 172.31.1.92:4420
+> [  252.159464] nvme nvme0: Property Set error: 7, offset 0x14
+> [  252.204801] nvme nvme0: creating 40 I/O queues.
+> [  255.005423] nvme nvme0: Property Set error: 7, offset 0x14
+> --snip--
+> [  426.191472] nvme nvme0: creating 40 I/O queues.
+> [  428.994740] nvme nvme0: Property Set error: 7, offset 0x14
+> [  429.042588] nvme nvme0: creating 40 I/O queues.
+> [  615.682478] INFO: task kworker/u81:8:685 blocked for more than 120 seconds.
+> [  615.690891]       Not tainted 4.17.0-rc7.Sagi+ #10
+> [  615.696721] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [  615.706003] kworker/u81:8   D    0   685      2 0x80000000
+> [  615.712675] Workqueue: writeback wb_workfn (flush-259:0)
+> [  615.719150] Call Trace:
+> [  615.722423]  ? __schedule+0x290/0x870
+> [  615.727053]  schedule+0x32/0x80
+> [  615.731092]  io_schedule+0x12/0x40
+> [  615.735425]  blk_mq_get_tag+0x12e/0x260
+> [  615.740240]  ? remove_wait_queue+0x60/0x60
+> [  615.745343]  blk_mq_get_request+0xce/0x390
+> [  615.750437]  ? __blk_mq_sched_bio_merge+0xec/0x190
+> [  615.756311]  blk_mq_make_request+0x11c/0x560
+> [  615.761608]  generic_make_request+0x18c/0x390
+> [  615.766996]  submit_bio+0x6e/0x130
+> [  615.771320]  ? guard_bio_eod+0x2c/0xa0
+> [  615.776020]  submit_bh_wbc+0x157/0x190
+> [  615.780727]  __block_write_full_page+0x14b/0x400
+> [  615.786406]  __writepage+0x19/0x50
+> [  615.790722]  write_cache_pages+0x222/0x470
+> [  615.795803]  ? bdi_set_max_ratio+0x70/0x70
+> [  615.800895]  generic_writepages+0x51/0x80
+> [  615.805883]  ? __wake_up_common_lock+0x87/0xc0
+> [  615.811356]  do_writepages+0x1a/0x70
+> [  615.815849]  __writeback_single_inode+0x3d/0x340
+> [  615.821508]  writeback_sb_inodes+0x24f/0x4b0
+> [  615.826784]  __writeback_inodes_wb+0x87/0xb0
+> [  615.832060]  wb_writeback+0x27c/0x310
+> [  615.836651]  wb_workfn+0x306/0x450
+> [  615.840952]  process_one_work+0x158/0x360
+> [  615.845932]  worker_thread+0x47/0x3e0
+> [  615.850517]  kthread+0xf8/0x130
+> [  615.854518]  ? max_active_store+0x80/0x80
+> [  615.859480]  ? kthread_bind+0x10/0x10
+> [  615.864063]  ret_from_fork+0x35/0x40
+
+This one seems one fixed blk-mq issue, and the following merged commit
+might be helpful:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e6fc46498784e799d3eb95d83079180e413c4e7d
 
 
-
-On 6/4/2018 5:18 PM, Steve Wise wrote:
-> 
-> 
->> -----Original Message-----
->> From: Max Gurtovoy <maxg at mellanox.com>
->> Sent: Monday, June 4, 2018 8:58 AM
->> To: Steve Wise <swise at opengridcomputing.com>; axboe at kernel.dk;
->> hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; linux-
->> nvme at lists.infradead.org
->> Cc: parav at mellanox.com; linux-rdma at vger.kernel.org
->> Subject: Re: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
->>
->>
->>
->> On 6/3/2018 9:25 PM, Steve Wise wrote:
->>>
->>>
->>>> -----Original Message-----
->>>> From: Max Gurtovoy <maxg at mellanox.com>
->>>> Sent: Sunday, June 3, 2018 3:40 AM
->>>> To: Steve Wise <swise at opengridcomputing.com>; axboe at kernel.dk;
->>>> hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; linux-
->>>> nvme at lists.infradead.org
->>>> Cc: parav at mellanox.com; linux-rdma at vger.kernel.org
->>>> Subject: Re: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
->>>>
->>>>
->>>>
->>>> On 5/29/2018 9:25 PM, Steve Wise wrote:
->>>>> Add a new configfs port attribute, called inline_data_size,
->>>>> to allow configuring the size of inline data for a given port.
->>>>> The maximum size allowed is still enforced by nvmet-rdma with
->>>>> NVMET_RDMA_MAX_INLINE_DATA_SIZE, which is increased to
->> max(16KB,
->>>>> PAGE_SIZE).  And the default size, if not specified via configfs,
->>>>> is still PAGE_SIZE.  This preserves the existing behavior, but allows
->>>>> larger inline sizes.
->>>>>
->>>>> Also support a configuration where inline_data_size is 0, which
-> disables
->>>>> using inline data.
->>>>>
->>>>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
->>>>> ---
->>>>>     drivers/nvme/target/admin-cmd.c |  4 ++--
->>>>>     drivers/nvme/target/configfs.c  | 31 ++++++++++++++++++++++++++++
->>>>>     drivers/nvme/target/core.c      |  4 ++++
->>>>>     drivers/nvme/target/discovery.c |  2 +-
->>>>>     drivers/nvme/target/nvmet.h     |  2 +-
->>>>>     drivers/nvme/target/rdma.c      | 45 ++++++++++++++++++++++++++++-
->> ----
->>>> --------
->>>>>     6 files changed, 70 insertions(+), 18 deletions(-)
->>>>
->>>> snip..
->>>>
->>>>>
->>>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->>>>> index 52e0c5d..2f0b08e 100644
->>>>> --- a/drivers/nvme/target/rdma.c
->>>>> +++ b/drivers/nvme/target/rdma.c
->>>>> @@ -33,9 +33,10 @@
->>>>>     #include "nvmet.h"
->>>>>
->>>>>     /*
->>>>> - * We allow up to a page of inline data to go with the SQE
->>>>> + * We allow at least 1 page, and up to 16KB of inline data to go with
->>> the
->>>> SQE
->>>>>      */
->>>>> -#define NVMET_RDMA_INLINE_DATA_SIZE	PAGE_SIZE
->>>>> +#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
->>>>> +#define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int,
->>>> SZ_16K, PAGE_SIZE)
->>>>
->>>> why not use SZ_16K ? why we need to mention the PAGE_SIZE ?
->>>>
->>>
->>> The idea is to allow at least 1 page.  So for, say, a 64K page system,
-> we'll
->>> allow 64K since we're allocating a page minimum for the buffer.
->>
->> IMO you want to support upto 16K inline data and not upto 64k (also in
->> PowerPC system)...
-> 
-> Why?
-> 
-
-Ok we can use PAGE_SIZE from resource and perf perspective, but please 
-change the subject since it is confusing. I guess the subject can be 
-similar to the one you used in the initiator.
-
-I think we should consider clamping to NVMET_RDMA_MAX_INLINE_DATA_SIZE 
-in case port->inline_data_size > NVMET_RDMA_MAX_INLINE_DATA_SIZE instead 
-of failing the operation (and add an info print).
-
--Max.
+Thanks,
+Ming Lei
