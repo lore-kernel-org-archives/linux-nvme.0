@@ -1,80 +1,178 @@
-From: roman.penyaev@profitbricks.com (Roman Penyaev)
-Date: Tue, 5 Jun 2018 12:19:36 +0200
-Subject: [PATCH v2 2/8] nvmet-rdma: wrap raw kref_get/put() with
- corresponding helpers
-In-Reply-To: <20180604214916.GC24926@ziepe.ca>
-References: <20180604123003.24748-1-roman.penyaev@profitbricks.com>
- <20180604123003.24748-3-roman.penyaev@profitbricks.com>
- <20180604214916.GC24926@ziepe.ca>
-Message-ID: <CAJrWOzBbQgJUK6qFenxwDK4YkPJA2B-NKpO=WyrWrgXuAohOgw@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 5 Jun 2018 13:17:46 +0200
+Subject: [PATCH] nvme: do not block connect call on inaccessible devices
+In-Reply-To: <20180605082905.1740-1-hare@suse.de>
+References: <20180605082905.1740-1-hare@suse.de>
+Message-ID: <20180605111746.GA5802@lst.de>
 
-On Mon, Jun 4, 2018@11:49 PM, Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> On Mon, Jun 04, 2018@02:29:57PM +0200, Roman Pen wrote:
->> This is just a preparation patch: put kref_put() and kref_get_unless_zero()
->> inside helpers with more suitable names.
->>
->> Signed-off-by: Roman Pen <roman.penyaev at profitbricks.de>
->> Cc: Christoph Hellwig <hch at lst.de>
->> Cc: Steve Wise <swise at opengridcomputing.com>
->> Cc: Bart Van Assche <bart.vanassche at sandisk.com>
->> Cc: Sagi Grimberg <sagi at grimberg.me>
->> Cc: Doug Ledford <dledford at redhat.com>
->> Cc: linux-nvme at lists.infradead.org
->>  drivers/nvme/target/rdma.c | 19 ++++++++++++++-----
->>  1 file changed, 14 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->> index 52e0c5d579a7..4304b8d8d027 100644
->> +++ b/drivers/nvme/target/rdma.c
->> @@ -775,7 +775,7 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->>       return ret;
->>  }
->>
->> -static void nvmet_rdma_free_dev(struct kref *ref)
->> +static void nvmet_rdma_free_device(struct kref *ref)
->>  {
->>       struct nvmet_rdma_device *ndev =
->>               container_of(ref, struct nvmet_rdma_device, ref);
->> @@ -790,6 +790,16 @@ static void nvmet_rdma_free_dev(struct kref *ref)
->>       kfree(ndev);
->>  }
->>
->> +static int nvmet_rdma_dev_put(struct nvmet_rdma_device *dev)
->> +{
->> +     return kref_put(&dev->ref, nvmet_rdma_free_device);
->> +}
->> +
->> +static int nvmet_rdma_dev_get(struct nvmet_rdma_device *dev)
->> +{
->> +     return kref_get_unless_zero(&dev->ref);
->> +}
->
-> Don't wrap get_unless_zero with something called get..
->
-> unless_zero should only be used in special situations where something tricky
-> is going on.. In this case it looks like it is because a
-> nvmet_rdma_device can continue to reside in the device_list() even after
-> being fully 'put'..
->
-> Which does pose a question to this whole series, what have you done to
-> ensure the client data access isn't racing with the removal of the
-> device/client?
+On Tue, Jun 05, 2018@10:29:05AM +0200, Hannes Reinecke wrote:
+> When a device is in ANA inaccessible state the call to 'nvme connect'
+> will hang as a parition scan is triggered and the I/O will be requeued
+> indefinitely.
+> Or rather, requeued until the next path is connected, but we cannot issue
+> any nvme ioctls anymore as the nvmf_dev_mutex is blocked by the initial
+> 'connect' call.
+> 
+> This patch inhibits partition scan if no working paths are found, and
+> retriggers the partition scan once the device becomes active.
 
-It races, but nvmet_rdma_remove_one() has guarantees that all queued
-release works will finish, so no users of ndev are left at the point
-when flush_scheduled_work() returns control:
+And what updates the state once all your inaccessible or change
+state groups become optimized?
 
-        static void
-        nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
-        {
-                ...
-                flush_workqueue(nvme_delete_wq);
+Also I see no point registering the disk if we can't do I/O to it.
 
-                /*
-                 * Here at this point no users of ndev are left
-                 */
+I'd rather prefer something along the lines of the completely untested
+patch below if we really want to go down this route:
 
-        }
-
---
-Roman
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3b55580bb9be..5d90560775e1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3080,7 +3080,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+ 			ns->disk->disk_name);
+ 
+-	nvme_mpath_add_disk(ns->head);
++	nvme_mpath_add_disk(ns);
+ 	nvme_fault_inject_init(ns);
+ 	return;
+  out_unlink_ns:
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 6e4fdc1a0581..8058dc385df5 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -264,20 +264,31 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 	return -ENOMEM;
+ }
+ 
+-void nvme_mpath_add_disk(struct nvme_ns_head *head)
++static void __nvme_mpath_add_disk(struct nvme_ns *ns)
+ {
+-	if (!head->disk)
++
++	struct nvme_ns_head *head = ns->head;
++	enum nvme_ana_state state = nvme_ns_ana_state(ns);
++
++	lockdep_assert_held(&head->subsys->lock);
++
++	if (!head->disk ||
++	    (head->disk->flags & GENHD_FL_UP) ||
++	    (state != NVME_ANA_OPTIMIZED && state != NVME_ANA_NONOPTIMIZED))
+ 		return;
+ 
+-	mutex_lock(&head->subsys->lock);
+-	if (!(head->disk->flags & GENHD_FL_UP)) {
+-		device_add_disk(&head->subsys->dev, head->disk);
+-		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
+-				&nvme_ns_id_attr_group))
+-			pr_warn("%s: failed to create sysfs group for identification\n",
+-				head->disk->disk_name);
+-	}
+-	mutex_unlock(&head->subsys->lock);
++	device_add_disk(&head->subsys->dev, head->disk);
++	if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
++			&nvme_ns_id_attr_group))
++		pr_warn("%s: failed to create sysfs group for identification\n",
++			head->disk->disk_name);
++}
++
++void nvme_mpath_add_disk(struct nvme_ns *ns)
++{
++	mutex_lock(&ns->head->subsys->lock);
++	__nvme_mpath_add_disk(ns);
++	mutex_unlock(&ns->head->subsys->lock);
+ }
+ 
+ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+@@ -299,6 +310,7 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+ {
+ 	void *base = ctrl->ana_log_buf;
+ 	size_t offset = sizeof(struct nvme_ana_rsp_hdr);
++	struct nvme_ns *ns;
+ 	int error, i;
+ 
+ 	/*
+@@ -316,21 +328,22 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+ 		return error;
+ 	}
+ 
++	error = -EINVAL;
++	mutex_lock(&ctrl->subsys->lock);
+ 	for (i = 0; i < le16_to_cpu(ctrl->ana_log_buf->ngrps); i++) {
+ 		struct nvme_ana_group_desc *desc = base + offset;
+ 		u32 grpid = le32_to_cpu(desc->grpid);
+ 		u32 nr_nsids = le32_to_cpu(desc->nnsids), n = 0;
+ 		size_t nsid_buf_size = nr_nsids * sizeof(__le32);
+-		struct nvme_ns *ns;
+ 
+ 		if (WARN_ON_ONCE(grpid == 0))
+-			return -EINVAL;
++			goto out_error;
+ 		if (WARN_ON_ONCE(grpid > ctrl->anagrpmax))
+-			return -EINVAL;
++			goto out_error;
+ 		if (WARN_ON_ONCE(desc->state == 0))
+-			return -EINVAL;
++			goto out_error;
+ 		if (WARN_ON_ONCE(desc->state > NVME_ANA_CHANGE))
+-			return -EINVAL;
++			goto out_error;
+ 
+ 		dev_info(ctrl->device, "ANA group %d: %s.\n",
+ 				grpid, nvme_ana_state_names[desc->state]);
+@@ -340,9 +353,9 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+ 			continue;
+ 
+ 		if (WARN_ON_ONCE(groups_only))
+-			return -EINVAL;
++			goto out_error;
+ 		if (WARN_ON_ONCE(offset > ctrl->ana_log_size - nsid_buf_size))
+-			return -EINVAL;
++			goto out_error;
+ 
+ 		down_write(&ctrl->namespaces_rwsem);
+ 		list_for_each_entry(ns, &ctrl->namespaces, list) {
+@@ -359,10 +372,19 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
+ 
+ 		offset += nsid_buf_size;
+ 		if (WARN_ON_ONCE(offset > ctrl->ana_log_size - sizeof(*desc)))
+-			return -EINVAL;
++			goto out_error;
+ 	}
+ 
+-	return 0;
++	// XXX: optimize when to actually calls this..
++	down_write(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list)
++		__nvme_mpath_add_disk(ns);
++	up_write(&ctrl->namespaces_rwsem);
++
++	error = 0;
++out_error:
++	mutex_unlock(&ctrl->subsys->lock);
++	return error;
+ }
+ 
+ static void nvme_ana_work(struct work_struct *work)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a6541b9f1548..ccbeae09599d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -460,7 +460,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
+ void nvme_failover_req(struct request *req);
+ void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
+ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
+-void nvme_mpath_add_disk(struct nvme_ns_head *head);
++void nvme_mpath_add_disk(struct nvme_ns *ns);
+ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
+ int nvme_configure_ana(struct nvme_ctrl *ctrl);
+ void nvme_deconfigure_ana(struct nvme_ctrl *ctrl);
+@@ -507,7 +507,7 @@ static inline int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,
+ {
+ 	return 0;
+ }
+-static inline void nvme_mpath_add_disk(struct nvme_ns_head *head)
++static inline void nvme_mpath_add_disk(struct nvme_ns *ns)
+ {
+ }
+ static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
