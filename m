@@ -1,40 +1,33 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 5 Jun 2018 11:21:12 -0600
-Subject: blktests block/019 lead system hang
-In-Reply-To: <20180605161853.GB16899@localhost.localdomain>
-References: <838678680.4693215.1527664726174.JavaMail.zimbra@redhat.com>
- <1858098161.4693883.1527665214701.JavaMail.zimbra@redhat.com>
- <20180605161853.GB16899@localhost.localdomain>
-Message-ID: <20180605172112.GC17057@localhost.localdomain>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 5 Jun 2018 10:16:41 -0700
+Subject: [PATCH v4 1/3] nvme-rdma: correctly check for target keyed sgl support
+In-Reply-To: <cover.1528219321.git.swise@opengridcomputing.com>
+References: <cover.1528219321.git.swise@opengridcomputing.com>
+Message-ID: <be1138dce21044c9f3249a519f6049dcd7756c99.1528219321.git.swise@opengridcomputing.com>
 
-On Tue, Jun 05, 2018@10:18:53AM -0600, Keith Busch wrote:
-> On Wed, May 30, 2018@03:26:54AM -0400, Yi Zhang wrote:
-> > Hi Keith
-> > I found blktest block/019 also can lead my NVMe server hang with 4.17.0-rc7, let me know if you need more info, thanks. 
-> > 
-> > Server: Dell R730xd
-> > NVMe SSD: 85:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller 172X (rev 01)
-> > 
-> > Console log:
-> > Kernel 4.17.0-rc7 on an x86_64
-> > 
-> > storageqe-62 login: [ 6043.121834] run blktests block/019 at 2018-05-30 03:16:34
-> > [ 6049.108476] {1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 3
-> > [ 6049.108478] {1}[Hardware Error]: event severity: fatal
-> > [ 6049.108479] {1}[Hardware Error]:  Error 0, type: fatal
-> > [ 6049.108481] {1}[Hardware Error]:   section_type: PCIe error
-> > [ 6049.108482] {1}[Hardware Error]:   port_type: 6, downstream switch port
-> > [ 6049.108483] {1}[Hardware Error]:   version: 1.16
-> > [ 6049.108484] {1}[Hardware Error]:   command: 0x0407, status: 0x0010
-> > [ 6049.108485] {1}[Hardware Error]:   device_id: 0000:83:05.0
-> > [ 6049.108486] {1}[Hardware Error]:   slot: 0
-> > [ 6049.108487] {1}[Hardware Error]:   secondary_bus: 0x85
-> > [ 6049.108488] {1}[Hardware Error]:   vendor_id: 0x10b5, device_id: 0x8734
-> > [ 6049.108489] {1}[Hardware Error]:   class_code: 000406
-> > [ 6049.108489] {1}[Hardware Error]:   bridge: secondary_status: 0x0000, control: 0x0003
-> > [ 6049.108491] Kernel panic - not syncing: Fatal hardware error!
-> > [ 6049.108514] Kernel Offset: 0x25800000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+The code was checking bit 20 instead of bit 2.  Also fixed the log entry.
 
-Could you attach 'lspci -vvv -s 0000:83:05.0'? Just want to see
-your switch's capabilities to confirm the pre-test checks are really
-sufficient.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/nvme/host/rdma.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 1eb4438..d9f5fbe 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1949,8 +1949,9 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	}
+ 
+ 	/* sanity check keyed sgls */
+-	if (!(ctrl->ctrl.sgls & (1 << 20))) {
+-		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not support\n");
++	if (!(ctrl->ctrl.sgls & (1 << 2))) {
++		dev_err(ctrl->ctrl.device,
++			"Mandatory keyed sgls are not supported!\n");
+ 		ret = -EINVAL;
+ 		goto out_remove_admin_queue;
+ 	}
+-- 
+1.8.3.1
