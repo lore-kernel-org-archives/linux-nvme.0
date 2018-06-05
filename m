@@ -1,23 +1,28 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 5 Jun 2018 23:54:30 +0300
-Subject: Bug report: critical medium error during 8k local nvme write
-In-Reply-To: <20180605162053.GC16899@localhost.localdomain>
-References: <93935ee4-52eb-a514-1b46-21c0f3b6e31d@mellanox.com>
- <20180605162053.GC16899@localhost.localdomain>
-Message-ID: <7e7f1a1c-6e70-7bbf-c1b0-ad1123897897@mellanox.com>
+From: roland@purestorage.com (Roland Dreier)
+Date: Tue, 5 Jun 2018 15:57:05 -0700
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180605044222.GA29384@lst.de>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+ <CAL1RGDV0eT4juuMwHWkjqc2oTsk-CHRJ0A90veXxLsVZYa5esQ@mail.gmail.com>
+ <20180605044222.GA29384@lst.de>
+Message-ID: <CAL1RGDWvxcz7zAoEa-Ukhmsn=Vuj6O07X666BK+vJOdkA7qwNQ@mail.gmail.com>
 
+> The sensible thing to do in nvme is to use different paths for
+> different queues.  That is e.g. in the RDMA case use the HCA closer
+> to a given CPU by default.  We might allow to override this for
+> cases where the is a good reason, but what I really don't want is
+> configurability for configurabilities sake.
 
+That makes sense but I'm not sure it covers everything.  Probably the
+most common way to do NVMe/RDMA will be with a single HCA that has
+multiple ports, so there's no sensible CPU locality.  On the other
+hand we want to keep both ports to the fabric busy.  Setting different
+paths for different queues makes sense, but there may be
+single-threaded applications that want a  different policy.
 
-On 6/5/2018 7:20 PM, Keith Busch wrote:
-> On Tue, May 29, 2018@04:08:08PM +0300, Max Gurtovoy wrote:
->> hi Keith,
->> I want to report on a bug I've seen in my local nvme drive configured to run
->> with metadata format using:
-> 
-> I think you got this one fixed in your patch "nvme: Fix extended data
-> LBA supported setting".
-> 
+I'm not saying anything very profound, but we have to find the right
+balance between too many and too few knobs.
 
-Yup :)
-Currenly working on fixing other issue with verifing integrity for IO > 
-mdts...
+ - R.
