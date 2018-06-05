@@ -1,71 +1,111 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue,  5 Jun 2018 10:29:05 +0200
-Subject: [PATCH] nvme: do not block connect call on inaccessible devices
-Message-ID: <20180605082905.1740-1-hare@suse.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 5 Jun 2018 11:52:18 +0300
+Subject: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
+In-Reply-To: <018f01d3fc0e$f3648830$da2d9890$@opengridcomputing.com>
+References: <cover.1527618402.git.swise@opengridcomputing.com>
+ <55c82aa5730c05017a58641ad9550b6c0f0e16b2.1527618402.git.swise@opengridcomputing.com>
+ <ff362b8e-c223-2d81-b355-80397745bd2a@mellanox.com>
+ <00fe01d3fb68$4b5e2cf0$e21a86d0$@opengridcomputing.com>
+ <7fc24496-9eec-3282-1c26-3cb05773ffd1@mellanox.com>
+ <018f01d3fc0e$f3648830$da2d9890$@opengridcomputing.com>
+Message-ID: <7e25837c-47df-d2dd-9a01-b63dbb6a986f@mellanox.com>
 
-When a device is in ANA inaccessible state the call to 'nvme connect'
-will hang as a parition scan is triggered and the I/O will be requeued
-indefinitely.
-Or rather, requeued until the next path is connected, but we cannot issue
-any nvme ioctls anymore as the nvmf_dev_mutex is blocked by the initial
-'connect' call.
 
-This patch inhibits partition scan if no working paths are found, and
-retriggers the partition scan once the device becomes active.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+On 6/4/2018 5:18 PM, Steve Wise wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Max Gurtovoy <maxg at mellanox.com>
+>> Sent: Monday, June 4, 2018 8:58 AM
+>> To: Steve Wise <swise at opengridcomputing.com>; axboe at kernel.dk;
+>> hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; linux-
+>> nvme at lists.infradead.org
+>> Cc: parav at mellanox.com; linux-rdma at vger.kernel.org
+>> Subject: Re: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
+>>
+>>
+>>
+>> On 6/3/2018 9:25 PM, Steve Wise wrote:
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Max Gurtovoy <maxg at mellanox.com>
+>>>> Sent: Sunday, June 3, 2018 3:40 AM
+>>>> To: Steve Wise <swise at opengridcomputing.com>; axboe at kernel.dk;
+>>>> hch at lst.de; keith.busch at intel.com; sagi at grimberg.me; linux-
+>>>> nvme at lists.infradead.org
+>>>> Cc: parav at mellanox.com; linux-rdma at vger.kernel.org
+>>>> Subject: Re: [PATCH v3 3/3] nvmet-rdma: support 16K inline data
+>>>>
+>>>>
+>>>>
+>>>> On 5/29/2018 9:25 PM, Steve Wise wrote:
+>>>>> Add a new configfs port attribute, called inline_data_size,
+>>>>> to allow configuring the size of inline data for a given port.
+>>>>> The maximum size allowed is still enforced by nvmet-rdma with
+>>>>> NVMET_RDMA_MAX_INLINE_DATA_SIZE, which is increased to
+>> max(16KB,
+>>>>> PAGE_SIZE).  And the default size, if not specified via configfs,
+>>>>> is still PAGE_SIZE.  This preserves the existing behavior, but allows
+>>>>> larger inline sizes.
+>>>>>
+>>>>> Also support a configuration where inline_data_size is 0, which
+> disables
+>>>>> using inline data.
+>>>>>
+>>>>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>>>>> ---
+>>>>>     drivers/nvme/target/admin-cmd.c |  4 ++--
+>>>>>     drivers/nvme/target/configfs.c  | 31 ++++++++++++++++++++++++++++
+>>>>>     drivers/nvme/target/core.c      |  4 ++++
+>>>>>     drivers/nvme/target/discovery.c |  2 +-
+>>>>>     drivers/nvme/target/nvmet.h     |  2 +-
+>>>>>     drivers/nvme/target/rdma.c      | 45 ++++++++++++++++++++++++++++-
+>> ----
+>>>> --------
+>>>>>     6 files changed, 70 insertions(+), 18 deletions(-)
+>>>>
+>>>> snip..
+>>>>
+>>>>>
+>>>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>>>>> index 52e0c5d..2f0b08e 100644
+>>>>> --- a/drivers/nvme/target/rdma.c
+>>>>> +++ b/drivers/nvme/target/rdma.c
+>>>>> @@ -33,9 +33,10 @@
+>>>>>     #include "nvmet.h"
+>>>>>
+>>>>>     /*
+>>>>> - * We allow up to a page of inline data to go with the SQE
+>>>>> + * We allow at least 1 page, and up to 16KB of inline data to go with
+>>> the
+>>>> SQE
+>>>>>      */
+>>>>> -#define NVMET_RDMA_INLINE_DATA_SIZE	PAGE_SIZE
+>>>>> +#define NVMET_RDMA_DEFAULT_INLINE_DATA_SIZE	PAGE_SIZE
+>>>>> +#define NVMET_RDMA_MAX_INLINE_DATA_SIZE		max_t(int,
+>>>> SZ_16K, PAGE_SIZE)
+>>>>
+>>>> why not use SZ_16K ? why we need to mention the PAGE_SIZE ?
+>>>>
+>>>
+>>> The idea is to allow at least 1 page.  So for, say, a 64K page system,
+> we'll
+>>> allow 64K since we're allocating a page minimum for the buffer.
+>>
+>> IMO you want to support upto 16K inline data and not upto 64k (also in
+>> PowerPC system)...
+> 
+> Why?
+> 
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 14bcc51016c7..30ba3c43e541 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -275,16 +275,44 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 
- void nvme_mpath_add_disk(struct nvme_ns_head *head)
- {
-+	struct nvme_ns *ns;
-+	int nr_working = 0;
-+
- 	if (!head->disk)
- 		return;
- 
- 	mutex_lock(&head->subsys->lock);
-+	list_for_each_entry(ns, &head->list, siblings) {
-+		if (nvme_ns_ana_state(ns) == NVME_ANA_OPTIMIZED ||
-+		    nvme_ns_ana_state(ns) == NVME_ANA_NONOPTIMIZED)
-+			nr_working++;
-+	}
-+	/* Disable partition scan if no working paths are found */
-+	if (!nr_working)
-+		head->disk->flags |= GENHD_FL_NO_PART_SCAN;
-+	else
-+		head->disk->flags &= ~GENHD_FL_NO_PART_SCAN;
-+
- 	if (!(head->disk->flags & GENHD_FL_UP)) {
- 		device_add_disk(&head->subsys->dev, head->disk);
- 		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
- 				&nvme_ns_id_attr_group))
- 			pr_warn("%s: failed to create sysfs group for identification\n",
- 				head->disk->disk_name);
-+	} else {
-+		struct block_device *bdev;
-+
-+		/*
-+		 * We need to do an explicit blkdev_get() to
-+		 * re-trigger partition scan if new paths have been added.
-+		 */
-+		bdev = bdget_disk(head->disk, 0);
-+		if (bdev) {
-+			bdev->bd_invalidated = 1;
-+			if (!blkdev_get(bdev, FMODE_READ, NULL))
-+				blkdev_put(bdev, FMODE_READ);
-+			bdput(bdev);
-+		}
- 	}
- 	mutex_unlock(&head->subsys->lock);
- }
--- 
-2.12.3
+Ok we can use PAGE_SIZE from resource and perf perspective, but please 
+change the subject since it is confusing. I guess the subject can be 
+similar to the one you used in the initiator.
+
+I think we should consider clamping to NVMET_RDMA_MAX_INLINE_DATA_SIZE 
+in case port->inline_data_size > NVMET_RDMA_MAX_INLINE_DATA_SIZE instead 
+of failing the operation (and add an info print).
+
+-Max.
