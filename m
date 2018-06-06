@@ -1,16 +1,38 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 6 Jun 2018 14:31:52 +0200
-Subject: [PATCH v4 1/3] nvme-rdma: correctly check for target keyed sgl
- support
-In-Reply-To: <be1138dce21044c9f3249a519f6049dcd7756c99.1528219321.git.swise@opengridcomputing.com>
-References: <cover.1528219321.git.swise@opengridcomputing.com>
- <be1138dce21044c9f3249a519f6049dcd7756c99.1528219321.git.swise@opengridcomputing.com>
-Message-ID: <20180606123152.GB13736@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 6 Jun 2018 15:27:30 +0300
+Subject: [PATCH v2] nvmet: filter newlines from user input
+In-Reply-To: <20180606105624.GA11670@lst.de>
+References: <20180606091049.12661-1-sagi@grimberg.me>
+ <20180606105624.GA11670@lst.de>
+Message-ID: <a48b8768-7237-8d73-e09d-49b2c92be15b@grimberg.me>
 
-On Tue, Jun 05, 2018@10:16:41AM -0700, Steve Wise wrote:
-> The code was checking bit 20 instead of bit 2.  Also fixed the log entry.
+
+>> +	ret = sscanf(page, "%s\n", port->disc_addr.traddr);
+>> +	if (ret < 1)
+>> +		return -EINVAL;
+>> +
+>> +	return count;
 > 
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+> I think this should be:
+> 
+> 	if (sscanf(page, "%s\n", port->disc_addr.traddr) != 1))
+> 		return -EINVAL;
+> 	return count;
+> 
+> Same for the other instances.
+> 
+>>   	ret = -ENOMEM;
+>> -	ns->device_path = kstrdup(page, GFP_KERNEL);
+>> -	if (!ns->device_path)
+>> +	s = kstrdup(page, GFP_KERNEL);
+>> +	if (!s)
+>>   		goto out_unlock;
+>>   
+>> +	ns->device_path = strsep(&s, "\n");
+> 
+> I'd just go for something like
+> 
+> 	ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
+> 
 
-Thanks, added to nvme-4.18.
+Thanks for the suggestions. sending v3
