@@ -1,91 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  6 Jun 2018 14:37:42 +0200
-Subject: [PATCH] nvme: don't rely on the changed namespace list log
-Message-ID: <20180606123742.4805-1-hch@lst.de>
+Date: Wed, 6 Jun 2018 14:50:42 +0200
+Subject: [PATCH 5/9] nvme: add ANA support
+In-Reply-To: <BN7PR06MB40338ED9C7EC6D89D2CD7A9E92650@BN7PR06MB4033.namprd06.prod.outlook.com>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-6-hch@lst.de>
+ <BN7PR06MB40333AEEF5E96A05DC6B925592650@BN7PR06MB4033.namprd06.prod.outlook.com>
+ <20180606121316.GA13227@lst.de>
+ <BN7PR06MB40338ED9C7EC6D89D2CD7A9E92650@BN7PR06MB4033.namprd06.prod.outlook.com>
+Message-ID: <20180606125042.GA14085@lst.de>
 
-Don't optimize our namespace rescan based on the changed namespace list
-log page as userspace might have changed the content through reading
-it.
+On Wed, Jun 06, 2018@12:27:43PM +0000, Popuri, Sriram wrote:
+> " In theory it could.  In practice that is going to get you very large data transfers for the ANA log, which we can't chunk."
+> I don't think so. ANA log is based on num ana grps. NANAGRPID can be small, but ANAGRPMAX could be large if a sparse id space is chosen.
 
-Suggested-by: Keith Busch <keith.busch at linux.intel.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 36 +++++++++++-------------------------
- 1 file changed, 11 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3250f8d72456..62d70419e12a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3197,40 +3197,28 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
- 	nvme_remove_invalid_namespaces(ctrl, nn);
- }
- 
--static bool nvme_scan_changed_ns_log(struct nvme_ctrl *ctrl)
-+static void nvme_clear_changed_ns_log(struct nvme_ctrl *ctrl)
- {
- 	size_t log_size = NVME_MAX_CHANGED_NAMESPACES * sizeof(__le32);
- 	__le32 *log;
--	int error, i;
--	bool ret = false;
-+	int error;
- 
- 	log = kzalloc(log_size, GFP_KERNEL);
- 	if (!log)
--		return false;
-+		return;
- 
-+	/*
-+	 * We need to read the log to clear the AEN, but we don't want to rely
-+	 * on it for the changed namespace information as userspace could have
-+	 * raced with us in reading the log page, which could cause us to miss
-+	 * updates.
-+	 */
- 	error = nvme_get_log(ctrl, NVME_LOG_CHANGED_NS, log, log_size);
--	if (error) {
-+	if (error)
- 		dev_warn(ctrl->device,
- 			"reading changed ns log failed: %d\n", error);
--		goto out_free_log;
--	}
--
--	if (log[0] == cpu_to_le32(0xffffffff))
--		goto out_free_log;
- 
--	for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
--		u32 nsid = le32_to_cpu(log[i]);
--
--		if (nsid == 0)
--			break;
--		dev_info(ctrl->device, "rescanning namespace %d.\n", nsid);
--		nvme_validate_ns(ctrl, nsid);
--	}
--	ret = true;
--
--out_free_log:
- 	kfree(log);
--	return ret;
- }
- 
- static void nvme_scan_work(struct work_struct *work)
-@@ -3246,9 +3234,8 @@ static void nvme_scan_work(struct work_struct *work)
- 	WARN_ON_ONCE(!ctrl->tagset);
- 
- 	if (test_and_clear_bit(EVENT_NS_CHANGED, &ctrl->events)) {
--		if (nvme_scan_changed_ns_log(ctrl))
--			goto out_sort_namespaces;
- 		dev_info(ctrl->device, "rescanning namespaces.\n");
-+		nvme_clear_changed_ns_log(ctrl);
- 	}
- 
- 	if (nvme_identify_ctrl(ctrl, &id))
-@@ -3263,7 +3250,6 @@ static void nvme_scan_work(struct work_struct *work)
- 	nvme_scan_ns_sequential(ctrl, nn);
- out_free_id:
- 	kfree(id);
--out_sort_namespaces:
- 	down_write(&ctrl->namespaces_rwsem);
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- 	up_write(&ctrl->namespaces_rwsem);
--- 
-2.14.2
+Still the same issue here - if we add another indirection to looking
+up the ana group this is really going to mess up the fast path where
+we always need to do a state check.  So for now I want to optimize
+for sensible targets.  If we really see targets eventually that say
+only use the high bits we'll have to find a workaround.
