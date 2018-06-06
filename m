@@ -1,64 +1,36 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed,  6 Jun 2018 16:21:40 +0200
-Subject: [PATCH] block: pass failfast and driver-specific flags to flush
- requests
-Message-ID: <20180606142140.64146-1-hare@suse.de>
+Date: Wed,  6 Jun 2018 16:22:18 +0200
+Subject: [PATCH] block: always set partition number to '0' in
+ blk_partition_remap()
+Message-ID: <20180606142218.64220-1-hare@suse.de>
 
-If flush requests are being sent to the device we need to inherit the
-failfast and driver-specific flags, too, otherwise I/O will fail.
+blk_partition_remap() will only clear bi_partno if an actual remapping
+has happened. But flush request et al don't have an actual size, so
+the remapping doesn't happen and bi_partno is never cleared.
+So for stacked devices blk_partition_remap() will be called on each level.
+If (as is the case for native nvme multipathing) one of the lower-level
+devices do _not_support partitioning a spurious I/O error is generated.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- block/blk-flush.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ block/blk-core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-flush.c b/block/blk-flush.c
-index f17170675917..058abdb50f31 100644
---- a/block/blk-flush.c
-+++ b/block/blk-flush.c
-@@ -94,7 +94,7 @@ enum {
- };
- 
- static bool blk_kick_flush(struct request_queue *q,
--			   struct blk_flush_queue *fq);
-+			   struct blk_flush_queue *fq, unsigned int flags);
- 
- static unsigned int blk_flush_policy(unsigned long fflags, struct request *rq)
- {
-@@ -212,7 +212,7 @@ static bool blk_flush_complete_seq(struct request *rq,
- 		BUG();
- 	}
- 
--	kicked = blk_kick_flush(q, fq);
-+	kicked = blk_kick_flush(q, fq, rq->cmd_flags);
- 	return kicked | queued;
- }
- 
-@@ -281,6 +281,7 @@ static void flush_end_io(struct request *flush_rq, blk_status_t error)
-  * blk_kick_flush - consider issuing flush request
-  * @q: request_queue being kicked
-  * @fq: flush queue
-+ * @flags: cmd_flags of the original request
-  *
-  * Flush related states of @q have changed, consider issuing flush request.
-  * Please read the comment at the top of this file for more info.
-@@ -291,7 +292,8 @@ static void flush_end_io(struct request *flush_rq, blk_status_t error)
-  * RETURNS:
-  * %true if flush was issued, %false otherwise.
-  */
--static bool blk_kick_flush(struct request_queue *q, struct blk_flush_queue *fq)
-+static bool blk_kick_flush(struct request_queue *q, struct blk_flush_queue *fq,
-+			   unsigned int flags)
- {
- 	struct list_head *pending = &fq->flush_queue[fq->flush_pending_idx];
- 	struct request *first_rq =
-@@ -346,6 +348,7 @@ static bool blk_kick_flush(struct request_queue *q, struct blk_flush_queue *fq)
- 	}
- 
- 	flush_rq->cmd_flags = REQ_OP_FLUSH | REQ_PREFLUSH;
-+	flush_rq->cmd_flags |= (flags & REQ_DRV) | (flags & REQ_FAILFAST_MASK);
- 	flush_rq->rq_flags |= RQF_FLUSH_SEQ;
- 	flush_rq->rq_disk = first_rq->rq_disk;
- 	flush_rq->end_io = flush_end_io;
+diff --git a/block/blk-core.c b/block/blk-core.c
+index cee03cad99f2..8a2c3a474234 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -2225,7 +2225,10 @@ static inline int blk_partition_remap(struct bio *bio)
+ 		bio->bi_partno = 0;
+ 		trace_block_bio_remap(bio->bi_disk->queue, bio, part_devt(p),
+ 				      bio->bi_iter.bi_sector - p->start_sect);
+-	}
++	} else
++		/* Set partition number to '0' to avoid repetitive calls */
++		bio->bi_partno = 0;
++
+ 	ret = 0;
+ out:
+ 	rcu_read_unlock();
 -- 
 2.12.3
