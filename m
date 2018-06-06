@@ -1,80 +1,86 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  5 Jun 2018 20:51:58 -0400
-Subject: [PATCH 00/10] blktests: NVMeOF new testcases for file and bdev ns
-Message-ID: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
+Date: Tue,  5 Jun 2018 20:51:59 -0400
+Subject: [PATCH 01/12] blktests: common/nvme export ns-mgmt interfaces
+In-Reply-To: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
+References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606005210.4197-2-chaitanya.kulkarni@wdc.com>
 
-Hi,
+This patch modifies and exports the interfaces to create and delete ns
+which can be consumed by future testcases like creation/deletion of ns.
 
-This patch series resrtcures the target side namespace creation code and
-adds new testcases for NVMeOF loop target (nvme_loop). We add different
-testcases like basic creation/deletion of the host/target, fio based data
-verification and exercising mkfs from the host side.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ common/nvme | 46 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 33 insertions(+), 13 deletions(-)
 
--Regards,
-Chaitanya
-
-Chaitanya Kulkarni (12):
-  blktests: common/nvme export ns-mgmt interfaces
-  blktests: add NVMeOF many bdev-ns creation test
-  blktests: add NVMeOF bdev-ns target creation test
-  blktests: add NVMeOF file-ns target creation test
-  blktests: add NVMeOF bdev-ns host creation
-  blktests: add NVMeOF file-ns host creation
-  blktests: add NVMeoF data verification test for bdev-ns
-  blktests: add NVMeOF data verification test for file-ns
-  blktests: add NVMeOF mkfs test for bdev-ns
-  blktests: add NVMeOF mkfs test for file-ns
-  blktests: add NVMeOF flush test for bdev-ns
-  blktests: add NVMeOF flush test for file-ns
-
- common/nvme           |   46 +-
- tests/nvme/006        |   65 +
- tests/nvme/006.out    | 5021 +++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/007        |   62 +
- tests/nvme/007.out    |    2 +
- tests/nvme/008        |   59 +
- tests/nvme/008.out    |    2 +
- tests/nvme/009        |   69 +
- tests/nvme/009.out    |    5 +
- tests/nvme/010        |   64 +
- tests/nvme/010.out    |    5 +
- tests/nvme/011        |   80 +
- tests/nvme/011.out    |    5 +
- tests/nvme/012        |   75 +
- tests/nvme/012.out    |    5 +
- tests/nvme/013        |   93 +
- tests/nvme/013.out    |    5 +
- tests/nvme/014        |   88 +
- tests/nvme/014.out    |    5 +
- tests/nvme/015        |   73 +
- tests/nvme/015.out    |    6 +
- tests/nvme/016        |   68 +
- tests/nvme/016.out    |    6 +
- tests/nvme/verify.fio |    9 +
- 24 files changed, 5905 insertions(+), 13 deletions(-)
- create mode 100755 tests/nvme/006
- create mode 100644 tests/nvme/006.out
- create mode 100755 tests/nvme/007
- create mode 100644 tests/nvme/007.out
- create mode 100755 tests/nvme/008
- create mode 100644 tests/nvme/008.out
- create mode 100755 tests/nvme/009
- create mode 100644 tests/nvme/009.out
- create mode 100755 tests/nvme/010
- create mode 100644 tests/nvme/010.out
- create mode 100755 tests/nvme/011
- create mode 100644 tests/nvme/011.out
- create mode 100755 tests/nvme/012
- create mode 100644 tests/nvme/012.out
- create mode 100755 tests/nvme/013
- create mode 100644 tests/nvme/013.out
- create mode 100755 tests/nvme/014
- create mode 100644 tests/nvme/014.out
- create mode 100755 tests/nvme/015
- create mode 100755 tests/nvme/015.out
- create mode 100755 tests/nvme/016
- create mode 100755 tests/nvme/016.out
- create mode 100644 tests/nvme/verify.fio
-
+diff --git a/common/nvme b/common/nvme
+index 5d7d89c..044d7fe 100644
+--- a/common/nvme
++++ b/common/nvme
+@@ -48,31 +48,51 @@ _remove_nvmet_port() {
+ 	rmdir "${NVMET_CFS}/ports/${port}"
+ }
+ 
+-_create_nvmet_subsystem() {
++_create_nvmet_ns() {
+ 	local nvmet_subsystem="$1"
+-	local blkdev="$2"
++	local nsid="$2"
++	local blkdev="$3"
+ 	local uuid="00000000-0000-0000-0000-000000000000"
+-	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
++	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
++	local ns_path="${subsys_path}/namespaces/${nsid}"
+ 
+-	if [[ $# -eq 3 ]]; then
+-		uuid="$3"
++	if [[ $# -eq 4 ]]; then
++		uuid="$4"
+ 	fi
+ 
++	mkdir "${ns_path}"
++	printf "%s" "${blkdev}" > "${ns_path}/device_path"
++	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
++	printf 1 > "${ns_path}/enable"
++}
++
++_create_nvmet_subsystem() {
++	local nvmet_subsystem="$1"
++	local blkdev="$2"
++	local uuid=$3
++	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
++
+ 	mkdir -p "${cfs_path}"
+ 	echo 1 > "${cfs_path}/attr_allow_any_host"
+-	mkdir "${cfs_path}/namespaces/1"
+-	printf "%s" "$blkdev" > "${cfs_path}/namespaces/1/device_path"
+-	printf "%s" "$uuid" > "${cfs_path}/namespaces/1/device_uuid"
+-	printf 1 > "${cfs_path}/namespaces/1/enable"
++	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
++}
++
++_remove_nvmet_ns() {
++	local nvmet_subsystem="$1"
++	local nsid=$2
++	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
++	local nvmet_ns_path="${subsys_path}/namespaces/${nsid}"
++
++	echo 0 > "${nvmet_ns_path}/enable"
++	rmdir "${nvmet_ns_path}"
+ }
+ 
+ _remove_nvmet_subsystem() {
+ 	local nvmet_subsystem="$1"
+-	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
++	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+ 
+-	echo 0 > "${cfs_path}/namespaces/1/enable"
+-	rmdir "${cfs_path}/namespaces/1/"
+-	rmdir "${cfs_path}"
++	_remove_nvmet_ns "${nvmet_subsystem}" "1"
++	rmdir "${subsys_path}"
+ }
+ 
+ _add_nvmet_subsys_to_port() {
 -- 
 2.9.5
