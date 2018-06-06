@@ -1,32 +1,62 @@
-From: Sriram.Popuri@netapp.com (Popuri, Sriram)
-Date: Wed, 6 Jun 2018 12:27:43 +0000
-Subject: [PATCH 5/9] nvme: add ANA support
-In-Reply-To: <20180606121316.GA13227@lst.de>
-References: <20180601071128.7630-1-hch@lst.de>
- <20180601071128.7630-6-hch@lst.de>
- <BN7PR06MB40333AEEF5E96A05DC6B925592650@BN7PR06MB4033.namprd06.prod.outlook.com>
- <20180606121316.GA13227@lst.de>
-Message-ID: <BN7PR06MB40338ED9C7EC6D89D2CD7A9E92650@BN7PR06MB4033.namprd06.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed,  6 Jun 2018 15:27:48 +0300
+Subject: [PATCH v3] nvmet: filter newlines from user input
+Message-ID: <20180606122748.20872-1-sagi@grimberg.me>
 
-" In theory it could.  In practice that is going to get you very large data transfers for the ANA log, which we can't chunk."
-I don't think so. ANA log is based on num ana grps. NANAGRPID can be small, but ANAGRPMAX could be large if a sparse id space is chosen.
+We should avoid consuming the newlines in traddr, trsvcid and
+device_path. Add minimal processing to make sure they are gone.
 
-Regards,
-~Sriram
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v2:
+- use strcspn to break from device_path '\n' instead of strsep
+- prettify sscanf statements
 
------Original Message-----
-From: Christoph Hellwig <hch@lst.de> 
-Sent: Wednesday, June 6, 2018 5:43 PM
-To: Popuri, Sriram <Sriram.Popuri at netapp.com>
-Cc: Christoph Hellwig <hch at lst.de>; linux-nvme at lists.infradead.org; Hannes Reinecke <hare at suse.de>; Meneghini, John <John.Meneghini at netapp.com>; Knight, Frederick <Frederick.Knight at netapp.com>
-Subject: Re: [PATCH 5/9] nvme: add ANA support
+Changes from v1:
+- use sscanf instead of kstrdup+strsep for traddr and trsvcid
 
-On Wed, Jun 06, 2018@12:01:04PM +0000, Popuri, Sriram wrote:
-> +	ctrl->ana_state = kcalloc(ctrl->anagrpmax, sizeof(*ctrl->ana_state),
-> +			GFP_KERNEL);
-> 
-> You are assuming anagrpmax is a small value. I guess it can go upto ffffffffh.
+ drivers/nvme/target/configfs.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-In theory it could.  In practice that is going to get you very large data transfers for the ANA log, which we can't chunk.
-
-At some point we might want to look into using the page allocator here, but for now I'd like to keep it simple.
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index fd93c6a122d5..ce7fb63bd3ed 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -137,8 +137,10 @@ static ssize_t nvmet_addr_traddr_store(struct config_item *item,
+ 		pr_err("Disable the address before modifying\n");
+ 		return -EACCES;
+ 	}
+-	return snprintf(port->disc_addr.traddr,
+-			sizeof(port->disc_addr.traddr), "%s", page);
++
++	if (sscanf(page, "%s\n", port->disc_addr.traddr) != 1)
++		return -EINVAL;
++	return count;
+ }
+ 
+ CONFIGFS_ATTR(nvmet_, addr_traddr);
+@@ -223,8 +225,10 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
+ 		pr_err("Disable the address before modifying\n");
+ 		return -EACCES;
+ 	}
+-	return snprintf(port->disc_addr.trsvcid,
+-			sizeof(port->disc_addr.trsvcid), "%s", page);
++
++	if (sscanf(page, "%s\n", port->disc_addr.trsvcid) != 1)
++		return -EINVAL;
++	return count;
+ }
+ 
+ CONFIGFS_ATTR(nvmet_, addr_trsvcid);
+@@ -313,7 +317,7 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
+ 	kfree(ns->device_path);
+ 
+ 	ret = -ENOMEM;
+-	ns->device_path = kstrdup(page, GFP_KERNEL);
++	ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
+ 	if (!ns->device_path)
+ 		goto out_unlock;
+ 
+-- 
+2.14.1
