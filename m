@@ -1,12 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:56:20 +0200
-Subject: [PATCH 11/12] blktests: add NVMeOF flush test for bdev-ns
-In-Reply-To: <20180606005210.4197-12-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:57:29 +0200
+Subject: [PATCH 12/12] blktests: add NVMeOF flush test for file-ns
+In-Reply-To: <20180606005210.4197-13-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-12-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606075620.vmlr4f3jxyuajfed@linux-x5ow.site>
+ <20180606005210.4197-13-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606075729.pkdvtkpeppaudnkc@linux-x5ow.site>
 
-Looks good,
+On Tue, Jun 05, 2018@08:52:10PM -0400, Chaitanya Kulkarni wrote:
+> +requires() {
+> +	_have_program nvme && _have_module nvme-loop && _have_module loop && \
+> +		_have_configfs
+> +}
+
+"_have_module loop" again (haven't checked the other file backed test, sorry)
+
+Other than that,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
