@@ -1,36 +1,49 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  6 Jun 2018 08:13:09 -0600
-Subject: [PATCH 6/6] nvme-pci: Make CMB SQ mod-param read-only
+Date: Wed,  6 Jun 2018 08:13:06 -0600
+Subject: [PATCH 3/6] nvme-pci: Queue creation fixes
 In-Reply-To: <20180606141309.19389-1-keith.busch@intel.com>
 References: <20180606141309.19389-1-keith.busch@intel.com>
-Message-ID: <20180606141309.19389-7-keith.busch@intel.com>
+Message-ID: <20180606141309.19389-4-keith.busch@intel.com>
 
-A controller reset after a run time change of the CMB module parameter
-breaks the driver. An 'on -> off' will have the driver use NULL for the
-host memory queue, and 'off -> on' will use mismatched queue depth between
-the device and the host.
+We've been ignoring NVMe error status on queue creations. Fortunately they
+are uncommon, but we should handle these anyway. This patch adds checks
+for the a positive error return value that indicates an NVMe status.
 
-We could fix both, but there isn't really a good reason to change this
-at run time anyway, compared to at module load time, so this patch makes
-parameter read-only after after modprobe.
+If we do see a negative return, the controller isn't usable, so this
+patch returns immediately in since we can't unwind that failure.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e18753f1ef19..c8dae140db06 100644
+index 94d9abbe2d45..ed9fac721b8c 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -42,7 +42,7 @@ static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
+@@ -1466,11 +1466,13 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	 */
+ 	vector = dev->num_vecs == 1 ? 0 : qid;
+ 	result = adapter_alloc_cq(dev, qid, nvmeq, vector);
+-	if (result < 0)
+-		goto out;
++	if (result)
++		return result;
  
- static bool use_cmb_sqes = true;
--module_param(use_cmb_sqes, bool, 0644);
-+module_param(use_cmb_sqes, bool, 0444);
- MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+ 	result = adapter_alloc_sq(dev, qid, nvmeq);
+ 	if (result < 0)
++		return result;
++	else if (result)
+ 		goto release_cq;
  
- static unsigned int max_host_mem_size_mb = 128;
+ 	/*
+@@ -1492,7 +1494,6 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	adapter_delete_sq(dev, qid);
+ release_cq:
+ 	adapter_delete_cq(dev, qid);
+-out:
+ 	return result;
+ }
+ 
 -- 
 2.14.3
