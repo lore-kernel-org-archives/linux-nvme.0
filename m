@@ -1,20 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:14:57 +0200
-Subject: [PATCH 00/10] blktests: NVMeOF new testcases for file and bdev ns
-In-Reply-To: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:20:39 +0200
+Subject: [PATCH 01/12] blktests: common/nvme export ns-mgmt interfaces
+In-Reply-To: <20180606005210.4197-2-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606071457.samfrpz32qef6yir@linux-x5ow.site>
+ <20180606005210.4197-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606072039.b5saihw6ey7pslrg@linux-x5ow.site>
 
-On Tue, Jun 05, 2018@08:51:58PM -0400, Chaitanya Kulkarni wrote:
-> Hi,
-> 
-> This patch series resrtcures the target side namespace creation code and
-> adds new testcases for NVMeOF loop target (nvme_loop). We add different
-> testcases like basic creation/deletion of the host/target, fio based data
-> verification and exercising mkfs from the host side.
-
-Awesome, thanks a lot for doing this Chaitanya \o/
-
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
