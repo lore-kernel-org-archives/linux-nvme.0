@@ -1,12 +1,21 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:33:52 +0200
-Subject: [PATCH 05/12] blktests: add NVMeOF bdev-ns host creation
-In-Reply-To: <20180606005210.4197-6-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:35:35 +0200
+Subject: [PATCH 06/12] blktests: add NVMeOF file-ns host creation
+In-Reply-To: <20180606005210.4197-7-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-6-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606073352.amprzaf576epd5ct@linux-x5ow.site>
+ <20180606005210.4197-7-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606073535.dffqrnq5i2svt4lu@linux-x5ow.site>
 
-Looks good,
+On Tue, Jun 05, 2018@08:52:04PM -0400, Chaitanya Kulkarni wrote:
+
+> +requires() {
+> +	_have_program nvme && _have_module nvme-loop && _have_module loop && \
+> +		_have_configfs
+> +}
+
+NIT: you don't need "_have_module loop" here.
+
+Other than that,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
