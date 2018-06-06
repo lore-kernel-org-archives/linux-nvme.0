@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:31:55 +0200
-Subject: [PATCH 04/12] blktests: add NVMeOF file-ns target creation test
-In-Reply-To: <20180606005210.4197-5-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:33:52 +0200
+Subject: [PATCH 05/12] blktests: add NVMeOF bdev-ns host creation
+In-Reply-To: <20180606005210.4197-6-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-5-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606073155.huxlxxuob73zujs5@linux-x5ow.site>
+ <20180606005210.4197-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606073352.amprzaf576epd5ct@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
