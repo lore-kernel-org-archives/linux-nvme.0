@@ -1,122 +1,96 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  6 Jun 2018 16:33:07 +0200
-Subject: [PATCH 06/10] nvme: don't set gendisks live that don't have an I/O
- capable path
+Date: Wed,  6 Jun 2018 16:33:08 +0200
+Subject: [PATCH 07/10] nvmet: track and limit the number of namespaces per
+ subsystem
 In-Reply-To: <20180606143311.23076-1-hch@lst.de>
 References: <20180606143311.23076-1-hch@lst.de>
-Message-ID: <20180606143311.23076-7-hch@lst.de>
+Message-ID: <20180606143311.23076-8-hch@lst.de>
 
-Only add the gendisk for a ns_head once we have a patch that can actually
-do I/O.  Without that we'll get hangs during partition scanning.  To ensure
-we don't have dangling unregisters paths make sure to register any missing
-ns_head gendisk once the ANA state changes.
+TP 4004 introduces a new 'Maximum Number of Allocated Namespaces' field
+in the Identify controller data to help the host size resources.  Put
+an upper limit on the supported namespaces to be able to support this
+value as supporting 32-bits worth of namespaces would lead to very
+large buffers.  The limit is completely arbitrary at this point.
 
-Reported-by: Hannes Reinecke <hare at suse.de>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c      |  2 +-
- drivers/nvme/host/multipath.c | 43 ++++++++++++++++++++++++++++++++-----------
- drivers/nvme/host/nvme.h      |  4 ++--
- 3 files changed, 35 insertions(+), 14 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 1 +
+ drivers/nvme/target/core.c      | 8 +++++++-
+ drivers/nvme/target/nvmet.h     | 8 ++++++++
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 67bd73a98a1b..e62de51209b2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3081,7 +3081,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
- 			ns->disk->disk_name);
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 962532842769..6912548eefc3 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -220,6 +220,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
  
--	nvme_mpath_add_disk(ns->head);
-+	nvme_mpath_add_disk(ns);
- 	nvme_fault_inject_init(ns);
- 	return;
-  out_unlink_ns:
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 2ab55ca15cec..d30229a21c97 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -264,20 +264,31 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	return -ENOMEM;
- }
+ 	id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
++	id->mnan = cpu_to_le32(NVMET_MAX_NAMESPACES);
+ 	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
+ 			NVME_CTRL_ONCS_WRITE_ZEROES);
  
--void nvme_mpath_add_disk(struct nvme_ns_head *head)
-+static void __nvme_mpath_add_disk(struct nvme_ns *ns)
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index a03da764ecae..f691ae47c83a 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -332,9 +332,13 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+ int nvmet_ns_enable(struct nvmet_ns *ns)
  {
--	if (!head->disk)
-+
-+	struct nvme_ns_head *head = ns->head;
-+	enum nvme_ana_state state = nvme_ns_ana_state(ns);
-+
-+	lockdep_assert_held(&head->subsys->lock);
-+
-+	if (!head->disk ||
-+	    (head->disk->flags & GENHD_FL_UP) ||
-+	    (state != NVME_ANA_OPTIMIZED && state != NVME_ANA_NONOPTIMIZED))
- 		return;
+ 	struct nvmet_subsys *subsys = ns->subsys;
+-	int ret = 0;
++	int ret;
  
--	mutex_lock(&head->subsys->lock);
--	if (!(head->disk->flags & GENHD_FL_UP)) {
--		device_add_disk(&head->subsys->dev, head->disk);
--		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
--				&nvme_ns_id_attr_group))
--			pr_warn("%s: failed to create sysfs group for identification\n",
--				head->disk->disk_name);
--	}
--	mutex_unlock(&head->subsys->lock);
-+	device_add_disk(&head->subsys->dev, head->disk);
-+	if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
-+			&nvme_ns_id_attr_group))
-+		pr_warn("%s: failed to create sysfs group for identification\n",
-+			head->disk->disk_name);
-+}
-+
-+void nvme_mpath_add_disk(struct nvme_ns *ns)
-+{
-+	mutex_lock(&ns->head->subsys->lock);
-+	__nvme_mpath_add_disk(ns);
-+	mutex_unlock(&ns->head->subsys->lock);
- }
+ 	mutex_lock(&subsys->lock);
++	ret = -EMFILE;
++	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
++		goto out_unlock;
++	ret = 0;
+ 	if (ns->enabled)
+ 		goto out_unlock;
  
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
-@@ -363,6 +374,16 @@ static int nvme_process_ana_log(struct nvme_ctrl *ctrl, bool groups_only)
- 			return -EINVAL;
+@@ -369,6 +373,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 
+ 		list_add_tail_rcu(&ns->dev_link, &old->dev_link);
  	}
++	subsys->nr_namespaces++;
  
-+	/*
-+	 * Make sure any namespaces that were first discovered in a state where
-+	 * we could not do I/O are added once they can perform I/O.
-+	 */
-+	mutex_lock(&ctrl->subsys->lock);
-+	down_write(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		__nvme_mpath_add_disk(ns);
-+	up_write(&ctrl->namespaces_rwsem);
-+	mutex_unlock(&ctrl->subsys->lock);
- 	return 0;
- }
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
+@@ -409,6 +414,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+ 	percpu_ref_exit(&ns->ref);
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 82a58bd2bf8e..be2585576bad 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -465,7 +465,7 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
- void nvme_failover_req(struct request *req);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
- int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
--void nvme_mpath_add_disk(struct nvme_ns_head *head);
-+void nvme_mpath_add_disk(struct nvme_ns *ns);
- void nvme_mpath_remove_disk(struct nvme_ns_head *head);
- int nvme_configure_ana(struct nvme_ctrl *ctrl);
- void nvme_deconfigure_ana(struct nvme_ctrl *ctrl);
-@@ -512,7 +512,7 @@ static inline int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,
- {
- 	return 0;
- }
--static inline void nvme_mpath_add_disk(struct nvme_ns_head *head)
-+static inline void nvme_mpath_add_disk(struct nvme_ns *ns)
- {
- }
- static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ 	mutex_lock(&subsys->lock);
++	subsys->nr_namespaces--;
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	nvmet_ns_dev_disable(ns);
+ out_unlock:
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 480dfe10fad9..bd24e2b7317d 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -166,6 +166,7 @@ struct nvmet_subsys {
+ 	struct kref		ref;
+ 
+ 	struct list_head	namespaces;
++	unsigned int		nr_namespaces;
+ 	unsigned int		max_nsid;
+ 
+ 	struct list_head	ctrls;
+@@ -357,6 +358,13 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+ #define NVMET_QUEUE_SIZE	1024
+ #define NVMET_NR_QUEUES		128
+ #define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
++
++/*
++ * Nice round number that makes a list of nsids fit into a page.
++ * Should become tunable at some point in the future.
++ */
++#define NVMET_MAX_NAMESPACES	1024
++
+ #define NVMET_KAS		10
+ #define NVMET_DISC_KATO		120
+ 
 -- 
 2.14.2
