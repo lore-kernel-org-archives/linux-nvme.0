@@ -1,49 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  6 Jun 2018 16:33:11 +0200
-Subject: [PATCH 10/10] host fold
-In-Reply-To: <20180606143311.23076-1-hch@lst.de>
-References: <20180606143311.23076-1-hch@lst.de>
-Message-ID: <20180606143311.23076-11-hch@lst.de>
+Date: Wed, 6 Jun 2018 16:42:18 +0200
+Subject: [PATCH] block: always set partition number to '0' in
+ blk_partition_remap()
+In-Reply-To: <25f0db7b-ccac-88f6-76e7-99d1b94e11f9@kernel.dk>
+References: <20180606142218.64220-1-hare@suse.de>
+ <25f0db7b-ccac-88f6-76e7-99d1b94e11f9@kernel.dk>
+Message-ID: <20180606144218.GB20487@lst.de>
 
----
- drivers/nvme/host/multipath.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+On Wed, Jun 06, 2018@08:26:56AM -0600, Jens Axboe wrote:
+> On 6/6/18 8:22 AM, Hannes Reinecke wrote:
+> > blk_partition_remap() will only clear bi_partno if an actual remapping
+> > has happened. But flush request et al don't have an actual size, so
+> > the remapping doesn't happen and bi_partno is never cleared.
+> > So for stacked devices blk_partition_remap() will be called on each level.
+> > If (as is the case for native nvme multipathing) one of the lower-level
+> > devices do _not_support partitioning a spurious I/O error is generated.
+> 
+> Just move it down, we're now clearing it for both cases.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index d30229a21c97..f88cc4e401c8 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -62,14 +62,16 @@ void nvme_failover_req(struct request *req)
- 	 */
- 	switch (nvme_req(req)->status & 0x7ff) {
- 	case NVME_SC_ANA_TRANSITION:
--		/*
--		 * XXX: We should verify the controller doesn't die on during
--		 * the transition.  But that means we per-group timeout from
--		 * when we first hit the change state, so this won't be
--		 * entirely trivial..
--		 */
--		nvme_update_ana_state(ns, NVME_ANA_CHANGE);
-+	{
-+		enum nvme_ana_state old;
-+
-+		old = xchg(&ns->ctrl->ana_state[ns->anagrpid], NVME_ANA_CHANGE);
-+		if (old != NVME_ANA_CHANGE) {
-+			// XXX start timer
-+			;
-+		}
- 		break;
-+	}
- 	case NVME_SC_ANA_PERSISTENT_LOSS:
- 		nvme_update_ana_state(ns, NVME_ANA_PERSISTENT_LOSS);
- 		break;
-@@ -141,7 +143,6 @@ inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- 	ns = __nvme_find_path(head, NVME_ANA_OPTIMIZED);
- 	if (!ns)
- 		ns = __nvme_find_path(head, NVME_ANA_NONOPTIMIZED);
--	/* XXX: try an inaccessible path as last resort per 8.18.3.3 */
- 	return ns;
- }
- 
--- 
-2.14.2
+Agreed.
