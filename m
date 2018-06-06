@@ -1,82 +1,91 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 6 Jun 2018 15:33:26 +0300
-Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
-In-Reply-To: <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-18-git-send-email-maxg@mellanox.com>
- <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
- <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
- <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
-Message-ID: <cf0ec200-209b-1cfb-0bba-217530805915@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed,  6 Jun 2018 14:37:42 +0200
+Subject: [PATCH] nvme: don't rely on the changed namespace list log
+Message-ID: <20180606123742.4805-1-hch@lst.de>
 
+Don't optimize our namespace rescan based on the changed namespace list
+log page as userspace might have changed the content through reading
+it.
 
+Suggested-by: Keith Busch <keith.busch at linux.intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/core.c | 36 +++++++++++-------------------------
+ 1 file changed, 11 insertions(+), 25 deletions(-)
 
-On 6/3/2018 2:30 PM, Sagi Grimberg wrote:
-> 
->> Sagi,
->>
->> our architecture team have presented MR features and improvments 
->> during OFA 2018, and there are some similar ideas to your idea below. 
->> We need to thing and plan how to progress here.
-> 
-> I have not attended the OFA workshop.
-> 
->> Your suggestion looks reasonable but in my opinion it should be 
->> divided to 2 phases (otherwise it will be hard to push it in the near 
->> future):
->> 1. use 1 MR to map data + metadata
->> 2. use 1 MR to describe data, metadata and signature params.
-> 
-> Actually I think that given that we have only a single user and a single
-> provider we are in an ideal position to avoid the hassle of phasing this
-> cleanup. I think the proposed change for adding PI support is more
-> intrusive than it should be due to the API we came up with at the time
-> (mostly my fault probably).
-> 
->> Oren,
->> Can you share the vision for the MR layout and how it can fit to the 
->> T10 solution for ULPs ? Also pros/cons about the internal MR/s 
->> implemetation ?
-> 
-> Without knowing the end-goal in mind, I'd suggest to make the API
-> very specific to PI and have all the generic stuff inside the provider
-> driver. Looking back, I think it was a mistake to try and reflect a
-> generic interface for adding block metadata for consumers that only use
-> PI (and will probably never do anything else).
-> 
-> What I'd think we should aim for as an interface is something like:
-> 
-> 1. mr = ib_alloc_mr(pd, IB_MR_TYPE_PI, max_data_sg, max_meta_sg)
-
-Ok, I'll also change all the other callers and providers with new API.
-> 
-> 2. count = ib_mr_map_sg_pi(mr, data_sg, data_sg_cnt, data_sg_offset,
->  ??????????????????????????? meta_sg, meta_sg_cnt, meta_sg_offset,
->  ??????????????????????????? page_size)
-
-Sound reasonable too.
-
-> 
-> 3. ret = ib_mr_setup_pi(struct ib_mr *mr, struct blk_integrity *bi)
->  ?? *although this might not be able to converge scsi and nvme in one
->  ??? shot so we might have each ulp do its own thing here..
-
-In the first patchset each ULP will fill in the sig_attrs by itself.
-We can add this incrementaly.
-
-> 
-> 4. ret = ib_post_send(qp, pi_wr)
->  ?? where ib_pi_wr looks exactly like ib_reg_wr but has the opcode
->  ?? dissection for the provider to do all internal stuff.
-
-did you mean similar to IB_WR_REG_SIG_MR (and not IB_WR_REG_MR) ?
-This IB_WR_REG_PI_MR will need to create internal WR typed IB_WR_REG_MR 
-for the internal mr.
-> 
-> 5. ret = ib_check_pi_status(mr)
-> 
-> Try to hide all the multiple mr madness...
-
-I'll create internal mlx5_ib_mr pi_mr for mr typed IB_MR_TYPE_PI.
-
-Max.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3250f8d72456..62d70419e12a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3197,40 +3197,28 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
+ 	nvme_remove_invalid_namespaces(ctrl, nn);
+ }
+ 
+-static bool nvme_scan_changed_ns_log(struct nvme_ctrl *ctrl)
++static void nvme_clear_changed_ns_log(struct nvme_ctrl *ctrl)
+ {
+ 	size_t log_size = NVME_MAX_CHANGED_NAMESPACES * sizeof(__le32);
+ 	__le32 *log;
+-	int error, i;
+-	bool ret = false;
++	int error;
+ 
+ 	log = kzalloc(log_size, GFP_KERNEL);
+ 	if (!log)
+-		return false;
++		return;
+ 
++	/*
++	 * We need to read the log to clear the AEN, but we don't want to rely
++	 * on it for the changed namespace information as userspace could have
++	 * raced with us in reading the log page, which could cause us to miss
++	 * updates.
++	 */
+ 	error = nvme_get_log(ctrl, NVME_LOG_CHANGED_NS, log, log_size);
+-	if (error) {
++	if (error)
+ 		dev_warn(ctrl->device,
+ 			"reading changed ns log failed: %d\n", error);
+-		goto out_free_log;
+-	}
+-
+-	if (log[0] == cpu_to_le32(0xffffffff))
+-		goto out_free_log;
+ 
+-	for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
+-		u32 nsid = le32_to_cpu(log[i]);
+-
+-		if (nsid == 0)
+-			break;
+-		dev_info(ctrl->device, "rescanning namespace %d.\n", nsid);
+-		nvme_validate_ns(ctrl, nsid);
+-	}
+-	ret = true;
+-
+-out_free_log:
+ 	kfree(log);
+-	return ret;
+ }
+ 
+ static void nvme_scan_work(struct work_struct *work)
+@@ -3246,9 +3234,8 @@ static void nvme_scan_work(struct work_struct *work)
+ 	WARN_ON_ONCE(!ctrl->tagset);
+ 
+ 	if (test_and_clear_bit(EVENT_NS_CHANGED, &ctrl->events)) {
+-		if (nvme_scan_changed_ns_log(ctrl))
+-			goto out_sort_namespaces;
+ 		dev_info(ctrl->device, "rescanning namespaces.\n");
++		nvme_clear_changed_ns_log(ctrl);
+ 	}
+ 
+ 	if (nvme_identify_ctrl(ctrl, &id))
+@@ -3263,7 +3250,6 @@ static void nvme_scan_work(struct work_struct *work)
+ 	nvme_scan_ns_sequential(ctrl, nn);
+ out_free_id:
+ 	kfree(id);
+-out_sort_namespaces:
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
+ 	up_write(&ctrl->namespaces_rwsem);
+-- 
+2.14.2
