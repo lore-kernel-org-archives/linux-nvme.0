@@ -1,13 +1,24 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 6 Jun 2018 16:43:14 +0200
-Subject: [PATCH 0/6] minor nvme fixes for 4.18
-In-Reply-To: <20180606141309.19389-1-keith.busch@intel.com>
-References: <20180606141309.19389-1-keith.busch@intel.com>
-Message-ID: <20180606144314.GC20487@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 6 Jun 2018 17:18:48 +0200
+Subject: [PATCH 10/10] host fold
+In-Reply-To: <20180606144650.GA20986@lst.de>
+References: <20180606143311.23076-1-hch@lst.de>
+ <20180606143311.23076-11-hch@lst.de>
+ <20180606144650.GA20986@lst.de>
+Message-ID: <20180606171848.3a7968e7@pentland.suse.de>
 
-On Wed, Jun 06, 2018@08:13:03AM -0600, Keith Busch wrote:
-> A series of unrelated trivial patches. More to come later, but I think
-> these are non-controversial ones.
+On Wed, 6 Jun 2018 16:46:50 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
-Looks fine to me.  I'll wait a bit more for some feedback before
-applying.
+> Ignore this one.  This is just a small part of the not really
+> working transition timeout tracking.
+
+I do have an implementation running, will be posting it shortly.
+(After rebasing to your latest patchset, that is.)
+
+Got stuck debugging block-layer issues for which I've just posted
+patches, otherwise would've done so already.
+
+Cheers,
+
+Hannes
