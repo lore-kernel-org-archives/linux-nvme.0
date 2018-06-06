@@ -1,62 +1,82 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  6 Jun 2018 15:27:48 +0300
-Subject: [PATCH v3] nvmet: filter newlines from user input
-Message-ID: <20180606122748.20872-1-sagi@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 6 Jun 2018 15:33:26 +0300
+Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
+In-Reply-To: <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-18-git-send-email-maxg@mellanox.com>
+ <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
+ <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
+ <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
+Message-ID: <cf0ec200-209b-1cfb-0bba-217530805915@mellanox.com>
 
-We should avoid consuming the newlines in traddr, trsvcid and
-device_path. Add minimal processing to make sure they are gone.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v2:
-- use strcspn to break from device_path '\n' instead of strsep
-- prettify sscanf statements
 
-Changes from v1:
-- use sscanf instead of kstrdup+strsep for traddr and trsvcid
+On 6/3/2018 2:30 PM, Sagi Grimberg wrote:
+> 
+>> Sagi,
+>>
+>> our architecture team have presented MR features and improvments 
+>> during OFA 2018, and there are some similar ideas to your idea below. 
+>> We need to thing and plan how to progress here.
+> 
+> I have not attended the OFA workshop.
+> 
+>> Your suggestion looks reasonable but in my opinion it should be 
+>> divided to 2 phases (otherwise it will be hard to push it in the near 
+>> future):
+>> 1. use 1 MR to map data + metadata
+>> 2. use 1 MR to describe data, metadata and signature params.
+> 
+> Actually I think that given that we have only a single user and a single
+> provider we are in an ideal position to avoid the hassle of phasing this
+> cleanup. I think the proposed change for adding PI support is more
+> intrusive than it should be due to the API we came up with at the time
+> (mostly my fault probably).
+> 
+>> Oren,
+>> Can you share the vision for the MR layout and how it can fit to the 
+>> T10 solution for ULPs ? Also pros/cons about the internal MR/s 
+>> implemetation ?
+> 
+> Without knowing the end-goal in mind, I'd suggest to make the API
+> very specific to PI and have all the generic stuff inside the provider
+> driver. Looking back, I think it was a mistake to try and reflect a
+> generic interface for adding block metadata for consumers that only use
+> PI (and will probably never do anything else).
+> 
+> What I'd think we should aim for as an interface is something like:
+> 
+> 1. mr = ib_alloc_mr(pd, IB_MR_TYPE_PI, max_data_sg, max_meta_sg)
 
- drivers/nvme/target/configfs.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Ok, I'll also change all the other callers and providers with new API.
+> 
+> 2. count = ib_mr_map_sg_pi(mr, data_sg, data_sg_cnt, data_sg_offset,
+>  ??????????????????????????? meta_sg, meta_sg_cnt, meta_sg_offset,
+>  ??????????????????????????? page_size)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index fd93c6a122d5..ce7fb63bd3ed 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -137,8 +137,10 @@ static ssize_t nvmet_addr_traddr_store(struct config_item *item,
- 		pr_err("Disable the address before modifying\n");
- 		return -EACCES;
- 	}
--	return snprintf(port->disc_addr.traddr,
--			sizeof(port->disc_addr.traddr), "%s", page);
-+
-+	if (sscanf(page, "%s\n", port->disc_addr.traddr) != 1)
-+		return -EINVAL;
-+	return count;
- }
- 
- CONFIGFS_ATTR(nvmet_, addr_traddr);
-@@ -223,8 +225,10 @@ static ssize_t nvmet_addr_trsvcid_store(struct config_item *item,
- 		pr_err("Disable the address before modifying\n");
- 		return -EACCES;
- 	}
--	return snprintf(port->disc_addr.trsvcid,
--			sizeof(port->disc_addr.trsvcid), "%s", page);
-+
-+	if (sscanf(page, "%s\n", port->disc_addr.trsvcid) != 1)
-+		return -EINVAL;
-+	return count;
- }
- 
- CONFIGFS_ATTR(nvmet_, addr_trsvcid);
-@@ -313,7 +317,7 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
- 	kfree(ns->device_path);
- 
- 	ret = -ENOMEM;
--	ns->device_path = kstrdup(page, GFP_KERNEL);
-+	ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
- 	if (!ns->device_path)
- 		goto out_unlock;
- 
--- 
-2.14.1
+Sound reasonable too.
+
+> 
+> 3. ret = ib_mr_setup_pi(struct ib_mr *mr, struct blk_integrity *bi)
+>  ?? *although this might not be able to converge scsi and nvme in one
+>  ??? shot so we might have each ulp do its own thing here..
+
+In the first patchset each ULP will fill in the sig_attrs by itself.
+We can add this incrementaly.
+
+> 
+> 4. ret = ib_post_send(qp, pi_wr)
+>  ?? where ib_pi_wr looks exactly like ib_reg_wr but has the opcode
+>  ?? dissection for the provider to do all internal stuff.
+
+did you mean similar to IB_WR_REG_SIG_MR (and not IB_WR_REG_MR) ?
+This IB_WR_REG_PI_MR will need to create internal WR typed IB_WR_REG_MR 
+for the internal mr.
+> 
+> 5. ret = ib_check_pi_status(mr)
+> 
+> Try to hide all the multiple mr madness...
+
+I'll create internal mlx5_ib_mr pi_mr for mr typed IB_MR_TYPE_PI.
+
+Max.
