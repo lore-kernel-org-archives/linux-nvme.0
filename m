@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:49:57 +0200
-Subject: [PATCH 10/12] blktests: add NVMeOF mkfs test for file-ns
-In-Reply-To: <20180606005210.4197-11-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:56:20 +0200
+Subject: [PATCH 11/12] blktests: add NVMeOF flush test for bdev-ns
+In-Reply-To: <20180606005210.4197-12-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-11-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606074957.grixgaziwyt3d4ui@linux-x5ow.site>
+ <20180606005210.4197-12-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606075620.vmlr4f3jxyuajfed@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
