@@ -1,32 +1,27 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 6 Jun 2018 12:27:02 +0300
-Subject: Cannot Connect NVMeoF At Certain NR_IO_Queues Values
-In-Reply-To: <DE927C68B458BE418D582EC97927A9287FF8E731@ORSMSX113.amr.corp.intel.com>
-References: <DE927C68B458BE418D582EC97927A9287FF26F91@ORSMSX113.amr.corp.intel.com>
- <743c4b33-2bf8-7c76-95af-62043c2aaeeb@mellanox.com>
- <DE927C68B458BE418D582EC97927A9287FF27624@ORSMSX113.amr.corp.intel.com>
- <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
- <DE927C68B458BE418D582EC97927A9287FF8E731@ORSMSX113.amr.corp.intel.com>
-Message-ID: <8ec9ce8d-e967-edfa-7240-323bf7794f3a@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 6 Jun 2018 12:32:21 +0300
+Subject: [PATCH 0/3] Provide more fine grained control over multipathing
+In-Reply-To: <20180605044222.GA29384@lst.de>
+References: <20180525125322.15398-1-jthumshirn@suse.de>
+ <20180525130535.GA24239@lst.de> <20180525135813.GB9591@redhat.com>
+ <db1aa53f-1152-c003-ccc1-3e439ca6916d@grimberg.me>
+ <CAL1RGDV0eT4juuMwHWkjqc2oTsk-CHRJ0A90veXxLsVZYa5esQ@mail.gmail.com>
+ <20180605044222.GA29384@lst.de>
+Message-ID: <4203e888-df87-efd6-f61a-24b43fb710e2@grimberg.me>
 
 
-
-On 6/6/2018 5:29 AM, Gruher, Joseph R wrote:
->> On 5/15/2018 2:09 AM, Gruher, Joseph R wrote:
->>>> IMO this issue was fixed in mlx5_core function mlx5_get_vector_affinity.
->>>> It was a long discussion regarding this fix and it will be fixed
->>>> again in 4.17. After the final fix, it should go to stable kernel as well.
->>>
->>> Thanks Max.  So current 4.17-rc5 has a fix now?  Or fix is not in yet?
->>
->> The latest fix is not there. SaeedM should push it this week.
->>
+>> We plan to implement all the fancy NVMe standards like ANA, but it
+>> seems that there is still a requirement to let the host side choose
+>> policies about how to use paths (round-robin vs least queue depth for
+>> example).  Even in the modern SCSI world with VPD pages and ALUA,
+>> there are still knobs that are needed.  Maybe NVMe will be different
+>> and we can find defaults that work in all cases but I have to admit
+>> I'm skeptical...
 > 
-> Hey Max, was just hoping to confirm if this fix made it in?  Do you know which kernel release would first include it?
-> 
+> The sensible thing to do in nvme is to use different paths for
+> different queues.
 
-Hey,
-
-Commit e3ca34880652250f524022ad89e516f8ba9a805b was pushed to 4.17.
-
--Max.
+Huh? different paths == different controllers so this sentence can't
+be right... you mean that a path selector will select a controller
+based on the home node of the local rdma device connecting to it and
+the running cpu right?
