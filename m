@@ -1,21 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:47:02 +0200
-Subject: [PATCH 09/12] blktests: add NVMeOF mkfs test for bdev-ns
-In-Reply-To: <20180606005210.4197-10-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:49:57 +0200
+Subject: [PATCH 10/12] blktests: add NVMeOF mkfs test for file-ns
+In-Reply-To: <20180606005210.4197-11-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-10-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606074702.wij66kdponr3kjj6@linux-x5ow.site>
+ <20180606005210.4197-11-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606074957.grixgaziwyt3d4ui@linux-x5ow.site>
 
-On Tue, Jun 05, 2018@08:52:07PM -0400, Chaitanya Kulkarni wrote:
-
-> +requires() {
-> +	_have_program nvme && _have_program fio && _have_module loop && \
-> +		_have_configfs
-> +}
-
-This will need a "_have_program mkfs.xfs" as well.
-
-
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
