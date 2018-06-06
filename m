@@ -1,26 +1,29 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  5 Jun 2018 20:52:06 -0400
-Subject: [PATCH 08/12] blktests: add NVMeOF data verification test for file-ns
+Date: Tue,  5 Jun 2018 20:52:07 -0400
+Subject: [PATCH 09/12] blktests: add NVMeOF mkfs test for bdev-ns
 In-Reply-To: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606005210.4197-9-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606005210.4197-10-chaitanya.kulkarni@wdc.com>
+
+This adds a new test which formats the ns with file system on the host side
+and runs fio data verification workload.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/012     | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/012.out |  5 ++++
- 2 files changed, 80 insertions(+)
- create mode 100755 tests/nvme/012
- create mode 100644 tests/nvme/012.out
+ tests/nvme/013     | 93 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/013.out |  5 +++
+ 2 files changed, 98 insertions(+)
+ create mode 100755 tests/nvme/013
+ create mode 100644 tests/nvme/013.out
 
-diff --git a/tests/nvme/012 b/tests/nvme/012
+diff --git a/tests/nvme/013 b/tests/nvme/013
 new file mode 100755
-index 0000000..80a179a
+index 0000000..6d9025b
 --- /dev/null
-+++ b/tests/nvme/012
-@@ -0,0 +1,75 @@
++++ b/tests/nvme/013
+@@ -0,0 +1,93 @@
 +#!/bin/bash
-+# This is a data verification test for file backed ns.
++# Test mkfs with data verification for block device backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -41,10 +44,10 @@ index 0000000..80a179a
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +
-+DESCRIPTION="data verification test for file backed ns"
++DESCRIPTION="test mkfs with data verification for block device backed ns"
 +
 +requires() {
-+	_have_program nvme && _have_program fio && _have_module nvme-loop && \
++	_have_program nvme && _have_program fio && _have_module loop && \
 +		_have_configfs
 +}
 +
@@ -57,14 +60,19 @@ index 0000000..80a179a
 +	local port
 +	local ret=0
 +	local nvmedev
-+	local file_path
++	local loop_dev
++	local mount_dir="/mnt/blktests"
 +	local file_path="${TMPDIR}/img"
-+	local fio_out="/tmp/012_fio_out"
++	local fio_out="/tmp/013_fio_out"
 +	local subsys_name="blktests-subsystem-1"
++
++	mkdir -p "${mount_dir}" > /dev/null 2>&1
 +
 +	truncate -s 1G "${file_path}"
 +
-+	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
++	loop_dev="$(losetup -f --show "${file_path}")"
++
++	_create_nvmet_subsystem "${subsys_name}" "${loop_dev}" \
 +		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
 +	port="$(_create_nvmet_port "loop")"
 +	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
@@ -75,32 +83,45 @@ index 0000000..80a179a
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	fio tests/nvme/verify.fio --filename=/dev/"${nvmedev}n1" --output="${fio_out}"
++	umount ${mount_dir} > /dev/null 2>&1
++
++	mkfs.xfs -f /dev/"${nvmedev}n1" > /dev/null 2>&1
++
++	mount /dev/"${nvmedev}n1" "${mount_dir}"
++
++	fio tests/nvme/verify.fio --directory="${mount_dir}" \
++	--output="${fio_out}" --size=100m
 +	ret=$?
 +	if [ $ret -ne 0 ]; then
 +		echo "fio verification failed."
 +	fi
++
++	umount "${mount_dir}" > /dev/null 2>&1
++
 +	nvme disconnect -n "${subsys_name}"
 +
 +	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
 +	_remove_nvmet_subsystem "${subsys_name}"
 +	_remove_nvmet_port "${port}"
 +
-+	rm "${file_path}"
++	losetup -d "${loop_dev}"
++
 +	rm -f local-write-and-verify*state "${fio_out}"
++	rm "${file_path}"
++	rm -fr "${mount_dir}"
 +
 +	modprobe -r nvme_loop
 +	modprobe -r nvmet
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/012.out b/tests/nvme/012.out
+diff --git a/tests/nvme/013.out b/tests/nvme/013.out
 new file mode 100644
-index 0000000..581e686
+index 0000000..f7285a9
 --- /dev/null
-+++ b/tests/nvme/012.out
++++ b/tests/nvme/013.out
 @@ -0,0 +1,5 @@
-+Running nvme/012
++Running nvme/013
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
