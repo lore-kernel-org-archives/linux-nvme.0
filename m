@@ -1,38 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 6 Jun 2018 15:27:30 +0300
-Subject: [PATCH v2] nvmet: filter newlines from user input
-In-Reply-To: <20180606105624.GA11670@lst.de>
-References: <20180606091049.12661-1-sagi@grimberg.me>
- <20180606105624.GA11670@lst.de>
-Message-ID: <a48b8768-7237-8d73-e09d-49b2c92be15b@grimberg.me>
+From: Sriram.Popuri@netapp.com (Popuri, Sriram)
+Date: Wed, 6 Jun 2018 12:27:43 +0000
+Subject: [PATCH 5/9] nvme: add ANA support
+In-Reply-To: <20180606121316.GA13227@lst.de>
+References: <20180601071128.7630-1-hch@lst.de>
+ <20180601071128.7630-6-hch@lst.de>
+ <BN7PR06MB40333AEEF5E96A05DC6B925592650@BN7PR06MB4033.namprd06.prod.outlook.com>
+ <20180606121316.GA13227@lst.de>
+Message-ID: <BN7PR06MB40338ED9C7EC6D89D2CD7A9E92650@BN7PR06MB4033.namprd06.prod.outlook.com>
 
+" In theory it could.  In practice that is going to get you very large data transfers for the ANA log, which we can't chunk."
+I don't think so. ANA log is based on num ana grps. NANAGRPID can be small, but ANAGRPMAX could be large if a sparse id space is chosen.
 
->> +	ret = sscanf(page, "%s\n", port->disc_addr.traddr);
->> +	if (ret < 1)
->> +		return -EINVAL;
->> +
->> +	return count;
-> 
-> I think this should be:
-> 
-> 	if (sscanf(page, "%s\n", port->disc_addr.traddr) != 1))
-> 		return -EINVAL;
-> 	return count;
-> 
-> Same for the other instances.
-> 
->>   	ret = -ENOMEM;
->> -	ns->device_path = kstrdup(page, GFP_KERNEL);
->> -	if (!ns->device_path)
->> +	s = kstrdup(page, GFP_KERNEL);
->> +	if (!s)
->>   		goto out_unlock;
->>   
->> +	ns->device_path = strsep(&s, "\n");
-> 
-> I'd just go for something like
-> 
-> 	ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
-> 
+Regards,
+~Sriram
 
-Thanks for the suggestions. sending v3
+-----Original Message-----
+From: Christoph Hellwig <hch@lst.de> 
+Sent: Wednesday, June 6, 2018 5:43 PM
+To: Popuri, Sriram <Sriram.Popuri at netapp.com>
+Cc: Christoph Hellwig <hch at lst.de>; linux-nvme at lists.infradead.org; Hannes Reinecke <hare at suse.de>; Meneghini, John <John.Meneghini at netapp.com>; Knight, Frederick <Frederick.Knight at netapp.com>
+Subject: Re: [PATCH 5/9] nvme: add ANA support
+
+On Wed, Jun 06, 2018@12:01:04PM +0000, Popuri, Sriram wrote:
+> +	ctrl->ana_state = kcalloc(ctrl->anagrpmax, sizeof(*ctrl->ana_state),
+> +			GFP_KERNEL);
+> 
+> You are assuming anagrpmax is a small value. I guess it can go upto ffffffffh.
+
+In theory it could.  In practice that is going to get you very large data transfers for the ANA log, which we can't chunk.
+
+At some point we might want to look into using the page allocator here, but for now I'd like to keep it simple.
