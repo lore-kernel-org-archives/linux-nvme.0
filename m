@@ -1,41 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  6 Jun 2018 16:33:01 +0200
-Subject: draft ANA support v3
-Message-ID: <20180606143311.23076-1-hch@lst.de>
+Date: Wed,  6 Jun 2018 16:33:02 +0200
+Subject: [PATCH 01/10] nvme.h: add support for the log specific field
+In-Reply-To: <20180606143311.23076-1-hch@lst.de>
+References: <20180606143311.23076-1-hch@lst.de>
+Message-ID: <20180606143311.23076-2-hch@lst.de>
 
-The big TODO list item for the kernel code is support for transition
-timeouts.
+NVMe 1.3 added a new log specific field to the get log page CQ
+defintion, add it to our get_log_page SQ structure.
 
-Besides that we still need nvme-cli and nvmetcli support as well as
-an automated test suite.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ include/linux/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-A git tree is available at:
-
-    git://git.infradead.org/users/hch/block.git nvme-ana
-
-Gitweb:
-
-    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
-
-Changes since v2:
- - support changing the state for the default ANA group
- - drop ANATT configuration again
- - delay gendisk registration until we have an I/O capable path
- - remove nvme_req_needs_failover and the SCT=3 handling in it,
-   we actually do the right thing without it
- - refactor the get log page helpers
-
-Changes since v1:
- - fix the check for SCT = 3
- - fix the check for immutable ANAGRPID
- - disable ANA if the ANA log can't be transferred in a single chunk
- - enable the ANA AEN explicitly
- - don't zero buffers that don't get copied to the SGL
- - use READ_ONCE/WRITE_ONCE for the ana_state fields
- - update ANA state on completion with an ANA status code
- - improve commit logs
- - add proper AEN enable and masking conditionals
- - fix the numeric value for the change state
- - fix a memory leak (Hannes Reinecke)
- - fix reporting of NUSE (based on a patch from Hannes Reinecke)
- - make ANATT configurable
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 2950ce957656..32f24f4ca763 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -880,7 +880,7 @@ struct nvme_get_log_page_command {
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+ 	__u8			lid;
+-	__u8			rsvd10;
++	__u8			lsp; /* upper 4 bits reserved */
+ 	__le16			numdl;
+ 	__le16			numdu;
+ 	__u16			rsvd11;
+-- 
+2.14.2
