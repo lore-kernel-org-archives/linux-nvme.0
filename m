@@ -1,103 +1,21 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  5 Jun 2018 20:52:10 -0400
-Subject: [PATCH 12/12] blktests: add NVMeOF flush test for file-ns
-In-Reply-To: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
-References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606005210.4197-13-chaitanya.kulkarni@wdc.com>
+From: joseph.r.gruher@intel.com (Gruher, Joseph R)
+Date: Wed, 6 Jun 2018 02:29:50 +0000
+Subject: Cannot Connect NVMeoF At Certain NR_IO_Queues Values
+In-Reply-To: <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
+References: <DE927C68B458BE418D582EC97927A9287FF26F91@ORSMSX113.amr.corp.intel.com>
+ <743c4b33-2bf8-7c76-95af-62043c2aaeeb@mellanox.com>
+ <DE927C68B458BE418D582EC97927A9287FF27624@ORSMSX113.amr.corp.intel.com>
+ <4b40ebf3-e01c-cf2b-38f5-07d7c5c6e304@mellanox.com>
+Message-ID: <DE927C68B458BE418D582EC97927A9287FF8E731@ORSMSX113.amr.corp.intel.com>
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- tests/nvme/016     | 68 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/016.out |  6 +++++
- 2 files changed, 74 insertions(+)
- create mode 100755 tests/nvme/016
- create mode 100755 tests/nvme/016.out
+> On 5/15/2018 2:09 AM, Gruher, Joseph R wrote:
+> >> IMO this issue was fixed in mlx5_core function mlx5_get_vector_affinity.
+> >> It was a long discussion regarding this fix and it will be fixed
+> >> again in 4.17. After the final fix, it should go to stable kernel as well.
+> >
+> > Thanks Max.  So current 4.17-rc5 has a fix now?  Or fix is not in yet?
+> 
+> The latest fix is not there. SaeedM should push it this week.
+> 
 
-diff --git a/tests/nvme/016 b/tests/nvme/016
-new file mode 100755
-index 0000000..e40592f
---- /dev/null
-+++ b/tests/nvme/016
-@@ -0,0 +1,68 @@
-+#!/bin/bash
-+# Test NVMeOF flush command from host with a file backed ns.
-+# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
-+#
-+# This program is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU General Public License
-+# as published by the Free Software Foundation; either version 2
-+# of the License, or (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-+# MA  02110-1301, USA.
-+#
-+#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-+#
-+
-+DESCRIPTION="unit test for NVMe flush for file backed ns"
-+QUICK=1
-+
-+requires() {
-+	_have_program nvme && _have_module nvme-loop && _have_module loop && \
-+		_have_configfs
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	modprobe nvmet
-+	modprobe nvme-loop
-+
-+	local port
-+	local nvmedev
-+	local file_path="$TMPDIR/img"
-+	local subsys_name="blktests-subsystem-1"
-+
-+	truncate -s 1G "${file_path}"
-+
-+	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
-+		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-+	port="$(_create_nvmet_port "loop")"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
-+
-+	nvme connect -t loop -n "${subsys_name}"
-+
-+	nvmedev="$(_find_nvme_loop_dev)"
-+	cat "/sys/block/${nvmedev}n1/uuid"
-+	cat "/sys/block/${nvmedev}n1/wwid"
-+
-+	dd=/dev/urandom of="/dev/${nvmedev}n1" count=128000 bs=4k
-+
-+	nvme flush /dev/"${nvmedev}n1"
-+
-+	nvme disconnect -n "${subsys_name}"
-+
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
-+	_remove_nvmet_subsystem "${subsys_name}"
-+	_remove_nvmet_port "${port}"
-+
-+	rm "${file_path}"
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/016.out b/tests/nvme/016.out
-new file mode 100755
-index 0000000..178a7bc
---- /dev/null
-+++ b/tests/nvme/016.out
-@@ -0,0 +1,6 @@
-+Running nvme/016
-+91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+NVMe Flush: success
-+NQN:blktests-subsystem-1 disconnected 1 controller(s)
-+Test complete
--- 
-2.9.5
+Hey Max, was just hoping to confirm if this fix made it in?  Do you know which kernel release would first include it?
