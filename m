@@ -1,34 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 6 Jun 2018 09:41:44 +0200
-Subject: [PATCH 07/12] blktests: add NVMeoF data verification test for
- bdev-ns
-In-Reply-To: <20180606005210.4197-8-chaitanya.kulkarni@wdc.com>
+Date: Wed, 6 Jun 2018 09:44:47 +0200
+Subject: [PATCH 08/12] blktests: add NVMeOF data verification test for
+ file-ns
+In-Reply-To: <20180606005210.4197-9-chaitanya.kulkarni@wdc.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-8-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180606074144.cd4fmoecaiw2hlzt@linux-x5ow.site>
+ <20180606005210.4197-9-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180606074447.xi4l27qwquy3ilqv@linux-x5ow.site>
 
-On Tue, Jun 05, 2018@08:52:05PM -0400, Chaitanya Kulkarni wrote:
-> diff --git a/tests/nvme/verify.fio b/tests/nvme/verify.fio
-> new file mode 100644
-> index 0000000..873e47e
-> --- /dev/null
-> +++ b/tests/nvme/verify.fio
-> @@ -0,0 +1,9 @@
-> +[write-and-verify]
-> +rw=randwrite
-> +bs=4k
-> +direct=1
-> +ioengine=libaio
-> +iodepth=16
-> +verify=crc32c
-> +size=950m
-> +group_reporting
-
-One thing I would change is to not have a verify.fio file but pass the
-contents on the command line. Maybe even have a _fio_verify() function
-in common/fio for this.
-
-
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
