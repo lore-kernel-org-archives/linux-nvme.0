@@ -1,94 +1,55 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 7 Jun 2018 11:27:01 +0300
-Subject: [BUG REPORT] reset_controller stress operation lead to kernel
- NULL pointer
-In-Reply-To: <61f70436-dc1c-2176-4f38-9b789e4d096b@redhat.com>
-References: <174598543.5605323.1527938722046.JavaMail.zimbra@redhat.com>
- <59cee541-f34e-8586-d9c6-f52baf4710be@grimberg.me>
- <825ff884-26d5-e05a-3375-e1a644722ad6@mellanox.com>
- <1952603032.5635954.1528044389779.JavaMail.zimbra@redhat.com>
- <CACVXFVM4JAYd79EPMBNg_0NcMg+y2_6s+UcDBgt_8GsEXb-vWA@mail.gmail.com>
- <1dd52330-93db-a89a-e1d8-fbda9060d2bd@redhat.com>
- <be1b6056-1da6-9902-749e-fed9b1cc2fc1@mellanox.com>
- <61f70436-dc1c-2176-4f38-9b789e4d096b@redhat.com>
-Message-ID: <e7f5e507-88da-3bc9-afa8-8e46f57f8b07@grimberg.me>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Thu, 7 Jun 2018 11:27:41 +0300
+Subject: [PATCH] nvme: cleanup double shift issue
+Message-ID: <20180607081915.j5vl7ibnp5hr3rzr@kili.mountain>
 
+The problem here is that set_bit() and test_bit() take a bit number so
+we should be passing 0 but instead we're passing (1 << 0) which leads to
+a double shift.  It doesn't cause a runtime bug in the current code
+because it's done consistently and we only set that one bit.
 
-> Still can reproduce the target " keep-alive timer (15 seconds) expired" 
-> and host IO blocked issue.
+I decided to just re-use NVME_AER_NOTICE_NS_CHANGED instead of
+introducing a new define for this.
 
-Looks like the revalidate_disk is stuck on mutex via ns scan work which
-prevents from the reset to start as we try to flush that work.
+Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+---
+I don't know how this is going to be used, so perhaps my fix isn't the
+right thing.  In that case, can you just fix it and give me reported-by
+credit?  Or you can email me back how you want me to fix it but these
+are trivial changes and it's probably easiest to just do it directly
+instead of relaying instructions to me.
 
-It appears that it's bdev->bd_mutex that is blocked. Still trying to
-understand how it can get blocked.
-
-Yi, would it be possible to try and reproduce this with lockdep to
-help us?
-
-> Here is the log:
-> Target:
-> [? 356.473764] nvmet: creating controller 1 for subsystem testnqn for 
-> NQN nqn.2014-08.org.nvmexpress:uuid:95d13919-162e-48e4-8f00-da8a15ba7522.
-> [? 359.298784] nvmet: creating controller 1 for subsystem testnqn for 
-> NQN nqn.2014-08.org.nvmexpress:uuid:95d13919-162e-48e4-8f00-da8a15ba7522.
-> [? 374.408151] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-> [? 374.416204] nvmet: ctrl 1 fatal error occurred!
-> Host:
-> [? 390.853777] nvme nvme0: creating 40 I/O queues.
-> [? 393.660763] nvme nvme0: Property Set error: 7, offset 0x14
-> [? 393.713160] nvme nvme0: creating 40 I/O queues.
-> [? 615.429133] INFO: task kworker/u82:0:21 blocked for more than 120 
-> seconds.
-> [? 615.437464]?????? Not tainted 4.17.0-rc4.test+ #1
-> [? 615.443243] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" 
-> disables this message.
-> [? 615.452517] kworker/u82:0?? D??? 0??? 21????? 2 0x80000000
-> [? 615.459184] Workqueue: nvme-reset-wq nvme_rdma_reset_ctrl_work 
-> [nvme_rdma]
-> [? 615.467406] Call Trace:
-> [? 615.470682]? ? __schedule+0x290/0x870
-> [? 615.475306]? ? select_task_rq_fair+0x9dd/0xce0
-> [? 615.480812]? schedule+0x32/0x80
-> [? 615.484858]? schedule_timeout+0x1d8/0x300
-> [? 615.489872]? ? blk_finish_plug+0x27/0x40
-> [? 615.494787]? wait_for_completion+0x123/0x190
-> [? 615.500091]? ? wake_up_q+0x70/0x70
-> [? 615.504426]? flush_work+0x11a/0x1a0
-> [? 615.508849]? ? wake_up_worker+0x30/0x30
-> [? 615.513664]? nvme_stop_ctrl+0x37/0x60 [nvme_core]
-> [? 615.519442]? nvme_rdma_reset_ctrl_work+0x22/0xb0 [nvme_rdma]
-> [? 615.526294]? process_one_work+0x158/0x360
-> [? 615.531299]? worker_thread+0x1cf/0x3e0
-> [? 615.536005]? kthread+0xf8/0x130
-> [? 615.540036]? ? max_active_store+0x80/0x80
-> [? 615.545035]? ? kthread_bind+0x10/0x10
-> [? 615.549647]? ret_from_fork+0x35/0x40
-> [? 615.554174] INFO: task kworker/u81:8:673 blocked for more than 120 
-> seconds.
-> [? 615.562478]?????? Not tainted 4.17.0-rc4.test+ #1
-> [? 615.568261] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" 
-> disables this message.
-> [? 615.577554] kworker/u81:8?? D??? 0?? 673????? 2 0x80000000
-> [? 615.584234] Workqueue: nvme-wq nvme_scan_work [nvme_core]
-> [? 615.590806] Call Trace:
-> [? 615.594087]? ? __schedule+0x290/0x870
-> [? 615.598725]? schedule+0x32/0x80
-> [? 615.602777]? schedule_preempt_disabled+0xa/0x10
-> [? 615.608384]? __mutex_lock.isra.7+0x1cd/0x510
-> [? 615.613698]? ? bdget+0x3f/0x140
-> [? 615.617745]? revalidate_disk+0x47/0x80
-> [? 615.622474]? nvme_validate_ns+0x49/0x7c0 [nvme_core]
-> [? 615.628563]? ? wake_up_q+0x70/0x70
-> [? 615.632903]? ? __blk_mq_free_request+0x6d/0x80
-> [? 615.638407]? nvme_scan_work+0x2f4/0x3b0 [nvme_core]
-> [? 615.644400]? process_one_work+0x158/0x360
-> [? 615.649422]? worker_thread+0x47/0x3e0
-> [? 615.654041]? kthread+0xf8/0x130
-> [? 615.658086]? ? max_active_store+0x80/0x80
-> [? 615.663096]? ? kthread_bind+0x10/0x10
-> [? 615.667717]? ret_from_fork+0x35/0x40
-> [? 615.672237] INFO: task kworker/u81:9:674 blocked for more than 120 
-> seconds.
-> [? 615.680553]?????? Not tainted 4.17.0-rc4.test+ #1
-> 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index de24fe77c80b..34df07d44f80 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -194,7 +194,6 @@ struct nvme_ctrl {
+ 	struct delayed_work ka_work;
+ 	struct nvme_command ka_cmd;
+ 	struct work_struct fw_act_work;
+-#define EVENT_NS_CHANGED		(1 << 0)
+ 	unsigned long events;
+ 
+ 	/* Power saving configuration */
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c8b30067b6ae..effb1309682e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3245,7 +3245,7 @@ static void nvme_scan_work(struct work_struct *work)
+ 
+ 	WARN_ON_ONCE(!ctrl->tagset);
+ 
+-	if (test_and_clear_bit(EVENT_NS_CHANGED, &ctrl->events)) {
++	if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
+ 		if (nvme_scan_changed_ns_log(ctrl))
+ 			goto out_sort_namespaces;
+ 		dev_info(ctrl->device, "rescanning namespaces.\n");
+@@ -3386,7 +3386,7 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ {
+ 	switch ((result & 0xff00) >> 8) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+-		set_bit(EVENT_NS_CHANGED, &ctrl->events);
++		set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
