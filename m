@@ -1,36 +1,31 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  7 Jun 2018 10:29:44 +0200
-Subject: [PATCHv2] block: always set partition number to '0' in
- blk_partition_remap()
-Message-ID: <20180607082944.41676-1-hare@suse.de>
-
-blk_partition_remap() will only clear bi_partno if an actual remapping
-has happened. But flush request et al don't have an actual size, so
-the remapping doesn't happen and bi_partno is never cleared.
-So for stacked devices blk_partition_remap() will be called on each level.
-If (as is the case for native nvme multipathing) one of the lower-level
-devices do _not_support partitioning a spurious I/O error is generated.
+Date: Thu,  7 Jun 2018 10:30:09 +0200
+Subject: [PATCH] blktrace: display failfast and driver-specific flags
+Message-ID: <20180607083009.41793-1-hare@suse.de>
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- block/blk-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/trace/blktrace.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 3f56be15f17e..cf0ee764b908 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -2220,10 +2220,10 @@ static inline int blk_partition_remap(struct bio *bio)
- 		if (bio_check_eod(bio, part_nr_sects_read(p)))
- 			goto out;
- 		bio->bi_iter.bi_sector += p->start_sect;
--		bio->bi_partno = 0;
- 		trace_block_bio_remap(bio->bi_disk->queue, bio, part_devt(p),
- 				      bio->bi_iter.bi_sector - p->start_sect);
- 	}
-+	bio->bi_partno = 0;
- 	ret = 0;
- out:
- 	rcu_read_unlock();
+diff --git a/kernel/trace/blktrace.c b/kernel/trace/blktrace.c
+index 987d9a9ae283..238e16211a5c 100644
+--- a/kernel/trace/blktrace.c
++++ b/kernel/trace/blktrace.c
+@@ -1922,6 +1922,14 @@ void blk_fill_rwbs(char *rwbs, unsigned int op, int bytes)
+ 		rwbs[i++] = 'S';
+ 	if (op & REQ_META)
+ 		rwbs[i++] = 'M';
++	if (op & REQ_FAILFAST_DEV)
++		rwbs[i++] = 'd';
++	if (op & REQ_FAILFAST_TRANSPORT)
++		rwbs[i++] = 't';
++	if (op & REQ_FAILFAST_DRIVER)
++		rwbs[i++] = 'v';
++	if (op & REQ_DRV)
++		rwbs[i++] = 'V';
+ 
+ 	rwbs[i] = '\0';
+ }
 -- 
 2.12.3
