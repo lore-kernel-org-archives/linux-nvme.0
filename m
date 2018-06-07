@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:17:47 +0200
-Subject: [PATCH 4/6] nvme-pci: Remove HMB teardown on reset
-In-Reply-To: <20180606141309.19389-5-keith.busch@intel.com>
+Date: Thu, 7 Jun 2018 09:19:08 +0200
+Subject: [PATCH 5/6] nvme-pci: Unquiesce dead controller queues
+In-Reply-To: <20180606141309.19389-6-keith.busch@intel.com>
 References: <20180606141309.19389-1-keith.busch@intel.com>
- <20180606141309.19389-5-keith.busch@intel.com>
-Message-ID: <20180607071747.amnwjt4xwmffv4dc@linux-x5ow.site>
+ <20180606141309.19389-6-keith.busch@intel.com>
+Message-ID: <20180607071908.7ry5ceojxihxwzai@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
