@@ -1,25 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:00:37 +0200
-Subject: [PATCH 07/12] blktests: add NVMeoF data verification test for
- bdev-ns
-In-Reply-To: <DM5PR04MB12138A3A89F921B64F6D2C5686650@DM5PR04MB1213.namprd04.prod.outlook.com>
-References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-8-chaitanya.kulkarni@wdc.com>
- <20180606074144.cd4fmoecaiw2hlzt@linux-x5ow.site>
- <DM5PR04MB12138A3A89F921B64F6D2C5686650@DM5PR04MB1213.namprd04.prod.outlook.com>
-Message-ID: <20180607070037.7f6bmleeufjpk3b3@linux-x5ow.site>
+Date: Thu, 7 Jun 2018 09:16:38 +0200
+Subject: [PATCH 1/6] nvme-pci: Remove unnecessary nested locking
+In-Reply-To: <20180606141309.19389-2-keith.busch@intel.com>
+References: <20180606141309.19389-1-keith.busch@intel.com>
+ <20180606141309.19389-2-keith.busch@intel.com>
+Message-ID: <20180607071638.n2zdl66yr52fdm3l@linux-x5ow.site>
 
-On Wed, Jun 06, 2018@06:12:13PM +0000, Chaitanya Kulkarni wrote:
->  In this test we don't have any dynamic configurations here including the
-> device size and all the fio config, then why add an extra code?
-
-Well you add extra code, by adding the fio file and even use it for
-the subsequent tests as well.
-
-Currently all fio based tests use the functions in common/fio instead
-of a fio config file. At the end of the day it's the same. I'm just up
-for consistency.
-
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
