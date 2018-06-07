@@ -1,10 +1,9 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 7 Jun 2018 13:23:18 +0200
-Subject: [PATCH] nvme: cleanup double shift issue
-In-Reply-To: <20180607081915.j5vl7ibnp5hr3rzr@kili.mountain>
-References: <20180607081915.j5vl7ibnp5hr3rzr@kili.mountain>
-Message-ID: <20180607112318.GA10742@lst.de>
+Date: Thu, 7 Jun 2018 13:24:23 +0200
+Subject: [PATCH] blktrace: display failfast and driver-specific flags
+In-Reply-To: <20180607083009.41793-1-hare@suse.de>
+References: <20180607083009.41793-1-hare@suse.de>
+Message-ID: <20180607112423.GB10742@lst.de>
 
-Thanks,
-
-applied to nvme-4.18.
+Good idea to display the flags, but the characters aren't really
+very self-describing.  Should we prefix each with an f maybe?
