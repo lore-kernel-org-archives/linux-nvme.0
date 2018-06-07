@@ -1,17 +1,14 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 7 Jun 2018 08:27:28 -0600
-Subject: [PATCH 4/6] nvme-pci: Remove HMB teardown on reset
-In-Reply-To: <948d3ec4-20a6-d691-685b-5b85447bbf5f@grimberg.me>
+Date: Thu, 7 Jun 2018 08:29:04 -0600
+Subject: [PATCH 6/6] nvme-pci: Make CMB SQ mod-param read-only
+In-Reply-To: <20180607071958.g5qlkslgajo7ysfl@linux-x5ow.site>
 References: <20180606141309.19389-1-keith.busch@intel.com>
- <20180606141309.19389-5-keith.busch@intel.com>
- <948d3ec4-20a6-d691-685b-5b85447bbf5f@grimberg.me>
-Message-ID: <20180607142728.GB19462@localhost.localdomain>
+ <20180606141309.19389-7-keith.busch@intel.com>
+ <20180607071958.g5qlkslgajo7ysfl@linux-x5ow.site>
+Message-ID: <20180607142904.GC19462@localhost.localdomain>
 
-On Thu, Jun 07, 2018@11:46:53AM +0300, Sagi Grimberg wrote:
-> 
-> > The controller is required to disable its host memory buffer use on
-> > controller reset.
-> 
-> You mean clearing controller enable?
+On Thu, Jun 07, 2018@09:19:58AM +0200, Johannes Thumshirn wrote:
+> This could evnet be a stable candidate, couldn't it?
 
-Right, clearing CC.EN in nvme spec is a "Controller Reset".
+Yep, I intend to combine this with a back-port of 815c6704bf9f1
+("nvme-pci: Remap CMB SQ entries on every controller reset") for stable.
