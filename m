@@ -1,44 +1,37 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 7 Jun 2018 18:30:52 +0300
-Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
-In-Reply-To: <CADZhsQpZe3PFBYdD07HvzHfF4TZf5ALH_iamfkEmH9bMQ0d9qQ@mail.gmail.com>
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-18-git-send-email-maxg@mellanox.com>
- <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
- <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
- <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
- <CADZhsQppPdtrJ+wRQV-V8n9RmxFgv39aPdu5TwDMtTTbD4iT1A@mail.gmail.com>
- <fac46518-d14c-5856-8b99-f14203f53639@grimberg.me>
- <CADZhsQpZe3PFBYdD07HvzHfF4TZf5ALH_iamfkEmH9bMQ0d9qQ@mail.gmail.com>
-Message-ID: <ce2eb1f9-a428-8afa-cb22-9b0f88cee7ca@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 7 Jun 2018 10:21:42 -0600
+Subject: [PATCH 3/3] nvme: bio remapping tracepoint
+In-Reply-To: <20180607114251.GA11119@lst.de>
+References: <20180607083847.51019-1-hare@suse.de>
+ <20180607083847.51019-4-hare@suse.de> <20180607112759.GC10939@lst.de>
+ <20180607133332.798a8bbc@pentland.suse.de> <20180607114251.GA11119@lst.de>
+Message-ID: <ef70773f-491c-274f-7273-f4f0d8b29470@kernel.dk>
 
-
->> Hmm, in my mind, overloading the interface to be generic was counter
->> productive specifically for PI. I know that there are bunch of
->> operations to do on an MR, but I think that each of them is better off
->> with its own clean and simple API that gives the user the minimum stuff
->> it needs to understand or perform in order to get the task done.
+On 6/7/18 5:42 AM, Christoph Hellwig wrote:
+> On Thu, Jun 07, 2018@01:33:32PM +0200, Hannes Reinecke wrote:
+>> That would run afoul with device-mapper usage:
+>>
+>> 	case DM_MAPIO_REMAPPED:
+>> 		/* the bio has been remapped so dispatch it */
+>> 		trace_block_bio_remap(clone->bi_disk->queue, clone,
+>> 				      bio_dev(io->orig_bio), sector);
+>> 		if (md->type == DM_TYPE_NVME_BIO_BASED)
+>> 			ret = direct_make_request(clone);
+>> 		else
+>> 			ret = generic_make_request(clone);
+>> 		break;
+>>
+>> and we can't move the call into generic_make_request().
+>> So I fear it need to stay there.
 > 
-> You can say the opposite too... When you see different use cases converge
-> into one elegant API then you know you've done something right.
-> I think this is one of those cases. DIF and other signatures, simple layouts,
-> indirections, complex n-dim matrix layouts are all attributes assigned to
-> memory, and apply when this memory is accessed.
+> Or you could move it from dm to where it belongs..
 
-I'm not opposed to have a common API, but I would also think that we
-should layer feature specific API on top of it such that the actual
-consumer will only need to care about what it needs to.
+I was going to suggest that too, but there's really nothing
+in direct_make_request() that implies that it's necessarily
+a remap of an existing bio. The two current callers implies
+that, but that's really not a given.
 
->> Note that my comments are mostly directed to the MR hierarchy that PI
->> is presenting to the consumer. I think we are much better off with
->> hiding it down in the providers such that the ULP will see yet another
->> type of a memory region that can do PI.
-> 
-> We'll look into that. Basically I don't mind the API of
-> set_mr_layout_signature()
-> to take (data_sgl, dif_sgl) instead of (data_sge, dif_sge). Just need to make
-> sure we can hide in provider the pre-allocation of all the "hidden" mkeys for
-> that case. We don't want ulp to experience hickups due to internal key
-> allocations and management...
+So maybe it'd be better to let it live in the caller.
 
-100% agree. All allocations must not be made in the data path.
+-- 
+Jens Axboe
