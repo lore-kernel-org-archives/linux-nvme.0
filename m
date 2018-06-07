@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:39:44 +0200
-Subject: [PATCH 03/10] nvme: simplify the API for getting log pages
-In-Reply-To: <20180606143311.23076-4-hch@lst.de>
+Date: Thu, 7 Jun 2018 09:40:15 +0200
+Subject: [PATCH 04/10] nvme: remove nvme_req_needs_failover
+In-Reply-To: <20180606143311.23076-5-hch@lst.de>
 References: <20180606143311.23076-1-hch@lst.de>
- <20180606143311.23076-4-hch@lst.de>
-Message-ID: <20180607073943.el7bb6y4if2ja2pm@linux-x5ow.site>
+ <20180606143311.23076-5-hch@lst.de>
+Message-ID: <20180607074014.grlbuhzjb5slr7hs@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
