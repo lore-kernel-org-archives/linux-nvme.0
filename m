@@ -1,34 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 7 Jun 2018 18:23:20 +0300
-Subject: [PATCH 08/17] nvme: limit integrity segments to be <= data
- segments
-In-Reply-To: <f7bf4e84-f403-7576-299f-63b0c4aa6f1b@mellanox.com>
+Date: Thu, 7 Jun 2018 18:26:36 +0300
+Subject: [PATCH 17/17] nvme-rdma: Add T10-PI support
+In-Reply-To: <cf0ec200-209b-1cfb-0bba-217530805915@mellanox.com>
 References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-9-git-send-email-maxg@mellanox.com>
- <19c8562a-8478-196c-c9f5-385d2076448e@grimberg.me>
- <f7bf4e84-f403-7576-299f-63b0c4aa6f1b@mellanox.com>
-Message-ID: <48221c3e-833e-5ac0-cf25-2c61baaff120@grimberg.me>
+ <1527436222-15494-18-git-send-email-maxg@mellanox.com>
+ <f45105cf-48e7-62d8-ca3a-56f9ce248640@grimberg.me>
+ <20621565-ac87-9af2-364e-d6f84dbbadcf@mellanox.com>
+ <af64b181-d673-0399-811a-4f60154b93ee@grimberg.me>
+ <cf0ec200-209b-1cfb-0bba-217530805915@mellanox.com>
+Message-ID: <b7f6b645-02ef-5e1a-28b5-c304647940b5@grimberg.me>
 
 
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index 197208a..e81e898 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -1795,6 +1795,10 @@ static void nvme_set_queue_limits(struct 
->>> nvme_ctrl *ctrl,
->>> ????????? u32 max_segments =
->>> ????????????? (ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1;
->>> +??????? if (ctrl->max_integrity_segments)
->>> +??????????? ctrl->max_integrity_segments = 
->>> min(ctrl->max_integrity_segments,
->>> +?????????????????????????????? max_segments);
->>> +
->>
->> What is this protecting against?
+>> 3. ret = ib_mr_setup_pi(struct ib_mr *mr, struct blk_integrity *bi)
+>> ??? *although this might not be able to converge scsi and nvme in one
+>> ???? shot so we might have each ulp do its own thing here..
 > 
-> This is for good practice, I don't think the block layer will/can send 
-> us more integrity_segments than data_segments. but seems weird to have 
-> more max_integrity_segments than max_data_segments, isn't it ?
+> In the first patchset each ULP will fill in the sig_attrs by itself.
+> We can add this incrementaly.
 
-drivers are not responsible to cover for upper layer bugs. If there is a
-bug, it needs to be fixed, not hide behind a driver protection.
+OK... I would like to have a lib in place that maps better to
+block integrity semantics.
+
+>> 4. ret = ib_post_send(qp, pi_wr)
+>> ??? where ib_pi_wr looks exactly like ib_reg_wr but has the opcode
+>> ??? dissection for the provider to do all internal stuff.
+> 
+> did you mean similar to IB_WR_REG_SIG_MR (and not IB_WR_REG_MR) ?
+> This IB_WR_REG_PI_MR will need to create internal WR typed IB_WR_REG_MR 
+> for the internal mr.
+
+We could even simply use IB_WR_REG_MR, and if the MR has PI set
+(previously ib_map_mr_sg_pi was called).
+
+>> 5. ret = ib_check_pi_status(mr)
+>>
+>> Try to hide all the multiple mr madness...
+> 
+> I'll create internal mlx5_ib_mr pi_mr for mr typed IB_MR_TYPE_PI.
+
+Cool..
