@@ -1,40 +1,24 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 08:58:25 +0200
-Subject: [PATCH 03/12] blktests: add NVMeOF bdev-ns target creation test
-In-Reply-To: <DM5PR04MB12131353AC241CAB01D90AC686650@DM5PR04MB1213.namprd04.prod.outlook.com>
+Date: Thu, 7 Jun 2018 09:00:37 +0200
+Subject: [PATCH 07/12] blktests: add NVMeoF data verification test for
+ bdev-ns
+In-Reply-To: <DM5PR04MB12138A3A89F921B64F6D2C5686650@DM5PR04MB1213.namprd04.prod.outlook.com>
 References: <20180606005210.4197-1-chaitanya.kulkarni@wdc.com>
- <20180606005210.4197-4-chaitanya.kulkarni@wdc.com>
- <20180606073026.pg76kaxtnh3qnpxa@linux-x5ow.site>
- <DM5PR04MB12131353AC241CAB01D90AC686650@DM5PR04MB1213.namprd04.prod.outlook.com>
-Message-ID: <20180607065825.jm6keh4vdhqcegnx@linux-x5ow.site>
+ <20180606005210.4197-8-chaitanya.kulkarni@wdc.com>
+ <20180606074144.cd4fmoecaiw2hlzt@linux-x5ow.site>
+ <DM5PR04MB12138A3A89F921B64F6D2C5686650@DM5PR04MB1213.namprd04.prod.outlook.com>
+Message-ID: <20180607070037.7f6bmleeufjpk3b3@linux-x5ow.site>
 
-On Wed, Jun 06, 2018@06:09:54PM +0000, Chaitanya Kulkarni wrote:
-> 004 uses connect command to create host, this testcase exercises target-side
-> code.
-> 
-> 005 uses multipath code, we don't use multipathing here.
+On Wed, Jun 06, 2018@06:12:13PM +0000, Chaitanya Kulkarni wrote:
+>  In this test we don't have any dynamic configurations here including the
+> device size and all the fio config, then why add an extra code?
 
-005 accidentally uses mutlipath as nvme-loop doesn't support multipath
-yet (haven't seen Christoph's patch being merged).
+Well you add extra code, by adding the fio file and even use it for
+the subsequent tests as well.
 
-It's a mistake I did when migrating it over from another test case
-with nvme-fcloop to nvme-loop.
-
-I'll send a patch to fix it up.
-
-> 
-> 
-> We need a separate test for target subsys creation instead of relying on the
-> implicit testing given that we have multiple types of target ns supported (file
-> /block device).
-> 
-> 
-> This is the base test and 006 is an incremental test (maybe I should switch
-> order), also this test has QUICK=1 so it is for more of a sanity check than 006
-> is more of the long-running test.
-
-
-Yes I think switching the order would be good, indeed.
+Currently all fio based tests use the functions in common/fio instead
+of a fio config file. At the end of the day it's the same. I'm just up
+for consistency.
 
 -- 
 Johannes Thumshirn                                          Storage
