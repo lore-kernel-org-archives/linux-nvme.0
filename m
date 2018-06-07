@@ -1,39 +1,39 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  7 Jun 2018 10:38:46 +0200
-Subject: [PATCH 2/3] nvme: do not access request after calling
- blk_mq_end_request()
-In-Reply-To: <20180607083847.51019-1-hare@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 7 Jun 2018 11:41:11 +0300
+Subject: [PATCH 1/3] nvme: also check for RESETTING state in
+ nvmf_check_if_ready()
+In-Reply-To: <20180607083847.51019-2-hare@suse.de>
 References: <20180607083847.51019-1-hare@suse.de>
-Message-ID: <20180607083847.51019-3-hare@suse.de>
+ <20180607083847.51019-2-hare@suse.de>
+Message-ID: <91d12804-7d49-0109-6c7b-43a902f8c809@grimberg.me>
 
-After calling blk_mq_end_request() the request should be considered
-freed, so accessing it afterwards might lead to use-after-free error.
+Thank you Hannes - just spotted that...
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 06/07/2018 11:38 AM, Hannes Reinecke wrote:
+> When resetting the controller some transports go into 'RESETTING' state
+> before issuing the actual 'reset' command. So add the 'RESETTING' state
+> to nvmf_check_if_ready() to give them a chance to submit it.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>   drivers/nvme/host/fabrics.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index fa32c1216409..909dd337221a 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -548,6 +548,7 @@ blk_status_t nvmf_check_if_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   	case NVME_CTRL_NEW:
+>   	case NVME_CTRL_CONNECTING:
+>   	case NVME_CTRL_DELETING:
+> +	case NVME_CTRL_RESETTING:
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 7f34ae260ca9..87bd60b49bbc 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -51,6 +51,7 @@ void nvme_failover_req(struct request *req)
- 	struct nvme_ns *ns = req->q->queuedata;
- 	struct device *dev = disk_to_dev(ns->disk);
- 	unsigned long flags;
-+	unsigned int nvme_status = nvme_req(req)->status & 0x7ff;
- 	enum nvme_ana_state ana_state;
- 	bool ana_state_changed = false;
- 
-@@ -64,7 +65,7 @@ void nvme_failover_req(struct request *req)
- 	 * caused the error:
- 	 */
- 	ana_state = READ_ONCE(ns->ctrl->ana_state[ns->anagrpid]);
--	switch (nvme_req(req)->status & 0x7ff) {
-+	switch (nvme_status) {
- 	case NVME_SC_ANA_TRANSITION:
- 		if (ana_state != NVME_ANA_CHANGE) {
- 			nvme_update_ana_state(ns, NVME_ANA_CHANGE);
--- 
-2.12.3
+I guess ADMIN_ONLY should also allow commands to pass.
+
+>   		/*
+>   		 * This is the case of starting a new or deleting an association
+>   		 * but connectivity was lost before it was fully created or torn
+
+Looks like we have almost all the states? Shouldn't we reverse such that
+we check only for DEAD (and WARN_ON for state NEW)?
