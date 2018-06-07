@@ -1,24 +1,20 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 7 Jun 2018 14:52:59 +0200
-Subject: [PATCH 3/4] nvme: ANA transition timeout handling
-In-Reply-To: <20180607120941.GC11938@lst.de>
-References: <20180607073556.39050-1-hare@suse.de>
- <20180607073556.39050-4-hare@suse.de>
- <20180607120941.GC11938@lst.de>
-Message-ID: <20180607145259.4017f366@pentland.suse.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 7 Jun 2018 06:56:14 -0600
+Subject: [PATCHv2] block: always set partition number to '0' in
+ blk_partition_remap()
+In-Reply-To: <20180607082944.41676-1-hare@suse.de>
+References: <20180607082944.41676-1-hare@suse.de>
+Message-ID: <3d45f792-f00e-0955-3acf-466e73050a9c@kernel.dk>
 
-On Thu, 7 Jun 2018 14:09:41 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+On 6/7/18 2:29 AM, Hannes Reinecke wrote:
+> blk_partition_remap() will only clear bi_partno if an actual remapping
+> has happened. But flush request et al don't have an actual size, so
+> the remapping doesn't happen and bi_partno is never cleared.
+> So for stacked devices blk_partition_remap() will be called on each level.
+> If (as is the case for native nvme multipathing) one of the lower-level
+> devices do _not_support partitioning a spurious I/O error is generated.
 
-> > +	timer_setup(&ns->anatt_timer, nvme_anatt_timedout, 0);  
-> 
-> ANATT is per-group, so having a timer in the namespace is wrong.
-> 
+That's better, applied.
 
-But would requiring us to create a separate ana group structure on the
-host. Could be looking into that if you insist, but this implementation
-is way easier.
-
-Cheers,
-
-Hannes
+-- 
+Jens Axboe
