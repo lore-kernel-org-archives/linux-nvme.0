@@ -1,22 +1,27 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 7 Jun 2018 15:06:38 +0200
-Subject: draft ANA support v3
-In-Reply-To: <045315fe-e548-086c-fd02-ec17f395bbc3@grimberg.me>
+Date: Thu, 7 Jun 2018 15:08:16 +0200
+Subject: [PATCH 09/10] nvmet: support configuring ANA groups
+In-Reply-To: <2ddf2d48-2b92-624a-eea6-94d1c1ce7136@grimberg.me>
 References: <20180606143311.23076-1-hch@lst.de>
- <045315fe-e548-086c-fd02-ec17f395bbc3@grimberg.me>
-Message-ID: <20180607130638.GB13101@lst.de>
+ <20180606143311.23076-10-hch@lst.de>
+ <2ddf2d48-2b92-624a-eea6-94d1c1ce7136@grimberg.me>
+Message-ID: <20180607130816.GA13200@lst.de>
 
-On Thu, Jun 07, 2018@03:34:30PM +0300, Sagi Grimberg wrote:
->> Changes since v2:
->>   - support changing the state for the default ANA group
->>   - drop ANATT configuration again
->>   - delay gendisk registration until we have an I/O capable path
->>   - remove nvme_req_needs_failover and the SCT=3 handling in it,
->>     we actually do the right thing without it
->>   - refactor the get log page helpers
+On Thu, Jun 07, 2018@03:58:40PM +0300, Sagi Grimberg wrote:
+>> +void nvmet_port_send_ana_event(struct nvmet_port *port)
+>> +{
+>> +	struct nvmet_subsys_link *p;
+>> +
+>> +	down_read(&nvmet_config_sem);
+>> +	list_for_each_entry(p, &port->subsystems, entry)
+>> +		nvmet_send_ana_event(p->subsys);
+>> +	up_read(&nvmet_config_sem);
+>> +}
 >
-> Wish you had accumulated review tags for this one...
+> Won't this send multiple AENs if a subsystem is exposed via multiple
+> ports? (at least in a theoretical case where the host issues a log
+> page in between).
 
-I've picked them up now.  But the patches are still undergoing
-non-trivial changes, so I will probably drop them at least for
-some patches again.
+Well, we want one AEN per controller always.  Except that this is also
+going to send it to controllers on different ports as Hannes already
+pointed out.  I'm going to fix that for the next version.
