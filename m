@@ -1,12 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:19:08 +0200
-Subject: [PATCH 5/6] nvme-pci: Unquiesce dead controller queues
-In-Reply-To: <20180606141309.19389-6-keith.busch@intel.com>
+Date: Thu, 7 Jun 2018 09:19:58 +0200
+Subject: [PATCH 6/6] nvme-pci: Make CMB SQ mod-param read-only
+In-Reply-To: <20180606141309.19389-7-keith.busch@intel.com>
 References: <20180606141309.19389-1-keith.busch@intel.com>
- <20180606141309.19389-6-keith.busch@intel.com>
-Message-ID: <20180607071908.7ry5ceojxihxwzai@linux-x5ow.site>
+ <20180606141309.19389-7-keith.busch@intel.com>
+Message-ID: <20180607071958.g5qlkslgajo7ysfl@linux-x5ow.site>
 
-Looks good,
+This could evnet be a stable candidate, couldn't it?
+
+
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
