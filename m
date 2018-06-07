@@ -1,86 +1,35 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  7 Jun 2018 09:35:56 +0200
-Subject: [PATCH 4/4] nvme: start ANATT timer on out-of-order state changes
-In-Reply-To: <20180607073556.39050-1-hare@suse.de>
-References: <20180607073556.39050-1-hare@suse.de>
-Message-ID: <20180607073556.39050-5-hare@suse.de>
+Date: Thu,  7 Jun 2018 09:35:52 +0200
+Subject: [PATCH 0/4] nvme: ANATT handling
+Message-ID: <20180607073556.39050-1-hare@suse.de>
 
-If I/O is terminated due to an invalid ANA state we should be starting
-the ANATT timer as we really should have received an ANA AEN signalling
-the state change.
+Hi all,
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 36 +++++++++++++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 7 deletions(-)
+this patchset implements ANA transition timeout handling for NVMe-oF.
+On the target side it implements a delayed workqueue for updating the
+ANA state, and on the host side a simple timer is started when either
+a namespace is found to be in ANA state change state or if an I/O
+command is returned with a status indicating a non-matching ANA state.
+If the timer expires the controller is reset.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 7a37f5959ad4..7f34ae260ca9 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -49,7 +49,10 @@ static void nvme_update_ana_state(struct nvme_ns *ns, enum nvme_ana_state state)
- void nvme_failover_req(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
-+	struct device *dev = disk_to_dev(ns->disk);
- 	unsigned long flags;
-+	enum nvme_ana_state ana_state;
-+	bool ana_state_changed = false;
- 
- 	spin_lock_irqsave(&ns->head->requeue_lock, flags);
- 	blk_steal_bios(&ns->head->requeue_list, req);
-@@ -60,26 +63,45 @@ void nvme_failover_req(struct request *req)
- 	 * Reset the controller for any non-ANA error as we don't know what
- 	 * caused the error:
- 	 */
-+	ana_state = READ_ONCE(ns->ctrl->ana_state[ns->anagrpid]);
- 	switch (nvme_req(req)->status & 0x7ff) {
- 	case NVME_SC_ANA_TRANSITION:
--		nvme_update_ana_state(ns, NVME_ANA_CHANGE);
--		if (!timer_pending(&ns->anatt_timer)) {
--			ns->anatt_timer.expires =
--				ns->ctrl->anatt * HZ + jiffies;
--			add_timer(&ns->anatt_timer);
-+		if (ana_state != NVME_ANA_CHANGE) {
-+			nvme_update_ana_state(ns, NVME_ANA_CHANGE);
-+			ana_state_changed = true;
- 		}
- 		break;
- 	case NVME_SC_ANA_PERSISTENT_LOSS:
--		nvme_update_ana_state(ns, NVME_ANA_PERSISTENT_LOSS);
-+		if (ana_state != NVME_ANA_PERSISTENT_LOSS) {
-+			nvme_update_ana_state(ns, NVME_ANA_PERSISTENT_LOSS);
-+			ana_state_changed = true;
-+		}
- 		break;
- 	case NVME_SC_ANA_INACCESSIBLE:
--		nvme_update_ana_state(ns, NVME_ANA_INACCESSIBLE);
-+		if (ana_state != NVME_ANA_INACCESSIBLE) {
-+			nvme_update_ana_state(ns, NVME_ANA_INACCESSIBLE);
-+			ana_state_changed = true;
-+		}
- 		break;
- 	default:
- 		nvme_reset_ctrl(ns->ctrl);
- 		break;
- 	}
- 
-+	if (ana_state_changed) {
-+		/*
-+		 * We should have received an ANA AEN signalling the state
-+		 * change. As we haven't (or we wouldn't ever reach here)
-+		 * give it a benefit of doubt to start the ANATT timer
-+		 * before resetting the controller.
-+		 */
-+		if (!timer_pending(&ns->anatt_timer)) {
-+			ns->anatt_timer.expires =
-+				ns->ctrl->anatt * HZ + jiffies;
-+			add_timer(&ns->anatt_timer);
-+		}
-+	}
-+
- 	kblockd_schedule_work(&ns->head->requeue_work);
- }
- 
+Patches are relative to hchs block.git nvme-ana branch.
+
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (4):
+  nvmet: make ANATT configurable
+  nvmet: ANA transition timeout handling
+  nvme: ANA transition timeout handling
+  nvme: start ANATT timer on out-of-order state changes
+
+ drivers/nvme/host/core.c        |  3 ++
+ drivers/nvme/host/multipath.c   | 62 +++++++++++++++++++++++++++-----
+ drivers/nvme/host/nvme.h        |  6 ++++
+ drivers/nvme/target/admin-cmd.c |  2 +-
+ drivers/nvme/target/configfs.c  | 39 ++++++++++++++++++++-
+ drivers/nvme/target/core.c      | 78 +++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h     | 14 ++++++++
+ 7 files changed, 193 insertions(+), 11 deletions(-)
+
 -- 
 2.12.3
