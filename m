@@ -1,99 +1,94 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 7 Jun 2018 10:09:01 +0200
-Subject: [PATCH 09/10] nvmet: support configuring ANA groups
-In-Reply-To: <20180606143311.23076-10-hch@lst.de>
-References: <20180606143311.23076-1-hch@lst.de>
- <20180606143311.23076-10-hch@lst.de>
-Message-ID: <20180607100901.5d7e92ab@pentland.suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 7 Jun 2018 11:27:01 +0300
+Subject: [BUG REPORT] reset_controller stress operation lead to kernel
+ NULL pointer
+In-Reply-To: <61f70436-dc1c-2176-4f38-9b789e4d096b@redhat.com>
+References: <174598543.5605323.1527938722046.JavaMail.zimbra@redhat.com>
+ <59cee541-f34e-8586-d9c6-f52baf4710be@grimberg.me>
+ <825ff884-26d5-e05a-3375-e1a644722ad6@mellanox.com>
+ <1952603032.5635954.1528044389779.JavaMail.zimbra@redhat.com>
+ <CACVXFVM4JAYd79EPMBNg_0NcMg+y2_6s+UcDBgt_8GsEXb-vWA@mail.gmail.com>
+ <1dd52330-93db-a89a-e1d8-fbda9060d2bd@redhat.com>
+ <be1b6056-1da6-9902-749e-fed9b1cc2fc1@mellanox.com>
+ <61f70436-dc1c-2176-4f38-9b789e4d096b@redhat.com>
+Message-ID: <e7f5e507-88da-3bc9-afa8-8e46f57f8b07@grimberg.me>
 
-On Wed,  6 Jun 2018 16:33:10 +0200
-Christoph Hellwig <hch@lst.de> wrote:
 
-> Allow creating non-default ANA groups (group ID > 1).  Groups are
-> created either by assigning the group ID to a namespace, or by
-> creating a configfs group object under a specific port.  All
-> namespaces assigned to a group that doesn't have a configfs object
-> for a given port are marked as inaccessible.
+> Still can reproduce the target " keep-alive timer (15 seconds) expired" 
+> and host IO blocked issue.
+
+Looks like the revalidate_disk is stuck on mutex via ns scan work which
+prevents from the reset to start as we try to flush that work.
+
+It appears that it's bdev->bd_mutex that is blocked. Still trying to
+understand how it can get blocked.
+
+Yi, would it be possible to try and reproduce this with lockdep to
+help us?
+
+> Here is the log:
+> Target:
+> [? 356.473764] nvmet: creating controller 1 for subsystem testnqn for 
+> NQN nqn.2014-08.org.nvmexpress:uuid:95d13919-162e-48e4-8f00-da8a15ba7522.
+> [? 359.298784] nvmet: creating controller 1 for subsystem testnqn for 
+> NQN nqn.2014-08.org.nvmexpress:uuid:95d13919-162e-48e4-8f00-da8a15ba7522.
+> [? 374.408151] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
+> [? 374.416204] nvmet: ctrl 1 fatal error occurred!
+> Host:
+> [? 390.853777] nvme nvme0: creating 40 I/O queues.
+> [? 393.660763] nvme nvme0: Property Set error: 7, offset 0x14
+> [? 393.713160] nvme nvme0: creating 40 I/O queues.
+> [? 615.429133] INFO: task kworker/u82:0:21 blocked for more than 120 
+> seconds.
+> [? 615.437464]?????? Not tainted 4.17.0-rc4.test+ #1
+> [? 615.443243] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" 
+> disables this message.
+> [? 615.452517] kworker/u82:0?? D??? 0??? 21????? 2 0x80000000
+> [? 615.459184] Workqueue: nvme-reset-wq nvme_rdma_reset_ctrl_work 
+> [nvme_rdma]
+> [? 615.467406] Call Trace:
+> [? 615.470682]? ? __schedule+0x290/0x870
+> [? 615.475306]? ? select_task_rq_fair+0x9dd/0xce0
+> [? 615.480812]? schedule+0x32/0x80
+> [? 615.484858]? schedule_timeout+0x1d8/0x300
+> [? 615.489872]? ? blk_finish_plug+0x27/0x40
+> [? 615.494787]? wait_for_completion+0x123/0x190
+> [? 615.500091]? ? wake_up_q+0x70/0x70
+> [? 615.504426]? flush_work+0x11a/0x1a0
+> [? 615.508849]? ? wake_up_worker+0x30/0x30
+> [? 615.513664]? nvme_stop_ctrl+0x37/0x60 [nvme_core]
+> [? 615.519442]? nvme_rdma_reset_ctrl_work+0x22/0xb0 [nvme_rdma]
+> [? 615.526294]? process_one_work+0x158/0x360
+> [? 615.531299]? worker_thread+0x1cf/0x3e0
+> [? 615.536005]? kthread+0xf8/0x130
+> [? 615.540036]? ? max_active_store+0x80/0x80
+> [? 615.545035]? ? kthread_bind+0x10/0x10
+> [? 615.549647]? ret_from_fork+0x35/0x40
+> [? 615.554174] INFO: task kworker/u81:8:673 blocked for more than 120 
+> seconds.
+> [? 615.562478]?????? Not tainted 4.17.0-rc4.test+ #1
+> [? 615.568261] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" 
+> disables this message.
+> [? 615.577554] kworker/u81:8?? D??? 0?? 673????? 2 0x80000000
+> [? 615.584234] Workqueue: nvme-wq nvme_scan_work [nvme_core]
+> [? 615.590806] Call Trace:
+> [? 615.594087]? ? __schedule+0x290/0x870
+> [? 615.598725]? schedule+0x32/0x80
+> [? 615.602777]? schedule_preempt_disabled+0xa/0x10
+> [? 615.608384]? __mutex_lock.isra.7+0x1cd/0x510
+> [? 615.613698]? ? bdget+0x3f/0x140
+> [? 615.617745]? revalidate_disk+0x47/0x80
+> [? 615.622474]? nvme_validate_ns+0x49/0x7c0 [nvme_core]
+> [? 615.628563]? ? wake_up_q+0x70/0x70
+> [? 615.632903]? ? __blk_mq_free_request+0x6d/0x80
+> [? 615.638407]? nvme_scan_work+0x2f4/0x3b0 [nvme_core]
+> [? 615.644400]? process_one_work+0x158/0x360
+> [? 615.649422]? worker_thread+0x47/0x3e0
+> [? 615.654041]? kthread+0xf8/0x130
+> [? 615.658086]? ? max_active_store+0x80/0x80
+> [? 615.663096]? ? kthread_bind+0x10/0x10
+> [? 615.667717]? ret_from_fork+0x35/0x40
+> [? 615.672237] INFO: task kworker/u81:9:674 blocked for more than 120 
+> seconds.
+> [? 615.680553]?????? Not tainted 4.17.0-rc4.test+ #1
 > 
-> Allow changing the ANA state on a per-port basis by creating an
-> ana_groups directory under each port, and another directory with an
-> ana_state file in it.  The default ANA group 1 directory is created
-> automatically for each port.
-> 
-> For all changes in ANA configuration the ANA change AEN is sent.  We
-> only keep a global changecount instead of additional per-group
-> changecounts to keep the implementation as simple as possible.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/nvme/target/admin-cmd.c |   1 +
->  drivers/nvme/target/configfs.c  | 181
-> +++++++++++++++++++++++++++++++++++++++-
-> drivers/nvme/target/core.c      |  24 ++++++
-> drivers/nvme/target/nvmet.h     |  30 ++++++- 4 files changed, 232
-> insertions(+), 4 deletions(-)
-> 
-[ .. ]
-> @@ -921,6 +1089,17 @@ static struct config_group
-> *nvmet_ports_make(struct config_group *group, "referrals",
-> &nvmet_referrals_type);
-> configfs_add_default_group(&port->referrals_group, &port->group); 
-> +	config_group_init_type_name(&port->ana_groups_group,
-> +			"ana_groups", &nvmet_ana_groups_type);
-> +	configfs_add_default_group(&port->ana_groups_group,
-> &port->group); +
-> +	port->ana_group1.port = port;
-> +	port->ana_group1.grpid = 1;
-
-NVMET_DEFAULT_ANA_GRPID ?
-
-And maybe rename 'ana_group1' to 'ana_default_group' ?
-
-> +	config_group_init_type_name(&port->ana_group1.group,
-> +			"1", &nvmet_ana_group_type);
-
-snprintf(grpname, "%d", NVMET_DEFAULT_ANA_GRPID); ?
-
-> +	configfs_add_default_group(&port->ana_group1.group,
-> +			&port->ana_groups_group);
-> +
->  	return &port->group;
->  }
->  
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 72c1df24346a..72c573c0a8df 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -193,6 +193,30 @@ static void nvmet_ns_changed(struct nvmet_subsys
-> *subsys, u32 nsid) }
->  }
->  
-> +void nvmet_send_ana_event(struct nvmet_subsys *subsys)
-> +{
-> +	struct nvmet_ctrl *ctrl;
-> +
-> +	mutex_lock(&subsys->lock);
-> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-> +		if (nvmet_aen_disabled(ctrl,
-> NVME_AEN_CFG_ANA_CHANGE))
-> +			continue;
-> +		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
-> +				NVME_AER_NOTICE_ANA, NVME_LOG_ANA);
-> +	}
-> +	mutex_unlock(&subsys->lock);
-> +}
-> +
-
-Isn't this sending too many AENs?
-We're changing the ANA state per _port_, which is linked to individual
-controllers.
-But controllers which are _not_ on that port won't be affected by the
-ANA change, so in theory we shouldn't send ANA AENs for not-affected
-controllers.
-
-Can't we just add a pointer to the port in the nvmet_ctrl structure and
-filter according to the affected ports?
-
-Cheers,
-
-Hannes
