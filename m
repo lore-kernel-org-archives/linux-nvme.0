@@ -1,15 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:21:12 +0200
-Subject: [PATCH] nvme-core: fix nvme_setup_cmd trace call
-In-Reply-To: <20180607063501.4361-1-chaitanya.kulkarni@wdc.com>
-References: <20180607063501.4361-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180607072112.pqqp4zvyc5imdoqh@linux-x5ow.site>
+Date: Thu, 7 Jun 2018 09:27:28 +0200
+Subject: [PATCH 01/10] nvme.h: add support for the log specific field
+In-Reply-To: <20180606143311.23076-2-hch@lst.de>
+References: <20180606143311.23076-1-hch@lst.de>
+ <20180606143311.23076-2-hch@lst.de>
+Message-ID: <20180607072728.3iedwzuig3tt74ks@linux-x5ow.site>
 
-On Thu, Jun 07, 2018@02:35:01AM -0400, Chaitanya Kulkarni wrote:
-> This patch fixes the trace_nvme_setup_admin_cmd() call, now we use NULL
-> in place of ns->disk->disk_name when ns variable is NULL.
-
-Oops, good catch,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
