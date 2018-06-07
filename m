@@ -1,31 +1,17 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  7 Jun 2018 10:30:09 +0200
-Subject: [PATCH] blktrace: display failfast and driver-specific flags
-Message-ID: <20180607083009.41793-1-hare@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 7 Jun 2018 10:30:08 +0200
+Subject: [PATCH 02/10] nvme.h: add ANA definitions
+In-Reply-To: <20180606143311.23076-3-hch@lst.de>
+References: <20180606143311.23076-1-hch@lst.de>
+ <20180606143311.23076-3-hch@lst.de>
+Message-ID: <20180607083008.seajdqzkxvjnztzv@linux-x5ow.site>
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- kernel/trace/blktrace.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/kernel/trace/blktrace.c b/kernel/trace/blktrace.c
-index 987d9a9ae283..238e16211a5c 100644
---- a/kernel/trace/blktrace.c
-+++ b/kernel/trace/blktrace.c
-@@ -1922,6 +1922,14 @@ void blk_fill_rwbs(char *rwbs, unsigned int op, int bytes)
- 		rwbs[i++] = 'S';
- 	if (op & REQ_META)
- 		rwbs[i++] = 'M';
-+	if (op & REQ_FAILFAST_DEV)
-+		rwbs[i++] = 'd';
-+	if (op & REQ_FAILFAST_TRANSPORT)
-+		rwbs[i++] = 't';
-+	if (op & REQ_FAILFAST_DRIVER)
-+		rwbs[i++] = 'v';
-+	if (op & REQ_DRV)
-+		rwbs[i++] = 'V';
- 
- 	rwbs[i] = '\0';
- }
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
-2.12.3
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
