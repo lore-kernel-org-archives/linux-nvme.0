@@ -1,38 +1,24 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu,  7 Jun 2018 10:38:47 +0200
-Subject: [PATCH 3/3] nvme: bio remapping tracepoint
-In-Reply-To: <20180607083847.51019-1-hare@suse.de>
-References: <20180607083847.51019-1-hare@suse.de>
-Message-ID: <20180607083847.51019-4-hare@suse.de>
+Date: Thu,  7 Jun 2018 10:38:44 +0200
+Subject: [PATCH 0/3] misc nvme fixes
+Message-ID: <20180607083847.51019-1-hare@suse.de>
 
-Adding a tracepoint to trace bio remapping for native nvme multipath.
+Hi all,
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/multipath.c | 4 ++++
- 1 file changed, 4 insertions(+)
+here are some small fixes I've found required when testing ANA
+support. They are not directly related to ANA itself so they're send
+as a separate patchset.
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 87bd60b49bbc..620bcd749912 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -12,6 +12,7 @@
-  */
- 
- #include <linux/moduleparam.h>
-+#include <trace/events/block.h>
- #include "nvme.h"
- 
- static bool multipath = true;
-@@ -181,6 +182,9 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
- 	if (likely(ns)) {
- 		bio->bi_disk = ns->disk;
- 		bio->bi_opf |= REQ_NVME_MPATH;
-+		trace_block_bio_remap(bio->bi_disk->queue, bio,
-+				      disk_devt(ns->head->disk),
-+				      bio->bi_iter.bi_sector);
- 		ret = direct_make_request(bio);
- 	} else if (!list_empty_careful(&head->list)) {
- 		dev_warn_ratelimited(dev, "no path available - requeuing I/O\n");
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (3):
+  nvme: also check for RESETTING state in nvmf_check_if_ready()
+  nvme: do not access request after calling blk_mq_end_request()
+  nvme: bio remapping tracepoint
+
+ drivers/nvme/host/fabrics.c   | 1 +
+ drivers/nvme/host/multipath.c | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
 -- 
 2.12.3
