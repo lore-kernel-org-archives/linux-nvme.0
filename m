@@ -1,75 +1,50 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 7 Jun 2018 15:20:36 +0200
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 7 Jun 2018 16:20:40 +0300
 Subject: [PATCH 4/4] nvme: start ANATT timer on out-of-order state changes
-In-Reply-To: <20180607131026.GA13273@lst.de>
+In-Reply-To: <20180607073556.39050-5-hare@suse.de>
 References: <20180607073556.39050-1-hare@suse.de>
  <20180607073556.39050-5-hare@suse.de>
- <20180607121135.GD11938@lst.de>
- <20180607143750.16ddff8f@pentland.suse.de>
- <20180607131026.GA13273@lst.de>
-Message-ID: <20180607152036.275b0966@pentland.suse.de>
+Message-ID: <0d687603-cd79-c848-6cc1-8b6834a55c6f@grimberg.me>
 
-On Thu, 7 Jun 2018 15:10:26 +0200
-Christoph Hellwig <hch@lst.de> wrote:
 
-> On Thu, Jun 07, 2018@02:37:50PM +0200, Hannes Reinecke wrote:
-> > > We don't need to start the ANA timer for these states, it should
-> > > only happen for the CHANGE state.
-> > >   
-> > 
-> > Hmm. When we're getting these error it means that there is a
-> > divergence between the ANA state on the host and the target.
-> > 
-> > Which really shouldn't happen, as we _should_ have received an ANA
-> > AEN signalling us this state. As there is a race condition here
-> > (ANA AENs are being send via the admin connection, and it might be
-> > that we haven't gotten around to processing the ANA state yet) we
-> > should be starting the ANATT timer to catch any outstanding AENs.  
+
+On 06/07/2018 10:35 AM, Hannes Reinecke wrote:
+> If I/O is terminated due to an invalid ANA state we should be starting
+> the ANATT timer as we really should have received an ANA AEN signalling
+> the state change.
 > 
-> We should receive an AEN, yes.  But there is absolutely no ordering
-> guarantees either in the ANA spec, or in NVMe in general for multiple
-> queues (admin vs I/O).  But that was intentional in the specification,
-> and has nothing to do with ANATT at all.
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>   drivers/nvme/host/multipath.c | 36 +++++++++++++++++++++++++++++-------
+>   1 file changed, 29 insertions(+), 7 deletions(-)
 > 
-Precisely.
-Looking closer, there are not even guarantees within which time any
-target should be sending the AEN.
-So we have to start somewhere when defining a sensible timeframe during
-which we should have received an ANA AEN. And the one timer we already
-have is ANATT, so it looked logical to use that.
+> diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+> index 7a37f5959ad4..7f34ae260ca9 100644
+> --- a/drivers/nvme/host/multipath.c
+> +++ b/drivers/nvme/host/multipath.c
+> @@ -49,7 +49,10 @@ static void nvme_update_ana_state(struct nvme_ns *ns, enum nvme_ana_state state)
+>   void nvme_failover_req(struct request *req)
+>   {
+>   	struct nvme_ns *ns = req->q->queuedata;
+> +	struct device *dev = disk_to_dev(ns->disk);
+>   	unsigned long flags;
+> +	enum nvme_ana_state ana_state;
+> +	bool ana_state_changed = false;
+>   
+>   	spin_lock_irqsave(&ns->head->requeue_lock, flags);
+>   	blk_steal_bios(&ns->head->requeue_list, req);
+> @@ -60,26 +63,45 @@ void nvme_failover_req(struct request *req)
+>   	 * Reset the controller for any non-ANA error as we don't know what
+>   	 * caused the error:
+>   	 */
+> +	ana_state = READ_ONCE(ns->ctrl->ana_state[ns->anagrpid]);
+>   	switch (nvme_req(req)->status & 0x7ff) {
+>   	case NVME_SC_ANA_TRANSITION:
+> -		nvme_update_ana_state(ns, NVME_ANA_CHANGE);
+> -		if (!timer_pending(&ns->anatt_timer)) {
+> -			ns->anatt_timer.expires =
+> -				ns->ctrl->anatt * HZ + jiffies;
+> -			add_timer(&ns->anatt_timer);
 
-Especially due to this paragraph:
-> If no controllers are reporting ANA Optimized state or ANA
-> Non-Optimized state, then a transition may be occurring such that a
-> controller reporting the Inaccessible state may become accessible and
-> the host should retry the command on the controller reporting
-> Inaccessible state for at least ANATT seconds (refer to Figure 109).
-
-which seems to imply to me that we can have an implicit transition on
-the target while reporting the inaccessible state error, and the use of
-ANATT here is indeed applicable.
-
-> > And if we're not getting an ANA AEN within ANATT the controller
-> > should be considered hosed, and we need to reset it.  
-> 
-> I can't find anything in the spec saying that.
-> 
-No, surely not; any error recovery action are implementation dependent.
-But the only error recovery we have is controller reset, so ...
-
-> > If you disagree, what _should_ be the appropriate handling in this
-> > case, ie we have the most current ANA log page, _and_ get this error
-> > indicating a state mismatch?  
-> 
-> Update our in-memory state ASAP, and then just way for the AEN to
-> happen eventually.  As the current code does.
-> 
-
-This code is essentially error handling.
-Yes, I do agree that the spec says it shouldn't happen.
-But this doesn't mean it _can't_ happen (lost frames, anyone?), so we
-need to prepare for it.
-
-Cheers,
-
-Hannes
+Wasn't this added in the previous patch? its a bit confusing... can you
+re-arrange the patches differently? maybe squash?
