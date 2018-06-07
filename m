@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:16:38 +0200
-Subject: [PATCH 1/6] nvme-pci: Remove unnecessary nested locking
-In-Reply-To: <20180606141309.19389-2-keith.busch@intel.com>
+Date: Thu, 7 Jun 2018 09:16:56 +0200
+Subject: [PATCH 2/6] nvme-pci: Remove unnecessary completion doorbell check
+In-Reply-To: <20180606141309.19389-3-keith.busch@intel.com>
 References: <20180606141309.19389-1-keith.busch@intel.com>
- <20180606141309.19389-2-keith.busch@intel.com>
-Message-ID: <20180607071638.n2zdl66yr52fdm3l@linux-x5ow.site>
+ <20180606141309.19389-3-keith.busch@intel.com>
+Message-ID: <20180607071656.54gudrwpx5du2vu5@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
