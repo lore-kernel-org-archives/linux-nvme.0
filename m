@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:17:23 +0200
-Subject: [PATCH 3/6] nvme-pci: Queue creation fixes
-In-Reply-To: <20180606141309.19389-4-keith.busch@intel.com>
+Date: Thu, 7 Jun 2018 09:17:47 +0200
+Subject: [PATCH 4/6] nvme-pci: Remove HMB teardown on reset
+In-Reply-To: <20180606141309.19389-5-keith.busch@intel.com>
 References: <20180606141309.19389-1-keith.busch@intel.com>
- <20180606141309.19389-4-keith.busch@intel.com>
-Message-ID: <20180607071722.qr3rfzrivtvgbpfq@linux-x5ow.site>
+ <20180606141309.19389-5-keith.busch@intel.com>
+Message-ID: <20180607071747.amnwjt4xwmffv4dc@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
