@@ -1,10 +1,11 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 7 Jun 2018 09:40:15 +0200
-Subject: [PATCH 04/10] nvme: remove nvme_req_needs_failover
-In-Reply-To: <20180606143311.23076-5-hch@lst.de>
+Date: Thu, 7 Jun 2018 09:54:13 +0200
+Subject: [PATCH 07/10] nvmet: track and limit the number of namespaces
+ per subsystem
+In-Reply-To: <20180606143311.23076-8-hch@lst.de>
 References: <20180606143311.23076-1-hch@lst.de>
- <20180606143311.23076-5-hch@lst.de>
-Message-ID: <20180607074014.grlbuhzjb5slr7hs@linux-x5ow.site>
+ <20180606143311.23076-8-hch@lst.de>
+Message-ID: <20180607075413.qywvotzlk7ra63g3@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
