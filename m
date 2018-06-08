@@ -1,23 +1,54 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 8 Jun 2018 07:53:13 +0200
-Subject: [PATCH] blktrace: display failfast and driver-specific flags
-In-Reply-To: <20180607112423.GB10742@lst.de>
-References: <20180607083009.41793-1-hare@suse.de>
- <20180607112423.GB10742@lst.de>
-Message-ID: <20180608075313.1881dc6e@pentland.suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 8 Jun 2018 07:58:11 +0200
+Subject: [GIT PULL] nvme fixes for 4.18
+Message-ID: <20180608055811.24xz3qfvf3gsvuef@infradead.org>
 
-On Thu, 7 Jun 2018 13:24:23 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+Hi Jens,
 
-> Good idea to display the flags, but the characters aren't really
-> very self-describing.  Should we prefix each with an f maybe?
+a few more small fixes for NVMe for this merge window:
 
-Honestly, I don't care.
-Just wanted to stick with the one-letter acronym like all the others
-did.
-But in the end having the failfast ones prefixed with an 'f' sounds
-reasonable.
+The following changes since commit af6c5d5e01ad9f2c9ca38cccaae6b5d67ddd241f:
 
-Cheers,
+  Merge branch 'for-4.18' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq (2018-06-05 17:31:33 -0700)
 
-Hannes
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.18
+
+for you to fetch changes up to 9ce44fde233fcbe5eca34f97f2a68b97d3ca833b:
+
+  nvme: cleanup double shift issue (2018-06-07 16:27:08 +0200)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      nvmet: return all zeroed buffer when we can't find an active namespace
+
+Dan Carpenter (1):
+      nvme: cleanup double shift issue
+
+Johannes Thumshirn (1):
+      nvme: don't hold nvmf_transports_rwsem for more than transport lookups
+
+Keith Busch (6):
+      nvme-pci: remove unnecessary nested locking
+      nvme-pci: remove unnecessary completion doorbell check
+      nvme-pci: queue creation fixes
+      nvme-pci: remove HMB teardown on reset
+      nvme-pci: unquiesce dead controller queues
+      nvme-pci: make CMB SQ mod-param read-only
+
+Sagi Grimberg (1):
+      nvmet: filter newlines from user input
+
+Steve Wise (1):
+      nvme-rdma: correctly check for target keyed sgl support
+
+ drivers/nvme/host/core.c        |  4 ++--
+ drivers/nvme/host/fabrics.c     |  3 ++-
+ drivers/nvme/host/fabrics.h     |  3 +++
+ drivers/nvme/host/nvme.h        |  1 -
+ drivers/nvme/host/pci.c         | 35 ++++++++++-------------------------
+ drivers/nvme/host/rdma.c        |  5 +++--
+ drivers/nvme/target/admin-cmd.c | 15 +++++++++------
+ drivers/nvme/target/configfs.c  | 14 +++++++++-----
+ 8 files changed, 38 insertions(+), 42 deletions(-)
