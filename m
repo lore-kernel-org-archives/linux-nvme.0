@@ -1,23 +1,23 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 07 Jun 2018 19:50:07 -0400
-Subject: [PATCH 08/17] nvme: limit integrity segments to be <= data
- segments
-In-Reply-To: <f7bf4e84-f403-7576-299f-63b0c4aa6f1b@mellanox.com> (Max
- Gurtovoy's message of "Thu, 7 Jun 2018 16:02:23 +0300")
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-9-git-send-email-maxg@mellanox.com>
- <19c8562a-8478-196c-c9f5-385d2076448e@grimberg.me>
- <f7bf4e84-f403-7576-299f-63b0c4aa6f1b@mellanox.com>
-Message-ID: <yq17ena9mxc.fsf@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 8 Jun 2018 07:53:13 +0200
+Subject: [PATCH] blktrace: display failfast and driver-specific flags
+In-Reply-To: <20180607112423.GB10742@lst.de>
+References: <20180607083009.41793-1-hare@suse.de>
+ <20180607112423.GB10742@lst.de>
+Message-ID: <20180608075313.1881dc6e@pentland.suse.de>
 
+On Thu, 7 Jun 2018 13:24:23 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
-Max,
+> Good idea to display the flags, but the characters aren't really
+> very self-describing.  Should we prefix each with an f maybe?
 
-> This is for good practice, I don't think the block layer will/can send
-> us more integrity_segments than data_segments.
+Honestly, I don't care.
+Just wanted to stick with the one-letter acronym like all the others
+did.
+But in the end having the failfast ones prefixed with an 'f' sounds
+reasonable.
 
-They are orthogonal. The number of integrity segments is gated by the
-max_integrity_segments queue limit.
+Cheers,
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Hannes
