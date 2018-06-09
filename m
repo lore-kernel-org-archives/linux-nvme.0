@@ -1,33 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 8 Jun 2018 12:51:55 -0600
-Subject: [GIT PULL] nvme fixes for 4.18
-In-Reply-To: <8fdcff52-a017-11ba-2ec1-2d2dc265d2a8@kernel.dk>
-References: <20180608055811.24xz3qfvf3gsvuef@infradead.org>
- <8fdcff52-a017-11ba-2ec1-2d2dc265d2a8@kernel.dk>
-Message-ID: <059df767-07b1-4c8a-e084-d61bad810ba1@kernel.dk>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sat, 9 Jun 2018 04:33:58 +0300
+Subject: [PATCH 08/17] nvme: limit integrity segments to be <= data
+ segments
+In-Reply-To: <yq17ena9mxc.fsf@oracle.com>
+References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
+ <1527436222-15494-9-git-send-email-maxg@mellanox.com>
+ <19c8562a-8478-196c-c9f5-385d2076448e@grimberg.me>
+ <f7bf4e84-f403-7576-299f-63b0c4aa6f1b@mellanox.com>
+ <yq17ena9mxc.fsf@oracle.com>
+Message-ID: <694e0f4e-bf79-6139-e5ba-86c01fcce4b2@mellanox.com>
 
-On 6/8/18 7:09 AM, Jens Axboe wrote:
-> On 6/7/18 11:58 PM, Christoph Hellwig wrote:
->> Hi Jens,
->>
->> a few more small fixes for NVMe for this merge window:
->>
->> The following changes since commit af6c5d5e01ad9f2c9ca38cccaae6b5d67ddd241f:
->>
->>   Merge branch 'for-4.18' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq (2018-06-05 17:31:33 -0700)
->>
->> are available in the Git repository at:
->>
->>   git://git.infradead.org/nvme.git nvme-4.18
+
+
+On 6/8/2018 2:50 AM, Martin K. Petersen wrote:
 > 
-> This is based off some random point in master, 2k commits or so ahead
-> of my for-linus branch.
+> Max,
 > 
-> The patches look fine, but I don't want to pull that. I can either apply
-> the patches (trivial), or you can rebase. I'm fine with either.
+>> This is for good practice, I don't think the block layer will/can send
+>> us more integrity_segments than data_segments.
+> 
+> They are orthogonal. The number of integrity segments is gated by the
+> max_integrity_segments queue limit.
+> 
 
-JFYI, to avoid holding them up any further, I've committed them
-manually and pushed it out.
-
--- 
-Jens Axboe
+I agree, but do you think it's reasonable to set max_integrity_segments 
+ > max_segments ?
