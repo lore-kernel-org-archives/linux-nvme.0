@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 11 Jun 2018 13:12:31 +0200
-Subject: [PATCH V2 05/14] blktests: add NVMeOF file-ns host creation
-In-Reply-To: <20180611091554.19639-6-chaitanya.kulkarni@wdc.com>
+Date: Mon, 11 Jun 2018 13:14:14 +0200
+Subject: [PATCH V2 06/14] blktests: add fio data verification routine
+In-Reply-To: <20180611091554.19639-7-chaitanya.kulkarni@wdc.com>
 References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
- <20180611091554.19639-6-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180611111231.3vkzfbsqjy3njssc@linux-x5ow.site>
+ <20180611091554.19639-7-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180611111414.leandfpn5nfq2but@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
