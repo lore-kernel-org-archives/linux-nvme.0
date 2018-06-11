@@ -1,93 +1,33 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Jun 2018 16:11:30 +0200
-Subject: [PATCH 01/10] nvme: don't rely on the changed namespace list log
+Date: Mon, 11 Jun 2018 16:11:31 +0200
+Subject: [PATCH 02/10] nvme.h: add support for the log specific field
 In-Reply-To: <20180611141139.30462-1-hch@lst.de>
 References: <20180611141139.30462-1-hch@lst.de>
-Message-ID: <20180611141139.30462-2-hch@lst.de>
+Message-ID: <20180611141139.30462-3-hch@lst.de>
 
-Don't optimize our namespace rescan based on the changed namespace list
-log page as userspace might have changed the content through reading
-it.
+NVMe 1.3 added a new log specific field to the get log page CQ
+defintion, add it to our get_log_page SQ structure.
 
-Suggested-by: Keith Busch <keith.busch at linux.intel.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 36 +++++++++++-------------------------
- 1 file changed, 11 insertions(+), 25 deletions(-)
+ include/linux/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index effb1309682e..f9dfc6c620b2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3197,40 +3197,28 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
- 	nvme_remove_invalid_namespaces(ctrl, nn);
- }
- 
--static bool nvme_scan_changed_ns_log(struct nvme_ctrl *ctrl)
-+static void nvme_clear_changed_ns_log(struct nvme_ctrl *ctrl)
- {
- 	size_t log_size = NVME_MAX_CHANGED_NAMESPACES * sizeof(__le32);
- 	__le32 *log;
--	int error, i;
--	bool ret = false;
-+	int error;
- 
- 	log = kzalloc(log_size, GFP_KERNEL);
- 	if (!log)
--		return false;
-+		return;
- 
-+	/*
-+	 * We need to read the log to clear the AEN, but we don't want to rely
-+	 * on it for the changed namespace information as userspace could have
-+	 * raced with us in reading the log page, which could cause us to miss
-+	 * updates.
-+	 */
- 	error = nvme_get_log(ctrl, NVME_LOG_CHANGED_NS, log, log_size);
--	if (error) {
-+	if (error)
- 		dev_warn(ctrl->device,
- 			"reading changed ns log failed: %d\n", error);
--		goto out_free_log;
--	}
--
--	if (log[0] == cpu_to_le32(0xffffffff))
--		goto out_free_log;
- 
--	for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
--		u32 nsid = le32_to_cpu(log[i]);
--
--		if (nsid == 0)
--			break;
--		dev_info(ctrl->device, "rescanning namespace %d.\n", nsid);
--		nvme_validate_ns(ctrl, nsid);
--	}
--	ret = true;
--
--out_free_log:
- 	kfree(log);
--	return ret;
- }
- 
- static void nvme_scan_work(struct work_struct *work)
-@@ -3246,9 +3234,8 @@ static void nvme_scan_work(struct work_struct *work)
- 	WARN_ON_ONCE(!ctrl->tagset);
- 
- 	if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
--		if (nvme_scan_changed_ns_log(ctrl))
--			goto out_sort_namespaces;
- 		dev_info(ctrl->device, "rescanning namespaces.\n");
-+		nvme_clear_changed_ns_log(ctrl);
- 	}
- 
- 	if (nvme_identify_ctrl(ctrl, &id))
-@@ -3263,7 +3250,6 @@ static void nvme_scan_work(struct work_struct *work)
- 	nvme_scan_ns_sequential(ctrl, nn);
- out_free_id:
- 	kfree(id);
--out_sort_namespaces:
- 	down_write(&ctrl->namespaces_rwsem);
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- 	up_write(&ctrl->namespaces_rwsem);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 2950ce957656..32f24f4ca763 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -880,7 +880,7 @@ struct nvme_get_log_page_command {
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+ 	__u8			lid;
+-	__u8			rsvd10;
++	__u8			lsp; /* upper 4 bits reserved */
+ 	__le16			numdl;
+ 	__le16			numdu;
+ 	__u16			rsvd11;
 -- 
 2.17.1
