@@ -1,65 +1,46 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 10 Jun 2018 16:58:29 +0300
-Subject: [PATCH 1/1] nvme-rdma: fix error flow during mapping request data
-Message-ID: <1528639109-1978-1-git-send-email-maxg@mellanox.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun, 10 Jun 2018 22:03:41 -0400
+Subject: [PATCH] nvme-cli: fix compilation error
+Message-ID: <20180611020341.2647-1-chaitanya.kulkarni@wdc.com>
 
-After dma mapping the sgl, we map the sgl to nvme sgl descriptor. In case
-of failure during the last mapping we never dma unmap the sgl.
+[root at q nvme-cli]# git log -1
+commit 80f2d776e41128fbf7676d665dd6c9ee5aeeffcd (HEAD -> master, origin/master, origin/HEAD)
+Merge: 2dda3f7 6d4b4b3
+Author: Keith Busch <keith.busch at intel.com>
+Date:   Fri Jun 8 16:19:27 2018 -0600
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+    Merge pull request #365 from maximveligan/master
+
+    Wrote man page for telemetry
+
+[root at q nvme-cli]# make
+NVME_VERSION = 1.5.182.g80f2
+cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DLIBUUID -DNVME_VERSION='"1.5.182.g80f2"' -c nvme-print.c
+nvme-print.c: In function ?show_self_test_log?:
+nvme-print.c:1282:4: error: format ?%lx? expects argument of type ?long unsigned int?, but argument 2 has type ?__le64? [-Werror=format=]
+    le64_to_cpu(self_test->result[i].power_on_hours));
+    ^
+cc1: all warnings being treated as errors
+make: *** [nvme-print.o] Error 1
+[root at qemu nvme-cli]#
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/host/rdma.c | 31 ++++++++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 7 deletions(-)
+ nvme-print.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 2aba038..7cd4199 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1189,21 +1189,38 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
- 	count = ib_dma_map_sg(ibdev, req->sg_table.sgl, req->nents,
- 		    rq_data_dir(rq) == WRITE ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
- 	if (unlikely(count <= 0)) {
--		sg_free_table_chained(&req->sg_table, true);
--		return -EIO;
-+		ret = -EIO;
-+		goto out_free_table;
- 	}
+diff --git a/nvme-print.c b/nvme-print.c
+index 3f679d2..0d91a82 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1278,7 +1278,7 @@ void show_self_test_log(struct nvme_self_test_log *self_test, const char *devnam
  
- 	if (count == 1) {
- 		if (rq_data_dir(rq) == WRITE && nvme_rdma_queue_idx(queue) &&
- 		    blk_rq_payload_bytes(rq) <=
--				nvme_rdma_inline_data_size(queue))
--			return nvme_rdma_map_sg_inline(queue, req, c);
-+				nvme_rdma_inline_data_size(queue)) {
-+			ret = nvme_rdma_map_sg_inline(queue, req, c);
-+			goto out;
-+		}
+ 		temp = self_test->result[i].valid_diagnostic_info;
+ 		printf("  Valid Diagnostic Information : %#x\n", temp);
+-		printf("  Power on hours (POH)         : %#"PRIx64"\n",
++		printf("  Power on hours (POH)         : %#llx\n",
+ 			le64_to_cpu(self_test->result[i].power_on_hours));
  
--		if (dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY)
--			return nvme_rdma_map_sg_single(queue, req, c);
-+		if (dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY) {
-+			ret = nvme_rdma_map_sg_single(queue, req, c);
-+			goto out;
-+		}
- 	}
- 
--	return nvme_rdma_map_sg_fr(queue, req, c, count);
-+	ret = nvme_rdma_map_sg_fr(queue, req, c, count);
-+out:
-+	if (unlikely(ret))
-+		goto out_unmap_sg;
-+
-+	return 0;
-+
-+out_unmap_sg:
-+	ib_dma_unmap_sg(ibdev, req->sg_table.sgl,
-+			req->nents, rq_data_dir(rq) ==
-+			WRITE ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
-+out_free_table:
-+	sg_free_table_chained(&req->sg_table, true);
-+	return ret;
- }
- 
- static void nvme_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		if (temp & NVME_SELF_TEST_VALID_NSID)
 -- 
-1.8.3.1
+2.17.0
