@@ -1,56 +1,93 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Jun 2018 16:11:29 +0200
-Subject: draft ANA support v4
-Message-ID: <20180611141139.30462-1-hch@lst.de>
+Date: Mon, 11 Jun 2018 16:11:30 +0200
+Subject: [PATCH 01/10] nvme: don't rely on the changed namespace list log
+In-Reply-To: <20180611141139.30462-1-hch@lst.de>
+References: <20180611141139.30462-1-hch@lst.de>
+Message-ID: <20180611141139.30462-2-hch@lst.de>
 
-This version has a major update to move the ANA state to struct nvme_ns,
-as I did in my original prototypes.  I moved away from to handle the
-ANA status codes directly, but it turns out that idea is fundamentally
-racy anyway.
+Don't optimize our namespace rescan based on the changed namespace list
+log page as userspace might have changed the content through reading
+it.
 
-We'll stell need good nvme-cli and nvmetcli support as well as a lot of
-(preferably automated) testing.
+Suggested-by: Keith Busch <keith.busch at linux.intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/core.c | 36 +++++++++++-------------------------
+ 1 file changed, 11 insertions(+), 25 deletions(-)
 
-A git tree is available at:
-
-    git://git.infradead.org/users/hch/block.git nvme-ana
-
-Gitweb:
-
-    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
-
-
-Changes since v3:
- - keep the ana state in struct nvme_ns
- - don't update the internal ana state based on status codes
- - add a ANATT timer (based on code from Hannes Reinecke)
- - fix ANA AEN detection, which is missing a OAES bit currently
- - make more code conditional on CONFIG_NVME_MULTIPATH
- - optimize delayed adding of ns_head gendisks
- - only kick of a requeue when setting groups live
- - only send AENs on controllers of a port where the group state changes
- - a few cleanups to the build-in default group
- - fix a use after free in nvme_failover_req (Hannes Reinecke)
-
-Changes since v2:
- - support changing the state for the default ANA group
- - drop ANATT configuration again
- - delay gendisk registration until we have an I/O capable path
- - remove nvme_req_needs_failover and the SCT=3 handling in it,
-   we actually do the right thing without it
- - refactor the get log page helpers
-
-Changes since v1:
- - fix the check for SCT = 3
- - fix the check for immutable ANAGRPID
- - disable ANA if the ANA log can't be transferred in a single chunk
- - enable the ANA AEN explicitly
- - don't zero buffers that don't get copied to the SGL
- - use READ_ONCE/WRITE_ONCE for the ana_state fields
- - update ANA state on completion with an ANA status code
- - improve commit logs
- - add proper AEN enable and masking conditionals
- - fix the numeric value for the change state
- - fix a memory leak (Hannes Reinecke)
- - fix reporting of NUSE (based on a patch from Hannes Reinecke)
- - make ANATT configurable
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index effb1309682e..f9dfc6c620b2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3197,40 +3197,28 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
+ 	nvme_remove_invalid_namespaces(ctrl, nn);
+ }
+ 
+-static bool nvme_scan_changed_ns_log(struct nvme_ctrl *ctrl)
++static void nvme_clear_changed_ns_log(struct nvme_ctrl *ctrl)
+ {
+ 	size_t log_size = NVME_MAX_CHANGED_NAMESPACES * sizeof(__le32);
+ 	__le32 *log;
+-	int error, i;
+-	bool ret = false;
++	int error;
+ 
+ 	log = kzalloc(log_size, GFP_KERNEL);
+ 	if (!log)
+-		return false;
++		return;
+ 
++	/*
++	 * We need to read the log to clear the AEN, but we don't want to rely
++	 * on it for the changed namespace information as userspace could have
++	 * raced with us in reading the log page, which could cause us to miss
++	 * updates.
++	 */
+ 	error = nvme_get_log(ctrl, NVME_LOG_CHANGED_NS, log, log_size);
+-	if (error) {
++	if (error)
+ 		dev_warn(ctrl->device,
+ 			"reading changed ns log failed: %d\n", error);
+-		goto out_free_log;
+-	}
+-
+-	if (log[0] == cpu_to_le32(0xffffffff))
+-		goto out_free_log;
+ 
+-	for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
+-		u32 nsid = le32_to_cpu(log[i]);
+-
+-		if (nsid == 0)
+-			break;
+-		dev_info(ctrl->device, "rescanning namespace %d.\n", nsid);
+-		nvme_validate_ns(ctrl, nsid);
+-	}
+-	ret = true;
+-
+-out_free_log:
+ 	kfree(log);
+-	return ret;
+ }
+ 
+ static void nvme_scan_work(struct work_struct *work)
+@@ -3246,9 +3234,8 @@ static void nvme_scan_work(struct work_struct *work)
+ 	WARN_ON_ONCE(!ctrl->tagset);
+ 
+ 	if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events)) {
+-		if (nvme_scan_changed_ns_log(ctrl))
+-			goto out_sort_namespaces;
+ 		dev_info(ctrl->device, "rescanning namespaces.\n");
++		nvme_clear_changed_ns_log(ctrl);
+ 	}
+ 
+ 	if (nvme_identify_ctrl(ctrl, &id))
+@@ -3263,7 +3250,6 @@ static void nvme_scan_work(struct work_struct *work)
+ 	nvme_scan_ns_sequential(ctrl, nn);
+ out_free_id:
+ 	kfree(id);
+-out_sort_namespaces:
+ 	down_write(&ctrl->namespaces_rwsem);
+ 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
+ 	up_write(&ctrl->namespaces_rwsem);
+-- 
+2.17.1
