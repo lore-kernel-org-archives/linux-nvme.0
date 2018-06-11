@@ -1,13 +1,28 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 11 Jun 2018 10:00:02 -0600
-Subject: [PATCH] nvme: don't rely on the changed namespace list log
-In-Reply-To: <20180611143009.GA14441@lst.de>
-References: <20180606123742.4805-1-hch@lst.de> <20180611143009.GA14441@lst.de>
-Message-ID: <20180611160002.GA791@localhost.localdomain>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 11 Jun 2018 13:04:29 -0400
+Subject: [PATCH V2] nvme-cli: fix compilation error
+Message-ID: <20180611170429.3313-1-chaitanya.kulkarni@wdc.com>
 
-Thanks, this looks fine. The main thing I want to prevent is reading from
-a namespace with the wrong block size, which may corrupt memory. I don't
-think it's possible to fix every scenario, but this patch at least narrows
-it down even if the scenario this is guarding against is pretty unlikely.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+Changes since V1:-
+1. Use typecast instead of changing the format specifier.
+---
+ nvme-print.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Keith Busch <keith.busch at linux.intel.com>
+diff --git a/nvme-print.c b/nvme-print.c
+index b73a006..cdaf1cb 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1338,7 +1338,7 @@ void show_self_test_log(struct nvme_self_test_log *self_test, const char *devnam
+ 		temp = self_test->result[i].valid_diagnostic_info;
+ 		printf("  Valid Diagnostic Information : %#x\n", temp);
+ 		printf("  Power on hours (POH)         : %#"PRIx64"\n",
+-			le64_to_cpu(self_test->result[i].power_on_hours));
++			(uint64_t)le64_to_cpu(self_test->result[i].power_on_hours));
+ 
+ 		if (temp & NVME_SELF_TEST_VALID_NSID)
+ 			printf("  Namespace Identifier         : %#x\n",
+-- 
+2.17.0
