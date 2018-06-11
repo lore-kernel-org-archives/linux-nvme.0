@@ -1,242 +1,1039 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 10 Jun 2018 22:05:07 -0400
-Subject: [PATCH 1/2] nvme-cli: add changed log ns support
-Message-ID: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
+Date: Sun, 10 Jun 2018 22:05:08 -0400
+Subject: [PATCH 2/2] nvme-cli: add changed-ns-list-log documentation
+In-Reply-To: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
+References: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180611020508.2845-2-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- linux/nvme.h   |  7 +++++++
- nvme-builtin.h |  1 +
- nvme-ioctl.c   |  6 ++++++
- nvme-ioctl.h   |  2 ++
- nvme-print.c   | 52 ++++++++++++++++++++++++++++++++++++++++++++++
- nvme-print.h   |  2 ++
- nvme.c         | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 126 insertions(+)
+ Documentation/nvme-changed-ns-list-log.1    | 106 +++
+ Documentation/nvme-changed-ns-list-log.html | 838 ++++++++++++++++++++
+ Documentation/nvme-changed-ns-list-log.txt  |  58 ++
+ 3 files changed, 1002 insertions(+)
+ create mode 100644 Documentation/nvme-changed-ns-list-log.1
+ create mode 100644 Documentation/nvme-changed-ns-list-log.html
+ create mode 100644 Documentation/nvme-changed-ns-list-log.txt
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index 982bd9e..3e87d17 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -473,6 +473,12 @@ struct nvme_fw_slot_info_log {
- 	__u8			rsvd64[448];
- };
- 
-+#define NVME_MAX_CHANGED_NAMESPACES     1024
+diff --git a/Documentation/nvme-changed-ns-list-log.1 b/Documentation/nvme-changed-ns-list-log.1
+new file mode 100644
+index 0000000..9f13477
+--- /dev/null
++++ b/Documentation/nvme-changed-ns-list-log.1
+@@ -0,0 +1,106 @@
++'\" t
++.\"     Title: nvme-changed-ns-list-log
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
++.\"      Date: 06/08/2018
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-CHANGED\-NS\-L" "1" "06/08/2018" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-changed-ns-list-log \- Send NVMe Changed Namespace List log page request, returns result and log\&.
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme changed\-ns\-list\-log\fR <device> [\-\-raw\-binary | \-b]
++                        [\-\-output\-format=<fmt> | \-o <fmt>]
++.fi
++.SH "DESCRIPTION"
++.sp
++Retrieves the NVMe Changed Namespace List log page from an NVMe device and provides the retuned structure\&.
++.sp
++The <device> parameter is mandatory and must be a NVMe character device (ex: /dev/nvme0)\&.
++.sp
++On success, the returned Changed Namespace List log structure may be returned in one of several ways depending on the option flags; the structure may parsed by the program and printed in a readable format or the raw buffer may be printed to stdout for another program to parse\&.
++.SH "OPTIONS"
++.PP
++\-b, \-\-raw\-binary
++.RS 4
++Print the raw Changed Namespace List log buffer to stdout\&.
++.RE
++.PP
++\-o <format>, \-\-output\-format=<format>
++.RS 4
++Set the reporting format to
++\fInormal\fR,
++\fIjson\fR, or
++\fIbinary\fR\&. Only one output format can be used at a time\&.
++.RE
++.SH "EXAMPLES"
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Print the Changed Namespace List Log page in a human readable format:
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme changed\-ns\-list\-log /dev/nvme0
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Print the raw Changed Namespace List Log to a file:
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme changed\-ns\-list\-log /dev/nvme0 \-\-raw\-binary > log\&.raw
++.fi
++.if n \{\
++.RE
++.\}
++.sp
++It is probably a bad idea to not redirect stdout when using this mode\&.
++.RE
++.SH "NVME"
++.sp
++Part of the nvme\-user suite
+diff --git a/Documentation/nvme-changed-ns-list-log.html b/Documentation/nvme-changed-ns-list-log.html
+new file mode 100644
+index 0000000..65ef8e8
+--- /dev/null
++++ b/Documentation/nvme-changed-ns-list-log.html
+@@ -0,0 +1,838 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc 8.6.8" />
++<title>nvme-changed-ns-list-log(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 +
-+struct nvme_changed_ns_list_log {
-+	__le32			log[NVME_MAX_CHANGED_NAMESPACES];
-+};
-+
- enum {
- 	NVME_CMD_EFFECTS_CSUPP		= 1 << 0,
- 	NVME_CMD_EFFECTS_LBCC		= 1 << 1,
-@@ -845,6 +851,7 @@ enum {
- 	NVME_LOG_ERROR		= 0x01,
- 	NVME_LOG_SMART		= 0x02,
- 	NVME_LOG_FW_SLOT	= 0x03,
-+	NVME_LOG_CHANGED_NS	= 0x04,
- 	NVME_LOG_CMD_EFFECTS	= 0x05,
- 	NVME_LOG_DEVICE_SELF_TEST = 0x06,
- 	NVME_LOG_TELEMETRY_HOST = 0x07,
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index adfa520..d29e138 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -22,6 +22,7 @@ COMMAND_LIST(
- 	ENTRY("get-log", "Generic NVMe get log, returns log in raw format", get_log)
- 	ENTRY("telemetry-log", "Retrieve FW Telemetry log write to file", get_telemetry_log)
- 	ENTRY("fw-log", "Retrieve FW Log, show it", get_fw_log)
-+	ENTRY("changed-ns-list-log", "Retrieve Changed Namespace List, show it", get_changed_ns_list_log)
- 	ENTRY("smart-log", "Retrieve SMART Log, show it", get_smart_log)
- 	ENTRY("error-log", "Retrieve Error Log, show it", get_error_log)
- 	ENTRY("effects-log", "Retrieve Command Effects Log, show it", get_effects_log)
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index 4cf815b..9af6960 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -458,6 +458,12 @@ int nvme_fw_log(int fd, struct nvme_firmware_log_page *fw_log)
- 	return nvme_get_log(fd, NVME_NSID_ALL, NVME_LOG_FW_SLOT, sizeof(*fw_log), fw_log);
- }
- 
-+int nvme_changed_ns_list_log(int fd, struct nvme_changed_ns_list_log *changed_ns_list_log)
-+{
-+	return nvme_get_log(fd, 0, NVME_LOG_CHANGED_NS, sizeof(changed_ns_list_log->log),
-+			changed_ns_list_log->log);
++/* Default font. */
++body {
++  font-family: Georgia,serif;
 +}
 +
- int nvme_error_log(int fd, int entries, struct nvme_error_log_page *err_log)
- {
- 	return nvme_get_log(fd, NVME_NSID_ALL, NVME_LOG_ERROR, entries * sizeof(*err_log), err_log);
-diff --git a/nvme-ioctl.h b/nvme-ioctl.h
-index 75f8104..d5e7921 100644
---- a/nvme-ioctl.h
-+++ b/nvme-ioctl.h
-@@ -94,6 +94,8 @@ int nvme_get_log(int fd, __u32 nsid, __u8 log_id, __u32 data_len, void *data);
- int nvme_get_telemetry_log(int fd, void *lp, int generate_report,
- 			   int ctrl_gen, size_t log_page_size, __u64 offset);
- int nvme_fw_log(int fd, struct nvme_firmware_log_page *fw_log);
-+int nvme_changed_ns_list_log(int fd,
-+		struct nvme_changed_ns_list_log *changed_ns_list_log);
- int nvme_error_log(int fd, int entries, struct nvme_error_log_page *err_log);
- int nvme_smart_log(int fd, __u32 nsid, struct nvme_smart_log *smart_log);
- int nvme_effects_log(int fd, struct nvme_effects_log_page *effects_log);
-diff --git a/nvme-print.c b/nvme-print.c
-index 0d91a82..403df01 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1044,6 +1044,23 @@ void show_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname)
- 						fw_to_string(fw_log->frs[i]));
- }
- 
-+void show_changed_ns_list_log(struct nvme_changed_ns_list_log *log, const char *devname)
-+{
-+	int i;
-+	__u32 nsid;
-+
-+	if (log->log[0] != cpu_to_le32(0XFFFFFFFF)) {
-+		for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
-+			nsid = le32_to_cpu(log->log[i]);
-+			if (nsid == 0)
-+				break;
-+
-+			printf("[%4u]:%#x\n", i, nsid);
-+		}
-+	} else
-+		printf("more than %d ns changed\n", NVME_MAX_CHANGED_NAMESPACES);
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
 +}
 +
- static void show_effects_log_human(__u32 effect)
- {
- 	const char *set = "+";
-@@ -2178,6 +2195,41 @@ void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname)
- 	json_free_object(root);
- }
- 
-+void json_changed_ns_list_log(struct nvme_changed_ns_list_log *log, const char *devname)
-+{
-+	struct json_object *root;
-+	struct json_object *nsi;
-+	char fmt[32];
-+	char str[32];
-+	__u32 nsid;
-+	int i;
-+
-+	if (log->log[0] == cpu_to_le32(0XFFFFFFFF))
-+		return;
-+
-+	root = json_create_object();
-+	nsi = json_create_object();
-+
-+	json_object_add_value_string(root, "Changed Namespace List Log", devname);
-+
-+	for (i = 0; i < NVME_MAX_CHANGED_NAMESPACES; i++) {
-+		nsid = le32_to_cpu(log->log[i]);
-+
-+		if (nsid == 0)
-+			break;
-+
-+		snprintf(fmt, sizeof(fmt), "[%4u]", i + 1);
-+		snprintf(str, sizeof(str), "%#x", nsid);
-+		json_object_add_value_string(nsi, fmt, str);
-+	}
-+
-+	json_object_add_value_object(root, devname, nsi);
-+	json_print_object(root, NULL);
-+	printf("\n");
-+
-+	json_free_object(root);
++body {
++  margin: 1em 5% 1em 5%;
 +}
 +
- void json_endurance_log(struct nvme_endurance_group_log *endurance_group,
- 			__u16 group_id, const char *devname)
- {
-diff --git a/nvme-print.h b/nvme-print.h
-index 98e1502..18ec59e 100644
---- a/nvme-print.h
-+++ b/nvme-print.h
-@@ -27,6 +27,7 @@ void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char
- void show_self_test_log(struct nvme_self_test_log *self_test, const char *devname);
- void show_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
- void show_effects_log(struct nvme_effects_log_page *effects, unsigned int flags);
-+void show_changed_ns_list_log(struct nvme_changed_ns_list_log *log, const char *devname);
- void show_endurance_log(struct nvme_endurance_group_log *endurance_group,
- 			__u16 group_id, const char *devname);
- void show_sanitize_log(struct nvme_sanitize_log_page *sanitize, unsigned int mode, const char *devname);
-@@ -50,6 +51,7 @@ void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char
- void json_effects_log(struct nvme_effects_log_page *effects_log, const char *devname);
- void json_sanitize_log(struct nvme_sanitize_log_page *sanitize_log, const char *devname);
- void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
-+void json_changed_ns_list_log(struct nvme_changed_ns_list_log *log, const char *devname);
- void json_endurance_log(struct nvme_endurance_group_log *endurance_group,
- 			__u16 group_id, const char *devname);
- void json_print_list_items(struct list_item *items, unsigned amnt);
-diff --git a/nvme.c b/nvme.c
-index 440cb24..4c83163 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -606,6 +606,62 @@ static int get_fw_log(int argc, char **argv, struct command *cmd, struct plugin
- 	return err;
- }
- 
-+static int get_changed_ns_list_log(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+	struct nvme_changed_ns_list_log changed_ns_list_log;
-+	const char *desc = "Retrieve Changed Namespaces log for the given device "\
-+			"in either decoded format "\
-+			"(default) or binary.";
-+	const char *raw = "output in binary format";
-+	int err, fmt, fd;
-+
-+	struct config {
-+		int   raw_binary;
-+		char *output_format;
-+	};
-+
-+	struct config cfg = {
-+		.output_format = "normal",
-+	};
-+
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{"output-format", 'o', "FMT", CFG_STRING,   &cfg.output_format, required_argument, output_format },
-+		{"raw-binary",    'b', "",    CFG_NONE,     &cfg.raw_binary,    no_argument,       raw},
-+		{NULL}
-+	};
-+
-+	fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
-+	if (fd < 0)
-+		return fd;
-+
-+	fmt = validate_output_format(cfg.output_format);
-+	if (fmt < 0) {
-+		err = fmt;
-+		goto close_fd;
-+	}
-+
-+	if (cfg.raw_binary)
-+		fmt = BINARY;
-+
-+	err = nvme_changed_ns_list_log(fd, &changed_ns_list_log);
-+	if (!err) {
-+		if (fmt == BINARY)
-+			d_raw((unsigned char *)changed_ns_list_log.log, sizeof(changed_ns_list_log.log));
-+		else if (fmt == JSON)
-+			json_changed_ns_list_log(&changed_ns_list_log, devicename);
-+		else
-+			show_changed_ns_list_log(&changed_ns_list_log, devicename);
-+	} else if (err > 0)
-+		fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(err), err);
-+	else
-+		perror("changed ns list log");
-+
-+ close_fd:
-+	close(fd);
-+
-+	return err;
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
 +}
 +
- static int get_log(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
- 	const char *desc = "Retrieve desired number of bytes "\
++em {
++  font-style: italic;
++  color: navy;
++}
++
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++ at media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overriden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++ at media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-changed-ns-list-log(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-changed-ns-list-log -
++   Send NVMe Changed Namespace List log page                            request, returns result and log.
++</p>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme changed-ns-list-log</em> &lt;device&gt; [--raw-binary | -b]
++                        [--output-format=&lt;fmt&gt; | -o &lt;fmt&gt;]</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Retrieves the NVMe Changed Namespace List log page from an NVMe device and
++provides the retuned structure.</p></div>
++<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory and must be a NVMe character device
++(ex: /dev/nvme0).</p></div>
++<div class="paragraph"><p>On success, the returned Changed Namespace List log structure may be
++returned in one of several ways depending on the option flags; the
++structure may parsed by the program and printed in a readable format or
++the raw buffer may be printed to stdout for another program to parse.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-b
++</dt>
++<dt class="hdlist1">
++--raw-binary
++</dt>
++<dd>
++<p>
++        Print the raw Changed Namespace List log buffer to stdout.
++</p>
++</dd>
++<dt class="hdlist1">
++-o &lt;format&gt;
++</dt>
++<dt class="hdlist1">
++--output-format=&lt;format&gt;
++</dt>
++<dd>
++<p>
++              Set the reporting format to <em>normal</em>, <em>json</em>, or
++              <em>binary</em>. Only one output format can be used at a time.
++</p>
++</dd>
++</dl></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<p>
++Print the Changed Namespace List Log page in a human readable format:
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme changed-ns-list-log /dev/nvme0</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Print the raw Changed Namespace List log to a file:
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme changed-ns-list-log /dev/nvme0 --raw-binary &gt; log.raw</code></pre>
++</div></div>
++<div class="paragraph"><p>It is probably a bad idea to not redirect stdout when using this mode.</p></div>
++</li>
++</ul></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated 2018-06-08 22:10:18 EDT
++</div>
++</div>
++</body>
++</html>
+diff --git a/Documentation/nvme-changed-ns-list-log.txt b/Documentation/nvme-changed-ns-list-log.txt
+new file mode 100644
+index 0000000..b3d27f0
+--- /dev/null
++++ b/Documentation/nvme-changed-ns-list-log.txt
+@@ -0,0 +1,58 @@
++nvme-changed-ns-list-log(1)
++===========================
++
++NAME
++----
++nvme-changed-ns-list-log - Send NVMe Changed Namespace List log page
++                           request, returns result and log.
++
++SYNOPSIS
++--------
++[verse]
++'nvme changed-ns-list-log' <device> [--raw-binary | -b]
++			[--output-format=<fmt> | -o <fmt>]
++
++DESCRIPTION
++-----------
++Retrieves the NVMe Changed Namespace List log page from an NVMe device and
++provides the retuned structure.
++
++The <device> parameter is mandatory and must be a NVMe character device
++(ex: /dev/nvme0).
++
++On success, the returned Changed Namespace List log structure may be
++returned in one of several ways depending on the option flags; the
++structure may parsed by the program and printed in a readable format or
++the raw buffer may be printed to stdout for another program to parse.
++
++OPTIONS
++-------
++-b::
++--raw-binary::
++	Print the raw Changed Namespace List log buffer to stdout.
++
++-o <format>::
++--output-format=<format>::
++              Set the reporting format to 'normal', 'json', or
++              'binary'. Only one output format can be used at a time.
++
++EXAMPLES
++--------
++* Print the Changed Namespace List Log page in a human readable format:
+++
++------------
++# nvme changed-ns-list-log /dev/nvme0
++------------
+++
++
++* Print the raw Changed Namespace List log to a file:
+++
++------------
++# nvme changed-ns-list-log /dev/nvme0 --raw-binary > log.raw
++------------
+++
++It is probably a bad idea to not redirect stdout when using this mode.
++
++NVME
++----
++Part of the nvme-user suite
 -- 
 2.17.0
