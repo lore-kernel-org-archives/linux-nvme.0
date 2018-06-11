@@ -1,32 +1,36 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 11 Jun 2018 13:38:20 +0200
-Subject: [PATCH V2 13/14] blktests: add NVMeOF many bdev-ns creation test
-In-Reply-To: <20180611091554.19639-14-chaitanya.kulkarni@wdc.com>
+Date: Mon, 11 Jun 2018 13:40:13 +0200
+Subject: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and
+ bdev ns
+In-Reply-To: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
 References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
- <20180611091554.19639-14-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180611113820.2nb7bwccpotyxgpq@linux-x5ow.site>
+Message-ID: <20180611114013.wj3pziu2yfje56ju@linux-x5ow.site>
 
-On Mon, Jun 11, 2018@05:15:53AM -0400, Chaitanya Kulkarni wrote:
-> This patch adds a new testcase to exercise a large number of ns
-> creation and deletion along with discovery command.
+On Mon, Jun 11, 2018@05:15:40AM -0400, Chaitanya Kulkarni wrote:
+> Hi,
+> 
+> This patch series restructures the target side namespace creation code and 
+> adds new testcases for NVMeOF loop target (nvme_loop). Also, we add one 
+> fio helper for basic data verification, new testcases like basic
+> creation/deletion of the host/target, fio based data verification testcases
+> for both block device and file backed target namespace and file system
+> formatting and data verification from the host side.
+> 
+> -Regards,
+> Chaitanya
+> 
+> Changes Since V1:-
+> 
+> 1. Add fio data verification helper.
+> 2. Add a new test for many namespaces creation for file-backed ns.
+> 3. Minor fixes and cleanups.
 
-How would we actually detect an error with this test?
-All we do is issuing a discovery, this doesn't give us a list of
-namespaces.
-
-Maybe add something like 'ls /dev/${nvmedev}n* | wc -l' to verify we
-really have $iterations namespaces created?
-
-[...]
-
-> +	_create_nvmet_subsystem "${subsys_nqn}" "${loop_dev}"
-> +
-> +	for ((i = 2; i <= iterations; i++)); do
-
-Ahm I don't understand why  you start with i = 2 here.
+Can you please add the already issued Reviewed-by's next time you do a
+re-submission?
 
 Thanks,
 	Johannes
+
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
