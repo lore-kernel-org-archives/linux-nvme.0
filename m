@@ -1,13 +1,36 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Jun 2018 16:30:09 +0200
-Subject: [PATCH] nvme: don't rely on the changed namespace list log
-In-Reply-To: <20180606123742.4805-1-hch@lst.de>
-References: <20180606123742.4805-1-hch@lst.de>
-Message-ID: <20180611143009.GA14441@lst.de>
+Date: Mon, 11 Jun 2018 16:22:05 +0200
+Subject: [PATCHv2] nvme: ANA transition timeout handling
+In-Reply-To: <20180608121320.74149-1-hare@suse.de>
+References: <20180608121320.74149-1-hare@suse.de>
+Message-ID: <20180611142205.GA13515@lst.de>
 
-Keith, you asked for this so it would be good to get a review.
+> +			/*
+> +			 * Use timer_reduce() to ensure we're not modifying
+> +			 * an already running timer.
+> +			 */
+> +			timer_reduce(&grp->anatt_timer,
+> +				     ns->ctrl->anatt * HZ + jiffies);
 
-That being said I'm still not sure this patch is the right thing.
-Compared to userspace deleting I/O queues reading the changed ns
-log seems pretty harmless, especially given that we can easily
-force a manual rescan.
+That's a bit of a gross hack for a timer that never is actually
+reduced, just added.
+
+> +		if (ctrl->state == NVME_CTRL_LIVE && state == NVME_ANA_CHANGE)
+> +			timer_reduce(&grp->anatt_timer,
+> +				     ctrl->anatt * HZ + jiffies);
+> +		else
+> +			del_timer(&grp->anatt_timer);
+
+
+> +	for (grpid = 0; grpid < ctrl->anagrpmax; grpid++) {
+> +		struct nvme_ana_group *grp = &ctrl->ana_groups[grpid];
+> +
+> +		del_timer(&grp->anatt_timer);
+
+Without del_timer_sync you are going to create use after free
+conditions.
+
+
+Anyway, v4 of the ANA series I've just sent contains simple ANATT
+handling based on a per-controller timer, which should be sufficient
+to catch the intent behind ANATT.  Comments welcome.
