@@ -1,69 +1,183 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 11 Jun 2018 15:14:32 -0700
-Subject: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and
- bdev ns
-In-Reply-To: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
-References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180611221432.GB25795@vader>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 11 Jun 2018 15:56:55 -0700
+Subject: [PATCH] nvme-fabrics: allow internal passthrough command on
+ deleting controllers
+In-Reply-To: <20180530061116.23610-1-hch@lst.de>
+References: <20180530061116.23610-1-hch@lst.de>
+Message-ID: <77f6bd7f-d393-e1be-3ad9-73b01362217e@broadcom.com>
 
-On Mon, Jun 11, 2018@05:15:40AM -0400, Chaitanya Kulkarni wrote:
-> Hi,
-> 
-> This patch series restructures the target side namespace creation code and 
-> adds new testcases for NVMeOF loop target (nvme_loop). Also, we add one 
-> fio helper for basic data verification, new testcases like basic
-> creation/deletion of the host/target, fio based data verification testcases
-> for both block device and file backed target namespace and file system
-> formatting and data verification from the host side.
-> 
-> -Regards,
-> Chaitanya
-> 
-> Changes Since V1:-
-> 
-> 1. Add fio data verification helper.
-> 2. Add a new test for many namespaces creation for file-backed ns.
-> 3. Minor fixes and cleanups.
+I know you have already committed this patch, However I'd like to pass 
+on my comments - as I disagree with at least 1 section in this patch.
 
-Hey, Chaitanya,
+Please keep in mind that most of the "core" paths currently change 
+controller state then schedule a workq item do to the real work (see 
+nvme_reset_ctrl() and nvme_delete_ctrl()). It's the workq item that ends 
+up changing queue states and stopping queues.? So there's a sizeable 
+window where new io may be arriving, on a queue that is "live", that 
+doesn't jive with the controller state.
 
-I had to change TMPDIR to use the blktests repository instead of /tmp to
-get the file-backed ones to pass. I also changed the descriptions to
-read as "this test will..." for consistency with the other tests, and
-added TIMED=1 to the data verification tests.
 
-The flush tests fail for me, and Johannes still has some comments on the
-last two, so I applied patches 1-10. The flush tests fail like this:
+On 5/29/2018 11:11 PM, Christoph Hellwig wrote:
+> Without this we can't cleanly shut down.
+>
+> Based on analysis an an earlier patch from Hannes Reinecke.
+>
+> Fixes: bb06ec31452f ("nvme: expand nvmf_check_if_ready checks")
+> Reported-by: Hannes Reinecke <hare at suse.de>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: James Smart <james.smart at broadcom.com>
+> ---
+>
+> Note: Pending full testing on FC by James..
+>
+>
+>   drivers/nvme/host/fabrics.c | 79 +++++++++++++++----------------------
+>   1 file changed, 31 insertions(+), 48 deletions(-)
+>
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index aa318136460e..5f5f7067c41d 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -545,71 +545,54 @@ blk_status_t nvmf_check_if_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   		return BLK_STS_OK;
+>   
+>   	switch (ctrl->state) {
+> -	case NVME_CTRL_DELETING:
+> -		goto reject_io;
+> -
+>   	case NVME_CTRL_NEW:
+>   	case NVME_CTRL_CONNECTING:
+> +	case NVME_CTRL_DELETING:
+> +		/*
+> +		 * This is the case of starting a new or deleting an association
+> +		 * but connectivity was lost before it was fully created or torn
+> +		 * down. We need to error the commands used to initialize the
+> +		 * controller so the reconnect can go into a retry attempt.  The
+> +		 * commands should all be marked REQ_FAILFAST_DRIVER, which will
+> +		 * hit the reject path below. Anything else will be queued while
+> +		 * the state settles.
+> +		 */
+Well - my preference, if you are deleting, is to fail any new requests.? 
+I agree with the property_set() to write EN=0, and as such, see that as 
+valid exception. I don't like the idea of lumping this with other states 
+that may allow the io to still go out on the wire and prologing 
+(hopefully not confusing) the deletion.
 
-nvme/014 (flush a NVMeOF block device-backed ns)             [failed]
-runtime  0.788s  ...  0.803s
-    --- tests/nvme/014.out      2018-06-11 15:01:41.449896278 -0700
-    +++ results/nodev/nvme/014.out.bad  2018-06-11 15:07:31.425480955 -0700
-    @@ -1,6 +1,6 @@
-     Running nvme/014
-     91fdba0d-f87b-4c25-b80f-db7be1418b9e
-     uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-    -NVMe Flush: success
-    +NVME IO command error:INVALID_NS(400b)
-     NQN:blktests-subsystem-1 disconnected 1 controller(s)
-     Test complete
 
-Any idea what that is?
+On a different note - odd you kept my Reviewed-by when it was for a very 
+different patch.?? My review was very specific to the prop_get/set while 
+in the deleting state. That is not what is here now.
 
-Thanks for the tests!
 
-> Chaitanya Kulkarni (14):
->   blktests: common/nvme export ns-mgmt interfaces
->   blktests: add NVMeOF bdev-ns target creation test
->   blktests: add NVMeOF file-ns target creation test
->   blktests: add NVMeOF bdev-ns host creation
->   blktests: add NVMeOF file-ns host creation
->   blktests: add fio data verification routine
->   blktests: add NVMeoF data verification test for bdev-ns
->   blktests: add NVMeOF data verification test for file-ns
->   blktests: add NVMeOF mkfs test for bdev-ns
->   blktests: add NVMeOF mkfs test for file-ns
->   blktests: add NVMeOF flush test for bdev-ns
->   blktests: add NVMeOF flush test for file-ns
->   blktests: add NVMeOF many bdev-ns creation test
->   blktests: add NVMeOF many file-ns creation test
+>   		if (!is_connected)
+> -			/*
+> -			 * This is the case of starting a new
+> -			 * association but connectivity was lost
+> -			 * before it was fully created. We need to
+> -			 * error the commands used to initialize the
+> -			 * controller so the reconnect can go into a
+> -			 * retry attempt. The commands should all be
+> -			 * marked REQ_FAILFAST_DRIVER, which will hit
+> -			 * the reject path below. Anything else will
+> -			 * be queued while the state settles.
+> -			 */
+> -			goto reject_or_queue_io;
+
+By removing this, on FC, you are now allowing commands to pass through 
+to a device that no longer exists - whether they be request part of 
+reconnecting/reinitializing a controller or io requests. Yes, FC can 
+augment these checks with its own - but a little surprised you are 
+against adding this. I can't believe there won't eventually be 
+transports besides FC that know a device's presence, but ok.
+
+
+> -
+> -		if ((queue_live &&
+> -		     !(nvme_req(rq)->flags & NVME_REQ_USERCMD)) ||
+> -		    (!queue_live && blk_rq_is_passthrough(rq) &&
+> -		     cmd->common.opcode == nvme_fabrics_command &&
+> -		     cmd->fabrics.fctype == nvme_fabrics_type_connect))
+> -			/*
+> -			 * If queue is live, allow only commands that
+> -			 * are internally generated pass through. These
+> -			 * are commands on the admin queue to initialize
+> -			 * the controller. This will reject any ioctl
+> -			 * admin cmds received while initializing.
+> -			 *
+> -			 * If the queue is not live, allow only a
+> -			 * connect command. This will reject any ioctl
+> -			 * admin cmd as well as initialization commands
+> -			 * if the controller reverted the queue to non-live.
+> -			 */
+> +			break;
+> +
+> +		/*
+> +		 * If queue is live, allow only commands that are internally
+> +		 * generated pass through.  These are commands on the admin
+> +		 * queue to initialize the controller. This will reject any
+> +		 * ioctl admin cmds received while initializing.
+> +		 */
+> +		if (queue_live && !(nvme_req(rq)->flags & NVME_REQ_USERCMD))
+>   			return BLK_STS_OK;
+
+This is where I disagree.
+
+Now all new read/write block/fs io, received while the workq item is 
+being scheduled, will be allowed and passed on to the transport to be 
+put out on the wire. If nothing else, It increases the load (and thus 
+time) that has to be failed/recovered/deleted.? Prior code would have 
+either rejected them (if deleting), or classified them to determine if 
+they should be busied or not.
+
+>   
+>   		/*
+> -		 * fall-thru to the reject_or_queue_io clause
+> +		 * If the queue is not live, allow only a connect command.  This
+> +		 * will reject any ioctl admin cmd as well as initialization
+> +		 * commands if the controller reverted the queue to non-live.
+>   		 */
+> +		if (!queue_live && blk_rq_is_passthrough(rq) &&
+> +		     cmd->common.opcode == nvme_fabrics_command &&
+> +		     cmd->fabrics.fctype == nvme_fabrics_type_connect)
+> +			return BLK_STS_OK;
+
+ok.
+
+
+>   		break;
+> -
+> -	/* these cases fall-thru
+> -	 * case NVME_CTRL_LIVE:
+> -	 * case NVME_CTRL_RESETTING:
+> -	 */
+no biggie - but I like comments that provide clarity, especially if more 
+states are added in the future.
+
+>   	default:
+>   		break;
+>   	}
+>   
+> -reject_or_queue_io:
+>   	/*
+> -	 * Any other new io is something we're not in a state to send
+> -	 * to the device. Default action is to busy it and retry it
+> -	 * after the controller state is recovered. However, anything
+> -	 * marked for failfast or nvme multipath is immediately failed.
+> -	 * Note: commands used to initialize the controller will be
+> -	 *  marked for failfast.
+> +	 * Any other new io is something we're not in a state to send to the
+> +	 * device.  Default action is to busy it and retry it after the
+> +	 * controller state is recovered. However, anything marked for failfast
+> +	 * or nvme multipath is immediately failed.  Note: commands used to
+> +	 * initialize the controller will be marked for failfast.
+>   	 * Note: nvme cli/ioctl commands are marked for failfast.
+>   	 */
+>   	if (!blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+>   		return BLK_STS_RESOURCE;
+> -
+> -reject_io:
+>   	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+>   	return BLK_STS_IOERR;
+>   }
+
+this is fine.
