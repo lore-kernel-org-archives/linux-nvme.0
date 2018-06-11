@@ -1,36 +1,18 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 Jun 2018 16:22:05 +0200
-Subject: [PATCHv2] nvme: ANA transition timeout handling
-In-Reply-To: <20180608121320.74149-1-hare@suse.de>
-References: <20180608121320.74149-1-hare@suse.de>
-Message-ID: <20180611142205.GA13515@lst.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 11 Jun 2018 08:57:29 -0600
+Subject: [PATCH] nvme-cli: fix compilation error
+In-Reply-To: <20180611020341.2647-1-chaitanya.kulkarni@wdc.com>
+References: <20180611020341.2647-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180611145729.GA712@localhost.localdomain>
 
-> +			/*
-> +			 * Use timer_reduce() to ensure we're not modifying
-> +			 * an already running timer.
-> +			 */
-> +			timer_reduce(&grp->anatt_timer,
-> +				     ns->ctrl->anatt * HZ + jiffies);
+On Sun, Jun 10, 2018@10:03:41PM -0400, Chaitanya Kulkarni wrote:
+> [root at q nvme-cli]# make
+> NVME_VERSION = 1.5.182.g80f2
+> cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99 -DLIBUUID -DNVME_VERSION='"1.5.182.g80f2"' -c nvme-print.c
+> nvme-print.c: In function ?show_self_test_log?:
+> nvme-print.c:1282:4: error: format ?%lx? expects argument of type ?long unsigned int?, but argument 2 has type ?__le64? [-Werror=format=]
+>     le64_to_cpu(self_test->result[i].power_on_hours));
+>     ^
 
-That's a bit of a gross hack for a timer that never is actually
-reduced, just added.
-
-> +		if (ctrl->state == NVME_CTRL_LIVE && state == NVME_ANA_CHANGE)
-> +			timer_reduce(&grp->anatt_timer,
-> +				     ctrl->anatt * HZ + jiffies);
-> +		else
-> +			del_timer(&grp->anatt_timer);
-
-
-> +	for (grpid = 0; grpid < ctrl->anagrpmax; grpid++) {
-> +		struct nvme_ana_group *grp = &ctrl->ana_groups[grpid];
-> +
-> +		del_timer(&grp->anatt_timer);
-
-Without del_timer_sync you are going to create use after free
-conditions.
-
-
-Anyway, v4 of the ANA series I've just sent contains simple ANATT
-handling based on a per-controller timer, which should be sufficient
-to catch the intent behind ANATT.  Comments welcome.
+The way we've been fixing this is to cast the return of le64_to_cpu to
+uint64_t. That should work for 64 and 32 bit.
