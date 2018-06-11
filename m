@@ -1,11 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 11 Jun 2018 13:24:09 +0200
-Subject: [PATCH V2 08/14] blktests: add NVMeOF data verification test for
- file-ns
-In-Reply-To: <20180611091554.19639-9-chaitanya.kulkarni@wdc.com>
+Date: Mon, 11 Jun 2018 13:29:13 +0200
+Subject: [PATCH V2 09/14] blktests: add NVMeOF mkfs test for bdev-ns
+In-Reply-To: <20180611091554.19639-10-chaitanya.kulkarni@wdc.com>
 References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
- <20180611091554.19639-9-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180611112409.76x6tlrojaqqkntq@linux-x5ow.site>
+ <20180611091554.19639-10-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180611112913.3cbv72d6p6l5hlwg@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
