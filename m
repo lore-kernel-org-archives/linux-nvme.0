@@ -1,27 +1,29 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 11 Jun 2018 05:15:48 -0400
-Subject: [PATCH V2 08/14] blktests: add NVMeOF data verification test for
- file-ns
+Date: Mon, 11 Jun 2018 05:15:50 -0400
+Subject: [PATCH V2 10/14] blktests: add NVMeOF mkfs test for file-ns
 In-Reply-To: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
 References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180611091554.19639-9-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180611091554.19639-11-chaitanya.kulkarni@wdc.com>
+
+This adds a new test which formats the ns with file system on the host side
+and runs fio data verification workload.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/011     | 71 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/011.out |  5 ++++
- 2 files changed, 76 insertions(+)
- create mode 100755 tests/nvme/011
- create mode 100644 tests/nvme/011.out
+ tests/nvme/013     | 84 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/013.out |  5 +++
+ 2 files changed, 89 insertions(+)
+ create mode 100755 tests/nvme/013
+ create mode 100644 tests/nvme/013.out
 
-diff --git a/tests/nvme/011 b/tests/nvme/011
+diff --git a/tests/nvme/013 b/tests/nvme/013
 new file mode 100755
-index 0000000..3038920
+index 0000000..164a15e
 --- /dev/null
-+++ b/tests/nvme/011
-@@ -0,0 +1,71 @@
++++ b/tests/nvme/013
+@@ -0,0 +1,84 @@
 +#!/bin/bash
-+# This is a data verification test for file backed ns.
++# Test mkfs with data verification for file backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -42,11 +44,12 @@ index 0000000..3038920
 +#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 +#
 +
-+DESCRIPTION="data verification test for file backed ns"
++DESCRIPTION="test mkfs with data verification for file backed ns"
 +
 +requires() {
-+	_have_program nvme && _have_fio && _have_configfs && \
-+		_have_module nvme-loop && _have_module nvmet
++	_have_program nvme && _have_program mkfs.xfs && _have_fio && \
++		_have_module nvmet && _have_module nvme-loop && \
++		_have_configfs
 +}
 +
 +test() {
@@ -58,9 +61,12 @@ index 0000000..3038920
 +	local port
 +	local ret=0
 +	local nvmedev
-+	local file_path
++	local mount_dir="/mnt/blktests/"
 +	local file_path="${TMPDIR}/img"
++
 +	local subsys_name="blktests-subsystem-1"
++
++	mkdir -p "${mount_dir}" > /dev/null 2>&1
 +
 +	truncate -s 1G "${file_path}"
 +
@@ -75,7 +81,15 @@ index 0000000..3038920
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	_run_fio_verify_io --size=950m --filename="/dev/${nvmedev}n1"
++	umount ${mount_dir} > /dev/null 2>&1
++
++	mkfs.xfs -f /dev/"${nvmedev}n1" > /dev/null 2>&1
++
++	mount /dev/"${nvmedev}n1" "${mount_dir}"
++
++	_run_fio_verify_io --size=800m --directory="${mount_dir}/"
++
++	umount "${mount_dir}" > /dev/null 2>&1
 +
 +	nvme disconnect -n "${subsys_name}"
 +
@@ -83,21 +97,22 @@ index 0000000..3038920
 +	_remove_nvmet_subsystem "${subsys_name}"
 +	_remove_nvmet_port "${port}"
 +
++	rm -f local*verify*state
 +	rm "${file_path}"
-+	rm -f local-write-and-verify*state "${fio_out}"
++	rm -fr "${mount_dir}"
 +
 +	modprobe -r nvme_loop
 +	modprobe -r nvmet
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/011.out b/tests/nvme/011.out
+diff --git a/tests/nvme/013.out b/tests/nvme/013.out
 new file mode 100644
-index 0000000..ab29fa2
+index 0000000..f7285a9
 --- /dev/null
-+++ b/tests/nvme/011.out
++++ b/tests/nvme/013.out
 @@ -0,0 +1,5 @@
-+Running nvme/011
++Running nvme/013
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
