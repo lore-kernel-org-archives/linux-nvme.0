@@ -1,55 +1,100 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 12 Jun 2018 15:54:58 -0400
-Subject: [PATCH V3 0/8] nvmet: implement target passthru commands support
-Message-ID: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
+Date: Tue, 12 Jun 2018 15:54:59 -0400
+Subject: [PATCH V3 1/8] nvmet: add commands supported and effects log page
+In-Reply-To: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
+References: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180612195506.23616-2-chaitanya.kulkarni@wdc.com>
 
-This patchset aims to enable passing through entire physical NVMe drive
-through an NVMe over fabrics interface. This implies that all 
-namespaces on the target drive are passed through to the initiator
-one-to-one and all admin commands from the initiator are forwarded back
-to the target drive. This allows for exposing Vender Unique Commands
-(VUCs) over the NVMe-OF interface.
+This patch adds support for Commands Supported and Effects log page
+(Log Identifier 05h) for NVMeOF. This also makes it easier to find
+which commands are supported, e.g. :-
 
-Changes since V2:-
-1. Split the addition of passthru command handlers and integration into
-   two different patches since we we add guards to create one target ctonroller
-   per passthru controller. This way it will be easier to review the code.
-2. Adjust the code for 4.18.
+# nvme id-ctrl /dev/nvme0 | grep subnqn
+subnqn    : testnqn1
+# nvme effects-log /dev/nvme0
+Admin Command Set
+ACS2     [Get Log Page                    ] 00000001
+ACS6     [Identify                        ] 00000001
+ACS8     [Abort                           ] 00000001
+ACS9     [Set Features                    ] 00000001
+ACS10    [Get Features                    ] 00000001
+ACS12    [Asynchronous Event Request      ] 00000001
+ACS24    [Keep Alive                      ] 00000001
 
-Changes since V1:-
-1. Update the new nvme core controller find API naming and
-   changed the string comparison of the ctrl.
-2. Get rid of the newly added #defines for target ctrl values.
-3. Use the newly added structure members in the same patch where
-   they are used. Aggregate the passthru command handling support
-   and integration with nvmet-core into one patch. 
-4. Introduce global NVMe Target subsystem list for connected and
-   not connected subsystems on the target side.
-5. Add check when configuring the target ns and target
-   passthru ctrl to allow only one target controller to be created
-   for one passthru subsystem.
-6. Use the passthru ctrl cntlid when creating the target controller.
+NVM Command Set
+IOCS0    [Flush                           ] 00000001
+IOCS1    [Write                           ] 00000001
+IOCS2    [Read                            ] 00000001
+IOCS8    [Write Zeroes                    ] 00000001
+IOCS9    [Dataset Management              ] 00000001
 
-Chaitanya Kulkarni (8):
-  nvmet: add commands supported and effects log page
-  nvme-core: add new interfaces
-  nvme-core: export existing ctrl and ns interfaces
-  nvmet: export nvmet_add_async_event api
-  nvmet: add global subsystem list
-  nvmet: add passthru cmd handlers
-  nvmet: integrate passthru code with core
-  nvmet: add configfs interface for target passthru
+This partticular functionality can be used from the host side to examine
+the NVMeOF ctrl commands supported.
 
- drivers/nvme/host/core.c        |  80 +++++-
- drivers/nvme/host/nvme.h        |  10 +
- drivers/nvme/target/Makefile    |   3 +-
- drivers/nvme/target/admin-cmd.c |  35 ++-
- drivers/nvme/target/configfs.c  | 145 +++++++++-
- drivers/nvme/target/core.c      | 193 ++++++++++++-
- drivers/nvme/target/nvmet.h     |  19 ++
- drivers/nvme/target/pt-cmd.c    | 481 ++++++++++++++++++++++++++++++++
- 8 files changed, 947 insertions(+), 19 deletions(-)
- create mode 100644 drivers/nvme/target/pt-cmd.c
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 35 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 38803576d5e1..3790562fbf2a 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -128,6 +128,36 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
+ }
+ 
++static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
++{
++	u16 status = NVME_SC_INTERNAL;
++	struct nvme_effects_log *log;
++
++	log = kzalloc(sizeof(*log), GFP_KERNEL);
++	if (!log)
++		goto out;
++
++	log->acs[nvme_admin_get_log_page]	= 1 << 0;
++	log->acs[nvme_admin_identify]		= 1 << 0;
++	log->acs[nvme_admin_abort_cmd]		= 1 << 0;
++	log->acs[nvme_admin_set_features]	= 1 << 0;
++	log->acs[nvme_admin_get_features]	= 1 << 0;
++	log->acs[nvme_admin_async_event]	= 1 << 0;
++	log->acs[nvme_admin_keep_alive]		= 1 << 0;
++
++	log->iocs[nvme_cmd_read]		= 1 << 0;
++	log->iocs[nvme_cmd_write]		= 1 << 0;
++	log->iocs[nvme_cmd_flush]		= 1 << 0;
++	log->iocs[nvme_cmd_dsm]			= 1 << 0;
++	log->iocs[nvme_cmd_write_zeroes]	= 1 << 0;
++
++	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
++
++	kfree(log);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+@@ -208,7 +238,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 
+ 	/* first slot is read-only, only one slot supported */
+ 	id->frmw = (1 << 0) | (1 << 1);
+-	id->lpa = (1 << 0) | (1 << 2);
++	id->lpa = (1 << 0) | (1 << 1) | (1 << 2);
+ 	id->elpe = NVMET_ERROR_LOG_SLOTS - 1;
+ 	id->npss = 0;
+ 
+@@ -586,6 +616,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 		case NVME_LOG_CHANGED_NS:
+ 			req->execute = nvmet_execute_get_log_changed_ns;
+ 			return 0;
++		case NVME_LOG_CMD_EFFECTS:
++			req->execute = nvmet_execute_get_log_cmd_effects_ns;
++			return 0;
+ 		}
+ 		break;
+ 	case nvme_admin_identify:
 -- 
 2.17.0
