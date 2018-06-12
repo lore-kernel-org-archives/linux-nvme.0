@@ -1,78 +1,69 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 12 Jun 2018 16:50:24 -0700
-Subject: [PATCH v3 0/4] nvme_fc: asynchronous controller create and simple
- discovery
-Message-ID: <20180612235028.17969-1-jsmart2021@gmail.com>
+Date: Tue, 12 Jun 2018 16:50:25 -0700
+Subject: [PATCH v3 1/4] nvme_fc: remove reinit_request routine
+In-Reply-To: <20180612235028.17969-1-jsmart2021@gmail.com>
+References: <20180612235028.17969-1-jsmart2021@gmail.com>
+Message-ID: <20180612235028.17969-2-jsmart2021@gmail.com>
 
-This patch set modifies the fc transport such that create_ctrl results
-in the OS's controller creation only and does not initially connect
-to the device on the wire inline to the create_ctrl call. Instead, the
-initial connect immediately schedules the background reconnect thread
-to perform the initial association connect. The patchset also contains
-several other cleanups found while implementing the asynchronous
-connect testing.
+The reinit_request routine is not necessary. Remove support for the
+op callback.
 
-There are two main reasons why asynchronous controller create is done:
-1) It simplifies error handling and retries. The initial controller
-   connect attempts can be disrupted or by errors as easily as after
-   the controller is initially created. As the code currently stands
-   there has to be special retry logic and prohibitions around state
-   changes if errors occur during the initial connect (which the code
-   today does not have). With this patch set, initial connections use
-   the same path as a reconnect, and any error handling uses the same
-   paths as if the errors occurred post initial connect.
-2) As the create_ctrl() call is now very fast, simplistic udev rules
-   can be used for auto-connect rather than involving systemd to work
-   around long initial connect times, especially if errors in initial
-   connect occur.
+As all that nvme_reinit_tagset() does is itterate and call the
+reinit routine, it too has no purpose. Remove the call.
 
-However, several hurdles in the common infrastructure need to be changed
-in order to make this work. The initial controller creation expects the
-controller to be fully connected and live on the wire before it returns
-back to the cli.  This gave a lot of time for the udev event to be
-generated and serviced to create the corresponding /dev file.  The cli
-now has to be prepared that it may access the /dev file before the event
-had been serviced. The cli has been updated to accomodate this.
-Additionally, operations such as connect-all may occur while there is
-a connectivity disturbance with the discovery controller, thus the
-discovery log read may fail. To circumvent the side effects of giving
-up and not connecting, the cli needs to retry the discovery log reads.
-The cli has been updated to accomodate this.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+---
+A separate effort will look at other areas in nvme that may be
+able to remove the reinit interface as well.
 
-Therefore, this patch set is dependent on the following modifications
-that have been made to the cli:
-  nvme-cli: Wait for device file if not present after successful add_ctrl
-     github repo commit id: bb2d87d7f386
-  nvme-cli: Add ioctl retry support for "connect-all"
-     github repo commit id: d8f949c21e9d
+ drivers/nvme/host/fc.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
-
-As the patchset allows simplistic udev scripting, this patchset also
-adds the change to the transport to regenerate udev discovery events in
-case the system missed the events earlier (such as boot scenarios).
-
-v2:
-  added Reviewed-by's
-  Reworked 2nd patch to change nvme_set_queue_count() behavior rather
-    than add additional validation in the fc transport.
-
-v3:
- Patch 1 (remove unnecessary subnqn validation) and 3 (remove DNR on
-   exception) of the v2 set were committed individually
- Patch 2 (revise set_queue_count) was dropped from the set.
- Repost remaining patches. AFAIK there were no disagreements.
- There was one comment on also looking to remove reinit_request from
-  core and block - which can be done independently from this patch set.
-
-
-James Smart (4):
-  nvme_fc: remove reinit_request routine
-  nvme_fc: change controllers first connect to use reconnect path
-  nvme_fc: fix nulling of queue data on reconnect
-  nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
-
- drivers/nvme/host/fc.c | 247 +++++++++++++++++++++++++++++++------------------
- 1 file changed, 155 insertions(+), 92 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 0bad65803271..a4e508d2800b 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1470,21 +1470,6 @@ nvme_fc_xmt_disconnect_assoc(struct nvme_fc_ctrl *ctrl)
+ 
+ static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg);
+ 
+-static int
+-nvme_fc_reinit_request(void *data, struct request *rq)
+-{
+-	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+-	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
+-
+-	memset(cmdiu, 0, sizeof(*cmdiu));
+-	cmdiu->scsi_id = NVME_CMD_SCSI_ID;
+-	cmdiu->fc_id = NVME_CMD_FC_ID;
+-	cmdiu->iu_len = cpu_to_be16(sizeof(*cmdiu) / sizeof(u32));
+-	memset(&op->rsp_iu, 0, sizeof(op->rsp_iu));
+-
+-	return 0;
+-}
+-
+ static void
+ __nvme_fc_exit_request(struct nvme_fc_ctrl *ctrl,
+ 		struct nvme_fc_fcp_op *op)
+@@ -2502,10 +2487,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+ 
+ 	nvme_fc_init_io_queues(ctrl);
+ 
+-	ret = nvme_reinit_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+-	if (ret)
+-		goto out_free_io_queues;
+-
+ 	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
+ 	if (ret)
+ 		goto out_free_io_queues;
+@@ -2917,7 +2898,6 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+ 	.submit_async_event	= nvme_fc_submit_async_event,
+ 	.delete_ctrl		= nvme_fc_delete_ctrl,
+ 	.get_address		= nvmf_get_address,
+-	.reinit_request		= nvme_fc_reinit_request,
+ };
+ 
+ static void
 -- 
 2.13.1
