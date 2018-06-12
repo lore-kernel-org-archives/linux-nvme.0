@@ -1,10 +1,9 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 12 Jun 2018 10:26:05 +0200
-Subject: [PATCH 4/4] nvme-fabrics: reverse polarity in __nvmf_check_ready
-In-Reply-To: <20180611154647.32558-5-hch@lst.de>
-References: <20180611154647.32558-1-hch@lst.de>
- <20180611154647.32558-5-hch@lst.de>
-Message-ID: <20180612082605.tipayl2torsksxbd@linux-x5ow.site>
+Date: Tue, 12 Jun 2018 10:35:42 +0200
+Subject: [PATCH] nvmet: add commands supported and effects log page
+In-Reply-To: <20180611174007.5387-1-chaitanya.kulkarni@wdc.com>
+References: <20180611174007.5387-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180612083542.jdiklj6hvdyhzw6a@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
