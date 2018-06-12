@@ -1,73 +1,64 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 12 Jun 2018 15:55:03 -0400
-Subject: [PATCH V3 5/8] nvmet: add global subsystem list
+Date: Tue, 12 Jun 2018 15:55:02 -0400
+Subject: [PATCH V3 4/8] nvmet: export nvmet_add_async_event api
 In-Reply-To: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
 References: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180612195506.23616-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180612195506.23616-5-chaitanya.kulkarni@wdc.com>
 
-This adds a new structure member for nvmet_subsys and global
-list of the subsystems.
-We use this global list to maintain currently connected,
-not connected, linked and not linked subsystem on the lists.
+This patch changes the return value for nvmet_add_async_event()
+and exports the same API.
 
-This is a preparation patch for implementing the NVMeOF target
-passthru code.
+This change is needed for the target passthru code to generate
+async events.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/core.c  | 12 ++++++++++++
- drivers/nvme/target/nvmet.h |  2 ++
- 2 files changed, 14 insertions(+)
+ drivers/nvme/target/core.c  | 6 ++++--
+ drivers/nvme/target/nvmet.h | 2 ++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 4a2b95a51137..067672520369 100644
+index a03da764ecae..4a2b95a51137 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -21,6 +21,9 @@
- static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
- static DEFINE_IDA(cntlid_ida);
- 
-+static LIST_HEAD(nvmet_subsystems);
-+DEFINE_MUTEX(nvmet_subsystems_lock);
-+
- /*
-  * This read/write semaphore is used to synchronize access to configuration
-  * information on a target system that will result in discovery log page
-@@ -1069,6 +1072,11 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	INIT_LIST_HEAD(&subsys->namespaces);
- 	INIT_LIST_HEAD(&subsys->ctrls);
- 	INIT_LIST_HEAD(&subsys->hosts);
-+	INIT_LIST_HEAD(&subsys->entry);
-+
-+	mutex_lock(&nvmet_subsystems_lock);
-+	list_add_tail(&subsys->entry, &nvmet_subsystems);
-+	mutex_unlock(&nvmet_subsystems_lock);
- 
- 	return subsys;
+@@ -124,14 +124,14 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 	}
  }
-@@ -1080,6 +1088,10 @@ static void nvmet_subsys_free(struct kref *ref)
  
- 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
+-static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
+ {
+ 	struct nvmet_async_event *aen;
  
-+	mutex_lock(&nvmet_subsystems_lock);
-+	list_del(&subsys->entry);
-+	mutex_unlock(&nvmet_subsystems_lock);
+ 	aen = kmalloc(sizeof(*aen), GFP_KERNEL);
+ 	if (!aen)
+-		return;
++		return false;
+ 
+ 	aen->event_type = event_type;
+ 	aen->event_info = event_info;
+@@ -142,6 +142,8 @@ static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 	mutex_unlock(&ctrl->lock);
+ 
+ 	schedule_work(&ctrl->async_event_work);
 +
- 	kfree(subsys->subsysnqn);
- 	kfree(subsys);
++	return true;
  }
+ 
+ static bool nvmet_aen_disabled(struct nvmet_ctrl *ctrl, u32 aen)
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index be3d2ef173a3..a2d6c9755f7a 100644
+index 480dfe10fad9..be3d2ef173a3 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -183,6 +183,8 @@ struct nvmet_subsys {
+@@ -337,6 +337,8 @@ void nvmet_ns_disable(struct nvmet_ns *ns);
+ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid);
+ void nvmet_ns_free(struct nvmet_ns *ns);
  
- 	struct config_group	namespaces_group;
- 	struct config_group	allowed_hosts_group;
-+
-+	struct list_head	entry;
- };
++bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++		u8 event_info, u8 log_page);
+ int nvmet_register_transport(const struct nvmet_fabrics_ops *ops);
+ void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops);
  
- static inline struct nvmet_subsys *to_subsys(struct config_item *item)
 -- 
 2.17.0
