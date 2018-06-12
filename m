@@ -1,40 +1,17 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 12 Jun 2018 08:08:32 +0200
-Subject: [PATCH 10/10] nvmet: support configuring ANA groups
-In-Reply-To: <20180611141139.30462-11-hch@lst.de>
-References: <20180611141139.30462-1-hch@lst.de>
- <20180611141139.30462-11-hch@lst.de>
-Message-ID: <20180612080832.37d604df@pentland.suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 12 Jun 2018 10:23:30 +0200
+Subject: [PATCH 1/4] nvme-fabrics: refactor queue ready check
+In-Reply-To: <20180611154647.32558-2-hch@lst.de>
+References: <20180611154647.32558-1-hch@lst.de>
+ <20180611154647.32558-2-hch@lst.de>
+Message-ID: <20180612082330.ke4zif4zlryr3uuj@linux-x5ow.site>
 
-On Mon, 11 Jun 2018 16:11:39 +0200
-Christoph Hellwig <hch@lst.de> wrote:
-
-> Allow creating non-default ANA groups (group ID > 1).  Groups are
-> created either by assigning the group ID to a namespace, or by
-> creating a configfs group object under a specific port.  All
-> namespaces assigned to a group that doesn't have a configfs object
-> for a given port are marked as inaccessible.
-> 
-> Allow changing the ANA state on a per-port basis by creating an
-> ana_groups directory under each port, and another directory with an
-> ana_state file in it.  The default ANA group 1 directory is created
-> automatically for each port.
-> 
-> For all changes in ANA configuration the ANA change AEN is sent.  We
-> only keep a global changecount instead of additional per-group
-> changecounts to keep the implementation as simple as possible.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/nvme/target/admin-cmd.c |   1 +
->  drivers/nvme/target/configfs.c  | 182
-> +++++++++++++++++++++++++++++++- drivers/nvme/target/core.c      |
-> 27 +++++ drivers/nvme/target/nvmet.h     |  30 +++++-
->  4 files changed, 236 insertions(+), 4 deletions(-)
-> 
-
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Cheers,
-
-Hannes
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
