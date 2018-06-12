@@ -1,13 +1,15 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 12 Jun 2018 10:23:30 +0200
-Subject: [PATCH 1/4] nvme-fabrics: refactor queue ready check
-In-Reply-To: <20180611154647.32558-2-hch@lst.de>
+Date: Tue, 12 Jun 2018 10:24:25 +0200
+Subject: [PATCH 2/4] nvme-fabrics: handle queue ready fast path inline
+In-Reply-To: <20180611154647.32558-3-hch@lst.de>
 References: <20180611154647.32558-1-hch@lst.de>
- <20180611154647.32558-2-hch@lst.de>
-Message-ID: <20180612082330.ke4zif4zlryr3uuj@linux-x5ow.site>
+ <20180611154647.32558-3-hch@lst.de>
+Message-ID: <20180612082425.oqervqn7ccclnwd7@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+Although I wouldn't mind squashing it into the previous patch.
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
