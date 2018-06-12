@@ -1,50 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 12 Jun 2018 16:11:14 -0700
-Subject: [PATCH] nvme: block ioctls if controller not in a live state
-In-Reply-To: <20180514145318.GA24711@infradead.org>
-References: <20180507225558.5009-1-jsmart2021@gmail.com>
- <20180509051156.GB28673@infradead.org>
- <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
- <20180514141734.GA26302@infradead.org>
- <2b21ba25-e581-45a7-95ae-8b3f2fe6dcf8@broadcom.com>
- <20180514145318.GA24711@infradead.org>
-Message-ID: <5c025bbe-f784-2bf6-3315-5d27c673afec@broadcom.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 12 Jun 2018 16:28:24 -0700
+Subject: [REPOST][PATCH] nvme: move init of keep_alive work item to controller
+ initialization
+Message-ID: <20180612232824.12379-1-jsmart2021@gmail.com>
 
-On 5/14/2018 7:53 AM, Christoph Hellwig wrote:
-> On Mon, May 14, 2018@07:47:46AM -0700, James Smart wrote:
->>
->> On 5/14/2018 7:17 AM, Christoph Hellwig wrote:
->>> On Wed, May 09, 2018@09:29:13AM -0700, James Smart wrote:
->>>> That is the exact intent.? I do want the app to trigger off -EAGAIN in those
->>>> two states and try again after a delay./? Perhaps I should change from !LIVE
->>>> to NEW || RESETTING || CONNECTING to be more explicit.? I assumed !LIVE was
->>>> sufficient as the other states should transition to LIVE or the delete path
->>>> is taken which would remove the fd all together.
->>> The problem is that userspace reasonably expects to be able to call
->>> poll/select when used on a character device and it gets -EAGAIN.
->> What's stopping us from adding poll support to the dev node ?
-> A volunteer to write the code.
->
->>> Maybe the right solution here is to just do a wait_event_interruptible to
->>> wait for the controller being live.
->> That's doable. I don't like hanging the app up for what could be 60s or so
->> though (controller loss timeout).
-> Then you need to poll.  We should only do that if opened with O_NONBLOCK
-> and otherwise wait for the event, similar to the pattern used in a lot
-> of character devices.
+Currently, the code initializes the keep alive work item whenever
+nvme_start_keep_alive() is called. However, this routine is called
+several times while reconnecting, etc. Although it's hoped that keep
+alive is always disabled and not scheduled when start is called,
+re-initing if it were scheduled or completing can have very bad
+side effects. There's no need for re-initialization.
 
-Christoph,
+Move the keep_alive work item and cmd struct initialization to
+controller init.
 
-I was going to address this by adding the poll support.?? However, after 
-reviewing the if_ready changes, they will fall into the USERCMD cases 
-which will return the BLK_STST_IOERR and NVME_SC_ABORT_REQ.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-In the nvme cli app, rather than keying retry off the EAGAIN, we could 
-key off the ABORT_REQ status. I didn't like that initially as it may 
-correspond to a real scenario that wasn't one of the 
-reject-as-not-in-a-state-for-an-ioctl cases.
-
-What do you think - continue with the poll interface and the EAGAIN 
-block status, or revise the app EAGAIN check to NVME_SC_ABORT_REQ ?
-
--- james
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d6ca4598c027..20470eb6e05c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -848,9 +848,6 @@ static void nvme_start_keep_alive(struct nvme_ctrl *ctrl)
+ 	if (unlikely(ctrl->kato == 0))
+ 		return;
+ 
+-	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
+-	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
+-	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
+ 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ }
+ 
+@@ -3497,6 +3494,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
+ 	INIT_WORK(&ctrl->delete_work, nvme_delete_ctrl_work);
+ 
++	INIT_DELAYED_WORK(&ctrl->ka_work, nvme_keep_alive_work);
++	memset(&ctrl->ka_cmd, 0, sizeof(ctrl->ka_cmd));
++	ctrl->ka_cmd.common.opcode = nvme_admin_keep_alive;
++
+ 	ret = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	if (ret < 0)
+ 		goto out;
+-- 
+2.13.1
