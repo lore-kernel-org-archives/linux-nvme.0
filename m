@@ -1,105 +1,40 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 12 Jun 2018 13:08:37 +0200
-Subject: [PATCH 4/4] nvme-fabrics: reverse polarity in __nvmf_check_ready
-In-Reply-To: <20180611154647.32558-5-hch@lst.de>
-References: <20180611154647.32558-1-hch@lst.de>
- <20180611154647.32558-5-hch@lst.de>
-Message-ID: <20180612130837.47a16bd2@pentland.suse.de>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Tue, 12 Jun 2018 18:41:53 +0300
+Subject: [PATCH 08/12] nvmet: mask pending AERs
+In-Reply-To: <20180530164600.26856-9-hch@lst.de>
+References: <20180530164600.26856-1-hch@lst.de>
+ <20180530164600.26856-9-hch@lst.de>
+Message-ID: <b0427eb1-5bba-4c2b-c7fd-8df3b6dad2cf@mellanox.com>
 
-On Mon, 11 Jun 2018 17:46:47 +0200
-Christoph Hellwig <hch@lst.de> wrote:
-
-> All non-live, non-dead states have the same command filters.  So just
-> check for the dead state first, and then apply out filters to catch
-> all other "special" states automatically.
-> 
+On 5/30/2018 7:45 PM, Christoph Hellwig wrote:
+> Per section 5.2 of the NVMe 1.3 spec:
+>
+>    "When the controller posts a completion queue entry for an outstanding
+>    Asynchronous Event Request command and thus reports an asynchronous
+>    event, subsequent events of that event type are automatically masked by
+>    the controller until the host clears that event. An event is cleared by
+>    reading the log page associated with that event using the Get Log Page
+>    command (see section 5.14)."
+>
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  drivers/nvme/host/fabrics.c | 42
-> ++++++++++++++----------------------- 1 file changed, 16
-> insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 6b4e253b9347..dc87719a5c9e 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -556,34 +556,24 @@ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
->  bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
->  		bool queue_live)
->  {
-> -	struct nvme_command *cmd = nvme_req(rq)->cmd;
-> -
-> -	switch (ctrl->state) {
-> -	case NVME_CTRL_NEW:
-> -	case NVME_CTRL_CONNECTING:
-> -	case NVME_CTRL_DELETING:
-> -		/*
-> -		 * If queue is live, allow only commands that are
-> internally
-> -		 * generated pass through.  These are commands on
-> the admin
-> -		 * queue to initialize the controller. This will
-> reject any
-> -		 * ioctl admin cmds received while initializing.
-> -		 */
-> -		if (queue_live && !(nvme_req(rq)->flags &
-> NVME_REQ_USERCMD))
-> -			return true;
-> -
-> -		/*
-> -		 * If the queue is not live, allow only a connect
-> command.  This
-> -		 * will reject any ioctl admin cmd as well as
-> initialization
-> -		 * commands if the controller reverted the queue to
-> non-live.
-> -		 */
-> -		if (!queue_live && blk_rq_is_passthrough(rq) &&
-> -		     cmd->common.opcode == nvme_fabrics_command &&
-> -		     cmd->fabrics.fctype ==
-> nvme_fabrics_type_connect)
-> -			return true;
-> +	if (ctrl->state == NVME_CTRL_DEAD)
->  		return false;
-> -	default:
-> +
-> +	/*
-> +	 * If the queue is not live the only thing allowed is a
-> connect
-> +	 * command to actually set the queue live.
-> +	 */
-> +	if (!queue_live &&
-> +	    (nvme_req(rq)->cmd->common.opcode !=
-> nvme_fabrics_command ||
-> +	     nvme_req(rq)->cmd->fabrics.fctype !=
-> nvme_fabrics_type_connect)) return false;
-> -	}
-> +
-> +	/*
-> +	 * If we are in some state of setup or teardown only allow
-> +	 * internally generated commands.
-> +	 */
-> +	return blk_rq_is_passthrough(rq) &&
-> +		!(nvme_req(rq)->flags & NVME_REQ_USERCMD);
->  }
->  EXPORT_SYMBOL_GPL(__nvmf_check_ready);
->  
+>   drivers/nvme/target/admin-cmd.c | 1 +
+>   drivers/nvme/target/core.c      | 9 ++++++++-
+>   drivers/nvme/target/nvmet.h     | 1 +
+>   3 files changed, 10 insertions(+), 1 deletion(-)
+>
 
-Is that really correct?
-We're squashing the 'queue_live' check with the check for the 'connect'
-command, meaning we will be submitting non-connect commands even on a
-non-live queue.
+Hi Christoph,
 
-I'd rather split that check into two if-clauses like:
+There is a backwards compatibility issue with this patch.
+I tested the latest nvme target with an older initiator that doesn't use
+the changed namespaces list log to clear ns data changed AENs.
+The target doesn't send the second NS_CHANGED event because the
+NVME_AEN_CFG_NS_ATTR bit is not clear.
+I have a simple fix that clear the bit also at 
+nvmet_execute_identify_ctrl().
 
-if (!queue_live) {
-  if (nvme_req(rq)->cmd....)
-     return false;
-  return true;
-}
+What do you think? is there a better way to solve it?
 
-to improve readability (and possibly correctness)
-
-Cheers,
-
-Hannes
+Regards,
+Israel
