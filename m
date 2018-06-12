@@ -1,40 +1,55 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Tue, 12 Jun 2018 18:41:53 +0300
-Subject: [PATCH 08/12] nvmet: mask pending AERs
-In-Reply-To: <20180530164600.26856-9-hch@lst.de>
-References: <20180530164600.26856-1-hch@lst.de>
- <20180530164600.26856-9-hch@lst.de>
-Message-ID: <b0427eb1-5bba-4c2b-c7fd-8df3b6dad2cf@mellanox.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue, 12 Jun 2018 15:54:58 -0400
+Subject: [PATCH V3 0/8] nvmet: implement target passthru commands support
+Message-ID: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
 
-On 5/30/2018 7:45 PM, Christoph Hellwig wrote:
-> Per section 5.2 of the NVMe 1.3 spec:
->
->    "When the controller posts a completion queue entry for an outstanding
->    Asynchronous Event Request command and thus reports an asynchronous
->    event, subsequent events of that event type are automatically masked by
->    the controller until the host clears that event. An event is cleared by
->    reading the log page associated with that event using the Get Log Page
->    command (see section 5.14)."
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   drivers/nvme/target/admin-cmd.c | 1 +
->   drivers/nvme/target/core.c      | 9 ++++++++-
->   drivers/nvme/target/nvmet.h     | 1 +
->   3 files changed, 10 insertions(+), 1 deletion(-)
->
+This patchset aims to enable passing through entire physical NVMe drive
+through an NVMe over fabrics interface. This implies that all 
+namespaces on the target drive are passed through to the initiator
+one-to-one and all admin commands from the initiator are forwarded back
+to the target drive. This allows for exposing Vender Unique Commands
+(VUCs) over the NVMe-OF interface.
 
-Hi Christoph,
+Changes since V2:-
+1. Split the addition of passthru command handlers and integration into
+   two different patches since we we add guards to create one target ctonroller
+   per passthru controller. This way it will be easier to review the code.
+2. Adjust the code for 4.18.
 
-There is a backwards compatibility issue with this patch.
-I tested the latest nvme target with an older initiator that doesn't use
-the changed namespaces list log to clear ns data changed AENs.
-The target doesn't send the second NS_CHANGED event because the
-NVME_AEN_CFG_NS_ATTR bit is not clear.
-I have a simple fix that clear the bit also at 
-nvmet_execute_identify_ctrl().
+Changes since V1:-
+1. Update the new nvme core controller find API naming and
+   changed the string comparison of the ctrl.
+2. Get rid of the newly added #defines for target ctrl values.
+3. Use the newly added structure members in the same patch where
+   they are used. Aggregate the passthru command handling support
+   and integration with nvmet-core into one patch. 
+4. Introduce global NVMe Target subsystem list for connected and
+   not connected subsystems on the target side.
+5. Add check when configuring the target ns and target
+   passthru ctrl to allow only one target controller to be created
+   for one passthru subsystem.
+6. Use the passthru ctrl cntlid when creating the target controller.
 
-What do you think? is there a better way to solve it?
+Chaitanya Kulkarni (8):
+  nvmet: add commands supported and effects log page
+  nvme-core: add new interfaces
+  nvme-core: export existing ctrl and ns interfaces
+  nvmet: export nvmet_add_async_event api
+  nvmet: add global subsystem list
+  nvmet: add passthru cmd handlers
+  nvmet: integrate passthru code with core
+  nvmet: add configfs interface for target passthru
 
-Regards,
-Israel
+ drivers/nvme/host/core.c        |  80 +++++-
+ drivers/nvme/host/nvme.h        |  10 +
+ drivers/nvme/target/Makefile    |   3 +-
+ drivers/nvme/target/admin-cmd.c |  35 ++-
+ drivers/nvme/target/configfs.c  | 145 +++++++++-
+ drivers/nvme/target/core.c      | 193 ++++++++++++-
+ drivers/nvme/target/nvmet.h     |  19 ++
+ drivers/nvme/target/pt-cmd.c    | 481 ++++++++++++++++++++++++++++++++
+ 8 files changed, 947 insertions(+), 19 deletions(-)
+ create mode 100644 drivers/nvme/target/pt-cmd.c
+
+-- 
+2.17.0
