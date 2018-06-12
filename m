@@ -1,100 +1,133 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 12 Jun 2018 15:54:59 -0400
-Subject: [PATCH V3 1/8] nvmet: add commands supported and effects log page
+Date: Tue, 12 Jun 2018 15:55:01 -0400
+Subject: [PATCH V3 3/8] nvme-core: export existing ctrl and ns interfaces
 In-Reply-To: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
 References: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180612195506.23616-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180612195506.23616-4-chaitanya.kulkarni@wdc.com>
 
-This patch adds support for Commands Supported and Effects log page
-(Log Identifier 05h) for NVMeOF. This also makes it easier to find
-which commands are supported, e.g. :-
+We export existing nvme ctrl and ns management APIs so that
+target passthru code can manage the nvme ctrl.
 
-# nvme id-ctrl /dev/nvme0 | grep subnqn
-subnqn    : testnqn1
-# nvme effects-log /dev/nvme0
-Admin Command Set
-ACS2     [Get Log Page                    ] 00000001
-ACS6     [Identify                        ] 00000001
-ACS8     [Abort                           ] 00000001
-ACS9     [Set Features                    ] 00000001
-ACS10    [Get Features                    ] 00000001
-ACS12    [Asynchronous Event Request      ] 00000001
-ACS24    [Keep Alive                      ] 00000001
-
-NVM Command Set
-IOCS0    [Flush                           ] 00000001
-IOCS1    [Write                           ] 00000001
-IOCS2    [Read                            ] 00000001
-IOCS8    [Write Zeroes                    ] 00000001
-IOCS9    [Dataset Management              ] 00000001
-
-This partticular functionality can be used from the host side to examine
-the NVMeOF ctrl commands supported.
+This is a preparation patch for implementing NVMe Over Fabric
+target passthru feature.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 35 ++++++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 15 ++++++++++-----
+ drivers/nvme/host/nvme.h |  7 +++++++
+ 2 files changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 38803576d5e1..3790562fbf2a 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -128,6 +128,36 @@ static void nvmet_execute_get_log_page_smart(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 221771145eae..aa47a8d683c8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -438,10 +438,11 @@ static void nvme_free_ns(struct kref *kref)
+ 	kfree(ns);
  }
  
-+static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
-+{
-+	u16 status = NVME_SC_INTERNAL;
-+	struct nvme_effects_log *log;
-+
-+	log = kzalloc(sizeof(*log), GFP_KERNEL);
-+	if (!log)
-+		goto out;
-+
-+	log->acs[nvme_admin_get_log_page]	= 1 << 0;
-+	log->acs[nvme_admin_identify]		= 1 << 0;
-+	log->acs[nvme_admin_abort_cmd]		= 1 << 0;
-+	log->acs[nvme_admin_set_features]	= 1 << 0;
-+	log->acs[nvme_admin_get_features]	= 1 << 0;
-+	log->acs[nvme_admin_async_event]	= 1 << 0;
-+	log->acs[nvme_admin_keep_alive]		= 1 << 0;
-+
-+	log->iocs[nvme_cmd_read]		= 1 << 0;
-+	log->iocs[nvme_cmd_write]		= 1 << 0;
-+	log->iocs[nvme_cmd_flush]		= 1 << 0;
-+	log->iocs[nvme_cmd_dsm]			= 1 << 0;
-+	log->iocs[nvme_cmd_write_zeroes]	= 1 << 0;
-+
-+	status = nvmet_copy_to_sgl(req, 0, log, sizeof(*log));
-+
-+	kfree(log);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
+-static void nvme_put_ns(struct nvme_ns *ns)
++void nvme_put_ns(struct nvme_ns *ns)
  {
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-@@ -208,7 +238,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	kref_put(&ns->kref, nvme_free_ns);
+ }
++EXPORT_SYMBOL_GPL(nvme_put_ns);
  
- 	/* first slot is read-only, only one slot supported */
- 	id->frmw = (1 << 0) | (1 << 1);
--	id->lpa = (1 << 0) | (1 << 2);
-+	id->lpa = (1 << 0) | (1 << 1) | (1 << 2);
- 	id->elpe = NVMET_ERROR_LOG_SLOTS - 1;
- 	id->npss = 0;
+ static inline void nvme_clear_nvme_request(struct request *req)
+ {
+@@ -1024,7 +1025,7 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
+ 				    NVME_IDENTIFY_DATA_SIZE);
+ }
  
-@@ -586,6 +616,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		case NVME_LOG_CHANGED_NS:
- 			req->execute = nvmet_execute_get_log_changed_ns;
- 			return 0;
-+		case NVME_LOG_CMD_EFFECTS:
-+			req->execute = nvmet_execute_get_log_cmd_effects_ns;
-+			return 0;
- 		}
- 		break;
- 	case nvme_admin_identify:
+-static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
++struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 		unsigned nsid)
+ {
+ 	struct nvme_id_ns *id;
+@@ -1049,6 +1050,7 @@ static struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
+ 
+ 	return id;
+ }
++EXPORT_SYMBOL_GPL(nvme_identify_ns);
+ 
+ static int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+ 		      void *buffer, size_t buflen, u32 *result)
+@@ -1176,7 +1178,7 @@ static u32 nvme_known_admin_effects(u8 opcode)
+ 	return 0;
+ }
+ 
+-static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 								u8 opcode)
+ {
+ 	u32 effects = 0;
+@@ -1206,6 +1208,7 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 	}
+ 	return effects;
+ }
++EXPORT_SYMBOL_GPL(nvme_passthru_start);
+ 
+ static void nvme_update_formats(struct nvme_ctrl *ctrl)
+ {
+@@ -1224,7 +1227,7 @@ static void nvme_update_formats(struct nvme_ctrl *ctrl)
+ 		nvme_ns_remove(ns);
+ }
+ 
+-static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
++void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ {
+ 	/*
+ 	 * Revalidate LBA changes prior to unfreezing. This is necessary to
+@@ -1240,6 +1243,7 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
+ 		nvme_queue_scan(ctrl);
+ }
++EXPORT_SYMBOL_GPL(nvme_passthru_end);
+ 
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd)
+@@ -3016,7 +3020,7 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+ 	return nsa->head->ns_id - nsb->head->ns_id;
+ }
+ 
+-static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
++struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns *ns, *ret = NULL;
+ 
+@@ -3034,6 +3038,7 @@ static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	up_read(&ctrl->namespaces_rwsem);
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(nvme_find_get_ns);
+ 
+ static int nvme_setup_streams_ns(struct nvme_ctrl *ctrl, struct nvme_ns *ns)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 97840728dc9f..11b594a5f109 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -400,6 +400,8 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_put_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_init_identify(struct nvme_ctrl *ctrl);
++struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid);
++void nvme_put_ns(struct nvme_ns *ns);
+ 
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
+@@ -429,8 +431,13 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		union nvme_result *result, void *buffer, unsigned bufflen,
+ 		unsigned timeout, int qid, int at_head,
+ 		blk_mq_req_flags_t flags);
++u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
++		u8 opcode);
++void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
++struct nvme_id_ns *nvme_identify_ns(struct nvme_ctrl *ctrl,
++		unsigned nsid);
+ int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl);
+ int nvme_delete_ctrl(struct nvme_ctrl *ctrl);
 -- 
 2.17.0
