@@ -1,69 +1,80 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 12 Jun 2018 16:50:25 -0700
-Subject: [PATCH v3 1/4] nvme_fc: remove reinit_request routine
+Date: Tue, 12 Jun 2018 16:50:27 -0700
+Subject: [PATCH v3 3/4] nvme_fc: fix nulling of queue data on reconnect
 In-Reply-To: <20180612235028.17969-1-jsmart2021@gmail.com>
 References: <20180612235028.17969-1-jsmart2021@gmail.com>
-Message-ID: <20180612235028.17969-2-jsmart2021@gmail.com>
+Message-ID: <20180612235028.17969-4-jsmart2021@gmail.com>
 
-The reinit_request routine is not necessary. Remove support for the
-op callback.
+The reconnect path is calling the init routines to clear a queue
+structure. But the queue structure has state that perhaps needs
+to persist as long as the controller is live.
 
-As all that nvme_reinit_tagset() does is itterate and call the
-reinit routine, it too has no purpose. Remove the call.
+Remove the nvme_fc_init_queue() calls on reconnect.
+The nvme_fc_free_queue() calls will clear state bits and reset
+any relevant queue state for a new connection.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
-A separate effort will look at other areas in nvme that may be
-able to remove the reinit interface as well.
-
- drivers/nvme/host/fc.c | 20 --------------------
- 1 file changed, 20 deletions(-)
+ drivers/nvme/host/fc.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 0bad65803271..a4e508d2800b 100644
+index 7407b464800f..0b9cc767a157 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -1470,21 +1470,6 @@ nvme_fc_xmt_disconnect_assoc(struct nvme_fc_ctrl *ctrl)
+@@ -1879,6 +1879,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+ 	 */
  
- static void nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg);
+ 	queue->connection_id = 0;
++	atomic_set(&queue->csn, 1);
+ }
  
--static int
--nvme_fc_reinit_request(void *data, struct request *rq)
--{
--	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
--	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
--
--	memset(cmdiu, 0, sizeof(*cmdiu));
--	cmdiu->scsi_id = NVME_CMD_SCSI_ID;
--	cmdiu->fc_id = NVME_CMD_FC_ID;
--	cmdiu->iu_len = cpu_to_be16(sizeof(*cmdiu) / sizeof(u32));
--	memset(&op->rsp_iu, 0, sizeof(op->rsp_iu));
--
--	return 0;
--}
--
  static void
- __nvme_fc_exit_request(struct nvme_fc_ctrl *ctrl,
- 		struct nvme_fc_fcp_op *op)
-@@ -2502,10 +2487,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+@@ -2468,7 +2469,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ }
  
- 	nvme_fc_init_io_queues(ctrl);
+ static int
+-nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
++nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+ 	unsigned int nr_io_queues;
+@@ -2488,8 +2489,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	if (ctrl->ctrl.queue_count == 1)
+ 		return 0;
  
--	ret = nvme_reinit_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
--	if (ret)
--		goto out_free_io_queues;
+-	nvme_fc_init_io_queues(ctrl);
 -
  	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
  	if (ret)
  		goto out_free_io_queues;
-@@ -2917,7 +2898,6 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
- 	.submit_async_event	= nvme_fc_submit_async_event,
- 	.delete_ctrl		= nvme_fc_delete_ctrl,
- 	.get_address		= nvmf_get_address,
--	.reinit_request		= nvme_fc_reinit_request,
- };
+@@ -2587,8 +2586,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	 * Create the admin queue
+ 	 */
  
- static void
+-	nvme_fc_init_queue(ctrl, 0);
+-
+ 	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
+ 				NVME_AQ_DEPTH);
+ 	if (ret)
+@@ -2675,7 +2672,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		if (!ctrl->ioq_live)
+ 			ret = nvme_fc_create_io_queues(ctrl);
+ 		else
+-			ret = nvme_fc_reinit_io_queues(ctrl);
++			ret = nvme_fc_recreate_io_queues(ctrl);
+ 		if (ret)
+ 			goto out_term_aen_ops;
+ 	}
+@@ -3023,6 +3020,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	if (!ctrl->queues)
+ 		goto out_free_ida;
+ 
++	nvme_fc_init_queue(ctrl, 0);
++
+ 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
+ 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
+ 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
 -- 
 2.13.1
