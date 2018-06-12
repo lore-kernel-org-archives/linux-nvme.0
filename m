@@ -1,110 +1,50 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Tue, 12 Jun 2018 15:22:47 -0700
-Subject: [PATCH 4/4] nvme-fabrics: reverse polarity in __nvmf_check_ready
-In-Reply-To: <20180612130837.47a16bd2@pentland.suse.de>
-References: <20180611154647.32558-1-hch@lst.de>
- <20180611154647.32558-5-hch@lst.de>
- <20180612130837.47a16bd2@pentland.suse.de>
-Message-ID: <7f7490b7-d177-152e-dadf-b284f118d4b6@broadcom.com>
+Date: Tue, 12 Jun 2018 16:11:14 -0700
+Subject: [PATCH] nvme: block ioctls if controller not in a live state
+In-Reply-To: <20180514145318.GA24711@infradead.org>
+References: <20180507225558.5009-1-jsmart2021@gmail.com>
+ <20180509051156.GB28673@infradead.org>
+ <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
+ <20180514141734.GA26302@infradead.org>
+ <2b21ba25-e581-45a7-95ae-8b3f2fe6dcf8@broadcom.com>
+ <20180514145318.GA24711@infradead.org>
+Message-ID: <5c025bbe-f784-2bf6-3315-5d27c673afec@broadcom.com>
 
-
-
-On 6/12/2018 4:08 AM, Hannes Reinecke wrote:
-> On Mon, 11 Jun 2018 17:46:47 +0200
-> Christoph Hellwig <hch@lst.de> wrote:
+On 5/14/2018 7:53 AM, Christoph Hellwig wrote:
+> On Mon, May 14, 2018@07:47:46AM -0700, James Smart wrote:
+>>
+>> On 5/14/2018 7:17 AM, Christoph Hellwig wrote:
+>>> On Wed, May 09, 2018@09:29:13AM -0700, James Smart wrote:
+>>>> That is the exact intent.? I do want the app to trigger off -EAGAIN in those
+>>>> two states and try again after a delay./? Perhaps I should change from !LIVE
+>>>> to NEW || RESETTING || CONNECTING to be more explicit.? I assumed !LIVE was
+>>>> sufficient as the other states should transition to LIVE or the delete path
+>>>> is taken which would remove the fd all together.
+>>> The problem is that userspace reasonably expects to be able to call
+>>> poll/select when used on a character device and it gets -EAGAIN.
+>> What's stopping us from adding poll support to the dev node ?
+> A volunteer to write the code.
 >
->> All non-live, non-dead states have the same command filters.  So just
->> check for the dead state first, and then apply out filters to catch
->> all other "special" states automatically.
->>
->> Signed-off-by: Christoph Hellwig <hch at lst.de>
->> ---
->>   drivers/nvme/host/fabrics.c | 42
->> ++++++++++++++----------------------- 1 file changed, 16
->> insertions(+), 26 deletions(-)
->>
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 6b4e253b9347..dc87719a5c9e 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -556,34 +556,24 @@ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
->>   bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
->>   		bool queue_live)
->>   {
->> -	struct nvme_command *cmd = nvme_req(rq)->cmd;
->> -
->> -	switch (ctrl->state) {
->> -	case NVME_CTRL_NEW:
->> -	case NVME_CTRL_CONNECTING:
->> -	case NVME_CTRL_DELETING:
->> -		/*
->> -		 * If queue is live, allow only commands that are
->> internally
->> -		 * generated pass through.  These are commands on
->> the admin
->> -		 * queue to initialize the controller. This will
->> reject any
->> -		 * ioctl admin cmds received while initializing.
->> -		 */
->> -		if (queue_live && !(nvme_req(rq)->flags &
->> NVME_REQ_USERCMD))
->> -			return true;
->> -
->> -		/*
->> -		 * If the queue is not live, allow only a connect
->> command.  This
->> -		 * will reject any ioctl admin cmd as well as
->> initialization
->> -		 * commands if the controller reverted the queue to
->> non-live.
->> -		 */
->> -		if (!queue_live && blk_rq_is_passthrough(rq) &&
->> -		     cmd->common.opcode == nvme_fabrics_command &&
->> -		     cmd->fabrics.fctype ==
->> nvme_fabrics_type_connect)
->> -			return true;
->> +	if (ctrl->state == NVME_CTRL_DEAD)
->>   		return false;
->> -	default:
->> +
->> +	/*
->> +	 * If the queue is not live the only thing allowed is a
->> connect
->> +	 * command to actually set the queue live.
->> +	 */
->> +	if (!queue_live &&
->> +	    (nvme_req(rq)->cmd->common.opcode !=
->> nvme_fabrics_command ||
->> +	     nvme_req(rq)->cmd->fabrics.fctype !=
->> nvme_fabrics_type_connect)) return false;
->> -	}
->> +
->> +	/*
->> +	 * If we are in some state of setup or teardown only allow
->> +	 * internally generated commands.
->> +	 */
->> +	return blk_rq_is_passthrough(rq) &&
->> +		!(nvme_req(rq)->flags & NVME_REQ_USERCMD);
->>   }
->>   EXPORT_SYMBOL_GPL(__nvmf_check_ready);
->>   
-> Is that really correct?
-> We're squashing the 'queue_live' check with the check for the 'connect'
-> command, meaning we will be submitting non-connect commands even on a
-> non-live queue.
+>>> Maybe the right solution here is to just do a wait_event_interruptible to
+>>> wait for the controller being live.
+>> That's doable. I don't like hanging the app up for what could be 60s or so
+>> though (controller loss timeout).
+> Then you need to poll.  We should only do that if opened with O_NONBLOCK
+> and otherwise wait for the event, similar to the pattern used in a lot
+> of character devices.
 
-I think it is.? the queue_live=true check isn't necessarily valid. When 
-it is valid, is when the controller state is also LIVE/ADMIN_ONLY, and 
-that should have been picked off/allowed prior to reaching this point. 
-So, to be in this section, you are something other than LIVE.?? The 
-queue_live=false will always be a valid case, so using that check with 
-the connect type is good.? If it was the admin queue that had an 
-invalid=true case, then it's highly unlikely anything is going to be 
-generated via the core code without being an ioctl command and the ioctl 
-commands should fail the ! NVME_REQ_USERCMD check.? So if any other 
-admin command, given the serialized nature of controller init, then it 
-should be post the admin queue having a connect being done, so it is 
-live, and any command other than an ioctl would be one generated to init 
-the controller (or to do the property_set on a reset/delete).
+Christoph,
+
+I was going to address this by adding the poll support.?? However, after 
+reviewing the if_ready changes, they will fall into the USERCMD cases 
+which will return the BLK_STST_IOERR and NVME_SC_ABORT_REQ.
+
+In the nvme cli app, rather than keying retry off the EAGAIN, we could 
+key off the ABORT_REQ status. I didn't like that initially as it may 
+correspond to a real scenario that wasn't one of the 
+reject-as-not-in-a-state-for-an-ioctl cases.
+
+What do you think - continue with the poll interface and the EAGAIN 
+block status, or revise the app EAGAIN check to NVME_SC_ABORT_REQ ?
 
 -- james
