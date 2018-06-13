@@ -1,76 +1,46 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Wed, 13 Jun 2018 08:54:25 -0700
-Subject: [PATCH 1/4] nvme-fabrics: refactor queue ready check
-In-Reply-To: <20180613081616.GA23377@lst.de>
-References: <20180611154647.32558-1-hch@lst.de>
- <20180611154647.32558-2-hch@lst.de>
- <99751a08-8485-787f-95bc-862b8f9d02ed@broadcom.com>
- <20180613081616.GA23377@lst.de>
-Message-ID: <f3264852-771e-864c-a57d-cb33a55ca768@broadcom.com>
+Date: Wed, 13 Jun 2018 08:51:38 -0700
+Subject: please revert a nvme-cli commit
+In-Reply-To: <20180613075557.GA22940@lst.de>
+References: <20180613075557.GA22940@lst.de>
+Message-ID: <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
 
-When I finally finished with the review on your last patch:
-[PATCH 4/4] nvme-fabrics: reverse polarity in __nvmf_check_ready
+Really ?? sigh.? I have lots of consumers that have no issues with these 
+changes and there is nothing that acts "incompatible".?? It's been 1.5 
+months - where have you been?
 
-I think you had addressed this issue so the patch below isn't necessary.
+These conditions can occur independent of any change in kernel 
+implementation and are significant robustness corrections.
+
+On 6/13/2018 12:55 AM, Christoph Hellwig wrote:
+> d8f949c21e9d832149518f26c71dfd8de16cd628 does bogus blind retries
+> on failure, and the kernel part of it was rejected.  Let's sort this
+> out properly.
+
+title: nvme-cli: Add ioctl retry support for "connect-all"
+
+This should have been sorted out a long time ago. The current 
+implementation is completely "happy path".? Failure can occur anytime 
+when an error occurs with a discovery controller that causes a 
+reconnect.?? This change is isolated to retrieving discovery log records 
+and is specifically tied to an EAGAIN status - not a "blind failure".
+
+>
+> Similarly at least for now bb2d87d7f386882005bb87fe9412af23c646c876 is
+> bogus as well.  We require fabrics connect to be synchronous, and changing
+> that will require a longer discussion first.
+
+title: nvme-cli: Wait for device file if not present after successful 
+add_ctrl
+
+This, in general, has little to do with kernel implementation which only 
+influences it's likelyhood. There's always the possibility the that the 
+creation of the /dev node in userspace takes time and the return from 
+the create thread could beat it.? It's only more unlikely with the full 
+finish-connect before return as that added time.
+
+thus there's no "synchronous" requirement - what does that even mean ??? 
+What is the difference between a controller being created then 
+immediately failing and going into a reconnect that delays ?
 
 -- james
-
-
-On 6/13/2018 1:16 AM, Christoph Hellwig wrote:
-> On Tue, Jun 12, 2018@02:45:16PM -0700, James Smart wrote:
->> Additionally, if a user-mode delete request is made while in the middle of
->> a RECONNECT, and the io the if_ready is looking at is part of the reconnect
->> - we're allowing the connect command to go out/complete even though we're
->> in the middle of deleting it.?? May well be fine - but I don't know why
->> we're letting all this io through simply because we didn't want to add a
->> check for a property_set() on a reset or delete.
-> so what about something like this on top of the series (untested so far):
->
->
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index dc87719a5c9e..a36a74b2cb8e 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -556,24 +556,31 @@ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
->   bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
->   		bool queue_live)
->   {
-> -	if (ctrl->state == NVME_CTRL_DEAD)
-> -		return false;
-> +	struct nvme_request *req = nvme_req(rq);
->   
->   	/*
-> -	 * If the queue is not live the only thing allowed is a connect
-> -	 * command to actually set the queue live.
-> +	 * If we are in some state of setup or teardown only allow
-> +	 * internally generated commands.
->   	 */
-> -	if (!queue_live &&
-> -	    (nvme_req(rq)->cmd->common.opcode != nvme_fabrics_command ||
-> -	     nvme_req(rq)->cmd->fabrics.fctype != nvme_fabrics_type_connect))
-> +	if (!blk_rq_is_passthrough(rq) || (req->flags & NVME_REQ_USERCMD))
->   		return false;
->   
->   	/*
-> -	 * If we are in some state of setup or teardown only allow
-> -	 * internally generated commands.
-> +	 * Only allow commands on a live queue, except for the connect command,
-> +	 * which is require to set the queue live in the appropinquate states.
->   	 */
-> -	return blk_rq_is_passthrough(rq) &&
-> -		!(nvme_req(rq)->flags & NVME_REQ_USERCMD);
-> +	switch (ctrl->state) {
-> +	case NVME_CTRL_DEAD:
-> +		return false;
-> +	case NVME_CTRL_NEW:
-> +	case NVME_CTRL_CONNECTING:
-> +		if (req->cmd->common.opcode == nvme_fabrics_command &&
-> +		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
-> +			return true;
-> +		/*FALLTHRU*/
-> +	default:
-> +		return queue_live;
-> +	}
->   }
->   EXPORT_SYMBOL_GPL(__nvmf_check_ready);
->   
