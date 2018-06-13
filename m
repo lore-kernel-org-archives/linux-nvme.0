@@ -1,46 +1,56 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 13 Jun 2018 08:51:38 -0700
-Subject: please revert a nvme-cli commit
-In-Reply-To: <20180613075557.GA22940@lst.de>
-References: <20180613075557.GA22940@lst.de>
-Message-ID: <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
+From: daniel.verkamp@intel.com (Daniel Verkamp)
+Date: Wed, 13 Jun 2018 10:00:17 -0700
+Subject: Read request exceeding max_hw_sectors_kb
+In-Reply-To: <20180613114756.GA27631@lst.de>
+References: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
+ <20180613114756.GA27631@lst.de>
+Message-ID: <524089dd-7926-2a69-7d0d-bf6c496d9d98@intel.com>
 
-Really ?? sigh.? I have lots of consumers that have no issues with these 
-changes and there is nothing that acts "incompatible".?? It's been 1.5 
-months - where have you been?
+On 06/13/2018 04:47 AM, Christoph Hellwig wrote:
+> On Wed, Jun 13, 2018@04:11:56PM +0530, Jitendra Bhivare wrote:
+>> So something like resolves the issue:
+>> static void nvme_set_chunk_size(struct nvme_ns *ns)
+>> {
+>> 	u32 chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
+>>
+>> 	chunk_size = rounddown_pow_of_two(chunk_size);
+>> 	chunk_size = min(ns->ctrl->max_hw_sectors, chunk_size);
+>> 	blk_queue_chunk_sectors(ns->queue,
+>> rounddown_pow_of_two(chunk_size));
+>> }
+>>
+>> Please do let me know if this is the right approach or SPDK should set
+>> noiob appropriately.
+> 
+> I think the answer is both:  The kernel code should be more robust
+> in handling bogus noiob sizes, so please submit a patch per your above
+> analysis.  spdk should be fixed to not expose a bogus noiob size as well.
 
-These conditions can occur independent of any change in kernel 
-implementation and are significant robustness corrections.
+Hi Christoph,
 
-On 6/13/2018 12:55 AM, Christoph Hellwig wrote:
-> d8f949c21e9d832149518f26c71dfd8de16cd628 does bogus blind retries
-> on failure, and the kernel part of it was rejected.  Let's sort this
-> out properly.
+By my understanding, this is what the spec is trying to say about NOIOB
+(though unfortunately not very clearly): for best performance, read and
+write I/Os should not cross an LBA that is a multiple of NOIOB.  For
+example, if NOIOB is 64KB, an I/O of LBA=48KB size=32KB should be split
+into two smaller I/Os, LBA=48KB size=16KB and LBA=64KB size=16KB, since
+it crosses a 64KB LBA boundary.
 
-title: nvme-cli: Add ioctl retry support for "connect-all"
+Based on the current wording in the spec, I don't believe there is any
+requirement that NOIOB be less than or equal to MDTS; it's purely about
+avoiding I/O overlapping any boundary where LBA = NOIOB * n.
 
-This should have been sorted out a long time ago. The current 
-implementation is completely "happy path".? Failure can occur anytime 
-when an error occurs with a discovery controller that causes a 
-reconnect.?? This change is isolated to retrieving discovery log records 
-and is specifically tied to an EAGAIN status - not a "blind failure".
+That said, we could consider some kind of workaround on the target side
+if this kernel host code is in wide use already, like clamping NOIOB to
+MDTS (accounting for unit conversion) or reporting NOIOB = 0 if NOIOB
+would be greater than MDTS.  I'd like to avoid this route if possible,
+though.
 
->
-> Similarly at least for now bb2d87d7f386882005bb87fe9412af23c646c876 is
-> bogus as well.  We require fabrics connect to be synchronous, and changing
-> that will require a longer discussion first.
+Based on a quick glance at the kernel history, it looks like the host
+code has been using NOIOB since Linux 4.12 (commit 6b8190d61a622), so
+I'm surprised we haven't had more reports about this failing.  Did
+something change in the kernel block stack more recently than that to
+cause chunks larger than the maximum data transfer size, or has this
+always been an issue since the introduction of the NOIOB host code?
 
-title: nvme-cli: Wait for device file if not present after successful 
-add_ctrl
-
-This, in general, has little to do with kernel implementation which only 
-influences it's likelyhood. There's always the possibility the that the 
-creation of the /dev node in userspace takes time and the return from 
-the create thread could beat it.? It's only more unlikely with the full 
-finish-connect before return as that added time.
-
-thus there's no "synchronous" requirement - what does that even mean ??? 
-What is the difference between a controller being created then 
-immediately failing and going into a reconnect that delays ?
-
--- james
+Thanks,
+-- Daniel
