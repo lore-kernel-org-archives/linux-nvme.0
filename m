@@ -1,29 +1,25 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 13 Jun 2018 04:33:25 -0700
-Subject: [PATCH v3 4/4] nvme_fc: add 'nvme_discovery' sysfs attribute to
- fc transport device
-In-Reply-To: <20180612235028.17969-5-jsmart2021@gmail.com>
-References: <20180612235028.17969-1-jsmart2021@gmail.com>
- <20180612235028.17969-5-jsmart2021@gmail.com>
-Message-ID: <20180613113325.GD18531@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 13 Jun 2018 13:47:56 +0200
+Subject: Read request exceeding max_hw_sectors_kb
+In-Reply-To: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
+References: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
+Message-ID: <20180613114756.GA27631@lst.de>
 
-On Tue, Jun 12, 2018@04:50:28PM -0700, James Smart wrote:
-> The fc transport device should allow for a rediscovery, as userspace
-> might have lost the events. Example is udev events not handled during
-> system startup.
+On Wed, Jun 13, 2018@04:11:56PM +0530, Jitendra Bhivare wrote:
+> So something like resolves the issue:
+> static void nvme_set_chunk_size(struct nvme_ns *ns)
+> {
+> 	u32 chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
+> 
+> 	chunk_size = rounddown_pow_of_two(chunk_size);
+> 	chunk_size = min(ns->ctrl->max_hw_sectors, chunk_size);
+> 	blk_queue_chunk_sectors(ns->queue,
+> rounddown_pow_of_two(chunk_size));
+> }
+> 
+> Please do let me know if this is the right approach or SPDK should set
+> noiob appropriately.
 
-Please stop adding hacks for your non-standard discovery methods.
-
-> +static void nvme_fc_discovery_unwind(struct list_head *lheadp)
-> +{
-> +	unsigned long flags;
-> +	struct nvme_fc_lport *lport;
-> +	struct nvme_fc_rport *rport, *tmp_rport;
-> +
-> +	list_for_each_entry_safe(rport, tmp_rport,
-> +				 lheadp, disc_list) {
-> +		spin_lock_irqsave(&nvme_fc_lock, flags);
-> +		list_del_init(&rport->disc_list);
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-
-Without the lock taken around the list iteration this is racy.
+I think the answer is both:  The kernel code should be more robust
+in handling bogus noiob sizes, so please submit a patch per your above
+analysis.  spdk should be fixed to not expose a bogus noiob size as well.
