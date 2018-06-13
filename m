@@ -1,17 +1,38 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 13 Jun 2018 07:31:19 -0600
-Subject: please revert a nvme-cli commit
-In-Reply-To: <20180613075557.GA22940@lst.de>
-References: <20180613075557.GA22940@lst.de>
-Message-ID: <20180613133118.GB5331@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 13 Jun 2018 07:56:28 -0700
+Subject: [PATCH] nvme: block ioctls if controller not in a live state
+In-Reply-To: <20180613080959.GA7429@infradead.org>
+References: <20180507225558.5009-1-jsmart2021@gmail.com>
+ <20180509051156.GB28673@infradead.org>
+ <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
+ <20180514141734.GA26302@infradead.org>
+ <2b21ba25-e581-45a7-95ae-8b3f2fe6dcf8@broadcom.com>
+ <20180514145318.GA24711@infradead.org>
+ <5c025bbe-f784-2bf6-3315-5d27c673afec@broadcom.com>
+ <20180613080959.GA7429@infradead.org>
+Message-ID: <64cbb42f-2c64-92ed-51a3-c33ee317d79c@gmail.com>
 
-On Wed, Jun 13, 2018@09:55:57AM +0200, Christoph Hellwig wrote:
-> d8f949c21e9d832149518f26c71dfd8de16cd628 does bogus blind retries
-> on failure, and the kernel part of it was rejected.  Let's sort this
-> out properly.
+On 6/13/2018 1:09 AM, Christoph Hellwig wrote:
+> On Tue, Jun 12, 2018@04:11:14PM -0700, James Smart wrote:
+>> I was going to address this by adding the poll support.?? However, after
+>> reviewing the if_ready changes, they will fall into the USERCMD cases which
+>> will return the BLK_STST_IOERR and NVME_SC_ABORT_REQ.
+>>
+>> In the nvme cli app, rather than keying retry off the EAGAIN, we could key
+>> off the ABORT_REQ status. I didn't like that initially as it may correspond
+>> to a real scenario that wasn't one of the
+>> reject-as-not-in-a-state-for-an-ioctl cases.
+>>
+>> What do you think - continue with the poll interface and the EAGAIN block
+>> status, or revise the app EAGAIN check to NVME_SC_ABORT_REQ ?
 > 
-> Similarly at least for now bb2d87d7f386882005bb87fe9412af23c646c876 is
-> bogus as well.  We require fabrics connect to be synchronous, and changing
-> that will require a longer discussion first.
+> How about just having an option in the ioctl interface to not mark
+> the I/O failfast?
+> 
 
-Okay, will do.
+with the gist being you want to suspend the ioctl ?
+
+I've already seen enough user feedback to say the ioctl shouldn't hang. 
+So I agree with them being marked failfast.
+
+-- james
