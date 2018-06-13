@@ -1,65 +1,81 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 13 Jun 2018 14:07:35 -0700
-Subject: [PATCH v4 0/4] nvme_fc: asynchronous controller create
-Message-ID: <20180613210739.3383-1-jsmart2021@gmail.com>
+Date: Wed, 13 Jun 2018 14:07:38 -0700
+Subject: [PATCH v4 3/4] nvme_fc: fix nulling of queue data on reconnect
+In-Reply-To: <20180613210739.3383-1-jsmart2021@gmail.com>
+References: <20180613210739.3383-1-jsmart2021@gmail.com>
+Message-ID: <20180613210739.3383-4-jsmart2021@gmail.com>
 
-This patch set modifies the fc transport such that create_ctrl does not
-call the controller creation routines inline but rather schedules the
-background reconnect thread to perform the initial association connect.
-The create_ctrl routine will then synchronously wait for the background
-thread complete before returning.  The patchset also contains
-several other cleanups found while implementing the asynchronous
-connect testing.
+The reconnect path is calling the init routines to clear a queue
+structure. But the queue structure has state that perhaps needs
+to persist as long as the controller is live.
 
-There are main reasons why asynchronous controller create uses the
-background reconnect thread for processing is the following:
-   It simplifies error handling and retries. The initial controller
-   connect attempts can be disrupted or by errors as easily as after
-   the controller is initially created. As the code currently stands
-   there has to be special retry logic and prohibitions around state
-   changes if errors occur during the initial connect (which the code
-   today does not have). With this patch set, initial connections use
-   the same path as a reconnect, and any error handling uses the same
-   paths as if the errors occurred post initial connect.
+Remove the nvme_fc_init_queue() calls on reconnect.
+The nvme_fc_free_queue() calls will clear state bits and reset
+any relevant queue state for a new connection.
 
-This patchset also adds the change to the transport to regenerate
-udev discovery events in case the system missed the events earlier
-(such as boot scenarios).
+Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/fc.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-v2:
-  added Reviewed-by's
-  Reworked 2nd patch to change nvme_set_queue_count() behavior rather
-    than add additional validation in the fc transport.
-
-v3:
- Patch 1 (remove unnecessary subnqn validation) and 3 (remove DNR on
-   exception) of the v2 set were committed individually
- Patch 2 (revise set_queue_count) was dropped from the set.
- Repost remaining patches. AFAIK there were no disagreements.
- There was one comment on also looking to remove reinit_request from
-  core and block - which can be done independently from this patch set.
-
-v4:
- Followed Christoph's recommendation to synchronously flush the
- connect thread in the create_ctrl path making initial connect
- synchronous. This gains all the advantages of the single code path.
- However, it negates the simple udev scripts as the wait can be
- lengthy. The patchset and this overview was updated to remove
- references to the simplistic udev script, which will be taken up
- in subsequent conversations.
-
- Added Reviewed-by's for Christoph on those items he indicated looked good.
-
-
-
-James Smart (4):
-  nvme_fc: remove reinit_request routine
-  nvme_fc: change controllers first connect to use reconnect path
-  nvme_fc: fix nulling of queue data on reconnect
-  nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
-
- drivers/nvme/host/fc.c | 249 +++++++++++++++++++++++++++++++------------------
- 1 file changed, 157 insertions(+), 92 deletions(-)
-
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 4e7903833e14..b528a2f5826c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1879,6 +1879,7 @@ nvme_fc_free_queue(struct nvme_fc_queue *queue)
+ 	 */
+ 
+ 	queue->connection_id = 0;
++	atomic_set(&queue->csn, 1);
+ }
+ 
+ static void
+@@ -2467,7 +2468,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ }
+ 
+ static int
+-nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
++nvme_fc_recreate_io_queues(struct nvme_fc_ctrl *ctrl)
+ {
+ 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+ 	unsigned int nr_io_queues;
+@@ -2487,8 +2488,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	if (ctrl->ctrl.queue_count == 1)
+ 		return 0;
+ 
+-	nvme_fc_init_io_queues(ctrl);
+-
+ 	ret = nvme_fc_create_hw_io_queues(ctrl, ctrl->ctrl.sqsize + 1);
+ 	if (ret)
+ 		goto out_free_io_queues;
+@@ -2586,8 +2585,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	 * Create the admin queue
+ 	 */
+ 
+-	nvme_fc_init_queue(ctrl, 0);
+-
+ 	ret = __nvme_fc_create_hw_queue(ctrl, &ctrl->queues[0], 0,
+ 				NVME_AQ_DEPTH);
+ 	if (ret)
+@@ -2674,7 +2671,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		if (!ctrl->ioq_live)
+ 			ret = nvme_fc_create_io_queues(ctrl);
+ 		else
+-			ret = nvme_fc_reinit_io_queues(ctrl);
++			ret = nvme_fc_recreate_io_queues(ctrl);
+ 		if (ret)
+ 			goto out_term_aen_ops;
+ 	}
+@@ -3022,6 +3019,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	if (!ctrl->queues)
+ 		goto out_free_ida;
+ 
++	nvme_fc_init_queue(ctrl, 0);
++
+ 	memset(&ctrl->admin_tag_set, 0, sizeof(ctrl->admin_tag_set));
+ 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
+ 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
 -- 
 2.13.1
