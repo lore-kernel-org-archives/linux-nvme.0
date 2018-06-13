@@ -1,17 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Jun 2018 13:26:31 +0200
-Subject: [PATCH 08/12] nvmet: mask pending AERs
-In-Reply-To: <c989fd6b-eda4-75ec-a670-4b78b0b68f98@mellanox.com>
-References: <20180530164600.26856-1-hch@lst.de>
- <20180530164600.26856-9-hch@lst.de>
- <b0427eb1-5bba-4c2b-c7fd-8df3b6dad2cf@mellanox.com>
- <20180613074225.GA22725@lst.de>
- <c989fd6b-eda4-75ec-a670-4b78b0b68f98@mellanox.com>
-Message-ID: <20180613112631.GA27314@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 13 Jun 2018 04:28:54 -0700
+Subject: [PATCH v3 1/4] nvme_fc: remove reinit_request routine
+In-Reply-To: <20180612235028.17969-2-jsmart2021@gmail.com>
+References: <20180612235028.17969-1-jsmart2021@gmail.com>
+ <20180612235028.17969-2-jsmart2021@gmail.com>
+Message-ID: <20180613112854.GA18531@infradead.org>
 
-On Wed, Jun 13, 2018@11:23:15AM +0300, Max Gurtovoy wrote:
-> This is not an easy task, I guess, for distros or other SW packeges out 
-> there...
-> Currently all of them can't work with upstream target :(
+On Tue, Jun 12, 2018@04:50:25PM -0700, James Smart wrote:
+> The reinit_request routine is not necessary. Remove support for the
+> op callback.
+> 
+> As all that nvme_reinit_tagset() does is itterate and call the
+> reinit routine, it too has no purpose. Remove the call.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-You'll just need to rescan manually.
+Looks good, thanks.
