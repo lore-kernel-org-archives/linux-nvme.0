@@ -1,67 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Jun 2018 10:16:16 +0200
-Subject: [PATCH 1/4] nvme-fabrics: refactor queue ready check
-In-Reply-To: <99751a08-8485-787f-95bc-862b8f9d02ed@broadcom.com>
-References: <20180611154647.32558-1-hch@lst.de>
- <20180611154647.32558-2-hch@lst.de>
- <99751a08-8485-787f-95bc-862b8f9d02ed@broadcom.com>
-Message-ID: <20180613081616.GA23377@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 13 Jun 2018 01:09:59 -0700
+Subject: [PATCH] nvme: block ioctls if controller not in a live state
+In-Reply-To: <5c025bbe-f784-2bf6-3315-5d27c673afec@broadcom.com>
+References: <20180507225558.5009-1-jsmart2021@gmail.com>
+ <20180509051156.GB28673@infradead.org>
+ <06b65874-8bc8-b532-ad98-44e64b8440b8@broadcom.com>
+ <20180514141734.GA26302@infradead.org>
+ <2b21ba25-e581-45a7-95ae-8b3f2fe6dcf8@broadcom.com>
+ <20180514145318.GA24711@infradead.org>
+ <5c025bbe-f784-2bf6-3315-5d27c673afec@broadcom.com>
+Message-ID: <20180613080959.GA7429@infradead.org>
 
-On Tue, Jun 12, 2018@02:45:16PM -0700, James Smart wrote:
-> Additionally, if a user-mode delete request is made while in the middle of 
-> a RECONNECT, and the io the if_ready is looking at is part of the reconnect 
-> - we're allowing the connect command to go out/complete even though we're 
-> in the middle of deleting it.?? May well be fine - but I don't know why 
-> we're letting all this io through simply because we didn't want to add a 
-> check for a property_set() on a reset or delete.
+On Tue, Jun 12, 2018@04:11:14PM -0700, James Smart wrote:
+> I was going to address this by adding the poll support.?? However, after
+> reviewing the if_ready changes, they will fall into the USERCMD cases which
+> will return the BLK_STST_IOERR and NVME_SC_ABORT_REQ.
+> 
+> In the nvme cli app, rather than keying retry off the EAGAIN, we could key
+> off the ABORT_REQ status. I didn't like that initially as it may correspond
+> to a real scenario that wasn't one of the
+> reject-as-not-in-a-state-for-an-ioctl cases.
+> 
+> What do you think - continue with the poll interface and the EAGAIN block
+> status, or revise the app EAGAIN check to NVME_SC_ABORT_REQ ?
 
-so what about something like this on top of the series (untested so far):
-
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index dc87719a5c9e..a36a74b2cb8e 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -556,24 +556,31 @@ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
- bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 		bool queue_live)
- {
--	if (ctrl->state == NVME_CTRL_DEAD)
--		return false;
-+	struct nvme_request *req = nvme_req(rq);
- 
- 	/*
--	 * If the queue is not live the only thing allowed is a connect
--	 * command to actually set the queue live.
-+	 * If we are in some state of setup or teardown only allow
-+	 * internally generated commands.
- 	 */
--	if (!queue_live &&
--	    (nvme_req(rq)->cmd->common.opcode != nvme_fabrics_command ||
--	     nvme_req(rq)->cmd->fabrics.fctype != nvme_fabrics_type_connect))
-+	if (!blk_rq_is_passthrough(rq) || (req->flags & NVME_REQ_USERCMD))
- 		return false;
- 
- 	/*
--	 * If we are in some state of setup or teardown only allow
--	 * internally generated commands.
-+	 * Only allow commands on a live queue, except for the connect command,
-+	 * which is require to set the queue live in the appropinquate states.
- 	 */
--	return blk_rq_is_passthrough(rq) &&
--		!(nvme_req(rq)->flags & NVME_REQ_USERCMD);
-+	switch (ctrl->state) {
-+	case NVME_CTRL_DEAD:
-+		return false;
-+	case NVME_CTRL_NEW:
-+	case NVME_CTRL_CONNECTING:
-+		if (req->cmd->common.opcode == nvme_fabrics_command &&
-+		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
-+			return true;
-+		/*FALLTHRU*/
-+	default:
-+		return queue_live;
-+	}
- }
- EXPORT_SYMBOL_GPL(__nvmf_check_ready);
- 
+How about just having an option in the ioctl interface to not mark
+the I/O failfast?
