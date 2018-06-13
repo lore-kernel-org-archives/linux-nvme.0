@@ -1,35 +1,49 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 13 Jun 2018 08:15:22 -0700
-Subject: [PATCH v3 2/4] nvme_fc: change controllers first connect to use
- reconnect path
-In-Reply-To: <20180613113150.GB18531@infradead.org>
+Date: Wed, 13 Jun 2018 08:29:04 -0700
+Subject: [PATCH v3 4/4] nvme_fc: add 'nvme_discovery' sysfs attribute to
+ fc transport device
+In-Reply-To: <20180613113325.GD18531@infradead.org>
 References: <20180612235028.17969-1-jsmart2021@gmail.com>
- <20180612235028.17969-3-jsmart2021@gmail.com>
- <20180613113150.GB18531@infradead.org>
-Message-ID: <60013886-182c-0ab1-ef99-b681a97ea99f@gmail.com>
+ <20180612235028.17969-5-jsmart2021@gmail.com>
+ <20180613113325.GD18531@infradead.org>
+Message-ID: <1b96039c-53d7-f899-d400-18217e4146c2@gmail.com>
 
-On 6/13/2018 4:31 AM, Christoph Hellwig wrote:
->> Note: this patch is dependent on these changes that have been
->> added to the nvme-cli utility:
->> - nvme-cli: Wait for device file if not present after successful add_ctrl
->> - nvme-cli: Add ioctl retry support for "connect-all"
+On 6/13/2018 4:33 AM, Christoph Hellwig wrote:
+> On Tue, Jun 12, 2018@04:50:28PM -0700, James Smart wrote:
+>> The fc transport device should allow for a rediscovery, as userspace
+>> might have lost the events. Example is udev events not handled during
+>> system startup.
 > 
-> Which means it breaks backwards compatibility.  We can't do that.
+> Please stop adding hacks for your non-standard discovery methods.
 
-I don't know what compatibility you are talking about. Both of those 
-issues could be hit even with the non-async implementation.
+Please stop these boorish anti-fc comments. There is nothing 
+non-standard or hackish about fc's discovery methods.
 
-The cli has already been updated and addressed them.
+This patch simply addresses an issue that arises as nvme discovery isn't 
+in-kernel thus has a relationship to the boot process.
 
 
 > 
-> IFF we actually end up wanting async connect it needs to be an
-> explicit opt-it with a new option.
+>> +static void nvme_fc_discovery_unwind(struct list_head *lheadp)
+>> +{
+>> +	unsigned long flags;
+>> +	struct nvme_fc_lport *lport;
+>> +	struct nvme_fc_rport *rport, *tmp_rport;
+>> +
+>> +	list_for_each_entry_safe(rport, tmp_rport,
+>> +				 lheadp, disc_list) {
+>> +		spin_lock_irqsave(&nvme_fc_lock, flags);
+>> +		list_del_init(&rport->disc_list);
+>> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
 > 
-> In the meantime I really like this code in general, so please resubmit
-> it with a flush_delayed_work to make it synchronus.
+> Without the lock taken around the list iteration this is racy.
+> 
 
-I disagree. No user is aware of the async vs sync nature. It's the 
-non-delay of the create thread that allows the simplistic udev scripts.
+how so ?
+
+this list was built up ahead of time solely for this routine, gets are 
+done on all objects as they were added to the list, the list isn't 
+changed except for deleting elements from the list by this routine, and 
+a port can't get on this list twice. I don't see the race.
 
 -- james
