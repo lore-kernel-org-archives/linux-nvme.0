@@ -1,49 +1,72 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 13 Jun 2018 08:29:04 -0700
-Subject: [PATCH v3 4/4] nvme_fc: add 'nvme_discovery' sysfs attribute to
- fc transport device
-In-Reply-To: <20180613113325.GD18531@infradead.org>
-References: <20180612235028.17969-1-jsmart2021@gmail.com>
- <20180612235028.17969-5-jsmart2021@gmail.com>
- <20180613113325.GD18531@infradead.org>
-Message-ID: <1b96039c-53d7-f899-d400-18217e4146c2@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 13 Jun 2018 09:44:15 -0600
+Subject: blktests block/019 lead system hang
+In-Reply-To: <5a3a2565a81543b5837672e01580a5b5@AUSX13MPC127.AMER.DELL.COM>
+References: <838678680.4693215.1527664726174.JavaMail.zimbra@redhat.com>
+ <1858098161.4693883.1527665214701.JavaMail.zimbra@redhat.com>
+ <20180605161853.GB16899@localhost.localdomain>
+ <5a3a2565a81543b5837672e01580a5b5@AUSX13MPC127.AMER.DELL.COM>
+Message-ID: <20180613154415.GC5574@localhost.localdomain>
 
-On 6/13/2018 4:33 AM, Christoph Hellwig wrote:
-> On Tue, Jun 12, 2018@04:50:28PM -0700, James Smart wrote:
->> The fc transport device should allow for a rediscovery, as userspace
->> might have lost the events. Example is udev events not handled during
->> system startup.
+On Tue, Jun 12, 2018@04:41:54PM -0700, Austin.Bolen@dell.com wrote:
+> It looks like the test is setting the Link Disable bit.  But this is not
+> a good simulation for hot-plug surprise removal testing or surprise link
+> down (SLD) testing, if that is the intent.  One reason is that Link
+> Disable does not invoke SLD semantics per PCIe spec.  This is somewhat
+> of a moot point in this case since the switch has Hot-Plug Surprise bit
+> set which also masks the SLD semantics in PCIe.
 > 
-> Please stop adding hacks for your non-standard discovery methods.
-
-Please stop these boorish anti-fc comments. There is nothing 
-non-standard or hackish about fc's discovery methods.
-
-This patch simply addresses an issue that arises as nvme discovery isn't 
-in-kernel thus has a relationship to the boot process.
-
-
+> Also, the Hot-Plug Capable + Surprise Hot-Plug bits set means the
+> platform can tolerate the case where "an adapter present in this slot
+> might be removed from the system without any prior notification".  It
+> does not mean that a system can survive link down under any other
+> circumstances such as setting Link Disable or generating a Secondary Bus
+> Reset or a true surprise link down event.  To the earlier point, I also
+> do not know of any way the OS can know a priori if the platform can
+> handle surprise link down outside of surprise remove case.  We can look
+> at standardizing a way to do that if OSes find it useful to know.
 > 
->> +static void nvme_fc_discovery_unwind(struct list_head *lheadp)
->> +{
->> +	unsigned long flags;
->> +	struct nvme_fc_lport *lport;
->> +	struct nvme_fc_rport *rport, *tmp_rport;
->> +
->> +	list_for_each_entry_safe(rport, tmp_rport,
->> +				 lheadp, disc_list) {
->> +		spin_lock_irqsave(&nvme_fc_lock, flags);
->> +		list_del_init(&rport->disc_list);
->> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
+> Relative to this particular error, Link Disable doesn't clear Presence
+> Detect State which would happen on a real Surprise Hot-Plug removal
+> event and this is probably why the system crashes.  What will happen is
+> that after the link goes to disabled state, the ongoing I/O will cause
+> MMIO accesses on the drive and that will cause a UR which is an
+> uncorrectable PCIe error (ERR_FATAL on R730).  The BIOS on the R730 is
+> surprise remove aware (Surprise Hot-Plug = 1) and so it will check if
+> the device is still present by checking Presence Detect State.  If the
+> device is not present it will mask the error and let the OS handle the
+> device removal due to hot-plug interrupt(s).  If the device is present,
+> as in this case, then the BIOS will escalate to OS as a fatal NMI
+> (current R730 platform policy is to only mask errors due to removal).
 > 
-> Without the lock taken around the list iteration this is racy.
-> 
+> For future, these servers may report these sort of errors as recoverable
+> via the GHES structures in APEI which will allow the OS to recover from
+> this non-surprise remove class of error as well.  In the (hopefully
+> near) future, the industry will move to DPC as the framework for this
+> sort of generic PCIe error handling/recovery but there are architectural
+> changes needed that are currently being defined in the relevant
+> standards bodies.  Once the architecture is defined it can be
+> implemented and tested to verify these sort of test cases pass.
 
-how so ?
+Thanks for the feedback!
 
-this list was built up ahead of time solely for this routine, gets are 
-done on all objects as they were added to the list, the list isn't 
-changed except for deleting elements from the list by this routine, and 
-a port can't get on this list twice. I don't see the race.
+This test does indeed toggle the Link Control Link Disable bit to simulate
+the link failure. The PCIe specification specifically covers this case
+in Section 3.2.1, Data Link Control and Management State Machine Rules:
 
--- james
+  If the Link Disable bit has been Set by software, then the subsequent
+  transition to DL_Inactive must not be considered an error.
+
+So this test should suppress any Suprise Down Error events, but handling
+that particular event wasn't the intent of the test (and as you mentioned,
+it ought not occur anyway since the slot is HP Surprise capable).
+
+The test should not suppress reporting the Data Link Layer State Changed
+slot status. And while this doesn't trigger a Slot PDC status, triggering
+a DLLSC should occur since the Link Status DLLLA should go to 0 when
+state machine goes from DL_Active to DL_Down, regardless of if a Suprise
+Down Error was detected.
+
+The Linux PCIEHP driver handles a DLLSC link-down event the same as
+a presence detect remove event, and that's part of what this test was
+trying to cover.
