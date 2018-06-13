@@ -1,25 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 13 Jun 2018 13:47:56 +0200
-Subject: Read request exceeding max_hw_sectors_kb
-In-Reply-To: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
-References: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
-Message-ID: <20180613114756.GA27631@lst.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 13 Jun 2018 07:31:19 -0600
+Subject: please revert a nvme-cli commit
+In-Reply-To: <20180613075557.GA22940@lst.de>
+References: <20180613075557.GA22940@lst.de>
+Message-ID: <20180613133118.GB5331@localhost.localdomain>
 
-On Wed, Jun 13, 2018@04:11:56PM +0530, Jitendra Bhivare wrote:
-> So something like resolves the issue:
-> static void nvme_set_chunk_size(struct nvme_ns *ns)
-> {
-> 	u32 chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
+On Wed, Jun 13, 2018@09:55:57AM +0200, Christoph Hellwig wrote:
+> d8f949c21e9d832149518f26c71dfd8de16cd628 does bogus blind retries
+> on failure, and the kernel part of it was rejected.  Let's sort this
+> out properly.
 > 
-> 	chunk_size = rounddown_pow_of_two(chunk_size);
-> 	chunk_size = min(ns->ctrl->max_hw_sectors, chunk_size);
-> 	blk_queue_chunk_sectors(ns->queue,
-> rounddown_pow_of_two(chunk_size));
-> }
-> 
-> Please do let me know if this is the right approach or SPDK should set
-> noiob appropriately.
+> Similarly at least for now bb2d87d7f386882005bb87fe9412af23c646c876 is
+> bogus as well.  We require fabrics connect to be synchronous, and changing
+> that will require a longer discussion first.
 
-I think the answer is both:  The kernel code should be more robust
-in handling bogus noiob sizes, so please submit a patch per your above
-analysis.  spdk should be fixed to not expose a bogus noiob size as well.
+Okay, will do.
