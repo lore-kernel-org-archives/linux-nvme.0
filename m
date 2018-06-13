@@ -1,21 +1,21 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 13 Jun 2018 04:31:50 -0700
-Subject: [PATCH v3 2/4] nvme_fc: change controllers first connect to use
- reconnect path
-In-Reply-To: <20180612235028.17969-3-jsmart2021@gmail.com>
+Date: Wed, 13 Jun 2018 04:32:10 -0700
+Subject: [PATCH v3 3/4] nvme_fc: fix nulling of queue data on reconnect
+In-Reply-To: <20180612235028.17969-4-jsmart2021@gmail.com>
 References: <20180612235028.17969-1-jsmart2021@gmail.com>
- <20180612235028.17969-3-jsmart2021@gmail.com>
-Message-ID: <20180613113150.GB18531@infradead.org>
+ <20180612235028.17969-4-jsmart2021@gmail.com>
+Message-ID: <20180613113210.GC18531@infradead.org>
 
-> Note: this patch is dependent on these changes that have been
-> added to the nvme-cli utility:
-> - nvme-cli: Wait for device file if not present after successful add_ctrl
-> - nvme-cli: Add ioctl retry support for "connect-all"
+On Tue, Jun 12, 2018@04:50:27PM -0700, James Smart wrote:
+> The reconnect path is calling the init routines to clear a queue
+> structure. But the queue structure has state that perhaps needs
+> to persist as long as the controller is live.
+> 
+> Remove the nvme_fc_init_queue() calls on reconnect.
+> The nvme_fc_free_queue() calls will clear state bits and reset
+> any relevant queue state for a new connection.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Which means it breaks backwards compatibility.  We can't do that.
-
-IFF we actually end up wanting async connect it needs to be an
-explicit opt-it with a new option.
-
-In the meantime I really like this code in general, so please resubmit
-it with a flush_delayed_work to make it synchronus.
+Looks fine to me.
