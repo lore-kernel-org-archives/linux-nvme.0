@@ -1,68 +1,44 @@
-From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Wed, 13 Jun 2018 10:41:06 -0700
-Subject: [PATCH V3 0/8] nvmet: implement target passthru commands support
-In-Reply-To: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
-References: <20180612195506.23616-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <CAK0tqimWQgonK4Do5cc6RB5SU5D4UmMarHPLYP9wptWxsOsWoA@mail.gmail.com>
+From: Austin.Bolen@dell.com (Austin.Bolen@dell.com)
+Date: Wed, 13 Jun 2018 18:24:14 +0000
+Subject: blktests block/019 lead system hang
+References: <838678680.4693215.1527664726174.JavaMail.zimbra@redhat.com>
+ <1858098161.4693883.1527665214701.JavaMail.zimbra@redhat.com>
+ <20180605161853.GB16899@localhost.localdomain>
+ <5a3a2565a81543b5837672e01580a5b5@AUSX13MPC127.AMER.DELL.COM>
+ <20180613154415.GC5574@localhost.localdomain>
+Message-ID: <2bbfd07208a84856a2d4dcb833671a82@AUSX13MPC127.AMER.DELL.COM>
 
-Sorry for the noise, please drop this patch-series, I'll resend this
-as this has one unrelated patch, my bad.
-On Tue, Jun 12, 2018 at 12:55 PM Chaitanya Kulkarni
-<chaitanya.kulkarni@wdc.com> wrote:
+On 6/13/2018 10:41 AM, Keith Busch wrote:
+> Thanks for the feedback!
 >
-> This patchset aims to enable passing through entire physical NVMe drive
-> through an NVMe over fabrics interface. This implies that all
-> namespaces on the target drive are passed through to the initiator
-> one-to-one and all admin commands from the initiator are forwarded back
-> to the target drive. This allows for exposing Vender Unique Commands
-> (VUCs) over the NVMe-OF interface.
+> This test does indeed toggle the Link Control Link Disable bit to simulate
+> the link failure. The PCIe specification specifically covers this case
+> in Section 3.2.1, Data Link Control and Management State Machine Rules:
 >
-> Changes since V2:-
-> 1. Split the addition of passthru command handlers and integration into
->    two different patches since we we add guards to create one target ctonroller
->    per passthru controller. This way it will be easier to review the code.
-> 2. Adjust the code for 4.18.
+>   If the Link Disable bit has been Set by software, then the subsequent
+>   transition to DL_Inactive must not be considered an error.
+Forgot to mention... this PCIe requirement to not treat Link Disable = 1
+as an error is a requirement on PCIe hardware and not from platform
+side.  So if you want to test this PCIe spec requirement then you need a
+way to ascertain whether PCIe hardware or platform is causing the
+error.  Additionally, setting Link Disable is not what is causing the
+error in this specific case.  The error is coming from a subsequent MMIO
+that is causing UR since link is down.
+
+-Austin
+
+
+> So this test should suppress any Suprise Down Error events, but handling
+> that particular event wasn't the intent of the test (and as you mentioned,
+> it ought not occur anyway since the slot is HP Surprise capable).
 >
-> Changes since V1:-
-> 1. Update the new nvme core controller find API naming and
->    changed the string comparison of the ctrl.
-> 2. Get rid of the newly added #defines for target ctrl values.
-> 3. Use the newly added structure members in the same patch where
->    they are used. Aggregate the passthru command handling support
->    and integration with nvmet-core into one patch.
-> 4. Introduce global NVMe Target subsystem list for connected and
->    not connected subsystems on the target side.
-> 5. Add check when configuring the target ns and target
->    passthru ctrl to allow only one target controller to be created
->    for one passthru subsystem.
-> 6. Use the passthru ctrl cntlid when creating the target controller.
+> The test should not suppress reporting the Data Link Layer State Changed
+> slot status. And while this doesn't trigger a Slot PDC status, triggering
+> a DLLSC should occur since the Link Status DLLLA should go to 0 when
+> state machine goes from DL_Active to DL_Down, regardless of if a Suprise
+> Down Error was detected.
 >
-> Chaitanya Kulkarni (8):
->   nvmet: add commands supported and effects log page
->   nvme-core: add new interfaces
->   nvme-core: export existing ctrl and ns interfaces
->   nvmet: export nvmet_add_async_event api
->   nvmet: add global subsystem list
->   nvmet: add passthru cmd handlers
->   nvmet: integrate passthru code with core
->   nvmet: add configfs interface for target passthru
+> The Linux PCIEHP driver handles a DLLSC link-down event the same as
+> a presence detect remove event, and that's part of what this test was
+> trying to cover.
 >
->  drivers/nvme/host/core.c        |  80 +++++-
->  drivers/nvme/host/nvme.h        |  10 +
->  drivers/nvme/target/Makefile    |   3 +-
->  drivers/nvme/target/admin-cmd.c |  35 ++-
->  drivers/nvme/target/configfs.c  | 145 +++++++++-
->  drivers/nvme/target/core.c      | 193 ++++++++++++-
->  drivers/nvme/target/nvmet.h     |  19 ++
->  drivers/nvme/target/pt-cmd.c    | 481 ++++++++++++++++++++++++++++++++
->  8 files changed, 947 insertions(+), 19 deletions(-)
->  create mode 100644 drivers/nvme/target/pt-cmd.c
->
-> --
-> 2.17.0
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
