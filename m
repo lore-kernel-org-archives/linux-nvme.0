@@ -1,21 +1,35 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 13 Jun 2018 09:11:29 -0600
-Subject: NVMe drive kernel fail after hotplug kernel 4.16.12
-In-Reply-To: <AM6PR03MB4038A5FDD819AE34DDDE54A4F87E0@AM6PR03MB4038.eurprd03.prod.outlook.com>
-References: <AM6PR03MB4038E7290A514371F9D60E17F87F0@AM6PR03MB4038.eurprd03.prod.outlook.com>
- <AM6PR03MB4038A5FDD819AE34DDDE54A4F87E0@AM6PR03MB4038.eurprd03.prod.outlook.com>
-Message-ID: <20180613151128.GB5574@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 13 Jun 2018 08:15:22 -0700
+Subject: [PATCH v3 2/4] nvme_fc: change controllers first connect to use
+ reconnect path
+In-Reply-To: <20180613113150.GB18531@infradead.org>
+References: <20180612235028.17969-1-jsmart2021@gmail.com>
+ <20180612235028.17969-3-jsmart2021@gmail.com>
+ <20180613113150.GB18531@infradead.org>
+Message-ID: <60013886-182c-0ab1-ef99-b681a97ea99f@gmail.com>
 
-On Wed, Jun 13, 2018@01:31:37AM -0700, Albert Schlegel wrote:
-> Hi,
+On 6/13/2018 4:31 AM, Christoph Hellwig wrote:
+>> Note: this patch is dependent on these changes that have been
+>> added to the nvme-cli utility:
+>> - nvme-cli: Wait for device file if not present after successful add_ctrl
+>> - nvme-cli: Add ioctl retry support for "connect-all"
 > 
-> 
-> I have a problem with NVMe drive and hotplug where the kernel (nvme driver) has some problems. I posted the detailed problem here:
-> https://www.linuxquestions.org/questions/showthread.php?p=5866497#post5866497
-> 
-> 
-> Is there a solution for this or it is possible to fix this?
+> Which means it breaks backwards compatibility.  We can't do that.
 
-Could you see if this commit fixes your issue?
+I don't know what compatibility you are talking about. Both of those 
+issues could be hit even with the non-async implementation.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/nvme/host/pci.c?id=1d39e6928cbd0eb737c51545210b5186d5551ba1
+The cli has already been updated and addressed them.
+
+
+> 
+> IFF we actually end up wanting async connect it needs to be an
+> explicit opt-it with a new option.
+> 
+> In the meantime I really like this code in general, so please resubmit
+> it with a flush_delayed_work to make it synchronus.
+
+I disagree. No user is aware of the async vs sync nature. It's the 
+non-delay of the create thread that allows the simplistic udev scripts.
+
+-- james
