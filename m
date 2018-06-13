@@ -1,31 +1,26 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 12 Jun 2018 20:35:55 -0400
-Subject: [PATCH 08/17] nvme: limit integrity segments to be <= data
- segments
-In-Reply-To: <694e0f4e-bf79-6139-e5ba-86c01fcce4b2@mellanox.com> (Max
- Gurtovoy's message of "Sat, 9 Jun 2018 04:33:58 +0300")
-References: <1527436222-15494-1-git-send-email-maxg@mellanox.com>
- <1527436222-15494-9-git-send-email-maxg@mellanox.com>
- <19c8562a-8478-196c-c9f5-385d2076448e@grimberg.me>
- <f7bf4e84-f403-7576-299f-63b0c4aa6f1b@mellanox.com>
- <yq17ena9mxc.fsf@oracle.com>
- <694e0f4e-bf79-6139-e5ba-86c01fcce4b2@mellanox.com>
-Message-ID: <yq1po0vttec.fsf@oracle.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 13 Jun 2018 09:21:25 +0200
+Subject: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and
+ bdev ns
+In-Reply-To: <BN6PR04MB1203184F17F7102054FF311C867F0@BN6PR04MB1203.namprd04.prod.outlook.com>
+References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
+ <20180611221432.GB25795@vader>
+ <BN6PR04MB1203184F17F7102054FF311C867F0@BN6PR04MB1203.namprd04.prod.outlook.com>
+Message-ID: <20180613072125.z2obhfnds7zvqx2e@linux-x5ow.site>
 
+On Wed, Jun 13, 2018@12:00:17AM +0000, Chaitanya Kulkarni wrote:
+> The flush tests fail for me, and Johannes still has some comments on the
+> last two, so I applied patches 1-10. The flush tests fail like this:
+> 
+> [CK] Johannes, can we get the remaining testcases in?
 
-Max,
+Well I guess we can fix it later.
 
-> I agree, but do you think it's reasonable to set max_integrity_segments 
-> > max_segments ?
-
-The upper bound for max_integrity_segments is number of sectors in the
-I/O.
-
-That's clearly a pathological corner case. But we used to be able to hit
-it with the "right" choice of kernel memory allocator and dd with bs=512
-(effectively because the allocator always allocated backwards in memory
-so no two 8-byte PI allocations for a 512-byte buffer_head could be
-combined into one contiguous segment).
-
+     Johannes
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
