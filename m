@@ -1,49 +1,23 @@
-From: israelr@mellanox.com (Israel Rukshin)
-Date: Thu, 14 Jun 2018 12:37:44 +0000
-Subject: [PATCH] nvme: Fix error flow at nvme_rdma_configure_admin_queue()
-Message-ID: <1528979864-3109-1-git-send-email-israelr@mellanox.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 14 Jun 2018 08:42:03 -0600
+Subject: Requirement to get BAR pci_bus_address in user space
+In-Reply-To: <CABe79T5ZRBToOgCY0Myo47mkeOQ5FWrxgF-Bbdx-Pa3fmYPDGw@mail.gmail.com>
+References: <CABe79T41Cr0mjH_k2drzccHvObFwRcW3n+WKCj0JvFUBy0wz-A@mail.gmail.com>
+ <20180614102001.GA20836@lst.de>
+ <CABe79T6k387EnDrpydTbQYQ+sZoWXKUee23EDzDJqnkroOmodA@mail.gmail.com>
+ <92a9eeced36f863458ca2fd029f17a20@codeaurora.org>
+ <CABe79T5ZRBToOgCY0Myo47mkeOQ5FWrxgF-Bbdx-Pa3fmYPDGw@mail.gmail.com>
+Message-ID: <20180614144203.GA8129@localhost.localdomain>
 
-On error calling to nvme_rdma_free_queue() with admin queue
-frees the QE before it was allocated.
+On Thu, Jun 14, 2018@04:18:15PM +0530, Srinath Mannam wrote:
+> The issue is, For CMB cards SQs are allocated inside device BAR memory
+> which is different from normal cards.
+> In Normal cards SQ memory allocated at host side.
+> In both the cases physical address of CQ memory is programmed in NVMe
+> controller register.
+> This method works for normal cards because CQ memory is at host side.
+> But in CMB cards pci bus address equivalent to CQ memory needs to program.
 
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/rdma.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 7b3f084..8786779 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -536,6 +536,15 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
- 		goto out_destroy_cm_id;
- 	}
- 
-+	if (idx == 0) {
-+		ret = nvme_rdma_alloc_qe(queue->device->dev,
-+					 &ctrl->async_event_sqe,
-+					 sizeof(struct nvme_command),
-+					 DMA_TO_DEVICE);
-+		if (ret)
-+			goto out_destroy_cm_id;
-+	}
-+
- 	set_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags);
- 
- 	return 0;
-@@ -795,12 +804,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (error)
- 		goto out_stop_queue;
- 
--	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
--			&ctrl->async_event_sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
--	if (error)
--		goto out_stop_queue;
--
- 	return 0;
- 
- out_stop_queue:
--- 
-1.8.3.1
+How do you know if the address that you can see is even the real bus
+address? You could be running against a direct assigned device in a
+guest where you don't get to see the actual bus address.
