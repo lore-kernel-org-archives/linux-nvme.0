@@ -1,31 +1,49 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 14 Jun 2018 14:42:37 +0200
-Subject: please revert a nvme-cli commit
-In-Reply-To: <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
-References: <20180613075557.GA22940@lst.de>
- <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
-Message-ID: <20180614124237.GA28896@lst.de>
+From: israelr@mellanox.com (Israel Rukshin)
+Date: Thu, 14 Jun 2018 12:37:44 +0000
+Subject: [PATCH] nvme: Fix error flow at nvme_rdma_configure_admin_queue()
+Message-ID: <1528979864-3109-1-git-send-email-israelr@mellanox.com>
 
-On Wed, Jun 13, 2018@08:51:38AM -0700, James Smart wrote:
-> Really ?? sigh.? I have lots of consumers that have no issues with these 
-> changes and there is nothing that acts "incompatible".?? It's been 1.5 
-> months - where have you been?
->
-> These conditions can occur independent of any change in kernel 
-> implementation and are significant robustness corrections.
+On error calling to nvme_rdma_free_queue() with admin queue
+frees the QE before it was allocated.
 
-I don't agree.  For one so far we've guaranteed the device node
-appears before we return from the write to the /dev/nvme-fabrics
-device.  If that changes it is a significant ABI break, and we need
-to fix that in the kernel.
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-And if it wasn't the fix is still wrong - we'd need to wait for it to
-appear using libudev APIs and/or one of the file notification syscalls
-rather than adding a probing loop that is in a different place than
-the actual open.
-
-And for retrying the actual I/O we need to decide on the exact semantics
-we want to support first.  Blind n time retry is always a bad idea,
-we need to build some sort of reliable infrastructure.  Be that
-optionally marking requests as not failfast, and/or some sort of poll
-notification for a device that is ready.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 7b3f084..8786779 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -536,6 +536,15 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		goto out_destroy_cm_id;
+ 	}
+ 
++	if (idx == 0) {
++		ret = nvme_rdma_alloc_qe(queue->device->dev,
++					 &ctrl->async_event_sqe,
++					 sizeof(struct nvme_command),
++					 DMA_TO_DEVICE);
++		if (ret)
++			goto out_destroy_cm_id;
++	}
++
+ 	set_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags);
+ 
+ 	return 0;
+@@ -795,12 +804,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (error)
+ 		goto out_stop_queue;
+ 
+-	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
+-			&ctrl->async_event_sqe, sizeof(struct nvme_command),
+-			DMA_TO_DEVICE);
+-	if (error)
+-		goto out_stop_queue;
+-
+ 	return 0;
+ 
+ out_stop_queue:
+-- 
+1.8.3.1
