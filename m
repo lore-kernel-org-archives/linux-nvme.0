@@ -1,70 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 14 Jun 2018 14:30:15 +0200
-Subject: [PATCH 2/2] blk-mq: remove blk_mq_tagset_iter
-In-Reply-To: <20180614123015.5989-1-hch@lst.de>
-References: <20180614123015.5989-1-hch@lst.de>
-Message-ID: <20180614123015.5989-3-hch@lst.de>
+Date: Thu, 14 Jun 2018 14:42:37 +0200
+Subject: please revert a nvme-cli commit
+In-Reply-To: <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
+References: <20180613075557.GA22940@lst.de>
+ <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
+Message-ID: <20180614124237.GA28896@lst.de>
 
-Unused now that nvme stopped using it.
+On Wed, Jun 13, 2018@08:51:38AM -0700, James Smart wrote:
+> Really ?? sigh.? I have lots of consumers that have no issues with these 
+> changes and there is nothing that acts "incompatible".?? It's been 1.5 
+> months - where have you been?
+>
+> These conditions can occur independent of any change in kernel 
+> implementation and are significant robustness corrections.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq-tag.c     | 29 -----------------------------
- include/linux/blk-mq.h |  2 --
- 2 files changed, 31 deletions(-)
+I don't agree.  For one so far we've guaranteed the device node
+appears before we return from the write to the /dev/nvme-fabrics
+device.  If that changes it is a significant ABI break, and we need
+to fix that in the kernel.
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 70356a2a11ab..09b2ee6694fb 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -311,35 +311,6 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- }
- EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
- 
--int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
--			 int (fn)(void *, struct request *))
--{
--	int i, j, ret = 0;
--
--	if (WARN_ON_ONCE(!fn))
--		goto out;
--
--	for (i = 0; i < set->nr_hw_queues; i++) {
--		struct blk_mq_tags *tags = set->tags[i];
--
--		if (!tags)
--			continue;
--
--		for (j = 0; j < tags->nr_tags; j++) {
--			if (!tags->static_rqs[j])
--				continue;
--
--			ret = fn(data, tags->static_rqs[j]);
--			if (ret)
--				goto out;
--		}
--	}
--
--out:
--	return ret;
--}
--EXPORT_SYMBOL_GPL(blk_mq_tagset_iter);
--
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 		void *priv)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index fb355173f3c7..e3147eb74222 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -281,8 +281,6 @@ void blk_freeze_queue_start(struct request_queue *q);
- void blk_mq_freeze_queue_wait(struct request_queue *q);
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
- 				     unsigned long timeout);
--int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
--		int (reinit_request)(void *, struct request *));
- 
- int blk_mq_map_queues(struct blk_mq_tag_set *set);
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
--- 
-2.17.1
+And if it wasn't the fix is still wrong - we'd need to wait for it to
+appear using libudev APIs and/or one of the file notification syscalls
+rather than adding a probing loop that is in a different place than
+the actual open.
+
+And for retrying the actual I/O we need to decide on the exact semantics
+we want to support first.  Blind n time retry is always a bad idea,
+we need to build some sort of reliable infrastructure.  Be that
+optionally marking requests as not failfast, and/or some sort of poll
+notification for a device that is ready.
