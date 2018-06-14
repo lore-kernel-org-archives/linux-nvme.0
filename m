@@ -1,8 +1,10 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 14 Jun 2018 05:27:34 -0700
-Subject: [PATCH v4 0/4] nvme_fc: asynchronous controller create
-In-Reply-To: <20180613210739.3383-1-jsmart2021@gmail.com>
-References: <20180613210739.3383-1-jsmart2021@gmail.com>
-Message-ID: <20180614122734.GA31578@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 14 Jun 2018 14:30:13 +0200
+Subject: remove nvme_reinit_tagset and blk_mq_tagset_iter
+Message-ID: <20180614123015.5989-1-hch@lst.de>
 
-Applied 1-3 to nvme-4.18.  I need to look into 4 more first.
+Now that nvme-fc moved off the reinit request concept both the core nvme
+and blk-mq code for it becomes unused.
+
+Jens, are you ok with queuing up the blk-mq side with the pending nvme
+changes?
