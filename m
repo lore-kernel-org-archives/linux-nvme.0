@@ -1,58 +1,70 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 14 Jun 2018 14:30:14 +0200
-Subject: [PATCH 1/2] nvme: remove nvme_reinit_tagset
+Date: Thu, 14 Jun 2018 14:30:15 +0200
+Subject: [PATCH 2/2] blk-mq: remove blk_mq_tagset_iter
 In-Reply-To: <20180614123015.5989-1-hch@lst.de>
 References: <20180614123015.5989-1-hch@lst.de>
-Message-ID: <20180614123015.5989-2-hch@lst.de>
+Message-ID: <20180614123015.5989-3-hch@lst.de>
 
-Unused now that all transports stopped using it.
+Unused now that nvme stopped using it.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 10 ----------
- drivers/nvme/host/nvme.h |  2 --
- 2 files changed, 12 deletions(-)
+ block/blk-mq-tag.c     | 29 -----------------------------
+ include/linux/blk-mq.h |  2 --
+ 2 files changed, 31 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dee8e71baf62..020a00f932a0 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3627,16 +3627,6 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index 70356a2a11ab..09b2ee6694fb 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -311,35 +311,6 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
  }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
+ EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
  
--int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set)
+-int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
+-			 int (fn)(void *, struct request *))
 -{
--	if (!ctrl->ops->reinit_request)
--		return 0;
+-	int i, j, ret = 0;
 -
--	return blk_mq_tagset_iter(set, set->driver_data,
--			ctrl->ops->reinit_request);
+-	if (WARN_ON_ONCE(!fn))
+-		goto out;
+-
+-	for (i = 0; i < set->nr_hw_queues; i++) {
+-		struct blk_mq_tags *tags = set->tags[i];
+-
+-		if (!tags)
+-			continue;
+-
+-		for (j = 0; j < tags->nr_tags; j++) {
+-			if (!tags->static_rqs[j])
+-				continue;
+-
+-			ret = fn(data, tags->static_rqs[j]);
+-			if (ret)
+-				goto out;
+-		}
+-	}
+-
+-out:
+-	return ret;
 -}
--EXPORT_SYMBOL_GPL(nvme_reinit_tagset);
+-EXPORT_SYMBOL_GPL(blk_mq_tagset_iter);
 -
- int __init nvme_core_init(void)
+ void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
+ 		void *priv)
  {
- 	int result = -ENOMEM;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 34df07d44f80..231807cbc849 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -321,7 +321,6 @@ struct nvme_ctrl_ops {
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl);
- 	void (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
--	int (*reinit_request)(void *data, struct request *rq);
- 	void (*stop_ctrl)(struct nvme_ctrl *ctrl);
- };
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index fb355173f3c7..e3147eb74222 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -281,8 +281,6 @@ void blk_freeze_queue_start(struct request_queue *q);
+ void blk_mq_freeze_queue_wait(struct request_queue *q);
+ int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+ 				     unsigned long timeout);
+-int blk_mq_tagset_iter(struct blk_mq_tag_set *set, void *data,
+-		int (reinit_request)(void *, struct request *));
  
-@@ -416,7 +415,6 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
--int nvme_reinit_tagset(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set);
- 
- #define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
+ int blk_mq_map_queues(struct blk_mq_tag_set *set);
+ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
 -- 
 2.17.1
