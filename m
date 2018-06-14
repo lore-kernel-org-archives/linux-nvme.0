@@ -1,30 +1,44 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 14 Jun 2018 08:48:08 -0600
-Subject: remove nvme_reinit_tagset and blk_mq_tagset_iter
-In-Reply-To: <20180614145422.GA4856@lst.de>
-References: <20180614123015.5989-1-hch@lst.de>
- <248094d8-afe6-b6b7-8c8b-b8db452ec030@kernel.dk>
- <20180614145422.GA4856@lst.de>
-Message-ID: <23d279da-2450-448e-a117-ca327ea775e6@kernel.dk>
+From: alex.williamson@redhat.com (Alex Williamson)
+Date: Thu, 14 Jun 2018 08:50:15 -0600
+Subject: Requirement to get BAR pci_bus_address in user space
+In-Reply-To: <CABe79T5ZRBToOgCY0Myo47mkeOQ5FWrxgF-Bbdx-Pa3fmYPDGw@mail.gmail.com>
+References: <CABe79T41Cr0mjH_k2drzccHvObFwRcW3n+WKCj0JvFUBy0wz-A@mail.gmail.com>
+ <20180614102001.GA20836@lst.de>
+ <CABe79T6k387EnDrpydTbQYQ+sZoWXKUee23EDzDJqnkroOmodA@mail.gmail.com>
+ <92a9eeced36f863458ca2fd029f17a20@codeaurora.org>
+ <CABe79T5ZRBToOgCY0Myo47mkeOQ5FWrxgF-Bbdx-Pa3fmYPDGw@mail.gmail.com>
+Message-ID: <20180614085015.3f39b367@w520.home>
 
-On 6/14/18 8:54 AM, Christoph Hellwig wrote:
-> On Thu, Jun 14, 2018@08:45:07AM -0600, Jens Axboe wrote:
->> On 6/14/18 6:30 AM, Christoph Hellwig wrote:
->>> Now that nvme-fc moved off the reinit request concept both the core nvme
->>> and blk-mq code for it becomes unused.
->>>
->>> Jens, are you ok with queuing up the blk-mq side with the pending nvme
->>> changes?
->>
->> Are you asking if you can queue it up, presumable because the nvme-fc
->> change isn't upstream yet? That's fine with me, you can add my
->> reviewed-by to the patches.
+On Thu, 14 Jun 2018 16:18:15 +0530
+Srinath Mannam <srinath.mannam@broadcom.com> wrote:
+
+> Hi Sinan Kaya,
 > 
-> Yes, that is the plan.  The nvme changes are fixes I'm going to send
-> you ASAP, and I think we can just send the dead code removal along.
+> Here are the details,
+> 
+> The issue is, For CMB cards SQs are allocated inside device BAR memory
+> which is different from normal cards.
+> In Normal cards SQ memory allocated at host side.
+> In both the cases physical address of CQ memory is programmed in NVMe
+> controller register.
+> This method works for normal cards because CQ memory is at host side.
+> But in CMB cards pci bus address equivalent to CQ memory needs to program.
+> 
+> More details are in the patch: nvme-pci: Use PCI bus address for
+> data/queues in CMB.
+> 
+> With the above patch issue is fixed in the NVMe kernel driver, But
+> similar fix is required in SPDK library also.
+> So, We need a mechanism to get pci_bus_address in user space libraries
+> to address this issue.
 
-OK, that sounds fine then. Please do send them asap, so I can ship
-what I have for Linus before he cuts -rc1 on Sunday.
+I don't understand the CQ vs CMB, but I think I gather that there's some
+sort of buffer that's allocated from within the devices MMIO BAR and
+some programming of the device needs to reference that buffer.
+Wouldn't you therefore use the vfio type1 IOMMU MAP_DMA ioctl to map
+the BAR into the IOVA address space and you can then use the IOVA +
+offset into the BAR for the device to reference the buffer?  It seems
+this is the same way we'd setup a peer-to-peer mapping, but we're using
+it for the device to reference itself effectively.  Thanks,
 
--- 
-Jens Axboe
+Alex
