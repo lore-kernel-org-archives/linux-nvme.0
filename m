@@ -1,69 +1,113 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Thu, 14 Jun 2018 09:29:24 -0700
-Subject: please revert a nvme-cli commit
-In-Reply-To: <20180614124237.GA28896@lst.de>
-References: <20180613075557.GA22940@lst.de>
- <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
- <20180614124237.GA28896@lst.de>
-Message-ID: <a4ece148-00b6-01de-ab6b-3fc8a89818f8@broadcom.com>
+Date: Thu, 14 Jun 2018 10:37:01 -0700
+Subject: [PATCH 3/3] nvme-fabrics: fix and refine state checks in
+ __nvmf_check_ready
+In-Reply-To: <20180614122215.4395-4-hch@lst.de>
+References: <20180614122215.4395-1-hch@lst.de>
+ <20180614122215.4395-4-hch@lst.de>
+Message-ID: <2185be0b-7936-3b3f-2659-d6634336f907@broadcom.com>
 
-
-
-On 6/14/2018 5:42 AM, Christoph Hellwig wrote:
-> On Wed, Jun 13, 2018@08:51:38AM -0700, James Smart wrote:
->> Really ?? sigh.? I have lots of consumers that have no issues with these
->> changes and there is nothing that acts "incompatible".?? It's been 1.5
->> months - where have you been?
->>
->> These conditions can occur independent of any change in kernel
->> implementation and are significant robustness corrections.
-> I don't agree.  For one so far we've guaranteed the device node
-> appears before we return from the write to the /dev/nvme-fabrics
-> device.  If that changes it is a significant ABI break, and we need
-> to fix that in the kernel.
-
-what provides the guarantee that it appears first ?
-
-Based on what I've seen there is nothing but time that guarantees it, 
-and if that's true, the udev user side always has a potential of getting 
-hung up and exceeding the time.
-
-
+On 6/14/2018 5:22 AM, Christoph Hellwig wrote:
+>   - make sure we only allow internally generates commands in any non-live
+>     state
+>   - only allow connect commands on non-live queues when actually in the
+>     new or connecting states
+>   - treat all other non-live, non-dead states the same as a default
+>     cach-all
 >
-> And if it wasn't the fix is still wrong - we'd need to wait for it to
-> appear using libudev APIs and/or one of the file notification syscalls
-> rather than adding a probing loop that is in a different place than
-> the actual open.
-
-that's fine, I can certainly go look in that direction.
-
+> This fixes a regression where we could not shutdown a controller
+> orderly as we didn't allow the internal generated Property Set
+> command, and also ensures we don't accidentally let a Connect command
+> through in the wrong state.
 >
-> And for retrying the actual I/O we need to decide on the exact semantics
-> we want to support first.  Blind n time retry is always a bad idea,
-> we need to build some sort of reliable infrastructure.  Be that
-> optionally marking requests as not failfast, and/or some sort of poll
-> notification for a device that is ready.
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   drivers/nvme/host/fabrics.c | 39 ++++++++++++++++++-------------------
+>   1 file changed, 19 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 6b4e253b9347..903eb4545e26 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -556,34 +556,33 @@ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
+>   bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>   		bool queue_live)
+>   {
+> -	struct nvme_command *cmd = nvme_req(rq)->cmd;
+> +	struct nvme_request *req = nvme_req(rq);
+>   
+> +	/*
+> +	 * If we are in some state of setup or teardown only allow
+> +	 * internally generated commands.
+> +	 */
+> +	if (!blk_rq_is_passthrough(rq) || (req->flags & NVME_REQ_USERCMD))
+> +		return false;
+> +
+> +	/*
+> +	 * Only allow commands on a live queue, except for the connect command,
+> +	 * which is require to set the queue live in the appropinquate states.
+> +	 */
+>   	switch (ctrl->state) {
+>   	case NVME_CTRL_NEW:
+>   	case NVME_CTRL_CONNECTING:
+> -	case NVME_CTRL_DELETING:
+> -		/*
+> -		 * If queue is live, allow only commands that are internally
+> -		 * generated pass through.  These are commands on the admin
+> -		 * queue to initialize the controller. This will reject any
+> -		 * ioctl admin cmds received while initializing.
+> -		 */
+> -		if (queue_live && !(nvme_req(rq)->flags & NVME_REQ_USERCMD))
+> +		if (req->cmd->common.opcode == nvme_fabrics_command &&
+> +		    req->cmd->fabrics.fctype == nvme_fabrics_type_connect)
+>   			return true;
+> -
+> -		/*
+> -		 * If the queue is not live, allow only a connect command.  This
+> -		 * will reject any ioctl admin cmd as well as initialization
+> -		 * commands if the controller reverted the queue to non-live.
+> -		 */
+> -		if (!queue_live && blk_rq_is_passthrough(rq) &&
+> -		     cmd->common.opcode == nvme_fabrics_command &&
+> -		     cmd->fabrics.fctype == nvme_fabrics_type_connect)
+> -			return true;
+> -		return false;
+> +		break;
+>   	default:
+> +		break;
+> +	case NVME_CTRL_DEAD:
+>   		return false;
+>   	}
+> +
+> +	return queue_live;
+>   }
+>   EXPORT_SYMBOL_GPL(__nvmf_check_ready);
+>   
 
-Ok. Given I've already had complaints that the cli shouldn't hang out 
-for a minute or more - the time it takes for a controller to lose 
-connectivity and fail the loss timeout, and that's not considering the 
-cmds that probe several controllers each of which could do this 
-sequentially resulting in a delay of many minutes - and as the user may 
-want to kill the waiting cli, I'm of the opinion that the kernel request 
-should be terminated not suspended. Thus the ios should continue to be 
-failfast and let the policy be in the cli based on what the command is.? 
-Making the cli use the poll notification to find when the controller is 
-ready again is fine.
+I like what's here and think it's pretty conclusive. Enough that I'm 
+good with a Reviewed-by for me to be added.
 
-what should be the general policy for any command? if receive an EAGAIN 
-(not ready) then poll until ready or device failure ????? or return 
-failure immediately unless command is connect-all (discovery log read) 
-then it waits for ready/failure ?
+In thinking this through: There's still the issue of queue_live being 
+set true when in a RESETTING/DELETING state as the workqueue element to 
+enact the reset/delete has yet to be run or is just starting to run. 
+Since above restricts it to kernel-generated commands only, the only 
+things that should get through in this case are:
+1) a property_set command to write CC.NE=0 is issued by the transport 
+reset/delete handler. Note: it's unclear whether the queue will be live 
+or not.
+2) controller was in a NEW/CONNECTING state and was sending a command 
+used to init the controller.
+3) a keep alive
 
-what should be the policy for the commands that probe multiple 
-controllers ? ?? do commands fail immediately causing command to skip 
-controllers not ready (message when does so) ??? note: the skip is 
-already there on command failure, but if we suspend as a general policy, 
-it would affect it.
+(1) is desired behavior, assuming queue is live to let it through.
+(2) and (3) - I assume the transport reset/delete handler will freeze 
+the queues, cycle through any outstanding command and will terminate 
+them. So it should be ok. I assume, based on the time needed to freeze 
+the queues, that there shouldn't be a possibility for the delete/reset 
+handler queue freeze code to race with an io allowed by the checks (it 
+should be long gone).?? If there's not agreement on that assumption, 
+then a clause should be added after the switch case that checks for 
+RESETTING or DELETING and if so, only allows a Property_Set for CC.EN=0 
+command.
 
 -- james
