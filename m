@@ -1,23 +1,44 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 14 Jun 2018 16:59:42 +0200
-Subject: Requirement to get BAR pci_bus_address in user space
-In-Reply-To: <20180614085015.3f39b367@w520.home>
-References: <CABe79T41Cr0mjH_k2drzccHvObFwRcW3n+WKCj0JvFUBy0wz-A@mail.gmail.com>
- <20180614102001.GA20836@lst.de>
- <CABe79T6k387EnDrpydTbQYQ+sZoWXKUee23EDzDJqnkroOmodA@mail.gmail.com>
- <92a9eeced36f863458ca2fd029f17a20@codeaurora.org>
- <CABe79T5ZRBToOgCY0Myo47mkeOQ5FWrxgF-Bbdx-Pa3fmYPDGw@mail.gmail.com>
- <20180614085015.3f39b367@w520.home>
-Message-ID: <20180614145942.GA4885@lst.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 14 Jun 2018 08:54:48 -0600
+Subject: Read request exceeding max_hw_sectors_kb
+In-Reply-To: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
+References: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
+Message-ID: <20180614145447.GB8129@localhost.localdomain>
 
-On Thu, Jun 14, 2018@08:50:15AM -0600, Alex Williamson wrote:
-> I don't understand the CQ vs CMB, but I think I gather that there's some
-> sort of buffer that's allocated from within the devices MMIO BAR and
-> some programming of the device needs to reference that buffer.
-> Wouldn't you therefore use the vfio type1 IOMMU MAP_DMA ioctl to map
-> the BAR into the IOVA address space and you can then use the IOVA +
-> offset into the BAR for the device to reference the buffer?  It seems
-> this is the same way we'd setup a peer-to-peer mapping, but we're using
-> it for the device to reference itself effectively.  Thanks,
+On Wed, Jun 13, 2018@04:11:56PM +0530, Jitendra Bhivare wrote:
+> So something like resolves the issue:
+> static void nvme_set_chunk_size(struct nvme_ns *ns)
+> {
+> 	u32 chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
+> 
+> 	chunk_size = rounddown_pow_of_two(chunk_size);
+> 	chunk_size = min(ns->ctrl->max_hw_sectors, chunk_size);
+> 	blk_queue_chunk_sectors(ns->queue,
+> rounddown_pow_of_two(chunk_size));
+> }
 
-That's exactly what I meant..
+That doesn't look right. The io boundary may have nothing to do with max
+transfer size, so throttling the chunk size may cause lots of
+unnecessary splits.
+
+Isn't the reason it's failing is the block layer allowed a command to
+form to the chunk size boundary instead of capping it to the max transfer
+limit? How about this patch instead?
+
+---
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index bca3a92eb55f..9c57b49a4132 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1118,8 +1118,8 @@ static inline unsigned int blk_max_size_offset(struct request_queue *q,
+ 	if (!q->limits.chunk_sectors)
+ 		return q->limits.max_sectors;
+ 
+-	return q->limits.chunk_sectors -
+-			(offset & (q->limits.chunk_sectors - 1));
++	return min(q->limits.max_sectors, (unsigned int)(q->limits.chunk_sectors -
++			(offset & (q->limits.chunk_sectors - 1))));
+ }
+ 
+ static inline unsigned int blk_rq_get_max_sectors(struct request *rq,
+--
