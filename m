@@ -1,44 +1,69 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 14 Jun 2018 08:54:48 -0600
-Subject: Read request exceeding max_hw_sectors_kb
-In-Reply-To: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
-References: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
-Message-ID: <20180614145447.GB8129@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 14 Jun 2018 09:29:24 -0700
+Subject: please revert a nvme-cli commit
+In-Reply-To: <20180614124237.GA28896@lst.de>
+References: <20180613075557.GA22940@lst.de>
+ <64647508-fd1f-9ec2-171d-88ba2a5653b7@broadcom.com>
+ <20180614124237.GA28896@lst.de>
+Message-ID: <a4ece148-00b6-01de-ab6b-3fc8a89818f8@broadcom.com>
 
-On Wed, Jun 13, 2018@04:11:56PM +0530, Jitendra Bhivare wrote:
-> So something like resolves the issue:
-> static void nvme_set_chunk_size(struct nvme_ns *ns)
-> {
-> 	u32 chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
-> 
-> 	chunk_size = rounddown_pow_of_two(chunk_size);
-> 	chunk_size = min(ns->ctrl->max_hw_sectors, chunk_size);
-> 	blk_queue_chunk_sectors(ns->queue,
-> rounddown_pow_of_two(chunk_size));
-> }
 
-That doesn't look right. The io boundary may have nothing to do with max
-transfer size, so throttling the chunk size may cause lots of
-unnecessary splits.
 
-Isn't the reason it's failing is the block layer allowed a command to
-form to the chunk size boundary instead of capping it to the max transfer
-limit? How about this patch instead?
+On 6/14/2018 5:42 AM, Christoph Hellwig wrote:
+> On Wed, Jun 13, 2018@08:51:38AM -0700, James Smart wrote:
+>> Really ?? sigh.? I have lots of consumers that have no issues with these
+>> changes and there is nothing that acts "incompatible".?? It's been 1.5
+>> months - where have you been?
+>>
+>> These conditions can occur independent of any change in kernel
+>> implementation and are significant robustness corrections.
+> I don't agree.  For one so far we've guaranteed the device node
+> appears before we return from the write to the /dev/nvme-fabrics
+> device.  If that changes it is a significant ABI break, and we need
+> to fix that in the kernel.
 
----
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index bca3a92eb55f..9c57b49a4132 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1118,8 +1118,8 @@ static inline unsigned int blk_max_size_offset(struct request_queue *q,
- 	if (!q->limits.chunk_sectors)
- 		return q->limits.max_sectors;
- 
--	return q->limits.chunk_sectors -
--			(offset & (q->limits.chunk_sectors - 1));
-+	return min(q->limits.max_sectors, (unsigned int)(q->limits.chunk_sectors -
-+			(offset & (q->limits.chunk_sectors - 1))));
- }
- 
- static inline unsigned int blk_rq_get_max_sectors(struct request *rq,
---
+what provides the guarantee that it appears first ?
+
+Based on what I've seen there is nothing but time that guarantees it, 
+and if that's true, the udev user side always has a potential of getting 
+hung up and exceeding the time.
+
+
+>
+> And if it wasn't the fix is still wrong - we'd need to wait for it to
+> appear using libudev APIs and/or one of the file notification syscalls
+> rather than adding a probing loop that is in a different place than
+> the actual open.
+
+that's fine, I can certainly go look in that direction.
+
+>
+> And for retrying the actual I/O we need to decide on the exact semantics
+> we want to support first.  Blind n time retry is always a bad idea,
+> we need to build some sort of reliable infrastructure.  Be that
+> optionally marking requests as not failfast, and/or some sort of poll
+> notification for a device that is ready.
+
+Ok. Given I've already had complaints that the cli shouldn't hang out 
+for a minute or more - the time it takes for a controller to lose 
+connectivity and fail the loss timeout, and that's not considering the 
+cmds that probe several controllers each of which could do this 
+sequentially resulting in a delay of many minutes - and as the user may 
+want to kill the waiting cli, I'm of the opinion that the kernel request 
+should be terminated not suspended. Thus the ios should continue to be 
+failfast and let the policy be in the cli based on what the command is.? 
+Making the cli use the poll notification to find when the controller is 
+ready again is fine.
+
+what should be the general policy for any command? if receive an EAGAIN 
+(not ready) then poll until ready or device failure ????? or return 
+failure immediately unless command is connect-all (discovery log read) 
+then it waits for ready/failure ?
+
+what should be the policy for the commands that probe multiple 
+controllers ? ?? do commands fail immediately causing command to skip 
+controllers not ready (message when does so) ??? note: the skip is 
+already there on command failure, but if we suspend as a general policy, 
+it would affect it.
+
+-- james
