@@ -1,54 +1,35 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 15 Jun 2018 07:18:06 -0700
-Subject: [PATCH 3/3] nvme-fabrics: fix and refine state checks in
- __nvmf_check_ready
-In-Reply-To: <20180615093234.GB21138@lst.de>
-References: <20180614122215.4395-1-hch@lst.de>
- <20180614122215.4395-4-hch@lst.de>
- <2185be0b-7936-3b3f-2659-d6634336f907@broadcom.com>
- <20180615093234.GB21138@lst.de>
-Message-ID: <7996a4b1-a1e9-882d-13c9-d72ac45ea121@broadcom.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 15 Jun 2018 08:21:58 -0600
+Subject: [PATCH] nvme-cli: Implemented virtualization management admin
+ command
+In-Reply-To: <20180615093732.GD10928@infradead.org>
+References: <20180614232422.5570-1-revanth.rajashekar@intel.com>
+ <20180615093732.GD10928@infradead.org>
+Message-ID: <20180615142158.GD8129@localhost.localdomain>
 
-On 6/15/2018 2:32 AM, Christoph Hellwig wrote:
-> On Thu, Jun 14, 2018@10:37:01AM -0700, James Smart wrote:
->> I like what's here and think it's pretty conclusive. Enough that I'm good
->> with a Reviewed-by for me to be added.
-> Thanks.
->
->> In thinking this through: There's still the issue of queue_live being set
->> true when in a RESETTING/DELETING state as the workqueue element to enact
->> the reset/delete has yet to be run or is just starting to run. Since above
->> restricts it to kernel-generated commands only, the only things that should
->> get through in this case are:
->> 1) a property_set command to write CC.NE=0 is issued by the transport
->> reset/delete handler. Note: it's unclear whether the queue will be live or
->> not.
->> 2) controller was in a NEW/CONNECTING state and was sending a command used
->> to init the controller.
->> 3) a keep alive
->>
->> (1) is desired behavior, assuming queue is live to let it through.
->> (2) and (3) - I assume the transport reset/delete handler will freeze the
->> queues, cycle through any outstanding command and will terminate them. So
->> it should be ok.
-> Yes.
->
->> I assume, based on the time needed to freeze the queues,
->> that there shouldn't be a possibility for the delete/reset handler queue
->> freeze code to race with an io allowed by the checks (it should be long
->> gone).?? If there's not agreement on that assumption, then a clause
->> should be added after the switch case that checks for RESETTING or DELETING
->> and if so, only allows a Property_Set for CC.EN=0 command.
-> Note that in PCIe until recently we actually had other commands in
-> the shutdown sequence, and at least for an oderly shutdown other commands
-> might reappear.  So I'm not really sure adding additional restrictions
-> is a good idea, as we'd need to update the state machine every time
-> the shutdown sequence changes.  Especially given that the queue should
-> be frozen for external I/O anyway.
->
->> -- james
-> ---end quoted text---
+On Fri, Jun 15, 2018@02:37:32AM -0700, Christoph Hellwig wrote:
+> On Thu, Jun 14, 2018@05:24:22PM -0600, Revanth Rajashekar wrote:
+> > Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
+> 
+> How has this been tested?  Especially the flexible resource assignments
+> really need some kernel support so that the host driver can stop
+> using the resources.
 
-Sounds good.
+I'm not sure this can be sufficiently tested without some prep-patches
+adding Identify Primary Controller Capabilities and Identify Secondary
+Controler List commands.
 
--- james
+But what do we need from the primary controller driver to support this?
+
+Flexible resources assigned to a primary controller are are not
+actually used or released until you do a controller reset following your
+virtualization management commands, so the driver will automatically
+react to the new assignment.
+
+For a secondary controller's flexible resource assignement, you can only
+assign flexible resources from the primary controller when the secondary
+is offline, so the resources should be discovered by the driver when
+the controller is brought online again.
+
+Neither appear to have a requirement for the driver to be aware these
+management commands are happening.
