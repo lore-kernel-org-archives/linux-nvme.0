@@ -1,14 +1,11 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 15 Jun 2018 02:37:32 -0700
-Subject: [PATCH] nvme-cli: Implemented virtualization management admin
- command
-In-Reply-To: <20180614232422.5570-1-revanth.rajashekar@intel.com>
-References: <20180614232422.5570-1-revanth.rajashekar@intel.com>
-Message-ID: <20180615093732.GD10928@infradead.org>
+Date: Fri, 15 Jun 2018 02:39:11 -0700
+Subject: [PATCH 1/2] nvme-cli: add changed log ns support
+In-Reply-To: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
+References: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180615093911.GE10928@infradead.org>
 
-On Thu, Jun 14, 2018@05:24:22PM -0600, Revanth Rajashekar wrote:
-> Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
+Needs a least a bit of a changelog.
 
-How has this been tested?  Especially the flexible resource assignments
-really need some kernel support so that the host driver can stop
-using the resources.
+What is the use case given that this is mostly something for the
+driver to look into given that self-clearing nature.
