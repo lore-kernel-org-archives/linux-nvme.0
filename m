@@ -1,17 +1,14 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 15 Jun 2018 02:35:31 -0700
-Subject: [PATCH] nvme-cli: Implement printing the get Keep Alive Timer
- feature
-In-Reply-To: <20180613203929.12777-1-revanth.rajashekar@intel.com>
-References: <20180613203929.12777-1-revanth.rajashekar@intel.com>
-Message-ID: <20180615093531.GC10928@infradead.org>
+Date: Fri, 15 Jun 2018 02:37:32 -0700
+Subject: [PATCH] nvme-cli: Implemented virtualization management admin
+ command
+In-Reply-To: <20180614232422.5570-1-revanth.rajashekar@intel.com>
+References: <20180614232422.5570-1-revanth.rajashekar@intel.com>
+Message-ID: <20180615093732.GD10928@infradead.org>
 
-> +	case NVME_FEAT_KATO:
-> +		printf("\tKeep Alive Timeout (KATO) in milliseconds: %u\n", result);
-> +		break;
+On Thu, Jun 14, 2018@05:24:22PM -0600, Revanth Rajashekar wrote:
+> Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
 
-Again a line break would be nice.
-
-Otherwise looks fine:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+How has this been tested?  Especially the flexible resource assignments
+really need some kernel support so that the host driver can stop
+using the resources.
