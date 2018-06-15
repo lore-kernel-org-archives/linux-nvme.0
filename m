@@ -1,35 +1,29 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 15 Jun 2018 08:21:58 -0600
-Subject: [PATCH] nvme-cli: Implemented virtualization management admin
- command
-In-Reply-To: <20180615093732.GD10928@infradead.org>
-References: <20180614232422.5570-1-revanth.rajashekar@intel.com>
- <20180615093732.GD10928@infradead.org>
-Message-ID: <20180615142158.GD8129@localhost.localdomain>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Fri, 15 Jun 2018 14:22:03 +0000
+Subject: [PATCH 1/2] nvme-cli: add changed log ns support
+In-Reply-To: <20180615093911.GE10928@infradead.org>
+References: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>,
+ <20180615093911.GE10928@infradead.org>
+Message-ID: <BN6PR04MB12039D7CA1A5C19B0BD866C0867C0@BN6PR04MB1203.namprd04.prod.outlook.com>
 
-On Fri, Jun 15, 2018@02:37:32AM -0700, Christoph Hellwig wrote:
-> On Thu, Jun 14, 2018@05:24:22PM -0600, Revanth Rajashekar wrote:
-> > Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
-> 
-> How has this been tested?  Especially the flexible resource assignments
-> really need some kernel support so that the host driver can stop
-> using the resources.
 
-I'm not sure this can be sufficiently tested without some prep-patches
-adding Identify Primary Controller Capabilities and Identify Secondary
-Controler List commands.
+Sure I can resend with changelog.
 
-But what do we need from the primary controller driver to support this?
+We want to use this log page in?blktests?after NS create/delete operations to make sure it's empty and everything is clear.
 
-Flexible resources assigned to a primary controller are are not
-actually used or released until you do a controller reset following your
-virtualization management commands, so the driver will automatically
-react to the new assignment.
+In case if that is not going to be helpful we can drop this patch, please let me.
 
-For a secondary controller's flexible resource assignement, you can only
-assign flexible resources from the primary controller when the secondary
-is offline, so the resources should be discovered by the driver when
-the controller is brought online again.
 
-Neither appear to have a requirement for the driver to be aware these
-management commands are happening.
+
+From: Christoph Hellwig <hch@infradead.org>
+Sent: Friday, June 15, 2018 2:39 AM
+To: Chaitanya Kulkarni
+Cc: linux-nvme at lists.infradead.org; keith.busch at intel.com
+Subject: Re: [PATCH 1/2] nvme-cli: add changed log ns support
+? 
+ 
+Needs a least a bit of a changelog.
+
+What is the use case given that this is mostly something for the
+driver to look into given that self-clearing nature.
+    
