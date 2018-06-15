@@ -1,11 +1,10 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 15 Jun 2018 02:39:11 -0700
-Subject: [PATCH 1/2] nvme-cli: add changed log ns support
-In-Reply-To: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
-References: <20180611020508.2845-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180615093911.GE10928@infradead.org>
+Date: Fri, 15 Jun 2018 02:45:04 -0700
+Subject: [PATCH] nvmet: add commands supported and effects log page
+In-Reply-To: <20180611174007.5387-1-chaitanya.kulkarni@wdc.com>
+References: <20180611174007.5387-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180615094504.GA22154@infradead.org>
 
-Needs a least a bit of a changelog.
+Thanks,
 
-What is the use case given that this is mostly something for the
-driver to look into given that self-clearing nature.
+applied to nvme-4.19.
