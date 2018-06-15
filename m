@@ -1,17 +1,54 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 15 Jun 2018 08:16:46 -0600
-Subject: [GIT PULL] nvme fixes for 4.18
-In-Reply-To: <20180615131301.2teay6o7c2jrqxtw@infradead.org>
-References: <20180615131301.2teay6o7c2jrqxtw@infradead.org>
-Message-ID: <8ac40265-01a6-780c-f0a2-baa773a94187@kernel.dk>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 15 Jun 2018 07:18:06 -0700
+Subject: [PATCH 3/3] nvme-fabrics: fix and refine state checks in
+ __nvmf_check_ready
+In-Reply-To: <20180615093234.GB21138@lst.de>
+References: <20180614122215.4395-1-hch@lst.de>
+ <20180614122215.4395-4-hch@lst.de>
+ <2185be0b-7936-3b3f-2659-d6634336f907@broadcom.com>
+ <20180615093234.GB21138@lst.de>
+Message-ID: <7996a4b1-a1e9-882d-13c9-d72ac45ea121@broadcom.com>
 
-On 6/15/18 7:13 AM, Christoph Hellwig wrote:
-> Fix various little regressions introduced in this merge window, plus
-> a rework of the fibre channel connect and reconnect path to share the
-> code instead of having separate sets of bugs.  Last but not least a
-> trivial trace point addition from Hannes.
+On 6/15/2018 2:32 AM, Christoph Hellwig wrote:
+> On Thu, Jun 14, 2018@10:37:01AM -0700, James Smart wrote:
+>> I like what's here and think it's pretty conclusive. Enough that I'm good
+>> with a Reviewed-by for me to be added.
+> Thanks.
+>
+>> In thinking this through: There's still the issue of queue_live being set
+>> true when in a RESETTING/DELETING state as the workqueue element to enact
+>> the reset/delete has yet to be run or is just starting to run. Since above
+>> restricts it to kernel-generated commands only, the only things that should
+>> get through in this case are:
+>> 1) a property_set command to write CC.NE=0 is issued by the transport
+>> reset/delete handler. Note: it's unclear whether the queue will be live or
+>> not.
+>> 2) controller was in a NEW/CONNECTING state and was sending a command used
+>> to init the controller.
+>> 3) a keep alive
+>>
+>> (1) is desired behavior, assuming queue is live to let it through.
+>> (2) and (3) - I assume the transport reset/delete handler will freeze the
+>> queues, cycle through any outstanding command and will terminate them. So
+>> it should be ok.
+> Yes.
+>
+>> I assume, based on the time needed to freeze the queues,
+>> that there shouldn't be a possibility for the delete/reset handler queue
+>> freeze code to race with an io allowed by the checks (it should be long
+>> gone).?? If there's not agreement on that assumption, then a clause
+>> should be added after the switch case that checks for RESETTING or DELETING
+>> and if so, only allows a Property_Set for CC.EN=0 command.
+> Note that in PCIe until recently we actually had other commands in
+> the shutdown sequence, and at least for an oderly shutdown other commands
+> might reappear.  So I'm not really sure adding additional restrictions
+> is a good idea, as we'd need to update the state machine every time
+> the shutdown sequence changes.  Especially given that the queue should
+> be frozen for external I/O anyway.
+>
+>> -- james
+> ---end quoted text---
 
-Pulled, thanks.
+Sounds good.
 
--- 
-Jens Axboe
+-- james
