@@ -1,21 +1,33 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 15 Jun 2018 02:33:45 -0700
-Subject: [PATCH] nvme-cli: Implement printing the get timestamp feature.
-In-Reply-To: <20180613195352.11657-1-revanth.rajashekar@intel.com>
-References: <20180613195352.11657-1-revanth.rajashekar@intel.com>
-Message-ID: <20180615093345.GA10928@infradead.org>
+Date: Fri, 15 Jun 2018 02:35:00 -0700
+Subject: [PATCH] nvme-cli: Implement printing the get host controlled
+ thermal management feature.
+In-Reply-To: <20180613201531.12027-1-revanth.rajashekar@intel.com>
+References: <20180613201531.12027-1-revanth.rajashekar@intel.com>
+Message-ID: <20180615093500.GB10928@infradead.org>
 
-> +static void show_timestamp(struct nvme_timestamp *ts)
-> +{
-> +	printf("\tThe timestamp is : %lu\n", int48_to_long(ts->timestamp));
-> +	printf("\t%s\n", (ts->attr & 2) ? "The Timestamp field was initialized with a "\
-> +			"Timestamp value using a Set Features command." : "The Timestamp field was initialized "\
-> +			"to ?0? by a Controller Level Reset.");
-> +	printf("\t%s\n", (ts->attr & 1) ? "The controller may have stopped counting during vendor specific "\
-> +			"intervals after the Timestamp value was initialized" : "The controller counted time in milliseconds "\
-> +			"continuously since the Timestamp value was initialized.");
+> --- a/linux/nvme.h
+> +++ b/linux/nvme.h
+> @@ -857,6 +857,7 @@ enum {
+>  	NVME_FEAT_HOST_MEM_BUF	= 0x0d,
+>  	NVME_FEAT_TIMESTAMP	= 0x0e,
+>  	NVME_FEAT_KATO		= 0x0f,
+> +	NVME_FEAT_HCTM		= 0X10,
+>  	NVME_FEAT_RRL		= 0x12,
+>  	NVME_FEAT_PLM_CONFIG	= 0x13,
+>  	NVME_FEAT_PLM_WINDOW	= 0x14,
 
-Can you use if / else statements insteda of the ? : operators to make
-this more redable?
+Please also send any uptdates to this file to the kernel.
 
-Otherwise this looks fine to me.
+>  	case NVME_FEAT_RESV_PERSIST:
+>  		printf("\tPersist Through Power Loss (PTPL): %s\n", (result & 0x00000001) ? "True":"False");
+>  		break;
+> +	case NVME_FEAT_HCTM:
+> +		printf("\tThermal Management Temperature 1 (TMT1) : %u Kelvin\n", (result >> 16));
+> +		printf("\tThermal Management Temperature 2 (TMT2) : %u Kelvin\n", (result & 0x0000ffff));
+> +		break;
+>  	}
+
+Please use a new line for the argument after the format string.
+
+Also both pairs of inner braces are not required.
