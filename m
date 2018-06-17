@@ -1,36 +1,33 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 17 Jun 2018 13:26:01 +0300
-Subject: [PATCH 2/2] nvme: start keep alive timer when enabling the
- controller
-In-Reply-To: <20180417152407.GB25823@lst.de>
-References: <20180415084741.4235-1-sagi@grimberg.me>
- <20180415084741.4235-2-sagi@grimberg.me>
- <fe43038e-001c-7468-be66-3df96d9d95e0@mellanox.com>
- <9529fb23-ba35-0f41-7eda-2439612e1cd6@grimberg.me>
- <20180417152407.GB25823@lst.de>
-Message-ID: <c42b311e-cd42-5d5b-1528-a0c7614bfe71@mellanox.com>
+Date: Sun, 17 Jun 2018 13:52:55 +0300
+Subject: [PATCH] nvme: Fix error flow at nvme_rdma_configure_admin_queue()
+In-Reply-To: <20180615080154.GA19525@lst.de>
+References: <1528979864-3109-1-git-send-email-israelr@mellanox.com>
+ <20180615080154.GA19525@lst.de>
+Message-ID: <a760d739-f88b-99bf-27ca-4dee113b5b49@mellanox.com>
 
 
 
-On 4/17/2018 6:24 PM, Christoph Hellwig wrote:
-> On Sun, Apr 15, 2018@01:17:58PM +0300, Sagi Grimberg wrote:
->>> Christoph suggested to add the keep-alive stop to the disable/shutdown (I
->>> guess we need to add it to both, right ?) and in the target side to start
->>> expecting also once ctrl is enabled and stop when disabled.
+On 6/15/2018 11:01 AM, Christoph Hellwig wrote:
+> On Thu, Jun 14, 2018@12:37:44PM +0000, Israel Rukshin wrote:
+>> On error calling to nvme_rdma_free_queue() with admin queue
+>> frees the QE before it was allocated.
 >>
->> I don't necessarily think we need to. Also, its better to do this sooner
->> rather than later (stop_ctrl happens before disable/shutdown) and also,
->> disable/shutdown might not even execute if the transport is not connected.
+>> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+>> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 > 
-> I was suggesting to do it in disable as that is the point at which
-> we can't send one for sure.  But yes, I suspect stop_ctrl is even
-> better due to the reasons Sagi stated.  Sorry for the confusion.
+> This certainly matches what we do in nvme_rdma_free_queue, but it
+> looks like a little too much special casing vodoo to me.
+> 
+> The nvme_rdma_free_queue was added by Sagi last October to fix
+> a reconnect double free.  But I wonder if we just need to move it
+> back instead and have a different double free protection.  E.g.
+> in nvme_rdma_free_qe just check if qe->data is set first,
+> and the NULL it out when freeing.
 > 
 
-This wasn't pushed eventually to upstream.
-I see an issue during error flow in case nvme_rdma_configure_io_queues 
-is failed during nvme_rdma_create_ctrl.
-Should we stop the keep-alive explicitly (start keep-alive was called 
-during nvme_enable_ctrl ?
-
-I can send V2..
+I guess we can but this is not enough since we'll need to move the call 
+to nvme_rdma_free_qe to be after stopping the queue. I actually think 
+that making it symetrical is the right way to go (we also have a flag 
+NVME_RDMA_Q_ALLOCATED that helps here) but I guess reverting Sagi's 
+commit + some fix will work too.
