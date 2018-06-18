@@ -1,67 +1,133 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 19 Jun 2018 14:29:44 -0500
-Subject: [PATCH v4 3/3] nvmet-rdma: support max(16KB, PAGE_SIZE) inline
- data
-In-Reply-To: <75a24870-832c-1a4c-fe97-c1dfcf91c426@opengridcomputing.com>
-References: <cover.1528219321.git.swise@opengridcomputing.com>
- <051c25edb1b0c0aa84b8195a95bdd3eb30d710f5.1528219321.git.swise@opengridcomputing.com>
- <98819370-459b-cad8-e89e-e2a128178dba@grimberg.me>
- <75a24870-832c-1a4c-fe97-c1dfcf91c426@opengridcomputing.com>
-Message-ID: <be676b5f-4de2-ef66-82c0-bd7263c1892e@opengridcomputing.com>
+Date: Mon, 18 Jun 2018 11:19:26 -0700
+Subject: [PATCH v5 1/2] nvme-rdma: support up to 4 segments of inline data
+In-Reply-To: <cover.1529435395.git.swise@opengridcomputing.com>
+References: <cover.1529435395.git.swise@opengridcomputing.com>
+Message-ID: <c475be03a3ddf6bc730c163a6ed0b8c084897f46.1529435395.git.swise@opengridcomputing.com>
 
+Allow up to 4 segments of inline data for NVMF WRITE operations. This
+reduces latency for small WRITEs by removing the need for the target to
+issue a READ WR for IB, or a REG_MR + READ WR chain for iWarp.
 
+Also cap the inline segments used based on the limitations of the
+device.
 
-On 6/19/2018 9:35 AM, Steve Wise wrote:
->
-> On 6/19/2018 6:59 AM, Sagi Grimberg wrote:
->>
->> On 06/05/2018 08:16 PM, Steve Wise wrote:
->>> The patch enables inline data sizes using up to 4 recv sges, and capping
->>> the size at 16KB or at least 1 page size.
->> Question: any reason for that cap? Just seems like an arbitrary limit...
->>
-> It was there in the original patch series, and I continued it.? I guess
-> the idea is we don't want to be a memory hog.
->
->> ? So on a 4K page system, up to
->>> 16KB is supported, and for a 64K page system 1 page of 64KB is
->>> supported.
->> Well if someone asked for 16K and got 64K its a bit of a surprise
->> isn't it? without exposing knob for this, using 64K OK I guess, but when
->> we expose controls for this its a bit surprising.
->>
-> I'm open to proposals for a better way to do all this.? Like perhaps
-> just a knob for how many pages to allow?
->
->> Would page_frags work better here? (page_frag_alloc/page_frag_free)
->> Given that most likely the backend device will work with 4K pages, the
->> fragments won't cause gaps...
->>
-> There's no comments on this API.? How does it work?? It allocates some
-> number of contiguous fragments < a page?
->
->> Thoughts?
->>
->> ...
->>
->>
->>> +static int num_pages(int len)
->>> +{
->>> +??? return 1 + (((len - 1) & PAGE_MASK) >> PAGE_SHIFT);
->>> +}
->> Steve, can you explain why is this needed? why isn't get_order()
->> sufficient?
->>
-> I thought get_order() gives you a power of two >= the length. ie 1, 2,
-> 4, 8, 16.? For inline_data length of 12KB, for example, we want 3 pages,
-> not 4.? Or am I mistaken?
->
->
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/nvme/host/rdma.c | 38 +++++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
-Just to clarify here:? The target never allocates more that a single
-page per recv SGE for inline data.? That was a change from v3-v4 of this
-series.? I eliminated any page allocations of order > 0.? So num_pages()
-is there to compute the number of pages used to represent len bytes of
-inline data.? IE <= 4KB, 1 page. ? > 4KB and <= 8KB, 2 pages, etc...
-
-Steve
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c9424da..e02cb54 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -40,13 +40,14 @@
+ 
+ #define NVME_RDMA_MAX_SEGMENTS		256
+ 
+-#define NVME_RDMA_MAX_INLINE_SEGMENTS	1
++#define NVME_RDMA_MAX_INLINE_SEGMENTS	4
+ 
+ struct nvme_rdma_device {
+ 	struct ib_device	*dev;
+ 	struct ib_pd		*pd;
+ 	struct kref		ref;
+ 	struct list_head	entry;
++	unsigned int		num_inline_segments;
+ };
+ 
+ struct nvme_rdma_qe {
+@@ -117,6 +118,7 @@ struct nvme_rdma_ctrl {
+ 	struct sockaddr_storage src_addr;
+ 
+ 	struct nvme_ctrl	ctrl;
++	bool			use_inline_data;
+ };
+ 
+ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
+@@ -249,7 +251,7 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+ 	/* +1 for drain */
+ 	init_attr.cap.max_recv_wr = queue->queue_size + 1;
+ 	init_attr.cap.max_recv_sge = 1;
+-	init_attr.cap.max_send_sge = 1 + NVME_RDMA_MAX_INLINE_SEGMENTS;
++	init_attr.cap.max_send_sge = 1 + dev->num_inline_segments;
+ 	init_attr.sq_sig_type = IB_SIGNAL_REQ_WR;
+ 	init_attr.qp_type = IB_QPT_RC;
+ 	init_attr.send_cq = queue->ib_cq;
+@@ -374,6 +376,8 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 		goto out_free_pd;
+ 	}
+ 
++	ndev->num_inline_segments = min(NVME_RDMA_MAX_INLINE_SEGMENTS,
++					ndev->dev->attrs.max_send_sge - 1);
+ 	list_add(&ndev->entry, &device_list);
+ out_unlock:
+ 	mutex_unlock(&device_list_mutex);
+@@ -1088,19 +1092,27 @@ static int nvme_rdma_set_sg_null(struct nvme_command *c)
+ }
+ 
+ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+-		struct nvme_rdma_request *req, struct nvme_command *c)
++		struct nvme_rdma_request *req, struct nvme_command *c,
++		int count)
+ {
+ 	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++	struct scatterlist *sgl = req->sg_table.sgl;
++	struct ib_sge *sge = &req->sge[1];
++	u32 len = 0;
++	int i;
+ 
+-	req->sge[1].addr = sg_dma_address(req->sg_table.sgl);
+-	req->sge[1].length = sg_dma_len(req->sg_table.sgl);
+-	req->sge[1].lkey = queue->device->pd->local_dma_lkey;
++	for (i = 0; i < count; i++, sgl++, sge++) {
++		sge->addr = sg_dma_address(sgl);
++		sge->length = sg_dma_len(sgl);
++		sge->lkey = queue->device->pd->local_dma_lkey;
++		len += sge->length;
++	}
+ 
+ 	sg->addr = cpu_to_le64(queue->ctrl->ctrl.icdoff);
+-	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
++	sg->length = cpu_to_le32(len);
+ 	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+ 
+-	req->num_sge++;
++	req->num_sge += count;
+ 	return 0;
+ }
+ 
+@@ -1193,15 +1205,16 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 		goto out_free_table;
+ 	}
+ 
+-	if (count == 1) {
++	if (count <= dev->num_inline_segments) {
+ 		if (rq_data_dir(rq) == WRITE && nvme_rdma_queue_idx(queue) &&
++		    queue->ctrl->use_inline_data &&
+ 		    blk_rq_payload_bytes(rq) <=
+ 				nvme_rdma_inline_data_size(queue)) {
+-			ret = nvme_rdma_map_sg_inline(queue, req, c);
++			ret = nvme_rdma_map_sg_inline(queue, req, c, count);
+ 			goto out;
+ 		}
+ 
+-		if (dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY) {
++		if (count == 1 && dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY) {
+ 			ret = nvme_rdma_map_sg_single(queue, req, c);
+ 			goto out;
+ 		}
+@@ -1974,6 +1987,9 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		goto out_remove_admin_queue;
+ 	}
+ 
++	if (ctrl->ctrl.sgls & (1 << 20))
++		ctrl->use_inline_data = true;
++
+ 	if (opts->queue_size > ctrl->ctrl.maxcmd) {
+ 		/* warn if maxcmd is lower than queue_size */
+ 		dev_warn(ctrl->ctrl.device,
+-- 
+1.8.3.1
