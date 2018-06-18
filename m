@@ -1,247 +1,393 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 Jun 2018 11:32:06 -0600
-Subject: [RFC PATCH] blk-mq: User defined HCTX CPU mapping
-Message-ID: <20180618173206.19506-1-keith.busch@intel.com>
+From: revanth.rajashekar@intel.com (Revanth Rajashekar)
+Date: Mon, 18 Jun 2018 15:28:14 -0600
+Subject: [PATCH] nvme-cli: Implemented primary and secondary controller
+Message-ID: <20180618212814.9273-1-revanth.rajashekar@intel.com>
 
-The default mapping of a cpu to a hardware context is often generally
-applicable, however a user may know of a more appropriate mapping for
-their specific access usage.
-
-This patch allows a user to define their own policy by making the mq hctx
-cpu_list writable. The usage allows a user to append a comma separated
-and/or range list of CPUs to a given hctx's tag set mapping to reassign
-what hctx a cpu may map.
-
-While the writable attribute exists under a specific request_queue, the
-settings will affect all request queues sharing the same tagset.
-
-The user defined setting is lost if the block device is removed and
-re-added, or if the driver re-runs the queue mapping.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
 ---
- block/blk-mq-debugfs.c | 16 ++++++----
- block/blk-mq-debugfs.h | 11 +++++++
- block/blk-mq-sysfs.c   | 80 +++++++++++++++++++++++++++++++++++++++++++++++++-
- block/blk-mq.c         |  9 ------
- block/blk-mq.h         | 12 ++++++++
- 5 files changed, 112 insertions(+), 16 deletions(-)
+ linux/nvme.h   |   3 ++
+ nvme-builtin.h |   2 +
+ nvme-ioctl.c   |  24 +++++++++
+ nvme-ioctl.h   |   3 ++
+ nvme-print.c   | 118 ++++++++++++++++++++++++++++++++++++++++++++
+ nvme-print.h   |   7 +++
+ nvme.c         | 129 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 7 files changed, 286 insertions(+)
 
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index ffa622366922..df163a79511c 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -870,18 +870,22 @@ void blk_mq_debugfs_unregister(struct request_queue *q)
- 	q->debugfs_dir = NULL;
+diff --git a/linux/nvme.h b/linux/nvme.h
+index 97204f3..3db25ad 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -377,6 +377,8 @@ enum {
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+ 	NVME_ID_CNS_CTRL_LIST		= 0x13,
++	NVME_ID_CNS_PIMARY_CNTRLR_CAP 		= 0x14,
++	NVME_ID_CNS_SECONDARY_CNTRLR_LIST 	= 0x15,
+ };
+ 
+ enum {
+@@ -974,6 +976,7 @@ struct nvme_identify {
+ };
+ 
+ #define NVME_IDENTIFY_DATA_SIZE 4096
++#define NVME_VIRTUAL_CNTRLR_DATA_SIZE 4096
+ 
+ struct nvme_features {
+ 	__u8			opcode;
+diff --git a/nvme-builtin.h b/nvme-builtin.h
+index 86b0fff..ccb3d16 100644
+--- a/nvme-builtin.h
++++ b/nvme-builtin.h
+@@ -63,6 +63,8 @@ COMMAND_LIST(
+ 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
+ 	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
+ 	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
++	ENTRY("primary-cntrlr", "Obtain the primary controller capabilities structure", primary_cntrlr)
++	ENTRY("secondary-cntrlr", "Obtain a Secondary Controller list associated with the primary controller", secondary_cntrlr)
+ );
+ 
+ #endif
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index 63ff8fb..4bc6154 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -393,6 +393,30 @@ int nvme_identify_nvmset(int fd, __u16 nvmset_id, void *data)
+ 	return nvme_identify13(fd, 0, NVME_ID_CNS_NVMSET_LIST, nvmset_id, data);
  }
  
--static int blk_mq_debugfs_register_ctx(struct blk_mq_hw_ctx *hctx,
--				       struct blk_mq_ctx *ctx)
-+void blk_mq_debugfs_unregister_ctx(struct blk_mq_ctx *ctx)
++int nvme_cntrlr13(int fd, __u32 cdw10, __u32 cdw11, void *data)
 +{
-+	debugfs_remove_recursive(ctx->debugfs_dir);
++	struct nvme_admin_cmd cmd = {
++		.opcode 	= nvme_admin_virtual_mgmt,
++		.nsid		= 0,
++		.addr 		= (__u64)(uintptr_t) data,
++		.data_len	= NVME_VIRTUAL_CNTRLR_DATA_SIZE,
++		.cdw10 		= cdw10,
++		.cdw11 		= cdw11,
++	};
++
++	return nvme_submit_admin_passthru(fd, &cmd);
 +}
 +
-+int blk_mq_debugfs_register_ctx(struct blk_mq_hw_ctx *hctx,
-+				struct blk_mq_ctx *ctx)
++int nvme_primary_cntrlr(int fd, void *data)
++{
++	return nvme_cntrlr13(fd, NVME_ID_CNS_PIMARY_CNTRLR_CAP, 0, data);
++}
++
++int nvme_secondary_cntrlr(int fd, void *data)
++{
++	return nvme_cntrlr13(fd, NVME_ID_CNS_SECONDARY_CNTRLR_LIST, 0, data);
++}
++
+ int nvme_get_log13(int fd, __u32 nsid, __u8 log_id, __u8 lsp, __u64 lpo,
+                  __u16 lsi, __u32 data_len, void *data)
  {
--	struct dentry *ctx_dir;
- 	char name[20];
- 
- 	snprintf(name, sizeof(name), "cpu%u", ctx->cpu);
--	ctx_dir = debugfs_create_dir(name, hctx->debugfs_dir);
--	if (!ctx_dir)
-+	ctx->debugfs_dir = debugfs_create_dir(name, hctx->debugfs_dir);
-+	if (!ctx->debugfs_dir)
- 		return -ENOMEM;
- 
--	if (!debugfs_create_files(ctx_dir, ctx, blk_mq_debugfs_ctx_attrs))
-+	if (!debugfs_create_files(ctx->debugfs_dir, ctx, blk_mq_debugfs_ctx_attrs))
- 		return -ENOMEM;
- 
- 	return 0;
-diff --git a/block/blk-mq-debugfs.h b/block/blk-mq-debugfs.h
-index b9d366e57097..93df02eabf2b 100644
---- a/block/blk-mq-debugfs.h
-+++ b/block/blk-mq-debugfs.h
-@@ -18,6 +18,9 @@ struct blk_mq_debugfs_attr {
- int __blk_mq_debugfs_rq_show(struct seq_file *m, struct request *rq);
- int blk_mq_debugfs_rq_show(struct seq_file *m, void *v);
- 
-+void blk_mq_debugfs_unregister_ctx(struct blk_mq_ctx *ctx);
-+int blk_mq_debugfs_register_ctx(struct blk_mq_hw_ctx *hctx,
-+				struct blk_mq_ctx *ctx);
- int blk_mq_debugfs_register(struct request_queue *q);
- void blk_mq_debugfs_unregister(struct request_queue *q);
- int blk_mq_debugfs_register_hctx(struct request_queue *q,
-@@ -41,6 +44,14 @@ static inline void blk_mq_debugfs_unregister(struct request_queue *q)
- {
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index 6d4ac95..e6385eb 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -138,4 +138,7 @@ int nvme_sanitize(int fd, __u8 sanact, __u8 ause, __u8 owpass, __u8 oipbp,
+ 		  __u8 no_dealloc, __u32 ovrpat);
+ int nvme_self_test_start(int fd, __u32 nsid, __u32 cdw10);
+ int nvme_self_test_log(int fd, struct nvme_self_test_log *self_test_log);
++int nvme_cntrlr13(int fd, __u32 cdw10, __u32 cdw11, void *data);
++int nvme_primary_cntrlr(int fd, void *data);
++int nvme_secondary_cntrlr(int fd, void *data);
+ #endif				/* _NVME_LIB_H */
+diff --git a/nvme-print.c b/nvme-print.c
+index 8699d6c..732be8d 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -951,6 +951,72 @@ void show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode)
+ 	__show_nvme_id_ctrl(ctrl, mode, NULL);
  }
  
-+void blk_mq_debugfs_unregister_ctx(struct blk_mq_ctx *ctx) {}
-+
-+int blk_mq_debugfs_register_ctx(struct blk_mq_hw_ctx *hctx,
-+				struct blk_mq_ctx *ctx)
++void show_nvme_primary_cntrlr_crt(__u8 crt)
 +{
-+	return 0;
++	__u8 rsvd = (crt & 0xFC) >> 2;
++	__u8 vir  = (crt & 0x2) >> 1;
++	__u8 vqr  = crt & 0x1;
++	if (rsvd)
++		printf("  [7:2] : %#x\tReserved\n", rsvd);
++	printf("  [1:1] : %#x\t VI Resources are %s\n",
++		vir, vir ? "Supported" : "NOT Supported");
++	printf("  [0:0] : %#x\t VQ Resources are %s\n", vqr,
++		vqr ? "Supported" : "NOT Supported");
++	printf("\n");
 +}
 +
- static inline int blk_mq_debugfs_register_hctx(struct request_queue *q,
- 					       struct blk_mq_hw_ctx *hctx)
++void show_nvme_primary_cntrlr(struct nvme_id_primary_cntrlr *ctrl)
++{
++	printf("cntlid     : %#x\n", le16_to_cpu(ctrl->cntlid));
++	printf("portid     : %#x\n", le16_to_cpu(ctrl->portid));
++	printf("crt        : %#x\n", ctrl->crt);
++	show_nvme_primary_cntrlr_crt(ctrl->crt);
++	printf("vqfrt      : %d\n", ctrl->vqfrt);
++	printf("vqrfa      : %d\n", ctrl->vqrfa);
++	printf("vqrfap     : %d\n", le16_to_cpu(ctrl->vqrfap));
++	printf("vqprt      : %d\n", le16_to_cpu(ctrl->vqprt));
++	printf("vqfrsm     : %d\n", le16_to_cpu(ctrl->vqfrsm));
++	printf("vqgran     : %d\n", le16_to_cpu(ctrl->vqgran));
++	printf("vifrt      : %u\n", le32_to_cpu(ctrl->vifrt));
++	printf("virfa      : %u\n", le32_to_cpu(ctrl->virfa));
++	printf("virfap     : %d\n", le16_to_cpu(ctrl->virfap));
++	printf("viprt      : %d\n", le16_to_cpu(ctrl->viprt));
++	printf("vifrsm     : %d\n", le16_to_cpu(ctrl->vifrsm));
++	printf("vigran     : %d\n", le16_to_cpu(ctrl->vigran));
++}
++
++void show_nvme_secondary_cntrlr_entry_scs(__u8 scs)
++{
++	__u8 rsvd = (scs & 0xFE) >> 1;
++	__u8 os  = scs & 0x1;
++
++	if (rsvd)
++		printf("  [7:1] : %#x\tReserved\n", rsvd);
++	printf("  [0:0] : %#x\t Controller is in %s state\n", os,
++		os ? "Online" : "Offline");
++
++}
++
++void show_nvme_secondary_cntrlr_entry(struct nvme_secondary_cntrlr_entry *ctrl)
++{
++	printf("scid     : %#x\n", le16_to_cpu(ctrl->scid));
++	printf("pcid     : %#x\n", le16_to_cpu(ctrl->pcid));
++	printf("scs 	 : %#x\n",ctrl->scs);
++	show_nvme_secondary_cntrlr_entry_scs(ctrl->scs);
++	printf("vfn	     : %d\n", le16_to_cpu(ctrl->vfn));
++	printf("nvq	     : %d\n", le16_to_cpu(ctrl->nvq));
++	printf("nvi	     : %d\n", le16_to_cpu(ctrl->nvi));
++}
++
++void show_nvme_secondary_cntrlr_list(struct nvme_secondary_cntrlr_list *ctrl)
++{
++	int i;
++
++	printf("num_of_identifiers  : %d\n", ctrl->num_of_identifiers);
++	for(i = 0; i < ctrl->num_of_identifiers; i++)
++		show_nvme_secondary_cntrlr_entry(&ctrl->sc[i]);
++}
++
+ void show_nvme_id_nvmset(struct nvme_id_nvmset *nvmset)
  {
-diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
-index aafb44224c89..ec2a07dd86e9 100644
---- a/block/blk-mq-sysfs.c
-+++ b/block/blk-mq-sysfs.c
-@@ -11,6 +11,7 @@
- 
- #include <linux/blk-mq.h>
- #include "blk-mq.h"
-+#include "blk-mq-debugfs.h"
- #include "blk-mq-tag.h"
- 
- static void blk_mq_sysfs_release(struct kobject *kobj)
-@@ -161,6 +162,82 @@ static ssize_t blk_mq_hw_sysfs_cpus_show(struct blk_mq_hw_ctx *hctx, char *page)
- 	return ret;
+ 	int i;
+@@ -2141,6 +2207,58 @@ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vs)(
+ 	json_free_object(root);
  }
  
-+static void blk_mq_reassign_swqueue(unsigned int cpu,  unsigned int new_index,
-+				    struct blk_mq_tag_set *set)
++void json_nvme_primary_cntrlr(struct nvme_id_primary_cntrlr *ctrl)
 +{
-+	struct blk_mq_hw_ctx *hctx;
-+	struct request_queue *q;
-+	struct blk_mq_ctx *ctx;
++	struct json_object *root;
++	root = json_create_object();
 +
-+	if (set->mq_map[cpu] == new_index)
-+		return;
-+
-+	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-+		ctx = per_cpu_ptr(q->queue_ctx, cpu);
-+		blk_mq_debugfs_unregister_ctx(ctx);
-+		kobject_del(&ctx->kobj);
-+
-+		hctx = blk_mq_map_queue(q, cpu);
-+		cpumask_clear_cpu(cpu, hctx->cpumask);
-+		hctx->nr_ctx--;
-+		if (hctx->dispatch_from == ctx)
-+			hctx->dispatch_from = NULL;
-+	}
-+
-+	set->mq_map[cpu] = new_index;
-+
-+	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-+		ctx = per_cpu_ptr(q->queue_ctx, cpu);
-+		hctx = blk_mq_map_queue(q, cpu);
-+		cpumask_set_cpu(cpu, hctx->cpumask);
-+		ctx->index_hw = hctx->nr_ctx;
-+		hctx->ctxs[hctx->nr_ctx++] = ctx;
-+		sbitmap_resize(&hctx->ctx_map, hctx->nr_ctx);
-+		hctx->next_cpu = blk_mq_first_mapped_cpu(hctx);
-+
-+		if (kobject_add(&ctx->kobj, &hctx->kobj, "cpu%u", ctx->cpu))
-+			printk(KERN_WARNING "ctx object failure\n");
-+		blk_mq_debugfs_register_ctx(hctx, ctx);
-+	}
++	json_object_add_value_int(root, "cntlid", le16_to_cpu(ctrl->cntlid));
++	json_object_add_value_int(root, "portid", le16_to_cpu(ctrl->portid));
++	json_object_add_value_int(root, "crt", ctrl->crt);
++	json_object_add_value_int(root, "vqfrt", ctrl->vqfrt);
++	json_object_add_value_int(root, "vqrfa", ctrl->vqrfa);
++	json_object_add_value_int(root, "vqrfap", le16_to_cpu(ctrl->vqrfap));
++	json_object_add_value_int(root, "vqprt", le16_to_cpu(ctrl->vqprt));
++	json_object_add_value_int(root, "vqfrsm", le16_to_cpu(ctrl->vqfrsm));
++	json_object_add_value_int(root, "vqgran", le16_to_cpu(ctrl->vqgran));
++	json_object_add_value_uint(root, "vifrt", le32_to_cpu(ctrl->vifrt));
++	json_object_add_value_uint(root, "virfa", le32_to_cpu(ctrl->virfa));
++	json_object_add_value_int(root, "virfap", le16_to_cpu(ctrl->virfap));
++	json_object_add_value_int(root, "viprt", le16_to_cpu(ctrl->viprt));
++	json_object_add_value_int(root, "vifrsm", le16_to_cpu(ctrl->vifrsm));
++	json_object_add_value_int(root, "vigran", le16_to_cpu(ctrl->vigran));
++	json_print_object(root, NULL);
++	printf("\n");
++	json_free_object(root);
 +}
 +
-+static ssize_t blk_mq_hw_sysfs_cpus_store(struct blk_mq_hw_ctx *hctx,
-+					  const char *page, size_t length)
++void json_nvme_secondary_cntrlr(struct nvme_secondary_cntrlr_list *ctrl)
 +{
-+	unsigned int cpu, queue_index = hctx->queue_num;
-+	struct blk_mq_tag_set *set = hctx->queue->tag_set;
-+	struct request_queue *q;
-+	cpumask_var_t new_value;
-+	int err;
++	struct json_object *root;
++	struct json_array *valid;
++	struct json_object *valid_attrs;
++	int i;
 +
-+	if (!alloc_cpumask_var(&new_value, GFP_KERNEL))
-+		return -ENOMEM;
++	root = json_create_object();
++	json_object_add_value_int(root, "num_of_identifiers", ctrl->num_of_identifiers);
++	valid = json_create_array();
 +
-+	err = cpulist_parse(page, new_value);
-+	if (err)
-+		goto free_mask;
++	for (i=0; i < ctrl->num_of_identifiers; i++) {
++		valid_attrs = json_create_object();
++		json_object_add_value_int(valid_attrs, "scid", le16_to_cpu(ctrl->sc[i].scid));
++		json_object_add_value_int(valid_attrs, "pcid", le16_to_cpu(ctrl->sc[i].pcid));
++		json_object_add_value_int(valid_attrs, "scs", ctrl->sc[i].scs );
++		json_object_add_value_int(valid_attrs, "vfn", le16_to_cpu(ctrl->sc[i].vfn));
++		json_object_add_value_int(valid_attrs, "nvq", le16_to_cpu(ctrl->sc[i].nvq));
++		json_object_add_value_int(valid_attrs, "nvi", le16_to_cpu(ctrl->sc[i].nvi));
++		json_array_add_value_object(valid, valid_attrs);
++	}
++	json_object_add_value_array(root, "Secondary Controller Entries", valid);
++	json_print_object(root, NULL);
++	printf("\n");
++	json_free_object(root);
++}
 +
-+	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-+		if (q != hctx->queue)
-+			mutex_lock(&q->sysfs_lock);
-+		blk_mq_freeze_queue(q);
+ void json_error_log(struct nvme_error_log_page *err_log, int entries, const char *devname)
+ {
+ 	struct json_object *root;
+diff --git a/nvme-print.h b/nvme-print.h
+index 7dd5f34..bdef9b2 100644
+--- a/nvme-print.h
++++ b/nvme-print.h
+@@ -58,6 +58,13 @@ void json_nvme_id_ns_descs(void *data);
+ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n);
+ void json_self_test_log(struct nvme_self_test_log *self_test, const char *devname);
+ void json_nvme_id_nvmset(struct nvme_id_nvmset *nvmset, const char *devname);
++void show_nvme_primary_cntrlr_crt(__u8 crt);
++void show_nvme_primary_cntrlr(struct nvme_id_primary_cntrlr *ctrl);
++void show_nvme_secondary_cntrlr_entry_scs(__u8 scs);
++void show_nvme_secondary_cntrlr_entry(struct nvme_secondary_cntrlr_entry *ctrl);
++void show_nvme_secondary_cntrlr_list(struct nvme_secondary_cntrlr_list *ctrl);
++void json_nvme_primary_cntrlr(struct nvme_id_primary_cntrlr *ctrl);
++void json_nvme_secondary_cntrlr(struct nvme_secondary_cntrlr_list *ctrl);
+ 
+ 
+ #endif
+diff --git a/nvme.c b/nvme.c
+index 2dd74d2..3de55f3 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1633,6 +1633,135 @@ static int id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *pl
+ 	return __id_ctrl(argc, argv, cmd, plugin, NULL);
+ }
+ 
++int primary_cntrlr(int argc, char **argv, struct command *cmd, struct plugin *plugin)
++{
++	const char *desc = "Send an Primary Controller command to "\
++		"the given device and report information about the specified "\
++		"primary controller in human-readable or binary format.";
++	const char *raw_binary = "show infos in binary format";
++	const char *human_readable = "show infos in readable format";
++	int err, fmt, fd;
++	struct nvme_id_primary_cntrlr ctrl;
++
++	struct config {
++		int raw_binary;
++		int human_readable;
++		char *output_format;
++	};
++
++	struct config cfg = {
++		.output_format = "normal",
++	};
++
++	const struct argconfig_commandline_options command_line_options[] = {
++		{"raw-binary",      'b', "",    CFG_NONE,   &cfg.raw_binary,      no_argument,       raw_binary},
++		{"human-readable",  'H', "",    CFG_NONE,   &cfg.human_readable,  no_argument,       human_readable},
++		{"output-format",   'o', "FMT", CFG_STRING, &cfg.output_format,   required_argument, output_format },
++		{NULL}
++	};
++
++	fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
++	if (fd < 0)
++		return fd;
++
++	fmt = validate_output_format(cfg.output_format);
++	if (fmt < 0) {
++		err = fmt;
++		goto close_fd;
++	}
++	if (cfg.raw_binary) {
++		fprintf(stderr, "binary output\n");
++		fmt = BINARY;
 +	}
 +
-+	for_each_cpu(cpu, new_value)
-+		blk_mq_reassign_swqueue(cpu, queue_index, set);
-+
-+	list_for_each_entry(q, &set->tag_list, tag_set_list) {
-+		if (q != hctx->queue)
-+			mutex_unlock(&q->sysfs_lock);
-+		blk_mq_unfreeze_queue(q);
++	err = nvme_primary_cntrlr(fd, &ctrl);
++	if (!err) {
++		if (fmt == BINARY)
++			d_raw((unsigned char *)&ctrl, sizeof(ctrl));
++		else if (fmt == JSON)
++			json_nvme_primary_cntrlr(&ctrl);
++		else {
++			printf("NVME Primary Controller:\n");
++			show_nvme_primary_cntrlr(&ctrl);
++		}
 +	}
-+	err = length;
++	else if (err > 0)
++		fprintf(stderr, "NVMe Status:%s(%x)\n",
++				nvme_status_to_string(err), err);
++	else
++		perror("Primary controller");
 +
-+ free_mask:
-+	free_cpumask_var(new_value);
++ close_fd:
++	close(fd);
++
 +	return err;
 +}
 +
- static struct attribute *default_ctx_attrs[] = {
- 	NULL,
- };
-@@ -174,8 +251,9 @@ static struct blk_mq_hw_ctx_sysfs_entry blk_mq_hw_sysfs_nr_reserved_tags = {
- 	.show = blk_mq_hw_sysfs_nr_reserved_tags_show,
- };
- static struct blk_mq_hw_ctx_sysfs_entry blk_mq_hw_sysfs_cpus = {
--	.attr = {.name = "cpu_list", .mode = 0444 },
-+	.attr = {.name = "cpu_list", .mode = 0644 },
- 	.show = blk_mq_hw_sysfs_cpus_show,
-+	.store = blk_mq_hw_sysfs_cpus_store,
- };
- 
- static struct attribute *default_hw_ctx_attrs[] = {
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index d2de0a719ab8..a8dde5d70eb6 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1248,15 +1248,6 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
- 	hctx_unlock(hctx, srcu_idx);
- }
- 
--static inline int blk_mq_first_mapped_cpu(struct blk_mq_hw_ctx *hctx)
--{
--	int cpu = cpumask_first_and(hctx->cpumask, cpu_online_mask);
--
--	if (cpu >= nr_cpu_ids)
--		cpu = cpumask_first(hctx->cpumask);
--	return cpu;
--}
--
- /*
-  * It'd be great if the workqueue API had a way to pass
-  * in a mask and had some smarts for more clever placement.
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index 89231e439b2f..34dc0baf62cc 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -28,6 +28,9 @@ struct blk_mq_ctx {
- 
- 	struct request_queue	*queue;
- 	struct kobject		kobj;
-+#ifdef CONFIG_BLK_DEBUG_FS
-+	struct dentry		*debugfs_dir;
-+#endif
- } ____cacheline_aligned_in_smp;
- 
- void blk_mq_freeze_queue(struct request_queue *q);
-@@ -203,4 +206,13 @@ static inline void blk_mq_put_driver_tag(struct request *rq)
- 	__blk_mq_put_driver_tag(hctx, rq);
- }
- 
-+static inline int blk_mq_first_mapped_cpu(struct blk_mq_hw_ctx *hctx)
++int secondary_cntrlr(int argc, char **argv, struct command *cmd, struct plugin *plugin)
 +{
-+	int cpu = cpumask_first_and(hctx->cpumask, cpu_online_mask);
++	const char *desc = "Send an Secondary Controller command to "\
++		"the given device and report information about the "\
++		"secondary controllers associated with the primary controller in "\
++		"human-readable or binary format.";
++	const char *raw_binary = "show infos in binary format";
++	const char *human_readable = "show infos in readable format";
++	int err, fmt, fd;
++	struct nvme_secondary_cntrlr_list ctrl;
 +
-+	if (cpu >= nr_cpu_ids)
-+		cpu = cpumask_first(hctx->cpumask);
-+	return cpu;
++	struct config {
++		int raw_binary;
++		int human_readable;
++		char *output_format;
++	};
++
++	struct config cfg = {
++		.output_format = "normal",
++	};
++
++	const struct argconfig_commandline_options command_line_options[] = {
++		{"raw-binary",      'b', "",    CFG_NONE,   &cfg.raw_binary,      no_argument,       raw_binary},
++		{"human-readable",  'H', "",    CFG_NONE,   &cfg.human_readable,  no_argument,       human_readable},
++		{"output-format",   'o', "FMT", CFG_STRING, &cfg.output_format,   required_argument, output_format },
++		{NULL}
++	};
++
++	fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
++	if (fd < 0)
++		return fd;
++
++	fmt = validate_output_format(cfg.output_format);
++	if (fmt < 0) {
++		err = fmt;
++		goto close_fd;
++	}
++	if (cfg.raw_binary) {
++		fprintf(stderr, "binary output\n");
++		fmt = BINARY;
++	}
++
++	err = nvme_secondary_cntrlr(fd, &ctrl);
++	if (!err) {
++		if (fmt == BINARY)
++			d_raw((unsigned char *)&ctrl, sizeof(ctrl));
++		else if (fmt == JSON)
++			json_nvme_secondary_cntrlr(&ctrl);
++		else {
++			printf("NVME Secondary Controller:\n");
++			show_nvme_secondary_cntrlr_list(&ctrl);
++		}
++	}
++	else if (err > 0)
++		fprintf(stderr, "NVMe Status:%s(%x)\n",
++				nvme_status_to_string(err), err);
++	else
++		perror("Secondary controller");
++
++ close_fd:
++	close(fd);
++
++	return err;
 +}
 +
- #endif
+ static int ns_descs(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+ 	const char *desc = "Send Namespace Identification Descriptors command to the "\
 -- 
-2.14.3
+2.17.1
