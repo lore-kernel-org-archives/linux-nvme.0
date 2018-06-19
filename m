@@ -1,63 +1,51 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 19 Jun 2018 09:35:06 -0500
-Subject: [PATCH v4 3/3] nvmet-rdma: support max(16KB, PAGE_SIZE) inline
- data
-In-Reply-To: <98819370-459b-cad8-e89e-e2a128178dba@grimberg.me>
+Date: Tue, 19 Jun 2018 09:41:52 -0500
+Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
+In-Reply-To: <6cec6138-60ab-6072-d4d8-6536b4ec08d7@mellanox.com>
 References: <cover.1528219321.git.swise@opengridcomputing.com>
- <051c25edb1b0c0aa84b8195a95bdd3eb30d710f5.1528219321.git.swise@opengridcomputing.com>
- <98819370-459b-cad8-e89e-e2a128178dba@grimberg.me>
-Message-ID: <75a24870-832c-1a4c-fe97-c1dfcf91c426@opengridcomputing.com>
+ <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
+ <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
+ <20180619054056.GB23184@lst.de>
+ <6cec6138-60ab-6072-d4d8-6536b4ec08d7@mellanox.com>
+Message-ID: <09ac252f-9240-3087-08fe-e25a01a60dd7@opengridcomputing.com>
+
+Hey Max,
 
 
-
-On 6/19/2018 6:59 AM, Sagi Grimberg wrote:
+On 6/19/2018 4:21 AM, Max Gurtovoy wrote:
 >
 >
-> On 06/05/2018 08:16 PM, Steve Wise wrote:
->> The patch enables inline data sizes using up to 4 recv sges, and capping
->> the size at 16KB or at least 1 page size.
+> On 6/19/2018 8:40 AM, Christoph Hellwig wrote:
+>> On Mon, Jun 18, 2018@10:18:18AM -0500, Steve Wise wrote:
+>>>
+>>>
+>>> On 6/18/2018 9:49 AM, Steve Wise wrote:
+>>>> Hey Christoph,? will you merge patches 2 and 3 for -next?? I think
+>>>> they're ready.?? I also have a nvmetcli patch I can send out for using
+>>>> param_inline_data_size.
+>>>>
+>>>>
+>>>
+>>> Or I can rebase on 4.18-rc1 and resend...
+>>
+>> Yes, please do.? I'd also like to see at least an ACK from one or our
+>> RDMA low level experts.
+>>
 >
-> Question: any reason for that cap? Just seems like an arbitrary limit...
->
-
-It was there in the original patch series, and I continued it.? I guess
-the idea is we don't want to be a memory hog.
-
-> ? So on a 4K page system, up to
->> 16KB is supported, and for a 64K page system 1 page of 64KB is
->> supported.
->
-> Well if someone asked for 16K and got 64K its a bit of a surprise
-> isn't it? without exposing knob for this, using 64K OK I guess, but when
-> we expose controls for this its a bit surprising.
->
-I'm open to proposals for a better way to do all this.? Like perhaps
-just a knob for how many pages to allow?
-
-> Would page_frags work better here? (page_frag_alloc/page_frag_free)
-> Given that most likely the backend device will work with 4K pages, the
-> fragments won't cause gaps...
+> Actually I was debugging it offline with Steve and sent him some fix
+> that is included in this version.
+> Please re-send a rebased version and I'll review it.
 >
 
-There's no comments on this API.? How does it work?? It allocates some
-number of contiguous fragments < a page?
+Should I add a Tested-by line for you?
 
-> Thoughts?
->
-> ...
->
->
->> +static int num_pages(int len)
->> +{
->> +??? return 1 + (((len - 1) & PAGE_MASK) >> PAGE_SHIFT);
->> +}
->
-> Steve, can you explain why is this needed? why isn't get_order()
-> sufficient?
+> I realy would like to see numbers before/after this patch like Parav did:
+> http://lists.infradead.org/pipermail/linux-nvme/2017-February/008059.html
 >
 
-I thought get_order() gives you a power of two >= the length. ie 1, 2,
-4, 8, 16.? For inline_data length of 12KB, for example, we want 3 pages,
-not 4.? Or am I mistaken?
+Given the logic is pretty much the same, I would think those results
+will stand.? But I can run some of these numbers and add it to the patch
+comment (or cover letter, whichever is appropriate).
+
 
 Steve.
