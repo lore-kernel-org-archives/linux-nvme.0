@@ -1,101 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 19 Jun 2018 15:34:11 +0300
-Subject: [PATCH 3/7] nvme-rdma: Fix command completion race at error recovery
+Date: Tue, 19 Jun 2018 15:34:12 +0300
+Subject: [PATCH 4/7] nvme-rdma: unquiesce queues when deleting the controller
 In-Reply-To: <20180619123415.25077-1-sagi@grimberg.me>
 References: <20180619123415.25077-1-sagi@grimberg.me>
-Message-ID: <20180619123415.25077-4-sagi@grimberg.me>
+Message-ID: <20180619123415.25077-5-sagi@grimberg.me>
 
-From: Israel Rukshin <israelr@mellanox.com>
+If the controller is going away, we need to unquiesce the io
+queues so that all pending request can fail gracefully before
+moving forward with controller deletion.
 
-The race is between completing the request at error recovery work
-and rdma completions.
-If we cancel the request before getting the good rdma completion
-we get a NULL deref of the request MR at nvme_rdma_process_nvme_rsp().
-
-When Canceling the request we return its mr to the mr pool (set mr to NULL)
-and also unmap its data.
-Canceling the requests while the rdma queues are active is not safe.
-Because rdma queues are active and we get good rdma completions
-that can use the mr pointer which may be NULL.
-Completing the request too soon may lead also to performing DMA to/from
-user buffers which might have been already unmapped.
-
-The commit fixes the race by draining the QP before
-starting the abort commands mechanism.
-
-Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/nvme/host/rdma.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index cebe527ec6cd..15e897ac2506 100644
+index 15e897ac2506..edf63cd106ff 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -728,7 +728,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
--	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
- 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
-@@ -817,7 +816,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
- 		bool remove)
- {
--	nvme_rdma_stop_io_queues(ctrl);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.connect_q);
- 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
-@@ -947,6 +945,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 	return;
- 
- destroy_admin:
-+	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	nvme_rdma_destroy_admin_queue(ctrl, false);
- requeue:
- 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
-@@ -963,12 +962,14 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
-+		nvme_rdma_stop_io_queues(ctrl);
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
- 					nvme_cancel_request, &ctrl->ctrl);
- 		nvme_rdma_destroy_io_queues(ctrl, false);
+@@ -1741,10 +1741,12 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ 		nvme_rdma_destroy_io_queues(ctrl, shutdown);
  	}
  
- 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
- 				nvme_cancel_request, &ctrl->ctrl);
- 	nvme_rdma_destroy_admin_queue(ctrl, false);
-@@ -1734,6 +1735,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- {
- 	if (ctrl->ctrl.queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
-+		nvme_rdma_stop_io_queues(ctrl);
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
- 					nvme_cancel_request, &ctrl->ctrl);
- 		nvme_rdma_destroy_io_queues(ctrl, shutdown);
-@@ -1745,6 +1747,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+-	if (shutdown)
++	if (shutdown) {
++		nvme_start_queues(&ctrl->ctrl);
+ 		nvme_shutdown_ctrl(&ctrl->ctrl);
+-	else
++	} else {
  		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
++	}
  
  	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
-+	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
- 				nvme_cancel_request, &ctrl->ctrl);
- 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
-@@ -2011,6 +2014,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	return &ctrl->ctrl;
- 
- out_remove_admin_queue:
-+	nvme_rdma_stop_queue(&ctrl->queues[0]);
- 	nvme_rdma_destroy_admin_queue(ctrl, true);
- out_uninit_ctrl:
- 	nvme_uninit_ctrl(&ctrl->ctrl);
+ 	nvme_rdma_stop_queue(&ctrl->queues[0]);
 -- 
 2.14.1
