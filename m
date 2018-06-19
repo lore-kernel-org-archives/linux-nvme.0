@@ -1,34 +1,34 @@
-From: bdeyal@gmail.com (Eyal BenDavid)
-Date: Tue, 19 Jun 2018 19:23:00 +0300
-Subject: NVME-CLI : Fabrics property-get and 64 bit property (CAP)
-Message-ID: <CAPrnrPD2PtPO38cAzMfKdhS18GFj1vk032p0h0rQf0CFP+R=cw@mail.gmail.com>
+From: revanth.rajashekar@intel.com (Revanth Rajashekar)
+Date: Tue, 19 Jun 2018 10:34:01 -0600
+Subject: [PATCH] nvme-cli: Printing the additional feature in OAES in Identify
+ Ctrl
+Message-ID: <20180619163401.4803-1-revanth.rajashekar@intel.com>
 
-Hi all,
+Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
+---
+ nvme-print.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-We use show-regs in NVME-CLI for fabrics (FC) property-get (CAP, CC etc)
-
-The controller capabilities property (CAP) is 64 bit.
-
-The result field of struct nvme_passthru_cmd is of type __u32
-
-Therefore the following code snippet from file nvme-ioctl.c,
-function nvme_property() might lose information:
-
-Code:
-   /*   __le64 *value  */
-
-    err = nvme_submit_admin_passthru(fd, &cmd);
-    if (!err && fctype == nvme_fabrics_type_property_get)
-        *value = cpu_to_le64(cmd.result);    // <<<<<<  HERE
-
-When running show-regs command the high dword of CAP is always 0.
-
-My questions:
-how can I use nvme-cli to get the whole 8 byte range for CAP property
-in property-get command.
-Can I get the missing dword by an additional call to offset 4? (using
-admin-passtru)
-Is it legal for the controller to answer for this request?
-
-Thanks
-Eyal
+diff --git a/nvme-print.c b/nvme-print.c
+index 8699d6c..8deda5d 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -94,12 +94,15 @@ static void show_nvme_id_ctrl_cmic(__u8 cmic)
+ static void show_nvme_id_ctrl_oaes(__le32 ctrl_oaes)
+ {
+ 	__u32 oaes = le32_to_cpu(ctrl_oaes);
+-	__u32 rsvd0 = (oaes & 0xFFFFFE00) >> 9;
++	__u32 rsvd0 = (oaes & 0xFFFFFC00) >> 10;
++	__U32 fan  = (oaes & 0x200) >> 9;
+ 	__u32 nace = (oaes & 0x100) >> 8;
+ 	__u32 rsvd1 = oaes & 0xFF;
+ 
+ 	if (rsvd0)
+ 		printf(" [31:9] : %#x\tReserved\n", rsvd0);
++	printf("[9:9] : %#x\t Firmware Activation Notices Event %sSupported\n",
++		fan, fan ? "" : "Not ");
+ 	printf("  [8:8] : %#x\tNamespace Attribute Changed Event %sSupported\n",
+ 		nace, nace ? "" : "Not ");
+ 	if (rsvd1)
+-- 
+2.17.1
