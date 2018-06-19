@@ -1,76 +1,40 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Tue, 19 Jun 2018 16:30:50 +0800
-Subject: [PATCH] nvme-pci: not invoke nvme_remove_dead_ctrl when change state
- fails
-Message-ID: <1529397050-7524-1-git-send-email-jianchao.w.wang@oracle.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 19 Jun 2018 12:21:25 +0300
+Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
+In-Reply-To: <20180619054056.GB23184@lst.de>
+References: <cover.1528219321.git.swise@opengridcomputing.com>
+ <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
+ <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
+ <20180619054056.GB23184@lst.de>
+Message-ID: <6cec6138-60ab-6072-d4d8-6536b4ec08d7@mellanox.com>
 
-There is race between nvme_remove and nvme_reset_work that can
-lead to io hang.
 
-nvme_remove                    nvme_reset_work
--> change state to DELETING
-                               -> fail to change state to LIVE
-                               -> nvme_remove_dead_ctrl
-                                 -> nvme_dev_disable
-                                   -> quiesce request_queue
-                                 -> queue remove_work
--> cancel_work_sync reset_work
--> nvme_remove_namespaces
-  -> splice ctrl->namespaces
-                               nvme_remove_dead_ctrl_work
-                               -> nvme_kill_queues
-  -> nvme_ns_remove               do nothing
-    -> blk_cleanup_queue
-      -> blk_freeze_queue
-Finally, the request_queue is quiesced state when wait freeze,
-we will get io hang here.
 
-In fact, when fails to change state in nvme_reset_work, the only
-reason is someone has changed state to DELETING. So it is not
-necessary to invoke nvme_remove_dead_ctrl in that case.
+On 6/19/2018 8:40 AM, Christoph Hellwig wrote:
+> On Mon, Jun 18, 2018@10:18:18AM -0500, Steve Wise wrote:
+>>
+>>
+>> On 6/18/2018 9:49 AM, Steve Wise wrote:
+>>> Hey Christoph,? will you merge patches 2 and 3 for -next?? I think
+>>> they're ready.?? I also have a nvmetcli patch I can send out for using
+>>> param_inline_data_size.
+>>>
+>>>
+>>
+>> Or I can rebase on 4.18-rc1 and resend...
+> 
+> Yes, please do.  I'd also like to see at least an ACK from one or our
+> RDMA low level experts.
+> 
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/pci.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+Actually I was debugging it offline with Steve and sent him some fix 
+that is included in this version.
+Please re-send a rebased version and I'll review it.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index fc33804..fc56e63 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2318,7 +2318,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_CONNECTING)) {
- 		dev_warn(dev->ctrl.device,
- 			"failed to mark controller CONNECTING\n");
--		goto out;
-+		goto fail_state;
- 	}
- 
- 	result = nvme_pci_enable(dev);
-@@ -2390,13 +2390,22 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (!nvme_change_ctrl_state(&dev->ctrl, new_state)) {
- 		dev_warn(dev->ctrl.device,
- 			"failed to mark controller state %d\n", new_state);
--		goto out;
-+		goto fail_state;
- 	}
- 
- 	nvme_start_ctrl(&dev->ctrl);
- 	return;
- 
-- out:
-+fail_state:
-+	/*
-+	 * The only possible state here is DELETING, there must be someone
-+	 * removing the ctrl right now, so needn't invoke nvme_remove_dead_ctrl.
-+	 * The queues may have been quiesced, start them to avoid io hang.
-+	 */
-+	WARN_ON(dev->ctrl.state != NVME_CTRL_DELETING);
-+	nvme_start_queues(&dev->ctrl);
-+	return;
-+out:
- 	nvme_remove_dead_ctrl(dev, result);
- }
- 
--- 
-2.7.4
+I realy would like to see numbers before/after this patch like Parav did:
+http://lists.infradead.org/pipermail/linux-nvme/2017-February/008059.html
+
+we need to show the trade-off we are doing here between using more 
+memory and the performance we get from it.
+
+-Max.
