@@ -1,40 +1,42 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 19 Jun 2018 12:21:25 +0300
-Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
-In-Reply-To: <20180619054056.GB23184@lst.de>
-References: <cover.1528219321.git.swise@opengridcomputing.com>
- <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
- <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
- <20180619054056.GB23184@lst.de>
-Message-ID: <6cec6138-60ab-6072-d4d8-6536b4ec08d7@mellanox.com>
+Date: Tue, 19 Jun 2018 12:49:13 +0300
+Subject: [PATCH 1/1] nvme-rdma: fix error flow during controller reset
+In-Reply-To: <20180619051504.GA22076@lst.de>
+References: <1529247426-13303-1-git-send-email-maxg@mellanox.com>
+ <20180619051504.GA22076@lst.de>
+Message-ID: <7a93ad5b-2331-953b-1e23-25c50372be81@mellanox.com>
 
 
 
-On 6/19/2018 8:40 AM, Christoph Hellwig wrote:
-> On Mon, Jun 18, 2018@10:18:18AM -0500, Steve Wise wrote:
->>
->>
->> On 6/18/2018 9:49 AM, Steve Wise wrote:
->>> Hey Christoph,? will you merge patches 2 and 3 for -next?? I think
->>> they're ready.?? I also have a nvmetcli patch I can send out for using
->>> param_inline_data_size.
->>>
->>>
->>
->> Or I can rebase on 4.18-rc1 and resend...
+On 6/19/2018 8:15 AM, Christoph Hellwig wrote:
+>>   		ret = nvme_rdma_configure_io_queues(ctrl, false);
+>>   		if (ret)
+>> -			goto out_fail;
+>> +			goto destroy_admin;
+>>   	}
+>>   
+>>   	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+>> @@ -1795,6 +1795,8 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+>>   
+>>   	return;
+>>   
+>> +destroy_admin:
+>> +	nvme_rdma_destroy_admin_queue(ctrl, false);
+>>   out_fail:
+>>   	++ctrl->ctrl.nr_reconnects;
+>>   	nvme_rdma_reconnect_or_remove(ctrl);
 > 
-> Yes, please do.  I'd also like to see at least an ACK from one or our
-> RDMA low level experts.
+> What about:
+> 
+> nvme_rdma_reconnect_or_remove
+>   -> nvme_delete_ctrl
+>    -> nvme_rdma_delete_ctrl
+>     -> nvme_rdma_shutdown_ctrl
+>      -> nvme_rdma_destroy_admin_queue
+> 
+> ?
 > 
 
-Actually I was debugging it offline with Steve and sent him some fix 
-that is included in this version.
-Please re-send a rebased version and I'll review it.
-
-I realy would like to see numbers before/after this patch like Parav did:
-http://lists.infradead.org/pipermail/linux-nvme/2017-February/008059.html
-
-we need to show the trade-off we are doing here between using more 
-memory and the performance we get from it.
-
--Max.
+if you worry about calling nvme_rdma_destroy_admin_queue twice so it's 
+fine since we check test_and_clear_bit in nvme_rdma_stop_queue and 
+nvme_rdma_free_queue
