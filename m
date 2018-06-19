@@ -1,38 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 19 Jun 2018 17:00:30 +0300
-Subject: [PATCH resend 2/2] nvme: start keep alive timer when enabling the
- controller
-In-Reply-To: <99c7c07f-efca-e1e2-d163-043701b0d001@mellanox.com>
-References: <20180619123850.25659-1-sagi@grimberg.me>
- <20180619123850.25659-2-sagi@grimberg.me>
- <99c7c07f-efca-e1e2-d163-043701b0d001@mellanox.com>
-Message-ID: <bb89a63f-12ff-45f6-404b-ab3097c8ee8d@grimberg.me>
+Date: Tue, 19 Jun 2018 17:03:15 +0300
+Subject: [PATCH 08/12] nvmet: mask pending AERs
+In-Reply-To: <20180613074225.GA22725@lst.de>
+References: <20180530164600.26856-1-hch@lst.de>
+ <20180530164600.26856-9-hch@lst.de>
+ <b0427eb1-5bba-4c2b-c7fd-8df3b6dad2cf@mellanox.com>
+ <20180613074225.GA22725@lst.de>
+Message-ID: <5d2f97bf-2b73-5005-57c1-76cd1d62e145@grimberg.me>
 
 
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 3ba4232d114e..8673b7816e9a 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -1761,7 +1761,14 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, 
->> u64 cap)
->> ????? ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
->> ????? if (ret)
->> ????????? return ret;
->> -??? return nvme_wait_ready(ctrl, cap, true);
->> +
->> +??? ret = nvme_wait_ready(ctrl, cap, true);
->> +??? if (ret)
->> +??????? return ret;
->> +
->> +??? nvme_start_keep_alive(ctrl);
->> +
->> +??? return 0;
->> ? }
->> ? EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
+>> There is a backwards compatibility issue with this patch.
+>> I tested the latest nvme target with an older initiator that doesn't use
+>> the changed namespaces list log to clear ns data changed AENs.
+>> The target doesn't send the second NS_CHANGED event because the
+>> NVME_AEN_CFG_NS_ATTR bit is not clear.
+>> I have a simple fix that clear the bit also at
+>> nvmet_execute_identify_ctrl().
+>>
+>> What do you think? is there a better way to solve it?
 > 
-> We have an issue here with stopping the keep-alive in error flows.
+> No.  Clearing it in nvmet_execute_identify_ctrl is bogus.  The problem
+> is that the old target did not comply with the spec.
+> 
+> Note that the old host code would have had the same problem with other
+> non-Linux targets.  So the only fix is to backport the host fix to
+> older kernels.
 
-Ugh..
-
-Then lets disregard this patch (1/2 should be fine though) and return
-to the sketch board.
+Fully agree, that is the only solution we have for just this kind of
+compat changes.
