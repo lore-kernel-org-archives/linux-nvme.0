@@ -1,44 +1,46 @@
-From: jgg@mellanox.com (Jason Gunthorpe)
-Date: Tue, 19 Jun 2018 11:43:13 -0600
-Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
-In-Reply-To: <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
-References: <cover.1528219321.git.swise@opengridcomputing.com>
- <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
- <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
- <20180619054056.GB23184@lst.de>
- <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
-Message-ID: <20180619174313.GP27457@mellanox.com>
+From: daniel.verkamp@intel.com (Daniel Verkamp)
+Date: Tue, 19 Jun 2018 10:54:20 -0700
+Subject: NVME-CLI : Fabrics property-get and 64 bit property (CAP)
+In-Reply-To: <CAPrnrPD2PtPO38cAzMfKdhS18GFj1vk032p0h0rQf0CFP+R=cw@mail.gmail.com>
+References: <CAPrnrPD2PtPO38cAzMfKdhS18GFj1vk032p0h0rQf0CFP+R=cw@mail.gmail.com>
+Message-ID: <e75d7829-9aeb-90fb-249a-c7ac4cef10bd@intel.com>
 
-On Tue, Jun 19, 2018@11:02:48AM -0500, Steve Wise wrote:
+On 06/19/2018 09:23 AM, Eyal BenDavid wrote:
+> Hi all,
 > 
+> We use show-regs in NVME-CLI for fabrics (FC) property-get (CAP, CC etc)
 > 
-> On 6/19/2018 12:40 AM, Christoph Hellwig wrote:
-> > On Mon, Jun 18, 2018@10:18:18AM -0500, Steve Wise wrote:
-> >>
-> >> On 6/18/2018 9:49 AM, Steve Wise wrote:
-> >>> Hey Christoph,? will you merge patches 2 and 3 for -next?? I think
-> >>> they're ready.?? I also have a nvmetcli patch I can send out for using
-> >>> param_inline_data_size.
-> >>>
-> >>>
-> >> Or I can rebase on 4.18-rc1 and resend...
-> > Yes, please do.  I'd also like to see at least an ACK from one or our
-> > RDMA low level experts.
-> >
+> The controller capabilities property (CAP) is 64 bit.
 > 
-> Sure.
+> The result field of struct nvme_passthru_cmd is of type __u32
 > 
-> +doug and jason.
+> Therefore the following code snippet from file nvme-ioctl.c,
+> function nvme_property() might lose information:
 > 
-> There is one merge issue: This series will require the max_send/recv_sge
-> commit, which is merged in rdma-next [1] just recently. Perhaps you can
-> pull that from the linux-rdma repo if and when these 2 nvme patches are
-> pulled into your repo? I think that will allow easy merging when the
-> block and rdma repos get merged into Linus' repo.
+> Code:
+>    /*   __le64 *value  */
+> 
+>     err = nvme_submit_admin_passthru(fd, &cmd);
+>     if (!err && fctype == nvme_fabrics_type_property_get)
+>         *value = cpu_to_le64(cmd.result);    // <<<<<<  HERE
+> 
+> When running show-regs command the high dword of CAP is always 0.
+> 
+> My questions:
+> how can I use nvme-cli to get the whole 8 byte range for CAP property
+> in property-get command.
+> Can I get the missing dword by an additional call to offset 4? (using
+> admin-passtru)
+> Is it legal for the controller to answer for this request?
 
-Pulling the rdma tree into nvme is probably not something anyone would
-want to do..
+I don't know the answer to the nvme-cli question above, but it seems
+like struct nvme_completion is insufficient to represent the Property
+Get response, since it only has a 32-bit result field, as you mentioned.
 
-Can we take these patches through rdma instead?
+For the question about retrieving CAP via 4-byte accesses, I don't think
+this is allowed.  NVMe-oF 1.0 base spec section 3.5.1 (Property
+Definitions) says: "The host shall access properties in their native
+width with an offset that is at the beginning of the property."
 
-Jason
+Thanks,
+-- Daniel
