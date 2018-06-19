@@ -1,89 +1,101 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 19 Jun 2018 15:34:10 +0300
-Subject: [PATCH 2/7] nvme-rdma: fix possible free non-allocated async event
- buffer
+Date: Tue, 19 Jun 2018 15:34:11 +0300
+Subject: [PATCH 3/7] nvme-rdma: Fix command completion race at error recovery
 In-Reply-To: <20180619123415.25077-1-sagi@grimberg.me>
 References: <20180619123415.25077-1-sagi@grimberg.me>
-Message-ID: <20180619123415.25077-3-sagi@grimberg.me>
+Message-ID: <20180619123415.25077-4-sagi@grimberg.me>
 
-If nvme_rdma_configure_admin_queue fails before we allocated
-the async event buffer, we will falsly free it because nvme_rdma_free_queue
-is freeing it. Fix it by allocating the buffer right after nvme_rdma_alloc_queue
-and free it right before nvme_rdma_queue_free to maintain orderly reverse cleanup
-sequence.
+From: Israel Rukshin <israelr@mellanox.com>
 
-Reported-by: Israel Rukshin <israelr at mellanox.com>
+The race is between completing the request at error recovery work
+and rdma completions.
+If we cancel the request before getting the good rdma completion
+we get a NULL deref of the request MR at nvme_rdma_process_nvme_rsp().
+
+When Canceling the request we return its mr to the mr pool (set mr to NULL)
+and also unmap its data.
+Canceling the requests while the rdma queues are active is not safe.
+Because rdma queues are active and we get good rdma completions
+that can use the mr pointer which may be NULL.
+Completing the request too soon may lead also to performing DMA to/from
+user buffers which might have been already unmapped.
+
+The commit fixes the race by draining the QP before
+starting the abort commands mechanism.
+
+Signed-off-by: Israel Rukshin <israelr at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+ drivers/nvme/host/rdma.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 99d213ea95da..cebe527ec6cd 100644
+index cebe527ec6cd..15e897ac2506 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -560,12 +560,6 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
- 	if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
- 		return;
- 
--	if (nvme_rdma_queue_idx(queue) == 0) {
--		nvme_rdma_free_qe(queue->device->dev,
--			&queue->ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
--	}
--
- 	nvme_rdma_destroy_queue_ib(queue);
- 	rdma_destroy_id(queue->cm_id);
- }
-@@ -739,6 +733,8 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+@@ -728,7 +728,6 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	if (remove) {
  		blk_cleanup_queue(ctrl->ctrl.admin_q);
  		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
+@@ -817,7 +816,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl,
+ 		bool remove)
+ {
+-	nvme_rdma_stop_io_queues(ctrl);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.connect_q);
+ 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.tagset);
+@@ -947,6 +945,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ 	return;
+ 
+ destroy_admin:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	nvme_rdma_destroy_admin_queue(ctrl, false);
+ requeue:
+ 	dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+@@ -963,12 +962,14 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ 
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, false);
  	}
-+	nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+		sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	nvme_rdma_free_queue(&ctrl->queues[0]);
- }
  
-@@ -755,11 +751,16 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 	nvme_rdma_destroy_admin_queue(ctrl, false);
+@@ -1734,6 +1735,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ {
+ 	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
+ 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
+ 					nvme_cancel_request, &ctrl->ctrl);
+ 		nvme_rdma_destroy_io_queues(ctrl, shutdown);
+@@ -1745,6 +1747,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ 		nvme_disable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
  
- 	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
+ 	blk_mq_quiesce_queue(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+ 				nvme_cancel_request, &ctrl->ctrl);
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+@@ -2011,6 +2014,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	return &ctrl->ctrl;
  
-+	error = nvme_rdma_alloc_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+			sizeof(struct nvme_command), DMA_TO_DEVICE);
-+	if (error)
-+		goto out_free_queue;
-+
- 	if (new) {
- 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
- 		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
- 			error = PTR_ERR(ctrl->ctrl.admin_tagset);
--			goto out_free_queue;
-+			goto out_free_async_qe;
- 		}
- 
- 		ctrl->ctrl.admin_q = blk_mq_init_queue(&ctrl->admin_tag_set);
-@@ -795,12 +796,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 	if (error)
- 		goto out_stop_queue;
- 
--	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
--			&ctrl->async_event_sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
--	if (error)
--		goto out_stop_queue;
--
- 	return 0;
- 
- out_stop_queue:
-@@ -811,6 +806,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- out_free_tagset:
- 	if (new)
- 		nvme_rdma_free_tagset(&ctrl->ctrl, ctrl->ctrl.admin_tagset);
-+out_free_async_qe:
-+	nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-+		sizeof(struct nvme_command), DMA_TO_DEVICE);
- out_free_queue:
- 	nvme_rdma_free_queue(&ctrl->queues[0]);
- 	return error;
+ out_remove_admin_queue:
++	nvme_rdma_stop_queue(&ctrl->queues[0]);
+ 	nvme_rdma_destroy_admin_queue(ctrl, true);
+ out_uninit_ctrl:
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
 -- 
 2.14.1
