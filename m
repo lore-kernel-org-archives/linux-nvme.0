@@ -1,98 +1,137 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 19 Jun 2018 12:05:09 +0200
-Subject: [PATCH 3/3] nvme: allow duplicate connections to the discovery
- controller
-In-Reply-To: <7b7ed313-f2cd-8b99-a4ab-f4cf3ecaf519@broadcom.com>
-References: <20180524141817.127576-1-hare@suse.de>
- <20180524141817.127576-4-hare@suse.de>
- <acb8b961-3f27-52af-00bc-f966e047dc52@broadcom.com>
- <03f070cd-fac6-3161-c2cb-dab19f9ae159@suse.de>
- <7b7ed313-f2cd-8b99-a4ab-f4cf3ecaf519@broadcom.com>
-Message-ID: <3b8bdb3b-69e2-b7b6-caa6-6f09a577d75f@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 19 Jun 2018 13:36:28 +0300
+Subject: [PATCH] nvme: Fix error flow at nvme_rdma_configure_admin_queue()
+In-Reply-To: <20180619054157.GC23184@lst.de>
+References: <1528979864-3109-1-git-send-email-israelr@mellanox.com>
+ <20180615080154.GA19525@lst.de>
+ <a760d739-f88b-99bf-27ca-4dee113b5b49@mellanox.com>
+ <20180619054157.GC23184@lst.de>
+Message-ID: <b26fe840-8521-82f6-39c4-e5976e37c4a8@grimberg.me>
 
-On 06/19/2018 01:57 AM, James Smart wrote:
-> 
-> 
-> On 6/18/2018 3:54 PM, Hannes Reinecke wrote:
->> On 06/18/2018 06:11 PM, James Smart wrote:
+
+>>> back instead and have a different double free protection.  E.g.
+>>> in nvme_rdma_free_qe just check if qe->data is set first,
+>>> and the NULL it out when freeing.
 >>>
->>> On 5/24/2018 7:18 AM, Hannes Reinecke wrote:
->>>> The whole point of the discovery controller is that it can accept
->>>> multiple connections. Additionally the cmic field is not even 
->>>> defined for
->>>> the discovery controller identify page.
->>>>
->>>> Signed-off-by: Hannes Reinecke <hare at suse.com>
->>>> ---
->>>> ? drivers/nvme/host/core.c??? | 3 ++-
->>>> ? drivers/nvme/host/fabrics.c | 1 +
->>>> ? 2 files changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>>> index 10b180b8ccf4..28ac580b07e5 100644
->>>> --- a/drivers/nvme/host/core.c
->>>> +++ b/drivers/nvme/host/core.c
->>>> @@ -2494,7 +2494,8 @@ static int nvme_init_subsystem(struct 
->>>> nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
->>>> ?????????? * Verify that the subsystem actually supports multiple
->>>> ?????????? * controllers, else bail out.
->>>> ?????????? */
->>>> -??????? if (nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
->>>> +??????? if (!ctrl->opts->discovery_nqn &&
->>>> +??????????? nvme_active_ctrls(found) && !(id->cmic & (1 << 1))) {
->>>> ????????????? dev_err(ctrl->device,
->>>> ????????????????? "ignoring ctrl due to duplicate subnqn (%s).\n",
->>>> ????????????????? found->subnqn);
->>>>
->>>
->>> Question: this snippet excludes the discovery controller from failing 
->>> the init call. But in doing so, it allows the discovery controller to 
->>> be seen as "single unique device" based on its subnqn with another 
->>> path added.? I assume, the read of the discovery log command will be 
->>> done against the /dev/nvme? controller instance, so it will still go 
->>> to the right "path" that corresponds to where the "nvme connect or 
->>> connect-all" was issued to.? Correct ??? and other commands against 
->>> the discovery controller should also use ioctls to the /dev/nvme? 
->>> name so the proper device/path is used/deleted - Correct ?
->>>
->>> Are there any side effects of the fact that we allow the discovery 
->>> controller to have multiple paths ?
->>>
->> That would only be relevant if the discovery log page entry could be 
->> different for the individual paths.
->> It's somewhat hard to see how that could happen; it's not that one 
->> path can set the ANA CMIC bit, and the other path doesn't ...
->> So even if we somehow fail to get the path right we still would be 
->> getting the correct information, no?
-> 
-> This has little/none to do with pathing - but rather that all discovery 
-> controllers use a single well-known NQN - and they don't support 
-> multipathing.
-> 
-> There can be any number of discovery controllers, each with a different 
-> "view" of the storage subsystems available. Thus it matters very much 
-> which path you use. E.g. using a more extreme example: the discovery 
-> controller on a FC link could be very different from a discovery 
-> controller at an ip address.
-> 
-Oh, indeed.
-I was under the impression that we'd be indexing the discovery entries 
-per transport/traaddr and subsysnqn.
+>>
+>> I guess we can but this is not enough since we'll need to move the call to
+>> nvme_rdma_free_qe to be after stopping the queue. I actually think that
+>> making it symetrical is the right way to go (we also have a flag
+>> NVME_RDMA_Q_ALLOCATED that helps here) but I guess reverting Sagi's commit
+>> + some fix will work too.
 
-But now I see that we'd be indexing them just by subsysnqn, ie we will 
-only ever have one discovery subsysnqn entry.
+I don't think this is the way to go. And I don't think that reverting it
+is either the way to go.
 
-Which really is wrong if different paths/transport can return different 
-discovery log pages.
-And locking access to the discovery subsysnqn has scalability impacts as 
-we'ver just seen.
+The commit message said:
+--
+     nvme-rdma: Fix possible double free in reconnect flow
 
-So we really should index the discovery subsysnqn by transport and 
-traddr, not by subsysnqn.
+     The fact that we free the async event buffer in
+     nvme_rdma_destroy_admin_queue can cause us to free it
+     more than once because this happens in every reconnect
+     attempt since commit 31fdf1840170. we rely on the queue
+     state flags DELETING to avoid this for other resources.
 
-Will be preparing a patch.
+     A more complete fix is to not destroy the admin/io queues
+     unconditionally on every reconnect attempt, but its a bit
+     more extensive and will go in the next release.
+--
+
+Today, we don't destroy the admin queue on every reconnect so
+I think we are OK with restoring it back, but looking at the code
+some more is needed.
+
+I think that the async buffer needs to be allocated right after
+nvme_alloc_rdma_queue and to be free right before nvme_rdma_free_queue.
+
+Israel, does something like something like [1] work?
+
+> Yes, it should be symetrical either way.  What is the story with
+> NVME_RDMA_Q_ALLOCATED?
+
+This was just to flip the logic to check positive vs. !negative like
+we do for LIVE.. (done in 5013e98b5e8db50144e8f1ca5a96aed95d4d48a0)
 
 
-Cheers,
 
-Hannes
+[1]:
+--
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c9424da0d23e..787917963137 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -560,12 +560,6 @@ static void nvme_rdma_free_queue(struct 
+nvme_rdma_queue *queue)
+         if (!test_and_clear_bit(NVME_RDMA_Q_ALLOCATED, &queue->flags))
+                 return;
+
+-       if (nvme_rdma_queue_idx(queue) == 0) {
+-               nvme_rdma_free_qe(queue->device->dev,
+-                       &queue->ctrl->async_event_sqe,
+-                       sizeof(struct nvme_command), DMA_TO_DEVICE);
+-       }
+-
+         nvme_rdma_destroy_queue_ib(queue);
+         rdma_destroy_id(queue->cm_id);
+  }
+@@ -739,6 +733,8 @@ static void nvme_rdma_destroy_admin_queue(struct 
+nvme_rdma_ctrl *ctrl,
+                 blk_cleanup_queue(ctrl->ctrl.admin_q);
+                 nvme_rdma_free_tagset(&ctrl->ctrl, 
+ctrl->ctrl.admin_tagset);
+         }
++       nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
++               sizeof(struct nvme_command), DMA_TO_DEVICE);
+         nvme_rdma_free_queue(&ctrl->queues[0]);
+  }
+
+@@ -755,11 +751,16 @@ static int nvme_rdma_configure_admin_queue(struct 
+nvme_rdma_ctrl *ctrl,
+
+         ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
+
++       error = nvme_rdma_alloc_qe(ctrl->device->dev, 
+&ctrl->async_event_sqe,
++                       sizeof(struct nvme_command), DMA_TO_DEVICE);
++       if (error)
++               goto out_free_queue;
++
+         if (new) {
+                 ctrl->ctrl.admin_tagset = 
+nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
+                 if (IS_ERR(ctrl->ctrl.admin_tagset)) {
+                         error = PTR_ERR(ctrl->ctrl.admin_tagset);
+-                       goto out_free_queue;
++                       goto out_free_async_qe;
+                 }
+
+                 ctrl->ctrl.admin_q = 
+blk_mq_init_queue(&ctrl->admin_tag_set);
+@@ -795,12 +796,6 @@ static int nvme_rdma_configure_admin_queue(struct 
+nvme_rdma_ctrl *ctrl,
+         if (error)
+                 goto out_stop_queue;
+
+-       error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
+-                       &ctrl->async_event_sqe, sizeof(struct nvme_command),
+-                       DMA_TO_DEVICE);
+-       if (error)
+-               goto out_stop_queue;
+-
+         return 0;
+
+  out_stop_queue:
+@@ -811,6 +806,9 @@ static int nvme_rdma_configure_admin_queue(struct 
+nvme_rdma_ctrl *ctrl,
+  out_free_tagset:
+         if (new)
+                 nvme_rdma_free_tagset(&ctrl->ctrl, 
+ctrl->ctrl.admin_tagset);
++out_free_async_qe:
++       nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
++               sizeof(struct nvme_command), DMA_TO_DEVICE);
+  out_free_queue:
+         nvme_rdma_free_queue(&ctrl->queues[0]);
+         return error;
+--
