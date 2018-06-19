@@ -1,38 +1,39 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 19 Jun 2018 19:40:03 +0300
-Subject: [PATCH 1/1] nvme-rdma: fix error flow during controller reset
-In-Reply-To: <20180619051504.GA22076@lst.de>
-References: <1529247426-13303-1-git-send-email-maxg@mellanox.com>
- <20180619051504.GA22076@lst.de>
-Message-ID: <af319650-738c-a9ad-1780-cec5e4fbd1d3@grimberg.me>
+From: daniel.verkamp@intel.com (Daniel Verkamp)
+Date: Tue, 19 Jun 2018 09:41:16 -0700
+Subject: [PATCH] nvme-cli: Printing the additional feature in OAES in
+ Identify Ctrl
+In-Reply-To: <20180619163401.4803-1-revanth.rajashekar@intel.com>
+References: <20180619163401.4803-1-revanth.rajashekar@intel.com>
+Message-ID: <382b965c-c0d0-231c-11c1-33ee50a098df@intel.com>
 
+On 06/19/2018 09:34 AM, Revanth Rajashekar wrote:
+> Signed-off-by: Revanth Rajashekar <revanth.rajashekar at intel.com>
+> ---
+>  nvme-print.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/nvme-print.c b/nvme-print.c
+> index 8699d6c..8deda5d 100644
+> --- a/nvme-print.c
+> +++ b/nvme-print.c
+> @@ -94,12 +94,15 @@ static void show_nvme_id_ctrl_cmic(__u8 cmic)
+>  static void show_nvme_id_ctrl_oaes(__le32 ctrl_oaes)
+>  {
+>  	__u32 oaes = le32_to_cpu(ctrl_oaes);
+> -	__u32 rsvd0 = (oaes & 0xFFFFFE00) >> 9;
+> +	__u32 rsvd0 = (oaes & 0xFFFFFC00) >> 10;
+> +	__U32 fan  = (oaes & 0x200) >> 9;
 
->>   		ret = nvme_rdma_configure_io_queues(ctrl, false);
->>   		if (ret)
->> -			goto out_fail;
->> +			goto destroy_admin;
->>   	}
->>   
->>   	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
->> @@ -1795,6 +1795,8 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
->>   
->>   	return;
->>   
->> +destroy_admin:
->> +	nvme_rdma_destroy_admin_queue(ctrl, false);
->>   out_fail:
->>   	++ctrl->ctrl.nr_reconnects;
->>   	nvme_rdma_reconnect_or_remove(ctrl);
-> 
-> What about:
-> 
-> nvme_rdma_reconnect_or_remove
->   -> nvme_delete_ctrl
->    -> nvme_rdma_delete_ctrl
->     -> nvme_rdma_shutdown_ctrl
->      -> nvme_rdma_destroy_admin_queue
-> 
-> ?
+This is probably meant to be __u32 rather than __U32.
 
-I think this is a result of code duplicated in different flows which
-drifted although the logic should remain the same...
+>  	__u32 nace = (oaes & 0x100) >> 8;
+>  	__u32 rsvd1 = oaes & 0xFF;
+>  
+>  	if (rsvd0)
+>  		printf(" [31:9] : %#x\tReserved\n", rsvd0);
+> +	printf("[9:9] : %#x\t Firmware Activation Notices Event %sSupported\n",
+> +		fan, fan ? "" : "Not ");
+>  	printf("  [8:8] : %#x\tNamespace Attribute Changed Event %sSupported\n",
+>  		nace, nace ? "" : "Not ");
+>  	if (rsvd1)
+> 
