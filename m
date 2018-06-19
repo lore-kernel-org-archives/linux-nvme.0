@@ -1,40 +1,40 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 19 Jun 2018 14:57:07 +0300
-Subject: [PATCH] nvme: Fix error flow at nvme_rdma_configure_admin_queue()
-In-Reply-To: <20180619054157.GC23184@lst.de>
-References: <1528979864-3109-1-git-send-email-israelr@mellanox.com>
- <20180615080154.GA19525@lst.de>
- <a760d739-f88b-99bf-27ca-4dee113b5b49@mellanox.com>
- <20180619054157.GC23184@lst.de>
-Message-ID: <59bc24d2-1e73-b2c8-14f3-0f17b4df6189@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 19 Jun 2018 14:59:00 +0300
+Subject: [PATCH v4 3/3] nvmet-rdma: support max(16KB, PAGE_SIZE) inline
+ data
+In-Reply-To: <051c25edb1b0c0aa84b8195a95bdd3eb30d710f5.1528219321.git.swise@opengridcomputing.com>
+References: <cover.1528219321.git.swise@opengridcomputing.com>
+ <051c25edb1b0c0aa84b8195a95bdd3eb30d710f5.1528219321.git.swise@opengridcomputing.com>
+Message-ID: <98819370-459b-cad8-e89e-e2a128178dba@grimberg.me>
 
 
 
-On 6/19/2018 8:41 AM, Christoph Hellwig wrote:
-> On Sun, Jun 17, 2018@01:52:55PM +0300, Max Gurtovoy wrote:
->>> back instead and have a different double free protection.  E.g.
->>> in nvme_rdma_free_qe just check if qe->data is set first,
->>> and the NULL it out when freeing.
->>>
->>
->> I guess we can but this is not enough since we'll need to move the call to
->> nvme_rdma_free_qe to be after stopping the queue. I actually think that
->> making it symetrical is the right way to go (we also have a flag
->> NVME_RDMA_Q_ALLOCATED that helps here) but I guess reverting Sagi's commit
->> + some fix will work too.
-> 
-> Yes, it should be symetrical either way.  What is the story with
-> NVME_RDMA_Q_ALLOCATED?
-> 
+On 06/05/2018 08:16 PM, Steve Wise wrote:
+> The patch enables inline data sizes using up to 4 recv sges, and capping
+> the size at 16KB or at least 1 page size.
 
-No real story, just saying that this patch will guarenty that 
-allocating/releasing the qe will be guarded by the NVME_RDMA_Q_ALLOCATED 
-bit.
+Question: any reason for that cap? Just seems like an arbitrary limit...
 
-In order to make it symetrical and right in the second way, we'll need 
-to allocate it before nvme_rdma_start_queue and free it after 
-nvme_rdma_stop_queue.
+   So on a 4K page system, up to
+> 16KB is supported, and for a 64K page system 1 page of 64KB is supported.
 
-since we have some issues and WIP regarding the location of 
-nvme_rdma_stop_queue I think we should take the first way for now (the 
-way that proposed in this patch).
+Well if someone asked for 16K and got 64K its a bit of a surprise
+isn't it? without exposing knob for this, using 64K OK I guess, but when
+we expose controls for this its a bit surprising.
+
+Would page_frags work better here? (page_frag_alloc/page_frag_free)
+Given that most likely the backend device will work with 4K pages, the
+fragments won't cause gaps...
+
+Thoughts?
+
+...
+
+
+> +static int num_pages(int len)
+> +{
+> +	return 1 + (((len - 1) & PAGE_MASK) >> PAGE_SHIFT);
+> +}
+
+Steve, can you explain why is this needed? why isn't get_order()
+sufficient?
