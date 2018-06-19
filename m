@@ -1,26 +1,44 @@
-From: daniel.verkamp@intel.com (Daniel Verkamp)
-Date: Tue, 19 Jun 2018 09:56:22 -0700
-Subject: [PATCH 5/7] nvme-rdma: don't override opts->queue_size
-In-Reply-To: <20180619123415.25077-6-sagi@grimberg.me>
-References: <20180619123415.25077-1-sagi@grimberg.me>
- <20180619123415.25077-6-sagi@grimberg.me>
-Message-ID: <d0b79dfb-72ab-2356-8633-3ad42b3f04dc@intel.com>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Tue, 19 Jun 2018 11:43:13 -0600
+Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
+In-Reply-To: <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
+References: <cover.1528219321.git.swise@opengridcomputing.com>
+ <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
+ <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
+ <20180619054056.GB23184@lst.de>
+ <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
+Message-ID: <20180619174313.GP27457@mellanox.com>
 
-On 06/19/2018 05:34 AM, Sagi Grimberg wrote:
-> That is user argument, and theoretically controller limits can
-> change over time (over reconnects/resets). Instead, use sqsize
-> controller attribute to check queue depth boundaries and use it
-> to the tagset allocation.
-[...]
->  	if (opts->queue_size > ctrl->ctrl.sqsize + 1) {
-> -		/* warn if sqsize is lower than queue_size */
-> +		/*
-> +		 * warn if sqsize is lower than queue_size actual calmping
-> +		 * will be by using sqsize for the tagset allocation later.
-> +		 */
+On Tue, Jun 19, 2018@11:02:48AM -0500, Steve Wise wrote:
+> 
+> 
+> On 6/19/2018 12:40 AM, Christoph Hellwig wrote:
+> > On Mon, Jun 18, 2018@10:18:18AM -0500, Steve Wise wrote:
+> >>
+> >> On 6/18/2018 9:49 AM, Steve Wise wrote:
+> >>> Hey Christoph,? will you merge patches 2 and 3 for -next?? I think
+> >>> they're ready.?? I also have a nvmetcli patch I can send out for using
+> >>> param_inline_data_size.
+> >>>
+> >>>
+> >> Or I can rebase on 4.18-rc1 and resend...
+> > Yes, please do.  I'd also like to see at least an ACK from one or our
+> > RDMA low level experts.
+> >
+> 
+> Sure.
+> 
+> +doug and jason.
+> 
+> There is one merge issue: This series will require the max_send/recv_sge
+> commit, which is merged in rdma-next [1] just recently. Perhaps you can
+> pull that from the linux-rdma repo if and when these 2 nvme patches are
+> pulled into your repo? I think that will allow easy merging when the
+> block and rdma repos get merged into Linus' repo.
 
-This comment is a bit hard to follow; I think it's meant to say
-"clamping", and it could probably use a semicolon or period before "actual".
+Pulling the rdma tree into nvme is probably not something anyone would
+want to do..
 
-Thanks,
--- Daniel
+Can we take these patches through rdma instead?
+
+Jason
