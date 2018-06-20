@@ -1,151 +1,24 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 20 Jun 2018 21:44:03 +0000
-Subject: [PATCH V4] nvmet: add buffered I/O support for file backed ns
-In-Reply-To: <7ff64816-a285-cd4f-281f-8f3e6fbeb5ce@grimberg.me>
-References: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>,
- <7ff64816-a285-cd4f-281f-8f3e6fbeb5ce@grimberg.me>
-Message-ID: <BN6PR04MB120385B3746564FD32964F7086770@BN6PR04MB1203.namprd04.prod.outlook.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 20 Jun 2018 16:30:35 -0600
+Subject: [PATCH] nvme: use __GFP_NOWARN for iod allocation
+In-Reply-To: <34e64832-c345-3a70-401f-1915b5bb4af1@kernel.dk>
+References: <4cb394ca-7032-ea67-5bb1-ef331e42ace2@kernel.dk>
+ <b054a000-c7ad-9926-b45f-2771a98b7d23@kernel.dk>
+ <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
+ <20180620204310.GA24840@localhost.localdomain>
+ <34e64832-c345-3a70-401f-1915b5bb4af1@kernel.dk>
+Message-ID: <20180620223035.GA25196@localhost.localdomain>
 
+On Wed, Jun 20, 2018@02:54:26PM -0600, Jens Axboe wrote:
+> I should also mention that this came out of a real life hang
+> on a production box. I suppose we haven't seen a lot of these
+> since a lot of nvme controllers have a hw limit of 128k, but
+> the ones that don't can pretty easily hit the hang of needing
+> 2^2 pages and failing miserably forever.
 
+I can certainly believe that. I'm totally fine with setting a smaller
+upper bound on the IO size. There really isn't a meaningful bandwidth
+advantage to larger transfers on NVMe PCIe once you get over 256k anyway.
 
-
-
-
-
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Wednesday, June 20, 2018 10:44 AM
-To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
-Cc: hch at lst.de; keith.busch at intel.com
-Subject: Re: [PATCH V4] nvmet: add buffered I/O support for file backed ns
-? 
- 
-
-> +static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
-> +???????????? const char *page, size_t count)
-> +{
-> +???? struct nvmet_ns *ns = to_nvmet_ns(item);
-> +???? bool buffered_io;
-> +???? int ret = 0;
-> +
-> +???? if (strtobool(page, &buffered_io))
-> +???????????? return -EINVAL;
-> +
-> +???? mutex_unlock(&ns->subsys->lock);
-> +???? if (ns->enabled == false)
-> +???????????? ns->buffered_io = buffered_io;
-> +???? else {
-> +???????????? pr_err("disable ns before setting buffered_io value.\n");
-> +???????????? ret = -EINVAL;
-> +???? }
-> +???? mutex_unlock(&ns->subsys->lock);
-> +
-> +???? return ret ? ret : count;
-
-Consider changing this to:
-
-??????? mutex_unlock(&ns->subsys->lock);
-??????? if (ns->enabled) {
-??????????????? pr_err("cannot modify ns while enabled\n");
-??????????????? ret = -EINVAL;
-??????????????? goto out_unlocked;
-??????? }
-
-??????? ns->buffered_io = buffered_io;
-??????? ret = count;
-out_unlock:
-??????? mutex_unlock(&ns->subsys->lock);
-??????? return ret;
-
-[CK] I'm okay to change that if you prefer this style, can you please explain
-        is there anything wrong with the current code?
-
-> +}
-> +
-> +CONFIGFS_ATTR(nvmet_ns_, buffered_io);
-> +
->?? static struct configfs_attribute *nvmet_ns_attrs[] = {
->??????? &nvmet_ns_attr_device_path,
->??????? &nvmet_ns_attr_device_nguid,
->??????? &nvmet_ns_attr_device_uuid,
->??????? &nvmet_ns_attr_enable,
-> +???? &nvmet_ns_attr_buffered_io,
->??????? NULL,
->?? };
->?? 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index a03da764ecae..2888ed6d8665 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -437,6 +437,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
->??????? ns->nsid = nsid;
->??????? ns->subsys = subsys;
->??????? uuid_gen(&ns->uuid);
-> +???? ns->buffered_io = false;
->?? 
->??????? return ns;
->?? }
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index 8c42b3a8c420..09d793442833 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -16,6 +16,11 @@
->?? void nvmet_file_ns_disable(struct nvmet_ns *ns)
->?? {
->??????? if (ns->file) {
-> +???????????? if (ns->buffered_io) {
-> +???????????????????? flush_workqueue(ns->file_wq);
-> +???????????????????? destroy_workqueue(ns->file_wq);
-
-destroy_workqueue flushes so no need to do that explicitly.
-[CK] Okay.
-
-> +???????????????????? ns->file_wq = NULL;
-> +???????????? }
->??????????????? mempool_destroy(ns->bvec_pool);
->??????????????? ns->bvec_pool = NULL;
->??????????????? kmem_cache_destroy(ns->bvec_cache);
-> @@ -27,11 +32,14 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
->?? 
->?? int nvmet_file_ns_enable(struct nvmet_ns *ns)
->?? {
-> -???? int ret;
-> +???? int flags = O_RDWR | O_LARGEFILE;
->??????? struct kstat stat;
-> +???? int ret;
-> +
-> +???? if (!ns->buffered_io)
-> +???????????? flags |= O_DIRECT;
->?? 
-> -???? ns->file = filp_open(ns->device_path,
-> -???????????????????? O_RDWR | O_LARGEFILE | O_DIRECT, 0);
-> +???? ns->file = filp_open(ns->device_path, flags, 0);
->??????? if (IS_ERR(ns->file)) {
->??????????????? pr_err("failed to open file %s: (%ld)\n",
->??????????????????????????????? ns->device_path, PTR_ERR(ns->file));
-> @@ -62,6 +70,15 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
->??????????????? goto err;
->??????? }
->?? 
-> +???? if (ns->buffered_io) {
-> +???????????? ns->file_wq = alloc_workqueue("nvmet-file",
-> +???????????????????????????? WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
-
-I seriously don't think that a wq per ns is a good idea.. What was the
-consideration for this?
-
-[CK] Since I/O submission is done per ns basis it is important to encapsulate workqueue and
-        make the property of the ns. In this way, I/Os from different namespaces will not interfere
-        with each other.
-
-       Can you please explain the benefits of using the following model:-
-
-       1. 1: N (1 workqueue : N Namespace).
-       2. M: N (M  workqueues : N Namespace).
-
-[CK] Now that code is in, I'll send the configfs buffered_io parameter style change and removing
-        the flush wq as a separate patch.
-
-And what's wrong with the system_unbound_wq?
-
-Regards,
-Chaitanya
+Since you're making the change to core, let's wait to hear if there are
+any concerns on the fabrics front.
