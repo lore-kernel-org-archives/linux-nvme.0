@@ -1,42 +1,40 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 20 Jun 2018 07:44:12 -0700
-Subject: [PATCH] nvme_fc: release io queues to allow fast fail
-Message-ID: <20180620144412.19973-1-jsmart2021@gmail.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 20 Jun 2018 08:49:11 -0600
+Subject: [RFC PATCH] blk-mq: User defined HCTX CPU mapping
+In-Reply-To: <20180620090805.GA4205@lst.de>
+References: <20180618173206.19506-1-keith.busch@intel.com>
+ <20180620090805.GA4205@lst.de>
+Message-ID: <20180620144911.GA24104@localhost.localdomain>
 
-Rather than leaving io queues quiesced after tearing down an association,
-restart them. This allows ios to be replayed, with fastfail ios terminating
-and non-fastfail getting into loops of retry.
+On Wed, Jun 20, 2018@11:08:05AM +0200, Christoph Hellwig wrote:
+> On Mon, Jun 18, 2018@11:32:06AM -0600, Keith Busch wrote:
+> > The default mapping of a cpu to a hardware context is often generally
+> > applicable, however a user may know of a more appropriate mapping for
+> > their specific access usage.
+> > 
+> > This patch allows a user to define their own policy by making the mq hctx
+> > cpu_list writable. The usage allows a user to append a comma separated
+> > and/or range list of CPUs to a given hctx's tag set mapping to reassign
+> > what hctx a cpu may map.
+> > 
+> > While the writable attribute exists under a specific request_queue, the
+> > settings will affect all request queues sharing the same tagset.
+> > 
+> > The user defined setting is lost if the block device is removed and
+> > re-added, or if the driver re-runs the queue mapping.
+> 
+> We can't do this without driver opt-in.  Managed interrupt rely on
+> the fact that we can't generate more interrupts once all cpus mapped
+> to the interrupt line have been offlined.
+>
+> So what exactly is the use case?  What drivers do you care about?
 
-This follows rdma's lead.
+This patch came at a customer request for NVMe. The controllers have 1:1
+queues to CPUs, so currently a submission on CPU A will interrupt CPU A.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The user really wants their application to run in CPU A and have the
+interrupt run in CPU B. We can't change the IRQ affinity, so I thought
+changing the submission affinity would be less intrusive.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index b528a2f5826c..41d45a1b5c62 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2790,6 +2790,9 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 	/* re-enable the admin_q so anything new can fast fail */
- 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
- 
-+	/* resume the io queues so that things will fast fail */
-+	nvme_start_queues(&ctrl->ctrl);
-+
- 	nvme_fc_ctlr_inactive_on_rport(ctrl);
- }
- 
-@@ -2804,9 +2807,6 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
- 	 * waiting for io to terminate
- 	 */
- 	nvme_fc_delete_association(ctrl);
--
--	/* resume the io queues so that things will fast fail */
--	nvme_start_queues(nctrl);
- }
- 
- static void
--- 
-2.13.1
+I think you're saying this will break if CPU B is offlined. I hadn't
+considered that, so it doesn't sound like this will work.
