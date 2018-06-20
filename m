@@ -1,59 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Jun 2018 12:08:30 +0300
-Subject: [PATCH 0/7] few nvme-rdma fixes for 4.18
-In-Reply-To: <20180620090529.GA4109@lst.de>
-References: <20180619123415.25077-1-sagi@grimberg.me>
- <20180620084011.GC3284@lst.de>
- <306127fb-c15e-a5c7-70cf-b4e39c328979@grimberg.me>
- <20180620085235.GA3880@lst.de>
- <daab031f-6a62-6436-cf3e-02327184d849@grimberg.me>
- <20180620090529.GA4109@lst.de>
-Message-ID: <5ef819b2-1566-b39a-51a7-a3203b830ea9@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 20 Jun 2018 12:33:24 +0300
+Subject: [PATCH v2 1/2] nvmet: reset keep alive timer in controller enable
+In-Reply-To: <20180620090611.GA4188@lst.de>
+References: <20180619124534.26736-1-sagi@grimberg.me>
+ <20180620090611.GA4188@lst.de>
+Message-ID: <3941d283-0d98-b69c-3d5b-c544cc52aa50@mellanox.com>
 
 
->>>> 4 is needed to prevent a theoretical hang in controller removal, but
->>>> never encountered.
->>>
->>> This one I'm indeed a little concerned about as I remember various
->>> issues in this area in PCIe.  And RDMA is just different enough that
->>> it doesn't look very similar.
->>
->> Actually, 4 follows PCIe one to one:
->> --
->>          /*
->>           * The driver will not be starting up queues again if shutting down
->> so
->>           * must flush all entered requests to their failed completion to
->> avoid
->>           * deadlocking blk-mq hot-cpu notifier.
->>           */
->>          if (shutdown)
->>                  nvme_start_queues(&dev->ctrl);
->> --
->> Nothing about this is PCIe specific, its about the controller going away
->> with quiesced IO.
+
+On 6/20/2018 12:06 PM, Christoph Hellwig wrote:
+> I've applied both patches to nvme-4.18.
+
+
+the second one is not complete for error flows (I've mentioned it 
+yesterday).  We should re-think about my V1 suggestion to start/stop 
+keep-alive during configure/destroy admin queue, or find another 
+solution. I find it strange to have exported nvme_stop_keep_alive and 
+non exported nvme_start_keep_alive.
+
+
 > 
-> With the difference that PCIe does it at the end of nvme_dev_disable,
-> long after we've actually disabled or shut down the controller,
-> while RDMA does it before shutting down the controller.
-
-Well yes, but the what matters (to my understanding) is that it happens
-after:
-1. request queue was quiesced
-2. queue does not allow requests to come in anymore (!LIVE)
-3. inflight requests were cancelled
-4. io hw queues were flushed and teared down.
-
-We can do this after we teardown the admin queue as well, but I don't
-see a justification to do it.
-
->> On a side note, If you look at nvme_reset_work and nvme_dev_disable, its
->> not that different from what RDMA does, its just arranged slightly
->> different. I'm still very much think that PCIe and RDMA and FC (and TCP)
->> can have the same probe, reset, remove sequences. I guess it will just
->> take some more time to get there.
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C47a667b338604182f4dd08d5d68be4cf%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C1%7C636650818702308730&sdata=m7GH93WOn%2F0CZhx0YN6XNjWdqlOh4V16Kaz5sl1JpOk%3D&reserved=0
 > 
-> Sharing more code would be great, especially for managing the block
-> layer state.
-
-We'll get there...
