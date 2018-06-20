@@ -1,36 +1,118 @@
-From: bdeyal@gmail.com (Eyal BenDavid)
-Date: Wed, 20 Jun 2018 19:20:23 +0300
-Subject: NVME-CLI : Fabrics property-get and 64 bit property (CAP)
-In-Reply-To: <CAPrnrPCy20UbgF2thtNnxcUZriDZdvGEs6MkZ0074w-ZLgyrdw@mail.gmail.com>
-References: <CAPrnrPD2PtPO38cAzMfKdhS18GFj1vk032p0h0rQf0CFP+R=cw@mail.gmail.com>
- <e75d7829-9aeb-90fb-249a-c7ac4cef10bd@intel.com>
- <CAPrnrPBKcYUsuQ6krkcjB6BOzLcPz47vje4qjic5Xw9PQN3pTQ@mail.gmail.com>
- <20180619194802.GF19922@localhost.localdomain>
- <CAPrnrPCM79jUwngOQd0t6-pT3RocHNBnt_TS059d+NK-rodqDA@mail.gmail.com>
- <20180619202514.GG19922@localhost.localdomain>
- <CAPrnrPA2rUeWsrU5K_s9do30EjuxU3Z0VD_EVCk_81+n-kX+gQ@mail.gmail.com>
- <CAPrnrPCy20UbgF2thtNnxcUZriDZdvGEs6MkZ0074w-ZLgyrdw@mail.gmail.com>
-Message-ID: <CAPrnrPD6HzwdPBtBEZrtM6R2Qn-8wua-v7XiM391L+Sf5hMeHA@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 20 Jun 2018 20:44:29 +0300
+Subject: [PATCH V4] nvmet: add buffered I/O support for file backed ns
+In-Reply-To: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>
+References: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <7ff64816-a285-cd4f-281f-8f3e6fbeb5ce@grimberg.me>
 
-Here is a small patch that fixes the offset.
 
-Eyal
+> +static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	struct nvmet_ns *ns = to_nvmet_ns(item);
+> +	bool buffered_io;
+> +	int ret = 0;
+> +
+> +	if (strtobool(page, &buffered_io))
+> +		return -EINVAL;
+> +
+> +	mutex_unlock(&ns->subsys->lock);
+> +	if (ns->enabled == false)
+> +		ns->buffered_io = buffered_io;
+> +	else {
+> +		pr_err("disable ns before setting buffered_io value.\n");
+> +		ret = -EINVAL;
+> +	}
+> +	mutex_unlock(&ns->subsys->lock);
+> +
+> +	return ret ? ret : count;
 
-------
+Consider changing this to:
 
-diff --git i/nvme-ioctl.c w/nvme-ioctl.c
-index 63ff8fb..d52dd0a 100644
---- i/nvme-ioctl.c
-+++ w/nvme-ioctl.c
-@@ -572,8 +572,10 @@ int nvme_get_properties(int fd, void **pbar)
-                        continue;
-                }
-                ret = 0;
--               if (is64bit)
-+               if (is64bit) {
-                        *(uint64_t *)(*pbar + off) = le64_to_cpu(value64);
-+                       off += 4;
-+               }
-                else
-                        *(uint32_t *)(*pbar + off) = le32_to_cpu(value64);
-        }
+	mutex_unlock(&ns->subsys->lock);
+	if (ns->enabled) {
+		pr_err("cannot modify ns while enabled\n");
+		ret = -EINVAL;
+		goto out_unlocked;
+	}
+
+	ns->buffered_io = buffered_io;
+	ret = count;
+out_unlock:
+	mutex_unlock(&ns->subsys->lock);
+	return ret;
+
+> +}
+> +
+> +CONFIGFS_ATTR(nvmet_ns_, buffered_io);
+> +
+>   static struct configfs_attribute *nvmet_ns_attrs[] = {
+>   	&nvmet_ns_attr_device_path,
+>   	&nvmet_ns_attr_device_nguid,
+>   	&nvmet_ns_attr_device_uuid,
+>   	&nvmet_ns_attr_enable,
+> +	&nvmet_ns_attr_buffered_io,
+>   	NULL,
+>   };
+>   
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index a03da764ecae..2888ed6d8665 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -437,6 +437,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+>   	ns->nsid = nsid;
+>   	ns->subsys = subsys;
+>   	uuid_gen(&ns->uuid);
+> +	ns->buffered_io = false;
+>   
+>   	return ns;
+>   }
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index 8c42b3a8c420..09d793442833 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -16,6 +16,11 @@
+>   void nvmet_file_ns_disable(struct nvmet_ns *ns)
+>   {
+>   	if (ns->file) {
+> +		if (ns->buffered_io) {
+> +			flush_workqueue(ns->file_wq);
+> +			destroy_workqueue(ns->file_wq);
+
+destroy_workqueue flushes so no need to do that explicitly.
+
+> +			ns->file_wq = NULL;
+> +		}
+>   		mempool_destroy(ns->bvec_pool);
+>   		ns->bvec_pool = NULL;
+>   		kmem_cache_destroy(ns->bvec_cache);
+> @@ -27,11 +32,14 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+>   
+>   int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>   {
+> -	int ret;
+> +	int flags = O_RDWR | O_LARGEFILE;
+>   	struct kstat stat;
+> +	int ret;
+> +
+> +	if (!ns->buffered_io)
+> +		flags |= O_DIRECT;
+>   
+> -	ns->file = filp_open(ns->device_path,
+> -			O_RDWR | O_LARGEFILE | O_DIRECT, 0);
+> +	ns->file = filp_open(ns->device_path, flags, 0);
+>   	if (IS_ERR(ns->file)) {
+>   		pr_err("failed to open file %s: (%ld)\n",
+>   				ns->device_path, PTR_ERR(ns->file));
+> @@ -62,6 +70,15 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>   		goto err;
+>   	}
+>   
+> +	if (ns->buffered_io) {
+> +		ns->file_wq = alloc_workqueue("nvmet-file",
+> +				WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
+
+I seriously don't think that a wq per ns is a good idea.. What was the
+consideration for this?
+
+And what's wrong with the system_unbound_wq?
