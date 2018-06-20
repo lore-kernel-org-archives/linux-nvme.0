@@ -1,16 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 20 Jun 2018 10:21:21 +0200
-Subject: [PATCH V4] nvmet: add buffered I/O support for file backed ns
-In-Reply-To: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>
-References: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180620082121.GA3033@lst.de>
+Date: Wed, 20 Jun 2018 10:24:44 +0200
+Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
+In-Reply-To: <20180619174313.GP27457@mellanox.com>
+References: <cover.1528219321.git.swise@opengridcomputing.com>
+ <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
+ <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
+ <20180619054056.GB23184@lst.de>
+ <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
+ <20180619174313.GP27457@mellanox.com>
+Message-ID: <20180620082444.GB3033@lst.de>
 
-> +		ns->file_wq = alloc_workqueue("nvmet-file",
-> +				WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
+On Tue, Jun 19, 2018@11:43:13AM -0600, Jason Gunthorpe wrote:
+> > +doug and jason.
+> > 
+> > There is one merge issue: This series will require the max_send/recv_sge
+> > commit, which is merged in rdma-next [1] just recently. Perhaps you can
+> > pull that from the linux-rdma repo if and when these 2 nvme patches are
+> > pulled into your repo? I think that will allow easy merging when the
+> > block and rdma repos get merged into Linus' repo.
+> 
+> Pulling the rdma tree into nvme is probably not something anyone would
+> want to do..
+> 
+> Can we take these patches through rdma instead?
 
-The WQ_UNBOUND_MAX_ACTIVE here looks bogus, as far as I can tell it
-isn't a flag for alloc_workqueue but needs to be passed as the last
-argument.
-
-I've removed it for now, and applied the patch with a few minor cleanups
-to the nvme-4.19 branch.
+There are chances for various conflicts as well.  I think the best
+is to just apply the patches without using the new split fields to
+the nvme tree and then carry the fixup to max_send_sge/max_recv_sge
+in linux-next.
