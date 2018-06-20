@@ -1,40 +1,36 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 20 Jun 2018 08:49:11 -0600
-Subject: [RFC PATCH] blk-mq: User defined HCTX CPU mapping
-In-Reply-To: <20180620090805.GA4205@lst.de>
-References: <20180618173206.19506-1-keith.busch@intel.com>
- <20180620090805.GA4205@lst.de>
-Message-ID: <20180620144911.GA24104@localhost.localdomain>
+From: bdeyal@gmail.com (Eyal BenDavid)
+Date: Wed, 20 Jun 2018 19:20:23 +0300
+Subject: NVME-CLI : Fabrics property-get and 64 bit property (CAP)
+In-Reply-To: <CAPrnrPCy20UbgF2thtNnxcUZriDZdvGEs6MkZ0074w-ZLgyrdw@mail.gmail.com>
+References: <CAPrnrPD2PtPO38cAzMfKdhS18GFj1vk032p0h0rQf0CFP+R=cw@mail.gmail.com>
+ <e75d7829-9aeb-90fb-249a-c7ac4cef10bd@intel.com>
+ <CAPrnrPBKcYUsuQ6krkcjB6BOzLcPz47vje4qjic5Xw9PQN3pTQ@mail.gmail.com>
+ <20180619194802.GF19922@localhost.localdomain>
+ <CAPrnrPCM79jUwngOQd0t6-pT3RocHNBnt_TS059d+NK-rodqDA@mail.gmail.com>
+ <20180619202514.GG19922@localhost.localdomain>
+ <CAPrnrPA2rUeWsrU5K_s9do30EjuxU3Z0VD_EVCk_81+n-kX+gQ@mail.gmail.com>
+ <CAPrnrPCy20UbgF2thtNnxcUZriDZdvGEs6MkZ0074w-ZLgyrdw@mail.gmail.com>
+Message-ID: <CAPrnrPD6HzwdPBtBEZrtM6R2Qn-8wua-v7XiM391L+Sf5hMeHA@mail.gmail.com>
 
-On Wed, Jun 20, 2018@11:08:05AM +0200, Christoph Hellwig wrote:
-> On Mon, Jun 18, 2018@11:32:06AM -0600, Keith Busch wrote:
-> > The default mapping of a cpu to a hardware context is often generally
-> > applicable, however a user may know of a more appropriate mapping for
-> > their specific access usage.
-> > 
-> > This patch allows a user to define their own policy by making the mq hctx
-> > cpu_list writable. The usage allows a user to append a comma separated
-> > and/or range list of CPUs to a given hctx's tag set mapping to reassign
-> > what hctx a cpu may map.
-> > 
-> > While the writable attribute exists under a specific request_queue, the
-> > settings will affect all request queues sharing the same tagset.
-> > 
-> > The user defined setting is lost if the block device is removed and
-> > re-added, or if the driver re-runs the queue mapping.
-> 
-> We can't do this without driver opt-in.  Managed interrupt rely on
-> the fact that we can't generate more interrupts once all cpus mapped
-> to the interrupt line have been offlined.
->
-> So what exactly is the use case?  What drivers do you care about?
+Here is a small patch that fixes the offset.
 
-This patch came at a customer request for NVMe. The controllers have 1:1
-queues to CPUs, so currently a submission on CPU A will interrupt CPU A.
+Eyal
 
-The user really wants their application to run in CPU A and have the
-interrupt run in CPU B. We can't change the IRQ affinity, so I thought
-changing the submission affinity would be less intrusive.
+------
 
-I think you're saying this will break if CPU B is offlined. I hadn't
-considered that, so it doesn't sound like this will work.
+diff --git i/nvme-ioctl.c w/nvme-ioctl.c
+index 63ff8fb..d52dd0a 100644
+--- i/nvme-ioctl.c
++++ w/nvme-ioctl.c
+@@ -572,8 +572,10 @@ int nvme_get_properties(int fd, void **pbar)
+                        continue;
+                }
+                ret = 0;
+-               if (is64bit)
++               if (is64bit) {
+                        *(uint64_t *)(*pbar + off) = le64_to_cpu(value64);
++                       off += 4;
++               }
+                else
+                        *(uint32_t *)(*pbar + off) = le32_to_cpu(value64);
+        }
