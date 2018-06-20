@@ -1,30 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 20 Jun 2018 10:24:44 +0200
-Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
-In-Reply-To: <20180619174313.GP27457@mellanox.com>
-References: <cover.1528219321.git.swise@opengridcomputing.com>
- <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
- <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
- <20180619054056.GB23184@lst.de>
- <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
- <20180619174313.GP27457@mellanox.com>
-Message-ID: <20180620082444.GB3033@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 20 Jun 2018 11:40:22 +0300
+Subject: [PATCH 0/7] few nvme-rdma fixes for 4.18
+In-Reply-To: <20180620084011.GC3284@lst.de>
+References: <20180619123415.25077-1-sagi@grimberg.me>
+ <20180620084011.GC3284@lst.de>
+Message-ID: <306127fb-c15e-a5c7-70cf-b4e39c328979@grimberg.me>
 
-On Tue, Jun 19, 2018@11:43:13AM -0600, Jason Gunthorpe wrote:
-> > +doug and jason.
-> > 
-> > There is one merge issue: This series will require the max_send/recv_sge
-> > commit, which is merged in rdma-next [1] just recently. Perhaps you can
-> > pull that from the linux-rdma repo if and when these 2 nvme patches are
-> > pulled into your repo? I think that will allow easy merging when the
-> > block and rdma repos get merged into Linus' repo.
-> 
-> Pulling the rdma tree into nvme is probably not something anyone would
-> want to do..
-> 
-> Can we take these patches through rdma instead?
 
-There are chances for various conflicts as well.  I think the best
-is to just apply the patches without using the new split fields to
-the nvme tree and then carry the fixup to max_send_sge/max_recv_sge
-in linux-next.
+>> Patches 1-5 fixes some allocation/free glitches reported. patches
+>> 6-7 try to centralize some setup/teardown logic such that fixes
+>> can be applied in a single location (which can probably go to
+>> 4.19).
+> 
+> Yeah, the last two are clearly 4.19 material.
+> 
+> But even the ones before are pretty invasive.  I'll apply them to
+> nvme-4.18 for now, but I feel a bit uneasy.
+
+Let me try and ease your feel ;)
+
+1-3 fix crashes, so they are must.
+4 is needed to prevent a theoretical hang in controller removal, but
+never encountered.
+5 is theoretical to a case where a dynamic controller changes its
+attributes.
+
+So 4-5 can safely be included in 4.19
