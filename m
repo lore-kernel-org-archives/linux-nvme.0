@@ -1,28 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Jun 2018 11:40:22 +0300
-Subject: [PATCH 0/7] few nvme-rdma fixes for 4.18
-In-Reply-To: <20180620084011.GC3284@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 20 Jun 2018 10:31:59 +0200
+Subject: [PATCH 2/7] nvme-rdma: fix possible free non-allocated async
+ event buffer
+In-Reply-To: <20180619123415.25077-3-sagi@grimberg.me>
 References: <20180619123415.25077-1-sagi@grimberg.me>
- <20180620084011.GC3284@lst.de>
-Message-ID: <306127fb-c15e-a5c7-70cf-b4e39c328979@grimberg.me>
+ <20180619123415.25077-3-sagi@grimberg.me>
+Message-ID: <20180620083159.GB3284@lst.de>
 
+On Tue, Jun 19, 2018@03:34:10PM +0300, Sagi Grimberg wrote:
+> If nvme_rdma_configure_admin_queue fails before we allocated
+> the async event buffer, we will falsly free it because nvme_rdma_free_queue
+> is freeing it. Fix it by allocating the buffer right after nvme_rdma_alloc_queue
+> and free it right before nvme_rdma_queue_free to maintain orderly reverse cleanup
+> sequence.
 
->> Patches 1-5 fixes some allocation/free glitches reported. patches
->> 6-7 try to centralize some setup/teardown logic such that fixes
->> can be applied in a single location (which can probably go to
->> 4.19).
-> 
-> Yeah, the last two are clearly 4.19 material.
-> 
-> But even the ones before are pretty invasive.  I'll apply them to
-> nvme-4.18 for now, but I feel a bit uneasy.
-
-Let me try and ease your feel ;)
-
-1-3 fix crashes, so they are must.
-4 is needed to prevent a theoretical hang in controller removal, but
-never encountered.
-5 is theoretical to a case where a dynamic controller changes its
-attributes.
-
-So 4-5 can safely be included in 4.19
+This looks much nicer indeed.
