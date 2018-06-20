@@ -1,37 +1,42 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 20 Jun 2018 09:02:31 -0500
-Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
-In-Reply-To: <20180620082444.GB3033@lst.de>
-References: <cover.1528219321.git.swise@opengridcomputing.com>
- <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
- <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
- <20180619054056.GB23184@lst.de>
- <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
- <20180619174313.GP27457@mellanox.com> <20180620082444.GB3033@lst.de>
-Message-ID: <2e71b891-be57-2f36-28f5-ffdafc76db96@opengridcomputing.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 20 Jun 2018 07:44:12 -0700
+Subject: [PATCH] nvme_fc: release io queues to allow fast fail
+Message-ID: <20180620144412.19973-1-jsmart2021@gmail.com>
 
+Rather than leaving io queues quiesced after tearing down an association,
+restart them. This allows ios to be replayed, with fastfail ios terminating
+and non-fastfail getting into loops of retry.
 
+This follows rdma's lead.
 
-On 6/20/2018 3:24 AM, Christoph Hellwig wrote:
-> On Tue, Jun 19, 2018@11:43:13AM -0600, Jason Gunthorpe wrote:
->>> +doug and jason.
->>>
->>> There is one merge issue: This series will require the max_send/recv_sge
->>> commit, which is merged in rdma-next [1] just recently. Perhaps you can
->>> pull that from the linux-rdma repo if and when these 2 nvme patches are
->>> pulled into your repo? I think that will allow easy merging when the
->>> block and rdma repos get merged into Linus' repo.
->> Pulling the rdma tree into nvme is probably not something anyone would
->> want to do..
->>
->> Can we take these patches through rdma instead?
-> There are chances for various conflicts as well.  I think the best
-> is to just apply the patches without using the new split fields to
-> the nvme tree and then carry the fixup to max_send_sge/max_recv_sge
-> in linux-next.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Ok, I'll remove the dependency in the next version.
-
-Thanks,
-
-Steve.
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index b528a2f5826c..41d45a1b5c62 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2790,6 +2790,9 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	/* re-enable the admin_q so anything new can fast fail */
+ 	blk_mq_unquiesce_queue(ctrl->ctrl.admin_q);
+ 
++	/* resume the io queues so that things will fast fail */
++	nvme_start_queues(&ctrl->ctrl);
++
+ 	nvme_fc_ctlr_inactive_on_rport(ctrl);
+ }
+ 
+@@ -2804,9 +2807,6 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ 	 * waiting for io to terminate
+ 	 */
+ 	nvme_fc_delete_association(ctrl);
+-
+-	/* resume the io queues so that things will fast fail */
+-	nvme_start_queues(nctrl);
+ }
+ 
+ static void
+-- 
+2.13.1
