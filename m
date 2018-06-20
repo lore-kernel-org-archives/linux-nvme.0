@@ -1,17 +1,25 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 20 Jun 2018 10:31:59 +0200
-Subject: [PATCH 2/7] nvme-rdma: fix possible free non-allocated async
- event buffer
-In-Reply-To: <20180619123415.25077-3-sagi@grimberg.me>
+Date: Wed, 20 Jun 2018 10:52:35 +0200
+Subject: [PATCH 0/7] few nvme-rdma fixes for 4.18
+In-Reply-To: <306127fb-c15e-a5c7-70cf-b4e39c328979@grimberg.me>
 References: <20180619123415.25077-1-sagi@grimberg.me>
- <20180619123415.25077-3-sagi@grimberg.me>
-Message-ID: <20180620083159.GB3284@lst.de>
+ <20180620084011.GC3284@lst.de>
+ <306127fb-c15e-a5c7-70cf-b4e39c328979@grimberg.me>
+Message-ID: <20180620085235.GA3880@lst.de>
 
-On Tue, Jun 19, 2018@03:34:10PM +0300, Sagi Grimberg wrote:
-> If nvme_rdma_configure_admin_queue fails before we allocated
-> the async event buffer, we will falsly free it because nvme_rdma_free_queue
-> is freeing it. Fix it by allocating the buffer right after nvme_rdma_alloc_queue
-> and free it right before nvme_rdma_queue_free to maintain orderly reverse cleanup
-> sequence.
+On Wed, Jun 20, 2018@11:40:22AM +0300, Sagi Grimberg wrote:
+> 4 is needed to prevent a theoretical hang in controller removal, but
+> never encountered.
 
-This looks much nicer indeed.
+This one I'm indeed a little concerned about as I remember various
+issues in this area in PCIe.  And RDMA is just different enough that
+it doesn't look very similar.
+
+> 5 is theoretical to a case where a dynamic controller changes its
+> attributes.
+
+5 looks simple enough (famous last words).
+
+> So 4-5 can safely be included in 4.19
+
+Ok, I've dropped 4 for now.
