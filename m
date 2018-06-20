@@ -1,42 +1,134 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 25 Jun 2018 16:03:00 +0200
-Subject: [PATCH v4 1/1] nvme: trace: add disk name to tracepoints
-In-Reply-To: <d4786519-1695-25a0-dbf5-5d6cb9809539@grimberg.me>
-References: <20180611184630.3435-1-jthumshirn@suse.de>
- <c05ae7fd-3580-ffb5-8beb-6e28666687f4@grimberg.me>
- <20180625070850.jdl7mudz6o6diwsj@linux-x5ow.site>
- <d4786519-1695-25a0-dbf5-5d6cb9809539@grimberg.me>
-Message-ID: <20180625140300.rebclfa6pa6mtsat@linux-x5ow.site>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 20 Jun 2018 07:15:05 -0700
+Subject: [PATCH v6 1/2] nvme-rdma: support up to 4 segments of inline data
+In-Reply-To: <cover.1529938266.git.swise@opengridcomputing.com>
+References: <cover.1529938266.git.swise@opengridcomputing.com>
+Message-ID: <b93968cc1b1a969bbc37a876645f8cc1f4d8dd06.1529938266.git.swise@opengridcomputing.com>
 
-On Mon, Jun 25, 2018@04:31:28PM +0300, Sagi Grimberg wrote:
-> 
-> 
-> On 06/25/2018 10:08 AM, Johannes Thumshirn wrote:
-> > On Tue, Jun 19, 2018@05:09:27PM +0300, Sagi Grimberg wrote:
-> > > We are going to need it for traffic based keep alive to update
-> > > that we saw a completion to extend the kato.
-> > > 
-> > > But I suggest you simply keep a ctrl reference in struct nvme_request
-> > > instead so you don't need to pass it to nvme_complete_req (that's what
-> > > I did for traffic based keep alive).
-> > 
-> > Do you have a patch for this around? IIRC I started this (as Christoph
-> > also suggested it) but it turned out to be quite a big refactoring
-> > work.
-> 
-> How about the below? patch #1 is what you are looking for, patch #2 is
-> a slightly modified version that applies on #1. Let me know what you
-> think...
+Allow up to 4 segments of inline data for NVMF WRITE operations. This
+reduces latency for small WRITEs by removing the need for the target to
+issue a READ WR for IB, or a REG_MR + READ WR chain for iWarp.
 
-Looks good (both #1 if we want to use the two patch version or #2).
+Also cap the inline segments used based on the limitations of the
+device.
 
-I have no idea what I did when I was trying to do when I tried it.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/nvme/host/rdma.c | 38 +++++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
-  Johannes
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c9424da0d23e..b6f73ccc167c 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -40,13 +40,14 @@
+ 
+ #define NVME_RDMA_MAX_SEGMENTS		256
+ 
+-#define NVME_RDMA_MAX_INLINE_SEGMENTS	1
++#define NVME_RDMA_MAX_INLINE_SEGMENTS	4
+ 
+ struct nvme_rdma_device {
+ 	struct ib_device	*dev;
+ 	struct ib_pd		*pd;
+ 	struct kref		ref;
+ 	struct list_head	entry;
++	unsigned int		num_inline_segments;
+ };
+ 
+ struct nvme_rdma_qe {
+@@ -117,6 +118,7 @@ struct nvme_rdma_ctrl {
+ 	struct sockaddr_storage src_addr;
+ 
+ 	struct nvme_ctrl	ctrl;
++	bool			use_inline_data;
+ };
+ 
+ static inline struct nvme_rdma_ctrl *to_rdma_ctrl(struct nvme_ctrl *ctrl)
+@@ -249,7 +251,7 @@ static int nvme_rdma_create_qp(struct nvme_rdma_queue *queue, const int factor)
+ 	/* +1 for drain */
+ 	init_attr.cap.max_recv_wr = queue->queue_size + 1;
+ 	init_attr.cap.max_recv_sge = 1;
+-	init_attr.cap.max_send_sge = 1 + NVME_RDMA_MAX_INLINE_SEGMENTS;
++	init_attr.cap.max_send_sge = 1 + dev->num_inline_segments;
+ 	init_attr.sq_sig_type = IB_SIGNAL_REQ_WR;
+ 	init_attr.qp_type = IB_QPT_RC;
+ 	init_attr.send_cq = queue->ib_cq;
+@@ -374,6 +376,8 @@ static int nvme_rdma_dev_get(struct nvme_rdma_device *dev)
+ 		goto out_free_pd;
+ 	}
+ 
++	ndev->num_inline_segments = min(NVME_RDMA_MAX_INLINE_SEGMENTS,
++					ndev->dev->attrs.max_sge - 1);
+ 	list_add(&ndev->entry, &device_list);
+ out_unlock:
+ 	mutex_unlock(&device_list_mutex);
+@@ -1088,19 +1092,27 @@ static int nvme_rdma_set_sg_null(struct nvme_command *c)
+ }
+ 
+ static int nvme_rdma_map_sg_inline(struct nvme_rdma_queue *queue,
+-		struct nvme_rdma_request *req, struct nvme_command *c)
++		struct nvme_rdma_request *req, struct nvme_command *c,
++		int count)
+ {
+ 	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
++	struct scatterlist *sgl = req->sg_table.sgl;
++	struct ib_sge *sge = &req->sge[1];
++	u32 len = 0;
++	int i;
+ 
+-	req->sge[1].addr = sg_dma_address(req->sg_table.sgl);
+-	req->sge[1].length = sg_dma_len(req->sg_table.sgl);
+-	req->sge[1].lkey = queue->device->pd->local_dma_lkey;
++	for (i = 0; i < count; i++, sgl++, sge++) {
++		sge->addr = sg_dma_address(sgl);
++		sge->length = sg_dma_len(sgl);
++		sge->lkey = queue->device->pd->local_dma_lkey;
++		len += sge->length;
++	}
+ 
+ 	sg->addr = cpu_to_le64(queue->ctrl->ctrl.icdoff);
+-	sg->length = cpu_to_le32(sg_dma_len(req->sg_table.sgl));
++	sg->length = cpu_to_le32(len);
+ 	sg->type = (NVME_SGL_FMT_DATA_DESC << 4) | NVME_SGL_FMT_OFFSET;
+ 
+-	req->num_sge++;
++	req->num_sge += count;
+ 	return 0;
+ }
+ 
+@@ -1193,15 +1205,16 @@ static int nvme_rdma_map_data(struct nvme_rdma_queue *queue,
+ 		goto out_free_table;
+ 	}
+ 
+-	if (count == 1) {
++	if (count <= dev->num_inline_segments) {
+ 		if (rq_data_dir(rq) == WRITE && nvme_rdma_queue_idx(queue) &&
++		    queue->ctrl->use_inline_data &&
+ 		    blk_rq_payload_bytes(rq) <=
+ 				nvme_rdma_inline_data_size(queue)) {
+-			ret = nvme_rdma_map_sg_inline(queue, req, c);
++			ret = nvme_rdma_map_sg_inline(queue, req, c, count);
+ 			goto out;
+ 		}
+ 
+-		if (dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY) {
++		if (count == 1 && dev->pd->flags & IB_PD_UNSAFE_GLOBAL_RKEY) {
+ 			ret = nvme_rdma_map_sg_single(queue, req, c);
+ 			goto out;
+ 		}
+@@ -1974,6 +1987,9 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		goto out_remove_admin_queue;
+ 	}
+ 
++	if (ctrl->ctrl.sgls & (1 << 20))
++		ctrl->use_inline_data = true;
++
+ 	if (opts->queue_size > ctrl->ctrl.maxcmd) {
+ 		/* warn if maxcmd is lower than queue_size */
+ 		dev_warn(ctrl->ctrl.device,
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.3.1
