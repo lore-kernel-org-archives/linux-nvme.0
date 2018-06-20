@@ -1,56 +1,151 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 20 Jun 2018 14:54:26 -0600
-Subject: [PATCH] nvme: use __GFP_NOWARN for iod allocation
-In-Reply-To: <20180620204310.GA24840@localhost.localdomain>
-References: <4cb394ca-7032-ea67-5bb1-ef331e42ace2@kernel.dk>
- <b054a000-c7ad-9926-b45f-2771a98b7d23@kernel.dk>
- <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
- <20180620204310.GA24840@localhost.localdomain>
-Message-ID: <34e64832-c345-3a70-401f-1915b5bb4af1@kernel.dk>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 20 Jun 2018 21:44:03 +0000
+Subject: [PATCH V4] nvmet: add buffered I/O support for file backed ns
+In-Reply-To: <7ff64816-a285-cd4f-281f-8f3e6fbeb5ce@grimberg.me>
+References: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>,
+ <7ff64816-a285-cd4f-281f-8f3e6fbeb5ce@grimberg.me>
+Message-ID: <BN6PR04MB120385B3746564FD32964F7086770@BN6PR04MB1203.namprd04.prod.outlook.com>
 
-On 6/20/18 2:43 PM, Keith Busch wrote:
-> On Wed, Jun 20, 2018@02:09:03PM -0600, Jens Axboe wrote:
->> On 6/20/18 1:16 PM, Jens Axboe wrote:
->>> On 6/20/18 1:10 PM, Jens Axboe wrote:
->>>> This begs the question is we should limit the size in general. The
->>>> command overhead is low enough that I think we should default to
->>>> something sane that doesn't require _any_ > 0 order allocations.
->>>>
->>>> Our default 1280kb will require 10248 bytes of iod, which is an
->>>> order 2 allocation.... That's not helping tail latencies in
->>>> data centers, where memory is always full and fragmented.
->>>
->>> In terms of sizing, defaulting to 256kb might not be a bad idea.
->>> That'd be 2056 bytes for a normal config. Alternatively we could
->>> go 1280/4 == 320k, which would be 2568 bytes.
->>>
->>> In any case, I think it's something that's worth doing.
->>
->> Talking more to myself - higher order allocations needed to make
->> progress isn't a viable approach. There may _never_ be any available,
->> which means we are stuck since this isn't backed by a mempool.
->>
->> How about something like the below. Default to a size that will
->> never require > PAGE_SIZE allocation, and back that with a single
->> entry mempool. Even if we don't wait on it, if we keep retrying
->> we'll always be able to allocate memory and make forward progress.
->> And allocating a single page is a hell of a lot more likely than
->> a 2nd order allocation.
-> 
-> If we go this route, there is a great deal of cleanup that can follow
-> on. For example, we'll never need to chain PRPs, so nvme_iod setup/free
-> can become a lot simpler, and the struct iod npages and hidden "iod_list"
-> member can go away.
 
-Missed this one before sending the other one out - yeah, I agree.
-And since we already have the inline sg for smaller commands, I
-think it makes a lot of sense to move in this direction.
 
-I should also mention that this came out of a real life hang
-on a production box. I suppose we haven't seen a lot of these
-since a lot of nvme controllers have a hw limit of 128k, but
-the ones that don't can pretty easily hit the hang of needing
-2^2 pages and failing miserably forever.
 
--- 
-Jens Axboe
+
+
+
+From: Sagi Grimberg <sagi@grimberg.me>
+Sent: Wednesday, June 20, 2018 10:44 AM
+To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
+Cc: hch at lst.de; keith.busch at intel.com
+Subject: Re: [PATCH V4] nvmet: add buffered I/O support for file backed ns
+? 
+ 
+
+> +static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
+> +???????????? const char *page, size_t count)
+> +{
+> +???? struct nvmet_ns *ns = to_nvmet_ns(item);
+> +???? bool buffered_io;
+> +???? int ret = 0;
+> +
+> +???? if (strtobool(page, &buffered_io))
+> +???????????? return -EINVAL;
+> +
+> +???? mutex_unlock(&ns->subsys->lock);
+> +???? if (ns->enabled == false)
+> +???????????? ns->buffered_io = buffered_io;
+> +???? else {
+> +???????????? pr_err("disable ns before setting buffered_io value.\n");
+> +???????????? ret = -EINVAL;
+> +???? }
+> +???? mutex_unlock(&ns->subsys->lock);
+> +
+> +???? return ret ? ret : count;
+
+Consider changing this to:
+
+??????? mutex_unlock(&ns->subsys->lock);
+??????? if (ns->enabled) {
+??????????????? pr_err("cannot modify ns while enabled\n");
+??????????????? ret = -EINVAL;
+??????????????? goto out_unlocked;
+??????? }
+
+??????? ns->buffered_io = buffered_io;
+??????? ret = count;
+out_unlock:
+??????? mutex_unlock(&ns->subsys->lock);
+??????? return ret;
+
+[CK] I'm okay to change that if you prefer this style, can you please explain
+        is there anything wrong with the current code?
+
+> +}
+> +
+> +CONFIGFS_ATTR(nvmet_ns_, buffered_io);
+> +
+>?? static struct configfs_attribute *nvmet_ns_attrs[] = {
+>??????? &nvmet_ns_attr_device_path,
+>??????? &nvmet_ns_attr_device_nguid,
+>??????? &nvmet_ns_attr_device_uuid,
+>??????? &nvmet_ns_attr_enable,
+> +???? &nvmet_ns_attr_buffered_io,
+>??????? NULL,
+>?? };
+>?? 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index a03da764ecae..2888ed6d8665 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -437,6 +437,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+>??????? ns->nsid = nsid;
+>??????? ns->subsys = subsys;
+>??????? uuid_gen(&ns->uuid);
+> +???? ns->buffered_io = false;
+>?? 
+>??????? return ns;
+>?? }
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index 8c42b3a8c420..09d793442833 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -16,6 +16,11 @@
+>?? void nvmet_file_ns_disable(struct nvmet_ns *ns)
+>?? {
+>??????? if (ns->file) {
+> +???????????? if (ns->buffered_io) {
+> +???????????????????? flush_workqueue(ns->file_wq);
+> +???????????????????? destroy_workqueue(ns->file_wq);
+
+destroy_workqueue flushes so no need to do that explicitly.
+[CK] Okay.
+
+> +???????????????????? ns->file_wq = NULL;
+> +???????????? }
+>??????????????? mempool_destroy(ns->bvec_pool);
+>??????????????? ns->bvec_pool = NULL;
+>??????????????? kmem_cache_destroy(ns->bvec_cache);
+> @@ -27,11 +32,14 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
+>?? 
+>?? int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>?? {
+> -???? int ret;
+> +???? int flags = O_RDWR | O_LARGEFILE;
+>??????? struct kstat stat;
+> +???? int ret;
+> +
+> +???? if (!ns->buffered_io)
+> +???????????? flags |= O_DIRECT;
+>?? 
+> -???? ns->file = filp_open(ns->device_path,
+> -???????????????????? O_RDWR | O_LARGEFILE | O_DIRECT, 0);
+> +???? ns->file = filp_open(ns->device_path, flags, 0);
+>??????? if (IS_ERR(ns->file)) {
+>??????????????? pr_err("failed to open file %s: (%ld)\n",
+>??????????????????????????????? ns->device_path, PTR_ERR(ns->file));
+> @@ -62,6 +70,15 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
+>??????????????? goto err;
+>??????? }
+>?? 
+> +???? if (ns->buffered_io) {
+> +???????????? ns->file_wq = alloc_workqueue("nvmet-file",
+> +???????????????????????????? WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
+
+I seriously don't think that a wq per ns is a good idea.. What was the
+consideration for this?
+
+[CK] Since I/O submission is done per ns basis it is important to encapsulate workqueue and
+        make the property of the ns. In this way, I/Os from different namespaces will not interfere
+        with each other.
+
+       Can you please explain the benefits of using the following model:-
+
+       1. 1: N (1 workqueue : N Namespace).
+       2. M: N (M  workqueues : N Namespace).
+
+[CK] Now that code is in, I'll send the configfs buffered_io parameter style change and removing
+        the flush wq as a separate patch.
+
+And what's wrong with the system_unbound_wq?
+
+Regards,
+Chaitanya
