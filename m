@@ -1,118 +1,39 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 20 Jun 2018 20:44:29 +0300
-Subject: [PATCH V4] nvmet: add buffered I/O support for file backed ns
-In-Reply-To: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>
-References: <20180620040141.9553-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <7ff64816-a285-cd4f-281f-8f3e6fbeb5ce@grimberg.me>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Wed, 20 Jun 2018 12:03:52 -0600
+Subject: [PATCH v4 0/3] NVMF/RDMA 16K Inline Support
+In-Reply-To: <20180620082444.GB3033@lst.de>
+References: <cover.1528219321.git.swise@opengridcomputing.com>
+ <4f16cd07-015e-d1cf-f8fd-069c460ee2a6@opengridcomputing.com>
+ <3f3b2259-b41b-59bd-c7b6-b5102849aec4@opengridcomputing.com>
+ <20180619054056.GB23184@lst.de>
+ <68434eaa-ab12-35a2-2625-55978b9a7cf8@opengridcomputing.com>
+ <20180619174313.GP27457@mellanox.com>
+ <20180620082444.GB3033@lst.de>
+Message-ID: <20180620180352.GF27457@mellanox.com>
 
+On Wed, Jun 20, 2018@10:24:44AM +0200, Christoph Hellwig wrote:
+> On Tue, Jun 19, 2018@11:43:13AM -0600, Jason Gunthorpe wrote:
+> > > +doug and jason.
+> > > 
+> > > There is one merge issue: This series will require the max_send/recv_sge
+> > > commit, which is merged in rdma-next [1] just recently. Perhaps you can
+> > > pull that from the linux-rdma repo if and when these 2 nvme patches are
+> > > pulled into your repo? I think that will allow easy merging when the
+> > > block and rdma repos get merged into Linus' repo.
+> > 
+> > Pulling the rdma tree into nvme is probably not something anyone would
+> > want to do..
+> > 
+> > Can we take these patches through rdma instead?
+> 
+> There are chances for various conflicts as well.  I think the best
+> is to just apply the patches without using the new split fields to
+> the nvme tree and then carry the fixup to max_send_sge/max_recv_sge
+> in linux-next.
 
-> +static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
-> +		const char *page, size_t count)
-> +{
-> +	struct nvmet_ns *ns = to_nvmet_ns(item);
-> +	bool buffered_io;
-> +	int ret = 0;
-> +
-> +	if (strtobool(page, &buffered_io))
-> +		return -EINVAL;
-> +
-> +	mutex_unlock(&ns->subsys->lock);
-> +	if (ns->enabled == false)
-> +		ns->buffered_io = buffered_io;
-> +	else {
-> +		pr_err("disable ns before setting buffered_io value.\n");
-> +		ret = -EINVAL;
-> +	}
-> +	mutex_unlock(&ns->subsys->lock);
-> +
-> +	return ret ? ret : count;
+Okay, Steve, however you do this, please make sure your NVMe patch
+creates a merge conflict with linux-rdma so it does get carried up to
+Linus as a conflict.
 
-Consider changing this to:
-
-	mutex_unlock(&ns->subsys->lock);
-	if (ns->enabled) {
-		pr_err("cannot modify ns while enabled\n");
-		ret = -EINVAL;
-		goto out_unlocked;
-	}
-
-	ns->buffered_io = buffered_io;
-	ret = count;
-out_unlock:
-	mutex_unlock(&ns->subsys->lock);
-	return ret;
-
-> +}
-> +
-> +CONFIGFS_ATTR(nvmet_ns_, buffered_io);
-> +
->   static struct configfs_attribute *nvmet_ns_attrs[] = {
->   	&nvmet_ns_attr_device_path,
->   	&nvmet_ns_attr_device_nguid,
->   	&nvmet_ns_attr_device_uuid,
->   	&nvmet_ns_attr_enable,
-> +	&nvmet_ns_attr_buffered_io,
->   	NULL,
->   };
->   
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index a03da764ecae..2888ed6d8665 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -437,6 +437,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
->   	ns->nsid = nsid;
->   	ns->subsys = subsys;
->   	uuid_gen(&ns->uuid);
-> +	ns->buffered_io = false;
->   
->   	return ns;
->   }
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index 8c42b3a8c420..09d793442833 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -16,6 +16,11 @@
->   void nvmet_file_ns_disable(struct nvmet_ns *ns)
->   {
->   	if (ns->file) {
-> +		if (ns->buffered_io) {
-> +			flush_workqueue(ns->file_wq);
-> +			destroy_workqueue(ns->file_wq);
-
-destroy_workqueue flushes so no need to do that explicitly.
-
-> +			ns->file_wq = NULL;
-> +		}
->   		mempool_destroy(ns->bvec_pool);
->   		ns->bvec_pool = NULL;
->   		kmem_cache_destroy(ns->bvec_cache);
-> @@ -27,11 +32,14 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns)
->   
->   int nvmet_file_ns_enable(struct nvmet_ns *ns)
->   {
-> -	int ret;
-> +	int flags = O_RDWR | O_LARGEFILE;
->   	struct kstat stat;
-> +	int ret;
-> +
-> +	if (!ns->buffered_io)
-> +		flags |= O_DIRECT;
->   
-> -	ns->file = filp_open(ns->device_path,
-> -			O_RDWR | O_LARGEFILE | O_DIRECT, 0);
-> +	ns->file = filp_open(ns->device_path, flags, 0);
->   	if (IS_ERR(ns->file)) {
->   		pr_err("failed to open file %s: (%ld)\n",
->   				ns->device_path, PTR_ERR(ns->file));
-> @@ -62,6 +70,15 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
->   		goto err;
->   	}
->   
-> +	if (ns->buffered_io) {
-> +		ns->file_wq = alloc_workqueue("nvmet-file",
-> +				WQ_UNBOUND_MAX_ACTIVE | WQ_MEM_RECLAIM, 0);
-
-I seriously don't think that a wq per ns is a good idea.. What was the
-consideration for this?
-
-And what's wrong with the system_unbound_wq?
+Thanks,
+Jason
