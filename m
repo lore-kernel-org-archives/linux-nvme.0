@@ -1,36 +1,41 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 21 Jun 2018 08:01:39 -0700
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 21 Jun 2018 09:02:18 -0600
 Subject: [PATCH] nvme: use __GFP_NOWARN for iod allocation
-In-Reply-To: <dc92becd-403d-9c15-e5bb-5e0c3b5d8a8c@kernel.dk>
+In-Reply-To: <20180621145812.GB17825@infradead.org>
 References: <4cb394ca-7032-ea67-5bb1-ef331e42ace2@kernel.dk>
  <b054a000-c7ad-9926-b45f-2771a98b7d23@kernel.dk>
  <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
- <20180620204310.GA24840@localhost.localdomain>
- <34e64832-c345-3a70-401f-1915b5bb4af1@kernel.dk>
- <20180620223035.GA25196@localhost.localdomain>
- <7b6f885f-f605-1bfd-7a7e-2fce8cbde6c2@kernel.dk>
- <20180621071056.GB21304@infradead.org>
- <dc92becd-403d-9c15-e5bb-5e0c3b5d8a8c@kernel.dk>
-Message-ID: <20180621150139.GA22804@infradead.org>
+ <20180621070954.GA21304@infradead.org>
+ <ce58c5ca-e2cd-de6a-a021-7f65b56d8a21@kernel.dk>
+ <20180621145812.GB17825@infradead.org>
+Message-ID: <87f5c54b-dc09-817b-0660-440a75af7407@kernel.dk>
 
-On Thu, Jun 21, 2018@08:47:34AM -0600, Jens Axboe wrote:
-> On 6/21/18 1:10 AM, Christoph Hellwig wrote:
-> > On Wed, Jun 20, 2018@04:30:18PM -0600, Jens Axboe wrote:
-> >> If the fabrics folks have concerns, we could make it dependent on
-> >> it being a pci device. That's the case I care about anyway, and the
-> >> one that's currently breaking for me.
-> > 
-> > Fabrics uses the SG chain allocator that SCSI also uses, so it
-> > should already be fine, including for larger I/O sizes.
+On 6/21/18 8:58 AM, Christoph Hellwig wrote:
+> On Thu, Jun 21, 2018@08:39:47AM -0600, Jens Axboe wrote:
+>> That may be the case, but it's a lot less of an issue than SCSI is,
+>> since the command overhead is suitably small. So I don't see a big issue
+>> with limiting it.
 > 
-> I'll change it to ignore it for fabrics. What's the best way to
-> check? ctrl->sqsize?
+> 
+> Not if you are using NVMe over FC, which uses exactly the same
+> protocol to transfer a 64 byte NVMe SQ vs a typically 16 byte SCSI CDB..
 
-ctrl->ops->flags & NVME_F_FABRICS
+I should have prefaced that with saying "for pci-e". For fabrics, I
+agree.
 
-but in the end we probably want a separate flag, as that is an
-implementation detail, and not because these are fabrics drivers.
+>> Besides, having to do higher order allocations for an
+>> IO is bound to pose much bigger issues than having two smaller IOs
+>> instead. That's especially true in production, where memory allocation
+>> stalls are pretty frequent.
+> 
+> 
+> But the whole point of our chained sg allocator is that we don't do
+> high order allocations, but multiple smaller ones and then chain
+> them.
 
-I'll be spending the rest of the day on phone calls, so it'll take
-some time to do more on this than writing some email, but I'll try
-to find some time to look into these issues.
+>From a quick look, the fabric code goes through the same nvme_queue_rq()
+and ends up doing the same iod->sg allocation. I don't see any use of
+chained sg lists, we're allocating one big sg table for the command.
+
+-- 
+Jens Axboe
