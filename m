@@ -1,28 +1,37 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 21 Jun 2018 08:47:34 -0600
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 21 Jun 2018 07:56:27 -0700
 Subject: [PATCH] nvme: use __GFP_NOWARN for iod allocation
-In-Reply-To: <20180621071056.GB21304@infradead.org>
+In-Reply-To: <d9e678c4-dd12-1ac8-c306-2b08f5a37ac0@kernel.dk>
 References: <4cb394ca-7032-ea67-5bb1-ef331e42ace2@kernel.dk>
  <b054a000-c7ad-9926-b45f-2771a98b7d23@kernel.dk>
  <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
- <20180620204310.GA24840@localhost.localdomain>
- <34e64832-c345-3a70-401f-1915b5bb4af1@kernel.dk>
- <20180620223035.GA25196@localhost.localdomain>
- <7b6f885f-f605-1bfd-7a7e-2fce8cbde6c2@kernel.dk>
- <20180621071056.GB21304@infradead.org>
-Message-ID: <dc92becd-403d-9c15-e5bb-5e0c3b5d8a8c@kernel.dk>
+ <c101703a-2135-3542-aa98-6362bbbadf25@kernel.dk>
+ <20180621071535.GC21304@infradead.org>
+ <d9e678c4-dd12-1ac8-c306-2b08f5a37ac0@kernel.dk>
+Message-ID: <20180621145627.GA17825@infradead.org>
 
-On 6/21/18 1:10 AM, Christoph Hellwig wrote:
-> On Wed, Jun 20, 2018@04:30:18PM -0600, Jens Axboe wrote:
->> If the fabrics folks have concerns, we could make it dependent on
->> it being a pci device. That's the case I care about anyway, and the
->> one that's currently breaking for me.
+On Thu, Jun 21, 2018@08:37:28AM -0600, Jens Axboe wrote:
+> On 6/21/18 1:15 AM, Christoph Hellwig wrote:
+> >>  	else
+> >> -		max_hw_sectors = UINT_MAX;
+> >> +		max_hw_sectors = NVME_MAX_KB_SZ << 1;
+> > 
+> > I think this only makes sense when using PRPs.  If we use SGLs
+> > in Fabrics, or in PCIe controllers that support them we are
+> > only bound by the number of SGL segments and MDTS.
 > 
-> Fabrics uses the SG chain allocator that SCSI also uses, so it
-> should already be fine, including for larger I/O sizes.
+> The problem is that we have to limit the max size, since the
+> sg allocation depends on that, marginally. In reality, the segments
+> will dictate the max size anyway.
 
-I'll change it to ignore it for fabrics. What's the best way to
-check? ctrl->sqsize?
+The sg allocation depends on the number of segments.  The PRP
+allocation (if using PRPs) depends purely on the size + a little
+slack for unaligned first or last arguments.
 
--- 
-Jens Axboe
+> 
+> > This also seems to miss handling the case where MDTS is set, but
+> > above our software limit.
+> 
+> Shouldn't, we're using the min of MDTS and the software limit.
+
+Ok, maybe I misread the patch, but it surely looked like that.
