@@ -1,8 +1,9 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 21 Jun 2018 08:24:07 -0700
+Date: Thu, 21 Jun 2018 08:24:56 -0700
 Subject: [PATCH] nvme: use __GFP_NOWARN for iod allocation
-In-Reply-To: <d9fcda4e-9ed2-5001-ef38-61f7c0247cfa@kernel.dk>
-References: <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
+In-Reply-To: <cb33de73-6b03-d4a8-ca73-dc094f83f742@kernel.dk>
+References: <b054a000-c7ad-9926-b45f-2771a98b7d23@kernel.dk>
+ <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
  <20180620204310.GA24840@localhost.localdomain>
  <34e64832-c345-3a70-401f-1915b5bb4af1@kernel.dk>
  <20180620223035.GA25196@localhost.localdomain>
@@ -11,35 +12,16 @@ References: <b51cce4d-d0c9-fb4e-d5ac-2e48e23e18f7@kernel.dk>
  <dc92becd-403d-9c15-e5bb-5e0c3b5d8a8c@kernel.dk>
  <20180621150139.GA22804@infradead.org>
  <cb33de73-6b03-d4a8-ca73-dc094f83f742@kernel.dk>
- <d9fcda4e-9ed2-5001-ef38-61f7c0247cfa@kernel.dk>
-Message-ID: <20180621152407.GA29947@infradead.org>
+Message-ID: <20180621152456.GB29947@infradead.org>
 
-I guess we can live with it for now with a big comment
+On Thu, Jun 21, 2018@09:04:14AM -0600, Jens Axboe wrote:
+> > I'll be spending the rest of the day on phone calls, so it'll take
+> > some time to do more on this than writing some email, but I'll try
+> > to find some time to look into these issues.
+> 
+> OK sounds good, would be nice to get this hashed out as I think some
+> variant of this should go into 4.18.
 
->  	ctrl->cntlid = le16_to_cpup(&id->cntlid);
->  	if (id->mdts)
->  		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
-> -	else
-> +	else if (ctrl->ops->flags & NVME_F_FABRICS)
->  		max_hw_sectors = UINT_MAX;
-> +	else
-> +		max_hw_sectors = NVME_MAX_KB_SZ << 1;
-
-Can this I think is better done by setting ctrl->max_hw_sectors
-in the PCIe driver (similar to what the other drivers already do)
-and then rely on the min_not_zero below to factor in MDTS.
-
-> +/*
-> + * These can be higher, but we need to ensure that any command doesn't
-> + * require an sg allocation that needs more than a page of data.
-> + */
-> +#define NVME_MAX_KB_SZ	4096
-
-I think this should move the pci.c
-
-> +#define NVME_MAX_SEGS	127
-
-And this could use a good explanation.  Especially as I think
-that we shouldn't apply the limit for fabrics.  So instead we
-might just add a new ctrl->max_segments field, which PCI sets,
-and which then is min() with the otherwise calculated value.
+Fine with me, but I'd rather not rush it out this week to give us
+a little more time for details and aim for merging it to 4.18 next
+week.
