@@ -1,15 +1,49 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 21 Jun 2018 23:03:01 -0700
-Subject: [PATCH] nvmet: use shared workqueue for file-ns
-In-Reply-To: <20180621214736.6238-1-chaitanya.kulkarni@wdc.com>
-References: <20180621214736.6238-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180622060301.GA24685@infradead.org>
+Date: Fri, 22 Jun 2018 15:00:54 +0200
+Subject: [GIT PULL] nvme fixes for 4.18
+Message-ID: <20180622130054.oux3rlmcytua7tff@infradead.org>
 
-On Thu, Jun 21, 2018@05:47:36PM -0400, Chaitanya Kulkarni wrote:
-> This patch removes the per-ns workqueue and adds per-subsys workqueue
-> which is shared by all the namespaces belongs to the same subsystem to
-> offload the I/O submission for buffered I/Os for the file-backed namespace.
+Various relatively small fixes, mostly to fix error handling of various
+sorts.
 
-I think we can just have an entirely global workqueue instead of the
-per-subsystem one.  We can then also use it directly instead of needing
-the pointer in struct nvmet_ns.
+
+The following changes since commit 9c24c10a2c1e1bb478b6bb70612d9e885aee044f:
+
+  Revert "block: Add warning for bi_next not NULL in bio_endio()" (2018-06-19 11:59:47 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.18
+
+for you to fetch changes up to 943e942e6266f22babee5efeb00f8f672fbff5bd:
+
+  nvme-pci: limit max IO size and segments to avoid high order allocations (2018-06-21 18:59:46 +0200)
+
+----------------------------------------------------------------
+Israel Rukshin (1):
+      nvme-rdma: Fix command completion race at error recovery
+
+James Smart (1):
+      nvme-fc: release io queues to allow fast fail
+
+Jens Axboe (1):
+      nvme-pci: limit max IO size and segments to avoid high order allocations
+
+Jianchao Wang (1):
+      nvme-pci: move nvme_kill_queues to nvme_remove_dead_ctrl
+
+Max Gurtuvoy (1):
+      nvmet: reset keep alive timer in controller enable
+
+Sagi Grimberg (3):
+      nvme-rdma: fix possible double free condition when failing to create a controller
+      nvme-rdma: fix possible free of a non-allocated async event buffer
+      nvme-rdma: don't override opts->queue_size
+
+ drivers/nvme/host/core.c   |  1 +
+ drivers/nvme/host/fc.c     |  6 ++--
+ drivers/nvme/host/nvme.h   |  1 +
+ drivers/nvme/host/pci.c    | 44 ++++++++++++++++++++++++----
+ drivers/nvme/host/rdma.c   | 73 +++++++++++++++++++++++-----------------------
+ drivers/nvme/target/core.c |  8 +++++
+ 6 files changed, 88 insertions(+), 45 deletions(-)
