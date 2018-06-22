@@ -1,57 +1,24 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 22 Jun 2018 08:46:21 -0600
-Subject: [GIT PULL] nvme fixes for 4.18
-In-Reply-To: <20180622130054.oux3rlmcytua7tff@infradead.org>
-References: <20180622130054.oux3rlmcytua7tff@infradead.org>
-Message-ID: <1711249b-abad-7cb2-21b7-790061e4a495@kernel.dk>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Fri, 22 Jun 2018 13:59:13 -0600
+Subject: [PATCH 0/1] nvme: Ensure forward progress during Admin passthru
+Message-ID: <20180622195914.18575-1-scott.bauer@intel.com>
 
-On 6/22/18 7:00 AM, Christoph Hellwig wrote:
-> Various relatively small fixes, mostly to fix error handling of various
-> sorts.
-> 
-> 
-> The following changes since commit 9c24c10a2c1e1bb478b6bb70612d9e885aee044f:
-> 
->   Revert "block: Add warning for bi_next not NULL in bio_endio()" (2018-06-19 11:59:47 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.18
-> 
-> for you to fetch changes up to 943e942e6266f22babee5efeb00f8f672fbff5bd:
-> 
->   nvme-pci: limit max IO size and segments to avoid high order allocations (2018-06-21 18:59:46 +0200)
-> 
-> ----------------------------------------------------------------
-> Israel Rukshin (1):
->       nvme-rdma: Fix command completion race at error recovery
-> 
-> James Smart (1):
->       nvme-fc: release io queues to allow fast fail
-> 
-> Jens Axboe (1):
->       nvme-pci: limit max IO size and segments to avoid high order allocations
-> 
-> Jianchao Wang (1):
->       nvme-pci: move nvme_kill_queues to nvme_remove_dead_ctrl
-> 
-> Max Gurtuvoy (1):
->       nvmet: reset keep alive timer in controller enable
-> 
-> Sagi Grimberg (3):
->       nvme-rdma: fix possible double free condition when failing to create a controller
->       nvme-rdma: fix possible free of a non-allocated async event buffer
->       nvme-rdma: don't override opts->queue_size
-> 
->  drivers/nvme/host/core.c   |  1 +
->  drivers/nvme/host/fc.c     |  6 ++--
->  drivers/nvme/host/nvme.h   |  1 +
->  drivers/nvme/host/pci.c    | 44 ++++++++++++++++++++++++----
->  drivers/nvme/host/rdma.c   | 73 +++++++++++++++++++++++-----------------------
->  drivers/nvme/target/core.c |  8 +++++
->  6 files changed, 88 insertions(+), 45 deletions(-)
+This small patch is an attempt to fix a rare boundary condition.
+The only downside of the patch is scan work cannot happen concurrently,
+but I don't think that's possible outside of someone issuing a sysctl.
 
-Pulled, thanks.
+If the controller goes down during the admin command, the command will
+timeout, if the controller is in a poor enough state the reset commands
+will time out. After the original admin command timeout, we unblock userland
+which can start to revalidate the namespaces. In order todo that we
+aquire the controller namespace sempahore as WRITE. We then issue an admin
+command which times out, triggers a reset where we attempt to stop queues
+in dev_disable(). Stopping queues attempts to down_read on the semaphore,
+which is currently being held on a down write, waiting for this I/O to timeout.
+This I/O cannot timeout until the semaphore is dropped from down_write, and
+now we're deadlocked.
 
--- 
-Jens Axboe
+The patch does what nvme_remove_namespaces does, it takes over the controllers
+namespace list under the down_write. Then modifies the private list, potentially
+removing namespaces, and resplicing it once revalidation has occured. The whole
+goal is to *not* hold a down write while issuing admin commands.
