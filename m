@@ -1,90 +1,235 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 24 Jun 2018 19:19:16 +0300
-Subject: [Suspected-Phishing]Re: [PATCH 2/7] nvme-rdma: fix possible free
- non-allocated async event buffer
-In-Reply-To: <af45efbc-f037-241b-9fc2-e96e0ff157a8@grimberg.me>
-References: <20180619123415.25077-1-sagi@grimberg.me>
- <20180619123415.25077-3-sagi@grimberg.me> <20180620083159.GB3284@lst.de>
- <479f91be-2a8c-ae01-fee1-71fa2e18372f@mellanox.com>
- <91bc7b1a-6fb1-e1e0-3437-dc8e46cc6d58@mellanox.com>
- <af45efbc-f037-241b-9fc2-e96e0ff157a8@grimberg.me>
-Message-ID: <0ab74663-52a6-09a9-685f-35053a3f58dc@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 24 Jun 2018 19:42:28 +0300
+Subject: [PATCH] nvmet: implement flush all support
+In-Reply-To: <20180623180149.18759-1-chaitanya.kulkarni@wdc.com>
+References: <20180623180149.18759-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <b450caf7-7e7d-4611-0961-b5ab85925060@grimberg.me>
 
 
 
-On 6/24/2018 7:00 PM, Sagi Grimberg wrote:
+On 06/23/2018 09:01 PM, Chaitanya Kulkarni wrote:
+> This patch implements the flush command behavior described in
+> "NVMe 1.3a  TP 4035" for NSID value of FFFFFFFFh. Now flush command
+> applies to all the namespaces attached to the controller processing the
+> Flush command when the value 0xFFFFFFFF is set in the NSID field.
 > 
->> this fix still doesn't fix the issue that V1 from Israel did.
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>   drivers/nvme/target/admin-cmd.c   |  2 +-
+>   drivers/nvme/target/core.c        | 33 ++++++++++++++++++--
+>   drivers/nvme/target/io-cmd-bdev.c | 52 +++++++++++++++++++++++++++++--
+>   drivers/nvme/target/io-cmd-file.c | 30 ++++++++++++++++++
+>   drivers/nvme/target/nvmet.h       | 11 +++++++
+>   5 files changed, 121 insertions(+), 7 deletions(-)
 > 
-> This fixes the issue that was reported (nvme_rdma_free_queue frees
-> unallocated async_event_sqe).
-> 
->> we still can call nvme_rdma_destroy_admin_queue few times (as I 
->> mentioned nvme_rdma_free_queue is safe by NVME_RDMA_Q_ALLOCATED bit 
->> but nvme_rdma_destroy_admin_queue isn't).
-> 
-> ugh... yes this is not enough to avoid the double free if
-> reset/reconnect calls nvme_delete_ctrl.
-> 
->> I added this check but I think this is not enough since things can run 
->> concurrently (I still need to make some testing and review):
-> 
-> The destroy routines are serialized by the work flush/cancel so it
-> should be fine.
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index e2c6f8b39388..2ad52e5cdaed 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -256,7 +256,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+>   			NVME_CTRL_ONCS_WRITE_ZEROES);
+>   
+>   	/* XXX: don't report vwc if the underlying device is write through */
+> -	id->vwc = NVME_CTRL_VWC_PRESENT;
+> +	id->vwc = NVME_CTRL_VWC_PRESENT | 1 << 2 | 1 << 1;
+>   
+>   	/*
+>   	 * We can't support atomic writes bigger than a LBA without support
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index f0e8b8250344..9c798a9ad989 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -544,6 +544,25 @@ int nvmet_sq_init(struct nvmet_sq *sq)
+>   }
+>   EXPORT_SYMBOL_GPL(nvmet_sq_init);
+>   
+> +static void nvmet_file_flush_all_work(struct work_struct *w)
+> +{
 
-Yup, I agree.
+nvmet_file_ that calls bdev?
 
-> 
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 5194568..e99ff80 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -168,8 +168,11 @@ static inline size_t 
->> nvme_rdma_inline_data_size(struct nvme_rdma_queue *queue)
->> ??static void nvme_rdma_free_qe(struct ib_device *ibdev, struct 
->> nvme_rdma_qe *qe,
->> ???????????????? size_t capsule_size, enum dma_data_direction dir)
->> ??{
->> -?????? ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
->> -?????? kfree(qe->data);
->> +?????? if (qe->data) {
->> +?????????????? ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
->> +?????????????? kfree(qe->data);
->> +?????????????? qe->data = NULL;
->> +?????? }
->> ??}
-> 
-> I'd prefer to keep this check to the async event buffer:
-> -- 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 9f5fc7b7fd7f..69c9b7bc0d5b 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -732,8 +732,11 @@ static void nvme_rdma_destroy_admin_queue(struct 
-> nvme_rdma_ctrl *ctrl,
->  ??????????????? blk_cleanup_queue(ctrl->ctrl.admin_q);
->  ??????????????? nvme_rdma_free_tagset(&ctrl->ctrl, 
-> ctrl->ctrl.admin_tagset);
->  ??????? }
-> -?????? nvme_rdma_free_qe(ctrl->device->dev, &ctrl->async_event_sqe,
-> -?????????????? sizeof(struct nvme_command), DMA_TO_DEVICE);
-> +?????? if (ctrl->async_event_sqe.data) {
-> +?????????????? nvme_rdma_free_qe(ctrl->device->dev, 
-> &ctrl->async_event_sqe,
-> +?????????????????????? sizeof(struct nvme_command), DMA_TO_DEVICE);
-> +?????????????????????? ctrl->async_event_sqe.data = NULL;
-> +?????? }
->  ??????? nvme_rdma_free_queue(&ctrl->queues[0]);
->  ?}
-> -- 
-> 
-> Does this make the issue go away Max?
+I suggest you promote req->f.work to req->work as a preparatory patch
+and make this nvmet_flush_all_work().
 
-Yes, The issue is with async_event_sqe.
-You can add
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Tested-by: Max Gurtovoy <maxg at mellanox.com>
+> +	struct nvmet_req *req = container_of(w, struct nvmet_req, f.work);
+> +	u16 status;
+> +
+> +	status = nvmet_bdev_execute_flush_all(req);
+> +
 
-to the fix.
+Lose the extra newline.
 
--Max.
+> +	if (!status)
+> +		status = nvmet_file_execute_flush_all(req);
+> +
+> +	nvmet_req_complete(req, status);
+> +}
+> +
+> +static void nvmet_execute_flush_all(struct nvmet_req *req)
+> +{
+> +	INIT_WORK(&req->f.work, nvmet_file_flush_all_work);
+> +	schedule_work(&req->f.work);
+> +}
+> +
+>   static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>   {
+>   	struct nvme_command *cmd = req->cmd;
+> @@ -553,9 +572,17 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>   	if (unlikely(ret))
+>   		return ret;
+>   
+> -	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
+> -	if (unlikely(!req->ns))
+> -		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+> +	if (likely(!nvmet_cmd_flush_all(req))) {
+> +		req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
+> +		if (unlikely(!req->ns))
+> +			return NVME_SC_INVALID_NS | NVME_SC_DNR;
+> +	}
+> +
+> +	if (unlikely(nvmet_cmd_flush_all(req))) {
+> +		req->execute = nvmet_execute_flush_all;
+> +		req->data_len = 0;
+> +		return NVME_SC_SUCCESS;
+> +	}
+
+Why not this way?
+--
+	if (unlikely(nvmet_cmd_flush_all(req))) {
+		req->execute = nvmet_execute_flush_all;
+		req->data_len = 0;
+		return NVME_SC_SUCCESS;
+	}
+
+	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
+	if (unlikely(!req->ns))
+		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+--
+
+>   
+>   	if (req->ns->file)
+>   		return nvmet_file_parse_io_cmd(req);
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index e0b0f7df70c2..12001ed9f520 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -48,8 +48,11 @@ static void nvmet_bio_done(struct bio *bio)
+>   {
+>   	struct nvmet_req *req = bio->bi_private;
+>   
+> -	nvmet_req_complete(req,
+> -		bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+> +	if (unlikely(nvmet_cmd_flush_all(req)))
+> +		complete(&req->complete);
+> +	else
+> +		nvmet_req_complete(req,
+> +			bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+>   
+>   	if (bio != &req->b.inline_bio)
+>   		bio_put(bio);
+> @@ -111,7 +114,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+>   	blk_poll(bdev_get_queue(req->ns->bdev), cookie);
+>   }
+>   
+> -static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+> +static struct bio *nvmet_bdev_init_flush_bio(struct nvmet_req *req)
+>   {
+>   	struct bio *bio = &req->b.inline_bio;
+>   
+> @@ -121,9 +124,52 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+>   	bio->bi_end_io = nvmet_bio_done;
+>   	bio->bi_opf = REQ_OP_WRITE | REQ_PREFLUSH;
+>   
+> +	return bio;
+> +}
+> +
+> +static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+> +{
+> +	struct bio *bio = nvmet_bdev_init_flush_bio(req);
+> +
+>   	submit_bio(bio);
+>   }
+>   
+> +u16 nvmet_bdev_execute_flush_all(struct nvmet_req *req)
+> +{
+> +	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+> +	u16 status = NVME_SC_SUCCESS;
+> +	struct nvmet_ns *ns;
+> +	struct bio *bio;
+> +
+> +	init_completion(&req->complete);
+> +
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
+> +		if (!ns->bdev)
+> +			continue;
+> +		percpu_ref_get(&ns->ref);
+> +		req->ns = ns;
+> +		rcu_read_unlock();
+> +
+> +		bio = nvmet_bdev_init_flush_bio(req);
+> +		submit_bio(bio);
+> +		wait_for_completion(&req->complete);
+
+No need to serialize, count the number of submission and
+wait for all the completions like counting semaphore.
+
+See how pci deletes queues as an example.
+
+> +
+> +		rcu_read_lock();
+> +		percpu_ref_put(&ns->ref);
+> +		req->ns = NULL;
+> +
+> +		if (req->b.inline_bio.bi_status) {
+> +			status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> +			break;
+> +		}
+> +
+> +		reinit_completion(&req->complete);
+> +	}
+> +	rcu_read_unlock();
+> +	return status;
+> +}
+> +
+>   static u16 nvmet_bdev_discard_range(struct nvmet_ns *ns,
+>   		struct nvme_dsm_range *range, struct bio **bio)
+>   {
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index 74855c8e3a27..88822991b403 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -207,6 +207,36 @@ static void nvmet_file_execute_rw_buffered_io(struct nvmet_req *req)
+>   	queue_work(file_wq, &req->f.work);
+>   }
+>   
+> +u16 nvmet_file_execute_flush_all(struct nvmet_req *req)
+> +{
+> +	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+> +	u16 status = NVME_SC_SUCCESS;
+> +	struct nvmet_ns *ns;
+> +	int ret;
+> +
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
+> +		if (!ns->file)
+> +			continue;
+> +		percpu_ref_get(&ns->ref);
+> +		req->ns = ns;
+> +		rcu_read_unlock();
+> +
+> +		ret = vfs_fsync(req->ns->file, 1);
+> +
+> +		rcu_read_lock();
+> +		percpu_ref_put(&ns->ref);
+> +		req->ns = NULL;
+> +
+> +		if (ret < 0) {
+> +			status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> +			break;
+> +		}
+> +	}
+> +	rcu_read_unlock();
+
+I wander if allocating work and dynamically and parallelizing
+the fsyncs would be a better approach. thoughts?
