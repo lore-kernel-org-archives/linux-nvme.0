@@ -1,37 +1,72 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 24 Jun 2018 20:38:12 +0300
-Subject: [PATCH 0/1] nvme: Ensure forward progress during Admin passthru
-In-Reply-To: <20180622195914.18575-1-scott.bauer@intel.com>
-References: <20180622195914.18575-1-scott.bauer@intel.com>
-Message-ID: <8263513b-a714-b669-b485-28e894106607@grimberg.me>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun, 24 Jun 2018 18:08:49 +0000
+Subject: [PATCH V2] nvmet: use shared workqueue for file-ns
+In-Reply-To: <5d85fd98-fffd-e326-8aee-7976d1e8921a@grimberg.me>
+References: <20180623023427.22532-1-chaitanya.kulkarni@wdc.com>,
+ <5d85fd98-fffd-e326-8aee-7976d1e8921a@grimberg.me>
+Message-ID: <BYAPR04MB450206FFEE99E01912AF260E864B0@BYAPR04MB4502.namprd04.prod.outlook.com>
+
+Thanks for the review comments Sagi, please see the inline reply.
 
 
-> This small patch is an attempt to fix a rare boundary condition.
-> The only downside of the patch is scan work cannot happen concurrently,
-> but I don't think that's possible outside of someone issuing a sysctl.
+From: Sagi Grimberg <sagi@grimberg.me>
+Sent: Sunday, June 24, 2018 9:57 AM
+To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
+Cc: hch at lst.de
+Subject: Re: [PATCH V2] nvmet: use shared workqueue for file-ns
+? 
+ 
+
+
+On 06/23/2018 05:34 AM, Chaitanya Kulkarni wrote:
+> This patch removes the per-ns workqueue and adds a global workqueue
+> which is shared across all the namespaces of multiple subsystems to
+> offload the I/O submission for buffered I/Os when namespace is
+> file-backed.
 > 
-> If the controller goes down during the admin command, the command will
-> timeout, if the controller is in a poor enough state the reset commands
-> will time out. After the original admin command timeout, we unblock userland
-> which can start to revalidate the namespaces. In order todo that we
-> aquire the controller namespace sempahore as WRITE. We then issue an admin
-> command which times out, triggers a reset where we attempt to stop queues
-> in dev_disable(). Stopping queues attempts to down_read on the semaphore,
-> which is currently being held on a down write, waiting for this I/O to timeout.
-> This I/O cannot timeout until the semaphore is dropped from down_write, and
-> now we're deadlocked.
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+> Changes since V1 :-
+> 1. Don't use per subsys based workqueue, make it global.
+> ---
+>?? drivers/nvme/target/core.c??????? |? 7 +++++++
+>?? drivers/nvme/target/io-cmd-file.c | 17 +++--------------
+>?? drivers/nvme/target/nvmet.h?????? |? 3 ++-
+>?? 3 files changed, 12 insertions(+), 15 deletions(-)
 > 
-> The patch does what nvme_remove_namespaces does, it takes over the controllers
-> namespace list under the down_write. Then modifies the private list, potentially
-> removing namespaces, and resplicing it once revalidation has occured. The whole
-> goal is to *not* hold a down write while issuing admin commands.
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 322f7cfc37a4..f0e8b8250344 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -18,6 +18,7 @@
+>?? 
+>?? #include "nvmet.h"
+>?? 
+> +struct workqueue_struct *file_wq;
+>?? static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+>?? static DEFINE_IDA(cntlid_ida);
+>?? 
+> @@ -1110,6 +1111,11 @@ static int __init nvmet_init(void)
+>?? {
+>??????? int error;
+>?? 
+> +???? file_wq = alloc_workqueue("nvmet-file", WQ_MEM_RECLAIM, 0);
 
-Keith, can you explain why we need to disable the device from the
-timeout handler instead of simply schedule a reset and return
-BLK_EH_RESET_TIMER?
+Can you explain why this needs mem reclaim? And whats wrong with system
+workqueues? (maybe higpri even?)
 
-The only place where I *think* can't schedule a reset and need to
-return BLK_EH_DONE is when the controller is already resetting, in which
-case we'd simply need to cancel the timed out command.
+[CK] Reclaim is for ensuring forward progress, as we have added the forward progress
+under reclaim for file I/O path I thought we should use this for work queue also.
 
-What am I missing?
+If we use the system work queues then we might end up exhausting/overusing the system
+resource especially if we have a large number of file-backed ns configured with buffered I/Os,
+please let me know if you still preferred the use of system workqueue I'll update in the next
+version.
+
+Otherwise, I'll send the V3 with changing the name "nvmet-file" -> "nvmet-buffered-io-wq" and
+conditionally removing the WQ_MEM_RECLAIM based on your reply.
+
+If we end up keeping it, maybe call it nvmet_buffered_io_wq to
+make it clear what it is designed for.
+
+[CK] Sounds good.
