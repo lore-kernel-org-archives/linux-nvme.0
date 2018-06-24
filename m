@@ -1,43 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 24 Jun 2018 20:00:50 +0300
-Subject: [PATCH 1/1] nvme-fabrics: use default value for nr_io_queues
- setting
-In-Reply-To: <fb53218b-f792-5eb3-1243-29ad54480985@mellanox.com>
-References: <1529855352-29356-1-git-send-email-maxg@mellanox.com>
- <cd5e47cd-1f87-026e-42e7-7849f09b0e43@grimberg.me>
- <d719bba4-f8a3-11ee-2f60-96fe60f5beba@mellanox.com>
- <1dc78764-cb3e-01c5-4c0e-e94c963d01b1@grimberg.me>
- <fb53218b-f792-5eb3-1243-29ad54480985@mellanox.com>
-Message-ID: <6c2d398a-b88c-f030-202b-ccadb1e57d81@grimberg.me>
+Date: Sun, 24 Jun 2018 20:38:12 +0300
+Subject: [PATCH 0/1] nvme: Ensure forward progress during Admin passthru
+In-Reply-To: <20180622195914.18575-1-scott.bauer@intel.com>
+References: <20180622195914.18575-1-scott.bauer@intel.com>
+Message-ID: <8263513b-a714-b669-b485-28e894106607@grimberg.me>
 
 
->>>>> We set default value for nr_io_queues to be num_online_cpus(). No need
->>>>> to call num_online_cpus() again since we can use the default value we
->>>>> set earlier.
->>>>
->>>> We should not override user arguments. plus num_online_cpus can change
->>>> from X to 1 and back to X...
->>>
->>> but we set "opts->nr_io_queues = num_online_cpus();" in the beginning 
->>> of nvmf_parse_options function.
->>
->> I misread this and thought that this was in the rdma transport, sorry.
->>
->> I assume that still theoretically it can change during parse_options.
->> What is this needed again? Wouldn't it be better to remove it (or bound
->> it with num_possible_cpus) and have the transport clamp down to
->> num_online_cpus?
->>
->>
+> This small patch is an attempt to fix a rare boundary condition.
+> The only downside of the patch is scan work cannot happen concurrently,
+> but I don't think that's possible outside of someone issuing a sysctl.
 > 
-> The transport clamp it. I just noticed we set it twice by calling 
-> num_online_cpus() in case we connect with --nr-io-queues options instead 
-> of using the cached value.
-> If you're ok with this we can leave it "as is".
+> If the controller goes down during the admin command, the command will
+> timeout, if the controller is in a poor enough state the reset commands
+> will time out. After the original admin command timeout, we unblock userland
+> which can start to revalidate the namespaces. In order todo that we
+> aquire the controller namespace sempahore as WRITE. We then issue an admin
+> command which times out, triggers a reset where we attempt to stop queues
+> in dev_disable(). Stopping queues attempts to down_read on the semaphore,
+> which is currently being held on a down write, waiting for this I/O to timeout.
+> This I/O cannot timeout until the semaphore is dropped from down_write, and
+> now we're deadlocked.
+> 
+> The patch does what nvme_remove_namespaces does, it takes over the controllers
+> namespace list under the down_write. Then modifies the private list, potentially
+> removing namespaces, and resplicing it once revalidation has occured. The whole
+> goal is to *not* hold a down write while issuing admin commands.
 
-I think it would be good to have default of num_online_cpus and bound
-the user with num_possible_cpus instead (if the user asked for more than
-online). The transport will clamp it down regardless, but if/when more
-cpus come in, transport can re-adjust in the next reset.
+Keith, can you explain why we need to disable the device from the
+timeout handler instead of simply schedule a reset and return
+BLK_EH_RESET_TIMER?
 
-thoughts?
+The only place where I *think* can't schedule a reset and need to
+return BLK_EH_DONE is when the controller is already resetting, in which
+case we'd simply need to cancel the timed out command.
+
+What am I missing?
