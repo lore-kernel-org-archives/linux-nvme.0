@@ -1,24 +1,41 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 24 Jun 2018 19:06:09 +0300
-Subject: [PATCH 1/1] nvme-fabrics: use default value for nr_io_queues
- setting
-In-Reply-To: <cd5e47cd-1f87-026e-42e7-7849f09b0e43@grimberg.me>
-References: <1529855352-29356-1-git-send-email-maxg@mellanox.com>
- <cd5e47cd-1f87-026e-42e7-7849f09b0e43@grimberg.me>
-Message-ID: <d719bba4-f8a3-11ee-2f60-96fe60f5beba@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 24 Jun 2018 19:07:13 +0300
+Subject: [PATCH 4/7] nvme-rdma: unquiesce queues when deleting the
+ controller
+In-Reply-To: <d739f7bd-a3ee-4d5a-db88-325d7bfc33f1@mellanox.com>
+References: <20180619123415.25077-1-sagi@grimberg.me>
+ <20180619123415.25077-5-sagi@grimberg.me>
+ <d739f7bd-a3ee-4d5a-db88-325d7bfc33f1@mellanox.com>
+Message-ID: <bdcfe4d7-494c-7093-0316-5d965b1ece03@grimberg.me>
 
 
-
-On 6/24/2018 7:01 PM, Sagi Grimberg wrote:
+> On 6/19/2018 3:34 PM, Sagi Grimberg wrote:
+>> If the controller is going away, we need to unquiesce the io
+>> queues so that all pending request can fail gracefully before
+>> moving forward with controller deletion.
+>>
+>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>> ---
+>> ? drivers/nvme/host/rdma.c | 6 ++++--
+>> ? 1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index 15e897ac2506..edf63cd106ff 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -1741,10 +1741,12 @@ static void nvme_rdma_shutdown_ctrl(struct 
+>> nvme_rdma_ctrl *ctrl, bool shutdown)
+>> ????????? nvme_rdma_destroy_io_queues(ctrl, shutdown);
+>> ????? }
+>> -??? if (shutdown)
+>> +??? if (shutdown) {
+>> +??????? nvme_start_queues(&ctrl->ctrl);
 > 
->> We set default value for nr_io_queues to be num_online_cpus(). No need
->> to call num_online_cpus() again since we can use the default value we
->> set earlier.
-> 
-> We should not override user arguments. plus num_online_cpus can change
-> from X to 1 and back to X...
+> any reason we unquiesce IO queues after destroying them and unquiesce 
+> Admin queue before the destruction ?
 
-but we set "opts->nr_io_queues = num_online_cpus();" in the beginning of 
-nvmf_parse_options function.
+The barrier is stop+cancel. But I think that if we remove the
+controller completely we'd need to do it before blk_cleanup_queue
+as it may block on blk_freze_queue...
 
-I just don't want to call num_online_cpus() twice in the same function..
+Let me try and have another look, and possible send a patch..
