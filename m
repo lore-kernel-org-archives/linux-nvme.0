@@ -1,235 +1,38 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 24 Jun 2018 19:42:28 +0300
-Subject: [PATCH] nvmet: implement flush all support
-In-Reply-To: <20180623180149.18759-1-chaitanya.kulkarni@wdc.com>
-References: <20180623180149.18759-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <b450caf7-7e7d-4611-0961-b5ab85925060@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 24 Jun 2018 19:44:49 +0300
+Subject: [PATCH 1/1] nvme-fabrics: use default value for nr_io_queues
+ setting
+In-Reply-To: <1dc78764-cb3e-01c5-4c0e-e94c963d01b1@grimberg.me>
+References: <1529855352-29356-1-git-send-email-maxg@mellanox.com>
+ <cd5e47cd-1f87-026e-42e7-7849f09b0e43@grimberg.me>
+ <d719bba4-f8a3-11ee-2f60-96fe60f5beba@mellanox.com>
+ <1dc78764-cb3e-01c5-4c0e-e94c963d01b1@grimberg.me>
+Message-ID: <fb53218b-f792-5eb3-1243-29ad54480985@mellanox.com>
 
 
 
-On 06/23/2018 09:01 PM, Chaitanya Kulkarni wrote:
-> This patch implements the flush command behavior described in
-> "NVMe 1.3a  TP 4035" for NSID value of FFFFFFFFh. Now flush command
-> applies to all the namespaces attached to the controller processing the
-> Flush command when the value 0xFFFFFFFF is set in the NSID field.
+On 6/24/2018 7:16 PM, Sagi Grimberg wrote:
 > 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
->   drivers/nvme/target/admin-cmd.c   |  2 +-
->   drivers/nvme/target/core.c        | 33 ++++++++++++++++++--
->   drivers/nvme/target/io-cmd-bdev.c | 52 +++++++++++++++++++++++++++++--
->   drivers/nvme/target/io-cmd-file.c | 30 ++++++++++++++++++
->   drivers/nvme/target/nvmet.h       | 11 +++++++
->   5 files changed, 121 insertions(+), 7 deletions(-)
+>>>> We set default value for nr_io_queues to be num_online_cpus(). No need
+>>>> to call num_online_cpus() again since we can use the default value we
+>>>> set earlier.
+>>>
+>>> We should not override user arguments. plus num_online_cpus can change
+>>> from X to 1 and back to X...
+>>
+>> but we set "opts->nr_io_queues = num_online_cpus();" in the beginning 
+>> of nvmf_parse_options function.
 > 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index e2c6f8b39388..2ad52e5cdaed 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -256,7 +256,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
->   			NVME_CTRL_ONCS_WRITE_ZEROES);
->   
->   	/* XXX: don't report vwc if the underlying device is write through */
-> -	id->vwc = NVME_CTRL_VWC_PRESENT;
-> +	id->vwc = NVME_CTRL_VWC_PRESENT | 1 << 2 | 1 << 1;
->   
->   	/*
->   	 * We can't support atomic writes bigger than a LBA without support
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index f0e8b8250344..9c798a9ad989 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -544,6 +544,25 @@ int nvmet_sq_init(struct nvmet_sq *sq)
->   }
->   EXPORT_SYMBOL_GPL(nvmet_sq_init);
->   
-> +static void nvmet_file_flush_all_work(struct work_struct *w)
-> +{
+> I misread this and thought that this was in the rdma transport, sorry.
+> 
+> I assume that still theoretically it can change during parse_options.
+> What is this needed again? Wouldn't it be better to remove it (or bound
+> it with num_possible_cpus) and have the transport clamp down to
+> num_online_cpus?
+> 
+> 
 
-nvmet_file_ that calls bdev?
-
-I suggest you promote req->f.work to req->work as a preparatory patch
-and make this nvmet_flush_all_work().
-
-> +	struct nvmet_req *req = container_of(w, struct nvmet_req, f.work);
-> +	u16 status;
-> +
-> +	status = nvmet_bdev_execute_flush_all(req);
-> +
-
-Lose the extra newline.
-
-> +	if (!status)
-> +		status = nvmet_file_execute_flush_all(req);
-> +
-> +	nvmet_req_complete(req, status);
-> +}
-> +
-> +static void nvmet_execute_flush_all(struct nvmet_req *req)
-> +{
-> +	INIT_WORK(&req->f.work, nvmet_file_flush_all_work);
-> +	schedule_work(&req->f.work);
-> +}
-> +
->   static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
->   {
->   	struct nvme_command *cmd = req->cmd;
-> @@ -553,9 +572,17 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
->   	if (unlikely(ret))
->   		return ret;
->   
-> -	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
-> -	if (unlikely(!req->ns))
-> -		return NVME_SC_INVALID_NS | NVME_SC_DNR;
-> +	if (likely(!nvmet_cmd_flush_all(req))) {
-> +		req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
-> +		if (unlikely(!req->ns))
-> +			return NVME_SC_INVALID_NS | NVME_SC_DNR;
-> +	}
-> +
-> +	if (unlikely(nvmet_cmd_flush_all(req))) {
-> +		req->execute = nvmet_execute_flush_all;
-> +		req->data_len = 0;
-> +		return NVME_SC_SUCCESS;
-> +	}
-
-Why not this way?
---
-	if (unlikely(nvmet_cmd_flush_all(req))) {
-		req->execute = nvmet_execute_flush_all;
-		req->data_len = 0;
-		return NVME_SC_SUCCESS;
-	}
-
-	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
-	if (unlikely(!req->ns))
-		return NVME_SC_INVALID_NS | NVME_SC_DNR;
---
-
->   
->   	if (req->ns->file)
->   		return nvmet_file_parse_io_cmd(req);
-> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-> index e0b0f7df70c2..12001ed9f520 100644
-> --- a/drivers/nvme/target/io-cmd-bdev.c
-> +++ b/drivers/nvme/target/io-cmd-bdev.c
-> @@ -48,8 +48,11 @@ static void nvmet_bio_done(struct bio *bio)
->   {
->   	struct nvmet_req *req = bio->bi_private;
->   
-> -	nvmet_req_complete(req,
-> -		bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
-> +	if (unlikely(nvmet_cmd_flush_all(req)))
-> +		complete(&req->complete);
-> +	else
-> +		nvmet_req_complete(req,
-> +			bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
->   
->   	if (bio != &req->b.inline_bio)
->   		bio_put(bio);
-> @@ -111,7 +114,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
->   	blk_poll(bdev_get_queue(req->ns->bdev), cookie);
->   }
->   
-> -static void nvmet_bdev_execute_flush(struct nvmet_req *req)
-> +static struct bio *nvmet_bdev_init_flush_bio(struct nvmet_req *req)
->   {
->   	struct bio *bio = &req->b.inline_bio;
->   
-> @@ -121,9 +124,52 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
->   	bio->bi_end_io = nvmet_bio_done;
->   	bio->bi_opf = REQ_OP_WRITE | REQ_PREFLUSH;
->   
-> +	return bio;
-> +}
-> +
-> +static void nvmet_bdev_execute_flush(struct nvmet_req *req)
-> +{
-> +	struct bio *bio = nvmet_bdev_init_flush_bio(req);
-> +
->   	submit_bio(bio);
->   }
->   
-> +u16 nvmet_bdev_execute_flush_all(struct nvmet_req *req)
-> +{
-> +	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
-> +	u16 status = NVME_SC_SUCCESS;
-> +	struct nvmet_ns *ns;
-> +	struct bio *bio;
-> +
-> +	init_completion(&req->complete);
-> +
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
-> +		if (!ns->bdev)
-> +			continue;
-> +		percpu_ref_get(&ns->ref);
-> +		req->ns = ns;
-> +		rcu_read_unlock();
-> +
-> +		bio = nvmet_bdev_init_flush_bio(req);
-> +		submit_bio(bio);
-> +		wait_for_completion(&req->complete);
-
-No need to serialize, count the number of submission and
-wait for all the completions like counting semaphore.
-
-See how pci deletes queues as an example.
-
-> +
-> +		rcu_read_lock();
-> +		percpu_ref_put(&ns->ref);
-> +		req->ns = NULL;
-> +
-> +		if (req->b.inline_bio.bi_status) {
-> +			status = NVME_SC_INTERNAL | NVME_SC_DNR;
-> +			break;
-> +		}
-> +
-> +		reinit_completion(&req->complete);
-> +	}
-> +	rcu_read_unlock();
-> +	return status;
-> +}
-> +
->   static u16 nvmet_bdev_discard_range(struct nvmet_ns *ns,
->   		struct nvme_dsm_range *range, struct bio **bio)
->   {
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index 74855c8e3a27..88822991b403 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -207,6 +207,36 @@ static void nvmet_file_execute_rw_buffered_io(struct nvmet_req *req)
->   	queue_work(file_wq, &req->f.work);
->   }
->   
-> +u16 nvmet_file_execute_flush_all(struct nvmet_req *req)
-> +{
-> +	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
-> +	u16 status = NVME_SC_SUCCESS;
-> +	struct nvmet_ns *ns;
-> +	int ret;
-> +
-> +	rcu_read_lock();
-> +	list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
-> +		if (!ns->file)
-> +			continue;
-> +		percpu_ref_get(&ns->ref);
-> +		req->ns = ns;
-> +		rcu_read_unlock();
-> +
-> +		ret = vfs_fsync(req->ns->file, 1);
-> +
-> +		rcu_read_lock();
-> +		percpu_ref_put(&ns->ref);
-> +		req->ns = NULL;
-> +
-> +		if (ret < 0) {
-> +			status = NVME_SC_INTERNAL | NVME_SC_DNR;
-> +			break;
-> +		}
-> +	}
-> +	rcu_read_unlock();
-
-I wander if allocating work and dynamically and parallelizing
-the fsyncs would be a better approach. thoughts?
+The transport clamp it. I just noticed we set it twice by calling 
+num_online_cpus() in case we connect with --nr-io-queues options instead 
+of using the cached value.
+If you're ok with this we can leave it "as is".
