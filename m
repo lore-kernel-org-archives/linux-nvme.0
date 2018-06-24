@@ -1,72 +1,50 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 24 Jun 2018 18:08:49 +0000
-Subject: [PATCH V2] nvmet: use shared workqueue for file-ns
-In-Reply-To: <5d85fd98-fffd-e326-8aee-7976d1e8921a@grimberg.me>
-References: <20180623023427.22532-1-chaitanya.kulkarni@wdc.com>,
- <5d85fd98-fffd-e326-8aee-7976d1e8921a@grimberg.me>
-Message-ID: <BYAPR04MB450206FFEE99E01912AF260E864B0@BYAPR04MB4502.namprd04.prod.outlook.com>
-
-Thanks for the review comments Sagi, please see the inline reply.
+From: Golden_Miller83@protonmail.ch (Jordan Glover)
+Date: Sun, 24 Jun 2018 16:37:35 -0400
+Subject: [4.18-rc2 regression] WARNING: CPU: 0 PID: 1 at
+ drivers/nvme/host/pci.c:2570 nvme_probe+0x212/0x440
+Message-ID: <Y7NwNf_cB9KfO8DYYkrQt_o4SQ6oFpyHC4ALTdU8K-1rKTpeY7zlAkEhN8mWm30q7cJTVBGDVqfJ65JvkV14hbUFcXQkwQ7CsrloyrFvglw=@protonmail.ch>
 
 
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Sunday, June 24, 2018 9:57 AM
-To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
-Cc: hch at lst.de
-Subject: Re: [PATCH V2] nvmet: use shared workqueue for file-ns
-? 
- 
+Hello, 
 
+After update to Linux 4.18-rc2 I see the following warning at every boot.
+It doesn't occur on Linux 4.18-rc1.
 
-On 06/23/2018 05:34 AM, Chaitanya Kulkarni wrote:
-> This patch removes the per-ns workqueue and adds a global workqueue
-> which is shared across all the namespaces of multiple subsystems to
-> offload the I/O submission for buffered I/Os when namespace is
-> file-backed.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
-> Changes since V1 :-
-> 1. Don't use per subsys based workqueue, make it global.
-> ---
->?? drivers/nvme/target/core.c??????? |? 7 +++++++
->?? drivers/nvme/target/io-cmd-file.c | 17 +++--------------
->?? drivers/nvme/target/nvmet.h?????? |? 3 ++-
->?? 3 files changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 322f7cfc37a4..f0e8b8250344 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -18,6 +18,7 @@
->?? 
->?? #include "nvmet.h"
->?? 
-> +struct workqueue_struct *file_wq;
->?? static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
->?? static DEFINE_IDA(cntlid_ida);
->?? 
-> @@ -1110,6 +1111,11 @@ static int __init nvmet_init(void)
->?? {
->??????? int error;
->?? 
-> +???? file_wq = alloc_workqueue("nvmet-file", WQ_MEM_RECLAIM, 0);
+WARNING: CPU: 0 PID: 1 at drivers/nvme/host/pci.c:2570 nvme_probe+0x212/0x440
+Modules linked in:
+CPU: 0 PID: 1 Comm: swapper/0 Tainted: G                T 4.18.0 #1
+Hardware name: LENOVO 20JJS0HD00/20JJS0HD00, BIOS R0HET49W (1.29 ) 06/12/2018
+RIP: 0010:nvme_probe+0x212/0x440
+Code: a8 0f 84 35 01 00 00 48 8d bb 98 01 00 00 4c 89 f1 48 c7 c2 40 fc ca 97 4c 89 fe e8 68 5f ff ff 89 c5 85 c0 0f 85 c7 00 00 00 <0f> 0b 41 b8 c0 00 60 00 45 89 e1 b9 e0 13 00 00 48 c7 c2 a0 0b 1a 
+RSP: 0000:ffff9f15c0cbbd20 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff935ad769b018 RCX: 0000000000000000
+RDX: ffff935ad78eddc0 RSI: 00000000000186a0 RDI: ffffffff980bfe40
+RBP: 0000000000000000 R08: 0000000000000002 R09: ffff935ad7699010
+R10: 00000000fffffffc R11: 0000000000000020 R12: 00000000ffffffff
+R13: ffff935ad769e030 R14: 0000000000000000 R15: ffff935ad769e0d0
+FS:  0000000000000000(0000) GS:ffff935ae1400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000006d008001 CR4: 00000000003606f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ local_pci_probe+0x41/0x90
+ pci_device_probe+0x189/0x1a0
+ driver_probe_device+0x2b3/0x450
+ __driver_attach+0xdd/0x110
+ ? driver_probe_device+0x450/0x450
+ ? driver_probe_device+0x450/0x450
+ bus_for_each_dev+0x8c/0xd0
+ bus_add_driver+0x151/0x230
+ ? trace_event_define_fields_nvme_setup_nvm_cmd+0x1ce/0x1ce
+ driver_register+0x6b/0xb0
+ ? trace_event_define_fields_nvme_setup_nvm_cmd+0x1ce/0x1ce
+ do_one_initcall+0x46/0x1fb
+ kernel_init_freeable+0x335/0x434
+ ? rest_init+0xc5/0xc5
+ kernel_init+0xa/0x102
+ ret_from_fork+0x35/0x40
+---[ end trace 72e724386090a223 ]---
+nvme nvme0: pci function 0000:05:00.0
 
-Can you explain why this needs mem reclaim? And whats wrong with system
-workqueues? (maybe higpri even?)
-
-[CK] Reclaim is for ensuring forward progress, as we have added the forward progress
-under reclaim for file I/O path I thought we should use this for work queue also.
-
-If we use the system work queues then we might end up exhausting/overusing the system
-resource especially if we have a large number of file-backed ns configured with buffered I/Os,
-please let me know if you still preferred the use of system workqueue I'll update in the next
-version.
-
-Otherwise, I'll send the V3 with changing the name "nvmet-file" -> "nvmet-buffered-io-wq" and
-conditionally removing the WQ_MEM_RECLAIM based on your reply.
-
-If we end up keeping it, maybe call it nvmet_buffered_io_wq to
-make it clear what it is designed for.
-
-[CK] Sounds good.
+Jordan
