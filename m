@@ -1,361 +1,129 @@
-From: Golden_Miller83@protonmail.ch (Jordan Glover)
-Date: Mon, 25 Jun 2018 11:01:26 -0400
-Subject: [4.18-rc2 regression] WARNING: CPU: 0 PID: 1 at
- drivers/nvme/host/pci.c:2570 nvme_probe+0x212/0x440
-In-Reply-To: <21f7e774-0be6-f314-b531-b1772dff90fd@kernel.dk>
-References: <Y7NwNf_cB9KfO8DYYkrQt_o4SQ6oFpyHC4ALTdU8K-1rKTpeY7zlAkEhN8mWm30q7cJTVBGDVqfJ65JvkV14hbUFcXQkwQ7CsrloyrFvglw=@protonmail.ch>
- <20180624211520.GA16559@sbauer-Z170X-UD5>
- <tRUGFtw_8KFYLF98YCf0vYYQagRWk-ZNXonQVla7xXvTgMCb7Z2kDM0ocI1O8Nhhbqn-oBlVNM8ue3TABpo3PqIA-_B_lhhceT4dPFGrSd0=@protonmail.ch>
- <703993f1-31a2-c175-f4cb-541713fac14e@kernel.dk>
- <SD8jBn-I8XgsF2B_aXrAPtIvG5xW3rTqE9qLrv-XWe3856vgUkFTUIRKtp2JmJ3oYgOpbXvw1pKtQalOTloi1DfrWcQQJXi-AzRDh-o4VtQ=@protonmail.ch>
- <21f7e774-0be6-f314-b531-b1772dff90fd@kernel.dk>
-Message-ID: <k1ZwR981KHzLzUi8iJfe4zRCcoiZuiVCtig8k-0EHM6cd54iqeDZmzKhnO4cGS73YL0bMaVb3zY4e1jazgdAcOshTcp4epJm1acjRonHfBo=@protonmail.ch>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 25 Jun 2018 07:51:06 -0700
+Subject: [PATCH v6 0/2] NVMF/RDMA 16K Inline Support
+Message-ID: <cover.1529938266.git.swise@opengridcomputing.com>
 
-On June 25, 2018 3:52 PM, Jens Axboe <axboe@kernel.dk> wrote:
+Hey,
 
-> On 6/25/18 5:13 AM, Jordan Glover wrote:
-> 
-> > Above patch is breaking the build for me. I have :
-> > 
-> > CONFIG_DRM_I915_GVT=y
-> > 
-> > CONFIG_DRM_I915_GVT_KVMGT=m
-> 
-> Try this one, actually did a grep for users of it too...
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> 
-> index 7014a96546f4..52f3b91d14fd 100644
-> 
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> 
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> 
-> @@ -2245,9 +2245,6 @@ static inline struct scatterlist *____sg_next(struct scatterlist *sg)
-> 
-> **/
-> 
-> static inline struct scatterlist *__sg_next(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> return sg_is_last(sg) ? NULL : ____sg_next(sg);
-> 
-> }
-> 
-> diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-> 
-> index 51f52020ad5f..093aa57120b0 100644
-> 
-> --- a/include/linux/scatterlist.h
-> 
-> +++ b/include/linux/scatterlist.h
-> 
-> @@ -9,9 +9,6 @@
-> 
-> #include <asm/io.h>
-> 
-> struct scatterlist {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   unsigned long sg_magic;
->     
->     -#endif
->     
->     unsigned long page_link;
->     
->     unsigned int offset;
->     
->     unsigned int length;
->     
->     @@ -64,7 +61,6 @@ struct sg_table {
->     
-> 
-> -   
-> 
-> */
-> 
-> -#define SG_MAGIC 0x87654321
-> 
-> #define SG_CHAIN 0x01UL
-> 
-> #define SG_END 0x02UL
-> 
-> @@ -98,7 +94,6 @@ static inline void sg_assign_page(struct scatterlist *sg, struct page *page)
-> 
-> */
-> 
-> BUG_ON((unsigned long) page & (SG_CHAIN | SG_END));
-> 
-> #ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
->     
->     BUG_ON(sg_is_chain(sg));
->     
->     #endif
->     
->     sg->page_link = page_link | (unsigned long) page;
->     
-> 
-> @@ -129,7 +124,6 @@ static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-> 
-> static inline struct page *sg_page(struct scatterlist *sg)
-> 
-> {
-> 
-> #ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
->     
->     BUG_ON(sg_is_chain(sg));
->     
->     #endif
->     
->     return (struct page *)((sg)->page_link & ~(SG_CHAIN | SG_END));
->     
-> 
-> @@ -195,9 +189,6 @@ static inline void sg_chain(struct scatterlist *prv, unsigned int prv_nents,
-> 
-> **/
-> 
-> static inline void sg_mark_end(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> /*
-> 
-> * Set termination bit, clear potential chain bit
-> 
-> */
-> 
-> @@ -215,9 +206,6 @@ static inline void sg_mark_end(struct scatterlist *sg)
-> 
-> **/
-> 
-> static inline void sg_unmark_end(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> sg->page_link &= ~SG_END;
-> 
-> }
-> 
-> @@ -260,12 +248,6 @@ static inline void *sg_virt(struct scatterlist *sg)
-> 
-> static inline void sg_init_marker(struct scatterlist *sgl,
-> 
-> unsigned int nents)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   unsigned int i;
-> -   
-> -   for (i = 0; i < nents; i++)
-> -         sgl[i].sg_magic = SG_MAGIC;
->         
->     
-> 
-> -#endif
-> 
-> sg_mark_end(&sgl[nents - 1]);
-> 
-> }
-> 
-> diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-> 
-> index 1642fd507a96..7c6096a71704 100644
-> 
-> --- a/lib/scatterlist.c
-> 
-> +++ b/lib/scatterlist.c
-> 
-> @@ -24,9 +24,6 @@
-> 
-> **/
-> 
-> struct scatterlist *sg_next(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> if (sg_is_last(sg))
-> 
-> return NULL;
-> 
-> @@ -111,10 +108,7 @@ struct scatterlist *sg_last(struct scatterlist *sgl, unsigned int nents)
-> 
-> for_each_sg(sgl, sg, nents, i)
-> 
-> ret = sg;
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sgl[0].sg_magic != SG_MAGIC);
->     
->     BUG_ON(!sg_is_last(ret));
->     
->     -#endif
->     
->     return ret;
->     
->     }
->     
->     EXPORT_SYMBOL(sg_last);
->     
->     diff --git a/tools/virtio/linux/scatterlist.h b/tools/virtio/linux/scatterlist.h
->     
->     index 9a45f90e2d08..369ee308b668 100644
->     
->     --- a/tools/virtio/linux/scatterlist.h
->     
->     +++ b/tools/virtio/linux/scatterlist.h
->     
->     @@ -36,7 +36,6 @@ static inline void sg_assign_page(struct scatterlist *sg, struct page *page)
->     
->     */
->     
->     BUG_ON((unsigned long) page & 0x03);
->     
->     #ifdef CONFIG_DEBUG_SG
->     
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
->     
->     BUG_ON(sg_is_chain(sg));
->     
->     #endif
->     
->     sg->page_link = page_link | (unsigned long) page;
->     
-> 
-> @@ -67,7 +66,6 @@ static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-> 
-> static inline struct page *sg_page(struct scatterlist *sg)
-> 
-> {
-> 
-> #ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
->     
->     BUG_ON(sg_is_chain(sg));
->     
->     #endif
->     
->     return (struct page *)((sg)->page_link & ~0x3);
->     
-> 
-> @@ -116,9 +114,6 @@ static inline void sg_chain(struct scatterlist *prv, unsigned int prv_nents,
-> 
-> **/
-> 
-> static inline void sg_mark_end(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> /*
-> 
-> * Set termination bit, clear potential chain bit
-> 
-> */
-> 
-> @@ -136,17 +131,11 @@ static inline void sg_mark_end(struct scatterlist *sg)
-> 
-> **/
-> 
-> static inline void sg_unmark_end(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> sg->page_link &= ~0x02;
-> 
-> }
-> 
-> static inline struct scatterlist *sg_next(struct scatterlist *sg)
-> 
-> {
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   BUG_ON(sg->sg_magic != SG_MAGIC);
-> 
-> -#endif
-> 
-> if (sg_is_last(sg))
-> 
-> return NULL;
-> 
-> @@ -160,13 +149,6 @@ static inline struct scatterlist *sg_next(struct scatterlist *sg)
-> 
-> static inline void sg_init_table(struct scatterlist *sgl, unsigned int nents)
-> 
-> {
-> 
-> memset(sgl, 0, sizeof(*sgl) * nents);
-> 
-> -#ifdef CONFIG_DEBUG_SG
-> 
-> -   {
-> -         unsigned int i;
->         
->     
-> -         for (i = 0; i < nents; i++)
->         
->     
-> -         	sgl[i].sg_magic = SG_MAGIC;
->         
->     
-> -   }
->     
->     -#endif
->     
->     sg_mark_end(&sgl[nents - 1]);
->     
->     }
->     
->     --
->     
->     Jens Axboe
->
+For small nvmf write IO over the rdma transport, it is advantagous to
+make use of inline mode to avoid the latency of the target issuing an
+rdma read to fetch the data.  Currently inline is used for <= 4K writes.
+8K, though, requires the rdma read.  For iWARP transports additional
+latency is incurred because the target mr of the read must be registered
+with remote write access.  By allowing 2 pages worth of inline payload,
+I see a reduction in 8K nvmf write latency of anywhere from 2-7 usecs
+depending on the RDMA transport..
 
-This one works and there is no warning on boot anymore. Thank you.
+This series is a respin of a series floated last year by Parav and Max
+[1].  I'm continuing it now and have addressed some of the comments from
+their submission [2].
 
-Jordan
+The below performance improvements are achieved.  Applications doing
+8K or 16K WRITEs will benefit most from this enhancement.
+
+WRITE IOPS:
+8 nullb devices, 16 connections/device,
+16 cores, 1 host, 1 target,
+fio randwrite, direct io, ioqdepth=256, jobs=16
+
+             %CPU Idle                   KIOPS        
+inline size  4K        8K        16K     4K        8K        16K
+io size 
+4K            9.36     10.47     10.44   1707      1662      1704
+8K           39.07     43.66     46.84    894      1000      1002
+16K          64.15     64.79     71.1     566      569        607
+32K          78.84     79.5      79.89    326      329        327
+
+WRITE Latency:
+1 nullb device, 1 connection/device,
+fio randwrite, direct io, ioqdepth=1, jobs=1                                                
+
+             Usecs                                        
+inline size  4K        8K        16K                                
+io size                                                        
+4K           12.4      12.4      12.5                                
+8K           18.3      13        13.1                                
+16K          20.3      20.2      14.2                                
+32K          23.2      23.2      23.4                                
+
+Changes since v5:
+
+- removed dependency on max_send_sge/max_recv_sge patch.  The conflict
+will be fixed up in linux-next.
+
+- minor pr_err() grammar fix.
+
+- add Reviewed-by lines for Max
+
+Changes since v4:
+
+- rebased on 4.18-rc1.
+
+- add perf results to cover letter.
+
+- removed patch 1 - it has been merged.
+
+Changes since v3:
+
+- nvme-rdma: remove pr_debug.
+
+- nvme-rdma: add Sagi's reviewed-by tag.
+
+- nvmet-rdma: avoid > order 0 page allocations for inline data bufffers
+by using multiple sges.  If the device cannot support the required sge
+depth then reduce the inline data size to fit.
+
+- nvmet-rdma: set max_recv_sge correctly
+
+- nvmet-rdma: if the configured inline data size exceeds the max
+supported by the rdma transport, a warning is logged and the size
+is reduced.
+
+Changes since RFC v2:
+
+- Removed RFC tag
+
+- prefix the inline_data_size configfs attribute with param_
+
+- implementation/formatting tweaks suggested by Christoph
+
+- support inline_data_size of 0, which disables inline data use
+
+- added a new patch to fix the check for keyed sgls (bit 2 instead of 20).
+
+- check the inline_data bit (bit 20 in the ctrl.sgls field) when
+connecting and only use inline if it was set for that device.
+
+- added Christoph's review-by tag for patch 1
+
+[1] Original submissions:
+http://lists.infradead.org/pipermail/linux-nvme/2017-February/008057.html
+http://lists.infradead.org/pipermail/linux-nvme/2017-February/008059.html
+
+
+[2] These comments from [1] have been addressed:
+
+- nvme-rdma: Support up to 4 segments of inline data.
+
+- nvme-rdma: Cap the number of inline segments to not exceed device limitations.
+
+- nvmet-rdma: Make the inline data size configurable in nvmet-rdma via configfs.
+
+- nvmet-rdma: avoid > 0 order page allocations
+
+
+Steve Wise (2):
+  nvme-rdma: support up to 4 segments of inline data
+  nvmet-rdma: support max(16KB, PAGE_SIZE) inline data
+
+ drivers/nvme/host/rdma.c        |  38 ++++++---
+ drivers/nvme/target/admin-cmd.c |   4 +-
+ drivers/nvme/target/configfs.c  |  31 +++++++
+ drivers/nvme/target/core.c      |   4 +
+ drivers/nvme/target/discovery.c |   2 +-
+ drivers/nvme/target/nvmet.h     |   2 +-
+ drivers/nvme/target/rdma.c      | 174 ++++++++++++++++++++++++++++++----------
+ 7 files changed, 199 insertions(+), 56 deletions(-)
+
+-- 
+1.8.3.1
