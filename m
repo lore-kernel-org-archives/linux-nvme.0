@@ -1,16 +1,29 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 25 Jun 2018 12:06:52 -0700
-Subject: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and
- bdev ns
-In-Reply-To: <20180625190429.GA1218@vader>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 25 Jun 2018 19:16:34 +0000
+Subject: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and bdev
+ ns
+In-Reply-To: <20180625190652.GB1218@vader>
 References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
  <20180611221432.GB25795@vader>
  <BN6PR04MB1203184F17F7102054FF311C867F0@BN6PR04MB1203.namprd04.prod.outlook.com>
  <20180613072125.z2obhfnds7zvqx2e@linux-x5ow.site>
  <BN6PR04MB120367ABC523F7DDEC83C35A867E0@BN6PR04MB1203.namprd04.prod.outlook.com>
- <20180625190429.GA1218@vader>
-Message-ID: <20180625190652.GB1218@vader>
+ <20180625190429.GA1218@vader>,<20180625190652.GB1218@vader>
+Message-ID: <BYAPR04MB450285A57D4E4EDF970131DF864A0@BYAPR04MB4502.namprd04.prod.outlook.com>
 
+
+
+
+
+
+
+From: Omar Sandoval <osandov@osandov.com>
+Sent: Monday, June 25, 2018 12:06 PM
+To: Chaitanya Kulkarni
+Cc: Johannes Thumshirn; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and bdev ns
+? 
+ 
 On Mon, Jun 25, 2018@12:04:29PM -0700, Omar Sandoval wrote:
 > On Wed, Jun 13, 2018@08:18:03AM +0000, Chaitanya Kulkarni wrote:
 > > Thanks, Johannes for the review comments.
@@ -32,20 +45,27 @@ On Mon, Jun 25, 2018@12:04:29PM -0700, Omar Sandoval wrote:
 > The last two tests sometimes fail like this:
 > 
 > nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [failed]
-> runtime     ...  44.535s
->     --- tests/nvme/016.out      2018-06-25 11:56:39.176313626 -0700
->     +++ results/nodev/nvme/016.out.bad  2018-06-25 11:59:30.153990955 -0700
->     @@ -1,6 +1,6 @@
->      Running nvme/016
+> runtime???? ...? 44.535s
+>???? --- tests/nvme/016.out????? 2018-06-25 11:56:39.176313626 -0700
+>???? +++ results/nodev/nvme/016.out.bad? 2018-06-25 11:59:30.153990955 -0700
+>???? @@ -1,6 +1,6 @@
+>????? Running nvme/016
 > 
->     -Discovery Log Number of Records 1, Generation counter 1
->     +Discovery Log Number of Records 1, Generation counter 3
->      =====Discovery Log Entry 0======
->      trtype:  loop
->      adrfam:  pci
+>???? -Discovery Log Number of Records 1, Generation counter 1
+>???? +Discovery Log Number of Records 1, Generation counter 3
+>????? =====Discovery Log Entry 0======
+>????? trtype:? loop
+>????? adrfam:? pci
 > 
 > I don't know enough about NVMe to know how important this is, but it
 > looks like this needs some sort of filter :)
 
+[CK] Generation counter needs to be 1, when I ran the tests I did not see any issue,
+let me see if you I can reproduce it and fix the problem.
+
 Actually, the last test is just broken. It uses loop_dev which isn't
 defined. Please fix that, too :)
+
+[CK] Thanks for reporting, I'll just send 017 with the fix and if I find generation counter issue,
+will resend both 016 and 017. 
+    
