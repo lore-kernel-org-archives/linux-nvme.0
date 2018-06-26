@@ -1,15 +1,11 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 25 Jun 2018 19:16:34 +0000
-Subject: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and bdev
- ns
-In-Reply-To: <20180625190652.GB1218@vader>
-References: <20180611091554.19639-1-chaitanya.kulkarni@wdc.com>
- <20180611221432.GB25795@vader>
- <BN6PR04MB1203184F17F7102054FF311C867F0@BN6PR04MB1203.namprd04.prod.outlook.com>
- <20180613072125.z2obhfnds7zvqx2e@linux-x5ow.site>
- <BN6PR04MB120367ABC523F7DDEC83C35A867E0@BN6PR04MB1203.namprd04.prod.outlook.com>
- <20180625190429.GA1218@vader>,<20180625190652.GB1218@vader>
-Message-ID: <BYAPR04MB450285A57D4E4EDF970131DF864A0@BYAPR04MB4502.namprd04.prod.outlook.com>
+Date: Tue, 26 Jun 2018 03:11:30 +0000
+Subject: [PATCH V2 2/2] nvmet: implement flush all support
+In-Reply-To: <b5678aff-de24-31ee-643e-3571e5e6d26d@grimberg.me>
+References: <20180625053933.14967-1-chaitanya.kulkarni@wdc.com>
+ <20180625053933.14967-3-chaitanya.kulkarni@wdc.com>,
+ <b5678aff-de24-31ee-643e-3571e5e6d26d@grimberg.me>
+Message-ID: <BYAPR04MB4502E71014BD6F7D78104EC786490@BYAPR04MB4502.namprd04.prod.outlook.com>
 
 
 
@@ -17,55 +13,389 @@ Message-ID: <BYAPR04MB450285A57D4E4EDF970131DF864A0@BYAPR04MB4502.namprd04.prod.
 
 
 
-From: Omar Sandoval <osandov@osandov.com>
-Sent: Monday, June 25, 2018 12:06 PM
-To: Chaitanya Kulkarni
-Cc: Johannes Thumshirn; linux-nvme at lists.infradead.org
-Subject: Re: [PATCH V2 00/14] blktests: NVMeOF new testcases for file and bdev ns
+From: Sagi Grimberg <sagi@grimberg.me>
+Sent: Monday, June 25, 2018 8:23 AM
+To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
+Cc: hch at lst.de; keith.busch at intel.com
+Subject: Re: [PATCH V2 2/2] nvmet: implement flush all support
 ? 
- 
-On Mon, Jun 25, 2018@12:04:29PM -0700, Omar Sandoval wrote:
-> On Wed, Jun 13, 2018@08:18:03AM +0000, Chaitanya Kulkarni wrote:
-> > Thanks, Johannes for the review comments.
-> > 
-> > 
-> > Omar, let me know if you find any issues, otherwise, we can merge this series.
-> 
-> I was able to fix the flush tests by replacing
-> 
-> nvme flush /dev/"${nvmedev}n1"
-> 
-> With
-> 
-> nvme flush /dev/"${nvmedev}" -n 1
-> 
-> (Going off of https://github.com/linux-nvme/nvme-cli/issues/174). Does
-> that seem sane?
-> 
-> The last two tests sometimes fail like this:
-> 
-> nvme/016 (create/delete many NVMeOF block device-backed ns and test discovery) [failed]
-> runtime???? ...? 44.535s
->???? --- tests/nvme/016.out????? 2018-06-25 11:56:39.176313626 -0700
->???? +++ results/nodev/nvme/016.out.bad? 2018-06-25 11:59:30.153990955 -0700
->???? @@ -1,6 +1,6 @@
->????? Running nvme/016
-> 
->???? -Discovery Log Number of Records 1, Generation counter 1
->???? +Discovery Log Number of Records 1, Generation counter 3
->????? =====Discovery Log Entry 0======
->????? trtype:? loop
->????? adrfam:? pci
-> 
-> I don't know enough about NVMe to know how important this is, but it
-> looks like this needs some sort of filter :)
 
-[CK] Generation counter needs to be 1, when I ran the tests I did not see any issue,
-let me see if you I can reproduce it and fix the problem.
 
-Actually, the last test is just broken. It uses loop_dev which isn't
-defined. Please fix that, too :)
 
-[CK] Thanks for reporting, I'll just send 017 with the fix and if I find generation counter issue,
-will resend both 016 and 017. 
-    
+On 06/25/2018 08:39 AM, Chaitanya Kulkarni wrote:
+> This patch implements the flush command behavior described in
+> "NVMe 1.3a? TP 4035" for NSID value of FFFFFFFFh. Now flush command
+> applies to all the namespaces attached to the controller processing the
+> Flush command when the value 0xFFFFFFFF is set in the NSID field.
+> 
+> We introduce a new structure "nvmet_flush_work" for executing flush
+> commands on the several namespaces simultaneously, for that we also add
+> a new nvmet_subsys member to keep the track of currently active namespace
+> "active_ns". We update this "active_ns" member in
+> nvmet_ns_enable()/nvmet_ns_disable(). For each namespace, we create
+> a nvmet_flush_work object and assign appropriate call back based on the
+> ns-type, i.e. bdev or file and issue it through high priority system
+> workqueue.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>?? drivers/nvme/target/admin-cmd.c?? |? 2 +-
+>?? drivers/nvme/target/core.c??????? | 70 +++++++++++++++++++++++++++++++
+>?? drivers/nvme/target/io-cmd-bdev.c | 29 ++++++++++++-
+>?? drivers/nvme/target/io-cmd-file.c | 14 +++++++
+>?? drivers/nvme/target/nvmet.h?????? | 16 +++++++
+>?? 5 files changed, 129 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index e2c6f8b39388..2ad52e5cdaed 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -256,7 +256,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+>??????????????????????? NVME_CTRL_ONCS_WRITE_ZEROES);
+>?? 
+>??????? /* XXX: don't report vwc if the underlying device is write through */
+> -???? id->vwc = NVME_CTRL_VWC_PRESENT;
+> +???? id->vwc = NVME_CTRL_VWC_PRESENT | 1 << 2 | 1 << 1;
+>?? 
+>??????? /*
+>???????? * We can't support atomic writes bigger than a LBA without support
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index f0e8b8250344..6b7529cc592b 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -371,6 +371,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>??????????????? list_add_tail_rcu(&ns->dev_link, &old->dev_link);
+>??????? }
+>?? 
+> +???? subsys->active_ns++;
+>??????? nvmet_ns_changed(subsys, ns->nsid);
+>??????? ns->enabled = true;
+>??????? ret = 0;
+> @@ -412,6 +413,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>??????? mutex_lock(&subsys->lock);
+>??????? nvmet_ns_changed(subsys, ns->nsid);
+>??????? nvmet_ns_dev_disable(ns);
+> +???? subsys->active_ns--;
+>?? out_unlock:
+>??????? mutex_unlock(&subsys->lock);
+>?? }
+> @@ -544,6 +546,67 @@ int nvmet_sq_init(struct nvmet_sq *sq)
+>?? }
+>?? EXPORT_SYMBOL_GPL(nvmet_sq_init);
+>?? 
+> +static void nvmet_flush_all_work(struct work_struct *w)
+> +{
+> +???? struct nvmet_req *req = container_of(w, struct nvmet_req, work);
+> +???? struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+> +???? struct nvmet_flush_work *work;
+> +???? u16 status = NVME_SC_SUCCESS;
+> +???? struct nvmet_ns *ns;
+> +???? int cnt = 0, i;
+> +???? int max_ns;
+> +
+> +???? req->ns = NULL;
+> +
+> +???? mutex_lock(&subsys->lock);
+> +???? max_ns = subsys->active_ns;
+> +???? mutex_unlock(&subsys->lock);
+
+newline here.
+[CK] Okay.
+
+> +???? work = kmalloc_array(max_ns, sizeof(*work), GFP_KERNEL);
+> +???? if (!work) {
+> +???????????? status = NVME_SC_INTERNAL;
+> +???????????? goto out;
+> +???? }
+> +
+> +???? rcu_read_lock();
+> +???? list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
+> +???????????? /* only process namespaces present prior to flush command */
+> +???????????? if (cnt > max_ns)
+> +???????????????????? break;
+> +???????????? percpu_ref_get(&ns->ref);
+> +???????????? rcu_read_unlock();
+
+why unlock/lock inside the iteration? nothing here can possible block.
+
+
+[CK] When I remove the lock/unlock I get the following error message:-
+
+Jun 25 23:02:02 qemu kernel: =============================
+Jun 25 23:02:02 qemu kernel: WARNING: suspicious RCU usage
+Jun 25 23:02:02 qemu kernel: 4.17.0+ #3 Tainted: G? ? ? ? W? OE? ??
+Jun 25 23:02:02 qemu kernel: -----------------------------
+Jun 25 23:02:02 qemu kernel: ./include/linux/rcupdate.h:303 Illegal context switch in RCU read-side critical section!
+Jun 25 23:02:02 qemu kernel: #012other info that might help us debug this:
+Jun 25 23:02:02 qemu kernel: #012rcu_scheduler_active = 2, debug_locks = 1
+Jun 25 23:02:02 qemu kernel: 3 locks held by kworker/10:3/19554:
+Jun 25 23:02:02 qemu kernel: #0: 0000000085d02622 ((wq_completion)"events"){+.+.}, at: process_one_work+0x18c/0x640
+Jun 25 23:02:02 qemu kernel: #1: 00000000be93be70 ((work_completion)(&req->work)#2){+.+.}, at: process_one_work+0x18c/0x640
+Jun 25 23:02:02 qemu kernel: #2: 00000000ae45c4a0 (rcu_read_lock){....}, at: nvmet_flush_all_work+0x7c/0x4f0 [nvmet]
+Jun 25 23:02:02 qemu kernel: #012stack backtrace:
+Jun 25 23:02:02 qemu kernel: CPU: 10 PID: 19554 Comm: kworker/10:3 Tainted: G? ? ? ? W? OE? ? ?4.17.0+ #3
+Jun 25 23:02:02 qemu kernel: Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.10.2-0-g5f4c7b1-prebuilt.qemu-project.org 04/01/2014
+Jun 25 23:02:02 qemu kernel: Workqueue: events nvmet_flush_all_work [nvmet]
+Jun 25 23:02:02 qemu kernel: Call Trace:
+Jun 25 23:02:02 qemu kernel: dump_stack+0x78/0xb3
+Jun 25 23:02:02 qemu kernel: __schedule+0x4a1/0xc50
+Jun 25 23:02:02 qemu kernel: schedule+0x32/0x80
+Jun 25 23:02:02 qemu kernel: schedule_timeout+0x22a/0x490
+Jun 25 23:02:02 qemu kernel: ? mark_held_locks+0x6b/0x90
+Jun 25 23:02:02 qemu kernel: ? _raw_spin_unlock_irq+0x29/0x40
+Jun 25 23:02:02 qemu kernel: wait_for_completion+0x110/0x170
+Jun 25 23:02:02 qemu kernel: ? wake_up_q+0x70/0x70
+Jun 25 23:02:02 qemu kernel: flush_work+0x197/0x220
+Jun 25 23:02:02 qemu kernel: ? find_held_lock+0x38/0xa0
+Jun 25 23:02:02 qemu kernel: ? wake_up_worker+0x30/0x30
+Jun 25 23:02:02 qemu kernel: ? wait_for_completion+0x36/0x170
+Jun 25 23:02:02 qemu kernel: nvmet_flush_all_work+0x194/0x4f0 [nvmet]
+Jun 25 23:02:02 qemu kernel: ? nvmet_flush_all_work+0x1dc/0x4f0 [nvmet]
+Jun 25 23:02:02 qemu kernel: process_one_work+0x21b/0x640
+Jun 25 23:02:02 qemu kernel: ? process_one_work+0x18c/0x640
+Jun 25 23:02:02 qemu kernel: worker_thread+0x46/0x3e0
+Jun 25 23:02:02 qemu kernel: kthread+0xf8/0x130
+Jun 25 23:02:02 qemu kernel: ? process_one_work+0x640/0x640
+Jun 25 23:02:02 qemu kernel: ? kthread_bind+0x10/0x10
+Jun 25 23:02:02 qemu kernel: ret_from_fork+0x3a/0x50
+
+
+
+> +
+> +???????????? work[cnt].req.ns = ns;
+> +???????????? work[cnt].req.cmd = req->cmd;
+> +???????????? work[cnt].status = 0;
+> +???????????? if (ns->file)
+> +???????????????????? INIT_WORK(&work[cnt].work, nvmet_file_flush_all_work);
+> +???????????? else
+> +???????????????????? INIT_WORK(&work[cnt].work, nvmet_bdev_flush_all_work);
+> +
+> +???????????? queue_work(system_highpri_wq, &work[cnt].work);
+> +???????????? cnt++;
+> +???????????? rcu_read_lock();
+> +???? }
+> +???? rcu_read_unlock();
+> +
+> +???? flush_workqueue(system_highpri_wq);
+
+I say lets keep the system_wq like we normally have done for file flush
+so far...
+
+[CK] Okay.
+> +
+> +???? for (i = 0; i < cnt; i++) {
+
+flush each work as you iterate, no need to flush the entire workqueue.
+[CK] Okay.
+> +???????????? if (work[i].status)
+
+warning/error print?
+[CK] I'll add the print message with nsid.
+
+> +???????????????????? status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> +???????????? percpu_ref_put(&work[i].req.ns->ref);
+> +???? }
+> +???? kfree(work);
+> +out:
+> +???? nvmet_req_complete(req, status);
+> +}
+> +
+> +static void nvmet_execute_flush_all(struct nvmet_req *req)
+> +{
+> +???? INIT_WORK(&req->work, nvmet_flush_all_work);
+> +???? schedule_work(&req->work);
+> +}
+> +
+>?? static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>?? {
+>??????? struct nvme_command *cmd = req->cmd;
+> @@ -553,6 +616,12 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
+>??????? if (unlikely(ret))
+>??????????????? return ret;
+>?? 
+> +???? if (unlikely(nvmet_cmd_flush_all(req))) {
+> +???????????? req->execute = nvmet_execute_flush_all;
+> +???????????? req->data_len = 0;
+> +???????????? return NVME_SC_SUCCESS;
+> +???? }
+> +
+>??????? req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
+>??????? if (unlikely(!req->ns))
+>??????????????? return NVME_SC_INVALID_NS | NVME_SC_DNR;
+> @@ -1077,6 +1146,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
+>??????? INIT_LIST_HEAD(&subsys->namespaces);
+>??????? INIT_LIST_HEAD(&subsys->ctrls);
+>??????? INIT_LIST_HEAD(&subsys->hosts);
+> +???? subsys->active_ns = 0;
+>?? 
+>??????? return subsys;
+>?? }
+> diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+> index e0b0f7df70c2..1edbea435982 100644
+> --- a/drivers/nvme/target/io-cmd-bdev.c
+> +++ b/drivers/nvme/target/io-cmd-bdev.c
+> @@ -48,6 +48,15 @@ static void nvmet_bio_done(struct bio *bio)
+>?? {
+>??????? struct nvmet_req *req = bio->bi_private;
+>?? 
+> +???? if (unlikely(nvmet_cmd_flush_all(req))) {
+> +???????????? struct nvmet_flush_work *w =
+> +???????????????????? container_of(req, struct nvmet_flush_work, req);
+> +
+> +???????????? if (req->b.inline_bio.bi_status)
+> +???????????????????? w->status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> +???????????? return;
+> +???? }
+> +
+>??????? nvmet_req_complete(req,
+>??????????????? bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
+>?? 
+> @@ -111,7 +120,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+>??????? blk_poll(bdev_get_queue(req->ns->bdev), cookie);
+>?? }
+>?? 
+> -static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+> +static struct bio *nvmet_bdev_init_flush_bio(struct nvmet_req *req)
+>?? {
+>??????? struct bio *bio = &req->b.inline_bio;
+>?? 
+> @@ -121,6 +130,24 @@ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+>??????? bio->bi_end_io = nvmet_bio_done;
+>??????? bio->bi_opf = REQ_OP_WRITE | REQ_PREFLUSH;
+>?? 
+> +???? return bio;
+> +}
+> +
+> +static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+> +{
+> +???? struct bio *bio = nvmet_bdev_init_flush_bio(req);
+> +
+> +???? submit_bio(bio);
+> +}
+> +
+> +void nvmet_bdev_flush_all_work(struct work_struct *work)
+> +{
+> +???? struct nvmet_flush_work *w =
+> +???????????? container_of(work, struct nvmet_flush_work, work);
+> +???? struct nvmet_req *req = &w->req;
+> +???? struct bio *bio;
+> +
+> +???? bio = nvmet_bdev_init_flush_bio(req);
+
+Is this reusing the req->bio for multiple submissions?
+
+I don't think that submit_bio needs to be executed from a work context.
+[CK] Okay, will execute in the same context.
+>??????? submit_bio(bio);
+>?? }
+>?? 
+> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+> index b59b6e73d09a..4fcf4cd938d8 100644
+> --- a/drivers/nvme/target/io-cmd-file.c
+> +++ b/drivers/nvme/target/io-cmd-file.c
+> @@ -207,6 +207,20 @@ static void nvmet_file_execute_rw_buffered_io(struct nvmet_req *req)
+>??????? queue_work(file_wq, &req->work);
+>?? }
+>?? 
+> +void nvmet_file_flush_all_work(struct work_struct *work)
+> +{
+> +???? struct nvmet_flush_work *w =
+> +???????????? container_of(work, struct nvmet_flush_work, work);
+> +???? struct nvmet_req *req = &w->req;
+> +???? u16 status = NVME_SC_SUCCESS;
+> +???? int ret;
+> +
+> +???? ret = vfs_fsync(req->ns->file, 1);
+> +???? if (ret < 0)
+> +???????????? status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> +???? w->status = status;
+> +}
+> +
+>?? static void nvmet_file_flush_work(struct work_struct *w)
+>?? {
+>??????? struct nvmet_req *req = container_of(w, struct nvmet_req, work);
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 7f599496c8e9..1af564aae56c 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -168,6 +168,7 @@ struct nvmet_subsys {
+>?? 
+>??????? struct list_head??????? namespaces;
+>??????? unsigned int??????????? max_nsid;
+> +???? unsigned int??????????? active_ns;
+>?? 
+>??????? struct list_head??????? ctrls;
+>?? 
+> @@ -298,6 +299,12 @@ struct nvmet_async_event {
+>??????? u8????????????????????? log_page;
+>?? };
+>?? 
+> +struct nvmet_flush_work {
+> +???? struct work_struct????? work;
+> +???? struct nvmet_req??????? req;
+> +???? u16???????????????????? status;
+> +};
+
+Something doesn't make sense to me. req has a work in it, and also
+status. Why do you need this structure and not simply allocate
+reqs array instead?
+
+[CK] Make sense, I'll send the latest verison soon with request allocation and removed struct nvmet_flush_work.
+--
++static void nvmet_flush_all_work(struct work_struct *w)
++{
++?????? struct nvmet_req *req = container_of(w, struct nvmet_req, work);
++?????? struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++?????? struct nvmet_req *r, *reqs;
++?????? u16 status = NVME_SC_SUCCESS;
++?????? struct nvmet_ns *ns;
++?????? int cnt = 0, i;
++?????? int max_ns;
++
++?????? req->ns = NULL;
++
++?????? mutex_lock(&subsys->lock);
++?????? max_ns = subsys->active_ns;
++?????? mutex_unlock(&subsys->lock);
++
++?????? reqs = kmalloc_array(max_ns, sizeof(*req), GFP_KERNEL);
++?????? if (!work) {
++?????????????? status = NVME_SC_INTERNAL;
++?????????????? goto out;
++?????? }
++
++?????? rcu_read_lock();
++?????? list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
++?????????????? /* only process namespaces present prior to flush command */
++?????????????? if (cnt > max_ns)
++?????????????????????? break;
++
++?????????????? percpu_ref_get(&ns->ref);
++?????????????? r = reqs[cnt];
++?????????????? r->ns = ns;
++?????????????? r->cmd = req->cmd;
++?????????????? r->rsp.status = 0;
++?????????????? if (ns->file)
++?????????????????????? INIT_WORK(&r->work, nvmet_file_flush_all_work);
++?????????????? else
++?????????????????????? INIT_WORK(&r->work, nvmet_bdev_flush_all_work);
++
++?????????????? schedule_work(&r->work);
++?????????????? cnt++;
++?????? }
++?????? rcu_read_unlock();
++
++?????? for (i = 0; i < cnt; i++) {
++?????????????? r = reqs[i];
++
++?????????????? flush_scheduled_work(&r->work);
++?????????????? if (r->rsp.status)
++?????????????????????? status = NVME_SC_INTERNAL | NVME_SC_DNR;
++?????????????? percpu_ref_put(&r->ns->ref);
++?????? }
++?????? kfree(work);
++out:
++?????? nvmet_req_complete(req, status);
++}
+--
+      
