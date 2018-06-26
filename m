@@ -1,14 +1,19 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 26 Jun 2018 09:07:00 -0600
-Subject: Read request exceeding max_hw_sectors_kb
-In-Reply-To: <719bd24e00a4f9ed70b9d17472febf24@mail.gmail.com>
-References: <0ba3cccb9d2ee7cba50a91bfc92b373a@mail.gmail.com>
- <20180614145447.GB8129@localhost.localdomain>
- <719bd24e00a4f9ed70b9d17472febf24@mail.gmail.com>
-Message-ID: <20180626150700.GC6628@localhost.localdomain>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 26 Jun 2018 11:54:18 -0400
+Subject: [PATCH] block: Fix transfer when chuck sectors exceeds max
+In-Reply-To: <20180626151458.6675-1-keith.busch@intel.com> (Keith Busch's
+ message of "Tue, 26 Jun 2018 09:14:58 -0600")
+References: <20180626151458.6675-1-keith.busch@intel.com>
+Message-ID: <yq160255ys5.fsf@oracle.com>
 
-On Tue, Jun 26, 2018@04:17:35PM +0530, Jitendra Bhivare wrote:
-> Sorry for the delayed response. This patch works fine too. Please submit
-> it.
- 
-Will do, thanks for the confirmation. Okay if I add your Tested-by?
+
+Keith,
+
+> A device may have boundary restrictions where the number of sectors
+> between boundaries exceeds its max transfer size. In this case, we need
+> to cap the max size to the smaller of the two limits.
+
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
