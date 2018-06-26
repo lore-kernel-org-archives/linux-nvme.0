@@ -1,28 +1,41 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 26 Jun 2018 15:43:17 +0300
-Subject: [PATCH 1/1] nvme-rdma: fix WARN_ON condition during RDMA ctrl
- setup
-In-Reply-To: <dbeadb2d-b227-d8c0-23e4-dafcf507913d@grimberg.me>
-References: <1530015365-30049-1-git-send-email-maxg@mellanox.com>
- <dbeadb2d-b227-d8c0-23e4-dafcf507913d@grimberg.me>
-Message-ID: <defd212c-56d0-bb7e-1313-d3aa1dfa7844@mellanox.com>
+Date: Tue, 26 Jun 2018 15:53:32 +0300
+Subject: [PATCH 1/1] nvmet-rdma: Add error flow for post_recv failures
+In-Reply-To: <353f3e28-377e-c7ed-9b0d-e936120ff2a2@grimberg.me>
+References: <1523885152-20800-1-git-send-email-maxg@mellanox.com>
+ <97ab7146-0b1b-5a3d-2eac-7a186b625cd5@grimberg.me>
+ <850aa212-81f1-135a-2684-d1e3c3afd0c0@mellanox.com>
+ <353f3e28-377e-c7ed-9b0d-e936120ff2a2@grimberg.me>
+Message-ID: <6230472d-23c0-7996-aed7-1e96ae87a281@mellanox.com>
 
 
 
-On 6/26/2018 3:27 PM, Sagi Grimberg wrote:
+On 6/26/2018 3:29 PM, Sagi Grimberg wrote:
 > 
->> We can only agree to fail moving to NVME_CTRL_LIVE while we're in
->> NVME_CTRL_DELETING for existing controllers. In case we are in the
->> initial creation of the controller we never should fail.
+>>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+>>>> index 52e0c5d..f0c07d0 100644
+>>>> --- a/drivers/nvme/target/rdma.c
+>>>> +++ b/drivers/nvme/target/rdma.c
+>>>> @@ -487,7 +487,11 @@ static void nvmet_rdma_queue_response(struct 
+>>>> nvmet_req *req)
+>>>> ????? else
+>>>> ????????? first_wr = &rsp->send_wr;
+>>>> -??? nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
+>>>> +??? if (unlikely(nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd))) {
+>>>> +??????? pr_err("post_recv cmd failed\n");
+>>>> +??????? nvmet_rdma_release_rsp(rsp);
+>>>> +??????? return;
+>>>> +??? }
+>>>
+>>> Why release the response and not send the completion? if we fail 
+>>> post_send we will do this (as we should).
+>>
+>> I guess that if a post_recv operation will fail, also the post_send 
+>> will fail so I don't see a reason to continue in this case.
 > 
-> A. the change log is incorrect as we do fail, its about the warning
-> message.
+> Where is that stated that any ib_post_recv/ib_post_srq failure means
+> that a subsequent ib_post_send will fail as well?
 
-Ok.
-
-> 
-> B. What is this designed to warn against? did you actually see this? or
-> is it to warn if we happened to mess up?
-
-Yes to warn if something unusual happened. Exactly as it was before your 
-patch "nvme-rdma: centralize controller setup sequence"
+If you think we should ignore post_recv failures and continue our 
+operation as usual then we should also fix isert to ignore post_recv 
+failures, right ?
