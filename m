@@ -1,256 +1,84 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 25 Jun 2018 23:15:05 -0400
-Subject: [PATCH V3 2/2] nvmet: add support for flush all
-In-Reply-To: <20180626031505.23616-1-chaitanya.kulkarni@wdc.com>
-References: <20180626031505.23616-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180626031505.23616-3-chaitanya.kulkarni@wdc.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue, 26 Jun 2018 03:29:13 +0000
+Subject: [PATCH V2] nvmet: use shared workqueue for file-ns
+In-Reply-To: <BYAPR04MB450206FFEE99E01912AF260E864B0@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20180623023427.22532-1-chaitanya.kulkarni@wdc.com>,
+ <5d85fd98-fffd-e326-8aee-7976d1e8921a@grimberg.me>,
+ <BYAPR04MB450206FFEE99E01912AF260E864B0@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <BYAPR04MB45022CF0740F2484E168B0B086490@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-This patch implements the flush command behavior described in
-"NVMe 1.3a  TP 4035" for NSID value of FFFFFFFFh. Now flush command
-applies to all the namespaces attached to the controller processing the
-Flush command when the value 0xFFFFFFFF is set in the NSID field.
+Sagi, can you please let me know if you still want me to use the
+system hipri workqueue and send a new version?
 
-For block device backed ns we execute the flush in the primary worker
-thread (nvmet_flush_all_work()), for file-backed ns we execute flush in
-the separate worker thread context (nvmet_file_flush_all_work()).
+From: Chaitanya Kulkarni
+Sent: Sunday, June 24, 2018 11:08 AM
+To: Sagi Grimberg; linux-nvme at lists.infradead.org
+Cc: hch at lst.de
+Subject: Re: [PATCH V2] nvmet: use shared workqueue for file-ns
+? 
 
-We also add a new struct nvmet_subsys member to keep the track of number
-of currently active namespaces "active_ns". We update this "active_ns"
-member in nvmet_ns_enable()/nvmet_ns_disable().
+Thanks for the review comments Sagi, please see the inline reply.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/admin-cmd.c   |  2 +-
- drivers/nvme/target/core.c        | 84 +++++++++++++++++++++++++++++++
- drivers/nvme/target/io-cmd-bdev.c | 12 +++--
- drivers/nvme/target/io-cmd-file.c |  9 +++-
- drivers/nvme/target/nvmet.h       | 10 ++++
- 5 files changed, 111 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index e2c6f8b39388..2ad52e5cdaed 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -256,7 +256,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 			NVME_CTRL_ONCS_WRITE_ZEROES);
- 
- 	/* XXX: don't report vwc if the underlying device is write through */
--	id->vwc = NVME_CTRL_VWC_PRESENT;
-+	id->vwc = NVME_CTRL_VWC_PRESENT | 1 << 2 | 1 << 1;
- 
- 	/*
- 	 * We can't support atomic writes bigger than a LBA without support
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 322f7cfc37a4..dd1030d3bb0a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -370,6 +370,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
- 		list_add_tail_rcu(&ns->dev_link, &old->dev_link);
- 	}
- 
-+	subsys->active_ns++;
- 	nvmet_ns_changed(subsys, ns->nsid);
- 	ns->enabled = true;
- 	ret = 0;
-@@ -411,6 +412,7 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
- 	mutex_lock(&subsys->lock);
- 	nvmet_ns_changed(subsys, ns->nsid);
- 	nvmet_ns_dev_disable(ns);
-+	subsys->active_ns--;
- out_unlock:
- 	mutex_unlock(&subsys->lock);
- }
-@@ -543,6 +545,80 @@ int nvmet_sq_init(struct nvmet_sq *sq)
- }
- EXPORT_SYMBOL_GPL(nvmet_sq_init);
- 
-+static void nvmet_flush_all_work(struct work_struct *w)
-+{
-+	struct nvmet_req *req = container_of(w, struct nvmet_req, work);
-+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
-+	u16 status = NVME_SC_SUCCESS;
-+	struct nvmet_req *req_arr;
-+	struct nvmet_ns *ns;
-+	unsigned int max_ns;
-+	int cnt = 0, i;
-+
-+	req->ns = NULL;
-+
-+	/* only process namespaces present prior to flush command */
-+	mutex_lock(&subsys->lock);
-+	max_ns = subsys->active_ns;
-+	mutex_unlock(&subsys->lock);
-+
-+	req_arr = kmalloc_array(max_ns, sizeof(*req_arr), GFP_KERNEL);
-+	if (!req_arr) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	rcu_read_lock();
-+	list_for_each_entry_rcu(ns, &subsys->namespaces, dev_link) {
-+		struct nvmet_req *r = &req_arr[cnt];
-+
-+		if (cnt > max_ns)
-+			break;
-+
-+		r->rsp = kmalloc(sizeof(*r->rsp), GFP_KERNEL);
-+		if (!r->rsp) {
-+			status = NVME_SC_INTERNAL;
-+			break;
-+		}
-+		r->ns = ns;
-+		r->cmd = req->cmd;
-+		r->rsp->status = cpu_to_le16(0);
-+
-+		percpu_ref_get(&r->ns->ref);
-+		rcu_read_unlock();
-+
-+		if (ns->file) {
-+			INIT_WORK(&r->work, nvmet_file_flush_work);
-+			schedule_work(&r->work);
-+			flush_work(&r->work);
-+		} else
-+			nvmet_bdev_execute_flush(r);
-+		cnt++;
-+		rcu_read_lock();
-+	}
-+	rcu_read_unlock();
-+
-+	for (i = 0; i < cnt; i++) {
-+		struct nvmet_req *r = &req_arr[i];
-+
-+		if (r->rsp->status) {
-+			status = NVME_SC_INTERNAL | NVME_SC_DNR;
-+			pr_err("flush all failed nsid: %u\n", r->ns->nsid);
-+		}
-+		percpu_ref_put(&r->ns->ref);
-+		kfree(r->rsp);
-+	}
-+	kfree(req_arr);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
-+static void nvmet_execute_flush_all(struct nvmet_req *req)
-+{
-+	INIT_WORK(&req->work, nvmet_flush_all_work);
-+	schedule_work(&req->work);
-+}
-+
- static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- {
- 	struct nvme_command *cmd = req->cmd;
-@@ -552,6 +628,12 @@ static u16 nvmet_parse_io_cmd(struct nvmet_req *req)
- 	if (unlikely(ret))
- 		return ret;
- 
-+	if (unlikely(nvmet_cmd_flush_all(req))) {
-+		req->execute = nvmet_execute_flush_all;
-+		req->data_len = 0;
-+		return NVME_SC_SUCCESS;
-+	}
-+
- 	req->ns = nvmet_find_namespace(req->sq->ctrl, cmd->rw.nsid);
- 	if (unlikely(!req->ns))
- 		return NVME_SC_INVALID_NS | NVME_SC_DNR;
-@@ -1077,6 +1159,8 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	INIT_LIST_HEAD(&subsys->ctrls);
- 	INIT_LIST_HEAD(&subsys->hosts);
- 
-+	subsys->active_ns = 0;
-+
- 	return subsys;
- }
- 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index e0b0f7df70c2..2aa9e790c0c8 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -46,10 +46,16 @@ void nvmet_bdev_ns_disable(struct nvmet_ns *ns)
- 
- static void nvmet_bio_done(struct bio *bio)
- {
-+	u16 status = NVME_SC_INTERNAL | NVME_SC_DNR;
- 	struct nvmet_req *req = bio->bi_private;
- 
--	nvmet_req_complete(req,
--		bio->bi_status ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
-+	if (unlikely(nvmet_cmd_flush_all(req))) {
-+		if (req->b.inline_bio.bi_status)
-+			req->rsp->status = cpu_to_le16(status);
-+		return;
-+	}
-+
-+	nvmet_req_complete(req, bio->bi_status ? status : 0);
- 
- 	if (bio != &req->b.inline_bio)
- 		bio_put(bio);
-@@ -111,7 +117,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	blk_poll(bdev_get_queue(req->ns->bdev), cookie);
- }
- 
--static void nvmet_bdev_execute_flush(struct nvmet_req *req)
-+void nvmet_bdev_execute_flush(struct nvmet_req *req)
- {
- 	struct bio *bio = &req->b.inline_bio;
- 
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index 4e6e6c255a58..d1c79a3c4f9b 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -218,14 +218,19 @@ static void nvmet_file_execute_rw_buffered_io(struct nvmet_req *req)
- 	queue_work(req->ns->file_wq, &req->work);
- }
- 
--static void nvmet_file_flush_work(struct work_struct *w)
-+void nvmet_file_flush_work(struct work_struct *w)
- {
- 	struct nvmet_req *req = container_of(w, struct nvmet_req, work);
-+	u16 status;
- 	int ret;
- 
- 	ret = vfs_fsync(req->ns->file, 1);
-+	status = ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : NVME_SC_SUCCESS;
- 
--	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
-+	if (nvmet_cmd_flush_all(req))
-+		req->rsp->status = cpu_to_le16(status);
-+	else
-+		nvmet_req_complete(req, status);
- }
- 
- static void nvmet_file_execute_flush(struct nvmet_req *req)
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index b1cd8eb6717f..e9aae023a198 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -169,6 +169,7 @@ struct nvmet_subsys {
- 
- 	struct list_head	namespaces;
- 	unsigned int		max_nsid;
-+	unsigned int		active_ns;
- 
- 	struct list_head	ctrls;
- 
-@@ -380,9 +381,18 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns);
- void nvmet_bdev_ns_disable(struct nvmet_ns *ns);
- void nvmet_file_ns_disable(struct nvmet_ns *ns);
- 
-+void nvmet_bdev_execute_flush(struct nvmet_req *req);
-+void nvmet_file_flush_work(struct work_struct *w);
-+
- static inline u32 nvmet_rw_len(struct nvmet_req *req)
- {
- 	return ((u32)le16_to_cpu(req->cmd->rw.length) + 1) <<
- 			req->ns->blksize_shift;
- }
-+
-+static inline int nvmet_cmd_flush_all(struct nvmet_req *req)
-+{
-+	return (req->cmd->common.opcode == nvme_cmd_flush) &&
-+		(le32_to_cpu(req->cmd->rw.nsid) == 0xFFFFFFFF);
-+}
- #endif /* _NVMET_H */
--- 
-2.17.0
+From: Sagi Grimberg <sagi@grimberg.me>
+Sent: Sunday, June 24, 2018 9:57 AM
+To: Chaitanya Kulkarni; linux-nvme at lists.infradead.org
+Cc: hch at lst.de
+Subject: Re: [PATCH V2] nvmet: use shared workqueue for file-ns
+? 
+?
+
+
+On 06/23/2018 05:34 AM, Chaitanya Kulkarni wrote:
+> This patch removes the per-ns workqueue and adds a global workqueue
+> which is shared across all the namespaces of multiple subsystems to
+> offload the I/O submission for buffered I/Os when namespace is
+> file-backed.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+> Changes since V1 :-
+> 1. Don't use per subsys based workqueue, make it global.
+> ---
+>?? drivers/nvme/target/core.c??????? |? 7 +++++++
+>?? drivers/nvme/target/io-cmd-file.c | 17 +++--------------
+>?? drivers/nvme/target/nvmet.h?????? |? 3 ++-
+>?? 3 files changed, 12 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 322f7cfc37a4..f0e8b8250344 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -18,6 +18,7 @@
+>?? 
+>?? #include "nvmet.h"
+>?? 
+> +struct workqueue_struct *file_wq;
+>?? static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+>?? static DEFINE_IDA(cntlid_ida);
+>?? 
+> @@ -1110,6 +1111,11 @@ static int __init nvmet_init(void)
+>?? {
+>??????? int error;
+>?? 
+> +???? file_wq = alloc_workqueue("nvmet-file", WQ_MEM_RECLAIM, 0);
+
+Can you explain why this needs mem reclaim? And whats wrong with system
+workqueues? (maybe higpri even?)
+
+[CK] Reclaim is for ensuring forward progress, as we have added the forward progress
+under reclaim for file I/O path I thought we should use this for work queue also.
+
+If we use the system work queues then we might end up exhausting/overusing the system
+resource especially if we have a large number of file-backed ns configured with buffered I/Os,
+please let me know if you still preferred the use of system workqueue I'll update in the next
+version.
+
+Otherwise, I'll send the V3 with changing the name "nvmet-file" -> "nvmet-buffered-io-wq" and
+conditionally removing the WQ_MEM_RECLAIM based on your reply.
+
+If we end up keeping it, maybe call it nvmet_buffered_io_wq to
+make it clear what it is designed for.
+
+[CK] Sounds good.
+    
