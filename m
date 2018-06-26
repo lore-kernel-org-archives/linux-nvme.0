@@ -1,41 +1,32 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 26 Jun 2018 15:53:32 +0300
-Subject: [PATCH 1/1] nvmet-rdma: Add error flow for post_recv failures
-In-Reply-To: <353f3e28-377e-c7ed-9b0d-e936120ff2a2@grimberg.me>
-References: <1523885152-20800-1-git-send-email-maxg@mellanox.com>
- <97ab7146-0b1b-5a3d-2eac-7a186b625cd5@grimberg.me>
- <850aa212-81f1-135a-2684-d1e3c3afd0c0@mellanox.com>
- <353f3e28-377e-c7ed-9b0d-e936120ff2a2@grimberg.me>
-Message-ID: <6230472d-23c0-7996-aed7-1e96ae87a281@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 26 Jun 2018 15:51:39 +0200
+Subject: [PATCH v4 0/2] nvme: add controller id and disk name to tracepoints
+Message-ID: <20180626135141.14088-1-jthumshirn@suse.de>
 
+Patch one is a preparation patch from Sagi and caches the nvme_ctrl in
+the nvme_request. This is not only useful for the tracepoints but for
+further development as well.
 
+The second patch adds the controller IDs and if applicable the disk
+name to the tracepoints so we can distinguish between the individual
+controllers and disks.
 
-On 6/26/2018 3:29 PM, Sagi Grimberg wrote:
-> 
->>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->>>> index 52e0c5d..f0c07d0 100644
->>>> --- a/drivers/nvme/target/rdma.c
->>>> +++ b/drivers/nvme/target/rdma.c
->>>> @@ -487,7 +487,11 @@ static void nvmet_rdma_queue_response(struct 
->>>> nvmet_req *req)
->>>> ????? else
->>>> ????????? first_wr = &rsp->send_wr;
->>>> -??? nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
->>>> +??? if (unlikely(nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd))) {
->>>> +??????? pr_err("post_recv cmd failed\n");
->>>> +??????? nvmet_rdma_release_rsp(rsp);
->>>> +??????? return;
->>>> +??? }
->>>
->>> Why release the response and not send the completion? if we fail 
->>> post_send we will do this (as we should).
->>
->> I guess that if a post_recv operation will fail, also the post_send 
->> will fail so I don't see a reason to continue in this case.
-> 
-> Where is that stated that any ib_post_recv/ib_post_srq failure means
-> that a subsequent ib_post_send will fail as well?
+The patches are relative to the nvme-4.19 branch.
 
-If you think we should ignore post_recv failures and continue our 
-operation as usual then we should also fix isert to ignore post_recv 
-failures, right ?
+Johannes Thumshirn (1):
+  nvme: trace: add disk name to tracepoints
+
+Sagi Grimberg (1):
+  nvme: cache struct nvme_ctrl reference to struct nvme_request
+
+ drivers/nvme/host/core.c   | 10 ++++++----
+ drivers/nvme/host/fc.c     |  2 +-
+ drivers/nvme/host/nvme.h   |  5 +++--
+ drivers/nvme/host/pci.c    |  2 +-
+ drivers/nvme/host/rdma.c   |  2 +-
+ drivers/nvme/host/trace.h  | 30 +++++++++++++++++++-----------
+ drivers/nvme/target/loop.c |  2 +-
+ 7 files changed, 32 insertions(+), 21 deletions(-)
+
+-- 
+2.16.4
