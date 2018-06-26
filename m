@@ -1,47 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 26 Jun 2018 13:56:49 +0300
-Subject: [PATCH 1/1] nvmet-rdma: Add error flow for post_recv failures
-In-Reply-To: <1523885152-20800-1-git-send-email-maxg@mellanox.com>
-References: <1523885152-20800-1-git-send-email-maxg@mellanox.com>
-Message-ID: <97ab7146-0b1b-5a3d-2eac-7a186b625cd5@grimberg.me>
+Date: Tue, 26 Jun 2018 13:59:00 +0300
+Subject: [PATCH v4 1/1] nvme: trace: add disk name to tracepoints
+In-Reply-To: <20180625140300.rebclfa6pa6mtsat@linux-x5ow.site>
+References: <20180611184630.3435-1-jthumshirn@suse.de>
+ <c05ae7fd-3580-ffb5-8beb-6e28666687f4@grimberg.me>
+ <20180625070850.jdl7mudz6o6diwsj@linux-x5ow.site>
+ <d4786519-1695-25a0-dbf5-5d6cb9809539@grimberg.me>
+ <20180625140300.rebclfa6pa6mtsat@linux-x5ow.site>
+Message-ID: <f09c1b97-ea12-20d6-ac8a-ee3f19b2879e@grimberg.me>
 
 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/target/rdma.c | 25 +++++++++++++++++++++----
->   1 file changed, 21 insertions(+), 4 deletions(-)
+> Looks good (both #1 if we want to use the two patch version or #2).
 > 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index 52e0c5d..f0c07d0 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -487,7 +487,11 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
->   	else
->   		first_wr = &rsp->send_wr;
->   
-> -	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
-> +	if (unlikely(nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd))) {
-> +		pr_err("post_recv cmd failed\n");
-> +		nvmet_rdma_release_rsp(rsp);
-> +		return;
-> +	}
+> I have no idea what I did when I was trying to do when I tried it.
 
-Why release the response and not send the completion? if we fail 
-post_send we will do this (as we should).
-
->   
->   	ib_dma_sync_single_for_device(rsp->queue->dev->device,
->   		rsp->send_sge.addr, rsp->send_sge.length,
-> @@ -765,11 +769,18 @@ static int nvmet_rdma_init_srq(struct nvmet_rdma_device *ndev)
->   	ndev->srq = srq;
->   	ndev->srq_size = srq_size;
->   
-> -	for (i = 0; i < srq_size; i++)
-> -		nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
-> +	for (i = 0; i < srq_size; i++) {
-> +		ret = nvmet_rdma_post_recv(ndev, &ndev->srq_cmds[i]);
-> +		if (ret) {
-> +			pr_err("initial post_recv failed on SRQ 0x%p\n", srq);
-
-Maybe move all the error logging into nvmet_rdma_post_recv instead of
-the call sites?
+You want to submit or should I?
