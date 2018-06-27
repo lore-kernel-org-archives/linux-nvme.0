@@ -1,119 +1,133 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 27 Jun 2018 18:40:53 -0400
-Subject: [PATCH V2] blktests: add NVMeOF many file-ns creation test
-Message-ID: <20180627224053.21739-1-chaitanya.kulkarni@wdc.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 27 Jun 2018 17:43:13 -0600
+Subject: [PATCH] nvme: trace: add disk name to tracepoints
+In-Reply-To: <1e7d0f93-9d20-1b99-58c4-651b1d0dedf0@grimberg.me>
+References: <20180626135141.14088-1-jthumshirn@suse.de>
+ <20180626135141.14088-3-jthumshirn@suse.de>
+ <20180626150106.GB6628@localhost.localdomain>
+ <20180627073328.aws2apvc357jobge@linux-x5ow.site>
+ <1e7d0f93-9d20-1b99-58c4-651b1d0dedf0@grimberg.me>
+Message-ID: <20180627234313.GB10657@localhost.localdomain>
 
-This patch adds a new testcase to exercise a large number of ns
-creation and deletion along with discovery command.
+On Wed, Jun 27, 2018@11:06:22AM +0300, Sagi Grimberg wrote:
+> 
+> > > Not related to your patch, but I did notice that the req->q->id isn't
+> > > really useful here since that's not the hardware context identifier.
+> > > That's just some ida assigned software identifier. For the admin command
+> > > completion trace, it's actually a little confusing to see the qid in the
+> > > trace.
+> > 
+> > It was actually requested by Martin so we can easily see which request
+> > got dispatched/completed on which request queue.
+> 
+> Would be good in the future to display the hwqid, but we'll need to work
+> before we can do that.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+I'd really like to see nvme qid, and it would allow for nice trace
+filters.  We could use a little help from blk-mq to get the hctx's
+queue_num from a struct request. I think following should get us that
+(haven't tested just yet)
+
 ---
-Changes from V1:-
-
-1. This has a fix for the use of uninitialized variable
-   reported by the Omar.
----
- tests/nvme/017     | 71 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/017.out | 13 +++++++++
- 2 files changed, 84 insertions(+)
- create mode 100755 tests/nvme/017
- create mode 100644 tests/nvme/017.out
-
-diff --git a/tests/nvme/017 b/tests/nvme/017
-new file mode 100755
-index 0000000..15f98c3
---- /dev/null
-+++ b/tests/nvme/017
-@@ -0,0 +1,71 @@
-+#!/bin/bash
-+# Test many target file-ns creation/deletion under one subsystem.
-+# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
-+#
-+# This program is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU General Public License
-+# as published by the Free Software Foundation; either version 2
-+# of the License, or (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-+# MA  02110-1301, USA.
-+#
-+#   Author: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-+#
-+
-+DESCRIPTION="create/delete many file-ns and test discovery"
-+
-+requires() {
-+	_have_program nvme && _have_module nvme-loop && _have_module nvmet && \
-+		_have_configfs
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index b429d515b568..c6478833464d 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -466,6 +466,12 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
+ 
++unsigned int blk_mq_request_hctx_idx(struct request *rq)
++{
++	return blk_mq_map_queue(rq->q, rq->mq_ctx->cpu)->queue_num;
 +}
++EXPORT_SYMBOL_GPL(blk_mq_request_hctx_idx);
 +
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	local port
-+	local file_path
-+	local iterations=1000
-+	local subsys_name="blktests-subsystem-1"
-+
-+	modprobe nvmet
-+	modprobe nvme-loop
-+
-+	file_path="${TMPDIR}/img"
-+
-+	truncate -s 1G "${file_path}"
-+
-+	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
-+		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
-+
-+	for ((i = 2; i <= iterations; i++)); do
-+		_create_nvmet_ns "${subsys_name}" "${i}" "${file_path}"
-+	done
-+
-+	port="$(_create_nvmet_port "loop")"
-+	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
-+
-+	nvme discover -t loop | sed -r -e "s/portid:  [0-9]+/portid:  X/"
-+	_remove_nvmet_subsystem_from_port "${port}" "${subsys_name}"
-+	_remove_nvmet_port "${port}"
-+
-+	for ((i = iterations; i > 1; i--)); do
-+		_remove_nvmet_ns "${subsys_name}" $i
-+	done
-+
-+	_remove_nvmet_subsystem "${subsys_name}"
-+
-+	rm "${file_path}"
-+
-+	modprobe -r nvme-loop
-+	modprobe -r nvmet
-+
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/017.out b/tests/nvme/017.out
-new file mode 100644
-index 0000000..4b0877a
---- /dev/null
-+++ b/tests/nvme/017.out
-@@ -0,0 +1,13 @@
-+Running nvme/017
-+
-+Discovery Log Number of Records 1, Generation counter 1
-+=====Discovery Log Entry 0======
-+trtype:  loop
-+adrfam:  pci
-+subtype: nvme subsystem
-+treq:    not specified
-+portid:  X
-+trsvcid: 
-+subnqn:  blktests-subsystem-1
-+traddr:  
-+Test complete
--- 
-2.17.0
+ static void __blk_mq_free_request(struct request *rq)
+ {
+ 	struct request_queue *q = rq->q;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 46df030b2c3f..6a30c154aa99 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -653,7 +653,7 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 
+ 	cmd->common.command_id = req->tag;
+ 	if (ns)
+-		trace_nvme_setup_nvm_cmd(req->q->id, cmd);
++		trace_nvme_setup_nvm_cmd(req, cmd);
+ 	else
+ 		trace_nvme_setup_admin_cmd(cmd);
+ 	return ret;
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 01390f0e1671..95ebe803424b 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -79,6 +79,7 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 	    TP_PROTO(struct nvme_command *cmd),
+ 	    TP_ARGS(cmd),
+ 	    TP_STRUCT__entry(
++		    __field(int, qid)
+ 		    __field(u8, opcode)
+ 		    __field(u8, flags)
+ 		    __field(u16, cid)
+@@ -86,6 +87,7 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 		    __array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
++		    __entry->qid = 0;
+ 		    __entry->opcode = cmd->common.opcode;
+ 		    __entry->flags = cmd->common.flags;
+ 		    __entry->cid = cmd->common.command_id;
+@@ -93,16 +95,16 @@ TRACE_EVENT(nvme_setup_admin_cmd,
+ 		    memcpy(__entry->cdw10, cmd->common.cdw10,
+ 			   sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk(" cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->cid, __entry->flags, __entry->metadata,
++	    TP_printk("qid=%d, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __entry->qid, __entry->cid, __entry->flags, __entry->metadata,
+ 		      show_admin_opcode_name(__entry->opcode),
+ 		      __parse_nvme_admin_cmd(__entry->opcode, __entry->cdw10))
+ );
+ 
+ 
+ TRACE_EVENT(nvme_setup_nvm_cmd,
+-	    TP_PROTO(int qid, struct nvme_command *cmd),
+-	    TP_ARGS(qid, cmd),
++	    TP_PROTO(struct request *req, struct nvme_command *cmd),
++	    TP_ARGS(req, cmd),
+ 	    TP_STRUCT__entry(
+ 		    __field(int, qid)
+ 		    __field(u8, opcode)
+@@ -113,7 +115,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
+ 		    __array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
+-		    __entry->qid = qid;
++		    __entry->qid = blk_mq_request_hctx_idx(req) + !!req->rq_disk;
+ 		    __entry->opcode = cmd->common.opcode;
+ 		    __entry->flags = cmd->common.flags;
+ 		    __entry->cid = cmd->common.command_id;
+@@ -141,7 +143,7 @@ TRACE_EVENT(nvme_complete_rq,
+ 		    __field(u16, status)
+ 	    ),
+ 	    TP_fast_assign(
+-		    __entry->qid = req->q->id;
++		    __entry->qid = blk_mq_request_hctx_idx(req) + !!req->rq_disk;
+ 		    __entry->cid = req->tag;
+ 		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+ 		    __entry->retries = nvme_req(req)->retries;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index e3147eb74222..af91b2d31a04 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -248,6 +248,7 @@ static inline u16 blk_mq_unique_tag_to_tag(u32 unique_tag)
+ }
+ 
+ 
++unsigned int blk_mq_request_hctx_idx(struct request *rq);
+ int blk_mq_request_started(struct request *rq);
+ void blk_mq_start_request(struct request *rq);
+ void blk_mq_end_request(struct request *rq, blk_status_t error);
+--
