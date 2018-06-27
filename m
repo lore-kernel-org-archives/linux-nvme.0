@@ -1,39 +1,38 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 27 Jun 2018 10:37:06 -0600
-Subject: [PATCH v5 2/2] nvme: trace: add disk name to tracepoints
-In-Reply-To: <20180627125324.22064-3-jthumshirn@suse.de>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 27 Jun 2018 09:40:29 -0700
+Subject: [PATCH v5 1/2] nvme: cache struct nvme_ctrl reference to struct
+ nvme_request
+In-Reply-To: <20180627125324.22064-2-jthumshirn@suse.de>
 References: <20180627125324.22064-1-jthumshirn@suse.de>
- <20180627125324.22064-3-jthumshirn@suse.de>
-Message-ID: <20180627163706.GA9361@localhost.localdomain>
+ <20180627125324.22064-2-jthumshirn@suse.de>
+Message-ID: <7233e4f1-eee9-9849-be44-604aa11fffb3@broadcom.com>
 
-On Wed, Jun 27, 2018@02:53:24PM +0200, Johannes Thumshirn wrote:
->  	    TP_fast_assign(
-> -		    __entry->qid = qid;
-> +		    __assign_str(name, disk_name);
-> +		    __entry->ctrl_id = nvme_req(req)->ctrl->cntlid;
-> +		    __entry->qid = req->q->id;
->  		    __entry->opcode = cmd->common.opcode;
->  		    __entry->flags = cmd->common.flags;
->  		    __entry->cid = cmd->common.command_id;
-> @@ -122,10 +130,10 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
->  		    memcpy(__entry->cdw10, cmd->common.cdw10,
->  			   sizeof(__entry->cdw10));
->  	    ),
-> -	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-> -		      __entry->qid, __entry->nsid, __entry->cid,
-> -		      __entry->flags, __entry->metadata,
-> -		      show_opcode_name(__entry->opcode),
-> +	    TP_printk("nvme%d: disk=%s, qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-> +		      __entry->ctrl_id, __get_str(name), __entry->qid,
-> +		      __entry->nsid, __entry->cid, __entry->flags,
-> +		      __entry->metadata, show_opcode_name(__entry->opcode),
->  		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
->  );
 
-This looks a bit confusing to me. The ctrl->cntlid you're using in
-__entry->ctrl_id isn't a unique value across subsystems, and it will
-typically be 0 for all controllers that are the only controller in
-their subsystem.
 
-It looks like you want the # assigned to /dev/nvme<#>. Do you want to
-use ctrl->instance here instead?
+On 6/27/2018 5:53 AM, Johannes Thumshirn wrote:
+> From: Sagi Grimberg <sagi at grimberg.me>
+>
+> We will need to reference the controller in the setup and completion
+> time for tracing and future traffic based keep alive support.
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>
+> ---
+> Changes to v4:
+> - Move caching from nvme_setup_cmd to .init_request (Keith)
+> ---
+>   drivers/nvme/host/core.c   | 1 +
+>   drivers/nvme/host/fc.c     | 1 +
+>   drivers/nvme/host/nvme.h   | 1 +
+>   drivers/nvme/host/pci.c    | 2 ++
+>   drivers/nvme/host/rdma.c   | 1 +
+>   drivers/nvme/target/loop.c | 1 +
+>   6 files changed, 7 insertions(+)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e541fe268bcf..99dd62c1076c 100644
+>
+
+good for the fc side...
+
+Reviewed-by:? James Smart? <james.smart at broadcom.com>
