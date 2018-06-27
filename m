@@ -1,43 +1,23 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 27 Jun 2018 12:35:59 +0300
-Subject: [v2 PATCH 1/1] nvme-rdma: fix WARN_ON condition during RDMA ctrl setup
-Message-ID: <1530092159-20275-1-git-send-email-maxg@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 27 Jun 2018 12:00:36 +0200
+Subject: [PATCH] nvme: trace: add disk name to tracepoints
+In-Reply-To: <1e7d0f93-9d20-1b99-58c4-651b1d0dedf0@grimberg.me>
+References: <20180626135141.14088-1-jthumshirn@suse.de>
+ <20180626135141.14088-3-jthumshirn@suse.de>
+ <20180626150106.GB6628@localhost.localdomain>
+ <20180627073328.aws2apvc357jobge@linux-x5ow.site>
+ <1e7d0f93-9d20-1b99-58c4-651b1d0dedf0@grimberg.me>
+Message-ID: <20180627100036.iherk3kx64u7qcsk@linux-x5ow.site>
 
-We can only agree to fail moving to NVME_CTRL_LIVE while we're in
-NVME_CTRL_DELETING for existing controllers, so don't warn in this
-case. If we are during the initial creation of the controller, warn
-unconditionally for each failure on moving to NVME_CTRL_LIVE state.
+On Wed, Jun 27, 2018@11:06:22AM +0300, Sagi Grimberg wrote:
+> Maybe change the display to request_queue_id=%d?
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
+request_queue_id is pretty long, how about rqid?
 
-Changes from v1:
- - change log update
-
----
- drivers/nvme/host/rdma.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 5194568..0b92262 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -977,8 +977,14 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
- 
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
- 	if (!changed) {
--		/* state change failure is ok if we're in DELETING state */
--		WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
-+		if (new)
-+			WARN_ON_ONCE(1);
-+		else
-+			/*
-+			 * state change failure is ok if we're in DELETING
-+			 * state for existing controllers only.
-+			 */
-+			WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
- 		ret = -EINVAL;
- 		goto destroy_io;
- 	}
 -- 
-1.8.3.1
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
