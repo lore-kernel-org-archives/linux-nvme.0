@@ -1,45 +1,43 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 27 Jun 2018 12:04:06 +0300
-Subject: [PATCH 1/1] nvmet-rdma: Add error flow for post_recv failures
-In-Reply-To: <6230472d-23c0-7996-aed7-1e96ae87a281@mellanox.com>
-References: <1523885152-20800-1-git-send-email-maxg@mellanox.com>
- <97ab7146-0b1b-5a3d-2eac-7a186b625cd5@grimberg.me>
- <850aa212-81f1-135a-2684-d1e3c3afd0c0@mellanox.com>
- <353f3e28-377e-c7ed-9b0d-e936120ff2a2@grimberg.me>
- <6230472d-23c0-7996-aed7-1e96ae87a281@mellanox.com>
-Message-ID: <436218bf-8758-dea6-255c-cdb49f80973e@grimberg.me>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 27 Jun 2018 12:35:59 +0300
+Subject: [v2 PATCH 1/1] nvme-rdma: fix WARN_ON condition during RDMA ctrl setup
+Message-ID: <1530092159-20275-1-git-send-email-maxg@mellanox.com>
 
+We can only agree to fail moving to NVME_CTRL_LIVE while we're in
+NVME_CTRL_DELETING for existing controllers, so don't warn in this
+case. If we are during the initial creation of the controller, warn
+unconditionally for each failure on moving to NVME_CTRL_LIVE state.
 
->>>>> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->>>>> index 52e0c5d..f0c07d0 100644
->>>>> --- a/drivers/nvme/target/rdma.c
->>>>> +++ b/drivers/nvme/target/rdma.c
->>>>> @@ -487,7 +487,11 @@ static void nvmet_rdma_queue_response(struct 
->>>>> nvmet_req *req)
->>>>> ????? else
->>>>> ????????? first_wr = &rsp->send_wr;
->>>>> -??? nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
->>>>> +??? if (unlikely(nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd))) {
->>>>> +??????? pr_err("post_recv cmd failed\n");
->>>>> +??????? nvmet_rdma_release_rsp(rsp);
->>>>> +??????? return;
->>>>> +??? }
->>>>
->>>> Why release the response and not send the completion? if we fail 
->>>> post_send we will do this (as we should).
->>>
->>> I guess that if a post_recv operation will fail, also the post_send 
->>> will fail so I don't see a reason to continue in this case.
->>
->> Where is that stated that any ib_post_recv/ib_post_srq failure means
->> that a subsequent ib_post_send will fail as well?
-> 
-> If you think we should ignore post_recv failures and continue our 
-> operation as usual then we should also fix isert to ignore post_recv 
-> failures, right ?
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
 
-Not saying to ignore it, log it (and maybe even schedule a fatal error
-if it is permanent failure). But no reason to not trying to send the
-completion.
+Changes from v1:
+ - change log update
 
-And yes, we should fix isert as well.
+---
+ drivers/nvme/host/rdma.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 5194568..0b92262 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -977,8 +977,14 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ 
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+ 	if (!changed) {
+-		/* state change failure is ok if we're in DELETING state */
+-		WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
++		if (new)
++			WARN_ON_ONCE(1);
++		else
++			/*
++			 * state change failure is ok if we're in DELETING
++			 * state for existing controllers only.
++			 */
++			WARN_ON_ONCE(ctrl->ctrl.state != NVME_CTRL_DELETING);
+ 		ret = -EINVAL;
+ 		goto destroy_io;
+ 	}
+-- 
+1.8.3.1
