@@ -1,32 +1,62 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 27 Jun 2018 12:08:32 -0600
-Subject: Fwd: [PATCH] nvme-cli : fix offset advance in nvme-ioctl.c:
- nvme_get_properties()
-In-Reply-To: <CAPrnrPCVggtMCzHdNm4wmtYUzTx2bnqYGyT2shHzq+0tRyL19w@mail.gmail.com>
-References: <CAPrnrPAFO-0WDcbrkx-JdbG=JtzLVmpNPSs1wjJtUg+TUR3Yiw@mail.gmail.com>
- <CAPrnrPDMfkXRGLG_wb13mQjDfGLKP6u+RYg0FaSWQ4nAuqy2FQ@mail.gmail.com>
- <20180627174241.GB9361@localhost.localdomain>
- <CAPrnrPCVggtMCzHdNm4wmtYUzTx2bnqYGyT2shHzq+0tRyL19w@mail.gmail.com>
-Message-ID: <20180627180832.GC9361@localhost.localdomain>
+Date: Wed, 27 Jun 2018 13:08:03 -0600
+Subject: [PATCH 0/1] nvme: Ensure forward progress during Admin passthru
+In-Reply-To: <8263513b-a714-b669-b485-28e894106607@grimberg.me>
+References: <20180622195914.18575-1-scott.bauer@intel.com>
+ <8263513b-a714-b669-b485-28e894106607@grimberg.me>
+Message-ID: <20180627190803.GD9361@localhost.localdomain>
 
-On Wed, Jun 27, 2018@08:57:16PM +0300, Eyal BenDavid wrote:
-> Resend:
+On Sun, Jun 24, 2018@08:38:12PM +0300, Sagi Grimberg wrote:
 > 
-> diff --git i/nvme-ioctl.c w/nvme-ioctl.c
-> index f1c7ce6..2e0abf9 100644
-> --- i/nvme-ioctl.c
-> +++ w/nvme-ioctl.c
-> @@ -578,8 +578,10 @@ int nvme_get_properties(int fd, void **pbar)
->                         continue;
->                 }
->                 ret = 0;
-> -               if (is64bit)
-> +               if (is64bit) {
->                         *(uint64_t *)(*pbar + off) = le64_to_cpu(value64);
-> +                       off += 4;
-> +               }
->                 else
->                         *(uint32_t *)(*pbar + off) = le32_to_cpu(value64);
->         }
+> > This small patch is an attempt to fix a rare boundary condition.
+> > The only downside of the patch is scan work cannot happen concurrently,
+> > but I don't think that's possible outside of someone issuing a sysctl.
+> > 
+> > If the controller goes down during the admin command, the command will
+> > timeout, if the controller is in a poor enough state the reset commands
+> > will time out. After the original admin command timeout, we unblock userland
+> > which can start to revalidate the namespaces. In order todo that we
+> > aquire the controller namespace sempahore as WRITE. We then issue an admin
+> > command which times out, triggers a reset where we attempt to stop queues
+> > in dev_disable(). Stopping queues attempts to down_read on the semaphore,
+> > which is currently being held on a down write, waiting for this I/O to timeout.
+> > This I/O cannot timeout until the semaphore is dropped from down_write, and
+> > now we're deadlocked.
+> > 
+> > The patch does what nvme_remove_namespaces does, it takes over the controllers
+> > namespace list under the down_write. Then modifies the private list, potentially
+> > removing namespaces, and resplicing it once revalidation has occured. The whole
+> > goal is to *not* hold a down write while issuing admin commands.
+> 
+> Keith, can you explain why we need to disable the device from the
+> timeout handler instead of simply schedule a reset and return
+> BLK_EH_RESET_TIMER?
+> 
+> The only place where I *think* can't schedule a reset and need to
+> return BLK_EH_DONE is when the controller is already resetting, in which
+> case we'd simply need to cancel the timed out command.
+> 
+> What am I missing?
 
-The diff is still mangled and doesn't apply.
+The reset, removing, and dead states.
+
+It was done this way for a few reasons, some of which have changed. We
+didn't actualy have the nvme state machine back then, so we didn't know
+what state we were in, which forced the remove case to have lots of odd
+work-queue syncs.
+
+When an IO times out because a controller is stuck, we'll often time
+them out in batches. By disabling the controller inline with the timeout
+handler, we handle every single timed out command in a single call to
+the nvme timeout handler instead of 1000's of them, and since we were
+already in a work-queue, we are conveniently in a context that can handle
+a timeout inline with the notification.
+
+The other reason was how the blk-mq timeout handler worked. It was
+creating restrictions on when a driver can complete a request, and
+returning BLK_EH_HANDLED was the only way we could deterministically
+get the request actually completed.
+
+We might be able to revisit the nvme-pci behavior now that blk-wq
+timeout works very differently, but I'll have to wait to see if the
+current behavior is settled or not.
