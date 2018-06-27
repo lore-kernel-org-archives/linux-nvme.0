@@ -1,28 +1,37 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 27 Jun 2018 14:58:02 +0300
-Subject: [PATCH 1/1] nvmet-rdma: add unlikely check in the fast path
-Message-ID: <1530100682-24139-1-git-send-email-maxg@mellanox.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 27 Jun 2018 14:53:22 +0200
+Subject: [PATCH v5 0/2] nvme: add controller id and disk name to tracepoints
+Message-ID: <20180627125324.22064-1-jthumshirn@suse.de>
 
-ib_post_send operation should succeed unless something unusual
-happened to the ib device.
+Patch one is a preparation patch from Sagi and caches the nvme_ctrl in
+the nvme_request. This is not only useful for the tracepoints but for
+further development as well.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The second patch adds the controller IDs and if applicable the disk
+name to the tracepoints so we can distinguish between the individual
+controllers and disks.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 88d9f82..ac4fdab 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -501,7 +501,7 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
- 		rsp->send_sge.addr, rsp->send_sge.length,
- 		DMA_TO_DEVICE);
- 
--	if (ib_post_send(cm_id->qp, first_wr, &bad_wr)) {
-+	if (unlikely(ib_post_send(cm_id->qp, first_wr, &bad_wr))) {
- 		pr_err("sending cmd response failed\n");
- 		nvmet_rdma_release_rsp(rsp);
- 	}
+The patches are relative to the nvme-4.19 branch.
+
+Changes to v4:
+* Move nvme_ctrl caching into init_request callouts
+* I decided against renaming the qid tag in the tracepints but opt-in
+  for a hwqid once we have all the infor available
+
+Johannes Thumshirn (1):
+  nvme: trace: add disk name to tracepoints
+
+Sagi Grimberg (1):
+  nvme: cache struct nvme_ctrl reference to struct nvme_request
+
+ drivers/nvme/host/core.c   |  5 +++--
+ drivers/nvme/host/fc.c     |  1 +
+ drivers/nvme/host/nvme.h   |  1 +
+ drivers/nvme/host/pci.c    |  2 ++
+ drivers/nvme/host/rdma.c   |  1 +
+ drivers/nvme/host/trace.h  | 39 +++++++++++++++++++++++++--------------
+ drivers/nvme/target/loop.c |  1 +
+ 7 files changed, 34 insertions(+), 16 deletions(-)
+
 -- 
-1.8.3.1
+2.16.4
