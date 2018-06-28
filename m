@@ -1,26 +1,113 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 28 Jun 2018 09:48:24 +0200
-Subject: [PATCH v5 2/2] nvme: trace: add disk name to tracepoints
-In-Reply-To: <20180627163706.GA9361@localhost.localdomain>
-References: <20180627125324.22064-1-jthumshirn@suse.de>
- <20180627125324.22064-3-jthumshirn@suse.de>
- <20180627163706.GA9361@localhost.localdomain>
-Message-ID: <20180628074824.crqwgdlnrqt34s3d@linux-x5ow.site>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 28 Jun 2018 13:16:32 -0600
+Subject: [PATCH v2 1/1] nvme: Ensure forward progress during Admin passthru
+In-Reply-To: <20180628171007.2423-1-scott.bauer@intel.com>
+References: <20180622195914.18575-1-scott.bauer@intel.com>
+ <20180628171007.2423-1-scott.bauer@intel.com>
+Message-ID: <20180628191631.GB12970@localhost.localdomain>
 
-On Wed, Jun 27, 2018@10:37:06AM -0600, Keith Busch wrote:
-> It looks like you want the # assigned to /dev/nvme<#>. Do you want to
-> use ctrl->instance here instead?
+On Thu, Jun 28, 2018@11:10:07AM -0600, Scott Bauer wrote:
+> If the controller supports effects and goes down during
+> the passthru admin command we will deadlock during
+> namespace revalidation.
+> 
+> [  363.488275] INFO: task kworker/u16:5:231 blocked for more than 120 seconds.
+> [  363.488290]       Not tainted 4.17.0+ #2
+> [  363.488296] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [  363.488303] kworker/u16:5   D    0   231      2 0x80000000
+> [  363.488331] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
+> [  363.488338] Call Trace:
+> [  363.488385]  schedule+0x75/0x190
+> [  363.488396]  rwsem_down_read_failed+0x1c3/0x2f0
+> [  363.488481]  call_rwsem_down_read_failed+0x14/0x30
+> [  363.488504]  down_read+0x1d/0x80
+> [  363.488523]  nvme_stop_queues+0x1e/0xa0 [nvme_core]
+> [  363.488536]  nvme_dev_disable+0xae4/0x1620 [nvme]
+> [  363.488614]  nvme_reset_work+0xd1e/0x49d9 [nvme]
+> [  363.488911]  process_one_work+0x81a/0x1400
+> [  363.488934]  worker_thread+0x87/0xe80
+> [  363.488955]  kthread+0x2db/0x390
+> [  363.488977]  ret_from_fork+0x35/0x40
+> 
+> Fixes: 84fef62d135b6 ("nvme: check admin passthru command effects")
+> 
+> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+> ---
+>  drivers/nvme/host/core.c | 32 ++++++++++++++++++--------------
+>  1 file changed, 18 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 46df030b2c3f..1ad19f0782db 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -100,6 +100,15 @@ static struct class *nvme_subsys_class;
+>  static void nvme_ns_remove(struct nvme_ns *ns);
+>  static int nvme_revalidate_disk(struct gendisk *disk);
+>  static void nvme_put_subsystem(struct nvme_subsystem *subsys);
+> +static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+> +					   unsigned nsid);
+> +
+> +static void nvme_set_queue_dying(struct nvme_ns *ns)
+> +{
+> +	blk_set_queue_dying(ns->queue);
+> +	/* Forcibly unquiesce queues to avoid blocking dispatch */
+> +	blk_mq_unquiesce_queue(ns->queue);
+> +}
 
-Right.
+I think we should actually do everything that the dead namespace does,
+including revalidating the capacity to 0, just in case a buffered writer
+is preventing the removal from completing. Here's an update on top of
+your patch.
 
-As it'll conflict with your other trace patch do you want me to wait
-with the resend?
-
-     Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 87027c122d3d..9fc15221faeb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -107,6 +107,13 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 
+ static void nvme_set_queue_dying(struct nvme_ns *ns)
+ {
++	/*
++	 * Revalidating a dead namespace sets capacity to 0. This will end
++	 * buffered writers dirtying pages that can't be synced.
++	 */
++	if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
++		continue;
++	revalidate_disk(ns->disk);
+ 	blk_set_queue_dying(ns->queue);
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+ 	blk_mq_unquiesce_queue(ns->queue);
+@@ -1162,11 +1169,9 @@ static void nvme_update_formats(struct nvme_ctrl *ctrl)
+ 	struct nvme_ns *ns;
+ 
+ 	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
++	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		if (ns->disk && nvme_revalidate_disk(ns->disk))
+-			if (!test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+-				nvme_set_queue_dying(ns);
+-	}
++			nvme_set_queue_dying(ns);
+ 	up_read(&ctrl->namespaces_rwsem);
+ 
+ 	nvme_remove_invalid_namespaces(ctrl, NVME_NSID_ALL);
+@@ -3548,16 +3553,8 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 	if (ctrl->admin_q)
+ 		blk_mq_unquiesce_queue(ctrl->admin_q);
+ 
+-	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		/*
+-		 * Revalidating a dead namespace sets capacity to 0. This will
+-		 * end buffered writers dirtying pages that can't be synced.
+-		 */
+-		if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+-			continue;
+-		revalidate_disk(ns->disk);
++	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		nvme_set_queue_dying(ns);
+-	}
+ 	up_read(&ctrl->namespaces_rwsem);
+ }
+ EXPORT_SYMBOL_GPL(nvme_kill_queues);
+--
