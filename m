@@ -1,80 +1,42 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 28 Jun 2018 14:56:00 -0600
-Subject: [PATCH 4/5] nvme: trace controller name
-In-Reply-To: <20180628205601.13742-1-keith.busch@intel.com>
-References: <20180628205601.13742-1-keith.busch@intel.com>
-Message-ID: <20180628205601.13742-4-keith.busch@intel.com>
-
-This appends the controller instance to the trace buffer for nvme commands
-to distinguish what controller is dispatching a command.
+Date: Thu, 28 Jun 2018 14:55:57 -0600
+Subject: [PATCH 1/5] blk-mq: add API to get hctx index from request
+Message-ID: <20180628205601.13742-1-keith.busch@intel.com>
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/trace.h | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ block/blk-mq.c         | 6 ++++++
+ include/linux/blk-mq.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index bca3451caa37..57344980af16 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -79,6 +79,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 	    TP_PROTO(struct request *req, struct nvme_command *cmd),
- 	    TP_ARGS(req, cmd),
- 	    TP_STRUCT__entry(
-+		    __field(int, ctrl_id)
- 		    __field(int, qid)
- 		    __field(u8, opcode)
- 		    __field(u8, flags)
-@@ -88,6 +89,7 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		    __array(u8, cdw10, 24)
- 	    ),
- 	    TP_fast_assign(
-+		    __entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		    __entry->qid = blk_mq_request_hctx_idx(req) + !!req->rq_disk;
- 		    __entry->opcode = cmd->common.opcode;
- 		    __entry->flags = cmd->common.flags;
-@@ -97,9 +99,9 @@ TRACE_EVENT(nvme_setup_nvm_cmd,
- 		    memcpy(__entry->cdw10, cmd->common.cdw10,
- 			   sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->qid, __entry->nsid, __entry->cid,
--		      __entry->flags, __entry->metadata,
-+	    TP_printk("nvme%d: qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __entry->ctrl_id, __entry->qid, __entry->nsid,
-+		      __entry->cid, __entry->flags, __entry->metadata,
- 		      __entry->qid ?
- 				show_opcode_name(__entry->opcode) :
- 				show_admin_opcode_name(__entry->opcode),
-@@ -112,6 +114,7 @@ TRACE_EVENT(nvme_complete_rq,
- 	    TP_PROTO(struct request *req),
- 	    TP_ARGS(req),
- 	    TP_STRUCT__entry(
-+		    __field(int, ctrl_id)
- 		    __field(int, qid)
- 		    __field(int, cid)
- 		    __field(u64, result)
-@@ -120,6 +123,7 @@ TRACE_EVENT(nvme_complete_rq,
- 		    __field(u16, status)
- 	    ),
- 	    TP_fast_assign(
-+		    __entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		    __entry->qid = blk_mq_request_hctx_idx(req) + !!req->rq_disk;
- 		    __entry->cid = req->tag;
- 		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
-@@ -127,9 +131,10 @@ TRACE_EVENT(nvme_complete_rq,
- 		    __entry->flags = nvme_req(req)->flags;
- 		    __entry->status = nvme_req(req)->status;
- 	    ),
--	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
--		      __entry->qid, __entry->cid, __entry->result,
--		      __entry->retries, __entry->flags, __entry->status)
-+	    TP_printk("nvme%d: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __entry->ctrl_id,  __entry->qid, __entry->cid,
-+		      __entry->result, __entry->retries, __entry->flags,
-+		      __entry->status)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index b429d515b568..c6478833464d 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -466,6 +466,12 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q,
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
  
- );
++unsigned int blk_mq_request_hctx_idx(struct request *rq)
++{
++	return blk_mq_map_queue(rq->q, rq->mq_ctx->cpu)->queue_num;
++}
++EXPORT_SYMBOL_GPL(blk_mq_request_hctx_idx);
++
+ static void __blk_mq_free_request(struct request *rq)
+ {
+ 	struct request_queue *q = rq->q;
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index e3147eb74222..af91b2d31a04 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -248,6 +248,7 @@ static inline u16 blk_mq_unique_tag_to_tag(u32 unique_tag)
+ }
  
+ 
++unsigned int blk_mq_request_hctx_idx(struct request *rq);
+ int blk_mq_request_started(struct request *rq);
+ void blk_mq_start_request(struct request *rq);
+ void blk_mq_end_request(struct request *rq, blk_status_t error);
 -- 
 2.14.3
