@@ -1,49 +1,85 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 28 Jun 2018 13:54:38 -0600
-Subject: [PATCH v2 1/1] nvme: Ensure forward progress during Admin passthru
-In-Reply-To: <20180628191947.GA2192@sbauer-Z170X-UD5>
-References: <20180622195914.18575-1-scott.bauer@intel.com>
- <20180628171007.2423-1-scott.bauer@intel.com>
- <20180628191631.GB12970@localhost.localdomain>
- <20180628191947.GA2192@sbauer-Z170X-UD5>
-Message-ID: <20180628195438.GC12970@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 28 Jun 2018 14:55:59 -0600
+Subject: [PATCH 3/5] nvme: cache struct nvme_ctrl reference to struct
+ nvme_request
+In-Reply-To: <20180628205601.13742-1-keith.busch@intel.com>
+References: <20180628205601.13742-1-keith.busch@intel.com>
+Message-ID: <20180628205601.13742-3-keith.busch@intel.com>
 
-On Thu, Jun 28, 2018@01:19:48PM -0600, Scott Bauer wrote:
-> On Thu, Jun 28, 2018@01:16:32PM -0600, Keith Busch wrote:
-> > On Thu, Jun 28, 2018@11:10:07AM -0600, Scott Bauer wrote:
-> > >  static void nvme_put_subsystem(struct nvme_subsystem *subsys);
-> > > +static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-> > > +					   unsigned nsid);
-> > > +
-> > > +static void nvme_set_queue_dying(struct nvme_ns *ns)
-> > > +{
-> > > +	blk_set_queue_dying(ns->queue);
-> > > +	/* Forcibly unquiesce queues to avoid blocking dispatch */
-> > > +	blk_mq_unquiesce_queue(ns->queue);
-> > > +}
-> > 
-> > I think we should actually do everything that the dead namespace does,
-> > including revalidating the capacity to 0, just in case a buffered writer
-> > is preventing the removal from completing. Here's an update on top of
-> > your patch.
-> > 
-> 
-> >  {
-> > +	/*
-> > +	 * Revalidating a dead namespace sets capacity to 0. This will end
-> > +	 * buffered writers dirtying pages that can't be synced.
-> > +	 */
-> > +	if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
-> > +		continue;
-> > +	revalidate_disk(ns->disk);
-> 
-> I was under the impression we could not do this because the queues are still frozen,
-> that's why we didnt just issue a scan_work?
-> 
-> revalidate_disk can potentially try and issue more I/O while the queues are
-> frozen from passthru start.
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Not when the namespace is dead. It will just set capacity to 0 which
-kills any buffered writers; no new IO will be attempted, and anything
-gating on entering the frozen queue will fail once we set the queue to
-dying.
+We will need to reference the controller in the setup and completion
+time for tracing and future traffic based keep alive support.
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/fc.c     | 1 +
+ drivers/nvme/host/nvme.h   | 1 +
+ drivers/nvme/host/pci.c    | 2 ++
+ drivers/nvme/host/rdma.c   | 1 +
+ drivers/nvme/target/loop.c | 1 +
+ 5 files changed, 6 insertions(+)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 41d45a1b5c62..9cc33752539a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1737,6 +1737,7 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
+ 
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	return __nvme_fc_init_request(ctrl, queue, op, rq, queue->rqcnt++);
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0c4a33df3b2f..f2249387b60d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -102,6 +102,7 @@ struct nvme_request {
+ 	u8			retries;
+ 	u8			flags;
+ 	u16			status;
++	struct nvme_ctrl	*ctrl;
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ba943f211687..8dcae11bbf3a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -418,6 +418,8 @@ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
+ 
+ 	BUG_ON(!nvmeq);
+ 	iod->nvmeq = nvmeq;
++
++	nvme_req(req)->ctrl = &dev->ctrl;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 9544625c0b7d..ade55977d432 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -286,6 +286,7 @@ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
+ 	struct ib_device *ibdev = dev->dev;
+ 	int ret;
+ 
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	ret = nvme_rdma_alloc_qe(ibdev, &req->sqe, sizeof(struct nvme_command),
+ 			DMA_TO_DEVICE);
+ 	if (ret)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d8d91f04bd7e..af7fbf4132b0 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -227,6 +227,7 @@ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
+ {
+ 	struct nvme_loop_ctrl *ctrl = set->driver_data;
+ 
++	nvme_req(req)->ctrl = &ctrl->ctrl;
+ 	return nvme_loop_init_iod(ctrl, blk_mq_rq_to_pdu(req),
+ 			(set == &ctrl->tag_set) ? hctx_idx + 1 : 0);
+ }
+-- 
+2.14.3
