@@ -1,28 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 28 Jun 2018 09:44:06 +0200
-Subject: [PATCH] nvme: trace: add disk name to tracepoints
-In-Reply-To: <20180628005943.GC10657@localhost.localdomain>
-References: <20180626135141.14088-1-jthumshirn@suse.de>
- <20180626135141.14088-3-jthumshirn@suse.de>
- <20180626150106.GB6628@localhost.localdomain>
- <20180627073328.aws2apvc357jobge@linux-x5ow.site>
- <1e7d0f93-9d20-1b99-58c4-651b1d0dedf0@grimberg.me>
- <20180627234313.GB10657@localhost.localdomain>
- <20180628005943.GC10657@localhost.localdomain>
-Message-ID: <20180628074406.pbf4tjluylq3lkkr@linux-x5ow.site>
+Date: Thu, 28 Jun 2018 09:48:24 +0200
+Subject: [PATCH v5 2/2] nvme: trace: add disk name to tracepoints
+In-Reply-To: <20180627163706.GA9361@localhost.localdomain>
+References: <20180627125324.22064-1-jthumshirn@suse.de>
+ <20180627125324.22064-3-jthumshirn@suse.de>
+ <20180627163706.GA9361@localhost.localdomain>
+Message-ID: <20180628074824.crqwgdlnrqt34s3d@linux-x5ow.site>
 
-On Wed, Jun 27, 2018@06:59:43PM -0600, Keith Busch wrote:
-> Thinking more on this, not using the hw qid really limits the utility
-> out of using these trace events: We may not be able to match a completion
-> to the submission without it since cmdid alone isn't enough to match up
-> the two events.
-> 
-> Here's an updated proposal and actually tested. I was also able to
-> combine admin and io submissions.
+On Wed, Jun 27, 2018@10:37:06AM -0600, Keith Busch wrote:
+> It looks like you want the # assigned to /dev/nvme<#>. Do you want to
+> use ctrl->instance here instead?
 
-Awesome, thanks.
+Right.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+As it'll conflict with your other trace patch do you want me to wait
+with the resend?
+
+     Johannes
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
