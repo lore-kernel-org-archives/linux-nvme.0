@@ -1,19 +1,8 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 28 Jun 2018 16:30:54 +0200
-Subject: [PATCH 4.18-rc] nvme-rdma: fix possible double free of
- controller async event buffer
-In-Reply-To: <20180625175817.6739-1-sagi@grimberg.me>
-References: <20180625175817.6739-1-sagi@grimberg.me>
-Message-ID: <20180628143054.GA16547@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 28 Jun 2018 17:36:06 +0300
+Subject: [PATCH 1/1] nvmet-rdma: add unlikely check in the fast path
+In-Reply-To: <1530100682-24139-1-git-send-email-maxg@mellanox.com>
+References: <1530100682-24139-1-git-send-email-maxg@mellanox.com>
+Message-ID: <158d1bea-d95b-2cc2-4df3-b901a8ba849e@grimberg.me>
 
-On Mon, Jun 25, 2018@08:58:17PM +0300, Sagi Grimberg wrote:
-> If reconnect/reset failed where the controller async event buffer
-> was freed, we might end up freeing it again as we call
-> nvme_rdma_destroy_admin_queue again in the remove path. Given that
-> the sequence is guaranteed to serialize by .ctrl_stop, we simply
-> set ctrl->async_event_sqe.data to NULL and don't free it in future
-> visits.
-
-Thanks,
-
-applied to nvme-4.18.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
