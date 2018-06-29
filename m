@@ -1,19 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 29 Jun 2018 09:24:54 +0200
-Subject: [PATCHv2 1/4] nvme: trace nvme queue identifiers
-In-Reply-To: <20180628214956.13877-2-keith.busch@intel.com>
+Date: Fri, 29 Jun 2018 09:25:10 +0200
+Subject: [PATCHv2 2/4] nvme: cache struct nvme_ctrl reference to struct
+ nvme_request
+In-Reply-To: <20180628214956.13877-3-keith.busch@intel.com>
 References: <20180628214956.13877-1-keith.busch@intel.com>
- <20180628214956.13877-2-keith.busch@intel.com>
-Message-ID: <20180629072454.7lposg6xt54xg6x3@linux-x5ow.site>
+ <20180628214956.13877-3-keith.busch@intel.com>
+Message-ID: <20180629072509.qg2dsv5z4ai2lumo@linux-x5ow.site>
 
-On Thu, Jun 28, 2018@03:49:53PM -0600, Keith Busch wrote:
->  
-> +static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-> +					   unsigned nsid);
-
-This looks like a leftover from something different.
-
-Otherwise,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
