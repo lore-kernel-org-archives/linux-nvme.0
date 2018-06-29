@@ -1,27 +1,17 @@
-From: hch@lst.de (hch@lst.de)
-Date: Fri, 29 Jun 2018 11:16:45 +0200
-Subject: [4.18-rc2 regression] WARNING: CPU: 0 PID: 1 at
- drivers/nvme/host/pci.c:2570 nvme_probe+0x212/0x440
-In-Reply-To: <21f7e774-0be6-f314-b531-b1772dff90fd@kernel.dk>
-References: <Y7NwNf_cB9KfO8DYYkrQt_o4SQ6oFpyHC4ALTdU8K-1rKTpeY7zlAkEhN8mWm30q7cJTVBGDVqfJ65JvkV14hbUFcXQkwQ7CsrloyrFvglw=@protonmail.ch>
- <20180624211520.GA16559@sbauer-Z170X-UD5>
- <tRUGFtw_8KFYLF98YCf0vYYQagRWk-ZNXonQVla7xXvTgMCb7Z2kDM0ocI1O8Nhhbqn-oBlVNM8ue3TABpo3PqIA-_B_lhhceT4dPFGrSd0=@protonmail.ch>
- <703993f1-31a2-c175-f4cb-541713fac14e@kernel.dk>
- <SD8jBn-I8XgsF2B_aXrAPtIvG5xW3rTqE9qLrv-XWe3856vgUkFTUIRKtp2JmJ3oYgOpbXvw1pKtQalOTloi1DfrWcQQJXi-AzRDh-o4VtQ=@protonmail.ch>
- <21f7e774-0be6-f314-b531-b1772dff90fd@kernel.dk>
-Message-ID: <20180629091645.GA16878@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 29 Jun 2018 13:42:49 +0200
+Subject: Q: Status of ANA patches
+Message-ID: <0426d517-4c6e-022d-5d42-d1f22053ed1a@suse.de>
 
->  static inline struct scatterlist *__sg_next(struct scatterlist *sg)
->  {
-> -#ifdef CONFIG_DEBUG_SG
-> -	BUG_ON(sg->sg_magic != SG_MAGIC);
-> -#endif
->  	return sg_is_last(sg) ? NULL : ____sg_next(sg);
->  }
+Hi Christoph,
 
-All that sg mess in i915 really needs to switch to using the generic
-helpers instead of being opencoded..
+do you have any timeline for the ANA patches?
+ From my last testing they look good so far; the only missing bit is a 
+missing configfs entry for the actual ANATT value.
+For that we could easily resurrect my original patch.
 
-But except for that the sg_magic removal looks good to me:
+Is there anything else which is holding it up?
 
-Acked-by: Christoph Hellwig <hch at lst.de>
+Cheers,
+
+Hannes
