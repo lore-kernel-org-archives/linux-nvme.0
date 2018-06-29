@@ -1,152 +1,200 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 29 Jun 2018 16:49:59 -0600
-Subject: [PATCHv4 0/4] nvme trace updates
-Message-ID: <20180629225003.16567-1-keith.busch@intel.com>
+Date: Fri, 29 Jun 2018 16:50:01 -0600
+Subject: [PATCHv4 2/4] nvme: use hw qid in trace events
+In-Reply-To: <20180629225003.16567-1-keith.busch@intel.com>
+References: <20180629225003.16567-1-keith.busch@intel.com>
+Message-ID: <20180629225003.16567-3-keith.busch@intel.com>
 
-This patch series is based on/inspired patches from Johannes Thumshirn
-that improves the nvme trace events.
+We can not match a command to its completion based on the command
+id alone. We need the submitting queue identifier to pair with the
+completion, so this patch adds that to the trace buffer.
 
-The first one from Sagi is saving the nvme_ctrl in the driver request data
-so we can reference it in other places, both for this series and future
-developments.
+This patch is also collapsing the admin and IO submission traces into a
+single one so we don't need to duplicate this and creating unnecessary
+code branches: we know if the command is an admin vs IO based on the qid.
 
-The others simplifying and add to the nvme traces so we can see uniquely
-identify what controller the trace event is showing, pair up completions
-to their submissions, and filter events for specific hardware.
+And since we're here, the patch fixes code formatting in the area.
 
-For good measure, I offer the following awk script (called nvme-iosnoop,
-inspired by Brendan Gregg's iosnoop) to help parse the trace output. This
-will pair up the submission and completion trace events and tell us
-interesting things about nvme disk activity.
-
-Example output:
-
-# cat /sys/kernel/debug/tracing/trace | awk -f ~/bin/nvme-iosnoop.awk
-COMM         PID    TYPE  DEV      SLBA         NLB       LATms
-kworker/62:1 2550   write nvme0n1  0            8         0.051
-kworker/62:1 2550   write nvme0n1  8            8         0.027
-kworker/62:1 2550   write nvme0n1  16           8         0.013
-kworker/62:1 2550   write nvme0n1  24           8         0.014
-kworker/62:1 2550   write nvme0n1  32           8         0.013
-kworker/62:1 2550   write nvme0n1  40           8         0.014
-kworker/62:1 2550   write nvme0n1  48           8         0.014
-kworker/63:1 2549   write nvme0n1  56           8         0.035
-systemd-udev 1595   read  nvme0n1  0            8         0.087
-systemd-udev 1595   read  nvme0n1  8            8         0.056
-systemd-udev 4066   read  nvme0n1  781422592    8         0.060
-systemd-udev 4066   read  nvme0n1  781422752    8         0.009
-dd           4213   read  nvme1n1  0            8         0.070
-dd           4213   read  nvme1n1  8            8         0.010
-dd           4213   read  nvme1n1  16           8         0.012
-dd           4213   read  nvme1n1  24           8         0.009
-dd           4213   read  nvme1n1  32           8         0.011
-dd           4213   read  nvme1n1  40           8         0.010
-systemd-udev 4066   read  nvme0n1  64           56        0.034
-systemd-udev 4066   read  nvme0n1  256          16        0.011
-systemd-udev 4066   read  nvme0n1  128          128       0.057
-systemd-udev 4066   read  nvme0n1  16           8         0.106
-systemd-udev 4066   read  nvme0n1  32           24        0.132
-systemd-udev 4066   read  nvme0n1  272          240       0.047
-systemd-udev 4066   read  nvme0n1  512          256       0.051
-systemd-udev 4066   read  nvme0n1  768          256       0.049
-
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-#!/usr/bin/awk
+ drivers/nvme/host/core.c  |   5 +-
+ drivers/nvme/host/trace.h | 113 +++++++++++++++++++++-------------------------
+ 2 files changed, 53 insertions(+), 65 deletions(-)
 
-BEGIN {
-	printf "%-12.12s %-6s %-5s %-8s %-12s %-6s %8s\n", \
-		"COMM", "PID", "TYPE", "DEV", "SLBA", "NLB", "LATms"
-}
-{
-	if ($1 != "#") {
-		dev = $7; sub("disk=", "", dev); sub(",", "", dev)
-		time = $4; sub(":", "", time)
-		qid = $8; sub("qid=", "", qid); sub(",", "", qid)
-		cid = $9; sub("cid=", "", cid); sub(",", "", cid)
-	}
-
-	if ($1 != "#" && $0 ~ /nvme_setup_cmd/) {
-		comm = pid = $1
-		sub(/-[0-9][0-9]*/, "", comm)
-		sub(/.*-/, "", pid)
-		slba = $14; sub("slba=", "", slba); sub(",", "", slba)
-		len = $15; sub("len=", "", len); sub(",", "", len)
-
-		starts[dev, qid, cid] = time
-		slbas[dev, qid, cid] = slba
-		lens[dev, qid, cid] = len + 1
-		pids[dev, qid, cid] = pid
-		comms[dev, qid, cid] = comm
-
-		if ($0 ~ /nvme_cmd_read/) {
-			dir[dev, qid, cid] = "read"
-		}
-		if ($0 ~ /nvme_cmd_write/) {
-			dir[dev, qid, cid] = "write"
-		}
-		next
-	}
-
-	if ($1 != "#" && $0 ~ /nvme_complete_rq/) {
-		if (starts[dev, qid, cid] > 0) {
-			latency = sprintf("%.3f", 1000 * (time - starts[dev, qid, cid]))
-			printf "%-12.12s %-6s %-5s %-8s %-12s %-6s %8s\n",
-				comms[dev, qid, cid], pids[dev, qid, cid], dir[dev, qid, cid],
-				dev, slbas[dev, qid, cid], lens[dev, qid, cid], latency
-
-			delete comms[dev, qid, cid]
-			delete pids[dev, qid, cid]
-			delete dir[dev, qid, cid]
-			delete slbas[dev, qid, cid]
-			delete lens[dev, qid, cid]
-			delete starts[dev, qid, cid]
-		}
-		next
-	}
-}
-END{}
---
-
-v3 -> v4:
-
-  Fixed the parameter print order, nsid and cmdid
-
-v2 -> v3:
-
-  Removed unrelated code that leaked into the previous series
-
-  Added helpers for setting the new qid and disk name fields
-
-  Updated change logs
-
-  Minor code formatting updates
-
-  Added Reviewed-by for Sagi's patch
-
-v1 -> v2:
-
-  Dropped the blk-mq patch as there were pre-existing ways to get to the
-  desired information without introducing a new API
-
-  Changelog typo fixups
-
-Keith Busch (3):
-  nvme: use hw qid in trace events
-  nvme: add controller name to trace events
-  nvme: add disk name to trace events
-
-Sagi Grimberg (1):
-  nvme: cache struct nvme_ctrl reference to struct nvme_request
-
- drivers/nvme/host/core.c   |   5 +-
- drivers/nvme/host/fc.c     |   1 +
- drivers/nvme/host/nvme.h   |   1 +
- drivers/nvme/host/pci.c    |   2 +
- drivers/nvme/host/rdma.c   |   1 +
- drivers/nvme/host/trace.c  |  11 ++++
- drivers/nvme/host/trace.h  | 139 +++++++++++++++++++++++++--------------------
- drivers/nvme/target/loop.c |   1 +
- 8 files changed, 94 insertions(+), 67 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 46df030b2c3f..90eb7c55415b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -652,10 +652,7 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 	}
+ 
+ 	cmd->common.command_id = req->tag;
+-	if (ns)
+-		trace_nvme_setup_nvm_cmd(req->q->id, cmd);
+-	else
+-		trace_nvme_setup_admin_cmd(cmd);
++	trace_nvme_setup_cmd(req, cmd);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_setup_cmd);
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index 01390f0e1671..6f9ee5fe5e09 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -24,6 +24,15 @@
+ 
+ #include "nvme.h"
+ 
++#define __assign_nvme_qid(req, qid)					\
++	do {								\
++		if (req->rq_disk)					\
++			qid = 1 + blk_mq_unique_tag_to_hwq(		\
++					blk_mq_unique_tag(req));	\
++		else							\
++			qid = 0;					\
++	} while (0)
++
+ #define nvme_admin_opcode_name(opcode)	{ opcode, #opcode }
+ #define show_admin_opcode_name(val)					\
+ 	__print_symbolic(val,						\
+@@ -52,11 +61,11 @@
+ 
+ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p, u8 opcode,
+ 				       u8 *cdw10);
+-#define __parse_nvme_admin_cmd(opcode, cdw10) \
++#define __parse_admin_cmd(opcode, cdw10) \
+ 	nvme_trace_parse_admin_cmd(p, opcode, cdw10)
+ 
+ #define nvme_opcode_name(opcode)	{ opcode, #opcode }
+-#define show_opcode_name(val)					\
++#define show_nvm_opcode_name(val)				\
+ 	__print_symbolic(val,					\
+ 		nvme_opcode_name(nvme_cmd_flush),		\
+ 		nvme_opcode_name(nvme_cmd_write),		\
+@@ -70,83 +79,65 @@ const char *nvme_trace_parse_admin_cmd(struct trace_seq *p, u8 opcode,
+ 		nvme_opcode_name(nvme_cmd_resv_acquire),	\
+ 		nvme_opcode_name(nvme_cmd_resv_release))
+ 
++#define show_opcode_name(qid, opcode)					\
++	(qid ? show_nvm_opcode_name(opcode) : show_admin_opcode_name(opcode))
++
+ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
+ 				     u8 *cdw10);
+-#define __parse_nvme_cmd(opcode, cdw10) \
++#define __parse_nvm_cmd(opcode, cdw10) \
+ 	nvme_trace_parse_nvm_cmd(p, opcode, cdw10)
+ 
+-TRACE_EVENT(nvme_setup_admin_cmd,
+-	    TP_PROTO(struct nvme_command *cmd),
+-	    TP_ARGS(cmd),
+-	    TP_STRUCT__entry(
+-		    __field(u8, opcode)
+-		    __field(u8, flags)
+-		    __field(u16, cid)
+-		    __field(u64, metadata)
+-		    __array(u8, cdw10, 24)
+-	    ),
+-	    TP_fast_assign(
+-		    __entry->opcode = cmd->common.opcode;
+-		    __entry->flags = cmd->common.flags;
+-		    __entry->cid = cmd->common.command_id;
+-		    __entry->metadata = le64_to_cpu(cmd->common.metadata);
+-		    memcpy(__entry->cdw10, cmd->common.cdw10,
+-			   sizeof(__entry->cdw10));
+-	    ),
+-	    TP_printk(" cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->cid, __entry->flags, __entry->metadata,
+-		      show_admin_opcode_name(__entry->opcode),
+-		      __parse_nvme_admin_cmd(__entry->opcode, __entry->cdw10))
+-);
+-
++#define parse_nvme_cmd(qid, opcode, cdw10) 			\
++	(qid ? __parse_nvm_cmd(opcode, cdw10) : 		\
++	       __parse_admin_cmd(opcode, cdw10))
+ 
+-TRACE_EVENT(nvme_setup_nvm_cmd,
+-	    TP_PROTO(int qid, struct nvme_command *cmd),
+-	    TP_ARGS(qid, cmd),
++TRACE_EVENT(nvme_setup_cmd,
++	    TP_PROTO(struct request *req, struct nvme_command *cmd),
++	    TP_ARGS(req, cmd),
+ 	    TP_STRUCT__entry(
+-		    __field(int, qid)
+-		    __field(u8, opcode)
+-		    __field(u8, flags)
+-		    __field(u16, cid)
+-		    __field(u32, nsid)
+-		    __field(u64, metadata)
+-		    __array(u8, cdw10, 24)
++		__field(int, qid)
++		__field(u8, opcode)
++		__field(u8, flags)
++		__field(u16, cid)
++		__field(u32, nsid)
++		__field(u64, metadata)
++		__array(u8, cdw10, 24)
+ 	    ),
+ 	    TP_fast_assign(
+-		    __entry->qid = qid;
+-		    __entry->opcode = cmd->common.opcode;
+-		    __entry->flags = cmd->common.flags;
+-		    __entry->cid = cmd->common.command_id;
+-		    __entry->nsid = le32_to_cpu(cmd->common.nsid);
+-		    __entry->metadata = le64_to_cpu(cmd->common.metadata);
+-		    memcpy(__entry->cdw10, cmd->common.cdw10,
+-			   sizeof(__entry->cdw10));
++		__assign_nvme_qid(req, __entry->qid);
++		__entry->opcode = cmd->common.opcode;
++		__entry->flags = cmd->common.flags;
++		__entry->cid = cmd->common.command_id;
++		__entry->nsid = le32_to_cpu(cmd->common.nsid);
++		__entry->metadata = le64_to_cpu(cmd->common.metadata);
++		memcpy(__entry->cdw10, cmd->common.cdw10,
++		       sizeof(__entry->cdw10));
+ 	    ),
+-	    TP_printk("qid=%d, nsid=%u, cmdid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->qid, __entry->nsid, __entry->cid,
++	    TP_printk("qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __entry->qid, __entry->cid, __entry->nsid,
+ 		      __entry->flags, __entry->metadata,
+-		      show_opcode_name(__entry->opcode),
+-		      __parse_nvme_cmd(__entry->opcode, __entry->cdw10))
++		      show_opcode_name(__entry->qid, __entry->opcode),
++		      parse_nvme_cmd(__entry->qid, __entry->opcode, __entry->cdw10))
+ );
+ 
+ TRACE_EVENT(nvme_complete_rq,
+ 	    TP_PROTO(struct request *req),
+ 	    TP_ARGS(req),
+ 	    TP_STRUCT__entry(
+-		    __field(int, qid)
+-		    __field(int, cid)
+-		    __field(u64, result)
+-		    __field(u8, retries)
+-		    __field(u8, flags)
+-		    __field(u16, status)
++		__field(int, qid)
++		__field(int, cid)
++		__field(u64, result)
++		__field(u8, retries)
++		__field(u8, flags)
++		__field(u16, status)
+ 	    ),
+ 	    TP_fast_assign(
+-		    __entry->qid = req->q->id;
+-		    __entry->cid = req->tag;
+-		    __entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+-		    __entry->retries = nvme_req(req)->retries;
+-		    __entry->flags = nvme_req(req)->flags;
+-		    __entry->status = nvme_req(req)->status;
++		__assign_nvme_qid(req, __entry->qid);
++		__entry->cid = req->tag;
++		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
++		__entry->retries = nvme_req(req)->retries;
++		__entry->flags = nvme_req(req)->flags;
++		__entry->status = nvme_req(req)->status;
+ 	    ),
+ 	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
+ 		      __entry->qid, __entry->cid, __entry->result,
 -- 
 2.14.3
