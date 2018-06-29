@@ -1,111 +1,86 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 29 Jun 2018 16:50:03 -0600
-Subject: [PATCHv4 4/4] nvme: add disk name to trace events
+Date: Fri, 29 Jun 2018 16:50:00 -0600
+Subject: [PATCHv4 1/4] nvme: cache struct nvme_ctrl reference to struct
+ nvme_request
 In-Reply-To: <20180629225003.16567-1-keith.busch@intel.com>
 References: <20180629225003.16567-1-keith.busch@intel.com>
-Message-ID: <20180629225003.16567-5-keith.busch@intel.com>
+Message-ID: <20180629225003.16567-2-keith.busch@intel.com>
 
-This will print the disk name to the nvme event trace for io requests so
-a user can better distinguish traffic to different disks. This can be used
-to  create disk based filters. For example, to see only nvme0n2 traffic:
+From: Sagi Grimberg <sagi@grimberg.me>
 
-  echo "disk == \"nvme0n2\"" > /sys/kernel/debug/tracing/events/nvme/filter
+We will need to reference the controller in the setup and completion
+time for tracing and future traffic based keep alive support.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/trace.c | 11 +++++++++++
- drivers/nvme/host/trace.h | 31 ++++++++++++++++++++++++-------
- 2 files changed, 35 insertions(+), 7 deletions(-)
+ drivers/nvme/host/fc.c     | 1 +
+ drivers/nvme/host/nvme.h   | 1 +
+ drivers/nvme/host/pci.c    | 2 ++
+ drivers/nvme/host/rdma.c   | 1 +
+ drivers/nvme/target/loop.c | 1 +
+ 5 files changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
-index 41944bbef835..25b0e310f4a8 100644
---- a/drivers/nvme/host/trace.c
-+++ b/drivers/nvme/host/trace.c
-@@ -128,3 +128,14 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
- 		return nvme_trace_common(p, cdw10);
- 	}
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 41d45a1b5c62..9cc33752539a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1737,6 +1737,7 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
+ 
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	return __nvme_fc_init_request(ctrl, queue, op, rq, queue->rqcnt++);
  }
-+
-+const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
-+{
-+	const char *ret = trace_seq_buffer_ptr(p);
-+
-+	if (*name)
-+		trace_seq_printf(p, "disk=%s, ", name);
-+	trace_seq_putc(p, 0);
-+
-+	return ret;
-+}
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index b171b54f4b0e..6d6a25934765 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -91,10 +91,23 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
- 	(qid ? __parse_nvm_cmd(opcode, cdw10) : 		\
- 	       __parse_admin_cmd(opcode, cdw10))
  
-+#define __assign_disk_name(name, disk)					\
-+	do {								\
-+		if (disk)						\
-+			memcpy(name, disk->disk_name, DISK_NAME_LEN);	\
-+		else							\
-+			memset(name, 0, DISK_NAME_LEN);			\
-+	} while (0)
-+
-+const char *nvme_trace_disk_name(struct trace_seq *p, char *name);
-+#define __print_disk_name(name)				\
-+	nvme_trace_disk_name(p, name)
-+
- TRACE_EVENT(nvme_setup_cmd,
- 	    TP_PROTO(struct request *req, struct nvme_command *cmd),
- 	    TP_ARGS(req, cmd),
- 	    TP_STRUCT__entry(
-+		__array(char, disk, DISK_NAME_LEN)
- 		__field(int, ctrl_id)
- 		__field(int, qid)
- 		__field(u8, opcode)
-@@ -112,12 +125,14 @@ TRACE_EVENT(nvme_setup_cmd,
- 		__entry->cid = cmd->common.command_id;
- 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
- 		__entry->metadata = le64_to_cpu(cmd->common.metadata);
-+		__assign_disk_name(__entry->disk, req->rq_disk);
- 		memcpy(__entry->cdw10, cmd->common.cdw10,
- 		       sizeof(__entry->cdw10));
- 	    ),
--	    TP_printk("nvme%d: qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->ctrl_id, __entry->qid, __entry->cid,
--		      __entry->nsid, __entry->flags, __entry->metadata,
-+	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __entry->ctrl_id, __print_disk_name(__entry->disk),
-+		      __entry->qid, __entry->cid, __entry->nsid,
-+		      __entry->flags, __entry->metadata,
- 		      show_opcode_name(__entry->qid, __entry->opcode),
- 		      parse_nvme_cmd(__entry->qid, __entry->opcode, __entry->cdw10))
- );
-@@ -126,6 +141,7 @@ TRACE_EVENT(nvme_complete_rq,
- 	    TP_PROTO(struct request *req),
- 	    TP_ARGS(req),
- 	    TP_STRUCT__entry(
-+		__array(char, disk, DISK_NAME_LEN)
- 		__field(int, ctrl_id)
- 		__field(int, qid)
- 		__field(int, cid)
-@@ -142,11 +158,12 @@ TRACE_EVENT(nvme_complete_rq,
- 		__entry->retries = nvme_req(req)->retries;
- 		__entry->flags = nvme_req(req)->flags;
- 		__entry->status = nvme_req(req)->status;
-+		__assign_disk_name(__entry->disk, req->rq_disk);
- 	    ),
--	    TP_printk("nvme%d: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
--		      __entry->ctrl_id,  __entry->qid, __entry->cid,
--		      __entry->result, __entry->retries, __entry->flags,
--		      __entry->status)
-+	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __entry->ctrl_id, __print_disk_name(__entry->disk),
-+		      __entry->qid, __entry->cid, __entry->result,
-+		      __entry->retries, __entry->flags, __entry->status)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0c4a33df3b2f..f2249387b60d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -102,6 +102,7 @@ struct nvme_request {
+ 	u8			retries;
+ 	u8			flags;
+ 	u16			status;
++	struct nvme_ctrl	*ctrl;
+ };
  
- );
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ba943f211687..8dcae11bbf3a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -418,6 +418,8 @@ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
  
+ 	BUG_ON(!nvmeq);
+ 	iod->nvmeq = nvmeq;
++
++	nvme_req(req)->ctrl = &dev->ctrl;
+ 	return 0;
+ }
+ 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 9544625c0b7d..ade55977d432 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -286,6 +286,7 @@ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
+ 	struct ib_device *ibdev = dev->dev;
+ 	int ret;
+ 
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	ret = nvme_rdma_alloc_qe(ibdev, &req->sqe, sizeof(struct nvme_command),
+ 			DMA_TO_DEVICE);
+ 	if (ret)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d8d91f04bd7e..af7fbf4132b0 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -227,6 +227,7 @@ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
+ {
+ 	struct nvme_loop_ctrl *ctrl = set->driver_data;
+ 
++	nvme_req(req)->ctrl = &ctrl->ctrl;
+ 	return nvme_loop_init_iod(ctrl, blk_mq_rq_to_pdu(req),
+ 			(set == &ctrl->tag_set) ? hctx_idx + 1 : 0);
+ }
 -- 
 2.14.3
