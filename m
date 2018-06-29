@@ -1,123 +1,86 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Fri, 29 Jun 2018 13:03:28 -0600
-Subject: [PATCH v3 1/1] nvme: Ensure forward progress during Admin passthru
-In-Reply-To: <20180622195914.18575-1-scott.bauer@intel.com>
-References: <20180622195914.18575-1-scott.bauer@intel.com>
-Message-ID: <20180629190328.2096-1-scott.bauer@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 29 Jun 2018 13:59:57 -0600
+Subject: [PATCHv3 1/4] nvme: cache struct nvme_ctrl reference to struct
+ nvme_request
+In-Reply-To: <20180629200000.16171-1-keith.busch@intel.com>
+References: <20180629200000.16171-1-keith.busch@intel.com>
+Message-ID: <20180629200000.16171-2-keith.busch@intel.com>
 
-If the controller supports effects and goes down during
-the passthru admin command we will deadlock during
-namespace revalidation.
+From: Sagi Grimberg <sagi@grimberg.me>
 
-[  363.488275] INFO: task kworker/u16:5:231 blocked for more than 120 seconds.
-[  363.488290]       Not tainted 4.17.0+ #2
-[  363.488296] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-[  363.488303] kworker/u16:5   D    0   231      2 0x80000000
-[  363.488331] Workqueue: nvme-reset-wq nvme_reset_work [nvme]
-[  363.488338] Call Trace:
-[  363.488385]  schedule+0x75/0x190
-[  363.488396]  rwsem_down_read_failed+0x1c3/0x2f0
-[  363.488481]  call_rwsem_down_read_failed+0x14/0x30
-[  363.488504]  down_read+0x1d/0x80
-[  363.488523]  nvme_stop_queues+0x1e/0xa0 [nvme_core]
-[  363.488536]  nvme_dev_disable+0xae4/0x1620 [nvme]
-[  363.488614]  nvme_reset_work+0xd1e/0x49d9 [nvme]
-[  363.488911]  process_one_work+0x81a/0x1400
-[  363.488934]  worker_thread+0x87/0xe80
-[  363.488955]  kthread+0x2db/0x390
-[  363.488977]  ret_from_fork+0x35/0x40
+We will need to reference the controller in the setup and completion
+time for tracing and future traffic based keep alive support.
 
-Fixes: 84fef62d135b6 ("nvme: check admin passthru command effects")
-
-Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 50 +++++++++++++++++++++-------------------
- 1 file changed, 26 insertions(+), 24 deletions(-)
+ drivers/nvme/host/fc.c     | 1 +
+ drivers/nvme/host/nvme.h   | 1 +
+ drivers/nvme/host/pci.c    | 2 ++
+ drivers/nvme/host/rdma.c   | 1 +
+ drivers/nvme/target/loop.c | 1 +
+ 5 files changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46df030b2c3f..e7668c4bb4dd 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -100,6 +100,22 @@ static struct class *nvme_subsys_class;
- static void nvme_ns_remove(struct nvme_ns *ns);
- static int nvme_revalidate_disk(struct gendisk *disk);
- static void nvme_put_subsystem(struct nvme_subsystem *subsys);
-+static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
-+					   unsigned nsid);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 41d45a1b5c62..9cc33752539a 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1737,6 +1737,7 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
+ 
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	return __nvme_fc_init_request(ctrl, queue, op, rq, queue->rqcnt++);
+ }
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0c4a33df3b2f..f2249387b60d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -102,6 +102,7 @@ struct nvme_request {
+ 	u8			retries;
+ 	u8			flags;
+ 	u16			status;
++	struct nvme_ctrl	*ctrl;
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ba943f211687..8dcae11bbf3a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -418,6 +418,8 @@ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
+ 
+ 	BUG_ON(!nvmeq);
+ 	iod->nvmeq = nvmeq;
 +
-+static void nvme_set_queue_dying(struct nvme_ns *ns)
-+{
-+	/*
-+	 * Revalidating a dead namespace sets capacity to 0. This will end
-+	 * buffered writers dirtying pages that can't be synced.
-+	 */
-+	if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
-+		return;
-+	revalidate_disk(ns->disk);
-+	blk_set_queue_dying(ns->queue);
-+	/* Forcibly unquiesce queues to avoid blocking dispatch */
-+	blk_mq_unquiesce_queue(ns->queue);
-+}
- 
- static void nvme_queue_scan(struct nvme_ctrl *ctrl)
- {
-@@ -1151,19 +1167,15 @@ static u32 nvme_passthru_start(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 
- static void nvme_update_formats(struct nvme_ctrl *ctrl)
- {
--	struct nvme_ns *ns, *next;
--	LIST_HEAD(rm_list);
-+	struct nvme_ns *ns;
- 
--	down_write(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		if (ns->disk && nvme_revalidate_disk(ns->disk)) {
--			list_move_tail(&ns->list, &rm_list);
--		}
--	}
--	up_write(&ctrl->namespaces_rwsem);
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		if (ns->disk && nvme_revalidate_disk(ns->disk))
-+			nvme_set_queue_dying(ns);
-+	up_read(&ctrl->namespaces_rwsem);
- 
--	list_for_each_entry_safe(ns, next, &rm_list, list)
--		nvme_ns_remove(ns);
-+	nvme_remove_invalid_namespaces(ctrl, NVME_NSID_ALL);
++	nvme_req(req)->ctrl = &dev->ctrl;
+ 	return 0;
  }
  
- static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
-@@ -3138,7 +3150,7 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 9544625c0b7d..ade55977d432 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -286,6 +286,7 @@ static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
+ 	struct ib_device *ibdev = dev->dev;
+ 	int ret;
  
- 	down_write(&ctrl->namespaces_rwsem);
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
--		if (ns->head->ns_id > nsid)
-+		if (ns->head->ns_id > nsid || test_bit(NVME_NS_DEAD, &ns->flags))
- 			list_move_tail(&ns->list, &rm_list);
- 	}
- 	up_write(&ctrl->namespaces_rwsem);
-@@ -3542,19 +3554,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 	if (ctrl->admin_q)
- 		blk_mq_unquiesce_queue(ctrl->admin_q);
++	nvme_req(rq)->ctrl = &ctrl->ctrl;
+ 	ret = nvme_rdma_alloc_qe(ibdev, &req->sqe, sizeof(struct nvme_command),
+ 			DMA_TO_DEVICE);
+ 	if (ret)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d8d91f04bd7e..af7fbf4132b0 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -227,6 +227,7 @@ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
+ {
+ 	struct nvme_loop_ctrl *ctrl = set->driver_data;
  
--	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		/*
--		 * Revalidating a dead namespace sets capacity to 0. This will
--		 * end buffered writers dirtying pages that can't be synced.
--		 */
--		if (!ns->disk || test_and_set_bit(NVME_NS_DEAD, &ns->flags))
--			continue;
--		revalidate_disk(ns->disk);
--		blk_set_queue_dying(ns->queue);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		nvme_set_queue_dying(ns);
- 
--		/* Forcibly unquiesce queues to avoid blocking dispatch */
--		blk_mq_unquiesce_queue(ns->queue);
--	}
- 	up_read(&ctrl->namespaces_rwsem);
++	nvme_req(req)->ctrl = &ctrl->ctrl;
+ 	return nvme_loop_init_iod(ctrl, blk_mq_rq_to_pdu(req),
+ 			(set == &ctrl->tag_set) ? hctx_idx + 1 : 0);
  }
- EXPORT_SYMBOL_GPL(nvme_kill_queues);
 -- 
-2.17.1
+2.14.3
