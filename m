@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 29 Jun 2018 09:25:56 +0200
-Subject: [PATCHv2 3/4] nvme: trace controller name
-In-Reply-To: <20180628214956.13877-4-keith.busch@intel.com>
+Date: Fri, 29 Jun 2018 09:27:40 +0200
+Subject: [PATCHv2 4/4] nvme: add disk name to tracepoints
+In-Reply-To: <20180628214956.13877-5-keith.busch@intel.com>
 References: <20180628214956.13877-1-keith.busch@intel.com>
- <20180628214956.13877-4-keith.busch@intel.com>
-Message-ID: <20180629072556.s5aj46sami2sdhm7@linux-x5ow.site>
+ <20180628214956.13877-5-keith.busch@intel.com>
+Message-ID: <20180629072740.sf2s4sgnpy74mvro@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
