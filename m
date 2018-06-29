@@ -1,77 +1,109 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 29 Jun 2018 13:59:59 -0600
-Subject: [PATCHv3 3/4] nvme: add controller name to trace events
+Date: Fri, 29 Jun 2018 14:00:00 -0600
+Subject: [PATCHv3 4/4] nvme: add disk name to trace events
 In-Reply-To: <20180629200000.16171-1-keith.busch@intel.com>
 References: <20180629200000.16171-1-keith.busch@intel.com>
-Message-ID: <20180629200000.16171-4-keith.busch@intel.com>
+Message-ID: <20180629200000.16171-5-keith.busch@intel.com>
 
-This appends the controller instance to the nvme trace buffer to
-distinguish which controller is dispatching and completing a command.
+This will print the disk name to the nvme event trace for io requests so
+a user can better distinguish traffic to different disks. This can be used
+to  create disk based filters. For example, to see only nvme0n2 traffic:
+
+  echo "disk == \"nvme0n2\"" > /sys/kernel/debug/tracing/events/nvme/filter
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/trace.h | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ drivers/nvme/host/trace.c | 11 +++++++++++
+ drivers/nvme/host/trace.h | 31 ++++++++++++++++++++++++-------
+ 2 files changed, 35 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/nvme/host/trace.c b/drivers/nvme/host/trace.c
+index 41944bbef835..25b0e310f4a8 100644
+--- a/drivers/nvme/host/trace.c
++++ b/drivers/nvme/host/trace.c
+@@ -128,3 +128,14 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p,
+ 		return nvme_trace_common(p, cdw10);
+ 	}
+ }
++
++const char *nvme_trace_disk_name(struct trace_seq *p, char *name)
++{
++	const char *ret = trace_seq_buffer_ptr(p);
++
++	if (*name)
++		trace_seq_printf(p, "disk=%s, ", name);
++	trace_seq_putc(p, 0);
++
++	return ret;
++}
 diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index 67ca8d8e78e1..8058f1c9a33e 100644
+index 8058f1c9a33e..84d12224ea4f 100644
 --- a/drivers/nvme/host/trace.h
 +++ b/drivers/nvme/host/trace.h
-@@ -95,6 +95,7 @@ TRACE_EVENT(nvme_setup_cmd,
+@@ -91,10 +91,23 @@ const char *nvme_trace_parse_nvm_cmd(struct trace_seq *p, u8 opcode,
+ 	(qid ? __parse_nvm_cmd(opcode, cdw10) : 		\
+ 	       __parse_admin_cmd(opcode, cdw10))
+ 
++#define __assign_disk_name(name, disk)					\
++	do {								\
++		if (disk)						\
++			memcpy(name, disk->disk_name, DISK_NAME_LEN);	\
++		else							\
++			memset(name, 0, DISK_NAME_LEN);			\
++	} while (0)
++
++const char *nvme_trace_disk_name(struct trace_seq *p, char *name);
++#define __print_disk_name(name)				\
++	nvme_trace_disk_name(p, name)
++
+ TRACE_EVENT(nvme_setup_cmd,
  	    TP_PROTO(struct request *req, struct nvme_command *cmd),
  	    TP_ARGS(req, cmd),
  	    TP_STRUCT__entry(
-+		__field(int, ctrl_id)
++		__array(char, disk, DISK_NAME_LEN)
+ 		__field(int, ctrl_id)
  		__field(int, qid)
  		__field(u8, opcode)
- 		__field(u8, flags)
-@@ -105,6 +106,7 @@ TRACE_EVENT(nvme_setup_cmd,
- 	    ),
- 	    TP_fast_assign(
- 		__assign_nvme_qid(req, __entry->qid);
-+		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		__entry->opcode = cmd->common.opcode;
- 		__entry->flags = cmd->common.flags;
+@@ -112,12 +125,14 @@ TRACE_EVENT(nvme_setup_cmd,
  		__entry->cid = cmd->common.command_id;
-@@ -113,9 +115,9 @@ TRACE_EVENT(nvme_setup_cmd,
+ 		__entry->nsid = le32_to_cpu(cmd->common.nsid);
+ 		__entry->metadata = le64_to_cpu(cmd->common.metadata);
++		__assign_disk_name(__entry->disk, req->rq_disk);
  		memcpy(__entry->cdw10, cmd->common.cdw10,
  		       sizeof(__entry->cdw10));
  	    ),
--	    TP_printk("qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
--		      __entry->qid, __entry->nsid, __entry->cid, 
--		      __entry->flags, __entry->metadata,
-+	    TP_printk("nvme%d: qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
-+		      __entry->ctrl_id, __entry->qid, __entry->nsid,
-+		      __entry->cid, __entry->flags, __entry->metadata,
+-	    TP_printk("nvme%d: qid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
+-		      __entry->ctrl_id, __entry->qid, __entry->nsid,
+-		      __entry->cid, __entry->flags, __entry->metadata,
++	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, nsid=%u, flags=0x%x, meta=0x%llx, cmd=(%s %s)",
++		      __entry->ctrl_id, __print_disk_name(__entry->disk),
++		      __entry->qid, __entry->nsid, __entry->cid,
++		      __entry->flags, __entry->metadata,
  		      show_opcode_name(__entry->qid, __entry->opcode),
  		      parse_nvme_cmd(__entry->qid, __entry->opcode, __entry->cdw10))
  );
-@@ -124,6 +126,7 @@ TRACE_EVENT(nvme_complete_rq,
+@@ -126,6 +141,7 @@ TRACE_EVENT(nvme_complete_rq,
  	    TP_PROTO(struct request *req),
  	    TP_ARGS(req),
  	    TP_STRUCT__entry(
-+		__field(int, ctrl_id)
++		__array(char, disk, DISK_NAME_LEN)
+ 		__field(int, ctrl_id)
  		__field(int, qid)
  		__field(int, cid)
- 		__field(u64, result)
-@@ -133,15 +136,17 @@ TRACE_EVENT(nvme_complete_rq,
- 	    ),
- 	    TP_fast_assign(
- 		__assign_nvme_qid(req, __entry->qid);
-+		__entry->ctrl_id = nvme_req(req)->ctrl->instance;
- 		__entry->cid = req->tag;
- 		__entry->result = le64_to_cpu(nvme_req(req)->result.u64);
+@@ -142,11 +158,12 @@ TRACE_EVENT(nvme_complete_rq,
  		__entry->retries = nvme_req(req)->retries;
  		__entry->flags = nvme_req(req)->flags;
  		__entry->status = nvme_req(req)->status;
++		__assign_disk_name(__entry->disk, req->rq_disk);
  	    ),
--	    TP_printk("qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
--		      __entry->qid, __entry->cid, __entry->result,
--		      __entry->retries, __entry->flags, __entry->status)
-+	    TP_printk("nvme%d: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
-+		      __entry->ctrl_id,  __entry->qid, __entry->cid,
-+		      __entry->result, __entry->retries, __entry->flags,
-+		      __entry->status)
+-	    TP_printk("nvme%d: qid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
+-		      __entry->ctrl_id,  __entry->qid, __entry->cid,
+-		      __entry->result, __entry->retries, __entry->flags,
+-		      __entry->status)
++	    TP_printk("nvme%d: %sqid=%d, cmdid=%u, res=%llu, retries=%u, flags=0x%x, status=%u",
++		      __entry->ctrl_id, __print_disk_name(__entry->disk),
++		      __entry->qid, __entry->cid, __entry->result,
++		      __entry->retries, __entry->flags, __entry->status)
  
  );
  
