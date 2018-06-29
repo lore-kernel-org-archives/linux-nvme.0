@@ -1,23 +1,31 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 29 Jun 2018 14:40:40 +0200
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 29 Jun 2018 07:56:12 -0600
 Subject: [GIT PULL] nvme fix for 4.18
-Message-ID: <20180629124040.GA3573@infradead.org>
+In-Reply-To: <20180629124040.GA3573@infradead.org>
+References: <20180629124040.GA3573@infradead.org>
+Message-ID: <dc579ed6-2aee-7d3a-96e0-a6f7728da45c@kernel.dk>
 
-The following changes since commit 15bfd21fbc5d35834b9ea383dc458a1f0c9e3434:
+On 6/29/18 6:40 AM, Christoph Hellwig wrote:
+> The following changes since commit 15bfd21fbc5d35834b9ea383dc458a1f0c9e3434:
+> 
+>   block: Fix transfer when chunk sectors exceeds max (2018-06-26 12:18:27 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.18
+> 
+> for you to fetch changes up to 682630f00a219a1b0696abe9c0967e660068187b:
+> 
+>   nvme-rdma: fix possible double free of controller async event buffer (2018-06-28 16:29:54 +0200)
+> 
+> ----------------------------------------------------------------
+> Sagi Grimberg (1):
+>       nvme-rdma: fix possible double free of controller async event buffer
+> 
+>  drivers/nvme/host/rdma.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
-  block: Fix transfer when chunk sectors exceeds max (2018-06-26 12:18:27 -0600)
+Pulled, thanks.
 
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.18
-
-for you to fetch changes up to 682630f00a219a1b0696abe9c0967e660068187b:
-
-  nvme-rdma: fix possible double free of controller async event buffer (2018-06-28 16:29:54 +0200)
-
-----------------------------------------------------------------
-Sagi Grimberg (1):
-      nvme-rdma: fix possible double free of controller async event buffer
-
- drivers/nvme/host/rdma.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+-- 
+Jens Axboe
