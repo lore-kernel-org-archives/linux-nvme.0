@@ -1,17 +1,33 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 2 Jul 2018 15:16:10 +0200
-Subject: [PATCH v2 1/1] nvmet-rdma: Add an error flow for post_recv
- failures
-In-Reply-To: <1530436824-18229-1-git-send-email-maxg@mellanox.com>
-References: <1530436824-18229-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20180702131610.GF4624@lst.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 2 Jul 2018 08:49:01 -0600
+Subject: [PATCHv4 2/4] nvme: use hw qid in trace events
+In-Reply-To: <20180702131107.GB4624@lst.de>
+References: <20180629225003.16567-1-keith.busch@intel.com>
+ <20180629225003.16567-3-keith.busch@intel.com>
+ <20180702131107.GB4624@lst.de>
+Message-ID: <20180702144900.GA22806@localhost.localdomain>
 
-On Sun, Jul 01, 2018@12:20:24PM +0300, Max Gurtovoy wrote:
-> Posting receive buffer operation can fail, thus we should make
-> sure to have an error flow during initialization phase. While
-> we're here, add a debug print in case of a failure.
+On Mon, Jul 02, 2018@03:11:08PM +0200, Christoph Hellwig wrote:
+> > diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+> > index 01390f0e1671..6f9ee5fe5e09 100644
+> > --- a/drivers/nvme/host/trace.h
+> > +++ b/drivers/nvme/host/trace.h
+> > @@ -24,6 +24,15 @@
+> >  
+> >  #include "nvme.h"
+> >  
+> > +#define __assign_nvme_qid(req, qid)					\
+> > +	do {								\
+> > +		if (req->rq_disk)					\
+> > +			qid = 1 + blk_mq_unique_tag_to_hwq(		\
+> > +					blk_mq_unique_tag(req));	\
+> > +		else							\
+> > +			qid = 0;					\
+> > +	} while (0)
 > 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> Why can't we use an inline function for this?
+> 
+> Relying on assining to macro paramters is a good way to generate
+> unreadable code.
 
-Looks fine to me.  Do you see an urgent enough issue to queue this
-up for 4.18 or can it wait for 4.19?
+Sure, I can respin these as inline functions.
