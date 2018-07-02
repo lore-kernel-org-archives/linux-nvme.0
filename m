@@ -1,17 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 2 Jul 2018 14:16:41 +0200
-Subject: [PATCH V4 0/2] nvmet: implement flush all support
-In-Reply-To: <BYAPR04MB4502F79155D2D089E041CD1086430@BYAPR04MB4502.namprd04.prod.outlook.com>
-References: <20180628144206.GA17432@lst.de>
- <BYAPR04MB4502F79155D2D089E041CD1086430@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <20180702121641.GA630@lst.de>
+Date: Mon, 2 Jul 2018 15:07:28 +0200
+Subject: [PATCH 1/2] nvme-pci: remove whitespace
+In-Reply-To: <aaa460e43cb43efbfb902d0aa844a1da9ed270dc.1530457943.git.zhangweiping@didichuxing.com>
+References: <cover.1530457943.git.zhangweiping@didichuxing.com>
+ <aaa460e43cb43efbfb902d0aa844a1da9ed270dc.1530457943.git.zhangweiping@didichuxing.com>
+Message-ID: <20180702130728.GA4624@lst.de>
 
-On Mon, Jul 02, 2018@05:43:14AM +0000, Chaitanya Kulkarni wrote:
-> Hi Christoph,
-> 
-> It allows NVMeOF host to just send one command and complete the flush per-ctrl
-> basis as opposed to per-ns basis.
+Please, no whitespace cleanups before critical patches.
 
-Yes, but why would you ever do that?  Even when we discussed the issue
-in the working group no one could actually come up with a practical use
-case.
+Also both styles in this case are acceptable in the kernel.  I
+personally prefer to not have space, but we really shouldn't spuriously
+change it.
