@@ -1,42 +1,50 @@
-From: zhangweiping@didichuxing.com (Weiping Zhang)
-Date: Sun, 1 Jul 2018 23:20:58 +0800
-Subject: [PATCH 2/2] nvme-pci: release nvme_ctrl if failed to alloc memory in
- nvme_probe
-In-Reply-To: <cover.1530457943.git.zhangweiping@didichuxing.com>
-References: <cover.1530457943.git.zhangweiping@didichuxing.com>
-Message-ID: <4c6892da67db3aada7ee4ca5087b44fcb8dde30c.1530457943.git.zhangweiping@didichuxing.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 2 Jul 2018 05:43:14 +0000
+Subject: [PATCH V4 0/2] nvmet: implement flush all support
+In-Reply-To: <20180628144206.GA17432@lst.de>
+References: <20180626221717.19992-1-chaitanya.kulkarni@wdc.com>,
+ <20180628144206.GA17432@lst.de>
+Message-ID: <BYAPR04MB4502F79155D2D089E041CD1086430@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-release nvme_ctrl if failed to alloc memory for iod_mempool, otherwise
-/dev/nvmeX cann't be removed for this nvme controller, any ioctl to
-this device doesn't work.
+Hi Christoph,
 
-Signed-off-by: Weiping Zhang <zhangweiping at didichuxing.com>
----
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+It allows NVMeOF host to just send one command and complete the flush per-ctrl
+basis as opposed to per-ns basis.
+In the current implementation, the host needs to execute nvme-list-ns or a variant of the
+nvme-cli command per-ctrl and iterate through the ns-list, whereas we can make user's
+life easier by providing the option present in the NVMe spec.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index abf1885d6db6..d4f1f3b900e6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2575,7 +2575,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 						GFP_KERNEL, node);
- 	if (!dev->iod_mempool) {
- 		result = -ENOMEM;
--		goto release_pools;
-+		goto release_ctrl;
- 	}
+This is especially useful when you have many NVMeOF controllers configured on the
+host with multiple namespaces.
+
+Also given that NVMeOF ctrl can have different types of namespaces 
+(bdev, file, and file-buffered-io and each type can have different behavior for flush)
+this feature will not require host to keep track of each ns type in order to execute flush
+depending on the ns type.
+
+I didn't understand the "unnatural" comment, are you implying that this feature is not
+that desirable for NVMeOF ctrls as compare to other types of ctrls?
+
+If you still think this is not a target kernel code's responsibility and should be done in the
+management tool like nvme-cli on the host side we can drop this patch.
+
+
+From: Christoph Hellwig <hch@lst.de>
+Sent: Thursday, June 28, 2018 7:42 AM
+To: Chaitanya Kulkarni
+Cc: linux-nvme at lists.infradead.org; hch at lst.de; keith.busch at intel.com; sagi at grimberg.me
+Subject: Re: [PATCH V4 0/2] nvmet: implement flush all support
+? 
  
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
-@@ -2585,6 +2585,9 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	return 0;
- 
-+release_ctrl:
-+	nvme_uninit_ctrl(&dev->ctrl);
-+	nvme_put_ctrl(&dev->ctrl);
- release_pools:
- 	nvme_release_prp_pools(dev);
- unmap:
--- 
-2.14.1
+On Tue, Jun 26, 2018@06:17:15PM -0400, Chaitanya Kulkarni wrote:
+> Hi,
+> 
+> This implements the flush command behavior described in
+> "NVMe 1.3a? TP 4035" for NSID value of FFFFFFFFh. Now flush command
+> applies to all the namespaces attached to the controller processing the
+> Flush command when the value 0xFFFFFFFF is set in the NSID field. 
+
+Why?? No other I/O command supports 0xFFFFFFFF, and sending an all
+namespaces flush is entirely unnatural.? Unless we have a very strong
+use case I don't want to carry this code around.
+    
