@@ -1,13 +1,29 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 2 Jul 2018 15:07:28 +0200
-Subject: [PATCH 1/2] nvme-pci: remove whitespace
-In-Reply-To: <aaa460e43cb43efbfb902d0aa844a1da9ed270dc.1530457943.git.zhangweiping@didichuxing.com>
-References: <cover.1530457943.git.zhangweiping@didichuxing.com>
- <aaa460e43cb43efbfb902d0aa844a1da9ed270dc.1530457943.git.zhangweiping@didichuxing.com>
-Message-ID: <20180702130728.GA4624@lst.de>
+Date: Mon, 2 Jul 2018 15:11:08 +0200
+Subject: [PATCHv4 2/4] nvme: use hw qid in trace events
+In-Reply-To: <20180629225003.16567-3-keith.busch@intel.com>
+References: <20180629225003.16567-1-keith.busch@intel.com>
+ <20180629225003.16567-3-keith.busch@intel.com>
+Message-ID: <20180702131107.GB4624@lst.de>
 
-Please, no whitespace cleanups before critical patches.
+> diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+> index 01390f0e1671..6f9ee5fe5e09 100644
+> --- a/drivers/nvme/host/trace.h
+> +++ b/drivers/nvme/host/trace.h
+> @@ -24,6 +24,15 @@
+>  
+>  #include "nvme.h"
+>  
+> +#define __assign_nvme_qid(req, qid)					\
+> +	do {								\
+> +		if (req->rq_disk)					\
+> +			qid = 1 + blk_mq_unique_tag_to_hwq(		\
+> +					blk_mq_unique_tag(req));	\
+> +		else							\
+> +			qid = 0;					\
+> +	} while (0)
 
-Also both styles in this case are acceptable in the kernel.  I
-personally prefer to not have space, but we really shouldn't spuriously
-change it.
+Why can't we use an inline function for this?
+
+Relying on assining to macro paramters is a good way to generate
+unreadable code.
