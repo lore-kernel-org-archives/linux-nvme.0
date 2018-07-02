@@ -1,22 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 2 Jul 2018 12:53:56 +0300
-Subject: [PATCH 2/2] nvme-pci: release nvme_ctrl if failed to alloc memory
- in nvme_probe
-In-Reply-To: <4c6892da67db3aada7ee4ca5087b44fcb8dde30c.1530457943.git.zhangweiping@didichuxing.com>
-References: <cover.1530457943.git.zhangweiping@didichuxing.com>
- <4c6892da67db3aada7ee4ca5087b44fcb8dde30c.1530457943.git.zhangweiping@didichuxing.com>
-Message-ID: <ae68b07d-9b30-a85e-61e5-b76f4e1a2937@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 2 Jul 2018 14:16:41 +0200
+Subject: [PATCH V4 0/2] nvmet: implement flush all support
+In-Reply-To: <BYAPR04MB4502F79155D2D089E041CD1086430@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20180628144206.GA17432@lst.de>
+ <BYAPR04MB4502F79155D2D089E041CD1086430@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <20180702121641.GA630@lst.de>
 
-
-> +release_ctrl:
-> +	nvme_uninit_ctrl(&dev->ctrl);
-> +	nvme_put_ctrl(&dev->ctrl);
-
-Hmm, put_ctrl would trigger nvme_pci_free_ctrl which will
-do some of what you fallthru down here, won't that cause
-double free/put?
-
->   release_pools:
->   	nvme_release_prp_pools(dev);
->   unmap:
+On Mon, Jul 02, 2018@05:43:14AM +0000, Chaitanya Kulkarni wrote:
+> Hi Christoph,
 > 
+> It allows NVMeOF host to just send one command and complete the flush per-ctrl
+> basis as opposed to per-ns basis.
+
+Yes, but why would you ever do that?  Even when we discussed the issue
+in the working group no one could actually come up with a practical use
+case.
