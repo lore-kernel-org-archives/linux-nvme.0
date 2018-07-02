@@ -1,24 +1,21 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 2 Jul 2018 18:21:55 +0300
-Subject: [PATCH v2 1/1] nvmet-rdma: Add an error flow for post_recv
- failures
-In-Reply-To: <20180702131610.GF4624@lst.de>
-References: <1530436824-18229-1-git-send-email-maxg@mellanox.com>
- <20180702131610.GF4624@lst.de>
-Message-ID: <7252e67b-db51-992a-5657-db87e829c992@mellanox.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 2 Jul 2018 09:24:21 -0600
+Subject: [PATCHv4 2/4] nvme: use hw qid in trace events
+In-Reply-To: <20180702151053.GA14721@lst.de>
+References: <20180629225003.16567-1-keith.busch@intel.com>
+ <20180629225003.16567-3-keith.busch@intel.com>
+ <20180702131107.GB4624@lst.de>
+ <20180702144900.GA22806@localhost.localdomain>
+ <20180702151053.GA14721@lst.de>
+Message-ID: <20180702152421.GB22806@localhost.localdomain>
 
-
-
-On 7/2/2018 4:16 PM, Christoph Hellwig wrote:
-> On Sun, Jul 01, 2018@12:20:24PM +0300, Max Gurtovoy wrote:
->> Posting receive buffer operation can fail, thus we should make
->> sure to have an error flow during initialization phase. While
->> we're here, add a debug print in case of a failure.
->>
->> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+On Mon, Jul 02, 2018@05:10:53PM +0200, Christoph Hellwig wrote:
+> On Mon, Jul 02, 2018@08:49:01AM -0600, Keith Busch wrote:
+> > > Relying on assining to macro paramters is a good way to generate
+> > > unreadable code.
+> > 
+> > Sure, I can respin these as inline functions.
 > 
-> Looks fine to me.  Do you see an urgent enough issue to queue this
-> up for 4.18 or can it wait for 4.19?
-> 
+> I'll fix it up when applying.
 
-I don't think it's urgent.
+Even better. :)
