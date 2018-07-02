@@ -1,36 +1,14 @@
-From: zhangweiping@didichuxing.com (Weiping Zhang)
-Date: Tue, 3 Jul 2018 00:35:44 +0800
-Subject: [PATCH v2 2/2] nvme-pci: release nvme_ctrl if failed to alloc memory
- in nvme_probe
-In-Reply-To: <cover.1530548893.git.zhangweiping@didichuxing.com>
-References: <cover.1530548893.git.zhangweiping@didichuxing.com>
-Message-ID: <4f4b62ad826bc11debfab9eff3d460b03ec66f08.1530548893.git.zhangweiping@didichuxing.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 2 Jul 2018 10:36:40 -0600
+Subject: PCIe unsupported request with Intel 760p
+In-Reply-To: <20180525232009.GV11037@localhost.localdomain>
+References: <CAKDfzeD5_AV=YtWqTPr=40vvW4oMFAs4gJs_r42PJWcb815zyQ@mail.gmail.com>
+ <20180507123035.GA20097@gmail.com>
+ <20180525232009.GV11037@localhost.localdomain>
+Message-ID: <20180702163640.GB22877@localhost.localdomain>
 
-release nvme_ctrl if failed to alloc memory for iod_mempool, otherwise
-/dev/nvmeX cann't be removed for this nvme controller, any ioctl to
-this device doesn't work.
-
-Signed-off-by: Weiping Zhang <zhangweiping at didichuxing.com>
----
- drivers/nvme/host/pci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 92a8b5b2b39e..29aff33c4b4c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2576,8 +2576,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 						(void *) alloc_size,
- 						GFP_KERNEL, node);
- 	if (!dev->iod_mempool) {
--		result = -ENOMEM;
--		goto release_pools;
-+		nvme_uninit_ctrl(&dev->ctrl);
-+		/* all above resource will be released after put ctrl */
-+		nvme_put_ctrl(&dev->ctrl);
-+		return -ENOMEM;
- 	}
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
--- 
-2.14.1
+Unfortunately the development team says they will not be able to provide
+a fix for this errata. When using this device in a platform that reacts
+this way to an LTR message (hopefully these are very few nowadays), the
+recommendation is either disable ASPM or set the Unsupported Request bit
+in the root port's AER Uncorrectable Error Mask register.
