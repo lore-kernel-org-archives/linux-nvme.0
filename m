@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 2 Jul 2018 09:16:10 +0200
-Subject: [PATCHv4 2/4] nvme: use hw qid in trace events
-In-Reply-To: <20180629225003.16567-3-keith.busch@intel.com>
+Date: Mon, 2 Jul 2018 09:16:39 +0200
+Subject: [PATCHv4 3/4] nvme: add controller name to trace events
+In-Reply-To: <20180629225003.16567-4-keith.busch@intel.com>
 References: <20180629225003.16567-1-keith.busch@intel.com>
- <20180629225003.16567-3-keith.busch@intel.com>
-Message-ID: <20180702071610.c6yxnqid5f56cia6@linux-x5ow.site>
+ <20180629225003.16567-4-keith.busch@intel.com>
+Message-ID: <20180702071639.lotxpo2goopf5mx4@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
