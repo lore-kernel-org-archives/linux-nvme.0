@@ -1,26 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 2 Jul 2018 15:15:30 +0200
-Subject: [PATCH] nvme: don't enable AEN if not supported
-In-Reply-To: <20180701130815.GA36597@bogon.didichuxing.com>
-References: <20180701130815.GA36597@bogon.didichuxing.com>
-Message-ID: <20180702131530.GE4624@lst.de>
+Date: Mon, 2 Jul 2018 15:16:10 +0200
+Subject: [PATCH v2 1/1] nvmet-rdma: Add an error flow for post_recv
+ failures
+In-Reply-To: <1530436824-18229-1-git-send-email-maxg@mellanox.com>
+References: <1530436824-18229-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20180702131610.GF4624@lst.de>
 
-> +	if (!(ctrl->oaes & NVME_AEN_SUPPORTED))
-> +		return;
-> +
->  	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
->  			ctrl->oaes & NVME_AEN_SUPPORTED, NULL, 0, &result);
+On Sun, Jul 01, 2018@12:20:24PM +0300, Max Gurtovoy wrote:
+> Posting receive buffer operation can fail, thus we should make
+> sure to have an error flow during initialization phase. While
+> we're here, add a debug print in case of a failure.
+> 
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 
-Can you introduce do something like:
-
-	u32 supported_aens = ctrl->oaes & NVME_AEN_SUPPORTED;
-
-	if (!supported_aens)
-		return;
-
-	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT, supported_aens,
-	...
-
-to make the code more obvious?  Otherwise looks fine:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Looks fine to me.  Do you see an urgent enough issue to queue this
+up for 4.18 or can it wait for 4.19?
