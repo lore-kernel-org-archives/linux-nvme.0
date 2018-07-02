@@ -1,18 +1,26 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 2 Jul 2018 15:12:05 +0200
-Subject: [PATCHv4 4/4] nvme: add disk name to trace events
-In-Reply-To: <20180629225003.16567-5-keith.busch@intel.com>
-References: <20180629225003.16567-1-keith.busch@intel.com>
- <20180629225003.16567-5-keith.busch@intel.com>
-Message-ID: <20180702131205.GC4624@lst.de>
+Date: Mon, 2 Jul 2018 15:15:30 +0200
+Subject: [PATCH] nvme: don't enable AEN if not supported
+In-Reply-To: <20180701130815.GA36597@bogon.didichuxing.com>
+References: <20180701130815.GA36597@bogon.didichuxing.com>
+Message-ID: <20180702131530.GE4624@lst.de>
 
-> +#define __assign_disk_name(name, disk)					\
-> +	do {								\
-> +		if (disk)						\
-> +			memcpy(name, disk->disk_name, DISK_NAME_LEN);	\
-> +		else							\
-> +			memset(name, 0, DISK_NAME_LEN);			\
-> +	} while (0)
+> +	if (!(ctrl->oaes & NVME_AEN_SUPPORTED))
+> +		return;
+> +
+>  	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
+>  			ctrl->oaes & NVME_AEN_SUPPORTED, NULL, 0, &result);
 
-This one at least doesn't rely on assigning to arguments, but an
-inline function would still be much nicer.
+Can you introduce do something like:
+
+	u32 supported_aens = ctrl->oaes & NVME_AEN_SUPPORTED;
+
+	if (!supported_aens)
+		return;
+
+	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT, supported_aens,
+	...
+
+to make the code more obvious?  Otherwise looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
