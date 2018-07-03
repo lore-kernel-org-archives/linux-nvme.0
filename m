@@ -1,29 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  3 Jul 2018 15:09:25 +0300
-Subject: [PATCH 2/2] fabrics: omit newline character when reading nvme host nqn
-In-Reply-To: <20180703120925.1095-1-sagi@grimberg.me>
-References: <20180703120925.1095-1-sagi@grimberg.me>
-Message-ID: <20180703120925.1095-2-sagi@grimberg.me>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Tue,  3 Jul 2018 22:18:59 +0900
+Subject: [PATCH] nvme-cli: adjust memset size for data buffer in submit_io
+Message-ID: <1530623939-12790-1-git-send-email-minwoo.im.dev@gmail.com>
 
-This breaks the command string.
+Adjust size of memset() for the data buffer to its own size.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
 ---
- fabrics.c | 2 +-
+ nvme.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index fadbc95b6daa..9aee8f8c5ee5 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -452,7 +452,7 @@ static int nvmf_hostnqn_file(void)
- 	if (fgets(hostnqn, sizeof(hostnqn), f) == NULL)
- 		goto out;
+diff --git a/nvme.c b/nvme.c
+index e2f8752..039997a 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -3942,7 +3942,7 @@ static int submit_io(int opcode, char *command, const char *desc,
+ 		err = ENOMEM;
+ 		goto close_mfd;
+ 	}
+-	memset(buffer, 0, cfg.data_size);
++	memset(buffer, 0, buffer_size);
  
--	cfg.hostnqn = strdup(hostnqn);
-+	cfg.hostnqn = strndup(hostnqn, strcspn(hostnqn, "\n"));
- 	if (!cfg.hostnqn)
- 		goto out;
- 
+ 	if (cfg.metadata_size) {
+ 		mbuffer = malloc(cfg.metadata_size);
 -- 
-2.14.1
+2.7.4
