@@ -1,19 +1,16 @@
-From: maoz.dani@gmail.com (dani maoz)
-Date: Tue, 3 Jul 2018 06:34:06 +0300
-Subject: host submit bi-directional buffer
-Message-ID: <CAKoHnaH_2wZ4eO_K_t80LYENM2P8y-YLvddYcYyWy36+uHZw5g@mail.gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 3 Jul 2018 08:42:27 +0200
+Subject: [PATCH v2] nvme: don't enable AEN if not supported
+In-Reply-To: <20180702163437.GA2934@bogon.didichuxing.com>
+References: <20180702163437.GA2934@bogon.didichuxing.com>
+Message-ID: <20180703064227.u4gvyrr4b7kuywyf@linux-x5ow.site>
 
-Hi
-I added a new command vendor specific to core.c (host).
-I would like the buffer to bi-directional and send a read command to
-my device, but the device should read the content of the buffer before
-update it with new data.
-I update the function nvme_alloc_request, so the direction would be like write.
-the device was able to read the buffer It's seems the device write the
-new information on PCI bus, but the buffer in the host hasn't change
-(NVME transaction success, used nvme-cli),
-What is the lower layer the buffer is copied?
-Should I also update block also the block a layer,  ?
-Is there a reason to declare the buffer read or write but not bi-directional?
-kernel 4.18_rc1
-Thanks in advance
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
