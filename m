@@ -1,35 +1,26 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 3 Jul 2018 09:09:54 -0500
-Subject: [PATCH] Support inline_data_size port parameter
-In-Reply-To: <d2032770-ad1c-04cf-8795-94fd587f1c9c@grimberg.me>
-References: <20180702152948.9D0362B88F@smtp.opengridcomputing.com>
- <d2032770-ad1c-04cf-8795-94fd587f1c9c@grimberg.me>
-Message-ID: <384c6782-1726-6427-c67b-0bcf5b8683f2@opengridcomputing.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Tue, 3 Jul 2018 08:17:51 -0600
+Subject: host submit bi-directional buffer
+In-Reply-To: <CAKoHnaH_2wZ4eO_K_t80LYENM2P8y-YLvddYcYyWy36+uHZw5g@mail.gmail.com>
+References: <CAKoHnaH_2wZ4eO_K_t80LYENM2P8y-YLvddYcYyWy36+uHZw5g@mail.gmail.com>
+Message-ID: <20180703141750.GD22877@localhost.localdomain>
 
+On Tue, Jul 03, 2018@06:34:06AM +0300, dani maoz wrote:
+> Hi
+> I added a new command vendor specific to core.c (host).
+> I would like the buffer to bi-directional and send a read command to
+> my device, but the device should read the content of the buffer before
+> update it with new data.
+> I update the function nvme_alloc_request, so the direction would be like write.
+> the device was able to read the buffer It's seems the device write the
+> new information on PCI bus, but the buffer in the host hasn't change
+> (NVME transaction success, used nvme-cli),
+> What is the lower layer the buffer is copied?
+> Should I also update block also the block a layer,  ?
+> Is there a reason to declare the buffer read or write but not bi-directional?
+> kernel 4.18_rc1
+> Thanks in advance
 
-
-On 7/3/2018 4:04 AM, Sagi Grimberg wrote:
->
->> @@ -493,6 +497,9 @@ class UIReferralNode(UINode):
->> ????????? 'trtype': ('string', 'Transport Type (e.g. rdma or loop or
->> fc)'),
->> ????????? 'portid': ('number', 'Port identifier'),
->> ????? }
->> +??? ui_desc_param = {
->> +??????? 'inline_data_size': ('string', 'Port inline data size in
->> bytes'),
->> +??? }
->
-> Umm, should a referral node have this?
->
-
-I didn't know what a referral node is. :)? I'll remove it.
-
-> Also, would this work with kernels that don't have it yet?
-
-Yea, it doesn't work.? I'll fix that.?? How should it deal with that?
-
-
----
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
+The driver doesn't support bi-directional commands, but you may be able
+to get the same result if your user buffer is page aligned and you don't
+have an IOMMU enforcing read/write access.
