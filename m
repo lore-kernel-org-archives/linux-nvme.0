@@ -1,27 +1,35 @@
-From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Tue,  3 Jul 2018 22:18:59 +0900
-Subject: [PATCH] nvme-cli: adjust memset size for data buffer in submit_io
-Message-ID: <1530623939-12790-1-git-send-email-minwoo.im.dev@gmail.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 3 Jul 2018 09:09:54 -0500
+Subject: [PATCH] Support inline_data_size port parameter
+In-Reply-To: <d2032770-ad1c-04cf-8795-94fd587f1c9c@grimberg.me>
+References: <20180702152948.9D0362B88F@smtp.opengridcomputing.com>
+ <d2032770-ad1c-04cf-8795-94fd587f1c9c@grimberg.me>
+Message-ID: <384c6782-1726-6427-c67b-0bcf5b8683f2@opengridcomputing.com>
 
-Adjust size of memset() for the data buffer to its own size.
 
-Signed-off-by: Minwoo Im <minwoo.im.dev at gmail.com>
+
+On 7/3/2018 4:04 AM, Sagi Grimberg wrote:
+>
+>> @@ -493,6 +497,9 @@ class UIReferralNode(UINode):
+>> ????????? 'trtype': ('string', 'Transport Type (e.g. rdma or loop or
+>> fc)'),
+>> ????????? 'portid': ('number', 'Port identifier'),
+>> ????? }
+>> +??? ui_desc_param = {
+>> +??????? 'inline_data_size': ('string', 'Port inline data size in
+>> bytes'),
+>> +??? }
+>
+> Umm, should a referral node have this?
+>
+
+I didn't know what a referral node is. :)? I'll remove it.
+
+> Also, would this work with kernels that don't have it yet?
+
+Yea, it doesn't work.? I'll fix that.?? How should it deal with that?
+
+
 ---
- nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/nvme.c b/nvme.c
-index e2f8752..039997a 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -3942,7 +3942,7 @@ static int submit_io(int opcode, char *command, const char *desc,
- 		err = ENOMEM;
- 		goto close_mfd;
- 	}
--	memset(buffer, 0, cfg.data_size);
-+	memset(buffer, 0, buffer_size);
- 
- 	if (cfg.metadata_size) {
- 		mbuffer = malloc(cfg.metadata_size);
--- 
-2.7.4
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
