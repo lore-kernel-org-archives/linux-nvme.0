@@ -1,19 +1,47 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 8 Jul 2018 12:04:36 -0700
-Subject: host submit bi-directional buffer
-In-Reply-To: <20180703141750.GD22877@localhost.localdomain>
-References: <CAKoHnaH_2wZ4eO_K_t80LYENM2P8y-YLvddYcYyWy36+uHZw5g@mail.gmail.com>
- <20180703141750.GD22877@localhost.localdomain>
-Message-ID: <20180708190436.GA17894@infradead.org>
+Date: Sun, 8 Jul 2018 14:24:43 -0600
+Subject: [ANNOUNCE] Alpine Linux Persistence and Storage Summit
+Message-ID: <20180708202443.GA18003@infradead.org>
 
-On Tue, Jul 03, 2018@08:17:51AM -0600, Keith Busch wrote:
-> The driver doesn't support bi-directional commands, but you may be able
-> to get the same result if your user buffer is page aligned and you don't
-> have an IOMMU enforcing read/write access.
+We proudly announce the second Alpine Linux Persistence and Storage
+Summit (ALPSS), which will be held September 11-14 at the Lizumerhuette
+[1][2] in Austria .
 
-I wouldn't rely on this, there is all kinds of reasons this can
-go entirel wrong, including cache maintainance.
+The goal of this conference is to discuss the hot topics in Linux storage
+and file systems, such as persistent memory, NVMe, multi-pathing, raw or
+open channel flash and I/O scheduling in a cool and relaxed setting with
+spectacular views in the Austrian alps.
 
-But given that NVMe does not actually specify bidirectional commands
-no one could even know how they work, so I'm surprised the original
-poster seems to have some..
+We plan to have a small selection of short and to the point talks with
+lots of room for discussion in small groups, as well as ample downtime
+to enjoy the surrounding.
+
+Attendance is free except for the accommodation and food at the lodge [3],
+but the number of seats is strictly limited.  If you are interested in
+attending please reserve a seat by mailing your favorite topic(s) to:
+
+	alpss-pc at lists.infradead.org
+
+If you are interested in giving a short and crisp talk please also send
+an abstract to the same address.
+
+Note: The Lizumerhuette is an Alpine Society lodge in a high alpine
+environment.  A hike of approximately 2 hours is required to the lodge,
+and no other accommodations are available within walking distance.
+
+More details will eventually be available on our website:
+
+        http://www.alpss.at/
+
+Thank you on behalf of the program committee:
+
+    Stephen Bates
+    Sagi Grimberg
+    Christoph Hellwig
+    Johannes Thumshirn
+    Richard Weinberger
+
+[1] http://www.tyrol.com/things-to-do/sports/hiking/refuge-huts/a-lizumer-hut
+[2] https://www.glungezer.at/l-i-z-u-m-e-r-h-%C3%BC-t-t-e/
+[3] approx. EUR 40-60 per person and night, depending on the room
+    category
