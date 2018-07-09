@@ -1,33 +1,19 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Mon, 9 Jul 2018 11:17:18 +0300
-Subject: NVMe over Fabrics I/O Error with RDMA/RXE
-In-Reply-To: <4F63AE27-CBFD-4429-8BF9-ADEE946A9DB7@connect.ust.hk>
-References: <4F63AE27-CBFD-4429-8BF9-ADEE946A9DB7@connect.ust.hk>
-Message-ID: <20180709081718.GA3014@mtr-leonro.mtl.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon,  9 Jul 2018 12:49:04 +0300
+Subject: [PATCH for 4.19 0/3] Few improvements for nvme-rdma host driver
+Message-ID: <20180709094907.8683-1-sagi@grimberg.me>
 
-On Mon, Jul 09, 2018@04:06:05AM +0000, Bairen YI wrote:
-> Hi all,
->
+Patch 1 fixes a possible controller deletion hang during I/O, the other
+patches are centralizing code such that common paths can be taken in
+multiple flows.
 
-<...>
+Sagi Grimberg (3):
+  nvme-rdma: unquiesce queues when deleting the controller
+  nvme-rdma: centralize controller setup sequence
+  nvme-rdma: centralize admin/io queue teardown sequence
 
->
-> Does NVMeof support over RXE or other software RDMA (like SoftiWarp) now?
+ drivers/nvme/host/rdma.c | 194 ++++++++++++++++++++---------------------------
+ 1 file changed, 82 insertions(+), 112 deletions(-)
 
-NVMeof is card-agnostic, so it is supposed to work on RXE.
-
-Thansk
-
->
-> Best,
-> Bairen Yi--
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 801 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180709/1d373a25/attachment.sig>
+-- 
+2.14.1
