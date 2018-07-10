@@ -1,40 +1,20 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 10 Jul 2018 08:45:52 -0600
-Subject: [PATCH v2 2/2] nvme-pci: release nvme_ctrl if failed to alloc
- memory in nvme_probe
-In-Reply-To: <4f4b62ad826bc11debfab9eff3d460b03ec66f08.1530548893.git.zhangweiping@didichuxing.com>
-References: <cover.1530548893.git.zhangweiping@didichuxing.com>
- <4f4b62ad826bc11debfab9eff3d460b03ec66f08.1530548893.git.zhangweiping@didichuxing.com>
-Message-ID: <20180710144552.GC11548@localhost.localdomain>
+From: andrew.maier@eideticom.com (Andrew Maier)
+Date: Tue, 10 Jul 2018 17:28:25 +0000
+Subject: NVMe SGL Data Length Error
+Message-ID: <MWHPR19MB11032909762BAF8174A26422935B0@MWHPR19MB1103.namprd19.prod.outlook.com>
 
-On Tue, Jul 03, 2018@12:35:44AM +0800, Weiping Zhang wrote:
-> release nvme_ctrl if failed to alloc memory for iod_mempool, otherwise
-> /dev/nvmeX cann't be removed for this nvme controller, any ioctl to
-> this device doesn't work.
-> 
-> Signed-off-by: Weiping Zhang <zhangweiping at didichuxing.com>
-> ---
->  drivers/nvme/host/pci.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 92a8b5b2b39e..29aff33c4b4c 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2576,8 +2576,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  						(void *) alloc_size,
->  						GFP_KERNEL, node);
->  	if (!dev->iod_mempool) {
-> -		result = -ENOMEM;
-> -		goto release_pools;
-> +		nvme_uninit_ctrl(&dev->ctrl);
-> +		/* all above resource will be released after put ctrl */
-> +		nvme_put_ctrl(&dev->ctrl);
-> +		return -ENOMEM;
->  	}
->  
->  	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
-> -- 
+Hi all,
 
-I think it would be better to just move the mempool allocation above
-nvme_init_ctrl.
+I've run into an issue with NVMe SGLs lately with our controller when given multiple SGL segments in a single command from the driver (i.e., more than 256 SGL entries in a single nvme read/write command); where there are not enough SGL Data Block descriptors for the transfer.  The first segment properly links to, in my case, a Last Segment Descriptor, however at the end of the second segment there are not enough Data Block descriptors for the full transfer (it is usually missing space for 4096 or 8192 bytes) which I've verified manually using a PCIe analyzer.  This forces our NVMe Controller to fail and return the SGL Data Length Invalid (0xF) status code.
+
+Repro Steps:
+1. Set the sgl_threshold to 4096
+2. Run a 4MB nvme read transfer (i.e., nvme read <sgl_nvme_dev> -s 0 -c 8191 -z 4194304 -t)
+3. Repeat step 2 until the memory is split into multiple SGL segments or try a larger transfer.
+
+Does anyone know of a patch for this issue?
+
+Cheers,
+Andrew Maier
+Software Engineer
+Eideticom.com
