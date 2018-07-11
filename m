@@ -1,38 +1,19 @@
-From: andrew.maier@eideticom.com (Andrew Maier)
-Date: Tue, 10 Jul 2018 23:55:50 +0000
-Subject: NVMe SGL Data Length Error
-In-Reply-To: <20180710200805.GD11548@localhost.localdomain>
-References: <MWHPR19MB11032909762BAF8174A26422935B0@MWHPR19MB1103.namprd19.prod.outlook.com>
- <20180710200805.GD11548@localhost.localdomain>
-Message-ID: <MWHPR19MB11037AF1418BAB8AC67BC318935B0@MWHPR19MB1103.namprd19.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 11 Jul 2018 12:39:28 +0300
+Subject: [PATCH for-4.18 2/2] nvmet: check fileio lba range access
+ boundaries
+In-Reply-To: <BYAPR04MB4502471F3BAA1FC8A1ECC8F5865B0@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20180710111702.12541-1-sagi@grimberg.me>
+ <20180710111702.12541-2-sagi@grimberg.me>
+ <BYAPR04MB4502471F3BAA1FC8A1ECC8F5865B0@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <e9ef3a17-73cb-88d3-38e0-1a280b29d45c@grimberg.me>
 
-Hey Keith,
 
-Thanks for the commit. I hadn't been testing on 4.18-rc4 which it looks like has this commit as well.  
+> Thanks for providing the fix. We need to free the memory when the pos comparison
+> results true for out of bounds before calling the nvmet_req_complete() in
+> nvmet_file_execute_rw(), please have a look at the following diff on the top of this patch,
+> it frees the memory and adds the status variable instead of using the ret which has a
+> different type than nvmet_req_complete() 2nd argument.
 
-That does appear to fix the bug, however with large IOCTL commands I now get the "submit-io: Invalid argument" in place of the 2 segment transfer issue which I believe is expected.
-
-Andrew
-
------Original Message-----
-From: Keith Busch <keith.busch@linux.intel.com> 
-Sent: Tuesday, July 10, 2018 2:08 PM
-To: Andrew Maier <andrew.maier at eideticom.com>
-Cc: linux-nvme at lists.infradead.org; Stephen Bates <stephen at eideticom.com>
-Subject: Re: NVMe SGL Data Length Error
-
-On Tue, Jul 10, 2018@05:28:25PM +0000, Andrew Maier wrote:
-> Hi all,
-> 
-> I've run into an issue with NVMe SGLs lately with our controller when given multiple SGL segments in a single command from the driver (i.e., more than 256 SGL entries in a single nvme read/write command); where there are not enough SGL Data Block descriptors for the transfer.  The first segment properly links to, in my case, a Last Segment Descriptor, however at the end of the second segment there are not enough Data Block descriptors for the full transfer (it is usually missing space for 4096 or 8192 bytes) which I've verified manually using a PCIe analyzer.  This forces our NVMe Controller to fail and return the SGL Data Length Invalid (0xF) status code.
-> 
-> Repro Steps:
-> 1. Set the sgl_threshold to 4096
-> 2. Run a 4MB nvme read transfer (i.e., nvme read <sgl_nvme_dev> -s 0 
-> -c 8191 -z 4194304 -t) 3. Repeat step 2 until the memory is split into multiple SGL segments or try a larger transfer.
-> 
-> Does anyone know of a patch for this issue?
-
-Probably not the fix you were hoping for, but the following commit will limit the number of SGL entries to 127 for PCI devices, so it'd always only have 1 segment descriptor.
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=943e942e6266f22babee5efeb00f8f672fbff5bd
+I'd just move it before the allocations, we need to perform boundary
+checks before allocating any request resources...
