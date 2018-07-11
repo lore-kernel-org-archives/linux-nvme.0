@@ -1,76 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 11 Jul 2018 16:13:04 +0300
-Subject: [PATCH v3 for-4.18 2/2] nvmet: check fileio lba range access
- boundaries
-Message-ID: <20180711131304.10648-1-sagi@grimberg.me>
+From: zwp10758@gmail.com (Weiping Zhang)
+Date: Wed, 11 Jul 2018 21:38:34 +0800
+Subject: [PATCH v2 1/2] nvme-pci: release iomap and prp_pools in
+ nvme_pci_free_ctrl
+In-Reply-To: <20180710144510.GB11548@localhost.localdomain>
+References: <cover.1530548893.git.zhangweiping@didichuxing.com>
+ <c9dc94bd6b434273ed69c47b06b4f55fb495254c.1530548893.git.zhangweiping@didichuxing.com>
+ <20180710144510.GB11548@localhost.localdomain>
+Message-ID: <CAA70yB6+DKHz0wzXoRyBCv5+TxkKZzDSQajhCf6qT45zLaLCow@mail.gmail.com>
 
-Fail out-of-bounds with a proper status code.
+Keith Busch <keith.busch at linux.intel.com> ?2018?7?10??? ??10:46???
+>
+> I'm getting the following warning with this patch:
+>
+Hi Keith,
 
-Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v2:
-- rebase accident - use offset + len after assigning them
+How to reproduce this problem, I cann't reproduce it (apply these two
+patch on 4.18.0-rc4) as following steps:
+1. rmmod nvme
+2. git am these 2 patchs
+3. make modules SUBDIRS=drivers/nvme
+4. insmod drivers/nvme/host/nvme.ko
+5. fdisk /dev/nvme0n1 and create a partition
+6. mkfs.ext4 /dev/nvme0n1p1
+7. mount /dev/nvme0n1p1 /mnt
+8. echo aaaaaa > /mnt/b.log
+9. umount /mnt
 
-Changes from v1:
-- move boundary check before resource allocation so we don't need
-to worry about freeing them (nvmet_file_execute_rw).
-
- drivers/nvme/target/io-cmd-file.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index dad8d44bf90e..c2d0d08b59c8 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -145,6 +145,12 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 		return;
- 	}
- 
-+	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
-+	if (unlikely(pos + req->data_len > req->ns->size)) {
-+		nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
-+		return;
-+	}
-+
- 	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
- 		req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
- 				GFP_KERNEL);
-@@ -160,8 +166,6 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
- 			is_sync = true;
- 	}
- 
--	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
--
- 	memset(&req->f.iocb, 0, sizeof(struct kiocb));
- 	for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
- 		nvmet_file_init_bvec(&req->f.bvec[bv_cnt], &sg_pg_iter);
-@@ -236,8 +240,14 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
- 					sizeof(range));
- 		if (ret)
- 			break;
-+
- 		offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
- 		len = le32_to_cpu(range.nlb) << req->ns->blksize_shift;
-+		if (offset + len > req->ns->size) {
-+			ret = NVME_SC_LBA_RANGE | NVME_SC_DNR;
-+			break;
-+		}
-+
- 		if (vfs_fallocate(req->ns->file, mode, offset, len)) {
- 			ret = NVME_SC_INTERNAL | NVME_SC_DNR;
- 			break;
-@@ -283,6 +293,11 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
- 	len = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
- 			req->ns->blksize_shift);
- 
-+	if (unlikely(offset + len > req->ns->size)) {
-+		nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
-+		return;
-+	}
-+
- 	ret = vfs_fallocate(req->ns->file, mode, offset, len);
- 	nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
- }
--- 
-2.14.1
+> > --
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
