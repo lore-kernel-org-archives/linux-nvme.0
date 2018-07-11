@@ -1,61 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 11 Jul 2018 16:44:44 -0600
-Subject: [PATCH] nvme-pci: Fix memory leak on probe failure
-Message-ID: <20180711224444.14872-1-keith.busch@intel.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 11 Jul 2018 16:23:01 -0700
+Subject: [PATCHv2 0/8] nvme timeout fixes v2
+In-Reply-To: <20180523224946.GF11037@localhost.localdomain>
+References: <20180522220332.9244-1-keith.busch@intel.com>
+ <20180523030057.GF31196@ming.t460p>
+ <20180523161614.GE11037@localhost.localdomain>
+ <20180523224946.GF11037@localhost.localdomain>
+Message-ID: <5e724f53-107f-f295-77dd-243a2f2fc9aa@broadcom.com>
 
-The nvme driver specific structures need to be initialized prior to
-enabling the generic controller so we can unwind on failure with out
-using the reference counting callbacks so that 'probe' and 'remove'
-can be symmetric.
+On 5/23/2018 3:49 PM, Keith Busch wrote:
+> On Wed, May 23, 2018@10:16:14AM -0600, Keith Busch wrote:
+>> On Wed, May 23, 2018@11:00:59AM +0800, Ming Lei wrote:
+>>> Looks V2 still may trigger IO hang warning:
+>> Anything in particular that triggered this?
+>>
+>> I'm running IO with io-timeout fault injection, with resets and rescans
+>> randomly running in the background, so I'm guessing that's not enough.
+> At the very least, I can see allowing CONNECTING->RESETTING transitions
+> was a terrible idea. I can get other failures because of that, but not
+> quite what you're seeing.
 
-The newly added iod_mempool is the only resource that was being
-allocated out of order, and a failure there would leak the generic
-controller memory. This patch just moves that allocation above the
-controller initialization.
+Is there another way to resolve these terrible ideas ?
 
-Fixes: 943e942e6266f ("nvme-pci: limit max IO size and segments to avoid high order allocations")
-Reported-by: Weiping Zhang <zwp10758 at gmail.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+I can see this transition as being a very useful for the case where I'm 
+in CONNECTING but one of the commands to init the controller gets an io 
+error or timeout (ex fabric Connect command gets lost) thus I need to 
+"reset" (kill all io for current association) and restart CONNECTING.? 
+With the transition, I can use the singular code path that is there 
+already. Without it, I have to duplicate the reset entry point so I can 
+call it, perform the same work, yet stay in the CONNECTING state - which 
+seems an odd thing to do.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ba943f211687..ddd441b1516a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2556,11 +2556,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	quirks |= check_vendor_combination_bug(pdev);
- 
--	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
--			quirks);
--	if (result)
--		goto release_pools;
--
- 	/*
- 	 * Double check that our mempool alloc size will cover the biggest
- 	 * command we support.
-@@ -2578,6 +2573,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto release_pools;
- 	}
- 
-+	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
-+			quirks);
-+	if (result)
-+		goto release_mempool;
-+
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
- 
- 	nvme_get_ctrl(&dev->ctrl);
-@@ -2585,6 +2585,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	return 0;
- 
-+ release_mempool:
-+	mempool_destroy(dev->iod_mempool);
-  release_pools:
- 	nvme_release_prp_pools(dev);
-  unmap:
--- 
-2.14.3
+Note: this may be related to the timeout handler. in my case, I always 
+return BLK_EH_RESET_TIMER as the best the timeout handler can do is 
+initiate the hw action to abort the io so that it will finish sometime 
+in the very near future and to request the controller to reset/change 
+state. The reset never finishes until all ios complete, which means it 
+waits for those aborted ios to come back from the hw.
+
+-- james
