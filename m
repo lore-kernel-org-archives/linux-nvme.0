@@ -1,61 +1,49 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 12 Jul 2018 13:24:37 -0600
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Thu, 12 Jul 2018 22:24:42 +0000
 Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
+In-Reply-To: <20180712192437.GA16839@localhost.localdomain>
 References: <20180521231131.6685-1-keith.busch@intel.com>
  <20180521231131.6685-4-keith.busch@intel.com>
  <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
-Message-ID: <20180712192437.GA16839@localhost.localdomain>
+ <20180712192437.GA16839@localhost.localdomain>
+Message-ID: <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
 
-On Thu, Jul 12, 2018@06:16:12PM +0000, Bart Van Assche wrote:
-> On Mon, 2018-05-21@17:11 -0600, Keith Busch wrote:
-> >  	/*
-> > -	 * We marked @rq->aborted_gstate and waited for RCU.  If there were
-> > -	 * completions that we lost to, they would have finished and
-> > -	 * updated @rq->gstate by now; otherwise, the completion path is
-> > -	 * now guaranteed to see @rq->aborted_gstate and yield.  If
-> > -	 * @rq->aborted_gstate still matches @rq->gstate, @rq is ours.
-> > +	 * Just do a quick check if it is expired before locking the request in
-> > +	 * so we're not unnecessarilly synchronizing across CPUs.
-> >  	 */
-> > -	if (!(rq->rq_flags & RQF_MQ_TIMEOUT_EXPIRED) &&
-> > -	    READ_ONCE(rq->gstate) == rq->aborted_gstate)
-> > +	if (!blk_mq_req_expired(rq, next))
-> > +		return;
-> > +
-> > +	/*
-> > +	 * We have reason to believe the request may be expired. Take a
-> > +	 * reference on the request to lock this request lifetime into its
-> > +	 * currently allocated context to prevent it from being reallocated in
-> > +	 * the event the completion by-passes this timeout handler.
-> > +	 * 
-> > +	 * If the reference was already released, then the driver beat the
-> > +	 * timeout handler to posting a natural completion.
-> > +	 */
-> > +	if (!kref_get_unless_zero(&rq->ref))
-> > +		return;
-> > +
-> > +	/*
-> > +	 * The request is now locked and cannot be reallocated underneath the
-> > +	 * timeout handler's processing. Re-verify this exact request is truly
-> > +	 * expired; if it is not expired, then the request was completed and
-> > +	 * reallocated as a new request.
-> > +	 */
-> > +	if (blk_mq_req_expired(rq, next))
-> >  		blk_mq_rq_timed_out(rq, reserved);
-> > +	blk_mq_put_request(rq);
-> >  }
+On Thu, 2018-07-12@13:24 -0600, Keith Busch wrote:
+> On Thu, Jul 12, 2018@06:16:12PM +0000, Bart Van Assche wrote:
+> > What prevents that a request finishes and gets reused after the
+> > blk_mq_req_expired() call has finished and before kref_get_unless_zero() is
+> > called? Is this perhaps a race condition that has not yet been triggered by
+> > any existing block layer test? Please note that there is no such race
+> > condition in the patch I had posted ("blk-mq: Rework blk-mq timeout handling
+> > again" - https://www.spinics.net/lists/linux-block/msg26489.html).
 > 
-> Hello Keith and Christoph,
-> 
-> What prevents that a request finishes and gets reused after the
-> blk_mq_req_expired() call has finished and before kref_get_unless_zero() is
-> called? Is this perhaps a race condition that has not yet been triggered by
-> any existing block layer test? Please note that there is no such race
-> condition in the patch I had posted ("blk-mq: Rework blk-mq timeout handling
-> again" - https://www.spinics.net/lists/linux-block/msg26489.html).
+> I don't think there's any such race in the merged implementation
+> either. If the request is reallocated, then the kref check may succeed,
+> but the blk_mq_req_expired() check would surely fail, allowing the
+> request to proceed as normal. The code comments at least say as much.
 
-I don't think there's any such race in the merged implementation
-either. If the request is reallocated, then the kref check may succeed,
-but the blk_mq_req_expired() check would surely fail, allowing the
-request to proceed as normal. The code comments at least say as much.
+Hello Keith,
+
+Before commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"), if a
+request completion was reported after request timeout processing had
+started, completion handling was skipped. The following code in
+blk_mq_complete_request() realized that:
+
+	if (blk_mq_rq_aborted_gstate(rq) != rq->gstate)
+		__blk_mq_complete_request(rq);
+
+Since commit 12f5b9314545, if a completion occurs after request timeout
+processing has started, that completion is processed if the request has the
+state MQ_RQ_IN_FLIGHT. blk_mq_rq_timed_out() does not modify the request
+state unless the block driver timeout handler modifies it, e.g. by calling
+blk_mq_end_request() or by calling blk_mq_requeue_request(). The typical
+behavior of scsi_times_out() is to queue sending of a SCSI abort and hence
+not to change the request state immediately. In other words, if a request
+completion occurs during or shortly after a timeout occurred then
+blk_mq_complete_request() will call __blk_mq_complete_request() and will
+complete the request, although that is not allowed because timeout handling
+has already started. Do you agree with this analysis?
+
+Thanks,
+
+Bart.
