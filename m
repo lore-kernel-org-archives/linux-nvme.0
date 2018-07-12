@@ -1,41 +1,73 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 11 Jul 2018 16:23:01 -0700
-Subject: [PATCHv2 0/8] nvme timeout fixes v2
-In-Reply-To: <20180523224946.GF11037@localhost.localdomain>
-References: <20180522220332.9244-1-keith.busch@intel.com>
- <20180523030057.GF31196@ming.t460p>
- <20180523161614.GE11037@localhost.localdomain>
- <20180523224946.GF11037@localhost.localdomain>
-Message-ID: <5e724f53-107f-f295-77dd-243a2f2fc9aa@broadcom.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 12 Jul 2018 03:04:38 +0000
+Subject: [PATCH v2 for-4.18 1/2] nvmet: fix file discard return status
+In-Reply-To: <20180711094317.23582-1-sagi@grimberg.me>
+References: <20180711094317.23582-1-sagi@grimberg.me>
+Message-ID: <BYAPR04MB45027048B06E279F1B023DA4865A0@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-On 5/23/2018 3:49 PM, Keith Busch wrote:
-> On Wed, May 23, 2018@10:16:14AM -0600, Keith Busch wrote:
->> On Wed, May 23, 2018@11:00:59AM +0800, Ming Lei wrote:
->>> Looks V2 still may trigger IO hang warning:
->> Anything in particular that triggered this?
->>
->> I'm running IO with io-timeout fault injection, with resets and rescans
->> randomly running in the background, so I'm guessing that's not enough.
-> At the very least, I can see allowing CONNECTING->RESETTING transitions
-> was a terrible idea. I can get other failures because of that, but not
-> quite what you're seeing.
+Looks good.
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-Is there another way to resolve these terrible ideas ?
 
-I can see this transition as being a very useful for the case where I'm 
-in CONNECTING but one of the commands to init the controller gets an io 
-error or timeout (ex fabric Connect command gets lost) thus I need to 
-"reset" (kill all io for current association) and restart CONNECTING.? 
-With the transition, I can use the singular code path that is there 
-already. Without it, I have to duplicate the reset entry point so I can 
-call it, perform the same work, yet stay in the CONNECTING state - which 
-seems an odd thing to do.
 
-Note: this may be related to the timeout handler. in my case, I always 
-return BLK_EH_RESET_TIMER as the best the timeout handler can do is 
-initiate the hw action to abort the io so that it will finish sometime 
-in the very near future and to request the controller to reset/change 
-state. The reset never finishes until all ios complete, which means it 
-waits for those aborted ios to come back from the hw.
 
--- james
+From: Sagi Grimberg <sagi@grimberg.me>
+Sent: Wednesday, July 11, 2018 2:43 AM
+To: linux-nvme at lists.infradead.org
+Cc: Christoph Hellwig; Chaitanya Kulkarni
+Subject: [PATCH v2 for-4.18 1/2] nvmet: fix file discard return status
+? 
+ 
+If nvmet_copy_from_sgl failed, we falsly return successful
+completion status.
+
+Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v1:
+- make ret type u16
+
+?drivers/nvme/target/io-cmd-file.c | 18 ++++++++++--------
+?1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 57c660e3245d..dad8d44bf90e 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -227,22 +227,24 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
+?{
+???????? int mode = FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE;
+???????? struct nvme_dsm_range range;
+-?????? loff_t offset;
+-?????? loff_t len;
+-?????? int i, ret;
++?????? loff_t offset, len;
++?????? u16 ret;
++?????? int i;
+?
+???????? for (i = 0; i <= le32_to_cpu(req->cmd->dsm.nr); i++) {
+-?????????????? if (nvmet_copy_from_sgl(req, i * sizeof(range), &range,
+-?????????????????????????????????????? sizeof(range)))
++?????????????? ret = nvmet_copy_from_sgl(req, i * sizeof(range), &range,
++?????????????????????????????????????? sizeof(range));
++?????????????? if (ret)
+???????????????????????? break;
+???????????????? offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
+???????????????? len = le32_to_cpu(range.nlb) << req->ns->blksize_shift;
+-?????????????? ret = vfs_fallocate(req->ns->file, mode, offset, len);
+-?????????????? if (ret)
++?????????????? if (vfs_fallocate(req->ns->file, mode, offset, len)) {
++?????????????????????? ret = NVME_SC_INTERNAL | NVME_SC_DNR;
+???????????????????????? break;
++?????????????? }
+???????? }
+?
+-?????? nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
++?????? nvmet_req_complete(req, ret);
+?}
+?
+?static void nvmet_file_dsm_work(struct work_struct *w)
+-- 
+2.14.1
+
+    
