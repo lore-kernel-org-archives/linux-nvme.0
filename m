@@ -1,92 +1,54 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 12 Jul 2018 03:05:51 +0000
-Subject: [PATCH v3 for-4.18 2/2] nvmet: check fileio lba range access
- boundaries
-In-Reply-To: <20180711131304.10648-1-sagi@grimberg.me>
-References: <20180711131304.10648-1-sagi@grimberg.me>
-Message-ID: <BYAPR04MB4502B06277D98BC64FD2DA06865A0@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: byi@connect.ust.hk (Bairen YI)
+Date: Thu, 12 Jul 2018 05:54:08 +0000
+Subject: NVMe over Fabrics I/O Error with RDMA/RXE
+In-Reply-To: <dba9b7e6-d0d6-d213-1490-c746109e99c3@grimberg.me>
+References: <4F63AE27-CBFD-4429-8BF9-ADEE946A9DB7@connect.ust.hk>
+ <2f4ac5ac-9aa9-8f21-75cf-8419101a482f@grimberg.me>
+ <741366E4-190D-4136-87F7-03CEF1CC8185@connect.ust.hk>
+ <dba9b7e6-d0d6-d213-1490-c746109e99c3@grimberg.me>
+Message-ID: <0964B9ED-4547-4512-A57D-9956804022E9@connect.ust.hk>
 
-Looks good to me.
+Hi Sagi,
 
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Thanks! It works with kernel version 4.17.3-1.
 
+$ uname -v
+#1 SMP Debian 4.17.3-1 (2018-07-02)
 
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Wednesday, July 11, 2018 6:13 AM
-To: linux-nvme at lists.infradead.org
-Cc: Christoph Hellwig; Chaitanya Kulkarni
-Subject: [PATCH v3 for-4.18 2/2] nvmet: check fileio lba range access boundaries
-? 
- 
-Fail out-of-bounds with a proper status code.
+Best,
+Bairen
 
-Fixes: d5eff33ee6f8 ("nvmet: add simple file backed ns support")
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v2:
-- rebase accident - use offset + len after assigning them
-
-Changes from v1:
-- move boundary check before resource allocation so we don't need
-to worry about freeing them (nvmet_file_execute_rw).
-
-?drivers/nvme/target/io-cmd-file.c | 19 +++++++++++++++++--
-?1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-index dad8d44bf90e..c2d0d08b59c8 100644
---- a/drivers/nvme/target/io-cmd-file.c
-+++ b/drivers/nvme/target/io-cmd-file.c
-@@ -145,6 +145,12 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
-???????????????? return;
-???????? }
-?
-+?????? pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
-+?????? if (unlikely(pos + req->data_len > req->ns->size)) {
-+?????????????? nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
-+?????????????? return;
-+?????? }
-+
-???????? if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
-???????????????? req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
-???????????????????????????????? GFP_KERNEL);
-@@ -160,8 +166,6 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
-???????????????????????? is_sync = true;
-???????? }
-?
--?????? pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
--
-???????? memset(&req->f.iocb, 0, sizeof(struct kiocb));
-???????? for_each_sg_page(req->sg, &sg_pg_iter, req->sg_cnt, 0) {
-???????????????? nvmet_file_init_bvec(&req->f.bvec[bv_cnt], &sg_pg_iter);
-@@ -236,8 +240,14 @@ static void nvmet_file_execute_discard(struct nvmet_req *req)
-???????????????????????????????????????? sizeof(range));
-???????????????? if (ret)
-???????????????????????? break;
-+
-???????????????? offset = le64_to_cpu(range.slba) << req->ns->blksize_shift;
-???????????????? len = le32_to_cpu(range.nlb) << req->ns->blksize_shift;
-+?????????????? if (offset + len > req->ns->size) {
-+?????????????????????? ret = NVME_SC_LBA_RANGE | NVME_SC_DNR;
-+?????????????????????? break;
-+?????????????? }
-+
-???????????????? if (vfs_fallocate(req->ns->file, mode, offset, len)) {
-???????????????????????? ret = NVME_SC_INTERNAL | NVME_SC_DNR;
-???????????????????????? break;
-@@ -283,6 +293,11 @@ static void nvmet_file_write_zeroes_work(struct work_struct *w)
-???????? len = (((sector_t)le16_to_cpu(write_zeroes->length) + 1) <<
-???????????????????????? req->ns->blksize_shift);
-?
-+?????? if (unlikely(offset + len > req->ns->size)) {
-+?????????????? nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
-+?????????????? return;
-+?????? }
-+
-???????? ret = vfs_fallocate(req->ns->file, mode, offset, len);
-???????? nvmet_req_complete(req, ret < 0 ? NVME_SC_INTERNAL | NVME_SC_DNR : 0);
-?}
--- 
-2.14.1
-
-    
+> On 11 Jul 2018,@18:37, Sagi Grimberg <sagi@grimberg.me> wrote:
+> 
+> 
+>> The exact kernel version is 4.15.0-23.25 as in
+>> https://packages.ubuntu.com/bionic/linux-image-4.15.0-23-generic
+>> I tried again with the latest Debian unstable (kernel version 4.16.5) and the symptoms remain the same.
+> 
+> Looking at linux-stable, looks like the suspected missing commit [1]
+> entered in tag v4.16.17, so I'm not sure it exists in your tested
+> kernel, Not sure where I can access the source to verify.
+> 
+> [1]
+>>> Possible suspect might be:
+>>> --
+>>> commit 2da36d44a9d54a2c6e1f8da1f7ccc26b0bc6cfec
+>>> Author: Jianchao Wang <jianchao.w.wang at oracle.com>
+>>> Date:   Thu Apr 26 11:52:39 2018 +0800
+>>> 
+>>>    IB/rxe: add RXE_START_MASK for rxe_opcode IB_OPCODE_RC_SEND_ONLY_INV
+>>> 
+>>>    w/o RXE_START_MASK, the last_psn of IB_OPCODE_RC_SEND_ONLY_INV
+>>>    will not be updated in update_wqe_psn, and the corresponding
+>>>    wqe will not be acked in rxe_completer due to its last_psn is
+>>>    zero. Finally, the other wqe will also not be able to be acked,
+>>>    because the wqe of IB_OPCODE_RC_SEND_ONLY_INV with last_psn 0
+>>>    is still there. This causes large amount of io timeout when
+>>>    nvmeof is over rxe.
+>>> 
+>>>    Add RXE_START_MASK for IB_OPCODE_RC_SEND_ONLY_INV to fix this.
+>>> 
+>>>    Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+>>>    Reviewed-by: Zhu Yanjun <yanjun.zhu at oracle.com>
+>>>    Signed-off-by: Doug Ledford <dledford at redhat.com>
+>>> --
