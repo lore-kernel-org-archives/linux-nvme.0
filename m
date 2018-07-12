@@ -1,54 +1,69 @@
-From: byi@connect.ust.hk (Bairen YI)
-Date: Thu, 12 Jul 2018 05:54:08 +0000
-Subject: NVMe over Fabrics I/O Error with RDMA/RXE
-In-Reply-To: <dba9b7e6-d0d6-d213-1490-c746109e99c3@grimberg.me>
-References: <4F63AE27-CBFD-4429-8BF9-ADEE946A9DB7@connect.ust.hk>
- <2f4ac5ac-9aa9-8f21-75cf-8419101a482f@grimberg.me>
- <741366E4-190D-4136-87F7-03CEF1CC8185@connect.ust.hk>
- <dba9b7e6-d0d6-d213-1490-c746109e99c3@grimberg.me>
-Message-ID: <0964B9ED-4547-4512-A57D-9956804022E9@connect.ust.hk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 12 Jul 2018 08:26:33 +0200
+Subject: [PATCH] nvme-pci: Fix memory leak on probe failure
+In-Reply-To: <20180711224444.14872-1-keith.busch@intel.com>
+References: <20180711224444.14872-1-keith.busch@intel.com>
+Message-ID: <20180712062633.GA14734@lst.de>
 
-Hi Sagi,
+Thanks,
 
-Thanks! It works with kernel version 4.17.3-1.
+applied to nvme-4.18.
 
-$ uname -v
-#1 SMP Debian 4.17.3-1 (2018-07-02)
-
-Best,
-Bairen
-
-> On 11 Jul 2018,@18:37, Sagi Grimberg <sagi@grimberg.me> wrote:
+On Wed, Jul 11, 2018@04:44:44PM -0600, Keith Busch wrote:
+> The nvme driver specific structures need to be initialized prior to
+> enabling the generic controller so we can unwind on failure with out
+> using the reference counting callbacks so that 'probe' and 'remove'
+> can be symmetric.
 > 
+> The newly added iod_mempool is the only resource that was being
+> allocated out of order, and a failure there would leak the generic
+> controller memory. This patch just moves that allocation above the
+> controller initialization.
 > 
->> The exact kernel version is 4.15.0-23.25 as in
->> https://packages.ubuntu.com/bionic/linux-image-4.15.0-23-generic
->> I tried again with the latest Debian unstable (kernel version 4.16.5) and the symptoms remain the same.
+> Fixes: 943e942e6266f ("nvme-pci: limit max IO size and segments to avoid high order allocations")
+> Reported-by: Weiping Zhang <zwp10758 at gmail.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 > 
-> Looking at linux-stable, looks like the suspected missing commit [1]
-> entered in tag v4.16.17, so I'm not sure it exists in your tested
-> kernel, Not sure where I can access the source to verify.
-> 
-> [1]
->>> Possible suspect might be:
->>> --
->>> commit 2da36d44a9d54a2c6e1f8da1f7ccc26b0bc6cfec
->>> Author: Jianchao Wang <jianchao.w.wang at oracle.com>
->>> Date:   Thu Apr 26 11:52:39 2018 +0800
->>> 
->>>    IB/rxe: add RXE_START_MASK for rxe_opcode IB_OPCODE_RC_SEND_ONLY_INV
->>> 
->>>    w/o RXE_START_MASK, the last_psn of IB_OPCODE_RC_SEND_ONLY_INV
->>>    will not be updated in update_wqe_psn, and the corresponding
->>>    wqe will not be acked in rxe_completer due to its last_psn is
->>>    zero. Finally, the other wqe will also not be able to be acked,
->>>    because the wqe of IB_OPCODE_RC_SEND_ONLY_INV with last_psn 0
->>>    is still there. This causes large amount of io timeout when
->>>    nvmeof is over rxe.
->>> 
->>>    Add RXE_START_MASK for IB_OPCODE_RC_SEND_ONLY_INV to fix this.
->>> 
->>>    Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
->>>    Reviewed-by: Zhu Yanjun <yanjun.zhu at oracle.com>
->>>    Signed-off-by: Doug Ledford <dledford at redhat.com>
->>> --
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index ba943f211687..ddd441b1516a 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2556,11 +2556,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>  	quirks |= check_vendor_combination_bug(pdev);
+>  
+> -	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
+> -			quirks);
+> -	if (result)
+> -		goto release_pools;
+> -
+>  	/*
+>  	 * Double check that our mempool alloc size will cover the biggest
+>  	 * command we support.
+> @@ -2578,6 +2573,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  		goto release_pools;
+>  	}
+>  
+> +	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
+> +			quirks);
+> +	if (result)
+> +		goto release_mempool;
+> +
+>  	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+>  
+>  	nvme_get_ctrl(&dev->ctrl);
+> @@ -2585,6 +2585,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  
+>  	return 0;
+>  
+> + release_mempool:
+> +	mempool_destroy(dev->iod_mempool);
+>   release_pools:
+>  	nvme_release_prp_pools(dev);
+>   unmap:
+> -- 
+> 2.14.3
+---end quoted text---
