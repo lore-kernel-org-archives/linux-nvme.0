@@ -1,22 +1,36 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 13 Jul 2018 12:47:12 -0600
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
-References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
- <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
- <20180712192437.GA16839@localhost.localdomain>
- <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
- <20180713154346.GA18955@localhost.localdomain>
- <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
-Message-ID: <20180713184712.GA19419@localhost.localdomain>
+Date: Fri, 13 Jul 2018 14:54:55 -0600
+Subject: [PATCHv3 0/9] nvme timeout fixes, v3
+In-Reply-To: <CACVXFVMMC+O65bNweq7KqTgMkGBCdqfe+_QPegFZ5=rPH1Qokg@mail.gmail.com>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+ <CACVXFVMMC+O65bNweq7KqTgMkGBCdqfe+_QPegFZ5=rPH1Qokg@mail.gmail.com>
+Message-ID: <20180713205455.GA19505@localhost.localdomain>
 
-On Fri, Jul 13, 2018@03:52:38PM +0000, Bart Van Assche wrote:
-> No. What I'm saying is that a behavior change has been introduced in the block
-> layer that was not documented in the patch description. 
+On Fri, Jul 13, 2018@08:48:24AM +0800, Ming Lei wrote:
+> On Fri, May 25, 2018@4:34 AM, Keith Busch <keith.busch@intel.com> wrote:
+> > Keith Busch (9):
+> >   nvme: Sync request queues on reset
+> >   nvme-pci: Fix queue freeze criteria on reset
+> >   nvme: Move all IO out of controller reset
+> >   nvme-pci: Rate limit the nvme timeout warnings
+> >   nvme-pci: End IO requests immediately in CONNECTING state
+> >   nvme-pci: Unquiesce dead controller queues
+> >   nvme-pci: Attempt reset retry for IO failures
+> >   nvme-pci: Queue creation error handling
+> >   nvme-pci: Don't wait for HMB completion on shutdown
+> >
+> >  drivers/nvme/host/core.c |  23 ++++++-
+> >  drivers/nvme/host/nvme.h |   2 +
+> >  drivers/nvme/host/pci.c  | 173 ++++++++++++++++++++++++++++++++++-------------
+> >  3 files changed, 150 insertions(+), 48 deletions(-)
+> 
+> Hello Keith,
+> 
+> I guess there will be V4 for addressing the reported issue?
 
-Did you read the changelog?
+Yes, I'll send that out in a few minutes.
 
-> I think that behavior change even can trigger a kernel crash.
-
-I think we are past acknowledging issues exist with timeouts.
+The majority of the above are either merged already or unnecessary
+anymore, but patches 1 and 3 still look useful. Patch 1 doesn't need to
+change, but patch 3 from this series will be split into a series of prep
+patches and made generic for the v4.
