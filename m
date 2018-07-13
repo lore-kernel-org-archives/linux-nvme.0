@@ -1,95 +1,77 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 13 Jul 2018 14:56:06 -0600
-Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+Date: Fri, 13 Jul 2018 14:56:07 -0600
+Subject: [PATCHv4 2/4] nvme: Start controller in own work queue
 In-Reply-To: <20180713205609.19701-1-keith.busch@intel.com>
 References: <20180713205609.19701-1-keith.busch@intel.com>
-Message-ID: <20180713205609.19701-2-keith.busch@intel.com>
+Message-ID: <20180713205609.19701-3-keith.busch@intel.com>
 
-This patch fixes races that occur with simultaneous controller
-resets by synchronizing request queues prior to initializing the
-controller. Withouth this, a thread may attempt disabling a controller
-at the same time as we're trying to enable it.
+This moves the controller start from the reset_work to its own work.
+This is preparing for the possibility of running IO when starting the
+controller, which we shouldn't do from the reset_work since we need that
+context to handle timeouts.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 21 +++++++++++++++++++--
+ drivers/nvme/host/core.c | 12 +++++++++++-
  drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  1 +
- 3 files changed, 21 insertions(+), 2 deletions(-)
+ 2 files changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46df030b2c3f..eeb97dbef7ff 100644
+index eeb97dbef7ff..6fed8a454843 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -101,6 +101,12 @@ static void nvme_ns_remove(struct nvme_ns *ns);
- static int nvme_revalidate_disk(struct gendisk *disk);
- static void nvme_put_subsystem(struct nvme_subsystem *subsys);
- 
-+static void nvme_start_queue(struct nvme_ns *ns)
-+{
-+	blk_mq_unquiesce_queue(ns->queue);
-+	blk_mq_kick_requeue_list(ns->queue);
-+}
-+
- static void nvme_queue_scan(struct nvme_ctrl *ctrl)
+@@ -3418,6 +3418,7 @@ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
  {
- 	/*
-@@ -3553,7 +3559,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		blk_set_queue_dying(ns->queue);
+ 	nvme_stop_keep_alive(ctrl);
++	flush_work(&ctrl->start_work);
+ 	flush_work(&ctrl->async_event_work);
+ 	flush_work(&ctrl->scan_work);
+ 	cancel_work_sync(&ctrl->fw_act_work);
+@@ -3426,8 +3427,11 @@ void nvme_stop_ctrl(struct nvme_ctrl *ctrl)
+ }
+ EXPORT_SYMBOL_GPL(nvme_stop_ctrl);
  
- 		/* Forcibly unquiesce queues to avoid blocking dispatch */
--		blk_mq_unquiesce_queue(ns->queue);
-+		nvme_start_queue(ns);
+-void nvme_start_ctrl(struct nvme_ctrl *ctrl)
++void nvme_start_work(struct work_struct *work)
+ {
++	struct nvme_ctrl *ctrl =
++		container_of(work, struct nvme_ctrl, start_work);
++
+ 	if (ctrl->kato)
+ 		nvme_start_keep_alive(ctrl);
+ 
+@@ -3438,6 +3442,11 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+ 		nvme_start_queues(ctrl);
  	}
- 	up_read(&ctrl->namespaces_rwsem);
  }
-@@ -3623,11 +3629,22 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
- 
- 	down_read(&ctrl->namespaces_rwsem);
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_unquiesce_queue(ns->queue);
-+		nvme_start_queue(ns);
- 	up_read(&ctrl->namespaces_rwsem);
- }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
- 
-+void nvme_sync_queues(struct nvme_ctrl *ctrl)
++
++void nvme_start_ctrl(struct nvme_ctrl *ctrl)
 +{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_sync_queue(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
++	queue_work(nvme_wq, &ctrl->start_work);
 +}
-+EXPORT_SYMBOL_GPL(nvme_sync_queues);
-+
- int __init nvme_core_init(void)
- {
- 	int result = -ENOMEM;
+ EXPORT_SYMBOL_GPL(nvme_start_ctrl);
+ 
+ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+@@ -3485,6 +3494,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->dev = dev;
+ 	ctrl->ops = ops;
+ 	ctrl->quirks = quirks;
++	INIT_WORK(&ctrl->start_work, nvme_start_work);
+ 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
+ 	INIT_WORK(&ctrl->fw_act_work, nvme_fw_act_work);
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 0c4a33df3b2f..51cf44ad86fd 100644
+index 51cf44ad86fd..1dd26a9a1fdc 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -409,6 +409,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- 		volatile union nvme_result *res);
- 
-+void nvme_sync_queues(struct nvme_ctrl *ctrl);
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ba943f211687..b9b83a7a5a52 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2318,6 +2318,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	 */
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
-+	nvme_sync_queues(&dev->ctrl);
- 
- 	/*
- 	 * Introduce CONNECTING state from nvme-fc/rdma transports to mark the
+@@ -190,6 +190,7 @@ struct nvme_ctrl {
+ 	unsigned long quirks;
+ 	struct nvme_id_power_state psd[32];
+ 	struct nvme_effects_log *effects;
++	struct work_struct start_work;
+ 	struct work_struct scan_work;
+ 	struct work_struct async_event_work;
+ 	struct delayed_work ka_work;
 -- 
 2.14.3
