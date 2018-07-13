@@ -1,91 +1,72 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 13 Jul 2018 14:56:08 -0600
-Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
+Date: Fri, 13 Jul 2018 14:56:09 -0600
+Subject: [PATCHv4 4/4] nvme-pci: Use controller start work to dispath IO
 In-Reply-To: <20180713205609.19701-1-keith.busch@intel.com>
 References: <20180713205609.19701-1-keith.busch@intel.com>
-Message-ID: <20180713205609.19701-4-keith.busch@intel.com>
+Message-ID: <20180713205609.19701-5-keith.busch@intel.com>
 
-This patch creates a new controller state that transport specific drivers
-can set their controller to prior to starting the controller to have the
-start_work handle frozen request queues and update the hardware contexts.
+We don't want to wait for IO within the reset work because we need that
+to context handle IO timeouts. This patch uses the new FROZEN state
+to inform the controller start work to handle restarting IO queues and
+waiting for their freeze to complete.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 21 ++++++++++++++++++++-
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6fed8a454843..7ce339c3fcc4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -288,11 +288,21 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 			break;
- 		}
- 		break;
-+	case NVME_CTRL_FROZEN:
-+		switch (old_state) {
-+		case NVME_CTRL_CONNECTING:
-+			changed = true;
-+			/* FALLTHRU */
-+		default:
-+			break;
-+		}
-+		break;
- 	case NVME_CTRL_LIVE:
- 		switch (old_state) {
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_RESETTING:
- 		case NVME_CTRL_CONNECTING:
-+		case NVME_CTRL_FROZEN:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
-@@ -304,6 +314,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_ADMIN_ONLY:
-+		case NVME_CTRL_FROZEN:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
-@@ -3435,16 +3446,24 @@ void nvme_start_work(struct work_struct *work)
- 	if (ctrl->kato)
- 		nvme_start_keep_alive(ctrl);
- 
-+	if (ctrl->state == NVME_CTRL_FROZEN) {
-+		nvme_wait_freeze(ctrl);
-+		blk_mq_update_nr_hw_queues(ctrl->tagset, ctrl->queue_count - 1);
-+		nvme_unfreeze(ctrl);
-+		if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-+			return;
-+	}
-+
- 	if (ctrl->queue_count > 1) {
- 		nvme_queue_scan(ctrl);
- 		nvme_enable_aen(ctrl);
- 		queue_work(nvme_wq, &ctrl->async_event_work);
--		nvme_start_queues(ctrl);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b9b83a7a5a52..2e12c8a746c7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2077,10 +2077,7 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
  	}
  }
  
- void nvme_start_ctrl(struct nvme_ctrl *ctrl)
+-/*
+- * return error value only when tagset allocation failed
+- */
+-static int nvme_dev_add(struct nvme_dev *dev)
++static enum nvme_ctrl_state nvme_dev_add(struct nvme_dev *dev)
  {
-+	nvme_start_queues(ctrl);
- 	queue_work(nvme_wq, &ctrl->start_work);
- }
- EXPORT_SYMBOL_GPL(nvme_start_ctrl);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1dd26a9a1fdc..ca981e5eb6b3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -134,6 +134,7 @@ enum nvme_ctrl_state {
- 	NVME_CTRL_CONNECTING,
- 	NVME_CTRL_DELETING,
- 	NVME_CTRL_DEAD,
-+	NVME_CTRL_FROZEN,
- };
+ 	int ret;
  
- struct nvme_ctrl {
+@@ -2103,19 +2100,18 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		if (ret) {
+ 			dev_warn(dev->ctrl.device,
+ 				"IO queues tagset allocation failed %d\n", ret);
+-			return ret;
++			return NVME_CTRL_ADMIN_ONLY;
+ 		}
+ 		dev->ctrl.tagset = &dev->tagset;
+ 
+ 		nvme_dbbuf_set(dev);
+ 	} else {
+-		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
+-
+ 		/* Free previously allocated queues that are no longer usable */
+ 		nvme_free_queues(dev, dev->online_queues);
++		return NVME_CTRL_FROZEN;
+ 	}
+ 
+-	return 0;
++	return NVME_CTRL_LIVE;
+ }
+ 
+ static int nvme_pci_enable(struct nvme_dev *dev)
+@@ -2391,12 +2387,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_remove_namespaces(&dev->ctrl);
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+-		nvme_start_queues(&dev->ctrl);
+-		nvme_wait_freeze(&dev->ctrl);
+-		/* hit this only when allocate tagset fails */
+-		if (nvme_dev_add(dev))
+-			new_state = NVME_CTRL_ADMIN_ONLY;
+-		nvme_unfreeze(&dev->ctrl);
++		new_state = nvme_dev_add(dev);
+ 	}
+ 
+ 	/*
 -- 
 2.14.3
