@@ -1,43 +1,22 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Fri, 13 Jul 2018 15:52:38 +0000
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 13 Jul 2018 12:47:12 -0600
 Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180713154346.GA18955@localhost.localdomain>
+In-Reply-To: <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
 References: <20180521231131.6685-1-keith.busch@intel.com>
  <20180521231131.6685-4-keith.busch@intel.com>
  <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
  <20180712192437.GA16839@localhost.localdomain>
  <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
  <20180713154346.GA18955@localhost.localdomain>
-Message-ID: <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
+ <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
+Message-ID: <20180713184712.GA19419@localhost.localdomain>
 
-On Fri, 2018-07-13@09:43 -0600, Keith Busch wrote:
-> On Thu, Jul 12, 2018@10:24:42PM +0000, Bart Van Assche wrote:
-> > Before commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"), if a
-> > request completion was reported after request timeout processing had
-> > started, completion handling was skipped. The following code in
-> > blk_mq_complete_request() realized that:
-> > 
-> > 	if (blk_mq_rq_aborted_gstate(rq) != rq->gstate)
-> > 		__blk_mq_complete_request(rq);
-> > 
-> > Since commit 12f5b9314545, if a completion occurs after request timeout
-> > processing has started, that completion is processed if the request has the
-> > state MQ_RQ_IN_FLIGHT. blk_mq_rq_timed_out() does not modify the request
-> > state unless the block driver timeout handler modifies it, e.g. by calling
-> > blk_mq_end_request() or by calling blk_mq_requeue_request(). The typical
-> > behavior of scsi_times_out() is to queue sending of a SCSI abort and hence
-> > not to change the request state immediately. In other words, if a request
-> > completion occurs during or shortly after a timeout occurred then
-> > blk_mq_complete_request() will call __blk_mq_complete_request() and will
-> > complete the request, although that is not allowed because timeout handling
-> > has already started. Do you agree with this analysis?
-> 
-> Yes, it's different, and that was the whole point. No one made that a
-> secret either. Are you saying you want timeout software to take priority
-> over handling hardware events?
+On Fri, Jul 13, 2018@03:52:38PM +0000, Bart Van Assche wrote:
+> No. What I'm saying is that a behavior change has been introduced in the block
+> layer that was not documented in the patch description. 
 
-No. What I'm saying is that a behavior change has been introduced in the block
-layer that was not documented in the patch description. I think that behavior
-change even can trigger a kernel crash.
+Did you read the changelog?
 
-Bart.
+> I think that behavior change even can trigger a kernel crash.
+
+I think we are past acknowledging issues exist with timeouts.
