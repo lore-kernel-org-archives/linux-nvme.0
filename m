@@ -1,49 +1,41 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Thu, 12 Jul 2018 22:24:42 +0000
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180712192437.GA16839@localhost.localdomain>
-References: <20180521231131.6685-1-keith.busch@intel.com>
- <20180521231131.6685-4-keith.busch@intel.com>
- <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
- <20180712192437.GA16839@localhost.localdomain>
-Message-ID: <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Fri, 13 Jul 2018 08:48:24 +0800
+Subject: [PATCHv3 0/9] nvme timeout fixes, v3
+In-Reply-To: <20180524203500.14081-1-keith.busch@intel.com>
+References: <20180524203500.14081-1-keith.busch@intel.com>
+Message-ID: <CACVXFVMMC+O65bNweq7KqTgMkGBCdqfe+_QPegFZ5=rPH1Qokg@mail.gmail.com>
 
-On Thu, 2018-07-12@13:24 -0600, Keith Busch wrote:
-> On Thu, Jul 12, 2018@06:16:12PM +0000, Bart Van Assche wrote:
-> > What prevents that a request finishes and gets reused after the
-> > blk_mq_req_expired() call has finished and before kref_get_unless_zero() is
-> > called? Is this perhaps a race condition that has not yet been triggered by
-> > any existing block layer test? Please note that there is no such race
-> > condition in the patch I had posted ("blk-mq: Rework blk-mq timeout handling
-> > again" - https://www.spinics.net/lists/linux-block/msg26489.html).
-> 
-> I don't think there's any such race in the merged implementation
-> either. If the request is reallocated, then the kref check may succeed,
-> but the blk_mq_req_expired() check would surely fail, allowing the
-> request to proceed as normal. The code comments at least say as much.
+On Fri, May 25, 2018@4:34 AM, Keith Busch <keith.busch@intel.com> wrote:
+> v2 -> v3:
+>
+> The main difference is getting rid of the bad idea that we could do
+> a CONNECTING -> RESETTING transtion that breaks the state machine, so
+> that patch is dropped. The series maintains the concept of retrying a
+> reset when an init admin command times out. It just does so in the same
+> context instead of requeueing itself.
+>
+> This series also includes two additional patches to handle other unlikely
+> errors on queue initialization and HMB teardown.
+>
+> Keith Busch (9):
+>   nvme: Sync request queues on reset
+>   nvme-pci: Fix queue freeze criteria on reset
+>   nvme: Move all IO out of controller reset
+>   nvme-pci: Rate limit the nvme timeout warnings
+>   nvme-pci: End IO requests immediately in CONNECTING state
+>   nvme-pci: Unquiesce dead controller queues
+>   nvme-pci: Attempt reset retry for IO failures
+>   nvme-pci: Queue creation error handling
+>   nvme-pci: Don't wait for HMB completion on shutdown
+>
+>  drivers/nvme/host/core.c |  23 ++++++-
+>  drivers/nvme/host/nvme.h |   2 +
+>  drivers/nvme/host/pci.c  | 173 ++++++++++++++++++++++++++++++++++-------------
+>  3 files changed, 150 insertions(+), 48 deletions(-)
 
 Hello Keith,
 
-Before commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"), if a
-request completion was reported after request timeout processing had
-started, completion handling was skipped. The following code in
-blk_mq_complete_request() realized that:
-
-	if (blk_mq_rq_aborted_gstate(rq) != rq->gstate)
-		__blk_mq_complete_request(rq);
-
-Since commit 12f5b9314545, if a completion occurs after request timeout
-processing has started, that completion is processed if the request has the
-state MQ_RQ_IN_FLIGHT. blk_mq_rq_timed_out() does not modify the request
-state unless the block driver timeout handler modifies it, e.g. by calling
-blk_mq_end_request() or by calling blk_mq_requeue_request(). The typical
-behavior of scsi_times_out() is to queue sending of a SCSI abort and hence
-not to change the request state immediately. In other words, if a request
-completion occurs during or shortly after a timeout occurred then
-blk_mq_complete_request() will call __blk_mq_complete_request() and will
-complete the request, although that is not allowed because timeout handling
-has already started. Do you agree with this analysis?
+I guess there will be V4 for addressing the reported issue?
 
 Thanks,
-
-Bart.
+Ming Lei
