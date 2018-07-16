@@ -1,24 +1,123 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 16 Jul 2018 11:12:33 -0600
-Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
-In-Reply-To: <c52b671e-8ca5-aa04-9182-7a43014aed40@grimberg.me>
-References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-2-keith.busch@intel.com>
- <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
- <20180716153721.GB26265@localhost.localdomain>
- <c52b671e-8ca5-aa04-9182-7a43014aed40@grimberg.me>
-Message-ID: <20180716171232.GC26265@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 16 Jul 2018 14:38:14 -0700
+Subject: [PATCH] nvmet-fc: fix target sgl list on large transfers
+Message-ID: <20180716213814.11895-1-jsmart2021@gmail.com>
 
-On Mon, Jul 16, 2018@07:36:41PM +0300, Sagi Grimberg wrote:
-> > The only reason we need this is because each namespace has its own
-> > request queue with their own timeout work. We don't want all of these
-> > scheduling multiple controller resets, so the sync here just ensures
-> > that there is no active timeout work that's about to schedule another
-> > reset while we're already resetting the controller.
-> 
-> But scheduling a reset while a reset is running should not succeed. You
-> should not be able to change state RESETTING -> RESETTING
+The existing code to carve up the sg list expected an sg element-per-page
+which can be very incorrect with iommu's remapping multiple memory pages
+to fewer bus addresses. To hit this error required a large io payload
+(greater than 256k) and a system that maps on a per-page basis. It's
+possible that large ios could get by fine if the system condensed the
+sgl list into the first 64 elements.
 
-Timeout handlers call nvme_dev_disable prior to the reset schedule
-attempt, which is the part that we want to prevent occuring concurrently
-with an already scheduled reset.
+This patch corrects the sg list handling by specifically walking the
+sg list element by element and attempting to divide the transfer up
+on a per-sg element boundary. While doing so, it still tries to keep
+sequences under 256k, but will exceed that rule if a single sg element
+is larger than 256k.
+
+Fixes: 	48fa362b6c3f  ("nvmet-fc: simplify sg list handling")
+Cc: <stable at vger.kernel.org> # 4.14
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/fc.c | 44 +++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 35 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 408279cb6f2c..29b4b236afd8 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -58,8 +58,8 @@ struct nvmet_fc_ls_iod {
+ 	struct work_struct		work;
+ } __aligned(sizeof(unsigned long long));
+ 
++/* desired maximum for a single sequence - if sg list allows it */
+ #define NVMET_FC_MAX_SEQ_LENGTH		(256 * 1024)
+-#define NVMET_FC_MAX_XFR_SGENTS		(NVMET_FC_MAX_SEQ_LENGTH / PAGE_SIZE)
+ 
+ enum nvmet_fcp_datadir {
+ 	NVMET_FCP_NODATA,
+@@ -74,6 +74,7 @@ struct nvmet_fc_fcp_iod {
+ 	struct nvme_fc_cmd_iu		cmdiubuf;
+ 	struct nvme_fc_ersp_iu		rspiubuf;
+ 	dma_addr_t			rspdma;
++	struct scatterlist		*next_sg;
+ 	struct scatterlist		*data_sg;
+ 	int				data_sg_cnt;
+ 	u32				offset;
+@@ -1025,8 +1026,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+ 	INIT_LIST_HEAD(&newrec->assoc_list);
+ 	kref_init(&newrec->ref);
+ 	ida_init(&newrec->assoc_cnt);
+-	newrec->max_sg_cnt = min_t(u32, NVMET_FC_MAX_XFR_SGENTS,
+-					template->max_sgl_segments);
++	newrec->max_sg_cnt = template->max_sgl_segments;
+ 
+ 	ret = nvmet_fc_alloc_ls_iodlist(newrec);
+ 	if (ret) {
+@@ -1722,6 +1722,7 @@ nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
+ 				((fod->io_dir == NVMET_FCP_WRITE) ?
+ 					DMA_FROM_DEVICE : DMA_TO_DEVICE));
+ 				/* note: write from initiator perspective */
++	fod->next_sg = fod->data_sg;
+ 
+ 	return 0;
+ 
+@@ -1866,24 +1867,49 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
+ 				struct nvmet_fc_fcp_iod *fod, u8 op)
+ {
+ 	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
++	struct scatterlist *sg = fod->next_sg;
+ 	unsigned long flags;
+-	u32 tlen;
++	u32 remaininglen = fod->req.transfer_len - fod->offset;
++	u32 tlen = 0;
+ 	int ret;
+ 
+ 	fcpreq->op = op;
+ 	fcpreq->offset = fod->offset;
+ 	fcpreq->timeout = NVME_FC_TGTOP_TIMEOUT_SEC;
+ 
+-	tlen = min_t(u32, tgtport->max_sg_cnt * PAGE_SIZE,
+-			(fod->req.transfer_len - fod->offset));
++	/*
++	 * for next sequence:
++	 *  break at a sg element boundary
++	 *  attempt to keep sequence length capped at
++	 *    NVMET_FC_MAX_SEQ_LENGTH but allow sequence to
++	 *    be longer if a single sg element is larger
++	 *    than that amount. This is done to avoid creating
++	 *    a new sg list to use for the tgtport api.
++	 */
++	fcpreq->sg = sg;
++	fcpreq->sg_cnt = 0;
++	while (tlen < remaininglen &&
++	       fcpreq->sg_cnt < tgtport->max_sg_cnt &&
++	       tlen + sg_dma_len(sg) < NVMET_FC_MAX_SEQ_LENGTH) {
++		fcpreq->sg_cnt++;
++		tlen += sg_dma_len(sg);
++		sg = sg_next(sg);
++	}
++	if (tlen < remaininglen && fcpreq->sg_cnt == 0) {
++		fcpreq->sg_cnt++;
++		tlen += min_t(u32, sg_dma_len(sg), remaininglen);
++		sg = sg_next(sg);
++	}
++	if (tlen < remaininglen)
++		fod->next_sg = sg;
++	else
++		fod->next_sg = NULL;
++
+ 	fcpreq->transfer_length = tlen;
+ 	fcpreq->transferred_length = 0;
+ 	fcpreq->fcp_error = 0;
+ 	fcpreq->rsplen = 0;
+ 
+-	fcpreq->sg = &fod->data_sg[fod->offset / PAGE_SIZE];
+-	fcpreq->sg_cnt = DIV_ROUND_UP(tlen, PAGE_SIZE);
+-
+ 	/*
+ 	 * If the last READDATA request: check if LLDD supports
+ 	 * combined xfr with response.
+-- 
+2.13.1
