@@ -1,30 +1,55 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 16 Jul 2018 07:36:40 -0600
-Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
-In-Reply-To: <20180716110903.GC25386@ming.t460p>
-References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-4-keith.busch@intel.com>
- <20180716110903.GC25386@ming.t460p>
-Message-ID: <20180716133640.GC19967@localhost.localdomain>
+From: hamdyk@mellanox.com (Hamdy Khader)
+Date: Mon, 16 Jul 2018 17:01:19 +0300
+Subject: [PATCH] Adds the ability to delete namespace.
+Message-ID: <1531749679-10504-1-git-send-email-hamdyk@mellanox.com>
 
-On Mon, Jul 16, 2018@07:09:04PM +0800, Ming Lei wrote:
-> On Fri, Jul 13, 2018@02:56:08PM -0600, Keith Busch wrote:
-> > +	if (ctrl->state == NVME_CTRL_FROZEN) {
-> > +		nvme_wait_freeze(ctrl);
-> > +		blk_mq_update_nr_hw_queues(ctrl->tagset, ctrl->queue_count - 1);
-> > +		nvme_unfreeze(ctrl);
-> > +		if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-> > +			return;
-> > +	}
-> > +
-> 
-> Now you move unfreezing into start work function, seems this way can't
-> guarantee that nvme_unfreeze() is strictly paired with nvme_start_freeze() done
-> in nvme_dev_disable().
+---
+ nvmetcli | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-The state machine is supposed to guarantee this. We only start freeze
-in certain states from nvme_dev_disable, and transition to frozen when
-exiting those states. I agree it's not the easiest API to follow, and
-I'll double check to see if it's correct. I think I have the
-reset/connecting/frozen/live transitions okay for nvme-pci, but I need
-to look again at the deleting/dead states.
+diff --git a/nvmetcli b/nvmetcli
+index 6b102a2..20bdfa6 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -583,6 +583,7 @@ def usage():
+     print("        %s restore [file_to_restore_from]" % sys.argv[0])
+     print("        %s clear" % sys.argv[0])
+     print("        %s ls" % sys.argv[0])
++    print("        %s delete_ns [namespace_id] [subsystem_name]" % sys.argv[0])
+     sys.exit(-1)
+ 
+ 
+@@ -613,7 +614,18 @@ def ls(unused):
+     sys.exit(0)
+ 
+ 
+-funcs = dict(save=save, restore=restore, clear=clear, ls=ls)
++def delete_ns(unused):
++    ns_name = sys.argv[2]
++    ss_name = sys.argv[3]
++    print("deleting namespace:%s ,subsystem:%s" % (ns_name, ss_name))
++    subsystem_node = nvme.Subsystem(nqn=ss_name, mode='lookup')
++    namespace_node = nvme.Namespace(subsystem_node, nsid=ns_name, mode='lookup')
++    namespace_node.set_enable(0)
++    namespace_node.delete()
++
++
++funcs = dict(save=save, restore=restore, clear=clear, ls=ls,
++             delete_ns=delete_ns)
+ 
+ 
+ def main():
+@@ -621,10 +633,7 @@ def main():
+         print("%s: must run as root." % sys.argv[0], file=sys.stderr)
+         sys.exit(-1)
+ 
+-    if len(sys.argv) > 3:
+-        usage()
+-
+-    if len(sys.argv) == 2 or len(sys.argv) == 3:
++    if len(sys.argv) >= 2:
+         if sys.argv[1] == "--help":
+             usage()
+ 
+-- 
+1.9.1
