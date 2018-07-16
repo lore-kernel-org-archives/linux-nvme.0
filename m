@@ -1,55 +1,26 @@
-From: hamdyk@mellanox.com (Hamdy Khader)
-Date: Mon, 16 Jul 2018 17:01:19 +0300
-Subject: [PATCH] Adds the ability to delete namespace.
-Message-ID: <1531749679-10504-1-git-send-email-hamdyk@mellanox.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 16 Jul 2018 09:34:43 -0500
+Subject: nvme-rdma and rdma comp vector affinity problem
+In-Reply-To: <b1728f78-f546-552f-6296-8c7e22d52599@mellanox.com>
+References: <bf6b909e-b3b9-cc77-2837-c65302f7c22c@opengridcomputing.com>
+ <984d4c8e-16b9-d459-e4b9-bf1703b4c226@opengridcomputing.com>
+ <b1728f78-f546-552f-6296-8c7e22d52599@mellanox.com>
+Message-ID: <97f83ec3-c6a2-8b18-fff1-4bc052a267b1@opengridcomputing.com>
 
----
- nvmetcli | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/nvmetcli b/nvmetcli
-index 6b102a2..20bdfa6 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -583,6 +583,7 @@ def usage():
-     print("        %s restore [file_to_restore_from]" % sys.argv[0])
-     print("        %s clear" % sys.argv[0])
-     print("        %s ls" % sys.argv[0])
-+    print("        %s delete_ns [namespace_id] [subsystem_name]" % sys.argv[0])
-     sys.exit(-1)
- 
- 
-@@ -613,7 +614,18 @@ def ls(unused):
-     sys.exit(0)
- 
- 
--funcs = dict(save=save, restore=restore, clear=clear, ls=ls)
-+def delete_ns(unused):
-+    ns_name = sys.argv[2]
-+    ss_name = sys.argv[3]
-+    print("deleting namespace:%s ,subsystem:%s" % (ns_name, ss_name))
-+    subsystem_node = nvme.Subsystem(nqn=ss_name, mode='lookup')
-+    namespace_node = nvme.Namespace(subsystem_node, nsid=ns_name, mode='lookup')
-+    namespace_node.set_enable(0)
-+    namespace_node.delete()
-+
-+
-+funcs = dict(save=save, restore=restore, clear=clear, ls=ls,
-+             delete_ns=delete_ns)
- 
- 
- def main():
-@@ -621,10 +633,7 @@ def main():
-         print("%s: must run as root." % sys.argv[0], file=sys.stderr)
-         sys.exit(-1)
- 
--    if len(sys.argv) > 3:
--        usage()
--
--    if len(sys.argv) == 2 or len(sys.argv) == 3:
-+    if len(sys.argv) >= 2:
-         if sys.argv[1] == "--help":
-             usage()
- 
--- 
-1.9.1
+
+On 7/15/2018 2:58 AM, Max Gurtovoy wrote:
+> Hi Steve,
+> I didn't go throw the implementation of cxgb4, but did you implement
+> the needed callback or you calling the blk mapping function (fallback
+> to blk_mq_map_queues) ?
+>
+> Regards,
+> -Max.
+>
+
+Hey Max.? I implemented ib_get_vector_affinity() support for cxgb4.??
+Also, If I change mlx5 to use the same cpus for each vector, I see the
+same error for nvme-rdma over mlx5.?
+
+Steve.
