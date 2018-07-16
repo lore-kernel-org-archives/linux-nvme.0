@@ -1,26 +1,22 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 16 Jul 2018 09:34:43 -0500
-Subject: nvme-rdma and rdma comp vector affinity problem
-In-Reply-To: <b1728f78-f546-552f-6296-8c7e22d52599@mellanox.com>
-References: <bf6b909e-b3b9-cc77-2837-c65302f7c22c@opengridcomputing.com>
- <984d4c8e-16b9-d459-e4b9-bf1703b4c226@opengridcomputing.com>
- <b1728f78-f546-552f-6296-8c7e22d52599@mellanox.com>
-Message-ID: <97f83ec3-c6a2-8b18-fff1-4bc052a267b1@opengridcomputing.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 16 Jul 2018 17:51:47 +0300
+Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+In-Reply-To: <20180713205609.19701-2-keith.busch@intel.com>
+References: <20180713205609.19701-1-keith.busch@intel.com>
+ <20180713205609.19701-2-keith.busch@intel.com>
+Message-ID: <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
 
+Keith,
 
+> This patch fixes races that occur with simultaneous controller
+> resets by synchronizing request queues prior to initializing the
+> controller. Withouth this, a thread may attempt disabling a controller
+> at the same time as we're trying to enable it.
 
-On 7/15/2018 2:58 AM, Max Gurtovoy wrote:
-> Hi Steve,
-> I didn't go throw the implementation of cxgb4, but did you implement
-> the needed callback or you calling the blk mapping function (fallback
-> to blk_mq_map_queues) ?
->
-> Regards,
-> -Max.
->
+I'll need a little more help with this. This is due to the
+fact that we disable the controller directly from the timeout
+handler? If not, what context may disable when nvme_reset_work
+is running?
 
-Hey Max.? I implemented ib_get_vector_affinity() support for cxgb4.??
-Also, If I change mlx5 to use the same cpus for each vector, I see the
-same error for nvme-rdma over mlx5.?
-
-Steve.
+I'm trying what the sync should serialize and why is it not
+serialized by the controller state machine.
