@@ -1,24 +1,30 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 16 Jul 2018 09:35:41 -0600
-Subject: [PATCHv4 2/4] nvme: Start controller in own work queue
-In-Reply-To: <7647e947-f20c-a0eb-d4b5-f19748e2b4bd@grimberg.me>
+Date: Mon, 16 Jul 2018 09:37:21 -0600
+Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+In-Reply-To: <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
 References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-3-keith.busch@intel.com>
- <7647e947-f20c-a0eb-d4b5-f19748e2b4bd@grimberg.me>
-Message-ID: <20180716153540.GA26265@localhost.localdomain>
+ <20180713205609.19701-2-keith.busch@intel.com>
+ <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
+Message-ID: <20180716153721.GB26265@localhost.localdomain>
 
-On Mon, Jul 16, 2018@06:00:38PM +0300, Sagi Grimberg wrote:
+On Mon, Jul 16, 2018@05:51:47PM +0300, Sagi Grimberg wrote:
+> Keith,
 > 
-> > This moves the controller start from the reset_work to its own work.
-> > This is preparing for the possibility of running IO when starting the
-> > controller, which we shouldn't do from the reset_work since we need that
-> > context to handle timeouts.
+> > This patch fixes races that occur with simultaneous controller
+> > resets by synchronizing request queues prior to initializing the
+> > controller. Withouth this, a thread may attempt disabling a controller
+> > at the same time as we're trying to enable it.
 > 
-> What do you mean handle timeouts? the timeout handler is not invoked
-> from the reset_work thread.
+> I'll need a little more help with this. This is due to the
+> fact that we disable the controller directly from the timeout
+> handler? If not, what context may disable when nvme_reset_work
+> is running?
+> 
+> I'm trying what the sync should serialize and why is it not
+> serialized by the controller state machine.
 
-Not directly. If you dispatch blocking IO from the reset_work, the timeout
-handler will eventually be invoked if the IO never returns. This series
-is really just trying to get all the blocking IO out of the reset_work
-because IO may requeue when the timeout handler disables the controller,
-and we need the reset_work to restart the controller.
+The only reason we need this is because each namespace has its own
+request queue with their own timeout work. We don't want all of these
+scheduling multiple controller resets, so the sync here just ensures
+that there is no active timeout work that's about to schedule another
+reset while we're already resetting the controller.
