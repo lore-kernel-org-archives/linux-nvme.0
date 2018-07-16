@@ -1,33 +1,34 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 16 Jul 2018 18:39:57 +0800
-Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
-In-Reply-To: <9bd80570-5b7d-c093-ffbb-a8fbcaa58db0@oracle.com>
-References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-2-keith.busch@intel.com>
- <9bd80570-5b7d-c093-ffbb-a8fbcaa58db0@oracle.com>
-Message-ID: <20180716103956.GB25386@ming.t460p>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 16 Jul 2018 13:53:41 +0300
+Subject: [PATCH rfc 0/2] nvmet nice logging helpers
+Message-ID: <20180716105343.29699-1-sagi@grimberg.me>
 
-On Mon, Jul 16, 2018@04:52:39PM +0800, jianchao.wang wrote:
-> Hi Keith
-> 
-> On 07/14/2018 04:56 AM, Keith Busch wrote:
-> > This patch fixes races that occur with simultaneous controller
-> > resets by synchronizing request queues prior to initializing the
-> > controller. Withouth this, a thread may attempt disabling a controller
-> > at the same time as we're trying to enable it.
-> 
-> This issue is due to the previous blk-mq timeout mechanism will hold
-> all the timed out requests, then nvme_dev_disable cannot grab these requests
-> and when it returns, the blk_mq_timeout_work could be still running.
-> But after commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"),
-> nvme_dev_disble have been able to grab all the requests and when it returns,
-> there will be no any requests in blk_mq_timeout_work so nvme_dev_disable will
-> not be invoked multiple times.
-> So this patch should be unnecessary. :)
+This patch set adds some friendly logging helpers with similar
+functionality to dev_[err|warn|info|dbg]. When building a
+target system with multiple ports and multiple controllers
+connected, its useful to have a coherent log message formats
+that provide the affected port and controller identifier.
 
-There are multiple namespaces, and all may trigger timeout at the same
-time, so looks the sync is still needed.
+The one annoying thing is that for xxxx_dbg helper I needed
+to open-code the dynamic debug macros. If anyone has a better
+idea on how to have it, it'd be great (without allocating a class
+device for it).
 
+Feedback is welcome.
 
-Thanks,
-Ming
+Sagi Grimberg (2):
+  nvmet: add nvmet port logging helpers
+  nvmet: add nvmet ctrl logging helpers
+
+ drivers/nvme/target/admin-cmd.c   | 11 ++++-----
+ drivers/nvme/target/configfs.c    | 37 +++++++++++-----------------
+ drivers/nvme/target/core.c        | 20 +++++++--------
+ drivers/nvme/target/discovery.c   | 13 +++++-----
+ drivers/nvme/target/fabrics-cmd.c | 15 +++++------
+ drivers/nvme/target/io-cmd-bdev.c |  5 ++--
+ drivers/nvme/target/nvmet.h       | 44 +++++++++++++++++++++++++++++++++
+ drivers/nvme/target/rdma.c        | 52 ++++++++++++++++++++++-----------------
+ 8 files changed, 122 insertions(+), 75 deletions(-)
+
+-- 
+2.14.1
