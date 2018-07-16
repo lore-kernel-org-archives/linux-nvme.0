@@ -1,75 +1,119 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 16 Jul 2018 19:09:04 +0800
-Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
-In-Reply-To: <20180713205609.19701-4-keith.busch@intel.com>
-References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-4-keith.busch@intel.com>
-Message-ID: <20180716110903.GC25386@ming.t460p>
+From: hamdyk@mellanox.com (Hamdy Khader)
+Date: Mon, 16 Jul 2018 14:49:38 +0300
+Subject: [PATCH] Adds the ability to dump json to stdout
+Message-ID: <1531741778-9705-1-git-send-email-hamdyk@mellanox.com>
 
-On Fri, Jul 13, 2018@02:56:08PM -0600, Keith Busch wrote:
-> This patch creates a new controller state that transport specific drivers
-> can set their controller to prior to starting the controller to have the
-> start_work handle frozen request queues and update the hardware contexts.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/core.c | 21 ++++++++++++++++++++-
->  drivers/nvme/host/nvme.h |  1 +
->  2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 6fed8a454843..7ce339c3fcc4 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -288,11 +288,21 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->  			break;
->  		}
->  		break;
-> +	case NVME_CTRL_FROZEN:
-> +		switch (old_state) {
-> +		case NVME_CTRL_CONNECTING:
-> +			changed = true;
-> +			/* FALLTHRU */
-> +		default:
-> +			break;
-> +		}
-> +		break;
->  	case NVME_CTRL_LIVE:
->  		switch (old_state) {
->  		case NVME_CTRL_NEW:
->  		case NVME_CTRL_RESETTING:
->  		case NVME_CTRL_CONNECTING:
-> +		case NVME_CTRL_FROZEN:
->  			changed = true;
->  			/* FALLTHRU */
->  		default:
-> @@ -304,6 +314,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
->  		case NVME_CTRL_NEW:
->  		case NVME_CTRL_LIVE:
->  		case NVME_CTRL_ADMIN_ONLY:
-> +		case NVME_CTRL_FROZEN:
->  			changed = true;
->  			/* FALLTHRU */
->  		default:
-> @@ -3435,16 +3446,24 @@ void nvme_start_work(struct work_struct *work)
->  	if (ctrl->kato)
->  		nvme_start_keep_alive(ctrl);
->  
-> +	if (ctrl->state == NVME_CTRL_FROZEN) {
-> +		nvme_wait_freeze(ctrl);
-> +		blk_mq_update_nr_hw_queues(ctrl->tagset, ctrl->queue_count - 1);
-> +		nvme_unfreeze(ctrl);
-> +		if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
-> +			return;
-> +	}
-> +
+---
+ nvmet/nvme.py |  3 +++
+ nvmetcli      | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 59 insertions(+), 5 deletions(-)
 
-Now you move unfreezing into start work function, seems this way can't
-guarantee that nvme_unfreeze() is strictly paired with nvme_start_freeze() done
-in nvme_dev_disable().
-
-In V3, this issue can be avoided by patch of '[PATCHv3 3/9] nvme: Move all IO out of
-controller reset'.
-
-Thanks,
-Ming
+diff --git a/nvmet/nvme.py b/nvmet/nvme.py
+index 8253ea9..3ca8429 100644
+--- a/nvmet/nvme.py
++++ b/nvmet/nvme.py
+@@ -388,6 +388,9 @@ class Root(CFSNode):
+         d['hosts'] = [h.dump() for h in self.hosts]
+         return d
+ 
++    def dump_json(self):
++        return json.dumps(self.dump(), sort_keys=True, indent=2)
++
+ 
+ class Subsystem(CFSNode):
+     '''
+diff --git a/nvmetcli b/nvmetcli
+index 6b102a2..b784162 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -583,6 +583,12 @@ def usage():
+     print("        %s restore [file_to_restore_from]" % sys.argv[0])
+     print("        %s clear" % sys.argv[0])
+     print("        %s ls" % sys.argv[0])
++    print("        %s create_port [subsystem_name] [port_id] [ip_version]" % sys.argv[0])
++    print("                       [transport_address] [transport_type] [transport_port]")
++    print("        %s create_subsystem [subsystem_name]" % sys.argv[0])
++    print("        %s create_ns [namespace_id] [subsystem_name] [device_path]" % sys.argv[0])
++    print("        %s delete_ns [namespace_id] [subsystem_name]" % sys.argv[0])
++    print("        %s dump" % sys.argv[0])
+     sys.exit(-1)
+ 
+ 
+@@ -590,6 +596,10 @@ def save(to_file):
+     nvme.Root().save_to_file(to_file)
+ 
+ 
++def dump(unused):
++    print(nvme.Root().dump_json())
++
++
+ def restore(from_file):
+     try:
+         errors = nvme.Root().restore_from_file(from_file)
+@@ -613,7 +623,51 @@ def ls(unused):
+     sys.exit(0)
+ 
+ 
+-funcs = dict(save=save, restore=restore, clear=clear, ls=ls)
++def create_subsystem(unused):
++    nqn = sys.argv[2]
++    subsystem_node = nvme.Subsystem(nqn=nqn, mode='create')
++    subsystem_node.set_attr("attr", "allow_any_host", "1")
++
++
++def create_port(unused):
++    nqn = sys.argv[2]
++    port_id = sys.argv[3]
++    ip_version = sys.argv[4]
++    transport_address = sys.argv[5]
++    transport_type = sys.argv[6]
++    transport_port = sys.argv[7]
++    port_node = nvme.Port(portid=port_id, mode='create')
++    port_node.set_attr('addr', 'adrfam', ip_version)
++    port_node.set_attr('addr', 'traddr', transport_address)
++    port_node.set_attr('addr', 'trtype', transport_type)
++    port_node.set_attr('addr', 'trsvcid', transport_port)
++    port_node.add_subsystem(nqn)
++
++
++def create_ns(unused):
++    ns_name = sys.argv[2]
++    ss_name = sys.argv[3]
++    device_path = sys.argv[4]
++    print("creating namespace:%s ,subsystem:%s ,device_path:%s" % (ns_name, ss_name, device_path))
++    subsystem_node = nvme.Subsystem(nqn=ss_name, mode='lookup')
++    namespace_node = nvme.Namespace(subsystem_node, mode='create')
++    namespace_node.set_attr('device', 'path', device_path)
++    namespace_node.set_enable(1)
++
++
++def delete_ns(unused):
++    ns_name = sys.argv[2]
++    ss_name = sys.argv[3]
++    print("deleting namespace:%s ,subsystem:%s" % (ns_name, ss_name))
++    subsystem_node = nvme.Subsystem(nqn=ss_name, mode='lookup')
++    namespace_node = nvme.Namespace(subsystem_node, nsid=ns_name, mode='lookup')
++    namespace_node.set_enable(0)
++    namespace_node.delete()
++
++
++funcs = dict(save=save, restore=restore, clear=clear, ls=ls,
++             dump=dump, create_ns=create_ns, delete_ns=delete_ns,
++             create_subsystem=create_subsystem, create_port=create_port)
+ 
+ 
+ def main():
+@@ -621,10 +675,7 @@ def main():
+         print("%s: must run as root." % sys.argv[0], file=sys.stderr)
+         sys.exit(-1)
+ 
+-    if len(sys.argv) > 3:
+-        usage()
+-
+-    if len(sys.argv) == 2 or len(sys.argv) == 3:
++    if len(sys.argv) >= 2:
+         if sys.argv[1] == "--help":
+             usage()
+ 
+-- 
+1.9.1
