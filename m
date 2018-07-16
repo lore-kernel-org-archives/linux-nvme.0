@@ -1,81 +1,38 @@
-From: hamdyk@mellanox.com (Hamdy Khader)
-Date: Mon, 16 Jul 2018 15:13:40 +0300
-Subject: [PATCH] Adds the ability to create a port, namespace and subsystem.
-Message-ID: <1531743220-10200-1-git-send-email-hamdyk@mellanox.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 16 Jul 2018 07:30:59 -0600
+Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+In-Reply-To: <20180716103956.GB25386@ming.t460p>
+References: <20180713205609.19701-1-keith.busch@intel.com>
+ <20180713205609.19701-2-keith.busch@intel.com>
+ <9bd80570-5b7d-c093-ffbb-a8fbcaa58db0@oracle.com>
+ <20180716103956.GB25386@ming.t460p>
+Message-ID: <20180716133059.GB19967@localhost.localdomain>
 
----
- nvmetcli | 45 ++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 40 insertions(+), 5 deletions(-)
+On Mon, Jul 16, 2018@06:39:57PM +0800, Ming Lei wrote:
+> On Mon, Jul 16, 2018@04:52:39PM +0800, jianchao.wang wrote:
+> > Hi Keith
+> > 
+> > On 07/14/2018 04:56 AM, Keith Busch wrote:
+> > > This patch fixes races that occur with simultaneous controller
+> > > resets by synchronizing request queues prior to initializing the
+> > > controller. Withouth this, a thread may attempt disabling a controller
+> > > at the same time as we're trying to enable it.
+> > 
+> > This issue is due to the previous blk-mq timeout mechanism will hold
+> > all the timed out requests, then nvme_dev_disable cannot grab these requests
+> > and when it returns, the blk_mq_timeout_work could be still running.
+> > But after commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"),
+> > nvme_dev_disble have been able to grab all the requests and when it returns,
+> > there will be no any requests in blk_mq_timeout_work so nvme_dev_disable will
+> > not be invoked multiple times.
+> > So this patch should be unnecessary. :)
+> 
+> There are multiple namespaces, and all may trigger timeout at the same
+> time, so looks the sync is still needed.
 
-diff --git a/nvmetcli b/nvmetcli
-index 6b102a2..fba13c2 100755
---- a/nvmetcli
-+++ b/nvmetcli
-@@ -583,6 +583,10 @@ def usage():
-     print("        %s restore [file_to_restore_from]" % sys.argv[0])
-     print("        %s clear" % sys.argv[0])
-     print("        %s ls" % sys.argv[0])
-+    print("        %s create_port [subsystem_name] [port_id] [ip_version]" % sys.argv[0])
-+    print("                       [transport_address] [transport_type] [transport_port]")
-+    print("        %s create_subsystem [subsystem_name]" % sys.argv[0])
-+    print("        %s create_ns [namespace_id] [subsystem_name] [device_path]" % sys.argv[0])
-     sys.exit(-1)
- 
- 
-@@ -613,7 +617,41 @@ def ls(unused):
-     sys.exit(0)
- 
- 
--funcs = dict(save=save, restore=restore, clear=clear, ls=ls)
-+def create_subsystem(unused):
-+    nqn = sys.argv[2]
-+    subsystem_node = nvme.Subsystem(nqn=nqn, mode='create')
-+    subsystem_node.set_attr("attr", "allow_any_host", "1")
-+
-+
-+def create_port(unused):
-+    nqn = sys.argv[2]
-+    port_id = sys.argv[3]
-+    ip_version = sys.argv[4]
-+    transport_address = sys.argv[5]
-+    transport_type = sys.argv[6]
-+    transport_port = sys.argv[7]
-+    port_node = nvme.Port(portid=port_id, mode='create')
-+    port_node.set_attr('addr', 'adrfam', ip_version)
-+    port_node.set_attr('addr', 'traddr', transport_address)
-+    port_node.set_attr('addr', 'trtype', transport_type)
-+    port_node.set_attr('addr', 'trsvcid', transport_port)
-+    port_node.add_subsystem(nqn)
-+
-+
-+def create_ns(unused):
-+    ns_name = sys.argv[2]
-+    ss_name = sys.argv[3]
-+    device_path = sys.argv[4]
-+    print("creating namespace:%s ,subsystem:%s ,device_path:%s" % (ns_name, ss_name, device_path))
-+    subsystem_node = nvme.Subsystem(nqn=ss_name, mode='lookup')
-+    namespace_node = nvme.Namespace(subsystem_node, mode='create')
-+    namespace_node.set_attr('device', 'path', device_path)
-+    namespace_node.set_enable(1)
-+
-+
-+funcs = dict(save=save, restore=restore, clear=clear, ls=ls,
-+             create_ns=create_ns, create_subsystem=create_subsystem,
-+             create_port=create_port)
- 
- 
- def main():
-@@ -621,10 +659,7 @@ def main():
-         print("%s: must run as root." % sys.argv[0], file=sys.stderr)
-         sys.exit(-1)
- 
--    if len(sys.argv) > 3:
--        usage()
--
--    if len(sys.argv) == 2 or len(sys.argv) == 3:
-+    if len(sys.argv) >= 2:
-         if sys.argv[1] == "--help":
-             usage()
- 
--- 
-1.9.1
+Yes, we still need this syncing because each namespace has a different
+request queue with their own timeout work.
+
+As an alternative, I looked into having timeout work per tagset rather
+than per request-queue, but that turned into a more complicated change
+than this patch.
