@@ -1,65 +1,52 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 16 Jul 2018 09:51:07 +0300
-Subject: nvme-rdma and rdma comp vector affinity problem
-In-Reply-To: <984d4c8e-16b9-d459-e4b9-bf1703b4c226@opengridcomputing.com>
-References: <bf6b909e-b3b9-cc77-2837-c65302f7c22c@opengridcomputing.com>
- <984d4c8e-16b9-d459-e4b9-bf1703b4c226@opengridcomputing.com>
-Message-ID: <c3faccbe-a3ac-96ac-00f9-1dd5997b5510@grimberg.me>
+Date: Mon, 16 Jul 2018 10:07:04 +0300
+Subject: [PATCH] Adds the appility to print json to stdout, create ports, 
+ namespaces and subsystems using cli.
+In-Reply-To: <1531663895-5151-1-git-send-email-hamdyk@mellanox.com>
+References: <1531663895-5151-1-git-send-email-hamdyk@mellanox.com>
+Message-ID: <739dae37-0c4a-aa23-a8c7-8969bbf972b2@grimberg.me>
 
+This patch needs to split into at least 2 patches.
 
-> Hey Sagi and Christoph,
+On 07/15/2018 05:11 PM, Hamdy Khader wrote:
+> ---
+>   nvmet/nvme.py |  3 +++
+>   nvmetcli      | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+>   2 files changed, 59 insertions(+), 5 deletions(-)
 > 
-> Do you all have any thoughts on this?? It seems like a bug in nvme-rdma
-> or the blk-mq code.?? I can debug it further, if we agree this does look
-> like a bug...
+> diff --git a/nvmet/nvme.py b/nvmet/nvme.py
+> index 8253ea9..3ca8429 100644
+> --- a/nvmet/nvme.py
+> +++ b/nvmet/nvme.py
+> @@ -388,6 +388,9 @@ class Root(CFSNode):
+>           d['hosts'] = [h.dump() for h in self.hosts]
+>           return d
+>   
+> +    def dump_json(self):
+> +        return json.dumps(self.dump(), sort_keys=True, indent=2)
+> +
+>   
+>   class Subsystem(CFSNode):
+>       '''
+> diff --git a/nvmetcli b/nvmetcli
+> index 6b102a2..b784162 100755
+> --- a/nvmetcli
+> +++ b/nvmetcli
+> @@ -583,6 +583,12 @@ def usage():
+>       print("        %s restore [file_to_restore_from]" % sys.argv[0])
+>       print("        %s clear" % sys.argv[0])
+>       print("        %s ls" % sys.argv[0])
+> +    print("        %s create_port [subsystem_name] [port_id] [ip_version]" % sys.argv[0])
+> +    print("                       [transport_address] [transport_type] [transport_port]")
 
-It is a bug... blk-mq tells expects us to skip unmapped queues but
-we fail the controller altogether...
+If we go down this route, then subsystem linkage should be a separate
+command.
 
-I assume managed affinity would have take care of linearization for us..
+> +    print("        %s create_subsystem [subsystem_name]" % sys.argv[0])
 
-Does this quick untested patch work?
---
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 8023054ec83e..766d10acb1b9 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -604,20 +604,33 @@ static int nvme_rdma_start_queue(struct 
-nvme_rdma_ctrl *ctrl, int idx)
+What about remove_port/remove_subsystem?
 
-  static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
-  {
--       int i, ret = 0;
-+       int i, ret = 0, count = 0;
-
-         for (i = 1; i < ctrl->ctrl.queue_count; i++) {
-                 ret = nvme_rdma_start_queue(ctrl, i);
--               if (ret)
-+               if (ret) {
-+                       if (ret == -EXDEV) {
-+                               /* unmapped queue, skip ... */
-+                               nvme_rdma_free_queue(&ctrl->queues[i]);
-+                               continue;
-+                       }
-                         goto out_stop_queues;
-+               }
-+               count++;
-         }
-
-+       if (!count)
-+               /* no started queues, fail */
-+               goto out_stop_queues;
-+
-+       dev_info(ctrl->ctrl.device, "connected %d I/O queues.\n", count);
-+
-         return 0;
-
-  out_stop_queues:
-         for (i--; i >= 1; i--)
-                 nvme_rdma_stop_queue(&ctrl->queues[i]);
--       return ret;
-+       return -EIO;
-  }
-
-  static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
---
+> +    print("        %s create_ns [namespace_id] [subsystem_name] [device_path]" % sys.argv[0])
+> +    print("        %s delete_ns [namespace_id] [subsystem_name]" % sys.argv[0])
+> +    print("        %s dump" % sys.argv[0])
+>       sys.exit(-1)
