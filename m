@@ -1,34 +1,34 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 16 Jul 2018 12:58:35 +0200
-Subject: [PATCH 3/5] nvme-multipath: fixup crash during disconnect
+Date: Mon, 16 Jul 2018 12:58:33 +0200
+Subject: [PATCH 1/5] nvme: count all ANA groups for ANA Log page
 In-Reply-To: <20180716105837.101125-1-hare@suse.de>
 References: <20180716105837.101125-1-hare@suse.de>
-Message-ID: <20180716105837.101125-4-hare@suse.de>
+Message-ID: <20180716105837.101125-2-hare@suse.de>
 
-The kernel will crash during disconnect, if the first path is
-'optimized' and the second 'non-optimized'. Then upon removing the
-first path any I/O coming in _before_ removing the second path will
-find the first path to be unusable, and assign 'fallback' to the
-second. But after exiting the loop it will assign the _first_ path
-to 'current_path', leading to a crash later on.
+When issuing a short read on the ANA log page the number of groups
+should not change, even though the final returned data might contain
+less groups than that number.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/multipath.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/target/admin-cmd.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 8980b0137fa5..5205f41c0f6c 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -129,7 +129,7 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head)
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 8de264ece826..92682ed11bc4 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -200,6 +200,11 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
+ 		offset += len;
+ 		ngrps++;
  	}
++	while (grpid <= NVMET_MAX_ANAGRPS) {
++		if (nvmet_ana_group_enabled[grpid])
++			ngrps++;
++		grpid++;
++	}
  
- 	if (fallback)
--		rcu_assign_pointer(head->current_path, ns);
-+		rcu_assign_pointer(head->current_path, fallback);
- 	return fallback;
- }
- 
+ 	hdr.chgcnt = cpu_to_le64(nvmet_ana_chgcnt);
+ 	hdr.ngrps = cpu_to_le16(ngrps);
 -- 
 2.12.3
