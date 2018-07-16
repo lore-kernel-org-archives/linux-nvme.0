@@ -1,38 +1,30 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 16 Jul 2018 07:30:59 -0600
-Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
-In-Reply-To: <20180716103956.GB25386@ming.t460p>
+Date: Mon, 16 Jul 2018 07:36:40 -0600
+Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
+In-Reply-To: <20180716110903.GC25386@ming.t460p>
 References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-2-keith.busch@intel.com>
- <9bd80570-5b7d-c093-ffbb-a8fbcaa58db0@oracle.com>
- <20180716103956.GB25386@ming.t460p>
-Message-ID: <20180716133059.GB19967@localhost.localdomain>
+ <20180713205609.19701-4-keith.busch@intel.com>
+ <20180716110903.GC25386@ming.t460p>
+Message-ID: <20180716133640.GC19967@localhost.localdomain>
 
-On Mon, Jul 16, 2018@06:39:57PM +0800, Ming Lei wrote:
-> On Mon, Jul 16, 2018@04:52:39PM +0800, jianchao.wang wrote:
-> > Hi Keith
-> > 
-> > On 07/14/2018 04:56 AM, Keith Busch wrote:
-> > > This patch fixes races that occur with simultaneous controller
-> > > resets by synchronizing request queues prior to initializing the
-> > > controller. Withouth this, a thread may attempt disabling a controller
-> > > at the same time as we're trying to enable it.
-> > 
-> > This issue is due to the previous blk-mq timeout mechanism will hold
-> > all the timed out requests, then nvme_dev_disable cannot grab these requests
-> > and when it returns, the blk_mq_timeout_work could be still running.
-> > But after commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"),
-> > nvme_dev_disble have been able to grab all the requests and when it returns,
-> > there will be no any requests in blk_mq_timeout_work so nvme_dev_disable will
-> > not be invoked multiple times.
-> > So this patch should be unnecessary. :)
+On Mon, Jul 16, 2018@07:09:04PM +0800, Ming Lei wrote:
+> On Fri, Jul 13, 2018@02:56:08PM -0600, Keith Busch wrote:
+> > +	if (ctrl->state == NVME_CTRL_FROZEN) {
+> > +		nvme_wait_freeze(ctrl);
+> > +		blk_mq_update_nr_hw_queues(ctrl->tagset, ctrl->queue_count - 1);
+> > +		nvme_unfreeze(ctrl);
+> > +		if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+> > +			return;
+> > +	}
+> > +
 > 
-> There are multiple namespaces, and all may trigger timeout at the same
-> time, so looks the sync is still needed.
+> Now you move unfreezing into start work function, seems this way can't
+> guarantee that nvme_unfreeze() is strictly paired with nvme_start_freeze() done
+> in nvme_dev_disable().
 
-Yes, we still need this syncing because each namespace has a different
-request queue with their own timeout work.
-
-As an alternative, I looked into having timeout work per tagset rather
-than per request-queue, but that turned into a more complicated change
-than this patch.
+The state machine is supposed to guarantee this. We only start freeze
+in certain states from nvme_dev_disable, and transition to frozen when
+exiting those states. I agree it's not the easiest API to follow, and
+I'll double check to see if it's correct. I think I have the
+reset/connecting/frozen/live transitions okay for nvme-pci, but I need
+to look again at the deleting/dead states.
