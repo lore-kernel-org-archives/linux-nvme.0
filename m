@@ -1,204 +1,77 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 17 Jul 2018 15:31:18 +0200
-Subject: [PATCH 2/2] blktests: add test for ANA state transition
-In-Reply-To: <20180717133118.39026-1-hare@suse.de>
-References: <20180717133118.39026-1-hare@suse.de>
-Message-ID: <20180717133118.39026-3-hare@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 17 Jul 2018 15:34:08 +0200
+Subject: [RFC PATCH] nvmet: add support for ns write protect feature
+In-Reply-To: <20180710035424.29088-1-chaitanya.kulkarni@wdc.com>
+References: <20180710035424.29088-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180717133408.GB15079@lst.de>
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- tests/nvme/014     | 158 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/014.out |  17 ++++++
- 2 files changed, 175 insertions(+)
- create mode 100755 tests/nvme/014
- create mode 100644 tests/nvme/014.out
 
-diff --git a/tests/nvme/014 b/tests/nvme/014
-new file mode 100755
-index 0000000..4b57229
---- /dev/null
-+++ b/tests/nvme/014
-@@ -0,0 +1,158 @@
-+#!/bin/bash
-+#
-+# Regression test for ANA base support
-+#
-+# Copyright (C) 2018 Hannes Reinecke
-+#
-+# This program is free software: you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation, either version 3 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+
-+. tests/nvme/rc
-+
-+DESCRIPTION="test ANA optimized/transitioning/inaccessible support"
-+QUICK=1
-+
-+switch_nvmet_anagroup() {
-+	local port1="$1"
-+	local port2="$2"
-+	local mode="$3"
-+
-+	echo "ANA state ${mode}"
-+
-+	if [ "${mode}" = "change" ] ; then
-+		_set_nvmet_anagroup_state "${port1}" "1" "change"
-+		_set_nvmet_anagroup_state "${port1}" "2" "change"
-+		_set_nvmet_anagroup_state "${port2}" "1" "change"
-+		_set_nvmet_anagroup_state "${port2}" "2" "change"
-+	elif [ "${mode}" = "failover" ] ; then
-+		_set_nvmet_anagroup_state "${port1}" "1" "inaccessible"
-+		_set_nvmet_anagroup_state "${port1}" "2" "optimized"
-+		_set_nvmet_anagroup_state "${port2}" "1" "optimized"
-+		_set_nvmet_anagroup_state "${port2}" "2" "inaccessible"
-+	else
-+		_set_nvmet_anagroup_state "${port1}" "1" "optimized"
-+		_set_nvmet_anagroup_state "${port1}" "2" "inaccessible"
-+		_set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
-+		_set_nvmet_anagroup_state "${port2}" "2" "optimized"
-+	fi
-+}
-+
-+_display_ana_state() {
-+	local grpid state
-+	for nvme in /sys/class/nvme/* ; do
-+		for c in ${nvme}/nvme* ; do
-+			if [ ! -d ${c} ] ; then
-+				echo "${nvme##*/}: ANA disabled"
-+				continue
-+			fi
-+			grpid="$(cat "${c}/ana_grpid")"
-+			state="$(cat "${c}/ana_state")"
-+			echo "${c##*/}: grpid ${grpid} state ${state}"
-+		done
-+	done
-+}
-+
-+_switch_ana_states() {
-+	local port1=$1
-+	local port2=$2
-+
-+}
-+
-+requires() {
-+	_have_program nvme && _have_module nvme-loop && _have_module loop && \
-+		_have_configfs && _have_fio
-+}
-+
-+test() {
-+	echo "Running ${TEST_NAME}"
-+
-+	modprobe nvmet
-+	modprobe nvme-loop
-+
-+	local port1
-+	port1="$(_create_nvmet_port "loop")"
-+	ag1="$(_create_nvmet_anagroup "${port1}")"
-+
-+	local port2
-+	port2="$(_create_nvmet_port "loop")"
-+	ag2="$(_create_nvmet_anagroup "${port2}")"
-+
-+	truncate -s 1G "$TMPDIR/img1"
-+
-+	local loop_dev1
-+	loop_dev1="$(losetup -f --show "$TMPDIR/img1")"
-+
-+	_create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev1}" \
-+		"91fdba0d-f87b-4c25-b80f-db7be1418b9e" "1"
-+
-+	truncate -s 1G "$TMPDIR/img2"
-+
-+	local loop_dev2
-+	loop_dev2="$(losetup -f --show "$TMPDIR/img2")"
-+
-+	_create_nvmet_ns "blktests-subsystem-1" "2" "${loop_dev2}" \
-+		"9aed0138-bfd9-46f5-92ac-24c70377fd49" "2"
-+
-+	_add_nvmet_subsys_to_port "${port1}" "blktests-subsystem-1"
-+	_add_nvmet_subsys_to_port "${port2}" "blktests-subsystem-1"
-+
-+	switch_nvmet_anagroup "${port1}" "${port2}" failback
-+
-+	nvme connect -t loop -a "${port1}" -n blktests-subsystem-1
-+	nvme connect -t loop -a "${port2}" -n blktests-subsystem-1
-+
-+	_display_ana_state
-+
-+	_run_fio_rand_io --size=256m --filename="/dev/nvme0n1" &
-+	trap "kill $!" EXIT
-+
-+	sleep 10
-+
-+	switch_nvmet_anagroup "${port1}" "${port2}" "change"
-+
-+	# Insert a delay to allow the AEN to be processed
-+	sleep 1
-+
-+	_display_ana_state
-+
-+	sleep 6
-+
-+	switch_nvmet_anagroup "${port1}" "${port2}" "failover"
-+
-+	# Insert a delay to allow the AEN to be processed
-+	sleep 1
-+
-+	_display_ana_state
-+
-+	wait
-+	trap - EXIT
-+
-+	nvme disconnect -n blktests-subsystem-1
-+
-+	_remove_nvmet_subsystem_from_port "${port1}" "blktests-subsystem-1"
-+	_remove_nvmet_subsystem_from_port "${port2}" "blktests-subsystem-1"
-+	_remove_nvmet_ns "blktests-subsystem-1" "2"
-+	_remove_nvmet_subsystem "blktests-subsystem-1"
-+	_remove_nvmet_anagroup "${port1}" "2"
-+	_remove_nvmet_port "${port1}"
-+	_remove_nvmet_anagroup "${port2}" "2"
-+	_remove_nvmet_port "${port2}"
-+	losetup -d "$loop_dev2"
-+	rm "$TMPDIR/img2"
-+	losetup -d "$loop_dev1"
-+	rm "$TMPDIR/img1"
-+
-+	modprobe -r nvme-loop
-+	modprobe -r nvmet
-+	echo "Test complete"
-+}
-diff --git a/tests/nvme/014.out b/tests/nvme/014.out
-new file mode 100644
-index 0000000..0a6ed35
---- /dev/null
-+++ b/tests/nvme/014.out
-@@ -0,0 +1,17 @@
-+Running nvme/016
-+nvme0c1n1: grpid 1 state optimized
-+nvme0c1n2: grpid 2 state inaccessible
-+nvme0c2n1: grpid 1 state inaccessible
-+nvme0c2n2: grpid 2 state optimized
-+ANA state transition
-+nvme0c1n1: grpid 1 state change
-+nvme0c1n2: grpid 2 state change
-+nvme0c2n1: grpid 1 state change
-+nvme0c2n2: grpid 2 state change
-+ANA state failover
-+nvme0c1n1: grpid 1 state inaccessible
-+nvme0c1n2: grpid 2 state optimized
-+nvme0c2n1: grpid 1 state optimized
-+nvme0c2n2: grpid 2 state inaccessible
-+NQN:blktests-subsystem-1 disconnected 2 controller(s)
-+Test complete
--- 
-2.12.3
+> +int nvmet_ns_is_wp(struct nvmet_ns *ns)
+> +{
+> +	switch (ns->wp_state) {
+> +	case NVME_NS_NO_WRITE_PROTECT:
+> +		return 0;
+> +	case NVME_NS_WRITE_PROTECT:
+> +		return 1;
+> +	}
+> +	WARN_ON("invalid ns write protect state");
+> +	return -1;
+
+I'd much rather have a
+
+	'bool		readonly'
+
+flag in nvmet_ns and then we don't need this helper.
+
+> +bool nvmet_ns_wp_cmd_allow(struct nvmet_req *req)
+> +{
+> +	bool ret = false;
+> +
+> +	switch (req->cmd->common.opcode) {
+> +	case nvme_cmd_dsm: /* allow DSM ? */
+
+don't think so, at least for discards.
+
+> +	case nvme_cmd_read:
+> +	case nvme_cmd_flush:
+> +		/* fall thru */
+> +		ret = true;
+> +		goto out;
+> +	}
+
+I think we need separate helpers here for the I/O vs admin queues
+as the opcodes can theoretically overlap.  
+
+Also instead of the goto you can just return directly here.
+
+>  {
+>  	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
+> @@ -140,7 +198,7 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
+>  	log->acs[nvme_admin_get_log_page]	= cpu_to_le32(1 << 0);
+>  	log->acs[nvme_admin_identify]		= cpu_to_le32(1 << 0);
+>  	log->acs[nvme_admin_abort_cmd]		= cpu_to_le32(1 << 0);
+> -	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 0);
+> +	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 16 | 1 << 0);
+
+This looks unrelated?
+
+> @@ -342,6 +402,8 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+>  
+>  	id->lbaf[0].ds = ns->blksize_shift;
+>  
+> +	id->nsattr = nvmet_ns_is_wp(ns);
+
+Please do something like:
+
+	if (ns->readonly)
+		id->nsattr |= (1 << 0);
+
+to make the code a little more obvious.
+
+> +	if (nvmet_ns_is_wp(req->ns) && !nvmet_ns_wp_cmd_allow(req))
+> +		return NVME_SC_NS_WRITE_PROTECTED;
+
+I think this wants an unlikely annotation.
+
+Btw, a patch for the host to look at nsattr and set the linux gendisk
+readonly would also be very helpful!
