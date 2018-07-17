@@ -1,8 +1,8 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 17 Jul 2018 16:32:35 +0200
-Subject: [PATCH v2] nvme: don't enable AEN if not supported
-In-Reply-To: <20180702163437.GA2934@bogon.didichuxing.com>
-References: <20180702163437.GA2934@bogon.didichuxing.com>
-Message-ID: <20180717143235.GA21048@lst.de>
+Date: Tue, 17 Jul 2018 16:34:48 +0200
+Subject: [PATCH v2] nvmet: Don't use uuid_le type
+In-Reply-To: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
+References: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <20180717143448.GA21280@lst.de>
 
-Applied to nvme-4.18.
+Thanks, applied to nvme-4.19.
