@@ -1,32 +1,43 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 17 Jul 2018 08:32:50 -0600
-Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
-In-Reply-To: <6833a684-3040-3532-a738-6556bedf6e10@oracle.com>
+Date: Tue, 17 Jul 2018 08:54:35 -0600
+Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+In-Reply-To: <20180717134048.GA16134@lst.de>
 References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-4-keith.busch@intel.com>
- <20180716110903.GC25386@ming.t460p>
- <20180716133640.GC19967@localhost.localdomain>
- <20180717012301.GB22593@ming.t460p>
- <bfd4154b-a8e0-8688-8b77-40a8041418e3@oracle.com>
- <20180717072136.GB26324@ming.t460p>
- <6833a684-3040-3532-a738-6556bedf6e10@oracle.com>
-Message-ID: <20180717143250.GC26925@localhost.localdomain>
+ <20180713205609.19701-2-keith.busch@intel.com>
+ <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
+ <20180716153721.GB26265@localhost.localdomain>
+ <c52b671e-8ca5-aa04-9182-7a43014aed40@grimberg.me>
+ <20180716171232.GC26265@localhost.localdomain>
+ <20180717134048.GA16134@lst.de>
+Message-ID: <20180717145435.GD26925@localhost.localdomain>
 
-On Tue, Jul 17, 2018@03:28:33PM +0800, jianchao.wang wrote:
-> Hi Ming
-> 
-> On 07/17/2018 03:21 PM, Ming Lei wrote:
-> > nvme_start_freeze() is just for stopping new IO.
+On Tue, Jul 17, 2018@03:40:48PM +0200, Christoph Hellwig wrote:
+> On Mon, Jul 16, 2018@11:12:33AM -0600, Keith Busch wrote:
+> > On Mon, Jul 16, 2018@07:36:41PM +0300, Sagi Grimberg wrote:
+> > > > The only reason we need this is because each namespace has its own
+> > > > request queue with their own timeout work. We don't want all of these
+> > > > scheduling multiple controller resets, so the sync here just ensures
+> > > > that there is no active timeout work that's about to schedule another
+> > > > reset while we're already resetting the controller.
+> > > 
+> > > But scheduling a reset while a reset is running should not succeed. You
+> > > should not be able to change state RESETTING -> RESETTING
 > > 
-> > However, if you want to drain IO, new IO may have to be prevented from
-> > being entering queue first, then that is nvme_start_freeze() + nvme_wait_freeze().
+> > Timeout handlers call nvme_dev_disable prior to the reset schedule
+> > attempt, which is the part that we want to prevent occuring concurrently
+> > with an already scheduled reset.
 > 
-> Yes, I mean, after we invoke blk_mq_freeze_queue_start, we have to invoke blk_mq_freeze_queue_wait
-> to drain the q->q_usage_counter, then invoke blk_mq_unfreeze_queue.
-> 
-> But in fact, in this scenario, we just need to stop new IO coming in, no need to drain the IO.
-> So I say, we may need a interface which just stop new IO coming in, but no need to drain IO before
-> allow new IO.
+> Is there any good way we can get rid of these out of state machine
+> nvme_dev_disable calls?  It might not be easy, but I think it is
+> going to help us in the long run.
 
-I think what you are asking for is a way to unfreeze a queue that that
-doesn't have a zero ref count, but I think that breaks the percpu_ref.
+Possibly, I'll stare at this a bit more.
+ 
+> I also think your original idea of a single work_struct per tag set
+> for error handling might be a good idea.  This is similar to the
+> per-host eh thread SCSI had forever, so it might also help SCSI by
+> getting rid of that and running directly from the block timeout
+> context.
+
+Okay, I'll re-examine that option again. It gets a little messy with
+the legacy request interface, but that's okay.
