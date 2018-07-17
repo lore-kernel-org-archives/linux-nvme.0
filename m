@@ -1,42 +1,53 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Tue, 17 Jul 2018 13:37:54 +0800
-Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
-In-Reply-To: <20180716133059.GB19967@localhost.localdomain>
+Date: Tue, 17 Jul 2018 13:49:17 +0800
+Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
+In-Reply-To: <20180717012301.GB22593@ming.t460p>
 References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-2-keith.busch@intel.com>
- <9bd80570-5b7d-c093-ffbb-a8fbcaa58db0@oracle.com>
- <20180716103956.GB25386@ming.t460p>
- <20180716133059.GB19967@localhost.localdomain>
-Message-ID: <61d982b9-069f-3c9c-bf64-24428b879876@oracle.com>
+ <20180713205609.19701-4-keith.busch@intel.com>
+ <20180716110903.GC25386@ming.t460p>
+ <20180716133640.GC19967@localhost.localdomain>
+ <20180717012301.GB22593@ming.t460p>
+Message-ID: <bfd4154b-a8e0-8688-8b77-40a8041418e3@oracle.com>
 
 
 
-On 07/16/2018 09:30 PM, Keith Busch wrote:
->>> On 07/14/2018 04:56 AM, Keith Busch wrote:
->>>> This patch fixes races that occur with simultaneous controller
->>>> resets by synchronizing request queues prior to initializing the
->>>> controller. Withouth this, a thread may attempt disabling a controller
->>>> at the same time as we're trying to enable it.
->>> This issue is due to the previous blk-mq timeout mechanism will hold
->>> all the timed out requests, then nvme_dev_disable cannot grab these requests
->>> and when it returns, the blk_mq_timeout_work could be still running.
->>> But after commit 12f5b9314545 ("blk-mq: Remove generation seqeunce"),
->>> nvme_dev_disble have been able to grab all the requests and when it returns,
->>> there will be no any requests in blk_mq_timeout_work so nvme_dev_disable will
->>> not be invoked multiple times.
->>> So this patch should be unnecessary. :)
->> There are multiple namespaces, and all may trigger timeout at the same
->> time, so looks the sync is still needed.
-> Yes, we still need this syncing because each namespace has a different
-> request queue with their own timeout work.
+On 07/17/2018 09:23 AM, Ming Lei wrote:
+> On Mon, Jul 16, 2018@07:36:40AM -0600, Keith Busch wrote:
+>> On Mon, Jul 16, 2018@07:09:04PM +0800, Ming Lei wrote:
+>>> On Fri, Jul 13, 2018@02:56:08PM -0600, Keith Busch wrote:
+>>>> +	if (ctrl->state == NVME_CTRL_FROZEN) {
+>>>> +		nvme_wait_freeze(ctrl);
+>>>> +		blk_mq_update_nr_hw_queues(ctrl->tagset, ctrl->queue_count - 1);
+>>>> +		nvme_unfreeze(ctrl);
+>>>> +		if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE))
+>>>> +			return;
+>>>> +	}
+>>>> +
+>>>
+>>> Now you move unfreezing into start work function, seems this way can't
+>>> guarantee that nvme_unfreeze() is strictly paired with nvme_start_freeze() done
+>>> in nvme_dev_disable().
+>>
+>> The state machine is supposed to guarantee this. We only start freeze
+>> in certain states from nvme_dev_disable, and transition to frozen when
+>> exiting those states. I agree it's not the easiest API to follow, and
+>> I'll double check to see if it's correct. I think I have the
+>> reset/connecting/frozen/live transitions okay for nvme-pci, but I need
+>> to look again at the deleting/dead states.
+> 
+> I am afraid that may not work well wrt. reset vs. timeout because
+> timeout still may happen during reset on admin queue, and nvme_dev_disable()
+> may call nvme_start_freeze() one more time, meantime reset_work won't be
+> scheduled.
 > 
 
-Yes, got it. :)
+Hi Ming
 
-If there are multiple namespaces and trigger timeout at the same time,
-so the nvme_dev_disable could be invoked by multiple namespaces' timeout work.
-The nvme_dev_disable comes from other namespaces could race with the ctrl reset
-work.
+In nvme_dev_disable, except for the shutdown case which will try to drain the IO,
+what we want is to stop new IO coming in. freeze queue interfaces looks too heavy,
+after freeze, we have to wait for the q_usage_counter to be drained.
+Is there any chance to just stop new IO coming in or just drain IO ?
+For example, use another per-cpu-ref to track the IO.
 
 Thanks
 Jianchao
