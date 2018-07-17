@@ -1,34 +1,16 @@
-From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
-Date: Tue, 17 Jul 2018 17:17:36 +0300
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 17 Jul 2018 16:27:01 +0200
 Subject: [PATCH v2] nvmet: Don't use uuid_le type
-Message-ID: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
+References: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <20180717142701.ko7jutrztvjzthai@linux-x5ow.site>
 
-Don't use sizeof(uuid_le) where none of the parameters is type of uuid_le.
-Since both arguments are u8 [16], use size of destination there.
-
-Moreover, uuid_le is a deprecated type, and nvmet is using uuid_t
-already.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko at linux.intel.com>
----
-
-- use sizeof(dest)
-
- drivers/nvme/target/admin-cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 38803576d5e1..51a35faa88e3 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -308,7 +308,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 	 */
- 	id->nmic = (1 << 0);
- 
--	memcpy(&id->nguid, &ns->nguid, sizeof(uuid_le));
-+	memcpy(&id->nguid, &ns->nguid, sizeof(id->nguid));
- 
- 	id->lbaf[0].ds = ns->blksize_shift;
- 
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
-2.18.0
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
