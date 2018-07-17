@@ -1,21 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 17 Jul 2018 15:12:39 +0200
-Subject: [PATCH] nvme: register ns_id attributes as default sysfs groups
-In-Reply-To: <20180716103721.96363-1-hare@suse.de>
-References: <20180716103721.96363-1-hare@suse.de>
-Message-ID: <20180717131239.GA13582@lst.de>
+Date: Tue, 17 Jul 2018 15:14:38 +0200
+Subject: [PATCH v1] nvmet: Don't use uuid_le type
+In-Reply-To: <6259b86a67bc8530e2ca3bce26b7114fe78d1410.camel@linux.intel.com>
+References: <20180716095908.7690-1-andriy.shevchenko@linux.intel.com>
+ <27beef69-2f59-94dd-f592-a051a2cefcbd@grimberg.me>
+ <6259b86a67bc8530e2ca3bce26b7114fe78d1410.camel@linux.intel.com>
+Message-ID: <20180717131438.GC13582@lst.de>
 
-On Mon, Jul 16, 2018@12:37:21PM +0200, Hannes Reinecke wrote:
-> We should be registering the ns_id attributes as default sysfs groups,
-> otherwise we have a race condition between nvme_mpath_add_disk() and
-> nvme_mpath_remove_disk() which will lead to a kobject warning during
-> rapid connect/disconnect cycles.
+On Mon, Jul 16, 2018@03:03:27PM +0300, Andy Shevchenko wrote:
+> On Mon, 2018-07-16@13:27 +0300, Sagi Grimberg wrote:
+> > > -	memcpy(&id->nguid, &ns->nguid, sizeof(uuid_le));
+> > > +	memcpy(&id->nguid, &ns->nguid, 16);
+> > 
+> > how about memcpy(&id->nguid, &ns->nguid, sizeof(ns->nguid));
 > 
-> Reported-by: James Smart <james.smart at broadcom.com>
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
+> I suppose should be sizeof(id->nguid), but I don't care much as long as
+> it doesn't use uuid_le type here.
 
-Didn't Martin Wilck habe a patch to pass the default attribute
-group to an add_disk variant?  We've been waiting for him to just
-clean it up a bit, and it would be a lot less ugly than opencoding
-the device model details in the callers.
+Yes, please use sizeof of the destination field instead of an opencoded
+number.
