@@ -1,28 +1,34 @@
-From: zwp10758@gmail.com (Weiping Zhang)
-Date: Tue, 17 Jul 2018 22:14:10 +0800
-Subject: [PATCH v2] nvme: don't enable AEN if not supported
-In-Reply-To: <20180703064227.u4gvyrr4b7kuywyf@linux-x5ow.site>
-References: <20180702163437.GA2934@bogon.didichuxing.com>
- <20180703064227.u4gvyrr4b7kuywyf@linux-x5ow.site>
-Message-ID: <CAA70yB6g1RA=_7boZmEKi2awUQH+sfrZWvUR6BtN-q9=XguwzA@mail.gmail.com>
+From: andriy.shevchenko@linux.intel.com (Andy Shevchenko)
+Date: Tue, 17 Jul 2018 17:17:36 +0300
+Subject: [PATCH v2] nvmet: Don't use uuid_le type
+Message-ID: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
 
-Hi Christoph,
+Don't use sizeof(uuid_le) where none of the parameters is type of uuid_le.
+Since both arguments are u8 [16], use size of destination there.
 
-Will you pick this up for 4.19 ?
+Moreover, uuid_le is a deprecated type, and nvmet is using uuid_t
+already.
 
-Johannes Thumshirn <jthumshirn at suse.de> ?2018?7?3??? ??2:42???
->
-> Looks good,
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> --
-> Johannes Thumshirn                                          Storage
-> jthumshirn at suse.de                                +49 911 74053 689
-> SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-> GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-> HRB 21284 (AG N?rnberg)
-> Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Signed-off-by: Andy Shevchenko <andriy.shevchenko at linux.intel.com>
+---
+
+- use sizeof(dest)
+
+ drivers/nvme/target/admin-cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 38803576d5e1..51a35faa88e3 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -308,7 +308,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+ 	 */
+ 	id->nmic = (1 << 0);
+ 
+-	memcpy(&id->nguid, &ns->nguid, sizeof(uuid_le));
++	memcpy(&id->nguid, &ns->nguid, sizeof(id->nguid));
+ 
+ 	id->lbaf[0].ds = ns->blksize_shift;
+ 
+-- 
+2.18.0
