@@ -1,54 +1,32 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 17 Jul 2018 15:48:41 +0200
-Subject: [PATCH 2/5] nvmet: fixup crash on NULL device path
-In-Reply-To: <20180716105837.101125-3-hare@suse.de>
-References: <20180716105837.101125-1-hare@suse.de>
- <20180716105837.101125-3-hare@suse.de>
-Message-ID: <20180717134841.GA16604@lst.de>
+Date: Tue, 17 Jul 2018 15:50:07 +0200
+Subject: Q: Status of ANA patches
+In-Reply-To: <01b035fe-72cb-72c8-daa4-00d416815550@suse.de>
+References: <0426d517-4c6e-022d-5d42-d1f22053ed1a@suse.de>
+ <20180629120303.GA22270@lst.de>
+ <01b035fe-72cb-72c8-daa4-00d416815550@suse.de>
+Message-ID: <20180717135007.GA17263@lst.de>
 
-On Mon, Jul 16, 2018@12:58:34PM +0200, Hannes Reinecke wrote:
-> index 094d216ae62a..76efc8120c00 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -295,6 +295,12 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
->  	ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
->  	if (!ns->device_path)
->  		goto out_unlock;
-> +	if (!strlen(ns->device_path)) {
-> +		kfree(ns->device_path);
-> +		ns->device_path = NULL;
-> +		ret = -EINVAL;
-> +		goto out_unlock;
-> +	}
+On Tue, Jul 17, 2018@03:42:06PM +0200, Hannes Reinecke wrote:
+> So, just submitted a blktest to check the basic functionality via
+> nvme-loop, including path failover.
 
-I think this should rather be:
+Thanks!
 
-	ret = -EINVAL;
-	len = strcspn(page, "\n");
-	if (len == 0)
-		goto out_unlock;
-	ret = -ENOMEM;
-	ns->device_path = kstrndup(page, len, GFP_KERNEL);
-	if (!ns->device_path)
-		goto out_unlock;
+> And send some fixes for issues found during development of the said test :-)
 
-> index 0aeccbddd716..956d293d293d 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -373,8 +373,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
->  	if (ns->enabled)
->  		goto out_unlock;
->  
-> +	if (!ns->device_path) {
-> +		ret = -EINVAL;
-> +		goto out_unlock;
-> +	}
+Yes, that's why we need tests.
 
-I don't think we should need this fix.
+> 
+> If you can think of anything else which should be tested please let me
+> know, I'm happy to write up a testcase for that.
+> 
+> But what's next, then?
+> Will you fold the patches into the main patchset?
+> Or should they be kept separate?
+> Should I be doing it (if you are too busy)?
 
->  	ret = nvmet_bdev_ns_enable(ns);
-> -	if (ret)
-> +	if (ret == -ENOTBLK)
->  		ret = nvmet_file_ns_enable(ns);
-
-Looks sensible, but please split this into a separate patch.
+Pretty busy this week, so for now just send incremental patches if needed.
+I'll try to fold your fixes, try the test suite (and maybe add some
+of the bits I did test manually to it) and prepare a merge candidate
+for next week.
