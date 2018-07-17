@@ -1,24 +1,115 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 17 Jul 2018 15:31:16 +0200
-Subject: [PATCH 0/2] blktests: test ANA base support
-Message-ID: <20180717133118.39026-1-hare@suse.de>
+Date: Tue, 17 Jul 2018 15:31:17 +0200
+Subject: [PATCH 1/2] blktests: enable ANA support
+In-Reply-To: <20180717133118.39026-1-hare@suse.de>
+References: <20180717133118.39026-1-hare@suse.de>
+Message-ID: <20180717133118.39026-2-hare@suse.de>
 
-Hi all,
+Update nvme functions to support ANA.
 
-here's a small patchset for testing ANA base support.
-The test itself requires the ANA patchset from Christoph, plus
-the fixes I've sent to the mailing list earlier.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ tests/nvme/rc | 49 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 46 insertions(+), 3 deletions(-)
 
-Hannes Reinecke (2):
-  blktests: enable ANA support
-  blktests: add test for ANA state transition
-
- tests/nvme/014     | 158 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/014.out |  17 ++++++
- tests/nvme/rc      |  49 ++++++++++++++++-
- 3 files changed, 221 insertions(+), 3 deletions(-)
- create mode 100755 tests/nvme/014
- create mode 100644 tests/nvme/014.out
-
+diff --git a/tests/nvme/rc b/tests/nvme/rc
+index fb5dbdf..116661d 100644
+--- a/tests/nvme/rc
++++ b/tests/nvme/rc
+@@ -27,7 +27,7 @@ group_device_requires() {
+ 	_test_dev_is_nvme
+ }
+ 
+-NVMET_CFS="/sys/kernel/config/nvmet/"
++NVMET_CFS="/sys/kernel/config/nvmet"
+ 
+ _test_dev_is_nvme() {
+ 	if ! readlink -f "$TEST_DEV_SYSFS/device" | grep -q nvme; then
+@@ -49,6 +49,7 @@ _create_nvmet_port() {
+ 
+ 	mkdir "${NVMET_CFS}/ports/${port}"
+ 	echo "${trtype}" > "${NVMET_CFS}/ports/${port}/addr_trtype"
++	echo "${port}" > "${NVMET_CFS}/ports/${port}/addr_traddr"
+ 
+ 	echo "${port}"
+ }
+@@ -58,6 +59,39 @@ _remove_nvmet_port() {
+ 	rmdir "${NVMET_CFS}/ports/${port}"
+ }
+ 
++_create_nvmet_anagroup() {
++	local port="$1"
++	local port_cfs="${NVMET_CFS}/ports/${port}"
++	local grpid
++
++	for ((grpid = 1; ; grpid++)); do
++		if [[ ! -e "${port_cfs}/ana_groups/${grpid}" ]]; then
++			break
++		fi
++	done
++
++	mkdir "${port_cfs}/ana_groups/${grpid}"
++
++	echo "${grpid}"
++}
++
++_remove_nvmet_anagroup() {
++	local port="$1"
++	local grpid="$2"
++	local ana_cfs="${NVMET_CFS}/ports/${port}/ana_groups/${grpid}"
++
++	rmdir "${ana_cfs}"
++}
++
++_set_nvmet_anagroup_state() {
++	local port="$1"
++	local grpid="$2"
++	local state="$3"
++	local ana_cfs="${NVMET_CFS}/ports/${port}/ana_groups/${grpid}"
++
++	echo "${state}" > "${ana_cfs}/ana_state"
++}
++
+ _create_nvmet_ns() {
+ 	local nvmet_subsystem="$1"
+ 	local nsid="$2"
+@@ -65,14 +99,22 @@ _create_nvmet_ns() {
+ 	local uuid="00000000-0000-0000-0000-000000000000"
+ 	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+ 	local ns_path="${subsys_path}/namespaces/${nsid}"
++	local ana_grpid
+ 
+-	if [[ $# -eq 4 ]]; then
++	if [[ $# -ge 4 ]]; then
+ 		uuid="$4"
+ 	fi
+ 
++	if [[ $# -eq 5 ]]; then
++		ana_grpid="$5"
++	fi
++
+ 	mkdir "${ns_path}"
+ 	printf "%s" "${blkdev}" > "${ns_path}/device_path"
+ 	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
++	if [ -n "${ana_grpid}" ] ; then
++		printf "%s" "${ana_grpid}" > "${ns_path}/ana_grpid"
++	fi
+ 	printf 1 > "${ns_path}/enable"
+ }
+ 
+@@ -80,11 +122,12 @@ _create_nvmet_subsystem() {
+ 	local nvmet_subsystem="$1"
+ 	local blkdev="$2"
+ 	local uuid=$3
++	local ana_grpid=$4
+ 	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
+ 
+ 	mkdir -p "${cfs_path}"
+ 	echo 1 > "${cfs_path}/attr_allow_any_host"
+-	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
++	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}" "${ana_grpid}"
+ }
+ 
+ _remove_nvmet_ns() {
 -- 
 2.12.3
