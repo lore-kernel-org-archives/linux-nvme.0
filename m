@@ -1,77 +1,36 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 17 Jul 2018 15:34:08 +0200
-Subject: [RFC PATCH] nvmet: add support for ns write protect feature
-In-Reply-To: <20180710035424.29088-1-chaitanya.kulkarni@wdc.com>
-References: <20180710035424.29088-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180717133408.GB15079@lst.de>
+Date: Tue, 17 Jul 2018 15:40:48 +0200
+Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+In-Reply-To: <20180716171232.GC26265@localhost.localdomain>
+References: <20180713205609.19701-1-keith.busch@intel.com>
+ <20180713205609.19701-2-keith.busch@intel.com>
+ <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
+ <20180716153721.GB26265@localhost.localdomain>
+ <c52b671e-8ca5-aa04-9182-7a43014aed40@grimberg.me>
+ <20180716171232.GC26265@localhost.localdomain>
+Message-ID: <20180717134048.GA16134@lst.de>
 
+On Mon, Jul 16, 2018@11:12:33AM -0600, Keith Busch wrote:
+> On Mon, Jul 16, 2018@07:36:41PM +0300, Sagi Grimberg wrote:
+> > > The only reason we need this is because each namespace has its own
+> > > request queue with their own timeout work. We don't want all of these
+> > > scheduling multiple controller resets, so the sync here just ensures
+> > > that there is no active timeout work that's about to schedule another
+> > > reset while we're already resetting the controller.
+> > 
+> > But scheduling a reset while a reset is running should not succeed. You
+> > should not be able to change state RESETTING -> RESETTING
+> 
+> Timeout handlers call nvme_dev_disable prior to the reset schedule
+> attempt, which is the part that we want to prevent occuring concurrently
+> with an already scheduled reset.
 
-> +int nvmet_ns_is_wp(struct nvmet_ns *ns)
-> +{
-> +	switch (ns->wp_state) {
-> +	case NVME_NS_NO_WRITE_PROTECT:
-> +		return 0;
-> +	case NVME_NS_WRITE_PROTECT:
-> +		return 1;
-> +	}
-> +	WARN_ON("invalid ns write protect state");
-> +	return -1;
+Is there any good way we can get rid of these out of state machine
+nvme_dev_disable calls?  It might not be easy, but I think it is
+going to help us in the long run.
 
-I'd much rather have a
-
-	'bool		readonly'
-
-flag in nvmet_ns and then we don't need this helper.
-
-> +bool nvmet_ns_wp_cmd_allow(struct nvmet_req *req)
-> +{
-> +	bool ret = false;
-> +
-> +	switch (req->cmd->common.opcode) {
-> +	case nvme_cmd_dsm: /* allow DSM ? */
-
-don't think so, at least for discards.
-
-> +	case nvme_cmd_read:
-> +	case nvme_cmd_flush:
-> +		/* fall thru */
-> +		ret = true;
-> +		goto out;
-> +	}
-
-I think we need separate helpers here for the I/O vs admin queues
-as the opcodes can theoretically overlap.  
-
-Also instead of the goto you can just return directly here.
-
->  {
->  	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
-> @@ -140,7 +198,7 @@ static void nvmet_execute_get_log_cmd_effects_ns(struct nvmet_req *req)
->  	log->acs[nvme_admin_get_log_page]	= cpu_to_le32(1 << 0);
->  	log->acs[nvme_admin_identify]		= cpu_to_le32(1 << 0);
->  	log->acs[nvme_admin_abort_cmd]		= cpu_to_le32(1 << 0);
-> -	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 0);
-> +	log->acs[nvme_admin_set_features]	= cpu_to_le32(1 << 16 | 1 << 0);
-
-This looks unrelated?
-
-> @@ -342,6 +402,8 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
->  
->  	id->lbaf[0].ds = ns->blksize_shift;
->  
-> +	id->nsattr = nvmet_ns_is_wp(ns);
-
-Please do something like:
-
-	if (ns->readonly)
-		id->nsattr |= (1 << 0);
-
-to make the code a little more obvious.
-
-> +	if (nvmet_ns_is_wp(req->ns) && !nvmet_ns_wp_cmd_allow(req))
-> +		return NVME_SC_NS_WRITE_PROTECTED;
-
-I think this wants an unlikely annotation.
-
-Btw, a patch for the host to look at nsattr and set the linux gendisk
-readonly would also be very helpful!
+I also think your original idea of a single work_struct per tag set
+for error handling might be a good idea.  This is similar to the
+per-host eh thread SCSI had forever, so it might also help SCSI by
+getting rid of that and running directly from the block timeout
+context.
