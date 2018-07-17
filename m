@@ -1,16 +1,8 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 17 Jul 2018 16:27:01 +0200
-Subject: [PATCH v2] nvmet: Don't use uuid_le type
-In-Reply-To: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
-References: <20180717141736.24961-1-andriy.shevchenko@linux.intel.com>
-Message-ID: <20180717142701.ko7jutrztvjzthai@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 17 Jul 2018 16:32:35 +0200
+Subject: [PATCH v2] nvme: don't enable AEN if not supported
+In-Reply-To: <20180702163437.GA2934@bogon.didichuxing.com>
+References: <20180702163437.GA2934@bogon.didichuxing.com>
+Message-ID: <20180717143235.GA21048@lst.de>
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Applied to nvme-4.18.
