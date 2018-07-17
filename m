@@ -1,44 +1,54 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 17 Jul 2018 15:42:06 +0200
-Subject: Q: Status of ANA patches
-In-Reply-To: <20180629120303.GA22270@lst.de>
-References: <0426d517-4c6e-022d-5d42-d1f22053ed1a@suse.de>
- <20180629120303.GA22270@lst.de>
-Message-ID: <01b035fe-72cb-72c8-daa4-00d416815550@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 17 Jul 2018 15:48:41 +0200
+Subject: [PATCH 2/5] nvmet: fixup crash on NULL device path
+In-Reply-To: <20180716105837.101125-3-hare@suse.de>
+References: <20180716105837.101125-1-hare@suse.de>
+ <20180716105837.101125-3-hare@suse.de>
+Message-ID: <20180717134841.GA16604@lst.de>
 
-On 06/29/2018 02:03 PM, Christoph Hellwig wrote:
-> On Fri, Jun 29, 2018@01:42:49PM +0200, Hannes Reinecke wrote:
->> Hi Christoph,
->>
->> do you have any timeline for the ANA patches?
->> From my last testing they look good so far; the only missing bit is a 
->> missing configfs entry for the actual ANATT value.
->> For that we could easily resurrect my original patch.
->>
->> Is there anything else which is holding it up?
-> 
-> An automated test suite to actually test the code reliably is the
-> important missing bit.
-> 
-So, just submitted a blktest to check the basic functionality via
-nvme-loop, including path failover.
+On Mon, Jul 16, 2018@12:58:34PM +0200, Hannes Reinecke wrote:
+> index 094d216ae62a..76efc8120c00 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -295,6 +295,12 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
+>  	ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
+>  	if (!ns->device_path)
+>  		goto out_unlock;
+> +	if (!strlen(ns->device_path)) {
+> +		kfree(ns->device_path);
+> +		ns->device_path = NULL;
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+> +	}
 
-And send some fixes for issues found during development of the said test :-)
+I think this should rather be:
 
-If you can think of anything else which should be tested please let me
-know, I'm happy to write up a testcase for that.
+	ret = -EINVAL;
+	len = strcspn(page, "\n");
+	if (len == 0)
+		goto out_unlock;
+	ret = -ENOMEM;
+	ns->device_path = kstrndup(page, len, GFP_KERNEL);
+	if (!ns->device_path)
+		goto out_unlock;
 
-But what's next, then?
-Will you fold the patches into the main patchset?
-Or should they be kept separate?
-Should I be doing it (if you are too busy)?
+> index 0aeccbddd716..956d293d293d 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -373,8 +373,12 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>  	if (ns->enabled)
+>  		goto out_unlock;
+>  
+> +	if (!ns->device_path) {
+> +		ret = -EINVAL;
+> +		goto out_unlock;
+> +	}
 
-Cheers,
+I don't think we should need this fix.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+>  	ret = nvmet_bdev_ns_enable(ns);
+> -	if (ret)
+> +	if (ret == -ENOTBLK)
+>  		ret = nvmet_file_ns_enable(ns);
+
+Looks sensible, but please split this into a separate patch.
