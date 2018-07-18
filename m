@@ -1,44 +1,37 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Wed, 18 Jul 2018 18:34:07 +0000
-Subject: [RFC PATCH] blk-mq: move timeout handling from queue to tagset
-In-Reply-To: <20180718174534.GC30873@localhost.localdomain>
-References: <20180718170018.31395-1-keith.busch@intel.com>
- <11f7a7aff754b9bb0e4243ac4502319f376378c3.camel@wdc.com>
- <20180718174534.GC30873@localhost.localdomain>
-Message-ID: <adbe32bb3da7b0d405a57a176888be40f76581cb.camel@wdc.com>
+From: hch@lst.de (hch@lst.de)
+Date: Wed, 18 Jul 2018 21:56:50 +0200
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <20180713235807.GA19967@localhost.localdomain>
+References: <20180521231131.6685-1-keith.busch@intel.com>
+ <20180521231131.6685-4-keith.busch@intel.com>
+ <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
+ <20180712192437.GA16839@localhost.localdomain>
+ <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
+ <20180713154346.GA18955@localhost.localdomain>
+ <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
+ <20180713184712.GA19419@localhost.localdomain>
+ <291a13b35af1b65fbbe99a3a9cfc7d570a620cd9.camel@wdc.com>
+ <20180713235807.GA19967@localhost.localdomain>
+Message-ID: <20180718195650.GA20336@lst.de>
 
-On Wed, 2018-07-18@11:45 -0600, Keith Busch wrote:
-> On Wed, Jul 18, 2018@05:18:45PM +0000, Bart Van Assche wrote:
-> > On Wed, 2018-07-18@11:00 -0600, Keith Busch wrote:
-> > > -	cancel_work_sync(&q->timeout_work);
-> > > -
-> > >  	if (q->mq_ops) {
-> > >  		struct blk_mq_hw_ctx *hctx;
-> > >  		int i;
-> > > @@ -415,6 +412,8 @@ void blk_sync_queue(struct request_queue *q)
-> > >  		queue_for_each_hw_ctx(q, hctx, i)
-> > >  			cancel_delayed_work_sync(&hctx->run_work);
-> > >  	} else {
-> > > +		del_timer_sync(&q->timeout);
-> > > +		cancel_work_sync(&q->timeout_work);
-> > >  		cancel_delayed_work_sync(&q->delay_work);
-> > >  	}
-> > >  }
-> > 
-> > What is the impact of this change on the md driver, which is the only driver
-> > that calls blk_sync_queue() directly? What will happen if timeout processing
-> > happens concurrently with or after blk_sync_queue() has returned?
+On Fri, Jul 13, 2018@05:58:08PM -0600, Keith Busch wrote:
+> Of the two you mentioned, yours is preferable IMO. While I appreciate
+> Jianchao's detailed analysis, it's hard to take a proposal seriously
+> that so colourfully calls everyone else "dangerous" while advocating
+> for silently losing requests on purpose.
 > 
-> That's a make_request_fn stacking driver, right? There should be
-> no impact in that case, since the change above affects only mq.
-> 
-> I'm actually a little puzzled why md calls blk_sync_queue. Are the
-> queue timers ever used for bio-based drivers?
+> But where's the option that fixes scsi to handle hardware completions
+> concurrently with arbitrary timeout software? Propping up that house of
+> cards can't be the only recourse.
 
-Hello Keith,
+The important bit is that we need to fix this issue quickly.  We are
+past -rc5 so I'm rather concerned about anything too complicated.
 
-For all md drivers that I verified calling md_make_request() triggers one or
-more generic_make_request() calls for the underlying devices. So it's not
-clear to me why the md driver calls blk_sync_queue().
+I'm not even sure SCSI has a problem with multiple completions happening
+at the same time, but it certainly has a problem with bypassing
+blk_mq_complete_request from the EH path.
 
-Bart.
+I think we can solve this properly, but I also think we are way to late
+in the 4.18 cycle to fix it properly.  For now I fear we'll just have
+to revert the changes and try again for 4.19 or even 4.20 if we don't
+act quickly enough.
