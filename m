@@ -1,46 +1,47 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 18 Jul 2018 07:52:24 -0600
-Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
-In-Reply-To: <0fb455af-946c-e45a-fc38-dc0044015cff@grimberg.me>
+Date: Wed, 18 Jul 2018 07:53:34 -0600
+Subject: [PATCHv4 3/4] nvme: Introduce frozen controller state
+In-Reply-To: <7105ce2a-dceb-28ab-c3de-79ec72aa9e4b@grimberg.me>
 References: <20180713205609.19701-1-keith.busch@intel.com>
- <20180713205609.19701-2-keith.busch@intel.com>
- <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
- <20180716153721.GB26265@localhost.localdomain>
- <c52b671e-8ca5-aa04-9182-7a43014aed40@grimberg.me>
- <20180716171232.GC26265@localhost.localdomain>
- <0fb455af-946c-e45a-fc38-dc0044015cff@grimberg.me>
-Message-ID: <20180718135223.GA30873@localhost.localdomain>
+ <20180713205609.19701-4-keith.busch@intel.com>
+ <59b9c74b-91f1-7d1b-f20a-5a64dd66a17e@grimberg.me>
+ <f2bd494e-0930-9ebf-024f-dc4a547a8bd9@broadcom.com>
+ <20180717161748.GE26925@localhost.localdomain>
+ <7105ce2a-dceb-28ab-c3de-79ec72aa9e4b@grimberg.me>
+Message-ID: <20180718135334.GB30873@localhost.localdomain>
 
-On Wed, Jul 18, 2018@02:46:55PM +0300, Sagi Grimberg wrote:
+On Wed, Jul 18, 2018@03:20:53PM +0300, Sagi Grimberg wrote:
 > 
-> > > But scheduling a reset while a reset is running should not succeed. You
-> > > should not be able to change state RESETTING -> RESETTING
+> > > > Having the transport drivers setup a state to indicate nvme-core to
+> > > > handle it and change it again looks convoluted to me...
+> > > > 
+> > > 
+> > > I'll second the comment.
+> > > 
+> > > -- james
 > > 
-> > Timeout handlers call nvme_dev_disable prior to the reset schedule
-> > attempt, which is the part that we want to prevent occuring concurrently
-> > with an already scheduled reset.
+> > You definitely do not need to use this state if it doesn't make sense
+> > for your transport. We just need a context that is safe to dispatch
+> > blocking IO when coming out of a reset. I can move more of this back
+> > to pci if we want to provide a new nvme_ctrl_ops callback if you really
+> > don't like a generic solution.
 > 
-> So why not make the timeout handlers not call nvme_dev_disable? It looks
-> like this is causing us to jump over hoops to accommodate for.
+> I want stuff in the core that makes sense to all transports, and I
+> believe this area has much commonality between them. But currently,
+> the transports do different stuff in their timeout handler which
+> brings different sets of logic.
 > 
-> I think I asked it a couple of times before, why isn't the timeout
-> handler simply either:
-> 1. abort, or
-> 2. queue a reset (and return BLK_EH_RESET_TIMER), or
-> 3. fail early the I/O if it is coming from the reset context (and
->    return BLK_EH_DONE)
+> rdma simply queues a controller reset, never aborts and is probably
+> buggy in that area. fc does pretty much the same thing.
 > 
-> *If* there is a rare race where the timed out I/O from (3) is completing
-> with the timeout handler concurrently, we can simply suspend that queue
-> alone.
+> I suggest to make pci timeout handler to:
+> 1. abort (if not aborted yet) and return BLK_EH_RESET_TIMER, or
+> 2. queue a reset and return BLK_EH_RESET_TIMER, or
+> 3. fail early the I/O if it is coming from the reset context (state ==
+> CONNECTING) and return BLK_EH_DONE.
 
-You're just moving the hoop you have to jump through. Handling it inline
-with the timeout handler reclaims lost commands in starting, deleting,
-and live contexts. The existing reset_work can only reclaim from live.
-
-If you want to create an intermediary work just to do the reset, you'll
-first need to untangle the state machine to allow that to happen in a
-deleting state, and that work needs to sync with these request queues
-anyway, and then everyone else needs to sync with that new work we
-created just to do something that is already handled in a work context
-that we already sync with.
+You can't just return IO early in the connecting state. You have to disable
+the controller first, or you're going to get memory corruption.
+ 
+> Which at least in my mind makes sense to all transports so if we have it
+> we can maybe move it up to nvme-core?
