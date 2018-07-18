@@ -1,23 +1,33 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 18 Jul 2018 14:26:31 +0300
-Subject: [PATCH v3 1/1] nvme: Ensure forward progress during Admin passthru
-In-Reply-To: <20180717124252.GA14724@infradead.org>
-References: <20180622195914.18575-1-scott.bauer@intel.com>
- <20180629190328.2096-1-scott.bauer@intel.com>
- <20180629202350.GB13865@localhost.localdomain>
- <20180716220940.GA26925@localhost.localdomain>
- <20180717124252.GA14724@infradead.org>
-Message-ID: <6e9e61bd-7c0c-90ae-17c8-8b8ef6ed588f@grimberg.me>
+Date: Wed, 18 Jul 2018 14:46:55 +0300
+Subject: [PATCHv4 1/4] nvme: Sync request queues on reset
+In-Reply-To: <20180716171232.GC26265@localhost.localdomain>
+References: <20180713205609.19701-1-keith.busch@intel.com>
+ <20180713205609.19701-2-keith.busch@intel.com>
+ <c0752e20-7d23-4b1f-b128-af952e3cf8da@grimberg.me>
+ <20180716153721.GB26265@localhost.localdomain>
+ <c52b671e-8ca5-aa04-9182-7a43014aed40@grimberg.me>
+ <20180716171232.GC26265@localhost.localdomain>
+Message-ID: <0fb455af-946c-e45a-fc38-dc0044015cff@grimberg.me>
 
 
->> Christoph,
->> Could we get this one queued up for next?
+>> But scheduling a reset while a reset is running should not succeed. You
+>> should not be able to change state RESETTING -> RESETTING
 > 
-> Will look at it ASAP.
+> Timeout handlers call nvme_dev_disable prior to the reset schedule
+> attempt, which is the part that we want to prevent occuring concurrently
+> with an already scheduled reset.
 
-Would be good if the change log would explain _how_ it
-ensures forward progress.. i.e. that it moves namespaces
-list mutation to nvme_remove_invalid_namespaces which allows
-to acquire namespaces_rwsem as a read lock, allowing dev_disable
-to stop controller queues (acquiring a read lock as well) in case
-a timeout have occured on a passthru command.
+So why not make the timeout handlers not call nvme_dev_disable? It looks
+like this is causing us to jump over hoops to accommodate for.
+
+I think I asked it a couple of times before, why isn't the timeout
+handler simply either:
+1. abort, or
+2. queue a reset (and return BLK_EH_RESET_TIMER), or
+3. fail early the I/O if it is coming from the reset context (and
+    return BLK_EH_DONE)
+
+*If* there is a rare race where the timed out I/O from (3) is completing
+with the timeout handler concurrently, we can simply suspend that queue
+alone.
