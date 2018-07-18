@@ -1,72 +1,23 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 18 Jul 2018 16:53:11 -0600
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180718203936.GA21011@lst.de>
-References: <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
- <20180712192437.GA16839@localhost.localdomain>
- <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
- <20180713154346.GA18955@localhost.localdomain>
- <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
- <20180713184712.GA19419@localhost.localdomain>
- <291a13b35af1b65fbbe99a3a9cfc7d570a620cd9.camel@wdc.com>
- <20180713235807.GA19967@localhost.localdomain>
- <20180718195650.GA20336@lst.de> <20180718203936.GA21011@lst.de>
-Message-ID: <20180718225311.GD32160@localhost.localdomain>
+From: yogi43222@gmail.com (Yogi Wannabe)
+Date: Wed, 18 Jul 2018 16:08:43 -0700
+Subject: nvme-cli shows failed to map on Kernel 4.16.16
+Message-ID: <CAGSHeY1JpRAXzbdYKpwVnB5Wug=6iyUZVUqLteQCgOOEqq5RoA@mail.gmail.com>
 
-On Wed, Jul 18, 2018@10:39:36PM +0200, hch@lst.de wrote:
-> On Wed, Jul 18, 2018@09:56:50PM +0200, hch@lst.de wrote:
-> > On Fri, Jul 13, 2018@05:58:08PM -0600, Keith Busch wrote:
-> > > Of the two you mentioned, yours is preferable IMO. While I appreciate
-> > > Jianchao's detailed analysis, it's hard to take a proposal seriously
-> > > that so colourfully calls everyone else "dangerous" while advocating
-> > > for silently losing requests on purpose.
-> > > 
-> > > But where's the option that fixes scsi to handle hardware completions
-> > > concurrently with arbitrary timeout software? Propping up that house of
-> > > cards can't be the only recourse.
-> > 
-> > The important bit is that we need to fix this issue quickly.  We are
-> > past -rc5 so I'm rather concerned about anything too complicated.
-> > 
-> > I'm not even sure SCSI has a problem with multiple completions happening
-> > at the same time, but it certainly has a problem with bypassing
-> > blk_mq_complete_request from the EH path.
-> > 
-> > I think we can solve this properly, but I also think we are way to late
-> > in the 4.18 cycle to fix it properly.  For now I fear we'll just have
-> > to revert the changes and try again for 4.19 or even 4.20 if we don't
-> > act quickly enough.
-> 
-> So here is a quick attempt at the revert while also trying to keep
-> nvme working.  Keith, Bart, Jianchao - does this looks reasonable
-> as a 4.18 band aid?
-> 
-> http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/blk-eh-revert
+Hi all,
 
-Hm, I not really a fan. The far majority of blk-mq drivers don't even
-implement a timeout, and reverting it will lose their requests forever
-if they complete at the same time as a timeout.
+I downloaded the latest nvme-cli-master and ran the following command
+on a Centos 7.4 with kernel 3.19.8. The command worked fine
 
-Of the remaining drivers, most of those don't want the reverted behavior
-either. It actually looks like scsi is the only mq driver that wants
-to block completions. In the short term, scsi can make that happen with
-just three lines of code.
+./nvme list /dev/nvme0n1
 
----
-diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-index 8932ae81a15a..03986af3076c 100644
---- a/drivers/scsi/scsi_error.c
-+++ b/drivers/scsi/scsi_error.c
-@@ -286,6 +286,10 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
- 	enum blk_eh_timer_return rtn = BLK_EH_DONE;
- 	struct Scsi_Host *host = scmd->device->host;
+I ran the same command on a Debian 9.5 with Kernel 4.16.16 and I got
+the error msg "failed to map". Googling led me to this link
+https://github.com/linux-nvme/nvme-cli/issues/81
 
-+	if (req->q->mq_ops && cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
-+							MQ_RQ_IN_FLIGHT);
-+		return rtn;
-+
-	trace_scsi_dispatch_cmd_timeout(scmd);
-	scsi_log_completion(scmd, TIMEOUT_ERROR);
+I checked the kernel configuration on 4.16.16 and I see this setting:
+CONFIG_IO_STRICT_DEVMEM=y
 
+Does this mean that nvme list won't work until I rebuild the kernel
+with CONFIG_IO_STRICT_DEVMEM=n?
 
--- 
+thanks
