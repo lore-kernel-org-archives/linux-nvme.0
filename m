@@ -1,5 +1,5 @@
-From: hch@lst.de (hch@lst.de)
-Date: Wed, 18 Jul 2018 22:39:36 +0200
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 18 Jul 2018 14:53:21 -0600
 Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
 In-Reply-To: <20180718195650.GA20336@lst.de>
 References: <20180521231131.6685-4-keith.busch@intel.com>
@@ -12,7 +12,7 @@ References: <20180521231131.6685-4-keith.busch@intel.com>
  <291a13b35af1b65fbbe99a3a9cfc7d570a620cd9.camel@wdc.com>
  <20180713235807.GA19967@localhost.localdomain>
  <20180718195650.GA20336@lst.de>
-Message-ID: <20180718203936.GA21011@lst.de>
+Message-ID: <20180718205321.GA32160@localhost.localdomain>
 
 On Wed, Jul 18, 2018@09:56:50PM +0200, hch@lst.de wrote:
 > On Fri, Jul 13, 2018@05:58:08PM -0600, Keith Busch wrote:
@@ -37,8 +37,64 @@ On Wed, Jul 18, 2018@09:56:50PM +0200, hch@lst.de wrote:
 > to revert the changes and try again for 4.19 or even 4.20 if we don't
 > act quickly enough.
 
-So here is a quick attempt at the revert while also trying to keep
-nvme working.  Keith, Bart, Jianchao - does this looks reasonable
-as a 4.18 band aid?
+If scsi needs this behavior, why not just put that behavior in scsi? It
+can set the state to complete and then everything can play out as
+before.
 
-http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/blk-eh-revert
+---
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 22326612a5d3..f50559718b71 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -558,10 +558,8 @@ static void __blk_mq_complete_request(struct request *rq)
+ 	bool shared = false;
+ 	int cpu;
+ 
+-	if (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
+-			MQ_RQ_IN_FLIGHT)
++	if (blk_mq_mark_complete(rq))
+ 		return;
+-
+ 	if (rq->internal_tag != -1)
+ 		blk_mq_sched_completed_request(rq);
+ 
+diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
+index 8932ae81a15a..a5d05fab24a7 100644
+--- a/drivers/scsi/scsi_error.c
++++ b/drivers/scsi/scsi_error.c
+@@ -286,6 +286,14 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
+ 	enum blk_eh_timer_return rtn = BLK_EH_DONE;
+ 	struct Scsi_Host *host = scmd->device->host;
+ 
++	/*
++	 * Mark complete now so lld can't post a completion during error
++	 * handling. Return immediately if it was already marked complete, as
++	 * that means the lld posted a completion already.
++	 */
++	if (req->q->mq_ops && blk_mq_mark_complete(req))
++		return rtn;
++
+ 	trace_scsi_dispatch_cmd_timeout(scmd);
+ 	scsi_log_completion(scmd, TIMEOUT_ERROR);
+ 
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 9b0fd11ce89a..0ce587c9c27b 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -289,6 +289,15 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+ 
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q);
+ 
++/*
++ * Returns true if request is not in flight.
++ */
++static inline bool blk_mq_mark_complete(struct request *rq)
++{
++	return (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
++			MQ_RQ_IN_FLIGHT);
++}
++
+ /*
+  * Driver command data is immediately after the request. So subtract request
+  * size to get back to the original request, add request size to get the PDU.
+--
