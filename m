@@ -1,28 +1,41 @@
-From: hch@lst.de (hch@lst.de)
-Date: Thu, 19 Jul 2018 15:22:25 +0200
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180718205321.GA32160@localhost.localdomain>
-References: <c42d13289e38df93bb35e9876b803420e40b03d3.camel@wdc.com>
- <20180712192437.GA16839@localhost.localdomain>
- <7cad25b821c3a640e036f28ff1bbe51e7362d25d.camel@wdc.com>
- <20180713154346.GA18955@localhost.localdomain>
- <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
- <20180713184712.GA19419@localhost.localdomain>
- <291a13b35af1b65fbbe99a3a9cfc7d570a620cd9.camel@wdc.com>
- <20180713235807.GA19967@localhost.localdomain>
- <20180718195650.GA20336@lst.de>
- <20180718205321.GA32160@localhost.localdomain>
-Message-ID: <20180719132225.GC13129@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 19 Jul 2018 15:28:38 +0200
+Subject: [PATCH 4/4] nvme: fc: abort commands before resetting controller
+In-Reply-To: <20180719132838.15556-1-jthumshirn@suse.de>
+References: <20180719132838.15556-1-jthumshirn@suse.de>
+Message-ID: <20180719132838.15556-5-jthumshirn@suse.de>
 
-On Wed, Jul 18, 2018@02:53:21PM -0600, Keith Busch wrote:
-> If scsi needs this behavior, why not just put that behavior in scsi? It
-> can set the state to complete and then everything can play out as
-> before.
+Currently if a timeout on fc happens we just go ahead and reset the
+underlying transport.
 
-I think even with this we are missing handling for the somewhat
-degenerate blk_abort_request case.
+Instead try for a more fine grained error recovery by first aborting
+the FC OP, if this fails abort the NVMe command and if this as well
+fails go the hard route and reset the controller.
 
-But most importantly we'll need some good test coverage.  Please
-do some basic testing (e.g. with a version of the hack from
-Jianchao (who seems to keep getting dropped from this thread for
-some reason) and send it out to the block and scsi lists.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/fc.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9cc33752539a..0ba0075c3b75 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2054,6 +2054,15 @@ nvme_fc_timeout(struct request *rq, bool reserved)
+ {
+ 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_fc_ctrl *ctrl = op->ctrl;
++	u16 qid = op->queue->qnum;
++	int ret;
++
++	if (!__nvme_fc_abort_op(ctrl, op))
++		return BLK_EH_RESET_TIMER;
++
++	ret = nvme_abort_cmd(&ctrl->ctrl, rq, cpu_to_le16(qid));
++	if (!ret)
++		return BLK_EH_RESET_TIMER;
+ 
+ 	/*
+ 	 * we can't individually ABTS an io without affecting the queue,
+-- 
+2.16.4
