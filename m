@@ -1,38 +1,27 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 19 Jul 2018 13:48:46 -0600
-Subject: [PATCHv4 0/4] nvme timeout updates
-In-Reply-To: <20180713205609.19701-1-keith.busch@intel.com>
-References: <20180713205609.19701-1-keith.busch@intel.com>
-Message-ID: <20180719194845.GA15114@sbauer-Z170X-UD5>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 19 Jul 2018 14:18:56 -0600
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <20180719162924.GA23917@lst.de>
+References: <20180718195650.GA20336@lst.de>
+ <20180718205321.GA32160@localhost.localdomain>
+ <c67f3da64914a436bc76f3ec0bc261ee6178cd14.camel@wdc.com>
+ <20180718211711.GB32160@localhost.localdomain>
+ <20180719131903.GB13129@lst.de>
+ <20180719145931.GF32160@localhost.localdomain>
+ <20180719155616.GG32160@localhost.localdomain>
+ <7239f833438701fb6ce21d819bc7042af1bc1f8a.camel@wdc.com>
+ <20180719162240.GH32160@localhost.localdomain>
+ <20180719162924.GA23917@lst.de>
+Message-ID: <20180719201856.GI32160@localhost.localdomain>
 
-On Fri, Jul 13, 2018@02:56:05PM -0600, Keith Busch wrote:
-> The majority of the v3 was either merged or no longer necessary.
-> 
-> Patch 1 is still the same as before.
-> 
-> The remaining patches 2-4 are setting up the nvme core to handle
-> unfreezing queues and dispatching IO from a context that is safe to
-> handle IO timeouts. The pci nvme is the only one making use of that at
-> the momement, but I suspect fabrics can make something of it.
-> 
-> The patch retrying a failed reset on an admin init timeout has been
-> dropped. If we really need to do this, I think more discussion will help
-> so we are creating less arbitrary rules.
-> 
-> Keith Busch (4):
->   nvme: Sync request queues on reset
->   nvme: Start controller in own work queue
->   nvme: Introduce frozen controller state
->   nvme-pci: Use controller start work to dispath IO
-> 
->  drivers/nvme/host/core.c | 54 ++++++++++++++++++++++++++++++++++++++++++++----
->  drivers/nvme/host/nvme.h |  3 +++
->  drivers/nvme/host/pci.c  | 20 ++++++------------
->  3 files changed, 59 insertions(+), 18 deletions(-)
-> 
-> -- 
-> 2.14.3
+On Thu, Jul 19, 2018@06:29:24PM +0200, hch@lst.de wrote:
+> How do we get a fix into 4.18 at this part of the cycle?  I think that
+> is the most important prirority right now.
 
-Thanks Keith!
+Even if you were okay at this point to incorporate the concepts from
+Bart's patch, it still looks like trouble for scsi (will elobrate
+separately).
 
-Tested-by: Scott Bauer <scott.bauer at intel.com>
+But reverting breaks other things we finally got working, so I'd
+still vote for isolating the old behavior to scsi if that isn't too
+unpalatable. I'll send a small patch shortly and see what happens.
