@@ -1,50 +1,72 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 19 Jul 2018 08:59:31 -0600
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180719131903.GB13129@lst.de>
-References: <20180713154346.GA18955@localhost.localdomain>
- <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
- <20180713184712.GA19419@localhost.localdomain>
- <291a13b35af1b65fbbe99a3a9cfc7d570a620cd9.camel@wdc.com>
- <20180713235807.GA19967@localhost.localdomain>
- <20180718195650.GA20336@lst.de>
- <20180718205321.GA32160@localhost.localdomain>
- <c67f3da64914a436bc76f3ec0bc261ee6178cd14.camel@wdc.com>
- <20180718211711.GB32160@localhost.localdomain>
- <20180719131903.GB13129@lst.de>
-Message-ID: <20180719145931.GF32160@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 19 Jul 2018 08:00:01 -0700
+Subject: [PATCH 0/4] Rework NVMe abort handling
+In-Reply-To: <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
+References: <20180719132838.15556-1-jthumshirn@suse.de>
+ <20180719134203.GA15212@lst.de>
+ <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
+Message-ID: <d8da8faf-187e-6e19-7162-d6b5caddb563@broadcom.com>
 
-On Thu, Jul 19, 2018@03:19:04PM +0200, hch@lst.de wrote:
-> On Wed, Jul 18, 2018@03:17:11PM -0600, Keith Busch wrote:
-> > And there may be other drivers that don't want their completions
-> > ignored, so breaking them again is also a step in the wrong direction.
-> > 
-> > There are not that many blk-mq drivers, so we can go through them all.
-> 
-> I think the point is that SCSI is the biggest user by both the number
-> of low-level drivers sitting under the midlayer, and also by usage.
-> 
-> We need to be very careful not to break it.  Note that this doesn't
-> mean that I don't want to eventually move away from just ignoring
-> completions in timeout state for SCSI.  I'd just rather rever 4.18
-> to a clean known state instead of doctoring around late in the rc
-> phase.
 
-I definitely do not want to break scsi. I just don't want to break every
-one else either, and I think scsi can get the behavior it wants without
-forcing others to subscribe to it.
- 
-> > Most don't even implement .timeout, so they never know that condition
-> > ever happened. Others always return BLK_EH_RESET_TIMER without doing
-> > anythign else, so the 'new' behavior would have to be better for those,
-> > too.
-> 
-> And we should never even hit the timeout handler for those as it
-> is rather pointless (although it looks we currently do..).
+On 7/19/2018 7:10 AM, Johannes Thumshirn wrote:
+> On Thu, Jul 19, 2018@03:42:03PM +0200, Christoph Hellwig wrote:
+>> Without even looking at the code yet:  why?  The nvme abort isn't
+>> very useful, and due to the lack of ordering between different
+>> queues almost harmful on fabrics.  What problem do you try to
+>> solve?
+> The problem I'm trying to solve here is really just single commands
+> timing out because of i.e. a bad switch in between which causes frame
+> loss somewhere.
+>
+> I know RDMA and FC are defined to be lossless but reality sometimes
+> has a different view on this (can't talk too much for RDMA but I've
+> had some nice bugs in SCSI due to faulty switches dropping odd
+> frames).
+>
+> Of cause we can still do the big hammer if one command times out due
+> to a misbehaving switch but we can also at least try to abort it. I
+> know aborts are defined as best effort, but as we're in the error path
+> anyways it doesn't hurt to at least try.
+>
+> This would give us a chance to recover from such situations, of cause
+> given the target actually does something when receiving an abort.
+>
+> In the FC case we can even send an ABTS and try to abort the command
+> on the FC side first, before doing it on NVMe. I'm not sure if we can
+> do it on RDMA or PCIe as well.
+>
+> So the issue I'm trying to solve is easy, if one command times out for
+> whatever reason, there's no need to go the big transport reset route
+> before not even trying to recover from it. Possibly we should also try
+> doing a queue reset if aborting failed before doing the transport
+> reset.
+>
+> Byte,
+> 	Johannes
 
-I don't see why we'd expect to never hit timeout for at least some of
-these. It's not a stretch to see, for example, that virtio-blk or loop
-could have their requests lost with no way to recover if we revert. I've
-wasted too much time debugging hardware for such lost commands when it
-was in fact functioning perfectly fine. So reintroducing that behavior
-is a bit distressing.
+I'm with Christoph.
+
+It doesn't work that way... command delivery is very much tied to any 
+command ordering delivery requirements as well as sqhd increment on the 
+target, and response delivery is tied similarly tied to sqhd delivery to 
+the host as well as ordering requirements on responses. With aborts as 
+you're implementing, you drop those things.? Granted, Linux's lack of 
+paying attention to SQHD (a problem waiting to happen in my mind) as 
+well as not using fused commands (and no other commands yet requiring 
+order) make it believe it can get away without it.
+
+You're going to confuse transports as there's no understanding in the 
+transport protocol on what it means to abort/cancel a single io.?? The 
+specs are rather clear, and for a good reason, that non-delivery (the 
+abort or cancellation) mandates connection teardown which in turn 
+mandates association teardown. You will be creating non-standard 
+implementations that will fail interoperability and compliance.
+
+If you really want single io abort - implement it in the NVMe standard 
+way with Aborts to the admin queue, subject to the ACL limit.? Then push 
+on the targets to support deep ACL counts and honestly responding to 
+ABORT, and there will still be race conditions between the ABORT and its 
+command that will make an interesting retry policy. Or, wait for Fred 
+Knights, new proposal on ABORTS.
+
+-- james
