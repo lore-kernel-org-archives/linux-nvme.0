@@ -1,32 +1,50 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Jul 2018 16:54:22 +0200
-Subject: [PATCH 0/4] Rework NVMe abort handling
-In-Reply-To: <20180719145005.GA21000@lst.de>
-References: <20180719132838.15556-1-jthumshirn@suse.de>
- <20180719134203.GA15212@lst.de>
- <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
- <20180719142355.GA18800@lst.de>
- <20180719143534.i36vo45lhz24xbrg@linux-x5ow.site>
- <20180719145005.GA21000@lst.de>
-Message-ID: <20180719145422.2tdrbwa34gheuam3@linux-x5ow.site>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 19 Jul 2018 08:59:31 -0600
+Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
+In-Reply-To: <20180719131903.GB13129@lst.de>
+References: <20180713154346.GA18955@localhost.localdomain>
+ <a32b251bd3c0a186e5c5ba82656a85fbdcc0c5e4.camel@wdc.com>
+ <20180713184712.GA19419@localhost.localdomain>
+ <291a13b35af1b65fbbe99a3a9cfc7d570a620cd9.camel@wdc.com>
+ <20180713235807.GA19967@localhost.localdomain>
+ <20180718195650.GA20336@lst.de>
+ <20180718205321.GA32160@localhost.localdomain>
+ <c67f3da64914a436bc76f3ec0bc261ee6178cd14.camel@wdc.com>
+ <20180718211711.GB32160@localhost.localdomain>
+ <20180719131903.GB13129@lst.de>
+Message-ID: <20180719145931.GF32160@localhost.localdomain>
 
-On Thu, Jul 19, 2018@04:50:05PM +0200, Christoph Hellwig wrote:
-> The upper layer is only going to retry after tearing down the transport
-> connection.  And a tear down of the connection MUST clear all pending
-> commands on the way.  If it doesn't we are in deep, deep trouble.
+On Thu, Jul 19, 2018@03:19:04PM +0200, hch@lst.de wrote:
+> On Wed, Jul 18, 2018@03:17:11PM -0600, Keith Busch wrote:
+> > And there may be other drivers that don't want their completions
+> > ignored, so breaking them again is also a step in the wrong direction.
+> > 
+> > There are not that many blk-mq drivers, so we can go through them all.
 > 
-> A NVMe abort has no chance of clearing things at the transport layer.
+> I think the point is that SCSI is the biggest user by both the number
+> of low-level drivers sitting under the midlayer, and also by usage.
+> 
+> We need to be very careful not to break it.  Note that this doesn't
+> mean that I don't want to eventually move away from just ignoring
+> completions in timeout state for SCSI.  I'd just rather rever 4.18
+> to a clean known state instead of doctoring around late in the rc
+> phase.
 
-OK so all I can do in my case (if I want soft error recovery) is send
-out a transport abort in the timeout handler and then rearm the timer
-and requeue the command.
+I definitely do not want to break scsi. I just don't want to break every
+one else either, and I think scsi can get the behavior it wants without
+forcing others to subscribe to it.
+ 
+> > Most don't even implement .timeout, so they never know that condition
+> > ever happened. Others always return BLK_EH_RESET_TIMER without doing
+> > anythign else, so the 'new' behavior would have to be better for those,
+> > too.
+> 
+> And we should never even hit the timeout handler for those as it
+> is rather pointless (although it looks we currently do..).
 
-Which leaves us to the FC patch only, modified of cause.
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+I don't see why we'd expect to never hit timeout for at least some of
+these. It's not a stretch to see, for example, that virtio-blk or loop
+could have their requests lost with no way to recover if we revert. I've
+wasted too much time debugging hardware for such lost commands when it
+was in fact functioning perfectly fine. So reintroducing that behavior
+is a bit distressing.
