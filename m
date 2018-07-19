@@ -1,32 +1,54 @@
-From: hch@lst.de (hch@lst.de)
-Date: Thu, 19 Jul 2018 18:29:24 +0200
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180719162240.GH32160@localhost.localdomain>
-References: <20180713235807.GA19967@localhost.localdomain>
- <20180718195650.GA20336@lst.de>
- <20180718205321.GA32160@localhost.localdomain>
- <c67f3da64914a436bc76f3ec0bc261ee6178cd14.camel@wdc.com>
- <20180718211711.GB32160@localhost.localdomain>
- <20180719131903.GB13129@lst.de>
- <20180719145931.GF32160@localhost.localdomain>
- <20180719155616.GG32160@localhost.localdomain>
- <7239f833438701fb6ce21d819bc7042af1bc1f8a.camel@wdc.com>
- <20180719162240.GH32160@localhost.localdomain>
-Message-ID: <20180719162924.GA23917@lst.de>
+From: lkp@intel.com (kbuild test robot)
+Date: Fri, 20 Jul 2018 00:29:18 +0800
+Subject: [PATCH 1/4] nvme: factor out pci abort handling into core
+In-Reply-To: <20180719132838.15556-2-jthumshirn@suse.de>
+References: <20180719132838.15556-2-jthumshirn@suse.de>
+Message-ID: <201807192335.ptGDRSvD%fengguang.wu@intel.com>
 
-On Thu, Jul 19, 2018@10:22:40AM -0600, Keith Busch wrote:
-> On Thu, Jul 19, 2018@04:04:46PM +0000, Bart Van Assche wrote:
-> > On Thu, 2018-07-19@09:56 -0600, Keith Busch wrote:
-> > > Even some scsi drivers are susceptible to losing their requests with the
-> > > reverted behavior: take virtio-scsi for example, which returns RESET_TIMER
-> > > from it's timeout handler. With the behavior everyone seems to want,
-> > > a natural completion at or around the same time is lost forever because
-> > > it was blocked from completion with no way to recover.
-> > 
-> > The patch I had posted handles a completion that occurs while a timeout is
-> > being handled properly. From https://www.mail-archive.com/linux-block at vger.kernel.org/msg22196.html:
-> 
-> Sounds like a win-win to me.
+Hi Johannes,
 
-How do we get a fix into 4.18 at this part of the cycle?  I think that
-is the most important prirority right now.
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v4.18-rc5 next-20180719]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/Rework-NVMe-abort-handling/20180719-230642
+config: x86_64-randconfig-x011-201828 (attached as .config)
+compiler: gcc-7 (Debian 7.3.0-16) 7.3.0
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=x86_64 
+
+All errors (new ones prefixed by >>):
+
+   drivers/nvme/host/core.c: In function 'abort_endio':
+>> drivers/nvme/host/core.c:711:40: error: 'struct nvme_request' has no member named 'ctrl'
+     struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+                                           ^~
+
+vim +711 drivers/nvme/host/core.c
+
+   707	
+   708	
+   709	static void abort_endio(struct request *req, blk_status_t error)
+   710	{
+ > 711		struct nvme_ctrl *ctrl = nvme_req(req)->ctrl;
+   712	
+   713		dev_warn(ctrl->device,
+   714			 "Abort status: 0x%x", nvme_req(req)->status);
+   715		atomic_inc(&ctrl->abort_limit);
+   716		blk_mq_free_request(req);
+   717	}
+   718	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 34695 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180720/d222223b/attachment-0001.gz>
