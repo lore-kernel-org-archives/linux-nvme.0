@@ -1,51 +1,52 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 19 Jul 2018 15:26:18 -0600
-Subject: [PATCH 2/2] scsi: set timed out out mq requests to complete
-In-Reply-To: <20180719212618.2406-1-keith.busch@intel.com>
-References: <20180719212618.2406-1-keith.busch@intel.com>
-Message-ID: <20180719212618.2406-2-keith.busch@intel.com>
+Date: Thu, 19 Jul 2018 15:26:17 -0600
+Subject: [PATCH 1/2] blk-mq: export setting request completion state
+Message-ID: <20180719212618.2406-1-keith.busch@intel.com>
 
-The scsi block layer requires requests claimed be the error handling be
-completed by the error handler. A previous commit allowed completions
-to proceed for blk-mq, breaking that assumption.
+This is preparing for drivers that want to directly alter the state of
+their requests. No functional change here.
 
-This patch prevents completions that may race with the timeout handler
-by marking the state to complete, restoring the previous behavior.
-
-Fixes: 12f5b931 ("blk-mq: Remove generation seqeunce")
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
+ block/blk-mq.c         | 4 +---
+ include/linux/blk-mq.h | 9 +++++++++
+ 2 files changed, 10 insertions(+), 3 deletions(-)
 
-Tested using Jianchao's abort injection to scsi_debug described here:
-
-  https://lore.kernel.org/lkml/a68ad043-26a1-d3d8-2009-504ba4230e0f at oracle.com/
-
- drivers/scsi/scsi_error.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-index 8932ae81a15a..86ee10b2c775 100644
---- a/drivers/scsi/scsi_error.c
-+++ b/drivers/scsi/scsi_error.c
-@@ -286,6 +286,9 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
- 	enum blk_eh_timer_return rtn = BLK_EH_DONE;
- 	struct Scsi_Host *host = scmd->device->host;
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 22326612a5d3..f50559718b71 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -558,10 +558,8 @@ static void __blk_mq_complete_request(struct request *rq)
+ 	bool shared = false;
+ 	int cpu;
  
-+	if (req->q->mq_ops && blk_mq_mark_complete(req))
-+		return rtn;
+-	if (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
+-			MQ_RQ_IN_FLIGHT)
++	if (blk_mq_mark_complete(rq))
+ 		return;
+-
+ 	if (rq->internal_tag != -1)
+ 		blk_mq_sched_completed_request(rq);
+ 
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 9b0fd11ce89a..0ae115e95476 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -289,6 +289,15 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+ 
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q);
+ 
++/*
++ * Returns true if request was not in flight.
++ */
++static inline bool blk_mq_mark_complete(struct request *rq)
++{
++	return (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
++			MQ_RQ_IN_FLIGHT);
++}
 +
- 	trace_scsi_dispatch_cmd_timeout(scmd);
- 	scsi_log_completion(scmd, TIMEOUT_ERROR);
- 
-@@ -300,7 +303,8 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
- 			set_host_byte(scmd, DID_TIME_OUT);
- 			scsi_eh_scmd_add(scmd);
- 		}
--	}
-+	} else if (req->q->mq_ops)
-+		WRITE_ONCE(req->state, MQ_RQ_IN_FLIGHT);
- 
- 	return rtn;
- }
+ /*
+  * Driver command data is immediately after the request. So subtract request
+  * size to get back to the original request, add request size to get the PDU.
 -- 
 2.14.4
