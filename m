@@ -1,72 +1,33 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Thu, 19 Jul 2018 08:00:01 -0700
+Date: Thu, 19 Jul 2018 08:04:09 -0700
 Subject: [PATCH 0/4] Rework NVMe abort handling
-In-Reply-To: <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
+In-Reply-To: <20180719145422.2tdrbwa34gheuam3@linux-x5ow.site>
 References: <20180719132838.15556-1-jthumshirn@suse.de>
  <20180719134203.GA15212@lst.de>
  <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
-Message-ID: <d8da8faf-187e-6e19-7162-d6b5caddb563@broadcom.com>
+ <20180719142355.GA18800@lst.de>
+ <20180719143534.i36vo45lhz24xbrg@linux-x5ow.site>
+ <20180719145005.GA21000@lst.de>
+ <20180719145422.2tdrbwa34gheuam3@linux-x5ow.site>
+Message-ID: <8d1ad465-c6b2-b67d-39f5-c88d849a89dd@broadcom.com>
 
+On 7/19/2018 7:54 AM, Johannes Thumshirn wrote:
+> On Thu, Jul 19, 2018@04:50:05PM +0200, Christoph Hellwig wrote:
+>> The upper layer is only going to retry after tearing down the transport
+>> connection.  And a tear down of the connection MUST clear all pending
+>> commands on the way.  If it doesn't we are in deep, deep trouble.
+>>
+>> A NVMe abort has no chance of clearing things at the transport layer.
+> OK so all I can do in my case (if I want soft error recovery) is send
+> out a transport abort in the timeout handler and then rearm the timer
+> and requeue the command.
+>
+> Which leaves us to the FC patch only, modified of cause.
+>
 
-On 7/19/2018 7:10 AM, Johannes Thumshirn wrote:
-> On Thu, Jul 19, 2018@03:42:03PM +0200, Christoph Hellwig wrote:
->> Without even looking at the code yet:  why?  The nvme abort isn't
->> very useful, and due to the lack of ordering between different
->> queues almost harmful on fabrics.  What problem do you try to
->> solve?
-> The problem I'm trying to solve here is really just single commands
-> timing out because of i.e. a bad switch in between which causes frame
-> loss somewhere.
->
-> I know RDMA and FC are defined to be lossless but reality sometimes
-> has a different view on this (can't talk too much for RDMA but I've
-> had some nice bugs in SCSI due to faulty switches dropping odd
-> frames).
->
-> Of cause we can still do the big hammer if one command times out due
-> to a misbehaving switch but we can also at least try to abort it. I
-> know aborts are defined as best effort, but as we're in the error path
-> anyways it doesn't hurt to at least try.
->
-> This would give us a chance to recover from such situations, of cause
-> given the target actually does something when receiving an abort.
->
-> In the FC case we can even send an ABTS and try to abort the command
-> on the FC side first, before doing it on NVMe. I'm not sure if we can
-> do it on RDMA or PCIe as well.
->
-> So the issue I'm trying to solve is easy, if one command times out for
-> whatever reason, there's no need to go the big transport reset route
-> before not even trying to recover from it. Possibly we should also try
-> doing a queue reset if aborting failed before doing the transport
-> reset.
->
-> Byte,
-> 	Johannes
-
-I'm with Christoph.
-
-It doesn't work that way... command delivery is very much tied to any 
-command ordering delivery requirements as well as sqhd increment on the 
-target, and response delivery is tied similarly tied to sqhd delivery to 
-the host as well as ordering requirements on responses. With aborts as 
-you're implementing, you drop those things.? Granted, Linux's lack of 
-paying attention to SQHD (a problem waiting to happen in my mind) as 
-well as not using fused commands (and no other commands yet requiring 
-order) make it believe it can get away without it.
-
-You're going to confuse transports as there's no understanding in the 
-transport protocol on what it means to abort/cancel a single io.?? The 
-specs are rather clear, and for a good reason, that non-delivery (the 
-abort or cancellation) mandates connection teardown which in turn 
-mandates association teardown. You will be creating non-standard 
-implementations that will fail interoperability and compliance.
-
-If you really want single io abort - implement it in the NVMe standard 
-way with Aborts to the admin queue, subject to the ACL limit.? Then push 
-on the targets to support deep ACL counts and honestly responding to 
-ABORT, and there will still be race conditions between the ABORT and its 
-command that will make an interesting retry policy. Or, wait for Fred 
-Knights, new proposal on ABORTS.
+Which I'm going to say no on. I originally did the abort before the 
+reset and it brought out some confusion in the reset code. Thus the 
+existing flow which just resets the controller which has to be done 
+after the abort anyway.
 
 -- james
