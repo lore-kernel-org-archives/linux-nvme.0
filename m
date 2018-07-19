@@ -1,27 +1,51 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 19 Jul 2018 14:18:56 -0600
-Subject: [RFC PATCH 3/3] blk-mq: Remove generation seqeunce
-In-Reply-To: <20180719162924.GA23917@lst.de>
-References: <20180718195650.GA20336@lst.de>
- <20180718205321.GA32160@localhost.localdomain>
- <c67f3da64914a436bc76f3ec0bc261ee6178cd14.camel@wdc.com>
- <20180718211711.GB32160@localhost.localdomain>
- <20180719131903.GB13129@lst.de>
- <20180719145931.GF32160@localhost.localdomain>
- <20180719155616.GG32160@localhost.localdomain>
- <7239f833438701fb6ce21d819bc7042af1bc1f8a.camel@wdc.com>
- <20180719162240.GH32160@localhost.localdomain>
- <20180719162924.GA23917@lst.de>
-Message-ID: <20180719201856.GI32160@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 19 Jul 2018 15:26:18 -0600
+Subject: [PATCH 2/2] scsi: set timed out out mq requests to complete
+In-Reply-To: <20180719212618.2406-1-keith.busch@intel.com>
+References: <20180719212618.2406-1-keith.busch@intel.com>
+Message-ID: <20180719212618.2406-2-keith.busch@intel.com>
 
-On Thu, Jul 19, 2018@06:29:24PM +0200, hch@lst.de wrote:
-> How do we get a fix into 4.18 at this part of the cycle?  I think that
-> is the most important prirority right now.
+The scsi block layer requires requests claimed be the error handling be
+completed by the error handler. A previous commit allowed completions
+to proceed for blk-mq, breaking that assumption.
 
-Even if you were okay at this point to incorporate the concepts from
-Bart's patch, it still looks like trouble for scsi (will elobrate
-separately).
+This patch prevents completions that may race with the timeout handler
+by marking the state to complete, restoring the previous behavior.
 
-But reverting breaks other things we finally got working, so I'd
-still vote for isolating the old behavior to scsi if that isn't too
-unpalatable. I'll send a small patch shortly and see what happens.
+Fixes: 12f5b931 ("blk-mq: Remove generation seqeunce")
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+
+Tested using Jianchao's abort injection to scsi_debug described here:
+
+  https://lore.kernel.org/lkml/a68ad043-26a1-d3d8-2009-504ba4230e0f at oracle.com/
+
+ drivers/scsi/scsi_error.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
+index 8932ae81a15a..86ee10b2c775 100644
+--- a/drivers/scsi/scsi_error.c
++++ b/drivers/scsi/scsi_error.c
+@@ -286,6 +286,9 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
+ 	enum blk_eh_timer_return rtn = BLK_EH_DONE;
+ 	struct Scsi_Host *host = scmd->device->host;
+ 
++	if (req->q->mq_ops && blk_mq_mark_complete(req))
++		return rtn;
++
+ 	trace_scsi_dispatch_cmd_timeout(scmd);
+ 	scsi_log_completion(scmd, TIMEOUT_ERROR);
+ 
+@@ -300,7 +303,8 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
+ 			set_host_byte(scmd, DID_TIME_OUT);
+ 			scsi_eh_scmd_add(scmd);
+ 		}
+-	}
++	} else if (req->q->mq_ops)
++		WRITE_ONCE(req->state, MQ_RQ_IN_FLIGHT);
+ 
+ 	return rtn;
+ }
+-- 
+2.14.4
