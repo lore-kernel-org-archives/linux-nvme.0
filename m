@@ -1,27 +1,16 @@
-From: sunil.kovvuri@gmail.com (Sunil Kovvuri)
-Date: Thu, 19 Jul 2018 16:22:07 +0530
-Subject: [pci PATCH v8 4/4] pci-pf-stub: Add PF driver stub for PFs that
- function only to enable VFs
-In-Reply-To: <20180420163109.46077.60334.stgit@ahduyck-green-test.jf.intel.com>
-References: <20180420162633.46077.49012.stgit@ahduyck-green-test.jf.intel.com>
- <20180420163109.46077.60334.stgit@ahduyck-green-test.jf.intel.com>
-Message-ID: <CA+sq2CdDuimDCYK+9arO7-oRpNxdynX+rqYwpeBi9C_R+4pQNw@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 19 Jul 2018 05:41:58 -0700
+Subject: nvme-cli shows failed to map on Kernel 4.16.16
+In-Reply-To: <20180718231211.GE32160@localhost.localdomain>
+References: <CAGSHeY1JpRAXzbdYKpwVnB5Wug=6iyUZVUqLteQCgOOEqq5RoA@mail.gmail.com>
+ <20180718231211.GE32160@localhost.localdomain>
+Message-ID: <20180719124158.GA3147@infradead.org>
 
-Hi,
+On Wed, Jul 18, 2018@05:12:11PM -0600, Keith Busch wrote:
+> That is correct, you will not be able to use that command when
+> CONFIG_IO_STRICT_DEVMEM=y. When that kernel config option is set, the
+> kernel will not allow user space to mmap io memory if a driver also
+> mapped it.
 
-> +static struct pci_driver pf_stub_driver = {
-> +       .name                   = "pci-pf-stub",
-> +       .id_table               = pci_pf_stub_white_list,
-> +       .probe                  = pci_pf_stub_probe,
-> +       .sriov_configure        = pci_sriov_configure_simple,
-> +};
-> +
-
-Is there any specific reason for not disabling SRIOV upon driver unload/remove ?
-
-i.e if a user sets numVFs to a non-zero value and unloads this driver
-then we have a
-situation where there is no PF driver in kernel but VFs still exist.
-
-Thanks,
-Sunil.
+Yikes.  We really ought to have a way to scrape that information
+without reading the bar..
