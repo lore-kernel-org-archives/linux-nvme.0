@@ -1,50 +1,34 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Jul 2018 16:10:25 +0200
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 19 Jul 2018 16:23:55 +0200
 Subject: [PATCH 0/4] Rework NVMe abort handling
-In-Reply-To: <20180719134203.GA15212@lst.de>
+In-Reply-To: <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
 References: <20180719132838.15556-1-jthumshirn@suse.de>
  <20180719134203.GA15212@lst.de>
-Message-ID: <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
+ <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
+Message-ID: <20180719142355.GA18800@lst.de>
 
-On Thu, Jul 19, 2018@03:42:03PM +0200, Christoph Hellwig wrote:
-> Without even looking at the code yet:  why?  The nvme abort isn't
-> very useful, and due to the lack of ordering between different
-> queues almost harmful on fabrics.  What problem do you try to
-> solve?
+On Thu, Jul 19, 2018@04:10:25PM +0200, Johannes Thumshirn wrote:
+> The problem I'm trying to solve here is really just single commands
+> timing out because of i.e. a bad switch in between which causes frame
+> loss somewhere.
 
-The problem I'm trying to solve here is really just single commands
-timing out because of i.e. a bad switch in between which causes frame
-loss somewhere.
+And that is exactly the case where NVMe abort does not actually work
+in any sensible way.
 
-I know RDMA and FC are defined to be lossless but reality sometimes
-has a different view on this (can't talk too much for RDMA but I've
-had some nice bugs in SCSI due to faulty switches dropping odd
-frames).
+Remember that while NVMe guarantes ordered delivery inside a given
+queue it does not guarantee anything between multiple queues.
 
-Of cause we can still do the big hammer if one command times out due
-to a misbehaving switch but we can also at least try to abort it. I
-know aborts are defined as best effort, but as we're in the error path
-anyways it doesn't hurt to at least try.
+So now you have your buggy FC setup where an I/O command times out
+because your switch delayed it for two hours due to a firmware bug.
 
-This would give us a chance to recover from such situations, of cause
-given the target actually does something when receiving an abort.
+After 30 seconds we send an abort over the admin queue, which happens
+to pass through just fine.  The controller will tell you: no command
+found as it has never seen it.
 
-In the FC case we can even send an ABTS and try to abort the command
-on the FC side first, before doing it on NVMe. I'm not sure if we can
-do it on RDMA or PCIe as well.
+No with the the code following what we have in PCIe that just means
+we'll eventually controller reset after the I/O command times out
+the second time as we still won't have seen a completion for it.
 
-So the issue I'm trying to solve is easy, if one command times out for
-whatever reason, there's no need to go the big transport reset route
-before not even trying to recover from it. Possibly we should also try
-doing a queue reset if aborting failed before doing the transport
-reset.
-
-Byte,
-	Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+If you incorrectly just continue and resend the command we'll actually
+get the command sent twice and thus a potential bug once the original
+command just gets sent along.
