@@ -1,42 +1,26 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Fri, 20 Jul 2018 15:12:59 +0000
-Subject: [PATCH 2/2] scsi: set timed out out mq requests to complete
-In-Reply-To: <20180719212618.2406-2-keith.busch@intel.com>
-References: <20180719212618.2406-1-keith.busch@intel.com>
- <20180719212618.2406-2-keith.busch@intel.com>
-Message-ID: <1073d0d2902327970c4e28a4c7c97a21fd8885c8.camel@wdc.com>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Fri, 20 Jul 2018 08:53:02 -0600
+Subject: [RCF PATCH 2/2] nvme-pci: Bounce data from Host memory to CMB
+ Memory
+In-Reply-To: <20180720144949.GC29886@infradead.org>
+References: <20180719230628.31494-1-scott.bauer@intel.com>
+ <20180719230628.31494-3-scott.bauer@intel.com>
+ <20180720142343.GB4093@localhost.localdomain>
+ <20180720144949.GC29886@infradead.org>
+Message-ID: <20180720145301.GC9294@sbauer-Z170X-UD5>
 
-On Thu, 2018-07-19@15:26 -0600, Keith Busch wrote:
-> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-> index 8932ae81a15a..86ee10b2c775 100644
-> --- a/drivers/scsi/scsi_error.c
-> +++ b/drivers/scsi/scsi_error.c
-> @@ -286,6 +286,9 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
->  	enum blk_eh_timer_return rtn = BLK_EH_DONE;
->  	struct Scsi_Host *host = scmd->device->host;
->  
-> +	if (req->q->mq_ops && blk_mq_mark_complete(req))
-> +		return rtn;
-> +
->  	trace_scsi_dispatch_cmd_timeout(scmd);
->  	scsi_log_completion(scmd, TIMEOUT_ERROR);
->  
-> @@ -300,7 +303,8 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
->  			set_host_byte(scmd, DID_TIME_OUT);
->  			scsi_eh_scmd_add(scmd);
->  		}
-> -	}
-> +	} else if (req->q->mq_ops)
-> +		WRITE_ONCE(req->state, MQ_RQ_IN_FLIGHT);
->  
->  	return rtn;
->  }
+On Fri, Jul 20, 2018@07:49:49AM -0700, Christoph Hellwig wrote:
+> On Fri, Jul 20, 2018@08:23:43AM -0600, Keith Busch wrote:
+> > On Thu, Jul 19, 2018@05:06:28PM -0600, Scott Bauer wrote:
+> > > Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+> > 
+> > What does this gain us? I don't think this would do anything except
+> > increase the CPU utilization. If this actually buys additional
+> > performance, could you include some relative data and workload
+> > characteristics in the changelog?
+> 
+> Yes, as-is this seems rather counter productive..
 
-Modifying the completion state and req->state from the SCSI core are layering
-violations. Have you considered to move the above changes into blk_mq_rq_timed_out()?
-An additional benefit of that approach is that the req->q->mq_ops checks can be
-left out.
-
-Thanks,
-
-Bart.
+Unfortunately I still don't have a drive to do perf testing on. The
+only thing I can do is quickly hack this into QEMU, but I suspect that's
+far too different to get us any relevant numbers.
