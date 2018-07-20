@@ -1,72 +1,39 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 20 Jul 2018 08:23:43 -0600
-Subject: [RCF PATCH 2/2] nvme-pci: Bounce data from Host memory to CMB
- Memory
-In-Reply-To: <20180719230628.31494-3-scott.bauer@intel.com>
-References: <20180719230628.31494-1-scott.bauer@intel.com>
- <20180719230628.31494-3-scott.bauer@intel.com>
-Message-ID: <20180720142343.GB4093@localhost.localdomain>
+Date: Fri, 20 Jul 2018 08:26:32 -0600
+Subject: [PATCH] nvme: Fix handling of metadata_len for NVME_IOCTL_IO_CMD
+In-Reply-To: <20180720030759.30254-1-roland@kernel.org>
+References: <20180720030759.30254-1-roland@kernel.org>
+Message-ID: <20180720142632.GC4093@localhost.localdomain>
 
-On Thu, Jul 19, 2018@05:06:28PM -0600, Scott Bauer wrote:
-> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
-
-What does this gain us? I don't think this would do anything except
-increase the CPU utilization. If this actually buys additional
-performance, could you include some relative data and workload
-characteristics in the changelog?
-
-> +static int nvme_copy_to_cmb(struct nvme_dev *dev, struct nvme_iod *iod)
-> +{
-> +	struct scatterlist *s;
-> +	void *data_cmb;
-> +	int i;
-> +
-> +	iod->cmb_data = 1;
-> +	for_each_sg(iod->sg, s, iod->nents, i) {
-> +		data_cmb = (void *) gen_pool_alloc(dev->cmb_pool, s->length);
-> +		if (!data_cmb) {
-> +			pr_err("%s: failed to alloc from pool\n", __func__);
-> +			goto unwind;
-> +		}
-> +
-> +		memcpy_toio(data_cmb, page_address(sg_page(s)), s->length);
-> +
-> +		s->dma_address = gen_pool_virt_to_phys(dev->cmb_pool,
-> +						       (unsigned long) data_cmb);
-> +		sg_dma_len(s) = s->length;
-> +		/* We do not need the sg_page page link anymore so we'll steal it. */
-> +		s->page_link = (unsigned long) data_cmb;
-> +	}
-> +	return i;
-> +
-> + unwind:
-> +	nvme_unmap_sg_cmb(dev, iod, i);
-> +	return 0;
-> +}
-> +
->  static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
-> -		struct nvme_command *cmnd)
-> +				  struct nvme_command *cmnd)
->  {
->  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
->  	struct request_queue *q = req->q;
-> @@ -808,8 +874,15 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
->  		goto out;
+On Thu, Jul 19, 2018@08:07:59PM -0700, Roland Dreier wrote:
+> From: Roland Dreier <roland at purestorage.com>
+> 
+> The old code in nvme_user_cmd() passed the userspace virtual address
+> from nvme_passthru_cmd.metadata as the length of the metadata buffer
+> as well as the address to nvme_submit_user_cmd().
+> 
+> Signed-off-by: Roland Dreier <roland at purestorage.com>
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 46df030b2c3f..4e2a48b574cc 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1218,7 +1218,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+>  	effects = nvme_passthru_start(ctrl, ns, cmd.opcode);
+>  	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+>  			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
+> -			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata,
+> +			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata_len,
+>  			0, &cmd.result, timeout);
+>  	nvme_passthru_end(ctrl, effects);
 >  
->  	ret = BLK_STS_RESOURCE;
-> -	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
-> -			DMA_ATTR_NO_WARN);
-> +
-> +	if (dma_dir == DMA_TO_DEVICE && use_cmb_wds
-> +	    && dev->cmb_pool && dev->cmbsz & NVME_CMBSZ_WDS &&
-> +	    iod->nvmeq->qid)
-> +		nr_mapped = nvme_copy_to_cmb(dev, iod);
-> +	else
-> +		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
-> +					     dma_dir, DMA_ATTR_NO_WARN);
-> +
->  	if (!nr_mapped)
->  		goto out;
+> -- 
+> 2.17.1
 
-A failure in to allocate cmb resource should probably fallback to the
-non-cmb resource.
+Oops, doesn't look like this path was ever tested with metadata! Thanks
+for the fix.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
