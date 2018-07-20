@@ -1,20 +1,44 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 20 Jul 2018 07:49:49 -0700
-Subject: [RCF PATCH 2/2] nvme-pci: Bounce data from Host memory to CMB
- Memory
-In-Reply-To: <20180720142343.GB4093@localhost.localdomain>
-References: <20180719230628.31494-1-scott.bauer@intel.com>
- <20180719230628.31494-3-scott.bauer@intel.com>
- <20180720142343.GB4093@localhost.localdomain>
-Message-ID: <20180720144949.GC29886@infradead.org>
+From: mwilck@suse.com (Martin Wilck)
+Date: Fri, 20 Jul 2018 16:50:06 +0200
+Subject: [PATCH] nvme: register ns_id attributes as default sysfs groups
+In-Reply-To: <b7314028-d878-a667-968f-fcabf30f65fd@suse.de>
+References: <20180716103721.96363-1-hare@suse.de>
+ <20180717131239.GA13582@lst.de>
+ <b7314028-d878-a667-968f-fcabf30f65fd@suse.de>
+Message-ID: <2000865cfb5da244b9e5e3e3405c3db6d133e63a.camel@suse.com>
 
-On Fri, Jul 20, 2018@08:23:43AM -0600, Keith Busch wrote:
-> On Thu, Jul 19, 2018@05:06:28PM -0600, Scott Bauer wrote:
-> > Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+On Tue, 2018-07-17@15:20 +0200, Hannes Reinecke wrote:
+> On 07/17/2018 03:12 PM, Christoph Hellwig wrote:
+> > On Mon, Jul 16, 2018@12:37:21PM +0200, Hannes Reinecke wrote:
+> > > We should be registering the ns_id attributes as default sysfs
+> > > groups,
+> > > otherwise we have a race condition between nvme_mpath_add_disk()
+> > > and
+> > > nvme_mpath_remove_disk() which will lead to a kobject warning
+> > > during
+> > > rapid connect/disconnect cycles.
+> > > 
+> > > Reported-by: James Smart <james.smart at broadcom.com>
+> > > Signed-off-by: Hannes Reinecke <hare at suse.com>
+> > > ---
+> > 
+> > Didn't Martin Wilck habe a patch to pass the default attribute
+> > group to an add_disk variant?  We've been waiting for him to just
+> > clean it up a bit, and it would be a lot less ugly than opencoding
+> > the device model details in the callers.
+> > 
 > 
-> What does this gain us? I don't think this would do anything except
-> increase the CPU utilization. If this actually buys additional
-> performance, could you include some relative data and workload
-> characteristics in the changelog?
+> Since you mention it, indeed, there was something.
+> I'll see to resurrect his patches.
+> 
+> Or poke him directly...
 
-Yes, as-is this seems rather counter productive..
+Right, it has been on my list for some time, didn't get down to it.
+I'll see what I can do next week.
+
+Martin
+
+-- 
+Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
+SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
