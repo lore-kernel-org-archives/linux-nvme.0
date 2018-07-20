@@ -1,31 +1,29 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Thu, 19 Jul 2018 20:07:59 -0700
-Subject: [PATCH] nvme: Fix handling of metadata_len for NVME_IOCTL_IO_CMD
-Message-ID: <20180720030759.30254-1-roland@kernel.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 20 Jul 2018 08:36:31 +0200
+Subject: [PATCH 0/4] Rework NVMe abort handling
+In-Reply-To: <8d1ad465-c6b2-b67d-39f5-c88d849a89dd@broadcom.com>
+References: <20180719132838.15556-1-jthumshirn@suse.de>
+ <20180719134203.GA15212@lst.de>
+ <20180719141025.yveza2svhvc2r4lw@linux-x5ow.site>
+ <20180719142355.GA18800@lst.de>
+ <20180719143534.i36vo45lhz24xbrg@linux-x5ow.site>
+ <20180719145005.GA21000@lst.de>
+ <20180719145422.2tdrbwa34gheuam3@linux-x5ow.site>
+ <8d1ad465-c6b2-b67d-39f5-c88d849a89dd@broadcom.com>
+Message-ID: <20180720063631.tn4nh2njt43u27bi@linux-x5ow.site>
 
-From: Roland Dreier <roland@purestorage.com>
+On Thu, Jul 19, 2018@08:04:09AM -0700, James Smart wrote:
+> Which I'm going to say no on. I originally did the abort before the reset
+> and it brought out some confusion in the reset code. Thus the existing flow
+> which just resets the controller which has to be done after the abort
+> anyway.
 
-The old code in nvme_user_cmd() passed the userspace virtual address
-from nvme_passthru_cmd.metadata as the length of the metadata buffer
-as well as the address to nvme_submit_user_cmd().
+OK copied that.
 
-Signed-off-by: Roland Dreier <roland at purestorage.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46df030b2c3f..4e2a48b574cc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1218,7 +1218,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	effects = nvme_passthru_start(ctrl, ns, cmd.opcode);
- 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
- 			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
--			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata,
-+			(void __user *)(uintptr_t)cmd.metadata, cmd.metadata_len,
- 			0, &cmd.result, timeout);
- 	nvme_passthru_end(ctrl, effects);
- 
 -- 
-2.17.1
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
