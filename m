@@ -1,129 +1,44 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Fri, 20 Jul 2018 15:49:48 -0700
-Subject: [PATCH] nvme: if_ready checks to fail io to deleting controller
-Message-ID: <20180720224948.3953-1-jsmart2021@gmail.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sat, 21 Jul 2018 21:23:32 +0000
+Subject: [PATCH 0/2] blktests: test ANA base support
+In-Reply-To: <20180717133118.39026-1-hare@suse.de>
+References: <20180717133118.39026-1-hare@suse.de>
+Message-ID: <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-The revised if_ready checks skipped over the case of returning
-error when the controller is being deleted. Instead it was returning
-BUSY, which caused the ios to retry, which caused the ns delete to
-hang waiting for the ios to drain.
+Hi Hannes,
 
-Stack trace of hang looks like:
- kworker/u64:2   D    0    74      2 0x80000000
- Workqueue: nvme-delete-wq nvme_delete_ctrl_work [nvme_core]
- Call Trace:
-  ? __schedule+0x26d/0x820
-  schedule+0x32/0x80
-  blk_mq_freeze_queue_wait+0x36/0x80
-  ? remove_wait_queue+0x60/0x60
-  blk_cleanup_queue+0x72/0x160
-  nvme_ns_remove+0x106/0x140 [nvme_core]
-  nvme_remove_namespaces+0x7e/0xa0 [nvme_core]
-  nvme_delete_ctrl_work+0x4d/0x80 [nvme_core]
-  process_one_work+0x160/0x350
-  worker_thread+0x1c3/0x3d0
-  kthread+0xf5/0x130
-  ? process_one_work+0x350/0x350
-  ? kthread_bind+0x10/0x10
-  ret_from_fork+0x1f/0x30
+Thanks for the test, this is really helpful, please see my inline comments to individual patches.
 
-Extend nvmf_fail_nonready_command() to supply the controller pointer
-so that the controller state can be looked at. Fail any io to a
-controller that is deleting.
+Also, the test number should be I guess 18, 14-17 testcases are still in the queue.
 
-Fixes: 3bc32bb1186c  ("nvme-fabrics: refactor queue ready check")
-Fixes: 35897b920c8a  ("nvme-fabrics: fix and refine state checks in __nvmf_check_ready")
-Signed-off-by: James Smart <james.smart at broadcom.com>
+Omar, can you please let us know when can you merge the remaining testcases for NVMeOF
+from the first round that I've posted? so we can set the right number for this.
 
----
-This should go into 4.18 if possible, which is where the prior
-two patches were merged.
----
- drivers/nvme/host/fabrics.c | 10 +++++++---
- drivers/nvme/host/fabrics.h |  3 ++-
- drivers/nvme/host/fc.c      |  2 +-
- drivers/nvme/host/rdma.c    |  2 +-
- drivers/nvme/target/loop.c  |  2 +-
- 5 files changed, 12 insertions(+), 7 deletions(-)
+From: linux-block-owner@vger.kernel.org <linux-block-owner@vger.kernel.org> on behalf of Hannes Reinecke <hare@suse.de>
+Sent: Tuesday, July 17, 2018 6:31 AM
+To: Omar Sandoval
+Cc: Christoph Hellwig; Sagi Grimberg; Keith Busch; linux-nvme at lists.infradead.org; linux-block at vger.kernel.org; Hannes Reinecke
+Subject: [PATCH 0/2] blktests: test ANA base support
+? 
+ 
+Hi all,
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 903eb4545e26..f7efe5a58cc7 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -539,14 +539,18 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
- /*
-  * For something we're not in a state to send to the device the default action
-  * is to busy it and retry it after the controller state is recovered.  However,
-- * anything marked for failfast or nvme multipath is immediately failed.
-+ * if the controller is deleting or if anything is marked for failfast or
-+ * nvme multipath it is immediately failed.
-  *
-  * Note: commands used to initialize the controller will be marked for failfast.
-  * Note: nvme cli/ioctl commands are marked for failfast.
-  */
--blk_status_t nvmf_fail_nonready_command(struct request *rq)
-+blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
-+		struct request *rq)
- {
--	if (!blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
-+	if (ctrl->state != NVME_CTRL_DELETING &&
-+	    ctrl->state != NVME_CTRL_DEAD &&
-+	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
- 	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
- 	return BLK_STS_IOERR;
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index e1818a27aa2d..aa2fdb2a2e8f 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -162,7 +162,8 @@ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
- int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
--blk_status_t nvmf_fail_nonready_command(struct request *rq);
-+blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
-+		struct request *rq);
- bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 		bool queue_live);
- 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9cc33752539a..611e70cae754 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2273,7 +2273,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
- 	    !nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
--		return nvmf_fail_nonready_command(rq);
-+		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
- 	ret = nvme_setup_cmd(ns, rq, sqe);
- 	if (ret)
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 13a6064e4794..0805fa6215ee 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1702,7 +1702,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	WARN_ON_ONCE(rq->tag < 0);
- 
- 	if (!nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
--		return nvmf_fail_nonready_command(rq);
-+		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
- 
- 	dev = queue->device->dev;
- 	ib_dma_sync_single_for_cpu(dev, sqe->dma,
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index af7fbf4132b0..9908082b32c4 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -162,7 +162,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	blk_status_t ret;
- 
- 	if (!nvmf_check_ready(&queue->ctrl->ctrl, req, queue_ready))
--		return nvmf_fail_nonready_command(req);
-+		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, req);
- 
- 	ret = nvme_setup_cmd(ns, req, &iod->cmd);
- 	if (ret)
+here's a small patchset for testing ANA base support.
+The test itself requires the ANA patchset from Christoph, plus
+the fixes I've sent to the mailing list earlier.
+
+Hannes Reinecke (2):
+? blktests: enable ANA support
+? blktests: add test for ANA state transition
+
+?tests/nvme/014???? | 158 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+?tests/nvme/014.out |? 17 ++++++
+?tests/nvme/rc????? |? 49 ++++++++++++++++-
+?3 files changed, 221 insertions(+), 3 deletions(-)
+?create mode 100755 tests/nvme/014
+?create mode 100644 tests/nvme/014.out
+
 -- 
-2.13.1
+2.12.3
+
+    
