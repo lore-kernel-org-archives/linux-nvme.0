@@ -1,207 +1,359 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 22 Jul 2018 12:49:58 +0300
-Subject: [PATCH 2/2] nvme: use blk API to remap ref tags for IOs with metadata
-In-Reply-To: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
-References: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1532252998-2375-2-git-send-email-maxg@mellanox.com>
+Date: Sun, 22 Jul 2018 12:49:57 +0300
+Subject: [PATCH 1/2] block: move dif_prepare/dif_complete functions to block
+ layer
+Message-ID: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
 
-Also moved the logic of the remapping to the nvme core driver instead
-of implementing it in the nvme pci driver. This way all the other nvme
-transport drivers will benefit from it (in case they'll implement metadata
-support).
+Currently these functions are implemented in the scsi layer, but their
+actual place should be the block layer since T10-PI is a general data
+integrity feature that is used in the nvme protocol as well.
 
 Suggested-by: Christoph Hellwig <hch at lst.de>
 Cc: Jens Axboe <axboe at kernel.dk>
 Cc: Martin K. Petersen <martin.petersen at oracle.com>
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/core.c | 23 +++++++++++++--
- drivers/nvme/host/nvme.h |  9 +-----
- drivers/nvme/host/pci.c  | 75 +-----------------------------------------------
- 3 files changed, 23 insertions(+), 84 deletions(-)
+ block/blk-integrity.c  | 111 ++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/scsi/sd.c      |  12 ++++--
+ drivers/scsi/sd.h      |   9 ----
+ drivers/scsi/sd_dif.c  | 113 -------------------------------------------------
+ include/linux/blkdev.h |  14 ++++++
+ 5 files changed, 134 insertions(+), 125 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 46df030b2c3f..0d94d3eb641c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -591,6 +591,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 		nvme_assign_write_stream(ctrl, req, &control, &dsmgmt);
+diff --git a/block/blk-integrity.c b/block/blk-integrity.c
+index 6121611e1316..66b095a866d3 100644
+--- a/block/blk-integrity.c
++++ b/block/blk-integrity.c
+@@ -21,6 +21,7 @@
+  */
  
- 	if (ns->ms) {
-+		u32 ref_tag = nvme_block_nr(ns, blk_rq_pos(req));
- 		/*
- 		 * If formated with metadata, the block layer always provides a
- 		 * metadata buffer if CONFIG_BLK_DEV_INTEGRITY is enabled.  Else
-@@ -601,6 +602,8 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 			if (WARN_ON_ONCE(!nvme_ns_has_pi(ns)))
- 				return BLK_STS_NOTSUPP;
- 			control |= NVME_RW_PRINFO_PRACT;
-+		} else if (req_op(req) == REQ_OP_WRITE) {
-+			blk_integrity_dif_prepare(req, ns->pi_type, ref_tag);
- 		}
- 
- 		switch (ns->pi_type) {
-@@ -611,8 +614,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 		case NVME_NS_DPS_PI_TYPE2:
- 			control |= NVME_RW_PRINFO_PRCHK_GUARD |
- 					NVME_RW_PRINFO_PRCHK_REF;
--			cmnd->rw.reftag = cpu_to_le32(
--					nvme_block_nr(ns, blk_rq_pos(req)));
-+			cmnd->rw.reftag = cpu_to_le32(ref_tag);
- 			break;
- 		}
- 	}
-@@ -622,6 +624,23 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 	return 0;
+ #include <linux/blkdev.h>
++#include <linux/t10-pi.h>
+ #include <linux/backing-dev.h>
+ #include <linux/mempool.h>
+ #include <linux/bio.h>
+@@ -451,3 +452,113 @@ void blk_integrity_del(struct gendisk *disk)
+ 	kobject_del(&disk->integrity_kobj);
+ 	kobject_put(&disk->integrity_kobj);
  }
- 
-+void nvme_cleanup_cmd(struct request *req)
-+{
-+	if (blk_integrity_rq(req) && req_op(req) == REQ_OP_READ &&
-+	    nvme_error_status(req) == BLK_STS_OK) {
-+		struct nvme_ns *ns = req->rq_disk->private_data;
 +
-+		blk_integrity_dif_complete(req, ns->pi_type,
-+					   nvme_block_nr(ns, blk_rq_pos(req)),
-+					   blk_rq_bytes(req) >> ns->lba_shift);
-+	}
-+	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
-+		kfree(page_address(req->special_vec.bv_page) +
-+		      req->special_vec.bv_offset);
++/*
++ * The virtual start sector is the one that was originally submitted
++ * by the block layer.	Due to partitioning, MD/DM cloning, etc. the
++ * actual physical start sector is likely to be different.  Remap
++ * protection information to match the physical LBA.
++ *
++ * From a protocol perspective there's a slight difference between
++ * Type 1 and 2.  The latter uses command's 32-byte exclusively, and the
++ * reference tag is seeded in the command.  This gives us the potential to
++ * avoid virt->phys remapping during write.  However, at read time we
++ * don't know whether the virt sector is the same as when we wrote it
++ * (we could be reading from real disk as opposed to MD/DM device.  So
++ * we always remap Type 2 making it identical to Type 1.
++ *
++ * Type 3 does not have a reference tag so no remapping is required.
++ */
++void blk_integrity_dif_prepare(struct request *rq, u8 protection_type,
++			       u32 ref_tag)
++{
++	const int tuple_sz = sizeof(struct t10_pi_tuple);
++	struct bio *bio;
++	struct t10_pi_tuple *pi;
++	u32 phys, virt;
++
++	if (protection_type == T10_PI_TYPE3_PROTECTION)
++		return;
++
++	phys = ref_tag;
++
++	__rq_for_each_bio(bio, rq) {
++		struct bio_integrity_payload *bip = bio_integrity(bio);
++		struct bio_vec iv;
++		struct bvec_iter iter;
++		unsigned int j;
++
++		/* Already remapped? */
++		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
++			break;
++
++		virt = bip_get_seed(bip) & 0xffffffff;
++
++		bip_for_each_vec(iv, bip, iter) {
++			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
++
++			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
++
++				if (be32_to_cpu(pi->ref_tag) == virt)
++					pi->ref_tag = cpu_to_be32(phys);
++
++				virt++;
++				phys++;
++			}
++
++			kunmap_atomic(pi);
++		}
++
++		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
 +	}
 +}
-+EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
++EXPORT_SYMBOL(blk_integrity_dif_prepare);
 +
- blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 		struct nvme_command *cmd)
++/*
++ * Remap physical sector values in the reference tag to the virtual
++ * values expected by the block layer.
++ */
++void blk_integrity_dif_complete(struct request *rq, u8 protection_type,
++				u32 ref_tag, unsigned int intervals)
++{
++	const int tuple_sz = sizeof(struct t10_pi_tuple);
++	struct bio *bio;
++	struct t10_pi_tuple *pi;
++	unsigned int j;
++	u32 phys, virt;
++
++	if (protection_type == T10_PI_TYPE3_PROTECTION)
++		return;
++
++	phys = ref_tag;
++
++	__rq_for_each_bio(bio, rq) {
++		struct bio_integrity_payload *bip = bio_integrity(bio);
++		struct bio_vec iv;
++		struct bvec_iter iter;
++
++		virt = bip_get_seed(bip) & 0xffffffff;
++
++		bip_for_each_vec(iv, bip, iter) {
++			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
++
++			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
++
++				if (intervals == 0) {
++					kunmap_atomic(pi);
++					return;
++				}
++
++				if (be32_to_cpu(pi->ref_tag) == phys)
++					pi->ref_tag = cpu_to_be32(virt);
++
++				virt++;
++				phys++;
++				intervals--;
++			}
++
++			kunmap_atomic(pi);
++		}
++	}
++}
++EXPORT_SYMBOL(blk_integrity_dif_complete);
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 9421d9877730..4186bf027c59 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -1119,7 +1119,9 @@ static int sd_setup_read_write_cmnd(struct scsi_cmnd *SCpnt)
+ 		SCpnt->cmnd[0] = WRITE_6;
+ 
+ 		if (blk_integrity_rq(rq))
+-			sd_dif_prepare(SCpnt);
++			blk_integrity_dif_prepare(SCpnt->request,
++						  sdkp->protection_type,
++						  scsi_prot_ref_tag(SCpnt));
+ 
+ 	} else if (rq_data_dir(rq) == READ) {
+ 		SCpnt->cmnd[0] = READ_6;
+@@ -2047,8 +2049,12 @@ static int sd_done(struct scsi_cmnd *SCpnt)
+ 					   "sd_done: completed %d of %d bytes\n",
+ 					   good_bytes, scsi_bufflen(SCpnt)));
+ 
+-	if (rq_data_dir(SCpnt->request) == READ && scsi_prot_sg_count(SCpnt))
+-		sd_dif_complete(SCpnt, good_bytes);
++	if (rq_data_dir(SCpnt->request) == READ && scsi_prot_sg_count(SCpnt) &&
++	    good_bytes)
++		blk_integrity_dif_complete(SCpnt->request,
++				sdkp->protection_type,
++				scsi_prot_ref_tag(SCpnt),
++				good_bytes / scsi_prot_interval(SCpnt));
+ 
+ 	return good_bytes;
+ }
+diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
+index 392c7d078ae3..a7d4f50b67d4 100644
+--- a/drivers/scsi/sd.h
++++ b/drivers/scsi/sd.h
+@@ -254,21 +254,12 @@ static inline unsigned int sd_prot_flag_mask(unsigned int prot_op)
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 
+ extern void sd_dif_config_host(struct scsi_disk *);
+-extern void sd_dif_prepare(struct scsi_cmnd *scmd);
+-extern void sd_dif_complete(struct scsi_cmnd *, unsigned int);
+ 
+ #else /* CONFIG_BLK_DEV_INTEGRITY */
+ 
+ static inline void sd_dif_config_host(struct scsi_disk *disk)
  {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 0c4a33df3b2f..dfc01ffb30df 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -356,14 +356,6 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
- 	return (sector >> (ns->lba_shift - 9));
+ }
+-static inline int sd_dif_prepare(struct scsi_cmnd *scmd)
+-{
+-	return 0;
+-}
+-static inline void sd_dif_complete(struct scsi_cmnd *cmd, unsigned int a)
+-{
+-}
+ 
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 
+diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
+index 9035380c0dda..db72c82486e3 100644
+--- a/drivers/scsi/sd_dif.c
++++ b/drivers/scsi/sd_dif.c
+@@ -95,116 +95,3 @@ void sd_dif_config_host(struct scsi_disk *sdkp)
+ 	blk_integrity_register(disk, &bi);
  }
  
--static inline void nvme_cleanup_cmd(struct request *req)
--{
--	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
--		kfree(page_address(req->special_vec.bv_page) +
--		      req->special_vec.bv_offset);
--	}
--}
--
- static inline void nvme_end_request(struct request *req, __le16 status,
- 		union nvme_result result)
- {
-@@ -420,6 +412,7 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl);
- #define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
- 		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid);
-+void nvme_cleanup_cmd(struct request *req);
- blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 		struct nvme_command *cmd);
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ba943f211687..20851d17acf3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -535,73 +535,6 @@ static void nvme_free_iod(struct nvme_dev *dev, struct request *req)
- 		mempool_free(iod->sg, dev->iod_mempool);
- }
- 
--#ifdef CONFIG_BLK_DEV_INTEGRITY
--static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi)
--{
--	if (be32_to_cpu(pi->ref_tag) == v)
--		pi->ref_tag = cpu_to_be32(p);
--}
--
--static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
--{
--	if (be32_to_cpu(pi->ref_tag) == p)
--		pi->ref_tag = cpu_to_be32(v);
--}
--
--/**
-- * nvme_dif_remap - remaps ref tags to bip seed and physical lba
+-/*
+- * The virtual start sector is the one that was originally submitted
+- * by the block layer.	Due to partitioning, MD/DM cloning, etc. the
+- * actual physical start sector is likely to be different.  Remap
+- * protection information to match the physical LBA.
 - *
-- * The virtual start sector is the one that was originally submitted by the
-- * block layer.	Due to partitioning, MD/DM cloning, etc. the actual physical
-- * start sector may be different. Remap protection information to match the
-- * physical LBA on writes, and back to the original seed on reads.
+- * From a protocol perspective there's a slight difference between
+- * Type 1 and 2.  The latter uses 32-byte CDBs exclusively, and the
+- * reference tag is seeded in the CDB.  This gives us the potential to
+- * avoid virt->phys remapping during write.  However, at read time we
+- * don't know whether the virt sector is the same as when we wrote it
+- * (we could be reading from real disk as opposed to MD/DM device.  So
+- * we always remap Type 2 making it identical to Type 1.
 - *
-- * Type 0 and 3 do not have a ref tag, so no remapping required.
+- * Type 3 does not have a reference tag so no remapping is required.
 - */
--static void nvme_dif_remap(struct request *req,
--			void (*dif_swap)(u32 p, u32 v, struct t10_pi_tuple *pi))
+-void sd_dif_prepare(struct scsi_cmnd *scmd)
 -{
--	struct nvme_ns *ns = req->rq_disk->private_data;
--	struct bio_integrity_payload *bip;
+-	const int tuple_sz = sizeof(struct t10_pi_tuple);
+-	struct bio *bio;
+-	struct scsi_disk *sdkp;
 -	struct t10_pi_tuple *pi;
--	void *p, *pmap;
--	u32 i, nlb, ts, phys, virt;
+-	u32 phys, virt;
 -
--	if (!ns->pi_type || ns->pi_type == NVME_NS_DPS_PI_TYPE3)
+-	sdkp = scsi_disk(scmd->request->rq_disk);
+-
+-	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION)
 -		return;
 -
--	bip = bio_integrity(req->bio);
--	if (!bip)
--		return;
+-	phys = scsi_prot_ref_tag(scmd);
 -
--	pmap = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
+-	__rq_for_each_bio(bio, scmd->request) {
+-		struct bio_integrity_payload *bip = bio_integrity(bio);
+-		struct bio_vec iv;
+-		struct bvec_iter iter;
+-		unsigned int j;
 -
--	p = pmap;
--	virt = bip_get_seed(bip);
--	phys = nvme_block_nr(ns, blk_rq_pos(req));
--	nlb = (blk_rq_bytes(req) >> ns->lba_shift);
--	ts = ns->disk->queue->integrity.tuple_size;
+-		/* Already remapped? */
+-		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
+-			break;
 -
--	for (i = 0; i < nlb; i++, virt++, phys++) {
--		pi = (struct t10_pi_tuple *)p;
--		dif_swap(phys, virt, pi);
--		p += ts;
--	}
--	kunmap_atomic(pmap);
--}
--#else /* CONFIG_BLK_DEV_INTEGRITY */
--static void nvme_dif_remap(struct request *req,
--			void (*dif_swap)(u32 p, u32 v, struct t10_pi_tuple *pi))
--{
--}
--static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi)
--{
--}
--static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
--{
--}
--#endif
+-		virt = bip_get_seed(bip) & 0xffffffff;
 -
- static void nvme_print_sgl(struct scatterlist *sgl, int nents)
- {
- 	int i;
-@@ -827,9 +760,6 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		if (blk_rq_map_integrity_sg(q, req->bio, &iod->meta_sg) != 1)
- 			goto out_unmap;
- 
--		if (req_op(req) == REQ_OP_WRITE)
--			nvme_dif_remap(req, nvme_dif_prep);
+-		bip_for_each_vec(iv, bip, iter) {
+-			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
 -
- 		if (!dma_map_sg(dev->dev, &iod->meta_sg, 1, dma_dir))
- 			goto out_unmap;
- 	}
-@@ -852,11 +782,8 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 
- 	if (iod->nents) {
- 		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
--		if (blk_integrity_rq(req)) {
--			if (req_op(req) == REQ_OP_READ)
--				nvme_dif_remap(req, nvme_dif_complete);
-+		if (blk_integrity_rq(req))
- 			dma_unmap_sg(dev->dev, &iod->meta_sg, 1, dma_dir);
+-			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
+-
+-				if (be32_to_cpu(pi->ref_tag) == virt)
+-					pi->ref_tag = cpu_to_be32(phys);
+-
+-				virt++;
+-				phys++;
+-			}
+-
+-			kunmap_atomic(pi);
 -		}
- 	}
+-
+-		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
+-	}
+-}
+-
+-/*
+- * Remap physical sector values in the reference tag to the virtual
+- * values expected by the block layer.
+- */
+-void sd_dif_complete(struct scsi_cmnd *scmd, unsigned int good_bytes)
+-{
+-	const int tuple_sz = sizeof(struct t10_pi_tuple);
+-	struct scsi_disk *sdkp;
+-	struct bio *bio;
+-	struct t10_pi_tuple *pi;
+-	unsigned int j, intervals;
+-	u32 phys, virt;
+-
+-	sdkp = scsi_disk(scmd->request->rq_disk);
+-
+-	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION || good_bytes == 0)
+-		return;
+-
+-	intervals = good_bytes / scsi_prot_interval(scmd);
+-	phys = scsi_prot_ref_tag(scmd);
+-
+-	__rq_for_each_bio(bio, scmd->request) {
+-		struct bio_integrity_payload *bip = bio_integrity(bio);
+-		struct bio_vec iv;
+-		struct bvec_iter iter;
+-
+-		virt = bip_get_seed(bip) & 0xffffffff;
+-
+-		bip_for_each_vec(iv, bip, iter) {
+-			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
+-
+-			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
+-
+-				if (intervals == 0) {
+-					kunmap_atomic(pi);
+-					return;
+-				}
+-
+-				if (be32_to_cpu(pi->ref_tag) == phys)
+-					pi->ref_tag = cpu_to_be32(virt);
+-
+-				virt++;
+-				phys++;
+-				intervals--;
+-			}
+-
+-			kunmap_atomic(pi);
+-		}
+-	}
+-}
+-
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 79226ca8f80f..18f3ca17d4f4 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1823,6 +1823,10 @@ extern bool blk_integrity_merge_rq(struct request_queue *, struct request *,
+ 				   struct request *);
+ extern bool blk_integrity_merge_bio(struct request_queue *, struct request *,
+ 				    struct bio *);
++extern void blk_integrity_dif_prepare(struct request *rq, u8 protection_type,
++			       u32 ref_tag);
++extern void blk_integrity_dif_complete(struct request *rq, u8 protection_type,
++				u32 ref_tag, unsigned int intervals);
  
- 	nvme_cleanup_cmd(req);
+ static inline struct blk_integrity *blk_get_integrity(struct gendisk *disk)
+ {
+@@ -1950,6 +1954,16 @@ static inline bool integrity_req_gap_front_merge(struct request *req,
+ 	return false;
+ }
+ 
++void blk_integrity_dif_prepare(struct request *rq, u8 protection_type,
++			       u32 ref_tag)
++{
++}
++
++void blk_integrity_dif_complete(struct request *rq, u8 protection_type,
++				u32 ref_tag, unsigned int intervals)
++{
++}
++
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 
+ struct block_device_operations {
 -- 
 2.16.3
