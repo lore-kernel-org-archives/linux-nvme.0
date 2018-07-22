@@ -1,241 +1,207 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 21 Jul 2018 21:29:19 +0000
-Subject: [PATCH 2/2] blktests: add test for ANA state transition
-In-Reply-To: <20180717133118.39026-3-hare@suse.de>
-References: <20180717133118.39026-1-hare@suse.de>,
- <20180717133118.39026-3-hare@suse.de>
-Message-ID: <BYAPR04MB450272E60922653AFF77D47B86500@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 22 Jul 2018 12:49:58 +0300
+Subject: [PATCH 2/2] nvme: use blk API to remap ref tags for IOs with metadata
+In-Reply-To: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
+References: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1532252998-2375-2-git-send-email-maxg@mellanox.com>
 
-From: linux-block-owner@vger.kernel.org <linux-block-owner@vger.kernel.org> on behalf of Hannes Reinecke <hare@suse.de>
-Sent: Tuesday, July 17, 2018 6:31 AM
-To: Omar Sandoval
-Cc: Christoph Hellwig; Sagi Grimberg; Keith Busch; linux-nvme at lists.infradead.org; linux-block at vger.kernel.org; Hannes Reinecke; Hannes Reinecke
-Subject: [PATCH 2/2] blktests: add test for ANA state transition
-? 
- 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Also moved the logic of the remapping to the nvme core driver instead
+of implementing it in the nvme pci driver. This way all the other nvme
+transport drivers will benefit from it (in case they'll implement metadata
+support).
+
+Suggested-by: Christoph Hellwig <hch at lst.de>
+Cc: Jens Axboe <axboe at kernel.dk>
+Cc: Martin K. Petersen <martin.petersen at oracle.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
-?tests/nvme/014???? | 158 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-?tests/nvme/014.out |? 17 ++++++
-?2 files changed, 175 insertions(+)
-?create mode 100755 tests/nvme/014
-?create mode 100644 tests/nvme/014.out
+ drivers/nvme/host/core.c | 23 +++++++++++++--
+ drivers/nvme/host/nvme.h |  9 +-----
+ drivers/nvme/host/pci.c  | 75 +-----------------------------------------------
+ 3 files changed, 23 insertions(+), 84 deletions(-)
 
-diff --git a/tests/nvme/014 b/tests/nvme/014
-new file mode 100755
-index 0000000..4b57229
---- /dev/null
-+++ b/tests/nvme/014
-@@ -0,0 +1,158 @@
-+#!/bin/bash
-+#
-+# Regression test for ANA base support
-+#
-+# Copyright (C) 2018 Hannes Reinecke
-+#
-+# This program is free software: you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation, either version 3 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.? See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.? If not, see <http://www.gnu.org/licenses/>.
-
-
-Licenses - GNU Project - Free Software Foundation
-www.gnu.org
-Published software should be free software.To make it free software, you need to release it under a free software license. We normally use the GNU General Public License (GNU GPL), specifying version 3 or any later version, but occasionally we use other free software licenses.
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 46df030b2c3f..0d94d3eb641c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -591,6 +591,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 		nvme_assign_write_stream(ctrl, req, &control, &dsmgmt);
+ 
+ 	if (ns->ms) {
++		u32 ref_tag = nvme_block_nr(ns, blk_rq_pos(req));
+ 		/*
+ 		 * If formated with metadata, the block layer always provides a
+ 		 * metadata buffer if CONFIG_BLK_DEV_INTEGRITY is enabled.  Else
+@@ -601,6 +602,8 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 			if (WARN_ON_ONCE(!nvme_ns_has_pi(ns)))
+ 				return BLK_STS_NOTSUPP;
+ 			control |= NVME_RW_PRINFO_PRACT;
++		} else if (req_op(req) == REQ_OP_WRITE) {
++			blk_integrity_dif_prepare(req, ns->pi_type, ref_tag);
+ 		}
+ 
+ 		switch (ns->pi_type) {
+@@ -611,8 +614,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 		case NVME_NS_DPS_PI_TYPE2:
+ 			control |= NVME_RW_PRINFO_PRCHK_GUARD |
+ 					NVME_RW_PRINFO_PRCHK_REF;
+-			cmnd->rw.reftag = cpu_to_le32(
+-					nvme_block_nr(ns, blk_rq_pos(req)));
++			cmnd->rw.reftag = cpu_to_le32(ref_tag);
+ 			break;
+ 		}
+ 	}
+@@ -622,6 +624,23 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 	return 0;
+ }
+ 
++void nvme_cleanup_cmd(struct request *req)
++{
++	if (blk_integrity_rq(req) && req_op(req) == REQ_OP_READ &&
++	    nvme_error_status(req) == BLK_STS_OK) {
++		struct nvme_ns *ns = req->rq_disk->private_data;
 +
-+. tests/nvme/rc
-+
-+DESCRIPTION="test ANA optimized/transitioning/inaccessible support"
-+QUICK=1
-+
-+switch_nvmet_anagroup() {
-+?????? local port1="$1"
-+?????? local port2="$2"
-+?????? local mode="$3"
-+
-+?????? echo "ANA state ${mode}"
-+
-+?????? if [ "${mode}" = "change" ] ; then
-+?????????????? _set_nvmet_anagroup_state "${port1}" "1" "change"
-+?????????????? _set_nvmet_anagroup_state "${port1}" "2" "change"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "1" "change"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "2" "change"
-+?????? elif [ "${mode}" = "failover" ] ; then
-+?????????????? _set_nvmet_anagroup_state "${port1}" "1" "inaccessible"
-+?????????????? _set_nvmet_anagroup_state "${port1}" "2" "optimized"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "1" "optimized"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "2" "inaccessible"
-+?????? else
-+?????????????? _set_nvmet_anagroup_state "${port1}" "1" "optimized"
-+?????????????? _set_nvmet_anagroup_state "${port1}" "2" "inaccessible"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "2" "optimized"
-+?????? fi
++		blk_integrity_dif_complete(req, ns->pi_type,
++					   nvme_block_nr(ns, blk_rq_pos(req)),
++					   blk_rq_bytes(req) >> ns->lba_shift);
++	}
++	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
++		kfree(page_address(req->special_vec.bv_page) +
++		      req->special_vec.bv_offset);
++	}
 +}
++EXPORT_SYMBOL_GPL(nvme_cleanup_cmd);
 +
-+_display_ana_state() {
-+?????? local grpid state
-[CK] Newliine here ?
-+?????? for nvme in /sys/class/nvme/* ; do
-+?????????????? for c in ${nvme}/nvme* ; do
-+?????????????????????? if [ ! -d ${c} ] ; then
-+?????????????????????????????? echo "${nvme##*/}: ANA disabled"
-+?????????????????????????????? continue
-+?????????????????????? fi
-+?????????????????????? grpid="$(cat "${c}/ana_grpid")"
-+?????????????????????? state="$(cat "${c}/ana_state")"
-+?????????????????????? echo "${c##*/}: grpid ${grpid} state ${state}"
-+?????????????? done
-+?????? done
-+}
-
-I think we need to move above functions to the  ${BLKTESTS_HOME}/tests/nvme/rc.
-+
-+_switch_ana_states() {
-+?????? local port1=$1
-+?????? local port2=$2
-+
-[CK] Please remove the extra line.
-+}
-[CK] I was not able to find a caller for above function, I'm I missing something ?
-+
-+requires() {
-+?????? _have_program nvme && _have_module nvme-loop && _have_module loop && \
-+?????????????? _have_configfs && _have_fio
-[CK] Missing nvmet module from the above list.
-+}
-
-Can we split following test function into small routines, it will be easier to review and
-maintain?
-
-+
-+test() {
-+?????? echo "Running ${TEST_NAME}"
-+
-+?????? modprobe nvmet
-+?????? modprobe nvme-loop
-+
-+?????? local port1
-+?????? port1="$(_create_nvmet_port "loop")"
-[CK] Can we initialize variables at the time of declaration or after declaration of all the
-variables ?
-+?????? ag1="$(_create_nvmet_anagroup "${port1}")"
-[CK] Not sure if we need ag1 variable.
-
-+
-+?????? local port2
-[CK] Can we plese declare all the variable at the top please see tests/nvme/006-013
-to maintain uniform style ?
-+?????? port2="$(_create_nvmet_port "loop")"
-+?????? ag2="$(_create_nvmet_anagroup "${port2}")"
-+
-+?????? truncate -s 1G "$TMPDIR/img1"
-+
-+?????? local loop_dev1
-+?????? loop_dev1="$(losetup -f --show "$TMPDIR/img1")"
-+
-+?????? _create_nvmet_subsystem "blktests-subsystem-1" "${loop_dev1}" \
-+?????????????? "91fdba0d-f87b-4c25-b80f-db7be1418b9e" "1"
-+
-+?????? truncate -s 1G "$TMPDIR/img2"
-+
-[CK] Do we really need img2 ? is it possible to use the img1 as we are not doing data verification ?
-+?????? local loop_dev2
-+?????? loop_dev2="$(losetup -f --show "$TMPDIR/img2")"
-+
-+?????? _create_nvmet_ns "blktests-subsystem-1" "2" "${loop_dev2}" \
-+?????????????? "9aed0138-bfd9-46f5-92ac-24c70377fd49" "2"
-+
-+?????? _add_nvmet_subsys_to_port "${port1}" "blktests-subsystem-1"
-+?????? _add_nvmet_subsys_to_port "${port2}" "blktests-subsystem-1"
-+
-+?????? switch_nvmet_anagroup "${port1}" "${port2}" failback
-+
-+?????? nvme connect -t loop -a "${port1}" -n blktests-subsystem-1
-+?????? nvme connect -t loop -a "${port2}" -n blktests-subsystem-1
-+
-+?????? _display_ana_state
-+
-+?????? _run_fio_rand_io --size=256m --filename="/dev/nvme0n1" &
-[CK] Hardcoded value for ns, on my machine I have PCIe ns with "/dev/nvme0n1",
-can we please make sure this is the right block device for the namespace that we just
-configured ?
-+?????? trap "kill $!" EXIT
-+
-+?????? sleep 10
-+
-+?????? switch_nvmet_anagroup "${port1}" "${port2}" "change"
-+
-+?????? # Insert a delay to allow the AEN to be processed
-+?????? sleep 1
-+
-+?????? _display_ana_state
-+
-+?????? sleep 6
-+
-+?????? switch_nvmet_anagroup "${port1}" "${port2}" "failover"
-+
-+?????? # Insert a delay to allow the AEN to be processed
-+?????? sleep 1
-+
-+?????? _display_ana_state
-+
-+?????? wait
-+?????? trap - EXIT
-+
-+?????? nvme disconnect -n blktests-subsystem-1
-+
-+?????? _remove_nvmet_subsystem_from_port "${port1}" "blktests-subsystem-1"
-+?????? _remove_nvmet_subsystem_from_port "${port2}" "blktests-subsystem-1"
-+?????? _remove_nvmet_ns "blktests-subsystem-1" "2"
-+?????? _remove_nvmet_subsystem "blktests-subsystem-1"
-+?????? _remove_nvmet_anagroup "${port1}" "2"
-+?????? _remove_nvmet_port "${port1}"
-+?????? _remove_nvmet_anagroup "${port2}" "2"
-[CK] Plase make the groupid local varible instead of hard coding "2".
-+?????? _remove_nvmet_port "${port2}"
-+?????? losetup -d "$loop_dev2"
-+?????? rm "$TMPDIR/img2"
-+?????? losetup -d "$loop_dev1"
-+?????? rm "$TMPDIR/img1"
-+
-+?????? modprobe -r nvme-loop
-+?????? modprobe -r nvmet
-+?????? echo "Test complete"
-+}
-diff --git a/tests/nvme/014.out b/tests/nvme/014.out
-new file mode 100644
-index 0000000..0a6ed35
---- /dev/null
-+++ b/tests/nvme/014.out
-@@ -0,0 +1,17 @@
-+Running nvme/016
-+nvme0c1n1: grpid 1 state optimized
-+nvme0c1n2: grpid 2 state inaccessible
-+nvme0c2n1: grpid 1 state inaccessible
-+nvme0c2n2: grpid 2 state optimized
-+ANA state transition
-+nvme0c1n1: grpid 1 state change
-+nvme0c1n2: grpid 2 state change
-+nvme0c2n1: grpid 1 state change
-+nvme0c2n2: grpid 2 state change
-+ANA state failover
-+nvme0c1n1: grpid 1 state inaccessible
-+nvme0c1n2: grpid 2 state optimized
-+nvme0c2n1: grpid 1 state optimized
-+nvme0c2n2: grpid 2 state inaccessible
-+NQN:blktests-subsystem-1 disconnected 2 controller(s)
-+Test complete
+ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *cmd)
+ {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 0c4a33df3b2f..dfc01ffb30df 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -356,14 +356,6 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
+ 	return (sector >> (ns->lba_shift - 9));
+ }
+ 
+-static inline void nvme_cleanup_cmd(struct request *req)
+-{
+-	if (req->rq_flags & RQF_SPECIAL_PAYLOAD) {
+-		kfree(page_address(req->special_vec.bv_page) +
+-		      req->special_vec.bv_offset);
+-	}
+-}
+-
+ static inline void nvme_end_request(struct request *req, __le16 status,
+ 		union nvme_result result)
+ {
+@@ -420,6 +412,7 @@ void nvme_start_freeze(struct nvme_ctrl *ctrl);
+ #define NVME_QID_ANY -1
+ struct request *nvme_alloc_request(struct request_queue *q,
+ 		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid);
++void nvme_cleanup_cmd(struct request *req);
+ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *cmd);
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ba943f211687..20851d17acf3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -535,73 +535,6 @@ static void nvme_free_iod(struct nvme_dev *dev, struct request *req)
+ 		mempool_free(iod->sg, dev->iod_mempool);
+ }
+ 
+-#ifdef CONFIG_BLK_DEV_INTEGRITY
+-static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi)
+-{
+-	if (be32_to_cpu(pi->ref_tag) == v)
+-		pi->ref_tag = cpu_to_be32(p);
+-}
+-
+-static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
+-{
+-	if (be32_to_cpu(pi->ref_tag) == p)
+-		pi->ref_tag = cpu_to_be32(v);
+-}
+-
+-/**
+- * nvme_dif_remap - remaps ref tags to bip seed and physical lba
+- *
+- * The virtual start sector is the one that was originally submitted by the
+- * block layer.	Due to partitioning, MD/DM cloning, etc. the actual physical
+- * start sector may be different. Remap protection information to match the
+- * physical LBA on writes, and back to the original seed on reads.
+- *
+- * Type 0 and 3 do not have a ref tag, so no remapping required.
+- */
+-static void nvme_dif_remap(struct request *req,
+-			void (*dif_swap)(u32 p, u32 v, struct t10_pi_tuple *pi))
+-{
+-	struct nvme_ns *ns = req->rq_disk->private_data;
+-	struct bio_integrity_payload *bip;
+-	struct t10_pi_tuple *pi;
+-	void *p, *pmap;
+-	u32 i, nlb, ts, phys, virt;
+-
+-	if (!ns->pi_type || ns->pi_type == NVME_NS_DPS_PI_TYPE3)
+-		return;
+-
+-	bip = bio_integrity(req->bio);
+-	if (!bip)
+-		return;
+-
+-	pmap = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
+-
+-	p = pmap;
+-	virt = bip_get_seed(bip);
+-	phys = nvme_block_nr(ns, blk_rq_pos(req));
+-	nlb = (blk_rq_bytes(req) >> ns->lba_shift);
+-	ts = ns->disk->queue->integrity.tuple_size;
+-
+-	for (i = 0; i < nlb; i++, virt++, phys++) {
+-		pi = (struct t10_pi_tuple *)p;
+-		dif_swap(phys, virt, pi);
+-		p += ts;
+-	}
+-	kunmap_atomic(pmap);
+-}
+-#else /* CONFIG_BLK_DEV_INTEGRITY */
+-static void nvme_dif_remap(struct request *req,
+-			void (*dif_swap)(u32 p, u32 v, struct t10_pi_tuple *pi))
+-{
+-}
+-static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi)
+-{
+-}
+-static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
+-{
+-}
+-#endif
+-
+ static void nvme_print_sgl(struct scatterlist *sgl, int nents)
+ {
+ 	int i;
+@@ -827,9 +760,6 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		if (blk_rq_map_integrity_sg(q, req->bio, &iod->meta_sg) != 1)
+ 			goto out_unmap;
+ 
+-		if (req_op(req) == REQ_OP_WRITE)
+-			nvme_dif_remap(req, nvme_dif_prep);
+-
+ 		if (!dma_map_sg(dev->dev, &iod->meta_sg, 1, dma_dir))
+ 			goto out_unmap;
+ 	}
+@@ -852,11 +782,8 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+ 
+ 	if (iod->nents) {
+ 		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
+-		if (blk_integrity_rq(req)) {
+-			if (req_op(req) == REQ_OP_READ)
+-				nvme_dif_remap(req, nvme_dif_complete);
++		if (blk_integrity_rq(req))
+ 			dma_unmap_sg(dev->dev, &iod->meta_sg, 1, dma_dir);
+-		}
+ 	}
+ 
+ 	nvme_cleanup_cmd(req);
 -- 
-2.12.3
-
-    
+2.16.3
