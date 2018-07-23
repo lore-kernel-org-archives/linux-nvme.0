@@ -1,53 +1,63 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 23 Jul 2018 08:37:51 -0600
-Subject: [PATCHv2 2/2] scsi: set timed out out mq requests to complete
-In-Reply-To: <20180723143751.10843-1-keith.busch@intel.com>
-References: <20180723143751.10843-1-keith.busch@intel.com>
-Message-ID: <20180723143751.10843-2-keith.busch@intel.com>
+Date: Mon, 23 Jul 2018 08:37:50 -0600
+Subject: [PATCHv2 1/2] blk-mq: export setting request completion state
+Message-ID: <20180723143751.10843-1-keith.busch@intel.com>
 
-The scsi block layer requires requests claimed by the error handling be
-completed by the error handler. A previous commit allowed completions
-to proceed for blk-mq, breaking that assumption.
+This is preparing for drivers that want to directly alter the state of
+their requests. No functional change here.
 
-This patch prevents completions that may race with the timeout handler
-by marking the state to complete, restoring the previous behavior.
-
-Fixes: 12f5b931 ("blk-mq: Remove generation seqeunce")
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
 v1 -> v2:
 
-  Document why this is necessary in code comments.
+  Reversed the return value: 'true' for success instead of failure.
 
-  Update to API's changed return value
+  Document the caller's responsibilities after a successful state transtion.
 
- drivers/scsi/scsi_error.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ block/blk-mq.c         |  4 +---
+ include/linux/blk-mq.h | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-index 8932ae81a15a..2715cdaa669c 100644
---- a/drivers/scsi/scsi_error.c
-+++ b/drivers/scsi/scsi_error.c
-@@ -296,6 +296,20 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
- 		rtn = host->hostt->eh_timed_out(scmd);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 22326612a5d3..8f01cd7fd182 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -558,10 +558,8 @@ static void __blk_mq_complete_request(struct request *rq)
+ 	bool shared = false;
+ 	int cpu;
  
- 	if (rtn == BLK_EH_DONE) {
-+		/*
-+		 * For blk-mq, we must set the request state to complete now
-+		 * before sending the request to the scsi error handler. This
-+		 * will prevent a use-after-free in the event the LLD manages
-+		 * to complete the request before the error handler finishes
-+		 * processing this timed out request.
-+		 *
-+		 * If the request was already completed, then the LLD beat the
-+		 * time out handler from transferring the request to the scsi
-+		 * error handler. In that case we can return immediately as no
-+		 * further action is required.
-+		 */
-+		if (req->q->mq_ops && !blk_mq_mark_complete(req))
-+			return rtn;
- 		if (scsi_abort_command(scmd) != SUCCESS) {
- 			set_host_byte(scmd, DID_TIME_OUT);
- 			scsi_eh_scmd_add(scmd);
+-	if (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
+-			MQ_RQ_IN_FLIGHT)
++	if (!blk_mq_mark_complete(rq))
+ 		return;
+-
+ 	if (rq->internal_tag != -1)
+ 		blk_mq_sched_completed_request(rq);
+ 
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 9b0fd11ce89a..4d41ed16314c 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -289,6 +289,20 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
+ 
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q);
+ 
++/**
++ * blk_mq_mark_complete() - Set request state to complete
++ * @rq: request to set to complete state
++ *
++ * Returns true if request state was successfully set to complete. If
++ * successful, the caller is responsibile for seeing this request is ended, as
++ * blk_mq_complete_request will not work again.
++ */
++static inline bool blk_mq_mark_complete(struct request *rq)
++{
++	return cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) ==
++			MQ_RQ_IN_FLIGHT;
++}
++
+ /*
+  * Driver command data is immediately after the request. So subtract request
+  * size to get back to the original request, add request size to get the PDU.
 -- 
 2.14.4
