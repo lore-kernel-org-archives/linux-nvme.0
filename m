@@ -1,192 +1,142 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Mon, 23 Jul 2018 12:33:57 -0400
-Subject: data corruption with 'splt' workload to XFS on DM cache with its 3
- underlying devices being on same NVMe device
-Message-ID: <20180723163357.GA29658@redhat.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Mon, 23 Jul 2018 13:00:56 -0400
+Subject: [PATCH] nvme: if_ready checks to fail io to deleting controller
+In-Reply-To: <20180720224948.3953-1-jsmart2021@gmail.com>
+References: <20180720224948.3953-1-jsmart2021@gmail.com>
+Message-ID: <1532365256.15461.4.camel@localhost.localdomain>
 
-Hi,
+On Fri, 2018-07-20@15:49 -0700, James Smart wrote:
+> The revised if_ready checks skipped over the case of returning
+> error when the controller is being deleted. Instead it was returning
+> BUSY, which caused the ios to retry, which caused the ns delete to
+> hang waiting for the ios to drain.
+> 
+> Stack trace of hang looks like:
+>  kworker/u64:2   D    0    74      2 0x80000000
+>  Workqueue: nvme-delete-wq nvme_delete_ctrl_work [nvme_core]
+>  Call Trace:
+>   ? __schedule+0x26d/0x820
+>   schedule+0x32/0x80
+>   blk_mq_freeze_queue_wait+0x36/0x80
+>   ? remove_wait_queue+0x60/0x60
+>   blk_cleanup_queue+0x72/0x160
+>   nvme_ns_remove+0x106/0x140 [nvme_core]
+>   nvme_remove_namespaces+0x7e/0xa0 [nvme_core]
+>   nvme_delete_ctrl_work+0x4d/0x80 [nvme_core]
+>   process_one_work+0x160/0x350
+>   worker_thread+0x1c3/0x3d0
+>   kthread+0xf5/0x130
+>   ? process_one_work+0x350/0x350
+>   ? kthread_bind+0x10/0x10
+>   ret_from_fork+0x1f/0x30
+> 
+> Extend nvmf_fail_nonready_command() to supply the controller pointer
+> so that the controller state can be looked at. Fail any io to a
+> controller that is deleting.
+> 
+> Fixes: 3bc32bb1186c  ("nvme-fabrics: refactor queue ready check")
+> Fixes: 35897b920c8a  ("nvme-fabrics: fix and refine state checks in __nvmf_check_ready")
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> 
+> ---
+> This should go into 4.18 if possible, which is where the prior
+> two patches were merged.
+> ---
+>  drivers/nvme/host/fabrics.c | 10 +++++++---
+>  drivers/nvme/host/fabrics.h |  3 ++-
+>  drivers/nvme/host/fc.c      |  2 +-
+>  drivers/nvme/host/rdma.c    |  2 +-
+>  drivers/nvme/target/loop.c  |  2 +-
+>  5 files changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 903eb4545e26..f7efe5a58cc7 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -539,14 +539,18 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
+>  /*
+>   * For something we're not in a state to send to the device the default action
+>   * is to busy it and retry it after the controller state is recovered.  However,
+> - * anything marked for failfast or nvme multipath is immediately failed.
+> + * if the controller is deleting or if anything is marked for failfast or
+> + * nvme multipath it is immediately failed.
+>   *
+>   * Note: commands used to initialize the controller will be marked for failfast.
+>   * Note: nvme cli/ioctl commands are marked for failfast.
+>   */
+> -blk_status_t nvmf_fail_nonready_command(struct request *rq)
+> +blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+> +		struct request *rq)
+>  {
+> -	if (!blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+> +	if (ctrl->state != NVME_CTRL_DELETING &&
+> +	    ctrl->state != NVME_CTRL_DEAD &&
+> +	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+>  		return BLK_STS_RESOURCE;
+>  	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+>  	return BLK_STS_IOERR;
+> diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+> index e1818a27aa2d..aa2fdb2a2e8f 100644
+> --- a/drivers/nvme/host/fabrics.h
+> +++ b/drivers/nvme/host/fabrics.h
+> @@ -162,7 +162,8 @@ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
+>  void nvmf_free_options(struct nvmf_ctrl_options *opts);
+>  int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
+>  bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
+> -blk_status_t nvmf_fail_nonready_command(struct request *rq);
+> +blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+> +		struct request *rq);
+>  bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+>  		bool queue_live);
+>  
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 9cc33752539a..611e70cae754 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2273,7 +2273,7 @@ nvme_fc_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  
+>  	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE ||
+>  	    !nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+> -		return nvmf_fail_nonready_command(rq);
+> +		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
+>  
+>  	ret = nvme_setup_cmd(ns, rq, sqe);
+>  	if (ret)
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 13a6064e4794..0805fa6215ee 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1702,7 +1702,7 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  	WARN_ON_ONCE(rq->tag < 0);
+>  
+>  	if (!nvmf_check_ready(&queue->ctrl->ctrl, rq, queue_ready))
+> -		return nvmf_fail_nonready_command(rq);
+> +		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, rq);
+>  
+>  	dev = queue->device->dev;
+>  	ib_dma_sync_single_for_cpu(dev, sqe->dma,
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index af7fbf4132b0..9908082b32c4 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -162,7 +162,7 @@ static blk_status_t nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  	blk_status_t ret;
+>  
+>  	if (!nvmf_check_ready(&queue->ctrl->ctrl, req, queue_ready))
+> -		return nvmf_fail_nonready_command(req);
+> +		return nvmf_fail_nonready_command(&queue->ctrl->ctrl, req);
+>  
+>  	ret = nvme_setup_cmd(ns, req, &iod->cmd);
+>  	if (ret)
 
-I've opened the following public BZ:
-https://bugzilla.redhat.com/show_bug.cgi?id=1607527
+Yes, that fixes it.  The problem is fairly easy to reproduce with actual NVMe/FC hardware:
 
-Feel free to add comments to that BZ if you have a redhat bugzilla
-account.
+while (true) do
+  nvme connect -t fc -a "nn-0x20000090fac7dbce:pn-0x10000090fac7dbce" -w "nn-0x20000090fac7dacc:pn-0x10000090fac7dacc" -n testnqn
+  nvme disconnect -d nvme1n1
+done
 
-But otherwise, happy to get as much feedback and discussion going purely
-on the relevant lists.  I've taken ~1.5 weeks to categorize and isolate
-this issue.  But I've reached a point where I'm getting diminishing
-returns and could _really_ use the collective eyeballs and expertise of
-the community.  This is by far one of the most nasty cases of corruption
-I've seen in a while.  Not sure where the ultimate cause of corruption
-lies (that the money question) but it _feels_ rooted in NVMe and is
-unique to this particular workload I've stumbled onto via customer
-escalation and then trying to replicate an rbd device using a more
-approachable one (request-based DM multipath in this case).
+would typically fail in 30 or so iterations on my machines.
 
->From the BZ's comment#0:
-
-The following occurs with latest v4.18-rc3 and v4.18-rc6 and also occurs
-with v4.15.  When corruption occurs from this test it also destroys the
-DOS partition table (created during step 0 below).. yeah, corruption is
-_that_ bad.  Almost like the corruption is temporal (recently accessed
-regions of the NVMe device)?
-
-Anyway: I stumbled onto rampant corruption when using request-based DM
-multipath ontop of an NVMe device (not exclusive to a particular drive
-either, happens to NVMe devices from multiple vendors).  But the
-corruption only occurs if the request-based multipath IO is issued to an
-NVMe device in parallel to other IO issued to the _same_ underlying NVMe
-by the DM cache target.  See topology detailed below (at the very end of
-this comment).. basically all 3 devices that are used to create a DM
-cache device need to be backed by the same NVMe device (via partitions
-or linear volumes).
-
-Again, using request-based DM multipath for dm-cache's "slow" device is
-_required_ to reproduce.  Not 100% clear why really... other than
-request-based DM multipath builds large IOs (due to merging).
-
---- Additional comment from Mike Snitzer on 2018-07-20 10:14:09 EDT ---
-
-To reproduce this issue using device-mapper-test-suite:
-
-0) Partition an NVMe device.  First primary partition with at least a
-5GB, seconf primary partition with at least 48GB.
-NOTE: larger partitions (e.g. 1: 50GB 2: >= 220GB) can be used to
-reproduce XFS corruption much quicker.
-
-1) create a request-based multipath device ontop of an NVMe device,
-e.g.:
-
-#!/bin/sh
-
-modprobe dm-service-time
-
-DEVICE=/dev/nvme1n1p2
-SIZE=`blockdev --getsz $DEVICE`
-
-echo "0 $SIZE multipath 2 queue_mode mq 0 1 1 service-time 0 1 2 $DEVICE
-1000 1" | dmsetup create nvme_mpath
-
-# Just a note for how to fail/reinstate path:
-# dmsetup message nvme_mpath 0 "fail_path $DEVICE"
-# dmsetup message nvme_mpath 0 "reinstate_path $DEVICE"
-
-2) checkout device-mapper-test-suite from my github repo:
-
-git clone git://github.com/snitm/device-mapper-test-suite.git
-cd device-mapper-test-suite
-git checkout -b devel origin/devel
-
-3) follow device-mapper-test-suite's README.md to get it all setup
-
-4) Configure /root/.dmtest/config with something like:
-
-profile :nvme_shared do
-   metadata_dev '/dev/nvme1n1p1'
-   #data_dev '/dev/nvme1n1p2'
-   data_dev '/dev/mapper/nvme_mpath'
-end
-
-default_profile :nvme_shared
-
-------
-NOTE: configured 'metadata_dev' gets carved up by
-device-mapper-test-suite to provide both the dm-cache's metadata device
-and the "fast" data device.  The configured 'data_dev' is used for
-dm-cache's "slow" data device.
-
-5) run the test:
-# tail -f /var/log/messages &
-# time dmtest run --suite cache -n /split_large_file/
-
-6) If multipath device failed the lone NVMe path you'll need to
-reinstate the path before the next iteration of your test, e.g. (from #1
-above):
- dmsetup message nvme_mpath 0 "reinstate_path $DEVICE"
-
---- Additional comment from Mike Snitzer on 2018-07-20 12:02:45 EDT ---
-
-(In reply to Mike Snitzer from comment #6)
-
-> SO seems pretty clear something is still wrong with request-based DM
-> multipath ontop of NVMe... sadly we don't have any negative check in
-> blk-core, NVMe or elsewhere to offer any clue :(
-
-Building on this comment:
-
-"Anyway, fact that I'm getting this corruption on multiple different
-NVMe drives: I am definitely concerned that this BZ is due to a bug
-somewhere in NVMe core (or block core code that is specific to NVMe)."
-
-I'm left thinking that request-based DM multipath is somehow causing
-NVMe's SG lists or other infrastructure to be "wrong" and it is
-resulting in corruption.  I get corruption to the dm-cache's metadata
-device (which while theoretically unrelated as its a separate device
-from the "slow" dm-cache data device) if the dm-cache slow data device
-is backed by request-based dm-multipath ontop of NVMe (which is a
-partition from the _same_ NVMe device that is used by the dm-cache
-metadata device).
-
-Basically I'm back to thinking NVMe is corrupting the data due to the IO
-pattern or nature of the cloned requests dm-multipath is issuing.  And
-it is causing corruption to other NVMe partitions on the same parent
-NVMe device.  Certainly that is a concerning hypothesis but I'm not
-seeing much else that would explain this weird corruption.
-
-If I don't use the same NVMe device (with multiple partitions) for _all_
-3 sub-devices that dm-cache needs I don't see the corruption.  It is
-almost like the mix of IO issued by DM cache's metadata (on nvme1n1p1
-using dm-linear) and "fast" device (also on nvme1n1p1 via dm-linear
-volume) in conjunction with IO issued by request-based DM multipath to
-NVMe for "slow" device (on nvme1n1p2) is triggering NVMe to respond
-negatively.  But this same observation can be made on completely
-different hardware using 2 totally different NVMe devices:
-testbed1: Intel Corporation Optane SSD 900P Series (2700)
-testbed2: Samsung Electronics Co Ltd NVMe SSD Controller 171X (rev 03)
-
-Which is why it feels like some bug in Linux (be it dm-rq.c, blk-core.c,
-blk-merge.c or the common NVMe driver)
-
-topology before starting the device-mapper-test-suite test:
-
-# lsblk /dev/nvme1n1
-NAME           MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-nvme1n1        259:1    0 745.2G  0 disk
-??nvme1n1p2    259:5    0 695.2G  0 part
-? ??nvme_mpath 253:2    0 695.2G  0 dm
-??nvme1n1p1    259:4    0    50G  0 part
-
-topology during the device-mapper-test-suite test:
-
-# lsblk /dev/nvme1n1
-NAME                    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-nvme1n1                 259:1    0 745.2G  0 disk
-??nvme1n1p2             259:5    0 695.2G  0 part
-? ??nvme_mpath          253:2    0 695.2G  0 dm
-?   ??test-dev-458572   253:5    0    48G  0 dm
-?     ??test-dev-613083 253:6    0    48G  0 dm
-/root/snitm/git/device-mapper-test-suite/kernel_builds
-??nvme1n1p1             259:4    0    50G  0 part
-  ??test-dev-126378     253:4    0     4G  0 dm
-  ? ??test-dev-613083   253:6    0    48G  0 dm
-  /root/snitm/git/device-mapper-test-suite/kernel_builds
-  ??test-dev-652491     253:3    0    40M  0 dm
-    ??test-dev-613083   253:6    0    48G  0 dm
-    /root/snitm/git/device-mapper-test-suite/kernel_builds
-
-pruning that tree a bit (removing the dm-cache device 253:6) for
-clarity:
-
-# lsblk /dev/nvme1n1
-NAME                    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
-nvme1n1                 259:1    0 745.2G  0 disk
-??nvme1n1p2             259:5    0 695.2G  0 part
-? ??nvme_mpath          253:2    0 695.2G  0 dm
-?   ??test-dev-458572   253:5    0    48G  0 dm
-??nvme1n1p1             259:4    0    50G  0 part
-  ??test-dev-126378     253:4    0     4G  0 dm
-  ??test-dev-652491     253:3    0    40M  0 dm
-
-40M device is dm-cache "metadata" device
-4G device is dm-cache "fast" data device
-48G device is dm-cache "slow" data device
+Tested-by: Ewan D. Milne <emilne at redhat.com>
+Reviewed-by: Ewan D. Milne <emilne at redhat.com>
