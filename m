@@ -1,30 +1,44 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Mon, 23 Jul 2018 13:59:36 +0000
-Subject: [PATCH 2/2] scsi: set timed out out mq requests to complete
-In-Reply-To: <20180723081231.GB19247@lst.de>
-References: <20180719212618.2406-1-keith.busch@intel.com>
- <20180719212618.2406-2-keith.busch@intel.com>
- <1073d0d2902327970c4e28a4c7c97a21fd8885c8.camel@wdc.com>
- <20180720155646.GE4093@localhost.localdomain>
- <2b01f0a8d5864b2563573d46ce5b4ec5f593f538.camel@wdc.com>
- <20180720161240.GF4093@localhost.localdomain>
- <092dd4f2dae0cc533018c9fb829a50b4cbb6cb0b.camel@wdc.com>
- <20180720162321.GG4093@localhost.localdomain>
- <797120d19f5d15e7d98a3d2f90ce91ebf60690d7.camel@wdc.com>
- <20180720172444.GH4093@localhost.localdomain>
- <20180723081231.GB19247@lst.de>
-Message-ID: <c62df9fa8002857f4145c8cef686d1711ed48dc7.camel@wdc.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Mon, 23 Jul 2018 08:02:33 -0600
+Subject: [PATCH 1/2] block: move dif_prepare/dif_complete functions to
+ block layer
+In-Reply-To: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
+References: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20180723140233.GA10750@localhost.localdomain>
 
-On Mon, 2018-07-23@10:12 +0200, hch@lst.de wrote:
-> Btw, one thing we should do in blk-mq and scsi is to make the time
-> optional.  If the blk_mq driver doesn't even have a timeout structure
-> there is no point in timing out requests and enter the timeout handler
-> ever.
+On Sun, Jul 22, 2018@12:49:57PM +0300, Max Gurtovoy wrote:
+> +void blk_integrity_dif_prepare(struct request *rq, u8 protection_type,
+> +			       u32 ref_tag)
+> +{
+> +	const int tuple_sz = sizeof(struct t10_pi_tuple);
+> +	struct bio *bio;
+> +	struct t10_pi_tuple *pi;
+> +	u32 phys, virt;
+> +
+> +	if (protection_type == T10_PI_TYPE3_PROTECTION)
+> +		return;
+> +
+> +	phys = ref_tag;
+> +
+> +	__rq_for_each_bio(bio, rq) {
+> +		struct bio_integrity_payload *bip = bio_integrity(bio);
+> +		struct bio_vec iv;
+> +		struct bvec_iter iter;
+> +		unsigned int j;
+> +
+> +		/* Already remapped? */
+> +		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
+> +			break;
+> +
+> +		virt = bip_get_seed(bip) & 0xffffffff;
+> +
+> +		bip_for_each_vec(iv, bip, iter) {
+> +			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
+> +
+> +			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
 
-Are there any blk-mq drivers that do not define a timeout handler and that
-use shared tags? I think such drivers need periodic calls to blk_mq_tag_idle().
-Do you perhaps want to happen these calls from another context?
+nvme's data integrity buffer can actually have more space between each
+PI field, so we just need to account for that when iterating instead of
+assuming each element is the size of a T10 PI tuple.
 
-Thanks,
-
-Bart.
+Otherwise, great idea.
