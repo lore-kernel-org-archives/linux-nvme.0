@@ -1,7 +1,7 @@
-From: hch@lst.de (hch@lst.de)
-Date: Mon, 23 Jul 2018 10:12:31 +0200
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Mon, 23 Jul 2018 13:59:36 +0000
 Subject: [PATCH 2/2] scsi: set timed out out mq requests to complete
-In-Reply-To: <20180720172444.GH4093@localhost.localdomain>
+In-Reply-To: <20180723081231.GB19247@lst.de>
 References: <20180719212618.2406-1-keith.busch@intel.com>
  <20180719212618.2406-2-keith.busch@intel.com>
  <1073d0d2902327970c4e28a4c7c97a21fd8885c8.camel@wdc.com>
@@ -12,37 +12,19 @@ References: <20180719212618.2406-1-keith.busch@intel.com>
  <20180720162321.GG4093@localhost.localdomain>
  <797120d19f5d15e7d98a3d2f90ce91ebf60690d7.camel@wdc.com>
  <20180720172444.GH4093@localhost.localdomain>
-Message-ID: <20180723081231.GB19247@lst.de>
+ <20180723081231.GB19247@lst.de>
+Message-ID: <c62df9fa8002857f4145c8cef686d1711ed48dc7.camel@wdc.com>
 
-On Fri, Jul 20, 2018@11:24:45AM -0600, Keith Busch wrote:
-> My patch restores the state that scsi had in 4.17. It still has that
-> gap that may lose requests forever when the scsi LLD always returns
-> BLK_EH_RESET_TIMER (see virtio-scsi, for example). That gap existed prior,
-> so that's not new with my patch. Maybe we can fix that with a slight
-> modification to my previous patch. It looks like SCSI really wants to
-> block completions only when it hands off the command to the error handler,
-> so we don't need to have the inflight -> compete -> inflight transition,
-> and the following is all that's needed:
+On Mon, 2018-07-23@10:12 +0200, hch@lst.de wrote:
+> Btw, one thing we should do in blk-mq and scsi is to make the time
+> optional.  If the blk_mq driver doesn't even have a timeout structure
+> there is no point in timing out requests and enter the timeout handler
+> ever.
 
-Btw, one thing we should do in blk-mq and scsi is to make the time
-optional.  If the blk_mq driver doesn't even have a timeout structure
-there is no point in timing out requests and enter the timeout handler
-ever.  Same for those scsi drivers always returning BLK_EH_RESET_TIMER.
+Are there any blk-mq drivers that do not define a timeout handler and that
+use shared tags? I think such drivers need periodic calls to blk_mq_tag_idle().
+Do you perhaps want to happen these calls from another context?
 
-Whether never having timeouts is a good idea is a different discussion,
-but as long as we have such drivers we should handle them somewhat sane.
+Thanks,
 
-> ---
-> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-> index 8932ae81a15a..902c30d3c0ed 100644
-> --- a/drivers/scsi/scsi_error.c
-> +++ b/drivers/scsi/scsi_error.c
-> @@ -296,6 +296,8 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
->  		rtn = host->hostt->eh_timed_out(scmd);
->  
->  	if (rtn == BLK_EH_DONE) {
-> +		if (req->q->mq_ops && blk_mq_mark_complete(req))
-> +			return rtn;
-
-This looks pretty sensible to me as a band-aid.  It just needs a very
-detailed comment explaining what is going on here.
+Bart.
