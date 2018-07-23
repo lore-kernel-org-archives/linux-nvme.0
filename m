@@ -1,121 +1,44 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 23 Jul 2018 09:28:54 +0200
-Subject: [PATCH 1/2] block: move dif_prepare/dif_complete functions to
- block layer
-In-Reply-To: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
+Date: Mon, 23 Jul 2018 09:33:01 +0200
+Subject: [PATCH 2/2] nvme: use blk API to remap ref tags for IOs with
+ metadata
+In-Reply-To: <1532252998-2375-2-git-send-email-maxg@mellanox.com>
 References: <1532252998-2375-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20180723072854.GA18365@lst.de>
+ <1532252998-2375-2-git-send-email-maxg@mellanox.com>
+Message-ID: <20180723073301.GB18365@lst.de>
 
->  #include <linux/blkdev.h>
-> +#include <linux/t10-pi.h>
-
-Sounds like the new functions should move to block/10-pi.c given
-that they are specific to the T10 defined formats.
-
-> +/*
-> + * The virtual start sector is the one that was originally submitted
-> + * by the block layer.	Due to partitioning, MD/DM cloning, etc. the
-> + * actual physical start sector is likely to be different.  Remap
-> + * protection information to match the physical LBA.
-> + *
-> + * From a protocol perspective there's a slight difference between
-> + * Type 1 and 2.  The latter uses command's 32-byte exclusively, and the
-> + * reference tag is seeded in the command.  This gives us the potential to
-> + * avoid virt->phys remapping during write.  However, at read time we
-> + * don't know whether the virt sector is the same as when we wrote it
-> + * (we could be reading from real disk as opposed to MD/DM device.  So
-> + * we always remap Type 2 making it identical to Type 1.
-> + *
-> + * Type 3 does not have a reference tag so no remapping is required.
-> + */
-
-Maybe add proper kerneldoc comments given that these are exported
-functions?
-
-The 32-byte CDB comment doesn't really make sense here as it is SCSI
-specific, so we'll need to drop it or find a good place for it in the
-SCSI code.
-
-> +void blk_integrity_dif_prepare(struct request *rq, u8 protection_type,
-> +			       u32 ref_tag)
-> +{
-
-Maybe call this blk_t10_pi_prepare?
-
-> +	const int tuple_sz = sizeof(struct t10_pi_tuple);
-> +	struct bio *bio;
-> +	struct t10_pi_tuple *pi;
-> +	u32 phys, virt;
-> +
-> +	if (protection_type == T10_PI_TYPE3_PROTECTION)
-> +		return;
-> +
-> +	phys = ref_tag;
-
-Seems like we could just use the ref_tag variable later instead of
-duplicating it.
-
-> +
-> +	__rq_for_each_bio(bio, rq) {
-> +		struct bio_integrity_payload *bip = bio_integrity(bio);
-> +		struct bio_vec iv;
-> +		struct bvec_iter iter;
-> +		unsigned int j;
-> +
-> +		/* Already remapped? */
-> +		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
-> +			break;
-> +
-> +		virt = bip_get_seed(bip) & 0xffffffff;
-
-Looks like we could keep the virt variable inside the loop and assign
-it where declared, e.g.:
-
-		u32 virt = bip_get_seed(bip) & 0xffffffff;
-
-at the beginning of this block.
-
-> +		bip_for_each_vec(iv, bip, iter) {
-> +			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
-
-Pi can have local scope here, too.
-
-> +			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
-> +
-> +				if (be32_to_cpu(pi->ref_tag) == virt)
-> +					pi->ref_tag = cpu_to_be32(phys);
-> +
-> +				virt++;
-> +				phys++;
-> +			}
-
-No need for the empty lines inside this loop.
-
-> +/*
-> + * Remap physical sector values in the reference tag to the virtual
-> + * values expected by the block layer.
-> + */
-> +void blk_integrity_dif_complete(struct request *rq, u8 protection_type,
-> +				u32 ref_tag, unsigned int intervals)
-
-And pretty much all the  comments apply to this function as well.
-
-> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-> index 9421d9877730..4186bf027c59 100644
-> --- a/drivers/scsi/sd.c
-> +++ b/drivers/scsi/sd.c
-> @@ -1119,7 +1119,9 @@ static int sd_setup_read_write_cmnd(struct scsi_cmnd *SCpnt)
->  		SCpnt->cmnd[0] = WRITE_6;
+On Sun, Jul 22, 2018@12:49:58PM +0300, Max Gurtovoy wrote:
+> Also moved the logic of the remapping to the nvme core driver instead
+> of implementing it in the nvme pci driver. This way all the other nvme
+> transport drivers will benefit from it (in case they'll implement metadata
+> support).
+> 
+> Suggested-by: Christoph Hellwig <hch at lst.de>
+> Cc: Jens Axboe <axboe at kernel.dk>
+> Cc: Martin K. Petersen <martin.petersen at oracle.com>
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
+>  drivers/nvme/host/core.c | 23 +++++++++++++--
+>  drivers/nvme/host/nvme.h |  9 +-----
+>  drivers/nvme/host/pci.c  | 75 +-----------------------------------------------
+>  3 files changed, 23 insertions(+), 84 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 46df030b2c3f..0d94d3eb641c 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -591,6 +591,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+>  		nvme_assign_write_stream(ctrl, req, &control, &dsmgmt);
 >  
->  		if (blk_integrity_rq(rq))
-> -			sd_dif_prepare(SCpnt);
-> +			blk_integrity_dif_prepare(SCpnt->request,
-> +						  sdkp->protection_type,
-> +						  scsi_prot_ref_tag(SCpnt));
+>  	if (ns->ms) {
+> +		u32 ref_tag = nvme_block_nr(ns, blk_rq_pos(req));
+>  		/*
 
-scsi_prot_ref_tag could be move to the block layer as it only uses
-the sector in the eequest and the sector size, which we can get
-from the gendisk as well.  We then don't need to pass it to the function.
+Please add an empty line here.
 
-We could also move the protection type to the gendisk, although I'm not
-sure it's going to be worth it.
+> +void nvme_cleanup_cmd(struct request *req)
+> +{
+> +	if (blk_integrity_rq(req) && req_op(req) == REQ_OP_READ &&
+> +	    nvme_error_status(req) == BLK_STS_OK) {
+
+This line can simply be nvme_req(req)->status == 0
