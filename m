@@ -1,63 +1,192 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 23 Jul 2018 08:37:50 -0600
-Subject: [PATCHv2 1/2] blk-mq: export setting request completion state
-Message-ID: <20180723143751.10843-1-keith.busch@intel.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 23 Jul 2018 12:33:57 -0400
+Subject: data corruption with 'splt' workload to XFS on DM cache with its 3
+ underlying devices being on same NVMe device
+Message-ID: <20180723163357.GA29658@redhat.com>
 
-This is preparing for drivers that want to directly alter the state of
-their requests. No functional change here.
+Hi,
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1 -> v2:
+I've opened the following public BZ:
+https://bugzilla.redhat.com/show_bug.cgi?id=1607527
 
-  Reversed the return value: 'true' for success instead of failure.
+Feel free to add comments to that BZ if you have a redhat bugzilla
+account.
 
-  Document the caller's responsibilities after a successful state transtion.
+But otherwise, happy to get as much feedback and discussion going purely
+on the relevant lists.  I've taken ~1.5 weeks to categorize and isolate
+this issue.  But I've reached a point where I'm getting diminishing
+returns and could _really_ use the collective eyeballs and expertise of
+the community.  This is by far one of the most nasty cases of corruption
+I've seen in a while.  Not sure where the ultimate cause of corruption
+lies (that the money question) but it _feels_ rooted in NVMe and is
+unique to this particular workload I've stumbled onto via customer
+escalation and then trying to replicate an rbd device using a more
+approachable one (request-based DM multipath in this case).
 
- block/blk-mq.c         |  4 +---
- include/linux/blk-mq.h | 14 ++++++++++++++
- 2 files changed, 15 insertions(+), 3 deletions(-)
+>From the BZ's comment#0:
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 22326612a5d3..8f01cd7fd182 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -558,10 +558,8 @@ static void __blk_mq_complete_request(struct request *rq)
- 	bool shared = false;
- 	int cpu;
- 
--	if (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
--			MQ_RQ_IN_FLIGHT)
-+	if (!blk_mq_mark_complete(rq))
- 		return;
--
- 	if (rq->internal_tag != -1)
- 		blk_mq_sched_completed_request(rq);
- 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 9b0fd11ce89a..4d41ed16314c 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -289,6 +289,20 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
- 
- void blk_mq_quiesce_queue_nowait(struct request_queue *q);
- 
-+/**
-+ * blk_mq_mark_complete() - Set request state to complete
-+ * @rq: request to set to complete state
-+ *
-+ * Returns true if request state was successfully set to complete. If
-+ * successful, the caller is responsibile for seeing this request is ended, as
-+ * blk_mq_complete_request will not work again.
-+ */
-+static inline bool blk_mq_mark_complete(struct request *rq)
-+{
-+	return cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) ==
-+			MQ_RQ_IN_FLIGHT;
-+}
-+
- /*
-  * Driver command data is immediately after the request. So subtract request
-  * size to get back to the original request, add request size to get the PDU.
--- 
-2.14.4
+The following occurs with latest v4.18-rc3 and v4.18-rc6 and also occurs
+with v4.15.  When corruption occurs from this test it also destroys the
+DOS partition table (created during step 0 below).. yeah, corruption is
+_that_ bad.  Almost like the corruption is temporal (recently accessed
+regions of the NVMe device)?
+
+Anyway: I stumbled onto rampant corruption when using request-based DM
+multipath ontop of an NVMe device (not exclusive to a particular drive
+either, happens to NVMe devices from multiple vendors).  But the
+corruption only occurs if the request-based multipath IO is issued to an
+NVMe device in parallel to other IO issued to the _same_ underlying NVMe
+by the DM cache target.  See topology detailed below (at the very end of
+this comment).. basically all 3 devices that are used to create a DM
+cache device need to be backed by the same NVMe device (via partitions
+or linear volumes).
+
+Again, using request-based DM multipath for dm-cache's "slow" device is
+_required_ to reproduce.  Not 100% clear why really... other than
+request-based DM multipath builds large IOs (due to merging).
+
+--- Additional comment from Mike Snitzer on 2018-07-20 10:14:09 EDT ---
+
+To reproduce this issue using device-mapper-test-suite:
+
+0) Partition an NVMe device.  First primary partition with at least a
+5GB, seconf primary partition with at least 48GB.
+NOTE: larger partitions (e.g. 1: 50GB 2: >= 220GB) can be used to
+reproduce XFS corruption much quicker.
+
+1) create a request-based multipath device ontop of an NVMe device,
+e.g.:
+
+#!/bin/sh
+
+modprobe dm-service-time
+
+DEVICE=/dev/nvme1n1p2
+SIZE=`blockdev --getsz $DEVICE`
+
+echo "0 $SIZE multipath 2 queue_mode mq 0 1 1 service-time 0 1 2 $DEVICE
+1000 1" | dmsetup create nvme_mpath
+
+# Just a note for how to fail/reinstate path:
+# dmsetup message nvme_mpath 0 "fail_path $DEVICE"
+# dmsetup message nvme_mpath 0 "reinstate_path $DEVICE"
+
+2) checkout device-mapper-test-suite from my github repo:
+
+git clone git://github.com/snitm/device-mapper-test-suite.git
+cd device-mapper-test-suite
+git checkout -b devel origin/devel
+
+3) follow device-mapper-test-suite's README.md to get it all setup
+
+4) Configure /root/.dmtest/config with something like:
+
+profile :nvme_shared do
+   metadata_dev '/dev/nvme1n1p1'
+   #data_dev '/dev/nvme1n1p2'
+   data_dev '/dev/mapper/nvme_mpath'
+end
+
+default_profile :nvme_shared
+
+------
+NOTE: configured 'metadata_dev' gets carved up by
+device-mapper-test-suite to provide both the dm-cache's metadata device
+and the "fast" data device.  The configured 'data_dev' is used for
+dm-cache's "slow" data device.
+
+5) run the test:
+# tail -f /var/log/messages &
+# time dmtest run --suite cache -n /split_large_file/
+
+6) If multipath device failed the lone NVMe path you'll need to
+reinstate the path before the next iteration of your test, e.g. (from #1
+above):
+ dmsetup message nvme_mpath 0 "reinstate_path $DEVICE"
+
+--- Additional comment from Mike Snitzer on 2018-07-20 12:02:45 EDT ---
+
+(In reply to Mike Snitzer from comment #6)
+
+> SO seems pretty clear something is still wrong with request-based DM
+> multipath ontop of NVMe... sadly we don't have any negative check in
+> blk-core, NVMe or elsewhere to offer any clue :(
+
+Building on this comment:
+
+"Anyway, fact that I'm getting this corruption on multiple different
+NVMe drives: I am definitely concerned that this BZ is due to a bug
+somewhere in NVMe core (or block core code that is specific to NVMe)."
+
+I'm left thinking that request-based DM multipath is somehow causing
+NVMe's SG lists or other infrastructure to be "wrong" and it is
+resulting in corruption.  I get corruption to the dm-cache's metadata
+device (which while theoretically unrelated as its a separate device
+from the "slow" dm-cache data device) if the dm-cache slow data device
+is backed by request-based dm-multipath ontop of NVMe (which is a
+partition from the _same_ NVMe device that is used by the dm-cache
+metadata device).
+
+Basically I'm back to thinking NVMe is corrupting the data due to the IO
+pattern or nature of the cloned requests dm-multipath is issuing.  And
+it is causing corruption to other NVMe partitions on the same parent
+NVMe device.  Certainly that is a concerning hypothesis but I'm not
+seeing much else that would explain this weird corruption.
+
+If I don't use the same NVMe device (with multiple partitions) for _all_
+3 sub-devices that dm-cache needs I don't see the corruption.  It is
+almost like the mix of IO issued by DM cache's metadata (on nvme1n1p1
+using dm-linear) and "fast" device (also on nvme1n1p1 via dm-linear
+volume) in conjunction with IO issued by request-based DM multipath to
+NVMe for "slow" device (on nvme1n1p2) is triggering NVMe to respond
+negatively.  But this same observation can be made on completely
+different hardware using 2 totally different NVMe devices:
+testbed1: Intel Corporation Optane SSD 900P Series (2700)
+testbed2: Samsung Electronics Co Ltd NVMe SSD Controller 171X (rev 03)
+
+Which is why it feels like some bug in Linux (be it dm-rq.c, blk-core.c,
+blk-merge.c or the common NVMe driver)
+
+topology before starting the device-mapper-test-suite test:
+
+# lsblk /dev/nvme1n1
+NAME           MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+nvme1n1        259:1    0 745.2G  0 disk
+??nvme1n1p2    259:5    0 695.2G  0 part
+? ??nvme_mpath 253:2    0 695.2G  0 dm
+??nvme1n1p1    259:4    0    50G  0 part
+
+topology during the device-mapper-test-suite test:
+
+# lsblk /dev/nvme1n1
+NAME                    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+nvme1n1                 259:1    0 745.2G  0 disk
+??nvme1n1p2             259:5    0 695.2G  0 part
+? ??nvme_mpath          253:2    0 695.2G  0 dm
+?   ??test-dev-458572   253:5    0    48G  0 dm
+?     ??test-dev-613083 253:6    0    48G  0 dm
+/root/snitm/git/device-mapper-test-suite/kernel_builds
+??nvme1n1p1             259:4    0    50G  0 part
+  ??test-dev-126378     253:4    0     4G  0 dm
+  ? ??test-dev-613083   253:6    0    48G  0 dm
+  /root/snitm/git/device-mapper-test-suite/kernel_builds
+  ??test-dev-652491     253:3    0    40M  0 dm
+    ??test-dev-613083   253:6    0    48G  0 dm
+    /root/snitm/git/device-mapper-test-suite/kernel_builds
+
+pruning that tree a bit (removing the dm-cache device 253:6) for
+clarity:
+
+# lsblk /dev/nvme1n1
+NAME                    MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+nvme1n1                 259:1    0 745.2G  0 disk
+??nvme1n1p2             259:5    0 695.2G  0 part
+? ??nvme_mpath          253:2    0 695.2G  0 dm
+?   ??test-dev-458572   253:5    0    48G  0 dm
+??nvme1n1p1             259:4    0    50G  0 part
+  ??test-dev-126378     253:4    0     4G  0 dm
+  ??test-dev-652491     253:3    0    40M  0 dm
+
+40M device is dm-cache "metadata" device
+4G device is dm-cache "fast" data device
+48G device is dm-cache "slow" data device
