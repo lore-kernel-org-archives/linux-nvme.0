@@ -1,8 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 23 Jul 2018 09:36:09 +0200
-Subject: [PATCH] nvme: use ns head lock for lockdep
-In-Reply-To: <1532111601-9123-1-git-send-email-chaitanya.kulkarni@wdc.com>
-References: <1532111601-9123-1-git-send-email-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180723073609.GE18365@lst.de>
+Date: Mon, 23 Jul 2018 10:09:41 +0200
+Subject: [PATCH 1/2] blk-mq: export setting request completion state
+In-Reply-To: <20180719212618.2406-1-keith.busch@intel.com>
+References: <20180719212618.2406-1-keith.busch@intel.com>
+Message-ID: <20180723080941.GA19247@lst.de>
 
-Thanks a lot Chaitanya, folded into the nvme-ana branch.
+> +/*
+> + * Returns true if request was not in flight.
+> + */
+> +static inline bool blk_mq_mark_complete(struct request *rq)
+> +{
+> +	return (cmpxchg(&rq->state, MQ_RQ_IN_FLIGHT, MQ_RQ_COMPLETE) !=
+> +			MQ_RQ_IN_FLIGHT);
+> +}
+
+This needs a much better comment describing when and how to use it.
+
+Also the outer braces in the return statement are not required.
