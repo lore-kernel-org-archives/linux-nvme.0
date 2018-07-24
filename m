@@ -1,128 +1,330 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 24 Jul 2018 16:33:40 +0300
-Subject: [PATCH 1/3] block: move ref_tag calculation func to the block layer
-Message-ID: <1532439222-5668-1-git-send-email-maxg@mellanox.com>
+Date: Tue, 24 Jul 2018 16:33:41 +0300
+Subject: [PATCH 2/3] block: move dif_prepare/dif_complete functions to block
+ layer
+In-Reply-To: <1532439222-5668-1-git-send-email-maxg@mellanox.com>
+References: <1532439222-5668-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1532439222-5668-2-git-send-email-maxg@mellanox.com>
 
-Currently this function is implemented in the scsi layer, but it's
-actual place should be the block layer since T10-PI is a general
-data integrity feature that is used in the nvme protocol as well.
+Currently these functions are implemented in the scsi layer, but their
+actual place should be the block layer since T10-PI is a general data
+integrity feature that is used in the nvme protocol as well. Also, use
+the tuple size from the integrity profile since it may vary between
+integrity types.
 
 Suggested-by: Christoph Hellwig <hch at lst.de>
 Cc: Jens Axboe <axboe at kernel.dk>
 Cc: Martin K. Petersen <martin.petersen at oracle.com>
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/infiniband/ulp/iser/iser_memory.c | 2 +-
- drivers/nvme/host/core.c                  | 3 +--
- drivers/scsi/mpt3sas/mpt3sas_scsih.c      | 2 +-
- drivers/scsi/sd_dif.c                     | 4 ++--
- include/linux/t10-pi.h                    | 6 ++++++
- include/scsi/scsi_cmnd.h                  | 7 +------
- 6 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/infiniband/ulp/iser/iser_memory.c b/drivers/infiniband/ulp/iser/iser_memory.c
-index ca844a9..130bf16 100644
---- a/drivers/infiniband/ulp/iser/iser_memory.c
-+++ b/drivers/infiniband/ulp/iser/iser_memory.c
-@@ -311,7 +311,7 @@ void iser_unreg_mem_fastreg(struct iscsi_iser_task *iser_task,
- {
- 	domain->sig_type = IB_SIG_TYPE_T10_DIF;
- 	domain->sig.dif.pi_interval = scsi_prot_interval(sc);
--	domain->sig.dif.ref_tag = scsi_prot_ref_tag(sc);
-+	domain->sig.dif.ref_tag = t10_pi_ref_tag(sc->request);
- 	/*
- 	 * At the moment we hard code those, but in the future
- 	 * we will take them from sc.
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bf65501..191177b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -627,8 +627,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 		case NVME_NS_DPS_PI_TYPE2:
- 			control |= NVME_RW_PRINFO_PRCHK_GUARD |
- 					NVME_RW_PRINFO_PRCHK_REF;
--			cmnd->rw.reftag = cpu_to_le32(
--					nvme_block_nr(ns, blk_rq_pos(req)));
-+			cmnd->rw.reftag = cpu_to_le32(t10_pi_ref_tag(req));
- 			break;
- 		}
- 	}
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index b8d131a..dd738ae 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -4568,7 +4568,7 @@ static int _scsih_set_satl_pending(struct scsi_cmnd *scmd, bool pending)
- 		    MPI2_SCSIIO_EEDPFLAGS_CHECK_REFTAG |
- 		    MPI2_SCSIIO_EEDPFLAGS_CHECK_GUARD;
- 		mpi_request->CDB.EEDP32.PrimaryReferenceTag =
--		    cpu_to_be32(scsi_prot_ref_tag(scmd));
-+		    cpu_to_be32(t10_pi_ref_tag(scmd->request));
- 		break;
+changes from v1 (Christoph, Martin and Keith comments):
+ - moved the functions to t10-pi.c
+ - updated tuple size
+ - changed local variables scope
+ - remove/add new lines
+
+---
+ block/t10-pi.c         | 100 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/scsi/sd.c      |   8 ++--
+ drivers/scsi/sd.h      |   9 ----
+ drivers/scsi/sd_dif.c  | 113 -------------------------------------------------
+ include/linux/t10-pi.h |   3 ++
+ 5 files changed, 108 insertions(+), 125 deletions(-)
+
+diff --git a/block/t10-pi.c b/block/t10-pi.c
+index a98db38..5f2a177 100644
+--- a/block/t10-pi.c
++++ b/block/t10-pi.c
+@@ -184,3 +184,103 @@ static blk_status_t t10_pi_type3_verify_ip(struct blk_integrity_iter *iter)
+ 	.verify_fn		= t10_pi_type3_verify_ip,
+ };
+ EXPORT_SYMBOL(t10_pi_type3_ip);
++
++/*
++ * The virtual start sector is the one that was originally submitted
++ * by the block layer.	Due to partitioning, MD/DM cloning, etc. the
++ * actual physical start sector is likely to be different.  Remap
++ * protection information to match the physical LBA.
++ *
++ * From SCSI protocol perspective there's a slight difference between
++ * Type 1 and 2.  The latter uses command's 32-byte exclusively, and the
++ * reference tag is seeded in the command.  This gives us the potential to
++ * avoid virt->phys remapping during write.  However, at read time we
++ * don't know whether the virt sector is the same as when we wrote it
++ * (we could be reading from real disk as opposed to MD/DM device.  So
++ * we always remap Type 2 making it identical to Type 1.
++ *
++ * Type 3 does not have a reference tag so no remapping is required.
++ */
++void t10_pi_prepare(struct request *rq, u8 protection_type)
++{
++	const int tuple_sz = rq->q->integrity.tuple_size;
++	u32 ref_tag = t10_pi_ref_tag(rq);
++	struct bio *bio;
++
++	if (protection_type == T10_PI_TYPE3_PROTECTION)
++		return;
++
++	__rq_for_each_bio(bio, rq) {
++		struct bio_integrity_payload *bip = bio_integrity(bio);
++		u32 virt = bip_get_seed(bip) & 0xffffffff;
++		struct bio_vec iv;
++		struct bvec_iter iter;
++
++		/* Already remapped? */
++		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
++			break;
++
++		bip_for_each_vec(iv, bip, iter) {
++			struct t10_pi_tuple *pi = kmap_atomic(iv.bv_page) +
++						iv.bv_offset;
++			unsigned int j;
++
++			for (j = 0; j < iv.bv_len; j += tuple_sz) {
++				if (be32_to_cpu(pi->ref_tag) == virt)
++					pi->ref_tag = cpu_to_be32(ref_tag);
++				virt++;
++				ref_tag++;
++				pi += tuple_sz;
++			}
++
++			kunmap_atomic(pi);
++		}
++
++		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
++	}
++}
++EXPORT_SYMBOL(t10_pi_prepare);
++
++/*
++ * Remap physical sector values in the reference tag to the virtual
++ * values expected by the block layer.
++ */
++void t10_pi_complete(struct request *rq, u8 protection_type,
++			 unsigned int intervals)
++{
++	const int tuple_sz = rq->q->integrity.tuple_size;
++	u32 ref_tag = t10_pi_ref_tag(rq);
++	struct bio *bio;
++
++	if (protection_type == T10_PI_TYPE3_PROTECTION)
++		return;
++
++	__rq_for_each_bio(bio, rq) {
++		struct bio_integrity_payload *bip = bio_integrity(bio);
++		u32 virt = bip_get_seed(bip) & 0xffffffff;
++		struct bio_vec iv;
++		struct bvec_iter iter;
++
++		bip_for_each_vec(iv, bip, iter) {
++			struct t10_pi_tuple *pi = kmap_atomic(iv.bv_page) +
++						iv.bv_offset;
++			unsigned int j;
++
++			for (j = 0; j < iv.bv_len; j += tuple_sz) {
++				if (intervals == 0) {
++					kunmap_atomic(pi);
++					return;
++				}
++				if (be32_to_cpu(pi->ref_tag) == ref_tag)
++					pi->ref_tag = cpu_to_be32(virt);
++				virt++;
++				ref_tag++;
++				intervals--;
++				pi += tuple_sz;
++			}
++
++			kunmap_atomic(pi);
++		}
++	}
++}
++EXPORT_SYMBOL(t10_pi_complete);
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 9421d98..bbebdc3 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -1119,7 +1119,7 @@ static int sd_setup_read_write_cmnd(struct scsi_cmnd *SCpnt)
+ 		SCpnt->cmnd[0] = WRITE_6;
  
- 	case SCSI_PROT_DIF_TYPE3:
+ 		if (blk_integrity_rq(rq))
+-			sd_dif_prepare(SCpnt);
++			t10_pi_prepare(SCpnt->request, sdkp->protection_type);
+ 
+ 	} else if (rq_data_dir(rq) == READ) {
+ 		SCpnt->cmnd[0] = READ_6;
+@@ -2047,8 +2047,10 @@ static int sd_done(struct scsi_cmnd *SCpnt)
+ 					   "sd_done: completed %d of %d bytes\n",
+ 					   good_bytes, scsi_bufflen(SCpnt)));
+ 
+-	if (rq_data_dir(SCpnt->request) == READ && scsi_prot_sg_count(SCpnt))
+-		sd_dif_complete(SCpnt, good_bytes);
++	if (rq_data_dir(SCpnt->request) == READ && scsi_prot_sg_count(SCpnt) &&
++	    good_bytes)
++		t10_pi_complete(SCpnt->request, sdkp->protection_type,
++				good_bytes / scsi_prot_interval(SCpnt));
+ 
+ 	return good_bytes;
+ }
+diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
+index 392c7d0..a7d4f50 100644
+--- a/drivers/scsi/sd.h
++++ b/drivers/scsi/sd.h
+@@ -254,21 +254,12 @@ static inline unsigned int sd_prot_flag_mask(unsigned int prot_op)
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ 
+ extern void sd_dif_config_host(struct scsi_disk *);
+-extern void sd_dif_prepare(struct scsi_cmnd *scmd);
+-extern void sd_dif_complete(struct scsi_cmnd *, unsigned int);
+ 
+ #else /* CONFIG_BLK_DEV_INTEGRITY */
+ 
+ static inline void sd_dif_config_host(struct scsi_disk *disk)
+ {
+ }
+-static inline int sd_dif_prepare(struct scsi_cmnd *scmd)
+-{
+-	return 0;
+-}
+-static inline void sd_dif_complete(struct scsi_cmnd *cmd, unsigned int a)
+-{
+-}
+ 
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 
 diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
-index 9035380..d8de43d 100644
+index d8de43d..db72c82 100644
 --- a/drivers/scsi/sd_dif.c
 +++ b/drivers/scsi/sd_dif.c
-@@ -124,7 +124,7 @@ void sd_dif_prepare(struct scsi_cmnd *scmd)
- 	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION)
- 		return;
- 
--	phys = scsi_prot_ref_tag(scmd);
-+	phys = t10_pi_ref_tag(scmd->request);
- 
- 	__rq_for_each_bio(bio, scmd->request) {
- 		struct bio_integrity_payload *bip = bio_integrity(bio);
-@@ -176,7 +176,7 @@ void sd_dif_complete(struct scsi_cmnd *scmd, unsigned int good_bytes)
- 		return;
- 
- 	intervals = good_bytes / scsi_prot_interval(scmd);
--	phys = scsi_prot_ref_tag(scmd);
-+	phys = t10_pi_ref_tag(scmd->request);
- 
- 	__rq_for_each_bio(bio, scmd->request) {
- 		struct bio_integrity_payload *bip = bio_integrity(bio);
-diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
-index c6aa8a3..635855e 100644
---- a/include/linux/t10-pi.h
-+++ b/include/linux/t10-pi.h
-@@ -37,6 +37,12 @@ struct t10_pi_tuple {
- #define T10_PI_APP_ESCAPE cpu_to_be16(0xffff)
- #define T10_PI_REF_ESCAPE cpu_to_be32(0xffffffff)
- 
-+static inline u32 t10_pi_ref_tag(struct request *rq)
-+{
-+	return blk_rq_pos(rq) >>
-+		(rq->q->integrity.interval_exp - 9) & 0xffffffff;
-+}
-+
- extern const struct blk_integrity_profile t10_pi_type1_crc;
- extern const struct blk_integrity_profile t10_pi_type1_ip;
- extern const struct blk_integrity_profile t10_pi_type3_crc;
-diff --git a/include/scsi/scsi_cmnd.h b/include/scsi/scsi_cmnd.h
-index aaf1e97..cae229b 100644
---- a/include/scsi/scsi_cmnd.h
-+++ b/include/scsi/scsi_cmnd.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/dma-mapping.h>
- #include <linux/blkdev.h>
-+#include <linux/t10-pi.h>
- #include <linux/list.h>
- #include <linux/types.h>
- #include <linux/timer.h>
-@@ -313,12 +314,6 @@ static inline unsigned int scsi_prot_interval(struct scsi_cmnd *scmd)
- 	return scmd->device->sector_size;
+@@ -95,116 +95,3 @@ void sd_dif_config_host(struct scsi_disk *sdkp)
+ 	blk_integrity_register(disk, &bi);
  }
  
--static inline u32 scsi_prot_ref_tag(struct scsi_cmnd *scmd)
+-/*
+- * The virtual start sector is the one that was originally submitted
+- * by the block layer.	Due to partitioning, MD/DM cloning, etc. the
+- * actual physical start sector is likely to be different.  Remap
+- * protection information to match the physical LBA.
+- *
+- * From a protocol perspective there's a slight difference between
+- * Type 1 and 2.  The latter uses 32-byte CDBs exclusively, and the
+- * reference tag is seeded in the CDB.  This gives us the potential to
+- * avoid virt->phys remapping during write.  However, at read time we
+- * don't know whether the virt sector is the same as when we wrote it
+- * (we could be reading from real disk as opposed to MD/DM device.  So
+- * we always remap Type 2 making it identical to Type 1.
+- *
+- * Type 3 does not have a reference tag so no remapping is required.
+- */
+-void sd_dif_prepare(struct scsi_cmnd *scmd)
 -{
--	return blk_rq_pos(scmd->request) >>
--		(ilog2(scsi_prot_interval(scmd)) - 9) & 0xffffffff;
+-	const int tuple_sz = sizeof(struct t10_pi_tuple);
+-	struct bio *bio;
+-	struct scsi_disk *sdkp;
+-	struct t10_pi_tuple *pi;
+-	u32 phys, virt;
+-
+-	sdkp = scsi_disk(scmd->request->rq_disk);
+-
+-	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION)
+-		return;
+-
+-	phys = t10_pi_ref_tag(scmd->request);
+-
+-	__rq_for_each_bio(bio, scmd->request) {
+-		struct bio_integrity_payload *bip = bio_integrity(bio);
+-		struct bio_vec iv;
+-		struct bvec_iter iter;
+-		unsigned int j;
+-
+-		/* Already remapped? */
+-		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
+-			break;
+-
+-		virt = bip_get_seed(bip) & 0xffffffff;
+-
+-		bip_for_each_vec(iv, bip, iter) {
+-			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
+-
+-			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
+-
+-				if (be32_to_cpu(pi->ref_tag) == virt)
+-					pi->ref_tag = cpu_to_be32(phys);
+-
+-				virt++;
+-				phys++;
+-			}
+-
+-			kunmap_atomic(pi);
+-		}
+-
+-		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
+-	}
 -}
 -
- static inline unsigned scsi_prot_sg_count(struct scsi_cmnd *cmd)
- {
- 	return cmd->prot_sdb ? cmd->prot_sdb->table.nents : 0;
+-/*
+- * Remap physical sector values in the reference tag to the virtual
+- * values expected by the block layer.
+- */
+-void sd_dif_complete(struct scsi_cmnd *scmd, unsigned int good_bytes)
+-{
+-	const int tuple_sz = sizeof(struct t10_pi_tuple);
+-	struct scsi_disk *sdkp;
+-	struct bio *bio;
+-	struct t10_pi_tuple *pi;
+-	unsigned int j, intervals;
+-	u32 phys, virt;
+-
+-	sdkp = scsi_disk(scmd->request->rq_disk);
+-
+-	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION || good_bytes == 0)
+-		return;
+-
+-	intervals = good_bytes / scsi_prot_interval(scmd);
+-	phys = t10_pi_ref_tag(scmd->request);
+-
+-	__rq_for_each_bio(bio, scmd->request) {
+-		struct bio_integrity_payload *bip = bio_integrity(bio);
+-		struct bio_vec iv;
+-		struct bvec_iter iter;
+-
+-		virt = bip_get_seed(bip) & 0xffffffff;
+-
+-		bip_for_each_vec(iv, bip, iter) {
+-			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
+-
+-			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
+-
+-				if (intervals == 0) {
+-					kunmap_atomic(pi);
+-					return;
+-				}
+-
+-				if (be32_to_cpu(pi->ref_tag) == phys)
+-					pi->ref_tag = cpu_to_be32(virt);
+-
+-				virt++;
+-				phys++;
+-				intervals--;
+-			}
+-
+-			kunmap_atomic(pi);
+-		}
+-	}
+-}
+-
+diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
+index 635855e..81ae4c4 100644
+--- a/include/linux/t10-pi.h
++++ b/include/linux/t10-pi.h
+@@ -47,5 +47,8 @@ static inline u32 t10_pi_ref_tag(struct request *rq)
+ extern const struct blk_integrity_profile t10_pi_type1_ip;
+ extern const struct blk_integrity_profile t10_pi_type3_crc;
+ extern const struct blk_integrity_profile t10_pi_type3_ip;
++extern void t10_pi_prepare(struct request *rq, u8 protection_type);
++extern void t10_pi_complete(struct request *rq, u8 protection_type,
++			    unsigned int intervals);
+ 
+ #endif
 -- 
 1.8.3.1
