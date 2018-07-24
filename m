@@ -1,76 +1,45 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 25 Jul 2018 01:32:32 +0300
-Subject: [PATCH 2/3] block: move dif_prepare/dif_complete functions to
- block layer
-In-Reply-To: <20180724203323.GA13926@localhost.localdomain>
-References: <1532439222-5668-1-git-send-email-maxg@mellanox.com>
- <1532439222-5668-2-git-send-email-maxg@mellanox.com>
- <20180724203323.GA13926@localhost.localdomain>
-Message-ID: <cb6d5265-b20c-c1db-f678-8e4613039ea5@mellanox.com>
+From: bart.vanassche@wdc.com (Bart Van Assche)
+Date: Tue, 24 Jul 2018 15:46:17 -0700
+Subject: [PATCHv2 2/2] scsi: set timed out out mq requests to complete
+In-Reply-To: <20180723143751.10843-2-keith.busch@intel.com>
+References: <20180723143751.10843-1-keith.busch@intel.com>
+ <20180723143751.10843-2-keith.busch@intel.com>
+Message-ID: <86e23e58-6f80-7957-30f7-8b0ce8cb50ce@wdc.com>
 
+On 07/23/18 07:37, Keith Busch wrote:
+> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
+> index 8932ae81a15a..2715cdaa669c 100644
+> --- a/drivers/scsi/scsi_error.c
+> +++ b/drivers/scsi/scsi_error.c
+> @@ -296,6 +296,20 @@ enum blk_eh_timer_return scsi_times_out(struct request *req)
+>   		rtn = host->hostt->eh_timed_out(scmd);
+>   
+>   	if (rtn == BLK_EH_DONE) {
+> +		/*
+> +		 * For blk-mq, we must set the request state to complete now
+> +		 * before sending the request to the scsi error handler. This
+> +		 * will prevent a use-after-free in the event the LLD manages
+> +		 * to complete the request before the error handler finishes
+> +		 * processing this timed out request.
+> +		 *
+> +		 * If the request was already completed, then the LLD beat the
+> +		 * time out handler from transferring the request to the scsi
+> +		 * error handler. In that case we can return immediately as no
+> +		 * further action is required.
+> +		 */
+> +		if (req->q->mq_ops && !blk_mq_mark_complete(req))
+> +			return rtn;
+>   		if (scsi_abort_command(scmd) != SUCCESS) {
+>   			set_host_byte(scmd, DID_TIME_OUT);
+>   			scsi_eh_scmd_add(scmd);
 
+This change looks incomplete to me. I think the following scenario is 
+not handled properly by the above patch:
+- host->hostt->eh_timed_out() gets called.
+- The request "req" completes from another context while
+   host->hostt->eh_timed_out() is in progress.
+- host->hostt->eh_timed_out() calls scsi_finish_command().
 
-On 7/24/2018 11:33 PM, Keith Busch wrote:
-> On Tue, Jul 24, 2018@04:33:41PM +0300, Max Gurtovoy wrote:
->> +void t10_pi_prepare(struct request *rq, u8 protection_type)
->> +{
->> +	const int tuple_sz = rq->q->integrity.tuple_size;
->> +	u32 ref_tag = t10_pi_ref_tag(rq);
->> +	struct bio *bio;
->> +
->> +	if (protection_type == T10_PI_TYPE3_PROTECTION)
->> +		return;
->> +
->> +	__rq_for_each_bio(bio, rq) {
->> +		struct bio_integrity_payload *bip = bio_integrity(bio);
->> +		u32 virt = bip_get_seed(bip) & 0xffffffff;
->> +		struct bio_vec iv;
->> +		struct bvec_iter iter;
->> +
->> +		/* Already remapped? */
->> +		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
->> +			break;
->> +
->> +		bip_for_each_vec(iv, bip, iter) {
->> +			struct t10_pi_tuple *pi = kmap_atomic(iv.bv_page) +
->> +						iv.bv_offset;
->> +			unsigned int j;
->> +
->> +			for (j = 0; j < iv.bv_len; j += tuple_sz) {
->> +				if (be32_to_cpu(pi->ref_tag) == virt)
->> +					pi->ref_tag = cpu_to_be32(ref_tag);
->> +				virt++;
->> +				ref_tag++;
->> +				pi += tuple_sz;
->> +			}
->> +
->> +			kunmap_atomic(pi);
->> +		}
-> 
-> Since you're incrementing 'pi', you end up unmapping an address that
-> you didn't map. It does appears harmless in current kunmap_atomic()
-> implementation, though.
+I think that scenario will lead to a double completion.
 
-ohh, good catch. This code is taken from the scsi remap, but I guess 
-it's time to fix some stuff while we doing this patchset.
-I'll use another variable pi_map that will be unmapped.
-
-in the nvme code:
-
-pmap = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
-
-...
-but
-
-kunmap_atomic(pmap);
-
-should we unmap the same bv_page we mapped (without the offset) ?
-
-> 
-> You are also incrementing 'pi' by too many bytes since it is of type
-> struct t10_pi_tuple. The nvme driver used void* to make the pointer
-> arithmentic easier.
-> 
-
-I'' use void*.
-Thanks
+Bart.
