@@ -1,54 +1,33 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 24 Jul 2018 13:50:00 +0200
-Subject: draft ANA support v5
-Message-ID: <20180724115009.731-1-hch@lst.de>
+Date: Tue, 24 Jul 2018 13:50:01 +0200
+Subject: [PATCH 1/9] nvme.h: add support for the log specific field
+In-Reply-To: <20180724115009.731-1-hch@lst.de>
+References: <20180724115009.731-1-hch@lst.de>
+Message-ID: <20180724115009.731-2-hch@lst.de>
 
-I think we are about ready to merge now, so please review carefully.
+NVMe 1.3 added a new log specific field to the get log page CQ
+defintion, add it to our get_log_page SQ structure.
 
-A git tree is available at:
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ include/linux/nvme.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    git://git.infradead.org/users/hch/block.git nvme-ana
-
-Gitweb:
-
-    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
-
-Changes since v4:
- - fix a crash in __nvme_find_path for non-optimized paths (Hannes Reinecke)
- - fix lockdep annotation in nvme_mpath_set_live (Chaitanya Kulkarni)
- - rely on the ANA AEN OAES bit again, per draft of TP4004a
-
-Changes since v3:
- - keep the ana state in struct nvme_ns
- - don't update the internal ana state based on status codes
- - add a ANATT timer (based on code from Hannes Reinecke)
- - fix ANA AEN detection, which is missing a OAES bit currently
- - make more code conditional on CONFIG_NVME_MULTIPATH
- - optimize delayed adding of ns_head gendisks
- - only kick of a requeue when setting groups live
- - only send AENs on controllers of a port where the group state changes
- - a few cleanups to the build-in default group
- - fix a use after free in nvme_failover_req (Hannes Reinecke)
-
-Changes since v2:
- - support changing the state for the default ANA group
- - drop ANATT configuration again
- - delay gendisk registration until we have an I/O capable path
- - remove nvme_req_needs_failover and the SCT=3 handling in it,
-   we actually do the right thing without it
- - refactor the get log page helpers
-
-Changes since v1:
- - fix the check for SCT = 3
- - fix the check for immutable ANAGRPID
- - disable ANA if the ANA log can't be transferred in a single chunk
- - enable the ANA AEN explicitly
- - don't zero buffers that don't get copied to the SGL
- - use READ_ONCE/WRITE_ONCE for the ana_state fields
- - update ANA state on completion with an ANA status code
- - improve commit logs
- - add proper AEN enable and masking conditionals
- - fix the numeric value for the change state
- - fixed a memory leak (Hannes Reinecke)
- - fix reporting of NUSE (based on a patch from Hannes Reinecke)
- - make ANATT configurable
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 80dfedcf0bf7..39f05b0b8c7f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -885,7 +885,7 @@ struct nvme_get_log_page_command {
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+ 	__u8			lid;
+-	__u8			rsvd10;
++	__u8			lsp; /* upper 4 bits reserved */
+ 	__le16			numdl;
+ 	__le16			numdu;
+ 	__u16			rsvd11;
+-- 
+2.18.0
