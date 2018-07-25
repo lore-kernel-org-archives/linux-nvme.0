@@ -1,76 +1,29 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 25 Jul 2018 08:28:40 +0200
-Subject: [PATCH 5/5] zram: use device_add_disk_with_groups()
-In-Reply-To: <20180725062840.94114-1-hare@suse.de>
-References: <20180725062840.94114-1-hare@suse.de>
-Message-ID: <20180725062840.94114-6-hare@suse.de>
+Date: Wed, 25 Jul 2018 08:34:45 +0200
+Subject: [PATCH] nvmet: only check for filebacking on -ENOTBLK
+Message-ID: <20180725063445.94447-1-hare@suse.de>
 
-Use device_add_disk_with_groups() to avoid a race condition with
-udev during startup.
+We only need to check for a file-backed namespace if
+nvmet_bdev_ns_enable() returns -ENOTBLK. For any other error
+it's pointless as the open() error will remain the same.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/block/zram/zram_drv.c | 28 +++++++---------------------
- 1 file changed, 7 insertions(+), 21 deletions(-)
+ drivers/nvme/target/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index da51293e7c03..6f55676e2164 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1619,6 +1619,11 @@ static const struct attribute_group zram_disk_attr_group = {
- 	.attrs = zram_disk_attrs,
- };
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index ddd85715a00a..a216d7eb1050 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -344,7 +344,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 		goto out_unlock;
  
-+static const struct attribute_group *zram_disk_attr_groups[] = {
-+	&zram_disk_attr_group,
-+	NULL,
-+};
-+
- /*
-  * Allocate and initialize new zram device. the function returns
-  * '>= 0' device_id upon success, and negative value otherwise.
-@@ -1699,24 +1704,14 @@ static int zram_add(void)
- 
- 	zram->disk->queue->backing_dev_info->capabilities |=
- 			(BDI_CAP_STABLE_WRITES | BDI_CAP_SYNCHRONOUS_IO);
--	add_disk(zram->disk);
--
--	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
--				&zram_disk_attr_group);
--	if (ret < 0) {
--		pr_err("Error creating sysfs group for device %d\n",
--				device_id);
--		goto out_free_disk;
--	}
-+	device_add_disk_with_groups(NULL, zram->disk, zram_disk_attr_groups);
-+
- 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
- 
- 	zram_debugfs_register(zram);
- 	pr_info("Added device: %s\n", zram->disk->disk_name);
- 	return device_id;
- 
--out_free_disk:
--	del_gendisk(zram->disk);
--	put_disk(zram->disk);
- out_free_queue:
- 	blk_cleanup_queue(queue);
- out_free_idr:
-@@ -1745,15 +1740,6 @@ static int zram_remove(struct zram *zram)
- 	mutex_unlock(&bdev->bd_mutex);
- 
- 	zram_debugfs_unregister(zram);
--	/*
--	 * Remove sysfs first, so no one will perform a disksize
--	 * store while we destroy the devices. This also helps during
--	 * hot_remove -- zram_reset_device() is the last holder of
--	 * ->init_lock, no later/concurrent disksize_store() or any
--	 * other sysfs handlers are possible.
--	 */
--	sysfs_remove_group(&disk_to_dev(zram->disk)->kobj,
--			&zram_disk_attr_group);
- 
- 	/* Make sure all the pending I/O are finished */
- 	fsync_bdev(bdev);
+ 	ret = nvmet_bdev_ns_enable(ns);
+-	if (ret)
++	if (ret == -ENOTBLK)
+ 		ret = nvmet_file_ns_enable(ns);
+ 	if (ret)
+ 		goto out_unlock;
 -- 
 2.12.3
