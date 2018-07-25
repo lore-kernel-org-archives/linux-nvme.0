@@ -1,72 +1,37 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 25 Jul 2018 08:28:36 +0200
-Subject: [PATCH 1/5] genhd: drop 'bool' argument from __device_add_disk()
-In-Reply-To: <20180725062840.94114-1-hare@suse.de>
-References: <20180725062840.94114-1-hare@suse.de>
-Message-ID: <20180725062840.94114-2-hare@suse.de>
+Date: Wed, 25 Jul 2018 08:28:35 +0200
+Subject: [PATCH 0/5] genhd: implement device_add_disk_with_groups()
+Message-ID: <20180725062840.94114-1-hare@suse.de>
 
-Split off the last part of __device_add_disk() into __device_get_disk().
-With that we can drop the 'bool' argument and streamline the function.
+When creating a block device some drivers need to create additional sysfs
+groups to store driver-specific informations.
+With the current workflow of adding these groups with a separate call to
+sysfs after the device has been created we are introducing a race with udev,
+as the uevent is generated before the sysfs attributes are created, and udev
+fails to read the required information.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- block/genhd.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+This patchset adds a new function 'device_add_disk_with_groups()' and converts
+the obvious candidates to use this new function.
 
-diff --git a/block/genhd.c b/block/genhd.c
-index f1543a45e73b..cfa7f4f78435 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -647,15 +647,13 @@ static void register_disk(struct device *parent, struct gendisk *disk)
-  * __device_add_disk - add disk information to kernel list
-  * @parent: parent device for the disk
-  * @disk: per-device partitioning information
-- * @register_queue: register the queue if set to true
-  *
-  * This function registers the partitioning information in @disk
-  * with the kernel.
-  *
-  * FIXME: error handling
-  */
--static void __device_add_disk(struct device *parent, struct gendisk *disk,
--			      bool register_queue)
-+static void __device_add_disk(struct device *parent, struct gendisk *disk)
- {
- 	dev_t devt;
- 	int retval;
-@@ -699,9 +697,10 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
- 				    exact_match, exact_lock, disk);
- 	}
- 	register_disk(parent, disk);
--	if (register_queue)
--		blk_register_queue(disk);
-+}
- 
-+void __device_get_disk(struct gendisk *disk)
-+{
- 	/*
- 	 * Take an extra ref on queue which will be put on disk_release()
- 	 * so that it sticks around as long as @disk is there.
-@@ -714,13 +713,18 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
- 
- void device_add_disk(struct device *parent, struct gendisk *disk)
- {
--	__device_add_disk(parent, disk, true);
-+	__device_add_disk(parent, disk);
-+
-+	blk_register_queue(disk);
-+
-+	__device_get_disk(disk);
- }
- EXPORT_SYMBOL(device_add_disk);
- 
- void device_add_disk_no_queue_reg(struct device *parent, struct gendisk *disk)
- {
--	__device_add_disk(parent, disk, false);
-+	__device_add_disk(parent, disk);
-+	__device_get_disk(disk);
- }
- EXPORT_SYMBOL(device_add_disk_no_queue_reg);
- 
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (5):
+  genhd: drop 'bool' argument from __device_add_disk()
+  block: genhd: add device_add_disk_with_groups
+  nvme: register ns_id attributes as default sysfs groups
+  aoe: use device_add_disk_with_groups()
+  zram: use device_add_disk_with_groups()
+
+ block/genhd.c                 | 38 ++++++++++++++++++++++++++++++--------
+ drivers/block/aoe/aoe.h       |  1 -
+ drivers/block/aoe/aoeblk.c    | 21 +++++++--------------
+ drivers/block/aoe/aoedev.c    |  1 -
+ drivers/block/zram/zram_drv.c | 28 +++++++---------------------
+ drivers/nvme/host/core.c      | 14 +++++++-------
+ drivers/nvme/host/multipath.c | 12 +++---------
+ drivers/nvme/host/nvme.h      |  2 +-
+ include/linux/genhd.h         |  3 +++
+ 9 files changed, 58 insertions(+), 62 deletions(-)
+
 -- 
 2.12.3
