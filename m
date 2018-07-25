@@ -1,30 +1,128 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Wed, 25 Jul 2018 10:27:30 +0200
-Subject: [PATCH 2/5] block: genhd: add device_add_disk_with_groups
-In-Reply-To: <20180725074613.GB13812@lst.de>
-References: <20180725062840.94114-1-hare@suse.de>
- <20180725062840.94114-3-hare@suse.de> <20180725074613.GB13812@lst.de>
-Message-ID: <4ee5b2d92f6044f87e3c369c5f456ca0a14682e3.camel@suse.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 25 Jul 2018 11:46:59 +0300
+Subject: [PATCH v3 1/3] block: move ref_tag calculation func to the block layer
+Message-ID: <1532508421-2711-1-git-send-email-maxg@mellanox.com>
 
-On Wed, 2018-07-25@09:46 +0200, Christoph Hellwig wrote:
-> On Wed, Jul 25, 2018@08:28:37AM +0200, Hannes Reinecke wrote:
-> > Update __device_add_disk() to take an 'groups' argument so that
-> > individual drivers can register a device with additional sysfs
-> > attributes.
-> > This avoids race condition the driver would otherwise have if these
-> > groups need to be created with sysfs_add_groups().
-> > 
-> > Signed-off-by: Martin Wilck <martin.wilck at suse.com>
-> > Signed-off-by: Hannes Reinecke <hare at suse.com>
-> 
-> This should be From: Martin, shouldn't it?
+Currently this function is implemented in the scsi layer, but it's
+actual place should be the block layer since T10-PI is a general
+data integrity feature that is used in the nvme protocol as well.
 
-I'm fine with From: Hannes here. I'll be mostly offline in the next few
-weeks.
+Suggested-by: Christoph Hellwig <hch at lst.de>
+Cc: Jens Axboe <axboe at kernel.dk>
+Cc: Martin K. Petersen <martin.petersen at oracle.com>
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/infiniband/ulp/iser/iser_memory.c | 2 +-
+ drivers/nvme/host/core.c                  | 3 +--
+ drivers/scsi/mpt3sas/mpt3sas_scsih.c      | 2 +-
+ drivers/scsi/sd_dif.c                     | 4 ++--
+ include/linux/t10-pi.h                    | 6 ++++++
+ include/scsi/scsi_cmnd.h                  | 7 +------
+ 6 files changed, 12 insertions(+), 12 deletions(-)
 
-Martin
-
+diff --git a/drivers/infiniband/ulp/iser/iser_memory.c b/drivers/infiniband/ulp/iser/iser_memory.c
+index ca844a9..130bf16 100644
+--- a/drivers/infiniband/ulp/iser/iser_memory.c
++++ b/drivers/infiniband/ulp/iser/iser_memory.c
+@@ -311,7 +311,7 @@ void iser_unreg_mem_fastreg(struct iscsi_iser_task *iser_task,
+ {
+ 	domain->sig_type = IB_SIG_TYPE_T10_DIF;
+ 	domain->sig.dif.pi_interval = scsi_prot_interval(sc);
+-	domain->sig.dif.ref_tag = scsi_prot_ref_tag(sc);
++	domain->sig.dif.ref_tag = t10_pi_ref_tag(sc->request);
+ 	/*
+ 	 * At the moment we hard code those, but in the future
+ 	 * we will take them from sc.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bf65501..191177b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -627,8 +627,7 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+ 		case NVME_NS_DPS_PI_TYPE2:
+ 			control |= NVME_RW_PRINFO_PRCHK_GUARD |
+ 					NVME_RW_PRINFO_PRCHK_REF;
+-			cmnd->rw.reftag = cpu_to_le32(
+-					nvme_block_nr(ns, blk_rq_pos(req)));
++			cmnd->rw.reftag = cpu_to_le32(t10_pi_ref_tag(req));
+ 			break;
+ 		}
+ 	}
+diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+index b8d131a..dd738ae 100644
+--- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
++++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
+@@ -4568,7 +4568,7 @@ static int _scsih_set_satl_pending(struct scsi_cmnd *scmd, bool pending)
+ 		    MPI2_SCSIIO_EEDPFLAGS_CHECK_REFTAG |
+ 		    MPI2_SCSIIO_EEDPFLAGS_CHECK_GUARD;
+ 		mpi_request->CDB.EEDP32.PrimaryReferenceTag =
+-		    cpu_to_be32(scsi_prot_ref_tag(scmd));
++		    cpu_to_be32(t10_pi_ref_tag(scmd->request));
+ 		break;
+ 
+ 	case SCSI_PROT_DIF_TYPE3:
+diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
+index 9035380..d8de43d 100644
+--- a/drivers/scsi/sd_dif.c
++++ b/drivers/scsi/sd_dif.c
+@@ -124,7 +124,7 @@ void sd_dif_prepare(struct scsi_cmnd *scmd)
+ 	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION)
+ 		return;
+ 
+-	phys = scsi_prot_ref_tag(scmd);
++	phys = t10_pi_ref_tag(scmd->request);
+ 
+ 	__rq_for_each_bio(bio, scmd->request) {
+ 		struct bio_integrity_payload *bip = bio_integrity(bio);
+@@ -176,7 +176,7 @@ void sd_dif_complete(struct scsi_cmnd *scmd, unsigned int good_bytes)
+ 		return;
+ 
+ 	intervals = good_bytes / scsi_prot_interval(scmd);
+-	phys = scsi_prot_ref_tag(scmd);
++	phys = t10_pi_ref_tag(scmd->request);
+ 
+ 	__rq_for_each_bio(bio, scmd->request) {
+ 		struct bio_integrity_payload *bip = bio_integrity(bio);
+diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
+index c6aa8a3..635855e 100644
+--- a/include/linux/t10-pi.h
++++ b/include/linux/t10-pi.h
+@@ -37,6 +37,12 @@ struct t10_pi_tuple {
+ #define T10_PI_APP_ESCAPE cpu_to_be16(0xffff)
+ #define T10_PI_REF_ESCAPE cpu_to_be32(0xffffffff)
+ 
++static inline u32 t10_pi_ref_tag(struct request *rq)
++{
++	return blk_rq_pos(rq) >>
++		(rq->q->integrity.interval_exp - 9) & 0xffffffff;
++}
++
+ extern const struct blk_integrity_profile t10_pi_type1_crc;
+ extern const struct blk_integrity_profile t10_pi_type1_ip;
+ extern const struct blk_integrity_profile t10_pi_type3_crc;
+diff --git a/include/scsi/scsi_cmnd.h b/include/scsi/scsi_cmnd.h
+index aaf1e97..cae229b 100644
+--- a/include/scsi/scsi_cmnd.h
++++ b/include/scsi/scsi_cmnd.h
+@@ -4,6 +4,7 @@
+ 
+ #include <linux/dma-mapping.h>
+ #include <linux/blkdev.h>
++#include <linux/t10-pi.h>
+ #include <linux/list.h>
+ #include <linux/types.h>
+ #include <linux/timer.h>
+@@ -313,12 +314,6 @@ static inline unsigned int scsi_prot_interval(struct scsi_cmnd *scmd)
+ 	return scmd->device->sector_size;
+ }
+ 
+-static inline u32 scsi_prot_ref_tag(struct scsi_cmnd *scmd)
+-{
+-	return blk_rq_pos(scmd->request) >>
+-		(ilog2(scsi_prot_interval(scmd)) - 9) & 0xffffffff;
+-}
+-
+ static inline unsigned scsi_prot_sg_count(struct scsi_cmnd *cmd)
+ {
+ 	return cmd->prot_sdb ? cmd->prot_sdb->table.nents : 0;
 -- 
-Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
-SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
+1.8.3.1
