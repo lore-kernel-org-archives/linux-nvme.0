@@ -1,64 +1,44 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 25 Jul 2018 07:31:40 +0000
-Subject: [PATCH] nvmet: fixup crash on NULL device path
-In-Reply-To: <20180725063517.94515-1-hare@suse.de>
-References: <20180725063517.94515-1-hare@suse.de>
-Message-ID: <BYAPR04MB45029D645E61E4533C76D81E86540@BYAPR04MB4502.namprd04.prod.outlook.com>
+Date: Wed, 25 Jul 2018 07:35:45 +0000
+Subject: [PATCH] nvmet: only check for filebacking on -ENOTBLK
+In-Reply-To: <20180725063445.94447-1-hare@suse.de>
+References: <20180725063445.94447-1-hare@suse.de>
+Message-ID: <BYAPR04MB4502353B18234D2C7BB03DC286540@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-
-Looks good.
+Thanks, looks good.
 
 Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
+
 From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> on behalf of Hannes Reinecke <hare@suse.de>
-Sent: Tuesday, July 24, 2018 11:35 PM
+Sent: Tuesday, July 24, 2018 11:34 PM
 To: Christoph Hellwig
 Cc: Keith Busch; Hannes Reinecke; Sagi Grimberg; linux-nvme at lists.infradead.org; Hannes Reinecke
-Subject: [PATCH] nvmet: fixup crash on NULL device path
+Subject: [PATCH] nvmet: only check for filebacking on -ENOTBLK
 ? 
  
-When writing an empty string into the device_path attribute the kernel
-will crash with
-
-nvmet: failed to open block device (null): (-22)
-BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
-
-This patch sanitizes the error handling for invalid device path settings.
+We only need to check for a file-backed namespace if
+nvmet_bdev_ns_enable() returns -ENOTBLK. For any other error
+it's pointless as the open() error will remain the same.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
-?drivers/nvme/target/configfs.c | 9 +++++++--
-?1 file changed, 7 insertions(+), 2 deletions(-)
+?drivers/nvme/target/core.c | 2 +-
+?1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 3ba5ea5c4376..b41db23260de 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -311,6 +311,7 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
-?{
-???????? struct nvmet_ns *ns = to_nvmet_ns(item);
-???????? struct nvmet_subsys *subsys = ns->subsys;
-+?????? size_t len;
-???????? int ret;
-?
-???????? mutex_lock(&subsys->lock);
-@@ -318,10 +319,14 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
-???????? if (ns->enabled)
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index ddd85715a00a..a216d7eb1050 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -344,7 +344,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
 ???????????????? goto out_unlock;
 ?
--?????? kfree(ns->device_path);
-+?????? ret = -EINVAL;
-+?????? len = strcspn(page, "\n");
-+?????? if (!len)
-+?????????????? goto out_unlock;
-?
-+?????? kfree(ns->device_path);
-???????? ret = -ENOMEM;
--?????? ns->device_path = kstrndup(page, strcspn(page, "\n"), GFP_KERNEL);
-+?????? ns->device_path = kstrndup(page, len, GFP_KERNEL);
-???????? if (!ns->device_path)
+???????? ret = nvmet_bdev_ns_enable(ns);
+-?????? if (ret)
++?????? if (ret == -ENOTBLK)
+???????????????? ret = nvmet_file_ns_enable(ns);
+???????? if (ret)
 ???????????????? goto out_unlock;
-?
 -- 
 2.12.3
 
@@ -67,4 +47,10 @@ _______________________________________________
 Linux-nvme mailing list
 Linux-nvme at lists.infradead.org
 http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+
+Linux-nvme Info Page - lists.infradead.org
+lists.infradead.org
+To see the collection of prior postings to the list, visit the Linux-nvme Archives.. Using Linux-nvme: To post a message to all the list members, send email to linux-nvme at lists.infradead.org.
+
     
