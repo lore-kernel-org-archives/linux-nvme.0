@@ -1,19 +1,28 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 25 Jul 2018 11:58:53 -0600
-Subject: [PATCH v4 3/3] nvme: use blk API to remap ref tags for IOs with
- metadata
-In-Reply-To: <1532533577-1600-3-git-send-email-maxg@mellanox.com>
-References: <1532533577-1600-1-git-send-email-maxg@mellanox.com>
- <1532533577-1600-3-git-send-email-maxg@mellanox.com>
-Message-ID: <20180725175853.GB16208@localhost.localdomain>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 25 Jul 2018 11:06:56 -0700
+Subject: [GIT PULL] first round of nvme updates for 4.19
+In-Reply-To: <20180725110835.GA1674@infradead.org>
+References: <20180725110835.GA1674@infradead.org>
+Message-ID: <3fea3397-3ec6-9187-2a03-195c88b754a1@kernel.dk>
 
-On Wed, Jul 25, 2018@06:46:17PM +0300, Max Gurtovoy wrote:
-> Also moved the logic of the remapping to the nvme core driver instead
-> of implementing it in the nvme pci driver. This way all the other nvme
-> transport drivers will benefit from it (in case they'll implement metadata
-> support).
+On 7/25/18 4:08 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> below is the first batch of NVMe updates for Linux 4.19.
+> 
+> Highlights:
+> 
+>  - massively improved tracepoints (Keith Busch)
+>  - support for larger inline data in the RDMA host and target
+>    (Steve Wise)
+>  - RDMA setup/teardown path fixes and refactor (Sagi Grimberg)
+>  - Command Supported and Effects log support for the NVMe target
+>    (Chaitanya Kulkarni)
+>  - buffered I/O support for the NVMe target (Chaitanya Kulkarni)
+> 
+> plus the usual set of cleanups and small enhancements.
 
-I'm afraid I won't be able to test any of this in the near future, but
-the code looks good to me!
+Pulled, thanks.
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+-- 
+Jens Axboe
