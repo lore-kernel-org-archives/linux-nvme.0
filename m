@@ -1,11 +1,25 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Wed, 25 Jul 2018 12:17:12 -0700
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 25 Jul 2018 19:27:35 +0000
 Subject: [PATCH 0/2] blktests: test ANA base support
-In-Reply-To: <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
+In-Reply-To: <20180725191712.GA16847@vader>
 References: <20180717133118.39026-1-hare@suse.de>
- <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <20180725191712.GA16847@vader>
+ <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>,
+ <20180725191712.GA16847@vader>
+Message-ID: <BYAPR04MB4502890F18B77778B8EF6E5686540@BYAPR04MB4502.namprd04.prod.outlook.com>
 
+
+Thanks, Omar.
+
+
+
+
+From: Omar Sandoval <osandov@osandov.com>
+Sent: Wednesday, July 25, 2018 12:17 PM
+To: Chaitanya Kulkarni
+Cc: Hannes Reinecke; Omar Sandoval; Christoph Hellwig; Sagi Grimberg; Keith Busch; linux-nvme at lists.infradead.org; linux-block at vger.kernel.org
+Subject: Re: [PATCH 0/2] blktests: test ANA base support
+? 
+ 
 On Sat, Jul 21, 2018@09:23:32PM +0000, Chaitanya Kulkarni wrote:
 > Hi Hannes,
 > 
@@ -27,7 +41,7 @@ No need to worry about the numbering, I can trivially renumber it here.
 > Cc: Christoph Hellwig; Sagi Grimberg; Keith Busch; linux-nvme at lists.infradead.org; linux-block at vger.kernel.org; Hannes Reinecke
 > Subject: [PATCH 0/2] blktests: test ANA base support
 > ? 
->  
+>? 
 > Hi all,
 > 
 > here's a small patchset for testing ANA base support.
@@ -48,4 +62,5 @@ No need to worry about the numbering, I can trivially renumber it here.
 > -- 
 > 2.12.3
 > 
->     
+>???? 
+    
