@@ -1,102 +1,76 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 25 Jul 2018 08:28:38 +0200
-Subject: [PATCH 3/5] nvme: register ns_id attributes as default sysfs groups
+Date: Wed, 25 Jul 2018 08:28:40 +0200
+Subject: [PATCH 5/5] zram: use device_add_disk_with_groups()
 In-Reply-To: <20180725062840.94114-1-hare@suse.de>
 References: <20180725062840.94114-1-hare@suse.de>
-Message-ID: <20180725062840.94114-4-hare@suse.de>
+Message-ID: <20180725062840.94114-6-hare@suse.de>
 
-We should be registering the ns_id attribute as default sysfs
-attribute groups, otherwise we have a race condition between
-the uevent and the attributes appearing in sysfs.
+Use device_add_disk_with_groups() to avoid a race condition with
+udev during startup.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c      | 14 +++++++-------
- drivers/nvme/host/multipath.c | 12 +++---------
- drivers/nvme/host/nvme.h      |  2 +-
- 3 files changed, 11 insertions(+), 17 deletions(-)
+ drivers/block/zram/zram_drv.c | 28 +++++++---------------------
+ 1 file changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e77e6418a21c..45dab8d4aff2 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2689,6 +2689,11 @@ const struct attribute_group nvme_ns_id_attr_group = {
- 	.is_visible	= nvme_ns_id_attrs_are_visible,
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index da51293e7c03..6f55676e2164 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -1619,6 +1619,11 @@ static const struct attribute_group zram_disk_attr_group = {
+ 	.attrs = zram_disk_attrs,
  };
  
-+const struct attribute_group *nvme_ns_id_attr_groups[] = {
-+	&nvme_ns_id_attr_group,
++static const struct attribute_group *zram_disk_attr_groups[] = {
++	&zram_disk_attr_group,
 +	NULL,
 +};
 +
- #define nvme_show_str_function(field)						\
- static ssize_t  field##_show(struct device *dev,				\
- 			    struct device_attribute *attr, char *buf)		\
-@@ -3056,11 +3061,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ /*
+  * Allocate and initialize new zram device. the function returns
+  * '>= 0' device_id upon success, and negative value otherwise.
+@@ -1699,24 +1704,14 @@ static int zram_add(void)
  
- 	kfree(id);
- 
--	device_add_disk(ctrl->device, ns->disk);
--	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_id_attr_group))
--		pr_warn("%s: failed to create sysfs group for identification\n",
--			ns->disk->disk_name);
-+	device_add_disk_with_groups(ctrl->device, ns->disk,
-+				    nvme_ns_id_attr_groups);
- 	if (ns->ndev && nvme_nvm_register_sysfs(ns))
- 		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
- 			ns->disk->disk_name);
-@@ -3087,8 +3089,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	nvme_fault_inject_fini(ns);
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
--		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_id_attr_group);
- 		if (ns->ndev)
- 			nvme_nvm_unregister_sysfs(ns);
- 		del_gendisk(ns->disk);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 1ffd3e8b13a1..2f57ff69e26d 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -226,13 +226,9 @@ void nvme_mpath_add_disk(struct nvme_ns_head *head)
- 		return;
- 
- 	mutex_lock(&head->subsys->lock);
--	if (!(head->disk->flags & GENHD_FL_UP)) {
--		device_add_disk(&head->subsys->dev, head->disk);
--		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
--				&nvme_ns_id_attr_group))
--			pr_warn("%s: failed to create sysfs group for identification\n",
--				head->disk->disk_name);
+ 	zram->disk->queue->backing_dev_info->capabilities |=
+ 			(BDI_CAP_STABLE_WRITES | BDI_CAP_SYNCHRONOUS_IO);
+-	add_disk(zram->disk);
+-
+-	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
+-				&zram_disk_attr_group);
+-	if (ret < 0) {
+-		pr_err("Error creating sysfs group for device %d\n",
+-				device_id);
+-		goto out_free_disk;
 -	}
-+	if (!(head->disk->flags & GENHD_FL_UP))
-+		device_add_disk_with_groups(&head->subsys->dev, head->disk,
-+					    nvme_ns_id_attr_groups);
- 	mutex_unlock(&head->subsys->lock);
- }
++	device_add_disk_with_groups(NULL, zram->disk, zram_disk_attr_groups);
++
+ 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
  
-@@ -240,8 +236,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	sysfs_remove_group(&disk_to_dev(head->disk)->kobj,
--			   &nvme_ns_id_attr_group);
- 	del_gendisk(head->disk);
- 	blk_set_queue_dying(head->disk->queue);
- 	/* make sure all pending bios are cleaned up */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4ad0c8ad2a27..4b911274150d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -446,7 +446,7 @@ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
- int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 		u8 log_page, void *log, size_t size, u64 offset);
+ 	zram_debugfs_register(zram);
+ 	pr_info("Added device: %s\n", zram->disk->disk_name);
+ 	return device_id;
  
--extern const struct attribute_group nvme_ns_id_attr_group;
-+extern const struct attribute_group *nvme_ns_id_attr_groups[];
- extern const struct block_device_operations nvme_ns_head_ops;
+-out_free_disk:
+-	del_gendisk(zram->disk);
+-	put_disk(zram->disk);
+ out_free_queue:
+ 	blk_cleanup_queue(queue);
+ out_free_idr:
+@@ -1745,15 +1740,6 @@ static int zram_remove(struct zram *zram)
+ 	mutex_unlock(&bdev->bd_mutex);
  
- #ifdef CONFIG_NVME_MULTIPATH
+ 	zram_debugfs_unregister(zram);
+-	/*
+-	 * Remove sysfs first, so no one will perform a disksize
+-	 * store while we destroy the devices. This also helps during
+-	 * hot_remove -- zram_reset_device() is the last holder of
+-	 * ->init_lock, no later/concurrent disksize_store() or any
+-	 * other sysfs handlers are possible.
+-	 */
+-	sysfs_remove_group(&disk_to_dev(zram->disk)->kobj,
+-			&zram_disk_attr_group);
+ 
+ 	/* Make sure all the pending I/O are finished */
+ 	fsync_bdev(bdev);
 -- 
 2.12.3
