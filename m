@@ -1,92 +1,72 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 25 Jul 2018 08:28:39 +0200
-Subject: [PATCH 4/5] aoe: use device_add_disk_with_groups()
+Date: Wed, 25 Jul 2018 08:28:36 +0200
+Subject: [PATCH 1/5] genhd: drop 'bool' argument from __device_add_disk()
 In-Reply-To: <20180725062840.94114-1-hare@suse.de>
 References: <20180725062840.94114-1-hare@suse.de>
-Message-ID: <20180725062840.94114-5-hare@suse.de>
+Message-ID: <20180725062840.94114-2-hare@suse.de>
 
-Use device_add_disk_with_groups() to avoid a race condition with
-udev during startup.
+Split off the last part of __device_add_disk() into __device_get_disk().
+With that we can drop the 'bool' argument and streamline the function.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/block/aoe/aoe.h    |  1 -
- drivers/block/aoe/aoeblk.c | 21 +++++++--------------
- drivers/block/aoe/aoedev.c |  1 -
- 3 files changed, 7 insertions(+), 16 deletions(-)
+ block/genhd.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/block/aoe/aoe.h b/drivers/block/aoe/aoe.h
-index c0ebda1283cc..015c68017a1c 100644
---- a/drivers/block/aoe/aoe.h
-+++ b/drivers/block/aoe/aoe.h
-@@ -201,7 +201,6 @@ int aoeblk_init(void);
- void aoeblk_exit(void);
- void aoeblk_gdalloc(void *);
- void aoedisk_rm_debugfs(struct aoedev *d);
--void aoedisk_rm_sysfs(struct aoedev *d);
- 
- int aoechr_init(void);
- void aoechr_exit(void);
-diff --git a/drivers/block/aoe/aoeblk.c b/drivers/block/aoe/aoeblk.c
-index 429ebb84b592..b9d30150ce20 100644
---- a/drivers/block/aoe/aoeblk.c
-+++ b/drivers/block/aoe/aoeblk.c
-@@ -177,10 +177,15 @@ static struct attribute *aoe_attrs[] = {
- 	NULL,
- };
- 
--static const struct attribute_group attr_group = {
-+static const struct attribute_group aoe_attr_group = {
- 	.attrs = aoe_attrs,
- };
- 
-+static const struct attribute_group *aoe_attr_groups[] = {
-+	&aoe_attr_group,
-+	NULL,
-+};
-+
- static const struct file_operations aoe_debugfs_fops = {
- 	.open = aoe_debugfs_open,
- 	.read = seq_read,
-@@ -220,17 +225,6 @@ aoedisk_rm_debugfs(struct aoedev *d)
- }
- 
- static int
--aoedisk_add_sysfs(struct aoedev *d)
--{
--	return sysfs_create_group(&disk_to_dev(d->gd)->kobj, &attr_group);
--}
--void
--aoedisk_rm_sysfs(struct aoedev *d)
--{
--	sysfs_remove_group(&disk_to_dev(d->gd)->kobj, &attr_group);
--}
--
--static int
- aoeblk_open(struct block_device *bdev, fmode_t mode)
+diff --git a/block/genhd.c b/block/genhd.c
+index f1543a45e73b..cfa7f4f78435 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -647,15 +647,13 @@ static void register_disk(struct device *parent, struct gendisk *disk)
+  * __device_add_disk - add disk information to kernel list
+  * @parent: parent device for the disk
+  * @disk: per-device partitioning information
+- * @register_queue: register the queue if set to true
+  *
+  * This function registers the partitioning information in @disk
+  * with the kernel.
+  *
+  * FIXME: error handling
+  */
+-static void __device_add_disk(struct device *parent, struct gendisk *disk,
+-			      bool register_queue)
++static void __device_add_disk(struct device *parent, struct gendisk *disk)
  {
- 	struct aoedev *d = bdev->bd_disk->private_data;
-@@ -417,8 +411,7 @@ aoeblk_gdalloc(void *vp)
+ 	dev_t devt;
+ 	int retval;
+@@ -699,9 +697,10 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
+ 				    exact_match, exact_lock, disk);
+ 	}
+ 	register_disk(parent, disk);
+-	if (register_queue)
+-		blk_register_queue(disk);
++}
  
- 	spin_unlock_irqrestore(&d->lock, flags);
++void __device_get_disk(struct gendisk *disk)
++{
+ 	/*
+ 	 * Take an extra ref on queue which will be put on disk_release()
+ 	 * so that it sticks around as long as @disk is there.
+@@ -714,13 +713,18 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk,
  
--	add_disk(gd);
--	aoedisk_add_sysfs(d);
-+	device_add_disk_with_groups(NULL, gd, aoe_attr_groups);
- 	aoedisk_add_debugfs(d);
+ void device_add_disk(struct device *parent, struct gendisk *disk)
+ {
+-	__device_add_disk(parent, disk, true);
++	__device_add_disk(parent, disk);
++
++	blk_register_queue(disk);
++
++	__device_get_disk(disk);
+ }
+ EXPORT_SYMBOL(device_add_disk);
  
- 	spin_lock_irqsave(&d->lock, flags);
-diff --git a/drivers/block/aoe/aoedev.c b/drivers/block/aoe/aoedev.c
-index 697f735b07a4..d92fa1fe3580 100644
---- a/drivers/block/aoe/aoedev.c
-+++ b/drivers/block/aoe/aoedev.c
-@@ -275,7 +275,6 @@ freedev(struct aoedev *d)
- 	del_timer_sync(&d->timer);
- 	if (d->gd) {
- 		aoedisk_rm_debugfs(d);
--		aoedisk_rm_sysfs(d);
- 		del_gendisk(d->gd);
- 		put_disk(d->gd);
- 		blk_cleanup_queue(d->blkq);
+ void device_add_disk_no_queue_reg(struct device *parent, struct gendisk *disk)
+ {
+-	__device_add_disk(parent, disk, false);
++	__device_add_disk(parent, disk);
++	__device_get_disk(disk);
+ }
+ EXPORT_SYMBOL(device_add_disk_no_queue_reg);
+ 
 -- 
 2.12.3
