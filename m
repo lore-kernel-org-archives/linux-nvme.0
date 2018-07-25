@@ -1,14 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 25 Jul 2018 09:45:12 +0200
-Subject: [PATCH 1/5] genhd: drop 'bool' argument from __device_add_disk()
-In-Reply-To: <20180725062840.94114-2-hare@suse.de>
+Date: Wed, 25 Jul 2018 09:46:13 +0200
+Subject: [PATCH 2/5] block: genhd: add device_add_disk_with_groups
+In-Reply-To: <20180725062840.94114-3-hare@suse.de>
 References: <20180725062840.94114-1-hare@suse.de>
- <20180725062840.94114-2-hare@suse.de>
-Message-ID: <20180725074512.GA13812@lst.de>
+ <20180725062840.94114-3-hare@suse.de>
+Message-ID: <20180725074613.GB13812@lst.de>
 
-> +void __device_get_disk(struct gendisk *disk)
+On Wed, Jul 25, 2018@08:28:37AM +0200, Hannes Reinecke wrote:
+> Update __device_add_disk() to take an 'groups' argument so that
+> individual drivers can register a device with additional sysfs
+> attributes.
+> This avoids race condition the driver would otherwise have if these
+> groups need to be created with sysfs_add_groups().
+> 
+> Signed-off-by: Martin Wilck <martin.wilck at suse.com>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
 
-This function can be static. Also it is a bit misnamed.  I'm not
-really sure this split is worth it, but if we really want to kill
-off the argument it might be worth to just open code the new
-__device_get_disk in both callers.
+This should be From: Martin, shouldn't it?
+
+My feedback last time was that I'd rather see the new groups argument
+to device_add_disk instead of introducing yet another add_disk variant.
+
+I still think that would be the better way to go.
