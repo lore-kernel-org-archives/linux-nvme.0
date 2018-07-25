@@ -1,118 +1,102 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 25 Jul 2018 08:28:37 +0200
-Subject: [PATCH 2/5] block: genhd: add device_add_disk_with_groups
+Date: Wed, 25 Jul 2018 08:28:38 +0200
+Subject: [PATCH 3/5] nvme: register ns_id attributes as default sysfs groups
 In-Reply-To: <20180725062840.94114-1-hare@suse.de>
 References: <20180725062840.94114-1-hare@suse.de>
-Message-ID: <20180725062840.94114-3-hare@suse.de>
+Message-ID: <20180725062840.94114-4-hare@suse.de>
 
-Update __device_add_disk() to take an 'groups' argument so that
-individual drivers can register a device with additional sysfs
-attributes.
-This avoids race condition the driver would otherwise have if these
-groups need to be created with sysfs_add_groups().
+We should be registering the ns_id attribute as default sysfs
+attribute groups, otherwise we have a race condition between
+the uevent and the attributes appearing in sysfs.
 
-Signed-off-by: Martin Wilck <martin.wilck at suse.com>
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- block/genhd.c         | 28 +++++++++++++++++++++++-----
- include/linux/genhd.h |  3 +++
- 2 files changed, 26 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c      | 14 +++++++-------
+ drivers/nvme/host/multipath.c | 12 +++---------
+ drivers/nvme/host/nvme.h      |  2 +-
+ 3 files changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/block/genhd.c b/block/genhd.c
-index cfa7f4f78435..fbe27cb2c9d7 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -567,7 +567,8 @@ static int exact_lock(dev_t devt, void *data)
- 	return 0;
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e77e6418a21c..45dab8d4aff2 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2689,6 +2689,11 @@ const struct attribute_group nvme_ns_id_attr_group = {
+ 	.is_visible	= nvme_ns_id_attrs_are_visible,
+ };
  
--static void register_disk(struct device *parent, struct gendisk *disk)
-+static void register_disk(struct device *parent, struct gendisk *disk,
-+			  const struct attribute_group **groups)
- {
- 	struct device *ddev = disk_to_dev(disk);
- 	struct block_device *bdev;
-@@ -582,6 +583,10 @@ static void register_disk(struct device *parent, struct gendisk *disk)
- 	/* delay uevents, until we scanned partition table */
- 	dev_set_uevent_suppress(ddev, 1);
++const struct attribute_group *nvme_ns_id_attr_groups[] = {
++	&nvme_ns_id_attr_group,
++	NULL,
++};
++
+ #define nvme_show_str_function(field)						\
+ static ssize_t  field##_show(struct device *dev,				\
+ 			    struct device_attribute *attr, char *buf)		\
+@@ -3056,11 +3061,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
  
-+	if (groups) {
-+		WARN_ON(ddev->groups);
-+		ddev->groups = groups;
-+	}
- 	if (device_add(ddev))
+ 	kfree(id);
+ 
+-	device_add_disk(ctrl->device, ns->disk);
+-	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvme_ns_id_attr_group))
+-		pr_warn("%s: failed to create sysfs group for identification\n",
+-			ns->disk->disk_name);
++	device_add_disk_with_groups(ctrl->device, ns->disk,
++				    nvme_ns_id_attr_groups);
+ 	if (ns->ndev && nvme_nvm_register_sysfs(ns))
+ 		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+ 			ns->disk->disk_name);
+@@ -3087,8 +3089,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 
+ 	nvme_fault_inject_fini(ns);
+ 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+-		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvme_ns_id_attr_group);
+ 		if (ns->ndev)
+ 			nvme_nvm_unregister_sysfs(ns);
+ 		del_gendisk(ns->disk);
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 1ffd3e8b13a1..2f57ff69e26d 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -226,13 +226,9 @@ void nvme_mpath_add_disk(struct nvme_ns_head *head)
  		return;
- 	if (!sysfs_deprecated) {
-@@ -647,13 +652,15 @@ static void register_disk(struct device *parent, struct gendisk *disk)
-  * __device_add_disk - add disk information to kernel list
-  * @parent: parent device for the disk
-  * @disk: per-device partitioning information
-+ * @groups: Additional per-device sysfs groups
-  *
-  * This function registers the partitioning information in @disk
-  * with the kernel.
-  *
-  * FIXME: error handling
-  */
--static void __device_add_disk(struct device *parent, struct gendisk *disk)
-+static void __device_add_disk(struct device *parent, struct gendisk *disk,
-+			      const struct attribute_group **groups)
- {
- 	dev_t devt;
- 	int retval;
-@@ -696,7 +703,7 @@ static void __device_add_disk(struct device *parent, struct gendisk *disk)
- 		blk_register_region(disk_devt(disk), disk->minors, NULL,
- 				    exact_match, exact_lock, disk);
- 	}
--	register_disk(parent, disk);
-+	register_disk(parent, disk, groups);
+ 
+ 	mutex_lock(&head->subsys->lock);
+-	if (!(head->disk->flags & GENHD_FL_UP)) {
+-		device_add_disk(&head->subsys->dev, head->disk);
+-		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
+-				&nvme_ns_id_attr_group))
+-			pr_warn("%s: failed to create sysfs group for identification\n",
+-				head->disk->disk_name);
+-	}
++	if (!(head->disk->flags & GENHD_FL_UP))
++		device_add_disk_with_groups(&head->subsys->dev, head->disk,
++					    nvme_ns_id_attr_groups);
+ 	mutex_unlock(&head->subsys->lock);
  }
  
- void __device_get_disk(struct gendisk *disk)
-@@ -711,9 +718,20 @@ void __device_get_disk(struct gendisk *disk)
- 	blk_integrity_add(disk);
- }
- 
-+void device_add_disk_with_groups(struct device *parent, struct gendisk *disk,
-+				 const struct attribute_group **groups)
-+{
-+	__device_add_disk(parent, disk, groups);
-+
-+	blk_register_queue(disk);
-+
-+	__device_get_disk(disk);
-+}
-+EXPORT_SYMBOL(device_add_disk_with_groups);
-+
- void device_add_disk(struct device *parent, struct gendisk *disk)
+@@ -240,8 +236,6 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
  {
--	__device_add_disk(parent, disk);
-+	__device_add_disk(parent, disk, NULL);
+ 	if (!head->disk)
+ 		return;
+-	sysfs_remove_group(&disk_to_dev(head->disk)->kobj,
+-			   &nvme_ns_id_attr_group);
+ 	del_gendisk(head->disk);
+ 	blk_set_queue_dying(head->disk->queue);
+ 	/* make sure all pending bios are cleaned up */
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4ad0c8ad2a27..4b911274150d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -446,7 +446,7 @@ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ int nvme_get_log_ext(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		u8 log_page, void *log, size_t size, u64 offset);
  
- 	blk_register_queue(disk);
+-extern const struct attribute_group nvme_ns_id_attr_group;
++extern const struct attribute_group *nvme_ns_id_attr_groups[];
+ extern const struct block_device_operations nvme_ns_head_ops;
  
-@@ -723,7 +741,7 @@ EXPORT_SYMBOL(device_add_disk);
- 
- void device_add_disk_no_queue_reg(struct device *parent, struct gendisk *disk)
- {
--	__device_add_disk(parent, disk);
-+	__device_add_disk(parent, disk, NULL);
- 	__device_get_disk(disk);
- }
- EXPORT_SYMBOL(device_add_disk_no_queue_reg);
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 6cb8a5789668..f41152979296 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -394,6 +394,9 @@ extern void part_round_stats(struct request_queue *q, int cpu, struct hd_struct
- 
- /* block/genhd.c */
- extern void device_add_disk(struct device *parent, struct gendisk *disk);
-+extern void device_add_disk_with_groups(struct device *parent,
-+					struct gendisk *disk,
-+					const struct attribute_group **groups);
- static inline void add_disk(struct gendisk *disk)
- {
- 	device_add_disk(NULL, disk);
+ #ifdef CONFIG_NVME_MULTIPATH
 -- 
 2.12.3
