@@ -1,28 +1,51 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 25 Jul 2018 11:06:56 -0700
-Subject: [GIT PULL] first round of nvme updates for 4.19
-In-Reply-To: <20180725110835.GA1674@infradead.org>
-References: <20180725110835.GA1674@infradead.org>
-Message-ID: <3fea3397-3ec6-9187-2a03-195c88b754a1@kernel.dk>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Wed, 25 Jul 2018 12:17:12 -0700
+Subject: [PATCH 0/2] blktests: test ANA base support
+In-Reply-To: <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20180717133118.39026-1-hare@suse.de>
+ <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <20180725191712.GA16847@vader>
 
-On 7/25/18 4:08 AM, Christoph Hellwig wrote:
-> Hi Jens,
+On Sat, Jul 21, 2018@09:23:32PM +0000, Chaitanya Kulkarni wrote:
+> Hi Hannes,
 > 
-> below is the first batch of NVMe updates for Linux 4.19.
+> Thanks for the test, this is really helpful, please see my inline comments to individual patches.
 > 
-> Highlights:
-> 
->  - massively improved tracepoints (Keith Busch)
->  - support for larger inline data in the RDMA host and target
->    (Steve Wise)
->  - RDMA setup/teardown path fixes and refactor (Sagi Grimberg)
->  - Command Supported and Effects log support for the NVMe target
->    (Chaitanya Kulkarni)
->  - buffered I/O support for the NVMe target (Chaitanya Kulkarni)
-> 
-> plus the usual set of cleanups and small enhancements.
+> Also, the test number should be I guess 18, 14-17 testcases are still in the queue.
 
-Pulled, thanks.
+Yeah, sorry about that, I'll take another look.
 
--- 
-Jens Axboe
+> Omar, can you please let us know when can you merge the remaining testcases for NVMeOF
+> from the first round that I've posted? so we can set the right number for this.
+
+No need to worry about the numbering, I can trivially renumber it here.
+
+> 
+> From: linux-block-owner at vger.kernel.org <linux-block-owner at vger.kernel.org> on behalf of Hannes Reinecke <hare at suse.de>
+> Sent: Tuesday, July 17, 2018 6:31 AM
+> To: Omar Sandoval
+> Cc: Christoph Hellwig; Sagi Grimberg; Keith Busch; linux-nvme at lists.infradead.org; linux-block at vger.kernel.org; Hannes Reinecke
+> Subject: [PATCH 0/2] blktests: test ANA base support
+> ? 
+>  
+> Hi all,
+> 
+> here's a small patchset for testing ANA base support.
+> The test itself requires the ANA patchset from Christoph, plus
+> the fixes I've sent to the mailing list earlier.
+> 
+> Hannes Reinecke (2):
+> ? blktests: enable ANA support
+> ? blktests: add test for ANA state transition
+> 
+> ?tests/nvme/014???? | 158 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+> ?tests/nvme/014.out |? 17 ++++++
+> ?tests/nvme/rc????? |? 49 ++++++++++++++++-
+> ?3 files changed, 221 insertions(+), 3 deletions(-)
+> ?create mode 100755 tests/nvme/014
+> ?create mode 100644 tests/nvme/014.out
+> 
+> -- 
+> 2.12.3
+> 
+>     
