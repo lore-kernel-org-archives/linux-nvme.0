@@ -1,59 +1,23 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 26 Jul 2018 14:00:41 -0700
-Subject: [PATCH V2] nvmet: use Retain Async Event bit to clear AEN
-Message-ID: <20180726210041.15129-1-chaitanya.kulkarni@wdc.com>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Thu, 26 Jul 2018 14:31:32 -0700
+Subject: [PATCH 0/2] blktests: test ANA base support
+In-Reply-To: <9661913b-cb11-39ba-7c3f-7dbd7490736a@broadcom.com>
+References: <20180717133118.39026-1-hare@suse.de>
+ <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <20180725191712.GA16847@vader>
+ <BYAPR04MB4502890F18B77778B8EF6E5686540@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <20180725210001.GB16847@vader>
+ <BYAPR04MB4502FE260EA90730B4522657862B0@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <9661913b-cb11-39ba-7c3f-7dbd7490736a@broadcom.com>
+Message-ID: <20180726213132.GG16847@vader>
 
-In the current implementation, we clear the AEN bit when we get the
-"get log page" command if given log page is associated with AEN.
-This patch allows optionally retaining the AEN for the ctrl
-under consideration when Retain Asynchronous Event (RAE) bit is set
-as a part of "get log page" command.
+On Thu, Jul 26, 2018@09:35:53AM -0700, James Smart wrote:
+> make sure this fix has been picked up in your kernel:
+> http://git.infradead.org/nvme.git/commit/6cdefc6e2ad52170f89a8d0e8b1a1339f91834dc
+> 
+> deletes were broken otherwise and have the exact trace below.
+> 
+> -- james
 
-This allows the host to read the Log page and optionally retaining the
-AEN associated with this log page when using userspace tools like
-nvme-cli.
-
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
-Changes since V1:-
-
-1. Add aen_bit to the helper so it be used for different log pages.
----
- drivers/nvme/target/admin-cmd.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 16a9b24270f9..731b620ddc06 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -19,6 +19,19 @@
- #include <asm/unaligned.h>
- #include "nvmet.h"
- 
-+/*
-+ * This helper allows us to clear the AEN based on the RAE bit,
-+ * Please use this helper when processing the log pages which are
-+ * associated with the AEN.
-+ */
-+static inline void nvmet_clear_aen(struct nvmet_req *req, u32 aen_bit)
-+{
-+	int rae = le32_to_cpu(req->cmd->common.cdw10[0]) & 1 << 15;
-+
-+	if (!rae)
-+		clear_bit(aen_bit, &req->sq->ctrl->aen_masked);
-+}
-+
- u32 nvmet_get_log_page_len(struct nvme_command *cmd)
- {
- 	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
-@@ -176,7 +189,7 @@ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
- 	if (!status)
- 		status = nvmet_zero_sgl(req, len, req->data_len - len);
- 	ctrl->nr_changed_ns = 0;
--	clear_bit(NVME_AEN_CFG_NS_ATTR, &ctrl->aen_masked);
-+	nvmet_clear_aen(req, NVME_AEN_CFG_NS_ATTR);
- 	mutex_unlock(&ctrl->lock);
- out:
- 	nvmet_req_complete(req, status);
--- 
-2.17.0
+Thanks, James, that indeed fixes the problem. I'll go ahead and merge
+these tests since there's a fix in flight.
