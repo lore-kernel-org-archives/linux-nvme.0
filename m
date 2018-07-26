@@ -1,20 +1,58 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 26 Jul 2018 17:12:21 +0200
-Subject: [PATCH] nvme: Register for ANA AEN
-In-Reply-To: <763ec760-8651-ff20-fe01-00ab43f29337@suse.de>
-References: <20180726105554.80437-1-hare@suse.de>
- <9a5908f1-92fe-e338-47e0-ad51837b3212@suse.de> <20180726115913.GA2187@lst.de>
- <20180726120113.GA2289@lst.de> <06a3d125-0dd6-d288-bedd-8462d96c3b9d@suse.de>
- <20180726120711.GA2684@lst.de> <763ec760-8651-ff20-fe01-00ab43f29337@suse.de>
-Message-ID: <20180726151221.GA7791@lst.de>
+Date: Thu, 26 Jul 2018 17:34:56 +0200
+Subject: draft ANA support v6
+Message-ID: <20180726153505.4153-1-hch@lst.de>
 
-On Thu, Jul 26, 2018@03:37:48PM +0200, Hannes Reinecke wrote:
-> > I'll send out another round later today.
-> > 
-> Would it make sense to read back the features after we've tried to
-> enable them?
-> It might be that the target doesn't enable ANA AENs (or doesn't support
-> them), at which point we have to disable ANA on the host as we rely on
-> ANA AENs for correct operations ...
+I think we are about ready to merge now, so please review carefully.
 
-If it doesn't support the AEN it won't be in OAES..
+A git tree is available at:
+
+    git://git.infradead.org/users/hch/block.git nvme-ana
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
+
+Changes since v5:
+ - actually check the OAES bit for the ANA AEN
+ - remove two WARN_ON_ONCE calls
+
+Changes since v4:
+ - fix a crash in __nvme_find_path for non-optimized paths (Hannes Reinecke)
+ - fix lockdep annotation in nvme_mpath_set_live (Chaitanya Kulkarni)
+ - rely on the ANA AEN OAES bit again, per draft of TP4004a
+
+Changes since v3:
+ - keep the ana state in struct nvme_ns
+ - don't update the internal ana state based on status codes
+ - add a ANATT timer (based on code from Hannes Reinecke)
+ - fix ANA AEN detection, which is missing a OAES bit currently
+ - make more code conditional on CONFIG_NVME_MULTIPATH
+ - optimize delayed adding of ns_head gendisks
+ - only kick of a requeue when setting groups live
+ - only send AENs on controllers of a port where the group state changes
+ - a few cleanups to the build-in default group
+ - fix a use after free in nvme_failover_req (Hannes Reinecke)
+
+Changes since v2:
+ - support changing the state for the default ANA group
+ - drop ANATT configuration again
+ - delay gendisk registration until we have an I/O capable path
+ - remove nvme_req_needs_failover and the SCT=3 handling in it,
+   we actually do the right thing without it
+ - refactor the get log page helpers
+
+Changes since v1:
+ - fix the check for SCT = 3
+ - fix the check for immutable ANAGRPID
+ - disable ANA if the ANA log can't be transferred in a single chunk
+ - enable the ANA AEN explicitly
+ - don't zero buffers that don't get copied to the SGL
+ - use READ_ONCE/WRITE_ONCE for the ana_state fields
+ - update ANA state on completion with an ANA status code
+ - improve commit logs
+ - add proper AEN enable and masking conditionals
+ - fix the numeric value for the change state
+ - fixed a memory leak (Hannes Reinecke)
+ - fix reporting of NUSE (based on a patch from Hannes Reinecke)
+ - make ANATT configurable
