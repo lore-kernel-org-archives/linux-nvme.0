@@ -1,9 +1,9 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 26 Jul 2018 13:34:35 +0200
-Subject: [PATCH 6/9] nvmet: keep a port pointer in nvmet_ctrl
-In-Reply-To: <20180724115009.731-7-hch@lst.de>
-References: <20180724115009.731-1-hch@lst.de> <20180724115009.731-7-hch@lst.de>
-Message-ID: <20180726113435.nl3hcoov5pcyd6z6@linux-x5ow.site>
+Date: Thu, 26 Jul 2018 13:34:51 +0200
+Subject: [PATCH 5/9] nvme: add ANA support
+In-Reply-To: <20180724115009.731-6-hch@lst.de>
+References: <20180724115009.731-1-hch@lst.de> <20180724115009.731-6-hch@lst.de>
+Message-ID: <20180726113451.uah7pdr2rxpudzit@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
