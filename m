@@ -1,32 +1,30 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 26 Jul 2018 11:24:25 +0200
-Subject: Q: Status of ANA patches
-In-Reply-To: <20180725050513.GA11152@lst.de>
-References: <20180719142827.GA19339@lst.de>
- <BYAPR04MB4502EBE68BD64FE76FF3BB8086540@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725050513.GA11152@lst.de>
-Message-ID: <20180726092425.xxhcdmnuevi34n6r@linux-x5ow.site>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 26 Jul 2018 12:55:54 +0200
+Subject: [PATCH] nvme: Register for ANA AEN
+Message-ID: <20180726105554.80437-1-hare@suse.de>
 
-On Wed, Jul 25, 2018@07:05:13AM +0200, Christoph Hellwig wrote:
-> We need some way to see the status of namespaces in a given subsystem
-> (and maybe also per controller).
-> 
-> I think Johannes has done some preliminary work in this area, adding
-> him to Cc.
+We need to register for ANA AENs as we rely on them for our ANA implementation.
+Patch is relative to hch nvme-ana tree.
 
-I'll have a look at it.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+---
+ drivers/nvme/host/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Wanted to give the whole series + Hannes' blktests a shot on my
-minimal VMs as well so I think it's a good starting point.
-
-/me hopes to get to it this week
-
-Byte,
-	Johannes
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3b96ace1f86d..99910497acdc 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1042,6 +1042,10 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+ 	u32 supported = ctrl->oaes & NVME_AEN_SUPPORTED, result;
+ 	int status;
+ 
++#ifdef CONFIG_NVME_MULTIPATH
++	if (ctrl->subsys->cmic & (1 << 3))
++		supported |= NVME_AEN_CFG_ANA_CHANGE;
++#endif
+ 	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT, supported, NULL,
+ 			0, &result);
+ 	if (status)
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.12.3
