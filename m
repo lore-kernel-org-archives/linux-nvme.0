@@ -1,55 +1,46 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 25 Jul 2018 20:05:20 -0700
-Subject: [PATCH] nvmet: use Retain Async Event bit to clear AEN
-Message-ID: <20180726030520.2603-1-chaitanya.kulkarni@wdc.com>
+Date: Wed, 25 Jul 2018 20:11:45 -0700
+Subject: [PATCH] nvme-cli: use RAE bit for changed-ns-list-log
+Message-ID: <20180726031145.2848-1-chaitanya.kulkarni@wdc.com>
 
-In the current implementation, we clear the AEN bit when we get the
-"get log page" command if given log page is associated with AEN.
-This patch allows optionally retaining the AEN for the ctrl
-under consideration when Retain Asynchronous Event (RAE) bit is set
-as a part of "get log page" command.
-
-This allows the host to read the Log page and optionally retaining the
-AEN associated with this log page when using userspace tools like
-nvme-cli.
+This patch uses Retain Asynchronous Event bit when reading the
+NVMe Changed Namespace List log page. This allows nvme-cli to
+not clear any pending AEN(s) which are expected to be cleaned
+by the driver.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 16a9b24270f9..de60dd6bd78c 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -19,6 +19,19 @@
- #include <asm/unaligned.h>
- #include "nvmet.h"
+As per yesterday's discussion, I've posted the RAE patch for the 
+NVMeOF target :-
+"nvmet: use Retain Async Event bit to clear AEN"
+http://lists.infradead.org/pipermail/linux-nvme/2018-July/019469.html.
+
+This is an extension of the RAE implementation where we set the RAE 
+to true for nvme-cli when executing nvme-changed-ns-list-log.
+A similar pattern can be repeated for the ANA target and nvme-cli command.
+
+Regards,
+Chaitanya
+---
+ nvme-ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index 9cf2a33..32c299e 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -447,8 +447,8 @@ int nvme_fw_log(int fd, struct nvme_firmware_log_page *fw_log)
  
-+/*
-+ * This helper allows us to clear the AEN based on the RAE bit,
-+ * Please use this helper when processing the log pages which are
-+ * associated with the AEN.
-+ */
-+static inline void nvmet_clear_aen(struct nvmet_req *req)
-+{
-+	int rae = le32_to_cpu(req->cmd->common.cdw10[0]) & 1 << 15;
-+
-+	if (!rae)
-+		clear_bit(NVME_AEN_CFG_NS_ATTR, &req->sq->ctrl->aen_masked);
-+}
-+
- u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+ int nvme_changed_ns_list_log(int fd, struct nvme_changed_ns_list_log *changed_ns_list_log)
  {
- 	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
-@@ -176,7 +189,7 @@ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
- 	if (!status)
- 		status = nvmet_zero_sgl(req, len, req->data_len - len);
- 	ctrl->nr_changed_ns = 0;
--	clear_bit(NVME_AEN_CFG_NS_ATTR, &ctrl->aen_masked);
-+	nvmet_clear_aen(req);
- 	mutex_unlock(&ctrl->lock);
- out:
- 	nvmet_req_complete(req, status);
+-	return nvme_get_log(fd, 0, NVME_LOG_CHANGED_NS, sizeof(changed_ns_list_log->log),
+-			changed_ns_list_log->log);
++	return nvme_get_log13(fd, 0, NVME_LOG_CHANGED_NS, NVME_NO_LOG_LSP, NVME_NO_LOG_LPO,
++			0, true, sizeof(changed_ns_list_log->log), changed_ns_list_log->log);
+ }
+ 
+ int nvme_error_log(int fd, int entries, struct nvme_error_log_page *err_log)
 -- 
 2.17.0
