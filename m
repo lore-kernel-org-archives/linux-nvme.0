@@ -1,38 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 26 Jul 2018 16:16:40 +0200
-Subject: [GIT PULL] nvme fixes for 4.18
-Message-ID: <20180726141640.GA7156@infradead.org>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Thu, 26 Jul 2018 08:29:00 -0600
+Subject: [PATCH 1/2] nvme-cli: add minimal ana-log page support
+In-Reply-To: <20180726092431.GD24335@lst.de>
+References: <20180725001316.2714-1-chaitanya.kulkarni@wdc.com>
+ <20180725045352.GA10905@lst.de>
+ <20180725144848.GC14596@localhost.localdomain>
+ <20180726092431.GD24335@lst.de>
+Message-ID: <20180726142900.GA18221@localhost.localdomain>
 
-Two small fixes each for the FC code and the target.
+On Thu, Jul 26, 2018@11:24:31AM +0200, Christoph Hellwig wrote:
+> On Wed, Jul 25, 2018@08:48:48AM -0600, Keith Busch wrote:
+> > Adding the RAE option for user space tooling is a good idea. Defaulting to
+> > on should be safe too (will confirm on older drives),
+> 
+> Is it?  Strictly speaking the bit is reserved for drivers < 1.3, so they
+> could reject it, even if I doubt anyone does.
 
+Oh, duh ... the definition of "reserved":
 
-The following changes since commit 8f3ea35929a0806ad1397db99a89ffee0140822a:
+  Receipt of reserved coded values in defined fields in commands shall
+  be reported as an error.
 
-  nbd: handle unexpected replies better (2018-07-16 10:14:40 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.18
-
-for you to fetch changes up to 405a7519607e7a364114896264440c0f87b325c0:
-
-  nvmet: only check for filebacking on -ENOTBLK (2018-07-25 13:14:04 +0200)
-
-----------------------------------------------------------------
-Hannes Reinecke (2):
-      nvmet: fixup crash on NULL device path
-      nvmet: only check for filebacking on -ENOTBLK
-
-James Smart (2):
-      nvmet-fc: fix target sgl list on large transfers
-      nvme: if_ready checks to fail io to deleting controller
-
- drivers/nvme/host/fabrics.c    | 10 +++++++---
- drivers/nvme/host/fabrics.h    |  3 ++-
- drivers/nvme/host/fc.c         |  2 +-
- drivers/nvme/host/rdma.c       |  2 +-
- drivers/nvme/target/configfs.c |  9 +++++++--
- drivers/nvme/target/core.c     |  2 +-
- drivers/nvme/target/fc.c       | 44 +++++++++++++++++++++++++++++++++---------
- drivers/nvme/target/loop.c     |  2 +-
- 8 files changed, 55 insertions(+), 19 deletions(-)
+You're right.
