@@ -1,23 +1,42 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Thu, 26 Jul 2018 14:31:32 -0700
-Subject: [PATCH 0/2] blktests: test ANA base support
-In-Reply-To: <9661913b-cb11-39ba-7c3f-7dbd7490736a@broadcom.com>
-References: <20180717133118.39026-1-hare@suse.de>
- <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725191712.GA16847@vader>
- <BYAPR04MB4502890F18B77778B8EF6E5686540@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725210001.GB16847@vader>
- <BYAPR04MB4502FE260EA90730B4522657862B0@BYAPR04MB4502.namprd04.prod.outlook.com>
- <9661913b-cb11-39ba-7c3f-7dbd7490736a@broadcom.com>
-Message-ID: <20180726213132.GG16847@vader>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 26 Jul 2018 14:59:13 -0700
+Subject: [PATCH] nvme-cli: remove unnecessary assignments
+Message-ID: <20180726215913.20295-1-chaitanya.kulkarni@wdc.com>
 
-On Thu, Jul 26, 2018@09:35:53AM -0700, James Smart wrote:
-> make sure this fix has been picked up in your kernel:
-> http://git.infradead.org/nvme.git/commit/6cdefc6e2ad52170f89a8d0e8b1a1339f91834dc
-> 
-> deletes were broken otherwise and have the exact trace below.
-> 
-> -- james
+This removes the unnecessary assignment of the variable.
 
-Thanks, James, that indeed fixes the problem. I'll go ahead and merge
-these tests since there's a fix in flight.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ fabrics.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index 9aee8f8..8437e32 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -627,7 +627,6 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ 		len = sprintf(p, ",transport=loop");
+ 		if (len < 0)
+ 			return -EINVAL;
+-		p += len;
+ 		/* we can safely ignore the rest of the entries */
+ 		break;
+ 	case NVMF_TRTYPE_RDMA:
+@@ -652,7 +651,6 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ 				      e->trsvcid);
+ 			if (len < 0)
+ 				return -EINVAL;
+-			p += len;
+ 			break;
+ 		default:
+ 			fprintf(stderr, "skipping unsupported adrfam\n");
+@@ -672,7 +670,6 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ 				      e->traddr);
+ 			if (len < 0)
+ 				return -EINVAL;
+-			p += len;
+ 			break;
+ 		default:
+ 			fprintf(stderr, "skipping unsupported adrfam\n");
+-- 
+2.17.0
