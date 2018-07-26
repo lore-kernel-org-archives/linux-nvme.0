@@ -1,56 +1,48 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 26 Jul 2018 09:45:58 +0200
-Subject: draft ANA support v5
-In-Reply-To: <20180724115009.731-1-hch@lst.de>
-References: <20180724115009.731-1-hch@lst.de>
-Message-ID: <95670c36-713f-9f8d-d4db-13194edbe92e@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 26 Jul 2018 11:19:33 +0200
+Subject: [PATCH] nvmet: use Retain Async Event bit to clear AEN
+In-Reply-To: <20180726030520.2603-1-chaitanya.kulkarni@wdc.com>
+References: <20180726030520.2603-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180726091933.GA24335@lst.de>
 
-On 07/24/2018 01:50 PM, Christoph Hellwig wrote:
-> I think we are about ready to merge now, so please review carefully.
+On Wed, Jul 25, 2018@08:05:20PM -0700, Chaitanya Kulkarni wrote:
+> In the current implementation, we clear the AEN bit when we get the
+> "get log page" command if given log page is associated with AEN.
+> This patch allows optionally retaining the AEN for the ctrl
+> under consideration when Retain Asynchronous Event (RAE) bit is set
+> as a part of "get log page" command.
 > 
-> A git tree is available at:
+> This allows the host to read the Log page and optionally retaining the
+> AEN associated with this log page when using userspace tools like
+> nvme-cli.
 > 
->     git://git.infradead.org/users/hch/block.git nvme-ana
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>  drivers/nvme/target/admin-cmd.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
-> Gitweb:
-> 
->     http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
-> 
-With this patchset my ANA blktest fails horribly; ANATT triggering and
-finally a stuck process:
+> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+> index 16a9b24270f9..de60dd6bd78c 100644
+> --- a/drivers/nvme/target/admin-cmd.c
+> +++ b/drivers/nvme/target/admin-cmd.c
+> @@ -19,6 +19,19 @@
+>  #include <asm/unaligned.h>
+>  #include "nvmet.h"
+>  
+> +/*
+> + * This helper allows us to clear the AEN based on the RAE bit,
+> + * Please use this helper when processing the log pages which are
+> + * associated with the AEN.
+> + */
+> +static inline void nvmet_clear_aen(struct nvmet_req *req)
+> +{
+> +	int rae = le32_to_cpu(req->cmd->common.cdw10[0]) & 1 << 15;
+> +
+> +	if (!rae)
+> +		clear_bit(NVME_AEN_CFG_NS_ATTR, &req->sq->ctrl->aen_masked);
+> +}
 
-[  764.545768] XFS (nvme0n1): Mounting V5 Filesystem
-[  764.563869] XFS (nvme0n1): Ending clean mount
-[  774.587667] block nvme0n1: no path available - requeuing I/O
-[  774.587674] block nvme0n1: no path available - requeuing I/O
-[  774.587944] nvme nvme0: ANA group 1: change.
-[  774.587955] nvme nvme0: ANA group 2: inaccessible.
-[  795.253331] nvme nvme0: ANATT timeout, resetting controller.
-[  795.254028] block nvme0n1: no path available - requeuing I/O
-[  795.276403] block nvme0n1: no path available - requeuing I/O
-[  797.683763] nvmet: creating controller 1 for subsystem
-blktests-subsystem-1 for NQN
-nqn.2014-08.org.nvmexpress:uuid:ffca97aa-180e-4441-a24c-7439f1cef0d9.
-[  797.712336] nvme nvme0: ANA group 1: inaccessible.
-[  797.721982] nvme nvme0: ANA group 2: optimized.
-[  797.731169] nvme nvme0: creating 128 I/O queues.
-[  797.769481] block nvme0n1: no path available - requeuing I/O
-[  797.780867] block nvme0n1: no path available - requeuing I/O
-[  797.792248] block nvme0n1: no path available - requeuing I/O
-[  797.803629] block nvme0n1: no path available - requeuing I/O
-[  797.833640] nvme0c1n1: detected capacity change from 0 to 1073741824
-[  797.885628] nvme0c1n2: detected capacity change from 0 to 1073741824
-[ 1479.283345] INFO: task xfsaild/nvme0n1:5869 blocked for more than 480
-seconds.
+I think this will need the bit for the aen passed in so that we can
+reuse it for other log pages (e.g. the upcoming ANA one).
 
-Might be the same issue Chaitanya is seeing; investigating further.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Otherwise it looks fine to me.
