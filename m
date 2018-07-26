@@ -1,22 +1,19 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 25 Jul 2018 21:12:56 -0400
-Subject: [PATCH v4 3/3] nvme: use blk API to remap ref tags for IOs with
- metadata
-In-Reply-To: <1532533577-1600-3-git-send-email-maxg@mellanox.com> (Max
- Gurtovoy's message of "Wed, 25 Jul 2018 18:46:17 +0300")
-References: <1532533577-1600-1-git-send-email-maxg@mellanox.com>
- <1532533577-1600-3-git-send-email-maxg@mellanox.com>
-Message-ID: <yq1fu063ilj.fsf@oracle.com>
+Date: Wed, 25 Jul 2018 22:00:51 -0400
+Subject: [PATCH 5/9] nvme: add ANA support
+In-Reply-To: <20180724115009.731-6-hch@lst.de> (Christoph Hellwig's message of
+ "Tue, 24 Jul 2018 13:50:05 +0200")
+References: <20180724115009.731-1-hch@lst.de> <20180724115009.731-6-hch@lst.de>
+Message-ID: <yq1r2jq21t8.fsf@oracle.com>
 
 
-Max,
+Christoph,
 
-> Also moved the logic of the remapping to the nvme core driver instead
-> of implementing it in the nvme pci driver. This way all the other nvme
-> transport drivers will benefit from it (in case they'll implement metadata
-> support).
+> The gendisk for a ns_head is only registered once a life path for it
 
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+Minor nit:
+
+s/life/live/
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
