@@ -1,10 +1,9 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 26 Jul 2018 13:34:03 +0200
-Subject: [PATCH 9/9] nvmet: support configuring ANA groups
-In-Reply-To: <20180724115009.731-10-hch@lst.de>
-References: <20180724115009.731-1-hch@lst.de>
- <20180724115009.731-10-hch@lst.de>
-Message-ID: <20180726113403.whobbplzi6ocehxs@linux-x5ow.site>
+Date: Thu, 26 Jul 2018 13:34:17 +0200
+Subject: [PATCH 8/9] nvmet: add minimal ANA support
+In-Reply-To: <20180724115009.731-9-hch@lst.de>
+References: <20180724115009.731-1-hch@lst.de> <20180724115009.731-9-hch@lst.de>
+Message-ID: <20180726113417.paxvi5jeoskypvoi@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
