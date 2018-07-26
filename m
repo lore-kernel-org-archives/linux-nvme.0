@@ -1,137 +1,138 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 26 Jul 2018 09:35:53 -0700
-Subject: [PATCH 0/2] blktests: test ANA base support
-In-Reply-To: <BYAPR04MB4502FE260EA90730B4522657862B0@BYAPR04MB4502.namprd04.prod.outlook.com>
-References: <20180717133118.39026-1-hare@suse.de>
- <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725191712.GA16847@vader>
- <BYAPR04MB4502890F18B77778B8EF6E5686540@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725210001.GB16847@vader>
- <BYAPR04MB4502FE260EA90730B4522657862B0@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <9661913b-cb11-39ba-7c3f-7dbd7490736a@broadcom.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Thu, 26 Jul 2018 13:20:57 -0400
+Subject: [PATCH 5/9] nvme: add ANA support
+In-Reply-To: <20180726153505.4153-6-hch@lst.de>
+References: <20180726153505.4153-1-hch@lst.de>
+ <20180726153505.4153-6-hch@lst.de>
+Message-ID: <20180726172056.GA15917@redhat.com>
 
-make sure this fix has been picked up in your kernel:
-http://git.infradead.org/nvme.git/commit/6cdefc6e2ad52170f89a8d0e8b1a1339f91834dc
+On Thu, Jul 26 2018 at 11:35am -0400,
+Christoph Hellwig <hch@lst.de> wrote:
 
-deletes were broken otherwise and have the exact trace below.
+> Add support for Asynchronous Namespace Access as specified in NVMe 1.3
+> TP 4004.  With ANA each namespace attached to a controller belongs to an
+> ANA group that describes the characteristics of accessing the namespaces
+> through this controller.  In the optimized and non-optimized states
+> namespaces can be accessed regularly, although in a multi-pathing
+> environment we should always prefer to access a namespace through a
+> controller where an optimized relationship exists.  Namespaces in
+> Inaccessible, Permanent-Loss or Change state for a given controller
+> should not be accessed.
+> 
+> The states are updated through reading the ANA log page, which is read
+> once during controller initialization, whenever the ANA change notice
+> AEN is received, or when one of the ANA specific status codes that
+> signal a state change is received on a command.
+> 
+> The ANA state is kept in the nvme_ns structure, which makes the checks in
+> the fast path very simple.  Updating the ANA state when reading the log
+> page is also very simple, the only downside is that finding the initial
+> ANA state when scanning for namespaces is a bit cumbersome.
+> 
+> The gendisk for a ns_head is only registered once a life path for it
+> exists.  Without that the kernel would hang during partition scanning.
+> 
+> Includes fixes and improvements from Hannes Reinecke.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/core.c      |  42 ++++-
+>  drivers/nvme/host/multipath.c | 342 ++++++++++++++++++++++++++++++++--
+>  drivers/nvme/host/nvme.h      |  51 ++++-
+>  3 files changed, 408 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 456d37a02ea3..e62592c949ab 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -1035,18 +1035,18 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+>  EXPORT_SYMBOL_GPL(nvme_set_queue_count);
+>  
+>  #define NVME_AEN_SUPPORTED \
+> -	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT)
+> +	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
+>  
+>  static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+>  {
+> -	u32 result;
+> +	u32 supported = ctrl->oaes & NVME_AEN_SUPPORTED, result;
+>  	int status;
+>  
+> -	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT,
+> -			ctrl->oaes & NVME_AEN_SUPPORTED, NULL, 0, &result);
+> +	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT, supported, NULL,
+> +			0, &result);
+>  	if (status)
+>  		dev_warn(ctrl->device, "Failed to configure AEN (cfg %x)\n",
+> -			 ctrl->oaes & NVME_AEN_SUPPORTED);
+> +			 supported);
+>  }
+>  
+>  static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+> @@ -2370,6 +2370,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  	nvme_set_queue_limits(ctrl, ctrl->admin_q);
+>  	ctrl->sgls = le32_to_cpu(id->sgls);
+>  	ctrl->kas = le16_to_cpu(id->kas);
+> +	ctrl->max_namespaces = le32_to_cpu(id->mnan);
+>  
+>  	if (id->rtd3e) {
+>  		/* us -> s */
+> @@ -2429,8 +2430,12 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  		ctrl->hmmaxd = le16_to_cpu(id->hmmaxd);
+>  	}
+>  
+> +	ret = nvme_mpath_init(ctrl, id);
+>  	kfree(id);
+>  
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	if (ctrl->apst_enabled && !prev_apst_enabled)
+>  		dev_pm_qos_expose_latency_tolerance(ctrl->device);
+>  	else if (!ctrl->apst_enabled && prev_apst_enabled)
+> @@ -2649,6 +2654,10 @@ static struct attribute *nvme_ns_id_attrs[] = {
+>  	&dev_attr_nguid.attr,
+>  	&dev_attr_eui.attr,
+>  	&dev_attr_nsid.attr,
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	&dev_attr_ana_grpid.attr,
+> +	&dev_attr_ana_state.attr,
+> +#endif
+>  	NULL,
+>  };
+>  
+> @@ -2671,6 +2680,14 @@ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+>  		if (!memchr_inv(ids->eui64, 0, sizeof(ids->eui64)))
+>  			return 0;
+>  	}
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	if (a == &dev_attr_ana_grpid.attr || a == &dev_attr_ana_state.attr) {
+> +		if (dev_to_disk(dev)->fops != &nvme_fops) /* per-path attr */
+> +			return 0;
+> +		if (!nvme_ctrl_use_ana(nvme_get_ns_from_dev(dev)->ctrl))
+> +			return 0;
+> +	}
+> +#endif
+>  	return a->mode;
+>  }
+>  
 
--- james
+I'm at a loss as to why ANA code in host core needs to be wrapped by
+CONFIG_NVME_MULTIPATH (or why the mechanics of ANA support cannot be
+decoupled from multipath.c).  I mean it may keep things clearer for this
+particular implementation but it obviously prevents any more generic ANA
+handling (decoupled from all the CONFIG_NVME_MULTIPATH code).  That is
+likely very much by design.
 
+Just seems unecessary but yet inkeeping with one NVMe multipath to rule
+them all.  Unfortunate.  Especially in that I thought Hannes had a
+vision for how to keep ANA more analogous to scsi_dh_alua -- meaning
+capabilties are added to influence behavior of NVMe if the NVMe device
+advertises support for those capabilities.
 
-On 7/25/2018 7:01 PM, Chaitanya Kulkarni wrote:
-> Thanks for the report and correction. I was able to run the test and reproduce the problem, I also confirm that it is not that consistent.
->
-> As I suspected the problem is in the nvme disconnect in the following call chain:-
->
->
-> nvme_sysfs_delete
->  ?nvme_delete_ctrl_sync
->  ? ?nvme_delete_ctrl_work
->  ? ? nvme_remove_namespaces
->  ? ? ?nvme_ns_remove
->  ? ? ?  nvme_ns_remove
->  ? ? ? ?? blk_cleanup_queue
->  ? ? ? ?    blk_freeze_queue
->  ? ? ? ? ??   blk_freeze_queue_start
->  ? ? ? ? ?      wait_event(q->mq_freeze_wq, percpu_ref_is_zero(&q->q_usage_counter));?<----- Stuck here.
->          
-> blk_cleanup_queue()?that's where it is blocking and then target ctrl is timing out on keep alive.
->
-> It will take some time for me to debug and find a fix let's merge this test once we fix this issue.
->
->
->
-> How should we go about other tests ? should we merge them and keep this one out in the nvmeof branch?
-> Regards,
-> Chaitanya
->
->
->
-> From: Omar Sandoval <osandov at osandov.com>
-> Sent: Wednesday, July 25, 2018 2:00 PM
-> To: Chaitanya Kulkarni
-> Cc: Hannes Reinecke; Omar Sandoval; Christoph Hellwig; Sagi Grimberg; Keith Busch; linux-nvme at lists.infradead.org; linux-block at vger.kernel.org
-> Subject: Re: [PATCH 0/2] blktests: test ANA base support
->    
->   
-> On Wed, Jul 25, 2018@07:27:35PM +0000, Chaitanya Kulkarni wrote:
->> Thanks, Omar.
-> Tests nvme/014 and nvme/015 had a pretty bad typo that I didn't notice
-> last time:
->
-> dd=/dev/urandom of="/dev/${nvmedev}n1" count=128000 bs=4k
->
-> That should be
->
-> dd if=/dev/urandom of="/dev/${nvmedev}n1" count=128000 bs=4k status=none
->
-> When I fix that (and change the nvme flush call as mentioned before), I
-> sometimes get a hung task:
->
-> [? 273.844440] run blktests nvme/015 at 2018-07-25 13:44:11
-> [? 273.861950] nvmet: adding nsid 1 to subsystem blktests-subsystem-1
-> [? 273.875014] nvmet: creating controller 1 for subsystem blktests-subsystem-1 for NQN nqn.2014-08.org.nvmexpress:uuid:c5e36fdf-8e4d-4c27-be56-da373db583b2.
-> [? 273.877457] nvme nvme1: creating 4 I/O queues.
-> [? 273.879141] nvme nvme1: new ctrl: "blktests-subsystem-1"
-> [? 276.247708] nvme nvme1: using deprecated NVME_IOCTL_IO_CMD ioctl on the char device!
-> [? 276.262835] nvme nvme1: Removing ctrl: NQN "blktests-subsystem-1"
-> [? 289.755361] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-> [? 289.760579] nvmet: ctrl 1 fatal error occurred!
-> [? 491.095890] INFO: task kworker/u8:0:7 blocked for more than 120 seconds.
-> [? 491.104407]?????? Not tainted 4.18.0-rc6 #18
-> [? 491.108330] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> [? 491.116521] kworker/u8:0??? D??? 0???? 7????? 2 0x80000000
-> [? 491.121754] Workqueue: nvme-delete-wq nvme_delete_ctrl_work [nvme_core]
-> [? 491.129604] Call Trace:
-> [? 491.131611]? ? __schedule+0x2a1/0x890
-> [? 491.135112]? ? _raw_spin_unlock_irqrestore+0x20/0x40
-> [? 491.140542]? schedule+0x32/0x90
-> [? 491.142030]? blk_mq_freeze_queue_wait+0x41/0xa0
-> [? 491.144186]? ? wait_woken+0x80/0x80
-> [? 491.145726]? blk_cleanup_queue+0x75/0x160
-> [? 491.150235]? nvme_ns_remove+0xf9/0x130 [nvme_core]
-> [? 491.151910]? nvme_remove_namespaces+0x86/0xc0 [nvme_core]
-> [? 491.153127]? nvme_delete_ctrl_work+0x4b/0x80 [nvme_core]
-> [? 491.154727]? process_one_work+0x18c/0x360
-> [? 491.155428]? worker_thread+0x1c6/0x380
-> [? 491.156160]? ? process_one_work+0x360/0x360
-> [? 491.157493]? kthread+0x112/0x130
-> [? 491.159119]? ? kthread_flush_work_fn+0x10/0x10
-> [? 491.160008]? ret_from_fork+0x35/0x40
-> [? 491.160729] INFO: task nvme:1139 blocked for more than 120 seconds.
-> [? 491.162416]?????? Not tainted 4.18.0-rc6 #18
-> [? 491.164348] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> [? 491.166012] nvme??????????? D??? 0? 1139?? 1072 0x00000000
-> [? 491.167946] Call Trace:
-> [? 491.168459]? ? __schedule+0x2a1/0x890
-> [? 491.169312]? schedule+0x32/0x90
-> [? 491.170180]? schedule_timeout+0x311/0x4a0
-> [? 491.171921]? ? kernfs_fop_release+0xa0/0xa0
-> [? 491.172884]? wait_for_common+0x1a0/0x1d0
-> [? 491.173813]? ? wake_up_q+0x70/0x70
-> [? 491.174410]? flush_work+0x10e/0x1c0
-> [? 491.174991]? ? flush_workqueue_prep_pwqs+0x130/0x130
-> [? 491.176113]? nvme_delete_ctrl_sync+0x41/0x50 [nvme_core]
-> [? 491.177969]? nvme_sysfs_delete+0x28/0x30 [nvme_core]
-> [? 491.178632]? kernfs_fop_write+0x116/0x190
-> [? 491.179254]? __vfs_write+0x36/0x190
-> [? 491.179812]? vfs_write+0xa9/0x190
-> [? 491.180344]? ksys_write+0x4f/0xb0
-> [? 491.181056]? do_syscall_64+0x5b/0x170
-> [? 491.181583]? entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [? 491.182311] RIP: 0033:0x7fc04176b9d4
-> [? 491.182863] Code: Bad RIP value.
-> [? 491.183650] RSP: 002b:00007ffc33bd15a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-> [? 491.184622] RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007fc04176b9d4
-> [? 491.185606] RDX: 0000000000000001 RSI: 000055884bd0810a RDI: 0000000000000004
-> [? 491.186719] RBP: 0000000000000000 R08: 0000000000000000 R09: 000000000000000f
-> [? 491.187684] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> [? 491.189045] R13: 00007ffc33bd2c20 R14: 00007ffc33bd15f0 R15: 0000000000000010
->
-> I pushed what I have to  https://github.com/osandov/blktests/tree/nvmeof,
-> can you please take a look?
->      
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Making it all so tightly coupled to the CONFIG_NVME_MULTIPATH code is
+obviously easier to reason through and may be appropriate for now (just
+to get it all working).  I just see it as artificially limiting and
+frankly wrong.
+
+Mike
