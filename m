@@ -1,36 +1,30 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 26 Jul 2018 19:56:55 -0700
-Subject: [PATCH V2 2/3] nvme-core: set gendisk read only based on nsattr
-In-Reply-To: <20180727025656.9334-1-chaitanya.kulkarni@wdc.com>
-References: <20180727025656.9334-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180727025656.9334-3-chaitanya.kulkarni@wdc.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 27 Jul 2018 08:06:44 +0200
+Subject: draft ANA support v6
+In-Reply-To: <20180726153505.4153-1-hch@lst.de>
+References: <20180726153505.4153-1-hch@lst.de>
+Message-ID: <3ecdfe4c-f3a2-6314-c9da-1d56a6caaf38@suse.de>
 
-NVMe 1.3 TP 4005 introduces new filed (NSATTR). This field indicates
-whether given namespace is write protected or not. This patch sets the
-gendisk associated with the namespace to read only based on the identify
-namespace nsattr field structure to set the.
+On 07/26/2018 05:34 PM, Christoph Hellwig wrote:
+> I think we are about ready to merge now, so please review carefully.
+> 
+> A git tree is available at:
+> 
+>     git://git.infradead.org/users/hch/block.git nvme-ana
+> 
+> Gitweb:
+> 
+>     http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-ana
+> 
+Can you please push v6 to the git tree?
+I'm only seeing v5 there ...
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/host/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Cheers,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e77e6418a21c..a4f65391b717 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1451,6 +1451,12 @@ static void nvme_update_disk_info(struct gendisk *disk,
- 
- 	set_capacity(disk, capacity);
- 	nvme_config_discard(ns);
-+
-+	if (id->nsattr & (1 << 0))
-+		set_disk_ro(disk, true);
-+	else
-+		set_disk_ro(disk, false);
-+
- 	blk_mq_unfreeze_queue(disk->queue);
- }
- 
+Hannes
 -- 
-2.17.0
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
