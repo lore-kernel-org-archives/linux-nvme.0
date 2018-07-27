@@ -1,28 +1,40 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Thu, 26 Jul 2018 15:26:43 -0700
-Subject: [PATCH 0/2] blktests: test ANA base support
-In-Reply-To: <20180726213132.GG16847@vader>
-References: <20180717133118.39026-1-hare@suse.de>
- <BYAPR04MB4502201C7DCD5AC4514AC6BC86500@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725191712.GA16847@vader>
- <BYAPR04MB4502890F18B77778B8EF6E5686540@BYAPR04MB4502.namprd04.prod.outlook.com>
- <20180725210001.GB16847@vader>
- <BYAPR04MB4502FE260EA90730B4522657862B0@BYAPR04MB4502.namprd04.prod.outlook.com>
- <9661913b-cb11-39ba-7c3f-7dbd7490736a@broadcom.com>
- <20180726213132.GG16847@vader>
-Message-ID: <20180726222643.GH16847@vader>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 26 Jul 2018 19:56:53 -0700
+Subject: [PATCH V2 0/3] nvmet: add support for ns write protect
+Message-ID: <20180727025656.9334-1-chaitanya.kulkarni@wdc.com>
 
-On Thu, Jul 26, 2018@02:31:32PM -0700, Omar Sandoval wrote:
-> On Thu, Jul 26, 2018@09:35:53AM -0700, James Smart wrote:
-> > make sure this fix has been picked up in your kernel:
-> > http://git.infradead.org/nvme.git/commit/6cdefc6e2ad52170f89a8d0e8b1a1339f91834dc
-> > 
-> > deletes were broken otherwise and have the exact trace below.
-> > 
-> > -- james
-> 
-> Thanks, James, that indeed fixes the problem. I'll go ahead and merge
-> these tests since there's a fix in flight.
+Hi,
 
-By "these tests", I mean Chaitanya's tests, Hannes still has some
-comments to resolve :)
+This patch series implements the support for NVMeOF target ns write
+protect get/set-features command. In this implementation we support
+Write Protect and No Write Protect state for the target ns which can be
+toggled/read by set/get-features commands.  
+
+Changes from V1:-
+1. Incorporate Christoph's comments.
+2. Use feature not changeable error code in case of invalid state
+   transition.
+3. Split the patche into 3 patches.
+4. Set the gendisk associated with the nvme namespace into readonly mode
+   if identify namespace nsattr attribute indicates namesapce is write
+   protected.
+
+Regards,
+Chaitanya
+
+Chaitanya Kulkarni (3):
+  nvme: add support for ns write protect definitions
+  nvme-core: set gendisk read only based on nsattr
+  nvmet: add ns write protect support
+
+ drivers/nvme/host/core.c          |   6 ++
+ drivers/nvme/target/admin-cmd.c   | 120 +++++++++++++++++++++++++++++-
+ drivers/nvme/target/core.c        |   6 +-
+ drivers/nvme/target/io-cmd-bdev.c |  12 +++
+ drivers/nvme/target/io-cmd-file.c |  15 +++-
+ drivers/nvme/target/nvmet.h       |   6 ++
+ include/linux/nvme.h              |  17 ++++-
+ 7 files changed, 174 insertions(+), 8 deletions(-)
+
+-- 
+2.17.0
