@@ -1,143 +1,263 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 27 Jul 2018 12:26:29 +0200
-Subject: [PATCH 3/6] nvme-cli: Add ANA support
+Date: Fri, 27 Jul 2018 12:26:30 +0200
+Subject: [PATCH 4/6] nvme-list-subsys: Add device name argument and print out
+ ANA state
 In-Reply-To: <20180727102632.32455-1-hare@suse.de>
 References: <20180727102632.32455-1-hare@suse.de>
-Message-ID: <20180727102632.32455-4-hare@suse.de>
+Message-ID: <20180727102632.32455-5-hare@suse.de>
 
-Decode additional fields specified in the ANA TP.
+Update the 'nvme list-subsys' command to accept a device name and
+print out the ANA state for all paths to that device.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- linux/nvme.h | 14 +++++++++++---
- nvme-print.c | 44 ++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 53 insertions(+), 5 deletions(-)
+ Documentation/nvme-list-subsys.txt |   4 +-
+ nvme-print.c                       |  10 +++-
+ nvme.c                             | 115 +++++++++++++++++++++++++++++++++++--
+ nvme.h                             |   1 +
+ 4 files changed, 121 insertions(+), 9 deletions(-)
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index dc8ea89..55a197b 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -241,7 +241,12 @@ struct nvme_id_ctrl {
- 	__le32			hmminds;
- 	__le16			hmmaxd;
- 	__le16			nsetidmax;
--	__u8			rsvd340[172];
-+	__u8			rsvd340[2];
-+	__u8			anatt;
-+	__u8			anacap;
-+	__le32			anagrpmax;
-+	__le32			nanagrpid;
-+	__u8			rsvd352[160];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__le16			maxcmd;
-@@ -257,7 +262,8 @@ struct nvme_id_ctrl {
- 	__le16			acwu;
- 	__u8			rsvd534[2];
- 	__le32			sgls;
--	__u8			rsvd540[228];
-+	__le32			mnan;
-+	__u8			rsvd544[224];
- 	char			subnqn[256];
- 	__u8			rsvd1024[768];
- 	__le32			ioccsz;
-@@ -317,7 +323,9 @@ struct nvme_id_ns {
- 	__le16			nabspf;
- 	__le16			noiob;
- 	__u8			nvmcap[16];
--	__u8			rsvd64[36];
-+	__u8			rsvd64[28];
-+	__le32			anagrpid;
-+	__u8			rsvd96[4];
- 	__le16			nvmsetid;
- 	__le16			endgid;
- 	__u8			nguid[16];
+diff --git a/Documentation/nvme-list-subsys.txt b/Documentation/nvme-list-subsys.txt
+index c7de7ef..c40b708 100644
+--- a/Documentation/nvme-list-subsys.txt
++++ b/Documentation/nvme-list-subsys.txt
+@@ -8,12 +8,14 @@ nvme-list-subsys - List all NVMe subsystems
+ SYNOPSIS
+ --------
+ [verse]
+-'nvme list-subsys' [-o <fmt> | --output-format=<fmt>]
++'nvme list-subsys' [-o <fmt> | --output-format=<fmt>] <device>
+ 
+ DESCRIPTION
+ -----------
+ Scan the sysfs tree for NVM Express subsystems and return the controllers
+ for those subsystems as well as some pertinent information about them.
++If a device is given, print out only the values for the controllers
++and subsystems leading to the device.
+ 
+ OPTIONS
+ -------
 diff --git a/nvme-print.c b/nvme-print.c
-index daf2929..692c903 100644
+index 692c903..e4c90bf 100644
 --- a/nvme-print.c
 +++ b/nvme-print.c
-@@ -78,12 +78,14 @@ static void format(char *formatter, size_t fmt_sz, char *tofmt, size_t tofmtsz)
+@@ -2579,9 +2579,11 @@ static void show_nvme_subsystem(struct subsys_list_item *item)
+ 	printf("\\\n");
  
- static void show_nvme_id_ctrl_cmic(__u8 cmic)
- {
--	__u8 rsvd = (cmic & 0xF8) >> 3;
-+	__u8 rsvd = (cmic & 0xF0) >> 4;
-+	__u8 ana = (cmic & 0x8) >> 3;
- 	__u8 sriov = (cmic & 0x4) >> 2;
- 	__u8 mctl = (cmic & 0x2) >> 1;
- 	__u8 mp = cmic & 0x1;
- 	if (rsvd)
--		printf("  [7:3] : %#x\tReserved\n", rsvd);
-+		printf("  [7:4] : %#x\tReserved\n", rsvd);
-+	printf("  [3:3] : %#x\tANA %ssupported\n", ana, ana ? "" : "not ");
- 	printf("  [2:2] : %#x\t%s\n", sriov, sriov ? "SR-IOV" : "PCI");
- 	printf("  [1:1] : %#x\t%s Controller\n",
- 		mctl, mctl ? "Multi" : "Single");
-@@ -283,6 +285,36 @@ static void show_nvme_id_ctrl_sanicap(__le32 ctrl_sanicap)
- 	printf("\n");
+ 	for (i = 0; i < item->nctrls; i++) {
+-		printf(" +- %s %s %s\n", item->ctrls[i].name,
++		printf(" +- %s %s %s %s\n", item->ctrls[i].name,
+ 				item->ctrls[i].transport,
+-				item->ctrls[i].address);
++				item->ctrls[i].address,
++				item->ctrls[i].ana_state ?
++					item->ctrls[i].ana_state : "");
+ 	}
+ 
  }
+@@ -2627,6 +2629,10 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
+ 					slist[i].ctrls[j].transport);
+ 			json_object_add_value_string(path_attrs, "Address",
+ 					slist[i].ctrls[j].address);
++			if (slist[i].ctrls[j].ana_state)
++				json_object_add_value_string(path_attrs,
++						"State",
++						slist[i].ctrls[j].ana_state);
+ 			json_array_add_value_object(paths, path_attrs);
+ 		}
+ 		if (j) {
+diff --git a/nvme.c b/nvme.c
+index 4815caa..74dfb61 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1288,6 +1288,73 @@ err_free_addrpath:
  
-+static void show_nvme_id_ctrl_anacap(__u8 anacap)
-+{
-+	__u8 nz = (anacap & 0x80) >> 7;
-+	__u8 grpid_change = (anacap & 0x40) >> 6;
-+	__u8 rsvd = (anacap & 0x20) >> 5;
-+	__u8 ana_change = (anacap & 0x10) >> 4;
-+	__u8 ana_persist_loss = (anacap & 0x08) >> 3;
-+	__u8 ana_inaccessible = (anacap & 0x04) >> 2;
-+	__u8 ana_nonopt = (anacap & 0x02) >> 1;
-+	__u8 ana_opt = (anacap & 0x01);
+ 	return NULL;
+ }
 +
-+	printf("  [7:7] : %#x\tNon-zero group ID %sSupported\n",
-+	       nz, nz ? "" : "Not ");
-+	printf("  [6:6] : %#x\tGroup ID does %schange\n",
-+	       grpid_change, grpid_change ? "" : "not ");
-+	if (rsvd)
-+		printf(" [5:5] : %#x\tReserved\n", rsvd);
-+	printf("  [4:4] : %#x\tANA Change state %sSupported\n",
-+		ana_change, ana_change ? "" : "Not ");
-+	printf("  [3:3] : %#x\tANA Persistent Loss state %sSupported\n",
-+		ana_persist_loss, ana_persist_loss ? "" : "Not ");
-+	printf("  [2:2] : %#x\tANA Inaccessible state %sSupported\n",
-+		ana_inaccessible, ana_inaccessible ? "" : "Not ");
-+	printf("  [1:1] : %#x\tANA Non-optimized state %sSupported\n",
-+		ana_nonopt, ana_nonopt ? "" : "Not ");
-+	printf("  [0:0] : %#x\tANA Optimized state %sSupported\n",
-+		ana_opt, ana_opt ? "" : "Not ");
-+	printf("\n");
++static int scan_ctrl_paths_filter(const struct dirent *d)
++{
++	int id, cntlid, nsid;
++
++	if (d->d_name[0] == '.')
++		return 0;
++
++	if (strstr(d->d_name, "nvme")) {
++		if (sscanf(d->d_name, "nvme%dc%dn%d", &id, &cntlid, &nsid) != 3)
++			return 0;
++		return 1;
++	}
++
++	return 0;
 +}
 +
- static void show_nvme_id_ctrl_sqes(__u8 sqes)
++static char *get_nvme_ctrl_path_ana_state(char *path, int nsid)
++{
++	struct dirent **paths;
++	char *ana_state;
++	int i, n;
++
++	ana_state = calloc(1, 16);
++	if (!ana_state)
++		return NULL;
++
++	n = scandir(path, &paths, scan_ctrl_paths_filter, alphasort);
++	if (n <= 0) {
++		fprintf(stderr, "failed to scan controller path(s).\n");
++		free(ana_state);
++		return NULL;
++	}
++	for (i = 0; i < n; i++) {
++		int id, cntlid, ns, fd;
++		ssize_t ret;
++		char ctrl_path[256];
++
++		if (sscanf(paths[i]->d_name, "nvme%dc%dn%d",
++			   &id, &cntlid, &ns) != 3)
++			continue;
++
++		if (ns != nsid)
++			continue;
++
++		sprintf(ctrl_path, "%s/%s/ana_state", path, paths[i]->d_name);
++		fd = open(ctrl_path, O_RDONLY);
++		if (fd < 0) {
++			fprintf(stderr, "Failed to open ANA state %s\n",
++				ctrl_path);
++			return NULL;
++		}
++		ret = read(fd, ana_state, 16);
++		if (ret < 0) {
++			fprintf(stderr, "Failed to read ANA state from %s\n",
++				ctrl_path);
++			free(ana_state);
++			ana_state = NULL;
++		} else if (ana_state[strlen(ana_state) - 1] == '\n')
++			ana_state[strlen(ana_state) - 1] = '\0';
++		close(fd);
++		break;
++	}
++
++	return ana_state;
++}
++
+ static int scan_ctrls_filter(const struct dirent *d)
  {
- 	__u8 msqes = (sqes & 0xF0) >> 4;
-@@ -646,6 +678,7 @@ void show_nvme_id_ns(struct nvme_id_ns *ns, unsigned int mode)
- 	printf("nvmcap  : %.0Lf\n", int128_to_double(ns->nvmcap));
- 	printf("nvmsetid: %d\n", le16_to_cpu(ns->nvmsetid));
- 	printf("endgid  : %d\n", le16_to_cpu(ns->endgid));
-+	printf("anagrpid: %#x\n", le32_to_cpu(ns->anagrpid));
+ 	int id, nsid;
+@@ -1312,7 +1379,7 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
+ }
  
- 	printf("nguid   : ");
- 	for (i = 0; i < 16; i++)
-@@ -924,6 +957,12 @@ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*ve
- 	printf("hmminds   : %d\n", le32_to_cpu(ctrl->hmminds));
- 	printf("hmmaxd    : %d\n", le16_to_cpu(ctrl->hmmaxd));
- 	printf("nsetidmax : %d\n", le16_to_cpu(ctrl->nsetidmax));
-+	printf("anatt     : %d\n", ctrl->anatt);
-+	printf("anacap    : %#x\n", ctrl->anacap);
-+	if (human)
-+		show_nvme_id_ctrl_anacap(ctrl->anacap);
-+	printf("anagrpmax : %u\n", le32_to_cpu(ctrl->anagrpmax));
-+	printf("nanagrpid : %u\n", le32_to_cpu(ctrl->nanagrpid));
- 	printf("sqes      : %#x\n", ctrl->sqes);
- 	if (human)
- 		show_nvme_id_ctrl_sqes(ctrl->sqes);
-@@ -953,6 +992,7 @@ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*ve
- 	printf("sgls      : %x\n", le32_to_cpu(ctrl->sgls));
- 	if (human)
- 		show_nvme_id_ctrl_sgls(ctrl->sgls);
-+	printf("mnan:     : %d\n", le32_to_cpu(ctrl->mnan));
- 	printf("subnqn    : %-.*s\n", (int)sizeof(ctrl->subnqn), ctrl->subnqn);
- 	printf("ioccsz    : %d\n", le32_to_cpu(ctrl->ioccsz));
- 	printf("iorcsz    : %d\n", le32_to_cpu(ctrl->iorcsz));
+ int get_nvme_subsystem_info(char *name, char *path,
+-				struct subsys_list_item *item)
++			    struct subsys_list_item *item, int nsid)
+ {
+ 	char ctrl_path[512];
+ 	struct dirent **ctrls;
+@@ -1360,7 +1427,9 @@ int get_nvme_subsystem_info(char *name, char *path,
+ 			free_ctrl_list_item(&item->ctrls[ccnt]);
+ 			continue;
+ 		}
+-
++		if (nsid)
++			item->ctrls[ccnt].ana_state =
++				get_nvme_ctrl_path_ana_state(ctrl_path, nsid);
+ 		ccnt++;
+ 	}
+ 
+@@ -1429,9 +1498,10 @@ static int list_subsys(int argc, char **argv, struct command *cmd,
+ 		       struct plugin *plugin)
+ {
+ 	char path[310];
++	char *subsysnqn = NULL;
+ 	struct dirent **subsys;
+ 	struct subsys_list_item *slist;
+-	int fmt, n, i, ret = 0, subcnt = 0;
++	int fmt, n = 1, i, ret = 0, subcnt = 0, nsid = 0, id;
+ 	const char *desc = "Retrieve information for subsystems";
+ 	struct config {
+ 		char *output_format;
+@@ -1451,13 +1521,42 @@ static int list_subsys(int argc, char **argv, struct command *cmd,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	devicename = NULL;
++	if (optind < argc) {
++		devicename = basename(argv[optind]);
++		if (sscanf(devicename, "nvme%dn%d", &id, &nsid) != 2) {
++			fprintf(stderr, "%s is not a NVMe namespace device\n",
++				argv[optind]);
++			return -EINVAL;
++		}
++		sprintf(path, "/sys/block/%s/device", devicename);
++		subsysnqn = get_nvme_subsnqn(path);
++		if (!subsysnqn) {
++			fprintf(stderr, "Cannot read subsys NQN from %s\n",
++				devicename);
++			return -EINVAL;
++		}
++		optind++;
++	}
++
++	if (ret < 0) {
++		argconfig_print_help(desc, opts);
++		if (subsysnqn)
++			free(subsysnqn);
++		return ret;
++	}
+ 	fmt = validate_output_format(cfg.output_format);
+ 
+-	if (fmt != JSON && fmt != NORMAL)
++	if (fmt != JSON && fmt != NORMAL) {
++		if (subsysnqn)
++			free(subsysnqn);
+ 		return -EINVAL;
++	}
+ 	n = scandir(subsys_dir, &subsys, scan_subsys_filter, alphasort);
+ 	if (n < 0) {
+ 		fprintf(stderr, "no NVMe subsystem(s) detected.\n");
++		if (subsysnqn)
++			free(subsysnqn);
+ 		return n;
+ 	}
+ 
+@@ -1471,12 +1570,15 @@ static int list_subsys(int argc, char **argv, struct command *cmd,
+ 		snprintf(path, sizeof(path), "%s%s", subsys_dir,
+ 			subsys[i]->d_name);
+ 		ret = get_nvme_subsystem_info(subsys[i]->d_name, path,
+-				&slist[subcnt]);
++				&slist[subcnt], nsid);
+ 		if (ret) {
+ 			fprintf(stderr,
+ 				"%s: failed to get subsystem info: %s\n",
+ 				path, strerror(errno));
+ 			free_subsys_list_item(&slist[subcnt]);
++		} else if (subsysnqn &&
++			   strncmp(slist[subcnt].subsysnqn, subsysnqn, 255)) {
++			free_subsys_list_item(&slist[subcnt]);
+ 		} else
+ 			subcnt++;
+ 	}
+@@ -1492,7 +1594,8 @@ free_subsys:
+ 	for (i = 0; i < n; i++)
+ 		free(subsys[i]);
+ 	free(subsys);
+-
++		if (subsysnqn)
++			free(subsysnqn);
+ 	return ret;
+ }
+ 
+diff --git a/nvme.h b/nvme.h
+index 5098b0e..26d5b85 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -129,6 +129,7 @@ struct ctrl_list_item {
+ 	char *name;
+ 	char *address;
+ 	char *transport;
++	char *ana_state;
+ };
+ 
+ struct subsys_list_item {
 -- 
 2.13.7
