@@ -1,34 +1,23 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 27 Jul 2018 09:38:16 -0600
-Subject: [PATCH v4 1/3] block: move ref_tag calculation func to the block
- layer
-In-Reply-To: <a50d17af-6e6f-c899-5dd6-e87d5436af98@kernel.dk>
-References: <1532533577-1600-1-git-send-email-maxg@mellanox.com>
- <a50d17af-6e6f-c899-5dd6-e87d5436af98@kernel.dk>
-Message-ID: <165f5bbe-168f-cd15-8fd0-d464aca64414@kernel.dk>
+From: hare@suse.de (Hannes Reinecke)
+Date: Sat, 28 Jul 2018 16:14:39 +0200
+Subject: [PATCH 5/6] nvme-cli: Implement ana log page support
+In-Reply-To: <20180727151530.GA30341@lst.de>
+References: <20180727102632.32455-1-hare@suse.de>
+ <20180727102632.32455-6-hare@suse.de> <20180727151530.GA30341@lst.de>
+Message-ID: <1412caa8-f53b-f5a3-a0fb-88d2ba423790@suse.de>
 
-On 7/27/18 9:21 AM, Jens Axboe wrote:
-> On 7/25/18 9:46 AM, Max Gurtovoy wrote:
->> Currently this function is implemented in the scsi layer, but it's
->> actual place should be the block layer since T10-PI is a general
->> data integrity feature that is used in the nvme protocol as well.
+On 07/27/2018 05:15 PM, Christoph Hellwig wrote:
+> Chaitanya already sent a patch for this two days ago..
 > 
-> Applied 1-3 for 4.19.
+I sort of hinted at that in the cover letter.
+This patch was done quite some time ago, and I was to lazy to rework the 
+patch series.
+Plus it actually has json support, which was missing from Chaitanyas patch.
 
-This:
+I don't mind with way to go; drop my patch, have my patchset updated to 
+include Chaitanyas, drop Chaitanyas, whatever.
+Just say the word.
 
-static inline u32 t10_pi_ref_tag(struct request *rq)
-{
-        return blk_rq_pos(rq) >>
-                (rq->q->integrity.interval_exp - 9) & 0xffffffff;
-}
+Cheers,
 
-won't work for !CONFIG_BLK_DEV_INTEGRITY. I didn't want to make the
-change, but looks like it should either return -1U as we the value
-should mean nothing if BLK_DEV_INTEGRITY isn't set, or just ignore the
-shift and return blk_rq_pos(rq) & 0xffffffff.
-
-Please fixup and resend the series.
-
--- 
-Jens Axboe
+Hannes
