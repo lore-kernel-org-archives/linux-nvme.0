@@ -1,61 +1,38 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 28 Jul 2018 16:22:42 -0600
-Subject: [PATCH v4 1/3] block: move ref_tag calculation func to the block
- layer
-In-Reply-To: <f4fd6fd9-bc80-7c27-9a81-c09edbca8a4e@mellanox.com>
-References: <1532533577-1600-1-git-send-email-maxg@mellanox.com>
- <a50d17af-6e6f-c899-5dd6-e87d5436af98@kernel.dk>
- <165f5bbe-168f-cd15-8fd0-d464aca64414@kernel.dk>
- <f4fd6fd9-bc80-7c27-9a81-c09edbca8a4e@mellanox.com>
-Message-ID: <d8fba6ff-c4c2-7a0f-5a8d-01aaf979f16e@kernel.dk>
+From: hare@suse.com (Hannes Reinecke)
+Date: Sun, 29 Jul 2018 10:56:17 +0200
+Subject: [PATCH 5/6] nvme-cli: Implement ana log page support
+In-Reply-To: <BYAPR04MB4502186A898FC0E1D31E079286290@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20180727102632.32455-1-hare@suse.de>
+ <20180727102632.32455-6-hare@suse.de> <20180727151530.GA30341@lst.de>
+ <1412caa8-f53b-f5a3-a0fb-88d2ba423790@suse.de>
+ <BYAPR04MB4502186A898FC0E1D31E079286290@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <bfde5e71-7b8f-6118-619a-20e206f9c343@suse.com>
 
-On 7/28/18 4:12 PM, Max Gurtovoy wrote:
+On 07/28/2018 04:46 PM, Chaitanya Kulkarni wrote:
 > 
+> From: Hannes Reinecke <hare at suse.de>
+> Sent: Saturday, July 28, 2018 7:14 AM
+> To: Christoph Hellwig
+> Cc: Hannes Reinecke; Sagi Grimberg; Chaitanya Kulkarni; linux-nvme at lists.infradead.org; Keith Busch; Johannes Thumshirn
+> Subject: Re: [PATCH 5/6] nvme-cli: Implement ana log page support
+>    
+>   
+> On 07/27/2018 05:15 PM, Christoph Hellwig wrote:
+>> Chaitanya already sent a patch for this two days ago..
+>>
+> I sort of hinted at that in the cover letter.
+> This patch was done quite some time ago, and I was to lazy to rework the
+> patch series.
+> Plus it actually has json support, which was missing from Chaitanyas patch.
 > 
-> On 7/27/2018 6:38 PM, Jens Axboe wrote:
->> On 7/27/18 9:21 AM, Jens Axboe wrote:
->>> On 7/25/18 9:46 AM, Max Gurtovoy wrote:
->>>> Currently this function is implemented in the scsi layer, but it's
->>>> actual place should be the block layer since T10-PI is a general
->>>> data integrity feature that is used in the nvme protocol as well.
->>>
->>> Applied 1-3 for 4.19.
->>
->> This:
->>
->> static inline u32 t10_pi_ref_tag(struct request *rq)
->> {
->>          return blk_rq_pos(rq) >>
->>                  (rq->q->integrity.interval_exp - 9) & 0xffffffff;
->> }
->>
->> won't work for !CONFIG_BLK_DEV_INTEGRITY. I didn't want to make the
->> change, but looks like it should either return -1U as we the value
->> should mean nothing if BLK_DEV_INTEGRITY isn't set, or just ignore the
->> shift and return blk_rq_pos(rq) & 0xffffffff.
->>
->> Please fixup and resend the series.
->>
+> [CK] Yes, it was missing from 1st version, however, please have a look at V2 with JSON support posted on Wed Jul 25.
 > 
-> will this be good enough:
+> http://lists.infradead.org/pipermail/linux-nvme/2018-July/019471.html.
 > 
-> diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
-> index 81ae4c4..5a427c2 100644
-> --- a/include/linux/t10-pi.h
-> +++ b/include/linux/t10-pi.h
-> @@ -39,8 +39,12 @@ struct t10_pi_tuple {
+> Maybe we can integrate your patches on the top of above series?
 > 
->   static inline u32 t10_pi_ref_tag(struct request *rq)
->   {
-> +#ifdef CONFIG_BLK_DEV_INTEGRITY
->          return blk_rq_pos(rq) >>
->                  (rq->q->integrity.interval_exp - 9) & 0xffffffff;
-> +#else
-> +       return -1U;
-> +#endif
->   }
+Ok, will be doing so.
 
-I think so, that looks fine to me.
+Cheers,
 
--- 
-Jens Axboe
+Hannes
