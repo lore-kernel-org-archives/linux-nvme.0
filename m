@@ -1,356 +1,151 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 30 Jul 2018 00:15:32 +0300
-Subject: [PATCH v5 2/3] block: move dif_prepare/dif_complete functions to
- block layer
-In-Reply-To: <1532898933-3366-1-git-send-email-maxg@mellanox.com>
-References: <1532898933-3366-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1532898933-3366-2-git-send-email-maxg@mellanox.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 30 Jul 2018 09:43:19 +0200
+Subject: [PATCH V2 1/2] nvme-cli: add minimal ana-log page support
+In-Reply-To: <20180726041842.9668-2-chaitanya.kulkarni@wdc.com>
+References: <20180726041842.9668-1-chaitanya.kulkarni@wdc.com>
+ <20180726041842.9668-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <ef81592a-6c94-aef0-9405-95a5de9ad050@suse.de>
 
-Currently these functions are implemented in the scsi layer, but their
-actual place should be the block layer since T10-PI is a general data
-integrity feature that is used in the nvme protocol as well. Also, use
-the tuple size from the integrity profile since it may vary between
-integrity types.
+Hi Chaitanya,
 
-Suggested-by: Christoph Hellwig <hch at lst.de>
-Cc: Jens Axboe <axboe at kernel.dk>
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
+some comments inline:
 
-changes from v4:
- - added Martin's Reviewed-by.
+On 07/26/2018 06:18 AM, Chaitanya Kulkarni wrote:
+> This patch adds a new command to retrieve the ANA Log page.
+> We update identify ctrl/ns data structure to support this command.
+> We also add ana based error codes and different identifiers to the
+> linux/nvme.h header file in order to support this command.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>  linux/nvme.h   |  52 ++++++++++++++++++--
+>  nvme-builtin.h |   1 +
+>  nvme-ioctl.c   |   8 +++
+>  nvme-ioctl.h   |   1 +
+>  nvme-print.c   | 130 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>  nvme-print.h   |   2 +
+>  nvme.c         |  77 +++++++++++++++++++++++++++++
+>  7 files changed, 266 insertions(+), 5 deletions(-)
+> 
+> diff --git a/linux/nvme.h b/linux/nvme.h
+> index dc8ea89..50faaf0 100644
+> --- a/linux/nvme.h
+> +++ b/linux/nvme.h
+> @@ -241,7 +241,12 @@ struct nvme_id_ctrl {
+>  	__le32			hmminds;
+>  	__le16			hmmaxd;
+>  	__le16			nsetidmax;
+> -	__u8			rsvd340[172];
+> +	__u8			rsvd340[2];
+> +	__u8			anatt;
+> +	__u8			anacap;
+> +	__le32			anagrpmax;
+> +	__le32			nanagrpid;
+> +	__u8			rsvd352[160];
+>  	__u8			sqes;
+>  	__u8			cqes;
+>  	__le16			maxcmd;> @@ -257,7 +262,8 @@ struct nvme_id_ctrl {
+>  	__le16			acwu;
+>  	__u8			rsvd534[2];
+>  	__le32			sgls;
+> -	__u8			rsvd540[228];
+> +	__u8			mnan;
+> +	__u8			rsvd544[224];
+>  	char			subnqn[256];
+>  	__u8			rsvd1024[768];
+>  	__le32			ioccsz;
+This is wrong; 'mnan' is a 32-bit integer.
+(Hence the next field is called 'rsvd544', as it starts at offset 544...)
 
-changes from v3:
- - kmap_atomic/kunmap_atomic the same address
- - declare pi struct inside the inner for loop
- - check "intervals" inside the for loop condition
+> @@ -317,7 +323,9 @@ struct nvme_id_ns {
+>  	__le16			nabspf;
+>  	__le16			noiob;
+>  	__u8			nvmcap[16];
+> -	__u8			rsvd64[36];
+> +	__u8			rsvd64[28];
+> +	__le32			anagrpid;
+> +	__u8			rsvd95[4];
+>  	__le16			nvmsetid;
+>  	__le16			endgid;
+>  	__u8			nguid[16];
+The 'reserved' space starts at offset 96, so the field should be named
+'rsvd96'.
 
-changes from v2:
- - convert comments to kerneldoc format
- - removed SCSI specific comment
- - fix kmap_atomic/kunmap_atomic addresses
- - fix iteration over t10_pi_tuple's
+[ .. ]
+> @@ -881,6 +916,7 @@ enum {
+>  	NVME_LOG_TELEMETRY_HOST = 0x07,
+>  	NVME_LOG_TELEMETRY_CTRL = 0x08,
+>  	NVME_LOG_ENDURANCE_GROUP = 0x09,
+> +	NVME_LOG_ANA		= 0x0c,
+>  	NVME_LOG_DISC		= 0x70,
+>  	NVME_LOG_RESERVATION	= 0x80,
+>  	NVME_LOG_SANITIZE	= 0x81,
+> @@ -892,6 +928,7 @@ enum {
+>  enum {
+>  	NVME_NO_LOG_LSP       = 0x0,
+>  	NVME_NO_LOG_LPO       = 0x0,
+> +	NVME_LOG_ANA_RGO      = 0x1,
+>  	NVME_TELEM_LSP_CREATE = 0x1,
+>  };
+>  
+Shouldn't this rather be named
 
-changes from v1 (Christoph, Martin and Keith comments):
- - moved the functions to t10-pi.c
- - updated tuple size
- - changed local variables scope
- - remove/add new lines
+NVME_ANA_LSP_RGO
 
----
+for consistency?
 
- block/t10-pi.c         | 110 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/scsi/sd.c      |   8 ++--
- drivers/scsi/sd.h      |   9 ----
- drivers/scsi/sd_dif.c  | 113 -------------------------------------------------
- include/linux/t10-pi.h |   3 ++
- 5 files changed, 118 insertions(+), 125 deletions(-)
+> @@ -1040,7 +1077,7 @@ struct nvme_get_log_page_command {
+>  	__u64			rsvd2[2];
+>  	union nvme_data_ptr	dptr;
+>  	__u8			lid;
+> -	__u8			rsvd10;
+> +	__u8			lsp;
+>  	__le16			numdl;
+>  	__le16			numdu;
+>  	__u16			rsvd11;
+[ .. ]
+> diff --git a/nvme-print.c b/nvme-print.c
+> index daf2929..89a7075 100644
+> --- a/nvme-print.c
+> +++ b/nvme-print.c
+[ .. ]
+> @@ -924,6 +942,10 @@ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*ve
+>  	printf("hmminds   : %d\n", le32_to_cpu(ctrl->hmminds));
+>  	printf("hmmaxd    : %d\n", le16_to_cpu(ctrl->hmmaxd));
+>  	printf("nsetidmax : %d\n", le16_to_cpu(ctrl->nsetidmax));
+> +	printf("anatt     : %d\n", ctrl->anatt);
+> +	printf("anacap    : %d\n", ctrl->anacap);
+> +	printf("anagrpmax : %d\n", ctrl->anagrpmax);
+> +	printf("nanagrpid : %d\n", le32_to_cpu(ctrl->nanagrpid));
+>  	printf("sqes      : %#x\n", ctrl->sqes);
+>  	if (human)
+>  		show_nvme_id_ctrl_sqes(ctrl->sqes);
+'anacap' is a bitfield, each bit of which has a distinct meaning.
+Hence we should implement a 'human' decoding here, too.
 
-diff --git a/block/t10-pi.c b/block/t10-pi.c
-index a98db38..62aed77 100644
---- a/block/t10-pi.c
-+++ b/block/t10-pi.c
-@@ -184,3 +184,113 @@ static blk_status_t t10_pi_type3_verify_ip(struct blk_integrity_iter *iter)
- 	.verify_fn		= t10_pi_type3_verify_ip,
- };
- EXPORT_SYMBOL(t10_pi_type3_ip);
-+
-+/**
-+ * t10_pi_prepare - prepare PI prior submitting request to device
-+ * @rq:              request with PI that should be prepared
-+ * @protection_type: PI type (Type 1/Type 2/Type 3)
-+ *
-+ * For Type 1/Type 2, the virtual start sector is the one that was
-+ * originally submitted by the block layer for the ref_tag usage. Due to
-+ * partitioning, MD/DM cloning, etc. the actual physical start sector is
-+ * likely to be different. Remap protection information to match the
-+ * physical LBA.
-+ *
-+ * Type 3 does not have a reference tag so no remapping is required.
-+ */
-+void t10_pi_prepare(struct request *rq, u8 protection_type)
-+{
-+	const int tuple_sz = rq->q->integrity.tuple_size;
-+	u32 ref_tag = t10_pi_ref_tag(rq);
-+	struct bio *bio;
-+
-+	if (protection_type == T10_PI_TYPE3_PROTECTION)
-+		return;
-+
-+	__rq_for_each_bio(bio, rq) {
-+		struct bio_integrity_payload *bip = bio_integrity(bio);
-+		u32 virt = bip_get_seed(bip) & 0xffffffff;
-+		struct bio_vec iv;
-+		struct bvec_iter iter;
-+
-+		/* Already remapped? */
-+		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
-+			break;
-+
-+		bip_for_each_vec(iv, bip, iter) {
-+			void *p, *pmap;
-+			unsigned int j;
-+
-+			pmap = kmap_atomic(iv.bv_page);
-+			p = pmap + iv.bv_offset;
-+			for (j = 0; j < iv.bv_len; j += tuple_sz) {
-+				struct t10_pi_tuple *pi = p;
-+
-+				if (be32_to_cpu(pi->ref_tag) == virt)
-+					pi->ref_tag = cpu_to_be32(ref_tag);
-+				virt++;
-+				ref_tag++;
-+				p += tuple_sz;
-+			}
-+
-+			kunmap_atomic(pmap);
-+		}
-+
-+		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
-+	}
-+}
-+EXPORT_SYMBOL(t10_pi_prepare);
-+
-+/**
-+ * t10_pi_complete - prepare PI prior returning request to the block layer
-+ * @rq:              request with PI that should be prepared
-+ * @protection_type: PI type (Type 1/Type 2/Type 3)
-+ * @intervals:       total elements to prepare
-+ *
-+ * For Type 1/Type 2, the virtual start sector is the one that was
-+ * originally submitted by the block layer for the ref_tag usage. Due to
-+ * partitioning, MD/DM cloning, etc. the actual physical start sector is
-+ * likely to be different. Since the physical start sector was submitted
-+ * to the device, we should remap it back to virtual values expected by the
-+ * block layer.
-+ *
-+ * Type 3 does not have a reference tag so no remapping is required.
-+ */
-+void t10_pi_complete(struct request *rq, u8 protection_type,
-+		     unsigned int intervals)
-+{
-+	const int tuple_sz = rq->q->integrity.tuple_size;
-+	u32 ref_tag = t10_pi_ref_tag(rq);
-+	struct bio *bio;
-+
-+	if (protection_type == T10_PI_TYPE3_PROTECTION)
-+		return;
-+
-+	__rq_for_each_bio(bio, rq) {
-+		struct bio_integrity_payload *bip = bio_integrity(bio);
-+		u32 virt = bip_get_seed(bip) & 0xffffffff;
-+		struct bio_vec iv;
-+		struct bvec_iter iter;
-+
-+		bip_for_each_vec(iv, bip, iter) {
-+			void *p, *pmap;
-+			unsigned int j;
-+
-+			pmap = kmap_atomic(iv.bv_page);
-+			p = pmap + iv.bv_offset;
-+			for (j = 0; j < iv.bv_len && intervals; j += tuple_sz) {
-+				struct t10_pi_tuple *pi = p;
-+
-+				if (be32_to_cpu(pi->ref_tag) == ref_tag)
-+					pi->ref_tag = cpu_to_be32(virt);
-+				virt++;
-+				ref_tag++;
-+				intervals--;
-+				p += tuple_sz;
-+			}
-+
-+			kunmap_atomic(pmap);
-+		}
-+	}
-+}
-+EXPORT_SYMBOL(t10_pi_complete);
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 9421d98..bbebdc3 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -1119,7 +1119,7 @@ static int sd_setup_read_write_cmnd(struct scsi_cmnd *SCpnt)
- 		SCpnt->cmnd[0] = WRITE_6;
- 
- 		if (blk_integrity_rq(rq))
--			sd_dif_prepare(SCpnt);
-+			t10_pi_prepare(SCpnt->request, sdkp->protection_type);
- 
- 	} else if (rq_data_dir(rq) == READ) {
- 		SCpnt->cmnd[0] = READ_6;
-@@ -2047,8 +2047,10 @@ static int sd_done(struct scsi_cmnd *SCpnt)
- 					   "sd_done: completed %d of %d bytes\n",
- 					   good_bytes, scsi_bufflen(SCpnt)));
- 
--	if (rq_data_dir(SCpnt->request) == READ && scsi_prot_sg_count(SCpnt))
--		sd_dif_complete(SCpnt, good_bytes);
-+	if (rq_data_dir(SCpnt->request) == READ && scsi_prot_sg_count(SCpnt) &&
-+	    good_bytes)
-+		t10_pi_complete(SCpnt->request, sdkp->protection_type,
-+				good_bytes / scsi_prot_interval(SCpnt));
- 
- 	return good_bytes;
- }
-diff --git a/drivers/scsi/sd.h b/drivers/scsi/sd.h
-index 392c7d0..a7d4f50 100644
---- a/drivers/scsi/sd.h
-+++ b/drivers/scsi/sd.h
-@@ -254,21 +254,12 @@ static inline unsigned int sd_prot_flag_mask(unsigned int prot_op)
- #ifdef CONFIG_BLK_DEV_INTEGRITY
- 
- extern void sd_dif_config_host(struct scsi_disk *);
--extern void sd_dif_prepare(struct scsi_cmnd *scmd);
--extern void sd_dif_complete(struct scsi_cmnd *, unsigned int);
- 
- #else /* CONFIG_BLK_DEV_INTEGRITY */
- 
- static inline void sd_dif_config_host(struct scsi_disk *disk)
- {
- }
--static inline int sd_dif_prepare(struct scsi_cmnd *scmd)
--{
--	return 0;
--}
--static inline void sd_dif_complete(struct scsi_cmnd *cmd, unsigned int a)
--{
--}
- 
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
- 
-diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
-index d8de43d..db72c82 100644
---- a/drivers/scsi/sd_dif.c
-+++ b/drivers/scsi/sd_dif.c
-@@ -95,116 +95,3 @@ void sd_dif_config_host(struct scsi_disk *sdkp)
- 	blk_integrity_register(disk, &bi);
- }
- 
--/*
-- * The virtual start sector is the one that was originally submitted
-- * by the block layer.	Due to partitioning, MD/DM cloning, etc. the
-- * actual physical start sector is likely to be different.  Remap
-- * protection information to match the physical LBA.
-- *
-- * From a protocol perspective there's a slight difference between
-- * Type 1 and 2.  The latter uses 32-byte CDBs exclusively, and the
-- * reference tag is seeded in the CDB.  This gives us the potential to
-- * avoid virt->phys remapping during write.  However, at read time we
-- * don't know whether the virt sector is the same as when we wrote it
-- * (we could be reading from real disk as opposed to MD/DM device.  So
-- * we always remap Type 2 making it identical to Type 1.
-- *
-- * Type 3 does not have a reference tag so no remapping is required.
-- */
--void sd_dif_prepare(struct scsi_cmnd *scmd)
--{
--	const int tuple_sz = sizeof(struct t10_pi_tuple);
--	struct bio *bio;
--	struct scsi_disk *sdkp;
--	struct t10_pi_tuple *pi;
--	u32 phys, virt;
--
--	sdkp = scsi_disk(scmd->request->rq_disk);
--
--	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION)
--		return;
--
--	phys = t10_pi_ref_tag(scmd->request);
--
--	__rq_for_each_bio(bio, scmd->request) {
--		struct bio_integrity_payload *bip = bio_integrity(bio);
--		struct bio_vec iv;
--		struct bvec_iter iter;
--		unsigned int j;
--
--		/* Already remapped? */
--		if (bip->bip_flags & BIP_MAPPED_INTEGRITY)
--			break;
--
--		virt = bip_get_seed(bip) & 0xffffffff;
--
--		bip_for_each_vec(iv, bip, iter) {
--			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
--
--			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
--
--				if (be32_to_cpu(pi->ref_tag) == virt)
--					pi->ref_tag = cpu_to_be32(phys);
--
--				virt++;
--				phys++;
--			}
--
--			kunmap_atomic(pi);
--		}
--
--		bip->bip_flags |= BIP_MAPPED_INTEGRITY;
--	}
--}
--
--/*
-- * Remap physical sector values in the reference tag to the virtual
-- * values expected by the block layer.
-- */
--void sd_dif_complete(struct scsi_cmnd *scmd, unsigned int good_bytes)
--{
--	const int tuple_sz = sizeof(struct t10_pi_tuple);
--	struct scsi_disk *sdkp;
--	struct bio *bio;
--	struct t10_pi_tuple *pi;
--	unsigned int j, intervals;
--	u32 phys, virt;
--
--	sdkp = scsi_disk(scmd->request->rq_disk);
--
--	if (sdkp->protection_type == T10_PI_TYPE3_PROTECTION || good_bytes == 0)
--		return;
--
--	intervals = good_bytes / scsi_prot_interval(scmd);
--	phys = t10_pi_ref_tag(scmd->request);
--
--	__rq_for_each_bio(bio, scmd->request) {
--		struct bio_integrity_payload *bip = bio_integrity(bio);
--		struct bio_vec iv;
--		struct bvec_iter iter;
--
--		virt = bip_get_seed(bip) & 0xffffffff;
--
--		bip_for_each_vec(iv, bip, iter) {
--			pi = kmap_atomic(iv.bv_page) + iv.bv_offset;
--
--			for (j = 0; j < iv.bv_len; j += tuple_sz, pi++) {
--
--				if (intervals == 0) {
--					kunmap_atomic(pi);
--					return;
--				}
--
--				if (be32_to_cpu(pi->ref_tag) == phys)
--					pi->ref_tag = cpu_to_be32(virt);
--
--				virt++;
--				phys++;
--				intervals--;
--			}
--
--			kunmap_atomic(pi);
--		}
--	}
--}
--
-diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
-index c40511f..5a427c2 100644
---- a/include/linux/t10-pi.h
-+++ b/include/linux/t10-pi.h
-@@ -51,5 +51,8 @@ static inline u32 t10_pi_ref_tag(struct request *rq)
- extern const struct blk_integrity_profile t10_pi_type1_ip;
- extern const struct blk_integrity_profile t10_pi_type3_crc;
- extern const struct blk_integrity_profile t10_pi_type3_ip;
-+extern void t10_pi_prepare(struct request *rq, u8 protection_type);
-+extern void t10_pi_complete(struct request *rq, u8 protection_type,
-+			    unsigned int intervals);
- 
- #endif
+> @@ -951,6 +973,7 @@ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*ve
+>  		show_nvme_id_ctrl_nvscc(ctrl->nvscc);
+>  	printf("acwu      : %d\n", le16_to_cpu(ctrl->acwu));
+>  	printf("sgls      : %x\n", le32_to_cpu(ctrl->sgls));
+> +	printf("mnan      : %d\n", ctrl->mnan);
+>  	if (human)
+>  		show_nvme_id_ctrl_sgls(ctrl->sgls);
+>  	printf("subnqn    : %-.*s\n", (int)sizeof(ctrl->subnqn), ctrl->subnqn);
+'mnan' should be called with le32_to_cpu().
+And 'cmic' decoding is missing.
+
+Wouldn't it be more sensible to drop these things, and include them in a
+different patch?
+With that this patch would just be dealing with the actual ANA Log page
+implementation, and the other patch would be centered around ANA
+enablement for the nvme cli in general.
+
+Cheers,
+
+Hannes
 -- 
-1.8.3.1
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
