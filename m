@@ -1,17 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Jul 2018 11:04:45 +0200
-Subject: [PATCH V2 1/2] nvme-cli: add minimal ana-log page support
-In-Reply-To: <ef81592a-6c94-aef0-9405-95a5de9ad050@suse.de>
-References: <20180726041842.9668-1-chaitanya.kulkarni@wdc.com>
- <20180726041842.9668-2-chaitanya.kulkarni@wdc.com>
- <ef81592a-6c94-aef0-9405-95a5de9ad050@suse.de>
-Message-ID: <20180730090445.GA18309@lst.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 30 Jul 2018 08:27:36 -0600
+Subject: [PATCH v5 1/3] block: move ref_tag calculation func to the block
+ layer
+In-Reply-To: <1532898933-3366-1-git-send-email-maxg@mellanox.com>
+References: <1532898933-3366-1-git-send-email-maxg@mellanox.com>
+Message-ID: <2da4b36e-ca58-b3b3-f259-9bb03d0ae5d9@kernel.dk>
 
-On Mon, Jul 30, 2018@09:43:19AM +0200, Hannes Reinecke wrote:
-> This is wrong; 'mnan' is a 32-bit integer.
-> (Hence the next field is called 'rsvd544', as it starts at offset 544...)
+On 7/29/18 3:15 PM, Max Gurtovoy wrote:
+> Currently this function is implemented in the scsi layer, but it's
+> actual place should be the block layer since T10-PI is a general
+> data integrity feature that is used in the nvme protocol as well.
 
-As a rule of thumb please always add fields in the kernel nvme.h
-and then sync it over to nvme-cli.
+Applied 1-3, thanks.
 
-I guess we need to document that somewhere in nvme-cli..
+-- 
+Jens Axboe
