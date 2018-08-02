@@ -1,72 +1,53 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu,  2 Aug 2018 14:10:58 -0700
-Subject: [PATCH V3 1/3] nvme: add support for ns write protect definitions
-In-Reply-To: <20180802211100.8404-1-chaitanya.kulkarni@wdc.com>
-References: <20180802211100.8404-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180802211100.8404-2-chaitanya.kulkarni@wdc.com>
+Date: Thu,  2 Aug 2018 14:10:57 -0700
+Subject: [PATCH V3 0/3] nvmet: add ns write protect feature
+Message-ID: <20180802211100.8404-1-chaitanya.kulkarni@wdc.com>
 
-Add various definitions from NVMe 1.3 TP 4005.
+Hi,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- include/linux/nvme.h | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+This patch series implements the support for NVMeOF target ns write
+protect get/set-features command. In this implementation we support
+Write Protect and No Write Protect state for the target ns which can be
+toggled/read by set/get-features commands.  
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 64c9175723de..bc5729b3256c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -259,7 +259,7 @@ struct nvme_id_ctrl {
- 	__le16			awun;
- 	__le16			awupf;
- 	__u8			nvscc;
--	__u8			rsvd531;
-+	__u8			nwpc;
- 	__le16			acwu;
- 	__u8			rsvd534[2];
- 	__le32			sgls;
-@@ -320,7 +320,9 @@ struct nvme_id_ns {
- 	__u8			nvmcap[16];
- 	__u8			rsvd64[28];
- 	__le32			anagrpid;
--	__u8			rsvd96[8];
-+	__u8			rsvd96[3];
-+	__u8			nsattr;
-+	__u8			rsvd100[4];
- 	__u8			nguid[16];
- 	__u8			eui64[8];
- 	struct nvme_lbaf	lbaf[16];
-@@ -794,6 +796,7 @@ enum {
- 	NVME_FEAT_HOST_ID	= 0x81,
- 	NVME_FEAT_RESV_MASK	= 0x82,
- 	NVME_FEAT_RESV_PERSIST	= 0x83,
-+	NVME_FEAT_WRITE_PROTECT	= 0x84,
- 	NVME_LOG_ERROR		= 0x01,
- 	NVME_LOG_SMART		= 0x02,
- 	NVME_LOG_FW_SLOT	= 0x03,
-@@ -807,6 +810,14 @@ enum {
- 	NVME_FWACT_ACTV		= (2 << 3),
- };
- 
-+/* NVMe Namespace Write Protect State */
-+enum {
-+	NVME_NS_NO_WRITE_PROTECT = 0,
-+	NVME_NS_WRITE_PROTECT,
-+	NVME_NS_WRITE_PROTECT_POWER_CYCLE,
-+	NVME_NS_WRITE_PROTECT_PERMANENT,
-+};
-+
- #define NVME_MAX_CHANGED_NAMESPACES	1024
- 
- struct nvme_identify {
-@@ -1153,6 +1164,8 @@ enum {
- 	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
- 	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
- 
-+	NVME_SC_NS_WRITE_PROTECTED	= 0x20,
-+
- 	NVME_SC_LBA_RANGE		= 0x80,
- 	NVME_SC_CAP_EXCEEDED		= 0x81,
- 	NVME_SC_NS_NOT_READY		= 0x82,
+Regards,
+Chaitanya
+
+Changes since V2:-
+1. Fix the offset numbering.
+2. Use short-cut in nvmet_ns_wp_cmd_allow() for admin-cmds.
+3. Get rid of conditional operators in nvmet_write_protect_flush_sync().
+4. Use the original status from the file/bdev flush call.
+5. Use simplified set and unset write-protect switch with
+   subsus->mutex_lock synchronization.
+6. Add helper to handle get-features for write-protect.
+7. Don't initialize ns->readonly in nvmet_ns_alloc().
+8. Use ! instead of false for nvmet_ns_wp_cmd_allow().
+9. Get rid of blk_status_t in nvmet_bdev_flush().
+10. Adjust the patch for latest ANA related code changes.
+
+Changes since V1:-
+1. Incorporate Christoph's comments.
+2. Use feature not changeable error code in case of invalid state
+   transition.
+3. Split the patche into 3 patches.
+4. Set the gendisk associated with the nvme namespace into readonly mode
+   if identify namespace nsattr attribute indicates namesapce is write
+   protected.
+
+Chaitanya Kulkarni (3):
+  nvme: add support for ns write protect definitions
+  nvme-core: set gendisk read only based on nsattr
+  nvmet: add ns write protect support
+
+ drivers/nvme/host/core.c          |  6 ++
+ drivers/nvme/target/admin-cmd.c   | 97 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c        |  5 +-
+ drivers/nvme/target/io-cmd-bdev.c |  9 +++
+ drivers/nvme/target/io-cmd-file.c | 15 ++++-
+ drivers/nvme/target/nvmet.h       |  6 ++
+ include/linux/nvme.h              | 17 +++++-
+ 7 files changed, 149 insertions(+), 6 deletions(-)
+
 -- 
 2.17.0
