@@ -1,219 +1,158 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Fri, 3 Aug 2018 00:57:45 +0000
-Subject: [PATCH 2/2] blktests: add test for ANA state transition
-In-Reply-To: <20180802103455.82148-3-hare@suse.de>
-References: <20180802103455.82148-1-hare@suse.de>,
- <20180802103455.82148-3-hare@suse.de>
-Message-ID: <BYAPR04MB450254A7FABE9555D6B9DB9E86230@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu,  2 Aug 2018 19:43:43 -0700
+Subject: [PATCH] nvme-cli add ns write protect support
+Message-ID: <20180803024343.4088-1-chaitanya.kulkarni@wdc.com>
 
-
-Apart from one minor comment (which can be fixed at the time of applying the patch) looks good to me.
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-From: Hannes Reinecke <hare@suse.de>
-Sent: Thursday, August 2, 2018 3:34 AM
-To: Omar Sandoval
-Cc: Christoph Hellwig; Jens Axboe; Sagi Grimberg; linux-nvme at lists.infradead.org; Chaitanya Kulkarni; Hannes Reinecke; Hannes Reinecke
-Subject: [PATCH 2/2] blktests: add test for ANA state transition
-? 
- 
-Add a simple test for ANA state transition handling.
-
-Signed-off-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
-?tests/nvme/018???? | 153 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-?tests/nvme/018.out |? 18 +++++++
-?2 files changed, 171 insertions(+)
-?create mode 100755 tests/nvme/018
-?create mode 100644 tests/nvme/018.out
+ linux/nvme.h | 16 ++++++++++++++--
+ nvme-print.c | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 2 deletions(-)
 
-diff --git a/tests/nvme/018 b/tests/nvme/018
-new file mode 100755
-index 0000000..b7f9e00
---- /dev/null
-+++ b/tests/nvme/018
-@@ -0,0 +1,153 @@
-+#!/bin/bash
-+#
-+# Regression test for ANA base support
-+#
-+# Copyright (C) 2018 Hannes Reinecke
-+#
-+# This program is free software: you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation, either version 3 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.? See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.? If not, see <http://www.gnu.org/licenses/>.
+diff --git a/linux/nvme.h b/linux/nvme.h
+index dc8ea89..b276798 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -253,7 +253,7 @@ struct nvme_id_ctrl {
+ 	__le16			awun;
+ 	__le16			awupf;
+ 	__u8			nvscc;
+-	__u8			rsvd531;
++	__u8			nwpc;
+ 	__le16			acwu;
+ 	__u8			rsvd534[2];
+ 	__le32			sgls;
+@@ -317,7 +317,8 @@ struct nvme_id_ns {
+ 	__le16			nabspf;
+ 	__le16			noiob;
+ 	__u8			nvmcap[16];
+-	__u8			rsvd64[36];
++	__u8			rsvd64[35];
++	__u8			nsattr;
+ 	__le16			nvmsetid;
+ 	__le16			endgid;
+ 	__u8			nguid[16];
+@@ -495,6 +496,14 @@ struct nvme_fw_slot_info_log {
+ 	__u8			rsvd64[448];
+ };
+ 
++/* NVMe Namespace Write Protect State */
++enum {
++	NVME_NS_NO_WRITE_PROTECT = 0,
++	NVME_NS_WRITE_PROTECT,
++	NVME_NS_WRITE_PROTECT_POWER_CYCLE,
++	NVME_NS_WRITE_PROTECT_PERMANENT,
++};
 +
-+. tests/nvme/rc
+ #define NVME_MAX_CHANGED_NAMESPACES     1024
+ 
+ struct nvme_changed_ns_list_log {
+@@ -872,6 +881,7 @@ enum {
+ 	NVME_FEAT_HOST_ID	= 0x81,
+ 	NVME_FEAT_RESV_MASK	= 0x82,
+ 	NVME_FEAT_RESV_PERSIST	= 0x83,
++	NVME_FEAT_WRITE_PROTECT	= 0x84,
+ 	NVME_LOG_ERROR		= 0x01,
+ 	NVME_LOG_SMART		= 0x02,
+ 	NVME_LOG_FW_SLOT	= 0x03,
+@@ -1284,6 +1294,8 @@ enum {
+ 	NVME_SC_SANITIZE_FAILED		= 0x1C,
+ 	NVME_SC_SANITIZE_IN_PROGRESS	= 0x1D,
+ 
++	NVME_SC_NS_WRITE_PROTECTED	= 0x20,
 +
-+DESCRIPTION="test ANA optimized/transitioning/inaccessible support"
-+QUICK=1
+ 	NVME_SC_LBA_RANGE		= 0x80,
+ 	NVME_SC_CAP_EXCEEDED		= 0x81,
+ 	NVME_SC_NS_NOT_READY		= 0x82,
+diff --git a/nvme-print.c b/nvme-print.c
+index daf2929..63f0d48 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -384,6 +384,25 @@ static void show_nvme_id_ctrl_nvscc(__u8 nvscc)
+ 	printf("\n");
+ }
+ 
++static void show_nvme_id_ctrl_nwpc(__u8 nwpc)
++{
++	__u8 no_wp_wp = (nwpc & 0x01);
++	__u8 wp_power_cycle = (nwpc & 0x02) >> 1;
++	__u8 wp_permanent = (nwpc & 0x04) >> 2;
++	__u8 rsvd = (nwpc & 0xF8) >> 3;
 +
-+switch_nvmet_anagroup() {
-+?????? local port1="$1"
-+?????? local port2="$2"
-+?????? local mode="$3"
++	if (rsvd)
++		printf("  [7:3] : %#x\tReserved\n", rsvd);
 +
-+?????? echo "ANA state ${mode}"
-+
-+?????? if [ "${mode}" = "change" ] ; then
-+?????????????? _set_nvmet_anagroup_state "${port1}" "1" "change"
-+?????????????? _set_nvmet_anagroup_state "${port1}" "2" "change"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "1" "change"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "2" "change"
-+?????? elif [ "${mode}" = "failover" ] ; then
-+?????????????? _set_nvmet_anagroup_state "${port1}" "1" "inaccessible"
-+?????????????? _set_nvmet_anagroup_state "${port1}" "2" "optimized"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "1" "optimized"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "2" "inaccessible"
-+?????? else
-+?????????????? _set_nvmet_anagroup_state "${port1}" "1" "optimized"
-+?????????????? _set_nvmet_anagroup_state "${port1}" "2" "inaccessible"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
-+?????????????? _set_nvmet_anagroup_state "${port2}" "2" "optimized"
-+?????? fi
++	printf("  [2:2] : %#x\tPermanent Write Protect %sSupported\n",
++		wp_permanent, wp_permanent ? "" : "Not ");
++	printf("  [1:1] : %#x\tWrite Protect Until Power Supply %sSupported\n",
++		wp_power_cycle, wp_power_cycle ? "" : "Not ");
++	printf("  [0:0] : %#x\tNo Write Protect and Write Protect Namespace %sSupported\n",
++		no_wp_wp, no_wp_wp ? "" : "Not ");
++	printf("\n");
 +}
 +
-+requires() {
-+?????? _have_program nvme && _have_module nvme-loop && _have_module loop && \
-+?????????????? _have_configfs && _have_fio
-+}
-+
-[CK] We need to add "_have_program mkfs.xfs" and "have_module nvmet" in requires().
-
-+test() {
-+?????? local mount_dir="/mnt/blktests"
-+?????? local subsys="blktests-subsystem-1"
-+?????? local port1
-+?????? local port2
-+?????? local loop_dev1
-+?????? local loop_dev2
-+?????? local nvmedev
-+
-+?????? echo "Running ${TEST_NAME}"
-+
-+?????? modprobe nvmet
-+?????? modprobe nvme-loop
-+
-+?????? mkdir -p "${mount_dir}" > /dev/null 2>&1
-+
-+?????? port1="$(_create_nvmet_port "loop")"
-+?????? _create_nvmet_anagroup "${port1}" > /dev/null
-+
-+?????? port2="$(_create_nvmet_port "loop")"
-+?????? ag="$(_create_nvmet_anagroup "${port2}")"
-+
-+?????? truncate -s 1G "$TMPDIR/img1"
-+
-+?????? loop_dev1="$(losetup -f --show "$TMPDIR/img1")"
-+
-+?????? _create_nvmet_subsystem "${subsys}" "${loop_dev1}" \
-+?????????????? "91fdba0d-f87b-4c25-b80f-db7be1418b9e" "1"
-+
-+?????? truncate -s 1G "$TMPDIR/img2"
-+
-+?????? loop_dev2="$(losetup -f --show "$TMPDIR/img2")"
-+
-+?????? _create_nvmet_ns "${subsys}" "2" "${loop_dev2}" \
-+?????????????? "9aed0138-bfd9-46f5-92ac-24c70377fd49" "2"
-+
-+?????? _add_nvmet_subsys_to_port "${port1}" "${subsys}"
-+?????? _add_nvmet_subsys_to_port "${port2}" "${subsys}"
-+
-+?????? switch_nvmet_anagroup "${port1}" "${port2}" failback
-+
-+?????? nvme connect -t loop -a "${port1}" -n "${subsys}"
-+?????? nvme connect -t loop -a "${port2}" -n "${subsys}"
-+
-+?????? sleep 1
-+
-+?????? _display_ana_state "${subsys}"
-+
-+?????? nvmedev="$(_find_nvme_ns 91fdba0d-f87b-4c25-b80f-db7be1418b9e)"
-+
-+?????? mkfs.xfs -f /dev/"${nvmedev}" > /dev/null 2>&1
-+
-+?????? mount /dev/"${nvmedev}" "${mount_dir}"
-+
-+?????? _run_fio_rand_io --size=63m --directory="${mount_dir}" --runtime=20s --time_based &
-+?????? trap "kill $!" EXIT
-+
-+?????? sleep 10
-+
-+?????? switch_nvmet_anagroup "${port1}" "${port2}" "change"
-+
-+?????? # Insert a delay to allow the AEN to be processed
-+?????? sleep 1
-+
-+?????? _display_ana_state "${subsys}"
-+
-+?????? sleep 6
-+
-+?????? switch_nvmet_anagroup "${port1}" "${port2}" "failover"
-+
-+?????? # Insert a delay to allow the AEN to be processed
-+?????? sleep 1
-+
-+?????? _display_ana_state "${subsys}"
-+
-+?????? wait
-+?????? trap - EXIT
-+
-+?????? umount "${mount_dir}" > /dev/null 2>&1
-+
-+?????? nvme disconnect -n "${subsys}"
-+
-+?????? _remove_nvmet_subsystem_from_port "${port1}" "${subsys}"
-+?????? _remove_nvmet_subsystem_from_port "${port2}" "${subsys}"
-+?????? _remove_nvmet_ns "${subsys}" "2"
-+?????? _remove_nvmet_subsystem "${subsys}"
-+?????? _remove_nvmet_anagroup "${port1}" "${ag}"
-+?????? _remove_nvmet_port "${port1}"
-+?????? _remove_nvmet_anagroup "${port2}" "${ag}"
-+?????? _remove_nvmet_port "${port2}"
-+?????? losetup -d "${loop_dev2}"
-+?????? rm "$TMPDIR/img2"
-+?????? losetup -d "${loop_dev1}"
-+?????? rm "$TMPDIR/img1"
-+
-+?????? modprobe -r nvme-loop
-+?????? modprobe -r nvmet
-+?????? echo "Test complete"
-+}
-diff --git a/tests/nvme/018.out b/tests/nvme/018.out
-new file mode 100644
-index 0000000..77d52d2
---- /dev/null
-+++ b/tests/nvme/018.out
-@@ -0,0 +1,18 @@
-+Running nvme/018
-+ANA state failback
-+1: grpid 1 state optimized
-+1: grpid 2 state inaccessible
-+2: grpid 1 state inaccessible
-+2: grpid 2 state optimized
-+ANA state change
-+1: grpid 1 state change
-+1: grpid 2 state change
-+2: grpid 1 state change
-+2: grpid 2 state change
-+ANA state failover
-+1: grpid 1 state inaccessible
-+1: grpid 2 state optimized
-+2: grpid 1 state optimized
-+2: grpid 2 state inaccessible
-+NQN:blktests-subsystem-1 disconnected 2 controller(s)
-+Test complete
+ static void show_nvme_id_ctrl_sgls(__le32 ctrl_sgls)
+ {
+ 	__u32 sgls = le32_to_cpu(ctrl_sgls);
+@@ -644,6 +663,7 @@ void show_nvme_id_ns(struct nvme_id_ns *ns, unsigned int mode)
+ 	printf("nabspf  : %d\n", le16_to_cpu(ns->nabspf));
+ 	printf("noiob   : %d\n", le16_to_cpu(ns->noiob));
+ 	printf("nvmcap  : %.0Lf\n", int128_to_double(ns->nvmcap));
++	printf("nsattr	: %u\n", ns->nsattr);
+ 	printf("nvmsetid: %d\n", le16_to_cpu(ns->nvmsetid));
+ 	printf("endgid  : %d\n", le16_to_cpu(ns->endgid));
+ 
+@@ -949,6 +969,9 @@ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*ve
+ 	printf("nvscc     : %d\n", ctrl->nvscc);
+ 	if (human)
+ 		show_nvme_id_ctrl_nvscc(ctrl->nvscc);
++	printf("nwpc      : %d\n", ctrl->nwpc);
++	if (human)
++		show_nvme_id_ctrl_nwpc(ctrl->nwpc);
+ 	printf("acwu      : %d\n", le16_to_cpu(ctrl->acwu));
+ 	printf("sgls      : %x\n", le32_to_cpu(ctrl->sgls));
+ 	if (human)
+@@ -1494,6 +1517,7 @@ char *nvme_feature_to_string(int feature)
+ 	case NVME_FEAT_RESV_MASK:	return "Reservation Notification Mask";
+ 	case NVME_FEAT_RESV_PERSIST:	return "Reservation Persistence";
+ 	case NVME_FEAT_TIMESTAMP:	return "Timestamp";
++	case NVME_FEAT_WRITE_PROTECT:	return "Namespce Write Protect";
+ 	case NVME_FEAT_HCTM:		return "Host Controlled Thermal Management";
+ 	default:			return "Unknown";
+ 	}
+@@ -1549,6 +1573,7 @@ char *nvme_status_to_string(__u32 status)
+ 	case NVME_SC_SANITIZE_FAILED:		return "SANITIZE_FAILED: The most recent sanitize operation failed and no recovery actions has been successfully completed";
+ 	case NVME_SC_SANITIZE_IN_PROGRESS:	return "SANITIZE_IN_PROGRESS: The requested function is prohibited while a sanitize operation is in progress";
+ 	case NVME_SC_LBA_RANGE:			return "LBA_RANGE: The command references a LBA that exceeds the size of the namespace";
++	case NVME_SC_NS_WRITE_PROTECTED:	return "Namespace Write Protected";
+ 	case NVME_SC_CAP_EXCEEDED:		return "CAP_EXCEEDED: The execution of the command has caused the capacity of the namespace to be exceeded";
+ 	case NVME_SC_NS_NOT_READY:		return "NS_NOT_READY: The namespace is not ready to be accessed";
+ 	case NVME_SC_RESERVATION_CONFLICT:	return "RESERVATION_CONFLICT: The command was aborted due to a conflict with a reservation held on the accessed namespace";
+@@ -1863,6 +1888,9 @@ void nvme_feature_show_fields(__u32 fid, unsigned int result, unsigned char *buf
+ 	case NVME_FEAT_RESV_PERSIST:
+ 		printf("\tPersist Through Power Loss (PTPL): %s\n", (result & 0x00000001) ? "True":"False");
+ 		break;
++	case NVME_FEAT_WRITE_PROTECT:
++		printf("\tNamespace Write Protect: %s\n", result != NVME_NS_NO_WRITE_PROTECT ? "True" :  "False");
++		break;
+ 	case NVME_FEAT_TIMESTAMP:
+ 		show_timestamp((struct nvme_timestamp *)buf);
+ 		break;
+@@ -2029,6 +2057,7 @@ void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int mode)
+ 	json_object_add_value_int(root, "nabspf", le16_to_cpu(ns->nabspf));
+ 	json_object_add_value_int(root, "noiob", le16_to_cpu(ns->noiob));
+ 	json_object_add_value_float(root, "nvmcap", nvmcap);
++	json_object_add_value_int(root, "nsattr", ns->nsattr);
+ 	json_object_add_value_int(root, "nvmsetid", le16_to_cpu(ns->nvmsetid));
+ 	json_object_add_value_int(root, "endgid", le16_to_cpu(ns->endgid));
+ 
+@@ -2137,6 +2166,7 @@ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vs)(
+ 	json_object_add_value_int(root, "awun", le16_to_cpu(ctrl->awun));
+ 	json_object_add_value_int(root, "awupf", le16_to_cpu(ctrl->awupf));
+ 	json_object_add_value_int(root, "nvscc", ctrl->nvscc);
++	json_object_add_value_int(root, "nwpc", ctrl->nwpc);
+ 	json_object_add_value_int(root, "acwu", le16_to_cpu(ctrl->acwu));
+ 	json_object_add_value_int(root, "sgls", le32_to_cpu(ctrl->sgls));
+ 
 -- 
-2.12.3
-
-    
+2.17.0
