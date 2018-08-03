@@ -1,23 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 3 Aug 2018 00:18:20 -0700
-Subject: How /dev/nvme numbers are allocated/mapped to BDF
-In-Reply-To: <073447516980487e950bbc428225ae02@ausx13mps321.AMER.DELL.COM>
-References: <073447516980487e950bbc428225ae02@ausx13mps321.AMER.DELL.COM>
-Message-ID: <20180803071820.GA22003@infradead.org>
+From: minwoo.im.dev@gmail.com (Minwoo Im)
+Date: Fri, 03 Aug 2018 18:48:57 +0900
+Subject: [PATCH] nvme-cli add ns write protect support
+In-Reply-To: <20180803024343.4088-1-chaitanya.kulkarni@wdc.com>
+References: <20180803024343.4088-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <1533289737.2982.5.camel@gmail.com>
 
-On Thu, Aug 02, 2018@10:09:50PM +0000, Alex_Gagniuc@Dellteam.com wrote:
-> Hi,
-> 
-> Recently some confusion came up about how the /dev/nvme numbers are 
-> allocated, and how much one can expect the to be consistent across 
-> reboots. I was fairly convinced that it was about as random as a coin 
-> flip, but some people have pointed out that these numbers were very 
-> deterministic in older kernels, dating back to the 3.10 era.
+Hi Chaitanya,
 
-They are allocated using an ida allocator and are not stable at all.
-For any stable enumeration you have to rely on the EUI64/NGUID/UUID.
+On Thu, 2018-08-02@19:43 -0700, Chaitanya Kulkarni wrote:
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-> Also, separate but related question. Samsung M1725a drives don't 
-> generate entries under /dev/disk/by-path. Any idea why that might be?
+> @@ -1549,6 +1573,7 @@ char *nvme_status_to_string(__u32 status)
+> ?	case NVME_SC_SANITIZE_FAILED:		return "SANITIZE_FAILED: The most recent sanitize operation failed and no recovery actions has been successfully completed";
+> ?	case NVME_SC_SANITIZE_IN_PROGRESS:	return "SANITIZE_IN_PROGRESS: The requested function is prohibited while a sanitize operation is in progress";
+> ?	case NVME_SC_LBA_RANGE:			return "LBA_RANGE: The command references a LBA that exceeds the size of the namespace";
+> +	case NVME_SC_NS_WRITE_PROTECTED:	return "Namespace Write Protected";
 
-Please send a dump of the nvme-cli id-ctrl subcommand.
+Not bad, but if you don't mind, can we change the description to something
+like below just like the others.
+
+NS_WRITE_PROTECTED: The command is prohibited while the namespace is write
+? ? ? ? ? ? ? ? ? ? protected by the host.
+
+This sentence is exactly as it is in TP 4005a.
+
+Thanks,
+	Minwoo Im
