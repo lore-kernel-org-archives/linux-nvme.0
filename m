@@ -1,98 +1,35 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 3 Aug 2018 05:17:40 -0700
-Subject: [PATCH V3 3/3] nvmet: add ns write protect support
-In-Reply-To: <20180802211100.8404-4-chaitanya.kulkarni@wdc.com>
-References: <20180802211100.8404-1-chaitanya.kulkarni@wdc.com>
- <20180802211100.8404-4-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180803121740.GB14282@infradead.org>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 3 Aug 2018 08:40:25 -0600
+Subject: How /dev/nvme numbers are allocated/mapped to BDF
+In-Reply-To: <20180803071820.GA22003@infradead.org>
+References: <073447516980487e950bbc428225ae02@ausx13mps321.AMER.DELL.COM>
+ <20180803071820.GA22003@infradead.org>
+Message-ID: <20180803144025.GA4381@localhost.localdomain>
 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index f517bc562d26..f8c8d41212be 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -32,6 +32,26 @@ static inline void nvmet_clear_aen(struct nvmet_req *req, u32 aen_bit)
->  		clear_bit(aen_bit, &req->sq->ctrl->aen_masked);
->  }
->  
-> +bool nvmet_ns_wp_cmd_allow(struct nvmet_req *req)
-> +{
-> +	bool ret = false;
-> +
-> +	if (likely(req->sq->qid != 0)) {
-> +		switch (req->cmd->common.opcode) {
-> +		case nvme_cmd_read:
-> +		case nvme_cmd_flush:
-> +			/* fall thru */
-> +			ret = true;
-> +		}
-> +		return ret;
-> +	}
-> +	if (le32_to_cpu(req->cmd->common.nsid) == 0 ||
-> +			le32_to_cpu(req->cmd->common.nsid) == NVME_NSID_ALL)
-> +		ret = true;
-> +
-> +	return ret;
+On Fri, Aug 03, 2018@12:18:20AM -0700, Christoph Hellwig wrote:
+> On Thu, Aug 02, 2018@10:09:50PM +0000, Alex_Gagniuc@Dellteam.com wrote:
+> > Hi,
+> > 
+> > Recently some confusion came up about how the /dev/nvme numbers are 
+> > allocated, and how much one can expect the to be consistent across 
+> > reboots. I was fairly convinced that it was about as random as a coin 
+> > flip, but some people have pointed out that these numbers were very 
+> > deterministic in older kernels, dating back to the 3.10 era.
+> 
+> They are allocated using an ida allocator and are not stable at all.
+> For any stable enumeration you have to rely on the EUI64/NGUID/UUID.
 
-Currently this function is only called from the I/O command path,
-so the admin part is dead code.  I think just split this into two
-helpers in core.c and admin.c respectively:
+Yeah, the were always allocated through an ida and were never stable in
+any kernel version.
+ 
+> > Also, separate but related question. Samsung M1725a drives don't 
+> > generate entries under /dev/disk/by-path. Any idea why that might be?
+> 
+> Please send a dump of the nvme-cli id-ctrl subcommand.
 
-	if (unlikely(req->ns->readonly &&
-			(req->cmd->common.opcode != nvme_cmd_read &&
-			 req->cmd->common.opcode != nvme_cmd_flush))
+The 'by-path' should actually only depend on the PCI BDf and the 'nsid'
+attribute. The bdf is not necessarilly stable.
 
-functions, one in admin-cmd.c for the admin command:
+If using systemd, you'd need thsi commit to get the by-path links:
 
-static inline bool nvmet_io_cmd_check_access(struct nvmet_req *req)
-{
-	if (likely(!req->ns->readonly))
-		return true;
-
-	switch (req->cmd->common.opcode) {
-	case nvme_cmd_read:
-	case nvme_cmd_flush:
-		return true;
-	default:
-		return false;
-	}
-}
-
-static inline bool nvmet_admin_cmd_check_access(struct nvmet_req *req)
-{
-	if (likely(!req->ns->readonly))
-		return true;
-
-	if (req->cmd->common.nsid == 0 ||
-	    req->cmd->common.nsid == cpu_to_le32(NVME_NSID_ALL))
-		return true;
-
-	return false;
-}
-
-this also prepares for a later addition of persistent reservations.
-
-> +u16 nvmet_bdev_flush(struct nvmet_req *req)
-> +{
-> +	int ret;
-> +
-> +	ret = blkdev_issue_flush(req->ns->bdev, GFP_KERNEL, NULL);
-> +
-> +	return ret ? NVME_SC_INTERNAL | NVME_SC_DNR : 0;
-> +}
-
-This could be further simplified down to:
-
-	if (blkdev_issue_flush(req->ns->bdev, GFP_KERNEL, NULL))
-		return NVME_SC_INTERNAL | NVME_SC_DNR;
-	return 0;
-
-> +static void nvmet_file_flush_work(struct work_struct *w)
-> +{
-> +	struct nvmet_req *req = container_of(w, struct nvmet_req, f.work);
-> +	u16 status;
-> +
-> +	status = nvmet_file_flush(req);
-> +
-> +	nvmet_req_complete(req, status);
-
-	nvmet_req_complete(req, nvmet_file_flush(req));
+  https://github.com/systemd/systemd/commit/b4c6f71b827d41a4af8007b735edf21ef7609f99
