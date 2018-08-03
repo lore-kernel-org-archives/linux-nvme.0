@@ -1,40 +1,63 @@
 From: minwoo.im.dev@gmail.com (Minwoo Im)
-Date: Fri, 03 Aug 2018 19:18:06 +0900
+Date: Fri, 03 Aug 2018 20:59:24 +0900
 Subject: [PATCH V3 1/2] nvme-cli: add minimal ana-log page support
 In-Reply-To: <20180802032819.6558-2-chaitanya.kulkarni@wdc.com>
 References: <20180802032819.6558-1-chaitanya.kulkarni@wdc.com>
  <20180802032819.6558-2-chaitanya.kulkarni@wdc.com>
-Message-ID: <1533291486.2982.10.camel@gmail.com>
+Message-ID: <1533297564.2982.11.camel@gmail.com>
 
 Hi Chaitanya,
 
-On Wed, 2018-08-01@20:28 -0700, Chaitanya Kulkarni wrote:
-> @@ -1550,7 +1647,7 @@ char *nvme_status_to_string(__u32 status)
-> ?	case NVME_SC_SANITIZE_IN_PROGRESS:	return "SANITIZE_IN_PROGRESS: The requested function is prohibited while a sanitize operation is in progress";
-> ?	case NVME_SC_LBA_RANGE:			return "LBA_RANGE: The command references a LBA that exceeds the size of the namespace";
-> ?	case NVME_SC_CAP_EXCEEDED:		return "CAP_EXCEEDED: The execution of the command has caused the capacity of the namespace to be exceeded";
-> -	case NVME_SC_NS_NOT_READY:		return "NS_NOT_READY: The namespace is not ready to be accessed";
-> +	case NVME_SC_NS_NOT_READY:		return "NS_NOT_READY: The namespace is not ready to be accessed as a result of a condition other than a condition that is
-> reported as an Asymmetric Namespace Access condition";
-> ?	case NVME_SC_RESERVATION_CONFLICT:	return "RESERVATION_CONFLICT: The command was aborted due to a conflict with a reservation held on the accessed namespace";
-> ?	case NVME_SC_CQ_INVALID:		return "CQ_INVALID: The Completion Queue identifier specified in the command does not exist";
-> ?	case NVME_SC_QID_INVALID:		return "QID_INVALID: The creation of the I/O Completion Queue failed due to an invalid queue identifier specified as part of the
-> command. An invalid queue identifier is one that is currently in use or one that is outside the range supported by the controller";
-> @@ -1590,6 +1687,9 @@ char *nvme_status_to_string(__u32 status)
-> ?	case NVME_SC_COMPARE_FAILED:		return "COMPARE_FAILED: The command failed due to a miscompare during a Compare command";
-> ?	case NVME_SC_ACCESS_DENIED:		return "ACCESS_DENIED: Access to the namespace and/or LBA range is denied due to lack of access rights";
-> ?	case NVME_SC_UNWRITTEN_BLOCK:		return "UNWRITTEN_BLOCK: The command failed due to an attempt to read from an LBA range containing a deallocated or
-> unwritten logical block";
-> +	case NVME_SC_ANA_PERSISTENT_LOSS:	return "Asymmetric Namespace Access Persistent Loss";
-> +	case NVME_SC_ANA_INACCESSIBLE:		return "Asymmetric Namespace Access Inaccessible";
-> +	case NVME_SC_ANA_TRANSITION:		return "Asymmetric Namespace Access Transition";
-> ?	default:				return "Unknown";
-> ?	}
-> ?}
+One more trivial comment on this patch.
 
-If possible, can we change the descriptions to something like TP 4004 just
-like the others or shorten descriptions? ?All the other state strings are
-having statements from the doc.
+On 18-08-01 20:28:18, Chaitanya Kulkarni wrote:
+> This patch adds a new command to retrieve the ANA Log page.
+> We update identify ctrl/ns data structure to support this command.
+> We also add ana based error codes and different identifiers to the
+> linux/nvme.h header file in order to support this command.
+>?
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+
+> +static int get_ana_log(int argc, char **argv, struct command *cmd,
+> +		struct plugin *plugin)
+> +{
+> +	const char *desc = "Retrieve ANA log for the given device" \
+> +			"in either decoded format "\
+> +			"(default) or binary.";
+> +	const char *raw = "output in binary format";
+> +	void *ana_log;
+> +	int err, fmt, fd;
+> +	int groups = 0; /* Right now get all the per ANA group NSIDS */
+> +	size_t ana_log_len;
+> +	struct nvme_id_ctrl ctrl;
+> +
+> +	struct config {
+> +		int???raw_binary;
+> +		char *output_format;
+> +	};
+> +
+> +	struct config cfg = {
+> +		.output_format = "normal",
+> +	};
+> +
+> +	const struct argconfig_commandline_options command_line_options[] = {
+> +		{"output-format", 'o', "FMT", CFG_STRING,???&cfg.output_format, required_argument, output_format },
+> +		{"raw-binary",????'b', "",????CFG_NONE,?????&cfg.raw_binary,????no_argument,???????raw},
+> +		{NULL}
+> +	};
+> +
+
+There was a discussion about the '--raw-binary' option to deprecate it because
+'--output-format=binary' or '-o binary' will make a same result.
+
+You can find the discussion on the Github PR #342 in following link:
+????https://github.com/linux-nvme/nvme-cli/pull/342
+
+For the newly added subcommand, it doesn't need to support the '--raw-binary'
+option anymore.
 
 Thanks,
-????????Minwoo Im
+
+	Minwoo Im
