@@ -1,45 +1,26 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 4 Aug 2018 10:43:54 +0200
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sat, 4 Aug 2018 12:39:13 -0600
 Subject: nvme updates for 4.19
-Message-ID: <20180804084354.GA26103@infradead.org>
+In-Reply-To: <20180804084354.GA26103@infradead.org>
+References: <20180804084354.GA26103@infradead.org>
+Message-ID: <df1c976e-8ea7-ba14-d1d2-caf8511de527@kernel.dk>
 
-This conatains the support for TP4004, Asymmetric Namespace Access,
-which makes NVMe multipathing usable in practice.
+On 8/4/18 2:43 AM, Christoph Hellwig wrote:
+This one:
 
-The following changes since commit cdcdcaae8450a975e7d07e1bfec21f9b8c016d0c:
+> Christoph Hellwig (9):
+>       nvme: add ANA support
 
-  scsi: virtio_scsi: fix pi_bytes{out,in} on 4 KiB block size devices (2018-07-26 15:49:43 -0600)
+Has a stupid conflict with:
 
-are available in the Git repository at:
+commit fa441b71aa27d06fa79d5e7f7c329981dccd94d1
+Author: Weiping Zhang <zhangweiping at didichuxing.com>
+Date:   Tue Jul 3 00:34:38 2018 +0800
 
-  git://git.infradead.org/nvme.git nvme-4.19
+    nvme: don't enable AEN if not supported
 
-for you to fetch changes up to b369b30cf510fe94d8884837039362e2ec223cec:
+from mainline. Please keep changes like that in mind, that change should
+never have been in the "nvme: add ANA support" patch.
 
-  nvmet: use Retain Async Event bit to clear AEN (2018-07-27 19:14:31 +0200)
-
-----------------------------------------------------------------
-Chaitanya Kulkarni (1):
-      nvmet: use Retain Async Event bit to clear AEN
-
-Christoph Hellwig (9):
-      nvme.h: add support for the log specific field
-      nvme.h: add ANA definitions
-      nvme: simplify the API for getting log pages
-      nvme: remove nvme_req_needs_failover
-      nvme: add ANA support
-      nvmet: keep a port pointer in nvmet_ctrl
-      nvmet: track and limit the number of namespaces per subsystem
-      nvmet: add minimal ANA support
-      nvmet: support configuring ANA groups
-
- drivers/nvme/host/core.c        |  77 +++++----
- drivers/nvme/host/lightnvm.c    |   5 +-
- drivers/nvme/host/multipath.c   | 349 +++++++++++++++++++++++++++++++++++++---
- drivers/nvme/host/nvme.h        |  61 +++++--
- drivers/nvme/target/admin-cmd.c | 104 +++++++++++-
- drivers/nvme/target/configfs.c  | 190 ++++++++++++++++++++++
- drivers/nvme/target/core.c      |  71 +++++++-
- drivers/nvme/target/nvmet.h     |  53 +++++-
- include/linux/nvme.h            |  52 +++++-
- 9 files changed, 884 insertions(+), 78 deletions(-)
+-- 
+Jens Axboe
