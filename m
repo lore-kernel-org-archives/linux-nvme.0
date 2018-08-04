@@ -1,18 +1,45 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 4 Aug 2018 01:16:36 -0700
-Subject: How /dev/nvme numbers are allocated/mapped to BDF
-In-Reply-To: <20180803165411.GA4551@localhost.localdomain>
-References: <073447516980487e950bbc428225ae02@ausx13mps321.AMER.DELL.COM>
- <20180803071820.GA22003@infradead.org>
- <20180803144025.GA4381@localhost.localdomain>
- <097442158bb64b9cbf07cc6e6c25ef1a@ausx13mps321.AMER.DELL.COM>
- <20180803165411.GA4551@localhost.localdomain>
-Message-ID: <20180804081636.GA4421@infradead.org>
+Date: Sat, 4 Aug 2018 10:43:54 +0200
+Subject: nvme updates for 4.19
+Message-ID: <20180804084354.GA26103@infradead.org>
 
-On Fri, Aug 03, 2018@10:54:11AM -0600, Keith Busch wrote:
-> The sammy drives do not have compliant serial number. Spec requires
-> strings are left justified, padding spaces to the right.
+This conatains the support for TP4004, Asymmetric Namespace Access,
+which makes NVMe multipathing usable in practice.
 
-It doesn't look like Samsung fucked it up but Dell..
+The following changes since commit cdcdcaae8450a975e7d07e1bfec21f9b8c016d0c:
 
-On the plus side that should give us more of a chance to fix it :)
+  scsi: virtio_scsi: fix pi_bytes{out,in} on 4 KiB block size devices (2018-07-26 15:49:43 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.19
+
+for you to fetch changes up to b369b30cf510fe94d8884837039362e2ec223cec:
+
+  nvmet: use Retain Async Event bit to clear AEN (2018-07-27 19:14:31 +0200)
+
+----------------------------------------------------------------
+Chaitanya Kulkarni (1):
+      nvmet: use Retain Async Event bit to clear AEN
+
+Christoph Hellwig (9):
+      nvme.h: add support for the log specific field
+      nvme.h: add ANA definitions
+      nvme: simplify the API for getting log pages
+      nvme: remove nvme_req_needs_failover
+      nvme: add ANA support
+      nvmet: keep a port pointer in nvmet_ctrl
+      nvmet: track and limit the number of namespaces per subsystem
+      nvmet: add minimal ANA support
+      nvmet: support configuring ANA groups
+
+ drivers/nvme/host/core.c        |  77 +++++----
+ drivers/nvme/host/lightnvm.c    |   5 +-
+ drivers/nvme/host/multipath.c   | 349 +++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/nvme.h        |  61 +++++--
+ drivers/nvme/target/admin-cmd.c | 104 +++++++++++-
+ drivers/nvme/target/configfs.c  | 190 ++++++++++++++++++++++
+ drivers/nvme/target/core.c      |  71 +++++++-
+ drivers/nvme/target/nvmet.h     |  53 +++++-
+ include/linux/nvme.h            |  52 +++++-
+ 9 files changed, 884 insertions(+), 78 deletions(-)
