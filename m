@@ -1,41 +1,23 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sun, 5 Aug 2018 08:27:22 -0600
-Subject: nvme updates for 4.19
-In-Reply-To: <20180805073305.GA31663@infradead.org>
-References: <20180804084354.GA26103@infradead.org>
- <df1c976e-8ea7-ba14-d1d2-caf8511de527@kernel.dk>
- <20180805073305.GA31663@infradead.org>
-Message-ID: <da7f8241-cd79-ff46-21a2-71b282bc1a57@kernel.dk>
+From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
+Date: Sun, 5 Aug 2018 15:48:57 +0000
+Subject: How /dev/nvme numbers are allocated/mapped to BDF
+References: <073447516980487e950bbc428225ae02@ausx13mps321.AMER.DELL.COM>
+ <20180803071820.GA22003@infradead.org>
+ <20180803144025.GA4381@localhost.localdomain>
+ <097442158bb64b9cbf07cc6e6c25ef1a@ausx13mps321.AMER.DELL.COM>
+ <20180803165411.GA4551@localhost.localdomain>
+ <20180804081636.GA4421@infradead.org>
+Message-ID: <248c8975982541a5ac5b6de088366e27@ausx13mps321.AMER.DELL.COM>
 
-On 8/5/18 1:33 AM, Christoph Hellwig wrote:
-> On Sat, Aug 04, 2018@12:39:13PM -0600, Jens Axboe wrote:
->> On 8/4/18 2:43 AM, Christoph Hellwig wrote:
->> This one:
->>
->>> Christoph Hellwig (9):
->>>       nvme: add ANA support
->>
->> Has a stupid conflict with:
->>
->> commit fa441b71aa27d06fa79d5e7f7c329981dccd94d1
->> Author: Weiping Zhang <zhangweiping at didichuxing.com>
->> Date:   Tue Jul 3 00:34:38 2018 +0800
->>
->>     nvme: don't enable AEN if not supported
->>
->> from mainline. Please keep changes like that in mind, that change should
->> never have been in the "nvme: add ANA support" patch.
+On 08/04/2018 03:16 AM, Christoph Hellwig wrote:
+> On Fri, Aug 03, 2018@10:54:11AM -0600, Keith Busch wrote:
+>> The sammy drives do not have compliant serial number. Spec requires
+>> strings are left justified, padding spaces to the right.
 > 
-> The addition of the supported bit is because the released version
-> of the ANA spec was buggy and didn't add the supported bit to the
-> oaes field.  This hasn't been fixed in an erratate and I dropped
-> the manual addition of the support, but I failed to remove the
-> local supported variable (which modulo the conflict actually makes
-> sense, but should indeed not have been part of the commit).
+> It doesn't look like Samsung fucked it up but Dell..
+> 
+> On the plus side that should give us more of a chance to fix it :)
 
-Right, the change is fine, it's just fighting a similar change
-in a different branch. I did fix it up (picked in the original change
-first), please double check at your convenience.
-
--- 
-Jens Axboe
+You underestimate Dell's kindness. These drives were intentionally 
+released with Koren serial numbers to give the linux folk a test 
+platform. :)
