@@ -1,23 +1,18 @@
-From: Alex_Gagniuc@Dellteam.com (Alex_Gagniuc@Dellteam.com)
-Date: Sun, 5 Aug 2018 15:48:57 +0000
-Subject: How /dev/nvme numbers are allocated/mapped to BDF
-References: <073447516980487e950bbc428225ae02@ausx13mps321.AMER.DELL.COM>
- <20180803071820.GA22003@infradead.org>
- <20180803144025.GA4381@localhost.localdomain>
- <097442158bb64b9cbf07cc6e6c25ef1a@ausx13mps321.AMER.DELL.COM>
- <20180803165411.GA4551@localhost.localdomain>
- <20180804081636.GA4421@infradead.org>
-Message-ID: <248c8975982541a5ac5b6de088366e27@ausx13mps321.AMER.DELL.COM>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 6 Aug 2018 00:31:00 -0700
+Subject: nvme updates for 4.19
+In-Reply-To: <da7f8241-cd79-ff46-21a2-71b282bc1a57@kernel.dk>
+References: <20180804084354.GA26103@infradead.org>
+ <df1c976e-8ea7-ba14-d1d2-caf8511de527@kernel.dk>
+ <20180805073305.GA31663@infradead.org>
+ <da7f8241-cd79-ff46-21a2-71b282bc1a57@kernel.dk>
+Message-ID: <20180806073100.GA11515@infradead.org>
 
-On 08/04/2018 03:16 AM, Christoph Hellwig wrote:
-> On Fri, Aug 03, 2018@10:54:11AM -0600, Keith Busch wrote:
->> The sammy drives do not have compliant serial number. Spec requires
->> strings are left justified, padding spaces to the right.
-> 
-> It doesn't look like Samsung fucked it up but Dell..
-> 
-> On the plus side that should give us more of a chance to fix it :)
+On Sun, Aug 05, 2018@08:27:22AM -0600, Jens Axboe wrote:
+> Right, the change is fine, it's just fighting a similar change
+> in a different branch. I did fix it up (picked in the original change
+> first), please double check at your convenience.
 
-You underestimate Dell's kindness. These drives were intentionally 
-released with Koren serial numbers to give the linux folk a test 
-platform. :)
+The merge looks good.  Given that you've changed the head anyway I'd
+also be happy to give you a version of the ANA commit without that
+change..
