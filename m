@@ -1,23 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 7 Aug 2018 14:47:44 +0200
-Subject: [PATCH] nvme: fixup crash on failed discovery
-In-Reply-To: <f85b69d4-c72c-9c04-6a66-80e4acbb58dd@suse.com>
-References: <20180807104342.44367-1-hare@suse.de>
- <20180807114613.GA8905@lst.de>
- <f85b69d4-c72c-9c04-6a66-80e4acbb58dd@suse.com>
-Message-ID: <20180807124744.GA10051@lst.de>
+From: tal.shorer@gmail.com (Tal Shorer)
+Date: Tue,  7 Aug 2018 23:42:39 +0300
+Subject: [PATCH] nvme: fabrics: fix ctrl_loss_tmo < 0 to reconnect forever
+Message-ID: <20180807204239.24907-1-tal.shorer@gmail.com>
 
-On Tue, Aug 07, 2018@02:01:09PM +0200, Hannes Reinecke wrote:
-> On 08/07/2018 01:46 PM, Christoph Hellwig wrote:
-> > On Tue, Aug 07, 2018@12:43:42PM +0200, Hannes Reinecke wrote:
-> >> When the initial discovery fails the subsystem hasn't been setup,
-> >> and we'll encounter a kernel oops during shutdown.
-> > 
-> > This looks ok, but I'm curious where we even call nvme_ctrl_use_ana
-> > if we fail early.
-> > 
-> This is called via
-> nvme_sysfs_delete()->nvme_ctrl_delete()->nvme_stop_ctrl()->nvme_mpath_stop()
-> called from 'nvme discover' on a failing controller.
+When the user supplics ctrl_loss_tmo < 0, we warn them that this will
+cause the fabrics layer to attempt reconnection forever.
+However, in reality the fabrics layer never attempts to reconnect
+because the condition to test whether we should reconnect is backwards
+in this case.
 
-Thanks.  Applied with a slightly updated changelog.
+Signed-off-by: Tal Shorer <tal.shorer at gmail.com>
+---
+ drivers/nvme/host/fabrics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index f7efe5a58cc7..206d63cb1afc 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -474,7 +474,7 @@ EXPORT_SYMBOL_GPL(nvmf_connect_io_queue);
+ 
+ bool nvmf_should_reconnect(struct nvme_ctrl *ctrl)
+ {
+-	if (ctrl->opts->max_reconnects != -1 &&
++	if (ctrl->opts->max_reconnects == -1 ||
+ 	    ctrl->nr_reconnects < ctrl->opts->max_reconnects)
+ 		return true;
+ 
+-- 
+2.14.1
