@@ -1,73 +1,37 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  7 Aug 2018 23:01:05 -0700
-Subject: [PATCH V4 1/3] nvme: add support for ns write protect definitions
+Date: Tue,  7 Aug 2018 23:01:06 -0700
+Subject: [PATCH V4 2/3] nvme-core: set gendisk read only based on nsattr
 In-Reply-To: <20180808060107.5849-1-chaitanya.kulkarni@wdc.com>
 References: <20180808060107.5849-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180808060107.5849-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180808060107.5849-3-chaitanya.kulkarni@wdc.com>
 
-Add various definitions from NVMe 1.3 TP 4005.
+NVMe 1.3 TP 4005 introduces new filed (NSATTR). This field indicates
+whether given namespace is write protected or not. This patch sets the
+gendisk associated with the namespace to read only based on the identify
+namespace nsattr field.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/nvme.h | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 64c9175723de..bc5729b3256c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -259,7 +259,7 @@ struct nvme_id_ctrl {
- 	__le16			awun;
- 	__le16			awupf;
- 	__u8			nvscc;
--	__u8			rsvd531;
-+	__u8			nwpc;
- 	__le16			acwu;
- 	__u8			rsvd534[2];
- 	__le32			sgls;
-@@ -320,7 +320,9 @@ struct nvme_id_ns {
- 	__u8			nvmcap[16];
- 	__u8			rsvd64[28];
- 	__le32			anagrpid;
--	__u8			rsvd96[8];
-+	__u8			rsvd96[3];
-+	__u8			nsattr;
-+	__u8			rsvd100[4];
- 	__u8			nguid[16];
- 	__u8			eui64[8];
- 	struct nvme_lbaf	lbaf[16];
-@@ -794,6 +796,7 @@ enum {
- 	NVME_FEAT_HOST_ID	= 0x81,
- 	NVME_FEAT_RESV_MASK	= 0x82,
- 	NVME_FEAT_RESV_PERSIST	= 0x83,
-+	NVME_FEAT_WRITE_PROTECT	= 0x84,
- 	NVME_LOG_ERROR		= 0x01,
- 	NVME_LOG_SMART		= 0x02,
- 	NVME_LOG_FW_SLOT	= 0x03,
-@@ -807,6 +810,14 @@ enum {
- 	NVME_FWACT_ACTV		= (2 << 3),
- };
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 603fe59756fb..dd8ec1dd9219 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1484,6 +1484,12 @@ static void nvme_update_disk_info(struct gendisk *disk,
  
-+/* NVMe Namespace Write Protect State */
-+enum {
-+	NVME_NS_NO_WRITE_PROTECT = 0,
-+	NVME_NS_WRITE_PROTECT,
-+	NVME_NS_WRITE_PROTECT_POWER_CYCLE,
-+	NVME_NS_WRITE_PROTECT_PERMANENT,
-+};
+ 	set_capacity(disk, capacity);
+ 	nvme_config_discard(ns);
 +
- #define NVME_MAX_CHANGED_NAMESPACES	1024
- 
- struct nvme_identify {
-@@ -1153,6 +1164,8 @@ enum {
- 	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
- 	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
- 
-+	NVME_SC_NS_WRITE_PROTECTED	= 0x20,
++	if (id->nsattr & (1 << 0))
++		set_disk_ro(disk, true);
++	else
++		set_disk_ro(disk, false);
 +
- 	NVME_SC_LBA_RANGE		= 0x80,
- 	NVME_SC_CAP_EXCEEDED		= 0x81,
- 	NVME_SC_NS_NOT_READY		= 0x82,
+ 	blk_mq_unfreeze_queue(disk->queue);
+ }
+ 
 -- 
 2.17.0
