@@ -1,56 +1,73 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 7 Aug 2018 22:49:47 +0000
-Subject: [PATCH] nvme: fabrics: fix ctrl_loss_tmo < 0 to reconnect forever
-In-Reply-To: <20180807204239.24907-1-tal.shorer@gmail.com>
-References: <20180807204239.24907-1-tal.shorer@gmail.com>
-Message-ID: <BYAPR04MB4502CA560886C1025B15A62B86270@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue,  7 Aug 2018 23:01:05 -0700
+Subject: [PATCH V4 1/3] nvme: add support for ns write protect definitions
+In-Reply-To: <20180808060107.5849-1-chaitanya.kulkarni@wdc.com>
+References: <20180808060107.5849-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180808060107.5849-2-chaitanya.kulkarni@wdc.com>
 
-Looks good to me.
+Add various definitions from NVMe 1.3 TP 4005.
 
-Just 's/supplics/supplies/'.
-
-Without looking into the entire code, If we can change the type of max_reconnect and nr_reconnects to unsigned int then we can just get away with the one comparison (ctrl->nr_reconnects < ctrl->opts->max_reconnects).
-
-Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-
-From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> on behalf of Tal Shorer <tal.shorer@gmail.com>
-Sent: Tuesday, August 7, 2018 1:42 PM
-To: keith.busch at intel.com; axboe at fb.com; hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org; linux-kernel at vger.kernel.org
-Cc: Tal Shorer
-Subject: [PATCH] nvme: fabrics: fix ctrl_loss_tmo < 0 to reconnect forever
-? 
- 
-When the user supplics ctrl_loss_tmo < 0, we warn them that this will
-cause the fabrics layer to attempt reconnection forever.
-However, in reality the fabrics layer never attempts to reconnect
-because the condition to test whether we should reconnect is backwards
-in this case.
-
-Signed-off-by: Tal Shorer <tal.shorer at gmail.com>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
-?drivers/nvme/host/fabrics.c | 2 +-
-?1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/nvme.h | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index f7efe5a58cc7..206d63cb1afc 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -474,7 +474,7 @@ EXPORT_SYMBOL_GPL(nvmf_connect_io_queue);
-?
-?bool nvmf_should_reconnect(struct nvme_ctrl *ctrl)
-?{
--?????? if (ctrl->opts->max_reconnects != -1 &&
-+?????? if (ctrl->opts->max_reconnects == -1 ||
-???????????? ctrl->nr_reconnects < ctrl->opts->max_reconnects)
-???????????????? return true;
-?
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 64c9175723de..bc5729b3256c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -259,7 +259,7 @@ struct nvme_id_ctrl {
+ 	__le16			awun;
+ 	__le16			awupf;
+ 	__u8			nvscc;
+-	__u8			rsvd531;
++	__u8			nwpc;
+ 	__le16			acwu;
+ 	__u8			rsvd534[2];
+ 	__le32			sgls;
+@@ -320,7 +320,9 @@ struct nvme_id_ns {
+ 	__u8			nvmcap[16];
+ 	__u8			rsvd64[28];
+ 	__le32			anagrpid;
+-	__u8			rsvd96[8];
++	__u8			rsvd96[3];
++	__u8			nsattr;
++	__u8			rsvd100[4];
+ 	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
+@@ -794,6 +796,7 @@ enum {
+ 	NVME_FEAT_HOST_ID	= 0x81,
+ 	NVME_FEAT_RESV_MASK	= 0x82,
+ 	NVME_FEAT_RESV_PERSIST	= 0x83,
++	NVME_FEAT_WRITE_PROTECT	= 0x84,
+ 	NVME_LOG_ERROR		= 0x01,
+ 	NVME_LOG_SMART		= 0x02,
+ 	NVME_LOG_FW_SLOT	= 0x03,
+@@ -807,6 +810,14 @@ enum {
+ 	NVME_FWACT_ACTV		= (2 << 3),
+ };
+ 
++/* NVMe Namespace Write Protect State */
++enum {
++	NVME_NS_NO_WRITE_PROTECT = 0,
++	NVME_NS_WRITE_PROTECT,
++	NVME_NS_WRITE_PROTECT_POWER_CYCLE,
++	NVME_NS_WRITE_PROTECT_PERMANENT,
++};
++
+ #define NVME_MAX_CHANGED_NAMESPACES	1024
+ 
+ struct nvme_identify {
+@@ -1153,6 +1164,8 @@ enum {
+ 	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
+ 	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
+ 
++	NVME_SC_NS_WRITE_PROTECTED	= 0x20,
++
+ 	NVME_SC_LBA_RANGE		= 0x80,
+ 	NVME_SC_CAP_EXCEEDED		= 0x81,
+ 	NVME_SC_NS_NOT_READY		= 0x82,
 -- 
-2.14.1
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
-    
+2.17.0
