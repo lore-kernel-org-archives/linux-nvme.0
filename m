@@ -1,42 +1,55 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu,  9 Aug 2018 11:25:23 +0200
-Subject: [PATCH nvme-cli v2 2/2] fabrics: write keep-alive-timeout to fabrics
- device on connect
-In-Reply-To: <20180809092523.10225-1-jthumshirn@suse.de>
-References: <20180809092523.10225-1-jthumshirn@suse.de>
-Message-ID: <20180809092523.10225-3-jthumshirn@suse.de>
+From: mgandhi@redhat.com (Milan P. Gandhi)
+Date: Thu, 9 Aug 2018 19:03:44 +0530
+Subject: [PATCH] Remove extra goto label from nvmet_ns_enable
+Message-ID: <20180809133344.GA11707@machine1>
 
-Commit 7099227b07a8 ("fabrics: add option to supply keep-alive-timeout
-for connect-all") introduced a keep-alive-timeout option for
-connect-all but forgot to write it down to the kernel's fabrics
-device in connect_ctrl().
+Currently nvmet_ns_enable has two labels viz. out_unlock and
+out_dev_put, and the reverse call from out_dev_put to out_unlock
+is little bit confusing. We could simplify it by calling
+nvmet_ns_dev_disable before. This would eliminate need for
+2nd label out_dev_put.
 
-Pass down the keep-alove-timeouts if we're connecting to a non
-discovery controller.
+Also, this function already initializes ret variable to 0,
+so there is no need to initialize it to 0 before out_unlock,
+so removing it.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Fixes: 7099227b07a8 ("fabrics: add option to supply keep-alive-timeout for connect-all")
+Signed-off-by: Milan P. Gandhi <mgandhi at redhat.com>
 ---
- fabrics.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/nvme/target/core.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 241d8b86d8e6..28e97c5aea3b 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -628,6 +628,13 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
- 		p += len;
- 	}
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 9838103f2d62..b40fb6d724b4 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -346,9 +346,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
  
-+	if (cfg.keep_alive_tmo && !discover) {
-+		len = sprintf(p, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
+ 	ret = percpu_ref_init(&ns->ref, nvmet_destroy_namespace,
+ 				0, GFP_KERNEL);
+-	if (ret)
+-		goto out_dev_put;
+-
++	if (ret) {
++		nvmet_ns_dev_disable(ns);
++		goto out_unlock;
 +	}
+ 	if (ns->nsid > subsys->max_nsid)
+ 		subsys->max_nsid = ns->nsid;
+ 
+@@ -372,13 +373,10 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 
+ 	nvmet_ns_changed(subsys, ns->nsid);
+ 	ns->enabled = true;
+-	ret = 0;
 +
- 	switch (e->trtype) {
- 	case NVMF_TRTYPE_LOOP: /* loop */
- 		len = sprintf(p, ",transport=loop");
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
+ 	return ret;
+-out_dev_put:
+-	nvmet_ns_dev_disable(ns);
+-	goto out_unlock;
+ }
+ 
+ void nvmet_ns_disable(struct nvmet_ns *ns)
 -- 
-2.16.4
+2.14.3
