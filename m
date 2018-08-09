@@ -1,44 +1,37 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  9 Aug 2018 16:00:14 -0700
-Subject: [PATCH] nvme_fcloop: Fix dropped LS's to removed target port
-Message-ID: <20180809230014.6689-1-jsmart2021@gmail.com>
+Date: Thu, 9 Aug 2018 16:29:18 -0700
+Subject: [PATCH] nvmet_fc: support target port removal with nvmet layer
+In-Reply-To: <20180809225953.6600-1-jsmart2021@gmail.com>
+References: <20180809225953.6600-1-jsmart2021@gmail.com>
+Message-ID: <52224f2e-be93-ea76-1171-6bfb64ae4ee3@gmail.com>
 
-When a targetport is removed from the config, fcloop will avoid calling
-the LS done() routine thinking the targetport is gone. This leaves the
-initiator reset/reconnect hanging as it waits for a status on the
-Create_Association LS for the reconnect.
+Please ignore. There is one test case (where port ptr is NULL) that 
+isn't handled correctly. Will repost shortly.
 
-Change the filter in the LS callback path. If tport null (set when
-failed validation before "sending to remote port"), be sure to call
-done. This was the main bug. But, continue the logic that only calls
-done if tport was set but there is no remoteport (e.g. case where
-remoteport has been removed, thus host doesn't expect a completion).
+-- james
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fcloop.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 34712def81b1..5251689a1d9a 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -311,7 +311,7 @@ fcloop_tgt_lsrqst_done_work(struct work_struct *work)
- 	struct fcloop_tport *tport = tls_req->tport;
- 	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
- 
--	if (tport->remoteport)
-+	if (!tport || tport->remoteport)
- 		lsreq->done(lsreq, tls_req->status);
- }
- 
-@@ -329,6 +329,7 @@ fcloop_ls_req(struct nvme_fc_local_port *localport,
- 
- 	if (!rport->targetport) {
- 		tls_req->status = -ECONNREFUSED;
-+		tls_req->tport = NULL;
- 		schedule_work(&tls_req->work);
- 		return ret;
- 	}
--- 
-2.13.1
+On 8/9/2018 3:59 PM, James Smart wrote:
+> Currently, if a targetport has been connected to via the nvmet
+> config (in other words, the add_port() transport routine called, and
+> the nvmet port pointer stored for using in upcalls on new io), and
+> if the targetport is then removed (say the lldd driver decides to
+> unload or fully reset its hardware) and then re-added (the lldd
+> driver reloads or reinits its hardware), the port pointer has been
+> lost so there's no way to continue to post commands up to nvmet
+> via the transport port.
+> 
+> Correct by allocating a small "port context" structure that will
+> be linked to by the targetport. The context will save the targetport
+> WWN's and the nvmet port pointer to use for it.  Initial allocation
+> will occur when the targetport is bound to via add_port. The context
+> will be deallocated when remove_port() is called.  If a targetport
+> is removed while nvmet has the active port context, the targetport
+> will be unlinked from the port context before removal.  If a new
+> targetport is registered, the port contexts without a binding are
+> looked through and if the WWN's match (so it's the same as nvmet's
+> port context) the port context is linked to the new target port.
+> Thus new io can be received on the new targetport and operation
+> resumes with nvmet.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
