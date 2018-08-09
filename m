@@ -1,43 +1,246 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Thu, 9 Aug 2018 15:23:40 -0500
-Subject: [PATCH v4 0/3] PCI: NVMe reset quirks
-In-Reply-To: <153384487209.15793.15203778129263981368.stgit@gimli.home>
-References: <153384487209.15793.15203778129263981368.stgit@gimli.home>
-Message-ID: <20180809202340.GE113140@bhelgaas-glaptop.roam.corp.google.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu,  9 Aug 2018 15:59:53 -0700
+Subject: [PATCH] nvmet_fc: support target port removal with nvmet layer
+Message-ID: <20180809225953.6600-1-jsmart2021@gmail.com>
 
-On Thu, Aug 09, 2018@02:04:03PM -0600, Alex Williamson wrote:
-> v4: Fix 0-day i386 build error for readq, simply use readl
->     instead, the bits we're interested in are 24:31 and the NVMe
->     spec indicates that smaller, aligned accesses are allowed.
->     Update bz links for both device specific resets.
-> 
-> v3: Separate quirks, only for the afflicted devices
-> 
-> v2: Add bug link, use Samsung vendor ID, add spec references
-> 
-> Fix two different NVMe device reset issues with device specific
-> quirks.  The Samsung controller in patch 2 sometimes doesn't like
-> being reset while enabled, so disable the NVMe controller prior to
-> FLR.  This quirk is generic to all NVMe class devices, though I've
-> dropped the additional delay some devices require between disabling
-> and checking ready status.  This can be added later should any of
-> those devices need this quirk.  The Intel controller quirk is now
-> just a simple delay after FLR, which clearly any device needing
-> similar behavior can also use.  Thanks,
-> 
-> Alex
-> 
-> ---
-> 
-> Alex Williamson (3):
->       PCI: Export pcie_has_flr()
->       PCI: Samsung SM961/PM961 NVMe disable before FLR quirk
->       PCI: Intel DC P3700 NVMe delay after FLR quirk
-> 
-> 
->  drivers/pci/pci.c    |    3 +
->  drivers/pci/quirks.c |  105 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/pci.h  |    1 
->  3 files changed, 108 insertions(+), 1 deletion(-)
+Currently, if a targetport has been connected to via the nvmet
+config (in other words, the add_port() transport routine called, and
+the nvmet port pointer stored for using in upcalls on new io), and
+if the targetport is then removed (say the lldd driver decides to
+unload or fully reset its hardware) and then re-added (the lldd
+driver reloads or reinits its hardware), the port pointer has been
+lost so there's no way to continue to post commands up to nvmet
+via the transport port.
 
-Applied to pci/virtualization for v4.19, thanks!
+Correct by allocating a small "port context" structure that will
+be linked to by the targetport. The context will save the targetport
+WWN's and the nvmet port pointer to use for it.  Initial allocation
+will occur when the targetport is bound to via add_port. The context
+will be deallocated when remove_port() is called.  If a targetport
+is removed while nvmet has the active port context, the targetport
+will be unlinked from the port context before removal.  If a new
+targetport is registered, the port contexts without a binding are
+looked through and if the WWN's match (so it's the same as nvmet's
+port context) the port context is linked to the new target port.
+Thus new io can be received on the new targetport and operation
+resumes with nvmet.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/fc.c | 119 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 112 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 5215dc48a7b7..6c480c0d312c 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -110,11 +110,19 @@ struct nvmet_fc_tgtport {
+ 	struct list_head		ls_busylist;
+ 	struct list_head		assoc_list;
+ 	struct ida			assoc_cnt;
+-	struct nvmet_port		*port;
++	struct nvmet_fc_port_entry	*pe;
+ 	struct kref			ref;
+ 	u32				max_sg_cnt;
+ };
+ 
++struct nvmet_fc_port_entry {
++	struct nvmet_fc_tgtport		*tgtport;
++	struct nvmet_port		*port;
++	u64				node_name;
++	u64				port_name;
++	struct list_head		pe_list;
++};
++
+ struct nvmet_fc_defer_fcp_req {
+ 	struct list_head		req_list;
+ 	struct nvmefc_tgt_fcp_req	*fcp_req;
+@@ -132,7 +140,6 @@ struct nvmet_fc_tgt_queue {
+ 	atomic_t			zrspcnt;
+ 	atomic_t			rsn;
+ 	spinlock_t			qlock;
+-	struct nvmet_port		*port;
+ 	struct nvmet_cq			nvme_cq;
+ 	struct nvmet_sq			nvme_sq;
+ 	struct nvmet_fc_tgt_assoc	*assoc;
+@@ -221,6 +228,7 @@ static DEFINE_SPINLOCK(nvmet_fc_tgtlock);
+ 
+ static LIST_HEAD(nvmet_fc_target_list);
+ static DEFINE_IDA(nvmet_fc_tgtport_cnt);
++static LIST_HEAD(nvmet_fc_portentry_list);
+ 
+ 
+ static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
+@@ -645,7 +653,6 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	queue->qid = qid;
+ 	queue->sqsize = sqsize;
+ 	queue->assoc = assoc;
+-	queue->port = assoc->tgtport->port;
+ 	queue->cpu = nvmet_fc_queue_to_cpu(assoc->tgtport, qid);
+ 	INIT_LIST_HEAD(&queue->fod_list);
+ 	INIT_LIST_HEAD(&queue->avail_defer_list);
+@@ -957,6 +964,83 @@ nvmet_fc_find_target_assoc(struct nvmet_fc_tgtport *tgtport,
+ 	return ret;
+ }
+ 
++static void
++nvmet_fc_portentry_bind(struct nvmet_fc_tgtport *tgtport,
++			struct nvmet_fc_port_entry *pe,
++			struct nvmet_port *port)
++{
++	lockdep_assert_held(&nvmet_fc_tgtlock);
++
++	pe->tgtport = tgtport;
++	tgtport->pe = pe;
++
++	pe->port = port;
++	port->priv = pe;
++
++	pe->node_name = tgtport->fc_target_port.node_name;
++	pe->port_name = tgtport->fc_target_port.port_name;
++	INIT_LIST_HEAD(&pe->pe_list);
++
++	list_add_tail(&pe->pe_list, &nvmet_fc_portentry_list);
++}
++
++static void
++nvmet_fc_portentry_unbind(struct nvmet_fc_port_entry *pe)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
++	if (pe->tgtport)
++		pe->tgtport->pe = NULL;
++	list_del(&pe->pe_list);
++	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
++}
++
++/*
++ * called when a targetport deregisters. Breaks the relationship
++ * with the nvmet port, but leaves the port_entry in place so that
++ * re-registration can resume operation.
++ */
++static void
++nvmet_fc_portentry_unbind_tgt(struct nvmet_fc_tgtport *tgtport)
++{
++	struct nvmet_fc_port_entry *pe;
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
++	pe = tgtport->pe;
++	if (pe)
++		pe->tgtport = NULL;
++	tgtport->pe = NULL;
++	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
++}
++
++/*
++ * called when a new targetport is registered. Looks in the
++ * existing nvmet port_entries to see if the nvmet layer is
++ * configured for the targetport's wwn's. (the targetport existed,
++ * nvmet configured, the lldd unregistered the tgtport, and is now
++ * reregistering the same targetport).  If so, set the nvmet port
++ * port entry on the targetport.
++ */
++static void
++nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtport *tgtport)
++{
++	struct nvmet_fc_port_entry *pe;
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
++	list_for_each_entry(pe, &nvmet_fc_portentry_list, pe_list) {
++		if ((tgtport->fc_target_port.node_name == pe->node_name) &&
++		    (tgtport->fc_target_port.port_name == pe->port_name)) {
++			WARN_ON(pe->tgtport);
++			tgtport->pe = pe;
++			pe->tgtport = tgtport;
++			break;
++		}
++	}
++	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
++}
+ 
+ /**
+  * nvme_fc_register_targetport - transport entry point called by an
+@@ -1034,6 +1118,8 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+ 		goto out_free_newrec;
+ 	}
+ 
++	nvmet_fc_portentry_rebind_tgt(newrec);
++
+ 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+ 	list_add_tail(&newrec->tgt_list, &nvmet_fc_target_list);
+ 	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
+@@ -1171,6 +1257,8 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
+ {
+ 	struct nvmet_fc_tgtport *tgtport = targetport_to_tgtport(target_port);
+ 
++	nvmet_fc_portentry_unbind_tgt(tgtport);
++
+ 	/* terminate any outstanding associations */
+ 	__nvmet_fc_free_assocs(tgtport);
+ 
+@@ -2184,7 +2272,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ 
+ 	fod->req.cmd = &fod->cmdiubuf.sqe;
+ 	fod->req.rsp = &fod->rspiubuf.cqe;
+-	fod->req.port = fod->queue->port;
++	fod->req.port = (tgtport->pe) ? tgtport->pe->port : NULL;
+ 
+ 	/* clear any response payload */
+ 	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
+@@ -2508,6 +2596,7 @@ static int
+ nvmet_fc_add_port(struct nvmet_port *port)
+ {
+ 	struct nvmet_fc_tgtport *tgtport;
++	struct nvmet_fc_port_entry *pe;
+ 	struct nvmet_fc_traddr traddr = { 0L, 0L };
+ 	unsigned long flags;
+ 	int ret;
+@@ -2524,24 +2613,40 @@ nvmet_fc_add_port(struct nvmet_port *port)
+ 	if (ret)
+ 		return ret;
+ 
++	pe = kzalloc(sizeof(*pe), GFP_KERNEL);
++	if (!pe)
++		return -ENOMEM;
++
+ 	ret = -ENXIO;
+ 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
+ 	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
+ 		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
+ 		    (tgtport->fc_target_port.port_name == traddr.pn)) {
+-			tgtport->port = port;
+-			ret = 0;
++			/* a FC port can only be 1 nvmet port id */
++			if (!tgtport->pe) {
++				nvmet_fc_portentry_bind(tgtport, pe, port);
++				ret = 0;
++			} else
++				ret = -EALREADY;
+ 			break;
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
++
++	if (ret)
++		kfree(pe);
++
+ 	return ret;
+ }
+ 
+ static void
+ nvmet_fc_remove_port(struct nvmet_port *port)
+ {
+-	/* nothing to do */
++	struct nvmet_fc_port_entry *pe = port->priv;
++
++	nvmet_fc_portentry_unbind(pe);
++
++	kfree(pe);
+ }
+ 
+ static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+-- 
+2.13.1
