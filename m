@@ -1,12 +1,25 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 9 Aug 2018 08:59:38 -0600
-Subject: [PATCH nvme-cli v2 0/2] fabrics connect-all fixes
-In-Reply-To: <20180809092523.10225-1-jthumshirn@suse.de>
-References: <20180809092523.10225-1-jthumshirn@suse.de>
-Message-ID: <20180809145938.GA18274@localhost.localdomain>
+From: mgandhi@redhat.com (Milan P. Gandhi)
+Date: Thu, 9 Aug 2018 21:49:24 +0530
+Subject: [PATCH] Fix typo in nvme_identify_ns_descs
+Message-ID: <20180809161924.GA13201@machine1>
 
-On Thu, Aug 09, 2018@11:25:21AM +0200, Johannes Thumshirn wrote:
-> Two small fixes for fabrics commits of mine, which introduced options
-> but forgot to pass them down to the kernel.
+Signed-off-by: Milan P. Gandhi <mgandhi at redhat.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks, series applied.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bf65501e6ed6..21d5d597b328 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -959,7 +959,7 @@ static int nvme_identify_ns_descs(struct nvme_ctrl *ctrl, unsigned nsid,
+ 			uuid_copy(&ids->uuid, data + pos + sizeof(*cur));
+ 			break;
+ 		default:
+-			/* Skip unnkown types */
++			/* Skip unknown types */
+ 			len = cur->nidl;
+ 			break;
+ 		}
+-- 
+2.14.3
