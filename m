@@ -1,38 +1,60 @@
 From: alex.williamson@redhat.com (Alex Williamson)
-Date: Thu, 09 Aug 2018 14:04:03 -0600
-Subject: [PATCH v4 0/3] PCI: NVMe reset quirks
-Message-ID: <153384487209.15793.15203778129263981368.stgit@gimli.home>
+Date: Thu, 09 Aug 2018 14:04:31 -0600
+Subject: [PATCH v4 3/3] PCI: Intel DC P3700 NVMe delay after FLR quirk
+In-Reply-To: <153384487209.15793.15203778129263981368.stgit@gimli.home>
+References: <153384487209.15793.15203778129263981368.stgit@gimli.home>
+Message-ID: <153384507110.15793.12191081187690448438.stgit@gimli.home>
 
-v4: Fix 0-day i386 build error for readq, simply use readl
-    instead, the bits we're interested in are 24:31 and the NVMe
-    spec indicates that smaller, aligned accesses are allowed.
-    Update bz links for both device specific resets.
+Add a device specific reset for Intel DC P3700 NVMe device which
+exhibits a timeout failure in drivers waiting for the ready status to
+update after NVMe enable if the driver interacts with the device too
+quickly after FLR.  As this has been observed in device assignment
+scenarios, resolve this with a device specific reset quirk to add an
+additional, heuristically determined, delay after the FLR completes.
 
-v3: Separate quirks, only for the afflicted devices
-
-v2: Add bug link, use Samsung vendor ID, add spec references
-
-Fix two different NVMe device reset issues with device specific
-quirks.  The Samsung controller in patch 2 sometimes doesn't like
-being reset while enabled, so disable the NVMe controller prior to
-FLR.  This quirk is generic to all NVMe class devices, though I've
-dropped the additional delay some devices require between disabling
-and checking ready status.  This can be added later should any of
-those devices need this quirk.  The Intel controller quirk is now
-just a simple delay after FLR, which clearly any device needing
-similar behavior can also use.  Thanks,
-
-Alex
-
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=1592654
+Signed-off-by: Alex Williamson <alex.williamson at redhat.com>
 ---
+ drivers/pci/quirks.c |   22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-Alex Williamson (3):
-      PCI: Export pcie_has_flr()
-      PCI: Samsung SM961/PM961 NVMe disable before FLR quirk
-      PCI: Intel DC P3700 NVMe delay after FLR quirk
-
-
- drivers/pci/pci.c    |    3 +
- drivers/pci/quirks.c |  105 ++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/pci.h  |    1 
- 3 files changed, 108 insertions(+), 1 deletion(-)
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 0a4d802cb307..93791bd31a55 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -3751,6 +3751,27 @@ static int nvme_disable_and_flr(struct pci_dev *dev, int probe)
+ 	return 0;
+ }
+ 
++/*
++ * Intel DC P3700 NVMe controller will timeout waiting for ready status
++ * to change after NVMe enable if the driver starts interacting with the
++ * device too quickly after FLR.  A 250ms delay after FLR has heuristically
++ * proven to produce reliably working results for device assignment cases.
++ */
++static int delay_250ms_after_flr(struct pci_dev *dev, int probe)
++{
++	if (!pcie_has_flr(dev))
++		return -ENOTTY;
++
++	if (probe)
++		return 0;
++
++	pcie_flr(dev);
++
++	msleep(250);
++
++	return 0;
++}
++
+ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
+ 	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_82599_SFP_VF,
+ 		 reset_intel_82599_sfp_virtfn },
+@@ -3759,6 +3780,7 @@ static const struct pci_dev_reset_methods pci_dev_reset_methods[] = {
+ 	{ PCI_VENDOR_ID_INTEL, PCI_DEVICE_ID_INTEL_IVB_M2_VGA,
+ 		reset_ivb_igd },
+ 	{ PCI_VENDOR_ID_SAMSUNG, 0xa804, nvme_disable_and_flr },
++	{ PCI_VENDOR_ID_INTEL, 0x0953, delay_250ms_after_flr },
+ 	{ PCI_VENDOR_ID_CHELSIO, PCI_ANY_ID,
+ 		reset_chelsio_generic_dev },
+ 	{ 0 }
