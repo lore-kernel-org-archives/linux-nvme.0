@@ -1,31 +1,50 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Thu, 9 Aug 2018 14:35:53 -0500
-Subject: [PATCH v3 3/3] PCI: Intel DC P3700 NVMe delay after FLR quirk
-In-Reply-To: <20180724101849.36f635eb@t450s.home>
-References: <20180724160440.2729.75178.stgit@gimli.home>
- <20180724161446.2729.78211.stgit@gimli.home>
- <20180724101849.36f635eb@t450s.home>
-Message-ID: <20180809193553.GD113140@bhelgaas-glaptop.roam.corp.google.com>
+From: alex.williamson@redhat.com (Alex Williamson)
+Date: Thu, 09 Aug 2018 14:04:14 -0600
+Subject: [PATCH v4 1/3] PCI: Export pcie_has_flr()
+In-Reply-To: <153384487209.15793.15203778129263981368.stgit@gimli.home>
+References: <153384487209.15793.15203778129263981368.stgit@gimli.home>
+Message-ID: <153384505430.15793.4988988835441214121.stgit@gimli.home>
 
-On Tue, Jul 24, 2018@10:18:48AM -0600, Alex Williamson wrote:
-> On Tue, 24 Jul 2018 10:14:46 -0600
-> Alex Williamson <alex.williamson@redhat.com> wrote:
-> 
-> > Add a device specific reset for Intel DC P3700 NVMe device which
-> > exhibits a timeout failure in drivers waiting for the ready status to
-> > update after NVMe enable if the driver interacts with the device too
-> > quickly after FLR.  As this has been observed in device assignment
-> > scenarios, resolve this with a device specific reset quirk to add an
-> > additional, heuristically determined, delay after the FLR completes.
-> > 
-> > Signed-off-by: Alex Williamson <alex.williamson at redhat.com>
-> > ---
-> >  drivers/pci/quirks.c |   22 ++++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> 
-> I forgot to link the bz in this one, if this somehow becomes the final
-> version, please add:
-> 
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=159265
+pcie_flr() suggests pcie_has_flr() to ensure that PCIe FLR support is
+present prior to calling.  pcie_flr() is exported while pcie_has_flr()
+is not.  Resolve this.
 
-Corrected link to: https://bugzilla.redhat.com/show_bug.cgi?id=1592654
+Signed-off-by: Alex Williamson <alex.williamson at redhat.com>
+---
+ drivers/pci/pci.c   |    3 ++-
+ include/linux/pci.h |    1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 2bec76c9d9a7..52fe2d72a99c 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4071,7 +4071,7 @@ static int pci_dev_wait(struct pci_dev *dev, char *reset_type, int timeout)
+  * Returns true if the device advertises support for PCIe function level
+  * resets.
+  */
+-static bool pcie_has_flr(struct pci_dev *dev)
++bool pcie_has_flr(struct pci_dev *dev)
+ {
+ 	u32 cap;
+ 
+@@ -4081,6 +4081,7 @@ static bool pcie_has_flr(struct pci_dev *dev)
+ 	pcie_capability_read_dword(dev, PCI_EXP_DEVCAP, &cap);
+ 	return cap & PCI_EXP_DEVCAP_FLR;
+ }
++EXPORT_SYMBOL_GPL(pcie_has_flr);
+ 
+ /**
+  * pcie_flr - initiate a PCIe function level reset
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 04c7ea6ed67b..bbe030d7814f 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -1092,6 +1092,7 @@ u32 pcie_bandwidth_available(struct pci_dev *dev, struct pci_dev **limiting_dev,
+ 			     enum pci_bus_speed *speed,
+ 			     enum pcie_link_width *width);
+ void pcie_print_link_status(struct pci_dev *dev);
++bool pcie_has_flr(struct pci_dev *dev);
+ int pcie_flr(struct pci_dev *dev);
+ int __pci_reset_function_locked(struct pci_dev *dev);
+ int pci_reset_function(struct pci_dev *dev);
