@@ -1,28 +1,48 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 9 Aug 2018 09:20:07 +0200
-Subject: [PATCH nvme-cli 1/2] fabrics: write ctrl_loss_tmo to fabrics
- device on connect
-In-Reply-To: <SN6PR04MB451057AAB783DEBD356F9EA386260@SN6PR04MB4510.namprd04.prod.outlook.com>
-References: <20180808071032.5914-1-jthumshirn@suse.de>
- <20180808071032.5914-2-jthumshirn@suse.de>
- <SN6PR04MB451057AAB783DEBD356F9EA386260@SN6PR04MB4510.namprd04.prod.outlook.com>
-Message-ID: <20180809072007.wmyjlm35kzoxomy2@linux-x5ow.site>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 9 Aug 2018 10:07:34 +0200
+Subject: [GIT PULL] last round of nvme updates for 4.19
+Message-ID: <20180809080734.GA1527@infradead.org>
 
-On Wed, Aug 08, 2018@04:15:23PM +0000, Chaitanya Kulkarni wrote:
-> +?????? if (cfg.ctrl_loss_tmo) {
-> +?????????????? len = sprintf(p, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
-> +?????????????? if (len < 0)
-> +?????????????????????? return -EINVAL;
-> +?????????????? p+= len;
-> [CK] We can add a space before "+=" above.
+Hi Jens,
 
-Good point, thanks Chaitanya.
+this should be the last round of NVMe updates before the 4.19 merge
+window opens.  It conains support for write protected (aka read-only)
+namespaces from Chaitanya, two ANA fixes from Hannes and a fabrics
+fix from Tal Shorer.
 
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+The following changes since commit f10fe9d85dc0802b54519c917716e6f0092b4ce7:
+
+  lightnvm: remove minor version check for 2.0 (2018-08-05 19:36:09 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.19
+
+for you to fetch changes up to 66414e80245e1e73222f67ee711951c7f4bdedab:
+
+  nvme-fabrics: fix ctrl_loss_tmo < 0 to reconnect forever (2018-08-08 12:01:49 +0200)
+
+----------------------------------------------------------------
+Chaitanya Kulkarni (3):
+      nvme.h: add support for ns write protect definitions
+      nvme: set gendisk read only based on nsattr
+      nvmet: add ns write protect support
+
+Hannes Reinecke (2):
+      nvme: fixup crash on failed discovery
+      nvme.h: fixup ANA group descriptor format
+
+Tal Shorer (1):
+      nvme-fabrics: fix ctrl_loss_tmo < 0 to reconnect forever
+
+ drivers/nvme/host/core.c          |  6 ++++
+ drivers/nvme/host/fabrics.c       |  2 +-
+ drivers/nvme/host/multipath.c     |  2 +-
+ drivers/nvme/target/admin-cmd.c   | 76 +++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/core.c        | 20 ++++++++++-
+ drivers/nvme/target/io-cmd-bdev.c |  7 ++++
+ drivers/nvme/target/io-cmd-file.c | 12 ++++---
+ drivers/nvme/target/nvmet.h       |  4 +++
+ include/linux/nvme.h              | 19 ++++++++--
+ 9 files changed, 138 insertions(+), 10 deletions(-)
