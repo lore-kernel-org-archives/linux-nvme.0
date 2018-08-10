@@ -1,279 +1,225 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu,  9 Aug 2018 16:48:14 -0700
-Subject: [PATCH v2] nvmet_fc: support target port removal with nvmet layer
-Message-ID: <20180809234814.14680-1-jsmart2021@gmail.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu,  9 Aug 2018 22:08:06 -0700
+Subject: [RFC][PATCH] nvmet: use IOCB_NOWAIT for file-ns buffered I/O
+Message-ID: <20180810050806.4366-1-chaitanya.kulkarni@wdc.com>
 
-Currently, if a targetport has been connected to via the nvmet
-config (in other words, the add_port() transport routine called, and
-the nvmet port pointer stored for using in upcalls on new io), and
-if the targetport is then removed (say the lldd driver decides to
-unload or fully reset its hardware) and then re-added (the lldd
-driver reloads or reinits its hardware), the port pointer has been
-lost so there's no way to continue to post commands up to nvmet
-via the transport port.
+This patch optimizes read command behavior when file-ns configured
+with buffered I/O. Instead of offloading the buffered I/O read operations
+to the worker threads, we first issue the read operation with IOCB_NOWAIT
+and try and access the data from the cache. Here we only offload the
+request to the worker thread and complete the request in the worker
+thread context when IOCB_NOWAIT request fails.
 
-Correct by allocating a small "port context" structure that will
-be linked to by the targetport. The context will save the targetport
-WWN's and the nvmet port pointer to use for it.  Initial allocation
-will occur when the targetport is bound to via add_port. The context
-will be deallocated when remove_port() is called.  If a targetport
-is removed while nvmet has the active port context, the targetport
-will be unlinked from the port context before removal.  If a new
-targetport is registered, the port contexts without a binding are
-looked through and if the WWN's match (so it's the same as nvmet's
-port context) the port context is linked to the new target port.
-Thus new io can be received on the new targetport and operation
-resumes with nvmet.
-
-Additionally, this also resolves nvmet configuration changing out
-from underneath of the nvme-fc target port (for example: a
-nvmetcli clear).
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
-
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
-v2:
-  v1 could upcall with nvmet port pointer null (if command received
-  after the port was removed from nvmet). Added check at top of
-  async cmd rcv for null nvmet port and abort io on link if true.
----
- drivers/nvme/target/fc.c | 128 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 120 insertions(+), 8 deletions(-)
+Hi,
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 5215dc48a7b7..fbbaf68ae54f 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -110,11 +110,19 @@ struct nvmet_fc_tgtport {
- 	struct list_head		ls_busylist;
- 	struct list_head		assoc_list;
- 	struct ida			assoc_cnt;
--	struct nvmet_port		*port;
-+	struct nvmet_fc_port_entry	*pe;
- 	struct kref			ref;
- 	u32				max_sg_cnt;
- };
- 
-+struct nvmet_fc_port_entry {
-+	struct nvmet_fc_tgtport		*tgtport;
-+	struct nvmet_port		*port;
-+	u64				node_name;
-+	u64				port_name;
-+	struct list_head		pe_list;
-+};
-+
- struct nvmet_fc_defer_fcp_req {
- 	struct list_head		req_list;
- 	struct nvmefc_tgt_fcp_req	*fcp_req;
-@@ -132,7 +140,6 @@ struct nvmet_fc_tgt_queue {
- 	atomic_t			zrspcnt;
- 	atomic_t			rsn;
- 	spinlock_t			qlock;
--	struct nvmet_port		*port;
- 	struct nvmet_cq			nvme_cq;
- 	struct nvmet_sq			nvme_sq;
- 	struct nvmet_fc_tgt_assoc	*assoc;
-@@ -221,6 +228,7 @@ static DEFINE_SPINLOCK(nvmet_fc_tgtlock);
- 
- static LIST_HEAD(nvmet_fc_target_list);
- static DEFINE_IDA(nvmet_fc_tgtport_cnt);
-+static LIST_HEAD(nvmet_fc_portentry_list);
- 
- 
- static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
-@@ -645,7 +653,6 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 	queue->qid = qid;
- 	queue->sqsize = sqsize;
- 	queue->assoc = assoc;
--	queue->port = assoc->tgtport->port;
- 	queue->cpu = nvmet_fc_queue_to_cpu(assoc->tgtport, qid);
- 	INIT_LIST_HEAD(&queue->fod_list);
- 	INIT_LIST_HEAD(&queue->avail_defer_list);
-@@ -957,6 +964,83 @@ nvmet_fc_find_target_assoc(struct nvmet_fc_tgtport *tgtport,
- 	return ret;
+This is an attempt to optimize the buffered I/O read requests for
+file-backed namespce by using previously introduced flag IOCB_NOWAIT.
+It will be great if I can get some feedback on how to improve the code.
+
+Also, I'm thinking if this patch is accepted then we should have one
+patch for error injection as file-backed namespace code in io-cmd-file.c
+is getting more complex since the initial submission, any thuoghts ?
+
+Regards,
+Chaitanya
+---
+ drivers/nvme/target/io-cmd-file.c | 108 ++++++++++++++++++++----------
+ 1 file changed, 74 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
+index 81a9dc5290a8..489f5d3d9d30 100644
+--- a/drivers/nvme/target/io-cmd-file.c
++++ b/drivers/nvme/target/io-cmd-file.c
+@@ -83,17 +83,19 @@ static void nvmet_file_init_bvec(struct bio_vec *bv, struct sg_page_iter *iter)
  }
  
-+static void
-+nvmet_fc_portentry_bind(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_port_entry *pe,
-+			struct nvmet_port *port)
-+{
-+	lockdep_assert_held(&nvmet_fc_tgtlock);
-+
-+	pe->tgtport = tgtport;
-+	tgtport->pe = pe;
-+
-+	pe->port = port;
-+	port->priv = pe;
-+
-+	pe->node_name = tgtport->fc_target_port.node_name;
-+	pe->port_name = tgtport->fc_target_port.port_name;
-+	INIT_LIST_HEAD(&pe->pe_list);
-+
-+	list_add_tail(&pe->pe_list, &nvmet_fc_portentry_list);
-+}
-+
-+static void
-+nvmet_fc_portentry_unbind(struct nvmet_fc_port_entry *pe)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
-+	if (pe->tgtport)
-+		pe->tgtport->pe = NULL;
-+	list_del(&pe->pe_list);
-+	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
-+}
-+
-+/*
-+ * called when a targetport deregisters. Breaks the relationship
-+ * with the nvmet port, but leaves the port_entry in place so that
-+ * re-registration can resume operation.
-+ */
-+static void
-+nvmet_fc_portentry_unbind_tgt(struct nvmet_fc_tgtport *tgtport)
-+{
-+	struct nvmet_fc_port_entry *pe;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
-+	pe = tgtport->pe;
-+	if (pe)
-+		pe->tgtport = NULL;
-+	tgtport->pe = NULL;
-+	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
-+}
-+
-+/*
-+ * called when a new targetport is registered. Looks in the
-+ * existing nvmet port_entries to see if the nvmet layer is
-+ * configured for the targetport's wwn's. (the targetport existed,
-+ * nvmet configured, the lldd unregistered the tgtport, and is now
-+ * reregistering the same targetport).  If so, set the nvmet port
-+ * port entry on the targetport.
-+ */
-+static void
-+nvmet_fc_portentry_rebind_tgt(struct nvmet_fc_tgtport *tgtport)
-+{
-+	struct nvmet_fc_port_entry *pe;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
-+	list_for_each_entry(pe, &nvmet_fc_portentry_list, pe_list) {
-+		if ((tgtport->fc_target_port.node_name == pe->node_name) &&
-+		    (tgtport->fc_target_port.port_name == pe->port_name)) {
-+			WARN_ON(pe->tgtport);
-+			tgtport->pe = pe;
-+			pe->tgtport = tgtport;
-+			break;
-+		}
+ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
+-		unsigned long nr_segs, size_t count)
++		unsigned long nr_segs, size_t count, bool nowait)
+ {
+ 	struct kiocb *iocb = &req->f.iocb;
+ 	ssize_t (*call_iter)(struct kiocb *iocb, struct iov_iter *iter);
++	void (*ki_complete)(struct kiocb *iocb, long ret, long ret2);
++	int ki_flags = nowait ? IOCB_NOWAIT : 0;
+ 	struct iov_iter iter;
+-	int ki_flags = 0, rw;
+ 	ssize_t ret;
++	int rw;
+ 
+ 	if (req->cmd->rw.opcode == nvme_cmd_write) {
+ 		if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
+-			ki_flags = IOCB_DSYNC;
++			ki_flags |= IOCB_DSYNC;
+ 		call_iter = req->ns->file->f_op->write_iter;
+ 		rw = WRITE;
+ 	} else {
+@@ -107,11 +109,31 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
+ 	iocb->ki_filp = req->ns->file;
+ 	iocb->ki_flags = ki_flags | iocb_flags(req->ns->file);
+ 
++	if (nowait) {
++		ki_complete = iocb->ki_complete;
++		iocb->ki_complete = NULL;
 +	}
-+	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
-+}
- 
- /**
-  * nvme_fc_register_targetport - transport entry point called by an
-@@ -1034,6 +1118,8 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 		goto out_free_newrec;
- 	}
- 
-+	nvmet_fc_portentry_rebind_tgt(newrec);
 +
- 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
- 	list_add_tail(&newrec->tgt_list, &nvmet_fc_target_list);
- 	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
-@@ -1171,6 +1257,8 @@ nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
- {
- 	struct nvmet_fc_tgtport *tgtport = targetport_to_tgtport(target_port);
+ 	ret = call_iter(iocb, &iter);
  
-+	nvmet_fc_portentry_unbind_tgt(tgtport);
++	if (nowait) {
++		/* keep the completion for nowait == true separate */
++		if (ret > 0)
++			ki_complete(iocb, ret, 0);
++		/*
++		 * We don't complete the request when we get an error for
++		 * nowait == true. Instead just return and offload the I/O
++		 * to worker thread. Worker thread will reissue the I/O
++		 * without IOCB_NOWAIT and complete the request.
++		 */
++		goto out;
++	}
 +
- 	/* terminate any outstanding associations */
- 	__nvmet_fc_free_assocs(tgtport);
- 
-@@ -2147,7 +2235,7 @@ nvmet_fc_fcp_nvme_cmd_done(struct nvmet_req *nvme_req)
- 
- 
- /*
-- * Actual processing routine for received FC-NVME LS Requests from the LLD
-+ * Actual processing routine for received FC-NVME I/O Requests from the LLD
-  */
- static void
- nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
-@@ -2158,6 +2246,13 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 	int ret;
- 
- 	/*
-+	 * if there is no nvmet mapping to the targetport there
-+	 * shouldn't be requests. just terminate them.
-+	 */
-+	if (!tgtport->pe)
-+		goto transport_error;
 +
-+	/*
- 	 * Fused commands are currently not supported in the linux
- 	 * implementation.
- 	 *
-@@ -2184,7 +2279,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ 	if (ret != -EIOCBQUEUED && iocb->ki_complete)
+ 		iocb->ki_complete(iocb, ret, 0);
  
- 	fod->req.cmd = &fod->cmdiubuf.sqe;
- 	fod->req.rsp = &fod->rspiubuf.cqe;
--	fod->req.port = fod->queue->port;
-+	fod->req.port = tgtport->pe->port;
- 
- 	/* clear any response payload */
- 	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
-@@ -2508,6 +2603,7 @@ static int
- nvmet_fc_add_port(struct nvmet_port *port)
- {
- 	struct nvmet_fc_tgtport *tgtport;
-+	struct nvmet_fc_port_entry *pe;
- 	struct nvmet_fc_traddr traddr = { 0L, 0L };
- 	unsigned long flags;
- 	int ret;
-@@ -2524,24 +2620,40 @@ nvmet_fc_add_port(struct nvmet_port *port)
- 	if (ret)
- 		return ret;
- 
-+	pe = kzalloc(sizeof(*pe), GFP_KERNEL);
-+	if (!pe)
-+		return -ENOMEM;
-+
- 	ret = -ENXIO;
- 	spin_lock_irqsave(&nvmet_fc_tgtlock, flags);
- 	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
- 		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
- 		    (tgtport->fc_target_port.port_name == traddr.pn)) {
--			tgtport->port = port;
--			ret = 0;
-+			/* a FC port can only be 1 nvmet port id */
-+			if (!tgtport->pe) {
-+				nvmet_fc_portentry_bind(tgtport, pe, port);
-+				ret = 0;
-+			} else
-+				ret = -EALREADY;
- 			break;
- 		}
- 	}
- 	spin_unlock_irqrestore(&nvmet_fc_tgtlock, flags);
-+
-+	if (ret)
-+		kfree(pe);
-+
++out:
  	return ret;
  }
  
- static void
- nvmet_fc_remove_port(struct nvmet_port *port)
- {
--	/* nothing to do */
-+	struct nvmet_fc_port_entry *pe = port->priv;
-+
-+	nvmet_fc_portentry_unbind(pe);
-+
-+	kfree(pe);
+@@ -130,7 +152,7 @@ static void nvmet_file_io_done(struct kiocb *iocb, long ret, long ret2)
+ 			NVME_SC_INTERNAL | NVME_SC_DNR : 0);
  }
  
- static const struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
+-static void nvmet_file_execute_rw(struct nvmet_req *req)
++static ssize_t nvmet_file_execute_io(struct nvmet_req *req, bool nowait)
+ {
+ 	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
+ 	struct sg_page_iter sg_pg_iter;
+@@ -140,30 +162,13 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ 	ssize_t ret = 0;
+ 	loff_t pos;
+ 
+-	if (!req->sg_cnt || !nr_bvec) {
+-		nvmet_req_complete(req, 0);
+-		return;
+-	}
++	if (req->f.mpool_alloc && nr_bvec > NVMET_MAX_MPOOL_BVEC)
++		is_sync = true;
+ 
+ 	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
+ 	if (unlikely(pos + req->data_len > req->ns->size)) {
+ 		nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
+-		return;
+-	}
+-
+-	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
+-		req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
+-				GFP_KERNEL);
+-	else
+-		req->f.bvec = req->inline_bvec;
+-
+-	req->f.mpool_alloc = false;
+-	if (unlikely(!req->f.bvec)) {
+-		/* fallback under memory pressure */
+-		req->f.bvec = mempool_alloc(req->ns->bvec_pool, GFP_KERNEL);
+-		req->f.mpool_alloc = true;
+-		if (nr_bvec > NVMET_MAX_MPOOL_BVEC)
+-			is_sync = true;
++		return -EIO;
+ 	}
+ 
+ 	memset(&req->f.iocb, 0, sizeof(struct kiocb));
+@@ -177,7 +182,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ 
+ 		if (unlikely(is_sync) &&
+ 		    (nr_bvec - 1 == 0 || bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
+-			ret = nvmet_file_submit_bvec(req, pos, bv_cnt, len);
++			ret = nvmet_file_submit_bvec(req, pos, bv_cnt, len, nowait);
+ 			if (ret < 0)
+ 				goto out;
+ 			pos += len;
+@@ -191,26 +196,64 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
+ 		ret = -EIO;
+ out:
+ 	if (unlikely(is_sync || ret)) {
+-		nvmet_file_io_done(&req->f.iocb, ret < 0 ? ret : total_len, 0);
+-		return;
++		/* for nowait == false complete the request */
++		if (!nowait)
++			nvmet_file_io_done(&req->f.iocb,
++					ret < 0 ? ret : total_len, 0);
++		/* for nowait == true offload the I/O, we just return */
++		return ret;
+ 	}
+ 	req->f.iocb.ki_complete = nvmet_file_io_done;
+-	nvmet_file_submit_bvec(req, pos, bv_cnt, total_len);
++	return nvmet_file_submit_bvec(req, pos, bv_cnt, total_len, nowait);
+ }
+ 
+ static void nvmet_file_buffered_io_work(struct work_struct *w)
+ {
+ 	struct nvmet_req *req = container_of(w, struct nvmet_req, f.work);
+ 
+-	nvmet_file_execute_rw(req);
++	nvmet_file_execute_io(req, false);
+ }
+ 
+-static void nvmet_file_execute_rw_buffered_io(struct nvmet_req *req)
++static void nvmet_file_submit_buffered_io(struct nvmet_req *req)
+ {
+ 	INIT_WORK(&req->f.work, nvmet_file_buffered_io_work);
+ 	queue_work(buffered_io_wq, &req->f.work);
+ }
+ 
++static void nvmet_file_execute_rw(struct nvmet_req *req)
++{
++	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
++	ssize_t ret;
++
++	if (!req->sg_cnt || !nr_bvec) {
++		nvmet_req_complete(req, 0);
++		return;
++	}
++
++	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
++		req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
++				GFP_KERNEL);
++	else
++		req->f.bvec = req->inline_bvec;
++
++	if (unlikely(!req->f.bvec)) {
++		/* fallback under memory pressure */
++		req->f.bvec = mempool_alloc(req->ns->bvec_pool, GFP_KERNEL);
++		req->f.mpool_alloc = true;
++	} else
++		req->f.mpool_alloc = false;
++
++	if (req->ns->buffered_io) {
++		if (likely(!req->f.mpool_alloc)) {
++			ret = nvmet_file_execute_io(req, true);
++			if (ret > 0)
++				return;
++		}
++		nvmet_file_submit_buffered_io(req);
++	} else
++		nvmet_file_execute_io(req, false);
++}
++
+ u16 nvmet_file_flush(struct nvmet_req *req)
+ {
+ 	if (vfs_fsync(req->ns->file, 1) < 0)
+@@ -319,10 +362,7 @@ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req)
+ 	switch (cmd->common.opcode) {
+ 	case nvme_cmd_read:
+ 	case nvme_cmd_write:
+-		if (req->ns->buffered_io)
+-			req->execute = nvmet_file_execute_rw_buffered_io;
+-		else
+-			req->execute = nvmet_file_execute_rw;
++		req->execute = nvmet_file_execute_rw;
+ 		req->data_len = nvmet_rw_len(req);
+ 		return 0;
+ 	case nvme_cmd_flush:
 -- 
-2.13.1
+2.17.0
