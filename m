@@ -1,11 +1,14 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 13 Aug 2018 08:45:37 -0600
-Subject: [PATCH V2] nvme-cli add ns write protect feature support
-In-Reply-To: <20180812233051.4402-1-chaitanya.kulkarni@wdc.com>
-References: <20180812233051.4402-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180813144537.GA32074@localhost.localdomain>
+Date: Mon, 13 Aug 2018 08:45:51 -0600
+Subject: [PATCH V4 0/2] nvme-cli: ana log support
+In-Reply-To: <20180813055920.22414-1-chaitanya.kulkarni@wdc.com>
+References: <20180813055920.22414-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180813144550.GB32074@localhost.localdomain>
 
-On Sun, Aug 12, 2018@04:30:51PM -0700, Chaitanya Kulkarni wrote:
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+On Sun, Aug 12, 2018@10:59:18PM -0700, Chaitanya Kulkarni wrote:
+> Hi,
+> 
+> This adds nvme-ana-log support for nvme-cli. Please consider this for
+> inclusion so we can start using nvme-cli for ANA related testcases.
 
-Applied, thanks!
+Series applied. Thank you!
