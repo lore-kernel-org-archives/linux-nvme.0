@@ -1,13 +1,60 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Tue, 14 Aug 2018 15:24:34 +0000
-Subject: [PATCH 5/5] virtio-blk: modernize sysfs attribute creation
-In-Reply-To: <20180814073305.87255-6-hare@suse.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 14 Aug 2018 17:39:20 +0200
+Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
+ groups
+In-Reply-To: <5a4aab8b5f509d8090ad10107b01d11285fe1528.camel@wdc.com>
 References: <20180814073305.87255-1-hare@suse.de>
- <20180814073305.87255-6-hare@suse.de>
-Message-ID: <0e99ae23c2bea89e597dd3e8b20489054f461ff5.camel@wdc.com>
+ <20180814073305.87255-3-hare@suse.de>
+ <5a4aab8b5f509d8090ad10107b01d11285fe1528.camel@wdc.com>
+Message-ID: <e4c9ba55-ad92-dcb2-1126-38e5ea4c0a13@suse.de>
 
-On Tue, 2018-08-14@09:33 +0200, Hannes Reinecke wrote:
-> Use new-style DEVICE_ATTR_RO/DEVICE_ATTR_RW to create the sysfs attributes
-> and register the disk with default sysfs attribute groups.
+On 08/14/2018 05:20 PM, Bart Van Assche wrote:
+> On Tue, 2018-08-14@09:33 +0200, Hannes Reinecke wrote:
+>> +const struct attribute_group *nvme_ns_id_attr_groups[] = {
+>> +	&nvme_ns_id_attr_group,
+>> +	NULL, /* Will be filled in by lightnvm if present */
+>> +	NULL,
+>> +};
+> [ ... ]
+>> -void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
+>> -{
+>> -	struct nvm_dev *ndev = ns->ndev;
+>> -	struct nvm_geo *geo = &ndev->geo;
+>> +		return;
+>>  
+>>  	switch (geo->major_ver_id) {
+>>  	case 1:
+>> -		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+>> -					&nvm_dev_attr_group_12);
+>> +		nvme_ns_id_attr_groups[1] = &nvm_dev_attr_group_12;
+>>  		break;
+>>  	case 2:
+>> -		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+>> -					&nvm_dev_attr_group_20);
+>> +		nvme_ns_id_attr_groups[1] = &nvm_dev_attr_group_20;
+> 
+> This patch introduces a really ugly dependency between the NVMe core code and
+> the lightnvm code, namely that the lightnvm code has to know at which position
+> in the nvme_ns_id_attr_groups it can fill in its attribute group pointer. Have
+> you considered to make nvme_nvm_register_sysfs() return an attribute group
+> pointer such that the nvme_ns_id_attr_groups can be changed from a global into
+> a static array?
+> 
+Wouldn't help much, as the 'nvme_ns_id_attr_groups' needs to be a global
+pointer anyway as it's references from drivers/nvme/host/core.c and
+drivers/nvme/host/multipath.c.
 
-Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
+While I have considered having nvme_nvm_register_sysfs() returning a
+pointer I would then have to remove the 'static' declaration from the
+nvm_dev_attr_group_12/20.
+Which I didn't really like, either.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
