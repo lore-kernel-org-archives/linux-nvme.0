@@ -1,65 +1,83 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 15 Aug 2018 05:53:12 +0800
-Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
- groups
-In-Reply-To: <20180814073305.87255-3-hare@suse.de>
-References: <20180814073305.87255-3-hare@suse.de>
-Message-ID: <201808150550.wKf5lVlA%fengguang.wu@intel.com>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Tue, 14 Aug 2018 14:56:24 -0700
+Subject: [PATCH 2/2] blktests: add test for ANA state transition
+In-Reply-To: <20180802103455.82148-3-hare@suse.de>
+References: <20180802103455.82148-1-hare@suse.de>
+ <20180802103455.82148-3-hare@suse.de>
+Message-ID: <20180814215624.GB10954@vader>
 
-Hi Hannes,
+On Thu, Aug 02, 2018@12:34:55PM +0200, Hannes Reinecke wrote:
+> Add a simple test for ANA state transition handling.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>  tests/nvme/018     | 153 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/018.out |  18 +++++++
+>  2 files changed, 171 insertions(+)
+>  create mode 100755 tests/nvme/018
+>  create mode 100644 tests/nvme/018.out
+> 
+> diff --git a/tests/nvme/018 b/tests/nvme/018
+> new file mode 100755
+> index 0000000..b7f9e00
+> --- /dev/null
+> +++ b/tests/nvme/018
+> @@ -0,0 +1,153 @@
+> +#!/bin/bash
+> +#
+> +# Regression test for ANA base support
+> +#
+> +# Copyright (C) 2018 Hannes Reinecke
+> +#
+> +# This program is free software: you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation, either version 3 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +
+> +. tests/nvme/rc
+> +
+> +DESCRIPTION="test ANA optimized/transitioning/inaccessible support"
+> +QUICK=1
+> +
+> +switch_nvmet_anagroup() {
+> +	local port1="$1"
+> +	local port2="$2"
+> +	local mode="$3"
+> +
+> +	echo "ANA state ${mode}"
+> +
+> +	if [ "${mode}" = "change" ] ; then
+> +		_set_nvmet_anagroup_state "${port1}" "1" "change"
+> +		_set_nvmet_anagroup_state "${port1}" "2" "change"
+> +		_set_nvmet_anagroup_state "${port2}" "1" "change"
+> +		_set_nvmet_anagroup_state "${port2}" "2" "change"
+> +	elif [ "${mode}" = "failover" ] ; then
+> +		_set_nvmet_anagroup_state "${port1}" "1" "inaccessible"
+> +		_set_nvmet_anagroup_state "${port1}" "2" "optimized"
+> +		_set_nvmet_anagroup_state "${port2}" "1" "optimized"
+> +		_set_nvmet_anagroup_state "${port2}" "2" "inaccessible"
+> +	else
+> +		_set_nvmet_anagroup_state "${port1}" "1" "optimized"
+> +		_set_nvmet_anagroup_state "${port1}" "2" "inaccessible"
+> +		_set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
+> +		_set_nvmet_anagroup_state "${port2}" "2" "optimized"
+> +	fi
+> +}
+> +
+> +requires() {
+> +	_have_program nvme && _have_module nvme-loop && _have_module loop && \
+> +		_have_configfs && _have_fio
 
-I love your patch! Perhaps something to improve:
+Sorry for the delay. This needs _have_program mkfs.xfs. Is there any way
+to detect if the kernel supports ANA? This fails miserably on 4.18,
+obviously.
 
-[auto build test WARNING on block/for-next]
-[also build test WARNING on next-20180814]
-[cannot apply to v4.18]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-
-url:    https://github.com/0day-ci/linux/commits/Hannes-Reinecke/genhd-register-default-groups-with-device_add_disk/20180815-034942
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-reproduce:
-        # apt-get install sparse
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF=-D__CHECK_ENDIAN__
-
-
-sparse warnings: (new ones prefixed by >>)
-
-   include/uapi/linux/perf_event.h:147:56: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   drivers/nvme/host/core.c:506:28: sparse: expression using sizeof(void)
-   include/linux/blkdev.h:1269:16: sparse: expression using sizeof(void)
-   include/linux/slab.h:631:13: sparse: undefined identifier '__builtin_mul_overflow'
-   drivers/nvme/host/core.c:1062:32: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:1062:32: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:1063:26: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:1063:26: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:1844:32: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:1844:32: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:1846:43: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2406:17: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2406:17: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:2417:42: sparse: expression using sizeof(void)
->> drivers/nvme/host/core.c:2732:30: sparse: symbol 'nvme_ns_id_attr_group' was not declared. Should it be static?
-   drivers/nvme/host/core.c:3203:33: sparse: expression using sizeof(void)
-   drivers/nvme/host/core.c:3566:17: sparse: expression using sizeof(void)
-   include/linux/slab.h:631:13: sparse: call with no type!
-   drivers/nvme/host/core.c:1264:23: sparse: context imbalance in 'nvme_get_ns_from_disk' - wrong count at exit
-   drivers/nvme/host/core.c:1282:33: sparse: context imbalance in 'nvme_put_ns_from_disk' - unexpected unlock
-
-Please review and possibly fold the followup patch.
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+Thanks!
