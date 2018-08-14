@@ -1,24 +1,49 @@
-From: Bart.VanAssche@wdc.com (Bart Van Assche)
-Date: Tue, 14 Aug 2018 15:44:57 +0000
-Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
- groups
-In-Reply-To: <e4c9ba55-ad92-dcb2-1126-38e5ea4c0a13@suse.de>
-References: <20180814073305.87255-1-hare@suse.de>
- <20180814073305.87255-3-hare@suse.de>
- <5a4aab8b5f509d8090ad10107b01d11285fe1528.camel@wdc.com>
- <e4c9ba55-ad92-dcb2-1126-38e5ea4c0a13@suse.de>
-Message-ID: <f9ad4ed4685e51a7b0378f11d3ce9d0a76235095.camel@wdc.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 15 Aug 2018 00:18:05 +0300
+Subject: [PATCH nvme-cli 2/2] fabrics: write keep-alive-timeout to fabrics
+ device on connect
+In-Reply-To: <20180808071032.5914-3-jthumshirn@suse.de>
+References: <20180808071032.5914-1-jthumshirn@suse.de>
+ <20180808071032.5914-3-jthumshirn@suse.de>
+Message-ID: <147f0ed4-ce7d-3f98-6df9-48b54d75d721@mellanox.com>
 
-On Tue, 2018-08-14@17:39 +0200, Hannes Reinecke wrote:
-> While I have considered having nvme_nvm_register_sysfs() returning a
-> pointer I would then have to remove the 'static' declaration from the
-> nvm_dev_attr_group_12/20.
-> Which I didn't really like, either.
 
-Hmm ... I don't see why the static declaration would have to be removed from
-nvm_dev_attr_group_12/20 if nvme_nvm_register_sysfs() would return a pointer?
-Am I perhaps missing something?
 
-Thanks,
+On 8/8/2018 10:10 AM, Johannes Thumshirn wrote:
+> Commit 7099227b07a8 ("fabrics: add option to supply keep-alive-timeout
+> for connect-all") introduced a keep-alive-timeout option for
+> connect-all but forgot to write it down to the kernel's fabrics
+> device in connect_ctrl().
+> 
+> Pass down the keep-alove-timeouts if we're connecting to a non
+> discovery controller.
+> 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Fixes: 7099227b07a8 ("fabrics: add option to supply keep-alive-timeout for connect-all")
+> ---
+>   fabrics.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+> 
+> diff --git a/fabrics.c b/fabrics.c
+> index baff94ae865c..c0e50d148eb4 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -628,6 +628,13 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+>   		p+= len;
+>   	}
+>   
+> +	if (cfg.keep_alive_tmo && !discover) {
+> +		len = sprintf(p, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
+> +		if (len < 0)
+> +			return -EINVAL;
+> +		p += len;
+> +	}
+> +
+>   	switch (e->trtype) {
+>   	case NVMF_TRTYPE_LOOP: /* loop */
+>   		len = sprintf(p, ",transport=loop");
+> 
 
-Bart.
+Looks good,
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
