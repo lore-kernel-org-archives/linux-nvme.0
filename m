@@ -1,94 +1,135 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 14 Aug 2018 09:33:03 +0200
-Subject: [PATCH 3/5] aoe: use device_add_disk_with_groups()
+Date: Tue, 14 Aug 2018 09:33:05 +0200
+Subject: [PATCH 5/5] virtio-blk: modernize sysfs attribute creation
 In-Reply-To: <20180814073305.87255-1-hare@suse.de>
 References: <20180814073305.87255-1-hare@suse.de>
-Message-ID: <20180814073305.87255-4-hare@suse.de>
+Message-ID: <20180814073305.87255-6-hare@suse.de>
 
-Use device_add_disk_with_groups() to avoid a race condition with
-udev during startup.
+Use new-style DEVICE_ATTR_RO/DEVICE_ATTR_RW to create the sysfs attributes
+and register the disk with default sysfs attribute groups.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Cc: Ed L. Cachin <ed.cashin at acm.org>
+Acked-by: Michael S. Tsirkin <mst at redhat.com>
 ---
- drivers/block/aoe/aoe.h    |  1 -
- drivers/block/aoe/aoeblk.c | 21 +++++++--------------
- drivers/block/aoe/aoedev.c |  1 -
- 3 files changed, 7 insertions(+), 16 deletions(-)
+ drivers/block/virtio_blk.c | 68 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 39 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/block/aoe/aoe.h b/drivers/block/aoe/aoe.h
-index c0ebda1283cc..015c68017a1c 100644
---- a/drivers/block/aoe/aoe.h
-+++ b/drivers/block/aoe/aoe.h
-@@ -201,7 +201,6 @@ int aoeblk_init(void);
- void aoeblk_exit(void);
- void aoeblk_gdalloc(void *);
- void aoedisk_rm_debugfs(struct aoedev *d);
--void aoedisk_rm_sysfs(struct aoedev *d);
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index fe80560000a1..086c6bb12baa 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -351,8 +351,8 @@ static int minor_to_index(int minor)
+ 	return minor >> PART_BITS;
+ }
  
- int aoechr_init(void);
- void aoechr_exit(void);
-diff --git a/drivers/block/aoe/aoeblk.c b/drivers/block/aoe/aoeblk.c
-index 429ebb84b592..ff770e7d9e52 100644
---- a/drivers/block/aoe/aoeblk.c
-+++ b/drivers/block/aoe/aoeblk.c
-@@ -177,10 +177,15 @@ static struct attribute *aoe_attrs[] = {
- 	NULL,
+-static ssize_t virtblk_serial_show(struct device *dev,
+-				struct device_attribute *attr, char *buf)
++static ssize_t serial_show(struct device *dev,
++			   struct device_attribute *attr, char *buf)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 	int err;
+@@ -371,7 +371,7 @@ static ssize_t virtblk_serial_show(struct device *dev,
+ 	return err;
+ }
+ 
+-static DEVICE_ATTR(serial, 0444, virtblk_serial_show, NULL);
++static DEVICE_ATTR_RO(serial);
+ 
+ /* The queue's logical block size must be set before calling this */
+ static void virtblk_update_capacity(struct virtio_blk *vblk, bool resize)
+@@ -545,8 +545,8 @@ static const char *const virtblk_cache_types[] = {
  };
  
--static const struct attribute_group attr_group = {
-+static const struct attribute_group aoe_attr_group = {
- 	.attrs = aoe_attrs,
- };
+ static ssize_t
+-virtblk_cache_type_store(struct device *dev, struct device_attribute *attr,
+-			 const char *buf, size_t count)
++cache_type_store(struct device *dev, struct device_attribute *attr,
++		 const char *buf, size_t count)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 	struct virtio_blk *vblk = disk->private_data;
+@@ -564,8 +564,7 @@ virtblk_cache_type_store(struct device *dev, struct device_attribute *attr,
+ }
  
-+static const struct attribute_group *aoe_attr_groups[] = {
-+	&aoe_attr_group,
+ static ssize_t
+-virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
+-			 char *buf)
++cache_type_show(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 	struct virtio_blk *vblk = disk->private_data;
+@@ -575,12 +574,38 @@ virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
+ 	return snprintf(buf, 40, "%s\n", virtblk_cache_types[writeback]);
+ }
+ 
+-static const struct device_attribute dev_attr_cache_type_ro =
+-	__ATTR(cache_type, 0444,
+-	       virtblk_cache_type_show, NULL);
+-static const struct device_attribute dev_attr_cache_type_rw =
+-	__ATTR(cache_type, 0644,
+-	       virtblk_cache_type_show, virtblk_cache_type_store);
++static DEVICE_ATTR_RW(cache_type);
++
++static struct attribute *virtblk_attrs[] = {
++	&dev_attr_serial.attr,
++	&dev_attr_cache_type.attr,
 +	NULL,
 +};
 +
- static const struct file_operations aoe_debugfs_fops = {
- 	.open = aoe_debugfs_open,
- 	.read = seq_read,
-@@ -220,17 +225,6 @@ aoedisk_rm_debugfs(struct aoedev *d)
- }
++static umode_t virtblk_attrs_are_visible(struct kobject *kobj,
++		struct attribute *a, int n)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct gendisk *disk = dev_to_disk(dev);
++	struct virtio_blk *vblk = disk->private_data;
++	struct virtio_device *vdev = vblk->vdev;
++
++	if (a == &dev_attr_cache_type.attr &&
++	    !virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
++		return S_IRUGO;
++
++	return a->mode;
++}
++
++static const struct attribute_group virtblk_attr_group = {
++	.attrs = virtblk_attrs,
++	.is_visible = virtblk_attrs_are_visible,
++};
++
++static const struct attribute_group *virtblk_attr_groups[] = {
++	&virtblk_attr_group,
++	NULL,
++};
  
- static int
--aoedisk_add_sysfs(struct aoedev *d)
--{
--	return sysfs_create_group(&disk_to_dev(d->gd)->kobj, &attr_group);
--}
--void
--aoedisk_rm_sysfs(struct aoedev *d)
--{
--	sysfs_remove_group(&disk_to_dev(d->gd)->kobj, &attr_group);
--}
+ static int virtblk_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 		unsigned int hctx_idx, unsigned int numa_node)
+@@ -780,24 +805,9 @@ static int virtblk_probe(struct virtio_device *vdev)
+ 	virtblk_update_capacity(vblk, false);
+ 	virtio_device_ready(vdev);
+ 
+-	device_add_disk(&vdev->dev, vblk->disk, NULL);
+-	err = device_create_file(disk_to_dev(vblk->disk), &dev_attr_serial);
+-	if (err)
+-		goto out_del_disk;
 -
--static int
- aoeblk_open(struct block_device *bdev, fmode_t mode)
- {
- 	struct aoedev *d = bdev->bd_disk->private_data;
-@@ -417,8 +411,7 @@ aoeblk_gdalloc(void *vp)
+-	if (virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
+-		err = device_create_file(disk_to_dev(vblk->disk),
+-					 &dev_attr_cache_type_rw);
+-	else
+-		err = device_create_file(disk_to_dev(vblk->disk),
+-					 &dev_attr_cache_type_ro);
+-	if (err)
+-		goto out_del_disk;
++	device_add_disk(&vdev->dev, vblk->disk, virtblk_attr_groups);
+ 	return 0;
  
- 	spin_unlock_irqrestore(&d->lock, flags);
- 
--	add_disk(gd);
--	aoedisk_add_sysfs(d);
-+	device_add_disk(NULL, gd, aoe_attr_groups);
- 	aoedisk_add_debugfs(d);
- 
- 	spin_lock_irqsave(&d->lock, flags);
-diff --git a/drivers/block/aoe/aoedev.c b/drivers/block/aoe/aoedev.c
-index 697f735b07a4..d92fa1fe3580 100644
---- a/drivers/block/aoe/aoedev.c
-+++ b/drivers/block/aoe/aoedev.c
-@@ -275,7 +275,6 @@ freedev(struct aoedev *d)
- 	del_timer_sync(&d->timer);
- 	if (d->gd) {
- 		aoedisk_rm_debugfs(d);
--		aoedisk_rm_sysfs(d);
- 		del_gendisk(d->gd);
- 		put_disk(d->gd);
- 		blk_cleanup_queue(d->blkq);
+-out_del_disk:
+-	del_gendisk(vblk->disk);
+-	blk_cleanup_queue(vblk->disk->queue);
+ out_free_tags:
+ 	blk_mq_free_tag_set(&vblk->tag_set);
+ out_put_disk:
 -- 
 2.12.3
