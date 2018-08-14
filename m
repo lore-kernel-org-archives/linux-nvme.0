@@ -1,79 +1,94 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 14 Aug 2018 09:33:04 +0200
-Subject: [PATCH 4/5] zram: register default groups with device_add_disk()
+Date: Tue, 14 Aug 2018 09:33:03 +0200
+Subject: [PATCH 3/5] aoe: use device_add_disk_with_groups()
 In-Reply-To: <20180814073305.87255-1-hare@suse.de>
 References: <20180814073305.87255-1-hare@suse.de>
-Message-ID: <20180814073305.87255-5-hare@suse.de>
+Message-ID: <20180814073305.87255-4-hare@suse.de>
 
-Register default sysfs groups during device_add-disk() to avoid a
-race condition with udev during startup.
+Use device_add_disk_with_groups() to avoid a race condition with
+udev during startup.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
-Cc: Minchan Kim <minchan at kernel.org>
-Cc: Nitin Gupta <ngupta at vflare.org>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
+Cc: Ed L. Cachin <ed.cashin at acm.org>
 ---
- drivers/block/zram/zram_drv.c | 28 +++++++---------------------
- 1 file changed, 7 insertions(+), 21 deletions(-)
+ drivers/block/aoe/aoe.h    |  1 -
+ drivers/block/aoe/aoeblk.c | 21 +++++++--------------
+ drivers/block/aoe/aoedev.c |  1 -
+ 3 files changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index 2907a8156aaf..fc3626cb7fe5 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1618,6 +1618,11 @@ static const struct attribute_group zram_disk_attr_group = {
- 	.attrs = zram_disk_attrs,
+diff --git a/drivers/block/aoe/aoe.h b/drivers/block/aoe/aoe.h
+index c0ebda1283cc..015c68017a1c 100644
+--- a/drivers/block/aoe/aoe.h
++++ b/drivers/block/aoe/aoe.h
+@@ -201,7 +201,6 @@ int aoeblk_init(void);
+ void aoeblk_exit(void);
+ void aoeblk_gdalloc(void *);
+ void aoedisk_rm_debugfs(struct aoedev *d);
+-void aoedisk_rm_sysfs(struct aoedev *d);
+ 
+ int aoechr_init(void);
+ void aoechr_exit(void);
+diff --git a/drivers/block/aoe/aoeblk.c b/drivers/block/aoe/aoeblk.c
+index 429ebb84b592..ff770e7d9e52 100644
+--- a/drivers/block/aoe/aoeblk.c
++++ b/drivers/block/aoe/aoeblk.c
+@@ -177,10 +177,15 @@ static struct attribute *aoe_attrs[] = {
+ 	NULL,
  };
  
-+static const struct attribute_group *zram_disk_attr_groups[] = {
-+	&zram_disk_attr_group,
+-static const struct attribute_group attr_group = {
++static const struct attribute_group aoe_attr_group = {
+ 	.attrs = aoe_attrs,
+ };
+ 
++static const struct attribute_group *aoe_attr_groups[] = {
++	&aoe_attr_group,
 +	NULL,
 +};
 +
- /*
-  * Allocate and initialize new zram device. the function returns
-  * '>= 0' device_id upon success, and negative value otherwise.
-@@ -1698,24 +1703,14 @@ static int zram_add(void)
+ static const struct file_operations aoe_debugfs_fops = {
+ 	.open = aoe_debugfs_open,
+ 	.read = seq_read,
+@@ -220,17 +225,6 @@ aoedisk_rm_debugfs(struct aoedev *d)
+ }
  
- 	zram->disk->queue->backing_dev_info->capabilities |=
- 			(BDI_CAP_STABLE_WRITES | BDI_CAP_SYNCHRONOUS_IO);
--	add_disk(zram->disk);
+ static int
+-aoedisk_add_sysfs(struct aoedev *d)
+-{
+-	return sysfs_create_group(&disk_to_dev(d->gd)->kobj, &attr_group);
+-}
+-void
+-aoedisk_rm_sysfs(struct aoedev *d)
+-{
+-	sysfs_remove_group(&disk_to_dev(d->gd)->kobj, &attr_group);
+-}
 -
--	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
--				&zram_disk_attr_group);
--	if (ret < 0) {
--		pr_err("Error creating sysfs group for device %d\n",
--				device_id);
--		goto out_free_disk;
--	}
-+	device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
-+
- 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
+-static int
+ aoeblk_open(struct block_device *bdev, fmode_t mode)
+ {
+ 	struct aoedev *d = bdev->bd_disk->private_data;
+@@ -417,8 +411,7 @@ aoeblk_gdalloc(void *vp)
  
- 	zram_debugfs_register(zram);
- 	pr_info("Added device: %s\n", zram->disk->disk_name);
- 	return device_id;
+ 	spin_unlock_irqrestore(&d->lock, flags);
  
--out_free_disk:
--	del_gendisk(zram->disk);
--	put_disk(zram->disk);
- out_free_queue:
- 	blk_cleanup_queue(queue);
- out_free_idr:
-@@ -1744,15 +1739,6 @@ static int zram_remove(struct zram *zram)
- 	mutex_unlock(&bdev->bd_mutex);
+-	add_disk(gd);
+-	aoedisk_add_sysfs(d);
++	device_add_disk(NULL, gd, aoe_attr_groups);
+ 	aoedisk_add_debugfs(d);
  
- 	zram_debugfs_unregister(zram);
--	/*
--	 * Remove sysfs first, so no one will perform a disksize
--	 * store while we destroy the devices. This also helps during
--	 * hot_remove -- zram_reset_device() is the last holder of
--	 * ->init_lock, no later/concurrent disksize_store() or any
--	 * other sysfs handlers are possible.
--	 */
--	sysfs_remove_group(&disk_to_dev(zram->disk)->kobj,
--			&zram_disk_attr_group);
- 
- 	/* Make sure all the pending I/O are finished */
- 	fsync_bdev(bdev);
+ 	spin_lock_irqsave(&d->lock, flags);
+diff --git a/drivers/block/aoe/aoedev.c b/drivers/block/aoe/aoedev.c
+index 697f735b07a4..d92fa1fe3580 100644
+--- a/drivers/block/aoe/aoedev.c
++++ b/drivers/block/aoe/aoedev.c
+@@ -275,7 +275,6 @@ freedev(struct aoedev *d)
+ 	del_timer_sync(&d->timer);
+ 	if (d->gd) {
+ 		aoedisk_rm_debugfs(d);
+-		aoedisk_rm_sysfs(d);
+ 		del_gendisk(d->gd);
+ 		put_disk(d->gd);
+ 		blk_cleanup_queue(d->blkq);
 -- 
 2.12.3
