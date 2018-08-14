@@ -1,28 +1,27 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue, 14 Aug 2018 14:34:30 -0700
-Subject: [PATCH] nvmet: free workqueue object if module init fails
-Message-ID: <20180814213430.4096-1-chaitanya.kulkarni@wdc.com>
+From: fengguang.wu@intel.com (kbuild test robot)
+Date: Wed, 15 Aug 2018 05:53:13 +0800
+Subject: [RFC PATCH] nvme: nvme_ns_id_attr_group can be static
+In-Reply-To: <20180814073305.87255-3-hare@suse.de>
+References: <20180814073305.87255-3-hare@suse.de>
+Message-ID: <20180814215313.GA30264@lkp-wsm-ep2>
 
-This patch frees the buffered_io_wq workqueue object when module init
-fails to complete the initialization.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Fixes: 8bb7a8e4617e ("nvme: register ns_id attributes as default sysfs groups")
+Signed-off-by: kbuild test robot <fengguang.wu at intel.com>
 ---
- drivers/nvme/target/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 14b4c4916a8e..4b9758f13a83 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1220,6 +1220,8 @@ static int __init nvmet_init(void)
- out_exit_discovery:
- 	nvmet_exit_discovery();
- out:
-+	if (buffered_io_wq)
-+		destroy_workqueue(buffered_io_wq);
- 	return error;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8e26d98..76cdb60 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2729,7 +2729,7 @@ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 	return a->mode;
  }
  
--- 
-2.17.0
+-const struct attribute_group nvme_ns_id_attr_group = {
++static const struct attribute_group nvme_ns_id_attr_group = {
+ 	.attrs		= nvme_ns_id_attrs,
+ 	.is_visible	= nvme_ns_id_attrs_are_visible,
+ };
