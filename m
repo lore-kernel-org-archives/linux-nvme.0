@@ -1,126 +1,63 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 15 Aug 2018 15:58:46 -0400
-Subject: [PATCH V4 1/9] nvme-core: add new interfaces to access nvme-ctrl
+Date: Wed, 15 Aug 2018 15:58:48 -0400
+Subject: [PATCH V4 3/9] nvmet: export nvmet_add_async_event api
 In-Reply-To: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
 References: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180815195854.15449-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180815195854.15449-4-chaitanya.kulkarni@wdc.com>
 
-The new interface nvme_get_ctrl_by_path() allows to search the nvme ctrl
-by its pathname. On success, it increments the refcount of the ctrl and
-associated subsystem. The caller needs to decrement the ctrl and
-subsystem refcount by calling nvme_put_ctrl_by_path() once the work is
-done.
+This patch changes the return value for nvmet_add_async_event()
+and exports the same API.
 
-This is a preparation patch for implementing NVMe Over Fabric target
-passthru feature.
+This change is needed for the target passthru code to generate
+async events.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/host/core.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  3 +++
- 2 files changed, 66 insertions(+)
+ drivers/nvme/target/core.c  | 5 +++--
+ drivers/nvme/target/nvmet.h | 2 ++
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd8ec1dd9219..efc24d441d79 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -99,6 +99,7 @@ static struct class *nvme_subsys_class;
- 
- static void nvme_ns_remove(struct nvme_ns *ns);
- static int nvme_revalidate_disk(struct gendisk *disk);
-+static int nvme_get_subsystem(struct nvme_subsystem *subsys);
- static void nvme_put_subsystem(struct nvme_subsystem *subsys);
- static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
- 					   unsigned nsid);
-@@ -126,6 +127,61 @@ static void nvme_queue_scan(struct nvme_ctrl *ctrl)
- 		queue_work(nvme_wq, &ctrl->scan_work);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 14b4c4916a8e..4317678df194 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -129,14 +129,14 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 	}
  }
  
-+int nvme_get_ctrl_by_path(char *path, struct nvme_ctrl **ctrl)
-+{
-+	int ret = -ENODEV;
-+	char *cdev = strrchr(path, '/');
-+	struct nvme_ctrl *ictrl = NULL;
-+	struct nvme_subsystem *isubsys = NULL;
-+
-+	if (!cdev) {
-+		*ctrl = NULL;
-+		return ret;
-+	}
-+	cdev++;
-+
-+	mutex_lock(&nvme_subsystems_lock);
-+	list_for_each_entry(isubsys, &nvme_subsystems, entry) {
-+		if (!nvme_get_subsystem(isubsys)) {
-+			pr_info("failed to get the subsystem for ctrl %s\n",
-+					path);
-+			goto out;
-+		}
-+		mutex_unlock(&nvme_subsystems_lock);
-+
-+		list_for_each_entry(ictrl, &isubsys->ctrls, subsys_entry) {
-+			spin_lock(&ictrl->lock);
-+			nvme_get_ctrl(ictrl);
-+			if (strcmp(cdev, kobject_name(&ictrl->device->kobj))
-+					== 0) {
-+				*ctrl = ictrl;
-+				if (try_module_get(ictrl->ops->module)) {
-+					spin_unlock(&ictrl->lock);
-+					mutex_lock(&nvme_subsystems_lock);
-+					ret = 0;
-+					goto out;
-+				}
-+			}
-+			nvme_put_ctrl(ictrl);
-+			spin_unlock(&ictrl->lock);
-+		}
-+		mutex_lock(&nvme_subsystems_lock);
-+		nvme_put_subsystem(isubsys);
-+	}
-+out:
-+	mutex_unlock(&nvme_subsystems_lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(nvme_get_ctrl_by_path);
-+
-+void nvme_put_ctrl_by_path(struct nvme_ctrl *ctrl)
-+{
-+	nvme_put_ctrl(ctrl);
-+	module_put(ctrl->ops->module);
-+	nvme_put_subsystem(ctrl->subsys);
-+}
-+EXPORT_SYMBOL_GPL(nvme_put_ctrl_by_path);
-+
- int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+-static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
  {
- 	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-@@ -2119,6 +2175,13 @@ static void nvme_destroy_subsystem(struct kref *ref)
- 	put_device(&subsys->dev);
+ 	struct nvmet_async_event *aen;
+ 
+ 	aen = kmalloc(sizeof(*aen), GFP_KERNEL);
+ 	if (!aen)
+-		return;
++		return false;
+ 
+ 	aen->event_type = event_type;
+ 	aen->event_info = event_info;
+@@ -147,6 +147,7 @@ static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 	mutex_unlock(&ctrl->lock);
+ 
+ 	schedule_work(&ctrl->async_event_work);
++	return true;
  }
  
-+static int nvme_get_subsystem(struct nvme_subsystem *subsys)
-+{
-+	lockdep_assert_held(&nvme_subsystems_lock);
-+
-+	return kref_get_unless_zero(&subsys->ref);
-+}
-+
- static void nvme_put_subsystem(struct nvme_subsystem *subsys)
- {
- 	kref_put(&subsys->ref, nvme_destroy_subsystem);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a2003c097..495eafcb9e9d 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -547,6 +547,9 @@ static inline void nvme_mpath_stop(struct nvme_ctrl *ctrl)
- }
- #endif /* CONFIG_NVME_MULTIPATH */
+ static bool nvmet_aen_disabled(struct nvmet_ctrl *ctrl, u32 aen)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index ec9af4ee03b6..221cf6cacd4a 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -370,6 +370,8 @@ void nvmet_send_ana_event(struct nvmet_subsys *subsys,
+ 		struct nvmet_port *port);
+ void nvmet_port_send_ana_event(struct nvmet_port *port);
  
-+int nvme_get_ctrl_by_path(char *name, struct nvme_ctrl **ctrl);
-+void nvme_put_ctrl_by_path(struct nvme_ctrl *ctrl);
-+
- #ifdef CONFIG_NVM
- void nvme_nvm_update_nvm_info(struct nvme_ns *ns);
- int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
++bool nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++		u8 event_info, u8 log_page);
+ int nvmet_register_transport(const struct nvmet_fabrics_ops *ops);
+ void nvmet_unregister_transport(const struct nvmet_fabrics_ops *ops);
+ 
 -- 
 2.14.1
