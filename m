@@ -1,88 +1,81 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 15 Aug 2018 21:28:22 +0000
-Subject: [PATCH V4 1/9] nvme-core: add new interfaces to access nvme-ctrl
-In-Reply-To: <20180815212144.GA5299@localhost.localdomain>
-References: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
- <20180815195854.15449-2-chaitanya.kulkarni@wdc.com>,
- <20180815212144.GA5299@localhost.localdomain>
-Message-ID: <BYAPR04MB4502A7C16F2E37789EB56811863F0@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: wnukowski@google.com (Michal Wnukowski)
+Date: Wed, 15 Aug 2018 15:51:57 -0700
+Subject: [PATCH v2] Bugfix for handling of shadow doorbell buffer.
+In-Reply-To: <CA+55aFxOc7_s-BbWJx-kyit-pH9m5fQJk6MSMJ57tFFvMtNh-w@mail.gmail.com>
+References: <CA+55aFxOc7_s-BbWJx-kyit-pH9m5fQJk6MSMJ57tFFvMtNh-w@mail.gmail.com>
+Message-ID: <20180815225157.89523-1-wnukowski@google.com>
 
-Thanks Keith for the comments, I'll simplify the code for next version.
+This patch adds full memory barrier into nvme_dbbuf_update_and_check_event
+function to ensure that the shadow doorbell is written before reading
+EventIdx from memory. This is a critical bugfix for initial patch that
+added support for shadow doorbell into NVMe driver
+(f9f38e33389c019ec880f6825119c94867c1fde0).
 
+This memory barrier is required because ?Loads may be reordered with
+older stores to different locations? (quote from Intel 64 Architecture
+Memory Ordering White Paper). The following two operations can be
+reordered:
+ - Write shadow doorbell (dbbuf_db) into memory.
+ - Read EventIdx (dbbuf_ei) from memory.
+This can result in a potential race condition between driver and VM host
+processing requests (if given virtual NVMe controller has a support for
+shadow doorbell). If that occurs, then virtual NVMe controller may
+decide to wait for MMIO doorbell from guest operating system, and guest
+driver may decide not to issue MMIO doorbell on any of subsequent
+commands.
 
-From: Keith Busch <keith.busch@linux.intel.com>
-Sent: Wednesday, August 15, 2018 2:21 PM
-To: Chaitanya Kulkarni
-Cc: linux-nvme at lists.infradead.org; keith.busch at intel.com; hch at lst.de; sagi at grimberg.me
-Subject: Re: [PATCH V4 1/9] nvme-core: add new interfaces to access nvme-ctrl
-? 
+Note that NVMe controller should have similar ordering guarantees around
+writing EventIdx and reading shadow doorbell. Otherwise, analogous race
+condition may occur.
+
+This issue is purely timing-dependent one, so there is no easy way to
+reproduce it. Currently the easiest known approach is to run ?ORacle IO
+Numbers? (orion) that is shipped with Oracle DB:
+
+orion -run advanced -num_large 0 -size_small 8 -type rand -simulate
+concat -write 40 -duration 120 -matrix row -testname nvme_test
+
+Where nvme_test is a .lun file that contains a list of NVMe block
+devices to run test against. Limiting number of vCPUs assigned to given
+VM instance seems to increase chances for this bug to occur. On test
+environment with VM that got 4 NVMe drives and 1 vCPU assigned the
+virtual NVMe controller hang could be observed within 10-20 minutes.
+That correspond to about 400-500k IO operations processed (or about
+100GB of IO read/writes).
+
+Orion tool was used as a validation and set to run in a loop for 36
+hours (equivalent of pushing 550M IO operations). No issues were
+observed. That suggest that the patch fixes the issue.
+
+Fixes: f9f38e33389c (?nvme: improve performance for virtual NVMe devices?)
+Signed-off-by: Michal Wnukowski <wnukowski at google.com>
+
+changes since v1:
+ - Additional note about NVMe controller behavior.
+ - Removal of volatile keyword has been reverted.
+
+---
+ drivers/nvme/host/pci.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 17a0190bd88f..4452f8553301 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -306,6 +306,14 @@ static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
+ 		old_value = *dbbuf_db;
+ 		*dbbuf_db = value;
  
-On Wed, Aug 15, 2018@03:58:46PM -0400, Chaitanya Kulkarni wrote:
-> +int nvme_get_ctrl_by_path(char *path, struct nvme_ctrl **ctrl)
-> +{
-> +???? int ret = -ENODEV;
-> +???? char *cdev = strrchr(path, '/');
-> +???? struct nvme_ctrl *ictrl = NULL;
-> +???? struct nvme_subsystem *isubsys = NULL;
-> +
-> +???? if (!cdev) {
-> +???????????? *ctrl = NULL;
-> +???????????? return ret;
-> +???? }
-> +???? cdev++;
-> +
-> +???? mutex_lock(&nvme_subsystems_lock);
-> +???? list_for_each_entry(isubsys, &nvme_subsystems, entry) {
-> +???????????? if (!nvme_get_subsystem(isubsys)) {
-> +???????????????????? pr_info("failed to get the subsystem for ctrl %s\n",
-> +???????????????????????????????????? path);
-> +???????????????????? goto out;
-> +???????????? }
-> +???????????? mutex_unlock(&nvme_subsystems_lock);
-> +
-> +???????????? list_for_each_entry(ictrl, &isubsys->ctrls, subsys_entry) {
-> +???????????????????? spin_lock(&ictrl->lock);
-> +???????????????????? nvme_get_ctrl(ictrl);
-> +???????????????????? if (strcmp(cdev, kobject_name(&ictrl->device->kobj))
-> +???????????????????????????????????? == 0) {
-> +???????????????????????????? *ctrl = ictrl;
-> +???????????????????????????? if (try_module_get(ictrl->ops->module)) {
-> +???????????????????????????????????? spin_unlock(&ictrl->lock);
-> +???????????????????????????????????? mutex_lock(&nvme_subsystems_lock);
-> +???????????????????????????????????? ret = 0;
-> +???????????????????????????????????? goto out;
-> +???????????????????????????? }
-> +???????????????????? }
-> +???????????????????? nvme_put_ctrl(ictrl);
-> +???????????????????? spin_unlock(&ictrl->lock);
-> +???????????? }
-> +???????????? mutex_lock(&nvme_subsystems_lock);
-> +???????????? nvme_put_subsystem(isubsys);
-> +???? }
-> +out:
-> +???? mutex_unlock(&nvme_subsystems_lock);
-> +???? return ret;
-> +}
-
-Some difficult to follow locking and reference counting here.
-
-The 'nvme_get_subsystem' is a kref_get_unless_zero, so if the subsystem
-happens to be at the final 'put' during this iteration, why bail out
-instead of going to the next subsystem? Seems like a 'continue' is the
-right thing to do there.
-
-The end part of the loop is even more confusing. If the nvme_put_subsystem
-happens to be the final 'put', it will deadlock because the
-nvme_destroy_subsystem will want to take the same lock you're already
-holding. It looks like getting rid of the reference counting on the
-subsystem, and hold nvme_subsystems_lock for the entire loop gets the
-desired result.
-
-And while iterating the inner loop subsys_entry, it looks like you
-need to hold isubsys->lock. And if you're holding that lock, you won't
-need a reference on nvme_ctrl until you find the controller you're
-searching for.
-
-Finally I cant even tell why ictrl->lock is being taken. That will only
-prevent a state transition, which doesn't seem to matter here.
-    
++		/*
++		 * Ensure that the doorbell is updated before reading
++		 * the EventIdx from memory. NVMe controller should have
++		 * similar ordering guarantees - update EventIdx before
++		 * reading doorbell.
++		 */
++		mb();
++
+ 		if (!nvme_dbbuf_need_event(*dbbuf_ei, value, old_value))
+ 			return false;
+ 	}
+-- 
+2.18.0.865.gffc8e1a3cd6-goog
