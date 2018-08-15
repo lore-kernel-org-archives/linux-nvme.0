@@ -1,493 +1,316 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 15 Aug 2018 15:58:50 -0400
-Subject: [PATCH V4 5/9] nvmet: add passthru cmd handlers
+Date: Wed, 15 Aug 2018 15:58:51 -0400
+Subject: [PATCH V4 6/9] nvmet: integrate passthru code with core
 In-Reply-To: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
 References: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180815195854.15449-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180815195854.15449-7-chaitanya.kulkarni@wdc.com>
 
-This patch adds passthru command handling capability for the NVMeOF
-target and exports passthru APIs which are used to integrate passthru
-code with nvmet-core. We add passthru ns member to the target request
-to hold the ns reference for respective commands.
+This patch integrates the passthru command code with NVMeOF target
+core. As we integrate the passthru code with target core, it exports
+APIs to enable/disable passthru ctrl via configfs.
 
-The new file pt-cmd.c handles passthru cmd parsing and execution. In the
-passthru mode, we create a block layer request from the nvmet request
-and map the data on to the block layer request. For handling the side
-effects we add two functions similar to the nvme_passthru[start|end]()
-functions present in the nvme-core. We explicitly blacklist the commands
-at the time of parsing, which allows us to route the fabric commands
-through default code path.
+Here we also make sure none of the target-ns belongs to the passthru-ctrl
+and none of the existing subsystems is configured with this passthru-ctrl.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/Makefile |   2 +-
- drivers/nvme/target/nvmet.h  |   9 +
- drivers/nvme/target/pt-cmd.c | 396 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 406 insertions(+), 1 deletion(-)
- create mode 100644 drivers/nvme/target/pt-cmd.c
+ drivers/nvme/target/core.c  | 180 +++++++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/target/nvmet.h |   4 +
+ 2 files changed, 175 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
-index 8118c93391c6..280f83a85cd5 100644
---- a/drivers/nvme/target/Makefile
-+++ b/drivers/nvme/target/Makefile
-@@ -7,7 +7,7 @@ obj-$(CONFIG_NVME_TARGET_FC)		+= nvmet-fc.o
- obj-$(CONFIG_NVME_TARGET_FCLOOP)	+= nvme-fcloop.o
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index ada700cce2d2..98ca0e5f20a1 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -369,11 +369,66 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+ 	nvmet_file_ns_disable(ns);
+ }
  
- nvmet-y		+= core.o configfs.o admin-cmd.o fabrics-cmd.o \
--			discovery.o io-cmd-file.o io-cmd-bdev.o
-+			discovery.o io-cmd-file.o io-cmd-bdev.o pt-cmd.o
- nvme-loop-y	+= loop.o
- nvmet-rdma-y	+= rdma.o
- nvmet-fc-y	+= fc.o
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 72f7380ab590..5975839d2b7c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -27,6 +27,8 @@
- #include <linux/rcupdate.h>
- #include <linux/blkdev.h>
- 
-+#include "../host/nvme.h"
-+
- #define NVMET_ASYNC_EVENTS		4
- #define NVMET_ERROR_LOG_SLOTS		128
- 
-@@ -213,6 +215,8 @@ struct nvmet_subsys {
- 	struct config_group	allowed_hosts_group;
- 
- 	struct list_head	entry;
-+
-+	struct nvme_ctrl	*pt_ctrl;
- };
- 
- static inline struct nvmet_subsys *to_subsys(struct config_item *item)
-@@ -285,6 +289,9 @@ struct nvmet_req {
- 			struct bio_vec          *bvec;
- 			struct work_struct      work;
- 		} f;
-+		struct {
-+			struct nvme_ns *pt_ns;
-+		} p;
- 	};
- 	int			sg_cnt;
- 	/* data length as parsed from the command: */
-@@ -327,6 +334,7 @@ struct nvmet_async_event {
- };
- 
- u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
-+u16 nvmet_pt_parse_pt_cmd(struct nvmet_req *req);
- u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
- u16 nvmet_parse_admin_cmd(struct nvmet_req *req);
-@@ -437,6 +445,7 @@ void nvmet_file_ns_disable(struct nvmet_ns *ns);
- u16 nvmet_bdev_flush(struct nvmet_req *req);
- u16 nvmet_file_flush(struct nvmet_req *req);
- void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
-+bool nvmet_pt_cmd_allow(struct nvmet_req *req);
- 
- static inline u32 nvmet_rw_len(struct nvmet_req *req)
- {
-diff --git a/drivers/nvme/target/pt-cmd.c b/drivers/nvme/target/pt-cmd.c
-new file mode 100644
-index 000000000000..851e3ee63ac6
---- /dev/null
-+++ b/drivers/nvme/target/pt-cmd.c
-@@ -0,0 +1,396 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * NVMe Over Fabrics Target Passthrough command implementation.
-+ * Copyright (c) 2017-2018 Western Digital Corporation or its
-+ * affiliates.
-+ */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+#include <linux/delay.h>
-+
-+#include "nvmet.h"
-+
-+#define NVMET_PT_NS_CMD_DELAY	1000
-+
-+static inline struct nvme_ctrl *nvmet_pt_ctrl(struct nvmet_req *req)
++static int nvmet_pt_ns(struct nvme_ctrl *ctrl, char *disk_name)
 +{
-+	return req->sq->ctrl->subsys->pt_ctrl;
-+}
++	struct nvme_ns *ns;
++	int ret = 0;
 +
-+static void nvmet_pt_req_complete(struct nvmet_req *req, struct request *rq,
-+		u16 status)
-+{
-+	nvmet_req_complete(req, status);
-+	__blk_put_request(rq->q, rq);
++	if (!disk_name)
++		return -EINVAL;
 +
-+	if (req->p.pt_ns) {
-+		nvme_put_ns(req->p.pt_ns);
-+		req->p.pt_ns = NULL;
-+	}
-+}
-+
-+static void nvmet_pt_req_done(struct request *rq,
-+		blk_status_t blk_status)
-+{
-+	struct nvmet_req *req = rq->end_io_data;
-+	u16 status = nvme_req(rq)->status;
-+
-+	nvmet_set_result(req, nvme_req(rq)->result.u32);
-+
-+	/* prioritize nvme request status over blk_status_t */
-+	if (!status && blk_status)
-+		status = NVME_SC_INTERNAL;
-+
-+	nvmet_pt_req_complete(req, rq, status);
-+}
-+
-+static inline u16 nvmet_pt_admin_format_nvm_start(struct nvmet_req *req)
-+{
-+	int lbaf = le32_to_cpu(req->cmd->format.cdw10) & 0x0000000F;
-+	int nsid = le32_to_cpu(req->cmd->format.nsid);
-+	u16 status = NVME_SC_SUCCESS;
-+	struct nvme_id_ns *id;
-+
-+	id = nvme_identify_ns(nvmet_pt_ctrl(req), nsid);
-+	if (!id)
-+		return NVME_SC_INTERNAL;
-+	/*
-+	 * XXX: Please update this code once NVMeOF target starts supoorting
-+	 * metadata. We don't support ns lba format with metadata over fabrics
-+	 * right now, so report error if format nvm cmd tries to format
-+	 * a namespace with the LBA format which has metadata.
-+	 */
-+	if (id->lbaf[lbaf].ms)
-+		status = NVME_SC_INVALID_NS;
-+
-+	kfree(id);
-+	return status;
-+}
-+
-+static inline u16 nvmet_pt_id_ctrl_init_fabircs_fields(struct nvmet_req *req)
-+{
-+	struct nvmet_ctrl *ctrl = req->sq->ctrl;
-+	u16 status = NVME_SC_SUCCESS;
-+	struct nvme_id_ctrl *id;
-+
-+	id = kzalloc(sizeof(*id), GFP_KERNEL);
-+	if (!id) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+	status = nvmet_copy_from_sgl(req, 0, id, sizeof(struct nvme_id_ctrl));
-+	if (status)
-+		goto out_free;
-+
-+	id->cntlid = cpu_to_le16(ctrl->cntlid);
-+
-+	id->acl = 3;
-+	/* XXX: update these values when AER is implemented for the passthru */
-+	id->aerl = 0;
-+
-+	/* emulate kas as most of the PCIe ctrl don't have a support for kas */
-+	id->kas = cpu_to_le16(NVMET_KAS);
-+
-+	/* don't support host memory buffer */
-+	id->hmpre = 0;
-+	id->hmmin = 0;
-+
-+	id->sqes = min_t(__u8, ((0x6 << 4) | 0x6), id->sqes);
-+	id->cqes = min_t(__u8, ((0x4 << 4) | 0x4), id->cqes);
-+	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
-+
-+	/* don't support fuse commands */
-+	id->fuses = 0;
-+
-+	id->sgls = cpu_to_le32(1 << 0); /* we always support SGLs */
-+	if (ctrl->ops->has_keyed_sgls)
-+		id->sgls |= cpu_to_le32(1 << 2);
-+	if (req->port->inline_data_size)
-+		id->sgls |= cpu_to_le32(1 << 20);
-+
-+	/* to allow loop mode don't use passthru ctrl subnqn */
-+	memcpy(id->subnqn, ctrl->subsysnqn, sizeof(id->subnqn));
-+
-+	/* use fabric id-ctrl values */
-+	id->ioccsz = cpu_to_le32((sizeof(struct nvme_command) +
-+				req->port->inline_data_size) / 16);
-+	id->iorcsz = cpu_to_le32(sizeof(struct nvme_completion) / 16);
-+
-+	id->msdbd = ctrl->ops->msdbd;
-+
-+	status = nvmet_copy_to_sgl(req, 0, id, sizeof(struct nvme_id_ctrl));
-+
-+out_free:
-+	kfree(id);
-+out:
-+	return status;
-+}
-+
-+static inline u16 nvmet_pt_id_ns_init_fabircs_fields(struct nvmet_req *req)
-+{
-+	u16 status = NVME_SC_SUCCESS;
-+	struct nvme_id_ns *id;
-+	int i;
-+
-+	id = kzalloc(sizeof(*id), GFP_KERNEL);
-+	if (!id) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	status = nvmet_copy_from_sgl(req, 0, id, sizeof(struct nvme_id_ns));
-+	if (status)
-+		goto out_free;
-+
-+	for (i = 0; i < (id->nlbaf + 1); i++)
-+		if (id->lbaf[i].ms)
-+			memset(&id->lbaf[i], 0, sizeof(id->lbaf[i]));
-+
-+	id->flbas = id->flbas & ~(1 << 4);
-+	id->mc = 0;
-+
-+	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-+
-+out_free:
-+	kfree(id);
-+out:
-+	return status;
-+}
-+
-+static inline u16 nvmet_pt_admin_cmd_identify_end(struct nvmet_req *req)
-+{
-+	u16 status = NVME_SC_SUCCESS;
-+
-+	switch (req->cmd->identify.cns) {
-+	case NVME_ID_CNS_CTRL:
-+		status = nvmet_pt_id_ctrl_init_fabircs_fields(req);
-+		break;
-+	case NVME_ID_CNS_NS:
-+		status = nvmet_pt_id_ns_init_fabircs_fields(req);
-+		break;
-+	}
-+	return status;
-+}
-+
-+static u16 nvmet_pt_admin_passthru_start(struct nvmet_req *req)
-+{
-+	u16 status = NVME_SC_SUCCESS;
-+
-+	switch (req->cmd->common.opcode) {
-+	case nvme_admin_format_nvm:
-+		status = nvmet_pt_admin_format_nvm_start(req);
-+		break;
-+	}
-+	return status;
-+}
-+
-+static u16 nvmet_pt_admin_passthru_end(struct nvmet_req *req)
-+{
-+	u8 aer_type = NVME_AER_TYPE_NOTICE;
-+	u16 status = NVME_SC_SUCCESS;
-+
-+	switch (req->cmd->common.opcode) {
-+	case nvme_admin_identify:
-+		status = nvmet_pt_admin_cmd_identify_end(req);
-+		break;
-+	case nvme_admin_ns_mgmt:
-+	case nvme_admin_ns_attach:
-+	case nvme_admin_format_nvm:
-+		/* allow passthru ctrl to finish the operation */
-+		mdelay(NVMET_PT_NS_CMD_DELAY);
-+		if (!nvmet_add_async_event(req->sq->ctrl, aer_type, 0, 0))
-+			status = NVME_SC_INTERNAL;
-+		mdelay(NVMET_PT_NS_CMD_DELAY);
-+		break;
-+	}
-+	return status;
-+}
-+
-+static void nvmet_pt_execute_admin_cmd(struct nvmet_req *req,
-+		struct request *rq)
-+{
-+	u8 opcode = req->cmd->common.opcode;
-+	u32 effects;
-+	u16 status;
-+
-+	status = nvmet_pt_admin_passthru_start(req);
-+	if (status)
-+		goto out;
-+
-+	effects = nvme_passthru_start(nvmet_pt_ctrl(req), NULL, opcode);
-+
-+	blk_execute_rq(rq->q, NULL, rq, 0);
-+
-+	nvme_passthru_end(nvmet_pt_ctrl(req), effects);
-+	status = nvmet_pt_admin_passthru_end(req);
-+out:
-+	if (status == NVME_SC_SUCCESS) {
-+		nvmet_set_result(req, nvme_req(rq)->result.u32);
-+		status = nvme_req(rq)->status;
-+	}
-+
-+	nvmet_pt_req_complete(req, rq, status);
-+}
-+
-+static struct request *nvmet_pt_blk_make_request(struct nvmet_req *req,
-+		struct bio *bio, gfp_t gfp_mask)
-+{
-+	struct nvme_ctrl *pt_ctrl = nvmet_pt_ctrl(req);
-+	struct nvme_command *cmd = req->cmd;
-+	struct request_queue *q;
-+	struct request *rq;
-+
-+	if (likely(req->sq->qid != 0))
-+		q = req->p.pt_ns->queue;
-+	else
-+		q = pt_ctrl->admin_q;
-+
-+	rq = nvme_alloc_request(q, cmd, BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
-+	if (IS_ERR(rq))
-+		return rq;
-+
-+	for_each_bio(bio) {
-+		int ret = blk_rq_append_bio(rq, &bio);
-+
-+		if (unlikely(ret)) {
-+			blk_put_request(rq);
-+			return ERR_PTR(ret);
-+		}
-+	}
-+	/*
-+	 * We don't support fuse cmds, also nvme-pci driver used its own
-+	 * sgl_threshold parameter to decide whether to use SGLs or PRPs hence
-+	 * turn off those bits in the flags.
-+	 */
-+	req->cmd->common.flags &= ~(NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND |
-+			NVME_CMD_SGL_ALL);
-+	return rq;
-+}
-+
-+static void nvmet_pt_execute_pt(struct nvmet_req *req)
-+{
-+	struct bio *first_bio = NULL;
-+	int sg_cnt = req->sg_cnt;
-+	struct bio *prev = NULL;
-+	struct bio *bio = NULL;
-+	struct scatterlist *sg;
-+	int op = REQ_OP_READ;
-+	struct request *rq;
-+	int op_flags = 0;
-+	int i;
-+
-+	if (nvme_is_write(req->cmd)) {
-+		op = REQ_OP_WRITE;
-+		op_flags = REQ_SYNC | REQ_IDLE;
-+	}
-+
-+	if (req->sg_cnt) {
-+		bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
-+		first_bio = bio;
-+		bio->bi_end_io = bio_put;
-+
-+		for_each_sg(req->sg, sg, req->sg_cnt, i) {
-+			if (bio_add_page(bio, sg_page(sg), sg->length,
-+						sg->offset) != sg->length) {
-+				prev = bio;
-+				bio_set_op_attrs(bio, op, op_flags);
-+				bio = bio_alloc(GFP_KERNEL,
-+						min(sg_cnt, BIO_MAX_PAGES));
-+				bio_chain(bio, prev);
-+			}
-+			sg_cnt--;
-+		}
-+	}
-+
-+	rq = nvmet_pt_blk_make_request(req, first_bio, GFP_KERNEL);
-+	if (IS_ERR(rq))
-+		goto fail_free_bio;
-+
-+	rq->end_io_data = req;
-+	if (likely(req->sq->qid != 0))
-+		blk_execute_rq_nowait(rq->q, NULL, rq, 0, nvmet_pt_req_done);
-+	else
-+		nvmet_pt_execute_admin_cmd(req, rq);
-+	return;
-+
-+fail_free_bio:
-+	while (first_bio) {
-+		bio = first_bio;
-+		first_bio = first_bio->bi_next;
-+		bio_endio(bio);
-+	}
-+}
-+
-+static inline bool nvmet_pt_admin_cmd_supported(struct nvmet_req *req)
-+{
-+	struct nvme_command *cmd = req->cmd;
-+	unsigned int fid;
-+	bool ret = true;
-+
-+	switch (cmd->common.opcode) {
-+	/* black listed commands */
-+	case nvme_admin_create_sq:
-+	case nvme_admin_create_cq:
-+	case nvme_admin_delete_sq:
-+	case nvme_admin_delete_cq:
-+	case nvme_admin_async_event:	/* not implemented */
-+	case nvme_admin_activate_fw:
-+	case nvme_admin_download_fw:
-+	case nvme_admin_directive_send:
-+	case nvme_admin_directive_recv:
-+	case nvme_admin_dbbuf:
-+	case nvme_admin_security_send:
-+	case nvme_admin_security_recv:
-+	case nvme_fabrics_command:
-+		/* fall thru */
-+	/*
-+	 * Most PCIe ctrls don't support keep alive cmd, we route
-+	 * keep alive to the non-passthru mode. In future please change
-+	 * this code when PCIe ctrls with keep alive support available.
-+	 */
-+	case nvme_admin_keep_alive:
-+		ret = false;
-+		break;
-+	case nvme_admin_set_features:
-+		fid = le32_to_cpu(req->cmd->features.fid);
-+		switch (fid) {
-+		case NVME_FEAT_NUM_QUEUES:	/* disabled */
-+		case NVME_FEAT_ASYNC_EVENT:	/* not implemented */
-+		case NVME_FEAT_KATO:		/* route through target code */
-+			ret = false;
++	down_read(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if (!strcmp(ns->disk->disk_name, disk_name)) {
++			ret = -EINVAL;
 +			break;
 +		}
-+		break;
++	}
++	up_read(&ctrl->namespaces_rwsem);
++	return ret;
++}
++
++static int nvmet_ns_device_path_allow(struct nvmet_ns *ns)
++{
++	struct nvmet_subsys *s = ns->subsys;
++	char *dev_file;
++	int ret = 0;
++
++	mutex_lock(&nvmet_subsystems_lock);
++	list_for_each_entry(s, &nvmet_subsystems, entry) {
++		kref_get(&s->ref);
++		mutex_unlock(&nvmet_subsystems_lock);
++		mutex_lock(&s->lock);
++		if (s->pt_ctrl) {
++			dev_file = strrchr(ns->device_path, '/');
++			dev_file++;
++			if (nvmet_pt_ns(s->pt_ctrl, dev_file)) {
++				pr_err("%s ns belongs to passthru ctrl\n",
++						ns->device_path);
++				ret = -EINVAL;
++				mutex_unlock(&s->lock);
++				mutex_lock(&nvmet_subsystems_lock);
++				nvmet_subsys_put(s);
++				break;
++			}
++		}
++		mutex_unlock(&s->lock);
++		mutex_lock(&nvmet_subsystems_lock);
++		nvmet_subsys_put(s);
++	}
++	mutex_unlock(&nvmet_subsystems_lock);
++	return ret;
++}
++
+ int nvmet_ns_enable(struct nvmet_ns *ns)
+ {
+ 	struct nvmet_subsys *subsys = ns->subsys;
+ 	int ret;
+ 
++	ret = nvmet_ns_device_path_allow(ns);
++	if (ret)
++		goto out;
++
+ 	mutex_lock(&subsys->lock);
+ 	ret = -EMFILE;
+ 	if (subsys->nr_namespaces == NVMET_MAX_NAMESPACES)
+@@ -420,6 +475,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+ 	ret = 0;
+ out_unlock:
+ 	mutex_unlock(&subsys->lock);
++out:
+ 	return ret;
+ out_dev_put:
+ 	nvmet_ns_dev_disable(ns);
+@@ -498,6 +554,77 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	return ns;
+ }
+ 
++int nvmet_pt_ctrl_enable(struct nvmet_subsys *subsys)
++{
++	struct nvmet_subsys *s;
++	struct nvmet_ns *tns;
++	char *pt_ctrl_path;
++	char *dev_file;
++	int ret = 0;
++
++	if (!subsys)
++		return -ENODEV;
++
++	if (subsys->pt_ctrl)
++		return -EINVAL;
++
++	pt_ctrl_path = subsys->pt_ctrl_path;
++	if (nvme_get_ctrl_by_path(pt_ctrl_path, &subsys->pt_ctrl)) {
++		pr_err("unable to find passthru ctrl '%s'\n", pt_ctrl_path);
++		return -ENODEV;
++	}
++
++	mutex_lock(&nvmet_subsystems_lock);
++	list_for_each_entry(s, &nvmet_subsystems, entry) {
++		/* skip current subsys */
++		if (!strcmp(s->subsysnqn, subsys->subsysnqn))
++			continue;
++
++		kref_get(&s->ref);
++		mutex_unlock(&nvmet_subsystems_lock);
++		/* check if this pt ctrl is alredy belongs to other subsys */
++		if (s->pt_ctrl && !strcmp(s->pt_ctrl_path, pt_ctrl_path)) {
++			ret = -EINVAL;
++			pr_err("pt ctrl %s is associated with subsys %s\n",
++					subsys->pt_ctrl_path, subsys->subsysnqn);
++			goto out;
++		}
++		/* check if any target ns is present on pt ctrl's ns list */
++		mutex_lock(&s->lock);
++		list_for_each_entry(tns, &s->namespaces, dev_link) {
++			dev_file = strrchr(tns->device_path, '/');
++			dev_file++;
++			if (nvmet_pt_ns(subsys->pt_ctrl, dev_file)) {
++				ret = -EINVAL;
++				pr_err("ns conflict passthru enable failed\n");
++				break;
++			}
++		}
++		mutex_unlock(&s->lock);
++out:
++		mutex_lock(&nvmet_subsystems_lock);
++		nvmet_subsys_put(s);
++		if (ret)
++			break;
++
++	}
++	mutex_unlock(&nvmet_subsystems_lock);
++	if (ret) {
++		nvmet_pt_ctrl_disable(subsys);
++		kfree(subsys->pt_ctrl_path);
++		subsys->pt_ctrl_path = NULL;
 +	}
 +	return ret;
 +}
 +
-+bool nvmet_pt_cmd_allow(struct nvmet_req *req)
++void nvmet_pt_ctrl_disable(struct nvmet_subsys *subsys)
 +{
-+	if (likely(req->sq->ctrl) && !nvmet_pt_ctrl(req))
-+		return false;
++	if (!subsys || !subsys->pt_ctrl)
++		return;
 +
-+	if (unlikely(req->sq->qid == 0))
-+		return nvmet_pt_admin_cmd_supported(req);
-+
-+	return true;
++	nvme_put_ctrl_by_path(subsys->pt_ctrl);
++	subsys->pt_ctrl = NULL;
 +}
-+
-+u16 nvmet_pt_parse_pt_cmd(struct nvmet_req *req)
-+{
-+	u32 nsid = le32_to_cpu(req->cmd->common.nsid);
-+
-+	if (unlikely(nvmet_check_ctrl_status(req, req->cmd)))
-+		return NVME_SC_INVALID_NS | NVME_SC_DNR;
-+
-+	if (unlikely(req->sq->qid == 0))
-+		goto out;
-+
-+	req->p.pt_ns = nvme_find_get_ns(nvmet_pt_ctrl(req), nsid);
-+	if (unlikely(!req->p.pt_ns)) {
-+		pr_err("failed to get passthru ns nsid:%u\n", nsid);
-+		return NVME_SC_INVALID_NS | NVME_SC_DNR;
+ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+ {
+ 	u32 old_sqhd, new_sqhd;
+@@ -687,6 +814,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 	if (unlikely(!req->sq->ctrl))
+ 		/* will return an error for any Non-connect command: */
+ 		status = nvmet_parse_connect_cmd(req);
++	else if (nvmet_pt_cmd_allow(req))
++		status = nvmet_pt_parse_pt_cmd(req);
+ 	else if (likely(req->sq->qid != 0))
+ 		status = nvmet_parse_io_cmd(req);
+ 	else if (req->cmd->common.opcode == nvme_fabrics_command)
+@@ -722,7 +851,16 @@ EXPORT_SYMBOL_GPL(nvmet_req_uninit);
+ 
+ void nvmet_req_execute(struct nvmet_req *req)
+ {
+-	if (unlikely(req->data_len != req->transfer_len))
++	/*
++	 * Right now data_len is calculated before the transfer len
++	 * after we parse the command, With passthru interface
++	 * we allow VUC's. In order to make the code simple and compact,
++	 * instead of assinging the the dala len for each VUC in the command
++	 * parse function just use the transfer len as it is. This may
++	 * result is error if expected data_len != transfer_len.
++	 */
++	if (!(req->sq->ctrl && req->sq->ctrl->subsys->pt_ctrl) &&
++			unlikely(req->data_len != req->transfer_len))
+ 		nvmet_req_complete(req, NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR);
+ 	else
+ 		req->execute(req);
+@@ -943,6 +1081,19 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	}
+ 
+ 	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
++	/*
++	 * Check here if this subsystem is already connected to the
++	 * passthru ctrl. We allow only one target ctrl for one passthru
++	 * subsystem.
++	 */
++	mutex_lock(&subsys->lock);
++	if (subsys->pt_ctrl) {
++		if (subsys->pt_connected == true) {
++			mutex_unlock(&subsys->lock);
++			goto out_put_subsystem;
++		}
 +	}
-+out:
-+	req->execute = nvmet_pt_execute_pt;
-+	return NVME_SC_SUCCESS;
-+}
++	mutex_unlock(&subsys->lock);
+ 	down_read(&nvmet_config_sem);
+ 	if (!nvmet_host_allowed(req, subsys, hostnqn)) {
+ 		pr_info("connect by host %s for subsystem %s not allowed\n",
+@@ -991,12 +1142,16 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	if (!ctrl->sqs)
+ 		goto out_free_cqs;
+ 
+-	ret = ida_simple_get(&cntlid_ida,
+-			     NVME_CNTLID_MIN, NVME_CNTLID_MAX,
+-			     GFP_KERNEL);
+-	if (ret < 0) {
+-		status = NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
+-		goto out_free_sqs;
++	if (subsys->pt_ctrl)
++		ret = subsys->pt_ctrl->cntlid;
++	else {
++		ret = ida_simple_get(&cntlid_ida,
++				NVME_CNTLID_MIN, NVME_CNTLID_MAX,
++				GFP_KERNEL);
++		if (ret < 0) {
++			status = NVME_SC_CONNECT_CTRL_BUSY | NVME_SC_DNR;
++			goto out_free_sqs;
++		}
+ 	}
+ 	ctrl->cntlid = ret;
+ 
+@@ -1030,13 +1185,16 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 
+ 	mutex_lock(&subsys->lock);
+ 	list_add_tail(&ctrl->subsys_entry, &subsys->ctrls);
++	if (subsys->pt_ctrl && subsys->pt_connected == false)
++		subsys->pt_connected = true;
+ 	mutex_unlock(&subsys->lock);
+ 
+ 	*ctrlp = ctrl;
+ 	return 0;
+ 
+ out_remove_ida:
+-	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
++	if (!subsys->pt_ctrl)
++		ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+ out_free_sqs:
+ 	kfree(ctrl->sqs);
+ out_free_cqs:
+@@ -1057,6 +1215,8 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 	struct nvmet_subsys *subsys = ctrl->subsys;
+ 
+ 	mutex_lock(&subsys->lock);
++	if (subsys->pt_ctrl && subsys->pt_connected == true)
++		subsys->pt_connected = false;
+ 	list_del(&ctrl->subsys_entry);
+ 	mutex_unlock(&subsys->lock);
+ 
+@@ -1065,7 +1225,8 @@ static void nvmet_ctrl_free(struct kref *ref)
+ 	flush_work(&ctrl->async_event_work);
+ 	cancel_work_sync(&ctrl->fatal_err_work);
+ 
+-	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
++	if (!subsys->pt_ctrl)
++		ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+ 
+ 	kfree(ctrl->sqs);
+ 	kfree(ctrl->cqs);
+@@ -1189,6 +1350,7 @@ static void nvmet_subsys_free(struct kref *ref)
+ 	list_del(&subsys->entry);
+ 	mutex_unlock(&nvmet_subsystems_lock);
+ 
++	kfree(subsys->pt_ctrl_path);
+ 	kfree(subsys->subsysnqn);
+ 	kfree(subsys);
+ }
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 5975839d2b7c..c2712392bb33 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -216,6 +216,8 @@ struct nvmet_subsys {
+ 
+ 	struct list_head	entry;
+ 
++	bool			pt_connected;
++	char			*pt_ctrl_path;
+ 	struct nvme_ctrl	*pt_ctrl;
+ };
+ 
+@@ -446,6 +448,8 @@ u16 nvmet_bdev_flush(struct nvmet_req *req);
+ u16 nvmet_file_flush(struct nvmet_req *req);
+ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid);
+ bool nvmet_pt_cmd_allow(struct nvmet_req *req);
++int nvmet_pt_ctrl_enable(struct nvmet_subsys *subsys);
++void nvmet_pt_ctrl_disable(struct nvmet_subsys *subsys);
+ 
+ static inline u32 nvmet_rw_len(struct nvmet_req *req)
+ {
 -- 
 2.14.1
