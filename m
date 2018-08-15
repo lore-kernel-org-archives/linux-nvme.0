@@ -1,59 +1,91 @@
-From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Tue, 14 Aug 2018 19:02:27 -0700
-Subject: [PATCH] Bugfix for handling of shadow doorbell buffer.
-In-Reply-To: <d57e77d8-88e2-b92a-9545-7118de4d8065@google.com>
-References: <20180814221735.62804-1-wnukowski@google.com>
- <20180814225716.GA3224@localhost.localdomain>
- <CA+55aFw-Fed2QJCYBosGby71AsXAVKGq8mG-HYR13rEnD9V2Lg@mail.gmail.com>
- <d57e77d8-88e2-b92a-9545-7118de4d8065@google.com>
-Message-ID: <CA+55aFxOc7_s-BbWJx-kyit-pH9m5fQJk6MSMJ57tFFvMtNh-w@mail.gmail.com>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 15 Aug 2018 03:31:20 +0000
+Subject: [PATCH 2/2] blktests: add test for ANA state transition
+In-Reply-To: <20180814215624.GB10954@vader>
+References: <20180802103455.82148-1-hare@suse.de>
+ <20180802103455.82148-3-hare@suse.de> <20180814215624.GB10954@vader>
+Message-ID: <66CC8A1A-21A9-4ADB-AB80-4F63371511C7@wdc.com>
 
-On Tue, Aug 14, 2018@6:35 PM Michal Wnukowski <wnukowski@google.com> wrote:
->
-> I got confused after comaring disassembly of this code with and
-> without volatile keyword. Thanks for the correction.
-
-Note that _usually_, the "volatile" has absolutely no impact. When
-there is one read in the source code, it's almost always one access in
-the generated code too.
-
-That's particularly true if the read like this access do dbbuf_ei:
-
-                if (!nvme_dbbuf_need_event(*dbbuf_ei, value, old_value))
-
-is only used as an argument to a real function call.
-
-But if that function is an inline function (which it is), and the
-argument ends up getting used multiple times (which in this case it is
-not), then it is possible in theory that gcc ends up saying "instead
-of reading the value once, and keep it in a register, I'll just read
-it again for the second time".
-
-That happens rarely, but it _can_ happen without the volatile (or the
-READ_ONCE()).
-
-The advantage of READ_ONCE() over using "volatile" in a data structure
-tends to be that you explicitly mark the memory accesses that you care
-about. That's nice documentation for whoever reads the code (and it's
-not unheard of that the _same_ data structure is sometimes volatile,
-and sometimes not - for example, the data structure might be protected
-by a lock - not volatile - but people might use an optimistic lockless
-access to the value too - when it ends up being volatile. So then it's
-really good to explicitly use READ_ONCE() for the volatile cases where
-you show that you know that you're now doing something special that
-really depends on memory ordering or other magic "access exactly once"
-behavior.
+One way to avoid this is if a testcase is validating optional commands or controller feature then
+it should execute id-ctrl or id-ns, based on the output check for the appropriate bits
+before proceeding.
 
 
-> > I'm assuming that's the actual controller hardware, but it needs a
-> > comment about *that* access being ordered too, because if it isn't,
-> > then ordering this side is pointless.
->
-> The other side in this case is not actual controller hardware, but
-> virtual one (the regular hardware should rely on normal MMIO
-> doorbells).
+On 8/14/18, 2:56 PM, "Omar Sandoval" <osandov@osandov.com> wrote:
 
-Ok, Maybe worth adding a one-line note about the ordering guarantees
-by the virtual controller accesses.
-
-                   Linus
+    On Thu, Aug 02, 2018@12:34:55PM +0200, Hannes Reinecke wrote:
+    > Add a simple test for ANA state transition handling.
+    > 
+    > Signed-off-by: Hannes Reinecke <hare at suse.com>
+    > ---
+    >  tests/nvme/018     | 153 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+    >  tests/nvme/018.out |  18 +++++++
+    >  2 files changed, 171 insertions(+)
+    >  create mode 100755 tests/nvme/018
+    >  create mode 100644 tests/nvme/018.out
+    > 
+    > diff --git a/tests/nvme/018 b/tests/nvme/018
+    > new file mode 100755
+    > index 0000000..b7f9e00
+    > --- /dev/null
+    > +++ b/tests/nvme/018
+    > @@ -0,0 +1,153 @@
+    > +#!/bin/bash
+    > +#
+    > +# Regression test for ANA base support
+    > +#
+    > +# Copyright (C) 2018 Hannes Reinecke
+    > +#
+    > +# This program is free software: you can redistribute it and/or modify
+    > +# it under the terms of the GNU General Public License as published by
+    > +# the Free Software Foundation, either version 3 of the License, or
+    > +# (at your option) any later version.
+    > +#
+    > +# This program is distributed in the hope that it will be useful,
+    > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+    > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    > +# GNU General Public License for more details.
+    > +#
+    > +# You should have received a copy of the GNU General Public License
+    > +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    > +
+    > +. tests/nvme/rc
+    > +
+    > +DESCRIPTION="test ANA optimized/transitioning/inaccessible support"
+    > +QUICK=1
+    > +
+    > +switch_nvmet_anagroup() {
+    > +	local port1="$1"
+    > +	local port2="$2"
+    > +	local mode="$3"
+    > +
+    > +	echo "ANA state ${mode}"
+    > +
+    > +	if [ "${mode}" = "change" ] ; then
+    > +		_set_nvmet_anagroup_state "${port1}" "1" "change"
+    > +		_set_nvmet_anagroup_state "${port1}" "2" "change"
+    > +		_set_nvmet_anagroup_state "${port2}" "1" "change"
+    > +		_set_nvmet_anagroup_state "${port2}" "2" "change"
+    > +	elif [ "${mode}" = "failover" ] ; then
+    > +		_set_nvmet_anagroup_state "${port1}" "1" "inaccessible"
+    > +		_set_nvmet_anagroup_state "${port1}" "2" "optimized"
+    > +		_set_nvmet_anagroup_state "${port2}" "1" "optimized"
+    > +		_set_nvmet_anagroup_state "${port2}" "2" "inaccessible"
+    > +	else
+    > +		_set_nvmet_anagroup_state "${port1}" "1" "optimized"
+    > +		_set_nvmet_anagroup_state "${port1}" "2" "inaccessible"
+    > +		_set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
+    > +		_set_nvmet_anagroup_state "${port2}" "2" "optimized"
+    > +	fi
+    > +}
+    > +
+    > +requires() {
+    > +	_have_program nvme && _have_module nvme-loop && _have_module loop && \
+    > +		_have_configfs && _have_fio
+    
+    Sorry for the delay. This needs _have_program mkfs.xfs. Is there any way
+    to detect if the kernel supports ANA? This fails miserably on 4.18,
+    obviously.
+    
+    Thanks!
+    
