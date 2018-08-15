@@ -1,73 +1,76 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 15 Aug 2018 15:58:49 -0400
-Subject: [PATCH V4 4/9] nvmet: add global subsystem list
-In-Reply-To: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 15 Aug 2018 15:21:44 -0600
+Subject: [PATCH V4 1/9] nvme-core: add new interfaces to access nvme-ctrl
+In-Reply-To: <20180815195854.15449-2-chaitanya.kulkarni@wdc.com>
 References: <20180815195854.15449-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180815195854.15449-5-chaitanya.kulkarni@wdc.com>
+ <20180815195854.15449-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180815212144.GA5299@localhost.localdomain>
 
-This adds a new structure member for nvmet_subsys and global
-list of the subsystems.
-We use this global list to maintain currently connected,
-not connected, linked and not linked subsystem on the lists.
+On Wed, Aug 15, 2018@03:58:46PM -0400, Chaitanya Kulkarni wrote:
+> +int nvme_get_ctrl_by_path(char *path, struct nvme_ctrl **ctrl)
+> +{
+> +	int ret = -ENODEV;
+> +	char *cdev = strrchr(path, '/');
+> +	struct nvme_ctrl *ictrl = NULL;
+> +	struct nvme_subsystem *isubsys = NULL;
+> +
+> +	if (!cdev) {
+> +		*ctrl = NULL;
+> +		return ret;
+> +	}
+> +	cdev++;
+> +
+> +	mutex_lock(&nvme_subsystems_lock);
+> +	list_for_each_entry(isubsys, &nvme_subsystems, entry) {
+> +		if (!nvme_get_subsystem(isubsys)) {
+> +			pr_info("failed to get the subsystem for ctrl %s\n",
+> +					path);
+> +			goto out;
+> +		}
+> +		mutex_unlock(&nvme_subsystems_lock);
+> +
+> +		list_for_each_entry(ictrl, &isubsys->ctrls, subsys_entry) {
+> +			spin_lock(&ictrl->lock);
+> +			nvme_get_ctrl(ictrl);
+> +			if (strcmp(cdev, kobject_name(&ictrl->device->kobj))
+> +					== 0) {
+> +				*ctrl = ictrl;
+> +				if (try_module_get(ictrl->ops->module)) {
+> +					spin_unlock(&ictrl->lock);
+> +					mutex_lock(&nvme_subsystems_lock);
+> +					ret = 0;
+> +					goto out;
+> +				}
+> +			}
+> +			nvme_put_ctrl(ictrl);
+> +			spin_unlock(&ictrl->lock);
+> +		}
+> +		mutex_lock(&nvme_subsystems_lock);
+> +		nvme_put_subsystem(isubsys);
+> +	}
+> +out:
+> +	mutex_unlock(&nvme_subsystems_lock);
+> +	return ret;
+> +}
 
-This is a preparation patch for implementing the NVMeOF target
-passthru code.
+Some difficult to follow locking and reference counting here.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/core.c  | 12 ++++++++++++
- drivers/nvme/target/nvmet.h |  2 ++
- 2 files changed, 14 insertions(+)
+The 'nvme_get_subsystem' is a kref_get_unless_zero, so if the subsystem
+happens to be at the final 'put' during this iteration, why bail out
+instead of going to the next subsystem? Seems like a 'continue' is the
+right thing to do there.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 4317678df194..ada700cce2d2 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -22,6 +22,9 @@ struct workqueue_struct *buffered_io_wq;
- static const struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
- static DEFINE_IDA(cntlid_ida);
- 
-+static LIST_HEAD(nvmet_subsystems);
-+DEFINE_MUTEX(nvmet_subsystems_lock);
-+
- /*
-  * This read/write semaphore is used to synchronize access to configuration
-  * information on a target system that will result in discovery log page
-@@ -1166,6 +1169,11 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	INIT_LIST_HEAD(&subsys->namespaces);
- 	INIT_LIST_HEAD(&subsys->ctrls);
- 	INIT_LIST_HEAD(&subsys->hosts);
-+	INIT_LIST_HEAD(&subsys->entry);
-+
-+	mutex_lock(&nvmet_subsystems_lock);
-+	list_add_tail(&subsys->entry, &nvmet_subsystems);
-+	mutex_unlock(&nvmet_subsystems_lock);
- 
- 	return subsys;
- }
-@@ -1177,6 +1185,10 @@ static void nvmet_subsys_free(struct kref *ref)
- 
- 	WARN_ON_ONCE(!list_empty(&subsys->namespaces));
- 
-+	mutex_lock(&nvmet_subsystems_lock);
-+	list_del(&subsys->entry);
-+	mutex_unlock(&nvmet_subsystems_lock);
-+
- 	kfree(subsys->subsysnqn);
- 	kfree(subsys);
- }
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 221cf6cacd4a..72f7380ab590 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -211,6 +211,8 @@ struct nvmet_subsys {
- 
- 	struct config_group	namespaces_group;
- 	struct config_group	allowed_hosts_group;
-+
-+	struct list_head	entry;
- };
- 
- static inline struct nvmet_subsys *to_subsys(struct config_item *item)
--- 
-2.14.1
+The end part of the loop is even more confusing. If the nvme_put_subsystem
+happens to be the final 'put', it will deadlock because the
+nvme_destroy_subsystem will want to take the same lock you're already
+holding. It looks like getting rid of the reference counting on the
+subsystem, and hold nvme_subsystems_lock for the entire loop gets the
+desired result.
+
+And while iterating the inner loop subsys_entry, it looks like you
+need to hold isubsys->lock. And if you're holding that lock, you won't
+need a reference on nvme_ctrl until you find the controller you're
+searching for.
+
+Finally I cant even tell why ictrl->lock is being taken. That will only
+prevent a state transition, which doesn't seem to matter here.
