@@ -1,16 +1,44 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 15 Aug 2018 18:19:46 -0700
-Subject: [PATCH] nvmet: free workqueue object if module init fails
-In-Reply-To: <20180814213430.4096-1-chaitanya.kulkarni@wdc.com>
-References: <20180814213430.4096-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <2681cb3c-cd47-c3ad-5f65-af13a1cce620@grimberg.me>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Wed, 15 Aug 2018 18:48:25 -0700
+Subject: [PATCH V2] nvmet: free workqueue object if module init fails
+Message-ID: <20180816014825.13762-1-chaitanya.kulkarni@wdc.com>
 
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+Changes since V1:-
 
->   out:
-> +	if (buffered_io_wq)
-> +		destroy_workqueue(buffered_io_wq);
->   	return error;
->   }
+1. Add a separate goto for freeing workqueue.
 
-I think it will be better to give it a dedicated goto target
-and fixup subsequent goto statements.
+---
+ drivers/nvme/target/core.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 4b9758f13a83..dfd214390163 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1210,7 +1210,7 @@ static int __init nvmet_init(void)
+ 
+ 	error = nvmet_init_discovery();
+ 	if (error)
+-		goto out;
++		goto out_free_work_queue;
+ 
+ 	error = nvmet_init_configfs();
+ 	if (error)
+@@ -1219,9 +1219,11 @@ static int __init nvmet_init(void)
+ 
+ out_exit_discovery:
+ 	nvmet_exit_discovery();
++
++out_free_work_queue:
++	destroy_workqueue(buffered_io_wq);
++
+ out:
+-	if (buffered_io_wq)
+-		destroy_workqueue(buffered_io_wq);
+ 	return error;
+ }
+ 
+-- 
+2.17.0
