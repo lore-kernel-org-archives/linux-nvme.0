@@ -1,63 +1,30 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 17 Aug 2018 09:53:34 +0200
-Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
- groups
-In-Reply-To: <20180817070013.GD11170@lst.de>
-References: <20180814073305.87255-1-hare@suse.de>
- <20180814073305.87255-3-hare@suse.de>
- <5a4aab8b5f509d8090ad10107b01d11285fe1528.camel@wdc.com>
- <e4c9ba55-ad92-dcb2-1126-38e5ea4c0a13@suse.de>
- <f9ad4ed4685e51a7b0378f11d3ce9d0a76235095.camel@wdc.com>
- <20180817070013.GD11170@lst.de>
-Message-ID: <1efe41bd-41f7-127f-994e-da51b02ead41@suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 17 Aug 2018 10:09:24 +0200
+Subject: [PATCH 1/6] nvme-ana-log: fixup compiler warning in show_ana_log()
+In-Reply-To: <20180817072908.56784-2-hare@suse.de>
+References: <20180817072908.56784-1-hare@suse.de>
+ <20180817072908.56784-2-hare@suse.de>
+Message-ID: <20180817080924.GA13230@lst.de>
 
-On 08/17/2018 09:00 AM, hch@lst.de wrote:
-> On Tue, Aug 14, 2018@03:44:57PM +0000, Bart Van Assche wrote:
->> On Tue, 2018-08-14@17:39 +0200, Hannes Reinecke wrote:
->>> While I have considered having nvme_nvm_register_sysfs() returning a
->>> pointer I would then have to remove the 'static' declaration from the
->>> nvm_dev_attr_group_12/20.
->>> Which I didn't really like, either.
->>
->> Hmm ... I don't see why the static declaration would have to be removed from
->> nvm_dev_attr_group_12/20 if nvme_nvm_register_sysfs() would return a pointer?
->> Am I perhaps missing something?
+On Fri, Aug 17, 2018@09:29:03AM +0200, Hannes Reinecke wrote:
+> Add the correct type cast to keep the compiler happy.
 > 
-> No, I think that would be the preferable approach IFF patching the global
-> table of groups would be viable.  I don't think it is, though - we can
-> have both normal NVMe and LightNVM devices in the same system, so we
-> can't just patch it over.
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>  nvme-print.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> So we'll need three different attribut group arrays:
-> 
-> const struct attribute_group *nvme_ns_id_attr_groups[] = {
-> 	&nvme_ns_id_attr_group,
-> 	NULL,
-> };
-> 
-> const struct attribute_group *lightnvm12_ns_id_attr_groups[] = {
-> 	&nvme_ns_id_attr_group,
-> 	&nvm_dev_attr_group_12,
-> 	NULL,
-> };
-> 
-> const struct attribute_group *lightnvm20_ns_id_attr_groups[] = {
-> 	&nvme_ns_id_attr_group,
-> 	&nvm_dev_attr_group_20,
-> 	NULL,
-> };
-> 
-> and a function to select which one to use.
-> 
-Yeah, I figured the same thing.
-I'll be redoing the patchset.
+> diff --git a/nvme-print.c b/nvme-print.c
+> index e0da949..8a604c5 100644
+> --- a/nvme-print.c
+> +++ b/nvme-print.c
+> @@ -1460,7 +1460,8 @@ void show_ana_log(struct nvme_ana_rsp_hdr *ana_log, const char *devname)
+>  		offset += sizeof(*desc);
+>  		printf("grpid	:	%u\n", le32_to_cpu(desc->grpid));
+>  		printf("nnsids	:	%u\n", le32_to_cpu(desc->nnsids));
+> -		printf("chgcnt	:	%"PRIu64"\n", le64_to_cpu(desc->chgcnt));
+> +		printf("chgcnt	:	%"PRIu64"\n",
+> +		       (uint64_t)le64_to_cpu(desc->chgcnt));
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Wouldn't it be easier to just use %llu as the printf specified, given
+that u64/__u64 are always and unsigned long long?
