@@ -1,19 +1,21 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 17 Aug 2018 15:58:59 -0600
-Subject: [PATCH 0/6] nvme-cli fixes and ANA updates
-In-Reply-To: <20180817072908.56784-1-hare@suse.de>
-References: <20180817072908.56784-1-hare@suse.de>
-Message-ID: <20180817215859.GC9931@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 17 Aug 2018 15:09:40 -0700
+Subject: memleak on hot unplug
+In-Reply-To: <7516FE0D-1C04-4110-98C4-77810BC63A9A@javigon.com>
+References: <7516FE0D-1C04-4110-98C4-77810BC63A9A@javigon.com>
+Message-ID: <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
 
-On Fri, Aug 17, 2018@09:29:02AM +0200, Hannes Reinecke wrote:
-> Hi Keith,
-> 
-> here's a small set of fixes and an update to have nvme list-subsys printing
-> out the ANA state for all paths.
-> This brings nvme-cli output on par with that from multipath-tools.
-> 
-> As usual, comments and reviews welcome.
 
-These all look fine to me. I'll apply 1-3 immediately as those look
-pretty trivial. I'll give a test on 4-6 early next week when I should
-have more time for nvme again.
+On 08/14/2018 01:34 AM, Javier Gonz?lez wrote:
+> While reviewing Hannes' sysfs patches on top of Christoph's nvme-4.19, I
+> came across a leak when hot unplugging the controller. The leak seems to
+> be introduced by nvme_init_ctrl:dev_pm_qos_update_user_latency_tolerance()
+> 
+> A quick check shows that neither dev_pm_qos_expose_latency_tolerance()
+> nor dev_pm_qos_hide_latency_tolerance() are being called in
+> nvme_init_identify().
+> 
+> I don't know this part enough to come up with a fix, but I hop it is
+> enough info for you.
+
+CCing Andy.
