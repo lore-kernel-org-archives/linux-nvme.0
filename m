@@ -1,35 +1,64 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 17 Aug 2018 09:29:04 +0200
-Subject: [PATCH 2/6] nvme-vendor: fixup c99 declaration in huawei plugin
+Date: Fri, 17 Aug 2018 09:29:06 +0200
+Subject: [PATCH 4/6] nvme-discover: Retry discovery log if the generation
+ counter changes
 In-Reply-To: <20180817072908.56784-1-hare@suse.de>
 References: <20180817072908.56784-1-hare@suse.de>
-Message-ID: <20180817072908.56784-3-hare@suse.de>
+Message-ID: <20180817072908.56784-5-hare@suse.de>
 
-We can't use c99 declaration with older compilers.
+If the generation counter changes we need to validate if the number
+of records has changed, too.
+If so we need to retry retrieving the discovery log to the most recent
+values. The retry will be terminated after MAX_DISC_RETRIES (currently
+set to 30) to avoid infinite recursion.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- huawei-nvme.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ fabrics.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/huawei-nvme.c b/huawei-nvme.c
-index f305405..f91d3e3 100644
---- a/huawei-nvme.c
-+++ b/huawei-nvme.c
-@@ -245,12 +245,13 @@ static void huawei_print_list_item(struct huawei_list_item list_item,
- 	char usage[128];
- 	char nguid_buf[2 * sizeof(list_item.ns.nguid) + 1];
- 	char *nguid = nguid_buf;
-+	int i;
+diff --git a/fabrics.c b/fabrics.c
+index 9bf2594..b277d36 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -71,6 +71,7 @@ static struct config {
+ #define PATH_NVMF_HOSTID	"/etc/nvme/hostid"
+ #define SYS_NVME		"/sys/class/nvme"
+ #define MAX_DISC_ARGS		10
++#define MAX_DISC_RETRIES	30
  
- 	sprintf(usage,"%6.2f %2sB / %6.2f %2sB", nuse, u_suffix,
- 		nsze, s_suffix);
+ enum {
+ 	OPT_INSTANCE,
+@@ -281,7 +282,7 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
+ 	struct nvmf_disc_rsp_page_hdr *log;
+ 	unsigned int log_size = 0;
+ 	unsigned long genctr;
+-	int error, fd;
++	int error, fd, max_retries = MAX_DISC_RETRIES, retries = 0;
  
- 	memset(nguid, 0, sizeof(nguid_buf));
--	for (int i = 0; i < sizeof(list_item.ns.nguid); i++)
-+	for (i = 0; i < sizeof(list_item.ns.nguid); i++)
- 		nguid += sprintf(nguid, "%02x", list_item.ns.nguid[i]);
+ 	fd = open(dev_path, O_RDWR);
+ 	if (fd < 0) {
+@@ -311,6 +312,7 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
+ 		goto out_free_log;
+ 	}
  
- 	printf("%-*.*s %-*.*s %-*.*s %-*d %-*.*s %-*.*s\n",
++retry_log:
+ 	/* check numrec limits */
+ 	*numrec = le64_to_cpu(log->numrec);
+ 	genctr = le64_to_cpu(log->genctr);
+@@ -346,7 +348,12 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
+ 		goto out_free_log;
+ 	}
+ 
+-	if (*numrec != le32_to_cpu(log->numrec) || genctr != le64_to_cpu(log->genctr)) {
++	if (genctr != le64_to_cpu(log->genctr) &&
++	    *numrec != le32_to_cpu(log->numrec) &&
++	    ++retries < max_retries)
++		goto retry_log;
++
++	if (*numrec != le32_to_cpu(log->numrec)) {
+ 		error = DISC_NOT_EQUAL;
+ 		goto out_free_log;
+ 	}
 -- 
 2.13.7
