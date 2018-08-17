@@ -1,22 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 17 Aug 2018 09:10:09 +0200
-Subject: [PATCH] Bugfix for handling of shadow doorbell buffer.
-In-Reply-To: <d57e77d8-88e2-b92a-9545-7118de4d8065@google.com>
-References: <20180814221735.62804-1-wnukowski@google.com>
- <20180814225716.GA3224@localhost.localdomain>
- <CA+55aFw-Fed2QJCYBosGby71AsXAVKGq8mG-HYR13rEnD9V2Lg@mail.gmail.com>
- <d57e77d8-88e2-b92a-9545-7118de4d8065@google.com>
-Message-ID: <20180817071009.GB11383@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 17 Aug 2018 09:29:02 +0200
+Subject: [PATCH 0/6] nvme-cli fixes and ANA updates
+Message-ID: <20180817072908.56784-1-hare@suse.de>
 
-On Tue, Aug 14, 2018@06:35:16PM -0700, Michal Wnukowski wrote:
-> 
-> The other side in this case is not actual controller hardware, but 
-> virtual one (the regular hardware should rely on normal MMIO 
-> doorbells).
+Hi Keith,
 
-There could very much be real hardware there.  We've made it clear
-in the spec that while a typical use case is a virtualized controller
-there is nothing peventing hardware implementations.  There have
-been previous hardware prototypes to use very similar tricks, e.g.:
+here's a small set of fixes and an update to have nvme list-subsys printing
+out the ANA state for all paths.
+This brings nvme-cli output on par with that from multipath-tools.
 
-https://www.usenix.org/node/179878
+As usual, comments and reviews welcome.
+
+Hannes Reinecke (6):
+  nvme-ana-log: fixup compiler warning in show_ana_log()
+  nvme-vendor: fixup c99 declaration in huawei plugin
+  nvme-discover: sanitize options
+  nvme-discover: Retry discovery log if the generation counter changes
+  nvme-list-subsys: Print PCIe controller address
+  nvme-list-subsys: Add device name argument and print out ANA state
+
+ Documentation/nvme-discover.txt    |  13 ++-
+ Documentation/nvme-list-subsys.txt |   4 +-
+ fabrics.c                          |  15 ++--
+ huawei-nvme.c                      |   3 +-
+ nvme-print.c                       |  13 ++-
+ nvme.c                             | 169 ++++++++++++++++++++++++++++++++++---
+ nvme.h                             |   1 +
+ 7 files changed, 195 insertions(+), 23 deletions(-)
+
+-- 
+2.13.7
