@@ -1,26 +1,28 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 19 Aug 2018 13:06:57 -0400
-Subject: [PATCH] nvme-cli: wdc-plugin mark array static declaration
-Message-ID: <20180819170657.30036-1-chaitanya.kulkarni@wdc.com>
+Date: Sun, 19 Aug 2018 13:14:16 -0400
+Subject: [PATCH] nvme-cli: make show_registers_cap() static
+Message-ID: <20180819171416.30564-1-chaitanya.kulkarni@wdc.com>
 
-The array deFeatureIdList is only used in wdc-nvme.c,
-use static declaration.
+The function show_registers_cap() us only used in the nvme-print.c,
+mark this function static.
+
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- wdc-nvme.c | 2 +-
+ nvme-print.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/wdc-nvme.c b/wdc-nvme.c
-index 1545172..4e691e7 100644
---- a/wdc-nvme.c
-+++ b/wdc-nvme.c
-@@ -238,7 +238,7 @@ typedef struct _WDC_DE_CSA_FEATURE_ID_LIST
-     __u8 featureName[WDC_DE_GENERIC_BUFFER_SIZE];
- } WDC_DE_CSA_FEATURE_ID_LIST;
+diff --git a/nvme-print.c b/nvme-print.c
+index 8a604c5..4c2a73a 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -2825,7 +2825,7 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
+ 	json_print_object(root, NULL);
+ }
  
--WDC_DE_CSA_FEATURE_ID_LIST deFeatureIdList[] =
-+static WDC_DE_CSA_FEATURE_ID_LIST deFeatureIdList[] =
+-void show_registers_cap(struct nvme_bar_cap *cap)
++static void show_registers_cap(struct nvme_bar_cap *cap)
  {
- 	{0x00                                   , "Dummy Placeholder"},
- 	{FID_ARBITRATION                        , "Arbitration"},
+ 	printf("\tMemory Page Size Maximum      (MPSMAX): %u bytes\n", 1 <<  (12 + ((cap->mpsmax_mpsmin & 0xf0) >> 4)));
+ 	printf("\tMemory Page Size Minimum      (MPSMIN): %u bytes\n", 1 <<  (12 + (cap->mpsmax_mpsmin & 0x0f)));
 -- 
 2.14.1
