@@ -1,19 +1,69 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 19 Aug 2018 15:45:07 +0300
-Subject: [PATCH] block: fix rdma queue mapping
-In-Reply-To: <20180817223823.19566-1-sagi@grimberg.me>
-References: <20180817223823.19566-1-sagi@grimberg.me>
-Message-ID: <5973cbfe-1466-cf44-c33e-d9b0dbcc9ca6@mellanox.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Sun, 19 Aug 2018 12:57:31 -0400
+Subject: [PATCH] nvme-cli: fix sparse warnings for declaration
+Message-ID: <20180819165731.29284-1-chaitanya.kulkarni@wdc.com>
 
-Hi Sagi,
-did you have a chance to look on Israel's and mine fixes that we 
-attached to the first thread ?
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ argconfig.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-there are few issues with this approach. For example in case you don't 
-have a "free" cpu in the mask for Qi and you take cpu from Qi+j mask.
-
-Also in case we have a non-symetrical affinity for 2 queues e.g. and the 
-system has 32 cpus, the mapping is 16 for each (and not according to the 
-user affinity...).
-
--Max.
+diff --git a/argconfig.c b/argconfig.c
+index 3fda34d..2689cd3 100644
+--- a/argconfig.c
++++ b/argconfig.c
+@@ -304,6 +304,7 @@ int argconfig_parse(int argc, char *argv[], const char *program_desc,
+ 			char **opts = ((char **)value_addr);
+ 			int remaining_space = CFG_MAX_SUBOPTS;
+ 			int enddefault = 0;
++			int r;
+ 			while (0 && *opts != NULL) {
+ 				if (*opts == END_DEFAULT)
+ 					enddefault = 1;
+@@ -317,9 +318,8 @@ int argconfig_parse(int argc, char *argv[], const char *program_desc,
+ 				opts += 2;
+ 			}
+ 
+-			int r =
+-			    argconfig_parse_subopt_string(optarg, opts,
+-							  remaining_space);
++			r = argconfig_parse_subopt_string(optarg, opts,
++					remaining_space);
+ 			if (r == 2) {
+ 				fprintf(stderr,
+ 					"Error Parsing Sub-Options: Too many options!\n");
+@@ -335,6 +335,7 @@ int argconfig_parse(int argc, char *argv[], const char *program_desc,
+ 			   s->config_type == CFG_FILE_RP ||
+ 			   s->config_type == CFG_FILE_WP) {
+ 			const char *fopts = "";
++			FILE *f;
+ 			if (s->config_type == CFG_FILE_A)
+ 				fopts = "a";
+ 			else if (s->config_type == CFG_FILE_R)
+@@ -348,7 +349,7 @@ int argconfig_parse(int argc, char *argv[], const char *program_desc,
+ 			else if (s->config_type == CFG_FILE_WP)
+ 				fopts = "w+";
+ 
+-			FILE *f = fopen(optarg, fopts);
++			f = fopen(optarg, fopts);
+ 			if (f == NULL) {
+ 				fprintf(stderr, "Unable to open %s file: %s\n",
+ 					s->option, optarg);
+@@ -372,6 +373,7 @@ int argconfig_parse_subopt_string(char *string, char **options,
+ {
+ 	char **o = options;
+ 	char *tmp;
++	size_t toklen;
+ 
+ 	if (!string || !strlen(string)) {
+ 		*(o++) = NULL;
+@@ -382,7 +384,6 @@ int argconfig_parse_subopt_string(char *string, char **options,
+ 	tmp = calloc(strlen(string) + 2, 1);
+ 	strcpy(tmp, string);
+ 
+-	size_t toklen;
+ 	toklen = strcspn(tmp, "=");
+ 
+ 	if (!toklen) {
+-- 
+2.14.1
