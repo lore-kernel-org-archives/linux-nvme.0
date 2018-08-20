@@ -1,261 +1,58 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 20 Aug 2018 12:34:07 +0200
-Subject: [PATCH 2/2] nvme-connect: parse 'nvme_info' sysfs attribute for fc
- transport
-In-Reply-To: <20180820103407.92783-1-hare@suse.de>
-References: <20180820103407.92783-1-hare@suse.de>
-Message-ID: <20180820103407.92783-3-hare@suse.de>
+From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
+Date: Mon, 20 Aug 2018 13:38:50 +0200
+Subject: memleak on hot unplug
+In-Reply-To: <CALCETrW79fhoHsY757+3114DXRdU7fTmp-ibCYY4P16Ow65w1Q@mail.gmail.com>
+References: <7516FE0D-1C04-4110-98C4-77810BC63A9A@javigon.com>
+ <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
+ <CALCETrW79fhoHsY757+3114DXRdU7fTmp-ibCYY4P16Ow65w1Q@mail.gmail.com>
+Message-ID: <4D2D2280-6E3F-487D-9A75-EF8BFD592941@javigon.com>
 
-The 'nvme_info' sysfs attribute for the SCSI host already contains
-all relevant information to issue a NVMe discovery. So for those
-cases we could use that information to format a discovery command
-and don't have to specify a discovery.conf file.
+> On 20 Aug 2018,@06.27, Andy Lutomirski <luto@kernel.org> wrote:
+> 
+> On Fri, Aug 17, 2018@3:09 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
+>> On 08/14/2018 01:34 AM, Javier Gonz?lez wrote:
+>>> While reviewing Hannes' sysfs patches on top of Christoph's nvme-4.19, I
+>>> came across a leak when hot unplugging the controller. The leak seems to
+>>> be introduced by nvme_init_ctrl:dev_pm_qos_update_user_latency_tolerance()
+>>> 
+>>> A quick check shows that neither dev_pm_qos_expose_latency_tolerance()
+>>> nor dev_pm_qos_hide_latency_tolerance() are being called in
+>>> nvme_init_identify().
+>>> 
+>>> I don't know this part enough to come up with a fix, but I hop it is
+>>> enough info for you.
+>> 
+>> 
+>> CCing Andy.
+> 
+> I read this email a couple times, and it's not at all clear to me
+> what's leaking or what the circumstances are.  Javier, are you saying
+> that an untimely hotplug is causing an early exit from
+> nvme_init_identify() and that something is leaking when that happens?
+> Do you know what is leaking?
+> 
+> The driver code is supposed to free the pm_qos structures by itself.
+> Is that not happening?
 
-This patch adds the infrastructure for parsing the information in
-the 'nvme_info' sysfs attribute and uses that information to attempt
-to connect to the discovery controller on that transport address.
+I dag a bit more into the issue, and it seems that none of the pointers
+in struct dev_pm_qos() are being freed when
+dev_pm_qos_constraints_destroy() is called. In particular,
+latency_tolerance_req is the source of the reported leak.
 
-The user can select this feature by using 'nvme discover -t fc'.
+A dirty test shows that freeing latency_tolerance_req in this path
+solves the leak. But again, I don't have enough knowledge on pm/qos to
+send a properly tested patch. What I can say is that by the time we
+reach nvme_free_ctrl(), dev->power.qos has already been freed, so we
+cannot use the helpers like __dev_pm_qos_drop_user_request() at this
+point in time.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- Documentation/nvme-discover.txt |   5 ++
- fabrics.c                       | 193 +++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 197 insertions(+), 1 deletion(-)
+Hope this helps.
 
-diff --git a/Documentation/nvme-discover.txt b/Documentation/nvme-discover.txt
-index b4ae2fc..7a9fad2 100644
---- a/Documentation/nvme-discover.txt
-+++ b/Documentation/nvme-discover.txt
-@@ -28,6 +28,11 @@ find a /etc/nvme/discovery.conf file to use to supply a list of
- Discovery commands to run.  If no /etc/nvme/discovery.conf file
- exists, the command will quit with an error.
- 
-+If just --transport=fc is specified, then 'nvme discover' will attempt
-+to read the sysfs attribute 'nvme_info' from the SCSI Host sysfs
-+directory, and send the Discovery request to the Discovery Controllers
-+specified by the transport addresses found in that file.
-+
- Otherwise, a specific Discovery Controller should be specified using the
- --transport, --traddr, and if necessary the --trsvcid flags. A Discovery
- request will then be sent to the specified Discovery Controller.
-diff --git a/fabrics.c b/fabrics.c
-index 9bf2594..190991a 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -34,6 +34,7 @@
- #include <libgen.h>
- #include <sys/stat.h>
- #include <stddef.h>
-+#include <limits.h>
- 
- #include "parser.h"
- #include "nvme-ioctl.h"
-@@ -756,6 +757,193 @@ static int do_discover(char *argstr, bool connect)
- 	return ret;
- }
- 
-+static int parse_nvme_traddr(char *buf, char *portstr,
-+			     uint64_t *wwnn, uint64_t *wwpn)
-+{
-+	char *str = buf, *eptr;
-+	char *port;
-+
-+	port = strstr(str, portstr);
-+	if (!port)
-+		return 0;
-+
-+	str = strstr(port, "WWPN");
-+	if (!str) {
-+		fprintf(stderr, "failed to find WWPN\n");
-+		return port - buf;
-+	}
-+	str += 5;
-+	if (*str != 'x') {
-+		fprintf(stderr, "parse error looking for WWPN %s\n",
-+			str);
-+		return str - buf;
-+	}
-+	str++;
-+	*wwpn = strtoul(str, &eptr, 16);
-+	if (str == eptr || *wwpn == ULONG_MAX) {
-+		fprintf(stderr, "WWPN parse error for %s\n", str);
-+		return str - buf;
-+	}
-+	str = strstr(eptr, "WWNN");
-+	if (!str) {
-+		fprintf(stderr, "failed to find lport WWNN\n");
-+		return eptr - buf;
-+	}
-+	str += 5;
-+	if (*str != 'x') {
-+		fprintf(stderr, "parse error looking for WWNN %s\n",
-+			str);
-+		return str - buf;
-+	}
-+	str++;
-+	*wwnn = strtoul(str, &eptr, 16);
-+	if (str == eptr || *wwnn == ULONG_MAX) {
-+		fprintf(stderr, "WWNN parse error for %s\n", str);
-+		return str - buf;
-+	}
-+	return eptr - buf;
-+}
-+
-+static int parse_nvme_info(char *nvme_info_path, char *argstr, int max_len,
-+			   bool connect)
-+{
-+	int fd, ret, len;
-+	struct stat stat;
-+	char *buf, *str, *traddr, *host_traddr;
-+	off_t buf_len;
-+	uint64_t lpwwpn, lpwwnn, wwpn, wwnn;
-+
-+	fd = open(nvme_info_path, O_RDONLY);
-+	if (fd < 0)
-+		return fd;
-+
-+	if (fstat(fd, &stat) < 0) {
-+		perror("stat");
-+		return -1;
-+	}
-+	buf = malloc(stat.st_size);
-+	if (!buf) {
-+		perror("malloc");
-+		return -ENOMEM;
-+	}
-+	buf_len = read(fd, buf, stat.st_size);
-+	if (buf_len < 0) {
-+		perror("read");
-+		return -EIO;
-+	}
-+	close(fd);
-+
-+	ret = parse_nvme_traddr(buf, "LPORT", &lpwwnn, &lpwwpn);
-+	if (ret <= 0)
-+		return -EINVAL;
-+
-+	ret = asprintf(&host_traddr, "nn-0x%"PRIx64":pn-0x%"PRIx64"",
-+		       lpwwnn, lpwwpn);
-+	if (ret < 0)
-+		return ret;
-+
-+	cfg.host_traddr = host_traddr;
-+
-+	str = buf + ret;
-+
-+	while (str < buf + buf_len) {
-+		int err;
-+
-+		len = parse_nvme_traddr(str, "RPORT", &wwnn, &wwpn);
-+		if (len <= 0)
-+			break;
-+
-+		if (asprintf(&traddr, "nn-0x%"PRIx64":pn-0x%"PRIx64"",
-+			     wwnn, wwpn) < 0)
-+			break;
-+
-+		cfg.traddr = traddr;
-+
-+		err = build_options(argstr, BUF_SIZE);
-+		if (!err)
-+			err = do_discover(argstr, connect);
-+
-+		if (err)
-+			ret = err;
-+		free(traddr);
-+		cfg.traddr = NULL;
-+
-+		str += len;
-+	}
-+	free(buf);
-+
-+	free(host_traddr);
-+	cfg.host_traddr = NULL;
-+
-+	return ret;
-+}
-+
-+static int scan_sys_nvme_info_filter(const struct dirent *d)
-+{
-+	if (!strcmp(d->d_name, "nvme_info"))
-+		return 1;
-+	return 0;
-+}
-+
-+static int discover_scsi_hosts(const char *shost, char *argstr, bool connect)
-+{
-+	char *path, nvme_path[257];
-+	struct dirent **nvme_info;
-+	int i, n, ret, max_len = BUF_SIZE;
-+
-+	ret = asprintf(&path, "/sys/class/scsi_host/%s", shost);
-+	if (ret < 0)
-+		return -ENOMEM;
-+
-+	n = scandir(path, &nvme_info, scan_sys_nvme_info_filter, alphasort);
-+	if (n < 0)
-+		return n;
-+
-+	for (i = 0; i < n; i++) {
-+		strcpy(nvme_path, path);
-+		strcat(nvme_path, "/");
-+		strncat(nvme_path, nvme_info[i]->d_name, 256);
-+		ret += parse_nvme_info(nvme_path, argstr, max_len, connect);
-+	}
-+
-+	for (i = 0; i < n; i++)
-+		free(nvme_info[i]);
-+
-+	free(nvme_info);
-+	return ret;
-+}
-+
-+static int scan_sys_scsi_filter(const struct dirent *d)
-+{
-+	if (!strcmp(d->d_name, "."))
-+		return 0;
-+	if (!strcmp(d->d_name, ".."))
-+		return 0;
-+	return 1;
-+}
-+
-+static int discover_from_nvme_info(const char *desc, char *argstr,
-+		const struct argconfig_commandline_options *opts, bool connect)
-+{
-+	struct dirent **scsi_hosts = NULL;
-+	int i, n, ret = 0;
-+
-+	n = scandir("/sys/class/scsi_host", &scsi_hosts, scan_sys_scsi_filter,
-+		    alphasort);
-+	if (n < 0)
-+		return n;
-+
-+	for (i = 0; i < n; i++)
-+		ret += discover_scsi_hosts(scsi_hosts[i]->d_name,
-+					   argstr, connect);
-+
-+	for (i = 0; i < n; i++)
-+		free(scsi_hosts[i]);
-+
-+	free(scsi_hosts);
-+	return ret;
-+}
-+
- static int discover_from_conf_file(const char *desc, char *argstr,
- 		const struct argconfig_commandline_options *opts, bool connect)
- {
-@@ -844,7 +1032,10 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 
- 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
- 
--	if (!cfg.transport && !cfg.traddr) {
-+	if (cfg.transport && !cfg.traddr && !strncmp(cfg.transport, "fc", 2)) {
-+		return discover_from_nvme_info(desc, argstr,
-+				command_line_options, connect);
-+	} else if (!cfg.transport && !cfg.traddr) {
- 		return discover_from_conf_file(desc, argstr,
- 				command_line_options, connect);
- 	} else {
--- 
-2.16.4
+Javier
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180820/1094f089/attachment.sig>
