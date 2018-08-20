@@ -1,58 +1,47 @@
-From: javier@javigon.com (=?utf-8?Q?Javier_Gonz=C3=A1lez?=)
-Date: Mon, 20 Aug 2018 13:38:50 +0200
-Subject: memleak on hot unplug
-In-Reply-To: <CALCETrW79fhoHsY757+3114DXRdU7fTmp-ibCYY4P16Ow65w1Q@mail.gmail.com>
-References: <7516FE0D-1C04-4110-98C4-77810BC63A9A@javigon.com>
- <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
- <CALCETrW79fhoHsY757+3114DXRdU7fTmp-ibCYY4P16Ow65w1Q@mail.gmail.com>
-Message-ID: <4D2D2280-6E3F-487D-9A75-EF8BFD592941@javigon.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 20 Aug 2018 09:23:20 -0700
+Subject: [PATCH 2/2] nvme-connect: parse 'nvme_info' sysfs attribute for
+ fc transport
+In-Reply-To: <20180820103407.92783-3-hare@suse.de>
+References: <20180820103407.92783-1-hare@suse.de>
+ <20180820103407.92783-3-hare@suse.de>
+Message-ID: <3868e631-add5-bbe3-6e11-ebb687fb1e4a@broadcom.com>
 
-> On 20 Aug 2018,@06.27, Andy Lutomirski <luto@kernel.org> wrote:
-> 
-> On Fri, Aug 17, 2018@3:09 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->> On 08/14/2018 01:34 AM, Javier Gonz?lez wrote:
->>> While reviewing Hannes' sysfs patches on top of Christoph's nvme-4.19, I
->>> came across a leak when hot unplugging the controller. The leak seems to
->>> be introduced by nvme_init_ctrl:dev_pm_qos_update_user_latency_tolerance()
->>> 
->>> A quick check shows that neither dev_pm_qos_expose_latency_tolerance()
->>> nor dev_pm_qos_hide_latency_tolerance() are being called in
->>> nvme_init_identify().
->>> 
->>> I don't know this part enough to come up with a fix, but I hop it is
->>> enough info for you.
->> 
->> 
->> CCing Andy.
-> 
-> I read this email a couple times, and it's not at all clear to me
-> what's leaking or what the circumstances are.  Javier, are you saying
-> that an untimely hotplug is causing an early exit from
-> nvme_init_identify() and that something is leaking when that happens?
-> Do you know what is leaking?
-> 
-> The driver code is supposed to free the pm_qos structures by itself.
-> Is that not happening?
+On 8/20/2018 3:34 AM, Hannes Reinecke wrote:
+> The 'nvme_info' sysfs attribute for the SCSI host already contains
+> all relevant information to issue a NVMe discovery. So for those
+> cases we could use that information to format a discovery command
+> and don't have to specify a discovery.conf file.
+>
+> This patch adds the infrastructure for parsing the information in
+> the 'nvme_info' sysfs attribute and uses that information to attempt
+> to connect to the discovery controller on that transport address.
+>
+> The user can select this feature by using 'nvme discover -t fc'.
+>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>   Documentation/nvme-discover.txt |   5 ++
+>   fabrics.c                       | 193 +++++++++++++++++++++++++++++++++++++++-
+>   2 files changed, 197 insertions(+), 1 deletion(-)
 
-I dag a bit more into the issue, and it seems that none of the pointers
-in struct dev_pm_qos() are being freed when
-dev_pm_qos_constraints_destroy() is called. In particular,
-latency_tolerance_req is the source of the reported leak.
+Well....?? I know it probably works well, but it was not in the 
+direction I was going.
 
-A dirty test shows that freeing latency_tolerance_req in this path
-solves the leak. But again, I don't have enough knowledge on pm/qos to
-send a properly tested patch. What I can say is that by the time we
-reach nvme_free_ctrl(), dev->power.qos has already been freed, so we
-cannot use the helpers like __dev_pm_qos_drop_user_request() at this
-point in time.
+Here's my issues:
+1. the nvme_info sysfs parameter is not part of any transport and is a 
+lpfc-specific attribute. So adding this into nvmecli concerns me. I 
+don't know that lpfc has even considered the text format sufficient for 
+being an "api" that can be called by "nvmecli" - meaning I don't know 
+that it will pass the backward-compatibility tests.
+2. What you are looking for is unnecessary: The patch to repost 
+connectivity events has been post. Christoph just needs to review it 
+again. I'll repost.
+3. I also don't like parsing scsi stuff in the nvme cli. If we really 
+need to pull fc-isms from it, then we should start the work for moving 
+the fc transport out of scsi and into it's own layer that binds with 
+scsi and nvme.? But I'd rather finish the fixes in nvme cli to address 
+async connections, retries while controller being reconnected to, etc - 
+that all enable the simple udev script.
 
-Hope this helps.
-
-Javier
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: Message signed with OpenPGP
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180820/1094f089/attachment.sig>
+-- james
