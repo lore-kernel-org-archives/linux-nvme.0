@@ -1,34 +1,74 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Sun, 19 Aug 2018 21:27:17 -0700
-Subject: memleak on hot unplug
-In-Reply-To: <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
-References: <7516FE0D-1C04-4110-98C4-77810BC63A9A@javigon.com>
- <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
-Message-ID: <CALCETrW79fhoHsY757+3114DXRdU7fTmp-ibCYY4P16Ow65w1Q@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 20 Aug 2018 08:34:29 +0200
+Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
+ groups
+In-Reply-To: <e3861d6482bef5595720c4e296a1c0e864226323.camel@wdc.com>
+References: <20180814073305.87255-1-hare@suse.de>
+ <20180814073305.87255-3-hare@suse.de>
+ <5a4aab8b5f509d8090ad10107b01d11285fe1528.camel@wdc.com>
+ <e4c9ba55-ad92-dcb2-1126-38e5ea4c0a13@suse.de>
+ <f9ad4ed4685e51a7b0378f11d3ce9d0a76235095.camel@wdc.com>
+ <20180817070013.GD11170@lst.de>
+ <e3861d6482bef5595720c4e296a1c0e864226323.camel@wdc.com>
+Message-ID: <57d23cf3-b408-434c-9a20-dfa4eb309677@suse.de>
 
-On Fri, Aug 17, 2018@3:09 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->
-> On 08/14/2018 01:34 AM, Javier Gonz?lez wrote:
+On 08/17/2018 10:04 PM, Bart Van Assche wrote:
+> On Fri, 2018-08-17@09:00 +0200, hch@lst.de wrote:
+>> On Tue, Aug 14, 2018@03:44:57PM +0000, Bart Van Assche wrote:
+>>> On Tue, 2018-08-14@17:39 +0200, Hannes Reinecke wrote:
+>>>> While I have considered having nvme_nvm_register_sysfs() returning a
+>>>> pointer I would then have to remove the 'static' declaration from the
+>>>> nvm_dev_attr_group_12/20.
+>>>> Which I didn't really like, either.
+>>>
+>>> Hmm ... I don't see why the static declaration would have to be removed from
+>>> nvm_dev_attr_group_12/20 if nvme_nvm_register_sysfs() would return a pointer?
+>>> Am I perhaps missing something?
 >>
->> While reviewing Hannes' sysfs patches on top of Christoph's nvme-4.19, I
->> came across a leak when hot unplugging the controller. The leak seems to
->> be introduced by nvme_init_ctrl:dev_pm_qos_update_user_latency_tolerance()
+>> No, I think that would be the preferable approach IFF patching the global
+>> table of groups would be viable.  I don't think it is, though - we can
+>> have both normal NVMe and LightNVM devices in the same system, so we
+>> can't just patch it over.
 >>
->> A quick check shows that neither dev_pm_qos_expose_latency_tolerance()
->> nor dev_pm_qos_hide_latency_tolerance() are being called in
->> nvme_init_identify().
+>> So we'll need three different attribut group arrays:
 >>
->> I don't know this part enough to come up with a fix, but I hop it is
->> enough info for you.
->
->
-> CCing Andy.
+>> const struct attribute_group *nvme_ns_id_attr_groups[] = {
+>> 	&nvme_ns_id_attr_group,
+>> 	NULL,
+>> };
+>>
+>> const struct attribute_group *lightnvm12_ns_id_attr_groups[] = {
+>> 	&nvme_ns_id_attr_group,
+>> 	&nvm_dev_attr_group_12,
+>> 	NULL,
+>> };
+>>
+>> const struct attribute_group *lightnvm20_ns_id_attr_groups[] = {
+>> 	&nvme_ns_id_attr_group,
+>> 	&nvm_dev_attr_group_20,
+>> 	NULL,
+>> };
+>>
+>> and a function to select which one to use.
+> 
+> Hello Christoph,
+> 
+> How about applying the patch below on top of Hannes' patch? The patch below
+> has the advantage that it completely separates the open channel sysfs
+> attributes from the NVMe core sysfs attributes - the open channel code
+> doesn't have to know anything about the NVMe core sysfs attributes and the
+> NVMe core does not have to know anything about the open channel sysfs
+> attributes.
+> 
+Yes, this looks like the best approach.
+I'll fold it into my patchset.
 
-I read this email a couple times, and it's not at all clear to me
-what's leaking or what the circumstances are.  Javier, are you saying
-that an untimely hotplug is causing an early exit from
-nvme_init_identify() and that something is leaking when that happens?
-Do you know what is leaking?
+Cheers,
 
-The driver code is supposed to free the pm_qos structures by itself.
-Is that not happening?
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
