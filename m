@@ -1,30 +1,34 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 19 Aug 2018 20:36:06 -0400
-Subject: [PATCH 4/5] nvme-cli: don't use unsigned for fd in lnvm-nvme.c
-In-Reply-To: <20180820003607.21899-1-chaitanya.kulkarni@wdc.com>
-References: <20180820003607.21899-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180820003607.21899-5-chaitanya.kulkarni@wdc.com>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Sun, 19 Aug 2018 21:27:17 -0700
+Subject: memleak on hot unplug
+In-Reply-To: <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
+References: <7516FE0D-1C04-4110-98C4-77810BC63A9A@javigon.com>
+ <2186ac17-6079-50be-d6c0-ff42abc555f0@grimberg.me>
+Message-ID: <CALCETrW79fhoHsY757+3114DXRdU7fTmp-ibCYY4P16Ow65w1Q@mail.gmail.com>
 
-Change the data type of the fd from unsigned int -> int.
+On Fri, Aug 17, 2018@3:09 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
+>
+> On 08/14/2018 01:34 AM, Javier Gonz?lez wrote:
+>>
+>> While reviewing Hannes' sysfs patches on top of Christoph's nvme-4.19, I
+>> came across a leak when hot unplugging the controller. The leak seems to
+>> be introduced by nvme_init_ctrl:dev_pm_qos_update_user_latency_tolerance()
+>>
+>> A quick check shows that neither dev_pm_qos_expose_latency_tolerance()
+>> nor dev_pm_qos_hide_latency_tolerance() are being called in
+>> nvme_init_identify().
+>>
+>> I don't know this part enough to come up with a fix, but I hop it is
+>> enough info for you.
+>
+>
+> CCing Andy.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- lnvm-nvme.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I read this email a couple times, and it's not at all clear to me
+what's leaking or what the circumstances are.  Javier, are you saying
+that an untimely hotplug is causing an early exit from
+nvme_init_identify() and that something is leaking when that happens?
+Do you know what is leaking?
 
-diff --git a/lnvm-nvme.c b/lnvm-nvme.c
-index 5130919..754931a 100644
---- a/lnvm-nvme.c
-+++ b/lnvm-nvme.c
-@@ -95,7 +95,8 @@ static int lnvm_id_ns(int argc, char **argv, struct command *cmd, struct plugin
- 	const char *raw_binary = "show infos in binary format";
- 	const char *human_readable = "show infos in readable format";
- 	const char *namespace_id = "identifier of desired namespace. default: 1";
--	unsigned int fd, flags = 0;
-+	unsigned int flags = 0;
-+	int fd;
- 
- 	struct config {
- 		__u32 namespace_id;
--- 
-2.14.1
+The driver code is supposed to free the pm_qos structures by itself.
+Is that not happening?
