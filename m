@@ -1,50 +1,29 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 19 Aug 2018 20:36:05 -0400
-Subject: [PATCH 3/5] nvme-cli: code cleanup for passthru() handlers
+Date: Sun, 19 Aug 2018 20:36:07 -0400
+Subject: [PATCH 5/5] nvme-cli: fix dead-code nvmf log page discovery
 In-Reply-To: <20180820003607.21899-1-chaitanya.kulkarni@wdc.com>
 References: <20180820003607.21899-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180820003607.21899-4-chaitanya.kulkarni@wdc.com>
-
-Get rid of the duplicate free of the metadata pointer in case memory
-allocation fails for the data pointer.
-
-Close wfd file in case of any resource allocation failure if
-applicable.
+Message-ID: <20180820003607.21899-6-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- nvme.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ fabrics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/nvme.c b/nvme.c
-index 4233d9c..f149bab 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -4451,13 +4451,11 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
- 		if (!metadata) {
- 			fprintf(stderr, "can not allocate metadata payload\n");
- 			err = ENOMEM;
--			goto close_fd;
-+			goto close_wfd;
- 		}
- 	}
- 	if (cfg.data_len) {
- 		if (posix_memalign(&data, getpagesize(), cfg.data_len)) {
--			if (metadata)
--				free(metadata);
- 			fprintf(stderr, "can not allocate data payload\n");
- 			err = ENOMEM;
- 			goto free_metadata;
-@@ -4524,6 +4522,10 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
-  free_metadata:
- 	if (cfg.metadata_len)
- 		free(metadata);
-+
-+ close_wfd:
-+	if (strlen(cfg.input_file))
-+		close(wfd);
-  close_fd:
- 	close(fd);
- 	return err;
+diff --git a/fabrics.c b/fabrics.c
+index 9bf2594..514082e 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -353,9 +353,9 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
+ 
+ 	/* needs to be freed by the caller */
+ 	*logp = log;
++	error = DISC_OK;
+ 	goto out_close;
+ 
+-	error = DISC_OK;
+ out_free_log:
+ 	free(log);
+ out_close:
 -- 
 2.14.1
