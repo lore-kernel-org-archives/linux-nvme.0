@@ -1,30 +1,30 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sun, 19 Aug 2018 20:36:04 -0400
-Subject: [PATCH 2/5] nvme-cli: remove always true condition for u8
+Date: Sun, 19 Aug 2018 20:36:06 -0400
+Subject: [PATCH 4/5] nvme-cli: don't use unsigned for fd in lnvm-nvme.c
 In-Reply-To: <20180820003607.21899-1-chaitanya.kulkarni@wdc.com>
 References: <20180820003607.21899-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180820003607.21899-3-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180820003607.21899-5-chaitanya.kulkarni@wdc.com>
 
-Get rid of the always true condition of (cfg.owpass >= 0) since
-cfg.owpass is defined as __u8.
+Change the data type of the fd from unsigned int -> int.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lnvm-nvme.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/nvme.c b/nvme.c
-index a893366..4233d9c 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -2585,7 +2585,7 @@ static int sanitize(int argc, char **argv, struct command *cmd, struct plugin *p
- 	}
+diff --git a/lnvm-nvme.c b/lnvm-nvme.c
+index 5130919..754931a 100644
+--- a/lnvm-nvme.c
++++ b/lnvm-nvme.c
+@@ -95,7 +95,8 @@ static int lnvm_id_ns(int argc, char **argv, struct command *cmd, struct plugin
+ 	const char *raw_binary = "show infos in binary format";
+ 	const char *human_readable = "show infos in readable format";
+ 	const char *namespace_id = "identifier of desired namespace. default: 1";
+-	unsigned int fd, flags = 0;
++	unsigned int flags = 0;
++	int fd;
  
- 	if (cfg.sanact == NVME_SANITIZE_ACT_OVERWRITE) {
--		if (!(cfg.owpass >= 0 && cfg.owpass <= 16)) {
-+		if (cfg.owpass > 16) {
- 			fprintf(stderr, "OWPASS out of range [0-16]\n");
- 			ret = EINVAL;
- 			goto close_fd;
+ 	struct config {
+ 		__u32 namespace_id;
 -- 
 2.14.1
