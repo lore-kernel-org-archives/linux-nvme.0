@@ -1,111 +1,244 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 21 Aug 2018 15:43:27 +0200
-Subject: [PATCH 2/4] nvme: implement 'async_connect' cli option
+Date: Tue, 21 Aug 2018 15:43:28 +0200
+Subject: [PATCH 3/4] nvme: implement 'discovery' sysfs entry and discovery
+ uevents
 In-Reply-To: <20180821134329.69577-1-hare@suse.de>
 References: <20180821134329.69577-1-hare@suse.de>
-Message-ID: <20180821134329.69577-3-hare@suse.de>
+Message-ID: <20180821134329.69577-4-hare@suse.de>
 
-Implement an option 'async_connect' to make the CLI return immediately
-without waiting for the actual connect to complete.
+When establishing a connection to the discovery controller with the
+'async-connect' option the cli has no means of actually getting the
+discovery log page entries.
+This patch implements a 'discovery' sysfs attribute for the controller
+which holds the information of the discovery log page. Additionally
+an uevent is generated for each discovery log page entry.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/fabrics.c | 7 ++++++-
- drivers/nvme/host/fabrics.h | 6 ++++++
- drivers/nvme/host/fc.c      | 3 ++-
- drivers/nvme/host/rdma.c    | 3 ++-
- 4 files changed, 16 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 163 ++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |   1 +
+ 2 files changed, 163 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 206d63cb1afc..e484205b4cad 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -604,6 +604,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
- 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
- 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
-+	{ NVMF_OPT_ASYNC_CONNECT,	"async_connect"		},
- 	{ NVMF_OPT_ERR,			NULL			}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dd8ec1dd9219..358be6d217d9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2325,6 +2325,133 @@ static int nvme_get_effects_log(struct nvme_ctrl *ctrl)
+ 	return ret;
+ }
+ 
++static int nvme_get_discovery_log(struct nvme_ctrl *ctrl)
++{
++	int ret, disc_log_len = 4096;
++
++retry:
++	if (!ctrl->discovery)
++		ctrl->discovery = kzalloc(disc_log_len, GFP_KERNEL);
++
++	if (!ctrl->discovery)
++		return 0;
++
++	ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_DISC, 0,
++			   ctrl->discovery, disc_log_len, 0);
++	if (ret) {
++		kfree(ctrl->discovery);
++		ctrl->discovery = NULL;
++		return ret;
++	}
++	if (ctrl->discovery->numrec > 3 && disc_log_len == 4096) {
++		disc_log_len = (ctrl->discovery->numrec + 1) * 1024;
++		kfree(ctrl->discovery);
++		ctrl->discovery = NULL;
++		goto retry;
++	}
++	return ret;
++}
++
++static void nvme_discovery_uevent(struct nvme_ctrl *ctrl,
++				  struct nvmf_disc_rsp_page_entry *entry)
++
++{
++	char *envp[8], *envstr;
++	size_t envlen = 0;
++	const char *trtype, *adrfam;
++
++	envstr = kzalloc(4096, GFP_KERNEL);
++	if (!envstr)
++		return;
++
++	envp[0] = envstr;
++	envlen += snprintf(envstr, 4096, "NVME_EVENT=discovery");
++	envlen ++;
++	switch (entry->trtype) {
++	case NVMF_TRTYPE_RDMA:
++		trtype = "rdma";
++		break;
++	case NVMF_TRTYPE_FC:
++		trtype = "fc";
++		break;
++	case NVMF_TRTYPE_LOOP:
++		trtype = "loop";
++		break;
++	default:
++		trtype = "unknown";
++		break;
++	}
++	envp[1] = envstr + envlen;
++	envlen += snprintf(envstr + envlen, 4096 - envlen,
++			   "NVME_DISCOVERY_TRTYPE=%s", trtype);
++	envlen++;
++	switch (entry->adrfam) {
++	case NVMF_ADDR_FAMILY_IP4:
++		adrfam = "ipv4";
++		break;
++	case NVMF_ADDR_FAMILY_IP6:
++		adrfam = "ipv6";
++		break;
++	case NVMF_ADDR_FAMILY_IB:
++		adrfam = "ib";
++		break;
++	case NVMF_ADDR_FAMILY_FC:
++		adrfam = "fc";
++		break;
++	default:
++		adrfam = "unknown";
++		break;
++	}
++	envp[2] = envstr + envlen;
++	envlen += snprintf(envstr + envlen, 4096 - envlen,
++			   "NVME_DISCOVERY_ADRFAM=%s", adrfam);
++	envlen++;
++	envp[3] = envstr + envlen;
++	envlen += snprintf(envstr + envlen, 4096 - envlen,
++			   "NVME_DISCOVERY_TRADDR=%s", strim(entry->traddr));
++	envlen++;
++	envp[4] = envstr + envlen;
++	envlen += snprintf(envstr + envlen, 4096 - envlen,
++			   "NVME_DISCOVERY_TRSVCID=%s", strim(entry->trsvcid));
++	envlen++;
++	envp[5] = envstr + envlen;
++	envlen += snprintf(envstr + envlen, 4096 - envlen,
++			   "NVME_DISCOVERY_HOST_TRADDR=%s",
++			   ctrl->opts->host_traddr);
++	envlen++;
++	envp[6] = envstr + envlen;
++	envlen += snprintf(envstr + envlen, 4096 - envlen,
++			   "NVME_DISCOVERY_SUBNQN=%s", strim(entry->subnqn));
++	envlen++;
++	envp[7] = NULL;
++	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
++	kfree(envstr);
++}
++
++static int nvme_configure_discovery(struct nvme_ctrl *ctrl)
++{
++	int ret = 0;
++
++	if (!ctrl->opts || !ctrl->opts->discovery_nqn)
++		return 0;
++
++	if (!ctrl->opts->async_connect)
++		return 0;
++
++	ret = nvme_get_discovery_log(ctrl);
++	if (!ret && ctrl->discovery) {
++		int i;
++		struct nvmf_disc_rsp_page_entry *entry =
++			ctrl->discovery->entries;
++
++		for (i = 0; i < ctrl->discovery->numrec; i++) {
++			nvme_discovery_uevent(ctrl, entry);
++			entry++;
++		}
++	}
++	return ret;
++}
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -2491,6 +2618,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ret = nvme_configure_discovery(ctrl);
++	if (ret < 0)
++		return ret;
++
+ 	ctrl->identified = true;
+ 
+ 	return 0;
+@@ -2825,6 +2956,32 @@ static ssize_t nvme_sysfs_show_address(struct device *dev,
+ }
+ static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
+ 
++static ssize_t nvme_discovery_show(struct device *dev,
++				   struct device_attribute *attr,
++				   char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	struct nvmf_disc_rsp_page_entry *entry;
++	int i;
++	ssize_t len = 0;
++
++	if (!ctrl->discovery)
++		return -EINVAL;
++
++	entry = ctrl->discovery->entries;
++	for (i = 0; i < ctrl->discovery->numrec; i++) {
++		len += snprintf(buf, PAGE_SIZE,
++				"trtype %d adrfam %d traddr %s "
++				"trsvcid %s portid %d subnqn %s\n",
++				entry->trtype, entry->adrfam, entry->traddr,
++				entry->trsvcid, le16_to_cpu(entry->portid),
++				entry->subnqn);
++		entry++;
++	}
++	return len;
++}
++static DEVICE_ATTR(discovery, S_IRUGO, nvme_discovery_show, NULL);
++
+ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_reset_controller.attr,
+ 	&dev_attr_rescan_controller.attr,
+@@ -2836,6 +2993,7 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_transport.attr,
+ 	&dev_attr_subsysnqn.attr,
+ 	&dev_attr_address.attr,
++	&dev_attr_discovery.attr,
+ 	&dev_attr_state.attr,
+ 	NULL
  };
+@@ -2850,7 +3008,9 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		return 0;
+ 	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
+ 		return 0;
+-
++	if (a == &dev_attr_discovery.attr && ctrl->opts &&
++	    !ctrl->opts->discovery_nqn)
++		return 0;
+ 	return a->mode;
+ }
  
-@@ -814,6 +815,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_DUP_CONNECT:
- 			opts->duplicate_connect = true;
- 			break;
-+		case NVMF_OPT_ASYNC_CONNECT:
-+			opts->async_connect = true;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -900,7 +904,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
--				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT)
-+				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT | \
-+				 NVMF_OPT_ASYNC_CONNECT)
+@@ -3496,6 +3656,7 @@ static void nvme_free_ctrl(struct device *dev)
  
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index aa2fdb2a2e8f..930305a17b88 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -58,6 +58,7 @@ enum {
- 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
- 	NVMF_OPT_HOST_ID	= 1 << 12,
- 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
-+	NVMF_OPT_ASYNC_CONNECT	= 1 << 14,
- };
+ 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
+ 	kfree(ctrl->effects);
++	kfree(ctrl->discovery);
+ 	nvme_mpath_uninit(ctrl);
  
- /**
-@@ -80,6 +81,10 @@ enum {
-  * @nr_io_queues: Number of controller IO queues that will be established.
-  * @reconnect_delay: Time between two consecutive reconnect attempts.
-  * @discovery_nqn: indicates if the subsysnqn is the well-known discovery NQN.
-+ * @duplicate_connect: indicates if the controller supports duplicate
-+ *		connections.
-+ * @async_connect: indicates if the connection should be established
-+ *		asynchronously via a workqueue.
-  * @kato:	Keep-alive timeout.
-  * @host:	Virtual NVMe host, contains the NQN and Host ID.
-  * @max_reconnects: maximum number of allowed reconnect attempts before removing
-@@ -98,6 +103,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		reconnect_delay;
- 	bool			discovery_nqn;
- 	bool			duplicate_connect;
-+	bool			async_connect;
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
- 	int			max_reconnects;
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 611e70cae754..90b4d8df275b 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3081,7 +3081,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		goto fail_ctrl;
- 	}
- 
--	flush_delayed_work(&ctrl->connect_work);
-+	if (!opts->async_connect)
-+		flush_delayed_work(&ctrl->connect_work);
- 
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 0906acbb800e..82917dba9452 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2003,7 +2003,8 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		goto out_uninit_ctrl;
- 	}
- 
--	flush_delayed_work(&ctrl->reconnect_work);
-+	if (!opts->async_connect)
-+		flush_delayed_work(&ctrl->reconnect_work);
- 
- 	dev_info(ctrl->ctrl.device, "new ctrl: NQN \"%s\", addr %pISpcs\n",
- 		ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
+ 	if (subsys) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bb4a2003c097..8a4ed46b986b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -199,6 +199,7 @@ struct nvme_ctrl {
+ 	unsigned long quirks;
+ 	struct nvme_id_power_state psd[32];
+ 	struct nvme_effects_log *effects;
++	struct nvmf_disc_rsp_page_hdr *discovery;
+ 	struct work_struct scan_work;
+ 	struct work_struct async_event_work;
+ 	struct delayed_work ka_work;
 -- 
 2.16.4
