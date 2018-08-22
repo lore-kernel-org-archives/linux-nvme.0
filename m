@@ -1,10 +1,16 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 22 Aug 2018 06:05:31 -0700
-Subject: [PATCH V2] nvmet: free workqueue object if module init fails
-In-Reply-To: <20180816014825.13762-1-chaitanya.kulkarni@wdc.com>
-References: <20180816014825.13762-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180822130531.GB8963@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 22 Aug 2018 15:11:30 +0200
+Subject: [PATCH v2] block: fix rdma queue mapping
+In-Reply-To: <20180820205420.25908-1-sagi@grimberg.me>
+References: <20180820205420.25908-1-sagi@grimberg.me>
+Message-ID: <20180822131130.GC28149@lst.de>
 
-Looks good, but I had to apply this manually as the context didn't
-match what is upstream.  Please double check that I didn't mess
-it up.
+On Mon, Aug 20, 2018@01:54:20PM -0700, Sagi Grimberg wrote:
+> nvme-rdma attempts to map queues based on irq vector affinity.
+> However, for some devices, completion vector irq affinity is
+> configurable by the user which can break the existing assumption
+> that irq vectors are optimally arranged over the host cpu cores.
+
+IFF affinity is configurable we should never use this code,
+as it breaks the model entirely.  ib_get_vector_affinity should
+never return a valid mask if affinity is configurable.
