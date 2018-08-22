@@ -1,185 +1,21 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 22 Aug 2018 10:51:16 +0200
-Subject: [PATCH 3/4] nvme: implement 'discovery' sysfs entry and discovery
- uevents
-In-Reply-To: <a41d463e-5690-499a-9f7e-0c1bbebf0fb3@suse.de>
-References: <20180821134329.69577-1-hare@suse.de>
- <20180821134329.69577-4-hare@suse.de>
- <d14d3245-cdaa-647e-b4a8-c1a6f889ed35@broadcom.com>
- <a41d463e-5690-499a-9f7e-0c1bbebf0fb3@suse.de>
-Message-ID: <b5674a4c-ce2a-e536-45b3-fe4bab2ccccb@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 22 Aug 2018 06:00:57 -0700
+Subject: [PATCH] Remove extra goto label from nvmet_ns_enable
+In-Reply-To: <20180809133344.GA11707@machine1>
+References: <20180809133344.GA11707@machine1>
+Message-ID: <20180822130057.GA508@infradead.org>
 
-On 08/22/2018 09:23 AM, Hannes Reinecke wrote:
-> On 08/21/2018 11:01 PM, James Smart wrote:
->>
->>
->> On 8/21/2018 6:43 AM, Hannes Reinecke wrote:
->>> When establishing a connection to the discovery controller with the
->>> 'async-connect' option the cli has no means of actually getting the
->>> discovery log page entries.
->>> This patch implements a 'discovery' sysfs attribute for the controller
->>> which holds the information of the discovery log page. Additionally
->>> an uevent is generated for each discovery log page entry.
->>>
->>> Signed-off-by: Hannes Reinecke <hare at suse.com>
->>> ---
->>> ? drivers/nvme/host/core.c | 163
->>> ++++++++++++++++++++++++++++++++++++++++++++++-
->>> ? drivers/nvme/host/nvme.h |?? 1 +
->>> ? 2 files changed, 163 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->>> index dd8ec1dd9219..358be6d217d9 100644
->>> --- a/drivers/nvme/host/core.c
->>> +++ b/drivers/nvme/host/core.c
->>> @@ -2325,6 +2325,133 @@ static int nvme_get_effects_log(struct
->>> nvme_ctrl *ctrl)
->>> ????? return ret;
->>> ? }
->>> ? +static int nvme_get_discovery_log(struct nvme_ctrl *ctrl)
->>> +{
->>> +??? int ret, disc_log_len = 4096;
->>> +
->>> +retry:
->>> +??? if (!ctrl->discovery)
->>> +??????? ctrl->discovery = kzalloc(disc_log_len, GFP_KERNEL);
->>> +
->>> +??? if (!ctrl->discovery)
->>> +??????? return 0;
->>> +
->>> +??? ret = nvme_get_log(ctrl, NVME_NSID_ALL, NVME_LOG_DISC, 0,
->>> +?????????????? ctrl->discovery, disc_log_len, 0);
->>> +??? if (ret) {
->>> +??????? kfree(ctrl->discovery);
->>> +??????? ctrl->discovery = NULL;
->>> +??????? return ret;
->>> +??? }
->>> +??? if (ctrl->discovery->numrec > 3 && disc_log_len == 4096) {
->>> +??????? disc_log_len = (ctrl->discovery->numrec + 1) * 1024;
->>> +??????? kfree(ctrl->discovery);
->>> +??????? ctrl->discovery = NULL;
->>> +??????? goto retry;
->>
->> This is missing logic to detect a change in GENCTR and restart the log
->> read.
->>
-> Yeah, I'll be implementing this for the next round.
+On Thu, Aug 09, 2018@07:03:44PM +0530, Milan P. Gandhi wrote:
+> Currently nvmet_ns_enable has two labels viz. out_unlock and
+> out_dev_put, and the reverse call from out_dev_put to out_unlock
+> is little bit confusing. We could simplify it by calling
+> nvmet_ns_dev_disable before. This would eliminate need for
+> 2nd label out_dev_put.
 > 
->>> +??? }
->>> +??? return ret;
->>> +}
->>> +
->>> ...
->>> +static int nvme_configure_discovery(struct nvme_ctrl *ctrl)
->>> +{
->>> +??? int ret = 0;
->>> +
->>> +??? if (!ctrl->opts || !ctrl->opts->discovery_nqn)
->>> +??????? return 0;
->>> +
->>> +??? if (!ctrl->opts->async_connect)
->>> +??????? return 0;
->>
->> I don't understand why async_connect parameter means anything in this
->> context...? why is this looked at?
->>
->> is it strictly to avoid delay while reading the discovery log ?? I don't
->> know that waiting for yet another command or two is a big deal, so I
->> would think just proceeding with reading the discovery log is fine.
->>
-> Originally I did that so as to restore the original functionality, and
-> tie discovery events to the use of the 'async_connect' parameter.
-> But you are right, both are not necessarily connected.
-> I'll drop this for the next round.
+> Also, this function already initializes ret variable to 0,
+> so there is no need to initialize it to 0 before out_unlock,
+> so removing it.
 > 
->>> +
->>> +??? ret = nvme_get_discovery_log(ctrl);
->>> +??? if (!ret && ctrl->discovery) {
->>> +??????? int i;
->>> +??????? struct nvmf_disc_rsp_page_entry *entry =
->>> +??????????? ctrl->discovery->entries;
->>> +
->>> +??????? for (i = 0; i < ctrl->discovery->numrec; i++) {
->>> +??????????? nvme_discovery_uevent(ctrl, entry);
->>> +??????????? entry++;
->>> +??????? }
->>> +??? }
->>> +??? return ret;
->>> +}
->>> +
->>> ? /*
->>> ?? * Initialize the cached copies of the Identify data and various
->>> controller
->>> ?? * register in our nvme_ctrl structure.? This should be called as
->>> soon as
->>> @@ -2491,6 +2618,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->>> ????? if (ret < 0)
->>> ????????? return ret;
->>> ? +??? ret = nvme_configure_discovery(ctrl);
->>> +??? if (ret < 0)
->>> +??????? return ret;
->>> +
->>> ????? ctrl->identified = true;
->>> ? ????? return 0;
->>> @@ -2825,6 +2956,32 @@ static ssize_t nvme_sysfs_show_address(struct
->>> device *dev,
->>> ? }
->>> ? static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
->>> ? +static ssize_t nvme_discovery_show(struct device *dev,
->>> +?????????????????? struct device_attribute *attr,
->>> +?????????????????? char *buf)
->>> +{
->>> +??? struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->>> +??? struct nvmf_disc_rsp_page_entry *entry;
->>> +??? int i;
->>> +??? ssize_t len = 0;
->>> +
->>> +??? if (!ctrl->discovery)
->>> +??????? return -EINVAL;
->>> +
->>> +??? entry = ctrl->discovery->entries;
->>> +??? for (i = 0; i < ctrl->discovery->numrec; i++) {
->>> +??????? len += snprintf(buf, PAGE_SIZE,
->>> +??????????????? "trtype %d adrfam %d traddr %s "
->>> +??????????????? "trsvcid %s portid %d subnqn %s\n",
->>> +??????????????? entry->trtype, entry->adrfam, entry->traddr,
->>> +??????????????? entry->trsvcid, le16_to_cpu(entry->portid),
->>> +??????????????? entry->subnqn);
->>> +??????? entry++;
->>> +??? }
->>> +??? return len;
->>> +}
->>> +static DEVICE_ATTR(discovery, S_IRUGO, nvme_discovery_show, NULL);
->>> +
->>
->> I really don't like that it's reporting a cached log. ? It may be
->> completely inconsistent with what's on the discovery controller now
->> (consider a nvmetcli done then a reconfig done). ?? There may not even
->> be connectivity to the discovery controller at the time the sysfs entry
->> is read - so validity to the content is in question.? I would much
->> rather have the attribute read the log then display contents - so it's
->> always current.??? Of course that does make it interesting if you read
->> it while the controller is paused doing a reconnect.
->>
-> For the next round I'll split this patch in two, one for getting the
-> discovery log and issueing uevents, and a next onw for the sysfs attribute.
-> After all, I've implemented the sysfs attribute just for completeness,
-> to show the contents of the internal discovery buffer. Re-reading it
-> when reading kind of defeats that purpose IMO.
-> 
-Actually, I think it would be better to make 'discovery' a _bin_ attribute.
-With that 'nvme cli' could parse it directly without having to implement
-yet another parser, we don't have this awkward multiple entry sysfs
-attribute, and would actually provide additional value.
+> Signed-off-by: Milan P. Gandhi <mgandhi at redhat.com>
 
-I'll give it a go.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+The code before this patch actually is simpler and cleaner..
