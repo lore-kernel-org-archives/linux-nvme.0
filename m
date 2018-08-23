@@ -1,42 +1,28 @@
-From: mr.nuke.me@gmail.com (Alex G.)
-Date: Thu, 23 Aug 2018 10:03:11 -0500
-Subject: Unloading nvme module after unbinding devices
-Message-ID: <44e7c58a-7d68-0bdb-2adf-7a31eee91a28@gmail.com>
+From: Steve.Schremmer@netapp.com (Schremmer, Steven)
+Date: Thu, 23 Aug 2018 19:33:12 +0000
+Subject: [PATCH] nvme-cli: netapp plugin handle empty strings
+Message-ID: <BL0PR06MB4564625CDE60945CFD8209A98C370@BL0PR06MB4564.namprd06.prod.outlook.com>
 
-Hi,
+Handle controller fields with strings of length 0.
 
-I was trying to 'rmmod nvme' for testing reasons. As you guessed from me 
-writing this message, it does not work. It seems very odd to me that a 
-kernel module cannot be unloaded after all its devices have been 
-unbound. I've only seen this before with buggy GPU drivers.
-Is this by design, or do we have a genuine  bug?
+Signed-off-by: Steve Schremmer <steve.schremmer at netapp.com>
+---
+ netapp-nvme.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alex
-
-# rmmod nvme
-rmmod: ERROR: Module nvme is in use
-
-# rmmod nvme_core
-rmmod: ERROR: Module nvme_core is in use by: nvme
-
-# lspci |grep nvme -i
-3f:00.0 Non-Volatile memory controller: Intel Corporation Express Flash 
-NVMe P4500
-40:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe 
-SSD Controller 172Xa/172Xb (rev 01)
-b1:00.0 Non-Volatile memory controller: Intel Corporation Express Flash 
-NVMe P4600
-b2:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe 
-SSD Controller 172Xa/172Xb (rev 01)
-
-# echo 0000:3f:00.0 > /sys/bus/pci/drivers/nvme/unbind
-# echo 0000:40:00.0 > /sys/bus/pci/drivers/nvme/unbind
-# echo 0000:b1:00.0 > /sys/bus/pci/drivers/nvme/unbind
-# echo 0000:b2:00.0 > /sys/bus/pci/drivers/nvme/unbind
-
-# rmmod nvme
-rmmod: ERROR: Module nvme is in use
-
-# ls /sys/bus/pci/drivers/nvme/
-bind  module  new_id  remove_id  uevent  unbind
-#
+diff --git a/netapp-nvme.c b/netapp-nvme.c
+index 1167db4..b369913 100644
+--- a/netapp-nvme.c
++++ b/netapp-nvme.c
+@@ -63,6 +63,9 @@ static void netapp_convert_string(char *dst, char *src, unsigned int count)
+ 	memset(dst, 0, count + 1);
+ 	for (i = 0; i < count; i++)
+ 		dst[i] = src[i * 2 + 1];
++	/* the json routines won't accept empty strings */
++	if (strlen(dst) == 0 && count)
++		dst[0] = ' ';
+ }
+ 
+ static void netapp_nguid_to_str(char *str, __u8 *nguid)
+-- 
+2.18.0
