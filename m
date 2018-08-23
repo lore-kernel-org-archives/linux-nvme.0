@@ -1,33 +1,42 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 22 Aug 2018 19:58:45 -0700
-Subject: [PATCH] nvmet: remove unreachable code
-Message-ID: <20180823025845.13150-1-chaitanya.kulkarni@wdc.com>
+From: mr.nuke.me@gmail.com (Alex G.)
+Date: Thu, 23 Aug 2018 10:03:11 -0500
+Subject: Unloading nvme module after unbinding devices
+Message-ID: <44e7c58a-7d68-0bdb-2adf-7a31eee91a28@gmail.com>
 
-Get rid of the unreachable code in the nvmet_parse_discovery_cmd().
-Keep the error message identical to the admin-cmd.c and io-cmd*.c
+Hi,
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/discovery.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+I was trying to 'rmmod nvme' for testing reasons. As you guessed from me 
+writing this message, it does not work. It seems very odd to me that a 
+kernel module cannot be unloaded after all its devices have been 
+unbound. I've only seen this before with buggy GPU drivers.
+Is this by design, or do we have a genuine  bug?
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index eae29f493a07..d1954f4ca28d 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -219,12 +219,10 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 			return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 		}
- 	default:
--		pr_err("unsupported cmd %d\n", cmd->common.opcode);
-+		pr_err("unhandled cmd %d\n", cmd->common.opcode);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 	}
- 
--	pr_err("unhandled cmd %d\n", cmd->common.opcode);
--	return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- }
- 
- int __init nvmet_init_discovery(void)
--- 
-2.17.0
+Alex
+
+# rmmod nvme
+rmmod: ERROR: Module nvme is in use
+
+# rmmod nvme_core
+rmmod: ERROR: Module nvme_core is in use by: nvme
+
+# lspci |grep nvme -i
+3f:00.0 Non-Volatile memory controller: Intel Corporation Express Flash 
+NVMe P4500
+40:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe 
+SSD Controller 172Xa/172Xb (rev 01)
+b1:00.0 Non-Volatile memory controller: Intel Corporation Express Flash 
+NVMe P4600
+b2:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe 
+SSD Controller 172Xa/172Xb (rev 01)
+
+# echo 0000:3f:00.0 > /sys/bus/pci/drivers/nvme/unbind
+# echo 0000:40:00.0 > /sys/bus/pci/drivers/nvme/unbind
+# echo 0000:b1:00.0 > /sys/bus/pci/drivers/nvme/unbind
+# echo 0000:b2:00.0 > /sys/bus/pci/drivers/nvme/unbind
+
+# rmmod nvme
+rmmod: ERROR: Module nvme is in use
+
+# ls /sys/bus/pci/drivers/nvme/
+bind  module  new_id  remove_id  uevent  unbind
+#
