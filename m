@@ -1,13 +1,11 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 23 Aug 2018 13:56:43 -0600
-Subject: [PATCH] nvme-cli: netapp plugin handle empty strings
-In-Reply-To: <BL0PR06MB4564625CDE60945CFD8209A98C370@BL0PR06MB4564.namprd06.prod.outlook.com>
-References: <BL0PR06MB4564625CDE60945CFD8209A98C370@BL0PR06MB4564.namprd06.prod.outlook.com>
-Message-ID: <20180823195643.GA24014@localhost.localdomain>
+From: gzheng@ddn.com (Gu Zheng)
+Date: Fri, 24 Aug 2018 12:02:42 +0000
+Subject: How to check if GC  is running in nvme device?
+Message-ID: <3EE9560F1912FB42B5BFEDFAC6D103700116FAE744@LAX-EX-MB2.datadirect.datadirectnet.com>
 
-On Thu, Aug 23, 2018@07:33:12PM +0000, Schremmer, Steven wrote:
-> Handle controller fields with strings of length 0.
-> 
-> Signed-off-by: Steve Schremmer <steve.schremmer at netapp.com>
+Hi All,
 
-Applied.
+Just a quick question, is there any way to check if GC is running in nvme device? via nvme command or someother interface.
+
+Best regards,
+Gu Zheng
