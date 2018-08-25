@@ -1,37 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 24 Aug 2018 19:17:38 -0700
-Subject: [PATCH v2] block: fix rdma queue mapping
-In-Reply-To: <20180822131130.GC28149@lst.de>
-References: <20180820205420.25908-1-sagi@grimberg.me>
- <20180822131130.GC28149@lst.de>
-Message-ID: <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
+Date: Fri, 24 Aug 2018 19:38:13 -0700
+Subject: [PATCH] block: fix rdma queue mapping
+In-Reply-To: <5973cbfe-1466-cf44-c33e-d9b0dbcc9ca6@mellanox.com>
+References: <20180817223823.19566-1-sagi@grimberg.me>
+ <5973cbfe-1466-cf44-c33e-d9b0dbcc9ca6@mellanox.com>
+Message-ID: <1057d15e-ffea-ead8-71b0-58a38174966a@grimberg.me>
 
 
->> nvme-rdma attempts to map queues based on irq vector affinity.
->> However, for some devices, completion vector irq affinity is
->> configurable by the user which can break the existing assumption
->> that irq vectors are optimally arranged over the host cpu cores.
+> Hi Sagi,
+> did you have a chance to look on Israel's and mine fixes that we 
+> attached to the first thread ?
 > 
-> IFF affinity is configurable we should never use this code,
-> as it breaks the model entirely.  ib_get_vector_affinity should
-> never return a valid mask if affinity is configurable.
+> there are few issues with this approach. For example in case you don't 
+> have a "free" cpu in the mask for Qi and you take cpu from Qi+j mask.
+> 
+> Also in case we have a non-symetrical affinity for 2 queues e.g. and the 
+> system has 32 cpus, the mapping is 16 for each (and not according to the 
+> user affinity...).
 
-I agree that the model intended initially doesn't fit. But it seems
-that some users like to write into their nic's
-/proc/irq/$IRP/smp_affinity and get mad at us for not letting them with
-using managed affinity.
-
-So instead of falling back to the block mapping function we try
-to do a little better first:
-1. map according to the device vector affinity
-2. map vectors that end up without a mapping to cpus that belong
-    to the same numa-node
-3. map all the rest of the unmapped cpus like the block layer
-    would do.
-
-We could have device drivers that don't use managed affinity to never
-return a valid mask but that would never allow affinity based mapping
-which is optimal at least for users that do not mangle with device
-irq affinity (which is probably the majority of users).
-
-Thoughts?
+Can you explain a little better? From Steve's mappings it behaved like I
+expected it to.
