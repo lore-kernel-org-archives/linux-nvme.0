@@ -1,22 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 24 Aug 2018 19:06:41 -0700
+Date: Fri, 24 Aug 2018 19:17:38 -0700
 Subject: [PATCH v2] block: fix rdma queue mapping
-In-Reply-To: <20180821020434.GA24247@ming.t460p>
+In-Reply-To: <20180822131130.GC28149@lst.de>
 References: <20180820205420.25908-1-sagi@grimberg.me>
- <20180821020434.GA24247@ming.t460p>
-Message-ID: <e82f994b-76ec-2a04-b575-acb4439e4d5b@grimberg.me>
+ <20180822131130.GC28149@lst.de>
+Message-ID: <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
 
 
-> I guess this way still can't fix the request allocation crash issue
-> triggered by using blk_mq_alloc_request_hctx(), in which one hw queue may
-> not be mapped from any online CPU.
+>> nvme-rdma attempts to map queues based on irq vector affinity.
+>> However, for some devices, completion vector irq affinity is
+>> configurable by the user which can break the existing assumption
+>> that irq vectors are optimally arranged over the host cpu cores.
+> 
+> IFF affinity is configurable we should never use this code,
+> as it breaks the model entirely.  ib_get_vector_affinity should
+> never return a valid mask if affinity is configurable.
 
-Not really. I guess we will need to simply skip queues that are
-mapped to an offline cpu.
+I agree that the model intended initially doesn't fit. But it seems
+that some users like to write into their nic's
+/proc/irq/$IRP/smp_affinity and get mad at us for not letting them with
+using managed affinity.
 
-> Maybe this patch isn't for this issue, but it is closely related.
+So instead of falling back to the block mapping function we try
+to do a little better first:
+1. map according to the device vector affinity
+2. map vectors that end up without a mapping to cpus that belong
+    to the same numa-node
+3. map all the rest of the unmapped cpus like the block layer
+    would do.
 
-Yes, another patch is still needed.
+We could have device drivers that don't use managed affinity to never
+return a valid mask but that would never allow affinity based mapping
+which is optimal at least for users that do not mangle with device
+irq affinity (which is probably the majority of users).
 
-Steve, do you still have that patch? I don't seem to
-find it anywhere.
+Thoughts?
