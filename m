@@ -1,18 +1,22 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 24 Aug 2018 13:11:06 -0600
-Subject: [PATCH] nvme-cli: Fix the displayed metadata length value on Big
- Endian systems.
-In-Reply-To: <1535135667-32608-1-git-send-email-jeff.lien@wdc.com>
-References: <1535135667-32608-1-git-send-email-jeff.lien@wdc.com>
-Message-ID: <20180824191106.GA26522@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 24 Aug 2018 19:06:41 -0700
+Subject: [PATCH v2] block: fix rdma queue mapping
+In-Reply-To: <20180821020434.GA24247@ming.t460p>
+References: <20180820205420.25908-1-sagi@grimberg.me>
+ <20180821020434.GA24247@ming.t460p>
+Message-ID: <e82f994b-76ec-2a04-b575-acb4439e4d5b@grimberg.me>
 
-On Fri, Aug 24, 2018@01:34:27PM -0500, Jeff Lien wrote:
-> On BE systems, the metadata length value displayed as part of the
-> format in the nvme list command is byte swapped.  So a value of 0
-> appears just fine but a value of 8 bytes is displayed as 0x0800.
-> This patch fixes that is the value is correct for both LE and BE
-> systems.
-> 
-> Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
 
-Thanks, applied.
+> I guess this way still can't fix the request allocation crash issue
+> triggered by using blk_mq_alloc_request_hctx(), in which one hw queue may
+> not be mapped from any online CPU.
+
+Not really. I guess we will need to simply skip queues that are
+mapped to an offline cpu.
+
+> Maybe this patch isn't for this issue, but it is closely related.
+
+Yes, another patch is still needed.
+
+Steve, do you still have that patch? I don't seem to
+find it anywhere.
