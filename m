@@ -1,233 +1,79 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 25 Aug 2018 23:58:37 +0000
-Subject: [RFC][PATCH] nvmet: use IOCB_NOWAIT for file-ns buffered I/O
-In-Reply-To: <20180810050806.4366-1-chaitanya.kulkarni@wdc.com>
-References: <20180810050806.4366-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <5C20465E-048B-453F-9980-F433015D64CE@wdc.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon, 27 Aug 2018 11:50:08 +0800
+Subject: [PATCH v2] block: fix rdma queue mapping
+In-Reply-To: <005801d43c6d$c4afbba0$4e0f32e0$@opengridcomputing.com>
+References: <20180820205420.25908-1-sagi@grimberg.me>
+ <20180821020434.GA24247@ming.t460p>
+ <e82f994b-76ec-2a04-b575-acb4439e4d5b@grimberg.me>
+ <005801d43c6d$c4afbba0$4e0f32e0$@opengridcomputing.com>
+Message-ID: <20180827035001.GB18003@ming.t460p>
 
-Ping?
+On Sat, Aug 25, 2018@07:18:43AM -0500, Steve Wise wrote:
+> > > I guess this way still can't fix the request allocation crash issue
+> > > triggered by using blk_mq_alloc_request_hctx(), in which one hw queue
+> > may
+> > > not be mapped from any online CPU.
+> > 
+> > Not really. I guess we will need to simply skip queues that are
+> > mapped to an offline cpu.
+> > 
+> > > Maybe this patch isn't for this issue, but it is closely related.
+> > 
+> > Yes, another patch is still needed.
+> > 
+> > Steve, do you still have that patch? I don't seem to
+> > find it anywhere.
+> 
+> I have no such patch.  I don't remember this issue.
 
-On 8/9/18, 10:08 PM, "Chaitanya Kulkarni" <chaitanya.kulkarni@wdc.com> wrote:
+This issue can be reproduced when running IO by doing CPU hotplug, then
+the following log can be triggered:
 
-    This patch optimizes read command behavior when file-ns configured
-    with buffered I/O. Instead of offloading the buffered I/O read operations
-    to the worker threads, we first issue the read operation with IOCB_NOWAIT
-    and try and access the data from the cache. Here we only offload the
-    request to the worker thread and complete the request in the worker
-    thread context when IOCB_NOWAIT request fails.
-    
-    Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-    ---
-    Hi,
-    
-    This is an attempt to optimize the buffered I/O read requests for
-    file-backed namespce by using previously introduced flag IOCB_NOWAIT.
-    It will be great if I can get some feedback on how to improve the code.
-    
-    Also, I'm thinking if this patch is accepted then we should have one
-    patch for error injection as file-backed namespace code in io-cmd-file.c
-    is getting more complex since the initial submission, any thuoghts ?
-    
-    Regards,
-    Chaitanya
-    ---
-     drivers/nvme/target/io-cmd-file.c | 108 ++++++++++++++++++++----------
-     1 file changed, 74 insertions(+), 34 deletions(-)
-    
-    diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-    index 81a9dc5290a8..489f5d3d9d30 100644
-    --- a/drivers/nvme/target/io-cmd-file.c
-    +++ b/drivers/nvme/target/io-cmd-file.c
-    @@ -83,17 +83,19 @@ static void nvmet_file_init_bvec(struct bio_vec *bv, struct sg_page_iter *iter)
-     }
-     
-     static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
-    -		unsigned long nr_segs, size_t count)
-    +		unsigned long nr_segs, size_t count, bool nowait)
-     {
-     	struct kiocb *iocb = &req->f.iocb;
-     	ssize_t (*call_iter)(struct kiocb *iocb, struct iov_iter *iter);
-    +	void (*ki_complete)(struct kiocb *iocb, long ret, long ret2);
-    +	int ki_flags = nowait ? IOCB_NOWAIT : 0;
-     	struct iov_iter iter;
-    -	int ki_flags = 0, rw;
-     	ssize_t ret;
-    +	int rw;
-     
-     	if (req->cmd->rw.opcode == nvme_cmd_write) {
-     		if (req->cmd->rw.control & cpu_to_le16(NVME_RW_FUA))
-    -			ki_flags = IOCB_DSYNC;
-    +			ki_flags |= IOCB_DSYNC;
-     		call_iter = req->ns->file->f_op->write_iter;
-     		rw = WRITE;
-     	} else {
-    @@ -107,11 +109,31 @@ static ssize_t nvmet_file_submit_bvec(struct nvmet_req *req, loff_t pos,
-     	iocb->ki_filp = req->ns->file;
-     	iocb->ki_flags = ki_flags | iocb_flags(req->ns->file);
-     
-    +	if (nowait) {
-    +		ki_complete = iocb->ki_complete;
-    +		iocb->ki_complete = NULL;
-    +	}
-    +
-     	ret = call_iter(iocb, &iter);
-     
-    +	if (nowait) {
-    +		/* keep the completion for nowait == true separate */
-    +		if (ret > 0)
-    +			ki_complete(iocb, ret, 0);
-    +		/*
-    +		 * We don't complete the request when we get an error for
-    +		 * nowait == true. Instead just return and offload the I/O
-    +		 * to worker thread. Worker thread will reissue the I/O
-    +		 * without IOCB_NOWAIT and complete the request.
-    +		 */
-    +		goto out;
-    +	}
-    +
-    +
-     	if (ret != -EIOCBQUEUED && iocb->ki_complete)
-     		iocb->ki_complete(iocb, ret, 0);
-     
-    +out:
-     	return ret;
-     }
-     
-    @@ -130,7 +152,7 @@ static void nvmet_file_io_done(struct kiocb *iocb, long ret, long ret2)
-     			NVME_SC_INTERNAL | NVME_SC_DNR : 0);
-     }
-     
-    -static void nvmet_file_execute_rw(struct nvmet_req *req)
-    +static ssize_t nvmet_file_execute_io(struct nvmet_req *req, bool nowait)
-     {
-     	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
-     	struct sg_page_iter sg_pg_iter;
-    @@ -140,30 +162,13 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
-     	ssize_t ret = 0;
-     	loff_t pos;
-     
-    -	if (!req->sg_cnt || !nr_bvec) {
-    -		nvmet_req_complete(req, 0);
-    -		return;
-    -	}
-    +	if (req->f.mpool_alloc && nr_bvec > NVMET_MAX_MPOOL_BVEC)
-    +		is_sync = true;
-     
-     	pos = le64_to_cpu(req->cmd->rw.slba) << req->ns->blksize_shift;
-     	if (unlikely(pos + req->data_len > req->ns->size)) {
-     		nvmet_req_complete(req, NVME_SC_LBA_RANGE | NVME_SC_DNR);
-    -		return;
-    -	}
-    -
-    -	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
-    -		req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
-    -				GFP_KERNEL);
-    -	else
-    -		req->f.bvec = req->inline_bvec;
-    -
-    -	req->f.mpool_alloc = false;
-    -	if (unlikely(!req->f.bvec)) {
-    -		/* fallback under memory pressure */
-    -		req->f.bvec = mempool_alloc(req->ns->bvec_pool, GFP_KERNEL);
-    -		req->f.mpool_alloc = true;
-    -		if (nr_bvec > NVMET_MAX_MPOOL_BVEC)
-    -			is_sync = true;
-    +		return -EIO;
-     	}
-     
-     	memset(&req->f.iocb, 0, sizeof(struct kiocb));
-    @@ -177,7 +182,7 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
-     
-     		if (unlikely(is_sync) &&
-     		    (nr_bvec - 1 == 0 || bv_cnt == NVMET_MAX_MPOOL_BVEC)) {
-    -			ret = nvmet_file_submit_bvec(req, pos, bv_cnt, len);
-    +			ret = nvmet_file_submit_bvec(req, pos, bv_cnt, len, nowait);
-     			if (ret < 0)
-     				goto out;
-     			pos += len;
-    @@ -191,26 +196,64 @@ static void nvmet_file_execute_rw(struct nvmet_req *req)
-     		ret = -EIO;
-     out:
-     	if (unlikely(is_sync || ret)) {
-    -		nvmet_file_io_done(&req->f.iocb, ret < 0 ? ret : total_len, 0);
-    -		return;
-    +		/* for nowait == false complete the request */
-    +		if (!nowait)
-    +			nvmet_file_io_done(&req->f.iocb,
-    +					ret < 0 ? ret : total_len, 0);
-    +		/* for nowait == true offload the I/O, we just return */
-    +		return ret;
-     	}
-     	req->f.iocb.ki_complete = nvmet_file_io_done;
-    -	nvmet_file_submit_bvec(req, pos, bv_cnt, total_len);
-    +	return nvmet_file_submit_bvec(req, pos, bv_cnt, total_len, nowait);
-     }
-     
-     static void nvmet_file_buffered_io_work(struct work_struct *w)
-     {
-     	struct nvmet_req *req = container_of(w, struct nvmet_req, f.work);
-     
-    -	nvmet_file_execute_rw(req);
-    +	nvmet_file_execute_io(req, false);
-     }
-     
-    -static void nvmet_file_execute_rw_buffered_io(struct nvmet_req *req)
-    +static void nvmet_file_submit_buffered_io(struct nvmet_req *req)
-     {
-     	INIT_WORK(&req->f.work, nvmet_file_buffered_io_work);
-     	queue_work(buffered_io_wq, &req->f.work);
-     }
-     
-    +static void nvmet_file_execute_rw(struct nvmet_req *req)
-    +{
-    +	ssize_t nr_bvec = DIV_ROUND_UP(req->data_len, PAGE_SIZE);
-    +	ssize_t ret;
-    +
-    +	if (!req->sg_cnt || !nr_bvec) {
-    +		nvmet_req_complete(req, 0);
-    +		return;
-    +	}
-    +
-    +	if (nr_bvec > NVMET_MAX_INLINE_BIOVEC)
-    +		req->f.bvec = kmalloc_array(nr_bvec, sizeof(struct bio_vec),
-    +				GFP_KERNEL);
-    +	else
-    +		req->f.bvec = req->inline_bvec;
-    +
-    +	if (unlikely(!req->f.bvec)) {
-    +		/* fallback under memory pressure */
-    +		req->f.bvec = mempool_alloc(req->ns->bvec_pool, GFP_KERNEL);
-    +		req->f.mpool_alloc = true;
-    +	} else
-    +		req->f.mpool_alloc = false;
-    +
-    +	if (req->ns->buffered_io) {
-    +		if (likely(!req->f.mpool_alloc)) {
-    +			ret = nvmet_file_execute_io(req, true);
-    +			if (ret > 0)
-    +				return;
-    +		}
-    +		nvmet_file_submit_buffered_io(req);
-    +	} else
-    +		nvmet_file_execute_io(req, false);
-    +}
-    +
-     u16 nvmet_file_flush(struct nvmet_req *req)
-     {
-     	if (vfs_fsync(req->ns->file, 1) < 0)
-    @@ -319,10 +362,7 @@ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req)
-     	switch (cmd->common.opcode) {
-     	case nvme_cmd_read:
-     	case nvme_cmd_write:
-    -		if (req->ns->buffered_io)
-    -			req->execute = nvmet_file_execute_rw_buffered_io;
-    -		else
-    -			req->execute = nvmet_file_execute_rw;
-    +		req->execute = nvmet_file_execute_rw;
-     		req->data_len = nvmet_rw_len(req);
-     		return 0;
-     	case nvme_cmd_flush:
-    -- 
-    2.17.0
-    
-    
+[  396.629000] smpboot: CPU 2 is now offline
+[  396.640759] nvmet: creating controller 1 for subsystem testnqn for NQN nqn.2014-08.org.nvmexpress:uuid:aa7d7d4a-0ee1-4960-ad0d-dbfe768b88d4.
+[  396.642036] nvme nvme1: creating 1 I/O queues.
+[  396.642480] BUG: unable to handle kernel paging request at 000060fd0a6bff48
+[  396.643128] PGD 0 P4D 0
+[  396.643364] Oops: 0002 [#1] PREEMPT SMP PTI
+[  396.643774] CPU: 3 PID: 7 Comm: kworker/u8:0 Not tainted 4.18.0_2923b27e5424_master+ #1
+[  396.644588] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.10.2-2.fc27 04/01/2014
+[  396.645597] Workqueue: nvme-reset-wq nvme_loop_reset_ctrl_work [nvme_loop]
+[  396.646371] RIP: 0010:blk_mq_get_request+0x2e2/0x375
+[  396.646924] Code: 00 00 48 c7 83 28 01 00 00 00 00 00 00 48 c7 83 30 01 00 00 00 00 00 00 48 8b 55 10 74 0c 31 c0 41 f7 c4 00 08 06 00 0f 95 c0 <48> ff 44 c2 48 41 81 e4 00 00 06 00 c7 83 d8 00 00 00 01 00 00 00
+[  396.648699] RSP: 0018:ffffc90000c87cc8 EFLAGS: 00010246
+[  396.649212] RAX: 0000000000000000 RBX: ffff880276350000 RCX: 0000000000000017
+[  396.649931] RDX: 000060fd0a6bff00 RSI: 000000000010e9e6 RDI: 00155563b3000000
+[  396.650646] RBP: ffffc90000c87d08 R08: 00000000f461b8ce R09: 000000000000006c
+[  396.651393] R10: ffffc90000c87e50 R11: 0000000000000000 R12: 0000000000000023
+[  396.652100] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[  396.652831] FS:  0000000000000000(0000) GS:ffff880277b80000(0000) knlGS:0000000000000000
+[  396.653652] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  396.654254] CR2: 000060fd0a6bff48 CR3: 000000000200a006 CR4: 0000000000760ee0
+[  396.655051] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  396.655841] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  396.656542] PKRU: 55555554
+[  396.656808] Call Trace:
+[  396.657094]  blk_mq_alloc_request_hctx+0xd1/0x11c
+[  396.657599]  ? pcpu_block_update_hint_alloc+0xa1/0x1a5
+[  396.658101]  nvme_alloc_request+0x42/0x71
+[  396.658517]  __nvme_submit_sync_cmd+0x2d/0xd1
+[  396.658945]  nvmf_connect_io_queue+0x10b/0x162 [nvme_fabrics]
+[  396.659543]  ? nvme_loop_connect_io_queues+0x2d/0x52 [nvme_loop]
+[  396.660126]  nvme_loop_connect_io_queues+0x2d/0x52 [nvme_loop]
+[  396.660743]  nvme_loop_reset_ctrl_work+0x62/0xcf [nvme_loop]
+[  396.661296]  process_one_work+0x1c9/0x2f6
+[  396.661694]  ? rescuer_thread+0x282/0x282
+[  396.662080]  process_scheduled_works+0x27/0x2c
+[  396.662510]  worker_thread+0x1e7/0x295
+[  396.662960]  kthread+0x115/0x11d
+[  396.663334]  ? kthread_park+0x76/0x76
+[  396.663752]  ret_from_fork+0x35/0x40
+[  396.664169] Modules linked in: nvme_loop nvmet nvme_fabrics null_blk scsi_debug isofs iTCO_wdt iTCO_vendor_support i2c_i801 lpc_ich i2c_core mfd_core ip_tables sr_mod cdrom usb_storage sd_mod ahci libahci libata crc32c_intel virtio_scsi qemu_fw_cfg dm_mirror dm_region_hash dm_log dm_mod [last unloaded: scsi_debug]
+[  396.667015] Dumping ftrace buffer:
+[  396.667348]    (ftrace buffer empty)
+[  396.667758] CR2: 000060fd0a6bff48
+[  396.668129] ---[ end trace 887712785c99c2ca ]---
+
+
+Thanks,
+Ming
