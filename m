@@ -1,26 +1,26 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 27 Aug 2018 15:55:39 -0700
-Subject: [PATCH 3/6] blktests: add NVMeOF write-zeroes test for bdev-ns
+Date: Mon, 27 Aug 2018 15:55:40 -0700
+Subject: [PATCH 4/6] blktests: add NVMeOF write-zeroes test for file-ns
 In-Reply-To: <20180827225542.4329-1-chaitanya.kulkarni@wdc.com>
 References: <20180827225542.4329-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180827225542.4329-4-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180827225542.4329-5-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/021     | 78 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/021.out |  6 ++++
- 2 files changed, 84 insertions(+)
- create mode 100755 tests/nvme/021
- create mode 100644 tests/nvme/021.out
+ tests/nvme/022     | 72 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/022.out |  6 ++++
+ 2 files changed, 78 insertions(+)
+ create mode 100755 tests/nvme/022
+ create mode 100644 tests/nvme/022.out
 
-diff --git a/tests/nvme/021 b/tests/nvme/021
+diff --git a/tests/nvme/022 b/tests/nvme/022
 new file mode 100755
-index 0000000..557ca02
+index 0000000..e11a88f
 --- /dev/null
-+++ b/tests/nvme/021
-@@ -0,0 +1,78 @@
++++ b/tests/nvme/022
+@@ -0,0 +1,72 @@
 +#!/bin/bash
-+# Test NVMe write-zeroes command on NVMeOF with a block-device ns.
++# Test NVMe write-zeroes command on NVMeOF with a file-backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -43,12 +43,12 @@ index 0000000..557ca02
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe write-zeroes command on NVMeOF block-device ns"
++DESCRIPTION="test NVMe write-zeroes command on NVMeOF file-backed ns"
 +QUICK=1
 +
 +requires() {
-+	_have_program nvme && _have_module nvme-loop && _have_module loop && \
-+		_have_module nvmet && _have_configfs
++	_have_program nvme && _have_module nvme-loop && _have_configfs \
++		_have_module nvmet
 +}
 +
 +test() {
@@ -59,7 +59,6 @@ index 0000000..557ca02
 +
 +	local port
 +	local nvmedev
-+	local loop_dev
 +	local file_path="$TMPDIR/img"
 +	local subsys_name="blktests-subsystem-1"
 +	local sblk=0
@@ -67,9 +66,7 @@ index 0000000..557ca02
 +
 +	truncate -s 1G "${file_path}"
 +
-+	loop_dev="$(losetup -f --show "${file_path}")"
-+
-+	_create_nvmet_subsystem "${subsys_name}" "${loop_dev}" \
++	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
 +		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
 +	port="$(_create_nvmet_port "loop")"
 +	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
@@ -88,22 +85,19 @@ index 0000000..557ca02
 +	_remove_nvmet_subsystem "${subsys_name}"
 +	_remove_nvmet_port "${port}"
 +
-+	losetup -d "${loop_dev}"
-+
 +	rm "${file_path}"
 +
 +	modprobe -r nvme-loop
 +	modprobe -r nvmet
-+
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/021.out b/tests/nvme/021.out
+diff --git a/tests/nvme/022.out b/tests/nvme/022.out
 new file mode 100644
-index 0000000..29939e6
+index 0000000..d2a0606
 --- /dev/null
-+++ b/tests/nvme/021.out
++++ b/tests/nvme/022.out
 @@ -0,0 +1,6 @@
-+Running nvme/021
++Running nvme/022
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +NVME Write Zeroes Success
