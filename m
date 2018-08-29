@@ -1,47 +1,42 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 29 Aug 2018 10:34:25 +0200
-Subject: [PATCH] nvme-core: add async event trace helper
-In-Reply-To: <20180829043720.8545-1-chaitanya.kulkarni@wdc.com>
-References: <20180829043720.8545-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180829083425.GB4124@linux-x5ow.site>
+From: sshah@solarflare.com (Shradha Shah)
+Date: Wed, 29 Aug 2018 10:53:45 +0100
+Subject: [PATCH 0/3] TLS initiator side implementation
+Message-ID: <697ba799-b8b4-c7b5-734d-09e898295a4f@solarflare.com>
 
-On Tue, Aug 28, 2018@09:37:20PM -0700, Chaitanya Kulkarni wrote:
-> This patch adds a new event for nvme async event notification.
-> We print the async event in the decoded format when we recognize the
-> event otherwise we just dump the result.
-> 
-> This tracing event is needed to observe/log the different NVMe
-> Asynchronous Event from different types of controllers NVMe PCIe or
-> NVMeOF.
-> 
+This is the patch series for initiator side TLS implementation.
 
-[...]
+At alloc_queue time, the kernel will send a netlink message to
+the user space process to perform the TLS handshake, which in
+turn will reply back with a KTLS socket.
 
-> +TRACE_EVENT(nvme_async_event,
-> +		TP_PROTO(struct nvme_ctrl *ctrl, u32 result),
-> +		TP_ARGS(ctrl, result),
-> +		TP_STRUCT__entry(
-> +			__field(int, ctrl_id)
-> +			__field(u32, result)
-> +			),
-> +		TP_fast_assign(
-> +			__entry->ctrl_id = ctrl->instance;
-> +			__entry->result = result;
-> +			),
-> +		TP_printk("nvme%d: NVME_AEN=%#08x",
-> +			__entry->ctrl_id, __entry->result)
-> +
-> +	   );
-> +
+Each queue uses this newly created KTLS socket for its communication.
 
-Cool thanks, but can you add maybe also print a __stringify()ed
-version of the AEN? So we get "nvme0: NVME_AEN_CFG_ANA_CHANGE" instead
-of "nvme0: NVME_AEN=0x00000800".
+The TLS handshake uses PSK authorization. I have just chosen a random
+value of key and hint but this will be replaced with the correct NQN
+once the target implementation is complete.
+
+This is version 1 of this patch series and addresses all the issue
+reported on the previous patch series which was a RFC patch series.
+
+Shradha Shah (3):
+  nvme-tcp: TLS encryption support-Introduce boolean flag in the header
+    file
+  nvme-tcp: TLS encrytion support using netlink sockets
+  User mode server and client code
+
+ drivers/nvme/host/fabrics.c       |   8 +-
+ drivers/nvme/host/fabrics.h       |   3 +
+ drivers/nvme/host/nvme.h          |   2 +
+ drivers/nvme/host/tcp.c           | 154 +++++++++++++++++--
+ include/uapi/linux/nvme_netlink.h |  43 ++++++
+ tls/Makefile                      |  12 ++
+ tls/client.c                      | 308 ++++++++++++++++++++++++++++++++++++++
+ tls/server.c                      | 183 ++++++++++++++++++++++
+ 8 files changed, 703 insertions(+), 10 deletions(-)
+ create mode 100644 include/uapi/linux/nvme_netlink.h
+ create mode 100644 tls/Makefile
+ create mode 100644 tls/client.c
+ create mode 100644 tls/server.c
 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.14.4
