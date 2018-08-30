@@ -1,89 +1,59 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 30 Aug 2018 12:53:50 -0600
-Subject: [PATCH v5 11/13] nvme-pci: Add a quirk for a pseudo CMB
+Date: Thu, 30 Aug 2018 12:53:47 -0600
+Subject: [PATCH v5 08/13] IB/core: Ensure we map P2P memory correctly in
+ rdma_rw_ctx_[init|destroy]()
 In-Reply-To: <20180830185352.3369-1-logang@deltatee.com>
 References: <20180830185352.3369-1-logang@deltatee.com>
-Message-ID: <20180830185352.3369-12-logang@deltatee.com>
+Message-ID: <20180830185352.3369-9-logang@deltatee.com>
 
-Introduce a quirk to use CMB-like memory on older devices that have
-an exposed BAR but do not advertise support for using CMBLOC and
-CMBSIZE.
+In order to use PCI P2P memory the pci_p2pmem_map_sg() function must be
+called to map the correct PCI bus address.
 
-We'd like to use some of these older cards to test P2P memory.
+To do this, check the first page in the scatter list to see if it is P2P
+memory or not. At the moment, scatter lists that contain P2P memory must
+be homogeneous so if the first page is P2P the entire SGL should be P2P.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/nvme.h |  7 +++++++
- drivers/nvme/host/pci.c  | 24 ++++++++++++++++++++----
- 2 files changed, 27 insertions(+), 4 deletions(-)
+ drivers/infiniband/core/rw.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4030743c90aa..8e6f3bcfe956 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -90,6 +90,13 @@ enum nvme_quirks {
- 	 * Set MEDIUM priority on SQ creation
- 	 */
- 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
-+
-+	/*
-+	 * Pseudo CMB Support on BAR 4. For adapters like the Microsemi
-+	 * NVRAM that have CMB-like memory on a BAR but does not set
-+	 * CMBLOC or CMBSZ.
-+	 */
-+	NVME_QUIRK_PSEUDO_CMB_BAR4		= (1 << 8),
- };
+diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
+index 683e6d11a564..d22c4a2ebac6 100644
+--- a/drivers/infiniband/core/rw.c
++++ b/drivers/infiniband/core/rw.c
+@@ -12,6 +12,7 @@
+  */
+ #include <linux/moduleparam.h>
+ #include <linux/slab.h>
++#include <linux/pci-p2pdma.h>
+ #include <rdma/mr_pool.h>
+ #include <rdma/rw.h>
  
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index bb2120d30e39..f898f2ab1420 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1636,6 +1636,13 @@ static ssize_t nvme_cmb_show(struct device *dev,
+@@ -280,7 +281,11 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
+ 	struct ib_device *dev = qp->pd->device;
+ 	int ret;
+ 
+-	ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
++	if (is_pci_p2pdma_page(sg_page(sg)))
++		ret = pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
++	else
++		ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
++
+ 	if (!ret)
+ 		return -ENOMEM;
+ 	sg_cnt = ret;
+@@ -602,7 +607,9 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
+ 		break;
+ 	}
+ 
+-	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++	/* P2PDMA contexts do not need to be unmapped */
++	if (!is_pci_p2pdma_page(sg_page(sg)))
++		ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
  }
- static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy);
  
-+static u32 nvme_pseudo_cmbsz(struct pci_dev *pdev, int bar)
-+{
-+	return NVME_CMBSZ_WDS | NVME_CMBSZ_RDS |
-+		(((ilog2(SZ_16M) - 12) / 4) << NVME_CMBSZ_SZU_SHIFT) |
-+		((pci_resource_len(pdev, bar) / SZ_16M) << NVME_CMBSZ_SZ_SHIFT);
-+}
-+
- static u64 nvme_cmb_size_unit(struct nvme_dev *dev)
- {
- 	u8 szu = (dev->cmbsz >> NVME_CMBSZ_SZU_SHIFT) & NVME_CMBSZ_SZU_MASK;
-@@ -1655,10 +1662,15 @@ static void nvme_map_cmb(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int bar;
- 
--	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
--	if (!dev->cmbsz)
--		return;
--	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
-+	if (dev->ctrl.quirks & NVME_QUIRK_PSEUDO_CMB_BAR4) {
-+		dev->cmbsz = nvme_pseudo_cmbsz(pdev, 4);
-+		dev->cmbloc = 4;
-+	} else {
-+		dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
-+		if (!dev->cmbsz)
-+			return;
-+		dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
-+	}
- 
- 	size = nvme_cmb_size_unit(dev) * nvme_cmb_size(dev);
- 	offset = nvme_cmb_size_unit(dev) * NVME_CMB_OFST(dev->cmbloc);
-@@ -2707,6 +2719,10 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_LIGHTNVM, },
- 	{ PCI_DEVICE(0x1d1d, 0x2601),	/* CNEX Granby */
- 		.driver_data = NVME_QUIRK_LIGHTNVM, },
-+	{ PCI_DEVICE(0x11f8, 0xf117),	/* Microsemi NVRAM adaptor */
-+		.driver_data = NVME_QUIRK_PSEUDO_CMB_BAR4, },
-+	{ PCI_DEVICE(0x1db1, 0x0002),	/* Everspin nvNitro adaptor */
-+		.driver_data = NVME_QUIRK_PSEUDO_CMB_BAR4,  },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
 -- 
 2.11.0
