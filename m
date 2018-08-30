@@ -1,23 +1,35 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 30 Aug 2018 13:11:18 -0600
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 30 Aug 2018 13:17:40 -0600
 Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
  check support for requests
-In-Reply-To: <20180830185352.3369-8-logang@deltatee.com>
+In-Reply-To: <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
 References: <20180830185352.3369-1-logang@deltatee.com>
  <20180830185352.3369-8-logang@deltatee.com>
-Message-ID: <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
+ <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
+Message-ID: <7c5b9d2c-d94e-582c-f1d7-0827dbb7df7c@deltatee.com>
 
-On 8/30/18 12:53 PM, Logan Gunthorpe wrote:
-> QUEUE_FLAG_PCI_P2P is introduced meaning a driver's request queue
-> supports targeting P2P memory.
+
+
+On 30/08/18 01:11 PM, Jens Axboe wrote:
+> On 8/30/18 12:53 PM, Logan Gunthorpe wrote:
+>> QUEUE_FLAG_PCI_P2P is introduced meaning a driver's request queue
+>> supports targeting P2P memory.
+>>
+>> When a request is submitted we check if PCI P2PDMA memory is assigned
+>> to the first page in the bio. If it is, we ensure the queue it's
+>> submitted to supports it, and enforce REQ_NOMERGE.
 > 
-> When a request is submitted we check if PCI P2PDMA memory is assigned
-> to the first page in the bio. If it is, we ensure the queue it's
-> submitted to supports it, and enforce REQ_NOMERGE.
+> I think this belongs in the caller - both the validity check, and
+> passing in NOMERGE for this type of request. I don't want to impose
+> this overhead on everything, for a pretty niche case.
 
-I think this belongs in the caller - both the validity check, and
-passing in NOMERGE for this type of request. I don't want to impose
-this overhead on everything, for a pretty niche case.
+Well, the point was to prevent driver writers from doing the wrong
+thing. The WARN_ON would be a bit pointless in the driver if we rely on
+the driver to either do the right thing or add the WARN_ON themselves.
 
--- 
-Jens Axboe
+If I'm going to change anything I'd drop the warning entirely and move
+the NO_MERGE back into the caller...
+
+Note: the check will be compiled out if the kernel does not support PCI P2P.
+
+Logan
