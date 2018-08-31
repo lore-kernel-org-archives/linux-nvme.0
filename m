@@ -1,34 +1,38 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 31 Aug 2018 10:26:08 -0600
-Subject: [PATCH v5 01/13] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180831171906.00002751@huawei.com>
+From: christian.koenig@amd.com (=?UTF-8?Q?Christian_K=c3=b6nig?=)
+Date: Fri, 31 Aug 2018 19:38:50 +0200
+Subject: [PATCH v5 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <6820d451-9591-1979-00bf-60c65fc4f136@deltatee.com>
 References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-2-logang@deltatee.com>
- <20180831171906.00002751@huawei.com>
-Message-ID: <a1f6e2d9-8b7d-10ae-5963-50b447cacb44@deltatee.com>
+ <20180830185352.3369-7-logang@deltatee.com>
+ <98bff500-4e4c-3a34-6762-16ef4b076d90@amd.com>
+ <6820d451-9591-1979-00bf-60c65fc4f136@deltatee.com>
+Message-ID: <30411655-9b90-749e-857f-318dac7cccbf@amd.com>
 
+Am 31.08.2018 um 17:51 schrieb Logan Gunthorpe:
+>
+> On 31/08/18 02:08 AM, Christian K?nig wrote:
+>>> +One of the biggest issues is that PCI doesn't require forwarding
+>>> +transactions between hierarchy domains, and in PCIe, each Root Port
+>>> +defines a separate hierarchy domain. To make things worse, there is no
+>>> +simple way to determine if a given Root Complex supports this or not.
+>>> +(See PCIe r4.0, sec 1.3.1). Therefore, as of this writing, the kernel
+>>> +only supports doing P2P when the endpoints involved are all behind the
+>>> +same PCI bridge, as such devices are all in the same PCI hierarchy
+>>> +domain, and the spec guarantees that all transacations within the
+>>> +hierarchy will be routable, but it does not require routing
+>>> +between hierarchies.
+>> Can we add a kernel command line switch and a whitelist to enable P2P
+>> between separate hierarchies?
+> In future work, yes. But not for this patchset. This is definitely the
+> way I see things going, but we've chosen to start with what we've presented.
 
+Sounds like a plan to me.
 
-On 31/08/18 10:19 AM, Jonathan Cameron wrote:
-> This feels like a somewhat simplistic starting point rather than a
-> generally correct estimate to use.  Should we be taking the bandwidth of
-> those links into account for example, or any discoverable latencies?
-> Not all PCIe switches are alike - particularly when it comes to P2P.
+If you can separate out adding the detection I can take a look adding 
+this with my DMA-buf P2P efforts.
 
-I don't think this is necessary. There won't typically be a ton of
-choice in terms of devices to use and if there is, the hardware will
-probably be fairly homogenous. For example, it would be unusual to have
-an NVMe drive on a x4 and another one on an x8. Or mixing say Gen3
-switches with Gen4 would also be very strange. In weird unusual cases
-like this where the user specifically wants to use a faster device they
-can specify the specific device in the configfs interface.
+Christian.
 
-I think the latency would probably be proportional to the distance which
-is what we are already using.
-
-> I guess that can be a topic for future development if it turns out people
-> have horrible mixed systems.
-
-Yup!
-
-Logan
+>
+> Logan
