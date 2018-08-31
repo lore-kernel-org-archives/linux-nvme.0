@@ -1,49 +1,69 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 30 Aug 2018 17:25:09 -0700
-Subject: [PATCH v5 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <20180830185352.3369-14-logang@deltatee.com>
-References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-14-logang@deltatee.com>
-Message-ID: <ecbb669a-2e84-1333-7e0d-1560cf014750@grimberg.me>
+Date: Thu, 30 Aug 2018 17:31:52 -0700
+Subject: Crash in nvmet_req_init() - null req->rsp pointer
+In-Reply-To: <0bcbcb2e-0b01-57ef-0b9c-9ac3e56322cb@opengridcomputing.com>
+References: <1eb5a94a-07ed-1c2a-47fe-cc9a4bf32466@opengridcomputing.com>
+ <d35d93e6-2e7b-a681-039b-75edaea7a9a2@opengridcomputing.com>
+ <31a08853-e2a7-709a-9251-e6c64fda22dd@grimberg.me>
+ <a165480b-7fcd-d208-8ce0-a1d7cdab24e9@opengridcomputing.com>
+ <0bcbcb2e-0b01-57ef-0b9c-9ac3e56322cb@opengridcomputing.com>
+Message-ID: <0ce90ceb-ebe7-4162-ce07-4ddd27207ecd@grimberg.me>
 
 
-> +/*
-> + * If allow_p2pmem is set, we will try to use P2P memory for the SGL lists for
-> + * ?/O commands. This requires the PCI p2p device to be compatible with the
-> + * backing device for every namespace on this controller.
-> + */
-> +static void nvmet_setup_p2pmem(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
-> +{
-> +	struct nvmet_ns *ns;
-> +	int ret;
-> +
-> +	if (!req->port->use_p2pmem || !req->p2p_client)
-> +		return;
-> +
-> +	mutex_lock(&ctrl->subsys->lock);
-> +
-> +	ret = pci_p2pdma_add_client(&ctrl->p2p_clients, req->p2p_client);
-> +	if (ret) {
-> +		pr_err("failed adding peer-to-peer DMA client %s: %d\n",
-> +		       dev_name(req->p2p_client), ret);
-> +		goto free_devices;
-> +	}
-> +
-> +	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
-> +		ret = nvmet_p2pdma_add_client(ctrl, ns);
-> +		if (ret)
-> +			goto free_devices;
-> +	}
-> +
-> +	if (req->port->p2p_dev) {
-> +		if (!pci_p2pdma_assign_provider(req->port->p2p_dev,
-> +						&ctrl->p2p_clients)) {
-> +			pr_info("peer-to-peer memory on %s is not supported\n",
-> +				pci_name(req->port->p2p_dev));
-> +			goto free_devices;
-> +		}
-> +		ctrl->p2p_dev = pci_dev_get(req->port->p2p_dev);
-> +	} else {
+>> Hey Sagi, it hits the empty rsp list path often with your debug patch.
+>> I added code to BUG_ON() after 10 times and I have a crash dump I'm
+>> looking at.
+>>
+>> Isn't the rsp list supposed to be sized such that it will never be empty
+>> when a new rsp is needed?  I wonder if there is a leak.
 
-When is port->p2p_dev == NULL? a little more documentation would help 
-here...
+Doesn't look from my scan..
+
+> I do see that during this heavy load, the rdma send queue "full"
+> condition gets hit often:
+> 
+> static bool nvmet_rdma_execute_command(struct nvmet_rdma_rsp *rsp)
+> {
+>          struct nvmet_rdma_queue *queue = rsp->queue;
+> 
+>          if (unlikely(atomic_sub_return(1 + rsp->n_rdma,
+>                          &queue->sq_wr_avail) < 0)) {
+>                  pr_debug("IB send queue full (needed %d): queue %u
+> cntlid %u\n",
+>                                  1 + rsp->n_rdma, queue->idx,
+>                                  queue->nvme_sq.ctrl->cntlid);
+>                  atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
+>                  return false;
+>          }
+> 
+> ...
+> 
+> So commands are getting added to the wr_wait list:
+> 
+> static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
+>                  struct nvmet_rdma_rsp *cmd)
+> {
+> ...
+>          if (unlikely(!nvmet_rdma_execute_command(cmd))) {
+>                  spin_lock(&queue->rsp_wr_wait_lock);
+>                  list_add_tail(&cmd->wait_list, &queue->rsp_wr_wait_list);
+>                  spin_unlock(&queue->rsp_wr_wait_lock);
+>          }
+> ...
+> 
+> 
+> Perhaps there's some bug in the wr_wait_list processing of deferred
+> commands?  I don't see anything though.
+
+I assume this could happen if under heavy load the device send
+completions are slower than the rate incoming commands arrival
+(perhaps device and/or sw).
+
+Because we post recv before sending the response back, there is
+a window where host can send us a new command before the send completion
+arrived, this is why we allocate more.
+
+However, I think that nothing prevents that under heavy load the gap
+is growing until we exhaust 2x rsps.
+
+So perhaps this is something we actually need to account for it...
