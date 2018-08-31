@@ -1,31 +1,27 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 31 Aug 2018 09:41:51 -0600
-Subject: [PATCH v5 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <ecbb669a-2e84-1333-7e0d-1560cf014750@grimberg.me>
+Date: Fri, 31 Aug 2018 09:44:53 -0600
+Subject: [PATCH v5 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <382af881-0ae1-0274-4628-0137071125b1@infradead.org>
 References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-14-logang@deltatee.com>
- <ecbb669a-2e84-1333-7e0d-1560cf014750@grimberg.me>
-Message-ID: <ee3d5c87-4dff-edfb-1f85-958571cb1fef@deltatee.com>
+ <20180830185352.3369-7-logang@deltatee.com>
+ <382af881-0ae1-0274-4628-0137071125b1@infradead.org>
+Message-ID: <f0edec85-02d1-4592-5bce-629fb5e0ceae@deltatee.com>
 
-Thanks, for the review.
+Hey,
 
-On 30/08/18 06:25 PM, Sagi Grimberg wrote:
->> +	if (req->port->p2p_dev) {
->> +		if (!pci_p2pdma_assign_provider(req->port->p2p_dev,
->> +						&ctrl->p2p_clients)) {
->> +			pr_info("peer-to-peer memory on %s is not supported\n",
->> +				pci_name(req->port->p2p_dev));
->> +			goto free_devices;
->> +		}
->> +		ctrl->p2p_dev = pci_dev_get(req->port->p2p_dev);
->> +	} else {
+Thanks for the review. I'll make the fixes for the next version.
+
+On 30/08/18 06:34 PM, Randy Dunlap wrote:
+>> +With the client list in hand, the orchestrator may then call> +:c:func:`pci_p2pmem_find()` to obtain a published P2P memory provider
+>> +that is supported (behind the same root port) as all the clients. If more
+>> +than one provider is supported, the one nearest to all the clients will
+>> +be chosen first. If there are more than one provider is an equal distance
+>> +away, the one returned will be chosen at random. This function returns the PCI
 > 
-> When is port->p2p_dev == NULL? a little more documentation would help 
-> here...
+> random or just arbitrarily?
 
-In the configfs functions, if the user enables p2p (port->use_p2pmem)
-using 'auto' or 'y' then port->p2p_dev will be NULL. If the user sets a
-specific p2p_dev to use, port->p2p_dev will be set to that device. I can
-add a couple comments in the next version.
+Randomly. See pci_p2pmem_find() in patch 1. We use prandom_u32_max() to
+select any of the supported devices.
 
 Logan
