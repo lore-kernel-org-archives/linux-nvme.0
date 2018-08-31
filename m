@@ -1,30 +1,31 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 31 Aug 2018 09:48:40 -0600
-Subject: [PATCH v5 01/13] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <2711b3a7-f582-0dda-8ac2-530be7bda1bb@amd.com>
+Date: Fri, 31 Aug 2018 09:51:06 -0600
+Subject: [PATCH v5 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <98bff500-4e4c-3a34-6762-16ef4b076d90@amd.com>
 References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-2-logang@deltatee.com>
- <2711b3a7-f582-0dda-8ac2-530be7bda1bb@amd.com>
-Message-ID: <439181bb-6cd6-0ab2-bca6-fc820845166e@deltatee.com>
+ <20180830185352.3369-7-logang@deltatee.com>
+ <98bff500-4e4c-3a34-6762-16ef4b076d90@amd.com>
+Message-ID: <6820d451-9591-1979-00bf-60c65fc4f136@deltatee.com>
 
 
 
-On 31/08/18 02:04 AM, Christian K?nig wrote:
-> Am 30.08.2018 um 20:53 schrieb Logan Gunthorpe:
->> Some PCI devices may have memory mapped in a BAR space that's
->> intended for use in peer-to-peer transactions. In order to enable
->> such transactions the memory must be registered with ZONE_DEVICE pages
->> so it can be used by DMA interfaces in existing drivers.
+On 31/08/18 02:08 AM, Christian K?nig wrote:
+>> +One of the biggest issues is that PCI doesn't require forwarding
+>> +transactions between hierarchy domains, and in PCIe, each Root Port
+>> +defines a separate hierarchy domain. To make things worse, there is no
+>> +simple way to determine if a given Root Complex supports this or not.
+>> +(See PCIe r4.0, sec 1.3.1). Therefore, as of this writing, the kernel
+>> +only supports doing P2P when the endpoints involved are all behind the
+>> +same PCI bridge, as such devices are all in the same PCI hierarchy
+>> +domain, and the spec guarantees that all transacations within the
+>> +hierarchy will be routable, but it does not require routing
+>> +between hierarchies.
 > 
-> We want to use that feature without ZONE_DEVICE pages for DMA-buf as well.
-> 
-> How hard would it be to separate enabling P2P detection (e.g. distance 
-> between two devices) from this?
+> Can we add a kernel command line switch and a whitelist to enable P2P 
+> between separate hierarchies?
 
-Pretty easy. P2P detection is pretty much just pci_p2pdma_distance() ,
-which has nothing to do with the ZONE_DEVICE support.
-
-(And the distance function makes use of a number of static functions
-which could be combined into a simpler interface, should we need it.)
+In future work, yes. But not for this patchset. This is definitely the
+way I see things going, but we've chosen to start with what we've presented.
 
 Logan
