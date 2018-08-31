@@ -1,69 +1,112 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 30 Aug 2018 17:31:52 -0700
-Subject: Crash in nvmet_req_init() - null req->rsp pointer
-In-Reply-To: <0bcbcb2e-0b01-57ef-0b9c-9ac3e56322cb@opengridcomputing.com>
-References: <1eb5a94a-07ed-1c2a-47fe-cc9a4bf32466@opengridcomputing.com>
- <d35d93e6-2e7b-a681-039b-75edaea7a9a2@opengridcomputing.com>
- <31a08853-e2a7-709a-9251-e6c64fda22dd@grimberg.me>
- <a165480b-7fcd-d208-8ce0-a1d7cdab24e9@opengridcomputing.com>
- <0bcbcb2e-0b01-57ef-0b9c-9ac3e56322cb@opengridcomputing.com>
-Message-ID: <0ce90ceb-ebe7-4162-ce07-4ddd27207ecd@grimberg.me>
+From: rdunlap@infradead.org (Randy Dunlap)
+Date: Thu, 30 Aug 2018 17:34:32 -0700
+Subject: [PATCH v5 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <20180830185352.3369-7-logang@deltatee.com>
+References: <20180830185352.3369-1-logang@deltatee.com>
+ <20180830185352.3369-7-logang@deltatee.com>
+Message-ID: <382af881-0ae1-0274-4628-0137071125b1@infradead.org>
 
+Hi,
 
->> Hey Sagi, it hits the empty rsp list path often with your debug patch.
->> I added code to BUG_ON() after 10 times and I have a crash dump I'm
->> looking at.
->>
->> Isn't the rsp list supposed to be sized such that it will never be empty
->> when a new rsp is needed?  I wonder if there is a leak.
+I have a few comments below...
 
-Doesn't look from my scan..
-
-> I do see that during this heavy load, the rdma send queue "full"
-> condition gets hit often:
+On 08/30/2018 11:53 AM, Logan Gunthorpe wrote:
 > 
-> static bool nvmet_rdma_execute_command(struct nvmet_rdma_rsp *rsp)
-> {
->          struct nvmet_rdma_queue *queue = rsp->queue;
-> 
->          if (unlikely(atomic_sub_return(1 + rsp->n_rdma,
->                          &queue->sq_wr_avail) < 0)) {
->                  pr_debug("IB send queue full (needed %d): queue %u
-> cntlid %u\n",
->                                  1 + rsp->n_rdma, queue->idx,
->                                  queue->nvme_sq.ctrl->cntlid);
->                  atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
->                  return false;
->          }
-> 
-> ...
-> 
-> So commands are getting added to the wr_wait list:
-> 
-> static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
->                  struct nvmet_rdma_rsp *cmd)
-> {
-> ...
->          if (unlikely(!nvmet_rdma_execute_command(cmd))) {
->                  spin_lock(&queue->rsp_wr_wait_lock);
->                  list_add_tail(&cmd->wait_list, &queue->rsp_wr_wait_list);
->                  spin_unlock(&queue->rsp_wr_wait_lock);
->          }
-> ...
-> 
-> 
-> Perhaps there's some bug in the wr_wait_list processing of deferred
-> commands?  I don't see anything though.
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> Cc: Jonathan Corbet <corbet at lwn.net>
+> ---
+>  Documentation/driver-api/pci/index.rst  |   1 +
+>  Documentation/driver-api/pci/p2pdma.rst | 170 ++++++++++++++++++++++++++++++++
+>  2 files changed, 171 insertions(+)
+>  create mode 100644 Documentation/driver-api/pci/p2pdma.rst
 
-I assume this could happen if under heavy load the device send
-completions are slower than the rate incoming commands arrival
-(perhaps device and/or sw).
+> diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+> new file mode 100644
+> index 000000000000..ac857450d53f
+> --- /dev/null
+> +++ b/Documentation/driver-api/pci/p2pdma.rst
+> @@ -0,0 +1,170 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +============================
+> +PCI Peer-to-Peer DMA Support
+> +============================
+> +
+> +The PCI bus has pretty decent support for performing DMA transfers
+> +between two devices on the bus. This type of transaction is henceforth
+> +called Peer-to-Peer (or P2P). However, there are a number of issues that
+> +make P2P transactions tricky to do in a perfectly safe way.
+> +
+> +One of the biggest issues is that PCI doesn't require forwarding
+> +transactions between hierarchy domains, and in PCIe, each Root Port
+> +defines a separate hierarchy domain. To make things worse, there is no
+> +simple way to determine if a given Root Complex supports this or not.
+> +(See PCIe r4.0, sec 1.3.1). Therefore, as of this writing, the kernel
+> +only supports doing P2P when the endpoints involved are all behind the
+> +same PCI bridge, as such devices are all in the same PCI hierarchy
+> +domain, and the spec guarantees that all transacations within the
 
-Because we post recv before sending the response back, there is
-a window where host can send us a new command before the send completion
-arrived, this is why we allocate more.
+                                            transactions
 
-However, I think that nothing prevents that under heavy load the gap
-is growing until we exhaust 2x rsps.
+> +hierarchy will be routable, but it does not require routing
+> +between hierarchies.
+> +
+> +The second issue is that to make use of existing interfaces in Linux,
+> +memory that is used for P2P transactions needs to be backed by struct
+> +pages. However, PCI BARs are not typically cache coherent so there are
+> +a few corner case gotchas with these pages so developers need to
+> +be careful about what they do with them.
+> +
+> +
+> +Driver Writer's Guide
+> +=====================
+> +
+> +In a given P2P implementation there may be three or more different
+> +types of kernel drivers in play:
+> +
+> +* Provider - A driver which provides or publishes P2P resources like
+> +  memory or doorbell registers to other drivers.
+> +* Client - A driver which makes use of a resource by setting up a
+> +  DMA transaction to or from it.
+> +* Orchestrator - A driver which orchestrates the flow of data between
+> +  clients and providers
 
-So perhaps this is something we actually need to account for it...
+Might as well end that last one with a period since the other 2 are.
+
+> +
+> +In many cases there could be overlap between these three types (i.e.,
+> +it may be typical for a driver to be both a provider and a client).
+> +
+
+[snip]
+
+> +
+> +Orchestrator Drivers
+> +--------------------
+> +
+> +The first task an orchestrator driver must do is compile a list of
+> +all client devices that will be involved in a given transaction. For
+> +example, the NVMe Target driver creates a list including all NVMe
+> +devices and the RNIC in use. The list is stored as an anonymous struct
+> +list_head which must be initialized with the usual INIT_LIST_HEAD.
+> +The following functions may then be used to add to, remove from and free
+> +the list of clients with the functions :c:func:`pci_p2pdma_add_client()`,
+> +:c:func:`pci_p2pdma_remove_client()` and
+> +:c:func:`pci_p2pdma_client_list_free()`.
+> +
+> +With the client list in hand, the orchestrator may then call> +:c:func:`pci_p2pmem_find()` to obtain a published P2P memory provider
+> +that is supported (behind the same root port) as all the clients. If more
+> +than one provider is supported, the one nearest to all the clients will
+> +be chosen first. If there are more than one provider is an equal distance
+> +away, the one returned will be chosen at random. This function returns the PCI
+
+random or just arbitrarily?
+
+> +device to use for the provider with a reference taken and therefore
+> +when it's no longer needed it should be returned with pci_dev_put().
+
+
+thanks,
+-- 
+~Randy
