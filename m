@@ -1,30 +1,69 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 31 Aug 2018 13:11:48 -0600
-Subject: [PATCH v5 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
- documentation
-In-Reply-To: <30411655-9b90-749e-857f-318dac7cccbf@amd.com>
-References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-7-logang@deltatee.com>
- <98bff500-4e4c-3a34-6762-16ef4b076d90@amd.com>
- <6820d451-9591-1979-00bf-60c65fc4f136@deltatee.com>
- <30411655-9b90-749e-857f-318dac7cccbf@amd.com>
-Message-ID: <9452ee6c-e989-d178-cd51-f29782ad9b31@deltatee.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 31 Aug 2018 18:14:47 -0700
+Subject: [PATCH] nvmet-rdma: fix possible bogus dereference under heavy load
+Message-ID: <20180901011447.32287-1-sagi@grimberg.me>
 
+Currently we always repost the recv buffer before we send a response
+capsule back to the host. Since ordering is not guaranteed for send
+and recv completions, it is posible that we will receive a new request
+from the host before we got a send completion for the response capsule.
 
+Today, we pre-allocate 2x rsps the length of the queue, but in reality, under
+heavy load there is nothing that is really preventing the gap to expand
+until we exhaust all our rsps.
 
-On 31/08/18 11:38 AM, Christian K?nig wrote:
-> If you can separate out adding the detection I can take a look adding 
-> this with my DMA-buf P2P efforts.
+To fix this, if we don't have any pre-allocated rsps left, we dynamically
+allocate a rsp and make sure to free it when we are done.
 
-Oh, maybe my previous email wasn't clear, but I'd say that detection is
-already separate from ZONE_DEVICE. Nothing really needs to be changed.
-I just think you'll probably want to write you're own function similar
-to pci_p2pdma_distance that perhaps just takes two pci_devs instead of
-the list of clients as is needed by nvme-of-like users.
+Reported-by: Steve Wise <swise at opengridcomputing.com>
+Tested-by: Steve Wise <swise at opengridcomputing.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/rdma.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-To enable a whitelist we just have to handle the case where
-upstream_bridge_distance() returns -1 and check if the devices are in
-the same root complex with supported root ports before deciding the
-transaction is not supported.
-
-Logan
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index e7f43d1e1779..1515b8a76ea5 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -66,6 +66,7 @@ struct nvmet_rdma_rsp {
+ 
+ 	struct nvmet_req	req;
+ 
++	bool			allocated;
+ 	u8			n_rdma;
+ 	u32			flags;
+ 	u32			invalidate_rkey;
+@@ -174,10 +175,16 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&queue->rsps_lock, flags);
+-	rsp = list_first_entry(&queue->free_rsps,
++	rsp = list_first_entry_or_null(&queue->free_rsps,
+ 				struct nvmet_rdma_rsp, free_list);
+-	list_del(&rsp->free_list);
+ 	spin_unlock_irqrestore(&queue->rsps_lock, flags);
++	if (rsp) {
++		list_del(&rsp->free_list);
++		rsp->allocated = false;
++	} else {
++		rsp = kmalloc(sizeof(*rsp), GFP_KERNEL);
++		rsp->allocated = true;
++	}
+ 
+ 	return rsp;
+ }
+@@ -187,6 +194,11 @@ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
+ {
+ 	unsigned long flags;
+ 
++	if (rsp->allocated) {
++		kfree(rsp);
++		return;
++	}
++
+ 	spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
+ 	list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
+ 	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
+-- 
+2.17.1
