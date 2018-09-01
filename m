@@ -1,20 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 1 Sep 2018 10:27:03 +0200
-Subject: [PATCH v5 01/13] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <439181bb-6cd6-0ab2-bca6-fc820845166e@deltatee.com>
+Date: Sat, 1 Sep 2018 10:28:12 +0200
+Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
+ check support for requests
+In-Reply-To: <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
 References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-2-logang@deltatee.com>
- <2711b3a7-f582-0dda-8ac2-530be7bda1bb@amd.com>
- <439181bb-6cd6-0ab2-bca6-fc820845166e@deltatee.com>
-Message-ID: <20180901082703.GA670@lst.de>
+ <20180830185352.3369-8-logang@deltatee.com>
+ <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
+Message-ID: <20180901082812.GB670@lst.de>
 
-On Fri, Aug 31, 2018@09:48:40AM -0600, Logan Gunthorpe wrote:
-> Pretty easy. P2P detection is pretty much just pci_p2pdma_distance() ,
-> which has nothing to do with the ZONE_DEVICE support.
-> 
-> (And the distance function makes use of a number of static functions
-> which could be combined into a simpler interface, should we need it.)
+On Thu, Aug 30, 2018@01:11:18PM -0600, Jens Axboe wrote:
+> I think this belongs in the caller - both the validity check, and
+> passing in NOMERGE for this type of request. I don't want to impose
+> this overhead on everything, for a pretty niche case.
 
-I'd ?ay lets get things merged as-is, so that we can review the
-non-ZONE_DEVICE users.  I'm a little curious how that is going to work,
-so having it as a full series would be useful.
+It is just a single branch, which will be predicted as not taken
+for non-P2P users.  The benefit is that we get proper error checking
+by doing it in the block code.
