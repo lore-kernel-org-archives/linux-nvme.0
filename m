@@ -1,69 +1,142 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 31 Aug 2018 18:14:47 -0700
-Subject: [PATCH] nvmet-rdma: fix possible bogus dereference under heavy load
-Message-ID: <20180901011447.32287-1-sagi@grimberg.me>
+Date: Fri, 31 Aug 2018 18:36:02 -0700
+Subject: [PATCH nvme-cli 1/4] fabrics: make some arguments integers
+In-Reply-To: <20180901013605.10658-1-sagi@grimberg.me>
+References: <20180901013605.10658-1-sagi@grimberg.me>
+Message-ID: <20180901013605.10658-2-sagi@grimberg.me>
 
-Currently we always repost the recv buffer before we send a response
-capsule back to the host. Since ordering is not guaranteed for send
-and recv completions, it is posible that we will receive a new request
-from the host before we got a send completion for the response capsule.
-
-Today, we pre-allocate 2x rsps the length of the queue, but in reality, under
-heavy load there is nothing that is really preventing the gap to expand
-until we exhaust all our rsps.
-
-To fix this, if we don't have any pre-allocated rsps left, we dynamically
-allocate a rsp and make sure to free it when we are done.
-
-Reported-by: Steve Wise <swise at opengridcomputing.com>
-Tested-by: Steve Wise <swise at opengridcomputing.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/rdma.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ fabrics.c | 60 +++++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 38 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index e7f43d1e1779..1515b8a76ea5 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -66,6 +66,7 @@ struct nvmet_rdma_rsp {
- 
- 	struct nvmet_req	req;
- 
-+	bool			allocated;
- 	u8			n_rdma;
- 	u32			flags;
- 	u32			invalidate_rkey;
-@@ -174,10 +175,16 @@ nvmet_rdma_get_rsp(struct nvmet_rdma_queue *queue)
- 	unsigned long flags;
- 
- 	spin_lock_irqsave(&queue->rsps_lock, flags);
--	rsp = list_first_entry(&queue->free_rsps,
-+	rsp = list_first_entry_or_null(&queue->free_rsps,
- 				struct nvmet_rdma_rsp, free_list);
--	list_del(&rsp->free_list);
- 	spin_unlock_irqrestore(&queue->rsps_lock, flags);
-+	if (rsp) {
-+		list_del(&rsp->free_list);
-+		rsp->allocated = false;
-+	} else {
-+		rsp = kmalloc(sizeof(*rsp), GFP_KERNEL);
-+		rsp->allocated = true;
-+	}
- 
- 	return rsp;
+diff --git a/fabrics.c b/fabrics.c
+index af4d7463d891..28a3e3d9ac82 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -54,11 +54,11 @@ static struct config {
+ 	char *host_traddr;
+ 	char *hostnqn;
+ 	char *hostid;
+-	char *nr_io_queues;
+-	char *queue_size;
+-	char *keep_alive_tmo;
+-	char *reconnect_delay;
+-	char *ctrl_loss_tmo;
++	int  nr_io_queues;
++	int  queue_size;
++	int  keep_alive_tmo;
++	int  reconnect_delay;
++	int  ctrl_loss_tmo;
+ 	char *raw;
+ 	char *device;
+ 	int  duplicate_connect;
+@@ -505,6 +505,22 @@ add_bool_argument(char **argstr, int *max_len, char *arg_str, bool arg)
+ 	return 0;
  }
-@@ -187,6 +194,11 @@ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
- {
- 	unsigned long flags;
  
-+	if (rsp->allocated) {
-+		kfree(rsp);
-+		return;
++static int
++add_int_argument(char **argstr, int *max_len, char *arg_str, int arg)
++{
++	int len;
++
++	if (arg) {
++		len = snprintf(*argstr, *max_len, ",%s=%d", arg_str, arg);
++		if (len < 0)
++			return -EINVAL;
++		*argstr += len;
++		*max_len -= len;
 +	}
 +
- 	spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
- 	list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
- 	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
++	return 0;
++}
++
+ static int
+ add_argument(char **argstr, int *max_len, char *arg_str, char *arg)
+ {
+@@ -552,14 +568,14 @@ static int build_options(char *argstr, int max_len)
+ 		    add_argument(&argstr, &max_len, "hostnqn", cfg.hostnqn)) ||
+ 	    ((cfg.hostid || nvmf_hostid_file()) &&
+ 		    add_argument(&argstr, &max_len, "hostid", cfg.hostid)) ||
+-	    add_argument(&argstr, &max_len, "nr_io_queues",
++	    add_int_argument(&argstr, &max_len, "nr_io_queues",
+ 				cfg.nr_io_queues) ||
+-	    add_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
+-	    add_argument(&argstr, &max_len, "keep_alive_tmo",
++	    add_int_argument(&argstr, &max_len, "queue_size", cfg.queue_size) ||
++	    add_int_argument(&argstr, &max_len, "keep_alive_tmo",
+ 				cfg.keep_alive_tmo) ||
+-	    add_argument(&argstr, &max_len, "reconnect_delay",
++	    add_int_argument(&argstr, &max_len, "reconnect_delay",
+ 				cfg.reconnect_delay) ||
+-	    add_argument(&argstr, &max_len, "ctrl_loss_tmo",
++	    add_int_argument(&argstr, &max_len, "ctrl_loss_tmo",
+ 				cfg.ctrl_loss_tmo) ||
+ 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
+ 				cfg.duplicate_connect))
+@@ -605,14 +621,14 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ 	}
+ 
+ 	if (cfg.queue_size) {
+-		len = sprintf(p, ",queue_size=%s", cfg.queue_size);
++		len = sprintf(p, ",queue_size=%d", cfg.queue_size);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+ 	}
+ 
+ 	if (cfg.nr_io_queues) {
+-		len = sprintf(p, ",nr_io_queues=%s", cfg.nr_io_queues);
++		len = sprintf(p, ",nr_io_queues=%d", cfg.nr_io_queues);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+@@ -626,14 +642,14 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ 	}
+ 
+ 	if (cfg.ctrl_loss_tmo) {
+-		len = sprintf(p, ",ctrl_loss_tmo=%s", cfg.ctrl_loss_tmo);
++		len = sprintf(p, ",ctrl_loss_tmo=%d", cfg.ctrl_loss_tmo);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+ 	}
+ 
+ 	if (cfg.keep_alive_tmo && !discover) {
+-		len = sprintf(p, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
++		len = sprintf(p, ",keep_alive_tmo=%d", cfg.keep_alive_tmo);
+ 		if (len < 0)
+ 			return -EINVAL;
+ 		p += len;
+@@ -835,9 +851,9 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
+ 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
+ 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
+-		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+-		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+-		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
++		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
++		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
++		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
+ 		{NULL},
+ 	};
+ 
+@@ -872,11 +888,11 @@ int connect(const char *desc, int argc, char **argv)
+ 		{"host-traddr",     'w', "LIST", CFG_STRING, &cfg.host_traddr,     required_argument, "host traddr (e.g. FC WWN's)" },
+ 		{"hostnqn",         'q', "LIST", CFG_STRING, &cfg.hostnqn,         required_argument, "user-defined hostnqn" },
+ 		{"hostid",          'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
+-		{"nr-io-queues",    'i', "LIST", CFG_STRING, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
+-		{"queue-size",      'Q', "LIST", CFG_STRING, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
+-		{"keep-alive-tmo",  'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+-		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+-		{"ctrl-loss-tmo",   'l', "LIST", CFG_STRING, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
++		{"nr-io-queues",    'i', "LIST", CFG_INT, &cfg.nr_io_queues,    required_argument, "number of io queues to use (default is core count)" },
++		{"queue-size",      'Q', "LIST", CFG_INT, &cfg.queue_size,      required_argument, "number of io queue elements to use (default 128)" },
++		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
++		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
++		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
+ 		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
+ 		{NULL},
+ 	};
 -- 
 2.17.1
