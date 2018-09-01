@@ -1,154 +1,145 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 1 Sep 2018 20:40:09 +0000
-Subject: [PATCH nvme-cli 3/4] nvme: commonize subsystems info in a helper
-In-Reply-To: <20180901013605.10658-4-sagi@grimberg.me>
+Date: Sat, 1 Sep 2018 20:40:25 +0000
+Subject: [PATCH nvme-cli 4/4] fabrics: add disconnect-all command
+In-Reply-To: <20180901013605.10658-5-sagi@grimberg.me>
 References: <20180901013605.10658-1-sagi@grimberg.me>
- <20180901013605.10658-4-sagi@grimberg.me>
-Message-ID: <0678BE8F-E637-493D-B08F-01577E92E56C@wdc.com>
+ <20180901013605.10658-5-sagi@grimberg.me>
+Message-ID: <8B18BAFD-12AE-4EE8-91DC-77B2B8CFF5ED@wdc.com>
 
-Looks good to me. (not sure if it matters but we can go up to 72 columns for commit log,
-if it does can be fixed at the time of applying the patch).
+Just one minor comment, otherwise looks good to me.
 
 Reviewed-by : Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
 
-On 8/31/18, 6:37 PM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
+On 8/31/18, 6:38 PM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
 
-    We will want that to reuse for other ops that
-    will require to scan subsystems or controllers
-    
     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
     ---
-     nvme.c | 77 ++++++++++++++++++++++++++++++++--------------------------
-     nvme.h |  2 ++
-     2 files changed, 44 insertions(+), 35 deletions(-)
+     Documentation/nvme-disconnect-all.txt | 34 +++++++++++++++++++++++++++
+     fabrics.c                             | 29 +++++++++++++++++++++++
+     fabrics.h                             |  1 +
+     nvme-builtin.h                        |  1 +
+     nvme.c                                |  6 +++++
+     5 files changed, 71 insertions(+)
+     create mode 100644 Documentation/nvme-disconnect-all.txt
     
-    diff --git a/nvme.c b/nvme.c
-    index d7be2e04c9f4..80422516e6ad 100644
-    --- a/nvme.c
-    +++ b/nvme.c
-    @@ -1498,7 +1498,7 @@ static void free_subsys_list_item(struct subsys_list_item *item)
-     	free(item->name);
-     }
-     
-    -static void free_subsys_list(struct subsys_list_item *slist, int n)
-    +void free_subsys_list(struct subsys_list_item *slist, int n)
-     {
-     	int i;
-     
-    @@ -1508,13 +1508,50 @@ static void free_subsys_list(struct subsys_list_item *slist, int n)
-     	free(slist);
-     }
-     
-    -static int list_subsys(int argc, char **argv, struct command *cmd,
-    -		       struct plugin *plugin)
-    +struct subsys_list_item *get_subsys_list(int *subcnt)
-     {
-     	char path[310];
-     	struct dirent **subsys;
-     	struct subsys_list_item *slist;
-    -	int fmt, n, i, ret = 0, subcnt = 0;
-    +	int n, i, ret = 0;
+    diff --git a/Documentation/nvme-disconnect-all.txt b/Documentation/nvme-disconnect-all.txt
+    new file mode 100644
+    index 000000000000..6be7e414dea7
+    --- /dev/null
+    +++ b/Documentation/nvme-disconnect-all.txt
+    @@ -0,0 +1,34 @@
+    +nvme-disconnect-all(1)
+    +======================
     +
-    +	n = scandir(subsys_dir, &subsys, scan_subsys_filter, alphasort);
-    +	if (n < 0) {
-    +		fprintf(stderr, "no NVMe subsystem(s) detected.\n");
-    +		return NULL;
-    +	}
+    +NAME
+    +----
+    +nvme-disconnect-all - Disconnect from all connected Fabrics controllers.
     +
-    +	slist = calloc(n, sizeof(struct subsys_list_item));
-    +	if (!slist)
-    +		goto free_subsys;
+    +SYNOPSIS
+    +--------
+    +[verse]
+    +'nvme disconnect-all'
     +
-    +	for (i = 0; i < n; i++) {
-    +		snprintf(path, sizeof(path), "%s%s", subsys_dir,
-    +			subsys[i]->d_name);
-    +		ret = get_nvme_subsystem_info(subsys[i]->d_name, path,
-    +				&slist[*subcnt]);
-    +		if (ret) {
-    +			fprintf(stderr,
-    +				"%s: failed to get subsystem info: %s\n",
-    +				path, strerror(errno));
-    +			free_subsys_list_item(&slist[*subcnt]);
-    +		} else
-    +			(*subcnt)++;
-    +	}
+    +DESCRIPTION
+    +-----------
+    +Disconnects and removes all existing NVMe over Fabrics controllers.
     +
-    +free_subsys:
-    +	for (i = 0; i < n; i++)
-    +		free(subsys[i]);
-    +	free(subsys);
+    +See the documentation for the nvme-disconnect(1) command for further
+    +background.
     +
-    +	return slist;
-    +}
+    +EXAMPLES
+    +--------
+    +* Disconnect all existing nvme controllers:
+[CK] Even though it's implied may be add "NVMe over Fabrics" in the above line ?
+    ++
+    +------------
+    +# nvme disconnect-all
+    +------------
     +
-    +static int list_subsys(int argc, char **argv, struct command *cmd,
-    +		struct plugin *plugin)
-    +{
-    +	struct subsys_list_item *slist;
-    +	int fmt, ret, subcnt = 0;
-     	const char *desc = "Retrieve information for subsystems";
-     	struct config {
-     		char *output_format;
-    @@ -1535,47 +1572,17 @@ static int list_subsys(int argc, char **argv, struct command *cmd,
-     		return ret;
+    +SEE ALSO
+    +--------
+    +nvme-disconnect(1)
+    +
+    +NVME
+    +----
+    +Part of the nvme-user suite
+    diff --git a/fabrics.c b/fabrics.c
+    index 09cb97c5b880..029105b227ff 100644
+    --- a/fabrics.c
+    +++ b/fabrics.c
+    @@ -1048,3 +1048,32 @@ int disconnect(const char *desc, int argc, char **argv)
      
-     	fmt = validate_output_format(cfg.output_format);
-    -
-     	if (fmt != JSON && fmt != NORMAL)
-     		return -EINVAL;
-    -	n = scandir(subsys_dir, &subsys, scan_subsys_filter, alphasort);
-    -	if (n < 0) {
-    -		fprintf(stderr, "no NVMe subsystem(s) detected.\n");
-    -		return n;
-    -	}
-     
-    -	slist = calloc(n, sizeof(struct subsys_list_item));
-    -	if (!slist) {
-    -		ret = ENOMEM;
-    -		goto free_subsys;
-    -	}
-    -
-    -	for (i = 0; i < n; i++) {
-    -		snprintf(path, sizeof(path), "%s%s", subsys_dir,
-    -			subsys[i]->d_name);
-    -		ret = get_nvme_subsystem_info(subsys[i]->d_name, path,
-    -				&slist[subcnt]);
-    -		if (ret) {
-    -			fprintf(stderr,
-    -				"%s: failed to get subsystem info: %s\n",
-    -				path, strerror(errno));
-    -			free_subsys_list_item(&slist[subcnt]);
-    -		} else
-    -			subcnt++;
-    -	}
-    +	slist = get_subsys_list(&subcnt);
-     
-     	if (fmt == JSON)
-     		json_print_nvme_subsystem_list(slist, subcnt);
-     	else
-     		show_nvme_subsystem_list(slist, subcnt);
-     
-    -free_subsys:
-     	free_subsys_list(slist, subcnt);
-    -
-    -	for (i = 0; i < n; i++)
-    -		free(subsys[i]);
-    -	free(subsys);
-    -
      	return ret;
      }
+    +
+    +int disconnect_all(const char *desc, int argc, char **argv)
+    +{
+    +	struct subsys_list_item *slist;
+    +	int i, j, ret = 0, subcnt = 0;
+    +	const struct argconfig_commandline_options command_line_options[] = {
+    +		{NULL},
+    +	};
+    +
+    +	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
+    +			sizeof(cfg));
+    +	if (ret)
+    +		return ret;
+    +
+    +	slist = get_subsys_list(&subcnt);
+    +	for (i = 0; i < subcnt; i++) {
+    +		struct subsys_list_item *subsys = &slist[i];
+    +
+    +		for (j = 0; j < subsys->nctrls; j++) {
+    +			struct ctrl_list_item *ctrl = &subsys->ctrls[j];
+    +
+    +			ret = disconnect_by_device(ctrl->name);
+    +			if (ret)
+    +				goto out;
+    +		}
+    +	}
+    +out:
+    +	return ret;
+    +}
+    diff --git a/fabrics.h b/fabrics.h
+    index 91aec90f0ab0..988f3ef2fbc4 100644
+    --- a/fabrics.h
+    +++ b/fabrics.h
+    @@ -4,5 +4,6 @@
+     extern int discover(const char *desc, int argc, char **argv, bool connect);
+     extern int connect(const char *desc, int argc, char **argv);
+     extern int disconnect(const char *desc, int argc, char **argv);
+    +extern int disconnect_all(const char *desc, int argc, char **argv);
      
-    diff --git a/nvme.h b/nvme.h
-    index 5098b0ef9c7c..e509e9c64f05 100644
-    --- a/nvme.h
-    +++ b/nvme.h
-    @@ -155,4 +155,6 @@ extern const char *devicename;
-     int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root));
-     int	validate_output_format(char *format);
+     #endif
+    diff --git a/nvme-builtin.h b/nvme-builtin.h
+    index f9e47b33803c..afd12b055910 100644
+    --- a/nvme-builtin.h
+    +++ b/nvme-builtin.h
+    @@ -63,6 +63,7 @@ COMMAND_LIST(
+     	ENTRY("connect-all", "Discover and Connect to NVMeoF subsystems", connect_all_cmd)
+     	ENTRY("connect", "Connect to NVMeoF subsystem", connect_cmd)
+     	ENTRY("disconnect", "Disconnect from NVMeoF subsystem", disconnect_cmd)
+    +	ENTRY("disconnect-all", "Disconnect from all connected NVMeoF subsystems", disconnect_all_cmd)
+     	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
+     	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
+     	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
+    diff --git a/nvme.c b/nvme.c
+    index 80422516e6ad..a17a4f9393dc 100644
+    --- a/nvme.c
+    +++ b/nvme.c
+    @@ -4624,6 +4624,12 @@ static int disconnect_cmd(int argc, char **argv, struct command *command, struct
+     	return disconnect(desc, argc, argv);
+     }
      
-    +struct subsys_list_item *get_subsys_list(int *subcnt);
-    +void free_subsys_list(struct subsys_list_item *slist, int n);
-     #endif /* _NVME_H */
+    +static int disconnect_all_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+    +{
+    +	const char *desc = "Disconnect from all connected NVMeoF subsystems";
+    +	return disconnect_all(desc, argc, argv);
+    +}
+    +
+     void register_extension(struct plugin *plugin)
+     {
+     	plugin->parent = &nvme;
     -- 
     2.17.1
     
