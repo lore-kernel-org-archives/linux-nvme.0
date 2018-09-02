@@ -1,151 +1,76 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Sat, 1 Sep 2018 20:40:25 +0000
-Subject: [PATCH nvme-cli 4/4] fabrics: add disconnect-all command
-In-Reply-To: <20180901013605.10658-5-sagi@grimberg.me>
-References: <20180901013605.10658-1-sagi@grimberg.me>
- <20180901013605.10658-5-sagi@grimberg.me>
-Message-ID: <8B18BAFD-12AE-4EE8-91DC-77B2B8CFF5ED@wdc.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 2 Sep 2018 19:24:16 +0300
+Subject: [PATCH] nvmet-rdma: fix possible bogus dereference under heavy
+ load
+In-Reply-To: <003801d441f0$fdc37a70$f94a6f50$@opengridcomputing.com>
+References: <20180901011447.32287-1-sagi@grimberg.me>
+ <20180901074414.GA32538@lst.de>
+ <003801d441f0$fdc37a70$f94a6f50$@opengridcomputing.com>
+Message-ID: <4d094f13-bcc1-0cea-2c2b-efdf232e51a9@mellanox.com>
 
-Just one minor comment, otherwise looks good to me.
 
-Reviewed-by : Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>.
 
-On 8/31/18, 6:38 PM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
+On 9/1/2018 3:40 PM, Steve Wise wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Christoph Hellwig <hch at lst.de>
+>> Sent: Saturday, September 1, 2018 2:44 AM
+>> To: Sagi Grimberg <sagi at grimberg.me>
+>> Cc: linux-nvme at lists.infradead.org; Steve Wise
+>> <swise at opengridcomputing.com>; Christoph Hellwig <hch at lst.de>
+>> Subject: Re: [PATCH] nvmet-rdma: fix possible bogus dereference under
+>> heavy load
+>>
+>> On Fri, Aug 31, 2018@06:14:47PM -0700, Sagi Grimberg wrote:
+>>> Currently we always repost the recv buffer before we send a response
+>>> capsule back to the host. Since ordering is not guaranteed for send
+>>> and recv completions, it is posible that we will receive a new request
+>>> from the host before we got a send completion for the response capsule.
+>>>
+>>> Today, we pre-allocate 2x rsps the length of the queue, but in reality,
+> under
+>>> heavy load there is nothing that is really preventing the gap to expand
+>>> until we exhaust all our rsps.
+>>
+>> This is a little scary and means we have the same issue in all other
+>> protocol drivers.  It also means that there probably is no point in
+>> allocating twice the queue length as it will be wasted most of the
+>> time, but still not enough.
+> 
+> I'm not sure the other protocols have this issue.  Where is the similar
+> issue in ib_isert?
+> 
+> If we made the rsp struct part of the nvmet_rdma_cmd, then we could remove
+> this issue and the list management involved with the nvmet_rdma_rsp struct.
+> Then we're ensured that when we get a nvme command from the host via a
+> recv_done completion, we have a rsp.
 
-    Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-    ---
-     Documentation/nvme-disconnect-all.txt | 34 +++++++++++++++++++++++++++
-     fabrics.c                             | 29 +++++++++++++++++++++++
-     fabrics.h                             |  1 +
-     nvme-builtin.h                        |  1 +
-     nvme.c                                |  6 +++++
-     5 files changed, 71 insertions(+)
-     create mode 100644 Documentation/nvme-disconnect-all.txt
-    
-    diff --git a/Documentation/nvme-disconnect-all.txt b/Documentation/nvme-disconnect-all.txt
-    new file mode 100644
-    index 000000000000..6be7e414dea7
-    --- /dev/null
-    +++ b/Documentation/nvme-disconnect-all.txt
-    @@ -0,0 +1,34 @@
-    +nvme-disconnect-all(1)
-    +======================
-    +
-    +NAME
-    +----
-    +nvme-disconnect-all - Disconnect from all connected Fabrics controllers.
-    +
-    +SYNOPSIS
-    +--------
-    +[verse]
-    +'nvme disconnect-all'
-    +
-    +DESCRIPTION
-    +-----------
-    +Disconnects and removes all existing NVMe over Fabrics controllers.
-    +
-    +See the documentation for the nvme-disconnect(1) command for further
-    +background.
-    +
-    +EXAMPLES
-    +--------
-    +* Disconnect all existing nvme controllers:
-[CK] Even though it's implied may be add "NVMe over Fabrics" in the above line ?
-    ++
-    +------------
-    +# nvme disconnect-all
-    +------------
-    +
-    +SEE ALSO
-    +--------
-    +nvme-disconnect(1)
-    +
-    +NVME
-    +----
-    +Part of the nvme-user suite
-    diff --git a/fabrics.c b/fabrics.c
-    index 09cb97c5b880..029105b227ff 100644
-    --- a/fabrics.c
-    +++ b/fabrics.c
-    @@ -1048,3 +1048,32 @@ int disconnect(const char *desc, int argc, char **argv)
-     
-     	return ret;
-     }
-    +
-    +int disconnect_all(const char *desc, int argc, char **argv)
-    +{
-    +	struct subsys_list_item *slist;
-    +	int i, j, ret = 0, subcnt = 0;
-    +	const struct argconfig_commandline_options command_line_options[] = {
-    +		{NULL},
-    +	};
-    +
-    +	ret = argconfig_parse(argc, argv, desc, command_line_options, &cfg,
-    +			sizeof(cfg));
-    +	if (ret)
-    +		return ret;
-    +
-    +	slist = get_subsys_list(&subcnt);
-    +	for (i = 0; i < subcnt; i++) {
-    +		struct subsys_list_item *subsys = &slist[i];
-    +
-    +		for (j = 0; j < subsys->nctrls; j++) {
-    +			struct ctrl_list_item *ctrl = &subsys->ctrls[j];
-    +
-    +			ret = disconnect_by_device(ctrl->name);
-    +			if (ret)
-    +				goto out;
-    +		}
-    +	}
-    +out:
-    +	return ret;
-    +}
-    diff --git a/fabrics.h b/fabrics.h
-    index 91aec90f0ab0..988f3ef2fbc4 100644
-    --- a/fabrics.h
-    +++ b/fabrics.h
-    @@ -4,5 +4,6 @@
-     extern int discover(const char *desc, int argc, char **argv, bool connect);
-     extern int connect(const char *desc, int argc, char **argv);
-     extern int disconnect(const char *desc, int argc, char **argv);
-    +extern int disconnect_all(const char *desc, int argc, char **argv);
-     
-     #endif
-    diff --git a/nvme-builtin.h b/nvme-builtin.h
-    index f9e47b33803c..afd12b055910 100644
-    --- a/nvme-builtin.h
-    +++ b/nvme-builtin.h
-    @@ -63,6 +63,7 @@ COMMAND_LIST(
-     	ENTRY("connect-all", "Discover and Connect to NVMeoF subsystems", connect_all_cmd)
-     	ENTRY("connect", "Connect to NVMeoF subsystem", connect_cmd)
-     	ENTRY("disconnect", "Disconnect from NVMeoF subsystem", disconnect_cmd)
-    +	ENTRY("disconnect-all", "Disconnect from all connected NVMeoF subsystems", disconnect_all_cmd)
-     	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
-     	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
-     	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
-    diff --git a/nvme.c b/nvme.c
-    index 80422516e6ad..a17a4f9393dc 100644
-    --- a/nvme.c
-    +++ b/nvme.c
-    @@ -4624,6 +4624,12 @@ static int disconnect_cmd(int argc, char **argv, struct command *command, struct
-     	return disconnect(desc, argc, argv);
-     }
-     
-    +static int disconnect_all_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
-    +{
-    +	const char *desc = "Disconnect from all connected NVMeoF subsystems";
-    +	return disconnect_all(desc, argc, argv);
-    +}
-    +
-     void register_extension(struct plugin *plugin)
-     {
-     	plugin->parent = &nvme;
-    -- 
-    2.17.1
-    
-    
-    _______________________________________________
-    Linux-nvme mailing list
-    Linux-nvme at lists.infradead.org
-    http://lists.infradead.org/mailman/listinfo/linux-nvme
-    
+I'm not sure this is so simple since we destroy the rdma_rw_ctx during 
+the send completion (that will tell us that the RDMA op finished), that 
+happens after we post_recv the nvmet_rdma_cmd.
+
+we also can't check during send completion:
+  if (rsp->req.sg != &rsp->cmd->inline_sg)
+                 sgl_free(rsp->req.sg);
+
+since the cmd was post_recv'ed (Sagi can you handle this in V2 ? can 
+simply add pointer in rsp to this.) We need to make sure we don't count 
+on rsp-cmd assosiacion after post_recv call (maybe remove it ??).
+
+for now the proposed solution looks fine (With Christoph's and the above 
+comments).
+But we must also check the return value from nvmet_rdma_get_rsp and in 
+case we got NULL we should add the cmd to a new cmd_wait_list.
+Thoughts ?
+
+
+> 
+> Steve
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&amp;data=02%7C01%7Cmaxg%40mellanox.com%7Ce5872db21a5c4ac6656b08d61008319c%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636714024720448674&amp;sdata=ii1zaSdMNtoNDFvefX5zEEvqdsaet0gLAe0M04JmGtc%3D&amp;reserved=0
+> 
