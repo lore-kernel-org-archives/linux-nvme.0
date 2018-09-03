@@ -1,42 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 3 Sep 2018 03:35:11 -0700
+Date: Mon, 3 Sep 2018 03:42:46 -0700
 Subject: [PATCH] nvmet-rdma: fix possible bogus dereference under heavy
  load
-In-Reply-To: <20180901074414.GA32538@lst.de>
+In-Reply-To: <4d094f13-bcc1-0cea-2c2b-efdf232e51a9@mellanox.com>
 References: <20180901011447.32287-1-sagi@grimberg.me>
  <20180901074414.GA32538@lst.de>
-Message-ID: <d1917cb4-5d8d-c4e7-5be0-c51032ad6bbd@grimberg.me>
+ <003801d441f0$fdc37a70$f94a6f50$@opengridcomputing.com>
+ <4d094f13-bcc1-0cea-2c2b-efdf232e51a9@mellanox.com>
+Message-ID: <776599cb-b2f9-abef-ab24-e4c351335243@grimberg.me>
 
 
-> This is a little scary and means we have the same issue in all other
-> protocol drivers.  It also means that there probably is no point in
-> allocating twice the queue length as it will be wasted most of the
-> time, but still not enough.
-
-Not exactly, the 2x I guess was designed to sustain the overhead of
-the send completion until more commands are sent back by the host.
-I guess it just doesn't seem to be enough. But without the factor
-overhead I guess we'd find ourselves dynamically allocating more
-than we'd want to. Its cheap enough to keep in my mind.
-
->>   	spin_lock_irqsave(&queue->rsps_lock, flags);
->> -	rsp = list_first_entry(&queue->free_rsps,
->> +	rsp = list_first_entry_or_null(&queue->free_rsps,
->>   				struct nvmet_rdma_rsp, free_list);
->> -	list_del(&rsp->free_list);
->>   	spin_unlock_irqrestore(&queue->rsps_lock, flags);
->> +	if (rsp) {
->> +		list_del(&rsp->free_list);
+> we also can't check during send completion:
+>  ?if (rsp->req.sg != &rsp->cmd->inline_sg)
+>  ??????????????? sgl_free(rsp->req.sg);
 > 
-> The list del needs to be under the lock.
+> since the cmd was post_recv'ed (Sagi can you handle this in V2 ? can 
+> simply add pointer in rsp to this.) We need to make sure we don't count 
+> on rsp-cmd assosiacion after post_recv call (maybe remove it ??).
 
-Oops... to fast on the trigger...
-
->> +		rsp->allocated = false;
->> +	} else {
->> +		rsp = kmalloc(sizeof(*rsp), GFP_KERNEL);
->> +		rsp->allocated = true;
-> 
-> This needs to handle a NULL return from kmalloc.
-
-Right, thanks!
+Right, will add this as an incremental patch.
