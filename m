@@ -1,32 +1,28 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 3 Sep 2018 17:54:28 +0300
-Subject: [PATCH] nvmet-rdma: fix possible bogus dereference under heavy
- load
-In-Reply-To: <64f0da72-0c94-7906-d992-9c7b839d579e@grimberg.me>
-References: <20180901011447.32287-1-sagi@grimberg.me>
- <20180901074414.GA32538@lst.de>
- <003801d441f0$fdc37a70$f94a6f50$@opengridcomputing.com>
- <4d094f13-bcc1-0cea-2c2b-efdf232e51a9@mellanox.com>
- <776599cb-b2f9-abef-ab24-e4c351335243@grimberg.me>
- <64f0da72-0c94-7906-d992-9c7b839d579e@grimberg.me>
-Message-ID: <f84d38a9-b015-bade-b5ff-3ea25f1b1a0a@mellanox.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 3 Sep 2018 16:26:27 -0600
+Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
+ check support for requests
+In-Reply-To: <20180901082812.GB670@lst.de>
+References: <20180830185352.3369-1-logang@deltatee.com>
+ <20180830185352.3369-8-logang@deltatee.com>
+ <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
+ <20180901082812.GB670@lst.de>
+Message-ID: <5f79c012-c6e1-56bb-62fd-0689181fb2c9@deltatee.com>
 
 
 
-On 9/3/2018 1:45 PM, Sagi Grimberg wrote:
->>> we also can't check during send completion:
->>> ??if (rsp->req.sg != &rsp->cmd->inline_sg)
->>> ???????????????? sgl_free(rsp->req.sg);
->>>
->>> since the cmd was post_recv'ed (Sagi can you handle this in V2 ? can 
->>> simply add pointer in rsp to this.) We need to make sure we don't 
->>> count on rsp-cmd assosiacion after post_recv call (maybe remove it ??).
->>
->> Right, will add this as an incremental patch.
+On 01/09/18 02:28 AM, Christoph Hellwig wrote:
+> On Thu, Aug 30, 2018@01:11:18PM -0600, Jens Axboe wrote:
+>> I think this belongs in the caller - both the validity check, and
+>> passing in NOMERGE for this type of request. I don't want to impose
+>> this overhead on everything, for a pretty niche case.
 > 
-> Wait, cmd->inline_sg never change and we only deallocate if
-> we allocated a different sgl which means we cannot free something
-> that shouldn't be. I agree its not clean but isn't it harmless?
+> It is just a single branch, which will be predicted as not taken
+> for non-P2P users.  The benefit is that we get proper error checking
+> by doing it in the block code.
 
-Yes, I was woried because we free the cmds before rsps but we also 
-destroy the QP before so we're ok here.
+I personally agree with Christoph. But if there's consensus in the other
+direction or this is a real blocker moving this forward, I can remove it
+for the next version.
+
+Logan
