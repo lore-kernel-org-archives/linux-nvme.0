@@ -1,27 +1,26 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  4 Sep 2018 12:32:54 -0700
-Subject: [PATCH V2 blktests 02/12] nvme: add NVMeOF DSM discard test for
- file-ns
+Date: Tue,  4 Sep 2018 12:33:03 -0700
+Subject: [PATCH V2 blktests 11/12] nvme: add NVMeOF list test for file-ns
 In-Reply-To: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
 References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180904193304.13350-3-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180904193304.13350-12-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/020     | 72 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/020.out |  6 ++++
- 2 files changed, 78 insertions(+)
- create mode 100755 tests/nvme/020
- create mode 100644 tests/nvme/020.out
+ tests/nvme/029     | 77 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/029.out |  5 +++
+ 2 files changed, 82 insertions(+)
+ create mode 100755 tests/nvme/029
+ create mode 100644 tests/nvme/029.out
 
-diff --git a/tests/nvme/020 b/tests/nvme/020
+diff --git a/tests/nvme/029 b/tests/nvme/029
 new file mode 100755
-index 0000000..fcf68df
+index 0000000..9375c3d
 --- /dev/null
-+++ b/tests/nvme/020
-@@ -0,0 +1,72 @@
++++ b/tests/nvme/029
+@@ -0,0 +1,77 @@
 +#!/bin/bash
-+# Test NVMe DSM Discard command on NVMeOF with a file-backed ns.
++# Test NVMe list command on NVMeOF with a file-backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -44,12 +43,12 @@ index 0000000..fcf68df
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe DSM Discard command on NVMeOF file-backed ns"
++DESCRIPTION="test NVMe list command on NVMeOF file-backed ns"
 +QUICK=1
 +
 +requires() {
-+	_have_program nvme && _have_module nvme-loop && _have_configfs \
-+		_have_module nvmet
++	_have_program nvme && _have_module nvme-loop && _have_module loop && \
++		_have_module nvmet && _have_configfs
 +}
 +
 +test() {
@@ -62,8 +61,6 @@ index 0000000..fcf68df
 +	local nvmedev
 +	local file_path="$TMPDIR/img"
 +	local subsys_name="blktests-subsystem-1"
-+	local nblk_range="10,10,10,10,10,10,10,10,10,10"
-+	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
 +
 +	truncate -s 1G "${file_path}"
 +
@@ -78,7 +75,9 @@ index 0000000..fcf68df
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	nvme dsm "/dev/${nvmedev}" -n 1 -d -s "${sblk_range}" -b "${nblk_range}"
++	nvme list > /dev/null 2>&1
++
++	rc=$?
 +
 +	nvme disconnect -n "${subsys_name}"
 +
@@ -90,18 +89,22 @@ index 0000000..fcf68df
 +
 +	modprobe -r nvme-loop
 +	modprobe -r nvmet
-+	echo "Test complete"
++
++	if [ $rc -ne 0 ]; then
++		echo "Test Failed"
++	else
++		echo "Test complete"
++	fi
 +}
-diff --git a/tests/nvme/020.out b/tests/nvme/020.out
+diff --git a/tests/nvme/029.out b/tests/nvme/029.out
 new file mode 100644
-index 0000000..113c177
+index 0000000..98d7dec
 --- /dev/null
-+++ b/tests/nvme/020.out
-@@ -0,0 +1,6 @@
-+Running nvme/020
++++ b/tests/nvme/029.out
+@@ -0,0 +1,5 @@
++Running nvme/029
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+NVMe DSM: success
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
