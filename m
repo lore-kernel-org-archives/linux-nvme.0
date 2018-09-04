@@ -1,28 +1,82 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 3 Sep 2018 16:26:27 -0600
-Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
- check support for requests
-In-Reply-To: <20180901082812.GB670@lst.de>
+From: jgg@mellanox.com (Jason Gunthorpe)
+Date: Tue, 4 Sep 2018 09:16:38 -0600
+Subject: [PATCH v5 10/13] nvme-pci: Add support for P2P memory in requests
+In-Reply-To: <20180830185352.3369-11-logang@deltatee.com>
 References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-8-logang@deltatee.com>
- <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
- <20180901082812.GB670@lst.de>
-Message-ID: <5f79c012-c6e1-56bb-62fd-0689181fb2c9@deltatee.com>
+ <20180830185352.3369-11-logang@deltatee.com>
+Message-ID: <20180904151638.GL335@mellanox.com>
 
-
-
-On 01/09/18 02:28 AM, Christoph Hellwig wrote:
-> On Thu, Aug 30, 2018@01:11:18PM -0600, Jens Axboe wrote:
->> I think this belongs in the caller - both the validity check, and
->> passing in NOMERGE for this type of request. I don't want to impose
->> this overhead on everything, for a pretty niche case.
+On Thu, Aug 30, 2018@12:53:49PM -0600, Logan Gunthorpe wrote:
+> For P2P requests, we must use the pci_p2pmem_map_sg() function
+> instead of the dma_map_sg functions.
 > 
-> It is just a single branch, which will be predicted as not taken
-> for non-P2P users.  The benefit is that we get proper error checking
-> by doing it in the block code.
+> With that, we can then indicate PCI_P2P support in the request queue.
+> For this, we create an NVME_F_PCI_P2P flag which tells the core to
+> set QUEUE_FLAG_PCI_P2P in the request queue.
+> 
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>  drivers/nvme/host/core.c |  4 ++++
+>  drivers/nvme/host/nvme.h |  1 +
+>  drivers/nvme/host/pci.c  | 17 +++++++++++++----
+>  3 files changed, 18 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index dd8ec1dd9219..6033ce2fd3e9 100644
+> +++ b/drivers/nvme/host/core.c
+> @@ -3051,7 +3051,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>  	ns->queue = blk_mq_init_queue(ctrl->tagset);
+>  	if (IS_ERR(ns->queue))
+>  		goto out_free_ns;
+> +
+>  	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
+> +	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
+> +		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
+> +
+>  	ns->queue->queuedata = ns;
+>  	ns->ctrl = ctrl;
+>  
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index bb4a2003c097..4030743c90aa 100644
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -343,6 +343,7 @@ struct nvme_ctrl_ops {
+>  	unsigned int flags;
+>  #define NVME_F_FABRICS			(1 << 0)
+>  #define NVME_F_METADATA_SUPPORTED	(1 << 1)
+> +#define NVME_F_PCI_P2PDMA		(1 << 2)
+>  	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+>  	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+>  	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 2902585c6ddf..bb2120d30e39 100644
+> +++ b/drivers/nvme/host/pci.c
+> @@ -737,8 +737,13 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+>  		goto out;
+>  
+>  	ret = BLK_STS_RESOURCE;
+> -	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
+> -			DMA_ATTR_NO_WARN);
+> +
+> +	if (is_pci_p2pdma_page(sg_page(iod->sg)))
+> +		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
+> +					  dma_dir);
+> +	else
+> +		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
+> +					     dma_dir,  DMA_ATTR_NO_WARN);
+>  	if (!nr_mapped)
+>  		goto out;
+>  
+> @@ -780,7 +785,10 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
+>  			DMA_TO_DEVICE : DMA_FROM_DEVICE;
+>  
+>  	if (iod->nents) {
+> -		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
+> +		/* P2PDMA requests do not need to be unmapped */
+> +		if (!is_pci_p2pdma_page(sg_page(iod->sg)))
+> +			dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
 
-I personally agree with Christoph. But if there's consensus in the other
-direction or this is a real blocker moving this forward, I can remove it
-for the next version.
+This seems like a poor direction, if we add IOMMU hairpin support we
+will need unmapping.
 
-Logan
+Jason
