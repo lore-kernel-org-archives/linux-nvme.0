@@ -1,27 +1,26 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  4 Sep 2018 12:32:56 -0700
-Subject: [PATCH V2 blktests 04/12] nvme: add NVMeOF write-zeroes test for
- file-ns
+Date: Tue,  4 Sep 2018 12:33:01 -0700
+Subject: [PATCH V2 blktests 09/12] nvme: add NVMeOF ns-rescan test for file-ns
 In-Reply-To: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
 References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180904193304.13350-5-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180904193304.13350-10-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/022     | 72 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/022.out |  6 ++++
- 2 files changed, 78 insertions(+)
- create mode 100755 tests/nvme/022
- create mode 100644 tests/nvme/022.out
+ tests/nvme/027     | 77 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/027.out |  5 +++
+ 2 files changed, 82 insertions(+)
+ create mode 100755 tests/nvme/027
+ create mode 100644 tests/nvme/027.out
 
-diff --git a/tests/nvme/022 b/tests/nvme/022
+diff --git a/tests/nvme/027 b/tests/nvme/027
 new file mode 100755
-index 0000000..952f140
+index 0000000..8711f48
 --- /dev/null
-+++ b/tests/nvme/022
-@@ -0,0 +1,72 @@
++++ b/tests/nvme/027
+@@ -0,0 +1,77 @@
 +#!/bin/bash
-+# Test NVMe write-zeroes command on NVMeOF with a file-backed ns.
++# Test NVMe ns-rescan command on NVMeOF with a file-backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -44,12 +43,12 @@ index 0000000..952f140
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe write-zeroes command on NVMeOF file-backed ns"
++DESCRIPTION="test NVMe ns-rescan command on NVMeOF file-backed ns"
 +QUICK=1
 +
 +requires() {
-+	_have_program nvme && _have_module nvme-loop && _have_configfs \
-+		_have_module nvmet
++	_have_program nvme && _have_module nvme-loop && _have_module loop && \
++		_have_module nvmet && _have_configfs
 +}
 +
 +test() {
@@ -62,8 +61,6 @@ index 0000000..952f140
 +	local nvmedev
 +	local file_path="$TMPDIR/img"
 +	local subsys_name="blktests-subsystem-1"
-+	local sblk=0
-+	local nblk=99
 +
 +	truncate -s 1G "${file_path}"
 +
@@ -78,7 +75,9 @@ index 0000000..952f140
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
++	nvme ns-rescan "/dev/${nvmedev}" > /dev/null 2>&1
++
++	rc=$?
 +
 +	nvme disconnect -n "${subsys_name}"
 +
@@ -90,18 +89,22 @@ index 0000000..952f140
 +
 +	modprobe -r nvme-loop
 +	modprobe -r nvmet
-+	echo "Test complete"
++
++	if [ $rc -ne 0 ]; then
++		echo "Test Failed"
++	else
++		echo "Test complete"
++	fi
 +}
-diff --git a/tests/nvme/022.out b/tests/nvme/022.out
+diff --git a/tests/nvme/027.out b/tests/nvme/027.out
 new file mode 100644
-index 0000000..d2a0606
+index 0000000..f114fcd
 --- /dev/null
-+++ b/tests/nvme/022.out
-@@ -0,0 +1,6 @@
-+Running nvme/022
++++ b/tests/nvme/027.out
+@@ -0,0 +1,5 @@
++Running nvme/027
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+NVME Write Zeroes Success
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
