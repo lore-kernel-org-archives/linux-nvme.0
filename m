@@ -1,27 +1,27 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  4 Sep 2018 12:32:53 -0700
-Subject: [PATCH V2 blktests 01/12] nvme: add NVMeOF DSM discard test for
+Date: Tue,  4 Sep 2018 12:32:55 -0700
+Subject: [PATCH V2 blktests 03/12] nvme: add NVMeOF write-zeroes test for
  bdev-ns
 In-Reply-To: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
 References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180904193304.13350-2-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180904193304.13350-4-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/019     | 78 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/019.out |  6 ++++
+ tests/nvme/021     | 78 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/021.out |  6 ++++
  2 files changed, 84 insertions(+)
- create mode 100755 tests/nvme/019
- create mode 100644 tests/nvme/019.out
+ create mode 100755 tests/nvme/021
+ create mode 100644 tests/nvme/021.out
 
-diff --git a/tests/nvme/019 b/tests/nvme/019
+diff --git a/tests/nvme/021 b/tests/nvme/021
 new file mode 100755
-index 0000000..b180369
+index 0000000..efcbb3f
 --- /dev/null
-+++ b/tests/nvme/019
++++ b/tests/nvme/021
 @@ -0,0 +1,78 @@
 +#!/bin/bash
-+# Test NVMe DSM Discard command on NVMeOF with a block-device ns.
++# Test NVMe write-zeroes command on NVMeOF with a block-device ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ index 0000000..b180369
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe DSM Discard command on NVMeOF block-device ns"
++DESCRIPTION="test NVMe write-zeroes command on NVMeOF block-device ns"
 +QUICK=1
 +
 +requires() {
@@ -63,8 +63,8 @@ index 0000000..b180369
 +	local loop_dev
 +	local file_path="$TMPDIR/img"
 +	local subsys_name="blktests-subsystem-1"
-+	local nblk_range="10,10,10,10,10,10,10,10,10,10"
-+	local sblk_range="100,200,300,400,500,600,700,800,900,1000"
++	local sblk=0
++	local nblk=99
 +
 +	truncate -s 1G "${file_path}"
 +
@@ -81,7 +81,7 @@ index 0000000..b180369
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	nvme dsm "/dev/${nvmedev}" -n 1 -d -s "${sblk_range}" -b "${nblk_range}"
++	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
 +
 +	nvme disconnect -n "${subsys_name}"
 +
@@ -98,16 +98,16 @@ index 0000000..b180369
 +
 +	echo "Test complete"
 +}
-diff --git a/tests/nvme/019.out b/tests/nvme/019.out
+diff --git a/tests/nvme/021.out b/tests/nvme/021.out
 new file mode 100644
-index 0000000..3e649a4
+index 0000000..29939e6
 --- /dev/null
-+++ b/tests/nvme/019.out
++++ b/tests/nvme/021.out
 @@ -0,0 +1,6 @@
-+Running nvme/019
++Running nvme/021
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+NVMe DSM: success
++NVME Write Zeroes Success
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
