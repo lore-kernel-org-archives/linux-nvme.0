@@ -1,26 +1,27 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  4 Sep 2018 12:33:04 -0700
-Subject: [PATCH V2 blktests 12/12] nvme: add NVMeOF reset test for file-ns
+Date: Tue,  4 Sep 2018 12:33:02 -0700
+Subject: [PATCH V2 blktests 10/12] nvme: add NVMeOF list-subsys test for
+ file-ns
 In-Reply-To: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
 References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180904193304.13350-13-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180904193304.13350-11-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/030     | 77 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/030.out |  5 +++
+ tests/nvme/028     | 77 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/028.out |  5 +++
  2 files changed, 82 insertions(+)
- create mode 100755 tests/nvme/030
- create mode 100644 tests/nvme/030.out
+ create mode 100755 tests/nvme/028
+ create mode 100644 tests/nvme/028.out
 
-diff --git a/tests/nvme/030 b/tests/nvme/030
+diff --git a/tests/nvme/028 b/tests/nvme/028
 new file mode 100755
-index 0000000..a723aa9
+index 0000000..5b46794
 --- /dev/null
-+++ b/tests/nvme/030
++++ b/tests/nvme/028
 @@ -0,0 +1,77 @@
 +#!/bin/bash
-+# Test NVMe reset command on NVMeOF with a file-backed ns.
++# Test NVMe list-subsys command on NVMeOF with a file-backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -43,7 +44,7 @@ index 0000000..a723aa9
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe reset command on NVMeOF file-backed ns"
++DESCRIPTION="test NVMe list-subsys command on NVMeOF file-backed ns"
 +QUICK=1
 +
 +requires() {
@@ -75,7 +76,7 @@ index 0000000..a723aa9
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	nvme reset "/dev/${nvmedev}" > /dev/null 2>&1
++	nvme list-subsys | grep -q loop
 +
 +	rc=$?
 +
@@ -96,13 +97,13 @@ index 0000000..a723aa9
 +		echo "Test complete"
 +	fi
 +}
-diff --git a/tests/nvme/030.out b/tests/nvme/030.out
+diff --git a/tests/nvme/028.out b/tests/nvme/028.out
 new file mode 100644
-index 0000000..0fc1b3d
+index 0000000..c92b82d
 --- /dev/null
-+++ b/tests/nvme/030.out
++++ b/tests/nvme/028.out
 @@ -0,0 +1,5 @@
-+Running nvme/030
++Running nvme/028
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
