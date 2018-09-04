@@ -1,26 +1,26 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  4 Sep 2018 12:32:57 -0700
-Subject: [PATCH V2 blktests 05/12] nvme: add NVMeOF smart-log test for bdev-ns
+Date: Tue,  4 Sep 2018 12:32:58 -0700
+Subject: [PATCH V2 blktests 06/12] nvme: add NVMeOF smart-log test for file-ns
 In-Reply-To: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
 References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180904193304.13350-6-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180904193304.13350-7-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/023     | 82 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/023.out |  5 +++
- 2 files changed, 87 insertions(+)
- create mode 100755 tests/nvme/023
- create mode 100644 tests/nvme/023.out
+ tests/nvme/024     | 77 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/024.out |  5 +++
+ 2 files changed, 82 insertions(+)
+ create mode 100755 tests/nvme/024
+ create mode 100644 tests/nvme/024.out
 
-diff --git a/tests/nvme/023 b/tests/nvme/023
+diff --git a/tests/nvme/024 b/tests/nvme/024
 new file mode 100755
-index 0000000..5d2b36b
+index 0000000..49a4eb9
 --- /dev/null
-+++ b/tests/nvme/023
-@@ -0,0 +1,82 @@
++++ b/tests/nvme/024
+@@ -0,0 +1,77 @@
 +#!/bin/bash
-+# Test NVMe smart-log command on NVMeOF with a block-device ns.
++# Test NVMe smart-log command on NVMeOF with a file-backed ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -43,7 +43,7 @@ index 0000000..5d2b36b
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe smart-log command on NVMeOF block-device ns"
++DESCRIPTION="test NVMe smart-log command on NVMeOF file-backed ns"
 +QUICK=1
 +
 +requires() {
@@ -59,15 +59,12 @@ index 0000000..5d2b36b
 +
 +	local port
 +	local nvmedev
-+	local loop_dev
 +	local file_path="$TMPDIR/img"
 +	local subsys_name="blktests-subsystem-1"
 +
 +	truncate -s 1G "${file_path}"
 +
-+	loop_dev="$(losetup -f --show "${file_path}")"
-+
-+	_create_nvmet_subsystem "${subsys_name}" "${loop_dev}" \
++	_create_nvmet_subsystem "${subsys_name}" "${file_path}" \
 +		"91fdba0d-f87b-4c25-b80f-db7be1418b9e"
 +	port="$(_create_nvmet_port "loop")"
 +	_add_nvmet_subsys_to_port "${port}" "${subsys_name}"
@@ -88,8 +85,6 @@ index 0000000..5d2b36b
 +	_remove_nvmet_subsystem "${subsys_name}"
 +	_remove_nvmet_port "${port}"
 +
-+	losetup -d "${loop_dev}"
-+
 +	rm -f "${file_path}"
 +
 +	modprobe -r nvme-loop
@@ -101,13 +96,13 @@ index 0000000..5d2b36b
 +		echo "Test complete"
 +	fi
 +}
-diff --git a/tests/nvme/023.out b/tests/nvme/023.out
+diff --git a/tests/nvme/024.out b/tests/nvme/024.out
 new file mode 100644
-index 0000000..aeb3ea7
+index 0000000..737d22f
 --- /dev/null
-+++ b/tests/nvme/023.out
++++ b/tests/nvme/024.out
 @@ -0,0 +1,5 @@
-+Running nvme/023
++Running nvme/024
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
