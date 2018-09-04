@@ -1,27 +1,26 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Tue,  4 Sep 2018 12:32:55 -0700
-Subject: [PATCH V2 blktests 03/12] nvme: add NVMeOF write-zeroes test for
- bdev-ns
+Date: Tue,  4 Sep 2018 12:32:57 -0700
+Subject: [PATCH V2 blktests 05/12] nvme: add NVMeOF smart-log test for bdev-ns
 In-Reply-To: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
 References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180904193304.13350-4-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180904193304.13350-6-chaitanya.kulkarni@wdc.com>
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- tests/nvme/021     | 78 ++++++++++++++++++++++++++++++++++++++++++++++
- tests/nvme/021.out |  6 ++++
- 2 files changed, 84 insertions(+)
- create mode 100755 tests/nvme/021
- create mode 100644 tests/nvme/021.out
+ tests/nvme/023     | 82 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/023.out |  5 +++
+ 2 files changed, 87 insertions(+)
+ create mode 100755 tests/nvme/023
+ create mode 100644 tests/nvme/023.out
 
-diff --git a/tests/nvme/021 b/tests/nvme/021
+diff --git a/tests/nvme/023 b/tests/nvme/023
 new file mode 100755
-index 0000000..efcbb3f
+index 0000000..5d2b36b
 --- /dev/null
-+++ b/tests/nvme/021
-@@ -0,0 +1,78 @@
++++ b/tests/nvme/023
+@@ -0,0 +1,82 @@
 +#!/bin/bash
-+# Test NVMe write-zeroes command on NVMeOF with a block-device ns.
++# Test NVMe smart-log command on NVMeOF with a block-device ns.
 +# Copyright (c) 2017-2018 Western Digital Corporation or its affiliates.
 +#
 +# This program is free software; you can redistribute it and/or
@@ -44,7 +43,7 @@ index 0000000..efcbb3f
 +
 +. tests/nvme/rc
 +
-+DESCRIPTION="test NVMe write-zeroes command on NVMeOF block-device ns"
++DESCRIPTION="test NVMe smart-log command on NVMeOF block-device ns"
 +QUICK=1
 +
 +requires() {
@@ -63,8 +62,6 @@ index 0000000..efcbb3f
 +	local loop_dev
 +	local file_path="$TMPDIR/img"
 +	local subsys_name="blktests-subsystem-1"
-+	local sblk=0
-+	local nblk=99
 +
 +	truncate -s 1G "${file_path}"
 +
@@ -81,7 +78,9 @@ index 0000000..efcbb3f
 +	cat "/sys/block/${nvmedev}n1/uuid"
 +	cat "/sys/block/${nvmedev}n1/wwid"
 +
-+	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
++	nvme smart-log "/dev/${nvmedev}" -n 1 > /dev/null 2>&1
++
++	rc=$?
 +
 +	nvme disconnect -n "${subsys_name}"
 +
@@ -96,18 +95,21 @@ index 0000000..efcbb3f
 +	modprobe -r nvme-loop
 +	modprobe -r nvmet
 +
-+	echo "Test complete"
++	if [ $rc -ne 0 ]; then
++		echo "Test Failed"
++	else
++		echo "Test complete"
++	fi
 +}
-diff --git a/tests/nvme/021.out b/tests/nvme/021.out
+diff --git a/tests/nvme/023.out b/tests/nvme/023.out
 new file mode 100644
-index 0000000..29939e6
+index 0000000..aeb3ea7
 --- /dev/null
-+++ b/tests/nvme/021.out
-@@ -0,0 +1,6 @@
-+Running nvme/021
++++ b/tests/nvme/023.out
+@@ -0,0 +1,5 @@
++Running nvme/023
 +91fdba0d-f87b-4c25-b80f-db7be1418b9e
 +uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+NVME Write Zeroes Success
 +NQN:blktests-subsystem-1 disconnected 1 controller(s)
 +Test complete
 -- 
