@@ -1,73 +1,41 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 5 Sep 2018 15:18:48 -0600
-Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
- check support for requests
-In-Reply-To: <c41c802c-9235-5383-2dfa-af9c1553f11b@deltatee.com>
-References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-8-logang@deltatee.com>
- <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
- <20180901082812.GB670@lst.de>
- <5f79c012-c6e1-56bb-62fd-0689181fb2c9@deltatee.com>
- <59b28977-8f2a-6228-2050-03fae6bdbedd@kernel.dk>
- <1b4283da-44df-4a02-3167-e295243cef78@deltatee.com>
- <09258b9b-3aed-9890-b31a-bd70a133966c@kernel.dk>
- <20180905195647.GA1626@lst.de>
- <bcc1b3cf-2fd9-fa61-9cfb-b0e4d84e5d94@kernel.dk>
- <20180905201152.GA1893@lst.de>
- <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
- <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
- <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
- <3af4d1d4-da07-c0a6-8464-9ddc1378f2f4@kernel.dk>
- <f9e660cd-b597-bb6e-56a2-82fe71cb3649@deltatee.com>
- <34d9b2f7-9e6d-4a0a-77e5-ec0e99610f5c@kernel.dk>
- <c41c802c-9235-5383-2dfa-af9c1553f11b@deltatee.com>
-Message-ID: <957591a9-3b9d-e730-9919-508349735db9@kernel.dk>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 6 Sep 2018 05:27:00 +0800
+Subject: [PATCH 0/3] Introduce a light-weight queue close feature
+In-Reply-To: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180905212659.GB21352@ming.t460p>
 
-On 9/5/18 3:03 PM, Logan Gunthorpe wrote:
+On Wed, Sep 05, 2018@12:09:43PM +0800, Jianchao Wang wrote:
+> Dear all
 > 
+> As we know, queue freeze is used to stop new IO comming in and drain
+> the request queue. And the draining queue here is necessary, because
+> queue freeze kills the percpu-ref q_usage_counter and need to drain
+> the q_usage_counter before switch it back to percpu mode. This could
+> be a trouble when we just want to prevent new IO.
 > 
-> On 05/09/18 02:36 PM, Jens Axboe wrote:
->> On 9/5/18 2:32 PM, Logan Gunthorpe wrote:
->>>
->>>
->>> On 05/09/18 02:19 PM, Jens Axboe wrote:
->>>> On 9/5/18 2:18 PM, Logan Gunthorpe wrote:
->>>>>
->>>>>
->>>>> On 05/09/18 02:14 PM, Jens Axboe wrote:
->>>>>> But if the caller must absolutely know where the bio will end up, then
->>>>>> it seems super redundant. So I'd vote for killing this check, it buys
->>>>>> us absolutely nothing and isn't even exhaustive in its current form.
->>>>>
->>>>>
->>>>> Ok, I'll remove it for v6.
->>>>
->>>> Since the drivers needs to know it's doing it right, it might not
->>>> hurt to add a sanity check helper for that. Just have the driver
->>>> call it, and don't add it in the normal IO submission path.
->>>
->>> I'm not sure I really see the value in that. It's the same principle in
->>> asking the driver to do the WARN: if the developer knew enough to use
->>> the special helper, they probably knew well enough to do the rest correctly.
->>
->> I don't agree with that at all. It's a "is my request valid" helper,
->> it's not some obscure and rarely used functionality. You're making up
->> this API right now, if you really want it done for every IO, make it
->> part of the p2p submission process. You could even hide it behind a
->> debug thing, if you like.
+> In nvme-pci, nvme_dev_disable freezes queues to prevent new IO.
+> nvme_reset_work will unfreeze and wait to drain the queues. However,
+> if IO timeout at the moment, no body could do recovery as nvme_reset_work
+> is waiting. We will encounter IO hang.
+
+As we discussed this nvme time issue before, I have pointed out that
+this is because of blk_mq_unfreeze_queue()'s limit which requires that
+unfreeze can only be done when this queue ref counter drops to zero.
+
+For this nvme timeout case, we may relax the limit, for example,
+introducing another API of blk_freeze_queue_stop() as counter-pair of
+blk_freeze_queue_start(), and simply switch the percpu-ref to percpu mode
+from atomic mode inside the new API.
+
 > 
-> There is no special p2p submission process. In the nvme-of case we are
-> using the existing process and with the code in blk-core it didn't
-> change it's process at all. Creating a helper will create one and I can
-> look at making a pci_p2pdma_submit_bio() for v6; but if the developer
-> screws up and still calls the regular submit_bio() things will only be
-> very subtly broken and that won't be obvious.
+> So introduce a light-weight queue close feature in this patch set
+> which could prevent new IO and needn't drain the queue.
 
-I'm very sure that something that basic will be caught in review. I
-don't care if you wrap the submission or just require the caller to
-call some validity helper check first, fwiw.
+Frankly speaking, IMO, it may not be an good idea to mess up the fast path
+just for handling the extremely unusual timeout event. The same is true
+for doing the preemp only stuff, as you saw I have posted patchset for
+killing it.
 
-And I think we're done beating the dead horse at this point.
-
--- 
-Jens Axboe
+Thanks,
+Ming
