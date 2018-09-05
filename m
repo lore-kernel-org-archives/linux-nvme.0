@@ -1,38 +1,27 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 05 Sep 2018 08:48:05 -0700
-Subject: [PATCH 0/3] Introduce a light-weight queue close feature
-In-Reply-To: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Wed, 05 Sep 2018 08:57:17 -0700
+Subject: [PATCH 2/3] blk-core: introduce queue close feature
+In-Reply-To: <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
 References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1536162485.11534.3.camel@acm.org>
+ <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1536163037.11534.6.camel@acm.org>
 
 On Wed, 2018-09-05@12:09 +0800, Jianchao Wang wrote:
-> As we know, queue freeze is used to stop new IO comming in and drain
-> the request queue. And the draining queue here is necessary, because
-> queue freeze kills the percpu-ref q_usage_counter and need to drain
-> the q_usage_counter before switch it back to percpu mode. This could
-> be a trouble when we just want to prevent new IO.
+> blk queue freeze is often used to prevent new IO from entering
+> request queue. However, becuase we kill the percpu-ref
+> q_usage_counter when freeze queue, we have to drain the request
+> queue when unfreeze. This is unnecessary for just preventing new
+> IO. In addition, If there is IO timeout or other issue when unfreeze
+> the queue, the scenario could be very tricky.
 > 
-> In nvme-pci, nvme_dev_disable freezes queues to prevent new IO.
-> nvme_reset_work will unfreeze and wait to drain the queues. However,
-> if IO timeout at the moment, no body could do recovery as nvme_reset_work
-> is waiting. We will encounter IO hang.
-> 
-> So introduce a light-weight queue close feature in this patch set
-> which could prevent new IO and needn't drain the queue.
-> 
-> The 1st patch introduces a queue_gate into request queue and migrate
-> preempt only from queue flags on it.
-> 
-> The 2nd patch introduces queue close feature.
-> 
-> The 3rd patch apply the queue close in nvme-pci to avoid the IO hang
-> issue above.
+> So we introduce BLK_QUEUE_GATE_CLOSED to implement a light-weight
+> queue close feature base on the queue_gate to prevent new IO from
+> comming in queue which will not need to drain the queue any more.
 
-Hello Jianchao,
-
-Is this patch series based on a theoretical concern or rather on something
-you ran into? In the latter case, can you explain which scenario makes it
-likely on your setup to encounter an NVMe timeout?
+Does the "queue gate close" feature cause blk_get_request() /
+blk_mq_get_request() to block until blk_clear_queue_closed() is called? If
+so, I think we need a better name for this feature. How about calling these
+two operations suspend and resume?
 
 Thanks,
 
