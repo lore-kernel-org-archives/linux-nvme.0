@@ -1,211 +1,48 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 5 Sep 2018 13:14:19 -0700
-Subject: [REPOST][PATCH] nvme_fc: add 'nvme_discovery' sysfs attribute to
- fc transport device
-In-Reply-To: <20180820220611.8769-1-jsmart2021@gmail.com>
-References: <20180820220611.8769-1-jsmart2021@gmail.com>
-Message-ID: <6053d52d-e274-4757-bdc8-08778e7c9ce8@broadcom.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 5 Sep 2018 14:14:48 -0600
+Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
+ check support for requests
+In-Reply-To: <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
+References: <20180830185352.3369-1-logang@deltatee.com>
+ <20180830185352.3369-8-logang@deltatee.com>
+ <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
+ <20180901082812.GB670@lst.de>
+ <5f79c012-c6e1-56bb-62fd-0689181fb2c9@deltatee.com>
+ <59b28977-8f2a-6228-2050-03fae6bdbedd@kernel.dk>
+ <1b4283da-44df-4a02-3167-e295243cef78@deltatee.com>
+ <09258b9b-3aed-9890-b31a-bd70a133966c@kernel.dk>
+ <20180905195647.GA1626@lst.de>
+ <bcc1b3cf-2fd9-fa61-9cfb-b0e4d84e5d94@kernel.dk>
+ <20180905201152.GA1893@lst.de>
+ <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
+Message-ID: <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
 
-what's the status on this ?
+On 9/5/18 2:09 PM, Logan Gunthorpe wrote:
+> 
+> 
+> On 05/09/18 02:11 PM, Christoph Hellwig wrote:
+>> On Wed, Sep 05, 2018@01:54:31PM -0600, Jens Axboe wrote:
+>>> On 9/5/18 1:56 PM, Christoph Hellwig wrote:
+>>>> On Wed, Sep 05, 2018@01:45:04PM -0600, Jens Axboe wrote:
+>>>>> The point is that the caller doesn't necessarily know where the bio
+>>>>> will end up, hence the caller can't fully check if the whole stack
+>>>>> supports P2P.
+>>>>
+>>>> The caller must necessarily know where the bio will end up, as for P2P
+>>>> support we need to query if the bio target is P2P capable vs the
+>>>> source of the P2P memory.
+>>>
+>>> Then what's the point of having the check at all?
+>>
+>> Just an additional little safe guard.  If you think it isn't worth
+>> it I guess we can just drop it for now.
+> 
+> Yes, the point is to prevent driver writers from doing the wrong thing
+> by not doing the necessary checks before submitting to the queue.
 
-On 8/20/2018 3:06 PM, James Smart wrote:
-> The fc transport device should allow for a rediscovery, as userspace
-> might have lost the events. Example is udev events not handled during
-> system startup.
->
-> This patch add a sysfs entry 'nvme_discovery' on the fc class to
-> have it replay all udev discovery events for all local port/remote
-> port address pairs.
->
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> Cc: Ewan Milne <emilne at redhat.com>
-> Cc: Johannes Thumshirn <jthumshirn at suse.com>
->
-> ---
-> reposting after it's last post in June
-> ---
->   drivers/nvme/host/fc.c | 114 +++++++++++++++++++++++++++++++++++++++++++++----
->   1 file changed, 105 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 611e70cae754..286629d1d2b8 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -122,6 +122,7 @@ struct nvme_fc_rport {
->   	struct list_head		endp_list; /* for lport->endp_list */
->   	struct list_head		ctrl_list;
->   	struct list_head		ls_req_list;
-> +	struct list_head		disc_list;
->   	struct device			*dev;	/* physical device for dma */
->   	struct nvme_fc_lport		*lport;
->   	spinlock_t			lock;
-> @@ -210,7 +211,6 @@ static DEFINE_IDA(nvme_fc_ctrl_cnt);
->    * These items are short-term. They will eventually be moved into
->    * a generic FC class. See comments in module init.
->    */
-> -static struct class *fc_class;
->   static struct device *fc_udev_device;
->   
->   
-> @@ -507,6 +507,7 @@ nvme_fc_free_rport(struct kref *ref)
->   	list_del(&rport->endp_list);
->   	spin_unlock_irqrestore(&nvme_fc_lock, flags);
->   
-> +	WARN_ON(!list_empty(&rport->disc_list));
->   	ida_simple_remove(&lport->endp_cnt, rport->remoteport.port_num);
->   
->   	kfree(rport);
-> @@ -694,6 +695,7 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
->   	INIT_LIST_HEAD(&newrec->endp_list);
->   	INIT_LIST_HEAD(&newrec->ctrl_list);
->   	INIT_LIST_HEAD(&newrec->ls_req_list);
-> +	INIT_LIST_HEAD(&newrec->disc_list);
->   	kref_init(&newrec->ref);
->   	atomic_set(&newrec->act_ctrl_cnt, 0);
->   	spin_lock_init(&newrec->lock);
-> @@ -3254,6 +3256,100 @@ static struct nvmf_transport_ops nvme_fc_transport = {
->   	.create_ctrl	= nvme_fc_create_ctrl,
->   };
->   
-> +static void nvme_fc_discovery_unwind(struct list_head *lheadp)
-> +{
-> +	unsigned long flags;
-> +	struct nvme_fc_lport *lport;
-> +	struct nvme_fc_rport *rport, *tmp_rport;
-> +
-> +	list_for_each_entry_safe(rport, tmp_rport,
-> +				 lheadp, disc_list) {
-> +		spin_lock_irqsave(&nvme_fc_lock, flags);
-> +		list_del_init(&rport->disc_list);
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +		lport = rport->lport;
-> +		/* signal discovery. Won't hurt if it repeats */
-> +		nvme_fc_signal_discovery_scan(lport, rport);
-> +		nvme_fc_rport_put(rport);
-> +		nvme_fc_lport_put(lport);
-> +	}
-> +}
-> +
-> +/* Arbitrary successive failures max. With lots of subsystems could be high */
-> +#define DISCOVERY_MAX_FAIL	20
-> +
-> +static ssize_t nvme_fc_nvme_discovery_store(struct device *dev,
-> +				       struct device_attribute *attr,
-> +				       const char *buf, size_t count)
-> +{
-> +	unsigned long flags;
-> +	LIST_HEAD(nvme_fc_disc_list);
-> +	struct nvme_fc_lport *lport;
-> +	struct nvme_fc_rport *rport, *tmp_rport;
-> +	int failcnt = 0;
-> +
-> +restart:
-> +	spin_lock_irqsave(&nvme_fc_lock, flags);
-> +	list_for_each_entry(lport, &nvme_fc_lport_list, port_list) {
-> +		list_for_each_entry(rport, &lport->endp_list, endp_list) {
-> +			if (!nvme_fc_lport_get(lport))
-> +				continue;
-> +			if (!nvme_fc_rport_get(rport)) {
-> +				/*
-> +				 * This is a temporary condition, so upon
-> +				 * restart this node will be gone from the
-> +				 * list.
-> +				 */
-> +				spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +				nvme_fc_lport_put(lport);
-> +				nvme_fc_discovery_unwind(&nvme_fc_disc_list);
-> +				if (failcnt++ < DISCOVERY_MAX_FAIL)
-> +					goto restart;
-> +				pr_err("nvme_discovery: too many reference "
-> +				       "failures\n");
-> +				return 0;
-> +			}
-> +			if (list_empty(&rport->disc_list))
-> +				list_add_tail(&rport->disc_list,
-> +					      &nvme_fc_disc_list);
-> +		}
-> +	}
-> +	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +
-> +	list_for_each_entry_safe(rport, tmp_rport,
-> +				 &nvme_fc_disc_list, disc_list) {
-> +		spin_lock_irqsave(&nvme_fc_lock, flags);
-> +		list_del_init(&rport->disc_list);
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +		lport = rport->lport;
-> +		nvme_fc_signal_discovery_scan(lport, rport);
-> +		nvme_fc_rport_put(rport);
-> +		nvme_fc_lport_put(lport);
-> +	}
-> +	return count;
-> +}
-> +static DEVICE_ATTR(nvme_discovery, 0200, NULL, nvme_fc_nvme_discovery_store);
-> +
-> +static struct attribute *nvme_fc_attrs[] = {
-> +	&dev_attr_nvme_discovery.attr,
-> +	NULL
-> +};
-> +
-> +static struct attribute_group nvme_fc_attr_group = {
-> +	.attrs = nvme_fc_attrs,
-> +};
-> +
-> +static const struct attribute_group *nvme_fc_attr_groups[] = {
-> +	&nvme_fc_attr_group,
-> +	NULL
-> +};
-> +
-> +static struct class fc_class = {
-> +	.name = "fc",
-> +	.dev_groups = nvme_fc_attr_groups,
-> +	.owner = THIS_MODULE,
-> +};
-> +
->   static int __init nvme_fc_init_module(void)
->   {
->   	int ret;
-> @@ -3272,16 +3368,16 @@ static int __init nvme_fc_init_module(void)
->   	 * put in place, this code will move to a more generic
->   	 * location for the class.
->   	 */
-> -	fc_class = class_create(THIS_MODULE, "fc");
-> -	if (IS_ERR(fc_class)) {
-> +	ret = class_register(&fc_class);
-> +	if (ret) {
->   		pr_err("couldn't register class fc\n");
-> -		return PTR_ERR(fc_class);
-> +		return ret;
->   	}
->   
->   	/*
->   	 * Create a device for the FC-centric udev events
->   	 */
-> -	fc_udev_device = device_create(fc_class, NULL, MKDEV(0, 0), NULL,
-> +	fc_udev_device = device_create(&fc_class, NULL, MKDEV(0, 0), NULL,
->   				"fc_udev_device");
->   	if (IS_ERR(fc_udev_device)) {
->   		pr_err("couldn't create fc_udev device!\n");
-> @@ -3296,9 +3392,9 @@ static int __init nvme_fc_init_module(void)
->   	return 0;
->   
->   out_destroy_device:
-> -	device_destroy(fc_class, MKDEV(0, 0));
-> +	device_destroy(&fc_class, MKDEV(0, 0));
->   out_destroy_class:
-> -	class_destroy(fc_class);
-> +	class_unregister(&fc_class);
->   	return ret;
->   }
->   
-> @@ -3313,8 +3409,8 @@ static void __exit nvme_fc_exit_module(void)
->   	ida_destroy(&nvme_fc_local_port_cnt);
->   	ida_destroy(&nvme_fc_ctrl_cnt);
->   
-> -	device_destroy(fc_class, MKDEV(0, 0));
-> -	class_destroy(fc_class);
-> +	device_destroy(&fc_class, MKDEV(0, 0));
-> +	class_unregister(&fc_class);
->   }
->   
->   module_init(nvme_fc_init_module);
+But if the caller must absolutely know where the bio will end up, then
+it seems super redundant. So I'd vote for killing this check, it buys
+us absolutely nothing and isn't even exhaustive in its current form.
+
+-- 
+Jens Axboe
