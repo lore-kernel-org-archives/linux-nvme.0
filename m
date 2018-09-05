@@ -1,133 +1,80 @@
-From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Wed,  5 Sep 2018 12:09:46 +0800
-Subject: [PATCH 3/3] nvme-pci: use queue close instead of queue freeze
-In-Reply-To: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed,  5 Sep 2018 09:00:52 +0200
+Subject: [PATCH 4/5] zram: register default groups with device_add_disk()
+In-Reply-To: <20180905070053.26239-1-hare@suse.de>
+References: <20180905070053.26239-1-hare@suse.de>
+Message-ID: <20180905070053.26239-5-hare@suse.de>
 
-nvme_dev_disable freezes queues to prevent new IO. nvme_reset_work
-will unfreeze and wait to drain the queues. However, if IO timeout
-at the moment, no body could do recovery as nvme_reset_work is
-waiting. We will encounter IO hang.
+Register default sysfs groups during device_add_disk() to avoid a
+race condition with udev during startup.
 
-To avoid this scenario, use queue close to prevent new IO which
-doesn't need to drain the queues. And just use queue freeze to
-try to wait for in-flight IO for shutdown case.
-
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+Cc: Minchan Kim <minchan at kernel.org>
+Cc: Nitin Gupta <ngupta at vflare.org>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
 ---
- drivers/nvme/host/core.c | 22 ++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  3 +++
- drivers/nvme/host/pci.c  | 27 ++++++++++++++-------------
- 3 files changed, 39 insertions(+), 13 deletions(-)
+ drivers/block/zram/zram_drv.c | 28 +++++++---------------------
+ 1 file changed, 7 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd8ec1d..ce5b35b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3602,6 +3602,28 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_kill_queues);
+diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
+index a1d6b5597c17..4879595200e1 100644
+--- a/drivers/block/zram/zram_drv.c
++++ b/drivers/block/zram/zram_drv.c
+@@ -1636,6 +1636,11 @@ static const struct attribute_group zram_disk_attr_group = {
+ 	.attrs = zram_disk_attrs,
+ };
  
-+void nvme_close_queues(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
++static const struct attribute_group *zram_disk_attr_groups[] = {
++	&zram_disk_attr_group,
++	NULL,
++};
 +
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_set_queue_closed(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_close_queues);
-+
-+void nvme_open_queues(struct nvme_ctrl *ctrl)
-+{
-+	struct nvme_ns *ns;
-+
-+	down_read(&ctrl->namespaces_rwsem);
-+	list_for_each_entry(ns, &ctrl->namespaces, list)
-+		blk_clear_queue_closed(ns->queue);
-+	up_read(&ctrl->namespaces_rwsem);
-+}
-+EXPORT_SYMBOL_GPL(nvme_open_queues);
-+
- void nvme_unfreeze(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a200..fcd44cb 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -437,6 +437,9 @@ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
+ /*
+  * Allocate and initialize new zram device. the function returns
+  * '>= 0' device_id upon success, and negative value otherwise.
+@@ -1716,24 +1721,14 @@ static int zram_add(void)
  
-+void nvme_close_queues(struct nvme_ctrl *ctrl);
-+void nvme_open_queues(struct nvme_ctrl *ctrl);
-+
- #define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
- 		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682..c0ccd04 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2145,23 +2145,25 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	mutex_lock(&dev->shutdown_lock);
-+	nvme_close_queues(&dev->ctrl);
- 	if (pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
--		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--		    dev->ctrl.state == NVME_CTRL_RESETTING)
--			nvme_start_freeze(&dev->ctrl);
- 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
- 			pdev->error_state  != pci_channel_io_normal);
+ 	zram->disk->queue->backing_dev_info->capabilities |=
+ 			(BDI_CAP_STABLE_WRITES | BDI_CAP_SYNCHRONOUS_IO);
+-	add_disk(zram->disk);
+-
+-	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
+-				&zram_disk_attr_group);
+-	if (ret < 0) {
+-		pr_err("Error creating sysfs group for device %d\n",
+-				device_id);
+-		goto out_free_disk;
 -	}
++	device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
++
+ 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
  
+ 	zram_debugfs_register(zram);
+ 	pr_info("Added device: %s\n", zram->disk->disk_name);
+ 	return device_id;
+ 
+-out_free_disk:
+-	del_gendisk(zram->disk);
+-	put_disk(zram->disk);
+ out_free_queue:
+ 	blk_cleanup_queue(queue);
+ out_free_idr:
+@@ -1762,15 +1757,6 @@ static int zram_remove(struct zram *zram)
+ 	mutex_unlock(&bdev->bd_mutex);
+ 
+ 	zram_debugfs_unregister(zram);
 -	/*
--	 * Give the controller a chance to complete all entered requests if
--	 * doing a safe shutdown.
+-	 * Remove sysfs first, so no one will perform a disksize
+-	 * store while we destroy the devices. This also helps during
+-	 * hot_remove -- zram_reset_device() is the last holder of
+-	 * ->init_lock, no later/concurrent disksize_store() or any
+-	 * other sysfs handlers are possible.
 -	 */
--	if (!dead) {
--		if (shutdown)
--			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+		if (dev->ctrl.state == NVME_CTRL_LIVE ||
-+		    dev->ctrl.state == NVME_CTRL_RESETTING) {
-+			/*
-+			 * Give the controller a chance to complete all entered
-+			 * requests if doing a safe shutdown.
-+			 */
-+			if (!dead && shutdown) {
-+				nvme_start_freeze(&dev->ctrl);
-+				nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+				nvme_unfreeze(&dev->ctrl);
-+			}
-+		}
- 	}
+-	sysfs_remove_group(&disk_to_dev(zram->disk)->kobj,
+-			&zram_disk_attr_group);
  
- 	nvme_stop_queues(&dev->ctrl);
-@@ -2328,11 +2330,9 @@ static void nvme_reset_work(struct work_struct *work)
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
--		nvme_wait_freeze(&dev->ctrl);
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
--		nvme_unfreeze(&dev->ctrl);
- 	}
- 
- 	/*
-@@ -2345,6 +2345,7 @@ static void nvme_reset_work(struct work_struct *work)
- 		goto out;
- 	}
- 
-+	nvme_open_queues(&dev->ctrl);
- 	nvme_start_ctrl(&dev->ctrl);
- 	return;
- 
+ 	/* Make sure all the pending I/O are finished */
+ 	fsync_bdev(bdev);
 -- 
-2.7.4
+2.16.4
