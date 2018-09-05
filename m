@@ -1,46 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 5 Sep 2018 15:45:07 +0200
-Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
- groups
-In-Reply-To: <c752052a-28ac-588f-0e1b-c784c5065136@suse.de>
-References: <20180905070053.26239-1-hare@suse.de>
- <20180905070053.26239-3-hare@suse.de> <20180905131821.GA26956@lst.de>
- <c752052a-28ac-588f-0e1b-c784c5065136@suse.de>
-Message-ID: <20180905134507.GA27448@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 5 Sep 2018 08:14:07 -0700
+Subject: [PATCH v2] nvmet-rdma: fix possible bogus dereference under heavy
+ load
+In-Reply-To: <20180904190653.GA2060@lst.de>
+References: <20180903104707.5776-1-sagi@grimberg.me>
+ <20180904190653.GA2060@lst.de>
+Message-ID: <f7d0cba7-f363-0216-75c6-0be0723974d8@grimberg.me>
 
-On Wed, Sep 05, 2018@03:32:03PM +0200, Hannes Reinecke wrote:
-> On 09/05/2018 03:18 PM, Christoph Hellwig wrote:
-> > On Wed, Sep 05, 2018@09:00:50AM +0200, Hannes Reinecke wrote:
-> >> We should be registering the ns_id attribute as default sysfs
-> >> attribute groups, otherwise we have a race condition between
-> >> the uevent and the attributes appearing in sysfs.
-> > 
-> > Please give Bart credit for his work, as the lightnvm bits are almost
-> > bigger than the rest.
-> > 
-> Okay, will be doing so.
+
+>> -	rsp = list_first_entry(&queue->free_rsps,
+>> +	rsp = list_first_entry_or_null(&queue->free_rsps,
+>>   				struct nvmet_rdma_rsp, free_list);
+>> -	list_del(&rsp->free_list);
+>> +	if (likely(rsp)) {
+>> +		list_del(&rsp->free_list);
+>> +		rsp->allocated = false;
 > 
-> >> +static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
-> >> +				     struct attribute *attr, int index)
-> >>  {
-> >> +	struct device *dev = container_of(kobj, struct device, kobj);
-> >> +	struct gendisk *disk = dev_to_disk(dev);
-> >> +	struct nvme_ns *ns = disk->private_data;
-> >>  	struct nvm_dev *ndev = ns->ndev;
-> >> +	struct device_attribute *dev_attr =
-> >> +		container_of(attr, typeof(*dev_attr), attr);
-> >>  
-> >> +	if (dev_attr->show == nvm_dev_attr_show)
-> >> +		return attr->mode;
-> >>  
-> >> +	switch (ndev ? ndev->geo.major_ver_id : 0) {
-> > 
-> > How could ndev be zero here?
-> > 
-> For 'normal' NVMe devices (ie non-lightnvm). As we now register all
-> sysfs attributes (including the lightnvm ones) per default we'll need to
-> blank them out for non-lightnvm devices.
+> Given that we never set allocated to true for something we got from
+> the freelist, and the structures were allocated using kcalloc I don't
+> ?ee why we need to set it to false here.
 
-But then we need to exit early at the beginning of the function,
-as we should not register attributes using nvm_dev_attr_show (or
-anything else for that matter) either.
+I have no problem removing it, should I send a new spin?
