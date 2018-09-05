@@ -1,8 +1,8 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 5 Sep 2018 14:18:03 -0600
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 5 Sep 2018 14:19:39 -0600
 Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
  check support for requests
-In-Reply-To: <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
+In-Reply-To: <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
 References: <20180830185352.3369-1-logang@deltatee.com>
  <20180830185352.3369-8-logang@deltatee.com>
  <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
@@ -16,16 +16,23 @@ References: <20180830185352.3369-1-logang@deltatee.com>
  <20180905201152.GA1893@lst.de>
  <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
  <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
-Message-ID: <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
+ <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
+Message-ID: <3af4d1d4-da07-c0a6-8464-9ddc1378f2f4@kernel.dk>
 
+On 9/5/18 2:18 PM, Logan Gunthorpe wrote:
+> 
+> 
+> On 05/09/18 02:14 PM, Jens Axboe wrote:
+>> But if the caller must absolutely know where the bio will end up, then
+>> it seems super redundant. So I'd vote for killing this check, it buys
+>> us absolutely nothing and isn't even exhaustive in its current form.
+> 
+> 
+> Ok, I'll remove it for v6.
 
+Since the drivers needs to know it's doing it right, it might not
+hurt to add a sanity check helper for that. Just have the driver
+call it, and don't add it in the normal IO submission path.
 
-On 05/09/18 02:14 PM, Jens Axboe wrote:
-> But if the caller must absolutely know where the bio will end up, then
-> it seems super redundant. So I'd vote for killing this check, it buys
-> us absolutely nothing and isn't even exhaustive in its current form.
-
-
-Ok, I'll remove it for v6.
-
-Logan
+-- 
+Jens Axboe
