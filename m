@@ -1,291 +1,95 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed,  5 Sep 2018 09:00:50 +0200
-Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs groups
+Date: Wed,  5 Sep 2018 09:00:51 +0200
+Subject: [PATCH 3/5] aoe: use device_add_disk_with_groups()
 In-Reply-To: <20180905070053.26239-1-hare@suse.de>
 References: <20180905070053.26239-1-hare@suse.de>
-Message-ID: <20180905070053.26239-3-hare@suse.de>
+Message-ID: <20180905070053.26239-4-hare@suse.de>
 
-We should be registering the ns_id attribute as default sysfs
-attribute groups, otherwise we have a race condition between
-the uevent and the attributes appearing in sysfs.
+Use device_add_disk_with_groups() to avoid a race condition with
+udev during startup.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Acked-by: Ed L. Cachin <ed.cashin at acm.org>
+Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
 ---
- drivers/nvme/host/core.c      |  21 ++++-----
- drivers/nvme/host/lightnvm.c  | 106 +++++++++++++++++-------------------------
- drivers/nvme/host/multipath.c |  15 ++----
- drivers/nvme/host/nvme.h      |  10 +---
- 4 files changed, 58 insertions(+), 94 deletions(-)
+ drivers/block/aoe/aoe.h    |  1 -
+ drivers/block/aoe/aoeblk.c | 21 +++++++--------------
+ drivers/block/aoe/aoedev.c |  1 -
+ 3 files changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0e824e8c8fd7..e0a9e1c5b30e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2734,6 +2734,14 @@ const struct attribute_group nvme_ns_id_attr_group = {
- 	.is_visible	= nvme_ns_id_attrs_are_visible,
- };
+diff --git a/drivers/block/aoe/aoe.h b/drivers/block/aoe/aoe.h
+index c0ebda1283cc..015c68017a1c 100644
+--- a/drivers/block/aoe/aoe.h
++++ b/drivers/block/aoe/aoe.h
+@@ -201,7 +201,6 @@ int aoeblk_init(void);
+ void aoeblk_exit(void);
+ void aoeblk_gdalloc(void *);
+ void aoedisk_rm_debugfs(struct aoedev *d);
+-void aoedisk_rm_sysfs(struct aoedev *d);
  
-+const struct attribute_group *nvme_ns_id_attr_groups[] = {
-+	&nvme_ns_id_attr_group,
-+#ifdef CONFIG_NVM
-+	&nvme_nvm_attr_group,
-+#endif
-+	NULL,
-+};
-+
- #define nvme_show_str_function(field)						\
- static ssize_t  field##_show(struct device *dev,				\
- 			    struct device_attribute *attr, char *buf)		\
-@@ -3099,14 +3107,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- 	nvme_get_ctrl(ctrl);
- 
--	device_add_disk(ctrl->device, ns->disk, NULL);
--	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_id_attr_group))
--		pr_warn("%s: failed to create sysfs group for identification\n",
--			ns->disk->disk_name);
--	if (ns->ndev && nvme_nvm_register_sysfs(ns))
--		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
--			ns->disk->disk_name);
-+	device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups);
- 
- 	nvme_mpath_add_disk(ns, id);
- 	nvme_fault_inject_init(ns);
-@@ -3132,10 +3133,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	nvme_fault_inject_fini(ns);
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
--		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_id_attr_group);
--		if (ns->ndev)
--			nvme_nvm_unregister_sysfs(ns);
- 		del_gendisk(ns->disk);
- 		blk_cleanup_queue(ns->queue);
- 		if (blk_get_integrity(ns->disk))
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 6fe5923c95d4..941ce5fc48f5 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -1190,10 +1190,29 @@ static NVM_DEV_ATTR_12_RO(multiplane_modes);
- static NVM_DEV_ATTR_12_RO(media_capabilities);
- static NVM_DEV_ATTR_12_RO(max_phys_secs);
- 
--static struct attribute *nvm_dev_attrs_12[] = {
-+/* 2.0 values */
-+static NVM_DEV_ATTR_20_RO(groups);
-+static NVM_DEV_ATTR_20_RO(punits);
-+static NVM_DEV_ATTR_20_RO(chunks);
-+static NVM_DEV_ATTR_20_RO(clba);
-+static NVM_DEV_ATTR_20_RO(ws_min);
-+static NVM_DEV_ATTR_20_RO(ws_opt);
-+static NVM_DEV_ATTR_20_RO(maxoc);
-+static NVM_DEV_ATTR_20_RO(maxocpu);
-+static NVM_DEV_ATTR_20_RO(mw_cunits);
-+static NVM_DEV_ATTR_20_RO(write_typ);
-+static NVM_DEV_ATTR_20_RO(write_max);
-+static NVM_DEV_ATTR_20_RO(reset_typ);
-+static NVM_DEV_ATTR_20_RO(reset_max);
-+
-+static struct attribute *nvm_dev_attrs[] = {
-+	/* version agnostic attrs */
- 	&dev_attr_version.attr,
- 	&dev_attr_capabilities.attr,
-+	&dev_attr_read_typ.attr,
-+	&dev_attr_read_max.attr,
- 
-+	/* 1.2 attrs */
- 	&dev_attr_vendor_opcode.attr,
- 	&dev_attr_device_mode.attr,
- 	&dev_attr_media_manager.attr,
-@@ -1208,8 +1227,6 @@ static struct attribute *nvm_dev_attrs_12[] = {
- 	&dev_attr_page_size.attr,
- 	&dev_attr_hw_sector_size.attr,
- 	&dev_attr_oob_sector_size.attr,
--	&dev_attr_read_typ.attr,
--	&dev_attr_read_max.attr,
- 	&dev_attr_prog_typ.attr,
- 	&dev_attr_prog_max.attr,
- 	&dev_attr_erase_typ.attr,
-@@ -1218,33 +1235,7 @@ static struct attribute *nvm_dev_attrs_12[] = {
- 	&dev_attr_media_capabilities.attr,
- 	&dev_attr_max_phys_secs.attr,
- 
--	NULL,
--};
--
--static const struct attribute_group nvm_dev_attr_group_12 = {
--	.name		= "lightnvm",
--	.attrs		= nvm_dev_attrs_12,
--};
--
--/* 2.0 values */
--static NVM_DEV_ATTR_20_RO(groups);
--static NVM_DEV_ATTR_20_RO(punits);
--static NVM_DEV_ATTR_20_RO(chunks);
--static NVM_DEV_ATTR_20_RO(clba);
--static NVM_DEV_ATTR_20_RO(ws_min);
--static NVM_DEV_ATTR_20_RO(ws_opt);
--static NVM_DEV_ATTR_20_RO(maxoc);
--static NVM_DEV_ATTR_20_RO(maxocpu);
--static NVM_DEV_ATTR_20_RO(mw_cunits);
--static NVM_DEV_ATTR_20_RO(write_typ);
--static NVM_DEV_ATTR_20_RO(write_max);
--static NVM_DEV_ATTR_20_RO(reset_typ);
--static NVM_DEV_ATTR_20_RO(reset_max);
--
--static struct attribute *nvm_dev_attrs_20[] = {
--	&dev_attr_version.attr,
--	&dev_attr_capabilities.attr,
--
-+	/* 2.0 attrs */
- 	&dev_attr_groups.attr,
- 	&dev_attr_punits.attr,
- 	&dev_attr_chunks.attr,
-@@ -1255,8 +1246,6 @@ static struct attribute *nvm_dev_attrs_20[] = {
- 	&dev_attr_maxocpu.attr,
- 	&dev_attr_mw_cunits.attr,
- 
--	&dev_attr_read_typ.attr,
--	&dev_attr_read_max.attr,
- 	&dev_attr_write_typ.attr,
- 	&dev_attr_write_max.attr,
- 	&dev_attr_reset_typ.attr,
-@@ -1265,44 +1254,35 @@ static struct attribute *nvm_dev_attrs_20[] = {
+ int aoechr_init(void);
+ void aoechr_exit(void);
+diff --git a/drivers/block/aoe/aoeblk.c b/drivers/block/aoe/aoeblk.c
+index 429ebb84b592..ff770e7d9e52 100644
+--- a/drivers/block/aoe/aoeblk.c
++++ b/drivers/block/aoe/aoeblk.c
+@@ -177,10 +177,15 @@ static struct attribute *aoe_attrs[] = {
  	NULL,
  };
  
--static const struct attribute_group nvm_dev_attr_group_20 = {
--	.name		= "lightnvm",
--	.attrs		= nvm_dev_attrs_20,
--};
--
--int nvme_nvm_register_sysfs(struct nvme_ns *ns)
-+static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
-+				     struct attribute *attr, int index)
- {
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct gendisk *disk = dev_to_disk(dev);
-+	struct nvme_ns *ns = disk->private_data;
- 	struct nvm_dev *ndev = ns->ndev;
--	struct nvm_geo *geo = &ndev->geo;
-+	struct device_attribute *dev_attr =
-+		container_of(attr, typeof(*dev_attr), attr);
+-static const struct attribute_group attr_group = {
++static const struct attribute_group aoe_attr_group = {
+ 	.attrs = aoe_attrs,
+ };
  
--	if (!ndev)
--		return -EINVAL;
--
--	switch (geo->major_ver_id) {
--	case 1:
--		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
--					&nvm_dev_attr_group_12);
--	case 2:
--		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
--					&nvm_dev_attr_group_20);
--	}
--
--	return -EINVAL;
--}
--
--void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
--{
--	struct nvm_dev *ndev = ns->ndev;
--	struct nvm_geo *geo = &ndev->geo;
-+	if (dev_attr->show == nvm_dev_attr_show)
-+		return attr->mode;
- 
--	switch (geo->major_ver_id) {
-+	switch (ndev ? ndev->geo.major_ver_id : 0) {
- 	case 1:
--		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
--					&nvm_dev_attr_group_12);
-+		if (dev_attr->show == nvm_dev_attr_show_12)
-+			return attr->mode;
- 		break;
- 	case 2:
--		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
--					&nvm_dev_attr_group_20);
-+		if (dev_attr->show == nvm_dev_attr_show_20)
-+			return attr->mode;
- 		break;
- 	}
-+
-+	return 0;
- }
-+
-+const struct attribute_group nvme_nvm_attr_group = {
-+	.name		= "lightnvm",
-+	.attrs		= nvm_dev_attrs,
-+	.is_visible	= nvm_dev_attrs_visible,
++static const struct attribute_group *aoe_attr_groups[] = {
++	&aoe_attr_group,
++	NULL,
 +};
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 477af51d01e8..8e846095c42d 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -282,13 +282,9 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
- 	if (!head->disk)
- 		return;
- 
--	if (!(head->disk->flags & GENHD_FL_UP)) {
--		device_add_disk(&head->subsys->dev, head->disk, NULL);
--		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
--				&nvme_ns_id_attr_group))
--			dev_warn(&head->subsys->dev,
--				 "failed to create id group.\n");
--	}
-+	if (!(head->disk->flags & GENHD_FL_UP))
-+		device_add_disk(&head->subsys->dev, head->disk,
-+				nvme_ns_id_attr_groups);
- 
- 	kblockd_schedule_work(&ns->head->requeue_work);
- }
-@@ -494,11 +490,8 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
- 		return;
--	if (head->disk->flags & GENHD_FL_UP) {
--		sysfs_remove_group(&disk_to_dev(head->disk)->kobj,
--				   &nvme_ns_id_attr_group);
-+	if (head->disk->flags & GENHD_FL_UP)
- 		del_gendisk(head->disk);
--	}
- 	blk_set_queue_dying(head->disk->queue);
- 	/* make sure all pending bios are cleaned up */
- 	kblockd_schedule_work(&head->requeue_work);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a2003c097..2503f8fd54da 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -459,7 +459,7 @@ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
- int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
- 		void *log, size_t size, u64 offset);
- 
--extern const struct attribute_group nvme_ns_id_attr_group;
-+extern const struct attribute_group *nvme_ns_id_attr_groups[];
- extern const struct block_device_operations nvme_ns_head_ops;
- 
- #ifdef CONFIG_NVME_MULTIPATH
-@@ -551,8 +551,7 @@ static inline void nvme_mpath_stop(struct nvme_ctrl *ctrl)
- void nvme_nvm_update_nvm_info(struct nvme_ns *ns);
- int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
- void nvme_nvm_unregister(struct nvme_ns *ns);
--int nvme_nvm_register_sysfs(struct nvme_ns *ns);
--void nvme_nvm_unregister_sysfs(struct nvme_ns *ns);
-+extern const struct attribute_group nvme_nvm_attr_group;
- int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd, unsigned long arg);
- #else
- static inline void nvme_nvm_update_nvm_info(struct nvme_ns *ns) {};
-@@ -563,11 +562,6 @@ static inline int nvme_nvm_register(struct nvme_ns *ns, char *disk_name,
++
+ static const struct file_operations aoe_debugfs_fops = {
+ 	.open = aoe_debugfs_open,
+ 	.read = seq_read,
+@@ -219,17 +224,6 @@ aoedisk_rm_debugfs(struct aoedev *d)
+ 	d->debugfs = NULL;
  }
  
- static inline void nvme_nvm_unregister(struct nvme_ns *ns) {};
--static inline int nvme_nvm_register_sysfs(struct nvme_ns *ns)
+-static int
+-aoedisk_add_sysfs(struct aoedev *d)
 -{
--	return 0;
+-	return sysfs_create_group(&disk_to_dev(d->gd)->kobj, &attr_group);
 -}
--static inline void nvme_nvm_unregister_sysfs(struct nvme_ns *ns) {};
- static inline int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd,
- 							unsigned long arg)
+-void
+-aoedisk_rm_sysfs(struct aoedev *d)
+-{
+-	sysfs_remove_group(&disk_to_dev(d->gd)->kobj, &attr_group);
+-}
+-
+ static int
+ aoeblk_open(struct block_device *bdev, fmode_t mode)
  {
+@@ -417,8 +411,7 @@ aoeblk_gdalloc(void *vp)
+ 
+ 	spin_unlock_irqrestore(&d->lock, flags);
+ 
+-	add_disk(gd);
+-	aoedisk_add_sysfs(d);
++	device_add_disk(NULL, gd, aoe_attr_groups);
+ 	aoedisk_add_debugfs(d);
+ 
+ 	spin_lock_irqsave(&d->lock, flags);
+diff --git a/drivers/block/aoe/aoedev.c b/drivers/block/aoe/aoedev.c
+index 41060e9cedf2..f29a140cdbc1 100644
+--- a/drivers/block/aoe/aoedev.c
++++ b/drivers/block/aoe/aoedev.c
+@@ -275,7 +275,6 @@ freedev(struct aoedev *d)
+ 	del_timer_sync(&d->timer);
+ 	if (d->gd) {
+ 		aoedisk_rm_debugfs(d);
+-		aoedisk_rm_sysfs(d);
+ 		del_gendisk(d->gd);
+ 		put_disk(d->gd);
+ 		blk_cleanup_queue(d->blkq);
 -- 
 2.16.4
