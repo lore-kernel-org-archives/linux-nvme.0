@@ -1,41 +1,128 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 6 Sep 2018 05:27:00 +0800
-Subject: [PATCH 0/3] Introduce a light-weight queue close feature
-In-Reply-To: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Thu, 6 Sep 2018 06:09:11 +0800
+Subject: [PATCH 3/3] nvme-pci: use queue close instead of queue freeze
+In-Reply-To: <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
 References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <20180905212659.GB21352@ming.t460p>
+ <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <20180905220910.GC21352@ming.t460p>
 
-On Wed, Sep 05, 2018@12:09:43PM +0800, Jianchao Wang wrote:
-> Dear all
+On Wed, Sep 05, 2018@12:09:46PM +0800, Jianchao Wang wrote:
+> nvme_dev_disable freezes queues to prevent new IO. nvme_reset_work
+> will unfreeze and wait to drain the queues. However, if IO timeout
+> at the moment, no body could do recovery as nvme_reset_work is
+> waiting. We will encounter IO hang.
 > 
-> As we know, queue freeze is used to stop new IO comming in and drain
-> the request queue. And the draining queue here is necessary, because
-> queue freeze kills the percpu-ref q_usage_counter and need to drain
-> the q_usage_counter before switch it back to percpu mode. This could
-> be a trouble when we just want to prevent new IO.
+> To avoid this scenario, use queue close to prevent new IO which
+> doesn't need to drain the queues. And just use queue freeze to
+> try to wait for in-flight IO for shutdown case.
 > 
-> In nvme-pci, nvme_dev_disable freezes queues to prevent new IO.
-> nvme_reset_work will unfreeze and wait to drain the queues. However,
-> if IO timeout at the moment, no body could do recovery as nvme_reset_work
-> is waiting. We will encounter IO hang.
-
-As we discussed this nvme time issue before, I have pointed out that
-this is because of blk_mq_unfreeze_queue()'s limit which requires that
-unfreeze can only be done when this queue ref counter drops to zero.
-
-For this nvme timeout case, we may relax the limit, for example,
-introducing another API of blk_freeze_queue_stop() as counter-pair of
-blk_freeze_queue_start(), and simply switch the percpu-ref to percpu mode
-from atomic mode inside the new API.
-
+> Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+> ---
+>  drivers/nvme/host/core.c | 22 ++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h |  3 +++
+>  drivers/nvme/host/pci.c  | 27 ++++++++++++++-------------
+>  3 files changed, 39 insertions(+), 13 deletions(-)
 > 
-> So introduce a light-weight queue close feature in this patch set
-> which could prevent new IO and needn't drain the queue.
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index dd8ec1d..ce5b35b 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -3602,6 +3602,28 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_kill_queues);
+>  
+> +void nvme_close_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ns *ns;
+> +
+> +	down_read(&ctrl->namespaces_rwsem);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +		blk_set_queue_closed(ns->queue);
+> +	up_read(&ctrl->namespaces_rwsem);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_close_queues);
+> +
+> +void nvme_open_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	struct nvme_ns *ns;
+> +
+> +	down_read(&ctrl->namespaces_rwsem);
+> +	list_for_each_entry(ns, &ctrl->namespaces, list)
+> +		blk_clear_queue_closed(ns->queue);
+> +	up_read(&ctrl->namespaces_rwsem);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_open_queues);
+> +
+>  void nvme_unfreeze(struct nvme_ctrl *ctrl)
+>  {
+>  	struct nvme_ns *ns;
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index bb4a200..fcd44cb 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -437,6 +437,9 @@ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+>  void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
+>  void nvme_start_freeze(struct nvme_ctrl *ctrl);
+>  
+> +void nvme_close_queues(struct nvme_ctrl *ctrl);
+> +void nvme_open_queues(struct nvme_ctrl *ctrl);
+> +
+>  #define NVME_QID_ANY -1
+>  struct request *nvme_alloc_request(struct request_queue *q,
+>  		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d668682..c0ccd04 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2145,23 +2145,25 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  
+>  	mutex_lock(&dev->shutdown_lock);
+> +	nvme_close_queues(&dev->ctrl);
+>  	if (pci_is_enabled(pdev)) {
+>  		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+>  
+> -		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+> -		    dev->ctrl.state == NVME_CTRL_RESETTING)
+> -			nvme_start_freeze(&dev->ctrl);
+>  		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
+>  			pdev->error_state  != pci_channel_io_normal);
+> -	}
+>  
+> -	/*
+> -	 * Give the controller a chance to complete all entered requests if
+> -	 * doing a safe shutdown.
+> -	 */
+> -	if (!dead) {
+> -		if (shutdown)
+> -			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> +		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+> +		    dev->ctrl.state == NVME_CTRL_RESETTING) {
+> +			/*
+> +			 * Give the controller a chance to complete all entered
+> +			 * requests if doing a safe shutdown.
+> +			 */
+> +			if (!dead && shutdown) {
+> +				nvme_start_freeze(&dev->ctrl);
+> +				nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
+> +				nvme_unfreeze(&dev->ctrl);
+> +			}
+> +		}
+>  	}
+>  
+>  	nvme_stop_queues(&dev->ctrl);
+> @@ -2328,11 +2330,9 @@ static void nvme_reset_work(struct work_struct *work)
+>  		new_state = NVME_CTRL_ADMIN_ONLY;
+>  	} else {
+>  		nvme_start_queues(&dev->ctrl);
+> -		nvme_wait_freeze(&dev->ctrl);
+>  		/* hit this only when allocate tagset fails */
+>  		if (nvme_dev_add(dev))
+>  			new_state = NVME_CTRL_ADMIN_ONLY;
+> -		nvme_unfreeze(&dev->ctrl);
 
-Frankly speaking, IMO, it may not be an good idea to mess up the fast path
-just for handling the extremely unusual timeout event. The same is true
-for doing the preemp only stuff, as you saw I have posted patchset for
-killing it.
+nvme_dev_add() still may call freeze & unfreeze queue, so your patch
+can't avoid draining queue completely here.
 
 Thanks,
 Ming
