@@ -1,28 +1,27 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 05 Sep 2018 08:57:17 -0700
-Subject: [PATCH 2/3] blk-core: introduce queue close feature
-In-Reply-To: <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
-References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
- <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1536163037.11534.6.camel@acm.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 5 Sep 2018 19:16:32 +0200
+Subject: [PATCH v2] nvmet-rdma: fix possible bogus dereference under
+ heavy load
+In-Reply-To: <f7d0cba7-f363-0216-75c6-0be0723974d8@grimberg.me>
+References: <20180903104707.5776-1-sagi@grimberg.me>
+ <20180904190653.GA2060@lst.de>
+ <f7d0cba7-f363-0216-75c6-0be0723974d8@grimberg.me>
+Message-ID: <20180905171632.GA31569@lst.de>
 
-On Wed, 2018-09-05@12:09 +0800, Jianchao Wang wrote:
-> blk queue freeze is often used to prevent new IO from entering
-> request queue. However, becuase we kill the percpu-ref
-> q_usage_counter when freeze queue, we have to drain the request
-> queue when unfreeze. This is unnecessary for just preventing new
-> IO. In addition, If there is IO timeout or other issue when unfreeze
-> the queue, the scenario could be very tricky.
-> 
-> So we introduce BLK_QUEUE_GATE_CLOSED to implement a light-weight
-> queue close feature base on the queue_gate to prevent new IO from
-> comming in queue which will not need to drain the queue any more.
+On Wed, Sep 05, 2018@08:14:07AM -0700, Sagi Grimberg wrote:
+>
+>>> -	rsp = list_first_entry(&queue->free_rsps,
+>>> +	rsp = list_first_entry_or_null(&queue->free_rsps,
+>>>   				struct nvmet_rdma_rsp, free_list);
+>>> -	list_del(&rsp->free_list);
+>>> +	if (likely(rsp)) {
+>>> +		list_del(&rsp->free_list);
+>>> +		rsp->allocated = false;
+>>
+>> Given that we never set allocated to true for something we got from
+>> the freelist, and the structures were allocated using kcalloc I don't
+>> ?ee why we need to set it to false here.
+>
+> I have no problem removing it, should I send a new spin?
 
-Does the "queue gate close" feature cause blk_get_request() /
-blk_mq_get_request() to block until blk_clear_queue_closed() is called? If
-so, I think we need a better name for this feature. How about calling these
-two operations suspend and resume?
-
-Thanks,
-
-Bart.
+I can fix it up.
