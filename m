@@ -1,8 +1,8 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 5 Sep 2018 13:53:43 -0600
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 5 Sep 2018 13:54:31 -0600
 Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
  check support for requests
-In-Reply-To: <09258b9b-3aed-9890-b31a-bd70a133966c@kernel.dk>
+In-Reply-To: <20180905195647.GA1626@lst.de>
 References: <20180830185352.3369-1-logang@deltatee.com>
  <20180830185352.3369-8-logang@deltatee.com>
  <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
@@ -11,30 +11,20 @@ References: <20180830185352.3369-1-logang@deltatee.com>
  <59b28977-8f2a-6228-2050-03fae6bdbedd@kernel.dk>
  <1b4283da-44df-4a02-3167-e295243cef78@deltatee.com>
  <09258b9b-3aed-9890-b31a-bd70a133966c@kernel.dk>
-Message-ID: <5e2c8d24-fe09-ad4a-9b11-9238e176be58@deltatee.com>
+ <20180905195647.GA1626@lst.de>
+Message-ID: <bcc1b3cf-2fd9-fa61-9cfb-b0e4d84e5d94@kernel.dk>
 
-
-
-On 05/09/18 01:45 PM, Jens Axboe wrote:
-> The point is that the caller doesn't necessarily know where the bio
-> will end up, hence the caller can't fully check if the whole stack
-> supports P2P.
+On 9/5/18 1:56 PM, Christoph Hellwig wrote:
+> On Wed, Sep 05, 2018@01:45:04PM -0600, Jens Axboe wrote:
+>> The point is that the caller doesn't necessarily know where the bio
+>> will end up, hence the caller can't fully check if the whole stack
+>> supports P2P.
 > 
-> What happens if a P2P request ends up with a driver that doesn't
-> support it?
+> The caller must necessarily know where the bio will end up, as for P2P
+> support we need to query if the bio target is P2P capable vs the
+> source of the P2P memory.
 
-Yes, that's the whole point this check. Although we expect the caller to
-do other checks before submitting a P2P request to a queue, so if a
-driver does submit a P2P request to an unsupported queue, it is
-definitely a problem in the driver (which is why we want to WARN).
+Then what's the point of having the check at all?
 
-Queues that support P2P (only PCI NVMe at this time, see patch 10) must
-set QUEUE_FLAG_PCI_P2PDMA to indicate it. The check we are adding in
-blk-core is meant to ensure any broken drivers that submit requests with
-P2P memory do not get sent to a queue that doesn't indicate support.
-
-On top of that, the code in NVMe target ensures that all namespaces on a
-port are backed by queues that support P2P and, if not, it never
-allocates any P2P SGLs.
-
-Logan
+-- 
+Jens Axboe
