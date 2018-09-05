@@ -1,14 +1,9 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 5 Sep 2018 13:55:07 -0600
-Subject: [PATCH] nvme-cli: make malloc error handling uniform
-In-Reply-To: <20180905194623.24233-1-chaitanya.kulkarni@wdc.com>
-References: <20180905194623.24233-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180905195507.GA21243@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 5 Sep 2018 12:56:52 -0700
+Subject: [PATCH v2] nvmet_fc: support target port removal with nvmet layer
+In-Reply-To: <20180809234814.14680-1-jsmart2021@gmail.com>
+References: <20180809234814.14680-1-jsmart2021@gmail.com>
+Message-ID: <20180905195652.GA2560@infradead.org>
 
-On Wed, Sep 05, 2018@12:46:23PM -0700, Chaitanya Kulkarni wrote:
-> This patch makes malloc() memory handling uniform by using errno based
-> error message.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-
-Applied, thanks!
+Ewan, James: what is the conclusion on this patch?   The discussion
+seems to have faded.
