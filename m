@@ -1,80 +1,68 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed,  5 Sep 2018 09:00:52 +0200
-Subject: [PATCH 4/5] zram: register default groups with device_add_disk()
-In-Reply-To: <20180905070053.26239-1-hare@suse.de>
-References: <20180905070053.26239-1-hare@suse.de>
-Message-ID: <20180905070053.26239-5-hare@suse.de>
+Date: Wed,  5 Sep 2018 09:00:48 +0200
+Subject: [PATCHv3 0/5] genhd: register default groups with device_add_disk()
+Message-ID: <20180905070053.26239-1-hare@suse.de>
 
-Register default sysfs groups during device_add_disk() to avoid a
-race condition with udev during startup.
+device_add_disk() doesn't allow to register with default sysfs groups,
+which introduces a race with udev as these groups have to be created after
+the uevent has been sent.
+This patchset updates device_add_disk() to accept a 'groups' argument to
+avoid this race and updates the obvious drivers to use it.
+There are some more drivers which might benefit from this (eg loop or md),
+but the interface is not straightforward so I haven't attempted it.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
-Cc: Minchan Kim <minchan at kernel.org>
-Cc: Nitin Gupta <ngupta at vflare.org>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
----
- drivers/block/zram/zram_drv.c | 28 +++++++---------------------
- 1 file changed, 7 insertions(+), 21 deletions(-)
+As usual, comments and reviews are welcome.
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index a1d6b5597c17..4879595200e1 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1636,6 +1636,11 @@ static const struct attribute_group zram_disk_attr_group = {
- 	.attrs = zram_disk_attrs,
- };
- 
-+static const struct attribute_group *zram_disk_attr_groups[] = {
-+	&zram_disk_attr_group,
-+	NULL,
-+};
-+
- /*
-  * Allocate and initialize new zram device. the function returns
-  * '>= 0' device_id upon success, and negative value otherwise.
-@@ -1716,24 +1721,14 @@ static int zram_add(void)
- 
- 	zram->disk->queue->backing_dev_info->capabilities |=
- 			(BDI_CAP_STABLE_WRITES | BDI_CAP_SYNCHRONOUS_IO);
--	add_disk(zram->disk);
--
--	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
--				&zram_disk_attr_group);
--	if (ret < 0) {
--		pr_err("Error creating sysfs group for device %d\n",
--				device_id);
--		goto out_free_disk;
--	}
-+	device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
-+
- 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
- 
- 	zram_debugfs_register(zram);
- 	pr_info("Added device: %s\n", zram->disk->disk_name);
- 	return device_id;
- 
--out_free_disk:
--	del_gendisk(zram->disk);
--	put_disk(zram->disk);
- out_free_queue:
- 	blk_cleanup_queue(queue);
- out_free_idr:
-@@ -1762,15 +1757,6 @@ static int zram_remove(struct zram *zram)
- 	mutex_unlock(&bdev->bd_mutex);
- 
- 	zram_debugfs_unregister(zram);
--	/*
--	 * Remove sysfs first, so no one will perform a disksize
--	 * store while we destroy the devices. This also helps during
--	 * hot_remove -- zram_reset_device() is the last holder of
--	 * ->init_lock, no later/concurrent disksize_store() or any
--	 * other sysfs handlers are possible.
--	 */
--	sysfs_remove_group(&disk_to_dev(zram->disk)->kobj,
--			&zram_disk_attr_group);
- 
- 	/* Make sure all the pending I/O are finished */
- 	fsync_bdev(bdev);
+Changes to v2:
+- Fold lightnvm attributes into the generic attribute group as
+  suggested by Bart
+
+Changes to v1:
+- Drop first patch
+- Convert lightnvm sysfs attributes as suggested by Bart
+
+Hannes Reinecke (5):
+  block: genhd: add 'groups' argument to device_add_disk
+  nvme: register ns_id attributes as default sysfs groups
+  aoe: use device_add_disk_with_groups()
+  zram: register default groups with device_add_disk()
+  virtio-blk: modernize sysfs attribute creation
+
+ arch/um/drivers/ubd_kern.c          |   2 +-
+ block/genhd.c                       |  19 +++++--
+ drivers/block/aoe/aoe.h             |   1 -
+ drivers/block/aoe/aoeblk.c          |  21 +++----
+ drivers/block/aoe/aoedev.c          |   1 -
+ drivers/block/floppy.c              |   2 +-
+ drivers/block/mtip32xx/mtip32xx.c   |   2 +-
+ drivers/block/ps3disk.c             |   2 +-
+ drivers/block/ps3vram.c             |   2 +-
+ drivers/block/rsxx/dev.c            |   2 +-
+ drivers/block/skd_main.c            |   2 +-
+ drivers/block/sunvdc.c              |   2 +-
+ drivers/block/virtio_blk.c          |  68 +++++++++++++----------
+ drivers/block/xen-blkfront.c        |   2 +-
+ drivers/block/zram/zram_drv.c       |  28 +++-------
+ drivers/ide/ide-cd.c                |   2 +-
+ drivers/ide/ide-gd.c                |   2 +-
+ drivers/memstick/core/ms_block.c    |   2 +-
+ drivers/memstick/core/mspro_block.c |   2 +-
+ drivers/mmc/core/block.c            |   2 +-
+ drivers/mtd/mtd_blkdevs.c           |   2 +-
+ drivers/nvdimm/blk.c                |   2 +-
+ drivers/nvdimm/btt.c                |   2 +-
+ drivers/nvdimm/pmem.c               |   2 +-
+ drivers/nvme/host/core.c            |  21 +++----
+ drivers/nvme/host/lightnvm.c        | 106 +++++++++++++++---------------------
+ drivers/nvme/host/multipath.c       |  15 ++---
+ drivers/nvme/host/nvme.h            |  10 +---
+ drivers/s390/block/dasd_genhd.c     |   2 +-
+ drivers/s390/block/dcssblk.c        |   2 +-
+ drivers/s390/block/scm_blk.c        |   2 +-
+ drivers/scsi/sd.c                   |   2 +-
+ drivers/scsi/sr.c                   |   2 +-
+ include/linux/genhd.h               |   5 +-
+ 34 files changed, 151 insertions(+), 190 deletions(-)
+
 -- 
 2.16.4
