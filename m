@@ -1,8 +1,8 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 5 Sep 2018 14:14:48 -0600
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 5 Sep 2018 14:18:03 -0600
 Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
  check support for requests
-In-Reply-To: <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
+In-Reply-To: <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
 References: <20180830185352.3369-1-logang@deltatee.com>
  <20180830185352.3369-8-logang@deltatee.com>
  <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
@@ -15,34 +15,17 @@ References: <20180830185352.3369-1-logang@deltatee.com>
  <bcc1b3cf-2fd9-fa61-9cfb-b0e4d84e5d94@kernel.dk>
  <20180905201152.GA1893@lst.de>
  <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
-Message-ID: <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
+ <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
+Message-ID: <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
 
-On 9/5/18 2:09 PM, Logan Gunthorpe wrote:
-> 
-> 
-> On 05/09/18 02:11 PM, Christoph Hellwig wrote:
->> On Wed, Sep 05, 2018@01:54:31PM -0600, Jens Axboe wrote:
->>> On 9/5/18 1:56 PM, Christoph Hellwig wrote:
->>>> On Wed, Sep 05, 2018@01:45:04PM -0600, Jens Axboe wrote:
->>>>> The point is that the caller doesn't necessarily know where the bio
->>>>> will end up, hence the caller can't fully check if the whole stack
->>>>> supports P2P.
->>>>
->>>> The caller must necessarily know where the bio will end up, as for P2P
->>>> support we need to query if the bio target is P2P capable vs the
->>>> source of the P2P memory.
->>>
->>> Then what's the point of having the check at all?
->>
->> Just an additional little safe guard.  If you think it isn't worth
->> it I guess we can just drop it for now.
-> 
-> Yes, the point is to prevent driver writers from doing the wrong thing
-> by not doing the necessary checks before submitting to the queue.
 
-But if the caller must absolutely know where the bio will end up, then
-it seems super redundant. So I'd vote for killing this check, it buys
-us absolutely nothing and isn't even exhaustive in its current form.
 
--- 
-Jens Axboe
+On 05/09/18 02:14 PM, Jens Axboe wrote:
+> But if the caller must absolutely know where the bio will end up, then
+> it seems super redundant. So I'd vote for killing this check, it buys
+> us absolutely nothing and isn't even exhaustive in its current form.
+
+
+Ok, I'll remove it for v6.
+
+Logan
