@@ -1,81 +1,133 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Wed,  5 Sep 2018 12:09:45 +0800
-Subject: [PATCH 2/3] blk-core: introduce queue close feature
+Date: Wed,  5 Sep 2018 12:09:46 +0800
+Subject: [PATCH 3/3] nvme-pci: use queue close instead of queue freeze
 In-Reply-To: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
 References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
 
-blk queue freeze is often used to prevent new IO from entering
-request queue. However, becuase we kill the percpu-ref
-q_usage_counter when freeze queue, we have to drain the request
-queue when unfreeze. This is unnecessary for just preventing new
-IO. In addition, If there is IO timeout or other issue when unfreeze
-the queue, the scenario could be very tricky.
+nvme_dev_disable freezes queues to prevent new IO. nvme_reset_work
+will unfreeze and wait to drain the queues. However, if IO timeout
+at the moment, no body could do recovery as nvme_reset_work is
+waiting. We will encounter IO hang.
 
-So we introduce BLK_QUEUE_GATE_CLOSED to implement a light-weight
-queue close feature base on the queue_gate to prevent new IO from
-comming in queue which will not need to drain the queue any more.
+To avoid this scenario, use queue close to prevent new IO which
+doesn't need to drain the queues. And just use queue freeze to
+try to wait for in-flight IO for shutdown case.
 
 Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
 ---
- block/blk-core.c       | 17 +++++++++++++++++
- block/blk.h            |  1 +
- include/linux/blkdev.h |  3 +++
- 3 files changed, 21 insertions(+)
+ drivers/nvme/host/core.c | 22 ++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  3 +++
+ drivers/nvme/host/pci.c  | 27 ++++++++++++++-------------
+ 3 files changed, 39 insertions(+), 13 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index d1bdded..b073c68 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -449,6 +449,23 @@ void blk_clear_preempt_only(struct request_queue *q)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dd8ec1d..ce5b35b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3602,6 +3602,28 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
  }
- EXPORT_SYMBOL_GPL(blk_clear_preempt_only);
+ EXPORT_SYMBOL_GPL(nvme_kill_queues);
  
-+int blk_set_queue_closed(struct request_queue *q)
++void nvme_close_queues(struct nvme_ctrl *ctrl)
 +{
-+	if (test_and_set_bit(BLK_QUEUE_GATE_CLOSED, &q->queue_gate))
-+		return 1;
++	struct nvme_ns *ns;
 +
-+	synchronize_rcu();
-+	return 0;
++	down_read(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list)
++		blk_set_queue_closed(ns->queue);
++	up_read(&ctrl->namespaces_rwsem);
 +}
-+EXPORT_SYMBOL_GPL(blk_set_queue_closed);
++EXPORT_SYMBOL_GPL(nvme_close_queues);
 +
-+void blk_clear_queue_closed(struct request_queue *q)
++void nvme_open_queues(struct nvme_ctrl *ctrl)
 +{
-+	clear_bit(BLK_QUEUE_GATE_CLOSED, &q->queue_gate);
-+	wake_up_all(&q->mq_freeze_wq);
++	struct nvme_ns *ns;
++
++	down_read(&ctrl->namespaces_rwsem);
++	list_for_each_entry(ns, &ctrl->namespaces, list)
++		blk_clear_queue_closed(ns->queue);
++	up_read(&ctrl->namespaces_rwsem);
 +}
-+EXPORT_SYMBOL_GPL(blk_clear_queue_closed);
++EXPORT_SYMBOL_GPL(nvme_open_queues);
 +
- /**
-  * __blk_run_queue_uncond - run a queue whether or not it has been stopped
-  * @q:	The queue to run
-diff --git a/block/blk.h b/block/blk.h
-index cdef4c1..90ff6bb 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -21,6 +21,7 @@ extern struct dentry *blk_debugfs_root;
- 
- enum blk_queue_gate_flag_t {
- 	BLK_QUEUE_GATE_PREEMPT_ONLY,
-+	BLK_QUEUE_GATE_CLOSED,
- };
- 
- struct blk_flush_queue {
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 4a33814..a7f77da 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -741,6 +741,9 @@ bool blk_queue_flag_test_and_clear(unsigned int flag, struct request_queue *q);
- extern int blk_set_preempt_only(struct request_queue *q);
- extern void blk_clear_preempt_only(struct request_queue *q);
- 
-+extern int blk_set_queue_closed(struct request_queue *q);
-+extern void blk_clear_queue_closed(struct request_queue *q);
-+
- static inline int queue_in_flight(struct request_queue *q)
+ void nvme_unfreeze(struct nvme_ctrl *ctrl)
  {
- 	return q->in_flight[0] + q->in_flight[1];
+ 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bb4a200..fcd44cb 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -437,6 +437,9 @@ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
+ void nvme_start_freeze(struct nvme_ctrl *ctrl);
+ 
++void nvme_close_queues(struct nvme_ctrl *ctrl);
++void nvme_open_queues(struct nvme_ctrl *ctrl);
++
+ #define NVME_QID_ANY -1
+ struct request *nvme_alloc_request(struct request_queue *q,
+ 		struct nvme_command *cmd, blk_mq_req_flags_t flags, int qid);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682..c0ccd04 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2145,23 +2145,25 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 
+ 	mutex_lock(&dev->shutdown_lock);
++	nvme_close_queues(&dev->ctrl);
+ 	if (pci_is_enabled(pdev)) {
+ 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+-		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+-		    dev->ctrl.state == NVME_CTRL_RESETTING)
+-			nvme_start_freeze(&dev->ctrl);
+ 		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
+ 			pdev->error_state  != pci_channel_io_normal);
+-	}
+ 
+-	/*
+-	 * Give the controller a chance to complete all entered requests if
+-	 * doing a safe shutdown.
+-	 */
+-	if (!dead) {
+-		if (shutdown)
+-			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
++		if (dev->ctrl.state == NVME_CTRL_LIVE ||
++		    dev->ctrl.state == NVME_CTRL_RESETTING) {
++			/*
++			 * Give the controller a chance to complete all entered
++			 * requests if doing a safe shutdown.
++			 */
++			if (!dead && shutdown) {
++				nvme_start_freeze(&dev->ctrl);
++				nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
++				nvme_unfreeze(&dev->ctrl);
++			}
++		}
+ 	}
+ 
+ 	nvme_stop_queues(&dev->ctrl);
+@@ -2328,11 +2330,9 @@ static void nvme_reset_work(struct work_struct *work)
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+ 		nvme_start_queues(&dev->ctrl);
+-		nvme_wait_freeze(&dev->ctrl);
+ 		/* hit this only when allocate tagset fails */
+ 		if (nvme_dev_add(dev))
+ 			new_state = NVME_CTRL_ADMIN_ONLY;
+-		nvme_unfreeze(&dev->ctrl);
+ 	}
+ 
+ 	/*
+@@ -2345,6 +2345,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 		goto out;
+ 	}
+ 
++	nvme_open_queues(&dev->ctrl);
+ 	nvme_start_ctrl(&dev->ctrl);
+ 	return;
+ 
 -- 
 2.7.4
