@@ -1,67 +1,37 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 5 Sep 2018 14:36:56 -0600
-Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
- check support for requests
-In-Reply-To: <f9e660cd-b597-bb6e-56a2-82fe71cb3649@deltatee.com>
-References: <20180830185352.3369-1-logang@deltatee.com>
- <20180830185352.3369-8-logang@deltatee.com>
- <b5ab8fa3-34ac-3117-fa0d-5206c3939435@kernel.dk>
- <20180901082812.GB670@lst.de>
- <5f79c012-c6e1-56bb-62fd-0689181fb2c9@deltatee.com>
- <59b28977-8f2a-6228-2050-03fae6bdbedd@kernel.dk>
- <1b4283da-44df-4a02-3167-e295243cef78@deltatee.com>
- <09258b9b-3aed-9890-b31a-bd70a133966c@kernel.dk>
- <20180905195647.GA1626@lst.de>
- <bcc1b3cf-2fd9-fa61-9cfb-b0e4d84e5d94@kernel.dk>
- <20180905201152.GA1893@lst.de>
- <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
- <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
- <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
- <3af4d1d4-da07-c0a6-8464-9ddc1378f2f4@kernel.dk>
- <f9e660cd-b597-bb6e-56a2-82fe71cb3649@deltatee.com>
-Message-ID: <34d9b2f7-9e6d-4a0a-77e5-ec0e99610f5c@kernel.dk>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 5 Sep 2018 13:40:42 -0700
+Subject: [PATCH v2] nvmet_fc: support target port removal with nvmet layer
+In-Reply-To: <1536179041.8172.49.camel@localhost.localdomain>
+References: <20180809234814.14680-1-jsmart2021@gmail.com>
+ <20180905195652.GA2560@infradead.org>
+ <1536179041.8172.49.camel@localhost.localdomain>
+Message-ID: <4788aa25-5852-7041-7cd2-9a5b950153ca@gmail.com>
 
-On 9/5/18 2:32 PM, Logan Gunthorpe wrote:
+On 9/5/2018 1:24 PM, Ewan D. Milne wrote:
+> On Wed, 2018-09-05@12:56 -0700, Christoph Hellwig wrote:
+>> Ewan, James: what is the conclusion on this patch?   The discussion
+>> seems to have faded.
 > 
+> I think where we left it was that I found a case where the patch
+> exposed a problem that James thought needed a fix in the lpfc driver.
 > 
-> On 05/09/18 02:19 PM, Jens Axboe wrote:
->> On 9/5/18 2:18 PM, Logan Gunthorpe wrote:
->>>
->>>
->>> On 05/09/18 02:14 PM, Jens Axboe wrote:
->>>> But if the caller must absolutely know where the bio will end up, then
->>>> it seems super redundant. So I'd vote for killing this check, it buys
->>>> us absolutely nothing and isn't even exhaustive in its current form.
->>>
->>>
->>> Ok, I'll remove it for v6.
->>
->> Since the drivers needs to know it's doing it right, it might not
->> hurt to add a sanity check helper for that. Just have the driver
->> call it, and don't add it in the normal IO submission path.
+> The basic problem with the tree right now is that "nvmetcli clear"
+> frees the nvmet_port object but nvmet_fc_tgtport still points to the
+> freed memory.  So, if a subsequent connect request comes in, we
+> reference the freed memory.  I normally run with slub_debug=FZPU, so I
+> get a crash right away.  Otherwise you might never notice (but our
+> QE people have seen odd behavior, which sent me looking...)
 > 
-> I'm not sure I really see the value in that. It's the same principle in
-> asking the driver to do the WARN: if the developer knew enough to use
-> the special helper, they probably knew well enough to do the rest correctly.
+> With James' v2 patch, he addresses the problem, however now there is
+> a different one, which is that if the target is not configured, and
+> a connect request comes in, we hang on the initiator side.
+> 
+> This is all with the NVMe/FC soft target.
+> 
+> -Ewan
 
-I don't agree with that at all. It's a "is my request valid" helper,
-it's not some obscure and rarely used functionality. You're making up
-this API right now, if you really want it done for every IO, make it
-part of the p2p submission process. You could even hide it behind a
-debug thing, if you like.
+I have no problems with the nvme soft target, but my soft target did 
+have the fcloop fix for dropped LS requests, which Christoph pulled in a 
+few days ago.
 
-> I guess one other thing to point out is that, on x86, if a driver
-> submits P2P pages to a PCI device that doesn't have kernel support,
-> everything will likely just work. Even though the driver isn't doing any
-> of the work correctly and the requests are not being mapped with
-> pci_p2pdma_map() functions. Such code on other arches would likely
-> break. So developers may be lulled into thinking they're doing the
-> correct thing when in fact they are not and the WARN in the common code
-> would prevent that.
-
-If you're adamant about having it in common code, put it in your
-common submission code. Most folks aren't going to care about P2P, let the
-ones that do have the checks.
-
--- 
-Jens Axboe
+-- james
