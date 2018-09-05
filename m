@@ -1,68 +1,136 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed,  5 Sep 2018 09:00:48 +0200
-Subject: [PATCHv3 0/5] genhd: register default groups with device_add_disk()
-Message-ID: <20180905070053.26239-1-hare@suse.de>
+Date: Wed,  5 Sep 2018 09:00:53 +0200
+Subject: [PATCH 5/5] virtio-blk: modernize sysfs attribute creation
+In-Reply-To: <20180905070053.26239-1-hare@suse.de>
+References: <20180905070053.26239-1-hare@suse.de>
+Message-ID: <20180905070053.26239-6-hare@suse.de>
 
-device_add_disk() doesn't allow to register with default sysfs groups,
-which introduces a race with udev as these groups have to be created after
-the uevent has been sent.
-This patchset updates device_add_disk() to accept a 'groups' argument to
-avoid this race and updates the obvious drivers to use it.
-There are some more drivers which might benefit from this (eg loop or md),
-but the interface is not straightforward so I haven't attempted it.
+Use new-style DEVICE_ATTR_RO/DEVICE_ATTR_RW to create the sysfs attributes
+and register the disk with default sysfs attribute groups.
 
-As usual, comments and reviews are welcome.
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Acked-by: Michael S. Tsirkin <mst at redhat.com>
+Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
+---
+ drivers/block/virtio_blk.c | 68 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 39 insertions(+), 29 deletions(-)
 
-Changes to v2:
-- Fold lightnvm attributes into the generic attribute group as
-  suggested by Bart
-
-Changes to v1:
-- Drop first patch
-- Convert lightnvm sysfs attributes as suggested by Bart
-
-Hannes Reinecke (5):
-  block: genhd: add 'groups' argument to device_add_disk
-  nvme: register ns_id attributes as default sysfs groups
-  aoe: use device_add_disk_with_groups()
-  zram: register default groups with device_add_disk()
-  virtio-blk: modernize sysfs attribute creation
-
- arch/um/drivers/ubd_kern.c          |   2 +-
- block/genhd.c                       |  19 +++++--
- drivers/block/aoe/aoe.h             |   1 -
- drivers/block/aoe/aoeblk.c          |  21 +++----
- drivers/block/aoe/aoedev.c          |   1 -
- drivers/block/floppy.c              |   2 +-
- drivers/block/mtip32xx/mtip32xx.c   |   2 +-
- drivers/block/ps3disk.c             |   2 +-
- drivers/block/ps3vram.c             |   2 +-
- drivers/block/rsxx/dev.c            |   2 +-
- drivers/block/skd_main.c            |   2 +-
- drivers/block/sunvdc.c              |   2 +-
- drivers/block/virtio_blk.c          |  68 +++++++++++++----------
- drivers/block/xen-blkfront.c        |   2 +-
- drivers/block/zram/zram_drv.c       |  28 +++-------
- drivers/ide/ide-cd.c                |   2 +-
- drivers/ide/ide-gd.c                |   2 +-
- drivers/memstick/core/ms_block.c    |   2 +-
- drivers/memstick/core/mspro_block.c |   2 +-
- drivers/mmc/core/block.c            |   2 +-
- drivers/mtd/mtd_blkdevs.c           |   2 +-
- drivers/nvdimm/blk.c                |   2 +-
- drivers/nvdimm/btt.c                |   2 +-
- drivers/nvdimm/pmem.c               |   2 +-
- drivers/nvme/host/core.c            |  21 +++----
- drivers/nvme/host/lightnvm.c        | 106 +++++++++++++++---------------------
- drivers/nvme/host/multipath.c       |  15 ++---
- drivers/nvme/host/nvme.h            |  10 +---
- drivers/s390/block/dasd_genhd.c     |   2 +-
- drivers/s390/block/dcssblk.c        |   2 +-
- drivers/s390/block/scm_blk.c        |   2 +-
- drivers/scsi/sd.c                   |   2 +-
- drivers/scsi/sr.c                   |   2 +-
- include/linux/genhd.h               |   5 +-
- 34 files changed, 151 insertions(+), 190 deletions(-)
-
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index fe80560000a1..086c6bb12baa 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -351,8 +351,8 @@ static int minor_to_index(int minor)
+ 	return minor >> PART_BITS;
+ }
+ 
+-static ssize_t virtblk_serial_show(struct device *dev,
+-				struct device_attribute *attr, char *buf)
++static ssize_t serial_show(struct device *dev,
++			   struct device_attribute *attr, char *buf)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 	int err;
+@@ -371,7 +371,7 @@ static ssize_t virtblk_serial_show(struct device *dev,
+ 	return err;
+ }
+ 
+-static DEVICE_ATTR(serial, 0444, virtblk_serial_show, NULL);
++static DEVICE_ATTR_RO(serial);
+ 
+ /* The queue's logical block size must be set before calling this */
+ static void virtblk_update_capacity(struct virtio_blk *vblk, bool resize)
+@@ -545,8 +545,8 @@ static const char *const virtblk_cache_types[] = {
+ };
+ 
+ static ssize_t
+-virtblk_cache_type_store(struct device *dev, struct device_attribute *attr,
+-			 const char *buf, size_t count)
++cache_type_store(struct device *dev, struct device_attribute *attr,
++		 const char *buf, size_t count)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 	struct virtio_blk *vblk = disk->private_data;
+@@ -564,8 +564,7 @@ virtblk_cache_type_store(struct device *dev, struct device_attribute *attr,
+ }
+ 
+ static ssize_t
+-virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
+-			 char *buf)
++cache_type_show(struct device *dev, struct device_attribute *attr, char *buf)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 	struct virtio_blk *vblk = disk->private_data;
+@@ -575,12 +574,38 @@ virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
+ 	return snprintf(buf, 40, "%s\n", virtblk_cache_types[writeback]);
+ }
+ 
+-static const struct device_attribute dev_attr_cache_type_ro =
+-	__ATTR(cache_type, 0444,
+-	       virtblk_cache_type_show, NULL);
+-static const struct device_attribute dev_attr_cache_type_rw =
+-	__ATTR(cache_type, 0644,
+-	       virtblk_cache_type_show, virtblk_cache_type_store);
++static DEVICE_ATTR_RW(cache_type);
++
++static struct attribute *virtblk_attrs[] = {
++	&dev_attr_serial.attr,
++	&dev_attr_cache_type.attr,
++	NULL,
++};
++
++static umode_t virtblk_attrs_are_visible(struct kobject *kobj,
++		struct attribute *a, int n)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct gendisk *disk = dev_to_disk(dev);
++	struct virtio_blk *vblk = disk->private_data;
++	struct virtio_device *vdev = vblk->vdev;
++
++	if (a == &dev_attr_cache_type.attr &&
++	    !virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
++		return S_IRUGO;
++
++	return a->mode;
++}
++
++static const struct attribute_group virtblk_attr_group = {
++	.attrs = virtblk_attrs,
++	.is_visible = virtblk_attrs_are_visible,
++};
++
++static const struct attribute_group *virtblk_attr_groups[] = {
++	&virtblk_attr_group,
++	NULL,
++};
+ 
+ static int virtblk_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 		unsigned int hctx_idx, unsigned int numa_node)
+@@ -780,24 +805,9 @@ static int virtblk_probe(struct virtio_device *vdev)
+ 	virtblk_update_capacity(vblk, false);
+ 	virtio_device_ready(vdev);
+ 
+-	device_add_disk(&vdev->dev, vblk->disk, NULL);
+-	err = device_create_file(disk_to_dev(vblk->disk), &dev_attr_serial);
+-	if (err)
+-		goto out_del_disk;
+-
+-	if (virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
+-		err = device_create_file(disk_to_dev(vblk->disk),
+-					 &dev_attr_cache_type_rw);
+-	else
+-		err = device_create_file(disk_to_dev(vblk->disk),
+-					 &dev_attr_cache_type_ro);
+-	if (err)
+-		goto out_del_disk;
++	device_add_disk(&vdev->dev, vblk->disk, virtblk_attr_groups);
+ 	return 0;
+ 
+-out_del_disk:
+-	del_gendisk(vblk->disk);
+-	blk_cleanup_queue(vblk->disk->queue);
+ out_free_tags:
+ 	blk_mq_free_tag_set(&vblk->tag_set);
+ out_put_disk:
 -- 
 2.16.4
