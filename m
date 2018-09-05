@@ -1,23 +1,16 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Sep 2018 08:14:07 -0700
-Subject: [PATCH v2] nvmet-rdma: fix possible bogus dereference under heavy
- load
-In-Reply-To: <20180904190653.GA2060@lst.de>
-References: <20180903104707.5776-1-sagi@grimberg.me>
- <20180904190653.GA2060@lst.de>
-Message-ID: <f7d0cba7-f363-0216-75c6-0be0723974d8@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Wed, 05 Sep 2018 08:24:52 -0700
+Subject: [PATCH 1/5] block: genhd: add 'groups' argument to device_add_disk
+In-Reply-To: <20180905070053.26239-2-hare@suse.de>
+References: <20180905070053.26239-1-hare@suse.de>
+ <20180905070053.26239-2-hare@suse.de>
+Message-ID: <1536161092.11534.1.camel@acm.org>
 
+On Wed, 2018-09-05@09:00 +0200, Hannes Reinecke wrote:
+> Update device_add_disk() to take an 'groups' argument so that
+> individual drivers can register a device with additional sysfs
+> attributes.
+> This avoids race condition the driver would otherwise have if these
+> groups were to be created with sysfs_add_groups().
 
->> -	rsp = list_first_entry(&queue->free_rsps,
->> +	rsp = list_first_entry_or_null(&queue->free_rsps,
->>   				struct nvmet_rdma_rsp, free_list);
->> -	list_del(&rsp->free_list);
->> +	if (likely(rsp)) {
->> +		list_del(&rsp->free_list);
->> +		rsp->allocated = false;
-> 
-> Given that we never set allocated to true for something we got from
-> the freelist, and the structures were allocated using kcalloc I don't
-> ?ee why we need to set it to false here.
-
-I have no problem removing it, should I send a new spin?
+Reviewed-by: Bart Van Assche <bvanassche at acm.org>
