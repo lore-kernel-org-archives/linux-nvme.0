@@ -1,96 +1,38 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 6 Sep 2018 20:57:01 +0800
-Subject: [PATCH 0/3] Introduce a light-weight queue close feature
-In-Reply-To: <b7074098-ab79-53b2-5cc6-25f859c4c666@oracle.com>
+Date: Thu, 6 Sep 2018 21:07:16 +0800
+Subject: [PATCH 3/3] nvme-pci: use queue close instead of queue freeze
+In-Reply-To: <8ba97c77-0c3b-75df-0259-3c97ef7b774e@oracle.com>
 References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180905212659.GB21352@ming.t460p>
- <b7074098-ab79-53b2-5cc6-25f859c4c666@oracle.com>
-Message-ID: <20180906125659.GA31250@ming.t460p>
+ <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
+ <20180905220910.GC21352@ming.t460p>
+ <8ba97c77-0c3b-75df-0259-3c97ef7b774e@oracle.com>
+Message-ID: <20180906130715.GB31250@ming.t460p>
 
-On Thu, Sep 06, 2018@09:51:43AM +0800, jianchao.wang wrote:
+On Thu, Sep 06, 2018@09:28:46AM +0800, jianchao.wang wrote:
 > Hi Ming
 > 
-> On 09/06/2018 05:27 AM, Ming Lei wrote:
-> > On Wed, Sep 05, 2018@12:09:43PM +0800, Jianchao Wang wrote:
-> >> Dear all
-> >>
-> >> As we know, queue freeze is used to stop new IO comming in and drain
-> >> the request queue. And the draining queue here is necessary, because
-> >> queue freeze kills the percpu-ref q_usage_counter and need to drain
-> >> the q_usage_counter before switch it back to percpu mode. This could
-> >> be a trouble when we just want to prevent new IO.
-> >>
-> >> In nvme-pci, nvme_dev_disable freezes queues to prevent new IO.
-> >> nvme_reset_work will unfreeze and wait to drain the queues. However,
-> >> if IO timeout at the moment, no body could do recovery as nvme_reset_work
-> >> is waiting. We will encounter IO hang.
-> > 
-> > As we discussed this nvme time issue before, I have pointed out that
-> > this is because of blk_mq_unfreeze_queue()'s limit which requires that
-> > unfreeze can only be done when this queue ref counter drops to zero.
-> > 
-> > For this nvme timeout case, we may relax the limit, for example,
-> > introducing another API of blk_freeze_queue_stop() as counter-pair of
-> > blk_freeze_queue_start(), and simply switch the percpu-ref to percpu mode
-> > from atomic mode inside the new API.
+> On 09/06/2018 06:09 AM, Ming Lei wrote:
+> > nvme_dev_add() still may call freeze & unfreeze queue, so your patch
+> > can't avoid draining queue completely here.
 > 
-> Looks like we cannot switch a percpu-ref to percpu mode directly w/o drain it.
-> Some references maybe lost.
-> 
-> static void __percpu_ref_switch_to_percpu(struct percpu_ref *ref)
-> {
-> 	unsigned long __percpu *percpu_count = percpu_count_ptr(ref);
-> 	int cpu;
-> 
-> 	BUG_ON(!percpu_count);
-> 
-> 	if (!(ref->percpu_count_ptr & __PERCPU_REF_ATOMIC))
-> 		return;
-> 
-> 	atomic_long_add(PERCPU_COUNT_BIAS, &ref->count);
-> 
-> 	/*
-> 	 * Restore per-cpu operation.  smp_store_release() is paired
-> 	 * with READ_ONCE() in __ref_is_percpu() and guarantees that the
-> 	 * zeroing is visible to all percpu accesses which can see the
-> 	 * following __PERCPU_REF_ATOMIC clearing.
-> 	 */
-> 	for_each_possible_cpu(cpu)
-> 		*per_cpu_ptr(percpu_count, cpu) = 0;
-> 
-> 	smp_store_release(&ref->percpu_count_ptr,
-> 			  ref->percpu_count_ptr & ~__PERCPU_REF_ATOMIC);
+> Yes, I know this. We still need to freeze queue when update nr_hw_queues.
+> But we move forward a step at least. :)
+> We don't need to drain request queue in normal case of nvme_reset_work.
 
-Before REF_ATOMIC is cleared, all counting is done on the atomic type
-of &ref->count, and it is easy to keep the reference counter at
-ATOMIC mode. Also the reference counter can only be READ at atomic mode.
+It is hard to say who is the normal case. In case of CPU hotplug, it is quite
+easy to trigger updating nr_hw_queues.
 
-So could you explain a bit how the lost may happen? And it is lost at
-atomic mode or percpu mode?
+> 
+> As for updating nr_hw_queues, we could try some other method on it next.
 
-> }
-> 
-> > 
-> >>
-> >> So introduce a light-weight queue close feature in this patch set
-> >> which could prevent new IO and needn't drain the queue.
-> > 
-> > Frankly speaking, IMO, it may not be an good idea to mess up the fast path
-> > just for handling the extremely unusual timeout event. The same is true
-> > for doing the preemp only stuff, as you saw I have posted patchset for
-> > killing it.
-> > 
-> 
-> In normal case, it is just a judgment like 
-> 
-> 	if (unlikely(READ_ONCE(q->queue_gate))
-> 
-> It should not be a big deal.
+The thing is that draining queue may be inevitable inside reset work
+function because of updating nr_hw_queues, that means the approach in
+this patchset is just a partial solution
 
-Adding this stuff in fast path is quite difficult to verify its correctness
-because it is really lockless, or even barrier-less.
+Or it may not make sense to do that because we may never remove the draining
+queue in the code path of updating nr_hw_queues.
 
-Not to mention, READ_ONCE() implies one barrier of smp_read_barrier_depends().
+Given they belong to same issue, I suggest to solve them all.
 
 Thanks,
 Ming
