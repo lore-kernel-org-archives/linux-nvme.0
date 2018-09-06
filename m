@@ -1,24 +1,40 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Thu, 6 Sep 2018 09:28:46 +0800
-Subject: [PATCH 3/3] nvme-pci: use queue close instead of queue freeze
-In-Reply-To: <20180905220910.GC21352@ming.t460p>
+Date: Thu, 6 Sep 2018 09:31:06 +0800
+Subject: [PATCH 2/3] blk-core: introduce queue close feature
+In-Reply-To: <1536163037.11534.6.camel@acm.org>
 References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
- <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
- <20180905220910.GC21352@ming.t460p>
-Message-ID: <8ba97c77-0c3b-75df-0259-3c97ef7b774e@oracle.com>
+ <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
+ <1536163037.11534.6.camel@acm.org>
+Message-ID: <ccf20c21-880a-98ca-b111-8e6b82b47a11@oracle.com>
 
-Hi Ming
+Hi Bart
 
-On 09/06/2018 06:09 AM, Ming Lei wrote:
-> nvme_dev_add() still may call freeze & unfreeze queue, so your patch
-> can't avoid draining queue completely here.
+On 09/05/2018 11:57 PM, Bart Van Assche wrote:
+> On Wed, 2018-09-05@12:09 +0800, Jianchao Wang wrote:
+>> blk queue freeze is often used to prevent new IO from entering
+>> request queue. However, becuase we kill the percpu-ref
+>> q_usage_counter when freeze queue, we have to drain the request
+>> queue when unfreeze. This is unnecessary for just preventing new
+>> IO. In addition, If there is IO timeout or other issue when unfreeze
+>> the queue, the scenario could be very tricky.
+>>
+>> So we introduce BLK_QUEUE_GATE_CLOSED to implement a light-weight
+>> queue close feature base on the queue_gate to prevent new IO from
+>> comming in queue which will not need to drain the queue any more.
+> 
+> Does the "queue gate close" feature cause blk_get_request() /
+> blk_mq_get_request() to block until blk_clear_queue_closed() is called? 
 
-Yes, I know this. We still need to freeze queue when update nr_hw_queues.
-But we move forward a step at least. :)
-We don't need to drain request queue in normal case of nvme_reset_work.
+Yes. It works in blk_queue_enter. So it could cover blk_mq_get_request
 
-As for updating nr_hw_queues, we could try some other method on it next.
+If
+> so, I think we need a better name for this feature. How about calling these
+> two operations suspend and resume?
 
+I'm open for it. :)
 
-Thanks
-Jianchao
+> 
+> Thanks,
+> 
+> Bart.
+> 
