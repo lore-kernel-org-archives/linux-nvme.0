@@ -1,40 +1,24 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Thu, 6 Sep 2018 09:31:06 +0800
-Subject: [PATCH 2/3] blk-core: introduce queue close feature
-In-Reply-To: <1536163037.11534.6.camel@acm.org>
+Date: Thu, 6 Sep 2018 09:35:09 +0800
+Subject: [PATCH 0/3] Introduce a light-weight queue close feature
+In-Reply-To: <1536162485.11534.3.camel@acm.org>
 References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
- <1536120586-3378-3-git-send-email-jianchao.w.wang@oracle.com>
- <1536163037.11534.6.camel@acm.org>
-Message-ID: <ccf20c21-880a-98ca-b111-8e6b82b47a11@oracle.com>
+ <1536162485.11534.3.camel@acm.org>
+Message-ID: <ebeffce9-4136-1b4d-1253-b5c045eff3f7@oracle.com>
 
 Hi Bart
 
-On 09/05/2018 11:57 PM, Bart Van Assche wrote:
-> On Wed, 2018-09-05@12:09 +0800, Jianchao Wang wrote:
->> blk queue freeze is often used to prevent new IO from entering
->> request queue. However, becuase we kill the percpu-ref
->> q_usage_counter when freeze queue, we have to drain the request
->> queue when unfreeze. This is unnecessary for just preventing new
->> IO. In addition, If there is IO timeout or other issue when unfreeze
->> the queue, the scenario could be very tricky.
->>
->> So we introduce BLK_QUEUE_GATE_CLOSED to implement a light-weight
->> queue close feature base on the queue_gate to prevent new IO from
->> comming in queue which will not need to drain the queue any more.
+On 09/05/2018 11:48 PM, Bart Van Assche wrote:
+>> The 3rd patch apply the queue close in nvme-pci to avoid the IO hang
+>> issue above.
+> Hello Jianchao,
 > 
-> Does the "queue gate close" feature cause blk_get_request() /
-> blk_mq_get_request() to block until blk_clear_queue_closed() is called? 
+> Is this patch series based on a theoretical concern or rather on something
+> you ran into? In the latter case, can you explain which scenario makes it
+> likely on your setup to encounter an NVMe timeout?
 
-Yes. It works in blk_queue_enter. So it could cover blk_mq_get_request
+It is a theoretical concern. But I think it is very obvious.
+It could be very easy to reproduce if simulate IO timeout in software.
 
-If
-> so, I think we need a better name for this feature. How about calling these
-> two operations suspend and resume?
-
-I'm open for it. :)
-
-> 
-> Thanks,
-> 
-> Bart.
-> 
+Thanks
+Jianchao
