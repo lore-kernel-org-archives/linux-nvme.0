@@ -1,30 +1,24 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Wed, 5 Sep 2018 18:20:06 -0600
-Subject: [PATCH nvme-cli 0/4] Some useful fabrics patches
-In-Reply-To: <20180901013605.10658-1-sagi@grimberg.me>
-References: <20180901013605.10658-1-sagi@grimberg.me>
-Message-ID: <20180906002006.GA22449@localhost.localdomain>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Thu, 6 Sep 2018 09:28:46 +0800
+Subject: [PATCH 3/3] nvme-pci: use queue close instead of queue freeze
+In-Reply-To: <20180905220910.GC21352@ming.t460p>
+References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
+ <1536120586-3378-4-git-send-email-jianchao.w.wang@oracle.com>
+ <20180905220910.GC21352@ming.t460p>
+Message-ID: <8ba97c77-0c3b-75df-0259-3c97ef7b774e@oracle.com>
 
-On Fri, Aug 31, 2018@06:36:01PM -0700, Sagi Grimberg wrote:
-> patch #1 is cleanup
-> patch #2 is a bug fix
-> patch #3,#4 are are adding a useful fabrics command to disconnect
-> all the existing controllers.
-> 
-> Sagi Grimberg (4):
->   fabrics: make some arguments integers
->   fabrics: don't fail empty discovery log page
->   nvme: commonize subsystems info in a helper
->   fabrics: add disconnect-all command
-> 
->  Documentation/nvme-disconnect-all.txt | 34 ++++++++++
->  fabrics.c                             | 92 ++++++++++++++++++++-------
->  fabrics.h                             |  1 +
->  nvme-builtin.h                        |  1 +
->  nvme.c                                | 83 ++++++++++++++----------
->  nvme.h                                |  2 +
->  6 files changed, 155 insertions(+), 58 deletions(-)
->  create mode 100644 Documentation/nvme-disconnect-all.txt
+Hi Ming
 
-Looks good, applied with Chaitanya's reviews and regenerated
-documentation.
+On 09/06/2018 06:09 AM, Ming Lei wrote:
+> nvme_dev_add() still may call freeze & unfreeze queue, so your patch
+> can't avoid draining queue completely here.
+
+Yes, I know this. We still need to freeze queue when update nr_hw_queues.
+But we move forward a step at least. :)
+We don't need to drain request queue in normal case of nvme_reset_work.
+
+As for updating nr_hw_queues, we could try some other method on it next.
+
+
+Thanks
+Jianchao
