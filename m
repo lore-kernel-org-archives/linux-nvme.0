@@ -1,90 +1,60 @@
-From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Thu, 6 Sep 2018 09:51:43 +0800
-Subject: [PATCH 0/3] Introduce a light-weight queue close feature
-In-Reply-To: <20180905212659.GB21352@ming.t460p>
-References: <1536120586-3378-1-git-send-email-jianchao.w.wang@oracle.com>
- <20180905212659.GB21352@ming.t460p>
-Message-ID: <b7074098-ab79-53b2-5cc6-25f859c4c666@oracle.com>
+From: hare@suse.com (Hannes Reinecke)
+Date: Thu, 6 Sep 2018 11:56:59 +0200
+Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
+ groups
+In-Reply-To: <20180905134507.GA27448@lst.de>
+References: <20180905070053.26239-1-hare@suse.de>
+ <20180905070053.26239-3-hare@suse.de> <20180905131821.GA26956@lst.de>
+ <c752052a-28ac-588f-0e1b-c784c5065136@suse.de>
+ <20180905134507.GA27448@lst.de>
+Message-ID: <5567c5dd-167c-baa5-c85a-90592e2db84e@suse.com>
 
-Hi Ming
-
-On 09/06/2018 05:27 AM, Ming Lei wrote:
-> On Wed, Sep 05, 2018@12:09:43PM +0800, Jianchao Wang wrote:
->> Dear all
+On 09/05/2018 03:45 PM, Christoph Hellwig wrote:
+> On Wed, Sep 05, 2018@03:32:03PM +0200, Hannes Reinecke wrote:
+>> On 09/05/2018 03:18 PM, Christoph Hellwig wrote:
+>>> On Wed, Sep 05, 2018@09:00:50AM +0200, Hannes Reinecke wrote:
+>>>> We should be registering the ns_id attribute as default sysfs
+>>>> attribute groups, otherwise we have a race condition between
+>>>> the uevent and the attributes appearing in sysfs.
+>>>
+>>> Please give Bart credit for his work, as the lightnvm bits are almost
+>>> bigger than the rest.
+>>>
+>> Okay, will be doing so.
 >>
->> As we know, queue freeze is used to stop new IO comming in and drain
->> the request queue. And the draining queue here is necessary, because
->> queue freeze kills the percpu-ref q_usage_counter and need to drain
->> the q_usage_counter before switch it back to percpu mode. This could
->> be a trouble when we just want to prevent new IO.
->>
->> In nvme-pci, nvme_dev_disable freezes queues to prevent new IO.
->> nvme_reset_work will unfreeze and wait to drain the queues. However,
->> if IO timeout at the moment, no body could do recovery as nvme_reset_work
->> is waiting. We will encounter IO hang.
+>>>> +static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
+>>>> +				     struct attribute *attr, int index)
+>>>>  {
+>>>> +	struct device *dev = container_of(kobj, struct device, kobj);
+>>>> +	struct gendisk *disk = dev_to_disk(dev);
+>>>> +	struct nvme_ns *ns = disk->private_data;
+>>>>  	struct nvm_dev *ndev = ns->ndev;
+>>>> +	struct device_attribute *dev_attr =
+>>>> +		container_of(attr, typeof(*dev_attr), attr);
+>>>>  
+>>>> +	if (dev_attr->show == nvm_dev_attr_show)
+>>>> +		return attr->mode;
+>>>>  
+>>>> +	switch (ndev ? ndev->geo.major_ver_id : 0) {
+>>>
+>>> How could ndev be zero here?
+>>>
+>> For 'normal' NVMe devices (ie non-lightnvm). As we now register all
+>> sysfs attributes (including the lightnvm ones) per default we'll need to
+>> blank them out for non-lightnvm devices.
 > 
-> As we discussed this nvme time issue before, I have pointed out that
-> this is because of blk_mq_unfreeze_queue()'s limit which requires that
-> unfreeze can only be done when this queue ref counter drops to zero.
+> But then we need to exit early at the beginning of the function,
+> as we should not register attributes using nvm_dev_attr_show (or
+> anything else for that matter) either.
 > 
-> For this nvme timeout case, we may relax the limit, for example,
-> introducing another API of blk_freeze_queue_stop() as counter-pair of
-> blk_freeze_queue_start(), and simply switch the percpu-ref to percpu mode
-> from atomic mode inside the new API.
+Okay, will be fixing it up.
 
-Looks like we cannot switch a percpu-ref to percpu mode directly w/o drain it.
-Some references maybe lost.
+Cheers,
 
-static void __percpu_ref_switch_to_percpu(struct percpu_ref *ref)
-{
-	unsigned long __percpu *percpu_count = percpu_count_ptr(ref);
-	int cpu;
-
-	BUG_ON(!percpu_count);
-
-	if (!(ref->percpu_count_ptr & __PERCPU_REF_ATOMIC))
-		return;
-
-	atomic_long_add(PERCPU_COUNT_BIAS, &ref->count);
-
-	/*
-	 * Restore per-cpu operation.  smp_store_release() is paired
-	 * with READ_ONCE() in __ref_is_percpu() and guarantees that the
-	 * zeroing is visible to all percpu accesses which can see the
-	 * following __PERCPU_REF_ATOMIC clearing.
-	 */
-	for_each_possible_cpu(cpu)
-		*per_cpu_ptr(percpu_count, cpu) = 0;
-
-	smp_store_release(&ref->percpu_count_ptr,
-			  ref->percpu_count_ptr & ~__PERCPU_REF_ATOMIC);
-}
-
-> 
->>
->> So introduce a light-weight queue close feature in this patch set
->> which could prevent new IO and needn't drain the queue.
-> 
-> Frankly speaking, IMO, it may not be an good idea to mess up the fast path
-> just for handling the extremely unusual timeout event. The same is true
-> for doing the preemp only stuff, as you saw I have posted patchset for
-> killing it.
-> 
-
-In normal case, it is just a judgment like 
-
-	if (unlikely(READ_ONCE(q->queue_gate))
-
-It should not be a big deal.
-
-Thanks
-Jianchao
-
-> Thanks,
-> Ming
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.infradead.org_mailman_listinfo_linux-2Dnvme&d=DwICAg&c=RoP1YumCXCgaWHvlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=7WdAxUBeiTUTCy8v-7zXyr4qk7sx26ATvfo6QSTvZyQ&m=DAEJOGyHAQ8bbVD3QYxBNFE2vn70OyFrmEF5VkwzHRw&s=pmqDbwFqgHROYOJBCE4k9SKOc7PRMk4ESya6gYks_CQ&e=
-> 
+Hannes
+-- 
+Dr. Hannes Reinecke		               zSeries & Storage
+hare at suse.com			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
