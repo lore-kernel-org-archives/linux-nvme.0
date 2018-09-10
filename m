@@ -1,23 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 10 Sep 2018 08:02:30 +0200
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 10 Sep 2018 08:17:56 -0600
 Subject: [GIT PULL] nvme fix for 4.19
-Message-ID: <20180910060230.GA27071@infradead.org>
+In-Reply-To: <20180910060230.GA27071@infradead.org>
+References: <20180910060230.GA27071@infradead.org>
+Message-ID: <b0d29a09-aa5d-2e57-5fb6-66c824975417@kernel.dk>
 
-The following changes since commit bc811f05d77f47059c197a98b6ad242eb03999cb:
+On 9/10/18 12:02 AM, Christoph Hellwig wrote:
+> The following changes since commit bc811f05d77f47059c197a98b6ad242eb03999cb:
+> 
+>   nbd: don't allow invalid blocksize settings (2018-09-04 11:54:58 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.19
+> 
+> for you to fetch changes up to 8407879c4e0d7731f6e7e905893cecf61a7762c7:
+> 
+>   nvmet-rdma: fix possible bogus dereference under heavy load (2018-09-05 12:18:01 -0700)
+> 
+> ----------------------------------------------------------------
+> Sagi Grimberg (1):
+>       nvmet-rdma: fix possible bogus dereference under heavy load
 
-  nbd: don't allow invalid blocksize settings (2018-09-04 11:54:58 -0600)
+Pulled, thanks.
 
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.19
-
-for you to fetch changes up to 8407879c4e0d7731f6e7e905893cecf61a7762c7:
-
-  nvmet-rdma: fix possible bogus dereference under heavy load (2018-09-05 12:18:01 -0700)
-
-----------------------------------------------------------------
-Sagi Grimberg (1):
-      nvmet-rdma: fix possible bogus dereference under heavy load
-
- drivers/nvme/target/rdma.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+-- 
+Jens Axboe
