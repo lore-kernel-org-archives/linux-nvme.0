@@ -1,28 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 10 Sep 2018 08:17:56 -0600
-Subject: [GIT PULL] nvme fix for 4.19
-In-Reply-To: <20180910060230.GA27071@infradead.org>
-References: <20180910060230.GA27071@infradead.org>
-Message-ID: <b0d29a09-aa5d-2e57-5fb6-66c824975417@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 10 Sep 2018 18:41:44 +0200
+Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
+ check support for requests
+In-Reply-To: <c41c802c-9235-5383-2dfa-af9c1553f11b@deltatee.com>
+References: <20180905195647.GA1626@lst.de>
+ <bcc1b3cf-2fd9-fa61-9cfb-b0e4d84e5d94@kernel.dk>
+ <20180905201152.GA1893@lst.de>
+ <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
+ <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
+ <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
+ <3af4d1d4-da07-c0a6-8464-9ddc1378f2f4@kernel.dk>
+ <f9e660cd-b597-bb6e-56a2-82fe71cb3649@deltatee.com>
+ <34d9b2f7-9e6d-4a0a-77e5-ec0e99610f5c@kernel.dk>
+ <c41c802c-9235-5383-2dfa-af9c1553f11b@deltatee.com>
+Message-ID: <20180910164144.GA24591@lst.de>
 
-On 9/10/18 12:02 AM, Christoph Hellwig wrote:
-> The following changes since commit bc811f05d77f47059c197a98b6ad242eb03999cb:
-> 
->   nbd: don't allow invalid blocksize settings (2018-09-04 11:54:58 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.19
-> 
-> for you to fetch changes up to 8407879c4e0d7731f6e7e905893cecf61a7762c7:
-> 
->   nvmet-rdma: fix possible bogus dereference under heavy load (2018-09-05 12:18:01 -0700)
-> 
-> ----------------------------------------------------------------
-> Sagi Grimberg (1):
->       nvmet-rdma: fix possible bogus dereference under heavy load
+On Wed, Sep 05, 2018@03:03:18PM -0600, Logan Gunthorpe wrote:
+> There is no special p2p submission process. In the nvme-of case we are
+> using the existing process and with the code in blk-core it didn't
+> change it's process at all. Creating a helper will create one and I can
+> look at making a pci_p2pdma_submit_bio() for v6; but if the developer
+> screws up and still calls the regular submit_bio() things will only be
+> very subtly broken and that won't be obvious.
 
-Pulled, thanks.
-
--- 
-Jens Axboe
+I just saw you added that "helper" in your tree.  Please don't, it is
+a negative value add as it doesn't help anything with the checking.
