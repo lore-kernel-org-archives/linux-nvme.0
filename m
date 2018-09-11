@@ -1,33 +1,29 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Mon, 10 Sep 2018 13:00:40 -0600
-Subject: CPU frequency variations
-In-Reply-To: <CA+1E3rLFED9UqDM2GmFMfr935KwjgpLvNauwpnHLz0nwnVrkTw@mail.gmail.com>
-References: <CA+1E3rLFED9UqDM2GmFMfr935KwjgpLvNauwpnHLz0nwnVrkTw@mail.gmail.com>
-Message-ID: <20180910190040.GA7867@localhost.localdomain>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 10 Sep 2018 17:39:33 -0700
+Subject: [PATCH] nvmet: remove redundant module prefix
+Message-ID: <20180911003933.32191-1-chaitanya.kulkarni@wdc.com>
 
-On Tue, Sep 11, 2018@12:02:25AM +0530, Joshi wrote:
-> While doing some I/O polling related experiments/optimization, I felt
-> the need to eliminate fluctuations (in I/O performance) caused by CPU
-> frequency variations.
-> 
-> During benchmarks (and I mean storage ones), in order to keep running
-> CPU at nearly constant high frequency, I tried
-> things such as - performance governor, bios-based performance
-> settings, explicit setting of sysfs cpu scaling max counters, kernel
-> parameters to disable cpufreq etc.
-> Some of above helped; On machines with less number of CPUs. While
-> nothing seems to help on relatively heavyweight machines.
-> Such as on this-  Intel Xeon E5-2690 v3 @2.6 GHz, 2 NUMA nodes, 24 cpus each.
-> 
-> Often storage-benchmark seem to suffer because there are more number
-> of CPUs available; Binding it to single/few CPUs help in seeing better
-> numbers.
-> 
-> May I know how you deal with CPU frequency variations during benchmarks.
+This patch removes the redundant module prefix used in the pr_err() when
+nvmet_get_smart_log_nsid() failed to find the namespace provided as a part
+of smart-log command.
 
-Just to get all the CPU's to use the highest performing scaling
-governor:
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/admin-cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  echo performance | tee /sys/devices/system/cpu/cpufreq/policy*/scaling_governor
-
-But it sounds like you've alraedy done that.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index a21caea1e080..eb240c134cb9 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -58,7 +58,7 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+ 
+ 	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->get_log_page.nsid);
+ 	if (!ns) {
+-		pr_err("nvmet : Could not find namespace id : %d\n",
++		pr_err("Could not find namespace id : %d\n",
+ 				le32_to_cpu(req->cmd->get_log_page.nsid));
+ 		return NVME_SC_INVALID_NS;
+ 	}
+-- 
+2.17.0
