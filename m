@@ -1,16 +1,23 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 11 Sep 2018 00:19:52 -0700
-Subject: [PATCH V2] nvme-core: add async event trace helper
-In-Reply-To: <20180829221922.23539-1-chaitanya.kulkarni@wdc.com>
-References: <20180829221922.23539-1-chaitanya.kulkarni@wdc.com>
-Message-ID: <20180911071952.GA8988@infradead.org>
+Date: Tue, 11 Sep 2018 00:23:17 -0700
+Subject: Devices expected?
+In-Reply-To: <20180907155524.GA857@localhost.localdomain>
+References: <DE927C68B458BE418D582EC97927A9288003E585@ORSMSX113.amr.corp.intel.com>
+ <20180906210508.GA31480@localhost.localdomain>
+ <DE927C68B458BE418D582EC97927A9288003FD37@ORSMSX113.amr.corp.intel.com>
+ <20180907155524.GA857@localhost.localdomain>
+Message-ID: <20180911072317.GA17437@infradead.org>
 
-On Wed, Aug 29, 2018@03:19:22PM -0700, Chaitanya Kulkarni wrote:
-> This patch adds a new event for nvme async event notification.
-> We print the async event in the decoded format when we recognize
-> the event otherwise we just dump the result.
+On Fri, Sep 07, 2018@09:55:25AM -0600, Keith Busch wrote:
+> > Does nvme2c1n1 represent one path for the nvme2n1 device to use?  If I connected a second path I would see something like nvme2c2n1 pop up as well?
+> 
+> Yes, that is what that those names represent.
+> 
+> In your example, the '2' in nvme2 is the subsystem instance, which
+> is just a unique number software assigned to the subsystem. The '1'
+> in nvme2c1 is the controller id that identify controller reports, so it
+> may not necessarily start at 1 or increase sequentially.
 
-I don't like the reason_str handling.  The normal way to do this
-would be to but the binary reason (i.e. what we switch on) into
-the trace buffer, and then use __print_symbolic in the TP_printk
-statement.
+Also note that we will only use the multipath code if the namespace
+is marked as shared namespace in NMIC.  For private namespaces we
+skip the multipath detection.
