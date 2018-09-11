@@ -1,21 +1,16 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 11 Sep 2018 00:17:09 -0700
-Subject: [PATCH v2] nvmet_fc: support target port removal with nvmet layer
-In-Reply-To: <9fab9189-19ba-e81b-83bc-8c7c0c764763@broadcom.com>
-References: <20180809234814.14680-1-jsmart2021@gmail.com>
- <20180905195652.GA2560@infradead.org>
- <9fab9189-19ba-e81b-83bc-8c7c0c764763@broadcom.com>
-Message-ID: <20180911071709.GA8376@infradead.org>
+Date: Tue, 11 Sep 2018 00:19:52 -0700
+Subject: [PATCH V2] nvme-core: add async event trace helper
+In-Reply-To: <20180829221922.23539-1-chaitanya.kulkarni@wdc.com>
+References: <20180829221922.23539-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180911071952.GA8988@infradead.org>
 
-On Wed, Sep 05, 2018@01:12:29PM -0700, James Smart wrote:
-> The patch is good - but did bring out an error in lpfc.? So we're hosed
-> either way:? w/o it - we have fc transport using a pointer after free
-> corrupting whatever it is; w/ it lpfc doesn't clean up so the controller
-> hangs.
-> 
-> I guess I would prefer to pick up the fix and I'll work on getting lpfc
-> fixed.
+On Wed, Aug 29, 2018@03:19:22PM -0700, Chaitanya Kulkarni wrote:
+> This patch adds a new event for nvme async event notification.
+> We print the async event in the decoded format when we recognize
+> the event otherwise we just dump the result.
 
-I'll merge it for 4.20 for now due to the issue of uncovering another
-bug.  If you have a got reason for it to got into 4.19 instead let me
-know and I can still move it around.
+I don't like the reason_str handling.  The normal way to do this
+would be to but the binary reason (i.e. what we switch on) into
+the trace buffer, and then use __print_symbolic in the TP_printk
+statement.
