@@ -1,37 +1,39 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Tue, 11 Sep 2018 17:48:10 +0800
-Subject: [RFC PATCH 0/4] blk-mq: introduce bio retrieve mechanism
-Message-ID: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
+Date: Tue, 11 Sep 2018 17:48:12 +0800
+Subject: [PATCH 2/4] blk-mq: retrieve bios before update nr_hw_queues
+In-Reply-To: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1536659294-2321-3-git-send-email-jianchao.w.wang@oracle.com>
 
-Hi all
+retrieve bios of requests on queue to drain requests, then:
+ - avoid fail requests on dying hw queue
+ - needn't depend on storage device to drain the queue any more
 
-This patchset introduces a new bio retrieve mechanism. It  will
-flush all the requests on queue, take the bios down from them and
-end them, then the bios will be submied again later. Then we could
-avoid:
- - fail requests on the dying hw queues
- - depend on storage device to drain the queue
-This 1st case could be fatal for filesystem and the 2nd case could
-cause IO hang in nvme_reset_work.
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ block/blk-mq.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-The 1st patch introduces this feature.
-The 2nd patch apply it in the updating nr_hw_queues
-The 3rd patch unquiesces the queues after updating nr_hw_queues
-The 4th patch discards the cq_vector checking in nvme_queue_rq
-
-Jianchao Wang(4)
-blk-mq: introduce bio retrieve mechanism
-blk-mq: retrieve bios before update nr_hw_queues
-nvme-pci: unquiesce queues after update nr_hw_queues
-nvme-pci: discard the cq_vector checking in nvme_queue_rq
-
-
- block/blk-mq-sched.c    | 78 +++++++++++++++++++++++++++++++++++++++++++++++++
- block/blk-mq.c          | 50 ++++++++++++++++++++++++++++++-
- drivers/nvme/host/pci.c | 13 +++------
- include/linux/blk-mq.h  |  4 +++
- include/linux/blkdev.h  |  2 ++
- 5 files changed, 137 insertions(+), 10 deletions(-)
-
-Thanks
-Jianchao
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 3d59741..adc14f0 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3013,7 +3013,15 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ 		return;
+ 
+ 	list_for_each_entry(q, &set->tag_list, tag_set_list)
+-		blk_mq_freeze_queue(q);
++		blk_freeze_queue_start(q);
++
++	/*
++	 * Wait the percpu ref to be switched to atomic mode.
++	 */
++	synchronize_sched();
++
++	list_for_each_entry(q, &set->tag_list, tag_set_list)
++		blk_mq_sched_retrieve_bios(q);
+ 	/*
+ 	 * Sync with blk_mq_queue_tag_busy_iter.
+ 	 */
+-- 
+2.7.4
