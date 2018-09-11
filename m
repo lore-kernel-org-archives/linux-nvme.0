@@ -1,40 +1,25 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Tue, 11 Sep 2018 08:55:27 +0200
-Subject: CPU frequency variations
-In-Reply-To: <CA+1E3rLFED9UqDM2GmFMfr935KwjgpLvNauwpnHLz0nwnVrkTw@mail.gmail.com>
-References: <CA+1E3rLFED9UqDM2GmFMfr935KwjgpLvNauwpnHLz0nwnVrkTw@mail.gmail.com>
-Message-ID: <830fa5e6db6e7ba24a81eea4a18be8a1379b7be6.camel@suse.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 11 Sep 2018 09:10:55 +0200
+Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
+ check support for requests
+In-Reply-To: <fc4f14ae-9490-f901-a60c-2bd1522ef137@deltatee.com>
+References: <20180905201152.GA1893@lst.de>
+ <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
+ <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
+ <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
+ <3af4d1d4-da07-c0a6-8464-9ddc1378f2f4@kernel.dk>
+ <f9e660cd-b597-bb6e-56a2-82fe71cb3649@deltatee.com>
+ <34d9b2f7-9e6d-4a0a-77e5-ec0e99610f5c@kernel.dk>
+ <c41c802c-9235-5383-2dfa-af9c1553f11b@deltatee.com>
+ <20180910164144.GA24591@lst.de>
+ <fc4f14ae-9490-f901-a60c-2bd1522ef137@deltatee.com>
+Message-ID: <20180911071055.GA6609@lst.de>
 
-On Tue, 2018-09-11@00:02 +0530, Joshi wrote:
-> While doing some I/O polling related experiments/optimization, I felt
-> the need to eliminate fluctuations (in I/O performance) caused by CPU
-> frequency variations.
+On Mon, Sep 10, 2018@12:11:01PM -0600, Logan Gunthorpe wrote:
+> > I just saw you added that "helper" in your tree.  Please don't, it is
+> > a negative value add as it doesn't help anything with the checking.
 > 
-> During benchmarks (and I mean storage ones), in order to keep running
-> CPU at nearly constant high frequency, I tried
-> things such as - performance governor, bios-based performance
-> settings, explicit setting of sysfs cpu scaling max counters, kernel
-> parameters to disable cpufreq etc.
-> Some of above helped; On machines with less number of CPUs. While
-> nothing seems to help on relatively heavyweight machines.
-> Such as on this-  Intel Xeon E5-2690 v3 @2.6 GHz, 2 NUMA nodes, 24
-> cpus each.
-> 
-> Often storage-benchmark seem to suffer because there are more number
-> of CPUs available; Binding it to single/few CPUs help in seeing
-> better
-> numbers.
-> 
-> May I know how you deal with CPU frequency variations during
-> benchmarks.
+> Alright, so what's the consensus then? Just have a check in
+> nvmet_bdev_execute_rw() to add REQ_NOMERGE when appropriate?
 
-Are you certain that it's frequency variations that hurt you? Maybe
-your CPUs go to deep sleep states? Have you tried e.g.
-"intel_idle.max_cstate=0"?
-
-Martin
-
--- 
-Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
-SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
+Yes.
