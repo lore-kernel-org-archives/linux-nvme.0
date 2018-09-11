@@ -1,39 +1,37 @@
 From: jianchao.w.wang@oracle.com (Jianchao Wang)
-Date: Tue, 11 Sep 2018 17:48:13 +0800
-Subject: [PATCH 3/4] nvme-pci: unquiesce queues after update nr_hw_queues
-In-Reply-To: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
-References: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
-Message-ID: <1536659294-2321-4-git-send-email-jianchao.w.wang@oracle.com>
+Date: Tue, 11 Sep 2018 17:48:10 +0800
+Subject: [RFC PATCH 0/4] blk-mq: introduce bio retrieve mechanism
+Message-ID: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
 
-updating nr_hw_queues uses bio retrieving to drain the queues, it
-requires the queues to be quiesced to prevent requests from being
-issued to dying hw queue, so we cannot unquiesce the queues before
-that.
+Hi all
 
-Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
----
- drivers/nvme/host/pci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+This patchset introduces a new bio retrieve mechanism. It  will
+flush all the requests on queue, take the bios down from them and
+end them, then the bios will be submied again later. Then we could
+avoid:
+ - fail requests on the dying hw queues
+ - depend on storage device to drain the queue
+This 1st case could be fatal for filesystem and the 2nd case could
+cause IO hang in nvme_reset_work.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682..9e60edf 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2327,11 +2327,13 @@ static void nvme_reset_work(struct work_struct *work)
- 		nvme_remove_namespaces(&dev->ctrl);
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
--		nvme_start_queues(&dev->ctrl);
--		nvme_wait_freeze(&dev->ctrl);
-+
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
-+
-+		nvme_start_queues(&dev->ctrl);
-+		nvme_wait_freeze(&dev->ctrl);
- 		nvme_unfreeze(&dev->ctrl);
- 	}
- 
--- 
-2.7.4
+The 1st patch introduces this feature.
+The 2nd patch apply it in the updating nr_hw_queues
+The 3rd patch unquiesces the queues after updating nr_hw_queues
+The 4th patch discards the cq_vector checking in nvme_queue_rq
+
+Jianchao Wang(4)
+blk-mq: introduce bio retrieve mechanism
+blk-mq: retrieve bios before update nr_hw_queues
+nvme-pci: unquiesce queues after update nr_hw_queues
+nvme-pci: discard the cq_vector checking in nvme_queue_rq
+
+
+ block/blk-mq-sched.c    | 78 +++++++++++++++++++++++++++++++++++++++++++++++++
+ block/blk-mq.c          | 50 ++++++++++++++++++++++++++++++-
+ drivers/nvme/host/pci.c | 13 +++------
+ include/linux/blk-mq.h  |  4 +++
+ include/linux/blkdev.h  |  2 ++
+ 5 files changed, 137 insertions(+), 10 deletions(-)
+
+Thanks
+Jianchao
