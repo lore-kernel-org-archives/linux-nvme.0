@@ -1,78 +1,35 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 11 Sep 2018 01:58:43 -0700
-Subject: [REPOST][PATCH] nvme_fc: add 'nvme_discovery' sysfs attribute to
- fc transport device
-In-Reply-To: <20180820220611.8769-1-jsmart2021@gmail.com>
-References: <20180820220611.8769-1-jsmart2021@gmail.com>
-Message-ID: <20180911085843.GA17520@infradead.org>
+From: jianchao.w.wang@oracle.com (Jianchao Wang)
+Date: Tue, 11 Sep 2018 17:48:14 +0800
+Subject: [PATCH 4/4] nvme-pci: discard the cq_vector checking in nvme_queue_rq
+In-Reply-To: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
+References: <1536659294-2321-1-git-send-email-jianchao.w.wang@oracle.com>
+Message-ID: <1536659294-2321-5-git-send-email-jianchao.w.wang@oracle.com>
 
-> +	unsigned long flags;
-> +	struct nvme_fc_lport *lport;
-> +	struct nvme_fc_rport *rport, *tmp_rport;
-> +
-> +	list_for_each_entry_safe(rport, tmp_rport,
-> +				 lheadp, disc_list) {
-> +		spin_lock_irqsave(&nvme_fc_lock, flags);
-> +		list_del_init(&rport->disc_list);
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +		lport = rport->lport;
-> +		/* signal discovery. Won't hurt if it repeats */
-> +		nvme_fc_signal_discovery_scan(lport, rport);
-> +		nvme_fc_rport_put(rport);
-> +		nvme_fc_lport_put(lport);
-> +	}
+updating nr_hw_queue uses bios retrieving to drain queues, so we
+needn't the the cq_vector checking any more.
 
-This list iteration is not safe.  It should probably be something like:
+Signed-off-by: Jianchao Wang <jianchao.w.wang at oracle.com>
+---
+ drivers/nvme/host/pci.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-	spin_lock_irqsave(&nvme_fc_lock, flags);
-	while (!list_empty(disc_list)) {
-		struct nvme_fc_rport *rport = list_entry(disc_list->next,
-				struct nvme_fc_lport, disct_list);
-
-		list_del_init(&rport->disc_list);
-		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-
-		lport = rport->lport;
-		/* signal discovery. Won't hurt if it repeats */
-		nvme_fc_signal_discovery_scan(lport, rport);
-		nvme_fc_rport_put(rport);
-		nvme_fc_lport_put(lport);
-
-		spin_lock_irqsave(&nvme_fc_lock, flags);
-	}
-	spin_unlock_irqrestore(&nvme_fc_lock, flags);
-
-
-> +			if (!nvme_fc_lport_get(lport))
-> +				continue;
-> +			if (!nvme_fc_rport_get(rport)) {
-> +				/*
-> +				 * This is a temporary condition, so upon
-> +				 * restart this node will be gone from the
-> +				 * list.
-> +				 */
-> +				spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +				nvme_fc_lport_put(lport);
-> +				nvme_fc_discovery_unwind(&nvme_fc_disc_list);
-> +				if (failcnt++ < DISCOVERY_MAX_FAIL)
-> +					goto restart;
-> +				pr_err("nvme_discovery: too many reference "
-> +				       "failures\n");
-> +				return 0;
-> +			}
-
-Maybe use a goto for this condition to move it out of the loop?
-
-> +	list_for_each_entry_safe(rport, tmp_rport,
-> +				 &nvme_fc_disc_list, disc_list) {
-> +		spin_lock_irqsave(&nvme_fc_lock, flags);
-> +		list_del_init(&rport->disc_list);
-> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> +		lport = rport->lport;
-> +		nvme_fc_signal_discovery_scan(lport, rport);
-> +		nvme_fc_rport_put(rport);
-> +		nvme_fc_lport_put(lport);
-> +	}
-
-Same locking issue as above.  And in fact exactly the same code, so
-it should probably call nvme_fc_discovery_unwind.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 9e60edf..615192f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -813,13 +813,6 @@ static blk_status_t nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	struct nvme_command cmnd;
+ 	blk_status_t ret;
+ 
+-	/*
+-	 * We should not need to do this, but we're still using this to
+-	 * ensure we can drain requests on a dying queue.
+-	 */
+-	if (unlikely(nvmeq->cq_vector < 0))
+-		return BLK_STS_IOERR;
+-
+ 	ret = nvme_setup_cmd(ns, req, &cmnd);
+ 	if (ret)
+ 		return ret;
+-- 
+2.7.4
