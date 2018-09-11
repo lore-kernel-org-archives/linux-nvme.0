@@ -1,29 +1,29 @@
 From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 10 Sep 2018 17:39:33 -0700
-Subject: [PATCH] nvmet: remove redundant module prefix
-Message-ID: <20180911003933.32191-1-chaitanya.kulkarni@wdc.com>
+Date: Mon, 10 Sep 2018 17:41:26 -0700
+Subject: [PATCH] nvme-cli: make default error log entries to 128
+Message-ID: <20180911004126.32509-1-chaitanya.kulkarni@wdc.com>
 
-This patch removes the redundant module prefix used in the pr_err() when
-nvmet_get_smart_log_nsid() failed to find the namespace provided as a part
-of smart-log command.
+NVMeOF target defines default error log entries to be 128, use the
+same number as a default value in the nvme-cli when retrieving
+error-log.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/target/admin-cmd.c | 2 +-
+ nvme.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index a21caea1e080..eb240c134cb9 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -58,7 +58,7 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+diff --git a/nvme.c b/nvme.c
+index 970fc0b..ad88aa6 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -557,7 +557,7 @@ static int get_error_log(int argc, char **argv, struct command *cmd, struct plug
+ 	};
  
- 	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->get_log_page.nsid);
- 	if (!ns) {
--		pr_err("nvmet : Could not find namespace id : %d\n",
-+		pr_err("Could not find namespace id : %d\n",
- 				le32_to_cpu(req->cmd->get_log_page.nsid));
- 		return NVME_SC_INVALID_NS;
- 	}
+ 	struct config cfg = {
+-		.log_entries  = 64,
++		.log_entries  = 128,
+ 		.output_format = "normal",
+ 	};
+ 
 -- 
 2.17.0
