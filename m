@@ -1,25 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 11 Sep 2018 09:10:55 +0200
-Subject: [PATCH v5 07/13] block: Add PCI P2P flag for request queue and
- check support for requests
-In-Reply-To: <fc4f14ae-9490-f901-a60c-2bd1522ef137@deltatee.com>
-References: <20180905201152.GA1893@lst.de>
- <eb42fb94-9da6-955b-8524-0a0f5ac4bd19@deltatee.com>
- <2a3394bd-5f13-4818-43f4-dfc61f501e05@kernel.dk>
- <e3ef26e6-6c8d-25b8-fa64-14594a51263c@deltatee.com>
- <3af4d1d4-da07-c0a6-8464-9ddc1378f2f4@kernel.dk>
- <f9e660cd-b597-bb6e-56a2-82fe71cb3649@deltatee.com>
- <34d9b2f7-9e6d-4a0a-77e5-ec0e99610f5c@kernel.dk>
- <c41c802c-9235-5383-2dfa-af9c1553f11b@deltatee.com>
- <20180910164144.GA24591@lst.de>
- <fc4f14ae-9490-f901-a60c-2bd1522ef137@deltatee.com>
-Message-ID: <20180911071055.GA6609@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 11 Sep 2018 00:17:09 -0700
+Subject: [PATCH v2] nvmet_fc: support target port removal with nvmet layer
+In-Reply-To: <9fab9189-19ba-e81b-83bc-8c7c0c764763@broadcom.com>
+References: <20180809234814.14680-1-jsmart2021@gmail.com>
+ <20180905195652.GA2560@infradead.org>
+ <9fab9189-19ba-e81b-83bc-8c7c0c764763@broadcom.com>
+Message-ID: <20180911071709.GA8376@infradead.org>
 
-On Mon, Sep 10, 2018@12:11:01PM -0600, Logan Gunthorpe wrote:
-> > I just saw you added that "helper" in your tree.  Please don't, it is
-> > a negative value add as it doesn't help anything with the checking.
+On Wed, Sep 05, 2018@01:12:29PM -0700, James Smart wrote:
+> The patch is good - but did bring out an error in lpfc.? So we're hosed
+> either way:? w/o it - we have fc transport using a pointer after free
+> corrupting whatever it is; w/ it lpfc doesn't clean up so the controller
+> hangs.
 > 
-> Alright, so what's the consensus then? Just have a check in
-> nvmet_bdev_execute_rw() to add REQ_NOMERGE when appropriate?
+> I guess I would prefer to pick up the fix and I'll work on getting lpfc
+> fixed.
 
-Yes.
+I'll merge it for 4.20 for now due to the issue of uncovering another
+bug.  If you have a got reason for it to got into 4.19 instead let me
+know and I can still move it around.
