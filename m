@@ -1,103 +1,50 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 13 Sep 2018 06:11:40 +0800
-Subject: [PATCH] percpu-refcount: relax limit on percpu_ref_reinit()
-In-Reply-To: <20180912155321.GE2966370@devbig004.ftw2.facebook.com>
-References: <20180911000049.GB30977@ming.t460p>
- <20180911134836.GG1100574@devbig004.ftw2.facebook.com>
- <20180911154540.GA10082@ming.t460p>
- <20180911154959.GI1100574@devbig004.ftw2.facebook.com>
- <20180911160532.GB10082@ming.t460p>
- <20180911163032.GA2966370@devbig004.ftw2.facebook.com>
- <20180911163443.GD10082@ming.t460p>
- <20180911163856.GB2966370@devbig004.ftw2.facebook.com>
- <20180912015247.GA12475@ming.t460p>
- <20180912155321.GE2966370@devbig004.ftw2.facebook.com>
-Message-ID: <20180912221139.GB15810@ming.t460p>
-
-On Wed, Sep 12, 2018@08:53:21AM -0700, Tejun Heo wrote:
-> Hello,
-> 
-> On Wed, Sep 12, 2018@09:52:48AM +0800, Ming Lei wrote:
-> > > If you killed and waited until kill finished, you should be able to
-> > > re-init.  Is it that you want to kill but abort killing in some cases?
-> > 
-> > Yes, it can be re-init, just with the warning of WARN_ON_ONCE(!percpu_ref_is_zero(ref)).
-> 
-> We can add another interface but it can't be re _init_.
-
-OK.
-
-> 
-> > > How do you then handle the race against release?  Can you please
-> > 
-> > The .release is only called at atomic mode, and once we switch to
-> > percpu mode, .release can't be called at all. Or I may not follow you,
-> > could you explain a bit the race with release?
-> 
-> Yeah but what guards ->release() starting to run and then the ref
-> being switched to percpu mode?  Or maybe that doesn't matter?
-
-OK, we may add synchronize_rcu() just after clearing the DEAD flag in
-the new introduced helper to avoid the race.
-
-> 
-> > > describe the exact usage you have on mind?
-> > 
-> > Let me explain the use case:
-> > 
-> > 1) nvme timeout comes
-> > 
-> > 2) all pending requests are canceled, but won't be completed because
-> > they have to be retried after the controller is recovered
-> > 
-> > 3) meantime, the queue has to be frozen for avoiding new request, so
-> > the refcount is killed via percpu_ref_kill().
-> > 
-> > 4) after the queue is recovered(or the controller is reset successfully), it
-> > isn't necessary to wait until the refcount drops zero, since it is fine to
-> > reinit it by clearing DEAD and switching back to percpu mode from atomic mode.
-> > And waiting for the refcount dropping to zero in the reset handler may trigger
-> > IO hang if IO timeout happens again during reset.
-> 
-> Does the recovery need the in-flight commands actually drained or does
-> it just need to block new issues for a while.  If latter, why is
-
-The recovery needn't to drain the in-flight commands actually.
-
-> percpu_ref even being used?
-
-Just for avoiding to invent a new wheel, especially .q_usage_counter
-has served for this purpose for long time.
-
-> 
-> > So what I am trying to propose is the following usage:
-> > 
-> > 1) percpu_ref_kill() on .q_usage_counter before recovering the controller for
-> > preventing new requests from entering queue
-> 
-> The way you're describing it, the above part is no different from
-> having a global bool which gates new issues.
-
-Right, but the global bool has to be checked in fast path, and the sync
-between updating the flag and checking it has to be considered. Given
-blk-mq has already used .q_usage_counter for this purpose, that is why
-I suggest to scale percpu-refcount to cover this use case.
-
-> 
-> > 2) controller is recovered
-> > 
-> > 3) percpu_ref_reinit() on .q_usage_counter, and do not wait for
-> > .q_usage_counter dropping to zero, then we needn't to wait in NVMe reset
-> > handler which can be thought as single thread, and avoid IO hang when
-> > new timeout is triggered during the waiting.
-> 
-> This sounds possibly confused to me.  Can you please explain how the
-> recovery may hang if you wait for the ref to drain?
-
-The reset handler can be thought as one single dedicated thread, if it hangs
-in draining in-flight commands, then it won't be run again for dealing with
-next timeout event.
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 12 Sep 2018 15:34:03 -0700
+Subject: [PATCH] nvme-cli: make default error log entries to 128
+In-Reply-To: <657c3d30-3d49-689a-383f-8492b0becc9e@broadcom.com>
+References: <20180911004126.32509-1-chaitanya.kulkarni@wdc.com>
+ <657c3d30-3d49-689a-383f-8492b0becc9e@broadcom.com>
+Message-ID: <c3c10cd5-6169-49bf-8cdf-bc59d1c262c6@broadcom.com>
 
 
-thanks,
-Ming
+
+On 9/11/2018 10:01 PM, James Smart wrote:
+> On 9/10/2018 5:41 PM, Chaitanya Kulkarni wrote:
+>> NVMeOF target defines default error log entries to be 128, use the
+>> same number as a default value in the nvme-cli when retrieving
+>> error-log.
+>>
+>> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+>> ---
+>> ? nvme.c | 2 +-
+>> ? 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/nvme.c b/nvme.c
+>> index 970fc0b..ad88aa6 100644
+>> --- a/nvme.c
+>> +++ b/nvme.c
+>> @@ -557,7 +557,7 @@ static int get_error_log(int argc, char **argv, 
+>> struct command *cmd, struct plug
+>> ????? };
+>> ? ????? struct config cfg = {
+>> -??????? .log_entries? = 64,
+>> +??????? .log_entries? = 128,
+>> ????????? .output_format = "normal",
+>> ????? };
+>
+> I disagree with this change based on the current implementation. 
+> Today's implementation tries to do the entire log read in an single 
+> read operation. Thus you are doubling the size of the io payload to 
+> something over 128k. It can be beyond the capacity of the host port or 
+> the device.? I think it's already high at 64k.
+>
+> Now, if you wanted to change the nvme read log code to read the log in 
+> multiple transactions up to this count, that would be good.
+>
+> -- james
+>
+
+I retract this - I was thinking it was discovery log. Error log entries 
+are much smaller and is fine.
+
+-- james
