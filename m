@@ -1,50 +1,74 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 12 Sep 2018 15:34:03 -0700
-Subject: [PATCH] nvme-cli: make default error log entries to 128
-In-Reply-To: <657c3d30-3d49-689a-383f-8492b0becc9e@broadcom.com>
-References: <20180911004126.32509-1-chaitanya.kulkarni@wdc.com>
- <657c3d30-3d49-689a-383f-8492b0becc9e@broadcom.com>
-Message-ID: <c3c10cd5-6169-49bf-8cdf-bc59d1c262c6@broadcom.com>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Wed, 12 Sep 2018 15:37:05 -0700
+Subject: [PATCH V2 blktests 03/12] nvme: add NVMeOF write-zeroes test for
+ bdev-ns
+In-Reply-To: <20180904193304.13350-4-chaitanya.kulkarni@wdc.com>
+References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
+ <20180904193304.13350-4-chaitanya.kulkarni@wdc.com>
+Message-ID: <20180912223705.GB6052@vader>
+
+On Tue, Sep 04, 2018@12:32:55PM -0700, Chaitanya Kulkarni wrote:
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>  tests/nvme/021     | 78 ++++++++++++++++++++++++++++++++++++++++++++++
+>  tests/nvme/021.out |  6 ++++
+>  2 files changed, 84 insertions(+)
+>  create mode 100755 tests/nvme/021
+>  create mode 100644 tests/nvme/021.out
 
 
+This test is still failing for me sometimes. If I apply the following
+patch:
 
-On 9/11/2018 10:01 PM, James Smart wrote:
-> On 9/10/2018 5:41 PM, Chaitanya Kulkarni wrote:
->> NVMeOF target defines default error log entries to be 128, use the
->> same number as a default value in the nvme-cli when retrieving
->> error-log.
->>
->> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
->> ---
->> ? nvme.c | 2 +-
->> ? 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/nvme.c b/nvme.c
->> index 970fc0b..ad88aa6 100644
->> --- a/nvme.c
->> +++ b/nvme.c
->> @@ -557,7 +557,7 @@ static int get_error_log(int argc, char **argv, 
->> struct command *cmd, struct plug
->> ????? };
->> ? ????? struct config cfg = {
->> -??????? .log_entries? = 64,
->> +??????? .log_entries? = 128,
->> ????????? .output_format = "normal",
->> ????? };
->
-> I disagree with this change based on the current implementation. 
-> Today's implementation tries to do the entire log read in an single 
-> read operation. Thus you are doubling the size of the io payload to 
-> something over 128k. It can be beyond the capacity of the host port or 
-> the device.? I think it's already high at 64k.
->
-> Now, if you wanted to change the nvme read log code to read the log in 
-> multiple transactions up to this count, that would be good.
->
-> -- james
->
+diff --git a/tests/nvme/021 b/tests/nvme/021
+index efcbb3f..137e89e 100755
+--- a/tests/nvme/021
++++ b/tests/nvme/021
+@@ -59,6 +59,10 @@ test() {
+ 	cat "/sys/block/${nvmedev}n1/uuid"
+ 	cat "/sys/block/${nvmedev}n1/wwid"
+ 
++	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
++	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
++	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
++	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
+ 	nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
+ 
+ 	nvme disconnect -n "${subsys_name}"
+diff --git a/tests/nvme/021.out b/tests/nvme/021.out
+index 29939e6..658be05 100644
+--- a/tests/nvme/021.out
++++ b/tests/nvme/021.out
+@@ -2,5 +2,9 @@ Running nvme/021
+ 91fdba0d-f87b-4c25-b80f-db7be1418b9e
+ uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
+ NVME Write Zeroes Success
++NVME Write Zeroes Success
++NVME Write Zeroes Success
++NVME Write Zeroes Success
++NVME Write Zeroes Success
+ NQN:blktests-subsystem-1 disconnected 1 controller(s)
+ Test complete
 
-I retract this - I was thinking it was discovery log. Error log entries 
-are much smaller and is fine.
+Then some of the commands pass and some fail:
 
--- james
+--- tests/nvme/021.out	2018-09-12 14:41:29.563976539 -0700
++++ /home/vmuser/linux/blktests/results/nodev/nvme/021.out.bad	2018-09-12 15:30:43.037900569 -0700
+@@ -1,10 +1,10 @@
+ Running nvme/021
+ 91fdba0d-f87b-4c25-b80f-db7be1418b9e
+ uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
++NVME IO command error:Unknown(400f)
+ NVME Write Zeroes Success
++NVME IO command error:Unknown(400f)
+ NVME Write Zeroes Success
+-NVME Write Zeroes Success
+-NVME Write Zeroes Success
+-NVME Write Zeroes Success
++NVME IO command error:Unknown(400f)
+ NQN:blktests-subsystem-1 disconnected 1 controller(s)
+ Test complete
+
+I'll look a bit more, but do you know what might be causing this? This
+is on v4.19-rc3 with nvme-cli 1.6.
+using nvme
