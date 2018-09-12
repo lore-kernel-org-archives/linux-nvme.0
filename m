@@ -1,93 +1,41 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 11 Sep 2018 11:02:13 -0700
-Subject: [REPOST][PATCH] nvme_fc: add 'nvme_discovery' sysfs attribute to
- fc transport device
-In-Reply-To: <20180911085843.GA17520@infradead.org>
-References: <20180820220611.8769-1-jsmart2021@gmail.com>
- <20180911085843.GA17520@infradead.org>
-Message-ID: <c806be1b-f86f-de84-3669-d9bb89aaaf65@gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 11 Sep 2018 22:01:06 -0700
+Subject: [PATCH] nvme-cli: make default error log entries to 128
+In-Reply-To: <20180911004126.32509-1-chaitanya.kulkarni@wdc.com>
+References: <20180911004126.32509-1-chaitanya.kulkarni@wdc.com>
+Message-ID: <657c3d30-3d49-689a-383f-8492b0becc9e@broadcom.com>
 
-On 9/11/2018 1:58 AM, Christoph Hellwig wrote:
->> +	unsigned long flags;
->> +	struct nvme_fc_lport *lport;
->> +	struct nvme_fc_rport *rport, *tmp_rport;
->> +
->> +	list_for_each_entry_safe(rport, tmp_rport,
->> +				 lheadp, disc_list) {
->> +		spin_lock_irqsave(&nvme_fc_lock, flags);
->> +		list_del_init(&rport->disc_list);
->> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
->> +		lport = rport->lport;
->> +		/* signal discovery. Won't hurt if it repeats */
->> +		nvme_fc_signal_discovery_scan(lport, rport);
->> +		nvme_fc_rport_put(rport);
->> +		nvme_fc_lport_put(lport);
->> +	}
-> 
-> This list iteration is not safe.  It should probably be something like:
-> 
-> 	spin_lock_irqsave(&nvme_fc_lock, flags);
-> 	while (!list_empty(disc_list)) {
-> 		struct nvme_fc_rport *rport = list_entry(disc_list->next,
-> 				struct nvme_fc_lport, disct_list);
-> 
-> 		list_del_init(&rport->disc_list);
-> 		spin_unlock_irqrestore(&nvme_fc_lock, flags);
-> 
-> 		lport = rport->lport;
-> 		/* signal discovery. Won't hurt if it repeats */
-> 		nvme_fc_signal_discovery_scan(lport, rport);
-> 		nvme_fc_rport_put(rport);
-> 		nvme_fc_lport_put(lport);
-> 
-> 		spin_lock_irqsave(&nvme_fc_lock, flags);
-> 	}
-> 	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+On 9/10/2018 5:41 PM, Chaitanya Kulkarni wrote:
+> NVMeOF target defines default error log entries to be 128, use the
+> same number as a default value in the nvme-cli when retrieving
+> error-log.
+>
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+> ---
+>   nvme.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/nvme.c b/nvme.c
+> index 970fc0b..ad88aa6 100644
+> --- a/nvme.c
+> +++ b/nvme.c
+> @@ -557,7 +557,7 @@ static int get_error_log(int argc, char **argv, struct command *cmd, struct plug
+>   	};
+>   
+>   	struct config cfg = {
+> -		.log_entries  = 64,
+> +		.log_entries  = 128,
+>   		.output_format = "normal",
+>   	};
+>   
 
-Well, I don't think I agree with you on the safeness of the locking, but 
-moving it to the other style isn't different and looks more normal. I'll 
-rework it.
+I disagree with this change based on the current implementation. Today's 
+implementation tries to do the entire log read in an single read 
+operation. Thus you are doubling the size of the io payload to something 
+over 128k. It can be beyond the capacity of the host port or the 
+device.? I think it's already high at 64k.
 
-
-> 
-> 
->> +			if (!nvme_fc_lport_get(lport))
->> +				continue;
->> +			if (!nvme_fc_rport_get(rport)) {
->> +				/*
->> +				 * This is a temporary condition, so upon
->> +				 * restart this node will be gone from the
->> +				 * list.
->> +				 */
->> +				spin_unlock_irqrestore(&nvme_fc_lock, flags);
->> +				nvme_fc_lport_put(lport);
->> +				nvme_fc_discovery_unwind(&nvme_fc_disc_list);
->> +				if (failcnt++ < DISCOVERY_MAX_FAIL)
->> +					goto restart;
->> +				pr_err("nvme_discovery: too many reference "
->> +				       "failures\n");
->> +				return 0;
->> +			}
-> 
-> Maybe use a goto for this condition to move it out of the loop?
-
-May not be necessary. I think I want to change this loop a little.
-
-> 
->> +	list_for_each_entry_safe(rport, tmp_rport,
->> +				 &nvme_fc_disc_list, disc_list) {
->> +		spin_lock_irqsave(&nvme_fc_lock, flags);
->> +		list_del_init(&rport->disc_list);
->> +		spin_unlock_irqrestore(&nvme_fc_lock, flags);
->> +		lport = rport->lport;
->> +		nvme_fc_signal_discovery_scan(lport, rport);
->> +		nvme_fc_rport_put(rport);
->> +		nvme_fc_lport_put(lport);
->> +	}
-> 
-> Same locking issue as above.  And in fact exactly the same code, so
-> it should probably call nvme_fc_discovery_unwind.
-
-ok
+Now, if you wanted to change the nvme read log code to read the log in 
+multiple transactions up to this count, that would be good.
 
 -- james
