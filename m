@@ -1,89 +1,43 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Wed, 12 Sep 2018 23:53:51 +0000
-Subject: [PATCH V2 blktests 03/12] nvme: add NVMeOF write-zeroes test for
- bdev-ns
-In-Reply-To: <20180912223705.GB6052@vader>
-References: <20180904193304.13350-1-chaitanya.kulkarni@wdc.com>
- <20180904193304.13350-4-chaitanya.kulkarni@wdc.com>,
- <20180912223705.GB6052@vader>
-Message-ID: <SN6PR04MB4510EE2BECEFD9643D3ADD18861B0@SN6PR04MB4510.namprd04.prod.outlook.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 12 Sep 2018 18:11:50 -0600
+Subject: [PATCH v6 07/13] block: Add PCI P2P flag for request queue and check
+ support for requests
+In-Reply-To: <20180913001156.4115-1-logang@deltatee.com>
+References: <20180913001156.4115-1-logang@deltatee.com>
+Message-ID: <20180913001156.4115-8-logang@deltatee.com>
 
-Let me test again, I'll send out the next version with the fix.
+QUEUE_FLAG_PCI_P2P is introduced meaning a driver's request queue
+supports targeting P2P memory.
 
+When a request is submitted we check if PCI P2PDMA memory is assigned
+to the first page in the bio. If it is, we ensure the queue it's
+submitted to supports it, and enforce REQ_NOMERGE.
 
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+---
+ include/linux/blkdev.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
-
-From: Omar Sandoval <osandov@osandov.com>
-Sent: Wednesday, September 12, 2018 3:37 PM
-To: Chaitanya Kulkarni
-Cc: linux-nvme at lists.infradead.org; osandov at fb.com
-Subject: Re: [PATCH V2 blktests 03/12] nvme: add NVMeOF write-zeroes test for bdev-ns
-? 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index d6869e0e2b64..7bf80ca802e1 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -699,6 +699,7 @@ struct request_queue {
+ #define QUEUE_FLAG_SCSI_PASSTHROUGH 27	/* queue supports SCSI commands */
+ #define QUEUE_FLAG_QUIESCED    28	/* queue has been quiesced */
+ #define QUEUE_FLAG_PREEMPT_ONLY	29	/* only process REQ_PREEMPT requests */
++#define QUEUE_FLAG_PCI_P2PDMA  30	/* device supports pci p2p requests */
  
-On Tue, Sep 04, 2018@12:32:55PM -0700, Chaitanya Kulkarni wrote:
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
-> ---
->? tests/nvme/021???? | 78 ++++++++++++++++++++++++++++++++++++++++++++++
->? tests/nvme/021.out |? 6 ++++
->? 2 files changed, 84 insertions(+)
->? create mode 100755 tests/nvme/021
->? create mode 100644 tests/nvme/021.out
-
-
-This test is still failing for me sometimes. If I apply the following
-patch:
-
-diff --git a/tests/nvme/021 b/tests/nvme/021
-index efcbb3f..137e89e 100755
---- a/tests/nvme/021
-+++ b/tests/nvme/021
-@@ -59,6 +59,10 @@ test() {
-???????? cat "/sys/block/${nvmedev}n1/uuid"
-???????? cat "/sys/block/${nvmedev}n1/wwid"
-?
-+?????? nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
-+?????? nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
-+?????? nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
-+?????? nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
-???????? nvme write-zeroes "/dev/${nvmedev}" -n 1 -d -s "${sblk}" -c "${nblk}"
-?
-???????? nvme disconnect -n "${subsys_name}"
-diff --git a/tests/nvme/021.out b/tests/nvme/021.out
-index 29939e6..658be05 100644
---- a/tests/nvme/021.out
-+++ b/tests/nvme/021.out
-@@ -2,5 +2,9 @@ Running nvme/021
-?91fdba0d-f87b-4c25-b80f-db7be1418b9e
-?uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-?NVME Write Zeroes Success
-+NVME Write Zeroes Success
-+NVME Write Zeroes Success
-+NVME Write Zeroes Success
-+NVME Write Zeroes Success
-?NQN:blktests-subsystem-1 disconnected 1 controller(s)
-?Test complete
-
-Then some of the commands pass and some fail:
-
---- tests/nvme/021.out? 2018-09-12 14:41:29.563976539 -0700
-+++ /home/vmuser/linux/blktests/results/nodev/nvme/021.out.bad? 2018-09-12 15:30:43.037900569 -0700
-@@ -1,10 +1,10 @@
-?Running nvme/021
-?91fdba0d-f87b-4c25-b80f-db7be1418b9e
-?uuid.91fdba0d-f87b-4c25-b80f-db7be1418b9e
-+NVME IO command error:Unknown(400f)
-?NVME Write Zeroes Success
-+NVME IO command error:Unknown(400f)
-?NVME Write Zeroes Success
--NVME Write Zeroes Success
--NVME Write Zeroes Success
--NVME Write Zeroes Success
-+NVME IO command error:Unknown(400f)
-?NQN:blktests-subsystem-1 disconnected 1 controller(s)
-?Test complete
-
-I'll look a bit more, but do you know what might be causing this? This
-is on v4.19-rc3 with nvme-cli 1.6.
-using nvme
-    
+ #define QUEUE_FLAG_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+ 				 (1 << QUEUE_FLAG_SAME_COMP)	|	\
+@@ -731,6 +732,8 @@ bool blk_queue_flag_test_and_clear(unsigned int flag, struct request_queue *q);
+ #define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
+ #define blk_queue_scsi_passthrough(q)	\
+ 	test_bit(QUEUE_FLAG_SCSI_PASSTHROUGH, &(q)->queue_flags)
++#define blk_queue_pci_p2pdma(q)	\
++	test_bit(QUEUE_FLAG_PCI_P2PDMA, &(q)->queue_flags)
+ 
+ #define blk_noretry_request(rq) \
+ 	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
+-- 
+2.19.0
