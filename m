@@ -1,34 +1,78 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 14 Sep 2018 03:03:08 -0700
-Subject: [PATCH V2] nvme-core: add async event trace helper
-In-Reply-To: <BYAPR04MB4502ED2C1C2691C07DF7485D861B0@BYAPR04MB4502.namprd04.prod.outlook.com>
-References: <20180829221922.23539-1-chaitanya.kulkarni@wdc.com>
- <20180911071952.GA8988@infradead.org>
- <BYAPR04MB4502ED2C1C2691C07DF7485D861B0@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <20180914100308.GA8892@infradead.org>
+From: yupeng0921@gmail.com (yupeng)
+Date: Sat, 15 Sep 2018 19:33:41 +0000
+Subject: [PATCH] trace nvme submit queue status
+Message-ID: <20180915193341.1221-1-yupeng0921@gmail.com>
 
-On Wed, Sep 12, 2018@05:51:23AM +0000, Chaitanya Kulkarni wrote:
->         switch ((result & 0xff00) >> 8) {
->         case NVME_AER_NOTICE_NS_CHANGED:
-> +               trace_nvme_async_event(ctrl, (result & 0xff00) >> 8);
->                 set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
->                 nvme_queue_scan(ctrl);
->                 break;
->         case NVME_AER_NOTICE_FW_ACT_STARTING:
-> +               trace_nvme_async_event(ctrl, (result & 0xff00) >> 8);
->                 queue_work(nvme_wq, &ctrl->fw_act_work);
->                 break;
->  #ifdef CONFIG_NVME_MULTIPATH
->         case NVME_AER_NOTICE_ANA:
-> +               trace_nvme_async_event(ctrl, (result & 0xff00) >> 8);
+export nvme disk name, queue id, sq_head, sq_tail to trace event
+usage example:
+go to the event directory:
+cd /sys/kernel/debug/tracing/events/nvme/nvme_sq
+filter by disk name:
+echo 'disk=="nvme1n1"' > filter
+enable the event:
+echo 1 > enable
+check results from trace_pipe:
+cat /sys/kernel/debug/tracing/trace_pipe
+In practice, this patch help me debug hardware related
+performant issue.
 
-I think we want a local variable so that we only do the mask and shift
-once.
+Signed-off-by: yupeng <yupeng0921 at gmail.com>
+---
+ drivers/nvme/host/pci.c   |  5 +++++
+ drivers/nvme/host/trace.h | 18 ++++++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-> +#ifdef CONFIG_NVME_MULTIPATH
-> +                       aer_name(NVME_AER_NOTICE_ANA)
-> +#endif
-
-I don't think we need the ifdef as the symbol is always defined.
-
-Otherwise this looks good to me.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682f91df..11743c65a83f 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -31,6 +31,7 @@
+ #include <linux/io-64-nonatomic-lo-hi.h>
+ #include <linux/sed-opal.h>
+ 
++#include "trace.h"
+ #include "nvme.h"
+ 
+ #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+@@ -894,6 +895,10 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
+ 	}
+ 
+ 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
++	trace_nvme_sq(req->rq_disk,
++		      nvmeq->qid,
++		      le16_to_cpu(cqe->sq_head),
++		      nvmeq->sq_tail);
+ 	nvme_end_request(req, cqe->status, cqe->result);
+ }
+ 
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index a490790d6691..13e33184cf93 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -156,6 +156,24 @@ TRACE_EVENT(nvme_complete_rq,
+ 
+ );
+ 
++TRACE_EVENT(nvme_sq,
++	    TP_PROTO(void *rq_disk, int qid, int sq_head, int sq_tail),
++	    TP_ARGS(rq_disk, qid, sq_head, sq_tail),
++	    TP_STRUCT__entry(
++		 __array(char, disk, DISK_NAME_LEN)
++		 __field(int, qid)
++		 __field(int, sq_head)
++		 __field(int, sq_tail)),
++	    TP_fast_assign(
++		__entry->qid = qid;
++		__entry->sq_head = sq_head;
++		__entry->sq_tail = sq_tail;
++		__assign_disk_name(__entry->disk, rq_disk);
++	    ),
++	    TP_printk("nvme: %s qid=%d head=%d tail=%d",
++		      __print_disk_name(__entry->disk),
++		      __entry->qid, __entry->sq_head, __entry->sq_tail)
++);
+ #endif /* _TRACE_NVME_H */
+ 
+ #undef TRACE_INCLUDE_PATH
+-- 
+2.17.1
