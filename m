@@ -1,78 +1,36 @@
-From: yupeng0921@gmail.com (yupeng)
-Date: Sat, 15 Sep 2018 19:33:41 +0000
+From: lkp@intel.com (kbuild test robot)
+Date: Sun, 16 Sep 2018 15:31:34 +0800
 Subject: [PATCH] trace nvme submit queue status
-Message-ID: <20180915193341.1221-1-yupeng0921@gmail.com>
+In-Reply-To: <20180915193341.1221-1-yupeng0921@gmail.com>
+References: <20180915193341.1221-1-yupeng0921@gmail.com>
+Message-ID: <201809161520.tdRuh0yj%fengguang.wu@intel.com>
 
-export nvme disk name, queue id, sq_head, sq_tail to trace event
-usage example:
-go to the event directory:
-cd /sys/kernel/debug/tracing/events/nvme/nvme_sq
-filter by disk name:
-echo 'disk=="nvme1n1"' > filter
-enable the event:
-echo 1 > enable
-check results from trace_pipe:
-cat /sys/kernel/debug/tracing/trace_pipe
-In practice, this patch help me debug hardware related
-performant issue.
+Hi yupeng,
 
-Signed-off-by: yupeng <yupeng0921 at gmail.com>
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v4.19-rc3 next-20180913]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/yupeng/trace-nvme-submit-queue-status/20180916-095618
+config: x86_64-rhel (attached as .config)
+compiler: gcc-7 (Debian 7.3.0-1) 7.3.0
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=x86_64 
+
+All errors (new ones prefixed by >>):
+
+>> ERROR: "__tracepoint_nvme_sq" [drivers/nvme/host/nvme.ko] undefined!
+
 ---
- drivers/nvme/host/pci.c   |  5 +++++
- drivers/nvme/host/trace.h | 18 ++++++++++++++++++
- 2 files changed, 23 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682f91df..11743c65a83f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -31,6 +31,7 @@
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/sed-opal.h>
- 
-+#include "trace.h"
- #include "nvme.h"
- 
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
-@@ -894,6 +895,10 @@ static inline void nvme_handle_cqe(struct nvme_queue *nvmeq, u16 idx)
- 	}
- 
- 	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
-+	trace_nvme_sq(req->rq_disk,
-+		      nvmeq->qid,
-+		      le16_to_cpu(cqe->sq_head),
-+		      nvmeq->sq_tail);
- 	nvme_end_request(req, cqe->status, cqe->result);
- }
- 
-diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
-index a490790d6691..13e33184cf93 100644
---- a/drivers/nvme/host/trace.h
-+++ b/drivers/nvme/host/trace.h
-@@ -156,6 +156,24 @@ TRACE_EVENT(nvme_complete_rq,
- 
- );
- 
-+TRACE_EVENT(nvme_sq,
-+	    TP_PROTO(void *rq_disk, int qid, int sq_head, int sq_tail),
-+	    TP_ARGS(rq_disk, qid, sq_head, sq_tail),
-+	    TP_STRUCT__entry(
-+		 __array(char, disk, DISK_NAME_LEN)
-+		 __field(int, qid)
-+		 __field(int, sq_head)
-+		 __field(int, sq_tail)),
-+	    TP_fast_assign(
-+		__entry->qid = qid;
-+		__entry->sq_head = sq_head;
-+		__entry->sq_tail = sq_tail;
-+		__assign_disk_name(__entry->disk, rq_disk);
-+	    ),
-+	    TP_printk("nvme: %s qid=%d head=%d tail=%d",
-+		      __print_disk_name(__entry->disk),
-+		      __entry->qid, __entry->sq_head, __entry->sq_tail)
-+);
- #endif /* _TRACE_NVME_H */
- 
- #undef TRACE_INCLUDE_PATH
--- 
-2.17.1
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 41202 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20180916/2b684a2c/attachment-0001.gz>
