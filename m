@@ -1,28 +1,114 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 17 Sep 2018 09:07:54 -0700
-Subject: [REPOST][PATCH] nvme_fc: add 'nvme_discovery' sysfs attribute to
- fc transport device
-In-Reply-To: <20180917134127.GA6009@infradead.org>
-References: <20180820220611.8769-1-jsmart2021@gmail.com>
- <20180911085843.GA17520@infradead.org>
- <c806be1b-f86f-de84-3669-d9bb89aaaf65@gmail.com>
- <20180917134127.GA6009@infradead.org>
-Message-ID: <4667d394-999c-652d-b45d-d3cb9c02ec31@broadcom.com>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 17 Sep 2018 10:47:06 -0700
+Subject: [PATCH V3] nvme-core: add async event trace helper
+Message-ID: <20180917174706.31744-1-chaitanya.kulkarni@wdc.com>
 
+This patch adds a new event for nvme async event notification.
+We print the async event in the decoded format when we recognize
+the event otherwise we just dump the result.
 
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+Changes since V2:-
 
-On 9/17/2018 6:41 AM, Christoph Hellwig wrote:
-> On Tue, Sep 11, 2018@11:02:13AM -0700, James Smart wrote:
->> Well, I don't think I agree with you on the safeness of the locking, but
->> moving it to the other style isn't different and looks more normal. I'll
->> rework it.
-> You are iterating the list without the lock and only take the lock
-> to remove the entry - this is racy vs another thread adding to or
-> removing from the list.
+1. Use __print_symbolic() to stringify the aer type.
+2. Use local variable to calculate the mask and shift once.
 
-:)? By definition, there is only one thread processing a list. Lock was 
-only to be coherent on the entry being on a list or not vs another thread.
+Changes since V1:-
+1. __stringify() all the known NVME_AER* status codes.
 
-But we're good.? The rework was a good idea.? Thanks.
+---
+ drivers/nvme/host/core.c  | 11 +++++++++--
+ drivers/nvme/host/trace.h | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+), 2 deletions(-)
 
--- james
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ef6748f4ff47..0d2eea795907 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3411,16 +3411,21 @@ static void nvme_fw_act_work(struct work_struct *work)
+ 
+ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ {
+-	switch ((result & 0xff00) >> 8) {
++	int aer_notice_type = (result & 0xff00) >> 8;
++
++	switch (aer_notice_type) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
++		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		set_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events);
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	case NVME_AER_NOTICE_FW_ACT_STARTING:
++		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		queue_work(nvme_wq, &ctrl->fw_act_work);
+ 		break;
+ #ifdef CONFIG_NVME_MULTIPATH
+ 	case NVME_AER_NOTICE_ANA:
++		trace_nvme_async_event(ctrl, aer_notice_type);
+ 		if (!ctrl->ana_log_buf)
+ 			break;
+ 		queue_work(nvme_wq, &ctrl->ana_work);
+@@ -3435,11 +3440,12 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		volatile union nvme_result *res)
+ {
+ 	u32 result = le32_to_cpu(res->u32);
++	u32 aer_type = result & 0x07;
+ 
+ 	if (le16_to_cpu(status) >> 1 != NVME_SC_SUCCESS)
+ 		return;
+ 
+-	switch (result & 0x7) {
++	switch (aer_type) {
+ 	case NVME_AER_NOTICE:
+ 		nvme_handle_aen_notice(ctrl, result);
+ 		break;
+@@ -3447,6 +3453,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 	case NVME_AER_SMART:
+ 	case NVME_AER_CSS:
+ 	case NVME_AER_VS:
++		trace_nvme_async_event(ctrl, aer_type);
+ 		ctrl->aen_result = result;
+ 		break;
+ 	default:
+diff --git a/drivers/nvme/host/trace.h b/drivers/nvme/host/trace.h
+index a490790d6691..000e2c5a6df7 100644
+--- a/drivers/nvme/host/trace.h
++++ b/drivers/nvme/host/trace.h
+@@ -156,6 +156,34 @@ TRACE_EVENT(nvme_complete_rq,
+ 
+ );
+ 
++#define aer_name(aer) { aer, #aer }
++
++TRACE_EVENT(nvme_async_event,
++		TP_PROTO(struct nvme_ctrl *ctrl,
++			u32 result),
++		TP_ARGS(ctrl,
++			result),
++		TP_STRUCT__entry(
++			__field(int, ctrl_id)
++			__field(u32, result)
++			),
++		TP_fast_assign(
++			__entry->ctrl_id = ctrl->instance;
++			__entry->result = result;
++			),
++		TP_printk("nvme%d: NVME_AEN=%#08x [%s]",
++			__entry->ctrl_id, __entry->result,
++			__print_symbolic(__entry->result,
++			aer_name(NVME_AER_NOTICE_NS_CHANGED),
++			aer_name(NVME_AER_NOTICE_ANA),
++			aer_name(NVME_AER_NOTICE_FW_ACT_STARTING),
++			aer_name(NVME_AER_ERROR),
++			aer_name(NVME_AER_SMART),
++			aer_name(NVME_AER_CSS),
++			aer_name(NVME_AER_VS))
++)
++	   );
++
+ #endif /* _TRACE_NVME_H */
+ 
+ #undef TRACE_INCLUDE_PATH
+-- 
+2.17.0
