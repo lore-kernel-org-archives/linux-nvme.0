@@ -1,104 +1,12 @@
-From: tj@kernel.org (Tejun Heo)
-Date: Tue, 18 Sep 2018 05:49:09 -0700
-Subject: [PATCH] percpu-refcount: relax limit on percpu_ref_reinit()
-In-Reply-To: <20180912221139.GB15810@ming.t460p>
-References: <20180911134836.GG1100574@devbig004.ftw2.facebook.com>
- <20180911154540.GA10082@ming.t460p>
- <20180911154959.GI1100574@devbig004.ftw2.facebook.com>
- <20180911160532.GB10082@ming.t460p>
- <20180911163032.GA2966370@devbig004.ftw2.facebook.com>
- <20180911163443.GD10082@ming.t460p>
- <20180911163856.GB2966370@devbig004.ftw2.facebook.com>
- <20180912015247.GA12475@ming.t460p>
- <20180912155321.GE2966370@devbig004.ftw2.facebook.com>
- <20180912221139.GB15810@ming.t460p>
-Message-ID: <20180918124909.GA902964@devbig004.ftw2.facebook.com>
+From: hch@lst.de (hch@lst.de)
+Date: Tue, 18 Sep 2018 18:25:26 +0200
+Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should
+ return BLK_STS_RESOURCE
+In-Reply-To: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
+References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
+Message-ID: <20180918162526.GA5038@lst.de>
 
-Hello, Ming.
+Can you resend this with a proper signoff so that we can apply it?
 
-Sorry about the delay.
-
-On Thu, Sep 13, 2018@06:11:40AM +0800, Ming Lei wrote:
-> > Yeah but what guards ->release() starting to run and then the ref
-> > being switched to percpu mode?  Or maybe that doesn't matter?
-> 
-> OK, we may add synchronize_rcu() just after clearing the DEAD flag in
-> the new introduced helper to avoid the race.
-
-That doesn't make sense to me.  How is synchronize_rcu() gonna change
-anything there?
-
-> > > 4) after the queue is recovered(or the controller is reset successfully), it
-> > > isn't necessary to wait until the refcount drops zero, since it is fine to
-> > > reinit it by clearing DEAD and switching back to percpu mode from atomic mode.
-> > > And waiting for the refcount dropping to zero in the reset handler may trigger
-> > > IO hang if IO timeout happens again during reset.
-> > 
-> > Does the recovery need the in-flight commands actually drained or does
-> > it just need to block new issues for a while.  If latter, why is
-> 
-> The recovery needn't to drain the in-flight commands actually.
-
-Is it just waiting till confirm_kill is called?  So that new ref is
-not given away?  If synchronization like that is gonna work, the
-percpu ref operations on the reader side must be wrapped in a larger
-critical region, which brings up two issues.
-
-1. Callers of percpu_ref must not depend on what internal
-   synchronization construct percpu_ref uses.  Again, percpu_ref
-   doesn't even use regular RCU.
-
-2. If there is already an outer RCU protection around ref operation,
-   that RCU critical section can and should be used for
-   synchronization, not percpu_ref.
-
-> > percpu_ref even being used?
-> 
-> Just for avoiding to invent a new wheel, especially .q_usage_counter
-> has served for this purpose for long time.
-
-It sounds like this was more of an abuse.  So, basically what you want
-is sth like the following.
-
-READER
-
- rcu_read_lock();
- if (can_issue_new_commands)
-	issue;
- else
-	abort;
- rcu_read_unlock();
-
-WRITER
-
- can_issue_new_commands = false;
- synchronize_rcu();
- // no new command will be issued anymore
-
-Right?  There isn't much wheel to reinvent here and using percpu_ref
-for the above is likely already incorrect due to the different RCU
-type being used.
-
-> > > So what I am trying to propose is the following usage:
-> > > 
-> > > 1) percpu_ref_kill() on .q_usage_counter before recovering the controller for
-> > > preventing new requests from entering queue
-> > 
-> > The way you're describing it, the above part is no different from
-> > having a global bool which gates new issues.
-> 
-> Right, but the global bool has to be checked in fast path, and the sync
-
-That likely bool test isn't gonna cost anything.
-
-> between updating the flag and checking it has to be considered. Given
-> blk-mq has already used .q_usage_counter for this purpose, that is why
-> I suggest to scale percpu-refcount to cover this use case.
-
-And the synchronization part should always be considered and is
-already likely wrong.
-
-Thanks.
-
--- 
-tejun
+While you're at it please also make sure you have a line break after
+73 chars for the commit message.
