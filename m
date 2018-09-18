@@ -1,91 +1,104 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 18 Sep 2018 18:19:46 +0800
-Subject: [PATCH 4/4] nvme: don't drain IO in nvme_reset_work()
-In-Reply-To: <20180918101946.13329-1-ming.lei@redhat.com>
-References: <20180918101946.13329-1-ming.lei@redhat.com>
-Message-ID: <20180918101946.13329-5-ming.lei@redhat.com>
+From: tj@kernel.org (Tejun Heo)
+Date: Tue, 18 Sep 2018 05:49:09 -0700
+Subject: [PATCH] percpu-refcount: relax limit on percpu_ref_reinit()
+In-Reply-To: <20180912221139.GB15810@ming.t460p>
+References: <20180911134836.GG1100574@devbig004.ftw2.facebook.com>
+ <20180911154540.GA10082@ming.t460p>
+ <20180911154959.GI1100574@devbig004.ftw2.facebook.com>
+ <20180911160532.GB10082@ming.t460p>
+ <20180911163032.GA2966370@devbig004.ftw2.facebook.com>
+ <20180911163443.GD10082@ming.t460p>
+ <20180911163856.GB2966370@devbig004.ftw2.facebook.com>
+ <20180912015247.GA12475@ming.t460p>
+ <20180912155321.GE2966370@devbig004.ftw2.facebook.com>
+ <20180912221139.GB15810@ming.t460p>
+Message-ID: <20180918124909.GA902964@devbig004.ftw2.facebook.com>
 
-After the controller is recovered, it isn't necessary to wait for
-completion of all in-flight IO. More importantly, it is easy to trigger
-deadlock if there is new IO timeout triggered.
+Hello, Ming.
 
-Cc: Tejun Heo <tj at kernel.org>
-Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
-Cc: Kent Overstreet <kent.overstreet at gmail.com>
-Cc: linux-block at vger.kernel.org
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: linux-nvme at lists.infradead.org
-Cc: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 12 ++++++++----
- drivers/nvme/host/nvme.h |  2 +-
- drivers/nvme/host/pci.c  |  3 +--
- 3 files changed, 10 insertions(+), 7 deletions(-)
+Sorry about the delay.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd8ec1dd9219..cf6a2267d44e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1203,7 +1203,7 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
- 	if (effects & NVME_CMD_EFFECTS_LBCC)
- 		nvme_update_formats(ctrl);
- 	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
--		nvme_unfreeze(ctrl);
-+		nvme_unfreeze(ctrl, true);
- 	if (effects & NVME_CMD_EFFECTS_CCC)
- 		nvme_init_identify(ctrl);
- 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
-@@ -3602,13 +3602,17 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_kill_queues);
- 
--void nvme_unfreeze(struct nvme_ctrl *ctrl)
-+void nvme_unfreeze(struct nvme_ctrl *ctrl, bool check_io_drained)
- {
- 	struct nvme_ns *ns;
- 
- 	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_unfreeze_queue(ns->queue);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+		if  (check_io_drained)
-+			blk_mq_unfreeze_queue(ns->queue);
-+		else
-+			blk_mq_unfreeze_queue_no_drain_io(ns->queue);
-+	}
- 	up_read(&ctrl->namespaces_rwsem);
- }
- EXPORT_SYMBOL_GPL(nvme_unfreeze);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a2003c097..fd56270637d1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -432,7 +432,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
--void nvme_unfreeze(struct nvme_ctrl *ctrl);
-+void nvme_unfreeze(struct nvme_ctrl *ctrl, bool check_io_drained);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682f91df..1c26a2e92063 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2328,11 +2328,10 @@ static void nvme_reset_work(struct work_struct *work)
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
--		nvme_wait_freeze(&dev->ctrl);
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
--		nvme_unfreeze(&dev->ctrl);
-+		nvme_unfreeze(&dev->ctrl, false);
- 	}
- 
- 	/*
+On Thu, Sep 13, 2018@06:11:40AM +0800, Ming Lei wrote:
+> > Yeah but what guards ->release() starting to run and then the ref
+> > being switched to percpu mode?  Or maybe that doesn't matter?
+> 
+> OK, we may add synchronize_rcu() just after clearing the DEAD flag in
+> the new introduced helper to avoid the race.
+
+That doesn't make sense to me.  How is synchronize_rcu() gonna change
+anything there?
+
+> > > 4) after the queue is recovered(or the controller is reset successfully), it
+> > > isn't necessary to wait until the refcount drops zero, since it is fine to
+> > > reinit it by clearing DEAD and switching back to percpu mode from atomic mode.
+> > > And waiting for the refcount dropping to zero in the reset handler may trigger
+> > > IO hang if IO timeout happens again during reset.
+> > 
+> > Does the recovery need the in-flight commands actually drained or does
+> > it just need to block new issues for a while.  If latter, why is
+> 
+> The recovery needn't to drain the in-flight commands actually.
+
+Is it just waiting till confirm_kill is called?  So that new ref is
+not given away?  If synchronization like that is gonna work, the
+percpu ref operations on the reader side must be wrapped in a larger
+critical region, which brings up two issues.
+
+1. Callers of percpu_ref must not depend on what internal
+   synchronization construct percpu_ref uses.  Again, percpu_ref
+   doesn't even use regular RCU.
+
+2. If there is already an outer RCU protection around ref operation,
+   that RCU critical section can and should be used for
+   synchronization, not percpu_ref.
+
+> > percpu_ref even being used?
+> 
+> Just for avoiding to invent a new wheel, especially .q_usage_counter
+> has served for this purpose for long time.
+
+It sounds like this was more of an abuse.  So, basically what you want
+is sth like the following.
+
+READER
+
+ rcu_read_lock();
+ if (can_issue_new_commands)
+	issue;
+ else
+	abort;
+ rcu_read_unlock();
+
+WRITER
+
+ can_issue_new_commands = false;
+ synchronize_rcu();
+ // no new command will be issued anymore
+
+Right?  There isn't much wheel to reinvent here and using percpu_ref
+for the above is likely already incorrect due to the different RCU
+type being used.
+
+> > > So what I am trying to propose is the following usage:
+> > > 
+> > > 1) percpu_ref_kill() on .q_usage_counter before recovering the controller for
+> > > preventing new requests from entering queue
+> > 
+> > The way you're describing it, the above part is no different from
+> > having a global bool which gates new issues.
+> 
+> Right, but the global bool has to be checked in fast path, and the sync
+
+That likely bool test isn't gonna cost anything.
+
+> between updating the flag and checking it has to be considered. Given
+> blk-mq has already used .q_usage_counter for this purpose, that is why
+> I suggest to scale percpu-refcount to cover this use case.
+
+And the synchronization part should always be considered and is
+already likely wrong.
+
+Thanks.
+
 -- 
-2.9.5
+tejun
