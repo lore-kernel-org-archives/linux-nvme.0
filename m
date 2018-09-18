@@ -1,13 +1,13 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 18 Sep 2018 18:19:45 +0800
-Subject: [PATCH 3/4] blk-mq: introduce blk_mq_unfreeze_queue_no_drain_io
+Date: Tue, 18 Sep 2018 18:19:46 +0800
+Subject: [PATCH 4/4] nvme: don't drain IO in nvme_reset_work()
 In-Reply-To: <20180918101946.13329-1-ming.lei@redhat.com>
 References: <20180918101946.13329-1-ming.lei@redhat.com>
-Message-ID: <20180918101946.13329-4-ming.lei@redhat.com>
+Message-ID: <20180918101946.13329-5-ming.lei@redhat.com>
 
-This patch introduces blk_mq_unfreeze_queue_no_drain_io() so that
-it can be used when no necessary to check if IO is drained, such
-as nvme pci resetting(nvme_reset_work).
+After the controller is recovered, it isn't necessary to wait for
+completion of all in-flight IO. More importantly, it is easy to trigger
+deadlock if there is new IO timeout triggered.
 
 Cc: Tejun Heo <tj at kernel.org>
 Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
@@ -18,69 +18,74 @@ Cc: linux-nvme at lists.infradead.org
 Cc: Keith Busch <keith.busch at intel.com>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-mq.c         | 25 +++++++++++++++++++++++--
- include/linux/blk-mq.h |  1 +
- 2 files changed, 24 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 12 ++++++++----
+ drivers/nvme/host/nvme.h |  2 +-
+ drivers/nvme/host/pci.c  |  3 +--
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 85a1c1a59c72..a22f82061b93 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -191,20 +191,41 @@ void blk_mq_freeze_queue(struct request_queue *q)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dd8ec1dd9219..cf6a2267d44e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1203,7 +1203,7 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
+ 	if (effects & NVME_CMD_EFFECTS_LBCC)
+ 		nvme_update_formats(ctrl);
+ 	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
+-		nvme_unfreeze(ctrl);
++		nvme_unfreeze(ctrl, true);
+ 	if (effects & NVME_CMD_EFFECTS_CCC)
+ 		nvme_init_identify(ctrl);
+ 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
+@@ -3602,13 +3602,17 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
  }
- EXPORT_SYMBOL_GPL(blk_mq_freeze_queue);
+ EXPORT_SYMBOL_GPL(nvme_kill_queues);
  
--void blk_mq_unfreeze_queue(struct request_queue *q)
-+static void __blk_mq_unfreeze_queue(struct request_queue *q,
-+		bool need_drop_zero)
+-void nvme_unfreeze(struct nvme_ctrl *ctrl)
++void nvme_unfreeze(struct nvme_ctrl *ctrl, bool check_io_drained)
  {
- 	int freeze_depth;
+ 	struct nvme_ns *ns;
  
- 	freeze_depth = atomic_dec_return(&q->mq_freeze_depth);
- 	WARN_ON_ONCE(freeze_depth < 0);
- 	if (!freeze_depth) {
--		percpu_ref_reinit(&q->q_usage_counter);
-+		if (need_drop_zero)
-+			percpu_ref_reinit(&q->q_usage_counter);
+ 	down_read(&ctrl->namespaces_rwsem);
+-	list_for_each_entry(ns, &ctrl->namespaces, list)
+-		blk_mq_unfreeze_queue(ns->queue);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if  (check_io_drained)
++			blk_mq_unfreeze_queue(ns->queue);
 +		else
-+			percpu_ref_resurge(&q->q_usage_counter);
- 		wake_up_all(&q->mq_freeze_wq);
- 	}
++			blk_mq_unfreeze_queue_no_drain_io(ns->queue);
++	}
+ 	up_read(&ctrl->namespaces_rwsem);
  }
-+
-+void blk_mq_unfreeze_queue(struct request_queue *q)
-+{
-+	__blk_mq_unfreeze_queue(q, true);
-+}
- EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
+ EXPORT_SYMBOL_GPL(nvme_unfreeze);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bb4a2003c097..fd56270637d1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -432,7 +432,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ void nvme_stop_queues(struct nvme_ctrl *ctrl);
+ void nvme_start_queues(struct nvme_ctrl *ctrl);
+ void nvme_kill_queues(struct nvme_ctrl *ctrl);
+-void nvme_unfreeze(struct nvme_ctrl *ctrl);
++void nvme_unfreeze(struct nvme_ctrl *ctrl, bool check_io_drained);
+ void nvme_wait_freeze(struct nvme_ctrl *ctrl);
+ void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
+ void nvme_start_freeze(struct nvme_ctrl *ctrl);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682f91df..1c26a2e92063 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2328,11 +2328,10 @@ static void nvme_reset_work(struct work_struct *work)
+ 		new_state = NVME_CTRL_ADMIN_ONLY;
+ 	} else {
+ 		nvme_start_queues(&dev->ctrl);
+-		nvme_wait_freeze(&dev->ctrl);
+ 		/* hit this only when allocate tagset fails */
+ 		if (nvme_dev_add(dev))
+ 			new_state = NVME_CTRL_ADMIN_ONLY;
+-		nvme_unfreeze(&dev->ctrl);
++		nvme_unfreeze(&dev->ctrl, false);
+ 	}
  
- /*
-+ * Compared with blk_mq_unfreeze_queue(), the verion of _no_drain_io
-+ * doesn't require the queue is really frozen, and it is useful in
-+ * case of timeout handling in which IO can't be drained and has to
-+ * be retried after controler is recovered.
-+ */
-+void blk_mq_unfreeze_queue_no_drain_io(struct request_queue *q)
-+{
-+	__blk_mq_unfreeze_queue(q, false);
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue_no_drain_io);
-+
-+/*
-  * FIXME: replace the scsi_internal_device_*block_nowait() calls in the
-  * mpt3sas driver such that this function can be removed.
-  */
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 1da59c16f637..5e0740ec407f 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -279,6 +279,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- 		busy_tag_iter_fn *fn, void *priv);
- void blk_mq_freeze_queue(struct request_queue *q);
- void blk_mq_unfreeze_queue(struct request_queue *q);
-+void blk_mq_unfreeze_queue_no_drain_io(struct request_queue *q);
- void blk_freeze_queue_start(struct request_queue *q);
- void blk_mq_freeze_queue_wait(struct request_queue *q);
- int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
+ 	/*
 -- 
 2.9.5
