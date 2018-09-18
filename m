@@ -1,91 +1,53 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 18 Sep 2018 18:13:10 +0800
-Subject: [PATCH 3/3] nvme: don't drain IO in nvme_reset_work()
+Date: Tue, 18 Sep 2018 18:16:37 +0800
+Subject: [PATCH 0/3] blk-mq: allow to unfreeze queue when io isn't drained
 In-Reply-To: <20180918101310.13154-1-ming.lei@redhat.com>
 References: <20180918101310.13154-1-ming.lei@redhat.com>
-Message-ID: <20180918101310.13154-4-ming.lei@redhat.com>
+Message-ID: <20180918101636.GA13212@ming.t460p>
 
-After the controller is recovered, it isn't necessary to wait for
-completion of all in-flight IO. More importantly, it is easy to trigger
-deadlock if there is new IO timeout triggered.
+On Tue, Sep 18, 2018@06:13:07PM +0800, Ming Lei wrote:
+> Hi,
+> 
+> The 1st patch introduces percpu_ref_resurge() for implementing
+> blk_mq_unfreeze_queue_no_drain_io().
+> 
+> The 2nd patch introdces blk_mq_unfreeze_queue_no_drain_io() for
+> cases in which queue can be unfreeze without draininig IO.
+> 
+> The 3rd patch applies blk_mq_unfreeze_queue_no_drain_io() to
+> NVMe PCI timeout, so that IO hang may be avoided inside
+> nvme_reset_work() when new IO timeout is triggered. 
+> 
+> Part of idea is from Jianchao's early work:
+> 
+> https://marc.info/?l=linux-kernel&m=153612052611020&w=2
+> 
+> Ming Lei (3):
+>   lib/percpu-refcount: introduce percpu_ref_resurge()
+>   blk-mq: introduce blk_mq_unfreeze_queue_no_drain_io
+>   nvme: don't drain IO in nvme_reset_work()
+> 
+>  block/blk-mq.c                  | 25 ++++++++++++++--
+>  drivers/nvme/host/core.c        | 12 +++++---
+>  drivers/nvme/host/nvme.h        |  2 +-
+>  drivers/nvme/host/pci.c         |  3 +-
+>  include/linux/blk-mq.h          |  1 +
+>  include/linux/percpu-refcount.h |  1 +
+>  lib/percpu-refcount.c           | 63 ++++++++++++++++++++++++++++++++++-------
+>  7 files changed, 87 insertions(+), 20 deletions(-)
+> 
+> Cc: Tejun Heo <tj at kernel.org>
+> Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
+> Cc: Kent Overstreet <kent.overstreet at gmail.com>
+> Cc: linux-block at vger.kernel.org
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: linux-nvme at lists.infradead.org
+> Cc: Keith Busch <keith.busch at intel.com>
+> 
 
-Cc: Tejun Heo <tj at kernel.org>
-Cc: Jianchao Wang <jianchao.w.wang at oracle.com>
-Cc: Kent Overstreet <kent.overstreet at gmail.com>
-Cc: linux-block at vger.kernel.org
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: linux-nvme at lists.infradead.org
-Cc: Keith Busch <keith.busch at intel.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 12 ++++++++----
- drivers/nvme/host/nvme.h |  2 +-
- drivers/nvme/host/pci.c  |  3 +--
- 3 files changed, 10 insertions(+), 7 deletions(-)
+Ooops, there is one extra patch missed.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd8ec1dd9219..cf6a2267d44e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1203,7 +1203,7 @@ static void nvme_passthru_end(struct nvme_ctrl *ctrl, u32 effects)
- 	if (effects & NVME_CMD_EFFECTS_LBCC)
- 		nvme_update_formats(ctrl);
- 	if (effects & (NVME_CMD_EFFECTS_LBCC | NVME_CMD_EFFECTS_CSE_MASK))
--		nvme_unfreeze(ctrl);
-+		nvme_unfreeze(ctrl, true);
- 	if (effects & NVME_CMD_EFFECTS_CCC)
- 		nvme_init_identify(ctrl);
- 	if (effects & (NVME_CMD_EFFECTS_NIC | NVME_CMD_EFFECTS_NCC))
-@@ -3602,13 +3602,17 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- }
- EXPORT_SYMBOL_GPL(nvme_kill_queues);
- 
--void nvme_unfreeze(struct nvme_ctrl *ctrl)
-+void nvme_unfreeze(struct nvme_ctrl *ctrl, bool check_io_drained)
- {
- 	struct nvme_ns *ns;
- 
- 	down_read(&ctrl->namespaces_rwsem);
--	list_for_each_entry(ns, &ctrl->namespaces, list)
--		blk_mq_unfreeze_queue(ns->queue);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
-+		if  (check_io_drained)
-+			blk_mq_unfreeze_queue(ns->queue);
-+		else
-+			blk_mq_unfreeze_queue_no_drain_io(ns->queue);
-+	}
- 	up_read(&ctrl->namespaces_rwsem);
- }
- EXPORT_SYMBOL_GPL(nvme_unfreeze);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a2003c097..fd56270637d1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -432,7 +432,7 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
--void nvme_unfreeze(struct nvme_ctrl *ctrl);
-+void nvme_unfreeze(struct nvme_ctrl *ctrl, bool check_io_drained);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682f91df..1c26a2e92063 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2328,11 +2328,10 @@ static void nvme_reset_work(struct work_struct *work)
- 		new_state = NVME_CTRL_ADMIN_ONLY;
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
--		nvme_wait_freeze(&dev->ctrl);
- 		/* hit this only when allocate tagset fails */
- 		if (nvme_dev_add(dev))
- 			new_state = NVME_CTRL_ADMIN_ONLY;
--		nvme_unfreeze(&dev->ctrl);
-+		nvme_unfreeze(&dev->ctrl, false);
- 	}
- 
- 	/*
--- 
-2.9.5
+Please ignore this series.
+
+Thanks,
+Ming
