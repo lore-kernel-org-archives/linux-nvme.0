@@ -1,69 +1,77 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 18 Sep 2018 12:43:30 -0700
-Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should return
- BLK_STS_RESOURCE
-In-Reply-To: <20180918190834.GA26013@localhost.localdomain>
-References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
- <20180918162526.GA5038@lst.de>
- <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
- <20180918190834.GA26013@localhost.localdomain>
-Message-ID: <19b26262-686c-c778-7e01-488917537636@broadcom.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Tue, 18 Sep 2018 14:16:48 -0700
+Subject: Kernel v4.19-rc4 KASAN complaint
+Message-ID: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
 
+Hello,
 
+If I run the nvmeof-mp tests from https://github.com/bvanassche/blktests 
+against kernel v4.19-rc4 then a KASAN complaint appears. This complaint 
+does not appear when I run these tests against kernel v4.18. Could this 
+be a regression?
 
-On 9/18/2018 12:08 PM, Keith Busch wrote:
-> On Tue, Sep 18, 2018@11:37:50AM -0700, James Smart wrote:
->> On 9/18/2018 9:25 AM, hch@lst.de wrote:
->>> Can you resend this with a proper signoff so that we can apply it?
->>>
->>> While you're at it please also make sure you have a line break after
->>> 73 chars for the commit message.
->> where is this patch ? I can't find it on the reflector.
-> The list rejected the message because it was not sent in plain text.
-> This was the attachment:
->
-> ---
-> --- a/drivers/nvme/host/fabrics.c	2018-09-18 02:14:25.590722134 -0700
-> +++ b/drivers/nvme/host/fabrics.c	2018-09-18 03:18:11.663131011 -0700
-> @@ -539,8 +539,13 @@ static struct nvmf_transport_ops *nvmf_l
->   /*
->    * For something we're not in a state to send to the device the default action
->    * is to busy it and retry it after the controller state is recovered.  However,
-> - * if the controller is deleting or if anything is marked for failfast or
-> - * nvme multipath it is immediately failed.
-> + * if the controller is deleting or if anything is marked for failfast.
-> + * It may happen that just after choosing current path in case of multipath
-> + * controller state can go into resetting/connecting either from keep_alive
-> + * timeout or IO failure followed by failover. So there can be a race like
-> + * when path was selected ctrl state was LIVE but while queue_check is done
-> + * in rdma.c ctrl state was changed to resetting/connecting. We have to retry the
-> + * same IO from different path and it will succeed.
->    *
->    * Note: commands used to initialize the controller will be marked for failfast.
->    * Note: nvme cli/ioctl commands are marked for failfast.
-> @@ -550,7 +555,7 @@ blk_status_t nvmf_fail_nonready_command(
->   {
->   	if (ctrl->state != NVME_CTRL_DELETING &&
->   	    ctrl->state != NVME_CTRL_DEAD &&
-> -	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
-> +	    !blk_noretry_request(rq))
->   		return BLK_STS_RESOURCE;
->   	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
->   	return BLK_STS_IOERR;
-> --
+Thanks,
 
-ok - so this was what i thought it was - and we've hit this on FC as 
-well. However, I don't believe it should be solved this way.? I believe 
-we do want it to return error, as it does now, so blk_mq will 
-release/fail it back to the caller, which should be the multipather, so 
-it can move it over to a different path - the whole point of "fast 
-failover".
+Bart.
 
-The issue that I believe exists is that the multipath driver/core knows 
-how to retry on a different path when the request is accepted then the 
-nvme_complete_rq() is called. But it doesn't know how to retry on a 
-different path when the initial transport:queue_rq() fails - the io ends 
-up failing completely.?? I think we need to fix that code path, not 
-"busy" requeue the mpath io.
+BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x207/0x290
+Read of size 8 at addr ffff880074250f70 by task kworker/0:3/26033
 
--- james
+CPU: 0 PID: 26033 Comm: kworker/0:3 Not tainted 4.19.0-rc4-dbg+ #1
+Hardware name: Bochs Bochs, BIOS Bochs 01/01/2011
+Workqueue: rcu_gp srcu_invoke_callbacks
+Call Trace:
+dump_stack+0xa4/0xf5
+print_address_description+0x78/0x290
+kasan_report+0x241/0x360
+__asan_load8+0x54/0x90
+srcu_invoke_callbacks+0x207/0x290
+process_one_work+0x4ae/0xa20
+worker_thread+0x63/0x5a0
+kthread+0x1cf/0x1f0
+ret_from_fork+0x24/0x30
+
+Allocated by task 24735:
+save_stack+0x43/0xd0
+kasan_kmalloc+0xad/0xe0
+kmem_cache_alloc_trace+0x13d/0x300
+nvme_validate_ns+0x8e9/0x1020 [nvme_core]
+nvme_scan_work+0x3be/0x4a0 [nvme_core]
+process_one_work+0x4ae/0xa20
+worker_thread+0x63/0x5a0
+kthread+0x1cf/0x1f0
+ret_from_fork+0x24/0x30
+
+Freed by task 17790:
+save_stack+0x43/0xd0
+__kasan_slab_free+0x135/0x190
+kasan_slab_free+0xe/0x10
+kfree+0x105/0x2e0
+nvme_free_ns+0x160/0x1a0 [nvme_core]
+nvme_ns_remove+0x1ba/0x250 [nvme_core]
+nvme_remove_invalid_namespaces+0x1d9/0x220 [nvme_core]
+nvme_scan_work+0x43b/0x4a0 [nvme_core]
+process_one_work+0x4ae/0xa20
+worker_thread+0x63/0x5a0
+kthread+0x1cf/0x1f0
+ret_from_fork+0x24/0x30
+
+The buggy address belongs to the object at ffff880074250d80
+which belongs to the cache kmalloc-1024 of size 1024
+The buggy address is located 496 bytes inside of
+1024-byte region [ffff880074250d80, ffff880074251180)
+The buggy address belongs to the page:
+page:ffffea0001d09400 count:1 mapcount:0 mapping:ffff88011bf8ea00 
+index:0x0 compound_mapcount: 0
+flags: 0x4000000000008100(slab|head)
+raw: 4000000000008100 ffffea0003587a00 0000000200000002 ffff88011bf8ea00
+raw: 0000000000000000 00000000001c001c 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ffff880074250e00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ffff880074250e80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ >ffff880074250f00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                             ^
+ffff880074250f80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ffff880074251000: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
