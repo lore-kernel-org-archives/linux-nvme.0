@@ -1,107 +1,41 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 19 Sep 2018 10:51:49 +0800
-Subject: [PATCH] percpu-refcount: relax limit on percpu_ref_reinit()
-In-Reply-To: <20180918124909.GA902964@devbig004.ftw2.facebook.com>
-References: <20180911154540.GA10082@ming.t460p>
- <20180911154959.GI1100574@devbig004.ftw2.facebook.com>
- <20180911160532.GB10082@ming.t460p>
- <20180911163032.GA2966370@devbig004.ftw2.facebook.com>
- <20180911163443.GD10082@ming.t460p>
- <20180911163856.GB2966370@devbig004.ftw2.facebook.com>
- <20180912015247.GA12475@ming.t460p>
- <20180912155321.GE2966370@devbig004.ftw2.facebook.com>
- <20180912221139.GB15810@ming.t460p>
- <20180918124909.GA902964@devbig004.ftw2.facebook.com>
-Message-ID: <20180919025148.GB20560@ming.t460p>
+From: susobhan.dey@gmail.com (Susobhan Dey)
+Date: Wed, 19 Sep 2018 04:05:46 -0700
+Subject: [PATCH] Fixed retry multipath commands if queue_rq fails
+Message-ID: <20180919110546.17029-1-susobhan.dey@gmail.com>
 
-Hi Tejun,
+Signed-off-by: Susobhan Dey <susobhan.dey at gmail.com>
+---
+ drivers/nvme/host/fabrics.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-On Tue, Sep 18, 2018@05:49:09AM -0700, Tejun Heo wrote:
-> Hello, Ming.
-> 
-> Sorry about the delay.
-> 
-> On Thu, Sep 13, 2018@06:11:40AM +0800, Ming Lei wrote:
-> > > Yeah but what guards ->release() starting to run and then the ref
-> > > being switched to percpu mode?  Or maybe that doesn't matter?
-> > 
-> > OK, we may add synchronize_rcu() just after clearing the DEAD flag in
-> > the new introduced helper to avoid the race.
-> 
-> That doesn't make sense to me.  How is synchronize_rcu() gonna change
-> anything there?
-
-As you saw in the new post, synchronize_rcu() isn't used for avoiding
-the race. Instead, it is done by grabbing one extra ref on atomic part.
-
-> 
-> > > > 4) after the queue is recovered(or the controller is reset successfully), it
-> > > > isn't necessary to wait until the refcount drops zero, since it is fine to
-> > > > reinit it by clearing DEAD and switching back to percpu mode from atomic mode.
-> > > > And waiting for the refcount dropping to zero in the reset handler may trigger
-> > > > IO hang if IO timeout happens again during reset.
-> > > 
-> > > Does the recovery need the in-flight commands actually drained or does
-> > > it just need to block new issues for a while.  If latter, why is
-> > 
-> > The recovery needn't to drain the in-flight commands actually.
-> 
-> Is it just waiting till confirm_kill is called?  So that new ref is
-> not given away?  If synchronization like that is gonna work, the
-> percpu ref operations on the reader side must be wrapped in a larger
-> critical region, which brings up two issues.
-> 
-> 1. Callers of percpu_ref must not depend on what internal
->    synchronization construct percpu_ref uses.  Again, percpu_ref
->    doesn't even use regular RCU.
-> 
-> 2. If there is already an outer RCU protection around ref operation,
->    that RCU critical section can and should be used for
->    synchronization, not percpu_ref.
-
-I guess the above doesn't apply any more because there isn't new 
-synchronize_rcu() introduced in my new post.
-
-> 
-> > > percpu_ref even being used?
-> > 
-> > Just for avoiding to invent a new wheel, especially .q_usage_counter
-> > has served for this purpose for long time.
-> 
-> It sounds like this was more of an abuse.  So, basically what you want
-> is sth like the following.
-> 
-> READER
-> 
->  rcu_read_lock();
->  if (can_issue_new_commands)
-> 	issue;
->  else
-> 	abort;
->  rcu_read_unlock();
-> 
-> WRITER
-> 
->  can_issue_new_commands = false;
->  synchronize_rcu();
->  // no new command will be issued anymore
-> 
-> Right?  There isn't much wheel to reinvent here and using percpu_ref
-> for the above is likely already incorrect due to the different RCU
-> type being used.
-
-No RCU story any more, :-)
-
-It might work, but still a reinvented wheel since perpcu-refcount does
-provide same function. Not mention the inter-action between the two
-mechanism may have to be considered.
-
-Also there is still cost introduced in WRITER side, and the
-synchronize_rcu() often takes a bit long, especially there might be lots
-of namespaces, each need to run one synchronize_rcu(). We have learned
-lessons in converting to blk-mq for scsi, in which synchronize_rcu()
-introduces long delay in booting.
-
-
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 206d63cb1afc..96c8e47e2fdc 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -539,8 +539,13 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
+ /*
+  * For something we're not in a state to send to the device the default action
+  * is to busy it and retry it after the controller state is recovered.  However,
+- * if the controller is deleting or if anything is marked for failfast or
+- * nvme multipath it is immediately failed.
++ * if the controller is deleting or if anything is marked for failfast.
++ * It may happen that just after choosing current path in case of multipath
++ * controller state can go into resetting/connecting either from keep_alive
++ * timeout or IO failure followed by failover. So there can be a race like
++ * when path was selected ctrl state was LIVE but while queue_check is done
++ * in rdma.c ctrl state was changed to resetting/connecting. We have to retry the
++ * same IO from different path and it will succeed.
+  *
+  * Note: commands used to initialize the controller will be marked for failfast.
+  * Note: nvme cli/ioctl commands are marked for failfast.
+@@ -550,7 +555,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+ {
+ 	if (ctrl->state != NVME_CTRL_DELETING &&
+ 	    ctrl->state != NVME_CTRL_DEAD &&
+-	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
++	    !blk_noretry_request(rq))
+ 		return BLK_STS_RESOURCE;
+ 	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+ 	return BLK_STS_IOERR;
+-- 
+2.17.1
