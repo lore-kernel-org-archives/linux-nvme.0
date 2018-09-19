@@ -1,76 +1,76 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 19 Sep 2018 09:48:52 -0600
-Subject: [PATCH] nvme/pci: Fix hot removal during error handling
-Message-ID: <20180919154852.28187-1-keith.busch@intel.com>
+From: tj@kernel.org (Tejun Heo)
+Date: Wed, 19 Sep 2018 13:36:41 -0700
+Subject: [PATCH] percpu-refcount: relax limit on percpu_ref_reinit()
+In-Reply-To: <20180919025148.GB20560@ming.t460p>
+References: <20180911154959.GI1100574@devbig004.ftw2.facebook.com>
+ <20180911160532.GB10082@ming.t460p>
+ <20180911163032.GA2966370@devbig004.ftw2.facebook.com>
+ <20180911163443.GD10082@ming.t460p>
+ <20180911163856.GB2966370@devbig004.ftw2.facebook.com>
+ <20180912015247.GA12475@ming.t460p>
+ <20180912155321.GE2966370@devbig004.ftw2.facebook.com>
+ <20180912221139.GB15810@ming.t460p>
+ <20180918124909.GA902964@devbig004.ftw2.facebook.com>
+ <20180919025148.GB20560@ming.t460p>
+Message-ID: <20180919203641.GD902964@devbig004.ftw2.facebook.com>
 
-A removal waits for the reset_work to complete. If a surprise removal
-occurs around the same time as an error triggered controller reset,
-and reset work happened to dispatch a command to the removed controller,
-the command won't be recovered since the timeout work doesn't do
-anything during error recovery.
+Hello, Ming.
 
-This patch fixes this by killing admin queues prior to syncing reset.
+On Wed, Sep 19, 2018@10:51:49AM +0800, Ming Lei wrote:
+> > That doesn't make sense to me.  How is synchronize_rcu() gonna change
+> > anything there?
+> 
+> As you saw in the new post, synchronize_rcu() isn't used for avoiding
+> the race. Instead, it is done by grabbing one extra ref on atomic part.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 4 +++-
- drivers/nvme/host/pci.c  | 9 ++++-----
- 2 files changed, 7 insertions(+), 6 deletions(-)
+This is layering violation.  It just isn't a good idea to depend on
+percpu_ref internal implementation details like this.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd8ec1dd9219..893f1fcc17cd 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3592,8 +3592,10 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 	down_read(&ctrl->namespaces_rwsem);
- 
- 	/* Forcibly unquiesce queues to avoid blocking dispatch */
--	if (ctrl->admin_q)
-+	if (ctrl->admin_q) {
-+		blk_set_queue_dying(ctrl->admin_q);
- 		blk_mq_unquiesce_queue(ctrl->admin_q);
-+	}
- 
- 	list_for_each_entry(ns, &ctrl->namespaces, list)
- 		nvme_set_queue_dying(ns);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d668682f91df..800ee9b345f3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1470,7 +1470,7 @@ static const struct blk_mq_ops nvme_mq_ops = {
- 
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
- {
--	if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q)) {
-+	if (dev->ctrl.admin_q) {
- 		/*
- 		 * If the controller was reset during removal, it's possible
- 		 * user requests may be waiting on a stopped queue. Start the
-@@ -1479,6 +1479,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
- 		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
- 		blk_cleanup_queue(dev->ctrl.admin_q);
- 		blk_mq_free_tag_set(&dev->admin_tagset);
-+		dev->ctrl.admin_q = NULL;
- 	}
- }
- 
-@@ -2565,15 +2566,13 @@ static void nvme_remove(struct pci_dev *pdev)
- 
- 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
- 
--	cancel_work_sync(&dev->ctrl.reset_work);
- 	pci_set_drvdata(pdev, NULL);
--
- 	if (!pci_device_is_present(pdev)) {
- 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
-+		nvme_kill_queues(&dev->ctrl);
- 		nvme_dev_disable(dev, true);
- 	}
--
--	flush_work(&dev->ctrl.reset_work);
-+	cancel_work_sync(&dev->ctrl.reset_work);
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
+> > 1. Callers of percpu_ref must not depend on what internal
+> >    synchronization construct percpu_ref uses.  Again, percpu_ref
+> >    doesn't even use regular RCU.
+> > 
+> > 2. If there is already an outer RCU protection around ref operation,
+> >    that RCU critical section can and should be used for
+> >    synchronization, not percpu_ref.
+> 
+> I guess the above doesn't apply any more because there isn't new 
+> synchronize_rcu() introduced in my new post.
+
+It still does.  The problem is that what you're doing creates
+dependencies on percpu_ref's implementation details - how it
+guarantees the mode transition visibility using what sort of
+synchronization construct.
+
+> > Right?  There isn't much wheel to reinvent here and using percpu_ref
+> > for the above is likely already incorrect due to the different RCU
+> > type being used.
+> 
+> No RCU story any more, :-)
+> 
+> It might work, but still a reinvented wheel since perpcu-refcount does
+> provide same function. Not mention the inter-action between the two
+> mechanism may have to be considered.
+
+Why would the two independent mechanisms interact with each other?
+What's problematic is entangling two mechanisms in an implementation
+dependent way.
+
+> Also there is still cost introduced in WRITER side, and the
+> synchronize_rcu() often takes a bit long, especially there might be lots
+> of namespaces, each need to run one synchronize_rcu(). We have learned
+> lessons in converting to blk-mq for scsi, in which synchronize_rcu()
+> introduces long delay in booting.
+
+You're already paying that latency.  It's not like percpu_ref can make
+it happen magically without paying the same cost.  You also can easily
+overlay the two grace periods as the percpu_ref part can be
+asynchronous (if you still care about it).  But, from what I've read
+till now, it doesn't even look like you'd need to do anything with
+percpu_ref if you all you need to do is shutting down issue of new
+commands.
+
+Thanks.
+
 -- 
-2.14.4
+tejun
