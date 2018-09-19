@@ -1,41 +1,76 @@
-From: susobhan.dey@gmail.com (Susobhan Dey)
-Date: Wed, 19 Sep 2018 04:05:46 -0700
-Subject: [PATCH] Fixed retry multipath commands if queue_rq fails
-Message-ID: <20180919110546.17029-1-susobhan.dey@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 19 Sep 2018 09:48:52 -0600
+Subject: [PATCH] nvme/pci: Fix hot removal during error handling
+Message-ID: <20180919154852.28187-1-keith.busch@intel.com>
 
-Signed-off-by: Susobhan Dey <susobhan.dey at gmail.com>
+A removal waits for the reset_work to complete. If a surprise removal
+occurs around the same time as an error triggered controller reset,
+and reset work happened to dispatch a command to the removed controller,
+the command won't be recovered since the timeout work doesn't do
+anything during error recovery.
+
+This patch fixes this by killing admin queues prior to syncing reset.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/fabrics.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 4 +++-
+ drivers/nvme/host/pci.c  | 9 ++++-----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 206d63cb1afc..96c8e47e2fdc 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -539,8 +539,13 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
- /*
-  * For something we're not in a state to send to the device the default action
-  * is to busy it and retry it after the controller state is recovered.  However,
-- * if the controller is deleting or if anything is marked for failfast or
-- * nvme multipath it is immediately failed.
-+ * if the controller is deleting or if anything is marked for failfast.
-+ * It may happen that just after choosing current path in case of multipath
-+ * controller state can go into resetting/connecting either from keep_alive
-+ * timeout or IO failure followed by failover. So there can be a race like
-+ * when path was selected ctrl state was LIVE but while queue_check is done
-+ * in rdma.c ctrl state was changed to resetting/connecting. We have to retry the
-+ * same IO from different path and it will succeed.
-  *
-  * Note: commands used to initialize the controller will be marked for failfast.
-  * Note: nvme cli/ioctl commands are marked for failfast.
-@@ -550,7 +555,7 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index dd8ec1dd9219..893f1fcc17cd 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3592,8 +3592,10 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 	down_read(&ctrl->namespaces_rwsem);
+ 
+ 	/* Forcibly unquiesce queues to avoid blocking dispatch */
+-	if (ctrl->admin_q)
++	if (ctrl->admin_q) {
++		blk_set_queue_dying(ctrl->admin_q);
+ 		blk_mq_unquiesce_queue(ctrl->admin_q);
++	}
+ 
+ 	list_for_each_entry(ns, &ctrl->namespaces, list)
+ 		nvme_set_queue_dying(ns);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682f91df..800ee9b345f3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1470,7 +1470,7 @@ static const struct blk_mq_ops nvme_mq_ops = {
+ 
+ static void nvme_dev_remove_admin(struct nvme_dev *dev)
  {
- 	if (ctrl->state != NVME_CTRL_DELETING &&
- 	    ctrl->state != NVME_CTRL_DEAD &&
--	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
-+	    !blk_noretry_request(rq))
- 		return BLK_STS_RESOURCE;
- 	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
- 	return BLK_STS_IOERR;
+-	if (dev->ctrl.admin_q && !blk_queue_dying(dev->ctrl.admin_q)) {
++	if (dev->ctrl.admin_q) {
+ 		/*
+ 		 * If the controller was reset during removal, it's possible
+ 		 * user requests may be waiting on a stopped queue. Start the
+@@ -1479,6 +1479,7 @@ static void nvme_dev_remove_admin(struct nvme_dev *dev)
+ 		blk_mq_unquiesce_queue(dev->ctrl.admin_q);
+ 		blk_cleanup_queue(dev->ctrl.admin_q);
+ 		blk_mq_free_tag_set(&dev->admin_tagset);
++		dev->ctrl.admin_q = NULL;
+ 	}
+ }
+ 
+@@ -2565,15 +2566,13 @@ static void nvme_remove(struct pci_dev *pdev)
+ 
+ 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+ 
+-	cancel_work_sync(&dev->ctrl.reset_work);
+ 	pci_set_drvdata(pdev, NULL);
+-
+ 	if (!pci_device_is_present(pdev)) {
+ 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
++		nvme_kill_queues(&dev->ctrl);
+ 		nvme_dev_disable(dev, true);
+ 	}
+-
+-	flush_work(&dev->ctrl.reset_work);
++	cancel_work_sync(&dev->ctrl.reset_work);
+ 	nvme_stop_ctrl(&dev->ctrl);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
 -- 
-2.17.1
+2.14.4
