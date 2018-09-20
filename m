@@ -1,120 +1,160 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Thu, 20 Sep 2018 10:49:40 -0700
-Subject: nvmet: Kernel v4.19-rc4 circular locking complaint
-Message-ID: <1537465780.224533.19.camel@acm.org>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Thu, 20 Sep 2018 17:38:29 -0500
+Subject: [PATCH v6 01/13] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <20180913001156.4115-2-logang@deltatee.com>
+References: <20180913001156.4115-1-logang@deltatee.com>
+ <20180913001156.4115-2-logang@deltatee.com>
+Message-ID: <20180920223829.GD224714@bhelgaas-glaptop.roam.corp.google.com>
 
-Hello,
+On Wed, Sep 12, 2018@06:11:44PM -0600, Logan Gunthorpe wrote:
+> Some PCI devices may have memory mapped in a BAR space that's
+> intended for use in peer-to-peer transactions. In order to enable
+> such transactions the memory must be registered with ZONE_DEVICE pages
+> so it can be used by DMA interfaces in existing drivers.
+> 
+> Add an interface for other subsystems to find and allocate chunks of P2P
+> memory as necessary to facilitate transfers between two PCI peers:
+> 
+> int pci_p2pdma_add_client();
+> struct pci_dev *pci_p2pmem_find();
+> void *pci_alloc_p2pmem();
+> 
+> The new interface requires a driver to collect a list of client devices
+> involved in the transaction with the pci_p2pmem_add_client*() functions
+> then call pci_p2pmem_find() to obtain any suitable P2P memory. Once
+> this is done the list is bound to the memory and the calling driver is
+> free to add and remove clients as necessary (adding incompatible clients
+> will fail). With a suitable p2pmem device, memory can then be
+> allocated with pci_alloc_p2pmem() for use in DMA transactions.
+> 
+> Depending on hardware, using peer-to-peer memory may reduce the bandwidth
+> of the transfer but can significantly reduce pressure on system memory.
+> This may be desirable in many cases: for example a system could be designed
+> with a small CPU connected to a PCIe switch by a small number of lanes
+> which would maximize the number of lanes available to connect to NVMe
+> devices.
+> 
+> The code is designed to only utilize the p2pmem device if all the devices
+> involved in a transfer are behind the same PCI bridge. This is because we
+> have no way of knowing whether peer-to-peer routing between PCIe Root Ports
+> is supported (PCIe r4.0, sec 1.3.1). Additionally, the benefits of P2P
+> transfers that go through the RC is limited to only reducing DRAM usage
+> and, in some cases, coding convenience. The PCI-SIG may be exploring
+> adding a new capability bit to advertise whether this is possible for
+> future hardware.
+> 
+> This commit includes significant rework and feedback from Christoph
+> Hellwig.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 
-Here is another complaint that appeared while running the nvmeof-mp tests.
-Sagi, I have Cc-ed you because I think that this complaint may be related
-to the flush_scheduled_work() call that was inserted in
-nvmet_rdma_queue_connect() by commit 777dc82395de ("nvmet-rdma: occasionally
-flush ongoing controller teardown"). It seems weird to me that work is
-flushed from the context of an RDMA/CM handler, which is running in the
-context of a work item itself.
+Acked-by: Bjorn Helgaas <bhelgaas at google.com>  # PCI pieces
 
-Bart.
+Mostly trivial comments below.  Thanks for persevering with this!
 
-======================================================
-WARNING: possible circular locking dependency detected
-4.19.0-rc4-dbg+ #3 Not tainted
-------------------------------------------------------
-kworker/5:0/39 is trying to acquire lock:
-00000000a10b6db9 (&id_priv->handler_mutex){+.+.}, at: rdma_destroy_id+0x6f/0x440 [rdma_cm]
+> ---
+>  drivers/pci/Kconfig        |  17 +
+>  drivers/pci/Makefile       |   1 +
+>  drivers/pci/p2pdma.c       | 761 +++++++++++++++++++++++++++++++++++++
+>  include/linux/memremap.h   |   5 +
+>  include/linux/mm.h         |  18 +
+>  include/linux/pci-p2pdma.h | 102 +++++
+>  include/linux/pci.h        |   4 +
+>  7 files changed, 908 insertions(+)
+>  create mode 100644 drivers/pci/p2pdma.c
+>  create mode 100644 include/linux/pci-p2pdma.h
 
-but task is already holding lock:
-00000000331b4e2c ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
+> +#define pr_fmt(fmt) "pci-p2pdma: " fmt
 
-which lock already depends on the new lock.
+Is pr_fmt() actually used anywhere?
 
+> + * Check if a PCI bridge has it's ACS redirection bits set to redirect P2P
 
-the existing dependency chain (in reverse order) is:
+s/it's/its/
 
--> #3 ((work_completion)(&queue->release_work)){+.+.}:
-       process_one_work+0x474/0xa20
-       worker_thread+0x63/0x5a0
-       kthread+0x1cf/0x1f0
-       ret_from_fork+0x24/0x30
+> + * TLPs upstream via ACS. Returns 1 if the packets will be redirected
+> + * upstream, 0 otherwise.
+> + */
+> +static int pci_bridge_has_acs_redir(struct pci_dev *dev)
 
--> #2 ((wq_completion)"events"){+.+.}:
-       flush_workqueue+0xf3/0x970
-       nvmet_rdma_cm_handler+0x133d/0x1734 [nvmet_rdma]
-       cma_ib_req_handler+0x72f/0xf90 [rdma_cm]
-       cm_process_work+0x2e/0x110 [ib_cm]
-       cm_req_handler+0x135b/0x1c30 [ib_cm]
-       cm_work_handler+0x2b7/0x38cd [ib_cm]
-       process_one_work+0x4ae/0xa20
-nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 0000000040357082
-       worker_thread+0x63/0x5a0
-       kthread+0x1cf/0x1f0
-       ret_from_fork+0x24/0x30
-nvme nvme0: Reconnecting in 10 seconds...
+Most of your code uses "pdev" for a struct pci_dev *.
 
--> #1 (&id_priv->handler_mutex/1){+.+.}:
-       __mutex_lock+0xfe/0xbe0
-       mutex_lock_nested+0x1b/0x20
-       cma_ib_req_handler+0x6aa/0xf90 [rdma_cm]
-       cm_process_work+0x2e/0x110 [ib_cm]
-       cm_req_handler+0x135b/0x1c30 [ib_cm]
-       cm_work_handler+0x2b7/0x38cd [ib_cm]
-       process_one_work+0x4ae/0xa20
-       worker_thread+0x63/0x5a0
-       kthread+0x1cf/0x1f0
-       ret_from_fork+0x24/0x30
+> +static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *dev)
+> +{
+> +	if (!buf)
+> +		return;
+> +
+> +	seq_buf_printf(buf, "%04x:%02x:%02x.%x;", pci_domain_nr(dev->bus),
+> +		       dev->bus->number, PCI_SLOT(dev->devfn),
+> +		       PCI_FUNC(dev->devfn));
 
--> #0 (&id_priv->handler_mutex){+.+.}:
-       lock_acquire+0xc5/0x200
-       __mutex_lock+0xfe/0xbe0
-       mutex_lock_nested+0x1b/0x20
-       rdma_destroy_id+0x6f/0x440 [rdma_cm]
-       nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
-       process_one_work+0x4ae/0xa20
-       worker_thread+0x63/0x5a0
-       kthread+0x1cf/0x1f0
-       ret_from_fork+0x24/0x30
+dev vs pdev?
+I think you could use pci_name() here (see pci_setup_device()).
 
-other info that might help us debug this:
+> + * In the case where two devices are connected to different PCIe switches,
+> + * this function will still return a positive distance as long as both
+> + * switches evenutally have a common upstream bridge. Note this covers
 
-Chain exists of:
-  &id_priv->handler_mutex --> (wq_completion)"events" --> (work_completion)(&queue->release_work)
+s/evenutally/eventually/
 
- Possible unsafe locking scenario:
+> +static int upstream_bridge_distance_warn(struct pci_dev *provider,
+> +					 struct pci_dev *client)
+> +{
+> +	struct seq_buf acs_list;
+> +	int ret;
+> +
+> +	seq_buf_init(&acs_list, kmalloc(PAGE_SIZE, GFP_KERNEL), PAGE_SIZE);
 
-       CPU0                    CPU1
-       ----                    ----
-  lock((work_completion)(&queue->release_work));
-                               lock((wq_completion)"events");
-                               lock((work_completion)(&queue->release_work));
-  lock(&id_priv->handler_mutex);
+Check for kmalloc() failure here?  Failure would mean acs_list->buffer is
+NULL, but I gave up following the chain to see how that would be handled.
 
- *** DEADLOCK ***
+> +
+> +	ret = upstream_bridge_distance(provider, client, &acs_list);
+> +	if (ret == -2) {
+> +		pci_warn(client, "cannot be used for peer-to-peer DMA as ACS redirect is set between the client and provider\n");
 
-2 locks held by kworker/5:0/39:
- #0: 0000000071b4905b ((wq_completion)"events"){+.+.}, at: process_one_work+0x3ed/0xa20
- #1: 00000000331b4e2c ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
+Maybe include pci_name(provider) in these messages?
 
-stack backtrace:
-CPU: 5 PID: 39 Comm: kworker/5:0 Not tainted 4.19.0-rc4-dbg+ #3
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-Workqueue: events nvmet_rdma_release_queue_work [nvmet_rdma]
-Call Trace:
- dump_stack+0x86/0xc5
- print_circular_bug.isra.32+0x20a/0x218
- __lock_acquire+0x1a54/0x1b20
-print_req_error: I/O error, dev dm-0, sector 65528
-print_req_error: I/O error, dev dm-0, sector 65528
-Buffer I/O error on dev dm-0, logical block 8191, async page read
-print_req_error: I/O error, dev dm-0, sector 0
- lock_acquire+0xc5/0x200
-Buffer I/O error on dev dm-0, logical block 0, async page read
- __mutex_lock+0xfe/0xbe0
-print_req_error: I/O error, dev dm-0, sector 0
-Buffer I/O error on dev dm-0, logical block 0, async page read
-Buffer I/O error on dev dm-0, logical block 3, async page read
- mutex_lock_nested+0x1b/0x20
- rdma_destroy_id+0x6f/0x440 [rdma_cm]
- nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
- process_one_work+0x4ae/0xa20
- worker_thread+0x63/0x5a0
- kthread+0x1cf/0x1f0
- ret_from_fork+0x24/0x30
+> +		/* Drop final semicolon */
+> +		acs_list.buffer[acs_list.len-1] = 0;
+> +		pci_warn(client, "to disable ACS redirect for this path, add the kernel parameter: pci=disable_acs_redir=%s\n",
+> +			 acs_list.buffer);
+> +
+> +	} else if (ret < 0) {
+> +		pci_warn(client, "cannot be used for peer-to-peer DMA as the client and provider do not share an upstream bridge\n");
+
+> + * pci_p2pdma_assign_provider - Check compatibily (as per pci_p2pdma_distance)
+
+s/compatibily/compatibility/
+
+> +struct pci_dev *pci_p2pmem_find(struct list_head *clients)
+> +{
+> +	struct pci_dev *pdev = NULL;
+> +	struct pci_p2pdma_client *pos;
+> +	int distance;
+> +	int closest_distance = INT_MAX;
+> +	struct pci_dev **closest_pdevs;
+> +	int dev_cnt = 0;
+> +	const int max_devs = PAGE_SIZE / sizeof(*closest_pdevs);
+> +	int i;
+> +
+> +	closest_pdevs = kmalloc(PAGE_SIZE, GFP_KERNEL);
+
+Check for kmalloc() failure?
+
+> +++ b/include/linux/pci-p2pdma.h
+> @@ -0,0 +1,102 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * PCI Peer 2 Peer DMA support.
+> + *
+> + * Copyright (c) 2016-2018, Logan Gunthorpe
+> + * Copyright (c) 2016-2017, Microsemi Corporation
+> + * Copyright (c) 2017, Christoph Hellwig
+> + * Copyright (c) 2018, Eideticom Inc.
+> + *
+
+Spurious blank line.
+
+> + */
