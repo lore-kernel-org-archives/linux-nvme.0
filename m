@@ -1,30 +1,36 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 20 Sep 2018 09:22:08 -0600
-Subject: [PATCH 0/6] nvme-cli: fixup large log page transfer
-In-Reply-To: <20180920090939.6348-1-hare@suse.de>
-References: <20180920090939.6348-1-hare@suse.de>
-Message-ID: <20180920152207.GB30677@localhost.localdomain>
+Date: Thu, 20 Sep 2018 11:01:45 -0600
+Subject: Kernel v4.19-rc4 KASAN complaint
+In-Reply-To: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+Message-ID: <20180920170145.GA31127@localhost.localdomain>
 
-On Thu, Sep 20, 2018@11:09:33AM +0200, Hannes Reinecke wrote:
-> Hi all,
+On Tue, Sep 18, 2018@02:16:48PM -0700, Bart Van Assche wrote:
+> Hello,
 > 
-> on large installations the MDTS value might prevent the controller to
-> transfer the entire log page in one go. This patchset updates nvme_get_log()
-> to retrieve the log page in 4k chunks so as having to avoid checking the
-> MDTS value.
+> If I run the nvmeof-mp tests from https://github.com/bvanassche/blktests
+> against kernel v4.19-rc4 then a KASAN complaint appears. This complaint does
+> not appear when I run these tests against kernel v4.18. Could this be a
+> regression?
 
-That looks good. Shoudn't matter for most pages since only a few may
-exceed 4k.
+Not sure if the following is what you're hitting since it wouldn't be a
+regression. It looks like removing a namespace path and clearing it as
+the current path is in the wrong order, such that the very next IO
+may reference the namespace being deleted.
 
-> I've also added an 'rae' field to nvme_get_log() to avoid it accidentally
-> clearing outstanding AENs.
-
-Thanks for setting that up!
-
-> And the seagate plugin has been cleaned up :-)
-
-I think that code must have been ported from an internal project. :)
-
-> As usual, comments and reviews are welcome.
-
-Looks good to me. Patches applied.
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 893f1fcc17cd..a01b6743d62b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3143,8 +3143,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	}
+ 
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+-	nvme_mpath_clear_current_path(ns);
+ 	list_del_rcu(&ns->siblings);
++	nvme_mpath_clear_current_path(ns);
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
+ 	down_write(&ns->ctrl->namespaces_rwsem);
+--
