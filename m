@@ -1,24 +1,31 @@
-From: yi.zhang@redhat.com (Yi Zhang)
-Date: Thu, 20 Sep 2018 19:41:57 +0800
-Subject: [PATCH] nvme-cli: print "\n" after nvme list-subsys -o json
-Message-ID: <20180920114157.6043-1-yi.zhang@redhat.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 20 Sep 2018 09:11:02 -0600
+Subject: [GIT PULL] nvme fix for 4.19
+In-Reply-To: <20180920062659.GA18562@infradead.org>
+References: <20180920062659.GA18562@infradead.org>
+Message-ID: <443f41f6-1b79-89f6-6ac5-5a8d58ac8f98@kernel.dk>
 
-Signed-off-by: Yi Zhang <yi.zhang at redhat.com>
----
- nvme-print.c | 1 +
- 1 file changed, 1 insertion(+)
+On 9/20/18 12:26 AM, Christoph Hellwig wrote:
+> The following changes since commit b228ba1cb95afbaeeb86cf06cd9fd6f6369c3b14:
+> 
+>   null_blk: fix zoned support for non-rq based operation (2018-09-12 18:21:11 -0600)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.19
+> 
+> for you to fetch changes up to be1277f5eb17a2e5788139eabb0b53dd04c695f3:
+> 
+>   nvme: count all ANA groups for ANA Log page (2018-09-17 15:49:40 +0200)
+> 
+> ----------------------------------------------------------------
+> Hannes Reinecke (1):
+>       nvme: count all ANA groups for ANA Log page
+> 
+>  drivers/nvme/target/admin-cmd.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 17b5eaf..df7df4d 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -2823,6 +2823,7 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
- 	if (i)
- 		json_object_add_value_array(root, "Subsystems", subsystems);
- 	json_print_object(root, NULL);
-+	printf("\n");
- }
- 
- static void show_registers_cap(struct nvme_bar_cap *cap)
+Pulled, thanks.
+
 -- 
-2.17.1
+Jens Axboe
