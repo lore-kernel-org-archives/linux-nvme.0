@@ -1,23 +1,21 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 20 Sep 2018 08:26:59 +0200
-Subject: [GIT PULL] nvme fix for 4.19
-Message-ID: <20180920062659.GA18562@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 20 Sep 2018 08:30:47 +0200
+Subject: [PATCH] nvme/pci: Fix hot removal during error handling
+In-Reply-To: <20180919154852.28187-1-keith.busch@intel.com>
+References: <20180919154852.28187-1-keith.busch@intel.com>
+Message-ID: <20180920063047.GA12913@lst.de>
 
-The following changes since commit b228ba1cb95afbaeeb86cf06cd9fd6f6369c3b14:
+On Wed, Sep 19, 2018@09:48:52AM -0600, Keith Busch wrote:
+> A removal waits for the reset_work to complete. If a surprise removal
+> occurs around the same time as an error triggered controller reset,
+> and reset work happened to dispatch a command to the removed controller,
+> the command won't be recovered since the timeout work doesn't do
+> anything during error recovery.
+> 
+> This patch fixes this by killing admin queues prior to syncing reset.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-  null_blk: fix zoned support for non-rq based operation (2018-09-12 18:21:11 -0600)
+Looks sensible to me:
 
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.19
-
-for you to fetch changes up to be1277f5eb17a2e5788139eabb0b53dd04c695f3:
-
-  nvme: count all ANA groups for ANA Log page (2018-09-17 15:49:40 +0200)
-
-----------------------------------------------------------------
-Hannes Reinecke (1):
-      nvme: count all ANA groups for ANA Log page
-
- drivers/nvme/target/admin-cmd.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Reviewed-by: Christoph Hellwig <hch at lst.de>
