@@ -1,119 +1,169 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 20 Sep 2018 11:09:34 +0200
-Subject: [PATCH 1/6] nvme-discover: Retry discovery log if the generation
- counter changes
+Date: Thu, 20 Sep 2018 11:09:39 +0200
+Subject: [PATCH 6/6] nvme-cli: kill nvme_passthru_admin()
 In-Reply-To: <20180920090939.6348-1-hare@suse.de>
 References: <20180920090939.6348-1-hare@suse.de>
-Message-ID: <20180920090939.6348-2-hare@suse.de>
+Message-ID: <20180920090939.6348-7-hare@suse.de>
 
-If the generation counter changes we need to validate if the number
-of records has changed, too.
-If so we need to retry retrieving the discovery log to the most recent
-values. The retry will be terminated after MAX_DISC_RETRIES (currently
-set to 10) to avoid infinite recursion.
+The seagate plugin is the only one using it, and it's identical
+to nvme_get_log13(). So replace the invocation with nvme_get_log13()
+and remove the function.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- fabrics.c | 67 ++++++++++++++++++++++++++++++++++-----------------------------
- 1 file changed, 36 insertions(+), 31 deletions(-)
+ nvme-ioctl.c   | 12 ------------
+ nvme-ioctl.h   |  8 --------
+ seagate-nvme.c | 53 ++++++++++++++++++-----------------------------------
+ 3 files changed, 18 insertions(+), 55 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 029105b..83eeb00 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -71,6 +71,7 @@ static struct config {
- #define PATH_NVMF_HOSTID	"/etc/nvme/hostid"
- #define SYS_NVME		"/sys/class/nvme"
- #define MAX_DISC_ARGS		10
-+#define MAX_DISC_RETRIES	10
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index dc9aad8..2a8012c 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -327,18 +327,6 @@ int nvme_resv_report(int fd, __u32 nsid, __u32 numd, __u32 cdw11, void *data)
+ 	return nvme_submit_io_passthru(fd, &cmd);
+ }
  
- enum {
- 	OPT_INSTANCE,
-@@ -283,7 +284,7 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
- 	struct nvmf_disc_rsp_page_hdr *log;
- 	unsigned int log_size = 0;
- 	unsigned long genctr;
--	int error, fd;
-+	int error, fd, max_retries = MAX_DISC_RETRIES, retries = 0;
+-int nvme_passthru_admin(int fd, __u8 opcode, __u8 flags, __u16 rsvd,
+-			__u32 nsid, __u32 cdw2, __u32 cdw3, __u32 cdw10,
+-			__u32 cdw11, __u32 cdw12, __u32 cdw13, __u32 cdw14,
+-			__u32 cdw15, __u32 data_len, void *data,
+-			__u32 metadata_len, void *metadata, __u32 timeout_ms)
+-{
+-	return nvme_passthru(fd, NVME_IOCTL_ADMIN_CMD, opcode, flags, rsvd,
+-			     nsid, cdw2, cdw3, cdw10, cdw11, cdw12, cdw13,
+-			     cdw14, cdw15, data_len, data, metadata_len,
+-			     metadata, timeout_ms, NULL);
+-}
+-
+ int nvme_identify13(int fd, __u32 nsid, __u32 cdw10, __u32 cdw11, void *data)
+ {
+ 	struct nvme_admin_cmd cmd = {
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index b6abade..bb06f82 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -64,14 +64,6 @@ int nvme_resv_release(int fd, __u32 nsid, __u8 rtype, __u8 rrela,
+ 		      bool iekey, __u64 crkey);
+ int nvme_resv_report(int fd, __u32 nsid, __u32 numd, __u32 cdw11, void *data);
  
- 	fd = open(dev_path, O_RDWR);
- 	if (fd < 0) {
-@@ -315,42 +316,46 @@ static int nvmf_get_log_page_discovery(const char *dev_path,
- 		goto out_free_log;
+-/* NVME_ADMIN_CMD */
+-int nvme_passthru_admin(int fd, __u8 opcode, __u8 flags, __u16 rsvd,
+-			__u32 nsid, __u32 cdw2, __u32 cdw3,
+-			__u32 cdw10, __u32 cdw11, __u32 cdw12,
+-			__u32 cdw13, __u32 cdw14, __u32 cdw15,
+-			__u32 data_len, void *data, __u32 metadata_len,
+-			void *metadata, __u32 timeout);
+-
+ int nvme_identify13(int fd, __u32 nsid, __u32 cdw10, __u32 cdw11, void *data);
+ int nvme_identify(int fd, __u32 nsid, __u32 cdw10, void *data);
+ int nvme_identify_ctrl(int fd, void *data);
+diff --git a/seagate-nvme.c b/seagate-nvme.c
+index 15a91ef..f8fc5c7 100755
+--- a/seagate-nvme.c
++++ b/seagate-nvme.c
+@@ -1060,34 +1060,6 @@ static int vs_clr_pcie_correctable_errs(int argc, char **argv, struct command *c
+ 
+ }
+ 
+-int nvme_get_log_with_offset(int fd, __u32 nsid, __u16 log_id, __u32 data_len, __u64 offset, void *data)
+-{
+-	struct nvme_admin_cmd cmd = {
+-		.opcode		= nvme_admin_get_log_page,
+-		.nsid		= nsid,
+-		.addr		= (__u64)(uintptr_t) data,
+-		.data_len	= data_len,
+-	};
+-	__u32 numd = (data_len >> 2) - 1;
+-	__u16 numdu = numd >> 16, numdl = numd & 0xffff;
+-
+-	cmd.cdw10 = log_id | (numdl << 16);
+-	cmd.cdw11 = numdu;
+-	cmd.cdw12 = (__u32)(offset & 0xffffffff);
+-	cmd.cdw13 = (__u32)((offset >> 32) & 0xffffffff);
+-
+-	/***************************************************************************
+-    printf("nvme_get_log_with_offset Parameter Details - \n");
+-    printf("data_len : %d cdw10 : %x cdw11 : %x cdw12 : %x cdw13 : %x\n", cmd.data_len, cmd.cdw10, cmd.cdw11, cmd.cdw12, cmd.cdw13);
+-	***************************************************************************/
+-	return nvme_passthru_admin(fd, cmd.opcode, 0, 0,
+-				   cmd.nsid, 0, 0,
+-				   cmd.cdw10, cmd.cdw11, cmd.cdw12,
+-				   cmd.cdw13, 0, 0,
+-				   cmd.data_len, data, 0,
+-				   NULL, 100);
+-}
+-
+ static int get_host_tele(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ {
+ 	const char *desc = "Capture the Telemetry Host-Initiated Data in either " \
+@@ -1130,9 +1102,10 @@ static int get_host_tele(int argc, char **argv, struct command *cmd, struct plug
+ 
+ 	cfg.log_id = (cfg.log_id << 8) | 0x07;
+ 
+-	err = nvme_get_log_with_offset(fd, cfg.namespace_id, cfg.log_id, sizeof(tele_log), offset, (void *)(&tele_log));
++	err = nvme_get_log13(fd, cfg.namespace_id, cfg.log_id,
++			     NVME_NO_LOG_LSP, offset, 0, false,
++			     sizeof(tele_log), (void *)(&tele_log));
+ 	if (!err) {
+-
+ 		maxBlk = tele_log.tele_data_area3;
+ 		offset += 512;
+ 
+@@ -1169,7 +1142,9 @@ static int get_host_tele(int argc, char **argv, struct command *cmd, struct plug
+ 
+ 		memset(log, 0, blksToGet * 512);
+ 
+-		err = nvme_get_log_with_offset(fd, cfg.namespace_id, cfg.log_id, blksToGet * 512, offset, (void *)log);
++		err = nvme_get_log13(fd, cfg.namespace_id, cfg.log_id,
++				     NVME_NO_LOG_LSP, offset, 0, false,
++				     blksToGet * 512, (void *)log);
+ 		if (!err) {
+ 			offset += blksToGet * 512;
+ 
+@@ -1229,7 +1204,9 @@ static int get_ctrl_tele(int argc, char **argv, struct command *cmd, struct plug
+ 	dump_fd = STDOUT_FILENO;
+ 
+ 	log_id = 0x08;
+-	err = nvme_get_log_with_offset(fd, cfg.namespace_id, log_id, sizeof(tele_log), offset, (void *)(&tele_log));
++	err = nvme_get_log13(fd, cfg.namespace_id, log_id,
++			     NVME_NO_LOG_LSP, offset, 0, false,
++			     sizeof(tele_log), (void *)(&tele_log));
+ 	if (!err) {
+ 		maxBlk = tele_log.tele_data_area3;
+ 		offset += 512;
+@@ -1266,7 +1243,9 @@ static int get_ctrl_tele(int argc, char **argv, struct command *cmd, struct plug
+ 
+ 		memset(log, 0, blksToGet * 512);
+ 
+-		err = nvme_get_log_with_offset(fd, cfg.namespace_id, log_id, blksToGet * 512, offset, (void *)log);
++		err = nvme_get_log13(fd, cfg.namespace_id, log_id,
++				     NVME_NO_LOG_LSP, offset, 0, false,
++				     blksToGet * 512, (void *)log);
+ 		if (!err) {
+ 			offset += blksToGet * 512;
+ 
+@@ -1351,7 +1330,9 @@ static int vs_internal_log(int argc, char **argv, struct command *cmd, struct pl
  	}
  
--	/* check numrec limits */
--	*numrec = le64_to_cpu(log->numrec);
--	genctr = le64_to_cpu(log->genctr);
--	free(log);
-+	do {
-+		/* check numrec limits */
-+		*numrec = le64_to_cpu(log->numrec);
-+		genctr = le64_to_cpu(log->genctr);
-+		free(log);
+ 	log_id = 0x08;
+-	err = nvme_get_log_with_offset(fd, cfg.namespace_id, log_id, sizeof(tele_log), offset, (void *)(&tele_log));
++	err = nvme_get_log13(fd, cfg.namespace_id, log_id,
++			     NVME_NO_LOG_LSP, offset, 0, false,
++			     sizeof(tele_log), (void *)(&tele_log));
+ 	if (!err) {
+ 		maxBlk = tele_log.tele_data_area3;
+ 		offset += 512;
+@@ -1386,7 +1367,9 @@ static int vs_internal_log(int argc, char **argv, struct command *cmd, struct pl
  
--	if (*numrec == 0) {
--		error = DISC_NO_LOG;
--		goto out_close;
--	}
-+		if (*numrec == 0) {
-+			error = DISC_NO_LOG;
-+			goto out_close;
-+		}
+ 		memset(log, 0, blksToGet * 512);
  
--	/* we are actually retrieving the entire discovery tables
--	 * for the second get_log_page(), per
--	 * NVMe spec so no need to round_up(), or there is something
--	 * seriously wrong with the standard
--	 */
--	log_size = sizeof(struct nvmf_disc_rsp_page_hdr) +
-+		/* we are actually retrieving the entire discovery tables
-+		 * for the second get_log_page(), per
-+		 * NVMe spec so no need to round_up(), or there is something
-+		 * seriously wrong with the standard
-+		 */
-+		log_size = sizeof(struct nvmf_disc_rsp_page_hdr) +
- 			sizeof(struct nvmf_disc_rsp_page_entry) * *numrec;
+-		err = nvme_get_log_with_offset(fd, cfg.namespace_id, log_id, blksToGet * 512, offset, (void *)log);
++		err = nvme_get_log13(fd, cfg.namespace_id, log_id,
++				     NVME_NO_LOG_LSP, offset, 0, false,
++				     blksToGet * 512, (void *)log);
+ 		if (!err) {
+ 			offset += blksToGet * 512;
  
--	/* allocate discovery log pages based on page_hdr->numrec */
--	log = calloc(1, log_size);
--	if (!log) {
--		error = -ENOMEM;
--		goto out_close;
--	}
-+		/* allocate discovery log pages based on page_hdr->numrec */
-+		log = calloc(1, log_size);
-+		if (!log) {
-+			error = -ENOMEM;
-+			goto out_close;
-+		}
- 
--	/*
--	 * issue new get_log_page w/numdl+numdh set to get all records,
--	 * up to MAX_DISC_LOGS.
--	 */
--	error = nvme_discovery_log(fd, log, log_size);
--	if (error) {
--		error = DISC_GET_LOG;
--		goto out_free_log;
--	}
-+		/*
-+		 * issue new get_log_page w/numdl+numdh set to get all records,
-+		 * up to MAX_DISC_LOGS.
-+		 */
-+		error = nvme_discovery_log(fd, log, log_size);
-+		if (error) {
-+			error = DISC_GET_LOG;
-+			goto out_free_log;
-+		}
-+
-+	} while (genctr != le64_to_cpu(log->genctr) &&
-+		 ++retries < max_retries);
- 
--	if (*numrec != le32_to_cpu(log->numrec) || genctr != le64_to_cpu(log->genctr)) {
-+	if (*numrec != le32_to_cpu(log->numrec)) {
- 		error = DISC_NOT_EQUAL;
- 		goto out_free_log;
- 	}
 -- 
 2.13.7
