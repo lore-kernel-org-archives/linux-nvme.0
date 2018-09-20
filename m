@@ -1,22 +1,42 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 20 Sep 2018 16:47:49 -0600
-Subject: [PATCH v6 01/13] PCI/P2PDMA: Support peer-to-peer memory
-In-Reply-To: <20180920223829.GD224714@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-2-logang@deltatee.com>
- <20180920223829.GD224714@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <ab733346-9518-ed68-492d-e52929586293@deltatee.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 20 Sep 2018 16:39:24 -0700
+Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should return
+ BLK_STS_RESOURCE
+In-Reply-To: <20180920063924.GG12913@lst.de>
+References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
+ <20180918162526.GA5038@lst.de>
+ <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
+ <20180918190834.GA26013@localhost.localdomain>
+ <19b26262-686c-c778-7e01-488917537636@broadcom.com>
+ <20180920063924.GG12913@lst.de>
+Message-ID: <41fde3c0-076f-ca4d-79ed-2d86d25ac94f@broadcom.com>
 
-On 2018-09-20 4:38 PM, Bjorn Helgaas wrote:
-> Acked-by: Bjorn Helgaas <bhelgaas at google.com>  # PCI pieces
-> 
-> Mostly trivial comments below.  Thanks for persevering with this!
 
-Thanks Bjorn. I'll make these fixes for v7 next week.
->> +#define pr_fmt(fmt) "pci-p2pdma: " fmt
-> 
-> Is pr_fmt() actually used anywhere?
 
-It's used in a Patch 4 to print errors in the configfs helpers.
+On 9/19/2018 11:39 PM, hch@lst.de wrote:
+> On Tue, Sep 18, 2018@12:43:30PM -0700, James Smart wrote:
+>> The issue that I believe exists is that the multipath driver/core knows how
+>> to retry on a different path when the request is accepted then the
+>> nvme_complete_rq() is called. But it doesn't know how to retry on a
+>> different path when the initial transport:queue_rq() fails - the io ends up
+>> failing completely.?? I think we need to fix that code path, not "busy"
+>> requeue the mpath io.
+> The multipath code handles failures from nvme_complete_rq just fine,
+> in fact even with this patch we still don't accept the command into
+> queue_rq.  It is just that BLK_STS_RESOURCE is a magic indicator
+> for the blk-mq core to retry internally and not hand it back to the
+> next higher level (which would be the multipath code, either nvme
+> or dm for that matter).
 
-Logan
+your response is a bit cryptic
+
+I agree with you - that nvme_complete_rq() handles it fine. But in the 
+path where the transport->queue_rq() is called, and the io is bounced 
+due to controller state checks, nvme_complete_rq() isn't being called.? 
+If queue_rq() return BLK_STS_RESOURCE, its ok as the io gets requeued in 
+blk-mq, but it could sit there for 60s or so. But if queue_rq() see the 
+io marked NVME_MPATH, it returns BLK_STS_IOERR? 
+(blk_mq_complete_request() isn't called), and the blk-mq layer ends up 
+calling blk_mq_end_request().
+
+-- james
