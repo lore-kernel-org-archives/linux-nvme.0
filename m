@@ -1,21 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Sep 2018 08:30:47 +0200
-Subject: [PATCH] nvme/pci: Fix hot removal during error handling
-In-Reply-To: <20180919154852.28187-1-keith.busch@intel.com>
-References: <20180919154852.28187-1-keith.busch@intel.com>
-Message-ID: <20180920063047.GA12913@lst.de>
+From: hch@lst.de (hch@lst.de)
+Date: Thu, 20 Sep 2018 08:39:24 +0200
+Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should
+ return BLK_STS_RESOURCE
+In-Reply-To: <19b26262-686c-c778-7e01-488917537636@broadcom.com>
+References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
+ <20180918162526.GA5038@lst.de>
+ <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
+ <20180918190834.GA26013@localhost.localdomain>
+ <19b26262-686c-c778-7e01-488917537636@broadcom.com>
+Message-ID: <20180920063924.GG12913@lst.de>
 
-On Wed, Sep 19, 2018@09:48:52AM -0600, Keith Busch wrote:
-> A removal waits for the reset_work to complete. If a surprise removal
-> occurs around the same time as an error triggered controller reset,
-> and reset work happened to dispatch a command to the removed controller,
-> the command won't be recovered since the timeout work doesn't do
-> anything during error recovery.
-> 
-> This patch fixes this by killing admin queues prior to syncing reset.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+On Tue, Sep 18, 2018@12:43:30PM -0700, James Smart wrote:
+> The issue that I believe exists is that the multipath driver/core knows how 
+> to retry on a different path when the request is accepted then the 
+> nvme_complete_rq() is called. But it doesn't know how to retry on a 
+> different path when the initial transport:queue_rq() fails - the io ends up 
+> failing completely.?? I think we need to fix that code path, not "busy" 
+> requeue the mpath io.
 
-Looks sensible to me:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+The multipath code handles failures from nvme_complete_rq just fine,
+in fact even with this patch we still don't accept the command into
+queue_rq.  It is just that BLK_STS_RESOURCE is a magic indicator
+for the blk-mq core to retry internally and not hand it back to the
+next higher level (which would be the multipath code, either nvme
+or dm for that matter).
