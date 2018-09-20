@@ -1,26 +1,22 @@
-From: hch@lst.de (hch@lst.de)
-Date: Thu, 20 Sep 2018 08:39:24 +0200
-Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should
- return BLK_STS_RESOURCE
-In-Reply-To: <19b26262-686c-c778-7e01-488917537636@broadcom.com>
-References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
- <20180918162526.GA5038@lst.de>
- <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
- <20180918190834.GA26013@localhost.localdomain>
- <19b26262-686c-c778-7e01-488917537636@broadcom.com>
-Message-ID: <20180920063924.GG12913@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 20 Sep 2018 00:10:40 -0700
+Subject: Kernel v4.19-rc4 KASAN complaint
+In-Reply-To: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+Message-ID: <20180920071040.GA8685@infradead.org>
 
-On Tue, Sep 18, 2018@12:43:30PM -0700, James Smart wrote:
-> The issue that I believe exists is that the multipath driver/core knows how 
-> to retry on a different path when the request is accepted then the 
-> nvme_complete_rq() is called. But it doesn't know how to retry on a 
-> different path when the initial transport:queue_rq() fails - the io ends up 
-> failing completely.?? I think we need to fix that code path, not "busy" 
-> requeue the mpath io.
+On Tue, Sep 18, 2018@02:16:48PM -0700, Bart Van Assche wrote:
+> Hello,
+> 
+> If I run the nvmeof-mp tests from https://github.com/bvanassche/blktests
+> against kernel v4.19-rc4 then a KASAN complaint appears. This complaint does
+> not appear when I run these tests against kernel v4.18. Could this be a
+> regression?
 
-The multipath code handles failures from nvme_complete_rq just fine,
-in fact even with this patch we still don't accept the command into
-queue_rq.  It is just that BLK_STS_RESOURCE is a magic indicator
-for the blk-mq core to retry internally and not hand it back to the
-next higher level (which would be the multipath code, either nvme
-or dm for that matter).
+Sounds like it is.  4.19 has the new ANA code, so the multipath code
+has some churn.
+
+> BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x207/0x290
+
+Can you resolve the address using gdb on vmlinux to a specific
+line of code?
