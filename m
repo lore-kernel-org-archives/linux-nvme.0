@@ -1,13 +1,13 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 20 Sep 2018 11:36:25 -0600
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 20 Sep 2018 10:36:30 -0700
 Subject: Kernel v4.19-rc4 KASAN complaint
 In-Reply-To: <1537464689.224533.10.camel@acm.org>
 References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
  <20180920170145.GA31127@localhost.localdomain>
  <1537464689.224533.10.camel@acm.org>
-Message-ID: <20180920173625.GB31127@localhost.localdomain>
+Message-ID: <1537464990.224533.13.camel@acm.org>
 
-On Thu, Sep 20, 2018@10:31:29AM -0700, Bart Van Assche wrote:
+On Thu, 2018-09-20@10:31 -0700, Bart Van Assche wrote:
 > On Thu, 2018-09-20@11:01 -0600, Keith Busch wrote:
 > > On Tue, Sep 18, 2018@02:16:48PM -0700, Bart Van Assche wrote:
 > > > Hello,
@@ -40,5 +40,16 @@ On Thu, Sep 20, 2018@10:31:29AM -0700, Bart Van Assche wrote:
 > 
 > That patch makes the KASAN complaint disappear on my test setup.
 
-Nice, thanks for confirming. I'll send a proper patch, but also wonder
-why the error doesn't show up in 4.18.
+Sorry, I spoke too soon. I didn't see it in the dmesg output because it
+disappeared from that buffer but I found the complaint in the system log:
+
+Sep 20 10:17:23 ubuntu-vm kernel: [  144.820073] WARNING: possible circular locking dependency detected
+Sep 20 10:17:23 ubuntu-vm kernel: [  144.972667] Call Trace:
+Sep 20 10:18:51 ubuntu-vm kernel: [  232.585122] BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x207/0x290
+Sep 20 10:18:51 ubuntu-vm kernel: [  232.585146] Call Trace:
+Sep 20 10:28:02 ubuntu-vm kernel: [   58.755492] WARNING: possible circular locking dependency detected
+Sep 20 10:28:02 ubuntu-vm kernel: [   58.825452] Call Trace:
+Sep 20 10:31:44 ubuntu-vm kernel: [  281.520737] BUG: KASAN: use-after-free in srcu_invoke_callbacks+0x207/0x290
+Sep 20 10:31:44 ubuntu-vm kernel: [  281.538488] Call Trace:
+
+Bart.
