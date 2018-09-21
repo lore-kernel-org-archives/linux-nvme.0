@@ -1,90 +1,46 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 21 Sep 2018 10:53:21 -0600
-Subject: linux-nvme: driver removal deadlock when device hot-removed
-In-Reply-To: <MWHPR08MB2671C87514045AC3D85AAA5BC9120@MWHPR08MB2671.namprd08.prod.outlook.com>
-References: <MWHPR08MB2671C87514045AC3D85AAA5BC9120@MWHPR08MB2671.namprd08.prod.outlook.com>
-Message-ID: <20180921165321.GA1405@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 21 Sep 2018 12:03:12 -0600
+Subject: [PATCH v6 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
+References: <20180913001156.4115-1-logang@deltatee.com>
+ <20180913001156.4115-7-logang@deltatee.com>
+ <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <e9739430-b238-2078-a51f-d76bae5342d1@deltatee.com>
 
-On Fri, Sep 21, 2018@04:32:19PM +0000, Michael Schoberg (mschoberg) wrote:
-> I'm not sure if this is the correct forum, but hopefully someone can
-> help instruct me on how to proceed towards resolving this issue.
+On 2018-09-21 10:41 AM, Bjorn Helgaas wrote:
+>> +away, the one returned will be chosen at random. This function returns the PCI
 > 
-> I'm working on a problem that occurs when a nvme device is hot-removed
-> while IO is occurring.? I see a driver deadlock during recovery or
-> more precisely, the removal of the driver instance during the recovery
-> attempt.? What seems to be happening is when the system calls the nvme
-> timeout routine, it eventually calls outside the driver and runs into
-> a mutex deadlock.? I'm running with a 4.18.8 kernel:
+> s/the one returned will be chosen at random/one will be chosen
+> arbitrarily/ ?  (I doubt it's really random)
+
+You're the second person to ask this, but yes, we really do it randomly.
+Such that if there are multiple drivers getting resources they should be
+evenly distributed. It's not the ideal solution but if it were to do it
+arbitrarily then the code would likely return the same device all the
+time and any additional devices would not get used.
+
+>> +Struct Page Caveats
+>> +-------------------
+>> +
+>> +Driver writers should be very careful about not passing these special
+>> +struct pages to code that isn't prepared for it. At this time, the kernel
+>> +interfaces do not have any checks for ensuring this. This obviously
+>> +precludes passing these pages to userspace.
 > 
-> The code path appears as follows (note - the device has been removed
-> so there is no possibility of it being recovered):
-> 
-> 	nvme_timeout --> nvme_warn_reset
+> Sounds like landmines here since the reader probably can't translate
+> "code that isn't prepared for it" into a list of interfaces that are
+> off-limits.  But that's a VM issue that is above my pay grade, so I'm
+> not suggesting any change; just pointing out something that makes me
+> wonder "hmmm..., how would I act on this?"
 
-We shouldn't get to nvme_timeout on a surprise removal. If you have
-native pcie hotplug capable slots, the path ought to be:
+Yes, these are big landmines. These are the problems we have been
+fighting with trying to get P2P memory into the kernel and the first
+step seems to have settled on the developer using them has to be careful
+and ensure they are only sent to paths that are used correctly. This
+series does these things in the block layer and RDMA interface, but due
+to Jens not wanting to add warnings to the common code, it's still
+possible for a developer to code something that sends these pages to
+block devices that are not prepared for it.
 
-  pciehp_isr
-   remove_board
-    pciehp_unconfigure_device
-     pci_remove_bus_device
-      device_release_driver
-       nvme_remove
-        nvme_disable
-
-And that should immediately clear outstanding IO and prevent new IO from
-entering the driver.
-
-Given what you're observing, I think your situation must be one of the
-following:
-
- 1. You don't have pcie hotplug capable hardware
- 2. You don't have a pcie hotplug capable kernel 
- 3. You are not using native PCIe hotplug with your platform
- 
-> 	nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
-> 
-> *The pci_read_config_word() returns PCIBIOS_SUCCESSFUL when the
-> returned values show the device is detached.? I'm not quite sure how
-> the configuration read works with a detached device, but it's pretty
-> clear the returned values are not valid.
-
-Since you're seeing PCIBIOS_SUCCESSFUL, the host is actually dispatching
-the config request to a non-existent device. The reply will be a PCIe
-Unsupported Request since there is nothing backing the address you're
-trying to read, and you will see this as an "all 1's completion" with
-no other indication of failure.
-
-> Within nvme_timeout(), it begins the process to reset the controller:
-> 
-> 	nvme_reset_ctrl --> nvme_reset_work --> nvme_remove_dead_ctrl --> nvme_kill_queues --> nvme_set_queue_dying --> revalidate_disk
-> 
-> The thread hits a mutex deadlock after returning back to fs/block_dev.c::revalidate_disk():? mutex_lock(&bdev->bd_mutex)
-> 
-> This is the point where the driver appears completely stuck and never
-> recovers.? A power cycle or system reset is required to restore
-> operation (reboot or shutdown hangs).? I'm not sure what within
-> block_dev.c is holding bd_mutex that would cause the deadlock and
-> therefore it's very possible there is a cleaner solution than what I
-> am using.
-
-I'm not sure what could be holding it either. Maybe it's a task waiting
-for an entered request to complete, in which case we should have the
-nvme driver drain entered requests to failure in this path. The following
-should be safe:
-
----
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 800ee9b345f3..7c1330986a6c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2233,7 +2233,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
- 	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
- 
- 	nvme_get_ctrl(&dev->ctrl);
--	nvme_dev_disable(dev, false);
-+	nvme_dev_disable(dev, true);
- 	nvme_kill_queues(&dev->ctrl);
- 	if (!queue_work(nvme_wq, &dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
---
+Logan
