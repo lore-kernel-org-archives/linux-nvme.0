@@ -1,40 +1,42 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 21 Sep 2018 12:13:21 -0600
-Subject: [PATCH v6 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
- adjust the bus offset
-In-Reply-To: <20180921164813.GJ224714@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-4-logang@deltatee.com>
- <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
- <20180921164813.GJ224714@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <506dd00c-35e9-e285-bc97-c689c766b4cf@deltatee.com>
+From: Dong.Ho@wdc.com (Dong Ho)
+Date: Fri, 21 Sep 2018 18:10:39 +0000
+Subject: [PATCH 4/4] nvme-cli: tests: Add get_id_ctrl function
+Message-ID: <1537578625-14880-1-git-send-email-dong.ho@wdc.com>
 
-On 2018-09-21 10:48 AM, Bjorn Helgaas wrote:
->> I think the use of "map" in this context is slightly confusing because the
->> general expectation is that map/unmap must be balanced.
+Signed-off-by: Dong Ho <dong.ho at wdc.com>
+---
+ tests/nvme_test.py | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Yeah, Jason said the same thing, but having an empty unmap function
-seems wasteful and Christoph said to just remove it. My opinion is that
-it's not that big an issue one way or another -- if we have to add an
-unmap later it's not really that hard.
-
->> If you keep "map", maybe add a sentence or two about why there's no
->> corresponding unmap?
-
-Will do.
-
-> Another wrinkle is that "map" usually takes an A and gives you back a
-> B.  Now the caller has both A and B and both are still valid.
-> Here we pass in an SGL and the SGL is transformed, so the caller only
-> has B and A has been destroyed, i.e., the SGL can no longer be used as
-> it was before, and there's no way to get A back.
-
-I wouldn't say that. Our map_sg function is doing the same thing
-dma_map_sg is: it sets the DMA address and length in the scatter list.
-So B is still A just with other fields set. If the caller wanted to map
-this SG in a different way they can still do so and the new DMA
-address/length would override the old values. (Normally, you'd want to
-unmap before doing something like that, but seeing our unmap is an empty
-operation, we wouldn't have to do that.)
-
-Logan
+diff --git a/tests/nvme_test.py b/tests/nvme_test.py
+index 94406b5..d735863 100644
+--- a/tests/nvme_test.py
++++ b/tests/nvme_test.py
+@@ -396,6 +396,25 @@ class TestNVMe(object):
+         print "host_write_commands " + host_write_commands
+         return err
+ 
++    def get_id_ctrl(self, vendor=False):
++        """ Wrapper for nvme id-ctrl command.
++            - Args:
++              - None
++            - Returns:
++              - 0 on success, error code on failure.
++        """
++        if not vendor:
++            id_ctrl_cmd = "nvme id-ctrl " + self.ctrl
++        else:
++            id_ctrl_cmd = "nvme id-ctrl -v " + self.ctrl
++        print id_ctrl_cmd
++        proc = subprocess.Popen(id_ctrl_cmd,
++                                shell=True,
++                                stdout=subprocess.PIPE)
++        err = proc.wait()
++        assert_equal(err, 0, "ERROR : nvme id controller failed")
++        return err
++
+     def get_error_log(self):
+         """ Wrapper for nvme error-log command.
+             - Args:
+-- 
+1.8.3.1
