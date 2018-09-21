@@ -1,170 +1,42 @@
-From: Dong.Ho@wdc.com (Dong Ho)
-Date: Fri, 21 Sep 2018 18:09:35 +0000
-Subject: [PATCH 2/4] nvme-cli: tests: fix id_ctrl test coding style
-Message-ID: <1537578567-13036-1-git-send-email-dong.ho@wdc.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 21 Sep 2018 11:21:53 -0700
+Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should return
+ BLK_STS_RESOURCE
+In-Reply-To: <20180921070554.GB14529@lst.de>
+References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
+ <20180918162526.GA5038@lst.de>
+ <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
+ <20180918190834.GA26013@localhost.localdomain>
+ <19b26262-686c-c778-7e01-488917537636@broadcom.com>
+ <20180920063924.GG12913@lst.de>
+ <41fde3c0-076f-ca4d-79ed-2d86d25ac94f@broadcom.com>
+ <20180921070554.GB14529@lst.de>
+Message-ID: <56083021-22a9-5a40-5e0d-82854ab038a7@broadcom.com>
 
-Simplified and fixed coding style to conform with the style of all other tests.
+On 9/21/2018 12:05 AM, hch@lst.de wrote:
+>> I agree with you - that nvme_complete_rq() handles it fine. But in the path
+>> where the transport->queue_rq() is called, and the io is bounced due to
+>> controller state checks, nvme_complete_rq() isn't being called.? If
+>> queue_rq() return BLK_STS_RESOURCE, its ok as the io gets requeued in
+>> blk-mq, but it could sit there for 60s or so. But if queue_rq() see the io
+>> marked NVME_MPATH, it returns BLK_STS_IOERR? (blk_mq_complete_request()
+>> isn't called), and the blk-mq layer ends up calling blk_mq_end_request().
+> Yes.  And that is probably why the current code is doing the right(-ish)
+> thing.
 
-Signed-off-by: Dong Ho <dong.ho at wdc.com>
----
- tests/nvme_id_ctrl_test.py | 131 +++++++++------------------------------------
- 1 file changed, 25 insertions(+), 106 deletions(-)
+So I agree that what we're doing currently is correct - except that the 
+IOERR bounces all the way up to the caller above multipath - so they get 
+an erroneous EIO rather than having us insulate it (waiting somewhere, 
+but not on blk-mq for a long time) over a very short reset/reconnect window.
 
-diff --git a/tests/nvme_id_ctrl_test.py b/tests/nvme_id_ctrl_test.py
-index b6b0d89..0caf7b2 100644
---- a/tests/nvme_id_ctrl_test.py
-+++ b/tests/nvme_id_ctrl_test.py
-@@ -1,3 +1,4 @@
-+
- # Copyright (c) 2015-2016 Western Digital Corporation or its affiliates.
- #
- # This program is free software; you can redistribute it and/or
-@@ -16,122 +17,40 @@
- # MA  02110-1301, USA.
- #
- #   Author: Madhusudhana S.J <madhusudhana.sj at wdc.com>
-+#   Author: Dong Ho <dong.ho at wdc.com>
- #
- """
--NVMe Identify Controller Testcase:-
-+NVMe Identify ctrl Testcase:-
- 
--    1. Send NVMe Identify Controller, return result and structure
--    2. Send an Identify Controller command to the given device and report information about the specified controller 
--       in human-readable or binary format. 
--       May also return vendor-specific controller attributes in hex-dump if requested.
-+  1. Execute id-ctrl on ctrl
-+  2. Execute id-ctrl vendor specific on ctrl
- 
- """
- 
--import subprocess
- from nose.tools import assert_equal
- from nvme_test import TestNVMe
--import time
- 
--class TestNVMeIdentifyIdctrlActions(TestNVMe):
- 
--	"""
--	Represent Identify Controller testcase.
-+class TestNVMeIdctrlCmd(TestNVMe):
-+
-+    """
-+    Represents Id ctrl testcase
-+    """
-+
-+    def __init__(self):
-+        """ Pre Section for TestNVMeIdctrlCmd. """
-+        TestNVMe.__init__(self)
-+        self.setup_log_dir(self.__class__.__name__)
- 
--        - Attributes:
--                     - Identify Controller : list of Identify Controller actions.     
--	"""
--	def __init__(self):
--         	""" Pre Section for Identify Controller mandatory Actions """
--		TestNVMe.__init__(self)
--        	self.setup_log_dir(self.__class__.__name__)
--        	self.identifycontroller__action_list = ["--human-readable","--raw-binary","--vendor-specific","-b"]
--        	self.identifycontroller__outtput_format_list = ["normal", "json","binary"]
--	
--	def __del__(self):
--		""" Post Section for TestNVMeIdentify Controller mandatory Actions
-+    def __del__(self):
-+        """ Post Section for TestNVMeIdctrlCmd
- 
--            	     Call super class's destructor.
--		"""
--		TestNVMe.__del__(self)
-- 
--	def get_identifycontroller(self):
--        	""" Wrapper for NVMe Identify Controller command
--                - Args:
--                       - Identify Controller : sends an identify controller command to device and  
--                         provides the result and returned structure
--                - Returns: None
--        	"""
--        	get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" 
--		print "Identify Controller command:",get_identifycontroller_cmd, "\n"
--		proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
--		identifycontroller_output = proc.communicate()[0]
--		print "command_output : "
--		print identifycontroller_output, "\n"
--        	assert_equal(proc.wait(), 0)
-- 
--	def get_mandetory_identifycontroller_action(self,identifycontroller_action):
--			""" Wrapper for NVMe Identify Controller  command 
--				- Args:
--				- identifycontroller_action : action id to be used with identifycontroller_action  command.
--				- Returns: None
--			"""
--			print "identifycontroller_action value:", identifycontroller_action
--			if str(identifycontroller_action) in ["-b","--raw-binary"]:
--				get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" + \
--                                                             " " + identifycontroller_action + " | hexdump -C"
--				print "get_identifycontroller_cmd with binary :",get_identifycontroller_cmd,"\n"
--				proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
--				identifycontroller_output = proc.communicate()[0]
--				print "command_output : "
--				print identifycontroller_output, "\n"
--				assert_equal(proc.wait(), 0)
--			else:
--				get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" \
--				                            + " " + identifycontroller_action 
--				print "command executing to get id_ctrl of the given device :",get_identifycontroller_cmd
--               			proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
--                		identifycontroller_output = proc.communicate()[0]
--				print "command_output : "
--				print identifycontroller_output, "\n"
--                		assert_equal(proc.wait(), 0)
--	def get_mandetory_identifycontroller_outputformat(self,identifycontroller_outputformat):
--                        """ Wrapper for NVMe Identify Controller command
--                                - Args:
--                                - identifycontroller_action : output format  to be used with identifycontroller  command.
--                                - Returns: None
--                        """
--                        print "identifycontroller_outputformat Type:", identifycontroller_outputformat
--                        if str(identifycontroller_outputformat) == "binary":
--                                get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" + \
--                                                             " --output-format=binary | hexdump -C"
--                                print "get_identifycontroller_cmd with binary output format:",get_identifycontroller_cmd
--				print "\n"
--                                proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
--                                identifycontroller_output = proc.communicate()[0]
--                                print "command_output : "
--                                print identifycontroller_output, "\n"
--                                assert_equal(proc.wait(), 0)
--                        else:
--                                get_identifycontroller_cmd = "nvme id-ctrl /dev/nvme0" \
--                                                             + " --output-format=" + identifycontroller_outputformat
--                                print "command executing to get id_ctrl of the given device :",get_identifycontroller_cmd
--                                proc = subprocess.Popen(get_identifycontroller_cmd,shell=True,stdout=subprocess.PIPE)
--                                identifycontroller_output = proc.communicate()[0]
--                                print "command_output : "
--                                print identifycontroller_output, "\n"
--                                assert_equal(proc.wait(), 0)
-+            Call super class's destructor.
-+        """
-+        TestNVMe.__del__(self)
- 
--	def test_get_identify_controller_actions(self):
--        		""" Testcase main """ 
--			print "calling main function ..!"
--			self.get_identifycontroller()
--       			for identifycontroller_action in self.identifycontroller__action_list:
--				if str(identifycontroller_action) in ["-b", "--raw-binary"]:
--					self.get_mandetory_identifycontroller_action(identifycontroller_action)
--				else:
--					self.get_mandetory_identifycontroller_action(identifycontroller_action)
--			for identifycontroller_outputformat in self.identifycontroller__outtput_format_list:
--				if str(identifycontroller_outputformat) == "binary":
--					self.get_mandetory_identifycontroller_outputformat(identifycontroller_outputformat)
--				else:
--					self.get_mandetory_identifycontroller_outputformat(identifycontroller_outputformat)
-+    def test_id_ctrl(self):
-+        """ Testcase main """
-+        vendor = True
-+        assert_equal(self.get_id_ctrl(), 0)
-+        assert_equal(self.get_id_ctrl(vendor), 0)
--- 
-1.8.3.1
+I'll post something shortly that seems to resolve it, although maybe not 
+optimally.
+
+And as I look at this - I think we need to invent a 
+linux-nvme-stack-specific status code to indicate a path-connectivity 
+error like we did on SCSI.? I/O's are currently returning 
+NVME_SC_ABORT_REQ status. We could cheat and use an ANA_TRANSITIONING 
+status, but that probably isn't the smartest thing to do.? The new 
+status would give nvme multipath a better hint about what to do next.
+
+-- james
