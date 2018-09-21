@@ -1,20 +1,56 @@
-From: hch@lst.de (hch@lst.de)
-Date: Fri, 21 Sep 2018 10:19:14 +0200
-Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should
- return BLK_STS_RESOURCE
-In-Reply-To: <CY4PR17MB1368B68A2FC010C1A8CED289E6120@CY4PR17MB1368.namprd17.prod.outlook.com>
-References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
- <20180918162526.GA5038@lst.de>
- <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
- <20180918190834.GA26013@localhost.localdomain>
- <19b26262-686c-c778-7e01-488917537636@broadcom.com>
- <20180920063924.GG12913@lst.de>
- <CY4PR17MB1368B68A2FC010C1A8CED289E6120@CY4PR17MB1368.namprd17.prod.outlook.com>
-Message-ID: <20180921081914.GA16212@lst.de>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 21 Sep 2018 08:07:05 -0500
+Subject: [PATCH v6 02/13] PCI/P2PDMA: Add sysfs group to display p2pmem
+ stats
+In-Reply-To: <20180913001156.4115-3-logang@deltatee.com>
+References: <20180913001156.4115-1-logang@deltatee.com>
+ <20180913001156.4115-3-logang@deltatee.com>
+Message-ID: <20180921130705.GF224714@bhelgaas-glaptop.roam.corp.google.com>
 
-On Fri, Sep 21, 2018@08:15:14AM +0000, Susobhan Dey wrote:
-> I am trying to figure out is there any impact if we return BLK_STS_RESOURCE as ultimately it will land to multipather make request and eventually gets completed through multipather completion handler.
+On Wed, Sep 12, 2018@06:11:45PM -0600, Logan Gunthorpe wrote:
+> Add a sysfs group to display statistics about P2P memory that is
+> registered in each PCI device.
+> 
+> Attributes in the group display the total amount of P2P memory, the
+> amount available and whether it is published or not.
+> 
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 
-If we return BLK_STS_RESOURCE the block layer will keep retrying it
-on the same device until we hit the max retries count.  So yes, eventually
-it will go up to the multipath layer, but it will do so much delayed.
+Acked-by: Bjorn Helgaas <bhelgaas at google.com>
+
+> +What:		/sys/bus/pci/devices/.../p2pmem/available
+> +Date:		November 2017
+> +Contact:	Logan Gunthorpe <logang at deltatee.com>
+> +Description:
+> +		If the device has any Peer-to-Peer memory registered, this
+> +	        file contains the amount of memory that has not been
+> +		allocated (in decimal).
+> +
+> +What:		/sys/bus/pci/devices/.../p2pmem/size
+> +Date:		November 2017
+> +Contact:	Logan Gunthorpe <logang at deltatee.com>
+> +Description:
+> +		If the device has any Peer-to-Peer memory registered, this
+> +	        file contains the total amount of memory that the device
+> +		provides (in decimal).
+
+Maybe reorder this so the "size" (total amount) is documented before
+"available" (some subset of "size")?
+
+> +
+> +What:		/sys/bus/pci/devices/.../p2pmem/published
+> +Date:		November 2017
+> +Contact:	Logan Gunthorpe <logang at deltatee.com>
+> +Description:
+> +		If the device has any Peer-to-Peer memory registered, this
+> +	        file contains a '1' if the memory has been published for
+> +		use inside the kernel or a '0' if it is only intended
+> +		for use within the driver that published it.
+
+It doesn't read quite right to talk about "use within the driver that
+*published* it".  Is it really published in that case?  That sounds more
+like "private".  I expected something like the following (but I don't claim
+to understand the whole use model here):
+
+  ... this file contains a '1' if the memory has been published for use
+  outside the driver that owns the device.
