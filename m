@@ -1,135 +1,20 @@
 From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 21 Sep 2018 08:15:50 -0500
-Subject: [PATCH v6 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
- adjust the bus offset
-In-Reply-To: <20180913001156.4115-4-logang@deltatee.com>
+Date: Fri, 21 Sep 2018 08:00:10 -0500
+Subject: [PATCH v6 01/13] PCI/P2PDMA: Support peer-to-peer memory
+In-Reply-To: <ab733346-9518-ed68-492d-e52929586293@deltatee.com>
 References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-4-logang@deltatee.com>
-Message-ID: <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
+ <20180913001156.4115-2-logang@deltatee.com>
+ <20180920223829.GD224714@bhelgaas-glaptop.roam.corp.google.com>
+ <ab733346-9518-ed68-492d-e52929586293@deltatee.com>
+Message-ID: <20180921130010.GE224714@bhelgaas-glaptop.roam.corp.google.com>
 
-On Wed, Sep 12, 2018@06:11:46PM -0600, Logan Gunthorpe wrote:
-> The DMA address used when mapping PCI P2P memory must be the PCI bus
-> address. Thus, introduce pci_p2pmem_map_sg() to map the correct
-> addresses when using P2P memory. Memory mapped in this way does not
-> need to be unmapped.
-
-I think the use of "map" in this context is slightly confusing because the
-general expectation is that map/unmap must be balanced.
-
-I assume it's because the "mapping" consumes no resources, e.g., requires
-no page table entries.  Possibly there's a better verb than "map", e.g.,
-"convert", "convert_to_p2pdma", etc?
-
-If you keep "map", maybe add a sentence or two about why there's no
-corresponding unmap?
-
-> For this, we assume that an SGL passed to these functions contain all
-> P2P memory or no P2P memory.
+On Thu, Sep 20, 2018@04:47:49PM -0600, Logan Gunthorpe wrote:
+> On 2018-09-20 4:38 PM, Bjorn Helgaas wrote:
+> >> +#define pr_fmt(fmt) "pci-p2pdma: " fmt
+> > 
+> > Is pr_fmt() actually used anywhere?
 > 
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> It's used in a Patch 4 to print errors in the configfs helpers.
 
-Acked-by: Bjorn Helgaas <bhelgaas at google.com>
-
-> ---
->  drivers/pci/p2pdma.c       | 43 ++++++++++++++++++++++++++++++++++++++
->  include/linux/memremap.h   |  1 +
->  include/linux/pci-p2pdma.h |  7 +++++++
->  3 files changed, 51 insertions(+)
-> 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 67c1daf1189e..29bd40a87768 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -191,6 +191,8 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
->  	pgmap->res.flags = pci_resource_flags(pdev, bar);
->  	pgmap->ref = &pdev->p2pdma->devmap_ref;
->  	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
-> +	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
-> +		pci_resource_start(pdev, bar);
->  
->  	addr = devm_memremap_pages(&pdev->dev, pgmap);
->  	if (IS_ERR(addr)) {
-> @@ -813,3 +815,44 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
->  	pdev->p2pdma->p2pmem_published = publish;
->  }
->  EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-> +
-> +/**
-> + * pci_p2pdma_map_sg - map a PCI peer-to-peer scatterlist for DMA
-> + * @dev: device doing the DMA request
-> + * @sg: scatter list to map
-> + * @nents: elements in the scatterlist
-> + * @dir: DMA direction
-> + *
-> + * Scatterlists mapped with this function should not be unmapped in any way.
-> + *
-> + * Returns the number of SG entries mapped or 0 on error.
-> + */
-> +int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
-> +		      enum dma_data_direction dir)
-> +{
-> +	struct dev_pagemap *pgmap;
-> +	struct scatterlist *s;
-> +	phys_addr_t paddr;
-> +	int i;
-> +
-> +	/*
-> +	 * p2pdma mappings are not compatible with devices that use
-> +	 * dma_virt_ops. If the upper layers do the right thing
-> +	 * this should never happen because it will be prevented
-> +	 * by the check in pci_p2pdma_add_client()
-> +	 */
-> +	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_DMA_VIRT_OPS) &&
-> +			 dev->dma_ops == &dma_virt_ops))
-> +		return 0;
-> +
-> +	for_each_sg(sg, s, nents, i) {
-> +		pgmap = sg_page(s)->pgmap;
-> +		paddr = sg_phys(s);
-> +
-> +		s->dma_address = paddr - pgmap->pci_p2pdma_bus_offset;
-> +		sg_dma_len(s) = s->length;
-> +	}
-> +
-> +	return nents;
-> +}
-> +EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index 9553370ebdad..0ac69ddf5fc4 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -125,6 +125,7 @@ struct dev_pagemap {
->  	struct device *dev;
->  	void *data;
->  	enum memory_type type;
-> +	u64 pci_p2pdma_bus_offset;
->  };
->  
->  #ifdef CONFIG_ZONE_DEVICE
-> diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-> index 7b2b0f547528..2f03dbbf5af6 100644
-> --- a/include/linux/pci-p2pdma.h
-> +++ b/include/linux/pci-p2pdma.h
-> @@ -36,6 +36,8 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
->  					 unsigned int *nents, u32 length);
->  void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
->  void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
-> +int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
-> +		      enum dma_data_direction dir);
->  #else /* CONFIG_PCI_P2PDMA */
->  static inline int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar,
->  		size_t size, u64 offset)
-> @@ -98,5 +100,10 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
->  static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
->  {
->  }
-> +static inline int pci_p2pdma_map_sg(struct device *dev,
-> +		struct scatterlist *sg, int nents, enum dma_data_direction dir)
-> +{
-> +	return 0;
-> +}
->  #endif /* CONFIG_PCI_P2PDMA */
->  #endif /* _LINUX_PCI_P2P_H */
-> -- 
-> 2.19.0
-> 
+Ideally pr_fmt() would be added in the same patch that uses it, but
+obviously pretty trivial.
