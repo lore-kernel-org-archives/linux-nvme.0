@@ -1,60 +1,38 @@
 From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 21 Sep 2018 11:41:26 -0500
-Subject: [PATCH v6 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
- documentation
-In-Reply-To: <20180913001156.4115-7-logang@deltatee.com>
+Date: Fri, 21 Sep 2018 11:48:13 -0500
+Subject: [PATCH v6 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
+ adjust the bus offset
+In-Reply-To: <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-7-logang@deltatee.com>
-Message-ID: <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
+ <20180913001156.4115-4-logang@deltatee.com>
+ <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <20180921164813.GJ224714@bhelgaas-glaptop.roam.corp.google.com>
 
-On Wed, Sep 12, 2018@06:11:49PM -0600, Logan Gunthorpe wrote:
-> Add a restructured text file describing how to write drivers
-> with support for P2P DMA transactions. The document describes
-> how to use the APIs that were added in the previous few
-> commits.
+On Fri, Sep 21, 2018@08:15:50AM -0500, Bjorn Helgaas wrote:
+> On Wed, Sep 12, 2018@06:11:46PM -0600, Logan Gunthorpe wrote:
+> > The DMA address used when mapping PCI P2P memory must be the PCI bus
+> > address. Thus, introduce pci_p2pmem_map_sg() to map the correct
+> > addresses when using P2P memory. Memory mapped in this way does not
+> > need to be unmapped.
 > 
-> Also adds an index for the PCI documentation tree even though this
-> is the only PCI document that has been converted to restructured text
-> at this time.
+> I think the use of "map" in this context is slightly confusing because the
+> general expectation is that map/unmap must be balanced.
 > 
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> I assume it's because the "mapping" consumes no resources, e.g., requires
+> no page table entries.  Possibly there's a better verb than "map", e.g.,
+> "convert", "convert_to_p2pdma", etc?
+> 
+> If you keep "map", maybe add a sentence or two about why there's no
+> corresponding unmap?
 
-Acked-by: Bjorn Helgaas <bhelgaas at google.com>
+Another wrinkle is that "map" usually takes an A and gives you back a
+B.  Now the caller has both A and B and both are still valid.
 
-> +With the client list in hand, the orchestrator may then call
-> +:c:func:`pci_p2pmem_find()` to obtain a published P2P memory provider
-> +that is supported (behind the same root port) as all the clients. If more
-> +than one provider is supported, the one nearest to all the clients will
-> +be chosen first. If there are more than one provider is an equal distance
+Here we pass in an SGL and the SGL is transformed, so the caller only
+has B and A has been destroyed, i.e., the SGL can no longer be used as
+it was before, and there's no way to get A back.
 
-s/If there are more/If more/
+Maybe this is pointless bikeshedding, so if your color is the best,
+don't change anything.
 
-> +away, the one returned will be chosen at random. This function returns the PCI
-
-s/the one returned will be chosen at random/one will be chosen
-arbitrarily/ ?  (I doubt it's really random)
-
-> +device to use for the provider with a reference taken and therefore
-> +when it's no longer needed it should be returned with pci_dev_put().
-
-> +Struct Page Caveats
-> +-------------------
-> +
-> +Driver writers should be very careful about not passing these special
-> +struct pages to code that isn't prepared for it. At this time, the kernel
-> +interfaces do not have any checks for ensuring this. This obviously
-> +precludes passing these pages to userspace.
-
-Sounds like landmines here since the reader probably can't translate
-"code that isn't prepared for it" into a list of interfaces that are
-off-limits.  But that's a VM issue that is above my pay grade, so I'm
-not suggesting any change; just pointing out something that makes me
-wonder "hmmm..., how would I act on this?"
-
-> +P2P memory is also technically IO memory but should never have any side
-> +effects behind it. Thus, the order of loads and stores should not be important
-> +and ioreadX(), iowriteX() and friends should not be necessary.
-> +However, as the memory is not cache coherent, if access ever needs to
-> +be protected by a spinlock then :c:func:`mmiowb()` must be used before
-> +unlocking the lock. (See ACQUIRES VS I/O ACCESSES in
-> +Documentation/memory-barriers.txt)
+Bjorn
