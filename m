@@ -1,19 +1,28 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 21 Sep 2018 13:44:38 -0600
-Subject: [PATCH v6 04/13] PCI/P2PDMA: Introduce configfs/sysfs enable
- attribute helpers
-In-Reply-To: <20180921161858.GH224714@bhelgaas-glaptop.roam.corp.google.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 21 Sep 2018 14:47:00 -0500
+Subject: [PATCH v6 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <e9739430-b238-2078-a51f-d76bae5342d1@deltatee.com>
 References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-5-logang@deltatee.com>
- <20180921161858.GH224714@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <db325d7a-f3c7-a287-b2b7-3530ef75cd9f@deltatee.com>
+ <20180913001156.4115-7-logang@deltatee.com>
+ <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
+ <e9739430-b238-2078-a51f-d76bae5342d1@deltatee.com>
+Message-ID: <20180921194700.GM224714@bhelgaas-glaptop.roam.corp.google.com>
 
-On 2018-09-21 10:18 AM, Bjorn Helgaas wrote:
-> Where do these store/show functions get connected to sysfs?  I know
-> there's a lot of magic there, so apologies if I'm missing it.
+On Fri, Sep 21, 2018@12:03:12PM -0600, Logan Gunthorpe wrote:
+> On 2018-09-21 10:41 AM, Bjorn Helgaas wrote:
+> >> +away, the one returned will be chosen at random. This function returns the PCI
+> > 
+> > s/the one returned will be chosen at random/one will be chosen
+> > arbitrarily/ ?  (I doubt it's really random)
+> 
+> You're the second person to ask this, but yes, we really do it randomly.
+> Such that if there are multiple drivers getting resources they should be
+> evenly distributed. It's not the ideal solution but if it were to do it
+> arbitrarily then the code would likely return the same device all the
+> time and any additional devices would not get used.
 
-Well in this patch set they are used in configfs not sysfs. It's not
-magic, they are just helpers for other drivers. They are called in Patch
-13 by NVMe target's configfs functions.
+Ah, I see, I should have searched for "random" in that patch and answered
+my own question :)  Sorry for the noise.
 
-Logan
+Bjorn
