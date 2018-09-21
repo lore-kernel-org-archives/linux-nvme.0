@@ -1,22 +1,25 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 21 Sep 2018 14:01:13 -0600
-Subject: [PATCH v6 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
- adjust the bus offset
-In-Reply-To: <20180921200021.GN224714@bhelgaas-glaptop.roam.corp.google.com>
+Date: Fri, 21 Sep 2018 15:12:10 -0600
+Subject: [PATCH v6 04/13] PCI/P2PDMA: Introduce configfs/sysfs enable
+ attribute helpers
+In-Reply-To: <20180921161858.GH224714@bhelgaas-glaptop.roam.corp.google.com>
 References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-4-logang@deltatee.com>
- <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
- <20180921164813.GJ224714@bhelgaas-glaptop.roam.corp.google.com>
- <506dd00c-35e9-e285-bc97-c689c766b4cf@deltatee.com>
- <20180921200021.GN224714@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <cf4ead8f-9dde-ba3b-3c87-71f73cebee74@deltatee.com>
+ <20180913001156.4115-5-logang@deltatee.com>
+ <20180921161858.GH224714@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <736867f3-8b3e-2e8f-1929-60e5e3cba2b5@deltatee.com>
 
-On 2018-09-21 2:00 PM, Bjorn Helgaas wrote:
-> Ok.  I was assuming s->dma_address would have been already set before
-> the call and would be overwritten by pci_p2pmem_map_sg().  But I guess
-> that's not the case -- sounds like s->dma_address is undefined before
-> the call.
 
-Correct. It's set by whatever dma_map function operates on it.
+
+On 2018-09-21 10:18 a.m., Bjorn Helgaas wrote:
+> It'd be sort of nice if the contents of the sysfs file were valid
+> things you could put *back* into it.  But it looks like the contents
+> might be "none", which isn't valid for the store.  And the contents
+> are never "on" or "off".
+
+In fact, "none" would be accepted by strtobool() as a false (seeing it
+starts with 'n' and strtobool() only looks at the first character).
+However, per the rest of your feedback I've changed show() to report
+"0", "1" or  pci_name() and dropped "auto". This matches what the other
+strtobool configfs attributes are doing in NVMe target.
 
 Logan
