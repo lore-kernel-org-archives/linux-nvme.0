@@ -1,38 +1,90 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 21 Sep 2018 11:48:13 -0500
-Subject: [PATCH v6 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
- adjust the bus offset
-In-Reply-To: <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-4-logang@deltatee.com>
- <20180921131550.GG224714@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <20180921164813.GJ224714@bhelgaas-glaptop.roam.corp.google.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 21 Sep 2018 10:53:21 -0600
+Subject: linux-nvme: driver removal deadlock when device hot-removed
+In-Reply-To: <MWHPR08MB2671C87514045AC3D85AAA5BC9120@MWHPR08MB2671.namprd08.prod.outlook.com>
+References: <MWHPR08MB2671C87514045AC3D85AAA5BC9120@MWHPR08MB2671.namprd08.prod.outlook.com>
+Message-ID: <20180921165321.GA1405@localhost.localdomain>
 
-On Fri, Sep 21, 2018@08:15:50AM -0500, Bjorn Helgaas wrote:
-> On Wed, Sep 12, 2018@06:11:46PM -0600, Logan Gunthorpe wrote:
-> > The DMA address used when mapping PCI P2P memory must be the PCI bus
-> > address. Thus, introduce pci_p2pmem_map_sg() to map the correct
-> > addresses when using P2P memory. Memory mapped in this way does not
-> > need to be unmapped.
+On Fri, Sep 21, 2018@04:32:19PM +0000, Michael Schoberg (mschoberg) wrote:
+> I'm not sure if this is the correct forum, but hopefully someone can
+> help instruct me on how to proceed towards resolving this issue.
 > 
-> I think the use of "map" in this context is slightly confusing because the
-> general expectation is that map/unmap must be balanced.
+> I'm working on a problem that occurs when a nvme device is hot-removed
+> while IO is occurring.? I see a driver deadlock during recovery or
+> more precisely, the removal of the driver instance during the recovery
+> attempt.? What seems to be happening is when the system calls the nvme
+> timeout routine, it eventually calls outside the driver and runs into
+> a mutex deadlock.? I'm running with a 4.18.8 kernel:
 > 
-> I assume it's because the "mapping" consumes no resources, e.g., requires
-> no page table entries.  Possibly there's a better verb than "map", e.g.,
-> "convert", "convert_to_p2pdma", etc?
+> The code path appears as follows (note - the device has been removed
+> so there is no possibility of it being recovered):
 > 
-> If you keep "map", maybe add a sentence or two about why there's no
-> corresponding unmap?
+> 	nvme_timeout --> nvme_warn_reset
 
-Another wrinkle is that "map" usually takes an A and gives you back a
-B.  Now the caller has both A and B and both are still valid.
+We shouldn't get to nvme_timeout on a surprise removal. If you have
+native pcie hotplug capable slots, the path ought to be:
 
-Here we pass in an SGL and the SGL is transformed, so the caller only
-has B and A has been destroyed, i.e., the SGL can no longer be used as
-it was before, and there's no way to get A back.
+  pciehp_isr
+   remove_board
+    pciehp_unconfigure_device
+     pci_remove_bus_device
+      device_release_driver
+       nvme_remove
+        nvme_disable
 
-Maybe this is pointless bikeshedding, so if your color is the best,
-don't change anything.
+And that should immediately clear outstanding IO and prevent new IO from
+entering the driver.
 
-Bjorn
+Given what you're observing, I think your situation must be one of the
+following:
+
+ 1. You don't have pcie hotplug capable hardware
+ 2. You don't have a pcie hotplug capable kernel 
+ 3. You are not using native PCIe hotplug with your platform
+ 
+> 	nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> 
+> *The pci_read_config_word() returns PCIBIOS_SUCCESSFUL when the
+> returned values show the device is detached.? I'm not quite sure how
+> the configuration read works with a detached device, but it's pretty
+> clear the returned values are not valid.
+
+Since you're seeing PCIBIOS_SUCCESSFUL, the host is actually dispatching
+the config request to a non-existent device. The reply will be a PCIe
+Unsupported Request since there is nothing backing the address you're
+trying to read, and you will see this as an "all 1's completion" with
+no other indication of failure.
+
+> Within nvme_timeout(), it begins the process to reset the controller:
+> 
+> 	nvme_reset_ctrl --> nvme_reset_work --> nvme_remove_dead_ctrl --> nvme_kill_queues --> nvme_set_queue_dying --> revalidate_disk
+> 
+> The thread hits a mutex deadlock after returning back to fs/block_dev.c::revalidate_disk():? mutex_lock(&bdev->bd_mutex)
+> 
+> This is the point where the driver appears completely stuck and never
+> recovers.? A power cycle or system reset is required to restore
+> operation (reboot or shutdown hangs).? I'm not sure what within
+> block_dev.c is holding bd_mutex that would cause the deadlock and
+> therefore it's very possible there is a cleaner solution than what I
+> am using.
+
+I'm not sure what could be holding it either. Maybe it's a task waiting
+for an entered request to complete, in which case we should have the
+nvme driver drain entered requests to failure in this path. The following
+should be safe:
+
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 800ee9b345f3..7c1330986a6c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2233,7 +2233,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 	dev_warn(dev->ctrl.device, "Removing after probe failure status: %d\n", status);
+ 
+ 	nvme_get_ctrl(&dev->ctrl);
+-	nvme_dev_disable(dev, false);
++	nvme_dev_disable(dev, true);
+ 	nvme_kill_queues(&dev->ctrl);
+ 	if (!queue_work(nvme_wq, &dev->remove_work))
+ 		nvme_put_ctrl(&dev->ctrl);
+--
