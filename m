@@ -1,76 +1,37 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 21 Sep 2018 07:48:43 +0200
-Subject: [PATCHv3 0/5] genhd: register default groups with
- device_add_disk()
-In-Reply-To: <20180905070053.26239-1-hare@suse.de>
-References: <20180905070053.26239-1-hare@suse.de>
-Message-ID: <20180921054843.GA13157@lst.de>
+From: hch@lst.de (hch@lst.de)
+Date: Fri, 21 Sep 2018 09:05:54 +0200
+Subject: [PATCH] nvme-fabrics -in case of REQ_NVME_MPATH we should
+ return BLK_STS_RESOURCE
+In-Reply-To: <41fde3c0-076f-ca4d-79ed-2d86d25ac94f@broadcom.com>
+References: <CY4PR17MB1368DE7C1E52DF30E17060BBE61D0@CY4PR17MB1368.namprd17.prod.outlook.com>
+ <20180918162526.GA5038@lst.de>
+ <2866a0d5-9864-a2fd-572b-6e6f2c581de5@broadcom.com>
+ <20180918190834.GA26013@localhost.localdomain>
+ <19b26262-686c-c778-7e01-488917537636@broadcom.com>
+ <20180920063924.GG12913@lst.de>
+ <41fde3c0-076f-ca4d-79ed-2d86d25ac94f@broadcom.com>
+Message-ID: <20180921070554.GB14529@lst.de>
 
-Can you resend this with the one easy fixup pointed out?  It would
-be good to finally get the race fix merged.
+On Thu, Sep 20, 2018@04:39:24PM -0700, James Smart wrote:
+>> The multipath code handles failures from nvme_complete_rq just fine,
+>> in fact even with this patch we still don't accept the command into
+>> queue_rq.  It is just that BLK_STS_RESOURCE is a magic indicator
+>> for the blk-mq core to retry internally and not hand it back to the
+>> next higher level (which would be the multipath code, either nvme
+>> or dm for that matter).
+>
+> your response is a bit cryptic
 
-On Wed, Sep 05, 2018@09:00:48AM +0200, Hannes Reinecke wrote:
-> device_add_disk() doesn't allow to register with default sysfs groups,
-> which introduces a race with udev as these groups have to be created after
-> the uevent has been sent.
-> This patchset updates device_add_disk() to accept a 'groups' argument to
-> avoid this race and updates the obvious drivers to use it.
-> There are some more drivers which might benefit from this (eg loop or md),
-> but the interface is not straightforward so I haven't attempted it.
-> 
-> As usual, comments and reviews are welcome.
-> 
-> Changes to v2:
-> - Fold lightnvm attributes into the generic attribute group as
->   suggested by Bart
-> 
-> Changes to v1:
-> - Drop first patch
-> - Convert lightnvm sysfs attributes as suggested by Bart
-> 
-> Hannes Reinecke (5):
->   block: genhd: add 'groups' argument to device_add_disk
->   nvme: register ns_id attributes as default sysfs groups
->   aoe: use device_add_disk_with_groups()
->   zram: register default groups with device_add_disk()
->   virtio-blk: modernize sysfs attribute creation
-> 
->  arch/um/drivers/ubd_kern.c          |   2 +-
->  block/genhd.c                       |  19 +++++--
->  drivers/block/aoe/aoe.h             |   1 -
->  drivers/block/aoe/aoeblk.c          |  21 +++----
->  drivers/block/aoe/aoedev.c          |   1 -
->  drivers/block/floppy.c              |   2 +-
->  drivers/block/mtip32xx/mtip32xx.c   |   2 +-
->  drivers/block/ps3disk.c             |   2 +-
->  drivers/block/ps3vram.c             |   2 +-
->  drivers/block/rsxx/dev.c            |   2 +-
->  drivers/block/skd_main.c            |   2 +-
->  drivers/block/sunvdc.c              |   2 +-
->  drivers/block/virtio_blk.c          |  68 +++++++++++++----------
->  drivers/block/xen-blkfront.c        |   2 +-
->  drivers/block/zram/zram_drv.c       |  28 +++-------
->  drivers/ide/ide-cd.c                |   2 +-
->  drivers/ide/ide-gd.c                |   2 +-
->  drivers/memstick/core/ms_block.c    |   2 +-
->  drivers/memstick/core/mspro_block.c |   2 +-
->  drivers/mmc/core/block.c            |   2 +-
->  drivers/mtd/mtd_blkdevs.c           |   2 +-
->  drivers/nvdimm/blk.c                |   2 +-
->  drivers/nvdimm/btt.c                |   2 +-
->  drivers/nvdimm/pmem.c               |   2 +-
->  drivers/nvme/host/core.c            |  21 +++----
->  drivers/nvme/host/lightnvm.c        | 106 +++++++++++++++---------------------
->  drivers/nvme/host/multipath.c       |  15 ++---
->  drivers/nvme/host/nvme.h            |  10 +---
->  drivers/s390/block/dasd_genhd.c     |   2 +-
->  drivers/s390/block/dcssblk.c        |   2 +-
->  drivers/s390/block/scm_blk.c        |   2 +-
->  drivers/scsi/sd.c                   |   2 +-
->  drivers/scsi/sr.c                   |   2 +-
->  include/linux/genhd.h               |   5 +-
->  34 files changed, 151 insertions(+), 190 deletions(-)
-> 
-> -- 
-> 2.16.4
----end quoted text---
+Or confused.  I meant handles failures from nvme_*queue_rq just fine
+above.
+
+> I agree with you - that nvme_complete_rq() handles it fine. But in the path 
+> where the transport->queue_rq() is called, and the io is bounced due to 
+> controller state checks, nvme_complete_rq() isn't being called.? If 
+> queue_rq() return BLK_STS_RESOURCE, its ok as the io gets requeued in 
+> blk-mq, but it could sit there for 60s or so. But if queue_rq() see the io 
+> marked NVME_MPATH, it returns BLK_STS_IOERR? (blk_mq_complete_request() 
+> isn't called), and the blk-mq layer ends up calling blk_mq_end_request().
+
+Yes.  And that is probably why the current code is doing the right(-ish)
+thing.
