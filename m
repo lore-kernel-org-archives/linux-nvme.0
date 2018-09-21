@@ -1,24 +1,60 @@
-From: mschoberg@micron.com (Michael Schoberg (mschoberg))
-Date: Fri, 21 Sep 2018 16:32:19 +0000
-Subject: linux-nvme: driver removal deadlock when device hot-removed
-Message-ID: <MWHPR08MB2671C87514045AC3D85AAA5BC9120@MWHPR08MB2671.namprd08.prod.outlook.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 21 Sep 2018 11:41:26 -0500
+Subject: [PATCH v6 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
+ documentation
+In-Reply-To: <20180913001156.4115-7-logang@deltatee.com>
+References: <20180913001156.4115-1-logang@deltatee.com>
+ <20180913001156.4115-7-logang@deltatee.com>
+Message-ID: <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
 
-I'm not sure if this is the correct forum, but hopefully someone can help instruct me on how to proceed towards resolving this issue.
+On Wed, Sep 12, 2018@06:11:49PM -0600, Logan Gunthorpe wrote:
+> Add a restructured text file describing how to write drivers
+> with support for P2P DMA transactions. The document describes
+> how to use the APIs that were added in the previous few
+> commits.
+> 
+> Also adds an index for the PCI documentation tree even though this
+> is the only PCI document that has been converted to restructured text
+> at this time.
+> 
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 
-I'm working on a problem that occurs when a nvme device is hot-removed while IO is occurring.? I see a driver deadlock during recovery or more precisely, the removal of the driver instance during the recovery attempt.? What seems to be happening is when the system calls the nvme timeout routine, it eventually calls outside the driver and runs into a mutex deadlock.? I'm running with a 4.18.8 kernel:
+Acked-by: Bjorn Helgaas <bhelgaas at google.com>
 
-The code path appears as follows (note - the device has been removed so there is no possibility of it being recovered):
+> +With the client list in hand, the orchestrator may then call
+> +:c:func:`pci_p2pmem_find()` to obtain a published P2P memory provider
+> +that is supported (behind the same root port) as all the clients. If more
+> +than one provider is supported, the one nearest to all the clients will
+> +be chosen first. If there are more than one provider is an equal distance
 
-	nvme_timeout --> nvme_warn_reset
+s/If there are more/If more/
 
-	nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0xffff
+> +away, the one returned will be chosen at random. This function returns the PCI
 
-*The pci_read_config_word() returns PCIBIOS_SUCCESSFUL when the returned values show the device is detached.? I'm not quite sure how the configuration read works with a detached device, but it's pretty clear the returned values are not valid.
+s/the one returned will be chosen at random/one will be chosen
+arbitrarily/ ?  (I doubt it's really random)
 
-Within nvme_timeout(), it begins the process to reset the controller:
+> +device to use for the provider with a reference taken and therefore
+> +when it's no longer needed it should be returned with pci_dev_put().
 
-	nvme_reset_ctrl --> nvme_reset_work --> nvme_remove_dead_ctrl --> nvme_kill_queues --> nvme_set_queue_dying --> revalidate_disk
+> +Struct Page Caveats
+> +-------------------
+> +
+> +Driver writers should be very careful about not passing these special
+> +struct pages to code that isn't prepared for it. At this time, the kernel
+> +interfaces do not have any checks for ensuring this. This obviously
+> +precludes passing these pages to userspace.
 
-The thread hits a mutex deadlock after returning back to fs/block_dev.c::revalidate_disk():? mutex_lock(&bdev->bd_mutex)
+Sounds like landmines here since the reader probably can't translate
+"code that isn't prepared for it" into a list of interfaces that are
+off-limits.  But that's a VM issue that is above my pay grade, so I'm
+not suggesting any change; just pointing out something that makes me
+wonder "hmmm..., how would I act on this?"
 
-This is the point where the driver appears completely stuck and never recovers.? A power cycle or system reset is required to restore operation (reboot or shutdown hangs).? I'm not sure what within block_dev.c is holding bd_mutex that would cause the deadlock and therefore it's very possible there is a cleaner solution than what I am using.
+> +P2P memory is also technically IO memory but should never have any side
+> +effects behind it. Thus, the order of loads and stores should not be important
+> +and ioreadX(), iowriteX() and friends should not be necessary.
+> +However, as the memory is not cache coherent, if access ever needs to
+> +be protected by a spinlock then :c:func:`mmiowb()` must be used before
+> +unlocking the lock. (See ACQUIRES VS I/O ACCESSES in
+> +Documentation/memory-barriers.txt)
