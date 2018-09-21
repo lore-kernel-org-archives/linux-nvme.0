@@ -1,13 +1,19 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 21 Sep 2018 13:31:40 -0600
-Subject: [PATCH 1/4] nvme-cli: tests: fix fw_log test coding style
-In-Reply-To: <1537578355-6828-1-git-send-email-dong.ho@wdc.com>
-References: <1537578355-6828-1-git-send-email-dong.ho@wdc.com>
-Message-ID: <20180921193140.GA1878@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 21 Sep 2018 13:44:38 -0600
+Subject: [PATCH v6 04/13] PCI/P2PDMA: Introduce configfs/sysfs enable
+ attribute helpers
+In-Reply-To: <20180921161858.GH224714@bhelgaas-glaptop.roam.corp.google.com>
+References: <20180913001156.4115-1-logang@deltatee.com>
+ <20180913001156.4115-5-logang@deltatee.com>
+ <20180921161858.GH224714@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <db325d7a-f3c7-a287-b2b7-3530ef75cd9f@deltatee.com>
 
-On Fri, Sep 21, 2018@06:06:51PM +0000, Dong Ho wrote:
-> Simplified and fixed coding style to conform with the style of all other tests.
-> 
-> Signed-off-by: Dong Ho <dong.ho at wdc.com>
+On 2018-09-21 10:18 AM, Bjorn Helgaas wrote:
+> Where do these store/show functions get connected to sysfs?  I know
+> there's a lot of magic there, so apologies if I'm missing it.
 
-Thanks, series applied.
+Well in this patch set they are used in configfs not sysfs. It's not
+magic, they are just helpers for other drivers. They are called in Patch
+13 by NVMe target's configfs functions.
+
+Logan
