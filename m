@@ -1,46 +1,173 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 21 Sep 2018 12:03:12 -0600
-Subject: [PATCH v6 06/13] PCI/P2PDMA: Add P2P DMA driver writer's
- documentation
-In-Reply-To: <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
-References: <20180913001156.4115-1-logang@deltatee.com>
- <20180913001156.4115-7-logang@deltatee.com>
- <20180921164126.GI224714@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <e9739430-b238-2078-a51f-d76bae5342d1@deltatee.com>
+From: Dong.Ho@wdc.com (Dong Ho)
+Date: Fri, 21 Sep 2018 18:06:51 +0000
+Subject: [PATCH 1/4] nvme-cli: tests: fix fw_log test coding style
+Message-ID: <1537578355-6828-1-git-send-email-dong.ho@wdc.com>
 
-On 2018-09-21 10:41 AM, Bjorn Helgaas wrote:
->> +away, the one returned will be chosen at random. This function returns the PCI
-> 
-> s/the one returned will be chosen at random/one will be chosen
-> arbitrarily/ ?  (I doubt it's really random)
+Simplified and fixed coding style to conform with the style of all other tests.
 
-You're the second person to ask this, but yes, we really do it randomly.
-Such that if there are multiple drivers getting resources they should be
-evenly distributed. It's not the ideal solution but if it were to do it
-arbitrarily then the code would likely return the same device all the
-time and any additional devices would not get used.
+Signed-off-by: Dong Ho <dong.ho at wdc.com>
+---
+ tests/nvme_fw_log_test.py | 138 +++++++++++++---------------------------------
+ 1 file changed, 39 insertions(+), 99 deletions(-)
 
->> +Struct Page Caveats
->> +-------------------
->> +
->> +Driver writers should be very careful about not passing these special
->> +struct pages to code that isn't prepared for it. At this time, the kernel
->> +interfaces do not have any checks for ensuring this. This obviously
->> +precludes passing these pages to userspace.
-> 
-> Sounds like landmines here since the reader probably can't translate
-> "code that isn't prepared for it" into a list of interfaces that are
-> off-limits.  But that's a VM issue that is above my pay grade, so I'm
-> not suggesting any change; just pointing out something that makes me
-> wonder "hmmm..., how would I act on this?"
-
-Yes, these are big landmines. These are the problems we have been
-fighting with trying to get P2P memory into the kernel and the first
-step seems to have settled on the developer using them has to be careful
-and ensure they are only sent to paths that are used correctly. This
-series does these things in the block layer and RDMA interface, but due
-to Jens not wanting to add warnings to the common code, it's still
-possible for a developer to code something that sends these pages to
-block devices that are not prepared for it.
-
-Logan
+diff --git a/tests/nvme_fw_log_test.py b/tests/nvme_fw_log_test.py
+index 40b2685..cf01307 100644
+--- a/tests/nvme_fw_log_test.py
++++ b/tests/nvme_fw_log_test.py
+@@ -16,115 +16,55 @@
+ # MA  02110-1301, USA.
+ #
+ #   Author: Madhusudhana S.J <madhusudhana.sj at wdc.com>
++#   Author: Dong Ho <dong.ho at wdc.com>
+ #
+ """
+-NVMe nvme-fw-log  Testcase:-
++NVMe Firmware Log Testcase :-
+ 
+-    1. Send NVMe Firmware log page request, returns result and log
+-    2. Retrieves the NVMe Firmware log page from an NVMe device and report format to normal, json, or binary
+-    3. Retrieve the firmware log for the specified device in either decoded format(default) or binary
++    1. Execute fw-log on a device.
+ """
+ 
+ import subprocess
+ from nose.tools import assert_equal
+ from nvme_test import TestNVMe
+-import time
+ 
+-class TestNVMe_fw_log(TestNVMe):
+ 
+-	"""
+-	Represents Firmware log testcase.
++class TestNVMeFwLogCmd(TestNVMe):
+ 
+-        - Attributes:
+-                     - nvme-fw-log : list of Firmware log page request actions.     
+-	"""
+-	def __init__(self):
+-         	""" Pre Section for TestNVMe_fw_log mandatory Actions """
+-		TestNVMe.__init__(self)
+-        	self.setup_log_dir(self.__class__.__name__)
+-        	self.fw_log_action_list = ["--raw-binary", "-b"]
+-        	self.fw_log_outtput_format_list = ["normal", "json","binary"]
+-	
+-	def __del__(self):
+-		""" Post Section for TestNVMe_fw_log mandatory Actions
++    """
++    Represents NVMe Firmware Log test.
++    """
+ 
+-            	     Call super class's destructor.
+-		"""
+-		TestNVMe.__del__(self)
+- 
+-	def get_fw_log(self):
+-        	""" Wrapper for NVMe fw_log  command
+-                - Args:
+-                       - fw-log: NVMe character device to be used to check the fw-log page.
+-                - Returns: None
+-        	"""
+-        	get_fw_log_cmd = "nvme fw-log /dev/nvme0"
+-		print "nvme fw-log command :",get_fw_log_cmd, "\n"
+-		proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
+-		fw_log_output = proc.communicate()[0]
+-		print "command_output : "
+-		print fw_log_output, "\n"
+-        	assert_equal(proc.wait(), 0)
+- 
+-	def get_mandetory_fw_log_action(self,fw_log_action):
+-			""" Wrapper for NVMe fw-log  command 
+-				- Args: NVMe character device ex: /dev/nvme0
+-				- nvme-fw-log : list of Firmware log page request actions.
+-				- Returns: None
+-			"""
+-			print "fw_log_action value:", fw_log_action
+-			if str(fw_log_action) in ["-b","--raw-binary"]:
+-				get_fw_log_cmd = "nvme fw-log /dev/nvme0" + " " +  fw_log_action + " | hexdump -C"
+-				print "get_fw_log_cmd with binary :",get_fw_log_cmd,"\n"
+-				proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
+-				fw_log_output = proc.communicate()[0]
+-				print "command_output : "
+-				print fw_log_output, "\n"
+-				assert_equal(proc.wait(), 0)
+-			else:
+-				get_fw_log_cmd = "nvme fw-log /dev/nvme0" 
+-				print "command executing to retrive fw log :",get_fw_log_cmd
+-               			proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
+-                		fw_log_output = proc.communicate()[0]
+-				print "command_output : "
+-				print fw_log_output, "\n"
+-                        assert_equal(proc.wait(), 0)
+-	def get_mandetory_fw_log_outputformat(self,fw_log_outputformat):
+-                        """ Wrapper for NVMe FW-LOG command
+-                                - Args:
+-                                - fw_log_action : output format  to be used with fw-log command.
+-                                - Returns: None
+-                        """
+-                        print "fw_log_outputformat Type:", fw_log_outputformat
+-                        if str(fw_log_outputformat) == "binary":
+-                                get_fw_log_cmd = "nvme fw-log /dev/nvme0 " + " --output-format=binary | hexdump -C"
+-                                print "get_fw_log command with output format:",get_fw_log_cmd
+-				print "\n"
+-                                proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
+-                                fw_log_output = proc.communicate()[0]
+-                                print "command_output : "
+-                                print fw_log_output, "\n"
+-                                assert_equal(proc.wait(), 0)
+-                        else:
+-                                get_fw_log_cmd = "nvme fw-log /dev/nvme0 " + " --output-format=" + fw_log_outputformat
+-                                print "command executing to get fw_log of the given NVMe device :",get_fw_log_cmd
+-                                proc = subprocess.Popen(get_fw_log_cmd,shell=True,stdout=subprocess.PIPE)
+-                                fw_log_output = proc.communicate()[0]
+-                                print "command_output : "
+-                                print fw_log_output, "\n"
+-                                assert_equal(proc.wait(), 0)
++    def __init__(self):
++        """ Pre Section for TestNVMeFwLogCmd. """
++        TestNVMe.__init__(self)
++        self.setup_log_dir(self.__class__.__name__)
+ 
+-	def test_fw_log_actions(self):
+-        		""" Testcase main """ 
+-			print "calling main function ..!"
+-			self.get_fw_log()
+-       			for fw_log_action in self.fw_log_action_list:
+-				if str(fw_log_action) in ["-b", "--raw-binary"]:
+-					self.get_mandetory_fw_log_action(fw_log_action)
+-				else:
+-					self.get_mandetory_fw_log_action(fw_log_action)
+-			for fw_log_outputformat in self.fw_log_outtput_format_list:
+-				if str(fw_log_outputformat) == "binary":
+-					self.get_mandetory_fw_log_outputformat(fw_log_outputformat)
+-				else:
+-					self.get_mandetory_fw_log_outputformat(fw_log_outputformat)
++    def __del__(self):
++        """
++        Post Section for TestNVMeSimpleTestTemplate.
++
++            - Call super class's destructor.
++        """
++        TestNVMe.__del__(self)
++
++    def get_fw_log(self):
++        """ Wrapper for executing nvme fw-log.
++            - Args:
++                - None
++            - Returns:
++                - 0 on success, error code on failure.
++        """
++        err = 0
++        fw_log_cmd = "nvme fw-log " + self.ctrl
++        proc = subprocess.Popen(fw_log_cmd,
++                                shell=True,
++                                stdout=subprocess.PIPE)
++        fw_log_output = proc.communicate()[0]
++        print fw_log_output + "\n"
++        err = proc.wait()
++        return err
++
++    def test_fw_log(self):
++        """ Testcase main """
++        assert_equal(self.get_fw_log(), 0)
+-- 
+1.8.3.1
