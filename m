@@ -1,54 +1,75 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 24 Sep 2018 02:40:59 -0700
-Subject: [PATCH v2] NVMe multipath Added configarable failover progression
- time
-In-Reply-To: <20180924073111.17132-1-susobhan.dey@gmail.com>
-References: <f7534931-eb78-aa7c-6ede-a617d8258e37@grimberg.me>
- <20180924073111.17132-1-susobhan.dey@gmail.com>
-Message-ID: <8291dced-f23a-0fce-c550-fa2129dbf3f1@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 24 Sep 2018 11:32:50 +0200
+Subject: [PATCH] nvme: call nvme_complete_rq on NVME_MPATH failures
+In-Reply-To: <20180921184920.12902-1-jsmart2021@gmail.com>
+References: <20180921184920.12902-1-jsmart2021@gmail.com>
+Message-ID: <2b1f30b5-a07c-6e67-9d87-abb797747410@suse.de>
 
+On 9/21/18 8:49 PM, James Smart wrote:
+> When an io is rejected by nvmf_check_ready() due to validation of
+> the controller state, the nvmf_fail_nonready_command() will normally
+> return BLK_STS_RESOURCE to requeue and retry. However, if the
+> controller is dying or the io is marked for NVME multipath, the io
+> is failed so that the controller can terminate or so that the io can
+> be issued on a different path. Unfortunately, as this reject point
+> is before the transport has accepted the command, blk-mq ends up
+> completing the io and never calls nvme_complete_rq(), which is where
+> multipath may preserve/re-route the io. The end result is, the device
+> user ends up seeing an EIO error.
+> 
+> Example: single path connectivity, controller is under load, and a
+> reset is induced. An i/o is received: a) while the reset state has
+> been set but the queues have yet to be stopped; or b) after queues
+> are started (at end of reset) but before the reconnect has completed.
+> The io finishes with an EIO status.
+> 
+> This patch modifies the reject point such that it appears to queue
+> successfully, but actually completes the io with an error and calls
+> nvme_complete_rq().
+> 
+> Signed-off-by: James Smart <jsmart2021 at gmail.com>
+> ---
+>   drivers/nvme/host/fabrics.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index 206d63cb1afc..ed4b8e8e0249 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -548,11 +548,20 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
+>   blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+>   		struct request *rq)
+>   {
+> +	struct nvme_request *nvmerq = nvme_req(rq);
+> +
+>   	if (ctrl->state != NVME_CTRL_DELETING &&
+>   	    ctrl->state != NVME_CTRL_DEAD &&
+>   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+>   		return BLK_STS_RESOURCE;
+> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+> +
+> +	nvmerq->status = NVME_SC_ABORT_REQ;
+> +	nvmerq->result.u64 = 0;
+> +	if (rq->cmd_flags & REQ_NVME_MPATH) {
+> +		blk_mq_start_request(rq);
+> +		nvme_complete_rq(rq);
+> +		return BLK_STS_OK;
+> +	}
+>   	return BLK_STS_IOERR;
+>   }
+>   EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
+> 
+Shouldn't we use '0x371' (as per TP 4028) for this?
+Description said 'Command Aborted By host: The command was aborted as a 
+result of host action (e.g., the host disconnected the Fabric 
+connection).' which seem to be a pretty good match ...
 
-> Added a module parameter failover_tt to tell multipather
-> how long it should wait before sending commands to next
-> available path. The whole reason of adding it, not all
-> architecture can handle IOs in active/active fashion even
-> though next path is live/accessible it can't handle IOs
-> immediately.
+Cheers,
 
-Then it shouldn't be exposed as a path to the host.
-
-> We should give some time to underneath controller
-> to make itself active.
-
-If its not active, don't have the host connected to it
-in the first place. Otherwise, block the I/O on the controller
-end until it gets into shape. non-optimized state semantics tells the
-host that I/O service will not be optimal through that path, so
-it should be well expected.
-
-> ANA gives them the provision,using ANA
-> it is possible to advertise path status.
-
-Its not status, its state.
-
-> Say for example if
-> path is in transition then host will requeue the commands till
-> path become optimized/unoptimized if no other path is optimized.
-> So this is a host side additional provision where multipather
-> will wait for sometime for example 10 sec and by that time controller
-> should be active to handle IOs.
-
-I'm sorry, but there is no justification for this sort of bogus setting.
-If you have a proposal to address some architecture that asks the host
-to block I/O although it has an available path, please propose a
-technical proposal and make it a standard extension that can be
-interrogated by the host.
-
-Adding a global knob in the form of a modparam is a non-starter.
-
-> Whole point is controller is live
-> does not necessarily mean that controller is active.
-
-Then what does it mean? its enabled, allocated I/O queues, contains
-namespaces, exposes ANA states etc.. It should be capable of servicing
-I/O.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
