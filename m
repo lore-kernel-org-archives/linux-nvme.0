@@ -1,48 +1,20 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 24 Sep 2018 12:33:05 +0200
-Subject: [PATCH] nvme: call nvme_complete_rq on NVME_MPATH failures
-In-Reply-To: <16d6e0a9-0710-4bee-0638-b4e17d994a54@suse.de>
-References: <20180921184920.12902-1-jsmart2021@gmail.com>
- <16d6e0a9-0710-4bee-0638-b4e17d994a54@suse.de>
-Message-ID: <c15c6346-ab61-6f97-41d5-46b390647d09@suse.de>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Mon, 24 Sep 2018 07:04:22 -0700
+Subject: Kernel v4.19-rc4 KASAN complaint
+In-Reply-To: <6b1a7562-2aa1-c5ff-5dd4-c7a6f7af3697@grimberg.me>
+References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+ <20180920071040.GA8685@infradead.org>
+ <6b1a7562-2aa1-c5ff-5dd4-c7a6f7af3697@grimberg.me>
+Message-ID: <ce9ff005-5b51-af6f-73b5-7aa7372ca83e@acm.org>
 
-On 9/24/18 11:57 AM, Hannes Reinecke wrote:
-> On 9/21/18 8:49 PM, James Smart wrote:
-> [ .. ]
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 206d63cb1afc..ed4b8e8e0249 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -548,11 +548,20 @@ static struct nvmf_transport_ops 
->> *nvmf_lookup_transport(
->> ? blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
->> ????????? struct request *rq)
->> ? {
->> +??? struct nvme_request *nvmerq = nvme_req(rq);
->> +
->> ????? if (ctrl->state != NVME_CTRL_DELETING &&
->> ????????? ctrl->state != NVME_CTRL_DEAD &&
->> ????????? !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
->> ????????? return BLK_STS_RESOURCE;
->> -??? nvme_req(rq)->status = NVME_SC_ABORT_REQ;
->> +
->> +??? nvmerq->status = NVME_SC_ABORT_REQ;
->> +??? nvmerq->result.u64 = 0;
->> +??? if (rq->cmd_flags & REQ_NVME_MPATH) {
->> +??????? blk_mq_start_request(rq);
->> +??????? nvme_complete_rq(rq);
->> +??????? return BLK_STS_OK;
-> 
-> BLK_STS_TRANSPORT ?
-> 
-Ah, no. Not a good idea :-)
+On 9/23/18 9:27 PM, Sagi Grimberg wrote:
+> Did this get resolved?
 
-Cheers,
+Not yet unfortunately.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+> Bart, did this reproduce with nvme.multipath=1? or was it disabled?
+
+The nvmeof-mp tests only work with CONFIG_NVME_MULTIPATH enabled. Is the 
+nvme.multipath parameter relevant in that mode?
+
+Bart.
