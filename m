@@ -1,68 +1,75 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 24 Sep 2018 11:32:50 +0200
+Date: Mon, 24 Sep 2018 11:51:07 +0200
 Subject: [PATCH] nvme: call nvme_complete_rq on NVME_MPATH failures
-In-Reply-To: <20180921184920.12902-1-jsmart2021@gmail.com>
+In-Reply-To: <24baa855-d70a-55bc-5231-9f273e65d392@grimberg.me>
 References: <20180921184920.12902-1-jsmart2021@gmail.com>
-Message-ID: <2b1f30b5-a07c-6e67-9d87-abb797747410@suse.de>
+ <24baa855-d70a-55bc-5231-9f273e65d392@grimberg.me>
+Message-ID: <7144267c-a158-b6dc-4265-103a2236b5ad@suse.de>
 
-On 9/21/18 8:49 PM, James Smart wrote:
-> When an io is rejected by nvmf_check_ready() due to validation of
-> the controller state, the nvmf_fail_nonready_command() will normally
-> return BLK_STS_RESOURCE to requeue and retry. However, if the
-> controller is dying or the io is marked for NVME multipath, the io
-> is failed so that the controller can terminate or so that the io can
-> be issued on a different path. Unfortunately, as this reject point
-> is before the transport has accepted the command, blk-mq ends up
-> completing the io and never calls nvme_complete_rq(), which is where
-> multipath may preserve/re-route the io. The end result is, the device
-> user ends up seeing an EIO error.
+On 9/24/18 5:59 AM, Sagi Grimberg wrote:
 > 
-> Example: single path connectivity, controller is under load, and a
-> reset is induced. An i/o is received: a) while the reset state has
-> been set but the queues have yet to be stopped; or b) after queues
-> are started (at end of reset) but before the reconnect has completed.
-> The io finishes with an EIO status.
+>> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+>> index 206d63cb1afc..ed4b8e8e0249 100644
+>> --- a/drivers/nvme/host/fabrics.c
+>> +++ b/drivers/nvme/host/fabrics.c
+>> @@ -548,11 +548,20 @@ static struct nvmf_transport_ops 
+>> *nvmf_lookup_transport(
+>> ? blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+>> ????????? struct request *rq)
+>> ? {
+>> +??? struct nvme_request *nvmerq = nvme_req(rq);
+>> +
 > 
-> This patch modifies the reject point such that it appears to queue
-> successfully, but actually completes the io with an error and calls
-> nvme_complete_rq().
+> Maybe simply call it req?
 > 
-> Signed-off-by: James Smart <jsmart2021 at gmail.com>
-> ---
->   drivers/nvme/host/fabrics.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
+>> ????? if (ctrl->state != NVME_CTRL_DELETING &&
+>> ????????? ctrl->state != NVME_CTRL_DEAD &&
+>> ????????? !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+>> ????????? return BLK_STS_RESOURCE;
+>> -??? nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+>> +
+>> +??? nvmerq->status = NVME_SC_ABORT_REQ;
 > 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 206d63cb1afc..ed4b8e8e0249 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -548,11 +548,20 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
->   blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
->   		struct request *rq)
->   {
-> +	struct nvme_request *nvmerq = nvme_req(rq);
-> +
->   	if (ctrl->state != NVME_CTRL_DELETING &&
->   	    ctrl->state != NVME_CTRL_DEAD &&
->   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
->   		return BLK_STS_RESOURCE;
-> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
-> +
-> +	nvmerq->status = NVME_SC_ABORT_REQ;
-> +	nvmerq->result.u64 = 0;
-> +	if (rq->cmd_flags & REQ_NVME_MPATH) {
-> +		blk_mq_start_request(rq);
-> +		nvme_complete_rq(rq);
-> +		return BLK_STS_OK;
-> +	}
->   	return BLK_STS_IOERR;
->   }
->   EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
+> Not introduced in this patch, but should be le16_to_cpu() >> 1,
+> but I guess the problem is that we need to open-code status setting
+> here...
 > 
-Shouldn't we use '0x371' (as per TP 4028) for this?
-Description said 'Command Aborted By host: The command was aborted as a 
-result of host action (e.g., the host disconnected the Fabric 
-connection).' which seem to be a pretty good match ...
+>> +??? nvmerq->result.u64 = 0;
+>> +??? if (rq->cmd_flags & REQ_NVME_MPATH) {
+>> +??????? blk_mq_start_request(rq);
+>> +??????? nvme_complete_rq(rq);
+> 
+> Why not calling nvme_end_request() directly instead?
+> 
+Because then we have to do this curious twiddling with the 'status' 
+field; when synthesizing the 'status' field we don't really have to set 
+the 'phase' tag, only to have it stripped out again.
+
+> You can also introduce marker helper for nvme_end_request to
+> use:
+> static inline void nvme_mark_request(struct request *req, __le16 status,
+>  ??????????????? union nvme_result result)
+> {
+>  ??????? struct nvme_request *rq = nvme_req(req);
+> 
+>  ??????? rq->status = le16_to_cpu(status) >> 1;
+>  ??????? rq->result = result;
+> }
+> 
+> Something like:
+> 
+>  ????if (rq->cmd_flags & REQ_NVME_MPATH) {
+>  ??????? blk_mq_start_request(rq);
+>  ??????? nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
+>  ??????? return BLK_STS_OK;
+>  ????}
+> 
+>  ????nvme_mark_request(rq, NVME_SC_ABORT_REQ, res);
+>  ????return BLK_STS_IOERR;
+> 
+> Thoughts?
+> 
+See above. I'd rather set the 'status' field directly.
 
 Cheers,
 
