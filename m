@@ -1,63 +1,28 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 23 Sep 2018 20:59:16 -0700
-Subject: [PATCH] nvme: call nvme_complete_rq on NVME_MPATH failures
-In-Reply-To: <20180921184920.12902-1-jsmart2021@gmail.com>
-References: <20180921184920.12902-1-jsmart2021@gmail.com>
-Message-ID: <24baa855-d70a-55bc-5231-9f273e65d392@grimberg.me>
+Date: Sun, 23 Sep 2018 21:06:20 -0700
+Subject: [PATCH] Added NVMe MP failover policy.user can configure failover
+ progression time. it don't have any conflict with ANA. it's a simple
+ failover
+ policy that will tell multipather how long it should wait before sending
+ command to next available path
+In-Reply-To: <20180923214524.16053-1-susobhan.dey@gmail.com>
+References: <20180923214524.16053-1-susobhan.dey@gmail.com>
+Message-ID: <f7534931-eb78-aa7c-6ede-a617d8258e37@grimberg.me>
 
+Hi Susobhan,
 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 206d63cb1afc..ed4b8e8e0249 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -548,11 +548,20 @@ static struct nvmf_transport_ops *nvmf_lookup_transport(
->   blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
->   		struct request *rq)
->   {
-> +	struct nvme_request *nvmerq = nvme_req(rq);
-> +
+Please fix split your change log to a title and body.
 
-Maybe simply call it req?
+Please explain what is this trying to achieve instead of
+mentioning "it don't have any conflict with ANA".
 
->   	if (ctrl->state != NVME_CTRL_DELETING &&
->   	    ctrl->state != NVME_CTRL_DEAD &&
->   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
->   		return BLK_STS_RESOURCE;
-> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
-> +
-> +	nvmerq->status = NVME_SC_ABORT_REQ;
+What is the point in delaying failover if we have a different
+path available?
 
-Not introduced in this patch, but should be le16_to_cpu() >> 1,
-but I guess the problem is that we need to open-code status setting
-here...
+You are also adding an atomic operation to the hot path for
+a questionable rational.
 
-> +	nvmerq->result.u64 = 0;
-> +	if (rq->cmd_flags & REQ_NVME_MPATH) {
-> +		blk_mq_start_request(rq);
-> +		nvme_complete_rq(rq);
+In a different note, I suggest we stop adding bit flags for namespace
+states.
 
-Why not calling nvme_end_request() directly instead?
-
-You can also introduce marker helper for nvme_end_request to
-use:
-static inline void nvme_mark_request(struct request *req, __le16 status,
-                 union nvme_result result)
-{
-         struct nvme_request *rq = nvme_req(req);
-
-         rq->status = le16_to_cpu(status) >> 1;
-         rq->result = result;
-}
-
-Something like:
-
-	if (rq->cmd_flags & REQ_NVME_MPATH) {
-		blk_mq_start_request(rq);
-		nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
-		return BLK_STS_OK;
-	}
-
-	nvme_mark_request(rq, NVME_SC_ABORT_REQ, res);
-	return BLK_STS_IOERR;
-
-Thoughts?
+And modparam is not the way to go here at all.
