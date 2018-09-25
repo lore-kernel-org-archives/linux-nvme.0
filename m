@@ -1,31 +1,35 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Tue, 25 Sep 2018 10:29:15 -0700
-Subject: [PATCH v7 02/13] PCI/P2PDMA: Add sysfs group to display p2pmem
- stats
-In-Reply-To: <20180925162231.4354-3-logang@deltatee.com>
+Date: Tue, 25 Sep 2018 10:33:25 -0700
+Subject: [PATCH v7 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
+ adjust the bus offset
+In-Reply-To: <20180925162231.4354-4-logang@deltatee.com>
 References: <20180925162231.4354-1-logang@deltatee.com>
- <20180925162231.4354-3-logang@deltatee.com>
-Message-ID: <1537896555.11137.22.camel@acm.org>
+ <20180925162231.4354-4-logang@deltatee.com>
+Message-ID: <1537896805.11137.25.camel@acm.org>
 
 On Tue, 2018-09-25@10:22 -0600, Logan Gunthorpe wrote:
-> @@ -83,9 +132,14 @@ static int pci_p2pdma_setup(struct pci_dev *pdev)
->  
->  	pdev->p2pdma = p2p;
->  
-> +	error = sysfs_create_group(&pdev->dev.kobj, &p2pmem_group);
-> +	if (error)
-> +		goto out_pool_destroy;
+> +int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
+> +		      enum dma_data_direction dir)
+> +{
+> +	struct dev_pagemap *pgmap;
+> +	struct scatterlist *s;
+> +	phys_addr_t paddr;
+> +	int i;
 > +
->  	return 0;
->  
->  out_pool_destroy:
-> +	pdev->p2pdma = NULL;
->  	gen_pool_destroy(p2p->pool);
->  out:
->  	devm_kfree(&pdev->dev, p2p);
+> +	/*
+> +	 * p2pdma mappings are not compatible with devices that use
+> +	 * dma_virt_ops. If the upper layers do the right thing
+> +	 * this should never happen because it will be prevented
+> +	 * by the check in pci_p2pdma_add_client()
+> +	 */
+> +	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_DMA_VIRT_OPS) &&
+> +			 dev->dma_ops == &dma_virt_ops))
+> +		return 0;
 
-This doesn't look right to me. Shouldn't devm_remove_action() be called instead
-of devm_kfree() if sysfs_create_group() fails?
+Are you assuming that the compiler will optimize out the dev->dma_ops
+== &dma_virt_ops test if CONFIG_DMA_VIRT_OPS=n such that no reference to the
+dma_virt_ops symbol appears in the object file? Are you sure all compilers
+and compiler versions that are used to build the Linux kernel will do that?
 
 Thanks,
 
