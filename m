@@ -1,28 +1,28 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 25 Sep 2018 08:04:38 -0600
-Subject: [REGRESSION] DELL XPS 9550 with SM951 NVME SSD quits the bus in
- battery mode (new in 4.18/4.19)
-In-Reply-To: <87f25c53846dd3a6f6d747edc46f9589234ac9a2.camel@precitec-optronik.de>
-References: <87f25c53846dd3a6f6d747edc46f9589234ac9a2.camel@precitec-optronik.de>
-Message-ID: <20180925140438.GA11633@localhost.localdomain>
+From: Jeff.Lien@wdc.com (Jeffrey Lien)
+Date: Tue, 25 Sep 2018 14:45:07 +0000
+Subject: [PATCH] Fix nvme test device selection to use controller value
+ defined in the config.json file.  Before this fix, the value was hard coded
+ to nvme0.
+Message-ID: <1537886685-26554-1-git-send-email-jeff.lien@wdc.com>
 
-On Tue, Sep 25, 2018@07:31:40AM +0000, Bockholdt Arne wrote:
-> Hi all,
-> 
-> I've noticed a regression in the 4.18/4.19 kernel lines with my Dell
-> XPS 9550 laptop and the SM951 NVME SSD. Only in battery mode the SSD
-> seems to quit from the PCIe bus and I need to reboot the device. The
-> laptop is updated to the latest BIOS 1.80. When the device is connected
-> to AC power the error seems to vanish. It seems to be easily
-> reproducible by starting a VM via Qemu/KVM, after some seconds the
-> device and the file system vanishes.
-> I've tried to disable APST completely by kernel command line parameter
-> "nvme_core.default_ps_max_latency_us=0" but it doesn't seem to help. 
-> 
-> 4.17 doesn't seem to be affected, tested with 4.18.6 and 4.19-rc5.
-> 
-> Is this a known regression? If you need more information, please let me
-> know.
+Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+---
+ tests/nvme_test.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This regression sounds external to the nvme driver. Would it be possible
-to bisect between 4.17 and 4.18?
+diff --git a/tests/nvme_test.py b/tests/nvme_test.py
+index d735863..d4409ec 100644
+--- a/tests/nvme_test.py
++++ b/tests/nvme_test.py
+@@ -76,7 +76,8 @@ class TestNVMe(object):
+             - Returns:
+                 - None
+         """
+-        cmd = cmd = "find /sys/devices -name \\*nvme0 | grep -i pci"
++        x1, x2, dev = self.ctrl.split('/')
++        cmd = cmd = "find /sys/devices -name \\*" + dev + " | grep -i pci"
+         err = subprocess.call(cmd, shell=True)
+         assert_equal(err, 0, "ERROR : Only NVMe PCI subsystem is supported")
+ 
+-- 
+1.8.3.1
