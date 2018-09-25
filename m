@@ -1,11 +1,10 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Tue, 25 Sep 2018 14:07:12 -0600
-Subject: [PATCH] Add PCI device id checking for the WDC plugin commands.
-In-Reply-To: <1537887494-14977-1-git-send-email-jeff.lien@wdc.com>
-References: <1537887494-14977-1-git-send-email-jeff.lien@wdc.com>
-Message-ID: <20180925200712.GA12433@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 25 Sep 2018 16:22:18 -0700
+Subject: [PATCH] NVMe wrong return value if read log fails
+In-Reply-To: <20180925192915.2861-1-susobhan.dey@gmail.com>
+References: <20180925192915.2861-1-susobhan.dey@gmail.com>
+Message-ID: <20180925232218.GA16417@infradead.org>
 
-On Tue, Sep 25, 2018@02:58:34PM +0000, Jeffrey Lien wrote:
-> Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
+Thanks,
 
-Thanks, patches applied.
+applied to nvme-4.19.
