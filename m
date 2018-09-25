@@ -1,37 +1,11 @@
-From: susobhan.dey@gmail.com (Susobhan Dey)
-Date: Tue, 25 Sep 2018 12:29:15 -0700
-Subject: [PATCH] NVMe wrong return value if read log fails
-Message-ID: <20180925192915.2861-1-susobhan.dey@gmail.com>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Tue, 25 Sep 2018 14:07:12 -0600
+Subject: [PATCH] Add PCI device id checking for the WDC plugin commands.
+In-Reply-To: <1537887494-14977-1-git-send-email-jeff.lien@wdc.com>
+References: <1537887494-14977-1-git-send-email-jeff.lien@wdc.com>
+Message-ID: <20180925200712.GA12433@localhost.localdomain>
 
-Signed-off-by: Susobhan Dey <susobhan.dey at gmail.com>
----
- drivers/nvme/host/multipath.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On Tue, Sep 25, 2018@02:58:34PM +0000, Jeffrey Lien wrote:
+> Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 5a9562881d4e..9fe3fff818b8 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -537,8 +537,10 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 
- 	INIT_WORK(&ctrl->ana_work, nvme_ana_work);
- 	ctrl->ana_log_buf = kmalloc(ctrl->ana_log_size, GFP_KERNEL);
--	if (!ctrl->ana_log_buf)
-+	if (!ctrl->ana_log_buf) {
-+		error = -ENOMEM;
- 		goto out;
-+	}
- 
- 	error = nvme_read_ana_log(ctrl, true);
- 	if (error)
-@@ -547,7 +549,7 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- out_free_ana_log_buf:
- 	kfree(ctrl->ana_log_buf);
- out:
--	return -ENOMEM;
-+	return error;
- }
- 
- void nvme_mpath_uninit(struct nvme_ctrl *ctrl)
--- 
-2.17.1
+Thanks, patches applied.
