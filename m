@@ -1,181 +1,172 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Sep 2018 16:05:57 -0700
-Subject: [PATCH] nvme: take node locality into account when selecting a path
-Message-ID: <20180927230557.29444-1-hch@lst.de>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Thu, 27 Sep 2018 16:13:58 -0700
+Subject: [PATCH] nvme-cli: make read error handling uniform
+Message-ID: <20180927231358.3230-1-chaitanya.kulkarni@wdc.com>
 
-Make current_path an array with an entry for every possible node, and
-cache the best path on a per-node basis.  Take the node distance into
-account when selecting it.  This is primarily useful for dual-ported PCIe
-devices which are connected to PCIe root ports on different sockets.
-
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 ---
- drivers/nvme/host/core.c      |  7 ++++-
- drivers/nvme/host/multipath.c | 50 +++++++++++++++++++++++++++--------
- drivers/nvme/host/nvme.h      | 25 +++++++-----------
- 3 files changed, 54 insertions(+), 28 deletions(-)
+ nvme.c | 84 ++++++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 52 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 41a6180649d2..eb10b263de8f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2900,9 +2900,14 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
- 		unsigned nsid, struct nvme_id_ns *id)
- {
- 	struct nvme_ns_head *head;
-+	size_t size = sizeof(*head);
- 	int ret = -ENOMEM;
+diff --git a/nvme.c b/nvme.c
+index 8b95a99..1635277 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1275,6 +1275,8 @@ static char *get_nvme_subsnqn(char *path)
  
--	head = kzalloc(sizeof(*head), GFP_KERNEL);
-+#ifdef CONFIG_NVME_MULTIPATH
-+	size += num_possible_nodes() * sizeof(struct nvme_ns *);
-+#endif
-+
-+	head = kzalloc(size, GFP_KERNEL);
- 	if (!head)
- 		goto out;
- 	ret = ida_simple_get(&ctrl->subsys->ns_ida, 1, 0, GFP_KERNEL);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 5a9562881d4e..82c8911aff6f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -110,29 +110,55 @@ static const char *nvme_ana_state_names[] = {
- 	[NVME_ANA_CHANGE]		= "change",
- };
+ 	ret = read(fd, subsysnqn, 256);
+ 	if (ret < 0) {
++		fprintf(stderr, "Failed to read %s: %s\n", sspath,
++				strerror(errno));
+ 		free(subsysnqn);
+ 		subsysnqn = NULL;
+ 	}
+@@ -1311,8 +1313,10 @@ static char *get_nvme_ctrl_transport(char *path)
+ 	}
  
--static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head)
-+void nvme_mpath_clear_current_path(struct nvme_ns *ns)
- {
--	struct nvme_ns *ns, *fallback = NULL;
-+	struct nvme_ns_head *head = ns->head;
-+	int node;
-+
-+	if (!head)
-+		return;
-+
-+	for_each_node(node) {
-+		if (ns == rcu_access_pointer(head->current_path[node]))
-+			rcu_assign_pointer(head->current_path[node], NULL);
+ 	ret = read(fd, transport, 1024);
+-	if (ret < 0)
++	if (ret < 0) {
++		fprintf(stderr, "read :%s :%s\n", trpath, strerror(errno));
+ 		goto err_close_fd;
 +	}
-+}
-+
-+static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
-+{
-+	int found_distance = INT_MAX, fallback_distance = INT_MAX, distance;
-+	struct nvme_ns *found = NULL, *fallback = NULL, *ns;
  
- 	list_for_each_entry_rcu(ns, &head->list, siblings) {
- 		if (ns->ctrl->state != NVME_CTRL_LIVE ||
- 		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
- 			continue;
-+
-+		distance = node_distance(node, dev_to_node(ns->ctrl->dev));
-+
- 		switch (ns->ana_state) {
- 		case NVME_ANA_OPTIMIZED:
--			rcu_assign_pointer(head->current_path, ns);
--			return ns;
-+			if (distance < found_distance) {
-+				found_distance = distance;
-+				found = ns;
+ 	if (transport[strlen(transport) - 1] == '\n')
+ 		transport[strlen(transport) - 1] = '\0';
+@@ -1356,8 +1360,10 @@ static char *get_nvme_ctrl_address(char *path)
+ 	}
+ 
+ 	ret = read(fd, address, 1024);
+-	if (ret < 0)
++	if (ret < 0) {
++		fprintf(stderr, "read :%s :%s\n", addrpath, strerror(errno));
+ 		goto err_close_fd;
++	}
+ 
+ 	if (address[strlen(address) - 1] == '\n')
+ 		address[strlen(address) - 1] = '\0';
+@@ -2362,7 +2368,8 @@ static int fw_download(int argc, char **argv, struct command *cmd, struct plugin
+ 	if (cfg.xfer == 0 || cfg.xfer % 4096)
+ 		cfg.xfer = 4096;
+ 	if (read(fw_fd, fw_buf, fw_size) != ((ssize_t)(fw_size))) {
+-		err = EIO;
++		err = -errno;
++		fprintf(stderr, "read :%s :%s\n", cfg.fw, strerror(errno));
+ 		goto free;
+ 	}
+ 
+@@ -3021,9 +3028,11 @@ static int set_feature(int argc, char **argv, struct command *cmd, struct plugin
+ 				goto free;
+ 			}
+ 		}
+-		if (read(ffd, (void *)buf, cfg.data_len) < 0) {
+-			fprintf(stderr, "failed to read data buffer from input file\n");
+-			err = EINVAL;
++		err = read(ffd, (void *)buf, cfg.data_len);
++		if (err < 0) {
++			err = -errno;
++			fprintf(stderr, "failed to read data buffer from input"
++					" file: %s\n", strerror(errno));
+ 			goto close_ffd;
+ 		}
+ 	}
+@@ -3126,10 +3135,11 @@ static int sec_send(int argc, char **argv, struct command *cmd, struct plugin *p
+ 		goto close_sec_fd;
+ 	}
+ 
+-	if (read(sec_fd, sec_buf, sec_size) < 0) {
+-		fprintf(stderr, "Failed to read data from security file with %s\n",
+-			strerror(errno));
+-		err = EINVAL;
++	err = read(sec_fd, sec_buf, sec_size);
++	if (err < 0) {
++		err = -errno;
++		fprintf(stderr, "Failed to read data from security file"
++				" %s with %s\n", cfg.file, strerror(errno));
+ 		goto free;
+ 	}
+ 
+@@ -3254,22 +3264,24 @@ static int dir_send(int argc, char **argv, struct command *cmd, struct plugin *p
+                 memset(buf, 0, cfg.data_len);
+         }
+ 
+-        if (buf) {
+-                if (strlen(cfg.file)) {
+-                        ffd = open(cfg.file, O_RDONLY);
+-                        if (ffd <= 0) {
++	if (buf) {
++		if (strlen(cfg.file)) {
++			ffd = open(cfg.file, O_RDONLY);
++			if (ffd <= 0) {
+ 				fprintf(stderr, "Failed to open file %s: %s\n",
+ 						cfg.file, strerror(errno));
+ 				err = EINVAL;
+ 				goto free;
+-                        }
+-                }
+-                if (read(ffd, (void *)buf, cfg.data_len) < 0) {
+-                        fprintf(stderr, "failed to read data buffer from input file\n");
+-			err = EINVAL;
 +			}
-+			break;
- 		case NVME_ANA_NONOPTIMIZED:
--			fallback = ns;
-+			if (distance < fallback_distance) {
-+				fallback_distance = distance;
-+				fallback = ns;
-+			}
- 			break;
- 		default:
- 			break;
++		}
++		err = read(ffd, (void *)buf, cfg.data_len);
++		if (err < 0) {
++			err = -errno;
++			fprintf(stderr, "failed to read data buffer from input"
++					" file %s\n", strerror(errno));
+ 			goto close_ffd;
+-                }
+-        }
++		}
++	}
+ 
+         err = nvme_dir_send(fd, cfg.namespace_id, cfg.dspec, cfg.dtype, cfg.doper,
+                                 cfg.data_len, dw12, buf, &result);
+@@ -4084,17 +4096,24 @@ static int submit_io(int opcode, char *command, const char *desc,
  		}
  	}
  
--	if (fallback)
--		rcu_assign_pointer(head->current_path, fallback);
--	return fallback;
-+	if (!found)
-+		found = fallback;
-+	if (found)
-+		rcu_assign_pointer(head->current_path[node], found);
-+	return found;
- }
+-	if ((opcode & 1) && read(dfd, (void *)buffer, cfg.data_size) < 0) {
+-		fprintf(stderr, "failed to read data buffer from input file\n");
+-		err = EINVAL;
+-		goto free_mbuffer;
++	if ((opcode & 1)) {
++		err = read(dfd, (void *)buffer, cfg.data_size);
++		if (err < 0) {
++			err = -errno;
++			fprintf(stderr, "failed to read data buffer from input"
++					" file %s\n", strerror(errno));
++			goto free_mbuffer;
++		}
+ 	}
  
- static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
-@@ -143,10 +169,12 @@ static inline bool nvme_path_is_optimized(struct nvme_ns *ns)
+-	if ((opcode & 1) && cfg.metadata_size &&
+-				read(mfd, (void *)mbuffer, cfg.metadata_size) < 0) {
+-		fprintf(stderr, "failed to read meta-data buffer from input file\n");
+-		err = EINVAL;
+-		goto free_mbuffer;
++	if ((opcode & 1) && cfg.metadata_size) {
++		err = read(mfd, (void *)mbuffer, cfg.metadata_size);
++		if (err < 0) {
++			err = -errno;
++			fprintf(stderr, "failed to read meta-data buffer from"
++					" input file %s\n", strerror(errno));
++			goto free_mbuffer;
++		}
+ 	}
  
- inline struct nvme_ns *nvme_find_path(struct nvme_ns_head *head)
- {
--	struct nvme_ns *ns = srcu_dereference(head->current_path, &head->srcu);
-+	int node = numa_node_id();
-+	struct nvme_ns *ns;
- 
-+	ns = srcu_dereference(head->current_path[node], &head->srcu);
- 	if (unlikely(!ns || !nvme_path_is_optimized(ns)))
--		ns = __nvme_find_path(head);
-+		ns = __nvme_find_path(head, node);
- 	return ns;
- }
- 
-@@ -193,7 +221,7 @@ static bool nvme_ns_head_poll(struct request_queue *q, blk_qc_t qc)
- 	int srcu_idx;
- 
- 	srcu_idx = srcu_read_lock(&head->srcu);
--	ns = srcu_dereference(head->current_path, &head->srcu);
-+	ns = srcu_dereference(head->current_path[numa_node_id()], &head->srcu);
- 	if (likely(ns && nvme_path_is_optimized(ns)))
- 		found = ns->queue->poll_fn(q, qc);
- 	srcu_read_unlock(&head->srcu, srcu_idx);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a2003c097..5eec5b9205f3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -277,14 +277,6 @@ struct nvme_ns_ids {
-  * only ever has a single entry for private namespaces.
-  */
- struct nvme_ns_head {
--#ifdef CONFIG_NVME_MULTIPATH
--	struct gendisk		*disk;
--	struct nvme_ns __rcu	*current_path;
--	struct bio_list		requeue_list;
--	spinlock_t		requeue_lock;
--	struct work_struct	requeue_work;
--	struct mutex		lock;
--#endif
- 	struct list_head	list;
- 	struct srcu_struct      srcu;
- 	struct nvme_subsystem	*subsys;
-@@ -293,6 +285,14 @@ struct nvme_ns_head {
- 	struct list_head	entry;
- 	struct kref		ref;
- 	int			instance;
-+#ifdef CONFIG_NVME_MULTIPATH
-+	struct gendisk		*disk;
-+	struct bio_list		requeue_list;
-+	spinlock_t		requeue_lock;
-+	struct work_struct	requeue_work;
-+	struct mutex		lock;
-+	struct nvme_ns __rcu	*current_path[];
-+#endif
- };
- 
- #ifdef CONFIG_FAULT_INJECTION_DEBUG_FS
-@@ -474,14 +474,7 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head);
- int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id);
- void nvme_mpath_uninit(struct nvme_ctrl *ctrl);
- void nvme_mpath_stop(struct nvme_ctrl *ctrl);
--
--static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
--{
--	struct nvme_ns_head *head = ns->head;
--
--	if (head && ns == rcu_access_pointer(head->current_path))
--		rcu_assign_pointer(head->current_path, NULL);
--}
-+void nvme_mpath_clear_current_path(struct nvme_ns *ns);
- struct nvme_ns *nvme_find_path(struct nvme_ns_head *head);
- 
- static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
+ 	if (cfg.show) {
+@@ -4526,8 +4545,9 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
+ 			goto free_data;
+ 		} else if (cfg.write) {
+ 			if (read(wfd, data, cfg.data_len) < 0) {
+-				fprintf(stderr, "failed to read write buffer\n");
+-				err = EINVAL;
++				err = -errno;
++				fprintf(stderr, "failed to read write buffer "
++						"%s\n", strerror(errno));
+ 				goto free_data;
+ 			}
+ 		}
 -- 
-2.19.0
+2.17.0
