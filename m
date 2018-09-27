@@ -1,15 +1,16 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 27 Sep 2018 11:29:51 -0600
-Subject: [PATCH v8 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <20180927171230.GE19589@localhost.localdomain>
-References: <20180927165420.5290-1-logang@deltatee.com>
- <20180927165420.5290-14-logang@deltatee.com>
- <20180927171230.GE19589@localhost.localdomain>
-Message-ID: <3f5bf51c-2fb3-cae6-31eb-0425e84bfb99@deltatee.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 27 Sep 2018 12:02:47 -0700
+Subject: [PATCHv3 0/5] genhd: register default groups with
+ device_add_disk()
+In-Reply-To: <20180921054843.GA13157@lst.de>
+References: <20180905070053.26239-1-hare@suse.de>
+ <20180921054843.GA13157@lst.de>
+Message-ID: <1538074967.226558.5.camel@acm.org>
 
-On 2018-09-27 11:12 AM, Keith Busch wrote:
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
+On Fri, 2018-09-21@07:48 +0200, Christoph Hellwig wrote:
+> Can you resend this with the one easy fixup pointed out?  It would
+> be good to finally get the race fix merged.
 
-Thanks for the reviews Keith!
+Seconded. I also would like to see these patches being merged upstream.
 
-Logan
+Bart.
