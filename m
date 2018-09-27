@@ -1,35 +1,153 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Thu, 27 Sep 2018 11:12:30 -0600
-Subject: [PATCH v8 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <20180927165420.5290-14-logang@deltatee.com>
-References: <20180927165420.5290-1-logang@deltatee.com>
- <20180927165420.5290-14-logang@deltatee.com>
-Message-ID: <20180927171230.GE19589@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 27 Sep 2018 11:00:31 -0700
+Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
+Message-ID: <20180927180031.10706-1-sagi@grimberg.me>
 
-On Thu, Sep 27, 2018@10:54:20AM -0600, Logan Gunthorpe wrote:
-> We create a configfs attribute in each nvme-fabrics target port to
-> enable p2p memory use. When enabled, the port will only then use the
-> p2p memory if a p2p memory device can be found which is behind the
-> same switch hierarchy as the RDMA port and all the block devices in
-> use. If the user enabled it and no devices are found, then the system
-> will silently fall back on using regular memory.
-> 
-> If appropriate, that port will allocate memory for the RDMA buffers
-> for queues from the p2pmem device falling back to system memory should
-> anything fail.
-> 
-> Ideally, we'd want to use an NVME CMB buffer as p2p memory. This would
-> save an extra PCI transfer as the NVME card could just take the data
-> out of it's own memory. However, at this time, only a limited number
-> of cards with CMB buffers seem to be available.
-> 
-> Signed-off-by: Stephen Bates <sbates at raithlin.com>
-> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
-> [hch: partial rewrite of the initial code]
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Queue deletion is done asynchronous when the last reference on
+the queue is dropped. Thus, in order to make sure we don't over
+allocate under a connect/disconnect storm, we let queue deletion
+complete before making forward progress.
 
-I haven't the necessary hardware to try this out, but looking forward
-to it in the future. Looks good.
+However, given that we flush the system_wq from rdma_cm context
+which runs from a workqueue context, we can have a circular
+locking complaint [1]. Fix that by using a private workqueue for
+queue deletion.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+[1]:
+======================================================
+WARNING: possible circular locking dependency detected
+4.19.0-rc4-dbg+ #3 Not tainted
+------------------------------------------------------
+kworker/5:0/39 is trying to acquire lock:
+00000000a10b6db9 (&id_priv->handler_mutex){+.+.}, at: rdma_destroy_id+0x6f/0x440 [rdma_cm]
+
+but task is already holding lock:
+00000000331b4e2c ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
+
+which lock already depends on the new lock.
+
+the existing dependency chain (in reverse order) is:
+
+-> #3 ((work_completion)(&queue->release_work)){+.+.}:
+       process_one_work+0x474/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+-> #2 ((wq_completion)"events"){+.+.}:
+       flush_workqueue+0xf3/0x970
+       nvmet_rdma_cm_handler+0x133d/0x1734 [nvmet_rdma]
+       cma_ib_req_handler+0x72f/0xf90 [rdma_cm]
+       cm_process_work+0x2e/0x110 [ib_cm]
+       cm_req_handler+0x135b/0x1c30 [ib_cm]
+       cm_work_handler+0x2b7/0x38cd [ib_cm]
+       process_one_work+0x4ae/0xa20
+nvmet_rdma:nvmet_rdma_cm_handler: nvmet_rdma: disconnected (10): status 0 id 0000000040357082
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+nvme nvme0: Reconnecting in 10 seconds...
+
+-> #1 (&id_priv->handler_mutex/1){+.+.}:
+       __mutex_lock+0xfe/0xbe0
+       mutex_lock_nested+0x1b/0x20
+       cma_ib_req_handler+0x6aa/0xf90 [rdma_cm]
+       cm_process_work+0x2e/0x110 [ib_cm]
+       cm_req_handler+0x135b/0x1c30 [ib_cm]
+       cm_work_handler+0x2b7/0x38cd [ib_cm]
+       process_one_work+0x4ae/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+-> #0 (&id_priv->handler_mutex){+.+.}:
+       lock_acquire+0xc5/0x200
+       __mutex_lock+0xfe/0xbe0
+       mutex_lock_nested+0x1b/0x20
+       rdma_destroy_id+0x6f/0x440 [rdma_cm]
+       nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+       process_one_work+0x4ae/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+Fixes: 777dc82395de ("nvmet-rdma: occasionally flush ongoing controller teardown")
+Reported-by: Bart Van Assche <bvanassche at acm.org>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/rdma.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 3533e918ea37..eb520b3519f0 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -121,6 +121,7 @@ struct nvmet_rdma_device {
+ 	int			inline_page_count;
+ };
+ 
++struct workqueue_struct *nvmet_rdma_delete_wq;
+ static bool nvmet_rdma_use_srq;
+ module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
+ MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
+@@ -1244,12 +1245,12 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
+ 
+ 	if (queue->host_qid == 0) {
+ 		/* Let inflight controller teardown complete */
+-		flush_scheduled_work();
++		flush_workqueue(nvmet_rdma_delete_wq);
+ 	}
+ 
+ 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+ 	if (ret) {
+-		schedule_work(&queue->release_work);
++		queue_work(nvmet_rdma_delete_wq, &queue->release_work);
+ 		/* Destroying rdma_cm id is not needed here */
+ 		return 0;
+ 	}
+@@ -1314,7 +1315,7 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
+ 
+ 	if (disconnect) {
+ 		rdma_disconnect(queue->cm_id);
+-		schedule_work(&queue->release_work);
++		queue_work(nvmet_rdma_delete_wq, &queue->release_work);
+ 	}
+ }
+ 
+@@ -1344,7 +1345,7 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
+ 	mutex_unlock(&nvmet_rdma_queue_mutex);
+ 
+ 	pr_err("failed to connect queue %d\n", queue->idx);
+-	schedule_work(&queue->release_work);
++	queue_work(nvmet_rdma_delete_wq, &queue->release_work);
+ }
+ 
+ /**
+@@ -1626,8 +1627,17 @@ static int __init nvmet_rdma_init(void)
+ 	if (ret)
+ 		goto err_ib_client;
+ 
++	nvmet_rdma_delete_wq = alloc_workqueue("nvmet-rdma-delete-wq",
++			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
++	if (!nvmet_rdma_delete_wq) {
++		ret = -ENOMEM;
++		goto err_unreg_transport;
++	}
++
+ 	return 0;
+ 
++err_unreg_transport:
++	nvmet_unregister_transport(&nvmet_rdma_ops);
+ err_ib_client:
+ 	ib_unregister_client(&nvmet_rdma_ib_client);
+ 	return ret;
+@@ -1635,6 +1645,7 @@ static int __init nvmet_rdma_init(void)
+ 
+ static void __exit nvmet_rdma_exit(void)
+ {
++	destroy_workqueue(nvmet_rdma_delete_wq);
+ 	nvmet_unregister_transport(&nvmet_rdma_ops);
+ 	ib_unregister_client(&nvmet_rdma_ib_client);
+ 	WARN_ON_ONCE(!list_empty(&nvmet_rdma_queue_list));
+-- 
+2.17.1
