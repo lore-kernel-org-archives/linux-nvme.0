@@ -1,172 +1,90 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Thu, 27 Sep 2018 16:13:58 -0700
-Subject: [PATCH] nvme-cli: make read error handling uniform
-Message-ID: <20180927231358.3230-1-chaitanya.kulkarni@wdc.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 27 Sep 2018 16:58:54 -0700
+Subject: [PATCH v2] nvme: call nvme_complete_rq on NVME_MPATH failures
+Message-ID: <20180927235854.12386-1-jsmart2021@gmail.com>
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+When an io is rejected by nvmf_check_ready() due to validation of
+the controller state, the nvmf_fail_nonready_command() will normally
+return BLK_STS_RESOURCE to requeue and retry. However, if the
+controller is dying or the io is marked for NVME multipath, the io
+is failed so that the controller can terminate or so that the io can
+be issued on a different path. Unfortunately, as this reject point
+is before the transport has accepted the command, blk-mq ends up
+completing the io and never calls nvme_complete_rq(), which is where
+multipath may preserve/re-route the io. The end result is, the device
+user ends up seeing an EIO error.
+
+Example: single path connectivity, controller is under load, and a
+reset is induced. An i/o is received: a) while the reset state has
+been set but the queues have yet to be stopped; or b) after queues
+are started (at end of reset) but before the reconnect has completed.
+The io finishes with an EIO status.
+
+This patch makes the following changes:
+- Adds the HOST_PATH_ERROR pathing status from TP4028
+- Modifies the reject point such that it appears to queue successfully,
+  but actually completes the io with the new pathing status and calls
+  nvme_complete_rq().
+- nvme_complete_rq() recognizes the new status, avoids resetting the
+  controller (likely was already done in order to get this new status),
+  and calls the multipather to clear the current path that errored.
+  This allows the next command (retry or new command) to select a new
+  path if there is one.
+
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
- nvme.c | 84 ++++++++++++++++++++++++++++++++++++----------------------
- 1 file changed, 52 insertions(+), 32 deletions(-)
+ drivers/nvme/host/fabrics.c   | 7 +++++--
+ drivers/nvme/host/multipath.c | 7 +++++++
+ include/linux/nvme.h          | 1 +
+ 3 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/nvme.c b/nvme.c
-index 8b95a99..1635277 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -1275,6 +1275,8 @@ static char *get_nvme_subsnqn(char *path)
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 206d63cb1afc..bcd09d3a44da 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -552,8 +552,11 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+ 	    ctrl->state != NVME_CTRL_DEAD &&
+ 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
+ 		return BLK_STS_RESOURCE;
+-	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
+-	return BLK_STS_IOERR;
++
++	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
++	blk_mq_start_request(rq);
++	nvme_complete_rq(rq);
++	return BLK_STS_OK;
+ }
+ EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
  
- 	ret = read(fd, subsysnqn, 256);
- 	if (ret < 0) {
-+		fprintf(stderr, "Failed to read %s: %s\n", sspath,
-+				strerror(errno));
- 		free(subsysnqn);
- 		subsysnqn = NULL;
- 	}
-@@ -1311,8 +1313,10 @@ static char *get_nvme_ctrl_transport(char *path)
- 	}
- 
- 	ret = read(fd, transport, 1024);
--	if (ret < 0)
-+	if (ret < 0) {
-+		fprintf(stderr, "read :%s :%s\n", trpath, strerror(errno));
- 		goto err_close_fd;
-+	}
- 
- 	if (transport[strlen(transport) - 1] == '\n')
- 		transport[strlen(transport) - 1] = '\0';
-@@ -1356,8 +1360,10 @@ static char *get_nvme_ctrl_address(char *path)
- 	}
- 
- 	ret = read(fd, address, 1024);
--	if (ret < 0)
-+	if (ret < 0) {
-+		fprintf(stderr, "read :%s :%s\n", addrpath, strerror(errno));
- 		goto err_close_fd;
-+	}
- 
- 	if (address[strlen(address) - 1] == '\n')
- 		address[strlen(address) - 1] = '\0';
-@@ -2362,7 +2368,8 @@ static int fw_download(int argc, char **argv, struct command *cmd, struct plugin
- 	if (cfg.xfer == 0 || cfg.xfer % 4096)
- 		cfg.xfer = 4096;
- 	if (read(fw_fd, fw_buf, fw_size) != ((ssize_t)(fw_size))) {
--		err = EIO;
-+		err = -errno;
-+		fprintf(stderr, "read :%s :%s\n", cfg.fw, strerror(errno));
- 		goto free;
- 	}
- 
-@@ -3021,9 +3028,11 @@ static int set_feature(int argc, char **argv, struct command *cmd, struct plugin
- 				goto free;
- 			}
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 5a9562881d4e..b285648c3a7f 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -77,6 +77,13 @@ void nvme_failover_req(struct request *req)
+ 			queue_work(nvme_wq, &ns->ctrl->ana_work);
  		}
--		if (read(ffd, (void *)buf, cfg.data_len) < 0) {
--			fprintf(stderr, "failed to read data buffer from input file\n");
--			err = EINVAL;
-+		err = read(ffd, (void *)buf, cfg.data_len);
-+		if (err < 0) {
-+			err = -errno;
-+			fprintf(stderr, "failed to read data buffer from input"
-+					" file: %s\n", strerror(errno));
- 			goto close_ffd;
- 		}
- 	}
-@@ -3126,10 +3135,11 @@ static int sec_send(int argc, char **argv, struct command *cmd, struct plugin *p
- 		goto close_sec_fd;
- 	}
+ 		break;
++	case NVME_SC_HOST_PATH_ERROR:
++		/*
++		 * Temporary transport disruption in talking to the controller.
++		 * Try to send on a new path.
++		 */
++		nvme_mpath_clear_current_path(ns);
++		break;
+ 	default:
+ 		/*
+ 		 * Reset the controller for any non-ANA error as we don't know
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 68e91ef5494c..818dbe9331be 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1241,6 +1241,7 @@ enum {
+ 	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
+ 	NVME_SC_ANA_INACCESSIBLE	= 0x302,
+ 	NVME_SC_ANA_TRANSITION		= 0x303,
++	NVME_SC_HOST_PATH_ERROR		= 0x370,
  
--	if (read(sec_fd, sec_buf, sec_size) < 0) {
--		fprintf(stderr, "Failed to read data from security file with %s\n",
--			strerror(errno));
--		err = EINVAL;
-+	err = read(sec_fd, sec_buf, sec_size);
-+	if (err < 0) {
-+		err = -errno;
-+		fprintf(stderr, "Failed to read data from security file"
-+				" %s with %s\n", cfg.file, strerror(errno));
- 		goto free;
- 	}
- 
-@@ -3254,22 +3264,24 @@ static int dir_send(int argc, char **argv, struct command *cmd, struct plugin *p
-                 memset(buf, 0, cfg.data_len);
-         }
- 
--        if (buf) {
--                if (strlen(cfg.file)) {
--                        ffd = open(cfg.file, O_RDONLY);
--                        if (ffd <= 0) {
-+	if (buf) {
-+		if (strlen(cfg.file)) {
-+			ffd = open(cfg.file, O_RDONLY);
-+			if (ffd <= 0) {
- 				fprintf(stderr, "Failed to open file %s: %s\n",
- 						cfg.file, strerror(errno));
- 				err = EINVAL;
- 				goto free;
--                        }
--                }
--                if (read(ffd, (void *)buf, cfg.data_len) < 0) {
--                        fprintf(stderr, "failed to read data buffer from input file\n");
--			err = EINVAL;
-+			}
-+		}
-+		err = read(ffd, (void *)buf, cfg.data_len);
-+		if (err < 0) {
-+			err = -errno;
-+			fprintf(stderr, "failed to read data buffer from input"
-+					" file %s\n", strerror(errno));
- 			goto close_ffd;
--                }
--        }
-+		}
-+	}
- 
-         err = nvme_dir_send(fd, cfg.namespace_id, cfg.dspec, cfg.dtype, cfg.doper,
-                                 cfg.data_len, dw12, buf, &result);
-@@ -4084,17 +4096,24 @@ static int submit_io(int opcode, char *command, const char *desc,
- 		}
- 	}
- 
--	if ((opcode & 1) && read(dfd, (void *)buffer, cfg.data_size) < 0) {
--		fprintf(stderr, "failed to read data buffer from input file\n");
--		err = EINVAL;
--		goto free_mbuffer;
-+	if ((opcode & 1)) {
-+		err = read(dfd, (void *)buffer, cfg.data_size);
-+		if (err < 0) {
-+			err = -errno;
-+			fprintf(stderr, "failed to read data buffer from input"
-+					" file %s\n", strerror(errno));
-+			goto free_mbuffer;
-+		}
- 	}
- 
--	if ((opcode & 1) && cfg.metadata_size &&
--				read(mfd, (void *)mbuffer, cfg.metadata_size) < 0) {
--		fprintf(stderr, "failed to read meta-data buffer from input file\n");
--		err = EINVAL;
--		goto free_mbuffer;
-+	if ((opcode & 1) && cfg.metadata_size) {
-+		err = read(mfd, (void *)mbuffer, cfg.metadata_size);
-+		if (err < 0) {
-+			err = -errno;
-+			fprintf(stderr, "failed to read meta-data buffer from"
-+					" input file %s\n", strerror(errno));
-+			goto free_mbuffer;
-+		}
- 	}
- 
- 	if (cfg.show) {
-@@ -4526,8 +4545,9 @@ static int passthru(int argc, char **argv, int ioctl_cmd, const char *desc, stru
- 			goto free_data;
- 		} else if (cfg.write) {
- 			if (read(wfd, data, cfg.data_len) < 0) {
--				fprintf(stderr, "failed to read write buffer\n");
--				err = EINVAL;
-+				err = -errno;
-+				fprintf(stderr, "failed to read write buffer "
-+						"%s\n", strerror(errno));
- 				goto free_data;
- 			}
- 		}
+ 	NVME_SC_DNR			= 0x4000,
+ };
 -- 
-2.17.0
+2.13.1
