@@ -1,34 +1,64 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 28 Sep 2018 15:43:58 -0700
-Subject: [PATCH v2] nvme: call nvme_complete_rq on NVME_MPATH failures
-In-Reply-To: <20180927235854.12386-1-jsmart2021@gmail.com>
-References: <20180927235854.12386-1-jsmart2021@gmail.com>
-Message-ID: <413ca359-b482-8638-46bb-b6e0515bae0a@grimberg.me>
+From: himanshu.madhani@cavium.com (Himanshu Madhani)
+Date: Fri, 28 Sep 2018 15:46:21 -0700
+Subject: [PATCH v3 0/5] qla2xxx: Add FC-NVMe Target support
+Message-ID: <20180928224626.19777-1-himanshu.madhani@cavium.com>
 
+Hi Martin, 
 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 206d63cb1afc..bcd09d3a44da 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -552,8 +552,11 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
->   	    ctrl->state != NVME_CTRL_DEAD &&
->   	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
->   		return BLK_STS_RESOURCE;
-> -	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
-> -	return BLK_STS_IOERR;
-> +
-> +	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
-> +	blk_mq_start_request(rq);
+This series adds support for FC-NVMe Target.
 
-Might be worth a comment here on why we don't call
-nvme_end_request
+Patch #1 adds infrastructure to support FC-NVMeT Link Service processing. 
+Patch #2 adds addes new qla_nvmet.[ch] files for FC-NVMe Target support.
+Patch #3 has bulk of changes to add hooks into common code infrastucture and 
+         adds support for FC-NVMe Target LS4 processing via Purex path.
+Patch #4 adds SysFS hook to enable NVMe Target for the port.
 
-> +	nvme_complete_rq(rq);
-> +	return BLK_STS_OK;
->   }
->   EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
->   
+Please apply them to 4.20/scsi-queue at your earliest convenience.
 
-Other than than, looks good,
+Changes from v2 -> v3
+o Reordered patches so that each patch compiles individually and is bisectable.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Changes from v1 -> v2
+o Addressed all comments from Bart.
+o Consolidated Patch 1 and Patch 2 into single patch.
+o Fixed smatch warning reported by kbuild autommation.
+o NVMe Target mode is exclusive at the moment. Cavium driver does not support both
+  FCP Target and NVMe Target at the same time. This will be fixed in later updates.
+ 
+Thanks,
+Himanshu 
+
+Anil Gurumurthy (4):
+  qla2xxx_nvmet: Add FC-NVMe Target Link Service request handling
+  qla2xxx_nvmet: Add files for FC-NVMe Target support
+  qla2xxx_nvmet: Add FC-NVMe Target handling
+  qla2xxx_nvmet: Add SysFS node for FC-NVMe Target
+
+Himanshu Madhani (1):
+  qla2xxx: Update driver version to 11.00.00.00-k
+
+ drivers/scsi/qla2xxx/Makefile      |   3 +-
+ drivers/scsi/qla2xxx/qla_attr.c    |  33 ++
+ drivers/scsi/qla2xxx/qla_dbg.c     |   1 +
+ drivers/scsi/qla2xxx/qla_dbg.h     |   2 +
+ drivers/scsi/qla2xxx/qla_def.h     |  35 +-
+ drivers/scsi/qla2xxx/qla_fw.h      | 263 ++++++++++
+ drivers/scsi/qla2xxx/qla_gbl.h     |  24 +-
+ drivers/scsi/qla2xxx/qla_gs.c      |  16 +-
+ drivers/scsi/qla2xxx/qla_init.c    |  49 +-
+ drivers/scsi/qla2xxx/qla_iocb.c    |   8 +-
+ drivers/scsi/qla2xxx/qla_isr.c     | 112 ++++-
+ drivers/scsi/qla2xxx/qla_mbx.c     | 101 +++-
+ drivers/scsi/qla2xxx/qla_nvme.h    |  33 --
+ drivers/scsi/qla2xxx/qla_nvmet.c   | 833 +++++++++++++++++++++++++++++++
+ drivers/scsi/qla2xxx/qla_nvmet.h   | 129 +++++
+ drivers/scsi/qla2xxx/qla_os.c      |  75 ++-
+ drivers/scsi/qla2xxx/qla_target.c  | 977 ++++++++++++++++++++++++++++++++++++-
+ drivers/scsi/qla2xxx/qla_target.h  |  90 ++++
+ drivers/scsi/qla2xxx/qla_version.h |   4 +-
+ 19 files changed, 2713 insertions(+), 75 deletions(-)
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.c
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.h
+
+-- 
+2.12.0
