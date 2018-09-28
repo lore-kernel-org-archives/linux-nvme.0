@@ -1,12 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 28 Sep 2018 17:16:18 +0200
-Subject: [PATCH 1/2 for-4.19] nvmet: handle bio allocation failure
-In-Reply-To: <20180928004056.22968-1-sagi@grimberg.me>
-References: <20180928004056.22968-1-sagi@grimberg.me>
-Message-ID: <20180928151618.GA8079@lst.de>
+Date: Fri, 28 Sep 2018 17:17:32 +0200
+Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
+ groups
+In-Reply-To: <20180928061723.13180-3-hare@suse.de>
+References: <20180928061723.13180-1-hare@suse.de>
+ <20180928061723.13180-3-hare@suse.de>
+Message-ID: <20180928151732.GC8079@lst.de>
 
-On Thu, Sep 27, 2018@05:40:56PM -0700, Sagi Grimberg wrote:
-> We cannot rely on bio_alloc to succeed,
+On Fri, Sep 28, 2018@08:17:20AM +0200, Hannes Reinecke wrote:
+> We should be registering the ns_id attribute as default sysfs
+> attribute groups, otherwise we have a race condition between
+> the uevent and the attributes appearing in sysfs.
 
-Yes, we can (unless it is an atomic allocation or it exceeds
-BIO_MAX_PAGES, neither of which we do here).
+Looks good,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
