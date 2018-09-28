@@ -1,90 +1,75 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 27 Sep 2018 16:58:54 -0700
-Subject: [PATCH v2] nvme: call nvme_complete_rq on NVME_MPATH failures
-Message-ID: <20180927235854.12386-1-jsmart2021@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 27 Sep 2018 17:40:56 -0700
+Subject: [PATCH 1/2 for-4.19] nvmet: handle bio allocation failure
+Message-ID: <20180928004056.22968-1-sagi@grimberg.me>
 
-When an io is rejected by nvmf_check_ready() due to validation of
-the controller state, the nvmf_fail_nonready_command() will normally
-return BLK_STS_RESOURCE to requeue and retry. However, if the
-controller is dying or the io is marked for NVME multipath, the io
-is failed so that the controller can terminate or so that the io can
-be issued on a different path. Unfortunately, as this reject point
-is before the transport has accepted the command, blk-mq ends up
-completing the io and never calls nvme_complete_rq(), which is where
-multipath may preserve/re-route the io. The end result is, the device
-user ends up seeing an EIO error.
+We cannot rely on bio_alloc to succeed, so we first allocate
+the needed bios in a list, and only then submit all of them so
+we can cleanup if something fails in the process of building
+the chained bios.
 
-Example: single path connectivity, controller is under load, and a
-reset is induced. An i/o is received: a) while the reset state has
-been set but the queues have yet to be stopped; or b) after queues
-are started (at end of reset) but before the reconnect has completed.
-The io finishes with an EIO status.
-
-This patch makes the following changes:
-- Adds the HOST_PATH_ERROR pathing status from TP4028
-- Modifies the reject point such that it appears to queue successfully,
-  but actually completes the io with the new pathing status and calls
-  nvme_complete_rq().
-- nvme_complete_rq() recognizes the new status, avoids resetting the
-  controller (likely was already done in order to get this new status),
-  and calls the multipather to clear the current path that errored.
-  This allows the next command (retry or new command) to select a new
-  path if there is one.
-
-Signed-off-by: James Smart <jsmart2021 at gmail.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fabrics.c   | 7 +++++--
- drivers/nvme/host/multipath.c | 7 +++++++
- include/linux/nvme.h          | 1 +
- 3 files changed, 13 insertions(+), 2 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 206d63cb1afc..bcd09d3a44da 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -552,8 +552,11 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
- 	    ctrl->state != NVME_CTRL_DEAD &&
- 	    !blk_noretry_request(rq) && !(rq->cmd_flags & REQ_NVME_MPATH))
- 		return BLK_STS_RESOURCE;
--	nvme_req(rq)->status = NVME_SC_ABORT_REQ;
--	return BLK_STS_IOERR;
+diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
+index 7bc9f6240432..0664e2049fa4 100644
+--- a/drivers/nvme/target/io-cmd-bdev.c
++++ b/drivers/nvme/target/io-cmd-bdev.c
+@@ -59,9 +59,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ {
+ 	int sg_cnt = req->sg_cnt;
+ 	struct bio *bio = &req->b.inline_bio;
++	struct bio_list list;
+ 	struct scatterlist *sg;
+ 	sector_t sector;
+-	blk_qc_t cookie;
++	blk_qc_t cookie = BLK_QC_T_NONE;
+ 	int op, op_flags = 0, i;
+ 
+ 	if (!req->sg_cnt) {
+@@ -88,27 +89,39 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	bio->bi_end_io = nvmet_bio_done;
+ 	bio_set_op_attrs(bio, op, op_flags);
+ 
++	bio_list_init(&list);
+ 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+ 		while (bio_add_page(bio, sg_page(sg), sg->length, sg->offset)
+ 				!= sg->length) {
+ 			struct bio *prev = bio;
+ 
+ 			bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
++			if (unlikely(!bio))
++				goto err;
 +
-+	nvme_req(rq)->status = NVME_SC_HOST_PATH_ERROR;
-+	blk_mq_start_request(rq);
-+	nvme_complete_rq(rq);
-+	return BLK_STS_OK;
- }
- EXPORT_SYMBOL_GPL(nvmf_fail_nonready_command);
+ 			bio_set_dev(bio, req->ns->bdev);
+ 			bio->bi_iter.bi_sector = sector;
+ 			bio_set_op_attrs(bio, op, op_flags);
  
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 5a9562881d4e..b285648c3a7f 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -77,6 +77,13 @@ void nvme_failover_req(struct request *req)
- 			queue_work(nvme_wq, &ns->ctrl->ana_work);
+ 			bio_chain(bio, prev);
+-			submit_bio(prev);
++			bio_list_add(&list, bio);
  		}
- 		break;
-+	case NVME_SC_HOST_PATH_ERROR:
-+		/*
-+		 * Temporary transport disruption in talking to the controller.
-+		 * Try to send on a new path.
-+		 */
-+		nvme_mpath_clear_current_path(ns);
-+		break;
- 	default:
- 		/*
- 		 * Reset the controller for any non-ANA error as we don't know
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 68e91ef5494c..818dbe9331be 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1241,6 +1241,7 @@ enum {
- 	NVME_SC_ANA_PERSISTENT_LOSS	= 0x301,
- 	NVME_SC_ANA_INACCESSIBLE	= 0x302,
- 	NVME_SC_ANA_TRANSITION		= 0x303,
-+	NVME_SC_HOST_PATH_ERROR		= 0x370,
  
- 	NVME_SC_DNR			= 0x4000,
- };
+ 		sector += sg->length >> 9;
+ 		sg_cnt--;
+ 	}
+ 
+-	cookie = submit_bio(bio);
++	bio_list_add(&list, bio);
++	while ((bio = bio_list_pop(&list)))
++		cookie = submit_bio(bio);
+ 
+ 	blk_poll(bdev_get_queue(req->ns->bdev), cookie);
++	return;
++err:
++	while ((bio = bio_list_pop(&list)))
++		if (bio != &req->b.inline_bio)
++			bio_put(bio);
++	nvmet_req_complete(req, NVME_SC_INTERNAL);
+ }
+ 
+ static void nvmet_bdev_execute_flush(struct nvmet_req *req)
 -- 
-2.13.1
+2.17.1
