@@ -1,80 +1,19 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 28 Sep 2018 08:17:22 +0200
-Subject: [PATCH 4/5] zram: register default groups with device_add_disk()
-In-Reply-To: <20180928061723.13180-1-hare@suse.de>
-References: <20180928061723.13180-1-hare@suse.de>
-Message-ID: <20180928061723.13180-5-hare@suse.de>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Fri, 28 Sep 2018 08:12:57 -0600
+Subject: [PATCH] nvme: take node locality into account when selecting a
+ path
+In-Reply-To: <20180927230557.29444-1-hch@lst.de>
+References: <20180927230557.29444-1-hch@lst.de>
+Message-ID: <20180928141256.GA21979@localhost.localdomain>
 
-Register default sysfs groups during device_add_disk() to avoid a
-race condition with udev during startup.
+On Thu, Sep 27, 2018@04:05:57PM -0700, Christoph Hellwig wrote:
+> Make current_path an array with an entry for every possible node, and
+> cache the best path on a per-node basis.  Take the node distance into
+> account when selecting it.  This is primarily useful for dual-ported PCIe
+> devices which are connected to PCIe root ports on different sockets.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
-Cc: Minchan Kim <minchan at kernel.org>
-Cc: Nitin Gupta <ngupta at vflare.org>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
----
- drivers/block/zram/zram_drv.c | 28 +++++++---------------------
- 1 file changed, 7 insertions(+), 21 deletions(-)
+Looks great!
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index a1d6b5597c17..4879595200e1 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1636,6 +1636,11 @@ static const struct attribute_group zram_disk_attr_group = {
- 	.attrs = zram_disk_attrs,
- };
- 
-+static const struct attribute_group *zram_disk_attr_groups[] = {
-+	&zram_disk_attr_group,
-+	NULL,
-+};
-+
- /*
-  * Allocate and initialize new zram device. the function returns
-  * '>= 0' device_id upon success, and negative value otherwise.
-@@ -1716,24 +1721,14 @@ static int zram_add(void)
- 
- 	zram->disk->queue->backing_dev_info->capabilities |=
- 			(BDI_CAP_STABLE_WRITES | BDI_CAP_SYNCHRONOUS_IO);
--	add_disk(zram->disk);
--
--	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
--				&zram_disk_attr_group);
--	if (ret < 0) {
--		pr_err("Error creating sysfs group for device %d\n",
--				device_id);
--		goto out_free_disk;
--	}
-+	device_add_disk(NULL, zram->disk, zram_disk_attr_groups);
-+
- 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
- 
- 	zram_debugfs_register(zram);
- 	pr_info("Added device: %s\n", zram->disk->disk_name);
- 	return device_id;
- 
--out_free_disk:
--	del_gendisk(zram->disk);
--	put_disk(zram->disk);
- out_free_queue:
- 	blk_cleanup_queue(queue);
- out_free_idr:
-@@ -1762,15 +1757,6 @@ static int zram_remove(struct zram *zram)
- 	mutex_unlock(&bdev->bd_mutex);
- 
- 	zram_debugfs_unregister(zram);
--	/*
--	 * Remove sysfs first, so no one will perform a disksize
--	 * store while we destroy the devices. This also helps during
--	 * hot_remove -- zram_reset_device() is the last holder of
--	 * ->init_lock, no later/concurrent disksize_store() or any
--	 * other sysfs handlers are possible.
--	 */
--	sysfs_remove_group(&disk_to_dev(zram->disk)->kobj,
--			&zram_disk_attr_group);
- 
- 	/* Make sure all the pending I/O are finished */
- 	fsync_bdev(bdev);
--- 
-2.16.4
+Reviewed-by: Keith Busch <keith.busch at intel.com>
