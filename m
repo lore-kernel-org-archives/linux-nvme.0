@@ -1,136 +1,293 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 28 Sep 2018 08:17:23 +0200
-Subject: [PATCH 5/5] virtio-blk: modernize sysfs attribute creation
+Date: Fri, 28 Sep 2018 08:17:20 +0200
+Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs groups
 In-Reply-To: <20180928061723.13180-1-hare@suse.de>
 References: <20180928061723.13180-1-hare@suse.de>
-Message-ID: <20180928061723.13180-6-hare@suse.de>
+Message-ID: <20180928061723.13180-3-hare@suse.de>
 
-Use new-style DEVICE_ATTR_RO/DEVICE_ATTR_RW to create the sysfs attributes
-and register the disk with default sysfs attribute groups.
+We should be registering the ns_id attribute as default sysfs
+attribute groups, otherwise we have a race condition between
+the uevent and the attributes appearing in sysfs.
 
+Suggested-by: Bart van Assche <bvanassche at acm.org>
 Signed-off-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Acked-by: Michael S. Tsirkin <mst at redhat.com>
-Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
 ---
- drivers/block/virtio_blk.c | 68 ++++++++++++++++++++++++++--------------------
- 1 file changed, 39 insertions(+), 29 deletions(-)
+ drivers/nvme/host/core.c      |  21 ++++-----
+ drivers/nvme/host/lightnvm.c  | 105 ++++++++++++++++++------------------------
+ drivers/nvme/host/multipath.c |  15 ++----
+ drivers/nvme/host/nvme.h      |  10 +---
+ 4 files changed, 59 insertions(+), 92 deletions(-)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index fe80560000a1..086c6bb12baa 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -351,8 +351,8 @@ static int minor_to_index(int minor)
- 	return minor >> PART_BITS;
- }
- 
--static ssize_t virtblk_serial_show(struct device *dev,
--				struct device_attribute *attr, char *buf)
-+static ssize_t serial_show(struct device *dev,
-+			   struct device_attribute *attr, char *buf)
- {
- 	struct gendisk *disk = dev_to_disk(dev);
- 	int err;
-@@ -371,7 +371,7 @@ static ssize_t virtblk_serial_show(struct device *dev,
- 	return err;
- }
- 
--static DEVICE_ATTR(serial, 0444, virtblk_serial_show, NULL);
-+static DEVICE_ATTR_RO(serial);
- 
- /* The queue's logical block size must be set before calling this */
- static void virtblk_update_capacity(struct virtio_blk *vblk, bool resize)
-@@ -545,8 +545,8 @@ static const char *const virtblk_cache_types[] = {
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0e824e8c8fd7..e0a9e1c5b30e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2734,6 +2734,14 @@ const struct attribute_group nvme_ns_id_attr_group = {
+ 	.is_visible	= nvme_ns_id_attrs_are_visible,
  };
  
- static ssize_t
--virtblk_cache_type_store(struct device *dev, struct device_attribute *attr,
--			 const char *buf, size_t count)
-+cache_type_store(struct device *dev, struct device_attribute *attr,
-+		 const char *buf, size_t count)
- {
- 	struct gendisk *disk = dev_to_disk(dev);
- 	struct virtio_blk *vblk = disk->private_data;
-@@ -564,8 +564,7 @@ virtblk_cache_type_store(struct device *dev, struct device_attribute *attr,
- }
- 
- static ssize_t
--virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
--			 char *buf)
-+cache_type_show(struct device *dev, struct device_attribute *attr, char *buf)
- {
- 	struct gendisk *disk = dev_to_disk(dev);
- 	struct virtio_blk *vblk = disk->private_data;
-@@ -575,12 +574,38 @@ virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
- 	return snprintf(buf, 40, "%s\n", virtblk_cache_types[writeback]);
- }
- 
--static const struct device_attribute dev_attr_cache_type_ro =
--	__ATTR(cache_type, 0444,
--	       virtblk_cache_type_show, NULL);
--static const struct device_attribute dev_attr_cache_type_rw =
--	__ATTR(cache_type, 0644,
--	       virtblk_cache_type_show, virtblk_cache_type_store);
-+static DEVICE_ATTR_RW(cache_type);
-+
-+static struct attribute *virtblk_attrs[] = {
-+	&dev_attr_serial.attr,
-+	&dev_attr_cache_type.attr,
++const struct attribute_group *nvme_ns_id_attr_groups[] = {
++	&nvme_ns_id_attr_group,
++#ifdef CONFIG_NVM
++	&nvme_nvm_attr_group,
++#endif
 +	NULL,
 +};
 +
-+static umode_t virtblk_attrs_are_visible(struct kobject *kobj,
-+		struct attribute *a, int n)
-+{
+ #define nvme_show_str_function(field)						\
+ static ssize_t  field##_show(struct device *dev,				\
+ 			    struct device_attribute *attr, char *buf)		\
+@@ -3099,14 +3107,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ 	nvme_get_ctrl(ctrl);
+ 
+-	device_add_disk(ctrl->device, ns->disk, NULL);
+-	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvme_ns_id_attr_group))
+-		pr_warn("%s: failed to create sysfs group for identification\n",
+-			ns->disk->disk_name);
+-	if (ns->ndev && nvme_nvm_register_sysfs(ns))
+-		pr_warn("%s: failed to register lightnvm sysfs group for identification\n",
+-			ns->disk->disk_name);
++	device_add_disk(ctrl->device, ns->disk, nvme_ns_id_attr_groups);
+ 
+ 	nvme_mpath_add_disk(ns, id);
+ 	nvme_fault_inject_init(ns);
+@@ -3132,10 +3133,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 
+ 	nvme_fault_inject_fini(ns);
+ 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+-		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvme_ns_id_attr_group);
+-		if (ns->ndev)
+-			nvme_nvm_unregister_sysfs(ns);
+ 		del_gendisk(ns->disk);
+ 		blk_cleanup_queue(ns->queue);
+ 		if (blk_get_integrity(ns->disk))
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 6fe5923c95d4..1e4f97538838 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -1190,10 +1190,29 @@ static NVM_DEV_ATTR_12_RO(multiplane_modes);
+ static NVM_DEV_ATTR_12_RO(media_capabilities);
+ static NVM_DEV_ATTR_12_RO(max_phys_secs);
+ 
+-static struct attribute *nvm_dev_attrs_12[] = {
++/* 2.0 values */
++static NVM_DEV_ATTR_20_RO(groups);
++static NVM_DEV_ATTR_20_RO(punits);
++static NVM_DEV_ATTR_20_RO(chunks);
++static NVM_DEV_ATTR_20_RO(clba);
++static NVM_DEV_ATTR_20_RO(ws_min);
++static NVM_DEV_ATTR_20_RO(ws_opt);
++static NVM_DEV_ATTR_20_RO(maxoc);
++static NVM_DEV_ATTR_20_RO(maxocpu);
++static NVM_DEV_ATTR_20_RO(mw_cunits);
++static NVM_DEV_ATTR_20_RO(write_typ);
++static NVM_DEV_ATTR_20_RO(write_max);
++static NVM_DEV_ATTR_20_RO(reset_typ);
++static NVM_DEV_ATTR_20_RO(reset_max);
++
++static struct attribute *nvm_dev_attrs[] = {
++	/* version agnostic attrs */
+ 	&dev_attr_version.attr,
+ 	&dev_attr_capabilities.attr,
++	&dev_attr_read_typ.attr,
++	&dev_attr_read_max.attr,
+ 
++	/* 1.2 attrs */
+ 	&dev_attr_vendor_opcode.attr,
+ 	&dev_attr_device_mode.attr,
+ 	&dev_attr_media_manager.attr,
+@@ -1208,8 +1227,6 @@ static struct attribute *nvm_dev_attrs_12[] = {
+ 	&dev_attr_page_size.attr,
+ 	&dev_attr_hw_sector_size.attr,
+ 	&dev_attr_oob_sector_size.attr,
+-	&dev_attr_read_typ.attr,
+-	&dev_attr_read_max.attr,
+ 	&dev_attr_prog_typ.attr,
+ 	&dev_attr_prog_max.attr,
+ 	&dev_attr_erase_typ.attr,
+@@ -1218,33 +1235,7 @@ static struct attribute *nvm_dev_attrs_12[] = {
+ 	&dev_attr_media_capabilities.attr,
+ 	&dev_attr_max_phys_secs.attr,
+ 
+-	NULL,
+-};
+-
+-static const struct attribute_group nvm_dev_attr_group_12 = {
+-	.name		= "lightnvm",
+-	.attrs		= nvm_dev_attrs_12,
+-};
+-
+-/* 2.0 values */
+-static NVM_DEV_ATTR_20_RO(groups);
+-static NVM_DEV_ATTR_20_RO(punits);
+-static NVM_DEV_ATTR_20_RO(chunks);
+-static NVM_DEV_ATTR_20_RO(clba);
+-static NVM_DEV_ATTR_20_RO(ws_min);
+-static NVM_DEV_ATTR_20_RO(ws_opt);
+-static NVM_DEV_ATTR_20_RO(maxoc);
+-static NVM_DEV_ATTR_20_RO(maxocpu);
+-static NVM_DEV_ATTR_20_RO(mw_cunits);
+-static NVM_DEV_ATTR_20_RO(write_typ);
+-static NVM_DEV_ATTR_20_RO(write_max);
+-static NVM_DEV_ATTR_20_RO(reset_typ);
+-static NVM_DEV_ATTR_20_RO(reset_max);
+-
+-static struct attribute *nvm_dev_attrs_20[] = {
+-	&dev_attr_version.attr,
+-	&dev_attr_capabilities.attr,
+-
++	/* 2.0 attrs */
+ 	&dev_attr_groups.attr,
+ 	&dev_attr_punits.attr,
+ 	&dev_attr_chunks.attr,
+@@ -1255,8 +1246,6 @@ static struct attribute *nvm_dev_attrs_20[] = {
+ 	&dev_attr_maxocpu.attr,
+ 	&dev_attr_mw_cunits.attr,
+ 
+-	&dev_attr_read_typ.attr,
+-	&dev_attr_read_max.attr,
+ 	&dev_attr_write_typ.attr,
+ 	&dev_attr_write_max.attr,
+ 	&dev_attr_reset_typ.attr,
+@@ -1265,44 +1254,38 @@ static struct attribute *nvm_dev_attrs_20[] = {
+ 	NULL,
+ };
+ 
+-static const struct attribute_group nvm_dev_attr_group_20 = {
+-	.name		= "lightnvm",
+-	.attrs		= nvm_dev_attrs_20,
+-};
+-
+-int nvme_nvm_register_sysfs(struct nvme_ns *ns)
++static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
++				     struct attribute *attr, int index)
+ {
 +	struct device *dev = container_of(kobj, struct device, kobj);
 +	struct gendisk *disk = dev_to_disk(dev);
-+	struct virtio_blk *vblk = disk->private_data;
-+	struct virtio_device *vdev = vblk->vdev;
-+
-+	if (a == &dev_attr_cache_type.attr &&
-+	    !virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
-+		return S_IRUGO;
-+
-+	return a->mode;
-+}
-+
-+static const struct attribute_group virtblk_attr_group = {
-+	.attrs = virtblk_attrs,
-+	.is_visible = virtblk_attrs_are_visible,
-+};
-+
-+static const struct attribute_group *virtblk_attr_groups[] = {
-+	&virtblk_attr_group,
-+	NULL,
-+};
++	struct nvme_ns *ns = disk->private_data;
+ 	struct nvm_dev *ndev = ns->ndev;
+-	struct nvm_geo *geo = &ndev->geo;
++	struct device_attribute *dev_attr =
++		container_of(attr, typeof(*dev_attr), attr);
  
- static int virtblk_init_request(struct blk_mq_tag_set *set, struct request *rq,
- 		unsigned int hctx_idx, unsigned int numa_node)
-@@ -780,24 +805,9 @@ static int virtblk_probe(struct virtio_device *vdev)
- 	virtblk_update_capacity(vblk, false);
- 	virtio_device_ready(vdev);
- 
--	device_add_disk(&vdev->dev, vblk->disk, NULL);
--	err = device_create_file(disk_to_dev(vblk->disk), &dev_attr_serial);
--	if (err)
--		goto out_del_disk;
+ 	if (!ndev)
+-		return -EINVAL;
 -
--	if (virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
--		err = device_create_file(disk_to_dev(vblk->disk),
--					 &dev_attr_cache_type_rw);
--	else
--		err = device_create_file(disk_to_dev(vblk->disk),
--					 &dev_attr_cache_type_ro);
--	if (err)
--		goto out_del_disk;
-+	device_add_disk(&vdev->dev, vblk->disk, virtblk_attr_groups);
- 	return 0;
+-	switch (geo->major_ver_id) {
+-	case 1:
+-		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvm_dev_attr_group_12);
+-	case 2:
+-		return sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvm_dev_attr_group_20);
+-	}
+-
+-	return -EINVAL;
+-}
++		return 0;
  
--out_del_disk:
--	del_gendisk(vblk->disk);
--	blk_cleanup_queue(vblk->disk->queue);
- out_free_tags:
- 	blk_mq_free_tag_set(&vblk->tag_set);
- out_put_disk:
+-void nvme_nvm_unregister_sysfs(struct nvme_ns *ns)
+-{
+-	struct nvm_dev *ndev = ns->ndev;
+-	struct nvm_geo *geo = &ndev->geo;
++	if (dev_attr->show == nvm_dev_attr_show)
++		return attr->mode;
+ 
+-	switch (geo->major_ver_id) {
++	switch (ndev->geo.major_ver_id) {
+ 	case 1:
+-		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvm_dev_attr_group_12);
++		if (dev_attr->show == nvm_dev_attr_show_12)
++			return attr->mode;
+ 		break;
+ 	case 2:
+-		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvm_dev_attr_group_20);
++		if (dev_attr->show == nvm_dev_attr_show_20)
++			return attr->mode;
+ 		break;
+ 	}
++
++	return 0;
+ }
++
++const struct attribute_group nvme_nvm_attr_group = {
++	.name		= "lightnvm",
++	.attrs		= nvm_dev_attrs,
++	.is_visible	= nvm_dev_attrs_visible,
++};
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 477af51d01e8..8e846095c42d 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -282,13 +282,9 @@ static void nvme_mpath_set_live(struct nvme_ns *ns)
+ 	if (!head->disk)
+ 		return;
+ 
+-	if (!(head->disk->flags & GENHD_FL_UP)) {
+-		device_add_disk(&head->subsys->dev, head->disk, NULL);
+-		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
+-				&nvme_ns_id_attr_group))
+-			dev_warn(&head->subsys->dev,
+-				 "failed to create id group.\n");
+-	}
++	if (!(head->disk->flags & GENHD_FL_UP))
++		device_add_disk(&head->subsys->dev, head->disk,
++				nvme_ns_id_attr_groups);
+ 
+ 	kblockd_schedule_work(&ns->head->requeue_work);
+ }
+@@ -494,11 +490,8 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
+ {
+ 	if (!head->disk)
+ 		return;
+-	if (head->disk->flags & GENHD_FL_UP) {
+-		sysfs_remove_group(&disk_to_dev(head->disk)->kobj,
+-				   &nvme_ns_id_attr_group);
++	if (head->disk->flags & GENHD_FL_UP)
+ 		del_gendisk(head->disk);
+-	}
+ 	blk_set_queue_dying(head->disk->queue);
+ 	/* make sure all pending bios are cleaned up */
+ 	kblockd_schedule_work(&head->requeue_work);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index bb4a2003c097..2503f8fd54da 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -459,7 +459,7 @@ int nvme_delete_ctrl_sync(struct nvme_ctrl *ctrl);
+ int nvme_get_log(struct nvme_ctrl *ctrl, u32 nsid, u8 log_page, u8 lsp,
+ 		void *log, size_t size, u64 offset);
+ 
+-extern const struct attribute_group nvme_ns_id_attr_group;
++extern const struct attribute_group *nvme_ns_id_attr_groups[];
+ extern const struct block_device_operations nvme_ns_head_ops;
+ 
+ #ifdef CONFIG_NVME_MULTIPATH
+@@ -551,8 +551,7 @@ static inline void nvme_mpath_stop(struct nvme_ctrl *ctrl)
+ void nvme_nvm_update_nvm_info(struct nvme_ns *ns);
+ int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node);
+ void nvme_nvm_unregister(struct nvme_ns *ns);
+-int nvme_nvm_register_sysfs(struct nvme_ns *ns);
+-void nvme_nvm_unregister_sysfs(struct nvme_ns *ns);
++extern const struct attribute_group nvme_nvm_attr_group;
+ int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd, unsigned long arg);
+ #else
+ static inline void nvme_nvm_update_nvm_info(struct nvme_ns *ns) {};
+@@ -563,11 +562,6 @@ static inline int nvme_nvm_register(struct nvme_ns *ns, char *disk_name,
+ }
+ 
+ static inline void nvme_nvm_unregister(struct nvme_ns *ns) {};
+-static inline int nvme_nvm_register_sysfs(struct nvme_ns *ns)
+-{
+-	return 0;
+-}
+-static inline void nvme_nvm_unregister_sysfs(struct nvme_ns *ns) {};
+ static inline int nvme_nvm_ioctl(struct nvme_ns *ns, unsigned int cmd,
+ 							unsigned long arg)
+ {
 -- 
 2.16.4
