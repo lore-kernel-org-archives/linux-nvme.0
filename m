@@ -1,65 +1,40 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 27 Sep 2018 17:44:07 -0700
-Subject: [PATCH 2/2] nvmet: don't split large I/Os unconditionally
-Message-ID: <20180928004407.25237-1-sagi@grimberg.me>
+Date: Thu, 27 Sep 2018 18:15:33 -0700
+Subject: [PATCH 0/4] traffic based keep alive support (TP 4024)
+Message-ID: <20180928011537.30069-1-sagi@grimberg.me>
 
-If we know that the I/O size exceeds our inline bio vec, no
-point using it and split the rest to begin with.
+Traffic Based Keep Alive TP (4024) was ratified recently. The technical
+proposal introduces a mode where keep alive commands may be omitted
+based on the presence of admin or io traffic during the keep alive timeout
+period. The rational is that normal command execution is sufficient
+indication of host, controller and transport health so the keep alive command
+is redundant.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/io-cmd-bdev.c | 12 ++++++++++--
- drivers/nvme/target/nvmet.h       |  1 +
- 2 files changed, 11 insertions(+), 2 deletions(-)
+Moreover, There is no way to guarantee in the various transports that a
+keep alive command will not be starved by heavy traffic, causing the
+keep alive timeout to expire. There were a number bug reports on
+linux nvme community on this exact issue.
 
-diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 0664e2049fa4..9b299d3d2b22 100644
---- a/drivers/nvme/target/io-cmd-bdev.c
-+++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -58,7 +58,7 @@ static void nvmet_bio_done(struct bio *bio)
- static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- {
- 	int sg_cnt = req->sg_cnt;
--	struct bio *bio = &req->b.inline_bio;
-+	struct bio *bio;
- 	struct bio_list list;
- 	struct scatterlist *sg;
- 	sector_t sector;
-@@ -82,7 +82,14 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	sector = le64_to_cpu(req->cmd->rw.slba);
- 	sector <<= (req->ns->blksize_shift - 9);
- 
--	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
-+	if (req->data_len <= NVMET_MAX_INLINE_DATA_LEN) {
-+		bio = &req->b.inline_bio;
-+		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
-+	} else {
-+		bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
-+		if (unlikely(!bio))
-+			goto out;
-+	}
- 	bio_set_dev(bio, req->ns->bdev);
- 	bio->bi_iter.bi_sector = sector;
- 	bio->bi_private = req;
-@@ -121,6 +128,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	while ((bio = bio_list_pop(&list)))
- 		if (bio != &req->b.inline_bio)
- 			bio_put(bio);
-+out:
- 	nvmet_req_complete(req, NVME_SC_INTERNAL);
- }
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index a056a4c96f67..10c96d43868d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -273,6 +273,7 @@ struct nvmet_fabrics_ops {
- };
- 
- #define NVMET_MAX_INLINE_BIOVEC	8
-+#define NVMET_MAX_INLINE_DATA_LEN NVMET_MAX_INLINE_BIOVEC * PAGE_SIZE
- 
- struct nvmet_req {
- 	struct nvme_command	*cmd;
+The implementation simply a controller-wide indicator that is cleared
+upon reset of the keep alive timer and set when a command (target) or
+completion (host) is processed. When the keep alive timer expires, we
+check if any command/completion were processed, we restart the keep
+alive timer even if a keep alive command was not executed.
+
+Sagi Grimberg (4):
+  nvme: introduce ctrl attributes enumeration
+  nvmet: support for traffic based keep-alive
+  nvme-core: cache controller attributes
+  nvme-core: support traffic based keep-alive based on controller
+    support
+
+ drivers/nvme/host/core.c        | 12 ++++++++++++
+ drivers/nvme/host/nvme.h        |  2 ++
+ drivers/nvme/target/admin-cmd.c |  3 ++-
+ drivers/nvme/target/core.c      | 12 ++++++++++++
+ drivers/nvme/target/nvmet.h     |  2 ++
+ include/linux/nvme.h            |  5 +++++
+ 6 files changed, 35 insertions(+), 1 deletion(-)
+
 -- 
 2.17.1
