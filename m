@@ -1,140 +1,116 @@
-From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
-Date: Fri, 28 Sep 2018 16:17:20 -0300
-Subject: [PATCH] nvme: create 'paths' entries for hidden controllers
-Message-ID: <20180928191720.3461-1-cascardo@canonical.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 28 Sep 2018 15:14:06 -0700
+Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
+In-Reply-To: <20180927180031.10706-1-sagi@grimberg.me>
+References: <20180927180031.10706-1-sagi@grimberg.me>
+Message-ID: <1538172846.53591.8.camel@acm.org>
 
-When using initramfs-tools with only the necessary dependencies to mount
-the root filesystem, it will fail to include nvme drivers for a root on a
-multipath nvme. That happens because the slaves relationship is not
-present.
+On Thu, 2018-09-27@11:00 -0700, Sagi Grimberg wrote:
+> Queue deletion is done asynchronous when the last reference on
+> the queue is dropped. Thus, in order to make sure we don't over
+> allocate under a connect/disconnect storm, we let queue deletion
+> complete before making forward progress.
+> 
+> However, given that we flush the system_wq from rdma_cm context
+> which runs from a workqueue context, we can have a circular
+> locking complaint [1]. Fix that by using a private workqueue for
+> queue deletion.
 
-As discussed in [1], using slaves will break lsblk, because the slaves are
-hidden from userspace, that is, they have no real block device, just an
-entry under sysfs.
+Hi Sagi,
 
-Introducing the paths subdir and using that on initramfs-tools makes it
-possible to now boot a system with nvme multipath as root.
+Thanks for this patch. With this patch applied the warning I reported
+earlier disappears but a new warning appeared:
 
-[1] https://www.spinics.net/lists/stable/msg222779.html
+======================================================
+WARNING: possible circular locking dependency detected
+4.19.0-rc5-dbg+ #8 Not tainted
+------------------------------------------------------
+kworker/u24:7/977 is trying to acquire lock:
+000000003dc8471f (&id_priv->handler_mutex){+.+.}, at: rdma_destroy_id+0x6f/0x440 [rdma_cm]
 
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Potnuri Bharat Teja <bharat at chelsio.com>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Hannes Reinecke <hare at suse.com>
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo at canonical.com>
----
- drivers/nvme/host/core.c      |  2 ++
- drivers/nvme/host/multipath.c | 28 ++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h      |  9 +++++++++
- 3 files changed, 37 insertions(+), 2 deletions(-)
+but task is already holding lock:
+0000000086ca5cb1 ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 456d37a02ea3..6958e8cab92c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3056,6 +3056,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 			ns->disk->disk_name);
- 
- 	nvme_mpath_add_disk(ns->head);
-+	nvme_mpath_add_disk_links(ns);
- 	nvme_fault_inject_init(ns);
- 	return;
-  out_unlink_ns:
-@@ -3077,6 +3078,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 
- 	nvme_fault_inject_fini(ns);
- 	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
-+		nvme_mpath_remove_disk_links(ns);
- 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
- 					&nvme_ns_id_attr_group);
- 		if (ns->ndev)
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 348aa405b641..70a4a0611550 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -220,15 +220,29 @@ void nvme_mpath_add_disk(struct nvme_ns_head *head)
- 
- 	mutex_lock(&head->subsys->lock);
- 	if (!(head->disk->flags & GENHD_FL_UP)) {
-+		struct kobject *hd_kobj = &disk_to_dev(head->disk)->kobj;
- 		device_add_disk(&head->subsys->dev, head->disk);
--		if (sysfs_create_group(&disk_to_dev(head->disk)->kobj,
--				&nvme_ns_id_attr_group))
-+		head->path_dir = kobject_create_and_add("paths", hd_kobj);
-+		if (sysfs_create_group(hd_kobj, &nvme_ns_id_attr_group))
- 			pr_warn("%s: failed to create sysfs group for identification\n",
- 				head->disk->disk_name);
- 	}
- 	mutex_unlock(&head->subsys->lock);
- }
- 
-+void nvme_mpath_add_disk_links(struct nvme_ns *ns)
-+{
-+	struct kobject *path_disk_kobj;
-+
-+	if (!ns->head->disk)
-+		return;
-+
-+	path_disk_kobj = &disk_to_dev(ns->disk)->kobj;
-+	if (sysfs_create_link(ns->head->path_dir, path_disk_kobj,
-+			kobject_name(path_disk_kobj)))
-+		return;
-+}
-+
- void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- 	if (!head->disk)
-@@ -241,5 +255,15 @@ void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- 	kblockd_schedule_work(&head->requeue_work);
- 	flush_work(&head->requeue_work);
- 	blk_cleanup_queue(head->disk->queue);
-+	kobject_put(head->path_dir);
- 	put_disk(head->disk);
- }
-+
-+void nvme_mpath_remove_disk_links(struct nvme_ns *ns)
-+{
-+	if (!ns->head->disk)
-+		return;
-+
-+	sysfs_remove_link(ns->head->path_dir,
-+			kobject_name(&disk_to_dev(ns->disk)->kobj));
-+}
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 07452adef110..8371f98b657e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -265,6 +265,7 @@ struct nvme_ns_ids {
- struct nvme_ns_head {
- #ifdef CONFIG_NVME_MULTIPATH
- 	struct gendisk		*disk;
-+	struct kobject		*path_dir;
- 	struct nvme_ns __rcu	*current_path;
- 	struct bio_list		requeue_list;
- 	spinlock_t		requeue_lock;
-@@ -456,7 +457,9 @@ void nvme_failover_req(struct request *req);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
- int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
- void nvme_mpath_add_disk(struct nvme_ns_head *head);
-+void nvme_mpath_add_disk_links(struct nvme_ns *ns);
- void nvme_mpath_remove_disk(struct nvme_ns_head *head);
-+void nvme_mpath_remove_disk_links(struct nvme_ns *ns);
- 
- static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
- {
-@@ -503,6 +506,12 @@ static inline void nvme_mpath_add_disk(struct nvme_ns_head *head)
- static inline void nvme_mpath_remove_disk(struct nvme_ns_head *head)
- {
- }
-+static inline void nvme_mpath_add_disk_links(struct nvme_ns *ns)
-+{
-+}
-+static inline void nvme_mpath_remove_disk_links(struct nvme_ns *ns)
-+{
-+}
- static inline void nvme_mpath_clear_current_path(struct nvme_ns *ns)
- {
- }
--- 
-2.17.1
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #3 ((work_completion)(&queue->release_work)){+.+.}:
+       process_one_work+0x474/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+-> #2 ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}:
+       flush_workqueue+0xf3/0x970
+       nvmet_rdma_cm_handler+0x1319/0x170f [nvmet_rdma]
+       cma_ib_req_handler+0x72f/0xf90 [rdma_cm]
+       cm_process_work+0x2e/0x110 [ib_cm]
+       cm_req_handler+0x135b/0x1c30 [ib_cm]
+       cm_work_handler+0x2b7/0x38cd [ib_cm]
+       process_one_work+0x4ae/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+-> #1 (&id_priv->handler_mutex/1){+.+.}:
+       __mutex_lock+0xfe/0xbe0
+       mutex_lock_nested+0x1b/0x20
+       cma_ib_req_handler+0x6aa/0xf90 [rdma_cm]
+       cm_process_work+0x2e/0x110 [ib_cm]
+       cm_req_handler+0x135b/0x1c30 [ib_cm]
+       cm_work_handler+0x2b7/0x38cd [ib_cm]
+       process_one_work+0x4ae/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+-> #0 (&id_priv->handler_mutex){+.+.}:
+       lock_acquire+0xc5/0x200
+       __mutex_lock+0xfe/0xbe0
+       mutex_lock_nested+0x1b/0x20
+       rdma_destroy_id+0x6f/0x440 [rdma_cm]
+       nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+       process_one_work+0x4ae/0xa20
+       worker_thread+0x63/0x5a0
+       kthread+0x1cf/0x1f0
+       ret_from_fork+0x24/0x30
+
+other info that might help us debug this:
+
+Chain exists of:
+  &id_priv->handler_mutex --> (wq_completion)"nvmet-rdma-delete-wq" --> (work_completion)(&queue->release_work)
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock((work_completion)(&queue->release_work));
+                               lock((wq_completion)"nvmet-rdma-delete-wq");
+                               lock((work_completion)(&queue->release_work));
+  lock(&id_priv->handler_mutex);
+
+ *** DEADLOCK ***
+
+2 locks held by kworker/u24:7/977:
+ #0: 00000000148450ab ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}, at: process_one_work+0x3ed/0xa20
+ #1: 0000000086ca5cb1 ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
+
+stack backtrace:
+CPU: 1 PID: 977 Comm: kworker/u24:7 Not tainted 4.19.0-rc5-dbg+ #8
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
+Workqueue: nvmet-rdma-delete-wq nvmet_rdma_release_queue_work [nvmet_rdma]
+Call Trace:
+ dump_stack+0x86/0xc5
+ print_circular_bug.isra.32+0x20a/0x218
+ __lock_acquire+0x1a54/0x1b20
+ lock_acquire+0xc5/0x200
+ __mutex_lock+0xfe/0xbe0
+ mutex_lock_nested+0x1b/0x20
+ rdma_destroy_id+0x6f/0x440 [rdma_cm]
+ nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+ process_one_work+0x4ae/0xa20
+ worker_thread+0x63/0x5a0
+ kthread+0x1cf/0x1f0
+ ret_from_fork+0x24/0x30
