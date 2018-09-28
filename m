@@ -1,21 +1,12 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 28 Sep 2018 08:30:53 -0600
-Subject: [PATCHv4 0/5] genhd: register default groups with
- device_add_disk()
-In-Reply-To: <20180928061723.13180-1-hare@suse.de>
-References: <20180928061723.13180-1-hare@suse.de>
-Message-ID: <ca3e3be0-2ca4-6474-d8be-697ab7cc133b@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 28 Sep 2018 17:16:18 +0200
+Subject: [PATCH 1/2 for-4.19] nvmet: handle bio allocation failure
+In-Reply-To: <20180928004056.22968-1-sagi@grimberg.me>
+References: <20180928004056.22968-1-sagi@grimberg.me>
+Message-ID: <20180928151618.GA8079@lst.de>
 
-On 9/28/18 12:17 AM, Hannes Reinecke wrote:
-> device_add_disk() doesn't allow to register with default sysfs groups,
-> which introduces a race with udev as these groups have to be created after
-> the uevent has been sent.
-> This patchset updates device_add_disk() to accept a 'groups' argument to
-> avoid this race and updates the obvious drivers to use it.
-> There are some more drivers which might benefit from this (eg loop or md),
-> but the interface is not straightforward so I haven't attempted it.
+On Thu, Sep 27, 2018@05:40:56PM -0700, Sagi Grimberg wrote:
+> We cannot rely on bio_alloc to succeed,
 
-Thanks Hannes, applied for 4.20.
-
--- 
-Jens Axboe
+Yes, we can (unless it is an atomic allocation or it exceeds
+BIO_MAX_PAGES, neither of which we do here).
