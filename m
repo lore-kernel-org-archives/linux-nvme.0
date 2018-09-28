@@ -1,19 +1,20 @@
 From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 28 Sep 2018 08:12:57 -0600
-Subject: [PATCH] nvme: take node locality into account when selecting a
- path
-In-Reply-To: <20180927230557.29444-1-hch@lst.de>
-References: <20180927230557.29444-1-hch@lst.de>
-Message-ID: <20180928141256.GA21979@localhost.localdomain>
+Date: Fri, 28 Sep 2018 08:15:16 -0600
+Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
+ groups
+In-Reply-To: <20180928061723.13180-3-hare@suse.de>
+References: <20180928061723.13180-1-hare@suse.de>
+ <20180928061723.13180-3-hare@suse.de>
+Message-ID: <20180928141516.GB21979@localhost.localdomain>
 
-On Thu, Sep 27, 2018@04:05:57PM -0700, Christoph Hellwig wrote:
-> Make current_path an array with an entry for every possible node, and
-> cache the best path on a per-node basis.  Take the node distance into
-> account when selecting it.  This is primarily useful for dual-ported PCIe
-> devices which are connected to PCIe root ports on different sockets.
+On Fri, Sep 28, 2018@08:17:20AM +0200, Hannes Reinecke wrote:
+> We should be registering the ns_id attribute as default sysfs
+> attribute groups, otherwise we have a race condition between
+> the uevent and the attributes appearing in sysfs.
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Suggested-by: Bart van Assche <bvanassche at acm.org>
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
 
-Looks great!
+Thanks, looks great!
 
 Reviewed-by: Keith Busch <keith.busch at intel.com>
