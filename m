@@ -1,75 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 27 Sep 2018 17:40:56 -0700
-Subject: [PATCH 1/2 for-4.19] nvmet: handle bio allocation failure
-Message-ID: <20180928004056.22968-1-sagi@grimberg.me>
+Date: Thu, 27 Sep 2018 17:44:07 -0700
+Subject: [PATCH 2/2] nvmet: don't split large I/Os unconditionally
+Message-ID: <20180928004407.25237-1-sagi@grimberg.me>
 
-We cannot rely on bio_alloc to succeed, so we first allocate
-the needed bios in a list, and only then submit all of them so
-we can cleanup if something fails in the process of building
-the chained bios.
+If we know that the I/O size exceeds our inline bio vec, no
+point using it and split the rest to begin with.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/io-cmd-bdev.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ drivers/nvme/target/io-cmd-bdev.c | 12 ++++++++++--
+ drivers/nvme/target/nvmet.h       |  1 +
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/target/io-cmd-bdev.c b/drivers/nvme/target/io-cmd-bdev.c
-index 7bc9f6240432..0664e2049fa4 100644
+index 0664e2049fa4..9b299d3d2b22 100644
 --- a/drivers/nvme/target/io-cmd-bdev.c
 +++ b/drivers/nvme/target/io-cmd-bdev.c
-@@ -59,9 +59,10 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+@@ -58,7 +58,7 @@ static void nvmet_bio_done(struct bio *bio)
+ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
  {
  	int sg_cnt = req->sg_cnt;
- 	struct bio *bio = &req->b.inline_bio;
-+	struct bio_list list;
+-	struct bio *bio = &req->b.inline_bio;
++	struct bio *bio;
+ 	struct bio_list list;
  	struct scatterlist *sg;
  	sector_t sector;
--	blk_qc_t cookie;
-+	blk_qc_t cookie = BLK_QC_T_NONE;
- 	int op, op_flags = 0, i;
+@@ -82,7 +82,14 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	sector = le64_to_cpu(req->cmd->rw.slba);
+ 	sector <<= (req->ns->blksize_shift - 9);
  
- 	if (!req->sg_cnt) {
-@@ -88,27 +89,39 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
- 	bio->bi_end_io = nvmet_bio_done;
- 	bio_set_op_attrs(bio, op, op_flags);
- 
-+	bio_list_init(&list);
- 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
- 		while (bio_add_page(bio, sg_page(sg), sg->length, sg->offset)
- 				!= sg->length) {
- 			struct bio *prev = bio;
- 
- 			bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
-+			if (unlikely(!bio))
-+				goto err;
-+
- 			bio_set_dev(bio, req->ns->bdev);
- 			bio->bi_iter.bi_sector = sector;
- 			bio_set_op_attrs(bio, op, op_flags);
- 
- 			bio_chain(bio, prev);
--			submit_bio(prev);
-+			bio_list_add(&list, bio);
- 		}
- 
- 		sector += sg->length >> 9;
- 		sg_cnt--;
- 	}
- 
--	cookie = submit_bio(bio);
-+	bio_list_add(&list, bio);
-+	while ((bio = bio_list_pop(&list)))
-+		cookie = submit_bio(bio);
- 
- 	blk_poll(bdev_get_queue(req->ns->bdev), cookie);
-+	return;
-+err:
-+	while ((bio = bio_list_pop(&list)))
-+		if (bio != &req->b.inline_bio)
-+			bio_put(bio);
-+	nvmet_req_complete(req, NVME_SC_INTERNAL);
+-	bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
++	if (req->data_len <= NVMET_MAX_INLINE_DATA_LEN) {
++		bio = &req->b.inline_bio;
++		bio_init(bio, req->inline_bvec, ARRAY_SIZE(req->inline_bvec));
++	} else {
++		bio = bio_alloc(GFP_KERNEL, min(sg_cnt, BIO_MAX_PAGES));
++		if (unlikely(!bio))
++			goto out;
++	}
+ 	bio_set_dev(bio, req->ns->bdev);
+ 	bio->bi_iter.bi_sector = sector;
+ 	bio->bi_private = req;
+@@ -121,6 +128,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
+ 	while ((bio = bio_list_pop(&list)))
+ 		if (bio != &req->b.inline_bio)
+ 			bio_put(bio);
++out:
+ 	nvmet_req_complete(req, NVME_SC_INTERNAL);
  }
  
- static void nvmet_bdev_execute_flush(struct nvmet_req *req)
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index a056a4c96f67..10c96d43868d 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -273,6 +273,7 @@ struct nvmet_fabrics_ops {
+ };
+ 
+ #define NVMET_MAX_INLINE_BIOVEC	8
++#define NVMET_MAX_INLINE_DATA_LEN NVMET_MAX_INLINE_BIOVEC * PAGE_SIZE
+ 
+ struct nvmet_req {
+ 	struct nvme_command	*cmd;
 -- 
 2.17.1
