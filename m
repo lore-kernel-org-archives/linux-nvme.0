@@ -1,70 +1,95 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 27 Sep 2018 18:15:37 -0700
-Subject: [PATCH 4/4] nvme-core: support traffic based keep-alive based on
- controller support
-In-Reply-To: <20180928011537.30069-1-sagi@grimberg.me>
-References: <20180928011537.30069-1-sagi@grimberg.me>
-Message-ID: <20180928011537.30069-5-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 28 Sep 2018 08:17:21 +0200
+Subject: [PATCH 3/5] aoe: register default groups with device_add_disk()
+In-Reply-To: <20180928061723.13180-1-hare@suse.de>
+References: <20180928061723.13180-1-hare@suse.de>
+Message-ID: <20180928061723.13180-4-hare@suse.de>
 
-If the controller supports traffic based keep alive, we restart
-the keep alive timer if any admin or io commands was completed
-during the kato period. This prevents a possible starvation of
-keep alive commands in the presence of heavy traffic as in such
-case, we already have a health indication from the host perspective.
+Register default sysfs groups during device_add_disk() to avoid a
+race condition with udev during startup.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Acked-by: Ed L. Cachin <ed.cashin at acm.org>
+Reviewed-by: Bart Van Assche <bart.vanassche at wdc.com>
 ---
- drivers/nvme/host/core.c | 11 +++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 12 insertions(+)
+ drivers/block/aoe/aoe.h    |  1 -
+ drivers/block/aoe/aoeblk.c | 21 +++++++--------------
+ drivers/block/aoe/aoedev.c |  1 -
+ 3 files changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6bb6214c0634..54a24987a7d4 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -251,6 +251,7 @@ void nvme_complete_rq(struct request *req)
+diff --git a/drivers/block/aoe/aoe.h b/drivers/block/aoe/aoe.h
+index c0ebda1283cc..015c68017a1c 100644
+--- a/drivers/block/aoe/aoe.h
++++ b/drivers/block/aoe/aoe.h
+@@ -201,7 +201,6 @@ int aoeblk_init(void);
+ void aoeblk_exit(void);
+ void aoeblk_gdalloc(void *);
+ void aoedisk_rm_debugfs(struct aoedev *d);
+-void aoedisk_rm_sysfs(struct aoedev *d);
  
- 	trace_nvme_complete_rq(req);
- 
-+	nvme_req(req)->ctrl->comp_seen = true;
- 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
- 		if ((req->cmd_flags & REQ_NVME_MPATH) &&
- 		    blk_path_error(status)) {
-@@ -841,6 +842,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		return;
- 	}
- 
-+	ctrl->comp_seen = false;
- 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
- }
- 
-@@ -865,6 +867,15 @@ static void nvme_keep_alive_work(struct work_struct *work)
- {
- 	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
- 			struct nvme_ctrl, ka_work);
-+	bool comp_seen = ctrl->comp_seen;
-+
-+	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
-+		dev_dbg(ctrl->device,
-+			"traffic based keep-alive timer expired, reschedule\n");
-+		ctrl->comp_seen = false;
-+		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+		return;
-+	}
- 
- 	if (nvme_keep_alive(ctrl)) {
- 		/* allocation failure, reset the controller */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ee1c4fc0249c..e9aaae257daa 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -145,6 +145,7 @@ enum nvme_ctrl_state {
+ int aoechr_init(void);
+ void aoechr_exit(void);
+diff --git a/drivers/block/aoe/aoeblk.c b/drivers/block/aoe/aoeblk.c
+index 429ebb84b592..ff770e7d9e52 100644
+--- a/drivers/block/aoe/aoeblk.c
++++ b/drivers/block/aoe/aoeblk.c
+@@ -177,10 +177,15 @@ static struct attribute *aoe_attrs[] = {
+ 	NULL,
  };
  
- struct nvme_ctrl {
-+	bool comp_seen;
- 	enum nvme_ctrl_state state;
- 	bool identified;
- 	spinlock_t lock;
+-static const struct attribute_group attr_group = {
++static const struct attribute_group aoe_attr_group = {
+ 	.attrs = aoe_attrs,
+ };
+ 
++static const struct attribute_group *aoe_attr_groups[] = {
++	&aoe_attr_group,
++	NULL,
++};
++
+ static const struct file_operations aoe_debugfs_fops = {
+ 	.open = aoe_debugfs_open,
+ 	.read = seq_read,
+@@ -219,17 +224,6 @@ aoedisk_rm_debugfs(struct aoedev *d)
+ 	d->debugfs = NULL;
+ }
+ 
+-static int
+-aoedisk_add_sysfs(struct aoedev *d)
+-{
+-	return sysfs_create_group(&disk_to_dev(d->gd)->kobj, &attr_group);
+-}
+-void
+-aoedisk_rm_sysfs(struct aoedev *d)
+-{
+-	sysfs_remove_group(&disk_to_dev(d->gd)->kobj, &attr_group);
+-}
+-
+ static int
+ aoeblk_open(struct block_device *bdev, fmode_t mode)
+ {
+@@ -417,8 +411,7 @@ aoeblk_gdalloc(void *vp)
+ 
+ 	spin_unlock_irqrestore(&d->lock, flags);
+ 
+-	add_disk(gd);
+-	aoedisk_add_sysfs(d);
++	device_add_disk(NULL, gd, aoe_attr_groups);
+ 	aoedisk_add_debugfs(d);
+ 
+ 	spin_lock_irqsave(&d->lock, flags);
+diff --git a/drivers/block/aoe/aoedev.c b/drivers/block/aoe/aoedev.c
+index 41060e9cedf2..f29a140cdbc1 100644
+--- a/drivers/block/aoe/aoedev.c
++++ b/drivers/block/aoe/aoedev.c
+@@ -275,7 +275,6 @@ freedev(struct aoedev *d)
+ 	del_timer_sync(&d->timer);
+ 	if (d->gd) {
+ 		aoedisk_rm_debugfs(d);
+-		aoedisk_rm_sysfs(d);
+ 		del_gendisk(d->gd);
+ 		put_disk(d->gd);
+ 		blk_cleanup_queue(d->blkq);
 -- 
-2.17.1
+2.16.4
