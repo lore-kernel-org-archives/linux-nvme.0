@@ -1,14 +1,27 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 28 Sep 2018 17:19:00 +0200
-Subject: [PATCH 2/2] nvmet: don't split large I/Os unconditionally
-In-Reply-To: <20180928004407.25237-1-sagi@grimberg.me>
-References: <20180928004407.25237-1-sagi@grimberg.me>
-Message-ID: <20180928151900.GA8279@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 28 Sep 2018 08:40:03 -0700
+Subject: [GIT PULL] nvme fixes for 4.19
+Message-ID: <20180928154003.GA3163@infradead.org>
 
-On Thu, Sep 27, 2018@05:44:07PM -0700, Sagi Grimberg wrote:
-> If we know that the I/O size exceeds our inline bio vec, no
-> point using it and split the rest to begin with.
+The following changes since commit b228ba1cb95afbaeeb86cf06cd9fd6f6369c3b14:
 
-In theory there would be a point if the I/O size did exactly fit
-the inline bio + a maximum size allocated bio.  Probably not worth
-optimizing for, but maybe worth an updated changelog.
+  null_blk: fix zoned support for non-rq based operation (2018-09-12 18:21:11 -0600)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.19
+
+for you to fetch changes up to bb830add192e9d8338082c0fc2c209e23b43d865:
+
+  nvme: properly propagate errors in nvme_mpath_init (2018-09-25 16:21:40 -0700)
+
+----------------------------------------------------------------
+Hannes Reinecke (1):
+      nvme: count all ANA groups for ANA Log page
+
+Susobhan Dey (1):
+      nvme: properly propagate errors in nvme_mpath_init
+
+ drivers/nvme/host/multipath.c   | 6 ++++--
+ drivers/nvme/target/admin-cmd.c | 4 ++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
