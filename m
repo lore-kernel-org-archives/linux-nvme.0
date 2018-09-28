@@ -1,20 +1,21 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 28 Sep 2018 08:15:16 -0600
-Subject: [PATCH 2/5] nvme: register ns_id attributes as default sysfs
- groups
-In-Reply-To: <20180928061723.13180-3-hare@suse.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 28 Sep 2018 08:30:53 -0600
+Subject: [PATCHv4 0/5] genhd: register default groups with
+ device_add_disk()
+In-Reply-To: <20180928061723.13180-1-hare@suse.de>
 References: <20180928061723.13180-1-hare@suse.de>
- <20180928061723.13180-3-hare@suse.de>
-Message-ID: <20180928141516.GB21979@localhost.localdomain>
+Message-ID: <ca3e3be0-2ca4-6474-d8be-697ab7cc133b@kernel.dk>
 
-On Fri, Sep 28, 2018@08:17:20AM +0200, Hannes Reinecke wrote:
-> We should be registering the ns_id attribute as default sysfs
-> attribute groups, otherwise we have a race condition between
-> the uevent and the attributes appearing in sysfs.
-> 
-> Suggested-by: Bart van Assche <bvanassche at acm.org>
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
+On 9/28/18 12:17 AM, Hannes Reinecke wrote:
+> device_add_disk() doesn't allow to register with default sysfs groups,
+> which introduces a race with udev as these groups have to be created after
+> the uevent has been sent.
+> This patchset updates device_add_disk() to accept a 'groups' argument to
+> avoid this race and updates the obvious drivers to use it.
+> There are some more drivers which might benefit from this (eg loop or md),
+> but the interface is not straightforward so I haven't attempted it.
 
-Thanks, looks great!
+Thanks Hannes, applied for 4.20.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+-- 
+Jens Axboe
