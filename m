@@ -1,10 +1,10 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 28 Sep 2018 18:00:47 -0700
-Subject: [PATCH v2] nvme: call nvme_complete_rq on NVME_MPATH failures
-In-Reply-To: <20180927235854.12386-1-jsmart2021@gmail.com>
-References: <20180927235854.12386-1-jsmart2021@gmail.com>
-Message-ID: <20180929010047.GA23662@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 29 Sep 2018 03:01:27 +0200
+Subject: [PATCH v2] nvmet: don't split large I/Os unconditionally
+In-Reply-To: <20180928224043.32134-1-sagi@grimberg.me>
+References: <20180928224043.32134-1-sagi@grimberg.me>
+Message-ID: <20180929010127.GA19809@lst.de>
 
 Thanks,
 
-applied for nvme-4.20.
+applied to nvme-4.20.
