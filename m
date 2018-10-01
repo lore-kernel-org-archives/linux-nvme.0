@@ -1,21 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 30 Nov 2018 13:39:02 -0700
-Subject: [PATCH 1/2] blk-mq: Export iterating all tagged requests
-In-Reply-To: <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
-References: <20181130202635.11145-1-keith.busch@intel.com>
- <823fc3bf-78a4-c8fb-c80c-e3944f320af0@kernel.dk>
-Message-ID: <20181130203901.GA11193@localhost.localdomain>
+From: a.bockholdt@precitec-optronik.de (Bockholdt Arne)
+Date: Mon, 1 Oct 2018 09:03:21 +0000
+Subject: [REGRESSION] DELL XPS 9550 with SM951 NVME SSD quits the bus in
+ battery mode (new in 4.18/4.19)
+In-Reply-To: <20180925140438.GA11633@localhost.localdomain>
+References: <87f25c53846dd3a6f6d747edc46f9589234ac9a2.camel@precitec-optronik.de>
+ <20180925140438.GA11633@localhost.localdomain>
+Message-ID: <56b14c92bba20fd8a63cfb6986356ed604e41d2c.camel@precitec-optronik.de>
 
-On Fri, Nov 30, 2018@01:36:09PM -0700, Jens Axboe wrote:
-> On 11/30/18 1:26 PM, Keith Busch wrote:
-> > A driver may wish to iterate every tagged request, not just ones that
-> > satisfy blk_mq_request_started(). The intended use is so a driver may
-> > terminate entered requests on quiesced queues.
+
+On Tue, 2018-09-25@08:04 -0600, Keith Busch wrote:
+> On Tue, Sep 25, 2018@07:31:40AM +0000, Bockholdt Arne wrote:
 > 
-> How about we just move the started check into the handler passed in for
-> those that care about it? Much saner to make the interface iterate
-> everything, and leave whatever state check to the callback.
+> Hi all,
+> 
+> I've noticed a regression in the 4.18/4.19 kernel lines with my Dell
+> XPS 9550 laptop and the SM951 NVME SSD. Only in battery mode the SSD
+> seems to quit from the PCIe bus and I need to reboot the device. The
+> laptop is updated to the latest BIOS 1.80. When the device is
+> connected
+> to AC power the error seems to vanish. It seems to be easily
+> reproducible by starting a VM via Qemu/KVM, after some seconds the
+> device and the file system vanishes.
+> I've tried to disable APST completely by kernel command line
+> parameter
+> "nvme_core.default_ps_max_latency_us=0" but it doesn't seem to help. 
+> 
+> 4.17 doesn't seem to be affected, tested with 4.18.6 and 4.19-rc5.
+> 
+> Is this a known regression? If you need more information, please let
+> me
+> know.
+> 
+> This regression sounds external to the nvme driver. Would it be
+> possible
+> to bisect between 4.17 and 4.18?
 
-I agree that's better. I initially didn't want to examine all the users
-but looks like only 4 drivers using the current tagset iterator, so
-that's not too daunting. I'll give it a look.
+
+This regression happens on my day to day working laptop only and it
+would be to time intensive and dangerous to bisect it, sorry. Maybe I
+could provide log files if you point me to the right one and tell me if
+I should enable some kind of debug flags.
+
+Thanks,
+
+   Arne
