@@ -1,51 +1,31 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 1 Oct 2018 15:23:25 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 1 Oct 2018 17:43:00 -0600
 Subject: [PATCH v8 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <69cd8aab-b94e-98f5-5397-48bb875e8280@deltatee.com>
+In-Reply-To: <b790b11f-41df-f495-fdd1-d8bd6d6b7dd6@grimberg.me>
 References: <20180927165420.5290-1-logang@deltatee.com>
  <20180927165420.5290-14-logang@deltatee.com>
  <5ddeed51-0580-9581-cf12-c75e18b4f7cc@grimberg.me>
  <69cd8aab-b94e-98f5-5397-48bb875e8280@deltatee.com>
-Message-ID: <b790b11f-41df-f495-fdd1-d8bd6d6b7dd6@grimberg.me>
+ <b790b11f-41df-f495-fdd1-d8bd6d6b7dd6@grimberg.me>
+Message-ID: <587bb6bd-ec07-62ac-6442-cbc7892df37f@deltatee.com>
 
 
->>> +/*
->>> + * If allow_p2pmem is set, we will try to use P2P memory for the SGL lists for
->>> + * ?/O commands. This requires the PCI p2p device to be compatible with the
->>> + * backing device for every namespace on this controller.
->>> + */
->>> +static void nvmet_setup_p2pmem(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
->>> +{
->>> +	struct nvmet_ns *ns;
->>> +	int ret;
->>> +
->>> +	if (!req->port->use_p2pmem || !req->p2p_client)
->>> +		return;
->>
->> Nit, IMO would be better to check at the call-site, but not a hard
->> must...
+
+On 01/10/18 04:23 PM, Sagi Grimberg wrote:
+>> I did not realize the namespace would be available at this time. I guess
+>> I can give this a try, but it's going to be a fairly big change from
+>> what's presented here... Though, I agree it'll probably be an
+>> improvement.
 > 
-> I'd rather keep the logic for whether to enable p2pmem in it's own
-> function. nvme_alloc_ctrl() is already very long and complicated.
+> Thanks, if it turns out to create to much of a churn, we could defer
+> that to a later stage, but we can at least document it.
 
-Fair enough..
+Yeah, it's going to create a bunch of churn, but it's probably worth
+doing before merging because I think it will remove a bunch of
+complexity (ie. the need for the whole p2p client infrastructure because
+we now only need to worry about only one namespace at a time, instead of
+needing to find a p2p device that works with all namespaces at once).
 
->> I still do not fully understand why p2p_dev has to be ctrl-wide and not
->> per namespace. Sorry to keep bringing this up (again). But if people are
->> OK with it then I guess I can stop asking about this...
-> 
-> Because you never answered my question back in March[1] (which I think
-> you've answered below)....
+I'll try to get a v9 with this change published in the next day or two.
 
-I'm sorry... I lost tracking on this...
-
->> I think that at some point we said that this looks like it should fall
->> back to host memory for those namespaces.. when we allocate the sgl we
->> already assigned a namespace to the request (nvmet_req_init).
-> 
-> I did not realize the namespace would be available at this time. I guess
-> I can give this a try, but it's going to be a fairly big change from
-> what's presented here... Though, I agree it'll probably be an improvement.
-
-Thanks, if it turns out to create to much of a churn, we could defer
-that to a later stage, but we can at least document it.
+Logan
