@@ -1,129 +1,277 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 1 Oct 2018 13:12:59 -0700
-Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
-In-Reply-To: <1538172846.53591.8.camel@acm.org>
-References: <20180927180031.10706-1-sagi@grimberg.me>
- <1538172846.53591.8.camel@acm.org>
-Message-ID: <d6b9397c-2817-535d-f794-74dc01d8f601@grimberg.me>
+Date: Mon, 1 Oct 2018 14:34:20 -0700
+Subject: [PATCH v8 13/13] nvmet: Optionally use PCI P2P memory
+In-Reply-To: <20180927165420.5290-14-logang@deltatee.com>
+References: <20180927165420.5290-1-logang@deltatee.com>
+ <20180927165420.5290-14-logang@deltatee.com>
+Message-ID: <5ddeed51-0580-9581-cf12-c75e18b4f7cc@grimberg.me>
 
 
->> Queue deletion is done asynchronous when the last reference on
->> the queue is dropped. Thus, in order to make sure we don't over
->> allocate under a connect/disconnect storm, we let queue deletion
->> complete before making forward progress.
->>
->> However, given that we flush the system_wq from rdma_cm context
->> which runs from a workqueue context, we can have a circular
->> locking complaint [1]. Fix that by using a private workqueue for
->> queue deletion.
-> 
-> Hi Sagi,
-> 
-> Thanks for this patch. With this patch applied the warning I reported
-> earlier disappears but a new warning appeared:
 
-Thanks for testing, this is a similar complaint though...
+On 09/27/2018 09:54 AM, Logan Gunthorpe wrote:
+> We create a configfs attribute in each nvme-fabrics target port to
+> enable p2p memory use. When enabled, the port will only then use the
+> p2p memory if a p2p memory device can be found which is behind the
+> same switch hierarchy as the RDMA port and all the block devices in
+> use. If the user enabled it and no devices are found, then the system
+> will silently fall back on using regular memory.
+> 
+> If appropriate, that port will allocate memory for the RDMA buffers
+> for queues from the p2pmem device falling back to system memory should
+> anything fail.
+> 
+> Ideally, we'd want to use an NVME CMB buffer as p2p memory. This would
+> save an extra PCI transfer as the NVME card could just take the data
+> out of it's own memory. However, at this time, only a limited number
+> of cards with CMB buffers seem to be available.
+> 
+> Signed-off-by: Stephen Bates <sbates at raithlin.com>
+> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+> [hch: partial rewrite of the initial code]
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+> ---
+>   drivers/nvme/target/configfs.c    |  36 ++++++++
+>   drivers/nvme/target/core.c        | 138 +++++++++++++++++++++++++++++-
+>   drivers/nvme/target/io-cmd-bdev.c |   3 +
+>   drivers/nvme/target/nvmet.h       |  13 +++
+>   drivers/nvme/target/rdma.c        |   2 +
+>   5 files changed, 191 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+> index b37a8e3e3f80..0dfb0e0c3d21 100644
+> --- a/drivers/nvme/target/configfs.c
+> +++ b/drivers/nvme/target/configfs.c
+> @@ -17,6 +17,8 @@
+>   #include <linux/slab.h>
+>   #include <linux/stat.h>
+>   #include <linux/ctype.h>
+> +#include <linux/pci.h>
+> +#include <linux/pci-p2pdma.h>
+>   
+>   #include "nvmet.h"
+>   
+> @@ -1094,6 +1096,37 @@ static void nvmet_port_release(struct config_item *item)
+>   	kfree(port);
+>   }
+>   
+> +#ifdef CONFIG_PCI_P2PDMA
+> +static ssize_t nvmet_p2pmem_show(struct config_item *item, char *page)
+> +{
+> +	struct nvmet_port *port = to_nvmet_port(item);
+> +
+> +	return pci_p2pdma_enable_show(page, port->p2p_dev, port->use_p2pmem);
+> +}
+> +
+> +static ssize_t nvmet_p2pmem_store(struct config_item *item,
+> +		const char *page, size_t count)
+> +{
+> +	struct nvmet_port *port = to_nvmet_port(item);
+> +	struct pci_dev *p2p_dev = NULL;
+> +	bool use_p2pmem;
+> +	int error;
+> +
+> +	error = pci_p2pdma_enable_store(page, &p2p_dev, &use_p2pmem);
+> +	if (error)
+> +		return error;
+> +
+> +	down_write(&nvmet_config_sem);
+> +	port->use_p2pmem = use_p2pmem;
+> +	pci_dev_put(port->p2p_dev);
+> +	port->p2p_dev = p2p_dev;
+> +	up_write(&nvmet_config_sem);
+> +
+> +	return count;
+> +}
+> +CONFIGFS_ATTR(nvmet_, p2pmem);
+> +#endif /* CONFIG_PCI_P2PDMA */
+> +
+>   static struct configfs_attribute *nvmet_port_attrs[] = {
+>   	&nvmet_attr_addr_adrfam,
+>   	&nvmet_attr_addr_treq,
+> @@ -1101,6 +1134,9 @@ static struct configfs_attribute *nvmet_port_attrs[] = {
+>   	&nvmet_attr_addr_trsvcid,
+>   	&nvmet_attr_addr_trtype,
+>   	&nvmet_attr_param_inline_data_size,
+> +#ifdef CONFIG_PCI_P2PDMA
+> +	&nvmet_attr_p2pmem,
+> +#endif
+>   	NULL,
+>   };
+>   
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index bddd1599b826..7ade16cb4ed3 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -15,6 +15,7 @@
+>   #include <linux/module.h>
+>   #include <linux/random.h>
+>   #include <linux/rculist.h>
+> +#include <linux/pci-p2pdma.h>
+>   
+>   #include "nvmet.h"
+>   
+> @@ -365,9 +366,29 @@ static void nvmet_ns_dev_disable(struct nvmet_ns *ns)
+>   	nvmet_file_ns_disable(ns);
+>   }
+>   
+> +static int nvmet_p2pdma_add_client(struct nvmet_ctrl *ctrl,
+> +		struct nvmet_ns *ns)
+> +{
+> +	int ret;
+> +
+> +	if (!blk_queue_pci_p2pdma(ns->bdev->bd_queue)) {
+> +		pr_err("peer-to-peer DMA is not supported by %s\n",
+> +		       ns->device_path);
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = pci_p2pdma_add_client(&ctrl->p2p_clients, nvmet_ns_dev(ns));
+> +	if (ret)
+> +		pr_err("failed to add peer-to-peer DMA client %s: %d\n",
+> +		       ns->device_path, ret);
+> +
+> +	return ret;
+> +}
+> +
+>   int nvmet_ns_enable(struct nvmet_ns *ns)
+>   {
+>   	struct nvmet_subsys *subsys = ns->subsys;
+> +	struct nvmet_ctrl *ctrl;
+>   	int ret;
+>   
+>   	mutex_lock(&subsys->lock);
+> @@ -389,6 +410,14 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>   	if (ret)
+>   		goto out_dev_put;
+>   
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		if (ctrl->p2p_dev) {
+> +			ret = nvmet_p2pdma_add_client(ctrl, ns);
+> +			if (ret)
+> +				goto out_remove_clients;
+> +		}
+> +	}
+> +
+>   	if (ns->nsid > subsys->max_nsid)
+>   		subsys->max_nsid = ns->nsid;
+>   
+> @@ -417,6 +446,9 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>   out_unlock:
+>   	mutex_unlock(&subsys->lock);
+>   	return ret;
+> +out_remove_clients:
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
+> +		pci_p2pdma_remove_client(&ctrl->p2p_clients, nvmet_ns_dev(ns));
+>   out_dev_put:
+>   	nvmet_ns_dev_disable(ns);
+>   	goto out_unlock;
+> @@ -425,6 +457,7 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>   void nvmet_ns_disable(struct nvmet_ns *ns)
+>   {
+>   	struct nvmet_subsys *subsys = ns->subsys;
+> +	struct nvmet_ctrl *ctrl;
+>   
+>   	mutex_lock(&subsys->lock);
+>   	if (!ns->enabled)
+> @@ -450,6 +483,12 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>   	percpu_ref_exit(&ns->ref);
+>   
+>   	mutex_lock(&subsys->lock);
+> +
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		pci_p2pdma_remove_client(&ctrl->p2p_clients, nvmet_ns_dev(ns));
+> +		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE, 0, 0);
 
-What I'm missing here is why flushing a work that runs on workqueue A
-can't be done from a work that runs on workqueue B. It is
-guaranteed that the id_priv that is used as a barrier from
-rdma_destroy_id is different from the id_priv that is handling the
-connect. So I'm not clear on what is the dependency yet.
+Hi Logan, what is this event here?
 
-Any insights?
+> +	}
+> +
+>   	subsys->nr_namespaces--;
+>   	nvmet_ns_changed(subsys, ns->nsid);
+>   	nvmet_ns_dev_disable(ns);
+> @@ -727,6 +766,23 @@ EXPORT_SYMBOL_GPL(nvmet_req_execute);
+>   
+>   int nvmet_req_alloc_sgl(struct nvmet_req *req, struct nvmet_sq *sq)
+>   {
+> +	struct pci_dev *p2p_dev = NULL;
+> +
+> +	if (IS_ENABLED(CONFIG_PCI_P2PDMA)) {
+> +		if (sq->ctrl)
+> +			p2p_dev = sq->ctrl->p2p_dev;
+> +
+> +		req->p2p_dev = NULL;
+> +		if (sq->qid && p2p_dev) {
+> +			req->sg = pci_p2pmem_alloc_sgl(p2p_dev, &req->sg_cnt,
+> +						       req->transfer_len);
+> +			if (req->sg) {
+> +				req->p2p_dev = p2p_dev;
+> +				return 0;
+> +			}
 
-> 
-> ======================================================
-> WARNING: possible circular locking dependency detected
-> 4.19.0-rc5-dbg+ #8 Not tainted
-> ------------------------------------------------------
-> kworker/u24:7/977 is trying to acquire lock:
-> 000000003dc8471f (&id_priv->handler_mutex){+.+.}, at: rdma_destroy_id+0x6f/0x440 [rdma_cm]
-> 
-> but task is already holding lock:
-> 0000000086ca5cb1 ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
-> 
-> which lock already depends on the new lock.
-> 
-> 
-> the existing dependency chain (in reverse order) is:
-> 
-> -> #3 ((work_completion)(&queue->release_work)){+.+.}:
->         process_one_work+0x474/0xa20
->         worker_thread+0x63/0x5a0
->         kthread+0x1cf/0x1f0
->         ret_from_fork+0x24/0x30
-> 
-> -> #2 ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}:
->         flush_workqueue+0xf3/0x970
->         nvmet_rdma_cm_handler+0x1319/0x170f [nvmet_rdma]
->         cma_ib_req_handler+0x72f/0xf90 [rdma_cm]
->         cm_process_work+0x2e/0x110 [ib_cm]
->         cm_req_handler+0x135b/0x1c30 [ib_cm]
->         cm_work_handler+0x2b7/0x38cd [ib_cm]
->         process_one_work+0x4ae/0xa20
->         worker_thread+0x63/0x5a0
->         kthread+0x1cf/0x1f0
->         ret_from_fork+0x24/0x30
-> 
-> -> #1 (&id_priv->handler_mutex/1){+.+.}:
->         __mutex_lock+0xfe/0xbe0
->         mutex_lock_nested+0x1b/0x20
->         cma_ib_req_handler+0x6aa/0xf90 [rdma_cm]
->         cm_process_work+0x2e/0x110 [ib_cm]
->         cm_req_handler+0x135b/0x1c30 [ib_cm]
->         cm_work_handler+0x2b7/0x38cd [ib_cm]
->         process_one_work+0x4ae/0xa20
->         worker_thread+0x63/0x5a0
->         kthread+0x1cf/0x1f0
->         ret_from_fork+0x24/0x30
-> 
-> -> #0 (&id_priv->handler_mutex){+.+.}:
->         lock_acquire+0xc5/0x200
->         __mutex_lock+0xfe/0xbe0
->         mutex_lock_nested+0x1b/0x20
->         rdma_destroy_id+0x6f/0x440 [rdma_cm]
->         nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
->         process_one_work+0x4ae/0xa20
->         worker_thread+0x63/0x5a0
->         kthread+0x1cf/0x1f0
->         ret_from_fork+0x24/0x30
-> 
-> other info that might help us debug this:
-> 
-> Chain exists of:
->    &id_priv->handler_mutex --> (wq_completion)"nvmet-rdma-delete-wq" --> (work_completion)(&queue->release_work)
-> 
->   Possible unsafe locking scenario:
-> 
->         CPU0                    CPU1
->         ----                    ----
->    lock((work_completion)(&queue->release_work));
->                                 lock((wq_completion)"nvmet-rdma-delete-wq");
->                                 lock((work_completion)(&queue->release_work));
->    lock(&id_priv->handler_mutex);
-> 
->   *** DEADLOCK ***
-> 
-> 2 locks held by kworker/u24:7/977:
->   #0: 00000000148450ab ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}, at: process_one_work+0x3ed/0xa20
->   #1: 0000000086ca5cb1 ((work_completion)(&queue->release_work)){+.+.}, at: process_one_work+0x3ed/0xa20
-> 
-> stack backtrace:
-> CPU: 1 PID: 977 Comm: kworker/u24:7 Not tainted 4.19.0-rc5-dbg+ #8
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1 04/01/2014
-> Workqueue: nvmet-rdma-delete-wq nvmet_rdma_release_queue_work [nvmet_rdma]
-> Call Trace:
->   dump_stack+0x86/0xc5
->   print_circular_bug.isra.32+0x20a/0x218
->   __lock_acquire+0x1a54/0x1b20
->   lock_acquire+0xc5/0x200
->   __mutex_lock+0xfe/0xbe0
->   mutex_lock_nested+0x1b/0x20
->   rdma_destroy_id+0x6f/0x440 [rdma_cm]
->   nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
->   process_one_work+0x4ae/0xa20
->   worker_thread+0x63/0x5a0
->   kthread+0x1cf/0x1f0
->   ret_from_fork+0x24/0x30
-> 
+Would be useful to comment that we fall to normal sgl allocation.
+
+> +		}
+> +	}
+> +
+>   	req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
+>   	if (!req->sg)
+>   		return -ENOMEM;
+> @@ -737,7 +793,11 @@ EXPORT_SYMBOL_GPL(nvmet_req_alloc_sgl);
+>   
+>   void nvmet_req_free_sgl(struct nvmet_req *req)
+>   {
+> -	sgl_free(req->sg);
+> +	if (req->p2p_dev)
+> +		pci_p2pmem_free_sgl(req->p2p_dev, req->sg);
+> +	else
+> +		sgl_free(req->sg);
+> +
+>   	req->sg = NULL;
+>   	req->sg_cnt = 0;
+>   }
+> @@ -939,6 +999,79 @@ bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
+>   		return __nvmet_host_allowed(subsys, hostnqn);
+>   }
+>   
+> +/*
+> + * If allow_p2pmem is set, we will try to use P2P memory for the SGL lists for
+> + * ?/O commands. This requires the PCI p2p device to be compatible with the
+> + * backing device for every namespace on this controller.
+> + */
+> +static void nvmet_setup_p2pmem(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+> +{
+> +	struct nvmet_ns *ns;
+> +	int ret;
+> +
+> +	if (!req->port->use_p2pmem || !req->p2p_client)
+> +		return;
+
+Nit, IMO would be better to check at the call-site, but not a hard
+must...
+
+I still do not fully understand why p2p_dev has to be ctrl-wide and not
+per namespace. Sorry to keep bringing this up (again). But if people are
+OK with it then I guess I can stop asking about this...
+
+
+> +
+> +	mutex_lock(&ctrl->subsys->lock);
+> +
+> +	ret = pci_p2pdma_add_client(&ctrl->p2p_clients, req->p2p_client);
+> +	if (ret) {
+> +		pr_err("failed adding peer-to-peer DMA client %s: %d\n",
+> +		       dev_name(req->p2p_client), ret);
+> +		goto free_devices;
+> +	}
+> +
+> +	list_for_each_entry_rcu(ns, &ctrl->subsys->namespaces, dev_link) {
+> +		ret = nvmet_p2pdma_add_client(ctrl, ns);
+> +		if (ret)
+> +			goto free_devices;
+
+I think that at some point we said that this looks like it should fall
+back to host memory for those namespaces.. when we allocate the sgl we
+already assigned a namespace to the request (nvmet_req_init).
+
+Aside from my questions the patch looks good.
