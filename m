@@ -1,58 +1,51 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 2 Oct 2018 09:17:12 -0700
-Subject: [PATCH rfc 4/4] nvme: Ask for fabrics SQ flow control disable by
- default
-In-Reply-To: <5adcc26b-a82c-31e9-5e95-55adeb40f9c0@suse.de>
-References: <20181002001422.9111-1-sagi@grimberg.me>
- <20181002001422.9111-5-sagi@grimberg.me>
- <5adcc26b-a82c-31e9-5e95-55adeb40f9c0@suse.de>
-Message-ID: <a0eea856-909c-699a-57b6-db6e12a9344f@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 2 Oct 2018 19:30:02 +0200
+Subject: [PATCH] nvme: take node locality into account when selecting a
+ path
+In-Reply-To: <0a7f50ea-9da7-e9f1-8341-675db3bab396@grimberg.me>
+References: <20180927230557.29444-1-hch@lst.de>
+ <8b06c066-3a9a-84e6-2439-159d12ed64a2@grimberg.me>
+ <20180930230144.GB20144@lst.de>
+ <0a7f50ea-9da7-e9f1-8341-675db3bab396@grimberg.me>
+Message-ID: <4d6336da-9441-fd97-b716-ec219489175a@suse.de>
 
-
->> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
->> index 38cf9d371953..ce61c3e1c22b 100644
->> --- a/drivers/nvme/host/fabrics.c
->> +++ b/drivers/nvme/host/fabrics.c
->> @@ -392,6 +392,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
->> ????? cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
->> ????????? cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
->> +??? /* Ask to disable SQ head pointer updates */
->> +??? cmd.connect.cattr |= NVME_CONNECT_SQ_FC_DISABLED;
->> +
->> ????? data = kzalloc(sizeof(*data), GFP_KERNEL);
->> ????? if (!data)
->> ????????? return -ENOMEM;
->> @@ -451,6 +454,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, 
->> u16 qid)
->> ????? cmd.connect.qid = cpu_to_le16(qid);
->> ????? cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
->> +??? /* Ask to disable SQ head pointer updates */
->> +??? cmd.connect.cattr |= NVME_CONNECT_SQ_FC_DISABLED;
->> +
->> ????? data = kzalloc(sizeof(*data), GFP_KERNEL);
->> ????? if (!data)
->> ????????? return -ENOMEM;
+On 10/1/18 9:45 PM, Sagi Grimberg wrote:
+> 
+>>>> +static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, 
+>>>> int node)
+>>>> +{
+>>>> +??? int found_distance = INT_MAX, fallback_distance = INT_MAX, 
+>>>> distance;
+>>>> +??? struct nvme_ns *found = NULL, *fallback = NULL, *ns;
+>>>> ???????? list_for_each_entry_rcu(ns, &head->list, siblings) {
+>>>> ?????????? if (ns->ctrl->state != NVME_CTRL_LIVE ||
+>>>> ?????????????? test_bit(NVME_NS_ANA_PENDING, &ns->flags))
+>>>> ?????????????? continue;
+>>>> +
+>>>> +??????? distance = node_distance(node, dev_to_node(ns->ctrl->dev));
+>>>
+>>> Can we make this useful also for fabrics who have device affinity
+>>> knowledge? ctrl->dev is useless for fabrics...
+>>>
+>>> Perhaps make it a ctrl->ops->devnode() or something?
 >>
-> There are two issues with that:
-> - as the bit was reserved initially any target is free to reject the 
-> connect command on the grounds that some undefined bits are set.
+>> I'd prefer a pointer of field (we could copy the node over) over
+>> an indirect call.? But I'll happily leave that to the person that
+>> actually implements the functionality to fabrics.
+> 
+> Fair enough... I can follow up on that.
+> 
+Something like this?
 
-Yea... I guess we can't do it by default...
+Cheers,
 
-> - As per SQ flow control specification any target might _legitimately_ 
-> reject the connect command, namely if the target doesn't allow to 
-> disable SQ flow control. With this change we would never be able to 
-> connect to these targets.
+Hannes
 
-The TP does says that if the controller disallows disabling flow control
-by sending sq_head that is not 0xffff to the connect command, _not_
-reject the connect.
 
-> Hence I would prefer to have an option '--disable-sqflow' for the 'nvme 
-> connect' command, allowing us to manually disable SQ Flow control.
-> That would not modify existing behaviour, and we can properly support 
-> arrays requiring SQ flow control.
-
-We could do that, and hook it to connect-all (btw, another reason why
-adding a kernel discovery parser in addition to userspace is not a good
-idea..)
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-nvme-use-NUMA-locality-information-for-fabrics.patch
+Type: text/x-patch
+Size: 4330 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20181002/2ea1784e/attachment-0001.bin>
