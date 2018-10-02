@@ -1,49 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  1 Oct 2018 17:14:21 -0700
-Subject: [PATCH rfc 3/4] nvmet: expose support for fabrics SQ flow control
- disable in treq
+Date: Mon,  1 Oct 2018 17:14:22 -0700
+Subject: [PATCH rfc 4/4] nvme: Ask for fabrics SQ flow control disable by
+ default
 In-Reply-To: <20181002001422.9111-1-sagi@grimberg.me>
 References: <20181002001422.9111-1-sagi@grimberg.me>
-Message-ID: <20181002001422.9111-4-sagi@grimberg.me>
+Message-ID: <20181002001422.9111-5-sagi@grimberg.me>
 
-Technical Proposal introduces an indication for SQ flow control
-disable support. Expose it since we are able to operate in this mode.
+As for now, we don't care about sq_head pointer updates anyway, so
+at least allow the controller to micro-optimize by omiting this update.
+
+Note that we will probably need to support it when a controller
+that requires this comes along.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/configfs.c | 1 +
- include/linux/nvme.h           | 7 ++++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fabrics.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 53b88858ee97..e0827fce4d21 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1150,6 +1150,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 	port->inline_data_size = -1;	/* < 0 == let the transport choose */
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 38cf9d371953..ce61c3e1c22b 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -392,6 +392,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
+ 		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
  
- 	port->disc_addr.portid = cpu_to_le16(portid);
-+	port->disc_addr.treq = NVMF_TREQ_SQ_FC_DISABLE;
- 	config_group_init_type_name(&port->group, name, &nvmet_port_type);
++	/* Ask to disable SQ head pointer updates */
++	cmd.connect.cattr |= NVME_CONNECT_SQ_FC_DISABLED;
++
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+@@ -451,6 +454,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	cmd.connect.qid = cpu_to_le16(qid);
+ 	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
  
- 	config_group_init_type_name(&port->subsys_group,
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 42b081f0ee51..c7cb47507891 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -58,9 +58,10 @@ enum {
- 
- /* Transport Requirements codes for Discovery Log Page entry TREQ field */
- enum {
--	NVMF_TREQ_NOT_SPECIFIED	= 0,	/* Not specified */
--	NVMF_TREQ_REQUIRED	= 1,	/* Required */
--	NVMF_TREQ_NOT_REQUIRED	= 2,	/* Not Required */
-+	NVMF_TREQ_NOT_SPECIFIED	= 0,		/* Not specified */
-+	NVMF_TREQ_REQUIRED	= 1,		/* Required */
-+	NVMF_TREQ_NOT_REQUIRED	= 2,		/* Not Required */
-+	NVMF_TREQ_SQ_FC_DISABLE = (1 << 2),	/* Supports SQ flow control disable */
- };
- 
- /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
++	/* Ask to disable SQ head pointer updates */
++	cmd.connect.cattr |= NVME_CONNECT_SQ_FC_DISABLED;
++
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
 -- 
 2.17.1
