@@ -1,45 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  1 Oct 2018 17:14:22 -0700
-Subject: [PATCH rfc 4/4] nvme: Ask for fabrics SQ flow control disable by
- default
-In-Reply-To: <20181002001422.9111-1-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 2 Oct 2018 16:03:45 +0200
+Subject: [PATCH rfc 1/4] nvmet: support fabrics sq flow control
+In-Reply-To: <20181002001422.9111-2-sagi@grimberg.me>
 References: <20181002001422.9111-1-sagi@grimberg.me>
-Message-ID: <20181002001422.9111-5-sagi@grimberg.me>
+ <20181002001422.9111-2-sagi@grimberg.me>
+Message-ID: <05bbace3-a8a2-2df6-96d9-c6ef77695c35@suse.de>
 
-As for now, we don't care about sq_head pointer updates anyway, so
-at least allow the controller to micro-optimize by omiting this update.
+On 10/2/18 2:14 AM, Sagi Grimberg wrote:
+> Technical proposal 8005 "fabrics SQ flow control" introduces a mode
+> where a host and controller agree to omit sq_head pointer updates
+> when sending nvme completions.
+> 
+> In case the host indicated desire to operate in this mode (connect attribute)
+> the controller will return back a connect completion with sq_head value
+> of 0xffff as indication that it will omit sq_head pointer updates.
+> 
+> This mode saves us an atomic update in the I/O path.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/target/core.c        | 34 ++++++++++++++++++++-----------
+>   drivers/nvme/target/fabrics-cmd.c |  8 +++++++-
+>   drivers/nvme/target/nvmet.h       |  3 ++-
+>   include/linux/nvme.h              |  4 ++++
+>   4 files changed, 35 insertions(+), 14 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Note that we will probably need to support it when a controller
-that requires this comes along.
+Cheers,
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/fabrics.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 38cf9d371953..ce61c3e1c22b 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -392,6 +392,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
- 		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
- 
-+	/* Ask to disable SQ head pointer updates */
-+	cmd.connect.cattr |= NVME_CONNECT_SQ_FC_DISABLED;
-+
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-@@ -451,6 +454,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 	cmd.connect.qid = cpu_to_le16(qid);
- 	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
- 
-+	/* Ask to disable SQ head pointer updates */
-+	cmd.connect.cattr |= NVME_CONNECT_SQ_FC_DISABLED;
-+
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
--- 
-2.17.1
+Hannes
