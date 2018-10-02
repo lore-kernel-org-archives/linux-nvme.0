@@ -1,57 +1,159 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  1 Oct 2018 17:14:20 -0700
-Subject: [PATCH rfc 2/4] nvmet: don't override treq upon modification.
+Date: Mon,  1 Oct 2018 17:14:19 -0700
+Subject: [PATCH rfc 1/4] nvmet: support fabrics sq flow control
 In-Reply-To: <20181002001422.9111-1-sagi@grimberg.me>
 References: <20181002001422.9111-1-sagi@grimberg.me>
-Message-ID: <20181002001422.9111-3-sagi@grimberg.me>
+Message-ID: <20181002001422.9111-2-sagi@grimberg.me>
 
-Only override the allowed parts of it.
+Technical proposal 8005 "fabrics SQ flow control" introduces a mode
+where a host and controller agree to omit sq_head pointer updates
+when sending nvme completions.
+
+In case the host indicated desire to operate in this mode (connect attribute)
+the controller will return back a connect completion with sq_head value
+of 0xffff as indication that it will omit sq_head pointer updates.
+
+This mode saves us an atomic update in the I/O path.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/configfs.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/nvme/target/core.c        | 34 ++++++++++++++++++++-----------
+ drivers/nvme/target/fabrics-cmd.c |  8 +++++++-
+ drivers/nvme/target/nvmet.h       |  3 ++-
+ include/linux/nvme.h              |  4 ++++
+ 4 files changed, 35 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index b37a8e3e3f80..53b88858ee97 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -148,7 +148,7 @@ CONFIGFS_ATTR(nvmet_, addr_traddr);
- static ssize_t nvmet_addr_treq_show(struct config_item *item,
- 		char *page)
- {
--	switch (to_nvmet_port(item)->disc_addr.treq) {
-+	switch (to_nvmet_port(item)->disc_addr.treq & 0x3) {
- 	case NVMF_TREQ_NOT_SPECIFIED:
- 		return sprintf(page, "not specified\n");
- 	case NVMF_TREQ_REQUIRED:
-@@ -164,6 +164,7 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
- 		const char *page, size_t count)
- {
- 	struct nvmet_port *port = to_nvmet_port(item);
-+	u8 treq = port->disc_addr.treq & 0xfc;
- 
- 	if (port->enabled) {
- 		pr_err("Cannot modify address while enabled\n");
-@@ -172,15 +173,16 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
- 	}
- 
- 	if (sysfs_streq(page, "not specified")) {
--		port->disc_addr.treq = NVMF_TREQ_NOT_SPECIFIED;
-+		treq |= NVMF_TREQ_NOT_SPECIFIED;
- 	} else if (sysfs_streq(page, "required")) {
--		port->disc_addr.treq = NVMF_TREQ_REQUIRED;
-+		treq |= NVMF_TREQ_REQUIRED;
- 	} else if (sysfs_streq(page, "not required")) {
--		port->disc_addr.treq = NVMF_TREQ_NOT_REQUIRED;
-+		treq |= NVMF_TREQ_NOT_REQUIRED;
- 	} else {
- 		pr_err("Invalid value '%s' for treq\n", page);
- 		return -EINVAL;
- 	}
-+	port->disc_addr.treq = treq;
- 
- 	return count;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 7084704b468d..df2af5e3e4d6 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -503,26 +503,35 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+ 	return ns;
  }
+ 
+-static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
++static void nvmet_update_sq_head(struct nvmet_req *req)
+ {
+ 	u32 old_sqhd, new_sqhd;
+ 	u16 sqhd;
+ 
+-	if (status)
+-		nvmet_set_status(req, status);
+-
+-	if (req->sq->size) {
+-		do {
+-			old_sqhd = req->sq->sqhd;
+-			new_sqhd = (old_sqhd + 1) % req->sq->size;
+-		} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
+-					old_sqhd);
++	if (!req->sq->sqhd_disabled) {
++		if (req->sq->size) {
++			do {
++				old_sqhd = req->sq->sqhd;
++				new_sqhd = (old_sqhd + 1) % req->sq->size;
++			} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
++						old_sqhd);
++		}
+ 	}
++
+ 	sqhd = req->sq->sqhd & 0x0000FFFF;
+ 	req->rsp->sq_head = cpu_to_le16(sqhd);
++}
++
++static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
++{
++	if (status)
++		nvmet_set_status(req, status);
++
+ 	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
+ 	req->rsp->command_id = req->cmd->common.command_id;
+ 
++	nvmet_update_sq_head(req);
++
+ 	if (req->ns)
+ 		nvmet_put_namespace(req->ns);
+ 	req->ops->queue_response(req);
+@@ -545,9 +554,10 @@ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq,
+ }
+ 
+ void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq,
+-		u16 qid, u16 size)
++		u16 qid, u16 size, bool sqhd_disabled)
+ {
+-	sq->sqhd = 0;
++	sq->sqhd_disabled = sqhd_disabled;
++	sq->sqhd = sq->sqhd_disabled ? 0xffff : 0;
+ 	sq->qid = qid;
+ 	sq->size = size;
+ 
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index d84ae004cb85..16511517dcac 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -114,7 +114,9 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+ 
+ 	/* note: convert queue size from 0's-based value to 1's-based value */
+ 	nvmet_cq_setup(ctrl, req->cq, qid, sqsize + 1);
+-	nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1);
++	nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1,
++			!!(c->cattr & NVME_CONNECT_SQ_FC_DISABLED));
++
+ 	return 0;
+ }
+ 
+@@ -173,6 +175,8 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	kfree(d);
+ complete:
+ 	nvmet_req_complete(req, status);
++	if (req->sq->sqhd_disabled)
++		req->sq->sqhd = 0;
+ }
+ 
+ static void nvmet_execute_io_connect(struct nvmet_req *req)
+@@ -229,6 +233,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 	kfree(d);
+ complete:
+ 	nvmet_req_complete(req, status);
++	if (req->sq->sqhd_disabled)
++		req->sq->sqhd = 0;
+ 	return;
+ 
+ out_ctrl_put:
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c5255e743f63..9681be52f6e6 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -95,6 +95,7 @@ struct nvmet_sq {
+ 	u16			qid;
+ 	u16			size;
+ 	u32			sqhd;
++	bool			sqhd_disabled;
+ 	struct completion	free_done;
+ 	struct completion	confirm_done;
+ };
+@@ -343,7 +344,7 @@ void nvmet_req_complete(struct nvmet_req *req, u16 status);
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+ 		u16 size);
+ void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, u16 qid,
+-		u16 size);
++		u16 size, bool sqhd_disabled);
+ void nvmet_sq_destroy(struct nvmet_sq *sq);
+ int nvmet_sq_init(struct nvmet_sq *sq);
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 429c4cf90899..42b081f0ee51 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1035,6 +1035,10 @@ struct nvmf_disc_rsp_page_hdr {
+ 	struct nvmf_disc_rsp_page_entry entries[0];
+ };
+ 
++enum {
++	NVME_CONNECT_SQ_FC_DISABLED	= (1 << 2),
++};
++
+ struct nvmf_connect_command {
+ 	__u8		opcode;
+ 	__u8		resv1;
 -- 
 2.17.1
