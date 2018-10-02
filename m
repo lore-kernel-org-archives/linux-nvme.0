@@ -1,31 +1,57 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 1 Oct 2018 17:43:00 -0600
-Subject: [PATCH v8 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <b790b11f-41df-f495-fdd1-d8bd6d6b7dd6@grimberg.me>
-References: <20180927165420.5290-1-logang@deltatee.com>
- <20180927165420.5290-14-logang@deltatee.com>
- <5ddeed51-0580-9581-cf12-c75e18b4f7cc@grimberg.me>
- <69cd8aab-b94e-98f5-5397-48bb875e8280@deltatee.com>
- <b790b11f-41df-f495-fdd1-d8bd6d6b7dd6@grimberg.me>
-Message-ID: <587bb6bd-ec07-62ac-6442-cbc7892df37f@deltatee.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon,  1 Oct 2018 17:14:20 -0700
+Subject: [PATCH rfc 2/4] nvmet: don't override treq upon modification.
+In-Reply-To: <20181002001422.9111-1-sagi@grimberg.me>
+References: <20181002001422.9111-1-sagi@grimberg.me>
+Message-ID: <20181002001422.9111-3-sagi@grimberg.me>
 
+Only override the allowed parts of it.
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/configfs.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-On 01/10/18 04:23 PM, Sagi Grimberg wrote:
->> I did not realize the namespace would be available at this time. I guess
->> I can give this a try, but it's going to be a fairly big change from
->> what's presented here... Though, I agree it'll probably be an
->> improvement.
-> 
-> Thanks, if it turns out to create to much of a churn, we could defer
-> that to a later stage, but we can at least document it.
-
-Yeah, it's going to create a bunch of churn, but it's probably worth
-doing before merging because I think it will remove a bunch of
-complexity (ie. the need for the whole p2p client infrastructure because
-we now only need to worry about only one namespace at a time, instead of
-needing to find a p2p device that works with all namespaces at once).
-
-I'll try to get a v9 with this change published in the next day or two.
-
-Logan
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b37a8e3e3f80..53b88858ee97 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -148,7 +148,7 @@ CONFIGFS_ATTR(nvmet_, addr_traddr);
+ static ssize_t nvmet_addr_treq_show(struct config_item *item,
+ 		char *page)
+ {
+-	switch (to_nvmet_port(item)->disc_addr.treq) {
++	switch (to_nvmet_port(item)->disc_addr.treq & 0x3) {
+ 	case NVMF_TREQ_NOT_SPECIFIED:
+ 		return sprintf(page, "not specified\n");
+ 	case NVMF_TREQ_REQUIRED:
+@@ -164,6 +164,7 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
++	u8 treq = port->disc_addr.treq & 0xfc;
+ 
+ 	if (port->enabled) {
+ 		pr_err("Cannot modify address while enabled\n");
+@@ -172,15 +173,16 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 	}
+ 
+ 	if (sysfs_streq(page, "not specified")) {
+-		port->disc_addr.treq = NVMF_TREQ_NOT_SPECIFIED;
++		treq |= NVMF_TREQ_NOT_SPECIFIED;
+ 	} else if (sysfs_streq(page, "required")) {
+-		port->disc_addr.treq = NVMF_TREQ_REQUIRED;
++		treq |= NVMF_TREQ_REQUIRED;
+ 	} else if (sysfs_streq(page, "not required")) {
+-		port->disc_addr.treq = NVMF_TREQ_NOT_REQUIRED;
++		treq |= NVMF_TREQ_NOT_REQUIRED;
+ 	} else {
+ 		pr_err("Invalid value '%s' for treq\n", page);
+ 		return -EINVAL;
+ 	}
++	port->disc_addr.treq = treq;
+ 
+ 	return count;
+ }
+-- 
+2.17.1
