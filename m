@@ -1,27 +1,38 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 3 Oct 2018 10:41:01 +0200
-Subject: [PATCH v2 4/4] nvme: disable fabrics SQ flow control when asked
- by the user
-In-Reply-To: <20181003081323.7504-5-sagi@grimberg.me>
-References: <20181003081323.7504-1-sagi@grimberg.me>
- <20181003081323.7504-5-sagi@grimberg.me>
-Message-ID: <63123a17-d0a0-a800-fe3f-53d2afe3b6a0@suse.de>
+Date: Wed, 3 Oct 2018 10:56:12 +0200
+Subject: [PATCH] nvme: take node locality into account when selecting a
+ path
+In-Reply-To: <20181002173924.GA19808@lst.de>
+References: <20180927230557.29444-1-hch@lst.de>
+ <8b06c066-3a9a-84e6-2439-159d12ed64a2@grimberg.me>
+ <20180930230144.GB20144@lst.de>
+ <0a7f50ea-9da7-e9f1-8341-675db3bab396@grimberg.me>
+ <4d6336da-9441-fd97-b716-ec219489175a@suse.de>
+ <20181002173924.GA19808@lst.de>
+Message-ID: <a033c3a2-b825-4d9a-e844-adddea2e155f@suse.de>
 
-On 10/3/18 10:13 AM, Sagi Grimberg wrote:
-> As for now, we don't care about sq_head pointer updates anyway, so
-> at least allow the controller to micro-optimize by omiting this update.
+On 10/2/18 7:39 PM, Christoph Hellwig wrote:
+> On Tue, Oct 02, 2018@07:30:02PM +0200, Hannes Reinecke wrote:
+>>> Fair enough... I can follow up on that.
+>>>
+>> Something like this?
 > 
-> Note that we will probably need to support it when a controller
-> that requires this comes along.
+> As ?aid I'd rather avoid the indirect call if at all possible.
 > 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/fabrics.c | 13 +++++++++++++
->   drivers/nvme/host/fabrics.h |  2 ++
->   2 files changed, 15 insertions(+)
+> Please either add a numa_id field to struct nvme_ctrl, or a
+> locality_dev or something.
 > 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+Ah. So that should be more like it.
 
 Cheers,
 
 Hannes
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-nvme-NUMA-locality-information-for-fabrics.patch
+Type: text/x-patch
+Size: 5801 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20181003/104480f2/attachment-0001.bin>
