@@ -1,21 +1,58 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 2 Oct 2018 19:39:24 +0200
-Subject: [PATCH] nvme: take node locality into account when selecting a
- path
-In-Reply-To: <4d6336da-9441-fd97-b716-ec219489175a@suse.de>
-References: <20180927230557.29444-1-hch@lst.de>
- <8b06c066-3a9a-84e6-2439-159d12ed64a2@grimberg.me>
- <20180930230144.GB20144@lst.de>
- <0a7f50ea-9da7-e9f1-8341-675db3bab396@grimberg.me>
- <4d6336da-9441-fd97-b716-ec219489175a@suse.de>
-Message-ID: <20181002173924.GA19808@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed,  3 Oct 2018 01:13:20 -0700
+Subject: [PATCH v2 2/4] nvmet: don't override treq upon modification.
+In-Reply-To: <20181003081323.7504-1-sagi@grimberg.me>
+References: <20181003081323.7504-1-sagi@grimberg.me>
+Message-ID: <20181003081323.7504-3-sagi@grimberg.me>
 
-On Tue, Oct 02, 2018@07:30:02PM +0200, Hannes Reinecke wrote:
->> Fair enough... I can follow up on that.
->>
-> Something like this?
+Only override the allowed parts of it.
 
-As ?aid I'd rather avoid the indirect call if at all possible.
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/configfs.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Please either add a numa_id field to struct nvme_ctrl, or a
-locality_dev or something.
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index b37a8e3e3f80..53b88858ee97 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -148,7 +148,7 @@ CONFIGFS_ATTR(nvmet_, addr_traddr);
+ static ssize_t nvmet_addr_treq_show(struct config_item *item,
+ 		char *page)
+ {
+-	switch (to_nvmet_port(item)->disc_addr.treq) {
++	switch (to_nvmet_port(item)->disc_addr.treq & 0x3) {
+ 	case NVMF_TREQ_NOT_SPECIFIED:
+ 		return sprintf(page, "not specified\n");
+ 	case NVMF_TREQ_REQUIRED:
+@@ -164,6 +164,7 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
++	u8 treq = port->disc_addr.treq & 0xfc;
+ 
+ 	if (port->enabled) {
+ 		pr_err("Cannot modify address while enabled\n");
+@@ -172,15 +173,16 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
+ 	}
+ 
+ 	if (sysfs_streq(page, "not specified")) {
+-		port->disc_addr.treq = NVMF_TREQ_NOT_SPECIFIED;
++		treq |= NVMF_TREQ_NOT_SPECIFIED;
+ 	} else if (sysfs_streq(page, "required")) {
+-		port->disc_addr.treq = NVMF_TREQ_REQUIRED;
++		treq |= NVMF_TREQ_REQUIRED;
+ 	} else if (sysfs_streq(page, "not required")) {
+-		port->disc_addr.treq = NVMF_TREQ_NOT_REQUIRED;
++		treq |= NVMF_TREQ_NOT_REQUIRED;
+ 	} else {
+ 		pr_err("Invalid value '%s' for treq\n", page);
+ 		return -EINVAL;
+ 	}
++	port->disc_addr.treq = treq;
+ 
+ 	return count;
+ }
+-- 
+2.17.1
