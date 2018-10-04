@@ -1,71 +1,83 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Oct 2018 14:23:26 -0700
-Subject: [PATCH rfc 3/3] nvme: fire discovery log page change events to
- userspace
+Date: Thu,  4 Oct 2018 14:23:27 -0700
+Subject: [PATCH 4/3 rfc nvme-cli] fabrics: support persistent connections to a
+ discovery controller
 In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
 References: <20181004212328.30205-1-sagi@grimberg.me>
-Message-ID: <20181004212328.30205-4-sagi@grimberg.me>
+Message-ID: <20181004212328.30205-5-sagi@grimberg.me>
 
-Provide userspace with nvme discovery controller device instance,
-controller traddr and trsvcid. We'd expect userspace to handle
-this event by issuing a discovery + connect.
+Simply don't destroy the discovery controller after getting the
+log pages. Note that persistent connection to a discovery subsystem
+require to pass in a non-zero kato value, so if not provided we
+simply use a default of 30 seconds kato.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ fabrics.c | 10 +++++++++-
+ fabrics.h |  2 ++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index efdbfc07de32..495bfbeea068 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1079,7 +1079,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
+diff --git a/fabrics.c b/fabrics.c
+index 1c25ccb0af6c..f5b822902aa2 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -62,6 +62,7 @@ static struct config {
+ 	char *raw;
+ 	char *device;
+ 	int  duplicate_connect;
++	bool persistent;
+ } cfg = { NULL };
  
- #define NVME_AEN_SUPPORTED \
--	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
-+	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE | \
-+	 NVME_AEN_CFG_DISC_CHANGE)
+ #define BUF_SIZE		4096
+@@ -762,7 +763,8 @@ static int do_discover(char *argstr, bool connect)
+ 		return errno;
+ 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
+ 	free(dev_name);
+-	remove_ctrl(instance);
++	if (!cfg.persistent)
++		remove_ctrl(instance);
  
- static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- {
-@@ -3351,6 +3352,27 @@ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
- 	kfree(envp[0]);
- }
+ 	switch (ret) {
+ 	case DISC_OK:
+@@ -838,6 +840,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
+ 		if (err)
+ 			continue;
  
-+static void nvme_disc_aen_uevent(struct nvme_ctrl *ctrl)
-+{
-+	struct nvmf_ctrl_options *opts = ctrl->opts;
-+	char *envp[16];
-+	int i, envloc = 0;
++		if (cfg.persistent && !cfg.keep_alive_tmo)
++			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
 +
-+	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_EVENT=discovery");
-+	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_INSTANCE=%d", ctrl->instance);
-+	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRTYPE=%s", opts->transport);
-+	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRADDR=%s", opts->traddr);
-+	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRSVCID=%s", opts->trsvcid);
-+	/* TODO: propagate HOST_TRADDR? */
-+	envp[envloc] = NULL;
+ 		err = build_options(argstr, BUF_SIZE);
+ 		if (err) {
+ 			ret = err;
+@@ -874,6 +879,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
+ 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+ 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
++		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
+ 		{NULL},
+ 	};
+ 
+@@ -888,6 +894,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		return discover_from_conf_file(desc, argstr,
+ 				command_line_options, connect);
+ 	} else {
++		if (cfg.persistent && !cfg.keep_alive_tmo)
++			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
+ 		ret = build_options(argstr, BUF_SIZE);
+ 		if (ret)
+ 			return ret;
+diff --git a/fabrics.h b/fabrics.h
+index 988f3ef2fbc4..7c1664b80d51 100644
+--- a/fabrics.h
++++ b/fabrics.h
+@@ -1,6 +1,8 @@
+ #ifndef _DISCOVER_H
+ #define _DISCOVER_H
+ 
++#define NVMF_DEF_DISC_TMO	30
 +
-+	for (i = 0; i < envloc; i++)
-+		dev_dbg(ctrl->device, "%s\n", envp[i]);
-+	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
-+	for (i = 0; i < envloc; i++)
-+		kfree(envp[i]);
-+}
-+
- static void nvme_async_event_work(struct work_struct *work)
- {
- 	struct nvme_ctrl *ctrl =
-@@ -3442,6 +3464,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
- 		queue_work(nvme_wq, &ctrl->ana_work);
- 		break;
- #endif
-+	case NVME_AER_NOTICE_DISC_CHANGED:
-+		nvme_disc_aen_uevent(ctrl);
-+		break;
- 	default:
- 		dev_warn(ctrl->device, "async event result %08x\n", result);
- 	}
+ extern int discover(const char *desc, int argc, char **argv, bool connect);
+ extern int connect(const char *desc, int argc, char **argv);
+ extern int disconnect(const char *desc, int argc, char **argv);
 -- 
 2.17.1
