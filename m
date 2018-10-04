@@ -1,130 +1,202 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Oct 2018 15:27:46 -0600
-Subject: [PATCH v9 12/13] nvmet: Introduce helper functions to allocate and
- free request SGLs
+Date: Thu,  4 Oct 2018 15:27:43 -0600
+Subject: [PATCH v9 09/13] nvme-pci: Use PCI p2pmem subsystem to manage the CMB
 In-Reply-To: <20181004212747.6301-1-logang@deltatee.com>
 References: <20181004212747.6301-1-logang@deltatee.com>
-Message-ID: <20181004212747.6301-13-logang@deltatee.com>
+Message-ID: <20181004212747.6301-10-logang@deltatee.com>
 
-Add helpers to allocate and free the SGL in a struct nvmet_req:
+Register the CMB buffer as p2pmem and use the appropriate allocation
+functions to create and destroy the IO submission queues.
 
-int nvmet_req_alloc_sgl(struct nvmet_req *req)
-void nvmet_req_free_sgl(struct nvmet_req *req)
+If the CMB supports WDS and RDS, publish it for use as P2P memory
+by other devices.
 
-This will be expanded in a future patch to implement peer-to-peer
-memory DMAs and should be common with all target drivers.
+Kernels without CONFIG_PCI_P2PDMA will also no longer support NVMe CMB.
+However, seeing the main use-cases for the CMB is P2P operations,
+this seems like a reasonable dependency.
 
-The new helpers are used in nvmet-rdma. Seeing we use req.transfer_len
-as the length of the SGL it is set earlier and cleared on any error.
-It also seems to be unnecessary to accumulate the length as the map_sgl
-functions should only ever be called once per request.
+We drop the __iomem safety on the buffer seeing that, by convention, it's
+safe to directly access memory mapped by memremap()/devm_memremap_pages().
+Architectures where this is not safe will not be supported by memremap()
+and therefore will not be support PCI P2P and have no support for CMB.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Acked-by: Sagi Grimberg <sagi at grimberg.me>
-Cc: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/target/core.c  | 18 ++++++++++++++++++
- drivers/nvme/target/nvmet.h |  2 ++
- drivers/nvme/target/rdma.c  | 20 ++++++++++++--------
- 3 files changed, 32 insertions(+), 8 deletions(-)
+ drivers/nvme/host/pci.c | 80 +++++++++++++++++++++++------------------
+ 1 file changed, 45 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b5ec96abd048..310b9fb54f6a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -725,6 +725,24 @@ void nvmet_req_execute(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682f91df..f434706a04e8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -30,6 +30,7 @@
+ #include <linux/types.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
+ #include <linux/sed-opal.h>
++#include <linux/pci-p2pdma.h>
+ 
+ #include "nvme.h"
+ 
+@@ -99,9 +100,8 @@ struct nvme_dev {
+ 	struct work_struct remove_work;
+ 	struct mutex shutdown_lock;
+ 	bool subsystem;
+-	void __iomem *cmb;
+-	pci_bus_addr_t cmb_bus_addr;
+ 	u64 cmb_size;
++	bool cmb_use_sqes;
+ 	u32 cmbsz;
+ 	u32 cmbloc;
+ 	struct nvme_ctrl ctrl;
+@@ -158,7 +158,7 @@ struct nvme_queue {
+ 	struct nvme_dev *dev;
+ 	spinlock_t sq_lock;
+ 	struct nvme_command *sq_cmds;
+-	struct nvme_command __iomem *sq_cmds_io;
++	bool sq_cmds_is_io;
+ 	spinlock_t cq_lock ____cacheline_aligned_in_smp;
+ 	volatile struct nvme_completion *cqes;
+ 	struct blk_mq_tags **tags;
+@@ -447,11 +447,8 @@ static int nvme_pci_map_queues(struct blk_mq_tag_set *set)
+ static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
+ {
+ 	spin_lock(&nvmeq->sq_lock);
+-	if (nvmeq->sq_cmds_io)
+-		memcpy_toio(&nvmeq->sq_cmds_io[nvmeq->sq_tail], cmd,
+-				sizeof(*cmd));
+-	else
+-		memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
++
++	memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
+ 
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+@@ -1232,9 +1229,18 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
+ {
+ 	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
+ 				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
+-	if (nvmeq->sq_cmds)
+-		dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+-					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
++
++	if (nvmeq->sq_cmds) {
++		if (nvmeq->sq_cmds_is_io)
++			pci_free_p2pmem(to_pci_dev(nvmeq->q_dmadev),
++					nvmeq->sq_cmds,
++					SQ_SIZE(nvmeq->q_depth));
++		else
++			dma_free_coherent(nvmeq->q_dmadev,
++					  SQ_SIZE(nvmeq->q_depth),
++					  nvmeq->sq_cmds,
++					  nvmeq->sq_dma_addr);
++	}
  }
- EXPORT_SYMBOL_GPL(nvmet_req_execute);
  
-+int nvmet_req_alloc_sgl(struct nvmet_req *req)
-+{
-+	req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
-+	if (!req->sg)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvmet_req_alloc_sgl);
-+
-+void nvmet_req_free_sgl(struct nvmet_req *req)
-+{
-+	sgl_free(req->sg);
-+	req->sg = NULL;
-+	req->sg_cnt = 0;
-+}
-+EXPORT_SYMBOL_GPL(nvmet_req_free_sgl);
-+
- static inline bool nvmet_cc_en(u32 cc)
+ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+@@ -1323,12 +1329,21 @@ static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
+ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 				int qid, int depth)
  {
- 	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index ec9af4ee03b6..e7b7406c4e22 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -336,6 +336,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- void nvmet_req_uninit(struct nvmet_req *req);
- void nvmet_req_execute(struct nvmet_req *req);
- void nvmet_req_complete(struct nvmet_req *req, u16 status);
-+int nvmet_req_alloc_sgl(struct nvmet_req *req);
-+void nvmet_req_free_sgl(struct nvmet_req *req);
+-	/* CMB SQEs will be mapped before creation */
+-	if (qid && dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS))
+-		return 0;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
++	if (qid && dev->cmb_use_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
++		nvmeq->sq_cmds = pci_alloc_p2pmem(pdev, SQ_SIZE(depth));
++		nvmeq->sq_dma_addr = pci_p2pmem_virt_to_bus(pdev,
++						nvmeq->sq_cmds);
++		nvmeq->sq_cmds_is_io = true;
++	}
++
++	if (!nvmeq->sq_cmds) {
++		nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
++					&nvmeq->sq_dma_addr, GFP_KERNEL);
++		nvmeq->sq_cmds_is_io = false;
++	}
  
- void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
- 		u16 size);
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index bfc4da660bb4..9e091e78a2f0 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -503,7 +503,7 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+-	nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
+-					    &nvmeq->sq_dma_addr, GFP_KERNEL);
+ 	if (!nvmeq->sq_cmds)
+ 		return -ENOMEM;
+ 	return 0;
+@@ -1405,13 +1420,6 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	int result;
+ 	s16 vector;
+ 
+-	if (dev->cmb && use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS)) {
+-		unsigned offset = (qid - 1) * roundup(SQ_SIZE(nvmeq->q_depth),
+-						      dev->ctrl.page_size);
+-		nvmeq->sq_dma_addr = dev->cmb_bus_addr + offset;
+-		nvmeq->sq_cmds_io = dev->cmb + offset;
+-	}
+-
+ 	/*
+ 	 * A queue's vector matches the queue identifier unless the controller
+ 	 * has only one vector available.
+@@ -1652,9 +1660,6 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 		return;
+ 	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
+ 
+-	if (!use_cmb_sqes)
+-		return;
+-
+ 	size = nvme_cmb_size_unit(dev) * nvme_cmb_size(dev);
+ 	offset = nvme_cmb_size_unit(dev) * NVME_CMB_OFST(dev->cmbloc);
+ 	bar = NVME_CMB_BIR(dev->cmbloc);
+@@ -1671,11 +1676,18 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 	if (size > bar_size - offset)
+ 		size = bar_size - offset;
+ 
+-	dev->cmb = ioremap_wc(pci_resource_start(pdev, bar) + offset, size);
+-	if (!dev->cmb)
++	if (pci_p2pdma_add_resource(pdev, bar, size, offset)) {
++		dev_warn(dev->ctrl.device,
++			 "failed to register the CMB\n");
+ 		return;
+-	dev->cmb_bus_addr = pci_bus_address(pdev, bar) + offset;
++	}
++
+ 	dev->cmb_size = size;
++	dev->cmb_use_sqes = use_cmb_sqes && (dev->cmbsz & NVME_CMBSZ_SQS);
++
++	if ((dev->cmbsz & (NVME_CMBSZ_WDS | NVME_CMBSZ_RDS)) ==
++			(NVME_CMBSZ_WDS | NVME_CMBSZ_RDS))
++		pci_p2pmem_publish(pdev, true);
+ 
+ 	if (sysfs_add_file_to_group(&dev->ctrl.device->kobj,
+ 				    &dev_attr_cmb.attr, NULL))
+@@ -1685,12 +1697,10 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 
+ static inline void nvme_release_cmb(struct nvme_dev *dev)
+ {
+-	if (dev->cmb) {
+-		iounmap(dev->cmb);
+-		dev->cmb = NULL;
++	if (dev->cmb_size) {
+ 		sysfs_remove_file_from_group(&dev->ctrl.device->kobj,
+ 					     &dev_attr_cmb.attr, NULL);
+-		dev->cmbsz = 0;
++		dev->cmb_size = 0;
  	}
+ }
  
- 	if (rsp->req.sg != rsp->cmd->inline_sg)
--		sgl_free(rsp->req.sg);
-+		nvmet_req_free_sgl(&rsp->req);
- 
- 	if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
- 		nvmet_rdma_process_wr_wait_list(queue);
-@@ -652,24 +652,24 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
- {
- 	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
- 	u64 addr = le64_to_cpu(sgl->addr);
--	u32 len = get_unaligned_le24(sgl->length);
- 	u32 key = get_unaligned_le32(sgl->key);
- 	int ret;
- 
-+	rsp->req.transfer_len = get_unaligned_le24(sgl->length);
-+
- 	/* no data command? */
--	if (!len)
-+	if (!rsp->req.transfer_len)
+@@ -1889,13 +1899,13 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	if (nr_io_queues == 0)
  		return 0;
  
--	rsp->req.sg = sgl_alloc(len, GFP_KERNEL, &rsp->req.sg_cnt);
--	if (!rsp->req.sg)
--		return NVME_SC_INTERNAL;
-+	ret = nvmet_req_alloc_sgl(&rsp->req);
-+	if (ret < 0)
-+		goto error_out;
- 
- 	ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
- 			rsp->req.sg, rsp->req.sg_cnt, 0, addr, key,
- 			nvmet_data_dir(&rsp->req));
- 	if (ret < 0)
--		return NVME_SC_INTERNAL;
--	rsp->req.transfer_len += len;
-+		goto error_out;
- 	rsp->n_rdma += ret;
- 
- 	if (invalidate) {
-@@ -678,6 +678,10 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+-	if (dev->cmb && (dev->cmbsz & NVME_CMBSZ_SQS)) {
++	if (dev->cmb_use_sqes) {
+ 		result = nvme_cmb_qdepth(dev, nr_io_queues,
+ 				sizeof(struct nvme_command));
+ 		if (result > 0)
+ 			dev->q_depth = result;
+ 		else
+-			nvme_release_cmb(dev);
++			dev->cmb_use_sqes = false;
  	}
  
- 	return 0;
-+
-+error_out:
-+	rsp->req.transfer_len = 0;
-+	return NVME_SC_INTERNAL;
- }
- 
- static u16 nvmet_rdma_map_sgl(struct nvmet_rdma_rsp *rsp)
+ 	do {
 -- 
 2.19.0
