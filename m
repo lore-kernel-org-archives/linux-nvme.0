@@ -1,46 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Oct 2018 14:23:25 -0700
-Subject: [PATCH rfc 2/3] nvme: enable aen also for discovery controllers
-In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
-References: <20181004212328.30205-1-sagi@grimberg.me>
-Message-ID: <20181004212328.30205-3-sagi@grimberg.me>
+Date: Thu,  4 Oct 2018 14:23:23 -0700
+Subject: [PATCH rfc 0/3] add support to discovery async event notifications
+Message-ID: <20181004212328.30205-1-sagi@grimberg.me>
 
-If the controller supports discovery log page change events,
-we want to enable it on the host side as well.
+In order to support discovery AENs we need to have two things:
+1. Support long lived discovery controller sessions that would allow to
+   receive discovery AENs. This means we need to specify kato in connect
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+2. Support discovery log change events. The choice here is to simply fire
+   a udev event and let userspace to:
+   1. issue an updated discovery log page via our discovery controller (1)
+   2. connect to every new subsystem/port that exists in the system.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index de745f94b698..efdbfc07de32 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1089,6 +1089,8 @@ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
- 	if (!supported_aens)
- 		return;
- 
-+	queue_work(nvme_wq, &ctrl->async_event_work);
-+
- 	status = nvme_set_features(ctrl, NVME_FEAT_ASYNC_EVENT, supported_aens,
- 			NULL, 0, &result);
- 	if (status)
-@@ -3489,10 +3491,13 @@ void nvme_start_ctrl(struct nvme_ctrl *ctrl)
- 	if (ctrl->kato)
- 		nvme_start_keep_alive(ctrl);
- 
-+	if (ctrl->queue_count > 1 ||
-+	    (ctrl->ops->flags & NVME_F_FABRICS &&
-+	     ctrl->opts->discovery_nqn))
-+		nvme_enable_aen(ctrl);
-+
- 	if (ctrl->queue_count > 1) {
- 		nvme_queue_scan(ctrl);
--		nvme_enable_aen(ctrl);
--		queue_work(nvme_wq, &ctrl->async_event_work);
- 		nvme_start_queues(ctrl);
- 	}
- }
+This patch set was developed against the nvmet support patch set from Jay.
+
+nvme-cli patches are also included in this series.
+
+the udev rule that ultimately achieves dynamic discovery enumeration (TP 8002)
+is:
+
+SUBSYSTEM=="nvme", ACTION=="change", \
+  RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} --transport=$env{NVME_TRTYPE} \
+  --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
+
+Sagi Grimberg (3):
+  nvme-fabrics: allow discovery subsystems accept a kato
+  nvme: enable aen also for discovery controllers
+  nvme: fire discovery log page change events to userspace
+
+ drivers/nvme/host/core.c    | 36 +++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/fabrics.c | 16 +++-------------
+ 2 files changed, 36 insertions(+), 16 deletions(-)
+
 -- 
 2.17.1
