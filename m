@@ -1,91 +1,60 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Oct 2018 14:23:28 -0700
-Subject: [PATCH 5/3 rfc nvme-cli] fabrics: allow user to retrieve discovery
- log from existing discovery controller
-In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
-References: <20181004212328.30205-1-sagi@grimberg.me>
-Message-ID: <20181004212328.30205-6-sagi@grimberg.me>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu,  4 Oct 2018 15:27:42 -0600
+Subject: [PATCH v9 08/13] IB/core: Ensure we map P2P memory correctly in
+ rdma_rw_ctx_[init|destroy]()
+In-Reply-To: <20181004212747.6301-1-logang@deltatee.com>
+References: <20181004212747.6301-1-logang@deltatee.com>
+Message-ID: <20181004212747.6301-9-logang@deltatee.com>
 
-Simply allow discover to receive an existing discovery device node name.
-Also centralize extraction of controller instance from the controller
-name to a common helper.
+In order to use PCI P2P memory the pci_p2pmem_map_sg() function must be
+called to map the correct PCI bus address.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+To do this, check the first page in the scatter list to see if it is P2P
+memory or not. At the moment, scatter lists that contain P2P memory must
+be homogeneous so if the first page is P2P the entire SGL should be P2P.
+
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- fabrics.c | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+ drivers/infiniband/core/rw.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index f5b822902aa2..d937df47b68e 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -173,6 +173,19 @@ static const char *cms_str(__u8 cm)
+diff --git a/drivers/infiniband/core/rw.c b/drivers/infiniband/core/rw.c
+index 683e6d11a564..d22c4a2ebac6 100644
+--- a/drivers/infiniband/core/rw.c
++++ b/drivers/infiniband/core/rw.c
+@@ -12,6 +12,7 @@
+  */
+ #include <linux/moduleparam.h>
+ #include <linux/slab.h>
++#include <linux/pci-p2pdma.h>
+ #include <rdma/mr_pool.h>
+ #include <rdma/rw.h>
  
- static int do_discover(char *argstr, bool connect);
+@@ -280,7 +281,11 @@ int rdma_rw_ctx_init(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
+ 	struct ib_device *dev = qp->pd->device;
+ 	int ret;
  
-+static int ctrl_instance(char *device)
-+{
-+	int ret, instance;
-+
-+	device = basename(device);
-+	ret = sscanf(device, "nvme%d", &instance);
-+	if (ret < 0)
-+		return ret;
-+	if (!ret)
-+		return -1;
-+	return instance;
-+}
-+
- static int add_ctrl(const char *argstr)
- {
- 	substring_t args[MAX_OPT_ARGS];
-@@ -755,7 +768,10 @@ static int do_discover(char *argstr, bool connect)
- 	char *dev_name;
- 	int instance, numrec = 0, ret;
- 
--	instance = add_ctrl(argstr);
-+	if (!cfg.device)
-+		instance = add_ctrl(argstr);
+-	ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
++	if (is_pci_p2pdma_page(sg_page(sg)))
++		ret = pci_p2pdma_map_sg(dev->dma_device, sg, sg_cnt, dir);
 +	else
-+		instance = ctrl_instance(cfg.device);
- 	if (instance < 0)
- 		return instance;
++		ret = ib_dma_map_sg(dev, sg, sg_cnt, dir);
++
+ 	if (!ret)
+ 		return -ENOMEM;
+ 	sg_cnt = ret;
+@@ -602,7 +607,9 @@ void rdma_rw_ctx_destroy(struct rdma_rw_ctx *ctx, struct ib_qp *qp, u8 port_num,
+ 		break;
+ 	}
  
-@@ -763,7 +779,7 @@ static int do_discover(char *argstr, bool connect)
- 		return errno;
- 	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
- 	free(dev_name);
--	if (!cfg.persistent)
-+	if (!cfg.device && !cfg.persistent)
- 		remove_ctrl(instance);
- 
- 	switch (ret) {
-@@ -876,6 +892,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
- 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
- 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
-+		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery contoller device" },
- 		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-@@ -1020,15 +1037,10 @@ static int disconnect_by_nqn(char *nqn)
- static int disconnect_by_device(char *device)
- {
- 	int instance;
--	int ret;
--
--	device = basename(device);
--	ret = sscanf(device, "nvme%d", &instance);
--	if (ret < 0)
--		return ret;
--	if (!ret)
--		return -1;
- 
-+	instance = ctrl_instance(device);
-+	if (instance < 0)
-+		return instance;
- 	return remove_ctrl(instance);
+-	ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
++	/* P2PDMA contexts do not need to be unmapped */
++	if (!is_pci_p2pdma_page(sg_page(sg)))
++		ib_dma_unmap_sg(qp->pd->device, sg, sg_cnt, dir);
  }
+ EXPORT_SYMBOL(rdma_rw_ctx_destroy);
  
 -- 
-2.17.1
+2.19.0
