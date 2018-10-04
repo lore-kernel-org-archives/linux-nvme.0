@@ -1,96 +1,130 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Oct 2018 15:27:44 -0600
-Subject: [PATCH v9 10/13] nvme-pci: Add support for P2P memory in requests
+Date: Thu,  4 Oct 2018 15:27:46 -0600
+Subject: [PATCH v9 12/13] nvmet: Introduce helper functions to allocate and
+ free request SGLs
 In-Reply-To: <20181004212747.6301-1-logang@deltatee.com>
 References: <20181004212747.6301-1-logang@deltatee.com>
-Message-ID: <20181004212747.6301-11-logang@deltatee.com>
+Message-ID: <20181004212747.6301-13-logang@deltatee.com>
 
-For P2P requests, we must use the pci_p2pmem_map_sg() function
-instead of the dma_map_sg functions.
+Add helpers to allocate and free the SGL in a struct nvmet_req:
 
-With that, we can then indicate PCI_P2P support in the request queue.
-For this, we create an NVME_F_PCI_P2P flag which tells the core to
-set QUEUE_FLAG_PCI_P2P in the request queue.
+int nvmet_req_alloc_sgl(struct nvmet_req *req)
+void nvmet_req_free_sgl(struct nvmet_req *req)
+
+This will be expanded in a future patch to implement peer-to-peer
+memory DMAs and should be common with all target drivers.
+
+The new helpers are used in nvmet-rdma. Seeing we use req.transfer_len
+as the length of the SGL it is set earlier and cleared on any error.
+It also seems to be unnecessary to accumulate the length as the map_sgl
+functions should only ever be called once per request.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Acked-by: Sagi Grimberg <sagi at grimberg.me>
+Cc: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c |  4 ++++
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  | 17 +++++++++++++----
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ drivers/nvme/target/core.c  | 18 ++++++++++++++++++
+ drivers/nvme/target/nvmet.h |  2 ++
+ drivers/nvme/target/rdma.c  | 20 ++++++++++++--------
+ 3 files changed, 32 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dd8ec1dd9219..6033ce2fd3e9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3051,7 +3051,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	ns->queue = blk_mq_init_queue(ctrl->tagset);
- 	if (IS_ERR(ns->queue))
- 		goto out_free_ns;
-+
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, ns->queue);
-+	if (ctrl->ops->flags & NVME_F_PCI_P2PDMA)
-+		blk_queue_flag_set(QUEUE_FLAG_PCI_P2PDMA, ns->queue);
-+
- 	ns->queue->queuedata = ns;
- 	ns->ctrl = ctrl;
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index b5ec96abd048..310b9fb54f6a 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -725,6 +725,24 @@ void nvmet_req_execute(struct nvmet_req *req)
+ }
+ EXPORT_SYMBOL_GPL(nvmet_req_execute);
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bb4a2003c097..4030743c90aa 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -343,6 +343,7 @@ struct nvme_ctrl_ops {
- 	unsigned int flags;
- #define NVME_F_FABRICS			(1 << 0)
- #define NVME_F_METADATA_SUPPORTED	(1 << 1)
-+#define NVME_F_PCI_P2PDMA		(1 << 2)
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f434706a04e8..0d6c41bc2b35 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -745,8 +745,13 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out;
- 
- 	ret = BLK_STS_RESOURCE;
--	nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
--			DMA_ATTR_NO_WARN);
++int nvmet_req_alloc_sgl(struct nvmet_req *req)
++{
++	req->sg = sgl_alloc(req->transfer_len, GFP_KERNEL, &req->sg_cnt);
++	if (!req->sg)
++		return -ENOMEM;
 +
-+	if (is_pci_p2pdma_page(sg_page(iod->sg)))
-+		nr_mapped = pci_p2pdma_map_sg(dev->dev, iod->sg, iod->nents,
-+					  dma_dir);
-+	else
-+		nr_mapped = dma_map_sg_attrs(dev->dev, iod->sg, iod->nents,
-+					     dma_dir,  DMA_ATTR_NO_WARN);
- 	if (!nr_mapped)
- 		goto out;
- 
-@@ -788,7 +793,10 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 			DMA_TO_DEVICE : DMA_FROM_DEVICE;
- 
- 	if (iod->nents) {
--		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
-+		/* P2PDMA requests do not need to be unmapped */
-+		if (!is_pci_p2pdma_page(sg_page(iod->sg)))
-+			dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvmet_req_alloc_sgl);
 +
- 		if (blk_integrity_rq(req))
- 			dma_unmap_sg(dev->dev, &iod->meta_sg, 1, dma_dir);
++void nvmet_req_free_sgl(struct nvmet_req *req)
++{
++	sgl_free(req->sg);
++	req->sg = NULL;
++	req->sg_cnt = 0;
++}
++EXPORT_SYMBOL_GPL(nvmet_req_free_sgl);
++
+ static inline bool nvmet_cc_en(u32 cc)
+ {
+ 	return (cc >> NVME_CC_EN_SHIFT) & 0x1;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index ec9af4ee03b6..e7b7406c4e22 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -336,6 +336,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ void nvmet_req_uninit(struct nvmet_req *req);
+ void nvmet_req_execute(struct nvmet_req *req);
+ void nvmet_req_complete(struct nvmet_req *req, u16 status);
++int nvmet_req_alloc_sgl(struct nvmet_req *req);
++void nvmet_req_free_sgl(struct nvmet_req *req);
+ 
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+ 		u16 size);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index bfc4da660bb4..9e091e78a2f0 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -503,7 +503,7 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
  	}
-@@ -2400,7 +2408,8 @@ static int nvme_pci_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.name			= "pcie",
- 	.module			= THIS_MODULE,
--	.flags			= NVME_F_METADATA_SUPPORTED,
-+	.flags			= NVME_F_METADATA_SUPPORTED |
-+				  NVME_F_PCI_P2PDMA,
- 	.reg_read32		= nvme_pci_reg_read32,
- 	.reg_write32		= nvme_pci_reg_write32,
- 	.reg_read64		= nvme_pci_reg_read64,
+ 
+ 	if (rsp->req.sg != rsp->cmd->inline_sg)
+-		sgl_free(rsp->req.sg);
++		nvmet_req_free_sgl(&rsp->req);
+ 
+ 	if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
+ 		nvmet_rdma_process_wr_wait_list(queue);
+@@ -652,24 +652,24 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ {
+ 	struct rdma_cm_id *cm_id = rsp->queue->cm_id;
+ 	u64 addr = le64_to_cpu(sgl->addr);
+-	u32 len = get_unaligned_le24(sgl->length);
+ 	u32 key = get_unaligned_le32(sgl->key);
+ 	int ret;
+ 
++	rsp->req.transfer_len = get_unaligned_le24(sgl->length);
++
+ 	/* no data command? */
+-	if (!len)
++	if (!rsp->req.transfer_len)
+ 		return 0;
+ 
+-	rsp->req.sg = sgl_alloc(len, GFP_KERNEL, &rsp->req.sg_cnt);
+-	if (!rsp->req.sg)
+-		return NVME_SC_INTERNAL;
++	ret = nvmet_req_alloc_sgl(&rsp->req);
++	if (ret < 0)
++		goto error_out;
+ 
+ 	ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
+ 			rsp->req.sg, rsp->req.sg_cnt, 0, addr, key,
+ 			nvmet_data_dir(&rsp->req));
+ 	if (ret < 0)
+-		return NVME_SC_INTERNAL;
+-	rsp->req.transfer_len += len;
++		goto error_out;
+ 	rsp->n_rdma += ret;
+ 
+ 	if (invalidate) {
+@@ -678,6 +678,10 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ 	}
+ 
+ 	return 0;
++
++error_out:
++	rsp->req.transfer_len = 0;
++	return NVME_SC_INTERNAL;
+ }
+ 
+ static u16 nvmet_rdma_map_sgl(struct nvmet_rdma_rsp *rsp)
 -- 
 2.19.0
