@@ -1,155 +1,123 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Oct 2018 15:27:38 -0600
-Subject: [PATCH v9 04/13] PCI/P2PDMA: Introduce configfs/sysfs enable
- attribute helpers
+Date: Thu,  4 Oct 2018 15:27:37 -0600
+Subject: [PATCH v9 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to adjust
+ the bus offset
 In-Reply-To: <20181004212747.6301-1-logang@deltatee.com>
 References: <20181004212747.6301-1-logang@deltatee.com>
-Message-ID: <20181004212747.6301-5-logang@deltatee.com>
+Message-ID: <20181004212747.6301-4-logang@deltatee.com>
 
-Users of the P2PDMA infrastructure will typically need a way for
-the user to tell the kernel to use P2P resources. Typically
-this will be a simple on/off boolean operation but sometimes
-it may be desirable for the user to specify the exact device to
-use for the P2P operation.
+The DMA address used when mapping PCI P2P memory must be the PCI bus
+address. Thus, introduce pci_p2pmem_map_sg() to map the correct
+addresses when using P2P memory.
 
-Add new helpers for attributes which take a boolean or a PCI device.
-Any boolean as accepted by strtobool() turn P2P on or off (such as 'y', 'n',
-'1', '0', etc). Specifying a full PCI device name/BDF will select the
-specific device.
+Memory mapped in this way does not need to be unmapped and thus if we
+provided pci_p2pmem_unmap_sg() it would be empty. This breaks the
+expected balance between map/unmap but was left out as an empty
+function doesn't really provide any benefit. In the future, if
+this call becomes necessary it can be added without much difficulty.
+
+For this, we assume that an SGL passed to these functions contain all
+P2P memory or no P2P memory.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Acked-by: Bjorn Helgaas <bhelgaas at google.com>
 ---
- drivers/pci/p2pdma.c       | 82 ++++++++++++++++++++++++++++++++++++++
- include/linux/pci-p2pdma.h | 15 +++++++
- 2 files changed, 97 insertions(+)
+ drivers/pci/p2pdma.c       | 43 ++++++++++++++++++++++++++++++++++++++
+ include/linux/memremap.h   |  1 +
+ include/linux/pci-p2pdma.h |  7 +++++++
+ 3 files changed, 51 insertions(+)
 
 diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index e914f04ea1ec..b18b3703ab79 100644
+index 526c638579d1..e914f04ea1ec 100644
 --- a/drivers/pci/p2pdma.c
 +++ b/drivers/pci/p2pdma.c
-@@ -8,6 +8,8 @@
-  * Copyright (c) 2018, Eideticom Inc.
-  */
+@@ -194,6 +194,8 @@ int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
+ 	pgmap->res.flags = pci_resource_flags(pdev, bar);
+ 	pgmap->ref = &pdev->p2pdma->devmap_ref;
+ 	pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
++	pgmap->pci_p2pdma_bus_offset = pci_bus_address(pdev, bar) -
++		pci_resource_start(pdev, bar);
  
-+#define pr_fmt(fmt) "pci-p2pdma: " fmt
-+#include <linux/ctype.h>
- #include <linux/pci-p2pdma.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-@@ -725,3 +727,83 @@ int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
- 	return nents;
+ 	addr = devm_memremap_pages(&pdev->dev, pgmap);
+ 	if (IS_ERR(addr)) {
+@@ -682,3 +684,44 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
+ 	pdev->p2pdma->p2pmem_published = publish;
  }
- EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
+ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
 +
 +/**
-+ * pci_p2pdma_enable_store - parse a configfs/sysfs attribute store
-+ *		to enable p2pdma
-+ * @page: contents of the value to be stored
-+ * @p2p_dev: returns the PCI device that was selected to be used
-+ *		(if one was specified in the stored value)
-+ * @use_p2pdma: returns whether to enable p2pdma or not
++ * pci_p2pdma_map_sg - map a PCI peer-to-peer scatterlist for DMA
++ * @dev: device doing the DMA request
++ * @sg: scatter list to map
++ * @nents: elements in the scatterlist
++ * @dir: DMA direction
 + *
-+ * Parses an attribute value to decide whether to enable p2pdma.
-+ * The value can select a PCI device (using it's full BDF device
-+ * name) or a boolean (in any format strtobool() accepts). A false
-+ * value disables p2pdma, a true value expects the caller
-+ * to automatically find a compatible device and specifying a PCI device
-+ * expects the caller to use the specific provider.
++ * Scatterlists mapped with this function should not be unmapped in any way.
 + *
-+ * pci_p2pdma_enable_show() should be used as the show operation for
-+ * the attribute.
-+ *
-+ * Returns 0 on success
++ * Returns the number of SG entries mapped or 0 on error.
 + */
-+int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
-+			    bool *use_p2pdma)
++int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
++		      enum dma_data_direction dir)
 +{
-+	struct device *dev;
++	struct dev_pagemap *pgmap;
++	struct scatterlist *s;
++	phys_addr_t paddr;
++	int i;
 +
-+	dev = bus_find_device_by_name(&pci_bus_type, NULL, page);
-+	if (dev) {
-+		*use_p2pdma = true;
-+		*p2p_dev = to_pci_dev(dev);
-+
-+		if (!pci_has_p2pmem(*p2p_dev)) {
-+			pci_err(*p2p_dev,
-+				"PCI device has no peer-to-peer memory: %s\n",
-+				page);
-+			pci_dev_put(*p2p_dev);
-+			return -ENODEV;
-+		}
-+
++	/*
++	 * p2pdma mappings are not compatible with devices that use
++	 * dma_virt_ops. If the upper layers do the right thing
++	 * this should never happen because it will be prevented
++	 * by the check in pci_p2pdma_add_client()
++	 */
++	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_DMA_VIRT_OPS) &&
++			 dev->dma_ops == &dma_virt_ops))
 +		return 0;
-+	} else if ((page[0] == '0' || page[0] == '1') && !iscntrl(page[1])) {
-+		/*
-+		 * If the user enters a PCI device that  doesn't exist
-+		 * like "0000:01:00.1", we don't want strtobool to think
-+		 * it's a '0' when it's clearly not what the user wanted.
-+		 * So we require 0's and 1's to be exactly one character.
-+		 */
-+	} else if (!strtobool(page, use_p2pdma)) {
-+		return 0;
++
++	for_each_sg(sg, s, nents, i) {
++		pgmap = sg_page(s)->pgmap;
++		paddr = sg_phys(s);
++
++		s->dma_address = paddr - pgmap->pci_p2pdma_bus_offset;
++		sg_dma_len(s) = s->length;
 +	}
 +
-+	pr_err("No such PCI device: %.*s\n", (int)strcspn(page, "\n"), page);
-+	return -ENODEV;
++	return nents;
 +}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_enable_store);
-+
-+/**
-+ * pci_p2pdma_enable_show - show a configfs/sysfs attribute indicating
-+ *		whether p2pdma is enabled
-+ * @page: contents of the stored value
-+ * @p2p_dev: the selected p2p device (NULL if no device is selected)
-+ * @use_p2pdma: whether p2pdme has been enabled
-+ *
-+ * Attributes that use pci_p2pdma_enable_store() should use this function
-+ * to show the value of the attribute.
-+ *
-+ * Returns 0 on success
-+ */
-+ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-+			       bool use_p2pdma)
-+{
-+	if (!use_p2pdma)
-+		return sprintf(page, "0\n");
-+
-+	if (!p2p_dev)
-+		return sprintf(page, "1\n");
-+
-+	return sprintf(page, "%s\n", pci_name(p2p_dev));
-+}
-+EXPORT_SYMBOL_GPL(pci_p2pdma_enable_show);
++EXPORT_SYMBOL_GPL(pci_p2pdma_map_sg);
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index 9553370ebdad..0ac69ddf5fc4 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -125,6 +125,7 @@ struct dev_pagemap {
+ 	struct device *dev;
+ 	void *data;
+ 	enum memory_type type;
++	u64 pci_p2pdma_bus_offset;
+ };
+ 
+ #ifdef CONFIG_ZONE_DEVICE
 diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index b6dfb6dc2e53..bca9bc3e5be7 100644
+index 7bdaacfd5892..b6dfb6dc2e53 100644
 --- a/include/linux/pci-p2pdma.h
 +++ b/include/linux/pci-p2pdma.h
-@@ -32,6 +32,10 @@ void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
+@@ -30,6 +30,8 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
+ 					 unsigned int *nents, u32 length);
+ void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
  void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
- int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
- 		      enum dma_data_direction dir);
-+int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
-+			    bool *use_p2pdma);
-+ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-+			       bool use_p2pdma);
++int pci_p2pdma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
++		      enum dma_data_direction dir);
  #else /* CONFIG_PCI_P2PDMA */
  static inline int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar,
  		size_t size, u64 offset)
-@@ -82,6 +86,17 @@ static inline int pci_p2pdma_map_sg(struct device *dev,
+@@ -75,6 +77,11 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
+ static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
  {
- 	return 0;
  }
-+static inline int pci_p2pdma_enable_store(const char *page,
-+		struct pci_dev **p2p_dev, bool *use_p2pdma)
++static inline int pci_p2pdma_map_sg(struct device *dev,
++		struct scatterlist *sg, int nents, enum dma_data_direction dir)
 +{
-+	*use_p2pdma = false;
 +	return 0;
-+}
-+static inline ssize_t pci_p2pdma_enable_show(char *page,
-+		struct pci_dev *p2p_dev, bool use_p2pdma)
-+{
-+	return sprintf(page, "none\n");
 +}
  #endif /* CONFIG_PCI_P2PDMA */
  
