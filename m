@@ -1,81 +1,126 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Oct 2018 10:43:57 -0700
-Subject: [PATCH 1/2] nvme-rdma: always have a valid trsvcid
-Message-ID: <20181004174358.15267-1-sagi@grimberg.me>
+Date: Thu,  4 Oct 2018 10:43:58 -0700
+Subject: [PATCH 2/2] nvme-fabrics: move controller options matching to fabrics
+In-Reply-To: <20181004174358.15267-1-sagi@grimberg.me>
+References: <20181004174358.15267-1-sagi@grimberg.me>
+Message-ID: <20181004174358.15267-2-sagi@grimberg.me>
 
-If not passed, we set the default trsvcid. We can rely
-on having trsvcid and can simplify the controller matching
-logic.
+IP transports will most likely use the same controller options
+matching when detecting a duplicate connect. Move it to
+fabrics.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 34 ++++++++++------------------------
- 1 file changed, 10 insertions(+), 24 deletions(-)
+ drivers/nvme/host/fabrics.c | 29 +++++++++++++++++++++++++++++
+ drivers/nvme/host/fabrics.h |  2 ++
+ drivers/nvme/host/rdma.c    | 35 +----------------------------------
+ 3 files changed, 32 insertions(+), 34 deletions(-)
 
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index bcd09d3a44da..a43924e50733 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -868,6 +868,35 @@ static int nvmf_check_required_opts(struct nvmf_ctrl_options *opts,
+ 	return 0;
+ }
+ 
++bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
++	struct nvmf_ctrl_options *opts)
++{
++	if (!nvmf_ctlr_matches_baseopts(ctrl, opts) ||
++	    strcmp(opts->traddr, ctrl->opts->traddr) ||
++	    strcmp(opts->trsvcid, ctrl->opts->trsvcid))
++		return false;
++
++	/*
++	 * checking the local address is rough. In most cases, one
++	 * is not specified and the host port is selected by the stack.
++	 *
++	 * Assume no match if:
++	 *  local address is specified and address is not the same
++	 *  local address is not specified but remote is, or vice versa
++	 *    (admin using specific host_traddr when it matters).
++	 */
++	if (opts->mask & NVMF_OPT_HOST_TRADDR &&
++	    ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
++		if (strcmp(opts->host_traddr, ctrl->opts->host_traddr))
++			return false;
++	} else if (opts->mask & NVMF_OPT_HOST_TRADDR ||
++		   ctrl->opts->mask & NVMF_OPT_HOST_TRADDR)
++		return false;
++
++	return true;
++}
++EXPORT_SYMBOL_GPL(nvmf_ip_options_match);
++
+ static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
+ 		unsigned int allowed_opts)
+ {
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index aa2fdb2a2e8f..6ea6275f332a 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -166,6 +166,8 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
+ 		struct request *rq);
+ bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 		bool queue_live);
++bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
++		struct nvmf_ctrl_options *opts);
+ 
+ static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
+ 		bool queue_live)
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index dc042017c293..cd4269c2fb10 100644
+index cd4269c2fb10..c637c7b38949 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -1853,26 +1853,11 @@ static inline bool
- __nvme_rdma_options_match(struct nvme_rdma_ctrl *ctrl,
- 	struct nvmf_ctrl_options *opts)
- {
--	char *stdport = __stringify(NVME_RDMA_IP_PORT);
+@@ -1849,39 +1849,6 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 	.stop_ctrl		= nvme_rdma_stop_ctrl,
+ };
+ 
+-static inline bool
+-__nvme_rdma_options_match(struct nvme_rdma_ctrl *ctrl,
+-	struct nvmf_ctrl_options *opts)
+-{
+-	if (!nvmf_ctlr_matches_baseopts(&ctrl->ctrl, opts) ||
+-	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr) ||
+-	    strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
+-		return false;
 -
+-	/*
+-	 * checking the local address is rough. In most cases, one
+-	 * is not specified and the host port is selected by the stack.
+-	 *
+-	 * Assume no match if:
+-	 *  local address is specified and address is not the same
+-	 *  local address is not specified but remote is, or vice versa
+-	 *    (admin using specific host_traddr when it matters).
+-	 */
+-	if (opts->mask & NVMF_OPT_HOST_TRADDR &&
+-	    ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
+-		if (strcmp(opts->host_traddr, ctrl->ctrl.opts->host_traddr))
+-			return false;
+-	} else if (opts->mask & NVMF_OPT_HOST_TRADDR ||
+-		   ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
+-		return false;
+-	/*
+-	 * if neither controller had an host port specified, assume it's
+-	 * a match as everything else matched.
+-	 */
 -
- 	if (!nvmf_ctlr_matches_baseopts(&ctrl->ctrl, opts) ||
--	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr))
-+	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr) ||
-+	    strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
- 		return false;
- 
--	if (opts->mask & NVMF_OPT_TRSVCID &&
--	    ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
--		if (strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
--			return false;
--	} else if (opts->mask & NVMF_OPT_TRSVCID) {
--		if (strcmp(opts->trsvcid, stdport))
--			return false;
--	} else if (ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
--		if (strcmp(stdport, ctrl->ctrl.opts->trsvcid))
--			return false;
--	}
--	/* else, it's a match as both have stdport. Fall to next checks */
+-	return true;
+-}
 -
- 	/*
- 	 * checking the local address is rough. In most cases, one
- 	 * is not specified and the host port is selected by the stack.
-@@ -1932,7 +1917,6 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	struct nvme_rdma_ctrl *ctrl;
- 	int ret;
- 	bool changed;
--	char *port;
+ /*
+  * Fails a connection request if it matches an existing controller
+  * (association) with the same tuple:
+@@ -1902,7 +1869,7 @@ nvme_rdma_existing_controller(struct nvmf_ctrl_options *opts)
  
- 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl)
-@@ -1940,15 +1924,17 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	ctrl->ctrl.opts = opts;
- 	INIT_LIST_HEAD(&ctrl->list);
- 
--	if (opts->mask & NVMF_OPT_TRSVCID)
--		port = opts->trsvcid;
--	else
--		port = __stringify(NVME_RDMA_IP_PORT);
-+	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
-+		opts->trsvcid =
-+			kstrdup(__stringify(NVME_RDMA_IP_PORT), GFP_KERNEL);
-+		opts->mask |= NVMF_OPT_TRSVCID;
-+	}
- 
- 	ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
--			opts->traddr, port, &ctrl->addr);
-+			opts->traddr, opts->trsvcid, &ctrl->addr);
- 	if (ret) {
--		pr_err("malformed address passed: %s:%s\n", opts->traddr, port);
-+		pr_err("malformed address passed: %s:%s\n",
-+			opts->traddr, opts->trsvcid);
- 		goto out_free_ctrl;
+ 	mutex_lock(&nvme_rdma_ctrl_mutex);
+ 	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
+-		found = __nvme_rdma_options_match(ctrl, opts);
++		found = nvmf_ip_options_match(&ctrl->ctrl, opts);
+ 		if (found)
+ 			break;
  	}
- 
 -- 
 2.17.1
