@@ -1,47 +1,81 @@
-From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Thu,  4 Oct 2018 08:49:30 -0700
-Subject: [PATCH 10/11] nvmet: Provide adding AENs for multiple controller types
-In-Reply-To: <1538668171-232344-1-git-send-email-jay.e.sternberg@intel.com>
-References: <1538668171-232344-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1538668171-232344-11-git-send-email-jay.e.sternberg@intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu,  4 Oct 2018 10:43:57 -0700
+Subject: [PATCH 1/2] nvme-rdma: always have a valid trsvcid
+Message-ID: <20181004174358.15267-1-sagi@grimberg.me>
 
-From: Phil Cayton <phil.cayton@intel.com>
+If not passed, we set the default trsvcid. We can rely
+on having trsvcid and can simplify the controller matching
+logic.
 
-Make nvmet_add_async_event a non-static function in preparation
-for use by other controllers, initally the discovery controller.
-
-Signed-off-by: Phil Cayton <phil.cayton at intel.com>
-Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/core.c  | 2 +-
- drivers/nvme/target/nvmet.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 34 ++++++++++------------------------
+ 1 file changed, 10 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 67ea1d2..e9f9996 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -129,7 +129,7 @@ static void nvmet_async_event_work(struct work_struct *work)
- 	}
- }
- 
--static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-+void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
- 		u8 event_info, u8 log_page)
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index dc042017c293..cd4269c2fb10 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1853,26 +1853,11 @@ static inline bool
+ __nvme_rdma_options_match(struct nvme_rdma_ctrl *ctrl,
+ 	struct nvmf_ctrl_options *opts)
  {
- 	struct nvmet_async_event *aen;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 0a65415..9bb546d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -422,6 +422,8 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+-	char *stdport = __stringify(NVME_RDMA_IP_PORT);
+-
+-
+ 	if (!nvmf_ctlr_matches_baseopts(&ctrl->ctrl, opts) ||
+-	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr))
++	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr) ||
++	    strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
+ 		return false;
  
- extern struct list_head *nvmet_ports;
-+void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
-+		u8 event_info, u8 log_page);
+-	if (opts->mask & NVMF_OPT_TRSVCID &&
+-	    ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
+-		if (strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
+-			return false;
+-	} else if (opts->mask & NVMF_OPT_TRSVCID) {
+-		if (strcmp(opts->trsvcid, stdport))
+-			return false;
+-	} else if (ctrl->ctrl.opts->mask & NVMF_OPT_TRSVCID) {
+-		if (strcmp(stdport, ctrl->ctrl.opts->trsvcid))
+-			return false;
+-	}
+-	/* else, it's a match as both have stdport. Fall to next checks */
+-
+ 	/*
+ 	 * checking the local address is rough. In most cases, one
+ 	 * is not specified and the host port is selected by the stack.
+@@ -1932,7 +1917,6 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	struct nvme_rdma_ctrl *ctrl;
+ 	int ret;
+ 	bool changed;
+-	char *port;
  
- #define NVMET_QUEUE_SIZE	1024
- #define NVMET_NR_QUEUES		128
+ 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+ 	if (!ctrl)
+@@ -1940,15 +1924,17 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	ctrl->ctrl.opts = opts;
+ 	INIT_LIST_HEAD(&ctrl->list);
+ 
+-	if (opts->mask & NVMF_OPT_TRSVCID)
+-		port = opts->trsvcid;
+-	else
+-		port = __stringify(NVME_RDMA_IP_PORT);
++	if (!(opts->mask & NVMF_OPT_TRSVCID)) {
++		opts->trsvcid =
++			kstrdup(__stringify(NVME_RDMA_IP_PORT), GFP_KERNEL);
++		opts->mask |= NVMF_OPT_TRSVCID;
++	}
+ 
+ 	ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
+-			opts->traddr, port, &ctrl->addr);
++			opts->traddr, opts->trsvcid, &ctrl->addr);
+ 	if (ret) {
+-		pr_err("malformed address passed: %s:%s\n", opts->traddr, port);
++		pr_err("malformed address passed: %s:%s\n",
++			opts->traddr, opts->trsvcid);
+ 		goto out_free_ctrl;
+ 	}
+ 
 -- 
-1.8.3.1
+2.17.1
