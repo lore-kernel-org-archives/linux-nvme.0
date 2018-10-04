@@ -1,36 +1,71 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Oct 2018 14:23:23 -0700
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-Message-ID: <20181004212328.30205-1-sagi@grimberg.me>
+Date: Thu,  4 Oct 2018 14:23:26 -0700
+Subject: [PATCH rfc 3/3] nvme: fire discovery log page change events to
+ userspace
+In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
+References: <20181004212328.30205-1-sagi@grimberg.me>
+Message-ID: <20181004212328.30205-4-sagi@grimberg.me>
 
-In order to support discovery AENs we need to have two things:
-1. Support long lived discovery controller sessions that would allow to
-   receive discovery AENs. This means we need to specify kato in connect
+Provide userspace with nvme discovery controller device instance,
+controller traddr and trsvcid. We'd expect userspace to handle
+this event by issuing a discovery + connect.
 
-2. Support discovery log change events. The choice here is to simply fire
-   a udev event and let userspace to:
-   1. issue an updated discovery log page via our discovery controller (1)
-   2. connect to every new subsystem/port that exists in the system.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-This patch set was developed against the nvmet support patch set from Jay.
-
-nvme-cli patches are also included in this series.
-
-the udev rule that ultimately achieves dynamic discovery enumeration (TP 8002)
-is:
-
-SUBSYSTEM=="nvme", ACTION=="change", \
-  RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} --transport=$env{NVME_TRTYPE} \
-  --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
-
-Sagi Grimberg (3):
-  nvme-fabrics: allow discovery subsystems accept a kato
-  nvme: enable aen also for discovery controllers
-  nvme: fire discovery log page change events to userspace
-
- drivers/nvme/host/core.c    | 36 +++++++++++++++++++++++++++++++++---
- drivers/nvme/host/fabrics.c | 16 +++-------------
- 2 files changed, 36 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index efdbfc07de32..495bfbeea068 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1079,7 +1079,8 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+ EXPORT_SYMBOL_GPL(nvme_set_queue_count);
+ 
+ #define NVME_AEN_SUPPORTED \
+-	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE)
++	(NVME_AEN_CFG_NS_ATTR | NVME_AEN_CFG_FW_ACT | NVME_AEN_CFG_ANA_CHANGE | \
++	 NVME_AEN_CFG_DISC_CHANGE)
+ 
+ static void nvme_enable_aen(struct nvme_ctrl *ctrl)
+ {
+@@ -3351,6 +3352,27 @@ static void nvme_aen_uevent(struct nvme_ctrl *ctrl)
+ 	kfree(envp[0]);
+ }
+ 
++static void nvme_disc_aen_uevent(struct nvme_ctrl *ctrl)
++{
++	struct nvmf_ctrl_options *opts = ctrl->opts;
++	char *envp[16];
++	int i, envloc = 0;
++
++	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_EVENT=discovery");
++	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_INSTANCE=%d", ctrl->instance);
++	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRTYPE=%s", opts->transport);
++	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRADDR=%s", opts->traddr);
++	envp[envloc++] = kasprintf(GFP_KERNEL, "NVME_TRSVCID=%s", opts->trsvcid);
++	/* TODO: propagate HOST_TRADDR? */
++	envp[envloc] = NULL;
++
++	for (i = 0; i < envloc; i++)
++		dev_dbg(ctrl->device, "%s\n", envp[i]);
++	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
++	for (i = 0; i < envloc; i++)
++		kfree(envp[i]);
++}
++
+ static void nvme_async_event_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl =
+@@ -3442,6 +3464,9 @@ static void nvme_handle_aen_notice(struct nvme_ctrl *ctrl, u32 result)
+ 		queue_work(nvme_wq, &ctrl->ana_work);
+ 		break;
+ #endif
++	case NVME_AER_NOTICE_DISC_CHANGED:
++		nvme_disc_aen_uevent(ctrl);
++		break;
+ 	default:
+ 		dev_warn(ctrl->device, "async event result %08x\n", result);
+ 	}
 -- 
 2.17.1
