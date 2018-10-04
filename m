@@ -1,90 +1,47 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Thu,  4 Oct 2018 08:49:26 -0700
-Subject: [PATCH 06/11] nvmet: Add support to Discovery controllers for commands
+Date: Thu,  4 Oct 2018 08:49:30 -0700
+Subject: [PATCH 10/11] nvmet: Provide adding AENs for multiple controller types
 In-Reply-To: <1538668171-232344-1-git-send-email-jay.e.sternberg@intel.com>
 References: <1538668171-232344-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1538668171-232344-7-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1538668171-232344-11-git-send-email-jay.e.sternberg@intel.com>
 
-Add custom get/set features to restrict commands allowed by Discovery
-controllers.
+From: Phil Cayton <phil.cayton@intel.com>
 
-Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Make nvmet_add_async_event a non-static function in preparation
+for use by other controllers, initally the discovery controller.
+
+Signed-off-by: Phil Cayton <phil.cayton at intel.com>
+Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
 ---
- drivers/nvme/target/discovery.c | 53 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ drivers/nvme/target/core.c  | 2 +-
+ drivers/nvme/target/nvmet.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 6689c56..df609ef 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -183,6 +183,47 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 67ea1d2..e9f9996 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -129,7 +129,7 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 	}
  }
  
-+static void nvmet_execute_disc_set_features(struct nvmet_req *req)
-+{
-+	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
-+	u16 stat;
-+
-+	switch (cdw10 & 0xff) {
-+	case NVME_FEAT_KATO:
-+		stat = nvmet_set_feat_kato(req);
-+		break;
-+	case NVME_FEAT_ASYNC_EVENT:
-+		stat = nvmet_set_feat_async_event(req,
-+						  NVMET_DISC_AEN_CFG_OPTIONAL);
-+		break;
-+	default:
-+		stat = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		break;
-+	}
-+
-+	nvmet_req_complete(req, stat);
-+}
-+
-+static void nvmet_execute_disc_get_features(struct nvmet_req *req)
-+{
-+	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
-+	u16 stat = 0;
-+
-+	switch (cdw10 & 0xff) {
-+	case NVME_FEAT_KATO:
-+		nvmet_get_feat_kato(req);
-+		break;
-+	case NVME_FEAT_ASYNC_EVENT:
-+		nvmet_get_feat_async_event(req);
-+		break;
-+	default:
-+		stat = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		break;
-+	}
-+
-+	nvmet_req_complete(req, stat);
-+}
-+
- u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+-static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
  {
- 	struct nvme_command *cmd = req->cmd;
-@@ -194,6 +235,18 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 	}
+ 	struct nvmet_async_event *aen;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 0a65415..9bb546d 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -422,6 +422,8 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
  
- 	switch (cmd->common.opcode) {
-+	case nvme_admin_set_features:
-+		req->execute = nvmet_execute_disc_set_features;
-+		req->data_len = 0;
-+		return 0;
-+	case nvme_admin_get_features:
-+		req->execute = nvmet_execute_disc_get_features;
-+		req->data_len = 0;
-+		return 0;
-+	case nvme_admin_async_event:
-+		req->execute = nvmet_execute_async_event;
-+		req->data_len = 0;
-+		return 0;
- 	case nvme_admin_keep_alive:
- 		req->execute = nvmet_execute_keep_alive;
- 		req->data_len = 0;
+ extern struct list_head *nvmet_ports;
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++		u8 event_info, u8 log_page);
+ 
+ #define NVMET_QUEUE_SIZE	1024
+ #define NVMET_NR_QUEUES		128
 -- 
 1.8.3.1
