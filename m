@@ -1,76 +1,90 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  4 Oct 2018 15:27:39 -0600
-Subject: [PATCH v9 05/13] docs-rst: Add a new directory for PCI documentation
+Date: Thu,  4 Oct 2018 15:27:45 -0600
+Subject: [PATCH v9 11/13] nvme-pci: Add a quirk for a pseudo CMB
 In-Reply-To: <20181004212747.6301-1-logang@deltatee.com>
 References: <20181004212747.6301-1-logang@deltatee.com>
-Message-ID: <20181004212747.6301-6-logang@deltatee.com>
+Message-ID: <20181004212747.6301-12-logang@deltatee.com>
 
-Add a new directory in the driver API guide for PCI specific
-documentation.
+Introduce a quirk to use CMB-like memory on older devices that have
+an exposed BAR but do not advertise support for using CMBLOC and
+CMBSIZE.
 
-This is in preparation for adding a new PCI P2P DMA driver writers
-guide which will go in this directory.
+We'd like to use some of these older cards to test P2P memory.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Cc: Jonathan Corbet <corbet at lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab at kernel.org>
-Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
-Cc: Vinod Koul <vinod.koul at intel.com>
-Cc: Linus Walleij <linus.walleij at linaro.org>
-Cc: Logan Gunthorpe <logang at deltatee.com>
-Cc: Thierry Reding <treding at nvidia.com>
-Cc: Sanyog Kale <sanyog.r.kale at intel.com>
-Cc: Sagar Dharia <sdharia at codeaurora.org>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 ---
- Documentation/driver-api/index.rst         |  2 +-
- Documentation/driver-api/pci/index.rst     | 20 ++++++++++++++++++++
- Documentation/driver-api/{ => pci}/pci.rst |  0
- 3 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/driver-api/pci/index.rst
- rename Documentation/driver-api/{ => pci}/pci.rst (100%)
+ drivers/nvme/host/nvme.h |  7 +++++++
+ drivers/nvme/host/pci.c  | 24 ++++++++++++++++++++----
+ 2 files changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-index 6d9f2f9fe20e..e9e7d24169cf 100644
---- a/Documentation/driver-api/index.rst
-+++ b/Documentation/driver-api/index.rst
-@@ -29,7 +29,7 @@ available subsections can be seen below.
-    iio/index
-    input
-    usb/index
--   pci
-+   pci/index
-    spi
-    i2c
-    hsi
-diff --git a/Documentation/driver-api/pci/index.rst b/Documentation/driver-api/pci/index.rst
-new file mode 100644
-index 000000000000..eaf20b24bf7d
---- /dev/null
-+++ b/Documentation/driver-api/pci/index.rst
-@@ -0,0 +1,20 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+============================================
-+The Linux PCI driver implementer's API guide
-+============================================
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4030743c90aa..8e6f3bcfe956 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -90,6 +90,13 @@ enum nvme_quirks {
+ 	 * Set MEDIUM priority on SQ creation
+ 	 */
+ 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
 +
-+.. class:: toc-title
++	/*
++	 * Pseudo CMB Support on BAR 4. For adapters like the Microsemi
++	 * NVRAM that have CMB-like memory on a BAR but does not set
++	 * CMBLOC or CMBSZ.
++	 */
++	NVME_QUIRK_PSEUDO_CMB_BAR4		= (1 << 8),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0d6c41bc2b35..db862ee6e53e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1644,6 +1644,13 @@ static ssize_t nvme_cmb_show(struct device *dev,
+ }
+ static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
+ 
++static u32 nvme_pseudo_cmbsz(struct pci_dev *pdev, int bar)
++{
++	return NVME_CMBSZ_WDS | NVME_CMBSZ_RDS |
++		(((ilog2(SZ_16M) - 12) / 4) << NVME_CMBSZ_SZU_SHIFT) |
++		((pci_resource_len(pdev, bar) / SZ_16M) << NVME_CMBSZ_SZ_SHIFT);
++}
 +
-+	   Table of contents
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   pci
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-diff --git a/Documentation/driver-api/pci.rst b/Documentation/driver-api/pci/pci.rst
-similarity index 100%
-rename from Documentation/driver-api/pci.rst
-rename to Documentation/driver-api/pci/pci.rst
+ static u64 nvme_cmb_size_unit(struct nvme_dev *dev)
+ {
+ 	u8 szu = (dev->cmbsz >> NVME_CMBSZ_SZU_SHIFT) & NVME_CMBSZ_SZU_MASK;
+@@ -1663,10 +1670,15 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int bar;
+ 
+-	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
+-	if (!dev->cmbsz)
+-		return;
+-	dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
++	if (dev->ctrl.quirks & NVME_QUIRK_PSEUDO_CMB_BAR4) {
++		dev->cmbsz = nvme_pseudo_cmbsz(pdev, 4);
++		dev->cmbloc = 4;
++	} else {
++		dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
++		if (!dev->cmbsz)
++			return;
++		dev->cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
++	}
+ 
+ 	size = nvme_cmb_size_unit(dev) * nvme_cmb_size(dev);
+ 	offset = nvme_cmb_size_unit(dev) * NVME_CMB_OFST(dev->cmbloc);
+@@ -2715,6 +2727,10 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_LIGHTNVM, },
+ 	{ PCI_DEVICE(0x1d1d, 0x2601),	/* CNEX Granby */
+ 		.driver_data = NVME_QUIRK_LIGHTNVM, },
++	{ PCI_DEVICE(0x11f8, 0xf117),	/* Microsemi NVRAM adaptor */
++		.driver_data = NVME_QUIRK_PSEUDO_CMB_BAR4, },
++	{ PCI_DEVICE(0x1db1, 0x0002),	/* Everspin nvNitro adaptor */
++		.driver_data = NVME_QUIRK_PSEUDO_CMB_BAR4,  },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
 -- 
 2.19.0
