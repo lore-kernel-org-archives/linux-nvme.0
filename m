@@ -1,83 +1,91 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Oct 2018 14:23:27 -0700
-Subject: [PATCH 4/3 rfc nvme-cli] fabrics: support persistent connections to a
- discovery controller
+Date: Thu,  4 Oct 2018 14:23:28 -0700
+Subject: [PATCH 5/3 rfc nvme-cli] fabrics: allow user to retrieve discovery
+ log from existing discovery controller
 In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
 References: <20181004212328.30205-1-sagi@grimberg.me>
-Message-ID: <20181004212328.30205-5-sagi@grimberg.me>
+Message-ID: <20181004212328.30205-6-sagi@grimberg.me>
 
-Simply don't destroy the discovery controller after getting the
-log pages. Note that persistent connection to a discovery subsystem
-require to pass in a non-zero kato value, so if not provided we
-simply use a default of 30 seconds kato.
+Simply allow discover to receive an existing discovery device node name.
+Also centralize extraction of controller instance from the controller
+name to a common helper.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- fabrics.c | 10 +++++++++-
- fabrics.h |  2 ++
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ fabrics.c | 32 ++++++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index 1c25ccb0af6c..f5b822902aa2 100644
+index f5b822902aa2..d937df47b68e 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -62,6 +62,7 @@ static struct config {
- 	char *raw;
- 	char *device;
- 	int  duplicate_connect;
-+	bool persistent;
- } cfg = { NULL };
+@@ -173,6 +173,19 @@ static const char *cms_str(__u8 cm)
  
- #define BUF_SIZE		4096
-@@ -762,7 +763,8 @@ static int do_discover(char *argstr, bool connect)
+ static int do_discover(char *argstr, bool connect);
+ 
++static int ctrl_instance(char *device)
++{
++	int ret, instance;
++
++	device = basename(device);
++	ret = sscanf(device, "nvme%d", &instance);
++	if (ret < 0)
++		return ret;
++	if (!ret)
++		return -1;
++	return instance;
++}
++
+ static int add_ctrl(const char *argstr)
+ {
+ 	substring_t args[MAX_OPT_ARGS];
+@@ -755,7 +768,10 @@ static int do_discover(char *argstr, bool connect)
+ 	char *dev_name;
+ 	int instance, numrec = 0, ret;
+ 
+-	instance = add_ctrl(argstr);
++	if (!cfg.device)
++		instance = add_ctrl(argstr);
++	else
++		instance = ctrl_instance(cfg.device);
+ 	if (instance < 0)
+ 		return instance;
+ 
+@@ -763,7 +779,7 @@ static int do_discover(char *argstr, bool connect)
  		return errno;
  	ret = nvmf_get_log_page_discovery(dev_name, &log, &numrec);
  	free(dev_name);
--	remove_ctrl(instance);
-+	if (!cfg.persistent)
-+		remove_ctrl(instance);
+-	if (!cfg.persistent)
++	if (!cfg.device && !cfg.persistent)
+ 		remove_ctrl(instance);
  
  	switch (ret) {
- 	case DISC_OK:
-@@ -838,6 +840,9 @@ static int discover_from_conf_file(const char *desc, char *argstr,
- 		if (err)
- 			continue;
- 
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
-+
- 		err = build_options(argstr, BUF_SIZE);
- 		if (err) {
- 			ret = err;
-@@ -874,6 +879,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+@@ -876,6 +892,7 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 		{"hostnqn",     'q', "LIST", CFG_STRING, &cfg.hostnqn,     required_argument, "user-defined hostnqn (if default not used)" },
+ 		{"hostid",      'I', "LIST", CFG_STRING, &cfg.hostid,      required_argument, "user-defined hostid (if default not used)"},
+ 		{"raw",         'r', "LIST", CFG_STRING, &cfg.raw,         required_argument, "raw output file" },
++		{"device",      'd', "LIST", CFG_STRING, &cfg.device, required_argument, "use existing discovery contoller device" },
  		{"keep-alive-tmo",  'k', "LIST", CFG_INT, &cfg.keep_alive_tmo,  required_argument, "keep alive timeout period in seconds" },
  		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
  		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
-+		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
- 		{NULL},
- 	};
+@@ -1020,15 +1037,10 @@ static int disconnect_by_nqn(char *nqn)
+ static int disconnect_by_device(char *device)
+ {
+ 	int instance;
+-	int ret;
+-
+-	device = basename(device);
+-	ret = sscanf(device, "nvme%d", &instance);
+-	if (ret < 0)
+-		return ret;
+-	if (!ret)
+-		return -1;
  
-@@ -888,6 +894,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		return discover_from_conf_file(desc, argstr,
- 				command_line_options, connect);
- 	} else {
-+		if (cfg.persistent && !cfg.keep_alive_tmo)
-+			cfg.keep_alive_tmo = NVMF_DEF_DISC_TMO;
- 		ret = build_options(argstr, BUF_SIZE);
- 		if (ret)
- 			return ret;
-diff --git a/fabrics.h b/fabrics.h
-index 988f3ef2fbc4..7c1664b80d51 100644
---- a/fabrics.h
-+++ b/fabrics.h
-@@ -1,6 +1,8 @@
- #ifndef _DISCOVER_H
- #define _DISCOVER_H
++	instance = ctrl_instance(device);
++	if (instance < 0)
++		return instance;
+ 	return remove_ctrl(instance);
+ }
  
-+#define NVMF_DEF_DISC_TMO	30
-+
- extern int discover(const char *desc, int argc, char **argv, bool connect);
- extern int connect(const char *desc, int argc, char **argv);
- extern int disconnect(const char *desc, int argc, char **argv);
 -- 
 2.17.1
