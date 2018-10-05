@@ -1,35 +1,50 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  5 Oct 2018 08:57:06 -0600
-Subject: [PATCH] nvme: Remove ns sibling before clearing path
-Message-ID: <20181005145706.24030-1-keith.busch@intel.com>
+Date: Fri,  5 Oct 2018 09:09:27 -0600
+Subject: [PATCHv2] nvme/pci: Fix hot removal during error handling
+Message-ID: <20181005150927.24120-1-keith.busch@intel.com>
 
-The code had been clearing a namespace being deleted as the current
-path while that namespace was still in the path siblings list. It is
-possible a new IO could set that namespace back to the current path
-since it appeared to be an eligable path to select, which may result in
-a use-after-free error.
+A removal waits for the reset_work to complete. If a surprise removal
+occurs around the same time as an error triggered controller reset,
+and reset work happened to dispatch a command to the removed controller,
+the command won't be recovered since the timeout work doesn't do
+anything during error recovery.
 
-This patch ensures a namespace being removed is not eligable to be reset
-as a current path prior to clearing it as the current path.
+This patch fixes this by removing the admin queue prior to syncing reset.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2db33a752e2b..db808d60749d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -3145,8 +3145,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+v1 -> v2:
+
+  This is simpler than the previous version. We only need to move
+  syncing with the work after the admin queue has been successfully
+  removed.
+
+ drivers/nvme/host/pci.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682f91df..9d8b0c49f8f6 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2564,16 +2564,15 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
+ 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+-
+-	cancel_work_sync(&dev->ctrl.reset_work);
+ 	pci_set_drvdata(pdev, NULL);
+ 
+ 	if (!pci_device_is_present(pdev)) {
+ 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
+ 		nvme_dev_disable(dev, true);
++		nvme_dev_remove_admin(dev);
  	}
  
- 	mutex_lock(&ns->ctrl->subsys->lock);
--	nvme_mpath_clear_current_path(ns);
- 	list_del_rcu(&ns->siblings);
-+	nvme_mpath_clear_current_path(ns);
- 	mutex_unlock(&ns->ctrl->subsys->lock);
- 
- 	down_write(&ns->ctrl->namespaces_rwsem);
+-	flush_work(&dev->ctrl.reset_work);
++	cancel_work_sync(&dev->ctrl.reset_work);
+ 	nvme_stop_ctrl(&dev->ctrl);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
 -- 
 2.14.4
