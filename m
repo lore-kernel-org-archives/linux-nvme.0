@@ -1,31 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 5 Oct 2018 12:33:41 -0700
-Subject: [PATCH] nvme: Update node paths after adding new path
-In-Reply-To: <20181005185708.GA24524@localhost.localdomain>
-References: <20181005154937.24198-1-keith.busch@intel.com>
- <1c5827c1-6f2b-f45e-5370-26b3a49a3d33@grimberg.me>
- <20181005185708.GA24524@localhost.localdomain>
-Message-ID: <7e9660bc-7d92-e5fe-06cf-3c32557f103a@grimberg.me>
+Date: Fri, 5 Oct 2018 12:34:42 -0700
+Subject: [PATCH rfc 0/3] add support to discovery async event notifications
+In-Reply-To: <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
+References: <20181004212328.30205-1-sagi@grimberg.me>
+ <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
+ <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
+ <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
+Message-ID: <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
 
 
-> 
-> The new path's local node may be closer to other nodes who's path is
-> currently set to something else.
-> 
-> Consider the following simplified example of nodes A through D:
-> 
->    -----    -----    -----    -----
->    | A |<-->| B |<-->| C |<-->| D |
->    -----    -----    -----    -----
-> 
-> Let's say we start with a single optimized path that is local to node
-> "D". That path will initially be the "current_path" for all nodes.
-> 
-> Now attach a new path local to node "A". Updating just node A's
-> current_path misses updating B away from D, even though A is closer
-> than D.
-> 
+>>>> the udev rule that ultimately achieves dynamic discovery enumeration 
+>>>> (TP 8002)
+>>>> is:
+>>>>
+>>>> SUBSYSTEM=="nvme", ACTION=="change", \
+>>>> ?? RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} 
+>>>> --transport=$env{NVME_TRTYPE} \
+>>>> ?? --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
+>>>>
+>>> Not sure that'll work; IIRC udev doesn't follow the bash syntax of 
+>>> '&' here. Have you checked?
+>>
+>> This works.
+> Oh, I don't doubt that it'll work in the sense that 'nvme connect-all' 
+> is executed.
+> I _do_ doubt that the 'disown' is doing anything at all; both '&' and 
+> 'disown' will be used as arguments to '/usr/sbin/nvme', and _not_ 
+> interpreted by any shell (as no shell is invoked in the first place).
+> Internally udev will call 'execve' to call the new program, which will 
+> invoke a shell only for shell scripts; binary programs will be executed 
+> directly with not shell whatsoever.
 
-Git it,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+I see, we can run it with /bin/sh and it should do the trick?
