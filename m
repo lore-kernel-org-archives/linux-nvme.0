@@ -1,69 +1,35 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 5 Oct 2018 08:16:07 -0600
-Subject: [GIT PULL] nvme updates for 4.20
-In-Reply-To: <20181005134104.GA11359@infradead.org>
-References: <20181005134104.GA11359@infradead.org>
-Message-ID: <b5d89dba-8926-1a89-bb8e-d244c425b443@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri,  5 Oct 2018 08:57:06 -0600
+Subject: [PATCH] nvme: Remove ns sibling before clearing path
+Message-ID: <20181005145706.24030-1-keith.busch@intel.com>
 
-On 10/5/18 7:41 AM, Christoph Hellwig wrote:
-> A relatively boring merge window:
-> 
->  - better AEN tracing (Chaitanya)
->  - NUMA aware PCIe multipathing (me)
->  - RDMA workqueue fixes (Sagi)
->  - better bio usage in the target (Sagi)
->  - FC rework for target removal (James)
->  - better multipath handling of ->queue_rq failures (James)
->  - various cleanups (Milan)
-> 
-> The following changes since commit c0aac682fa6590cb660cb083dbc09f55e799d2d2:
-> 
->   Merge tag 'v4.19-rc6' into for-4.20/block (2018-10-01 08:58:57 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.20
-> 
-> for you to fetch changes up to 2acf70ade79d26b97611a8df52eb22aa33814cd4:
-> 
->   nvmet-rdma: use a private workqueue for delete (2018-10-05 09:25:18 +0200)
-> 
-> ----------------------------------------------------------------
-> Chaitanya Kulkarni (2):
->       nvmet: remove redundant module prefix
->       nvme-core: add async event trace helper
-> 
-> Christoph Hellwig (1):
->       nvme: take node locality into account when selecting a path
-> 
-> James Smart (3):
->       nvmet_fc: support target port removal with nvmet layer
->       nvme_fc: add 'nvme_discovery' sysfs attribute to fc transport device
->       nvme: call nvme_complete_rq when nvmf_check_ready fails for mpath I/O
-> 
-> Milan P. Gandhi (2):
->       nvme: fix typo in nvme_identify_ns_descs
->       nvme-fc: fix for a minor typos
-> 
-> Sagi Grimberg (2):
->       nvmet: don't split large I/Os unconditionally
->       nvmet-rdma: use a private workqueue for delete
-> 
->  drivers/nvme/host/core.c          |  20 ++++--
->  drivers/nvme/host/fabrics.c       |   7 +-
->  drivers/nvme/host/fc.c            | 108 +++++++++++++++++++++++++++----
->  drivers/nvme/host/multipath.c     |  57 +++++++++++++----
->  drivers/nvme/host/nvme.h          |  25 +++-----
->  drivers/nvme/host/trace.h         |  28 ++++++++
->  drivers/nvme/target/admin-cmd.c   |   2 +-
->  drivers/nvme/target/fc.c          | 130 +++++++++++++++++++++++++++++++++++---
->  drivers/nvme/target/io-cmd-bdev.c |   9 ++-
->  drivers/nvme/target/nvmet.h       |   1 +
->  drivers/nvme/target/rdma.c        |  19 ++++--
->  include/linux/nvme.h              |   1 +
->  12 files changed, 347 insertions(+), 60 deletions(-)
+The code had been clearing a namespace being deleted as the current
+path while that namespace was still in the path siblings list. It is
+possible a new IO could set that namespace back to the current path
+since it appeared to be an eligable path to select, which may result in
+a use-after-free error.
 
-Pulled, thanks.
+This patch ensures a namespace being removed is not eligable to be reset
+as a current path prior to clearing it as the current path.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2db33a752e2b..db808d60749d 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3145,8 +3145,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	}
+ 
+ 	mutex_lock(&ns->ctrl->subsys->lock);
+-	nvme_mpath_clear_current_path(ns);
+ 	list_del_rcu(&ns->siblings);
++	nvme_mpath_clear_current_path(ns);
+ 	mutex_unlock(&ns->ctrl->subsys->lock);
+ 
+ 	down_write(&ns->ctrl->namespaces_rwsem);
 -- 
-Jens Axboe
+2.14.4
