@@ -1,46 +1,40 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 4 Oct 2018 16:29:19 -0600
-Subject: [PATCH v9 13/13] nvmet: Optionally use PCI P2P memory
-In-Reply-To: <a3af4bda-0b73-c964-c7d6-5d59f0710768@grimberg.me>
-References: <20181004212747.6301-1-logang@deltatee.com>
- <20181004212747.6301-14-logang@deltatee.com>
- <a3af4bda-0b73-c964-c7d6-5d59f0710768@grimberg.me>
-Message-ID: <2bcc0927-83ab-1bf2-d584-aebd5274cefa@deltatee.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 5 Oct 2018 07:50:05 +0200
+Subject: [PATCH rfc 0/3] add support to discovery async event notifications
+In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
+References: <20181004212328.30205-1-sagi@grimberg.me>
+Message-ID: <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
 
-
-
-On 2018-10-04 4:20 p.m., Sagi Grimberg wrote:
->> +static inline struct device *nvmet_ns_dev(struct nvmet_ns *ns)
->> +{
->> +	return disk_to_dev(ns->bdev->bd_disk);
->> +}
+On 10/4/18 11:23 PM, Sagi Grimberg wrote:
+> In order to support discovery AENs we need to have two things:
+> 1. Support long lived discovery controller sessions that would allow to
+>     receive discovery AENs. This means we need to specify kato in connect
 > 
-> This needs to handle non bdev namespaces.
-
-As it's coded now the helper never gets called unless ns->bdev is not
-null. But in general, yes you are right, we should probably return NULL
-if ns->bdev is NULL.
-
-> And this?
-> --
-> diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-> index ef286b72d958..3d12f5f4568d 100644
-> --- a/drivers/nvme/target/fc.c
-> +++ b/drivers/nvme/target/fc.c
-> @@ -2280,6 +2280,7 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport 
-> *tgtport,
->          fod->req.cmd = &fod->cmdiubuf.sqe;
->          fod->req.rsp = &fod->rspiubuf.cqe;
->          fod->req.port = tgtport->pe->port;
-> +       fod->req.p2p_client = tgtport->dev;
+> 2. Support discovery log change events. The choice here is to simply fire
+>     a udev event and let userspace to:
+>     1. issue an updated discovery log page via our discovery controller (1)
+>     2. connect to every new subsystem/port that exists in the system.
 > 
->          /* clear any response payload */
->          memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
-> --
+> This patch set was developed against the nvmet support patch set from Jay.
+> 
+> nvme-cli patches are also included in this series.
+> 
+> the udev rule that ultimately achieves dynamic discovery enumeration (TP 8002)
+> is:
+> 
+> SUBSYSTEM=="nvme", ACTION=="change", \
+>    RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} --transport=$env{NVME_TRTYPE} \
+>    --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
+> 
+Not sure that'll work; IIRC udev doesn't follow the bash syntax of '&' 
+here. Have you checked?
 
-Sure, I guess that makes sense. I've never tried it with fc hardware but
-I assume there's no reason it wouldn't work.
+Cheers,
 
-I'll queue these changes up for a v10.
-
-Logan
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
