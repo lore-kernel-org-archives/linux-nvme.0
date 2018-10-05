@@ -1,22 +1,12 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 5 Oct 2018 00:08:03 -0700
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
-References: <20181004212328.30205-1-sagi@grimberg.me>
- <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
-Message-ID: <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 5 Oct 2018 09:08:06 +0200
+Subject: [PATCH v9 02/13] PCI/P2PDMA: Add sysfs group to display p2pmem
+ stats
+In-Reply-To: <20181004212747.6301-3-logang@deltatee.com>
+References: <20181004212747.6301-1-logang@deltatee.com>
+ <20181004212747.6301-3-logang@deltatee.com>
+Message-ID: <20181005070806.GA23761@lst.de>
 
+Looks good,
 
->> the udev rule that ultimately achieves dynamic discovery enumeration 
->> (TP 8002)
->> is:
->>
->> SUBSYSTEM=="nvme", ACTION=="change", \
->> ?? RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} 
->> --transport=$env{NVME_TRTYPE} \
->> ?? --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
->>
-> Not sure that'll work; IIRC udev doesn't follow the bash syntax of '&' 
-> here. Have you checked?
-
-This works.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
