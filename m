@@ -1,11 +1,7 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 5 Oct 2018 15:39:53 +0200
-Subject: No subject
-Message-ID: <20181005133953.GA11305@infradead.org>
-
-Bcc: 
+Date: Fri, 5 Oct 2018 15:41:04 +0200
 Subject: [GIT PULL] nvme updates for 4.20
-Reply-To: 
+Message-ID: <20181005134104.GA11359@infradead.org>
 
 A relatively boring merge window:
 
