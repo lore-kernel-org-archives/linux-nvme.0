@@ -1,22 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 5 Oct 2018 09:32:45 +0200
-Subject: [PATCH] nvme: create 'paths' entries for hidden controllers
-In-Reply-To: <20180928191720.3461-1-cascardo@canonical.com>
-References: <20180928191720.3461-1-cascardo@canonical.com>
-Message-ID: <20181005073245.GA24224@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 5 Oct 2018 00:34:27 -0700
+Subject: Kernel v4.19-rc4 KASAN complaint
+In-Reply-To: <20180920173625.GB31127@localhost.localdomain>
+References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+ <20180920170145.GA31127@localhost.localdomain>
+ <1537464689.224533.10.camel@acm.org>
+ <20180920173625.GB31127@localhost.localdomain>
+Message-ID: <20181005073427.GA7075@infradead.org>
 
-On Fri, Sep 28, 2018@04:17:20PM -0300, Thadeu Lima de Souza Cascardo wrote:
-> When using initramfs-tools with only the necessary dependencies to mount
-> the root filesystem, it will fail to include nvme drivers for a root on a
-> multipath nvme. That happens because the slaves relationship is not
-> present.
+On Thu, Sep 20, 2018@11:36:25AM -0600, Keith Busch wrote:
+> > >  	mutex_lock(&ns->ctrl->subsys->lock);
+> > > -	nvme_mpath_clear_current_path(ns);
+> > >  	list_del_rcu(&ns->siblings);
+> > > +	nvme_mpath_clear_current_path(ns);
+> > >  	mutex_unlock(&ns->ctrl->subsys->lock);
+> > >  
+> > >  	down_write(&ns->ctrl->namespaces_rwsem);
+> > 
+> > That patch makes the KASAN complaint disappear on my test setup.
 > 
-> As discussed in [1], using slaves will break lsblk, because the slaves are
-> hidden from userspace, that is, they have no real block device, just an
-> entry under sysfs.
-> 
-> Introducing the paths subdir and using that on initramfs-tools makes it
-> possible to now boot a system with nvme multipath as root.
+> Nice, thanks for confirming. I'll send a proper patch, but also wonder
+> why the error doesn't show up in 4.18.
 
-Do we need documentation how these paths links are supposed to work?
-Who is going to parse them?
+Independent of fixing the issue Bart reported this looks like a good
+fix, can you send a proper patch for it?
