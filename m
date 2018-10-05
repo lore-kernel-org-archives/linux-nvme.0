@@ -1,33 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 5 Oct 2018 07:50:05 +0200
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <20181004212328.30205-1-sagi@grimberg.me>
+Date: Fri, 5 Oct 2018 07:50:35 +0200
+Subject: [PATCH rfc 1/3] nvme-fabrics: allow discovery subsystems accept a
+ kato
+In-Reply-To: <20181004212328.30205-2-sagi@grimberg.me>
 References: <20181004212328.30205-1-sagi@grimberg.me>
-Message-ID: <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
+ <20181004212328.30205-2-sagi@grimberg.me>
+Message-ID: <9623cfac-3841-af4f-5445-0a86fa3bd490@suse.de>
 
 On 10/4/18 11:23 PM, Sagi Grimberg wrote:
-> In order to support discovery AENs we need to have two things:
-> 1. Support long lived discovery controller sessions that would allow to
->     receive discovery AENs. This means we need to specify kato in connect
+> This modifies the behavior of discovery subsystems to accept
+> a kato as a preparation to support discovery log change
+> events. This also means that now every discovery controller
+> will have a default kato value, and for non-persistent connections
+> the host needs to pass in a zero kato value (keep_alive_tmo=0).
 > 
-> 2. Support discovery log change events. The choice here is to simply fire
->     a udev event and let userspace to:
->     1. issue an updated discovery log page via our discovery controller (1)
->     2. connect to every new subsystem/port that exists in the system.
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/host/fabrics.c | 16 +++-------------
+>   1 file changed, 3 insertions(+), 13 deletions(-)
 > 
-> This patch set was developed against the nvmet support patch set from Jay.
-> 
-> nvme-cli patches are also included in this series.
-> 
-> the udev rule that ultimately achieves dynamic discovery enumeration (TP 8002)
-> is:
-> 
-> SUBSYSTEM=="nvme", ACTION=="change", \
->    RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} --transport=$env{NVME_TRTYPE} \
->    --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
-> 
-Not sure that'll work; IIRC udev doesn't follow the bash syntax of '&' 
-here. Have you checked?
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
