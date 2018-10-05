@@ -1,11 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 5 Oct 2018 09:08:06 +0200
-Subject: [PATCH v9 02/13] PCI/P2PDMA: Add sysfs group to display p2pmem
- stats
-In-Reply-To: <20181004212747.6301-3-logang@deltatee.com>
+Date: Fri, 5 Oct 2018 09:08:30 +0200
+Subject: [PATCH v9 03/13] PCI/P2PDMA: Add PCI p2pmem DMA mappings to
+ adjust the bus offset
+In-Reply-To: <20181004212747.6301-4-logang@deltatee.com>
 References: <20181004212747.6301-1-logang@deltatee.com>
- <20181004212747.6301-3-logang@deltatee.com>
-Message-ID: <20181005070806.GA23761@lst.de>
+ <20181004212747.6301-4-logang@deltatee.com>
+Message-ID: <20181005070830.GB23761@lst.de>
 
 Looks good,
 
