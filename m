@@ -1,34 +1,23 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 5 Oct 2018 12:34:42 -0700
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
-References: <20181004212328.30205-1-sagi@grimberg.me>
- <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
- <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
- <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
-Message-ID: <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 5 Oct 2018 13:51:36 -0600
+Subject: [PATCHv2] nvme/pci: Fix hot removal during error handling
+In-Reply-To: <d4d7fa23-99b6-de4e-cee5-24205372ac05@grimberg.me>
+References: <20181005150927.24120-1-keith.busch@intel.com>
+ <d4d7fa23-99b6-de4e-cee5-24205372ac05@grimberg.me>
+Message-ID: <20181005195136.GB24524@localhost.localdomain>
 
+On Fri, Oct 05, 2018@11:14:50AM -0700, Sagi Grimberg wrote:
+> 
+> > -	flush_work(&dev->ctrl.reset_work);
+> > +	cancel_work_sync(&dev->ctrl.reset_work);
+> 
+> Does reset_work requeue itself? if not I don't fully understand
+> this change.
 
->>>> the udev rule that ultimately achieves dynamic discovery enumeration 
->>>> (TP 8002)
->>>> is:
->>>>
->>>> SUBSYSTEM=="nvme", ACTION=="change", \
->>>> ?? RUN+="/usr/sbin/nvme connect-all --device=nvme$env{NVME_INSTANCE} 
->>>> --transport=$env{NVME_TRTYPE} \
->>>> ?? --traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID} & disown
->>>>
->>> Not sure that'll work; IIRC udev doesn't follow the bash syntax of 
->>> '&' here. Have you checked?
->>
->> This works.
-> Oh, I don't doubt that it'll work in the sense that 'nvme connect-all' 
-> is executed.
-> I _do_ doubt that the 'disown' is doing anything at all; both '&' and 
-> 'disown' will be used as arguments to '/usr/sbin/nvme', and _not_ 
-> interpreted by any shell (as no shell is invoked in the first place).
-> Internally udev will call 'execve' to call the new program, which will 
-> invoke a shell only for shell scripts; binary programs will be executed 
-> directly with not shell whatsoever.
+You'd have to abuse the state machine if reset_work wanted to requeue
+itself, so that shouldn't happen.
 
-I see, we can run it with /bin/sh and it should do the trick?
+We could just leave it as a flush work, and that should be okay too. The
+cancel_work_sync should accomplish the same, but also prevent the work
+from even starting if it just so happens to have been pending in a
+work queue, but that seems very unlikely.
