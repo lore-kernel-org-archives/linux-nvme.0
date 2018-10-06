@@ -1,21 +1,28 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 5 Oct 2018 19:16:04 -0600
-Subject: [PATCH v9 07/13] block: Add PCI P2P flag for request queue and
- check support for requests
-In-Reply-To: <20181004212747.6301-8-logang@deltatee.com>
-References: <20181004212747.6301-1-logang@deltatee.com>
- <20181004212747.6301-8-logang@deltatee.com>
-Message-ID: <485de371-0e84-6f20-7f3b-cec5635b87fe@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 6 Oct 2018 14:43:53 +0200
+Subject: [PATCH] nvmetcli: ANA configuration support
+In-Reply-To: <20180727110859.4212-1-hare@suse.de>
+References: <20180727110859.4212-1-hare@suse.de>
+Message-ID: <20181006124353.GA8324@lst.de>
 
-On 10/4/18 3:27 PM, Logan Gunthorpe wrote:
-> QUEUE_FLAG_PCI_P2P is introduced meaning a driver's request queue
-> supports targeting P2P memory. This will be used by P2P providers and
-> orchestrators (in subsequent patches) to ensure block devices can
-> support P2P memory before submitting P2P backed pages to submit_bio().
+I just wanted to apply this in preparation of a new nvmetcli release
+once Linux 4.19 is released with ANA support, but the code does not
+seem to work well on kernel without multipath support.  E.g.:
 
-Nit pick, but the subject line still says that it checks support
-for requests. This patch just adds the ability to flag support
-in the queue.
+Traceback (most recent call last):
+  File "./nvmetcli", line 735, in <module>
+    main()
+  File "./nvmetcli", line 717, in main
+    funcs[sys.argv[1]](savefile)
+  File "./nvmetcli", line 684, in clear
+    nvme.Root().clear_existing()
+  File "/root/nvmetcli/nvmet/nvme.py", line 315, in clear_existing
+    p.delete()
+  File "/root/nvmetcli/nvmet/nvme.py", line 676, in delete
+    a.delete()
+  File "/root/nvmetcli/nvmet/nvme.py", line 200, in delete
+    os.rmdir(self.path)
+PermissionError: [Errno 1] Operation not permitted: '/sys/kernel/config/nvmet/ports/2/ana_groups/1'
 
--- 
-Jens Axboe
+The new ANA code will probably need similar exception handling as the
+inline_data_size attribute.
