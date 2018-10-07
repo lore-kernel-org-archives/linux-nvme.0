@@ -1,66 +1,96 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 7 Oct 2018 02:01:51 +0300
-Subject: [PATCH rfc 2/4] nvmet: don't override treq upon modification.
-In-Reply-To: <20181002001422.9111-3-sagi@grimberg.me>
-References: <20181002001422.9111-1-sagi@grimberg.me>
- <20181002001422.9111-3-sagi@grimberg.me>
-Message-ID: <69faa49f-6ba6-41ee-7b88-4b0b14f3a26e@mellanox.com>
+From: jay.e.sternberg@intel.com (Jay Sternberg)
+Date: Sat,  6 Oct 2018 17:39:23 -0700
+Subject: [PATCH v3 09/11] nvmet: allow host connect even if no allowed
+Message-ID: <1538872763-38340-1-git-send-email-jay.e.sternberg@intel.com>
+
+From: Sagi Grimberg <sagi@grimberg.me>
+
+It is perfectly valid that a host connects to a discovery subsystem
+and gets an empty discovery log page since no subsystems are
+provisioned to it. No reason to disallow connecting to the discovery
+subsystem all together.
 
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
+Reviewed-by: Phil Cayton <phil.cayton at intel.com>
+---
+v2 - corrected author
+v3 - updated description per authors request
 
-On 10/2/2018 3:14 AM, Sagi Grimberg wrote:
-> Only override the allowed parts of it.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/target/configfs.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index b37a8e3e3f80..53b88858ee97 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -148,7 +148,7 @@ CONFIGFS_ATTR(nvmet_, addr_traddr);
->   static ssize_t nvmet_addr_treq_show(struct config_item *item,
->   		char *page)
->   {
-> -	switch (to_nvmet_port(item)->disc_addr.treq) {
-> +	switch (to_nvmet_port(item)->disc_addr.treq & 0x3) {
+ drivers/nvme/target/core.c      | 20 +++-----------------
+ drivers/nvme/target/discovery.c |  2 +-
+ drivers/nvme/target/nvmet.h     |  3 +--
+ 3 files changed, 5 insertions(+), 20 deletions(-)
 
-can you use some MACRO for 0x3 ? this will make the code more readable.
-
->   	case NVMF_TREQ_NOT_SPECIFIED:
->   		return sprintf(page, "not specified\n");
->   	case NVMF_TREQ_REQUIRED:
-> @@ -164,6 +164,7 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
->   		const char *page, size_t count)
->   {
->   	struct nvmet_port *port = to_nvmet_port(item);
-> +	u8 treq = port->disc_addr.treq & 0xfc;
-
-also for 0xfc.
-
->   
->   	if (port->enabled) {
->   		pr_err("Cannot modify address while enabled\n");
-> @@ -172,15 +173,16 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
->   	}
->   
->   	if (sysfs_streq(page, "not specified")) {
-> -		port->disc_addr.treq = NVMF_TREQ_NOT_SPECIFIED;
-> +		treq |= NVMF_TREQ_NOT_SPECIFIED;
->   	} else if (sysfs_streq(page, "required")) {
-> -		port->disc_addr.treq = NVMF_TREQ_REQUIRED;
-> +		treq |= NVMF_TREQ_REQUIRED;
->   	} else if (sysfs_streq(page, "not required")) {
-> -		port->disc_addr.treq = NVMF_TREQ_NOT_REQUIRED;
-> +		treq |= NVMF_TREQ_NOT_REQUIRED;
->   	} else {
->   		pr_err("Invalid value '%s' for treq\n", page);
->   		return -EINVAL;
->   	}
-> +	port->disc_addr.treq = treq;
->   
->   	return count;
->   }
-> 
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index f5cd31e..67ea1d2 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -890,26 +890,12 @@ static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
+ 	return false;
+ }
+ 
+-static bool nvmet_host_discovery_allowed(struct nvmet_req *req,
+-		const char *hostnqn)
+-{
+-	struct nvmet_subsys_link *s;
+-
+-	list_for_each_entry(s, &req->port->subsystems, entry) {
+-		if (__nvmet_host_allowed(s->subsys, hostnqn))
+-			return true;
+-	}
+-
+-	return false;
+-}
+-
+-bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
+-		const char *hostnqn)
++bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
+ {
+ 	lockdep_assert_held(&nvmet_config_sem);
+ 
+ 	if (subsys->type == NVME_NQN_DISC)
+-		return nvmet_host_discovery_allowed(req, hostnqn);
++		return true;
+ 	else
+ 		return __nvmet_host_allowed(subsys, hostnqn);
+ }
+@@ -933,7 +919,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 
+ 	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+ 	down_read(&nvmet_config_sem);
+-	if (!nvmet_host_allowed(req, subsys, hostnqn)) {
++	if (!nvmet_host_allowed(subsys, hostnqn)) {
+ 		pr_info("connect by host %s for subsystem %s not allowed\n",
+ 			hostnqn, subsysnqn);
+ 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 9ae8208..8798a2f 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -107,7 +107,7 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+ 
+ 	down_read(&nvmet_config_sem);
+ 	list_for_each_entry(p, &req->port->subsystems, entry) {
+-		if (!nvmet_host_allowed(req, p->subsys, ctrl->hostnqn))
++		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
+ 			continue;
+ 		if (residual_len >= entry_size) {
+ 			char traddr[NVMF_TRADDR_SIZE];
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index ea93a46..0a65415 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -459,8 +459,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ extern u64 nvmet_ana_chgcnt;
+ extern struct rw_semaphore nvmet_ana_sem;
+ 
+-bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
+-		const char *hostnqn);
++bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
+ 
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
+ int nvmet_file_ns_enable(struct nvmet_ns *ns);
+-- 
+1.8.3.1
