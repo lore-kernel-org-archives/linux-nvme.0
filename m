@@ -1,66 +1,57 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 8 Oct 2018 12:19:27 +0200
-Subject: [PATCH 2/2] nvme-multipath: manual NUMA configuration
-In-Reply-To: <20181008100507.GB6686@lst.de>
+From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Mon, 8 Oct 2018 12:22:26 +0200
+Subject: [PATCH 1/2] nvme: NUMA locality information for fabrics
+In-Reply-To: <20181008100423.GA6686@lst.de>
 References: <20181005092915.126636-1-hare@suse.de>
- <20181005092915.126636-3-hare@suse.de> <20181008100507.GB6686@lst.de>
-Message-ID: <137f9b89-a481-41bb-280b-baaf41e5c84d@suse.de>
+ <20181005092915.126636-2-hare@suse.de> <20181008100423.GA6686@lst.de>
+Message-ID: <cffba6f0-3d8a-8596-ced1-ef6eea7195f5@bjorling.me>
 
-On 10/8/18 12:05 PM, Christoph Hellwig wrote:
-> On Fri, Oct 05, 2018@11:29:15AM +0200, Hannes Reinecke wrote:
->> Not every NUMA configuration allows for an automatic setup via
->> the distance between nodes, or even the admin might have some
->> specific ideas on how things should be setup.
->> This patch adds a new sysfs attribute 'node_map' to allow to
->> specify the NUMA mapping for each controller.
+
+
+On 10/08/2018 12:04 PM, Christoph Hellwig wrote:
+>> @@ -3055,7 +3057,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>>   	struct gendisk *disk;
+>>   	struct nvme_id_ns *id;
+>>   	char disk_name[DISK_NAME_LEN];
+>> -	int node = dev_to_node(ctrl->dev), flags = GENHD_FL_EXT_DEVT;
+>> +	int node = ctrl->node_id, flags = GENHD_FL_EXT_DEVT;
 > 
-> This is a rather vagaue rational for a lot of anoying boilerplate
-> code.  I'd like to see better arguments for even looking into adding
-> magic knobs.
+> I think we can just kill the local node variable now.
 > 
-Two reasons:
-- With setting the correct affinity I'm getting a 25% performance boost
-   (mainly as we can now utilize both paths properly)
-- I haven't found a way of how we can distribute the NUMA nodes optimal, 
-given the various possible HW combinations.
+>> @@ -276,7 +276,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+>>   	if (!(ctrl->subsys->cmic & (1 << 1)) || !multipath)
+>>   		return 0;
+>>   
+>> -	q = blk_alloc_queue_node(GFP_KERNEL, NUMA_NO_NODE, NULL);
+>> +	q = blk_alloc_queue_node(GFP_KERNEL, ctrl->node_id, NULL);
+> 
+> This looks a little odd.  We create the mpath disk here, and just
+> need to pass in the ctrl to do some initialization.  Why would be
+> allocate the multipath node on the node of the controller?
+> 
+> If there is a good reason it needs to go into a comment, if not
+> we should drop this hunk.
+> 
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index d668682f91df..b5d37aacf212 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -2517,6 +2517,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>>   
+>>   	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+>>   
+>> +	dev->ctrl.node_id = node;
+>>   	nvme_get_ctrl(&dev->ctrl);
+>>   	async_schedule(nvme_async_probe, dev);
+> 
+> This changes behavior as node might remain NUMA_NO_NODE when the code
+> above sets the device node to first_memory_node now when
+> it would otherwise be NUMA_NO_NODE.  Then again that code makes no
+> sense to me to start with - Matias added it with the blk-mq conversion,
+> so maybe he remembers why we do it to start with?  If we want to fix
+> up nodes like that it seems like we should do it in the driver core
+> or the PCI core.
+> 
 
-It's pretty trivial if you have only two NUMA nodes and two PCI 
-devices/functions to distribute, but it becomes less clear for eg 4 NUMA 
-nodes or two PCI functions on the same device (a dual-port FC HBA, say).
-
-I have a system with this NUMA distance table:
-
-10 21 21 21
-21 10 21 21
-21 21 10 21
-21 21 21 10
-
-and two (FC) HBAs on node 0 and 3.
-So your algorithm gives me this distribution:
-
-hba0: node 0 1 2
-hba1: node 3
-
-which clearly is suboptimal. We surely can require to have a PCI layout 
-where the first HBA has to be on node 0, and the second on node 2, but 
-this really is a bit daft and is just trying to paper over the fact that 
-our algorithm sucks.
-And given that we can place the two HBAs on virtually any node I found 
-it too time-consuming trying to come up with an algorithm trying to fit 
-all needs.
-And that is the simple case; if one has a dual-ported HBA the NUMA 
-locality for both paths will be identical, but we _still_ will be 
-getting a performance boost by just being able to utilize both paths.
-
-Additionally, with this patch we do provide static load-balancing 
-without the need to add yet another framework.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Back in the days it was carried over to make sure the structures was 
+allocated from the same node as the pcie device.
