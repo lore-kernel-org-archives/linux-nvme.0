@@ -1,42 +1,49 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 8 Oct 2018 15:46:24 -0600
-Subject: [PATCH 02/16] nvme-core: Refuse out-of-range integrity data seeds
-In-Reply-To: <20181008212854.68310-3-bvanassche@acm.org>
-References: <20181008212854.68310-1-bvanassche@acm.org>
- <20181008212854.68310-3-bvanassche@acm.org>
-Message-ID: <20181008214624.GA5926@localhost.localdomain>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 8 Oct 2018 21:51:58 +0000
+Subject: [PATCH 01/16] nvme-core: Declare local symbols static
+In-Reply-To: <20181008212854.68310-2-bvanassche@acm.org>
+References: <20181008212854.68310-1-bvanassche@acm.org>,
+ <20181008212854.68310-2-bvanassche@acm.org>
+Message-ID: <BYAPR04MB45023898CB79668160D2EAB286E60@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-On Mon, Oct 08, 2018@02:28:40PM -0700, Bart Van Assche wrote:
-> The nvme_user_io.slba field is 64 bits wide. That value is copied into the
-> 32-bit bio_integrity_payload.bip_iter.bi_sector field. Refuse slba values
-> that exceed 32 bits. This patch avoids that Coverity complains about
-> implicit truncation. See also Coverity ID 1056486 on
-> http://scan.coverity.com/projects/linux.
-> 
-> Signed-off-by: Bart Van Assche <bvanassche at acm.org>
-> ---
->  drivers/nvme/host/core.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 63932dea74a1..04138223fad6 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1118,6 +1118,14 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
->  			return -EINVAL;
->  	}
->  
-> +	/*
-> +	 * io.slba is 64 bits wide. Only the lower 32 bits are used as a seed.
-> +	 * Refuse seed values that exceed 32 bits instead of truncating the
-> +	 * seed value silently. See also nvme_add_user_metadata().
-> +	 */
-> +	if (io.slba >> 32 != 0)
-> +		return -EINVAL;
-> +
->  	memset(&c, 0, sizeof(c));
->  	c.rw.opcode = io.opcode;
->  	c.rw.flags = io.flags;
+Looks good.
 
-The bip sector is supposed to wrap if it exceeds 32 bits. Just feed
-"lower_32_bits(io.slba)" as the metadata seed.
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+
+
+From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> on behalf of Bart Van Assche <bvanassche@acm.org>
+Sent: Monday, October 8, 2018 2:28 PM
+To: Keith Busch
+Cc: Bart Van Assche; Christoph Hellwig; linux-nvme at lists.infradead.org; Sagi Grimberg
+Subject: [PATCH 01/16] nvme-core: Declare local symbols static
+? 
+ 
+This patch avoids that sparse complains about missing declarations.
+
+Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+---
+?drivers/nvme/host/core.c | 2 +-
+?1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2db33a752e2b..63932dea74a1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2729,7 +2729,7 @@ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+???????? return a->mode;
+?}
+?
+-const struct attribute_group nvme_ns_id_attr_group = {
++static const struct attribute_group nvme_ns_id_attr_group = {
+???????? .attrs????????? = nvme_ns_id_attrs,
+???????? .is_visible???? = nvme_ns_id_attrs_are_visible,
+?};
+-- 
+2.19.0.605.g01d371f741-goog
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
+    
