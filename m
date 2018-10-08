@@ -1,42 +1,59 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon,  8 Oct 2018 14:28:47 -0700
-Subject: [PATCH 09/16] nvmet-fc: Fix kernel-doc headers
+Date: Mon,  8 Oct 2018 14:28:46 -0700
+Subject: [PATCH 08/16] nvme-fc: Rework the request initialization code
 In-Reply-To: <20181008212854.68310-1-bvanassche@acm.org>
 References: <20181008212854.68310-1-bvanassche@acm.org>
-Message-ID: <20181008212854.68310-10-bvanassche@acm.org>
+Message-ID: <20181008212854.68310-9-bvanassche@acm.org>
 
-This patch avoids that the kernel-doc tool complains about two function
-headers when building with W=1.
+Instead of setting and then clearing the first_sgl pointer for AEN requests,
+leave that pointer zero. This patch does not change how requests are
+initialized but avoids that Coverity reports the following complaint for
+nvme_fc_init_aen_ops():
+
+CID 1418400 (#1 of 1): Out-of-bounds access (OVERRUN)
+4. overrun-buffer-val: Overrunning buffer pointed to by aen_op of 312 bytes by passing it to a function which accesses it at byte offset 312.
 
 Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- drivers/nvme/target/fc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fc.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index ef286b72d958..409081a03b24 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1245,8 +1245,8 @@ nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
-  * nvme_fc_unregister_targetport - transport entry point called by an
-  *                              LLDD to deregister/remove a previously
-  *                              registered a local NVME subsystem FC port.
-- * @tgtport: pointer to the (registered) target port that is to be
-- *           deregistered.
-+ * @target_port: pointer to the (registered) target port that is to be
-+ *               deregistered.
-  *
-  * Returns:
-  * a completion status. Must be 0 upon success; a negative errno
-@@ -1749,7 +1749,7 @@ nvmet_fc_handle_ls_rqst_work(struct work_struct *work)
-  *
-  * If this routine returns error, the LLDD should abort the exchange.
-  *
-- * @tgtport:    pointer to the (registered) target port the LS was
-+ * @target_port: pointer to the (registered) target port the LS was
-  *              received on.
-  * @lsreq:      pointer to a lsreq request structure to be used to reference
-  *              the exchange corresponding to the LS.
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index fdadc9464f6f..e52b9d3c0bd6 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1704,7 +1704,6 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 	op->fcp_req.rspaddr = &op->rsp_iu;
+ 	op->fcp_req.rsplen = sizeof(op->rsp_iu);
+ 	op->fcp_req.done = nvme_fc_fcpio_done;
+-	op->fcp_req.first_sgl = &op_w_sgl->sgl[0];
+ 	op->fcp_req.private = &op->fcp_req.first_sgl[SG_CHUNK_SIZE];
+ 	op->ctrl = ctrl;
+ 	op->queue = queue;
+@@ -1746,9 +1745,14 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 	struct nvme_fcp_op_w_sgl *op = blk_mq_rq_to_pdu(rq);
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
++	int res;
+ 
+ 	nvme_req(rq)->ctrl = &ctrl->ctrl;
+-	return __nvme_fc_init_request(ctrl, queue, &op->op, rq, queue->rqcnt++);
++	res = __nvme_fc_init_request(ctrl, queue, &op->op, rq, queue->rqcnt++);
++	if (res)
++		return res;
++	op->op.fcp_req.first_sgl = &op->sgl[0];
++	return res;
+ }
+ 
+ static int
+@@ -1778,7 +1782,6 @@ nvme_fc_init_aen_ops(struct nvme_fc_ctrl *ctrl)
+ 		}
+ 
+ 		aen_op->flags = FCOP_FLAGS_AEN;
+-		aen_op->fcp_req.first_sgl = NULL; /* no sg list */
+ 		aen_op->fcp_req.private = private;
+ 
+ 		memset(sqe, 0, sizeof(*sqe));
 -- 
 2.19.0.605.g01d371f741-goog
