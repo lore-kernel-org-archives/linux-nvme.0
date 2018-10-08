@@ -1,96 +1,115 @@
-From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Sat,  6 Oct 2018 17:39:23 -0700
-Subject: [PATCH v3 09/11] nvmet: allow host connect even if no allowed
-Message-ID: <1538872763-38340-1-git-send-email-jay.e.sternberg@intel.com>
+From: dongli.zhang@oracle.com (Dongli Zhang)
+Date: Mon, 8 Oct 2018 13:59:05 +0800
+Subject: nvme-pci: number of queues off by one
+In-Reply-To: <CAF6hzxwN4S4C37dbdARcW+tgLMRjvHtzOZjFomVQBVntshZ+7w@mail.gmail.com>
+References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180228164726.GB16536@lst.de> <20180301150329.GB6795@ming.t460p>
+ <20180301161042.GA14799@localhost.localdomain>
+ <20180308074220.GC15748@lst.de>
+ <20180309172445.GC14765@localhost.localdomain>
+ <20180312090827.GB23903@ming.t460p>
+ <CAF6hzxwN4S4C37dbdARcW+tgLMRjvHtzOZjFomVQBVntshZ+7w@mail.gmail.com>
+Message-ID: <9c851b95-1c41-2171-40ec-bd47032401fc@oracle.com>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+I can reproduce with qemu:
 
-It is perfectly valid that a host connects to a discovery subsystem
-and gets an empty discovery log page since no subsystems are
-provisioned to it. No reason to disallow connecting to the discovery
-subsystem all together.
+# ls /sys/block/nvme*n1/mq/*/cpu_list
+/sys/block/nvme0n1/mq/0/cpu_list
+/sys/block/nvme0n1/mq/1/cpu_list
+/sys/block/nvme0n1/mq/2/cpu_list
+/sys/block/nvme0n1/mq/3/cpu_list
+/sys/block/nvme0n1/mq/4/cpu_list
+/sys/block/nvme0n1/mq/5/cpu_list
+/sys/block/nvme0n1/mq/6/cpu_list
+
+Here is the qemu cmdline emulating 8-queue nvme while the VM has 12 cpu:
+
+# qemu-system-x86_64 -m 4096 -smp 12 \
+	-kernel /path-to-kernel/linux-4.18.10/arch/x86_64/boot/bzImage \
+	-hda /path-to-img/ubuntu1804.qcow2  \
+	-append "root=/dev/sda1 init=/sbin/init text" -enable-kvm \
+	-net nic -net user,hostfwd=tcp::5022-:22 \
+	-device nvme,drive=nvme1,serial=deadbeaf1,num_queues=8 \
+	-drive file=/path-to-img/nvme.disk,if=none,id=nvme1
+
+Dongli Zhang
 
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
-Reviewed-by: Phil Cayton <phil.cayton at intel.com>
----
-v2 - corrected author
-v3 - updated description per authors request
-
- drivers/nvme/target/core.c      | 20 +++-----------------
- drivers/nvme/target/discovery.c |  2 +-
- drivers/nvme/target/nvmet.h     |  3 +--
- 3 files changed, 5 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index f5cd31e..67ea1d2 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -890,26 +890,12 @@ static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
- 	return false;
- }
- 
--static bool nvmet_host_discovery_allowed(struct nvmet_req *req,
--		const char *hostnqn)
--{
--	struct nvmet_subsys_link *s;
--
--	list_for_each_entry(s, &req->port->subsystems, entry) {
--		if (__nvmet_host_allowed(s->subsys, hostnqn))
--			return true;
--	}
--
--	return false;
--}
--
--bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
--		const char *hostnqn)
-+bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
- {
- 	lockdep_assert_held(&nvmet_config_sem);
- 
- 	if (subsys->type == NVME_NQN_DISC)
--		return nvmet_host_discovery_allowed(req, hostnqn);
-+		return true;
- 	else
- 		return __nvmet_host_allowed(subsys, hostnqn);
- }
-@@ -933,7 +919,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 
- 	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 	down_read(&nvmet_config_sem);
--	if (!nvmet_host_allowed(req, subsys, hostnqn)) {
-+	if (!nvmet_host_allowed(subsys, hostnqn)) {
- 		pr_info("connect by host %s for subsystem %s not allowed\n",
- 			hostnqn, subsysnqn);
- 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 9ae8208..8798a2f 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -107,7 +107,7 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
- 
- 	down_read(&nvmet_config_sem);
- 	list_for_each_entry(p, &req->port->subsystems, entry) {
--		if (!nvmet_host_allowed(req, p->subsys, ctrl->hostnqn))
-+		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
- 			continue;
- 		if (residual_len >= entry_size) {
- 			char traddr[NVMF_TRADDR_SIZE];
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index ea93a46..0a65415 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -459,8 +459,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- extern u64 nvmet_ana_chgcnt;
- extern struct rw_semaphore nvmet_ana_sem;
- 
--bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
--		const char *hostnqn);
-+bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
- 
- int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
- int nvmet_file_ns_enable(struct nvmet_ns *ns);
--- 
-1.8.3.1
+On 10/08/2018 01:05 PM, Prasun Ratn wrote:
+> Hi
+> 
+> I have an NVMe SSD that has 8 hw queues and on older kernels I see all
+> 8 show up. However on a recent kernel (I tried 4.18), I only see 7. Is
+> this a known issue?
+> 
+> $ uname -r
+> 4.14.1-1.el7.elrepo.x86_64
+> 
+> $ ls /sys/block/nvme*n1/mq/*/cpu_list
+> /sys/block/nvme0n1/mq/0/cpu_list
+> /sys/block/nvme0n1/mq/1/cpu_list
+> /sys/block/nvme0n1/mq/2/cpu_list
+> /sys/block/nvme0n1/mq/3/cpu_list
+> /sys/block/nvme0n1/mq/4/cpu_list
+> /sys/block/nvme0n1/mq/5/cpu_list
+> /sys/block/nvme0n1/mq/6/cpu_list
+> /sys/block/nvme0n1/mq/7/cpu_list
+> /sys/block/nvme1n1/mq/0/cpu_list
+> /sys/block/nvme1n1/mq/1/cpu_list
+> /sys/block/nvme1n1/mq/2/cpu_list
+> /sys/block/nvme1n1/mq/3/cpu_list
+> /sys/block/nvme1n1/mq/4/cpu_list
+> /sys/block/nvme1n1/mq/5/cpu_list
+> /sys/block/nvme1n1/mq/6/cpu_list
+> /sys/block/nvme1n1/mq/7/cpu_list
+> /sys/block/nvme2n1/mq/0/cpu_list
+> /sys/block/nvme2n1/mq/1/cpu_list
+> /sys/block/nvme2n1/mq/2/cpu_list
+> /sys/block/nvme2n1/mq/3/cpu_list
+> /sys/block/nvme2n1/mq/4/cpu_list
+> /sys/block/nvme2n1/mq/5/cpu_list
+> /sys/block/nvme2n1/mq/6/cpu_list
+> /sys/block/nvme2n1/mq/7/cpu_list
+> /sys/block/nvme3n1/mq/0/cpu_list
+> /sys/block/nvme3n1/mq/1/cpu_list
+> /sys/block/nvme3n1/mq/2/cpu_list
+> /sys/block/nvme3n1/mq/3/cpu_list
+> /sys/block/nvme3n1/mq/4/cpu_list
+> /sys/block/nvme3n1/mq/5/cpu_list
+> /sys/block/nvme3n1/mq/6/cpu_list
+> /sys/block/nvme3n1/mq/7/cpu_list
+> 
+> 
+> $ uname -r
+> 4.18.10-1.el7.elrepo.x86_64
+> 
+> $ ls /sys/block/nvme*n1/mq/*/cpu_list
+> /sys/block/nvme0n1/mq/0/cpu_list
+> /sys/block/nvme0n1/mq/1/cpu_list
+> /sys/block/nvme0n1/mq/2/cpu_list
+> /sys/block/nvme0n1/mq/3/cpu_list
+> /sys/block/nvme0n1/mq/4/cpu_list
+> /sys/block/nvme0n1/mq/5/cpu_list
+> /sys/block/nvme0n1/mq/6/cpu_list
+> /sys/block/nvme1n1/mq/0/cpu_list
+> /sys/block/nvme1n1/mq/1/cpu_list
+> /sys/block/nvme1n1/mq/2/cpu_list
+> /sys/block/nvme1n1/mq/3/cpu_list
+> /sys/block/nvme1n1/mq/4/cpu_list
+> /sys/block/nvme1n1/mq/5/cpu_list
+> /sys/block/nvme1n1/mq/6/cpu_list
+> /sys/block/nvme2n1/mq/0/cpu_list
+> /sys/block/nvme2n1/mq/1/cpu_list
+> /sys/block/nvme2n1/mq/2/cpu_list
+> /sys/block/nvme2n1/mq/3/cpu_list
+> /sys/block/nvme2n1/mq/4/cpu_list
+> /sys/block/nvme2n1/mq/5/cpu_list
+> /sys/block/nvme2n1/mq/6/cpu_list
+> /sys/block/nvme3n1/mq/0/cpu_list
+> /sys/block/nvme3n1/mq/1/cpu_list
+> /sys/block/nvme3n1/mq/2/cpu_list
+> /sys/block/nvme3n1/mq/3/cpu_list
+> /sys/block/nvme3n1/mq/4/cpu_list
+> /sys/block/nvme3n1/mq/5/cpu_list
+> /sys/block/nvme3n1/mq/6/cpu_list
+> 
