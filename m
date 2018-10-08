@@ -1,38 +1,59 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 8 Oct 2018 15:58:43 -0600
-Subject: [PATCH 05/16] nvme-pci: Fix nvme_suspend_queue() kernel-doc header
-In-Reply-To: <20181008212854.68310-6-bvanassche@acm.org>
-References: <20181008212854.68310-1-bvanassche@acm.org>
- <20181008212854.68310-6-bvanassche@acm.org>
-Message-ID: <20181008215842.GB5926@localhost.localdomain>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 8 Oct 2018 22:02:04 +0000
+Subject: [PATCH 12/16] nvmet: Remove unreachable code from
+ nvmet_parse_discovery_cmd()
+In-Reply-To: <20181008212854.68310-13-bvanassche@acm.org>
+References: <20181008212854.68310-1-bvanassche@acm.org>,
+ <20181008212854.68310-13-bvanassche@acm.org>
+Message-ID: <BYAPR04MB4502651AFD9F0C37347840E886E60@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-On Mon, Oct 08, 2018@02:28:43PM -0700, Bart Van Assche wrote:
-> This patch avoids that the kernel-doc tool complains about the
-> nvme_suspend_queue() function header when building with W=1.
-> 
-> Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+I have already posted this fix.
 
-Looks fine.
+Please see :-
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+http://lists.infradead.org/pipermail/linux-nvme/2018-August/019767.html
 
-> ---
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index d668682f91df..450481c2fd17 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1249,7 +1249,7 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
->  
->  /**
->   * nvme_suspend_queue - put queue into suspended state
-> - * @nvmeq - queue to suspend
-> + * @nvmeq: queue to suspend
->   */
->  static int nvme_suspend_queue(struct nvme_queue *nvmeq)
->  {
-> -- 
-> 2.19.0.605.g01d371f741-goog
-> 
+
+From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> on behalf of Bart Van Assche <bvanassche@acm.org>
+Sent: Monday, October 8, 2018 2:28 PM
+To: Keith Busch
+Cc: Bart Van Assche; Christoph Hellwig; linux-nvme at lists.infradead.org; Sagi Grimberg
+Subject: [PATCH 12/16] nvmet: Remove unreachable code from nvmet_parse_discovery_cmd()
+? 
+ 
+This patch avoids that smatch reports the following warning:
+
+drivers/nvme/target/discovery.c:228:1 nvmet_parse_discovery_cmd() info: ignoring unreachable code.
+
+Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+---
+?drivers/nvme/target/discovery.c | 5 +----
+?1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index eae29f493a07..08e7e284655c 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -218,12 +218,9 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+??????????????????????????????? cmd->identify.cns);
+???????????????????????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+???????????????? }
+-?????? default:
+-?????????????? pr_err("unsupported cmd %d\n", cmd->common.opcode);
+-?????????????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+???????? }
+?
+-?????? pr_err("unhandled cmd %d\n", cmd->common.opcode);
++?????? pr_err("unsupported cmd %d\n", cmd->common.opcode);
+???????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+?}
+?
+-- 
+2.19.0.605.g01d371f741-goog
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
+    
