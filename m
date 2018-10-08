@@ -1,51 +1,106 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Mon, 8 Oct 2018 12:29:46 +0200
-Subject: [PATCH 1/2] nvme: NUMA locality information for fabrics
-In-Reply-To: <162f2606-f5a5-cbe1-e4ff-4e409f430ff3@suse.com>
-References: <20181005092915.126636-1-hare@suse.de>
- <20181005092915.126636-2-hare@suse.de> <20181008100423.GA6686@lst.de>
- <cffba6f0-3d8a-8596-ced1-ef6eea7195f5@bjorling.me>
- <162f2606-f5a5-cbe1-e4ff-4e409f430ff3@suse.com>
-Message-ID: <dc3821f1-6b2d-8723-d95d-269d332cb60f@bjorling.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 8 Oct 2018 08:54:33 -0600
+Subject: nvme-pci: number of queues off by one
+In-Reply-To: <847ccf73-9fb8-0507-b68e-99960530468a@oracle.com>
+References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180228164726.GB16536@lst.de> <20180301150329.GB6795@ming.t460p>
+ <20180301161042.GA14799@localhost.localdomain>
+ <20180308074220.GC15748@lst.de>
+ <20180309172445.GC14765@localhost.localdomain>
+ <20180312090827.GB23903@ming.t460p>
+ <CAF6hzxwN4S4C37dbdARcW+tgLMRjvHtzOZjFomVQBVntshZ+7w@mail.gmail.com>
+ <9c851b95-1c41-2171-40ec-bd47032401fc@oracle.com>
+ <847ccf73-9fb8-0507-b68e-99960530468a@oracle.com>
+Message-ID: <20181008145433.GC24716@localhost.localdomain>
 
-
-
-On 10/08/2018 12:27 PM, Hannes Reinecke wrote:
-> On 10/8/18 12:22 PM, Matias Bj?rling wrote:
->>
->>
->> On 10/08/2018 12:04 PM, Christoph Hellwig wrote:
-> [ .. ]
->>>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->>>> index d668682f91df..b5d37aacf212 100644
->>>> --- a/drivers/nvme/host/pci.c
->>>> +++ b/drivers/nvme/host/pci.c
->>>> @@ -2517,6 +2517,7 @@ static int nvme_probe(struct pci_dev *pdev, 
->>>> const struct pci_device_id *id)
->>>> ????? dev_info(dev->ctrl.device, "pci function %s\n", 
->>>> dev_name(&pdev->dev));
->>>> +??? dev->ctrl.node_id = node;
->>>> ????? nvme_get_ctrl(&dev->ctrl);
->>>> ????? async_schedule(nvme_async_probe, dev);
->>>
->>> This changes behavior as node might remain NUMA_NO_NODE when the code
->>> above sets the device node to first_memory_node now when
->>> it would otherwise be NUMA_NO_NODE.? Then again that code makes no
->>> sense to me to start with - Matias added it with the blk-mq conversion,
->>> so maybe he remembers why we do it to start with?? If we want to fix
->>> up nodes like that it seems like we should do it in the driver core
->>> or the PCI core.
->>>
->>
->> Back in the days it was carried over to make sure the structures was 
->> allocated from the same node as the pcie device.
->>
-> Which really is what this patch is trying to do.
-> Or am I wrong?
+On Mon, Oct 08, 2018@02:58:21PM +0800, Dongli Zhang wrote:
+> I got the same result when emulating nvme with qemu: the VM has 12 cpu, while
+> the num_queues of nvme is 8.
 > 
-
-Yep. It was missing for fabrics.
-
-> Cheers,
+> # uname -r
+> 4.14.1
+> # ll /sys/block/nvme*n1/mq/*/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/0/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/1/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/2/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/3/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/4/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/5/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:30 /sys/block/nvme0n1/mq/6/cpu_list
 > 
-> Hannes
+> 
+> # uname -r
+> 4.18.10
+> # ll /sys/block/nvme*n1/mq/*/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/0/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/1/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/2/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/3/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/4/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/5/cpu_list
+> -r--r--r-- 1 root root 4096 Oct  8 14:34 /sys/block/nvme0n1/mq/6/cpu_list
+> 
+> From below qemu source code, when n->num_queues is 8, the handler of
+> NVME_FEAT_NUM_QUEUES returns 0x60006.
+> 
+>  719 static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+>  720 {
+>  721     uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+>  722     uint32_t dw11 = le32_to_cpu(cmd->cdw11);
+>  723
+>  724     switch (dw10) {
+>  725     case NVME_VOLATILE_WRITE_CACHE:
+>  726         blk_set_enable_write_cache(n->conf.blk, dw11 & 1);
+>  727         break;
+>  728     case NVME_NUMBER_OF_QUEUES:
+>  729         trace_nvme_setfeat_numq((dw11 & 0xFFFF) + 1,
+>  730                                 ((dw11 >> 16) & 0xFFFF) + 1,
+>  731                                 n->num_queues - 1, n->num_queues - 1);
+>  732         req->cqe.result =
+>  733             cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16));
+> ----> returns 0x60006 when num_queues is 8.
+> 
+> 
+> Finally, nr_io_queues is set to 6+1=7 in nvme_set_queue_count() in VM kernel.
+> 
+> I do not know how to paraphrase this in the world of nvme.
+> 
+> Dongli Zhang
+> 
+> On 10/08/2018 01:59 PM, Dongli Zhang wrote:
+> > I can reproduce with qemu:
+> > 
+> > # ls /sys/block/nvme*n1/mq/*/cpu_list
+> > /sys/block/nvme0n1/mq/0/cpu_list
+> > /sys/block/nvme0n1/mq/1/cpu_list
+> > /sys/block/nvme0n1/mq/2/cpu_list
+> > /sys/block/nvme0n1/mq/3/cpu_list
+> > /sys/block/nvme0n1/mq/4/cpu_list
+> > /sys/block/nvme0n1/mq/5/cpu_list
+> > /sys/block/nvme0n1/mq/6/cpu_list
+> > 
+> > Here is the qemu cmdline emulating 8-queue nvme while the VM has 12 cpu:
+> > 
+> > # qemu-system-x86_64 -m 4096 -smp 12 \
+> > 	-kernel /path-to-kernel/linux-4.18.10/arch/x86_64/boot/bzImage \
+> > 	-hda /path-to-img/ubuntu1804.qcow2  \
+> > 	-append "root=/dev/sda1 init=/sbin/init text" -enable-kvm \
+> > 	-net nic -net user,hostfwd=tcp::5022-:22 \
+> > 	-device nvme,drive=nvme1,serial=deadbeaf1,num_queues=8 \
+> > 	-drive file=/path-to-img/nvme.disk,if=none,id=nvme1
+> > 
+> > Dongli Zhang
+
+Qemu counts one of those queues as the admin queue.
+
+> > On 10/08/2018 01:05 PM, Prasun Ratn wrote:
+> >> Hi
+> >>
+> >> I have an NVMe SSD that has 8 hw queues and on older kernels I see all
+> >> 8 show up. However on a recent kernel (I tried 4.18), I only see 7. Is
+> >> this a known issue?
+
+That probably means you only have 8 MSI-x vectors, one of which is
+reserved for the admin queue. We used to share an IO vector with the
+admin queue, however some people figured out you can break your controller
+that way with the linux irq spread.
