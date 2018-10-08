@@ -1,59 +1,29 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon,  8 Oct 2018 14:28:46 -0700
-Subject: [PATCH 08/16] nvme-fc: Rework the request initialization code
+Date: Mon,  8 Oct 2018 14:28:53 -0700
+Subject: [PATCH 15/16] nvmet-rdma: Declare local symbols static
 In-Reply-To: <20181008212854.68310-1-bvanassche@acm.org>
 References: <20181008212854.68310-1-bvanassche@acm.org>
-Message-ID: <20181008212854.68310-9-bvanassche@acm.org>
+Message-ID: <20181008212854.68310-16-bvanassche@acm.org>
 
-Instead of setting and then clearing the first_sgl pointer for AEN requests,
-leave that pointer zero. This patch does not change how requests are
-initialized but avoids that Coverity reports the following complaint for
-nvme_fc_init_aen_ops():
+This patch avoids that sparse complains about missing declarations.
 
-CID 1418400 (#1 of 1): Out-of-bounds access (OVERRUN)
-4. overrun-buffer-val: Overrunning buffer pointed to by aen_op of 312 bytes by passing it to a function which accesses it at byte offset 312.
-
-Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- drivers/nvme/host/fc.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/nvme/target/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index fdadc9464f6f..e52b9d3c0bd6 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1704,7 +1704,6 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
- 	op->fcp_req.rspaddr = &op->rsp_iu;
- 	op->fcp_req.rsplen = sizeof(op->rsp_iu);
- 	op->fcp_req.done = nvme_fc_fcpio_done;
--	op->fcp_req.first_sgl = &op_w_sgl->sgl[0];
- 	op->fcp_req.private = &op->fcp_req.first_sgl[SG_CHUNK_SIZE];
- 	op->ctrl = ctrl;
- 	op->queue = queue;
-@@ -1746,9 +1745,14 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
- 	struct nvme_fcp_op_w_sgl *op = blk_mq_rq_to_pdu(rq);
- 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
- 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
-+	int res;
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 5becca88ccbe..bd265aceb90c 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -122,7 +122,7 @@ struct nvmet_rdma_device {
+ 	int			inline_page_count;
+ };
  
- 	nvme_req(rq)->ctrl = &ctrl->ctrl;
--	return __nvme_fc_init_request(ctrl, queue, &op->op, rq, queue->rqcnt++);
-+	res = __nvme_fc_init_request(ctrl, queue, &op->op, rq, queue->rqcnt++);
-+	if (res)
-+		return res;
-+	op->op.fcp_req.first_sgl = &op->sgl[0];
-+	return res;
- }
- 
- static int
-@@ -1778,7 +1782,6 @@ nvme_fc_init_aen_ops(struct nvme_fc_ctrl *ctrl)
- 		}
- 
- 		aen_op->flags = FCOP_FLAGS_AEN;
--		aen_op->fcp_req.first_sgl = NULL; /* no sg list */
- 		aen_op->fcp_req.private = private;
- 
- 		memset(sqe, 0, sizeof(*sqe));
+-struct workqueue_struct *nvmet_rdma_delete_wq;
++static struct workqueue_struct *nvmet_rdma_delete_wq;
+ static bool nvmet_rdma_use_srq;
+ module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
+ MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
 -- 
 2.19.0.605.g01d371f741-goog
