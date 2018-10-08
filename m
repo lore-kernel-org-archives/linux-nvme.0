@@ -1,18 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 8 Oct 2018 12:05:07 +0200
-Subject: [PATCH 2/2] nvme-multipath: manual NUMA configuration
-In-Reply-To: <20181005092915.126636-3-hare@suse.de>
-References: <20181005092915.126636-1-hare@suse.de>
- <20181005092915.126636-3-hare@suse.de>
-Message-ID: <20181008100507.GB6686@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 8 Oct 2018 03:13:23 -0700
+Subject: Kernel v4.19-rc4 KASAN complaint
+In-Reply-To: <20181008061152.GA18836@X58A-UD3R>
+References: <20181006170915.GS2674@linux.ibm.com>
+ <31b80bc0-afc6-6bd9-c722-302f538d3e5b@lge.com>
+ <20181008061152.GA18836@X58A-UD3R>
+Message-ID: <20181008101323.GA29380@infradead.org>
 
-On Fri, Oct 05, 2018@11:29:15AM +0200, Hannes Reinecke wrote:
-> Not every NUMA configuration allows for an automatic setup via
-> the distance between nodes, or even the admin might have some
-> specific ideas on how things should be setup.
-> This patch adds a new sysfs attribute 'node_map' to allow to
-> specify the NUMA mapping for each controller.
+On Mon, Oct 08, 2018@03:11:52PM +0900, Byungchul Park wrote:
+> Is it ok to call nvme_mpath_clear_current_path(ns) without holding
+> any lock in nvme_failover_req(req)? No possible to race with other
+> rcu_assign_pointer(ns->head->current_path, some_value)?
 
-This is a rather vagaue rational for a lot of anoying boilerplate
-code.  I'd like to see better arguments for even looking into adding
-magic knobs.
+We can race with an assignment, but it should be harmless, as that
+call is just an optimization to get everyone to stop using the
+path ASAP.  If we actually free the namespace we always go through
+nvme_ns_remove, which calls nvme_mpath_clear_current_path under
+subsys->lock.
