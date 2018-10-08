@@ -1,14 +1,12 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Mon, 8 Oct 2018 12:22:26 +0200
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 8 Oct 2018 12:24:47 +0200
 Subject: [PATCH 1/2] nvme: NUMA locality information for fabrics
 In-Reply-To: <20181008100423.GA6686@lst.de>
 References: <20181005092915.126636-1-hare@suse.de>
  <20181005092915.126636-2-hare@suse.de> <20181008100423.GA6686@lst.de>
-Message-ID: <cffba6f0-3d8a-8596-ced1-ef6eea7195f5@bjorling.me>
+Message-ID: <5e54c78e-1aab-4537-e153-2991c5327bca@suse.de>
 
-
-
-On 10/08/2018 12:04 PM, Christoph Hellwig wrote:
+On 10/8/18 12:04 PM, Christoph Hellwig wrote:
 >> @@ -3055,7 +3057,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
 >>   	struct gendisk *disk;
 >>   	struct nvme_id_ns *id;
@@ -18,6 +16,8 @@ On 10/08/2018 12:04 PM, Christoph Hellwig wrote:
 > 
 > I think we can just kill the local node variable now.
 > 
+Indeed.
+
 >> @@ -276,7 +276,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
 >>   	if (!(ctrl->subsys->cmic & (1 << 1)) || !multipath)
 >>   		return 0;
@@ -32,6 +32,12 @@ On 10/08/2018 12:04 PM, Christoph Hellwig wrote:
 > If there is a good reason it needs to go into a comment, if not
 > we should drop this hunk.
 > 
+Well, as we _do_ have an argument for passing in the NUMA locality I 
+thought it'd being a good time to also use it :-)
+But actually I have debated with myself whether it's the correct thing 
+to do.
+So yeah, I guess it can be dropped.
+
 >> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
 >> index d668682f91df..b5d37aacf212 100644
 >> --- a/drivers/nvme/host/pci.c
@@ -52,6 +58,17 @@ On 10/08/2018 12:04 PM, Christoph Hellwig wrote:
 > up nodes like that it seems like we should do it in the driver core
 > or the PCI core.
 > 
+This was primarily for orthogonality; I don't have any issues with 
+dropping it.
 
-Back in the days it was carried over to make sure the structures was 
-allocated from the same node as the pcie device.
+Will be resending the patchset.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
