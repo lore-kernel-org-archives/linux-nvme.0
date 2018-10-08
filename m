@@ -1,52 +1,59 @@
 From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 8 Oct 2018 22:02:04 +0000
-Subject: [PATCH 12/16] nvmet: Remove unreachable code from
- nvmet_parse_discovery_cmd()
-In-Reply-To: <20181008212854.68310-13-bvanassche@acm.org>
+Date: Mon, 8 Oct 2018 22:06:27 +0000
+Subject: [PATCH 13/16] nvmet: Use strlcpy() instead of strcpy()
+In-Reply-To: <20181008212854.68310-14-bvanassche@acm.org>
 References: <20181008212854.68310-1-bvanassche@acm.org>,
- <20181008212854.68310-13-bvanassche@acm.org>
-Message-ID: <BYAPR04MB4502651AFD9F0C37347840E886E60@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <20181008212854.68310-14-bvanassche@acm.org>
+Message-ID: <BYAPR04MB4502DD8E0CA03A2D04F74C6586E60@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-I have already posted this fix.
+Looks good.
 
-Please see :-
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
 
-http://lists.infradead.org/pipermail/linux-nvme/2018-August/019767.html
 
 
 From: Linux-nvme <linux-nvme-bounces@lists.infradead.org> on behalf of Bart Van Assche <bvanassche@acm.org>
 Sent: Monday, October 8, 2018 2:28 PM
 To: Keith Busch
 Cc: Bart Van Assche; Christoph Hellwig; linux-nvme at lists.infradead.org; Sagi Grimberg
-Subject: [PATCH 12/16] nvmet: Remove unreachable code from nvmet_parse_discovery_cmd()
+Subject: [PATCH 13/16] nvmet: Use strlcpy() instead of strcpy()
 ? 
  
-This patch avoids that smatch reports the following warning:
-
-drivers/nvme/target/discovery.c:228:1 nvmet_parse_discovery_cmd() info: ignoring unreachable code.
+Although the code modified by this patch looks fine to me, this patch avoids
+that Coverity reports the following complaint (ID 1364971 and ID 1364973):
+"You might overrun the 256-character fixed-size string id->subnqn".
 
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
-?drivers/nvme/target/discovery.c | 5 +----
-?1 file changed, 1 insertion(+), 4 deletions(-)
+?drivers/nvme/target/admin-cmd.c | 2 +-
+?drivers/nvme/target/discovery.c | 2 +-
+?2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 7a45f4477679..1179f6314323 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -353,7 +353,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+???????? if (req->port->inline_data_size)
+???????????????? id->sgls |= cpu_to_le32(1 << 20);
+?
+-?????? strcpy(id->subnqn, ctrl->subsys->subsysnqn);
++?????? strlcpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
+?
+???????? /* Max command capsule size is sqe + single page of in-capsule data */
+???????? id->ioccsz = cpu_to_le32((sizeof(struct nvme_command) +
 diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index eae29f493a07..08e7e284655c 100644
+index 08e7e284655c..ff52ab84d0e3 100644
 --- a/drivers/nvme/target/discovery.c
 +++ b/drivers/nvme/target/discovery.c
-@@ -218,12 +218,9 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
-??????????????????????????????? cmd->identify.cns);
-???????????????????????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-???????????????? }
--?????? default:
--?????????????? pr_err("unsupported cmd %d\n", cmd->common.opcode);
--?????????????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-???????? }
+@@ -174,7 +174,7 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
+???????? if (req->port->inline_data_size)
+???????????????? id->sgls |= cpu_to_le32(1 << 20);
 ?
--?????? pr_err("unhandled cmd %d\n", cmd->common.opcode);
-+?????? pr_err("unsupported cmd %d\n", cmd->common.opcode);
-???????? return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-?}
+-?????? strcpy(id->subnqn, ctrl->subsys->subsysnqn);
++?????? strlcpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
+?
+???????? status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
 ?
 -- 
 2.19.0.605.g01d371f741-goog
