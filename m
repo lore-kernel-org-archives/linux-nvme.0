@@ -1,29 +1,104 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon,  8 Oct 2018 14:28:53 -0700
-Subject: [PATCH 15/16] nvmet-rdma: Declare local symbols static
+Date: Mon,  8 Oct 2018 14:28:45 -0700
+Subject: [PATCH 07/16] nvme-fc: Introduce struct nvme_fcp_op_w_sgl
 In-Reply-To: <20181008212854.68310-1-bvanassche@acm.org>
 References: <20181008212854.68310-1-bvanassche@acm.org>
-Message-ID: <20181008212854.68310-16-bvanassche@acm.org>
+Message-ID: <20181008212854.68310-8-bvanassche@acm.org>
 
-This patch avoids that sparse complains about missing declarations.
+This patch does not change any functionality but makes the intent of the
+code more clear.
 
+Cc: James Smart <james.smart at broadcom.com>
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
- drivers/nvme/target/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/fc.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 5becca88ccbe..bd265aceb90c 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -122,7 +122,7 @@ struct nvmet_rdma_device {
- 	int			inline_page_count;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index d838987fffe1..fdadc9464f6f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -20,6 +20,7 @@
+ #include <uapi/scsi/fc/fc_fs.h>
+ #include <uapi/scsi/fc/fc_els.h>
+ #include <linux/delay.h>
++#include <linux/overflow.h>
+ 
+ #include "nvme.h"
+ #include "fabrics.h"
+@@ -104,6 +105,12 @@ struct nvme_fc_fcp_op {
+ 	struct nvme_fc_ersp_iu	rsp_iu;
  };
  
--struct workqueue_struct *nvmet_rdma_delete_wq;
-+static struct workqueue_struct *nvmet_rdma_delete_wq;
- static bool nvmet_rdma_use_srq;
- module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
- MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
++struct nvme_fcp_op_w_sgl {
++	struct nvme_fc_fcp_op	op;
++	struct scatterlist	sgl[SG_CHUNK_SIZE];
++	uint8_t			priv[0];
++};
++
+ struct nvme_fc_lport {
+ 	struct nvme_fc_local_port	localport;
+ 
+@@ -1686,6 +1693,8 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 		struct nvme_fc_queue *queue, struct nvme_fc_fcp_op *op,
+ 		struct request *rq, u32 rqno)
+ {
++	struct nvme_fcp_op_w_sgl *op_w_sgl =
++		container_of(op, typeof(*op_w_sgl), op);
+ 	struct nvme_fc_cmd_iu *cmdiu = &op->cmd_iu;
+ 	int ret = 0;
+ 
+@@ -1695,7 +1704,7 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 	op->fcp_req.rspaddr = &op->rsp_iu;
+ 	op->fcp_req.rsplen = sizeof(op->rsp_iu);
+ 	op->fcp_req.done = nvme_fc_fcpio_done;
+-	op->fcp_req.first_sgl = (struct scatterlist *)&op[1];
++	op->fcp_req.first_sgl = &op_w_sgl->sgl[0];
+ 	op->fcp_req.private = &op->fcp_req.first_sgl[SG_CHUNK_SIZE];
+ 	op->ctrl = ctrl;
+ 	op->queue = queue;
+@@ -1734,12 +1743,12 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 		unsigned int hctx_idx, unsigned int numa_node)
+ {
+ 	struct nvme_fc_ctrl *ctrl = set->driver_data;
+-	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
++	struct nvme_fcp_op_w_sgl *op = blk_mq_rq_to_pdu(rq);
+ 	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
+ 	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
+ 
+ 	nvme_req(rq)->ctrl = &ctrl->ctrl;
+-	return __nvme_fc_init_request(ctrl, queue, op, rq, queue->rqcnt++);
++	return __nvme_fc_init_request(ctrl, queue, &op->op, rq, queue->rqcnt++);
+ }
+ 
+ static int
+@@ -2423,10 +2432,9 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	ctrl->tag_set.reserved_tags = 1; /* fabric connect */
+ 	ctrl->tag_set.numa_node = NUMA_NO_NODE;
+ 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
+-	ctrl->tag_set.cmd_size = sizeof(struct nvme_fc_fcp_op) +
+-					(SG_CHUNK_SIZE *
+-						sizeof(struct scatterlist)) +
+-					ctrl->lport->ops->fcprqst_priv_sz;
++	ctrl->tag_set.cmd_size =
++		struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
++			    ctrl->lport->ops->fcprqst_priv_sz);
+ 	ctrl->tag_set.driver_data = ctrl;
+ 	ctrl->tag_set.nr_hw_queues = ctrl->ctrl.queue_count - 1;
+ 	ctrl->tag_set.timeout = NVME_IO_TIMEOUT;
+@@ -3028,10 +3036,9 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
+ 	ctrl->admin_tag_set.reserved_tags = 2; /* fabric connect + Keep-Alive */
+ 	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
+-	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_fc_fcp_op) +
+-					(SG_CHUNK_SIZE *
+-						sizeof(struct scatterlist)) +
+-					ctrl->lport->ops->fcprqst_priv_sz;
++	ctrl->admin_tag_set.cmd_size =
++		struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
++			    ctrl->lport->ops->fcprqst_priv_sz);
+ 	ctrl->admin_tag_set.driver_data = ctrl;
+ 	ctrl->admin_tag_set.nr_hw_queues = 1;
+ 	ctrl->admin_tag_set.timeout = ADMIN_TIMEOUT;
 -- 
 2.19.0.605.g01d371f741-goog
