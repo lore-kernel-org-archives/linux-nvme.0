@@ -1,19 +1,40 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 8 Oct 2018 03:13:23 -0700
-Subject: Kernel v4.19-rc4 KASAN complaint
-In-Reply-To: <20181008061152.GA18836@X58A-UD3R>
-References: <20181006170915.GS2674@linux.ibm.com>
- <31b80bc0-afc6-6bd9-c722-302f538d3e5b@lge.com>
- <20181008061152.GA18836@X58A-UD3R>
-Message-ID: <20181008101323.GA29380@infradead.org>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon, 8 Oct 2018 18:19:20 +0800
+Subject: nvme-pci: number of queues off by one
+In-Reply-To: <9c851b95-1c41-2171-40ec-bd47032401fc@oracle.com>
+References: <1519832921-13915-1-git-send-email-jianchao.w.wang@oracle.com>
+ <20180228164726.GB16536@lst.de> <20180301150329.GB6795@ming.t460p>
+ <20180301161042.GA14799@localhost.localdomain>
+ <20180308074220.GC15748@lst.de>
+ <20180309172445.GC14765@localhost.localdomain>
+ <20180312090827.GB23903@ming.t460p>
+ <CAF6hzxwN4S4C37dbdARcW+tgLMRjvHtzOZjFomVQBVntshZ+7w@mail.gmail.com>
+ <9c851b95-1c41-2171-40ec-bd47032401fc@oracle.com>
+Message-ID: <20181008101919.GB10966@ming.t460p>
 
-On Mon, Oct 08, 2018@03:11:52PM +0900, Byungchul Park wrote:
-> Is it ok to call nvme_mpath_clear_current_path(ns) without holding
-> any lock in nvme_failover_req(req)? No possible to race with other
-> rcu_assign_pointer(ns->head->current_path, some_value)?
+On Mon, Oct 08, 2018@01:59:05PM +0800, Dongli Zhang wrote:
+> I can reproduce with qemu:
+> 
+> # ls /sys/block/nvme*n1/mq/*/cpu_list
+> /sys/block/nvme0n1/mq/0/cpu_list
+> /sys/block/nvme0n1/mq/1/cpu_list
+> /sys/block/nvme0n1/mq/2/cpu_list
+> /sys/block/nvme0n1/mq/3/cpu_list
+> /sys/block/nvme0n1/mq/4/cpu_list
+> /sys/block/nvme0n1/mq/5/cpu_list
+> /sys/block/nvme0n1/mq/6/cpu_list
+> 
+> Here is the qemu cmdline emulating 8-queue nvme while the VM has 12 cpu:
+> 
+> # qemu-system-x86_64 -m 4096 -smp 12 \
+> 	-kernel /path-to-kernel/linux-4.18.10/arch/x86_64/boot/bzImage \
+> 	-hda /path-to-img/ubuntu1804.qcow2  \
+> 	-append "root=/dev/sda1 init=/sbin/init text" -enable-kvm \
+> 	-net nic -net user,hostfwd=tcp::5022-:22 \
+> 	-device nvme,drive=nvme1,serial=deadbeaf1,num_queues=8 \
+> 	-drive file=/path-to-img/nvme.disk,if=none,id=nvme1
 
-We can race with an assignment, but it should be harmless, as that
-call is just an optimization to get everyone to stop using the
-path ASAP.  If we actually free the namespace we always go through
-nvme_ns_remove, which calls nvme_mpath_clear_current_path under
-subsys->lock.
+This 'issue' can be reproduced on v4.14 too.
+
+Thanks,
+Ming
