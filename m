@@ -1,15 +1,11 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon,  8 Oct 2018 14:28:41 -0700
-Subject: [PATCH 03/16] nvme-core: Rework a NQN copying operation
+Date: Mon,  8 Oct 2018 14:28:39 -0700
+Subject: [PATCH 01/16] nvme-core: Declare local symbols static
 In-Reply-To: <20181008212854.68310-1-bvanassche@acm.org>
 References: <20181008212854.68310-1-bvanassche@acm.org>
-Message-ID: <20181008212854.68310-4-bvanassche@acm.org>
+Message-ID: <20181008212854.68310-2-bvanassche@acm.org>
 
-Although it is easy to see that the code in nvme_init_subnqn() guarantees that
-the subsys->nqn string is '\0'-terminated, apparently Coverity is not smart
-enough to see this. Make it easier for Coverity to analyze this code by changing
-the strncpy() call into a strlcpy() call. This patch does not change the
-behavior of the code but fixes Coveritiy ID 1423720.
+This patch avoids that sparse complains about missing declarations.
 
 Signed-off-by: Bart Van Assche <bvanassche at acm.org>
 ---
@@ -17,17 +13,17 @@ Signed-off-by: Bart Van Assche <bvanassche at acm.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 04138223fad6..3746fe49c382 100644
+index 2db33a752e2b..63932dea74a1 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2084,7 +2084,7 @@ static void nvme_init_subnqn(struct nvme_subsystem *subsys, struct nvme_ctrl *ct
+@@ -2729,7 +2729,7 @@ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 	return a->mode;
+ }
  
- 	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
- 	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
--		strncpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
-+		strlcpy(subsys->subnqn, id->subnqn, NVMF_NQN_SIZE);
- 		return;
- 	}
- 
+-const struct attribute_group nvme_ns_id_attr_group = {
++static const struct attribute_group nvme_ns_id_attr_group = {
+ 	.attrs		= nvme_ns_id_attrs,
+ 	.is_visible	= nvme_ns_id_attrs_are_visible,
+ };
 -- 
 2.19.0.605.g01d371f741-goog
