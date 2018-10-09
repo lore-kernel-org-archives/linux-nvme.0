@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 9 Oct 2018 13:26:57 +0200
-Subject: [PATCH 01/16] nvme-core: Declare local symbols static
-In-Reply-To: <20181008212854.68310-2-bvanassche@acm.org>
+Date: Tue, 9 Oct 2018 13:27:58 +0200
+Subject: [PATCH 03/16] nvme-core: Rework a NQN copying operation
+In-Reply-To: <20181008212854.68310-4-bvanassche@acm.org>
 References: <20181008212854.68310-1-bvanassche@acm.org>
- <20181008212854.68310-2-bvanassche@acm.org>
-Message-ID: <20181009112657.GC5574@linux-x5ow.site>
+ <20181008212854.68310-4-bvanassche@acm.org>
+Message-ID: <20181009112758.GD5574@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
