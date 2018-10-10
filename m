@@ -1,40 +1,45 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Oct 2018 09:34:22 -0600
-Subject: [PATCH v2 1/2] nvme-core: Make implicit seed truncation explicit
-In-Reply-To: <20181010150820.203745-2-bvanassche@acm.org>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 10 Oct 2018 08:57:08 -0700
+Subject: [PATCH v2 2/2] nvmet-fcloop: Suppress a compiler warning
+In-Reply-To: <20181010150820.203745-3-bvanassche@acm.org>
 References: <20181010150820.203745-1-bvanassche@acm.org>
- <20181010150820.203745-2-bvanassche@acm.org>
-Message-ID: <20181010153421.GA9967@localhost.localdomain>
+ <20181010150820.203745-3-bvanassche@acm.org>
+Message-ID: <73fab5b8-b612-a6cd-e6c3-d55ee66cf75a@broadcom.com>
 
-On Wed, Oct 10, 2018@08:08:19AM -0700, Bart Van Assche wrote:
-> The nvme_user_io.slba field is 64 bits wide. That value is copied into the
-> 32-bit bio_integrity_payload.bip_iter.bi_sector field. Make that truncation
-> explicit to avoid that Coverity complains about implicit truncation. See
-> also Coverity ID 1056486 on http://scan.coverity.com/projects/linux.
-> 
+
+
+On 10/10/2018 8:08 AM, Bart Van Assche wrote:
+> Building with W=1 enables the compiler warning -Wimplicit-fallthrough=3. That
+> option does not recognize the fall-through comment in the fcloop driver. Add
+> a fall-through comment that is recognized for -Wimplicit-fallthrough=3. This
+> patch avoids that the compiler reports the following warning when building
+> with W=1:
+>
+> drivers/nvme/target/fcloop.c:647:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>     if (op == NVMET_FCOP_READDATA)
+>        ^
+>
+> Cc: James Smart <james.smart at broadcom.com>
 > Signed-off-by: Bart Van Assche <bvanassche at acm.org>
+> ---
+>   drivers/nvme/target/fcloop.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+> index 5251689a1d9a..291f4121f516 100644
+> --- a/drivers/nvme/target/fcloop.c
+> +++ b/drivers/nvme/target/fcloop.c
+> @@ -648,6 +648,7 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
+>   			break;
+>   
+>   		/* Fall-Thru to RSP handling */
+> +		/* FALLTHRU */
+>   
+>   	case NVMET_FCOP_RSP:
+>   		if (fcpreq) {
 
-Looks good, thanks for the update.
+Reviewed-by: James Smart <james.smart at broadcom.com>
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+I had no idea there was a "standard" way to declare this.
 
-
->  drivers/nvme/host/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 8cecb36b5af1..65c42448e904 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1132,7 +1132,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
->  
->  	return nvme_submit_user_cmd(ns->queue, &c,
->  			(void __user *)(uintptr_t)io.addr, length,
-> -			metadata, meta_len, io.slba, NULL, 0);
-> +			metadata, meta_len, lower_32_bits(io.slba), NULL, 0);
->  }
->  
->  static u32 nvme_known_admin_effects(u8 opcode)
-> -- 
-> 2.19.0.605.g01d371f741-goog
-> 
+-- james
