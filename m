@@ -1,19 +1,35 @@
-From: yaolin@marvell.com (Yao Lin)
-Date: Wed, 10 Oct 2018 21:52:27 +0000
-Subject: bad IOPS when running multiple btest/fio in parallel
-Message-ID: <93eb0e1c47434c6db5f5d97797b01e61@SC-EXCH03.marvell.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 10 Oct 2018 17:03:33 -0600
+Subject: [PATCH v9 00/13] Copy Offload in NVMe Fabrics with P2P PCI Memory
+In-Reply-To: <20181010201918.GF5906@bhelgaas-glaptop.roam.corp.google.com>
+References: <20181004212747.6301-1-logang@deltatee.com>
+ <20181010201918.GF5906@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <5c674a1b-2471-33eb-44f4-fe1bb8807a22@deltatee.com>
 
-Host: Ubuntu 18.04 (4.15 kernel). I9-7940X (14C/28T) with 32G DRAM. Has a single-port 100G rNIC. No OFED driver is installed. 
 
-1.	When I insert 4 Intel Optane 905P into that host and run 4 btest in parallel (one btest for each Optane, random read, bs=4K, 6 thread, qd = 32), I am able to get aggregated IOPS of 2380K.
-2.	Then I move those 4 Optane into 4 NVMeOF targets (RoCEv2). Each target has a 25G rNIC. All 4 25G rNICs and that 100G rNIC are connected to a switch.
-3.	Start iperf from all 4 targets toward the host, the aggregated throughput is 92Gbps. So this means the data path between the host and the targets is clean.
-4.	From the host, use "nvme connect" to link up with all 4 targets.
-5.	Run non-overlapping btest against each target, IOPS is around 595K each. So this is good.
-6.	Run 4 btest in parallel (one btest for each target). This is basically the same as #1, except it's now over the fabric. But the aggregate IOPS is only 1500K. Assign CPU affinity so that each btest uses exclusive 3C/6T doesn't help. Replacing btest by fio doesn't help either.
-7.	Replace that 100G rNIC by a model from a different vendor and repeat test #6. The aggregated IOPS is better, but it's still nowhere close to the expected 2380K IOPS.
 
-So I am wondering if there is any known limitation with Linux inbox NVMeOF driver regarding support of multiple sessions in parallel. Any tuning?
+On 2018-10-10 2:19 p.m., Bjorn Helgaas wrote:
+> I added the reviewed-by tags from Christoph, Jens' ack on the blkdev.h
+> change, and applied these to pci/peer-to-peer with the intent of
+> merging these for v4.20.
+> 
+> I gave up on waiting for an ack for the memremap.h and mm.h changes.
+> 
+> I dropped the "nvme-pci: Add a quirk for a pseudo CMB" quirk because
+> of Christoph's objection.  After this is all merged, I won't need to
+> be involved, and you and the NVMe folks can hash that out.
+> 
+> If there are updates to "nvmet: Optionally use PCI P2P memory" based
+> on Sagi's comments, send an incremental patch and I'll fold them in.
+
+Thanks for picking this up. However, I hate to throw a wrench in the
+works, but I had a v10[1] queued up because kbuild found some problems
+with the series over the weekend. I can send v10 off right away if you
+want to just replace it in your branch or, if you'd like, I can generate
+some incremental patches. Let me know which you'd prefer.
 
 Thanks,
-Yao
+
+Logan
+
+[1] https://github.com/sbates130272/linux-p2pmem pci-p2p-v10
