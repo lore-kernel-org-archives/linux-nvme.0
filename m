@@ -1,330 +1,1356 @@
 From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Fri, 12 Oct 2018 15:50:05 +0000
-Subject: [PATCH 1/2] nvme-cli: Add wdc-plugin command vs-internal-log and
- update wdc-plug cap-diag command with transfer-size parameter.
-Message-ID: <1539359392-29379-1-git-send-email-jeff.lien@wdc.com>
+Date: Fri, 12 Oct 2018 15:50:35 +0000
+Subject: [PATCH 2/2] nvme-cli:  Add help text for wdc-plugin command
+ vs-internal-log. Update help text for wdc-plugin command cap-diag.
+Message-ID: <1539359420-1447-1-git-send-email-jeff.lien@wdc.com>
 
 Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
 ---
- wdc-nvme.c | 214 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
- wdc-nvme.h |   1 +
- 2 files changed, 202 insertions(+), 13 deletions(-)
+ Documentation/nvme-wdc-cap-diag.1           |  57 +-
+ Documentation/nvme-wdc-cap-diag.html        |  43 +-
+ Documentation/nvme-wdc-cap-diag.txt         |  16 +-
+ Documentation/nvme-wdc-vs-internal-log.1    | 163 ++++++
+ Documentation/nvme-wdc-vs-internal-log.html | 859 ++++++++++++++++++++++++++++
+ Documentation/nvme-wdc-vs-internal-log.txt  |  64 +++
+ 6 files changed, 1191 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/nvme-wdc-vs-internal-log.1
+ create mode 100644 Documentation/nvme-wdc-vs-internal-log.html
+ create mode 100644 Documentation/nvme-wdc-vs-internal-log.txt
 
-diff --git a/wdc-nvme.c b/wdc-nvme.c
-index 33d38fc..330150a 100644
---- a/wdc-nvme.c
-+++ b/wdc-nvme.c
-@@ -49,6 +49,7 @@
- #define WDC_NVME_SUBCMD_SHIFT	8
+diff --git a/Documentation/nvme-wdc-cap-diag.1 b/Documentation/nvme-wdc-cap-diag.1
+index d3bf080..2d9329e 100644
+--- a/Documentation/nvme-wdc-cap-diag.1
++++ b/Documentation/nvme-wdc-cap-diag.1
+@@ -1,13 +1,13 @@
+ '\" t
+ .\"     Title: nvme-wdc-cap-diag
+-.\"    Author: [FIXME: author] [see http://www.docbook.org/tdg5/en/html/author]
+-.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
+-.\"      Date: 09/05/2018
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
++.\"      Date: 12/10/2017
+ .\"    Manual: NVMe Manual
+ .\"    Source: NVMe
+ .\"  Language: English
+ .\"
+-.TH "NVME\-WDC\-CAP\-DIAG" "1" "09/05/2018" "NVMe" "NVMe Manual"
++.TH "NVME\-WDC\-CAP\-DIAG" "1" "12/10/2017" "NVMe" "NVMe Manual"
+ .\" -----------------------------------------------------------------
+ .\" * Define some portability stuff
+ .\" -----------------------------------------------------------------
+@@ -32,7 +32,7 @@ nvme-wdc-cap-diag \- Retrieve WDC device\*(Aqs diagnostic log and save to file\&
+ .SH "SYNOPSIS"
+ .sp
+ .nf
+-\fInvme wdc cap\-diag\fR <device> [\-\-output\-file=<FILE>, \-o <FILE>]
++\fInvme wdc cap\-diag\fR <device> [\-\-output\-file=<FILE>, \-o <FILE>] [\-\-transfer\-size=<SIZE>, \-s <SIZE>]
+ .fi
+ .SH "DESCRIPTION"
+ .sp
+@@ -47,6 +47,11 @@ This will only work on WDC devices supporting this feature\&. Results for any ot
+ .RS 4
+ Output file; defaults to device serial number followed by "cap_diag" suffix
+ .RE
++.PP
++\-s <SIZE>, \-\-transfer\-size=<SIZE>
++.RS 4
++Transfer size; defaults to 0x10000 (65536 decimal) bytes
++.RE
+ .SH "EXAMPLES"
+ .sp
+ .RS 4
+@@ -111,6 +116,48 @@ Gets the capture diagnostics log from the device and saves to defined file with
+ .RE
+ .\}
+ .RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the capture diagnostics log from the device transferring the data in 64k chunks and saves to default file in current directory (e\&.g\&. STM00019F3F9internal_fw_log\&.bin):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc cap\-diag /dev/nvme0 \-s 0x10000
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the capture diagnostics log from the device transferring the data in 16k chunks and saves to default file in current directory (e\&.g\&. STM00019F3F9internal_fw_log\&.bin):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc cap\-diag /dev/nvme0 \-s 16384
++.fi
++.if n \{\
++.RE
++.\}
++.RE
+ .SH "NVME"
+ .sp
+ Part of the nvme\-user suite\&.
+diff --git a/Documentation/nvme-wdc-cap-diag.html b/Documentation/nvme-wdc-cap-diag.html
+index eff2599..c3c388c 100644
+--- a/Documentation/nvme-wdc-cap-diag.html
++++ b/Documentation/nvme-wdc-cap-diag.html
+@@ -1,9 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+ <head>
+ <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+-<meta name="generator" content="AsciiDoc 8.6.8" />
++<meta name="generator" content="AsciiDoc 8.6.10" />
+ <title>nvme-wdc-cap-diag(1)</title>
+ <style type="text/css">
+ /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+@@ -94,7 +95,9 @@ ul > li > * { color: black; }
+   padding: 0;
+   margin: 0;
+ }
+-
++pre {
++  white-space: pre-wrap;
++}
  
- #define WDC_NVME_LOG_SIZE_DATA_LEN			0x08
-+#define WDC_NVME_LOG_SIZE_HDR_LEN			0x08
- 
- /* Device Config */
- #define WDC_NVME_VID  					0x1c58
-@@ -159,6 +160,8 @@
- #define WDC_DE_DESTN_SPI							1
- #define WDC_DE_DUMPTRACE_DESTINATION				6
- 
-+#define min(x, y) ((x) > (y) ? (y) : (x))
-+
- typedef enum _NVME_FEATURES_SELECT
- {
-     FS_CURRENT                      = 0,
-@@ -317,6 +320,12 @@ struct wdc_log_size {
- 	__le32	log_size;
- };
- 
-+/* E6 log header */
-+struct wdc_e6_log_hdr {
-+	__le32  eye_catcher;
-+	__u8	log_size[4];
-+};
-+
- /* Purge monitor response */
- struct wdc_nvme_purge_monitor_data {
- 	__le16 	rsvd1;
-@@ -736,6 +745,27 @@ static __u32 wdc_dump_length(int fd, __u32 opcode, __u32 cdw10, __u32 cdw12, __u
- 	return ret;
+ #author {
+   color: #527bbd;
+@@ -223,7 +226,7 @@ div.exampleblock > div.content {
  }
  
-+static __u32 wdc_dump_length_e6(int fd, __u32 opcode, __u32 cdw10, __u32 cdw12, struct wdc_e6_log_hdr *dump_hdr)
-+{
-+	int ret;
-+	struct nvme_admin_cmd admin_cmd;
+ div.imageblock div.content { padding-left: 0; }
+-span.image img { border-style: none; }
++span.image img { border-style: none; vertical-align: text-bottom; }
+ a.image:visited { color: white; }
+ 
+ dl {
+@@ -746,7 +749,7 @@ nvme-wdc-cap-diag(1) Manual Page
+ <h2 id="_synopsis">SYNOPSIS</h2>
+ <div class="sectionbody">
+ <div class="verseblock">
+-<pre class="content"><em>nvme wdc cap-diag</em> &lt;device&gt; [--output-file=&lt;FILE&gt;, -o &lt;FILE&gt;]</pre>
++<pre class="content"><em>nvme wdc cap-diag</em> &lt;device&gt; [--output-file=&lt;FILE&gt;, -o &lt;FILE&gt;] [--transfer-size=&lt;SIZE&gt;, -s &lt;SIZE&gt;]</pre>
+ <div class="attribution">
+ </div></div>
+ </div>
+@@ -776,6 +779,17 @@ Results for any other device are undefined.</p></div>
+         Output file; defaults to device serial number followed by "cap_diag" suffix
+ </p>
+ </dd>
++<dt class="hdlist1">
++-s &lt;SIZE&gt;
++</dt>
++<dt class="hdlist1">
++--transfer-size=&lt;SIZE&gt;
++</dt>
++<dd>
++<p>
++    Transfer size; defaults to the internal log size so full log will be transferred in one chunk
++</p>
++</dd>
+ </dl></div>
+ </div>
+ </div>
+@@ -810,6 +824,24 @@ Gets the capture diagnostics log from the device and saves to defined file with
+ <pre><code># nvme wdc cap-diag /dev/nvme0 -o /tmp/test</code></pre>
+ </div></div>
+ </li>
++<li>
++<p>
++Gets the capture diagnostics log from the device transferring the data in 64k chunks and saves to default file in current directory (e.g. STM00019F3F9internal_fw_log.bin):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc cap-diag /dev/nvme0 -s 0x10000</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Gets the capture diagnostics log from the device transferring the data in 16k chunks and saves to default file in current directory (e.g. STM00019F3F9internal_fw_log.bin):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc cap-diag /dev/nvme0 -s 16384</code></pre>
++</div></div>
++</li>
+ </ul></div>
+ </div>
+ </div>
+@@ -823,7 +855,8 @@ Gets the capture diagnostics log from the device and saves to defined file with
+ <div id="footnotes"><hr /></div>
+ <div id="footer">
+ <div id="footer-text">
+-Last updated 2017-03-01 10:14:21 EST
++Last updated
++ 2017-11-22 16:44:12 CST
+ </div>
+ </div>
+ </body>
+diff --git a/Documentation/nvme-wdc-cap-diag.txt b/Documentation/nvme-wdc-cap-diag.txt
+index f9d232d..9439eaa 100644
+--- a/Documentation/nvme-wdc-cap-diag.txt
++++ b/Documentation/nvme-wdc-cap-diag.txt
+@@ -8,7 +8,7 @@ nvme-wdc-cap-diag - Retrieve WDC device's diagnostic log and save to file.
+ SYNOPSIS
+ --------
+ [verse]
+-'nvme wdc cap-diag' <device> [--output-file=<FILE>, -o <FILE>]
++'nvme wdc cap-diag' <device> [--output-file=<FILE>, -o <FILE>] [--transfer-size=<SIZE>, -s <SIZE>]
+ 
+ DESCRIPTION
+ -----------
+@@ -27,6 +27,10 @@ OPTIONS
+ --output-file=<FILE>::
+ 	Output file; defaults to device serial number followed by "cap_diag" suffix
+ 
++-s <SIZE>::
++--transfer-size=<SIZE>::
++    Transfer size; defaults to 0x10000 (65536 decimal) bytes
 +
-+	memset(&admin_cmd, 0, sizeof (struct nvme_admin_cmd));
-+	admin_cmd.opcode = opcode;
-+	admin_cmd.addr = (__u64)(uintptr_t)dump_hdr;
-+	admin_cmd.data_len = WDC_NVME_LOG_SIZE_HDR_LEN;
-+	admin_cmd.cdw10 = cdw10;
-+	admin_cmd.cdw12 = cdw12;
+ EXAMPLES
+ --------
+ * Gets the capture diagnostics log from the device and saves to default file in current directory (e.g. STM00019F3F9cap_diag.bin):
+@@ -44,6 +48,16 @@ EXAMPLES
+ ------------
+ # nvme wdc cap-diag /dev/nvme0 -o /tmp/test
+ ------------
++* Gets the capture diagnostics log from the device transferring the data in 64k chunks and saves to default file in current directory (e.g. STM00019F3F9internal_fw_log.bin):
+++
++------------
++# nvme wdc cap-diag /dev/nvme0 -s 0x10000
++------------
++* Gets the capture diagnostics log from the device transferring the data in 16k chunks and saves to default file in current directory (e.g. STM00019F3F9internal_fw_log.bin):
+++
++------------
++# nvme wdc cap-diag /dev/nvme0 -s 16384
++------------
+ 
+ NVME
+ ----
+diff --git a/Documentation/nvme-wdc-vs-internal-log.1 b/Documentation/nvme-wdc-vs-internal-log.1
+new file mode 100644
+index 0000000..d0d366a
+--- /dev/null
++++ b/Documentation/nvme-wdc-vs-internal-log.1
+@@ -0,0 +1,163 @@
++'\" t
++.\"     Title: nvme-wdc-vs-internal-log
++.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
++.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
++.\"      Date: 02/02/2018
++.\"    Manual: NVMe Manual
++.\"    Source: NVMe
++.\"  Language: English
++.\"
++.TH "NVME\-WDC\-VS\-INTER" "1" "02/02/2018" "NVMe" "NVMe Manual"
++.\" -----------------------------------------------------------------
++.\" * Define some portability stuff
++.\" -----------------------------------------------------------------
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.\" http://bugs.debian.org/507673
++.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
++.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++.ie \n(.g .ds Aq \(aq
++.el       .ds Aq '
++.\" -----------------------------------------------------------------
++.\" * set default formatting
++.\" -----------------------------------------------------------------
++.\" disable hyphenation
++.nh
++.\" disable justification (adjust text to left margin only)
++.ad l
++.\" -----------------------------------------------------------------
++.\" * MAIN CONTENT STARTS HERE *
++.\" -----------------------------------------------------------------
++.SH "NAME"
++nvme-wdc-vs-internal-log \- Retrieve WDC device\*(Aqs internal firmware log and save to file\&.
++.SH "SYNOPSIS"
++.sp
++.nf
++\fInvme wdc vs\-internal\-log\fR <device> [\-\-output\-file=<FILE>, \-o <FILE>] [\-\-transfer\-size=<SIZE>, \-s <SIZE>]
++.fi
++.SH "DESCRIPTION"
++.sp
++For the NVMe device given, sends the WDC Vendor Specific Internal Log request and saves the result to a file\&.
++.sp
++The <device> parameter is mandatory NVMe character device (ex: /dev/nvme0)\&.
++.sp
++This will only work on WDC devices supporting this feature\&. Results for any other device are undefined\&.
++.SH "OPTIONS"
++.PP
++\-o <FILE>, \-\-output\-file=<FILE>
++.RS 4
++Output file; defaults to device serial number followed by "\fIinternal_fw_log\fR<date>_<time>\&.bin" suffix
++.RE
++.PP
++\-s <SIZE>, \-\-transfer\-size=<SIZE>
++.RS 4
++Transfer size; defaults to 0x10000 (65536 decimal) bytes
++.RE
++.SH "EXAMPLES"
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the internal firmware log from the device and saves to default file in current directory (e\&.g\&. STM00019F3F9_internal_fw_log_20171127_095704\&.bin):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc vs\-internal\-log /dev/nvme0
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the internal firmware log from the device and saves to defined file in current directory (e\&.g\&. test\&.bin):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc vs\-internal\-log /dev/nvme0 \-o test\&.bin
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the internal firmware log from the device and saves to defined file with pathname (e\&.g\&. /tmp/test):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc vs\-internal\-log /dev/nvme0 \-o /tmp/test
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the internal firmware log from the device transferring the data in 64k chunks and saves to default file in current directory (e\&.g\&. STM00019F3F9_internal_fw_log_20171127_100754\&.bin):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc vs\-internal\-log /dev/nvme0 \-s 0x10000
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.sp
++.RS 4
++.ie n \{\
++\h'-04'\(bu\h'+03'\c
++.\}
++.el \{\
++.sp -1
++.IP \(bu 2.3
++.\}
++Gets the internal firmware log from the device transferring the data in 16k chunks and saves to default file in current directory (e\&.g\&. STM00019F3F9_internal_fw_log_20171127_100950\&.bin):
++.sp
++.if n \{\
++.RS 4
++.\}
++.nf
++# nvme wdc vs\-internal\-log /dev/nvme0 \-s 16384
++.fi
++.if n \{\
++.RE
++.\}
++.RE
++.SH "NVME"
++.sp
++Part of the nvme\-user suite\&.
+diff --git a/Documentation/nvme-wdc-vs-internal-log.html b/Documentation/nvme-wdc-vs-internal-log.html
+new file mode 100644
+index 0000000..83c4963
+--- /dev/null
++++ b/Documentation/nvme-wdc-vs-internal-log.html
+@@ -0,0 +1,859 @@
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
++    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<head>
++<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
++<meta name="generator" content="AsciiDoc 8.6.8" />
++<title>nvme-wdc-vs-internal-log(1)</title>
++<style type="text/css">
++/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 +
-+	ret = nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &admin_cmd);
-+	if (ret != 0) {
-+		fprintf(stderr, "ERROR : WDC : reading dump length failed\n");
-+		fprintf(stderr, "NVMe Status:%s(%x)\n", nvme_status_to_string(ret), ret);
-+	}
-+
-+	return ret;
++/* Default font. */
++body {
++  font-family: Georgia,serif;
 +}
 +
- static int wdc_do_dump(int fd, __u32 opcode,__u32 data_len, __u32 cdw10,
- 		__u32 cdw12, __u32 dump_length, char *file)
- {
-@@ -765,48 +795,137 @@ static int wdc_do_dump(int fd, __u32 opcode,__u32 data_len, __u32 cdw10,
- 	return ret;
- }
- 
--static int wdc_do_cap_diag(int fd, char *file)
-+static int wdc_do_dump_e6(int fd, __u32 opcode,__u32 data_len,
-+		__u32 cdw12, char *file, __u32 xfer_size, __u8 *log_hdr)
-+{
-+	int ret = 0;
-+	__u8 *dump_data;
-+	__u32 curr_data_offset, log_size;
-+	int i;
-+	struct nvme_admin_cmd admin_cmd;
-+
-+	dump_data = (__u8 *) malloc(sizeof (__u8) * data_len);
-+
-+	if (dump_data == NULL) {
-+		fprintf(stderr, "%s: ERROR : malloc : %s\n", __func__, strerror(errno));
-+		return -1;
-+	}
-+	memset(dump_data, 0, sizeof (__u8) * data_len);
-+	memset(&admin_cmd, 0, sizeof (struct nvme_admin_cmd));
-+	curr_data_offset = WDC_NVME_LOG_SIZE_HDR_LEN;
-+	i = 0;
-+
-+	/* copy the 8 byte header into the dump_data buffer */
-+	memcpy(dump_data, log_hdr, WDC_NVME_LOG_SIZE_HDR_LEN);
-+
-+	admin_cmd.opcode = opcode;
-+	admin_cmd.cdw12 = cdw12;
-+
-+	log_size = data_len;
-+	while (log_size > 0) {
-+		xfer_size = min(xfer_size, log_size);
-+
-+		admin_cmd.addr = (__u64)(uintptr_t)dump_data + (__u64)curr_data_offset;
-+		admin_cmd.data_len = xfer_size;
-+		admin_cmd.cdw10 = xfer_size >> 2;
-+		admin_cmd.cdw13 = curr_data_offset >> 2;
-+
-+		ret = nvme_submit_passthru(fd, NVME_IOCTL_ADMIN_CMD, &admin_cmd);
-+		if (ret != 0) {
-+			fprintf(stderr, "%s: ERROR : WDC : NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
-+			fprintf(stderr, "%s: ERROR : WDC : Get chunk %d, size = 0x%x, offset = 0x%x, addr = 0x%lx\n",
-+					__func__, i, admin_cmd.data_len, curr_data_offset, (long unsigned int)admin_cmd.addr);
-+			break;
-+		}
-+
-+		log_size         -= xfer_size;
-+		curr_data_offset += xfer_size;
-+		i++;
-+	}
-+
-+	if (ret == 0) {
-+		fprintf(stderr, "%s:  NVMe Status:%s(%x)\n", __func__, nvme_status_to_string(ret), ret);
-+		ret = wdc_create_log_file(file, dump_data, data_len);
-+	}
-+	free(dump_data);
-+	return ret;
++/* Title font. */
++h1, h2, h3, h4, h5, h6,
++div.title, caption.title,
++thead, p.table.header,
++#toctitle,
++#author, #revnumber, #revdate, #revremark,
++#footer {
++  font-family: Arial,Helvetica,sans-serif;
 +}
 +
-+static int wdc_do_cap_diag(int fd, char *file, __u32 xfer_size)
- {
- 	int ret;
-+	__u32 e6_log_hdr_size = WDC_NVME_CAP_DIAG_HEADER_TOC_SIZE;
-+	struct wdc_e6_log_hdr *log_hdr;
- 	__u32 cap_diag_length;
-+	int verify_file;
-+
-+ 	/* verify the passed in file name and path is valid before getting the dump data */
-+	verify_file = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-+	if (verify_file < 0) {
-+		fprintf(stderr, "ERROR : WDC: open : %s\n", strerror(errno));
-+		return -1;
-+	}
-+	close(verify_file);
- 
--	ret = wdc_dump_length(fd, WDC_NVME_CAP_DIAG_OPCODE,
--						WDC_NVME_CAP_DIAG_HEADER_TOC_SIZE,
-+	log_hdr = (struct wdc_e6_log_hdr *) malloc(e6_log_hdr_size);
-+	if (log_hdr == NULL) {
-+		fprintf(stderr, "%s: ERROR : malloc : %s\n", __func__, strerror(errno));
-+		return -1;
-+	}
-+	memset(log_hdr, 0, e6_log_hdr_size);
-+
-+	ret = wdc_dump_length_e6(fd, WDC_NVME_CAP_DIAG_OPCODE,
-+						WDC_NVME_CAP_DIAG_HEADER_TOC_SIZE>>2,
- 						0x00,
--						&cap_diag_length);
-+						log_hdr);
- 	if (ret == -1) {
-+		free(log_hdr);
- 		return -1;
- 	}
-+
-+	cap_diag_length = (log_hdr->log_size[0] << 24 | log_hdr->log_size[1] << 16 |
-+			log_hdr->log_size[2] << 8 | log_hdr->log_size[3]);
-+
- 	if (cap_diag_length == 0) {
--		fprintf(stderr, "INFO : WDC : Capture Dignostics log is empty\n");
-+		fprintf(stderr, "INFO : WDC : Capture Diagnostics log is empty\n");
- 	} else {
--		ret = wdc_do_dump(fd, WDC_NVME_CAP_DIAG_OPCODE, cap_diag_length,
--				cap_diag_length,
--				(WDC_NVME_CAP_DIAG_SUBCMD << WDC_NVME_SUBCMD_SHIFT) |
--				 WDC_NVME_CAP_DIAG_CMD, cap_diag_length, file);
-+		if (xfer_size == 0)
-+			xfer_size = cap_diag_length;
- 
-+		ret = wdc_do_dump_e6(fd, WDC_NVME_CAP_DIAG_OPCODE, cap_diag_length,
-+						(WDC_NVME_CAP_DIAG_SUBCMD << WDC_NVME_SUBCMD_SHIFT) | WDC_NVME_CAP_DIAG_CMD,
-+						file, xfer_size, (__u8 *)log_hdr);
-+
-+		fprintf(stderr, "INFO : WDC : Capture Diagnostics log, length = 0x%x\n", cap_diag_length);
- 	}
-+
-+	free(log_hdr);
- 	return ret;
- }
- 
- static int wdc_cap_diag(int argc, char **argv, struct command *command,
- 		struct plugin *plugin)
- {
--	const char *desc = "Capture Diagnostics Log.";
--	const char *file = "Output file pathname.";
-+	char *desc = "Capture Diagnostics Log.";
-+	char *file = "Output file pathname.";
-+	char *size = "Data retrieval transfer size.";
- 	char f[PATH_MAX] = {0};
-+	__u32 xfer_size = 0;
- 	int fd;
- 
- 	struct config {
- 		char *file;
-+		__u32 xfer_size;
- 	};
- 
- 	struct config cfg = {
--		.file = NULL
-+		.file = NULL,
-+		.xfer_size = 0x10000
- 	};
- 
- 	const struct argconfig_commandline_options command_line_options[] = {
- 		{"output-file", 'o', "FILE", CFG_STRING, &cfg.file, required_argument, file},
-+		{"transfer-size", 's', "NUM", CFG_POSITIVE, &cfg.xfer_size, required_argument, size},
- 		{ NULL, '\0', NULL, CFG_NONE, NULL, no_argument, desc},
- 		{NULL}
- 	};
-@@ -818,6 +937,9 @@ static int wdc_cap_diag(int argc, char **argv, struct command *command,
- 	if (cfg.file != NULL) {
- 		strncpy(f, cfg.file, PATH_MAX - 1);
- 	}
-+	if (cfg.xfer_size != 0) {
-+		xfer_size = cfg.xfer_size;
-+	}
- 	if (wdc_get_serial_name(fd, f, PATH_MAX, "cap_diag") == -1) {
- 		fprintf(stderr, "ERROR : WDC: failed to generate file name\n");
- 		return -1;
-@@ -827,7 +949,7 @@ static int wdc_cap_diag(int argc, char **argv, struct command *command,
- 		wdc_check_device_match(fd, WDC_NVME_VID, WDC_NVME_SN200_DEV_ID) ||
- 		wdc_check_device_match(fd, WDC_NVME_VID_2, WDC_NVME_SN310_DEV_ID) ||
- 		wdc_check_device_match(fd, WDC_NVME_VID_2, WDC_NVME_SN510_DEV_ID)) {
--		return wdc_do_cap_diag(fd, f);
-+		return wdc_do_cap_diag(fd, f, xfer_size);
- 	} else {
- 		fprintf(stderr, "ERROR : WDC: unsupported device for cap-diag command\n");
- 	}
-@@ -835,6 +957,72 @@ static int wdc_cap_diag(int argc, char **argv, struct command *command,
- 	return 0;
- }
- 
-+static int wdc_internal_fw_log(int argc, char **argv, struct command *command,
-+               struct plugin *plugin)
-+{
-+	char *desc = "Internal Firmware Log.";
-+	char *file = "Output file pathname.";
-+	char *size = "Data retrieval transfer size.";
-+	char f[PATH_MAX] = {0};
-+	char fileSuffix[PATH_MAX] = {0};
-+	__u32 xfer_size = 0;
-+	int fd;
-+	UtilsTimeInfo             timeInfo;
-+	__u8                      timeStamp[MAX_PATH_LEN];
-+
-+	struct config {
-+		char *file;
-+		__u32 xfer_size;
-+	};
-+
-+	struct config cfg = {
-+		.file = NULL,
-+		.xfer_size = 0x10000
-+	};
-+
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{"output-file", 'o', "FILE", CFG_STRING, &cfg.file, required_argument, file},
-+		{"transfer-size", 's', "NUM", CFG_POSITIVE, &cfg.xfer_size, required_argument, size},
-+		{ NULL, '\0', NULL, CFG_NONE, NULL, no_argument, desc},
-+		{NULL}
-+	};
-+
-+	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
-+	if (fd < 0)
-+		return fd;
-+
-+	if (cfg.xfer_size != 0) {
-+		xfer_size = cfg.xfer_size;
-+	}
-+
-+	if (cfg.file != NULL) {
-+		strncpy(f, cfg.file, PATH_MAX - 1);
-+	} else {
-+		wdc_UtilsGetTime(&timeInfo);
-+		memset(timeStamp, 0, sizeof(timeStamp));
-+		wdc_UtilsSnprintf((char*)timeStamp, MAX_PATH_LEN, "%02u%02u%02u_%02u%02u%02u",
-+			timeInfo.year, timeInfo.month, timeInfo.dayOfMonth,
-+			timeInfo.hour, timeInfo.minute, timeInfo.second);
-+		snprintf(fileSuffix, PATH_MAX, "_internal_fw_log_%s", (char*)timeStamp);
-+
-+		if (wdc_get_serial_name(fd, f, PATH_MAX, fileSuffix) == -1) {
-+			fprintf(stderr, "ERROR : WDC: failed to generate file name\n");
-+			return -1;
-+		}
-+	}
-+	fprintf(stderr, "%s: filename = %s\n", __func__, f);
-+
-+	if (wdc_check_device_match(fd, WDC_NVME_VID, WDC_NVME_SN100_DEV_ID) ||
-+		wdc_check_device_match(fd, WDC_NVME_VID, WDC_NVME_SN200_DEV_ID) ||
-+		wdc_check_device_match(fd, WDC_NVME_VID_2, WDC_NVME_SN310_DEV_ID) ||
-+		wdc_check_device_match(fd, WDC_NVME_VID_2, WDC_NVME_SN510_DEV_ID)) {
-+		return wdc_do_cap_diag(fd, f, xfer_size);
-+	} else {
-+		fprintf(stderr, "ERROR : WDC: unsupported device for internal_fw_log command\n");
-+		return -1;
-+	}
++body {
++  margin: 1em 5% 1em 5%;
 +}
 +
- static int wdc_do_crash_dump(int fd, char *file)
- {
- 	int ret;
-diff --git a/wdc-nvme.h b/wdc-nvme.h
-index 415bbc0..f5531a2 100644
---- a/wdc-nvme.h
-+++ b/wdc-nvme.h
-@@ -14,6 +14,7 @@ PLUGIN(NAME("wdc", "Western Digital vendor specific extensions"),
- 		ENTRY("id-ctrl", "WDC identify controller", wdc_id_ctrl)
- 		ENTRY("purge", "WDC Purge", wdc_purge)
- 		ENTRY("purge-monitor", "WDC Purge Monitor", wdc_purge_monitor)
-+		ENTRY("vs-internal-log", "WDC Internal Firmware Log", wdc_internal_fw_log)
- 		ENTRY("smart-add-log", "WDC Additional Smart Log", wdc_smart_add_log)
- 		ENTRY("clear-pcie-corr", "WDC Clear PCIe Correctable Error Count", wdc_clear_pcie_corr)
- 		ENTRY("drive-essentials", "WDC Drive Essentials", wdc_drive_essentials)
++a {
++  color: blue;
++  text-decoration: underline;
++}
++a:visited {
++  color: fuchsia;
++}
++
++em {
++  font-style: italic;
++  color: navy;
++}
++
++strong {
++  font-weight: bold;
++  color: #083194;
++}
++
++h1, h2, h3, h4, h5, h6 {
++  color: #527bbd;
++  margin-top: 1.2em;
++  margin-bottom: 0.5em;
++  line-height: 1.3;
++}
++
++h1, h2, h3 {
++  border-bottom: 2px solid silver;
++}
++h2 {
++  padding-top: 0.5em;
++}
++h3 {
++  float: left;
++}
++h3 + * {
++  clear: left;
++}
++h5 {
++  font-size: 1.0em;
++}
++
++div.sectionbody {
++  margin-left: 0;
++}
++
++hr {
++  border: 1px solid silver;
++}
++
++p {
++  margin-top: 0.5em;
++  margin-bottom: 0.5em;
++}
++
++ul, ol, li > p {
++  margin-top: 0;
++}
++ul > li     { color: #aaa; }
++ul > li > * { color: black; }
++
++.monospaced, code, pre {
++  font-family: "Courier New", Courier, monospace;
++  font-size: inherit;
++  color: navy;
++  padding: 0;
++  margin: 0;
++}
++
++
++#author {
++  color: #527bbd;
++  font-weight: bold;
++  font-size: 1.1em;
++}
++#email {
++}
++#revnumber, #revdate, #revremark {
++}
++
++#footer {
++  font-size: small;
++  border-top: 2px solid silver;
++  padding-top: 0.5em;
++  margin-top: 4.0em;
++}
++#footer-text {
++  float: left;
++  padding-bottom: 0.5em;
++}
++#footer-badges {
++  float: right;
++  padding-bottom: 0.5em;
++}
++
++#preamble {
++  margin-top: 1.5em;
++  margin-bottom: 1.5em;
++}
++div.imageblock, div.exampleblock, div.verseblock,
++div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
++div.admonitionblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.admonitionblock {
++  margin-top: 2.0em;
++  margin-bottom: 2.0em;
++  margin-right: 10%;
++  color: #606060;
++}
++
++div.content { /* Block element content. */
++  padding: 0;
++}
++
++/* Block element titles. */
++div.title, caption.title {
++  color: #527bbd;
++  font-weight: bold;
++  text-align: left;
++  margin-top: 1.0em;
++  margin-bottom: 0.5em;
++}
++div.title + * {
++  margin-top: 0;
++}
++
++td div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content div.title:first-child {
++  margin-top: 0.0em;
++}
++div.content + div.title {
++  margin-top: 0.0em;
++}
++
++div.sidebarblock > div.content {
++  background: #ffffee;
++  border: 1px solid #dddddd;
++  border-left: 4px solid #f0f0f0;
++  padding: 0.5em;
++}
++
++div.listingblock > div.content {
++  border: 1px solid #dddddd;
++  border-left: 5px solid #f0f0f0;
++  background: #f8f8f8;
++  padding: 0.5em;
++}
++
++div.quoteblock, div.verseblock {
++  padding-left: 1.0em;
++  margin-left: 1.0em;
++  margin-right: 10%;
++  border-left: 5px solid #f0f0f0;
++  color: #888;
++}
++
++div.quoteblock > div.attribution {
++  padding-top: 0.5em;
++  text-align: right;
++}
++
++div.verseblock > pre.content {
++  font-family: inherit;
++  font-size: inherit;
++}
++div.verseblock > div.attribution {
++  padding-top: 0.75em;
++  text-align: left;
++}
++/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
++div.verseblock + div.attribution {
++  text-align: left;
++}
++
++div.admonitionblock .icon {
++  vertical-align: top;
++  font-size: 1.1em;
++  font-weight: bold;
++  text-decoration: underline;
++  color: #527bbd;
++  padding-right: 0.5em;
++}
++div.admonitionblock td.content {
++  padding-left: 0.5em;
++  border-left: 3px solid #dddddd;
++}
++
++div.exampleblock > div.content {
++  border-left: 3px solid #dddddd;
++  padding-left: 0.5em;
++}
++
++div.imageblock div.content { padding-left: 0; }
++span.image img { border-style: none; }
++a.image:visited { color: white; }
++
++dl {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++dt {
++  margin-top: 0.5em;
++  margin-bottom: 0;
++  font-style: normal;
++  color: navy;
++}
++dd > *:first-child {
++  margin-top: 0.1em;
++}
++
++ul, ol {
++    list-style-position: outside;
++}
++ol.arabic {
++  list-style-type: decimal;
++}
++ol.loweralpha {
++  list-style-type: lower-alpha;
++}
++ol.upperalpha {
++  list-style-type: upper-alpha;
++}
++ol.lowerroman {
++  list-style-type: lower-roman;
++}
++ol.upperroman {
++  list-style-type: upper-roman;
++}
++
++div.compact ul, div.compact ol,
++div.compact p, div.compact p,
++div.compact div, div.compact div {
++  margin-top: 0.1em;
++  margin-bottom: 0.1em;
++}
++
++tfoot {
++  font-weight: bold;
++}
++td > div.verse {
++  white-space: pre;
++}
++
++div.hdlist {
++  margin-top: 0.8em;
++  margin-bottom: 0.8em;
++}
++div.hdlist tr {
++  padding-bottom: 15px;
++}
++dt.hdlist1.strong, td.hdlist1.strong {
++  font-weight: bold;
++}
++td.hdlist1 {
++  vertical-align: top;
++  font-style: normal;
++  padding-right: 0.8em;
++  color: navy;
++}
++td.hdlist2 {
++  vertical-align: top;
++}
++div.hdlist.compact tr {
++  margin: 0;
++  padding-bottom: 0;
++}
++
++.comment {
++  background: yellow;
++}
++
++.footnote, .footnoteref {
++  font-size: 0.8em;
++}
++
++span.footnote, span.footnoteref {
++  vertical-align: super;
++}
++
++#footnotes {
++  margin: 20px 0 20px 0;
++  padding: 7px 0 0 0;
++}
++
++#footnotes div.footnote {
++  margin: 0 0 5px 0;
++}
++
++#footnotes hr {
++  border: none;
++  border-top: 1px solid silver;
++  height: 1px;
++  text-align: left;
++  margin-left: 0;
++  width: 20%;
++  min-width: 100px;
++}
++
++div.colist td {
++  padding-right: 0.5em;
++  padding-bottom: 0.3em;
++  vertical-align: top;
++}
++div.colist td img {
++  margin-top: 0.3em;
++}
++
++ at media print {
++  #footer-badges { display: none; }
++}
++
++#toc {
++  margin-bottom: 2.5em;
++}
++
++#toctitle {
++  color: #527bbd;
++  font-size: 1.1em;
++  font-weight: bold;
++  margin-top: 1.0em;
++  margin-bottom: 0.1em;
++}
++
++div.toclevel0, div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
++  margin-top: 0;
++  margin-bottom: 0;
++}
++div.toclevel2 {
++  margin-left: 2em;
++  font-size: 0.9em;
++}
++div.toclevel3 {
++  margin-left: 4em;
++  font-size: 0.9em;
++}
++div.toclevel4 {
++  margin-left: 6em;
++  font-size: 0.9em;
++}
++
++span.aqua { color: aqua; }
++span.black { color: black; }
++span.blue { color: blue; }
++span.fuchsia { color: fuchsia; }
++span.gray { color: gray; }
++span.green { color: green; }
++span.lime { color: lime; }
++span.maroon { color: maroon; }
++span.navy { color: navy; }
++span.olive { color: olive; }
++span.purple { color: purple; }
++span.red { color: red; }
++span.silver { color: silver; }
++span.teal { color: teal; }
++span.white { color: white; }
++span.yellow { color: yellow; }
++
++span.aqua-background { background: aqua; }
++span.black-background { background: black; }
++span.blue-background { background: blue; }
++span.fuchsia-background { background: fuchsia; }
++span.gray-background { background: gray; }
++span.green-background { background: green; }
++span.lime-background { background: lime; }
++span.maroon-background { background: maroon; }
++span.navy-background { background: navy; }
++span.olive-background { background: olive; }
++span.purple-background { background: purple; }
++span.red-background { background: red; }
++span.silver-background { background: silver; }
++span.teal-background { background: teal; }
++span.white-background { background: white; }
++span.yellow-background { background: yellow; }
++
++span.big { font-size: 2em; }
++span.small { font-size: 0.6em; }
++
++span.underline { text-decoration: underline; }
++span.overline { text-decoration: overline; }
++span.line-through { text-decoration: line-through; }
++
++div.unbreakable { page-break-inside: avoid; }
++
++
++/*
++ * xhtml11 specific
++ *
++ * */
++
++div.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++div.tableblock > table {
++  border: 3px solid #527bbd;
++}
++thead, p.table.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.table {
++  margin-top: 0;
++}
++/* Because the table frame attribute is overriden by CSS in most browsers. */
++div.tableblock > table[frame="void"] {
++  border-style: none;
++}
++div.tableblock > table[frame="hsides"] {
++  border-left-style: none;
++  border-right-style: none;
++}
++div.tableblock > table[frame="vsides"] {
++  border-top-style: none;
++  border-bottom-style: none;
++}
++
++
++/*
++ * html5 specific
++ *
++ * */
++
++table.tableblock {
++  margin-top: 1.0em;
++  margin-bottom: 1.5em;
++}
++thead, p.tableblock.header {
++  font-weight: bold;
++  color: #527bbd;
++}
++p.tableblock {
++  margin-top: 0;
++}
++table.tableblock {
++  border-width: 3px;
++  border-spacing: 0px;
++  border-style: solid;
++  border-color: #527bbd;
++  border-collapse: collapse;
++}
++th.tableblock, td.tableblock {
++  border-width: 1px;
++  padding: 4px;
++  border-style: solid;
++  border-color: #527bbd;
++}
++
++table.tableblock.frame-topbot {
++  border-left-style: hidden;
++  border-right-style: hidden;
++}
++table.tableblock.frame-sides {
++  border-top-style: hidden;
++  border-bottom-style: hidden;
++}
++table.tableblock.frame-none {
++  border-style: hidden;
++}
++
++th.tableblock.halign-left, td.tableblock.halign-left {
++  text-align: left;
++}
++th.tableblock.halign-center, td.tableblock.halign-center {
++  text-align: center;
++}
++th.tableblock.halign-right, td.tableblock.halign-right {
++  text-align: right;
++}
++
++th.tableblock.valign-top, td.tableblock.valign-top {
++  vertical-align: top;
++}
++th.tableblock.valign-middle, td.tableblock.valign-middle {
++  vertical-align: middle;
++}
++th.tableblock.valign-bottom, td.tableblock.valign-bottom {
++  vertical-align: bottom;
++}
++
++
++/*
++ * manpage specific
++ *
++ * */
++
++body.manpage h1 {
++  padding-top: 0.5em;
++  padding-bottom: 0.5em;
++  border-top: 2px solid silver;
++  border-bottom: 2px solid silver;
++}
++body.manpage h2 {
++  border-style: none;
++}
++body.manpage div.sectionbody {
++  margin-left: 3em;
++}
++
++ at media print {
++  body.manpage div#toc { display: none; }
++}
++
++
++</style>
++<script type="text/javascript">
++/*<![CDATA[*/
++var asciidoc = {  // Namespace.
++
++/////////////////////////////////////////////////////////////////////
++// Table Of Contents generator
++/////////////////////////////////////////////////////////////////////
++
++/* Author: Mihai Bazon, September 2002
++ * http://students.infoiasi.ro/~mishoo
++ *
++ * Table Of Content generator
++ * Version: 0.4
++ *
++ * Feel free to use this script under the terms of the GNU General Public
++ * License, as long as you do not remove or alter this notice.
++ */
++
++ /* modified by Troy D. Hanson, September 2006. License: GPL */
++ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
++
++// toclevels = 1..4.
++toc: function (toclevels) {
++
++  function getText(el) {
++    var text = "";
++    for (var i = el.firstChild; i != null; i = i.nextSibling) {
++      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
++        text += i.data;
++      else if (i.firstChild != null)
++        text += getText(i);
++    }
++    return text;
++  }
++
++  function TocEntry(el, text, toclevel) {
++    this.element = el;
++    this.text = text;
++    this.toclevel = toclevel;
++  }
++
++  function tocEntries(el, toclevels) {
++    var result = new Array;
++    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
++    // Function that scans the DOM tree for header elements (the DOM2
++    // nodeIterator API would be a better technique but not supported by all
++    // browsers).
++    var iterate = function (el) {
++      for (var i = el.firstChild; i != null; i = i.nextSibling) {
++        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
++          var mo = re.exec(i.tagName);
++          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
++            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
++          }
++          iterate(i);
++        }
++      }
++    }
++    iterate(el);
++    return result;
++  }
++
++  var toc = document.getElementById("toc");
++  if (!toc) {
++    return;
++  }
++
++  // Delete existing TOC entries in case we're reloading the TOC.
++  var tocEntriesToRemove = [];
++  var i;
++  for (i = 0; i < toc.childNodes.length; i++) {
++    var entry = toc.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div'
++     && entry.getAttribute("class")
++     && entry.getAttribute("class").match(/^toclevel/))
++      tocEntriesToRemove.push(entry);
++  }
++  for (i = 0; i < tocEntriesToRemove.length; i++) {
++    toc.removeChild(tocEntriesToRemove[i]);
++  }
++
++  // Rebuild TOC entries.
++  var entries = tocEntries(document.getElementById("content"), toclevels);
++  for (var i = 0; i < entries.length; ++i) {
++    var entry = entries[i];
++    if (entry.element.id == "")
++      entry.element.id = "_toc_" + i;
++    var a = document.createElement("a");
++    a.href = "#" + entry.element.id;
++    a.appendChild(document.createTextNode(entry.text));
++    var div = document.createElement("div");
++    div.appendChild(a);
++    div.className = "toclevel" + entry.toclevel;
++    toc.appendChild(div);
++  }
++  if (entries.length == 0)
++    toc.parentNode.removeChild(toc);
++},
++
++
++/////////////////////////////////////////////////////////////////////
++// Footnotes generator
++/////////////////////////////////////////////////////////////////////
++
++/* Based on footnote generation code from:
++ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
++ */
++
++footnotes: function () {
++  // Delete existing footnote entries in case we're reloading the footnodes.
++  var i;
++  var noteholder = document.getElementById("footnotes");
++  if (!noteholder) {
++    return;
++  }
++  var entriesToRemove = [];
++  for (i = 0; i < noteholder.childNodes.length; i++) {
++    var entry = noteholder.childNodes[i];
++    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
++      entriesToRemove.push(entry);
++  }
++  for (i = 0; i < entriesToRemove.length; i++) {
++    noteholder.removeChild(entriesToRemove[i]);
++  }
++
++  // Rebuild footnote entries.
++  var cont = document.getElementById("content");
++  var spans = cont.getElementsByTagName("span");
++  var refs = {};
++  var n = 0;
++  for (i=0; i<spans.length; i++) {
++    if (spans[i].className == "footnote") {
++      n++;
++      var note = spans[i].getAttribute("data-note");
++      if (!note) {
++        // Use [\s\S] in place of . so multi-line matches work.
++        // Because JavaScript has no s (dotall) regex flag.
++        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
++        spans[i].innerHTML =
++          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++        spans[i].setAttribute("data-note", note);
++      }
++      noteholder.innerHTML +=
++        "<div class='footnote' id='_footnote_" + n + "'>" +
++        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
++        n + "</a>. " + note + "</div>";
++      var id =spans[i].getAttribute("id");
++      if (id != null) refs["#"+id] = n;
++    }
++  }
++  if (n == 0)
++    noteholder.parentNode.removeChild(noteholder);
++  else {
++    // Process footnoterefs.
++    for (i=0; i<spans.length; i++) {
++      if (spans[i].className == "footnoteref") {
++        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
++        href = href.match(/#.*/)[0];  // Because IE return full URL.
++        n = refs[href];
++        spans[i].innerHTML =
++          "[<a href='#_footnote_" + n +
++          "' title='View footnote' class='footnote'>" + n + "</a>]";
++      }
++    }
++  }
++},
++
++install: function(toclevels) {
++  var timerId;
++
++  function reinstall() {
++    asciidoc.footnotes();
++    if (toclevels) {
++      asciidoc.toc(toclevels);
++    }
++  }
++
++  function reinstallAndRemoveTimer() {
++    clearInterval(timerId);
++    reinstall();
++  }
++
++  timerId = setInterval(reinstall, 500);
++  if (document.addEventListener)
++    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
++  else
++    window.onload = reinstallAndRemoveTimer;
++}
++
++}
++asciidoc.install();
++/*]]>*/
++</script>
++</head>
++<body class="manpage">
++<div id="header">
++<h1>
++nvme-wdc-vs-internal-log(1) Manual Page
++</h1>
++<h2>NAME</h2>
++<div class="sectionbody">
++<p>nvme-wdc-vs-internal-log -
++   Retrieve WDC device's internal firmware log and save to file.
++</p>
++</div>
++</div>
++<div id="content">
++<div class="sect1">
++<h2 id="_synopsis">SYNOPSIS</h2>
++<div class="sectionbody">
++<div class="verseblock">
++<pre class="content"><em>nvme wdc vs-internal-log</em> &lt;device&gt; [--output-file=&lt;FILE&gt;, -o &lt;FILE&gt;] [--transfer-size=&lt;SIZE&gt;, -s &lt;SIZE&gt;]</pre>
++<div class="attribution">
++</div></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_description">DESCRIPTION</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>For the NVMe device given, sends the WDC Vendor Specific Internal Log request and saves
++the result to a file.</p></div>
++<div class="paragraph"><p>The &lt;device&gt; parameter is mandatory NVMe character device (ex: /dev/nvme0).</p></div>
++<div class="paragraph"><p>This will only work on WDC devices supporting this feature.
++Results for any other device are undefined.</p></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_options">OPTIONS</h2>
++<div class="sectionbody">
++<div class="dlist"><dl>
++<dt class="hdlist1">
++-o &lt;FILE&gt;
++</dt>
++<dt class="hdlist1">
++--output-file=&lt;FILE&gt;
++</dt>
++<dd>
++<p>
++        Output file; defaults to device serial number followed by "<em>internal_fw_log</em>&lt;date&gt;_&lt;time&gt;.bin" suffix
++</p>
++</dd>
++<dt class="hdlist1">
++-s &lt;SIZE&gt;
++</dt>
++<dt class="hdlist1">
++--transfer-size=&lt;SIZE&gt;
++</dt>
++<dd>
++<p>
++    Transfer size; defaults to 0x10000 (65536 decimal) bytes
++</p>
++</dd>
++</dl></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_examples">EXAMPLES</h2>
++<div class="sectionbody">
++<div class="ulist"><ul>
++<li>
++<p>
++Gets the internal firmware log from the device and saves to default file in current directory (e.g. STM00019F3F9_internal_fw_log_20171127_095704.bin):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc vs-internal-log /dev/nvme0</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Gets the internal firmware log from the device and saves to defined file in current directory (e.g. test.bin):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc vs-internal-log /dev/nvme0 -o test.bin</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Gets the internal firmware log from the device and saves to defined file with pathname (e.g. /tmp/test):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc vs-internal-log /dev/nvme0 -o /tmp/test</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Gets the internal firmware log from the device transferring the data in 64k chunks and saves to default file in current directory (e.g. STM00019F3F9_internal_fw_log_20171127_100754.bin):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc vs-internal-log /dev/nvme0 -s 0x10000</code></pre>
++</div></div>
++</li>
++<li>
++<p>
++Gets the internal firmware log from the device transferring the data in 16k chunks and saves to default file in current directory (e.g. STM00019F3F9_internal_fw_log_20171127_100950.bin):
++</p>
++<div class="listingblock">
++<div class="content">
++<pre><code># nvme wdc vs-internal-log /dev/nvme0 -s 16384</code></pre>
++</div></div>
++</li>
++</ul></div>
++</div>
++</div>
++<div class="sect1">
++<h2 id="_nvme">NVME</h2>
++<div class="sectionbody">
++<div class="paragraph"><p>Part of the nvme-user suite.</p></div>
++</div>
++</div>
++</div>
++<div id="footnotes"><hr /></div>
++<div id="footer">
++<div id="footer-text">
++Last updated 2018-02-02 16:17:51 CST
++</div>
++</div>
++</body>
++</html>
+diff --git a/Documentation/nvme-wdc-vs-internal-log.txt b/Documentation/nvme-wdc-vs-internal-log.txt
+new file mode 100644
+index 0000000..8a04863
+--- /dev/null
++++ b/Documentation/nvme-wdc-vs-internal-log.txt
+@@ -0,0 +1,64 @@
++nvme-wdc-vs-internal-log(1)
++===========================
++
++NAME
++----
++nvme-wdc-vs-internal-log - Retrieve WDC device's internal firmware log and save to file.
++
++SYNOPSIS
++--------
++[verse]
++'nvme wdc vs-internal-log' <device> [--output-file=<FILE>, -o <FILE>] [--transfer-size=<SIZE>, -s <SIZE>]
++
++DESCRIPTION
++-----------
++
++For the NVMe device given, sends the WDC Vendor Specific Internal Log request and saves
++the result to a file.
++
++The <device> parameter is mandatory NVMe character device (ex: /dev/nvme0).
++
++This will only work on WDC devices supporting this feature.
++Results for any other device are undefined.
++
++OPTIONS
++-------
++-o <FILE>::
++--output-file=<FILE>::
++	Output file; defaults to device serial number followed by "_internal_fw_log_<date>_<time>.bin" suffix
++
++-s <SIZE>::
++--transfer-size=<SIZE>::
++    Transfer size; defaults to 0x10000 (65536 decimal) bytes
++
++EXAMPLES
++--------
++* Gets the internal firmware log from the device and saves to default file in current directory (e.g. STM00019F3F9_internal_fw_log_20171127_095704.bin):
+++
++------------
++# nvme wdc vs-internal-log /dev/nvme0
++------------
++* Gets the internal firmware log from the device and saves to defined file in current directory (e.g. test.bin):
+++
++------------
++# nvme wdc vs-internal-log /dev/nvme0 -o test.bin
++------------
++* Gets the internal firmware log from the device and saves to defined file with pathname (e.g. /tmp/test):
+++
++------------
++# nvme wdc vs-internal-log /dev/nvme0 -o /tmp/test
++------------
++* Gets the internal firmware log from the device transferring the data in 64k chunks and saves to default file in current directory (e.g. STM00019F3F9_internal_fw_log_20171127_100754.bin):
+++
++------------
++# nvme wdc vs-internal-log /dev/nvme0 -s 0x10000
++------------
++* Gets the internal firmware log from the device transferring the data in 16k chunks and saves to default file in current directory (e.g. STM00019F3F9_internal_fw_log_20171127_100950.bin):
+++
++------------
++# nvme wdc vs-internal-log /dev/nvme0 -s 16384
++------------
++
++NVME
++----
++Part of the nvme-user suite.
 -- 
 1.8.3.1
