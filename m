@@ -1,26 +1,32 @@
-From: keith.busch@linux.intel.com (Keith Busch)
-Date: Fri, 12 Oct 2018 13:05:33 -0600
-Subject: [PATCH 2/2] nvme-cli:  Add help text for wdc-plugin command
- vs-internal-log. Update help text for wdc-plugin command cap-diag.
-In-Reply-To: <1539359420-1447-1-git-send-email-jeff.lien@wdc.com>
-References: <1539359420-1447-1-git-send-email-jeff.lien@wdc.com>
-Message-ID: <20181012190533.GB15812@localhost.localdomain>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 15 Oct 2018 09:01:27 +0200
+Subject: [PATCH 0/3] blktests: ANA and FC-Loop support
+Message-ID: <20181015070130.6695-1-hare@suse.de>
 
-On Fri, Oct 12, 2018@03:50:35PM +0000, Jeffrey Lien wrote:
-> Signed-off-by: Jeff Lien <jeff.lien at wdc.com>
-> ---
->  Documentation/nvme-wdc-cap-diag.1           |  57 +-
->  Documentation/nvme-wdc-cap-diag.html        |  43 +-
->  Documentation/nvme-wdc-cap-diag.txt         |  16 +-
->  Documentation/nvme-wdc-vs-internal-log.1    | 163 ++++++
->  Documentation/nvme-wdc-vs-internal-log.html | 859 ++++++++++++++++++++++++++++
->  Documentation/nvme-wdc-vs-internal-log.txt  |  64 +++
->  6 files changed, 1191 insertions(+), 11 deletions(-)
->  create mode 100644 Documentation/nvme-wdc-vs-internal-log.1
->  create mode 100644 Documentation/nvme-wdc-vs-internal-log.html
->  create mode 100644 Documentation/nvme-wdc-vs-internal-log.txt
+Hi all,
 
-Thanks, Jeff. I've applied these, but I yanked out the .html and .1 files
-and regenerated those on my side. Those auto-generated files generally
-have a difficult time merging, so I'd rather to just apply the .txt
-files and update docs periodically or as needed.
+here are two new tests for ANA support and FC-Loop; the latter more
+as a showcase how fcloop is supposed to be setup.
+But also serves as a nice reproducer for fcloop failing to be removed
+properly.
+
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (3):
+  nvme: enable ANA support
+  nvme: add test for ANA state transition
+  nvme: Add test for fcloop
+
+ tests/nvme/018     | 141 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/018.out |  18 +++++++
+ tests/nvme/029     | 123 ++++++++++++++++++++++++++++++++++++++++++++++
+ tests/nvme/029.out |   2 +
+ tests/nvme/rc      | 141 +++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 5 files changed, 422 insertions(+), 3 deletions(-)
+ create mode 100755 tests/nvme/018
+ create mode 100644 tests/nvme/018.out
+ create mode 100755 tests/nvme/029
+ create mode 100644 tests/nvme/029.out
+
+-- 
+2.13.7
