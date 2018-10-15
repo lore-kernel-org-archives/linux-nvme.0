@@ -1,35 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 15 Oct 2018 00:38:31 -0700
-Subject: Help needed: nvmet configuration
-In-Reply-To: <CABnqofxasv=-xbQQ+XZH8jad4Oa0gnvKusk5sF_a-kdSLvK1Ww@mail.gmail.com>
-References: <CABnqofxasv=-xbQQ+XZH8jad4Oa0gnvKusk5sF_a-kdSLvK1Ww@mail.gmail.com>
-Message-ID: <75a10e13-29fd-df82-0289-b4f6948365c0@grimberg.me>
+Date: Mon, 15 Oct 2018 00:50:23 -0700
+Subject: [EXT] Re: bad IOPS when running multiple btest/fio in parallel
+In-Reply-To: <707ebd2e96d9460f9a6188c9cb6ae141@SC-EXCH03.marvell.com>
+References: <1539319463418.78556@marvell.com>
+ <1539359350.249485.6.camel@acm.org>
+ <707ebd2e96d9460f9a6188c9cb6ae141@SC-EXCH03.marvell.com>
+Message-ID: <f5349a26-0cae-8a3b-30e8-cdf16d8fd74f@grimberg.me>
 
 
-> /ports/1> set addr adrfam=ipv4
+> Thanks Bart. In my original post, I list the performance from 2 different 100G NICs. I worked with the engineer for the NIC that performs better. Their driver does support large number of IRQ which are assigned to all 28 CPUs in a round-robin manner. But even with this  design, that NIC can hit only 76Gb/s for RoCEv2 traffic.
 > 
-> Parameter adrfam is now 'ipv4'.
-> 
-> /ports/1> set addr trtype=rdma
-> 
-> Parameter trtype is now 'rdma'.
-> 
-> /ports/1> set addr trsvcid=4420
-> 
-> Parameter trsvcid is now '4420'.
-> 
-> /ports/1> set addr traddr=12.12.12.38
-> 
-> Parameter traddr is now '12.12.12.38'.
+> I haven't got the response from the other NIC vendor. Their RoCEv2 throughput has never exceed 55Gb/s. I will take a look at the source code.
 
-So you set this but
+What kernel version are you running?
 
-....
-
-> enp216s0f0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 9000
-> 
->          inet 12.12.14.38  netmask 255.255.255.0  broadcast 12.12.14.255
-
-This is the device IP address. You are trying to have an rdma listener
-on an IP addressed that is not resolved to any device, which explains
-the ENODEV error you are seeing...
+Do you happen to run irq balancer?
