@@ -1,31 +1,43 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 Oct 2018 11:44:07 +0200
-Subject: [PATCHv2] nvme/pci: Fix hot removal during error handling
-In-Reply-To: <97d2a54a-0c0d-f561-23c5-cb10d77ce5f0@grimberg.me>
-References: <20181005150927.24120-1-keith.busch@intel.com>
- <d4d7fa23-99b6-de4e-cee5-24205372ac05@grimberg.me>
- <20181005195136.GB24524@localhost.localdomain>
- <97d2a54a-0c0d-f561-23c5-cb10d77ce5f0@grimberg.me>
-Message-ID: <20181015094407.GA28869@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 15 Oct 2018 10:19:06 -0600
+Subject: [PATCHv3] nvme/pci: Fix hot removal during error handling
+Message-ID: <20181015161906.15741-1-keith.busch@intel.com>
 
-On Fri, Oct 05, 2018@01:24:24PM -0700, Sagi Grimberg wrote:
->
->>>> -	flush_work(&dev->ctrl.reset_work);
->>>> +	cancel_work_sync(&dev->ctrl.reset_work);
->>>
->>> Does reset_work requeue itself? if not I don't fully understand
->>> this change.
->>
->> You'd have to abuse the state machine if reset_work wanted to requeue
->> itself, so that shouldn't happen.
->>
->> We could just leave it as a flush work, and that should be okay too. The
->> cancel_work_sync should accomplish the same, but also prevent the work
->> from even starting if it just so happens to have been pending in a
->> work queue, but that seems very unlikely.
->
-> I don't mind, but was looking to understand what it is trying to
-> achieve. If you do change that, would be a good idea to include it in
-> the change log
+A removal waits for the reset_work to complete. If a surprise removal
+occurs around the same time as an error triggered controller reset, and
+reset work happened to dispatch a command to the removed controller, the
+command won't be recovered since the timeout work doesn't do anything
+during error recovery. We wouldn't want to wait for timeout handling
+anyway, so this patch fixes this by disabling the controller and killing
+admin queues prior to syncing with the reset_work.
 
-Keith, any plans to resend?  Or should I take this one after all?
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v2->v3:
+  Just keep the existing flush_work instead of replacing it with
+  cancel_work_sync.
+
+ drivers/nvme/host/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 450481c2fd17..72737009b82d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2564,13 +2564,12 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
+ 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+-
+-	cancel_work_sync(&dev->ctrl.reset_work);
+ 	pci_set_drvdata(pdev, NULL);
+ 
+ 	if (!pci_device_is_present(pdev)) {
+ 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
+ 		nvme_dev_disable(dev, true);
++		nvme_dev_remove_admin(dev);
+ 	}
+ 
+ 	flush_work(&dev->ctrl.reset_work);
+-- 
+2.14.4
