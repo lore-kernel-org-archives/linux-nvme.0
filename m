@@ -1,193 +1,124 @@
 From: Dong.Ho@wdc.com (Dong Ho)
-Date: Tue, 16 Oct 2018 19:26:19 +0000
-Subject: [PATCH 1/2] nvme-cli: Add get and set timestamp commands
-Message-ID: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
+Date: Tue, 16 Oct 2018 19:26:22 +0000
+Subject: [PATCH 2/2] nvme-cli: add help text for get and set timestamp commands
+In-Reply-To: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
+References: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
+Message-ID: <1539743178-6573-2-git-send-email-dong.ho@wdc.com>
 
 ---
- Makefile       |   2 +-
- nvme-builtin.h |   2 +
- nvme.c         | 136 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 139 insertions(+), 1 deletion(-)
+ Documentation/nvme-get-timestamp.txt | 50 ++++++++++++++++++++++++++++++++++++
+ Documentation/nvme-set-timestamp.txt | 46 +++++++++++++++++++++++++++++++++
+ 2 files changed, 96 insertions(+)
+ create mode 100644 Documentation/nvme-get-timestamp.txt
+ create mode 100644 Documentation/nvme-set-timestamp.txt
 
-diff --git a/Makefile b/Makefile
-index 433bc41..645ce5c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -37,7 +37,7 @@ OBJS := argconfig.o suffix.o parser.o nvme-print.o nvme-ioctl.o \
- 	huawei-nvme.o netapp-nvme.o  toshiba-nvme.o micron-nvme.o seagate-nvme.o
- 
- nvme: nvme.c nvme.h $(OBJS) NVME-VERSION-FILE
--	$(CC) $(CPPFLAGS) $(CFLAGS) nvme.c -o $(NVME) $(OBJS) $(LDFLAGS)
-+	$(CC) $(CPPFLAGS) $(CFLAGS) nvme.c -o $(NVME) $(OBJS) $(LDFLAGS) -lm -lrt
- 
- nvme.o: nvme.c nvme.h nvme-print.h nvme-ioctl.h argconfig.h suffix.h nvme-lightnvm.h fabrics.h
- 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index 7cf10ef..e66a2c2 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -67,6 +67,8 @@ COMMAND_LIST(
- 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
- 	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
- 	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
-+	ENTRY("set-timestamp", "Submit a Timestamp set feature command", set_timestamp)
-+	ENTRY("get-timestamp", "Submit a Timestamp get feature command", get_timestamp)
- );
- 
- #endif
-diff --git a/nvme.c b/nvme.c
-index a239322..5a1a4ae 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -36,6 +36,7 @@
- #include <unistd.h>
- #include <math.h>
- #include <dirent.h>
-+#include <time.h>
- 
- #include <linux/fs.h>
- 
-@@ -4623,6 +4624,141 @@ static int admin_passthru(int argc, char **argv, struct command *cmd, struct plu
- 	return passthru(argc, argv, NVME_IOCTL_ADMIN_CMD, desc, cmd);
- }
- 
+diff --git a/Documentation/nvme-get-timestamp.txt b/Documentation/nvme-get-timestamp.txt
+new file mode 100644
+index 0000000..a490fe9
+--- /dev/null
++++ b/Documentation/nvme-get-timestamp.txt
+@@ -0,0 +1,50 @@
++nvme-get-timestamp(1)
++=====================
 +
-+long get_current_time_in_ms(void)
-+{
-+    long            ms; // Milliseconds
-+    time_t          s;  // Seconds
-+    long            ts; // returned timestamp in ms
-+    struct timespec spec;
++NAME
++----
++nvme-get-timestamp - Gets the timestamp feature ID data from the nvme controller.
 +
-+    clock_gettime(CLOCK_REALTIME, &spec);
++SYNOPSIS
++--------
++[verse]
++'nvme get-timestamp' <device>
 +
-+    s  = spec.tv_sec;
-+    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
-+    if (ms > 999) {
-+        s++;
-+        ms = 0;
-+    }
++DESCRIPTION
++-----------
++Gets the timestamp feature id data from the NVMe controller.  The <device> parameter
++is mandatory and must be an NVMe character device (ex: /dev/nvme0).
 +
-+    ts = 1000*s + ms;
++Returns the current timestamp value along the Timestamp Origin and Synch bits.  
 +
-+    return ts;
-+}
++If the origin field is set to 000b, then the returned timestamp value is set to the 
++time in milliseconds since the last controller level reset.  If the origin field is 
++set to 0001b, then the returned timestamp value is set to the last timestamp value
++set by the host plus the time milliseconds since the timestamp was set.
 +
-+static int set_timestamp(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+	const char *desc = "Sends a Timestamp set feature command\n";
-+	int err, fd;
-+	struct nvme_id_ctrl ctrl;
-+	__le64 ts;
-+	__u32 result;
-+	const char *time_stamp = "64-bit Timestamp value in milliseconds since the Epoch";
++The Origin/Synch field is a byte in length with bits defined as follows:
 +
-+	struct config {
-+		__u64 time_stamp;
-+	};
++*  Bits 07:04  Reserved 
++*  Bits 03:01  Timestamp Origin
++**               000b - The timestamp field was initialized to '0' by a Controller Level Reset
++**               001b - The timestamp field was initialized with a value using the set features command.
++**               010b-111b - Reserved
++*  Bit  00     Synch
++**               0b - The controller counted time in milliseconds continuously since the timestamp value was initialized.
++**               1b - The controller may have stopped counting during vendor specific intervals after the timestamp value was initialized.
++                                           
++OPTIONS
++-------
++None
 +
-+	struct config cfg = {
-+		.time_stamp     = -1,
-+	};
++EXAMPLES
++--------
++* Gets the timestamp feature id data from the NVMe controller.
+++
++------------
++# nvme get-timestamp /dev/nvme0
++------------
 +
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{"timestamp",  't', "NUM", CFG_LONG_SUFFIX, &cfg.time_stamp,  required_argument, time_stamp},
-+		{NULL}
-+	};
++NVME
++----
++Part of the nvme-user suite
+diff --git a/Documentation/nvme-set-timestamp.txt b/Documentation/nvme-set-timestamp.txt
+new file mode 100644
+index 0000000..bcaacfc
+--- /dev/null
++++ b/Documentation/nvme-set-timestamp.txt
+@@ -0,0 +1,46 @@
++nvme-set-timestamp(1)
++=====================
 +
-+	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
-+	if (fd < 0)
-+		return fd;
++NAME
++----
++nvme-set-timestamp - Sets a timestamp value in the nvme controller.
 +
-+	err = nvme_identify_ctrl(fd, &ctrl);
-+	if (err < 0) {
-+		perror("Identify Controller");
-+		return errno;
-+	} else	if (!err) {
-+		if (!(ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)) {
-+			fprintf(stderr, "Timestamp Set Feature not supported\n");
-+			return 0;
-+		}
-+	}
-+	else if (err > 0) {
-+		fprintf(stderr, "NVMe Status:%s(%x)\n",
-+				nvme_status_to_string(err), err);
-+	}
++SYNOPSIS
++--------
++[verse]
++'nvme set-timestamp' <device> [--timestamp=<timestamp> | -t <timestamp>]
 +
-+	if (cfg.time_stamp == -1)
-+		ts = get_current_time_in_ms();
-+	else
-+		ts = cfg.time_stamp;
++DESCRIPTION
++-----------
++Sets a timestamp value in NVMe controller.  The timestamp value used must be specified 
++in number of milliseconds.  The <device> parameter is mandatory and must be an NVMe 
++character device (ex: /dev/nvme0).
 +
-+	err = nvme_set_feature(fd, 0, NVME_FEAT_TIMESTAMP, 0, 0,
-+			0, sizeof(ts), &ts, &result);
-+	if (err < 0) {
-+		perror("Set Timestamp");
-+		return errno;
-+	} else if (!err) {
-+		printf("set-feature: %02x (%s), value:%ld\n", NVME_FEAT_TIMESTAMP,
-+				nvme_feature_to_string(NVME_FEAT_TIMESTAMP), (long)ts);
-+	} else if (err > 0) {
-+		fprintf(stderr, "NVMe Status:%s(%x)\n",
-+				nvme_status_to_string(err), err);
-+	}
++OPTIONS
++-------
++-t <timestamp>::
++--timestamp=<timestamp>::
++    Timestamp: This field specifies the timestamp (in milliseconds) value to set.  If one
++    is not specified, it will default to the number of milliseconds that have elapsed 
++    since midnight, January 01, 1970.
 +
-+	return err;
-+}
 +
-+static int get_timestamp(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+	const char *desc = "Sends a Timestamp get feature command\n";
-+	int err, fd;
-+	struct nvme_id_ctrl ctrl;
-+ 	__le64 ts, data;
-+ 	int origin_synch;
-+	__u32 result;
 +
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{NULL}
-+	};
++EXAMPLES
++--------
++* Sets the default timestamp value (milliseconds elapsed since midnight, January 01, 1970) 
++  in the NVMe controller.
+++
++------------
++# nvme set-timestamp /dev/nvme0
++------------
 +
-+	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
-+	if (fd < 0)
-+		return fd;
++* Sets the timestamp value to 0 in the NVMe controller.
+++
++------------
++# nvme set-timestamp /dev/nvme0 -t 0
++------------
 +
-+	err = nvme_identify_ctrl(fd, &ctrl);
-+	if (err < 0) {
-+		perror("Identify Controller");
-+		return errno;
-+	} else	if (!err) {
-+		if (!(ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)) {
-+			fprintf(stderr, "Timestamp Get Feature not supported\n");
-+			return 0;
-+		}
-+	}
-+	else if (err > 0) {
-+		fprintf(stderr, "NVMe Status:%s(%x)\n",
-+				nvme_status_to_string(err), err);
-+	}
-+
-+	err = nvme_get_feature(fd, 0, NVME_FEAT_TIMESTAMP, 0, 0,
-+			sizeof(data), &data, &result);
-+	if (err < 0) {
-+		perror("Get Timestamp");
-+		return errno;
-+	} else if (!err) {
-+		ts = data & 0x0000FFFFFFFFFFFF;
-+		origin_synch = ((data & 0x00FF000000000000) >> 48);
-+
-+		printf("get-feature: %02x (%s), timestamp: %ld, origin/synch: 0x%x\n", NVME_FEAT_TIMESTAMP,
-+			nvme_feature_to_string(NVME_FEAT_TIMESTAMP), (long)ts, origin_synch);
-+	} else if (err > 0) {
-+		fprintf(stderr, "NVMe Status:%s(%x)\n",
-+				nvme_status_to_string(err), err);
-+	}
-+
-+	return err;
-+}
-+
- #ifdef LIBUUID
- static int gen_hostnqn_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
- {
++NVME
++----
++Part of the nvme-user suite
 -- 
 1.8.3.1
