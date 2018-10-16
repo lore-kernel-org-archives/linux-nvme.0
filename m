@@ -1,58 +1,43 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 16 Oct 2018 07:59:37 +0200
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
-References: <20181004212328.30205-1-sagi@grimberg.me>
- <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
- <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
- <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
- <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
- <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
-Message-ID: <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
+From: jay.e.sternberg@intel.com (Jay Sternberg)
+Date: Tue, 16 Oct 2018 10:11:12 -0700
+Subject: [PATCH v2 00/11] nvmet: Enable AENs support for Discovery controllers
+Message-ID: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
 
-On 10/16/18 3:11 AM, Sagi Grimberg wrote:
-> 
->>> Oh, I don't doubt that it'll work in the sense that 'nvme 
->>> connect-all' is executed.
->>> I _do_ doubt that the 'disown' is doing anything at all; both '&' and 
->>> 'disown' will be used as arguments to '/usr/sbin/nvme', and _not_ 
->>> interpreted by any shell (as no shell is invoked in the first place).
->>> Internally udev will call 'execve' to call the new program, which 
->>> will invoke a shell only for shell scripts; binary programs will be 
->>> executed directly with not shell whatsoever.
->>
->> I see, we can run it with /bin/sh and it should do the trick?
-> 
-> Hannes,
-> 
-> Do you agree that it would suffice? Or, Do you think we should take
-> a different approach?
-> 
-> Would like to get some feedback from others given that this is not
-> a trivial decision about which way we go here..
+v2 - corrected two patch descriptions and a patch's author
 
-Actually, I have looked at the original solution from James Smart for 
-FC-NVMe autoconnect.
+Technical proposal 8002 defines enhancements to provide NVMe-oF with
+the same level of resource enumeration as is available with local
+PCIe-based NVMe devices. It defines an NVMe-oF level mechanism for
+notifying provisioned hosts about remote resource state changes
+(i.e., added, removed, modified), specifically Discovery Log changes. 
 
-Essentially he starts a system service from a udev rule, which in itself 
-is triggered by the event.
-With that we're out of the udev program timeout (as systemd services can 
-run for arbitrarily long) _and_ we also have resolved the problem of a 
-uevent storm, as systemd will manage that for us.
+These changes allow an optional explicit persistent connection to
+Discovery controllers, and defines a mechanism to indicate changes
+occurring on Subsystems and Namespace controllers via Asynchronous
+Event Notifications.
 
-The only problem here is that we need to pass arguments to the systemd 
-service, but if we can use the standard udev trick of placing the 
-arguments into the program environment and having the program looking 
-for that we should be able to solve that, too.
+Jay Sternberg (10):
+  nvmet: Provide aen bit functions for multiple controller types
+  nvmet: Change aen mask functions to use bit numbers
+  nvmet: Allow Keep Alive for Discovery controller
+  nvmet: Make kato and AEN processing for use by other controllers
+  nvmet: Add defines for discovery change async events
+  nvmet: Add support to Discovery controllers for commands
+  nvmet: Add parent to nvmet_referral_disable
+  nvmet: Maintain a global list of ports
+  nvmet: Allow all hosts access to the Discovery subsystem
+  nvmet: Enable Discovery Controller AENs
 
-Would you be okay with this approach?
+Phil Cayton (1):
+  nvmet: Provide adding AENs for multiple controller types
 
-Cheers,
+ drivers/nvme/target/admin-cmd.c |  63 +++++++++++----------
+ drivers/nvme/target/configfs.c  |  26 ++++++++-
+ drivers/nvme/target/core.c      |  69 ++++++-----------------
+ drivers/nvme/target/discovery.c | 121 +++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/target/nvmet.h     |  49 ++++++++++++++--
+ include/linux/nvme.h            |  15 ++++-
+ 6 files changed, 247 insertions(+), 96 deletions(-)
 
-Hannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+1.8.3.1
