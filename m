@@ -1,97 +1,50 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Tue, 16 Oct 2018 10:11:21 -0700
-Subject: [PATCH v2 09/11] nvmet: allow host connect even if no allowed
+Date: Tue, 16 Oct 2018 10:11:22 -0700
+Subject: [PATCH v2 10/11] nvmet: Provide adding AENs for multiple controller
+ types
 In-Reply-To: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
 References: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1539709883-12424-10-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1539709883-12424-11-git-send-email-jay.e.sternberg@intel.com>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Phil Cayton <phil.cayton@intel.com>
 
-It is perfectly valid that a host connects to a discovery subsystem
-and gets an empty discovery log page since no subsystems are
-provisioned to it. No reason to disallow connecting to the discovery
-subsystem all together.
+Make nvmet_add_async_event a non-static function in preparation
+for use by other controllers, initally the discovery controller.
 
-
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Phil Cayton <phil.cayton at intel.com>
 Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
-Reviewed-by: Phil Cayton <phil.cayton at intel.com>
 ---
-v2 - corrected author and updated description per authors request
+v2 - unchanged
 
- drivers/nvme/target/core.c      | 20 +++-----------------
- drivers/nvme/target/discovery.c |  2 +-
- drivers/nvme/target/nvmet.h     |  3 +--
- 3 files changed, 5 insertions(+), 20 deletions(-)
+ drivers/nvme/target/core.c  | 2 +-
+ drivers/nvme/target/nvmet.h | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index f5cd31e..67ea1d2 100644
+index 67ea1d2..e9f9996 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -890,26 +890,12 @@ static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
- 	return false;
+@@ -129,7 +129,7 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 	}
  }
  
--static bool nvmet_host_discovery_allowed(struct nvmet_req *req,
--		const char *hostnqn)
--{
--	struct nvmet_subsys_link *s;
--
--	list_for_each_entry(s, &req->port->subsystems, entry) {
--		if (__nvmet_host_allowed(s->subsys, hostnqn))
--			return true;
--	}
--
--	return false;
--}
--
--bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
--		const char *hostnqn)
-+bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
+-static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
  {
- 	lockdep_assert_held(&nvmet_config_sem);
- 
- 	if (subsys->type == NVME_NQN_DISC)
--		return nvmet_host_discovery_allowed(req, hostnqn);
-+		return true;
- 	else
- 		return __nvmet_host_allowed(subsys, hostnqn);
- }
-@@ -933,7 +919,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 
- 	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 	down_read(&nvmet_config_sem);
--	if (!nvmet_host_allowed(req, subsys, hostnqn)) {
-+	if (!nvmet_host_allowed(subsys, hostnqn)) {
- 		pr_info("connect by host %s for subsystem %s not allowed\n",
- 			hostnqn, subsysnqn);
- 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 9ae8208..8798a2f 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -107,7 +107,7 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
- 
- 	down_read(&nvmet_config_sem);
- 	list_for_each_entry(p, &req->port->subsystems, entry) {
--		if (!nvmet_host_allowed(req, p->subsys, ctrl->hostnqn))
-+		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
- 			continue;
- 		if (residual_len >= entry_size) {
- 			char traddr[NVMF_TRADDR_SIZE];
+ 	struct nvmet_async_event *aen;
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index ea93a46..0a65415 100644
+index 0a65415..9bb546d 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -459,8 +459,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- extern u64 nvmet_ana_chgcnt;
- extern struct rw_semaphore nvmet_ana_sem;
+@@ -422,6 +422,8 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
  
--bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
--		const char *hostnqn);
-+bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
+ extern struct list_head *nvmet_ports;
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++		u8 event_info, u8 log_page);
  
- int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
- int nvmet_file_ns_enable(struct nvmet_ns *ns);
+ #define NVMET_QUEUE_SIZE	1024
+ #define NVMET_NR_QUEUES		128
 -- 
 1.8.3.1
