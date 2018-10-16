@@ -1,124 +1,132 @@
-From: Dong.Ho@wdc.com (Dong Ho)
-Date: Tue, 16 Oct 2018 19:26:22 +0000
-Subject: [PATCH 2/2] nvme-cli: add help text for get and set timestamp commands
-In-Reply-To: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
-References: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
-Message-ID: <1539743178-6573-2-git-send-email-dong.ho@wdc.com>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Tue, 16 Oct 2018 12:31:14 -0700
+Subject: [PATCH 3/3] nvme: Add test for fcloop
+In-Reply-To: <c422a0fd-3911-407a-e567-3dcabf1187aa@suse.de>
+References: <20181015070130.6695-1-hare@suse.de>
+ <20181015070130.6695-4-hare@suse.de> <20181015211736.GC23044@vader>
+ <c422a0fd-3911-407a-e567-3dcabf1187aa@suse.de>
+Message-ID: <20181016193114.GG23044@vader>
 
----
- Documentation/nvme-get-timestamp.txt | 50 ++++++++++++++++++++++++++++++++++++
- Documentation/nvme-set-timestamp.txt | 46 +++++++++++++++++++++++++++++++++
- 2 files changed, 96 insertions(+)
- create mode 100644 Documentation/nvme-get-timestamp.txt
- create mode 100644 Documentation/nvme-set-timestamp.txt
+On Tue, Oct 16, 2018@07:50:37AM +0200, Hannes Reinecke wrote:
+> On 10/15/18 11:17 PM, Omar Sandoval wrote:
+> > On Mon, Oct 15, 2018@09:01:30AM +0200, Hannes Reinecke wrote:
+> > > Signed-off-by: Hannes Reinecke <hare at suse.com>
+> > > ---
+> > >   tests/nvme/029     | 123 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >   tests/nvme/029.out |   2 +
+> > >   tests/nvme/rc      |  52 ++++++++++++++++++++++
+> > >   3 files changed, 177 insertions(+)
+> > >   create mode 100755 tests/nvme/029
+> > >   create mode 100644 tests/nvme/029.out
+> > > 
+> > > diff --git a/tests/nvme/029 b/tests/nvme/029
+> > > new file mode 100755
+> > > index 0000000..f8ed9b5
+> > > --- /dev/null
+> > > +++ b/tests/nvme/029
+> > > @@ -0,0 +1,123 @@
+> > > +#!/bin/bash
+> > > +# SPDX-License-Identifier: GPL-2.0+
+> > > +# Copyright (C) 2018 Johannes Thumshirn, Hannes Reinecke, SUSE Linux GmbH
+> > > +#
+> > > +# Reproducer for nvme-fcloop
+> > > +#
+> > > +
+> > > +. tests/nvme/rc
+> > > +
+> > > +DESCRIPTION="create nvme-fcloop with two ports and connect/disconnect"
+> > > +
+> > > +requires() {
+> > > +	_have_module nvme-fcloop && _have_module nvmet && _have_module loop && \
+> > > +		_have_configfs && _have_module nvme-core && \
+> > > +		_have_module nvmet-fc
+> > > +}
+> > > +
+> > > +test() {
+> > > +	local subsys="blktests-subsystem-1"
+> > > +	local remote_wwnn1="0x100140111111dbcc"
+> > > +	local remote_wwpn1="0x200140111111dbcc"
+> > > +	local remote_wwnn2="0x100140111111dbcd"
+> > > +	local remote_wwpn2="0x200140111111dbcd"
+> > > +	local host_wwnn1="0x100140111111dac8"
+> > > +	local host_wwpn1="0x200140111111dac8"
+> > > +	local host_wwnn2="0x100140111111dac9"
+> > > +	local host_wwpn2="0x200140111111dac9"
+> > > +
+> > > +	echo "Running ${TEST_NAME}"
+> > > +
+> > > +	modprobe nvmet-fc
+> > > +	modprobe nvme-fcloop
+> > > +
+> > > +	_nvme_fcloop_add_tport ${remote_wwnn1} ${remote_wwpn1}
+> > > +	_nvme_fcloop_add_tport ${remote_wwnn2} ${remote_wwpn2}
+> > > +
+> > > +	_nvme_fcloop_add_lport ${host_wwnn1} ${host_wwpn1}
+> > > +	_nvme_fcloop_add_lport ${host_wwnn2} ${host_wwpn2}
+> > > +
+> > > +	_nvme_fcloop_add_rport ${host_wwnn1} ${host_wwpn1} \
+> > > +		${remote_wwnn1} ${remote_wwpn1}
+> > > +	_nvme_fcloop_add_rport ${host_wwnn2} ${host_wwpn2} \
+> > > +		${remote_wwnn2} ${remote_wwpn2}
+> > > +
+> > > +	local port1
+> > > +	port1=$(_create_nvmet_port "fc")
+> > > +	ag1="$(_create_nvmet_anagroup "${port1}")"
+> > > +
+> > > +	local port2
+> > > +	port2=$(_create_nvmet_port "fc")
+> > > +	ag2="$(_create_nvmet_anagroup "${port2}")"
+> > > +
+> > > +	local remote_traddr1
+> > > +	remote_traddr1=$(printf "nn-%s:pn-%s" "${remote_wwnn1}" "${remote_wwpn1}")
+> > > +	echo fc > /sys/kernel/config/nvmet/ports/${port1}/addr_adrfam
+> > > +	echo "${remote_traddr1}" > /sys/kernel/config/nvmet/ports/${port1}/addr_traddr
+> > > +
+> > > +	local remote_traddr2
+> > > +	remote_traddr2=$(printf "nn-%s:pn-%s" "${remote_wwnn2}" "${remote_wwpn2}")
+> > > +	echo fc > /sys/kernel/config/nvmet/ports/${port2}/addr_adrfam
+> > > +	echo "${remote_traddr2}" > /sys/kernel/config/nvmet/ports/${port2}/addr_traddr
+> > > +
+> > > +	truncate -s 1G "$TMPDIR/img"
+> > > +
+> > > +	local loop_dev
+> > > +	loop_dev="$(losetup -f --show "$TMPDIR/img")"
+> > > +
+> > > +	_create_nvmet_subsystem "${subsys}" "${loop_dev}" \
+> > > +		"91fdba0d-f87b-4c25-b80f-db7be1418b9e" "1"
+> > > +	_add_nvmet_subsys_to_port "${port1}" "${subsys}"
+> > > +	_add_nvmet_subsys_to_port "${port2}" "${subsys}"
+> > > +
+> > > +	_set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
+> > > +	_set_nvmet_anagroup_state "${port2}" "2" "optimized"
+> > > +
+> > > +	local host_traddr1
+> > > +	host_traddr1=$(printf "nn-%s:pn-%s" "${host_wwnn1}" "${host_wwpn1}")
+> > > +
+> > > +	nvme connect -t fc -a "${remote_traddr1}"  -w "${host_traddr1}" \
+> > > +		-n "${subsys}"
+> > > +
+> > > +	local host_traddr2
+> > > +	host_traddr2=$(printf "nn-%s:pn-%s" "${host_wwnn2}" "${host_wwpn2}")
+> > > +
+> > > +	nvme connect -t fc -a "${remote_traddr2}"  -w "${host_traddr2}" \
+> > > +		-n "${subsys}"
+> > > +
+> > > +	nvmedev="$(_find_nvme_ns 91fdba0d-f87b-4c25-b80f-db7be1418b9e)"
+> > 
+> > nvmedev doesn't seem to be used anywhere (shellcheck warns about this).
+> > 
+> Okay, will be removing the variable
+> 
+> > > +	# Allow I/O to settle
+> > > +	udevadm settle
+> > > +
+> > > +	nvme disconnect -n "${subsys}"
+> > 
+> > This outputs the following with my version (1.6) of nvme:
+> > 
+> > NQN:blktests-subsystem-1 disconnected 2 controller(s)
+> > 
+> And? That's what I expected, so where's the rub?
 
-diff --git a/Documentation/nvme-get-timestamp.txt b/Documentation/nvme-get-timestamp.txt
-new file mode 100644
-index 0000000..a490fe9
---- /dev/null
-+++ b/Documentation/nvme-get-timestamp.txt
-@@ -0,0 +1,50 @@
-+nvme-get-timestamp(1)
-+=====================
-+
-+NAME
-+----
-+nvme-get-timestamp - Gets the timestamp feature ID data from the nvme controller.
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme get-timestamp' <device>
-+
-+DESCRIPTION
-+-----------
-+Gets the timestamp feature id data from the NVMe controller.  The <device> parameter
-+is mandatory and must be an NVMe character device (ex: /dev/nvme0).
-+
-+Returns the current timestamp value along the Timestamp Origin and Synch bits.  
-+
-+If the origin field is set to 000b, then the returned timestamp value is set to the 
-+time in milliseconds since the last controller level reset.  If the origin field is 
-+set to 0001b, then the returned timestamp value is set to the last timestamp value
-+set by the host plus the time milliseconds since the timestamp was set.
-+
-+The Origin/Synch field is a byte in length with bits defined as follows:
-+
-+*  Bits 07:04  Reserved 
-+*  Bits 03:01  Timestamp Origin
-+**               000b - The timestamp field was initialized to '0' by a Controller Level Reset
-+**               001b - The timestamp field was initialized with a value using the set features command.
-+**               010b-111b - Reserved
-+*  Bit  00     Synch
-+**               0b - The controller counted time in milliseconds continuously since the timestamp value was initialized.
-+**               1b - The controller may have stopped counting during vendor specific intervals after the timestamp value was initialized.
-+                                           
-+OPTIONS
-+-------
-+None
-+
-+EXAMPLES
-+--------
-+* Gets the timestamp feature id data from the NVMe controller.
-++
-+------------
-+# nvme get-timestamp /dev/nvme0
-+------------
-+
-+NVME
-+----
-+Part of the nvme-user suite
-diff --git a/Documentation/nvme-set-timestamp.txt b/Documentation/nvme-set-timestamp.txt
-new file mode 100644
-index 0000000..bcaacfc
---- /dev/null
-+++ b/Documentation/nvme-set-timestamp.txt
-@@ -0,0 +1,46 @@
-+nvme-set-timestamp(1)
-+=====================
-+
-+NAME
-+----
-+nvme-set-timestamp - Sets a timestamp value in the nvme controller.
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme set-timestamp' <device> [--timestamp=<timestamp> | -t <timestamp>]
-+
-+DESCRIPTION
-+-----------
-+Sets a timestamp value in NVMe controller.  The timestamp value used must be specified 
-+in number of milliseconds.  The <device> parameter is mandatory and must be an NVMe 
-+character device (ex: /dev/nvme0).
-+
-+OPTIONS
-+-------
-+-t <timestamp>::
-+--timestamp=<timestamp>::
-+    Timestamp: This field specifies the timestamp (in milliseconds) value to set.  If one
-+    is not specified, it will default to the number of milliseconds that have elapsed 
-+    since midnight, January 01, 1970.
-+
-+
-+
-+EXAMPLES
-+--------
-+* Sets the default timestamp value (milliseconds elapsed since midnight, January 01, 1970) 
-+  in the NVMe controller.
-++
-+------------
-+# nvme set-timestamp /dev/nvme0
-+------------
-+
-+* Sets the timestamp value to 0 in the NVMe controller.
-++
-+------------
-+# nvme set-timestamp /dev/nvme0 -t 0
-+------------
-+
-+NVME
-+----
-+Part of the nvme-user suite
--- 
-1.8.3.1
+The expected test output does not include it.
