@@ -1,8 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 15 Oct 2018 18:07:00 -0700
-Subject: [PATCH 0/4] traffic based keep alive support (TP 4024)
-In-Reply-To: <20180928011537.30069-1-sagi@grimberg.me>
-References: <20180928011537.30069-1-sagi@grimberg.me>
-Message-ID: <cf300934-3c55-8550-c407-a1ab72048737@grimberg.me>
+Date: Mon, 15 Oct 2018 18:08:29 -0700
+Subject: [PATCH v2 11/11] nvmet: Enable Discovery Controller AENs
+In-Reply-To: <1538771212-238331-2-git-send-email-jay.e.sternberg@intel.com>
+References: <1538771212-238331-1-git-send-email-jay.e.sternberg@intel.com>
+ <1538771212-238331-2-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <b6e6a4a9-277e-30a2-c5a2-b9bc4511738f@grimberg.me>
 
-Ping?
+Jay,
+
+Can you please send another patch set as v2. its easier
+to follow and apply later on...
