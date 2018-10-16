@@ -1,9 +1,9 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Tue, 16 Oct 2018 10:11:20 -0700
-Subject: [PATCH v2 08/11] nvmet: Maintain a global list of ports
+Date: Tue, 16 Oct 2018 10:11:19 -0700
+Subject: [PATCH v2 07/11] nvmet: Add parent to nvmet_referral_disable
 In-Reply-To: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
 References: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1539709883-12424-9-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1539709883-12424-8-git-send-email-jay.e.sternberg@intel.com>
 
 To be used when Discovery Change notifications occur
 
@@ -12,62 +12,61 @@ Reviewed-by: Phil Cayton <phil.cayton at intel.com>
 ---
 v2 - unchanged
 
- drivers/nvme/target/configfs.c | 7 +++++++
- drivers/nvme/target/nvmet.h    | 3 +++
- 2 files changed, 10 insertions(+)
+ drivers/nvme/target/configfs.c  | 5 +++--
+ drivers/nvme/target/discovery.c | 2 +-
+ drivers/nvme/target/nvmet.h     | 2 +-
+ 3 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index df841e0..c1ad175 100644
+index b37a8e3..df841e0 100644
 --- a/drivers/nvme/target/configfs.c
 +++ b/drivers/nvme/target/configfs.c
-@@ -23,6 +23,9 @@
- static const struct config_item_type nvmet_host_type;
- static const struct config_item_type nvmet_subsys_type;
+@@ -889,7 +889,7 @@ static ssize_t nvmet_referral_enable_store(struct config_item *item,
+ 	if (enable)
+ 		nvmet_referral_enable(parent, port);
+ 	else
+-		nvmet_referral_disable(port);
++		nvmet_referral_disable(parent, port);
  
-+static LIST_HEAD(nvmet_ports_list);
-+struct list_head *nvmet_ports = &nvmet_ports_list;
-+
- static const struct nvmet_transport_name {
- 	u8		type;
- 	const char	*name;
-@@ -1091,6 +1094,8 @@ static void nvmet_port_release(struct config_item *item)
+ 	return count;
+ inval:
+@@ -915,9 +915,10 @@ static ssize_t nvmet_referral_enable_store(struct config_item *item,
+ 
+ static void nvmet_referral_release(struct config_item *item)
  {
++	struct nvmet_port *parent = to_nvmet_port(item->ci_parent->ci_parent);
  	struct nvmet_port *port = to_nvmet_port(item);
  
-+	list_del(&port->global_entry);
-+
- 	kfree(port->ana_state);
+-	nvmet_referral_disable(port);
++	nvmet_referral_disable(parent, port);
  	kfree(port);
  }
-@@ -1143,6 +1148,8 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 			port->ana_state[i] = NVME_ANA_INACCESSIBLE;
- 	}
  
-+	list_add(&port->global_entry, &nvmet_ports_list);
-+
- 	INIT_LIST_HEAD(&port->entry);
- 	INIT_LIST_HEAD(&port->subsystems);
- 	INIT_LIST_HEAD(&port->referrals);
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index df609ef..9ae8208 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -31,7 +31,7 @@ void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port)
+ 	up_write(&nvmet_config_sem);
+ }
+ 
+-void nvmet_referral_disable(struct nvmet_port *port)
++void nvmet_referral_disable(struct nvmet_port *parent, struct nvmet_port *port)
+ {
+ 	down_write(&nvmet_config_sem);
+ 	if (!list_empty(&port->entry)) {
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index dbde3ad..ea93a46 100644
+index dd7e5223..dbde3ad 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -130,6 +130,7 @@ struct nvmet_port {
- 	struct list_head		subsystems;
- 	struct config_group		referrals_group;
- 	struct list_head		referrals;
-+	struct list_head		global_entry;
- 	struct config_group		ana_groups_group;
- 	struct nvmet_ana_group		ana_default_group;
- 	enum nvme_ana_state		*ana_state;
-@@ -420,6 +421,8 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+@@ -410,7 +410,7 @@ void nvmet_send_ana_event(struct nvmet_subsys *subsys,
+ void nvmet_disable_port(struct nvmet_port *port);
  
- u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+ void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port);
+-void nvmet_referral_disable(struct nvmet_port *port);
++void nvmet_referral_disable(struct nvmet_port *parent, struct nvmet_port *port);
  
-+extern struct list_head *nvmet_ports;
-+
- #define NVMET_QUEUE_SIZE	1024
- #define NVMET_NR_QUEUES		128
- #define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
+ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
+ 		size_t len);
 -- 
 1.8.3.1
