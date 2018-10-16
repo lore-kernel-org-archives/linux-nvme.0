@@ -1,68 +1,40 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Mon, 15 Oct 2018 14:26:00 -0700
-Subject: [PATCH 2/3] nvme: add test for ANA state transition
-In-Reply-To: <20181015070130.6695-3-hare@suse.de>
-References: <20181015070130.6695-1-hare@suse.de>
- <20181015070130.6695-3-hare@suse.de>
-Message-ID: <20181015212600.GD23044@vader>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 15 Oct 2018 18:04:46 -0700
+Subject: [PATCH v2] block: fix rdma queue mapping
+In-Reply-To: <66c41a1a-e57d-8526-366c-e15dcded7cec@grimberg.me>
+References: <20180820205420.25908-1-sagi@grimberg.me>
+ <20180822131130.GC28149@lst.de>
+ <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
+ <33192971-7edd-a3b6-f2fa-abdcbef375de@opengridcomputing.com>
+ <66c41a1a-e57d-8526-366c-e15dcded7cec@grimberg.me>
+Message-ID: <c14b6091-781d-580e-833f-d2c6db54a5d2@grimberg.me>
 
-On Mon, Oct 15, 2018@09:01:29AM +0200, Hannes Reinecke wrote:
-> Signed-off-by: Hannes Reinecke <hare at suse.com>
-> ---
->  tests/nvme/018     | 141 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  tests/nvme/018.out |  18 +++++++
->  2 files changed, 159 insertions(+)
->  create mode 100755 tests/nvme/018
->  create mode 100644 tests/nvme/018.out
+
+>> Can we please make forward progress on this?
+>>
+>> Christoph, Sagi:? it seems you think /proc/irq/$IRP/smp_affinity
+>> shouldn't be allowed if drivers support managed affinity. Is that 
+>> correct?
+>>
+>> Perhaps that can be codified and be a way forward?? IE: Somehow allow
+>> the admin to choose either "managed by the driver/ulps" or "managed by
+>> the system admin directly"?
+>>
+>> Or just use Sagi's patch.? Perhaps a WARN_ONCE() if the affinity looks
+>> wonked when set via procfs?? Just thinking out loud...
 > 
-> diff --git a/tests/nvme/018 b/tests/nvme/018
-> new file mode 100755
-> index 0000000..4d9b6c7
-> --- /dev/null
-> +++ b/tests/nvme/018
-> @@ -0,0 +1,141 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0+
-> +# Regression test for ANA base support
-> +#
-> +# Copyright (C) 2018 Hannes Reinecke, SUSE Linux GmbH
-> +#
-> +
-> +. tests/nvme/rc
-> +
-> +DESCRIPTION="test ANA optimized/transitioning/inaccessible support"
-> +QUICK=1
-> +
-> +switch_nvmet_anagroup() {
-> +	local port1="$1"
-> +	local port2="$2"
-> +	local mode="$3"
-> +
-> +	echo "ANA state ${mode}"
-> +
-> +	if [ "${mode}" = "change" ] ; then
-> +		_set_nvmet_anagroup_state "${port1}" "1" "change"
-> +		_set_nvmet_anagroup_state "${port1}" "2" "change"
-> +		_set_nvmet_anagroup_state "${port2}" "1" "change"
-> +		_set_nvmet_anagroup_state "${port2}" "2" "change"
-> +	elif [ "${mode}" = "failover" ] ; then
-> +		_set_nvmet_anagroup_state "${port1}" "1" "inaccessible"
-> +		_set_nvmet_anagroup_state "${port1}" "2" "optimized"
-> +		_set_nvmet_anagroup_state "${port2}" "1" "optimized"
-> +		_set_nvmet_anagroup_state "${port2}" "2" "inaccessible"
-> +	else
-> +		_set_nvmet_anagroup_state "${port1}" "1" "optimized"
-> +		_set_nvmet_anagroup_state "${port1}" "2" "inaccessible"
-> +		_set_nvmet_anagroup_state "${port2}" "1" "inaccessible"
-> +		_set_nvmet_anagroup_state "${port2}" "2" "optimized"
-> +	fi
-> +}
-> +
-> +requires() {
-> +	_have_program nvme && _have_module nvme-loop && _have_module loop && \
-> +		_have_configfs && _have_fio
+> I think we should take my patch. While ideally we'd like to have
+> perfect linear irq based queue mapping, people apparently really like
+> to modify devices irq affinity. With this, at least some of the queues
+> are assigned according to the device affinity. Its not ideal, but at
+> least better than blindly falling to default mapping.
+> 
+> Christoph?
+> 
+> If there is strong resistance to the patch we should at least start
+> by falling to the default mapping unconditionally.
 
-You didn't address the comments from last time (this needs _have_program
-mkfs.xfs and _have_module nvmet, IIRC). You also didn't respond to my
-rqeuest that this detects if ANA support is available in the kernel. I
-had to figure out that I needed CONFIG_NVME_MULTIPATH=y.
+Ping?
+
+Would you prefer we fallback to the naive mapping if the device is not
+using manged affinity?
