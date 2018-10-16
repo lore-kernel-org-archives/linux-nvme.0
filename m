@@ -1,63 +1,193 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 16 Oct 2018 10:59:58 -0700
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
-References: <20181004212328.30205-1-sagi@grimberg.me>
- <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
- <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
- <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
- <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
- <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
- <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
-Message-ID: <193097d1-b39b-f152-d60b-8bddbc3ee4b1@broadcom.com>
+From: Dong.Ho@wdc.com (Dong Ho)
+Date: Tue, 16 Oct 2018 19:26:19 +0000
+Subject: [PATCH 1/2] nvme-cli: Add get and set timestamp commands
+Message-ID: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
 
+---
+ Makefile       |   2 +-
+ nvme-builtin.h |   2 +
+ nvme.c         | 136 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 139 insertions(+), 1 deletion(-)
 
-
-On 10/15/2018 10:59 PM, Hannes Reinecke wrote:
-> On 10/16/18 3:11 AM, Sagi Grimberg wrote:
->>
->>>> Oh, I don't doubt that it'll work in the sense that 'nvme 
->>>> connect-all' is executed.
->>>> I _do_ doubt that the 'disown' is doing anything at all; both '&' 
->>>> and 'disown' will be used as arguments to '/usr/sbin/nvme', and 
->>>> _not_ interpreted by any shell (as no shell is invoked in the first 
->>>> place).
->>>> Internally udev will call 'execve' to call the new program, which 
->>>> will invoke a shell only for shell scripts; binary programs will be 
->>>> executed directly with not shell whatsoever.
->>>
->>> I see, we can run it with /bin/sh and it should do the trick?
->>
->> Hannes,
->>
->> Do you agree that it would suffice? Or, Do you think we should take
->> a different approach?
->>
->> Would like to get some feedback from others given that this is not
->> a trivial decision about which way we go here..
->
-> Actually, I have looked at the original solution from James Smart for 
-> FC-NVMe autoconnect.
->
-> Essentially he starts a system service from a udev rule, which in 
-> itself is triggered by the event.
-> With that we're out of the udev program timeout (as systemd services 
-> can run for arbitrarily long) _and_ we also have resolved the problem 
-> of a uevent storm, as systemd will manage that for us.
->
-> The only problem here is that we need to pass arguments to the systemd 
-> service, but if we can use the standard udev trick of placing the 
-> arguments into the program environment and having the program looking 
-> for that we should be able to solve that, too.
-
-fyi - the udev script fc uses passes arguments (HOST_TRADDR and TRADDR) 
-from the event into the systemd service. Actually, it creates an 
-instance of the service based on the names built from those arguments.
-
-Passing different arguments beyond that seemed rather difficult. For 
-that I was assuming the instance arguments would have to be parsed, and 
-a system file extracted, to obtain any variable values (such as 
-device-specific connect timeouts, or queue count limits, etc).
-
-
--- jmes
+diff --git a/Makefile b/Makefile
+index 433bc41..645ce5c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -37,7 +37,7 @@ OBJS := argconfig.o suffix.o parser.o nvme-print.o nvme-ioctl.o \
+ 	huawei-nvme.o netapp-nvme.o  toshiba-nvme.o micron-nvme.o seagate-nvme.o
+ 
+ nvme: nvme.c nvme.h $(OBJS) NVME-VERSION-FILE
+-	$(CC) $(CPPFLAGS) $(CFLAGS) nvme.c -o $(NVME) $(OBJS) $(LDFLAGS)
++	$(CC) $(CPPFLAGS) $(CFLAGS) nvme.c -o $(NVME) $(OBJS) $(LDFLAGS) -lm -lrt
+ 
+ nvme.o: nvme.c nvme.h nvme-print.h nvme-ioctl.h argconfig.h suffix.h nvme-lightnvm.h fabrics.h
+ 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $<
+diff --git a/nvme-builtin.h b/nvme-builtin.h
+index 7cf10ef..e66a2c2 100644
+--- a/nvme-builtin.h
++++ b/nvme-builtin.h
+@@ -67,6 +67,8 @@ COMMAND_LIST(
+ 	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
+ 	ENTRY("dir-receive", "Submit a Directive Receive command, return results", dir_receive)
+ 	ENTRY("dir-send", "Submit a Directive Send command, return results", dir_send)
++	ENTRY("set-timestamp", "Submit a Timestamp set feature command", set_timestamp)
++	ENTRY("get-timestamp", "Submit a Timestamp get feature command", get_timestamp)
+ );
+ 
+ #endif
+diff --git a/nvme.c b/nvme.c
+index a239322..5a1a4ae 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -36,6 +36,7 @@
+ #include <unistd.h>
+ #include <math.h>
+ #include <dirent.h>
++#include <time.h>
+ 
+ #include <linux/fs.h>
+ 
+@@ -4623,6 +4624,141 @@ static int admin_passthru(int argc, char **argv, struct command *cmd, struct plu
+ 	return passthru(argc, argv, NVME_IOCTL_ADMIN_CMD, desc, cmd);
+ }
+ 
++
++long get_current_time_in_ms(void)
++{
++    long            ms; // Milliseconds
++    time_t          s;  // Seconds
++    long            ts; // returned timestamp in ms
++    struct timespec spec;
++
++    clock_gettime(CLOCK_REALTIME, &spec);
++
++    s  = spec.tv_sec;
++    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
++    if (ms > 999) {
++        s++;
++        ms = 0;
++    }
++
++    ts = 1000*s + ms;
++
++    return ts;
++}
++
++static int set_timestamp(int argc, char **argv, struct command *cmd, struct plugin *plugin)
++{
++	const char *desc = "Sends a Timestamp set feature command\n";
++	int err, fd;
++	struct nvme_id_ctrl ctrl;
++	__le64 ts;
++	__u32 result;
++	const char *time_stamp = "64-bit Timestamp value in milliseconds since the Epoch";
++
++	struct config {
++		__u64 time_stamp;
++	};
++
++	struct config cfg = {
++		.time_stamp     = -1,
++	};
++
++	const struct argconfig_commandline_options command_line_options[] = {
++		{"timestamp",  't', "NUM", CFG_LONG_SUFFIX, &cfg.time_stamp,  required_argument, time_stamp},
++		{NULL}
++	};
++
++	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
++	err = nvme_identify_ctrl(fd, &ctrl);
++	if (err < 0) {
++		perror("Identify Controller");
++		return errno;
++	} else	if (!err) {
++		if (!(ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)) {
++			fprintf(stderr, "Timestamp Set Feature not supported\n");
++			return 0;
++		}
++	}
++	else if (err > 0) {
++		fprintf(stderr, "NVMe Status:%s(%x)\n",
++				nvme_status_to_string(err), err);
++	}
++
++	if (cfg.time_stamp == -1)
++		ts = get_current_time_in_ms();
++	else
++		ts = cfg.time_stamp;
++
++	err = nvme_set_feature(fd, 0, NVME_FEAT_TIMESTAMP, 0, 0,
++			0, sizeof(ts), &ts, &result);
++	if (err < 0) {
++		perror("Set Timestamp");
++		return errno;
++	} else if (!err) {
++		printf("set-feature: %02x (%s), value:%ld\n", NVME_FEAT_TIMESTAMP,
++				nvme_feature_to_string(NVME_FEAT_TIMESTAMP), (long)ts);
++	} else if (err > 0) {
++		fprintf(stderr, "NVMe Status:%s(%x)\n",
++				nvme_status_to_string(err), err);
++	}
++
++	return err;
++}
++
++static int get_timestamp(int argc, char **argv, struct command *cmd, struct plugin *plugin)
++{
++	const char *desc = "Sends a Timestamp get feature command\n";
++	int err, fd;
++	struct nvme_id_ctrl ctrl;
++ 	__le64 ts, data;
++ 	int origin_synch;
++	__u32 result;
++
++	const struct argconfig_commandline_options command_line_options[] = {
++		{NULL}
++	};
++
++	fd = parse_and_open(argc, argv, desc, command_line_options, NULL, 0);
++	if (fd < 0)
++		return fd;
++
++	err = nvme_identify_ctrl(fd, &ctrl);
++	if (err < 0) {
++		perror("Identify Controller");
++		return errno;
++	} else	if (!err) {
++		if (!(ctrl.oncs & NVME_CTRL_ONCS_TIMESTAMP)) {
++			fprintf(stderr, "Timestamp Get Feature not supported\n");
++			return 0;
++		}
++	}
++	else if (err > 0) {
++		fprintf(stderr, "NVMe Status:%s(%x)\n",
++				nvme_status_to_string(err), err);
++	}
++
++	err = nvme_get_feature(fd, 0, NVME_FEAT_TIMESTAMP, 0, 0,
++			sizeof(data), &data, &result);
++	if (err < 0) {
++		perror("Get Timestamp");
++		return errno;
++	} else if (!err) {
++		ts = data & 0x0000FFFFFFFFFFFF;
++		origin_synch = ((data & 0x00FF000000000000) >> 48);
++
++		printf("get-feature: %02x (%s), timestamp: %ld, origin/synch: 0x%x\n", NVME_FEAT_TIMESTAMP,
++			nvme_feature_to_string(NVME_FEAT_TIMESTAMP), (long)ts, origin_synch);
++	} else if (err > 0) {
++		fprintf(stderr, "NVMe Status:%s(%x)\n",
++				nvme_status_to_string(err), err);
++	}
++
++	return err;
++}
++
+ #ifdef LIBUUID
+ static int gen_hostnqn_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+ {
+-- 
+1.8.3.1
