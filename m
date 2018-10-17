@@ -1,10 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 17 Oct 2018 09:08:11 +0200
-Subject: [PATCHv3] nvme/pci: Fix hot removal during error handling
-In-Reply-To: <20181015161906.15741-1-keith.busch@intel.com>
-References: <20181015161906.15741-1-keith.busch@intel.com>
-Message-ID: <20181017070811.GA23175@lst.de>
+Date: Wed, 17 Oct 2018 09:09:26 +0200
+Subject: [PATCH 2/2] nvme-fabrics: move controller options matching to
+ fabrics
+In-Reply-To: <20181004174358.15267-2-sagi@grimberg.me>
+References: <20181004174358.15267-1-sagi@grimberg.me>
+ <20181004174358.15267-2-sagi@grimberg.me>
+Message-ID: <20181017070926.GB23187@lst.de>
 
-Thanks,
+> +bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
+> +	struct nvmf_ctrl_options *opts)
 
-applied to nvme-4.20.
+This needs a two-tab indent.
