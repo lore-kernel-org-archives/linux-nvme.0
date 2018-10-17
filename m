@@ -1,64 +1,23 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 16 Oct 2018 17:38:04 -0700
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
-References: <20181004212328.30205-1-sagi@grimberg.me>
- <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
- <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
- <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
- <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
- <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
- <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
-Message-ID: <f59d1bbf-eead-6818-5994-d0271132a3a2@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 17 Oct 2018 08:38:59 +0200
+Subject: [GIT PULL] nvme fix for 4.19
+Message-ID: <20181017063859.GA7083@infradead.org>
 
+The following changes since commit 133424a207774d3d32a38d560c6469ed31c0472f:
 
->> Hannes,
->>
->> Do you agree that it would suffice? Or, Do you think we should take
->> a different approach?
->>
->> Would like to get some feedback from others given that this is not
->> a trivial decision about which way we go here..
-> 
-> Actually, I have looked at the original solution from James Smart for 
-> FC-NVMe autoconnect.
-> 
-> Essentially he starts a system service from a udev rule, which in itself 
-> is triggered by the event.
-> With that we're out of the udev program timeout (as systemd services can 
-> run for arbitrarily long) _and_ we also have resolved the problem of a 
-> uevent storm, as systemd will manage that for us.
+  Merge branch 'nvme-4.19' of git://git.infradead.org/nvme into for-linus (2018-09-28 09:41:40 -0600)
 
-That's a good idea!
+are available in the Git repository at:
 
-> The only problem here is that we need to pass arguments to the systemd 
-> service, but if we can use the standard udev trick of placing the 
-> arguments into the program environment and having the program looking 
-> for that we should be able to solve that, too.
-> 
-> Would you be okay with this approach?
+  git://git.infradead.org/nvme.git nvme-4.19
 
-I'm fine with this approach. There are enough ways to
-pass in args to systemd:
+for you to fetch changes up to 48f78be3326052a7718678ff9a78d6d884a50323:
 
-Something like:
+  nvme: remove ns sibling before clearing path (2018-10-08 11:53:42 +0200)
 
-SUBSYSTEM=="nvme", ACTION=="change", \
-    RUN+=systemctl start nvmf-disc-change@" 
---device=nvme$env{NVME_INSTANCE} --transport=$env{NVME_TRTYPE} 
---traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID}".service
+----------------------------------------------------------------
+Keith Busch (1):
+      nvme: remove ns sibling before clearing path
 
-And nvmf-disc-change at .service is:
---
-[Unit]
-Description=NVMe automatic discovery upon discovery log change updates
-
-[Service]
-Environment="CONNECTALL_ARGS=%I"
-ExecStart=nvme connect-all $CONNECTALL_ARGS
---
-
-We could also add EnvironmentFile for additional parameters
-(nr_io_queues, etc...)
-
-Thoughts?
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
