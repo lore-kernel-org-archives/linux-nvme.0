@@ -1,36 +1,88 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 17 Oct 2018 07:38:35 -0700
-Subject: Kernel v4.19-rc4 KASAN complaint
-In-Reply-To: <20181017063941.GA11885@infradead.org>
-References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
- <20180920071040.GA8685@infradead.org> <1537464241.224533.8.camel@acm.org>
- <20180925233211.GB28388@infradead.org> <20180926031417.GS4222@linux.ibm.com>
- <20181005073833.GB7075@infradead.org> <20181017063941.GA11885@infradead.org>
-Message-ID: <1a81d48a-052f-a42b-92be-5b0a1ff99c64@acm.org>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 17 Oct 2018 17:29:10 +0200
+Subject: [PATCH rfc 0/3] add support to discovery async event notifications
+In-Reply-To: <193097d1-b39b-f152-d60b-8bddbc3ee4b1@broadcom.com>
+References: <20181004212328.30205-1-sagi@grimberg.me>
+ <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
+ <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
+ <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
+ <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
+ <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
+ <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
+ <193097d1-b39b-f152-d60b-8bddbc3ee4b1@broadcom.com>
+Message-ID: <16d6de92-2f42-d78e-b3dd-60f8c4f18613@suse.de>
 
-On 10/16/18 11:39 PM, Christoph Hellwig wrote:
-> On Fri, Oct 05, 2018@12:38:33AM -0700, Christoph Hellwig wrote:
->> Looks like I misread the lines pointed to by gdb, and it indeed seems
->> like a premature free of the nvme_ns_head structure, but I fail to see
->> where.
->>
->> I've tried to bring up Barts testcase but failed so far.
->>
->> Bart, can you help out a bit?
->>
->> The last commit of the original merge 4.19 nvme merge is:
->>
->> b369b30cf510fe94d8884837039362e2ec223cec
->>
->> Can you check if that shows the problem (I suspect it does) and if so
->> bisect between that and 9b89bc3857a6c0dfda18ddae2a42c114ecc32753, which
->> as the first commit for the merge?
+On 10/16/18 7:59 PM, James Smart wrote:
 > 
-> Bart, do you cycles to help out bisecting this?
+> 
+> On 10/15/2018 10:59 PM, Hannes Reinecke wrote:
+>> On 10/16/18 3:11 AM, Sagi Grimberg wrote:
+>>>
+>>>>> Oh, I don't doubt that it'll work in the sense that 'nvme 
+>>>>> connect-all' is executed.
+>>>>> I _do_ doubt that the 'disown' is doing anything at all; both '&' 
+>>>>> and 'disown' will be used as arguments to '/usr/sbin/nvme', and 
+>>>>> _not_ interpreted by any shell (as no shell is invoked in the first 
+>>>>> place).
+>>>>> Internally udev will call 'execve' to call the new program, which 
+>>>>> will invoke a shell only for shell scripts; binary programs will be 
+>>>>> executed directly with not shell whatsoever.
+>>>>
+>>>> I see, we can run it with /bin/sh and it should do the trick?
+>>>
+>>> Hannes,
+>>>
+>>> Do you agree that it would suffice? Or, Do you think we should take
+>>> a different approach?
+>>>
+>>> Would like to get some feedback from others given that this is not
+>>> a trivial decision about which way we go here..
+>>
+>> Actually, I have looked at the original solution from James Smart for 
+>> FC-NVMe autoconnect.
+>>
+>> Essentially he starts a system service from a udev rule, which in 
+>> itself is triggered by the event.
+>> With that we're out of the udev program timeout (as systemd services 
+>> can run for arbitrarily long) _and_ we also have resolved the problem 
+>> of a uevent storm, as systemd will manage that for us.
+>>
+>> The only problem here is that we need to pass arguments to the systemd 
+>> service, but if we can use the standard udev trick of placing the 
+>> arguments into the program environment and having the program looking 
+>> for that we should be able to solve that, too.
+> 
+> fyi - the udev script fc uses passes arguments (HOST_TRADDR and TRADDR) 
+> from the event into the systemd service. Actually, it creates an 
+> instance of the service based on the names built from those arguments.
+> 
+> Passing different arguments beyond that seemed rather difficult. For 
+> that I was assuming the instance arguments would have to be parsed, and 
+> a system file extracted, to obtain any variable values (such as 
+> device-specific connect timeouts, or queue count limits, etc).
+> 
+That is precisely where I'm scratching my head now.
+Essentially the systemd '@' thingie allows you to pass exactly _one_ 
+argument. Sadly we have several options to pass, not just one.
+We could reduce the number of options by having per-transport services,
+but then we require at least two arguments to be passed (host traddr and 
+traddr for FC, traddr, trsvcid, and adrfam for RDMA).
+ From what I can see we can try to:
+1) escape the arguments so that they appear as one string to systemd, 
+and then de-escaping them in the service file. Works without 
+modification to the code, but then you always have to invoke the shell 
+to handle escaping/de-escaping.
+2) preformat the nvme option string, and pass that as argument for the 
+systemd service. Which actually would get rid of the need for using 
+nvme-cli, too, as we could just write the string into the device node.
+Will be looking into it.
 
-Hi Christoph,
+Cheers,
 
-I will try to free up some time to search for the root cause of this 
-complaint.
-
-Bart.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
