@@ -1,23 +1,30 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 17 Oct 2018 08:38:59 +0200
-Subject: [GIT PULL] nvme fix for 4.19
-Message-ID: <20181017063859.GA7083@infradead.org>
+Date: Tue, 16 Oct 2018 23:39:41 -0700
+Subject: Kernel v4.19-rc4 KASAN complaint
+In-Reply-To: <20181005073833.GB7075@infradead.org>
+References: <6892a170-0dcf-9498-19c2-50e1ae89f4ef@acm.org>
+ <20180920071040.GA8685@infradead.org>
+ <1537464241.224533.8.camel@acm.org>
+ <20180925233211.GB28388@infradead.org>
+ <20180926031417.GS4222@linux.ibm.com>
+ <20181005073833.GB7075@infradead.org>
+Message-ID: <20181017063941.GA11885@infradead.org>
 
-The following changes since commit 133424a207774d3d32a38d560c6469ed31c0472f:
+On Fri, Oct 05, 2018@12:38:33AM -0700, Christoph Hellwig wrote:
+> Looks like I misread the lines pointed to by gdb, and it indeed seems
+> like a premature free of the nvme_ns_head structure, but I fail to see
+> where.
+> 
+> I've tried to bring up Barts testcase but failed so far.
+> 
+> Bart, can you help out a bit?
+> 
+> The last commit of the original merge 4.19 nvme merge is:
+> 
+> b369b30cf510fe94d8884837039362e2ec223cec
+> 
+> Can you check if that shows the problem (I suspect it does) and if so
+> bisect between that and 9b89bc3857a6c0dfda18ddae2a42c114ecc32753, which
+> as the first commit for the merge?
 
-  Merge branch 'nvme-4.19' of git://git.infradead.org/nvme into for-linus (2018-09-28 09:41:40 -0600)
-
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.19
-
-for you to fetch changes up to 48f78be3326052a7718678ff9a78d6d884a50323:
-
-  nvme: remove ns sibling before clearing path (2018-10-08 11:53:42 +0200)
-
-----------------------------------------------------------------
-Keith Busch (1):
-      nvme: remove ns sibling before clearing path
-
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bart, do you cycles to help out bisecting this?
