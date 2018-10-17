@@ -1,13 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 17 Oct 2018 09:09:26 +0200
-Subject: [PATCH 2/2] nvme-fabrics: move controller options matching to
- fabrics
-In-Reply-To: <20181004174358.15267-2-sagi@grimberg.me>
-References: <20181004174358.15267-1-sagi@grimberg.me>
- <20181004174358.15267-2-sagi@grimberg.me>
-Message-ID: <20181017070926.GB23187@lst.de>
+Date: Wed, 17 Oct 2018 09:11:19 +0200
+Subject: [PATCH] nvmetcli: ANA configuration support
+In-Reply-To: <570f1c05-1995-0eb9-7649-16aa0204e783@suse.com>
+References: <20180727110859.4212-1-hare@suse.de> <20181006124353.GA8324@lst.de>
+ <570f1c05-1995-0eb9-7649-16aa0204e783@suse.com>
+Message-ID: <20181017071118.GA23258@lst.de>
 
-> +bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
-> +	struct nvmf_ctrl_options *opts)
+On Sat, Oct 06, 2018@03:09:20PM +0200, Hannes Reinecke wrote:
+> > The new ANA code will probably need similar exception handling as the
+> > inline_data_size attribute.
+> > 
+> Okay, will be fixing it up.
 
-This needs a two-tab indent.
+Any chance to get a fixed version in the next days?  I'd like to cut
+a new release with it not too long after the 4.19 release so that people
+can easily use the ANA code.
