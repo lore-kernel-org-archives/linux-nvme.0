@@ -1,12 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 17 Oct 2018 09:05:45 +0200
-Subject: [PATCH 4/4] nvme-core: support traffic based keep-alive based
- on controller support
-In-Reply-To: <20180928011537.30069-5-sagi@grimberg.me>
-References: <20180928011537.30069-1-sagi@grimberg.me>
- <20180928011537.30069-5-sagi@grimberg.me>
-Message-ID: <20181017070545.GA23049@lst.de>
+Date: Wed, 17 Oct 2018 09:08:11 +0200
+Subject: [PATCHv3] nvme/pci: Fix hot removal during error handling
+In-Reply-To: <20181015161906.15741-1-keith.busch@intel.com>
+References: <20181015161906.15741-1-keith.busch@intel.com>
+Message-ID: <20181017070811.GA23175@lst.de>
 
-> +	nvme_req(req)->ctrl->comp_seen = true;
+Thanks,
 
-shouldn't we only do this for controllers with keep a live support?
+applied to nvme-4.20.
