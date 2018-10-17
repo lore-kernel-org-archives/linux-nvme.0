@@ -1,31 +1,40 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 17 Oct 2018 09:46:10 -0600
-Subject: [GIT PULL] nvme fix for 4.19
-In-Reply-To: <20181017063859.GA7083@infradead.org>
-References: <20181017063859.GA7083@infradead.org>
-Message-ID: <f25fc6a3-4d91-6883-eb31-639a1af9f27e@kernel.dk>
+From: keith.busch@linux.intel.com (Keith Busch)
+Date: Wed, 17 Oct 2018 10:14:55 -0600
+Subject: [PATCH 1/2] nvme-cli: Add get and set timestamp commands
+In-Reply-To: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
+References: <1539743178-6573-1-git-send-email-dong.ho@wdc.com>
+Message-ID: <20181017161455.GA20375@localhost.localdomain>
 
-On 10/17/18 12:38 AM, Christoph Hellwig wrote:
-> The following changes since commit 133424a207774d3d32a38d560c6469ed31c0472f:
-> 
->   Merge branch 'nvme-4.19' of git://git.infradead.org/nvme into for-linus (2018-09-28 09:41:40 -0600)
-> 
-> are available in the Git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.19
-> 
-> for you to fetch changes up to 48f78be3326052a7718678ff9a78d6d884a50323:
-> 
->   nvme: remove ns sibling before clearing path (2018-10-08 11:53:42 +0200)
-> 
-> ----------------------------------------------------------------
-> Keith Busch (1):
->       nvme: remove ns sibling before clearing path
-> 
->  drivers/nvme/host/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Oct 16, 2018@07:26:19PM +0000, Dong Ho wrote:
+> +long get_current_time_in_ms(void)
+> +{
+> +    long            ms; // Milliseconds
+> +    time_t          s;  // Seconds
+> +    long            ts; // returned timestamp in ms
+> +    struct timespec spec;
+> +
+> +    clock_gettime(CLOCK_REALTIME, &spec);
+> +
+> +    s  = spec.tv_sec;
+> +    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
+> +    if (ms > 999) {
+> +        s++;
+> +        ms = 0;
+> +    }
+> +
+> +    ts = 1000*s + ms;
+> +
+> +    return ts;
+> +}
 
-Pulled, thanks.
+Regarding formatting, you have some indentations as tabs and others
+as spaces. This program prefers the linux kernel coding style, so tabs
+should be used consistently. Also, C89 comment /* style */
+is preferred to //.
 
--- 
-Jens Axboe
+As to the feature itself, I don't think we should provide such a
+convenience function as I don't see why this should be something a
+user would want to set. The feature has in-kernel support to set if
+supported. If anything for nvme-cli, this feature should be a subset of
+the existing "set-feature" and "get-feature" commands rather than it's
+own top-level command (which it already is).
