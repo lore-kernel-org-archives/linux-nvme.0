@@ -1,209 +1,64 @@
-From: osandov@osandov.com (Omar Sandoval)
-Date: Tue, 16 Oct 2018 12:31:51 -0700
-Subject: [PATCH 1/3] nvme: enable ANA support
-In-Reply-To: <d998abab-b344-7783-daa1-afff2d0c29d5@suse.de>
-References: <20181015070130.6695-1-hare@suse.de>
- <20181015070130.6695-2-hare@suse.de> <20181015211323.GB23044@vader>
- <d998abab-b344-7783-daa1-afff2d0c29d5@suse.de>
-Message-ID: <20181016193151.GH23044@vader>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 16 Oct 2018 17:38:04 -0700
+Subject: [PATCH rfc 0/3] add support to discovery async event notifications
+In-Reply-To: <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
+References: <20181004212328.30205-1-sagi@grimberg.me>
+ <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
+ <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
+ <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
+ <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
+ <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
+ <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
+Message-ID: <f59d1bbf-eead-6818-5994-d0271132a3a2@grimberg.me>
 
-On Tue, Oct 16, 2018@07:49:20AM +0200, Hannes Reinecke wrote:
-> On 10/15/18 11:13 PM, Omar Sandoval wrote:
-> > On Mon, Oct 15, 2018@09:01:28AM +0200, Hannes Reinecke wrote:
-> > > Update functions to support ANA.
-> > > 
-> > > Signed-off-by: Hannes Reinecke <hare at suse.com>
-> > > ---
-> > >   tests/nvme/rc | 89 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
-> > >   1 file changed, 86 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/tests/nvme/rc b/tests/nvme/rc
-> > > index eff1dd9..aaf438b 100644
-> > > --- a/tests/nvme/rc
-> > > +++ b/tests/nvme/rc
-> > > @@ -14,7 +14,7 @@ group_device_requires() {
-> > >   	_test_dev_is_nvme
-> > >   }
-> > > -NVMET_CFS="/sys/kernel/config/nvmet/"
-> > > +NVMET_CFS="/sys/kernel/config/nvmet"
-> > >   _test_dev_is_nvme() {
-> > >   	if ! readlink -f "$TEST_DEV_SYSFS/device" | grep -q nvme; then
-> > > @@ -36,6 +36,7 @@ _create_nvmet_port() {
-> > >   	mkdir "${NVMET_CFS}/ports/${port}"
-> > >   	echo "${trtype}" > "${NVMET_CFS}/ports/${port}/addr_trtype"
-> > > +	echo "${port}" > "${NVMET_CFS}/ports/${port}/addr_traddr"
-> > >   	echo "${port}"
-> > >   }
-> > > @@ -45,6 +46,62 @@ _remove_nvmet_port() {
-> > >   	rmdir "${NVMET_CFS}/ports/${port}"
-> > >   }
-> > > +_create_nvmet_anagroup() {
-> > > +	local port="$1"
-> > > +	local port_cfs="${NVMET_CFS}/ports/${port}"
-> > > +	local grpid
-> > > +
-> > > +	for ((grpid = 1; ; grpid++)); do
-> > > +		if [[ ! -e "${port_cfs}/ana_groups/${grpid}" ]]; then
-> > > +			break
-> > > +		fi
-> > > +	done
-> > > +
-> > > +	mkdir "${port_cfs}/ana_groups/${grpid}"
-> > > +
-> > > +	echo "${grpid}"
-> > > +}
-> > > +
-> > > +_remove_nvmet_anagroup() {
-> > > +	local port="$1"
-> > > +	local grpid="$2"
-> > > +	local ana_cfs="${NVMET_CFS}/ports/${port}/ana_groups/${grpid}"
-> > > +
-> > > +	rmdir "${ana_cfs}"
-> > > +}
-> > > +
-> > > +_set_nvmet_anagroup_state() {
-> > > +	local port="$1"
-> > > +	local grpid="$2"
-> > > +	local state="$3"
-> > > +	local ana_cfs="${NVMET_CFS}/ports/${port}/ana_groups/${grpid}"
-> > > +
-> > > +	echo "${state}" > "${ana_cfs}/ana_state"
-> > > +}
-> > > +
-> > > +_display_ana_state() {
-> > > +	local nvmet_subsystem="$1"
-> > > +	local grpid state cntlid
-> > > +
-> > > +	for nvme in /sys/class/nvme/* ; do
-> > > +		[ -f ${nvme}/subsysnqn ] || continue
-> > > +		subsys="$(cat "${nvme}/subsysnqn")"
-> > > +		if [ "${subsys}" != "${nvmet_subsystem}" ] ; then
-> > > +			continue
-> > > +		fi
-> > > +		cntlid="$(cat "${nvme}/cntlid")"
-> > > +		for c in ${nvme}/nvme* ; do
-> > > +			if [ ! -d ${c} ] ; then
-> > > +				echo "${cntlid}: ANA disabled"
-> > > +				continue
-> > > +			fi
-> > > +			grpid="$(cat "${c}/ana_grpid")"
-> > > +			state="$(cat "${c}/ana_state")"
-> > > +			echo "${cntlid}: grpid ${grpid} state ${state}"
-> > > +		done
-> > > +	done
-> > > +}
-> > > +
-> > >   _create_nvmet_ns() {
-> > >   	local nvmet_subsystem="$1"
-> > >   	local nsid="$2"
-> > > @@ -52,14 +109,22 @@ _create_nvmet_ns() {
-> > >   	local uuid="00000000-0000-0000-0000-000000000000"
-> > >   	local subsys_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> > >   	local ns_path="${subsys_path}/namespaces/${nsid}"
-> > > +	local ana_grpid
-> > > -	if [[ $# -eq 4 ]]; then
-> > > +	if [[ $# -ge 4 ]]; then
-> > >   		uuid="$4"
-> > >   	fi
-> > > +	if [[ $# -eq 5 ]]; then
-> > > +		ana_grpid="$5"
-> > > +	fi
-> > > +
-> > >   	mkdir "${ns_path}"
-> > >   	printf "%s" "${blkdev}" > "${ns_path}/device_path"
-> > >   	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-> > > +	if [ -n "${ana_grpid}" ] ; then
-> > > +		printf "%s" "${ana_grpid}" > "${ns_path}/ana_grpid"
-> > > +	fi
-> > >   	printf 1 > "${ns_path}/enable"
-> > >   }
-> > > @@ -67,11 +132,12 @@ _create_nvmet_subsystem() {
-> > >   	local nvmet_subsystem="$1"
-> > >   	local blkdev="$2"
-> > >   	local uuid=$3
-> > > +	local ana_grpid=$4
-> > >   	local cfs_path="${NVMET_CFS}/subsystems/${nvmet_subsystem}"
-> > >   	mkdir -p "${cfs_path}"
-> > >   	echo 1 > "${cfs_path}/attr_allow_any_host"
-> > > -	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}"
-> > > +	_create_nvmet_ns "${nvmet_subsystem}" "1" "${blkdev}" "${uuid}" "${ana_grpid}"
-> > >   }
-> > >   _remove_nvmet_ns() {
-> > > @@ -115,6 +181,23 @@ _find_nvme_loop_dev() {
-> > >   		transport="$(cat "/sys/class/nvme/${dev}/transport")"
-> > >   		if [[ "$transport" == "loop" ]]; then
-> > >   			echo "$dev"
-> > > +			break
-> > > +		fi
-> > > +	done
-> > > +}
-> > > +
-> > > +_find_nvme_ns() {
-> > > +	local uuid=$1
-> > > +	local dev
-> > > +	local hidden
-> > > +
-> > > +	for dev in /sys/block/nvme*; do
-> > > +		hidden="$(cat "${dev}/hidden")"
-> > > +		[[ "$hidden" -eq 1 ]] && continue
-> > > +		u="$(cat "${dev}/uuid")"
-> > > +		if [[ "$uuid" = "$u" ]] ; then
-> > > +			echo "$(basename "${dev}")"
-> > > +			break
-> > 
-> > This fails if I have another NVMe device:
-> > 
-> > cat: /sys/block/nvme0n1/uuid: No such file or directory
-> > 
-> > And there are a bunch of shellcheck errors. The following fixes all of
-> > that:
-> > 
-> > diff --git a/tests/nvme/rc b/tests/nvme/rc
-> > index 3b3d852..0c8fc62 100644
-> > --- a/tests/nvme/rc
-> > +++ b/tests/nvme/rc
-> > @@ -84,14 +84,14 @@ _display_ana_state() {
-> >   	local grpid state cntlid
-> >   	for nvme in /sys/class/nvme/* ; do
-> > -		[ -f ${nvme}/subsysnqn ] || continue
-> > +		[[ -f ${nvme}/subsysnqn ]] || continue
-> >   		subsys="$(cat "${nvme}/subsysnqn")"
-> > -		if [ "${subsys}" != "${nvmet_subsystem}" ] ; then
-> > +		if [[ "${subsys}" != "${nvmet_subsystem}" ]] ; then
-> >   			continue
-> >   		fi
-> >   		cntlid="$(cat "${nvme}/cntlid")"
-> > -		for c in ${nvme}/nvme* ; do
-> > -			if [ ! -d ${c} ] ; then
-> > +		for c in "${nvme}/nvme"* ; do
-> > +			if [[ ! -d ${c} ]] ; then
-> >   				echo "${cntlid}: ANA disabled"
-> >   				continue
-> >   			fi
-> > @@ -122,7 +122,7 @@ _create_nvmet_ns() {
-> >   	mkdir "${ns_path}"
-> >   	printf "%s" "${blkdev}" > "${ns_path}/device_path"
-> >   	printf "%s" "${uuid}" > "${ns_path}/device_uuid"
-> > -	if [ -n "${ana_grpid}" ] ; then
-> > +	if [[ -n ${ana_grpid} ]] ; then
-> >   		printf "%s" "${ana_grpid}" > "${ns_path}/ana_grpid"
-> >   	fi
-> >   	printf 1 > "${ns_path}/enable"
-> > @@ -194,9 +194,8 @@ _find_nvme_ns() {
-> >   	for dev in /sys/block/nvme*; do
-> >   		hidden="$(cat "${dev}/hidden")"
-> >   		[[ "$hidden" -eq 1 ]] && continue
-> > -		u="$(cat "${dev}/uuid")"
-> > -		if [[ "$uuid" = "$u" ]] ; then
-> > -			echo "$(basename "${dev}")"
-> > +		if [[ -e "${dev}/uuid" && "$(cat "${dev}/uuid")" = "$uuid" ]] ; then
-> > +			basename "${dev}"
-> >   			break
-> >   		fi
-> >   	done
-> > 
-> Thanks.
+
+>> Hannes,
+>>
+>> Do you agree that it would suffice? Or, Do you think we should take
+>> a different approach?
+>>
+>> Would like to get some feedback from others given that this is not
+>> a trivial decision about which way we go here..
 > 
-> Should I resend my patchset?
+> Actually, I have looked at the original solution from James Smart for 
+> FC-NVMe autoconnect.
+> 
+> Essentially he starts a system service from a udev rule, which in itself 
+> is triggered by the event.
+> With that we're out of the udev program timeout (as systemd services can 
+> run for arbitrarily long) _and_ we also have resolved the problem of a 
+> uevent storm, as systemd will manage that for us.
 
-Yes, please, with the other mentioned issues addressed.
+That's a good idea!
+
+> The only problem here is that we need to pass arguments to the systemd 
+> service, but if we can use the standard udev trick of placing the 
+> arguments into the program environment and having the program looking 
+> for that we should be able to solve that, too.
+> 
+> Would you be okay with this approach?
+
+I'm fine with this approach. There are enough ways to
+pass in args to systemd:
+
+Something like:
+
+SUBSYSTEM=="nvme", ACTION=="change", \
+    RUN+=systemctl start nvmf-disc-change@" 
+--device=nvme$env{NVME_INSTANCE} --transport=$env{NVME_TRTYPE} 
+--traddr=$env{NVME_TRADDR} --trsvcid=$env{NVME_TRSVCID}".service
+
+And nvmf-disc-change at .service is:
+--
+[Unit]
+Description=NVMe automatic discovery upon discovery log change updates
+
+[Service]
+Environment="CONNECTALL_ARGS=%I"
+ExecStart=nvme connect-all $CONNECTALL_ARGS
+--
+
+We could also add EnvironmentFile for additional parameters
+(nr_io_queues, etc...)
+
+Thoughts?
