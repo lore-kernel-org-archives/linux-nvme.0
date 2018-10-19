@@ -1,89 +1,48 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 19 Oct 2018 15:24:37 -0700
-Subject: [PATCH RFC] nvmet: emulate noiob boundary
-Message-ID: <20181019222437.25289-1-sagi@grimberg.me>
+Date: Fri, 19 Oct 2018 15:24:50 -0700
+Subject: [PATCH] nvme: make sure ns head inherits underlying device limits
+Message-ID: <20181019222450.25397-1-sagi@grimberg.me>
 
-Useful to exercise the host driver to noiob support without having device
-that actually require it.
+Whenever we update ns_head info, we need to make sure it is still
+compatible with all underlying backing devices. Start with unlimited
+stacking limits, and every info update iterate over siblings and
+adjust queue limits.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/admin-cmd.c |  2 ++
- drivers/nvme/target/configfs.c  | 29 +++++++++++++++++++++++++++++
- drivers/nvme/target/nvmet.h     |  1 +
- 3 files changed, 32 insertions(+)
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 3554cb4c6387..7e187815e0ea 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -427,6 +427,8 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index bdfbbeb4b2f8..6194b3ee30ca 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1480,6 +1480,7 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ static void nvme_update_disk_info(struct gendisk *disk,
+ 		struct nvme_ns *ns, struct nvme_id_ns *id)
+ {
++	struct nvme_ns *n;
+ 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+ 	unsigned short bs = 1 << ns->lba_shift;
  
- 	id->lbaf[0].ds = ns->blksize_shift;
+@@ -1504,6 +1505,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	else
+ 		set_disk_ro(disk, false);
  
-+	id->noiob = cpu_to_le16(ns->noiob);
++	list_for_each_entry_rcu(n, &ns->head->list, siblings)
++		blk_queue_stack_limits(disk->queue, n->queue);
 +
- 	if (ns->readonly)
- 		id->nsattr |= (1 << 0);
- 	nvmet_put_namespace(ns);
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 46d0a0bc630b..5225715269cb 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -555,6 +555,34 @@ static ssize_t nvmet_ns_buffered_io_store(struct config_item *item,
+ 	blk_mq_unfreeze_queue(disk->queue);
+ }
  
- CONFIGFS_ATTR(nvmet_ns_, buffered_io);
+@@ -2958,6 +2962,8 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	if (ret)
+ 		goto out_cleanup_srcu;
  
-+static ssize_t nvmet_ns_chunk_sectors_show(struct config_item *item, char *page)
-+{
-+	return sprintf(page, "%u\n", to_nvmet_ns(item)->noiob);
-+}
++	blk_set_stacking_limits(&head->disk->queue->limits);
 +
-+static ssize_t nvmet_ns_chunk_sectors_store(struct config_item *item,
-+		const char *page, size_t count)
-+{
-+	struct nvmet_ns *ns = to_nvmet_ns(item);
-+	u16 noiob;
-+
-+	if (kstrtou16(page, 0, &noiob))
-+		return -EINVAL;
-+
-+	mutex_lock(&ns->subsys->lock);
-+	if (ns->enabled) {
-+		pr_err("disable ns before setting chunk_sectors\n");
-+		mutex_unlock(&ns->subsys->lock);
-+		return -EINVAL;
-+	}
-+
-+	ns->noiob = noiob;
-+	mutex_unlock(&ns->subsys->lock);
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(nvmet_ns_, chunk_sectors);
-+
- static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	&nvmet_ns_attr_device_path,
- 	&nvmet_ns_attr_device_nguid,
-@@ -562,6 +590,7 @@ static struct configfs_attribute *nvmet_ns_attrs[] = {
- 	&nvmet_ns_attr_ana_grpid,
- 	&nvmet_ns_attr_enable,
- 	&nvmet_ns_attr_buffered_io,
-+	&nvmet_ns_attr_chunk_sectors,
- 	NULL,
- };
+ 	list_add_tail(&head->entry, &ctrl->subsys->nsheads);
  
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 10c96d43868d..cb8b93c83c5b 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -67,6 +67,7 @@ struct nvmet_ns {
- 	u8			nguid[16];
- 	uuid_t			uuid;
- 	u32			anagrpid;
-+	u16			noiob;
- 
- 	bool			buffered_io;
- 	bool			enabled;
+ 	kref_get(&ctrl->subsys->ref);
 -- 
 2.17.1
