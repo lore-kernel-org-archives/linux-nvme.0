@@ -1,130 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 18 Oct 2018 17:40:40 -0700
-Subject: [PATCH v2 2/2] nvme-fabrics: move controller options matching to
- fabrics
-In-Reply-To: <20181019004040.28527-1-sagi@grimberg.me>
-References: <20181019004040.28527-1-sagi@grimberg.me>
-Message-ID: <20181019004040.28527-2-sagi@grimberg.me>
+Date: Thu, 18 Oct 2018 17:44:34 -0700
+Subject: [PATCH rfc 0/3] add support to discovery async event notifications
+In-Reply-To: <16d6de92-2f42-d78e-b3dd-60f8c4f18613@suse.de>
+References: <20181004212328.30205-1-sagi@grimberg.me>
+ <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
+ <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
+ <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
+ <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
+ <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
+ <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
+ <193097d1-b39b-f152-d60b-8bddbc3ee4b1@broadcom.com>
+ <16d6de92-2f42-d78e-b3dd-60f8c4f18613@suse.de>
+Message-ID: <bf5b9f20-3cc3-d912-86fc-5c13bb64c44a@grimberg.me>
 
-IP transports will most likely use the same controller options
-matching when detecting a duplicate connect. Move it to
-fabrics.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v1:
-- double tab function signature
+>> fyi - the udev script fc uses passes arguments (HOST_TRADDR and 
+>> TRADDR) from the event into the systemd service. Actually, it creates 
+>> an instance of the service based on the names built from those arguments.
+>>
+>> Passing different arguments beyond that seemed rather difficult. For 
+>> that I was assuming the instance arguments would have to be parsed, 
+>> and a system file extracted, to obtain any variable values (such as 
+>> device-specific connect timeouts, or queue count limits, etc).
+>>
+> That is precisely where I'm scratching my head now.
+> Essentially the systemd '@' thingie allows you to pass exactly _one_ 
+> argument. Sadly we have several options to pass, not just one.
+> We could reduce the number of options by having per-transport services,
+> but then we require at least two arguments to be passed (host traddr and 
+> traddr for FC, traddr, trsvcid, and adrfam for RDMA).
+>  From what I can see we can try to:
+> 1) escape the arguments so that they appear as one string to systemd, 
+> and then de-escaping them in the service file. Works without 
+> modification to the code, but then you always have to invoke the shell 
+> to handle escaping/de-escaping.
 
- drivers/nvme/host/fabrics.c | 29 +++++++++++++++++++++++++++++
- drivers/nvme/host/fabrics.h |  2 ++
- drivers/nvme/host/rdma.c    | 35 +----------------------------------
- 3 files changed, 32 insertions(+), 34 deletions(-)
+I don't see a problem with that..
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index bcd09d3a44da..5b3912f43e5e 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -868,6 +868,35 @@ static int nvmf_check_required_opts(struct nvmf_ctrl_options *opts,
- 	return 0;
- }
- 
-+bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
-+		struct nvmf_ctrl_options *opts)
-+{
-+	if (!nvmf_ctlr_matches_baseopts(ctrl, opts) ||
-+	    strcmp(opts->traddr, ctrl->opts->traddr) ||
-+	    strcmp(opts->trsvcid, ctrl->opts->trsvcid))
-+		return false;
-+
-+	/*
-+	 * checking the local address is rough. In most cases, one
-+	 * is not specified and the host port is selected by the stack.
-+	 *
-+	 * Assume no match if:
-+	 *  local address is specified and address is not the same
-+	 *  local address is not specified but remote is, or vice versa
-+	 *    (admin using specific host_traddr when it matters).
-+	 */
-+	if (opts->mask & NVMF_OPT_HOST_TRADDR &&
-+	    ctrl->opts->mask & NVMF_OPT_HOST_TRADDR) {
-+		if (strcmp(opts->host_traddr, ctrl->opts->host_traddr))
-+			return false;
-+	} else if (opts->mask & NVMF_OPT_HOST_TRADDR ||
-+		   ctrl->opts->mask & NVMF_OPT_HOST_TRADDR)
-+		return false;
-+
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(nvmf_ip_options_match);
-+
- static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
- 		unsigned int allowed_opts)
- {
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index aa2fdb2a2e8f..6ea6275f332a 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -166,6 +166,8 @@ blk_status_t nvmf_fail_nonready_command(struct nvme_ctrl *ctrl,
- 		struct request *rq);
- bool __nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 		bool queue_live);
-+bool nvmf_ip_options_match(struct nvme_ctrl *ctrl,
-+		struct nvmf_ctrl_options *opts);
- 
- static inline bool nvmf_check_ready(struct nvme_ctrl *ctrl, struct request *rq,
- 		bool queue_live)
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index ca18fe67f856..ab4e2a0cea87 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1856,39 +1856,6 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.stop_ctrl		= nvme_rdma_stop_ctrl,
- };
- 
--static inline bool
--__nvme_rdma_options_match(struct nvme_rdma_ctrl *ctrl,
--	struct nvmf_ctrl_options *opts)
--{
--	if (!nvmf_ctlr_matches_baseopts(&ctrl->ctrl, opts) ||
--	    strcmp(opts->traddr, ctrl->ctrl.opts->traddr) ||
--	    strcmp(opts->trsvcid, ctrl->ctrl.opts->trsvcid))
--		return false;
--
--	/*
--	 * checking the local address is rough. In most cases, one
--	 * is not specified and the host port is selected by the stack.
--	 *
--	 * Assume no match if:
--	 *  local address is specified and address is not the same
--	 *  local address is not specified but remote is, or vice versa
--	 *    (admin using specific host_traddr when it matters).
--	 */
--	if (opts->mask & NVMF_OPT_HOST_TRADDR &&
--	    ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR) {
--		if (strcmp(opts->host_traddr, ctrl->ctrl.opts->host_traddr))
--			return false;
--	} else if (opts->mask & NVMF_OPT_HOST_TRADDR ||
--		   ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
--		return false;
--	/*
--	 * if neither controller had an host port specified, assume it's
--	 * a match as everything else matched.
--	 */
--
--	return true;
--}
--
- /*
-  * Fails a connection request if it matches an existing controller
-  * (association) with the same tuple:
-@@ -1909,7 +1876,7 @@ nvme_rdma_existing_controller(struct nvmf_ctrl_options *opts)
- 
- 	mutex_lock(&nvme_rdma_ctrl_mutex);
- 	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
--		found = __nvme_rdma_options_match(ctrl, opts);
-+		found = nvmf_ip_options_match(&ctrl->ctrl, opts);
- 		if (found)
- 			break;
- 	}
--- 
-2.17.1
+> 2) preformat the nvme option string, and pass that as argument for the 
+> systemd service. Which actually would get rid of the need for using 
+> nvme-cli, too, as we could just write the string into the device node.
+> Will be looking into it.
+
+Where would the option string be preformatted?
