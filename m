@@ -1,45 +1,122 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 18 Oct 2018 17:44:34 -0700
-Subject: [PATCH rfc 0/3] add support to discovery async event notifications
-In-Reply-To: <16d6de92-2f42-d78e-b3dd-60f8c4f18613@suse.de>
-References: <20181004212328.30205-1-sagi@grimberg.me>
- <cbf24fc6-a6dd-dcc4-35ce-97bec248dd32@suse.de>
- <6874c24e-28ec-97da-5d31-6a9215f995e1@grimberg.me>
- <1e8b8eae-d52b-b8d0-9d86-9e5898b0efc2@suse.de>
- <068e3b84-b43e-0202-ace6-612e4466938b@grimberg.me>
- <3e7e99bc-deff-795f-0f0b-de3f50c3a50a@grimberg.me>
- <8c3dc9a9-f222-87e9-383f-d319fb0a86df@suse.de>
- <193097d1-b39b-f152-d60b-8bddbc3ee4b1@broadcom.com>
- <16d6de92-2f42-d78e-b3dd-60f8c4f18613@suse.de>
-Message-ID: <bf5b9f20-3cc3-d912-86fc-5c13bb64c44a@grimberg.me>
+Date: Thu, 18 Oct 2018 18:08:44 -0700
+Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
+In-Reply-To: <CAO+b5-oBVw=-wvnWk1EF=RBaZtjX6bjUG+3WABXbvzX9UTu26w@mail.gmail.com>
+References: <20180927180031.10706-1-sagi@grimberg.me>
+ <CAO+b5-oBVw=-wvnWk1EF=RBaZtjX6bjUG+3WABXbvzX9UTu26w@mail.gmail.com>
+Message-ID: <9716592b-6175-600d-c1a1-593cd3145b39@grimberg.me>
 
 
->> fyi - the udev script fc uses passes arguments (HOST_TRADDR and 
->> TRADDR) from the event into the systemd service. Actually, it creates 
->> an instance of the service based on the names built from those arguments.
->>
->> Passing different arguments beyond that seemed rather difficult. For 
->> that I was assuming the instance arguments would have to be parsed, 
->> and a system file extracted, to obtain any variable values (such as 
->> device-specific connect timeouts, or queue count limits, etc).
->>
-> That is precisely where I'm scratching my head now.
-> Essentially the systemd '@' thingie allows you to pass exactly _one_ 
-> argument. Sadly we have several options to pass, not just one.
-> We could reduce the number of options by having per-transport services,
-> but then we require at least two arguments to be passed (host traddr and 
-> traddr for FC, traddr, trsvcid, and adrfam for RDMA).
->  From what I can see we can try to:
-> 1) escape the arguments so that they appear as one string to systemd, 
-> and then de-escaping them in the service file. Works without 
-> modification to the code, but then you always have to invoke the shell 
-> to handle escaping/de-escaping.
+> It seems like this has not yet been fixed entirely. This is what appeared
+> in the kernel log this morning on my test setup with Christoph's nvme-4.20
+> branch (commit cb4bfda62afa ("nvme-pci: fix hot removal during error
+> handling")):
 
-I don't see a problem with that..
+There is something I'm missing here, the id_priv->handler_mutex that the
+connect context is running on is guaranteed to be different than the
+one being removed (a different cm_id) and also the workqueues are
+different.
 
-> 2) preformat the nvme option string, and pass that as argument for the 
-> systemd service. Which actually would get rid of the need for using 
-> nvme-cli, too, as we could just write the string into the device node.
-> Will be looking into it.
+Is it not allowed to flush workqueue A from a work that is hosted on
+workqueue B?
 
-Where would the option string be preformatted?
+> 
+> ======================================================
+> WARNING: possible circular locking dependency detected
+> 4.19.0-rc6-dbg+ #1 Not tainted
+> ------------------------------------------------------
+> kworker/u16:7/169 is trying to acquire lock:
+> 00000000578ccf82 (&id_priv->handler_mutex){+.+.}, at: 
+> rdma_destroy_id+0x6f/0x440 [rdma_cm]
+> 
+> but task is already holding lock:
+> 000000005d67271b ((work_completion)(&queue->release_work)){+.+.}, at: 
+> process_one_work+0x3ed/0xa20
+> 
+> which lock already depends on the new lock.
+> 
+> 
+> the existing dependency chain (in reverse order) is:
+> 
+> -> #3 ((work_completion)(&queue->release_work)){+.+.}:
+>  ? ? ? ?process_one_work+0x474/0xa20
+>  ? ? ? ?worker_thread+0x63/0x5a0
+>  ? ? ? ?kthread+0x1cf/0x1f0
+>  ? ? ? ?ret_from_fork+0x24/0x30
+> 
+> -> #2 ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}:
+>  ? ? ? ?flush_workqueue+0xf3/0x970
+>  ? ? ? ?nvmet_rdma_cm_handler+0x1319/0x170f [nvmet_rdma]
+>  ? ? ? ?cma_ib_req_handler+0x72f/0xf90 [rdma_cm]
+>  ? ? ? ?cm_process_work+0x2e/0x110 [ib_cm]
+>  ? ? ? ?cm_req_handler+0x135b/0x1c30 [ib_cm]
+>  ? ? ? ?cm_work_handler+0x2b7/0x38cd [ib_cm]
+>  ? ? ? ?process_one_work+0x4ae/0xa20
+>  ? ? ? ?worker_thread+0x63/0x5a0
+>  ? ? ? ?kthread+0x1cf/0x1f0
+>  ? ? ? ?ret_from_fork+0x24/0x30
+> 
+> -> #1 (&id_priv->handler_mutex/1){+.+.}:
+>  ? ? ? ?__mutex_lock+0xfe/0xbe0
+>  ? ? ? ?mutex_lock_nested+0x1b/0x20
+>  ? ? ? ?cma_ib_req_handler+0x6aa/0xf90 [rdma_cm]
+>  ? ? ? ?cm_process_work+0x2e/0x110 [ib_cm]
+>  ? ? ? ?cm_req_handler+0x135b/0x1c30 [ib_cm]
+>  ? ? ? ?cm_work_handler+0x2b7/0x38cd [ib_cm]
+>  ? ? ? ?process_one_work+0x4ae/0xa20
+>  ? ? ? ?worker_thread+0x63/0x5a0
+>  ? ? ? ?kthread+0x1cf/0x1f0
+>  ? ? ? ?ret_from_fork+0x24/0x30
+> 
+> -> #0 (&id_priv->handler_mutex){+.+.}:
+>  ? ? ? ?lock_acquire+0xd2/0x210
+>  ? ? ? ?__mutex_lock+0xfe/0xbe0
+>  ? ? ? ?mutex_lock_nested+0x1b/0x20
+>  ? ? ? ?rdma_destroy_id+0x6f/0x440 [rdma_cm]
+>  ? ? ? ?nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+>  ? ? ? ?process_one_work+0x4ae/0xa20
+>  ? ? ? ?worker_thread+0x63/0x5a0
+>  ? ? ? ?kthread+0x1cf/0x1f0
+>  ? ? ? ?ret_from_fork+0x24/0x30
+> 
+> other info that might help us debug this:
+> 
+> Chain exists of:
+>  ? &id_priv->handler_mutex --> (wq_completion)"nvmet-rdma-delete-wq" --> 
+> (work_completion)(&queue->release_work)
+> 
+>  ?Possible unsafe locking scenario:
+> 
+>  ? ? ? ?CPU0 ? ? ? ? ? ? ? ? ? ?CPU1
+>  ? ? ? ?---- ? ? ? ? ? ? ? ? ? ?----
+>  ? lock((work_completion)(&queue->release_work));
+>  ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?lock((wq_completion)"nvmet-rdma-delete-wq");
+>                                
+>  ?lock((work_completion)(&queue->release_work));
+>  ? lock(&id_priv->handler_mutex);
+> 
+>  ?*** DEADLOCK ***
+> 
+> 2 locks held by kworker/u16:7/169:
+>  ?#0: 00000000a32d4be9 ((wq_completion)"nvmet-rdma-delete-wq"){+.+.}, 
+> at: process_one_work+0x3ed/0xa20
+>  ?#1: 000000005d67271b ((work_completion)(&queue->release_work)){+.+.}, 
+> at: process_one_work+0x3ed/0xa20
+> 
+> stack backtrace:
+> CPU: 1 PID: 169 Comm: kworker/u16:7 Not tainted 4.19.0-rc6-dbg+ #1
+> Hardware name: Bochs Bochs, BIOS Bochs 01/01/2011
+> Workqueue: nvmet-rdma-delete-wq nvmet_rdma_release_queue_work [nvmet_rdma]
+> Call Trace:
+>  ?dump_stack+0xa4/0xf5
+>  ?print_circular_bug.isra.32+0x20a/0x218
+>  ?__lock_acquire+0x1a5e/0x1b20
+>  ?lock_acquire+0xd2/0x210
+>  ?__mutex_lock+0xfe/0xbe0
+>  ?mutex_lock_nested+0x1b/0x20
+>  ?rdma_destroy_id+0x6f/0x440 [rdma_cm]
+>  ?nvmet_rdma_release_queue_work+0x8e/0x1b0 [nvmet_rdma]
+>  ?process_one_work+0x4ae/0xa20
+>  ?worker_thread+0x63/0x5a0
+>  ?kthread+0x1cf/0x1f0
+>  ?ret_from_fork+0x24/0x30
