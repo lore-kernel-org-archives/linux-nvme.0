@@ -1,25 +1,76 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 18 Oct 2018 18:14:48 -0700
-Subject: Help needed: nvmet configuration
-In-Reply-To: <CABnqofy7bHCUu5n_n+j8bPrCrd7wnfrP3XSapA_UwQWsja6UAg@mail.gmail.com>
-References: <CABnqofxasv=-xbQQ+XZH8jad4Oa0gnvKusk5sF_a-kdSLvK1Ww@mail.gmail.com>
- <75a10e13-29fd-df82-0289-b4f6948365c0@grimberg.me>
- <CABnqofwo5xQGnuNTOzC+jsWqUmB-awS6nGWGK4SPPTDp=cFfeA@mail.gmail.com>
- <061df6c2-f1af-41b6-0bcd-5d936b4b41e5@grimberg.me>
- <CABnqofzSqFaNxaU=byG1NGgBXXB_-qX-Zhq7EimwZQT4EN_KBg@mail.gmail.com>
- <CABnqofy7bHCUu5n_n+j8bPrCrd7wnfrP3XSapA_UwQWsja6UAg@mail.gmail.com>
-Message-ID: <d80937ab-234f-f180-53de-f00f2014a5ab@grimberg.me>
+From: Himanshu.Madhani@cavium.com (Madhani, Himanshu)
+Date: Fri, 19 Oct 2018 04:20:18 +0000
+Subject: [PATCH v3 0/5] qla2xxx: Add FC-NVMe Target support
+In-Reply-To: <20180928224626.19777-1-himanshu.madhani@cavium.com>
+References: <20180928224626.19777-1-himanshu.madhani@cavium.com>
+Message-ID: <DCAC3534-7B77-4D4C-AC64-A0EC4A982074@cavium.com>
 
+Hello All, 
 
-> Hi Sagi,
+> On Sep 28, 2018,@3:46 PM, Himanshu Madhani <Himanshu.Madhani@cavium.com> wrote:
 > 
-> Just wanted to know if you got my earlier message.
+> Hi Martin, 
 > 
-> Like I mentioned,? I am able to do "rping" using the interface.
+> This series adds support for FC-NVMe Target.
 > 
-> Do you want me to try out any other thing?
+> Patch #1 adds infrastructure to support FC-NVMeT Link Service processing. 
+> Patch #2 adds addes new qla_nvmet.[ch] files for FC-NVMe Target support.
+> Patch #3 has bulk of changes to add hooks into common code infrastucture and 
+>         adds support for FC-NVMe Target LS4 processing via Purex path.
+> Patch #4 adds SysFS hook to enable NVMe Target for the port.
+> 
+> Please apply them to 4.20/scsi-queue at your earliest convenience.
+> 
+> Changes from v2 -> v3
+> o Reordered patches so that each patch compiles individually and is bisectable.
+> 
+> Changes from v1 -> v2
+> o Addressed all comments from Bart.
+> o Consolidated Patch 1 and Patch 2 into single patch.
+> o Fixed smatch warning reported by kbuild autommation.
+> o NVMe Target mode is exclusive at the moment. Cavium driver does not support both
+>  FCP Target and NVMe Target at the same time. This will be fixed in later updates.
+> 
+> Thanks,
+> Himanshu 
+> 
+> Anil Gurumurthy (4):
+>  qla2xxx_nvmet: Add FC-NVMe Target Link Service request handling
+>  qla2xxx_nvmet: Add files for FC-NVMe Target support
+>  qla2xxx_nvmet: Add FC-NVMe Target handling
+>  qla2xxx_nvmet: Add SysFS node for FC-NVMe Target
+> 
+> Himanshu Madhani (1):
+>  qla2xxx: Update driver version to 11.00.00.00-k
+> 
+> drivers/scsi/qla2xxx/Makefile      |   3 +-
+> drivers/scsi/qla2xxx/qla_attr.c    |  33 ++
+> drivers/scsi/qla2xxx/qla_dbg.c     |   1 +
+> drivers/scsi/qla2xxx/qla_dbg.h     |   2 +
+> drivers/scsi/qla2xxx/qla_def.h     |  35 +-
+> drivers/scsi/qla2xxx/qla_fw.h      | 263 ++++++++++
+> drivers/scsi/qla2xxx/qla_gbl.h     |  24 +-
+> drivers/scsi/qla2xxx/qla_gs.c      |  16 +-
+> drivers/scsi/qla2xxx/qla_init.c    |  49 +-
+> drivers/scsi/qla2xxx/qla_iocb.c    |   8 +-
+> drivers/scsi/qla2xxx/qla_isr.c     | 112 ++++-
+> drivers/scsi/qla2xxx/qla_mbx.c     | 101 +++-
+> drivers/scsi/qla2xxx/qla_nvme.h    |  33 --
+> drivers/scsi/qla2xxx/qla_nvmet.c   | 833 +++++++++++++++++++++++++++++++
+> drivers/scsi/qla2xxx/qla_nvmet.h   | 129 +++++
+> drivers/scsi/qla2xxx/qla_os.c      |  75 ++-
+> drivers/scsi/qla2xxx/qla_target.c  | 977 ++++++++++++++++++++++++++++++++++++-
+> drivers/scsi/qla2xxx/qla_target.h  |  90 ++++
+> drivers/scsi/qla2xxx/qla_version.h |   4 +-
+> 19 files changed, 2713 insertions(+), 75 deletions(-)
+> create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.c
+> create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.h
+> 
+> -- 
+> 2.12.0
 > 
 
-Something is not clear to me, you mention that you are using Mellanox
-NIC, but in your original message you probe iw_cxgb4. You should be
-loading mlx5_ib.
+Any review comments? 
+
+Thanks,
+- Himanshu
