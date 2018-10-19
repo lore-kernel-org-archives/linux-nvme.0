@@ -1,76 +1,24 @@
-From: Himanshu.Madhani@cavium.com (Madhani, Himanshu)
-Date: Fri, 19 Oct 2018 04:20:18 +0000
-Subject: [PATCH v3 0/5] qla2xxx: Add FC-NVMe Target support
-In-Reply-To: <20180928224626.19777-1-himanshu.madhani@cavium.com>
-References: <20180928224626.19777-1-himanshu.madhani@cavium.com>
-Message-ID: <DCAC3534-7B77-4D4C-AC64-A0EC4A982074@cavium.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 19 Oct 2018 08:00:49 +0200
+Subject: [PATCH 4/4] nvme-core: support traffic based keep-alive based
+ on controller support
+In-Reply-To: <2e1cba3c-a391-8c45-5987-0ba5317a6a19@grimberg.me>
+References: <20180928011537.30069-1-sagi@grimberg.me>
+ <20180928011537.30069-5-sagi@grimberg.me> <20181017070545.GA23049@lst.de>
+ <2e1cba3c-a391-8c45-5987-0ba5317a6a19@grimberg.me>
+Message-ID: <20181019060049.GA27902@lst.de>
 
-Hello All, 
+On Thu, Oct 18, 2018@05:38:29PM -0700, Sagi Grimberg wrote:
+>
+>>> +	nvme_req(req)->ctrl->comp_seen = true;
+>>
+>> shouldn't we only do this for controllers with keep a live support?
+>
+> What is the harm setting it anyways? Would it be better to condition it
+> on keep alive support instead?
 
-> On Sep 28, 2018,@3:46 PM, Himanshu Madhani <Himanshu.Madhani@cavium.com> wrote:
-> 
-> Hi Martin, 
-> 
-> This series adds support for FC-NVMe Target.
-> 
-> Patch #1 adds infrastructure to support FC-NVMeT Link Service processing. 
-> Patch #2 adds addes new qla_nvmet.[ch] files for FC-NVMe Target support.
-> Patch #3 has bulk of changes to add hooks into common code infrastucture and 
->         adds support for FC-NVMe Target LS4 processing via Purex path.
-> Patch #4 adds SysFS hook to enable NVMe Target for the port.
-> 
-> Please apply them to 4.20/scsi-queue at your earliest convenience.
-> 
-> Changes from v2 -> v3
-> o Reordered patches so that each patch compiles individually and is bisectable.
-> 
-> Changes from v1 -> v2
-> o Addressed all comments from Bart.
-> o Consolidated Patch 1 and Patch 2 into single patch.
-> o Fixed smatch warning reported by kbuild autommation.
-> o NVMe Target mode is exclusive at the moment. Cavium driver does not support both
->  FCP Target and NVMe Target at the same time. This will be fixed in later updates.
-> 
-> Thanks,
-> Himanshu 
-> 
-> Anil Gurumurthy (4):
->  qla2xxx_nvmet: Add FC-NVMe Target Link Service request handling
->  qla2xxx_nvmet: Add files for FC-NVMe Target support
->  qla2xxx_nvmet: Add FC-NVMe Target handling
->  qla2xxx_nvmet: Add SysFS node for FC-NVMe Target
-> 
-> Himanshu Madhani (1):
->  qla2xxx: Update driver version to 11.00.00.00-k
-> 
-> drivers/scsi/qla2xxx/Makefile      |   3 +-
-> drivers/scsi/qla2xxx/qla_attr.c    |  33 ++
-> drivers/scsi/qla2xxx/qla_dbg.c     |   1 +
-> drivers/scsi/qla2xxx/qla_dbg.h     |   2 +
-> drivers/scsi/qla2xxx/qla_def.h     |  35 +-
-> drivers/scsi/qla2xxx/qla_fw.h      | 263 ++++++++++
-> drivers/scsi/qla2xxx/qla_gbl.h     |  24 +-
-> drivers/scsi/qla2xxx/qla_gs.c      |  16 +-
-> drivers/scsi/qla2xxx/qla_init.c    |  49 +-
-> drivers/scsi/qla2xxx/qla_iocb.c    |   8 +-
-> drivers/scsi/qla2xxx/qla_isr.c     | 112 ++++-
-> drivers/scsi/qla2xxx/qla_mbx.c     | 101 +++-
-> drivers/scsi/qla2xxx/qla_nvme.h    |  33 --
-> drivers/scsi/qla2xxx/qla_nvmet.c   | 833 +++++++++++++++++++++++++++++++
-> drivers/scsi/qla2xxx/qla_nvmet.h   | 129 +++++
-> drivers/scsi/qla2xxx/qla_os.c      |  75 ++-
-> drivers/scsi/qla2xxx/qla_target.c  | 977 ++++++++++++++++++++++++++++++++++++-
-> drivers/scsi/qla2xxx/qla_target.h  |  90 ++++
-> drivers/scsi/qla2xxx/qla_version.h |   4 +-
-> 19 files changed, 2713 insertions(+), 75 deletions(-)
-> create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.c
-> create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.h
-> 
-> -- 
-> 2.12.0
-> 
-
-Any review comments? 
-
-Thanks,
-- Himanshu
+This writes to a cache line in the controller on every I/O completion.
+And while it isn't an atomic it isn't exactly going to help scalability,
+so I'd rather have a branch before it, which will be predicted not taken
+for controllers that don't have the feature (aka at least every PCIe
+controller on the planet)
