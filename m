@@ -1,61 +1,65 @@
 From: johannes@sipsolutions.net (Johannes Berg)
-Date: Mon, 22 Oct 2018 22:14:22 +0200
+Date: Mon, 22 Oct 2018 22:28:42 +0200
 Subject: [PATCH] Revert "workqueue: re-add lockdep dependencies for
  flushing"
-In-Reply-To: <20181022151818.135163-1-bvanassche@acm.org>
+In-Reply-To: <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
 References: <20181022151818.135163-1-bvanassche@acm.org>
-Message-ID: <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
+ <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
+Message-ID: <094669f3df1690dec5913c2086f6a6d8c470f685.camel@sipsolutions.net>
 
-On Mon, 2018-10-22@15:18 +0000, Bart Van Assche wrote:
-> Lockdep is a tool that developers rely on to find actual bugs. False
-> positive lockdep warnings are very annoying because it takes time to
-> analyze these and to verify that the warning is really a false positive
-> report. Since commit 87915adc3f0a ("workqueue: re-add lockdep
-> dependencies for flushing") causes lockdep to produce multiple false
-> positive reports, revert that commit. 
+On Mon, 2018-10-22@22:14 +0200, Johannes Berg wrote:
 
+> "False positives" - which in this case really should more accurately be
+> called "bad lockdep annotations" - of the kind you report here are
+> inherent in how lockdep works, and thus following your argument to the
+> ultimate conclusion you should remove lockdep.
 
-What, no, I obviously _strongly_ object to this. You've just killed
-lockdep reporting an entire *class* of problems over a single report
-that you don't like.
+> I must also say that I'm disappointed you'd try to do things this way.
+> I'd be (have been?) willing to actually help you understand the problem
+> and add the annotations, but rather than answer my question ("where do I
+> find the right git tree"!) you just send a revert patch.
 
-"False positives" - which in this case really should more accurately be
-called "bad lockdep annotations" - of the kind you report here are
-inherent in how lockdep works, and thus following your argument to the
-ultimate conclusion you should remove lockdep.
+Actually, wait, you have a different problem in the patch than the one
+you reported earlier? Which I haven't even seen at all...
 
+And this one is actually either the same missing subclass annotation, or
+completely valid. You have here
 
-Say, for example (and similar things exist, like socket locks in
-networking), you have a list of objects, each initialized through a
-single function that does mutex_init(), causing a single lockdep class
-to be used.
+ * dio/... workqueue
+ * dio->complete_work, running on that workqueue
+ * i_mutex_key#16
 
-Now you have to acquire the locks for multiple such objects, and to make
-that safe you always do that in object ID order, which is strictly
-monotonically increasing.
+The lockdep report even more or less tells you what's going on. Perhaps
+we need to find a way to make lockdep not print "lock()" but "start()"
+or "flush()" for work items ... but if you read it this way, you see:
 
-Lockdep will *certainly* complain about this situation, since as far as
-it is concerned, you've just done a recursive lock.
+CPU0			CPU1
 
-The solution to this isn't to remove lockdep annotations for mutexes (or
-work objects, as you propose), the solution is to tell lockdep that you
-actually have multiple classes of objects, and thus the recursion you do
-is not a problem.
+lock(i_mutex_key)
+			start(dio->complete_work)
+			lock(i_mutex_key)
+flush(wq dio/...)
 
-So clearly, NACK.
+which is *clearly* a problem. You can't flush a workqueue under lock
+that is (or might be) currently running a work item that takes the same
+lock. You've already acquired the lock, and so the complete_work is
+waiting for the lock, but you're now in the flush waiting for it to
+finish ... pretty much a classic ABBA deadlock, just with workqueues.
 
-I must also say that I'm disappointed you'd try to do things this way.
-I'd be (have been?) willing to actually help you understand the problem
-and add the annotations, but rather than answer my question ("where do I
-find the right git tree"!) you just send a revert patch.
+It's possible, of course, that multiple instances of the same class are
+involved and they're somehow ordered/nested in a way that is in fact
+safe, say in this case CPU0 and CPU1 have acquired (or are trying to
+acquire) fundamentally different instances of "i_mutex_key#16", or the
+dio->complete_work here doesn't actually run on the dio workqueue in
+question, but somehow a different one.
 
-To do that, you have to understand what recursion is valid (I'm guessing
-there's some sort of layering involved), and I'm far from understanding
-anything about the code that triggered this report.
+With workqueues, it's also possible that something out-of-band, other
+than the flush_workqueue(), prevents dio->complete_work from being
+running at this point in time - but in that case you might actually be
+able to get rid of the flush_workqueue() entirely.
 
-I'm almost certain can teach lockdep about why the recursion is fine,
-probably by using a lock subclass (last argument to lockdep_init_map())
-in either a new variant of alloc_workqueue() or a new variant of
-INIT_WORK().
+It ought to be possible to annotate this too though, but again, I'm not
+an expert on what the correct and safe nesting here would be, and thus
+wouldn't be able to say how to do it.
 
 johannes
