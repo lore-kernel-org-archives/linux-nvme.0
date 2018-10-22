@@ -1,26 +1,42 @@
 From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 22 Oct 2018 14:17:26 -0700
-Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
-In-Reply-To: <972d73ea2043fe755e9a5d9be649bb15a88378e7.camel@sipsolutions.net>
-References: <20180927180031.10706-1-sagi@grimberg.me>
- <CAO+b5-oBVw=-wvnWk1EF=RBaZtjX6bjUG+3WABXbvzX9UTu26w@mail.gmail.com>
- <9716592b-6175-600d-c1a1-593cd3145b39@grimberg.me>
- <1539966212.81977.53.camel@acm.org>
- <972d73ea2043fe755e9a5d9be649bb15a88378e7.camel@sipsolutions.net>
-Message-ID: <1540243046.128590.28.camel@acm.org>
+Date: Mon, 22 Oct 2018 14:26:32 -0700
+Subject: [PATCH] Revert "workqueue: re-add lockdep dependencies for
+ flushing"
+In-Reply-To: <d45d54e8a46028c2b83296c5bf25a89500a289c4.camel@sipsolutions.net>
+References: <20181022151818.135163-1-bvanassche@acm.org>
+ <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
+ <094669f3df1690dec5913c2086f6a6d8c470f685.camel@sipsolutions.net>
+ <1540241646.128590.16.camel@acm.org>
+ (sfid-20181022_225411_316091_CE34F84D)
+ <d45d54e8a46028c2b83296c5bf25a89500a289c4.camel@sipsolutions.net>
+Message-ID: <1540243592.128590.36.camel@acm.org>
 
-On Mon, 2018-10-22@10:56 +0200, Johannes Berg wrote:
-> On Fri, 2018-10-19@16:23 +0000, Bart Van Assche wrote:
-> > On Thu, 2018-10-18@18:08 -0700, Sagi Grimberg wrote:
-> > > > It seems like this has not yet been fixed entirely. This is what appeared
-> > > > in the kernel log this morning on my test setup with Christoph's nvme-4.20
-> > > > branch (commit cb4bfda62afa ("nvme-pci: fix hot removal during error
-> > > > handling")):
+On Mon, 2018-10-22@23:04 +0200, Johannes Berg wrote:
+> When lockdep was added, the networking socket locks also were (mostly)
+> fine, recursion there only happened on different types of sockets. Yet,
+> lockdep did in fact report issues with it, because originally they
+> weren't split into different classes.
 > 
-> FWIW, I'm not sure where to find this tree (it's not on kernel.org,
-> apparently, at least none of hch's?). As a result, I don't have the
-> correct code here now.
+> Did we remove lockdep again because it was reporting a potential problem
+> in the socket lock code?
 
-Christoph's NVMe tree is available at git://git.infradead.org/nvme.git.
+I do not agree. It is accepted in the kernel community that if locks are
+nested that nested locks should always be taken in the same order. There is
+no agreement however that the kind of checking implemented by the "crosslock"
+code made sense. My understanding is that you are trying to reintroduce
+through a backdoor some of the crosslock code. There is scientific evidence
+that it is not possible to come up with an algorithm that flags all
+potential deadlocks in programs that use completions without reporting false
+positives. See e.g. Agarwal, Rahul, and Scott D. Stoller. "Run-time detection
+of potential deadlocks for programs with locks, semaphores, and condition
+variables." In Proceedings of the 2006 workshop on Parallel and distributed
+systems: testing and debugging, pp. 51-60. ACM, 2006.
+(http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.436.7823&rep=rep1&type=pdf).
+
+> As I thought I made pretty clear, the report is in fact valid.
+
+I'm surprised that although your patch caused a deadlock to be reported while
+no deadlock occurred that you keep insisting that your report is valid. I don't
+understand this.
 
 Bart.
