@@ -1,25 +1,32 @@
-From: ramirose@gmail.com (Rami Rosen)
-Date: Tue, 23 Oct 2018 18:13:23 +0300
-Subject: [PATCH ] nvme-cli: fix a typo
-Message-ID: <20181023151323.7578-1-ramirose@gmail.com>
+From: johannes@sipsolutions.net (Johannes Berg)
+Date: Tue, 23 Oct 2018 21:18:33 +0200
+Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
+In-Reply-To: <1540243046.128590.28.camel@acm.org>
+ (sfid-20181022_231730_752241_D589AC78)
+References: <20180927180031.10706-1-sagi@grimberg.me>
+ <CAO+b5-oBVw=-wvnWk1EF=RBaZtjX6bjUG+3WABXbvzX9UTu26w@mail.gmail.com>
+ <9716592b-6175-600d-c1a1-593cd3145b39@grimberg.me>
+ <1539966212.81977.53.camel@acm.org>
+ <972d73ea2043fe755e9a5d9be649bb15a88378e7.camel@sipsolutions.net>
+ <1540243046.128590.28.camel@acm.org> (sfid-20181022_231730_752241_D589AC78)
+Message-ID: <085ad00de636fd4f3a7c2cccd5d991df11931ead.camel@sipsolutions.net>
 
-Signed-off-by: Rami Rosen <ramirose at gmail.com>
----
- nvme-builtin.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 2018-10-22@14:17 -0700, Bart Van Assche wrote:
+> On Mon, 2018-10-22@10:56 +0200, Johannes Berg wrote:
+> > On Fri, 2018-10-19@16:23 +0000, Bart Van Assche wrote:
+> > > On Thu, 2018-10-18@18:08 -0700, Sagi Grimberg wrote:
+> > > > > It seems like this has not yet been fixed entirely. This is what appeared
+> > > > > in the kernel log this morning on my test setup with Christoph's nvme-4.20
+> > > > > branch (commit cb4bfda62afa ("nvme-pci: fix hot removal during error
+> > > > > handling")):
+> > 
+> > FWIW, I'm not sure where to find this tree (it's not on kernel.org,
+> > apparently, at least none of hch's?). As a result, I don't have the
+> > correct code here now.
+> 
+> Christoph's NVMe tree is available at git://git.infradead.org/nvme.git.
 
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index 7cf10ef..b913cea 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -54,7 +54,7 @@ COMMAND_LIST(
- 	ENTRY("write-zeroes", "Submit a write zeroes command, return results", write_zeroes)
- 	ENTRY("write-uncor", "Submit a write uncorrectable command, return results", write_uncor)
- 	ENTRY("sanitize", "Submit a sanitize command", sanitize)
--	ENTRY("sanitize-log", "Retrive sanitize log, show it", sanitize_log)
-+	ENTRY("sanitize-log", "Retrieve sanitize log, show it", sanitize_log)
- 	ENTRY("reset", "Resets the controller", reset)
- 	ENTRY("subsystem-reset", "Resets the controller", subsystem_reset)
- 	ENTRY("ns-rescan", "Rescans the NVME namespaces", ns_rescan)
--- 
-2.17.1
+Ok, thanks. I think I'll go off Sagi Grimberg's explanation though
+rather than try to understand the code myself.
+
+johannes
