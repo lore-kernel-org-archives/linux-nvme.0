@@ -1,28 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 22 Oct 2018 17:22:15 -0700
-Subject: [PATCH] nvme: make sure ns head inherits underlying device limits
-In-Reply-To: <20181022085752.GD18755@lst.de>
-References: <20181019222450.25397-1-sagi@grimberg.me>
- <20181022085752.GD18755@lst.de>
-Message-ID: <70bcef36-48da-cae7-4e23-ac9b01814a74@grimberg.me>
+Date: Mon, 22 Oct 2018 17:29:55 -0700
+Subject: [PATCH RFC] nvmet: emulate noiob boundary
+In-Reply-To: <20181022085912.GE18755@lst.de>
+References: <20181019222437.25289-1-sagi@grimberg.me>
+ <20181022085912.GE18755@lst.de>
+Message-ID: <1fc9b542-caa0-4696-d2bd-5722b97a17c8@grimberg.me>
 
 
->> Whenever we update ns_head info, we need to make sure it is still
->> compatible with all underlying backing devices. Start with unlimited
->> stacking limits, and every info update iterate over siblings and
->> adjust queue limits.
+>> Useful to exercise the host driver to noiob support without having device
+>> that actually require it.
 > 
-> Why?  Neither the block layer, nor the nvme multipath code should
-> even look at this values.
+> This code looks ok to me, but I'm rather worried about adding these
+> just for fun features - we'll eventually have a configfs mess just
+> like the scsi target code if we just keep adding random options.
 
-Without this patch at least max_segments and max_hw_sectors of the head 
-device node are degenerated to defaults that have nothing to do with the
-underlying device limits.
+Well, this helped me debug a sub-page bio split code path that I
+wouldn't be able to generate without, so I think its beneficial
+to have a knob for it.
 
-This can result in unnecessary bio splitting for the head device
-node...
+In general, I would be in favor of us having the kernel target
+allow one to exercise the host code in various forms, but would not
+want to have endless attributes to setup. Perhaps we would want to have
+these sort of stuff with a debug prefix such that its clear that only
+debug stuff belong there?
 
-Although I did not check, same holds for discard sectors/segments.
-
-Maybe this is an overkill? but thought this would be a better idea than
-simply adjusting limits one-by-one depending on what I find...
+Thoughts?
