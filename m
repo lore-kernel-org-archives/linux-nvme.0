@@ -1,59 +1,58 @@
 From: johannes@sipsolutions.net (Johannes Berg)
-Date: Tue, 23 Oct 2018 21:22:57 +0200
-Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
-In-Reply-To: <0d62caa5-28ec-593b-7537-c27c8260366a@grimberg.me>
- (sfid-20181023_024040_093368_2E475D06)
-References: <20180927180031.10706-1-sagi@grimberg.me>
- <CAO+b5-oBVw=-wvnWk1EF=RBaZtjX6bjUG+3WABXbvzX9UTu26w@mail.gmail.com>
- <9716592b-6175-600d-c1a1-593cd3145b39@grimberg.me>
- <1539966212.81977.53.camel@acm.org>
- <972d73ea2043fe755e9a5d9be649bb15a88378e7.camel@sipsolutions.net>
- <0d62caa5-28ec-593b-7537-c27c8260366a@grimberg.me>
- (sfid-20181023_024040_093368_2E475D06)
-Message-ID: <a0d857b4bd5c7da86c7496dfaddb69c7f85fefec.camel@sipsolutions.net>
+Date: Tue, 23 Oct 2018 21:26:31 +0200
+Subject: [PATCH] Revert "workqueue: re-add lockdep dependencies for
+ flushing"
+In-Reply-To: <63ae9bac-3587-bded-ea98-e43fb4d7240d@grimberg.me>
+ (sfid-20181023_024355_374203_678E864D)
+References: <20181022151818.135163-1-bvanassche@acm.org>
+ <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
+ <1540244870.128590.39.camel@acm.org>
+ <63ae9bac-3587-bded-ea98-e43fb4d7240d@grimberg.me>
+ (sfid-20181023_024355_374203_678E864D)
+Message-ID: <b3aae7aa8241c9828c04d2f2b58927f4ce1411b9.camel@sipsolutions.net>
 
-On Mon, 2018-10-22@17:40 -0700, Sagi Grimberg wrote:
-> > > > 
-> I'm not sure how I can divide them into classes. The priv is really
-> an internal structure that surrounds a connection connection
-> representation. The priv->handler_mutex wraps every event handling
-> dispatched to the upper layer consumer.
+On Mon, 2018-10-22@17:43 -0700, Sagi Grimberg wrote:
+> > > I must also say that I'm disappointed you'd try to do things this way.
+> > > I'd be (have been?) willing to actually help you understand the problem
+> > > and add the annotations, but rather than answer my question ("where do I
+> > > find the right git tree"!) you just send a revert patch.
+> > 
+> > Sorry that I had not yet provided that information. You should have
+> > received this information through another e-mail thread. See also
+> > http://lists.infradead.org/pipermail/linux-nvme/2018-October/020493.html.
+> > 
+> > > To do that, you have to understand what recursion is valid (I'm guessing
+> > > there's some sort of layering involved), and I'm far from understanding
+> > > anything about the code that triggered this report.
+> > 
+> > I don't think there is any kind of recursion involved in the NVMe code
+> > that triggered the lockdep complaint. Sagi, please correct me if I got this
+> > wrong.
 > 
-> The connection destruction barriers by acquiring and releasing this
-> event_handler mutex such that no events are handled by the
-> 
-> See drivers/infiniband/core/cma.c rdma_destroy_id()
-> 
-> In our case, one of the event handlers flushes a workqueue that
-> is hosting work items that essentially call rdma_destroy_id() on
-> connections that are guaranteed not to be the one currently handling
-> the event. So the priv is guaranteed to be a different instance.
+> I commented on the original thread. I'm not sure it qualifies as a
+> recursion, but in that use-case, when priv->handler_mutex is taken
+> it is possible that other priv->handler_mutex instances are taken but
+> are guaranteed not to belong to that priv...
 
-I think the key here would be "are guaranteed not to be the one
-currently handling the event". How exactly is that guaranteed?
+I also commented over there regarding this specific problem.
 
-Is there some sort of static guarantee for this?
+I think my wording was inaccurate perhaps. It's not so much direct
+recursion, but a dependency chain connecting the handler_mutex class
+back to itself. This is how lockdep finds problems, it doesn't consider
+actual *instances* but only *classes*.
 
-But I guess the easiest thing to do would be to use mutex_lock_nested()
-in some places here, or add something like flush_workqueue_nested().
-That would let you annotate this place in the code, basically saying -
-yes, I know I'm doing
+As Sagi mentioned on the other thread, in this specific instance you
+happen to know out-of-band that this is safe, (somehow) the code ensures
+that you can't actually recursively connect back to yourself. Perhaps
+there's some kind of layering involved, I don't know. (*)
 
-CPU0			CPU1
-mutex_lock(A)		start_work(B)
-flush_work(B)		  mutex_lock(A)
-
-but it's fine because I know, in this specific instance, that it's
-really A' not A for the mutex. So if you were to do
-	mutex_lock_nested(A, SINGLE_DEPTH_NESTING)
-around the flush_work() - since your code knows that the flush_work() is
-actually a different item and guaranteed to not build a graph connecting
-back to itself, that should work to tell lockdep enough to not complain
-here.
-
-If this could actually recurse, but not to itself, you'd have to bump
-the level up each time - which does get difficult since you're executing
-asynchronously with the work queue. Not sure off the top of my head how
-I'd solve that.
+As I said over there, this type of thing can be solved with
+mutex_lock_nested(), though it's possible that in this case it should
+really be flush_workqueue_nested() or flush_work_nested() or so.
 
 johannes
+
+(*) note that just checking "obj != self" might not be enough, depending
+on how you pick candidates for "obj" you might recurse down another
+level and end up back at yourself, just two levels down, and actually
+have a dependency chain leading back to yourself.
