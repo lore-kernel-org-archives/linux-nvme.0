@@ -1,28 +1,28 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 22 Oct 2018 14:47:50 -0700
-Subject: [PATCH] Revert "workqueue: re-add lockdep dependencies for
- flushing"
-In-Reply-To: <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
-References: <20181022151818.135163-1-bvanassche@acm.org>
- <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
-Message-ID: <1540244870.128590.39.camel@acm.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 22 Oct 2018 17:22:15 -0700
+Subject: [PATCH] nvme: make sure ns head inherits underlying device limits
+In-Reply-To: <20181022085752.GD18755@lst.de>
+References: <20181019222450.25397-1-sagi@grimberg.me>
+ <20181022085752.GD18755@lst.de>
+Message-ID: <70bcef36-48da-cae7-4e23-ac9b01814a74@grimberg.me>
 
-On Mon, 2018-10-22@22:14 +0200, Johannes Berg wrote:
-> I must also say that I'm disappointed you'd try to do things this way.
-> I'd be (have been?) willing to actually help you understand the problem
-> and add the annotations, but rather than answer my question ("where do I
-> find the right git tree"!) you just send a revert patch.
 
-Sorry that I had not yet provided that information. You should have
-received this information through another e-mail thread. See also
-http://lists.infradead.org/pipermail/linux-nvme/2018-October/020493.html.
+>> Whenever we update ns_head info, we need to make sure it is still
+>> compatible with all underlying backing devices. Start with unlimited
+>> stacking limits, and every info update iterate over siblings and
+>> adjust queue limits.
+> 
+> Why?  Neither the block layer, nor the nvme multipath code should
+> even look at this values.
 
-> To do that, you have to understand what recursion is valid (I'm guessing
-> there's some sort of layering involved), and I'm far from understanding
-> anything about the code that triggered this report.
+Without this patch at least max_segments and max_hw_sectors of the head 
+device node are degenerated to defaults that have nothing to do with the
+underlying device limits.
 
-I don't think there is any kind of recursion involved in the NVMe code
-that triggered the lockdep complaint. Sagi, please correct me if I got this
-wrong.
+This can result in unnecessary bio splitting for the head device
+node...
 
-Bart.
+Although I did not check, same holds for discard sectors/segments.
+
+Maybe this is an overkill? but thought this would be a better idea than
+simply adjusting limits one-by-one depending on what I find...
