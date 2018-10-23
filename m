@@ -1,50 +1,43 @@
-From: johannes@sipsolutions.net (Johannes Berg)
-Date: Tue, 23 Oct 2018 21:50:32 +0200
-Subject: [PATCH] Revert "workqueue: re-add lockdep dependencies for
- flushing"
-In-Reply-To: <8d1a9c8c-fddb-7fb9-4bba-377bc6d51829@acm.org>
- (sfid-20181023_031737_471584_691D2EF3)
-References: <20181022151818.135163-1-bvanassche@acm.org>
- <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
- <094669f3df1690dec5913c2086f6a6d8c470f685.camel@sipsolutions.net>
- <1540241646.128590.16.camel@acm.org>
- <d45d54e8a46028c2b83296c5bf25a89500a289c4.camel@sipsolutions.net>
- <8d1a9c8c-fddb-7fb9-4bba-377bc6d51829@acm.org>
- (sfid-20181023_031737_471584_691D2EF3)
-Message-ID: <dc47992cfd3300884aab8885caebe1072ddd6c71.camel@sipsolutions.net>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Tue, 23 Oct 2018 12:54:27 -0700
+Subject: [PATCH RFC] nvmet-rdma: use a private workqueue for delete
+In-Reply-To: <085ad00de636fd4f3a7c2cccd5d991df11931ead.camel@sipsolutions.net>
+References: <20180927180031.10706-1-sagi@grimberg.me>
+ <CAO+b5-oBVw=-wvnWk1EF=RBaZtjX6bjUG+3WABXbvzX9UTu26w@mail.gmail.com>
+ <9716592b-6175-600d-c1a1-593cd3145b39@grimberg.me>
+ <1539966212.81977.53.camel@acm.org>
+ <972d73ea2043fe755e9a5d9be649bb15a88378e7.camel@sipsolutions.net>
+ <1540243046.128590.28.camel@acm.org>
+ (sfid-20181022_231730_752241_D589AC78)
+ <085ad00de636fd4f3a7c2cccd5d991df11931ead.camel@sipsolutions.net>
+Message-ID: <1540324467.66186.10.camel@acm.org>
 
-On Mon, 2018-10-22@18:17 -0700, Bart Van Assche wrote:
+On Tue, 2018-10-23@21:18 +0200, Johannes Berg wrote:
+> On Mon, 2018-10-22@14:17 -0700, Bart Van Assche wrote:
+> > On Mon, 2018-10-22@10:56 +0200, Johannes Berg wrote:
+> > > On Fri, 2018-10-19@16:23 +0000, Bart Van Assche wrote:
+> > > > On Thu, 2018-10-18@18:08 -0700, Sagi Grimberg wrote:
+> > > > > > It seems like this has not yet been fixed entirely. This is what appeared
+> > > > > > in the kernel log this morning on my test setup with Christoph's nvme-4.20
+> > > > > > branch (commit cb4bfda62afa ("nvme-pci: fix hot removal during error
+> > > > > > handling")):
+> > > 
+> > > FWIW, I'm not sure where to find this tree (it's not on kernel.org,
+> > > apparently, at least none of hch's?). As a result, I don't have the
+> > > correct code here now.
+> > 
+> > Christoph's NVMe tree is available at git://git.infradead.org/nvme.git.
+> 
+> Ok, thanks. I think I'll go off Sagi Grimberg's explanation though
+> rather than try to understand the code myself.
 
-> It seems to me that the inode lock has been annotated correctly as an 
-> rwsem. It's not clear to me however why lockdep complains about a 
-> deadlock for the direct I/O code. I hope someone has the time to go to 
-> the bottom of this.
+Are the lockdep annotations in kernel/workqueue.c correct? My understanding
+is that lock_map_acquire() should only be used to annotate mutually exclusive
+locking (e.g. mutex, spinlock). However, multiple work items associated with
+the same workqueue can be executed concurrently. From lockdep.h:
 
-I think the explanation I just sent should help clarify this.
+#define lock_map_acquire(l) lock_acquire_exclusive(l, 0, 0, NULL, _THIS_IP_)
 
-The reason for the report is that with the workqueue annotations, we've
-added new links to the chains that lockdep sees. I _think_ those
-annotations are correct and only create links in the chain when they are
-actually present, but since those links are between *classes* not
-*instances* these new links may cause false positives.
+Thanks,
 
-I don't think the issue is the annotations of the inode lock per se, but
-that the new links in the class chain cause these locks to cycle back to
-themselves, which indicates a potential deadlock to lockdep.
-
-Of course now we need to go in and tell lockdep that it shouldn't
-consider these classes the same, but somebody who actually understands
-why it's _fine_ that this ends up linking back to itself should do that.
-I'm willing to help, but I'd have to have somebody on the phone who
-knows about all these locks and workqueues and how they interact to be
-able to do something useful.
-
-Like I said in the other email though, I don't think arbitrarily
-removing links from the lockdep chain is the right thing to do. Why
-arbitrarily? Well, you might just as well remove the inode sem
-annotations, and that would also break the chain, right? Yes, those have
-been present longer, but for this particular instance it'd be
-equivalent, you'd just get different reports in other places than if you
-remove the workqueue annotations again.
-
-johannes
+Bart.
