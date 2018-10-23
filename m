@@ -1,32 +1,25 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 23 Oct 2018 08:00:53 -0500
-Subject: [PATCH v2] block: fix rdma queue mapping
-In-Reply-To: <c850626a-5891-fa34-e647-c815f67099da@grimberg.me>
-References: <20180820205420.25908-1-sagi@grimberg.me>
- <20180822131130.GC28149@lst.de>
- <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
- <33192971-7edd-a3b6-f2fa-abdcbef375de@opengridcomputing.com>
- <20181017163720.GA23798@lst.de>
- <c850626a-5891-fa34-e647-c815f67099da@grimberg.me>
-Message-ID: <00dd01d46ad0$6eb82250$4c2866f0$@opengridcomputing.com>
+From: ramirose@gmail.com (Rami Rosen)
+Date: Tue, 23 Oct 2018 18:13:23 +0300
+Subject: [PATCH ] nvme-cli: fix a typo
+Message-ID: <20181023151323.7578-1-ramirose@gmail.com>
 
-> >> Christoph, Sagi:  it seems you think /proc/irq/$IRP/smp_affinity
-> >> shouldn't be allowed if drivers support managed affinity. Is that correct?
-> >
-> > Not just shouldn't, but simply can't.
-> >
-> >> But as it stands, things are just plain borked if an rdma driver
-> >> supports ib_get_vector_affinity() yet the admin changes the affinity via
-> >> /proc...
-> >
-> > I think we need to fix ib_get_vector_affinity to not return anything
-> > if the device doesn't use managed irq affinity.
-> 
-> Steve, does iw_cxgb4 use managed affinity?
-> 
-> I'll send a patch for mlx5 to simply not return anything as managed
-> affinity is not something that the maintainers want to do.
+Signed-off-by: Rami Rosen <ramirose at gmail.com>
+---
+ nvme-builtin.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm beginning to think I don't know what "managed affinity" actually is.  Currently iw_cxgb4 doesn't support ib_get_vector_affinity().  I have a patch for it, but ran into this whole issue with nvme failing if someone changes the affinity map via /proc.
-
-Steve.
+diff --git a/nvme-builtin.h b/nvme-builtin.h
+index 7cf10ef..b913cea 100644
+--- a/nvme-builtin.h
++++ b/nvme-builtin.h
+@@ -54,7 +54,7 @@ COMMAND_LIST(
+ 	ENTRY("write-zeroes", "Submit a write zeroes command, return results", write_zeroes)
+ 	ENTRY("write-uncor", "Submit a write uncorrectable command, return results", write_uncor)
+ 	ENTRY("sanitize", "Submit a sanitize command", sanitize)
+-	ENTRY("sanitize-log", "Retrive sanitize log, show it", sanitize_log)
++	ENTRY("sanitize-log", "Retrieve sanitize log, show it", sanitize_log)
+ 	ENTRY("reset", "Resets the controller", reset)
+ 	ENTRY("subsystem-reset", "Resets the controller", subsystem_reset)
+ 	ENTRY("ns-rescan", "Rescans the NVME namespaces", ns_rescan)
+-- 
+2.17.1
