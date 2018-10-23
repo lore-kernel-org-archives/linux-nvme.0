@@ -1,114 +1,28 @@
-From: lijie34@huawei.com (lijie)
-Date: Tue, 23 Oct 2018 11:24:55 +0800
-Subject: [PATCH] nvmet:added support for identifying controller list
-Message-ID: <1540265095-11360-1-git-send-email-lijie34@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 22 Oct 2018 23:02:46 -0700
+Subject: [PATCH v2] block: fix rdma queue mapping
+In-Reply-To: <20181017163720.GA23798@lst.de>
+References: <20180820205420.25908-1-sagi@grimberg.me>
+ <20180822131130.GC28149@lst.de>
+ <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
+ <33192971-7edd-a3b6-f2fa-abdcbef375de@opengridcomputing.com>
+ <20181017163720.GA23798@lst.de>
+Message-ID: <c850626a-5891-fa34-e647-c815f67099da@grimberg.me>
 
-This patch implements the support for identifying controller list and
-namespace attached controller list on the target.
----
- drivers/nvme/target/admin-cmd.c | 83 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 82 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 498ce25..565b009 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -540,6 +540,81 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
- 
-+static void nvmet_execute_identify_nsctrllist(struct nvmet_req *req)
-+{
-+	static const int buf_size = 4096;
-+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
-+	struct nvmet_ctrl *ctrl;
-+	struct nvmet_ns *ns;
-+	__le16 min_cntlid = le16_to_cpu(req->cmd->identify.ctrlid);
-+	__le16 *list;
-+	__le16 i = 0;
-+	u16 status = 0;
-+
-+	list = kzalloc(buf_size, GFP_KERNEL);
-+	if (!list) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&subsys->lock);
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-+		if (ctrl->cntlid < min_cntlid)
-+			continue;
-+
-+		ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
-+		if (unlikely(!ns))
-+			continue;
-+		nvmet_put_namespace(ns);
-+		list[++i] = cpu_to_le16(ctrl->cntlid);
-+		if (i == buf_size / sizeof(__le16))
-+			break;
-+	}
-+	list[0] = cpu_to_le16(i);
-+	mutex_unlock(&subsys->lock);
-+
-+	status = nvmet_copy_to_sgl(req, 0, list, buf_size);
-+
-+	kfree(list);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
-+static void nvmet_execute_identify_ctrllist(struct nvmet_req *req)
-+{
-+	static const int buf_size = 4096;
-+	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
-+	struct nvmet_ctrl *ctrl;
-+	__le16 min_cntid = le16_to_cpu(req->cmd->identify.ctrlid);
-+	__le16 *list;
-+
-+	u16 status = 0;
-+	__le16 i = 0;
-+
-+	list = kzalloc(buf_size, GFP_KERNEL);
-+	if (!list) {
-+		status = NVME_SC_INTERNAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&subsys->lock);
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-+		if (ctrl->cntlid < min_cntid)
-+			continue;
-+		list[++i] = cpu_to_le16(ctrl->cntlid);
-+		if (i == buf_size / sizeof(__le16))
-+			break;
-+	}
-+	list[0] = cpu_to_le16(i);
-+	mutex_unlock(&subsys->lock);
-+
-+	status = nvmet_copy_to_sgl(req, 0, list, buf_size);
-+
-+	kfree(list);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- /*
-  * A "minimum viable" abort implementation: the command is mandatory in the
-  * spec, but we are not required to do any useful work.  We couldn't really
-@@ -810,7 +885,13 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		case NVME_ID_CNS_NS_DESC_LIST:
- 			req->execute = nvmet_execute_identify_desclist;
- 			return 0;
--		}
-+		case NVME_ID_CNS_CTRL_NS_LIST:
-+			req->execute = nvmet_execute_identify_nsctrllist;
-+			return 0;
-+		case NVME_ID_CNS_CTRL_LIST:
-+			req->execute = nvmet_execute_identify_ctrllist;
-+			return 0;
-+        }
- 		break;
- 	case nvme_admin_abort_cmd:
- 		req->execute = nvmet_execute_abort;
--- 
-2.6.4.windows.1
+>> Christoph, Sagi:  it seems you think /proc/irq/$IRP/smp_affinity
+>> shouldn't be allowed if drivers support managed affinity. Is that correct?
+> 
+> Not just shouldn't, but simply can't.
+> 
+>> But as it stands, things are just plain borked if an rdma driver
+>> supports ib_get_vector_affinity() yet the admin changes the affinity via
+>> /proc...
+> 
+> I think we need to fix ib_get_vector_affinity to not return anything
+> if the device doesn't use managed irq affinity.
+
+Steve, does iw_cxgb4 use managed affinity?
+
+I'll send a patch for mlx5 to simply not return anything as managed
+affinity is not something that the maintainers want to do.
