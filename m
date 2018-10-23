@@ -1,57 +1,114 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Mon, 22 Oct 2018 18:17:31 -0700
-Subject: [PATCH] Revert "workqueue: re-add lockdep dependencies for
- flushing"
-In-Reply-To: <d45d54e8a46028c2b83296c5bf25a89500a289c4.camel@sipsolutions.net>
-References: <20181022151818.135163-1-bvanassche@acm.org>
- <13901aed5074f4b1fbd259d03928efb6ab40c65a.camel@sipsolutions.net>
- <094669f3df1690dec5913c2086f6a6d8c470f685.camel@sipsolutions.net>
- <1540241646.128590.16.camel@acm.org>
- <d45d54e8a46028c2b83296c5bf25a89500a289c4.camel@sipsolutions.net>
-Message-ID: <8d1a9c8c-fddb-7fb9-4bba-377bc6d51829@acm.org>
+From: lijie34@huawei.com (lijie)
+Date: Tue, 23 Oct 2018 11:24:55 +0800
+Subject: [PATCH] nvmet:added support for identifying controller list
+Message-ID: <1540265095-11360-1-git-send-email-lijie34@huawei.com>
 
-On 10/22/18 2:04 PM, Johannes Berg wrote:
-> On Mon, 2018-10-22@13:54 -0700, Bart Van Assche wrote:
->> The code in the column with label "CPU0" is code called by do_blockdev_direct_IO().
->>  From the body of that function:
->>
->> 			/* will be released by direct_io_worker */
->> 			inode_lock(inode);
-> 
-> I don't think this is related. If this comment is true (and I have no
-> reason to believe it's not), then the inode lock is - by nature of
-> allowing lock/unlock to happen in different processes - not something
-> lockdep can track to start with.
-> 
-> [ ... ]
- >> You do realize that this workqueue tracking stuff has been around for
-> a few years (and got removed again in refactoring, etc.) and has found > countless bugs?
+This patch implements the support for identifying controller list and
+namespace attached controller list on the target.
+---
+ drivers/nvme/target/admin-cmd.c | 83 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 82 insertions(+), 1 deletion(-)
 
-This is something I had not realized when I posted the patch at the 
-start of this e-mail thread. Thanks for having mentioned this.
-
-But I doubt that the inode lock has been annotated incorrectly. From the 
-kernel source code:
-
-static inline void inode_lock(struct inode *inode)
-{
-	down_write(&inode->i_rwsem);
-}
-
-[ ... ]
-
-void __sched down_write(struct rw_semaphore *sem)
-{
-	might_sleep();
-	rwsem_acquire(&sem->dep_map, 0, 0, _RET_IP_);
-
-	LOCK_CONTENDED(sem, __down_write_trylock, __down_write);
-	rwsem_set_owner(sem);
-}
-
-It seems to me that the inode lock has been annotated correctly as an 
-rwsem. It's not clear to me however why lockdep complains about a 
-deadlock for the direct I/O code. I hope someone has the time to go to 
-the bottom of this.
-
-Bart.
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 498ce25..565b009 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -540,6 +540,81 @@ static void nvmet_execute_identify_desclist(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
+ }
+ 
++static void nvmet_execute_identify_nsctrllist(struct nvmet_req *req)
++{
++	static const int buf_size = 4096;
++	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++	struct nvmet_ctrl *ctrl;
++	struct nvmet_ns *ns;
++	__le16 min_cntlid = le16_to_cpu(req->cmd->identify.ctrlid);
++	__le16 *list;
++	__le16 i = 0;
++	u16 status = 0;
++
++	list = kzalloc(buf_size, GFP_KERNEL);
++	if (!list) {
++		status = NVME_SC_INTERNAL;
++		goto out;
++	}
++
++	mutex_lock(&subsys->lock);
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		if (ctrl->cntlid < min_cntlid)
++			continue;
++
++		ns = nvmet_find_namespace(ctrl, req->cmd->identify.nsid);
++		if (unlikely(!ns))
++			continue;
++		nvmet_put_namespace(ns);
++		list[++i] = cpu_to_le16(ctrl->cntlid);
++		if (i == buf_size / sizeof(__le16))
++			break;
++	}
++	list[0] = cpu_to_le16(i);
++	mutex_unlock(&subsys->lock);
++
++	status = nvmet_copy_to_sgl(req, 0, list, buf_size);
++
++	kfree(list);
++out:
++	nvmet_req_complete(req, status);
++}
++
++static void nvmet_execute_identify_ctrllist(struct nvmet_req *req)
++{
++	static const int buf_size = 4096;
++	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
++	struct nvmet_ctrl *ctrl;
++	__le16 min_cntid = le16_to_cpu(req->cmd->identify.ctrlid);
++	__le16 *list;
++
++	u16 status = 0;
++	__le16 i = 0;
++
++	list = kzalloc(buf_size, GFP_KERNEL);
++	if (!list) {
++		status = NVME_SC_INTERNAL;
++		goto out;
++	}
++
++	mutex_lock(&subsys->lock);
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		if (ctrl->cntlid < min_cntid)
++			continue;
++		list[++i] = cpu_to_le16(ctrl->cntlid);
++		if (i == buf_size / sizeof(__le16))
++			break;
++	}
++	list[0] = cpu_to_le16(i);
++	mutex_unlock(&subsys->lock);
++
++	status = nvmet_copy_to_sgl(req, 0, list, buf_size);
++
++	kfree(list);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ /*
+  * A "minimum viable" abort implementation: the command is mandatory in the
+  * spec, but we are not required to do any useful work.  We couldn't really
+@@ -810,7 +885,13 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 		case NVME_ID_CNS_NS_DESC_LIST:
+ 			req->execute = nvmet_execute_identify_desclist;
+ 			return 0;
+-		}
++		case NVME_ID_CNS_CTRL_NS_LIST:
++			req->execute = nvmet_execute_identify_nsctrllist;
++			return 0;
++		case NVME_ID_CNS_CTRL_LIST:
++			req->execute = nvmet_execute_identify_ctrllist;
++			return 0;
++        }
+ 		break;
+ 	case nvme_admin_abort_cmd:
+ 		req->execute = nvmet_execute_abort;
+-- 
+2.6.4.windows.1
