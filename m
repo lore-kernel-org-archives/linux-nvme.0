@@ -1,20 +1,39 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 23 Oct 2018 17:37:13 -0700
-Subject: [PATCH v2] block: fix rdma queue mapping
-In-Reply-To: <20181024000923.GA17352@ssaleem-MOBL4.amr.corp.intel.com>
-References: <20180820205420.25908-1-sagi@grimberg.me>
- <20180822131130.GC28149@lst.de>
- <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
- <33192971-7edd-a3b6-f2fa-abdcbef375de@opengridcomputing.com>
- <20181017163720.GA23798@lst.de>
- <c850626a-5891-fa34-e647-c815f67099da@grimberg.me>
- <00dd01d46ad0$6eb82250$4c2866f0$@opengridcomputing.com>
- <ab0370aa-c488-bfed-675a-b0f84d75a42a@grimberg.me>
- <20181024000923.GA17352@ssaleem-MOBL4.amr.corp.intel.com>
-Message-ID: <60315f82-ebc1-838d-4757-c27b9bb650ff@grimberg.me>
+From: bdeyal@gmail.com (Eyal BenDavid)
+Date: Wed, 24 Oct 2018 19:10:10 +0300
+Subject: [PATCH 1/2] nvme-cli wdc plugin: Add get pfail dump command.
+In-Reply-To: <20181019171713.GA25247@localhost.localdomain>
+References: <1539921985-17139-1-git-send-email-dong.ho@wdc.com>
+ <20181019171713.GA25247@localhost.localdomain>
+Message-ID: <CAPrnrPAhfJmp48zNDgM3JYP2g0BbgAGDgdkB1OCotXHb_00FcQ@mail.gmail.com>
 
+The patched version fails to build on Fedora 28 (gcc 8.1.1) due to a warning.
 
-> Sagi - From what I can tell, i40iw is also exposed to this same issue if the IRQ affinity
-> is configured by user.
+Here is the message:
 
-managed affinity does not allow setting smp_affinity from userspace.
+cc -D_GNU_SOURCE -D__CHECK_ENDIAN__ -O2 -g -Wall -Werror -std=gnu99
+-DLIBUUID -DNVME_VERSION='"1.6.96.g352d"' -c wdc-nvme.c
+wdc-nvme.c: In function ?wdc_crash_dump?:
+wdc-nvme.c:1151:3: error: ?strncpy? output truncated before
+terminating nul copying 11 bytes from a string of the same length
+[-Werror=stringop-truncation]
+   strncpy(dump_type, "_pfail_dump", 11);
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+wdc-nvme.c:1153:3: error: ?strncpy? output truncated before
+terminating nul copying 11 bytes from a string of the same length
+[-Werror=stringop-truncation]
+   strncpy(dump_type, "_crash_dump", 11);
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
+make: *** [Makefile:46: wdc-nvme.o] Error 1
+On Fri, Oct 19, 2018@8:21 PM Keith Busch <keith.busch@linux.intel.com> wrote:
+>
+> On Thu, Oct 18, 2018@09:06:53PM +0000, Dong Ho wrote:
+> > ---
+> > This patch implements the function to retreive a WDC device's pfail crash dump.
+>
+> Thanks, both applied.
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
