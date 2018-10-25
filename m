@@ -1,23 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Oct 2018 12:43:19 -0700
-Subject: [PATCH 1/2] nvmet-rdma: Avoid that
- nvmet_rdma_release_queue_work() triggers a lockdep complaint
-In-Reply-To: <20181025151940.388-2-bvanassche@acm.org>
-References: <20181025151940.388-1-bvanassche@acm.org>
- <20181025151940.388-2-bvanassche@acm.org>
-Message-ID: <a1313cb7-126c-156d-7fff-1d1e061115d5@grimberg.me>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 25 Oct 2018 14:01:27 -0700
+Subject: [PATCH v2 0/2] nvmet-rdma: Rework the DoS mitigation code
+Message-ID: <20181025210129.96766-1-bvanassche@acm.org>
 
+Hi Christoph,
 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index bd265aceb90c..b3ee64fd66c5 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1268,7 +1268,7 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
->   
->   	if (queue->host_qid == 0) {
->   		/* Let inflight controller teardown complete */
-> -		flush_workqueue(nvmet_rdma_delete_wq);
-> +		flush_work(&queue->release_work);
+This patch series reworks the DoS mitigation code in the NVMeOF
+target code and also addresses a lockdep complaint that has been
+discussed recently on the NVMe mailing list. Please consider this
+patch series for the upstream kernel.
 
-That is the opposite of what is attempted to be achieved here. The queue
-connect is trying to wait for other queue deletion to complete.
+Thanks,
+
+Bart.
+
+Changes compared to v1: reworked the approach of patch 1/2.
+
+Bart Van Assche (2):
+  nvmet-rdma: Rework DoS attack mitigation
+  nvmet-rdma: Use the system workqueues again for deletion work
+
+ drivers/nvme/target/rdma.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
+
+-- 
+2.19.1.568.g152ad8e336-goog
