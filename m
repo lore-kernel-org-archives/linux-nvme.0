@@ -1,59 +1,32 @@
-From: johannes@sipsolutions.net (Johannes Berg)
-Date: Thu, 25 Oct 2018 23:05:52 +0200
-Subject: [PATCH 1/2] nvmet-rdma: Avoid that
- nvmet_rdma_release_queue_work() triggers a lockdep complaint
-In-Reply-To: <20181025151940.388-2-bvanassche@acm.org>
-References: <20181025151940.388-1-bvanassche@acm.org>
- <20181025151940.388-2-bvanassche@acm.org>
-Message-ID: <93a3139c6f66cc8a9fa38a1b52309f501c98233e.camel@sipsolutions.net>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Thu, 25 Oct 2018 14:13:07 -0700
+Subject: [PATCH v3 0/2] nvmet-rdma: Rework the DoS mitigation code
+Message-ID: <20181025211309.100564-1-bvanassche@acm.org>
 
-Hi,
+Hi Christoph,
 
-Yes, you said to ignore this, but I'm looking at the lockdep report
-again anyway ...
+This patch series reworks the DoS mitigation code in the NVMeOF
+target code and also addresses a lockdep complaint that has been
+discussed recently on the NVMe mailing list. Please consider this
+patch series for the upstream kernel.
 
-So ... if I understand this correctly, we have:
+Thanks,
 
-cma's id_priv->handler_mutex    - a listen_id's mutex
-cma's id_priv->handler_mutex/1  - a conn_id's mutex
-queue                           - an RDMA queue, belonging to ...?
-nvmet-rdma-delete-wq            - the global deletion workqueue
+Bart.
 
-In cma_ib_req_handler(), we create a dependency from
-	handler_mutex -> handler_mutex/1
-since we lock both of them (here's the "real _nested()" part).
+Changes compared to v2:
+- Avoid that code introduced in patch 1/2 is moved around in patch 2/2.
+  The end result of patches 1 and 2 combined remains the same.
 
-While holding those, we call the event handler, which is
-nvmet_rdma_cm_handler. This, via nvmet_rdma_queue_connect, flushes the
-workqueue, creating that dependency.
+Changes compared to v1:
+- Reworked the approach of patch 1/2.
 
-Obviously, queue->release_work has a dependency to the workqueue since
-it runs on there.
+Bart Van Assche (2):
+  nvmet-rdma: Rework DoS attack mitigation
+  nvmet-rdma: Use the system workqueues again for deletion work
 
-Finally, the queue->release_work calls rdma_destroy_id() which locks the
-destroyed id_priv's mutex.
+ drivers/nvme/target/rdma.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-Does that about seem right?
-
-I'm not sure I see a solution right now. If you were to replace the
-workqueue by a list of objects to be destroyed and then iterate it where
-you have the flush_workqueue() now (*), you'd end up with a very similar
-lockdep report I think, so it's not inherent in the lockdep workqueue
-annotations, it's inherent in locking some object(s) while holding the
-same class of lock for another object. This would be a pretty typical
-case of mutex_lock_nested(), but it's hard to do across the layers here,
-and pretty much impossible to do across the workqueue.
-
-I'd usually solve that sort of problem by flushing/iterating before
-taking all the locks, since it's a different object anyway, but given
-the two layers here that doesn't seem feasible either.
-
-(*) of course in addition to iterating it in some thread, or work
-struct, or something else asynchronous
-
-I think again you could suppress this by using flush_workqueue_nested()
-here, basically saying that while it's the same workqueue, it cannot
-actually connect back to itself locking-wise due to being guaranteed to
-have different objects on it... I think, but it's getting late here.
-
-johannes
+-- 
+2.19.1.568.g152ad8e336-goog
