@@ -1,97 +1,108 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 25 Oct 2018 15:16:22 -0600
-Subject: [PATCH 10/14] blk-mq: initial support for multiple queue maps
+Date: Thu, 25 Oct 2018 15:16:25 -0600
+Subject: [PATCH 13/14] block: add REQ_HIPRI and inherit it from IOCB_HIPRI
 In-Reply-To: <20181025211626.12692-1-axboe@kernel.dk>
 References: <20181025211626.12692-1-axboe@kernel.dk>
-Message-ID: <20181025211626.12692-11-axboe@kernel.dk>
+Message-ID: <20181025211626.12692-14-axboe@kernel.dk>
 
-Add a queue offset to the tag map. This enables users to map
-iteratively, for each queue map type they support.
-
-Bump maximum number of supported maps to 2, we're now fully
-able to support more than 1 map.
+We use IOCB_HIPRI to poll for IO in the caller instead of scheduling.
+This information is not available for (or after) IO submission. The
+driver may make different queue choices based on the type of IO, so
+make the fact that we will poll for this IO known to the lower layers
+as well.
 
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-mq-cpumap.c  | 9 +++++----
- block/blk-mq-pci.c     | 2 +-
- block/blk-mq-virtio.c  | 2 +-
- include/linux/blk-mq.h | 3 ++-
- 4 files changed, 9 insertions(+), 7 deletions(-)
+ fs/block_dev.c            | 2 ++
+ fs/direct-io.c            | 2 ++
+ fs/iomap.c                | 9 ++++++++-
+ include/linux/blk_types.h | 4 +++-
+ 4 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index 6e6686c55984..03a534820271 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -14,9 +14,10 @@
- #include "blk.h"
- #include "blk-mq.h"
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 38b8ce05cbc7..8bb8090c57a7 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -232,6 +232,8 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
+ 		bio.bi_opf = dio_bio_write_op(iocb);
+ 		task_io_account_write(ret);
+ 	}
++	if (iocb->ki_flags & IOCB_HIPRI)
++		bio.bi_opf |= REQ_HIPRI;
  
--static int cpu_to_queue_index(unsigned int nr_queues, const int cpu)
-+static int cpu_to_queue_index(struct blk_mq_queue_map *qmap,
-+			      unsigned int nr_queues, const int cpu)
+ 	qc = submit_bio(&bio);
+ 	for (;;) {
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index 093fb54cd316..ffb46b7aa5f7 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -1265,6 +1265,8 @@ do_blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
+ 	} else {
+ 		dio->op = REQ_OP_READ;
+ 	}
++	if (iocb->ki_flags & IOCB_HIPRI)
++		dio->op_flags |= REQ_HIPRI;
+ 
+ 	/*
+ 	 * For AIO O_(D)SYNC writes we need to defer completions to a workqueue
+diff --git a/fs/iomap.c b/fs/iomap.c
+index ec15cf2ec696..50ad8c8d1dcb 100644
+--- a/fs/iomap.c
++++ b/fs/iomap.c
+@@ -1554,6 +1554,7 @@ iomap_dio_zero(struct iomap_dio *dio, struct iomap *iomap, loff_t pos,
+ 		unsigned len)
  {
--	return cpu % nr_queues;
-+	return qmap->queue_offset + (cpu % nr_queues);
- }
+ 	struct page *page = ZERO_PAGE(0);
++	int flags = REQ_SYNC | REQ_IDLE;
+ 	struct bio *bio;
  
- static int get_first_sibling(unsigned int cpu)
-@@ -44,11 +45,11 @@ int blk_mq_map_queues(struct blk_mq_queue_map *qmap)
- 		 * performace optimizations.
- 		 */
- 		if (cpu < nr_queues) {
--			map[cpu] = cpu_to_queue_index(nr_queues, cpu);
-+			map[cpu] = cpu_to_queue_index(qmap, nr_queues, cpu);
- 		} else {
- 			first_sibling = get_first_sibling(cpu);
- 			if (first_sibling == cpu)
--				map[cpu] = cpu_to_queue_index(nr_queues, cpu);
-+				map[cpu] = cpu_to_queue_index(qmap, nr_queues, cpu);
- 			else
- 				map[cpu] = map[first_sibling];
+ 	bio = bio_alloc(GFP_KERNEL, 1);
+@@ -1562,9 +1563,12 @@ iomap_dio_zero(struct iomap_dio *dio, struct iomap *iomap, loff_t pos,
+ 	bio->bi_private = dio;
+ 	bio->bi_end_io = iomap_dio_bio_end_io;
+ 
++	if (dio->iocb->ki_flags & IOCB_HIPRI)
++		flags |= REQ_HIPRI;
++
+ 	get_page(page);
+ 	__bio_add_page(bio, page, len, 0);
+-	bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_SYNC | REQ_IDLE);
++	bio_set_op_attrs(bio, REQ_OP_WRITE, flags);
+ 
+ 	atomic_inc(&dio->ref);
+ 	return submit_bio(bio);
+@@ -1663,6 +1667,9 @@ iomap_dio_bio_actor(struct inode *inode, loff_t pos, loff_t length,
+ 				bio_set_pages_dirty(bio);
  		}
-diff --git a/block/blk-mq-pci.c b/block/blk-mq-pci.c
-index 40333d60a850..1dce18553984 100644
---- a/block/blk-mq-pci.c
-+++ b/block/blk-mq-pci.c
-@@ -43,7 +43,7 @@ int blk_mq_pci_map_queues(struct blk_mq_queue_map *qmap, struct pci_dev *pdev,
- 			goto fallback;
  
- 		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = queue;
-+			qmap->mq_map[cpu] = qmap->queue_offset + queue;
- 	}
++		if (dio->iocb->ki_flags & IOCB_HIPRI)
++			bio->bi_opf |= REQ_HIPRI;
++
+ 		iov_iter_advance(dio->submit.iter, n);
  
- 	return 0;
-diff --git a/block/blk-mq-virtio.c b/block/blk-mq-virtio.c
-index 661fbfef480f..370827163835 100644
---- a/block/blk-mq-virtio.c
-+++ b/block/blk-mq-virtio.c
-@@ -44,7 +44,7 @@ int blk_mq_virtio_map_queues(struct blk_mq_queue_map *qmap,
- 			goto fallback;
+ 		dio->size += n;
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 093a818c5b68..d6c2558d6b73 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -322,6 +322,8 @@ enum req_flag_bits {
+ 	/* command specific flags for REQ_OP_WRITE_ZEROES: */
+ 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
  
- 		for_each_cpu(cpu, mask)
--			qmap->mq_map[cpu] = queue;
-+			qmap->mq_map[cpu] = qmap->queue_offset + queue;
- 	}
++	__REQ_HIPRI,
++
+ 	/* for driver use */
+ 	__REQ_DRV,
+ 	__REQ_SWAP,		/* swapping request. */
+@@ -342,8 +344,8 @@ enum req_flag_bits {
+ #define REQ_RAHEAD		(1ULL << __REQ_RAHEAD)
+ #define REQ_BACKGROUND		(1ULL << __REQ_BACKGROUND)
+ #define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
+-
+ #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
++#define REQ_HIPRI		(1ULL << __REQ_HIPRI)
  
- 	return 0;
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 7e792ffb09bb..250b9ed86cd4 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -78,10 +78,11 @@ struct blk_mq_hw_ctx {
- struct blk_mq_queue_map {
- 	unsigned int *mq_map;
- 	unsigned int nr_queues;
-+	unsigned int queue_offset;
- };
- 
- enum {
--	HCTX_MAX_TYPES = 1,
-+	HCTX_MAX_TYPES = 2,
- };
- 
- struct blk_mq_tag_set {
+ #define REQ_DRV			(1ULL << __REQ_DRV)
+ #define REQ_SWAP		(1ULL << __REQ_SWAP)
 -- 
 2.17.1
