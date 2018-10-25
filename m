@@ -1,84 +1,103 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 25 Oct 2018 15:16:21 -0600
-Subject: [PATCH 09/14] blk-mq: ensure that plug lists don't straddle hardware
- queues
+Date: Thu, 25 Oct 2018 15:16:23 -0600
+Subject: [PATCH 11/14] irq: add support for allocating (and affinitizing) sets
+ of IRQs
 In-Reply-To: <20181025211626.12692-1-axboe@kernel.dk>
 References: <20181025211626.12692-1-axboe@kernel.dk>
-Message-ID: <20181025211626.12692-10-axboe@kernel.dk>
+Message-ID: <20181025211626.12692-12-axboe@kernel.dk>
 
-Since we insert per hardware queue, we have to ensure that every
-request on the plug list being inserted belongs to the same
-hardware queue.
+A driver may have a need to allocate multiple sets of MSI/MSI-X
+interrupts, and have them appropriately affinitized. Add support for
+defining a number of sets in the irq_affinity structure, of varying
+sizes, and get each set affinitized correctly across the machine.
 
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: linux-kernel at vger.kernel.org
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-mq.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ include/linux/interrupt.h |  4 ++++
+ kernel/irq/affinity.c     | 31 +++++++++++++++++++++++++------
+ 2 files changed, 29 insertions(+), 6 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 60a951c4934c..52b07188b39a 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1621,6 +1621,27 @@ static int plug_ctx_cmp(void *priv, struct list_head *a, struct list_head *b)
- 		  blk_rq_pos(rqa) < blk_rq_pos(rqb)));
- }
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index eeceac3376fc..9fce2131902c 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -247,10 +247,14 @@ struct irq_affinity_notify {
+  *			the MSI(-X) vector space
+  * @post_vectors:	Don't apply affinity to @post_vectors at end of
+  *			the MSI(-X) vector space
++ * @nr_sets:		Length of passed in *sets array
++ * @sets:		Number of affinitized sets
+  */
+ struct irq_affinity {
+ 	int	pre_vectors;
+ 	int	post_vectors;
++	int	nr_sets;
++	int	*sets;
+ };
  
-+/*
-+ * Need to ensure that the hardware queue matches, so we don't submit
-+ * a list of requests that end up on different hardware queues.
-+ */
-+static bool ctx_match(struct request *req, struct blk_mq_ctx *ctx,
-+		      unsigned int flags)
-+{
-+	if (req->mq_ctx != ctx)
-+		return false;
-+
+ #if defined(CONFIG_SMP)
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index f4f29b9d90ee..0055e252e438 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -180,6 +180,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	int curvec, usedvecs;
+ 	cpumask_var_t nmsk, npresmsk, *node_to_cpumask;
+ 	struct cpumask *masks = NULL;
++	int i, nr_sets;
+ 
+ 	/*
+ 	 * If there aren't any vectors left after applying the pre/post
+@@ -210,10 +211,23 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	get_online_cpus();
+ 	build_node_to_cpumask(node_to_cpumask);
+ 
+-	/* Spread on present CPUs starting from affd->pre_vectors */
+-	usedvecs = irq_build_affinity_masks(affd, curvec, affvecs,
+-					    node_to_cpumask, cpu_present_mask,
+-					    nmsk, masks);
 +	/*
-+	 * If we just have one map, then we know the hctx will match
-+	 * if the ctx matches
++	 * Spread on present CPUs starting from affd->pre_vectors. If we
++	 * have multiple sets, build each sets affinity mask separately.
 +	 */
-+	if (req->q->tag_set->nr_maps == 1)
-+		return true;
++	nr_sets = affd->nr_sets;
++	if (!nr_sets)
++		nr_sets = 1;
 +
-+	return blk_mq_map_queue(req->q, req->cmd_flags, ctx->cpu) ==
-+		blk_mq_map_queue(req->q, flags, ctx->cpu);
-+}
++	for (i = 0, usedvecs = 0; i < nr_sets; i++) {
++		int this_vecs = affd->sets ? affd->sets[i] : affvecs;
++		int nr;
 +
- void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
++		nr = irq_build_affinity_masks(affd, curvec, this_vecs,
++					      node_to_cpumask, cpu_present_mask,
++					      nmsk, masks + usedvecs);
++		usedvecs += nr;
++	}
+ 
+ 	/*
+ 	 * Spread on non present CPUs starting from the next vector to be
+@@ -258,13 +272,18 @@ int irq_calc_affinity_vectors(int minvec, int maxvec, const struct irq_affinity
  {
- 	struct blk_mq_ctx *this_ctx;
-@@ -1628,7 +1649,7 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- 	struct request *rq;
- 	LIST_HEAD(list);
- 	LIST_HEAD(ctx_list);
--	unsigned int depth;
-+	unsigned int depth, this_flags;
+ 	int resv = affd->pre_vectors + affd->post_vectors;
+ 	int vecs = maxvec - resv;
++	int i, set_vecs;
+ 	int ret;
  
- 	list_splice_init(&plug->mq_list, &list);
+ 	if (resv > minvec)
+ 		return 0;
  
-@@ -1636,13 +1657,14 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- 
- 	this_q = NULL;
- 	this_ctx = NULL;
-+	this_flags = 0;
- 	depth = 0;
- 
- 	while (!list_empty(&list)) {
- 		rq = list_entry_rq(list.next);
- 		list_del_init(&rq->queuelist);
- 		BUG_ON(!rq->q);
--		if (rq->mq_ctx != this_ctx) {
-+		if (!ctx_match(rq, this_ctx, this_flags)) {
- 			if (this_ctx) {
- 				trace_block_unplug(this_q, depth, !from_schedule);
- 				blk_mq_sched_insert_requests(this_q, this_ctx,
-@@ -1650,6 +1672,7 @@ void blk_mq_flush_plug_list(struct blk_plug *plug, bool from_schedule)
- 								from_schedule);
- 			}
- 
-+			this_flags = rq->cmd_flags;
- 			this_ctx = rq->mq_ctx;
- 			this_q = rq->q;
- 			depth = 0;
+ 	get_online_cpus();
+-	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs) + resv;
++	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs);
+ 	put_online_cpus();
+-	return ret;
++
++	for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
++		set_vecs += affd->sets[i];
++
++	return resv + max(ret, set_vecs);
+ }
 -- 
 2.17.1
