@@ -1,89 +1,31 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 25 Oct 2018 17:07:19 -0600
-Subject: [PATCH 11/14] irq: add support for allocating (and affinitizing)
- sets of IRQs
-In-Reply-To: <20181025215213.GA8141@localhost.localdomain>
-References: <20181025211626.12692-1-axboe@kernel.dk>
- <20181025211626.12692-12-axboe@kernel.dk>
- <20181025215213.GA8141@localhost.localdomain>
-Message-ID: <8d70362e-0c15-5423-9616-0ef92e8c9fe3@kernel.dk>
-
-On 10/25/18 3:52 PM, Keith Busch wrote:
-> On Thu, Oct 25, 2018@03:16:23PM -0600, Jens Axboe wrote:
->> A driver may have a need to allocate multiple sets of MSI/MSI-X
->> interrupts, and have them appropriately affinitized. Add support for
->> defining a number of sets in the irq_affinity structure, of varying
->> sizes, and get each set affinitized correctly across the machine.
-> 
-> <>
-> 
->> @@ -258,13 +272,18 @@ int irq_calc_affinity_vectors(int minvec, int maxvec, const struct irq_affinity
->>  {
->>  	int resv = affd->pre_vectors + affd->post_vectors;
->>  	int vecs = maxvec - resv;
->> +	int i, set_vecs;
->>  	int ret;
->>  
->>  	if (resv > minvec)
->>  		return 0;
->>  
->>  	get_online_cpus();
->> -	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs) + resv;
->> +	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs);
->>  	put_online_cpus();
->> -	return ret;
->> +
->> +	for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
->> +		set_vecs += affd->sets[i];
->> +
->> +	return resv + max(ret, set_vecs);
->>  }
-> 
-> This is looking pretty good, but we may risk getting into an infinite
-> loop in __pci_enable_msix_range() if we're requesting too many vectors
-> in a set: the above code may continue returning set_vecs, overriding
-> the reduced nvec that pci requested, and pci msix initialization will
-> continue to fail because it is repeatedly requesting to activate the
-> same vector count that failed before.
-
-Good catch, we always want to be using min() with the passed in maxvec
-in there. How about this incremental?
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 25 Oct 2018 18:00:21 -0700
+Subject: [PATCH v3 0/2] nvmet-rdma: Rework the DoS mitigation code
+In-Reply-To: <20181025211309.100564-1-bvanassche@acm.org>
+References: <20181025211309.100564-1-bvanassche@acm.org>
+Message-ID: <56c7461f-d6c1-0fd2-30c8-334967fc3013@grimberg.me>
 
 
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index 0055e252e438..2046a0f0f0f1 100644
---- a/kernel/irq/affinity.c
-+++ b/kernel/irq/affinity.c
-@@ -272,18 +272,21 @@ int irq_calc_affinity_vectors(int minvec, int maxvec, const struct irq_affinity
- {
- 	int resv = affd->pre_vectors + affd->post_vectors;
- 	int vecs = maxvec - resv;
--	int i, set_vecs;
--	int ret;
-+	int set_vecs;
- 
- 	if (resv > minvec)
- 		return 0;
- 
--	get_online_cpus();
--	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs);
--	put_online_cpus();
-+	if (affd->nr_sets) {
-+		int i;
- 
--	for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
--		set_vecs += affd->sets[i];
-+		for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
-+			set_vecs += affd->sets[i];
-+	} else {
-+		get_online_cpus();
-+		set_vecs = cpumask_weight(cpu_possible_mask);
-+		put_online_cpus();
-+	}
- 
--	return resv + max(ret, set_vecs);
-+	return resv + min(set_vecs, vecs);
- }
+> Hi Christoph,
 
--- 
-Jens Axboe
+Hi Bart,
+
+> This patch series reworks the DoS mitigation code in the NVMeOF
+> target code and also addresses a lockdep complaint that has been
+> discussed recently on the NVMe mailing list. Please consider this
+> patch series for the upstream kernel.
+
+I can't say I agree with rejecting random connect requests if we have
+more then a maid up define resources queued for deletion. Given that
+there is no real locking incorrectness in waiting a bit such that they
+all drain. The issue is no more then a false complaint from lockdep.
+
+Given that there are a number of unknown factors that affect this such
+as the number of hosts a target is servicing, the number of inflight I/O
+that needs quiescing at the time of the removal, and the system resource
+limits, any approach that has a hard-coded limit cannot be correct.
+
+If we do indeed want to get around the false report and not annotate it,
+perhaps we should invoke rdma_destroy_id outside the work execution
+context (such that it is destroyed before the work runs) and then the
+dependency no longer exists?
