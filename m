@@ -1,23 +1,36 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 26 Oct 2018 09:54:28 +0200
-Subject: [PATCH RFC] nvmet: emulate noiob boundary
-In-Reply-To: <1fc9b542-caa0-4696-d2bd-5722b97a17c8@grimberg.me>
-References: <20181019222437.25289-1-sagi@grimberg.me>
- <20181022085912.GE18755@lst.de>
- <1fc9b542-caa0-4696-d2bd-5722b97a17c8@grimberg.me>
-Message-ID: <20181026075428.GD5092@lst.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 26 Oct 2018 14:57:15 +0200
+Subject: [PATCHv2 0/3] nvme: NUMA locality for fabrics
+Message-ID: <20181026125718.122767-1-hare@suse.de>
 
-On Mon, Oct 22, 2018@05:29:55PM -0700, Sagi Grimberg wrote:
-> Well, this helped me debug a sub-page bio split code path that I
-> wouldn't be able to generate without, so I think its beneficial
-> to have a knob for it.
->
-> In general, I would be in favor of us having the kernel target
-> allow one to exercise the host code in various forms, but would not
-> want to have endless attributes to setup. Perhaps we would want to have
-> these sort of stuff with a debug prefix such that its clear that only
-> debug stuff belong there?
+Hi all,
 
-Yes, maybe we could have a config option to turn on this pure debug
-code.  For noiob in particular it might make sense to just pass
-it up if the lower level device has it, though.
+here's a patchset to leverage NUMA locality information for fabric controllers.
+This is the second attempt for doing so; after discussion with hch we came
+to the conclusion that the attempt in the initial submission with a manual
+configuration would only lead to more confusion and suboptimal configuration.
+
+So here's now a version with an automatic NUMA balancing, where we attempt
+to split the number submitting CPUs/cores evenly across the available
+controller.
+
+With this patchset I'm seeing a performance increase from
+262k IOPS to 344k IOPS, measured against a NetApp AF700.
+
+As usual, comments and reviews are welcome.
+
+Hannes Reinecke (3):
+  nvme: NUMA locality information for fabrics
+  nvme-multipath: Select paths based on NUMA locality
+  nvme-multipath: automatic NUMA path balancing
+
+ drivers/nvme/host/core.c      |  41 +++++++++++++-
+ drivers/nvme/host/fc.c        |   5 +-
+ drivers/nvme/host/multipath.c | 122 ++++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h      |   3 ++
+ drivers/nvme/host/pci.c       |   2 +-
+ drivers/nvme/host/rdma.c      |   6 ++-
+ 6 files changed, 169 insertions(+), 10 deletions(-)
+
+-- 
+2.16.4
