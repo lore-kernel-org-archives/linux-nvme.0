@@ -1,31 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Oct 2018 18:00:21 -0700
-Subject: [PATCH v3 0/2] nvmet-rdma: Rework the DoS mitigation code
-In-Reply-To: <20181025211309.100564-1-bvanassche@acm.org>
-References: <20181025211309.100564-1-bvanassche@acm.org>
-Message-ID: <56c7461f-d6c1-0fd2-30c8-334967fc3013@grimberg.me>
+Date: Thu, 25 Oct 2018 18:38:19 -0700
+Subject: [PATCH] nvmet: adjust the serial number format function
+In-Reply-To: <20181025151413.GC5138@localhost.localdomain>
+References: <1540201713-14848-1-git-send-email-lijie34@huawei.com>
+ <20181025151413.GC5138@localhost.localdomain>
+Message-ID: <ad784255-9c36-d590-b06f-f6fbe97f22bb@grimberg.me>
 
 
-> Hi Christoph,
+>> The serial number displayed on the host side using the nvme list command
+>> is different from the attr_serial at the target side, because the
+>> nvmet_execute_identify_ctrl function and the
+>> nvmet_subsys_attr_serial_store function use different types of formatting
+>> functions.
+> 
+> I think the more fundamental reason for the display difference is one
+> of these is a u8[] and the other a u64, and it makes more sense to me
+> if both were u8[].
 
-Hi Bart,
-
-> This patch series reworks the DoS mitigation code in the NVMeOF
-> target code and also addresses a lockdep complaint that has been
-> discussed recently on the NVMe mailing list. Please consider this
-> patch series for the upstream kernel.
-
-I can't say I agree with rejecting random connect requests if we have
-more then a maid up define resources queued for deletion. Given that
-there is no real locking incorrectness in waiting a bit such that they
-all drain. The issue is no more then a false complaint from lockdep.
-
-Given that there are a number of unknown factors that affect this such
-as the number of hosts a target is servicing, the number of inflight I/O
-that needs quiescing at the time of the removal, and the system resource
-limits, any approach that has a hard-coded limit cannot be correct.
-
-If we do indeed want to get around the false report and not annotate it,
-perhaps we should invoke rdma_destroy_id outside the work execution
-context (such that it is destroyed before the work runs) and then the
-dependency no longer exists?
+Agreed, would be better to make subsys serial u8[20] and adjust
+show/store configfs routines accordingly
