@@ -1,37 +1,37 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Fri, 26 Oct 2018 21:56:03 +0000
-Subject: [PATCH 3/3] nvme-cli: fix header paths for new structure
-In-Reply-To: <20181026201714.GB10403@localhost.localdomain>
-References: <20181026170834.23457-1-chaitanya.kulkarni@wdc.com>
- <20181026170834.23457-3-chaitanya.kulkarni@wdc.com>
- <20181026200733.GA10403@localhost.localdomain>
- <9E08CF92-63C8-4D55-AAF7-D1571D4DEF67@wdc.com>,
- <20181026201714.GB10403@localhost.localdomain>
-Message-ID: <BYAPR04MB4502B8BAF42930F3B858EE4586F00@BYAPR04MB4502.namprd04.prod.outlook.com>
+From: gwendal@chromium.org (Gwendal Grignou)
+Date: Fri, 26 Oct 2018 15:41:46 -0700
+Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
+Message-ID: <20181026224146.198311-1-gwendal@chromium.org>
 
+Given Intel 660p returns 0 when reading discarded data,
+allow Write Zero.
 
+nvme id-ns /dev/nvme0n1
+...
+dlfeat  : 1
+...
 
+Check Write Zeros is now enabled:
+cat /sys/block/nvme0n1/queue/write_zeroes_max_bytes
+2199023255040
 
+Signed-off-by: Gwendal Grignou <gwendal at chromium.org>
+---
+ drivers/nvme/host/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
-From: Keith Busch <keith.busch@intel.com>
-Sent: Friday, October 26, 2018 1:17 PM
-To: Chaitanya Kulkarni
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: [PATCH 3/3] nvme-cli: fix header paths for new structure
-? 
- 
-On Fri, Oct 26, 2018@08:11:37PM +0000, Chaitanya Kulkarni wrote:
-> No but, static analysis tool reported include path warnings, maybe we can ignore these warnings ?
-
-Oh, interesting! It ought to be safe to ignore, but I don't like that
-either. Does your analysis tool report issues if you replace the quoted
-includes with angle-brackets?
-
-? #include <...>
-
-instead of 
-
-? #include "..." 
-    
-It still reports warning, but adding include directory to the nvme-cli/  I was able to get rid of the warning.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7e09e45b0b28d..b81ad51d78b72 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2694,6 +2694,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
+ 		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
+ 				NVME_QUIRK_MEDIUM_PRIO_SQ },
++	{ PCI_VDEVICE(INTEL, 0xf1a8), /* Intel 660P */
++		.driver_data = NVME_QUIRK_DEALLOCATE_ZEROES, },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE(0x1bb1, 0x0100),   /* Seagate Nytro Flash Storage */
+-- 
+2.19.1.568.g152ad8e336-goog
