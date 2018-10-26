@@ -1,96 +1,48 @@
-From: paulmck@linux.ibm.com (Paul E. McKenney)
-Date: Fri, 26 Oct 2018 07:48:35 -0700
-Subject: srcu hung task panic
-In-Reply-To: <SN6PR06MB4333940F6EE46EDDB20934EDE5F00@SN6PR06MB4333.namprd06.prod.outlook.com>
-References: <20181023141415.GJ4170@linux.ibm.com>
- <SN6PR06MB433307629C43832973E0F882E5F50@SN6PR06MB4333.namprd06.prod.outlook.com>
- <20181024105326.GL4170@linux.ibm.com>
- <SN6PR06MB4333940F6EE46EDDB20934EDE5F00@SN6PR06MB4333.namprd06.prod.outlook.com>
-Message-ID: <20181026144835.GW4170@linux.ibm.com>
+From: bvanassche@acm.org (Bart Van Assche)
+Date: Fri, 26 Oct 2018 11:45:20 -0700
+Subject: [PATCH v3 0/2] nvmet-rdma: Rework the DoS mitigation code
+In-Reply-To: <56c7461f-d6c1-0fd2-30c8-334967fc3013@grimberg.me>
+References: <20181025211309.100564-1-bvanassche@acm.org>
+ <56c7461f-d6c1-0fd2-30c8-334967fc3013@grimberg.me>
+Message-ID: <1540579520.66186.118.camel@acm.org>
 
-On Fri, Oct 26, 2018@04:00:53AM +0000, Krein, Dennis wrote:
-> I have a patch attached that fixes the problem for us.  I also tried a
-> version with an smb_mb() call added at end of rcu_segcblist_enqueue()
-> - but that turned out not to be needed.  I think the key part of
-> this is locking srcu_data in srcu_gp_start().  I also put in the
-> preempt_disable/enable in __call_srcu() so that it couldn't get scheduled
-> out and possibly moved to another CPU.  I had one hung task panic where
-> the callback that would complete the wait was properly set up but for some
-> reason the delayed work never happened.  Only thing I could determine to
-> cause that was if __call_srcu() got switched out after dropping spin lock.
+On Thu, 2018-10-25@18:00 -0700, Sagi Grimberg wrote:
+> > This patch series reworks the DoS mitigation code in the NVMeOF
+> > target code and also addresses a lockdep complaint that has been
+> > discussed recently on the NVMe mailing list. Please consider this
+> > patch series for the upstream kernel.
+> 
+> I can't say I agree with rejecting random connect requests if we have
+> more then a maid up define resources queued for deletion. Given that
+> there is no real locking incorrectness in waiting a bit such that they
+> all drain. The issue is no more then a false complaint from lockdep.
+> 
+> Given that there are a number of unknown factors that affect this such
+> as the number of hosts a target is servicing, the number of inflight I/O
+> that needs quiescing at the time of the removal, and the system resource
+> limits, any approach that has a hard-coded limit cannot be correct.
+> 
+> If we do indeed want to get around the false report and not annotate it,
+> perhaps we should invoke rdma_destroy_id outside the work execution
+> context (such that it is destroyed before the work runs) and then the
+> dependency no longer exists?
 
-Good show!!!
+Hi Sagi,
 
-You are quite right, the srcu_data structure's ->lock
-must be held across the calls to rcu_segcblist_advance() and
-rcu_segcblist_accelerate().  Color me blind, given that I repeatedly
-looked at the "lockdep_assert_held(&ACCESS_PRIVATE(sp, lock));" and
-repeatedly misread it as "lockdep_assert_held(&ACCESS_PRIVATE(sdp,
-lock));".
+Thanks for having taken a look. However, I'm not sure that refusing some
+connection requests is really new behavior. From drivers/nvme/target/rdma.c:
 
-A few questions and comments:
+	ret = rdma_listen(cm_id, 128);
 
-o	Are you OK with my adding your Signed-off-by as shown in the
-	updated patch below?
+In other words, the maximum backlog for the CM ID through which connections
+are accepted is 128. What happens if a connection request is received and the
+backlog count is exceeded?
 
-o	I removed the #ifdefs because this is needed everywhere.
-	However, I do agree that it can be quite helpful to use these
-	while experimenting with different potential solutions.
+Regarding invoking rdma_destroy_id() from another context: which context
+should that be? rdma_destroy_id() locks and unlocks the handler mutex.
+Maintaining a list of CM IDs to be destroyed and iterating over that list
+from inside a CM ID handler function will cause nested locking because as
+you know CM ID handlers are called with the handler_mutex held. If we choose
+this approach we will have to be careful not to trigger lock inversion.
 
-o	Preemption is already disabled across all of srcu_gp_start()
-	because the sp->lock is an interrupt-disabling lock.  This means
-	that disabling preemption would have no effect.  I therefore
-	removed the preempt_disable() and preempt_enable().
-
-o	What sequence of events would lead to the work item never being
-	executed?  Last I knew, workqueues were supposed to be robust
-	against preemption.
-
-I have added Christoph and Bart on CC (along with their Reported-by tags)
-because they were recently seeing an intermittent failure that might
-have been caused gby tyhis same bug.  Could you please check to see if
-the below patch fixes your problem, give or take the workqueue issue?
-
-							Thanx, Paul
-
-------------------------------------------------------------------------
-
-commit 1c1d315dfb7049d0233b89948a3fbcb61ea15d26
-Author: Dennis Krein <Dennis.Krein at netapp.com>
-Date:   Fri Oct 26 07:38:24 2018 -0700
-
-    srcu: Lock srcu_data structure in srcu_gp_start()
-    
-    The srcu_gp_start() function is called with the srcu_struct structure's
-    ->lock held, but not with the srcu_data structure's ->lock.  This is
-    problematic because this function accesses and updates the srcu_data
-    structure's ->srcu_cblist, which is protected by that lock.  Failing to
-    hold this lock can result in corruption of the SRCU callback lists,
-    which in turn can result in arbitrarily bad results.
-    
-    This commit therefore makes srcu_gp_start() acquire the srcu_data
-    structure's ->lock across the calls to rcu_segcblist_advance() and
-    rcu_segcblist_accelerate(), thus preventing this corruption.
-    
-    Reported-by: Bart Van Assche <bvanassche at acm.org>
-    Reported-by: Christoph Hellwig <hch at infradead.org>
-    Signed-off-by: Dennis Krein <Dennis.Krein at netapp.com>
-    Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>
-
-diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
-index 60f3236beaf7..697a2d7e8e8a 100644
---- a/kernel/rcu/srcutree.c
-+++ b/kernel/rcu/srcutree.c
-@@ -451,10 +451,12 @@ static void srcu_gp_start(struct srcu_struct *sp)
- 
- 	lockdep_assert_held(&ACCESS_PRIVATE(sp, lock));
- 	WARN_ON_ONCE(ULONG_CMP_GE(sp->srcu_gp_seq, sp->srcu_gp_seq_needed));
-+	spin_lock_rcu_node(sdp);  /* Interrupts already disabled. */
- 	rcu_segcblist_advance(&sdp->srcu_cblist,
- 			      rcu_seq_current(&sp->srcu_gp_seq));
- 	(void)rcu_segcblist_accelerate(&sdp->srcu_cblist,
- 				       rcu_seq_snap(&sp->srcu_gp_seq));
-+	spin_unlock_rcu_node(sdp);  /* Interrupts remain disabled. */
- 	smp_mb(); /* Order prior store to ->srcu_gp_seq_needed vs. GP start. */
- 	rcu_seq_start(&sp->srcu_gp_seq);
- 	state = rcu_seq_state(READ_ONCE(sp->srcu_gp_seq));
+Bart.
