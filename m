@@ -1,21 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 25 Oct 2018 18:38:19 -0700
-Subject: [PATCH] nvmet: adjust the serial number format function
-In-Reply-To: <20181025151413.GC5138@localhost.localdomain>
-References: <1540201713-14848-1-git-send-email-lijie34@huawei.com>
- <20181025151413.GC5138@localhost.localdomain>
-Message-ID: <ad784255-9c36-d590-b06f-f6fbe97f22bb@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 26 Oct 2018 09:53:19 +0200
+Subject: [PATCH] nvme: make sure ns head inherits underlying device limits
+In-Reply-To: <70bcef36-48da-cae7-4e23-ac9b01814a74@grimberg.me>
+References: <20181019222450.25397-1-sagi@grimberg.me>
+ <20181022085752.GD18755@lst.de>
+ <70bcef36-48da-cae7-4e23-ac9b01814a74@grimberg.me>
+Message-ID: <20181026075319.GC5092@lst.de>
 
+On Mon, Oct 22, 2018@05:22:15PM -0700, Sagi Grimberg wrote:
+> Without this patch at least max_segments and max_hw_sectors of the head 
+> device node are degenerated to defaults that have nothing to do with the
+> underlying device limits.
+>
+> This can result in unnecessary bio splitting for the head device
+> node...
 
->> The serial number displayed on the host side using the nvme list command
->> is different from the attr_serial at the target side, because the
->> nvmet_execute_identify_ctrl function and the
->> nvmet_subsys_attr_serial_store function use different types of formatting
->> functions.
-> 
-> I think the more fundamental reason for the display difference is one
-> of these is a u8[] and the other a u64, and it makes more sense to me
-> if both were u8[].
-
-Agreed, would be better to make subsys serial u8[20] and adjust
-show/store configfs routines accordingly
+But we never split bios for the multipath queue!
