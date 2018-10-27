@@ -1,40 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 26 Oct 2018 16:58:07 -0600
-Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
-In-Reply-To: <20181026224146.198311-1-gwendal@chromium.org>
-References: <20181026224146.198311-1-gwendal@chromium.org>
-Message-ID: <20181026225807.GA10621@localhost.localdomain>
+From: zhitaoli1201@163.com (zhitaoli1201@163.com)
+Date: Sat, 27 Oct 2018 15:34:52 +0800
+Subject: Duplicate subnqn of NVMe SSD Controllers
+Message-ID: <5m6gor-7xj0dn5dtb12x1b8f3-xfsypw-s3pjnd-oq8eyy-82l7b1-qdnqdci1wm87jp0w3aj5wymq-xt9rda-x787pwq8q8mz-118hyj7ztvz0flkog2-9es5q86pqysjjks19b-ps9rfn-a0r0vp7260ev.1540625692098@email.android.com>
 
-On Fri, Oct 26, 2018@03:41:46PM -0700, Gwendal Grignou wrote:
-> Given Intel 660p returns 0 when reading discarded data,
-> allow Write Zero.
-> 
-> nvme id-ns /dev/nvme0n1
-> ...
-> dlfeat  : 1
-> ...
-> 
-> Check Write Zeros is now enabled:
-> cat /sys/block/nvme0n1/queue/write_zeroes_max_bytes
-> 2199023255040
-> 
-> Signed-off-by: Gwendal Grignou <gwendal at chromium.org>
-> ---
->  drivers/nvme/host/pci.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 7e09e45b0b28d..b81ad51d78b72 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2694,6 +2694,8 @@ static const struct pci_device_id nvme_id_table[] = {
->  	{ PCI_VDEVICE(INTEL, 0xf1a5),	/* Intel 600P/P3100 */
->  		.driver_data = NVME_QUIRK_NO_DEEPEST_PS |
->  				NVME_QUIRK_MEDIUM_PRIO_SQ },
-> +	{ PCI_VDEVICE(INTEL, 0xf1a8), /* Intel 660P */
-> +		.driver_data = NVME_QUIRK_DEALLOCATE_ZEROES, },
+Hello, everyone,
 
-The quirk is for devices that pre-date the ability to discover the
-capability. Now that we have a spec defined way to know a device's
-deallocate behavior, and this particular device implements that method,
-we should use that instead of a quirk.
+
+I am Zhitao Li, interested in Linux kernel and?SSDs.
+
+I am writing nvme device drivers based on my Open-channel SSDs. However, when two SSDs are connected to motherboard and Linux(4.17) boots, following warning information will be printed in the booting process:
+
+
+"nvme nvme1: ignoring ctrl due to duplicate subnqn (nqn.2014.08.org.nvmexpress:1ded1dedAA....)"
+
+
+It seems that the?nvme qualified name of my two SSDs is same. After booting, only one device is available.
+
+
+Could anyone give some explanation or advice about how to make both devices availbale?
+
+
+?
+
+Best regards,
+
+Zhitao Li
