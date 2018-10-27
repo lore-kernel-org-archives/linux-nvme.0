@@ -1,33 +1,48 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 27 Oct 2018 10:52:55 -0600
-Subject: [PATCH 01/14] blk-mq: kill q->mq_map
-In-Reply-To: <2357b785-6730-fb02-f7fb-9f4a230a00ea@kernel.dk>
-References: <20181025211626.12692-1-axboe@kernel.dk>
- <20181025211626.12692-2-axboe@kernel.dk>
- <f0b01bcc-fa62-880d-80ef-c44095d82077@oracle.com>
- <2357b785-6730-fb02-f7fb-9f4a230a00ea@kernel.dk>
-Message-ID: <b40d8e78-c443-7e10-db4e-4d31acf2695b@kernel.dk>
+From: jsmart2021@gmail.com (James Smart)
+Date: Sat, 27 Oct 2018 12:41:54 -0700
+Subject: [PATCH] nvme-fc: fix request private initialization
+Message-ID: <20181027194154.3965-1-jsmart2021@gmail.com>
 
-On 10/27/18 10:48 AM, Jens Axboe wrote:
-> On 10/27/18 8:19 AM, jianchao.wang wrote:
->> Hi Jens
->>
->> On 10/26/18 5:16 AM, Jens Axboe wrote:
->>> It's just a pointer to set->mq_map, use that instead.
->> Instead of using the set->mq_map and then a two-dimensional set->mq_map,
->> how about migrate the mq_map from per-set to per-cpuctx ?
->> something like:
->> q->queue_hw_ctx[ctx->map[type]]
-> 
-> I think the current series is pretty clean in that regard, it goes
-> from members -> map -> map array. I'd be willing to look at a
-> conversion on top of that, if it makes things cleaner.
+The patch made to avoid Coverity reporting of out of bounds access
+on aen_op moved the assignment of a pointer, leaving it null when it
+was subsequently used to calculate a private pointer. Thus the private
+pointer was bad.
 
-On top of that, this:
+Move/correct the private pointer initialization to be in sync with the
+patch.
 
-q->queue_hw_ctx[set->map[type].mq_map[cpu]]
+Fixes: 0d2bdf9f4134 ("nvme-fc: rework the request initialization code")
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
+---
 
-is one less pointer dereference, so more efficient.
+This kills all nvme-fc initiators, so rather critical we merge it
+quickly.
 
+The patch that introduced the issue was in the "nvme updates for Linux 4.20"
+pulled by Jens on 10/19
+
+ drivers/nvme/host/fc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index fd6899e9fa2b..854cc3801bda 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1707,7 +1707,6 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
+ 	op->fcp_req.rspaddr = &op->rsp_iu;
+ 	op->fcp_req.rsplen = sizeof(op->rsp_iu);
+ 	op->fcp_req.done = nvme_fc_fcpio_done;
+-	op->fcp_req.private = &op->fcp_req.first_sgl[SG_CHUNK_SIZE];
+ 	op->ctrl = ctrl;
+ 	op->queue = queue;
+ 	op->rq = rq;
+@@ -1755,6 +1754,7 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
+ 	if (res)
+ 		return res;
+ 	op->op.fcp_req.first_sgl = &op->sgl[0];
++	op->op.fcp_req.private = &op->priv[0];
+ 	return res;
+ }
+ 
 -- 
-Jens Axboe
+2.13.7
