@@ -1,20 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 27 Oct 2018 09:44:52 +0200
-Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
-In-Reply-To: <20181026225807.GA10621@localhost.localdomain>
-References: <20181026224146.198311-1-gwendal@chromium.org>
- <20181026225807.GA10621@localhost.localdomain>
-Message-ID: <20181027074452.GA15404@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 27 Oct 2018 01:26:23 -0700
+Subject: Duplicate subnqn of NVMe SSD Controllers
+In-Reply-To: <5m6gor-7xj0dn5dtb12x1b8f3-xfsypw-s3pjnd-oq8eyy-82l7b1-qdnqdci1wm87jp0w3aj5wymq-xt9rda-x787pwq8q8mz-118hyj7ztvz0flkog2-9es5q86pqysjjks19b-ps9rfn-a0r0vp7260ev.1540625692098@email.android.com>
+References: <5m6gor-7xj0dn5dtb12x1b8f3-xfsypw-s3pjnd-oq8eyy-82l7b1-qdnqdci1wm87jp0w3aj5wymq-xt9rda-x787pwq8q8mz-118hyj7ztvz0flkog2-9es5q86pqysjjks19b-ps9rfn-a0r0vp7260ev.1540625692098@email.android.com>
+Message-ID: <20181027082623.GA25033@infradead.org>
 
-On Fri, Oct 26, 2018@04:58:07PM -0600, Keith Busch wrote:
-> The quirk is for devices that pre-date the ability to discover the
-> capability. Now that we have a spec defined way to know a device's
-> deallocate behavior, and this particular device implements that method,
-> we should use that instead of a quirk.
+On Sat, Oct 27, 2018@03:34:52PM +0800, zhitaoli1201@163.com wrote:
+> Hello, everyone,
+> 
+> 
+> I am Zhitao Li, interested in Linux kernel and?SSDs.
+> 
+> I am writing nvme device drivers based on my Open-channel SSDs. However, when two SSDs are connected to motherboard and Linux(4.17) boots, following warning information will be printed in the booting process:
+> 
+> 
+> "nvme nvme1: ignoring ctrl due to duplicate subnqn (nqn.2014.08.org.nvmexpress:1ded1dedAA....)"
 
-The 'Deallocate Logical Block Features' bits 0 and 1 only tell what
-is read back from deallocated logic blocks, but it does not guarantee
-that all blocks a DSM deallocate is called on are actually deallocated.
-
-That being said I really don't want to add more 'feature hacks' like this,
-it is time that we go back to a proper Write Zeroes implementation.
+This means your devices have a duplicate serial (and model, but that is
+expected) number, which means they are buggy in a way that can have
+data integrity consequences.  Please talk to the vendor so that the
+firmware will provide a proper unique serial number.
