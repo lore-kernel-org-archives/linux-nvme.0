@@ -1,48 +1,62 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 27 Oct 2018 12:41:54 -0700
-Subject: [PATCH] nvme-fc: fix request private initialization
-Message-ID: <20181027194154.3965-1-jsmart2021@gmail.com>
+Date: Sat, 27 Oct 2018 12:42:45 -0700
+Subject: [PATCH] nvme-fc: allow support for association_id to be zero
+Message-ID: <20181027194245.4246-1-jsmart2021@gmail.com>
 
-The patch made to avoid Coverity reporting of out of bounds access
-on aen_op moved the assignment of a pointer, leaving it null when it
-was subsequently used to calculate a private pointer. Thus the private
-pointer was bad.
+Current code assumed association_id would be some non-zero value.
+But zero isn't prohibited by spec. Add support for the value being zero.
 
-Move/correct the private pointer initialization to be in sync with the
-patch.
-
-Fixes: 0d2bdf9f4134 ("nvme-fc: rework the request initialization code")
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
-
-This kills all nvme-fc initiators, so rather critical we merge it
-quickly.
-
-The patch that introduced the issue was in the "nvme updates for Linux 4.20"
-pulled by Jens on 10/19
-
- drivers/nvme/host/fc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/fc.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index fd6899e9fa2b..854cc3801bda 100644
+index e52b9d3c0bd6..fd6899e9fa2b 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -1707,7 +1707,6 @@ __nvme_fc_init_request(struct nvme_fc_ctrl *ctrl,
- 	op->fcp_req.rspaddr = &op->rsp_iu;
- 	op->fcp_req.rsplen = sizeof(op->rsp_iu);
- 	op->fcp_req.done = nvme_fc_fcpio_done;
--	op->fcp_req.private = &op->fcp_req.first_sgl[SG_CHUNK_SIZE];
- 	op->ctrl = ctrl;
- 	op->queue = queue;
- 	op->rq = rq;
-@@ -1755,6 +1754,7 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
- 	if (res)
- 		return res;
- 	op->op.fcp_req.first_sgl = &op->sgl[0];
-+	op->op.fcp_req.private = &op->priv[0];
- 	return res;
+@@ -152,6 +152,7 @@ struct nvme_fc_ctrl {
+ 
+ 	bool			ioq_live;
+ 	bool			assoc_active;
++	bool			assoc_id_valid;
+ 	u64			association_id;
+ 
+ 	struct list_head	ctrl_list;	/* rport->ctrl_list */
+@@ -1274,6 +1275,7 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
+ 	} else {
+ 		ctrl->association_id =
+ 			be64_to_cpu(assoc_acc->associd.association_id);
++		ctrl->assoc_id_valid = true;
+ 		queue->connection_id =
+ 			be64_to_cpu(assoc_acc->connectid.connection_id);
+ 		set_bit(NVME_FC_Q_CONNECTED, &queue->flags);
+@@ -1471,6 +1473,7 @@ nvme_fc_xmt_disconnect_assoc(struct nvme_fc_ctrl *ctrl)
+ 		kfree(lsop);
+ 
+ 	/* only meaningful part to terminating the association */
++	ctrl->assoc_id_valid = false;
+ 	ctrl->association_id = 0;
  }
  
+@@ -2787,9 +2790,8 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 	 * send a Disconnect(association) LS to fc-nvme target
+ 	 * Note: could have been sent at top of process, but
+ 	 * cleaner on link traffic if after the aborts complete.
+-	 * Note: if association doesn't exist, association_id will be 0
+ 	 */
+-	if (ctrl->association_id)
++	if (ctrl->assoc_id_valid)
+ 		nvme_fc_xmt_disconnect_assoc(ctrl);
+ 
+ 	if (ctrl->ctrl.tagset) {
+@@ -3007,6 +3009,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	ctrl->cnum = idx;
+ 	ctrl->ioq_live = false;
+ 	ctrl->assoc_active = false;
++	ctrl->assoc_id_valid = false;
+ 	init_waitqueue_head(&ctrl->ioabort_wait);
+ 
+ 	get_device(ctrl->dev);
 -- 
 2.13.7
