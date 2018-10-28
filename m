@@ -1,25 +1,71 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 28 Oct 2018 09:10:58 -0700
-Subject: [PATCH 01/14] blk-mq: kill q->mq_map
-In-Reply-To: <20181025211626.12692-2-axboe@kernel.dk>
-References: <20181025211626.12692-1-axboe@kernel.dk>
- <20181025211626.12692-2-axboe@kernel.dk>
-Message-ID: <20181028161058.GA26904@infradead.org>
+From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Sun, 28 Oct 2018 19:38:23 +0100
+Subject: [PATCH] lightnvm: Fix uninitialized return value in
+ nvm_get_chunk_meta()
+In-Reply-To: <20181028160726.24450-1-geert@linux-m68k.org>
+References: <20181028160726.24450-1-geert@linux-m68k.org>
+Message-ID: <a0fa4599-f6c1-1f45-43f4-4cf30b8de509@lightnvm.io>
 
-On Thu, Oct 25, 2018@03:16:13PM -0600, Jens Axboe wrote:
->  static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
->  		int cpu)
->  {
-> -	return q->queue_hw_ctx[q->mq_map[cpu]];
-> +	struct blk_mq_tag_set *set = q->tag_set;
-> +
-> +	return q->queue_hw_ctx[set->mq_map[cpu]];
+On 10/28/2018 05:07 PM, Geert Uytterhoeven wrote:
+> With gcc 4.1:
+> 
+>      drivers/lightnvm/core.c: In function ?nvm_get_bb_meta?:
+>      drivers/lightnvm/core.c:977: warning: ?ret? may be used uninitialized in this function
+> 
+> and
+> 
+>      drivers/nvme/host/lightnvm.c: In function ?nvme_nvm_get_chk_meta?:
+>      drivers/nvme/host/lightnvm.c:580: warning: ?ret? may be used uninitialized in this function
+> 
+> Indeed, if (for the former) the number of channels or LUNs is zero, or
+> (for both) the passed number of chunks is zero, ret will be returned
+> uninitialized.
+> 
+> Fix this by preinitializing ret to zero.
+> 
+> Fixes: aff3fb18f957de93 ("lightnvm: move bad block and chunk state logic to core")
+> Fixes: a294c199455187d1 ("lightnvm: implement get log report chunk helpers")
+> Signed-off-by: Geert Uytterhoeven <geert at linux-m68k.org>
+> ---
+> I don't know if this can happen in practice, but given this is core
+> functionality that can be called from other files, or even from other
+> modules, I think it's better to be safe than sorry.
+> 
+> The latter seems to be a pre-existing issue since v4.17.
+> I didn't notice it before, due to the dependency of NVM on PCI (my gcc
+> 4.1 targets m68k, i.e. no PCI).
+> ---
+>   drivers/lightnvm/core.c      | 2 +-
+>   drivers/nvme/host/lightnvm.c | 3 ++-
+>   2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+> index efb976a863d2295a..73ab3cf2686804ba 100644
+> --- a/drivers/lightnvm/core.c
+> +++ b/drivers/lightnvm/core.c
+> @@ -974,7 +974,7 @@ static int nvm_get_bb_meta(struct nvm_dev *dev, sector_t slba,
+>   	struct ppa_addr ppa;
+>   	u8 *blks;
+>   	int ch, lun, nr_blks;
+> -	int ret;
+> +	int ret = 0;
+>   
+>   	ppa.ppa = slba;
+>   	ppa = dev_to_generic_addr(dev, ppa);
+> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+> index a4f3b263cd6c60ee..d64805dc8efbaa02 100644
+> --- a/drivers/nvme/host/lightnvm.c
+> +++ b/drivers/nvme/host/lightnvm.c
+> @@ -577,7 +577,8 @@ static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
+>   	struct ppa_addr ppa;
+>   	size_t left = nchks * sizeof(struct nvme_nvm_chk_meta);
+>   	size_t log_pos, offset, len;
+> -	int ret, i, max_len;
+> +	int i, max_len;
+> +	int ret = 0;
+>   
+>   	/*
+>   	 * limit requests to maximum 256K to avoid issuing arbitrary large
+> 
 
-Nitpick: this would be a little more readable without the local
-set variable:
-
-	return q->queue_hw_ctx[q->tag_set->mq_map[cpu]];
-
-Otherwise this looks good to me:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Thanks Geert. Applied for 4.21/5.1.
