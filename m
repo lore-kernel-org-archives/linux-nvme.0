@@ -1,51 +1,17 @@
-From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 29 Oct 2018 21:45:18 +0000
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 29 Oct 2018 16:02:11 -0600
 Subject: [PATCH 3/3] nvme-cli: fix header paths for new structure
-In-Reply-To: <BYAPR04MB4502B8BAF42930F3B858EE4586F00@BYAPR04MB4502.namprd04.prod.outlook.com>
+In-Reply-To: <BYAPR04MB4502A2FF67025B4D4C67103186F30@BYAPR04MB4502.namprd04.prod.outlook.com>
 References: <20181026170834.23457-1-chaitanya.kulkarni@wdc.com>
  <20181026170834.23457-3-chaitanya.kulkarni@wdc.com>
  <20181026200733.GA10403@localhost.localdomain>
- <9E08CF92-63C8-4D55-AAF7-D1571D4DEF67@wdc.com>,
- <20181026201714.GB10403@localhost.localdomain>,
+ <9E08CF92-63C8-4D55-AAF7-D1571D4DEF67@wdc.com>
+ <20181026201714.GB10403@localhost.localdomain>
  <BYAPR04MB4502B8BAF42930F3B858EE4586F00@BYAPR04MB4502.namprd04.prod.outlook.com>
-Message-ID: <BYAPR04MB4502A2FF67025B4D4C67103186F30@BYAPR04MB4502.namprd04.prod.outlook.com>
+ <BYAPR04MB4502A2FF67025B4D4C67103186F30@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <20181029220211.GA17365@localhost.localdomain>
 
-Can we get patch 1 and 2 in ? maybe we can drop 3rd one.
+On Mon, Oct 29, 2018@09:45:18PM +0000, Chaitanya Kulkarni wrote:
+> Can we get patch 1 and 2 in ? maybe we can drop 3rd one.
 
-
-
-
-
-From: Chaitanya Kulkarni
-Sent: Friday, October 26, 2018 2:56 PM
-To: Keith Busch
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: [PATCH 3/3] nvme-cli: fix header paths for new structure
-? 
- 
-
-
-
-
-
-From: Keith Busch <keith.busch@intel.com>
-Sent: Friday, October 26, 2018 1:17 PM
-To: Chaitanya Kulkarni
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: [PATCH 3/3] nvme-cli: fix header paths for new structure
-? 
-?
-On Fri, Oct 26, 2018@08:11:37PM +0000, Chaitanya Kulkarni wrote:
-> No but, static analysis tool reported include path warnings, maybe we can ignore these warnings ?
-
-Oh, interesting! It ought to be safe to ignore, but I don't like that
-either. Does your analysis tool report issues if you replace the quoted
-includes with angle-brackets?
-
-? #include <...>
-
-instead of 
-
-? #include "..." 
-??? 
-It still reports warning, but adding include directory to the nvme-cli/? I was able to get rid of the warning.    
+Done.
