@@ -1,25 +1,31 @@
-From: lijie34@huawei.com (lijie)
-Date: Mon, 29 Oct 2018 21:03:49 +0800
-Subject: [PATCH] nvme-cli:fix a typo in SELF-TEST log
-Message-ID: <1540818229-16288-1-git-send-email-lijie34@huawei.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 29 Oct 2018 09:24:01 -0600
+Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
+In-Reply-To: <20181027074452.GA15404@lst.de>
+References: <20181026224146.198311-1-gwendal@chromium.org>
+ <20181026225807.GA10621@localhost.localdomain>
+ <20181027074452.GA15404@lst.de>
+Message-ID: <20181029152401.GA16336@localhost.localdomain>
 
-This patch fixes a typo in SELF-TEST log.
----
- nvme-print.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Oct 27, 2018@09:44:52AM +0200, Christoph Hellwig wrote:
+> On Fri, Oct 26, 2018@04:58:07PM -0600, Keith Busch wrote:
+> > The quirk is for devices that pre-date the ability to discover the
+> > capability. Now that we have a spec defined way to know a device's
+> > deallocate behavior, and this particular device implements that method,
+> > we should use that instead of a quirk.
+> 
+> The 'Deallocate Logical Block Features' bits 0 and 1 only tell what
+> is read back from deallocated logic blocks, but it does not guarantee
+> that all blocks a DSM deallocate is called on are actually deallocated.
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 3195cdc..4cf4609 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1482,7 +1482,7 @@ void show_self_test_log(struct nvme_self_test_log *self_test, const char *devnam
- 		"Operation was aborted due to a removal of a namespace from the namespace inventory",
- 		"Operation was aborted due to the processing of a Format NVM command",
- 		"A fatal error or unknown test error occurred while the controller was executing the"\
--		" device self-test operation andthe operation did not complete",
-+		" device self-test operation and the operation did not complete",
- 		"Operation completed with a segment that failed and the segment that failed is not known",
- 		"Operation completed with one or more failed segments and the first segment that failed "\
- 		"is indicated in the SegmentNumber field",
--- 
-2.6.4.windows.1
+Sure, but whether the requested blocks are deallocated or not is
+irrelevant. We're only using this feature here for its deterministic
+read behavior.
+
+> That being said I really don't want to add more 'feature hacks' like this,
+> it is time that we go back to a proper Write Zeroes implementation.
+
+Yes, I agree we ought to use nvme Write Zeroes instead of DSM if
+the controller supports it, but recall we had to revert the original
+implementation because it broke Linus' machine. The nvme part looked
+fine to me, though, so I don't know what the problem may have been.
