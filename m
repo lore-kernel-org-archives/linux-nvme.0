@@ -1,33 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 29 Oct 2018 08:30:29 +0100
-Subject: [PATCH 02/14] blk-mq: abstract out queue map
-In-Reply-To: <20181025211626.12692-3-axboe@kernel.dk>
+Date: Mon, 29 Oct 2018 08:47:05 +0100
+Subject: [PATCH 13/14] block: add REQ_HIPRI and inherit it from IOCB_HIPRI
+In-Reply-To: <20181025211626.12692-14-axboe@kernel.dk>
 References: <20181025211626.12692-1-axboe@kernel.dk>
- <20181025211626.12692-3-axboe@kernel.dk>
-Message-ID: <7690db18-9834-a13b-6e0d-7a48575ab8ce@suse.de>
+ <20181025211626.12692-14-axboe@kernel.dk>
+Message-ID: <2de26aaa-19f2-f3d2-f8f8-2be33c82b4da@suse.de>
 
 On 10/25/18 11:16 PM, Jens Axboe wrote:
-> This is in preparation for allowing multiple sets of maps per
-> queue, if so desired.
+> We use IOCB_HIPRI to poll for IO in the caller instead of scheduling.
+> This information is not available for (or after) IO submission. The
+> driver may make different queue choices based on the type of IO, so
+> make the fact that we will poll for this IO known to the lower layers
+> as well.
 > 
 > Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > ---
->   block/blk-mq-cpumap.c                 | 10 ++++----
->   block/blk-mq-pci.c                    | 10 ++++----
->   block/blk-mq-rdma.c                   |  4 ++--
->   block/blk-mq-virtio.c                 |  8 +++----
->   block/blk-mq.c                        | 34 ++++++++++++++-------------
->   block/blk-mq.h                        |  8 +++----
->   drivers/block/virtio_blk.c            |  2 +-
->   drivers/nvme/host/pci.c               |  2 +-
->   drivers/scsi/qla2xxx/qla_os.c         |  5 ++--
->   drivers/scsi/scsi_lib.c               |  2 +-
->   drivers/scsi/smartpqi/smartpqi_init.c |  3 ++-
->   drivers/scsi/virtio_scsi.c            |  3 ++-
->   include/linux/blk-mq-pci.h            |  4 ++--
->   include/linux/blk-mq-virtio.h         |  4 ++--
->   include/linux/blk-mq.h                | 13 ++++++++--
->   15 files changed, 63 insertions(+), 49 deletions(-)
+>   fs/block_dev.c            | 2 ++
+>   fs/direct-io.c            | 2 ++
+>   fs/iomap.c                | 9 ++++++++-
+>   include/linux/blk_types.h | 4 +++-
+>   4 files changed, 15 insertions(+), 2 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
