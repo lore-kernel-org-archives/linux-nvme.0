@@ -1,32 +1,33 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 29 Oct 2018 08:46:10 +0100
-Subject: [PATCH 12/14] nvme: utilize two queue maps, one for reads and one
- for writes
-In-Reply-To: <20181025211626.12692-13-axboe@kernel.dk>
+Date: Mon, 29 Oct 2018 08:30:29 +0100
+Subject: [PATCH 02/14] blk-mq: abstract out queue map
+In-Reply-To: <20181025211626.12692-3-axboe@kernel.dk>
 References: <20181025211626.12692-1-axboe@kernel.dk>
- <20181025211626.12692-13-axboe@kernel.dk>
-Message-ID: <114c24f8-75df-396c-8e85-a7174d400362@suse.de>
+ <20181025211626.12692-3-axboe@kernel.dk>
+Message-ID: <7690db18-9834-a13b-6e0d-7a48575ab8ce@suse.de>
 
 On 10/25/18 11:16 PM, Jens Axboe wrote:
-> NVMe does round-robin between queues by default, which means that
-> sharing a queue map for both reads and writes can be problematic
-> in terms of read servicing. It's much easier to flood the queue
-> with writes and reduce the read servicing.
-> 
-> Implement two queue maps, one for reads and one for writes. The
-> write queue count is configurable through the 'write_queues'
-> parameter.
-> 
-> By default, we retain the previous behavior of having a single
-> queue set, shared between reads and writes. Setting 'write_queues'
-> to a non-zero value will create two queue sets, one for reads and
-> one for writes, the latter using the configurable number of
-> queues (hardware queue counts permitting).
+> This is in preparation for allowing multiple sets of maps per
+> queue, if so desired.
 > 
 > Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > ---
->   drivers/nvme/host/pci.c | 139 +++++++++++++++++++++++++++++++++++++---
->   1 file changed, 131 insertions(+), 8 deletions(-)
+>   block/blk-mq-cpumap.c                 | 10 ++++----
+>   block/blk-mq-pci.c                    | 10 ++++----
+>   block/blk-mq-rdma.c                   |  4 ++--
+>   block/blk-mq-virtio.c                 |  8 +++----
+>   block/blk-mq.c                        | 34 ++++++++++++++-------------
+>   block/blk-mq.h                        |  8 +++----
+>   drivers/block/virtio_blk.c            |  2 +-
+>   drivers/nvme/host/pci.c               |  2 +-
+>   drivers/scsi/qla2xxx/qla_os.c         |  5 ++--
+>   drivers/scsi/scsi_lib.c               |  2 +-
+>   drivers/scsi/smartpqi/smartpqi_init.c |  3 ++-
+>   drivers/scsi/virtio_scsi.c            |  3 ++-
+>   include/linux/blk-mq-pci.h            |  4 ++--
+>   include/linux/blk-mq-virtio.h         |  4 ++--
+>   include/linux/blk-mq.h                | 13 ++++++++--
+>   15 files changed, 63 insertions(+), 49 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
