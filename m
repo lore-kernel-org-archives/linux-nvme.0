@@ -1,26 +1,68 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 29 Oct 2018 08:48:21 +0100
-Subject: [PATCH 14/14] nvme: add separate poll queue map
-In-Reply-To: <20181025211626.12692-15-axboe@kernel.dk>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Mon, 29 Oct 2018 17:03:44 +0800
+Subject: [PATCH 01/14] blk-mq: kill q->mq_map
+In-Reply-To: <8c9418a3-93e4-de2a-24f8-50fcc583eff4@kernel.dk>
 References: <20181025211626.12692-1-axboe@kernel.dk>
- <20181025211626.12692-15-axboe@kernel.dk>
-Message-ID: <024e93e5-a265-4e71-840f-6bd469f08bbc@suse.de>
+ <20181025211626.12692-2-axboe@kernel.dk>
+ <f0b01bcc-fa62-880d-80ef-c44095d82077@oracle.com>
+ <2357b785-6730-fb02-f7fb-9f4a230a00ea@kernel.dk>
+ <b40d8e78-c443-7e10-db4e-4d31acf2695b@kernel.dk>
+ <b284d07e-b27c-8d72-4d8e-cff349d07fe9@oracle.com>
+ <5c46136c-a558-30a6-3423-3476dbe253ab@oracle.com>
+ <8c9418a3-93e4-de2a-24f8-50fcc583eff4@kernel.dk>
+Message-ID: <1b21a538-179b-1775-4801-43025aabc2a3@oracle.com>
 
-On 10/25/18 11:16 PM, Jens Axboe wrote:
-> Adds support for defining a variable number of poll queues, currently
-> configurable with the 'poll_queues' module parameter. Defaults to
-> a single poll queue.
-> 
-> And now we finally have poll support without triggering interrupts!
-> 
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> ---
->   drivers/nvme/host/pci.c | 103 +++++++++++++++++++++++++++++++++-------
->   include/linux/blk-mq.h  |   2 +-
->   2 files changed, 88 insertions(+), 17 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Cheers,
 
-Hannes
+On 10/29/18 11:00 AM, Jens Axboe wrote:
+> On 10/28/18 8:40 PM, jianchao.wang wrote:
+>>
+>>
+>> On 10/29/18 10:02 AM, jianchao.wang wrote:
+>>> Hi Jens
+>>>
+>>> On 10/28/18 12:52 AM, Jens Axboe wrote:
+>>>> On 10/27/18 10:48 AM, Jens Axboe wrote:
+>>>>> On 10/27/18 8:19 AM, jianchao.wang wrote:
+>>>>>> Hi Jens
+>>>>>>
+>>>>>> On 10/26/18 5:16 AM, Jens Axboe wrote:
+>>>>>>> It's just a pointer to set->mq_map, use that instead.
+>>>>>> Instead of using the set->mq_map and then a two-dimensional set->mq_map,
+>>>>>> how about migrate the mq_map from per-set to per-cpuctx ?
+>>>>>> something like:
+>>>>>> q->queue_hw_ctx[ctx->map[type]]
+>>>>>
+>>>>> I think the current series is pretty clean in that regard, it goes
+>>>>> from members -> map -> map array. I'd be willing to look at a
+>>>>> conversion on top of that, if it makes things cleaner.
+>>>>
+>>>> On top of that, this:
+>>>>
+>>>> q->queue_hw_ctx[set->map[type].mq_map[cpu]]
+>>>>
+>>>> is one less pointer dereference, so more efficient.
+>>>>
+>>>
+>>> Saving the blk_mq_hw_ctx into blk_mq_ctx direclty maybe more direct and efficient.
+>>> something like,
+>>>
+>>>    ctx->map_hctxs[type]
+>>>
+>>> all of the memory accessing is local.
+>>>
+>>> What we need to pay for this is do mapping for every request_queue.
+>>
+>> Actually not, this could be done in blk_mq_map_swqueue.
+> 
+> I'm not interested in pursuing this for this series. If you want
+> to work on it on top and have it tested and evaluated separately,
+> then that's obviously fine. But there's no point in mixing it
+> up with these changes, as it's an orthogonal change.
+> 
+
+Yes, got it.
+Thanks for your kindly response.
+
+Sincerely
+Jianchao
