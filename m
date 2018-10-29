@@ -1,47 +1,57 @@
 From: jianchao.w.wang@oracle.com (jianchao.wang)
-Date: Mon, 29 Oct 2018 10:02:32 +0800
+Date: Mon, 29 Oct 2018 10:40:42 +0800
 Subject: [PATCH 01/14] blk-mq: kill q->mq_map
-In-Reply-To: <b40d8e78-c443-7e10-db4e-4d31acf2695b@kernel.dk>
+In-Reply-To: <b284d07e-b27c-8d72-4d8e-cff349d07fe9@oracle.com>
 References: <20181025211626.12692-1-axboe@kernel.dk>
  <20181025211626.12692-2-axboe@kernel.dk>
  <f0b01bcc-fa62-880d-80ef-c44095d82077@oracle.com>
  <2357b785-6730-fb02-f7fb-9f4a230a00ea@kernel.dk>
  <b40d8e78-c443-7e10-db4e-4d31acf2695b@kernel.dk>
-Message-ID: <b284d07e-b27c-8d72-4d8e-cff349d07fe9@oracle.com>
+ <b284d07e-b27c-8d72-4d8e-cff349d07fe9@oracle.com>
+Message-ID: <5c46136c-a558-30a6-3423-3476dbe253ab@oracle.com>
 
-Hi Jens
 
-On 10/28/18 12:52 AM, Jens Axboe wrote:
-> On 10/27/18 10:48 AM, Jens Axboe wrote:
->> On 10/27/18 8:19 AM, jianchao.wang wrote:
->>> Hi Jens
+
+On 10/29/18 10:02 AM, jianchao.wang wrote:
+> Hi Jens
+> 
+> On 10/28/18 12:52 AM, Jens Axboe wrote:
+>> On 10/27/18 10:48 AM, Jens Axboe wrote:
+>>> On 10/27/18 8:19 AM, jianchao.wang wrote:
+>>>> Hi Jens
+>>>>
+>>>> On 10/26/18 5:16 AM, Jens Axboe wrote:
+>>>>> It's just a pointer to set->mq_map, use that instead.
+>>>> Instead of using the set->mq_map and then a two-dimensional set->mq_map,
+>>>> how about migrate the mq_map from per-set to per-cpuctx ?
+>>>> something like:
+>>>> q->queue_hw_ctx[ctx->map[type]]
 >>>
->>> On 10/26/18 5:16 AM, Jens Axboe wrote:
->>>> It's just a pointer to set->mq_map, use that instead.
->>> Instead of using the set->mq_map and then a two-dimensional set->mq_map,
->>> how about migrate the mq_map from per-set to per-cpuctx ?
->>> something like:
->>> q->queue_hw_ctx[ctx->map[type]]
+>>> I think the current series is pretty clean in that regard, it goes
+>>> from members -> map -> map array. I'd be willing to look at a
+>>> conversion on top of that, if it makes things cleaner.
 >>
->> I think the current series is pretty clean in that regard, it goes
->> from members -> map -> map array. I'd be willing to look at a
->> conversion on top of that, if it makes things cleaner.
+>> On top of that, this:
+>>
+>> q->queue_hw_ctx[set->map[type].mq_map[cpu]]
+>>
+>> is one less pointer dereference, so more efficient.
+>>
 > 
-> On top of that, this:
+> Saving the blk_mq_hw_ctx into blk_mq_ctx direclty maybe more direct and efficient.
+> something like,
 > 
-> q->queue_hw_ctx[set->map[type].mq_map[cpu]]
+>    ctx->map_hctxs[type]
 > 
-> is one less pointer dereference, so more efficient.
+> all of the memory accessing is local.
 > 
+> What we need to pay for this is do mapping for every request_queue.
 
-Saving the blk_mq_hw_ctx into blk_mq_ctx direclty maybe more direct and efficient.
-something like,
+Actually not, this could be done in blk_mq_map_swqueue.
 
-   ctx->map_hctxs[type]
-
-all of the memory accessing is local.
-
-What we need to pay for this is do mapping for every request_queue.
-
-Thanks
-Jianchao
+> 
+> Thanks
+> Jianchao
+> 
+> 
+> 
