@@ -1,29 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Oct 2018 09:26:49 -0600
-Subject: [PATCH] nvme-cli:fix a typo in SELF-TEST log
-In-Reply-To: <1540818229-16288-1-git-send-email-lijie34@huawei.com>
-References: <1540818229-16288-1-git-send-email-lijie34@huawei.com>
-Message-ID: <20181029152648.GB16453@localhost.localdomain>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Mon, 29 Oct 2018 15:37:46 +0000
+Subject: [PATCH 2/2] nvme/multipath: Fix multipath disabled naming
+ collisions
+In-Reply-To: <20180426214956.3377-3-keith.busch@intel.com>
+References: <20180426214956.3377-1-keith.busch@intel.com>
+ <20180426214956.3377-3-keith.busch@intel.com>
+Message-ID: <CAD4F464-15CC-44B9-9C72-B5F2BDFC5445@raithlin.com>
 
-On Mon, Oct 29, 2018@09:03:49PM +0800, lijie wrote:
-> This patch fixes a typo in SELF-TEST log.
-> ---
->  nvme-print.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/nvme-print.c b/nvme-print.c
-> index 3195cdc..4cf4609 100644
-> --- a/nvme-print.c
-> +++ b/nvme-print.c
-> @@ -1482,7 +1482,7 @@ void show_self_test_log(struct nvme_self_test_log *self_test, const char *devnam
->  		"Operation was aborted due to a removal of a namespace from the namespace inventory",
->  		"Operation was aborted due to the processing of a Format NVM command",
->  		"A fatal error or unknown test error occurred while the controller was executing the"\
-> -		" device self-test operation andthe operation did not complete",
-> +		" device self-test operation and the operation did not complete",
->  		"Operation completed with a segment that failed and the segment that failed is not known",
->  		"Operation completed with one or more failed segments and the first segment that failed "\
->  		"is indicated in the SegmentNumber field",
-> -- 
+>    When CONFIG_NVME_MULTIPATH is set, but we're not using nvme to multipath,
+>    namespaces with multiple paths were not creating unique names due to
+>    reusing the same instance number from the namespace's head.
+>    
+>    This patch fixes this by falling back to the non-multipath naming method
+>    when the parameter disabled using multipath.
+    
+Hi All
 
-Applied, thank you!
+Andrew and I have been doing some testing on systems with quite a few NVMe controllers in them. Some of these have one namespace and some have multiple. We (by mistake) had CONFIG_NVME_MULTIPATH enabled in the .config and noticed some unusual naming in the sysfs tree. Basically the namespace names no longer align with the controller names. This leads to hilarity as we try to co-ordinate IO between the namespaces and try to work out what namespace is where in the system. For example on a QEMU system with six NVMe SSD models in it we get something like:
+
+root at donard-qemu:~# ls -la /sys/bus/pci/devices/0000\:00\:04.0/nvme/nvme0/
+total 0
+drwxr-xr-x 4 root root    0 Oct 29 15:32 .
+drwxr-xr-x 3 root root    0 Oct 29 15:32 ..
+-r--r--r-- 1 root root 4096 Oct 29 15:32 address
+-r--r--r-- 1 root root 4096 Oct 29 15:32 cntlid
+-r--r--r-- 1 root root 4096 Oct 29 15:32 dev
+lrwxrwxrwx 1 root root    0 Oct 29 15:32 device -> ../../../0000:00:04.0
+-r--r--r-- 1 root root 4096 Oct 29 15:32 firmware_rev
+-r--r--r-- 1 root root 4096 Oct 29 15:32 model
+drwxr-xr-x 9 root root    0 Oct 29 15:32 nvme1n1
+drwxr-xr-x 2 root root    0 Oct 29 15:32 power
+--w------- 1 root root 4096 Oct 29 15:32 rescan_controller
+--w------- 1 root root 4096 Oct 29 15:32 reset_controller
+-r--r--r-- 1 root root 4096 Oct 29 15:32 serial
+-r--r--r-- 1 root root 4096 Oct 29 15:32 state
+-r--r--r-- 1 root root 4096 Oct 29 15:32 subsysnqn
+lrwxrwxrwx 1 root root    0 Oct 29 15:32 subsystem -> ../../../../../class/nvme
+-r--r--r-- 1 root root 4096 Oct 29 15:32 transport
+-rw-r--r-- 1 root root 4096 Oct 29 15:32 uevent
+
+Note how the /nvme/nvme0/ sysfs directory contains the nvme1n1 namespace. Is this expected? I am not that familiar with the multipath code so I'm not sure if this is a bug or not but it sure is confusing. Disabling CONFIG_NVME_MULTIPATH reverts to the legacy naming convention. This happens in all the 4.19, 4.18 and 4.17 kernels we tested. I've not tried the for-next tree.
+
+Stephen
+
+    
