@@ -1,55 +1,28 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 29 Oct 2018 16:44:18 -0700
-Subject: [PATCH] nvme-core: remove multiple memset calls
-Message-ID: <20181029234418.8553-1-chaitanya.kulkarni@wdc.com>
+From: shiraz.saleem@intel.com (Saleem, Shiraz)
+Date: Mon, 29 Oct 2018 23:58:31 +0000
+Subject: [PATCH v2] block: fix rdma queue mapping
+In-Reply-To: <60315f82-ebc1-838d-4757-c27b9bb650ff@grimberg.me>
+References: <20180820205420.25908-1-sagi@grimberg.me>
+ <20180822131130.GC28149@lst.de>
+ <83dd169f-034b-3460-7496-ef2e6766ea55@grimberg.me>
+ <33192971-7edd-a3b6-f2fa-abdcbef375de@opengridcomputing.com>
+ <20181017163720.GA23798@lst.de>
+ <c850626a-5891-fa34-e647-c815f67099da@grimberg.me>
+ <00dd01d46ad0$6eb82250$4c2866f0$@opengridcomputing.com>
+ <ab0370aa-c488-bfed-675a-b0f84d75a42a@grimberg.me>
+ <20181024000923.GA17352@ssaleem-MOBL4.amr.corp.intel.com>
+ <60315f82-ebc1-838d-4757-c27b9bb650ff@grimberg.me>
+Message-ID: <9DD61F30A802C4429A01CA4200E302A7A2FFFC0B@fmsmsx116.amr.corp.intel.com>
 
-In function nvme_setup_cmd() we call command specific setup function
-for flush, rw, and discard. Instead of calling memset in each function
-lets call it once in the parent function.
+>Subject: Re: [PATCH v2] block: fix rdma queue mapping
+>
+>
+>> Sagi - From what I can tell, i40iw is also exposed to this same issue
+>> if the IRQ affinity is configured by user.
+>
+>managed affinity does not allow setting smp_affinity from userspace.
 
-This is purely code cleanup patch and it does not change any existing
-functionality.
+OK. But our device IRQs are not set-up as to be managed affinity based and can be tuned by user.
+And it seems that is reasonable approach since we can never tell ahead of time what might be an optimal config. for a particular workload.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/host/core.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 65c42448e904..e30fa1ec0cbf 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -536,7 +536,6 @@ static void nvme_assign_write_stream(struct nvme_ctrl *ctrl,
- static inline void nvme_setup_flush(struct nvme_ns *ns,
- 		struct nvme_command *cmnd)
- {
--	memset(cmnd, 0, sizeof(*cmnd));
- 	cmnd->common.opcode = nvme_cmd_flush;
- 	cmnd->common.nsid = cpu_to_le32(ns->head->ns_id);
- }
-@@ -569,7 +568,6 @@ static blk_status_t nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 		return BLK_STS_IOERR;
- 	}
- 
--	memset(cmnd, 0, sizeof(*cmnd));
- 	cmnd->dsm.opcode = nvme_cmd_dsm;
- 	cmnd->dsm.nsid = cpu_to_le32(ns->head->ns_id);
- 	cmnd->dsm.nr = cpu_to_le32(segments - 1);
-@@ -598,7 +596,6 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
- 	if (req->cmd_flags & REQ_RAHEAD)
- 		dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
- 
--	memset(cmnd, 0, sizeof(*cmnd));
- 	cmnd->rw.opcode = (rq_data_dir(req) ? nvme_cmd_write : nvme_cmd_read);
- 	cmnd->rw.nsid = cpu_to_le32(ns->head->ns_id);
- 	cmnd->rw.slba = cpu_to_le64(nvme_block_nr(ns, blk_rq_pos(req)));
-@@ -663,6 +660,7 @@ blk_status_t nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 
- 	nvme_clear_nvme_request(req);
- 
-+	memset(cmd, 0, sizeof(*cmd));
- 	switch (req_op(req)) {
- 	case REQ_OP_DRV_IN:
- 	case REQ_OP_DRV_OUT:
--- 
-2.17.0
+Shiraz
