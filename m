@@ -1,36 +1,51 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Oct 2018 09:55:07 -0600
-Subject: [PATCH 2/2] nvme/multipath: Fix multipath disabled naming
- collisions
-In-Reply-To: <DA56163F-C776-4A11-AFF0-2A29B68120A8@raithlin.com>
-References: <20180426214956.3377-1-keith.busch@intel.com>
- <20180426214956.3377-3-keith.busch@intel.com>
- <CAD4F464-15CC-44B9-9C72-B5F2BDFC5445@raithlin.com>
- <20181029154229.GA16586@localhost.localdomain>
- <DA56163F-C776-4A11-AFF0-2A29B68120A8@raithlin.com>
-Message-ID: <20181029155506.GA16595@localhost.localdomain>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 29 Oct 2018 21:45:18 +0000
+Subject: [PATCH 3/3] nvme-cli: fix header paths for new structure
+In-Reply-To: <BYAPR04MB4502B8BAF42930F3B858EE4586F00@BYAPR04MB4502.namprd04.prod.outlook.com>
+References: <20181026170834.23457-1-chaitanya.kulkarni@wdc.com>
+ <20181026170834.23457-3-chaitanya.kulkarni@wdc.com>
+ <20181026200733.GA10403@localhost.localdomain>
+ <9E08CF92-63C8-4D55-AAF7-D1571D4DEF67@wdc.com>,
+ <20181026201714.GB10403@localhost.localdomain>,
+ <BYAPR04MB4502B8BAF42930F3B858EE4586F00@BYAPR04MB4502.namprd04.prod.outlook.com>
+Message-ID: <BYAPR04MB4502A2FF67025B4D4C67103186F30@BYAPR04MB4502.namprd04.prod.outlook.com>
 
-On Mon, Oct 29, 2018@03:48:52PM +0000, Stephen  Bates wrote:
-> > > Note how the /nvme/nvme0/ sysfs directory contains the nvme1n1
-> > > namespace. Is this expected? I am not that familiar with the multipath
-> > > code so I'm not sure if this is a bug or not but it sure is confusing.
-> > > Disabling CONFIG_NVME_MULTIPATH reverts to the legacy naming
-> > > convention. This happens in all the 4.19, 4.18 and 4.17 kernels we
-> > > tested. I've not tried the for-next tree.
-> >    
-> >    That is expected. We still need character devices to each controller path
-> >    for administration, but we don't need block devices to each namespace
-> >    path, so the numbers in the controller and block handles are independent
-> >    of each other.
-> 
-> Keith
-> 
-> Ooooookay. Thanks for letting us know!
+Can we get patch 1 and 2 in ? maybe we can drop 3rd one.
 
-Note the naming convention that's causing confusion applies to the
-visible namespace paths. The hidden paths have naming convention like
-"nvme<X>c<Y>n<Z>", and that <Y> value matches up the the controller
-handle at /dev/nvme<Y>.
 
-That doesn't do you any good if you're looking in /dev/ since those
-paths are hidden, but the topology can be observed in /sys/.
+
+
+
+From: Chaitanya Kulkarni
+Sent: Friday, October 26, 2018 2:56 PM
+To: Keith Busch
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: [PATCH 3/3] nvme-cli: fix header paths for new structure
+? 
+ 
+
+
+
+
+
+From: Keith Busch <keith.busch@intel.com>
+Sent: Friday, October 26, 2018 1:17 PM
+To: Chaitanya Kulkarni
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: [PATCH 3/3] nvme-cli: fix header paths for new structure
+? 
+?
+On Fri, Oct 26, 2018@08:11:37PM +0000, Chaitanya Kulkarni wrote:
+> No but, static analysis tool reported include path warnings, maybe we can ignore these warnings ?
+
+Oh, interesting! It ought to be safe to ignore, but I don't like that
+either. Does your analysis tool report issues if you replace the quoted
+includes with angle-brackets?
+
+? #include <...>
+
+instead of 
+
+? #include "..." 
+??? 
+It still reports warning, but adding include directory to the nvme-cli/? I was able to get rid of the warning.    
