@@ -1,71 +1,47 @@
-From: mb@lightnvm.io (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Sun, 28 Oct 2018 19:38:23 +0100
-Subject: [PATCH] lightnvm: Fix uninitialized return value in
- nvm_get_chunk_meta()
-In-Reply-To: <20181028160726.24450-1-geert@linux-m68k.org>
-References: <20181028160726.24450-1-geert@linux-m68k.org>
-Message-ID: <a0fa4599-f6c1-1f45-43f4-4cf30b8de509@lightnvm.io>
+From: jianchao.w.wang@oracle.com (jianchao.wang)
+Date: Mon, 29 Oct 2018 10:02:32 +0800
+Subject: [PATCH 01/14] blk-mq: kill q->mq_map
+In-Reply-To: <b40d8e78-c443-7e10-db4e-4d31acf2695b@kernel.dk>
+References: <20181025211626.12692-1-axboe@kernel.dk>
+ <20181025211626.12692-2-axboe@kernel.dk>
+ <f0b01bcc-fa62-880d-80ef-c44095d82077@oracle.com>
+ <2357b785-6730-fb02-f7fb-9f4a230a00ea@kernel.dk>
+ <b40d8e78-c443-7e10-db4e-4d31acf2695b@kernel.dk>
+Message-ID: <b284d07e-b27c-8d72-4d8e-cff349d07fe9@oracle.com>
 
-On 10/28/2018 05:07 PM, Geert Uytterhoeven wrote:
-> With gcc 4.1:
+Hi Jens
+
+On 10/28/18 12:52 AM, Jens Axboe wrote:
+> On 10/27/18 10:48 AM, Jens Axboe wrote:
+>> On 10/27/18 8:19 AM, jianchao.wang wrote:
+>>> Hi Jens
+>>>
+>>> On 10/26/18 5:16 AM, Jens Axboe wrote:
+>>>> It's just a pointer to set->mq_map, use that instead.
+>>> Instead of using the set->mq_map and then a two-dimensional set->mq_map,
+>>> how about migrate the mq_map from per-set to per-cpuctx ?
+>>> something like:
+>>> q->queue_hw_ctx[ctx->map[type]]
+>>
+>> I think the current series is pretty clean in that regard, it goes
+>> from members -> map -> map array. I'd be willing to look at a
+>> conversion on top of that, if it makes things cleaner.
 > 
->      drivers/lightnvm/core.c: In function ?nvm_get_bb_meta?:
->      drivers/lightnvm/core.c:977: warning: ?ret? may be used uninitialized in this function
+> On top of that, this:
 > 
-> and
+> q->queue_hw_ctx[set->map[type].mq_map[cpu]]
 > 
->      drivers/nvme/host/lightnvm.c: In function ?nvme_nvm_get_chk_meta?:
->      drivers/nvme/host/lightnvm.c:580: warning: ?ret? may be used uninitialized in this function
-> 
-> Indeed, if (for the former) the number of channels or LUNs is zero, or
-> (for both) the passed number of chunks is zero, ret will be returned
-> uninitialized.
-> 
-> Fix this by preinitializing ret to zero.
-> 
-> Fixes: aff3fb18f957de93 ("lightnvm: move bad block and chunk state logic to core")
-> Fixes: a294c199455187d1 ("lightnvm: implement get log report chunk helpers")
-> Signed-off-by: Geert Uytterhoeven <geert at linux-m68k.org>
-> ---
-> I don't know if this can happen in practice, but given this is core
-> functionality that can be called from other files, or even from other
-> modules, I think it's better to be safe than sorry.
-> 
-> The latter seems to be a pre-existing issue since v4.17.
-> I didn't notice it before, due to the dependency of NVM on PCI (my gcc
-> 4.1 targets m68k, i.e. no PCI).
-> ---
->   drivers/lightnvm/core.c      | 2 +-
->   drivers/nvme/host/lightnvm.c | 3 ++-
->   2 files changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-> index efb976a863d2295a..73ab3cf2686804ba 100644
-> --- a/drivers/lightnvm/core.c
-> +++ b/drivers/lightnvm/core.c
-> @@ -974,7 +974,7 @@ static int nvm_get_bb_meta(struct nvm_dev *dev, sector_t slba,
->   	struct ppa_addr ppa;
->   	u8 *blks;
->   	int ch, lun, nr_blks;
-> -	int ret;
-> +	int ret = 0;
->   
->   	ppa.ppa = slba;
->   	ppa = dev_to_generic_addr(dev, ppa);
-> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-> index a4f3b263cd6c60ee..d64805dc8efbaa02 100644
-> --- a/drivers/nvme/host/lightnvm.c
-> +++ b/drivers/nvme/host/lightnvm.c
-> @@ -577,7 +577,8 @@ static int nvme_nvm_get_chk_meta(struct nvm_dev *ndev,
->   	struct ppa_addr ppa;
->   	size_t left = nchks * sizeof(struct nvme_nvm_chk_meta);
->   	size_t log_pos, offset, len;
-> -	int ret, i, max_len;
-> +	int i, max_len;
-> +	int ret = 0;
->   
->   	/*
->   	 * limit requests to maximum 256K to avoid issuing arbitrary large
+> is one less pointer dereference, so more efficient.
 > 
 
-Thanks Geert. Applied for 4.21/5.1.
+Saving the blk_mq_hw_ctx into blk_mq_ctx direclty maybe more direct and efficient.
+something like,
+
+   ctx->map_hctxs[type]
+
+all of the memory accessing is local.
+
+What we need to pay for this is do mapping for every request_queue.
+
+Thanks
+Jianchao
