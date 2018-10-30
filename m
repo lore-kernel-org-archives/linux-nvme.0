@@ -1,52 +1,99 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 30 Oct 2018 12:32:42 -0600
-Subject: [PATCH 06/16] blk-mq: add 'type' attribute to the sysfs hctx directory
+Date: Tue, 30 Oct 2018 12:32:44 -0600
+Subject: [PATCH 08/16] blk-mq: separate number of hardware queues from
+ nr_cpu_ids
 In-Reply-To: <20181030183252.17857-1-axboe@kernel.dk>
 References: <20181030183252.17857-1-axboe@kernel.dk>
-Message-ID: <20181030183252.17857-7-axboe@kernel.dk>
+Message-ID: <20181030183252.17857-9-axboe@kernel.dk>
 
-It can be useful for a user to verify what type a given hardware
-queue is, expose this information in sysfs.
+With multiple maps, nr_cpu_ids is no longer the maximum number of
+hardware queues we support on a given devices. The initializer of
+the tag_set can have set ->nr_hw_queues larger than the available
+number of CPUs, since we can exceed that with multiple queue maps.
 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 Reviewed-by: Bart Van Assche <bvanassche at acm.org>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-mq-sysfs.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ block/blk-mq.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
-index aafb44224c89..2d737f9e7ba7 100644
---- a/block/blk-mq-sysfs.c
-+++ b/block/blk-mq-sysfs.c
-@@ -161,6 +161,11 @@ static ssize_t blk_mq_hw_sysfs_cpus_show(struct blk_mq_hw_ctx *hctx, char *page)
- 	return ret;
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9d6e2f6f8ee9..1ca48cf3bbc7 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2668,6 +2668,19 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
+ 	mutex_unlock(&q->sysfs_lock);
  }
  
-+static ssize_t blk_mq_hw_sysfs_type_show(struct blk_mq_hw_ctx *hctx, char *page)
++/*
++ * Maximum number of hardware queues we support. For single sets, we'll never
++ * have more than the CPUs (software queues). For multiple sets, the tag_set
++ * user may have set ->nr_hw_queues larger.
++ */
++static unsigned int nr_hw_queues(struct blk_mq_tag_set *set)
 +{
-+	return sprintf(page, "%u\n", hctx->type);
++	if (set->nr_maps == 1)
++		return nr_cpu_ids;
++
++	return max(set->nr_hw_queues, nr_cpu_ids);
 +}
 +
- static struct attribute *default_ctx_attrs[] = {
- 	NULL,
- };
-@@ -177,11 +182,16 @@ static struct blk_mq_hw_ctx_sysfs_entry blk_mq_hw_sysfs_cpus = {
- 	.attr = {.name = "cpu_list", .mode = 0444 },
- 	.show = blk_mq_hw_sysfs_cpus_show,
- };
-+static struct blk_mq_hw_ctx_sysfs_entry blk_mq_hw_sysfs_type = {
-+	.attr = {.name = "type", .mode = 0444 },
-+	.show = blk_mq_hw_sysfs_type_show,
-+};
+ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 						  struct request_queue *q)
+ {
+@@ -2687,7 +2700,8 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 	/* init q->mq_kobj and sw queues' kobjects */
+ 	blk_mq_sysfs_init(q);
  
- static struct attribute *default_hw_ctx_attrs[] = {
- 	&blk_mq_hw_sysfs_nr_tags.attr,
- 	&blk_mq_hw_sysfs_nr_reserved_tags.attr,
- 	&blk_mq_hw_sysfs_cpus.attr,
-+	&blk_mq_hw_sysfs_type.attr,
- 	NULL,
- };
+-	q->queue_hw_ctx = kcalloc_node(nr_cpu_ids, sizeof(*(q->queue_hw_ctx)),
++	q->nr_queues = nr_hw_queues(set);
++	q->queue_hw_ctx = kcalloc_node(q->nr_queues, sizeof(*(q->queue_hw_ctx)),
+ 						GFP_KERNEL, set->numa_node);
+ 	if (!q->queue_hw_ctx)
+ 		goto err_percpu;
+@@ -2699,7 +2713,6 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 	INIT_WORK(&q->timeout_work, blk_mq_timeout_work);
+ 	blk_queue_rq_timeout(q, set->timeout ? set->timeout : 30 * HZ);
  
+-	q->nr_queues = nr_cpu_ids;
+ 	q->tag_set = set;
+ 
+ 	q->queue_flags |= QUEUE_FLAG_MQ_DEFAULT;
+@@ -2889,12 +2902,13 @@ int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set)
+ 		set->queue_depth = min(64U, set->queue_depth);
+ 	}
+ 	/*
+-	 * There is no use for more h/w queues than cpus.
++	 * There is no use for more h/w queues than cpus if we just have
++	 * a single map
+ 	 */
+-	if (set->nr_hw_queues > nr_cpu_ids)
++	if (set->nr_maps == 1 && set->nr_hw_queues > nr_cpu_ids)
+ 		set->nr_hw_queues = nr_cpu_ids;
+ 
+-	set->tags = kcalloc_node(nr_cpu_ids, sizeof(struct blk_mq_tags *),
++	set->tags = kcalloc_node(nr_hw_queues(set), sizeof(struct blk_mq_tags *),
+ 				 GFP_KERNEL, set->numa_node);
+ 	if (!set->tags)
+ 		return -ENOMEM;
+@@ -2937,7 +2951,7 @@ void blk_mq_free_tag_set(struct blk_mq_tag_set *set)
+ {
+ 	int i, j;
+ 
+-	for (i = 0; i < nr_cpu_ids; i++)
++	for (i = 0; i < nr_hw_queues(set); i++)
+ 		blk_mq_free_map_and_requests(set, i);
+ 
+ 	for (j = 0; j < set->nr_maps; j++) {
+@@ -3069,7 +3083,7 @@ static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
+ 
+ 	lockdep_assert_held(&set->tag_list_lock);
+ 
+-	if (nr_hw_queues > nr_cpu_ids)
++	if (set->nr_maps == 1 && nr_hw_queues > nr_cpu_ids)
+ 		nr_hw_queues = nr_cpu_ids;
+ 	if (nr_hw_queues < 1 || nr_hw_queues == set->nr_hw_queues)
+ 		return;
 -- 
 2.17.1
