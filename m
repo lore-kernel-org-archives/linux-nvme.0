@@ -1,109 +1,144 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 30 Oct 2018 12:32:51 -0600
-Subject: [PATCH 15/16] block: add REQ_HIPRI and inherit it from IOCB_HIPRI
+Date: Tue, 30 Oct 2018 12:32:49 -0600
+Subject: [PATCH 13/16] irq: add support for allocating (and affinitizing) sets
+ of IRQs
 In-Reply-To: <20181030183252.17857-1-axboe@kernel.dk>
 References: <20181030183252.17857-1-axboe@kernel.dk>
-Message-ID: <20181030183252.17857-16-axboe@kernel.dk>
+Message-ID: <20181030183252.17857-14-axboe@kernel.dk>
 
-We use IOCB_HIPRI to poll for IO in the caller instead of scheduling.
-This information is not available for (or after) IO submission. The
-driver may make different queue choices based on the type of IO, so
-make the fact that we will poll for this IO known to the lower layers
-as well.
+A driver may have a need to allocate multiple sets of MSI/MSI-X
+interrupts, and have them appropriately affinitized. Add support for
+defining a number of sets in the irq_affinity structure, of varying
+sizes, and get each set affinitized correctly across the machine.
 
+Cc: Thomas Gleixner <tglx at linutronix.de>
+Cc: linux-kernel at vger.kernel.org
 Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Ming Lei <ming.lei at redhat.com>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- fs/block_dev.c            | 2 ++
- fs/direct-io.c            | 2 ++
- fs/iomap.c                | 9 ++++++++-
- include/linux/blk_types.h | 4 +++-
- 4 files changed, 15 insertions(+), 2 deletions(-)
+ drivers/pci/msi.c         | 14 ++++++++++++++
+ include/linux/interrupt.h |  4 ++++
+ kernel/irq/affinity.c     | 40 ++++++++++++++++++++++++++++++---------
+ 3 files changed, 49 insertions(+), 9 deletions(-)
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 38b8ce05cbc7..8bb8090c57a7 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -232,6 +232,8 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
- 		bio.bi_opf = dio_bio_write_op(iocb);
- 		task_io_account_write(ret);
- 	}
-+	if (iocb->ki_flags & IOCB_HIPRI)
-+		bio.bi_opf |= REQ_HIPRI;
+diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+index af24ed50a245..e6c6e10b9ceb 100644
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -1036,6 +1036,13 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
+ 	if (maxvec < minvec)
+ 		return -ERANGE;
  
- 	qc = submit_bio(&bio);
- 	for (;;) {
-diff --git a/fs/direct-io.c b/fs/direct-io.c
-index 093fb54cd316..ffb46b7aa5f7 100644
---- a/fs/direct-io.c
-+++ b/fs/direct-io.c
-@@ -1265,6 +1265,8 @@ do_blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
- 	} else {
- 		dio->op = REQ_OP_READ;
- 	}
-+	if (iocb->ki_flags & IOCB_HIPRI)
-+		dio->op_flags |= REQ_HIPRI;
++	/*
++	 * If the caller is passing in sets, we can't support a range of
++	 * vectors. The caller needs to handle that.
++	 */
++	if (affd->nr_sets && minvec != maxvec)
++		return -EINVAL;
++
+ 	if (WARN_ON_ONCE(dev->msi_enabled))
+ 		return -EINVAL;
+ 
+@@ -1087,6 +1094,13 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
+ 	if (maxvec < minvec)
+ 		return -ERANGE;
+ 
++	/*
++	 * If the caller is passing in sets, we can't support a range of
++	 * supported vectors. The caller needs to handle that.
++	 */
++	if (affd->nr_sets && minvec != maxvec)
++		return -EINVAL;
++
+ 	if (WARN_ON_ONCE(dev->msix_enabled))
+ 		return -EINVAL;
+ 
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index 1d6711c28271..ca397ff40836 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -247,10 +247,14 @@ struct irq_affinity_notify {
+  *			the MSI(-X) vector space
+  * @post_vectors:	Don't apply affinity to @post_vectors at end of
+  *			the MSI(-X) vector space
++ * @nr_sets:		Length of passed in *sets array
++ * @sets:		Number of affinitized sets
+  */
+ struct irq_affinity {
+ 	int	pre_vectors;
+ 	int	post_vectors;
++	int	nr_sets;
++	int	*sets;
+ };
+ 
+ #if defined(CONFIG_SMP)
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index f4f29b9d90ee..2046a0f0f0f1 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -180,6 +180,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	int curvec, usedvecs;
+ 	cpumask_var_t nmsk, npresmsk, *node_to_cpumask;
+ 	struct cpumask *masks = NULL;
++	int i, nr_sets;
  
  	/*
- 	 * For AIO O_(D)SYNC writes we need to defer completions to a workqueue
-diff --git a/fs/iomap.c b/fs/iomap.c
-index ec15cf2ec696..50ad8c8d1dcb 100644
---- a/fs/iomap.c
-+++ b/fs/iomap.c
-@@ -1554,6 +1554,7 @@ iomap_dio_zero(struct iomap_dio *dio, struct iomap *iomap, loff_t pos,
- 		unsigned len)
+ 	 * If there aren't any vectors left after applying the pre/post
+@@ -210,10 +211,23 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	get_online_cpus();
+ 	build_node_to_cpumask(node_to_cpumask);
+ 
+-	/* Spread on present CPUs starting from affd->pre_vectors */
+-	usedvecs = irq_build_affinity_masks(affd, curvec, affvecs,
+-					    node_to_cpumask, cpu_present_mask,
+-					    nmsk, masks);
++	/*
++	 * Spread on present CPUs starting from affd->pre_vectors. If we
++	 * have multiple sets, build each sets affinity mask separately.
++	 */
++	nr_sets = affd->nr_sets;
++	if (!nr_sets)
++		nr_sets = 1;
++
++	for (i = 0, usedvecs = 0; i < nr_sets; i++) {
++		int this_vecs = affd->sets ? affd->sets[i] : affvecs;
++		int nr;
++
++		nr = irq_build_affinity_masks(affd, curvec, this_vecs,
++					      node_to_cpumask, cpu_present_mask,
++					      nmsk, masks + usedvecs);
++		usedvecs += nr;
++	}
+ 
+ 	/*
+ 	 * Spread on non present CPUs starting from the next vector to be
+@@ -258,13 +272,21 @@ int irq_calc_affinity_vectors(int minvec, int maxvec, const struct irq_affinity
  {
- 	struct page *page = ZERO_PAGE(0);
-+	int flags = REQ_SYNC | REQ_IDLE;
- 	struct bio *bio;
+ 	int resv = affd->pre_vectors + affd->post_vectors;
+ 	int vecs = maxvec - resv;
+-	int ret;
++	int set_vecs;
  
- 	bio = bio_alloc(GFP_KERNEL, 1);
-@@ -1562,9 +1563,12 @@ iomap_dio_zero(struct iomap_dio *dio, struct iomap *iomap, loff_t pos,
- 	bio->bi_private = dio;
- 	bio->bi_end_io = iomap_dio_bio_end_io;
+ 	if (resv > minvec)
+ 		return 0;
  
-+	if (dio->iocb->ki_flags & IOCB_HIPRI)
-+		flags |= REQ_HIPRI;
+-	get_online_cpus();
+-	ret = min_t(int, cpumask_weight(cpu_possible_mask), vecs) + resv;
+-	put_online_cpus();
+-	return ret;
++	if (affd->nr_sets) {
++		int i;
 +
- 	get_page(page);
- 	__bio_add_page(bio, page, len, 0);
--	bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_SYNC | REQ_IDLE);
-+	bio_set_op_attrs(bio, REQ_OP_WRITE, flags);
- 
- 	atomic_inc(&dio->ref);
- 	return submit_bio(bio);
-@@ -1663,6 +1667,9 @@ iomap_dio_bio_actor(struct inode *inode, loff_t pos, loff_t length,
- 				bio_set_pages_dirty(bio);
- 		}
- 
-+		if (dio->iocb->ki_flags & IOCB_HIPRI)
-+			bio->bi_opf |= REQ_HIPRI;
++		for (i = 0, set_vecs = 0;  i < affd->nr_sets; i++)
++			set_vecs += affd->sets[i];
++	} else {
++		get_online_cpus();
++		set_vecs = cpumask_weight(cpu_possible_mask);
++		put_online_cpus();
++	}
 +
- 		iov_iter_advance(dio->submit.iter, n);
- 
- 		dio->size += n;
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 093a818c5b68..d6c2558d6b73 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -322,6 +322,8 @@ enum req_flag_bits {
- 	/* command specific flags for REQ_OP_WRITE_ZEROES: */
- 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
- 
-+	__REQ_HIPRI,
-+
- 	/* for driver use */
- 	__REQ_DRV,
- 	__REQ_SWAP,		/* swapping request. */
-@@ -342,8 +344,8 @@ enum req_flag_bits {
- #define REQ_RAHEAD		(1ULL << __REQ_RAHEAD)
- #define REQ_BACKGROUND		(1ULL << __REQ_BACKGROUND)
- #define REQ_NOWAIT		(1ULL << __REQ_NOWAIT)
--
- #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
-+#define REQ_HIPRI		(1ULL << __REQ_HIPRI)
- 
- #define REQ_DRV			(1ULL << __REQ_DRV)
- #define REQ_SWAP		(1ULL << __REQ_SWAP)
++	return resv + min(set_vecs, vecs);
+ }
 -- 
 2.17.1
