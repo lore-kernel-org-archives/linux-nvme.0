@@ -1,34 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 30 Oct 2018 12:35:39 -0600
-Subject: [PATCHSET v3 0/16] blk-mq: Add support for multiple queue maps
-In-Reply-To: <20181030183252.17857-1-axboe@kernel.dk>
-References: <20181030183252.17857-1-axboe@kernel.dk>
-Message-ID: <20181030183538.GB19483@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 30 Oct 2018 11:39:14 -0700
+Subject: [PATCH 2/3] nvme-multipath: Select paths based on NUMA locality
+In-Reply-To: <20181026125718.122767-3-hare@suse.de>
+References: <20181026125718.122767-1-hare@suse.de>
+ <20181026125718.122767-3-hare@suse.de>
+Message-ID: <0e4c5103-8d31-3b30-a1d4-f8fe4d6a0da3@grimberg.me>
 
-On Tue, Oct 30, 2018@12:32:36PM -0600, Jens Axboe wrote:
-> This series adds support for multiple queue maps for blk-mq.
-> Since blk-mq was introduced, it's only support a single queue
-> map. This means you can have 1 set of queues, and the mapping
-> purely depends on what CPU an IO originated from. With this
-> patch set, drivers can implement mappings that depend on both
-> CPU and request type - and they can have multiple sets of mappings.
-> 
-> NVMe is used as a proof of concept. It adds support for a separate
-> write queue set. One way to use this would be to limit the number
-> of write queues to favor reads, since NVMe does round-robin service
-> of queues. An easy extension of this would be to add multiple
-> sets of queues, for prioritized IO.
-> 
-> NVMe also uses this feature to finally make the polling work
-> efficiently, without triggering interrupts. This both increases
-> performance (and decreases latency), at a lower system load. At
-> the same time it's more flexible, as you don't have to worry about
-> IRQ coalescing and redirection to avoid interrupts disturbing the
-> workload. This is how polling should have worked from day 1.
-> 
-> This is on top of my mq-conversions branch. It can also be bound
-> in my mq-maps branch.
 
-Looks good to me. For the series:
+> @@ -163,8 +164,11 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
+>   
+>   	if (!found)
+>   		found = fallback;
+> -	if (found)
+> +	if (found) {
+> +		dev_dbg(disk_to_dev(head->disk), "none: node %d path %s\n",
+> +			node, found->disk->disk_name);
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+none?
+
+>   		rcu_assign_pointer(head->current_path[node], found);
+> +	}
+>   	return found;
+>   }
+>   
+> @@ -528,6 +532,7 @@ void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id)
+>   		nvme_mpath_set_live(ns);
+>   		mutex_unlock(&ns->head->lock);
+>   	}
+> +	nvme_mpath_clear_current_path(ns);
+
+Didn't I see this in a different patch from keith?
+
+Please document why this is added.
