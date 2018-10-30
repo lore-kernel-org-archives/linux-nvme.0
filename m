@@ -1,53 +1,78 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 11:30:58 -0700
-Subject: [PATCH v3 0/2] nvmet-rdma: Rework the DoS mitigation code
-In-Reply-To: <1540579520.66186.118.camel@acm.org>
-References: <20181025211309.100564-1-bvanassche@acm.org>
- <56c7461f-d6c1-0fd2-30c8-334967fc3013@grimberg.me>
- <1540579520.66186.118.camel@acm.org>
-Message-ID: <5de7d107-47b5-bf4d-1e7c-b4782b92acc3@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 30 Oct 2018 12:32:36 -0600
+Subject: [PATCHSET v3 0/16] blk-mq: Add support for multiple queue maps
+Message-ID: <20181030183252.17857-1-axboe@kernel.dk>
+
+This series adds support for multiple queue maps for blk-mq.
+Since blk-mq was introduced, it's only support a single queue
+map. This means you can have 1 set of queues, and the mapping
+purely depends on what CPU an IO originated from. With this
+patch set, drivers can implement mappings that depend on both
+CPU and request type - and they can have multiple sets of mappings.
+
+NVMe is used as a proof of concept. It adds support for a separate
+write queue set. One way to use this would be to limit the number
+of write queues to favor reads, since NVMe does round-robin service
+of queues. An easy extension of this would be to add multiple
+sets of queues, for prioritized IO.
+
+NVMe also uses this feature to finally make the polling work
+efficiently, without triggering interrupts. This both increases
+performance (and decreases latency), at a lower system load. At
+the same time it's more flexible, as you don't have to worry about
+IRQ coalescing and redirection to avoid interrupts disturbing the
+workload. This is how polling should have worked from day 1.
+
+This is on top of my mq-conversions branch. It can also be bound
+in my mq-maps branch.
+
+Changes since v2:
+
+- Address review comments (mostly code comments)
+- Add rq->mq_hctx cache
+- Cleanup/improve blk_mq_sched_insert_requests()
+- Harden the IRQ affinity sets feature
+- Fix assignment of hardware queue type if already mapped
+- Improve plug sorting for multiple maps
+
+Changes since v1:
+
+- Ensure irq_calc_affinity_vectors() doesn't return more than 'maxvec'
+- Rebase on top of current mq-conversions series
 
 
->> I can't say I agree with rejecting random connect requests if we have
->> more then a maid up define resources queued for deletion. Given that
->> there is no real locking incorrectness in waiting a bit such that they
->> all drain. The issue is no more then a false complaint from lockdep.
->>
->> Given that there are a number of unknown factors that affect this such
->> as the number of hosts a target is servicing, the number of inflight I/O
->> that needs quiescing at the time of the removal, and the system resource
->> limits, any approach that has a hard-coded limit cannot be correct.
->>
->> If we do indeed want to get around the false report and not annotate it,
->> perhaps we should invoke rdma_destroy_id outside the work execution
->> context (such that it is destroyed before the work runs) and then the
->> dependency no longer exists?
-> 
-> Hi Sagi,
-> 
-> Thanks for having taken a look. However, I'm not sure that refusing some
-> connection requests is really new behavior. From drivers/nvme/target/rdma.c:
-> 
-> 	ret = rdma_listen(cm_id, 128);
-> 
-> In other words, the maximum backlog for the CM ID through which connections
-> are accepted is 128. What happens if a connection request is received and the
-> backlog count is exceeded?
+ block/blk-flush.c                     |  11 +-
+ block/blk-mq-cpumap.c                 |  19 +--
+ block/blk-mq-debugfs.c                |   2 +-
+ block/blk-mq-pci.c                    |  10 +-
+ block/blk-mq-rdma.c                   |   4 +-
+ block/blk-mq-sched.c                  |  12 +-
+ block/blk-mq-sched.h                  |   2 +-
+ block/blk-mq-sysfs.c                  |  10 ++
+ block/blk-mq-tag.c                    |  12 +-
+ block/blk-mq-virtio.c                 |   8 +-
+ block/blk-mq.c                        | 237 +++++++++++++++++++-----------
+ block/blk-mq.h                        |  45 ++++--
+ block/blk.h                           |   6 +-
+ block/kyber-iosched.c                 |   6 +-
+ drivers/block/virtio_blk.c            |   2 +-
+ drivers/nvme/host/pci.c               | 263 ++++++++++++++++++++++++++++++----
+ drivers/pci/msi.c                     |  14 ++
+ drivers/scsi/qla2xxx/qla_os.c         |   5 +-
+ drivers/scsi/scsi_lib.c               |   2 +-
+ drivers/scsi/smartpqi/smartpqi_init.c |   3 +-
+ drivers/scsi/virtio_scsi.c            |   3 +-
+ fs/block_dev.c                        |   2 +
+ fs/direct-io.c                        |   2 +
+ fs/iomap.c                            |   9 +-
+ include/linux/blk-mq-pci.h            |   4 +-
+ include/linux/blk-mq-virtio.h         |   4 +-
+ include/linux/blk-mq.h                |  33 ++++-
+ include/linux/blk_types.h             |   4 +-
+ include/linux/blkdev.h                |   3 +-
+ include/linux/interrupt.h             |   4 +
+ kernel/irq/affinity.c                 |  40 ++++--
+ 31 files changed, 582 insertions(+), 199 deletions(-)
 
-That is correct in theory, but I've never seen this limit being hit in
-practice (maybe because its only relevant for iwarp).. The case where we
-quiesce IO in queue shutdown is much more common.
-
-> Regarding invoking rdma_destroy_id() from another context: which context
-> should that be? rdma_destroy_id() locks and unlocks the handler mutex.
-> Maintaining a list of CM IDs to be destroyed and iterating over that list
-> from inside a CM ID handler function will cause nested locking because as
-> you know CM ID handlers are called with the handler_mutex held. If we choose
-> this approach we will have to be careful not to trigger lock inversion.
-
-I thought maybe we should destroy the cm_id before queueing the work
-(unless we are invoked from the cm_id handler in which case we can
-return a non-zero code from the handler which will implicitly destroy
-the cm_id).
-
-But are we sure we can't simply resolve the false lockdep complaint?
+-- 
+Jens Axboe
