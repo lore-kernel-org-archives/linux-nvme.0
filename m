@@ -1,75 +1,47 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 10:43:44 -0700
-Subject: [PATCH v2 4/4] nvme-core: support traffic based keep-alive based on
- controller support
+Date: Tue, 30 Oct 2018 10:43:41 -0700
+Subject: [PATCH v2 1/4] nvme: introduce ctrl attributes enumeration
 In-Reply-To: <20181030174344.20171-1-sagi@grimberg.me>
 References: <20181030174344.20171-1-sagi@grimberg.me>
-Message-ID: <20181030174344.20171-5-sagi@grimberg.me>
+Message-ID: <20181030174344.20171-2-sagi@grimberg.me>
 
-If the controller supports traffic based keep alive, we restart
-the keep alive timer if any admin or io commands was completed
-during the kato period. This prevents a possible starvation of
-keep alive commands in the presence of heavy traffic as in such
-case, we already have a health indication from the host perspective.
-
-Only set a comp_seen indicator in case the controller supports keep
-alive to minimize the overhead for pci controllers.
+We are growing more controller attributes, so use
+a proper enumeration for it. For now just add the
+128-bit hostid which we support.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/core.c | 13 +++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 14 insertions(+)
+ drivers/nvme/target/admin-cmd.c | 2 +-
+ include/linux/nvme.h            | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ef609239c9c5..938478d1e904 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -251,6 +251,9 @@ void nvme_complete_rq(struct request *req)
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 1179f6314323..30778ffc46f5 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -304,7 +304,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
  
- 	trace_nvme_complete_rq(req);
+ 	/* XXX: figure out what to do about RTD3R/RTD3 */
+ 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
+-	id->ctratt = cpu_to_le32(1 << 0);
++	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT);
  
-+	if (nvme_req(req)->ctrl->kas)
-+		nvme_req(req)->ctrl->comp_seen = true;
-+
- 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
- 		if ((req->cmd_flags & REQ_NVME_MPATH) &&
- 		    blk_path_error(status)) {
-@@ -841,6 +844,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 		return;
- 	}
+ 	id->oacs = 0;
  
-+	ctrl->comp_seen = false;
- 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
- }
- 
-@@ -865,6 +869,15 @@ static void nvme_keep_alive_work(struct work_struct *work)
- {
- 	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
- 			struct nvme_ctrl, ka_work);
-+	bool comp_seen = ctrl->comp_seen;
-+
-+	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
-+		dev_dbg(ctrl->device,
-+			"traffic based keep-alive timer expired, reschedule\n");
-+		ctrl->comp_seen = false;
-+		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+		return;
-+	}
- 
- 	if (nvme_keep_alive(ctrl)) {
- 		/* allocation failure, reset the controller */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4dd7535caf1b..6206d026d53b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -145,6 +145,7 @@ enum nvme_ctrl_state {
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 818dbe9331be..753c83a5c01f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -198,6 +198,10 @@ enum {
+ 	NVME_PS_FLAGS_NON_OP_STATE	= 1 << 1,
  };
  
- struct nvme_ctrl {
-+	bool comp_seen;
- 	enum nvme_ctrl_state state;
- 	bool identified;
- 	spinlock_t lock;
++enum nvme_ctrl_attr {
++	NVME_CTRL_ATTR_HID_128_BIT	= (1 << 0),
++};
++
+ struct nvme_id_ctrl {
+ 	__le16			vid;
+ 	__le16			ssvid;
 -- 
 2.17.1
