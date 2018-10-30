@@ -1,93 +1,75 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 10:43:42 -0700
-Subject: [PATCH v2 2/4] nvmet: support for traffic based keep-alive
+Date: Tue, 30 Oct 2018 10:43:44 -0700
+Subject: [PATCH v2 4/4] nvme-core: support traffic based keep-alive based on
+ controller support
 In-Reply-To: <20181030174344.20171-1-sagi@grimberg.me>
 References: <20181030174344.20171-1-sagi@grimberg.me>
-Message-ID: <20181030174344.20171-3-sagi@grimberg.me>
+Message-ID: <20181030174344.20171-5-sagi@grimberg.me>
 
-A controller that supports traffic based keep-alive can restart
-its keep alive timer even if keep-alive was not issued in the
-kato period but other admin or io commands was. For each command
-set ctrl->cmd_seen to true, and when keep-alive timer expires,
-if any commands were seen, resched ka_work instead of escalating
-to a fatal error.
+If the controller supports traffic based keep alive, we restart
+the keep alive timer if any admin or io commands was completed
+during the kato period. This prevents a possible starvation of
+keep alive commands in the presence of heavy traffic as in such
+case, we already have a health indication from the host perspective.
+
+Only set a comp_seen indicator in case the controller supports keep
+alive to minimize the overhead for pci controllers.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/admin-cmd.c |  3 ++-
- drivers/nvme/target/core.c      | 12 ++++++++++++
- drivers/nvme/target/nvmet.h     |  2 ++
- include/linux/nvme.h            |  1 +
- 4 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 13 +++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 30778ffc46f5..c9c6d25a3ec2 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -304,7 +304,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ef609239c9c5..938478d1e904 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -251,6 +251,9 @@ void nvme_complete_rq(struct request *req)
  
- 	/* XXX: figure out what to do about RTD3R/RTD3 */
- 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
--	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT);
-+	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT |
-+		NVME_CTRL_ATTR_TBKAS);
+ 	trace_nvme_complete_rq(req);
  
- 	id->oacs = 0;
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 0acdff9e6842..ebe951a05712 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -298,6 +298,15 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
- {
- 	struct nvmet_ctrl *ctrl = container_of(to_delayed_work(work),
- 			struct nvmet_ctrl, ka_work);
-+	bool cmd_seen = ctrl->cmd_seen;
++	if (nvme_req(req)->ctrl->kas)
++		nvme_req(req)->ctrl->comp_seen = true;
 +
-+	ctrl->cmd_seen = false;
-+	if (cmd_seen) {
-+		pr_debug("ctrl %d traffic-based keep-alive timer expired, reschedule\n",
-+			ctrl->cntlid);
+ 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
+ 		if ((req->cmd_flags & REQ_NVME_MPATH) &&
+ 		    blk_path_error(status)) {
+@@ -841,6 +844,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ 		return;
+ 	}
+ 
++	ctrl->comp_seen = false;
+ 	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ }
+ 
+@@ -865,6 +869,15 @@ static void nvme_keep_alive_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
+ 			struct nvme_ctrl, ka_work);
++	bool comp_seen = ctrl->comp_seen;
++
++	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
++		dev_dbg(ctrl->device,
++			"traffic based keep-alive timer expired, reschedule\n");
++		ctrl->comp_seen = false;
 +		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
 +		return;
 +	}
  
- 	pr_err("ctrl %d keep-alive timer (%d seconds) expired!\n",
- 		ctrl->cntlid, ctrl->kato);
-@@ -700,6 +709,9 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		goto fail;
- 	}
- 
-+	if (sq->ctrl)
-+		sq->ctrl->cmd_seen = true;
-+
- 	return true;
- 
- fail:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 08f7b57a1203..c5255e743f63 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -154,6 +154,8 @@ struct nvmet_ctrl {
- 	struct nvmet_cq		**cqs;
- 	struct nvmet_sq		**sqs;
- 
-+	bool			cmd_seen;
-+
- 	struct mutex		lock;
- 	u64			cap;
- 	u32			cc;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 753c83a5c01f..429c4cf90899 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -200,6 +200,7 @@ enum {
- 
- enum nvme_ctrl_attr {
- 	NVME_CTRL_ATTR_HID_128_BIT	= (1 << 0),
-+	NVME_CTRL_ATTR_TBKAS		= (1 << 6),
+ 	if (nvme_keep_alive(ctrl)) {
+ 		/* allocation failure, reset the controller */
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4dd7535caf1b..6206d026d53b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -145,6 +145,7 @@ enum nvme_ctrl_state {
  };
  
- struct nvme_id_ctrl {
+ struct nvme_ctrl {
++	bool comp_seen;
+ 	enum nvme_ctrl_state state;
+ 	bool identified;
+ 	spinlock_t lock;
 -- 
 2.17.1
