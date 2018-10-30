@@ -1,22 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 11:35:59 -0700
-Subject: [PATCH 1/3] nvme: NUMA locality information for fabrics
-In-Reply-To: <20181026125718.122767-2-hare@suse.de>
-References: <20181026125718.122767-1-hare@suse.de>
- <20181026125718.122767-2-hare@suse.de>
-Message-ID: <4c130c7f-ef74-d451-bf6e-5e3814c2e4ad@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 30 Oct 2018 12:35:39 -0600
+Subject: [PATCHSET v3 0/16] blk-mq: Add support for multiple queue maps
+In-Reply-To: <20181030183252.17857-1-axboe@kernel.dk>
+References: <20181030183252.17857-1-axboe@kernel.dk>
+Message-ID: <20181030183538.GB19483@localhost.localdomain>
 
+On Tue, Oct 30, 2018@12:32:36PM -0600, Jens Axboe wrote:
+> This series adds support for multiple queue maps for blk-mq.
+> Since blk-mq was introduced, it's only support a single queue
+> map. This means you can have 1 set of queues, and the mapping
+> purely depends on what CPU an IO originated from. With this
+> patch set, drivers can implement mappings that depend on both
+> CPU and request type - and they can have multiple sets of mappings.
+> 
+> NVMe is used as a proof of concept. It adds support for a separate
+> write queue set. One way to use this would be to limit the number
+> of write queues to favor reads, since NVMe does round-robin service
+> of queues. An easy extension of this would be to add multiple
+> sets of queues, for prioritized IO.
+> 
+> NVMe also uses this feature to finally make the polling work
+> efficiently, without triggering interrupts. This both increases
+> performance (and decreases latency), at a lower system load. At
+> the same time it's more flexible, as you don't have to worry about
+> IRQ coalescing and redirection to avoid interrupts disturbing the
+> workload. This is how polling should have worked from day 1.
+> 
+> This is on top of my mq-conversions branch. It can also be bound
+> in my mq-maps branch.
 
->   static ssize_t nvme_sysfs_delete(struct device *dev,
->   				struct device_attribute *attr, const char *buf,
-> @@ -2845,6 +2846,7 @@ static struct attribute *nvme_dev_attrs[] = {
->   	&dev_attr_subsysnqn.attr,
->   	&dev_attr_address.attr,
->   	&dev_attr_state.attr,
-> +	&dev_attr_node_id.attr,
+Looks good to me. For the series:
 
-Maybe call it numa_node to align with other devices sysfs attributes?
-
-Otherwise looks fine,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
