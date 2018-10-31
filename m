@@ -1,25 +1,32 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 31 Oct 2018 08:17:43 -0600
-Subject: [PATCH 02/16] blk-mq: abstract out queue map
-In-Reply-To: <725b4d35-2390-58d9-4041-0bac6de6cd77@grimberg.me>
+Date: Wed, 31 Oct 2018 08:18:18 -0600
+Subject: [PATCH 04/16] blk-mq: pass in request/bio flags to queue mapping
+In-Reply-To: <50a9c2d1-abc5-b04f-1f95-878f216a47b1@grimberg.me>
 References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-3-axboe@kernel.dk>
- <725b4d35-2390-58d9-4041-0bac6de6cd77@grimberg.me>
-Message-ID: <cc5771b1-5ca9-8463-f575-9f5f9cad4fe3@kernel.dk>
+ <20181030183252.17857-5-axboe@kernel.dk>
+ <50a9c2d1-abc5-b04f-1f95-878f216a47b1@grimberg.me>
+Message-ID: <c688cb45-eb14-c857-e90a-da6fd93f81b7@kernel.dk>
 
-On 10/30/18 6:31 PM, Sagi Grimberg wrote:
+On 10/30/18 6:37 PM, Sagi Grimberg wrote:
 > 
->> @@ -41,12 +41,12 @@ int blk_mq_rdma_map_queues(struct blk_mq_tag_set *set,
->>   			goto fallback;
->>   
->>   		for_each_cpu(cpu, mask)
->> -			set->mq_map[cpu] = queue;
->> +			set->map[0].mq_map[cpu] = queue;
+>>   static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
+>> +						     unsigned int flags,
+>>   						     unsigned int cpu)
+>>   {
+>>   	struct blk_mq_tag_set *set = q->tag_set;
+>> @@ -84,7 +85,7 @@ static inline struct blk_mq_hw_ctx *blk_mq_map_queue_type(struct request_queue *
+>>   							  unsigned int hctx_type,
+>>   							  unsigned int cpu)
+>>   {
+>> -	return blk_mq_map_queue(q, cpu);
+>> +	return blk_mq_map_queue(q, hctx_type, cpu);
+>>   }
 > 
-> Any reason not to change the signature like the other mappers?
+> Haven't read through the rest of the patch set, but it looks a bit
+> strange that a type enumeration is being passed on as flags field.
 
-No particular reason, outside of not wanting to touch more than
-I had to.
+It's impossible to get it 100% right at this point, which is why
+it looks a bit odd. If you read on, it'll make sense.
 
 -- 
 Jens Axboe
