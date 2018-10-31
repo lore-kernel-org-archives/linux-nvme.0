@@ -1,28 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 31 Oct 2018 06:27:45 +0100
-Subject: [PATCH] nvme: make sure ns head inherits underlying device limits
-In-Reply-To: <4cd69ced-7e16-e5dd-716d-53784e2ed32f@grimberg.me>
-References: <20181019222450.25397-1-sagi@grimberg.me>
- <20181022085752.GD18755@lst.de>
- <70bcef36-48da-cae7-4e23-ac9b01814a74@grimberg.me>
- <20181026075319.GC5092@lst.de>
- <4cd69ced-7e16-e5dd-716d-53784e2ed32f@grimberg.me>
-Message-ID: <20181031052745.GA13521@lst.de>
+Date: Wed, 31 Oct 2018 06:28:38 +0100
+Subject: [PATCH 1/2] nvme/multipath: Disable runtime writable enabling
+ parameter
+In-Reply-To: <20181030182455.GA19483@localhost.localdomain>
+References: <20180426214956.3377-1-keith.busch@intel.com>
+ <20180426214956.3377-2-keith.busch@intel.com>
+ <20c48779-5d45-d330-6527-0b19844c181b@grimberg.me>
+ <0dc0b492-63a1-8384-06dd-8844880474a9@grimberg.me>
+ <20181030182455.GA19483@localhost.localdomain>
+Message-ID: <20181031052838.GB13521@lst.de>
 
-On Tue, Oct 30, 2018@11:11:11AM -0700, Sagi Grimberg wrote:
-> Christoph,
->
->>> Without this patch at least max_segments and max_hw_sectors of the head
->>> device node are degenerated to defaults that have nothing to do with the
->>> underlying device limits.
->>>
->>> This can result in unnecessary bio splitting for the head device
->>> node...
->>
->> But we never split bios for the multipath queue!
->
-> Yes of course we don't, but we can still stack other devices on top
-> of the multipath device that can split bios and in fact rely on the
-> underlying queue limits.
+On Tue, Oct 30, 2018@12:24:56PM -0600, Keith Busch wrote:
+> Everything on the nvme mailing list is out of whack for me. It looks
+> like lists.infradead.org is toast. I can still ssh to git.infradead.org,
+> but can't access its gitweb.
 
-Ok, that makes sense.  Can you resubmit it with that in a comment?
+Even the mail part didn't work yesterday Israeli time, so it might just
+take some more time to be back up.
