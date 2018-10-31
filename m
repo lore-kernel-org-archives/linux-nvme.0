@@ -1,77 +1,68 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 31 Oct 2018 08:32:36 -0600
-Subject: [PATCH 14/16] nvme: utilize two queue maps, one for reads and one
- for writes
-In-Reply-To: <193a50fe-0c02-9f01-f110-5cfa1cec9283@grimberg.me>
-References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-15-axboe@kernel.dk>
- <193a50fe-0c02-9f01-f110-5cfa1cec9283@grimberg.me>
-Message-ID: <29cd36b5-623a-1143-3aee-a81265ec70eb@kernel.dk>
+From: himanshu.madhani@cavium.com (Himanshu Madhani)
+Date: Wed, 31 Oct 2018 09:40:54 -0700
+Subject: [PATCH v4 0/5] qla2xxx: Add FC-NVMe Target support
+Message-ID: <20181031164059.6286-1-himanshu.madhani@cavium.com>
 
-On 10/30/18 7:57 PM, Sagi Grimberg wrote:
-> 
->> +static int queue_irq_offset(struct nvme_dev *dev)
->> +{
->> +	/* if we have more than 1 vec, admin queue offsets us 1 */
-> 
-> offsets us by 1?
+Hi Martin, 
 
-Fixed
+This series adds support for FC-NVMe Target.
 
->> @@ -1934,13 +2048,48 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->>   	 * setting up the full range we need.
->>   	 */
->>   	pci_free_irq_vectors(pdev);
->> -	result = pci_alloc_irq_vectors_affinity(pdev, 1, nr_io_queues + 1,
->> -			PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
->> -	if (result <= 0)
->> -		return -EIO;
->> +
->> +	/*
->> +	 * For irq sets, we have to ask for minvec == maxvec. This passes
->> +	 * any reduction back to us, so we can adjust our queue counts and
->> +	 * IRQ vector needs.
->> +	 */
->> +	do {
->> +		nvme_calc_io_queues(dev, nr_io_queues);
->> +		irq_sets[0] = dev->io_queues[NVMEQ_TYPE_READ];
->> +		irq_sets[1] = dev->io_queues[NVMEQ_TYPE_WRITE];
->> +		if (!irq_sets[1])
->> +			affd.nr_sets = 1;
->> +
->> +		/*
->> +		 * Need IRQs for read+write queues, and one for the admin queue
->> +		 */
->> +		nr_io_queues = irq_sets[0] + irq_sets[1] + 1;
->> +
->> +		result = pci_alloc_irq_vectors_affinity(pdev, nr_io_queues,
->> +				nr_io_queues,
->> +				PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
->> +
->> +		/*
->> +		 * Need to reduce our vec counts
->> +		 */
->> +		if (result == -ENOSPC) {
->> +			nr_io_queues--;
->> +			if (!nr_io_queues)
->> +				return result;
->> +			continue;
->> +		} else if (result <= 0)
->> +			return -EIO;
->> +		break;
->> +	} while (1);
->> +
->>   	dev->num_vecs = result;
->>   	dev->max_qid = max(result - 1, 1);
->>   
->> +	dev_info(dev->ctrl.device, "%d/%d/%d read/write queues\n",
->> +					dev->io_queues[NVMEQ_TYPE_READ],
->> +					dev->io_queues[NVMEQ_TYPE_WRITE]);
->> +
-> 
-> Perhaps it would be better if we move this code into a function.
+Patch #1 adds infrastructure to support FC-NVMeT Link Service processing. 
+Patch #2 adds addes new qla_nvmet.[ch] files for FC-NVMe Target support.
+Patch #3 has bulk of changes to add hooks into common code infrastucture and 
+         adds support for FC-NVMe Target LS4 processing via Purex path.
+Patch #4 adds SysFS hook to enable NVMe Target for the port.
 
-Agree, I've done that now.
+Please apply them to 4.21/scsi-queue at your earliest convenience.
+
+Changes from v3 -> v4
+o Rebased Series on current 4.20/scsi-queue 
+o Removed NVMET_FCTGTFEAT_{CMD|OPDONE}_IN_ISR as per James Smart's review comment. 
+
+Changes from v2 -> v3
+o Reordered patches so that each patch compiles individually and is bisectable.
+
+Changes from v1 -> v2
+o Addressed all comments from Bart.
+o Consolidated Patch 1 and Patch 2 into single patch.
+o Fixed smatch warning reported by kbuild autommation.
+o NVMe Target mode is exclusive at the moment. Cavium driver does not support both
+  FCP Target and NVMe Target at the same time. This will be fixed in later updates.
+ 
+Thanks,
+Himanshu 
+
+Anil Gurumurthy (4):
+  qla2xxx_nvmet: Add FC-NVMe Target Link Service request handling
+  qla2xxx_nvmet: Add files for FC-NVMe Target support
+  qla2xxx_nvmet: Add FC-NVMe Target handling
+  qla2xxx_nvmet: Add SysFS node for FC-NVMe Target
+
+Himanshu Madhani (1):
+  qla2xxx: Update driver version to 11.00.00.00-k
+
+ drivers/scsi/qla2xxx/Makefile      |   3 +-
+ drivers/scsi/qla2xxx/qla_attr.c    |  33 ++
+ drivers/scsi/qla2xxx/qla_dbg.c     |   1 +
+ drivers/scsi/qla2xxx/qla_dbg.h     |   2 +
+ drivers/scsi/qla2xxx/qla_def.h     |  35 +-
+ drivers/scsi/qla2xxx/qla_fw.h      | 263 ++++++++++
+ drivers/scsi/qla2xxx/qla_gbl.h     |  24 +-
+ drivers/scsi/qla2xxx/qla_gs.c      |  16 +-
+ drivers/scsi/qla2xxx/qla_init.c    |  49 +-
+ drivers/scsi/qla2xxx/qla_iocb.c    |   8 +-
+ drivers/scsi/qla2xxx/qla_isr.c     | 112 ++++-
+ drivers/scsi/qla2xxx/qla_mbx.c     | 101 +++-
+ drivers/scsi/qla2xxx/qla_nvme.h    |  33 --
+ drivers/scsi/qla2xxx/qla_nvmet.c   | 831 +++++++++++++++++++++++++++++++
+ drivers/scsi/qla2xxx/qla_nvmet.h   | 129 +++++
+ drivers/scsi/qla2xxx/qla_os.c      |  75 ++-
+ drivers/scsi/qla2xxx/qla_target.c  | 977 ++++++++++++++++++++++++++++++++++++-
+ drivers/scsi/qla2xxx/qla_target.h  |  90 ++++
+ drivers/scsi/qla2xxx/qla_version.h |   4 +-
+ 19 files changed, 2711 insertions(+), 75 deletions(-)
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.c
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.h
 
 -- 
-Jens Axboe
+2.12.0
