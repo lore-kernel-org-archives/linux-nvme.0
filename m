@@ -1,24 +1,34 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 17:37:59 -0700
-Subject: [PATCH 04/16] blk-mq: pass in request/bio flags to queue mapping
-In-Reply-To: <20181030183252.17857-5-axboe@kernel.dk>
+Date: Tue, 30 Oct 2018 17:49:02 -0700
+Subject: [PATCH 05/16] blk-mq: allow software queue to map to multiple
+ hardware queues
+In-Reply-To: <20181030183252.17857-6-axboe@kernel.dk>
 References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-5-axboe@kernel.dk>
-Message-ID: <50a9c2d1-abc5-b04f-1f95-878f216a47b1@grimberg.me>
+ <20181030183252.17857-6-axboe@kernel.dk>
+Message-ID: <f5bff9c7-2c94-8988-cf76-318fa0808cf0@grimberg.me>
 
 
->   static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
-> +						     unsigned int flags,
->   						     unsigned int cpu)
->   {
->   	struct blk_mq_tag_set *set = q->tag_set;
-> @@ -84,7 +85,7 @@ static inline struct blk_mq_hw_ctx *blk_mq_map_queue_type(struct request_queue *
->   							  unsigned int hctx_type,
->   							  unsigned int cpu)
->   {
-> -	return blk_mq_map_queue(q, cpu);
-> +	return blk_mq_map_queue(q, hctx_type, cpu);
->   }
 
-Haven't read through the rest of the patch set, but it looks a bit
-strange that a type enumeration is being passed on as flags field.
+> @@ -2342,10 +2346,16 @@ static void blk_mq_map_swqueue(struct request_queue *q)
+>   
+>   		ctx = per_cpu_ptr(q->queue_ctx, i);
+>   		hctx = blk_mq_map_queue_type(q, 0, i);
+> -
+> +		hctx->type = 0;
+>   		cpumask_set_cpu(i, hctx->cpumask);
+> -		ctx->index_hw = hctx->nr_ctx;
+> +		ctx->index_hw[hctx->type] = hctx->nr_ctx;
+>   		hctx->ctxs[hctx->nr_ctx++] = ctx;
+> +
+> +		/*
+> +		 * If the nr_ctx type overflows, we have exceeded the
+> +		 * amount of sw queues we can support.
+> +		 */
+> +		BUG_ON(!hctx->nr_ctx);
+
+Was this added because nr_ctx became short? What was the motivation
+for that? save space? structure alignment?
+
+Perhaps this should be mentioned in the change log (as it contradicts
+that no functional changes exist in this patch). Or, if this can happen
+even when 32bit nr_ctx, it should be a separate small patch?
