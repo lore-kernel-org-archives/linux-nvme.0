@@ -1,10 +1,28 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 22:03:17 -0700
-Subject: [PATCH v2 0/4] Support SQ flow control disabled mode (TP 8005)
-In-Reply-To: <20181003081323.7504-1-sagi@grimberg.me>
-References: <20181003081323.7504-1-sagi@grimberg.me>
-Message-ID: <b7b9db10-a3ab-5554-df48-1e6792146f11@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 31 Oct 2018 06:27:45 +0100
+Subject: [PATCH] nvme: make sure ns head inherits underlying device limits
+In-Reply-To: <4cd69ced-7e16-e5dd-716d-53784e2ed32f@grimberg.me>
+References: <20181019222450.25397-1-sagi@grimberg.me>
+ <20181022085752.GD18755@lst.de>
+ <70bcef36-48da-cae7-4e23-ac9b01814a74@grimberg.me>
+ <20181026075319.GC5092@lst.de>
+ <4cd69ced-7e16-e5dd-716d-53784e2ed32f@grimberg.me>
+Message-ID: <20181031052745.GA13521@lst.de>
 
-Christoph, Keith,
+On Tue, Oct 30, 2018@11:11:11AM -0700, Sagi Grimberg wrote:
+> Christoph,
+>
+>>> Without this patch at least max_segments and max_hw_sectors of the head
+>>> device node are degenerated to defaults that have nothing to do with the
+>>> underlying device limits.
+>>>
+>>> This can result in unnecessary bio splitting for the head device
+>>> node...
+>>
+>> But we never split bios for the multipath queue!
+>
+> Yes of course we don't, but we can still stack other devices on top
+> of the multipath device that can split bios and in fact rely on the
+> underlying queue limits.
 
-Any objections before moving forward with this?
+Ok, that makes sense.  Can you resubmit it with that in a comment?
