@@ -1,33 +1,27 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 31 Oct 2018 08:21:34 -0600
-Subject: [PATCH 06/16] blk-mq: add 'type' attribute to the sysfs hctx
- directory
-In-Reply-To: <2d858eb1-56d6-5c3e-7c7e-9e36b1ad04fc@grimberg.me>
+Date: Wed, 31 Oct 2018 08:23:09 -0600
+Subject: [PATCH 07/16] blk-mq: support multiple hctx maps
+In-Reply-To: <1e523ea4-1134-c299-281d-0dad276825d2@grimberg.me>
 References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-7-axboe@kernel.dk>
- <2d858eb1-56d6-5c3e-7c7e-9e36b1ad04fc@grimberg.me>
-Message-ID: <a7dc22ab-73b5-f869-07b5-51ddf7d795dd@kernel.dk>
+ <20181030183252.17857-8-axboe@kernel.dk>
+ <1e523ea4-1134-c299-281d-0dad276825d2@grimberg.me>
+Message-ID: <4164e35e-1361-7ea1-f2c1-f9eea7030df9@kernel.dk>
 
-On 10/30/18 6:53 PM, Sagi Grimberg wrote:
+On 10/30/18 6:59 PM, Sagi Grimberg wrote:
+>> +static inline struct blk_mq_hw_ctx *blk_mq_map_queue(struct request_queue *q,
+>> +						     unsigned int flags,
+>> +						     unsigned int cpu)
+>>   {
+>> -	return blk_mq_map_queue(q, hctx_type, cpu);
+>> +	int hctx_type = 0;
+>> +
+>> +	if (q->mq_ops->flags_to_type)
+>> +		hctx_type = q->mq_ops->flags_to_type(q, flags);
 > 
->> It can be useful for a user to verify what type a given hardware
->> queue is, expose this information in sysfs.
-> 
-> I assume the user is expected to understand the meaning of the
-> enumeration it sees in accessing this field correct?
-> 
-> Would be nice to output some meaningful string but I'm not
-> yet sure how to do that, but would be nice...
+> nitpick: I think that rq_flags_to_type is a bit more descriptive here.
+> just a personal opinion.
 
-The type is driver private, there's no specific meaning associated
-with the type. We could make it output a string provided that
-the driver had a way to query it. For now I think the type is
-enough, it'll allow you to see which ones are different.
-
-> Other than that,
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-
-Thanks
+Sure, I can make that change.
 
 -- 
 Jens Axboe
