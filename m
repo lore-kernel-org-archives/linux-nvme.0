@@ -1,21 +1,53 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 Oct 2018 23:54:15 -0700
-Subject: [PATCH] adjust serial number form u64 to u8[20]
-In-Reply-To: <5b5e1a0c-5b3c-fb5a-97b1-cf776943af34@huawei.com>
-References: <1540810606-17252-1-git-send-email-lijie34@huawei.com>
- <739c3b0a-25e5-bcdb-0589-a95d33ea3958@grimberg.me>
- <d244b7d7-8880-4dac-ca07-b45bf91b69e9@huawei.com>
- <ca5606a7-2320-637d-d6f0-53b515dd2785@grimberg.me>
- <5b5e1a0c-5b3c-fb5a-97b1-cf776943af34@huawei.com>
-Message-ID: <b45f83f0-8c23-f372-8944-5142deae9d65@grimberg.me>
+Date: Wed, 31 Oct 2018 00:01:04 -0700
+Subject: [PATCH v2] nvme: make sure ns head inherits underlying device limits
+Message-ID: <20181031070104.5824-1-sagi@grimberg.me>
 
+Whenever we update ns_head info, we need to make sure it is still
+compatible with all underlying backing devices because although nvme
+multipath doesn't have any explicit use of these limits, other devices
+can still be stacked on top of it which may rely on the underlying limits.
+Start with unlimited stacking limits, and every info update iterate over
+siblings and adjust queue limits.
 
-> Hi sagi,
-> 
-> If the original value of SN has already met the ASCII string requirement?other places to use serial number can be directly used without conversion.It would be better.
-> In addition, if use bin2hex to convert when sending it to host, the original value input by nvmet_subsys_attr_serial_store will be different from the value of nvme list at the host side.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+Changes from v1:
+- fix change log with better reasoning
 
-Well of course it needs to be hex2bin...
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-I don't mind all that much, but please if you are in the area, make the
-default serial a 20-byte serial number.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4325f1aeea1f..335f1e33e212 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1482,6 +1482,7 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+ static void nvme_update_disk_info(struct gendisk *disk,
+ 		struct nvme_ns *ns, struct nvme_id_ns *id)
+ {
++	struct nvme_ns *n;
+ 	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+ 	unsigned short bs = 1 << ns->lba_shift;
+ 
+@@ -1506,6 +1507,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
+ 	else
+ 		set_disk_ro(disk, false);
+ 
++	list_for_each_entry_rcu(n, &ns->head->list, siblings)
++		blk_queue_stack_limits(disk->queue, n->queue);
++
+ 	blk_mq_unfreeze_queue(disk->queue);
+ }
+ 
+@@ -2960,6 +2964,8 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+ 	if (ret)
+ 		goto out_cleanup_srcu;
+ 
++	blk_set_stacking_limits(&head->disk->queue->limits);
++
+ 	list_add_tail(&head->entry, &ctrl->subsys->nsheads);
+ 
+ 	kref_get(&ctrl->subsys->ref);
+-- 
+2.17.1
