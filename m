@@ -1,28 +1,40 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 1 Nov 2018 10:30:39 +0100
-Subject: [PATCH 11/16] blk-mq: improve plug list sorting
-In-Reply-To: <20181030183252.17857-12-axboe@kernel.dk>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 1 Nov 2018 06:22:14 -0600
+Subject: [PATCH 09/16] blk-mq: cache request hardware queue mapping
+In-Reply-To: <222351ec-bf5b-526c-33dd-bd2e8ba051fa@suse.de>
 References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-12-axboe@kernel.dk>
-Message-ID: <eff592b4-df3b-d4df-261c-30acb77ffcf0@suse.de>
+ <20181030183252.17857-10-axboe@kernel.dk>
+ <222351ec-bf5b-526c-33dd-bd2e8ba051fa@suse.de>
+Message-ID: <5a12d8c2-cb16-168c-f8e2-ffe1649d6554@kernel.dk>
 
-On 10/30/18 7:32 PM, Jens Axboe wrote:
-> Currently we only look at the software queue, but with support
-> for multiple maps, we should also look at the hardware queue.
-> This is important since we'll flush out the request list if
-> either the software queue or hardware queue don't match.
-> 
-> This sorts by software queue first, then hardware queue if
-> that differs. Finally we sort by request location like before.
-> This minimizes the flush points per plug list.
-> 
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> ---
->   block/blk-mq.c | 17 ++++++++++++-----
->   1 file changed, 12 insertions(+), 5 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On 11/1/18 3:27 AM, Hannes Reinecke wrote:
+> On 10/30/18 7:32 PM, Jens Axboe wrote:
+>> We call blk_mq_map_queue() a lot, at least two times for each
+>> request per IO, sometimes more. Since we now have an indirect
+>> call as well in that function. cache the mapping so we don't
+>> have to re-call blk_mq_map_queue() for the same request
+>> multiple times.
+>>
+>> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+>> ---
+>>   block/blk-flush.c      | 12 ++++--------
+>>   block/blk-mq-debugfs.c |  4 +---
+>>   block/blk-mq-sched.c   |  6 ++----
+>>   block/blk-mq-tag.c     |  9 +--------
+>>   block/blk-mq.c         | 22 +++++++++-------------
+>>   block/blk-mq.h         |  5 +----
+>>   include/linux/blkdev.h |  1 +
+>>   7 files changed, 19 insertions(+), 40 deletions(-)
+>>
+> Hehe.
+> I had been wondering about this since the original mq implementation, 
+> but was told not to worry :-)
 
-Cheers,
+To be fair, it was just an array index. Now it's got an indirect
+call, so it's more expensive.
+ > Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Hannes
+Thanks!
+
+-- 
+Jens Axboe
