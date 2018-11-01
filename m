@@ -1,40 +1,28 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 1 Nov 2018 06:22:14 -0600
-Subject: [PATCH 09/16] blk-mq: cache request hardware queue mapping
-In-Reply-To: <222351ec-bf5b-526c-33dd-bd2e8ba051fa@suse.de>
-References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-10-axboe@kernel.dk>
- <222351ec-bf5b-526c-33dd-bd2e8ba051fa@suse.de>
-Message-ID: <5a12d8c2-cb16-168c-f8e2-ffe1649d6554@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 1 Nov 2018 08:38:08 -0600
+Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
+In-Reply-To: <20181101052749.GA4349@lst.de>
+References: <20181026224146.198311-1-gwendal@chromium.org>
+ <20181026225807.GA10621@localhost.localdomain>
+ <20181027074452.GA15404@lst.de>
+ <20181029152401.GA16336@localhost.localdomain>
+ <20181101052749.GA4349@lst.de>
+Message-ID: <20181101143807.GL19483@localhost.localdomain>
 
-On 11/1/18 3:27 AM, Hannes Reinecke wrote:
-> On 10/30/18 7:32 PM, Jens Axboe wrote:
->> We call blk_mq_map_queue() a lot, at least two times for each
->> request per IO, sometimes more. Since we now have an indirect
->> call as well in that function. cache the mapping so we don't
->> have to re-call blk_mq_map_queue() for the same request
->> multiple times.
->>
->> Signed-off-by: Jens Axboe <axboe at kernel.dk>
->> ---
->>   block/blk-flush.c      | 12 ++++--------
->>   block/blk-mq-debugfs.c |  4 +---
->>   block/blk-mq-sched.c   |  6 ++----
->>   block/blk-mq-tag.c     |  9 +--------
->>   block/blk-mq.c         | 22 +++++++++-------------
->>   block/blk-mq.h         |  5 +----
->>   include/linux/blkdev.h |  1 +
->>   7 files changed, 19 insertions(+), 40 deletions(-)
->>
-> Hehe.
-> I had been wondering about this since the original mq implementation, 
-> but was told not to worry :-)
+On Thu, Nov 01, 2018@06:27:49AM +0100, Christoph Hellwig wrote:
+> On Mon, Oct 29, 2018@09:24:01AM -0600, Keith Busch wrote:
+> > > The 'Deallocate Logical Block Features' bits 0 and 1 only tell what
+> > > is read back from deallocated logic blocks, but it does not guarantee
+> > > that all blocks a DSM deallocate is called on are actually deallocated.
+> > 
+> > Sure, but whether the requested blocks are deallocated or not is
+> > irrelevant. We're only using this feature here for its deterministic
+> > read behavior.
+> 
+> I can't parse this.
 
-To be fair, it was just an array index. Now it's got an indirect
-call, so it's more expensive.
- > Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Thanks!
-
--- 
-Jens Axboe
+We currently use DSM Deallocate for REQ_OP_WRITE_ZEROES. We don't care
+if the blocks are actually deallocated. We only care if reading them
+back determinisitically returns 0's, and DLFEAT tells us if we can rely
+on that behavior. I'm just suggesting to use that instead of using
+the NVME_QUIRK_DEALLOCATE_ZEROES quirk.
