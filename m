@@ -1,20 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Nov 2018 06:27:49 +0100
-Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
-In-Reply-To: <20181029152401.GA16336@localhost.localdomain>
-References: <20181026224146.198311-1-gwendal@chromium.org>
- <20181026225807.GA10621@localhost.localdomain>
- <20181027074452.GA15404@lst.de>
- <20181029152401.GA16336@localhost.localdomain>
-Message-ID: <20181101052749.GA4349@lst.de>
+Date: Thu, 1 Nov 2018 07:05:28 +0100
+Subject: [PATCH v2 00/11] nvmet: Enable AENs support for Discovery
+ controllers
+In-Reply-To: <6fb6cdda-d116-598d-f350-4f26368ebfcf@grimberg.me>
+References: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
+ <6fb6cdda-d116-598d-f350-4f26368ebfcf@grimberg.me>
+Message-ID: <20181101060528.GA4930@lst.de>
 
-On Mon, Oct 29, 2018@09:24:01AM -0600, Keith Busch wrote:
-> > The 'Deallocate Logical Block Features' bits 0 and 1 only tell what
-> > is read back from deallocated logic blocks, but it does not guarantee
-> > that all blocks a DSM deallocate is called on are actually deallocated.
-> 
-> Sure, but whether the requested blocks are deallocated or not is
-> irrelevant. We're only using this feature here for its deterministic
-> read behavior.
+On Tue, Oct 30, 2018@10:01:18PM -0700, Sagi Grimberg wrote:
+> For any patch in this series that doesn't already have it,
+>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>
+> Christoph, Keith, any feedback from you guys?
 
-I can't parse this.
+This mail comes out of nowhere without a previous thread here.
