@@ -1,23 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 1 Nov 2018 10:28:48 +0100
-Subject: [PATCH 10/16] blk-mq: cleanup and improve list insertion
-In-Reply-To: <20181030183252.17857-11-axboe@kernel.dk>
+Date: Thu, 1 Nov 2018 10:30:39 +0100
+Subject: [PATCH 11/16] blk-mq: improve plug list sorting
+In-Reply-To: <20181030183252.17857-12-axboe@kernel.dk>
 References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-11-axboe@kernel.dk>
-Message-ID: <579cc1b0-0147-d5b9-a507-85b56c2e0546@suse.de>
+ <20181030183252.17857-12-axboe@kernel.dk>
+Message-ID: <eff592b4-df3b-d4df-261c-30acb77ffcf0@suse.de>
 
 On 10/30/18 7:32 PM, Jens Axboe wrote:
-> It's somewhat strange to have a list insertion function that
-> relies on the fact that the caller has mapped things correctly.
-> Pass in the hardware queue directly for insertion, which makes
-> for a much cleaner interface and implementation.
+> Currently we only look at the software queue, but with support
+> for multiple maps, we should also look at the hardware queue.
+> This is important since we'll flush out the request list if
+> either the software queue or hardware queue don't match.
+> 
+> This sorts by software queue first, then hardware queue if
+> that differs. Finally we sort by request location like before.
+> This minimizes the flush points per plug list.
 > 
 > Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > ---
->   block/blk-mq-sched.c |  8 +-------
->   block/blk-mq-sched.h |  2 +-
->   block/blk-mq.c       | 25 ++++++++++++++-----------
->   3 files changed, 16 insertions(+), 19 deletions(-)
+>   block/blk-mq.c | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
