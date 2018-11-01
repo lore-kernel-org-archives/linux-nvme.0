@@ -1,33 +1,24 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 1 Nov 2018 10:27:16 +0100
-Subject: [PATCH 09/16] blk-mq: cache request hardware queue mapping
-In-Reply-To: <20181030183252.17857-10-axboe@kernel.dk>
+Date: Thu, 1 Nov 2018 10:28:48 +0100
+Subject: [PATCH 10/16] blk-mq: cleanup and improve list insertion
+In-Reply-To: <20181030183252.17857-11-axboe@kernel.dk>
 References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-10-axboe@kernel.dk>
-Message-ID: <222351ec-bf5b-526c-33dd-bd2e8ba051fa@suse.de>
+ <20181030183252.17857-11-axboe@kernel.dk>
+Message-ID: <579cc1b0-0147-d5b9-a507-85b56c2e0546@suse.de>
 
 On 10/30/18 7:32 PM, Jens Axboe wrote:
-> We call blk_mq_map_queue() a lot, at least two times for each
-> request per IO, sometimes more. Since we now have an indirect
-> call as well in that function. cache the mapping so we don't
-> have to re-call blk_mq_map_queue() for the same request
-> multiple times.
+> It's somewhat strange to have a list insertion function that
+> relies on the fact that the caller has mapped things correctly.
+> Pass in the hardware queue directly for insertion, which makes
+> for a much cleaner interface and implementation.
 > 
 > Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > ---
->   block/blk-flush.c      | 12 ++++--------
->   block/blk-mq-debugfs.c |  4 +---
->   block/blk-mq-sched.c   |  6 ++----
->   block/blk-mq-tag.c     |  9 +--------
->   block/blk-mq.c         | 22 +++++++++-------------
->   block/blk-mq.h         |  5 +----
->   include/linux/blkdev.h |  1 +
->   7 files changed, 19 insertions(+), 40 deletions(-)
+>   block/blk-mq-sched.c |  8 +-------
+>   block/blk-mq-sched.h |  2 +-
+>   block/blk-mq.c       | 25 ++++++++++++++-----------
+>   3 files changed, 16 insertions(+), 19 deletions(-)
 > 
-Hehe.
-I had been wondering about this since the original mq implementation, 
-but was told not to worry :-)
-
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
