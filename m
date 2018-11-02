@@ -1,33 +1,35 @@
-From: cascardo@canonical.com (Thadeu Lima de Souza Cascardo)
-Date: Thu, 1 Nov 2018 20:31:30 -0300
-Subject: [PATCH] nvme: create 'paths' entries for hidden controllers
-In-Reply-To: <20181005073245.GA24224@lst.de>
-References: <20180928191720.3461-1-cascardo@canonical.com>
- <20181005073245.GA24224@lst.de>
-Message-ID: <20181101233129.GB4249@calabresa>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 2 Nov 2018 06:41:39 +0100
+Subject: [PATCH v3] nvme: make sure ns head inherits underlying device
+ limits
+In-Reply-To: <20181101160457.13391-1-sagi@grimberg.me>
+References: <20181101160457.13391-1-sagi@grimberg.me>
+Message-ID: <20181102054139.GA16212@lst.de>
 
-On Fri, Oct 05, 2018@09:32:45AM +0200, Christoph Hellwig wrote:
-> On Fri, Sep 28, 2018@04:17:20PM -0300, Thadeu Lima de Souza Cascardo wrote:
-> > When using initramfs-tools with only the necessary dependencies to mount
-> > the root filesystem, it will fail to include nvme drivers for a root on a
-> > multipath nvme. That happens because the slaves relationship is not
-> > present.
-> > 
-> > As discussed in [1], using slaves will break lsblk, because the slaves are
-> > hidden from userspace, that is, they have no real block device, just an
-> > entry under sysfs.
-> > 
-> > Introducing the paths subdir and using that on initramfs-tools makes it
-> > possible to now boot a system with nvme multipath as root.
-> 
-> Do we need documentation how these paths links are supposed to work?
-> Who is going to parse them?
+> @@ -1482,6 +1482,7 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+>  static void nvme_update_disk_info(struct gendisk *disk,
+>  		struct nvme_ns *ns, struct nvme_id_ns *id)
+>  {
+> +	struct nvme_ns *n;
+>  	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+>  	unsigned short bs = 1 << ns->lba_shift;
+>  
+> @@ -1506,6 +1507,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>  	else
+>  		set_disk_ro(disk, false);
+>  
+> +	list_for_each_entry_rcu(n, &ns->head->list, siblings)
+> +		blk_queue_stack_limits(disk->queue, n->queue);
 
-Hi, Christoph.
+I think this should only be done for ns->head_disk, nor the disks
+attached to the namespaces.
 
-I have just sent a v2 against block/for-next with a Documentation file
-describing it. The first intended user is initramfs-tools, documented there as
-well.
+> @@ -2960,6 +2964,10 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+>  	if (ret)
+>  		goto out_cleanup_srcu;
+>  
+> +#ifdef CONFIG_NVME_MULTIPATH
+> +	blk_set_stacking_limits(&head->disk->queue->limits);
+> +#endif
 
-Thanks.
-Cascardo.
+And this should probably done in nvme_mpath_alloc_disk.
