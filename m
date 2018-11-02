@@ -1,66 +1,48 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 2 Nov 2018 09:04:53 +0100
-Subject: [PATCH v2 2/4] nvmet: support for traffic based keep-alive
-In-Reply-To: <20181030174344.20171-3-sagi@grimberg.me>
+Date: Fri, 2 Nov 2018 09:05:16 +0100
+Subject: [PATCH v2 3/4] nvme-core: cache controller attributes
+In-Reply-To: <20181030174344.20171-4-sagi@grimberg.me>
 References: <20181030174344.20171-1-sagi@grimberg.me>
- <20181030174344.20171-3-sagi@grimberg.me>
-Message-ID: <d1585e6f-56f7-581e-039d-372a29a5cd99@suse.de>
+ <20181030174344.20171-4-sagi@grimberg.me>
+Message-ID: <f0abdaaf-a13c-2c0f-50d8-4e36fe9e1ed8@suse.de>
 
 On 10/30/18 6:43 PM, Sagi Grimberg wrote:
-> A controller that supports traffic based keep-alive can restart
-> its keep alive timer even if keep-alive was not issued in the
-> kato period but other admin or io commands was. For each command
-> set ctrl->cmd_seen to true, and when keep-alive timer expires,
-> if any commands were seen, resched ka_work instead of escalating
-> to a fatal error.
+> We get the controller attributes in identify, cache
+> them as we'll need them for traffic based keep alive
+> support.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/target/admin-cmd.c |  3 ++-
->   drivers/nvme/target/core.c      | 12 ++++++++++++
->   drivers/nvme/target/nvmet.h     |  2 ++
->   include/linux/nvme.h            |  1 +
->   4 files changed, 17 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/core.c | 1 +
+>   drivers/nvme/host/nvme.h | 1 +
+>   2 files changed, 2 insertions(+)
 > 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 30778ffc46f5..c9c6d25a3ec2 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -304,7 +304,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 65c42448e904..ef609239c9c5 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2409,6 +2409,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>   	ctrl->sgls = le32_to_cpu(id->sgls);
+>   	ctrl->kas = le16_to_cpu(id->kas);
+>   	ctrl->max_namespaces = le32_to_cpu(id->mnan);
+> +	ctrl->ctratt = le32_to_cpu(id->ctratt);
 >   
->   	/* XXX: figure out what to do about RTD3R/RTD3 */
->   	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
-> -	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT);
-> +	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT |
-> +		NVME_CTRL_ATTR_TBKAS);
->   
->   	id->oacs = 0;
->   
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 0acdff9e6842..ebe951a05712 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -298,6 +298,15 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
->   {
->   	struct nvmet_ctrl *ctrl = container_of(to_delayed_work(work),
->   			struct nvmet_ctrl, ka_work);
-> +	bool cmd_seen = ctrl->cmd_seen;
-> +
-> +	ctrl->cmd_seen = false;
-> +	if (cmd_seen) {
-> +		pr_debug("ctrl %d traffic-based keep-alive timer expired, reschedule\n",
-> +			ctrl->cntlid);
-> +		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-> +		return;
-> +	}
->   
->   	pr_err("ctrl %d keep-alive timer (%d seconds) expired!\n",
->   		ctrl->cntlid, ctrl->kato);
-
-Please rephrase that. For TBKA 'expired' means that everything is 
-working, whereas for all other cases 'expired' signals an error.
-
-Maybe just 'reschedule traffic-based keep-alive timer' ?
+>   	if (id->rtd3e) {
+>   		/* us -> s */
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 9fefba039d1e..4dd7535caf1b 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -193,6 +193,7 @@ struct nvme_ctrl {
+>   	u8 apsta;
+>   	u32 oaes;
+>   	u32 aen_result;
+> +	u32 ctratt;
+>   	unsigned int shutdown_timeout;
+>   	unsigned int kato;
+>   	bool subsystem;
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
 
