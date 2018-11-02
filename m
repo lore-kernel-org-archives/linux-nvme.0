@@ -1,74 +1,39 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 2 Nov 2018 09:06:45 +0100
-Subject: [PATCH v2 4/4] nvme-core: support traffic based keep-alive based
- on controller support
-In-Reply-To: <20181030174344.20171-5-sagi@grimberg.me>
-References: <20181030174344.20171-1-sagi@grimberg.me>
- <20181030174344.20171-5-sagi@grimberg.me>
-Message-ID: <6bb3f586-d421-f397-3766-c8c781026c15@suse.de>
+Date: Fri,  2 Nov 2018 10:56:38 +0100
+Subject: [PATCHv3 0/3] nvme: NUMA locality for fabrics
+Message-ID: <20181102095641.28504-1-hare@suse.de>
 
-On 10/30/18 6:43 PM, Sagi Grimberg wrote:
-> If the controller supports traffic based keep alive, we restart
-> the keep alive timer if any admin or io commands was completed
-> during the kato period. This prevents a possible starvation of
-> keep alive commands in the presence of heavy traffic as in such
-> case, we already have a health indication from the host perspective.
-> 
-> Only set a comp_seen indicator in case the controller supports keep
-> alive to minimize the overhead for pci controllers.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/core.c | 13 +++++++++++++
->   drivers/nvme/host/nvme.h |  1 +
->   2 files changed, 14 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ef609239c9c5..938478d1e904 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -251,6 +251,9 @@ void nvme_complete_rq(struct request *req)
->   
->   	trace_nvme_complete_rq(req);
->   
-> +	if (nvme_req(req)->ctrl->kas)
-> +		nvme_req(req)->ctrl->comp_seen = true;
-> +
->   	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
->   		if ((req->cmd_flags & REQ_NVME_MPATH) &&
->   		    blk_path_error(status)) {
-> @@ -841,6 +844,7 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
->   		return;
->   	}
->   
-> +	ctrl->comp_seen = false;
->   	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
->   }
->   
-> @@ -865,6 +869,15 @@ static void nvme_keep_alive_work(struct work_struct *work)
->   {
->   	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
->   			struct nvme_ctrl, ka_work);
-> +	bool comp_seen = ctrl->comp_seen;
-> +
-> +	if ((ctrl->ctratt & NVME_CTRL_ATTR_TBKAS) && comp_seen) {
-> +		dev_dbg(ctrl->device,
-> +			"traffic based keep-alive timer expired, reschedule\n");
-> +		ctrl->comp_seen = false;
-> +		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-> +		return;
-> +	}
->   
->   	if (nvme_keep_alive(ctrl)) {
->   		/* allocation failure, reset the controller */
-Same here; I'd prefer 'reschedule traffic based keep-alive timer'.
+Hi all,
 
-Cheers,
+here's a patchset to leverage NUMA locality information for fabric controllers.
+This is the second attempt for doing so; after discussion with hch we came
+to the conclusion that the attempt in the initial submission with a manual
+configuration would only lead to more confusion and suboptimal configuration.
 
-Hannes
+So here's now a version with an automatic NUMA balancing, where we attempt
+to split the number submitting CPUs/cores evenly across the available
+controller.
+
+With this patchset I'm seeing a performance increase from
+262k IOPS to 344k IOPS, measured against a NetApp AF700.
+
+As usual, comments and reviews are welcome.
+
+Changes to v2:
+- use 'numa_node' instead of 'node_id' (suggested by Sagi)
+- rediff patches for better readability
+
+Hannes Reinecke (3):
+  nvme: NUMA locality information for fabrics
+  nvme-multipath: Select paths based on NUMA locality
+  nvme-multipath: automatic NUMA path balancing
+
+ drivers/nvme/host/core.c      |  36 ++++++++++++-
+ drivers/nvme/host/fc.c        |   5 +-
+ drivers/nvme/host/multipath.c | 119 +++++++++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h      |   3 ++
+ drivers/nvme/host/rdma.c      |   6 ++-
+ 5 files changed, 161 insertions(+), 8 deletions(-)
+
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+2.16.4
