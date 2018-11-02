@@ -1,58 +1,105 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  2 Nov 2018 11:22:13 -0700
-Subject: [PATCH v4] nvme: make sure ns head inherits underlying device limits
-Message-ID: <20181102182213.23911-1-sagi@grimberg.me>
+From: paulmck@linux.ibm.com (Paul E. McKenney)
+Date: Fri, 2 Nov 2018 13:14:48 -0700
+Subject: srcu hung task panic
+In-Reply-To: <20181026144835.GW4170@linux.ibm.com>
+References: <20181023141415.GJ4170@linux.ibm.com>
+ <SN6PR06MB433307629C43832973E0F882E5F50@SN6PR06MB4333.namprd06.prod.outlook.com>
+ <20181024105326.GL4170@linux.ibm.com>
+ <SN6PR06MB4333940F6EE46EDDB20934EDE5F00@SN6PR06MB4333.namprd06.prod.outlook.com>
+ <20181026144835.GW4170@linux.ibm.com>
+Message-ID: <20181102201448.GA15234@linux.ibm.com>
 
-Whenever we update ns_head info, we need to make sure it is still
-compatible with all underlying backing devices because although nvme
-multipath doesn't have any explicit use of these limits, other devices
-can still be stacked on top of it which may rely on the underlying limits.
-Start with unlimited stacking limits, and every info update iterate over
-siblings and adjust queue limits.
+On Fri, Oct 26, 2018@07:48:35AM -0700, Paul E. McKenney wrote:
+> On Fri, Oct 26, 2018@04:00:53AM +0000, Krein, Dennis wrote:
+> > I have a patch attached that fixes the problem for us.  I also tried a
+> > version with an smb_mb() call added at end of rcu_segcblist_enqueue()
+> > - but that turned out not to be needed.  I think the key part of
+> > this is locking srcu_data in srcu_gp_start().  I also put in the
+> > preempt_disable/enable in __call_srcu() so that it couldn't get scheduled
+> > out and possibly moved to another CPU.  I had one hung task panic where
+> > the callback that would complete the wait was properly set up but for some
+> > reason the delayed work never happened.  Only thing I could determine to
+> > cause that was if __call_srcu() got switched out after dropping spin lock.
+> 
+> Good show!!!
+> 
+> You are quite right, the srcu_data structure's ->lock
+> must be held across the calls to rcu_segcblist_advance() and
+> rcu_segcblist_accelerate().  Color me blind, given that I repeatedly
+> looked at the "lockdep_assert_held(&ACCESS_PRIVATE(sp, lock));" and
+> repeatedly misread it as "lockdep_assert_held(&ACCESS_PRIVATE(sdp,
+> lock));".
+> 
+> A few questions and comments:
+> 
+> o	Are you OK with my adding your Signed-off-by as shown in the
+> 	updated patch below?
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v3:
-- move default stacking limits setting to multipath request queue creation
-- apply stack limits adjustment only for the head disk (multipath disk
-  node)
+Hmmm...  I either need your Signed-off-by or to have someone cleanroom
+recreate the patch before I can send it upstream.  I would much prefer
+to use your Signed-off-by so that you get due credit, but one way or
+another I do need to fix this bug.
 
-Changes from v2:
-- fixed missing ifdef config (multipathing)
+							Thanx, Paul
 
-Changes from v1:
-- fix change log with better reasoning
- drivers/nvme/host/core.c      | 4 +++-
- drivers/nvme/host/multipath.c | 1 +
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 66903bb6d630..864673fe9bf8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1535,8 +1535,10 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 	if (ns->ndev)
- 		nvme_nvm_update_nvm_info(ns);
- #ifdef CONFIG_NVME_MULTIPATH
--	if (ns->head->disk)
-+	if (ns->head->disk) {
- 		nvme_update_disk_info(ns->head->disk, ns, id);
-+		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
-+	}
- #endif
- }
- 
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 5e3cc8c59a39..9901afd804ce 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -285,6 +285,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
- 	/* set to a default value for 512 until disk is validated */
- 	blk_queue_logical_block_size(q, 512);
-+	blk_set_stacking_limits(&q->limits);
- 
- 	/* we need to propagate up the VMC settings */
- 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
--- 
-2.17.1
+> o	I removed the #ifdefs because this is needed everywhere.
+> 	However, I do agree that it can be quite helpful to use these
+> 	while experimenting with different potential solutions.
+> 
+> o	Preemption is already disabled across all of srcu_gp_start()
+> 	because the sp->lock is an interrupt-disabling lock.  This means
+> 	that disabling preemption would have no effect.  I therefore
+> 	removed the preempt_disable() and preempt_enable().
+> 
+> o	What sequence of events would lead to the work item never being
+> 	executed?  Last I knew, workqueues were supposed to be robust
+> 	against preemption.
+> 
+> I have added Christoph and Bart on CC (along with their Reported-by tags)
+> because they were recently seeing an intermittent failure that might
+> have been caused gby tyhis same bug.  Could you please check to see if
+> the below patch fixes your problem, give or take the workqueue issue?
+> 
+> 							Thanx, Paul
+> 
+> ------------------------------------------------------------------------
+> 
+> commit 1c1d315dfb7049d0233b89948a3fbcb61ea15d26
+> Author: Dennis Krein <Dennis.Krein at netapp.com>
+> Date:   Fri Oct 26 07:38:24 2018 -0700
+> 
+>     srcu: Lock srcu_data structure in srcu_gp_start()
+>     
+>     The srcu_gp_start() function is called with the srcu_struct structure's
+>     ->lock held, but not with the srcu_data structure's ->lock.  This is
+>     problematic because this function accesses and updates the srcu_data
+>     structure's ->srcu_cblist, which is protected by that lock.  Failing to
+>     hold this lock can result in corruption of the SRCU callback lists,
+>     which in turn can result in arbitrarily bad results.
+>     
+>     This commit therefore makes srcu_gp_start() acquire the srcu_data
+>     structure's ->lock across the calls to rcu_segcblist_advance() and
+>     rcu_segcblist_accelerate(), thus preventing this corruption.
+>     
+>     Reported-by: Bart Van Assche <bvanassche at acm.org>
+>     Reported-by: Christoph Hellwig <hch at infradead.org>
+>     Signed-off-by: Dennis Krein <Dennis.Krein at netapp.com>
+>     Signed-off-by: Paul E. McKenney <paulmck at linux.ibm.com>
+> 
+> diff --git a/kernel/rcu/srcutree.c b/kernel/rcu/srcutree.c
+> index 60f3236beaf7..697a2d7e8e8a 100644
+> --- a/kernel/rcu/srcutree.c
+> +++ b/kernel/rcu/srcutree.c
+> @@ -451,10 +451,12 @@ static void srcu_gp_start(struct srcu_struct *sp)
+>  
+>  	lockdep_assert_held(&ACCESS_PRIVATE(sp, lock));
+>  	WARN_ON_ONCE(ULONG_CMP_GE(sp->srcu_gp_seq, sp->srcu_gp_seq_needed));
+> +	spin_lock_rcu_node(sdp);  /* Interrupts already disabled. */
+>  	rcu_segcblist_advance(&sdp->srcu_cblist,
+>  			      rcu_seq_current(&sp->srcu_gp_seq));
+>  	(void)rcu_segcblist_accelerate(&sdp->srcu_cblist,
+>  				       rcu_seq_snap(&sp->srcu_gp_seq));
+> +	spin_unlock_rcu_node(sdp);  /* Interrupts remain disabled. */
+>  	smp_mb(); /* Order prior store to ->srcu_gp_seq_needed vs. GP start. */
+>  	rcu_seq_start(&sp->srcu_gp_seq);
+>  	state = rcu_seq_state(READ_ONCE(sp->srcu_gp_seq));
