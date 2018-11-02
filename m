@@ -1,27 +1,30 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 2 Nov 2018 08:37:42 +0200
-Subject: [GIT PULL] nvme fixes for 4.20
-Message-ID: <20181102063742.GA16758@infradead.org>
+From: hare@suse.de (Hannes Reinecke)
+Date: Fri, 2 Nov 2018 09:00:19 +0100
+Subject: [PATCH v2 1/4] nvme: introduce ctrl attributes enumeration
+In-Reply-To: <20181030174344.20171-2-sagi@grimberg.me>
+References: <20181030174344.20171-1-sagi@grimberg.me>
+ <20181030174344.20171-2-sagi@grimberg.me>
+Message-ID: <bf4d0bbb-f0a4-cdd3-820e-e1416684ddc4@suse.de>
 
-The following changes since commit a5185607787e030fcb0009194d3b12f8bcca59d6:
+On 10/30/18 6:43 PM, Sagi Grimberg wrote:
+> We are growing more controller attributes, so use
+> a proper enumeration for it. For now just add the
+> 128-bit hostid which we support.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/target/admin-cmd.c | 2 +-
+>   include/linux/nvme.h            | 4 ++++
+>   2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-  block: brd: associate with queue until adding disk (2018-10-31 08:43:09 -0600)
+Cheers,
 
-are available in the Git repository at:
-
-  git://git.infradead.org/nvme.git nvme-4.20
-
-for you to fetch changes up to ae172db3b3f389c363ec7f3683b2cad41091580d:
-
-  nvme-pci: fix conflicting p2p resource adds (2018-11-01 08:44:47 +0200)
-
-----------------------------------------------------------------
-James Smart (1):
-      nvme-fc: fix request private initialization
-
-Keith Busch (1):
-      nvme-pci: fix conflicting p2p resource adds
-
- drivers/nvme/host/fc.c  | 2 +-
- drivers/nvme/host/pci.c | 5 ++++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
