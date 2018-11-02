@@ -1,32 +1,27 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 2 Nov 2018 07:08:15 +0100
-Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
-In-Reply-To: <20181101143807.GL19483@localhost.localdomain>
-References: <20181026224146.198311-1-gwendal@chromium.org>
- <20181026225807.GA10621@localhost.localdomain>
- <20181027074452.GA15404@lst.de>
- <20181029152401.GA16336@localhost.localdomain> <20181101052749.GA4349@lst.de>
- <20181101143807.GL19483@localhost.localdomain>
-Message-ID: <20181102060815.GA16583@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 2 Nov 2018 08:37:42 +0200
+Subject: [GIT PULL] nvme fixes for 4.20
+Message-ID: <20181102063742.GA16758@infradead.org>
 
-On Thu, Nov 01, 2018@08:38:08AM -0600, Keith Busch wrote:
-> We currently use DSM Deallocate for REQ_OP_WRITE_ZEROES. We don't care
-> if the blocks are actually deallocated. We only care if reading them
-> back determinisitically returns 0's, and DLFEAT tells us if we can rely
-> on that behavior.
+The following changes since commit a5185607787e030fcb0009194d3b12f8bcca59d6:
 
-No, DLFEAT _only_ tells you the value you read from actually deallocated
-blocks.  From the DLFEAT description:
+  block: brd: associate with queue until adding disk (2018-10-31 08:43:09 -0600)
 
-"Bits 2:0 indicate the values read from a deallocated logical block and its
-metadata (excluding protection information). The values for this field have
-the following meanings:"
+are available in the Git repository at:
 
-And from Section 6.7:
+  git://git.infradead.org/nvme.git nvme-4.20
 
-"This command is advisory; a compliant controller may choose to take no
-action based on information provided."
+for you to fetch changes up to ae172db3b3f389c363ec7f3683b2cad41091580d:
 
-"Attribute ? Deallocate (AD): If set to ?1?, then the NVM subsystem may
-deallocate all provided ranges. The data returned for a deallocated range
-is specified in section 6.7.1.1."
+  nvme-pci: fix conflicting p2p resource adds (2018-11-01 08:44:47 +0200)
+
+----------------------------------------------------------------
+James Smart (1):
+      nvme-fc: fix request private initialization
+
+Keith Busch (1):
+      nvme-pci: fix conflicting p2p resource adds
+
+ drivers/nvme/host/fc.c  | 2 +-
+ drivers/nvme/host/pci.c | 5 ++++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
