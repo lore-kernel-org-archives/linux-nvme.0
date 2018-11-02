@@ -1,47 +1,49 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri,  2 Nov 2018 10:28:11 -0700
-Subject: [PATCH v3 0/4] traffic based keep alive support (TP 4024)
-Message-ID: <20181102172815.19777-1-sagi@grimberg.me>
+Date: Fri,  2 Nov 2018 10:28:12 -0700
+Subject: [PATCH v3 1/4] nvme: introduce ctrl attributes enumeration
+In-Reply-To: <20181102172815.19777-1-sagi@grimberg.me>
+References: <20181102172815.19777-1-sagi@grimberg.me>
+Message-ID: <20181102172815.19777-2-sagi@grimberg.me>
 
-Traffic Based Keep Alive TP (4024) was ratified recently. The technical
-proposal introduces a mode where keep alive commands may be omitted
-based on the presence of admin or io traffic during the keep alive timeout
-period. The rational is that normal command execution is sufficient
-indication of host, controller and transport health so the keep alive command
-is redundant.
+We are growing more controller attributes, so use
+a proper enumeration for it. For now just add the
+128-bit hostid which we support.
 
-Moreover, There is no way to guarantee in the various transports that a
-keep alive command will not be starved by heavy traffic, causing the
-keep alive timeout to expire. There were a number bug reports on
-linux nvme community on this exact issue.
+Reviewed-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/admin-cmd.c | 2 +-
+ include/linux/nvme.h            | 4 ++++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-The implementation simply a controller-wide indicator that is cleared
-upon reset of the keep alive timer and set when a command (target) or
-completion (host) is processed. When the keep alive timer expires, we
-check if any command/completion were processed, we restart the keep
-alive timer even if a keep alive command was not executed.
-
-Changes from v2:
-- fixed debug messages for traffic based keep alive
-- collected review tags
-
-Changes from v1:
-- omit comp_seen update for controllers that don't support keep alive
-
-Sagi Grimberg (4):
-  nvme: introduce ctrl attributes enumeration
-  nvmet: support for traffic based keep-alive
-  nvme-core: cache controller attributes
-  nvme-core: support traffic based keep-alive based on controller
-    support
-
- drivers/nvme/host/core.c        | 14 ++++++++++++++
- drivers/nvme/host/nvme.h        |  2 ++
- drivers/nvme/target/admin-cmd.c |  3 ++-
- drivers/nvme/target/core.c      | 12 ++++++++++++
- drivers/nvme/target/nvmet.h     |  2 ++
- include/linux/nvme.h            |  5 +++++
- 6 files changed, 37 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 1179f6314323..30778ffc46f5 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -304,7 +304,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 
+ 	/* XXX: figure out what to do about RTD3R/RTD3 */
+ 	id->oaes = cpu_to_le32(NVMET_AEN_CFG_OPTIONAL);
+-	id->ctratt = cpu_to_le32(1 << 0);
++	id->ctratt = cpu_to_le32(NVME_CTRL_ATTR_HID_128_BIT);
+ 
+ 	id->oacs = 0;
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 818dbe9331be..753c83a5c01f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -198,6 +198,10 @@ enum {
+ 	NVME_PS_FLAGS_NON_OP_STATE	= 1 << 1,
+ };
+ 
++enum nvme_ctrl_attr {
++	NVME_CTRL_ATTR_HID_128_BIT	= (1 << 0),
++};
++
+ struct nvme_id_ctrl {
+ 	__le16			vid;
+ 	__le16			ssvid;
 -- 
 2.17.1
