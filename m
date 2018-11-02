@@ -1,36 +1,50 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 2 Nov 2018 08:15:23 -0600
-Subject: [GIT PULL] nvme fixes for 4.20
-In-Reply-To: <20181102063742.GA16758@infradead.org>
-References: <20181102063742.GA16758@infradead.org>
-Message-ID: <30db0ba7-8df4-fa51-6477-1360c3d843a6@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 2 Nov 2018 08:21:15 -0600
+Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
+In-Reply-To: <20181102060815.GA16583@lst.de>
+References: <20181026224146.198311-1-gwendal@chromium.org>
+ <20181026225807.GA10621@localhost.localdomain>
+ <20181027074452.GA15404@lst.de>
+ <20181029152401.GA16336@localhost.localdomain>
+ <20181101052749.GA4349@lst.de>
+ <20181101143807.GL19483@localhost.localdomain>
+ <20181102060815.GA16583@lst.de>
+Message-ID: <20181102142114.GA24372@localhost.localdomain>
 
-On 11/2/18 12:37 AM, Christoph Hellwig wrote:
-> The following changes since commit a5185607787e030fcb0009194d3b12f8bcca59d6:
+On Fri, Nov 02, 2018@07:08:15AM +0100, Christoph Hellwig wrote:
+> On Thu, Nov 01, 2018@08:38:08AM -0600, Keith Busch wrote:
+> > We currently use DSM Deallocate for REQ_OP_WRITE_ZEROES. We don't care
+> > if the blocks are actually deallocated. We only care if reading them
+> > back determinisitically returns 0's, and DLFEAT tells us if we can rely
+> > on that behavior.
 > 
->   block: brd: associate with queue until adding disk (2018-10-31 08:43:09 -0600)
+> No, DLFEAT _only_ tells you the value you read from actually deallocated
+> blocks.  From the DLFEAT description:
 > 
-> are available in the Git repository at:
+> "Bits 2:0 indicate the values read from a deallocated logical block and its
+> metadata (excluding protection information). The values for this field have
+> the following meanings:"
 > 
->   git://git.infradead.org/nvme.git nvme-4.20
+> And from Section 6.7:
 > 
-> for you to fetch changes up to ae172db3b3f389c363ec7f3683b2cad41091580d:
+> "This command is advisory; a compliant controller may choose to take no
+> action based on information provided."
 > 
->   nvme-pci: fix conflicting p2p resource adds (2018-11-01 08:44:47 +0200)
-> 
-> ----------------------------------------------------------------
-> James Smart (1):
->       nvme-fc: fix request private initialization
-> 
-> Keith Busch (1):
->       nvme-pci: fix conflicting p2p resource adds
-> 
->  drivers/nvme/host/fc.c  | 2 +-
->  drivers/nvme/host/pci.c | 5 ++++-
->  2 files changed, 5 insertions(+), 2 deletions(-)
+> "Attribute ? Deallocate (AD): If set to ?1?, then the NVM subsystem may
+> deallocate all provided ranges. The data returned for a deallocated range
+> is specified in section 6.7.1.1."
 
-Applied these manually, since I had rebased for-linus yesterday to drop
-a buggy patch from Ming. JFYI.
+Okay, that wording is unfortunate and the feature is useless if that's
+how it can be interpreted.
 
--- 
-Jens Axboe
+The "advisory" parts were originally directed toward the Context
+Attributes referring to access type and frequency.
+
+The intended behavior for Deallocate was a controller picks exactly
+one behavior: return 0's, 1's, or the previous written data. It was
+never intended, as far as I know, for a controller to return read
+data differently for any given range after returning success to a DSM
+Deallocate command.
+
+That must be at least part of the motivation for Write Zeroes adding
+deallocate support.
