@@ -1,122 +1,62 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 2 Nov 2018 09:09:50 -0600
-Subject: [PATCH 13/16] irq: add support for allocating (and affinitizing)
- sets of IRQs
-In-Reply-To: <20181102143707.GA31121@ming.t460p>
-References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-14-axboe@kernel.dk>
- <20181102143707.GA31121@ming.t460p>
-Message-ID: <20181102150949.GA26292@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Fri, 2 Nov 2018 10:16:21 -0700
+Subject: [PATCH v3] nvme: make sure ns head inherits underlying device
+ limits
+In-Reply-To: <20181102054139.GA16212@lst.de>
+References: <20181101160457.13391-1-sagi@grimberg.me>
+ <20181102054139.GA16212@lst.de>
+Message-ID: <7b322de4-020f-71ee-9660-a131305f7cee@grimberg.me>
 
-On Fri, Nov 02, 2018@10:37:07PM +0800, Ming Lei wrote:
-> On Tue, Oct 30, 2018@12:32:49PM -0600, Jens Axboe wrote:
-> > A driver may have a need to allocate multiple sets of MSI/MSI-X
-> > interrupts, and have them appropriately affinitized. Add support for
-> > defining a number of sets in the irq_affinity structure, of varying
-> > sizes, and get each set affinitized correctly across the machine.
-> > 
-> > Cc: Thomas Gleixner <tglx at linutronix.de>
-> > Cc: linux-kernel at vger.kernel.org
-> > Reviewed-by: Hannes Reinecke <hare at suse.com>
-> > Reviewed-by: Ming Lei <ming.lei at redhat.com>
-> > Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> > ---
-> >  drivers/pci/msi.c         | 14 ++++++++++++++
-> >  include/linux/interrupt.h |  4 ++++
-> >  kernel/irq/affinity.c     | 40 ++++++++++++++++++++++++++++++---------
-> >  3 files changed, 49 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> > index af24ed50a245..e6c6e10b9ceb 100644
-> > --- a/drivers/pci/msi.c
-> > +++ b/drivers/pci/msi.c
-> > @@ -1036,6 +1036,13 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
-> >  	if (maxvec < minvec)
-> >  		return -ERANGE;
-> >  
-> > +	/*
-> > +	 * If the caller is passing in sets, we can't support a range of
-> > +	 * vectors. The caller needs to handle that.
-> > +	 */
-> > +	if (affd->nr_sets && minvec != maxvec)
-> > +		return -EINVAL;
-> > +
-> >  	if (WARN_ON_ONCE(dev->msi_enabled))
-> >  		return -EINVAL;
-> >  
-> > @@ -1087,6 +1094,13 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
-> >  	if (maxvec < minvec)
-> >  		return -ERANGE;
-> >  
-> > +	/*
-> > +	 * If the caller is passing in sets, we can't support a range of
-> > +	 * supported vectors. The caller needs to handle that.
-> > +	 */
-> > +	if (affd->nr_sets && minvec != maxvec)
-> > +		return -EINVAL;
-> > +
-> >  	if (WARN_ON_ONCE(dev->msix_enabled))
-> >  		return -EINVAL;
-> >  
-> > diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-> > index 1d6711c28271..ca397ff40836 100644
-> > --- a/include/linux/interrupt.h
-> > +++ b/include/linux/interrupt.h
-> > @@ -247,10 +247,14 @@ struct irq_affinity_notify {
-> >   *			the MSI(-X) vector space
-> >   * @post_vectors:	Don't apply affinity to @post_vectors at end of
-> >   *			the MSI(-X) vector space
-> > + * @nr_sets:		Length of passed in *sets array
-> > + * @sets:		Number of affinitized sets
-> >   */
-> >  struct irq_affinity {
-> >  	int	pre_vectors;
-> >  	int	post_vectors;
-> > +	int	nr_sets;
-> > +	int	*sets;
-> >  };
-> >  
-> >  #if defined(CONFIG_SMP)
-> > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> > index f4f29b9d90ee..2046a0f0f0f1 100644
-> > --- a/kernel/irq/affinity.c
-> > +++ b/kernel/irq/affinity.c
-> > @@ -180,6 +180,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
-> >  	int curvec, usedvecs;
-> >  	cpumask_var_t nmsk, npresmsk, *node_to_cpumask;
-> >  	struct cpumask *masks = NULL;
-> > +	int i, nr_sets;
-> >  
-> >  	/*
-> >  	 * If there aren't any vectors left after applying the pre/post
-> > @@ -210,10 +211,23 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
-> >  	get_online_cpus();
-> >  	build_node_to_cpumask(node_to_cpumask);
-> >  
-> > -	/* Spread on present CPUs starting from affd->pre_vectors */
-> > -	usedvecs = irq_build_affinity_masks(affd, curvec, affvecs,
-> > -					    node_to_cpumask, cpu_present_mask,
-> > -					    nmsk, masks);
-> > +	/*
-> > +	 * Spread on present CPUs starting from affd->pre_vectors. If we
-> > +	 * have multiple sets, build each sets affinity mask separately.
-> > +	 */
-> > +	nr_sets = affd->nr_sets;
-> > +	if (!nr_sets)
-> > +		nr_sets = 1;
-> > +
-> > +	for (i = 0, usedvecs = 0; i < nr_sets; i++) {
-> > +		int this_vecs = affd->sets ? affd->sets[i] : affvecs;
-> > +		int nr;
-> > +
-> > +		nr = irq_build_affinity_masks(affd, curvec, this_vecs,
-> > +					      node_to_cpumask, cpu_present_mask,
-> > +					      nmsk, masks + usedvecs);
+>> @@ -1482,6 +1482,7 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
+>>   static void nvme_update_disk_info(struct gendisk *disk,
+>>   		struct nvme_ns *ns, struct nvme_id_ns *id)
+>>   {
+>> +	struct nvme_ns *n;
+>>   	sector_t capacity = le64_to_cpup(&id->nsze) << (ns->lba_shift - 9);
+>>   	unsigned short bs = 1 << ns->lba_shift;
+>>   
+>> @@ -1506,6 +1507,9 @@ static void nvme_update_disk_info(struct gendisk *disk,
+>>   	else
+>>   		set_disk_ro(disk, false);
+>>   
+>> +	list_for_each_entry_rcu(n, &ns->head->list, siblings)
+>> +		blk_queue_stack_limits(disk->queue, n->queue);
 > 
-> The last parameter of the above function should have been 'masks',
-> because irq_build_affinity_masks() always treats 'masks' as the base
-> address of the array.
+> I think this should only be done for ns->head_disk, nor the disks
+> attached to the namespaces.
 
-We have multiple "bases" when using sets, so we have to update which
-base to use by adding accordingly. If you just use 'masks', then you're
-going to overwrite your masks from the previous set.
+Well the siblings list would be empty for the namespaces themselves.
+
+I could move this to the call site:
+--
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4325f1aeea1f..ff5d543624a4 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1535,8 +1535,10 @@ static void __nvme_revalidate_disk(struct gendisk 
+*disk, struct nvme_id_ns *id)
+         if (ns->ndev)
+                 nvme_nvm_update_nvm_info(ns);
+  #ifdef CONFIG_NVME_MULTIPATH
+-       if (ns->head->disk)
++       if (ns->head->disk) {
+                 nvme_update_disk_info(ns->head->disk, ns, id);
++               blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
++       }
+  #endif
+  }
+--
+
+
+>> @@ -2960,6 +2964,10 @@ static struct nvme_ns_head *nvme_alloc_ns_head(struct nvme_ctrl *ctrl,
+>>   	if (ret)
+>>   		goto out_cleanup_srcu;
+>>   
+>> +#ifdef CONFIG_NVME_MULTIPATH
+>> +	blk_set_stacking_limits(&head->disk->queue->limits);
+>> +#endif
+> 
+> And this should probably done in nvme_mpath_alloc_disk.
+
+Yes, I can do that (the original version had it there but can't
+remember why I decided to have it here instead).
