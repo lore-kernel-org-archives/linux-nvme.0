@@ -1,195 +1,141 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri,  2 Nov 2018 10:56:40 +0100
-Subject: [PATCH 2/3] nvme-multipath: Select paths based on NUMA locality
+Date: Fri,  2 Nov 2018 10:56:41 +0100
+Subject: [PATCH 3/3] nvme-multipath: automatic NUMA path balancing
 In-Reply-To: <20181102095641.28504-1-hare@suse.de>
 References: <20181102095641.28504-1-hare@suse.de>
-Message-ID: <20181102095641.28504-3-hare@suse.de>
+Message-ID: <20181102095641.28504-4-hare@suse.de>
 
-This patch creates a per-controller map to hold the NUMA locality
-information. With that we can route I/O to the controller which is
-'nearest' to the issuing CPU and decrease the latency there.
+In order to utilize both paths on dual-ported HBAs we cannot rely
+on the NUMA affinity alone, but rather have to distribute the
+locality information to get the best possible result.
+This patch implements a two-pass algorithm for assinging NUMA
+locality information:
+1. Distribute existing locality information so that no core has
+more than one 'local' controller
+2. Assign a 'local' controller for each of the remaining cores,
+so that the overall weight (ie the sum of all locality information)
+per ctrl is minimal.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/core.c      | 32 +++++++++++++++++++++++++++++++-
- drivers/nvme/host/fc.c        |  2 +-
- drivers/nvme/host/multipath.c | 30 +++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h      |  2 ++
- drivers/nvme/host/rdma.c      |  3 ++-
- 5 files changed, 65 insertions(+), 4 deletions(-)
+ drivers/nvme/host/multipath.c | 89 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 88 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6dfcb72aa907..113ddacd6127 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2204,6 +2204,16 @@ static int nvme_active_ctrls(struct nvme_subsystem *subsys)
- 	return count;
- }
- 
-+void nvme_set_ctrl_node(struct nvme_ctrl *ctrl, int numa_node)
-+{
-+	ctrl->numa_node = numa_node;
-+	if (numa_node == NUMA_NO_NODE)
-+		return;
-+	ctrl->node_map = kzalloc(num_possible_nodes() * sizeof(int),
-+				 GFP_KERNEL);
-+}
-+EXPORT_SYMBOL_GPL(nvme_set_ctrl_node);
-+
- static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
- 	struct nvme_subsystem *subsys, *found;
-@@ -2834,6 +2844,23 @@ static ssize_t nvme_sysfs_show_address(struct device *dev,
- }
- static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
- 
-+static ssize_t nvme_sysfs_show_node_map(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	int node;
-+	ssize_t offset = 0;
-+
-+	for_each_node(node)
-+		offset += snprintf(buf + offset, PAGE_SIZE - offset,
-+				   "%d ", ctrl->node_map[node]);
-+	offset += snprintf(buf + offset, PAGE_SIZE - offset, "\n");
-+
-+	return offset;
-+}
-+static DEVICE_ATTR(node_map, S_IRUGO, nvme_sysfs_show_node_map, NULL);
-+
- static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_reset_controller.attr,
- 	&dev_attr_rescan_controller.attr,
-@@ -2847,6 +2874,7 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_address.attr,
- 	&dev_attr_state.attr,
- 	&dev_attr_numa_node.attr,
-+	&dev_attr_node_map.attr,
- 	NULL
- };
- 
-@@ -2860,7 +2888,8 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 		return 0;
- 	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
- 		return 0;
--
-+	if (a == &dev_attr_node_map.attr && !ctrl->node_map)
-+		return 0;
- 	return a->mode;
- }
- 
-@@ -3511,6 +3540,7 @@ static void nvme_free_ctrl(struct device *dev)
- 
- 	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
- 	kfree(ctrl->effects);
-+	kfree(ctrl->node_map);
- 	nvme_mpath_uninit(ctrl);
- 
- 	if (subsys) {
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index a22ff6fb82bc..43c60ca49b3f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -3000,7 +3000,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	ctrl->ctrl.opts = opts;
- 	ctrl->ctrl.nr_reconnects = 0;
--	ctrl->ctrl.numa_node = dev_to_node(lport->dev);
-+	nvme_set_ctrl_node(&ctrl->ctrl, dev_to_node(lport->dev));
- 	INIT_LIST_HEAD(&ctrl->ctrl_list);
- 	ctrl->lport = lport;
- 	ctrl->rport = rport;
 diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 8e03cda770c5..6d1412af7332 100644
+index 6d1412af7332..4944ffdf6831 100644
 --- a/drivers/nvme/host/multipath.c
 +++ b/drivers/nvme/host/multipath.c
-@@ -141,7 +141,8 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
- 			continue;
- 
--		distance = node_distance(node, ns->ctrl->numa_node);
-+		distance = ns->ctrl->node_map ?
-+			ns->ctrl->node_map[node] : INT_MAX;
- 
- 		switch (ns->ana_state) {
- 		case NVME_ANA_OPTIMIZED:
-@@ -258,6 +259,31 @@ static void nvme_requeue_work(struct work_struct *work)
+@@ -259,15 +259,60 @@ static void nvme_requeue_work(struct work_struct *work)
  	}
  }
  
-+void nvme_mpath_balance_subsys(struct nvme_subsystem *subsys)
++void nvme_mpath_distribute_paths(struct nvme_subsystem *subsys, int num_ctrls,
++				 struct nvme_ctrl *ctrl, int numa_node)
 +{
-+	struct nvme_ctrl *ctrl;
 +	int node;
++	int found_node = NUMA_NO_NODE;
++	int max = LOCAL_DISTANCE * num_ctrls;
 +
-+	mutex_lock(&subsys->lock);
++	for_each_node(node) {
++		struct nvme_ctrl *c;
++		int sum = 0;
 +
-+	/*
-+	 * Reset set NUMA distance
-+	 *    During creation the NUMA distance is only set
-+	 *    per controller, so after connecting the other
-+	 *    controllers the NUMA information on the existing
-+	 *    ones is incorrect.
-+	 */
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
-+		for_each_node(node) {
-+			if (!ctrl->node_map)
-+				continue;
-+			ctrl->node_map[node] =
-+				node_distance(node, ctrl->numa_node);
++		list_for_each_entry(c, &subsys->ctrls, subsys_entry)
++			sum += c->node_map[node];
++		if (sum > max) {
++			max = sum;
++			found_node = node;
 +		}
 +	}
-+	mutex_unlock(&subsys->lock);
++	if (found_node != NUMA_NO_NODE) {
++		ctrl->node_map[found_node] = LOCAL_DISTANCE;
++		ctrl->node_map[numa_node] = REMOTE_DISTANCE;
++	}
 +}
 +
- int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- {
- 	struct request_queue *q;
-@@ -548,6 +574,8 @@ int nvme_mpath_init(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- {
- 	int error;
- 
-+	nvme_mpath_balance_subsys(ctrl->subsys);
++void nvme_mpath_balance_node(struct nvme_subsystem *subsys,
++			     int num_ctrls, int numa_node)
++{
++	struct nvme_ctrl *found = NULL, *ctrl;
++	int max = LOCAL_DISTANCE * num_ctrls, node;
 +
- 	if (!nvme_ctrl_use_ana(ctrl))
- 		return 0;
++	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++		int sum = 0;
++
++		for_each_node(node)
++			sum += ctrl->node_map[node];
++		if (sum > max) {
++			max = sum;
++			found = ctrl;
++		}
++	}
++	if (found)
++		found->node_map[numa_node] = LOCAL_DISTANCE;
++}
++
+ void nvme_mpath_balance_subsys(struct nvme_subsystem *subsys)
+ {
+ 	struct nvme_ctrl *ctrl;
++	int num_ctrls = 0;
+ 	int node;
  
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f608fc11d329..aebf78b2946e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -154,6 +154,7 @@ struct nvme_ctrl {
- 	struct device *dev;
- 	int instance;
- 	int numa_node;
-+	int *node_map;
- 	struct blk_mq_tag_set *tagset;
- 	struct blk_mq_tag_set *admin_tagset;
- 	struct list_head namespaces;
-@@ -438,6 +439,7 @@ void nvme_unfreeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze(struct nvme_ctrl *ctrl);
- void nvme_wait_freeze_timeout(struct nvme_ctrl *ctrl, long timeout);
- void nvme_start_freeze(struct nvme_ctrl *ctrl);
-+void nvme_set_ctrl_node(struct nvme_ctrl *ctrl, int node);
+ 	mutex_lock(&subsys->lock);
  
- #define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 4468d672ced9..85520b8d4bea 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -762,7 +762,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		return error;
- 
- 	ctrl->device = ctrl->queues[0].device;
--	ctrl->ctrl.numa_node = dev_to_node(ctrl->device->dev->dma_device);
-+	nvme_set_ctrl_node(&ctrl->ctrl,
-+			   dev_to_node(ctrl->device->dev->dma_device));
- 
- 	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
+ 	/*
+-	 * Reset set NUMA distance
++	 * 1. Reset set NUMA distance
+ 	 *    During creation the NUMA distance is only set
+ 	 *    per controller, so after connecting the other
+ 	 *    controllers the NUMA information on the existing
+@@ -280,7 +325,49 @@ void nvme_mpath_balance_subsys(struct nvme_subsystem *subsys)
+ 			ctrl->node_map[node] =
+ 				node_distance(node, ctrl->numa_node);
+ 		}
++		num_ctrls++;
++	}
++
++	/*
++	 * 2. Distribute optimal paths:
++	 *    Only one primary paths per node.
++	 *    Additional primary paths are moved to unassigned nodes.
++	 */
++	for_each_node(node) {
++		bool optimal = false;
++
++		list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++			if (ctrl->node_map[node] == LOCAL_DISTANCE) {
++				if (!optimal) {
++					optimal = true;
++					continue;
++				}
++				nvme_mpath_distribute_paths(subsys, num_ctrls,
++							    ctrl, node);
++			}
++		}
++	}
++
++	/*
++	 * 3. Balance unassigned nodes:
++	 *    Each unassigned node should have one primary path;
++	 *    the primary path is assigned to the ctrl with the
++	 *    minimal weight (ie the sum of distances over all nodes)
++	 */
++	for_each_node(node) {
++		bool optimal = false;
++
++		list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
++			if (ctrl->node_map[node] == LOCAL_DISTANCE) {
++				optimal = true;
++				break;
++			}
++		}
++		if (optimal)
++			continue;
++		nvme_mpath_balance_node(subsys, num_ctrls, node);
+ 	}
++
+ 	mutex_unlock(&subsys->lock);
+ }
  
 -- 
 2.16.4
