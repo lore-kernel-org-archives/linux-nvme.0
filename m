@@ -1,134 +1,20 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 3 Nov 2018 10:22:28 +0800
-Subject: [PATCH 13/16] irq: add support for allocating (and affinitizing)
- sets of IRQs
-In-Reply-To: <20181102150949.GA26292@localhost.localdomain>
-References: <20181030183252.17857-1-axboe@kernel.dk>
- <20181030183252.17857-14-axboe@kernel.dk>
- <20181102143707.GA31121@ming.t460p>
- <20181102150949.GA26292@localhost.localdomain>
-Message-ID: <20181103022227.GA2543@ming.t460p>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 3 Nov 2018 09:21:38 +0100
+Subject: [PATCH] nvme-pci: Add Write Zero support to Intel 660p
+In-Reply-To: <20181102142114.GA24372@localhost.localdomain>
+References: <20181026224146.198311-1-gwendal@chromium.org>
+ <20181026225807.GA10621@localhost.localdomain>
+ <20181027074452.GA15404@lst.de>
+ <20181029152401.GA16336@localhost.localdomain> <20181101052749.GA4349@lst.de>
+ <20181101143807.GL19483@localhost.localdomain>
+ <20181102060815.GA16583@lst.de>
+ <20181102142114.GA24372@localhost.localdomain>
+Message-ID: <20181103082138.GA25370@lst.de>
 
-On Fri, Nov 02, 2018@09:09:50AM -0600, Keith Busch wrote:
-> On Fri, Nov 02, 2018@10:37:07PM +0800, Ming Lei wrote:
-> > On Tue, Oct 30, 2018@12:32:49PM -0600, Jens Axboe wrote:
-> > > A driver may have a need to allocate multiple sets of MSI/MSI-X
-> > > interrupts, and have them appropriately affinitized. Add support for
-> > > defining a number of sets in the irq_affinity structure, of varying
-> > > sizes, and get each set affinitized correctly across the machine.
-> > > 
-> > > Cc: Thomas Gleixner <tglx at linutronix.de>
-> > > Cc: linux-kernel at vger.kernel.org
-> > > Reviewed-by: Hannes Reinecke <hare at suse.com>
-> > > Reviewed-by: Ming Lei <ming.lei at redhat.com>
-> > > Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> > > ---
-> > >  drivers/pci/msi.c         | 14 ++++++++++++++
-> > >  include/linux/interrupt.h |  4 ++++
-> > >  kernel/irq/affinity.c     | 40 ++++++++++++++++++++++++++++++---------
-> > >  3 files changed, 49 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> > > index af24ed50a245..e6c6e10b9ceb 100644
-> > > --- a/drivers/pci/msi.c
-> > > +++ b/drivers/pci/msi.c
-> > > @@ -1036,6 +1036,13 @@ static int __pci_enable_msi_range(struct pci_dev *dev, int minvec, int maxvec,
-> > >  	if (maxvec < minvec)
-> > >  		return -ERANGE;
-> > >  
-> > > +	/*
-> > > +	 * If the caller is passing in sets, we can't support a range of
-> > > +	 * vectors. The caller needs to handle that.
-> > > +	 */
-> > > +	if (affd->nr_sets && minvec != maxvec)
-> > > +		return -EINVAL;
-> > > +
-> > >  	if (WARN_ON_ONCE(dev->msi_enabled))
-> > >  		return -EINVAL;
-> > >  
-> > > @@ -1087,6 +1094,13 @@ static int __pci_enable_msix_range(struct pci_dev *dev,
-> > >  	if (maxvec < minvec)
-> > >  		return -ERANGE;
-> > >  
-> > > +	/*
-> > > +	 * If the caller is passing in sets, we can't support a range of
-> > > +	 * supported vectors. The caller needs to handle that.
-> > > +	 */
-> > > +	if (affd->nr_sets && minvec != maxvec)
-> > > +		return -EINVAL;
-> > > +
-> > >  	if (WARN_ON_ONCE(dev->msix_enabled))
-> > >  		return -EINVAL;
-> > >  
-> > > diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-> > > index 1d6711c28271..ca397ff40836 100644
-> > > --- a/include/linux/interrupt.h
-> > > +++ b/include/linux/interrupt.h
-> > > @@ -247,10 +247,14 @@ struct irq_affinity_notify {
-> > >   *			the MSI(-X) vector space
-> > >   * @post_vectors:	Don't apply affinity to @post_vectors at end of
-> > >   *			the MSI(-X) vector space
-> > > + * @nr_sets:		Length of passed in *sets array
-> > > + * @sets:		Number of affinitized sets
-> > >   */
-> > >  struct irq_affinity {
-> > >  	int	pre_vectors;
-> > >  	int	post_vectors;
-> > > +	int	nr_sets;
-> > > +	int	*sets;
-> > >  };
-> > >  
-> > >  #if defined(CONFIG_SMP)
-> > > diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> > > index f4f29b9d90ee..2046a0f0f0f1 100644
-> > > --- a/kernel/irq/affinity.c
-> > > +++ b/kernel/irq/affinity.c
-> > > @@ -180,6 +180,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
-> > >  	int curvec, usedvecs;
-> > >  	cpumask_var_t nmsk, npresmsk, *node_to_cpumask;
-> > >  	struct cpumask *masks = NULL;
-> > > +	int i, nr_sets;
-> > >  
-> > >  	/*
-> > >  	 * If there aren't any vectors left after applying the pre/post
-> > > @@ -210,10 +211,23 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
-> > >  	get_online_cpus();
-> > >  	build_node_to_cpumask(node_to_cpumask);
-> > >  
-> > > -	/* Spread on present CPUs starting from affd->pre_vectors */
-> > > -	usedvecs = irq_build_affinity_masks(affd, curvec, affvecs,
-> > > -					    node_to_cpumask, cpu_present_mask,
-> > > -					    nmsk, masks);
-> > > +	/*
-> > > +	 * Spread on present CPUs starting from affd->pre_vectors. If we
-> > > +	 * have multiple sets, build each sets affinity mask separately.
-> > > +	 */
-> > > +	nr_sets = affd->nr_sets;
-> > > +	if (!nr_sets)
-> > > +		nr_sets = 1;
-> > > +
-> > > +	for (i = 0, usedvecs = 0; i < nr_sets; i++) {
-> > > +		int this_vecs = affd->sets ? affd->sets[i] : affvecs;
-> > > +		int nr;
-> > > +
-> > > +		nr = irq_build_affinity_masks(affd, curvec, this_vecs,
-> > > +					      node_to_cpumask, cpu_present_mask,
-> > > +					      nmsk, masks + usedvecs);
-> > 
-> > The last parameter of the above function should have been 'masks',
-> > because irq_build_affinity_masks() always treats 'masks' as the base
-> > address of the array.
-> 
-> We have multiple "bases" when using sets, so we have to update which
-> base to use by adding accordingly. If you just use 'masks', then you're
-> going to overwrite your masks from the previous set.
+On Fri, Nov 02, 2018@08:21:15AM -0600, Keith Busch wrote:
+> Okay, that wording is unfortunate and the feature is useless if that's
+> how it can be interpreted.
 
-For irq_build_affinity_masks(), the passed 'startvec' is always relative
-to the absolute 1st element, so the passed 'masks' should be always the
-absolute base too. Not mention 'curvec' isn't updated in this patch too.
-
-If you test this patchset on one machine which possible CPUs is bigger
-than present CPUs, you will see the problems I mentioned.
-
-Thanks,
-Ming
+While I agree that it is unfortunate it matches how ATA TRIM and
+SCSI UNMAP work.  And that is how it happened - I vague remember
+discussions in the working group.
