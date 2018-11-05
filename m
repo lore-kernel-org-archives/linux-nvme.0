@@ -1,29 +1,32 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon,  5 Nov 2018 16:00:36 +0100
-Subject: [PATCH] nvme: fixup ANA group descriptor offset
-Message-ID: <20181105150036.17041-1-hare@suse.de>
+Date: Mon,  5 Nov 2018 16:41:36 +0100
+Subject: [PATCH] nvme: make ANA support independent on native nvme multipath
+Message-ID: <20181105154136.142597-1-hare@suse.de>
 
-The ANA group descriptor offset changed between the specification
-sent for ratification and the final ratified document, causing the
-ANA log page not to be displayed correctly.
+NVMe native multipathing is an implementation detail on the host,
+and ANA support is actually independent on that.
+So we shouldn't check for native NVMe multipathing when trying to
+evaluate whether ANA is supported; not doing so results in the
+ANA sysfs attributes not to be present when the 'multipath=false'
+module option is set.
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- linux/nvme.h | 2 +-
+ drivers/nvme/host/multipath.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index 37d3bc1..1ad970a 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -546,7 +546,7 @@ struct nvme_ana_group_desc {
- 	__le32  nnsids;
- 	__le64  chgcnt;
- 	__u8    state;
--	__u8    rsvd17[7];
-+	__u8    rsvd17[15];
- 	__le32  nsids[];
- };
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index 4944ffdf6831..f7efcaeb2d98 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -22,7 +22,7 @@ MODULE_PARM_DESC(multipath,
  
+ inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
+ {
+-	return multipath && ctrl->subsys && (ctrl->subsys->cmic & (1 << 3));
++	return ctrl->subsys && (ctrl->subsys->cmic & (1 << 3));
+ }
+ 
+ /*
 -- 
-2.13.7
+2.16.4
