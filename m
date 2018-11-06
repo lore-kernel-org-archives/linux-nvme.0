@@ -1,73 +1,48 @@
 From: acelan.kao@canonical.com (AceLan Kao)
-Date: Tue,  6 Nov 2018 10:04:02 +0800
-Subject: [PATCH 2/2] nvme: add quirk to not call disable function when
- suspending
-In-Reply-To: <20181106020402.21120-1-acelan.kao@canonical.com>
-References: <20181106020402.21120-1-acelan.kao@canonical.com>
-Message-ID: <20181106020402.21120-2-acelan.kao@canonical.com>
+Date: Tue,  6 Nov 2018 10:04:01 +0800
+Subject: [PATCH 1/2] pci: prevent sk hynix nvme from entering D3
+Message-ID: <20181106020402.21120-1-acelan.kao@canonical.com>
 
-Call nvme_dev_disable() function leads to the power consumption goes
-up to 2.2 Watt during suspend-to-idle, and from SK hynix FE, they
-suggest us to use its own APST feature to do the power management during
-s2idle.
-After D3 is diabled and nvme_dev_disable() is not called while
-suspending, the power consumption drops to 0.77 Watt during s2idle.
+It leads to the power consumption raises to 2.2W during s2idle, while
+it consumes less than 1W during long idle if put SK hynix nvme to D3
+and then enter s2idle.
+>From SK hynix FE, MS Windows doesn't put nvme to D3, and uses its own
+APST feature to do the power management.
+To leverage its APST feature during s2idle, we can't disable nvme
+device while suspending, too.
+
+BTW, prevent it from entering D3 will increase the power consumtion around
+0.13W ~ 0.15W during short/long idle, and the power consumption during
+s2idle becomes 0.77W.
 
 Signed-off-by: AceLan Kao <acelan.kao at canonical.com>
 ---
- drivers/nvme/host/nvme.h | 5 +++++
- drivers/nvme/host/pci.c  | 8 +++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ drivers/pci/quirks.c    | 1 +
+ include/linux/pci_ids.h | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index cee79cb388af..35d260a4cf46 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -90,6 +90,11 @@ enum nvme_quirks {
- 	 * Set MEDIUM priority on SQ creation
- 	 */
- 	NVME_QUIRK_MEDIUM_PRIO_SQ		= (1 << 7),
-+
-+	/*
-+	 * Do not disable nvme when suspending(s2idle)
-+	 */
-+	NVME_QUIRK_NO_DISABLE			= (1 << 8),
- };
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 4700d24e5d55..b7e6492e8311 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -1332,6 +1332,7 @@ DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_AL, PCI_ANY_ID,
+    occur when mode detecting */
+ DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_VIA, PCI_ANY_ID,
+ 				PCI_CLASS_STORAGE_IDE, 8, quirk_no_ata_d3);
++DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SK_HYNIX, 0x1527, quirk_no_ata_d3);
  
  /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c33bb201b884..586f3516e36b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -31,6 +31,7 @@
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/sed-opal.h>
- #include <linux/pci-p2pdma.h>
-+#include <linux/suspend.h>
+  * This was originally an Alpha-specific thing, but it really fits here.
+diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
+index 69f0abe1ba1a..5f5adda07de0 100644
+--- a/include/linux/pci_ids.h
++++ b/include/linux/pci_ids.h
+@@ -3090,4 +3090,6 @@
  
- #include "nvme.h"
+ #define PCI_VENDOR_ID_NCUBE		0x10ff
  
-@@ -2612,8 +2613,11 @@ static int nvme_suspend(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-+	struct nvme_ctrl *ctrl = &ndev->ctrl;
++#define PCI_VENDOR_ID_SK_HYNIX		0x1c5c
 +
-+	if (!(pm_suspend_via_s2idle() && (ctrl->quirks & NVME_QUIRK_NO_DISABLE)))
-+		nvme_dev_disable(ndev, true);
- 
--	nvme_dev_disable(ndev, true);
- 	return 0;
- }
- 
-@@ -2716,6 +2720,8 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_LIGHTNVM, },
- 	{ PCI_DEVICE(0x1d1d, 0x2601),	/* CNEX Granby */
- 		.driver_data = NVME_QUIRK_LIGHTNVM, },
-+	{ PCI_DEVICE(0x1c5c, 0x1527),   /* Sk Hynix */
-+		.driver_data = NVME_QUIRK_NO_DISABLE, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+ #endif /* _LINUX_PCI_IDS_H */
 -- 
 2.17.1
