@@ -1,84 +1,55 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 6 Nov 2018 13:10:27 +0200
-Subject: [PATCH] nvme-rdma: Don't fail the controller if only part of the
- queues fail to connect
-In-Reply-To: <fa4ec36d-29e5-3cbd-742e-33c617d0f82e@broadcom.com>
-References: <1541349434-31640-1-git-send-email-israelr@mellanox.com>
- <fa4ec36d-29e5-3cbd-742e-33c617d0f82e@broadcom.com>
-Message-ID: <67c9a957-1b61-2632-396c-3c410f6729fa@mellanox.com>
+From: bdeyal@gmail.com (Eyal BenDavid)
+Date: Tue, 6 Nov 2018 17:44:31 +0200
+Subject: nvme-cli: connect-all failed with EALREADY but exit code is 0
+Message-ID: <CAPrnrPDk+Mopaoni030JJ49TKCe95Vv7AfJDFT7_99zXaBUBqw@mail.gmail.com>
+
+Hi All,
+
+Scenario:
+1. A nvme controller already exists for FC traddr and host_traddr
+2. Running connect all with those parameters again failed
+3. nvme-cli result is:
+   "Failed to write to /dev/nvme-fabrics: Operation already in progress"
+4. Exit code for nvme cli is 0
+
+Is it intended that exit code is 0?
+
+Thanks,
+Eyal
 
 
-On 11/5/2018 9:34 PM, James Smart wrote:
-> On 11/4/2018 8:37 AM, Israel Rukshin wrote:
->> From: Sagi Grimberg <sagi at grimberg.me>
->>
->> blk-mq tells us to skip unmapped queues but we fail the controller 
->> altogether.
->>
->> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
->> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
->> ---
->> ? drivers/nvme/host/rdma.c | 19 ++++++++++++++++---
->> ? 1 file changed, 16 insertions(+), 3 deletions(-)
->>
->
-> This sounds odd.?? Why aren't you concerned that io queues are not 
-> connecting ?? Are there any log messages hinting at the failures ? any 
-> way someone looking at the controller knows how many queues were 
-> actually created ? ? I would assume any failure is significant and 
-> should be visible, and it's worthwhile knowing whether this is a 
-> consistent failure or a random failure. and what the failure was.
+More info:
+==========
+# nvme connect-all \
+--host-traddr=nn-0x20000090fa94845f:pn-0x10000090fa94845f \
+--hostid=d8266f50-5f24-4c55-8959-23d500e4e450 \
+--hostnqn=nqn.2014-08.org.nvmexpress:uuid:d8266f50-5f24-4c55-8959-23d500e4e450 \
+--traddr=nn-0x500507680c00002b:pn-0x500507680c2a002b \
+--transport=fc
+Failed to write to /dev/nvme-fabrics: Operation already in progress
 
-This may happen (well it happened in the past, and fixed in the block 
-layer) in case there are offline cpu's or some other reason that some 
-queue is unmapped.
+# echo $?
+0
 
-I prefer not to relay on the block layer to ensure us 100% mapping and 
-prefer be safe in our ULP.
+>From strace we can see that discovery controller and discovery log page commands
+were ok but the creation of the nvme (io) controller failed with EALREADY
 
->
-> As far as continuing on in spite of failure - ok, but the target has 
-> already been told, via SET FEATURES, to prepare (thus may allocate 
-> resources) for X number of io queues, so minimally its a condition 
-> where the target may be severely wasting resources which may affect 
-> it's scale out ability.? I assume the transport should should be 
-> resetting the controller and self-tuning the max queue count so that 
-> it is reduced to what is being used.? Granted, this assumes the error 
-> was consistent and for the same reason.? If it was an inconsistent 
-> error, its ok to continue without resetting, but the transport should 
-> be very verbose about the state it's in and why.
+== strace ==
 
-You can create IO queues (connect to IO queues in case of fabric) 
-according to your desire. I don't think it's by the spec to create all 
-queues that the target/drive support. For scale out we have suggested 
-other solutions (set max_queues according to target resources, SRQ per 
-core, etc...).
+open("/dev/nvme-fabrics", O_RDWR)       = 3
+write(3, "nqn=nqn.2014-08.org.nvmexpress.d"..., 281) = 281
+read(3, "instance=17,cntlid=4099\n", 4096) = 24
+close(3)                                = 0
+open("/dev/nvme17", O_RDWR)             = 3
+ioctl(3, NVME_IOCTL_ADMIN_CMD, 0x7ffe3790a260) = 0
+ioctl(3, NVME_IOCTL_ADMIN_CMD, 0x7ffe3790a260) = 0
+ioctl(3, NVME_IOCTL_ADMIN_CMD, 0x7ffe3790a260) = 0
+close(3)                                = 0
+open("/sys/class/nvme/nvme17/delete_controller", O_WRONLY) = 3
+write(3, "1", 1)                        = 1
+close(3)                                = 0
+open("/dev/nvme-fabrics", O_RDWR)       = 3
+write(3, "nqn=nqn.1986-03.com.ibm:nvme:214"..., 300) = -1 EALREADY
+(Operation already in progress)
 
-
-
->
-> It appears the patch doesn't save the connected queue count, which 
-> means the blk-mq nr_hw_queues is not in sync with the new count. What 
-> happens on those cpu's that select a hctx that is on a queue that 
-> isn't connected ??? I assume the Q_LIVE bit has the queue_rq routine 
-> continually bouncing them until they fail ?
->
-we only allow failures if we get EXDEV rc. Usually in case of transport 
-error, non of the queues will be able to connect. Here we protect 
-against "in-house" recoverable error such as offline cpu's or others.
-
-I guess Sagi can comment, it was originally proposed by him.
-
-
-> Note: For now, where queues are only seen for cpu affinity, the choice 
-> to "not use it" may not be a big deal. But in the future, queues may 
-> be related to specific activities/features and this choice can't be so 
-> arbitrary.
-
-In the future, we'll update the code to suite new features.
-
-
->
-> -- james
->
->
+=======
