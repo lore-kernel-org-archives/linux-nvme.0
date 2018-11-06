@@ -1,48 +1,15 @@
-From: acelan.kao@canonical.com (AceLan Kao)
-Date: Tue,  6 Nov 2018 10:04:01 +0800
-Subject: [PATCH 1/2] pci: prevent sk hynix nvme from entering D3
-Message-ID: <20181106020402.21120-1-acelan.kao@canonical.com>
+From: okaya@kernel.org (Sinan Kaya)
+Date: Mon, 5 Nov 2018 18:24:14 -0800
+Subject: [PATCH 2/2] nvme: add quirk to not call disable function when
+ suspending
+In-Reply-To: <20181106020402.21120-2-acelan.kao@canonical.com>
+References: <20181106020402.21120-1-acelan.kao@canonical.com>
+ <20181106020402.21120-2-acelan.kao@canonical.com>
+Message-ID: <733fc135-dfef-f70e-b854-3ad553c67e9b@kernel.org>
 
-It leads to the power consumption raises to 2.2W during s2idle, while
-it consumes less than 1W during long idle if put SK hynix nvme to D3
-and then enter s2idle.
->From SK hynix FE, MS Windows doesn't put nvme to D3, and uses its own
-APST feature to do the power management.
-To leverage its APST feature during s2idle, we can't disable nvme
-device while suspending, too.
+On 11/5/2018 6:04 PM, AceLan Kao wrote:
+> +	{ PCI_DEVICE(0x1c5c, 0x1527),   /* Sk Hynix */
+> +		.driver_data = NVME_QUIRK_NO_DISABLE, },
 
-BTW, prevent it from entering D3 will increase the power consumtion around
-0.13W ~ 0.15W during short/long idle, and the power consumption during
-s2idle becomes 0.77W.
-
-Signed-off-by: AceLan Kao <acelan.kao at canonical.com>
----
- drivers/pci/quirks.c    | 1 +
- include/linux/pci_ids.h | 2 ++
- 2 files changed, 3 insertions(+)
-
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 4700d24e5d55..b7e6492e8311 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -1332,6 +1332,7 @@ DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_AL, PCI_ANY_ID,
-    occur when mode detecting */
- DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_VIA, PCI_ANY_ID,
- 				PCI_CLASS_STORAGE_IDE, 8, quirk_no_ata_d3);
-+DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SK_HYNIX, 0x1527, quirk_no_ata_d3);
- 
- /*
-  * This was originally an Alpha-specific thing, but it really fits here.
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index 69f0abe1ba1a..5f5adda07de0 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -3090,4 +3090,6 @@
- 
- #define PCI_VENDOR_ID_NCUBE		0x10ff
- 
-+#define PCI_VENDOR_ID_SK_HYNIX		0x1c5c
-+
- #endif /* _LINUX_PCI_IDS_H */
--- 
-2.17.1
+Now that you added PCI_VENDOR_ID_SK_HYNIX to pci_ids.h, you
+could use PCI_VENDOR_ID_SK_HYNIX above instead of 0x1c5c.
