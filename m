@@ -1,28 +1,38 @@
-From: bdeyal@gmail.com (Eyal BenDavid)
-Date: Tue, 6 Nov 2018 20:59:09 +0200
-Subject: nvme-cli: connect-all failed with EALREADY but exit code is 0
-In-Reply-To: <ba138474-6091-baf8-09c3-d0908b84523e@broadcom.com>
-References: <CAPrnrPDk+Mopaoni030JJ49TKCe95Vv7AfJDFT7_99zXaBUBqw@mail.gmail.com>
- <ba138474-6091-baf8-09c3-d0908b84523e@broadcom.com>
-Message-ID: <CAPrnrPAAMXjFV+dH6+NySfP0sHXCdWq=QRKJ5sYiqZ6hj3JxOQ@mail.gmail.com>
+From: Steve.Schremmer@netapp.com (Schremmer, Steven)
+Date: Tue, 6 Nov 2018 19:02:33 +0000
+Subject: [PATCH] nvme: fixup ANA group descriptor offset
+In-Reply-To: <20181105150036.17041-1-hare@suse.de>
+References: <20181105150036.17041-1-hare@suse.de>
+Message-ID: <BL0PR06MB4564B516DE22CB13359C73FA8CCB0@BL0PR06MB4564.namprd06.prod.outlook.com>
 
-On Tue, Nov 6, 2018@8:50 PM James Smart <james.smart@broadcom.com> wrote:
->
-> it is the way it was written.
->
-> And the fact it's already in progress is intended and is not necessarily
-> an error unless you are trying to create 2 controllers using the same
-> <host_traddr, traddr, hostnqn, hostid, subnqn>. And if that was what you
-> intended, there's the "duplicate_connect" argument, granted it has to be
-> used on a connect, not connect-all, basis.
->
-> -- james
->
+> From: Linux-nvme <linux-nvme-bounces at lists.infradead.org> On Behalf Of Hannes Reinecke
+> 
+> The ANA group descriptor offset changed between the specification
+> sent for ratification and the final ratified document, causing the
+> ANA log page not to be displayed correctly.
+> 
+> Signed-off-by: Hannes Reinecke <hare at suse.com>
+> ---
+>  linux/nvme.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/linux/nvme.h b/linux/nvme.h
+> index 37d3bc1..1ad970a 100644
+> --- a/linux/nvme.h
+> +++ b/linux/nvme.h
+> @@ -546,7 +546,7 @@ struct nvme_ana_group_desc {
+>         __le32  nnsids;
+>         __le64  chgcnt;
+>         __u8    state;
+> -       __u8    rsvd17[7];
+> +       __u8    rsvd17[15];
+>         __le32  nsids[];
+>  };
+> 
+> --
+> 2.13.7
 
-Thanks,
 
-That's reasonable but only if the error is EALREADY.
+Thanks, I was just getting ready to create a patch for this.
 
-For any other errno the exit code would still be 0.
-
-Eyal
+Reviewed-by: Steve Schremmer <steve.schremmer at netapp.com>
