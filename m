@@ -1,23 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Nov 2018 09:19:15 +0100
-Subject: [PATCH 1/2] pci: prevent sk hynix nvme from entering D3
-In-Reply-To: <CAFv23QmK-BPNLcy9UTuYjF=Jv_xOUFj5dTTem9r-dfijb4WQ8Q@mail.gmail.com>
-References: <20181106020402.21120-1-acelan.kao@canonical.com>
- <20181106071011.GA23935@infradead.org>
- <CAFv23QmK-BPNLcy9UTuYjF=Jv_xOUFj5dTTem9r-dfijb4WQ8Q@mail.gmail.com>
-Message-ID: <20181107081915.GA24841@lst.de>
+Date: Wed, 7 Nov 2018 09:20:04 +0100
+Subject: [PATCH] nvmet-rdma: Fix using unallocated nvmet_rdma_delete_wq
+In-Reply-To: <5d3b0ef9-0559-699c-e845-cb0ac8162cda@grimberg.me>
+References: <1541435031-16919-1-git-send-email-israelr@mellanox.com>
+ <2b8067ce-9943-0345-31ff-e71b06c57568@mellanox.com>
+ <5d3b0ef9-0559-699c-e845-cb0ac8162cda@grimberg.me>
+Message-ID: <20181107082004.GB24841@lst.de>
 
-On Tue, Nov 06, 2018@06:11:31PM +0800, AceLan Kao wrote:
-> Agree, this is not a good fix for Sk hynix nvme, so Dell is still pushing
-> Sk hynix to fix it from firmware.
-> But before the firmware is ready, this is still a issue that need to be fixed in
-> kernel side, and the new firmware may not be applied on the old nvme
-> modules.
-> This list won't keep growing, and we'll keep an eye on the new firmware and
-> co-work with engineers from Sky hynix to make sure this issue won't happen
-> again.
+On Tue, Nov 06, 2018@07:15:31PM -0800, Sagi Grimberg wrote:
+>
+>> Sagi/Christoph/Keith,
+>>
+>> please note that the problematic commit? "nvmet-rdma: use a private 
+>> workqueue for delete" is only merged to nvme-4.20 so this fix can be 
+>> squashed to it IMO.
+>
+> I think we need to revert 2acf70a ("nvmet-rdma: use a private workqueue for 
+> delete") altogether because it never made any difference..
 
-We generally quirk for grave issues that make devices unusable.
-
-To me working around a D3 mode that consumers more power than D0
-does not quite fit that bill.
+Agreed.  And nvme-4.20 has been merged to mainline already, so we can't
+squash anything.  I'll plan to revert it for now.
