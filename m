@@ -1,77 +1,81 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 7 Nov 2018 00:32:02 +0200
-Subject: [PATCH] nvmet-rdma: Fix using unallocated nvmet_rdma_delete_wq
-In-Reply-To: <1541435031-16919-1-git-send-email-israelr@mellanox.com>
-References: <1541435031-16919-1-git-send-email-israelr@mellanox.com>
-Message-ID: <2b8067ce-9943-0345-31ff-e71b06c57568@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 7 Nov 2018 09:58:29 +0800
+Subject: [RFC PATCH] nvme of: don't flush scan work inside reset context
+In-Reply-To: <dbfed2f9-4ad3-40ce-7c6d-0feae2b4128f@broadcom.com>
+References: <20181105115734.15515-1-ming.lei@redhat.com>
+ <782deffe-eb72-3550-2d69-980604609fd5@broadcom.com>
+ <20181106011822.GB20193@ming.t460p>
+ <dbfed2f9-4ad3-40ce-7c6d-0feae2b4128f@broadcom.com>
+Message-ID: <20181107015828.GE3531@ming.t460p>
 
-Sagi/Christoph/Keith,
+Hi James,
 
-please note that the problematic commit? "nvmet-rdma: use a private 
-workqueue for delete" is only merged to nvme-4.20 so this fix can be 
-squashed to it IMO.
+On Mon, Nov 05, 2018@09:45:21PM -0800, James Smart wrote:
+> 
+> 
+> On 11/5/2018 5:18 PM, Ming Lei wrote:
+> > 
+> > > I also believe Ming's patch isn't enough.? The issue for the transports are
+> > > several of the flush cases require an io to complete to finish flushing -
+> > > not just scan_work.?? nvme_mpath_stop() syncs with ctrl->ana_work, which may
+> > > be waiting for an ana log to complete.? fw_act_queues() may be in the midst
+> > > of polling the CSTS bit register or doing a fw_slot log read, or a
+> > > stop_ctrl() routine for the transport may be in the middle of a start_ctrl
+> > > call.
+> > These commands won't be retried since REQ_FAILFAST_DRIVER is set for any
+> > request allocated via nvme_alloc_request().
+> > 
+> > So the above flush cases you mentioned should be easier to handle than IO from
+> > scan context. However, looks the patch we discussed before by moving
+> > nvme_stop_ctrl() after nvme_rdma_shutdown_ctrl() is still needed for
+> > avoiding hang on flush in these commands.
+> 
+> Agree - nvme_stop_ctrl() has to move so the transport routines that
+> stop/return the io can run.? Leaving it in the same place with an argument
+> won't be enough.
 
--Max.
+OK, I will include this part into RFC V2 and post out for further review.
 
-On 11/5/2018 6:23 PM, Israel Rukshin wrote:
-> nvmet_rdma_ib_client .remove callback is using nvmet_rdma_delete_wq.
-> Therefore nvmet_rdma_delete_wq must be destroyed only after calling
-> to ib_unregister_client().
-> The bug may happens when unloading the module with open connections.
->
-> Fixes: 2acf70a ("nvmet-rdma: use a private workqueue for delete")
-> Signed-off-by: Israel Rukshin <israelr at mellanox.com>
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->   drivers/nvme/target/rdma.c | 20 +++++++++-----------
->   1 file changed, 9 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index bd265ac..9d75eb6 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1642,35 +1642,33 @@ static int __init nvmet_rdma_init(void)
->   {
->   	int ret;
->   
-> +	nvmet_rdma_delete_wq = alloc_workqueue("nvmet-rdma-delete-wq",
-> +			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-> +	if (!nvmet_rdma_delete_wq)
-> +		return -ENOMEM;
-> +
->   	ret = ib_register_client(&nvmet_rdma_ib_client);
->   	if (ret)
-> -		return ret;
-> +		goto err_destroy_workqueue;
->   
->   	ret = nvmet_register_transport(&nvmet_rdma_ops);
->   	if (ret)
->   		goto err_ib_client;
->   
-> -	nvmet_rdma_delete_wq = alloc_workqueue("nvmet-rdma-delete-wq",
-> -			WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-> -	if (!nvmet_rdma_delete_wq) {
-> -		ret = -ENOMEM;
-> -		goto err_unreg_transport;
-> -	}
-> -
->   	return 0;
->   
-> -err_unreg_transport:
-> -	nvmet_unregister_transport(&nvmet_rdma_ops);
->   err_ib_client:
->   	ib_unregister_client(&nvmet_rdma_ib_client);
-> +err_destroy_workqueue:
-> +	destroy_workqueue(nvmet_rdma_delete_wq);
->   	return ret;
->   }
->   
->   static void __exit nvmet_rdma_exit(void)
->   {
-> -	destroy_workqueue(nvmet_rdma_delete_wq);
->   	nvmet_unregister_transport(&nvmet_rdma_ops);
->   	ib_unregister_client(&nvmet_rdma_ib_client);
-> +	destroy_workqueue(nvmet_rdma_delete_wq);
->   	WARN_ON_ONCE(!list_empty(&nvmet_rdma_queue_list));
->   	ida_destroy(&nvmet_rdma_queue_ida);
->   }
+> 
+> 
+> > 
+> > > Give the transport may be at a point where it's lost connectivity to the
+> > > controller (never really a case for pci unless you consider hot unplug),
+> > > before calling ctlr stop, the transport has to terminate/return outstanding
+> > > io and stop further io from being accepted (usually by marking the queue as
+> > > not connected).
+> > This patch doesn't change this point, all in-flight IO is still terminate/return.
+> > With or without this patch, all these IO will be retried too after controller is
+> > recovered.
+> > 
+> > Or you mean all these IOs have to terminate/return before calling
+> > ctrl->ops->stop_ctrl().
+> 
+> Patch as is, that calls the flush routines pointed out, will deadlock as the
+> io won't be terminated and returned by the transport. The flush routines,
+> thus stop_ctrl, has to be called after the transport stops the queues and
+> aborts/returns the ios. Retries after that will do what they do.
+
+All normal IOs are retried and won't be terminated during reset.
+
+However, it is very unusual to wait for completion of these normal IOs
+inside reset handler, and the only such usage I saw is
+flush_work(&ctrl->scan_work) in fc/rdma/loop.
+
+> 
+> But the concern I have is - if things like ns_revalidate requires normal io
+> to be completed to be "flushed", then we have an issue. The non-normal io,
+> generated by the core layer and those issued by multipath will fast-fail.
+> But the normal io, whether non-multipath or last-path with multipath, may
+> not be failed as they will be continually requeued or wait for a new path.
+> So I don't know how it exits this deadlock.
+
+Except for flush_work(&ctrl->scan_work), do we have other cases in which normal
+IO is waited for completion inside reset handler? Looks not found.
+
+For other waiting for completion of normal IO, it is the responsibility
+of reset or error or timeout handler to guarantee forward progress, and
+there shouldn't be such deadlock.
+
+Thanks,
+Ming
