@@ -1,17 +1,26 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 6 Nov 2018 19:15:31 -0800
-Subject: [PATCH] nvmet-rdma: Fix using unallocated nvmet_rdma_delete_wq
-In-Reply-To: <2b8067ce-9943-0345-31ff-e71b06c57568@mellanox.com>
-References: <1541435031-16919-1-git-send-email-israelr@mellanox.com>
- <2b8067ce-9943-0345-31ff-e71b06c57568@mellanox.com>
-Message-ID: <5d3b0ef9-0559-699c-e845-cb0ac8162cda@grimberg.me>
+Date: Tue, 6 Nov 2018 19:26:28 -0800
+Subject: [RFC PATCH] nvme of: don't flush scan work inside reset context
+In-Reply-To: <20181105115734.15515-1-ming.lei@redhat.com>
+References: <20181105115734.15515-1-ming.lei@redhat.com>
+Message-ID: <97aae455-fa74-b1aa-21f6-80c03732a573@grimberg.me>
 
+Ming,
 
-> Sagi/Christoph/Keith,
+> When scan work is in-progress, any controller error may trigger
+> reset, now fc, rdma and loop host tries to flush scan work
+> inside reset context.
 > 
-> please note that the problematic commit? "nvmet-rdma: use a private 
-> workqueue for delete" is only merged to nvme-4.20 so this fix can be 
-> squashed to it IMO.
+> This way can cause deadlock easily because any IO during controler
+> recovery(reset) can't be completed until the recovery is done.
 
-I think we need to revert 2acf70a ("nvmet-rdma: use a private workqueue 
-for delete") altogether because it never made any difference..
+Did you encounter this deadlock? or is it theoretical?
+
+The point of nvme_stop_ctrl is to quiesce everything before
+moving forward with tearing down the controller instead of
+trying to handle concurrent incoming I/O.
+
+I'm not sure I understand why you say that I/O can only be
+completed when the reset is done? if the transport entered
+a failed state either the inflight I/O is drain or one of
+the scan work I/O operations times out.
