@@ -1,32 +1,20 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 7 Nov 2018 10:31:13 -0800
-Subject: [PATCH] nvme-rdma: Don't fail the controller if only part of the
- queues fail to connect
-In-Reply-To: <20181107090751.GA25759@lst.de>
-References: <1541349434-31640-1-git-send-email-israelr@mellanox.com>
- <fa4ec36d-29e5-3cbd-742e-33c617d0f82e@broadcom.com>
- <67c9a957-1b61-2632-396c-3c410f6729fa@mellanox.com>
- <20181107090751.GA25759@lst.de>
-Message-ID: <6e407936-f4eb-0aa0-349d-b5219a4114e1@grimberg.me>
+Date: Wed, 7 Nov 2018 10:38:44 -0800
+Subject: [RFC PATCH] nvme of: don't flush scan work inside reset context
+In-Reply-To: <20181107083412.GA8878@ming.t460p>
+References: <20181105115734.15515-1-ming.lei@redhat.com>
+ <97aae455-fa74-b1aa-21f6-80c03732a573@grimberg.me>
+ <20181107035107.GA6920@ming.t460p>
+ <f1167108-0e3f-0b64-d9c3-399f4dec73d3@grimberg.me>
+ <20181107083412.GA8878@ming.t460p>
+Message-ID: <5f193243-a0a7-8f9f-7d7b-7f3f87a7fdae@grimberg.me>
 
 
->>> This sounds odd.?? Why aren't you concerned that io queues are not
->>> connecting ?? Are there any log messages hinting at the failures ? any
->>> way someone looking at the controller knows how many queues were actually
->>> created ? ? I would assume any failure is significant and should be
->>> visible, and it's worthwhile knowing whether this is a consistent failure
->>> or a random failure. and what the failure was.
->>
->> This may happen (well it happened in the past, and fixed in the block
->> layer) in case there are offline cpu's or some other reason that some queue
->> is unmapped.
->>
->> I prefer not to relay on the block layer to ensure us 100% mapping and
->> prefer be safe in our ULP.
+> https://bugzilla.redhat.com/show_bug.cgi?id=1622487
+> https://bugzilla.redhat.com/show_bug.cgi?id=1628100
 > 
-> How do we ensure we ensure any potential new block layer bug returns
-> -EXDEV so that your handling kicks in?
+> Especially you may find some details in the following comment:
+> 
+> https://bugzilla.redhat.com/show_bug.cgi?id=1628100#c7
 
-We can't. I guess that we simply need to warn about it but still allow
-degraded operation. But the motivation here was to sustain failure when
-attempting to connect an unmapped queue.
+I don't have permissions to see the tickets.
