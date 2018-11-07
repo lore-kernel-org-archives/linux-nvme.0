@@ -1,11 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Nov 2018 09:28:17 +0100
-Subject: [PATCH] nvmet: don't try to add ns to p2p map unless it
- actually uses it
-In-Reply-To: <20181102231221.26410-1-sagi@grimberg.me>
-References: <20181102231221.26410-1-sagi@grimberg.me>
-Message-ID: <20181107082817.GA25099@lst.de>
+Date: Wed, 7 Nov 2018 09:28:47 +0100
+Subject: [PATCH] nvme: fixup ANA group descriptor offset
+In-Reply-To: <20181105150036.17041-1-hare@suse.de>
+References: <20181105150036.17041-1-hare@suse.de>
+Message-ID: <20181107082847.GB25099@lst.de>
 
-Thanks,
+On Mon, Nov 05, 2018@04:00:36PM +0100, Hannes Reinecke wrote:
+> The ANA group descriptor offset changed between the specification
+> sent for ratification and the final ratified document, causing the
+> ANA log page not to be displayed correctly.
 
-applied to nvme-4.20.
+Please fix the subject line, this is a nvme-cli patch.
