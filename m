@@ -1,19 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 8 Nov 2018 09:48:13 +0100
-Subject: [PATCH] nvme: make ANA support independent on native nvme
- multipath
-In-Reply-To: <20181105154136.142597-1-hare@suse.de>
-References: <20181105154136.142597-1-hare@suse.de>
-Message-ID: <20181108084813.GA3637@lst.de>
+Date: Thu, 8 Nov 2018 09:48:50 +0100
+Subject: [PATCH] nvmetcli: ANA configuration support
+In-Reply-To: <20181017071118.GA23258@lst.de>
+References: <20180727110859.4212-1-hare@suse.de> <20181006124353.GA8324@lst.de>
+ <570f1c05-1995-0eb9-7649-16aa0204e783@suse.com>
+ <20181017071118.GA23258@lst.de>
+Message-ID: <20181108084850.GA3667@lst.de>
 
-On Mon, Nov 05, 2018@04:41:36PM +0100, Hannes Reinecke wrote:
-> NVMe native multipathing is an implementation detail on the host,
-> and ANA support is actually independent on that.
-> So we shouldn't check for native NVMe multipathing when trying to
-> evaluate whether ANA is supported; not doing so results in the
-> ANA sysfs attributes not to be present when the 'multipath=false'
-> module option is set.
+On Wed, Oct 17, 2018@09:11:18AM +0200, Christoph Hellwig wrote:
+> On Sat, Oct 06, 2018@03:09:20PM +0200, Hannes Reinecke wrote:
+> > > The new ANA code will probably need similar exception handling as the
+> > > inline_data_size attribute.
+> > > 
+> > Okay, will be fixing it up.
+> 
+> Any chance to get a fixed version in the next days?  I'd like to cut
+> a new release with it not too long after the 4.19 release so that people
+> can easily use the ANA code.
 
-No, we should not enable ANA support without multipathing, as we
-don't want people to rely on any ANA related side effects if multipathing
-is not enabled.
+Do you still plan to resubmit this code?
