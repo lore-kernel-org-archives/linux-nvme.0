@@ -1,17 +1,17 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 8 Nov 2018 01:58:26 -0800
-Subject: [PATCH v2 10/11] nvmet: Provide adding AENs for multiple
- controller types
-In-Reply-To: <1539709883-12424-11-git-send-email-jay.e.sternberg@intel.com>
+Date: Thu, 8 Nov 2018 02:03:14 -0800
+Subject: [PATCH v2 11/11] nvmet: Enable Discovery Controller AENs
+In-Reply-To: <1539709883-12424-12-git-send-email-jay.e.sternberg@intel.com>
 References: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
- <1539709883-12424-11-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <20181108095826.GK29432@infradead.org>
+ <1539709883-12424-12-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <20181108100314.GL29432@infradead.org>
 
-On Tue, Oct 16, 2018@10:11:22AM -0700, Jay Sternberg wrote:
-> From: Phil Cayton <phil.cayton at intel.com>
-> 
-> Make nvmet_add_async_event a non-static function in preparation
-> for use by other controllers, initally the discovery controller.
+>  	list_add_tail(&link->entry, &port->subsystems);
+>  	nvmet_genctr++;
+> +	nvmet_port_disc_change_event(port, subsys);
 
-Looks fine, but please merge it into the patch actually using the
-feature.
+It seems like the increment of nvmet_genctr should move into
+nvmet_port_disc_change_event / nvmet_subsys_disc_change_event.
+
+I'd also name these functions similar to the namespace event handler,
+e.g. nvmet_port_disc_changed / nvmet_subsys_disc_changed.
