@@ -1,42 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Nov 2018 09:27:43 -0700
-Subject: [PATCH] nvme: fixup ANA group descriptor offset
-In-Reply-To: <BL0PR06MB4564B516DE22CB13359C73FA8CCB0@BL0PR06MB4564.namprd06.prod.outlook.com>
-References: <20181105150036.17041-1-hare@suse.de>
- <BL0PR06MB4564B516DE22CB13359C73FA8CCB0@BL0PR06MB4564.namprd06.prod.outlook.com>
-Message-ID: <20181108162743.GA17856@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 8 Nov 2018 08:50:15 -0800
+Subject: [PATCH] nvme-core: add work elements to struct nvme_ctrl
+In-Reply-To: <20181108003021.28624-1-sagi@grimberg.me>
+References: <20181108003021.28624-1-sagi@grimberg.me>
+Message-ID: <bc013b46-fd62-4490-1a5c-082350a851ad@broadcom.com>
 
-On Tue, Nov 06, 2018@07:02:33PM +0000, Schremmer, Steven wrote:
-> > From: Linux-nvme <linux-nvme-bounces at lists.infradead.org> On Behalf Of Hannes Reinecke
-> > 
-> > The ANA group descriptor offset changed between the specification
-> > sent for ratification and the final ratified document, causing the
-> > ANA log page not to be displayed correctly.
-> > 
-> > Signed-off-by: Hannes Reinecke <hare at suse.com>
-> > ---
-> >  linux/nvme.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/linux/nvme.h b/linux/nvme.h
-> > index 37d3bc1..1ad970a 100644
-> > --- a/linux/nvme.h
-> > +++ b/linux/nvme.h
-> > @@ -546,7 +546,7 @@ struct nvme_ana_group_desc {
-> >         __le32  nnsids;
-> >         __le64  chgcnt;
-> >         __u8    state;
-> > -       __u8    rsvd17[7];
-> > +       __u8    rsvd17[15];
-> >         __le32  nsids[];
-> >  };
-> > 
-> > --
-> > 2.13.7
-> 
-> 
-> Thanks, I was just getting ready to create a patch for this.
-> 
-> Reviewed-by: Steve Schremmer <steve.schremmer at netapp.com>
 
-Applied, thanks!
+
+On 11/7/2018 4:30 PM, Sagi Grimberg wrote:
+> connect_work and err_work can be reused rdma, fc and by other future
+> transports so share those in nvme_ctrl.
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/host/fc.c   | 18 ++++++++----------
+>   drivers/nvme/host/nvme.h |  2 ++
+>   drivers/nvme/host/rdma.c | 19 ++++++++-----------
+>   3 files changed, 18 insertions(+), 21 deletions(-)
+>
+>
+looks fine
+
+Reviewed-by:?? James Smart?? <jsmart2021 at gmail.com>
