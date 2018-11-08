@@ -1,162 +1,70 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 8 Nov 2018 10:22:15 +0100
-Subject: [PATCH 1/3] nvme: NUMA locality information for fabrics
-In-Reply-To: <20181102095641.28504-2-hare@suse.de>
+Date: Thu, 8 Nov 2018 10:32:24 +0100
+Subject: [PATCH 2/3] nvme-multipath: Select paths based on NUMA locality
+In-Reply-To: <20181102095641.28504-3-hare@suse.de>
 References: <20181102095641.28504-1-hare@suse.de>
- <20181102095641.28504-2-hare@suse.de>
-Message-ID: <20181108092215.GA4574@lst.de>
+ <20181102095641.28504-3-hare@suse.de>
+Message-ID: <20181108093224.GA4624@lst.de>
 
-This patch looks good, but the dscription seems extremely misleading.
+On Fri, Nov 02, 2018@10:56:40AM +0100, Hannes Reinecke wrote:
+> This patch creates a per-controller map to hold the NUMA locality
+> information. With that we can route I/O to the controller which is
+> 'nearest' to the issuing CPU and decrease the latency there.
 
-I've rewritten it as below for inclusion in nvme-4.21, let me know
-what you think:
+Well, that isn't really true.  The only think it does is that it
+caches the result of 'node_distance(node, ns->ctrl->numa_node)'
+for each [node, ctrl] tuple, and adds a sysfs file to export that.
 
----
->From 01d2c22c9d6cd2f0cb2ac2ba5cf98c2ac2d8624e Mon Sep 17 00:00:00 2001
-From: Hannes Reinecke <hare@suse.com>
-Date: Fri, 2 Nov 2018 10:56:39 +0100
-Subject: nvme: add a numa_node field to struct nvme_ctrl
+Please update the description.  This also mean on its own the
+patch isn't all that useful.
 
-Instead of directly poking into the struct device add a new numa_node
-field to struct nvme_ctrl.  This allows fabrics drivers where ctrl->dev
-is a virtual device to support NUMA affinity as well.
+> +void nvme_set_ctrl_node(struct nvme_ctrl *ctrl, int numa_node)
+> +{
+> +	ctrl->numa_node = numa_node;
+> +	if (numa_node == NUMA_NO_NODE)
+> +		return;
 
-Also expose the field as a sysfs attribute, and populate it for the
-RDMA and FC transports.
+I don't think adding special cases for this degenerate case is a good
+idea.  Or is there a really good reason for keeping the !ctrl->node_map
+case around?
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c      | 4 +++-
- drivers/nvme/host/fc.c        | 5 +++--
- drivers/nvme/host/multipath.c | 4 ++--
- drivers/nvme/host/nvme.h      | 1 +
- drivers/nvme/host/rdma.c      | 5 +++--
- 5 files changed, 12 insertions(+), 7 deletions(-)
+> +	ctrl->node_map = kzalloc(num_possible_nodes() * sizeof(int),
+> +				 GFP_KERNEL);
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 41e00404f7a5..80b5a8c60b91 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2764,6 +2764,7 @@ static ssize_t  field##_show(struct device *dev,				\
- static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
- 
- nvme_show_int_function(cntlid);
-+nvme_show_int_function(numa_node);
- 
- static ssize_t nvme_sysfs_delete(struct device *dev,
- 				struct device_attribute *attr, const char *buf,
-@@ -2843,6 +2844,7 @@ static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_subsysnqn.attr,
- 	&dev_attr_address.attr,
- 	&dev_attr_state.attr,
-+	&dev_attr_numa_node.attr,
- 	NULL
- };
- 
-@@ -3053,7 +3055,7 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	struct gendisk *disk;
- 	struct nvme_id_ns *id;
- 	char disk_name[DISK_NAME_LEN];
--	int node = dev_to_node(ctrl->dev), flags = GENHD_FL_EXT_DEVT;
-+	int node = ctrl->numa_node, flags = GENHD_FL_EXT_DEVT;
- 
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 0b70c8bab045..a22ff6fb82bc 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2433,7 +2433,7 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
- 	ctrl->tag_set.ops = &nvme_fc_mq_ops;
- 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
- 	ctrl->tag_set.reserved_tags = 1; /* fabric connect */
--	ctrl->tag_set.numa_node = NUMA_NO_NODE;
-+	ctrl->tag_set.numa_node = ctrl->ctrl.numa_node;
- 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
- 	ctrl->tag_set.cmd_size =
- 		struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
-@@ -3000,6 +3000,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 
- 	ctrl->ctrl.opts = opts;
- 	ctrl->ctrl.nr_reconnects = 0;
-+	ctrl->ctrl.numa_node = dev_to_node(lport->dev);
- 	INIT_LIST_HEAD(&ctrl->ctrl_list);
- 	ctrl->lport = lport;
- 	ctrl->rport = rport;
-@@ -3038,7 +3039,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
- 	ctrl->admin_tag_set.queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 	ctrl->admin_tag_set.reserved_tags = 2; /* fabric connect + Keep-Alive */
--	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
-+	ctrl->admin_tag_set.numa_node = ctrl->ctrl.numa_node;
- 	ctrl->admin_tag_set.cmd_size =
- 		struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
- 			    ctrl->lport->ops->fcprqst_priv_sz);
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 5e3cc8c59a39..8e03cda770c5 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -141,7 +141,7 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
- 			continue;
- 
--		distance = node_distance(node, dev_to_node(ns->ctrl->dev));
-+		distance = node_distance(node, ns->ctrl->numa_node);
- 
- 		switch (ns->ana_state) {
- 		case NVME_ANA_OPTIMIZED:
-@@ -276,7 +276,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	if (!(ctrl->subsys->cmic & (1 << 1)) || !multipath)
- 		return 0;
- 
--	q = blk_alloc_queue_node(GFP_KERNEL, NUMA_NO_NODE, NULL);
-+	q = blk_alloc_queue_node(GFP_KERNEL, ctrl->numa_node, NULL);
- 	if (!q)
- 		goto out;
- 	q->queuedata = head;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index cee79cb388af..f608fc11d329 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -153,6 +153,7 @@ struct nvme_ctrl {
- 	struct request_queue *connect_q;
- 	struct device *dev;
- 	int instance;
-+	int numa_node;
- 	struct blk_mq_tag_set *tagset;
- 	struct blk_mq_tag_set *admin_tagset;
- 	struct list_head namespaces;
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d181cafedc58..4468d672ced9 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -693,7 +693,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- 		set->ops = &nvme_rdma_admin_mq_ops;
- 		set->queue_depth = NVME_AQ_MQ_TAG_DEPTH;
- 		set->reserved_tags = 2; /* connect + keep-alive */
--		set->numa_node = NUMA_NO_NODE;
-+		set->numa_node = nctrl->numa_node;
- 		set->cmd_size = sizeof(struct nvme_rdma_request) +
- 			SG_CHUNK_SIZE * sizeof(struct scatterlist);
- 		set->driver_data = ctrl;
-@@ -706,7 +706,7 @@ static struct blk_mq_tag_set *nvme_rdma_alloc_tagset(struct nvme_ctrl *nctrl,
- 		set->ops = &nvme_rdma_mq_ops;
- 		set->queue_depth = nctrl->sqsize + 1;
- 		set->reserved_tags = 1; /* fabric connect */
--		set->numa_node = NUMA_NO_NODE;
-+		set->numa_node = nctrl->numa_node;
- 		set->flags = BLK_MQ_F_SHOULD_MERGE;
- 		set->cmd_size = sizeof(struct nvme_rdma_request) +
- 			SG_CHUNK_SIZE * sizeof(struct scatterlist);
-@@ -762,6 +762,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
- 		return error;
- 
- 	ctrl->device = ctrl->queues[0].device;
-+	ctrl->ctrl.numa_node = dev_to_node(ctrl->device->dev->dma_device);
- 
- 	ctrl->max_fr_pages = nvme_rdma_get_max_fr_pages(ctrl->device->dev);
- 
--- 
-2.19.1
+This should use kcalloc, and needs to check the return value.
+
+> -		distance = node_distance(node, ns->ctrl->numa_node);
+> +		distance = ns->ctrl->node_map ?
+> +			ns->ctrl->node_map[node] : INT_MAX;
+
+If we have to keep the special case please make this a proper if/else.
+
+> +void nvme_mpath_balance_subsys(struct nvme_subsystem *subsys)
+
+This name seems a little odd.  Why not
+nvme_mpath_calculate_node_distances or something similar that
+describes what it actually does?
+
+> +{
+> +	struct nvme_ctrl *ctrl;
+> +	int node;
+> +
+> +	mutex_lock(&subsys->lock);
+> +
+> +	/*
+> +	 * Reset set NUMA distance
+> +	 *    During creation the NUMA distance is only set
+> +	 *    per controller, so after connecting the other
+> +	 *    controllers the NUMA information on the existing
+> +	 *    ones is incorrect.
+> +	 */
+
+Please keep the comment above the function.
+
+> +	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
+> +		for_each_node(node) {
+> +			if (!ctrl->node_map)
+> +				continue;
+
+If we want to keep the special case the !ctrl->node_map should be moved
+outside the inner loop.
