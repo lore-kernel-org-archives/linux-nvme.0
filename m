@@ -1,19 +1,13 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 8 Nov 2018 01:54:56 -0800
-Subject: [PATCH v2 06/11] nvmet: Add support to Discovery controllers for
- commands
-In-Reply-To: <1539709883-12424-7-git-send-email-jay.e.sternberg@intel.com>
+Date: Thu, 8 Nov 2018 01:55:30 -0800
+Subject: [PATCH v2 07/11] nvmet: Add parent to nvmet_referral_disable
+In-Reply-To: <1539709883-12424-8-git-send-email-jay.e.sternberg@intel.com>
 References: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
- <1539709883-12424-7-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <20181108095456.GG29432@infradead.org>
+ <1539709883-12424-8-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <20181108095530.GH29432@infradead.org>
 
-On Tue, Oct 16, 2018@10:11:18AM -0700, Jay Sternberg wrote:
-> Add custom get/set features to restrict commands allowed by Discovery
-> controllers.
+On Tue, Oct 16, 2018@10:11:19AM -0700, Jay Sternberg wrote:
+> To be used when Discovery Change notifications occur
 
-This does't restrict anything, but actually adds the previously
-unimplemented commands, doesn't it?
-
-Otherwise looks good:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Looks fine, but I'd be tempted to just merge this into the patch
+actually using it.
