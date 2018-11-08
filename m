@@ -1,18 +1,12 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 8 Nov 2018 10:38:39 +0100
-Subject: [PATCH] nvme-core: add work elements to struct nvme_ctrl
-In-Reply-To: <20181108003021.28624-1-sagi@grimberg.me>
-References: <20181108003021.28624-1-sagi@grimberg.me>
-Message-ID: <20181108093839.GA4853@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 8 Nov 2018 01:49:10 -0800
+Subject: [PATCH v2 01/11] nvmet: Provide aen bit functions for multiple
+ controller types
+In-Reply-To: <1539709883-12424-2-git-send-email-jay.e.sternberg@intel.com>
+References: <1539709883-12424-1-git-send-email-jay.e.sternberg@intel.com>
+ <1539709883-12424-2-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <20181108094910.GA29432@infradead.org>
 
-On Wed, Nov 07, 2018@04:30:21PM -0800, Sagi Grimberg wrote:
-> connect_work and err_work can be reused rdma, fc and by other future
-> transports so share those in nvme_ctrl.
+Looks fine,
 
-Hmm.  I'm not sure moving things to common code just because they
-exist in the fabrics transports is an all that good idea.  For one
-PCIe, which to some extent is the most performance critical doesn't
-use them.  Second having a structure in common code that is only
-used in the transports seems a little odd and makes reading the code
-harder.  If on the other hand we actually use them from common or
-generic fabrics code moving them might make a lot more sense.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
