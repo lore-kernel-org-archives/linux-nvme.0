@@ -1,27 +1,44 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 8 Nov 2018 08:05:23 +0800
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 7 Nov 2018 16:19:06 -0800
 Subject: [RFC PATCH] nvme of: don't flush scan work inside reset context
-In-Reply-To: <5f193243-a0a7-8f9f-7d7b-7f3f87a7fdae@grimberg.me>
+In-Reply-To: <dbfed2f9-4ad3-40ce-7c6d-0feae2b4128f@broadcom.com>
 References: <20181105115734.15515-1-ming.lei@redhat.com>
- <97aae455-fa74-b1aa-21f6-80c03732a573@grimberg.me>
- <20181107035107.GA6920@ming.t460p>
- <f1167108-0e3f-0b64-d9c3-399f4dec73d3@grimberg.me>
- <20181107083412.GA8878@ming.t460p>
- <5f193243-a0a7-8f9f-7d7b-7f3f87a7fdae@grimberg.me>
-Message-ID: <20181108000522.GA15911@ming.t460p>
+ <782deffe-eb72-3550-2d69-980604609fd5@broadcom.com>
+ <20181106011822.GB20193@ming.t460p>
+ <dbfed2f9-4ad3-40ce-7c6d-0feae2b4128f@broadcom.com>
+Message-ID: <1590d7a5-8fe7-c775-6656-36e117b8a8db@grimberg.me>
 
-On Wed, Nov 07, 2018@10:38:44AM -0800, Sagi Grimberg wrote:
+
+>>> transports are
+>>> several of the flush cases require an io to complete to finish 
+>>> flushing -
+>>> not just scan_work.?? nvme_mpath_stop() syncs with ctrl->ana_work, 
+>>> which may
+>>> be waiting for an ana log to complete.? fw_act_queues() may be in the 
+>>> midst
+>>> of polling the CSTS bit register or doing a fw_slot log read, or a
+>>> stop_ctrl() routine for the transport may be in the middle of a 
+>>> start_ctrl
+>>> call.
+>> These commands won't be retried since REQ_FAILFAST_DRIVER is set for any
+>> request allocated via nvme_alloc_request().
+>>
+>> So the above flush cases you mentioned should be easier to handle than 
+>> IO from
+>> scan context. However, looks the patch we discussed before by moving
+>> nvme_stop_ctrl() after nvme_rdma_shutdown_ctrl() is still needed for
+>> avoiding hang on flush in these commands.
 > 
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1622487
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1628100
-> > 
-> > Especially you may find some details in the following comment:
-> > 
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1628100#c7
-> 
-> I don't have permissions to see the tickets.
+> Agree - nvme_stop_ctrl() has to move so the transport routines that 
+> stop/return the io can run.? Leaving it in the same place with an 
+> argument won't be enough.
 
-But I have explained the issue in enough details, don't I?
+nvme_stop_ctrl() cannot move to after queue termination, it has to
+barrier before moving forward. The things that must flush before
+are async_event_work that does not go via the normal request path
+that is quiesced and ->stop_ctrl() at least for the rdma case make
+sure that no error recovery is concurrent with the reset/delete flow.
 
-Thanks,
-Ming
+Perhaps we can move scan_work flush into nvme_remove_namespaces()
+instead? I guess it makes sense that when we remove namespaces we don't
+want a scan to run concurrently?
