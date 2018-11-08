@@ -1,93 +1,80 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Thu, 8 Nov 2018 09:17:56 -0800
-Subject: [PATCH v4 0/5] qla2xxx: Add FC-NVMe Target support
-In-Reply-To: <4896D919-65AC-49F3-90B4-A4D53A9C5C84@cavium.com>
-References: <20181031164059.6286-1-himanshu.madhani@cavium.com>
- <4896D919-65AC-49F3-90B4-A4D53A9C5C84@cavium.com>
-Message-ID: <08c5372d-eba5-ad53-9b10-edc67996dc13@broadcom.com>
+Date: Thu, 8 Nov 2018 09:49:04 -0800
+Subject: [RFC PATCH] nvme of: don't flush scan work inside reset context
+In-Reply-To: <1590d7a5-8fe7-c775-6656-36e117b8a8db@grimberg.me>
+References: <20181105115734.15515-1-ming.lei@redhat.com>
+ <782deffe-eb72-3550-2d69-980604609fd5@broadcom.com>
+ <20181106011822.GB20193@ming.t460p>
+ <dbfed2f9-4ad3-40ce-7c6d-0feae2b4128f@broadcom.com>
+ <1590d7a5-8fe7-c775-6656-36e117b8a8db@grimberg.me>
+Message-ID: <a29f61a9-584c-19f9-8854-3c86909e0e07@broadcom.com>
 
-Madhani,
 
-I'll be looking through it over the weekend.
+
+On 11/7/2018 4:19 PM, Sagi Grimberg wrote:
+>
+>>>> transports are
+>>>> several of the flush cases require an io to complete to finish 
+>>>> flushing -
+>>>> not just scan_work.?? nvme_mpath_stop() syncs with ctrl->ana_work, 
+>>>> which may
+>>>> be waiting for an ana log to complete.? fw_act_queues() may be in 
+>>>> the midst
+>>>> of polling the CSTS bit register or doing a fw_slot log read, or a
+>>>> stop_ctrl() routine for the transport may be in the middle of a 
+>>>> start_ctrl
+>>>> call.
+>>> These commands won't be retried since REQ_FAILFAST_DRIVER is set for 
+>>> any
+>>> request allocated via nvme_alloc_request().
+>>>
+>>> So the above flush cases you mentioned should be easier to handle 
+>>> than IO from
+>>> scan context. However, looks the patch we discussed before by moving
+>>> nvme_stop_ctrl() after nvme_rdma_shutdown_ctrl() is still needed for
+>>> avoiding hang on flush in these commands.
+>>
+>> Agree - nvme_stop_ctrl() has to move so the transport routines that 
+>> stop/return the io can run.? Leaving it in the same place with an 
+>> argument won't be enough.
+>
+> nvme_stop_ctrl() cannot move to after queue termination, it has to
+> barrier before moving forward. The things that must flush before
+> are async_event_work that does not go via the normal request path
+> that is quiesced and ->stop_ctrl() at least for the rdma case make
+> sure that no error recovery is concurrent with the reset/delete flow.
+
+Well - then I don't know how things are going to proceed. If you are in 
+a scenario where the device is no longer responding for outstanding ios, 
+the only way you will get the flushes waiting on internally generated 
+ios to finish is for the transport to walk the queues and terminate the 
+ios and mark the queues non-connected so that any retries fail 
+outright.? And if it's normal io - same thing has to be true for 
+scan_work, but we're additionally faced with they aren't terminated by 
+the queue not connected - they sit on the blk-mq queue, or they fail 
+back to the nvme multipather who may be holding them waiting for a path 
+to come back.? The latter case is where this same nvme_stop_ctrl() hits 
+the controller delete case if scan_work is outstanding at the time of 
+the delete.
+
+So minimally, we need to io aborted and the queues marked - like what is 
+done in the err_work thread on rdma.
+
+>
+> Perhaps we can move scan_work flush into nvme_remove_namespaces()
+> instead? I guess it makes sense that when we remove namespaces we don't
+> want a scan to run concurrently?
+
+well- that makes sense, but I assume there's also validity of the scan 
+instance itself. If we leave scan_work blocked - waiting for normal io 
+to finish thus it won't release until a new controller instance is 
+connected or the device fails - and for the case where a new instance is 
+connected:
+a) do we have any issues of it using data gathered prior to blocking? 
+(from the old controller) after it resumes (now on the new controller) ?
+b) will the scan work kicked off by the init_ctrl() call on the 
+reconnect cause it to be re-performed correctly a second time ?? (I 
+assume so)
+
 
 -- james
-
-
-On 11/8/2018 8:58 AM, Madhani, Himanshu wrote:
-> Hi James,
->
-> Any more review comments?
->
->> On Oct 31, 2018,@9:40 AM, Himanshu Madhani <Himanshu.Madhani@cavium.com> wrote:
->>
->> Hi Martin,
->>
->> This series adds support for FC-NVMe Target.
->>
->> Patch #1 adds infrastructure to support FC-NVMeT Link Service processing.
->> Patch #2 adds addes new qla_nvmet.[ch] files for FC-NVMe Target support.
->> Patch #3 has bulk of changes to add hooks into common code infrastucture and
->>          adds support for FC-NVMe Target LS4 processing via Purex path.
->> Patch #4 adds SysFS hook to enable NVMe Target for the port.
->>
->> Please apply them to 4.21/scsi-queue at your earliest convenience.
->>
->> Changes from v3 -> v4
->> o Rebased Series on current 4.20/scsi-queue
->> o Removed NVMET_FCTGTFEAT_{CMD|OPDONE}_IN_ISR as per James Smart's review comment.
->>
->> Changes from v2 -> v3
->> o Reordered patches so that each patch compiles individually and is bisectable.
->>
->> Changes from v1 -> v2
->> o Addressed all comments from Bart.
->> o Consolidated Patch 1 and Patch 2 into single patch.
->> o Fixed smatch warning reported by kbuild autommation.
->> o NVMe Target mode is exclusive at the moment. Cavium driver does not support both
->>   FCP Target and NVMe Target at the same time. This will be fixed in later updates.
->>
->> Thanks,
->> Himanshu
->>
->> Anil Gurumurthy (4):
->>   qla2xxx_nvmet: Add FC-NVMe Target Link Service request handling
->>   qla2xxx_nvmet: Add files for FC-NVMe Target support
->>   qla2xxx_nvmet: Add FC-NVMe Target handling
->>   qla2xxx_nvmet: Add SysFS node for FC-NVMe Target
->>
->> Himanshu Madhani (1):
->>   qla2xxx: Update driver version to 11.00.00.00-k
->>
->> drivers/scsi/qla2xxx/Makefile      |   3 +-
->> drivers/scsi/qla2xxx/qla_attr.c    |  33 ++
->> drivers/scsi/qla2xxx/qla_dbg.c     |   1 +
->> drivers/scsi/qla2xxx/qla_dbg.h     |   2 +
->> drivers/scsi/qla2xxx/qla_def.h     |  35 +-
->> drivers/scsi/qla2xxx/qla_fw.h      | 263 ++++++++++
->> drivers/scsi/qla2xxx/qla_gbl.h     |  24 +-
->> drivers/scsi/qla2xxx/qla_gs.c      |  16 +-
->> drivers/scsi/qla2xxx/qla_init.c    |  49 +-
->> drivers/scsi/qla2xxx/qla_iocb.c    |   8 +-
->> drivers/scsi/qla2xxx/qla_isr.c     | 112 ++++-
->> drivers/scsi/qla2xxx/qla_mbx.c     | 101 +++-
->> drivers/scsi/qla2xxx/qla_nvme.h    |  33 --
->> drivers/scsi/qla2xxx/qla_nvmet.c   | 831 +++++++++++++++++++++++++++++++
->> drivers/scsi/qla2xxx/qla_nvmet.h   | 129 +++++
->> drivers/scsi/qla2xxx/qla_os.c      |  75 ++-
->> drivers/scsi/qla2xxx/qla_target.c  | 977 ++++++++++++++++++++++++++++++++++++-
->> drivers/scsi/qla2xxx/qla_target.h  |  90 ++++
->> drivers/scsi/qla2xxx/qla_version.h |   4 +-
->> 19 files changed, 2711 insertions(+), 75 deletions(-)
->> create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.c
->> create mode 100644 drivers/scsi/qla2xxx/qla_nvmet.h
->>
->> -- 
->> 2.12.0
->>
-> Hi Martin,
->
-> if there are no more review comments. Can we merge this into 4.21/scsi-queue.
->
-> Thanks,
-> - Himanshu
->
