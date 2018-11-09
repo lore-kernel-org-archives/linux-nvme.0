@@ -1,35 +1,31 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 9 Nov 2018 10:12:31 -0700
-Subject: [GIT PULL] nvme fixes for 4.20
-In-Reply-To: <332dc27f-96a9-e171-1f07-54961d443400@grimberg.me>
-References: <20181109065654.GA12805@infradead.org>
- <6b8d8562-a31d-bf11-557b-7f33a17d6e60@kernel.dk>
- <20181109132011.GA2706@infradead.org>
- <e1f4b4f5-6679-941f-638f-cdf3394ce773@kernel.dk>
- <332dc27f-96a9-e171-1f07-54961d443400@grimberg.me>
-Message-ID: <42652118-45e5-a251-0c4b-bc22798f41d4@kernel.dk>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 9 Nov 2018 10:55:56 -0800
+Subject: [PATCH] nvme-rdma: Don't fail the controller if only part of the
+ queues fail to connect
+In-Reply-To: <16e16abf-a1cc-a2f7-f5bc-4158236bffe4@grimberg.me>
+References: <1541349434-31640-1-git-send-email-israelr@mellanox.com>
+ <fa4ec36d-29e5-3cbd-742e-33c617d0f82e@broadcom.com>
+ <67c9a957-1b61-2632-396c-3c410f6729fa@mellanox.com>
+ <20181107090751.GA25759@lst.de>
+ <0c0b1ada-c1b2-2f27-098b-ca1859fcd485@mellanox.com>
+ <20181108083751.GA3465@lst.de>
+ <16e16abf-a1cc-a2f7-f5bc-4158236bffe4@grimberg.me>
+Message-ID: <f43f1881-c56e-6b00-6d5a-4511faa8648d@broadcom.com>
 
-On 11/9/18 10:10 AM, Sagi Grimberg wrote:
-> 
->>> That is because your for-linus was still 4.20-rc based when
->>> I created it.
->>
->> It's never been 4.20-rc based. After the initial merge, it got based
->> on a random commit in the merge window:
->>
->> commit 3acbd2de6bc3af215c6ed7732dfc097d1e238503
->> Merge: d49f8a52b15b de7d83da84bd
->> Author: Linus Torvalds <torvalds at linux-foundation.org>
->> Date:   Thu Oct 25 09:00:15 2018 -0700
->>
->>      Merge tag 'sound-4.20-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
->>
->> and has been ever since.
-> 
-> That was because I rebased it when your for-linus didn't include Ming's
-> buggy version of the brd commit. Sorry for the mixup..
 
-No problem, it's pretty trivial to just do manually for cases like this.
 
--- 
-Jens Axboe
+On 11/8/2018 4:00 PM, Sagi Grimberg wrote:
+>
+>> No, I'm arguing that adding this just in case code which doesn't
+>> have a good way to actually catch a typical bug is not very useful.
+>
+> Regardless of the specific error code, the question is do we want
+> to be able to still continue degraded operation if we happen to fail
+> queue allocation. A different error could be that we failed to connect
+> because the target is overloaded..
+>
+
+That shouldn't have happened if you have already done a SET_FEATURES to 
+set the io queue count.
+
+-- james
