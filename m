@@ -1,70 +1,35 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Thu, 8 Nov 2018 18:21:57 -0600
-Subject: [PATCH v2 1/2] pci: prevent sk hynix nvme from entering D3
-In-Reply-To: <20181106071214.12745-1-acelan.kao@canonical.com>
-References: <20181106071214.12745-1-acelan.kao@canonical.com>
-Message-ID: <20181109002157.GK41183@google.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 9 Nov 2018 07:56:54 +0100
+Subject: [GIT PULL] nvme fixes for 4.20
+Message-ID: <20181109065654.GA12805@infradead.org>
 
-On Tue, Nov 06, 2018@03:12:13PM +0800, AceLan Kao wrote:
-> It leads to the power consumption raises to 2.2W during s2idle, while
-> it consumes less than 1W during long idle if put SK hynix nvme to D3
-> and then enter s2idle.
-> From SK hynix FE, MS Windows doesn't put nvme to D3, and uses its own
-> APST feature to do the power management.
-> To leverage its APST feature during s2idle, we can't disable nvme
-> device while suspending, too.
+ - revert an RDMA commit that didn't help but caused problems
+ - fix another minor P2P fallout
+ - make sure the multipath device inherits the devices limits of
+   the controllers below
 
-I don't know how APST works, but it sounds like you want to disable D3
-if you're using APST.  But that's not what this patch does; this
-disables it always.
+The following changes since commit 651022382c7f8da46cb4872a545ee1da6d097d2a:
 
-I'm not sure we want a quirk for this at all, since as Christoph
-points out, it doesn't fix a functional issue as the other uses of
-quirk_no_ata_d3() do.
+  Linux 4.20-rc1 (2018-11-04 15:37:52 -0800)
 
->From your emails with Christoph, it sounds like this quirk is a
-workaround for a firmware defect.  If we *do* end up wanting a quirk,
-the changelog should at least mention the firmware defect and maybe
-check whether it has been fixed.
+are available in the Git repository at:
 
-> BTW, prevent it from entering D3 will increase the power consumtion around
-> 0.13W ~ 0.15W during short/long idle, and the power consumption during
-> s2idle becomes 0.77W.
-> 
-> Signed-off-by: AceLan Kao <acelan.kao at canonical.com>
-> ---
->  drivers/pci/quirks.c    | 1 +
->  include/linux/pci_ids.h | 2 ++
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 4700d24e5d55..b7e6492e8311 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -1332,6 +1332,7 @@ DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_AL, PCI_ANY_ID,
->     occur when mode detecting */
->  DECLARE_PCI_FIXUP_CLASS_EARLY(PCI_VENDOR_ID_VIA, PCI_ANY_ID,
->  				PCI_CLASS_STORAGE_IDE, 8, quirk_no_ata_d3);
-> +DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_SK_HYNIX, 0x1527, quirk_no_ata_d3);
->  
->  /*
->   * This was originally an Alpha-specific thing, but it really fits here.
-> diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-> index 69f0abe1ba1a..5f5adda07de0 100644
-> --- a/include/linux/pci_ids.h
-> +++ b/include/linux/pci_ids.h
-> @@ -3090,4 +3090,6 @@
->  
->  #define PCI_VENDOR_ID_NCUBE		0x10ff
->  
-> +#define PCI_VENDOR_ID_SK_HYNIX		0x1c5c
-> +
->  #endif /* _LINUX_PCI_IDS_H */
-> -- 
-> 2.17.1
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+  git://git.infradead.org/nvme.git nvme-4.20
+
+for you to fetch changes up to 72e43e497b07d607142f07a8c56794261fbe089b:
+
+  Revert "nvmet-rdma: use a private workqueue for delete" (2018-11-07 09:27:22 +0100)
+
+----------------------------------------------------------------
+Christoph Hellwig (1):
+      Revert "nvmet-rdma: use a private workqueue for delete"
+
+Sagi Grimberg (2):
+      nvmet: don't try to add ns to p2p map unless it actually uses it
+      nvme: make sure ns head inherits underlying device limits
+
+ drivers/nvme/host/core.c      |  4 +++-
+ drivers/nvme/host/multipath.c |  1 +
+ drivers/nvme/target/core.c    |  2 +-
+ drivers/nvme/target/rdma.c    | 19 ++++---------------
+ 4 files changed, 9 insertions(+), 17 deletions(-)
