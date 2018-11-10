@@ -1,23 +1,53 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 9 Nov 2018 13:55:36 -0800
-Subject: [PATCH] nvme-core: add work elements to struct nvme_ctrl
-In-Reply-To: <17389488-ba18-9276-05d4-af7de2226f4b@broadcom.com>
-References: <20181108003021.28624-1-sagi@grimberg.me>
- <20181108093839.GA4853@lst.de>
- <412d2c64-2d19-6d3c-ebee-aaeec59e1040@grimberg.me>
- <17389488-ba18-9276-05d4-af7de2226f4b@broadcom.com>
-Message-ID: <1d0a76ef-892d-672e-76ec-0f43c0103619@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sat, 10 Nov 2018 08:13:12 -0700
+Subject: [PATCH 1/6] nvme: don't disable local ints for polled queue
+In-Reply-To: <20181110151317.3813-1-axboe@kernel.dk>
+References: <20181110151317.3813-1-axboe@kernel.dk>
+Message-ID: <20181110151317.3813-2-axboe@kernel.dk>
 
+A polled queued doesn't trigger interrupts, so it's always safe
+to grab the queue lock without disabling interrupts.
 
->> I'm hoping we can gradually move towards having a common error recovery
->> logic in nvme. rdma, fc and tcp are using them for the same things so I
->> think it is useful to start moving commonality to common structures. 
-> 
-> I think we'll get there, but will be adding more transport ops instead. 
-> Like the stop_ctrl, or the recent scan_work deadlock makes me believe 
-> we'll have an queue_terminate op.
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: linux-nvme at lists.infradead.org
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+---
+ drivers/nvme/host/pci.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-I had several prototypes doing something along these lines [1].
-Was never able to follow up on them for the time being...
-
-http://git.infradead.org/users/sagi/linux.git/shortlog/refs/heads/nvme-central-reset-delete-err2
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6aa86dfcb32c..a6e3fbddfadf 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1061,15 +1061,26 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+ 
+ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+ {
++	unsigned long flags = 0; /* gcc 7.x fail */
+ 	u16 start, end;
+-	bool found;
++	bool found, has_irq;
+ 
+ 	if (!nvme_cqe_pending(nvmeq))
+ 		return 0;
+ 
+-	spin_lock_irq(&nvmeq->cq_lock);
++	/*
++	 * Polled queue doesn't have an IRQ, no need to disable ints
++	 */
++	has_irq = !nvmeq->polled;
++	if (has_irq)
++		local_irq_save(flags);
++
++	spin_lock(&nvmeq->cq_lock);
+ 	found = nvme_process_cq(nvmeq, &start, &end, tag);
+-	spin_unlock_irq(&nvmeq->cq_lock);
++	spin_unlock(&nvmeq->cq_lock);
++
++	if (has_irq)
++		local_irq_restore(flags);
+ 
+ 	nvme_complete_cqes(nvmeq, start, end);
+ 	return found;
+-- 
+2.17.1
