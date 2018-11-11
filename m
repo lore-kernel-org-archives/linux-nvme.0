@@ -1,53 +1,25 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 10 Nov 2018 08:13:12 -0700
-Subject: [PATCH 1/6] nvme: don't disable local ints for polled queue
-In-Reply-To: <20181110151317.3813-1-axboe@kernel.dk>
-References: <20181110151317.3813-1-axboe@kernel.dk>
-Message-ID: <20181110151317.3813-2-axboe@kernel.dk>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 11 Nov 2018 15:39:02 +0200
+Subject: [PATCH] nvmet-rdma: Fix using unallocated nvmet_rdma_delete_wq
+In-Reply-To: <20181107082004.GB24841@lst.de>
+References: <1541435031-16919-1-git-send-email-israelr@mellanox.com>
+ <2b8067ce-9943-0345-31ff-e71b06c57568@mellanox.com>
+ <5d3b0ef9-0559-699c-e845-cb0ac8162cda@grimberg.me>
+ <20181107082004.GB24841@lst.de>
+Message-ID: <a5bac7b3-293a-3300-d8b0-98b6057ba7d9@mellanox.com>
 
-A polled queued doesn't trigger interrupts, so it's always safe
-to grab the queue lock without disabling interrupts.
 
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: linux-nvme at lists.infradead.org
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
----
- drivers/nvme/host/pci.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+On 11/7/2018 10:20 AM, Christoph Hellwig wrote:
+> On Tue, Nov 06, 2018@07:15:31PM -0800, Sagi Grimberg wrote:
+>>> Sagi/Christoph/Keith,
+>>>
+>>> please note that the problematic commit? "nvmet-rdma: use a private
+>>> workqueue for delete" is only merged to nvme-4.20 so this fix can be
+>>> squashed to it IMO.
+>> I think we need to revert 2acf70a ("nvmet-rdma: use a private workqueue for
+>> delete") altogether because it never made any difference..
+> Agreed.  And nvme-4.20 has been merged to mainline already, so we can't
+> squash anything.  I'll plan to revert it for now.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6aa86dfcb32c..a6e3fbddfadf 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1061,15 +1061,26 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
- 
- static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
- {
-+	unsigned long flags = 0; /* gcc 7.x fail */
- 	u16 start, end;
--	bool found;
-+	bool found, has_irq;
- 
- 	if (!nvme_cqe_pending(nvmeq))
- 		return 0;
- 
--	spin_lock_irq(&nvmeq->cq_lock);
-+	/*
-+	 * Polled queue doesn't have an IRQ, no need to disable ints
-+	 */
-+	has_irq = !nvmeq->polled;
-+	if (has_irq)
-+		local_irq_save(flags);
-+
-+	spin_lock(&nvmeq->cq_lock);
- 	found = nvme_process_cq(nvmeq, &start, &end, tag);
--	spin_unlock_irq(&nvmeq->cq_lock);
-+	spin_unlock(&nvmeq->cq_lock);
-+
-+	if (has_irq)
-+		local_irq_restore(flags);
- 
- 	nvme_complete_cqes(nvmeq, start, end);
- 	return found;
--- 
-2.17.1
+
+so how we overcome the circular lock that was reported by Bart ?
