@@ -1,41 +1,94 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Mon, 12 Nov 2018 13:56:32 -0800
-Subject: [PATCH v3 0/8] nvmet: Enable AENs support for Discovery controllers
-Message-ID: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
+Date: Mon, 12 Nov 2018 13:56:33 -0800
+Subject: [PATCH v3 1/8] nvmet: Provide aen bit functions for multiple
+ controller types
+In-Reply-To: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
+References: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1542059800-35938-2-git-send-email-jay.e.sternberg@intel.com>
 
-v2 - corrected two patch descriptions and a patch's author
-v3 - rework based on comments from Christoph
+Move nvmet_aen_disabled and nvmet_clear_aen in preparation for other types
+of controllers to use, initially the discovery controller.
 
-Technical proposal 8002 defines enhancements to provide NVMe-oF with
-the same level of resource enumeration as is available with local
-PCIe-based NVMe devices. It defines an NVMe-oF level mechanism for
-notifying provisioned hosts about remote resource state changes
-(i.e., added, removed, modified), specifically Discovery Log changes.
+Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+---
+v2 - unchanged
+v3 - unchanged
 
-These changes allow an optional explicit persistent connection to
-Discovery controllers, and defines a mechanism to indicate changes
-occurring on Subsystems and Namespace controllers via Asynchronous
-Event Notifications.
+ drivers/nvme/target/admin-cmd.c | 13 -------------
+ drivers/nvme/target/core.c      |  7 -------
+ drivers/nvme/target/nvmet.h     | 15 +++++++++++++++
+ 3 files changed, 15 insertions(+), 20 deletions(-)
 
-Jay Sternberg (7):
-  nvmet: Provide aen bit functions for multiple controller types
-  nvmet: Change aen mask functions to use bit numbers
-  nvmet: Allow Keep Alive for Discovery controller
-  nvmet: Make kato and AEN processing for use by other controllers
-  nvmet: Add defines for discovery change async events
-  nvmet: Add support to Discovery controllers for commands
-  nvmet: Enable Discovery Controller AENs
-
-Sagi Grimberg (1):
-  nvmet: allow host connect even if no allowed subsystems are exported
-
- drivers/nvme/target/admin-cmd.c |  73 +++++++++++++----------
- drivers/nvme/target/configfs.c  |  30 +++++++---
- drivers/nvme/target/core.c      |  83 +++++++-------------------
- drivers/nvme/target/discovery.c | 127 ++++++++++++++++++++++++++++++++++++++--
- drivers/nvme/target/nvmet.h     |  41 +++++++++++--
- include/linux/nvme.h            |  15 ++++-
- 6 files changed, 257 insertions(+), 112 deletions(-)
-
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 1179f63..dfea2e0 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -19,19 +19,6 @@
+ #include <asm/unaligned.h>
+ #include "nvmet.h"
+ 
+-/*
+- * This helper allows us to clear the AEN based on the RAE bit,
+- * Please use this helper when processing the log pages which are
+- * associated with the AEN.
+- */
+-static inline void nvmet_clear_aen(struct nvmet_req *req, u32 aen_bit)
+-{
+-	int rae = le32_to_cpu(req->cmd->common.cdw10[0]) & 1 << 15;
+-
+-	if (!rae)
+-		clear_bit(aen_bit, &req->sq->ctrl->aen_masked);
+-}
+-
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
+ {
+ 	u32 len = le16_to_cpu(cmd->get_log_page.numdu);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index a5f9bbc..54fba15 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -150,13 +150,6 @@ static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 	schedule_work(&ctrl->async_event_work);
+ }
+ 
+-static bool nvmet_aen_disabled(struct nvmet_ctrl *ctrl, u32 aen)
+-{
+-	if (!(READ_ONCE(ctrl->aen_enabled) & aen))
+-		return true;
+-	return test_and_set_bit(aen, &ctrl->aen_masked);
+-}
+-
+ static void nvmet_add_to_changed_ns_log(struct nvmet_ctrl *ctrl, __le32 nsid)
+ {
+ 	u32 i;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index c2b4d9e..3a37269 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -340,6 +340,21 @@ struct nvmet_async_event {
+ 	u8			log_page;
+ };
+ 
++static inline void nvmet_clear_aen(struct nvmet_req *req, u32 aen_bit)
++{
++	int rae = le32_to_cpu(req->cmd->common.cdw10[0]) & 1 << 15;
++
++	if (!rae)
++		clear_bit(aen_bit, &req->sq->ctrl->aen_masked);
++}
++
++static inline bool nvmet_aen_disabled(struct nvmet_ctrl *ctrl, u32 aen)
++{
++	if (!(READ_ONCE(ctrl->aen_enabled) & aen))
++		return true;
++	return test_and_set_bit(aen, &ctrl->aen_masked);
++}
++
+ u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
+ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
 -- 
 1.8.3.1
