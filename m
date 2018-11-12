@@ -1,94 +1,121 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Mon, 12 Nov 2018 13:56:38 -0800
-Subject: [PATCH v3 6/8] nvmet: Add support to Discovery controllers for
- commands
+Date: Mon, 12 Nov 2018 13:56:39 -0800
+Subject: [PATCH v3 7/8] nvmet: allow host connect even if no allowed
+ subsystems are exported
 In-Reply-To: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
 References: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1542059800-35938-7-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1542059800-35938-8-git-send-email-jay.e.sternberg@intel.com>
 
-Add custom get/set features to commands allowed by Discovery controllers.
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+It is perfectly valid that a host connects to a discovery subsystem
+and gets an empty discovery log page since no subsystems are
+provisioned to it. No reason to disallow connecting to the discovery
+subsystem all together.
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
+Reviewed-by: Phil Cayton <phil.cayton at intel.com>
 ---
-v2 - unchanged
-v3 - updated commit description
+v2 - corrected author and updated description per authors request
+v3 - reworked per comments from Christoph
 
- drivers/nvme/target/discovery.c | 53 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ drivers/nvme/target/core.c      | 34 +++++++---------------------------
+ drivers/nvme/target/discovery.c |  2 +-
+ drivers/nvme/target/nvmet.h     |  3 +--
+ 3 files changed, 9 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 6e0f91e..050e4d7 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -183,6 +183,47 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 2bdfbae..28aff34 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -1020,14 +1020,18 @@ u16 nvmet_check_ctrl_status(struct nvmet_req *req, struct nvme_command *cmd)
+ 	return 0;
  }
  
-+static void nvmet_execute_disc_set_features(struct nvmet_req *req)
-+{
-+	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
-+	u16 stat;
-+
-+	switch (cdw10 & 0xff) {
-+	case NVME_FEAT_KATO:
-+		stat = nvmet_set_feat_kato(req);
-+		break;
-+	case NVME_FEAT_ASYNC_EVENT:
-+		stat = nvmet_set_feat_async_event(req,
-+						  NVMET_DISC_AEN_CFG_OPTIONAL);
-+		break;
-+	default:
-+		stat = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		break;
-+	}
-+
-+	nvmet_req_complete(req, stat);
-+}
-+
-+static void nvmet_execute_disc_get_features(struct nvmet_req *req)
-+{
-+	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
-+	u16 stat = 0;
-+
-+	switch (cdw10 & 0xff) {
-+	case NVME_FEAT_KATO:
-+		nvmet_get_feat_kato(req);
-+		break;
-+	case NVME_FEAT_ASYNC_EVENT:
-+		nvmet_get_feat_async_event(req);
-+		break;
-+	default:
-+		stat = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
-+		break;
-+	}
-+
-+	nvmet_req_complete(req, stat);
-+}
-+
- u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+-static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
+-		const char *hostnqn)
++bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
  {
- 	struct nvme_command *cmd = req->cmd;
-@@ -194,6 +235,18 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 	}
+ 	struct nvmet_host_link *p;
  
- 	switch (cmd->common.opcode) {
-+	case nvme_admin_set_features:
-+		req->execute = nvmet_execute_disc_set_features;
-+		req->data_len = 0;
-+		return 0;
-+	case nvme_admin_get_features:
-+		req->execute = nvmet_execute_disc_get_features;
-+		req->data_len = 0;
-+		return 0;
-+	case nvme_admin_async_event:
-+		req->execute = nvmet_execute_async_event;
-+		req->data_len = 0;
-+		return 0;
- 	case nvme_admin_keep_alive:
- 		req->execute = nvmet_execute_keep_alive;
- 		req->data_len = 0;
++	lockdep_assert_held(&nvmet_config_sem);
++
+ 	if (subsys->allow_any_host)
+ 		return true;
+ 
++	if (subsys->type == NVME_NQN_DISC) /* allow all access to disc subsys */
++		return true;
++
+ 	list_for_each_entry(p, &subsys->hosts, entry) {
+ 		if (!strcmp(nvmet_host_name(p->host), hostnqn))
+ 			return true;
+@@ -1036,30 +1040,6 @@ static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
+ 	return false;
+ }
+ 
+-static bool nvmet_host_discovery_allowed(struct nvmet_req *req,
+-		const char *hostnqn)
+-{
+-	struct nvmet_subsys_link *s;
+-
+-	list_for_each_entry(s, &req->port->subsystems, entry) {
+-		if (__nvmet_host_allowed(s->subsys, hostnqn))
+-			return true;
+-	}
+-
+-	return false;
+-}
+-
+-bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
+-		const char *hostnqn)
+-{
+-	lockdep_assert_held(&nvmet_config_sem);
+-
+-	if (subsys->type == NVME_NQN_DISC)
+-		return nvmet_host_discovery_allowed(req, hostnqn);
+-	else
+-		return __nvmet_host_allowed(subsys, hostnqn);
+-}
+-
+ /*
+  * Note: ctrl->subsys->lock should be held when calling this function
+  */
+@@ -1110,7 +1090,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 
+ 	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+ 	down_read(&nvmet_config_sem);
+-	if (!nvmet_host_allowed(req, subsys, hostnqn)) {
++	if (!nvmet_host_allowed(subsys, hostnqn)) {
+ 		pr_info("connect by host %s for subsystem %s not allowed\n",
+ 			hostnqn, subsysnqn);
+ 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 050e4d7..5fbb1bb 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -107,7 +107,7 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+ 
+ 	down_read(&nvmet_config_sem);
+ 	list_for_each_entry(p, &req->port->subsystems, entry) {
+-		if (!nvmet_host_allowed(req, p->subsys, ctrl->hostnqn))
++		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
+ 			continue;
+ 		if (residual_len >= entry_size) {
+ 			char traddr[NVMF_TRADDR_SIZE];
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 5c583c4..34b949c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -466,8 +466,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ extern u64 nvmet_ana_chgcnt;
+ extern struct rw_semaphore nvmet_ana_sem;
+ 
+-bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
+-		const char *hostnqn);
++bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
+ 
+ int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
+ int nvmet_file_ns_enable(struct nvmet_ns *ns);
 -- 
 1.8.3.1
