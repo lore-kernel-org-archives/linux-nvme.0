@@ -1,25 +1,49 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 11 Nov 2018 15:39:02 +0200
-Subject: [PATCH] nvmet-rdma: Fix using unallocated nvmet_rdma_delete_wq
-In-Reply-To: <20181107082004.GB24841@lst.de>
-References: <1541435031-16919-1-git-send-email-israelr@mellanox.com>
- <2b8067ce-9943-0345-31ff-e71b06c57568@mellanox.com>
- <5d3b0ef9-0559-699c-e845-cb0ac8162cda@grimberg.me>
- <20181107082004.GB24841@lst.de>
-Message-ID: <a5bac7b3-293a-3300-d8b0-98b6057ba7d9@mellanox.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 12 Nov 2018 16:53:23 -0500
+Subject: multipath-tools: add ANA support for NVMe device
+In-Reply-To: <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
+References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
+ <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
+Message-ID: <20181112215323.GA7983@redhat.com>
 
+On Mon, Nov 12 2018 at 11:23am -0500,
+Martin Wilck <mwilck@suse.com> wrote:
 
-On 11/7/2018 10:20 AM, Christoph Hellwig wrote:
-> On Tue, Nov 06, 2018@07:15:31PM -0800, Sagi Grimberg wrote:
->>> Sagi/Christoph/Keith,
->>>
->>> please note that the problematic commit? "nvmet-rdma: use a private
->>> workqueue for delete" is only merged to nvme-4.20 so this fix can be
->>> squashed to it IMO.
->> I think we need to revert 2acf70a ("nvmet-rdma: use a private workqueue for
->> delete") altogether because it never made any difference..
-> Agreed.  And nvme-4.20 has been merged to mainline already, so we can't
-> squash anything.  I'll plan to revert it for now.
+> Hello Lijie,
+> 
+> On Thu, 2018-11-08@14:09 +0800, lijie wrote:
+> > Add support for Asynchronous Namespace Access as specified in NVMe
+> > 1.3
+> > TP 4004. The states are updated through reading the ANA log page.
+> > 
+> > By default, the native nvme multipath takes over the nvme device.
+> > We can pass a false to the parameter 'multipath' of the nvme-core.ko
+> > module,when we want to use multipath-tools.
+> 
+> Thank you for the patch. It looks quite good to me. I've tested it with
+> a Linux target and found no problems so far.
+> 
+> I have a few questions and comments inline below.
+> 
+> I suggest you also have a look at detect_prio(); it seems to make sense
+> to use the ana prioritizer for NVMe paths automatically if ANA is
+> supported (with your patch, "detect_prio no" and "prio ana" have to be
+> configured explicitly). But that can be done in a later patch.
 
+I (and others) think it makes sense to at least triple check with the
+NVMe developers (now cc'd) to see if we could get agreement on the nvme
+driver providing the ANA state via sysfs (when modparam
+nvme_core.multipath=N is set), like Hannes proposed here:
+http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
 
-so how we overcome the circular lock that was reported by Bart ?
+Then the userspace multipath-tools ANA support could just read sysfs
+rather than reinvent harvesting the ANA state via ioctl.
+
+But if we continue to hit a wall on that type of sharing of the nvme
+driver's state then I'm fine with reinventing ANA state inquiry and
+tracking like has been proposed here.
+
+Mike
+
+p.s. thanks for your review Martin, we really need to determine the way
+forward for full multipath-tools support of NVMe with ANA.
