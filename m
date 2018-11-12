@@ -1,49 +1,296 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Mon, 12 Nov 2018 16:53:23 -0500
-Subject: multipath-tools: add ANA support for NVMe device
-In-Reply-To: <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
-Message-ID: <20181112215323.GA7983@redhat.com>
+From: jay.e.sternberg@intel.com (Jay Sternberg)
+Date: Mon, 12 Nov 2018 13:56:40 -0800
+Subject: [PATCH v3 8/8] nvmet: Enable Discovery Controller AENs
+In-Reply-To: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
+References: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1542059800-35938-9-git-send-email-jay.e.sternberg@intel.com>
 
-On Mon, Nov 12 2018 at 11:23am -0500,
-Martin Wilck <mwilck@suse.com> wrote:
+Add functions to find connections requesting Discovery Change events
+and send a notification to hosts that maintain an explicit persistent
+connection and have and active Asynchronous Event Request pending.
+Only Hosts that have access to the Subsystem effected by the change
+will receive notifications of Discovery Change event.
 
-> Hello Lijie,
-> 
-> On Thu, 2018-11-08@14:09 +0800, lijie wrote:
-> > Add support for Asynchronous Namespace Access as specified in NVMe
-> > 1.3
-> > TP 4004. The states are updated through reading the ANA log page.
-> > 
-> > By default, the native nvme multipath takes over the nvme device.
-> > We can pass a false to the parameter 'multipath' of the nvme-core.ko
-> > module,when we want to use multipath-tools.
-> 
-> Thank you for the patch. It looks quite good to me. I've tested it with
-> a Linux target and found no problems so far.
-> 
-> I have a few questions and comments inline below.
-> 
-> I suggest you also have a look at detect_prio(); it seems to make sense
-> to use the ana prioritizer for NVMe paths automatically if ANA is
-> supported (with your patch, "detect_prio no" and "prio ana" have to be
-> configured explicitly). But that can be done in a later patch.
+Call these functions each time there is a configfs change that effects
+the Discover Log Pages.
 
-I (and others) think it makes sense to at least triple check with the
-NVMe developers (now cc'd) to see if we could get agreement on the nvme
-driver providing the ANA state via sysfs (when modparam
-nvme_core.multipath=N is set), like Hannes proposed here:
-http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
+Set the OAES field in the Identify Controller response to advertise the
+support for Asynchronous Event Notifications.
 
-Then the userspace multipath-tools ANA support could just read sysfs
-rather than reinvent harvesting the ANA state via ioctl.
+Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
+Reviewed-by: Phil Cayton <phil.cayton at intel.com>
+---
+v2 - updated commit description
+v3 - merge patches per request from Christoph
 
-But if we continue to hit a wall on that type of sharing of the nvme
-driver's state then I'm fine with reinventing ANA state inquiry and
-tracking like has been proposed here.
+ drivers/nvme/target/configfs.c  | 30 +++++++++++++-----
+ drivers/nvme/target/core.c      |  2 +-
+ drivers/nvme/target/discovery.c | 68 +++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/target/nvmet.h     | 11 ++++++-
+ 4 files changed, 99 insertions(+), 12 deletions(-)
 
-Mike
-
-p.s. thanks for your review Martin, we really need to determine the way
-forward for full multipath-tools support of NVMe with ANA.
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index d895579..d37fd77 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -25,6 +25,9 @@
+ static const struct config_item_type nvmet_host_type;
+ static const struct config_item_type nvmet_subsys_type;
+ 
++static LIST_HEAD(nvmet_ports_list);
++struct list_head *nvmet_ports = &nvmet_ports_list;
++
+ static const struct nvmet_transport_name {
+ 	u8		type;
+ 	const char	*name;
+@@ -646,7 +649,8 @@ static int nvmet_port_subsys_allow_link(struct config_item *parent,
+ 	}
+ 
+ 	list_add_tail(&link->entry, &port->subsystems);
+-	nvmet_genctr++;
++	nvmet_port_disc_changed(port, subsys);
++
+ 	up_write(&nvmet_config_sem);
+ 	return 0;
+ 
+@@ -673,7 +677,8 @@ static void nvmet_port_subsys_drop_link(struct config_item *parent,
+ 
+ found:
+ 	list_del(&p->entry);
+-	nvmet_genctr++;
++	nvmet_port_disc_changed(port, subsys);
++
+ 	if (list_empty(&port->subsystems))
+ 		nvmet_disable_port(port);
+ 	up_write(&nvmet_config_sem);
+@@ -722,7 +727,8 @@ static int nvmet_allowed_hosts_allow_link(struct config_item *parent,
+ 			goto out_free_link;
+ 	}
+ 	list_add_tail(&link->entry, &subsys->hosts);
+-	nvmet_genctr++;
++	nvmet_subsys_disc_changed(subsys, host);
++
+ 	up_write(&nvmet_config_sem);
+ 	return 0;
+ out_free_link:
+@@ -748,7 +754,8 @@ static void nvmet_allowed_hosts_drop_link(struct config_item *parent,
+ 
+ found:
+ 	list_del(&p->entry);
+-	nvmet_genctr++;
++	nvmet_subsys_disc_changed(subsys, host);
++
+ 	up_write(&nvmet_config_sem);
+ 	kfree(p);
+ }
+@@ -787,7 +794,11 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
+ 		goto out_unlock;
+ 	}
+ 
+-	subsys->allow_any_host = allow_any_host;
++	if (subsys->allow_any_host != allow_any_host) {
++		subsys->allow_any_host = allow_any_host;
++		nvmet_subsys_disc_changed(subsys, NULL);
++	}
++
+ out_unlock:
+ 	up_write(&nvmet_config_sem);
+ 	return ret ? ret : count;
+@@ -936,7 +947,7 @@ static ssize_t nvmet_referral_enable_store(struct config_item *item,
+ 	if (enable)
+ 		nvmet_referral_enable(parent, port);
+ 	else
+-		nvmet_referral_disable(port);
++		nvmet_referral_disable(parent, port);
+ 
+ 	return count;
+ inval:
+@@ -962,9 +973,10 @@ static ssize_t nvmet_referral_enable_store(struct config_item *item,
+ 
+ static void nvmet_referral_release(struct config_item *item)
+ {
++	struct nvmet_port *parent = to_nvmet_port(item->ci_parent->ci_parent);
+ 	struct nvmet_port *port = to_nvmet_port(item);
+ 
+-	nvmet_referral_disable(port);
++	nvmet_referral_disable(parent, port);
+ 	kfree(port);
+ }
+ 
+@@ -1137,6 +1149,8 @@ static void nvmet_port_release(struct config_item *item)
+ {
+ 	struct nvmet_port *port = to_nvmet_port(item);
+ 
++	list_del(&port->global_entry);
++
+ 	kfree(port->ana_state);
+ 	kfree(port);
+ }
+@@ -1189,6 +1203,8 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 			port->ana_state[i] = NVME_ANA_INACCESSIBLE;
+ 	}
+ 
++	list_add(&port->global_entry, &nvmet_ports_list);
++
+ 	INIT_LIST_HEAD(&port->entry);
+ 	INIT_LIST_HEAD(&port->subsystems);
+ 	INIT_LIST_HEAD(&port->referrals);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 28aff34..331d3cb 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -130,7 +130,7 @@ static void nvmet_async_event_work(struct work_struct *work)
+ 	}
+ }
+ 
+-static void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
+ 		u8 event_info, u8 log_page)
+ {
+ 	struct nvmet_async_event *aen;
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 5fbb1bb..eb45ebc 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -20,24 +20,82 @@
+ 
+ u64 nvmet_genctr;
+ 
++static void __nvmet_disc_changed(struct nvmet_port *port,
++				 struct nvmet_ctrl *ctrl)
++{
++	if (ctrl->port != port)
++		return;
++
++	if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_DISC_CHANGE))
++		return;
++
++	nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
++			      NVME_AER_NOTICE_DISC_CHANGED, NVME_LOG_DISC);
++}
++
++void nvmet_port_disc_changed(struct nvmet_port *port,
++			     struct nvmet_subsys *subsys)
++{
++	struct nvmet_ctrl *ctrl;
++
++	nvmet_genctr++;
++
++	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
++		if (subsys && !nvmet_host_allowed(subsys, ctrl->hostnqn))
++			continue;
++
++		__nvmet_disc_changed(port, ctrl);
++	}
++}
++
++static void __nvmet_subsys_disc_changed(struct nvmet_port *port,
++					struct nvmet_subsys *subsys,
++					struct nvmet_host *host)
++{
++	struct nvmet_ctrl *ctrl;
++
++	list_for_each_entry(ctrl, &nvmet_disc_subsys->ctrls, subsys_entry) {
++		if (host && strcmp(nvmet_host_name(host), ctrl->hostnqn))
++			continue;
++
++		__nvmet_disc_changed(port, ctrl);
++	}
++}
++
++void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
++			       struct nvmet_host *host)
++{
++	struct nvmet_port *port;
++	struct nvmet_subsys_link *s;
++
++	nvmet_genctr++;
++
++	list_for_each_entry(port, nvmet_ports, global_entry)
++		list_for_each_entry(s, &port->subsystems, entry) {
++			if (s->subsys != subsys)
++				continue;
++			__nvmet_subsys_disc_changed(port, subsys, host);
++		}
++}
++
+ void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port)
+ {
+ 	down_write(&nvmet_config_sem);
+ 	if (list_empty(&port->entry)) {
+ 		list_add_tail(&port->entry, &parent->referrals);
+ 		port->enabled = true;
+-		nvmet_genctr++;
++		nvmet_port_disc_changed(parent, NULL);
+ 	}
+ 	up_write(&nvmet_config_sem);
+ }
+ 
+-void nvmet_referral_disable(struct nvmet_port *port)
++void nvmet_referral_disable(struct nvmet_port *parent, struct nvmet_port *port)
+ {
+ 	down_write(&nvmet_config_sem);
+ 	if (!list_empty(&port->entry)) {
+ 		port->enabled = false;
+ 		list_del_init(&port->entry);
+-		nvmet_genctr++;
++		nvmet_port_disc_changed(parent, NULL);
+ 	}
+ 	up_write(&nvmet_config_sem);
+ }
+@@ -136,6 +194,8 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
+ 	hdr->numrec = cpu_to_le64(numrec);
+ 	hdr->recfmt = cpu_to_le16(0);
+ 
++	nvmet_clear_aen_bit(req, NVME_AEN_BIT_DISC_CHANGE);
++
+ 	up_read(&nvmet_config_sem);
+ 
+ 	status = nvmet_copy_to_sgl(req, 0, hdr, data_len);
+@@ -174,6 +234,8 @@ static void nvmet_execute_identify_disc_ctrl(struct nvmet_req *req)
+ 	if (req->port->inline_data_size)
+ 		id->sgls |= cpu_to_le32(1 << 20);
+ 
++	id->oaes = cpu_to_le32(NVMET_DISC_AEN_CFG_OPTIONAL);
++
+ 	strlcpy(id->subnqn, ctrl->subsys->subsysnqn, sizeof(id->subnqn));
+ 
+ 	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 34b949c..075a578 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -139,6 +139,7 @@ struct nvmet_port {
+ 	struct list_head		subsystems;
+ 	struct config_group		referrals_group;
+ 	struct list_head		referrals;
++	struct list_head		global_entry;
+ 	struct config_group		ana_groups_group;
+ 	struct nvmet_ana_group		ana_default_group;
+ 	enum nvme_ana_state		*ana_state;
+@@ -420,7 +421,7 @@ void nvmet_send_ana_event(struct nvmet_subsys *subsys,
+ void nvmet_disable_port(struct nvmet_port *port);
+ 
+ void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port);
+-void nvmet_referral_disable(struct nvmet_port *port);
++void nvmet_referral_disable(struct nvmet_port *parent, struct nvmet_port *port);
+ 
+ u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
+ 		size_t len);
+@@ -430,6 +431,14 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ 
+ u32 nvmet_get_log_page_len(struct nvme_command *cmd);
+ 
++extern struct list_head *nvmet_ports;
++void nvmet_port_disc_changed(struct nvmet_port *port,
++		struct nvmet_subsys *subsys);
++void nvmet_subsys_disc_changed(struct nvmet_subsys *subsys,
++		struct nvmet_host *host);
++void nvmet_add_async_event(struct nvmet_ctrl *ctrl, u8 event_type,
++		u8 event_info, u8 log_page);
++
+ #define NVMET_QUEUE_SIZE	1024
+ #define NVMET_NR_QUEUES		128
+ #define NVMET_MAX_CMD		NVMET_QUEUE_SIZE
+-- 
+1.8.3.1
