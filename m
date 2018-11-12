@@ -1,122 +1,132 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Mon, 12 Nov 2018 13:56:34 -0800
-Subject: [PATCH v3 2/8] nvmet: Change aen mask functions to use bit numbers
+Date: Mon, 12 Nov 2018 13:56:35 -0800
+Subject: [PATCH v3 3/8] nvmet: Allow Keep Alive for Discovery controller
 In-Reply-To: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
 References: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1542059800-35938-3-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1542059800-35938-4-git-send-email-jay.e.sternberg@intel.com>
 
-Functions nvmet_aen_disabled and nvmet_clear_aen were using
-values not bit numbers ie 1 << 9 not 9 for bit function clear_bit
-and test_and_set_bit.
+Per change to specification allowing Discovery controllers to have
+explicit persistent connections, remove restriction on Discovery
+controllers allowing kato on connect.
 
 Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
-Reviewed-by: Phil Cayton <phil.cayton at intel.com>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
 v2 - unchanged
-v3 - replaced BIT() with 1 <<
+v3 - rename NVMET_DISC_KATO to NVMET_DISC_KATO_MS
 
- drivers/nvme/target/admin-cmd.c |  4 ++--
- drivers/nvme/target/core.c      |  4 ++--
- drivers/nvme/target/nvmet.h     | 10 +++++-----
- include/linux/nvme.h            | 12 +++++++++---
- 4 files changed, 18 insertions(+), 12 deletions(-)
+ drivers/nvme/target/admin-cmd.c |  2 +-
+ drivers/nvme/target/core.c      | 36 ++++++++++--------------------------
+ drivers/nvme/target/discovery.c |  4 ++++
+ drivers/nvme/target/nvmet.h     |  4 +++-
+ 4 files changed, 18 insertions(+), 28 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index dfea2e0..83d520c 100644
+index 83d520c..8824570 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -176,7 +176,7 @@ static void nvmet_execute_get_log_changed_ns(struct nvmet_req *req)
- 	if (!status)
- 		status = nvmet_zero_sgl(req, len, req->data_len - len);
- 	ctrl->nr_changed_ns = 0;
--	nvmet_clear_aen(req, NVME_AEN_CFG_NS_ATTR);
-+	nvmet_clear_aen_bit(req, NVME_AEN_BIT_NS_ATTR);
- 	mutex_unlock(&ctrl->lock);
- out:
- 	nvmet_req_complete(req, status);
-@@ -239,7 +239,7 @@ static void nvmet_execute_get_log_page_ana(struct nvmet_req *req)
+@@ -725,7 +725,7 @@ static void nvmet_execute_async_event(struct nvmet_req *req)
+ 	schedule_work(&ctrl->async_event_work);
+ }
  
- 	hdr.chgcnt = cpu_to_le64(nvmet_ana_chgcnt);
- 	hdr.ngrps = cpu_to_le16(ngrps);
--	nvmet_clear_aen(req, NVME_AEN_CFG_ANA_CHANGE);
-+	nvmet_clear_aen_bit(req, NVME_AEN_BIT_ANA_CHANGE);
- 	up_read(&nvmet_ana_sem);
+-static void nvmet_execute_keep_alive(struct nvmet_req *req)
++void nvmet_execute_keep_alive(struct nvmet_req *req)
+ {
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
  
- 	kfree(desc);
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 54fba15..7390809 100644
+index 7390809..2bdfbae 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -180,7 +180,7 @@ void nvmet_ns_changed(struct nvmet_subsys *subsys, u32 nsid)
+@@ -1168,31 +1168,17 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	ctrl->cntlid = ret;
  
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
- 		nvmet_add_to_changed_ns_log(ctrl, cpu_to_le32(nsid));
--		if (nvmet_aen_disabled(ctrl, NVME_AEN_CFG_NS_ATTR))
-+		if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_NS_ATTR))
- 			continue;
- 		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
- 				NVME_AER_NOTICE_NS_CHANGED,
-@@ -197,7 +197,7 @@ void nvmet_send_ana_event(struct nvmet_subsys *subsys,
- 	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry) {
- 		if (port && ctrl->port != port)
- 			continue;
--		if (nvmet_aen_disabled(ctrl, NVME_AEN_CFG_ANA_CHANGE))
-+		if (nvmet_aen_bit_disabled(ctrl, NVME_AEN_BIT_ANA_CHANGE))
- 			continue;
- 		nvmet_add_async_event(ctrl, NVME_AER_TYPE_NOTICE,
- 				NVME_AER_NOTICE_ANA, NVME_LOG_ANA);
+ 	ctrl->ops = req->ops;
+-	if (ctrl->subsys->type == NVME_NQN_DISC) {
+-		/* Don't accept keep-alive timeout for discovery controllers */
+-		if (kato) {
+-			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+-			goto out_remove_ida;
+-		}
+ 
+-		/*
+-		 * Discovery controllers use some arbitrary high value in order
+-		 * to cleanup stale discovery sessions
+-		 *
+-		 * From the latest base diff RC:
+-		 * "The Keep Alive command is not supported by
+-		 * Discovery controllers. A transport may specify a
+-		 * fixed Discovery controller activity timeout value
+-		 * (e.g., 2 minutes).  If no commands are received
+-		 * by a Discovery controller within that time
+-		 * period, the controller may perform the
+-		 * actions for Keep Alive Timer expiration".
+-		 */
+-		ctrl->kato = NVMET_DISC_KATO;
+-	} else {
+-		/* keep-alive timeout in seconds */
+-		ctrl->kato = DIV_ROUND_UP(kato, 1000);
+-	}
++	/*
++	 * Discovery controllers may use some arbitrary high value
++	 * in order to cleanup stale discovery sessions
++	 */
++	if ((ctrl->subsys->type == NVME_NQN_DISC) && !kato)
++		kato = NVMET_DISC_KATO_MS;
++
++	/* keep-alive timeout in seconds */
++	ctrl->kato = DIV_ROUND_UP(kato, 1000);
++
+ 	nvmet_start_keep_alive_timer(ctrl);
+ 
+ 	mutex_lock(&subsys->lock);
+@@ -1203,8 +1189,6 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	*ctrlp = ctrl;
+ 	return 0;
+ 
+-out_remove_ida:
+-	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
+ out_free_sqs:
+ 	kfree(ctrl->sqs);
+ out_free_cqs:
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index bc0aa0b..6e0f91e 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -194,6 +194,10 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+ 	}
+ 
+ 	switch (cmd->common.opcode) {
++	case nvme_admin_keep_alive:
++		req->execute = nvmet_execute_keep_alive;
++		req->data_len = 0;
++		return 0;
+ 	case nvme_admin_get_log_page:
+ 		req->data_len = nvmet_get_log_page_len(cmd);
+ 
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 3a37269..ffc228b 100644
+index ffc228b..da4a2dd 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -340,19 +340,19 @@ struct nvmet_async_event {
- 	u8			log_page;
- };
+@@ -370,6 +370,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ int nvmet_req_alloc_sgl(struct nvmet_req *req);
+ void nvmet_req_free_sgl(struct nvmet_req *req);
  
--static inline void nvmet_clear_aen(struct nvmet_req *req, u32 aen_bit)
-+static inline void nvmet_clear_aen_bit(struct nvmet_req *req, u32 bn)
- {
- 	int rae = le32_to_cpu(req->cmd->common.cdw10[0]) & 1 << 15;
- 
- 	if (!rae)
--		clear_bit(aen_bit, &req->sq->ctrl->aen_masked);
-+		clear_bit(bn, &req->sq->ctrl->aen_masked);
- }
- 
--static inline bool nvmet_aen_disabled(struct nvmet_ctrl *ctrl, u32 aen)
-+static inline bool nvmet_aen_bit_disabled(struct nvmet_ctrl *ctrl, u32 bn)
- {
--	if (!(READ_ONCE(ctrl->aen_enabled) & aen))
-+	if (!(READ_ONCE(ctrl->aen_enabled) & (1 << bn)))
- 		return true;
--	return test_and_set_bit(aen, &ctrl->aen_masked);
-+	return test_and_set_bit(bn, &ctrl->aen_masked);
- }
- 
- u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 818dbe9..5690882 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -484,9 +484,15 @@ enum {
- };
- 
- enum {
--	NVME_AEN_CFG_NS_ATTR		= 1 << 8,
--	NVME_AEN_CFG_FW_ACT		= 1 << 9,
--	NVME_AEN_CFG_ANA_CHANGE		= 1 << 11,
-+	NVME_AEN_BIT_NS_ATTR		= 8,
-+	NVME_AEN_BIT_FW_ACT		= 9,
-+	NVME_AEN_BIT_ANA_CHANGE		= 11,
-+};
++void nvmet_execute_keep_alive(struct nvmet_req *req);
 +
-+enum {
-+	NVME_AEN_CFG_NS_ATTR		= 1 << NVME_AEN_BIT_NS_ATTR,
-+	NVME_AEN_CFG_FW_ACT		= 1 << NVME_AEN_BIT_FW_ACT,
-+	NVME_AEN_CFG_ANA_CHANGE		= 1 << NVME_AEN_BIT_ANA_CHANGE,
- };
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+ 		u16 size);
+ void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, u16 qid,
+@@ -440,7 +442,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
+ #define NVMET_DEFAULT_ANA_GRPID	1
  
- struct nvme_lba_range_type {
+ #define NVMET_KAS		10
+-#define NVMET_DISC_KATO		120
++#define NVMET_DISC_KATO_MS		120000
+ 
+ int __init nvmet_init_configfs(void);
+ void __exit nvmet_exit_configfs(void);
 -- 
 1.8.3.1
