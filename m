@@ -1,132 +1,153 @@
 From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Mon, 12 Nov 2018 13:56:35 -0800
-Subject: [PATCH v3 3/8] nvmet: Allow Keep Alive for Discovery controller
+Date: Mon, 12 Nov 2018 13:56:36 -0800
+Subject: [PATCH v3 4/8] nvmet: Make kato and AEN processing for use by other
+ controllers
 In-Reply-To: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
 References: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1542059800-35938-4-git-send-email-jay.e.sternberg@intel.com>
+Message-ID: <1542059800-35938-5-git-send-email-jay.e.sternberg@intel.com>
 
-Per change to specification allowing Discovery controllers to have
-explicit persistent connections, remove restriction on Discovery
-controllers allowing kato on connect.
+Make common process of get/set features available to other controllers by
+making simple functions static inline and others not static and prototypes
+in nvmet.h file
+
+Also remove static from nvmet_execute_async_event and add prototype to
+nvmet.h to allow used by other controllers
 
 Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
 v2 - unchanged
-v3 - rename NVMET_DISC_KATO to NVMET_DISC_KATO_MS
+v3 - moved nvmet_get_feat_kato and nvmet_get_feat_async_event out of nvmet.h
 
- drivers/nvme/target/admin-cmd.c |  2 +-
- drivers/nvme/target/core.c      | 36 ++++++++++--------------------------
- drivers/nvme/target/discovery.c |  4 ++++
- drivers/nvme/target/nvmet.h     |  4 +++-
- 4 files changed, 18 insertions(+), 28 deletions(-)
+ drivers/nvme/target/admin-cmd.c | 54 +++++++++++++++++++++++++++++------------
+ drivers/nvme/target/nvmet.h     |  6 +++++
+ 2 files changed, 45 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 83d520c..8824570 100644
+index 8824570..888f486 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -725,7 +725,7 @@ static void nvmet_execute_async_event(struct nvmet_req *req)
- 	schedule_work(&ctrl->async_event_work);
+@@ -586,11 +586,34 @@ static u16 nvmet_set_feat_write_protect(struct nvmet_req *req)
+ 	return status;
  }
  
--static void nvmet_execute_keep_alive(struct nvmet_req *req)
-+void nvmet_execute_keep_alive(struct nvmet_req *req)
++u16 nvmet_set_feat_kato(struct nvmet_req *req)
++{
++	u32 val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
++
++	req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
++
++	nvmet_set_result(req, req->sq->ctrl->kato);
++
++	return 0;
++}
++
++u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask)
++{
++	u32 val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
++
++	if (val32 & ~mask)
++		return NVME_SC_INVALID_FIELD | NVME_SC_DNR;
++
++	WRITE_ONCE(req->sq->ctrl->aen_enabled, val32);
++	nvmet_set_result(req, val32);
++
++	return 0;
++}
++
+ static void nvmet_execute_set_features(struct nvmet_req *req)
+ {
+ 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
+-	u32 val32;
+ 	u16 status = 0;
+ 
+ 	switch (cdw10 & 0xff) {
+@@ -599,19 +622,10 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
+ 		break;
+ 	case NVME_FEAT_KATO:
+-		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
+-		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
+-		nvmet_set_result(req, req->sq->ctrl->kato);
++		status = nvmet_set_feat_kato(req);
+ 		break;
+ 	case NVME_FEAT_ASYNC_EVENT:
+-		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
+-		if (val32 & ~NVMET_AEN_CFG_ALL) {
+-			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
+-			break;
+-		}
+-
+-		WRITE_ONCE(req->sq->ctrl->aen_enabled, val32);
+-		nvmet_set_result(req, val32);
++		status = nvmet_set_feat_async_event(req, NVMET_AEN_CFG_ALL);
+ 		break;
+ 	case NVME_FEAT_HOST_ID:
+ 		status = NVME_SC_CMD_SEQ_ERROR | NVME_SC_DNR;
+@@ -647,6 +661,16 @@ static u16 nvmet_get_feat_write_protect(struct nvmet_req *req)
+ 	return 0;
+ }
+ 
++void nvmet_get_feat_kato(struct nvmet_req *req)
++{
++	nvmet_set_result(req, req->sq->ctrl->kato * 1000);
++}
++
++void nvmet_get_feat_async_event(struct nvmet_req *req)
++{
++	nvmet_set_result(req, READ_ONCE(req->sq->ctrl->aen_enabled));
++}
++
+ static void nvmet_execute_get_features(struct nvmet_req *req)
+ {
+ 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+@@ -676,7 +700,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 		break;
+ #endif
+ 	case NVME_FEAT_ASYNC_EVENT:
+-		nvmet_set_result(req, READ_ONCE(req->sq->ctrl->aen_enabled));
++		nvmet_get_feat_async_event(req);
+ 		break;
+ 	case NVME_FEAT_VOLATILE_WC:
+ 		nvmet_set_result(req, 1);
+@@ -686,7 +710,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 			(subsys->max_qid-1) | ((subsys->max_qid-1) << 16));
+ 		break;
+ 	case NVME_FEAT_KATO:
+-		nvmet_set_result(req, req->sq->ctrl->kato * 1000);
++		nvmet_get_feat_kato(req);
+ 		break;
+ 	case NVME_FEAT_HOST_ID:
+ 		/* need 128-bit host identifier flag */
+@@ -709,7 +733,7 @@ static void nvmet_execute_get_features(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
+ }
+ 
+-static void nvmet_execute_async_event(struct nvmet_req *req)
++void nvmet_execute_async_event(struct nvmet_req *req)
  {
  	struct nvmet_ctrl *ctrl = req->sq->ctrl;
  
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 7390809..2bdfbae 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1168,31 +1168,17 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	ctrl->cntlid = ret;
- 
- 	ctrl->ops = req->ops;
--	if (ctrl->subsys->type == NVME_NQN_DISC) {
--		/* Don't accept keep-alive timeout for discovery controllers */
--		if (kato) {
--			status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
--			goto out_remove_ida;
--		}
- 
--		/*
--		 * Discovery controllers use some arbitrary high value in order
--		 * to cleanup stale discovery sessions
--		 *
--		 * From the latest base diff RC:
--		 * "The Keep Alive command is not supported by
--		 * Discovery controllers. A transport may specify a
--		 * fixed Discovery controller activity timeout value
--		 * (e.g., 2 minutes).  If no commands are received
--		 * by a Discovery controller within that time
--		 * period, the controller may perform the
--		 * actions for Keep Alive Timer expiration".
--		 */
--		ctrl->kato = NVMET_DISC_KATO;
--	} else {
--		/* keep-alive timeout in seconds */
--		ctrl->kato = DIV_ROUND_UP(kato, 1000);
--	}
-+	/*
-+	 * Discovery controllers may use some arbitrary high value
-+	 * in order to cleanup stale discovery sessions
-+	 */
-+	if ((ctrl->subsys->type == NVME_NQN_DISC) && !kato)
-+		kato = NVMET_DISC_KATO_MS;
-+
-+	/* keep-alive timeout in seconds */
-+	ctrl->kato = DIV_ROUND_UP(kato, 1000);
-+
- 	nvmet_start_keep_alive_timer(ctrl);
- 
- 	mutex_lock(&subsys->lock);
-@@ -1203,8 +1189,6 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 	*ctrlp = ctrl;
- 	return 0;
- 
--out_remove_ida:
--	ida_simple_remove(&cntlid_ida, ctrl->cntlid);
- out_free_sqs:
- 	kfree(ctrl->sqs);
- out_free_cqs:
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index bc0aa0b..6e0f91e 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -194,6 +194,10 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 	}
- 
- 	switch (cmd->common.opcode) {
-+	case nvme_admin_keep_alive:
-+		req->execute = nvmet_execute_keep_alive;
-+		req->data_len = 0;
-+		return 0;
- 	case nvme_admin_get_log_page:
- 		req->data_len = nvmet_get_log_page_len(cmd);
- 
 diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index ffc228b..da4a2dd 100644
+index da4a2dd..e9a81f6 100644
 --- a/drivers/nvme/target/nvmet.h
 +++ b/drivers/nvme/target/nvmet.h
-@@ -370,6 +370,8 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- int nvmet_req_alloc_sgl(struct nvmet_req *req);
- void nvmet_req_free_sgl(struct nvmet_req *req);
+@@ -355,6 +355,12 @@ static inline bool nvmet_aen_bit_disabled(struct nvmet_ctrl *ctrl, u32 bn)
+ 	return test_and_set_bit(bn, &ctrl->aen_masked);
+ }
  
-+void nvmet_execute_keep_alive(struct nvmet_req *req);
++void nvmet_get_feat_kato(struct nvmet_req *req);
++void nvmet_get_feat_async_event(struct nvmet_req *req);
++u16 nvmet_set_feat_kato(struct nvmet_req *req);
++u16 nvmet_set_feat_async_event(struct nvmet_req *req, u32 mask);
++void nvmet_execute_async_event(struct nvmet_req *req);
 +
- void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
- 		u16 size);
- void nvmet_sq_setup(struct nvmet_ctrl *ctrl, struct nvmet_sq *sq, u16 qid,
-@@ -440,7 +442,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- #define NVMET_DEFAULT_ANA_GRPID	1
- 
- #define NVMET_KAS		10
--#define NVMET_DISC_KATO		120
-+#define NVMET_DISC_KATO_MS		120000
- 
- int __init nvmet_init_configfs(void);
- void __exit nvmet_exit_configfs(void);
+ u16 nvmet_parse_connect_cmd(struct nvmet_req *req);
+ u16 nvmet_bdev_parse_io_cmd(struct nvmet_req *req);
+ u16 nvmet_file_parse_io_cmd(struct nvmet_req *req);
 -- 
 1.8.3.1
