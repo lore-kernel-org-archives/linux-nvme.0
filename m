@@ -1,79 +1,36 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Tue, 13 Nov 2018 00:51:29 -0500
-Subject: [PATCH AUTOSEL 4.14 05/26] nvme-pci: fix conflicting p2p resource adds
-In-Reply-To: <20181113055150.78773-1-sashal@kernel.org>
-References: <20181113055150.78773-1-sashal@kernel.org>
-Message-ID: <20181113055150.78773-5-sashal@kernel.org>
+From: mwilck@suse.com (Martin Wilck)
+Date: Tue, 13 Nov 2018 07:59:30 +0100
+Subject: multipath-tools: add ANA support for NVMe device
+In-Reply-To: <20181112215323.GA7983@redhat.com>
+References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
+ <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
+ <20181112215323.GA7983@redhat.com>
+Message-ID: <194b0202a660044a75c3751abc3295707c8d29e4.camel@suse.com>
 
-From: Keith Busch <keith.busch@intel.com>
+On Mon, 2018-11-12@16:53 -0500, Mike Snitzer wrote:
+> 
+> I (and others) think it makes sense to at least triple check with the
+> NVMe developers (now cc'd) to see if we could get agreement on the
+> nvme
+> driver providing the ANA state via sysfs (when modparam
+> nvme_core.multipath=N is set), like Hannes proposed here:
+> http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
+> 
+> Then the userspace multipath-tools ANA support could just read sysfs
+> rather than reinvent harvesting the ANA state via ioctl.
 
-[ Upstream commit 9fe5c59ff6a1e5e26a39b75489a1420e7eaaf0b1 ]
+If some kernels expose the sysfs attributes and some don't, what are we
+supposed to do? In order to be portable, multipath-tools (and other
+user space tools, for that matter) need to support both, and maintain
+multiple code paths. Just like SCSI :-)
 
-The nvme pci driver had been adding its CMB resource to the P2P DMA
-subsystem everytime on on a controller reset. This results in the
-following warning:
+I'd really like to see this abstracted away with a "libnvme" (you name
+it), which user space tools could simply call without having to worry
+how it actually talks to the kernel.
 
-    ------------[ cut here ]------------
-    nvme 0000:00:03.0: Conflicting mapping in same section
-    WARNING: CPU: 7 PID: 81 at kernel/memremap.c:155 devm_memremap_pages+0xa6/0x380
-    ...
-    Call Trace:
-     pci_p2pdma_add_resource+0x153/0x370
-     nvme_reset_work+0x28c/0x17b1 [nvme]
-     ? add_timer+0x107/0x1e0
-     ? dequeue_entity+0x81/0x660
-     ? dequeue_entity+0x3b0/0x660
-     ? pick_next_task_fair+0xaf/0x610
-     ? __switch_to+0xbc/0x410
-     process_one_work+0x1cf/0x350
-     worker_thread+0x215/0x3d0
-     ? process_one_work+0x350/0x350
-     kthread+0x107/0x120
-     ? kthread_park+0x80/0x80
-     ret_from_fork+0x1f/0x30
-    ---[ end trace f7ea76ac6ee72727 ]---
-    nvme nvme0: failed to register the CMB
+Martin
 
-This patch fixes this by registering the CMB with P2P only once.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
----
- drivers/nvme/host/pci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index afb99876fa9e..9eb0a2acd41f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1546,6 +1546,9 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
- 	void __iomem *cmb;
- 	int bar;
- 
-+	if (dev->cmb_size)
-+		return;
-+
- 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
- 	if (!(NVME_CMB_SZ(dev->cmbsz)))
- 		return NULL;
-@@ -2032,7 +2035,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	nvme_release_cmb(dev);
- 	pci_free_irq_vectors(pdev);
- 
- 	if (pci_is_enabled(pdev)) {
-@@ -2432,6 +2434,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_stop_ctrl(&dev->ctrl);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
-+	nvme_release_cmb(dev);
- 	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
 -- 
-2.17.1
+Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
+SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
