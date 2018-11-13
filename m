@@ -1,36 +1,44 @@
-From: mwilck@suse.com (Martin Wilck)
-Date: Tue, 13 Nov 2018 07:59:30 +0100
-Subject: multipath-tools: add ANA support for NVMe device
-In-Reply-To: <20181112215323.GA7983@redhat.com>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
-Message-ID: <194b0202a660044a75c3751abc3295707c8d29e4.camel@suse.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 13 Nov 2018 08:42:23 -0700
+Subject: [PATCH 01/11] nvme: don't disable local ints for polled queue
+In-Reply-To: <20181113154233.15256-1-axboe@kernel.dk>
+References: <20181113154233.15256-1-axboe@kernel.dk>
+Message-ID: <20181113154233.15256-2-axboe@kernel.dk>
 
-On Mon, 2018-11-12@16:53 -0500, Mike Snitzer wrote:
-> 
-> I (and others) think it makes sense to at least triple check with the
-> NVMe developers (now cc'd) to see if we could get agreement on the
-> nvme
-> driver providing the ANA state via sysfs (when modparam
-> nvme_core.multipath=N is set), like Hannes proposed here:
-> http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
-> 
-> Then the userspace multipath-tools ANA support could just read sysfs
-> rather than reinvent harvesting the ANA state via ioctl.
+A polled queued doesn't trigger interrupts, so it's always safe
+to grab the queue lock without disabling interrupts.
 
-If some kernels expose the sysfs attributes and some don't, what are we
-supposed to do? In order to be portable, multipath-tools (and other
-user space tools, for that matter) need to support both, and maintain
-multiple code paths. Just like SCSI :-)
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: linux-nvme at lists.infradead.org
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+---
+ drivers/nvme/host/pci.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-I'd really like to see this abstracted away with a "libnvme" (you name
-it), which user space tools could simply call without having to worry
-how it actually talks to the kernel.
-
-Martin
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6aa86dfcb32c..bb22ae567208 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1067,9 +1067,18 @@ static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+ 	if (!nvme_cqe_pending(nvmeq))
+ 		return 0;
+ 
+-	spin_lock_irq(&nvmeq->cq_lock);
++	/*
++	 * Polled queue doesn't have an IRQ, no need to disable ints
++	 */
++	if (!nvmeq->polled)
++		local_irq_disable();
++
++	spin_lock(&nvmeq->cq_lock);
+ 	found = nvme_process_cq(nvmeq, &start, &end, tag);
+-	spin_unlock_irq(&nvmeq->cq_lock);
++	spin_unlock(&nvmeq->cq_lock);
++
++	if (!nvmeq->polled)
++		local_irq_enable();
+ 
+ 	nvme_complete_cqes(nvmeq, start, end);
+ 	return found;
 -- 
-Dr. Martin Wilck <mwilck at suse.com>, Tel. +49 (0)911 74053 2107
-SUSE Linux GmbH, GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
+2.17.1
