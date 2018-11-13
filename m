@@ -1,121 +1,79 @@
-From: jay.e.sternberg@intel.com (Jay Sternberg)
-Date: Mon, 12 Nov 2018 13:56:39 -0800
-Subject: [PATCH v3 7/8] nvmet: allow host connect even if no allowed
- subsystems are exported
-In-Reply-To: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
-References: <1542059800-35938-1-git-send-email-jay.e.sternberg@intel.com>
-Message-ID: <1542059800-35938-8-git-send-email-jay.e.sternberg@intel.com>
+From: sashal@kernel.org (Sasha Levin)
+Date: Tue, 13 Nov 2018 00:49:11 -0500
+Subject: [PATCH AUTOSEL 4.19 05/44] nvme-pci: fix conflicting p2p resource adds
+In-Reply-To: <20181113054950.77898-1-sashal@kernel.org>
+References: <20181113054950.77898-1-sashal@kernel.org>
+Message-ID: <20181113054950.77898-5-sashal@kernel.org>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+From: Keith Busch <keith.busch@intel.com>
 
-It is perfectly valid that a host connects to a discovery subsystem
-and gets an empty discovery log page since no subsystems are
-provisioned to it. No reason to disallow connecting to the discovery
-subsystem all together.
+[ Upstream commit 9fe5c59ff6a1e5e26a39b75489a1420e7eaaf0b1 ]
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Jay Sternberg <jay.e.sternberg at intel.com>
-Reviewed-by: Phil Cayton <phil.cayton at intel.com>
+The nvme pci driver had been adding its CMB resource to the P2P DMA
+subsystem everytime on on a controller reset. This results in the
+following warning:
+
+    ------------[ cut here ]------------
+    nvme 0000:00:03.0: Conflicting mapping in same section
+    WARNING: CPU: 7 PID: 81 at kernel/memremap.c:155 devm_memremap_pages+0xa6/0x380
+    ...
+    Call Trace:
+     pci_p2pdma_add_resource+0x153/0x370
+     nvme_reset_work+0x28c/0x17b1 [nvme]
+     ? add_timer+0x107/0x1e0
+     ? dequeue_entity+0x81/0x660
+     ? dequeue_entity+0x3b0/0x660
+     ? pick_next_task_fair+0xaf/0x610
+     ? __switch_to+0xbc/0x410
+     process_one_work+0x1cf/0x350
+     worker_thread+0x215/0x3d0
+     ? process_one_work+0x350/0x350
+     kthread+0x107/0x120
+     ? kthread_park+0x80/0x80
+     ret_from_fork+0x1f/0x30
+    ---[ end trace f7ea76ac6ee72727 ]---
+    nvme nvme0: failed to register the CMB
+
+This patch fixes this by registering the CMB with P2P only once.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+Signed-off-by: Sasha Levin <sashal at kernel.org>
 ---
-v2 - corrected author and updated description per authors request
-v3 - reworked per comments from Christoph
+ drivers/nvme/host/pci.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
- drivers/nvme/target/core.c      | 34 +++++++---------------------------
- drivers/nvme/target/discovery.c |  2 +-
- drivers/nvme/target/nvmet.h     |  3 +--
- 3 files changed, 9 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 2bdfbae..28aff34 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -1020,14 +1020,18 @@ u16 nvmet_check_ctrl_status(struct nvmet_req *req, struct nvme_command *cmd)
- 	return 0;
- }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d668682f91df..da18e0ac9fa2 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1647,6 +1647,9 @@ static void nvme_map_cmb(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int bar;
  
--static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
--		const char *hostnqn)
-+bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn)
++	if (dev->cmb_size)
++		return;
++
+ 	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
+ 	if (!dev->cmbsz)
+ 		return;
+@@ -2129,7 +2132,6 @@ static void nvme_pci_disable(struct nvme_dev *dev)
  {
- 	struct nvmet_host_link *p;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
  
-+	lockdep_assert_held(&nvmet_config_sem);
-+
- 	if (subsys->allow_any_host)
- 		return true;
+-	nvme_release_cmb(dev);
+ 	pci_free_irq_vectors(pdev);
  
-+	if (subsys->type == NVME_NQN_DISC) /* allow all access to disc subsys */
-+		return true;
-+
- 	list_for_each_entry(p, &subsys->hosts, entry) {
- 		if (!strcmp(nvmet_host_name(p->host), hostnqn))
- 			return true;
-@@ -1036,30 +1040,6 @@ static bool __nvmet_host_allowed(struct nvmet_subsys *subsys,
- 	return false;
- }
- 
--static bool nvmet_host_discovery_allowed(struct nvmet_req *req,
--		const char *hostnqn)
--{
--	struct nvmet_subsys_link *s;
--
--	list_for_each_entry(s, &req->port->subsystems, entry) {
--		if (__nvmet_host_allowed(s->subsys, hostnqn))
--			return true;
--	}
--
--	return false;
--}
--
--bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
--		const char *hostnqn)
--{
--	lockdep_assert_held(&nvmet_config_sem);
--
--	if (subsys->type == NVME_NQN_DISC)
--		return nvmet_host_discovery_allowed(req, hostnqn);
--	else
--		return __nvmet_host_allowed(subsys, hostnqn);
--}
--
- /*
-  * Note: ctrl->subsys->lock should be held when calling this function
-  */
-@@ -1110,7 +1090,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 
- 	status = NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
- 	down_read(&nvmet_config_sem);
--	if (!nvmet_host_allowed(req, subsys, hostnqn)) {
-+	if (!nvmet_host_allowed(subsys, hostnqn)) {
- 		pr_info("connect by host %s for subsystem %s not allowed\n",
- 			hostnqn, subsysnqn);
- 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 050e4d7..5fbb1bb 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -107,7 +107,7 @@ static void nvmet_execute_get_disc_log_page(struct nvmet_req *req)
- 
- 	down_read(&nvmet_config_sem);
- 	list_for_each_entry(p, &req->port->subsystems, entry) {
--		if (!nvmet_host_allowed(req, p->subsys, ctrl->hostnqn))
-+		if (!nvmet_host_allowed(p->subsys, ctrl->hostnqn))
- 			continue;
- 		if (residual_len >= entry_size) {
- 			char traddr[NVMF_TRADDR_SIZE];
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 5c583c4..34b949c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -466,8 +466,7 @@ u16 nvmet_copy_from_sgl(struct nvmet_req *req, off_t off, void *buf,
- extern u64 nvmet_ana_chgcnt;
- extern struct rw_semaphore nvmet_ana_sem;
- 
--bool nvmet_host_allowed(struct nvmet_req *req, struct nvmet_subsys *subsys,
--		const char *hostnqn);
-+bool nvmet_host_allowed(struct nvmet_subsys *subsys, const char *hostnqn);
- 
- int nvmet_bdev_ns_enable(struct nvmet_ns *ns);
- int nvmet_file_ns_enable(struct nvmet_ns *ns);
+ 	if (pci_is_enabled(pdev)) {
+@@ -2577,6 +2579,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_stop_ctrl(&dev->ctrl);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
++	nvme_release_cmb(dev);
+ 	nvme_free_host_mem(dev);
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_free_queues(dev, 0);
 -- 
-1.8.3.1
+2.17.1
