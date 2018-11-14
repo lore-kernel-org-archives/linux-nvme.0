@@ -1,88 +1,120 @@
-From: linux@roeck-us.net (Guenter Roeck)
-Date: Tue, 13 Nov 2018 20:52:37 -0800
-Subject: [PATCH] nvme: utilize two queue maps, one for reads and one for
- writes
-In-Reply-To: <f1e91342-2b04-6d9f-e77a-6e812c6888d0@kernel.dk>
-References: <20181114004148.GA29545@roeck-us.net>
- <f1e91342-2b04-6d9f-e77a-6e812c6888d0@kernel.dk>
-Message-ID: <20181114045237.GA6456@roeck-us.net>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 14 Nov 2018 00:38:37 -0500
+Subject: multipath-tools: add ANA support for NVMe device
+In-Reply-To: <20181113180008.GA12513@redhat.com>
+References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
+ <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
+ <20181112215323.GA7983@redhat.com>
+ <20181113161838.GC9827@localhost.localdomain>
+ <20181113180008.GA12513@redhat.com>
+Message-ID: <20181114053837.GA15086@redhat.com>
 
-On Tue, Nov 13, 2018@05:51:08PM -0700, Jens Axboe wrote:
-> On 11/13/18 5:41 PM, Guenter Roeck wrote:
-> > Hi,
+On Tue, Nov 13 2018 at  1:00pm -0500,
+Mike Snitzer <snitzer@redhat.com> wrote:
+
+> On Tue, Nov 13 2018 at 11:18am -0500,
+> Keith Busch <keith.busch@intel.com> wrote:
+> 
+> > On Mon, Nov 12, 2018@04:53:23PM -0500, Mike Snitzer wrote:
+> > > On Mon, Nov 12 2018 at 11:23am -0500,
+> > > Martin Wilck <mwilck@suse.com> wrote:
+> > > 
+> > > > Hello Lijie,
+> > > > 
+> > > > On Thu, 2018-11-08@14:09 +0800, lijie wrote:
+> > > > > Add support for Asynchronous Namespace Access as specified in NVMe
+> > > > > 1.3
+> > > > > TP 4004. The states are updated through reading the ANA log page.
+> > > > > 
+> > > > > By default, the native nvme multipath takes over the nvme device.
+> > > > > We can pass a false to the parameter 'multipath' of the nvme-core.ko
+> > > > > module,when we want to use multipath-tools.
+> > > > 
+> > > > Thank you for the patch. It looks quite good to me. I've tested it with
+> > > > a Linux target and found no problems so far.
+> > > > 
+> > > > I have a few questions and comments inline below.
+> > > > 
+> > > > I suggest you also have a look at detect_prio(); it seems to make sense
+> > > > to use the ana prioritizer for NVMe paths automatically if ANA is
+> > > > supported (with your patch, "detect_prio no" and "prio ana" have to be
+> > > > configured explicitly). But that can be done in a later patch.
+> > > 
+> > > I (and others) think it makes sense to at least triple check with the
+> > > NVMe developers (now cc'd) to see if we could get agreement on the nvme
+> > > driver providing the ANA state via sysfs (when modparam
+> > > nvme_core.multipath=N is set), like Hannes proposed here:
+> > > http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
+> > > 
+> > > Then the userspace multipath-tools ANA support could just read sysfs
+> > > rather than reinvent harvesting the ANA state via ioctl.
 > > 
-> > On Wed, Oct 31, 2018@08:36:31AM -0600, Jens Axboe wrote:
-> >> NVMe does round-robin between queues by default, which means that
-> >> sharing a queue map for both reads and writes can be problematic
-> >> in terms of read servicing. It's much easier to flood the queue
-> >> with writes and reduce the read servicing.
-> >>
-> >> Implement two queue maps, one for reads and one for writes. The
-> >> write queue count is configurable through the 'write_queues'
-> >> parameter.
-> >>
-> >> By default, we retain the previous behavior of having a single
-> >> queue set, shared between reads and writes. Setting 'write_queues'
-> >> to a non-zero value will create two queue sets, one for reads and
-> >> one for writes, the latter using the configurable number of
-> >> queues (hardware queue counts permitting).
-> >>
-> >> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> >> Reviewed-by: Keith Busch <keith.busch at intel.com>
-> >> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> > 
-> > This patch causes hangs when running recent versions of
-> > -next with several architectures; see the -next column at
-> > kerneltests.org/builders for details.  Bisect log below; this
-> > was run with qemu on alpha. Reverting this patch as well as
-> > "nvme: add separate poll queue map" fixes the problem.
+> > I'd prefer not duplicating the log page parsing. Maybe nvme's shouldn't
+> > even be tied to CONFIG_NVME_MULTIPATH so that the 'multipath' param
+> > isn't even an issue.
 > 
-> I don't see anything related to what hung, the trace, and so on.
-> Can you clue me in? Where are the test results with dmesg?
+> I like your instincts, we just need to take them a bit further.
 > 
-alpha just stalls during boot. parisc reports a hung task
-in nvme_reset_work. sparc64 reports EIO when instantiating
-the nvme driver, called from nvme_reset_work, and then stalls.
-In all three cases, reverting the two mentioned patches fixes
-the problem.
-
-https://kerneltests.org/builders/qemu-parisc-next/builds/173/steps/qemubuildcommand_1/logs/stdio
-
-is an example log for parisc.
-
-I didn't check if the other boot failures (ppc looks bad)
-have the same root cause.
-
-> How to reproduce?
+> Splitting out the kernel's ANA log page parsing won't buy us much given
+> it is userspace (multipath-tools) that needs to consume it.  The less
+> work userspace needs to do (because kernel has already done it) the
+> better.
 > 
-parisc:
+> If the NVMe driver is made to always track and export the ANA state via
+> sysfs [1] we'd avoid userspace parsing duplication "for free".  This
+> should occur regardless of what layer is reacting to the ANA state
+> changes (be it NVMe's native multipathing or multipath-tools).
+> 
+> ANA and NVMe multipathing really are disjoint, making them tightly
+> coupled only serves to force NVMe driver provided multipathing _or_
+> userspace ANA state tracking duplication that really isn't ideal [2].
+> 
+> We need a reasoned answer to the primary question of whether the NVMe
+> maintainers are willing to cooperate by providing this basic ANA sysfs
+> export even if nvme_core.multipath=N [1].
+> 
+> Christoph said "No" [3], but offered little _real_ justification for why
+> this isn't the right thing for NVMe in general.
+...
+> [1]: http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
+> [2]: https://www.redhat.com/archives/dm-devel/2018-November/msg00072.html
+...
 
-qemu-system-hppa -kernel vmlinux -no-reboot \
-	-snapshot -device nvme,serial=foo,drive=d0 \
-	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
-	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0,115200 ' \
-	-nographic -monitor null
+I knew there had to be a pretty tight coupling between the NVMe driver's
+native multipathing and ANA support... and that the simplicity of
+Hannes' patch [1] was too good to be true.
 
-alpha:
+The real justification for not making Hannes' change is it'd effectively
+be useless without first splitting out the ANA handling done during NVMe
+request completion (NVME_SC_ANA_* cases in nvme_failover_req) that
+triggers re-reading the ANA log page accordingly.
 
-qemu-system-alpha -M clipper -kernel arch/alpha/boot/vmlinux -no-reboot \
-	-snapshot -device nvme,serial=foo,drive=d0 \
-	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
-	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0' \
-	-m 128M -nographic -monitor null -serial stdio
+So without the ability to drive the ANA workqueue to trigger
+nvme_read_ana_log() from the nvme driver's completion path -- even if
+nvme_core.multipath=N -- it really doesn't buy multipath-tools anything
+to have the NVMe driver export the ana state via sysfs, because that ANA
+state will never get updated.
 
-sparc64:
+> The inability to provide proper justification for rejecting a patch
+> (that already had one co-maintainer's Reviewed-by [5]) _should_ render
+> that rejection baseless, and the patch applied (especially if there is
+> contributing subsystem developer interest in maintaining this support
+> over time, which there is).  At least that is what would happen in a
+> properly maintained kernel subsystem.
+> 
+> It'd really go a long way if senior Linux NVMe maintainers took steps to
+> accept reasonable changes.
 
-qemu-system-sparc64 -M sun4u -cpu 'TI UltraSparc IIi' -m 512 \
-	-snapshot -device nvme,serial=foo,drive=d0,bus=pciB \
-	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
-	-kernel arch/sparc/boot/image -no-reboot \
-	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0' \
-	-nographic -monitor none
+Even though I'm frustrated I was clearly too harsh and regret my tone.
+I promise to _try_ to suck less.
 
-The root file systems are available from the respective subdirectories
-of:
+This dynamic of terse responses or no responses at all whenever NVMe
+driver changes to ease multipath-tools NVMe support are floated is the
+depressing gift that keeps on giving.  But enough excuses...
 
-https://github.com/groeck/linux-build-test/tree/master/rootfs
+Not holding my breath BUT:
+if decoupling the reading of ANA state from native NVMe multipathing
+specific work during nvme request completion were an acceptable
+advancement I'd gladly do the work.
 
-Guenter
+Mike
