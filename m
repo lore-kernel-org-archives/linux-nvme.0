@@ -1,38 +1,71 @@
-From: mwilck@suse.de (Martin Wilck)
-Date: Wed, 14 Nov 2018 11:36:31 +0100
-Subject: [dm-devel] multipath-tools: add ANA support for NVMe device
-In-Reply-To: <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
- <20181113161838.GC9827@localhost.localdomain>
- <20181113180008.GA12513@redhat.com> <20181114053837.GA15086@redhat.com>
- <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
-Message-ID: <3ade435ef087d61a293863a62c1b794ecf8dba14.camel@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 14 Nov 2018 06:19:58 -0800
+Subject: [PATCH v2 1/4] nvmet: support fabrics sq flow control
+In-Reply-To: <20181003081323.7504-2-sagi@grimberg.me>
+References: <20181003081323.7504-1-sagi@grimberg.me>
+ <20181003081323.7504-2-sagi@grimberg.me>
+Message-ID: <20181114141958.GA27204@infradead.org>
 
-On Wed, 2018-11-14@08:49 +0100, Hannes Reinecke wrote:
-> On 11/14/18 6:38 AM, Mike Snitzer wrote:
-> > 
-> > Not holding my breath BUT:
-> > if decoupling the reading of ANA state from native NVMe
-> > multipathing
-> > specific work during nvme request completion were an acceptable
-> > advancement I'd gladly do the work.
-> > 
-> I'd be happy to work on that, given that we'll have to have 'real'
-> ANA 
-> support for device-mapper anyway for SLE12 SP4 etc.
+On Wed, Oct 03, 2018@01:13:19AM -0700, Sagi Grimberg wrote:
+> Technical proposal 8005 "fabrics SQ flow control" introduces a mode
+> where a host and controller agree to omit sq_head pointer updates
+> when sending nvme completions.
+> 
+> In case the host indicated desire to operate in this mode (connect attribute)
+> the controller will return back a connect completion with sq_head value
+> of 0xffff as indication that it will omit sq_head pointer updates.
+> 
+> This mode saves us an atomic update in the I/O path.
+> 
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/target/core.c        | 34 ++++++++++++++++++++-----------
+>  drivers/nvme/target/fabrics-cmd.c |  8 +++++++-
+>  drivers/nvme/target/nvmet.h       |  3 ++-
+>  include/linux/nvme.h              |  4 ++++
+>  4 files changed, 35 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index 7084704b468d..df2af5e3e4d6 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -503,26 +503,35 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+>  	return ns;
+>  }
+>  
+> -static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+> +static void nvmet_update_sq_head(struct nvmet_req *req)
+>  {
+>  	u32 old_sqhd, new_sqhd;
+>  	u16 sqhd;
+>  
+> +	if (!req->sq->sqhd_disabled) {
+> +		if (req->sq->size) {
 
-So, what's the way ahead for multipath-tools? 
+This should be (!req->sq->sqhd_disabled && req->sq->size))
 
-Given that, IIUC, at least one official kernel (4.19) has been released
-with ANA support but without the ANA sysfs attributes exported to user
-space, multipath-tools can't rely on them being present. I for one have
-no issue with copying code from nvme-cli and doing NVMe ioctls from
-multipath-tools, as in Lijie's patch. When those sysfs attributes are
-added (and work as expected), we will use them, but IMO we'll need to
-fall back to ioctls until then, and also afterwards, because we can't
-assume to be always running on the latest kernel.
+> +			do {
+> +				old_sqhd = req->sq->sqhd;
+> +				new_sqhd = (old_sqhd + 1) % req->sq->size;
+> +			} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
+> +						old_sqhd);
+> +		}
+>  	}
+> +
+>  	sqhd = req->sq->sqhd & 0x0000FFFF;
+>  	req->rsp->sq_head = cpu_to_le16(sqhd);
 
-Best,
-Martin
+sq_head is a const 0xffff if flow control is disabled isn't it?
+
+Based on that I'd just move the sqhd_disabled check in the
+caller and assign the constant value there.
+
+> @@ -173,6 +175,8 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+>  	kfree(d);
+>  complete:
+>  	nvmet_req_complete(req, status);
+> +	if (req->sq->sqhd_disabled)
+> +		req->sq->sqhd = 0;
+
+Huh, why?
