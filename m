@@ -1,66 +1,88 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 13 Nov 2018 20:36:30 -0500
-Subject: nvme: utilize two queue maps, one for reads and one for writes
-In-Reply-To: <20181114012810.GA14592@redhat.com>
+From: linux@roeck-us.net (Guenter Roeck)
+Date: Tue, 13 Nov 2018 20:52:37 -0800
+Subject: [PATCH] nvme: utilize two queue maps, one for reads and one for
+ writes
+In-Reply-To: <f1e91342-2b04-6d9f-e77a-6e812c6888d0@kernel.dk>
 References: <20181114004148.GA29545@roeck-us.net>
  <f1e91342-2b04-6d9f-e77a-6e812c6888d0@kernel.dk>
- <20181114012810.GA14592@redhat.com>
-Message-ID: <20181114013630.GB14592@redhat.com>
+Message-ID: <20181114045237.GA6456@roeck-us.net>
 
-On Tue, Nov 13 2018 at  8:28pm -0500,
-Mike Snitzer <snitzer@redhat.com> wrote:
-
-> On Tue, Nov 13 2018 at  7:51pm -0500,
-> Jens Axboe <axboe@kernel.dk> wrote:
-> 
-> > On 11/13/18 5:41 PM, Guenter Roeck wrote:
-> > > Hi,
-> > > 
-> > > On Wed, Oct 31, 2018@08:36:31AM -0600, Jens Axboe wrote:
-> > >> NVMe does round-robin between queues by default, which means that
-> > >> sharing a queue map for both reads and writes can be problematic
-> > >> in terms of read servicing. It's much easier to flood the queue
-> > >> with writes and reduce the read servicing.
-> > >>
-> > >> Implement two queue maps, one for reads and one for writes. The
-> > >> write queue count is configurable through the 'write_queues'
-> > >> parameter.
-> > >>
-> > >> By default, we retain the previous behavior of having a single
-> > >> queue set, shared between reads and writes. Setting 'write_queues'
-> > >> to a non-zero value will create two queue sets, one for reads and
-> > >> one for writes, the latter using the configurable number of
-> > >> queues (hardware queue counts permitting).
-> > >>
-> > >> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> > >> Reviewed-by: Keith Busch <keith.busch at intel.com>
-> > >> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> > > 
-> > > This patch causes hangs when running recent versions of
-> > > -next with several architectures; see the -next column at
-> > > kerneltests.org/builders for details.  Bisect log below; this
-> > > was run with qemu on alpha. Reverting this patch as well as
-> > > "nvme: add separate poll queue map" fixes the problem.
+On Tue, Nov 13, 2018@05:51:08PM -0700, Jens Axboe wrote:
+> On 11/13/18 5:41 PM, Guenter Roeck wrote:
+> > Hi,
 > > 
-> > I don't see anything related to what hung, the trace, and so on.
-> > Can you clue me in? Where are the test results with dmesg?
+> > On Wed, Oct 31, 2018@08:36:31AM -0600, Jens Axboe wrote:
+> >> NVMe does round-robin between queues by default, which means that
+> >> sharing a queue map for both reads and writes can be problematic
+> >> in terms of read servicing. It's much easier to flood the queue
+> >> with writes and reduce the read servicing.
+> >>
+> >> Implement two queue maps, one for reads and one for writes. The
+> >> write queue count is configurable through the 'write_queues'
+> >> parameter.
+> >>
+> >> By default, we retain the previous behavior of having a single
+> >> queue set, shared between reads and writes. Setting 'write_queues'
+> >> to a non-zero value will create two queue sets, one for reads and
+> >> one for writes, the latter using the configurable number of
+> >> queues (hardware queue counts permitting).
+> >>
+> >> Reviewed-by: Hannes Reinecke <hare at suse.com>
+> >> Reviewed-by: Keith Busch <keith.busch at intel.com>
+> >> Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > > 
-> > How to reproduce?
+> > This patch causes hangs when running recent versions of
+> > -next with several architectures; see the -next column at
+> > kerneltests.org/builders for details.  Bisect log below; this
+> > was run with qemu on alpha. Reverting this patch as well as
+> > "nvme: add separate poll queue map" fixes the problem.
 > 
-> Think Guenter should've provided a full kerneltests.org url, but I had a
-> look and found this for powerpc with -next:
-> https://kerneltests.org/builders/next-powerpc-next/builds/998/steps/buildcommand/logs/stdio
+> I don't see anything related to what hung, the trace, and so on.
+> Can you clue me in? Where are the test results with dmesg?
 > 
-> Has useful logs of the build failure due to block.
+alpha just stalls during boot. parisc reports a hung task
+in nvme_reset_work. sparc64 reports EIO when instantiating
+the nvme driver, called from nvme_reset_work, and then stalls.
+In all three cases, reverting the two mentioned patches fixes
+the problem.
 
-Take that back, of course I only had a quick look and first scrolled to
-this fragment and thought "yeap shows block build failure" (not
-_really_):
+https://kerneltests.org/builders/qemu-parisc-next/builds/173/steps/qemubuildcommand_1/logs/stdio
 
-opt/buildbot/slave/next-next/build/kernel/sched/psi.c: In function 'cgroup_move_task':
-/opt/buildbot/slave/next-next/build/include/linux/spinlock.h:273:32: warning: 'rq' may be used uninitialized in this function [-Wmaybe-uninitialized]
- #define raw_spin_unlock(lock)  _raw_spin_unlock(lock)
-                                ^~~~~~~~~~~~~~~~
-/opt/buildbot/slave/next-next/build/kernel/sched/psi.c:639:13: note: 'rq' was declared here
-  struct rq *rq;
-             ^~
+is an example log for parisc.
+
+I didn't check if the other boot failures (ppc looks bad)
+have the same root cause.
+
+> How to reproduce?
+> 
+parisc:
+
+qemu-system-hppa -kernel vmlinux -no-reboot \
+	-snapshot -device nvme,serial=foo,drive=d0 \
+	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0,115200 ' \
+	-nographic -monitor null
+
+alpha:
+
+qemu-system-alpha -M clipper -kernel arch/alpha/boot/vmlinux -no-reboot \
+	-snapshot -device nvme,serial=foo,drive=d0 \
+	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0' \
+	-m 128M -nographic -monitor null -serial stdio
+
+sparc64:
+
+qemu-system-sparc64 -M sun4u -cpu 'TI UltraSparc IIi' -m 512 \
+	-snapshot -device nvme,serial=foo,drive=d0,bus=pciB \
+	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+	-kernel arch/sparc/boot/image -no-reboot \
+	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0' \
+	-nographic -monitor none
+
+The root file systems are available from the respective subdirectories
+of:
+
+https://github.com/groeck/linux-build-test/tree/master/rootfs
+
+Guenter
