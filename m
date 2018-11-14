@@ -1,50 +1,94 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 14 Nov 2018 10:25:32 -0800
-Subject: [PATCH v3 3/4] nvmet: expose support for fabrics SQ flow control
- disable in treq
+Date: Wed, 14 Nov 2018 10:25:33 -0800
+Subject: [PATCH v3 4/4] nvme: disable fabrics SQ flow control when asked by
+ the user
 In-Reply-To: <20181114182534.28807-1-sagi@grimberg.me>
 References: <20181114182534.28807-1-sagi@grimberg.me>
-Message-ID: <20181114182534.28807-4-sagi@grimberg.me>
+Message-ID: <20181114182534.28807-5-sagi@grimberg.me>
 
-Technical Proposal introduces an indication for SQ flow control
-disable support. Expose it since we are able to operate in this mode.
+As for now, we don't care about sq_head pointer updates anyway, so
+at least allow the controller to micro-optimize by omiting this update.
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+Note that we will probably need to support it when a controller
+that requires this comes along.
+
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/configfs.c | 1 +
- include/linux/nvme.h           | 7 ++++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/nvme/host/fabrics.c | 13 +++++++++++++
+ drivers/nvme/host/fabrics.h |  2 ++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index a98ab935b537..c2df205096ec 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -1214,6 +1214,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
- 	port->inline_data_size = -1;	/* < 0 == let the transport choose */
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index bd0969db6225..b78d1a674abc 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -392,6 +392,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
+ 		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
  
- 	port->disc_addr.portid = cpu_to_le16(portid);
-+	port->disc_addr.treq = NVMF_TREQ_DISABLE_SQFLOW;
- 	config_group_init_type_name(&port->group, name, &nvmet_port_type);
++	if (ctrl->opts->disable_sqflow)
++		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
++
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+@@ -451,6 +454,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	cmd.connect.qid = cpu_to_le16(qid);
+ 	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
  
- 	config_group_init_type_name(&port->subsys_group,
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index e7d731776f62..4a560ea04d7c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -58,9 +58,10 @@ enum {
- 
- /* Transport Requirements codes for Discovery Log Page entry TREQ field */
- enum {
--	NVMF_TREQ_NOT_SPECIFIED	= 0,	/* Not specified */
--	NVMF_TREQ_REQUIRED	= 1,	/* Required */
--	NVMF_TREQ_NOT_REQUIRED	= 2,	/* Not Required */
-+	NVMF_TREQ_NOT_SPECIFIED	= 0,		/* Not specified */
-+	NVMF_TREQ_REQUIRED	= 1,		/* Required */
-+	NVMF_TREQ_NOT_REQUIRED	= 2,		/* Not Required */
-+	NVMF_TREQ_DISABLE_SQFLOW = (1 << 2),	/* Supports SQ flow control disable */
++	if (ctrl->opts->disable_sqflow)
++		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
++
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+@@ -607,6 +613,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
+ 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
+ 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
++	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
  };
  
- /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
+@@ -817,6 +824,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DUP_CONNECT:
+ 			opts->duplicate_connect = true;
+ 			break;
++		case NVMF_OPT_DISABLE_SQFLOW:
++			opts->disable_sqflow = true;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -901,6 +911,9 @@ EXPORT_SYMBOL_GPL(nvmf_ip_options_match);
+ static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
+ 		unsigned int allowed_opts)
+ {
++	/* fabrics parameter, allowed regardless of the transport */
++	allowed_opts |= NVMF_OPT_DISABLE_SQFLOW;
++
+ 	if (opts->mask & ~allowed_opts) {
+ 		int i;
+ 
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 6ea6275f332a..ecd9a006a091 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -58,6 +58,7 @@ enum {
+ 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
+ 	NVMF_OPT_HOST_ID	= 1 << 12,
+ 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
++	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
+ };
+ 
+ /**
+@@ -101,6 +102,7 @@ struct nvmf_ctrl_options {
+ 	unsigned int		kato;
+ 	struct nvmf_host	*host;
+ 	int			max_reconnects;
++	bool			disable_sqflow;
+ };
+ 
+ /*
 -- 
 2.17.1
