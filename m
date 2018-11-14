@@ -1,26 +1,35 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 14 Nov 2018 16:35:44 +0100
-Subject: multipath-tools: add ANA support for NVMe device
-In-Reply-To: <d8c35b13-ee5a-e4ee-847a-2bacf788825a@suse.de>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
- <20181113161838.GC9827@localhost.localdomain>
- <d8c35b13-ee5a-e4ee-847a-2bacf788825a@suse.de>
-Message-ID: <20181114153544.GA28758@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 14 Nov 2018 08:37:07 -0700
+Subject: [PATCH 1/6] nvme: don't disable local ints for polled queue
+In-Reply-To: <20181114084322.GA14954@infradead.org>
+References: <20181110151317.3813-1-axboe@kernel.dk>
+ <20181110151317.3813-2-axboe@kernel.dk>
+ <20181114084322.GA14954@infradead.org>
+Message-ID: <20181114153706.GA11416@localhost.localdomain>
 
-On Wed, Nov 14, 2018@08:24:05AM +0100, Hannes Reinecke wrote:
-> My argument here is that _ANA_ support should not be tied to the NVME 
-> native multipathing at all.
+On Wed, Nov 14, 2018@12:43:22AM -0800, Christoph Hellwig wrote:
+> static int nvme_poll_noirq(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+> {
+>         struct nvme_queue *nvmeq = hctx->driver_data;
+> >  	u16 start, end;
+> 	bool found;
+> >  
+> >  	if (!nvme_cqe_pending(nvmeq))
+> >  		return 0;
+> >  
+> > +	spin_lock(&nvmeq->cq_lock);
+> >  	found = nvme_process_cq(nvmeq, &start, &end, tag);
+> > +	spin_unlock(&nvmeq->cq_lock);
+> > +
+> >  	nvme_complete_cqes(nvmeq, start, end);
+> >  	return found;
+> 
+> And while we are at it:  I think for the irq-driven queues in a
+> separate queue for poll setup we might not even need to take the
+> CQ lock.  Which might be an argument for only allowing polling
+> if we have the separate queues just to keep everything simple.
 
-It should.  Because nvme driver multipathing is the only sanctioned
-way to use it.  All other ways aren't supported and might break at
-any time.
-
-> So personally I don't see why the 'raw' ANA support (parsing log pages, 
-> figuring out path states etc) needs to be tied in with native NVMe 
-> multipathing. _Especially_ not as my patch really is trivial.
-
-And not actually usable for anything..  They only thing you do is to
-increase the code size for embedded nvme users that don't need any
-multipathing.
+That's a pretty cool observation. We still poll interrupt driven queues
+in the timeout path as a sanity check (it really has helped in debugging
+timeout issues), but we can temporarily disable the cq's irq and be
+lockless.
