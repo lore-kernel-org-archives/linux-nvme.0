@@ -1,47 +1,182 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 14 Nov 2018 15:12:04 -0800
-Subject: [PATCH] nvme: validate controller state before rescheduling keep alive
-Message-ID: <20181114231204.5996-1-jsmart2021@gmail.com>
+Date: Wed, 14 Nov 2018 15:57:46 -0800
+Subject: [PATCH] nvmet-fc: remove the IN_ISR deferred scheduling options
+Message-ID: <20181114235746.18669-1-jsmart2021@gmail.com>
 
-Delete operations are seeing NULL pointer references in call_timer_fn.
-Tracking these back, the timer appears to be the keep alive timer.
-
-nvme_keep_alive_work() which is tied to the timer that is cancelled
-by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
-wait for it's completion. So nvme_stop_keep_alive() only stops a timer
-when it's pending. When a keep alive is in flight, there is no timer
-running and the nvme_stop_keep_alive() will have no affect on the keep
-alive io. Thus, if the io completes successfully, the keep alive timer
-will be rescheduled.   In the failure case, delete is called, the
-controller state is changed, the nvme_stop_keep_alive() is called while
-the io is outstanding, and the delete path continues on. The keep
-alive happens to successfully complete before the delete paths mark it
-as aborted as part of the queue termination, so the timer is restarted.
-The delete paths then tear down the controller, and later on the timer
-code fires and the timer entry is now corrupt.
-
-Fix by validating the controller state before rescheduling the keep
-alive. Testing with the fix has confirmed the condition above was hit.
+All target lldd's call the cmd receive and op completions in non-isr
+thread contexts. As such the IN_ISR options are not necessary.
+Remove the functionality and flags, which also removes cpu assignments
+to queues.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
- drivers/nvme/host/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/nvme/target/fc.c       | 66 ++----------------------------------------
+ include/linux/nvme-fc-driver.h | 16 ----------
+ 2 files changed, 2 insertions(+), 80 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fe957166c4a9..deb047514408 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -843,7 +843,9 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
- 	}
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 409081a03b24..f98f5c5bea26 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -86,8 +86,6 @@ struct nvmet_fc_fcp_iod {
+ 	spinlock_t			flock;
  
- 	ctrl->comp_seen = false;
--	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
-+	if (ctrl->state == NVME_CTRL_LIVE ||
-+	    ctrl->state == NVME_CTRL_CONNECTING)
-+		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
+ 	struct nvmet_req		req;
+-	struct work_struct		work;
+-	struct work_struct		done_work;
+ 	struct work_struct		defer_work;
+ 
+ 	struct nvmet_fc_tgtport		*tgtport;
+@@ -134,7 +132,6 @@ struct nvmet_fc_tgt_queue {
+ 	u16				sqsize;
+ 	u16				ersp_ratio;
+ 	__le16				sqhd;
+-	int				cpu;
+ 	atomic_t			connected;
+ 	atomic_t			sqtail;
+ 	atomic_t			zrspcnt;
+@@ -232,8 +229,6 @@ static LIST_HEAD(nvmet_fc_portentry_list);
+ 
+ 
+ static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
+-static void nvmet_fc_handle_fcp_rqst_work(struct work_struct *work);
+-static void nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work);
+ static void nvmet_fc_fcp_rqst_op_defer_work(struct work_struct *work);
+ static void nvmet_fc_tgt_a_put(struct nvmet_fc_tgt_assoc *assoc);
+ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
+@@ -438,8 +433,6 @@ nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+ 	int i;
+ 
+ 	for (i = 0; i < queue->sqsize; fod++, i++) {
+-		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
+-		INIT_WORK(&fod->done_work, nvmet_fc_fcp_rqst_op_done_work);
+ 		INIT_WORK(&fod->defer_work, nvmet_fc_fcp_rqst_op_defer_work);
+ 		fod->tgtport = tgtport;
+ 		fod->queue = queue;
+@@ -517,10 +510,7 @@ nvmet_fc_queue_fcp_req(struct nvmet_fc_tgtport *tgtport,
+ 	fcpreq->hwqid = queue->qid ?
+ 			((queue->qid - 1) % tgtport->ops->max_hw_queues) : 0;
+ 
+-	if (tgtport->ops->target_features & NVMET_FCTGTFEAT_CMD_IN_ISR)
+-		queue_work_on(queue->cpu, queue->work_q, &fod->work);
+-	else
+-		nvmet_fc_handle_fcp_rqst(tgtport, fod);
++	nvmet_fc_handle_fcp_rqst(tgtport, fod);
  }
  
- static int nvme_keep_alive(struct nvme_ctrl *ctrl)
+ static void
+@@ -599,30 +589,6 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
+ 	queue_work(queue->work_q, &fod->defer_work);
+ }
+ 
+-static int
+-nvmet_fc_queue_to_cpu(struct nvmet_fc_tgtport *tgtport, int qid)
+-{
+-	int cpu, idx, cnt;
+-
+-	if (tgtport->ops->max_hw_queues == 1)
+-		return WORK_CPU_UNBOUND;
+-
+-	/* Simple cpu selection based on qid modulo active cpu count */
+-	idx = !qid ? 0 : (qid - 1) % num_active_cpus();
+-
+-	/* find the n'th active cpu */
+-	for (cpu = 0, cnt = 0; ; ) {
+-		if (cpu_active(cpu)) {
+-			if (cnt == idx)
+-				break;
+-			cnt++;
+-		}
+-		cpu = (cpu + 1) % num_possible_cpus();
+-	}
+-
+-	return cpu;
+-}
+-
+ static struct nvmet_fc_tgt_queue *
+ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 			u16 qid, u16 sqsize)
+@@ -653,7 +619,6 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	queue->qid = qid;
+ 	queue->sqsize = sqsize;
+ 	queue->assoc = assoc;
+-	queue->cpu = nvmet_fc_queue_to_cpu(assoc->tgtport, qid);
+ 	INIT_LIST_HEAD(&queue->fod_list);
+ 	INIT_LIST_HEAD(&queue->avail_defer_list);
+ 	INIT_LIST_HEAD(&queue->pending_cmd_list);
+@@ -2146,25 +2111,11 @@ nvmet_fc_fod_op_done(struct nvmet_fc_fcp_iod *fod)
+ }
+ 
+ static void
+-nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work)
+-{
+-	struct nvmet_fc_fcp_iod *fod =
+-		container_of(work, struct nvmet_fc_fcp_iod, done_work);
+-
+-	nvmet_fc_fod_op_done(fod);
+-}
+-
+-static void
+ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+ {
+ 	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
+-	struct nvmet_fc_tgt_queue *queue = fod->queue;
+ 
+-	if (fod->tgtport->ops->target_features & NVMET_FCTGTFEAT_OPDONE_IN_ISR)
+-		/* context switch so completion is not in ISR context */
+-		queue_work_on(queue->cpu, queue->work_q, &fod->done_work);
+-	else
+-		nvmet_fc_fod_op_done(fod);
++	nvmet_fc_fod_op_done(fod);
+ }
+ 
+ /*
+@@ -2332,19 +2283,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ 	nvmet_fc_abort_op(tgtport, fod);
+ }
+ 
+-/*
+- * Actual processing routine for received FC-NVME LS Requests from the LLD
+- */
+-static void
+-nvmet_fc_handle_fcp_rqst_work(struct work_struct *work)
+-{
+-	struct nvmet_fc_fcp_iod *fod =
+-		container_of(work, struct nvmet_fc_fcp_iod, work);
+-	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
+-
+-	nvmet_fc_handle_fcp_rqst(tgtport, fod);
+-}
+-
+ /**
+  * nvmet_fc_rcv_fcp_req - transport entry point called by an LLDD
+  *                       upon the reception of a NVME FCP CMD IU.
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 496ff759f84c..331033bb6126 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -649,22 +649,6 @@ enum {
+ 		 * sequence in one LLDD operation. Errors during Data
+ 		 * sequence transmit must not allow RSP sequence to be sent.
+ 		 */
+-	NVMET_FCTGTFEAT_CMD_IN_ISR = (1 << 1),
+-		/* Bit 2: When 0, the LLDD is calling the cmd rcv handler
+-		 * in a non-isr context, allowing the transport to finish
+-		 * op completion in the calling context. When 1, the LLDD
+-		 * is calling the cmd rcv handler in an ISR context,
+-		 * requiring the transport to transition to a workqueue
+-		 * for op completion.
+-		 */
+-	NVMET_FCTGTFEAT_OPDONE_IN_ISR = (1 << 2),
+-		/* Bit 3: When 0, the LLDD is calling the op done handler
+-		 * in a non-isr context, allowing the transport to finish
+-		 * op completion in the calling context. When 1, the LLDD
+-		 * is calling the op done handler in an ISR context,
+-		 * requiring the transport to transition to a workqueue
+-		 * for op completion.
+-		 */
+ };
+ 
+ 
 -- 
 2.13.7
