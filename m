@@ -1,92 +1,44 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 13 Nov 2018 13:00:09 -0500
-Subject: multipath-tools: add ANA support for NVMe device
-In-Reply-To: <20181113161838.GC9827@localhost.localdomain>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
- <20181113161838.GC9827@localhost.localdomain>
-Message-ID: <20181113180008.GA12513@redhat.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 13 Nov 2018 17:51:08 -0700
+Subject: [PATCH] nvme: utilize two queue maps, one for reads and one for
+ writes
+In-Reply-To: <20181114004148.GA29545@roeck-us.net>
+References: <20181114004148.GA29545@roeck-us.net>
+Message-ID: <f1e91342-2b04-6d9f-e77a-6e812c6888d0@kernel.dk>
 
-On Tue, Nov 13 2018 at 11:18am -0500,
-Keith Busch <keith.busch@intel.com> wrote:
-
-> On Mon, Nov 12, 2018@04:53:23PM -0500, Mike Snitzer wrote:
-> > On Mon, Nov 12 2018 at 11:23am -0500,
-> > Martin Wilck <mwilck@suse.com> wrote:
-> > 
-> > > Hello Lijie,
-> > > 
-> > > On Thu, 2018-11-08@14:09 +0800, lijie wrote:
-> > > > Add support for Asynchronous Namespace Access as specified in NVMe
-> > > > 1.3
-> > > > TP 4004. The states are updated through reading the ANA log page.
-> > > > 
-> > > > By default, the native nvme multipath takes over the nvme device.
-> > > > We can pass a false to the parameter 'multipath' of the nvme-core.ko
-> > > > module,when we want to use multipath-tools.
-> > > 
-> > > Thank you for the patch. It looks quite good to me. I've tested it with
-> > > a Linux target and found no problems so far.
-> > > 
-> > > I have a few questions and comments inline below.
-> > > 
-> > > I suggest you also have a look at detect_prio(); it seems to make sense
-> > > to use the ana prioritizer for NVMe paths automatically if ANA is
-> > > supported (with your patch, "detect_prio no" and "prio ana" have to be
-> > > configured explicitly). But that can be done in a later patch.
-> > 
-> > I (and others) think it makes sense to at least triple check with the
-> > NVMe developers (now cc'd) to see if we could get agreement on the nvme
-> > driver providing the ANA state via sysfs (when modparam
-> > nvme_core.multipath=N is set), like Hannes proposed here:
-> > http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
-> > 
-> > Then the userspace multipath-tools ANA support could just read sysfs
-> > rather than reinvent harvesting the ANA state via ioctl.
+On 11/13/18 5:41 PM, Guenter Roeck wrote:
+> Hi,
 > 
-> I'd prefer not duplicating the log page parsing. Maybe nvme's shouldn't
-> even be tied to CONFIG_NVME_MULTIPATH so that the 'multipath' param
-> isn't even an issue.
+> On Wed, Oct 31, 2018@08:36:31AM -0600, Jens Axboe wrote:
+>> NVMe does round-robin between queues by default, which means that
+>> sharing a queue map for both reads and writes can be problematic
+>> in terms of read servicing. It's much easier to flood the queue
+>> with writes and reduce the read servicing.
+>>
+>> Implement two queue maps, one for reads and one for writes. The
+>> write queue count is configurable through the 'write_queues'
+>> parameter.
+>>
+>> By default, we retain the previous behavior of having a single
+>> queue set, shared between reads and writes. Setting 'write_queues'
+>> to a non-zero value will create two queue sets, one for reads and
+>> one for writes, the latter using the configurable number of
+>> queues (hardware queue counts permitting).
+>>
+>> Reviewed-by: Hannes Reinecke <hare at suse.com>
+>> Reviewed-by: Keith Busch <keith.busch at intel.com>
+>> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+> 
+> This patch causes hangs when running recent versions of
+> -next with several architectures; see the -next column at
+> kerneltests.org/builders for details.  Bisect log below; this
+> was run with qemu on alpha. Reverting this patch as well as
+> "nvme: add separate poll queue map" fixes the problem.
 
-I like your instincts, we just need to take them a bit further.
+I don't see anything related to what hung, the trace, and so on.
+Can you clue me in? Where are the test results with dmesg?
 
-Splitting out the kernel's ANA log page parsing won't buy us much given
-it is userspace (multipath-tools) that needs to consume it.  The less
-work userspace needs to do (because kernel has already done it) the
-better.
+How to reproduce?
 
-If the NVMe driver is made to always track and export the ANA state via
-sysfs [1] we'd avoid userspace parsing duplication "for free".  This
-should occur regardless of what layer is reacting to the ANA state
-changes (be it NVMe's native multipathing or multipath-tools).
-
-ANA and NVMe multipathing really are disjoint, making them tightly
-coupled only serves to force NVMe driver provided multipathing _or_
-userspace ANA state tracking duplication that really isn't ideal [2].
-
-We need a reasoned answer to the primary question of whether the NVMe
-maintainers are willing to cooperate by providing this basic ANA sysfs
-export even if nvme_core.multipath=N [1].
-
-Christoph said "No" [3], but offered little _real_ justification for why
-this isn't the right thing for NVMe in general -- even when asked the
-question gets ignored [4].
-
-The inability to provide proper justification for rejecting a patch
-(that already had one co-maintainer's Reviewed-by [5]) _should_ render
-that rejection baseless, and the patch applied (especially if there is
-contributing subsystem developer interest in maintaining this support
-over time, which there is).  At least that is what would happen in a
-properly maintained kernel subsystem.
-
-It'd really go a long way if senior Linux NVMe maintainers took steps to
-accept reasonable changes.
-
-Mike
-
-[1]: http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
-[2]: https://www.redhat.com/archives/dm-devel/2018-November/msg00072.html
-[3]: http://lists.infradead.org/pipermail/linux-nvme/2018-November/020815.html
-[4]: http://lists.infradead.org/pipermail/linux-nvme/2018-November/020846.html
-[5]: http://lists.infradead.org/pipermail/linux-nvme/2018-November/020790.html
+-- 
+Jens Axboe
