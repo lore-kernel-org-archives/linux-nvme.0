@@ -1,61 +1,38 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 14 Nov 2018 12:18:05 +0200
-Subject: [PATCH 1/6] nvme: don't disable local ints for polled queue
-In-Reply-To: <20181110151317.3813-2-axboe@kernel.dk>
-References: <20181110151317.3813-1-axboe@kernel.dk>
- <20181110151317.3813-2-axboe@kernel.dk>
-Message-ID: <bef68ece-948c-026a-dd17-260cfd1409d8@mellanox.com>
+From: mwilck@suse.de (Martin Wilck)
+Date: Wed, 14 Nov 2018 11:36:31 +0100
+Subject: [dm-devel] multipath-tools: add ANA support for NVMe device
+In-Reply-To: <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
+References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
+ <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
+ <20181112215323.GA7983@redhat.com>
+ <20181113161838.GC9827@localhost.localdomain>
+ <20181113180008.GA12513@redhat.com> <20181114053837.GA15086@redhat.com>
+ <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
+Message-ID: <3ade435ef087d61a293863a62c1b794ecf8dba14.camel@suse.de>
 
+On Wed, 2018-11-14@08:49 +0100, Hannes Reinecke wrote:
+> On 11/14/18 6:38 AM, Mike Snitzer wrote:
+> > 
+> > Not holding my breath BUT:
+> > if decoupling the reading of ANA state from native NVMe
+> > multipathing
+> > specific work during nvme request completion were an acceptable
+> > advancement I'd gladly do the work.
+> > 
+> I'd be happy to work on that, given that we'll have to have 'real'
+> ANA 
+> support for device-mapper anyway for SLE12 SP4 etc.
 
-On 11/10/2018 5:13 PM, Jens Axboe wrote:
-> A polled queued doesn't trigger interrupts, so it's always safe
-> to grab the queue lock without disabling interrupts.
+So, what's the way ahead for multipath-tools? 
 
+Given that, IIUC, at least one official kernel (4.19) has been released
+with ANA support but without the ANA sysfs attributes exported to user
+space, multipath-tools can't rely on them being present. I for one have
+no issue with copying code from nvme-cli and doing NVMe ioctls from
+multipath-tools, as in Lijie's patch. When those sysfs attributes are
+added (and work as expected), we will use them, but IMO we'll need to
+fall back to ioctls until then, and also afterwards, because we can't
+assume to be always running on the latest kernel.
 
-Jens,
-
-can you share the added value in performance for this change ?
-
-
-
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: linux-nvme at lists.infradead.org
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> ---
->   drivers/nvme/host/pci.c | 17 ++++++++++++++---
->   1 file changed, 14 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 6aa86dfcb32c..a6e3fbddfadf 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1061,15 +1061,26 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
->   
->   static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
->   {
-> +	unsigned long flags = 0; /* gcc 7.x fail */
->   	u16 start, end;
-> -	bool found;
-> +	bool found, has_irq;
->   
->   	if (!nvme_cqe_pending(nvmeq))
->   		return 0;
->   
-> -	spin_lock_irq(&nvmeq->cq_lock);
-> +	/*
-> +	 * Polled queue doesn't have an IRQ, no need to disable ints
-> +	 */
-> +	has_irq = !nvmeq->polled;
-> +	if (has_irq)
-> +		local_irq_save(flags);
-> +
-> +	spin_lock(&nvmeq->cq_lock);
->   	found = nvme_process_cq(nvmeq, &start, &end, tag);
-> -	spin_unlock_irq(&nvmeq->cq_lock);
-> +	spin_unlock(&nvmeq->cq_lock);
-> +
-> +	if (has_irq)
-> +		local_irq_restore(flags);
->   
->   	nvme_complete_cqes(nvmeq, start, end);
->   	return found;
+Best,
+Martin
