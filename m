@@ -1,135 +1,65 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 14 Nov 2018 08:49:23 +0100
-Subject: multipath-tools: add ANA support for NVMe device
-In-Reply-To: <20181114053837.GA15086@redhat.com>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
- <20181113161838.GC9827@localhost.localdomain>
- <20181113180008.GA12513@redhat.com> <20181114053837.GA15086@redhat.com>
-Message-ID: <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 14 Nov 2018 00:43:22 -0800
+Subject: [PATCH 1/6] nvme: don't disable local ints for polled queue
+In-Reply-To: <20181110151317.3813-2-axboe@kernel.dk>
+References: <20181110151317.3813-1-axboe@kernel.dk>
+ <20181110151317.3813-2-axboe@kernel.dk>
+Message-ID: <20181114084322.GA14954@infradead.org>
 
-On 11/14/18 6:38 AM, Mike Snitzer wrote:
-> On Tue, Nov 13 2018 at  1:00pm -0500,
-> Mike Snitzer <snitzer@redhat.com> wrote:
-> 
->> On Tue, Nov 13 2018 at 11:18am -0500,
->> Keith Busch <keith.busch@intel.com> wrote:
->>
->>> On Mon, Nov 12, 2018@04:53:23PM -0500, Mike Snitzer wrote:
->>>> On Mon, Nov 12 2018 at 11:23am -0500,
->>>> Martin Wilck <mwilck@suse.com> wrote:
->>>>
->>>>> Hello Lijie,
->>>>>
->>>>> On Thu, 2018-11-08@14:09 +0800, lijie wrote:
->>>>>> Add support for Asynchronous Namespace Access as specified in NVMe
->>>>>> 1.3
->>>>>> TP 4004. The states are updated through reading the ANA log page.
->>>>>>
->>>>>> By default, the native nvme multipath takes over the nvme device.
->>>>>> We can pass a false to the parameter 'multipath' of the nvme-core.ko
->>>>>> module,when we want to use multipath-tools.
->>>>>
->>>>> Thank you for the patch. It looks quite good to me. I've tested it with
->>>>> a Linux target and found no problems so far.
->>>>>
->>>>> I have a few questions and comments inline below.
->>>>>
->>>>> I suggest you also have a look at detect_prio(); it seems to make sense
->>>>> to use the ana prioritizer for NVMe paths automatically if ANA is
->>>>> supported (with your patch, "detect_prio no" and "prio ana" have to be
->>>>> configured explicitly). But that can be done in a later patch.
->>>>
->>>> I (and others) think it makes sense to at least triple check with the
->>>> NVMe developers (now cc'd) to see if we could get agreement on the nvme
->>>> driver providing the ANA state via sysfs (when modparam
->>>> nvme_core.multipath=N is set), like Hannes proposed here:
->>>> http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
->>>>
->>>> Then the userspace multipath-tools ANA support could just read sysfs
->>>> rather than reinvent harvesting the ANA state via ioctl.
->>>
->>> I'd prefer not duplicating the log page parsing. Maybe nvme's shouldn't
->>> even be tied to CONFIG_NVME_MULTIPATH so that the 'multipath' param
->>> isn't even an issue.
->>
->> I like your instincts, we just need to take them a bit further.
->>
->> Splitting out the kernel's ANA log page parsing won't buy us much given
->> it is userspace (multipath-tools) that needs to consume it.  The less
->> work userspace needs to do (because kernel has already done it) the
->> better.
->>
->> If the NVMe driver is made to always track and export the ANA state via
->> sysfs [1] we'd avoid userspace parsing duplication "for free".  This
->> should occur regardless of what layer is reacting to the ANA state
->> changes (be it NVMe's native multipathing or multipath-tools).
->>
->> ANA and NVMe multipathing really are disjoint, making them tightly
->> coupled only serves to force NVMe driver provided multipathing _or_
->> userspace ANA state tracking duplication that really isn't ideal [2].
->>
->> We need a reasoned answer to the primary question of whether the NVMe
->> maintainers are willing to cooperate by providing this basic ANA sysfs
->> export even if nvme_core.multipath=N [1].
->>
->> Christoph said "No" [3], but offered little _real_ justification for why
->> this isn't the right thing for NVMe in general.
-> ...
->> [1]: http://lists.infradead.org/pipermail/linux-nvme/2018-November/020765.html
->> [2]: https://www.redhat.com/archives/dm-devel/2018-November/msg00072.html
-> ...
-> 
-> I knew there had to be a pretty tight coupling between the NVMe driver's
-> native multipathing and ANA support... and that the simplicity of
-> Hannes' patch [1] was too good to be true.
-> 
-> The real justification for not making Hannes' change is it'd effectively
-> be useless without first splitting out the ANA handling done during NVMe
-> request completion (NVME_SC_ANA_* cases in nvme_failover_req) that
-> triggers re-reading the ANA log page accordingly.
-> 
-> So without the ability to drive the ANA workqueue to trigger
-> nvme_read_ana_log() from the nvme driver's completion path -- even if
-> nvme_core.multipath=N -- it really doesn't buy multipath-tools anything
-> to have the NVMe driver export the ana state via sysfs, because that ANA
-> state will never get updated.
-> 
-Hmm. Indeed, I was more focussed on having the sysfs attributes 
-displayed, so yes, indeed it needs some more work.
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 6aa86dfcb32c..a6e3fbddfadf 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1061,15 +1061,26 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+>  
+>  static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+>  {
+> +	unsigned long flags = 0; /* gcc 7.x fail */
+>  	u16 start, end;
+> -	bool found;
+> +	bool found, has_irq;
+>  
+>  	if (!nvme_cqe_pending(nvmeq))
+>  		return 0;
+>  
+> -	spin_lock_irq(&nvmeq->cq_lock);
+> +	/*
+> +	 * Polled queue doesn't have an IRQ, no need to disable ints
+> +	 */
+> +	has_irq = !nvmeq->polled;
+> +	if (has_irq)
+> +		local_irq_save(flags);
+> +
+> +	spin_lock(&nvmeq->cq_lock);
+>  	found = nvme_process_cq(nvmeq, &start, &end, tag);
+> -	spin_unlock_irq(&nvmeq->cq_lock);
+> +	spin_unlock(&nvmeq->cq_lock);
+> +
+> +	if (has_irq)
+> +		local_irq_restore(flags);
 
->> The inability to provide proper justification for rejecting a patch
->> (that already had one co-maintainer's Reviewed-by [5]) _should_ render
->> that rejection baseless, and the patch applied (especially if there is
->> contributing subsystem developer interest in maintaining this support
->> over time, which there is).  At least that is what would happen in a
->> properly maintained kernel subsystem.
->>
->> It'd really go a long way if senior Linux NVMe maintainers took steps to
->> accept reasonable changes.
-> 
-> Even though I'm frustrated I was clearly too harsh and regret my tone.
-> I promise to _try_ to suck less.
-> 
-> This dynamic of terse responses or no responses at all whenever NVMe
-> driver changes to ease multipath-tools NVMe support are floated is the
-> depressing gift that keeps on giving.  But enough excuses...
-> 
-> Not holding my breath BUT:
-> if decoupling the reading of ANA state from native NVMe multipathing
-> specific work during nvme request completion were an acceptable
-> advancement I'd gladly do the work.
-> 
-I'd be happy to work on that, given that we'll have to have 'real' ANA 
-support for device-mapper anyway for SLE12 SP4 etc.
+Eww, this just looks ugly.  Given that we are micro-optimizing here
+I'd rather just use a different ->poll implementation and thus blk_mq_ops
+if we have a separate poll code.  Then we could leave the existing
+__nvme_poll as-is and have a new nvme_poll_noirq something like this:
 
-Cheers,
+static int nvme_poll_noirq(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+{
+        struct nvme_queue *nvmeq = hctx->driver_data;
+>  	u16 start, end;
+	bool found;
+>  
+>  	if (!nvme_cqe_pending(nvmeq))
+>  		return 0;
+>  
+> +	spin_lock(&nvmeq->cq_lock);
+>  	found = nvme_process_cq(nvmeq, &start, &end, tag);
+> +	spin_unlock(&nvmeq->cq_lock);
+> +
+>  	nvme_complete_cqes(nvmeq, start, end);
+>  	return found;
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+And while we are at it:  I think for the irq-driven queuest in a
+separate queue for poll setup we might not even need to take the
+CQ lock.  Which might be an argument for only allowing polling
+if we have the separate queues just to keep everything simple.
