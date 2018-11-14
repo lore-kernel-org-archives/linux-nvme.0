@@ -1,42 +1,59 @@
-From: hare@suse.com (Hannes Reinecke)
-Date: Wed, 14 Nov 2018 16:23:08 +0100
-Subject: [PATCHv2] nvmetcli: ANA configuration support
-In-Reply-To: <20181114151417.GA28175@lst.de>
-References: <20181108122736.76270-1-hare@suse.de>
- <20181114151417.GA28175@lst.de>
-Message-ID: <88f6608b-df3c-2528-4f9c-1e4610fabf44@suse.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 14 Nov 2018 08:31:14 -0700
+Subject: [PATCH 1/6] nvme: don't disable local ints for polled queue
+In-Reply-To: <20181114084322.GA14954@infradead.org>
+References: <20181110151317.3813-1-axboe@kernel.dk>
+ <20181110151317.3813-2-axboe@kernel.dk>
+ <20181114084322.GA14954@infradead.org>
+Message-ID: <fdc36207-ee35-e262-c0b9-1592be817ac3@kernel.dk>
 
-On 11/14/18 4:14 PM, Christoph Hellwig wrote:
-> This fails to restore a config that doesn't have the ANA fields
-> yet (actual config attached):
+On 11/14/18 1:43 AM, Christoph Hellwig wrote:
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index 6aa86dfcb32c..a6e3fbddfadf 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -1061,15 +1061,26 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+>>  
+>>  static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+>>  {
+>> +	unsigned long flags = 0; /* gcc 7.x fail */
+>>  	u16 start, end;
+>> -	bool found;
+>> +	bool found, has_irq;
+>>  
+>>  	if (!nvme_cqe_pending(nvmeq))
+>>  		return 0;
+>>  
+>> -	spin_lock_irq(&nvmeq->cq_lock);
+>> +	/*
+>> +	 * Polled queue doesn't have an IRQ, no need to disable ints
+>> +	 */
+>> +	has_irq = !nvmeq->polled;
+>> +	if (has_irq)
+>> +		local_irq_save(flags);
+>> +
+>> +	spin_lock(&nvmeq->cq_lock);
+>>  	found = nvme_process_cq(nvmeq, &start, &end, tag);
+>> -	spin_unlock_irq(&nvmeq->cq_lock);
+>> +	spin_unlock(&nvmeq->cq_lock);
+>> +
+>> +	if (has_irq)
+>> +		local_irq_restore(flags);
 > 
-> Traceback (most recent call last):
->    File "./nvmetcli", line 740, in <module>
->      main()
->    File "./nvmetcli", line 722, in main
->      funcs[sys.argv[1]](savefile)
->    File "./nvmetcli", line 678, in restore
->      errors = nvme.Root().restore_from_file(from_file)
->    File "/root/nvmetcli/nvmet/nvme.py", line 382, in restore_from_file
->      abort_on_error=abort_on_error)
->    File "/root/nvmetcli/nvmet/nvme.py", line 356, in restore
->      Subsystem.setup(t, err_func)
->    File "/root/nvmetcli/nvmet/nvme.py", line 497, in setup
->      Namespace.setup(s, ns, err_func)
->    File "/root/nvmetcli/nvmet/nvme.py", line 610, in setup
->      ns.set_grpid(int(n['ana_grpid']))
-> KeyError: 'ana_grpid'
-> 
-Gnaa. My python skills are crap.
+> Eww, this just looks ugly.  Given that we are micro-optimizing here
+> I'd rather just use a different ->poll implementation and thus blk_mq_ops
+> if we have a separate poll code.  Then we could leave the existing
+> __nvme_poll as-is and have a new nvme_poll_noirq something like this:
 
-Will see to have it fixed.
+Yeah good point, gets rid of those branches too. I'll make that change.
 
-Cheers,
+> And while we are at it:  I think for the irq-driven queuest in a
+> separate queue for poll setup we might not even need to take the
+> CQ lock.  Which might be an argument for only allowing polling
+> if we have the separate queues just to keep everything simple.
 
-Hannes
+We can definitely move in that direction, I'll take a look at what
+is feasible.
+
 -- 
-Dr. Hannes Reinecke		               zSeries & Storage
-hare at suse.com			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Jens Axboe
