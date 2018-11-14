@@ -1,58 +1,47 @@
-From: sashal@kernel.org (Sasha Levin)
-Date: Wed, 14 Nov 2018 17:23:10 -0500
-Subject: [PATCH AUTOSEL 4.18 38/59] nvme: make sure ns head inherits
- underlying device limits
-In-Reply-To: <20181114222335.99339-1-sashal@kernel.org>
-References: <20181114222335.99339-1-sashal@kernel.org>
-Message-ID: <20181114222335.99339-38-sashal@kernel.org>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 14 Nov 2018 15:12:04 -0800
+Subject: [PATCH] nvme: validate controller state before rescheduling keep alive
+Message-ID: <20181114231204.5996-1-jsmart2021@gmail.com>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+Delete operations are seeing NULL pointer references in call_timer_fn.
+Tracking these back, the timer appears to be the keep alive timer.
 
-[ Upstream commit 8f676b8508c250bbe255096522fdefb73f1ea0b9 ]
+nvme_keep_alive_work() which is tied to the timer that is cancelled
+by nvme_stop_keep_alive(), simply starts the keep alive io but doesn't
+wait for it's completion. So nvme_stop_keep_alive() only stops a timer
+when it's pending. When a keep alive is in flight, there is no timer
+running and the nvme_stop_keep_alive() will have no affect on the keep
+alive io. Thus, if the io completes successfully, the keep alive timer
+will be rescheduled.   In the failure case, delete is called, the
+controller state is changed, the nvme_stop_keep_alive() is called while
+the io is outstanding, and the delete path continues on. The keep
+alive happens to successfully complete before the delete paths mark it
+as aborted as part of the queue termination, so the timer is restarted.
+The delete paths then tear down the controller, and later on the timer
+code fires and the timer entry is now corrupt.
 
-Whenever we update ns_head info, we need to make sure it is still
-compatible with all underlying backing devices because although nvme
-multipath doesn't have any explicit use of these limits, other devices
-can still be stacked on top of it which may rely on the underlying limits.
-Start with unlimited stacking limits, and every info update iterate over
-siblings and adjust queue limits.
+Fix by validating the controller state before rescheduling the keep
+alive. Testing with the fix has confirmed the condition above was hit.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
-Signed-off-by: Sasha Levin <sashal at kernel.org>
+Signed-off-by: James Smart <jsmart2021 at gmail.com>
 ---
- drivers/nvme/host/core.c      | 4 +++-
- drivers/nvme/host/multipath.c | 1 +
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bf65501e6ed6..33ec25db4f15 100644
+index fe957166c4a9..deb047514408 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1501,8 +1501,10 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 	if (ns->ndev)
- 		nvme_nvm_update_nvm_info(ns);
- #ifdef CONFIG_NVME_MULTIPATH
--	if (ns->head->disk)
-+	if (ns->head->disk) {
- 		nvme_update_disk_info(ns->head->disk, ns, id);
-+		blk_queue_stack_limits(ns->head->disk->queue, ns->queue);
-+	}
- #endif
+@@ -843,7 +843,9 @@ static void nvme_keep_alive_end_io(struct request *rq, blk_status_t status)
+ 	}
+ 
+ 	ctrl->comp_seen = false;
+-	schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
++	if (ctrl->state == NVME_CTRL_LIVE ||
++	    ctrl->state == NVME_CTRL_CONNECTING)
++		schedule_delayed_work(&ctrl->ka_work, ctrl->kato * HZ);
  }
  
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 1ffd3e8b13a1..20f5010ca7a2 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -197,6 +197,7 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
- 	blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
- 	/* set to a default value for 512 until disk is validated */
- 	blk_queue_logical_block_size(q, 512);
-+	blk_set_stacking_limits(&q->limits);
- 
- 	/* we need to propagate up the VMC settings */
- 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
+ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
 -- 
-2.17.1
+2.13.7
