@@ -1,73 +1,50 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 14 Nov 2018 10:25:31 -0800
-Subject: [PATCH v3 2/4] nvmet: don't override treq upon modification.
+Date: Wed, 14 Nov 2018 10:25:32 -0800
+Subject: [PATCH v3 3/4] nvmet: expose support for fabrics SQ flow control
+ disable in treq
 In-Reply-To: <20181114182534.28807-1-sagi@grimberg.me>
 References: <20181114182534.28807-1-sagi@grimberg.me>
-Message-ID: <20181114182534.28807-3-sagi@grimberg.me>
+Message-ID: <20181114182534.28807-4-sagi@grimberg.me>
 
-Only override the allowed parts of it.
+Technical Proposal introduces an indication for SQ flow control
+disable support. Expose it since we are able to operate in this mode.
 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/configfs.c | 11 +++++++----
- drivers/nvme/target/nvmet.h    |  2 ++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ drivers/nvme/target/configfs.c | 1 +
+ include/linux/nvme.h           | 7 ++++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index d37fd7713bbc..a98ab935b537 100644
+index a98ab935b537..c2df205096ec 100644
 --- a/drivers/nvme/target/configfs.c
 +++ b/drivers/nvme/target/configfs.c
-@@ -153,7 +153,8 @@ CONFIGFS_ATTR(nvmet_, addr_traddr);
- static ssize_t nvmet_addr_treq_show(struct config_item *item,
- 		char *page)
- {
--	switch (to_nvmet_port(item)->disc_addr.treq) {
-+	switch (to_nvmet_port(item)->disc_addr.treq &
-+		NVMET_TREQ_SECURE_CHANNEL_MASK) {
- 	case NVMF_TREQ_NOT_SPECIFIED:
- 		return sprintf(page, "not specified\n");
- 	case NVMF_TREQ_REQUIRED:
-@@ -169,6 +170,7 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
- 		const char *page, size_t count)
- {
- 	struct nvmet_port *port = to_nvmet_port(item);
-+	u8 treq = port->disc_addr.treq & ~NVMET_TREQ_SECURE_CHANNEL_MASK;
+@@ -1214,6 +1214,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 	port->inline_data_size = -1;	/* < 0 == let the transport choose */
  
- 	if (port->enabled) {
- 		pr_err("Cannot modify address while enabled\n");
-@@ -177,15 +179,16 @@ static ssize_t nvmet_addr_treq_store(struct config_item *item,
- 	}
+ 	port->disc_addr.portid = cpu_to_le16(portid);
++	port->disc_addr.treq = NVMF_TREQ_DISABLE_SQFLOW;
+ 	config_group_init_type_name(&port->group, name, &nvmet_port_type);
  
- 	if (sysfs_streq(page, "not specified")) {
--		port->disc_addr.treq = NVMF_TREQ_NOT_SPECIFIED;
-+		treq |= NVMF_TREQ_NOT_SPECIFIED;
- 	} else if (sysfs_streq(page, "required")) {
--		port->disc_addr.treq = NVMF_TREQ_REQUIRED;
-+		treq |= NVMF_TREQ_REQUIRED;
- 	} else if (sysfs_streq(page, "not required")) {
--		port->disc_addr.treq = NVMF_TREQ_NOT_REQUIRED;
-+		treq |= NVMF_TREQ_NOT_REQUIRED;
- 	} else {
- 		pr_err("Invalid value '%s' for treq\n", page);
- 		return -EINVAL;
- 	}
-+	port->disc_addr.treq = treq;
+ 	config_group_init_type_name(&port->subsys_group,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index e7d731776f62..4a560ea04d7c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -58,9 +58,10 @@ enum {
  
- 	return count;
- }
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 613a37683eae..abc603fa725d 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -56,6 +56,8 @@
- #define IPO_IATTR_CONNECT_SQE(x)	\
- 	(cpu_to_le32(offsetof(struct nvmf_connect_command, x)))
+ /* Transport Requirements codes for Discovery Log Page entry TREQ field */
+ enum {
+-	NVMF_TREQ_NOT_SPECIFIED	= 0,	/* Not specified */
+-	NVMF_TREQ_REQUIRED	= 1,	/* Required */
+-	NVMF_TREQ_NOT_REQUIRED	= 2,	/* Not Required */
++	NVMF_TREQ_NOT_SPECIFIED	= 0,		/* Not specified */
++	NVMF_TREQ_REQUIRED	= 1,		/* Required */
++	NVMF_TREQ_NOT_REQUIRED	= 2,		/* Not Required */
++	NVMF_TREQ_DISABLE_SQFLOW = (1 << 2),	/* Supports SQ flow control disable */
+ };
  
-+#define NVMET_TREQ_SECURE_CHANNEL_MASK 0x3
-+
- struct nvmet_ns {
- 	struct list_head	dev_link;
- 	struct percpu_ref	ref;
+ /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
 -- 
 2.17.1
