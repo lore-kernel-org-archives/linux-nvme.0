@@ -1,26 +1,130 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 14 Nov 2018 08:32:21 -0800
-Subject: [PATCH v2 4/4] nvme: disable fabrics SQ flow control when asked
- by the user
-In-Reply-To: <20181114142135.GC27204@infradead.org>
-References: <20181003081323.7504-1-sagi@grimberg.me>
- <20181003081323.7504-5-sagi@grimberg.me>
- <20181114142135.GC27204@infradead.org>
-Message-ID: <b6119c20-6b1e-e24c-baf3-a8e35c4a0355@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 14 Nov 2018 10:12:44 -0700
+Subject: [PATCH] nvme: utilize two queue maps, one for reads and one for
+ writes
+In-Reply-To: <20181114045237.GA6456@roeck-us.net>
+References: <20181114004148.GA29545@roeck-us.net>
+ <f1e91342-2b04-6d9f-e77a-6e812c6888d0@kernel.dk>
+ <20181114045237.GA6456@roeck-us.net>
+Message-ID: <5e0d80ea-4c81-3905-be0b-f84a0e9cca13@kernel.dk>
 
-
->> As for now, we don't care about sq_head pointer updates anyway, so
->> at least allow the controller to micro-optimize by omiting this update.
+On 11/13/18 9:52 PM, Guenter Roeck wrote:
+> On Tue, Nov 13, 2018@05:51:08PM -0700, Jens Axboe wrote:
+>> On 11/13/18 5:41 PM, Guenter Roeck wrote:
+>>> Hi,
+>>>
+>>> On Wed, Oct 31, 2018@08:36:31AM -0600, Jens Axboe wrote:
+>>>> NVMe does round-robin between queues by default, which means that
+>>>> sharing a queue map for both reads and writes can be problematic
+>>>> in terms of read servicing. It's much easier to flood the queue
+>>>> with writes and reduce the read servicing.
+>>>>
+>>>> Implement two queue maps, one for reads and one for writes. The
+>>>> write queue count is configurable through the 'write_queues'
+>>>> parameter.
+>>>>
+>>>> By default, we retain the previous behavior of having a single
+>>>> queue set, shared between reads and writes. Setting 'write_queues'
+>>>> to a non-zero value will create two queue sets, one for reads and
+>>>> one for writes, the latter using the configurable number of
+>>>> queues (hardware queue counts permitting).
+>>>>
+>>>> Reviewed-by: Hannes Reinecke <hare at suse.com>
+>>>> Reviewed-by: Keith Busch <keith.busch at intel.com>
+>>>> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+>>>
+>>> This patch causes hangs when running recent versions of
+>>> -next with several architectures; see the -next column at
+>>> kerneltests.org/builders for details.  Bisect log below; this
+>>> was run with qemu on alpha. Reverting this patch as well as
+>>> "nvme: add separate poll queue map" fixes the problem.
 >>
->> Note that we will probably need to support it when a controller
->> that requires this comes along.
+>> I don't see anything related to what hung, the trace, and so on.
+>> Can you clue me in? Where are the test results with dmesg?
+>>
+> alpha just stalls during boot. parisc reports a hung task
+> in nvme_reset_work. sparc64 reports EIO when instantiating
+> the nvme driver, called from nvme_reset_work, and then stalls.
+> In all three cases, reverting the two mentioned patches fixes
+> the problem.
+
+I think the below patch should fix it.
+
+> https://kerneltests.org/builders/qemu-parisc-next/builds/173/steps/qemubuildcommand_1/logs/stdio
 > 
-> Shouldn't we default to disabling control for any controller that
-> supports it instead of adding an option?
+> is an example log for parisc.
+> 
+> I didn't check if the other boot failures (ppc looks bad)
+> have the same root cause.
+> 
+>> How to reproduce?
+>>
+> parisc:
+> 
+> qemu-system-hppa -kernel vmlinux -no-reboot \
+> 	-snapshot -device nvme,serial=foo,drive=d0 \
+> 	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+> 	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0,115200 ' \
+> 	-nographic -monitor null
+> 
+> alpha:
+> 
+> qemu-system-alpha -M clipper -kernel arch/alpha/boot/vmlinux -no-reboot \
+> 	-snapshot -device nvme,serial=foo,drive=d0 \
+> 	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+> 	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0' \
+> 	-m 128M -nographic -monitor null -serial stdio
+> 
+> sparc64:
+> 
+> qemu-system-sparc64 -M sun4u -cpu 'TI UltraSparc IIi' -m 512 \
+> 	-snapshot -device nvme,serial=foo,drive=d0,bus=pciB \
+> 	-drive file=rootfs.ext2,if=none,format=raw,id=d0 \
+> 	-kernel arch/sparc/boot/image -no-reboot \
+> 	-append 'root=/dev/nvme0n1 rw rootwait panic=-1 console=ttyS0' \
+> 	-nographic -monitor none
+> 
+> The root file systems are available from the respective subdirectories
+> of:
+> 
+> https://github.com/groeck/linux-build-test/tree/master/rootfs
 
-We only know if the controller supports it from the discovery log entry
-which is processed from userspace, and it does default to disable if
-the controller supports it.
+This is useful, thanks! I haven't tried it yet, but I was able to
+reproduce on x86 with MSI turned off.
 
-Would you prefer that the flag would be opposite? that would change the
-existing behavior as Hannes indicated in the last version.
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8df868afa363..6c03461ad988 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2098,7 +2098,7 @@ static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
+ 		.nr_sets = ARRAY_SIZE(irq_sets),
+ 		.sets = irq_sets,
+ 	};
+-	int result;
++	int result = 0;
+ 
+ 	/*
+ 	 * For irq sets, we have to ask for minvec == maxvec. This passes
+@@ -2113,9 +2113,16 @@ static int nvme_setup_irqs(struct nvme_dev *dev, int nr_io_queues)
+ 			affd.nr_sets = 1;
+ 
+ 		/*
+-		 * Need IRQs for read+write queues, and one for the admin queue
++		 * Need IRQs for read+write queues, and one for the admin queue.
++		 * If we can't get more than one vector, we have to share the
++		 * admin queue and IO queue vector. For that case, don't add
++		 * an extra vector for the admin queue, or we'll continue
++		 * asking for 2 and get -ENOSPC in return.
+ 		 */
+-		nr_io_queues = irq_sets[0] + irq_sets[1] + 1;
++		if (result == -ENOSPC && nr_io_queues == 1)
++			nr_io_queues = 1;
++		else
++			nr_io_queues = irq_sets[0] + irq_sets[1] + 1;
+ 
+ 		result = pci_alloc_irq_vectors_affinity(pdev, nr_io_queues,
+ 				nr_io_queues,
+
+-- 
+Jens Axboe
