@@ -1,18 +1,33 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 14 Nov 2018 06:21:35 -0800
-Subject: [PATCH v2 4/4] nvme: disable fabrics SQ flow control when asked
- by the user
-In-Reply-To: <20181003081323.7504-5-sagi@grimberg.me>
-References: <20181003081323.7504-1-sagi@grimberg.me>
- <20181003081323.7504-5-sagi@grimberg.me>
-Message-ID: <20181114142135.GC27204@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 14 Nov 2018 16:14:17 +0100
+Subject: [PATCHv2] nvmetcli: ANA configuration support
+In-Reply-To: <20181108122736.76270-1-hare@suse.de>
+References: <20181108122736.76270-1-hare@suse.de>
+Message-ID: <20181114151417.GA28175@lst.de>
 
-On Wed, Oct 03, 2018@01:13:22AM -0700, Sagi Grimberg wrote:
-> As for now, we don't care about sq_head pointer updates anyway, so
-> at least allow the controller to micro-optimize by omiting this update.
-> 
-> Note that we will probably need to support it when a controller
-> that requires this comes along.
+This fails to restore a config that doesn't have the ANA fields
+yet (actual config attached):
 
-Shouldn't we default to disabling control for any controller that
-supports it instead of adding an option?
+Traceback (most recent call last):
+  File "./nvmetcli", line 740, in <module>
+    main()
+  File "./nvmetcli", line 722, in main
+    funcs[sys.argv[1]](savefile)
+  File "./nvmetcli", line 678, in restore
+    errors = nvme.Root().restore_from_file(from_file)
+  File "/root/nvmetcli/nvmet/nvme.py", line 382, in restore_from_file
+    abort_on_error=abort_on_error)
+  File "/root/nvmetcli/nvmet/nvme.py", line 356, in restore
+    Subsystem.setup(t, err_func)
+  File "/root/nvmetcli/nvmet/nvme.py", line 497, in setup
+    Namespace.setup(s, ns, err_func)
+  File "/root/nvmetcli/nvmet/nvme.py", line 610, in setup
+    ns.set_grpid(int(n['ana_grpid']))
+KeyError: 'ana_grpid'
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: loop2.json
+Type: application/json
+Size: 1221 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20181114/aaa1f9c0/attachment.json>
