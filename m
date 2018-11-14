@@ -1,37 +1,60 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 14 Nov 2018 11:16:45 -0500
-Subject: multipath-tools: add ANA support for NVMe device
-In-Reply-To: <20181114153544.GA28758@lst.de>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
- <20181113161838.GC9827@localhost.localdomain>
- <d8c35b13-ee5a-e4ee-847a-2bacf788825a@suse.de>
- <20181114153544.GA28758@lst.de>
-Message-ID: <20181114161645.GA18207@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 14 Nov 2018 08:29:28 -0800
+Subject: [PATCH v2 1/4] nvmet: support fabrics sq flow control
+In-Reply-To: <20181114141958.GA27204@infradead.org>
+References: <20181003081323.7504-1-sagi@grimberg.me>
+ <20181003081323.7504-2-sagi@grimberg.me>
+ <20181114141958.GA27204@infradead.org>
+Message-ID: <d3f27028-1da9-9224-e98b-a7d3e31b3d43@grimberg.me>
 
-On Wed, Nov 14 2018 at 10:35am -0500,
-Christoph Hellwig <hch@lst.de> wrote:
 
-> On Wed, Nov 14, 2018@08:24:05AM +0100, Hannes Reinecke wrote:
-> > My argument here is that _ANA_ support should not be tied to the NVME 
-> > native multipathing at all.
+>> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+>> index 7084704b468d..df2af5e3e4d6 100644
+>> --- a/drivers/nvme/target/core.c
+>> +++ b/drivers/nvme/target/core.c
+>> @@ -503,26 +503,35 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+>>   	return ns;
+>>   }
+>>   
+>> -static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+>> +static void nvmet_update_sq_head(struct nvmet_req *req)
+>>   {
+>>   	u32 old_sqhd, new_sqhd;
+>>   	u16 sqhd;
+>>   
+>> +	if (!req->sq->sqhd_disabled) {
+>> +		if (req->sq->size) {
 > 
-> It should.  Because nvme driver multipathing is the only sanctioned
-> way to use it.  All other ways aren't supported and might break at
-> any time.
+> This should be (!req->sq->sqhd_disabled && req->sq->size))
 
-Quite a few of us who are multipath-tools oriented would like the proper
-separation rather than your more pragmatic isolated approach.  And we'd
-fix it if it broke in the future.
+No problem.
 
-> > So personally I don't see why the 'raw' ANA support (parsing log pages, 
-> > figuring out path states etc) needs to be tied in with native NVMe 
-> > multipathing. _Especially_ not as my patch really is trivial.
+>> +			do {
+>> +				old_sqhd = req->sq->sqhd;
+>> +				new_sqhd = (old_sqhd + 1) % req->sq->size;
+>> +			} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
+>> +						old_sqhd);
+>> +		}
+>>   	}
+>> +
+>>   	sqhd = req->sq->sqhd & 0x0000FFFF;
+>>   	req->rsp->sq_head = cpu_to_le16(sqhd);
 > 
-> And not actually usable for anything..  They only thing you do is to
-> increase the code size for embedded nvme users that don't need any
-> multipathing.
+> sq_head is a const 0xffff if flow control is disabled isn't it?
 
-Isn't that why CONFIG_NVME_MULTIPATH exists?  Embedded nvme users
-wouldn't set that.
+Unfortunately no, sqhd is supposed to be 0xffff only for the connect
+response, otherwise its reserved.
+
+> Based on that I'd just move the sqhd_disabled check in the
+> caller and assign the constant value there.
+> 
+>> @@ -173,6 +175,8 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+>>   	kfree(d);
+>>   complete:
+>>   	nvmet_req_complete(req, status);
+>> +	if (req->sq->sqhd_disabled)
+>> +		req->sq->sqhd = 0;
+> 
+> Huh, why?
+
+Because its reserved after the connect response.
