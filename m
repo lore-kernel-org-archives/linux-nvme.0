@@ -1,97 +1,108 @@
 From: sagi@lightbitslabs.com (Sagi Grimberg)
-Date: Thu, 15 Nov 2018 09:16:13 -0800
-Subject: [PATCH 01/11] ath6kl: add ath6kl_ prefix to crypto_type
+Date: Thu, 15 Nov 2018 09:16:14 -0800
+Subject: [PATCH 02/11] iov_iter: introduce hash_and_copy iter helpers
 In-Reply-To: <20181115171626.9306-1-sagi@lightbitslabs.com>
 References: <20181115171626.9306-1-sagi@lightbitslabs.com>
-Message-ID: <20181115171626.9306-2-sagi@lightbitslabs.com>
+Message-ID: <20181115171626.9306-3-sagi@lightbitslabs.com>
 
-Prevent a namespace conflict as in following patches as skbuff.h will
-include the crypto API.
+Allow consumers that want to use iov iterator helpers and also update
+a predefined hash calculation online when copying data. This is useful
+when copying incoming network buffers to a local iterator and calculate
+a digest on the incoming stream. nvme-tcp host driver that will be
+introduced in following patches is the first consumer via
+skb_copy_and_hash_datagram_iter.
 
-Cc: Kalle Valo <kvalo at codeaurora.org>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- drivers/net/wireless/ath/ath6kl/cfg80211.c | 2 +-
- drivers/net/wireless/ath/ath6kl/common.h   | 2 +-
- drivers/net/wireless/ath/ath6kl/wmi.c      | 6 +++---
- drivers/net/wireless/ath/ath6kl/wmi.h      | 6 +++---
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/uio.h |  5 +++++
+ lib/iov_iter.c      | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/drivers/net/wireless/ath/ath6kl/cfg80211.c b/drivers/net/wireless/ath/ath6kl/cfg80211.c
-index e121187f371f..fa049c4ae315 100644
---- a/drivers/net/wireless/ath/ath6kl/cfg80211.c
-+++ b/drivers/net/wireless/ath/ath6kl/cfg80211.c
-@@ -1322,7 +1322,7 @@ static int ath6kl_cfg80211_set_default_key(struct wiphy *wiphy,
- 	struct ath6kl_vif *vif = netdev_priv(ndev);
- 	struct ath6kl_key *key = NULL;
- 	u8 key_usage;
--	enum crypto_type key_type = NONE_CRYPT;
-+	enum ath6kl_crypto_type key_type = NONE_CRYPT;
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index 55ce99ddb912..c299ea1037a7 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -11,6 +11,7 @@
  
- 	ath6kl_dbg(ATH6KL_DBG_WLAN_CFG, "%s: index %d\n", __func__, key_index);
+ #include <linux/kernel.h>
+ #include <linux/thread_info.h>
++#include <crypto/hash.h>
+ #include <uapi/linux/uio.h>
  
-diff --git a/drivers/net/wireless/ath/ath6kl/common.h b/drivers/net/wireless/ath/ath6kl/common.h
-index 4f82e8632d37..d6e5234f67a1 100644
---- a/drivers/net/wireless/ath/ath6kl/common.h
-+++ b/drivers/net/wireless/ath/ath6kl/common.h
-@@ -67,7 +67,7 @@ struct ath6kl_llc_snap_hdr {
- 	__be16 eth_type;
- } __packed;
+ struct page;
+@@ -127,6 +128,8 @@ size_t copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
+ 			 struct iov_iter *i);
+ size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
+ 			 struct iov_iter *i);
++size_t hash_and_copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
++			 struct iov_iter *i, struct ahash_request *hash);
  
--enum crypto_type {
-+enum ath6kl_crypto_type {
- 	NONE_CRYPT          = 0x01,
- 	WEP_CRYPT           = 0x02,
- 	TKIP_CRYPT          = 0x04,
-diff --git a/drivers/net/wireless/ath/ath6kl/wmi.c b/drivers/net/wireless/ath/ath6kl/wmi.c
-index 777acc564ac9..9d7ac1ab2d02 100644
---- a/drivers/net/wireless/ath/ath6kl/wmi.c
-+++ b/drivers/net/wireless/ath/ath6kl/wmi.c
-@@ -1849,9 +1849,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
- 			   enum network_type nw_type,
- 			   enum dot11_auth_mode dot11_auth_mode,
- 			   enum auth_mode auth_mode,
--			   enum crypto_type pairwise_crypto,
-+			   enum ath6kl_crypto_type pairwise_crypto,
- 			   u8 pairwise_crypto_len,
--			   enum crypto_type group_crypto,
-+			   enum ath6kl_crypto_type group_crypto,
- 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
- 			   u8 *bssid, u16 channel, u32 ctrl_flags,
- 			   u8 nw_subtype)
-@@ -2301,7 +2301,7 @@ int ath6kl_wmi_disctimeout_cmd(struct wmi *wmi, u8 if_idx, u8 timeout)
+ size_t _copy_to_iter(const void *addr, size_t bytes, struct iov_iter *i);
+ size_t _copy_from_iter(void *addr, size_t bytes, struct iov_iter *i);
+@@ -269,6 +272,8 @@ static inline void iov_iter_reexpand(struct iov_iter *i, size_t count)
+ size_t csum_and_copy_to_iter(const void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
+ size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
+ bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
++size_t hash_and_copy_to_iter(const void *addr, size_t bytes,
++		struct iov_iter *i, struct ahash_request *hash);
+ 
+ int import_iovec(int type, const struct iovec __user * uvector,
+ 		 unsigned nr_segs, unsigned fast_segs,
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 7ebccb5c1637..f15cc4f93ecc 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -6,6 +6,7 @@
+ #include <linux/vmalloc.h>
+ #include <linux/splice.h>
+ #include <net/checksum.h>
++#include <linux/scatterlist.h>
+ 
+ #define PIPE_PARANOIA /* for now */
+ 
+@@ -850,6 +851,22 @@ size_t copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
  }
+ EXPORT_SYMBOL(copy_page_to_iter);
  
- int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
--			  enum crypto_type key_type,
-+			  enum ath6kl_crypto_type key_type,
- 			  u8 key_usage, u8 key_len,
- 			  u8 *key_rsc, unsigned int key_rsc_len,
- 			  u8 *key_material,
-diff --git a/drivers/net/wireless/ath/ath6kl/wmi.h b/drivers/net/wireless/ath/ath6kl/wmi.h
-index a60bb49fe920..784940ba4c90 100644
---- a/drivers/net/wireless/ath/ath6kl/wmi.h
-+++ b/drivers/net/wireless/ath/ath6kl/wmi.h
-@@ -2556,9 +2556,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
- 			   enum network_type nw_type,
- 			   enum dot11_auth_mode dot11_auth_mode,
- 			   enum auth_mode auth_mode,
--			   enum crypto_type pairwise_crypto,
-+			   enum ath6kl_crypto_type pairwise_crypto,
- 			   u8 pairwise_crypto_len,
--			   enum crypto_type group_crypto,
-+			   enum ath6kl_crypto_type group_crypto,
- 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
- 			   u8 *bssid, u16 channel, u32 ctrl_flags,
- 			   u8 nw_subtype);
-@@ -2610,7 +2610,7 @@ int ath6kl_wmi_config_debug_module_cmd(struct wmi *wmi, u32 valid, u32 config);
++size_t hash_and_copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
++			 struct iov_iter *i, struct ahash_request *hash)
++{
++	struct scatterlist sg;
++	size_t copied;
++
++	copied = copy_page_to_iter(page, offset, bytes, i);
++	sg_init_marker(&sg, 1);
++	sg_set_page(&sg, page, bytes, offset);
++	ahash_request_set_crypt(hash, &sg, NULL, copied);
++	crypto_ahash_update(hash);
++
++	return copied;
++}
++EXPORT_SYMBOL(hash_and_copy_page_to_iter);
++
+ size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
+ 			 struct iov_iter *i)
+ {
+@@ -1474,6 +1491,20 @@ size_t csum_and_copy_to_iter(const void *addr, size_t bytes, __wsum *csum,
+ }
+ EXPORT_SYMBOL(csum_and_copy_to_iter);
  
- int ath6kl_wmi_get_stats_cmd(struct wmi *wmi, u8 if_idx);
- int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
--			  enum crypto_type key_type,
-+			  enum ath6kl_crypto_type key_type,
- 			  u8 key_usage, u8 key_len,
- 			  u8 *key_rsc, unsigned int key_rsc_len,
- 			  u8 *key_material,
++size_t hash_and_copy_to_iter(const void *addr, size_t bytes,
++		struct iov_iter *i, struct ahash_request *hash)
++{
++	struct scatterlist sg;
++	size_t copied;
++
++	copied = copy_to_iter(addr, bytes, i);
++	sg_init_one(&sg, addr, copied);
++	ahash_request_set_crypt(hash, &sg, NULL, copied);
++	crypto_ahash_update(hash);
++	return copied;
++}
++EXPORT_SYMBOL(hash_and_copy_to_iter);
++
+ int iov_iter_npages(const struct iov_iter *i, int maxpages)
+ {
+ 	size_t size = i->count;
 -- 
 2.17.1
