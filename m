@@ -1,137 +1,193 @@
 From: sagi@lightbitslabs.com (Sagi Grimberg)
-Date: Thu, 15 Nov 2018 09:16:15 -0800
-Subject: [PATCH 03/11] datagram: introduce skb_copy_and_hash_datagram_iter
- helper
+Date: Thu, 15 Nov 2018 09:16:16 -0800
+Subject: [PATCH 04/11] nvme-core: add work elements to struct nvme_ctrl
 In-Reply-To: <20181115171626.9306-1-sagi@lightbitslabs.com>
 References: <20181115171626.9306-1-sagi@lightbitslabs.com>
-Message-ID: <20181115171626.9306-4-sagi@lightbitslabs.com>
+Message-ID: <20181115171626.9306-5-sagi@lightbitslabs.com>
 
-Introduce a helper to copy datagram into an iovec iterator
-but also update a predefined hash. This is useful for
-consumers of skb_copy_datagram_iter to also support inflight
-data digest without having to finish to copy and only then
-traverse the iovec and calculate the digest hash.
+connect_work and err_work will be reused by nvme-tcp so
+share those in nvme_ctrl for rdma and fc to share.
 
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- include/linux/skbuff.h |  3 ++
- net/core/datagram.c    | 90 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 93 insertions(+)
+ drivers/nvme/host/fc.c   | 18 ++++++++----------
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/rdma.c | 19 ++++++++-----------
+ 3 files changed, 18 insertions(+), 21 deletions(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 0ba687454267..4d89bb14c2fc 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -3311,6 +3311,9 @@ int skb_copy_and_csum_datagram_msg(struct sk_buff *skb, int hlen,
- 				   struct msghdr *msg);
- int skb_copy_datagram_from_iter(struct sk_buff *skb, int offset,
- 				 struct iov_iter *from, int len);
-+int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
-+			   struct iov_iter *to, int len,
-+			   struct ahash_request *hash);
- int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *frm);
- void skb_free_datagram(struct sock *sk, struct sk_buff *skb);
- void __skb_free_datagram_locked(struct sock *sk, struct sk_buff *skb, int len);
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 57f3a6fcfc1e..9c81741c1bae 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -497,6 +497,96 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
- }
- EXPORT_SYMBOL(skb_copy_datagram_iter);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 83131e42b336..16812e427e17 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -159,8 +159,6 @@ struct nvme_fc_ctrl {
+ 	struct blk_mq_tag_set	admin_tag_set;
+ 	struct blk_mq_tag_set	tag_set;
  
-+/**
-+ *	skb_copy_and_hash_datagram_iter - Copy datagram to an iovec iterator
-+ *          and update a hash.
-+ *	@skb: buffer to copy
-+ *	@offset: offset in the buffer to start copying from
-+ *	@to: iovec iterator to copy to
-+ *	@len: amount of data to copy from buffer to iovec
-+ *      @hash: hash request to update
-+ */
-+int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
-+			   struct iov_iter *to, int len,
-+			   struct ahash_request *hash)
-+{
-+	int start = skb_headlen(skb);
-+	int i, copy = start - offset, start_off = offset, n;
-+	struct sk_buff *frag_iter;
-+
-+	/* Copy header. */
-+	if (copy > 0) {
-+		if (copy > len)
-+			copy = len;
-+		n = hash_and_copy_to_iter(skb->data + offset, copy, to, hash);
-+		offset += n;
-+		if (n != copy)
-+			goto short_copy;
-+		if ((len -= copy) == 0)
-+			return 0;
-+	}
-+
-+	/* Copy paged appendix. Hmm... why does this look so complicated? */
-+	for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-+		int end;
-+		const skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-+
-+		WARN_ON(start > offset + len);
-+
-+		end = start + skb_frag_size(frag);
-+		if ((copy = end - offset) > 0) {
-+			if (copy > len)
-+				copy = len;
-+			n = hash_and_copy_page_to_iter(skb_frag_page(frag),
-+					      frag->page_offset + offset -
-+					      start, copy, to, hash);
-+			offset += n;
-+			if (n != copy)
-+				goto short_copy;
-+			if (!(len -= copy))
-+				return 0;
-+		}
-+		start = end;
-+	}
-+
-+	skb_walk_frags(skb, frag_iter) {
-+		int end;
-+
-+		WARN_ON(start > offset + len);
-+
-+		end = start + frag_iter->len;
-+		if ((copy = end - offset) > 0) {
-+			if (copy > len)
-+				copy = len;
-+			if (skb_copy_and_hash_datagram_iter(frag_iter,
-+					offset - start, to, copy, hash))
-+				goto fault;
-+			if ((len -= copy) == 0)
-+				return 0;
-+			offset += copy;
-+		}
-+		start = end;
-+	}
-+	if (!len)
-+		return 0;
-+
-+	/* This is not really a user copy fault, but rather someone
-+	 * gave us a bogus length on the skb.  We should probably
-+	 * print a warning here as it may indicate a kernel bug.
-+	 */
-+
-+fault:
-+	iov_iter_revert(to, offset - start_off);
-+	return -EFAULT;
-+
-+short_copy:
-+	if (iov_iter_count(to))
-+		goto fault;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(skb_copy_and_hash_datagram_iter);
-+
- /**
-  *	skb_copy_datagram_from_iter - Copy a datagram from an iov_iter.
-  *	@skb: buffer to copy
+-	struct delayed_work	connect_work;
+-
+ 	struct kref		ref;
+ 	u32			flags;
+ 	u32			iocnt;
+@@ -547,7 +545,7 @@ nvme_fc_resume_controller(struct nvme_fc_ctrl *ctrl)
+ 			"NVME-FC{%d}: connectivity re-established. "
+ 			"Attempting reconnect\n", ctrl->cnum);
+ 
+-		queue_delayed_work(nvme_wq, &ctrl->connect_work, 0);
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work, 0);
+ 		break;
+ 
+ 	case NVME_CTRL_RESETTING:
+@@ -2815,7 +2813,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
+-	cancel_delayed_work_sync(&ctrl->connect_work);
++	cancel_delayed_work_sync(&ctrl->ctrl.connect_work);
+ 	/*
+ 	 * kill the association on the link side.  this will block
+ 	 * waiting for io to terminate
+@@ -2850,7 +2848,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 		else if (time_after(jiffies + recon_delay, rport->dev_loss_end))
+ 			recon_delay = rport->dev_loss_end - jiffies;
+ 
+-		queue_delayed_work(nvme_wq, &ctrl->connect_work, recon_delay);
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work, recon_delay);
+ 	} else {
+ 		if (portptr->port_state == FC_OBJSTATE_ONLINE)
+ 			dev_warn(ctrl->ctrl.device,
+@@ -2918,7 +2916,7 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ 
+ 	struct nvme_fc_ctrl *ctrl =
+ 			container_of(to_delayed_work(work),
+-				struct nvme_fc_ctrl, connect_work);
++				struct nvme_fc_ctrl, ctrl.connect_work);
+ 
+ 	ret = nvme_fc_create_association(ctrl);
+ 	if (ret)
+@@ -3015,7 +3013,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	kref_init(&ctrl->ref);
+ 
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+-	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
++	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work, nvme_fc_connect_ctrl_work);
+ 	spin_lock_init(&ctrl->lock);
+ 
+ 	/* io queue count */
+@@ -3086,7 +3084,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 
+ 	nvme_get_ctrl(&ctrl->ctrl);
+ 
+-	if (!queue_delayed_work(nvme_wq, &ctrl->connect_work, 0)) {
++	if (!queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work, 0)) {
+ 		nvme_put_ctrl(&ctrl->ctrl);
+ 		dev_err(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: failed to schedule initial connect\n",
+@@ -3094,7 +3092,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 		goto fail_ctrl;
+ 	}
+ 
+-	flush_delayed_work(&ctrl->connect_work);
++	flush_delayed_work(&ctrl->ctrl.connect_work);
+ 
+ 	dev_info(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
+@@ -3105,7 +3103,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ fail_ctrl:
+ 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
+ 	cancel_work_sync(&ctrl->ctrl.reset_work);
+-	cancel_delayed_work_sync(&ctrl->connect_work);
++	cancel_delayed_work_sync(&ctrl->ctrl.connect_work);
+ 
+ 	ctrl->ctrl.opts = NULL;
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 27663ce3044e..031195e5d7d3 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -240,6 +240,8 @@ struct nvme_ctrl {
+ 	u16 maxcmd;
+ 	int nr_reconnects;
+ 	struct nvmf_ctrl_options *opts;
++	struct delayed_work connect_work;
++	struct work_struct err_work;
+ };
+ 
+ struct nvme_subsystem {
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 4468d672ced9..779c2c043242 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -101,12 +101,9 @@ struct nvme_rdma_ctrl {
+ 
+ 	/* other member variables */
+ 	struct blk_mq_tag_set	tag_set;
+-	struct work_struct	err_work;
+ 
+ 	struct nvme_rdma_qe	async_event_sqe;
+ 
+-	struct delayed_work	reconnect_work;
+-
+ 	struct list_head	list;
+ 
+ 	struct blk_mq_tag_set	admin_tag_set;
+@@ -910,8 +907,8 @@ static void nvme_rdma_stop_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+ 
+-	cancel_work_sync(&ctrl->err_work);
+-	cancel_delayed_work_sync(&ctrl->reconnect_work);
++	cancel_work_sync(&ctrl->ctrl.err_work);
++	cancel_delayed_work_sync(&ctrl->ctrl.connect_work);
+ }
+ 
+ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+@@ -943,7 +940,7 @@ static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+ 	if (nvmf_should_reconnect(&ctrl->ctrl)) {
+ 		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
+ 			ctrl->ctrl.opts->reconnect_delay);
+-		queue_delayed_work(nvme_wq, &ctrl->reconnect_work,
++		queue_delayed_work(nvme_wq, &ctrl->ctrl.connect_work,
+ 				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else {
+ 		nvme_delete_ctrl(&ctrl->ctrl);
+@@ -1015,7 +1012,7 @@ static int nvme_rdma_setup_ctrl(struct nvme_rdma_ctrl *ctrl, bool new)
+ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(to_delayed_work(work),
+-			struct nvme_rdma_ctrl, reconnect_work);
++			struct nvme_rdma_ctrl, ctrl.connect_work);
+ 
+ 	++ctrl->ctrl.nr_reconnects;
+ 
+@@ -1038,7 +1035,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
+ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-			struct nvme_rdma_ctrl, err_work);
++			struct nvme_rdma_ctrl, ctrl.err_work);
+ 
+ 	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_rdma_teardown_io_queues(ctrl, false);
+@@ -1059,7 +1056,7 @@ static void nvme_rdma_error_recovery(struct nvme_rdma_ctrl *ctrl)
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
+ 		return;
+ 
+-	queue_work(nvme_wq, &ctrl->err_work);
++	queue_work(nvme_wq, &ctrl->ctrl.err_work);
+ }
+ 
+ static void nvme_rdma_wr_error(struct ib_cq *cq, struct ib_wc *wc,
+@@ -1932,9 +1929,9 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 		goto out_free_ctrl;
+ 	}
+ 
+-	INIT_DELAYED_WORK(&ctrl->reconnect_work,
++	INIT_DELAYED_WORK(&ctrl->ctrl.connect_work,
+ 			nvme_rdma_reconnect_ctrl_work);
+-	INIT_WORK(&ctrl->err_work, nvme_rdma_error_recovery_work);
++	INIT_WORK(&ctrl->ctrl.err_work, nvme_rdma_error_recovery_work);
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_rdma_reset_ctrl_work);
+ 
+ 	ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
 -- 
 2.17.1
