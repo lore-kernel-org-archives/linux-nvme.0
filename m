@@ -1,40 +1,111 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Thu, 15 Nov 2018 11:30:15 -0600
-Subject: [PATCH v2 1/2] pci: prevent sk hynix nvme from entering D3
-In-Reply-To: <20181115145809.GA207836@google.com>
-References: <20181106071214.12745-1-acelan.kao@canonical.com>
- <20181109002157.GK41183@google.com>
- <B21C5A96-AB21-4405-BBF1-9AD343425CA9@canonical.com>
- <20181115145809.GA207836@google.com>
-Message-ID: <20181115173015.GB229449@google.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 15 Nov 2018 09:31:49 -0800
+Subject: [PATCH v3 1/4] nvmet: support fabrics sq flow control
+In-Reply-To: <20181115114005.GA16759@lst.de>
+References: <20181114182534.28807-1-sagi@grimberg.me>
+ <20181114182534.28807-2-sagi@grimberg.me> <20181115114005.GA16759@lst.de>
+Message-ID: <d65fb6ab-847f-3de6-a917-91becc4c6b89@grimberg.me>
 
-On Thu, Nov 15, 2018@08:58:09AM -0600, Bjorn Helgaas wrote:
-> On Thu, Nov 15, 2018@03:16:29PM +0800, Kai Heng Feng wrote:
-> > On Nov 9, 2018,@08:21, Bjorn Helgaas <helgaas@kernel.org> wrote:
 
-> > > I'm not sure we want a quirk for this at all, since as Christoph
-> > > points out, it doesn't fix a functional issue as the other uses of
-> > > quirk_no_ata_d3() do.
-> > > 
-> > > From your emails with Christoph, it sounds like this quirk is a
-> > > workaround for a firmware defect.  If we *do* end up wanting a quirk,
-> > > the changelog should at least mention the firmware defect and maybe
-> > > check whether it has been fixed.
-> > 
-> > According to SK Hynix folks and new evidence on the new Intel NVMe
-> > we have, this is something we are going to see more often.
+> We drop the sq ref in nvmet_req_complete, so this introduces a
+> use-after-free.  What about this variant instead:
+
+That is definitely better. I'll give it a test drive.
+
 > 
-> Hmmm, are you suggesting that if we went this quirk route, we'd be
-> updating the quirk frequently to add new devices?
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index e3e158ff207a..74e253eb873f 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -597,25 +597,29 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+>   	return ns;
+>   }
+>   
+> -static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+> +static void nvmet_update_sq_head(struct nvmet_req *req)
+>   {
+> -	u32 old_sqhd, new_sqhd;
+> -	u16 sqhd;
+> -
+> -	if (status)
+> -		nvmet_set_status(req, status);
+> -
+>   	if (req->sq->size) {
+> +		u32 old_sqhd, new_sqhd;
+> +
+>   		do {
+>   			old_sqhd = req->sq->sqhd;
+>   			new_sqhd = (old_sqhd + 1) % req->sq->size;
+>   		} while (cmpxchg(&req->sq->sqhd, old_sqhd, new_sqhd) !=
+>   					old_sqhd);
+>   	}
+> -	sqhd = req->sq->sqhd & 0x0000FFFF;
+> -	req->rsp->sq_head = cpu_to_le16(sqhd);
+> +
+> +	req->rsp->sq_head = cpu_to_le16(req->sq->sqhd & 0x0000FFFF);
+> +}
+> +
+> +static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+> +{
+> +	if (!req->sq->sqhd_disabled)
+> +		nvmet_update_sq_head(req);
+>   	req->rsp->sq_id = cpu_to_le16(req->sq->qid);
+>   	req->rsp->command_id = req->cmd->common.command_id;
+> +	if (status)
+> +		nvmet_set_status(req, status);
+>   
+>   	if (req->ns)
+>   		nvmet_put_namespace(req->ns);
+> @@ -765,6 +769,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+>   	req->sg_cnt = 0;
+>   	req->transfer_len = 0;
+>   	req->rsp->status = 0;
+> +	req->rsp->sq_head = 0;
+>   	req->ns = NULL;
+>   
+>   	/* no support for fused commands yet */
+> diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+> index d84ae004cb85..328ae46d8344 100644
+> --- a/drivers/nvme/target/fabrics-cmd.c
+> +++ b/drivers/nvme/target/fabrics-cmd.c
+> @@ -115,6 +115,12 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
+>   	/* note: convert queue size from 0's-based value to 1's-based value */
+>   	nvmet_cq_setup(ctrl, req->cq, qid, sqsize + 1);
+>   	nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1);
+> +
+> +	if (c->cattr & NVME_CONNECT_DISABLE_SQFLOW) {
+> +		req->sq->sqhd_disabled = true;
+> +		req->rsp->sq_head = cpu_to_le16(0xffff);
+> +	}
+> +
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+> index 31474940e373..ab8e68966e73 100644
+> --- a/drivers/nvme/target/nvmet.h
+> +++ b/drivers/nvme/target/nvmet.h
+> @@ -106,6 +106,7 @@ struct nvmet_sq {
+>   	u16			qid;
+>   	u16			size;
+>   	u32			sqhd;
+> +	bool			sqhd_disabled;
+>   	struct completion	free_done;
+>   	struct completion	confirm_done;
+>   };
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 77d320d32ee5..e7d731776f62 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -1044,6 +1044,10 @@ struct nvmf_disc_rsp_page_hdr {
+>   	struct nvmf_disc_rsp_page_entry entries[0];
+>   };
+>   
+> +enum {
+> +	NVME_CONNECT_DISABLE_SQFLOW	= (1 << 2),
+> +};
+> +
+>   struct nvmf_connect_command {
+>   	__u8		opcode;
+>   	__u8		resv1;
 > 
-> I'm opposed to that as a strategy because it makes needless work.  You
-> have to update the quirk, backport it to older kernels, re-release
-> distro kernels, etc.
-
-But I guess you have to do this anyway just to add the vendor/device
-ID to the driver, so maybe this isn't a big deal to you.  If you can
-do a quirk like this in the driver, it would be invisible to me and I
-wouldn't care.  I just don't want to deal with ongoing tweaks like
-this in the PCI core :)
-
-Bjorn
