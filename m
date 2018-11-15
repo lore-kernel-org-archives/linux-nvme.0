@@ -1,128 +1,58 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 15 Nov 2018 13:29:26 +0100
-Subject: [PATCH 1/2] nvme-multipath: add 'iopolicy' subsystem attribute
-In-Reply-To: <20181115122927.40431-1-hare@suse.de>
-References: <20181115122927.40431-1-hare@suse.de>
-Message-ID: <20181115122927.40431-2-hare@suse.de>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Thu, 15 Nov 2018 08:58:09 -0600
+Subject: [PATCH v2 1/2] pci: prevent sk hynix nvme from entering D3
+In-Reply-To: <B21C5A96-AB21-4405-BBF1-9AD343425CA9@canonical.com>
+References: <20181106071214.12745-1-acelan.kao@canonical.com>
+ <20181109002157.GK41183@google.com>
+ <B21C5A96-AB21-4405-BBF1-9AD343425CA9@canonical.com>
+Message-ID: <20181115145809.GA207836@google.com>
 
-Add a sysfs attribute 'iopolicy' to the subsystem to allow for
-distinct I/O policies.
+On Thu, Nov 15, 2018@03:16:29PM +0800, Kai Heng Feng wrote:
+> > On Nov 9, 2018,@08:21, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > On Tue, Nov 06, 2018@03:12:13PM +0800, AceLan Kao wrote:
+> >> It leads to the power consumption raises to 2.2W during s2idle, while
+> >> it consumes less than 1W during long idle if put SK hynix nvme to D3
+> >> and then enter s2idle.
+> >> From SK hynix FE, MS Windows doesn't put nvme to D3, and uses its own
+> >> APST feature to do the power management.
+> >> To leverage its APST feature during s2idle, we can't disable nvme
+> >> device while suspending, too.
+> 
+> We have a new Intel NVMe [8086:f1a6] that has this ?new? behavior.
+> 
+> > I don't know how APST works, but it sounds like you want to disable D3
+> > if you're using APST.  But that's not what this patch does; this
+> > disables it always.
+> 
+> Ok, will work on a new patch that only disables D3 when APST is enabled.
 
-Signed-off-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/host/core.c      |  6 ++++++
- drivers/nvme/host/multipath.c | 42 +++++++++++++++++++++++++++++++++++++++++-
- drivers/nvme/host/nvme.h      |  7 +++++++
- 3 files changed, 54 insertions(+), 1 deletion(-)
+My comment was that the changelog didn't match the code.  I don't know
+which one is wrong, so I wasn't trying to suggest that you change the
+code.  If the code is right and the changelog is wrong, just change
+the changelog.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8e1c6ddf0368..f4f5b4991f1e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2176,6 +2176,9 @@ static struct attribute *nvme_subsys_attrs[] = {
- 	&subsys_attr_serial.attr,
- 	&subsys_attr_firmware_rev.attr,
- 	&subsys_attr_subsysnqn.attr,
-+#ifdef CONFIG_NVME_MULTIPATH
-+	&subsys_attr_iopolicy.attr,
-+#endif
- 	NULL,
- };
- 
-@@ -2228,6 +2231,9 @@ static int nvme_init_subsystem(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
- 	memcpy(subsys->firmware_rev, id->fr, sizeof(subsys->firmware_rev));
- 	subsys->vendor_id = le16_to_cpu(id->vid);
- 	subsys->cmic = id->cmic;
-+#ifdef CONFIG_NVME_MULTIPATH
-+	subsys->iopolicy = NVME_IOPOLICY_NUMA;
-+#endif
- 
- 	subsys->dev.class = nvme_subsys_class;
- 	subsys->dev.release = nvme_release_subsystem;
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 8e03cda770c5..1f97293380e2 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -141,7 +141,10 @@ static struct nvme_ns *__nvme_find_path(struct nvme_ns_head *head, int node)
- 		    test_bit(NVME_NS_ANA_PENDING, &ns->flags))
- 			continue;
- 
--		distance = node_distance(node, ns->ctrl->numa_node);
-+		if (head->subsys->iopolicy == NVME_IOPOLICY_NUMA)
-+			distance = node_distance(node, ns->ctrl->numa_node);
-+		else
-+			distance = LOCAL_DISTANCE;
- 
- 		switch (ns->ana_state) {
- 		case NVME_ANA_OPTIMIZED:
-@@ -486,6 +489,43 @@ void nvme_mpath_stop(struct nvme_ctrl *ctrl)
- 	cancel_work_sync(&ctrl->ana_work);
- }
- 
-+#define SUBSYS_ATTR_RW(_name, _mode, _show, _store)  \
-+	struct device_attribute subsys_attr_##_name =	\
-+		__ATTR(_name, _mode, _show, _store)
-+
-+static const char *nvme_iopolicy_names[] = {
-+	[NVME_IOPOLICY_UNKNOWN] = "unknown",
-+	[NVME_IOPOLICY_NONE] = "none",
-+	[NVME_IOPOLICY_NUMA] = "numa",
-+};
-+
-+static ssize_t nvme_subsys_iopolicy_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct nvme_subsystem *subsys =
-+		container_of(dev, struct nvme_subsystem, dev);
-+
-+	return sprintf(buf, "%s\n", nvme_iopolicy_names[subsys->iopolicy]);
-+}
-+
-+static ssize_t nvme_subsys_iopolicy_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	unsigned int iopolicy = NVME_IOPOLICY_UNKNOWN;
-+
-+	if (!strncmp(buf, "none", 4))
-+		iopolicy = NVME_IOPOLICY_NONE;
-+	else if (!strncmp(buf, "numa", 4))
-+		iopolicy = NVME_IOPOLICY_NUMA;
-+
-+	if (iopolicy == NVME_IOPOLICY_UNKNOWN)
-+		return -EINVAL;
-+
-+	return count;
-+}
-+SUBSYS_ATTR_RW(iopolicy, S_IRUGO | S_IWUSR,
-+		      nvme_subsys_iopolicy_show, nvme_subsys_iopolicy_store);
-+
- static ssize_t ana_grpid_show(struct device *dev, struct device_attribute *attr,
- 		char *buf)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9e1a51fed0c1..c8642ebeb4a3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -259,6 +259,12 @@ struct nvme_subsystem {
- 	u8			cmic;
- 	u16			vendor_id;
- 	struct ida		ns_ida;
-+#ifdef CONFIG_NVME_MULTIPATH
-+#define NVME_IOPOLICY_UNKNOWN 0
-+#define NVME_IOPOLICY_NONE 1
-+#define NVME_IOPOLICY_NUMA 2
-+	unsigned int		iopolicy;
-+#endif
- };
- 
- /*
-@@ -489,6 +495,7 @@ static inline void nvme_mpath_check_last_path(struct nvme_ns *ns)
- 
- extern struct device_attribute dev_attr_ana_grpid;
- extern struct device_attribute dev_attr_ana_state;
-+extern struct device_attribute subsys_attr_iopolicy;
- 
- #else
- static inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
--- 
-2.16.4
+> > I'm not sure we want a quirk for this at all, since as Christoph
+> > points out, it doesn't fix a functional issue as the other uses of
+> > quirk_no_ata_d3() do.
+> > 
+> > From your emails with Christoph, it sounds like this quirk is a
+> > workaround for a firmware defect.  If we *do* end up wanting a quirk,
+> > the changelog should at least mention the firmware defect and maybe
+> > check whether it has been fixed.
+> 
+> According to SK Hynix folks and new evidence on the new Intel NVMe
+> we have, this is something we are going to see more often.
+
+Hmmm, are you suggesting that if we went this quirk route, we'd be
+updating the quirk frequently to add new devices?
+
+I'm opposed to that as a strategy because it makes needless work.  You
+have to update the quirk, backport it to older kernels, re-release
+distro kernels, etc.
+
+If this situation is going to happen frequently, it would be better to
+(a) fix the firmware defect (if that's what this is) or (b) pursue
+some APST or other spec change so there's a generic documented way to
+handle this without requiring device-specific quirks.
+
+Bjorn
