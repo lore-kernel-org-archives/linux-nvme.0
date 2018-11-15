@@ -1,16 +1,16 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 15 Nov 2018 12:29:04 -0700
+From: linux@roeck-us.net (Guenter Roeck)
+Date: Thu, 15 Nov 2018 11:36:58 -0800
 Subject: [PATCH] nvme: utilize two queue maps, one for reads and one for
  writes
 In-Reply-To: <20181115191126.GA16973@roeck-us.net>
 References: <20181115191126.GA16973@roeck-us.net>
-Message-ID: <e7f72ebb-68e8-29f4-121b-4053ec8b537e@kernel.dk>
+Message-ID: <20181115193658.GA7921@roeck-us.net>
 
-On 11/15/18 12:11 PM, Guenter Roeck wrote:
+On Thu, Nov 15, 2018@11:11:26AM -0800, Guenter Roeck wrote:
 > On Wed, Nov 14, 2018@10:12:44AM -0700, Jens Axboe wrote:
->>
->> I think the below patch should fix it.
->>
+> > 
+> > I think the below patch should fix it.
+> > 
 > 
 > I spoke too early. sparc64, next-20181115:
 > 
@@ -43,9 +43,17 @@ On 11/15/18 12:11 PM, Guenter Roeck wrote:
 > [   14.272288] ---[ end trace cb79ccd2a0a03f3c ]---
 > 
 > Looks like an error during probe followed by an error cleanup problem.
+> 
+On sparc64, pci_alloc_irq_vectors_affinity() returns -EINVAL (possibly
+because the controller doesn't support MSI).
 
-Did it previous probe fine? Or is the new thing just the fact that
-we spew a warning on trying to free a non-existing vector?
+[   16.554753] nvme nvme0: pci function 0000:02:00.0
+[   16.622894] nvme 0000:02:00.0: pre alloc: nr_io_queues: 2 result: 0
+[   16.623814] nvme 0000:02:00.0: post alloc: nr_io_queues: 2 result: -22
+[   16.625047] nvme nvme0: Removing after probe failure status: -5
 
--- 
-Jens Axboe
+... and, as result, allocating a single (legacy) interrupt isn't even tried.
+
+I didn't try to track down the cleanup failure.
+
+Guenter
