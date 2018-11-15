@@ -1,182 +1,196 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 14 Nov 2018 15:57:46 -0800
-Subject: [PATCH] nvmet-fc: remove the IN_ISR deferred scheduling options
-Message-ID: <20181114235746.18669-1-jsmart2021@gmail.com>
+Date: Wed, 14 Nov 2018 16:15:33 -0800
+Subject: [PATCH] nvme-fc: resolve io failures during connect
+Message-ID: <20181115001533.16257-1-jsmart2021@gmail.com>
 
-All target lldd's call the cmd receive and op completions in non-isr
-thread contexts. As such the IN_ISR options are not necessary.
-Remove the functionality and flags, which also removes cpu assignments
-to queues.
+If an io error occurs on an io issued while connecting, recovery
+of the io falls flat as the state checking ends up nooping the error
+handler.
+
+Create an err_work work item that is scheduled upon an io error while
+connecting. The work thread terminates all io on all queues and marks
+the queues as not connected.  The termination of the io will return
+back to the callee, which will then back out of the connection attempt
+and will reschedule, if possible, the connection attempt.
+
+The changes:
+- in case there are several commands hitting the error handler, a
+  state flag is kept so that the error work is only scheduled once,
+  on the first error. The subsequent errors can be ignored.
+- The calling sequence to stop keep alive and terminate the queues
+  and their io is lifted from the reset routine. Made a small
+  service routine used by both reset and err_work.
+- During debugging, found that the teardown path can reference
+  an uninitialized pointer, resulting in a NULL pointer oops.
+  The aen_ops weren't initialized yet. Add validation on their
+  initialization before calling the teardown routine.
 
 Signed-off-by: James Smart <jsmart2021 at gmail.com>
----
- drivers/nvme/target/fc.c       | 66 ++----------------------------------------
- include/linux/nvme-fc-driver.h | 16 ----------
- 2 files changed, 2 insertions(+), 80 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 409081a03b24..f98f5c5bea26 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -86,8 +86,6 @@ struct nvmet_fc_fcp_iod {
- 	spinlock_t			flock;
+---
+Note: the recent patch by Sagi to move the err_work into the nvme
+ctrl would affect this patch. Additionally, I expect we'll turn the
+routine that does the io termination and queue marking into a
+transport ops routine called by the core layer in delete and reset
+paths to avoid flush stalls.
+---
+ drivers/nvme/host/fc.c | 73 +++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 63 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 854cc3801bda..a1122dbac95f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -153,6 +153,7 @@ struct nvme_fc_ctrl {
+ 	bool			ioq_live;
+ 	bool			assoc_active;
+ 	bool			assoc_id_valid;
++	atomic_t		err_work_active;
+ 	u64			association_id;
  
- 	struct nvmet_req		req;
--	struct work_struct		work;
--	struct work_struct		done_work;
- 	struct work_struct		defer_work;
+ 	struct list_head	ctrl_list;	/* rport->ctrl_list */
+@@ -161,6 +162,7 @@ struct nvme_fc_ctrl {
+ 	struct blk_mq_tag_set	tag_set;
  
- 	struct nvmet_fc_tgtport		*tgtport;
-@@ -134,7 +132,6 @@ struct nvmet_fc_tgt_queue {
- 	u16				sqsize;
- 	u16				ersp_ratio;
- 	__le16				sqhd;
--	int				cpu;
- 	atomic_t			connected;
- 	atomic_t			sqtail;
- 	atomic_t			zrspcnt;
-@@ -232,8 +229,6 @@ static LIST_HEAD(nvmet_fc_portentry_list);
+ 	struct delayed_work	connect_work;
++	struct work_struct	err_work;
  
- 
- static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
--static void nvmet_fc_handle_fcp_rqst_work(struct work_struct *work);
--static void nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work);
- static void nvmet_fc_fcp_rqst_op_defer_work(struct work_struct *work);
- static void nvmet_fc_tgt_a_put(struct nvmet_fc_tgt_assoc *assoc);
- static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
-@@ -438,8 +433,6 @@ nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+ 	struct kref		ref;
+ 	u32			flags;
+@@ -1534,6 +1536,10 @@ nvme_fc_abort_aen_ops(struct nvme_fc_ctrl *ctrl)
+ 	struct nvme_fc_fcp_op *aen_op = ctrl->aen_ops;
  	int i;
  
- 	for (i = 0; i < queue->sqsize; fod++, i++) {
--		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
--		INIT_WORK(&fod->done_work, nvmet_fc_fcp_rqst_op_done_work);
- 		INIT_WORK(&fod->defer_work, nvmet_fc_fcp_rqst_op_defer_work);
- 		fod->tgtport = tgtport;
- 		fod->queue = queue;
-@@ -517,10 +510,7 @@ nvmet_fc_queue_fcp_req(struct nvmet_fc_tgtport *tgtport,
- 	fcpreq->hwqid = queue->qid ?
- 			((queue->qid - 1) % tgtport->ops->max_hw_queues) : 0;
- 
--	if (tgtport->ops->target_features & NVMET_FCTGTFEAT_CMD_IN_ISR)
--		queue_work_on(queue->cpu, queue->work_q, &fod->work);
--	else
--		nvmet_fc_handle_fcp_rqst(tgtport, fod);
-+	nvmet_fc_handle_fcp_rqst(tgtport, fod);
++	/* ensure we've initialized the ops once */
++	if (!(aen_op->flags & FCOP_FLAGS_AEN))
++		return;
++
+ 	for (i = 0; i < NVME_NR_AEN_COMMANDS; i++, aen_op++)
+ 		__nvme_fc_abort_op(ctrl, aen_op);
  }
- 
+@@ -2052,7 +2058,25 @@ nvme_fc_nvme_ctrl_freed(struct nvme_ctrl *nctrl)
  static void
-@@ -599,30 +589,6 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
- 	queue_work(queue->work_q, &fod->defer_work);
- }
- 
--static int
--nvmet_fc_queue_to_cpu(struct nvmet_fc_tgtport *tgtport, int qid)
--{
--	int cpu, idx, cnt;
--
--	if (tgtport->ops->max_hw_queues == 1)
--		return WORK_CPU_UNBOUND;
--
--	/* Simple cpu selection based on qid modulo active cpu count */
--	idx = !qid ? 0 : (qid - 1) % num_active_cpus();
--
--	/* find the n'th active cpu */
--	for (cpu = 0, cnt = 0; ; ) {
--		if (cpu_active(cpu)) {
--			if (cnt == idx)
--				break;
--			cnt++;
--		}
--		cpu = (cpu + 1) % num_possible_cpus();
--	}
--
--	return cpu;
--}
--
- static struct nvmet_fc_tgt_queue *
- nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 			u16 qid, u16 sqsize)
-@@ -653,7 +619,6 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 	queue->qid = qid;
- 	queue->sqsize = sqsize;
- 	queue->assoc = assoc;
--	queue->cpu = nvmet_fc_queue_to_cpu(assoc->tgtport, qid);
- 	INIT_LIST_HEAD(&queue->fod_list);
- 	INIT_LIST_HEAD(&queue->avail_defer_list);
- 	INIT_LIST_HEAD(&queue->pending_cmd_list);
-@@ -2146,25 +2111,11 @@ nvmet_fc_fod_op_done(struct nvmet_fc_fcp_iod *fod)
- }
- 
- static void
--nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work)
--{
--	struct nvmet_fc_fcp_iod *fod =
--		container_of(work, struct nvmet_fc_fcp_iod, done_work);
--
--	nvmet_fc_fod_op_done(fod);
--}
--
--static void
- nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
  {
- 	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
--	struct nvmet_fc_tgt_queue *queue = fod->queue;
+-	/* only proceed if in LIVE state - e.g. on first error */
++	int active;
++
++	/*
++	 * if an error (io timeout, etc) while (re)connecting,
++	 * it's an error on creating the new association.
++	 * Start the error recovery thread if it hasn't already
++	 * been started. It is expected there could be multiple
++	 * ios hitting this path before things are cleaned up.
++	 */
++	if (ctrl->ctrl.state == NVME_CTRL_CONNECTING) {
++		active = atomic_xchg(&ctrl->err_work_active, 1);
++		if (!active && !schedule_work(&ctrl->err_work)) {
++			atomic_set(&ctrl->err_work_active, 0);
++			WARN_ON(1);
++		}
++		return;
++	}
++
++	/* Otherwise, only proceed if in LIVE state - e.g. on first error */
+ 	if (ctrl->ctrl.state != NVME_CTRL_LIVE)
+ 		return;
  
--	if (fod->tgtport->ops->target_features & NVMET_FCTGTFEAT_OPDONE_IN_ISR)
--		/* context switch so completion is not in ISR context */
--		queue_work_on(queue->cpu, queue->work_q, &fod->done_work);
--	else
--		nvmet_fc_fod_op_done(fod);
-+	nvmet_fc_fod_op_done(fod);
+@@ -2816,6 +2840,7 @@ nvme_fc_delete_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
++	cancel_work_sync(&ctrl->err_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 	/*
+ 	 * kill the association on the link side.  this will block
+@@ -2868,23 +2893,30 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
  }
  
- /*
-@@ -2332,19 +2283,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 	nvmet_fc_abort_op(tgtport, fod);
+ static void
+-nvme_fc_reset_ctrl_work(struct work_struct *work)
++__nvme_fc_terminate_io(struct nvme_fc_ctrl *ctrl)
+ {
+-	struct nvme_fc_ctrl *ctrl =
+-		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
+-	int ret;
+-
+-	nvme_stop_ctrl(&ctrl->ctrl);
++	nvme_stop_keep_alive(&ctrl->ctrl);
+ 
+ 	/* will block will waiting for io to terminate */
+ 	nvme_fc_delete_association(ctrl);
+ 
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
++	if (ctrl->ctrl.state != NVME_CTRL_CONNECTING &&
++	    !nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING))
+ 		dev_err(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: error_recovery: Couldn't change state "
+ 			"to CONNECTING\n", ctrl->cnum);
+-		return;
+-	}
++}
++
++static void
++nvme_fc_reset_ctrl_work(struct work_struct *work)
++{
++	struct nvme_fc_ctrl *ctrl =
++		container_of(work, struct nvme_fc_ctrl, ctrl.reset_work);
++	int ret;
++
++	__nvme_fc_terminate_io(ctrl);
++
++	nvme_stop_ctrl(&ctrl->ctrl);
+ 
+ 	if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE)
+ 		ret = nvme_fc_create_association(ctrl);
+@@ -2899,6 +2931,24 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 			ctrl->cnum);
  }
  
--/*
-- * Actual processing routine for received FC-NVME LS Requests from the LLD
-- */
--static void
--nvmet_fc_handle_fcp_rqst_work(struct work_struct *work)
--{
--	struct nvmet_fc_fcp_iod *fod =
--		container_of(work, struct nvmet_fc_fcp_iod, work);
--	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
--
--	nvmet_fc_handle_fcp_rqst(tgtport, fod);
--}
--
- /**
-  * nvmet_fc_rcv_fcp_req - transport entry point called by an LLDD
-  *                       upon the reception of a NVME FCP CMD IU.
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 496ff759f84c..331033bb6126 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -649,22 +649,6 @@ enum {
- 		 * sequence in one LLDD operation. Errors during Data
- 		 * sequence transmit must not allow RSP sequence to be sent.
- 		 */
--	NVMET_FCTGTFEAT_CMD_IN_ISR = (1 << 1),
--		/* Bit 2: When 0, the LLDD is calling the cmd rcv handler
--		 * in a non-isr context, allowing the transport to finish
--		 * op completion in the calling context. When 1, the LLDD
--		 * is calling the cmd rcv handler in an ISR context,
--		 * requiring the transport to transition to a workqueue
--		 * for op completion.
--		 */
--	NVMET_FCTGTFEAT_OPDONE_IN_ISR = (1 << 2),
--		/* Bit 3: When 0, the LLDD is calling the op done handler
--		 * in a non-isr context, allowing the transport to finish
--		 * op completion in the calling context. When 1, the LLDD
--		 * is calling the op done handler in an ISR context,
--		 * requiring the transport to transition to a workqueue
--		 * for op completion.
--		 */
- };
++static void
++nvme_fc_connect_err_work(struct work_struct *work)
++{
++	struct nvme_fc_ctrl *ctrl =
++			container_of(work, struct nvme_fc_ctrl, err_work);
++
++	__nvme_fc_terminate_io(ctrl);
++
++	atomic_set(&ctrl->err_work_active, 0);
++
++	/*
++	 * Rescheduling the connection after recovering
++	 * from the io error is left to the reconnect work
++	 * item, which is what should have stalled waiting on
++	 * the io that had the error that scheduled this work.
++	 */
++}
++
+ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
+ 	.name			= "fc",
+ 	.module			= THIS_MODULE,
+@@ -3010,6 +3060,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	ctrl->ioq_live = false;
+ 	ctrl->assoc_active = false;
+ 	ctrl->assoc_id_valid = false;
++	atomic_set(&ctrl->err_work_active, 0);
+ 	init_waitqueue_head(&ctrl->ioabort_wait);
  
+ 	get_device(ctrl->dev);
+@@ -3017,6 +3068,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
  
+ 	INIT_WORK(&ctrl->ctrl.reset_work, nvme_fc_reset_ctrl_work);
+ 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
++	INIT_WORK(&ctrl->err_work, nvme_fc_connect_err_work);
+ 	spin_lock_init(&ctrl->lock);
+ 
+ 	/* io queue count */
+@@ -3106,6 +3158,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ fail_ctrl:
+ 	nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING);
+ 	cancel_work_sync(&ctrl->ctrl.reset_work);
++	cancel_work_sync(&ctrl->err_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
+ 
+ 	ctrl->ctrl.opts = NULL;
 -- 
 2.13.7
