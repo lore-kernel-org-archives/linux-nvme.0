@@ -1,85 +1,92 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Thu, 15 Nov 2018 11:43:43 -0500
-Subject: [PATCH] qla2xxx: Add SysFS hook for FC-NVMe autoconnect
-In-Reply-To: <824ea768-5397-30c0-6fb4-85420ae41476@suse.de>
-References: <20181112214017.11218-1-himanshu.madhani@cavium.com>
- <1542060403.8992.3.camel@acm.org>
- <4AF60723-8D50-47B5-B347-07D022E8ADC9@cavium.com>
- <1542118997.192870.0.camel@acm.org>
- <7FC9DAE5-8E21-43D8-9624-3B7764B2B392@cavium.com>
- <1542131346.192870.9.camel@acm.org>
- <74e3efc2e8442bd7c1546b2bcf0e4c8f46365c67.camel@redhat.com>
- <824ea768-5397-30c0-6fb4-85420ae41476@suse.de>
-Message-ID: <101ef45ac029fb456a57194aee609d90c5abe6a8.camel@redhat.com>
+From: sagi@lightbitslabs.com (Sagi Grimberg)
+Date: Thu, 15 Nov 2018 09:16:12 -0800
+Subject: [PATCH 00/11] TCP transport binding for NVMe over Fabrics
+Message-ID: <20181115171626.9306-1-sagi@lightbitslabs.com>
 
-On Thu, 2018-11-15@13:52 +0100, Hannes Reinecke wrote:
-> On 11/14/18 6:13 PM, Ewan D. Milne wrote:
-> > On Tue, 2018-11-13@09:49 -0800, Bart Van Assche wrote:
-> > > On Tue, 2018-11-13@17:38 +0000, Madhani, Himanshu wrote:
-> > > > On Nov 13, 2018,@6:23 AM, Bart Van Assche <bvanassche@acm.org> wrote:
-> > > > > On Tue, 2018-11-13@01:02 +0000, Madhani, Himanshu wrote:
-> > > > > > I see other drivers also use similar information populated for NVMe
-> > > > > > Connection at boot time.
-> > > > > 
-> > > > > Hi Himanshu,
-> > > > > 
-> > > > > Which other drivers are you referring to?
-> > > > > 
-> > > > > Thanks,
-> > > > > 
-> > > > > Bart.
-> > > > 
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dri
-> > > > vers/scsi/lpfc/lpfc_attr.c
-> > > 
-> > > Hello James,
-> > > 
-> > > Please either move the information exported by lpfc_nvme_info_show() into
-> > > debugfs or split the information exported by that function into multiple
-> > > sysfs attributes. Otherwise you will get flamed by Greg KH as soon as he
-> > > encounters that code because of not following the rules explained in
-> > > Documentation/filesystems/sysfs.txt.
-> > > 
-> > > Bart.
-> > 
-> > Better yet, is there some way we could get at least the connection
-> > information needed for discovery moved into the NVMe/FC transport
-> > layer so that we don't need to have separate implementations that
-> > have to be parsed?
-> > 
-> 
-> Sigh.
-> 
-> It's already been solved, there's no need for this attribute.
-> 
-> nvme-fc already sends a uevent whenever a new nvme rport is attached,
-> (check nvme_fc_register_remoteport()->nvme_fc_signal_discovery_scan().
-> 
-> James Smart added a sysfs entry for retriggering these uevents, and I've 
-> posted a set of scripts (... at least I think I did :-) utilizing those.
-> 
-> Please do _NOT_ do this; better rely on common mechanisms here.
-> 
-> And please, next time please cc linux-nvme so that we can track it better.
-> 
-> Cheers,
-> 
-> Hannes
+This patch set implements the NVMe over Fabrics TCP host and the target
+drivers. Now NVMe over Fabrics can run on every Ethernet port in the world.
+The implementation conforms to NVMe over Fabrics 1.1 specification (which
+will include already publicly available NVMe/TCP transport binding, TP 8000).
 
-So, the uevent can take care of the discovery mechanism, however there
-are other reasons why one would want to be able to know e.g. what the
-WWPNs of the Initiator & Target ports of the NVMe connections are.
-For example, we would typically want to capture this information when
-troubleshooting a system remotely.  There are also SAN test environments
-that have a need for this information, which is one of the reasons
-for the original patch posting.  I don't think it matters too much how
-we do it, but the information is needed somehow.
+The host driver hooks into the NVMe host stack and implements the TCP
+transport binding for NVMe over Fabrics. The NVMe over Fabrics TCP host
+driver is responsible for establishing a NVMe/TCP connection, TCP event
+and error handling and data-plane messaging and stream processing.
 
-I suppose a udev rule could put the information into a file, but that
-seems awkard, and the infomation neeeded is in kernel objects, so why
-not make it visible?
+The target driver hooks into the NVMe target core stack and implements
+the TCP transport binding. The NVMe over Fabrics target driver is
+responsible for accepting and establishing NVMe/TCP connections, TCP
+event and error handling, and data-plane messaging and stream processing.
 
-The uevent is of course necessary as it signifies an event, but the
-desired info here is the *state*.
+The implementation of both the host and target are fairly simple and
+straight-forward. Every NVMe queue is backed by a TCP socket that provides
+us reliable, in-order delivery of fabrics capsules and/or data.
 
--Ewan
+All NVMe queues are sharded over a private bound workqueue such that we
+always have a single context handling the byte stream and we don't need
+to worry about any locking/serialization. In addition, close attention
+was paid to a completely non-blocking data plane to minimize context
+switching and/or unforced scheduling.
+
+I piggybacked nvme-cli patches to the set for completeness.
+
+Also, @netdev mailing list is cc'd as this patch set contains generic
+helpers for online digest calculation (patches 1-3).
+
+The patchset structure:
+- patches 1-3 adds a helper for digest calculation online with data placement
+- patches 4-8 are preparatory patches for NVMe/TCP
+- patches 9-11 implements NVMe/TCP
+- patches 12-14 are nvme-cli additions for NVMe/TCP
+
+Thanks to the members of the Fabrics Linux Driver team that helped development,
+testing and benchmarking this work.
+
+Gitweb code is available at:
+
+	git://git.infradead.org/nvme.git nvme-tcp
+
+Sagi Grimberg (11):
+  ath6kl: add ath6kl_ prefix to crypto_type
+  iov_iter: introduce hash_and_copy iter helpers
+  datagram: introduce skb_copy_and_hash_datagram_iter helper
+  nvme-core: add work elements to struct nvme_ctrl
+  nvmet: Add install_queue callout
+  nvmet: allow configfs tcp trtype configuration
+  nvme-fabrics: allow user passing header digest
+  nvme-fabrics: allow user passing data digest
+  nvme-tcp: Add protocol header
+  nvmet-tcp: add NVMe over TCP target driver
+  nvme-tcp: add NVMe over TCP host driver
+
+ drivers/net/wireless/ath/ath6kl/cfg80211.c |    2 +-
+ drivers/net/wireless/ath/ath6kl/common.h   |    2 +-
+ drivers/net/wireless/ath/ath6kl/wmi.c      |    6 +-
+ drivers/net/wireless/ath/ath6kl/wmi.h      |    6 +-
+ drivers/nvme/host/Kconfig                  |   15 +
+ drivers/nvme/host/Makefile                 |    3 +
+ drivers/nvme/host/fabrics.c                |   10 +
+ drivers/nvme/host/fabrics.h                |    4 +
+ drivers/nvme/host/fc.c                     |   18 +-
+ drivers/nvme/host/nvme.h                   |    2 +
+ drivers/nvme/host/rdma.c                   |   19 +-
+ drivers/nvme/host/tcp.c                    | 2305 ++++++++++++++++++++
+ drivers/nvme/target/Kconfig                |   10 +
+ drivers/nvme/target/Makefile               |    2 +
+ drivers/nvme/target/configfs.c             |    1 +
+ drivers/nvme/target/fabrics-cmd.c          |    9 +
+ drivers/nvme/target/nvmet.h                |    1 +
+ drivers/nvme/target/tcp.c                  | 1746 +++++++++++++++
+ include/linux/nvme-tcp.h                   |  189 ++
+ include/linux/nvme.h                       |    1 +
+ include/linux/skbuff.h                     |    3 +
+ include/linux/uio.h                        |    5 +
+ lib/iov_iter.c                             |   31 +
+ net/core/datagram.c                        |   90 +
+ 24 files changed, 4451 insertions(+), 29 deletions(-)
+ create mode 100644 drivers/nvme/host/tcp.c
+ create mode 100644 drivers/nvme/target/tcp.c
+ create mode 100644 include/linux/nvme-tcp.h
+
+-- 
+2.17.1
