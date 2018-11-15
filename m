@@ -1,183 +1,39 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 15 Nov 2018 12:46:05 -0500
-Subject: [PATCH] nvme: allow ANA support to be independent of native
- multipathing
-In-Reply-To: <87c931e5-4ac9-1795-8d40-cc5541d3ebcf@suse.de>
-References: <1541657381-7452-1-git-send-email-lijie34@huawei.com>
- <2691abf6733f791fb16b86d96446440e4aaff99f.camel@suse.com>
- <20181112215323.GA7983@redhat.com>
- <20181113161838.GC9827@localhost.localdomain>
- <20181113180008.GA12513@redhat.com>
- <20181114053837.GA15086@redhat.com>
- <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
- <20181114174746.GA18526@redhat.com>
- <87c931e5-4ac9-1795-8d40-cc5541d3ebcf@suse.de>
-Message-ID: <20181115174605.GA19782@redhat.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 15 Nov 2018 11:38:20 -0700
+Subject: [PATCH] nvme: utilize two queue maps, one for reads and one for
+ writes
+In-Reply-To: <20181115182833.GA15729@roeck-us.net>
+References: <20181115182833.GA15729@roeck-us.net>
+Message-ID: <77d1536f-3229-1225-c5ad-d0a928c222cb@kernel.dk>
 
-Whether or not ANA is present is a choice of the target implementation;
-the host (and whether it supports multipathing) has _zero_ influence on
-this.  If the target declares a path as 'inaccessible' the path _is_
-inaccessible to the host.  As such, ANA support should be functional
-even if native multipathing is not.
+On 11/15/18 11:28 AM, Guenter Roeck wrote:
+> Hi Jens,
+> 
+>> I think the below patch should fix it.
+>>
+> Sorry I wasn't able to test this earlier. Looks like it does
+> fix the problem; the problem is no longer seen in next-20181115.
+> Minor comment below.
 
-Introduce ability to always re-read ANA log page as required due to ANA
-error and make current ANA state available via sysfs -- even if native
-multipathing is disabled on the host (e.g. nvme_core.multipath=N).
+That's fine, thanks for testing!
 
-This affords userspace access to the current ANA state independent of
-which layer might be doing multipathing.  It also allows multipath-tools
-to rely on the NVMe driver for ANA support while dm-multipath takes care
-of multipathing.
+>>  		/*
+>> -		 * Need IRQs for read+write queues, and one for the admin queue
+>> +		 * Need IRQs for read+write queues, and one for the admin queue.
+>> +		 * If we can't get more than one vector, we have to share the
+>> +		 * admin queue and IO queue vector. For that case, don't add
+>> +		 * an extra vector for the admin queue, or we'll continue
+>> +		 * asking for 2 and get -ENOSPC in return.
+>>  		 */
+>> -		nr_io_queues = irq_sets[0] + irq_sets[1] + 1;
+>> +		if (result == -ENOSPC && nr_io_queues == 1)
+>> +			nr_io_queues = 1;
+> 
+> Setting nr_io_queues to 1 when it already is set to 1 doesn't really do
+> anything. Is this for clarification ?
 
-While implementing these changes care was taken to preserve the exact
-ANA functionality and code sequence native multipathing has provided.
-This manifests as native multipathing's nvme_failover_req() being
-tweaked to call __nvme_update_ana() which was factored out to allow
-nvme_update_ana() to be called independent of nvme_failover_req().
+Guess that does look a bit odd, alternative would be to flip the
+condition, but I think this one is easier to read.
 
-And as always, if embedded NVMe users do not want any performance
-overhead associated with ANA or native NVMe multipathing they can
-disable CONFIG_NVME_MULTIPATH.
-
-Signed-off-by: Mike Snitzer <snitzer at redhat.com>
----
- drivers/nvme/host/core.c      | 10 +++++----
- drivers/nvme/host/multipath.c | 49 +++++++++++++++++++++++++++++++++----------
- drivers/nvme/host/nvme.h      |  4 ++++
- 3 files changed, 48 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index fe957166c4a9..3df607905628 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -255,10 +255,12 @@ void nvme_complete_rq(struct request *req)
- 		nvme_req(req)->ctrl->comp_seen = true;
- 
- 	if (unlikely(status != BLK_STS_OK && nvme_req_needs_retry(req))) {
--		if ((req->cmd_flags & REQ_NVME_MPATH) &&
--		    blk_path_error(status)) {
--			nvme_failover_req(req);
--			return;
-+		if (blk_path_error(status)) {
-+			if (req->cmd_flags & REQ_NVME_MPATH) {
-+				nvme_failover_req(req);
-+				return;
-+			}
-+			nvme_update_ana(req);
- 		}
- 
- 		if (!blk_queue_dying(req->q)) {
-diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
-index 8e03cda770c5..0adbcff5fba2 100644
---- a/drivers/nvme/host/multipath.c
-+++ b/drivers/nvme/host/multipath.c
-@@ -22,7 +22,7 @@ MODULE_PARM_DESC(multipath,
- 
- inline bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl)
- {
--	return multipath && ctrl->subsys && (ctrl->subsys->cmic & (1 << 3));
-+	return ctrl->subsys && (ctrl->subsys->cmic & (1 << 3));
- }
- 
- /*
-@@ -47,6 +47,35 @@ void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
- 	}
- }
- 
-+static bool nvme_ana_error(u16 status)
-+{
-+	switch (status & 0x7ff) {
-+	case NVME_SC_ANA_TRANSITION:
-+	case NVME_SC_ANA_INACCESSIBLE:
-+	case NVME_SC_ANA_PERSISTENT_LOSS:
-+		return true;
-+	}
-+	return false;
-+}
-+
-+static void __nvme_update_ana(struct nvme_ns *ns)
-+{
-+	if (!ns->ctrl->ana_log_buf)
-+		return;
-+
-+	set_bit(NVME_NS_ANA_PENDING, &ns->flags);
-+	queue_work(nvme_wq, &ns->ctrl->ana_work);
-+}
-+
-+void nvme_update_ana(struct request *req)
-+{
-+	struct nvme_ns *ns = req->q->queuedata;
-+	u16 status = nvme_req(req)->status;
-+
-+	if (nvme_ana_error(status))
-+		__nvme_update_ana(ns);
-+}
-+
- void nvme_failover_req(struct request *req)
- {
- 	struct nvme_ns *ns = req->q->queuedata;
-@@ -58,25 +87,22 @@ void nvme_failover_req(struct request *req)
- 	spin_unlock_irqrestore(&ns->head->requeue_lock, flags);
- 	blk_mq_end_request(req, 0);
- 
--	switch (status & 0x7ff) {
--	case NVME_SC_ANA_TRANSITION:
--	case NVME_SC_ANA_INACCESSIBLE:
--	case NVME_SC_ANA_PERSISTENT_LOSS:
-+	if (nvme_ana_error(status)) {
- 		/*
- 		 * If we got back an ANA error we know the controller is alive,
- 		 * but not ready to serve this namespaces.  The spec suggests
- 		 * we should update our general state here, but due to the fact
- 		 * that the admin and I/O queues are not serialized that is
- 		 * fundamentally racy.  So instead just clear the current path,
--		 * mark the the path as pending and kick of a re-read of the ANA
-+		 * mark the path as pending and kick off a re-read of the ANA
- 		 * log page ASAP.
- 		 */
- 		nvme_mpath_clear_current_path(ns);
--		if (ns->ctrl->ana_log_buf) {
--			set_bit(NVME_NS_ANA_PENDING, &ns->flags);
--			queue_work(nvme_wq, &ns->ctrl->ana_work);
--		}
--		break;
-+		__nvme_update_ana(ns);
-+		goto kick_requeue;
-+	}
-+
-+	switch (status & 0x7ff) {
- 	case NVME_SC_HOST_PATH_ERROR:
- 		/*
- 		 * Temporary transport disruption in talking to the controller.
-@@ -93,6 +119,7 @@ void nvme_failover_req(struct request *req)
- 		break;
- 	}
- 
-+kick_requeue:
- 	kblockd_schedule_work(&ns->head->requeue_work);
- }
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 27663ce3044e..cbe4253f2d02 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -471,6 +471,7 @@ bool nvme_ctrl_use_ana(struct nvme_ctrl *ctrl);
- void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
- 			struct nvme_ctrl *ctrl, int *flags);
- void nvme_failover_req(struct request *req);
-+void nvme_update_ana(struct request *req);
- void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl);
- int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl,struct nvme_ns_head *head);
- void nvme_mpath_add_disk(struct nvme_ns *ns, struct nvme_id_ns *id);
-@@ -510,6 +511,9 @@ static inline void nvme_set_disk_name(char *disk_name, struct nvme_ns *ns,
- static inline void nvme_failover_req(struct request *req)
- {
- }
-+static inline void nvme_update_ana(struct request *req)
-+{
-+}
- static inline void nvme_kick_requeue_lists(struct nvme_ctrl *ctrl)
- {
- }
 -- 
-2.15.0
+Jens Axboe
