@@ -1,26 +1,69 @@
 From: sagi@lightbitslabs.com (Sagi Grimberg)
-Date: Thu, 15 Nov 2018 09:16:18 -0800
-Subject: [PATCH 06/11] nvmet: allow configfs tcp trtype configuration
+Date: Thu, 15 Nov 2018 09:16:19 -0800
+Subject: [PATCH 07/11] nvme-fabrics: allow user passing header digest
 In-Reply-To: <20181115171626.9306-1-sagi@lightbitslabs.com>
 References: <20181115171626.9306-1-sagi@lightbitslabs.com>
-Message-ID: <20181115171626.9306-7-sagi@lightbitslabs.com>
+Message-ID: <20181115171626.9306-8-sagi@lightbitslabs.com>
+
+Header digest is a nvme-tcp specific feature, but nothing prevents other
+transports reusing the concept so do not associate with tcp transport
+solely.
 
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- drivers/nvme/target/configfs.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/fabrics.c | 5 +++++
+ drivers/nvme/host/fabrics.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index c2df205096ec..4d28c4d78850 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -34,6 +34,7 @@ static const struct nvmet_transport_name {
- } nvmet_transport_names[] = {
- 	{ NVMF_TRTYPE_RDMA,	"rdma" },
- 	{ NVMF_TRTYPE_FC,	"fc" },
-+	{ NVMF_TRTYPE_TCP,	"tcp" },
- 	{ NVMF_TRTYPE_LOOP,	"loop" },
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index b78d1a674abc..9a8b57b3b2c1 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -614,6 +614,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
+ 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
+ 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
++	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
  };
  
+@@ -633,6 +634,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
+ 	opts->kato = NVME_DEFAULT_KATO;
+ 	opts->duplicate_connect = false;
++	opts->hdr_digest = false;
+ 
+ 	options = o = kstrdup(buf, GFP_KERNEL);
+ 	if (!options)
+@@ -827,6 +829,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DISABLE_SQFLOW:
+ 			opts->disable_sqflow = true;
+ 			break;
++		case NVMF_OPT_HDR_DIGEST:
++			opts->hdr_digest = true;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index ecd9a006a091..a6127f1a9e8e 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -59,6 +59,7 @@ enum {
+ 	NVMF_OPT_HOST_ID	= 1 << 12,
+ 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
+ 	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
++	NVMF_OPT_HDR_DIGEST	= 1 << 15,
+ };
+ 
+ /**
+@@ -103,6 +104,7 @@ struct nvmf_ctrl_options {
+ 	struct nvmf_host	*host;
+ 	int			max_reconnects;
+ 	bool			disable_sqflow;
++	bool			hdr_digest;
+ };
+ 
+ /*
 -- 
 2.17.1
