@@ -1,80 +1,40 @@
-From: sagi@lightbitslabs.com (Sagi Grimberg)
-Date: Thu, 15 Nov 2018 09:16:26 -0800
-Subject: [PATCH nvme-cli 14/11] fabrics: add transport header and data digest
-In-Reply-To: <20181115171626.9306-1-sagi@lightbitslabs.com>
-References: <20181115171626.9306-1-sagi@lightbitslabs.com>
-Message-ID: <20181115171626.9306-15-sagi@lightbitslabs.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Thu, 15 Nov 2018 11:30:15 -0600
+Subject: [PATCH v2 1/2] pci: prevent sk hynix nvme from entering D3
+In-Reply-To: <20181115145809.GA207836@google.com>
+References: <20181106071214.12745-1-acelan.kao@canonical.com>
+ <20181109002157.GK41183@google.com>
+ <B21C5A96-AB21-4405-BBF1-9AD343425CA9@canonical.com>
+ <20181115145809.GA207836@google.com>
+Message-ID: <20181115173015.GB229449@google.com>
 
-This setting is enabling header and data digest over NVMe/TCP
-controllers.
+On Thu, Nov 15, 2018@08:58:09AM -0600, Bjorn Helgaas wrote:
+> On Thu, Nov 15, 2018@03:16:29PM +0800, Kai Heng Feng wrote:
+> > On Nov 9, 2018,@08:21, Bjorn Helgaas <helgaas@kernel.org> wrote:
 
-Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
----
- fabrics.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+> > > I'm not sure we want a quirk for this at all, since as Christoph
+> > > points out, it doesn't fix a functional issue as the other uses of
+> > > quirk_no_ata_d3() do.
+> > > 
+> > > From your emails with Christoph, it sounds like this quirk is a
+> > > workaround for a firmware defect.  If we *do* end up wanting a quirk,
+> > > the changelog should at least mention the firmware defect and maybe
+> > > check whether it has been fixed.
+> > 
+> > According to SK Hynix folks and new evidence on the new Intel NVMe
+> > we have, this is something we are going to see more often.
+> 
+> Hmmm, are you suggesting that if we went this quirk route, we'd be
+> updating the quirk frequently to add new devices?
+> 
+> I'm opposed to that as a strategy because it makes needless work.  You
+> have to update the quirk, backport it to older kernels, re-release
+> distro kernels, etc.
 
-diff --git a/fabrics.c b/fabrics.c
-index 774ea94dc0db..2890e4ef36c8 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -62,6 +62,8 @@ static struct config {
- 	int  duplicate_connect;
- 	int  disable_sqflow;
- 	bool persistent;
-+	int  hdr_digest;
-+	int  data_digest;
- } cfg = { NULL };
- 
- #define BUF_SIZE		4096
-@@ -629,7 +631,9 @@ static int build_options(char *argstr, int max_len)
- 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
- 				cfg.duplicate_connect) ||
- 	    add_bool_argument(&argstr, &max_len, "disable_sqflow",
--				cfg.disable_sqflow))
-+				cfg.disable_sqflow) ||
-+	    add_bool_argument(&argstr, &max_len, "hdr_digest", cfg.hdr_digest) ||
-+	    add_bool_argument(&argstr, &max_len, "data_digest", cfg.data_digest))
- 		return -EINVAL;
- 
- 	return 0;
-@@ -706,6 +710,20 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
- 		p += len;
- 	}
- 
-+	if (cfg.hdr_digest) {
-+		len = sprintf(p, ",hdr_digest");
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
-+	if (cfg.data_digest) {
-+		len = sprintf(p, ",data_digest");
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
- 	switch (e->trtype) {
- 	case NVMF_TRTYPE_LOOP: /* loop */
- 		len = sprintf(p, ",transport=loop");
-@@ -947,6 +965,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
- 		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
-+		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
-+		{"data_digest", 'G', "", CFG_NONE, &cfg.data_digest, no_argument, "enable transport protocol data digest (TCP transport)" },
- 		{NULL},
- 	};
- 
-@@ -990,6 +1010,8 @@ int connect(const char *desc, int argc, char **argv)
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
- 		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
- 		{"disable_sqflow", 'd', "", CFG_NONE, &cfg.disable_sqflow, no_argument, "disable controller sq flow control (default false)" },
-+		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
-+		{"data_digest", 'G', "", CFG_NONE, &cfg.data_digest, no_argument, "enable transport protocol data digest (TCP transport)" },
- 		{NULL},
- 	};
- 
--- 
-2.17.1
+But I guess you have to do this anyway just to add the vendor/device
+ID to the driver, so maybe this isn't a big deal to you.  If you can
+do a quirk like this in the driver, it would be invisible to me and I
+wouldn't care.  I just don't want to deal with ongoing tweaks like
+this in the PCI core :)
+
+Bjorn
