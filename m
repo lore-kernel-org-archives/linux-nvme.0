@@ -1,168 +1,82 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 16 Nov 2018 08:34:59 +0100
-Subject: [PATCH nvme-cli 1/3] nvme: introduce get_nvme_ctrl_attr()
+Date: Fri, 16 Nov 2018 08:35:00 +0100
+Subject: [PATCH nvme-cli 2/3] nvme: print out controller state for
+ 'list-subsys'
 In-Reply-To: <20181116073501.7867-1-hare@suse.de>
 References: <20181116073501.7867-1-hare@suse.de>
-Message-ID: <20181116073501.7867-2-hare@suse.de>
-
-Use a generic function 'get_nvme_ctrl_attr()' instead of coding
-the same function for each sysfs attribute.
+Message-ID: <20181116073501.7867-3-hare@suse.de>
 
 Signed-off-by: Hannes Reinecke <hare at suse.com>
 ---
- nvme.c | 98 ++++++++++++++++++------------------------------------------------
- 1 file changed, 27 insertions(+), 71 deletions(-)
+ nvme-print.c | 7 +++++--
+ nvme.c       | 9 +++++++++
+ nvme.h       | 1 +
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
+diff --git a/nvme-print.c b/nvme-print.c
+index b728975..5cdfabe 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -2772,9 +2772,10 @@ static void show_nvme_subsystem(struct subsys_list_item *item)
+ 	printf("\\\n");
+ 
+ 	for (i = 0; i < item->nctrls; i++) {
+-		printf(" +- %s %s %s\n", item->ctrls[i].name,
++		printf(" +- %s %s %s %s\n", item->ctrls[i].name,
+ 				item->ctrls[i].transport,
+-				item->ctrls[i].address);
++				item->ctrls[i].address,
++				item->ctrls[i].state);
+ 	}
+ 
+ }
+@@ -2820,6 +2821,8 @@ void json_print_nvme_subsystem_list(struct subsys_list_item *slist, int n)
+ 					slist[i].ctrls[j].transport);
+ 			json_object_add_value_string(path_attrs, "Address",
+ 					slist[i].ctrls[j].address);
++			json_object_add_value_string(path_attrs, "State",
++					slist[i].ctrls[j].state);
+ 			json_array_add_value_object(paths, path_attrs);
+ 		}
+ 		if (j) {
 diff --git a/nvme.c b/nvme.c
-index 1df3a10..f15d372 100644
+index f15d372..c3295c5 100644
 --- a/nvme.c
 +++ b/nvme.c
-@@ -1290,103 +1290,58 @@ close_fd:
- 	return subsysnqn;
+@@ -1363,6 +1363,7 @@ static void free_ctrl_list_item(struct ctrl_list_item *ctrls)
+ 	free(ctrls->name);
+ 	free(ctrls->transport);
+ 	free(ctrls->address);
++	free(ctrls->state);
  }
  
--static char *get_nvme_ctrl_transport(char *path)
-+static char *get_nvme_ctrl_attr(char *path, const char *attr)
- {
--	char *trpath;
--	char *transport;
--	int fd;
--	ssize_t ret;
--
--	ret = asprintf(&trpath, "%s/transport", path);
--	if (ret < 0)
--		return NULL;
--
--	transport = calloc(1, 1024);
--	if (!transport)
--		goto err_free_trpath;
--
--	fd = open(trpath, O_RDONLY);
--	if (fd < 0) {
--		fprintf(stderr, "Failed to open %s: %s\n",
--				trpath, strerror(errno));
--		goto err_free_tr;
--	}
--
--	ret = read(fd, transport, 1024);
--	if (ret < 0) {
--		fprintf(stderr, "read :%s :%s\n", trpath, strerror(errno));
--		goto err_close_fd;
--	}
--
--	if (transport[strlen(transport) - 1] == '\n')
--		transport[strlen(transport) - 1] = '\0';
--
--	close(fd);
--	free(trpath);
--
--	return transport;
--
--err_close_fd:
--	close(fd);
--err_free_tr:
--	free(transport);
--err_free_trpath:
--	free(trpath);
--
--	return NULL;
--}
--
--static char *get_nvme_ctrl_address(char *path)
--{
--	char *addrpath;
--	char *address;
-+	char *attrpath;
-+	char *value;
- 	int fd;
- 	ssize_t ret;
- 	int i;
- 
--	ret = asprintf(&addrpath, "%s/address", path);
-+	ret = asprintf(&attrpath, "%s/%s", path, attr);
- 	if (ret < 0)
- 		return NULL;
- 
--	address = calloc(1, 1024);
--	if (!address)
--		goto err_free_addrpath;
-+	value = calloc(1, 1024);
-+	if (!value)
-+		goto err_free_path;
- 
--	fd = open(addrpath, O_RDONLY);
-+	fd = open(attrpath, O_RDONLY);
- 	if (fd < 0) {
- 		fprintf(stderr, "Failed to open %s: %s\n",
--				addrpath, strerror(errno));
--		goto err_free_addr;
-+				attrpath, strerror(errno));
-+		goto err_free_value;
- 	}
- 
--	ret = read(fd, address, 1024);
-+	ret = read(fd, value, 1024);
- 	if (ret < 0) {
--		fprintf(stderr, "read :%s :%s\n", addrpath, strerror(errno));
-+		fprintf(stderr, "read :%s :%s\n", attrpath, strerror(errno));
- 		goto err_close_fd;
- 	}
- 
--	if (address[strlen(address) - 1] == '\n')
--		address[strlen(address) - 1] = '\0';
-+	if (value[strlen(value) - 1] == '\n')
-+		value[strlen(value) - 1] = '\0';
- 
--	for (i = 0; i < strlen(address); i++) {
--		if (address[i] == ',' )
--			address[i] = ' ';
-+	for (i = 0; i < strlen(value); i++) {
-+		if (value[i] == ',' )
-+			value[i] = ' ';
- 	}
- 
- 	close(fd);
--	free(addrpath);
-+	free(attrpath);
- 
--	return address;
-+	return value;
- 
- err_close_fd:
- 	close(fd);
--err_free_addr:
--	free(address);
--err_free_addrpath:
--	free(addrpath);
-+err_free_value:
-+	free(value);
-+err_free_path:
-+	free(attrpath);
- 
- 	return NULL;
- }
-+
- static int scan_ctrls_filter(const struct dirent *d)
- {
- 	int id, nsid;
-@@ -1445,7 +1400,8 @@ static int get_nvme_subsystem_info(char *name, char *path,
- 		snprintf(ctrl_path, sizeof(ctrl_path), "%s/%s", path,
- 			 item->ctrls[ccnt].name);
- 
--		item->ctrls[ccnt].address = get_nvme_ctrl_address(ctrl_path);
-+		item->ctrls[ccnt].address =
-+				get_nvme_ctrl_attr(ctrl_path, "address");
- 		if (!item->ctrls[ccnt].address) {
- 			fprintf(stderr, "failed to get controller[%d] address.\n", i);
- 			free_ctrl_list_item(&item->ctrls[ccnt]);
-@@ -1453,7 +1409,7 @@ static int get_nvme_subsystem_info(char *name, char *path,
+ static int get_nvme_subsystem_info(char *name, char *path,
+@@ -1416,6 +1417,14 @@ static int get_nvme_subsystem_info(char *name, char *path,
+ 			continue;
  		}
  
- 		item->ctrls[ccnt].transport =
--				get_nvme_ctrl_transport(ctrl_path);
-+				get_nvme_ctrl_attr(ctrl_path, "transport");
- 		if (!item->ctrls[ccnt].transport) {
- 			fprintf(stderr, "failed to get controller[%d] transport.\n", i);
- 			free_ctrl_list_item(&item->ctrls[ccnt]);
++		item->ctrls[ccnt].state =
++				get_nvme_ctrl_attr(ctrl_path, "state");
++		if (!item->ctrls[ccnt].state) {
++			fprintf(stderr, "failed to get controller[%d] state.\n", i);
++			free_ctrl_list_item(&item->ctrls[ccnt]);
++			continue;
++		}
++
+ 		ccnt++;
+ 	}
+ 
+diff --git a/nvme.h b/nvme.h
+index 32ac96d..668c6fd 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -129,6 +129,7 @@ struct ctrl_list_item {
+ 	char *name;
+ 	char *address;
+ 	char *transport;
++	char *state;
+ };
+ 
+ struct subsys_list_item {
 -- 
 2.13.7
