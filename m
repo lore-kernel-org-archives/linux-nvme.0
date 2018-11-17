@@ -1,31 +1,44 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 18 Nov 2018 00:38:29 +0200
-Subject: [PATCH 06/11] nvmet: allow configfs tcp trtype configuration
-In-Reply-To: <20181115171626.9306-7-sagi@lightbitslabs.com>
+Date: Sun, 18 Nov 2018 00:48:57 +0200
+Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
+In-Reply-To: <20181117.121510.1754018619653365187.davem@davemloft.net>
 References: <20181115171626.9306-1-sagi@lightbitslabs.com>
- <20181115171626.9306-7-sagi@lightbitslabs.com>
-Message-ID: <12c83c06-4839-734d-15bf-6225b38938b6@mellanox.com>
+ <20181115171626.9306-11-sagi@lightbitslabs.com>
+ <20181117.121510.1754018619653365187.davem@davemloft.net>
+Message-ID: <59335e55-7e19-3201-2f8b-beb681aba810@mellanox.com>
 
 
-On 11/15/2018 7:16 PM, Sagi Grimberg wrote:
-> Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
-> ---
->   drivers/nvme/target/configfs.c | 1 +
->   1 file changed, 1 insertion(+)
+On 11/17/2018 10:15 PM, David Miller wrote:
+> From: Sagi Grimberg <sagi at lightbitslabs.com>
+> Date: Thu, 15 Nov 2018 09:16:22 -0800
 >
-> diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-> index c2df205096ec..4d28c4d78850 100644
-> --- a/drivers/nvme/target/configfs.c
-> +++ b/drivers/nvme/target/configfs.c
-> @@ -34,6 +34,7 @@ static const struct nvmet_transport_name {
->   } nvmet_transport_names[] = {
->   	{ NVMF_TRTYPE_RDMA,	"rdma" },
->   	{ NVMF_TRTYPE_FC,	"fc" },
-> +	{ NVMF_TRTYPE_TCP,	"tcp" },
->   	{ NVMF_TRTYPE_LOOP,	"loop" },
->   };
->   
+>> +static unsigned nvmet_tcp_recv_budget = 8;
+>> +module_param_named(recv_budget, nvmet_tcp_recv_budget, int, S_IRUGO | S_IWUSR);
+>> +MODULE_PARM_DESC(recv_budget, "recvs budget");
+>> +
+>> +static unsigned nvmet_tcp_send_budget = 8;
+>> +module_param_named(send_budget, nvmet_tcp_send_budget, int, S_IRUGO | S_IWUSR);
+>> +MODULE_PARM_DESC(send_budget, "sends budget");
+>> +
+>> +static unsigned nvmet_tcp_io_work_budget = 64;
+>> +module_param_named(io_work_budget, nvmet_tcp_io_work_budget, int, S_IRUGO | S_IWUSR);
+>> +MODULE_PARM_DESC(io_work_budget, "io work budget");
+> I strongly suggest moving away from module parameters for this stuff.
 
-looks good,
+agree here.
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+also, Sagi, can you explain about the performance trade-offs seen during 
+your development for these values ?
+
+are they HCA/NIC dependent ?
+
+should send/recv ratio be 1:1 ?
+
+should total/send/recv ratio be 8:1:1 ?
+
+
+>
+> Create a genetlink socket family and allow run time configuration of these knobs
+> by the user.
+>
+> Thanks.
