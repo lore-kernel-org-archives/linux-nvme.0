@@ -1,74 +1,68 @@
-From: loberman@redhat.com (Laurence Oberman)
-Date: Fri, 16 Nov 2018 14:34:26 -0500
-Subject: nvme: allow ANA support to be independent of native multipathing
-In-Reply-To: <20181116192802.GA30057@redhat.com>
-References: <20181114053837.GA15086@redhat.com>
- <30cf7af7-8826-55bd-e39a-4f81ed032f6d@suse.de>
- <20181114174746.GA18526@redhat.com>
- <87c931e5-4ac9-1795-8d40-cc5541d3ebcf@suse.de>
- <20181115174605.GA19782@redhat.com> <20181116091458.GA17267@lst.de>
- <37098edd-4dea-b58f-bca6-3be9af8ec4ee@suse.de>
- <20181116094947.GA19296@lst.de>
- <bbaf4637-209c-5cfe-2749-3fcc54f7a35f@suse.de>
- <20181116101752.GA21531@lst.de> <20181116192802.GA30057@redhat.com>
-Message-ID: <1542396866.13202.0.camel@redhat.com>
+From: jvbockel@gmail.com (John Van Bockel)
+Date: Fri, 16 Nov 2018 18:17:22 -0600
+Subject: Two M.2 NVMe drives with same NQN, one gets removed
+Message-ID: <CAGmwwfeJEVkw2uf1oVoEYgNtuLPRrDqWHXQi-KXTdofsUdH2Dg@mail.gmail.com>
 
-On Fri, 2018-11-16@14:28 -0500, Mike Snitzer wrote:
-> On Fri, Nov 16 2018 at??5:17am -0500,
-> Christoph Hellwig <hch@lst.de> wrote:
-> 
-> > On Fri, Nov 16, 2018@11:06:32AM +0100, Hannes Reinecke wrote:
-> > > Ok, so would you be happy with making ANA support configurable?
-> > 
-> > I've looked a bit over the whole situation, and what I think we
-> > need
-> > to do is:
-> > 
-> > ?a) warn if we see a ANA capable device without multipath support
-> > ????so people know it is not going to work properly.
-> 
-> I disagree with your cynicism but v2 of this patch now emits a
-> warning
-> accordingly.
-> 
-> > ?b) deprecate the multipath module option.??It was only intended as
-> > ????a migration for any pre-existing PCIe multipath user if there
-> > ????were any, not to support any new functionality.??So for 4.20
-> > ????put in a patch that prints a clear warning when it is used,
-> > ????including a link to the nvme list, and then for 4.25 or so
-> > ????remove it entirely unless something unexpected come up.
-> 
-> You rejected the idea of allowing fine-grained control over whether
-> native NVMe multipathing is enabled or not on a per-namespace basis.
-> All we have is the coarse-grained nvme_core.multipath=N knob.??Now
-> you're forecasting removing even that.??Please don't do that.
-> 
-> > This whole drama of optional multipath use has wasted way too much
-> > of everyones time already.
-> 
-> It has wasted _way_ too much time.
-> 
-> But the drama is born out of you rejecting that we need to preserve
-> multipath-tools and dm-multipath's ability to work across any
-> transport.??You don't need to do that work: Hannes, myself and others
-> have always been willing and able -- if you'd let us.
-> 
-> IIRC it was at 2016's LSF in Boston where Ewan Milne and I had a
-> face-to-face conversation with you in the hallway track where you
-> agreed
-> that ANA support would be activated if the capability was advertised
-> by
-> the target.??The model we discussed is that it would be comparable to
-> how ALUA gets enabled during SCSI LUN discovery.
-> 
-> I hope you can see your way forward to be more accommodating now.
-> Especially given the proposed changes are backed by NVMe standards.
-> 
-> Please, PLEASE take v2 of this patch.. please? ;)
-> 
-> Thanks,
-> Mike
+Hi,
 
-I am begging you take it too please 
+I have an Intel NUC8i7HVK mini-computer and a pair of Intel 760p 1TB M.2 NVMe
+SSD drives.  With Fedora 29 and Ubuntu 18.10 (both 4.18 kernels), the
+nvme kernel
+module insists upon disabling one of the two NVMe drives when it notices that
+both have been assigned the same NVMe Qualified Name (NQN).  The one that gets
+removed by the nvme module is not always the same.  Whichever remains enabled
+performs perfectly.
+
+[root at NUCnFutz ~]# dmesg | grep -i nvme
+
+[    3.372662] nvme nvme0: pci function 0000:72:00.0
+[    3.372710] nvme nvme1: pci function 0000:73:00.0
+[    3.484113]  nvme0n1: p1 p2 p3 p4
+[    3.584531] nvme nvme1: ignoring ctrl due to duplicate subnqn
+(nqn.2017-12.org.nvmexpress:uuid:11111111-2222-3333-4444-555555555555).
+[    3.584533] nvme nvme1: Removing after probe failure status: -22
+
+If I disable one in the UEFI BIOS, the other works perfectly with Linux.  It
+does not matter which I disable, the enabled drive works perfectly.  Windows 10
+has no trouble performing I/O against both drives when both are enabled.  I've
+tried various combinations of settings in the UEFI to see if I could alter the
+result of both being given the same NQN.  Firware versions for both
+the NUC8i7hvk
+and 760p SSD drives are at the latest 51 and 004C versions, respectively.
+
+With the first M.2 slot enabled in UEFI, "nvme list" & "nvme list-subsys" yield:
+/dev/nvme0n1 BTHH81850C8W1P0E INTEL SSDPEKKW010T8 1 1.02 TB / 1.02 TB
+512 B + 0 B 004C
+nvme-subsys0 - NQN=nqn.2017-12.org.nvmexpress:uuid:11111111-2222-3333-4444-555555555555
++- nvme0 pcie 0000:72:00.0
+
+With the second M.2 slot enabled, "nvme list" & "nvme list-susbsys" produce:
+/dev/nvme0n1 BTHH81850BX31P0E INTEL SSDPEKKW010T8 1 1.02 TB / 1.02 TB
+512 B + 0 B 004C
+nvme-subsys0 - NQN=nqn.2017-12.org.nvmexpress:uuid:11111111-2222-3333-4444-555555555555
++- nvme0 pcie 0000:73:00.0
+
+I did have one boot in which both remained enabled.  Slot one was given a device
+name of /dev/nvme0n1 with a 0000:72:00.0 path and slot two was given the
+/dev/nvme0n2 name with its 0000:73:00.0 path.  I was excited by this result but
+was unable to repeat the result.  I wish I had thought to see if both continued
+to share the same NQN in that one fleeting success.
+
+Intel regards the combination of NUC8i7HVK and 2TB 760p NVMe drives as
+supported.
+Mine are the 1TB version of the 760p drives, so I am deviating ever so slightly.
+Also, Intel doesn't claim any responsibility for running Linux on the
+NUCs and says
+to contact the distribution.  The problem seems to be independent of
+distribution,
+having tried both Fedora 29 (kernel 4.18.16 & 4.18.18) and Ubuntu
+18.10 (4.18.?).
+
+I do not know how the NQN is being assigned to the drives.  Whether
+the UEFI BIOS
+is to blame or is instead being assigned by a Linux kernel module.  If this is
+instead a defect in the UEFI, please let me know and I'll move on to communicate
+with Intel Support.
+
 Thanks
-Laurence
+jvbockel at gmail.com
