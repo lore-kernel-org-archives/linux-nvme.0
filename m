@@ -1,57 +1,99 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 17 Nov 2018 14:43:47 -0700
-Subject: [PATCHSET v4] Various block optimizations
-Message-ID: <20181117214354.822-1-axboe@kernel.dk>
+Date: Sat, 17 Nov 2018 14:43:48 -0700
+Subject: [PATCH 1/7] block: avoid ordered task state change for polled IO
+In-Reply-To: <20181117214354.822-1-axboe@kernel.dk>
+References: <20181117214354.822-1-axboe@kernel.dk>
+Message-ID: <20181117214354.822-2-axboe@kernel.dk>
 
-Some of these are optimizations, the latter part is prep work
-for supporting polling with aio.
+For the core poll helper, the task state setting don't need
+to imply any atomics, as it's the current task itself that
+is being modified and we're not going to sleep.
 
-Patches against my for-4.21/block branch. These patches can also
-be found in my mq-perf branch. Some of them are prep patches for
-the aio poll work, which can be found in my aio-poll branch.
-These will get posted soon.
+For IRQ driven, the wakeup path have the necessary barriers
+to not need us using the heavy handed version of the task
+state setting.
 
-Changes since v3:
+Signed-off-by: Jens Axboe <axboe at kernel.dk>
+---
+ block/blk-mq.c | 4 ++--
+ fs/block_dev.c | 7 +++++--
+ fs/iomap.c     | 3 ++-
+ mm/page_io.c   | 3 ++-
+ 4 files changed, 11 insertions(+), 6 deletions(-)
 
-- Fix tiny race in iocb flag checking for plugging
-- Improve poll-many implementation, including nvme-rdma
-- Get rid of unneeded smp_rmb()
-- Drop merged patches
-
-Changes since v2:
-
-- Include polled swap IO in the poll optimizations
-- Get rid of unnecessary write barrier for DIO wakeup
-- Fix a potential stall if need_resched() was set and preempt
-  wasn't enabled
-- Provide separate mq_ops for NVMe with poll queues
-- Drop q->mq_ops patch
-- Rebase on top of for-4.21/block
-
-Changes since v1:
-
-- Improve nvme irq disabling for polled IO
-- Fix barriers in the ordered wakeup for polled O_DIRECT
-- Add patch to allow polling to find any command that is done
-- Add patch to control whether polling spins or not
-- Have async O_DIRECT mark a bio as pollable
-- Don't plug for polling
-
-
- block/blk-core.c                  |  4 +-
- block/blk-mq.c                    | 91 +++++++++++++++++++++------------------
- drivers/nvme/host/fc.c            | 33 --------------
- drivers/nvme/host/multipath.c     |  6 +--
- drivers/nvme/host/pci.c           | 22 +++++-----
- drivers/nvme/host/rdma.c          | 38 ++++++++--------
- drivers/nvme/target/io-cmd-bdev.c |  2 +-
- fs/block_dev.c                    | 11 +++--
- fs/direct-io.c                    |  2 +-
- fs/iomap.c                        |  5 ++-
- include/linux/blk-mq.h            |  2 +-
- include/linux/blkdev.h            |  4 +-
- mm/page_io.c                      |  5 ++-
- 13 files changed, 101 insertions(+), 124 deletions(-)
-
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 32b246ed44c0..7fc4abb4cc36 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -3331,12 +3331,12 @@ static bool __blk_mq_poll(struct blk_mq_hw_ctx *hctx, struct request *rq)
+ 		ret = q->mq_ops->poll(hctx, rq->tag);
+ 		if (ret > 0) {
+ 			hctx->poll_success++;
+-			set_current_state(TASK_RUNNING);
++			__set_current_state(TASK_RUNNING);
+ 			return true;
+ 		}
+ 
+ 		if (signal_pending_state(state, current))
+-			set_current_state(TASK_RUNNING);
++			__set_current_state(TASK_RUNNING);
+ 
+ 		if (current->state == TASK_RUNNING)
+ 			return true;
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 4d79bc80fb41..64ba27b8b754 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -237,9 +237,11 @@ __blkdev_direct_IO_simple(struct kiocb *iocb, struct iov_iter *iter,
+ 
+ 	qc = submit_bio(&bio);
+ 	for (;;) {
+-		set_current_state(TASK_UNINTERRUPTIBLE);
++		__set_current_state(TASK_UNINTERRUPTIBLE);
++
+ 		if (!READ_ONCE(bio.bi_private))
+ 			break;
++
+ 		if (!(iocb->ki_flags & IOCB_HIPRI) ||
+ 		    !blk_poll(bdev_get_queue(bdev), qc))
+ 			io_schedule();
+@@ -415,7 +417,8 @@ __blkdev_direct_IO(struct kiocb *iocb, struct iov_iter *iter, int nr_pages)
+ 		return -EIOCBQUEUED;
+ 
+ 	for (;;) {
+-		set_current_state(TASK_UNINTERRUPTIBLE);
++		__set_current_state(TASK_UNINTERRUPTIBLE);
++
+ 		if (!READ_ONCE(dio->waiter))
+ 			break;
+ 
+diff --git a/fs/iomap.c b/fs/iomap.c
+index b0462b363bad..c5df035ace6f 100644
+--- a/fs/iomap.c
++++ b/fs/iomap.c
+@@ -1888,7 +1888,8 @@ iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
+ 			return -EIOCBQUEUED;
+ 
+ 		for (;;) {
+-			set_current_state(TASK_UNINTERRUPTIBLE);
++			__set_current_state(TASK_UNINTERRUPTIBLE);
++
+ 			if (!READ_ONCE(dio->submit.waiter))
+ 				break;
+ 
+diff --git a/mm/page_io.c b/mm/page_io.c
+index 57572ff46016..a7271fa481f6 100644
+--- a/mm/page_io.c
++++ b/mm/page_io.c
+@@ -405,7 +405,8 @@ int swap_readpage(struct page *page, bool synchronous)
+ 	bio_get(bio);
+ 	qc = submit_bio(bio);
+ 	while (synchronous) {
+-		set_current_state(TASK_UNINTERRUPTIBLE);
++		__set_current_state(TASK_UNINTERRUPTIBLE);
++
+ 		if (!READ_ONCE(bio->bi_private))
+ 			break;
+ 
 -- 
-Jens Axboe
+2.17.1
