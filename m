@@ -1,29 +1,57 @@
-From: davem@davemloft.net (David Miller)
-Date: Sat, 17 Nov 2018 12:15:10 -0800 (PST)
-Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
-In-Reply-To: <20181115171626.9306-11-sagi@lightbitslabs.com>
-References: <20181115171626.9306-1-sagi@lightbitslabs.com>
- <20181115171626.9306-11-sagi@lightbitslabs.com>
-Message-ID: <20181117.121510.1754018619653365187.davem@davemloft.net>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sat, 17 Nov 2018 14:43:47 -0700
+Subject: [PATCHSET v4] Various block optimizations
+Message-ID: <20181117214354.822-1-axboe@kernel.dk>
 
-From: Sagi Grimberg <sagi@lightbitslabs.com>
-Date: Thu, 15 Nov 2018 09:16:22 -0800
+Some of these are optimizations, the latter part is prep work
+for supporting polling with aio.
 
-> +static unsigned nvmet_tcp_recv_budget = 8;
-> +module_param_named(recv_budget, nvmet_tcp_recv_budget, int, S_IRUGO | S_IWUSR);
-> +MODULE_PARM_DESC(recv_budget, "recvs budget");
-> +
-> +static unsigned nvmet_tcp_send_budget = 8;
-> +module_param_named(send_budget, nvmet_tcp_send_budget, int, S_IRUGO | S_IWUSR);
-> +MODULE_PARM_DESC(send_budget, "sends budget");
-> +
-> +static unsigned nvmet_tcp_io_work_budget = 64;
-> +module_param_named(io_work_budget, nvmet_tcp_io_work_budget, int, S_IRUGO | S_IWUSR);
-> +MODULE_PARM_DESC(io_work_budget, "io work budget");
+Patches against my for-4.21/block branch. These patches can also
+be found in my mq-perf branch. Some of them are prep patches for
+the aio poll work, which can be found in my aio-poll branch.
+These will get posted soon.
 
-I strongly suggest moving away from module parameters for this stuff.
+Changes since v3:
 
-Create a genetlink socket family and allow run time configuration of these knobs
-by the user.
+- Fix tiny race in iocb flag checking for plugging
+- Improve poll-many implementation, including nvme-rdma
+- Get rid of unneeded smp_rmb()
+- Drop merged patches
 
-Thanks.
+Changes since v2:
+
+- Include polled swap IO in the poll optimizations
+- Get rid of unnecessary write barrier for DIO wakeup
+- Fix a potential stall if need_resched() was set and preempt
+  wasn't enabled
+- Provide separate mq_ops for NVMe with poll queues
+- Drop q->mq_ops patch
+- Rebase on top of for-4.21/block
+
+Changes since v1:
+
+- Improve nvme irq disabling for polled IO
+- Fix barriers in the ordered wakeup for polled O_DIRECT
+- Add patch to allow polling to find any command that is done
+- Add patch to control whether polling spins or not
+- Have async O_DIRECT mark a bio as pollable
+- Don't plug for polling
+
+
+ block/blk-core.c                  |  4 +-
+ block/blk-mq.c                    | 91 +++++++++++++++++++++------------------
+ drivers/nvme/host/fc.c            | 33 --------------
+ drivers/nvme/host/multipath.c     |  6 +--
+ drivers/nvme/host/pci.c           | 22 +++++-----
+ drivers/nvme/host/rdma.c          | 38 ++++++++--------
+ drivers/nvme/target/io-cmd-bdev.c |  2 +-
+ fs/block_dev.c                    | 11 +++--
+ fs/direct-io.c                    |  2 +-
+ fs/iomap.c                        |  5 ++-
+ include/linux/blk-mq.h            |  2 +-
+ include/linux/blkdev.h            |  4 +-
+ mm/page_io.c                      |  5 ++-
+ 13 files changed, 101 insertions(+), 124 deletions(-)
+
+-- 
+Jens Axboe
