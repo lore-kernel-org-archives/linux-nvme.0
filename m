@@ -1,39 +1,22 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 19 Nov 2018 08:21:32 -0700
-Subject: [PATCH 6/7] block: make blk_poll() take a parameter on whether to
- spin or not
-In-Reply-To: <20181119080544.GF9622@infradead.org>
-References: <20181117214354.822-1-axboe@kernel.dk>
- <20181117214354.822-7-axboe@kernel.dk> <20181119080544.GF9622@infradead.org>
-Message-ID: <04b6015e-2949-750d-01a0-640373b406ea@kernel.dk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 19 Nov 2018 10:00:48 -0700
+Subject: Two M.2 NVMe drives with same NQN, one gets removed
+In-Reply-To: <CAGmwwfc=g+4h12qMBvRVJoE66Z70kzzfkabjyxLC=d7LZp627A@mail.gmail.com>
+References: <CAGmwwfeJEVkw2uf1oVoEYgNtuLPRrDqWHXQi-KXTdofsUdH2Dg@mail.gmail.com>
+ <20181117013337.GA23062@localhost.localdomain>
+ <CAGmwwfc=g+4h12qMBvRVJoE66Z70kzzfkabjyxLC=d7LZp627A@mail.gmail.com>
+Message-ID: <20181119170048.GC26595@localhost.localdomain>
 
-On 11/19/18 1:05 AM, Christoph Hellwig wrote:
->> -bool blk_poll(struct request_queue *q, blk_qc_t cookie)
->> +bool blk_poll(struct request_queue *q, blk_qc_t cookie, bool spin)
-> 
-> I find the paramter name a little confusing.  Maybe wait_for_request,
-> although I don't particularly like that one either.  But we really need
-> to document the parameter well here, no matter what we end up naming
-> it.  And we should use a consistent name through the whole stack.
+On Sun, Nov 18, 2018@10:55:11AM -0800, John Van Bockel wrote:
+> That's good news and very much appreciate the information and all 
+> that you do for the open source community.  Is this an update for the 
+> 760p NVMe drives or instead a UEFI update for the NUC8i7HVK?  
+> Either way, good news.  Just wondering which I'm keeping an eye out 
+> for.  
 
-spin_until_found? I don't like using 'wait*' as we're not waiting.
+It's a 760p update, and looks like it was released earlier this month:
 
->> index c1ec3475a140..f6971b45bc54 100644
->> --- a/drivers/nvme/target/io-cmd-bdev.c
->> +++ b/drivers/nvme/target/io-cmd-bdev.c
->> @@ -116,7 +116,7 @@ static void nvmet_bdev_execute_rw(struct nvmet_req *req)
->>  
->>  	cookie = submit_bio(bio);
->>  
->> -	blk_poll(bdev_get_queue(req->ns->bdev), cookie);
->> +	blk_poll(bdev_get_queue(req->ns->bdev), cookie, true);
-> 
-> This opportunistic poll is pretty bogus now as we never set the HIPRI
-> flag and it should probably be removed in a prep patch.  We should then
-> later try to use a scheme similar to your aio polling for the nvme
-> target as well.
+  https://downloadcenter.intel.com/download/28320/Known-Issue-Intel-SSD-760p-Pro-7600p-Series-SubNQN-Conflict-on-Linux
 
-I'll kill it in a pre-patch.
-
--- 
-Jens Axboe
+Sorry I missed that update, otherwise I could have sent you that link
+last week.
