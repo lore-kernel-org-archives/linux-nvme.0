@@ -1,54 +1,36 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 19 Nov 2018 12:38:24 -0800
-Subject: [PATCH v4 1/5] qla2xxx_nvmet: Add FC-NVMe Target Link Service
- request handling
-In-Reply-To: <20181031164059.6286-2-himanshu.madhani@cavium.com>
-References: <20181031164059.6286-1-himanshu.madhani@cavium.com>
- <20181031164059.6286-2-himanshu.madhani@cavium.com>
-Message-ID: <a0034841-5c6e-5072-d24d-3c09519bb9cd@broadcom.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 19 Nov 2018 13:21:58 -0800
+Subject: [PATCH 05/11] nvmet: Add install_queue callout
+In-Reply-To: <af370da9-3d56-e1a8-27db-c0a8e9291417@mellanox.com>
+References: <20181115171626.9306-1-sagi@lightbitslabs.com>
+ <20181115171626.9306-6-sagi@lightbitslabs.com>
+ <af370da9-3d56-e1a8-27db-c0a8e9291417@mellanox.com>
+Message-ID: <98230184-074a-84cf-3aa5-8ad30f2b5339@grimberg.me>
 
 
+>> diff --git a/drivers/nvme/target/fabrics-cmd.c 
+>> b/drivers/nvme/target/fabrics-cmd.c
+>> index 1f05d8507e35..a84668e8939c 100644
+>> --- a/drivers/nvme/target/fabrics-cmd.c
+>> +++ b/drivers/nvme/target/fabrics-cmd.c
+>> @@ -117,6 +117,15 @@ static u16 nvmet_install_queue(struct nvmet_ctrl 
+>> *ctrl, struct nvmet_req *req)
+>> ????? nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1,
+>> ????????????? !!(c->cattr & NVME_CONNECT_DISABLE_SQFLOW));
+> 
+> what is your code base ? does SQFLOW must for TCP ?
 
-On 10/31/2018 9:40 AM, Himanshu Madhani wrote:
-> From: Anil Gurumurthy <anil.gurumurthy at cavium.com>
->
-> This patch provides link service pass through feature handling
-> in the driver. This feature is implemented mainly by the firmware
-> and the same implementation is handled in the driver via an
-> IOCB interface.
->
-> Signed-off-by: Anil Gurumurthy <anil.gurumurthy at cavium.com>
-> Signed-off-by: Giridhar Malavali <giridhar.malavali at cavium.com>
-> Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
-> Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
-> ---
->
-> +
-> +/*
-> + * Used by FC-NVMe Target
-> + */
-> +int qla_nvmet_ls(srb_t *sp, void *rsp_pkt);
-> +int qlt_send_els_resp(srb_t *sp, void *pkt);
-> +
-> ...
->   
-> +int qlt_send_els_resp(srb_t *sp, void *pkt)
-> +{
-> +	return 0;
-> +}
-> +
-> +int
-> +qla_nvmet_ls(srb_t *sp, void *rsp_pkt)
-> +{
-> +	return 0;
-> +}
-> +
->   void qlt_response_pkt_all_vps(struct scsi_qla_host *vha,
->   	struct rsp_que *rsp, response_t *pkt)
->   {
+Not really, just happens to sit on top..
 
-Rather than add these 2 routines in now, only to remove them in patch 3 
-- you can leave the stubs, just make the prototypes correct.? Then patch 
-3 can flush them out.
+>> +??? if (ctrl->ops->install_queue) {
+>> +??????? int ret = ctrl->ops->install_queue(req->sq);
+>> +??????? if (ret) {
+>> +??????????? pr_err("failed to install queue %d cntlid %d ret %d\n",
+>> +??????????????? qid, ret, ctrl->cntlid);
+>> +??????????? return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+> 
+> I'm not sure regarding the INVALID_PARAM rc.
+> 
+> maybe use NVME_SC_INTERNAL ?
 
-- james
+You're right, perhaps we should propagate ->install_queue() status.
