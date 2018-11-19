@@ -1,24 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Nov 2018 08:57:37 +0100
-Subject: [PATCH] nvme: default to 0 poll queues
-In-Reply-To: <a2d999c8-135a-745f-07c2-e6c2dc52fff1@kernel.dk>
-References: <a2d999c8-135a-745f-07c2-e6c2dc52fff1@kernel.dk>
-Message-ID: <20181119075737.GA10256@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sun, 18 Nov 2018 23:58:17 -0800
+Subject: [PATCH 1/7] block: avoid ordered task state change for polled IO
+In-Reply-To: <20181117214354.822-2-axboe@kernel.dk>
+References: <20181117214354.822-1-axboe@kernel.dk>
+ <20181117214354.822-2-axboe@kernel.dk>
+Message-ID: <20181119075817.GA9622@infradead.org>
 
-On Sat, Nov 17, 2018@10:06:20AM -0700, Jens Axboe wrote:
-> We need a better way of configuring this, and given that
-> polling is (still) a bit niche, let's default to using
-> 0 poll queues. That way we'll have the same read/write/poll
-> behavior as 4.20, and users that want to test/use polling
-> are required to do manual configuration of the number of
-> poll queues.
+On Sat, Nov 17, 2018@02:43:48PM -0700, Jens Axboe wrote:
+> For the core poll helper, the task state setting don't need
+> to imply any atomics, as it's the current task itself that
+> is being modified and we're not going to sleep.
 > 
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
+> For IRQ driven, the wakeup path have the necessary barriers
+> to not need us using the heavy handed version of the task
+> state setting.
 
-Looks good (except that you could use more of each line for the
-commit log).
+Looks good (except for the horizontally challegened commit log):
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-Given that the poll queues were introduced in the block tree, can you
-queue it up there?
