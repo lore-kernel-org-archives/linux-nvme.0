@@ -1,66 +1,94 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 14:11:11 -0800
-Subject: [PATCH v4 0/4] Support SQ flow control disabled mode (TP 8005)
-Message-ID: <20181119221116.23749-1-sagi@grimberg.me>
+Date: Mon, 19 Nov 2018 14:11:15 -0800
+Subject: [PATCH v4 4/4] nvme: disable fabrics SQ flow control when asked by
+ the user
+In-Reply-To: <20181119221116.23749-1-sagi@grimberg.me>
+References: <20181119221116.23749-1-sagi@grimberg.me>
+Message-ID: <20181119221116.23749-5-sagi@grimberg.me>
 
-Technical proposal 8005 adds a mode where sq head pointer updates can be
-omitted based on the controller capability. When a host connects to
-a controller it can request it to turn off SQ flow control (e.g. omit
-sq head pointer updates). If the controller supports it, it returns
-0xffff sq_head in the connect capsule response cqe.
+As for now, we don't care about sq_head pointer updates anyway, so
+at least allow the controller to micro-optimize by omiting this update.
 
-Supporting this mode in nvmet means we can skip an atomic update in
-the data path so we don't mind. Note that the host side still ignores
-sq head pointer updates and flow controls based on completion accounting
-alone. This TP at least gives us a mode that it is compliant.
+Note that we will probably need to support it when a controller
+that requires this comes along.
 
-When a controller implementation comes along that relies on sq head pointer
-updates to flow control the host, we will probably need to address that, but
-until then, we can start by micro-optimizing nvmet.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/fabrics.c | 13 ++++++++++++-
+ drivers/nvme/host/fabrics.h |  2 ++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-nvmet also exposes this capability in transport requirement field in the
-discovery lof entry for host implementations that may want to talk to a
-controller based on this capability, we use it to have our host to connect
-with sq flow control disabled if the controller supports it, otherwise the
-host connects normally as its doing today.
-
-A nvme-cli patch is also attached sent together with the series. This
-patch is handling a fallback if it works with a host that does not
-support disable_sqflow but the target does support it.
-
-Changes from v3:
-- reworked sq flow control support in nvmet based on hch suggestion
-- added disable_sqflow option to nvme-cli connect
-- fixed nvme-cli connect-all fallback to stay compatible if the fabrics
-  driver does not support disable_sqflow flag.
-
-Changes from v2:
-- fix nested if condition in nvmet_update_sq_head
-- introduce meaningful define for fabrics secure channel mask
-- added explicit disable_sqflow flag in nvme-cli
-
-Changes from v1:
-- changed define names (disable_sqflow) as hannes suggested
-- changed the mode to not be used by default and keep the existing
-  behavior, the host will only try to disable sq flow control when
-  userspace asked it to.
-- added nvme-cli patch that adds --disable-sqflow if the controller
-  exposes support.
-
-Sagi Grimberg (4):
-  nvmet: support fabrics sq flow control
-  nvmet: don't override treq upon modification.
-  nvmet: expose support for fabrics SQ flow control disable in treq
-  nvme: disable fabrics SQ flow control when asked by the user
-
- drivers/nvme/host/fabrics.c       | 13 ++++++++++++-
- drivers/nvme/host/fabrics.h       |  2 ++
- drivers/nvme/target/configfs.c    | 12 ++++++++----
- drivers/nvme/target/core.c        | 22 +++++++++++++---------
- drivers/nvme/target/fabrics-cmd.c |  6 ++++++
- drivers/nvme/target/nvmet.h       |  1 +
- include/linux/nvme.h              | 13 ++++++++++---
- 7 files changed, 52 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index bd0969db6225..10074ac7731b 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -392,6 +392,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
+ 		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
+ 
++	if (ctrl->opts->disable_sqflow)
++		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
++
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+@@ -451,6 +454,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	cmd.connect.qid = cpu_to_le16(qid);
+ 	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
+ 
++	if (ctrl->opts->disable_sqflow)
++		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
++
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+@@ -607,6 +613,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
+ 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
+ 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
++	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -817,6 +824,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DUP_CONNECT:
+ 			opts->duplicate_connect = true;
+ 			break;
++		case NVMF_OPT_DISABLE_SQFLOW:
++			opts->disable_sqflow = true;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -933,7 +943,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
+ 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
+-				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT)
++				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
++				 NVMF_OPT_DISABLE_SQFLOW)
+ 
+ static struct nvme_ctrl *
+ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 6ea6275f332a..ecd9a006a091 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -58,6 +58,7 @@ enum {
+ 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
+ 	NVMF_OPT_HOST_ID	= 1 << 12,
+ 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
++	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
+ };
+ 
+ /**
+@@ -101,6 +102,7 @@ struct nvmf_ctrl_options {
+ 	unsigned int		kato;
+ 	struct nvmf_host	*host;
+ 	int			max_reconnects;
++	bool			disable_sqflow;
+ };
+ 
+ /*
 -- 
 2.17.1
