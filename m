@@ -1,94 +1,126 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 14:11:15 -0800
-Subject: [PATCH v4 4/4] nvme: disable fabrics SQ flow control when asked by
- the user
+Date: Mon, 19 Nov 2018 14:11:16 -0800
+Subject: [PATCH nvme-cli 5/4 v4] fabrics: support fabrics sq flow control
+ disable
 In-Reply-To: <20181119221116.23749-1-sagi@grimberg.me>
 References: <20181119221116.23749-1-sagi@grimberg.me>
-Message-ID: <20181119221116.23749-5-sagi@grimberg.me>
+Message-ID: <20181119221116.23749-6-sagi@grimberg.me>
 
-As for now, we don't care about sq_head pointer updates anyway, so
-at least allow the controller to micro-optimize by omiting this update.
+If the discovery log entry indicates that the subsystem supports
+disabling sq flow control, we ask the host to connect and disable sq
+flow control (omit sq_head pointer updates). Also add a connect option
+to explicitly ask for disable_sqflow.
 
-Note that we will probably need to support it when a controller
-that requires this comes along.
+If we failed to add_ctrl in connect-all command, we retry without it
+to be backward compatible with a driver that cannot accept the new
+flag.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fabrics.c | 13 ++++++++++++-
- drivers/nvme/host/fabrics.h |  2 ++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ fabrics.c    | 35 +++++++++++++++++++++++++++++------
+ linux/nvme.h |  7 ++++---
+ 2 files changed, 33 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index bd0969db6225..10074ac7731b 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -392,6 +392,9 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	cmd.connect.kato = ctrl->opts->discovery_nqn ? 0 :
- 		cpu_to_le32((ctrl->kato + NVME_KATO_GRACE) * 1000);
+diff --git a/fabrics.c b/fabrics.c
+index f2bbd923d95b..b17920b5b1a5 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -60,6 +60,7 @@ static struct config {
+ 	char *raw;
+ 	char *device;
+ 	int  duplicate_connect;
++	int  disable_sqflow;
+ } cfg = { NULL };
  
-+	if (ctrl->opts->disable_sqflow)
-+		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
+ #define BUF_SIZE		4096
+@@ -129,6 +130,8 @@ static const char * const treqs[] = {
+ 	[NVMF_TREQ_NOT_SPECIFIED]	= "not specified",
+ 	[NVMF_TREQ_REQUIRED]		= "required",
+ 	[NVMF_TREQ_NOT_REQUIRED]	= "not required",
++	[NVMF_TREQ_DISABLE_SQFLOW]	= "not specified, "
++					  "sq flow control disable supported",
+ };
+ 
+ static inline const char *treq_str(__u8 treq)
+@@ -595,7 +598,9 @@ static int build_options(char *argstr, int max_len)
+ 	    add_int_argument(&argstr, &max_len, "ctrl_loss_tmo",
+ 				cfg.ctrl_loss_tmo) ||
+ 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
+-				cfg.duplicate_connect))
++				cfg.duplicate_connect) ||
++	    add_bool_argument(&argstr, &max_len, "disable_sqflow",
++				cfg.disable_sqflow))
+ 		return -EINVAL;
+ 
+ 	return 0;
+@@ -603,9 +608,13 @@ static int build_options(char *argstr, int max_len)
+ 
+ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ {
+-	char argstr[BUF_SIZE], *p = argstr;
+-	bool discover = false;
+-	int len;
++	char argstr[BUF_SIZE], *p;
++	bool discover, disable_sqflow = true;
++	int len, ret;
 +
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-@@ -451,6 +454,9 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 	cmd.connect.qid = cpu_to_le16(qid);
- 	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
++retry:
++	p = argstr;
++	discover = false;
  
-+	if (ctrl->opts->disable_sqflow)
-+		cmd.connect.cattr |= NVME_CONNECT_DISABLE_SQFLOW;
+ 	switch (e->subtype) {
+ 	case NVME_NQN_DISC:
+@@ -732,10 +741,23 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+ 		return -EINVAL;
+ 	}
+ 
++	if (e->treq & NVMF_TREQ_DISABLE_SQFLOW && disable_sqflow) {
++		len = sprintf(p, ",disable_sqflow");
++		if (len < 0)
++			return -EINVAL;
++		p += len;
++	}
 +
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-@@ -607,6 +613,7 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
- 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
- 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
-+	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
- 	{ NVMF_OPT_ERR,			NULL			}
+ 	if (discover)
+-		return do_discover(argstr, true);
++		ret = do_discover(argstr, true);
+ 	else
+-		return add_ctrl(argstr);
++		ret = add_ctrl(argstr);
++	if (ret == -EINVAL && e->treq & NVMF_TREQ_DISABLE_SQFLOW) {
++		/* disable_sqflow param might not be supported, try without it */
++		disable_sqflow = false;
++		goto retry;
++	}
++	return ret;
+ }
+ 
+ static int connect_ctrls(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+@@ -935,6 +957,7 @@ int connect(const char *desc, int argc, char **argv)
+ 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
+ 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
+ 		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
++		{"disable_sqflow", 'd', "", CFG_NONE, &cfg.disable_sqflow, no_argument, "disable controller sq flow control (default false)" },
+ 		{NULL},
+ 	};
+ 
+diff --git a/linux/nvme.h b/linux/nvme.h
+index 1ad970a4c89a..a6a44b066267 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -58,9 +58,10 @@ enum {
+ 
+ /* Transport Requirements codes for Discovery Log Page entry TREQ field */
+ enum {
+-	NVMF_TREQ_NOT_SPECIFIED	= 0,	/* Not specified */
+-	NVMF_TREQ_REQUIRED	= 1,	/* Required */
+-	NVMF_TREQ_NOT_REQUIRED	= 2,	/* Not Required */
++	NVMF_TREQ_NOT_SPECIFIED	= 0,		/* Not specified */
++	NVMF_TREQ_REQUIRED	= 1,		/* Required */
++	NVMF_TREQ_NOT_REQUIRED	= 2,		/* Not Required */
++	NVMF_TREQ_DISABLE_SQFLOW = (1 << 2),	/* SQ flow control disable supported */
  };
  
-@@ -817,6 +824,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 		case NVMF_OPT_DUP_CONNECT:
- 			opts->duplicate_connect = true;
- 			break;
-+		case NVMF_OPT_DISABLE_SQFLOW:
-+			opts->disable_sqflow = true;
-+			break;
- 		default:
- 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
- 				p);
-@@ -933,7 +943,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
- #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
- #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
- 				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
--				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT)
-+				 NVMF_OPT_HOST_ID | NVMF_OPT_DUP_CONNECT |\
-+				 NVMF_OPT_DISABLE_SQFLOW)
- 
- static struct nvme_ctrl *
- nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 6ea6275f332a..ecd9a006a091 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -58,6 +58,7 @@ enum {
- 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
- 	NVMF_OPT_HOST_ID	= 1 << 12,
- 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
-+	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
- };
- 
- /**
-@@ -101,6 +102,7 @@ struct nvmf_ctrl_options {
- 	unsigned int		kato;
- 	struct nvmf_host	*host;
- 	int			max_reconnects;
-+	bool			disable_sqflow;
- };
- 
- /*
+ /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
 -- 
 2.17.1
