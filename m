@@ -1,28 +1,54 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Mon, 19 Nov 2018 11:00:24 -0800
-Subject: [PATCH 3/7] nvme-fc: remove unused poll implementation
-In-Reply-To: <5badecdb-cd80-c1ab-bb9d-72880800bb1c@kernel.dk>
-References: <20181117214354.822-1-axboe@kernel.dk>
- <20181117214354.822-4-axboe@kernel.dk> <20181119075904.GC9622@infradead.org>
- <5badecdb-cd80-c1ab-bb9d-72880800bb1c@kernel.dk>
-Message-ID: <b3a8a5a0-3788-b8ae-57d4-7550f56f0400@broadcom.com>
+Date: Mon, 19 Nov 2018 12:38:24 -0800
+Subject: [PATCH v4 1/5] qla2xxx_nvmet: Add FC-NVMe Target Link Service
+ request handling
+In-Reply-To: <20181031164059.6286-2-himanshu.madhani@cavium.com>
+References: <20181031164059.6286-1-himanshu.madhani@cavium.com>
+ <20181031164059.6286-2-himanshu.madhani@cavium.com>
+Message-ID: <a0034841-5c6e-5072-d24d-3c09519bb9cd@broadcom.com>
 
 
 
-On 11/19/2018 7:19 AM, Jens Axboe wrote:
-> On 11/19/18 12:59 AM, Christoph Hellwig wrote:
->> On Sat, Nov 17, 2018@02:43:50PM -0700, Jens Axboe wrote:
->>> This relies on the fc taget ops setting ->poll_queue, which
->>> nobody does. Otherwise it just checks if something has
->>> completed, which isn't very useful.
->> Please also remove the unused ->poll_queue method.
->>
->> Otherwise looks fine:
->>
->> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Sure, will do.
+On 10/31/2018 9:40 AM, Himanshu Madhani wrote:
+> From: Anil Gurumurthy <anil.gurumurthy at cavium.com>
 >
+> This patch provides link service pass through feature handling
+> in the driver. This feature is implemented mainly by the firmware
+> and the same implementation is handled in the driver via an
+> IOCB interface.
+>
+> Signed-off-by: Anil Gurumurthy <anil.gurumurthy at cavium.com>
+> Signed-off-by: Giridhar Malavali <giridhar.malavali at cavium.com>
+> Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
+> Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
+> ---
+>
+> +
+> +/*
+> + * Used by FC-NVMe Target
+> + */
+> +int qla_nvmet_ls(srb_t *sp, void *rsp_pkt);
+> +int qlt_send_els_resp(srb_t *sp, void *pkt);
+> +
+> ...
+>   
+> +int qlt_send_els_resp(srb_t *sp, void *pkt)
+> +{
+> +	return 0;
+> +}
+> +
+> +int
+> +qla_nvmet_ls(srb_t *sp, void *rsp_pkt)
+> +{
+> +	return 0;
+> +}
+> +
+>   void qlt_response_pkt_all_vps(struct scsi_qla_host *vha,
+>   	struct rsp_que *rsp, response_t *pkt)
+>   {
 
-Looks fine on my end
+Rather than add these 2 routines in now, only to remove them in patch 3 
+- you can leave the stubs, just make the prototypes correct.? Then patch 
+3 can flush them out.
 
-Reviewed-by:? James Smart <jsmart2021 at gmail.com>
+- james
