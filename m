@@ -1,50 +1,47 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 15:14:44 -0800
-Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
-In-Reply-To: <20181119.145343.2254073323355763213.davem@davemloft.net>
-References: <20181115171626.9306-11-sagi@lightbitslabs.com>
- <20181117.121510.1754018619653365187.davem@davemloft.net>
- <21b60ffc-d9eb-2f2e-fa1a-891f7f8d5239@grimberg.me>
- <20181119.145343.2254073323355763213.davem@davemloft.net>
-Message-ID: <f4997fa5-a0f1-2783-4732-15fbd7fcafd8@grimberg.me>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 19 Nov 2018 15:16:39 -0800
+Subject: [PATCH] nvmet: fix the structure member indentation
+Message-ID: <20181119231639.15790-1-chaitanya.kulkarni@wdc.com>
 
+This is a cleanup patch which fixes the structure member indentation
+introduced by the p2p:
 
->> I would love you to look at skb_copy_and_hash_datagram_iter as these
->> changes will require an ack from you.
-> 
-> My first impression is that we now have this kind of code pattern
-> in at least two main places and now this will be a third.
-> 
-> I know that nobody likes callbacks because of spectre, but all of
-> these cases could be done with something like:
-> 
-> int __skb_datagram_iter(const struct sk_buff *skb, int offset,
-> 			struct iov_iter *to, int len,
-> 			int (*cb)(void *, int, struct iov_iter *, void *),
-> 			void *data)
-> {
-> 	...
-> 		n = cb(skb->data + offset, copy, to, data);
-> 	...
-> }
-> 
-> You get the idea.  Then we have one version of all the loops and
-> the different (copy, copy+csum, copy+hash) cases all can be
-> handled by __skb_datagram_iter() but just with a different 'cb'
-> and private 'data'.
+commit c6925093d0b2 ("nvmet: Optionally use PCI P2P memory").
+We don't change any functionality in this patch.
 
-I already thought about that, but the fact that we copy both a buffer
-and a page to the iter (in the most general case) we'd have to carry
-two callbacks for indirection.. That wasn't something I thought as
-acceptable...
+This is needed so that any future members will also follow the uniform
+indentation.
 
-I guess we could rework skb_copy_datagram_iter to not call
-copy_page_to_iter and open-code kmapping so we can get away with a
-single code path? Unless I'm missing something?
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/nvmet.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Also, looking a bit closer there is a slight difference between the copy
-vs. the copy_and_csum variants. copy allows for a short_copy if we copy
-less than we expect while the csum faults it. I'm thinking that the
-copy_and_hash variant should also fault? Although I'm not sure I
-understand the fault entirely as csum is supposed to be cumulative, any
-insight?
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 03988fe9d915..ac2f7e58552c 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -199,8 +199,8 @@ struct nvmet_ctrl {
+ 	char			subsysnqn[NVMF_NQN_FIELD_LEN];
+ 	char			hostnqn[NVMF_NQN_FIELD_LEN];
+ 
+-	struct device *p2p_client;
+-	struct radix_tree_root p2p_ns_map;
++	struct device		*p2p_client;
++	struct radix_tree_root	p2p_ns_map;
+ };
+ 
+ struct nvmet_subsys {
+@@ -313,8 +313,8 @@ struct nvmet_req {
+ 	void (*execute)(struct nvmet_req *req);
+ 	const struct nvmet_fabrics_ops *ops;
+ 
+-	struct pci_dev *p2p_dev;
+-	struct device *p2p_client;
++	struct pci_dev		*p2p_dev;
++	struct device		*p2p_client;
+ };
+ 
+ extern struct workqueue_struct *buffered_io_wq;
+-- 
+2.17.0
