@@ -1,59 +1,31 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Mon, 19 Nov 2018 09:56:50 -0500
-Subject: nvme: allow ANA support to be independent of native multipathing
-In-Reply-To: <20181119093938.GA11757@lst.de>
-References: <20181114174746.GA18526@redhat.com>
- <87c931e5-4ac9-1795-8d40-cc5541d3ebcf@suse.de>
- <20181115174605.GA19782@redhat.com> <20181116091458.GA17267@lst.de>
- <37098edd-4dea-b58f-bca6-3be9af8ec4ee@suse.de>
- <20181116094947.GA19296@lst.de>
- <bbaf4637-209c-5cfe-2749-3fcc54f7a35f@suse.de>
- <20181116101752.GA21531@lst.de> <20181116192802.GA30057@redhat.com>
- <20181119093938.GA11757@lst.de>
-Message-ID: <20181119145650.GB13470@redhat.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 19 Nov 2018 08:18:52 -0700
+Subject: [PATCH] nvme: default to 0 poll queues
+In-Reply-To: <20181119075737.GA10256@lst.de>
+References: <a2d999c8-135a-745f-07c2-e6c2dc52fff1@kernel.dk>
+ <20181119075737.GA10256@lst.de>
+Message-ID: <74ea552a-d942-b741-e85a-b3d3bc4dc2b2@kernel.dk>
 
-On Mon, Nov 19 2018 at  4:39am -0500,
-Christoph Hellwig <hch@lst.de> wrote:
-
-> On Fri, Nov 16, 2018@02:28:02PM -0500, Mike Snitzer wrote:
-> > You rejected the idea of allowing fine-grained control over whether
-> > native NVMe multipathing is enabled or not on a per-namespace basis.
-> > All we have is the coarse-grained nvme_core.multipath=N knob.  Now
-> > you're forecasting removing even that.  Please don't do that.
+On 11/19/18 12:57 AM, Christoph Hellwig wrote:
+> On Sat, Nov 17, 2018@10:06:20AM -0700, Jens Axboe wrote:
+>> We need a better way of configuring this, and given that
+>> polling is (still) a bit niche, let's default to using
+>> 0 poll queues. That way we'll have the same read/write/poll
+>> behavior as 4.20, and users that want to test/use polling
+>> are required to do manual configuration of the number of
+>> poll queues.
+>>
+>> Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > 
-> The whole point is that this hook was intended as a band aid for the
-> hypothetical pre-existing setups.  Not ever for new development.
-
-It pains me that you're marching us towards increased conflict that
-needs resolution through more formal means.  And that now I'm going to
-have to document the timeline of your authoritarian approach to
-stifling another Linux maintainer's freedom to do his job of delivering
-on functionality I've been depended on for many years.
-
-> > Please, PLEASE take v2 of this patch.. please? ;)
+> Looks good (except that you could use more of each line for the
+> commit log).
 > 
-> See the previous mail for the plan ahead.   I'm sick and tired of you
-> trying to sneak your new developemts back in.
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> 
+> Given that the poll queues were introduced in the block tree, can you
+> queue it up there?
 
-I've only ever posted patches in the open and never has it been with the
-idea of sneaking anything in.  Miscategorizing my actions as such is a
-gross abuse that I will not tolerate.
+Yep will do, stretched to 72 as well :-)
 
-If we were to confine ourselves to this v2 patch I pleaded with you to
-take: https://lkml.org/lkml/2018/11/17/4
-
-1) Hannes proposed a simplistic patch that didn't account for the fact
-   that NVMe's ana workqueue wouldn't get kicked, his intent was to make
-   ANA work independent of your native multipathing.  (The fact he or I
-   even need to post such patches, to unwind your tight-coupling of ANA
-   and multipathing, speaks to how you've calculatingly undermined any
-   effort to implement proper NVMe multipathing outside of the NVMe
-   driver)
-
-2) ANA and multipathing are completely disjoint on an NVMe spec level.
-   You know this.
-
-SO: will you be taking my v2 patch for 4.21 or not?
-
-Please advise, thanks.
-Mike
+-- 
+Jens Axboe
