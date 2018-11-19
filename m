@@ -1,36 +1,30 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 13:26:12 -0800
-Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
-In-Reply-To: <20181117.121510.1754018619653365187.davem@davemloft.net>
-References: <20181115171626.9306-1-sagi@lightbitslabs.com>
- <20181115171626.9306-11-sagi@lightbitslabs.com>
- <20181117.121510.1754018619653365187.davem@davemloft.net>
-Message-ID: <21b60ffc-d9eb-2f2e-fa1a-891f7f8d5239@grimberg.me>
+From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Mon, 19 Nov 2018 13:35:30 -0800
+Subject: [PATCH] nvmet: use unlikely for req status check
+Message-ID: <20181119213530.7417-1-chaitanya.kulkarni@wdc.com>
 
+This patch adds unlikely in the nvmet request completion path for the 
+status check in the low level function __nvmet_req_complete.
+This is helpful in the scenario where host and target connection is
+working smoothly.
 
->> +static unsigned nvmet_tcp_recv_budget = 8;
->> +module_param_named(recv_budget, nvmet_tcp_recv_budget, int, S_IRUGO | S_IWUSR);
->> +MODULE_PARM_DESC(recv_budget, "recvs budget");
->> +
->> +static unsigned nvmet_tcp_send_budget = 8;
->> +module_param_named(send_budget, nvmet_tcp_send_budget, int, S_IRUGO | S_IWUSR);
->> +MODULE_PARM_DESC(send_budget, "sends budget");
->> +
->> +static unsigned nvmet_tcp_io_work_budget = 64;
->> +module_param_named(io_work_budget, nvmet_tcp_io_work_budget, int, S_IRUGO | S_IWUSR);
->> +MODULE_PARM_DESC(io_work_budget, "io work budget");
-> 
-> I strongly suggest moving away from module parameters for this stuff.
-> 
-> Create a genetlink socket family and allow run time configuration of these knobs
-> by the user.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
+---
+ drivers/nvme/target/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for the feedback Dave.
-
-Given that these are non-trivial knobs to configure at runtime, I think
-that I'll degenerate them to sane defaults for the initial submission
-and figure out what interface makes sense afterwards.
-
-Now that I have your attention ;)
-I would love you to look at skb_copy_and_hash_datagram_iter as these
-changes will require an ack from you.
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index e3e158ff207a..ac98e9212274 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -602,7 +602,7 @@ static void __nvmet_req_complete(struct nvmet_req *req, u16 status)
+ 	u32 old_sqhd, new_sqhd;
+ 	u16 sqhd;
+ 
+-	if (status)
++	if (unlikely(status))
+ 		nvmet_set_status(req, status);
+ 
+ 	if (req->sq->size) {
+-- 
+2.17.0
