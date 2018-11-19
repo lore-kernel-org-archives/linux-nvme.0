@@ -1,29 +1,35 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 14:53:16 -0800
-Subject: [PATCH nvme-cli] nvme_fc auto-connect scripts
-In-Reply-To: <20181116080024.12078-1-hare@suse.de>
-References: <20181116080024.12078-1-hare@suse.de>
-Message-ID: <df49114f-99e9-cca0-c99e-2df237c910c2@grimberg.me>
+From: davem@davemloft.net (David Miller)
+Date: Mon, 19 Nov 2018 14:53:43 -0800 (PST)
+Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
+In-Reply-To: <21b60ffc-d9eb-2f2e-fa1a-891f7f8d5239@grimberg.me>
+References: <20181115171626.9306-11-sagi@lightbitslabs.com>
+ <20181117.121510.1754018619653365187.davem@davemloft.net>
+ <21b60ffc-d9eb-2f2e-fa1a-891f7f8d5239@grimberg.me>
+Message-ID: <20181119.145343.2254073323355763213.davem@davemloft.net>
 
+From: Sagi Grimberg <sagi@grimberg.me>
+Date: Mon, 19 Nov 2018 13:26:12 -0800
 
-> From: James Smart <jsmart2021 at gmail.com>
-> 
-> Sagi recently posted a "one-shot" call to nvme-connect via a systemd
-> script. FC has no problems operating with it assuming all the required
-> connect fields are present (host_traddr required).
+> I would love you to look at skb_copy_and_hash_datagram_iter as these
+> changes will require an ack from you.
 
+My first impression is that we now have this kind of code pattern
+in at least two main places and now this will be a third.
 
-I think that this is a good approach. Can we add a preparatory patch
-that will allow nvme-cli to accept nil/none arguments? This way
-we can have the kernel shoot consistent udev events where parameters
-can stay don't-care and we can have the same rule...
+I know that nobody likes callbacks because of spectre, but all of
+these cases could be done with something like:
 
-If nvme-cli can accept a command in the form:
-nvme connect-all --traddr=<a> --host-traddr=<b> --trsvcid=none
+int __skb_datagram_iter(const struct sk_buff *skb, int offset,
+			struct iov_iter *to, int len,
+			int (*cb)(void *, int, struct iov_iter *, void *),
+			void *data)
+{
+	...
+		n = cb(skb->data + offset, copy, to, data);
+	...
+}
 
-I think we can consolidate a bit more (it will be a different device
-because for IP stuff the device will be the controller char device).
-
-Perhaps we should change the name 70-nvmefc-autoconnect.rules to
-70-nvmf-autoconnect.rules that will contain rules fc and IP in the
-same rule file...
+You get the idea.  Then we have one version of all the loops and
+the different (copy, copy+csum, copy+hash) cases all can be
+handled by __skb_datagram_iter() but just with a different 'cb'
+and private 'data'.
