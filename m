@@ -1,36 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 13:21:58 -0800
-Subject: [PATCH 05/11] nvmet: Add install_queue callout
-In-Reply-To: <af370da9-3d56-e1a8-27db-c0a8e9291417@mellanox.com>
+Date: Mon, 19 Nov 2018 13:26:12 -0800
+Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
+In-Reply-To: <20181117.121510.1754018619653365187.davem@davemloft.net>
 References: <20181115171626.9306-1-sagi@lightbitslabs.com>
- <20181115171626.9306-6-sagi@lightbitslabs.com>
- <af370da9-3d56-e1a8-27db-c0a8e9291417@mellanox.com>
-Message-ID: <98230184-074a-84cf-3aa5-8ad30f2b5339@grimberg.me>
+ <20181115171626.9306-11-sagi@lightbitslabs.com>
+ <20181117.121510.1754018619653365187.davem@davemloft.net>
+Message-ID: <21b60ffc-d9eb-2f2e-fa1a-891f7f8d5239@grimberg.me>
 
 
->> diff --git a/drivers/nvme/target/fabrics-cmd.c 
->> b/drivers/nvme/target/fabrics-cmd.c
->> index 1f05d8507e35..a84668e8939c 100644
->> --- a/drivers/nvme/target/fabrics-cmd.c
->> +++ b/drivers/nvme/target/fabrics-cmd.c
->> @@ -117,6 +117,15 @@ static u16 nvmet_install_queue(struct nvmet_ctrl 
->> *ctrl, struct nvmet_req *req)
->> ????? nvmet_sq_setup(ctrl, req->sq, qid, sqsize + 1,
->> ????????????? !!(c->cattr & NVME_CONNECT_DISABLE_SQFLOW));
+>> +static unsigned nvmet_tcp_recv_budget = 8;
+>> +module_param_named(recv_budget, nvmet_tcp_recv_budget, int, S_IRUGO | S_IWUSR);
+>> +MODULE_PARM_DESC(recv_budget, "recvs budget");
+>> +
+>> +static unsigned nvmet_tcp_send_budget = 8;
+>> +module_param_named(send_budget, nvmet_tcp_send_budget, int, S_IRUGO | S_IWUSR);
+>> +MODULE_PARM_DESC(send_budget, "sends budget");
+>> +
+>> +static unsigned nvmet_tcp_io_work_budget = 64;
+>> +module_param_named(io_work_budget, nvmet_tcp_io_work_budget, int, S_IRUGO | S_IWUSR);
+>> +MODULE_PARM_DESC(io_work_budget, "io work budget");
 > 
-> what is your code base ? does SQFLOW must for TCP ?
-
-Not really, just happens to sit on top..
-
->> +??? if (ctrl->ops->install_queue) {
->> +??????? int ret = ctrl->ops->install_queue(req->sq);
->> +??????? if (ret) {
->> +??????????? pr_err("failed to install queue %d cntlid %d ret %d\n",
->> +??????????????? qid, ret, ctrl->cntlid);
->> +??????????? return NVME_SC_CONNECT_INVALID_PARAM | NVME_SC_DNR;
+> I strongly suggest moving away from module parameters for this stuff.
 > 
-> I'm not sure regarding the INVALID_PARAM rc.
-> 
-> maybe use NVME_SC_INTERNAL ?
+> Create a genetlink socket family and allow run time configuration of these knobs
+> by the user.
 
-You're right, perhaps we should propagate ->install_queue() status.
+Thanks for the feedback Dave.
+
+Given that these are non-trivial knobs to configure at runtime, I think
+that I'll degenerate them to sane defaults for the initial submission
+and figure out what interface makes sense afterwards.
+
+Now that I have your attention ;)
+I would love you to look at skb_copy_and_hash_datagram_iter as these
+changes will require an ack from you.
