@@ -1,22 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 19 Nov 2018 10:00:48 -0700
-Subject: Two M.2 NVMe drives with same NQN, one gets removed
-In-Reply-To: <CAGmwwfc=g+4h12qMBvRVJoE66Z70kzzfkabjyxLC=d7LZp627A@mail.gmail.com>
-References: <CAGmwwfeJEVkw2uf1oVoEYgNtuLPRrDqWHXQi-KXTdofsUdH2Dg@mail.gmail.com>
- <20181117013337.GA23062@localhost.localdomain>
- <CAGmwwfc=g+4h12qMBvRVJoE66Z70kzzfkabjyxLC=d7LZp627A@mail.gmail.com>
-Message-ID: <20181119170048.GC26595@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 19 Nov 2018 11:00:24 -0800
+Subject: [PATCH 3/7] nvme-fc: remove unused poll implementation
+In-Reply-To: <5badecdb-cd80-c1ab-bb9d-72880800bb1c@kernel.dk>
+References: <20181117214354.822-1-axboe@kernel.dk>
+ <20181117214354.822-4-axboe@kernel.dk> <20181119075904.GC9622@infradead.org>
+ <5badecdb-cd80-c1ab-bb9d-72880800bb1c@kernel.dk>
+Message-ID: <b3a8a5a0-3788-b8ae-57d4-7550f56f0400@broadcom.com>
 
-On Sun, Nov 18, 2018@10:55:11AM -0800, John Van Bockel wrote:
-> That's good news and very much appreciate the information and all 
-> that you do for the open source community.  Is this an update for the 
-> 760p NVMe drives or instead a UEFI update for the NUC8i7HVK?  
-> Either way, good news.  Just wondering which I'm keeping an eye out 
-> for.  
 
-It's a 760p update, and looks like it was released earlier this month:
 
-  https://downloadcenter.intel.com/download/28320/Known-Issue-Intel-SSD-760p-Pro-7600p-Series-SubNQN-Conflict-on-Linux
+On 11/19/2018 7:19 AM, Jens Axboe wrote:
+> On 11/19/18 12:59 AM, Christoph Hellwig wrote:
+>> On Sat, Nov 17, 2018@02:43:50PM -0700, Jens Axboe wrote:
+>>> This relies on the fc taget ops setting ->poll_queue, which
+>>> nobody does. Otherwise it just checks if something has
+>>> completed, which isn't very useful.
+>> Please also remove the unused ->poll_queue method.
+>>
+>> Otherwise looks fine:
+>>
+>> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Sure, will do.
+>
 
-Sorry I missed that update, otherwise I could have sent you that link
-last week.
+Looks fine on my end
+
+Reviewed-by:? James Smart <jsmart2021 at gmail.com>
