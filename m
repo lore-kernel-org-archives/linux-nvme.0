@@ -1,47 +1,25 @@
-From: chaitanya.kulkarni@wdc.com (Chaitanya Kulkarni)
-Date: Mon, 19 Nov 2018 15:16:39 -0800
-Subject: [PATCH] nvmet: fix the structure member indentation
-Message-ID: <20181119231639.15790-1-chaitanya.kulkarni@wdc.com>
+From: davem@davemloft.net (David Miller)
+Date: Mon, 19 Nov 2018 15:18:05 -0800 (PST)
+Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
+In-Reply-To: <f4997fa5-a0f1-2783-4732-15fbd7fcafd8@grimberg.me>
+References: <21b60ffc-d9eb-2f2e-fa1a-891f7f8d5239@grimberg.me>
+ <20181119.145343.2254073323355763213.davem@davemloft.net>
+ <f4997fa5-a0f1-2783-4732-15fbd7fcafd8@grimberg.me>
+Message-ID: <20181119.151805.2250212740843808194.davem@davemloft.net>
 
-This is a cleanup patch which fixes the structure member indentation
-introduced by the p2p:
+From: Sagi Grimberg <sagi@grimberg.me>
+Date: Mon, 19 Nov 2018 15:14:44 -0800
 
-commit c6925093d0b2 ("nvmet: Optionally use PCI P2P memory").
-We don't change any functionality in this patch.
+> Also, looking a bit closer there is a slight difference between the
+> copy vs. the copy_and_csum variants. copy allows for a short_copy if
+> we copy less than we expect while the csum faults it. I'm thinking
+> that the copy_and_hash variant should also fault? Although I'm not
+> sure I understand the fault entirely as csum is supposed to be
+> cumulative, any insight?
 
-This is needed so that any future members will also follow the uniform
-indentation.
+When we are writing and signal an error, sockets have this recurring
+pattern where we return immediately the amount of bytes successfully
+transferred.  Then on the next sendmsg() call we give the error.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at wdc.com>
----
- drivers/nvme/target/nvmet.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 03988fe9d915..ac2f7e58552c 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -199,8 +199,8 @@ struct nvmet_ctrl {
- 	char			subsysnqn[NVMF_NQN_FIELD_LEN];
- 	char			hostnqn[NVMF_NQN_FIELD_LEN];
- 
--	struct device *p2p_client;
--	struct radix_tree_root p2p_ns_map;
-+	struct device		*p2p_client;
-+	struct radix_tree_root	p2p_ns_map;
- };
- 
- struct nvmet_subsys {
-@@ -313,8 +313,8 @@ struct nvmet_req {
- 	void (*execute)(struct nvmet_req *req);
- 	const struct nvmet_fabrics_ops *ops;
- 
--	struct pci_dev *p2p_dev;
--	struct device *p2p_client;
-+	struct pci_dev		*p2p_dev;
-+	struct device		*p2p_client;
- };
- 
- extern struct workqueue_struct *buffered_io_wq;
--- 
-2.17.0
+I don't know if that is what is influencing the behavior here or not
+but it could be.
