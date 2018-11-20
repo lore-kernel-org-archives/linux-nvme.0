@@ -1,36 +1,105 @@
-From: davem@davemloft.net (David Miller)
-Date: Mon, 19 Nov 2018 17:44:35 -0800 (PST)
-Subject: [PATCH 10/11] nvmet-tcp: add NVMe over TCP target driver
-In-Reply-To: <0de07d6d-ed90-df0e-5710-1f5cdddd6187@grimberg.me>
-References: <f4997fa5-a0f1-2783-4732-15fbd7fcafd8@grimberg.me>
- <20181119.151805.2250212740843808194.davem@davemloft.net>
- <0de07d6d-ed90-df0e-5710-1f5cdddd6187@grimberg.me>
-Message-ID: <20181119.174435.86984692860441620.davem@davemloft.net>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 19 Nov 2018 19:00:01 -0800
+Subject: [PATCH v2 00/14] TCP transport binding for NVMe over Fabrics
+Message-ID: <20181120030019.31738-1-sagi@grimberg.me>
 
-From: Sagi Grimberg <sagi@grimberg.me>
-Date: Mon, 19 Nov 2018 15:24:13 -0800
+Changes from v1:
+- unified skb_copy_datagram_iter and skb_copy_and_csum_datagram (and the
+  new skb_hash_and_copy_datagram_iter) to a single code path
+- removed nvmet modparam budgets (made them a define set to their default
+  values)
+- fixed nvme-tcp host chained r2t transfers reported off-list
+- made .install_queue callout return nvme status code
+- Added some review tags
+- rebased on top of nvme-4.21 branch (nvme tree) + sqflow disable patches
 
-> 
->>> Also, looking a bit closer there is a slight difference between the
->>> copy vs. the copy_and_csum variants. copy allows for a short_copy if
->>> we copy less than we expect while the csum faults it. I'm thinking
->>> that the copy_and_hash variant should also fault? Although I'm not
->>> sure I understand the fault entirely as csum is supposed to be
->>> cumulative, any insight?
->> When we are writing and signal an error, sockets have this recurring
->> pattern where we return immediately the amount of bytes successfully
->> transferred.  Then on the next sendmsg() call we give the error.
->> I don't know if that is what is influencing the behavior here or not
->> but it could be.
-> 
-> That makes sense... Does recvmsg() have the same semantics? this is
-> the
-> rx path where we copy fragments to an iter..
+This patch set implements the NVMe over Fabrics TCP host and the target
+drivers. Now NVMe over Fabrics can run on every Ethernet port in the world.
+The implementation conforms to NVMe over Fabrics 1.1 specification (which
+will include already publicly available NVMe/TCP transport binding, TP 8000).
 
-I just checked and TCP at the very least behaves this way on recvmsg()
-(report short length, then -EFAULT on next recvmsg() call).
+The host driver hooks into the NVMe host stack and implements the TCP
+transport binding for NVMe over Fabrics. The NVMe over Fabrics TCP host
+driver is responsible for establishing a NVMe/TCP connection, TCP event
+and error handling and data-plane messaging and stream processing.
 
-It maintains a local variable "copied" which is increased every time
-skb_copy_datagram_msg() is successful.  If in a subsequent iteration
-of the loop skb_copy_datagram_msg() returns -EFAULT, it will instead
-return 'copied' from recvmsg() if non-zero else the -EFAULT.
+The target driver hooks into the NVMe target core stack and implements
+the TCP transport binding. The NVMe over Fabrics target driver is
+responsible for accepting and establishing NVMe/TCP connections, TCP
+event and error handling, and data-plane messaging and stream processing.
+
+The implementation of both the host and target are fairly simple and
+straight-forward. Every NVMe queue is backed by a TCP socket that provides
+us reliable, in-order delivery of fabrics capsules and/or data.
+
+All NVMe queues are sharded over a private bound workqueue such that we
+always have a single context handling the byte stream and we don't need
+to worry about any locking/serialization. In addition, close attention
+was paid to a completely non-blocking data plane to minimize context
+switching and/or unforced scheduling.
+
+I piggybacked nvme-cli patches to the set for completeness.
+
+Also, @netdev mailing list is cc'd as this patch set contains generic
+helpers for online digest calculation (patches 1-3).
+
+The patchset structure:
+- patches 1-6 are prep to add a helper for digest calculation online with data placement
+- patches 7-11 are preparatory patches for NVMe/TCP
+- patches 12-14 implements NVMe/TCP
+- patches 15-17 are nvme-cli additions for NVMe/TCP
+
+Thanks to the members of the Fabrics Linux Driver team that helped development,
+testing and benchmarking this work.
+
+Gitweb code is available at:
+
+	git://git.infradead.org/nvme.git nvme-tcp
+
+Sagi Grimberg (14):
+  ath6kl: add ath6kl_ prefix to crypto_type
+  datagram: open-code copy_page_to_iter
+  iov_iter: pass void csum pointer to csum_and_copy_to_iter
+  net/datagram: consolidate datagram copy to iter helpers
+  iov_iter: introduce hash_and_copy_to_iter helper
+  datagram: introduce skb_copy_and_hash_datagram_iter helper
+  nvme-core: add work elements to struct nvme_ctrl
+  nvmet: Add install_queue callout
+  nvmet: allow configfs tcp trtype configuration
+  nvme-fabrics: allow user passing header digest
+  nvme-fabrics: allow user passing data digest
+  nvme-tcp: Add protocol header
+  nvmet-tcp: add NVMe over TCP target driver
+  nvme-tcp: add NVMe over TCP host driver
+
+ drivers/net/wireless/ath/ath6kl/cfg80211.c |    2 +-
+ drivers/net/wireless/ath/ath6kl/common.h   |    2 +-
+ drivers/net/wireless/ath/ath6kl/wmi.c      |    6 +-
+ drivers/net/wireless/ath/ath6kl/wmi.h      |    6 +-
+ drivers/nvme/host/Kconfig                  |   15 +
+ drivers/nvme/host/Makefile                 |    3 +
+ drivers/nvme/host/fabrics.c                |   10 +
+ drivers/nvme/host/fabrics.h                |    4 +
+ drivers/nvme/host/fc.c                     |   18 +-
+ drivers/nvme/host/nvme.h                   |    2 +
+ drivers/nvme/host/rdma.c                   |   19 +-
+ drivers/nvme/host/tcp.c                    | 2306 ++++++++++++++++++++
+ drivers/nvme/target/Kconfig                |   10 +
+ drivers/nvme/target/Makefile               |    2 +
+ drivers/nvme/target/configfs.c             |    1 +
+ drivers/nvme/target/fabrics-cmd.c          |    9 +
+ drivers/nvme/target/nvmet.h                |    1 +
+ drivers/nvme/target/tcp.c                  | 1741 +++++++++++++++
+ include/linux/nvme-tcp.h                   |  189 ++
+ include/linux/nvme.h                       |    1 +
+ include/linux/skbuff.h                     |    3 +
+ include/linux/uio.h                        |    5 +-
+ lib/iov_iter.c                             |   19 +-
+ net/core/datagram.c                        |  158 +-
+ 24 files changed, 4406 insertions(+), 126 deletions(-)
+ create mode 100644 drivers/nvme/host/tcp.c
+ create mode 100644 drivers/nvme/target/tcp.c
+ create mode 100644 include/linux/nvme-tcp.h
+
+-- 
+2.17.1
