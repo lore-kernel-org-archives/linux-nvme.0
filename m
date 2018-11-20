@@ -1,83 +1,53 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 19:00:19 -0800
-Subject: [PATCH nvme-cli v2 17/14] fabrics: add transport header and data
- digest
-In-Reply-To: <20181120030019.31738-1-sagi@grimberg.me>
-References: <20181120030019.31738-1-sagi@grimberg.me>
-Message-ID: <20181120030019.31738-19-sagi@grimberg.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 20 Nov 2018 07:12:47 +0100
+Subject: [PATCHv3 0/3] nvme: NUMA locality for fabrics
+In-Reply-To: <58a66fee-0185-6ab4-3fe1-797d15d9badb@grimberg.me>
+References: <20181102095641.28504-1-hare@suse.de>
+ <20181116081241.GA14072@lst.de>
+ <c6b0e0f8-f22c-65b6-3657-1f078b0803e2@suse.de>
+ <20181116082359.GB14269@lst.de>
+ <58a66fee-0185-6ab4-3fe1-797d15d9badb@grimberg.me>
+Message-ID: <cc741191-12f3-91b0-df93-b6239f482aeb@suse.de>
 
-From: Sagi Grimberg <sagi@lightbitslabs.com>
+On 11/19/18 11:31 PM, Sagi Grimberg wrote:
+> 
+>>> If we can agree that we'll go for the round-robin scheduler I guess this
+>>> patchset can be retracted (for now).
+>>> There still might be some gain to be had, but it can be implemented 
+>>> as an
+>>> additional I/O policy.
+>>
+>> I don't think we can.? round-robin is fundamentally the wrong thing
+>> to do as you keep touching different cache lines.? If a customer really
+>> insists on round robin they are probably better off in a SCSI world..
+> 
+> While we often think that link aggregation is a thing of the past as
+> adapters keep getting faster, I guess that in some cases it can buy us
+> some benefits. Personally, as long as the round-robin policy stays ANA
+> aware I don't see the harm in offering it.
+> 
+Fully agreed here.
+It all comes down to the link latency.
+If the link latency is the main bottleneck multipathing will benefit 
+from round-robin (or any I/O scheduler, for that matter).
+And this it not just relevant for 'legacy' hardware; I've seen a 
+performance benefit on a 32G FC setup, which is pretty much state of the 
+art currently.
 
-This setting is enabling header and data digest over NVMe/TCP
-controllers.
+> And I agree that its often the wrong thing to do, which is why we
+> should never let it be the default policy.
+> 
+... Which is why I made it optional ...
 
-Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
----
- fabrics.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+> What I'm a bit struggling with is the implementation that is a bit
+> cumbersome IMO with constant clearing of the current_path. In this
+> policy there is no current_path really...
 
-diff --git a/fabrics.c b/fabrics.c
-index 3df273894632..1995f15c5e7b 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -62,6 +62,8 @@ static struct config {
- 	int  duplicate_connect;
- 	int  disable_sqflow;
- 	bool persistent;
-+	int  hdr_digest;
-+	int  data_digest;
- } cfg = { NULL };
- 
- #define BUF_SIZE		4096
-@@ -629,7 +631,9 @@ static int build_options(char *argstr, int max_len)
- 	    add_bool_argument(&argstr, &max_len, "duplicate_connect",
- 				cfg.duplicate_connect) ||
- 	    add_bool_argument(&argstr, &max_len, "disable_sqflow",
--				cfg.disable_sqflow))
-+				cfg.disable_sqflow) ||
-+	    add_bool_argument(&argstr, &max_len, "hdr_digest", cfg.hdr_digest) ||
-+	    add_bool_argument(&argstr, &max_len, "data_digest", cfg.data_digest))
- 		return -EINVAL;
- 
- 	return 0;
-@@ -710,6 +714,20 @@ retry:
- 		p += len;
- 	}
- 
-+	if (cfg.hdr_digest) {
-+		len = sprintf(p, ",hdr_digest");
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
-+	if (cfg.data_digest) {
-+		len = sprintf(p, ",data_digest");
-+		if (len < 0)
-+			return -EINVAL;
-+		p += len;
-+	}
-+
- 	switch (e->trtype) {
- 	case NVMF_TRTYPE_LOOP: /* loop */
- 		len = sprintf(p, ",transport=loop");
-@@ -957,6 +975,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 		{"reconnect-delay", 'c', "LIST", CFG_INT, &cfg.reconnect_delay, required_argument, "reconnect timeout period in seconds" },
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
- 		{"persistent",  'p', "LIST", CFG_NONE, &cfg.persistent,  no_argument, "persistent discovery connection" },
-+		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
-+		{"data_digest", 'G', "", CFG_NONE, &cfg.data_digest, no_argument, "enable transport protocol data digest (TCP transport)" },
- 		{NULL},
- 	};
- 
-@@ -1000,6 +1020,8 @@ int connect(const char *desc, int argc, char **argv)
- 		{"ctrl-loss-tmo",   'l', "LIST", CFG_INT, &cfg.ctrl_loss_tmo,   required_argument, "controller loss timeout period in seconds" },
- 		{"duplicate_connect", 'D', "", CFG_NONE, &cfg.duplicate_connect, no_argument, "allow duplicate connections between same transport host and subsystem port" },
- 		{"disable_sqflow", 'd', "", CFG_NONE, &cfg.disable_sqflow, no_argument, "disable controller sq flow control (default false)" },
-+		{"hdr_digest", 'g', "", CFG_NONE, &cfg.hdr_digest, no_argument, "enable transport protocol header digest (TCP transport)" },
-+		{"data_digest", 'G', "", CFG_NONE, &cfg.data_digest, no_argument, "enable transport protocol data digest (TCP transport)" },
- 		{NULL},
- 	};
- 
--- 
-2.17.1
+The 'current_path' setting serves neatly as a marker where to start the 
+search for the next round.
+When not setting it I would have had to introduce yet another variable; 
+with this approach I can model it without having to add additional stuff.
+
+Cheers,
+
+Hannes
