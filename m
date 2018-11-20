@@ -1,9 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 19:00:05 -0800
-Subject: [PATCH v2 04/14] datagram: consolidate datagram copy to iter helpers
+Date: Mon, 19 Nov 2018 19:00:06 -0800
+Subject: [PATCH v2 04/14] net/datagram: consolidate datagram copy to iter
+ helpers
 In-Reply-To: <20181120030019.31738-1-sagi@grimberg.me>
 References: <20181120030019.31738-1-sagi@grimberg.me>
-Message-ID: <20181120030019.31738-5-sagi@grimberg.me>
+Message-ID: <20181120030019.31738-6-sagi@grimberg.me>
 
 skb_copy_datagram_iter and skb_copy_and_csum_datagram are essentialy
 the same but with a couple of differences: The first is the copy
