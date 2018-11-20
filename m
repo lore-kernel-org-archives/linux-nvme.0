@@ -1,79 +1,64 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 19:00:07 -0800
-Subject: [PATCH v2 05/14] iov_iter: introduce hash_and_copy_to_iter helper
+Date: Mon, 19 Nov 2018 19:00:08 -0800
+Subject: [PATCH v2 06/14] datagram: introduce skb_copy_and_hash_datagram_iter
+ helper
 In-Reply-To: <20181120030019.31738-1-sagi@grimberg.me>
 References: <20181120030019.31738-1-sagi@grimberg.me>
-Message-ID: <20181120030019.31738-7-sagi@grimberg.me>
+Message-ID: <20181120030019.31738-8-sagi@grimberg.me>
 
-From: Sagi Grimberg <sagi@lightbitslabs.com>
+Introduce a helper to copy datagram into an iovec iterator
+but also update a predefined hash. This is useful for
+consumers of skb_copy_datagram_iter to also support inflight
+data digest without having to finish to copy and only then
+traverse the iovec and calculate the digest hash.
 
-Allow consumers that want to use iov iterator helpers and also update
-a predefined hash calculation online when copying data. This is useful
-when copying incoming network buffers to a local iterator and calculate
-a digest on the incoming stream. nvme-tcp host driver that will be
-introduced in following patches is the first consumer via
-skb_copy_and_hash_datagram_iter.
-
-Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- include/linux/uio.h |  3 +++
- lib/iov_iter.c      | 16 ++++++++++++++++
- 2 files changed, 19 insertions(+)
+ include/linux/skbuff.h |  3 +++
+ net/core/datagram.c    | 17 +++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 41d1f8d3313d..ecf584f6b82d 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/thread_info.h>
-+#include <crypto/hash.h>
- #include <uapi/linux/uio.h>
- 
- struct page;
-@@ -269,6 +270,8 @@ static inline void iov_iter_reexpand(struct iov_iter *i, size_t count)
- size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump, struct iov_iter *i);
- size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
- bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
-+size_t hash_and_copy_to_iter(const void *addr, size_t bytes, void *hashp,
-+		struct iov_iter *i);
- 
- int import_iovec(int type, const struct iovec __user * uvector,
- 		 unsigned nr_segs, unsigned fast_segs,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index db93531ca3e3..8a5f7b2ae346 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -6,6 +6,7 @@
- #include <linux/vmalloc.h>
- #include <linux/splice.h>
- #include <net/checksum.h>
-+#include <linux/scatterlist.h>
- 
- #define PIPE_PARANOIA /* for now */
- 
-@@ -1475,6 +1476,21 @@ size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump,
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 0ba687454267..b0b8d5653f0d 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -3309,6 +3309,9 @@ static inline int skb_copy_datagram_msg(const struct sk_buff *from, int offset,
  }
- EXPORT_SYMBOL(csum_and_copy_to_iter);
+ int skb_copy_and_csum_datagram_msg(struct sk_buff *skb, int hlen,
+ 				   struct msghdr *msg);
++int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
++			   struct iov_iter *to, int len,
++			   struct ahash_request *hash);
+ int skb_copy_datagram_from_iter(struct sk_buff *skb, int offset,
+ 				 struct iov_iter *from, int len);
+ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *frm);
+diff --git a/net/core/datagram.c b/net/core/datagram.c
+index 382543302ae5..e6a4fc845f72 100644
+--- a/net/core/datagram.c
++++ b/net/core/datagram.c
+@@ -492,6 +492,23 @@ int __skb_datagram_iter(const struct sk_buff *skb, int offset,
+ 	return 0;
+ }
  
-+size_t hash_and_copy_to_iter(const void *addr, size_t bytes, void *hashp,
-+		struct iov_iter *i)
++/**
++ *	skb_copy_and_hash_datagram_iter - Copy datagram to an iovec iterator
++ *          and update a hash.
++ *	@skb: buffer to copy
++ *	@offset: offset in the buffer to start copying from
++ *	@to: iovec iterator to copy to
++ *	@len: amount of data to copy from buffer to iovec
++ *      @hash: hash request to update
++ */
++int skb_copy_and_hash_datagram_iter(const struct sk_buff *skb, int offset,
++			   struct iov_iter *to, int len,
++			   struct ahash_request *hash)
 +{
-+	struct ahash_request *hash = hashp;
-+	struct scatterlist sg;
-+	size_t copied;
-+
-+	copied = copy_to_iter(addr, bytes, i);
-+	sg_init_one(&sg, addr, copied);
-+	ahash_request_set_crypt(hash, &sg, NULL, copied);
-+	crypto_ahash_update(hash);
-+	return copied;
++	return __skb_datagram_iter(skb, offset, to, len, true,
++			hash_and_copy_to_iter, hash);
 +}
-+EXPORT_SYMBOL(hash_and_copy_to_iter);
 +
- int iov_iter_npages(const struct iov_iter *i, int maxpages)
+ static size_t simple_copy_to_iter(const void *addr, size_t bytes,
+ 		void *data __always_unused, struct iov_iter *i)
  {
- 	size_t size = i->count;
 -- 
 2.17.1
