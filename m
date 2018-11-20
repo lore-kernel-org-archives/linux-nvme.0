@@ -1,79 +1,224 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Nov 2018 19:00:18 -0800
-Subject: [PATCH nvme-cli v2 16/14] fabrics: add tcp port tsas decoding
+Date: Mon, 19 Nov 2018 19:00:14 -0800
+Subject: [PATCH v2 12/14] nvme-tcp: Add protocol header
 In-Reply-To: <20181120030019.31738-1-sagi@grimberg.me>
 References: <20181120030019.31738-1-sagi@grimberg.me>
-Message-ID: <20181120030019.31738-18-sagi@grimberg.me>
+Message-ID: <20181120030019.31738-14-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-tcp tsas include sectype indication for unsecured/tls ports.
-
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- fabrics.c    | 14 ++++++++++++++
- linux/nvme.h | 10 ++++++++++
- 2 files changed, 24 insertions(+)
+ include/linux/nvme-tcp.h | 188 +++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h     |   1 +
+ 2 files changed, 189 insertions(+)
+ create mode 100644 include/linux/nvme-tcp.h
 
-diff --git a/fabrics.c b/fabrics.c
-index b4fac97253ba..3df273894632 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -141,6 +141,16 @@ static inline const char *treq_str(__u8 treq)
- 	return arg_str(treqs, ARRAY_SIZE(treqs), treq);
- }
- 
-+static const char * const sectypes[] = {
-+	[NVMF_TCP_SECTYPE_NONE]		= "none",
-+	[NVMF_TCP_SECTYPE_TLS]		= "tls",
-+};
-+
-+static inline const char *sectype_str(__u8 sectype)
-+{
-+	return arg_str(sectypes, ARRAY_SIZE(sectypes), sectype);
-+}
-+
- static const char * const prtypes[] = {
- 	[NVMF_RDMA_PRTYPE_NOT_SPECIFIED]	= "not specified",
- 	[NVMF_RDMA_PRTYPE_IB]			= "infiniband",
-@@ -450,6 +460,10 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- 			printf("rdma_pkey: 0x%04x\n",
- 				e->tsas.rdma.pkey);
- 			break;
-+		case NVMF_TRTYPE_TCP:
-+			printf("sectype: %s\n",
-+				sectype_str(e->tsas.tcp.sectype));
-+			break;
- 		}
- 	}
- }
-diff --git a/linux/nvme.h b/linux/nvme.h
-index 7a600c791877..68000eb8c1dc 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -91,6 +91,13 @@ enum {
- 	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
- };
- 
-+/* TCP port security type for  Discovery Log Page entry TSAS
+diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
+new file mode 100644
+index 000000000000..33c8afaf63bd
+--- /dev/null
++++ b/include/linux/nvme-tcp.h
+@@ -0,0 +1,188 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * NVMe over Fabrics TCP protocol header.
++ * Copyright (c) 2018 LightBits Labs. All rights reserved.
 + */
-+enum {
-+	NVMF_TCP_SECTYPE_NONE	= 0, /* No Security */
-+	NVMF_TCP_SECTYPE_TLS	= 1, /* Transport Layer Security */
++
++#ifndef _LINUX_NVME_TCP_H
++#define _LINUX_NVME_TCP_H
++
++#include <linux/nvme.h>
++
++#define NVME_TCP_DISC_PORT	8009
++#define NVME_TCP_ADMIN_CCSZ	SZ_8K
++
++enum nvme_tcp_pfv {
++	NVME_TCP_PFV_1_0 = 0x0,
 +};
 +
- #define NVME_AQ_DEPTH		32
- #define NVME_NR_AEN_COMMANDS	1
- #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
-@@ -1184,6 +1191,9 @@ struct nvmf_disc_rsp_page_entry {
- 			__u16	pkey;
- 			__u8	resv10[246];
- 		} rdma;
-+		struct tcp {
-+			__u8	sectype;
-+		} tcp;
- 	} tsas;
++enum nvme_tcp_fatal_error_status {
++	NVME_TCP_FES_INVALID_PDU_HDR		= 0x01,
++	NVME_TCP_FES_PDU_SEQ_ERR		= 0x02,
++	NVME_TCP_FES_HDR_DIGEST_ERR		= 0x03,
++	NVME_TCP_FES_DATA_OUT_OF_RANGE		= 0x04,
++	NVME_TCP_FES_R2T_LIMIT_EXCEEDED		= 0x05,
++	NVME_TCP_FES_DATA_LIMIT_EXCEEDED	= 0x05,
++	NVME_TCP_FES_UNSUPPORTED_PARAM		= 0x06,
++};
++
++enum nvme_tcp_digest_option {
++	NVME_TCP_HDR_DIGEST_ENABLE	= (1 << 0),
++	NVME_TCP_DATA_DIGEST_ENABLE	= (1 << 1),
++};
++
++enum nvme_tcp_pdu_type {
++	nvme_tcp_icreq		= 0x0,
++	nvme_tcp_icresp		= 0x1,
++	nvme_tcp_h2c_term	= 0x2,
++	nvme_tcp_c2h_term	= 0x3,
++	nvme_tcp_cmd		= 0x4,
++	nvme_tcp_rsp		= 0x5,
++	nvme_tcp_h2c_data	= 0x6,
++	nvme_tcp_c2h_data	= 0x7,
++	nvme_tcp_r2t		= 0x9,
++};
++
++enum nvme_tcp_pdu_flags {
++	NVME_TCP_F_HDGST		= (1 << 0),
++	NVME_TCP_F_DDGST		= (1 << 1),
++	NVME_TCP_F_DATA_LAST		= (1 << 2),
++	NVME_TCP_F_DATA_SUCCESS		= (1 << 3),
++};
++
++/**
++ * struct nvme_tcp_hdr - nvme tcp pdu common header
++ *
++ * @type:          pdu type
++ * @flags:         pdu specific flags
++ * @hlen:          pdu header length
++ * @pdo:           pdu data offset
++ * @plen:          pdu wire byte length
++ */
++struct nvme_tcp_hdr {
++	__u8	type;
++	__u8	flags;
++	__u8	hlen;
++	__u8	pdo;
++	__le32	plen;
++};
++
++/**
++ * struct nvme_tcp_icreq_pdu - nvme tcp initialize connection request pdu
++ *
++ * @hdr:           pdu generic header
++ * @pfv:           pdu version format
++ * @hpda:          host pdu data alignment (dwords, 0's based)
++ * @digest:        digest types enabled
++ * @maxr2t:        maximum r2ts per request supported
++ */
++struct nvme_tcp_icreq_pdu {
++	struct nvme_tcp_hdr	hdr;
++	__le16			pfv;
++	__u8			hpda;
++	__u8			digest;
++	__le32			maxr2t;
++	__u8			rsvd2[112];
++};
++
++/**
++ * struct nvme_tcp_icresp_pdu - nvme tcp initialize connection response pdu
++ *
++ * @hdr:           pdu common header
++ * @pfv:           pdu version format
++ * @cpda:          controller pdu data alignment (dowrds, 0's based)
++ * @digest:        digest types enabled
++ * @maxdata:       maximum data capsules per r2t supported
++ */
++struct nvme_tcp_icresp_pdu {
++	struct nvme_tcp_hdr	hdr;
++	__le16			pfv;
++	__u8			cpda;
++	__u8			digest;
++	__le32			maxdata;
++	__u8			rsvd[112];
++};
++
++/**
++ * struct nvme_tcp_term_pdu - nvme tcp terminate connection pdu
++ *
++ * @hdr:           pdu common header
++ * @fes:           fatal error status
++ * @fei:           fatal error information
++ */
++struct nvme_tcp_term_pdu {
++	struct nvme_tcp_hdr	hdr;
++	__le16			fes;
++	__le32			fei;
++	__u8			rsvd[8];
++};
++
++/**
++ * struct nvme_tcp_cmd_pdu - nvme tcp command capsule pdu
++ *
++ * @hdr:           pdu common header
++ * @cmd:           nvme command
++ */
++struct nvme_tcp_cmd_pdu {
++	struct nvme_tcp_hdr	hdr;
++	struct nvme_command	cmd;
++};
++
++/**
++ * struct nvme_tcp_rsp_pdu - nvme tcp response capsule pdu
++ *
++ * @hdr:           pdu common header
++ * @hdr:           nvme-tcp generic header
++ * @cqe:           nvme completion queue entry
++ */
++struct nvme_tcp_rsp_pdu {
++	struct nvme_tcp_hdr	hdr;
++	struct nvme_completion	cqe;
++};
++
++/**
++ * struct nvme_tcp_r2t_pdu - nvme tcp ready-to-transfer pdu
++ *
++ * @hdr:           pdu common header
++ * @command_id:    nvme command identifier which this relates to
++ * @ttag:          transfer tag (controller generated)
++ * @r2t_offset:    offset from the start of the command data
++ * @r2t_length:    length the host is allowed to send
++ */
++struct nvme_tcp_r2t_pdu {
++	struct nvme_tcp_hdr	hdr;
++	__u16			command_id;
++	__u16			ttag;
++	__le32			r2t_offset;
++	__le32			r2t_length;
++	__u8			rsvd[4];
++};
++
++/**
++ * struct nvme_tcp_data_pdu - nvme tcp data pdu
++ *
++ * @hdr:           pdu common header
++ * @command_id:    nvme command identifier which this relates to
++ * @ttag:          transfer tag (controller generated)
++ * @data_offset:   offset from the start of the command data
++ * @data_length:   length of the data stream
++ */
++struct nvme_tcp_data_pdu {
++	struct nvme_tcp_hdr	hdr;
++	__u16			command_id;
++	__u16			ttag;
++	__le32			data_offset;
++	__le32			data_length;
++	__u8			rsvd[4];
++};
++
++union nvme_tcp_pdu {
++	struct nvme_tcp_icreq_pdu	icreq;
++	struct nvme_tcp_icresp_pdu	icresp;
++	struct nvme_tcp_cmd_pdu		cmd;
++	struct nvme_tcp_rsp_pdu		rsp;
++	struct nvme_tcp_r2t_pdu		r2t;
++	struct nvme_tcp_data_pdu	data;
++};
++
++#endif /* _LINUX_NVME_TCP_H */
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 2f29b480042b..ad767fa0e902 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -52,6 +52,7 @@ enum {
+ enum {
+ 	NVMF_TRTYPE_RDMA	= 1,	/* RDMA */
+ 	NVMF_TRTYPE_FC		= 2,	/* Fibre Channel */
++	NVMF_TRTYPE_TCP		= 3,	/* TCP/IP */
+ 	NVMF_TRTYPE_LOOP	= 254,	/* Reserved for host usage */
+ 	NVMF_TRTYPE_MAX,
  };
- 
 -- 
 2.17.1
