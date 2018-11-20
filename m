@@ -1,25 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 20 Nov 2018 17:19:43 +0100
-Subject: [PATCH 0/2] nvme-multipath: round-robin I/O policy
-In-Reply-To: <f235714b-6f3c-eba7-4f37-5bef6dab600e@suse.de>
-References: <20181115122927.40431-1-hare@suse.de>
- <20181116082659.GA14334@lst.de>
- <f235714b-6f3c-eba7-4f37-5bef6dab600e@suse.de>
-Message-ID: <20181120161943.GA2755@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 20 Nov 2018 01:11:56 -0800
+Subject: [PATCH 6/7] block: make blk_poll() take a parameter on whether to
+ spin or not
+In-Reply-To: <04b6015e-2949-750d-01a0-640373b406ea@kernel.dk>
+References: <20181117214354.822-1-axboe@kernel.dk>
+ <20181117214354.822-7-axboe@kernel.dk> <20181119080544.GF9622@infradead.org>
+ <04b6015e-2949-750d-01a0-640373b406ea@kernel.dk>
+Message-ID: <5caad4a6-d9af-df12-1eed-6d2c9906457f@grimberg.me>
 
-On Tue, Nov 20, 2018@05:02:14PM +0100, Hannes Reinecke wrote:
-> Also once we abandon direct NUMA mapping there's no good reason why we 
-> should be selecting paths based on NUMA node; it might actually be better 
-> to use the core id here, as then we could map as many paths as we have 
-> CPUs.
 
-True.
+>> This opportunistic poll is pretty bogus now as we never set the HIPRI
+>> flag and it should probably be removed in a prep patch.  We should then
+>> later try to use a scheme similar to your aio polling for the nvme
+>> target as well.
+> 
+> I'll kill it in a pre-patch.
 
-> So in the end the round-robin scheduler was just easier to implement, and 
-> actually provided better performance on my testbed.
-
-Oh well.  I guess we can pick it up as a tribute to FC given that it
-isn't all that horrible.  I just hate using a dumb scheme like round
-robin when we otherwise spend all our time optimizing every last cycle
-and cache line.  I'll do another detailed review and will consider
-picking it up as a non-default choice.
+Agreed..
