@@ -1,46 +1,58 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 20 Nov 2018 10:12:14 -0800
-Subject: [PATCHv3 0/3] nvme: NUMA locality for fabrics
-In-Reply-To: <20181120094140.GA7742@lst.de>
-References: <20181102095641.28504-1-hare@suse.de>
- <20181116081241.GA14072@lst.de>
- <c6b0e0f8-f22c-65b6-3657-1f078b0803e2@suse.de>
- <20181116082359.GB14269@lst.de>
- <58a66fee-0185-6ab4-3fe1-797d15d9badb@grimberg.me>
- <cc741191-12f3-91b0-df93-b6239f482aeb@suse.de> <20181120094140.GA7742@lst.de>
-Message-ID: <e5c7ddfb-08d6-f133-d55d-41e3df965404@broadcom.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 20 Nov 2018 11:47:49 -0700
+Subject: [PATCH 1/3] nvme: enable multipathing by default
+In-Reply-To: <20181120162734.2013-2-hch@lst.de>
+References: <20181120162734.2013-1-hch@lst.de>
+ <20181120162734.2013-2-hch@lst.de>
+Message-ID: <20181120184749.GF26707@localhost.localdomain>
 
+On Tue, Nov 20, 2018@05:27:32PM +0100, Christoph Hellwig wrote:
+> And make it a little more clear that the only reason to disable it is
+> to optimize for size in constrained environment.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/Kconfig | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+> index 88a8b5916624..d2ae6954ce7e 100644
+> --- a/drivers/nvme/host/Kconfig
+> +++ b/drivers/nvme/host/Kconfig
+> @@ -16,12 +16,20 @@ config BLK_DEV_NVME
+>  config NVME_MULTIPATH
+>  	bool "NVMe multipath support"
+>  	depends on NVME_CORE
+> +	default y
+>  	---help---
+>  	   This option enables support for multipath access to NVMe
+>  	   subsystems.  If this option is enabled only a single
+>  	   /dev/nvmeXnY device will show up for each NVMe namespaces,
+>  	   even if it is accessible through multiple controllers.
+>  
+> +	   Say Y here unless you need to optimize for size in embedded
+> +	   systems that are never going to see multi-port NVMe devices.
+> +
+> +	   If you say N multiple ports of the same subsystem will show
+> +	   up as separate devices, and none of the normal block device
+> +	   exclusion mechanisms will work.
+> +
+>  config NVME_FABRICS
+>  	tristate
 
+This is okay with me, but I have one little follow-on I'd like to RFC here:
 
-On 11/20/2018 1:41 AM, Christoph Hellwig wrote:
-> On Tue, Nov 20, 2018@07:12:47AM +0100, Hannes Reinecke wrote:
->> Fully agreed here.
->> It all comes down to the link latency.
->> If the link latency is the main bottleneck multipathing will benefit from
->> round-robin (or any I/O scheduler, for that matter).
-> It still makes a lot more sense to try to have queues with an affinity
-> to a given path rather than doing round robin IFF you care about latency.
->
-> If you latency sucks anyway round robing makes sense.  But why do you
-> use nvme on such a horrible interconnect anyway?
+The /dev/nvme naming convention with multiplath has broken people's
+minds, and making it default will invite a lot of repeat questions on
+how to match up block to admin handles.
 
-you really need to resurvey what enterprises are using and what is being 
-achieved now days.? I hope this prejudice doesn't show up in maintainership.
+Could we promote /dev/nvme0 to be a subsystem handle instead of a
+controller handle, and add new per-controller handles, like /dev/nvme0c1,
+nvme0c2, etc...? The subsystem handle's management interface can just use
+the first active controller to forward admin commands, and per-controller
+specific administration can be taught to use the new handles as needed.
 
-
->
->> And this it not just relevant for 'legacy' hardware; I've seen a
->> performance benefit on a 32G FC setup, which is pretty much state of the
->> art currently.
-> Well, FC is legacy no matter which link speed.
->
-
-legacy - but still supporting the new and proven enterprise storage 
-technologies; real and large interoperable fabrics; lots of mgmt tools; 
-huge existing device base; and features that other technologies do not 
-have without special add-ons. Sometimes the 
-grass-is-always-greener-over-there doesn't pan out...
-
-Thanks
-
--- james
+Tooling shouldn't care about the names, but I am not sure if this could
+possibly break productino scripts. The naming disconnect has broken
+some things, though, so I hope this doesn't end up being a pick your
+poision suggestion...
