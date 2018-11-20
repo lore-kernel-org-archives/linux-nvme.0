@@ -1,35 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 20 Nov 2018 08:47:48 -0700
-Subject: [PATCHv3 0/3] nvme: NUMA locality for fabrics
-In-Reply-To: <20181120094140.GA7742@lst.de>
-References: <20181102095641.28504-1-hare@suse.de>
- <20181116081241.GA14072@lst.de>
- <c6b0e0f8-f22c-65b6-3657-1f078b0803e2@suse.de>
- <20181116082359.GB14269@lst.de>
- <58a66fee-0185-6ab4-3fe1-797d15d9badb@grimberg.me>
- <cc741191-12f3-91b0-df93-b6239f482aeb@suse.de>
- <20181120094140.GA7742@lst.de>
-Message-ID: <20181120154747.GE26707@localhost.localdomain>
+From: arend.vanspriel@broadcom.com (Arend van Spriel)
+Date: Tue, 20 Nov 2018 10:36:42 +0100
+Subject: [PATCH nvme-cli v2 15/14] nvme: Add TCP transport
+In-Reply-To: <20181120030019.31738-17-sagi@grimberg.me>
+References: <20181120030019.31738-1-sagi@grimberg.me>
+ <20181120030019.31738-17-sagi@grimberg.me>
+Message-ID: <e04487c8-a4a8-bd4f-2ec7-8f67f0f1a49e@broadcom.com>
 
-On Tue, Nov 20, 2018@01:41:40AM -0800, Christoph Hellwig wrote:
-> On Tue, Nov 20, 2018@07:12:47AM +0100, Hannes Reinecke wrote:
-> > Fully agreed here.
-> > It all comes down to the link latency.
-> > If the link latency is the main bottleneck multipathing will benefit from 
-> > round-robin (or any I/O scheduler, for that matter).
-> 
-> It still makes a lot more sense to try to have queues with an affinity
-> to a given path rather than doing round robin IFF you care about latency.
-> 
-> If you latency sucks anyway round robing makes sense.  But why do you
-> use nvme on such a horrible interconnect anyway?
-> 
-> > And this it not just relevant for 'legacy' hardware; I've seen a 
-> > performance benefit on a 32G FC setup, which is pretty much state of the 
-> > art currently.
-> 
-> Well, FC is legacy no matter which link speed.
+On 11/20/2018 4:00 AM, Sagi Grimberg wrote:
+> From: Sagi Grimberg <sagi at lightbitslabs.com>
+>
+> Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
+> ---
+>  fabrics.c    | 5 ++++-
+>  linux/nvme.h | 1 +
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/fabrics.c b/fabrics.c
+> index be6a18cd4787..b4fac97253ba 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -96,6 +96,7 @@ static const char *arg_str(const char * const *strings,
+>  static const char * const trtypes[] = {
+>  	[NVMF_TRTYPE_RDMA]	= "rdma",
+>  	[NVMF_TRTYPE_FC]	= "fibre-channel",
+> +	[NVMF_TRTYPE_TCP]	= "tcp",
+>  	[NVMF_TRTYPE_LOOP]	= "loop",
+>  };
+>
+> @@ -703,11 +704,13 @@ retry:
+>  		/* we can safely ignore the rest of the entries */
+>  		break;
+>  	case NVMF_TRTYPE_RDMA:
+> +	case NVMF_TRTYPE_TCP:
+>  		switch (e->adrfam) {
+>  		case NVMF_ADDR_FAMILY_IP4:
+>  		case NVMF_ADDR_FAMILY_IP6:
+>  			/* FALLTHRU */
+> -			len = sprintf(p, ",transport=rdma");
+> +			len = sprintf(p, ",transport=%s",
+> +				e->trtype == NVMF_TRTYPE_RDMA ? "rdma" : "tcp");
 
-Fabrics has a required Identify Controller field called "MAXCMD" which
-is a per-queue limiter. A sufficiently shallow value with a high queue
-depth workload could justify round-robin'ing your queues.
+So why not just use the trtypes array above?
+
+Regards,
+Arend
