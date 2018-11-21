@@ -1,42 +1,28 @@
-From: ethan.weidman@kazan-networks.com (Ethan Weidman)
-Date: Wed, 21 Nov 2018 00:41:03 +0000
-Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
-In-Reply-To: <20181120030019.31738-16-sagi@grimberg.me>
-References: <20181120030019.31738-1-sagi@grimberg.me>
- <20181120030019.31738-16-sagi@grimberg.me>
-Message-ID: <CY4PR08MB258265FB085A9C26B6F27D93CFDA0@CY4PR08MB2582.namprd08.prod.outlook.com>
+From: roland@purestorage.com (Roland Dreier)
+Date: Tue, 20 Nov 2018 17:57:36 -0800
+Subject: [PATCH] drivers/nvme/host/rdma.c: Fix double freeing of async
+ event data
+In-Reply-To: <CAE=VkfB4G8PFZuNihQR0fei9BSr5ayqOrMWjFq9Xo5anQNgk7w@mail.gmail.com>
+References: <1542744673-28129-1-git-send-email-psajeepa@purestorage.com>
+ <CAL1RGDXrdn1krOyoVMVuRRuuAv8HSNHMusuwq2Evg9fDCGJN8A@mail.gmail.com>
+ <47965bbe-ef63-eb54-60e3-b2662ae82e8f@grimberg.me>
+ <CAE=VkfB4G8PFZuNihQR0fei9BSr5ayqOrMWjFq9Xo5anQNgk7w@mail.gmail.com>
+Message-ID: <CAL1RGDXXKvg+n-QfMZoHp8By81seMW7YatQ0RXD3JnAe_eFDXg@mail.gmail.com>
 
->+static struct nvme_ctrl *nvme_tcp_create_ctrl(struct device *dev,
->+               struct nvmf_ctrl_options *opts)
->+{
->+       struct nvme_tcp_ctrl *ctrl;
->+       int ret;
->+
->+       ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
->+       if (!ctrl)
->+               return ERR_PTR(-ENOMEM);
->+
->+       INIT_LIST_HEAD(&ctrl->list);
->+       ctrl->ctrl.opts = opts;
->+       ctrl->ctrl.queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
->+       ctrl->ctrl.sqsize = opts->queue_size - 1;
->+       ctrl->ctrl.kato = opts->kato;
->+
->+       INIT_DELAYED_WORK(&ctrl->ctrl.connect_work,
->+                       nvme_tcp_reconnect_ctrl_work);
->+       INIT_WORK(&ctrl->ctrl.err_work, nvme_tcp_error_recovery_work);
->+       INIT_WORK(&ctrl->ctrl.reset_work, nvme_reset_ctrl_work);
->+
->+       if (!(opts->mask & NVMF_OPT_TRSVCID)) {
->+               opts->trsvcid =
->+                       kstrdup(__stringify(NVME_TCP_DISC_PORT), GFP_KERNEL);
->+               if (!opts->trsvcid) {
->+                       ret = -ENOMEM;
->+                       goto out_free_ctrl;
->+               }
->+               opts->mask |= NVMF_OPT_TRSVCID;
->+       }
+On Tue, Nov 20, 2018 at 5:45 PM Prabhath Sajeepa
+<psajeepa@purestorage.com> wrote:
 
-NVME_TCP_DISC_PORT, 8009, should not be the default for nvme fabric connections when trsvcid is not specified.
+> So, Does it make sense to set
+> qe->data = NULL immediately after kfree(qe->data) in nvme_rdma_free_qe() ?
 
-NVME_RDMA_IP_PORT, 4420, should be used, or renamed to something more generic.
+I thought about suggesting that; I have no objection although most
+calls of free_qe are in nvme_rdma_free_ring() where we free the
+containing structure immediately after.
+
+However that doesn't fix the bug I spotted where alloc_qe fails the
+DMA mapping, because we don't call free_qe in that path.  I think we
+should set qe->data to NULL in alloc_qe when the DMA mapping fails, or
+else the caller needs to know that alloc_qe can return an error but
+leave a non-NULL pointer in qe->data.
+
+ - R.
