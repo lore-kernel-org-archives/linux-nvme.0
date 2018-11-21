@@ -1,19 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Nov 2018 14:28:59 -0800
-Subject: [PATCH v2 07/14] nvme-core: add work elements to struct nvme_ctrl
-In-Reply-To: <20181121130432.GB1373@lst.de>
+Date: Wed, 21 Nov 2018 14:29:25 -0800
+Subject: [PATCH v2 13/14] nvmet-tcp: add NVMe over TCP target driver
+In-Reply-To: <20181121130712.GG1373@lst.de>
 References: <20181120030019.31738-1-sagi@grimberg.me>
- <20181120030019.31738-9-sagi@grimberg.me> <20181121130432.GB1373@lst.de>
-Message-ID: <7833b3a4-cce5-238a-eef3-70702c443931@grimberg.me>
+ <20181120030019.31738-15-sagi@grimberg.me> <20181121130712.GG1373@lst.de>
+Message-ID: <18549b2b-74dd-31df-9442-118cae370e1d@grimberg.me>
 
 
->> connect_work and err_work will be reused by nvme-tcp so
->> share those in nvme_ctrl for rdma and fc to share.
+>>   #define NVME_TCP_DISC_PORT	8009
+>>   #define NVME_TCP_ADMIN_CCSZ	SZ_8K
+>> +#define NVME_TCP_DIGEST_LENGTH	4
 > 
-> As said before when you sent this invididually:  I'd rather not move
-> struct members to the common struture until we actually start using
-> it there.  So for now please add it to the containing TCP-specific
-> structure, although I'm looking forward to actually see code around
-> it consolidated eventually.
+> This should go into the previous patch.
 
-FFFine....
+Correct.
