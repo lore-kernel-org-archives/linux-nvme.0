@@ -1,104 +1,44 @@
-From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Wed, 14 Nov 2018 14:48:40 +0300
-Subject: [PATCH 2/2] nvme-tcp: add protection against target sending more then
- maxr2t
-In-Reply-To: <cover.1542805437.git.mskorzhinskiy@solarflare.com>
-References: <cover.1542805437.git.mskorzhinskiy@solarflare.com>
-Message-ID: <67fb3fd498dac3488064b1847a364a141af1c0a6.1542805437.git.mskorzhinskiy@solarflare.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 21 Nov 2018 17:23:34 +0100
+Subject: block and nvme polling improvements
+Message-ID: <20181121162347.17430-1-hch@lst.de>
 
-This is a simple protection against misbehaving targets to protect the
-initiator from R2T sent on a wrong time.
+Hi all,
 
-Signed-off-by: Mikhail Skorzhinskii <mskorzhinskiy at solarflare.com>
----
- drivers/nvme/host/tcp.c  | 19 ++++++++++++++++++-
- include/linux/nvme-tcp.h |  3 +++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+this series optimizes a few bits in the block layer and nvme code
+related to polling.
 
-diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-index e28b9dd8c448..834243fa8359 100644
---- a/drivers/nvme/host/tcp.c
-+++ b/drivers/nvme/host/tcp.c
-@@ -32,6 +32,7 @@ struct nvme_tcp_send_ctx {
- 	size_t			offset;
- 	size_t			data_sent;
- 	enum nvme_tcp_send_state state;
-+	int                     r2t_cnt;
- };
- 
- struct nvme_tcp_recv_ctx {
-@@ -566,12 +567,21 @@ static int nvme_tcp_handle_r2t(struct nvme_tcp_queue *queue,
- 	}
- 	req = blk_mq_rq_to_pdu(rq);
- 
-+	if (req->snd.r2t_cnt > NVME_TCP_MAX_R2T) {
-+		dev_err(queue->ctrl->ctrl.device,
-+			"queue %d tag %#x sent %d r2t while only %d is supported!\n",
-+			nvme_tcp_queue_id(queue), pdu->command_id,
-+			req->snd.r2t_cnt + 1, NVME_TCP_MAX_R2T);
-+		return -ENOENT;
-+	}
-+
- 	ret = nvme_tcp_setup_h2c_data_pdu(req, pdu);
- 	if (unlikely(ret))
- 		return ret;
- 
- 	req->snd.state = NVME_TCP_SEND_H2C_PDU;
- 	req->snd.offset = 0;
-+	req->snd.r2t_cnt++;
- 
- 	nvme_tcp_queue_request(req);
- 
-@@ -849,6 +859,11 @@ static void nvme_tcp_state_change(struct sock *sk)
- 
- static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
- {
-+	struct nvme_tcp_request *request = queue->request;
-+
-+	if (request->snd.state == NVME_TCP_SEND_H2C_PDU)
-+		request->snd.r2t_cnt--;
-+
- 	queue->request = NULL;
- }
- 
-@@ -1176,7 +1191,7 @@ static int nvme_tcp_init_connection(struct nvme_tcp_queue *queue)
- 	icreq->hdr.pdo = 0;
- 	icreq->hdr.plen = cpu_to_le32(icreq->hdr.hlen);
- 	icreq->pfv = cpu_to_le16(NVME_TCP_PFV_1_0);
--	icreq->maxr2t = 0; /* single inflight r2t supported */
-+	icreq->maxr2t = NVME_TCP_MAX_R2T;
- 	icreq->hpda = 0; /* no alignment constraint */
- 	if (queue->hdr_digest)
- 		icreq->digest |= NVME_TCP_HDR_DIGEST_ENABLE;
-@@ -1981,6 +1996,7 @@ static void nvme_tcp_submit_async_event(struct nvme_ctrl *arg)
- 	cmd->common.flags |= NVME_CMD_SGL_METABUF;
- 	nvme_tcp_set_sg_null(cmd);
- 
-+	ctrl->async_req.snd.r2t_cnt = 0;
- 	ctrl->async_req.snd.state = NVME_TCP_SEND_CMD_PDU;
- 	ctrl->async_req.snd.offset = 0;
- 	ctrl->async_req.snd.curr_bio = NULL;
-@@ -2053,6 +2069,7 @@ static blk_status_t nvme_tcp_setup_cmd_pdu(struct nvme_ns *ns,
- 		return ret;
- 
- 	req->snd.state = NVME_TCP_SEND_CMD_PDU;
-+	req->snd.r2t_cnt = 0;
- 	req->snd.offset = 0;
- 	req->snd.data_sent = 0;
- 	req->pdu_len = 0;
-diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-index 685780d1ed04..f659a87299ae 100644
---- a/include/linux/nvme-tcp.h
-+++ b/include/linux/nvme-tcp.h
-@@ -13,6 +13,9 @@
- #define NVME_TCP_ADMIN_CCSZ	SZ_8K
- #define NVME_TCP_DIGEST_LENGTH	4
- 
-+/* single inflight r2t supported */
-+#define NVME_TCP_MAX_R2T        cpu_to_le16(0)
-+
- enum nvme_tcp_pfv {
- 	NVME_TCP_PFV_1_0 = 0x0,
- };
--- 
-2.16.4
+It starts by moving the queue types recently introduce entirely into
+the block layer instead of requiring an indirect call for them.
+
+It then switches nvme and the block layer to only allow polling
+with separate poll queues, which allows us to realize the following
+benefits:
+
+ - poll queues can safely avoid disabling irqs on any locks
+   (we already do that in NVMe, but it isn't 100% kosher as-is)
+ - regular interrupt driven queues can drop the CQ lock entirely,
+   as we won't race for completing CQs
+
+Then we drop the NVMe RDMA code, as it doesn't follow the new mode,
+and remove the nvme multipath polling code including the block hooks
+for it, which didn't make much sense to start with given that we
+started bypassing the multipath code for single controller subsystems
+early on.  Last but not least we enable polling in the block layer
+by default if the underlying driver has poll queues, as that already
+requires explicit user action.
+
+Note that it would be really nice to have polling back for RDMA with
+dedicated poll queues, but that might take a while.  Also based on
+Jens' polling aio patches we could now implement a model in nvmet
+where we have a thread polling both the backend nvme device and
+the RDMA CQs, which might give us some pretty nice performace
+(I know Sagi looked into something similar a while ago).
+
+A git tree is also available at:
+
+    git://git.infradead.org/users/hch/misc.git nvme-polling
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-polling
