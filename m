@@ -1,23 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 20 Nov 2018 21:43:46 -0800
-Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
-In-Reply-To: <CY4PR08MB258265FB085A9C26B6F27D93CFDA0@CY4PR08MB2582.namprd08.prod.outlook.com>
-References: <20181120030019.31738-1-sagi@grimberg.me>
- <20181120030019.31738-16-sagi@grimberg.me>
- <CY4PR08MB258265FB085A9C26B6F27D93CFDA0@CY4PR08MB2582.namprd08.prod.outlook.com>
-Message-ID: <f947a8e0-9e88-2264-e771-11eabe735807@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 21 Nov 2018 09:27:24 +0100
+Subject: [PATCH 1/3] nvme: enable multipathing by default
+In-Reply-To: <20181120184749.GF26707@localhost.localdomain>
+References: <20181120162734.2013-1-hch@lst.de>
+ <20181120162734.2013-2-hch@lst.de>
+ <20181120184749.GF26707@localhost.localdomain>
+Message-ID: <20181121082724.GA29231@lst.de>
 
+On Tue, Nov 20, 2018@11:47:49AM -0700, Keith Busch wrote:
+> This is okay with me, but I have one little follow-on I'd like to RFC here:
+> 
+> The /dev/nvme naming convention with multiplath has broken people's
+> minds, and making it default will invite a lot of repeat questions on
+> how to match up block to admin handles.
+> 
+> Could we promote /dev/nvme0 to be a subsystem handle instead of a
+> controller handle, and add new per-controller handles, like /dev/nvme0c1,
+> nvme0c2, etc...? The subsystem handle's management interface can just use
+> the first active controller to forward admin commands, and per-controller
+> specific administration can be taught to use the new handles as needed.
+> 
+> Tooling shouldn't care about the names, but I am not sure if this could
+> possibly break productino scripts. The naming disconnect has broken
+> some things, though, so I hope this doesn't end up being a pick your
+> poision suggestion...
 
-> NVME_TCP_DISC_PORT, 8009, should not be the default for nvme fabric connections when trsvcid is not specified.
-
-Its allowed, the statement simply does not recommend it as a possible
-misuse in an environment where iWARP and TCP are deployed on the same
-port spaces...
-
-And, it recommends that subsystems don't listen on the 8009 by default,
-not anything about a host. Furthermore, usually controllers that are not
-passed with a default port are discovery controllers anyways.
-
-> NVME_RDMA_IP_PORT, 4420, should be used, or renamed to something more generic.
-
-Not at all... in fact, this is really not what the spec is intending.
+The problem is that typical admin command are sensitive to the controller
+they are sent to, so a per-subsystem handle does not make whole lot
+sense.  But I like the idea of the nvmeXcY names.  Maybe we just keep
+the nvmeX names as an additional alias for the first found controller
+in a subsystem and otherwise use nvmeXcY? 
