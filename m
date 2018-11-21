@@ -1,25 +1,23 @@
-From: roland@purestorage.com (Roland Dreier)
-Date: Tue, 20 Nov 2018 20:37:02 -0800
-Subject: [PATCH] drivers/nvme/host/rdma.c: Fix double freeing of async
- event data
-In-Reply-To: <CAE=VkfBvD9gG3MuwptCdpZso3t0JsFTvO-s1q+aW9=Zm4QTR=Q@mail.gmail.com>
-References: <1542744673-28129-1-git-send-email-psajeepa@purestorage.com>
- <CAL1RGDXrdn1krOyoVMVuRRuuAv8HSNHMusuwq2Evg9fDCGJN8A@mail.gmail.com>
- <47965bbe-ef63-eb54-60e3-b2662ae82e8f@grimberg.me>
- <CAE=VkfB4G8PFZuNihQR0fei9BSr5ayqOrMWjFq9Xo5anQNgk7w@mail.gmail.com>
- <CAL1RGDXXKvg+n-QfMZoHp8By81seMW7YatQ0RXD3JnAe_eFDXg@mail.gmail.com>
- <CAE=VkfBvD9gG3MuwptCdpZso3t0JsFTvO-s1q+aW9=Zm4QTR=Q@mail.gmail.com>
-Message-ID: <CAL1RGDWGs6E5nPUJEc73wuMjnUP-aEM62MywyT6X_fK4Tbj1Gw@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 20 Nov 2018 21:43:46 -0800
+Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
+In-Reply-To: <CY4PR08MB258265FB085A9C26B6F27D93CFDA0@CY4PR08MB2582.namprd08.prod.outlook.com>
+References: <20181120030019.31738-1-sagi@grimberg.me>
+ <20181120030019.31738-16-sagi@grimberg.me>
+ <CY4PR08MB258265FB085A9C26B6F27D93CFDA0@CY4PR08MB2582.namprd08.prod.outlook.com>
+Message-ID: <f947a8e0-9e88-2264-e771-11eabe735807@grimberg.me>
 
-On Tue, Nov 20, 2018 at 6:12 PM Prabhath Sajeepa
-<psajeepa@purestorage.com> wrote:
-> Yes, we need to set qe->data to NULL in alloc_qe failure path as well.
-> I was suggesting setting of qe->data to NULL in nvme_rdma_free_qe() in addition to the fix suggested by you.
 
-I'm ambivalent, I think either way of handling clearing data after
-free_qe is fine.  Two out of the three calls to free_qe need the "set
-to NULL", so I personally don't have a strong feeling about whether
-open-coding the data=NULL or putting it in the free function is
-better.
+> NVME_TCP_DISC_PORT, 8009, should not be the default for nvme fabric connections when trsvcid is not specified.
 
- - R.
+Its allowed, the statement simply does not recommend it as a possible
+misuse in an environment where iWARP and TCP are deployed on the same
+port spaces...
+
+And, it recommends that subsystems don't listen on the 8009 by default,
+not anything about a host. Furthermore, usually controllers that are not
+passed with a default port are discovery controllers anyways.
+
+> NVME_RDMA_IP_PORT, 4420, should be used, or renamed to something more generic.
+
+Not at all... in fact, this is really not what the spec is intending.
