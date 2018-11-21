@@ -1,32 +1,40 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 21 Nov 2018 09:27:24 +0100
-Subject: [PATCH 1/3] nvme: enable multipathing by default
-In-Reply-To: <20181120184749.GF26707@localhost.localdomain>
-References: <20181120162734.2013-1-hch@lst.de>
- <20181120162734.2013-2-hch@lst.de>
- <20181120184749.GF26707@localhost.localdomain>
-Message-ID: <20181121082724.GA29231@lst.de>
+Date: Wed, 21 Nov 2018 09:28:46 +0100
+Subject: [PATCH 2/2] nvme-multipath: round-robin I/O policy
+In-Reply-To: <84110e63-463b-807d-55b9-1a03ea7b61ff@suse.de>
+References: <20181115122927.40431-1-hare@suse.de>
+ <20181115122927.40431-3-hare@suse.de> <20181120164235.GA3073@lst.de>
+ <84110e63-463b-807d-55b9-1a03ea7b61ff@suse.de>
+Message-ID: <20181121082846.GB29231@lst.de>
 
-On Tue, Nov 20, 2018@11:47:49AM -0700, Keith Busch wrote:
-> This is okay with me, but I have one little follow-on I'd like to RFC here:
-> 
-> The /dev/nvme naming convention with multiplath has broken people's
-> minds, and making it default will invite a lot of repeat questions on
-> how to match up block to admin handles.
-> 
-> Could we promote /dev/nvme0 to be a subsystem handle instead of a
-> controller handle, and add new per-controller handles, like /dev/nvme0c1,
-> nvme0c2, etc...? The subsystem handle's management interface can just use
-> the first active controller to forward admin commands, and per-controller
-> specific administration can be taught to use the new handles as needed.
-> 
-> Tooling shouldn't care about the names, but I am not sure if this could
-> possibly break productino scripts. The naming disconnect has broken
-> some things, though, so I hope this doesn't end up being a pick your
-> poision suggestion...
+On Tue, Nov 20, 2018@09:30:32PM +0100, Hannes Reinecke wrote:
+>> So you never consider non-optimized paths here?
+>>
+> Yes, correct. Two reasons:
+> - We try to optimize for performance. Selecting a non-optimized path per 
+> definition doesn't provide that.
+> - The selection algorithm becomes overly complex, and will require an even 
+> more complex mechanism to figure out at which point the use of a 
+> non-optimized path become feasible.
 
-The problem is that typical admin command are sensitive to the controller
-they are sent to, so a per-subsystem handle does not make whole lot
-sense.  But I like the idea of the nvmeXcY names.  Maybe we just keep
-the nvmeX names as an additional alias for the first found controller
-in a subsystem and otherwise use nvmeXcY? 
+We can still have a system where we don't see any optimized path at all,
+so you will need some kind of fallback.
+
+>> Can you move the __nvme_find_path call for the first path into
+>> your round robing helper so that we can make this whole thing
+>> a little cleaner?  E.g.
+>>
+>> 	if (head->subsys->iopolicy == NVME_IOPOLICY_RR)
+>> 		return nvme_round_robin_path(head, node);
+>>   	if (unlikely(!ns || !nvme_path_is_optimized(ns)))
+>> 		ns = __nvme_find_path(head, node);
+>> 	return ns;
+>> Actually this order was by design.
+> By ordering it _after_ __nvme_find_path() we guarantee that the first round 
+> found an optimal path, and so we can continue selecting the next optimal 
+> path.
+> So this ordering would break the assumptions I did when implementing it.
+> But I'll have a look to see if that can't be lifted.
+
+You can keep the __nvme_find_path for round robin, I just want it moved
+into the round robin helper, so that the main function stays nice and tidy.
