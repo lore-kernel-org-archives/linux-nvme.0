@@ -1,35 +1,22 @@
 From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
-Date: Wed, 21 Nov 2018 15:01:11 +0300
-Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
-In-Reply-To: <20181120030019.31738-16-sagi@grimberg.me>
-References: <20181120030019.31738-1-sagi@grimberg.me>
- <20181120030019.31738-16-sagi@grimberg.me>
-Message-ID: <8736rufxmg.fsf@solarflare.com>
+Date: Wed, 21 Nov 2018 16:03:57 +0300
+Subject: [PATCH 0/2] nvme-tcp: protection from misbehaving link partners
+Message-ID: <cover.1542805437.git.mskorzhinskiy@solarflare.com>
 
-Sagi Grimberg <sagi at grimberg.me> writes:
- > +static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req)
- > +{
- > +	struct nvme_tcp_queue *queue = req->queue;
- > +
- > +	spin_lock_bh(&queue->lock);
- > +	list_add_tail(&req->entry, &queue->send_list);
- > +	spin_unlock_bh(&queue->lock);
- > +
- > +	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
- > +}
+This patch sequence are about to fix a few minor kernel crashes and memory
+corruptions that was spot on a few stress test runs with misbehvaing link
+partners.
 
-May be I missing something, but why bother with bottom half version of
-locking?
+patches 1-2 prevents these awkward crashes and corruptions
 
-There are few places where this lock could be accessed:
+Mikhail Skorzhinskii (2):
+  nvmet-tcp: add protection for already completed requests on h2c path
+  nvme-tcp: add protection against target sending more then maxr2t
 
- (1) From ->queue_rq() call;
- (2) From submitting new AEN request;
- (3) From receiving new R2T;
+ drivers/nvme/host/tcp.c   | 19 ++++++++++++++++++-
+ drivers/nvme/target/tcp.c | 19 +++++++++++++++++--
+ include/linux/nvme-tcp.h  |  3 +++
+ 3 files changed, 38 insertions(+), 3 deletions(-)
 
-Which one if these originates from bottom half? Not 100% about queue_rq
-data path, but (2) and (3) looks perfectly safe for me.
-
-Possibly just a relic of some previous iterations of experimenting?
-
-Mikhail Skorzhinskii
+-- 
+2.16.4
