@@ -1,60 +1,55 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 21 Nov 2018 17:23:43 +0100
-Subject: [PATCH 09/13] nvme-rdma: remove I/O polling support
+Date: Wed, 21 Nov 2018 17:23:44 +0100
+Subject: [PATCH 10/13] nvme-mpath: remove I/O polling support
 In-Reply-To: <20181121162347.17430-1-hch@lst.de>
 References: <20181121162347.17430-1-hch@lst.de>
-Message-ID: <20181121162347.17430-10-hch@lst.de>
+Message-ID: <20181121162347.17430-11-hch@lst.de>
 
-The code was always a bit of a hack that digs far too much into
-RDMA core internals.  Lets kick it out and reimplement proper
-dedicated poll queues as needed.
+The ->poll_fn has been stale for a while, as a lot of places check for mq
+ops.  But there is no real point in it anyway, as we don't even use
+the multipath code for subsystems without multiple ports, which is usually
+what we do high performance I/O to.  If it really becomes an issue we
+should rework the nvme code to also skip the multipath code for any
+private namespace, even if that could mean some trouble when rescanning.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/rdma.c | 24 ------------------------
- 1 file changed, 24 deletions(-)
+ drivers/nvme/host/multipath.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index ccfde6c7c0a5..a62e9f177c06 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1736,29 +1736,6 @@ static blk_status_t nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	return BLK_STS_IOERR;
+diff --git a/drivers/nvme/host/multipath.c b/drivers/nvme/host/multipath.c
+index ffebdd0ae34b..ec310b1b9267 100644
+--- a/drivers/nvme/host/multipath.c
++++ b/drivers/nvme/host/multipath.c
+@@ -220,21 +220,6 @@ static blk_qc_t nvme_ns_head_make_request(struct request_queue *q,
+ 	return ret;
  }
  
--static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx)
+-static int nvme_ns_head_poll(struct request_queue *q, blk_qc_t qc, bool spin)
 -{
--	struct nvme_rdma_queue *queue = hctx->driver_data;
--	struct ib_cq *cq = queue->ib_cq;
--	struct ib_wc wc;
+-	struct nvme_ns_head *head = q->queuedata;
+-	struct nvme_ns *ns;
 -	int found = 0;
+-	int srcu_idx;
 -
--	while (ib_poll_cq(cq, 1, &wc) > 0) {
--		struct ib_cqe *cqe = wc.wr_cqe;
--
--		if (cqe) {
--			if (cqe->done == nvme_rdma_recv_done) {
--				nvme_rdma_recv_done(cq, &wc);
--				found++;
--			} else {
--				cqe->done(cq, &wc);
--			}
--		}
--	}
--
+-	srcu_idx = srcu_read_lock(&head->srcu);
+-	ns = srcu_dereference(head->current_path[numa_node_id()], &head->srcu);
+-	if (likely(ns && nvme_path_is_optimized(ns)))
+-		found = ns->queue->poll_fn(q, qc, spin);
+-	srcu_read_unlock(&head->srcu, srcu_idx);
 -	return found;
 -}
 -
- static void nvme_rdma_complete_rq(struct request *rq)
+ static void nvme_requeue_work(struct work_struct *work)
  {
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-@@ -1780,7 +1757,6 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.init_request	= nvme_rdma_init_request,
- 	.exit_request	= nvme_rdma_exit_request,
- 	.init_hctx	= nvme_rdma_init_hctx,
--	.poll		= nvme_rdma_poll,
- 	.timeout	= nvme_rdma_timeout,
- 	.map_queues	= nvme_rdma_map_queues,
- };
+ 	struct nvme_ns_head *head =
+@@ -281,7 +266,6 @@ int nvme_mpath_alloc_disk(struct nvme_ctrl *ctrl, struct nvme_ns_head *head)
+ 		goto out;
+ 	q->queuedata = head;
+ 	blk_queue_make_request(q, nvme_ns_head_make_request);
+-	q->poll_fn = nvme_ns_head_poll;
+ 	blk_queue_flag_set(QUEUE_FLAG_NONROT, q);
+ 	/* set to a default value for 512 until disk is validated */
+ 	blk_queue_logical_block_size(q, 512);
 -- 
 2.19.1
