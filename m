@@ -1,80 +1,141 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 21 Nov 2018 09:36:20 +0100
-Subject: [PATCHv3 0/3] nvme: NUMA locality for fabrics
-In-Reply-To: <fd5ca98e-d0ed-5551-39d1-487bc6a7760f@broadcom.com>
-References: <20181102095641.28504-1-hare@suse.de>
- <20181116081241.GA14072@lst.de>
- <c6b0e0f8-f22c-65b6-3657-1f078b0803e2@suse.de>
- <20181116082359.GB14269@lst.de>
- <58a66fee-0185-6ab4-3fe1-797d15d9badb@grimberg.me>
- <cc741191-12f3-91b0-df93-b6239f482aeb@suse.de> <20181120094140.GA7742@lst.de>
- <20181120154747.GE26707@localhost.localdomain>
- <fd5ca98e-d0ed-5551-39d1-487bc6a7760f@broadcom.com>
-Message-ID: <20181121083620.GA29382@lst.de>
+Date: Wed, 21 Nov 2018 09:56:45 +0100
+Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
+In-Reply-To: <20181120030019.31738-16-sagi@grimberg.me>
+References: <20181120030019.31738-1-sagi@grimberg.me>
+ <20181120030019.31738-16-sagi@grimberg.me>
+Message-ID: <20181121085645.GA29747@lst.de>
 
-On Tue, Nov 20, 2018@11:27:04AM -0800, James Smart wrote:
-> - What are the latencies that are meaningful ?? is it solely single digit 
-> us ? 10-30us ?? 1ms ?? 50ms ?? 100ms ???? How do things change if the 
-> latency change ?
+On Mon, Nov 19, 2018@07:00:16PM -0800, Sagi Grimberg wrote:
+> From: Sagi Grimberg <sagi at lightbitslabs.com>
+> 
+> This patch implements the NVMe over TCP host driver. It can be used to
+> connect to remote NVMe over Fabrics subsystems over good old TCP/IP.
+> 
+> The driver implements the TP 8000 of how nvme over fabrics capsules and
+> data are encapsulated in nvme-tcp pdus and exchaged on top of a TCP byte
+> stream. nvme-tcp header and data digest are supported as well.
+> 
+> To connect to all NVMe over Fabrics controllers reachable on a given taget
+> port over TCP use the following command:
+> 
+> 	nvme connect-all -t tcp -a $IPADDR
+> 
+> This requires the latest version of nvme-cli with TCP support.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
+> Signed-off-by: Roy Shterman <roys at lightbitslabs.com>
+> Signed-off-by: Solganik Alexander <sashas at lightbitslabs.com>
+> ---
+>  drivers/nvme/host/Kconfig  |   15 +
+>  drivers/nvme/host/Makefile |    3 +
+>  drivers/nvme/host/tcp.c    | 2306 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 2324 insertions(+)
+>  create mode 100644 drivers/nvme/host/tcp.c
+> 
+> diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+> index 88a8b5916624..0f345e207675 100644
+> --- a/drivers/nvme/host/Kconfig
+> +++ b/drivers/nvme/host/Kconfig
+> @@ -57,3 +57,18 @@ config NVME_FC
+>  	  from https://github.com/linux-nvme/nvme-cli.
+>  
+>  	  If unsure, say N.
+> +
+> +config NVME_TCP
+> +	tristate "NVM Express over Fabrics TCP host driver"
+> +	depends on INET
+> +	depends on BLK_DEV_NVME
+> +	select NVME_FABRICS
+> +	help
+> +	  This provides support for the NVMe over Fabrics protocol using
+> +	  the TCP transport.  This allows you to use remote block devices
+> +	  exported using the NVMe protocol set.
+> +
+> +	  To configure a NVMe over Fabrics controller use the nvme-cli tool
+> +	  from https://github.com/linux-nvme/nvme-cli.
+> +
+> +	  If unsure, say N.
+> diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+> index aea459c65ae1..8a4b671c5f0c 100644
+> --- a/drivers/nvme/host/Makefile
+> +++ b/drivers/nvme/host/Makefile
+> @@ -7,6 +7,7 @@ obj-$(CONFIG_BLK_DEV_NVME)		+= nvme.o
+>  obj-$(CONFIG_NVME_FABRICS)		+= nvme-fabrics.o
+>  obj-$(CONFIG_NVME_RDMA)			+= nvme-rdma.o
+>  obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
+> +obj-$(CONFIG_NVME_TCP)			+= nvme-tcp.o
+>  
+>  nvme-core-y				:= core.o
+>  nvme-core-$(CONFIG_TRACING)		+= trace.o
+> @@ -21,3 +22,5 @@ nvme-fabrics-y				+= fabrics.o
+>  nvme-rdma-y				+= rdma.o
+>  
+>  nvme-fc-y				+= fc.o
+> +
+> +nvme-tcp-y				+= tcp.o
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> new file mode 100644
+> index 000000000000..4c583859f0ad
+> --- /dev/null
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -0,0 +1,2306 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * NVMe over Fabrics TCP host.
+> + * Copyright (c) 2018 LightBits Labs. All rights reserved.
+> + */
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/slab.h>
+> +#include <linux/err.h>
+> +#include <linux/nvme-tcp.h>
+> +#include <net/sock.h>
+> +#include <net/tcp.h>
+> +#include <linux/blk-mq.h>
+> +#include <crypto/hash.h>
+> +
+> +#include "nvme.h"
+> +#include "fabrics.h"
+> +
+> +struct nvme_tcp_queue;
+> +
+> +enum nvme_tcp_send_state {
+> +	NVME_TCP_SEND_CMD_PDU = 0,
+> +	NVME_TCP_SEND_H2C_PDU,
+> +	NVME_TCP_SEND_DATA,
+> +	NVME_TCP_SEND_DDGST,
+> +};
+> +
+> +struct nvme_tcp_send_ctx {
+> +	struct bio		*curr_bio;
+> +	struct iov_iter		iter;
+> +	size_t			offset;
+> +	size_t			data_sent;
+> +	enum nvme_tcp_send_state state;
+> +};
+> +
+> +struct nvme_tcp_recv_ctx {
+> +	struct iov_iter		iter;
+> +	struct bio		*curr_bio;
+> +};
 
-Well, we did spend a lot of effort on making sure sub-10us latencies
-work.  For real life setups with multiple cpus in use the 100us order
-of magniture is probably more interesting.
+I don't understand these structures.  There should only be
+a bio to be send or receive, not both.  Why do we need two
+curr_bio pointers?
 
-> - At what point does it become more important to get commands to the 
-> subsystem (via a different queue or queues on different controllers) so 
-> they can be being worked on in parallel vs the latency of a single io ??? 
-> How is this need communicated to the nvme layer so we can make the right 
-> choices ??? Queue counts, queue size, and MAXCMD limits (thanks Keith), 
-> may cause throttles that increase this need.?? To that end - what are 
-> your expectations for queue size or MAXCMD limits vs the latencies vs load 
-> from a single cpu?? or a set of cpus ?
+To me it seems like both structures should just go away and
+move into nvme_tcp_request ala:
 
-If you fully load the queue you are of course going to see massive
-additional latency.  That's why you'll see typical NVMe PCIe device
-(or RDMA setups) massively overprovisioned in number of queues and/or
-queue depth.
 
-> - Must every cpu get a queue ??? what if the controller won't support a 
-> queue per cpu ?? how do things change if only 1 in 16 or less of the cpu's 
-> get queues ?? Today, if less than cpu count queues aren't supported - 
-> aren't queues for the different controllers likely mapping to the same cpus 
-> ? I don't think there's awareness of what queues on other controllers are 
-> present so that there could be redundant paths mapped to cpus that aren't 
-> bound already. And if such logic were added, how does that affect the 
-> multipathing choices ?
+	struct bio		*curr_bio;
 
-Less than cpu count queues are perfectly supported, we'll just start
-sharing queues.  In general as long as you share queues between cores
-on the same socket things still work reasonably fine.  Once you start
-sharing a queue between sockets you are going to be in a world of pain.
+	/* send state */
+	struct iov_iter		send_iter;
+	size_t			send_offset;
+	enum nvme_tcp_send_state send_state;
+	size_t			data_sent;
 
-> - What if application load is driven only by specific cpu's - if a "cpu was 
-> given" to the specific task (constrained app, VMs, or containers. how would 
-> we know that?) how does that map if multiple cpus are sharing a queue ? 
-> will multipathing and load choices be made system-wide, specific to a cpu 
-> set, or a single cpu ?
-
-Right now we do multipathing devisions per node (aka per socket for
-todays typical systems).
-
-> - What if a cpu is finally out of cycles due to load, how can we find out 
-> if the io must be limited to a cpu or whether affinity can be subverted so 
-> that use of other idle cpus can share in the processing load for the 
-> queue(s) for that cpu ?
-
-For the traditional interrupt driven model we really need to process
-the interrupts on the submitting cpu to throttle.  For an interesting
-model to move the I/O completion load to another thread and thus potential
-cpu look at the aio poll patches Jens just posted.
-
-> If we're completely focused on cpu affinity with a queue, what happens when 
-> not all queues are equal. There is lots of talk of specific queues 
-> providing specific functionality that other queues wouldn't support. What 
-> if queues 1-M do writes with dedup, queues N-P do writes with compression, 
-> and Q-Z do accelerated writes to a local cache.? How do you see the 
-> current linux implementation migrating to something like that ?
-
-Very unlikely.  We have support for a few queu types now in the for-4.21
-block tree (default, reads, polling), but the above just sounds way too
-magic.
+	/* receive state */
+	struct iov_iter		recv_iter;
