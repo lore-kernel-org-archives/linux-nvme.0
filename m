@@ -1,19 +1,35 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 21 Nov 2018 14:07:12 +0100
-Subject: [PATCH v2 13/14] nvmet-tcp: add NVMe over TCP target driver
-In-Reply-To: <20181120030019.31738-15-sagi@grimberg.me>
+From: mskorzhinskiy@solarflare.com (Mikhail Skorzhinskii)
+Date: Wed, 21 Nov 2018 15:01:11 +0300
+Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
+In-Reply-To: <20181120030019.31738-16-sagi@grimberg.me>
 References: <20181120030019.31738-1-sagi@grimberg.me>
- <20181120030019.31738-15-sagi@grimberg.me>
-Message-ID: <20181121130712.GG1373@lst.de>
+ <20181120030019.31738-16-sagi@grimberg.me>
+Message-ID: <8736rufxmg.fsf@solarflare.com>
 
-> diff --git a/include/linux/nvme-tcp.h b/include/linux/nvme-tcp.h
-> index 33c8afaf63bd..685780d1ed04 100644
-> --- a/include/linux/nvme-tcp.h
-> +++ b/include/linux/nvme-tcp.h
-> @@ -11,6 +11,7 @@
->  
->  #define NVME_TCP_DISC_PORT	8009
->  #define NVME_TCP_ADMIN_CCSZ	SZ_8K
-> +#define NVME_TCP_DIGEST_LENGTH	4
+Sagi Grimberg <sagi at grimberg.me> writes:
+ > +static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req)
+ > +{
+ > +	struct nvme_tcp_queue *queue = req->queue;
+ > +
+ > +	spin_lock_bh(&queue->lock);
+ > +	list_add_tail(&req->entry, &queue->send_list);
+ > +	spin_unlock_bh(&queue->lock);
+ > +
+ > +	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+ > +}
 
-This should go into the previous patch.
+May be I missing something, but why bother with bottom half version of
+locking?
+
+There are few places where this lock could be accessed:
+
+ (1) From ->queue_rq() call;
+ (2) From submitting new AEN request;
+ (3) From receiving new R2T;
+
+Which one if these originates from bottom half? Not 100% about queue_rq
+data path, but (2) and (3) looks perfectly safe for me.
+
+Possibly just a relic of some previous iterations of experimenting?
+
+Mikhail Skorzhinskii
