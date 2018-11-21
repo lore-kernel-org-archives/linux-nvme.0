@@ -1,45 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Nov 2018 14:27:16 -0800
+Date: Wed, 21 Nov 2018 14:28:42 -0800
 Subject: [PATCH v2 14/14] nvme-tcp: add NVMe over TCP host driver
-In-Reply-To: <20181121085645.GA29747@lst.de>
+In-Reply-To: <8736rufxmg.fsf@solarflare.com>
 References: <20181120030019.31738-1-sagi@grimberg.me>
- <20181120030019.31738-16-sagi@grimberg.me> <20181121085645.GA29747@lst.de>
-Message-ID: <09c340a0-0b7f-ff9b-f196-7ba48a0ee234@grimberg.me>
+ <20181120030019.31738-16-sagi@grimberg.me> <8736rufxmg.fsf@solarflare.com>
+Message-ID: <7eb460c9-2d91-a643-d246-c8eae6256374@grimberg.me>
 
 
->> +struct nvme_tcp_send_ctx {
->> +	struct bio		*curr_bio;
->> +	struct iov_iter		iter;
->> +	size_t			offset;
->> +	size_t			data_sent;
->> +	enum nvme_tcp_send_state state;
->> +};
->> +
->> +struct nvme_tcp_recv_ctx {
->> +	struct iov_iter		iter;
->> +	struct bio		*curr_bio;
->> +};
-> 
-> I don't understand these structures.  There should only be
-> a bio to be send or receive, not both.  Why do we need two
-> curr_bio pointers?
 
-We don't really need both...
+On 11/21/18 4:01 AM, Mikhail Skorzhinskii wrote:
+> Sagi Grimberg <sagi at grimberg.me> writes:
+>   > +static inline void nvme_tcp_queue_request(struct nvme_tcp_request *req)
+>   > +{
+>   > +	struct nvme_tcp_queue *queue = req->queue;
+>   > +
+>   > +	spin_lock_bh(&queue->lock);
+>   > +	list_add_tail(&req->entry, &queue->send_list);
+>   > +	spin_unlock_bh(&queue->lock);
+>   > +
+>   > +	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
+>   > +}
+> 
+> May be I missing something, but why bother with bottom half version of
+> locking?
+> 
+> There are few places where this lock could be accessed:
+> 
+>   (1) From ->queue_rq() call;
+>   (2) From submitting new AEN request;
+>   (3) From receiving new R2T;
+> 
+> Which one if these originates from bottom half? Not 100% about queue_rq
+> data path, but (2) and (3) looks perfectly safe for me.
 
-> To me it seems like both structures should just go away and
-> move into nvme_tcp_request ala:
-> 
-> 
-> 	struct bio		*curr_bio;
-> 
-> 	/* send state */
-> 	struct iov_iter		send_iter;
-> 	size_t			send_offset;
-> 	enum nvme_tcp_send_state send_state;
-> 	size_t			data_sent;
-> 
-> 	/* receive state */
-> 	struct iov_iter		recv_iter;
-> 
-
-Sure, will move this.
+Actually, (3) in former versions was invoked in a soft-irq context which
+was why this included the bh disable, but I guess it can be removed now.
