@@ -1,55 +1,31 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 21 Nov 2018 12:09:06 +0100
-Subject: [PATCH 2/2] nvme-multipath: round-robin I/O policy
-In-Reply-To: <8a583536-151e-6f68-f4f9-98d8c4b853dd@broadcom.com>
-References: <20181115122927.40431-1-hare@suse.de>
- <20181115122927.40431-3-hare@suse.de> <20181120164235.GA3073@lst.de>
- <84110e63-463b-807d-55b9-1a03ea7b61ff@suse.de>
- <8a583536-151e-6f68-f4f9-98d8c4b853dd@broadcom.com>
-Message-ID: <b3adb4fe-486f-481d-4dc9-13718d90e91d@suse.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 21 Nov 2018 05:56:54 -0700
+Subject: [GIT PULL] nvme fix for 4.20
+In-Reply-To: <20181120161411.GA1367@infradead.org>
+References: <20181120161411.GA1367@infradead.org>
+Message-ID: <53d91a0a-73eb-53dd-195e-4c3786104009@kernel.dk>
 
-On 11/20/18 9:41 PM, James Smart wrote:
+On 11/20/18 9:14 AM, Christoph Hellwig wrote:
+> The following changes since commit 8dc765d438f1e42b3e8227b3b09fad7d73f4ec9a:
 > 
+>   SCSI: fix queue cleanup race before queue initialization is done (2018-11-14 08:19:10 -0700)
 > 
-> On 11/20/2018 12:30 PM, Hannes Reinecke wrote:
->>> So you never consider non-optimized paths here?
->>>
->> Yes, correct. Two reasons:
->> - We try to optimize for performance. Selecting a non-optimized path 
->> per definition doesn't provide that.
->> - The selection algorithm becomes overly complex, and will require an 
->> even more complex mechanism to figure out at which point the use of a 
->> non-optimized path become feasible.
+> are available in the Git repository at:
 > 
-> so what do you do on an out-of-optimized-paths scenario ??? I would 
-> assume the same logic should be applicable, only looking for 
-> non-optimized.?? And if both optimized and non-optimized are 
-> out-of-paths, then it should revert to the same logic, just inaccessible 
-> paths.? I believe the last sentence is required for current devices(s) 
-> out there to induce storage failover.
+>   git://git.infradead.org/nvme.git nvme-4.20
 > 
-The idea is to a round-robin load balancing for optimal paths, and fall 
-back to single path once we run out of optimal paths.
+> for you to fetch changes up to 4cff280a5fccf6513ed9e895bb3a4e7ad8b0cedc:
+> 
+>   nvme-fc: resolve io failures during connect (2018-11-15 11:37:55 +0100)
+> 
+> ----------------------------------------------------------------
+> James Smart (1):
+>       nvme-fc: resolve io failures during connect
+> 
+>  drivers/nvme/host/fc.c | 73 +++++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 63 insertions(+), 10 deletions(-)
 
-As already explained, one could implement a round-robin algorithm for 
-non-optimial paths, too, but the question then arises how to handle 
-scenarios where we have both.
-Clearly, in the optimal case we should be scheduling between optimal 
-paths only.
-But what happens when the optimal paths do down?
-Shall we wait until all optimal paths are down, and only then switch 
-over to the non-optimal ones?
-But when doing that we might end up in a situation where we have only 
-one optimal path, and several non-optimal ones.
-And as the underlying reason was that several paths provide a better 
-performance than a single one. there will be a cut-over point when 
-several non-optimal paths might provide a better performance than a 
-single optimal one.
-But that would be pretty much implementation defined, and hard to quantify.
+Pulled, thanks.
 
-Hence I settled on the rather trivial algorithm with considering optimal 
-paths only.
-
-Cheers,
-
-Hannes
+-- 
+Jens Axboe
