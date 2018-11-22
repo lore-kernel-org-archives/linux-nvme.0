@@ -1,221 +1,53 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Nov 2018 17:56:02 -0800
-Subject: [PATCH v3 04/13] datagram: consolidate datagram copy to iter helpers
+Date: Wed, 21 Nov 2018 17:56:01 -0800
+Subject: [PATCH v3 03/13] iov_iter: pass void csum pointer to
+ csum_and_copy_to_iter
 In-Reply-To: <20181122015615.15763-1-sagi@grimberg.me>
 References: <20181122015615.15763-1-sagi@grimberg.me>
-Message-ID: <20181122015615.15763-5-sagi@grimberg.me>
+Message-ID: <20181122015615.15763-4-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-skb_copy_datagram_iter and skb_copy_and_csum_datagram are essentialy
-the same but with a couple of differences: The first is the copy
-operation used which either a simple copy or a csum_and_copy, and the
-second are the behavior on the "short copy" path where simply copy
-needs to return the number of bytes successfully copied while csum_and_copy
-needs to fault immediately as the checksum is partial.
+The single caller to csum_and_copy_to_iter is skb_copy_and_csum_datagram
+and we are trying to unite its logic with skb_copy_datagram_iter by passing
+a callback to the copy function that we want to apply. Thus, we need
+to make the checksum pointer private to the function.
 
-Introduce __skb_datagram_iter that additionally accepts:
-1. copy operation function pointer
-2. private data that goes with the copy operation
-3. fault_short flag to indicate the action on short copy
-
-Suggested-by: David S. Miller <davem at davemloft.net>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- net/core/datagram.c | 136 ++++++++++++++------------------------------
- 1 file changed, 42 insertions(+), 94 deletions(-)
+ include/linux/uio.h | 2 +-
+ lib/iov_iter.c      | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index abe642181b64..382543302ae5 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -408,27 +408,20 @@ int skb_kill_datagram(struct sock *sk, struct sk_buff *skb, unsigned int flags)
- }
- EXPORT_SYMBOL(skb_kill_datagram);
- 
--/**
-- *	skb_copy_datagram_iter - Copy a datagram to an iovec iterator.
-- *	@skb: buffer to copy
-- *	@offset: offset in the buffer to start copying from
-- *	@to: iovec iterator to copy to
-- *	@len: amount of data to copy from buffer to iovec
-- */
--int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
--			   struct iov_iter *to, int len)
-+int __skb_datagram_iter(const struct sk_buff *skb, int offset,
-+			struct iov_iter *to, int len, bool fault_short,
-+			size_t (*cb)(const void *, size_t, void *, struct iov_iter *),
-+			void *data)
+diff --git a/include/linux/uio.h b/include/linux/uio.h
+index 55ce99ddb912..41d1f8d3313d 100644
+--- a/include/linux/uio.h
++++ b/include/linux/uio.h
+@@ -266,7 +266,7 @@ static inline void iov_iter_reexpand(struct iov_iter *i, size_t count)
  {
- 	int start = skb_headlen(skb);
- 	int i, copy = start - offset, start_off = offset, n;
- 	struct sk_buff *frag_iter;
- 
--	trace_skb_copy_datagram_iovec(skb, len);
--
- 	/* Copy header. */
- 	if (copy > 0) {
- 		if (copy > len)
- 			copy = len;
--		n = copy_to_iter(skb->data + offset, copy, to);
-+		n = cb(skb->data + offset, copy, data, to);
- 		offset += n;
- 		if (n != copy)
- 			goto short_copy;
-@@ -450,8 +443,8 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
- 
- 			if (copy > len)
- 				copy = len;
--			n = copy_to_iter(vaddr + frag->page_offset +
--					 offset - start, copy, to);
-+			n = cb(vaddr + frag->page_offset +
-+				offset - start, copy, data, to);
- 			kunmap(page);
- 			offset += n;
- 			if (n != copy)
-@@ -471,8 +464,8 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
- 		if ((copy = end - offset) > 0) {
- 			if (copy > len)
- 				copy = len;
--			if (skb_copy_datagram_iter(frag_iter, offset - start,
--						   to, copy))
-+			if (__skb_datagram_iter(frag_iter, offset - start,
-+						to, copy, short_copy, cb, data))
- 				goto fault;
- 			if ((len -= copy) == 0)
- 				return 0;
-@@ -493,11 +486,32 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
- 	return -EFAULT;
- 
- short_copy:
--	if (iov_iter_count(to))
-+	if (fault_short || iov_iter_count(to))
- 		goto fault;
- 
- 	return 0;
+ 	i->count = count;
  }
-+
-+static size_t simple_copy_to_iter(const void *addr, size_t bytes,
-+		void *data __always_unused, struct iov_iter *i)
-+{
-+	return copy_to_iter(addr, bytes, i);
-+}
-+
-+/**
-+ *	skb_copy_datagram_iter - Copy a datagram to an iovec iterator.
-+ *	@skb: buffer to copy
-+ *	@offset: offset in the buffer to start copying from
-+ *	@to: iovec iterator to copy to
-+ *	@len: amount of data to copy from buffer to iovec
-+ */
-+int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
-+			   struct iov_iter *to, int len)
-+{
-+	trace_skb_copy_datagram_iovec(skb, len);
-+	return __skb_datagram_iter(skb, offset, to, len, false,
-+			simple_copy_to_iter, NULL);
-+}
- EXPORT_SYMBOL(skb_copy_datagram_iter);
+-size_t csum_and_copy_to_iter(const void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
++size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump, struct iov_iter *i);
+ size_t csum_and_copy_from_iter(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
+ bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum, struct iov_iter *i);
  
- /**
-@@ -648,87 +662,21 @@ int zerocopy_sg_from_iter(struct sk_buff *skb, struct iov_iter *from)
+diff --git a/lib/iov_iter.c b/lib/iov_iter.c
+index 7ebccb5c1637..db93531ca3e3 100644
+--- a/lib/iov_iter.c
++++ b/lib/iov_iter.c
+@@ -1432,10 +1432,11 @@ bool csum_and_copy_from_iter_full(void *addr, size_t bytes, __wsum *csum,
  }
- EXPORT_SYMBOL(zerocopy_sg_from_iter);
+ EXPORT_SYMBOL(csum_and_copy_from_iter_full);
  
-+/**
-+ *	skb_copy_and_csum_datagram_iter - Copy datagram to an iovec iterator
-+ *          and update a checksum.
-+ *	@skb: buffer to copy
-+ *	@offset: offset in the buffer to start copying from
-+ *	@to: iovec iterator to copy to
-+ *	@len: amount of data to copy from buffer to iovec
-+ *      @csump: checksum pointer
-+ */
- static int skb_copy_and_csum_datagram(const struct sk_buff *skb, int offset,
- 				      struct iov_iter *to, int len,
- 				      __wsum *csump)
+-size_t csum_and_copy_to_iter(const void *addr, size_t bytes, __wsum *csum,
++size_t csum_and_copy_to_iter(const void *addr, size_t bytes, void *csump,
+ 			     struct iov_iter *i)
  {
--	int start = skb_headlen(skb);
--	int i, copy = start - offset, start_off = offset;
--	struct sk_buff *frag_iter;
--	int pos = 0;
--	int n;
--
--	/* Copy header. */
--	if (copy > 0) {
--		if (copy > len)
--			copy = len;
--		n = csum_and_copy_to_iter(skb->data + offset, copy, csump, to);
--		offset += n;
--		if (n != copy)
--			goto fault;
--		if ((len -= copy) == 0)
--			return 0;
--		pos = copy;
--	}
--
--	for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
--		int end;
--		const skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
--
--		WARN_ON(start > offset + len);
--
--		end = start + skb_frag_size(frag);
--		if ((copy = end - offset) > 0) {
--			__wsum csum2 = 0;
--			struct page *page = skb_frag_page(frag);
--			u8  *vaddr = kmap(page);
--
--			if (copy > len)
--				copy = len;
--			n = csum_and_copy_to_iter(vaddr + frag->page_offset +
--						  offset - start, copy,
--						  &csum2, to);
--			kunmap(page);
--			offset += n;
--			if (n != copy)
--				goto fault;
--			*csump = csum_block_add(*csump, csum2, pos);
--			if (!(len -= copy))
--				return 0;
--			pos += copy;
--		}
--		start = end;
--	}
--
--	skb_walk_frags(skb, frag_iter) {
--		int end;
--
--		WARN_ON(start > offset + len);
--
--		end = start + frag_iter->len;
--		if ((copy = end - offset) > 0) {
--			__wsum csum2 = 0;
--			if (copy > len)
--				copy = len;
--			if (skb_copy_and_csum_datagram(frag_iter,
--						       offset - start,
--						       to, copy,
--						       &csum2))
--				goto fault;
--			*csump = csum_block_add(*csump, csum2, pos);
--			if ((len -= copy) == 0)
--				return 0;
--			offset += copy;
--			pos += copy;
--		}
--		start = end;
--	}
--	if (!len)
--		return 0;
--
--fault:
--	iov_iter_revert(to, offset - start_off);
--	return -EFAULT;
-+	return __skb_datagram_iter(skb, offset, to, len, true,
-+			csum_and_copy_to_iter, csump);
- }
- 
- __sum16 __skb_checksum_complete_head(struct sk_buff *skb, int len)
+ 	const char *from = addr;
++	__wsum *csum = csump;
+ 	__wsum sum, next;
+ 	size_t off = 0;
+ 	sum = *csum;
 -- 
 2.17.1
