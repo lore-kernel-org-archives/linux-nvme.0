@@ -1,79 +1,39 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Nov 2018 17:56:14 -0800
-Subject: [PATCH nvme-cli v3 16/13] fabrics: add tcp port tsas decoding
-In-Reply-To: <20181122015615.15763-1-sagi@grimberg.me>
-References: <20181122015615.15763-1-sagi@grimberg.me>
-Message-ID: <20181122015615.15763-17-sagi@grimberg.me>
+Date: Wed, 21 Nov 2018 18:44:05 -0800
+Subject: [PATCH 1/3] nvme: enable multipathing by default
+In-Reply-To: <20181121082724.GA29231@lst.de>
+References: <20181120162734.2013-1-hch@lst.de>
+ <20181120162734.2013-2-hch@lst.de>
+ <20181120184749.GF26707@localhost.localdomain>
+ <20181121082724.GA29231@lst.de>
+Message-ID: <94c71f85-3ff8-ca11-05fa-b5a489c302d8@grimberg.me>
 
-From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-tcp tsas include sectype indication for unsecured/tls ports.
+>> This is okay with me, but I have one little follow-on I'd like to RFC here:
+>>
+>> The /dev/nvme naming convention with multiplath has broken people's
+>> minds, and making it default will invite a lot of repeat questions on
+>> how to match up block to admin handles.
+>>
+>> Could we promote /dev/nvme0 to be a subsystem handle instead of a
+>> controller handle, and add new per-controller handles, like /dev/nvme0c1,
+>> nvme0c2, etc...? The subsystem handle's management interface can just use
+>> the first active controller to forward admin commands, and per-controller
+>> specific administration can be taught to use the new handles as needed.
+>>
+>> Tooling shouldn't care about the names, but I am not sure if this could
+>> possibly break productino scripts. The naming disconnect has broken
+>> some things, though, so I hope this doesn't end up being a pick your
+>> poision suggestion...
+> 
+> The problem is that typical admin command are sensitive to the controller
+> they are sent to, so a per-subsystem handle does not make whole lot
+> sense.  But I like the idea of the nvmeXcY names.  Maybe we just keep
+> the nvmeX names as an additional alias for the first found controller
+> in a subsystem and otherwise use nvmeXcY?
 
-Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
----
- fabrics.c    | 14 ++++++++++++++
- linux/nvme.h | 10 ++++++++++
- 2 files changed, 24 insertions(+)
+Not sure if different naming conventions between controllers are a good
+idea..
 
-diff --git a/fabrics.c b/fabrics.c
-index 86f6f992b14f..f8e03de46632 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -140,6 +140,16 @@ static inline const char *treq_str(__u8 treq)
- 	return arg_str(treqs, ARRAY_SIZE(treqs), treq);
- }
- 
-+static const char * const sectypes[] = {
-+	[NVMF_TCP_SECTYPE_NONE]		= "none",
-+	[NVMF_TCP_SECTYPE_TLS]		= "tls",
-+};
-+
-+static inline const char *sectype_str(__u8 sectype)
-+{
-+	return arg_str(sectypes, ARRAY_SIZE(sectypes), sectype);
-+}
-+
- static const char * const prtypes[] = {
- 	[NVMF_RDMA_PRTYPE_NOT_SPECIFIED]	= "not specified",
- 	[NVMF_RDMA_PRTYPE_IB]			= "infiniband",
-@@ -436,6 +446,10 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- 			printf("rdma_pkey: 0x%04x\n",
- 				e->tsas.rdma.pkey);
- 			break;
-+		case NVMF_TRTYPE_TCP:
-+			printf("sectype: %s\n",
-+				sectype_str(e->tsas.tcp.sectype));
-+			break;
- 		}
- 	}
- }
-diff --git a/linux/nvme.h b/linux/nvme.h
-index 7a600c791877..68000eb8c1dc 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -91,6 +91,13 @@ enum {
- 	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
- };
- 
-+/* TCP port security type for  Discovery Log Page entry TSAS
-+ */
-+enum {
-+	NVMF_TCP_SECTYPE_NONE	= 0, /* No Security */
-+	NVMF_TCP_SECTYPE_TLS	= 1, /* Transport Layer Security */
-+};
-+
- #define NVME_AQ_DEPTH		32
- #define NVME_NR_AEN_COMMANDS	1
- #define NVME_AQ_BLK_MQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
-@@ -1184,6 +1191,9 @@ struct nvmf_disc_rsp_page_entry {
- 			__u16	pkey;
- 			__u8	resv10[246];
- 		} rdma;
-+		struct tcp {
-+			__u8	sectype;
-+		} tcp;
- 	} tsas;
- };
- 
--- 
-2.17.1
+What is the problem of simply changing nvmeX to nvmeXcY? if nvmeX is
+a must perhaps we can soft link nvmeX to nvmeXc1?
