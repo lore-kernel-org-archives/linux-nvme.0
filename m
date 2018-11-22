@@ -1,54 +1,72 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Nov 2018 17:56:05 -0800
-Subject: [PATCH v3 07/13] nvmet: Add install_queue callout
+Date: Wed, 21 Nov 2018 17:56:06 -0800
+Subject: [PATCH v3 08/13] nvme-fabrics: allow user passing header digest
 In-Reply-To: <20181122015615.15763-1-sagi@grimberg.me>
 References: <20181122015615.15763-1-sagi@grimberg.me>
-Message-ID: <20181122015615.15763-8-sagi@grimberg.me>
+Message-ID: <20181122015615.15763-9-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-nvmet-tcp will implement it to allocate queue commands which
-are only known at nvmf connect time (sq size).
+Header digest is a nvme-tcp specific feature, but nothing prevents other
+transports reusing the concept so do not associate with tcp transport
+solely.
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- drivers/nvme/target/fabrics-cmd.c | 10 ++++++++++
- drivers/nvme/target/nvmet.h       |  1 +
- 2 files changed, 11 insertions(+)
+ drivers/nvme/host/fabrics.c | 5 +++++
+ drivers/nvme/host/fabrics.h | 2 ++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 328ae46d8344..ee7d84621d65 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -121,6 +121,16 @@ static u16 nvmet_install_queue(struct nvmet_ctrl *ctrl, struct nvmet_req *req)
- 		req->rsp->sq_head = cpu_to_le16(0xffff);
- 	}
- 
-+	if (ctrl->ops->install_queue) {
-+		u16 ret = ctrl->ops->install_queue(req->sq);
-+
-+		if (ret) {
-+			pr_err("failed to install queue %d cntlid %d ret %x\n",
-+				qid, ret, ctrl->cntlid);
-+			return ret;
-+		}
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 7d8b7a7d572a..89df51ee5bdf 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -279,6 +279,7 @@ struct nvmet_fabrics_ops {
- 	void (*delete_ctrl)(struct nvmet_ctrl *ctrl);
- 	void (*disc_traddr)(struct nvmet_req *req,
- 			struct nvmet_port *port, char *traddr);
-+	u16 (*install_queue)(struct nvmet_sq *nvme_sq);
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 10074ac7731b..4272f8a95db3 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -614,6 +614,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
+ 	{ NVMF_OPT_DUP_CONNECT,		"duplicate_connect"	},
+ 	{ NVMF_OPT_DISABLE_SQFLOW,	"disable_sqflow"	},
++	{ NVMF_OPT_HDR_DIGEST,		"hdr_digest"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
  };
  
- #define NVMET_MAX_INLINE_BIOVEC	8
+@@ -633,6 +634,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
+ 	opts->kato = NVME_DEFAULT_KATO;
+ 	opts->duplicate_connect = false;
++	opts->hdr_digest = false;
+ 
+ 	options = o = kstrdup(buf, GFP_KERNEL);
+ 	if (!options)
+@@ -827,6 +829,9 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		case NVMF_OPT_DISABLE_SQFLOW:
+ 			opts->disable_sqflow = true;
+ 			break;
++		case NVMF_OPT_HDR_DIGEST:
++			opts->hdr_digest = true;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index ecd9a006a091..a6127f1a9e8e 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -59,6 +59,7 @@ enum {
+ 	NVMF_OPT_HOST_ID	= 1 << 12,
+ 	NVMF_OPT_DUP_CONNECT	= 1 << 13,
+ 	NVMF_OPT_DISABLE_SQFLOW = 1 << 14,
++	NVMF_OPT_HDR_DIGEST	= 1 << 15,
+ };
+ 
+ /**
+@@ -103,6 +104,7 @@ struct nvmf_ctrl_options {
+ 	struct nvmf_host	*host;
+ 	int			max_reconnects;
+ 	bool			disable_sqflow;
++	bool			hdr_digest;
+ };
+ 
+ /*
 -- 
 2.17.1
