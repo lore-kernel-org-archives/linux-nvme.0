@@ -1,99 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Nov 2018 17:55:59 -0800
-Subject: [PATCH v3 01/13] ath6kl: add ath6kl_ prefix to crypto_type
+Date: Wed, 21 Nov 2018 17:56:00 -0800
+Subject: [PATCH v3 02/13] datagram: open-code copy_page_to_iter
 In-Reply-To: <20181122015615.15763-1-sagi@grimberg.me>
 References: <20181122015615.15763-1-sagi@grimberg.me>
-Message-ID: <20181122015615.15763-2-sagi@grimberg.me>
+Message-ID: <20181122015615.15763-3-sagi@grimberg.me>
 
 From: Sagi Grimberg <sagi@lightbitslabs.com>
 
-Prevent a namespace conflict as in following patches as skbuff.h will
-include the crypto API.
+This will be useful to consolidate skb_copy_and_hash_datagram_iter and
+skb_copy_and_csum_datagram to a single code path.
 
-Cc: Kalle Valo <kvalo at codeaurora.org>
 Signed-off-by: Sagi Grimberg <sagi at lightbitslabs.com>
 ---
- drivers/net/wireless/ath/ath6kl/cfg80211.c | 2 +-
- drivers/net/wireless/ath/ath6kl/common.h   | 2 +-
- drivers/net/wireless/ath/ath6kl/wmi.c      | 6 +++---
- drivers/net/wireless/ath/ath6kl/wmi.h      | 6 +++---
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ net/core/datagram.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/ath/ath6kl/cfg80211.c b/drivers/net/wireless/ath/ath6kl/cfg80211.c
-index e121187f371f..fa049c4ae315 100644
---- a/drivers/net/wireless/ath/ath6kl/cfg80211.c
-+++ b/drivers/net/wireless/ath/ath6kl/cfg80211.c
-@@ -1322,7 +1322,7 @@ static int ath6kl_cfg80211_set_default_key(struct wiphy *wiphy,
- 	struct ath6kl_vif *vif = netdev_priv(ndev);
- 	struct ath6kl_key *key = NULL;
- 	u8 key_usage;
--	enum crypto_type key_type = NONE_CRYPT;
-+	enum ath6kl_crypto_type key_type = NONE_CRYPT;
+diff --git a/net/core/datagram.c b/net/core/datagram.c
+index 57f3a6fcfc1e..abe642181b64 100644
+--- a/net/core/datagram.c
++++ b/net/core/datagram.c
+@@ -445,11 +445,14 @@ int skb_copy_datagram_iter(const struct sk_buff *skb, int offset,
  
- 	ath6kl_dbg(ATH6KL_DBG_WLAN_CFG, "%s: index %d\n", __func__, key_index);
- 
-diff --git a/drivers/net/wireless/ath/ath6kl/common.h b/drivers/net/wireless/ath/ath6kl/common.h
-index 4f82e8632d37..d6e5234f67a1 100644
---- a/drivers/net/wireless/ath/ath6kl/common.h
-+++ b/drivers/net/wireless/ath/ath6kl/common.h
-@@ -67,7 +67,7 @@ struct ath6kl_llc_snap_hdr {
- 	__be16 eth_type;
- } __packed;
- 
--enum crypto_type {
-+enum ath6kl_crypto_type {
- 	NONE_CRYPT          = 0x01,
- 	WEP_CRYPT           = 0x02,
- 	TKIP_CRYPT          = 0x04,
-diff --git a/drivers/net/wireless/ath/ath6kl/wmi.c b/drivers/net/wireless/ath/ath6kl/wmi.c
-index 777acc564ac9..9d7ac1ab2d02 100644
---- a/drivers/net/wireless/ath/ath6kl/wmi.c
-+++ b/drivers/net/wireless/ath/ath6kl/wmi.c
-@@ -1849,9 +1849,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
- 			   enum network_type nw_type,
- 			   enum dot11_auth_mode dot11_auth_mode,
- 			   enum auth_mode auth_mode,
--			   enum crypto_type pairwise_crypto,
-+			   enum ath6kl_crypto_type pairwise_crypto,
- 			   u8 pairwise_crypto_len,
--			   enum crypto_type group_crypto,
-+			   enum ath6kl_crypto_type group_crypto,
- 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
- 			   u8 *bssid, u16 channel, u32 ctrl_flags,
- 			   u8 nw_subtype)
-@@ -2301,7 +2301,7 @@ int ath6kl_wmi_disctimeout_cmd(struct wmi *wmi, u8 if_idx, u8 timeout)
- }
- 
- int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
--			  enum crypto_type key_type,
-+			  enum ath6kl_crypto_type key_type,
- 			  u8 key_usage, u8 key_len,
- 			  u8 *key_rsc, unsigned int key_rsc_len,
- 			  u8 *key_material,
-diff --git a/drivers/net/wireless/ath/ath6kl/wmi.h b/drivers/net/wireless/ath/ath6kl/wmi.h
-index a60bb49fe920..784940ba4c90 100644
---- a/drivers/net/wireless/ath/ath6kl/wmi.h
-+++ b/drivers/net/wireless/ath/ath6kl/wmi.h
-@@ -2556,9 +2556,9 @@ int ath6kl_wmi_connect_cmd(struct wmi *wmi, u8 if_idx,
- 			   enum network_type nw_type,
- 			   enum dot11_auth_mode dot11_auth_mode,
- 			   enum auth_mode auth_mode,
--			   enum crypto_type pairwise_crypto,
-+			   enum ath6kl_crypto_type pairwise_crypto,
- 			   u8 pairwise_crypto_len,
--			   enum crypto_type group_crypto,
-+			   enum ath6kl_crypto_type group_crypto,
- 			   u8 group_crypto_len, int ssid_len, u8 *ssid,
- 			   u8 *bssid, u16 channel, u32 ctrl_flags,
- 			   u8 nw_subtype);
-@@ -2610,7 +2610,7 @@ int ath6kl_wmi_config_debug_module_cmd(struct wmi *wmi, u32 valid, u32 config);
- 
- int ath6kl_wmi_get_stats_cmd(struct wmi *wmi, u8 if_idx);
- int ath6kl_wmi_addkey_cmd(struct wmi *wmi, u8 if_idx, u8 key_index,
--			  enum crypto_type key_type,
-+			  enum ath6kl_crypto_type key_type,
- 			  u8 key_usage, u8 key_len,
- 			  u8 *key_rsc, unsigned int key_rsc_len,
- 			  u8 *key_material,
+ 		end = start + skb_frag_size(frag);
+ 		if ((copy = end - offset) > 0) {
++			struct page *page = skb_frag_page(frag);
++			u8 *vaddr = kmap(page);
++
+ 			if (copy > len)
+ 				copy = len;
+-			n = copy_page_to_iter(skb_frag_page(frag),
+-					      frag->page_offset + offset -
+-					      start, copy, to);
++			n = copy_to_iter(vaddr + frag->page_offset +
++					 offset - start, copy, to);
++			kunmap(page);
+ 			offset += n;
+ 			if (n != copy)
+ 				goto short_copy;
 -- 
 2.17.1
