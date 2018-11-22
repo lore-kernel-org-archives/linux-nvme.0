@@ -1,317 +1,140 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Nov 2018 09:02:25 +0100
-Subject: [PATCH v3 13/13] nvme-tcp: add NVMe over TCP host driver
-In-Reply-To: <20181122015615.15763-14-sagi@grimberg.me>
-References: <20181122015615.15763-1-sagi@grimberg.me>
- <20181122015615.15763-14-sagi@grimberg.me>
-Message-ID: <20181122080224.GA26504@lst.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 22 Nov 2018 16:38:30 +0800
+Subject: Should I submit bugs against RC kernels?
+In-Reply-To: <af0de79e5ac94be7ad4594fdace103d7@ausx13mps321.AMER.DELL.COM>
+References: <af0de79e5ac94be7ad4594fdace103d7@ausx13mps321.AMER.DELL.COM>
+Message-ID: <20181122083829.GA27273@ming.t460p>
 
-A few reandom nitpicks:
+On Wed, Nov 21, 2018@06:21:49PM +0000, Alex_Gagniuc@Dellteam.com wrote:
+> Hi,
+> 
+> I'm not sure if submitting bugs against RC is a good idea. I am seeing 
+> more issues with SURPRISE!!! removal of drives under v4.20-rc3.
+> 
+> Alex
+> 
+> APPENDIX A: Example issue
+> 
+> [ 1042.415286] pciehp 0000:b0:04.0:pcie204: Slot(178): Link Down
+> [ 1042.415346] pciehp 0000:b0:05.0:pcie204: Slot(179): Link Down
+> [ 1042.415431] pciehp 0000:3c:07.0:pcie204: Slot(181): Link Down
+> [ 1042.447734] BUG: unable to handle kernel NULL pointer dereference at 
+> 0000000000000000
+> [ 1042.455586] PGD 0 P4D 0
+> [ 1042.458135] Oops: 0000 [#1] SMP PTI
+> [ 1042.461625] CPU: 5 PID: 622 Comm: irq/44-pciehp Not tainted 
+> 4.20.0-rc3+ #66
+> [ 1042.468582] Hardware name: Dell Inc. PowerEdge R740xd/07X9K0, BIOS 
+> 1.4.5 [HPX test BIOS 2] 03/30/2018
+> [ 1042.477801] RIP: 0010:sbitmap_any_bit_set+0xb/0x40
+> [ 1042.482586] Code: c8 83 c2 01 45 89 ca 4c 89 54 01 08 48 8b 4f 10 2b 
+> 74 01 08 39 57 08 77 d8 c3 0f 1f 44 00 00 8b 57 08 85 d2 74 2a 48 8b 47 
+> 10 <48> 83 38 00 75 23 83 ea 01 48 83 c0 40 48 c1 e2 06 48 01 c2 eb 0b
+> [ 1042.501341] RSP: 0018:ffffbb1ec8f6bc90 EFLAGS: 00010206
+> [ 1042.506566] RAX: 0000000000000000 RBX: ffff94409e924000 RCX: 
+> 0000000000000000
+> [ 1042.513696] RDX: 000000000000000a RSI: 0000000000000000 RDI: 
+> ffff94409e9240d8
+> [ 1042.520839] RBP: 0000000000000001 R08: ffff9440aec00b68 R09: 
+> ffff9440aec00ca0
+> [ 1042.527971] R10: 0000000000000000 R11: ffffffffb624a418 R12: 
+> 0000000000000001
+> [ 1042.535102] R13: ffffffffc00f60d0 R14: 0000000000000060 R15: 
+> ffff9440a2deca80
+> [ 1042.542236] FS:  0000000000000000(0000) GS:ffff9444af280000(0000) 
+> knlGS:0000000000000000
+> [ 1042.550318] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 1042.556066] CR2: 0000000000000000 CR3: 00000005f420a003 CR4: 
+> 00000000007606e0
+> [ 1042.563199] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
+> 0000000000000000
+> [ 1042.570329] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
+> 0000000000000400
+> [ 1042.577462] PKRU: 55555554
+> [ 1042.580176] Call Trace:
+> [ 1042.582631]  blk_mq_run_hw_queue+0xdd/0x120
+> [ 1042.586815]  blk_mq_run_hw_queues+0x3a/0x50
+> [ 1042.591006]  nvme_kill_queues+0x26/0x50 [nvme_core]
+> [ 1042.595888]  nvme_remove_namespaces+0xbf/0xd0 [nvme_core]
+> [ 1042.601295]  nvme_remove+0x60/0x170 [nvme]
+> [ 1042.605395]  pci_device_remove+0x3b/0xc0
+> [ 1042.609329]  device_release_driver_internal+0x180/0x240
+> [ 1042.614555]  pci_stop_bus_device+0x69/0x90
+> [ 1042.618652]  pci_stop_and_remove_bus_device+0xe/0x20
+> [ 1042.623620]  pciehp_unconfigure_device+0x84/0x140
+> [ 1042.628324]  pciehp_disable_slot+0x67/0x110
+> [ 1042.632512]  pciehp_handle_presence_or_link_change+0xd8/0x400
+> [ 1042.638264]  ? __synchronize_hardirq+0x43/0x50
+> [ 1042.642709]  pciehp_ist+0x1bb/0x1c0
+> [ 1042.646201]  ? irq_forced_thread_fn+0x70/0x70
+> [ 1042.650559]  irq_thread_fn+0x1f/0x60
+> [ 1042.654140]  irq_thread+0xf3/0x190
+> [ 1042.657554]  ? irq_thread_fn+0x60/0x60
+> [ 1042.661306]  ? irq_thread_check_affinity.part.45+0x80/0x80
+> [ 1042.666802]  kthread+0x112/0x130
+> [ 1042.670036]  ? kthread_park+0x80/0x80
+> [ 1042.673709]  ret_from_fork+0x35/0x40
+> [ 1042.677286] Modules linked in: xt_CHECKSUM ipt_MASQUERADE tun 
+> ip6t_rpfilter ip6t_REJECT nf_reject_ipv6 xt_conntrack ip_set nfnetlink 
+> ebtable_nat ebtable_broute bridge stp llc ip6table_nat nf_nat_ipv6 
+> ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat_ipv4 
+> nf_nat nf_conntrack devlink nf_defrag_ipv6 nf_defrag_ipv4 iptable_mangle 
+> iptable_raw iptable_security ebtable_filter ebtables ip6table_filter 
+> ip6_tables vfat fat sunrpc intel_rapl skx_edac nfit x86_pkg_temp_thermal 
+> intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul 
+> crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore 
+> intel_rapl_perf iTCO_wdt iTCO_vendor_support dcdbas pcc_cpufreq ses 
+> joydev enclosure pcspkr mei_me ioatdma mei dca lpc_ich i2c_i801 
+> ipmi_si(+) ipmi_devintf ipmi_msghandler acpi_power_meter raid1 dm_raid 
+> raid456 libcrc32c async_raid6_recov async_memcpy async_pq async_xor xor 
+> async_tx raid6_pq mgag200 i2c_algo_bit drm_kms_helper mpt3sas ttm nvme 
+> raid_class drm crc32c_intel nvme_core uas
+> [ 1042.677321]  scsi_transport_sas usb_storage tg3
+> [ 1042.768888] CR2: 0000000000000000
+> [ 1042.772207] ---[ end trace fba458b21588ceca ]---
+> [ 1042.820816] RIP: 0010:sbitmap_any_bit_set+0xb/0x40
+> [ 1042.825613] Code: c8 83 c2 01 45 89 ca 4c 89 54 01 08 48 8b 4f 10 2b 
+> 74 01 08 39 57 08 77 d8 c3 0f 1f 44 00 00 8b 57 08 85 d2 74 2a 48 8b 47 
+> 10 <48> 83 38 00 75 23 83 ea 01 48 83 c0 40 48 c1 e2 06 48 01 c2 eb 0b
+> [ 1042.844358] RSP: 0018:ffffbb1ec8f6bc90 EFLAGS: 00010206
+> [ 1042.849608] RAX: 0000000000000000 RBX: ffff94409e924000 RCX: 
+> 0000000000000000
+> [ 1042.856739] RDX: 000000000000000a RSI: 0000000000000000 RDI: 
+> ffff94409e9240d8
+> [ 1042.863872] RBP: 0000000000000001 R08: ffff9440aec00b68 R09: 
+> ffff9440aec00ca0
+> [ 1042.871003] R10: 0000000000000000 R11: ffffffffb624a418 R12: 
+> 0000000000000001
+> [ 1042.878136] R13: ffffffffc00f60d0 R14: 0000000000000060 R15: 
+> ffff9440a2deca80
+> [ 1042.885269] FS:  0000000000000000(0000) GS:ffff9444af280000(0000) 
+> knlGS:0000000000000000
+> [ 1042.893352] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [ 1042.899102] CR2: 0000000000000000 CR3: 00000005f420a003 CR4: 
+> 00000000007606e0
+> [ 1042.906241] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
+> 0000000000000000
+> [ 1042.913372] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
+> 0000000000000400
+> [ 1042.920505] PKRU: 55555554
 
-> +static int nvme_tcp_verify_hdgst(struct nvme_tcp_queue *queue,
-> +	void *pdu, size_t pdu_len)
+It is same with recent SCSI's report, and I guess the following patch
+should work:
 
-Please use two tabs for indenting prototype continuations
+--
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 04f5be473638..f6943f4a4d16 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -355,7 +355,7 @@ void blk_cleanup_queue(struct request_queue *q)
+ 	 * We rely on driver to deal with the race in case that queue
+ 	 * initialization isn't done.
+ 	 */
+-	if (queue_is_mq(q) && blk_queue_init_done(q))
++	if (queue_is_mq(q))
+ 		blk_mq_quiesce_queue(q);
+ 
+ 	/* for synchronous bio-based driver finish in-flight integrity i/o */
 
-> +	len = le32_to_cpu(hdr->plen) - hdr->hlen -
-> +		((hdr->flags & NVME_TCP_F_HDGST) ? nvme_tcp_hdgst_len(queue) : 0);
-
-Overly long line.  But it would be much cleaner with a local digest_len
-variable anyway.
-
-> +static enum nvme_tcp_recv_state nvme_tcp_recv_state(struct nvme_tcp_queue *queue)
-> +{
-> +	return  (queue->pdu_remaining) ? NVME_TCP_RECV_PDU :
-> +		(queue->ddgst_remaining) ? NVME_TCP_RECV_DDGST :
-> +		NVME_TCP_RECV_DATA;
-> +}
-
-This just seems to be used in a single switch statement.  Why the detour
-theough the state enum?
-
-> +{
-> +	struct request *rq;
-> +	struct nvme_tcp_request *req;
-> +
-> +	rq = blk_mq_tag_to_rq(nvme_tcp_tagset(queue), cqe->command_id);
-> +	if (!rq) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"queue %d tag 0x%x not found\n",
-> +			nvme_tcp_queue_id(queue), cqe->command_id);
-> +		nvme_tcp_error_recovery(&queue->ctrl->ctrl);
-> +		return -EINVAL;
-> +	}
-> +	req = blk_mq_rq_to_pdu(rq);
-> +
-> +	nvme_end_request(rq, cqe->status, cqe->result);
-
-req seems unused here.
-
-> +			nvme_tcp_queue_id(queue), pdu->command_id);
-> +		return -ENOENT;
-> +	}
-> +	req = blk_mq_rq_to_pdu(rq);
-> +
-> +	if (!blk_rq_payload_bytes(rq)) {
-> +		dev_err(queue->ctrl->ctrl.device,
-> +			"queue %d tag %#x unexpected data\n",
-> +			nvme_tcp_queue_id(queue), rq->tag);
-> +		return -EIO;
-> +	}
-> +
-> +	queue->data_remaining = le32_to_cpu(pdu->data_length);
-> +	/* No support for out-of-order */
-> +	WARN_ON(le32_to_cpu(pdu->data_offset));
-> +
-> +	return 0;
-
-And here as well.
-
-Also can we just WARN_ON on the offset?  
-
-> +	ret = skb_copy_bits(skb, *offset,
-> +		&queue->pdu[queue->pdu_offset], rcv_len);
-
-More of this can go on th first line.
-
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	queue->pdu_remaining -= rcv_len;
-> +	queue->pdu_offset += rcv_len;
-> +	*offset += rcv_len;
-> +	*len -= rcv_len;
-> +	if (queue->pdu_remaining)
-> +		return 0;
-> +
-> +	hdr = (void *)queue->pdu;
-
-hdr is a struct nvme_tcp_hdr *, please use the right cast if we have
-to cast - but then again queue->pdu probably should be a void pointer
-so that we can use it everywhere without casts.
-
-> +static void nvme_tcp_init_recv_iter(struct nvme_tcp_request *req)
-> +{
-> +	struct bio *bio = req->curr_bio;
-> +	struct bio_vec *vec = __bvec_iter_bvec(bio->bi_io_vec, bio->bi_iter);
-> +	unsigned int nsegs = bio_segments(bio);
-> +
-> +	iov_iter_bvec(&req->iter, READ, vec, nsegs,
-> +		bio->bi_iter.bi_size);
-> +	req->iter.iov_offset = bio->bi_iter.bi_bvec_done;
-
-This code seems largely identical to that in nvme_tcp_init_send_iter
-except for passing READ vs WRITE.  Please use a common helper.
-
-> +		/*
-> +		 * FIXME: This assumes that data comes in-order,
-> +		 *  need to handle the out-of-order case.
-> +		 */
-
-That sounds like something we should really address before merging.
-
-> +	read_lock(&sk->sk_callback_lock);
-> +	queue = sk->sk_user_data;
-> +	if (unlikely(!queue || !queue->rd_enabled))
-> +		goto done;
-> +
-> +	queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +done:
-> +	read_unlock(&sk->sk_callback_lock);
-
-Don't we need a rcu_dereference_sk_user_data here?
-
-Also why not:
-
-	queue = rcu_dereference_sk_user_data(sk);
-	if (likely(queue && queue->rd_enabled))
-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-	read_unlock(&sk->sk_callback_lock);
-
-	
-> +static void nvme_tcp_write_space(struct sock *sk)
-> +{
-> +	struct nvme_tcp_queue *queue;
-> +
-> +	read_lock_bh(&sk->sk_callback_lock);
-> +	queue = sk->sk_user_data;
-> +
-> +	if (!queue)
-> +		goto done;
-> +
-> +	if (sk_stream_is_writeable(sk)) {
-> +		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-> +		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-> +	}
-> +done:
-> +	read_unlock_bh(&sk->sk_callback_lock);
-
-Same here:
-
-	queue = rcu_dereference_sk_user_data(sk);
-	if (queue && sk_stream_is_writeable(sk)) {
-		clear_bit(SOCK_NOSPACE, &sk->sk_socket->flags);
-		queue_work_on(queue->io_cpu, nvme_tcp_wq, &queue->io_work);
-	}
-	read_unlock(&sk->sk_callback_lock);
-
-(there are a few more places where rcu_dereference_sk_user_data should
-be used, skipping them now).
-
-> +static inline void nvme_tcp_done_send_req(struct nvme_tcp_queue *queue)
-> +{
-> +	queue->request = NULL;
-> +}
-> +
-> +static void nvme_tcp_fail_request(struct nvme_tcp_request *req)
-> +{
-> +	union nvme_result res = {};
-> +
-> +	nvme_end_request(blk_mq_rq_from_pdu(req),
-> +		NVME_SC_DATA_XFER_ERROR, res);
-
-This looks like odd formatting, needs one more tab.  But
-NVME_SC_DATA_XFER_ERROR is also generally a status that should be
-returned from the nvme controller, not made up on the host.
-
-
-> +		if (queue->data_digest)
-> +			nvme_tcp_ddgst_update(queue->snd_hash, page, offset, ret);
-
-Overly long line, please stick to 80 characters.
-
-> +	if (req->state == NVME_TCP_SEND_CMD_PDU) {
-> +		ret = nvme_tcp_try_send_cmd_pdu(req);
-> +		if (ret <= 0)
-> +			goto done;
-> +		if (!nvme_tcp_has_inline_data(req))
-> +			return ret;
-> +	}
-> +
-> +	if (req->state == NVME_TCP_SEND_H2C_PDU) {
-> +		ret = nvme_tcp_try_send_data_pdu(req);
-> +		if (ret <= 0)
-> +			goto done;
-> +	}
-> +
-> +	if (req->state == NVME_TCP_SEND_DATA) {
-> +		ret = nvme_tcp_try_send_data(req);
-> +		if (ret <= 0)
-> +			goto done;
-> +	}
-> +
-> +	if (req->state == NVME_TCP_SEND_DDGST)
-> +		ret = nvme_tcp_try_send_ddgst(req);
-
-Use a switch statement here?
-
-> +static void nvme_tcp_free_tagset(struct nvme_ctrl *nctrl,
-> +		struct blk_mq_tag_set *set)
-> +{
-> +	blk_mq_free_tag_set(set);
-> +}
-
-Please drop this wrapper.
-
-> +static struct blk_mq_tag_set *nvme_tcp_alloc_tagset(struct nvme_ctrl *nctrl,
-> +		bool admin)
-> +{
-
-This function does two entirely different things based on the admin
-paramter.
-
-> +static void nvme_tcp_stop_admin_queue(struct nvme_ctrl *ctrl)
-> +{
-> +	nvme_tcp_stop_queue(ctrl, 0);
-> +}
-
-This wrapper seems a bit pointless.
-
-> +static int nvme_tcp_start_admin_queue(struct nvme_ctrl *ctrl)
-> +{
-> +	return nvme_tcp_start_queue(ctrl, 0);
-> +}
-
-Same here.
-
-> +int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
-
-Shouldn't this (or anything in this file for that matter) be static?
-
-> +	if (ctrl->queue_count > 1) {
-> +		nvme_stop_queues(ctrl);
-> +		nvme_tcp_stop_io_queues(ctrl);
-> +		blk_mq_tagset_busy_iter(ctrl->tagset, nvme_cancel_request, ctrl);
-> +		if (remove)
-> +			nvme_start_queues(ctrl);
-> +		nvme_tcp_destroy_io_queues(ctrl, remove);
-> +	}
-
-Overly long line above.  Could be easily solved with an early return..
-
-> +static void nvme_tcp_delete_ctrl(struct nvme_ctrl *ctrl)
-> +{
-> +	nvme_tcp_teardown_ctrl(ctrl, true);
-> +}
-
-Pointless wrapper.
-
-> +static void nvme_tcp_set_sg_null(struct nvme_command *c)
-> +{
-> +	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
-> +
-> +	sg->addr = 0;
-> +	sg->length = 0;
-> +	sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
-> +			NVME_SGL_FMT_TRANSPORT_A;
-> +}
-> +
-> +static void nvme_tcp_set_sg_host_data(struct nvme_tcp_request *req,
-> +		struct nvme_command *c)
-> +{
-> +	struct nvme_sgl_desc *sg = &c->common.dptr.sgl;
-> +
-> +	sg->addr = 0;
-> +	sg->length = cpu_to_le32(req->data_len);
-> +	sg->type = (NVME_TRANSPORT_SGL_DATA_DESC << 4) |
-> +			NVME_SGL_FMT_TRANSPORT_A;
-> +}
-
-Do we really need nvme_tcp_set_sg_null?  Any command it is called
-on should have a request with a 0 length, so it could use
-nvme_tcp_set_sg_host_data.
-
-> +static enum blk_eh_timer_return
-> +nvme_tcp_timeout(struct request *rq, bool reserved)
-> +{
-> +	struct nvme_tcp_request *req = blk_mq_rq_to_pdu(rq);
-> +	struct nvme_tcp_ctrl *ctrl = req->queue->ctrl;
-> +	struct nvme_tcp_cmd_pdu *pdu = req->pdu;
-> +
-> +	dev_dbg(ctrl->ctrl.device,
-> +		"queue %d: timeout request %#x type %d\n",
-> +		nvme_tcp_queue_id(req->queue), rq->tag,
-> +		pdu->hdr.type);
-> +
-> +	if (ctrl->ctrl.state != NVME_CTRL_LIVE) {
-> +		union nvme_result res = {};
-> +
-> +		nvme_req(rq)->flags |= NVME_REQ_CANCELLED;
-> +		nvme_end_request(rq, NVME_SC_ABORT_REQ, res);
-> +		return BLK_EH_DONE;
-
-This looks odd.  It's not really the timeout handlers job to
-call nvme_end_request here.
-
-
-> +	if (rq_data_dir(rq) == WRITE) {
-> +		req->curr_bio = rq->bio;
-> +		if (req->data_len <= nvme_tcp_inline_data_size(queue))
-> +			req->pdu_len = req->data_len;
-> +	} else {
-> +		req->curr_bio = rq->bio;
-> +		if (req->curr_bio)
-> +			nvme_tcp_init_recv_iter(req);
-> +	}
-
-The curr_bio setup is duplicated in both branches.
+-- 
+Ming
