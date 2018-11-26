@@ -1,55 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sun, 25 Nov 2018 06:41:45 -0700
-Subject: [PATCH 2/7] block: have ->poll_fn() return number of entries
- polled
-In-Reply-To: <fb1200ad-35ef-1c2e-25cf-d8a71bc505b5@grimberg.me>
-References: <20181117214354.822-1-axboe@kernel.dk>
- <20181117214354.822-3-axboe@kernel.dk>
- <fb1200ad-35ef-1c2e-25cf-d8a71bc505b5@grimberg.me>
-Message-ID: <ba2d191c-cf9d-07f1-5875-6a07ef043949@kernel.dk>
+From: james@dingwall.me.uk (James Dingwall)
+Date: Mon, 26 Nov 2018 13:38:39 +0000
+Subject: Two M.2 NVMe drives with same NQN, one gets removed
+Message-ID: <20181126133839.GA4348@dingwall.me.uk>
 
-On 11/25/18 3:52 AM, Sagi Grimberg wrote:
->> We currently only really support sync poll, ie poll with 1
->> IO in flight. This prepares us for supporting async poll.
-> 
-> Hey Jens,
-> 
-> So are we sure that this is fine to simply replace the
-> poll functionality? you say that that we support poll
-> with only 1 I/O inflight but is it entirely true?
-> semantically speaking?
+Hi,
 
-It is, unless you have multiple threads all doing polling.  Which is
-pretty inefficient, as I'm sure you know.
+We have also encountered this issue but the devices have a customised
+firmware from Lenovo:
 
-> The interface is selective polling, which means that
-> the user can have more than a single I/O inflight but wants
-> to poll for a specific one that it really cares about.
-> 
-> Would this introduce a regression for users that rely
-> on preadv2 to basically "complete *this* IO as fast as possible"?
+# nvme id-ctrl /dev/nvme0
+NVME Identify Controller:
+vid : 0x8086
+ssvid : 0x8086
+sn : BTHH82250N1X1P0E
+mn : INTEL SSDPEKKF010T8L
+fr : L08P
 
-No, it'll be exactly the same, and believe me, I've done plenty of
-performance testing to ensure that it works well.  In fact, with the
-changes queued up and this on top, polling is both faster and more
-efficient than it ever has been before, for both the classic
-preadv2/pwritev2 and the async polled IO.
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1803692?comments=all
 
-> Note that I like the proposed direction, I'm merely questioning
-> if it is OK to simply change how selective polling worked until
-> today instead of introducing a separate blk_poll_all(q) (but with
-> a better name) which would be wired up to aio polling and friends.
+I tried to force install the Intel firmware but that did not work.  I
+was fobbed off by Lenovo support with a 'we don't support Linux' even
+after pointing out the upstream Intel fix.  Is there any possibility
+of being able to work around this in the nvme code?
 
-I think that would be useless. For SYNC type polling with one thread, it
-doesn't matter if we're looking for a particular IO, or just any IO.
-Once your into two threads, you're already wasting huge amounts of CPU,
-just to get to QD=2. The poll loop handles finding each others IOs just
-fine, so there's no worry on that side.
-
-Polling was originally designed for the strictly SYNC interfaces, and
-since we had the cookie anyway, it was tempting to look for a specific
-IO. I think that was a mistake, as it assumed that we'd never do async
-polling.
-
--- 
-Jens Axboe
+Thanks,
+James
